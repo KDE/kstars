@@ -23,14 +23,12 @@
 #include <klocale.h>
 #include <qregexp.h>
 
-//DMS_SPEED
 void dms::setD( const double &x ) {
 	D = x;
 	scDirty = true;
 	rDirty = true;
 }
 
-//DMS_SPEED
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
 	D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
 	if (d<0) {D = -1.0*D;}
@@ -218,7 +216,24 @@ const int dms::msecond( void ) const {
 	return hs;
 }
 
-//SPEED_DMS
+const double& dms::sin( void ) const {
+	if ( scDirty ) {
+		double s,c;
+		SinCos( s, c );
+	}
+	
+	return Sin;
+}
+
+const double& dms::cos( void ) const {
+	if ( scDirty ) {
+		double s,c;
+		SinCos( s, c );
+	}
+	
+	return Cos;
+}
+
 void dms::SinCos( double &sina, double &cosa ) const {
 	/**We have two versions of this function.  One is ANSI standard, but
 		*slower.  The other is faster, but is GNU only.
@@ -247,7 +262,6 @@ void dms::SinCos( double &sina, double &cosa ) const {
 	cosa = Cos;
 }
 
-//SPEED_DMS
 const double& dms::radians( void ) const {
 	if ( rDirty ) {
 		Radians = D*DegToRad;
