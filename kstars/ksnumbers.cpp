@@ -400,7 +400,6 @@ void KSNumbers::updateValues( long double jd ) {
 
 	for (unsigned int j=0; j<3; j++) {
 		vearth[j] = vearth[j] * UA2km;
-		kdDebug() << vearth[j] << endl;
 	}
 //	kdDebug() << "Earth Velocity " << vearth[0] << " " << vearth[1] << " " << vearth[2] << endl;
 }
