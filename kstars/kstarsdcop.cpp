@@ -707,6 +707,7 @@ void KStars::waitForINDIAction(QString driverName, QString action)
 {
 
   INDI_D *dev;
+  INDI_P *prop;
   INDI_E *el;
   
   if (!indidriver || !indimenu)
@@ -722,12 +723,19 @@ void KStars::waitForINDIAction(QString driverName, QString action)
     return;
   }
   
-  el = dev->findElem(action);
-  if (!el) return;
+  prop = dev->findProp(action);
+  
+  if (prop == NULL)
+  {
+    el = dev->findElem(action);
+    if (!el) return;
+    
+    QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+  }
+  else
+    QObject::connect(prop, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
   
   kapp->dcopClient()->suspend();
-  
-  QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
   
 }
 
