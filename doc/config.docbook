@@ -123,7 +123,7 @@ the object is no longer being tracked.  Note that you can also manually
 attach a persistent name label to any object with its <link 
 linkend="popupmenu">popup menu</link>.
 </para><para>
-There are three situations when &kstars must redraw the sky display very 
+There are three situations when &kstars; must redraw the sky display very 
 rapidly: when a new focus position is selected (and <guilabel>Use 
 animated slewing</guilabel> is checked), when the sky is dragged with the 
 mouse, and when the time step is large.  In these situations, the positions
