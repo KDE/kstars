@@ -12,14 +12,9 @@
 #ifndef INDIMENU_H
 #define INDIMENU_H
 
-#include <qstring.h>
-#include <kdialogbase.h>
-#include <unistd.h>
-#include <vector>
+#include "indielement.h"
 
-#include "indi/lilxml.h"
-
-class INDI_L;
+class INDI_E;
 class INDI_P;
 class INDI_G;
 class INDI_D;
@@ -65,18 +60,14 @@ class INDIMenu : public KDialogBase
    QTextEdit 	*msgST_w;
    QWidget	*tab;
    QPushButton  *clear;
-   //QPushButton  *savelog;
    QString	currentLabel;
 
    KStars *ksw;
 
-   XMLAtt *   findAtt     (XMLEle *ep  , const char *name , char errmsg[]);
-   XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, char errmsg[]);
-
-   std::vector<DeviceManager *> mgr;
+   QPtrList<DeviceManager> mgr;
 
    void updateStatus();
-   bool removeDevice(QString devName);
+   //bool removeDevice(QString devName);
    void removeDeviceMgr(int mgrID);
    void setCustomLabel(QString deviceName);
 

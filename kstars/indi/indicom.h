@@ -71,6 +71,10 @@ double p1( int i1, int i2 );
 double p2( int i1, int i2 );
 /**@short update all values for the date given as an argument. */
 void updateAstroValues( double jd );
+/**@short calculates the declination on the celestial sphere at 0 degrees altitude given the siderial time and latitude. */
+double calculateDec(double latitude, double SDTime);
+/**@short calculates the right ascension on the celestial sphere at 0 degrees azimuth given the siderial time. */
+double calculateRA(double SDTime);
 
 void nutate(double *RA, double *Dec);
 void aberrate(double *RA, double *Dec);

@@ -263,6 +263,27 @@ void SinCos( double Degrees, double *sina, double *cosa )
 		*cosa = Cos;
 }
 
+double calculateDec(double latitude, double SDTime)
+{
+  if (SDTime > 12) SDTime -= 12;
+  
+  return RadToDeg ( atan ( (cos (DegToRad (latitude)) / sin (DegToRad (latitude))) * cos (DegToRad (SDTime))) );
+
+}
+
+double calculateRA(double SDTime)
+{
+  double ra;
+  
+  ra = SDTime + 12;
+  
+  if (ra < 24)
+    return ra;
+  else
+    return (ra - 24);
+}
+
+
 void nutate(double *RA, double *Dec)
 {
 	double cosRA, sinRA, cosDec, sinDec, tanDec;
@@ -572,9 +593,10 @@ void getSexComponents(double value, int *d, int *m, int *s)
 int
 numberFormat (char *buf, const char *format, double value)
 {
-        int w, f, s, l;
+        int w, f, s;
+        char m;
 
-        if (sscanf (format, "%%%d.%dm", &w, &f) == 2) {
+        if (sscanf (format, "%%%d.%d%c", &w, &f, &m) == 3 && m == 'm') {
             /* INDI sexi format */
             switch (f) {
             case 9:  s = 360000; break;
@@ -583,12 +605,9 @@ numberFormat (char *buf, const char *format, double value)
             case 5:  s = 600;    break;
             default: s = 60;     break;
             }
-            l = fs_sexa (buf, value, w-f, s);
+            return (fs_sexa (buf, value, w-f, s));
         } else {
             /* normal printf format */
-            l = sprintf (buf, format, value);
+            return (sprintf (buf, format, value));
         }
-        return (l);
 }
-
-

@@ -289,7 +289,7 @@ void INDIStdDevice::timerDone()
 	return;
        }
 
-       prop = dp->findProp("ON_COORD_SET");
+       prop = dp->findProp("EQUATORIAL_COORD");
        if (prop == NULL || !currentObject)
         return;
 
@@ -298,10 +298,6 @@ void INDIStdDevice::timerDone()
         return;
 
        kdDebug() << "Timer called, starting processing" << endl;
-
-       prop = dp->findProp("EQUATORIAL_COORD");
-       if (prop == NULL)
-        return;
 
 	SkyPoint sp(currentObject->ra(), currentObject->dec());
 

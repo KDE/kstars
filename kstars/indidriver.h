@@ -56,7 +56,7 @@ class INDIDriver : public devManager
     bool readXMLDriver();
 
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
-    bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, char errmsg[]);
+    bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[]);
 
     QListViewItem *lastGroup;
     QListViewItem *lastDevice;
@@ -86,6 +86,7 @@ class INDIDriver : public devManager
       int indiPort;
       bool managed;
       int mgrID;
+      int deviceType;
       KProcess *proc;
 
       void restart();

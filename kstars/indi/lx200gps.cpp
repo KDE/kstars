@@ -29,22 +29,21 @@
 #define GPSGroup   "Extended GPS Features"
 
 extern LX200Generic *telescope;
-extern char mydev[];
 extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
 static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF}, {"Off", "", ISS_ON}};
 static ISwitch GPSStatusS[]	  	= {{ "GPS Sleep", "", ISS_OFF}, {"GPS Wake up", "", ISS_OFF}, {"GPS Restart", "", ISS_OFF}};
-static ISwitch GPSUpdateS[]	  	= { {"Update GPS system", "", ISS_OFF}};
+static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF}};
 static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF}, {"Disable", "", ISS_OFF}};
 static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF}, {"Disable", "", ISS_OFF}};
-static ISwitch SelenSyncS[]		= {{ "Selenographic Sync", "",  ISS_OFF}};
-static ISwitch AltDecBackSlashS[]	= {{ "Activate Alt Dec Anti Backslash", "", ISS_OFF}};
-static ISwitch AzRaBackSlashS[]		= {{ "Activate Az Ra Anti Backslash", "", ISS_OFF}};
+static ISwitch SelenSyncS[]		= {{ "Sync", "",  ISS_OFF}};
+static ISwitch AltDecBackSlashS[]	= {{ "Activate", "", ISS_OFF}};
+static ISwitch AzRaBackSlashS[]		= {{ "Activate", "", ISS_OFF}};
 
 static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS)};
 static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS)};
-static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS Update", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS)};
+static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS)};
 static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS)};
 static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS)};
 static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS)};
@@ -52,7 +51,20 @@ static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslas
 static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS)};
 
 static INumber Temp[]	= { {"Temp.", "", "%g", 0., 0., 0., 0. } };
-static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature, degrees C", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp)};
+static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (°C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp)};
+
+void changeLX200GPSDeviceName(char *newName)
+{
+ strcpy(GPSPowerSw.device, newName);
+ strcpy(GPSStatusSw.device, newName );
+ strcpy(GPSUpdateSw.device, newName  );
+ strcpy(AltDecPecSw.device, newName );
+ strcpy(AzRaPecSw.device,newName  );
+ strcpy(SelenSyncSw.device, newName );
+ strcpy(AltDecBackSlashSw.device, newName );
+ strcpy(AzRaBackSlashSw.device, newName );
+ strcpy(OTATemp.device, newName );
+}
 
 LX200GPS::LX200GPS() : LX200_16()
 {
@@ -62,104 +74,33 @@ LX200GPS::LX200GPS() : LX200_16()
 void LX200GPS::ISGetProperties (const char *dev)
 {
 
-if (dev && strcmp (mydev, dev))
+if (dev && strcmp (thisDevice, dev))
     return;
 
 // process parent first
    LX200_16::ISGetProperties(dev);
 
-IDDefSwitch (&GPSPowerSw);
-IDDefSwitch (&GPSStatusSw);
-IDDefSwitch (&GPSUpdateSw);
-IDDefSwitch (&AltDecPecSw);
-IDDefSwitch (&AzRaPecSw);
-IDDefSwitch (&SelenSyncSw);
-IDDefSwitch (&AltDecBackSlashSw);
-IDDefSwitch (&AzRaBackSlashSw);
-IDDefNumber (&OTATemp);
+IDDefSwitch (&GPSPowerSw, NULL);
+IDDefSwitch (&GPSStatusSw, NULL);
+IDDefSwitch (&GPSUpdateSw, NULL);
+IDDefSwitch (&AltDecPecSw, NULL);
+IDDefSwitch (&AzRaPecSw, NULL);
+IDDefSwitch (&SelenSyncSw, NULL);
+IDDefSwitch (&AltDecBackSlashSw, NULL);
+IDDefSwitch (&AzRaBackSlashSw, NULL);
+IDDefNumber (&OTATemp, NULL);
 
 
 }
 
 void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-        double UTCOffset;
-	struct tm *ltp = new tm;
-	struct tm utm;
-	time_t ltime;
-	time (&ltime);
-	localtime_r (&ltime, ltp);
-	IText *tp;
-
 	// ignore if not ours //
-	if (strcmp (dev, mydev))
+	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
 	n=n;
-
-       // Override LX200 Generic
-       if (!strcmp (name, Time.name))
-       {
-	  if (checkPower(&Time))
-	   return;
-
-	   IDLog("*** We are in the AUTOSTAR time update ***\n");
-
-	  if (extractISOTime(texts[0], &utm) < 0)
-	  {
-	    Time.s = IPS_IDLE;
-	    IDSetText(&Time , "Time invalid");
-	    return;
-	  }
-	        utm.tm_mon   += 1;
-		ltp->tm_mon  += 1;
-		utm.tm_year  += 1900;
-		ltp->tm_year += 1900;
-
-	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
-
-		IDLog("The initial UTC offset is %g\n", UTCOffset);
-
-		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset += 24;
-
-		if (ltp->tm_isdst > 0)
-		{
-		  UTCOffset++;
-		  IDLog("Correcting for DST, new UTC is %g\n", UTCOffset);
-		}
-
-		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		setUTCOffset(UTCOffset);
-	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		tp = IUFindText(&Time, names[0]);
-		if (!tp)
-		 return;
-		tp->text = new char[strlen(texts[0]+1)];
-	        strcpy(tp->text, texts[0]);
-		Time.s = IPS_OK;
-
-		// update JD
-                JD = UTtoJD(&utm);
-
-		IDLog("New JD is %f\n", (float) JD);
-
-		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
-		    (localTM->tm_year == ltp->tm_year))
-		{
-		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %g", texts[0], UTCOffset*-1);
-		  return;
-		}
-
-		localTM = ltp;
-		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
- 		IDSetText(&Time , "Date changed, updating planetary data...");
-
-		return;
-	}
 
      LX200_16::ISNewText (dev, name, texts, names, n);
 }
@@ -194,9 +135,7 @@ double getOTATemp();
     int index;
     char msg[32];
 
-    LX200_16::ISNewSwitch (dev, name, states, names,  n);
-
-    if (strcmp (dev, mydev))
+    if (strcmp (dev, thisDevice))
 	    return;
 
     if (!strcmp(name,GPSPowerSw.name))
@@ -205,9 +144,9 @@ double getOTATemp();
        return;
 
       index = getOnSwitch(states, n);
-      resetSwitches(&GPSPowerSw);
+      IUResetSwitches(&GPSPowerSw);
       index == 0 ? turnGPSOn() : turnGPSOff();
-      GPSPowerSw.sw[index].s = ISS_ON;
+      GPSPowerSw.sp[index].s = ISS_ON;
       GPSPowerSw.s = IPS_OK;
       strcpy(msg, index == 0 ? "GPS System is ON" : "GPS System is OFF");
       IDSetSwitch (&GPSPowerSw, msg);
@@ -220,7 +159,7 @@ double getOTATemp();
        return;
 
       index = getOnSwitch(states, n);
-      resetSwitches(&GPSPowerSw);
+      IUResetSwitches(&GPSPowerSw);
 
       if (index == 0)
       {
@@ -239,7 +178,7 @@ double getOTATemp();
       }
 
 	GPSStatusSw.s = IPS_OK;
-        GPSStatusSw.sw[index].s = ISS_ON;
+        GPSStatusSw.sp[index].s = ISS_ON;
 	IDSetSwitch (&GPSStatusSw, msg);
 	return;
 
@@ -268,7 +207,7 @@ double getOTATemp();
        return;
 
       index = getOnSwitch(states, n);
-      resetSwitches(&AltDecPecSw);
+      IUResetSwitches(&AltDecPecSw);
 
        if (index == 0)
       {
@@ -282,7 +221,7 @@ double getOTATemp();
       }
 
       AltDecPecSw.s = IPS_OK;
-      AltDecPecSw.sw[index].s = ISS_ON;
+      AltDecPecSw.sp[index].s = ISS_ON;
       IDSetSwitch(&AltDecPecSw, msg);
 
       return;
@@ -294,7 +233,7 @@ double getOTATemp();
        return;
 
       index = getOnSwitch(states, n);
-      resetSwitches(&AzRaPecSw);
+      IUResetSwitches(&AzRaPecSw);
 
        if (index == 0)
       {
@@ -308,7 +247,7 @@ double getOTATemp();
       }
 
       AzRaPecSw.s = IPS_OK;
-      AzRaPecSw.sw[index].s = ISS_ON;
+      AzRaPecSw.sp[index].s = ISS_ON;
       IDSetSwitch(&AzRaPecSw, msg);
 
       return;
@@ -335,6 +274,8 @@ double getOTATemp();
      IDSetSwitch(&AzRaBackSlashSw, "Az/Ra Anti-backslash enabled");
      return;
    }
+   
+   LX200_16::ISNewSwitch (dev, name, states, names,  n);
 
 }
 
@@ -345,7 +286,7 @@ double getOTATemp();
 
    if (isTelescopeOn())
    {
-   	OTATemp.n[0].value = getOTATemp();
+   	getOTATemp(&OTATemp.np[0].value);
    	IDSetNumber(&OTATemp, NULL);
    }
 
@@ -357,7 +298,7 @@ double getOTATemp();
    // process parent first
    LX200_16::getBasicData();
 
-   OTATemp.n[0].value = getOTATemp();
+   getOTATemp(&OTATemp.np[0].value);
    IDSetNumber(&OTATemp, NULL);
  }
 

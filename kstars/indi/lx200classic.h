@@ -39,5 +39,7 @@ class LX200Classic : public LX200Generic
 
 };
 
+void changeLX200ClassicDeviceName(char *newName);
+
 #endif
  

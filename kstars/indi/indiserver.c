@@ -44,7 +44,7 @@
 #include "lilxml.h"
 
 #define INDIPORT        7624            /* TCP/IP port on which to listen */
-#define	BUFSZ		512		/* max buffering here */
+#define	BUFSZ		1024		/* max buffering here */
 #define	MAXRS		2		/* default times to restart a driver */
 
 /* info for each connected client */
@@ -156,7 +156,7 @@ usage(void)
 	fprintf (stderr, "Options:\n");
 	fprintf (stderr, " -p p  : alternate IP port, default %d\n", INDIPORT);
 	fprintf (stderr, " -r n  : max restart attempts, default %d\n", MAXRS);
-	fprintf (stderr, " -v    : more verbose to stderr\n");
+	fprintf (stderr, " -vv   : more verbose to stderr\n");
 	fprintf (stderr, "Remaining args are names of INDI drivers to run.\n");
 
 	exit (1);
@@ -435,14 +435,14 @@ clientMsg (int cli)
 	    return;
 	} 
 	if (verbose > 1)
-	    fprintf (stderr, "Client %d: rcv: %.*s", cp->s, nr, buf);
+	    fprintf (stderr, "Client %d: rcv from:\n%.*s", cp->s, nr, buf);
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
 	    char err[1024];
 	    XMLEle *root = readXMLEle (cp->lp, buf[i], err);
 	    if (root) {
-		if (strncmp (root->tag, "new", 3) == 0)
+		if (strncmp (tagXMLEle(root), "new", 3) == 0)
 		    send2AllClients (cp, root);
 		send2AllDrivers (root);
 		delXMLEle (root);
@@ -475,7 +475,7 @@ driverMsg (int i)
 	    return;
 	}
 	if (verbose > 1)
-	    fprintf (stderr, "Driver %s: rcv: %.*s", dp->name, nr, buf);
+	    fprintf (stderr, "Driver %s: rcv from:\n%.*s", dp->name, nr, buf);
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
@@ -537,6 +537,9 @@ send2AllDrivers (XMLEle *root)
 	    if (ferror(dp->wfp)) {
 		fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
 		restartDvr (i);
+	    } else if (verbose > 2) {
+		fprintf (stderr, "Driver %s: send to:\n", dp->name);
+		prXMLEle (stderr, root, 0);
 	    } else if (verbose > 1)
 		fprintf (stderr, "Driver %s: message sent\n", dp->name);
 	}
@@ -556,6 +559,9 @@ send2AllClients (ClInfo *notcp, XMLEle *root)
 	    if (ferror(cp->wfp)) {
 		fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
 		closeClient (i);
+	    } else if (verbose > 2) {
+		fprintf (stderr, "Client %d: send to:\n", cp->s);
+		prXMLEle (stderr, root, 0);
 	    } else if (verbose > 1)
 		fprintf (stderr, "Client %d: message sent\n", cp->s);
 	}
