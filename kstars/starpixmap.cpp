@@ -18,6 +18,7 @@
 
 #include "starpixmap.h"
 
+#include <kimageeffect.h>
 #include <qbitmap.h>
 #include <qimage.h>
 #include <qpainter.h>
@@ -71,7 +72,8 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	QPainter p;
 	QMemArray<QColor> starColor;
 	starColor.resize( 8 );	
-
+	image.setAlphaBuffer(true);
+	
 	starColor[0] = QColor( 255, 255, 255 );   //default to white
 	starColor[1] = QColor(   0,   0, 255 );   //type O
 	starColor[2] = QColor(   0, 200, 255 );   //type B
@@ -107,12 +109,17 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		p.setBrush( QBrush( Qt::color1 ) );
 		p.drawEllipse(32,32,23,23);
 		p.end();
+		
+		//BLUR!! ugliness-- requires temporary conversion to pixmap, then back again.
+		//       if we defer the blur until the end, we lose the transparency.  Bleh.
+		QImage tmp = pix.convertToImage();
+		pix.convertFromImage( KImageEffect::blur( tmp, 100.0 ) );
+		
 		pix.setMask (mask);	// set the mask
 		image = pix.convertToImage();	// create the image for smoothScale()
 
 		for (int i = 0; i < 26; i++)
 		{
-			QImage tmp;
 			if (i < 6)
 				tmp = image.smoothScale (1+ i, 1+ i);	// size: 1x1 .. 24x24
 			else	if (i < 12)
@@ -122,7 +129,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 			else
 				tmp = image.smoothScale ((1+ i)*2, (1+ i)*2);	// size: 1x1 .. 48x48
 
-			starPixmaps[color][i].convertFromImage (tmp);	// fill the array of pixmaps
+			starPixmaps[color][i].convertFromImage( tmp );  // fill the array of pixmaps
 		}
 	}
 }
