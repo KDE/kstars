@@ -22,6 +22,7 @@
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY csphere SYSTEM "csphere.docbook">
   <!ENTITY darkmatter SYSTEM "darkmatter.docbook">
+  <!ENTITY dcop SYSTEM "dcop.docbook">
   <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
   <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
   <!ENTITY equinox SYSTEM "equinox.docbook">
@@ -218,6 +219,7 @@ the automated bug reporting tool, accessible from the Help menu.
 &commands;    <!--Command Reference-->
 &astroinfo;   <!--AstroInfo Articles-->
 &tools;       <!--The AASVO Lightcurve Tool-->
+&dcop;        <!--The DCOP Interface-->
 &faq;         <!--Questions and Answers-->
 &credits;     <!--Credits and License-->
 &install;     <!--Installation-->
