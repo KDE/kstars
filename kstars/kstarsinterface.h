@@ -43,7 +43,7 @@ class KStarsInterface : virtual public DCOPObject
 		virtual ASYNC waitFor( double t ) = 0;
 		virtual ASYNC waitForKey( const QString k ) = 0;
 		virtual ASYNC setTracking( bool track ) = 0;
-		virtual ASYNC changeOption( const QString option, const QString value ) = 0;
+		virtual ASYNC changeViewOption( const QString option, const QString value ) = 0;
 		virtual ASYNC popupMessage( int x, int y, const QString message ) = 0;
 		virtual ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 ) = 0;
 		virtual ASYNC setGeoLocation( const QString city, const QString province, const QString country ) = 0;

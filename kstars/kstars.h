@@ -213,7 +213,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC setTracking( bool track );
 		
 	/**DCOP interface function.  modify option. */
-		ASYNC changeOption( const QString option, const QString value );
+		ASYNC changeViewOption( const QString option, const QString value );
 	
 	/**DCOP interface function.  Show text message in a popup window. */
 		ASYNC popupMessage( int x, int y, const QString message );

@@ -120,6 +120,9 @@ void KStars::loadOptions()
 	options()->drawNeptune = conf->readBoolEntry( "ShowNeptune", true );
 	options()->drawPluto   = conf->readBoolEntry( "ShowPluto", true );
 	options()->drawPlanets = conf->readBoolEntry( "ShowPlanets", true );
+	options()->drawAsteroids = conf->readBoolEntry( "ShowAsteroids", true );
+	options()->drawComets  = conf->readBoolEntry( "ShowComets", true );
+	options()->drawPlanets = conf->readBoolEntry( "ShowPlanets", true );
 	options()->drawDeepSky = conf->readBoolEntry( "ShowDeepSky", true );
 	options()->useAltAz   = conf->readBoolEntry( "UseAltAz", true );
 	options()->isTracking = conf->readBoolEntry( "IsTracking", false );
@@ -131,6 +134,8 @@ void KStars::loadOptions()
 	options()->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options()->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );
 	options()->drawStarName      = conf->readBoolEntry( "drawStarName", false );
+	options()->drawAsteroidName  = conf->readBoolEntry( "drawAsteroidName", true );
+	options()->drawCometName     = conf->readBoolEntry( "drawCometName", true );
 	options()->drawPlanetName    = conf->readBoolEntry( "drawPlanetName", true );
 	options()->drawPlanetImage   = conf->readBoolEntry( "drawPlanetImage", true );
 	options()->drawStarMagnitude = conf->readBoolEntry( "drawStarMagnitude", false );
@@ -239,6 +244,8 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowUranus", 	options()->drawUranus );
 	conf->writeEntry( "ShowNeptune", 	options()->drawNeptune );
 	conf->writeEntry( "ShowPluto", 	options()->drawPluto );
+	conf->writeEntry( "ShowAsteroids", 	options()->drawAsteroids );
+	conf->writeEntry( "ShowComets", 	options()->drawComets );
 	conf->writeEntry( "ShowPlanets", 	options()->drawPlanets );
 	conf->writeEntry( "ShowDeepSky", 	options()->drawDeepSky );
 	conf->writeEntry( "IsTracking", 	options()->isTracking );
@@ -258,6 +265,8 @@ void KStars::saveOptions() {
 	conf->writeEntry( "magLimitDrawStarInfo",options()->magLimitDrawStarInfo );
 	conf->writeEntry( "magLimitHideStar",options()->magLimitHideStar );
 	conf->writeEntry( "drawStarName", options()->drawStarName );
+	conf->writeEntry( "drawAsteroidName", options()->drawAsteroidName );
+	conf->writeEntry( "drawCometName", options()->drawCometName );
 	conf->writeEntry( "drawPlanetName", options()->drawPlanetName );
 	conf->writeEntry( "drawPlanetImage", options()->drawPlanetImage );
 	conf->writeEntry( "drawStarMagnitude",   options()->drawStarMagnitude );
