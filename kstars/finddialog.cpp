@@ -20,13 +20,16 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qptrlist.h>
 #include <qlistbox.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
 
 #include "finddialog.h"
 #include "kstars.h"
+
+#if (KDE_VERSION > 222)
+#include <qptrlist.h>
+#endif
 
 FindDialog::FindDialog( QWidget* parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ) {

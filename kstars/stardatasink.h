@@ -28,9 +28,11 @@
 #include <qobject.h>
 #include <qasyncio.h>
 #include <qtextstream.h>
-#include <qptrlist.h>
 
 #include "starobject.h"
+#if (KDE_VERSION > 222)
+#include <qptrlist.h>
+#endif
 
 class KStarsData;
 

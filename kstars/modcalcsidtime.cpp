@@ -32,8 +32,13 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qabstractlayout.h>
-#include <kapplication.h>
 #include <klocale.h>
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {

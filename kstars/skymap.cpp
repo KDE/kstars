@@ -26,7 +26,6 @@
 #include <qpopupmenu.h>
 #include <qcursor.h>
 #include <qpointarray.h>
-#include <qmemarray.h>
 #include <qfont.h>
 #include <qtextstream.h>
 #include <qbitmap.h>
@@ -46,6 +45,7 @@
 #include <kapp.h>
 #else
 #include <kapplication.h>
+#include <qmemarray.h>
 #endif
 
 SkyMap::SkyMap(QWidget *parent, const char *name )

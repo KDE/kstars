@@ -18,7 +18,6 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <qptrlist.h>
 #include <qfile.h>
 #include <qmap.h>
 #include <qstring.h>
@@ -44,6 +43,10 @@
 #include "skymap.h"
 #include "planetcatalog.h"
 #include "objectnamelist.h"
+
+#if (KDE_VERSION > 222)
+#include <qptrlist.h>
+#endif
 
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for

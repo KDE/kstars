@@ -41,9 +41,12 @@
 	*@version 0.9
   */
 #include <kdialogbase.h>
-#include <qmemarray.h>
 #include <qlineedit.h>
 #include "mapcanvas.h"
+
+#if (KDE_VERSION > 222)
+#include <qmemarray.h>
+#endif
 
 class QVBoxLayout;
 class QHBoxLayout;

@@ -28,11 +28,14 @@
 	*/
 
 
-#include <qptrlist.h>
 #include <qstring.h>
+
 
 #include "skyobjectname.h"
 
+#if (KDE_VERSION > 222)
+#include <qptrlist.h>
+#endif
 class ObjectNameList {
 
 	public:

@@ -1,7 +1,6 @@
 #ifndef PLANETCATALOG_H
 #define PLANETCATALOG_H
 
-#include <qptrlist.h>
 #include <qstring.h>
 #include "ksplanetbase.h"
 #include "ksplanet.h"
@@ -11,6 +10,10 @@
 /*
  * @author Mark Hollomon
  */
+
+#if (KDE_VERSION > 222)
+#include <qptrlist.h>
+#endif
 
 
 class PlanetCatalog : public QObject {

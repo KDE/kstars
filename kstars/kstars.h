@@ -30,7 +30,6 @@
 #include <qlayout.h>
 #include <qframe.h>
 #include <qfile.h>
-#include <qptrlist.h>
 #include <qdatetime.h>
 #include <qlabel.h>
 #include <qtimer.h>
@@ -57,6 +56,7 @@
 #else
 #include <kapplication.h>
 #include <kstandarddirs.h>
+#include <qptrlist.h>
 #endif
 
 // forward declaration is enough. We only need pointers
