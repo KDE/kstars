@@ -173,4 +173,109 @@ Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
 </para>
 </sect2>
 
+<sect2 id="sb-indi">
+  <title>Device Automation with INDI</title>
+  <para>
+    Device schedualing and automation is supported for all <link linkend="what-is-indi">INDI</link>-compliant devices. You can coordinate any number of devices to perform complex operations using &kstars; <link linkend="sb-intro">Script Builder</link>. This can be accomplished by using &kstars; INDI DCOP interface, which provides different classes of functions to suit your tasks. The INDI DCOP functions can be decomposed into four different classes. The following is a review of the functions and their arguments as supported in KStars. It it highly recommened to read the <link linkend="indi-concepts">INDI Concepts</link> section as we will employ key INDI concepts throughout this tutorial.</para>
+  <orderedlist>
+    <listitem><para>Generic Device Functions: Functions to establish/shutdown devices..etc.</para>
+      <itemizedlist>
+	<listitem><para><function>startINDI (QString deviceName, bool useLocal)</function> : Establish an INDI service either as local or server.</para></listitem>
+	<listitem><para><function>shutdownINDI (QString deviceName)</function> : Shutdown the INDI service.</para></listitem>
+	<listitem><para><function>switchINDI(QString deviceName, bool turnOn)</function> : Connect or Disconnect an INDI device.</para></listitem>
+	<listitem><para><function>setINDIPort(QString deviceName, QString port)</function> : Set the device's connection port.</para></listitem>
+	<listitem><para><function>setINDIAction(QString deviceName, QString action)</function> : Activate an INDI action. The action can be any <emphasis>element</emphasis> of a <emphasis>switch property</emphasis></para></listitem>
+	<listitem><para><function>waitForINDIAction(QString deviceName, QString action)</function> : Pause script execution until the specefied action <emphasis>property</emphasis> returns with OK status.</para></listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem><para>Telescope Functions: Functions to control the telescope motion and status.</para>
+      <itemizedlist>
+	<listitem><para><function>setINDIScopeAction(QString deviceName, QString action)</function> : Set the telescope mode or action. Available options are SLEW, TRACK, SYNC, PARK, and ABORT.</para></listitem>
+	<listitem><para><function>setINDITargetCoord(QString deviceName, double RA, double DEC)</function> : Set the telescope JNow target coordinates to <emphasis>RA</emphasis> and <emphasis>DEC</emphasis>.</para></listitem>
+	<listitem><para><function>setINDITargetName(QString deviceName, QString objectName)</function> : Set the telescope JNow target coordinates to the coordinates of <emphasis>objectName</emphasis>. KStars will lookup the object name in its database and will fetch RA and Dec once found.</para></listitem>
+	<listitem><para><function>setINDIGeoLocation(QString deviceName, double longitude, double latitude)</function> : Set the telescope geographical location to the longitude and latitude as specified. The longitude is calculated E of N. For example, Calgary, Canada coordinates in KStars are longitude: -114 04 58 - latitude: 51 02 58. <emphasis>Only</emphasis> negative longitudes need to be converted. To convert the longitude to E of N notation, we consider the longitude positive and add 180 degrees to it. So in our example, INDI's longitude = 114 04 08 + 180 00 00 = 294 04 08 E of N.</para></listitem>
+	<listitem><para><function>setINDIUTC(QString ddeviceName, QString UTCDateTime)</function> : Set the telescope UTC Date and Time in ISO 8601 format. The format is YYYY-MM-DDTHH:MM:SS (e.g. 2004-07-12T22:05:32).</para></listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem><para>Focouser Functions: Functions to control the focuser motion and status.</para>
+      <itemizedlist>
+      <listitem><para><function>setINDIFocusSpeed(QString deviceName, QString action)</function> : Set the focuser speed. Available options are FOCUS_HALT, FOCUS_SLOW, FOCUS_MEDIUM, and FOCUS_FAST.</para></listitem>
+      <listitem><para><function>setINDIFocusTimeout(QString deviceName, int timeout)</function> : Set the duration in seconds for any subsequent startINDIFocus operations.</para></listitem>
+      <listitem><para><function>startINDIFocus(QString deviceName, int focusDir)</function> : Move the focuser either inward (focusDir = 0) or outward (focusDir = 1). The speed and duration of this operation is set by the <function>setINDIFocusSpeed()</function> and <function>setINDIFocusTimeout()</function> functions.</para></listitem>
+    </itemizedlist>
+    </listitem>
+    <listitem><para>Camera/CCD Functions: Functions to control the camera/CCD properties and status.</para>
+      <itemizedlist>
+	<listitem><para><function>setINDICCDTemp(QString deviceName, int temp)</function> : Set the CCD chip target temperature in degrees celsius.</para></listitem>
+	<listitem><para><function>setINDIFrameType(QString deviceName, QString type)</function> : Set the CCD frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT.</para></listitem>
+	<listitem><para><function>startINDIExposure(QString deviceName, int timeout)</function> : Start the CCD/Camera exposure for the duration specified by <emphasis>timeout</emphasis> in seconds.</para></listitem>
+      </itemizedlist>
+    </listitem>
+  </orderedlist>
+  
+<para>
+Note that the device name is the first argument of all INDI functions. This permits different commands that are sent to different INDI devices to be intermixed togeather in one script. The Script Builder tool provides two options to facilitate the creation and editing of INDI scripts:</para>
+<itemizedlist>
+  <listitem><para><option>Append waitForINDIAction after any INDI action</option> : When checked, the Script Builder tool will automatically add <function>waitForINDIAction()</function> after any action it recognizes. For example, If you add <function>switchINDI()</function> function to the script and this option was checked, the Script Builder will add "waitForINDIAction CONNECTION" in the script file just after <function>switchINDI()</function>. This will cause the script to pause after it issues <function>switchINDI()</function> until <function>switchINDI()</function> returns with OK status (&ie; device connection was successful). It is critically important to know that the Script Builder cannot automatically add <function>waitForINDIAction()</function> for generic actions added using the <function>setINDIAction()</function> function. This is because KStars cannot determine the parent property of generic actions. Therefore, you must manually add <function>waitForINDIAction()</function> after generic actions when desired.</para>
+  </listitem>
+  <listitem><para><option>Reuse INDI device name</option> : When checked, the device name field of all subsequent functions is automatically filled with the last device name. The last device name is set every time <function>startINDI()</function> function is added to the current script. When working with multiple devices, it is recommened to have this option off.</para>
+  </listitem>
+</itemizedlist>
+
+<para>Now we are ready to create a demo script that controls LX200 GPS telescope, in addition to Finger Lakes CCD camera. Our task is simple. We will ask the telescope to slew and track Mars, then we will ask the camera to take three shots 10 seconds each seperated by 20 seconds.</para>
+<important><para>Since there is no direct feedback from the INDI DCOP interface about the progress, value, or status of the device operations and parameters (except for <function>waitForINDIAction()</function>), device automation in KStars is similar to an open-loop control system. In such a system, there is usually no direct feedback to measure the progress of the system and to correct for errors. Consequently, you must design your device automation scripts with careful consideration. All automation scripts must be subjected to rigorous testing before deployment.</para></important>
+
+<screenshot>
+  <screeninfo>
+    The Script Builder Tool
+  </screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="indiscript.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Script Builder Tool</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+
+<para>The demo script is shown in the above screenshot. Note that we checked <option>"Append waitForINDIAction after any INDI action"</option> and unchecked <option>"Reuse INDI device name"</option>. The first function to add is <function>startINDI()</function> as shown above. We want to run our devices as local, so we will not change the service mode provided in the function arguments window. We type in our device name, starting with the telescope "LX200 GPS". We repeat the same operation again for "FLI CCD". There is a <function>waitFor()</function> function after that. It is generally recommended to use <function>waitFor()</function> function immediately after <function>startINDI()</function> to pause the script for 1-5 seconds. This will ensure that all properties are built and are ready to receive command. It is also useful for controlling remote devices because retrieving and building properties might take some time. In the next function, <function>switchINDI()</function>, we connect to each device.</para>
+
+<para>Since <option>"Append waitForINDIAction after any INDI action"</option> is checked, we don't need to add <function>waitForINDIAction()</function> after that to insure that we only continue executing the script after we successfully connect. This is because the Script Builder tool will do this automatically for us when we save the script. Now let's set the telescope mode to tracking, click on the <function>setINDIScopeAction()</function> function and select TRACK. Note that we need to set the telescope to tracking <emphasis>before</emphasis> issuing the coordinates it needs to track. The <function>setINDIScopeAction()</function> function is provided for convinience; since in this example, it simply issues a generic <function>setINDIAction()</function> function followed by the keyword TRACK. However, the benefit of using <function>setINDIScopeAction()</function> is that KStars can automatically append <function>waitForINDIAction()</function> after it when required. This facility is not automatically available to generic actions as we discussed before.</para>
+
+<para>Next we use the <function>setINDITargetName()</function> function and set it to Mars. Finally, the last few steps involve capturing an image for 10 seconds which can be done by using <function>startINDIExposure()</function> function, and waiting for 20 seconds in between which can be done by using <function>waitFor()</function> function with a value of 20.</para>
+
+<para>We can now save our script and execute it at any time. The saved script will be similar to this:</para>
+<blockquote><programlisting>
+    #!/bin/bash
+    #KStars DCOP script: Demo Script
+    #by Jasem Mutlaq
+    #last modified: Thu Jan 6 2005 09:58:26
+    #
+    KSTARS=`dcopfind -a 'kstars*'`
+    MAIN=KStarsInterface
+    CLOCK=clock#1
+    dcop $KSTARS $MAIN  startINDI "LX200 GPS" true
+    dcop $KSTARS $MAIN  startINDI "FLI CCD" true
+    dcop $KSTARS $MAIN  waitFor 3
+    dcop $KSTARS $MAIN  switchINDI "LX200 GPS" true
+    dcop $KSTARS $MAIN  waitForINDIAction "LX200 GPS" CONNECTION
+    dcop $KSTARS $MAIN  switchINDI "FLI CCD" true
+    dcop $KSTARS $MAIN  waitForINDIAction "FLI CCD" CONNECTION
+    dcop $KSTARS $MAIN  setINDIScopeAction "LX200 GPS" TRACK
+    dcop $KSTARS $MAIN  waitForINDIAction "LX200 GPS" ON_COORD_SET
+    dcop $KSTARS $MAIN  setINDITargetName "LX200 GPS" Mars
+    dcop $KSTARS $MAIN  waitForINDIAction "LX200 GPS" EQUATORIAL_EOD_COORD
+    dcop $KSTARS $MAIN  startINDIExposure "FLI CCD" 10
+    dcop $KSTARS $MAIN  waitForINDIAction "FLI CCD" EXPOSE_DURATION
+    dcop $KSTARS $MAIN  waitFor 20
+    dcop $KSTARS $MAIN  startINDIExposure "FLI CCD" 10
+    dcop $KSTARS $MAIN  waitForINDIAction "FLI CCD" EXPOSE_DURATION
+    dcop $KSTARS $MAIN  waitFor 20
+    dcop $KSTARS $MAIN  startINDIExposure "FLI CCD" 10
+    dcop $KSTARS $MAIN  waitForINDIAction "FLI CCD" EXPOSE_DURATION
+</programlisting>
+</blockquote>
+</sect2>
 </sect1>
+

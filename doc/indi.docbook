@@ -172,7 +172,7 @@ devices:</para>
 KStars can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
 
 <orderedlist>
-<listitem><para>Local: The local mode the most common and is used to control local device (&ie; a device attached to your machine).</para></listitem>
+<listitem><para>Local: The local mode is the most common and is used to control local device (&ie; a device attached to your machine).</para></listitem>
 <listitem><para>Server: The server mode establishes an INDI server for a particular device and waits for connections from remote clients. You cannot operate server devices, you can only start and shut them down.</para></listitem>
 <listitem><para>Client: The client mode is used to connect to remote INDI servers running INDI devices. You can control remote devices seamlessly like local devices.</para></listitem>
 </orderedlist>
@@ -375,7 +375,17 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 </indexterm>
 
 <para>
-The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
+The main key concept in INDI is that devices have the ability to describe themselves. This is accomplished by using XML to descrbie a generic heirarchy that can represent both cannonical and non-cannonical devices. In INDI, all <emphasis>devices</emphasis> may contain one or more <emphasis>properties</emphasis>. Any <emphasis>property</emphasis> may contain one or more <emphasis>elements</emphasis>. There are four types of INDI properties:</para>
+<itemizedlist>
+<listitem><para>Text property.</para></listitem>
+<listitem><para>Number property.</para></listitem>
+<listitem><para>Switch property (Represented in GUI by buttons and checkboxes).</para></listitem>
+<listitem><para>Light property (Represented in GUI by colored LEDs).</para></listitem>
+</itemizedlist>
+
+<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECT property has two elements: CONNECT and DISCONNECT switches. KStars parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
+
+<para>The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
 
 <itemizedlist>
 <listitem>
