@@ -28,6 +28,10 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	pw = new KStarsPlotWidget( -46.0, 46.0, -46.0, 46.0, page );
+	pw->setXAxisLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", 
+		"X-position (AU)" ) );
+	pw->setYAxisLabel( i18n( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", 
+		"Y-position (AU)" ) );
 	vlay->addWidget( pw );
 	resize( 500, 500 );
 
@@ -71,33 +75,38 @@ void PlanetViewer::initPlotObjects() {
 	}
 
 	//**Planets**//
-	KPlotObject *sun;
-	KPlotObject *planets;
 	PlanetCatalog *PC = ((KStars*)parent())->data()->PC;
+	KPlotObject *sun;
+	KPlotObject *planet[9];
+	KPlotObject *planetLabel[9];
 	dms elong[9];
-
-	elong[0] = dms( PC->findByName( "Mercury" )->ecLong()->Degrees() );
-	elong[1] = dms( PC->findByName( "Venus"   )->ecLong()->Degrees() );
-	elong[2] = dms( PC->findByName( "Earth"   )->ecLong()->Degrees() );
-	elong[3] = dms( PC->findByName( "Mars"    )->ecLong()->Degrees() );
-	elong[4] = dms( PC->findByName( "Jupiter" )->ecLong()->Degrees() );
-	elong[5] = dms( PC->findByName( "Saturn"  )->ecLong()->Degrees() );
-	elong[6] = dms( PC->findByName( "Uranus"  )->ecLong()->Degrees() );
-	elong[7] = dms( PC->findByName( "Neptune" )->ecLong()->Degrees() );
-	elong[8] = dms( PC->findByName( "Pluto"   )->ecLong()->Degrees() );
-
-	sun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::SOLID );
-	sun->addPoint( new DPoint( 0.0, 0.0 ) );
+	QString pName[9], pColor[9];
 	
-	planets = new KPlotObject( "Planets", "cyan2", KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
+	pName[0] = "Mercury"; pColor[0] = "SlateBlue1";
+	pName[1] = "Venus";   pColor[1] = "LightGreen";
+	pName[2] = "Earth";   pColor[2] = "Blue";
+	pName[3] = "Mars";    pColor[3] = "Red";
+	pName[4] = "Jupiter"; pColor[4] = "Goldenrod";
+	pName[5] = "Saturn";  pColor[5] = "LightYellow2";
+	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
+	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
+	pName[8] = "Pluto";   pColor[8] = "gray";
+
+	sun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
+	sun->addPoint( new DPoint( 0.0, 0.0 ) );
+	pw->addObject( sun );
+	
 	for ( unsigned int i=0; i<9; ++i ) {
+		elong[i] = dms( PC->findByName( pName[i] )->ecLong()->Degrees() );
+		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
+		planetLabel[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::LABEL );
 		double s, c;
 		elong[i].SinCos( s, c );
-		planets->addPoint( new DPoint( rad[i]*c, rad[i]*s ) );
+		planet[i]->addPoint( new DPoint( rad[i]*c, rad[i]*s ) );
+		planetLabel[i]->addPoint( new DPoint( rad[i]*c, rad[i]*s ) );
+		pw->addObject( planet[i] );
+		pw->addObject( planetLabel[i] );
 	}
-
-	pw->addObject( sun );
-	pw->addObject( planets );
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
@@ -109,6 +118,9 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 		case Key_Minus:
 		case Key_Underscore:
 			slotZoomOut();
+			break;
+		case Key_Escape:
+			close();
 			break;
 	}
 }
