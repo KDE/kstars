@@ -175,7 +175,7 @@ const QString dms::toHMSString() const {
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
-static dms dms::fromString(QString & st, bool deg) {
+dms dms::fromString(QString & st, bool deg) {
 	int d = 0, m = 0;
 	double s = 0.0;
 	dms dmsAng;
