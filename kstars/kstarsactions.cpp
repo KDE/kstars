@@ -387,7 +387,9 @@ void KStars::newWindow() {
 }
 
 void KStars::closeWindow() {
-	QApplication::exit(1);
+	// since QT 3.1 close() just emits lastWindowClosed if the window is not hidden
+	show();
+	close();
 }
 
 void KStars::slotOpenFITS()

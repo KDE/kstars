@@ -61,7 +61,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 				this, SLOT( datainitFinished(bool) ) );
 
 		pd->splash = new KStarsSplash(0, "Splash");
-		QObject::connect(pd->splash, SIGNAL( closeWindow() ), this, SLOT( closeWindow() ) );
+		QObject::connect(pd->splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
 		QObject::connect(pd->kstarsData, SIGNAL( progressText(QString) ),
 				pd->splash, SLOT( setMessage(QString) ));
 		pd->splash->show();
