@@ -27,6 +27,8 @@
 <itemizedlist><title>Physics</title>
   <listitem><para><link linkend="ai-blackbody">Blackbody Radiation</link></para></listitem>
   <listitem><para><link linkend="ai-darkmatter">Dark Matter</link></para></listitem>
+  <listitem><para><link linkend="ai-flux">Flux</link></para></listitem>
+  <listitem><para><link linkend="ai-luminosity">Luminosity</link></para></listitem>
   <listitem><para><link linkend="ai-parallax">Parallax</link></para></listitem>
   <listitem><para><link linkend="ai-retrograde">Retrograde Motion</link></para></listitem>
 </itemizedlist>

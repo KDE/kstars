@@ -11,7 +11,7 @@
 </author>
 </sect1info>
 
-<title>Star Colors and Temperatures</title>
+<title>Stars Colors and Tempertures</title>
 
 <para>
 Stars appear to be exclusively white at first glance.
@@ -45,7 +45,7 @@ wavelengths, making them appear blue or white.
 </para>
 
 <para>
-To estimate the surface temperature of a star, we can use the known 
+To estimate the surface temperature of a star, we can use the known
 relationship between the temperature of a blackbody, and the
 wavelength of light where its spectrum peaks.  That is, as you
 increase the temperature of a blackbody, the peak of its spectrum
@@ -55,35 +55,37 @@ hypothetical stars is plotted against wavelength.  The "rainbow"
 indicates the range of wavelengths that are visible to the human eye.
 </para>
 
+<para>
 <mediaobject>
 <imageobject>
-  <imagedata fileref="graph3.png" format="PNG"/>
+  <imagedata fileref="star_colors.png" format="PNG"/>
 </imageobject>
-<textobject><phrase>Figure 1</phrase></textobject>
-<caption><para>The spectra of three hypothetical stars of different temperatures</para></caption>
+<caption><phrase>Figure 1</phrase></caption>
 </mediaobject>
+</para>
 
 <para>
 This simple method is conceptually correct, but it cannot be used to
 obtain stellar temperatures accurately, because stars are
 <emphasis>not</emphasis> perfect blackbodies.  The presence of various
 elements in the star's atmosphere will cause certain wavelengths of
-light to be absorbed.  Because these <firstterm>absorption lines</firstterm> 
-are not uniformly distributed over the spectrum, they can skew the position of
-the spectral peak.  Moreover, obtaining a usable spectrum of a star
-is a time-intensive process and is prohibitively difficult for large
+light to be absorbed.  Because these absorption lines are not uniformly
+distributed over the spectrum, they can skew the position of
+the spectral peak.
+Moreover, obtaining a usable spectrum of a star
+is a time-intensive process and is prohibitly inefficient for large
 samples of stars.
 </para>
 
 <para>
-An alternative method utilizes <firstterm>photometry</firstterm> to measure 
-the intensity of light
+An alternative method utilizes photometry to measure the intensity of
+light
 passing through different filters. Each filter allows
 <emphasis>only</emphasis> a specific part of the spectrum
 of light to pass through while rejecting all others. A widely used
 photometric system is called the <firstterm>Johnson UBV
 system</firstterm>.  It employs three bandpass filters: U
-("Ultra-violet"), B ("Blue"), and V ("Visible") regions of the
+("Ultra-violet"), B ("Blue"), and V ("Visible"); each occupying different regions of the
 electromagnatic spectrum.
 </para>
 
@@ -92,10 +94,10 @@ The process of UBV photometry involves using light sensitive devices
 (such as film or CCD cameras) and aiming a telescope at a star to
 measure the intensity of light that passes through each of the
 filters individually. This procedure gives three apparent
-brightnesses or <firstterm>fluxes</firstterm> (amount of
+brightnesses or <link linkref="ai-flux">fluxes</link> (amount of
 energy per cm^2 per second) designated by Fu, Fb, and Fv. The ratio of
 fluxes Fu/Fb and Fb/Fv is a quantitative measure of the star's
-"color", and these ratios can be used to establish a temperature scale
+"color", and these ratios can be used to establish a tempreture scale
 for stars.  Generally speakiing, the larger the Fu/Fb and Fb/Fv ratios
 of a star, the hotter is its surface temperature.
 </para>
@@ -123,8 +125,8 @@ Kelvin.
 
 <para>
 Astronomers prefer to express star colors in terms of a difference in
-<link linkend="ai-magnitude">magnitudes</link>, rather than a ratio of
-fluxes.  Therefore, going back to blue
+<link linkref="ai-magnitude">magnitudes</link>, rather than a ratio of
+<link linkref="ai-flux">fluxes</link>.  Therefore, going back to blue
 Bellatrix we have a color index equal to
 </para>
 
@@ -141,30 +143,29 @@ Similarly, the color index for red Betelgeuse is
 </para>
 
 <para>
-The color indices, like the <link linkend="ai-magnitude">magnitude
+The color indices, like the <link linkref="ai-magnitude">magnitude
 scale</link>, run backward. <emphasis>Hot and blue</emphasis>
 stars have <emphasis>smaller and negative</emphasis> values of B-V
-than the cooler and redder stars
-as illustrated below.
+than the cooler and redder stars.
 </para>
 
 <para>
 An Astronomer can then use the color indices for a star, after
-correcting for
-<firstterm>reddening and interstellar extinction</firstterm>, to obtain 
-an accurate temperature of that star.  The relationship between B-V and 
-temperature is illustrated in Figure 2.
+correcting for reddening and interstellar extinction, to obtain an accurate tempreture of that star.
+The relationship between B-V and temperature is illustrated in Figure
+2.
 </para>
 
+<para>
 <mediaobject>
 <imageobject>
-  <imagedata fileref="graph2.png" />
+  <imagedata fileref="color_indices.png" />
 </imageobject>
-<textobject><phrase>Figure 2</phrase></textobject>
-<caption><para>The relationship between a stars's B-V color index and its temperature.</para></caption>
+<caption><phrase>Figure 2</phrase></caption>
 </mediaobject>
+</para>
 
 <para>
-The Sun with surface temperature of 5,800 K has a B-V index of 0.62.
+The Sun with surface tempreture of 5,800 K has a B-V index of 0.62.
 </para>
 </sect1>

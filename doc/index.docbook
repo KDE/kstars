@@ -17,6 +17,7 @@
   <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
   <!ENTITY equinox SYSTEM "equinox.docbook">
   <!ENTITY faq SYSTEM "faq.docbook">
+  <!ENTITY flux SYSTEM "flux.docbook">
   <!ENTITY geocoords SYSTEM "geocoords.docbook">
   <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
   <!ENTITY horizon SYSTEM "horizon.docbook">
@@ -24,6 +25,7 @@
   <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY julianday SYSTEM "julianday.docbook">
   <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY luminosity SYSTEM "luminosity.docbook">
   <!ENTITY magnitude SYSTEM "magnitude.docbook">
   <!ENTITY meridian SYSTEM "meridian.docbook">
   <!ENTITY parallax SYSTEM "parallax.docbook">
