@@ -1,8 +1,11 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>modCalcAzelDlg</class>
 <widget class="QWidget">
     <property name="name">
         <cstring>modCalcAzelDlg</cstring>
+    </property>
+    <property name="enabled">
+        <bool>true</bool>
     </property>
     <property name="geometry">
         <rect>
@@ -129,6 +132,9 @@
                 <widget class="dmsBox">
                     <property name="name">
                         <cstring>raBox</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -424,12 +430,17 @@
         <slot>slotClearCoords()</slot>
     </connection>
 </connections>
-<includes>
-    <include location="local" impldecl="in implementation">modcalcazeldlg.ui.h</include>
-</includes>
 <slots>
     <slot>slotClearCoords()</slot>
     <slot>slotComputeCoords()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+</includehints>
 </UI>
