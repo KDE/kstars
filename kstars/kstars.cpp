@@ -18,24 +18,21 @@
 //JH 25.08.2001: added toolbar, converted menu items to KAction objects
 //JH 25.08.2001: main window now resizable, window size saved in config file
 
-#include <stdio.h>
-#include <stream.h>
-
 #include <qfont.h>
+#include <qpopupmenu.h>
 #include <qtextstream.h>
 #include <qlineedit.h>
 #include <qsizepolicy.h>
 #include <qtooltip.h>
-#include <qlayout.h>
-
+#include <stdio.h>
+#include <stream.h>
 #include <kapp.h>
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kaccel.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
-#include <kstatusbar.h>
+#include <qlayout.h>
 
 #include "timedialog.h"
 #include "locationdialog.h"
@@ -123,6 +120,17 @@ KStars::KStars( KStarsData* kstarsData )
 	UTLabel->setPalette( pal );
 	STLabel->setPalette( pal );
 
+  //Set font for infoPanel widgets; for now just use default font.
+	QFont ipFont = LTLabel->font();
+	//Uncomment to set smaller font for infoPanel
+	ipFont.setPointSize( ipFont.pointSize() - 2 );
+  //Uncomment for fixed-width font
+	//ipFont.setFixedPitch( true );
+
+	LTLabel->setFont( ipFont );
+	UTLabel->setFont( ipFont );
+	STLabel->setFont( ipFont );
+
 	LT = new QLabel( "00:00:00", infoPanel );
 	LT->setFixedSize( LT->sizeHint() ); //otherwise, placement of other labels not static
 
@@ -133,6 +141,9 @@ KStars::KStars( KStarsData* kstarsData )
 	LT->setPalette( pal );
 	UT->setPalette( pal );
 	ST->setPalette( pal );
+	LT->setFont( ipFont );
+	UT->setFont( ipFont );
+	ST->setFont( ipFont );
 
 	LTDate = new QLabel( GetData()->locale->formatDate( GetData()->LTime.date(), true ), infoPanel );
 	UTDate = new QLabel( GetData()->locale->formatDate( GetData()->UTime.date(), true ), infoPanel );
@@ -140,6 +151,9 @@ KStars::KStars( KStarsData* kstarsData )
 	LTDate->setPalette( pal );
 	UTDate->setPalette( pal );
 	JD->setPalette( pal );
+	LTDate->setFont( ipFont );
+	UTDate->setFont( ipFont );
+	JD->setFont( ipFont );
 
 	FocusObject = new QLabel( i18n( "Focused on: " ) + i18n( "nothing" ), infoPanel );
 	FocusRADec = new QLabel( "RA: 00:00:00  Dec: +00:00:00", infoPanel );
@@ -147,6 +161,9 @@ KStars::KStars( KStarsData* kstarsData )
 	FocusObject->setPalette( pal );
 	FocusRADec->setPalette( pal );
 	FocusAltAz->setPalette( pal );
+	FocusObject->setFont( ipFont );
+	FocusRADec->setFont( ipFont );
+	FocusAltAz->setFont( ipFont );
 
 	PlaceName = new QLabel( geo->translatedName() + ",  " + geo->translatedState(), infoPanel );
 	LongLabel = new QLabel( i18n( "Long: " ), infoPanel );
@@ -160,41 +177,41 @@ KStars::KStars( KStarsData* kstarsData )
 	LatLabel->setPalette( pal );
 	Long->setPalette( pal );
 	Lat->setPalette( pal );
+	PlaceName->setFont( ipFont );
+	LongLabel->setFont( ipFont );
+	LatLabel->setFont( ipFont );
+	Long->setFont( ipFont );
+	Lat->setFont( ipFont );
 
 	//create layouts to be added to iplay
-	tlablay = new QVBoxLayout( iplay, 2, "tlablay" );
+	tlablay = new QVBoxLayout( iplay, 1, "tlablay" );
 	iplay->addSpacing( 6 );
-	timelay = new QVBoxLayout( iplay, 2, "timelay" );
-	iplay->addSpacing( 8 );
-	datelay = new QVBoxLayout( iplay, 2, "datelay" );
+	timelay = new QVBoxLayout( iplay, 1, "timelay" );
+	iplay->addSpacing( 4 );
+	datelay = new QVBoxLayout( iplay, 1, "datelay" );
 	iplay->addSpacing( 16 );
-	focuslay = new QVBoxLayout( iplay, 2, "focuslay" );
+	focuslay = new QVBoxLayout( iplay, 1, "focuslay" );
 	iplay->addStretch();
-	geolay = new QVBoxLayout( iplay, 2, "geolay" );
+	geolay = new QVBoxLayout( iplay, 1, "geolay" );
 
 	//Pack widgets into infoPanel
 	tlablay->addWidget( LTLabel );
 	tlablay->addWidget( UTLabel );
 	tlablay->addWidget( STLabel );
-//	tlablay->addItem( new QSpacerItem( 10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding ) );
 
 	timelay->addWidget( LT );
 	timelay->addWidget( UT );
 	timelay->addWidget( ST );
-//	timelay->addItem( new QSpacerItem( 10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding ) );
 
 	datelay->addWidget( LTDate );
 	datelay->addWidget( UTDate );
 	datelay->addWidget( JD );
-//	datelay->addItem( new QSpacerItem( 10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding ) );
 
 	focuslay->addWidget( FocusObject );
 	focuslay->addWidget( FocusRADec );
 	focuslay->addWidget( FocusAltAz );
 
 	geolay->addWidget( PlaceName );
-//	geolay->addLayout( coolay );
-//	geolay->addItem( new QSpacerItem( 10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding ) );
 
 	coolay = new QGridLayout( geolay, 3, 2, 2, "coolay" );
 	coolay->addItem( new QSpacerItem( 10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding ), 0, 0 );
@@ -204,27 +221,20 @@ KStars::KStars( KStarsData* kstarsData )
 	coolay->addWidget( Long, 0, 2 );
 	coolay->addWidget( Lat, 1, 2 );
 
-//	iplay->addLayout( tlablay );
-//	iplay->addSpacing( 6 );
-//	iplay->addLayout( timelay );
-//	iplay->addSpacing( 8 );
-//	iplay->addLayout( datelay );
-//	iplay->addStretch();
-//	iplay->addLayout( geolay );
-
-//	infoPanel->setFixedHeight( infoPanel->height() );
 	infoPanel->setFixedHeight( infoPanel->sizeHint().height() );	// use sizeHint() to get accurate size
 	resize( GetOptions()->windowWidth, GetOptions()->windowHeight );
 
 //Set focus of Skymap.
 //if user was tracking last time, track on same object now.
 	if ( GetOptions()->isTracking ) {
+    //Set default position in case focus object is below horizon
+		focus.setAz( 180.0 );
+		focus.setAlt( 45.0 );
+		focus.AltAzToRADec( skymap->LSTh, geo->lat() );
+
 		if ( (GetOptions()->focusObject== "star" ) ||
 		     (GetOptions()->focusObject== "nothing" ) ) {
 			skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
-			skymap->slotCenter();
-			GetOptions()->isTracking = true;
-			actTrack->setIconSet( BarIcon( "lock" ) );
 		} else {
 			skymap->clickedObject = getObjectNamed( GetOptions()->focusObject );
 			if ( skymap->clickedObject ) {
@@ -232,14 +242,17 @@ KStars::KStars( KStarsData* kstarsData )
 			} else {
 				skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
 			}
-			skymap->slotCenter();
 		}
 	} else {
-		skymap->focus.setRA( GetOptions()->focusRA );
-		skymap->focus.setDec( GetOptions()->focusDec );
-		skymap->focus.RADecToAltAz( skymap->LSTh, geo->lat() );
+		skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
+//		skymap->focus.setRA( GetOptions()->focusRA );
+//		skymap->focus.setDec( GetOptions()->focusDec );
+//		skymap->focus.RADecToAltAz( skymap->LSTh, geo->lat() );
 	}
 
+	skymap->slotCenter();
+
+/*** this warning is now issued in SkyMap::slotCenter()
 //If the focus is below the horizon, we might want to issue a warning message
 	if ( GetOptions()->drawGround && skymap->focus.getAlt().getD() < 0.0 ) {
 		QString caption = i18n( "KStars pointing below horizon!" );
@@ -252,6 +265,7 @@ KStars::KStars( KStarsData* kstarsData )
 			actTrack->setIconSet( BarIcon( "unlock" ) );
 		}
 	}
+*/
 
 	skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
 	skymap->oldfocus.set( skymap->focus.getRA(), skymap->focus.getDec() );
@@ -289,6 +303,8 @@ KStars::~KStars()
 	kapp->config()->writeEntry( "ShowCLines", GetOptions()->drawConstellLines );
 	kapp->config()->writeEntry( "ShowCNames", GetOptions()->drawConstellNames );
 	kapp->config()->writeEntry( "UseLatinConstellationNames", GetOptions()->useLatinConstellNames );
+	kapp->config()->writeEntry( "UseLocalConstellationNames", GetOptions()->useLocalConstellNames );
+	kapp->config()->writeEntry( "UseAbbrevConstellationNames", GetOptions()->useAbbrevConstellNames );
 	kapp->config()->writeEntry( "ShowMilkyWay", GetOptions()->drawMilkyWay );
 	kapp->config()->writeEntry( "ShowGrid", GetOptions()->drawGrid );
 	kapp->config()->writeEntry( "ShowEquator", GetOptions()->drawEquator );
@@ -412,7 +428,12 @@ void KStars::initMenuBar() {
 	actViewOps->plug( p );
 	menuBar()->insertItem( i18n( "&View" ), p );
 
-	menuBar()->insertItem( i18n( "&Help" ), helpMenu() );
+	p = helpMenu( false );
+	actInfo = new KAction( i18n( "&AstroInfo..." ), BarIcon( "help" ), 0, this, SLOT( mAstroInfo() ), actionCollection() );
+	actInfo->setAccel( KAccel::stringToKey( "Ctrl+A"  ) );
+	actInfo->plug( p );
+
+	menuBar()->insertItem( i18n( "&Help" ), p );
 
 }
 
@@ -494,6 +515,8 @@ void KStars::initOptions()
 	GetOptions()->drawConstellLines = kapp->config()->readBoolEntry( "ShowCLines", true );
 	GetOptions()->drawConstellNames = kapp->config()->readBoolEntry( "ShowCNames", true );
 	GetOptions()->useLatinConstellNames = kapp->config()->readBoolEntry( "UseLatinConstellationNames", true );
+	GetOptions()->useLocalConstellNames = kapp->config()->readBoolEntry( "UseLocalConstellationNames", false );
+	GetOptions()->useAbbrevConstellNames = kapp->config()->readBoolEntry( "UseAbbrevConstellationNames", false );
 	GetOptions()->drawMilkyWay = kapp->config()->readBoolEntry( "ShowMilkyWay", true );
 	GetOptions()->drawGrid = kapp->config()->readBoolEntry( "ShowGrid", true );
 	GetOptions()->drawEquator = kapp->config()->readBoolEntry( "ShowEquator", true );
@@ -740,18 +763,9 @@ void KStars::mZoomOut() {
 void KStars::mFind() {
 	FindDialog finddialog (this);
 	if ( finddialog.exec() == QDialog::Accepted && finddialog.currentItem() ) {
-		skymap->foundObject = finddialog.currentItem()->objName()->skyObject();
-		skymap->focus.setRA  ( skymap->foundObject->getRA() );
-		skymap->focus.setDec( skymap->foundObject->getDec() );
-		skymap->HourAngle.setH ( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
-		skymap->focus.RADecToAltAz( skymap->LSTh.getD(), geo->lat() );
-
-		//track on found object
-		GetOptions()->isTracking = true;
-		actTrack->setIconSet( BarIcon( "lock" ) );
-		skymap->showFocusCoords();
-
-		skymap->Update();
+		skymap->clickedObject = finddialog.currentItem()->objName()->skyObject();
+		skymap->clickedPoint.set( skymap->clickedObject->getRA(), skymap->clickedObject->getDec() );
+		skymap->slotCenter();
 	}
 }
 
@@ -774,6 +788,17 @@ void KStars::mViewOps() {
 	if ( viewopsdialog.exec() != QDialog::Accepted ) {
 		// cancelled
 		GetData()->restoreOptions();
+	}
+}
+
+void KStars::mAstroInfo() {
+	QFile file;
+	if ( KStarsData::openDataFile( file, "astroinfo.html" ) ) {
+		file.close();
+		kapp->invokeBrowser( file.name() );
+	} else {
+		QString message = "I could not find the AstroInfo table of contents (astroinfo.html).";
+		KMessageBox::sorry( 0, message, i18n( "Could not launch AstroInfo" ) );
 	}
 }
 

@@ -83,13 +83,33 @@ void SkyMap::initPopupMenu( void ) {
 	pmenu->clear();
 	pmTitle = new QLabel( i18n( "nothing" ), pmenu );
 	pmTitle->setAlignment( AlignCenter );
+	QPalette pal( pmTitle->palette() );
+	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "White" ) );
+	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "Black" ) );
+	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "Black" ) );
+	pmTitle->setPalette( pal );
 	pmTitle2 = new QLabel( QString::null, pmenu );
 	pmTitle2->setAlignment( AlignCenter );
+	pmTitle2->setPalette( pal );
 	pmType = new QLabel( i18n( "no type" ), pmenu );
 	pmType->setAlignment( AlignCenter );
+	pmType->setPalette( pal );
 	pmenu->insertItem( pmTitle );
 	pmenu->insertItem( pmTitle2 );
 	pmenu->insertItem( pmType );
+	pmRiseTime = new QLabel( i18n( "Rise Time: 00:00" ), pmenu );
+	pmRiseTime->setAlignment( AlignCenter );
+	pmRiseTime->setPalette( pal );
+	QFont rsFont = pmRiseTime->font();
+	rsFont.setPointSize( rsFont.pointSize() - 2 );
+	pmRiseTime->setFont( rsFont );
+	pmSetTime = new QLabel( i18n( "Set Time: 00:00" ), pmenu );
+	pmSetTime->setAlignment( AlignCenter );
+	pmSetTime->setPalette( pal );
+	pmSetTime->setFont( rsFont );
+	pmenu->insertSeparator();
+	pmenu->insertItem( pmRiseTime );
+	pmenu->insertItem( pmSetTime );
 	pmenu->insertSeparator();
 	pmenu->insertItem( i18n( "Center and track" ), this, SLOT( slotCenter() ) );
 	pmenu->insertSeparator();
@@ -106,6 +126,18 @@ void SkyMap::setGeometry( const QRect &r ) {
 }
 
 void SkyMap::slotCenter( void ) {
+//If the requested object is below the opaque horizon, issue a warning message
+	clickedPoint.RADecToAltAz( LSTh, ksw->geo->lat() );
+	if ( ksw->GetOptions()->drawGround && clickedPoint.getAlt().getD() < 0.0 ) {
+		QString caption = i18n( "KStars pointing below horizon!" );
+		QString message = i18n( "Warning: the requested position is below the Horizon.\nWould you like me to point there anyway?" );
+		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
+			clickedObject = NULL;
+			foundObject = NULL;
+			return;
+		}
+	}
+
 	//update the focus to the selected coordinates
 	focus.set( clickedPoint.getRA(), clickedPoint.getDec() );
 	focus.RADecToAltAz( LSTh, ksw->geo->lat() );
@@ -277,6 +309,92 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Underscore:
 			ksw->mZoomOut();
 			break;
+
+		case Key_N: //center on north horizon
+			focus.setAlt( 15.0 ); focus.setAz( 0.0 );
+			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			break;
+
+		case Key_E: //center on east horizon
+			focus.setAlt( 15.0 ); focus.setAz( 90.0 );
+			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			break;
+
+		case Key_S: //center on south horizon
+			focus.setAlt( 15.0 ); focus.setAz( 180.0 );
+			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			break;
+
+		case Key_W: //center on west horizon
+			focus.setAlt( 15.0 ); focus.setAz( 270.0 );
+			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			break;
+
+		case Key_Z: //center on Zenith
+			focus.setAlt( 90.0 ); focus.setAz( 180.0 );
+			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			break;
+
+		case Key_0: //center on Sun
+			clickedObject = ksw->GetData()->Sun;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_1: //center on Mercury
+			clickedObject = ksw->GetData()->Mercury;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_2: //center on Venus
+			clickedObject = ksw->GetData()->Venus;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_3: //center on Moon
+			clickedObject = ksw->GetData()->Moon;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_4: //center on Mars
+			clickedObject = ksw->GetData()->Mars;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_5: //center on Jupiter
+			clickedObject = ksw->GetData()->Jupiter;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_6: //center on Saturn
+			clickedObject = ksw->GetData()->Saturn;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_7: //center on Uranus
+			clickedObject = ksw->GetData()->Uranus;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_8: //center on Neptune
+			clickedObject = ksw->GetData()->Neptune;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
+		case Key_9: //center on Pluto
+			clickedObject = ksw->GetData()->Pluto;
+      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			slotCenter();
+			break;
+
 	}
 
 	oldfocus.set( focus.getRA(), focus.getDec() );
@@ -649,6 +767,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							pmTitle2->setText( QString::null );
 							pmType->setText( i18n( "Solar System" ) );
 
+							setRiseSetLabels();
+
 //					Add custom items to popup menu based on object's ImageList and InfoList
               itList  = clickedObject->ImageList.begin();
               itTitle = clickedObject->ImageTitle.begin();
@@ -699,6 +819,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmType->setText( QString::null );
 							}
 
+							setRiseSetLabels();
+
 							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
 							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 
@@ -730,6 +852,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmTitle2->setText( i18n( clickedObject->name2.latin1() ) );
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
+
+							setRiseSetLabels();
 
 //					Add custom items to popup menu based on object's ImageList and InfoList
               itList  = clickedObject->ImageList.begin();
@@ -784,6 +908,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
 
+							setRiseSetLabels();
+
 //					Add custom items to popup menu based on object's ImageList and InfoList
               itList  = clickedObject->ImageList.begin();
               itTitle = clickedObject->ImageTitle.begin();
@@ -836,6 +962,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmTitle2->setText( i18n( clickedObject->name2.latin1() ) );
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
+
+							setRiseSetLabels();
 
 //					Add custom items to popup menu based on object's ImageList and InfoList
               itList  = clickedObject->ImageList.begin();
@@ -1177,12 +1305,17 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		for ( unsigned int i=0; i < ksw->GetData()->cnameList.count(); ++i ) {
 			if ( checkVisibility( ksw->GetData()->cnameList.at(i)->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				QPoint o = getXY( ksw->GetData()->cnameList.at(i)->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-				int dx = 5*ksw->GetData()->cnameList.at(i)->name.length();
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-					if ( ksw->GetOptions()->useLatinConstellNames )
+					if ( ksw->GetOptions()->useLatinConstellNames ) {
+						int dx = 5*ksw->GetData()->cnameList.at(i)->name.length();
 						psky.drawText( o.x()-dx, o.y(), ksw->GetData()->cnameList.at(i)->name );	// latin constellation names
-					else
+					} else if ( ksw->GetOptions()->useLocalConstellNames ) {
+						int dx = 5*ksw->GetData()->cnameList.at(i)->translatedName().length();
 						psky.drawText( o.x()-dx, o.y(), ksw->GetData()->cnameList.at(i)->translatedName() ); // localized constellation names
+					} else {
+						int dx = 5*ksw->GetData()->cnameList.at(i)->name2.length();
+						psky.drawText( o.x()-dx, o.y(), ksw->GetData()->cnameList.at(i)->name2 );
+					}
 				}
 			}
 		}
@@ -2077,4 +2210,36 @@ void SkyMap::addLink( void ) {
 		}
 	}
 }
+
+void SkyMap::setRiseSetLabels( void ) {
+	QTime rtime = clickedObject->riseTime( ksw->GetData()->CurrentDate, ksw->geo );
+	QString rt, rt2;
+	if ( rtime.isValid() ) {
+		int min = rtime.minute();
+		if ( rtime.second() >=30 ) ++min;
+		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
+		rt = i18n( "Rise Time: " ) + rt2;
+	} else if ( clickedObject->getAlt().getD() > 0 ) {
+		rt = i18n( "No Rise Time: Circumpolar" );
+	} else {
+		rt = i18n( "No Rise Time: Never rises" );
+	}
+
+	QTime stime = clickedObject->setTime( ksw->GetData()->CurrentDate, ksw->geo );
+	QString st, st2;
+	if ( stime.isValid() ) {
+		int min = stime.minute();
+		if ( stime.second() >=30 ) ++min;
+		st2.sprintf( "%02d:%02d", stime.hour(), min );
+		st = i18n( "Set Time: " ) + st2;
+	} else if ( clickedObject->getAlt().getD() > 0 ) {
+		st = i18n( "No Set Time: Circumpolar" );
+	} else {
+		st = i18n( "No Set Time: Never rises" );
+	}
+
+	pmRiseTime->setText( rt );
+	pmSetTime->setText( st );
+}
+
 #include "skymap.moc"

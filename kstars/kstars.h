@@ -81,7 +81,7 @@ class KStars : public KMainWindow
     QString CurrentPosition;
 		GeoLocation *geo;
 		
-		KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack;
+		KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo;
 		KAction *actTimeSet, *actTimeNow, *actTimeRun, *actLocation, *actViewOps;
 
 		void initMenuBar();
@@ -115,6 +115,7 @@ class KStars : public KMainWindow
 		void mGeoLocator();
 		void mReverseVideo();
 		void mViewOps();
+		void mAstroInfo();
 		void initStars();
 
 	private:

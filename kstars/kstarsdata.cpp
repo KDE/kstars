@@ -173,13 +173,13 @@ bool KStarsData::readCLineData( void ) {
 bool KStarsData::readCNameData( void ) {
   QFile file;
 	cnameFile = "cnames.dat";
-	if ( locale->language()=="fr" ) cnameFile = "fr_cnames.dat";
+//	if ( locale->language()=="fr" ) cnameFile = "fr_cnames.dat";
 
 	if ( openDataFile( file, cnameFile ) ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
-	  	QString line, name;
+	  	QString line, name, abbrev, starname;
 		  int rah, ram, ras, dd, dm, ds;
 		  QChar sgn;
 
@@ -194,17 +194,19 @@ bool KStarsData::readCNameData( void ) {
 	  	dm = line.mid( 9, 2 ).toInt();
 		  ds = line.mid( 11, 2 ).toInt();
 
-		  name  = line.mid( 13 ).stripWhiteSpace();
-	
+			abbrev = line.mid( 13, 3 );
+		  name  = line.mid( 17, line.find(':')-18 ).stripWhiteSpace();
+	    starname = line.mid( line.find(':')+1).stripWhiteSpace();
+
 		  dms r; r.setH( rah, ram, ras );
 		  dms d( dd, dm,  ds );
 
 	  	if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
 
-		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name );
+		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name, abbrev, starname );
 	  	cnameList.append( o );
 			objList->append( o );
-	  		ObjNames->append (new SkyObjectName (o->name, objList->last()));
+	  	ObjNames->append (new SkyObjectName (o->name, objList->last()));
 	  }
 		file.close();
 
@@ -410,34 +412,34 @@ bool KStarsData::readCityData( void ) {
 	if ( openDataFile( file, "Cities.dat" ) ) {
 		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-	  	QString line, name, state;
+  		while ( !stream.eof() ) {
+			QString line, name, state;
 			char latsgn, lngsgn;
 			int lngD, lngM, lngS;
-	  	int latD, latM, latS;
+	  		int latD, latM, latS;
 			int TZ;
-		  float lng, lat;
+			float lng, lat;
 
-		 	line = stream.readLine();
+			line = stream.readLine();
 
-		  name  = line.left( 32 );
-	  	state = line.mid( 31, 17 );
-		 	latD = line.mid( 49, 2 ).toInt();
-		  latM = line.mid( 52, 2 ).toInt();
-	  	latS = line.mid( 55, 2 ).toInt();
-		 	latsgn = line.at( 58 ).latin1();
-		  lngD = line.mid( 60, 3 ).toInt();
-	  	lngM = line.mid( 64, 2 ).toInt();
-		 	lngS = line.mid( 67, 2 ).toInt();
-		  lngsgn = line.at( 70 ).latin1();
+			name  = line.left( 32 );
+	  		state = line.mid( 31, 17 );
+			latD = line.mid( 49, 2 ).toInt();
+			latM = line.mid( 52, 2 ).toInt();
+	  		latS = line.mid( 55, 2 ).toInt();
+			latsgn = line.at( 58 ).latin1();
+			lngD = line.mid( 60, 3 ).toInt();
+	  		lngM = line.mid( 64, 2 ).toInt();
+			lngS = line.mid( 67, 2 ).toInt();
+			lngsgn = line.at( 70 ).latin1();
 
-	  	lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
+	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
 			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
   	
-		 	if ( latsgn == 'S' ) lat *= -1.0;
+			if ( latsgn == 'S' ) lat *= -1.0;
 			if ( lngsgn == 'W' ) lng *= -1.0;
   	
-		  TZ = int(lng/-15.0);
+			TZ = int(lng/-15.0);
 
 //Strip off white space, and capitalize words properly
 			name = name.stripWhiteSpace();
@@ -456,45 +458,45 @@ bool KStarsData::readCityData( void ) {
 				}
 			}
 
-			geoList.append (new GeoLocation( lng, lat, name, state, TZ ));
+			geoList.append ( new GeoLocation( lng, lat, name, state, TZ ));		// appends city names to list
 			if ( !citiesFound ) citiesFound = true; //found at least one city
-   	}
+		}	// while ( !stream.eof() )
 		file.close();
-	}
+	}	// if ( openDataFile() )
 
 	//check for local cities database, but don't require it.
 	file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.open( IO_ReadOnly ) ) {
 		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-	  	QString line, name, state;
+  		while ( !stream.eof() ) {
+	  		QString line, name, state;
 			char latsgn, lngsgn;
 			int lngD, lngM, lngS;
-	  	int latD, latM, latS;
+	  		int latD, latM, latS;
 			int TZ;
-		  float lng, lat;
+			float lng, lat;
 
-		 	line = stream.readLine();
+			line = stream.readLine();
 
-		  name  = line.left( 32 );
-	  	state = line.mid( 31, 17 );
-		 	latD = line.mid( 49, 2 ).toInt();
-		  latM = line.mid( 52, 2 ).toInt();
-	  	latS = line.mid( 55, 2 ).toInt();
-		 	latsgn = line.at( 58 ).latin1();
-		  lngD = line.mid( 60, 3 ).toInt();
-	  	lngM = line.mid( 64, 2 ).toInt();
-		 	lngS = line.mid( 67, 2 ).toInt();
-		  lngsgn = line.at( 70 ).latin1();
+			name  = line.left( 32 );
+	  		state = line.mid( 31, 17 );
+			latD = line.mid( 49, 2 ).toInt();
+			latM = line.mid( 52, 2 ).toInt();
+	  		latS = line.mid( 55, 2 ).toInt();
+			latsgn = line.at( 58 ).latin1();
+			lngD = line.mid( 60, 3 ).toInt();
+	  		lngM = line.mid( 64, 2 ).toInt();
+			lngS = line.mid( 67, 2 ).toInt();
+			lngsgn = line.at( 70 ).latin1();
 
-	  	lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
+	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
 			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
   	
-		 	if ( latsgn == 'S' ) lat *= -1.0;
+			if ( latsgn == 'S' ) lat *= -1.0;
 			if ( lngsgn == 'W' ) lng *= -1.0;
   	
-		  TZ = int(lng/-15.0);
+		 	TZ = int(lng/-15.0);
 
 //Strip off white space, and capitalize words properly
 			name = name.stripWhiteSpace();
@@ -512,7 +514,6 @@ bool KStarsData::readCityData( void ) {
 					if ( state.at(i) == ' ' ) state.replace( i+1, 1, state.at(i+1).upper() );
 				}
 			}
-
 			//insert the custom city alphabetically into geoList
 			for ( unsigned int i=0; i < geoList.count(); ++i ) {
 				if ( geoList.at(i)->name().lower() > name.lower() ) {
@@ -520,13 +521,12 @@ bool KStarsData::readCityData( void ) {
 					geoList.insert( i, new GeoLocation( lng, lat, name, state, TZ ) );
 					break;
 				}
-      }
+			}
 
-			geoList.append (new GeoLocation( lng, lat, name, state, TZ ));
 			if ( !citiesFound ) citiesFound = true; //found at least one city
-   	}
+		}	// while ( !stream.eof() )
 		file.close();
-  }
+	}	// if ( fileopen() )
 
 	if ( citiesFound ) {
 		return true;

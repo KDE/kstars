@@ -53,6 +53,8 @@ public:
 	bool drawConstellLines;
 	bool drawConstellNames;
 	bool useLatinConstellNames;
+	bool useLocalConstellNames;
+	bool useAbbrevConstellNames;
 	bool drawMilkyWay;
 	bool fillMilkyWay;
 	bool drawGrid;

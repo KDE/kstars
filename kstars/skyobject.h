@@ -20,9 +20,11 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qdatetime.h>
 #include <klocale.h>
 #include "skypoint.h"
 #include "dms.h"
+#include "geolocation.h"
 
 /**
 	*Provides all necessary information about an object in the sky:
@@ -100,6 +102,16 @@ public:
 	*Return translated name
 	*/
 	QString translatedName() { return i18n(name.utf8().data());}
+/**
+  *Return the local time that the object will rise
+  *@param jd  current Julian date
+  *@param geo current geographic location
+  */
+	QTime riseTime( long double jd, GeoLocation *geo );
+/**
+  *Return the local time that the object will set
+  */
+	QTime setTime( long double jd, GeoLocation *geo );
 
   int type;
   float mag;

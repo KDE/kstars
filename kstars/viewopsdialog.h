@@ -86,7 +86,10 @@ private:
 		
 	QCheckBox *showConstellLines;
 	QCheckBox *showConstellNames;
-	QCheckBox *useLatinConstellNames;
+	QButtonGroup *ConstellOptions;
+	QRadioButton *useLatinConstellNames;
+	QRadioButton *useLocalConstellNames;
+	QRadioButton *useAbbrevConstellNames;
 	QCheckBox *showMilkyWay;
 	QCheckBox *showMilkyWayFilled;
 	QCheckBox *showGrid;

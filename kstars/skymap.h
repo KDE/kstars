@@ -203,22 +203,27 @@ private:
 	*Determine if the skypoint p might be visible in the current display window
 	*/
 	bool checkVisibility( SkyPoint *p, float fov, bool useAltAz, bool isPoleVisible );
-/*
+/**
 	*Sets the shape of the default mouse cursor to a cross.
 	*/
 	void setDefaultMouseCursor();
-/*
+/**
 	*Check the correctness of the current point on screen. This is needed to avoid a crash
 	*of the program if a doubleclick or mousemove in empty space is happend. Empty space
 	*is the space out of sky area.
 	*/
 	bool unusablePoint (double dx, double dy);
+/**
+	*Set the text of the Rise time and Set time labels in the popup menu
+	*/
+	void setRiseSetLabels( void );
 
 	KStars *ksw;
 	QString sURL;
 	QPopupMenu *pmenu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
 	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2;
 	QLabel *pmMessType, *pmNGCType, *pmTitle, *pmTitle2, *pmType;
+	QLabel *pmRiseTime, *pmSetTime;
 	bool mouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
 	

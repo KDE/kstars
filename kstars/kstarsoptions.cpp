@@ -27,6 +27,8 @@ KStarsOptions::KStarsOptions()
 	, drawConstellLines( true )
 	, drawConstellNames( true )
 	, useLatinConstellNames ( true )
+	, useLocalConstellNames ( false )
+	, useAbbrevConstellNames ( false )
 	, drawMilkyWay( true )
 	, fillMilkyWay( true )
 	, drawGrid( true )
@@ -97,6 +99,9 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	drawIC       = dataSource->drawIC;
 	drawConstellLines = dataSource->drawConstellLines;
 	drawConstellNames = dataSource->drawConstellNames;
+	useLatinConstellNames = dataSource->useLatinConstellNames;
+	useLocalConstellNames = dataSource->useLocalConstellNames;
+	useAbbrevConstellNames = dataSource->useAbbrevConstellNames;
 	drawMilkyWay  = dataSource->drawMilkyWay;
 	fillMilkyWay  = dataSource->fillMilkyWay;
 	drawGrid     = dataSource->drawEquator;

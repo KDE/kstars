@@ -27,7 +27,6 @@
 #include <qwidget.h>
 #include <qgroupbox.h>
 #include <qbuttongroup.h>
-#include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qframe.h>
@@ -180,10 +179,17 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showConstellNames = new QCheckBox( i18n( "Constellation Names" ), GuideTab );
 	showConstellNames->setFont( stdFont );
 	showConstellNames->setChecked( ksw->GetOptions()->drawConstellNames );
-
-	useLatinConstellNames = new QCheckBox( i18n( "Use Latin Constellation Names" ), GuideTab );
+	ConstellOptions = new QButtonGroup( 1, Qt::Horizontal, i18n( "Constellation Name Options" ), GuideTab );
+	useLatinConstellNames = new QRadioButton( i18n( "Latin" ), ConstellOptions );
 	useLatinConstellNames->setFont ( stdFont );
 	useLatinConstellNames->setChecked( ksw->GetOptions()->useLatinConstellNames );
+  useLocalConstellNames = new QRadioButton( i18n( "Localized" ), ConstellOptions );
+	useLocalConstellNames->setFont ( stdFont );
+	useLocalConstellNames->setChecked( ksw->GetOptions()->useLocalConstellNames );
+  useAbbrevConstellNames = new QRadioButton( i18n( "Abbreviated" ), ConstellOptions );
+	useAbbrevConstellNames->setFont ( stdFont );
+	useAbbrevConstellNames->setChecked( ksw->GetOptions()->useAbbrevConstellNames );
+	ConstellOptions->setEnabled( showConstellNames->isChecked() );	
 
 	showMilkyWay = new QCheckBox( i18n( "Milky Way" ), GuideTab );
 	showMilkyWay->setFont( stdFont );
@@ -221,7 +227,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	vlayGuideTab->addWidget( showConstellLines );
 	vlayGuideTab->addWidget( showConstellNames );
-	vlayGuideTab->addWidget( useLatinConstellNames );
+	vlayGuideTab->addWidget( ConstellOptions );
 	vlayGuideTab->addItem( smallspacer );
 	vlayGuideTab->addWidget( showMilkyWay );
 	vlayGuideTab->addWidget( showMilkyWayFilled );
@@ -473,6 +479,8 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( showConstellLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( useLatinConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( useLocalConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( useAbbrevConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showMilkyWay, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showMilkyWayFilled, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showGrid, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -844,6 +852,9 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->GetOptions()->drawConstellLines = showConstellLines->isChecked();
 	ksw->GetOptions()->drawConstellNames = showConstellNames->isChecked();
 	ksw->GetOptions()->useLatinConstellNames = useLatinConstellNames->isChecked();
+	ksw->GetOptions()->useLocalConstellNames = useLocalConstellNames->isChecked();
+	ksw->GetOptions()->useAbbrevConstellNames = useAbbrevConstellNames->isChecked();
+	ConstellOptions->setEnabled( showConstellNames->isChecked() );	
 	ksw->GetOptions()->drawMilkyWay = showMilkyWay->isChecked();
 	ksw->GetOptions()->fillMilkyWay = showMilkyWayFilled->isChecked();
 	showMilkyWayFilled->setEnabled( showMilkyWay->isChecked() );
