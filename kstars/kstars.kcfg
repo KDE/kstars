@@ -6,96 +6,96 @@
 	<group name="GUI">
 		<entry name="PositionTimeBox" type="Point">
 			<label>Position of the time InfoBox.</label>
-			<default code="true">QPoint(0,0)</default>
 			<whatsthis>The screen coordinates of the Time InfoBox.</whatsthis>
+			<default code="true">QPoint(0,0)</default>
 		</entry>
 		<entry name="PositionFocusBox" type="Point">
 			<label>Position of the focus InfoBox.</label>
-			<default code="true">QPoint(600,0)</default>
 			<whatsthis>The screen coordinates of the Focus InfoBox.</whatsthis>
+			<default code="true">QPoint(600,0)</default>
 		</entry>
 		<entry name="PositionGeoBox" type="Point">
 			<label>Position of the geographic InfoBox.</label>
-			<default code="true">QPoint(0,600)</default>
 			<whatsthis>The screen coordinates of the Geographic Location InfoBox.</whatsthis>
+			<default code="true">QPoint(0,600)</default>
 		</entry>
 		<entry name="ShadeTimeBox" type="Bool">
 			<label>Is the time InfoBox in the "shaded" state?</label>
-			<default>true</default>
 			<whatsthis>If true, the Time InfoBox will show only its top line of data.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShadeFocusBox" type="Bool">
 			<label>Is the focus InfoBox in the "shaded" state?</label>
-			<default>true</default>
 			<whatsthis>If true, the Focus InfoBox will show only its top line of data.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShadeGeoBox" type="Bool">
 			<label>Is the geographic InfoBox in the "shaded" state?</label>
-			<default>true</default>
 			<whatsthis>If true, the Geographic Location InfoBox will show only its top line of data.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowInfoBoxes" type="Bool">
 			<label>Meta-option to toggle display of all InfoBoxes</label>
-			<default>true</default>
 			<whatsthis>Toggles display of all three InfoBoxes.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowTimeBox" type="Bool">
 			<label>Display the time InfoBox?</label>
-			<default>true</default>
 			<whatsthis>Toggles display of the Time InfoBox.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowFocusBox" type="Bool">
 			<label>Display the focus InfoBox?</label>
-			<default>true</default>
 			<whatsthis>Toggles display of the Focus InfoBox.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowGeoBox" type="Bool">
 			<label>Display the geographic InfoBox?</label>
-			<default>true</default>
 			<whatsthis>Toggles display of the Geographic Location InfoBox.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="StickyTimeBox" type="Int">
 			<label>Time InfoBox anchor flag</label>
+			<whatsthis>Is the Time InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 			<default>0</default>
 			<min>0</min><max>3</max>
-			<whatsthis>Is the Time InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 		</entry>
 		<entry name="StickyFocusBox" type="Int">
 			<label>Time InfoBox anchor flag</label>
+			<whatsthis>Is the Focus InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 			<default>1</default>
 			<min>0</min><max>3</max>
-			<whatsthis>Is the Focus InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 		</entry>
 		<entry name="StickyGeoBox" type="Int">
 			<label>Geographic InfoBox anchor flag</label>
+			<whatsthis>Is the Geographic Location InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 			<default>2</default>
 			<min>0</min><max>3</max>
-			<whatsthis>Is the Geographic Location InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
 		</entry>
 		<entry name="ShowStatusBar" type="Bool">
 			<label>Display the statusbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of the status bar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowAltAzField" type="Bool">
 			<label>Display Alt/Az coordinates in the statusbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of the Horizontal coordinates of the mouse cursor in the status bar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowRADecField" type="Bool">
 			<label>Display RA/Dec coordinates in the statusbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor in the status bar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMainToolBar" type="Bool">
 			<label>Display main toolbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of the main toolbar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowViewToolBar" type="Bool">
 			<label>Display view toolbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of the "view" toolbar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="WindowWidth" type="UInt">
 			<label>Width of main window, in pixels</label>
@@ -114,8 +114,8 @@
 	<group name="Catalogs">
 		<entry name="CatalogCount" type="UInt">
 			<label>Number of defined custom object catalogs.</label>
-			<default>0</default>
 			<whatsthis>The number of defined custom object catalogs.</whatsthis>
+			<default>0</default>
 		</entry>
 		<entry name="CatalogName" type="StringList">
 			<label>Names of defined custom object catalogs.</label>
@@ -139,63 +139,61 @@
 		</entry>
 		<entry name="indiAutoTime" type="Bool">
 			<label>Automatically set telescope's time and date?</label>
-			<default>true</default>
 			<whatsthis>If true, INDI will automatically synch the telescope's clock to the current KStars time.</whatsthis> 
 			<default>true</default>
 		</entry>
 		<entry name="indiCrosshairs" type="Bool">
 			<label>Draw crosshairs at telescope position in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis> 
 			<default>true</default>
 		</entry>
 		<entry name="indiMessages" type="Bool">
 			<label>Display INDI messages in the statusbar?</label>
-			<default>true</default>
 			<whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="indiTelescopePort" type="String">
 			<label>INDI Telescope port</label>
-			<default>/dev/ttyS0</default>
 			<whatsthis>The port to which the telescope is attached (e.g., /dev/ttyS0)</whatsthis>
+			<default>/dev/ttyS0</default>
 		</entry>
 		<entry name="indiVideoPort" type="String">
 			<label>INDI Video port</label>
-			<default>/dev/video0</default>
 			<whatsthis>The port to which the video device is connected</whatsthis>
+			<default>/dev/video0</default>
 		</entry>
 		<entry name="fitsSaveDirectory" type="String">
 			<label>FITS Default directory</label>
-			<default></default>
 			<whatsthis>The default location of saved FITS files</whatsthis>
+			<default></default>
 		</entry>
 	</group>
 
 	<group name="Location">
 		<entry name="CityName" type="String">
 			<label>City name of geographic location.</label>
-			<default>Greenwich</default>
 			<whatsthis>The City name of the current geographic location.</whatsthis>
+			<default>Greenwich</default>
 		</entry>
 		<entry name="ProvinceName" type="String">
 			<label>Province name of geographic location.</label>
-			<default> </default>
 			<whatsthis>The Province name of the current geographic location.  This is the name of the state for locations in the U. S.</whatsthis>
+			<default> </default>
 		</entry>
 		<entry name="CountryName" type="String">
 			<label>Country name of geographic location.</label>
-			<default>United Kingdom</default>
 			<whatsthis>The Country name of the current geographic location.</whatsthis>
+			<default>United Kingdom</default>
 		</entry>
 		<entry name="Longitude" type="Double">
 			<label>Geographic Longitude, in degrees.</label>
-			<default>0.0</default>
 			<whatsthis>The longitude of the current geographic location, in decimal degrees.</whatsthis>
+			<default>0.0</default>
 		</entry>
 		<entry name="Latitude" type="Double">
 			<label>Geographic Latitude, in degrees.</label>
-			<default>51.468</default>
 			<whatsthis>The latitude of the current geographic location, in decimal degrees.</whatsthis>
+			<default>51.468</default>
 		</entry>
 		<entry name="Elevation" type="Double">
 			<label>Elevation above sea level of geographic location, in meters.</label>
@@ -207,147 +205,147 @@
 		</entry>
 		<entry name="DST" type="String">
 			<label>Two-letter code for daylight savings time rule used by geographic location.</label>
-			<default>--</default>
 			<whatsthis>Two-letter code that determines the dates on which daylight savings time begins and ends (you can view the rules by pressing the "Explain DST Rules" button in the Geographic Location window).</whatsthis>
+			<default>--</default>
 		</entry>
 	</group>
 
 	<group name="View">
 		<entry name="UseAnimatedSlewing" type="Bool">
 			<label>Use animated slewing effects when changing focus position?</label>
-			<default>true</default>
 			<whatsthis>If true, focus changes will cause the sky to visibly spin to the new position.  Otherwise, the display will "snap" instantly to the new position.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="FOVName" type="String">
 			<label>Name of selected FOV indicator</label>
-			<default>No FOV</default>
 			<whatsthis>The name of the currently-selected field-of-view indicator.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
+			<default>No FOV</default>
 		</entry>
 		<entry name="FOVShape" type="UInt">
 			<label>Shape of selected FOV</label>
+			<whatsthis>Integer indicating the selected FOV symbol shape.  Possible values are: 0=Square; 1=Circle; 2=Crosshairs; 3=Bullseye.</whatsthis>
 			<default>0</default>
 			<min>0</min><max>3</max>
-			<whatsthis>Integer indicating the selected FOV symbol shape.  Possible values are: 0=Square; 1=Circle; 2=Crosshairs; 3=Bullseye.</whatsthis>
 		</entry>
 		<entry name="FOVSize" type="Double">
 			<label>Angular size of selected FOV indicator, in arcmin</label>
-			<default>0.0</default>
 			<whatsthis>The angular size for the FOV symbol, in arcminutes.</whatsthis>
+			<default>0.0</default>
 		</entry>
 		<entry name="FadePlanetTrails" type="Bool">
 			<label>Fade planet trails to background color?</label>
-			<default>true</default>
 			<whatsthis>If true, trails attached to solar system bodies will fade into the background sky color.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="FocusRA" type="Double">
 			<label>Right Ascension of focus position</label>
-			<default>180.0</default>
 			<whatsthis>The right ascension of the initial focus position of the sky map, in decimal hours.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+			<default>180.0</default>
 		</entry>
 		<entry name="FocusDec" type="Double">
 			<label>Declination of focus position</label>
-			<default>45.0</default>
 			<whatsthis>The declination of the initial focus position of the sky map, in decimal degrees.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+			<default>45.0</default>
 		</entry>
 		<entry name="FocusObject" type="String">
 			<label>Name of focused object</label>
-			<default>nothing</default>
 			<whatsthis>The name of the object that should be centered and tracked on startup.  If no object should be centered, set to "nothing".  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+			<default>nothing</default>
 		</entry>
 		<entry name="IsTracking" type="Bool">
 			<label>Is tracking engaged?</label>
-			<default>false</default>
 			<whatsthis>True if the skymap should track on its initial position on startup.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="HideOnSlew" type="Bool">
 			<label>Hide objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether KStars should hide some objects while the display is moving, for smoother motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideCBounds" type="Bool">
 			<label>Hide constellation boundaries while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether constellation boundaries are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideCLines" type="Bool">
 			<label>Hide constellation lines while moving?</label>
-			<default>false</default>
 			<whatsthis>Toggle whether constellation lines are hidden while the display is in motion.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="HideCNames" type="Bool">
 			<label>Hide constellation names while moving?</label>
-			<default>false</default>
 			<whatsthis>Toggle whether constellation names are hidden while the display is in motion.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="HideGrid" type="Bool">
 			<label>Hide coordinate grid while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the coordinate grid is hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideMilkyWay" type="Bool">
 			<label>Hide Milky Way contour while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the Milky Way contour is hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideIC" type="Bool">
 			<label>Hide IC objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether IC objects are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideMessier" type="Bool">
 			<label>Hide Messier objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Messier objects are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideNGC" type="Bool">
 			<label>Hide NGC objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether NGC objects are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideOther" type="Bool">
 			<label>Hide extra objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether extra objects are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HidePlanets" type="Bool">
 			<label>Hide solar system objects while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether solar system objects are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="HideStars" type="Bool">
 			<label>Hide faint stars while moving?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether faint stars are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowAsteroids" type="Bool">
 			<label>Draw asteroids in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether asteroids are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowAsteroidNames" type="Bool">
 			<label>Label asteroid names in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether asteroid name labels are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowComets" type="Bool">
 			<label>Draw comets in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether comets are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowCometNames" type="Bool">
 			<label>Label comet names in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether comet name labels are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowCBounds" type="Bool">
 			<label>Draw constellation boundaries in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether constellation boundaries are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowCLines" type="Bool">
 			<label>Draw constellation lines in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether constellation lines are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowCNames" type="Bool">
 			<label>Draw constellation names in the sky map?</label>
@@ -356,13 +354,13 @@
 		</entry>
 		<entry name="ShowDeepSky" type="Bool">
 			<label>Draw "deep sky" objects in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether deep-sky objects are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowEcliptic" type="Bool">
 			<label>Draw ecliptic line in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the ecliptic line is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowEquator" type="Bool">
 			<label>Draw equator line in the sky map?</label>
@@ -371,374 +369,374 @@
 		</entry>
 		<entry name="ShowGrid" type="Bool">
 			<label>Draw coordinate grid in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the coordinate grid is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowGround" type="Bool">
 			<label>Draw opaque ground in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the region below the horizon is opaque.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowHorizon" type="Bool">
 			<label>Draw horizon line in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the horizon line is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowIC" type="Bool">
 			<label>Draw IC objects in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether IC objects are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowNGC" type="Bool">
 			<label>Draw NGC objects in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether NGC objects are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMessier" type="Bool">
 			<label>Draw Messier objects in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Messier objects are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMessierImages" type="Bool">
 			<label>Draw Messier object images in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Messier objects are rendered as images in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowOther" type="Bool">
 			<label>Draw extra deep-sky objects in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether extra objects are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMilkyWay" type="Bool">
 			<label>Draw Milky Way contour in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the Milky Way contour is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="FillMilkyWay" type="Bool">
 			<label>Fill Milky Way contour? (false means use outline only)</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the Milky Way contour is filled.  When this option is false, the Milky Way is shown as an outline.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowPlanets" type="Bool">
 			<label>Meta-option for all planets in the sky map.</label>
-			<default>true</default>
 			<whatsthis>Meta-option to control whether all major planets (and the Sun and Moon) are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowPlanetImages" type="Bool">
 			<label>Draw planets as images in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether major planets (and the Sun and Moon) are rendered as images in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowPlanetNames" type="Bool">
 			<label>Label planet names in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether major planets (and the Sun and Moon) are labeled in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowSun" type="Bool">
 			<label>Draw Sun in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the Sun is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMoon" type="Bool">
 			<label>Draw Moon in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the Moon is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMercury" type="Bool">
 			<label>Draw Mercury in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Mercury is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowVenus" type="Bool">
 			<label>Draw Venus in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Venus is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMars" type="Bool">
 			<label>Draw Mars in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Mars is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowJupiter" type="Bool">
 			<label>Draw Jupiter in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Jupiter is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowSaturn" type="Bool">
 			<label>Draw Saturn in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Saturn is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowUranus" type="Bool">
 			<label>Draw Uranus in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Uranus is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowNeptune" type="Bool">
 			<label>Draw Neptune in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Neptune is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowPluto" type="Bool">
 			<label>Draw Pluto in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether Pluto is drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowStars" type="Bool">
 			<label>Draw stars in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether stars are drawn in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowStarMagnitudes" type="Bool">
 			<label>Label star magnitudes in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether star magnitude (brightness) labels are shown in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ShowStarNames" type="Bool">
 			<label>Label star names in the sky map?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether star name labels are shown in the sky map.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="SlewTimeScale" type="Double">
 			<label>Minimum timescale for forced-slewing mode</label>
-			<default>60</default>
 			<whatsthis>The timescale above which slewing mode is forced on at all times.</whatsthis>
+			<default>60</default>
 		</entry>
 		<entry name="BoxBGMode" type="UInt">
 			<label>InfoBoxes Background fill mode</label>
-			<default>1</default>
 			<whatsthis>The background fill mode for the on-screen information boxes: 0="no BG"; 1="semi-transparent BG"; 2="opaque BG"</whatsthis>
+			<default>1</default>
 		</entry>
 		<entry name="StarColorMode" type="UInt">
 			<label>Mode for rendering stars</label>
+			<whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
 			<default>0</default>
 			<max>3</max>
-			<whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
 		</entry>
 		<entry name="StarColorIntensity" type="UInt">
 			<label>Saturation level of star colors</label>
+			<whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
 			<default>4</default>
 			<max>10</max>
-			<whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
 		</entry>
 		<entry name="UseAbbrevConstellNames" type="Bool">
 			<label>Use abbreviated constellation names?</label>
-			<default>false</default>
 			<whatsthis>Use official IAU abbreviations for constellation names.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="UseLatinConstellNames" type="Bool">
 			<label>Use Latin constellation names?</label>
-			<default>true</default>
 			<whatsthis>Use Latin constellation names.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="UseLocalConstellNames" type="Bool">
 			<label>Use localized constellation names?</label>
-			<default>false</default>
 			<whatsthis>Use localized constellation names (if localized names are not available, default to Latin names).</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="UseAltAz" type="Bool">
 			<label>Use horizontal coordinate system?</label>
-			<default>true</default>
 			<whatsthis>Display the sky with horizontal coordinates (when false, equatorial coordinates will be used).</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="UseAutoLabel" type="Bool">
 			<label>Automatically label focused object?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether a centered object automatically gets a name label attached.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="UseAutoTrail" type="Bool">
 			<label>Automatically add trail to centered solar system body?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether a centered solar system object automatically gets a trail attached, as long as it remains centered.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="UseHoverLabel" type="Bool">
 			<label>Add temporary label on mouse hover?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether the object under the mouse cursor gets a transient name label.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="UseRefraction" type="Bool">
 			<label>Correct positions for atmospheric refraction?</label>
-			<default>true</default>
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="ZoomFactor" type="Double">
 			<label>Zoom Factor, in pixels per radian</label>
+			<whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
 			<default>2000.</default>
 			<min>200.</min><max>1000000.</max>
-			<whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
 		</entry>
 		<entry name="MagLimitAsteroid" type="Double">
 			<label>Faint limit for asteroids</label>
-			<default>8.0</default>
 			<whatsthis>The faint magnitude limit for drawing asteroids.</whatsthis>
+			<default>8.0</default>
 		</entry>
 		<entry name="MagLimitAsteroidName" type="Double">
 			<label>Faint limit for asteroid names</label>
-			<default>4.0</default>
 			<whatsthis>The faint magnitude limit for drawing asteroid name labels.</whatsthis>
+			<default>4.0</default>
 		</entry>
 		<entry name="MagLimitDrawDeepSky" type="Double">
 			<label>Faint limit for deep-sky objects</label>
-			<default>16.0</default>
 			<whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed in.</whatsthis>
+			<default>16.0</default>
 		</entry>
 		<entry name="MagLimitDrawDeepSkyZoomOut" type="Double">
 			<label>Faint limit for deep-sky objects when zoomed out</label>
-			<default>16.0</default>
 			<whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
+			<default>16.0</default>
 		</entry>
 		<entry name="MagLimitDrawStar" type="Double">
 			<label>Faint limit for stars</label>
-			<default>8.0</default>
 			<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed in.</whatsthis>
+			<default>8.0</default>
 		</entry>
 		<entry name="MagLimitDrawStarZoomOut" type="Double">
 			<label>Faint limit for stars when zoomed out</label>
-			<default>6.0</default>
 			<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed out.</whatsthis>
+			<default>6.0</default>
 		</entry>
 		<entry name="MagLimitHideStar" type="Double">
 			<label>Faint limit for stars when slewing</label>
-			<default>5.0</default>
 			<whatsthis>The faint magnitude limit for drawing stars, when the map is in motion (only applicable if faint stars are set to be hidden while the map is in motion).</whatsthis>
+			<default>5.0</default>
 		</entry>
 		<entry name="MagLimitDrawStarInfo" type="Double">
 			<label>Faint limit for star name labels and/or magnitudes</label>
-			<default>2.0</default>
 			<whatsthis>The faint magnitude limit for drawing star name and magnitude labels.</whatsthis>
+			<default>2.0</default>
 		</entry>
 		<entry name="MaxRadCometName" type="Double">
 			<label>Maximum distance from Sun for labeling comets, in AU</label>
-			<default>3.0</default>
 			<whatsthis>The maximum solar distance for drawing comets.</whatsthis>
+			<default>3.0</default>
 		</entry>
 	</group>
 
 	<group name="Colors">
 		<entry name="DarkAppColors" type="Bool">
 			<label>Use Dark colors for KStars windows?</label>
-			<default>false</default>
 			<whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="AngularRulerColor" type="Color">
 			<label>Color of angular distance ruler</label>
-			<default>#FFF</default>
 			<whatsthis>The color for the angular-distance measurement ruler.</whatsthis>
+			<default>#FFF</default>
 		</entry>
 		<entry name="BoxBGColor" type="Color">
 			<label>Background color of InfoBoxes</label>
-			<default>#000</default>
 			<whatsthis>The background color of the on-screen information boxes.</whatsthis>
+			<default>#000</default>
 		</entry>
 		<entry name="BoxGrabColor" type="Color">
 			<label>Text color of InfoBoxes when grabbed with mouse</label>
-			<default>#F00</default>
 			<whatsthis>The text color for the on-screen information boxes, when activated by a mouse click.</whatsthis>
+			<default>#F00</default>
 		</entry>
 		<entry name="BoxTextColor" type="Color">
 			<label>Text color of InfoBoxes</label>
-			<default>#FFF</default>
 			<whatsthis>The normal text color of the on-screen information boxes.</whatsthis>
+			<default>#FFF</default>
 		</entry>
 		<entry name="CBoundColor" type="Color">
 			<label>Color of constellation boundaries</label>
-			<default>#222</default>
 			<whatsthis>The color for the constellation boundary lines.</whatsthis>
+			<default>#222</default>
 		</entry>
 		<entry name="CLineColor" type="Color">
 			<label>Color of constellation lines</label>
-			<default>#555</default>
 			<whatsthis>The color for the constellation figure lines.</whatsthis>
+			<default>#555</default>
 		</entry>
 		<entry name="CNameColor" type="Color">
 			<label>Color of constellation names</label>
-			<default>#AA7</default>
 			<whatsthis>The color for the constellation names.</whatsthis>
+			<default>#AA7</default>
 		</entry>
 		<entry name="CompassColor" type="Color">
 			<label>Color of cardinal compass labels along horizon</label>
-			<default>#002</default>
 			<whatsthis>The color for the cardinal compass point labels.</whatsthis>
+			<default>#002</default>
 		</entry>
 		<entry name="EclipticColor" type="Color">
 			<label>Color of ecliptic line</label>
-			<default>#663</default>
 			<whatsthis>The color for the ecliptic line.</whatsthis>
+			<default>#663</default>
 		</entry>
 		<entry name="EquatorColor" type="Color">
 			<label>Color of equator line</label>
-			<default>#FFF</default>
 			<whatsthis>The color for the equator line.</whatsthis>
+			<default>#FFF</default>
 		</entry>
 		<entry name="FOVColor" type="Color">
 			<label>Color of FOV indicator symbol</label>
-			<default>#FFF</default>
 			<whatsthis>The color for the field-of-view indicator symbol.</whatsthis>
+			<default>#FFF</default>
 		</entry>
 		<entry name="GridColor" type="Color">
 			<label>Color of coordinate grid lines</label>
-			<default>#456</default>
 			<whatsthis>The color for the coordinate grid lines.</whatsthis>
+			<default>#456</default>
 		</entry>
 		<entry name="SpecialObjectColor" type="Color">
 			<label>Color of objects with extra links available</label>
-			<default>#A00</default>
 			<whatsthis>The color for objects which have extra URL links available.</whatsthis>
+			<default>#A00</default>
 		</entry>
 		<entry name="HorizonColor" type="Color">
 			<label>Color of horizon line</label>
-			<default>#5A3</default>
 			<whatsthis>The color for the horizon line and opaque ground.</whatsthis>
+			<default>#5A3</default>
 		</entry>
 		<entry name="MessierColor" type="Color">
 			<label>Color of Messier objects</label>
-			<default>#0F0</default>
 			<whatsthis>The color for Messier object symbols.</whatsthis>
+			<default>#0F0</default>
 		</entry>
 		<entry name="NGCColor" type="Color">
 			<label>Color of NGC objects</label>
-			<default>#066</default>
 			<whatsthis>The color for NGC object symbols.</whatsthis>
+			<default>#066</default>
 		</entry>
 		<entry name="ICColor" type="Color">
 			<label>Color of IC objects</label>
-			<default>#439</default>
 			<whatsthis>The color for IC object symbols.</whatsthis>
+			<default>#439</default>
 		</entry>
 		<entry name="MilkyWayWColor" type="Color">
 			<label>Color of Milky Way contour</label>
-			<default>#123</default>
 			<whatsthis>The color for the Milky Way contour.</whatsthis>
+			<default>#123</default>
 		</entry>
 		<entry name="StarNameColor" type="Color">
 			<label>Color of star name labels</label>
-			<default>#7AA</default>
 			<whatsthis>The color for star name labels.</whatsthis>
+			<default>#7AA</default>
 		</entry>
 		<entry name="PlanetNameColor" type="Color">
 			<label>Color of planet name labels</label>
-			<default>#439</default>
 			<whatsthis>The color for solar system object labels.</whatsthis>
+			<default>#439</default>
 		</entry>
 		<entry name="PlanetTrailColor" type="Color">
 			<label>Color of planet trails</label>
-			<default>#963</default>
 			<whatsthis>The color for solar system object trails.</whatsthis>
+			<default>#963</default>
 		</entry>
 		<entry name="SkyColor" type="Color">
 			<label>Color of sky</label>
-			<default>#002</default>
 			<whatsthis>The color for the sky background.</whatsthis>
+			<default>#002</default>
 		</entry>
 		<entry name="TelescopeTargetColor" type="Color">
 			<label>Color of telescope symbols</label>
-			<default>#8B8</default>
 			<whatsthis>The color for telescope target symbols.</whatsthis>
+			<default>#8B8</default>
 		</entry>
 		<entry name="UserLabelColor" type="Color">
 			<label>Color of user-added labels</label>
-			<default>#439</default>
 			<whatsthis>The color for user-added object labels.</whatsthis>
+			<default>#439</default>
 		</entry>
 	</group>
 </kcfg>
