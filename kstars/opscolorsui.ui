@@ -1,8 +1,8 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>OpsColors</class>
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>OpsColorsUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>OpsColors</cstring>
+        <cstring>OpsColorsUI</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -62,7 +62,7 @@
                         </widget>
                         <widget class="KComboBox">
                             <property name="name">
-                                <cstring>StarColorMode</cstring>
+                                <cstring>kcfg_StarColorMode</cstring>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>Set the star color mode</string>
@@ -91,7 +91,7 @@
                         </widget>
                         <widget class="KIntSpinBox">
                             <property name="name">
-                                <cstring>IntensityBox</cstring>
+                                <cstring>kcfg_StarColorIntensity</cstring>
                             </property>
                             <property name="maxValue">
                                 <number>10</number>
@@ -239,23 +239,13 @@
         </widget>
     </hbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <tabstops>
     <tabstop>ColorPalette</tabstop>
-    <tabstop>StarColorMode</tabstop>
-    <tabstop>IntensityBox</tabstop>
+    <tabstop>kcfg_StarColorMode</tabstop>
+    <tabstop>kcfg_StarColorIntensity</tabstop>
     <tabstop>PresetBox</tabstop>
     <tabstop>AddPreset</tabstop>
     <tabstop>RemovePreset</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klistbox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>klistbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
 </UI>

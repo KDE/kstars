@@ -56,18 +56,18 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QVBoxLayout *catlay = new QVBoxLayout( catpage, 0, 6 );
 	cat = new OpsCatalog( catpage );
 
-	cat->showSAO->setChecked( ksw->options()->drawSAO );
+	cat->showSAO->setChecked( Options::showSAO );
 	cat->magSpinBoxDrawStars->setMinValue( 0.0 );
 	cat->magSpinBoxDrawStars->setMaxValue( 12.0 );
-	cat->magSpinBoxDrawStars->setValue( ksw->options()->magLimitDrawStar );
+	cat->magSpinBoxDrawStars->setValue( Options::magLimitDrawStar );
 	cat->magSpinBoxDrawStarZoomOut->setMinValue( 0.0 );
 	cat->magSpinBoxDrawStarZoomOut->setMaxValue( cat->magSpinBoxDrawStars->value() );
-	cat->magSpinBoxDrawStarZoomOut->setValue( ksw->options()->magLimitDrawStarZoomOut );
+	cat->magSpinBoxDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut );
 	cat->magSpinBoxDrawStarInfo->setMinValue( 0.0 );
 	cat->magSpinBoxDrawStarInfo->setMaxValue( 9.0 );
-	cat->magSpinBoxDrawStarInfo->setValue( ksw->options()->magLimitDrawStarInfo );
-	cat->showStarNames->setChecked( ksw->options()->drawStarName );
-	cat->showStarMagnitude->setChecked( ksw->options()->drawStarMagnitude );
+	cat->magSpinBoxDrawStarInfo->setValue( Options::magLimitDrawStarInfo );
+	cat->showStarNames->setChecked( Options::showStarName );
+	cat->showStarMagnitude->setChecked( Options::showStarMagnitude );
 
 	//star options enabled only if showSAO is checked...
 	cat->showStarNames->setEnabled( cat->showSAO->isChecked() );
@@ -84,30 +84,30 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	//Populate CatalogList
 	showIC = new QCheckListItem( cat->CatalogList, i18n( "Index Catalog (IC)" ), QCheckListItem::CheckBox );
-	showIC->setOn( ksw->options()->drawIC );
+	showIC->setOn( Options::showIC );
 
 	showNGC = new QCheckListItem( cat->CatalogList, i18n( "New General Catalog (NGC)" ), QCheckListItem::CheckBox );
-	showNGC->setOn( ksw->options()->drawNGC );
+	showNGC->setOn( Options::showNGC );
 
 	showMessImages = new QCheckListItem( cat->CatalogList, i18n( "Messier Catalog (images)" ), QCheckListItem::CheckBox );
-	showMessImages->setOn( ksw->options()->drawMessImages );
+	showMessImages->setOn( Options::showMessImages );
 
 	showMessier = new QCheckListItem( cat->CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
-	showMessier->setOn( ksw->options()->drawMessier );
+	showMessier->setOn( Options::showMessier );
 
 	//Add custom catalogs, if necessary
-	for ( unsigned int i=0; i<ksw->options()->CatalogCount; ++i ) { //loop over custom catalogs
-		QCheckListItem *newItem = new QCheckListItem( cat->CatalogList, ksw->options()->CatalogName[i], QCheckListItem::CheckBox );
-		newItem->setOn( ksw->options()->drawCatalog[i] );
+	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) { //loop over custom catalogs
+		QCheckListItem *newItem = new QCheckListItem( cat->CatalogList, Options::CatalogName[i], QCheckListItem::CheckBox );
+		newItem->setOn( Options::showCatalog[i] );
 	}
 
 	//Magnitude limits for deep-sky objects
 	cat->magSpinBoxDrawDeepSky->setMinValue( 0.0 );
 	cat->magSpinBoxDrawDeepSky->setMaxValue( 16.0 );
-	cat->magSpinBoxDrawDeepSky->setValue( ksw->options()->magLimitDrawDeepSky );
+	cat->magSpinBoxDrawDeepSky->setValue( Options::magLimitDrawDeepSky );
 	cat->magSpinBoxDrawDeepSkyZoomOut->setMinValue( 0.0 );
 	cat->magSpinBoxDrawDeepSkyZoomOut->setMaxValue( cat->magSpinBoxDrawDeepSky->value() );
-	cat->magSpinBoxDrawDeepSkyZoomOut->setValue( ksw->options()->magLimitDrawDeepSkyZoomOut );
+	cat->magSpinBoxDrawDeepSkyZoomOut->setValue( Options::magLimitDrawDeepSkyZoomOut );
 
 	catlay->addWidget( cat );
 
@@ -120,36 +120,36 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QVBoxLayout *sslay = new QVBoxLayout( sspage, 0, 6 );
 	ss = new OpsSolarSystem( sspage );
 
-	ss->showSun->setChecked( ksw->options()->drawSun );
-	ss->showMoon->setChecked( ksw->options()->drawMoon );
-	ss->showMercury->setChecked( ksw->options()->drawMercury );
-	ss->showVenus->setChecked( ksw->options()->drawVenus );
-	ss->showMars->setChecked( ksw->options()->drawMars );
-	ss->showJupiter->setChecked( ksw->options()->drawJupiter );
-	ss->showSaturn->setChecked( ksw->options()->drawSaturn );
-	ss->showUranus->setChecked( ksw->options()->drawUranus );
-	ss->showNeptune->setChecked( ksw->options()->drawNeptune );
-	ss->showPluto->setChecked( ksw->options()->drawPluto );
-	ss->showPlanetNames->setChecked( ksw->options()->drawPlanetName );
-	ss->showPlanetImages->setChecked( ksw->options()->drawPlanetImage );
-	ss->showAsteroids->setChecked( ksw->options()->drawAsteroids );
+	ss->showSun->setChecked( Options::showSun );
+	ss->showMoon->setChecked( Options::showMoon );
+	ss->showMercury->setChecked( Options::showMercury );
+	ss->showVenus->setChecked( Options::showVenus );
+	ss->showMars->setChecked( Options::showMars );
+	ss->showJupiter->setChecked( Options::showJupiter );
+	ss->showSaturn->setChecked( Options::showSaturn );
+	ss->showUranus->setChecked( Options::showUranus );
+	ss->showNeptune->setChecked( Options::showNeptune );
+	ss->showPluto->setChecked( Options::showPluto );
+	ss->showPlanetNames->setChecked( Options::showPlanetName );
+	ss->showPlanetImages->setChecked( Options::showPlanetImage );
+	ss->showAsteroids->setChecked( Options::showAsteroids );
 	ss->astDrawSpinBox->setMinValue( 2.5 );
 	ss->astDrawSpinBox->setMaxValue( 12.0 );
-	ss->astDrawSpinBox->setValue( ksw->options()->magLimitAsteroid );
-	ss->astDrawSpinBox->setEnabled( ksw->options()->drawAsteroids );
-	ss->showAsteroidNames->setChecked( ksw->options()->drawAsteroidName );
-	ss->showAsteroidNames->setEnabled( ksw->options()->drawAsteroids );
+	ss->astDrawSpinBox->setValue( Options::magLimitAsteroid );
+	ss->astDrawSpinBox->setEnabled( Options::showAsteroids );
+	ss->showAsteroidNames->setChecked( Options::showAsteroidName );
+	ss->showAsteroidNames->setEnabled( Options::showAsteroids );
 	ss->astNameSpinBox->setMinValue( 2.5 );
 	ss->astNameSpinBox->setMaxValue( 12.0 );
-	ss->astNameSpinBox->setValue( ksw->options()->magLimitAsteroidName );
-	ss->astNameSpinBox->setEnabled( ksw->options()->drawAsteroids && ksw->options()->drawAsteroidName );
-	ss->showComets->setChecked( ksw->options()->drawComets );
-	ss->showCometNames->setChecked( ksw->options()->drawCometName );
-	ss->showCometNames->setEnabled( ksw->options()->drawComets );
-	ss->comNameSpinBox->setValue( ksw->options()->maxRadCometName );
-	ss->comNameSpinBox->setEnabled( ksw->options()->drawComets && ksw->options()->drawCometName );
-	ss->autoTrail->setChecked( ksw->options()->useAutoTrail );
-	ss->fadePlanetTrails->setChecked( ksw->options()->fadePlanetTrails );
+	ss->astNameSpinBox->setValue( Options::magLimitAsteroidName );
+	ss->astNameSpinBox->setEnabled( Options::showAsteroids && Options::showAsteroidName );
+	ss->showComets->setChecked( Options::showComets );
+	ss->showCometNames->setChecked( Options::showCometName );
+	ss->showCometNames->setEnabled( Options::showComets );
+	ss->comNameSpinBox->setValue( Options::maxRadCometName );
+	ss->comNameSpinBox->setEnabled( Options::showComets && Options::showCometName );
+	ss->autoTrail->setChecked( Options::useAutoTrail );
+	ss->fadePlanetTrails->setChecked( Options::fadePlanetTrails );
 
 	sslay->addWidget( ss );
 
@@ -162,21 +162,21 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QVBoxLayout *guidelay = new QVBoxLayout( guidepage, 0, 6 );
 	guide = new OpsGuides( guidepage );
 
-	guide->showConstellLines->setChecked( ksw->options()->drawConstellLines );
-	guide->showConstellBounds->setChecked( ksw->options()->drawConstellBounds );
-	guide->showConstellNames->setChecked( ksw->options()->drawConstellNames );
-	guide->ConstellOptions->setEnabled( ksw->options()->drawConstellNames );
-	guide->useLatinConstellNames->setChecked( ksw->options()->useLatinConstellNames );
-	guide->useLocalConstellNames->setChecked( ksw->options()->useLocalConstellNames );
-	guide->useAbbrevConstellNames->setChecked( ksw->options()->useAbbrevConstellNames );
-	guide->showMilkyWay->setChecked( ksw->options()->drawMilkyWay );
-	guide->showMilkyWayFilled->setChecked( ksw->options()->fillMilkyWay );
-	guide->showMilkyWayFilled->setEnabled( ksw->options()->drawMilkyWay );
-	guide->showGrid->setChecked( ksw->options()->drawGrid );
-	guide->showEquator->setChecked( ksw->options()->drawEquator );
-	guide->showEcliptic->setChecked( ksw->options()->drawEcliptic );
-	guide->showHorizon->setChecked( ksw->options()->drawHorizon );
-	guide->showGround->setChecked( ksw->options()->drawGround );
+	guide->showConstellLines->setChecked( Options::showConstellLines );
+	guide->showConstellBounds->setChecked( Options::showConstellBounds );
+	guide->showConstellNames->setChecked( Options::showConstellNames );
+	guide->ConstellOptions::setEnabled( Options::showConstellNames );
+	guide->useLatinConstellNames->setChecked( Options::useLatinConstellNames );
+	guide->useLocalConstellNames->setChecked( Options::useLocalConstellNames );
+	guide->useAbbrevConstellNames->setChecked( Options::useAbbrevConstellNames );
+	guide->showMilkyWay->setChecked( Options::showMilkyWay );
+	guide->showMilkyWayFilled->setChecked( Options::fillMilkyWay );
+	guide->showMilkyWayFilled->setEnabled( Options::showMilkyWay );
+	guide->showGrid->setChecked( Options::showGrid );
+	guide->showEquator->setChecked( Options::showEquator );
+	guide->showEcliptic->setChecked( Options::showEcliptic );
+	guide->showHorizon->setChecked( Options::showHorizon );
+	guide->showGround->setChecked( Options::showGround );
 
 	guidelay->addWidget( guide );
 
@@ -194,10 +194,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	color->ColorPalette->setSelectionMode( QListBox::Single );
 	color->PresetBox->setSelectionMode( QListBox::Single );
 
-	for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
+	for ( unsigned int i=0; i < Options::colorScheme()->numberOfColors(); ++i ) {
 		QPixmap col( 30, 20 );
-		col.fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
-		color->ColorPalette->insertItem( col, ksw->options()->colorScheme()->nameAt( i ) );
+		col.fill( QColor( Options::colorScheme()->colorAt( i ) ) );
+		color->ColorPalette->insertItem( col, Options::colorScheme()->nameAt( i ) );
 	}
 
 	color->PresetBox->insertItem( i18n( "use default color scheme", "Default Colors" ) );
@@ -226,12 +226,12 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 		file.close();
 	}
 
-	color->IntensityBox->setValue( ksw->options()->colorScheme()->starColorIntensity() );
+	color->IntensityBox->setValue( Options::colorScheme()->starColorIntensity() );
 	color->StarColorMode->insertItem( i18n( "use realistic star colors", "Real Colors" ) );
 	color->StarColorMode->insertItem( i18n( "show stars as red circles", "Solid Red" ) );
 	color->StarColorMode->insertItem( i18n( "show stars as black circles", "Solid Black" ) );
 	color->StarColorMode->insertItem( i18n( "show stars as white circles", "Solid White" ) );
-	color->StarColorMode->setCurrentItem( ksw->options()->colorScheme()->starColorMode() );
+	color->StarColorMode->setCurrentItem( Options::colorScheme()->starColorMode() );
 
 	colorlay->addWidget( color );
 
@@ -244,24 +244,24 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QVBoxLayout *advlay = new QVBoxLayout( advpage, 0, 6 );
 	adv = new OpsAdvanced( advpage );
 
-	adv->useRefraction->setChecked( ksw->options()->useRefraction );
-	adv->animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
-	adv->autoLabel->setChecked( ksw->options()->useAutoLabel );
-	adv->hoverLabel->setChecked( ksw->options()->useHoverLabel );
+	adv->useRefraction->setChecked( Options::useRefraction );
+	adv->animateSlewing->setChecked( Options::useAnimatedSlewing );
+	adv->autoLabel->setChecked( Options::useAutoLabel );
+	adv->hoverLabel->setChecked( Options::useHoverLabel );
 
-	adv->hideObjects->setChecked( ksw->options()->hideOnSlew );
-	adv->hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
-	adv->hideStars->setChecked( ksw->options()->hideStars );
-	adv->hidePlanets->setChecked( ksw->options()->hidePlanets );
-	adv->hideMess->setChecked( ksw->options()->hideMess );
-	adv->hideNGC->setChecked( ksw->options()->hideNGC );
-	adv->hideIC->setChecked( ksw->options()->hideIC );
-	adv->hideMW->setChecked( ksw->options()->hideMW );
-	adv->hideCNames->setChecked( ksw->options()->hideCNames );
-	adv->hideCLines->setChecked( ksw->options()->hideCLines );
-	adv->hideCBounds->setChecked( ksw->options()->hideCBounds );
-	adv->hideGrid->setChecked( ksw->options()->hideGrid );
-	adv->magSpinBoxHideStars->setValue( ksw->options()->magLimitHideStar );
+	adv->hideObjects->setChecked( Options::hideOnSlew );
+	adv->hideSpinBox->tsbox()->changeScale( (float)Options::slewTimeScale );
+	adv->hideStars->setChecked( Options::hideStars );
+	adv->hidePlanets->setChecked( Options::hidePlanets );
+	adv->hideMess->setChecked( Options::hideMess );
+	adv->hideNGC->setChecked( Options::hideNGC );
+	adv->hideIC->setChecked( Options::hideIC );
+	adv->hideMW->setChecked( Options::hideMW );
+	adv->hideCNames->setChecked( Options::hideCNames );
+	adv->hideCLines->setChecked( Options::hideCLines );
+	adv->hideCBounds->setChecked( Options::hideCBounds );
+	adv->hideGrid->setChecked( Options::hideGrid );
+	adv->magSpinBoxHideStars->setValue( Options::magLimitHideStar );
 
 	//HideBox widgets enabled only if hideObjects is checked...
 	adv->hideSpinBox->setEnabled( adv->hideObjects->isChecked() );
@@ -368,14 +368,14 @@ ViewOpsDialog::~ViewOpsDialog(){
 void ViewOpsDialog::changeMagDrawStars( double newValue )
 {
 	ksw->data()->setMagnitude( newValue );
-	cat->magSpinBoxDrawStarZoomOut->setMaxValue( ksw->options()->magLimitDrawStar );
+	cat->magSpinBoxDrawStarZoomOut->setMaxValue( Options::magLimitDrawStar );
 
 	// force redraw
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeMagDrawStarZoomOut( double newValue ) {
-	ksw->options()->magLimitDrawStarZoomOut = newValue;
+	Options::magLimitDrawStarZoomOut = newValue;
 
 	// force redraw
 	ksw->map()->forceUpdate();
@@ -383,15 +383,15 @@ void ViewOpsDialog::changeMagDrawStarZoomOut( double newValue ) {
 
 void ViewOpsDialog::changeMagDrawDeepSky( double newValue )
 {
-	ksw->options()->magLimitDrawDeepSky = newValue;
-	cat->magSpinBoxDrawDeepSkyZoomOut->setMaxValue( ksw->options()->magLimitDrawDeepSky );
+	Options::magLimitDrawDeepSky = newValue;
+	cat->magSpinBoxDrawDeepSkyZoomOut->setMaxValue( Options::magLimitDrawDeepSky );
 
 	// force redraw
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeMagDrawDeepSkyZoomOut( double newValue ) {
-	ksw->options()->magLimitDrawDeepSkyZoomOut = newValue;
+	Options::magLimitDrawDeepSkyZoomOut = newValue;
 
 	// force redraw
 	ksw->map()->forceUpdate();
@@ -399,12 +399,12 @@ void ViewOpsDialog::changeMagDrawDeepSkyZoomOut( double newValue ) {
 
 void ViewOpsDialog::changeMagHideStars( double newValue )
 {
-	ksw->options()->magLimitHideStar = newValue;
+	Options::magLimitHideStar = newValue;
 }
 
 void ViewOpsDialog::changeMagDrawInfo( double newValue )
 {
-	ksw->options()->magLimitDrawStarInfo = newValue;
+	Options::magLimitDrawStarInfo = newValue;
 	// force redraw
 	ksw->map()->forceUpdate();
 }
@@ -414,9 +414,9 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 	QColor newColor;
 	unsigned int i;
 
-	for ( i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
-		if ( item->text() == ksw->options()->colorScheme()->nameAt( i ) ) {
-			QColor col( ksw->options()->colorScheme()->colorAt( i ) );
+	for ( i=0; i < Options::colorScheme()->numberOfColors(); ++i ) {
+		if ( item->text() == Options::colorScheme()->nameAt( i ) ) {
+			QColor col( Options::colorScheme()->colorAt( i ) );
 
 			if(KColorDialog::getColor( col )) newColor = col;
 			break;
@@ -427,7 +427,7 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 	if ( newColor.isValid() ) {
 		temp.fill( newColor );
 		color->ColorPalette->changeItem( temp, item->text(), color->ColorPalette->index( item ) );
-		ksw->options()->colorScheme()->setColor( ksw->options()->colorScheme()->keyAt( i ), newColor.name() );
+		Options::colorScheme()->setColor( Options::colorScheme()->keyAt( i ), newColor.name() );
 	}
 
 	ksw->map()->forceUpdate();
@@ -457,10 +457,10 @@ void ViewOpsDialog::slotAddPreset( void ) {
 
 	if ( okPressed ) {
 		if ( !schemename.isEmpty() ) {
-			if ( ksw->options()->colorScheme()->save( schemename ) ) {
+			if ( Options::colorScheme()->save( schemename ) ) {
 				color->PresetBox->insertItem( schemename );
-				PresetFileList.append( ksw->options()->colorScheme()->fileName() );
-				ksw->addColorMenuItem( schemename, "cs_" + ksw->options()->colorScheme()->fileName().utf8() );
+				PresetFileList.append( Options::colorScheme()->fileName() );
+				ksw->addColorMenuItem( schemename, "cs_" + Options::colorScheme()->fileName().utf8() );
 			}
 		}
 	}
@@ -532,13 +532,13 @@ bool ViewOpsDialog::setColors( QString filename ) {
 	else color->RemovePreset->setEnabled( false );
 	test.close();
 
-	if ( ksw->options()->colorScheme()->load( filename ) ) {
-	  if ( ksw->map()->starColorMode() != ksw->options()->colorScheme()->starColorMode() )
-	    ksw->map()->setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
+	if ( Options::colorScheme()->load( filename ) ) {
+	  if ( ksw->map()->starColorMode() != Options::colorScheme()->starColorMode() )
+	    ksw->map()->setStarColorMode( Options::colorScheme()->starColorMode() );
 
-		for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
-			temp->fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
-			color->ColorPalette->changeItem( *temp, ksw->options()->colorScheme()->nameAt( i ), i );
+		for ( unsigned int i=0; i < Options::colorScheme()->numberOfColors(); ++i ) {
+			temp->fill( QColor( Options::colorScheme()->colorAt( i ) ) );
+			color->ColorPalette->changeItem( *temp, Options::colorScheme()->nameAt( i ), i );
 		}
 	} else {
 		return false;
@@ -552,7 +552,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 //Set the drawPlanets or drawDeepSky meta-options to true if the options which
 //these substitute for are altered.
 	if ( sender()->name() == QString( "CatalogList" ) )
-		ksw->options()->drawDeepSky = true;
+		Options::showDeepSky = true;
 
 	if ( sender()->name() == QString( "showSun" ) ||
 			sender()->name() == QString( "showMoon" ) ||
@@ -572,22 +572,22 @@ void ViewOpsDialog::updateDisplay( void ) {
 			sender()->name() == QString( "showPlanetImages" ) ||
 			sender()->name() == QString( "showAllPlanets" ) ||
 			sender()->name() == QString( "showNonePlanets" ) )
-		ksw->options()->drawPlanets = true;
+		Options::showPlanets = true;
 
 //Set options according to current settings
 //Catalogs Tab
-	ksw->options()->drawSAO = cat->showSAO->isChecked();
-	ksw->options()->drawMessier = showMessier->isOn();
-	ksw->options()->drawMessImages = showMessImages->isOn();
-	ksw->options()->drawNGC = showNGC->isOn();
-	ksw->options()->drawIC = showIC->isOn();
-	for ( unsigned int i=0; i<ksw->options()->CatalogCount; ++i ) {
-		QCheckListItem *item = (QCheckListItem*)(cat->CatalogList->findItem( ksw->options()->CatalogName[i], 0 ));
-		ksw->options()->drawCatalog[i] = item->isOn();
+	Options::showSAO = cat->showSAO->isChecked();
+	Options::showMessier = showMessier->isOn();
+	Options::showMessImages = showMessImages->isOn();
+	Options::showNGC = showNGC->isOn();
+	Options::showIC = showIC->isOn();
+	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) {
+		QCheckListItem *item = (QCheckListItem*)(cat->CatalogList->findItem( Options::CatalogName[i], 0 ));
+		Options::showCatalog[i] = item->isOn();
 	}
 
-	ksw->options()->drawStarName = cat->showStarNames->isChecked();
-	ksw->options()->drawStarMagnitude = cat->showStarMagnitude->isChecked();
+	Options::showStarName = cat->showStarNames->isChecked();
+	Options::showStarMagnitude = cat->showStarMagnitude->isChecked();
 	//star options enabled only if showSAO is checked...
 	cat->showStarNames->setEnabled( cat->showSAO->isChecked() );
 	cat->showStarMagnitude->setEnabled( cat->showSAO->isChecked() );
@@ -602,22 +602,22 @@ void ViewOpsDialog::updateDisplay( void ) {
 	cat->textLabelMag3->setEnabled( cat->showSAO->isChecked() );
 
 //Planets Tab
-	ksw->options()->drawSun = ss->showSun->isChecked();
-	ksw->options()->drawMoon = ss->showMoon->isChecked();
-	ksw->options()->drawMercury = ss->showMercury->isChecked();
-	ksw->options()->drawVenus = ss->showVenus->isChecked();
-	ksw->options()->drawMars = ss->showMars->isChecked();
-	ksw->options()->drawJupiter = ss->showJupiter->isChecked();
-	ksw->options()->drawSaturn = ss->showSaturn->isChecked();
-	ksw->options()->drawUranus = ss->showUranus->isChecked();
-	ksw->options()->drawNeptune = ss->showNeptune->isChecked();
-	ksw->options()->drawPluto = ss->showPluto->isChecked();
-	ksw->options()->drawAsteroids = ss->showAsteroids->isChecked();
-	ksw->options()->drawComets = ss->showComets->isChecked();
-	ksw->options()->drawAsteroidName = ss->showAsteroidNames->isChecked();
-	ksw->options()->drawCometName = ss->showCometNames->isChecked();
-	ksw->options()->drawPlanetName = ss->showPlanetNames->isChecked();
-	ksw->options()->drawPlanetImage = ss->showPlanetImages->isChecked();
+	Options::showSun = ss->showSun->isChecked();
+	Options::showMoon = ss->showMoon->isChecked();
+	Options::showMercury = ss->showMercury->isChecked();
+	Options::showVenus = ss->showVenus->isChecked();
+	Options::showMars = ss->showMars->isChecked();
+	Options::showJupiter = ss->showJupiter->isChecked();
+	Options::showSaturn = ss->showSaturn->isChecked();
+	Options::showUranus = ss->showUranus->isChecked();
+	Options::showNeptune = ss->showNeptune->isChecked();
+	Options::showPluto = ss->showPluto->isChecked();
+	Options::showAsteroids = ss->showAsteroids->isChecked();
+	Options::showComets = ss->showComets->isChecked();
+	Options::showAsteroidName = ss->showAsteroidNames->isChecked();
+	Options::showCometName = ss->showCometNames->isChecked();
+	Options::showPlanetName = ss->showPlanetNames->isChecked();
+	Options::showPlanetImage = ss->showPlanetImages->isChecked();
 
 	ss->showAsteroidNames->setEnabled( ss->showAsteroids->isChecked() );
 	ss->showCometNames->setEnabled( ss->showComets->isChecked() );
@@ -625,23 +625,23 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ss->astNameSpinBox->setEnabled( ss->showAsteroids->isChecked() && ss->showAsteroidNames->isChecked() );
 	ss->comNameSpinBox->setEnabled( ss->showComets->isChecked() && ss->showCometNames->isChecked() );
 
-	ksw->options()->fadePlanetTrails = ss->fadePlanetTrails->isChecked();
-	ksw->options()->useAutoTrail = ss->autoTrail->isChecked();
+	Options::fadePlanetTrails = ss->fadePlanetTrails->isChecked();
+	Options::useAutoTrail = ss->autoTrail->isChecked();
 
 //Guides Tab
-	ksw->options()->drawConstellLines = guide->showConstellLines->isChecked();
-	ksw->options()->drawConstellBounds = guide->showConstellBounds->isChecked();
-	ksw->options()->drawConstellNames = guide->showConstellNames->isChecked();
-	ksw->options()->useLatinConstellNames = guide->useLatinConstellNames->isChecked();
-	ksw->options()->useLocalConstellNames = guide->useLocalConstellNames->isChecked();
-	ksw->options()->useAbbrevConstellNames = guide->useAbbrevConstellNames->isChecked();
-	ksw->options()->drawMilkyWay = guide->showMilkyWay->isChecked();
-	ksw->options()->fillMilkyWay = guide->showMilkyWayFilled->isChecked();
-	ksw->options()->drawGrid = guide->showGrid->isChecked();
-	ksw->options()->drawEquator = guide->showEquator->isChecked();
-	ksw->options()->drawEcliptic = guide->showEcliptic->isChecked();
-	ksw->options()->drawHorizon = guide->showHorizon->isChecked();
-	ksw->options()->drawGround = guide->showGround->isChecked();
+	Options::showConstellLines = guide->showConstellLines->isChecked();
+	Options::showConstellBounds = guide->showConstellBounds->isChecked();
+	Options::showConstellNames = guide->showConstellNames->isChecked();
+	Options::useLatinConstellNames = guide->useLatinConstellNames->isChecked();
+	Options::useLocalConstellNames = guide->useLocalConstellNames->isChecked();
+	Options::useAbbrevConstellNames = guide->useAbbrevConstellNames->isChecked();
+	Options::showMilkyWay = guide->showMilkyWay->isChecked();
+	Options::fillMilkyWay = guide->showMilkyWayFilled->isChecked();
+	Options::showGrid = guide->showGrid->isChecked();
+	Options::showEquator = guide->showEquator->isChecked();
+	Options::showEcliptic = guide->showEcliptic->isChecked();
+	Options::showHorizon = guide->showHorizon->isChecked();
+	Options::showGround = guide->showGround->isChecked();
 	//constellation name options enabled only if showConstellationNames is checked...
 	guide->useLatinConstellNames->setEnabled( guide->showConstellNames->isChecked() );
 	guide->useLocalConstellNames->setEnabled( guide->showConstellNames->isChecked() );
@@ -650,21 +650,21 @@ void ViewOpsDialog::updateDisplay( void ) {
 	guide->showMilkyWayFilled->setEnabled( guide->showMilkyWay->isChecked() );
 
 	//Advanced Tab
-	ksw->options()->useRefraction = adv->useRefraction->isChecked();
-	ksw->options()->useAnimatedSlewing = adv->animateSlewing->isChecked();
-	ksw->options()->useAutoLabel = adv->autoLabel->isChecked();
-	ksw->options()->useHoverLabel = adv->hoverLabel->isChecked();
-	ksw->options()->hideOnSlew = adv->hideObjects->isChecked();
-	ksw->options()->hideStars = adv->hideStars->isChecked();
-	ksw->options()->hidePlanets = adv->hidePlanets->isChecked();
-	ksw->options()->hideMess = adv->hideMess->isChecked();
-	ksw->options()->hideNGC = adv->hideNGC->isChecked();
-	ksw->options()->hideIC = adv->hideIC->isChecked();
-	ksw->options()->hideMW = adv->hideMW->isChecked();
-	ksw->options()->hideCNames = adv->hideCNames->isChecked();
-	ksw->options()->hideCLines = adv->hideCLines->isChecked();
-	ksw->options()->hideCBounds = adv->hideCBounds->isChecked();
-	ksw->options()->hideGrid = adv->hideGrid->isChecked();
+	Options::useRefraction = adv->useRefraction->isChecked();
+	Options::useAnimatedSlewing = adv->animateSlewing->isChecked();
+	Options::useAutoLabel = adv->autoLabel->isChecked();
+	Options::useHoverLabel = adv->hoverLabel->isChecked();
+	Options::hideOnSlew = adv->hideObjects->isChecked();
+	Options::hideStars = adv->hideStars->isChecked();
+	Options::hidePlanets = adv->hidePlanets->isChecked();
+	Options::hideMess = adv->hideMess->isChecked();
+	Options::hideNGC = adv->hideNGC->isChecked();
+	Options::hideIC = adv->hideIC->isChecked();
+	Options::hideMW = adv->hideMW->isChecked();
+	Options::hideCNames = adv->hideCNames->isChecked();
+	Options::hideCLines = adv->hideCLines->isChecked();
+	Options::hideCBounds = adv->hideCBounds->isChecked();
+	Options::hideGrid = adv->hideGrid->isChecked();
 
 	//HideBox widgets enabled only if hideObjects is checked...
 	adv->hideSpinBox->setEnabled( adv->hideObjects->isChecked() );
@@ -681,33 +681,33 @@ void ViewOpsDialog::updateDisplay( void ) {
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
 	ksw->map()->setStarColorIntensity( newValue );
-//	ksw->options()->starColorIntensity = ksw->map()->starColorIntensity();
-	ksw->options()->colorScheme()->setStarColorIntensity( newValue );
+//	Options::starColorIntensity = ksw->map()->starColorIntensity();
+	Options::colorScheme()->setStarColorIntensity( newValue );
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
 	ksw->map()->setStarColorMode( newValue );
-	ksw->options()->colorScheme()->setStarColorMode( newValue );
+	Options::colorScheme()->setStarColorMode( newValue );
 	if (newValue) color->IntensityBox->setEnabled( false );
 	else color->IntensityBox->setEnabled( true );
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeAstDrawMagLimit( double newValue ) {
-	ksw->options()->magLimitAsteroid = newValue;
+	Options::magLimitAsteroid = newValue;
 	// force redraw
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeAstNameMagLimit( double newValue ) {
-	ksw->options()->magLimitAsteroidName = newValue;
+	Options::magLimitAsteroidName = newValue;
 	// force redraw
 	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeComNameMaxRad( double newValue ) {
-	ksw->options()->maxRadCometName = newValue;
+	Options::maxRadCometName = newValue;
 	// force redraw
 	ksw->map()->forceUpdate();
 }
@@ -757,24 +757,24 @@ void ViewOpsDialog::slotAddCatalog() {
 		newCat->setOn( true );
 		cat->CatalogList->insertItem( newCat );
 
-		ksw->options()->CatalogCount = ++ksw->options()->CatalogCount;
-		ksw->options()->CatalogName.append( ac.name() );
-		ksw->options()->CatalogFile.append( ac.filename() );
-		ksw->options()->drawCatalog.append( true );
-//		kdWarning() << "CatalogCount: " << ksw->options()->CatalogCount << endl;
-//		kdWarning() << "CatalogName.count(): " << ksw->options()->CatalogName.count() << endl;
+		Options::catalogCount() = ++Options::catalogCount();
+		Options::CatalogName.append( ac.name() );
+		Options::CatalogFile.append( ac.filename() );
+		Options::showCatalog.append( true );
+//		kdWarning() << "CatalogCount: " << Options::catalogCount() << endl;
+//		kdWarning() << "CatalogName.count(): " << Options::CatalogName.count() << endl;
 		ksw->map()->forceUpdate();
 	}
 }
 
 void ViewOpsDialog::slotRemoveCatalog() {
 //Remove CatalogName, CatalogFile, and drawCatalog entries, and decrement CatalogCount
-	for ( unsigned int i=0; i < ksw->options()->CatalogName.count(); ++i ) {
-		if ( cat->CatalogList->currentItem()->text( 0 ) == ksw->options()->CatalogName[i] ) {
-			ksw->options()->CatalogName.remove( ksw->options()->CatalogName.at(i) );
-			ksw->options()->CatalogFile.remove( ksw->options()->CatalogFile.at(i) );
-			ksw->options()->drawCatalog.remove( ksw->options()->drawCatalog.at(i) );
-			--ksw->options()->CatalogCount;
+	for ( unsigned int i=0; i < Options::CatalogName.count(); ++i ) {
+		if ( cat->CatalogList->currentItem()->text( 0 ) == Options::CatalogName[i] ) {
+			Options::CatalogName.remove( Options::CatalogName.at(i) );
+			Options::CatalogFile.remove( Options::CatalogFile.at(i) );
+			Options::showCatalog.remove( Options::showCatalog.at(i) );
+			--Options::catalogCount();
 			break;
 		}
 	}
@@ -789,8 +789,8 @@ void ViewOpsDialog::slotRemoveCatalog() {
 void ViewOpsDialog::selectCatalog() {
 //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
 	cat->RemoveCatalog->setEnabled( false );
-	for ( unsigned int i=0; i < ksw->options()->CatalogName.count(); ++i ) {
-		if ( cat->CatalogList->currentItem()->text( 0 ) == ksw->options()->CatalogName[i] ) {
+	for ( unsigned int i=0; i < Options::CatalogName.count(); ++i ) {
+		if ( cat->CatalogList->currentItem()->text( 0 ) == Options::CatalogName[i] ) {
 			cat->RemoveCatalog->setEnabled( true );
 			break;
 		}
@@ -802,7 +802,7 @@ void ViewOpsDialog::changeSlewTimeScale( float f ) {
 		f = 0.0;
 		adv->hideSpinBox->tsbox()->changeScale( 0.0 );
 	}
-	ksw->options()->slewTimeScale = f;
+	Options::slewTimeScale = f;
 }
 
 void ViewOpsDialog::changeAutoTrail( void ) {

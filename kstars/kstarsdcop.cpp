@@ -20,7 +20,7 @@
 #include <kshortcut.h>
 
 #include "kstars.h"
-#include "kstarsoptions.h"
+#include "Options.h"
 #include "ksutils.h"
 #include "infoboxes.h"
 
@@ -72,7 +72,7 @@ void KStars::lookTowards ( const QString direction ) {
 void KStars::zoom( double z ) {
 	if ( z > MAXZOOM ) z = MAXZOOM;
 	if ( z < MINZOOM ) z = MINZOOM;
-	options()->ZoomFactor = z;
+	Options::setZoomFactor( z );
 	map()->forceUpdate();
 }
 
@@ -95,7 +95,7 @@ void KStars::waitForKey( const QString k ) {
 }
 
 void KStars::setTracking( bool track ) {
-	if ( track != options()->isTracking ) slotTrack();
+	if ( track != Options::isTracking() ) slotTrack();
 }
 
 void KStars::popupMessage( int x, int y, QString message ){
@@ -117,7 +117,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 
 			cityFound = true;
 
-			options()->setLocation( *loc );
+			data()->setLocation( *loc );
 
 			//notify on-screen GeoBox
 			infoBoxes()->geoChanged( loc );
@@ -135,12 +135,12 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 
 			// If the sky is in Horizontal mode and not tracking, reset focus such that
 			// Alt/Az remain constant.
-			if ( ! options()->isTracking && options()->useAltAz ) {
+			if ( ! Options::isTracking() && Options::useAltAz() ) {
 				map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 			}
 
 			// recalculate new times and objects
-			options()->setSnapNextFocus();
+			data()->setSnapNextFocus();
 			updateTime();
 
 			//no need to keep looking, we're done.
@@ -175,101 +175,101 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	double dVal = val.toDouble( &dOk );
 
 	//[GUI]
-	if ( op == "ShowInfoBoxes"   && bOk ) options()->showInfoBoxes   = bVal;
-	if ( op == "ShowTimeBox"     && bOk ) options()->showTimeBox     = bVal;
-	if ( op == "ShowGeoBox"      && bOk ) options()->showGeoBox      = bVal;
-	if ( op == "ShowFocusBox"    && bOk ) options()->showFocusBox    = bVal;
-	if ( op == "ShadeTimeBox"    && bOk ) options()->shadeTimeBox    = bVal;
-	if ( op == "ShadeGeoBox"     && bOk ) options()->shadeGeoBox     = bVal;
-	if ( op == "ShadeFocusBox"   && bOk ) options()->shadeFocusBox   = bVal;
-	if ( op == "ShowMainToolBar" && bOk ) options()->showMainToolBar = bVal;
-	if ( op == "ShowViewToolBar" && bOk ) options()->showViewToolBar = bVal;
+	if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
+	if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
+	if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
+	if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
+	if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
+	if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
+	if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
+	if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
+	if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
 
 	//[View]
-	if ( op == "FOVName"                ) options()->FOVName         = val;
-	if ( op == "FOVSize"         && dOk ) options()->FOVSize         = (float)dVal;
-	if ( op == "FOVShape"        && nOk ) options()->FOVShape        = nVal;
-	if ( op == "FOVColor"               ) options()->FOVColor         = val;
-	if ( op == "ShowSAO"         && bOk ) options()->drawSAO         = bVal;
-	if ( op == "ShowMess"        && bOk ) options()->drawMessier     = bVal;
-	if ( op == "ShowMessImages"  && bOk ) options()->drawMessImages  = bVal;
-	if ( op == "ShowNGC"         && bOk ) options()->drawNGC         = bVal;
-	if ( op == "ShowIC"          && bOk ) options()->drawIC          = bVal;
-	if ( op == "ShowCLines"      && bOk ) options()->drawConstellLines  = bVal;
-	if ( op == "ShowCBounds"     && bOk ) options()->drawConstellBounds = bVal;
-	if ( op == "ShowCNames"      && bOk ) options()->drawConstellNames  = bVal;
-	if ( op == "ShowMilkyWay"    && bOk ) options()->drawMilkyWay    = bVal;
-	if ( op == "ShowGrid"        && bOk ) options()->drawGrid        = bVal;
-	if ( op == "ShowEquator"     && bOk ) options()->drawEquator     = bVal;
-	if ( op == "ShowEcliptic"    && bOk ) options()->drawEcliptic    = bVal;
-	if ( op == "ShowHorizon"     && bOk ) options()->drawHorizon     = bVal;
-	if ( op == "ShowGround"      && bOk ) options()->drawGround      = bVal;
-	if ( op == "ShowSun"         && bOk ) options()->drawSun         = bVal;
-	if ( op == "ShowMoon"        && bOk ) options()->drawMoon        = bVal;
-	if ( op == "ShowMercury"     && bOk ) options()->drawMercury     = bVal;
-	if ( op == "ShowVenus"       && bOk ) options()->drawVenus       = bVal;
-	if ( op == "ShowMars"        && bOk ) options()->drawMars        = bVal;
-	if ( op == "ShowJupiter"     && bOk ) options()->drawJupiter     = bVal;
-	if ( op == "ShowSaturn"      && bOk ) options()->drawSaturn      = bVal;
-	if ( op == "ShowUranus"      && bOk ) options()->drawUranus      = bVal;
-	if ( op == "ShowNeptune"     && bOk ) options()->drawNeptune     = bVal;
-	if ( op == "ShowPluto"       && bOk ) options()->drawPluto       = bVal;
-	if ( op == "ShowAsteroids"   && bOk ) options()->drawAsteroids   = bVal;
-	if ( op == "ShowComets"      && bOk ) options()->drawComets      = bVal;
-	if ( op == "ShowPlanets"     && bOk ) options()->drawPlanets     = bVal;
-	if ( op == "ShowDeepSky"     && bOk ) options()->drawDeepSky     = bVal;
-	if ( op == "drawStarName"      && bOk ) options()->drawStarName      = bVal;
-	if ( op == "drawStarMagnitude" && bOk ) options()->drawStarMagnitude = bVal;
-	if ( op == "drawAsteroidName"  && bOk ) options()->drawAsteroidName  = bVal;
-	if ( op == "drawCometName"     && bOk ) options()->drawCometName     = bVal;
-	if ( op == "drawPlanetName"    && bOk ) options()->drawPlanetName    = bVal;
-	if ( op == "drawPlanetImage"   && bOk ) options()->drawPlanetImage   = bVal;
-	if ( op == "HideOnSlew"  && bOk ) options()->hideOnSlew  = bVal;
-	if ( op == "HideStars"   && bOk ) options()->hideStars   = bVal;
-	if ( op == "HidePlanets" && bOk ) options()->hidePlanets = bVal;
-	if ( op == "HideMess"    && bOk ) options()->hideMess    = bVal;
-	if ( op == "HideNGC"     && bOk ) options()->hideNGC     = bVal;
-	if ( op == "HideIC"      && bOk ) options()->hideIC      = bVal;
-	if ( op == "HideMW"      && bOk ) options()->hideMW      = bVal;
-	if ( op == "HideCNames"  && bOk ) options()->hideCNames  = bVal;
-	if ( op == "HideCLines"  && bOk ) options()->hideCLines  = bVal;
-	if ( op == "HideCBounds" && bOk ) options()->hideCBounds = bVal;
-	if ( op == "HideGrid"    && bOk ) options()->hideGrid    = bVal;
+	if ( op == "FOVName"                ) Options::setFOVName(         val );
+	if ( op == "FOVSize"         && dOk ) Options::setFOVSize( (float)dVal );
+	if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
+	if ( op == "FOVColor"               ) Options::setFOVColor(        val );
+	if ( op == "ShowStars"       && bOk ) Options::setShowStars(      bVal );
+	if ( op == "ShowMessier"     && bOk ) Options::setShowMessier(    bVal );
+	if ( op == "ShowMessierImages" && bOk ) Options::setShowMessierImages( bVal );
+	if ( op == "ShowNGC"         && bOk ) Options::setShowNGC( bVal );
+	if ( op == "ShowIC"          && bOk ) Options::setShowIC(  bVal );
+	if ( op == "ShowCLines"      && bOk ) Options::setShowCLines(   bVal );
+	if ( op == "ShowCBounds"     && bOk ) Options::setShowCBounds(  bVal );
+	if ( op == "ShowCNames"      && bOk ) Options::setShowCNames(   bVal );
+	if ( op == "ShowMilkyWay"    && bOk ) Options::setShowMilkyWay( bVal );
+	if ( op == "ShowGrid"        && bOk ) Options::setShowGrid(     bVal );
+	if ( op == "ShowEquator"     && bOk ) Options::setShowEquator(  bVal );
+	if ( op == "ShowEcliptic"    && bOk ) Options::setShowEcliptic( bVal );
+	if ( op == "ShowHorizon"     && bOk ) Options::setShowHorizon(  bVal );
+	if ( op == "ShowGround"      && bOk ) Options::setShowGround(   bVal );
+	if ( op == "ShowSun"         && bOk ) Options::setShowSun(      bVal );
+	if ( op == "ShowMoon"        && bOk ) Options::setShowMoon(     bVal );
+	if ( op == "ShowMercury"     && bOk ) Options::setShowMercury(  bVal );
+	if ( op == "ShowVenus"       && bOk ) Options::setShowVenus(    bVal );
+	if ( op == "ShowMars"        && bOk ) Options::setShowMars(     bVal );
+	if ( op == "ShowJupiter"     && bOk ) Options::setShowJupiter(  bVal );
+	if ( op == "ShowSaturn"      && bOk ) Options::setShowSaturn(   bVal );
+	if ( op == "ShowUranus"      && bOk ) Options::setShowUranus(   bVal );
+	if ( op == "ShowNeptune"     && bOk ) Options::setShowNeptune(  bVal );
+	if ( op == "ShowPluto"       && bOk ) Options::setShowPluto(    bVal );
+	if ( op == "ShowAsteroids"   && bOk ) Options::setShowAsteroids( bVal );
+	if ( op == "ShowComets"      && bOk ) Options::setShowComets(  bVal );
+	if ( op == "ShowPlanets"     && bOk ) Options::setShowPlanets( bVal );
+	if ( op == "ShowDeepSky"     && bOk ) Options::setShowDeepSky( bVal );
+	if ( op == "ShowStarNames"      && bOk ) Options::setShowStarNames(      bVal );
+	if ( op == "ShowStarMagnitudes" && bOk ) Options::setShowStarMagnitudes( bVal );
+	if ( op == "ShowAsteroidNames"  && bOk ) Options::setShowAsteroidNames(  bVal );
+	if ( op == "ShowCometNames"     && bOk ) Options::setShowCometNames(     bVal );
+	if ( op == "ShowPlanetNames"    && bOk ) Options::setShowPlanetNames(    bVal );
+	if ( op == "ShowPlanetImages"   && bOk ) Options::setShowPlanetImages(   bVal );
+	if ( op == "HideOnSlew"  && bOk ) Options::setHideOnSlew(  bVal );
+	if ( op == "HideStars"   && bOk ) Options::setHideStars(   bVal );
+	if ( op == "HidePlanets" && bOk ) Options::setHidePlanets( bVal );
+	if ( op == "HideMessier" && bOk ) Options::setHideMessier( bVal );
+	if ( op == "HideNGC"     && bOk ) Options::setHideNGC(     bVal );
+	if ( op == "HideIC"      && bOk ) Options::setHideIC(      bVal );
+	if ( op == "HideMilkyWay" && bOk ) Options::setHideMilkyWay( bVal );
+	if ( op == "HideCNames"  && bOk ) Options::setHideCNames(  bVal );
+	if ( op == "HideCLines"  && bOk ) Options::setHideCLines(  bVal );
+	if ( op == "HideCBounds" && bOk ) Options::setHideCBounds( bVal );
+	if ( op == "HideGrid"    && bOk ) Options::setHideGrid(    bVal );
 
-	if ( op == "UseAltAz"         && bOk ) options()->useAltAz           = bVal;
-	if ( op == "UseRefraction"    && bOk ) options()->useRefraction      = bVal;
-	if ( op == "UseAutoLabel"     && bOk ) options()->useAutoLabel       = bVal;
-	if ( op == "UseHoverLabel"    && bOk ) options()->useHoverLabel      = bVal;
-	if ( op == "UseAutoTrail"     && bOk ) options()->useAutoTrail       = bVal;
-	if ( op == "AnimateSlewing"   && bOk ) options()->useAnimatedSlewing = bVal;
-	if ( op == "FadePlanetTrails" && bOk ) options()->fadePlanetTrails   = bVal;
-	if ( op == "SlewTimeScale"    && dOk ) options()->slewTimeScale      = dVal;
-	if ( op == "ZoomFactor"       && dOk ) options()->ZoomFactor         = dVal;
-	if ( op == "magLimitDrawStar"     && dOk ) options()->magLimitDrawStar     = dVal;
-	if ( op == "magLimitDrawStarZoomOut" && dOk ) options()->magLimitDrawStarZoomOut = dVal;
-	if ( op == "magLimitDrawDeepSky"     && dOk ) options()->magLimitDrawDeepSky     = dVal;
-	if ( op == "magLimitDrawDeepSkyZoomOut" && dOk ) options()->magLimitDrawDeepSkyZoomOut = dVal;
-	if ( op == "magLimitDrawStarInfo" && dOk ) options()->magLimitDrawStarInfo = dVal;
-	if ( op == "magLimitHideStar"     && dOk ) options()->magLimitHideStar     = dVal;
-	if ( op == "magLimitAsteroid"     && dOk ) options()->magLimitAsteroid     = dVal;
-	if ( op == "magLimitAsteroidName" && dOk ) options()->magLimitAsteroidName = dVal;
-	if ( op == "maxRadCometName"      && dOk ) options()->maxRadCometName      = dVal;
+	if ( op == "UseAltAz"         && bOk ) Options::setUseAltAz(      bVal );
+	if ( op == "UseRefraction"    && bOk ) Options::setUseRefraction( bVal );
+	if ( op == "UseAutoLabel"     && bOk ) Options::setUseAutoLabel(  bVal );
+	if ( op == "UseHoverLabel"    && bOk ) Options::setUseHoverLabel( bVal );
+	if ( op == "UseAutoTrail"     && bOk ) Options::setUseAutoTrail(  bVal );
+	if ( op == "UseAnimatedSlewing"   && bOk ) Options::setUseAnimatedSlewing( bVal );
+	if ( op == "FadePlanetTrails" && bOk ) Options::setFadePlanetTrails( bVal );
+	if ( op == "SlewTimeScale"    && dOk ) Options::setSlewTimeScale(    dVal );
+	if ( op == "ZoomFactor"       && dOk ) Options::setZoomFactor(       dVal );
+	if ( op == "MagLimitDrawStar"     && dOk )    Options::setMagLimitDrawStar(    dVal );
+	if ( op == "MagLimitDrawDeepSky"     && dOk ) Options::setMagLimitDrawDeepSky( dVal );
+	if ( op == "MagLimitDrawStarZoomOut" && dOk ) Options::setMagLimitDrawStarZoomOut(        dVal );
+	if ( op == "MagLimitDrawDeepSkyZoomOut" && dOk ) Options::setMagLimitDrawDeepSkyZoomOut(  dVal );
+	if ( op == "MagLimitDrawStarInfo" && dOk ) Options::setMagLimitDrawStarInfo( dVal );
+	if ( op == "MagLimitHideStar"     && dOk ) Options::setMagLimitHideStar(     dVal );
+	if ( op == "MagLimitAsteroid"     && dOk ) Options::setMagLimitAsteroid(     dVal );
+	if ( op == "MagLimitAsteroidName" && dOk ) Options::setMagLimitAsteroidName( dVal );
+	if ( op == "MaxRadCometName"      && dOk ) Options::setMaxRadCometName(      dVal );
 
 	//these three are a "radio group"
 	if ( op == "UseLatinConstellationNames" && bOk ) {
-		options()->useLatinConstellNames = true;
-		options()->useLocalConstellNames = false;
-		options()->useAbbrevConstellNames = false;
+		Options::setUseLatinConstellNames( true );
+		Options::setUseLocalConstellNames( false );
+		Options::setUseAbbrevConstellNames( false );
 	}
 	if ( op == "UseLocalConstellationNames" && bOk ) {
-		options()->useLatinConstellNames = false;
-		options()->useLocalConstellNames = true;
-		options()->useAbbrevConstellNames = false;
+		Options::setUseLatinConstellNames( false );
+		Options::setUseLocalConstellNames( true );
+		Options::setUseAbbrevConstellNames( false );
 	}
 	if ( op == "UseAbbrevConstellationNames" && bOk ) {
-		options()->useLatinConstellNames = false;
-		options()->useLocalConstellNames = false;
-		options()->useAbbrevConstellNames = true;
+		Options::setUseLatinConstellNames( false );
+		Options::setUseLocalConstellNames( false );
+		Options::setUseAbbrevConstellNames( true );
 	}
 
 	map()->forceUpdate();

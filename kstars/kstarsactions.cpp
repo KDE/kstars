@@ -26,6 +26,7 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 #include <ktip.h>
+#include <kconfigdialog.h>
 #include <kfiledialog.h>
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
@@ -33,6 +34,12 @@
 #include <qpaintdevicemetrics.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
+
+#include "opscatalog.h"
+#include "opsguides.h"
+#include "opssolarsystem.h"
+#include "opscolors.h"
+#include "opsadvanced.h"
 
 //keep KDE 3.0.x and 3.1.x compatibility
 //KDE_VERSION changed from decimal to hex during KDE 3.1.x, so have to use
@@ -53,7 +60,6 @@
 #include "finddialog.h"
 #include "focusdialog.h"
 #include "fovdialog.h"
-#include "viewopsdialog.h"
 #include "kswizard.h"
 #include "astrocalc.h"
 #include "lcgenerator.h"
@@ -78,21 +84,21 @@
 void KStars::slotViewToolBar() {
 
 	if ( sender()->name() == QString( "show_stars" ) ) {
-		options()->drawSAO = !options()->drawSAO;
+		Options::setShowStars( !Options::showStars() );
 	} else if ( sender()->name() == QString( "show_deepsky" ) ) {
-		options()->drawDeepSky = !options()->drawDeepSky;
+		Options::setShowDeepSky( ! Options::showDeepSky() );
 	} else if ( sender()->name() == QString( "show_planets" ) ) {
-		options()->drawPlanets = !options()->drawPlanets;
+		Options::setShowPlanets( ! Options::showPlanets() );
 	} else if ( sender()->name() == QString( "show_clines" ) ) {
-		options()->drawConstellLines = !options()->drawConstellLines;
+		Options::setShowCLines( !Options::showCLines() );
 	} else if ( sender()->name() == QString( "show_cnames" ) ) {
-		options()->drawConstellNames = !options()->drawConstellNames;
+		Options::setShowCNames( !Options::showCNames() );
 	} else if ( sender()->name() == QString( "show_mw" ) ) {
-		options()->drawMilkyWay = !options()->drawMilkyWay;
+		Options::setShowMilkyWay( !Options::showMilkyWay() );
 	} else if ( sender()->name() == QString( "show_grid" ) ) {
-		options()->drawGrid = !options()->drawGrid;
+		Options::setShowGrid( !Options::showGrid() );
 	} else if ( sender()->name() == QString( "show_horizon" ) ) {
-		options()->drawGround = !options()->drawGround;
+		Options::setShowGround( !Options::showGround() );
 	}
 
 	// update time for all objects because they might be not initialized
@@ -173,17 +179,17 @@ void KStars::slotINDIConf() {
 
    INDIConf indiconf(this);
 
-   indiconf.timeCheck->setChecked( options()->indiAutoTime );
-   indiconf.GeoCheck->setChecked( options()->indiAutoGeo );
-   indiconf.crosshairCheck->setChecked( options()->indiCrosshairs);
-   indiconf.messagesCheck->setChecked ( options()->indiMessages);
+   indiconf.timeCheck->setChecked( Options::indiAutoTime() );
+   indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
+   indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
+   indiconf.messagesCheck->setChecked ( Options::indiMessages() );
 
    if (indiconf.exec() == QDialog::Accepted)
    {
-     options()->indiAutoTime = indiconf.timeCheck->isChecked();
-     options()->indiAutoGeo  = indiconf.GeoCheck->isChecked();
-     options()->indiCrosshairs = indiconf.crosshairCheck->isChecked();
-     options()->indiMessages = indiconf.messagesCheck->isChecked();
+     Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
+     Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
+     Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
+     Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
 
      map()->forceUpdateNow();
    }
@@ -196,7 +202,7 @@ void KStars::slotGeoLocator() {
 		if ( ii >= 0 ) {
 			// set new location in options
 			GeoLocation *newLocation = data()->geoList.at(ii);
-			options()->setLocation( *newLocation );
+			data()->setLocation( *newLocation );
 
 			// reset infoboxes
 			infoBoxes()->geoChanged( newLocation );
@@ -220,33 +226,50 @@ void KStars::slotGeoLocator() {
 
 			// If the sky is in Horizontal mode and not tracking, reset focus such that
 			// Alt/Az remain constant.
-			if ( ! options()->isTracking && options()->useAltAz ) {
+			if ( ! Options::isTracking() && Options::useAltAz() ) {
 				map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 			}
 
 			// recalculate new times and objects
-			options()->setSnapNextFocus();
+			data()->setSnapNextFocus();
 			updateTime();
 		}
 	}
 }
 
 void KStars::slotViewOps() {
-	// save options for cancel
-	data()->backupOptions();
+	KStandardDirs stdDirs;
+ 
+	//An instance of your dialog could be already created and could be cached, 
+	//in which case you want to display the cached dialog instead of creating 
+	//another one 
+	if ( KConfigDialog::showDialog( "settings" ) ) return; 
+ 
+	//KConfigDialog didn't find an instance of this dialog, so lets create it : 
+	KConfigDialog* dialog = new KConfigDialog( this, "settings", 
+					     Options::self() ); 
 
-	ViewOpsDialog viewopsdialog (this);
-	// connect caching funktions
-	QObject::connect( &viewopsdialog, SIGNAL( clearCache() ), this, SLOT( clearCachedFindDialog() ) );
-
-	// ask for the new options
-	if ( viewopsdialog.exec() != QDialog::Accepted ) {
-		// cancelled
-		data()->restoreOptions();
+	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" ); 
+	OpsGuides  *opguides     = new OpsGuides( this, "guides" ); 
+	OpsSolarSystem *opsolsys = new OpsSolarSystem( this, "solarsystem" ); 
+	OpsColors  *opcolors     = new OpsColors( this, "colors" ); 
+	OpsAdvanced *opadvanced  = new OpsAdvanced( this, "advanced" ); 
+ 
+	dialog->addPage( opcatalog,  i18n("Catalogs"), stdDirs.findResource( "data", "kstars/opscatalog.png" ) ); 
+	dialog->addPage( opsolsys,   i18n("Solar System"), stdDirs.findResource( "data", "kstars/opssolarsystem.png" ) ); 
+	dialog->addPage( opguides,   i18n("Guides"), stdDirs.findResource( "data", "kstars/opsguides.png" ) ); 
+	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) ); 
+	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) ); 
+ 
+	//User edited the configuration - update your local copies of the 
+	//configuration data 
+	//  connect( dialog, SIGNAL(settingsChanged()), 
+	//	   this, SLOT(updateConfiguration()) ); 
+ 
+	if ( dialog->exec() == QDialog::Accepted ) {
+		Options::writeConfig();
 		map()->forceUpdate();
 	}
-	else
-		data()->saveOptions(this);
 }
 
 void KStars::slotSetTime() {
@@ -255,7 +278,7 @@ void KStars::slotSetTime() {
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		data()->changeTime( timedialog.selectedDate(), timedialog.selectedTime() );
 
-		if ( options()->useAltAz ) {
+		if ( Options::useAltAz() ) {
 			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 
@@ -457,12 +480,12 @@ void KStars::slotRunScript() {
 void KStars::slotPrint() {
 	bool switchColors(false);
 	// save current colorscheme using copy constructor
-	ColorScheme cs( * options()->colorScheme() );
+	ColorScheme cs( * data()->colorScheme() );
 
 	KPrinter printer( true, QPrinter::HighResolution );
 
 //Suggest Chart color scheme
-	if ( options()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
+	if ( cs.colorNamed( "SkyColor" ) != "#FFFFFF" ) {
 		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing?" );
 
 		int answer;
@@ -484,72 +507,13 @@ void KStars::slotPrint() {
 
 		map()->setMapGeometry();
 		map()->exportSkyImage( &printer );
-
-/*
-		QPainter p;
-
-		//shortcuts to inform wheter to draw different objects
-		bool drawPlanets( options()->drawPlanets );
-		bool drawMW( options()->drawMilkyWay );
-		bool drawCNames( options()->drawConstellNames );
-		bool drawCLines( options()->drawConstellLines );
-		bool drawGrid( options()->drawGrid );
-
-		p.begin( &printer );
-		QPaintDeviceMetrics pdm( p.device() );
-
-		//scale image such that it fills 90% of the x or y dimension on the paint device
-		double xscale = pdm.width() / map()->width();
-		double yscale = pdm.height() / map()->height();
-		double scale = (xscale < yscale) ? xscale : yscale;
-
-		int pdWidth = int( scale * map()->width() );
-		int pdHeight = int( scale * map()->height() );
-		int x1 = int( 0.5*(pdm.width()  - pdWidth) );
-		int y1 = int( 0.5*(pdm.height()  - pdHeight) );
-
-		p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
-		p.setClipping( true );
-
-		//Fil background with sky color
-		p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( options()->colorScheme()->colorNamed( "SkyColor" ) ) );
-
-		p.translate( x1, y1 );
-
-		QFont stdFont = p.font();
-		QFont smallFont = p.font();
-		smallFont.setPointSize( stdFont.pointSize() - 2 );
-
-		if ( drawMW ) map()->drawMilkyWay( p, scale );
-		if ( drawGrid ) map()->drawCoordinateGrid( p, scale );
-		if ( options()->drawEquator ) map()->drawEquator( p, scale );
-		if ( options()->drawEcliptic ) map()->drawEcliptic( p, scale );
-		if ( drawCLines ) map()->drawConstellationLines( p, scale );
-		if ( drawCNames ) map()->drawConstellationNames( p, stdFont, scale );
-
-		// stars and planets use the same font size
-		if ( options()->ZoomFactor < 10.*MINZOOM ) {
-			p.setFont( smallFont );
-		} else {
-			p.setFont( stdFont );
-		}
-		map()->drawStars( p, scale );
-
-		map()->drawDeepSkyObjects( p, scale );
-		map()->drawSolarSystem( p, drawPlanets, scale );
-		map()->drawAttachedLabels( p, scale );
-		map()->drawHorizon( p, stdFont, scale );
-
-		p.end();
-*/
-
 		kapp->restoreOverrideCursor();
 	}
 
 	// restore old color scheme if necessary
 	// if printing will aborted the colorscheme will restored too
 	if ( switchColors ) {
-		options()->colorScheme()->copy( cs );
+		data()->colorScheme()->copy( cs );
 		// restore colormode in skymap
 		map()->setStarColorMode( cs.starColorMode() );
 		map()->forceUpdate();
@@ -561,7 +525,7 @@ void KStars::slotSetTimeToNow() {
 	QDateTime now = QDateTime::currentDateTime();
 	data()->changeTime( now.date(), now.time() );
 
-	if ( options()->useAltAz ) {
+	if ( Options::useAltAz() ) {
 		map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 	}
 
@@ -578,7 +542,7 @@ void KStars::slotToggleTimer() {
 		data()->clock()->stop();
 		updateTime();
 	} else {
-		if ( fabs( data()->clock()->scale() ) > options()->slewTimeScale )
+		if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
 			data()->clock()->setManualMode( true );
 		data()->clock()->start();
 		if ( data()->clock()->isManualMode() ) map()->forceUpdate();
@@ -602,8 +566,8 @@ void KStars::slotPointFocus() {
 }
 
 void KStars::slotTrack() {
-	if ( options()->isTracking ) {
-		options()->isTracking = false;
+	if ( Options::isTracking() ) {
+		Options::setIsTracking( false );
 		actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
@@ -616,7 +580,7 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( NULL );
 	} else {
 		map()->setClickedPoint( map()->focus() );
-		options()->isTracking = true;
+		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
@@ -626,7 +590,7 @@ void KStars::slotTrack() {
 
 void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
-	if ( options()->useAltAz ) focusDialog.activateAzAltPage();
+	if ( Options::useAltAz() ) focusDialog.activateAzAltPage();
 
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		//Do we need to convert Az/Alt to RA/Dec?
@@ -634,14 +598,14 @@ void KStars::slotManualFocus() {
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
-		if ( options()->useAltAz && options()->useRefraction ) {
+		if ( Options::useAltAz() && Options::useRefraction() ) {
 			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
 			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 
 		map()->setClickedPoint( focusDialog.point() );
-		if ( options()->isTracking ) slotTrack();
+		if ( Options::isTracking() ) slotTrack();
 
 		map()->slotCenter();
 
@@ -653,11 +617,11 @@ void KStars::slotManualFocus() {
 //View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( options()->ZoomFactor < MAXZOOM )
-		options()->ZoomFactor *= DZOOM;
+	if ( Options::zoomFactor() < MAXZOOM )
+		Options::setZoomFactor( Options::zoomFactor()*DZOOM );
 
-	if ( options()->ZoomFactor >= MAXZOOM ) {
-		options()->ZoomFactor = MAXZOOM;
+	if ( Options::zoomFactor() >= MAXZOOM ) {
+		Options::setZoomFactor( MAXZOOM );
 		actionCollection()->action("zoom_in")->setEnabled (false);
 	}
 
@@ -666,11 +630,11 @@ void KStars::slotZoomIn() {
 
 void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
-	if ( options()->ZoomFactor > MINZOOM )
-		options()->ZoomFactor /= DZOOM;
+	if ( Options::zoomFactor() > MINZOOM )
+		Options::setZoomFactor( Options::zoomFactor()/DZOOM );
 
-	if ( options()->ZoomFactor <= MINZOOM ) {
-		options()->ZoomFactor = MINZOOM;
+	if ( Options::zoomFactor() <= MINZOOM ) {
+		Options::setZoomFactor( MINZOOM );
 		actionCollection()->action("zoom_out")->setEnabled (false);
 	}
 
@@ -678,18 +642,18 @@ void KStars::slotZoomOut() {
 }
 
 void KStars::slotDefaultZoom() {
-	options()->ZoomFactor = DEFAULTZOOM;
+	Options::setZoomFactor( DEFAULTZOOM );
 	map()->forceUpdate();
 
-	if ( options()->ZoomFactor > MINZOOM )
+	if ( Options::zoomFactor() > MINZOOM )
 		actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( options()->ZoomFactor < MAXZOOM )
+	if ( Options::zoomFactor() < MAXZOOM )
 		actionCollection()->action("zoom_in")->setEnabled (true);
 }
 
 void KStars::slotSetZoom() {
 	bool ok( false );
-	double currentAngle = map()->width() / ( options()->ZoomFactor * dms::DegToRad );
+	double currentAngle = map()->width() / ( Options::zoomFactor() * dms::DegToRad );
 	double angSize = currentAngle;
 	double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
 	double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
@@ -709,17 +673,17 @@ void KStars::slotSetZoom() {
 	#endif
 
 	if ( ok ) {
-		options()->ZoomFactor = map()->width() / ( angSize * dms::DegToRad );
+		Options::setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );
 
-		if ( options()->ZoomFactor <= MINZOOM ) {
-			options()->ZoomFactor = MINZOOM;
+		if ( Options::zoomFactor() <= MINZOOM ) {
+			Options::setZoomFactor( MINZOOM );
 			actionCollection()->action("zoom_out")->setEnabled( false );
 		} else {
 			actionCollection()->action("zoom_out")->setEnabled( true );
 		}
 
-		if ( options()->ZoomFactor >= MAXZOOM ) {
-			options()->ZoomFactor = MAXZOOM;
+		if ( Options::zoomFactor() >= MAXZOOM ) {
+			Options::setZoomFactor( MAXZOOM );
 			actionCollection()->action("zoom_in")->setEnabled( false );
 		} else {
 			actionCollection()->action("zoom_in")->setEnabled( true );
@@ -730,11 +694,11 @@ void KStars::slotSetZoom() {
 }
 
 void KStars::slotCoordSys() {
-	if ( options()->useAltAz ) {
-		options()->useAltAz = false;
+	if ( Options::useAltAz() ) {
+		Options::setUseAltAz( false );
 		actCoordSys->turnOn();
 	} else {
-		options()->useAltAz = true;
+		Options::setUseAltAz( true );
 		actCoordSys->turnOff();
 	}
 	map()->forceUpdate();
@@ -749,11 +713,11 @@ void KStars::slotColorScheme() {
 
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
-	options()->setTargetSymbol( symbolName );
+	Options::setFOVName( symbolName );
 	data()->fovSymbol.setName( symbolName );
-	data()->fovSymbol.setSize( options()->FOVSize );
-	data()->fovSymbol.setShape( options()->FOVShape );
-	data()->fovSymbol.setColor( options()->FOVColor );
+	data()->fovSymbol.setSize( Options::fOVSize() );
+	data()->fovSymbol.setShape( Options::fOVShape() );
+	data()->fovSymbol.setColor( Options::fOVColor().name() );
 
 //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
 //	//set ZoomLevel to match the FOV symbol
@@ -810,11 +774,11 @@ void KStars::slotFOVEdit() {
 
 		//set FOV to whatever was highlighted in FOV dialog
 		if ( fovdlg.FOVList.count() > 0 ) {
-			options()->setTargetSymbol( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
-			data()->fovSymbol.setName( options()->FOVName );
-			data()->fovSymbol.setSize( options()->FOVSize );
-			data()->fovSymbol.setShape( options()->FOVShape );
-			data()->fovSymbol.setColor( options()->FOVColor );
+			Options::setFOVName( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
+			data()->fovSymbol.setName( Options::fOVName() );
+			data()->fovSymbol.setSize( Options::fOVSize() );
+			data()->fovSymbol.setShape( Options::fOVShape() );
+			data()->fovSymbol.setColor( Options::fOVColor().name() );
 		}
 
 //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
@@ -843,35 +807,35 @@ void KStars::slotFullScreen()
 void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
 	if ( sender()->name() == QString( "show_mainToolBar" ) ) {
-		options()->showMainToolBar = show;
+		Options::setShowMainToolBar( show );
 		if ( show ) toolBar( "mainToolBar" )->show();
 		else toolBar( "mainToolBar" )->hide();
 	}
 	if ( sender()->name() == QString( "show_viewToolBar" ) ) {
-		options()->showViewToolBar = show;
+		Options::setShowViewToolBar( show );
 		if ( show ) toolBar( "viewToolBar" )->show();
 		else toolBar( "viewToolBar" )->hide();
 	}
 
 	if ( sender()->name() == QString( "show_statusBar" ) ) {
-		options()->showStatusBar = show;
+		Options::setShowStatusBar( show );
 		if ( show ) statusBar()->show();
 		else  statusBar()->hide();
 	}
 
 	if ( sender()->name() == QString( "show_sbAzAlt" ) ) {
-		options()->showAzAltField = show;
+		Options::setShowAltAzField( show );
 		if ( show ) {
 			//To preserve the order (AzAlt before RADec), we have to remove 
 			//the RADec field and then add both back.
-			if ( options()->showRADecField ) statusBar()->removeItem( 2 );
+			if ( Options::showRADecField() ) statusBar()->removeItem( 2 );
 			
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 1, true );
 			statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
 			statusBar()->changeItem( "", 1 );
 
-			if ( options()->showRADecField ) {
+			if ( Options::showRADecField() ) {
 				statusBar()->insertFixedItem( s, 2, true );
 				statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
 				statusBar()->changeItem( "", 2 );
@@ -882,7 +846,7 @@ void KStars::slotShowGUIItem( bool show ) {
 	}
 	
 	if ( sender()->name() == QString( "show_sbRADec" ) ) {
-		options()->showRADecField = show;
+		Options::setShowRADecField( show );
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 2, true );
@@ -896,13 +860,13 @@ void KStars::slotShowGUIItem( bool show ) {
 //InfoBoxes: we only change options here; these are also connected to slots in
 //InfoBoxes that actually toggle the display.
 	if ( sender()->name() == QString( "show_boxes" ) )
-		options()->showInfoBoxes = show;
+		Options::setShowInfoBoxes( show );
 	if ( sender()->name() == QString( "show_time_box" ) )
-		options()->showTimeBox = show;
+		Options::setShowTimeBox( show );
 	if ( sender()->name() == QString( "show_location_box" ) )
-		options()->showGeoBox = show;
+		Options::setShowGeoBox( show );
 	if ( sender()->name() == QString( "show_focus_box" ) )
-		options()->showFocusBox = show;
+		Options::setShowFocusBox( show );
 }
 
 void KStars::addColorMenuItem( QString name, QString actionName ) {

@@ -56,9 +56,9 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	setDefaultMouseCursor();	// set the cross cursor
 
 	// load the pixmaps of stars
-	starpix = new StarPixmap( data->options->colorScheme()->starColorMode(), data->options->colorScheme()->starColorIntensity() );
+	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
 
-	setBackgroundColor( QColor( data->options->colorScheme()->colorNamed( "SkyColor" ) ) );
+	setBackgroundColor( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 	setBackgroundMode( QWidget::NoBackground );
 	setFocusPolicy( QWidget::StrongFocus );
 	setMinimumSize( 380, 250 );
@@ -82,22 +82,22 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	nHoverTicks = 0;
 	connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
 
-	IBoxes = new InfoBoxes( data->options->windowWidth, data->options->windowHeight,
-			data->options->posTimeBox, data->options->shadeTimeBox,
-			data->options->posGeoBox, data->options->shadeGeoBox,
-			data->options->posFocusBox, data->options->shadeFocusBox,
-			data->options->colorScheme()->colorNamed( "BoxTextColor" ),
-			data->options->colorScheme()->colorNamed( "BoxGrabColor" ),
-			data->options->colorScheme()->colorNamed( "BoxBGColor" ) );
+	IBoxes = new InfoBoxes( Options::windowWidth(), Options::windowHeight(),
+			Options::positionTimeBox(), Options::shadeTimeBox(),
+			Options::positionGeoBox(), Options::shadeGeoBox(),
+			Options::positionFocusBox(), Options::shadeFocusBox(),
+			data->colorScheme()->colorNamed( "BoxTextColor" ),
+			data->colorScheme()->colorNamed( "BoxGrabColor" ),
+			data->colorScheme()->colorNamed( "BoxBGColor" ) );
 
-	IBoxes->showTimeBox( data->options->showTimeBox );
-	IBoxes->showFocusBox( data->options->showFocusBox );
-	IBoxes->showGeoBox( data->options->showGeoBox );
-	IBoxes->timeBox()->setAnchorFlag( data->options->stickyTimeBox );
-	IBoxes->geoBox()->setAnchorFlag( data->options->stickyGeoBox );
-	IBoxes->focusBox()->setAnchorFlag( data->options->stickyFocusBox );
+	IBoxes->showTimeBox( Options::showTimeBox() );
+	IBoxes->showFocusBox( Options::showFocusBox() );
+	IBoxes->showGeoBox( Options::showGeoBox() );
+	IBoxes->timeBox()->setAnchorFlag( Options::stickyTimeBox() );
+	IBoxes->geoBox()->setAnchorFlag( Options::stickyGeoBox() );
+	IBoxes->focusBox()->setAnchorFlag( Options::stickyFocusBox() );
 
-	IBoxes->geoChanged( data->options->Location() );
+	IBoxes->geoChanged( data->geo() );
 
 	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), data, SLOT( saveTimeBoxShaded(bool) ) );
 	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), data, SLOT( saveGeoBoxShaded(bool) ) );
@@ -157,7 +157,7 @@ void SkyMap::showFocusCoords( void ) {
 	QString oname;
 
 	oname = i18n( "nothing" );
-	if ( focusObject() != NULL && data->options->isTracking ) {
+	if ( focusObject() != NULL && Options::isTracking() ) {
 		oname = focusObject()->translatedName();
 		//add genetive name for stars
 	  if ( focusObject()->type()==0 && focusObject()->name2().length() )
@@ -166,10 +166,10 @@ void SkyMap::showFocusCoords( void ) {
 
 	infoBoxes()->focusObjChanged(oname);
 
-	if ( data->options->useAltAz && data->options->useRefraction ) {
+	if ( Options::useAltAz() && Options::useRefraction() ) {
 		SkyPoint corrFocus( *(focus()) );
 		corrFocus.setAlt( refract( focus()->alt(), false ) );
-		corrFocus.HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+		corrFocus.HorizontalToEquatorial( data->LST, data->geo()->lat() );
 		infoBoxes()->focusCoordChanged( &corrFocus );
 	} else {
 		infoBoxes()->focusCoordChanged( focus() );
@@ -177,7 +177,7 @@ void SkyMap::showFocusCoords( void ) {
 }
 
 SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
-	double r0 = 200.0/zoomFactor();  //the maximum search radius
+	double r0 = 200.0/Options::zoomFactor();  //the maximum search radius
 	double rmin = r0;
 
 	//Search stars database for nearby object.
@@ -185,7 +185,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	double starmag_min = 20.0;      //absurd initial value
 	int istar_min = -1;
 
-	if ( data->options->drawSAO ) { //Can only click on a star if it's being drawn!
+	if ( Options::showStars() ) { //Can only click on a star if it's being drawn!
 
 		//test RA and dec to see if this star is roughly nearby
 
@@ -210,7 +210,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	double rsolar_min = r0;
 	SkyObject *solarminobj = NULL;
 
-	if ( data->options->drawPlanets )
+	if ( Options::showPlanets() )
 		solarminobj = data->PCat->findClosest( p, r );
 
 	if ( r < r0 ) {
@@ -220,7 +220,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	}
 
 	//Moon
-	if ( data->options->drawMoon ) {
+	if ( Options::showMoon() ) {
 		double dRA = data->Moon->ra()->Hours() - p->ra()->Hours();
 		double dDec = data->Moon->dec()->Degrees() - p->dec()->Degrees();
 		double f = 15.0*cos( data->Moon->dec()->radians() );
@@ -232,14 +232,14 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	}
 
 	//Asteroids
-	if ( data->options->drawAsteroids ) {
+	if ( Options::showAsteroids() ) {
 		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 			//test RA and dec to see if this object is roughly nearby
 			double dRA = ast->ra()->Hours() - p->ra()->Hours();
 			double dDec = ast->dec()->Degrees() - p->dec()->Degrees();
 			double f = 15.0*cos( ast->dec()->radians() );
 			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-			if ( r < rsolar_min && ast->mag() < data->options->magLimitAsteroid ) {
+			if ( r < rsolar_min && ast->mag() < Options::magLimitAsteroid() ) {
 				solarminobj = ast;
 				rsolar_min = r;
 			}
@@ -247,7 +247,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	}
 
 	//Comets
-	if ( data->options->drawComets ) {
+	if ( Options::showComets() ) {
 		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
 			//test RA and dec to see if this object is roughly nearby
 			double dRA = com->ra()->Hours() - p->ra()->Hours();
@@ -274,10 +274,10 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	for ( DeepSkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
 		bool checkObject = false;
 		if ( o->isCatalogM() &&
-				( data->options->drawMessier || data->options->drawMessImages ) ) checkObject = true;
-		if ( o->isCatalogNGC() && data->options->drawNGC ) checkObject = true;
-		if ( o->isCatalogIC() && data->options->drawIC ) checkObject = true;
-		if ( o->catalog().isEmpty() && data->options->drawOther ) checkObject = true;
+				( Options::showMessier() || Options::showMessierImages() ) ) checkObject = true;
+		if ( o->isCatalogNGC() && Options::showNGC() ) checkObject = true;
+		if ( o->isCatalogIC() && Options::showIC() ) checkObject = true;
+		if ( o->catalog().isEmpty() && Options::showOther() ) checkObject = true;
 
 		if ( checkObject ) {
 			//test RA and dec to see if this object is roughly nearby
@@ -309,9 +309,9 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	int icust_min = -1;
 	int icust_cat = -1;
 
-	for ( register unsigned int j=0; j<data->options->CatalogCount; ++j ) {
-		if ( data->options->drawCatalog[j] ) {
-			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ data->options->CatalogName[j] ];
+	for ( register unsigned int j=0; j<Options::catalogCount(); ++j ) {
+		if ( Options::showCatalog()[j] ) {
+			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ Options::catalogName()[j] ];
 
 			for ( register unsigned int i=0; i<cat.count(); ++i ) {
 				//test RA and dec to see if this object is roughly nearby
@@ -391,7 +391,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 			break;
 
 		case 2: //Custom Catalog Object
-			cat = data->CustomCatalogs[ data->options->CatalogName[icust_cat] ];
+			cat = data->CustomCatalogs[ Options::catalogName()[icust_cat] ];
 			return cat.at(icust_min);
 			break;
 
@@ -421,7 +421,8 @@ void SkyMap::checkHoverPoint( void ) {
 			//Can't check transientObjec(), because it's possible that the old one is still fading.
 			//We instead check to see if TransientColor!=UserLabelColor, because this is only true when
 			//we are not hovering on an already-identified TransientObject
-			if ( TransientColor != data->options->colorScheme()->colorNamed( "UserLabelColor" ) ) {
+
+			if ( TransientColor != data->colorScheme()->colorNamed( "UserLabelColor" ) ) {
 				SkyObject *so = objectNearest( mousePoint() );
 				
 				if ( so ) {
@@ -431,7 +432,7 @@ void SkyMap::checkHoverPoint( void ) {
 					} else {
 						setTransientObject( so );
 						
-						TransientColor = data->options->colorScheme()->colorNamed( "UserLabelColor" );
+						TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
 						if ( TransientTimer.isActive() ) TransientTimer.stop();
 						update();
 					}
@@ -457,8 +458,8 @@ void SkyMap::checkHoverPoint( void ) {
 
 void SkyMap::slotTransientTimeout( void ) {
 	//to fade the labels, we will need to smoothly transition from UserLabelColor to SkyColor.
-	QColor c1 = data->options->colorScheme()->colorNamed( "UserLabelColor" );
-	QColor c2 = data->options->colorScheme()->colorNamed( "SkyColor" );
+	QColor c1 = data->colorScheme()->colorNamed( "UserLabelColor" );
+	QColor c2 = data->colorScheme()->colorNamed( "SkyColor" );
 	
 	int dRed =   ( c2.red()   - c1.red()   )/20;
 	int dGreen = ( c2.green() - c1.green() )/20;
@@ -479,6 +480,15 @@ void SkyMap::slotTransientTimeout( void ) {
 	update();
 }
 
+void SkyMap::setFocusObject( SkyObject *o ) { 
+	FocusObject = o; 
+	
+	if ( FocusObject ) 
+		Options::setFocusObject( FocusObject->name() );
+	else 
+		Options::setFocusObject( i18n( "nothing" ) );
+}
+
 void SkyMap::slotCenter( void ) {
 	setFocusPoint( clickedPoint() );
 	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -491,7 +501,7 @@ void SkyMap::slotCenter( void ) {
 
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
-	if ( data->options->useAltAz && data->options->drawGround &&
+	if ( Options::useAltAz() && Options::showGround() &&
 			focus()->alt()->Degrees() > -1.0 && focusPoint()->alt()->Degrees() < -1.0 ) {
 
 		QString caption = i18n( "Requested Position Below Horizon" );
@@ -500,7 +510,7 @@ void SkyMap::slotCenter( void ) {
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFocusObject( NULL );
-			data->options->isTracking = false;
+			Options::setIsTracking( false );
 
 			return;
 		}
@@ -509,37 +519,27 @@ void SkyMap::slotCenter( void ) {
 //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFocusObject( ClickedObject );
-	data->options->isTracking = true;
+	Options::setIsTracking( true );
 	if ( ksw ) ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 	if ( focusObject() && focusObject()->isSolarSystem()
-			&& data->options->useAutoTrail
+	     && Options::useAutoTrail()
 			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
 		((KSPlanetBase*)focusObject())->addToTrail();
 		data->temporaryTrail = true;
 	}
 
 	//update the destination to the selected coordinates
-	if ( data->options->useAltAz && data->options->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
+	if ( Options::useAltAz() && Options::useRefraction() ) { //correct for atmospheric refraction if using horizontal coords
 		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
 	} else {
 		setDestination( focusPoint() );
-		destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+		destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	}
 
 	//display coordinates in statusBar
-	QString sRA, sDec, s;
-	char dsgn = '+';
-
-	if ( focusPoint()->dec()->Degrees() < 0 ) dsgn = '-';
-	int dd = abs( focusPoint()->dec()->degree() );
-	int dm = abs( focusPoint()->dec()->arcmin() );
-	int ds = abs( focusPoint()->dec()->arcsec() );
-
-	sRA = sRA.sprintf( "%02d:%02d:%02d", focusPoint()->ra()->hour(), focusPoint()->ra()->minute(), focusPoint()->ra()->second() );
-	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
-	s = sRA + ",  " + sDec;
+	QString s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
 	if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
 
 	showFocusCoords(); //update FocusBox
@@ -636,7 +636,7 @@ void SkyMap::slotInfo( int id ) {
 void SkyMap::slotBeginAngularDistance(void) {
 	setPreviousClickedPoint( mousePoint() );
 	angularDistanceMode = true;
-	beginRulerPoint = getXY( previousClickedPoint(), data->options->useAltAz, data->options->useRefraction);
+	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
 	endRulerPoint =  QPoint( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
@@ -717,13 +717,13 @@ void SkyMap::slotDetail( void ) {
     	KMessageBox::sorry( this, i18n("No object selected!"), i18n("Object Details") );
 		return;
    }
-	DetailDialog detail( clickedObject(), data->LTime, data->options->Location(), ksw );
+	DetailDialog detail( clickedObject(), data->LTime, data->geo(), ksw );
 	detail.exec();
 }
 
 void SkyMap::slotClockSlewing() {
 //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-	if ( fabs( data->clock()->scale() ) > data->options->slewTimeScale ) {
+	if ( fabs( data->clock()->scale() ) > Options::slewTimeScale() ) {
 		if ( ! clockSlewing ) {
 			clockSlewing = true;
 			data->clock()->setManualMode( true );
@@ -743,18 +743,16 @@ void SkyMap::slotClockSlewing() {
 }
 
 void SkyMap::setFocus( SkyPoint *p ) {
-	Focus.set( p->ra(), p->dec() );
-	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	setFocus( p->ra()->Hours(), p->dec()->Degrees() );
 }
 
 void SkyMap::setFocus( const dms &ra, const dms &dec ) {
-	Focus.set( ra, dec );
-	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	setFocus( ra.Hours(), dec.Degrees() );
 }
 
 void SkyMap::setFocus( double ra, double dec ) {
 	Focus.set( ra, dec );
-	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 }
 
 void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
@@ -764,7 +762,7 @@ void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
 void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAlt(alt);
 	focus()->setAz(az);
-	focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+	focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 	slewing = false;
 
 	oldfocus()->set( focus()->ra(), focus()->dec() );
@@ -780,75 +778,75 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 
 void SkyMap::setDestination( SkyPoint *p ) {
 	Destination.set( p->ra(), p->dec() );
-	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
 	Destination.set( ra, dec );
-	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestination( double ra, double dec ) {
 	Destination.set( ra, dec );
-	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
-	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+	destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz(double alt, double az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
-	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+	destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::updateFocus() {
-	if ( data->options->isTracking && focusObject() != NULL ) {
-		if ( data->options->useAltAz ) {
+	if ( Options::isTracking() && focusObject() != NULL ) {
+		if ( Options::useAltAz() ) {
 			//Tracking any object in Alt/Az mode requires focus updates
 			setFocusAltAz(
 					refract( focusObject()->alt(), true ).Degrees(),
 					focusObject()->az()->Degrees() );
-			focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			setDestination( focus() );
 		} else {
 			//Tracking in equatorial coords
 			setFocus( focusObject() );
-			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			setDestination( focus() );
 		}
-	} else if ( data->options->isTracking && focusPoint() != NULL ) {
-		if ( data->options->useAltAz ) {
+	} else if ( Options::isTracking() && focusPoint() != NULL ) {
+		if ( Options::useAltAz() ) {
 			//Tracking on empty sky in Alt/Az mode
 			setFocus( focusPoint() );
-			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			setDestination( focus() );
 		}
 	} else if ( ! isSlewing() ) {
 		//Not tracking and not slewing, let sky drift by
-		if ( data->options->useAltAz ) {
+		if ( Options::useAltAz() ) {
 			focus()->setAlt( destination()->alt()->Degrees() );
 			focus()->setAz( destination()->az()->Degrees() );
-			focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
-			//destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+			//destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 		} else {
 			focus()->setRA( data->LST->Hours() - data->HourAngle->Hours() );
 			setDestination( focus() );
-			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
-			destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		}
 	}
 
 	setOldFocus( focus() );
-	oldfocus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	oldfocus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 }
 
 void SkyMap::slewFocus( void ) {
@@ -860,11 +858,11 @@ void SkyMap::slewFocus( void ) {
 //Also, no animated slews if the Manual Clock is active
 //08/2002: added possibility for one-time skipping of slew with snapNextFocus
 	if ( !mouseButtonDown ) {
-		bool goSlew = ( data->options->useAnimatedSlewing &&
-			! data->options->snapNextFocus() ) &&
+		bool goSlew = ( Options::useAnimatedSlewing() &&
+			! data->snapNextFocus() ) &&
 			!( data->clock()->isManualMode() && data->clock()->isActive() );
 		if ( goSlew  ) {
-			if ( data->options->useAltAz ) {
+			if ( Options::useAltAz() ) {
 				dX = destination()->az()->Degrees() - focus()->az()->Degrees();
 				dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 			} else {
@@ -882,22 +880,22 @@ void SkyMap::slewFocus( void ) {
 				fX = dX / r;
 				fY = dY / r;
 
-				if ( data->options->useAltAz ) {
+				if ( Options::useAltAz() ) {
 					focus()->setAlt( focus()->alt()->Degrees() + fY*step );
 					focus()->setAz( focus()->az()->Degrees() + fX*step );
-					focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+					focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 				} else {
 					fX = fX/15.; //convert RA degrees to hours
 					newFocus.set( focus()->ra()->Hours() + fX*step, focus()->dec()->Degrees() + fY*step );
 					setFocus( &newFocus );
-					focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+					focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 				}
 
 				slewing = true;
 				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
 
-				if ( data->options->useAltAz ) {
+				if ( Options::useAltAz() ) {
 					dX = destination()->az()->Degrees() - focus()->az()->Degrees();
 					dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 				} else {
@@ -916,7 +914,7 @@ void SkyMap::slewFocus( void ) {
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
 		setFocus( destination() );
-		focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+		focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 		if ( focusObject() )
 			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
@@ -929,8 +927,8 @@ void SkyMap::slewFocus( void ) {
 		slewing = false;
 
 		//Turn off snapNextFocus, we only want it to happen once
-		if ( data->options->snapNextFocus() ) {
-			data->options->setSnapNextFocus(false);
+		if ( data->snapNextFocus() ) {
+			data->setSnapNextFocus(false);
 		}
 
 		forceUpdate();
@@ -947,11 +945,11 @@ int SkyMap::findPA( DeepSkyObject *o, int x, int y ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/zoomFactor radians (so distance is always 100 pixels)
 	//this is 5730/zoomFactor degrees
-	double newDec = o->dec()->Degrees() + 5730.0/zoomFactor();
+	double newDec = o->dec()->Degrees() + 5730.0/Options::zoomFactor();
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
-	if ( data->options->useAltAz ) test.EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
-	QPoint t = getXY( &test, data->options->useAltAz, data->options->useRefraction );
+	if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+	QPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction() );
 	double dx = double( x - t.x() );  //backwards to get counterclockwise angle
 	double dy = double( t.y() - y );
 	double north;
@@ -975,7 +973,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	int Width = int( width() * scale );
 	int Height = int( height() * scale );
 
-	double pscale = zoomFactor() * scale;
+	double pscale = Options::zoomFactor() * scale;
 
 	if ( Horiz ) {
 		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
@@ -1130,12 +1128,12 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 void SkyMap::forceUpdate( bool now )
 {
 	QPoint mp( mapFromGlobal( QCursor::pos() ) );
-	double dx = ( 0.5*width()  - mp.x() )/zoomFactor();
-	double dy = ( 0.5*height() - mp.y() )/zoomFactor();
+	double dx = ( 0.5*width()  - mp.x() )/Options::zoomFactor();
+	double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
 
 	if (! unusablePoint (dx, dy)) {
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat() ) );
 	}
 
 	computeSkymap = true;
@@ -1144,7 +1142,7 @@ void SkyMap::forceUpdate( bool now )
 }
 
 float SkyMap::fov( void ) {
-	return 32.*width()/zoomFactor();
+	return 32.*width()/Options::zoomFactor();
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
@@ -1154,7 +1152,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 //commented out because ground disappears if it fills the view
 //	if ( useAltAz && drawGround && p->alt()->Degrees() < -2.0 ) return false;
 
-	bool useAltAz = data->options->useAltAz;
+	bool useAltAz = Options::useAltAz();
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
@@ -1285,14 +1283,10 @@ void SkyMap::addLink( void ) {
 	}
 }
 
-double SkyMap::zoomFactor() const {
-	return data->options->ZoomFactor;
-}
-
 bool SkyMap::setColors( QString filename ) {
-	if ( data->options->colorScheme()->load( filename ) ) {
-		if ( starColorMode() != data->options->colorScheme()->starColorMode() )
-			setStarColorMode( data->options->colorScheme()->starColorMode() );
+	if ( data->colorScheme()->load( filename ) ) {
+		if ( starColorMode() != data->colorScheme()->starColorMode() )
+			setStarColorMode( data->colorScheme()->starColorMode() );
 
 		forceUpdate();
 		return true;

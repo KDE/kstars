@@ -238,7 +238,7 @@ public:
 /**Sets the FocusObject pointer to the argument.
 	*@param o the SkyObject pointer to be assigned to FocusObject
 	*/
-	void setFocusObject( SkyObject *o ) { FocusObject = o; }
+	void setFocusObject( SkyObject *o );
 
 /**When the Mouse hovers near an object, it will be set as the TransientObject
 	*/
@@ -513,11 +513,6 @@ private:
   *to avoid a crash of the program if the user clicks on a point outside the sky (the
 	*corners of the sky map at the lowest zoom level are the invalid points).  */
 	bool unusablePoint (double dx, double dy);
-
-/**@short convenience function for getting the ZoomFactor from the options object
-	*The Zoom Factor is the pixel scale of the display (i.e., the number of pixels which subtend one radian)
-	*/
-	double zoomFactor() const;
 
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor

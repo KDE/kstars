@@ -48,7 +48,8 @@
 #include "ksmoon.h"
 #include "planetcatalog.h"
 
-#include "kstarsoptions.h"
+#include "Options.h"
+#include "colorscheme.h"
 #include "simclock.h"
 #include "skymap.h"
 #include "objectnamelist.h"
@@ -183,8 +184,7 @@ public:
 		*/
 	bool readStarData( void );
 
-//	void processSAO(QString *line, bool reloadedData=false);
-	void processStar(QString *line, bool reloadedData=false);
+	void processStar( QString *line );
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
@@ -346,32 +346,6 @@ public:
 		*/
 	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
 
-	/**
-		*return pointer to KStars options.
-		*/
-	KStarsOptions *getOptions() const { return options; }
-
-	/**
-		*Load KStars options.
-		*/
-	void loadOptions();
-
-	/**
-		*Save KStars options.  Optional KStars parameter for saving
-		*certain GUI options.
-		*/
-	void saveOptions(KStars *ks=0);
-
-	/**Make a backup copy of the KStarsOptions object.
-		*This is needed in case the user presses "cancel" after making changes in
-		*the ViewOpsDialog. */
-	void backupOptions();
-
-	/**Restore the KStarsOptions object from the backup copy.
-		*This is needed in case the user presses "cancel" after making changes in
-		*the ViewOpsDialog. */
-	void restoreOptions();
-
 	/**Returns true if time is running forward else false. Used by KStars to prevent
 		*2 calculations of daylight saving change time.
 		*/
@@ -413,7 +387,15 @@ public:
 	void setHourAngle( double ha ) { HourAngle->setH( ha ); }
 
 	//Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
-	GeoLocation *geo() { return options->Location(); }
+
+	GeoLocation *geo() { return &Geo; }
+	void setLocation( const GeoLocation &l );
+
+	ColorScheme *colorScheme() { return &CScheme; }
+	
+	bool snapNextFocus() const { return snapToFocus; }
+	void setSnapNextFocus(bool b=true) { snapToFocus = b; }
+
 	SimClock *clock() { return Clock; }
 	dms *lst() { return LST; }
 	long double currentDate() {return CurrentDate;}
@@ -470,12 +452,12 @@ public slots:
 		*/
 	void setTimeDirection( float scale );
 
-	void saveTimeBoxShaded( bool b ) { options->shadeTimeBox = b; }
-	void saveGeoBoxShaded( bool b ) { options->shadeGeoBox = b; }
-	void saveFocusBoxShaded( bool b ) { options->shadeFocusBox = b; }
-	void saveTimeBoxPos( QPoint p ) { options->posTimeBox = p; }
-	void saveGeoBoxPos( QPoint p ) { options->posGeoBox = p; }
-	void saveFocusBoxPos( QPoint p ) { options->posFocusBox = p; }
+	void saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
+	void saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
+	void saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
+	void saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
+	void saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
+	void saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
 
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
@@ -573,9 +555,13 @@ private:
 	QMap<QString, QPtrList<DeepSkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
+	GeoLocation Geo;
 	SimClock *Clock;
+	ColorScheme CScheme;
+
 	QDateTime LTime, UTime;
-	bool TimeRunsForward, temporaryTrail;
+
+	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
 	QString cnameFile;
 	KStandardDirs *stdDirs;
@@ -595,10 +581,6 @@ private:
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
 	long double NextDSTChange;
-
-	// options
-	KStarsOptions* options;
-	KStarsOptions* oldOptions;
 
 	KStars *kstars; //pointer to the parent widget
 

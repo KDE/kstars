@@ -395,7 +395,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	
        txt_w->insert( QString(valuXMLAtt(message)) + QString("\n"));
        
-       if (parent->ksw->options()->indiMessages)
+       if ( Options::indiMessages )
 	    	parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
 
 }

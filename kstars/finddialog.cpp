@@ -104,12 +104,10 @@ void FindDialog::init() {
 void FindDialog::filter() {  //Filter the list of names with the string in the SearchBox
 	KStars *p = (KStars *)parent();
 
-	int i=0;
 	SearchList->clear();
-
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
-	ObjNames.setLanguage( p->options()->useLatinConstellNames );
+	ObjNames.setLanguage( Options::useLatinConstellNames() );
 
 	QString searchFor = SearchBox->text().lower();
 		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
@@ -134,14 +132,14 @@ void FindDialog::filterByType() {
 
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
-	ObjNames.setLanguage( p->options()->useLatinConstellNames );
+	ObjNames.setLanguage( Options::useLatinConstellNames() );
 
 	for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 	        //Special case: match SkyObject Type 0 with Filter==1 (stars)
 		if ( name->skyObject()->type() == Filter || (name->skyObject()->type() == 0 && Filter == 1 ) ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
 				// for stars, don't show the ones below the faint limit
-				if (Filter!=1 || name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
+				if (Filter!=1 || name->skyObject()->mag() <= Options::magLimitDrawStar() ) {
 					new SkyObjectNameListItem ( SearchList, name );
 				}
 			}

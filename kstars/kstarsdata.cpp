@@ -54,10 +54,6 @@ KStarsData::KStarsData() {
 	//Instantiate the SimClock object
 	Clock = new SimClock();
 
-	//Instantiate KStarsOptions object
-	options = new KStarsOptions();
-	oldOptions = 0;
-
 	//Sidereal Time and Hour Angle objects
 	LST = new dms();
 	HourAngle = new dms();
@@ -128,11 +124,6 @@ KStarsData::~KStarsData() {
 	objects--;
 	checkDataPumpAction();
 
-	delete oldOptions;
-	oldOptions = 0;
-
-	delete options;
-	options = 0;
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
@@ -577,7 +568,7 @@ bool KStarsData::readStarData( void ) {
 				if ( line.left(1) != "#" ) {  //ignore comments
 					// check star magnitude
 					mag = line.mid( 46,5 ).toFloat();
-					if ( mag > options->magLimitDrawStar ) {
+					if ( mag > Options::magLimitDrawStar() ) {
 						ready = true;
 						break;
 					}
@@ -596,13 +587,13 @@ bool KStarsData::readStarData( void ) {
 	}
 
 //Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
-	maxSetMagnitude = options->magLimitDrawStar;
+	maxSetMagnitude = Options::magLimitDrawStar();
 	delete starFileReader;
 	starFileReader = 0;
 	return true;
 }
 
-void KStarsData::processStar(QString *line, bool reloadedData) {
+void KStarsData::processStar( QString *line ) {
 	QString name, gname, SpType;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
 	bool mult, var;
@@ -1399,26 +1390,6 @@ bool KStarsData::readCityData( void ) {
 	return citiesFound;
 }
 
-// Save and restore options
-void KStarsData::backupOptions()
-{
-	if ( 0 == oldOptions) {
-		oldOptions = new KStarsOptions(false);
-	}
-	*oldOptions = *options;
-}
-
-void KStarsData::restoreOptions()
-{
-	if ( 0 == oldOptions ) {
-		// this should not happen
-		return;
-	}
-	*options = *oldOptions;
-	delete oldOptions;
-	oldOptions = 0;
-}
-
 void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 // only reload data if not loaded yet
 // if checkDataPumpAction() detects that new magnitude is higher than the
@@ -1451,7 +1422,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 	}*/
 
 	// change current magnitude level in KStarsOptions
-	options->setMagLimitDrawStar(newMagnitude);
+	Options::setMagLimitDrawStar( newMagnitude );
 }
 
 void KStarsData::checkDataPumpAction() {
@@ -1548,8 +1519,8 @@ void KStarsData::slotInitialize() {
 
 	switch ( initCounter )
 	{
-		case 0: //Load Options//
-			emit progressText( i18n("Loading Options") );
+		case 0: //Load Time Zone Rules//
+			emit progressText( i18n("Reading Time Zone Rules") );
 
 			if (objects==1) {
 				// timezone rules
@@ -1557,20 +1528,21 @@ void KStarsData::slotInitialize() {
 					initError( "TZrules.dat", true );
 			}
 
-			loadOptions();
-
 			// read INDI hosts file, not required
 			readINDIHosts();
 			break;
 
 		case 1: //Load Cities//
+		{
 			if (objects>1) break;
 
 			emit progressText( i18n("Loading City Data") );
 
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
+			
 			break;
+		}
 
 		case 2: //Load stellar database//
 
@@ -1746,7 +1718,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	setLST();
 
 	//Check for mouse Hover:
-	if ( options->useHoverLabel ) skymap->checkHoverPoint();
+	if ( Options::useHoverLabel() ) skymap->checkHoverPoint();
 
 	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 	//the DST change date/time.
@@ -1775,20 +1747,20 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
 		LastPlanetUpdate = CurrentDate;
 
-		if ( options->drawPlanets ) PCat->findPosition( &num, geo->lat(), LST );
+		if ( Options::showPlanets() ) PCat->findPosition( &num, geo->lat(), LST );
 
 		//Asteroids
-		if ( options->drawPlanets && options->drawAsteroids )
+		if ( Options::showPlanets() && Options::showAsteroids() )
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
 				ast->findPosition( &num, geo->lat(), LST, earth() );
 
 		//Comets
-		if ( options->drawPlanets && options->drawComets )
+		if ( Options::showPlanets() && Options::showComets() )
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() )
 				com->findPosition( &num, geo->lat(), LST, earth() );
 
 		//Recompute the Ecliptic
-		if ( options->drawEcliptic ) {
+		if ( Options::showEcliptic() ) {
 			Ecliptic.clear();
 
 			dms temp(0.0);
@@ -1803,19 +1775,19 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	// Moon moves ~30 arcmin/hr, so update its position every minute.
 	if ( fabs( CurrentDate - LastMoonUpdate ) > 0.00069444 ) {
 		LastMoonUpdate = CurrentDate;
-		if ( options->drawMoon ) {
+		if ( Options::showMoon() ) {
 			Moon->findPosition( &num, geo->lat(), LST );
 			Moon->findPhase( PCat->planetSun() );
 		}
 
 		//for now, update positions of Jupiter's moons here also
-		if ( options->drawPlanets && options->drawJupiter )
+		if ( Options::showPlanets() && Options::showJupiter() )
 			jmoons->findPosition( &num, (const KSPlanet*)PCat->findByName("Jupiter"), PCat->planetSun() );
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
 	//If Clock is in Manual Mode, always update. (?)
-	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/options->ZoomFactor || Clock->isManualMode() ) {
+	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/Options::zoomFactor() || Clock->isManualMode() ) {
 		LastSkyUpdate = CurrentDate;
 
 		//Recompute Alt, Az coords for all objects
@@ -1824,7 +1796,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		PCat->EquatorialToHorizontal( LST, geo->lat() );
 
 		jmoons->EquatorialToHorizontal( LST, geo->lat() );
-		if ( options->drawMoon ) {
+		if ( Options::showMoon() ) {
 			Moon->EquatorialToHorizontal( LST, geo->lat() );
 			if ( Moon->hasTrail() ) Moon->updateTrail( LST, geo->lat() );
 		}
@@ -1834,7 +1806,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 //			p->EquatorialToHorizontal( LST, geo->lat() );
 
 		//Asteroids
-		if ( options->drawAsteroids ) {
+		if ( Options::showAsteroids() ) {
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) {
 				ast->EquatorialToHorizontal( LST, geo->lat() );
 				if ( ast->hasTrail() ) ast->updateTrail( LST, geo->lat() );
@@ -1842,7 +1814,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Comets
-		if ( options->drawComets ) {
+		if ( Options::showComets() ) {
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) {
 				com->EquatorialToHorizontal( LST, geo->lat() );
 				if ( com->hasTrail() ) com->updateTrail( LST, geo->lat() );
@@ -1850,34 +1822,34 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Stars
-		if ( options->drawSAO ) {
+		if ( Options::showStars() ) {
 			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
-				if ( star->mag() > options->magLimitDrawStar ) break;
+				if ( star->mag() > Options::magLimitDrawStar() ) break;
 				if (needNewCoords) star->updateCoords( &num );
 				star->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Deep-sky objects. Keep lists separated for performance reasons
-		if ( options->drawMessier || options->drawMessImages ) {
+		if ( Options::showMessier() || Options::showMessierImages() ) {
 			for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
 				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-		if ( options->drawNGC ) {
+		if ( Options::showNGC() ) {
 			for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
 				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-		if ( options->drawIC ) {
+		if ( Options::showIC() ) {
 			for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
 				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-		if ( options->drawOther ) {
+		if ( Options::showOther() ) {
 			for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
 				o->EquatorialToHorizontal( LST, geo->lat() );
@@ -1885,9 +1857,9 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Custom Catalogs
-		for ( unsigned int j=0; j<options->CatalogCount; ++j ) {
-			QPtrList<DeepSkyObject> cat = CustomCatalogs[ options->CatalogName[j] ];
-			if ( options->drawCatalog[j] ) {
+		for ( unsigned int j=0; j<Options::catalogCount(); ++j ) {
+			QPtrList<DeepSkyObject> cat = CustomCatalogs[ Options::catalogName()[j] ];
+			if ( Options::showCatalog()[j] ) {
 				for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );
 					o->EquatorialToHorizontal( LST, geo->lat() );
@@ -1896,7 +1868,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Milky Way
-		if ( options->drawMilkyWay ) {
+		if ( Options::showMilkyWay() ) {
 			for ( unsigned int j=0; j<11; ++j ) {
 				for ( SkyPoint *p = MilkyWay[j].first(); p; p = MilkyWay[j].next() ) {
 					if (needNewCoords) p->updateCoords( &num );
@@ -1905,18 +1877,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
-//		//CLines
-// No longer necesary; the clines are just pointers to stars, 
-// they are no longer independent skypoints.
-//		if ( options->drawConstellLines ) {
-//			for ( SkyPoint *p = clineList.first(); p; p = clineList.next() ) {
-//				if (needNewCoords) p->updateCoords( &num );
-//				p->EquatorialToHorizontal( LST, geo->lat() );
-//			}
-//		}
-
 		//CNames
-		if ( options->drawConstellNames ) {
+		if ( Options::showCNames() ) {
 			for ( SkyPoint *p = cnameList.first(); p; p = cnameList.next() ) {
 				if (needNewCoords) p->updateCoords( &num );
 				p->EquatorialToHorizontal( LST, geo->lat() );
@@ -1924,7 +1886,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Constellation Boundaries
-		if ( options->drawConstellBounds ) {  
+		if ( Options::showCBounds() ) {  
 			for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
 				for ( SkyPoint *p = seg->firstNode(); p; p = seg->nextNode() ) {
 					if ( needNewCoords ) p->updateCoords( &num );
@@ -1934,21 +1896,21 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 		
 		//Celestial Equator
-		if ( options->drawEquator ) {
+		if ( Options::showEquator() ) {
 			for ( SkyPoint *p = Equator.first(); p; p = Equator.next() ) {
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Ecliptic
-		if ( options->drawEcliptic ) {
+		if ( Options::showEcliptic() ) {
 			for ( SkyPoint *p = Ecliptic.first(); p; p = Ecliptic.next() ) {
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Horizon: different than the others; Alt & Az remain constant, RA, Dec must keep up
-		if ( options->drawHorizon || options->drawGround ) {
+		if ( Options::showHorizon() || Options::showGround() ) {
 			for ( SkyPoint *p = Horizon.first(); p; p = Horizon.next() ) {
 				p->HorizontalToEquatorial( LST, geo->lat() );
 			}
@@ -1974,6 +1936,23 @@ void KStarsData::setFullTimeUpdate() {
 			LastNumUpdate = -1000000.0;
 }
 
+void KStarsData::setLocation( const GeoLocation &l ) {
+ 	GeoLocation g( l );
+	if ( g.lat()->Degrees() >= 90.0 ) g.setLat( 89.99 );
+	if ( g.lat()->Degrees() <= -90.0 ) g.setLat( -89.99 );
+
+	Geo = g;
+
+	//store data in the Options objects
+	Options::setCityName( g.name() );
+	Options::setProvinceName( g.province() );
+	Options::setCountryName( g.country() );
+	Options::setTimeZone( g.TZ0() );
+	Options::setElevation( g.height() );
+	Options::setLongitude( g.lng()->Degrees() );
+	Options::setLatitude( g.lat()->Degrees() );
+}
+
 void KStarsData::setLST() {
 	setLST( Clock->UTC() );
 }
@@ -1995,7 +1974,7 @@ void KStarsData::changeTime( QDate newDate, QTime newTime ) {
 	setNextDSTChange( KSUtils::UTtoJD( geo()->tzrule()->nextDSTChange() ) );
 
 	//Turn off animated slews for the next time step.
-	options->setSnapNextFocus();
+	setSnapNextFocus();
 
 	//Set the clock
 	clock()->setUTC( new_time.addSecs( int(-3600 * geo()->TZ()) ) );
@@ -2117,22 +2096,22 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( ok ) {
 					if ( z > MAXZOOM ) z = MAXZOOM;
 					if ( z < MINZOOM ) z = MINZOOM;
-					options->ZoomFactor = z;
+					Options::setZoomFactor( z );
 					cmdCount++;
 				}
 
 			} else if ( fn[0] == "zoomIn" ) {
-				if ( options->ZoomFactor < MAXZOOM ) {
-					options->ZoomFactor *= DZOOM;
+				if ( Options::zoomFactor() < MAXZOOM ) {
+					Options::setZoomFactor( Options::zoomFactor() * DZOOM );
 					cmdCount++;
 				}
 			} else if ( fn[0] == "zoomOut" ) {
-				if ( options->ZoomFactor > MINZOOM ) {
-					options->ZoomFactor /= DZOOM;
+				if ( Options::zoomFactor() > MINZOOM ) {
+					Options::setZoomFactor( Options::zoomFactor() / DZOOM );
 					cmdCount++;
 				}
 			} else if ( fn[0] == "defaultZoom" ) {
-				options->ZoomFactor = DEFAULTZOOM;
+				Options::setZoomFactor( DEFAULTZOOM );
 				cmdCount++;
 			} else if ( fn[0] == "setLocalTime" && fn.count() == 7 ) {
 				bool ok(false);
@@ -2166,79 +2145,79 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				//parse double value
 				double dVal = fn[2].toDouble( &dOk );
 
-				if ( fn[1] == "FOVName"                ) { options->FOVName         = fn[2]; cmdCount++; }
-				if ( fn[1] == "FOVSize"         && dOk ) { options->FOVSize         = (float)dVal; cmdCount++; }
-				if ( fn[1] == "FOVShape"        && nOk ) { options->FOVShape        = nVal; cmdCount++; }
-				if ( fn[1] == "FOVColor"               ) { options->FOVColor        = fn[2]; cmdCount++; }
-				if ( fn[1] == "ShowSAO"         && bOk ) { options->drawSAO         = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMess"        && bOk ) { options->drawMessier     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMessImages"  && bOk ) { options->drawMessImages  = bVal; cmdCount++; }
-				if ( fn[1] == "ShowNGC"         && bOk ) { options->drawNGC         = bVal; cmdCount++; }
-				if ( fn[1] == "ShowIC"          && bOk ) { options->drawIC          = bVal; cmdCount++; }
-				if ( fn[1] == "ShowCLines"      && bOk ) { options->drawConstellLines = bVal; cmdCount++; }
-				if ( fn[1] == "ShowCNames"      && bOk ) { options->drawConstellNames = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMilkyWay"    && bOk ) { options->drawMilkyWay    = bVal; cmdCount++; }
-				if ( fn[1] == "ShowGrid"        && bOk ) { options->drawGrid        = bVal; cmdCount++; }
-				if ( fn[1] == "ShowEquator"     && bOk ) { options->drawEquator     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowEcliptic"    && bOk ) { options->drawEcliptic    = bVal; cmdCount++; }
-				if ( fn[1] == "ShowHorizon"     && bOk ) { options->drawHorizon     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowGround"      && bOk ) { options->drawGround      = bVal; cmdCount++; }
-				if ( fn[1] == "ShowSun"         && bOk ) { options->drawSun         = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMoon"        && bOk ) { options->drawMoon        = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMercury"     && bOk ) { options->drawMercury     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowVenus"       && bOk ) { options->drawVenus       = bVal; cmdCount++; }
-				if ( fn[1] == "ShowMars"        && bOk ) { options->drawMars        = bVal; cmdCount++; }
-				if ( fn[1] == "ShowJupiter"     && bOk ) { options->drawJupiter     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowSaturn"      && bOk ) { options->drawSaturn      = bVal; cmdCount++; }
-				if ( fn[1] == "ShowUranus"      && bOk ) { options->drawUranus      = bVal; cmdCount++; }
-				if ( fn[1] == "ShowNeptune"     && bOk ) { options->drawNeptune     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowPluto"       && bOk ) { options->drawPluto       = bVal; cmdCount++; }
-				if ( fn[1] == "ShowAsteroids"   && bOk ) { options->drawAsteroids   = bVal; cmdCount++; }
-				if ( fn[1] == "ShowComets"      && bOk ) { options->drawComets      = bVal; cmdCount++; }
-				if ( fn[1] == "ShowPlanets"     && bOk ) { options->drawPlanets     = bVal; cmdCount++; }
-				if ( fn[1] == "ShowDeepSky"     && bOk ) { options->drawDeepSky     = bVal; cmdCount++; }
-				if ( fn[1] == "drawStarName"      && bOk ) { options->drawStarName      = bVal; cmdCount++; }
-				if ( fn[1] == "drawStarMagnitude" && bOk ) { options->drawStarMagnitude = bVal; cmdCount++; }
-				if ( fn[1] == "drawAsteroidName"  && bOk ) { options->drawAsteroidName  = bVal; cmdCount++; }
-				if ( fn[1] == "drawCometName"     && bOk ) { options->drawCometName     = bVal; cmdCount++; }
-				if ( fn[1] == "drawPlanetName"    && bOk ) { options->drawPlanetName    = bVal; cmdCount++; }
-				if ( fn[1] == "drawPlanetImage"   && bOk ) { options->drawPlanetImage   = bVal; cmdCount++; }
+				if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
+				if ( fn[1] == "FOVSize"         && dOk ) { Options::setFOVSize( (float)dVal ); cmdCount++; }
+				if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
+				if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
+				if ( fn[1] == "ShowStars"         && bOk ) { Options::setShowStars(    bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMessier"        && bOk ) { Options::setShowMessier( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMessierImages"  && bOk ) { Options::setShowMessierImages( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowCLines"      && bOk ) { Options::setShowCLines(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowCNames"      && bOk ) { Options::setShowCNames(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowNGC"         && bOk ) { Options::setShowNGC(      bVal ); cmdCount++; }
+				if ( fn[1] == "ShowIC"          && bOk ) { Options::setShowIC(       bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMilkyWay"    && bOk ) { Options::setShowMilkyWay( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowGrid"        && bOk ) { Options::setShowGrid(     bVal ); cmdCount++; }
+				if ( fn[1] == "ShowEquator"     && bOk ) { Options::setShowEquator(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowEcliptic"    && bOk ) { Options::setShowEcliptic( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowHorizon"     && bOk ) { Options::setShowHorizon(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowGround"      && bOk ) { Options::setShowGround(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowSun"         && bOk ) { Options::setShowSun(      bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMoon"        && bOk ) { Options::setShowMoon(     bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMercury"     && bOk ) { Options::setShowMercury(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowVenus"       && bOk ) { Options::setShowVenus(    bVal ); cmdCount++; }
+				if ( fn[1] == "ShowMars"        && bOk ) { Options::setShowMars(     bVal ); cmdCount++; }
+				if ( fn[1] == "ShowJupiter"     && bOk ) { Options::setShowJupiter(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowSaturn"      && bOk ) { Options::setShowSaturn(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowUranus"      && bOk ) { Options::setShowUranus(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowNeptune"     && bOk ) { Options::setShowNeptune(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowPluto"       && bOk ) { Options::setShowPluto(    bVal ); cmdCount++; }
+				if ( fn[1] == "ShowAsteroids"   && bOk ) { Options::setShowAsteroids( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowComets"      && bOk ) { Options::setShowComets(   bVal ); cmdCount++; }
+				if ( fn[1] == "ShowPlanets"     && bOk ) { Options::setShowPlanets(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowDeepSky"     && bOk ) { Options::setShowDeepSky(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowStarNames"      && bOk ) { Options::setShowStarNames(      bVal ); cmdCount++; }
+				if ( fn[1] == "ShowStarMagnitudes" && bOk ) { Options::setShowStarMagnitudes( bVal ); cmdCount++; }
+				if ( fn[1] == "ShowAsteroidNames"  && bOk ) { Options::setShowAsteroidNames(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowCometNames"     && bOk ) { Options::setShowCometNames(     bVal ); cmdCount++; }
+				if ( fn[1] == "ShowPlanetNames"    && bOk ) { Options::setShowPlanetNames(    bVal ); cmdCount++; }
+				if ( fn[1] == "ShowPlanetImages"   && bOk ) { Options::setShowPlanetImages(   bVal ); cmdCount++; }
 
-				if ( fn[1] == "UseAltAz"         && bOk ) { options->useAltAz           = bVal; cmdCount++; }
-				if ( fn[1] == "UseRefraction"    && bOk ) { options->useRefraction      = bVal; cmdCount++; }
-				if ( fn[1] == "UseAutoLabel"     && bOk ) { options->useAutoLabel       = bVal; cmdCount++; }
-				if ( fn[1] == "UseAutoTrail"     && bOk ) { options->useAutoTrail       = bVal; cmdCount++; }
-				if ( fn[1] == "AnimateSlewing"   && bOk ) { options->useAnimatedSlewing = bVal; cmdCount++; }
-				if ( fn[1] == "FadePlanetTrails" && bOk ) { options->fadePlanetTrails   = bVal; cmdCount++; }
-				if ( fn[1] == "SlewTimeScale"    && dOk ) { options->slewTimeScale      = dVal; cmdCount++; }
-				if ( fn[1] == "ZoomFactor"       && dOk ) { options->ZoomFactor         = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitDrawStar"     && dOk ) { options->magLimitDrawStar     = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitDrawStarZoomOut" && dOk ) { options->magLimitDrawStarZoomOut = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitDrawDeepSky"     && dOk ) { options->magLimitDrawDeepSky     = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitDrawDeepSkyZoomOut" && dOk ) { options->magLimitDrawDeepSkyZoomOut = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitDrawStarInfo" && dOk ) { options->magLimitDrawStarInfo = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitHideStar"     && dOk ) { options->magLimitHideStar     = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitAsteroid"     && dOk ) { options->magLimitAsteroid     = dVal; cmdCount++; }
-				if ( fn[1] == "magLimitAsteroidName" && dOk ) { options->magLimitAsteroidName = dVal; cmdCount++; }
-				if ( fn[1] == "maxRadCometName"      && dOk ) { options->maxRadCometName      = dVal; cmdCount++; }
+				if ( fn[1] == "UseAltAz"         && bOk ) { Options::setUseAltAz(      bVal ); cmdCount++; }
+				if ( fn[1] == "UseRefraction"    && bOk ) { Options::setUseRefraction( bVal ); cmdCount++; }
+				if ( fn[1] == "UseAutoLabel"     && bOk ) { Options::setUseAutoLabel(  bVal ); cmdCount++; }
+				if ( fn[1] == "UseAutoTrail"     && bOk ) { Options::setUseAutoTrail(  bVal ); cmdCount++; }
+				if ( fn[1] == "UseAnimatedSlewing"   && bOk ) { Options::setUseAnimatedSlewing( bVal ); cmdCount++; }
+				if ( fn[1] == "FadePlanetTrails" && bOk ) { Options::setFadePlanetTrails( bVal ); cmdCount++; }
+				if ( fn[1] == "SlewTimeScale"    && dOk ) { Options::setSlewTimeScale(    dVal ); cmdCount++; }
+				if ( fn[1] == "ZoomFactor"       && dOk ) { Options::setZoomFactor(       dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitDrawStar"     && dOk ) { Options::setMagLimitDrawStar( dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitDrawStarZoomOut" && dOk ) { Options::setMagLimitDrawStarZoomOut( dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitDrawDeepSky"     && dOk ) { Options::setMagLimitDrawDeepSky( dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitDrawDeepSkyZoomOut" && dOk ) { Options::setMagLimitDrawDeepSkyZoomOut( dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitDrawStarInfo" && dOk ) { Options::setMagLimitDrawStarInfo( dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitHideStar"     && dOk ) { Options::setMagLimitHideStar(     dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitAsteroid"     && dOk ) { Options::setMagLimitAsteroid(     dVal ); cmdCount++; }
+				if ( fn[1] == "MagLimitAsteroidName" && dOk ) { Options::setMagLimitAsteroidName( dVal ); cmdCount++; }
+				if ( fn[1] == "MaxRadCometName"      && dOk ) { Options::setMaxRadCometName(      dVal ); cmdCount++; }
 
 				//these three are a "radio group"
 				if ( fn[1] == "UseLatinConstellationNames" && bOk ) {
-					options->useLatinConstellNames = true;
-					options->useLocalConstellNames = false;
-					options->useAbbrevConstellNames = false;
+					Options::setUseLatinConstellNames( true );
+					Options::setUseLocalConstellNames( false );
+					Options::setUseAbbrevConstellNames( false );
 					cmdCount++;
 				}
 				if ( fn[1] == "UseLocalConstellationNames" && bOk ) {
-					options->useLatinConstellNames = false;
-					options->useLocalConstellNames = true;
-					options->useAbbrevConstellNames = false;
+					Options::setUseLatinConstellNames( false );
+					Options::setUseLocalConstellNames( true );
+					Options::setUseAbbrevConstellNames( false );
 					cmdCount++;
 				}
 				if ( fn[1] == "UseAbbrevConstellationNames" && bOk ) {
-					options->useLatinConstellNames = false;
-					options->useLocalConstellNames = false;
-					options->useAbbrevConstellNames = true;
+					Options::setUseLatinConstellNames( false );
+					Options::setUseLocalConstellNames( false );
+					Options::setUseAbbrevConstellNames( true );
 					cmdCount++;
 				}
 			} else if ( fn[0] == "setGeoLocation" && ( fn.count() == 3 || fn.count() == 4 ) ) {
@@ -2255,7 +2234,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 								loc->translatedCountry() == country ) {
 
 						cityFound = true;
-						options->setLocation( *loc );
+						setLocation( *loc );
 						cmdCount++;
 						break;
 					}

@@ -17,7 +17,7 @@
  #include "indimenu.h"
  #include "indistd.h"
  #include "indi/indicom.h"
- #include "kstarsoptions.h"
+ #include "Options.h"
  #include "kstars.h"
  #include "timedialog.h"
  

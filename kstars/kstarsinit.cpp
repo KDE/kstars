@@ -80,7 +80,7 @@ void KStars::initActions() {
 	
 	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
-	if ( options()->isTracking ) { 
+	if ( Options::isTracking() ) { 
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
@@ -97,7 +97,7 @@ void KStars::initActions() {
 		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
-	if ( options()->useAltAz ) actCoordSys->turnOff();
+	if ( Options::useAltAz() ) actCoordSys->turnOff();
 	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 	
 
@@ -111,52 +111,52 @@ void KStars::initActions() {
 	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
-	a->setChecked( options()->showInfoBoxes );
+	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoBoxes()->setVisible( options()->showInfoBoxes );
+	infoBoxes()->setVisible( Options::showInfoBoxes() );
 
 	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
-	a->setChecked( options()->showTimeBox );
+	a->setChecked( Options::showTimeBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
-	a->setChecked( options()->showFocusBox );
+	a->setChecked( Options::showFocusBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
-	a->setChecked( options()->showGeoBox );
+	a->setChecked( Options::showGeoBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			0, 0, 0, actionCollection(), "show_mainToolBar");
-	a->setChecked( options()->showMainToolBar );
+	a->setChecked( Options::showMainToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
-	a->setChecked( options()->showViewToolBar );
+	a->setChecked( Options::showViewToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	a->setChecked( options()->showStatusBar );
+	a->setChecked( Options::showStatusBar() );
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
 			0, 0, 0, actionCollection(), "show_sbAzAlt");
-	a->setChecked( options()->showAzAltField );
+	a->setChecked( Options::showAltAzField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
 			0, 0, 0, actionCollection(), "show_sbRADec");
-	a->setChecked( options()->showRADecField );
+	a->setChecked( Options::showRADecField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
@@ -274,12 +274,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Stars" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
-		a->setChecked( options()->drawSAO );
+		a->setChecked( Options::showStars() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Stars" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
-		a->setChecked( options()->drawSAO );
+		a->setChecked( Options::showStars() );
 	}
 
 //show_deepsky:
@@ -287,12 +287,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
-		a->setChecked( options()->drawDeepSky );
+		a->setChecked( Options::showDeepSky() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
-		a->setChecked( options()->drawDeepSky );
+		a->setChecked( Options::showDeepSky() );
 	}
 
 //show_planets:
@@ -300,12 +300,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Solar System" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
-		a->setChecked( options()->drawPlanets );
+		a->setChecked( Options::showPlanets() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Solar System" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
-		a->setChecked( options()->drawPlanets );
+		a->setChecked( Options::showPlanets() );
 	}
 
 //show_clines:
@@ -313,12 +313,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
-		a->setChecked( options()->drawConstellLines );
+		a->setChecked( Options::showCLines() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
-		a->setChecked( options()->drawConstellLines );
+		a->setChecked( Options::showCLines() );
 	}
 
 //show_cnames:
@@ -326,12 +326,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Names" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
-		a->setChecked( options()->drawConstellNames );
+		a->setChecked( Options::showCNames() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
-		a->setChecked( options()->drawConstellNames );
+		a->setChecked( Options::showCNames() );
 	}
 
 //show_mw:
@@ -339,12 +339,12 @@ void KStars::initActions() {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Milky Way" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
-		a->setChecked( options()->drawMilkyWay );
+		a->setChecked( Options::showMilkyWay() );
 		tempFile.close();
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Milky Way" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
-		a->setChecked( options()->drawMilkyWay );
+		a->setChecked( Options::showMilkyWay() );
 	}
 
 //show_grid:
@@ -353,11 +353,11 @@ void KStars::initActions() {
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
 		tempFile.close();
-		a->setChecked( options()->drawGrid );
+		a->setChecked( Options::showGrid() );
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
-		a->setChecked( options()->drawGrid );
+		a->setChecked( Options::showGrid() );
 	}
 
 //show_horizon:
@@ -366,11 +366,11 @@ void KStars::initActions() {
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 		tempFile.close();
-		a->setChecked( options()->drawGround );
+		a->setChecked( Options::showGround() );
 	} else {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Ground" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
-		a->setChecked( options()->drawGround );
+		a->setChecked( Options::showGround() );
 	}
 }
 
@@ -425,19 +425,19 @@ void KStars::initStatusBar() {
 	
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 	
-	if ( options()->showAzAltField ) {
+	if ( Options::showAltAzField() ) {
 		statusBar()->insertFixedItem( s, 1, true );
 		statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
 		statusBar()->changeItem( "", 1 );
 	}
 	
-	if ( options()->showRADecField ) {
+	if ( Options::showRADecField() ) {
 		statusBar()->insertFixedItem( s, 2, true );
 		statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
 		statusBar()->changeItem( "", 2 );
 	}
 	
-	if ( ! options()->showStatusBar ) statusBar()->hide();
+	if ( ! Options::showStatusBar() ) statusBar()->hide();
 }
 
 void KStars::datainitFinished(bool worked) {
@@ -458,10 +458,10 @@ void KStars::datainitFinished(bool worked) {
 	data()->clock()->start();
 
 //Initialize FOV symbol from options
-	data()->fovSymbol.setName( options()->FOVName );
-	data()->fovSymbol.setSize( options()->FOVSize );
-	data()->fovSymbol.setShape( options()->FOVShape );
-	data()->fovSymbol.setColor( options()->FOVColor );
+	data()->fovSymbol.setName( Options::fOVName() );
+	data()->fovSymbol.setSize( Options::fOVSize() );
+	data()->fovSymbol.setShape( Options::fOVShape() );
+	data()->fovSymbol.setColor( Options::fOVColor().name() );
 
 	show();
 
@@ -470,7 +470,7 @@ void KStars::datainitFinished(bool worked) {
 //However, on some systems, if the messagebox is shown before show() is called,
 //the program exits.  It does not crash (at least there are no error messages),
 //it simply exits.  Very strange.
-	if ( options()->useAltAz && options()->drawGround &&
+	if ( Options::useAltAz() && Options::showGround() &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Initial Position is Below Horizon" );
 		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
@@ -478,8 +478,9 @@ void KStars::datainitFinished(bool worked) {
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
 			map()->setClickedObject( NULL );
 			map()->setFocusObject( NULL );
-			options()->isTracking = false;
-			options()->setSnapNextFocus(true);
+			Options::setIsTracking( false );
+
+			data()->setSnapNextFocus(true);
 
 			SkyPoint DefaultFocus;
 			DefaultFocus.setAz( 180.0 );
@@ -491,7 +492,7 @@ void KStars::datainitFinished(bool worked) {
 
 	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
 	if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
-			&& options()->useAutoTrail ) {
+			&& Options::useAutoTrail() ) {
 		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;
 	}
@@ -538,8 +539,8 @@ void KStars::privatedata::buildGUI() {
 
 	//Initialize show/hide state of toolbars.
 	//These were in initActions, but they must appear after createGUI...
-	if ( !ks->options()->showMainToolBar ) ks->toolBar( "mainToolBar" )->hide();
-	if ( !ks->options()->showViewToolBar ) ks->toolBar( "viewToolBar" )->hide();
+	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
+	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 15 );
@@ -552,7 +553,7 @@ void KStars::privatedata::buildGUI() {
 	connect( ks->data()->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
 
-	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
+	ks->resize( Options::windowWidth(), Options::windowHeight() );
 
 	// initialize clock with current time/date
 	ks->slotSetTimeToNow();
@@ -570,17 +571,17 @@ void KStars::privatedata::buildGUI() {
 
 	SkyPoint newPoint;
 	if ( ks->data()->useDefaultOptions ) {
-		newPoint.setAz( ks->options()->focusRA );
-		newPoint.setAlt( ks->options()->focusDec + 0.0001 );
+		newPoint.setAz( Options::focusRA() );
+		newPoint.setAlt( Options::focusDec() + 0.0001 );
 		newPoint.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
 	} else {
-		newPoint.set( ks->options()->focusRA, ks->options()->focusDec );
+		newPoint.set( Options::focusRA(), Options::focusDec() );
 	}
 
 //need to set focusObject before updateTime, otherwise tracking is set to false
-	if ( (ks->options()->focusObject != i18n( "star" ) ) &&
-		     (ks->options()->focusObject != i18n( "nothing" ) ) )
-			ks->map()->setFocusObject( ks->data()->objectNamed( ks->options()->focusObject ) );
+	if ( (Options::focusObject() != i18n( "star" ) ) &&
+		     (Options::focusObject() != i18n( "nothing" ) ) )
+			ks->map()->setFocusObject( ks->data()->objectNamed( Options::focusObject() ) );
 
 	ks->updateTime();
 
@@ -593,12 +594,12 @@ void KStars::privatedata::buildGUI() {
 //	ks->map()->setDestination( &DefaultFocus );
 
 	//if user was tracking last time, track on same object now.
-	if ( ks->options()->isTracking ) {
-		if ( (ks->options()->focusObject== i18n( "star" ) ) ||
-		     (ks->options()->focusObject== i18n( "nothing" ) ) ) {
+	if ( Options::isTracking() ) {
+		if ( (Options::focusObject() == i18n( "star" ) ) ||
+		     (Options::focusObject() == i18n( "nothing" ) ) ) {
 			ks->map()->setFocusPoint( &newPoint );
 		} else {
-			ks->map()->setClickedObject( ks->data()->objectNamed( ks->options()->focusObject ) );
+			ks->map()->setClickedObject( ks->data()->objectNamed( Options::focusObject() ) );
 			if ( ks->map()->clickedObject() ) {
 				ks->map()->setFocusPoint( ks->map()->clickedObject() );
 			} else {
@@ -611,14 +612,14 @@ void KStars::privatedata::buildGUI() {
 //		ks->map()->slotCenter();
 	}
 
-	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
+	if ( Options::focusObject() == i18n( "star" ) ) Options::setFocusObject( i18n( "nothing" ) );
 
 	ks->map()->setDestination( ks->map()->focusPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
-	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
+	ks->infoBoxes()->focusObjChanged( Options::focusObject() );
 	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
 
 	ks->data()->setHourAngle( ks->LST()->Hours() - ks->map()->focus()->ra()->Hours() );
@@ -628,8 +629,8 @@ void KStars::privatedata::buildGUI() {
 	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
 
 	// check zoom in/out buttons
-	if ( ks->options()->ZoomFactor >= MAXZOOM ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
-	if ( ks->options()->ZoomFactor <= MINZOOM ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
+	if ( Options::zoomFactor() >= MAXZOOM ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
+	if ( Options::zoomFactor() <= MINZOOM ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	kapp->dcopClient()->resume();
 }

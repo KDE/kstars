@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>OpsGuides</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>428</height>
+            <height>453</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,7 +21,7 @@
         </property>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showConstellLines</cstring>
+                <cstring>kcfg_ShowCLines</cstring>
             </property>
             <property name="text">
                 <string>Constellation lines</string>
@@ -35,7 +35,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showConstellBounds</cstring>
+                <cstring>kcfg_ShowCBounds</cstring>
             </property>
             <property name="text">
                 <string>Constellation boundaries</string>
@@ -43,7 +43,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showConstellNames</cstring>
+                <cstring>kcfg_ShowCNames</cstring>
             </property>
             <property name="text">
                 <string>Constellation names</string>
@@ -68,7 +68,7 @@
                 </property>
                 <widget class="QRadioButton">
                     <property name="name">
-                        <cstring>useLatinConstellNames</cstring>
+                        <cstring>kcfg_UseLatinConstellNames</cstring>
                     </property>
                     <property name="text">
                         <string>Latin</string>
@@ -82,7 +82,7 @@
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
-                        <cstring>useLocalConstellNames</cstring>
+                        <cstring>kcfg_UseLocalConstellNames</cstring>
                     </property>
                     <property name="text">
                         <string>Localized</string>
@@ -96,7 +96,7 @@
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
-                        <cstring>useAbbrevConstellNames</cstring>
+                        <cstring>kcfg_UseAbbrevConstellNames</cstring>
                     </property>
                     <property name="text">
                         <string>Abbreviated</string>
@@ -126,7 +126,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showMilkyWayFilled</cstring>
+                <cstring>kcfg_FillMilkyWay</cstring>
             </property>
             <property name="text">
                 <string>Fill Milky Way</string>
@@ -157,7 +157,7 @@
         </spacer>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showGrid</cstring>
+                <cstring>kcfg_ShowGrid</cstring>
             </property>
             <property name="text">
                 <string>Coordinate grid</string>
@@ -171,7 +171,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showEquator</cstring>
+                <cstring>kcfg_ShowEquator</cstring>
             </property>
             <property name="text">
                 <string>Celestial equator</string>
@@ -185,7 +185,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showEcliptic</cstring>
+                <cstring>kcfg_ShowEcliptic</cstring>
             </property>
             <property name="text">
                 <string>Ecliptic</string>
@@ -199,7 +199,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showHorizon</cstring>
+                <cstring>kcfg_ShowHorizon</cstring>
             </property>
             <property name="text">
                 <string>Horizon (line)</string>
@@ -213,7 +213,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showGround</cstring>
+                <cstring>kcfg_ShowGround</cstring>
             </property>
             <property name="text">
                 <string>Opaque ground</string>

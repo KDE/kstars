@@ -51,7 +51,6 @@
 #include "timestepbox.h"
 
 #include "kstarsdata.h"
-#include "kstarsoptions.h"
 #include "kstarsinterface.h"
 #include "kstarssplash.h"
 #include "toggleaction.h"
@@ -71,7 +70,7 @@ class INDIDriver;
 /**
 	*kstars is the base class for the KStars project.  It is derived from KMainWindow.
 	*In addition to the GUI elements, the class contains the program clock,
-	*KStarsData, KStarsOptions, and SkyMap objects.
+	*KStarsData, and SkyMap objects.
 	*It also contains functions for the DCOP interface.
 	*@short KStars base class
 	*@author Jason Harris
@@ -106,17 +105,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		dms* LST() { return data()->LST; }
 
-	/**@returns pointer to KStarsOptions object which contains application options.
-		*/
-		KStarsOptions* options() { return data()->options; }
-
 	/**@returns pointer to SkyMap object which is the sky display widget.
 		*/
 		SkyMap* map() { return skymap; }
 
 	/**@returns pointer to GeoLocation object which is the current geographic location.
 		*/
-		GeoLocation* geo() { return options()->Location(); }
+		GeoLocation* geo() { return data()->geo(); }
 
 	/**@returns pointer to InfoBoxes object.
 		*/

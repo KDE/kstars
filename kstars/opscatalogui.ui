@@ -1,8 +1,8 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>OpsCatalog</class>
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>OpsCatalogUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>OpsCatalog</cstring>
+        <cstring>OpsCatalogUI</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -38,7 +38,7 @@
                 </property>
                 <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>showSAO</cstring>
+                        <cstring>kcfg_ShowStars</cstring>
                     </property>
                     <property name="text">
                         <string>Hipparcos star catalog</string>
@@ -60,7 +60,7 @@
                         </property>
                         <widget class="MagnitudeSpinBox" row="0" column="1">
                             <property name="name">
-                                <cstring>magSpinBoxDrawStars</cstring>
+                                <cstring>kcfg_MagLimitDrawStar</cstring>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
@@ -100,7 +100,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </widget>
                         <widget class="MagnitudeSpinBox" row="1" column="1">
                             <property name="name">
-                                <cstring>magSpinBoxDrawStarZoomOut</cstring>
+                                <cstring>kcfg_MagLimitDrawStarZoomOut</cstring>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
@@ -193,7 +193,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </widget>
                         <widget class="MagnitudeSpinBox">
                             <property name="name">
-                                <cstring>magSpinBoxDrawStarInfo</cstring>
+                                <cstring>kcfg_MagLimitDrawStarInfo</cstring>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
@@ -259,7 +259,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </spacer>
                         <widget class="QCheckBox">
                             <property name="name">
-                                <cstring>showStarNames</cstring>
+                                <cstring>kcfg_ShowStarNames</cstring>
                             </property>
                             <property name="text">
                                 <string>Show name</string>
@@ -300,7 +300,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </spacer>
                         <widget class="QCheckBox">
                             <property name="name">
-                                <cstring>showStarMagnitude</cstring>
+                                <cstring>kcfg_ShowStarMagnitudes</cstring>
                             </property>
                             <property name="text">
                                 <string>Show magnitude</string>
@@ -430,7 +430,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </property>
                         <widget class="MagnitudeSpinBox" row="0" column="1">
                             <property name="name">
-                                <cstring>magSpinBoxDrawDeepSky</cstring>
+                                <cstring>kcfg_MagLimitDrawDeepSky</cstring>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
@@ -470,7 +470,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </widget>
                         <widget class="MagnitudeSpinBox" row="1" column="1">
                             <property name="name">
-                                <cstring>magSpinBoxDrawDeepSkyZoomOut</cstring>
+                                <cstring>kcfg_MagLimitDrawDeepSkyZoomOut</cstring>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
@@ -570,7 +570,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="XPM.GZ" length="2926">789c9d95594f32591086effd15c4ba3393fae895ee4ce6824540141011b7c95cf406a202caa6f065fefb549faaea0b24996fc623cb937aeb3d55754e871f67a587eb6ee9ecc7c96a1dada74929798e96a5b374339bedfefceb8f9f27a7b65da27fcb724bf6e96f27a783752929f516f32c070402289b3fc39d8203c3136157e276c1260eac0f0ade0907927f2d9c58261f929cad72be0cef8535ff5959e277c201ef0fa02cf1ae7022f9efca12ff301ca81e87c21a5f32db5acf95b0eebfcdd92e2be3a5b0fa7986435bfd6e981d99278c0ae6795c288b3e2b98e3036157d8f839961308af985df51b1b0e9dc0098ddf5a3811fd7dceaee52a370d475e28f9b7ca1c07539f67173c144e65be2fcae2d763f62d89df2acb7cc282393e57b6b9ff58d893fca632c7d1ccc78bbcd48b4c7cc2ec4bfdf0aa2cfbf50be6fa2c65d9af2aacfd2c94e53cccf9fa7645eb7794a59ebdb027fe5565895f09cb7e981a267f9febaf3117fab6702af599e7a5e2049e6dce1377c25affa6608e4786e34a58894dfc8b59f5f890731087e28f2de648fbdb16ccfd6c9465bf7365c732f12f61ed3f5016fd4a59f4e6790fddd00a5d137f638eb4bfa532df5ffc148ea4be5ac17c5ea9b2ecd72b98efff403893fa1accb12d5c5696fd4d7f6152c41f95c53f2a98f56b6597fbf3857da9b75e30fb5584b59fa78239de5596fd3e0be6fdccf311b99115f1fcdaccb12fe77927ac7e2365f1c382793e63e14cfccdf3132571e69b1f07e83327d23fbac2bee4d785d57f2a9c89de9c6fecaa1fce98135bf845b9e2189e2a07e6fee287b0cfcf3bce9525ff5d38927a1bcca9cc1b66ca528ff93d89d338e3f9e182b9c86f31a752ff609d2f847f5f83b5ea31c218137a4f8fac0cc738e10cd6d3b7189f718a2ff88a6f38c339ad05adfcf31d3f7089ab037d42ea356e708b9ff8853bdc6395de6b58c706ad736c1ee823f2de608b146dbcc08e8976f012afb04b3975ec1de853aa2457f749d5c16b1ce00d0ecdf75b1ce1dd11fd1b55d236cef7f8808ff88465b4d02676d03da29f51dd9e513fa28f150c3004246d07002288bfe9e7d45f0712f22635a490d15ef730361e3b389c67aedf2390ea3157e73dc333e9a6f042d13ebc7ed32f6882405d3ee1c678030ee10d6630a76f162c8ee8f37adeb14c0aaa0b3e68b725ac80a2b039a29f630db6e46bc127d5fd45de4b5226b0833d8ea07a445f871ae96dacc218ead08073c835136842eba8be016db830e77a419f21aca143f76c025b9ae7e5813ea35bd5a0731fd1c4877a7f614fde57d085deb7f31ad31dccf54fd087883ab7a88f6baabb45fdf760003707fa09ddd826f66048af1826f00a0bb3aa7009b73082bb03fd2faeffa7fff58cfffcbcfffdfbc93f7f7d62d7</data>
+        <data format="PNG" length="1002">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003b149444154789cad945f4c5b551cc73fe7dc4b7b4bcba0762d45c43114323599ee6192609c51d883892ce083f1718b3ebb185f8dc91e972cf39d2d2a2f1af664b6f1e0fe3863a0718969700eb0c52142da0242a1bd6d696f7bcff101585203ceb8fd9ece39f99dcff9fe7edf939f88c562ec465f5f9fe609442c161362173c3e3eae7b7a7ac8e7f36432196cdbfe4f907c3e4f2291201e8fe338cec3737357e9e8e828aded1e229d650e1f2d51754b082110124c13a4dc5ea341eb9dc284c0558a853f3ce8cb0677ef500fde7d39d2596679e326597b8e9abb85d7a770ab16ab6983ec5a05b487a70e36f0f4e10afe408d6a558310980108478dba4a1e8233990c5d474b64ed39aa3a8fe5f3317fbf81dbd70bccfeb205947632fd74f6589c1c6ea2f70d03a58ba0c1f2c9bdc1b66de3b8256a6e11cbe7e3ee1d181b590124fe2693aeee08d223c82c3a2c24b7b874bec8f26288774f7bd054504aef0dde6e99c0eb83f9fb266323cb80a27fb0958141836044605a2ee5523393371cc646fee2da37195aa35d0c0c5b4859ac03d7e91712dcaac5adab3650a3ff9d08ef7dd8404bb48869e5d958b5b87dadc4c9a1464e9f0d0326df7ebd86bd2e310cb1bf62d384d59441f2d70a070e1c60e09489929b988681bdd9cc97170bcc4c65595f71f8e0e3301337fc24a7732467831875a47f289652b0be5e4151e6d07316c1b0c0340d8ab92023e76d66a6b2840e36d2fb7a13fee632475e6edc367ea98a90fb98b7dd6310ca0328a44761582e1bab41befabcc0ec940d28bc5e93b68e064cab84e1d9beaeb48934eac1f53b01c1b000fca496aa54b61a99fcde61662a4b4b4b23d1680be9d426173e4df3602a48ea411989a4fd590f52a8fd156b05ed9d350e3defe3cfdf4b4c7ce770ea7d3fb9f520afbe1620daeee5c26735d20b9b9cfb6811a754a439e4e5c5639a4caa1e5caf586bfc0197b78702005cb9b4cae4cd3267ce8638fe964bd72b393e39d74928d242617303a756a37f284447770dcdbffc6384a05a85de1306e9a52057c7527c7131c3c42d3f475eb2303c82d4fc3276d6811db37efeb148723082d9b08f79f97c1e5729109a9a28307cc622d2d6cdf52b2b24efe548dedb00142009862cfa879ee1a71f6cec928353511472fbf4389148b0b0e0c108081412458dfe21c9f11351e67e7358595468246d1d1e5e38a6e9e851bc39d84ab502a669331dafec0d8ec7e3e8cb06e1a881d727d1ae40180a434a8c9db129a54126ad48a7358c2b4c5352c8c374bcccdab2bb37d8719cba79fab8211f9df218e0582c261e95f8bfc04f1a1e8bc5c4dfe0a19017a725d8c60000000049454e44ae426082</data>
     </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>
@@ -578,8 +578,6 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
     <includehint>magnitudespinbox.h</includehint>
     <includehint>magnitudespinbox.h</includehint>
     <includehint>magnitudespinbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>magnitudespinbox.h</includehint>
     <includehint>magnitudespinbox.h</includehint>
 </includehints>

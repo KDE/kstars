@@ -315,6 +315,7 @@ void TimeZoneRule::previousDSTChange( const QDateTime local_date, const double T
 
 void TimeZoneRule::reset_with_ltime( QDateTime &ltime, const double TZoffset, const bool time_runs_forward,
 		const bool automaticDSTchange ) {
+
 /**There are some problems using local time for getting next daylight saving change time.
 	1. The local time is the start time of DST change. So the local time doesn't exists and must
 		  corrected.
@@ -330,7 +331,11 @@ void TimeZoneRule::reset_with_ltime( QDateTime &ltime, const double TZoffset, co
 	*/
 
 	// check if DST is active before resetting with new time
-	bool wasDSTactive = dTZ != 0;
+	bool wasDSTactive(false);
+	
+	if ( deltaTZ() != 0.0 ) { 
+		wasDSTactive = true;
+	}
 
 	// check if current time is start time, this means if a DST change happend in last hour(s)
 	bool active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * -3600) ) );
@@ -372,7 +377,6 @@ void TimeZoneRule::reset_with_ltime( QDateTime &ltime, const double TZoffset, co
 		}  // else { // if ( automaticDSTchange )
 
 	} else {  // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
-
 		// If current time was not start time, so check if current time is revert time
 		// this means if a DST change happend in next hour(s)
 		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );

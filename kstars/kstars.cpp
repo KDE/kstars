@@ -58,6 +58,14 @@ KStars::KStars( bool doSplash ) :
 	}
 	pd->kstarsData->initialize();
 
+	//Set Geographic Location
+	QMap<QString, TimeZoneRule>::Iterator it = pd->kstarsData->Rulebook.find( Options::dST() );
+	pd->kstarsData->setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
+			Options::cityName(), Options::provinceName(), Options::countryName(), 
+			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
+
+	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
+
 	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
 	#else
@@ -81,7 +89,15 @@ KStars::KStars( KStarsData* kd )
 
 KStars::~KStars()
 {
-	data()->saveOptions(this);
+	//store focus values in Options
+	Options::setFocusRA( skymap->focus()->ra()->Hours() );
+	Options::setFocusDec( skymap->focus()->dec()->Degrees() );
+
+	//We need to explicitly save the colorscheme data to the config file
+	data()->colorScheme()->saveToConfig( kapp->config() );
+
+	//synch the config file with the Config object
+	Options::writeConfig();
 
 	clearCachedFindDialog();
 
@@ -111,7 +127,7 @@ void KStars::clearCachedFindDialog() {
 void KStars::updateTime( const bool automaticDSTchange ) {
 	dms oldLST( LST()->Degrees() );
 	// Due to frequently use of this function save data and map pointers for speedup.
-	// Save options() and geo() to a pointer would not speedup because most of time options
+	// Save options and geo() to a pointer would not speedup because most of time options
 	// and geo will accessed only one time.
 	KStarsData *Data = data();
 	SkyMap *Map = map();
@@ -122,10 +138,10 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
-//	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) {
+//	if ( !Options::isTracking() && LST()->Degrees() > oldLST.Degrees() ) {
 //		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
 //		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
-//		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
+//		if ( Options::useAltAz() ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
 //		Map->showFocusCoords();
 //	}
 

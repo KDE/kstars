@@ -51,17 +51,17 @@
       break;
     
     case TIME:
-      if (ksw->options()->indiAutoTime)
+      if ( Options::indiAutoTime() )
        handleDevCounter();
       break;
       
     case SDTIME:
-      if (ksw->options()->indiAutoTime)
+      if ( Options::indiAutoTime)
        handleDevCounter();
       break;
     
     case GEOGRAPHIC_COORD:
-      if (ksw->options()->indiAutoGeo)
+      if ( Options::indiAutoGeo() )
        handleDevCounter();
       break;
       
@@ -168,9 +168,9 @@ void INDIStdDevice::updateLocation()
      portEle = pp->findElement("PORT");
      if (!portEle) return;
      
-     portEle->read_w->setText (ksw->options()->indiPortName);
-     portEle->write_w->setText(ksw->options()->indiPortName);
-     portEle->text = ksw->options()->indiPortName;
+     portEle->read_w->setText( Options::indiPortName() );
+     portEle->write_w->setText( Options::indiPortName() );
+     portEle->text = Options::indiPortName();
    }
  }
  
@@ -181,7 +181,7 @@ void INDIStdDevice::initDeviceOptions()
 
   initDevCounter = 0;
 
-  if (ksw->options()->indiAutoTime)
+  if ( Options::indiAutoTime() )
   {
   	prop = dp->findProp("TIME");
   	  if (prop)
@@ -191,7 +191,7 @@ void INDIStdDevice::initDeviceOptions()
 	  }
   }
 
-  if (ksw->options()->indiAutoGeo)
+  if ( Options::indiAutoGeo() )
   {
   	prop = dp->findProp("GEOGRAPHIC_COORD");
    	if (prop)
@@ -201,7 +201,7 @@ void INDIStdDevice::initDeviceOptions()
 	}
   }
 
-  if (ksw->options()->indiMessages)
+  if ( Options::indiMessages() )
     ksw->statusBar()->changeItem( i18n("%1 is online.").arg(dp->name), 0);
 
   ksw->map()->forceUpdateNow();
@@ -215,7 +215,7 @@ void INDIStdDevice::initDeviceOptions()
 
   initDevCounter--;
 
-  if (initDevCounter == 0 && ksw->options()->indiMessages)
+  if ( initDevCounter == 0 && Options::indiMessages() )
     ksw->statusBar()->changeItem( i18n("%1 is online and ready.").arg(dp->name), 0);
 
 }
@@ -379,7 +379,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
      case DEVICE_PORT:
         lp = pp->findElement("PORT");
         if (lp)
-          ksw->options()->indiPortName = lp->text;
+          Options::setIndiPortName( lp->text );
      break;
     
    }
