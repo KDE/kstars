@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcGalCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>538</width>
-            <height>463</height>
+            <width>535</width>
+            <height>409</height>
         </rect>
     </property>
     <property name="caption">
@@ -237,9 +237,6 @@
                                         <property name="focusPolicy">
                                             <enum>StrongFocus</enum>
                                         </property>
-                                        <property name="toolTip" stdset="0">
-                                            <string>Ascension recta</string>
-                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
                                         <property name="name">
@@ -381,9 +378,6 @@
                                                 <property name="focusPolicy">
                                                     <enum>StrongFocus</enum>
                                                 </property>
-                                                <property name="degType" stdset="0">
-                                                    <bool>true</bool>
-                                                </property>
                                             </widget>
                                             <widget class="dmsBox" row="1" column="1">
                                                 <property name="name">
@@ -405,9 +399,6 @@
                                                 </property>
                                                 <property name="focusPolicy">
                                                     <enum>StrongFocus</enum>
-                                                </property>
-                                                <property name="degType" stdset="0">
-                                                    <bool>true</bool>
                                                 </property>
                                             </widget>
                                         </grid>
@@ -811,7 +802,6 @@
             <verstretch>0</verstretch>
         </sizepolicy>
         <pixmap>image0</pixmap>
-        <property type="Bool">degType</property>
     </customwidget>
 </customwidgets>
 <images>
@@ -922,18 +912,13 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
 </includehints>
 </UI>
