@@ -1142,19 +1142,18 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		psky.setPen( color );
 		psky.setBrush( NoBrush );
 		QColor colorHST  = data->colorScheme()->colorNamed( "HSTColor" );
-	
-		//MAGLIMIT
-		//adjust maglimit for ZoomLevel
-		double lgmin = log10(MINZOOM);
-		double lgmax = log10(MAXZOOM);
-		double lgz = log10(Options::zoomFactor());
+		
 		double maglim = Options::magLimitDrawDeepSky();
 		
 		//FIXME
 		//disabling faint limits until the NGC/IC catalog has reasonable mags
+		//adjust maglimit for ZoomLevel
+		//double lgmin = log10(MINZOOM);
+		//double lgmax = log10(MAXZOOM);
+		//double lgz = log10(Options::zoomFactor());
 		//if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 		//else 
-			maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
+			maglim = 40.0; //show all deep-sky objects 
 
 		for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {

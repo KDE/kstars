@@ -101,7 +101,7 @@ QImage* DeepSkyObject::readImage( void ) {
 
 void DeepSkyObject::deleteImage() { delete Image; Image = 0; }
 
-void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
 	// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
 	// if we use size 0.0 the star wouldn't be drawn
 	float majorAxis = a();
@@ -159,7 +159,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			if (size<2) size = 2;
 			psky.save();
 			psky.translate( x, y );
-			psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+			psky.rotate( PositionAngle );  //rotate the coordinate system
 			psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
 			psky.moveTo( 0, dy1 );
 			psky.lineTo( 0, dy2 );
@@ -171,7 +171,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			if (size <2) size = 2;
 			psky.save();
 			psky.translate( x, y );
-			psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+			psky.rotate( PositionAngle );  //rotate the coordinate system
 			psky.drawLine( dx1, dy1, dx2, dy1 );
 			psky.drawLine( dx2, dy1, dx2, dy2 );
 			psky.drawLine( dx2, dy2, dx1, dy2 );
@@ -182,7 +182,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			if (size<2) size = 2;
 			psky.save();
 			psky.translate( x, y );
-			psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+			psky.rotate( PositionAngle );  //rotate the coordinate system
 			psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
 			psky.moveTo( 0, dy1 );
 			psky.lineTo( 0, dy1 - int( e()*size/2 ) );
@@ -198,7 +198,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			if (size<2) size = 2;
 			psky.save();
 			psky.translate( x, y );
-			psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+			psky.rotate( PositionAngle );  //rotate the coordinate system
 			psky.moveTo( 0, dy1 );
 			psky.lineTo( dx2, 0 );
 			psky.lineTo( 0, dy2 );
@@ -212,7 +212,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			if ( size>2 ) {
 				psky.save();
 				psky.translate( x, y );
-				psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+				psky.rotate( PositionAngle );  //rotate the coordinate system
 				psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
 				psky.restore(); //reset coordinate system
 

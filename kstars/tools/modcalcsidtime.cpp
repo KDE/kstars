@@ -229,7 +229,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 	int i = 0;
 	long double jd0, jdf;
 	dms longB, LST;
-	double epoch0B;
+	double epoch0B(0.0);
 	QTime utB, stB;
 	ExtDate dtB;
 

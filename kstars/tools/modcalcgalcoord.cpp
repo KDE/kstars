@@ -261,7 +261,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 	int i = 0;
 	SkyPoint sp;
 	dms raB, decB, galLatB, galLongB;
-	double epoch0B;
+	double epoch0B(0.0);
 	KStarsDateTime dt;
 
 	while ( ! istream.eof() ) {

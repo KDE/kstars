@@ -344,7 +344,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	QTime utB;
 	ExtDate dtB;
 	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
-	double rSunB, rEarthB;
+	double rSunB(0.0), rEarthB(0.0);
 	KStarsData *kd = (KStarsData*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	PlanetCatalog PCat( kd ); 
 	PCat.initialize();

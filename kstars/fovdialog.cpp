@@ -66,8 +66,8 @@ void FOVDialog::initList() {
 	QFile f;
 
 	QString nm, cl;
-	int sh;
-	float sz;
+	int sh(0);
+	float sz(0.0);
 
 	f.setName( locateLocal( "appdata", "fov.dat" ) );
 

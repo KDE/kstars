@@ -172,7 +172,7 @@ public:
 
 /**Draw the object's symbol on the map
 	*/
-	void drawSymbol( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale=1.0 );
+	void drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Draw the Object's image on the map
 	*/
