@@ -19,6 +19,10 @@
 #include "jupitermoons.h"
 
 JupiterMoons::JupiterMoons(){
+	Name[0] = i18n( "Jupiter's moon Io", "Io" );
+	Name[1] = i18n( "Jupiter's moon Europa", "Europa" );
+	Name[2] = i18n( "Jupiter's moon Ganymede", "Ganymede" );
+	Name[3] = i18n( "Jupiter's moon Callisto", "Callisto" );
 }
 
 JupiterMoons::~JupiterMoons(){

@@ -29,6 +29,7 @@
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="zoom_in" />
 		<Action name="zoom_out" />
+		<Action name="zoom_default" />
 		<Action name="coordsys" />
 	</Menu>
 
@@ -79,6 +80,7 @@
 	<Separator />
 	<Action name="zoom_in" />
 	<Action name="zoom_out" />
+	<Action name="zoom_default" />
 	<Action name="track_object" />
 	<Separator />
 	<Action name="find_object" />

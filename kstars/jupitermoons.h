@@ -34,10 +34,12 @@ public:
 
 	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sun );
 	SkyPoint* pos( int id ) { return &Pos[id]; }
-	bool inFront( int id ) { return InFront[id]; }
+	bool inFront( int id ) const { return InFront[id]; }
+	QString name( int id ) const { return Name[id]; }
 	void EquatorialToHorizontal( const dms *LSTh, const dms *lat );
 private:
 	SkyPoint Pos[4];
+	QString Name[4];
 	bool InFront[4];
 };
 

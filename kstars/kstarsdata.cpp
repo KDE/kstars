@@ -1392,8 +1392,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		if ( isSolarSystem( skymap->foundObject() ) ) {
 			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
 			
-			//Allow no more than 500 points in the trail
-			while ( PlanetTrail.count() > 500 ) 
+			//Allow no more than 200 points in the trail
+			while ( PlanetTrail.count() > 200 ) 
 				PlanetTrail.removeFirst();
 		}
 

@@ -57,10 +57,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	switch ( e->key() ) {
 		case Key_Left :
 			if ( ksw->options()->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 			}
 
@@ -71,10 +71,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Right :
 			if ( ksw->options()->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 			}
 
@@ -84,11 +84,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Up :
 			if ( ksw->options()->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 89.9999 );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
 				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 			}
@@ -99,11 +99,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Down:
 			if ( ksw->options()->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -89.9999 );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
 				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 			}
@@ -350,8 +350,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		return;
 	}
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
+	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
 	double dyPix = 0.5*height() - e->y();
 
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
@@ -473,8 +473,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
+	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	if ( !midMouseButtonDown && e->button() == MidButton ) {
@@ -493,7 +493,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				ksw->LSTh(), ksw->geo()->lat(), ksw->options()->useRefraction ) );
 		setClickedPoint( mousePoint() );
 
-		double r0 = 200.0/pixelScale[ ksw->data()->ZoomLevel ];  //the maximum search radius
+		double r0 = 200.0/pixelScale[ ksw->options()->ZoomLevel ];  //the maximum search radius
 		double rmin = r0;
 
 		//Search stars database for nearby object.
@@ -781,8 +781,8 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 			return;
 		}
 
-		double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
-		double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
+		double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
+		double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
 		if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 //This is already done in mousePressEvent(), which is executed immediately 
@@ -807,14 +807,14 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 	if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 //Image size must be modified to account for possibility that rotated image's
 //size is bigger than original image size.
-		int size = int( mult * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] * p->image()->width()/p->image0()->width() );
+		int size = int( mult * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] * p->image()->width()/p->image0()->width() );
 		if ( size < sizemin ) size = sizemin;
 		int x1 = o.x() - size/2;
 		int y1 = o.y() - size/2;
 
                                              //Only draw planet image if:
 		if ( ksw->options()->drawPlanetImage &&  //user wants them,
-				ksw->data()->ZoomLevel > zoommin &&  //zoomed in enough,
+				ksw->options()->ZoomLevel > zoommin &&  //zoomed in enough,
 				!p->image()->isNull() &&             //image loaded ok,
 				size < width() ) {                   //and size isn't too big.
 
@@ -831,9 +831,9 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
       SkyPoint test;
 			KSNumbers num( ksw->data()->CurrentDate );
 
-			dms newELat( p->ecLat()->Degrees() + 5730./pixelScale[ ksw->data()->ZoomLevel ] );
-			if ( ksw->data()->ZoomLevel > 8 )
-				newELat.setD( p->ecLat()->Degrees() + 20.*5730./pixelScale[ ksw->data()->ZoomLevel ] );
+			dms newELat( p->ecLat()->Degrees() + 5730./pixelScale[ ksw->options()->ZoomLevel ] );
+			if ( ksw->options()->ZoomLevel > 8 )
+				newELat.setD( p->ecLat()->Degrees() + 20.*5730./pixelScale[ ksw->options()->ZoomLevel ] );
 
 			test.setFromEcliptic( num.obliquity(), p->ecLong(), &newELat );
 			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
@@ -882,7 +882,6 @@ void SkyMap::drawBoxes( QPixmap *pm ) {
 
 void SkyMap::paintEvent( QPaintEvent * )
 {
-	KStarsData* data = ksw->data();
 	KStarsOptions* options = ksw->options();
 
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
@@ -898,7 +897,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with Update())
 	QPainter psky;
 
-	guidemax = pixelScale[ data->ZoomLevel ]/10;
+	guidemax = pixelScale[ options->ZoomLevel ]/10;
 	FOV = fov();
 	isPoleVisible = false;
 	if ( options->useAltAz ) {
@@ -913,7 +912,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	guideFOV = fov();
 	guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
+	if ( options->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
@@ -957,7 +956,7 @@ void SkyMap::paintEvent( QPaintEvent * )
     drawConstellationNames(psky, stdFont );
   }
 	// stars and planets use the same font size
-	if ( ksw->data()->ZoomLevel < 6 ) {
+	if ( ksw->options()->ZoomLevel < 6 ) {
 		psky.setFont( smallFont );
 	} else {
 		psky.setFont( stdFont );
@@ -988,7 +987,7 @@ void SkyMap::drawMilkyWay( QPainter& psky)
   KStarsOptions* options = ksw->options();
 
   int ptsCount = 0;
-	int mwmax = pixelScale[ data->ZoomLevel ]/100;
+	int mwmax = pixelScale[ options->ZoomLevel ]/100;
 
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( true ) {
@@ -1302,7 +1301,7 @@ void SkyMap::drawStars(QPainter& psky)
 
 		float maglim;
 		float maglim0 = options->magLimitDrawStar;
-		float zoomlim = 7.0 + float( data->ZoomLevel )/4.0;
+		float zoomlim = 7.0 + float( options->ZoomLevel )/4.0;
 
 		if ( maglim0 < zoomlim ) maglim = maglim0;
 		else maglim = zoomlim;
@@ -1310,12 +1309,7 @@ void SkyMap::drawStars(QPainter& psky)
 	  //Only draw bright stars if slewing
 		if ( hideFaintStars && maglim > options->magLimitHideStar ) maglim = options->magLimitHideStar;
 		
-		//REVERTED...remove comments after 1/1/2003
-		//ARRAY:
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
-		//for ( unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
-		//	StarObject *curStar = &(ksw->data()->starArray[i]);
-			
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
@@ -1345,7 +1339,7 @@ void SkyMap::drawStars(QPainter& psky)
 							if ( options->drawStarMagnitude ) {
 								sTmp += QString().sprintf("%.1f", curStar->mag() );
 							}
-							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( data->ZoomLevel - 6));
+							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( options->ZoomLevel - 6));
 
 							psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
 							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
@@ -1359,8 +1353,7 @@ void SkyMap::drawStars(QPainter& psky)
 
 void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage )
 {
-  KStarsData* data = ksw->data();
-  KStarsOptions* options = ksw->options();
+	KStarsOptions* options = ksw->options();
 	QImage ScaledImage;
 
   // Set color once
@@ -1378,13 +1371,13 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 					int PositionAngle = findPA( obj, o.x(), o.y() );
 
 					//Draw Image
-					if ( drawImage && data->ZoomLevel >3 ) {
+					if ( drawImage && options->ZoomLevel >3 ) {
 						QFile file;
 
 						//readImage reads image from disk, or returns pointer to existing image.
 						QImage *image=obj->readImage();
 						if ( image ) {
-							int w = int( obj->a()*dms::PI*pixelScale[ data->ZoomLevel ]/10800.0 );
+							int w = int( obj->a()*dms::PI*pixelScale[ options->ZoomLevel ]/10800.0 );
 							int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
 							int dx = int( 0.5*w );
 							int dy = int( 0.5*h );
@@ -1420,7 +1413,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 							majorAxis = 1.0;
 						}
 
-						int Size = int( majorAxis*dms::PI*pixelScale[ data->ZoomLevel ]/10800.0 );
+						int Size = int( majorAxis*dms::PI*pixelScale[ options->ZoomLevel ]/10800.0 );
 
 						// use star draw function
 						drawSymbol( psky, obj->type(), o.x(), o.y(), Size, obj->e(), PositionAngle );
@@ -1506,14 +1499,14 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
 
 						if ( obj->type()==0 || obj->type()==1 ) {
 							StarObject *starobj = (StarObject*)obj;
-							float zoomlim = 7.0 + float( data->ZoomLevel )/4.0;
+							float zoomlim = 7.0 + float( options->ZoomLevel )/4.0;
 							float mag = starobj->mag();
 							float sizeFactor = 2.0;
 							int size = int( sizeFactor*(zoomlim - mag) ) + 1;
 							if (size>23) size=23;
 							if ( size > 0 ) drawSymbol( psky, starobj->type(), o.x(), o.y(), size, starobj->color() );
 						} else {
-							int size = pixelScale[ data->ZoomLevel ]/pixelScale[0];
+							int size = pixelScale[ options->ZoomLevel ]/pixelScale[0];
 							if (size>8) size = 8;
 							drawSymbol( psky, obj->type(), o.x(), o.y(), size );
 						}
@@ -1607,15 +1600,28 @@ void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets )
 		
 		//Draw Jovian moons
 		psky.setPen( QPen( QColor( "white" ) ) );
-		if ( data->ZoomLevel > 5 ) {
-			for ( int i=0; i<5; ++i ) {
+		if ( options->ZoomLevel > 5 ) {
+			QFont pfont = psky.font();
+			QFont moonFont = psky.font();
+			moonFont.setPointSize( pfont.pointSize() - 2 );
+			psky.setFont( moonFont );
+			
+			for ( unsigned int i=0; i<5; ++i ) {
 				QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction );
-
 				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
 						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
 					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+					
+					//Draw Moon name labels if at high zoom
+					if ( options->ZoomLevel > 15 ) {
+						psky.drawText( o.x() + 3, o.y() + 3, data->jmoons->name(i) );
+						
+					}
 				}
 			}
+			
+			//reset font
+			psky.setFont( pfont );
 		} 
 	}
 
@@ -1644,13 +1650,13 @@ void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets )
 		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			//if ( data->ZoomLevel > 3 ) {
+			//if ( options->ZoomLevel > 3 ) {
 				QPoint o = getXY( ast, options->useAltAz, options->useRefraction );
 
 				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
 						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
 					
-					int size = int( 0.05 * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] );
+					int size = int( 0.05 * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
 					if ( size < 2 ) size = 2;
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
@@ -1674,13 +1680,13 @@ void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets )
 		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
 			psky.setPen( QPen( QColor( "cyan4" ) ) );
 			psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-			//if ( data->ZoomLevel > 3 ) {
+			//if ( options->ZoomLevel > 3 ) {
 				QPoint o = getXY( com, options->useAltAz, options->useRefraction );
 
 				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
 						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
 					
-					int size = int( 0.05 * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] );
+					int size = int( 0.05 * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
 					if ( size < 2 ) size = 2;
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
@@ -1713,7 +1719,7 @@ void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets )
 			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				int dx(20), dy(20);
 				if ( clickedObject()->a() ) {
-					dx = int( clickedObject()->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+					dx = int( clickedObject()->a()*dms::PI*pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
 					dy = int( dx*clickedObject()->e() );
 				}
 				psky.setBrush( QColor( "White" ) );
@@ -1739,7 +1745,7 @@ void SkyMap::drawHorizon(QPainter& psky, QFont& stdFont)
 		psky.setBrush( QColor ( options->colorScheme()->colorNamed( "HorzColor" ) ) );
 		int ptsCount = 0;
 
-		int maxdist = pixelScale[ data->ZoomLevel ]/4;
+		int maxdist = pixelScale[ options->ZoomLevel ]/4;
 
 		for ( SkyPoint *p = data->Horizon.first(); p; p = data->Horizon.next() ) {
 			QPoint *o = new QPoint();
@@ -1970,7 +1976,7 @@ void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 	//Draw this last so it is never "behind" other things.
 	psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
 	psky.setBrush( NoBrush );
-	int pxperdegree = int(pixelScale[ data->ZoomLevel ]/57.3);
+	int pxperdegree = int(pixelScale[ ksw->options()->ZoomLevel ]/57.3);
 	
 	switch ( style ) {
 		case 1: { //simple circle, one degree in diameter.

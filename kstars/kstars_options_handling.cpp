@@ -128,6 +128,7 @@ void KStars::loadOptions()
 	options()->drawPlanetName    = conf->readBoolEntry( "drawPlanetName", true );
 	options()->drawPlanetImage   = conf->readBoolEntry( "drawPlanetImage", true );
 	options()->drawStarMagnitude = conf->readBoolEntry( "drawStarMagnitude", false );
+	options()->ZoomLevel    = conf->readNumEntry( "ZoomLevel", DEFAULTZOOMLEVEL );
 	options()->windowWidth  = conf->readNumEntry( "windowWidth", 600 );
 	options()->windowHeight = conf->readNumEntry( "windowHeight", 600 );
 	options()->useRefraction = conf->readBoolEntry( "UseRefraction", true );
@@ -236,7 +237,7 @@ void KStars::saveOptions() {
 	conf->writeEntry( "FocusRA", map()->focus()->ra()->Hours() );
 	conf->writeEntry( "FocusDec", map()->focus()->dec()->Degrees() );
 	conf->writeEntry( "SlewTimeScale", options()->slewTimeScale );
-	conf->writeEntry( "ZoomLevel", data()->ZoomLevel );
+	conf->writeEntry( "ZoomLevel", options()->ZoomLevel );
 	conf->writeEntry( "windowWidth", width() );
 	conf->writeEntry( "windowHeight", height() );
 	conf->writeEntry( "magLimitDrawStar", 	 options()->magLimitDrawStar );

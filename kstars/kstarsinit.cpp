@@ -78,8 +78,8 @@ void KStars::initActions() {
 //View Menu:
 	KStdAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
 	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
-//	new KAction( i18n( "Equatorial &Coordinates" ), KAccel::stringToKey( "C" ),
-//			this, SLOT( slotCoordSys() ),  actionCollection(), "coordsys" );
+	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KAccel::stringToKey( "Ctrl+Z" ),
+		this, SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			0, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 	if ( options()->useAltAz ) actCoordSys->turnOff();

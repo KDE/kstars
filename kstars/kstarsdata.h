@@ -478,7 +478,6 @@ private:
 	QTime LST;
 	bool TimeRunsForward;
 	dms *LSTh, *HourAngle;
-	int ZoomLevel;
 	KLocale *locale;
 
 	QString TypeName[NTYPENAME];

@@ -339,22 +339,27 @@ void KStars::slotManualFocus() {
 //View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( data()->ZoomLevel < MAXZOOMLEVEL ) {
-		++data()->ZoomLevel;
+	if ( options()->ZoomLevel < MAXZOOMLEVEL ) {
+		++options()->ZoomLevel;
 		map()->Update();
 	}
-	if ( data()->ZoomLevel == MAXZOOMLEVEL )
+	if ( options()->ZoomLevel == MAXZOOMLEVEL )
 		actionCollection()->action("zoom_in")->setEnabled (false);
 }
 
 void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
-	if ( data()->ZoomLevel > MINZOOMLEVEL ) {
-		--data()->ZoomLevel;
+	if ( options()->ZoomLevel > MINZOOMLEVEL ) {
+		--options()->ZoomLevel;
 		map()->Update();
 	}
-	if ( data()->ZoomLevel == MINZOOMLEVEL )
+	if ( options()->ZoomLevel == MINZOOMLEVEL )
 		actionCollection()->action("zoom_out")->setEnabled (false);
+}
+
+void KStars::slotDefaultZoom() {
+	options()->ZoomLevel = DEFAULTZOOMLEVEL;
+	map()->Update();
 }
 
 void KStars::slotCoordSys() {

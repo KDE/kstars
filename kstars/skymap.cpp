@@ -52,11 +52,11 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 	setDefaultMouseCursor();	// set the cross cursor
 	kapp->config()->setGroup( "View" );
-	ksw->data()->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
-	if ( ksw->data()->ZoomLevel > NZOOM-1 ) ksw->data()->ZoomLevel = NZOOM-1;
-	if ( ksw->data()->ZoomLevel < 0 )  ksw->data()->ZoomLevel = 0;
-	if ( ksw->data()->ZoomLevel == NZOOM-1 ) ksw->actionCollection()->action("zoom_in")->setEnabled( false );
-	if ( ksw->data()->ZoomLevel == 0  ) ksw->actionCollection()->action("zoom_out")->setEnabled( false );
+	ksw->options()->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
+	if ( ksw->options()->ZoomLevel > NZOOM-1 ) ksw->options()->ZoomLevel = NZOOM-1;
+	if ( ksw->options()->ZoomLevel < 0 )  ksw->options()->ZoomLevel = 0;
+	if ( ksw->options()->ZoomLevel == NZOOM-1 ) ksw->actionCollection()->action("zoom_in")->setEnabled( false );
+	if ( ksw->options()->ZoomLevel == 0  ) ksw->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	// load the pixmaps of stars
 	starpix = new StarPixmap( ksw->options()->colorScheme()->starColorMode(), ksw->options()->colorScheme()->starColorIntensity() );
@@ -304,6 +304,9 @@ void SkyMap::slotCenter( void ) {
 		}
 	}
 	
+	//clear the planet trail
+	if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
+	 
 //set FoundObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFoundObject( ClickedObject );
@@ -546,7 +549,7 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/pixelScale radians (so distance is always 100 pixels)
 	//this is 5730/pixelScale degrees
-	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ ksw->data()->ZoomLevel ];
+	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ ksw->options()->ZoomLevel ];
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
@@ -665,8 +668,8 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.resetXForm(); //reset coordinate system
 			break;
 		case 8: //Galaxy
-			if ( size <1 && ksw->data()->ZoomLevel > 8 ) size = 3; //force ellipse above zoomlevel 8
-			if ( size <1 && ksw->data()->ZoomLevel > 5 ) size = 1; //force points above zoomlevel 5
+			if ( size <1 && ksw->options()->ZoomLevel > 8 ) size = 3; //force ellipse above zoomlevel 8
+			if ( size <1 && ksw->options()->ZoomLevel > 5 ) size = 1; //force points above zoomlevel 5
 			if ( size>2 ) {
 				psky.translate( x, y );
 				psky.rotate( double( pa ) );  //rotate the coordinate system
@@ -748,8 +751,8 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 
 	double k = sqrt( 2.0/( 1 + c ) );
 
-	p.setX( int( 0.5*width()  - pixelScale[ ksw->data()->ZoomLevel ]*k*cosY*sindX ) );
-	p.setY( int( 0.5*height() - pixelScale[ ksw->data()->ZoomLevel ]*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
+	p.setX( int( 0.5*width()  - pixelScale[ ksw->options()->ZoomLevel ]*k*cosY*sindX ) );
+	p.setY( int( 0.5*height() - pixelScale[ ksw->options()->ZoomLevel ]*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
 
 	return p;
 }
@@ -870,7 +873,7 @@ void SkyMap::UpdateNow()
 
 
 float SkyMap::fov( void ) {
-	return Range[ ksw->data()->ZoomLevel ]*width()/600.;
+	return Range[ ksw->options()->ZoomLevel ]*width()/600.;
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
@@ -1088,7 +1091,7 @@ void SkyMap::setRiseSetLabels( void ) {
 }
 
 int SkyMap::getPixelScale( void ) {
-	return pixelScale[ ksw->data()->ZoomLevel ];
+	return pixelScale[ ksw->options()->ZoomLevel ];
 }
 
 bool SkyMap::setColors( QString filename ) {

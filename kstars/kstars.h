@@ -73,6 +73,7 @@ class AstroCalc;
 #define NMILKYWAY 11  //number of Milky Way segments
 #define MINZOOMLEVEL 0
 #define MAXZOOMLEVEL 26
+#define DEFAULTZOOMLEVEL 3
 #define TIMER_INTERVAL 10
 
 /**
@@ -196,6 +197,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Zoom out. */
 		ASYNC zoomOut(void){ slotZoomOut(); };
 
+	/**DCOP interface function.  Default Zoom. */
+		ASYNC defaultZoom(void) { slotDefaultZoom(); }
+
 	/**DCOP interface function.  Set local time and date. */
 		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
@@ -235,7 +239,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Zoom out
 			*/
 		void slotZoomOut();
-	
+
+		void slotDefaultZoom();
+
 	/**
  		*Delete FindDialog because ObjNames list has changed in KStarsData due to
    	*reloading star data. So list in FindDialog must be new filled with current data.

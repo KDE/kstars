@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kstarsoptions.h"
-
 #include <kapplication.h>
+
+#include "kstars.h"
+#include "kstarsoptions.h"
 
 KStarsOptions::KStarsOptions(bool loadDefaults) {
 	if ( loadDefaults ) setDefaultOptions();
@@ -98,6 +99,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	focusDec    = o.focusDec;
 	targetSymbol = o.targetSymbol;
 	slewTimeScale  = o.slewTimeScale;
+	ZoomLevel      = o.ZoomLevel;
 	windowWidth    = o.windowWidth;
 	windowHeight   = o.windowHeight;
 	// magnitude limits and other star options
@@ -189,6 +191,7 @@ void KStarsOptions::setDefaultOptions() {
 	focusDec = 0.0;
 	targetSymbol = 0;
 	slewTimeScale = 60.0;
+	ZoomLevel    = DEFAULTZOOMLEVEL;
 	windowWidth  = 600;
 	windowHeight = 600;
 //  magLimitDrawStar = 8.0;		// read entry below

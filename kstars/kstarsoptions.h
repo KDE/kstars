@@ -174,7 +174,7 @@ class KStarsOptions {
 		QString focusObject;
 		float focusRA, focusDec;	
 		float slewTimeScale;
-		int windowWidth, windowHeight;
+		int ZoomLevel, windowWidth, windowHeight;
 
 		float magLimitDrawStar;
 		float magLimitHideStar;
