@@ -1563,7 +1563,7 @@ Montpelier                       : Vermont               : USA                  
 Montpellier                      :                       : France                : 43 : 37 : 59 : N :   3 : 52 : 59 : E : 1.0  : EU
 Montreal                         : Quebec                : Canada                : 45 : 30 :  0 : N :  73 : 34 : 47 : W : -5.0 : US
 Moore                            : Oklahoma              : USA                   : 35 : 20 : 12 : N :  97 : 29 : 17 : W : -6.0 : US
-Moose Jaw                        : Saskatchewan          : Canada                : 50 : 22 : 11 : N : 105 : 31 : 48 : W : -6.0 : US
+Moose Jaw                        : Saskatchewan          : Canada                : 50 : 22 : 11 : N : 105 : 31 : 48 : W : -6.0 : --
 Morehead                         : Kentucky              : USA                   : 38 : 10 :  1 : N :  83 : 25 :  1 : W : -5.0 : US
 Morgan City                      : Louisiana             : USA                   : 29 : 41 : 53 : N :  91 : 12 : 24 : W : -6.0 : US
 Morgantown                       : West Virginia         : USA                   : 39 : 37 : 54 : N :  79 : 57 : 11 : W : -5.0 : US
@@ -1920,7 +1920,7 @@ Prescott                         : Arizona               : USA                  
 Preston                          : Idaho                 : USA                   : 42 :  4 : 58 : N : 111 : 54 :  0 : W : -7.0 : US
 Pretoria                         :                       : South Africa          : 25 : 51 :  0 : S :  28 :  0 :  0 : E : 2.0  : --
 Primghar                         : Iowa                  : USA                   : 43 :  2 : 59 : N :  95 : 20 : 59 : W : -6.0 : US
-Prince Albert                    : Saskatchewan          : Canada                : 55 : 23 : 48 : N : 111 :  7 : 30 : W : -6.0 : US
+Prince Albert                    : Saskatchewan          : Canada                : 55 : 23 : 48 : N : 111 :  7 : 30 : W : -6.0 : --
 Prince George                    : British Columbia      : Canada                : 53 : 55 : 12 : N : 122 : 41 : 23 : W : -8.0 : US
 Prince Rupert                    : British Columbia      : Canada                : 54 : 18 : 36 : N : 130 : 22 : 47 : W : -8.0 : US
 Princeton                        : Missouri              : USA                   : 40 : 22 : 58 : N :  93 : 34 :  1 : W : -6.0 : US
@@ -1976,7 +1976,7 @@ Redondo Beach                    : California            : USA                  
 Redwood City                     : California            : USA                   : 37 : 28 :  0 : N : 122 : 15 :  0 : W : -8.0 : US
 Regensburg                       :                       : Germany               : 49 : 01 : 00 : N :  12 : 06 : 00 : E : 1.0  : EU
 Reggio di Calabria               :                       : Italy                 : 38 :  6 : 29 : N :  15 : 38 : 50 : E :  1.0 : EU
-Regina                           : Saskatchewan          : Canada                : 50 : 30 :  0 : N : 104 : 30 :  0 : W : -6.0 : US
+Regina                           : Saskatchewan          : Canada                : 50 : 30 :  0 : N : 104 : 30 :  0 : W : -6.0 : --
 Rehovot                          :                       : Israel                : 31 : 53 : 49 : N :  34 : 49 :  8 : E : 2.0  : ZN
 Reims                            :                       : France                : 49 : 16 :  0 : N :   4 :  0 :  0 : E : 1.0  : EU
 Remscheid                        :                       : Germany               : 51 : 11 : 00 : N :   7 : 12 : 00 : E : 1.0  : EU
@@ -2114,7 +2114,7 @@ Sapporo                          :                       : Japan                
 Sarajevo                         :                       : Bosnia and Herzegovina : 43 : 49 : 55 : N :  18 : 20 :  6 : E : 1.0  : EU
 Sarasota                         : Florida               : USA                   : 27 : 20 : 12 : N :  82 : 31 : 54 : W : -5.0 : US
 Sargent                          : Nebraska              : USA                   : 41 : 40 :  1 : N :  99 : 37 : 58 : W : -6.0 : US
-Saskatoon                        : Saskatchewan          : Canada                : 52 :  8 : 59 : N : 106 : 35 : 59 : W : -6.0 : US
+Saskatoon                        : Saskatchewan          : Canada                : 52 :  8 : 59 : N : 106 : 35 : 59 : W : -6.0 : --
 Sassari                          :                       : Italy                 : 40 : 43 : 26 : N :   8 : 33 : 49 : E :  1.0 : EU
 Saue                             :                       : Estonia               : 59 : 19 : 13 : N :  24 : 32 : 39 : E :  2.0 : EU
 Sault St. Marie                  : Michigan              : USA                   : 46 : 28 : 58 : N :  84 : 20 : 59 : W : -5.0 : US
@@ -2279,7 +2279,7 @@ Suure-Jaani                      :                       : Estonia              
 Suwon                            : Gyeonggi              : Korea                 : 37 : 16 :  0 : N : 126 : 09 :  0 : E : 9.0  : SK
 Svendborg                        : Fyn                   : Denmark               : 55 :  2 : 59 : N :  10 : 37 : 59 : E :   1.0 : EU
 Swannanoa                        : North Carolina        : USA                   : 35 : 35 : 41 : N :  82 : 33 : 25 : W : -5.0 : US
-Swift Current                    : Saskatchewan          : Canada                : 50 : 16 : 48 : N : 107 : 45 :  0 : W : -6.0 : US
+Swift Current                    : Saskatchewan          : Canada                : 50 : 16 : 48 : N : 107 : 45 :  0 : W : -6.0 : --
 Sydney                           : New South Wales       : Australia             : 33 : 54 : 59 : S : 151 : 16 : 59 : E :+10.0 : AU
 Sydney                           : Nova Scotia           : Canada                : 46 :  8 : 24 : N :  60 :  4 : 47 : W : -4.0 : US
 Syracuse                         : New York              : USA                   : 43 :  3 :  3 : N :  76 :  9 : 14 : W : -5.0 : US
