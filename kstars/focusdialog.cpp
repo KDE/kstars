@@ -47,6 +47,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 	connect( fdlg->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
 
+	fdlg->raBox->setFocus(); //set input focus
 	enableButtonOK( false ); //disable until both lineedits are filled
 }
 
@@ -153,5 +154,6 @@ QSize FocusDialog::sizeHint() const
 
 void FocusDialog::activateAzAltPage() {
 	fdlg->fdTab->showPage( fdlg->aaTab );
+	fdlg->azBox->setFocus();
 }
 #include "focusdialog.moc"
