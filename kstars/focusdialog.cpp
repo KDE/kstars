@@ -176,7 +176,7 @@ void FocusDialog::validatePoint( void ) {
 	if ( valueFound[0] && valueFound[1] ) {
 		//Check to make sure entered values are in bounds.
 		QString warnRAMess = i18n( "The RA value you entered is not between 0 and 24 hours. " )
-						+ i18n( "Would you like me to wrap the value?" );
+						+ i18n( "Would you like the value to be wrapped?" );
 		QString warnDecMess = i18n( "The Dec value you entered is not between -90 and +90 degrees. " )
 						+ i18n( "Please enter a new value." );
 
@@ -185,7 +185,7 @@ void FocusDialog::validatePoint( void ) {
 		//can't check using RA.Hours() because this automatically calls reduce().
 		if ( RA.Degrees() < 0.0 || RA.Degrees() > 360.0 ) {
 			if ( KMessageBox::warningYesNo( 0,
-						warnRAMess, i18n( "RA out-of-bounds" ) )==KMessageBox::No ) {
+						warnRAMess, i18n( "RA Out-of-Bounds" ) )==KMessageBox::No ) {
 				editRA->clear();
 				editRA->setFocus();
 				return;
@@ -194,7 +194,7 @@ void FocusDialog::validatePoint( void ) {
 
 		if ( Dec.Degrees() < -90.0 || Dec.Degrees() > 90.0 ) {
 			KMessageBox::sorry( 0,
-					warnDecMess, i18n( "Dec out-of-bounds" ) );
+					warnDecMess, i18n( "Dec Out-of-Bounds" ) );
 			editDec->clear();
 			if ( ! editRA->text().isEmpty() ) editDec->setFocus();
 			return;
