@@ -1,0 +1,55 @@
+<!DOCTYPE kdevelop>
+<kdevelop>
+ <general>
+  <author>Jason Harris</author>
+  <email>kstars@30doradus.org</email>
+  <projectmanagement>KDevKDEAutoProject</projectmanagement>
+  <primarylanguage>C++</primarylanguage>
+  <keywords>
+   <keyword>KDE</keyword>
+   <keyword>Qt</keyword>
+  </keywords>
+ </general>
+ <kdevautoproject>
+  <general>
+   <mainprogram>kstars</mainprogram>
+  </general>
+  <configure>
+   <configargs>\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --with-qt-dir=/usr/lib/qt2\s</configargs>
+  </configure>
+  <make>
+   <abortonerror></abortonerror>
+   <numberofjobs></numberofjobs>
+   <dontact></dontact>
+   <makebin/>
+  </make>
+  <compiler>
+   <cflags></cflags>
+   <cxxflags>\s-O0 -g3 -Wall</cxxflags>
+  </compiler>
+ </kdevautoproject>
+ <kdevfileview>
+  <groups>
+   <group pattern="*.h,*.hh,*.hxx,*.hpp,*.H" name="Headers" />
+   <group pattern="*.cpp,*.c,*.cc,*.C,*.cxx,*.ec,*.ecpp,*.lxx,*.l++,*.ll,*.l" name="Sources" />
+   <group pattern="*.kdevdlg,*.ui,*.rc" name="User Interface" />
+   <group pattern="*.po" name="Translations" />
+   <group pattern="AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,NEWS" name="GNU" />
+   <group pattern="*" name="Others" />
+  </groups>
+ </kdevfileview>
+ <kdevdoctreeview>
+  <ignoretocs>
+   <toc>gtk</toc>
+   <toc>gnustep</toc>
+   <toc>python</toc>
+   <toc>php</toc>
+   <toc>perl</toc>
+  </ignoretocs>
+ </kdevdoctreeview>
+ <kdevdebugger>
+  <general>
+   <dbgshell>libtool</dbgshell>
+  </general>
+ </kdevdebugger>
+</kdevelop>

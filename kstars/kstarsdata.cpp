@@ -128,19 +128,19 @@ bool KStarsData::readMWData( void ) {
 		fname = "mw" + szero + snum + ".dat";
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
-      KSFileReader fileReader( file ); // close file is included
-	  	while ( fileReader.hasMoreLines() ) {
-		  	QString line;
-			  double ra, dec;
+			KSFileReader fileReader( file ); // close file is included
+			while ( fileReader.hasMoreLines() ) {
+				QString line;
+				double ra, dec;
 
-			  line = fileReader.readLine();
+				line = fileReader.readLine();
 
-			  ra = line.mid( 0, 8 ).toDouble();
-	  		dec = line.mid( 9, 8 ).toDouble();
+				ra = line.mid( 0, 8 ).toDouble();
+				dec = line.mid( 9, 8 ).toDouble();
 
-			  SkyPoint *o = new SkyPoint( ra, dec );
-			  MilkyWay[i].append( o );
-	  	}
+				SkyPoint *o = new SkyPoint( ra, dec );
+				MilkyWay[i].append( o );
+			}
 		} else {
 			return false;
 		}
@@ -328,201 +328,201 @@ bool KStarsData::readCNameData( void ) {
 	}
 }
 
+//02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readStarData( void ) {
 	QFile file;
-	if ( KSUtils::openDataFile( file, "sao.dat" ) ) {
-		QTextStream stream( &file );
+	
+	for ( unsigned int i=0; i<8; ++i ) {
+		QString snum, fname;
+		snum = QString().sprintf( "%02d", i+1 );
+		fname = "sao" + snum + ".dat";
 		
-		//REVERTED...remove comments after 1/1/2003
-		//ARRAY:
-		//StarCount = 0;
-		
-		while ( !stream.eof() ) {
-			QString line, name, gname, SpType;
-			float mag;
-			int rah, ram, ras, dd, dm, ds;
-			QChar sgn;
+		if ( KSUtils::openDataFile( file, fname ) ) {
+			KSFileReader fileReader( file ); // close file is included
+			while ( fileReader.hasMoreLines() ) {
+				QString line, name, gname, SpType;
+				float mag;
+				int rah, ram, ras, dd, dm, ds;
+				QChar sgn;
 
-			line = stream.readLine();
+				line = fileReader.readLine();
 
-			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
-			if ( mag > options->magLimitDrawStar )
-				break;	// break reading file if magnitude is higher than needed
-			else
-				lastFileIndex = file.at();	// stores current file index - needed by reloading
+				mag = line.mid( 33, 4 ).toFloat();	// star magnitude
+				if ( mag > options->magLimitDrawStar )
+					break;	// break reading file if magnitude is higher than needed
+				else
+					lastFileIndex = file.at();	// stores current file index - needed by reloading
+
+				name = ""; gname = "";
+
+				rah = line.mid( 0, 2 ).toInt();
+				ram = line.mid( 2, 2 ).toInt();
+				ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+
+				sgn = line.at( 17 );
+				dd = line.mid( 18, 2 ).toInt();
+				dm = line.mid( 20, 2 ).toInt();
+				ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+
+				SpType = line.mid( 37, 2 );
+				name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
+				if ( name.contains( ':' ) ) { //genetive form exists
+					gname = name.mid( name.find(':')+1 );
+					name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+				}
+				if ( name.isEmpty() ) name = "star";
+
+				dms r;
+				r.setH( rah, ram, ras );
+				dms d( dd, dm,  ds );
+
+				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+
+				StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+				starList.append( o );
+
+				if ( o->name() != "star" ) {		// just add to name list if a name is given
+					ObjNames.append( o );
+				}
+			}  // end of while
+
+		} else { //one of the star files could not be read.
+			//maxSetMagnitude = starList.last()->mag();  // faintest star loaded (assumes stars are read in order of decreasing brightness)
 			
-			name = ""; gname = "";
-
-			rah = line.mid( 0, 2 ).toInt();
-			ram = line.mid( 2, 2 ).toInt();
-			ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
-
-			sgn = line.at( 17 );
-			dd = line.mid( 18, 2 ).toInt();
-			dm = line.mid( 20, 2 ).toInt();
-			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
-
-			SpType = line.mid( 37, 2 );
-			name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
-			if ( name.contains( ':' ) ) { //genetive form exists
-				gname = name.mid( name.find(':')+1 );
-				name = name.mid( 0, name.find(':') ).stripWhiteSpace();
-			}
-			if ( name.isEmpty() ) name = "star";
-
-			dms r;
-			r.setH( rah, ram, ras );
-			dms d( dd, dm,  ds );
-
-			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-			//REVERTED...remove comments after 1/1/2003
-			//ARRAY:
-			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-			starList.append( o );
-			//starArray[StarCount++] = StarObject( r, d, mag, name, gname, SpType );
-			//StarObject *o = &starArray[StarCount-1];
-			
-			if ( o->name() != "star" ) {		// just add to name list if a name is given
-				ObjNames.append( o );
-			}
-
-  	}  // end of while
-		file.close();
-
-/*
-	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
-	*/
-		maxSetMagnitude = options->magLimitDrawStar;
-		
-		return true;
-	} else {
-		maxSetMagnitude = 0;  // nothing loaded
-		return false;
+			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
+			return false;
+		}
 	}
+
+//Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
+	maxSetMagnitude = options->magLimitDrawStar;
+	return true;
 }
 
+//02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readDeepSkyData( void ) {
 	QFile file;
-	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
-	  QTextStream stream( &file );
+	
+	for ( unsigned int i=0; i<13; ++i ) {
+		QString snum, fname;
+		snum = QString().sprintf( "%02d", i+1 );
+		fname = "ngcic" + snum + ".dat";
+		
+		if ( KSUtils::openDataFile( file, fname ) ) {
+			KSFileReader fileReader( file ); // close file is included
+			while ( fileReader.hasMoreLines() ) {
+				QString line, con, ss, name, name2, longname;
+				QString cat, cat2;
+				float mag(1000.0), ras, a, b;
+				int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
+				int pgc, ugc;
+				QChar sgn, iflag;
 
-		while ( !stream.eof() ) {
-			QString line, con, ss, name, name2, longname;
-			QString cat, cat2;
-			float mag(1000.0), ras, a, b;
-			int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
-			int pgc, ugc;
-			QChar sgn, iflag;
+				line = fileReader.readLine();
 
-			line = stream.readLine();
+				iflag = line.at( 0 ); //check for IC catalog flag
+				if ( iflag == 'I' ) cat = "IC";
+				else if ( iflag == ' ' ) cat = "NGC"; // if blank, set catalog to NGC
 
-			iflag = line.at( 0 ); //check for IC catalog flag
-			if ( iflag == 'I' ) cat = "IC";
-			else if ( iflag == ' ' ) cat = "NGC"; // if blank, set catalog to NGC
+				ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
+				if ( ingc==0 ) cat = ""; //object is not in NGC or IC catalogs
 
-			ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
-			if ( ingc==0 ) cat = ""; //object is not in NGC or IC catalogs
-
-			con = line.mid( 6, 3 );     // constellation
-			rah = line.mid( 10, 2 ).toInt();
-			ram = line.mid( 13, 2 ).toInt();
-			ras = line.mid( 16, 4 ).toFloat();
-			sgn = line.at( 21 );
-			dd = line.mid( 22, 2 ).toInt();
-			dm = line.mid( 25, 2 ).toInt();
-			ds = line.mid( 28, 2 ).toInt();
-			type = line.mid( 31, 1 ).toInt();
-			//Skipping detailed type string for now (it's mid(33,4) )
-			ss = line.mid( 38, 4 );
-		  if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
-			ss = line.mid( 43, 6 );
-			if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
-			ss = line.mid( 50, 5 );
-			if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
-			ss = line.mid( 56, 3 );
-			if (ss == "   " ) { pa = 0; } else { pa = ss.toInt(); }
-			ss = line.mid( 60, 3 );
-			if (ss != "   " ) { //Messier object
-				cat2 = cat;
-				if ( ingc==0 ) cat2 = "";
-				cat = "M";
-				imess = ss.toInt();
-			}
-			ss = line.mid( 64, 6 );
-			if (ss == "      " ) { pgc = 0; } else { pgc = ss.toInt(); }
-			ss = line.mid( 71, 5 );
-			if (ss == "     " ) { ugc = 0; } else { ugc = ss.toInt(); }
-			longname = line.mid( 77, line.length() ).stripWhiteSpace();
-
-			dms r;
-			r.setH( rah, ram, int(ras) );
-			dms d( dd, dm, ds );
-
-			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-			QString snum;
-			if ( cat=="IC" || cat=="NGC" ) {
-				snum.setNum( ingc );
-				name = cat + " " + snum;
-			} else if ( cat=="M" ) {
-				snum.setNum( imess );
-				name = cat + " " + snum;
-				if ( cat2=="NGC" ) {
-					snum.setNum( ingc );
-					name2 = cat2 + " " + snum;
-				} else if ( cat2=="IC" ) {
-					snum.setNum( ingc );
-					name2 = cat2 + " " + snum;
-				} else {
-					name2 = "";
+				con = line.mid( 6, 3 );     // constellation
+				rah = line.mid( 10, 2 ).toInt();
+				ram = line.mid( 13, 2 ).toInt();
+				ras = line.mid( 16, 4 ).toFloat();
+				sgn = line.at( 21 );
+				dd = line.mid( 22, 2 ).toInt();
+				dm = line.mid( 25, 2 ).toInt();
+				ds = line.mid( 28, 2 ).toInt();
+				type = line.mid( 31, 1 ).toInt();
+				//Skipping detailed type string for now (it's mid(33,4) )
+				ss = line.mid( 38, 4 );
+			  if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
+				ss = line.mid( 43, 6 );
+				if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
+				ss = line.mid( 50, 5 );
+				if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
+				ss = line.mid( 56, 3 );
+				if (ss == "   " ) { pa = 0; } else { pa = ss.toInt(); }
+				ss = line.mid( 60, 3 );
+				if (ss != "   " ) { //Messier object
+					cat2 = cat;
+					if ( ingc==0 ) cat2 = "";
+					cat = "M";
+					imess = ss.toInt();
 				}
-			} else {
-				if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );
-				else name = longname;
-			}
+				ss = line.mid( 64, 6 );
+				if (ss == "      " ) { pgc = 0; } else { pgc = ss.toInt(); }
+				ss = line.mid( 71, 5 );
+				if (ss == "     " ) { ugc = 0; } else { ugc = ss.toInt(); }
+				longname = line.mid( 77, line.length() ).stripWhiteSpace();
+
+				dms r;
+				r.setH( rah, ram, int(ras) );
+				dms d( dd, dm, ds );
+
+				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+
+//				QString snum;
+				if ( cat=="IC" || cat=="NGC" ) {
+					snum.setNum( ingc );
+					name = cat + " " + snum;
+				} else if ( cat=="M" ) {
+					snum.setNum( imess );
+					name = cat + " " + snum;
+					if ( cat2=="NGC" ) {
+						snum.setNum( ingc );
+						name2 = cat2 + " " + snum;
+					} else if ( cat2=="IC" ) {
+						snum.setNum( ingc );
+						name2 = cat2 + " " + snum;
+					} else {
+						name2 = "";
+					}
+				} else {
+					if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );
+					else name = longname;
+				}
 			
-			// create new starobject or skyobject
-			// type 0 and 1 are starobjects
-			// all other are skyobjects
-			SkyObject *o = 0;
-			if (type < 2) {
-				o = new StarObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
-			} else {
-				o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
-			}
+				// create new starobject or skyobject
+				// type 0 and 1 are starobjects
+				// all other are skyobjects
+				SkyObject *o = 0;
+				if (type < 2) {
+					o = new StarObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+				} else {
+					o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+				}
 
-      // keep object in deep sky objects' list
-			deepSkyList.append( o );
-      // plus: keep objects separated for performance reasons. Switching the colors during
-      // paint is too expensive.
-      if ( o->isCatalogM()) {
-        deepSkyListMessier.append( o );
-      }
-      else if (o->isCatalogNGC() ) {
-        deepSkyListNGC.append( o );
-      }
-      else if ( o->isCatalogIC() ) {
-        deepSkyListIC.append( o );
-      }
-      else {
-        deepSkyListOther.append( o );
-      }
+				// keep object in deep sky objects' list
+				deepSkyList.append( o );
+				// plus: keep objects separated for performance reasons. Switching the colors during
+				// paint is too expensive.
+				if ( o->isCatalogM()) {
+					deepSkyListMessier.append( o );
+				} else if (o->isCatalogNGC() ) {
+					deepSkyListNGC.append( o );
+				} else if ( o->isCatalogIC() ) {
+					deepSkyListIC.append( o );
+				} else {
+					deepSkyListOther.append( o );
+				}
 
-      // list of object names
-			ObjNames.append( o );
+				// list of object names
+				ObjNames.append( o );
 
-			//Add longname to objList, unless longname is the same as name
-			if ( !o->longname().isEmpty() && o->name() != o->longname() && o->name() != i18n( "star" ) ) {
-				ObjNames.append( o, true );  // append with longname
-			}
+				//Add longname to objList, unless longname is the same as name
+				if ( !o->longname().isEmpty() && o->name() != o->longname() && o->name() != i18n( "star" ) ) {
+					ObjNames.append( o, true );  // append with longname
+				}
+			} //end while-filereader
+		} else { //one of the files could not be opened
+			return false;
 		}
-		file.close();
-
-		return true;
-	} else {
-		return false;
-	}
+	} //end for-loop through files
+	
+	return true;
 }
 
 bool KStarsData::openURLFile(QString urlfile, QFile & file)
@@ -1079,8 +1079,7 @@ void KStarsData::initError(QString s, bool required = false) {
 				"Shutting down, because KStars cannot run properly without this file.\n"
 				"Place it in one of the following locations, then try again:\n\n"
 				"\t$(KDEDIR)/share/apps/kstars/%1\n"
-				"\t~/.kde/share/apps/kstars/%1\n"
-				"\t[KSTARS_SOURCE_DIR]/data/%1").arg(s);
+				"\t~/.kde/share/apps/kstars/%1" ).arg(s);
 		caption = i18n( "Critical File Not Found: %1" ).arg(s);
 	} else {
 		message = i18n( "The file %1 could not be found.\n"
@@ -1088,8 +1087,7 @@ void KStarsData::initError(QString s, bool required = false) {
 				"However, to avoid seeing this message in the future, you may want to\n"
 				"place the file in one of the following locations:\n\n"
 				"\t$(KDEDIR)/share/apps/kstars/%1"
-				"\n\t~/.kde/share/apps/kstars/%1"
-				"\n\t[KSTARS_SOURCE_DIR]/data/%1").arg(s);
+				"\n\t~/.kde/share/apps/kstars/%1" ).arg(s);
 		caption = i18n( "Non-Critical File Not Found: %1" ).arg(s);
 	}
 	
@@ -1137,7 +1135,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
-				initError( "sao.dat", true );
+				initError( "saoN.dat", true );
 			if (!readVARData())
 				initError( "var.dat", false);
 			if (!readADVTreeData())
@@ -1148,7 +1146,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText( i18n("Loading NGC/IC Data" ) );
 			if ( !readDeepSkyData( ) )
-				initError( "ngcic.dat", true );
+				initError( "ngcicN.dat", true );
 			break;
 
 		case 4: //Load Constellation lines//
