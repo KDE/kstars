@@ -25,6 +25,8 @@
 #include "locationdialog.h"
 #include "timedialog.h"
 #include "wutdialogui.h"
+#include "kssun.h"
+#include "ksmoon.h"
 
 #include <kcombobox.h>
 #include <klocale.h>
@@ -114,19 +116,19 @@ void WUTDialog::init() {
 	}
 
 	// sun almanac information
-	SkyObject *o = (SkyObject*) kstars->data()->PCat->planetSun();
-	sunRiseTomorrow = o->riseSetTime( JDTomorrow, geo, true );
-	sunSetToday = o->riseSetTime( JDToday, geo, false );
-	sunRiseToday = o->riseSetTime( JDToday, geo, true );
+	KSSun *oSun = (KSSun*) kstars->data()->PCat->planetSun();
+	sunRiseTomorrow = oSun->riseSetTime( JDTomorrow, geo, true );
+	sunSetToday = oSun->riseSetTime( JDToday, geo, false );
+	sunRiseToday = oSun->riseSetTime( JDToday, geo, true );
 
 	//check to see if Sun is circumpolar
 	KSNumbers *num = new KSNumbers( JDToday );
 	KSNumbers *oldNum = new KSNumbers( kstars->data()->clock()->JD() );
 	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( JDToday ), geo->lng() );
 	
-	o->updateCoords( num, true, geo->lat(), &LST );
-	if ( o->checkCircumpolar( geo->lat() ) ) {
-		if ( o->alt()->Degrees() > 0.0 ) {
+	oSun->updateCoords( num, true, geo->lat(), &LST );
+	if ( oSun->checkCircumpolar( geo->lat() ) ) {
+		if ( oSun->alt()->Degrees() > 0.0 ) {
 			sRise = i18n( "circumpolar" );
 			sSet = i18n( "circumpolar" );
 			sDuration = "00:00";
@@ -146,24 +148,21 @@ void WUTDialog::init() {
 		sDuration = QString().sprintf( "%02d:%02d", hDur, mDur );
 	}
 
-	//Restore Sun's coordinates
-	o->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
-
 	WUT->SunSetLabel->setText( i18n( "Sunset: %1" ).arg(sSet) );
 	WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" ).arg(sRise) );
 	WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours" ).arg( sDuration ) );
 
 	// moon almanac information
-	o = (SkyObject*) kstars->data()->Moon;
-	moonRise = o->riseSetTime( JDToday, geo, true );
-	moonSet = o->riseSetTime( JDToday, geo, false );
+	KSMoon *oMoon = (KSMoon*) kstars->data()->Moon;
+	moonRise = oMoon->riseSetTime( JDToday, geo, true );
+	moonSet = oMoon->riseSetTime( JDToday, geo, false );
 	if ( moonSet < moonRise ) 
-		moonSet = o->riseSetTime( JDTomorrow, geo, false );
+		moonSet = oMoon->riseSetTime( JDTomorrow, geo, false );
 
 	//check to see if Moon is circumpolar
-	o->updateCoords( num, true, geo->lat(), &LST );
-	if ( o->checkCircumpolar( geo->lat() ) ) {
-		if ( o->alt()->Degrees() > 0.0 ) {
+	oMoon->updateCoords( num, true, geo->lat(), &LST );
+	if ( oMoon->checkCircumpolar( geo->lat() ) ) {
+		if ( oMoon->alt()->Degrees() > 0.0 ) {
 			sRise = i18n( "circumpolar" );
 			sSet = i18n( "circumpolar" );
 		} else {
@@ -175,14 +174,17 @@ void WUTDialog::init() {
 		sSet = moonSet.toString("hh:mm");
 	}
 
-	//Restore Moon's coordinates
-	o->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
-	
 	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );
 	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1" ).arg( sSet ) );
+	oMoon->findPhase( oSun ); 
 	WUT->MoonIllumLabel->setText( i18n( "Moon's Illumination fraction", "Moon illum.: %1%" ).arg(
-			int(100.0*kstars->data()->Moon->illum() ) ) );
+			int(100.0*oMoon->illum() ) ) );
 
+	//Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
+	oMoon->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
+	oSun->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
+	oMoon->findPhase( oSun ); 
+	
 	splitObjectList();
 	// load first list
 	slotLoadList(0);
