@@ -29,11 +29,14 @@
 #include <kpushbutton.h>
 #include <klineedit.h>
 
+#include <kextsock.h>
+#include <unistd.h>
+
 /*
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-INDIDriver::INDIDriver(QWidget *parent) : INDIConf( parent )
+INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
 
 {
 
@@ -46,6 +49,7 @@ INDIDriver::INDIDriver(QWidget *parent) : INDIConf( parent )
     //FormLayout =  makeVBoxMainWidget();
 
     localListView->setSorting(-1);
+    clientListView->setSorting(-1);
 
     KIconLoader *icons = KGlobal::iconLoader();
     runningPix = icons->loadIcon( "exec", KIcon::Small);
@@ -55,11 +59,7 @@ INDIDriver::INDIDriver(QWidget *parent) : INDIConf( parent )
     LocalpopMenu->insertItem( runningPix, i18n("Run Service") , 0);
     LocalpopMenu->insertItem( stopPix, i18n("Stop Service"), 1);
 
-    topItem = new QListViewItem(localListView);
-    topItem->setPixmap( 0, icons->loadIcon( "gear", KIcon::Small) );
-
-    topItem->setOpen(true);
-
+    localListView->setRootIsDecorated(true);
 
   connected           = icons->loadIcon( "connect_established", KIcon::Small);
   disconnected        = icons->loadIcon( "connect_no", KIcon::Small);
@@ -72,13 +72,15 @@ INDIDriver::INDIDriver(QWidget *parent) : INDIConf( parent )
 
   for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
   {
-  	QListViewItem *item = new QListViewItem(clientListView);
+  	QListViewItem *item = new QListViewItem(clientListView, lastGroup);
+	lastGroup = item;
 	item->setPixmap(0, disconnected);
         item->setText(1, ksw->data()->INDIHostsList.at(i)->hostname);
 	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
 
   }
 
+  lastGroup = NULL;
 
   QObject::connect(addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
   QObject::connect(modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
@@ -102,10 +104,10 @@ QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT
 
 void INDIDriver::shutdownHost(int mgrID)
 {
-
   QListViewItem *affectedItem;
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+{
      if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
      {
         affectedItem = clientListView->itemAtIndex(i);
@@ -114,6 +116,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
         affectedItem->setPixmap(0, disconnected);
 	break;
      }
+ }
 }
 
 void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p, int column)
@@ -143,32 +146,54 @@ void INDIDriver::processDeviceStatus(int id)
 	devices[i]->state = id == 0 ? 1 : 0;
 	if (devices[i]->state)
 	{
+
+	  if (!runDevice(devices[i]))
+	  {
+	   devices[i]->restart();
+	   return;
+	  }
+
+	  //Allow time for the INDI server to listen
+	  usleep(50000);
+
+	  if (!ksw->getINDIMenu()->processServer())
+	  {
+	   devices[i]->restart();
+	   return;
+	  }
+
 	  localListView->selectedItem()->setPixmap(1, runningPix);
-	  runDevice(devices[i]);
+
 	  localListView->selectedItem()->setText(3, QString("%1").arg(devices[i]->indiPort));
-
-	}
-        else
-	{
-	    ksw->getINDIMenu()->processServer();
-	    localListView->selectedItem()->setPixmap(1, stopPix);
-	    localListView->selectedItem()->setText(3, QString(""));
-	    devices[i]->restart();
+	  kdDebug() << "listening port okay and returning" << endl;
+	  return;
 	}
 
-	break;
+	  ksw->getINDIMenu()->processServer();
+	  localListView->selectedItem()->setPixmap(1, stopPix);
+	  localListView->selectedItem()->setText(3, QString(""));
+	  devices[i]->restart();
+	return;
      }
 }
 
 bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
 {
   dev->indiPort = getINDIPort();
+
+  if (dev->indiPort < 0)
+  {
+   KMessageBox::error(0, i18n("Cannot start INDI server : port error"));
+   return false;
+  }
+
   dev->proc = new KProcess;
 
   *dev->proc << "indiserver";
   *dev->proc << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
 
   dev->proc->start();
+
 
   return (dev->proc->isRunning());
 }
@@ -184,11 +209,23 @@ void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
 int INDIDriver::getINDIPort()
 {
 
-  //TODO might want to use something more reliable
-  lastPort++;
-  return lastPort;
+  lastPort+=5;
 
- }
+  KExtendedSocket ks(QString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
+
+  for (uint i=0 ; i < 10; i++)
+  {
+    if (ks.listen() < 0)
+    {
+      lastPort+=5;
+      ks.setPort(lastPort);
+    }
+    else
+     return lastPort;
+  }
+
+   return -1;
+}
 
 bool INDIDriver::readXMLDriver()
 {
@@ -248,7 +285,8 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   }
 
 
-  QListViewItem *group = new QListViewItem(topItem, lastGroup);
+  //KListViewItem *group = new KListViewItem(topItem, lastGroup);
+  QListViewItem *group = new QListViewItem(localListView, lastGroup);
   group->setText(0, QString(ap->valu));
   lastGroup = group;
   //group->setOpen(true);
@@ -346,7 +384,7 @@ INDIDriver::~INDIDriver()
 INDIDriver::IDevice::~IDevice()
 {
   if (proc)
-     proc->kill();
+      proc->kill();
 
 }
 
@@ -376,7 +414,8 @@ void INDIDriver::IDevice::restart()
 
   indiPort = -1;
 
-  proc->kill();
+  if (proc)
+  	proc->kill();
 
   proc = NULL;
 
@@ -392,7 +431,7 @@ void INDIDriver::processHostStatus(int id)
    for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
      hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (currentItem->text(1) == hostInfo->hostname)
+     if (currentItem->text(1) == hostInfo->hostname && currentItem->text(2) == hostInfo->portnumber)
      {
         // Nothing changed, return
         if (hostInfo->isConnected == toConnect)
@@ -433,6 +472,14 @@ void INDIDriver::addINDIHost()
     hostItem->hostname   = hostConf.hostname->text();
     hostItem->portnumber = hostConf.portnumber->text();
 
+    //search for duplicates
+    for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     if (hostItem->hostname   == ksw->data()->INDIHostsList.at(i)->hostname &&
+         hostItem->portnumber == ksw->data()->INDIHostsList.at(i)->portnumber)
+     {
+       KMessageBox::error(0, i18n("Host: ") + hostItem->hostname + " Port: " + hostItem->portnumber + i18n(" already exist."));
+       return;
+     }
 
     ksw->data()->INDIHostsList.append(hostItem);
 

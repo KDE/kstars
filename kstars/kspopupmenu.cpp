@@ -20,6 +20,8 @@
 #include "skyobject.h"
 #include "ksplanetbase.h"
 #include "kspopupmenu.h"
+#include "indidevice.h"
+#include "indimenu.h"
 
 #include <qlabel.h>
 
@@ -122,12 +124,83 @@ void KSPopupMenu::addLinksToMenu( bool showDSS, bool allowCustom ) {
 	}
 }
 
+bool KSPopupMenu::addINDI(void)
+{
+  INDIMenu *indiMenu = ksw->getINDIMenu();
+  INDI_P *prop;
+  bool grouped = false;
+  int id=0;
+
+  if (indiMenu->mgr.size() == 0)
+   return false;
+
+  for (uint i=0; i < indiMenu->mgr.size(); i++)
+  {
+    for (uint j=0; j < indiMenu->mgr[i]->indi_dev.size(); j++)
+    {
+        if (!indiMenu->mgr[i]->indi_dev[j]->INDIStdSupport)
+	 continue;
+
+	id = 0;
+	KPopupMenu *menuDevice = new KPopupMenu();
+	insertItem(QString(indiMenu->mgr[i]->indi_dev[j]->name), menuDevice);
+
+        for (uint l=0; l < indiMenu->mgr[i]->indi_dev[j]->gl.size(); l++)
+	{
+	   for (uint k=0; k < indiMenu->mgr[i]->indi_dev[j]->gl[l]->pl.size(); k++)
+	   {
+	     prop = indiMenu->mgr[i]->indi_dev[j]->gl[l]->pl[k];
+
+	     if (!prop->isINDIStd)
+	      continue;
+
+	   if (grouped && (prop->guitype == PG_BUTTONS || prop->guitype == PG_RADIO))
+	   {
+	    menuDevice->insertSeparator();
+	    grouped = false;
+	   }
+
+	   grouped = true;
+	   prop->parentPopup = menuDevice;
+
+	     if (prop->guitype == PG_BUTTONS)
+  	     {
+                for (uint g=0; g < prop->u.multi.push_v->size(); g++)
+		{
+			menuDevice->insertItem ( (*prop->u.multi.push_v)[g]->text(), id);
+
+	 	if ((*prop->u.multi.push_v)[g]->isDown())
+		  	menuDevice->setItemChecked(id, true);
+	 	else
+	        	menuDevice->setItemChecked(id, false);
+
+		//menuDevice->connectItem(id, prop, SLOT(newSwitch(g)));
+		id++;
+
+	        }
+
+	     QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
+
+	     }
+	    } // end property
+
+	  } // end group
+
+
+   } // end device
+ } // end device manager
+
+
+ return true;
+
+}
+
 void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail ) {
 	clear();
 
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
-	
+
 	bool showLabel( true );
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 	
@@ -207,6 +280,10 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 	}
 
 	insertSeparator();
+
+	if (addINDI())
+  	  insertSeparator();
+
 }
 
 void KSPopupMenu::setRiseSetLabels( void ) {

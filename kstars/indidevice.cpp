@@ -12,13 +12,19 @@
     2003-05-01 Added tab for devices and a group feature
     2003-05-02 Added scrolling area. Most things are rewritten
     2003-05-05 Device/Group seperation
+    2003-05-29 Replaced raw INDI time with KStars's timedialog
 
  */
 
 #include "indidevice.h"
 #include "indimenu.h"
 #include "indidriver.h"
+#include "indi/indicom.h"
 #include "kstars.h"
+#include "skyobject.h"
+#include "timedialog.h"
+#include "geolocation.h"
+#include "dms.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -56,6 +62,8 @@
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <kdialogbase.h>
+#include <kstatusbar.h>
+#include <kpopupmenu.h>
 
 /*******************************************************************
 ** The device manager contain devices running from one indiserver
@@ -100,6 +108,7 @@ DeviceManager::~DeviceManager()
 bool DeviceManager::indiConnect(QString host, QString port)
 {
 
+        kdDebug() << "in INDI connect with " << host << " and port " << port << endl;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
 	QString errMsg;
@@ -113,7 +122,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 
 	if ( (serverFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
-	 KMessageBox::error(0, errMsg);
+	 KMessageBox::error(0, i18n("Can not create socket"));
 	 return false;
 	}
 
@@ -397,7 +406,7 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
 
 	for (i = 0; i < root->nel; i++)
 	    if (!strcmp (root->el[i]->tag, "msg"))
-		doMsg (root->el[i], dp);
+  doMsg (root->el[i], dp);
 }
 
 /* display pcdata of <msg> in dp's scrolled area, if any, else general.
@@ -425,6 +434,10 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
 	/* finally! the msg */
 	    txt_w->insert( QString(msg->pcdata) + QString("\n"));
+
+	    if (parent->ksw->options()->indiMessages)
+	    	parent->ksw->statusBar()->changeItem( QString(msg->pcdata), 0);
+
 }
 
 void DeviceManager::sendNewString (INDI_P *pp, const char *txt)
@@ -462,6 +475,7 @@ INDI_P::INDI_P(INDI_G *parentGroup, char * inName)
   name = new char[64];
   strcpy(name, inName);
   pg = parentGroup;
+  isINDIStd = false;
 
   u.multi.push_v  = new std::vector<QPushButton *>;
   u.multi.check_v = new std::vector<QCheckBox   *>;
@@ -470,6 +484,8 @@ INDI_P::INDI_P(INDI_G *parentGroup, char * inName)
 
   light = NULL;
   label_w = NULL;
+
+  parentPopup = NULL;
 
   u.text.read_w = NULL;
   u.text.write_w = NULL;
@@ -574,8 +590,40 @@ INDI_P::~INDI_P()
      for (uint i=0; i < u.multi.labels->size(); i++)
       {
         delete ((*u.multi.labels)[i]);
-	u.multi.labels->erase(u.multi.labels->begin() + i);
+	u.multi.labels->erase(u.multi.labels->begin());
+//	u.multi.labels->erase(0);
       }
+
+}
+
+bool INDI_P::isOn(QString component)
+{
+
+  //TODO this now only searches in push_v. I should move all
+  // of that to labels where it logically belongs
+
+  for (uint i=0; i < u.multi.push_v->size(); i++)
+  {
+    if ((*u.multi.push_v)[i]->text() == component)
+       if ((*u.multi.push_v)[i]->isDown())
+        return true;
+       else
+        return false;
+  }
+
+  return false;
+}
+
+dms * INDI_P::getDMS()
+{
+    double value;
+
+    //kdDebug() << "Validating this DMS " << u.text.read_w->text().ascii() << endl;
+
+    if (!getSex(u.text.read_w->text().ascii(), &value))
+         return (new dms(value));
+    else
+     return NULL;
 
 }
 
@@ -613,6 +661,7 @@ INDI_G::~INDI_G()
 
 void INDI_G::addProperty(INDI_P *pp)
 {
+   dp->registerProperty(pp);
    pl.push_back(pp);
 }
 
@@ -648,6 +697,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
 
  curGroup = NULL;
  biggestLabel = 0;
+ initDevCounter = 0;
 
  sv = new QScrollView(tabContainer);
  sv->setResizePolicy(QScrollView::AutoOneFit);
@@ -692,6 +742,8 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
   uniHeight = tempLine->height() - 10;
   delete(tempLine);
 
+  INDIStdSupport = false;
+
 }
 
 INDI_D::~INDI_D()
@@ -704,6 +756,89 @@ INDI_D::~INDI_D()
 
   if (tabContainer)
     delete (tabContainer);
+
+}
+
+void INDI_D::registerProperty(INDI_P *pp)
+{
+
+  /*INDI_STD prop;
+  INDI_L *label;
+
+  switch (pp->guitype)
+  {
+    case PG_BUTTONS:
+     for (uint i=0; i < pp->u.multi.push_v->size(); i++)
+     {
+       if (isINDIStd(pp->u.multi.push_v[i]->text()))
+       {
+         prop.name    = pp->u.multi.push_v[i]->text();
+	 prop.guitype = PG_BUTTONS;
+	 prop.visible = true;
+	 prop.parent  = pp;
+
+	 indiSTD.push_back(prop);
+       }
+     }
+     break;
+    default:
+     break;
+   }*/
+
+   if (isINDIStd(pp))
+   {
+    pp->isINDIStd = true;
+    pp->pg->dp->INDIStdSupport = true;
+   }
+
+
+
+}
+
+bool INDI_D::isINDIStd(INDI_P *pp)
+{
+
+  if (pp->name == QString("POWER"))
+   return true;
+  else if (pp->name == QString("RA"))
+   return true;
+  else if (pp->name == QString("DEC"))
+   return true;
+  else if (pp->name == QString("ONCOORDSET"))
+   return true;
+  else if (pp->name == QString("ABORTSLEW"))
+   return true;
+  else if (pp->name == QString("SOLARSYSTEM"))
+   return true;
+  // Time is a special case property. KStars offers
+  // its own non-INDI controls to facilitate the time and date
+  // selection process
+  else if (pp->name == QString("TIME"))
+     return true;
+  else if (pp->name == QString("UTC"))
+   return true;
+  else if (pp->name == QString("LONG") || pp->name == QString("LAT"))
+    return true;
+
+  return false;
+}
+
+bool INDI_D::handleNonSidereal(SkyObject *o)
+{
+
+  INDI_P *prop = findProp("SOLARSYSTEM");
+
+  if (prop == NULL || o == NULL)
+   return false;
+
+  for (int i=0; i < prop->u.multi.om_w->count(); i++)
+     if (o->name().lower() == prop->u.multi.om_w->text(i).lower())
+     {
+       prop->newSwitch(i);
+       return true;
+     }
+
+ return false;
 
 }
 
@@ -862,9 +997,38 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    break;
 	}
 
+	// Only update skymap is if it's NOT idle
+	//INDI_P * prop = findProp("ONCOORDSET");
+	//if (prop == NULL)
+	 //return (0);
+
+	//if (prop->isOn(QString("Idle")))
+//	  return (0);
+
+	if (!strcmp(pp->name , "RA"))
+	  parent->ksw->map()->forceUpdateNow();
+	else if (!strcmp(pp->name , "DEC"))
+	  parent->ksw->map()->forceUpdateNow();
+	else if  ( (!strcmp(pp->name, "TIME") && parent->ksw->options()->indiAutoTime) ||
+	           (!strcmp(pp->name, "LONG") && parent->ksw->options()->indiAutoLong) ||
+		   (!strcmp(pp->name, "LAT") && parent->ksw->options()->indiAutoLat))
+		  handleDevCounter();
+
 	return (0);
 }
 
+void INDI_D::handleDevCounter()
+{
+
+  if (initDevCounter <= 0)
+   return;
+
+  initDevCounter--;
+
+  if (initDevCounter == 0 && parent->ksw->options()->indiMessages)
+    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online and ready."), 0);
+
+}
 
 /* set the user input SCALE field from the given element.
  * root should have <number> child.
@@ -899,6 +1063,7 @@ int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	if (pp->u.text.perm == PP_RW)
 	    pp->u.text.read_w->setText(QString(ep->pcdata));
+
 
 	return (0);
 }
@@ -966,6 +1131,12 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 		buttonFont = (*pp->u.multi.push_v)[i]->font();
 		buttonFont.setBold(state == PS_ON ? TRUE : FALSE);
 		(*pp->u.multi.push_v)[i]->setFont(buttonFont);
+
+		// INDI STD properties
+		if (state == PS_ON && (*pp->u.multi.push_v)[i]->text() == QString("Power On"))
+		  initTelescope();
+		else if (state == PS_ON && (*pp->u.multi.push_v)[i]->text() == QString("Power Off"))
+		  parent->ksw->map()->forceUpdateNow();
             }
 	    else if (pp->guitype == PG_LIGHTS && islight)
 		pp->drawLt ((*pp->u.multi.led_v)[j], lp->state);
@@ -974,6 +1145,63 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	return (0);
 }
+
+void INDI_D::initTelescope()
+{
+  INDI_P *prop;
+
+  initDevCounter = 0;
+
+  if (parent->ksw->options()->indiAutoTime)
+  {
+  	prop = findProp("TIME");
+  	  if (prop)
+	  {
+            prop->updateTime();
+	    initDevCounter += 3;
+	  }
+  }
+
+  if (parent->ksw->options()->indiAutoLong)
+  {
+  	prop = findProp("LONG");
+   	   if (prop)
+	   {
+   		prop->updateLocation();
+         	initDevCounter += 2;
+	   }
+  }
+
+  if (parent->ksw->options()->indiAutoLat)
+  {
+  	prop = findProp("LAT");
+   	 if (prop)
+	 {
+   		prop->updateLocation();
+     	        initDevCounter += 2;
+	 }
+   }
+
+  if (parent->ksw->options()->indiMessages)
+    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online."), 0);
+
+  parent->ksw->map()->forceUpdateNow();
+
+}
+
+bool INDI_D::isOn()
+{
+
+  INDI_P *prop;
+
+  prop = findProp("POWER");
+  if (!prop)
+   return false;
+
+  return (prop->isOn(QString("Power On")));
+}
+
+
 
 
 /* set the given RADIO or MENU property from the given element.
@@ -1033,7 +1261,7 @@ int INDI_D::setMenuChoice (INDI_P *pp, XMLEle *root, char errmsg[])
 	    /* engage new state */
 	    lp->state = state;
 	    if (pp->guitype == PG_MENU && lp->state != PS_OFF)
-		pp->u.multi.om_w->setCurrentItem(i-1);
+		pp->u.multi.om_w->setCurrentItem(j);
 	    else if (pp->guitype == PG_RADIO)
 		(*pp->u.multi.check_v)[j]->setChecked(state == PS_ON ? true : false);
 	}
@@ -1184,7 +1412,6 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	ap = parent->findAtt (root, "state", errmsg);
 	if (!ap)
 	{
-	    // TODO use std::vector to add and remove
 	    delete(pp);
 	    return (NULL);
 	}
@@ -1405,7 +1632,12 @@ int INDI_D::buildRawTextGUI (INDI_P *pp, char *initstr, PPerm p, char errmsg[])
 	    pp->u.text.read_w->setMinimumWidth(100);
 
 	    pp->u.text.write_w = new KLineEdit(QString(initstr), curGroup->box);
+
+	    if (!strcmp(pp->name, "TIME"))
+	     pp->u.text.set_w   = new QPushButton(i18n("Set Time..."), curGroup->box);
+	    else
 	    pp->u.text.set_w   = new QPushButton(i18n("Set"), curGroup->box);
+
 	    pp->u.text.read_w->setFixedHeight(uniHeight);
 	    pp->u.text.read_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -1415,6 +1647,11 @@ int INDI_D::buildRawTextGUI (INDI_P *pp, char *initstr, PPerm p, char errmsg[])
 
 	    QObject::connect(pp->u.text.write_w, SIGNAL(returnPressed()),
 	    		     pp, SLOT(newText()));
+
+	    if (!strcmp(pp->name, "TIME"))
+	    QObject::connect(pp->u.text.set_w, SIGNAL(clicked()),
+	    		     pp, SLOT(newTime()));
+	    else
 	    QObject::connect(pp->u.text.set_w, SIGNAL(clicked()),
 	    		     pp, SLOT(newText()));
 
@@ -1802,6 +2039,126 @@ int INDI_D::crackSwitchState (char *name, PState *psp)
 	return (-1);
 }
 
+void INDI_P::convertSwitch(int id)
+{
+
+ if (parentPopup == NULL)
+  return;
+
+ INDI_P *prop;
+
+ for (uint i=0; i < u.multi.push_v->size(); i++)
+ {
+   if ( (*u.multi.push_v)[i]->text() == parentPopup->text(id))
+   {
+
+
+     if (parentPopup->text(id) == QString("Slew") ||
+         parentPopup->text(id) == QString("Track") ||
+	 parentPopup->text(id) == QString("Sync"))
+     {
+       // let's make it IDLE first
+       newSwitch(0);
+
+       if (!pg->dp->handleNonSidereal(pg->dp->parent->ksw->map()->clickedObject()))
+       {
+       prop = pg->dp->findProp("RA");
+       if (prop == NULL)
+        return;
+
+       prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->hour())
+        						 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->minute())
+							 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->second()));
+
+       prop->newText();
+
+       prop = pg->dp->findProp("DEC");
+       if (prop == NULL)
+        return;
+
+       prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->degree())
+                                                         .arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->arcmin())
+							 .arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->arcsec()));
+
+       prop->newText();
+       }
+     }
+
+     // The switch issue MUST be the last thing to do
+     newSwitch(i);
+      break;
+  }
+
+ }
+
+}
+
+void INDI_P::updateTime()
+{
+
+  QTime newTime( pg->dp->parent->ksw->clock()->UTC().time());
+  QDate newDate( pg->dp->parent->ksw->clock()->UTC().date());
+
+  u.text.write_w->setText(QString("%1-%2-%3T%4:%5:%6")
+					.arg(newDate.year()).arg(newDate.month())
+					.arg(newDate.day()).arg(newTime.hour())
+					.arg(newTime.minute()).arg(newTime.second()));
+  newText();
+
+}
+
+void INDI_P::updateUTC()
+{
+  GeoLocation *geo = pg->dp->parent->ksw->geo();
+  u.text.write_w->setText(QString("%1").arg(geo->TZ0()));
+
+  newText();
+
+}
+
+void INDI_P::updateLocation()
+{
+
+  GeoLocation *geo = pg->dp->parent->ksw->geo();
+
+  if (!strcmp(name, "LONG"))
+  {
+    dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
+    dms fullCir(360,0,0);
+
+    if (tempLong.degree() < 0)
+      tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
+
+    u.text.write_w->setText(QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
+  }
+  else
+   u.text.write_w->setText(QString("%1:%2:%3").arg(geo->lat()->degree())
+                                              .arg(geo->lat()->arcmin())
+  				              .arg(geo->lat()->arcsec()));
+
+  newText();
+}
+
+
+void INDI_P::newTime()
+{
+
+TimeDialog timedialog ( pg->dp->parent->ksw->data()->UTime, pg->dp->parent->ksw, true );
+
+	if ( timedialog.exec() == QDialog::Accepted )
+	{
+		QTime newTime( timedialog.selectedTime() );
+		QDate newDate( timedialog.selectedDate() );
+
+                u.text.write_w->setText(QString("%1-%2-%3T%4:%5:%6")
+					.arg(newDate.year()).arg(newDate.month())
+					.arg(newDate.day()).arg(newTime.hour())
+					.arg(newTime.minute()).arg(newTime.second()));
+	        newText();
+	}
+
+}
+
 void INDI_P::newSwitch(int id)
 {
 
@@ -1810,11 +2167,11 @@ void INDI_P::newSwitch(int id)
   if (guitype== PG_MENU)
   {
 
-  if (u.multi.om_w->text(0).isEmpty())
-  {
-   kdDebug() << "The first empty option was selected, returning" << endl;
-   return;
-  }
+  //if (u.multi.om_w->text(0).isEmpty())
+  //{
+   //kdDebug() << "The first empty option was selected, returning" << endl;
+   //return;
+  //}
 
   /* did it change? */
   if ((*u.multi.labels)[id]->state == PS_ON)
@@ -1916,14 +2273,6 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 
             pp->u.multi.labels->push_back(lp);
 
-	}
-
-	/* empty default */
-	if (!initlp)
-	{
-	  pp->u.multi.om_w->insertItem(QString(""), 0);
-	  pp->u.multi.om_w->setCurrentItem(0);
-	  pp->u.multi.lastItem = 0;
 	}
 
 	QObject::connect( pp->u.multi.om_w, SIGNAL(activated(int)), pp, SLOT(newSwitch(int)));

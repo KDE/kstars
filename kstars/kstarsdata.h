@@ -92,6 +92,7 @@ public:
 	friend class WUTDialog;
 	friend class ViewOpsDialog;
 	friend class INDIDriver;
+	friend class INDI_P;
 
 	/**Constructor. */
 	KStarsData();

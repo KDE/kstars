@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "indi/lilxml.h"
-#include "indiconf.h"
+#include "devmanager.h"
 
 class KStars;
 
@@ -40,7 +40,7 @@ struct INDIHostsInfo
 };
 
 
-class INDIDriver : public INDIConf
+class INDIDriver : public devManager
 {
 
    Q_OBJECT
@@ -57,8 +57,6 @@ class INDIDriver : public INDIConf
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, char errmsg[]);
 
-
-    QListViewItem *topItem;
     QListViewItem *lastGroup;
     QListViewItem *lastDevice;
 

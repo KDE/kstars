@@ -87,12 +87,25 @@ INDIMenu::~INDIMenu()
 *********************************************************************/
 void INDIMenu::updateStatus()
 {
+   INDIDriver *drivers = ksw->getINDIDriver();
+
 
    // Local/Server
    processServer();
 
-   if (mgr.size() == 0)
-     return;
+   if (drivers)
+   {
+    if (drivers->activeDriverCount() == 0)
+    {
+       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
+       return;
+    }
+   }
+   else if (mgr.size() == 0)
+   {
+      KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
+      return;
+   }
 
   show();
 
@@ -112,9 +125,8 @@ DeviceManager *dev;
       // Devices ready to run but not yet managed
       if (drivers->devices[i]->state && drivers->devices[i]->managed == false)
       {
-
         dev = new DeviceManager(this, mgrCounter);
-    	if (dev->indiConnect("localhost", QString("%1").arg(drivers->devices[i]->indiPort)))
+    	if  (dev->indiConnect("localhost", QString("%1").arg(drivers->devices[i]->indiPort)))
 	{
 	        drivers->devices[i]->mgrID   = mgrCounter;
 	        drivers->devices[i]->managed = true;
@@ -123,7 +135,10 @@ DeviceManager *dev;
 
 	}
     	else
+	{
       		delete (dev);
+		return false;
+	}
       }
       // Devices running and they need to be shutdown
       else if (!drivers->devices[i]->state && drivers->devices[i]->managed == true)
@@ -135,12 +150,6 @@ DeviceManager *dev;
       }
     }
 
-    if (drivers->activeDriverCount() == 0)
-    {
-       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
-      return false;
-    }
-
   return true;
 
   }
@@ -150,6 +159,7 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 
   DeviceManager *dev;
 
+  kdDebug() << "in process Client" << endl;
   dev = new DeviceManager(this, mgrCounter);
   if (dev->indiConnect(hostname, portnumber))
       mgr.push_back(dev);

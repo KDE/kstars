@@ -23,6 +23,7 @@
 #include <kprocess.h>
 #include <qpaintdevicemetrics.h>
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 
 #include "kstars.h"
 #include "timedialog.h"
@@ -37,9 +38,10 @@
 #include "elts.h"
 #include "wutdialog.h"
 #include "indimenu.h"
-#include "indiconf.h"
+#include "devmanager.h"
 #include "indidriver.h"
 #include "scriptbuilder.h"
+#include "indiconf.h"
 #include "planetviewer.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -108,15 +110,40 @@ void KStars::slotSolarSystem() {
 	pv.exec();
 }
 
+void KStars::slotINDIPanel() {
+
+   if (indimenu == NULL)
+     indimenu = new INDIMenu(this);
+
+   indimenu->updateStatus();
+}
+
 void KStars::slotINDIDriver() {
 	if (indidriver == NULL)
 		indidriver = new INDIDriver(this);
-
 	indidriver->show();
 }
 
-void KStars::slotINDIPanel() {
-	indimenu->updateStatus();
+void KStars::slotINDIConf() {
+
+   INDIConf indiconf(this);
+
+   indiconf.timeCheck->setChecked( options()->indiAutoTime );
+   indiconf.longCheck->setChecked( options()->indiAutoLong );
+   indiconf.latCheck->setChecked ( options()->indiAutoLat  );
+   indiconf.crosshairCheck->setChecked( options()->indiCrosshairs);
+   indiconf.messagesCheck->setChecked ( options()->indiMessages);
+
+   if (indiconf.exec() == QDialog::Accepted)
+   {
+     options()->indiAutoTime = indiconf.timeCheck->isChecked();
+     options()->indiAutoLong = indiconf.longCheck->isChecked();
+     options()->indiAutoLat  = indiconf.latCheck->isChecked();
+     options()->indiCrosshairs = indiconf.crosshairCheck->isChecked();
+     options()->indiMessages = indiconf.messagesCheck->isChecked();
+
+     map()->forceUpdateNow();
+   }
 }
 
 void KStars::slotGeoLocator() {

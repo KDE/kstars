@@ -56,6 +56,7 @@ public:
 	void createPlanetMenu( SkyObject *p );
 	void createEmptyMenu( void );
 	void setRiseSetLabels( void );
+	bool addINDI(void);
 	
 private:
 	KStars *ksw;

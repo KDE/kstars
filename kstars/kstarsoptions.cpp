@@ -113,6 +113,12 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	magLimitAsteroid     = o.magLimitAsteroid;
 	magLimitAsteroidName = o.magLimitAsteroidName;
 	maxRadCometName      = o.maxRadCometName;
+
+	indiAutoTime   = o.indiAutoTime;
+	indiAutoLong   = o.indiAutoLong;
+	indiAutoLat    = o.indiAutoLat;
+	indiCrosshairs = o.indiCrosshairs;
+	indiMessages   = o.indiMessages;
 	
 	// color options
 	CScheme.copy( *o.colorScheme() );

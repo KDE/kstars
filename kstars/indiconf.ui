@@ -8,200 +8,37 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>501</width>
-            <height>379</height>
+            <width>494</width>
+            <height>220</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Device Manager</string>
+        <string>Configure INDI</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QTabWidget">
+        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>ConfTabWidget</cstring>
-            </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Local/Server</string>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="KListView">
-                        <column>
-                            <property name="text">
-                                <string>Device</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Status</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Version</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Listening Port</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <property name="name">
-                            <cstring>localListView</cstring>
-                        </property>
-                    </widget>
-                </vbox>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Client</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLayoutWidget" row="0" column="1">
-                        <property name="name">
-                            <cstring>layout5</cstring>
-                        </property>
-                        <vbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="KPushButton">
-                                <property name="name">
-                                    <cstring>addB</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Add</string>
-                                </property>
-                            </widget>
-                            <widget class="KPushButton">
-                                <property name="name">
-                                    <cstring>modifyB</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Modify</string>
-                                </property>
-                            </widget>
-                            <widget class="KPushButton">
-                                <property name="name">
-                                    <cstring>removeB</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Remove</string>
-                                </property>
-                            </widget>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer2</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>30</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </vbox>
-                    </widget>
-                    <widget class="KListView" row="0" column="0">
-                        <column>
-                            <property name="text">
-                                <string>Status</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Host</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <column>
-                            <property name="text">
-                                <string>Port</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <property name="name">
-                            <cstring>clientListView</cstring>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout6</cstring>
+                <cstring>Layout1</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
                 <spacer>
                     <property name="name">
-                        <cstring>Horizontal Spacing2_3</cstring>
+                        <cstring>Horizontal Spacing2</cstring>
                     </property>
                     <property name="orientation">
                         <enum>Horizontal</enum>
@@ -211,14 +48,14 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>289</width>
+                            <width>20</width>
                             <height>20</height>
                         </size>
                     </property>
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>okB</cstring>
+                        <cstring>buttonOk</cstring>
                     </property>
                     <property name="text">
                         <string>&amp;OK</string>
@@ -235,7 +72,7 @@
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>cancelB</cstring>
+                        <cstring>buttonCancel</cstring>
                     </property>
                     <property name="text">
                         <string>&amp;Cancel</string>
@@ -249,28 +86,122 @@
                 </widget>
             </hbox>
         </widget>
-    </vbox>
+        <widget class="QGroupBox" row="0" column="1">
+            <property name="name">
+                <cstring>displayGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Display</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>crosshairCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Device target crosshair</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>messagesCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>INDI messages in status bar</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>autoGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Automatic device updates</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout3</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>timeCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Time</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>longCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Longitude</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>latCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Latitude</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
 </widget>
 <connections>
     <connection>
-        <sender>okB</sender>
+        <sender>buttonOk</sender>
         <signal>clicked()</signal>
         <receiver>INDIConf</receiver>
         <slot>accept()</slot>
     </connection>
     <connection>
-        <sender>cancelB</sender>
+        <sender>buttonCancel</sender>
         <signal>clicked()</signal>
         <receiver>INDIConf</receiver>
         <slot>reject()</slot>
     </connection>
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klistview.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistview.h</includehint>
-</includehints>
 </UI>

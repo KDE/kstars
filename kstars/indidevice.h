@@ -14,6 +14,7 @@
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
+#include <qvaluelist.h>
 
 #include "indi/lilxml.h"
 
@@ -37,12 +38,15 @@ class INDI_P;
 class INDI_G;
 class INDI_L;
 class INDIMenu;
+class SkyObject;
+class dms;
 
 class KLed;
 class KLineEdit;
 class KComboBox;
 class KDoubleSpinBox;
 class KPushButton;
+class KPopupMenu;
 
 class QLabel;
 class QHBoxLayout;
@@ -50,7 +54,7 @@ class QVBoxLayout;
 class QFrame;
 class QLineEdit;
 class QString;
-class QStringList;
+//class QValueList;
 class QTextEdit;
 class QListView;
 class QTabWidget;
@@ -92,14 +96,11 @@ class DeviceManager : public QObject
    int			serverFD;
    FILE			*serverFP;
    LilXML		*XMLParser;
-   QSocketNotifier *sNotifier;
+   QSocketNotifier 	*sNotifier;
 
    int dispatchCommand (XMLEle *root, char errmsg[]);
 
    INDI_D *  addDevice   (XMLEle *dep , char errmsg[]);
-
-   //TODO
-   int       removeDevice(const char *name) { return -1;}
    INDI_D *  findDev     (XMLEle *root, int  create, char errmsg[]);
 
    /*****************************************************************
@@ -148,10 +149,12 @@ class INDI_P : public QObject
 
     char	*name;			/* malloced name */
     INDI_G	*pg;			/* parent group */
-    float	timeout;		/* timeout, seconds */
+    float	timeout;		/* TODO timeout, seconds */
     PState	state;			/* state light code */
     KLed	*light;
     QLabel      *label_w;
+    bool        isINDIStd;		/* is it an INDI std policy? */
+    KPopupMenu  *parentPopup;		/* Parent popup menu, if any */
 
     PGui guitype;			/* type of GUI, if any */
     union
@@ -191,9 +194,17 @@ class INDI_P : public QObject
     void drawLt(KLed *w, PState lstate);
     void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
 
+    void updateTime();
+    void updateUTC();
+    void updateLocation();
+    bool isOn(QString component);
+    dms * getDMS();
+
     public slots:
     void newText();
     void newSwitch(int id);
+    void convertSwitch(int id);
+    void newTime();
 };
 
 /* INDI group */
@@ -241,10 +252,12 @@ class INDI_D : public QObject
 
     int biggestLabel;
     int uniHeight;
+    int initDevCounter;
 
-    INDI_G       *curGroup;
+    INDI_G        *curGroup;
+    bool	  INDIStdSupport;
 
-    INDIMenu    *parent;
+    INDIMenu      *parent;
     DeviceManager *parentMgr;
 
    /*****************************************************************
@@ -262,6 +275,16 @@ class INDI_D : public QObject
    ******************************************************************/
    INDI_P *  addProperty (XMLEle *root, char errmsg[]);
    int       addGUI      (INDI_P *pp  , XMLEle *root, char errmsg[]);
+
+   /*****************************************************************
+   * INDI standard property policy
+   ******************************************************************/
+   void registerProperty(INDI_P *pp);
+   bool isINDIStd(INDI_P *pp);
+   bool handleNonSidereal(SkyObject *o);
+   void initTelescope();
+   bool isOn();
+   void handleDevCounter();
 
    /*****************************************************************
    * Find

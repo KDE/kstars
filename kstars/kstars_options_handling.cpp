@@ -167,6 +167,13 @@ void KStarsData::loadOptions()
 	options->hideCLines  = conf->readBoolEntry( "HideCLines", false );
 	options->hideGrid    = conf->readBoolEntry( "HideGrid", true );
 
+	conf->setGroup( "INDI" );
+	options->indiAutoTime    = conf->readBoolEntry( "indiAutoTime", true);
+	options->indiAutoLong    = conf->readBoolEntry( "indiAutoLong", true);
+	options->indiAutoLat     = conf->readBoolEntry( "indiAutoLat" , true);
+	options->indiCrosshairs  = conf->readBoolEntry( "indiCrosshairs", true);
+	options->indiMessages    = conf->readBoolEntry( "indiMessages", true);
+
 }
 
 void KStarsData::saveOptions(KStars *ks) {
@@ -309,5 +316,13 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "HideCNames", options->hideCNames );
 	conf->writeEntry( "HideCLines", options->hideCLines );
 	conf->writeEntry( "HideGrid", options->hideGrid );
+
+	conf->setGroup( "INDI" );
+	conf->writeEntry( "indiAutoTime", options->indiAutoTime);
+	conf->writeEntry( "indiAutoLong", options->indiAutoLong);
+	conf->writeEntry( "indiAutoLat", options->indiAutoLat);
+	conf->writeEntry( "indiCrosshairs", options->indiCrosshairs);
+	conf->writeEntry( "indiMessages", options->indiMessages);
+
 	conf->sync();
 }

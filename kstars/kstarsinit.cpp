@@ -214,8 +214,9 @@ void KStars::initActions() {
 						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
 
 // devices Menu
-	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "DEVICE_MANAGER");
-	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "INDI_Control_Panel");
+	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");
+	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_control_panel");
+	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");
 
 
 

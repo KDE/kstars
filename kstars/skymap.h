@@ -388,6 +388,8 @@ private:
 	*/
 	void drawTargetSymbol( QPainter &psky, int style );
 
+	void drawTelescopeSymbols(QPainter &psky);
+
 /**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 

@@ -861,6 +861,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	
 	//Draw a Field-of-View indicator
 	drawTargetSymbol( psky, options->targetSymbol );
+	drawTelescopeSymbols(psky);
 
 	//Finish up
 	psky.end();

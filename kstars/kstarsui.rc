@@ -77,8 +77,10 @@
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
-	        <Action name="DEVICE_MANAGER" />
-		<Action name="INDI_Control_Panel" />
+	        <Action name="device_manager" />
+		<Action name="indi_control_panel" />
+		<Separator />
+		<Action name="configure_indi" />
 
 	</Menu>
 

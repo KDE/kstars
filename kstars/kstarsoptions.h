@@ -185,7 +185,13 @@ class KStarsOptions {
 		float magLimitDrawStarInfo;
 		float magLimitAsteroid, magLimitAsteroidName;
 		float maxRadCometName;
-		
+
+		bool indiAutoTime;
+		bool indiAutoLong;
+		bool indiAutoLat;
+		bool indiCrosshairs;
+		bool indiMessages;
+
 		//the colors of things
 		ColorScheme CScheme;
 

@@ -303,7 +303,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 /**
 		 * action slot: open INDI control panel
 		 */
-		void slotINDIPanel();
+    		void slotINDIPanel();
+
+		/**
+		 * action slot: open INDI configuration dialog
+		 */
+    		void slotINDIConf();
 
 		/**
 			*action slot: open dialog for setting the view options

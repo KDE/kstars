@@ -20,6 +20,8 @@
 #include "skymap.h"
 #include "kstars.h"
 #include "infoboxes.h"
+#include "indimenu.h"
+#include "indidevice.h"
 
 #include <stdlib.h> // abs
 
@@ -416,7 +418,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 										|| options->drawStarMagnitude ) ) {
 							
 							psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
-							curStar->drawLabel( psky, o.x(), o.y(), ksw->options()->ZoomLevel, 
+							curStar->drawLabel( psky, o.x(), o.y(), ksw->options()->ZoomLevel,
 									options->drawStarName, options->drawStarMagnitude, scale );
 						}
 					}
@@ -1218,12 +1220,87 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 	}  //endif drawing horizon
 }
 
+void SkyMap::drawTelescopeSymbols(QPainter &psky)
+{
+
+  INDI_P *ra, *dec;
+  dms * raDMS,  * decDMS;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  KStarsOptions* options = ksw->options();
+
+  if (!options->indiCrosshairs || devMenu == NULL)
+   return;
+
+  psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
+	psky.setBrush( NoBrush );
+	int pxperdegree = int(pixelScale[ ksw->options()->ZoomLevel ]/57.3);
+
+  for (uint i=0; i < devMenu->mgr.size(); i++)
+    for (uint j=0; j < devMenu->mgr[i]->indi_dev.size(); j++)
+    {
+      // make sure the dev is on first
+      if (devMenu->mgr[i]->indi_dev[j]->isOn())
+      {
+        ra = devMenu->mgr[i]->indi_dev[j]->findProp("RA");
+	dec = devMenu->mgr[i]->indi_dev[j]->findProp("DEC");
+
+        // make sure it has RA and DEC properties
+        if ( ra && dec)
+	{
+
+	raDMS = ra->getDMS();
+	decDMS = dec->getDMS();
+
+	if (raDMS == NULL || decDMS == NULL)
+	 continue;
+
+	 raDMS->setD ( raDMS->Degrees() * 15.0);
+
+	 //kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
+	 //kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
+
+
+
+
+	 SkyPoint sp( raDMS, decDMS);
+	 sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+         QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
+
+	int s1 = pxperdegree/2;
+	int s2 = pxperdegree;
+	int s3 = 2*pxperdegree;
+
+	int x0 = P.x();  int y0 = P.y();
+	int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+	int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+	int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+	//Draw radial lines
+	psky.drawLine( x1, y0, x3, y0 );
+	psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
+	psky.drawLine( x0, y1, x0, y3 );
+	psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
+	//Draw circles at 0.5 & 1 degrees
+	psky.drawEllipse( x1, y1, s1, s1 );
+	psky.drawEllipse( x2, y2, s2, s2 );
+
+	//FIXME the label is not displayed right, it needs
+	// to be adjusted
+	psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr[i]->indi_dev[j]->name) );
+
+
+	}
+      }
+    }
+
+}
+
 void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 	//Draw this last so it is never "behind" other things.
 	psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
 	psky.setBrush( NoBrush );
 	int pxperdegree = int(pixelScale[ ksw->options()->ZoomLevel ]/57.3);
-	
+
 	switch ( style ) {
 		case 1: { //simple circle, one degree in diameter.
 			int size = pxperdegree;
@@ -1234,18 +1311,18 @@ void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 			int s1 = pxperdegree/2;
 			int s2 = pxperdegree;
 			int s3 = 2*pxperdegree;
-			
+
 			int x0 = width()/2;  int y0 = height()/2;
 			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
 			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
 			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-			
+
 			//Draw radial lines
 			psky.drawLine( x1, y0, x3, y0 );
 			psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
 			psky.drawLine( x0, y1, x0, y3 );
 			psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
-			
+
 			//Draw circles at 0.5 & 1 degrees
 			psky.drawEllipse( x1, y1, s1, s1 );
 			psky.drawEllipse( x2, y2, s2, s2 );
