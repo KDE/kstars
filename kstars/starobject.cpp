@@ -105,7 +105,8 @@ QString StarObject::greekLetter( void ) const {
 	if ( code == "psi" ) letter = QString("psi");
 	if ( code == "ome" ) letter = QString("omega");
 
-	if ( name2().mid(3,1) != " " ) letter += "[" + name2().mid(3,1) + "]";
+	if ( name2().length() && name2().mid(3,1) != " " ) 
+		letter += "[" + name2().mid(3,1) + "]";
 
 	return letter;
 }

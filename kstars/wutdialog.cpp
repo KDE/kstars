@@ -347,7 +347,7 @@ void WUTDialog::slotChangeDate() {
 		if ( Today.time().hour() < 6 ) Today = Today.addDays( -1 ); //assume user wants previous night.
 		JDToday = KSUtils::UTtoJD( Today.addSecs( int( -3600.*geo->TZ() ) ) );
 		JDTomorrow = JDToday + 1.0;
-		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date() ) ) );
+		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date(), true ) ) );
 		
 		int i = WUT->CategoryListBox->currentItem();
 		init();
