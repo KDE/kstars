@@ -87,6 +87,9 @@ KStars::~KStars()
 {
 	saveOptions();
 
+	clearCachedFindDialog();
+
+	delete IBoxes;
 	delete skymap;
 	delete pd;
 	delete clock;

@@ -35,6 +35,9 @@ InfoBoxes::InfoBoxes( int w, int h ) {
 }
 
 InfoBoxes::~InfoBoxes(){
+	delete FocusBox;
+	delete TimeBox;
+	delete GeoBox;
 }
 
 void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,

@@ -1559,6 +1559,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 					OutRight.setX( o->x() );
 					OutRight.setY( o->y() );
 				}
+				// delete non stored points to avoid memory leak
+				delete o;
 			}
 		}
 

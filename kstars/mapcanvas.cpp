@@ -37,6 +37,8 @@ MapCanvas::MapCanvas(QWidget *parent, const char *name ) : QWidget(parent,name) 
 }
 
 MapCanvas::~MapCanvas(){
+	delete bgImage;
+	delete Canvas;
 }
 
 void MapCanvas::setGeometry( int x, int y, int w, int h ) {

@@ -35,7 +35,10 @@ KSPlanet::OrbitDataColl::OrbitDataColl() {
 }
 
 
-KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {};
+KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {
+	// delete all data automatically to avoid a leak
+	dict.setAutoDelete(true);
+}
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname, 
 		QVector<KSPlanet::OrbitData> *vector) {
