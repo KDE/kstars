@@ -31,6 +31,10 @@
 #include "ksutils.h"
 #include "infoboxes.h"
 
+// to remove warnings
+#include "indimenu.h"
+#include "indidriver.h"
+
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
 	skymap(0), clock(0), findDialog(0), centralWidget(0),
@@ -89,6 +93,8 @@ KStars::~KStars()
 	if (clock) delete clock;
 	if (centralWidget) delete centralWidget;
 	if (AAVSODialog) delete AAVSODialog;
+	if (indimenu) delete indimenu;
+	if (indidriver) delete indidriver;
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {

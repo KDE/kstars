@@ -67,6 +67,7 @@ class SimClock;
 class InfoBoxes;
 class AstroCalc;
 class INDIMenu;
+class INDIDriver;
 
 //Define some global constants
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
@@ -165,6 +166,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		SimClock* getClock( void ) { return clock; }
 
+	/**@returns pointer to the INDI driver
+		*/
+                INDIDriver* getINDIDriver(void) { return indidriver; }
+		
 	/**@returns pointer to the local sidereal time.
 		*/
 		dms* LSTh() { return data()->LSTh; }
@@ -302,9 +307,19 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 void slotWUT();
 
 		 /**
+		 * action slot: open INDI driver panel
+		 */
+    		void slotINDIDriver();
+
+		 /**
 		 * action slot: open INDI control panel
 		 */
     		void slotINDIPanel();
+
+		/**
+		 * action slot: open INDI configuration dialog
+		 */
+    		void slotINDIConf();
 
 		/**
 		 * action slot: open ScriptBuilder dialog
@@ -419,8 +434,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KActionMenu *colorActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
+
        		KDialogBase *AAVSODialog;
 		INDIMenu *indimenu;
+		INDIDriver *indidriver;
 
     
 		int idSpinBox;

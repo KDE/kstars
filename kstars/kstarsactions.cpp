@@ -22,6 +22,7 @@
 #include <kfiledialog.h>
 #include <kprocess.h>
 #include <qpaintdevicemetrics.h>
+#include <qradiobutton.h>
 
 #include "kstars.h"
 #include "timedialog.h"
@@ -36,6 +37,8 @@
 #include "elts.h"
 #include "wutdialog.h"
 #include "indimenu.h"
+#include "indiconf.h"
+#include "indidriver.h"
 #include "scriptbuilder.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -94,11 +97,38 @@ void KStars::slotWUT() {
 	dialog.exec();
 }
 
+void KStars::slotINDIDriver() {
+     if (indidriver == NULL)
+        indidriver = new INDIDriver(this);
+
+        indidriver->show();
+
+
+}
+
 void KStars::slotINDIPanel() {
     if (indimenu == NULL)
         indimenu = new INDIMenu(this);
 
-   indimenu->show();
+   indimenu->updateStatus();
+}
+
+void KStars::slotINDIConf() {
+
+   INDIConf indiConf(this);
+
+   indiConf.hostName->setText(options()->INDIHost);
+   indiConf.portNumber->setText(options()->INDIPort);
+   indiConf.indiLocal->setChecked(options()->isINDILocal);
+   indiConf.indiClient->setChecked(!options()->isINDILocal);
+
+   if (indiConf.exec() == QDialog::Accepted)
+   {
+     options()->INDIHost = indiConf.hostName->text();
+     options()->INDIPort = indiConf.portNumber->text();
+     options()->isINDILocal = indiConf.indiLocal->isChecked();
+   }
+
 }
 
 void KStars::slotScriptBuilder() {

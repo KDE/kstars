@@ -210,7 +210,9 @@ void KStars::initActions() {
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
 // devices Menu
+	new KAction(i18n("Driver Control Panel..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "INDI_DRIVER");
 	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "INDI_Control_Panel");
+	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "Configure_INDI");
 
 	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
 			                           this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
@@ -449,9 +451,10 @@ void KStars::privatedata::buildGUI() {
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
 
-	//set AAVSO modeless dialog pointer to 0
+	//set AAVSO modaless dialog pointer to 0
 	ks->AAVSODialog = 0;
 	ks->indimenu = 0;
+	ks->indidriver = 0;
 
 	ks->skymap = new SkyMap( ks->centralWidget );
 	// update skymap if KStarsData send update signal

@@ -166,6 +166,13 @@ void KStars::loadOptions()
 	options()->hideCNames  = conf->readBoolEntry( "HideCNames", false );
 	options()->hideCLines  = conf->readBoolEntry( "HideCLines", false );
 	options()->hideGrid    = conf->readBoolEntry( "HideGrid", true );
+
+	// Get INDI conf from config()
+	conf->setGroup( "INDI" );
+	options()->INDIHost 	= conf->readEntry( "INDIHost", "localhost" );
+	options()->INDIPort 	= conf->readEntry( "INDIPort", "7624");
+	options()->isINDILocal	= conf->readBoolEntry( "isINDILocal", true );
+
 }
 
 void KStars::saveOptions() {
@@ -300,6 +307,13 @@ void KStars::saveOptions() {
 	conf->writeEntry( "HideCNames", options()->hideCNames );
 	conf->writeEntry( "HideCLines", options()->hideCLines );
 	conf->writeEntry( "HideGrid", options()->hideGrid );
+
+	// Get INDI conf from config()
+	conf->setGroup( "INDI" );
+	conf->writeEntry( "INDIHost", options()->INDIHost);
+	conf->writeEntry( "INDIPort", options()->INDIPort);
+	conf->writeEntry( "isINDILocal", options()->isINDILocal);
+
 	conf->sync();
 }
 
