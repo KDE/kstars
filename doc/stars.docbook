@@ -4,7 +4,7 @@
 <firstname>Jason</firstname> <surname>Harris</surname>
 </author>
 </sect1info>
-<title>Stars: An Introductory FAQ</title>
+<title>Stars: An Introductory <acronym>FAQ</acronym></title>
 
 <qandaset id="stars-faq">
 
@@ -13,7 +13,7 @@
 <para>What are the stars?</para>
 </question>
 <answer>
-<para>
+<para><indexterm><primary>Stars</primary></indexterm>
 <firstterm>Stars</firstterm> are gigantic, self-gravitating spheres
 of (mostly) Hydrogen gas.  Stars are also thermonuclear engines;
 nuclear fusion takes place deep in the cores of stars, where the
@@ -98,11 +98,11 @@ of the star.
 <para>What is the Main Sequence?</para>
 </question>
 <answer>
-<para>
+<para><indexterm><primary>Main sequence</primary></indexterm>
 The main sequence is the evolutionary state of a star when it is
 fusing Hydrogen in its core.  This is the first (and longest) stage
 of a star's life (not including protostar phases).  What happens to a
-star after it runs out of core Hydrogen is addressed in the stellar 
+star after it runs out of core Hydrogen is addressed in the stellar
 evolution article (coming soon).
 </para>
 </answer>
