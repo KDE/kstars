@@ -40,6 +40,15 @@
 #include "ksplanetbase.h"
 #include "ksmoon.h"
 
+LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
+{
+}
+
+void LogEdit::focusOutEvent( QFocusEvent *e ) {
+	emit focusOut();
+	QWidget::focusOutEvent(e);
+}
+
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent, const char *name ) : 
 		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
@@ -60,7 +69,7 @@ void DetailDialog::createLogTab()
 	// Log Tab
 	logTab = addPage(i18n("Log"));
 
-	userLog = new QTextEdit(logTab, "userLog");
+	userLog = new LogEdit(logTab, "userLog");
 //	userLog->setTextFormat(Qt::RichText);
 
 	if (selectedObject->userLog.isEmpty())
@@ -68,18 +77,10 @@ void DetailDialog::createLogTab()
 	else
 		userLog->setText(selectedObject->userLog);
 
-	saveLog = new QPushButton(i18n("Save"), logTab, "Save");
-
-	LOGbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-	LOGbuttonLayout = new QHBoxLayout(5, "buttonlayout");
-	LOGbuttonLayout->addWidget(saveLog);
-	LOGbuttonLayout->addItem(LOGbuttonSpacer);
-
 	logLayout = new QVBoxLayout(logTab, 6, 6, "logLayout");
 	logLayout->addWidget(userLog);
-	logLayout->addLayout(LOGbuttonLayout);
 
-	connect(saveLog, SIGNAL(clicked()), this, SLOT(saveLogData()));
+	connect( userLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
 }
 
 void DetailDialog::createAdvancedTab()

@@ -405,5 +405,8 @@ void SkyObject::saveUserLog( const QString &newLog ) {
   QTextStream outstream(&file);
   outstream << logs;
 	
-  file.close();
+	//Set the log text in the object itself.
+	userLog = newLog;
+	
+	file.close();
 }

@@ -22,6 +22,7 @@
 #include <qfile.h>
 #include <qptrlist.h>
 #include <kdialogbase.h>
+#include <ktextedit.h>
 
 #include "skyobject.h"
 
@@ -33,7 +34,6 @@ class QFrame;
 class QLineEdit;
 class QString;
 class QStringList;
-class QTextEdit;
 class QListView;
 class KStars;
 class KStarsDateTime;
@@ -45,6 +45,23 @@ struct ADVTreeData
 	int Type;
 };
 
+/**@class LogEdit is a simple derivative of KTextEdit, that just adds a 
+	*focusOut() signal, emitted when the edit loses focus.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+class LogEdit : public KTextEdit {
+	Q_OBJECT
+public:
+	LogEdit( QWidget *parent=0, const char *name=0 );
+	~LogEdit() {}
+	
+signals:
+	void focusOut();
+	
+protected:
+	void focusOutEvent( QFocusEvent *e );
+};
 
 /**@class DetailDialog is a window showing detailed information for a selected object.
 	*The window is split into four Tabs: General, Links, Advanced and Log.
@@ -197,11 +214,8 @@ private:
 
 	// Log Tab
 	QFrame *logTab;
-	QTextEdit *userLog;
-	QPushButton *saveLog;
+	LogEdit *userLog;
 	QVBoxLayout *logLayout;
-	QSpacerItem *LOGbuttonSpacer;
-	QHBoxLayout *LOGbuttonLayout;
 
 	class NameBox : public QGroupBox {
 	public:
