@@ -29,6 +29,8 @@
 #include <klocale.h>
 #include <kshortcut.h>
 
+#include <iostream>
+
 #include "geolocation.h"
 #include "skyobject.h"
 #include "starobject.h"
@@ -387,7 +389,7 @@ public slots:
 	void initialize();
 
 	/**@short send a message to the console*/
-	void slotConsoleMessage( QString s ) { cout << s.utf8() << endl; }
+	void slotConsoleMessage( QString s ) { std::cout << s.utf8() << std::endl; }
 	
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
