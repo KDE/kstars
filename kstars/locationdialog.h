@@ -149,10 +149,12 @@ public slots:
 	void showTZRules( void );
 	void nameChanged( void );
 	void dataChanged( void );
+//	void prepareToAccept( void );
+	void slotOk();
 
 private:
   int newCity;
-	bool dataModified, nameModified;
+	bool dataModified, nameModified, bCityAdded;
 	QGridLayout *glay, *glay2;
 	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
 	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;

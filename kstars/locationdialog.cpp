@@ -188,7 +188,6 @@ LocationDialog::LocationDialog( QWidget* parent )
 	
   GeoID.resize(10000);
 
-	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
 	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
@@ -326,7 +325,8 @@ int LocationDialog::getCityIndex( void ) {
 
 void LocationDialog::addCity( void ) {
 	KStars *p = (KStars *)parent();
-
+	bCityAdded = false;
+	
 	if ( !nameModified && !dataModified ) {
 		QString message = i18n( "This City already exists in the database." );
 		KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
@@ -342,6 +342,7 @@ void LocationDialog::addCity( void ) {
 
 		QString message = i18n( "All fields (except Province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
+		return;
 	} else {
 		if ( !nameModified ) {
 			QString message = i18n( "Really override original data for this city?" );
@@ -396,13 +397,10 @@ void LocationDialog::addCity( void ) {
 			initCityList();
 			GeoBox->setCurrentItem( i );
 		}
-	}
+	}     
 
-//	NewLong->clear();
-//	NewLat->clear();
-//	NewCityName->clear();
-//	NewProvinceName->clear();
-//	NewCountryName->clear();
+	bCityAdded = true;
+	return;
 }
 
 void LocationDialog::findCitiesNear( int lng, int lat ) {
@@ -517,6 +515,18 @@ void LocationDialog::dataChanged( void ) {
 	dataModified = true;
 	AddCityButton->setEnabled( true );
 //	kdDebug() << "data changed." << endl;
+}
+
+void LocationDialog::slotOk( void ) {
+	bool bOkToClose = false;
+	if ( addCityEnabled() ) { //user closed the location dialog without adding their new city;
+		addCity();                   //call addCity() for them!
+		bOkToClose = bCityAdded;
+	} else {
+		bOkToClose = true;
+	}
+
+	if ( bOkToClose ) accept();
 }
 
 #include "locationdialog.moc"

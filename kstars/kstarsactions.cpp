@@ -73,10 +73,6 @@ void KStars::slotCalculator() {
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);
 	if ( locationdialog.exec() == QDialog::Accepted ) {
-		if ( locationdialog.addCityEnabled() ) { //user closed the location dialog without adding their new city;
-			locationdialog.addCity();                   //call addCity() for them!
-		}
-
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
 			GeoLocation *newLocation = data()->geoList.at(ii);

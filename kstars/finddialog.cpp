@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <klocale.h>
+#include <kmessagebox.h>
+
 #include <qframe.h>
 #include <qlayout.h>
 #include <qlabel.h>
@@ -86,7 +88,7 @@ FindDialog::FindDialog( QWidget* parent )
 	Filter = 0;
 	
 //Connect signals to slots
-	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
+//	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
@@ -191,4 +193,13 @@ void FindDialog::setFilter( int f ) {
 	}
 }
 
+void FindDialog::slotOk() {
+	//If no valid object selected, show a sorry-box.  Otherwise, emit accept()
+	if ( currentItem() == 0 ) {
+		QString message = i18n( "No object named %1 found." ).arg( SearchBox->text() );
+		KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
+	} else {
+		accept();
+	}
+}
 #include "finddialog.moc"

@@ -97,7 +97,9 @@ public slots:
 	*/
 	void filterByType();
 	
-	private slots:
+	void slotOk();
+
+private slots:
 /**
 	Init object list after opening dialog.
 	*/
