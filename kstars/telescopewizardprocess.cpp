@@ -399,6 +399,4 @@ void telescopeWizardProcess::Reset()
 
 }
 
-
-
-
+#include "telescopewizardprocess.moc"
