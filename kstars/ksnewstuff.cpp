@@ -19,13 +19,16 @@
 #if KDE_IS_VERSION( 3, 2, 90 )
 
 #include <kapplication.h>
+#include <kaction.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
 #include <kdirwatch.h>
+#include <kprogress.h>
 #include <ktar.h>
 #include <qdir.h>
-#include <kaction.h>
+#include <qcursor.h>
+#include <qregexp.h>
 
 #include "ksnewstuff.h"
 #include "kstars.h"
@@ -71,8 +74,21 @@ void KSNewStuff::updateData( const QString &path ) {
 	qd.setSorting( QDir::Time );
 	qd.setFilter( QDir::Files );
 	
+	//Show the Wait cursor
+	ks->setCursor(QCursor(Qt::WaitCursor));
+	
+	
 	//Handle the Steinicke NGC/IC catalog
 	if ( qd[0].contains( "ngcic" ) ) {
+		//Build a progress dialog to show during data installation.
+		KProgressDialog prog( 0, "newstuffprogdialog", 
+				i18n( "Please Wait" ), i18n( "Installing Steinicke NGC/IC catalog..." ), false /*modal*/ );
+		prog.setAllowCancel( false );
+		prog.setMinimumDuration( 0 /*millisec*/ );
+		prog.progressBar()->setTotalSteps( 0 );  //show generic progress activity
+		prog.show();
+		kapp->processEvents(100);
+		
 		//First, remove the existing NGC/IC objects from the ObjectNameList.
 		for ( DeepSkyObject *o = ks->data()->deepSkyList.first(); o; o = ks->data()->deepSkyList.next() ) {
 			if ( o->hasLongName() && o->longname() != o->name() ) ks->data()->ObjNames.remove( o->longname() );
@@ -108,6 +124,13 @@ void KSNewStuff::updateData( const QString &path ) {
 	
 	//Handle the ephemerides
 	if ( qd[0] == "asteroids.dat" || qd[0] == "comets.dat" ) {
+		//Build a progress dialog to show during data installation.
+		KProgressDialog prog( 0, "newstuffprogdialog", 
+				i18n( "Please Wait" ), i18n( "Installing comet and asteroid ephemerides..." ), true /*modal*/ );
+		prog.setAllowCancel( false );
+		prog.setMinimumDuration( 50 /*millisec*/ );
+		prog.progressBar()->setTotalSteps( 0 );  //generic progress activity
+		
 		//First, remove the existing asteroids and comets from the ObjectNameList.
 		for ( SkyObject *o = (SkyObject*)(ks->data()->asteroidList.first()); o; o = (SkyObject*)(ks->data()->asteroidList.next()) ) {
 			if ( o->hasLongName() && o->longname() != o->name() ) ks->data()->ObjNames.remove( o->longname() );
@@ -128,8 +151,10 @@ void KSNewStuff::updateData( const QString &path ) {
 		//add new asteroids and comets
 		ks->data()->readAsteroidData();
 		ks->data()->readCometData();
-		
 	}
+
+	//Restore arrow cursor
+	ks->setCursor(QCursor(Qt::ArrowCursor));
 }
 
 #include "ksnewstuff.moc"

@@ -62,11 +62,14 @@ void SimClock::tick() {
 		long mselapsed = sysmark.elapsed();
 		if (mselapsed < lastelapsed) {
 			// The sysmark timer has wrapped after 24 hours back to 0 ms.  
-			// Reset our JD marker by Scale number of days.
-			julianmark += 1.0 * Scale;
+			// Reset sysmark and julianmark
+			julianmark = UTC.djd();
+			sysmark.start();
+			lastelapsed = 0;
+		} else {
+			lastelapsed = mselapsed;
 		}
-		lastelapsed = mselapsed;
-		
+
 		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 		UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
