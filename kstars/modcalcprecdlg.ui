@@ -9,652 +9,649 @@
             <x>0</x>
             <y>0</y>
             <width>478</width>
-            <height>454</height>
+            <height>434</height>
         </rect>
     </property>
     <property name="caption">
         <string>Precession</string>
     </property>
-    <widget class="QTabWidget">
+    <vbox>
         <property name="name">
-            <cstring>tabWidget3</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>0</y>
-                <width>466</width>
-                <height>433</height>
-            </rect>
-        </property>
-        <widget class="QWidget">
+        <widget class="QTabWidget">
             <property name="name">
-                <cstring>tab</cstring>
+                <cstring>tabWidget3</cstring>
             </property>
-            <attribute name="title">
-                <string>Interactive Mode</string>
-            </attribute>
-            <grid>
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <widget class="QButtonGroup" row="0" column="0">
+                <attribute name="title">
+                    <string>Interactive Mode</string>
+                </attribute>
+                <grid>
                     <property name="name">
-                        <cstring>InputBox</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property name="title">
-                        <string>Input Coordinates</string>
-                    </property>
-                    <hbox>
+                    <widget class="QButtonGroup" row="0" column="0">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>InputBox</cstring>
                         </property>
-                        <spacer>
+                        <property name="title">
+                            <string>Input Coordinates</string>
+                        </property>
+                        <hbox>
                             <property name="name">
-                                <cstring>spacer35</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>98</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout25</cstring>
-                            </property>
-                            <grid>
+                            <spacer>
                                 <property name="name">
-                                    <cstring>unnamed</cstring>
+                                    <cstring>spacer35</cstring>
                                 </property>
-                                <widget class="QLabel" row="2" column="0">
-                                    <property name="name">
-                                        <cstring>epoch0Label</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Input Epoch:</string>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="1" column="1">
-                                    <property name="name">
-                                        <cstring>dec0Box</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="0" column="1">
-                                    <property name="name">
-                                        <cstring>ra0Box</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="0" column="0">
-                                    <property name="name">
-                                        <cstring>ra0Label</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Right Ascension:</string>
-                                    </property>
-                                </widget>
-                                <widget class="KLineEdit" row="3" column="1">
-                                    <property name="name">
-                                        <cstring>epochfName</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="KLineEdit" row="2" column="1">
-                                    <property name="name">
-                                        <cstring>epoch0Name</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="1" column="0">
-                                    <property name="name">
-                                        <cstring>dec0Label</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Declination:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="3" column="0">
-                                    <property name="name">
-                                        <cstring>epochfLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Target Epoch:</string>
-                                    </property>
-                                </widget>
-                            </grid>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer34</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>98</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-                <spacer row="4" column="0">
-                    <property name="name">
-                        <cstring>Spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>60</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLayoutWidget" row="3" column="0">
-                    <property name="name">
-                        <cstring>layout14</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer20</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>151</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>runButtonBatch</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>7</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>Run</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer19</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>131</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-                <widget class="QGroupBox" row="2" column="0">
-                    <property name="name">
-                        <cstring>outputBox</cstring>
-                    </property>
-                    <property name="title">
-                        <string>Precessed Coordinates</string>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer36</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>90</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout26</cstring>
-                            </property>
-                            <grid>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>98</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>unnamed</cstring>
+                                    <cstring>layout25</cstring>
                                 </property>
-                                <widget class="QLabel" row="0" column="0">
+                                <grid>
                                     <property name="name">
-                                        <cstring>rafLabel</cstring>
+                                        <cstring>unnamed</cstring>
                                     </property>
-                                    <property name="text">
-                                        <string>Right Ascension:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="1" column="0">
-                                    <property name="name">
-                                        <cstring>decfLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Declination:</string>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="1" column="1">
-                                    <property name="name">
-                                        <cstring>decfBox</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="0" column="1">
-                                    <property name="name">
-                                        <cstring>rafBox</cstring>
-                                    </property>
-                                </widget>
-                            </grid>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer37</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>90</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget" row="1" column="0">
-                    <property name="name">
-                        <cstring>layout2</cstring>
-                    </property>
-                    <hbox>
+                                    <widget class="QLabel" row="2" column="0">
+                                        <property name="name">
+                                            <cstring>epoch0Label</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Input Epoch:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="dmsBox" row="1" column="1">
+                                        <property name="name">
+                                            <cstring>dec0Box</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="dmsBox" row="0" column="1">
+                                        <property name="name">
+                                            <cstring>ra0Box</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="0" column="0">
+                                        <property name="name">
+                                            <cstring>ra0Label</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Right Ascension:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KLineEdit" row="3" column="1">
+                                        <property name="name">
+                                            <cstring>epochfName</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="KLineEdit" row="2" column="1">
+                                        <property name="name">
+                                            <cstring>epoch0Name</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="1" column="0">
+                                        <property name="name">
+                                            <cstring>dec0Label</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Declination:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="3" column="0">
+                                        <property name="name">
+                                            <cstring>epochfLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Target Epoch:</string>
+                                        </property>
+                                    </widget>
+                                </grid>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer34</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>98</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <spacer row="4" column="0">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>Spacer1</cstring>
                         </property>
-                        <spacer>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>60</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QLayoutWidget" row="3" column="0">
+                        <property name="name">
+                            <cstring>layout14</cstring>
+                        </property>
+                        <hbox>
                             <property name="name">
-                                <cstring>spacer5</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>91</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer20</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>151</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KPushButton">
+                                <property name="name">
+                                    <cstring>runButtonBatch</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Run</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer19</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>131</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <widget class="QGroupBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>outputBox</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Precessed Coordinates</string>
+                        </property>
+                        <hbox>
                             <property name="name">
-                                <cstring>Compute</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Compute</string>
-                            </property>
-                        </widget>
-                        <spacer>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer36</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>90</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout26</cstring>
+                                </property>
+                                <grid>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel" row="0" column="0">
+                                        <property name="name">
+                                            <cstring>rafLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Right Ascension:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="1" column="0">
+                                        <property name="name">
+                                            <cstring>decfLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Declination:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="dmsBox" row="1" column="1">
+                                        <property name="name">
+                                            <cstring>decfBox</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="dmsBox" row="0" column="1">
+                                        <property name="name">
+                                            <cstring>rafBox</cstring>
+                                        </property>
+                                    </widget>
+                                </grid>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer37</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>90</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget" row="1" column="0">
+                        <property name="name">
+                            <cstring>layout2</cstring>
+                        </property>
+                        <hbox>
                             <property name="name">
-                                <cstring>spacer4</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>51</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Clear</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Clear</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>91</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>tab</cstring>
-            </property>
-            <attribute name="title">
-                <string>Batch Mode</string>
-            </attribute>
-            <grid>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer5</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>91</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KPushButton">
+                                <property name="name">
+                                    <cstring>Compute</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Compute</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer4</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>51</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KPushButton">
+                                <property name="name">
+                                    <cstring>Clear</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Clear</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer3</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>91</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <widget class="QButtonGroup" row="0" column="0">
+                <attribute name="title">
+                    <string>Batch Mode</string>
+                </attribute>
+                <vbox>
                     <property name="name">
-                        <cstring>InputBox_2_2</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="title">
-                        <string>Select Fields in Input File</string>
-                    </property>
-                    <grid>
+                    <widget class="QButtonGroup">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>InputBox_2_2</cstring>
                         </property>
-                        <widget class="dmsBox" row="1" column="1">
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="title">
+                            <string>Select Fields in Input File</string>
+                        </property>
+                        <grid>
                             <property name="name">
-                                <cstring>decBoxBatch</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                        <widget class="dmsBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>raBoxBatch</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="1" column="0">
-                            <property name="name">
-                                <cstring>decCheckBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Declination</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="2" column="0">
-                            <property name="name">
-                                <cstring>epochCheckBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Input Epoch</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="3" column="0">
-                            <property name="name">
-                                <cstring>targetEpochCheckBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Target Epoch</string>
-                            </property>
-                        </widget>
-                        <widget class="KLineEdit" row="2" column="1">
-                            <property name="name">
-                                <cstring>epochBoxBatch</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>0</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                        </widget>
-                        <widget class="KLineEdit" row="3" column="1">
-                            <property name="name">
-                                <cstring>targetEpochBoxBatch</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>0</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="0" column="0">
-                            <property name="name">
-                                <cstring>raCheckBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Right Ascention</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget class="QButtonGroup" row="1" column="0">
-                    <property name="name">
-                        <cstring>buttonGroup4_2</cstring>
-                    </property>
-                    <property name="title">
-                        <string>Fields in Output File Plus Result</string>
-                    </property>
-                    <hbox>
+                            <widget class="dmsBox" row="1" column="1">
+                                <property name="name">
+                                    <cstring>decBoxBatch</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="dmsBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>raBoxBatch</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0">
+                                <property name="name">
+                                    <cstring>decCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Declination</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="2" column="0">
+                                <property name="name">
+                                    <cstring>epochCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Input Epoch</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="3" column="0">
+                                <property name="name">
+                                    <cstring>targetEpochCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Target Epoch</string>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="2" column="1">
+                                <property name="name">
+                                    <cstring>epochBoxBatch</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>0</hsizetype>
+                                        <vsizetype>0</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="3" column="1">
+                                <property name="name">
+                                    <cstring>targetEpochBoxBatch</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>0</hsizetype>
+                                        <vsizetype>0</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>raCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Right Ascention</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QButtonGroup">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>buttonGroup4_2</cstring>
                         </property>
-                        <widget class="QRadioButton">
+                        <property name="title">
+                            <string>Fields in Output File Plus Result</string>
+                        </property>
+                        <hbox>
                             <property name="name">
-                                <cstring>allRadioBatch</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>All parametres</string>
-                            </property>
-                        </widget>
-                        <widget class="QRadioButton">
-                            <property name="name">
-                                <cstring>inputRadioBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Only parametres in input file</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QGroupBox" row="2" column="0">
-                    <property name="name">
-                        <cstring>groupBox4_2</cstring>
-                    </property>
-                    <property name="title">
-                        <string>Files</string>
-                    </property>
-                    <grid>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>allRadioBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>All parametres</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>inputRadioBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Only parametres in input file</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>groupBox4_2</cstring>
                         </property>
-                        <widget class="QPushButton" row="0" column="0">
+                        <property name="title">
+                            <string>Files</string>
+                        </property>
+                        <grid>
                             <property name="name">
-                                <cstring>InputButtonBatch</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Input File</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Archivo con los datos de entrada</string>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit" row="0" column="1">
-                            <property name="name">
-                                <cstring>InputLineEditBatch</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit" row="1" column="1">
-                            <property name="name">
-                                <cstring>OutputLineEditBatch</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="1" column="0">
-                            <property name="name">
-                                <cstring>OutButtonBatch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Output File</string>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <spacer row="4" column="0">
-                    <property name="name">
-                        <cstring>spacer25</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>21</width>
-                            <height>60</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLayoutWidget" row="3" column="0">
-                    <property name="name">
-                        <cstring>layout14_2</cstring>
-                    </property>
-                    <hbox>
+                            <widget class="QPushButton" row="0" column="0">
+                                <property name="name">
+                                    <cstring>InputButtonBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Input File</string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Archivo con los datos de entrada</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="0" column="1">
+                                <property name="name">
+                                    <cstring>InputLineEditBatch</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="1" column="1">
+                                <property name="name">
+                                    <cstring>OutputLineEditBatch</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="1" column="0">
+                                <property name="name">
+                                    <cstring>OutButtonBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Output File</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>layout14_2</cstring>
                         </property>
-                        <spacer>
+                        <hbox>
                             <property name="name">
-                                <cstring>spacer20_2</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>151</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>runButtonBatch_2</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>7</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>Run</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer19_2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>131</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-            </grid>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer20_2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>151</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KPushButton">
+                                <property name="name">
+                                    <cstring>runButtonBatch_2</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Run</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer19_2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>131</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <spacer>
+                        <property name="name">
+                            <cstring>spacer25</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>21</width>
+                                <height>30</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
+            </widget>
         </widget>
-    </widget>
+    </vbox>
 </widget>
 <customwidgets>
     <customwidget>
