@@ -30,6 +30,7 @@
 #include "modcalcequinox.h"
 #include "modcalcplanets.h"
 #include "modcalceclipticcoords.h"
+#include "modcalcangdist.h"
 
 #include <klocale.h>
 #include <qlistview.h>
@@ -78,6 +79,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent Coordinates"));
 	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
 	QListViewItem * eclItem = new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
+	QListViewItem * angItem = new QListViewItem(coordItem,i18n("Angular Distance"));
 
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
@@ -132,6 +134,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genSolarText();
 	if(!(election.compare(i18n("Planets Coordinates"))))
 		genPlanetsFrame();
+	if(!(election.compare(i18n("Angular Distance"))))
+		genAngDistFrame();
 
 		previousElection = election;
 
@@ -188,6 +192,9 @@ void AstroCalc::genCoordText(void)
 														 "</LI><LI>"
 														 "<B>Horizontal:</B> Computation of azimuth and elevation for a "
 														 "given source, time, and location on the Earth"
+														 "</LI><LI>"
+														 "<B>Angular Distance:</B> Computation of angular distance between "
+														 "two objects whose positions are given in equatorial coordinates"
 														 "</LI></UL>"
 														 "</QT>"));
 
@@ -261,6 +268,8 @@ void AstroCalc::delRightPanel(void)
 		delete AzelFrame;
 	else if (rightPanel == Planets)
 		delete PlanetsFrame;
+	else if (rightPanel == AngDist)
+		delete AngDistFrame;
 
 }
 
@@ -337,8 +346,15 @@ void AstroCalc::genAzelFrame(void)
 void AstroCalc::genPlanetsFrame(void)
 {
 	delRightPanel();
-	PlanetsFrame = new modCalcPlanets(split,"Horizontal");
+	PlanetsFrame = new modCalcPlanets(split,"Planet");
 	rightPanel = Planets;
+}
+
+void AstroCalc::genAngDistFrame(void)
+{
+	delRightPanel();
+	AngDistFrame = new modCalcAngDist(split,"AngDist");
+	rightPanel = AngDist;
 }
 
 QSize AstroCalc::sizeHint() const
