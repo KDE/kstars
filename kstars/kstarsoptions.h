@@ -45,6 +45,8 @@ public:
   //          in apprehension, how like a god!
 	//     (more hacked Hamlet :)
 
+	void setMagLimitDrawStar( float newMagnitude );	
+	
 	bool drawBSC;
 	bool drawMessier;
 	bool drawMessImages;

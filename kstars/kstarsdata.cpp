@@ -30,6 +30,11 @@
 KStarsData::KStarsData() {
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
+/*
+	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
+	*/
+	maxSetMagnitude = options->magLimitDrawStar;
+	
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
 	
@@ -260,7 +265,7 @@ bool KStarsData::readStarData( void ) {
 			if ( o->name != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
 				ObjNames->append (new SkyObjectName (o->name, objList->last()));
-				starList.last()->setSkyObjectName( ObjNames->last() );	// set pointer to ObjNames
+//				starList.last()->setSkyObjectName( ObjNames->last() );	// set pointer to ObjNames
 			}
 			
 			if (mag < 4.0) starCount0 = starList.count();
@@ -652,23 +657,39 @@ long double KStarsData::getJD( QDateTime t ) {
   return jd;
 }
 
+void KStarsData::setMagnitude( float newMagnitude ) {
+//	qDebug( "KStarsData::setMagnitude()" );
+/*
+	* Only reload data if not loaded yet.
+	*/
+	if ( newMagnitude > maxSetMagnitude )
+		appendNewStarData( newMagnitude );
+
+// change current magnitude level in KStarsOptions
+	options->setMagLimitDrawStar( newMagnitude );
+}
+
 bool KStarsData::appendNewStarData( float newMag ) {
+//	qDebug( "KStarsData::appendNewStarData()" );
 	QFile file;
 	if ( openDataFile( file, "sao.dat" ) ) {
 		QTextStream stream( &file );
 
+		float mag;	// magnitude of current star read in file
+		
 		while ( !stream.eof() ) {
 			QString line, name, SpType;
-			float mag;
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
 
 			line = stream.readLine();
 
 			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
+			
 			if ( mag > newMag ) break;	// break reading file if magnitude is higher than needed
 							
-			if ( mag > options->magLimitDrawStar ) {	// just add higher magnitudes
+			if ( mag > maxSetMagnitude ) {	// just add higher magnitudes
+				
 				name = "star";
 				rah = line.mid( 0, 2 ).toInt();
 				ram = line.mid( 2, 2 ).toInt();
@@ -688,56 +709,31 @@ bool KStarsData::appendNewStarData( float newMag ) {
 				dms d( dd, dm,  ds );
 	
 				if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
-
+				
 				StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
 		  		starList.append( o );
 			
 				if ( o->name != "star" ) {		// just add to name list if a name is given
 					objList->append( o );
 					ObjNames->append (new SkyObjectName (o->name, objList->last()));
-					starList.last()->setSkyObjectName( ObjNames->last() );
+//					starList.last()->setSkyObjectName( ObjNames->last() );
 				}
 				// recompute coordinates if AltAz is used
-				if ( options->useAltAz ) o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
+//				if ( options->useAltAz ) o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
+				o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
 				}
 			
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
 			if (mag < 7.5) starCount3 = starList.count();
+			
   		}	// enf of while
+			maxSetMagnitude = mag;	// store new set magnitude to compare in KStarsData::setMagnitude()		
 		file.close();
-//		qDebug( "%i", starCount3 );
     	return true;
 	} else {
 		return false;
 	}
 
-}
-
-void KStarsData::deleteUnusedStarData( float newMag ) {
-	StarObject *o = starList.last();
-	
-	while ( o && o->mag > newMag ) {
-	
-			if (o->mag < 4.0) starCount0--;
-			if (o->mag < 6.0) starCount1--;
-			if (o->mag < 7.0) starCount2--;
-			if (o->mag < 7.5) starCount3--;
-			
-			if ( o->skyObjectName() ) {		// just search object in objList and ObjNames if an object was allocated
-				int index = 0;
-				index = objList->findRef( o );
-				if ( index ) {
-					objList->remove( index );
-					ObjNames->remove( index );
-				
-				}
-			}
-		
-			starList.remove( o );	// delete from starList
-			o = starList.prev();
-	}
-	
-//	qDebug( "%i", starCount3 );
 }

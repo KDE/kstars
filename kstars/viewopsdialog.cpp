@@ -526,18 +526,8 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 {
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	
-	float diff = ksw->GetOptions()->magLimitDrawStar - fNewValue;
-	if ( diff > 0.0 ) {	// delete unused star data
-		ksw->GetData()->deleteUnusedStarData( fNewValue );
-	}
-	else
-	if ( diff < 0.0 ) {	// load new star data
-		ksw->GetData()->appendNewStarData( fNewValue );
-	}
-	else
-		return;		// break because nothing has changed
+	ksw->GetData()->setMagnitude( fNewValue );
 	
-	ksw->GetOptions()->magLimitDrawStar = fNewValue;
 	// force redraw
 	ksw->skymap->Update();
 }

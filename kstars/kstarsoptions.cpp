@@ -159,3 +159,8 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	ProvinceName = dataSource->ProvinceName;
   CountryName = dataSource->CountryName;
 }
+
+void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {
+	magLimitDrawStar = newMagnitude;
+}
+

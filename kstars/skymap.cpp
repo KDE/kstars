@@ -1343,13 +1343,11 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 		unsigned int numStars = ksw->GetData()->starList.count();
 	  //Only draw bright stars if slewing
-		if ( slewing ) numStars = ksw->GetData()->starCount1;
-//		if ( slewing ) maglim = 6.0;
+		if ( slewing && maglim > 6.0 ) maglim = 6.0;
 	
-	int i = 0;
 	for ( StarObject *curStar = ksw->GetData()->starList.first(); curStar; curStar = ksw->GetData()->starList.next() ) {
-//		if ( curStar->mag > maglim || ( slewing && curStar->mag > 6.0 ) ) break;
-		if ( i++ > numStars ) break;
+		// break loop if maglim is reached
+		if ( curStar->mag > maglim ) break;
 		
 		if ( checkVisibility( curStar->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 			QPoint o = getXY( curStar->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1371,8 +1369,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 							// collect info text
 							QString sTmp = "";
 							if ( ksw->GetOptions()->drawStarName ) {
-//								if (curStar->name != "star") sTmp = curStar->name + " ";	// see line below
-								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
+								if (curStar->name != "star") sTmp = curStar->name + " ";	// see line below
+//								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
 							}
 							if ( ksw->GetOptions()->drawStarMagnitude ) {
 								sTmp += QString().sprintf("%.1f", curStar->mag );

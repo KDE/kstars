@@ -64,8 +64,9 @@ public:
 	bool readCNameData( void );
 	bool readURLData( QString url, int type=0 );
 	long double getJD( QDateTime t);
+	void setMagnitude( float newMagnitude );
+	
 	bool appendNewStarData( float newMag );
-	void deleteUnusedStarData( float newMag );
 	
 	QList<GeoLocation> geoList;
 	QList<SkyObject> *objList;
@@ -109,6 +110,13 @@ public:
 
 	void saveOptions();
 	void restoreOptions();
+
+/*
+	* Store the highest magnitude level at the current session and compare with current used
+	* magnitude. If current magnitude is equal to maxSetMagnitude reload data on next increment
+	* of magnitude level.
+	*/	
+	float maxSetMagnitude;
 };
 
 

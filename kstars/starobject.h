@@ -47,8 +47,8 @@ class StarObject : public SkyObject {
 		QChar color() { return SpType.at(0); }
 		QString sptype() { return SpType; }
 		
-		void setSkyObjectName( SkyObjectName *n ) { soName = n; }
-		SkyObjectName *skyObjectName() { return soName; }
+//		void setSkyObjectName( SkyObjectName *n ) { soName = n; }
+//		SkyObjectName *skyObjectName() { return soName; }
 		
 	private:
 		QString SpType;
