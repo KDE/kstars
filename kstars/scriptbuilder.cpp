@@ -24,9 +24,12 @@
 #include <kcombobox.h>
 #include <kicontheme.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 #include <klistbox.h>
 #include <klistview.h>
+#include <kprocess.h>
 #include <ktextedit.h>
+#include <ktempfile.h>
 #include <kdatewidget.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
@@ -43,7 +46,7 @@
 
 ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
  : ScriptBuilderUI( parent, name ), UnsavedChanges(false), currentFileURL(),
-		currentPath( QDir::homeDirPath() ), currentScriptName(), currentAuthor() {
+		currentDir( QDir::homeDirPath() ), currentScriptName(), currentAuthor() {
 
 	ks = (KStars*)parent;
 
@@ -84,6 +87,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
 	SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
 	SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
+	RunButton->setPixmap( icons->loadIcon( "launch", KIcon::Toolbar ) );
 	CopyButton->setPixmap( icons->loadIcon( "reload", KIcon::Toolbar ) );
 	AddButton->setPixmap( icons->loadIcon( "back", KIcon::Toolbar ) );
 	RemoveButton->setPixmap( icons->loadIcon( "forward", KIcon::Toolbar ) );
@@ -157,7 +161,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	DownButton->setEnabled( false );
 	SaveButton->setEnabled( false );
 	SaveAsButton->setEnabled( false );
-
+	RunButton->setEnabled( false );
 }
 
 ScriptBuilder::~ScriptBuilder()
@@ -338,6 +342,8 @@ void ScriptBuilder::slotNew() {
 
 		CopyButton->setEnabled( false );
 		RemoveButton->setEnabled( false );
+		RunButton->setEnabled( false );
+
 		currentFileURL = "";
 		currentScriptName = "";
 	}
@@ -346,18 +352,28 @@ void ScriptBuilder::slotNew() {
 void ScriptBuilder::slotOpen() {
 	saveWarning();
 
+	QString fname;
+	KTempFile tmpfile;
+	tmpfile.setAutoDelete(true);
+
 	if ( !UnsavedChanges ) {
 		ScriptList.clear();
 		ScriptListBox->clear();
 		ArgStack->raiseWidget( argBlank );
 
-		currentFileURL = KFileDialog::getOpenURL( currentPath, "*.kstars|KStars Scripts (*.kstars)" );
+		currentFileURL = KFileDialog::getOpenURL( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
 
-		if ( currentFileURL.isValid() && currentFileURL.isLocalFile() ) {
-			currentPath = currentFileURL.path();
+		if ( currentFileURL.isValid() ) {
+			currentDir = currentFileURL.directory();
 
-			//Remove the leading 'file:', which confuses QFile :(
-			QString fname = currentFileURL.url().mid(5);
+			if ( currentFileURL.isLocalFile() ) {
+				fname = currentFileURL.path();
+			} else {
+				fname = tmpfile.name();
+				if ( ! KIO::NetAccess::download( currentFileURL, fname ) )
+					KMessageBox::sorry( 0, i18n( "Could not download remote file." ), i18n( "Download Error" ) );
+			}
+
 			QFile f( fname );
 			if ( !f.open( IO_ReadOnly) ) {
 				QString message = i18n( "Could not open file %1" ).arg( f.name() );
@@ -379,6 +395,10 @@ void ScriptBuilder::slotOpen() {
 }
 
 void ScriptBuilder::slotSave() {
+	QString fname;
+	KTempFile tmpfile;
+	tmpfile.setAutoDelete(true);
+
 	if ( currentScriptName.isEmpty() ) {
 		//Get Script Name and Author info
 		if ( snd->exec() == QDialog::Accepted ) {
@@ -390,14 +410,16 @@ void ScriptBuilder::slotSave() {
 	}
 
 	if ( currentFileURL.isEmpty() )
-		currentFileURL = KFileDialog::getSaveURL( currentPath, "*.kstars|KStars Scripts (*.kstars)" );
+		currentFileURL = KFileDialog::getSaveURL( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
 
-	if ( currentFileURL.isValid() && currentFileURL.isLocalFile() ) {
-		currentPath = currentFileURL.path();
+	if ( currentFileURL.isValid() ) {
+		currentDir = currentFileURL.directory();
 
-		//Remove the leading 'file:', which confuses QFile :(
-		//Also, possibly append ".kstars"
-		QString fname = currentFileURL.url().mid(5);
+		if ( currentFileURL.isLocalFile() )
+			fname = currentFileURL.path();
+		else
+			fname = tmpfile.name();
+
 		if ( fname.right( 7 ).lower() != ".kstars" ) fname += ".kstars";
 
 		QFile f( fname );
@@ -414,6 +436,13 @@ void ScriptBuilder::slotSave() {
 
 		//set rwx for owner, rx for group, rx for other
 		chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+
+		if ( tmpfile.name() == fname ) { //need to upload to remote location
+			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL ) ) {
+				QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
+				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+			}
+		}
 
 		setUnsavedChanges( false );
 
@@ -446,6 +475,48 @@ void ScriptBuilder::saveWarning() {
 
 		//Do nothing if 'cancel' selected
 	}
+}
+
+void ScriptBuilder::slotRunScript() {
+	//hide window while script runs
+// If this is uncommented, the program hangs before the script is executed.  Why?
+//	hide();
+
+	//Save current script to a temporary file, then execute that file.
+	//For some reason, I can't use KTempFile here!  If I do, then the temporary script
+	//is not executable.  Bizarre...
+	//KTempFile tmpfile;
+	//QString fname = tmpfile.name();
+	QString fname = locateLocal( "tmp", "kstars-tempscript" );
+
+	QFile f( fname );
+	if ( f.exists() ) f.remove();
+	if ( !f.open( IO_WriteOnly) ) {
+		QString message = i18n( "Could not open file %1" ).arg( f.name() );
+		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+		currentFileURL = "";
+		return;
+	}
+
+	QTextStream ostream(&f);
+	writeScript( ostream );
+	f.close();
+
+	//set rwx for owner, rx for group, rx for other
+	chmod( f.name().ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+
+	KProcess p;
+	p << f.name();
+	if ( ! p.start( KProcess::DontCare ) )
+		kdDebug() << "Process did not start." << endl;
+
+	while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
+
+	//delete temp file
+	if ( f.exists() ) f.remove();
+
+	//uncomment if 'hide()' is uncommented...
+//	show();
 }
 
 void ScriptBuilder::writeScript( QTextStream &ostream ) {
@@ -505,6 +576,12 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 
 		} // end if left(4) == "dcop"
 	} // end while !eof()
+
+	//Select first item in ScriptListBox
+	if ( ScriptListBox->count() ) {
+		ScriptListBox->setCurrentItem( 0 );
+		slotArgWidget();
+	}
 }
 
 bool ScriptBuilder::parseFunction( QStringList &fn ) {
@@ -647,6 +724,14 @@ void ScriptBuilder::slotArgWidget() {
 		RemoveButton->setEnabled( true );
 		UpButton->setEnabled( true );
 		DownButton->setEnabled( true );
+	}
+
+	//RunButton enabled when script not empty.
+	if ( ScriptListBox->count() ) {
+		RunButton->setEnabled( true );
+	} else {
+		RunButton->setEnabled( false );
+		setUnsavedChanges( false );
 	}
 
 	//Display the function's arguments widget

@@ -75,6 +75,7 @@ public slots:
 	virtual void slotOpen();
 	virtual void slotSave();
 	virtual void slotSaveAs();
+	virtual void slotRunScript();
 
 	virtual void slotCopyFunction();
 	virtual void slotRemoveFunction();
@@ -129,7 +130,7 @@ private:
 
 	bool UnsavedChanges;
 	KURL currentFileURL;
-	QString currentPath;
+	QString currentDir;
 	QString currentScriptName, currentAuthor;
 };
 

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>ScriptBuilderUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>708</width>
-            <height>686</height>
+            <height>692</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout11</cstring>
+                <cstring>layout5</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -151,6 +151,26 @@
                         <string>Save Script As...</string>
                     </property>
                 </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>RunButton</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>32</width>
+                            <height>32</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32</width>
+                            <height>32</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
                 <spacer>
                     <property name="name">
                         <cstring>spacer3</cstring>
@@ -163,7 +183,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>540</width>
+                            <width>490</width>
                             <height>20</height>
                         </size>
                     </property>
@@ -541,6 +561,8 @@
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>FuncListBox</sender>
@@ -620,6 +642,12 @@
         <receiver>ScriptBuilderUI</receiver>
         <slot>close()</slot>
     </connection>
+    <connection>
+        <sender>RunButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ScriptBuilderUI</receiver>
+        <slot>slotRunScript()</slot>
+    </connection>
 </connections>
 <slots>
     <slot>slotAddFunction()</slot>
@@ -633,21 +661,10 @@
     <slot>slotSaveAs()</slot>
     <slot>slotCopyFunction()</slot>
     <slot>slotRemoveFunction()</slot>
+    <slot>slotRunScript()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
     <includehint>ktextedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>
