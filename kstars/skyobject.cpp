@@ -293,7 +293,8 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
 	SkyPoint sp = SkyPoint( ra(), dec() );
 
 	// restore original coords
-	set( original.ra(), original.dec() );
+	setRA( original.ra()->Hours() );
+	setDec( original.dec()->Degrees() );
 
 	return sp;
 }
