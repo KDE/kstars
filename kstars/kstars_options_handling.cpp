@@ -139,7 +139,7 @@ void KStarsData::loadOptions()
 	options->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 7.0 );
 	options->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );
-	options->magLimitAsteroidName = conf->readDoubleNumEntry( "magLimitAsteroid", 8.0 );
+	options->magLimitAsteroid = conf->readDoubleNumEntry( "magLimitAsteroid", 8.0 );
 	options->magLimitAsteroidName = conf->readDoubleNumEntry( "magLimitAsteroidName", 4.0 );
 	options->maxRadCometName = conf->readDoubleNumEntry( "maxRadCometName", 3.0 );
 	options->drawStarName      = conf->readBoolEntry( "drawStarName", false );

@@ -145,12 +145,12 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
-	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) { 
-		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
-		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
-		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
-		Map->showFocusCoords();
-	}
+//	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) { 
+//		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
+//		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
+//		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
+//		Map->showFocusCoords();
+//	}
 
 	//If time is accelerated beyond slewTimescale, then the clock's timer is stopped,
 	//so that it can be ticked manually after each update, in order to make each time

@@ -405,6 +405,50 @@ void SkyMap::setDestinationAltAz(double alt, double az) {
 	emit destinationChanged();
 }
 
+void SkyMap::updateFocus() {
+	if ( ksw->options()->isTracking && focusObject() != NULL ) {
+		if ( ksw->options()->useAltAz ) {
+			//Tracking any object in Alt/Az mode requires focus updates
+			setDestinationAltAz(
+					refract( focusObject()->alt(), true ).Degrees(),
+					focusObject()->az()->Degrees() );
+			destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			setFocus( destination() );
+
+		} else if ( ksw->data()->isSolarSystem( focusObject() ) ) {
+			//Tracking on solar system body requires focus updates in both coord systems
+			setDestination( focusObject() );
+			setFocus( destination() );
+		
+		} else { //tracking non-solar system object in equatorial; update alt/az
+			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		}
+	} else if ( ksw->options()->isTracking ) {
+		if ( ksw->options()->useAltAz ) {
+			//Tracking on empty sky in Alt/Az mode
+			setDestination( clickedPoint() );
+			destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			setFocus( destination() );
+		}
+	} else if ( ! isSlewing() ) {
+		//Not tracking and not slewing, let sky drift by
+		if ( ksw->options()->useAltAz ) {
+			focus()->setAlt( destination()->alt()->Degrees() );
+			focus()->setAz( destination()->az()->Degrees() );
+			focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			//destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+		} else {
+			focus()->setRA( ksw->LST()->Hours() - ksw->data()->HourAngle->Hours() );
+			setDestination( focus() );
+			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		}
+	}
+
+	setOldFocus( focus() );
+	oldfocus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+}
+
 void SkyMap::slewFocus( void ) {
 	double dX, dY, fX, fY, r;
 	double step = 1.0;

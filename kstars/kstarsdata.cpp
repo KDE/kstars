@@ -1656,47 +1656,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Update focus
-		if ( options->isTracking && skymap->focusObject() != NULL ) {
-			if ( options->useAltAz ) {
-				//Tracking any object in Alt/Az mode requires focus updates
-				skymap->setDestinationAltAz(
-						skymap->refract( skymap->focusObject()->alt(), true ).Degrees(),
-						skymap->focusObject()->az()->Degrees() );
-				skymap->destination()->HorizontalToEquatorial( LST, geo->lat() );
-				skymap->setFocus( skymap->destination() );
-
-			} else if ( isSolarSystem( skymap->focusObject() ) ) {
-				//Tracking on solar system body requires focus updates in both coord systems
-				skymap->setDestination( skymap->focusObject() );
-				skymap->setFocus( skymap->destination() );
-
-			} else { //tracking non-solar system object in equatorial; update alt/az
-				skymap->focus()->EquatorialToHorizontal( LST, geo->lat() );
-			}
-		} else if ( options->isTracking ) {
-			if ( options->useAltAz ) {
-				//Tracking on empty sky in Alt/Az mode
-				skymap->setDestination( skymap->clickedPoint() );
-				skymap->destination()->EquatorialToHorizontal( LST, geo->lat() );
-				skymap->setFocus( skymap->destination() );
-			}
-		} else if ( ! skymap->isSlewing() ) {
-			//Not tracking and not slewing, let sky drift by
-			if ( options->useAltAz ) {
-				skymap->focus()->setAlt( skymap->destination()->alt()->Degrees() );
-				skymap->focus()->setAz( skymap->destination()->az()->Degrees() );
-				skymap->focus()->HorizontalToEquatorial( LST, geo->lat() );
-				//skymap->destination()->HorizontalToEquatorial( LST, geo->lat() );
-			} else {
-				skymap->focus()->setRA( LST->Hours() - HourAngle->Hours() );
-				skymap->setDestination( skymap->focus() );
-				skymap->focus()->EquatorialToHorizontal( LST, geo->lat() );
-				skymap->destination()->EquatorialToHorizontal( LST, geo->lat() );
-			}
-		}
-
-		skymap->setOldFocus( skymap->focus() );
-		skymap->oldfocus()->EquatorialToHorizontal( LST, geo->lat() );
+		skymap->updateFocus();
 
 		if (clock->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );

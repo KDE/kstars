@@ -82,6 +82,10 @@ public:
 	*/
 	void setFocus( SkyPoint *f ) { Focus.set( f->ra(), f->dec() ); }
 
+/**@short Update the focus position according to current options.
+	*/
+	void updateFocus();
+
 /**@short sets the central focus point of the sky map, using alt/az coordinates
 	*@param alt the new altitude
 	*@param az the new azimuth
