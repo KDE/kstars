@@ -26,6 +26,8 @@
 #include "modcalcgalcoord.h"
 #include "modcalcsidtime.h"
 #include "modcalcprec.h"
+#include "modcalcapcoord.h"
+
 #include <qvbox.h>
 #include <qstring.h>
 #include <qsplitter.h>
@@ -71,6 +73,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinates converter"));
 	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
+	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent coordinates"));
 	
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth coordinates"));
 	geoItem->setPixmap(0,geodIcon);
@@ -104,6 +107,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genGalFrame();
 	if(!(election.compare(i18n("Precession"))))
 		genPrecFrame();
+	if(!(election.compare(i18n("Apparent coordinates"))))
+		genAppFrame();
 	if(!(election.compare(i18n("Earth coordinates"))))
 		genGeodText();
 	if(!(election.compare(i18n("Geodetic coordinates"))))
@@ -201,6 +206,8 @@ void AstroCalc::delRightPanel(void)
 		delete GalFrame;
 	else if (rightPanel == Precessor)
 		delete PrecFrame;
+	else if (rightPanel == Apparent)
+		delete AppFrame;
 
 }
 
@@ -237,6 +244,13 @@ void AstroCalc::genPrecFrame(void)
 	delRightPanel();
 	PrecFrame = new modCalcPrec(split,"Precession");
 	rightPanel = Precessor;
+}
+
+void AstroCalc::genAppFrame(void)
+{
+	delRightPanel();
+	AppFrame = new modCalcApCoord(split,"Apparent");
+	rightPanel = Apparent;
 }
 
 QSize AstroCalc::sizeHint() const

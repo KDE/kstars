@@ -45,6 +45,7 @@ class modCalcGeodCoord;
 class modCalcGalCoord;
 class modCalcSidTime;
 class modCalcPrec;
+class modCalcApCoord;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -69,6 +70,7 @@ Q_OBJECT
 		void genGeodCoordFrame(void);
 		void genGalFrame(void);
 		void genPrecFrame(void);
+		void genAppFrame(void);
 		void delRightPanel(void);
 
 		QSize sizeHint() const;
@@ -85,7 +87,7 @@ Q_OBJECT
 		QVBox *vbox, *rightBox;
 		QString previousElection;
 
-		enum typeOfPanel {GenText, TimeText, GeoText, CoordText, JD, SidTime, GeoCoord, Galactic, Precessor};
+		enum typeOfPanel {GenText, TimeText, GeoText, CoordText, JD, SidTime, GeoCoord, Galactic, Precessor, Apparent};
 		typeOfPanel rightPanel;
 
 		modCalcJD *JDFrame;
@@ -93,6 +95,7 @@ Q_OBJECT
 		modCalcGalCoord *GalFrame;
 		modCalcSidTime *SidFrame;
 		modCalcPrec *PrecFrame;
+		modCalcApCoord *AppFrame;
 };
 
 #endif
