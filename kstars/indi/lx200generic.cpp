@@ -297,8 +297,7 @@ LX200Generic::LX200Generic()
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
  
-   /* FIXME remove this */
-   enableSimulation(true);  
+   //enableSimulation(true);  
 }
 
 void LX200Generic::setCurrentDeviceName(const char * devName)
