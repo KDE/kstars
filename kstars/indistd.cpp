@@ -422,9 +422,11 @@ void INDIStdDevice::streamReceived()
   switch (pp->stdID)
   {
     case EQUATORIAL_COORD:
+    case EQUATORIAL_EOD_COORD:
       //ksw->map()->forceUpdateNow();
       ksw->map()->update();
       break;
+      
     
     case TIME:
       if ( Options::indiAutoTime() )
@@ -852,6 +854,7 @@ void INDIStdDevice::timerDone()
       INDI_P *prop;
       INDI_E *RAEle, *DecEle;
       INDI_E *el;
+      bool useJ2000 = false;
 
        if (!dp->isOn())
        {
@@ -872,7 +875,14 @@ void INDIStdDevice::timerDone()
         return;
        }
 	
-       prop = dp->findProp("EQUATORIAL_COORD");
+       prop = dp->findProp("EQUATORIAL_EOD_COORD");
+       
+       if (prop == NULL)
+       {
+         prop = dp->findProp("EQUATORIAL_COORD");
+	 if (prop) useJ2000 = true;
+       }
+       
        if (prop == NULL || !currentObject)
         return;
 
@@ -887,7 +897,8 @@ void INDIStdDevice::timerDone()
 	kdDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString() << endl;
 	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
-        sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
+	if (useJ2000)
+        	sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
@@ -968,6 +979,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
   INDI_E *RAEle, *DecEle;
   INDI_P * prop;
   SkyPoint sp;
+  bool useJ2000 = false;
   
   switch (pp->stdID)
   {
@@ -979,23 +991,30 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    	if (stdDev->devTimer->isActive())
 		 	stdDev->devTimer->stop();
 
-   	prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
+   	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
        		if (prop == NULL)
+		{
+		  prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
+		  if (prop == NULL)
         		return false;
+		  else
+		        useJ2000 = true;
+		}
 
    	RAEle  = prop->findElement("RA");
    	if (!RAEle) return false;
    	DecEle = prop->findElement("DEC");
    	if (!DecEle) return false;
    
-  	// Track is a special case, if object is sidereal and support it, then let 
-	// the telescope track it, otherwise track the telescope manually via a timer.
+  	// Track is similar to slew, except that for non-sidereal objects
+	// it tracks the objects automatically via a timer.
    	if ((lp->name == "TRACK"))
        		if (stdDev->handleNonSidereal(ksw->map()->clickedObject()))
 	        	return true;
 
-        kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
+	kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
 	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString() << endl;
+	
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
@@ -1004,14 +1023,18 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
        else
          sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
-         sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+	 if (useJ2000)
+         	sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
            // Use J2000 coordinate as required by INDI
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
 	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
-	kdDebug() <<  "\n******** The point AFTER it was precessed ********" << endl;
-	kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
+	if (useJ2000)
+	{
+		kdDebug() <<  "\n******** The point AFTER it was precessed ********" << endl;
+		kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
+	}
 	
 	
 	//sp.apparentCoord((long double) J2000,  ksw->data()->ut().djd());

@@ -87,7 +87,7 @@ INumber eq[] = {
 //TODO decide appropiate TIME_OUT
 // N.B. No Static identifier as it is needed for external linkage
 INumberVectorProperty eqNum = {
-    mydev, "EQUATORIAL_COORD", "Equatorial J2000", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
+    mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
     eq, NARRAY(eq), 0, 0};
 
 /* Fundamental group */
@@ -296,7 +296,9 @@ LX200Generic::LX200Generic()
    
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   
+ 
+   /* FIXME remove this */
+   enableSimulation(true);  
 }
 
 void LX200Generic::setCurrentDeviceName(const char * devName)
@@ -509,23 +511,23 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	   fs_sexa(RAStr, newRA, 2, 3600);
 	   fs_sexa(DecStr, newDEC, 2, 3600);
 	  
-	   IDLog("We received J2000 RA %f - DEC %f\n", newRA, newDEC);
+	   IDLog("We received J2000 RA %g - DEC %g\n", newRA, newDEC);
 	   IDLog("We received J2000 RA %s - DEC %s\n", RAStr, DecStr);
 	   
-	   apparentCoord( (double) J2000, JD, &newRA, &newDEC);
+	   /*apparentCoord( (double) J2000, JD, &newRA, &newDEC);
 	   
 	   fs_sexa(RAStr, newRA, 2, 3600);
 	   fs_sexa(DecStr, newDEC, 2, 3600);
 	   
 	   IDLog("Processed to JNow RA %f - DEC %f\n", newRA, newDEC);
-	   IDLog("Processed to JNow RA %s - DEC %s\n", RAStr, DecStr);
+	   IDLog("Processed to JNow RA %s - DEC %s\n", RAStr, DecStr);*/
 
 	   if ( (err = setObjectRA(newRA)) < 0 || ( err = setObjectDEC(newDEC)) < 0)
 	   {
 	     handleError(&eqNum, err, "Setting RA/DEC");
 	     return;
-	   }
-
+	   } 
+	   
            /*eqNum.s = IPS_BUSY;*/
 	   targetRA  = newRA;
 	   targetDEC = newDEC;
@@ -1268,7 +1270,7 @@ void LX200Generic::ISPoll()
 	    {
 		currentRA = targetRA;
 		currentDEC = targetDEC;
-		apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 		eqNum.np[0].value = currentRA;
 		eqNum.np[1].value = currentDEC;
 		IUResetSwitches(&OnCoordSetSw);
@@ -1318,7 +1320,7 @@ void LX200Generic::ISPoll()
 
 	    } else
 	    {
-	        apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+	        /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 		eqNum.np[0].value = currentRA;
 		eqNum.np[1].value = currentDEC;
 		IDSetNumber (&eqNum, NULL);
@@ -1341,7 +1343,7 @@ void LX200Generic::ISPoll()
 		eqNum.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
-		apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 		eqNum.np[0].value = currentRA;
 		eqNum.np[1].value = currentDEC;
 		IDSetNumber (&eqNum, NULL);
@@ -1361,7 +1363,7 @@ void LX200Generic::ISPoll()
 	 case IPS_BUSY:
 	   getLX200RA(&currentRA);
 	   getLX200DEC(&currentDEC);
-	   apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+	   /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 	   eqNum.np[0].value = currentRA;
 	   eqNum.np[1].value = currentDEC;
 

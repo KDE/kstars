@@ -118,6 +118,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 		INDI_P *portConnect;
 		INDI_E *lp;
 		INDIMenu *devMenu = ksw->getINDIMenu();
+		bool useJ2000 = false;
 
 		if (!Options::indiCrosshairs() || devMenu == NULL)
 			return;
@@ -142,7 +143,13 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 					 if (portConnect->state == PS_BUSY)
 					  return;
 
-					eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
+					eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
+					
+					if (eqNum == NULL)
+					{
+						eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
+						if (eqNum) useJ2000 = true;
+					}
 
 					// make sure it has RA and DEC properties
 					if ( eqNum)
@@ -167,7 +174,10 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						//kdDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
 
 						SkyPoint sp( &raDMS, &decDMS);
-						sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
+						
+						if (useJ2000)
+							sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
+							
 						sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 						QPoint P = getXY( &sp, Options::useAltAz(), Options::useRefraction() );

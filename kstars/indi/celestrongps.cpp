@@ -65,7 +65,7 @@ static INumber eq[] = {
 };
 //TODO decide appropiate TIME_OUT
 static INumberVectorProperty eqNum = {
-    mydev, "EQUATORIAL_COORD", "Equatorial J2000", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
+    mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
     eq, NARRAY(eq), 0, 0};
 
 /* Fundamental group */
@@ -312,8 +312,8 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
            JD = UTtoJD(tp);
 
 	   IDLog("We recevined J2000 RA %f - DEC %f\n", newRA, newDEC);;
-	   apparentCoord( (double) J2000, JD, &newRA, &newDEC);
-	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);
+	   /*apparentCoord( (double) J2000, JD, &newRA, &newDEC);
+	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);*/
 
 	       //eqNum.np[0].value = values[0];
 	       //eqNum.np[1].value = values[1];
@@ -633,7 +633,7 @@ void CelestronGPS::ISPoll()
 		currentRA = targetRA;
 		currentDEC = targetDEC;
 
-		apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 
 		eqNum.np[0].value = currentRA;
 		eqNum.np[1].value = currentDEC;
@@ -689,7 +689,7 @@ void CelestronGPS::ISPoll()
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
 
-	     apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+	     /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 
 
 	     eqNum.np[0].value = currentRA;

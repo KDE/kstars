@@ -46,7 +46,7 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
-enum stdProperties { CONNECTION, EQUATORIAL_COORD, ON_COORD_SET, ABORT_MOTION, SOLAR_SYSTEM,
+enum stdProperties { CONNECTION, EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, ON_COORD_SET, ABORT_MOTION, SOLAR_SYSTEM,
                      GEOGRAPHIC_COORD, HORIZONTAL_COORD, TIME, EXPOSE_DURATION, 
                      DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE};
 		     
