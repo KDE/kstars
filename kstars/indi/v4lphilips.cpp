@@ -1,7 +1,6 @@
-#if 0
-    V4L INDI Driver
-    INDI Interface for V4L devices
-    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+/*
+    Phlips webcam INDI driver
+    Copyright (C) 2004 by Jasem Mutlaq
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -17,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#endif
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +35,8 @@
 #include <netdb.h>
 
 #include "webcam/QCamV4L.h"
+#include "webcam/philipsV4L.h"
+#include "webcam/pwc-ioctl.h"
 #include "lzo/minilzo.h"
 #include "indidevapi.h"
 #include "indicom.h"
@@ -63,10 +64,11 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
 extern char* me;
 extern int errno;
 
-#define mydev           "Video4Linux Generic Device"
+#define mydev           "Philips Webcam"
 
 #define COMM_GROUP	"Main Control"
 #define IMAGE_GROUP	"Image Settings"
+#define IMAGE_ADJUST    "Image Adjustments"
 #define DATA_GROUP      "Data Channel"
 
 
@@ -128,8 +130,15 @@ static ISwitch StreamS[]		= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0
 static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), 0, 0 };
 
 /* Frame Rate */
-static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 50., 1., 10., 0, 0, 0}};
+static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 15., 1., 15., 0, 0, 0}};
 static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), 0, 0};
+
+static INumber ShutterSpeedN[]		= {{"Speed", "", "%0.f", 0., 65535., 100., 0., 0, 0, 0}};
+static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), 0, 0};
+
+/* Exposure */
+  static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF, 0, 0}};
+  static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS), 0, 0};
 
 /* Image color */
 static ISwitch ImageTypeS[]		= {{ "GREY", "Grey", ISS_ON, 0, 0}, { "COLOR", "Color", ISS_OFF, 0, 0 }};
@@ -140,18 +149,47 @@ static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0
 					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0., 0, 0, 0}};
 static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), 0, 0};
 
-/* Exposure */
-  static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF, 0, 0}};
-  static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS), 0, 0};
-  
-static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
-                                   {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
-				   {"Hue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0}, 
-				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}, 
-				   {"Whiteness", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
-				   
-static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), 0, 0 };
+static ISwitch BackLightS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
+static ISwitchVectorProperty BackLightSP = { mydev, "Back Light", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, BackLightS, NARRAY(BackLightS), 0, 0};
 
+static ISwitch AntiFlickerS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
+static ISwitchVectorProperty AntiFlickerSP = { mydev, "Anti Flicker", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AntiFlickerS, NARRAY(AntiFlickerS), 0, 0};
+
+static ISwitch NoiseReductionS[] = { {"None", "", ISS_ON, 0, 0},
+				     {"Low", "", ISS_OFF, 0, 0},
+                                     {"Medium", "", ISS_OFF, 0, 0},
+				     {"High", "", ISS_OFF, 0, 0}};
+				     
+static ISwitchVectorProperty NoiseReductionSP = { mydev, "Noise Reduction", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, NoiseReductionS, NARRAY(NoiseReductionS), 0, 0};
+
+static ISwitch CamSettingS[]  = { {"Save", "", ISS_OFF, 0, 0 },
+				  { "Restore", "", ISS_OFF, 0, 0},
+				  { "Factory", "", ISS_OFF, 0, 0}};
+				  
+static ISwitchVectorProperty CamSettingSP = { mydev, "Settings", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, CamSettingS, NARRAY(CamSettingS), 0, 0};
+  
+static INumber ImageAdjustN[] = {  {"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
+                                   {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
+				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
+				   {"Sharpness", "", "%0.f", -1., 256., 1., -1., 0 , 0 ,0},
+				   {"Gain", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
+				   {"Gama", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
+				   
+static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), 0, 0 };
+
+static INumber WhiteBalanceN[] = { {"Manual Red", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
+				   {"Manual Blue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }};
+				   
+static INumberVectorProperty WhiteBalanceNP = { mydev, "White Balance", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, WhiteBalanceN, NARRAY(WhiteBalanceN), 0, 0 };
+
+static ISwitch WhiteBalanceModeS[] = {{ "Auto", "", ISS_ON, 0, 0 },
+                                     { "Manual", "", ISS_OFF, 0, 0 },
+				     { "Indoor", "", ISS_OFF, 0, 0},
+				     { "Outdoor", "", ISS_OFF, 0, 0},
+				     { "Fluorescent", "", ISS_OFF, 0, 0}};
+				     
+static ISwitchVectorProperty WhiteBalanceModeSP = { mydev, "White Balance Mode", "", IMAGE_ADJUST, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), 0, 0};
+				     
 /* Data channel */
 static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0., 0, 0, 0}};
 static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
@@ -164,6 +202,8 @@ void ISInit()
  if (isInit)
   return;
  
+ dataChannelTimerID = -1;
+ 
  V4LFrame = new img_t;
  
  if (V4LFrame == NULL)
@@ -172,8 +212,9 @@ void ISInit()
    IDLog("Error: unable to initialize driver. Low memory.");
    return;
  }
- disableUpdate = false;
+ 
  streamTimerID = -1;
+ disableUpdate = false;
  //FileNameT[0].text = strcpy(new char[FILENAMESIZ], "image1.fits");
  
  PortT[0].text     = strcpy(new char[32], "/dev/video0");
@@ -196,7 +237,7 @@ void ISGetProperties (const char *dev)
   
   if (dev && strcmp (mydev, dev))
     return;
-
+    
   /* COMM_GROUP */
   IDDefSwitch(&PowerSP, NULL);
   IDDefText(&PortTP, NULL);
@@ -204,10 +245,19 @@ void ISGetProperties (const char *dev)
   IDDefSwitch(&StreamSP, NULL);
   IDDefNumber(&FrameRateNP, NULL);
   IDDefSwitch(&ExposeSP, NULL);
+  IDDefNumber(&ShutterSpeedNP, NULL);
   
   /* Image properties */
   IDDefSwitch(&ImageTypeSP, NULL);
   IDDefNumber(&ImageSizeNP, NULL);
+  IDDefSwitch(&BackLightSP, NULL);
+  IDDefSwitch(&AntiFlickerSP, NULL);
+  IDDefSwitch(&NoiseReductionSP, NULL);
+  IDDefSwitch(&CamSettingSP, NULL);
+  
+  /* Image Adjustments */
+  IDDefSwitch(&WhiteBalanceModeSP, NULL);
+  IDDefNumber(&WhiteBalanceNP, NULL);
   IDDefNumber(&ImageAdjustNP, NULL);
   
   /* Data Channel */
@@ -235,13 +285,15 @@ void ISGetProperties (const char *dev)
   
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
+	char errmsg[1024];
+	int index=0;
 	
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
 	    return;
 	    
 	ISInit();
-	
+     
      /* Connection */
      if (!strcmp (name, PowerSP.name))
      {
@@ -318,16 +370,250 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	 ExposeSP.s   = IPS_IDLE;
 	 IDSetSwitch(&ExposeSP, NULL);
 	}
-	  
-	
      return;
-    } 
+    }
+    
+    if (!strcmp (AntiFlickerSP.name, name))
+    {
+       if (checkPowerS(&AntiFlickerSP))
+         return;
+	 
+       AntiFlickerSP.s = IPS_IDLE;
+       
+       IUResetSwitches(&AntiFlickerSP);
+       IUUpdateSwitches(&AntiFlickerSP, states, names, n);
+       
+       if (AntiFlickerS[0].s == ISS_ON)
+       {
+         if (setFlicker(true, errmsg) < 0)
+	 {
+	   AntiFlickerS[0].s = ISS_OFF;
+	   AntiFlickerS[1].s = ISS_ON;
+	   IDSetSwitch(&AntiFlickerSP, errmsg);
+	   return;
+	 }
+	 
+	 AntiFlickerSP.s = IPS_OK;
+	 IDSetSwitch(&AntiFlickerSP, NULL);
+       }
+       else
+       {
+         if (setFlicker(false, errmsg) < 0)
+	 {
+	   AntiFlickerS[0].s = ISS_ON;
+	   AntiFlickerS[1].s = ISS_OFF;
+	   IDSetSwitch(&AntiFlickerSP, errmsg);
+	   return;
+	 }
+	 
+	 IDSetSwitch(&AntiFlickerSP, NULL);
+       }
+       
+       return;
+    }
+    
+    if (!strcmp (BackLightSP.name, name))
+    {
+       if (checkPowerS(&BackLightSP))
+         return;
+	 
+       BackLightSP.s = IPS_IDLE;
+       
+       IUResetSwitches(&BackLightSP);
+       IUUpdateSwitches(&BackLightSP, states, names, n);
+       
+       if (BackLightS[0].s == ISS_ON)
+       {
+         if (setBackLight(true, errmsg) < 0)
+	 {
+	   BackLightS[0].s = ISS_OFF;
+	   BackLightS[1].s = ISS_ON;
+	   IDSetSwitch(&BackLightSP, errmsg);
+	   return;
+	 }
+	 
+	 BackLightSP.s = IPS_OK;
+	 IDSetSwitch(&BackLightSP, NULL);
+       }
+       else
+       {
+         if (setBackLight(false, errmsg) < 0)
+	 {
+	   BackLightS[0].s = ISS_ON;
+	   BackLightS[1].s = ISS_OFF;
+	   IDSetSwitch(&BackLightSP, errmsg);
+	   return;
+	 }
+	 
+	 IDSetSwitch(&BackLightSP, NULL);
+       }
+       
+       return;
+    }
+	 
+    if (!strcmp (NoiseReductionSP.name, name))
+    {
+       if (checkPowerS(&NoiseReductionSP))
+         return;
+	 
+       NoiseReductionSP.s = IPS_IDLE;
+       
+       IUResetSwitches(&NoiseReductionSP);
+       IUUpdateSwitches(&NoiseReductionSP, states, names, n);
+       
+       for (int i=0; i < 4; i++)
+        if (NoiseReductionS[i].s == ISS_ON)
+	{
+	   index = i;
+	   break;
+	}
+	
+       if (setNoiseRemoval(index, errmsg) < 0)
+       {
+         IUResetSwitches(&NoiseReductionSP);
+	 NoiseReductionS[0].s = ISS_ON;
+	 IDSetSwitch(&NoiseReductionSP, errmsg);
+	 return;
+       }
+       
+       NoiseReductionSP.s = IPS_OK;
+       
+       IDSetSwitch(&NoiseReductionSP, NULL);
+       return;
+    }
+    
+    if (!strcmp (WhiteBalanceModeSP.name, name))
+    {
+       if (checkPowerS(&WhiteBalanceModeSP))
+         return;
+	 
+       WhiteBalanceModeSP.s = IPS_IDLE;
+       
+       IUResetSwitches(&WhiteBalanceModeSP);
+       IUUpdateSwitches(&WhiteBalanceModeSP, states, names, n);
+       
+       for (int i=0; i < 5; i++)
+        if (WhiteBalanceModeS[i].s == ISS_ON)
+	{
+	   index = i;
+	   break;
+	}
+	
+	switch (index)
+	{
+	  // Auto
+	  case 0:
+	   if (setWhiteBalanceMode(PWC_WB_AUTO, errmsg) < 0)
+	   {
+	     IUResetSwitches(&WhiteBalanceModeSP),
+	     WhiteBalanceModeS[0].s = ISS_ON;
+	     IDSetSwitch(&WhiteBalanceModeSP, errmsg);
+	     return;
+	   }
+	   break;
+	   
+	 // Manual
+	 case 1:
+	  if (setWhiteBalanceMode(PWC_WB_MANUAL, errmsg) < 0)
+	   {
+	     IUResetSwitches(&WhiteBalanceModeSP),
+	     WhiteBalanceModeS[0].s = ISS_ON;
+	     IDSetSwitch(&WhiteBalanceModeSP, errmsg);
+	     return;
+	   }
+	   break;
+	   
+	 // Indoor
+	 case 2:
+	  if (setWhiteBalanceMode(PWC_WB_INDOOR, errmsg) < 0)
+	   {
+	     IUResetSwitches(&WhiteBalanceModeSP),
+	     WhiteBalanceModeS[0].s = ISS_ON;
+	     IDSetSwitch(&WhiteBalanceModeSP, errmsg);
+	     return;
+	   }
+	   break;
+	   
+	 // Outdoor
+	 case 3:
+	  if (setWhiteBalanceMode(PWC_WB_OUTDOOR, errmsg) < 0)
+	   {
+	     IUResetSwitches(&WhiteBalanceModeSP),
+	     WhiteBalanceModeS[0].s = ISS_ON;
+	     IDSetSwitch(&WhiteBalanceModeSP, errmsg);
+	     return;
+	   }
+	   break;
+	   
+	 // Flurescent
+	 case 4:
+	  if (setWhiteBalanceMode(PWC_WB_FL, errmsg) < 0)
+	   {
+	     IUResetSwitches(&WhiteBalanceModeSP),
+	     WhiteBalanceModeS[0].s = ISS_ON;
+	     IDSetSwitch(&WhiteBalanceModeSP, errmsg);
+	     return;
+	   }
+	   break;
+	   
+	}
+	     
+	WhiteBalanceModeSP.s = IPS_OK;
+	IDSetSwitch(&WhiteBalanceModeSP, NULL);
+	return;
+	
+     }
+	
+    if (!strcmp (CamSettingSP.name, name))
+    {
+       
+       if (checkPowerS(&CamSettingSP))
+         return;
+    
+	CamSettingSP.s = IPS_IDLE;
+	
+	IUResetSwitches(&CamSettingSP);
+	IUUpdateSwitches(&CamSettingSP, states, names, n);
+	
+	if (CamSettingS[0].s == ISS_ON)
+	{
+	  if (saveSettings(errmsg) < 0)
+	  {
+	    IUResetSwitches(&CamSettingSP);
+	    IDSetSwitch(&CamSettingSP, errmsg);
+	    return;
+	  }
+	  
+	  CamSettingSP.s = IPS_OK;
+	  IDSetSwitch(&CamSettingSP, "Settings saved.");
+	  return;
+	}
+	
+	if (CamSettingS[1].s == ISS_ON)
+	{
+	   restoreSettings();
+	   IUResetSwitches(&CamSettingSP);
+	   CamSettingSP.s = IPS_OK;
+	   IDSetSwitch(&CamSettingSP, "Settings restored.");
+	   return;
+	}
+	
+	if (CamSettingS[2].s == ISS_ON)
+	{
+	  restoreFactorySettings();
+	  IUResetSwitches(&CamSettingSP);
+	  CamSettingSP.s = IPS_OK;
+	  IDSetSwitch(&CamSettingSP, "Factory settings restored.");
+	  return;
+	}
+     }
+    
 }
 
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 	IText *tp;
-
+	
 	ISInit();
  
        /* ignore if not ours */ 
@@ -350,31 +636,14 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  return;
 	}
 	
-	/*if (!strcmp(name, FileNameTP.name))
-	{
-	  tp = IUFindText(&FileNameTP, names[0]);
-	  FileNameTP.s = IPS_IDLE;
-	  
-	  if (!tp)
-	  {
-	    IDSetText(&FileNameTP, "Error: %s is not a member of %s property.", names[0], name);
-	    IDLog("Error: %s is not a member of %s property.", names[0], name);
-	    return;
-	  }
-	  
-	  strcpy(tp->text, texts[0]);
-	  FileNameTP.s = IPS_OK;
-	  IDSetText(&FileNameTP, NULL);
-	  return;
-	  
-	}*/	  
-	      	
 }
 
 
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
 
+        char errmsg[1024];
+	
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
 	    return;
@@ -387,20 +656,24 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       if (checkPowerN(&ImageSizeNP))
         return;
 	
+       int oldW = (int) ImageSizeN[0].value;
+       int oldH = (int) ImageSizeN[1].value;
+	
       ImageSizeNP.s = IPS_OK;
       
       if (IUUpdateNumbers(&ImageSizeNP, values, names, n) < 0)
        return;
       
-      if (setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value))
+      if (setPhilipsSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value))
       {
          ImageSizeN[0].value = getWidth();
 	 ImageSizeN[1].value = getHeight();
          IDSetNumber(&ImageSizeNP, NULL);
-	 return;
       }
       else
       {
+        ImageSizeN[0].value = oldW;
+	ImageSizeN[1].value = oldH;
         ImageSizeNP.s = IPS_IDLE;
 	IDSetNumber(&ImageSizeNP, "Failed to set a new image size.");
       }
@@ -416,11 +689,18 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       
      FrameRateNP.s = IPS_IDLE;
      
+     int oldFP = (int) FrameRateN[0].value; 
+     
      if (IUUpdateNumbers(&FrameRateNP, values, names, n) < 0)
        return;
        
-     setFPS( (int) FrameRateN[0].value );
-     
+     if (setFrameRate( (int) FrameRateN[0].value, errmsg) < 0)
+     {
+       FrameRateN[0].value = oldFP;
+       IDSetNumber(&FrameRateNP, errmsg);
+       return;
+     }
+       
      FrameRateNP.s = IPS_OK;
      IDSetNumber(&FrameRateNP, NULL);
      return;
@@ -433,26 +713,140 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
        
      ImageAdjustNP.s = IPS_IDLE;
      
+     double oldImgPar[6], shrValue;
+     for (int i=0; i < 6; i++)
+       oldImgPar[i] = ImageAdjustN[i].value;
+     
      if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
        return;
      
-     setContrast( (int) (ImageAdjustN[0].value * 128));
-     setBrightness( (int) (ImageAdjustN[1].value * 128));
-     setHue( (int) (ImageAdjustN[2].value * 128));
-     setColor( (int) (ImageAdjustN[3].value * 128));
-     setWhiteness( (int) (ImageAdjustN[4].value * 128));
-     
-     ImageAdjustN[0].value = getContrast() / 128.;
-     ImageAdjustN[1].value = getBrightness() / 128.;
-     ImageAdjustN[2].value = getHue() / 128.;
-     ImageAdjustN[3].value = getColor() / 128.;
-     ImageAdjustN[4].value = getWhiteness() / 128.;
+     if ( ImageAdjustN[0].value != oldImgPar[0])
+     {
+     	        IDLog("Setting contrast %g\n", (ImageAdjustN[0].value * 256));
+     		setContrast( (int) (ImageAdjustN[0].value * 256));
+		ImageAdjustN[0].value = getContrast() / 256.;
+     }
+		
+     if ( ImageAdjustN[1].value != oldImgPar[1])
+     {
+     		IDLog("Setting brighness %g\n", (ImageAdjustN[1].value * 256));
+		setBrightness( (int) (ImageAdjustN[1].value * 256));
+		ImageAdjustN[1].value = getBrightness() / 256.;
+     }
+		
+     if ( ImageAdjustN[2].value != oldImgPar[2])
+     {
+           IDLog("Setting color %g\n" , (ImageAdjustN[2].value * 256));
+     	   setColor( (int) (ImageAdjustN[2].value * 256));
+	   ImageAdjustN[2].value = getColor() / 256.;
+     }
+		
+     if (ImageAdjustN[3].value < 0)
+       shrValue = -1;
+     else
+       shrValue = (ImageAdjustN[3].value * 256);
+       
+     if ( ImageAdjustN[3].value != oldImgPar[3])
+     	if (setSharpness( (int) shrValue , errmsg) < 0)
+     	{ 
+       		for (int i=0; i < 6; i++)
+         	ImageAdjustN[i].value = oldImgPar[i];
+	 
+       		IDSetNumber(&ImageAdjustNP, errmsg);
+       		return;
+     	}
+	else
+	{
+	   IDLog("Setting sharpness %g\n", shrValue);
+	   if (shrValue == -1)
+	      ImageAdjustN[3].value = -1;
+	   else
+	      ImageAdjustN[3].value = getSharpness() / 256.;
+	}
+	
+     if ( ImageAdjustN[4].value != oldImgPar[4])
+     	if (setGain( (int) (ImageAdjustN[4].value * 256), errmsg) < 0)
+     	{
+       		for (int i=0; i < 6; i++)
+         		ImageAdjustN[i].value = oldImgPar[i];
+	 
+       		IDSetNumber(&ImageAdjustNP, errmsg);
+       		return;
+     	}
+	else
+	{
+	   IDLog("Setting gain %g\n", (ImageAdjustN[4].value * 256));
+	   ImageAdjustN[4].value = getGain() / 256.;
+	}
+	
+     if ( ImageAdjustN[5].value != oldImgPar[5])
+     {
+       IDLog("Setting gama %g\n",  (ImageAdjustN[5].value * 256));
+       setGama ( (int) (ImageAdjustN[5].value * 256));
+       ImageAdjustN[5].value = getGama() / 256.;
+     }
      
      ImageAdjustNP.s = IPS_OK;
      IDSetNumber(&ImageAdjustNP, NULL);
      return;
    }
-      
+   
+   if (!strcmp (ShutterSpeedNP.name, name))
+   {
+     if (checkPowerN(&ShutterSpeedNP))
+       return;
+       
+     ShutterSpeedNP.s = IPS_IDLE;
+     
+     if (setExposure( (int) values[0], errmsg) < 0)
+     {
+       IDSetNumber(&ShutterSpeedNP, errmsg);
+       return;
+     }
+     
+     ShutterSpeedN[0].value = values[0];
+     ShutterSpeedNP.s = IPS_OK;
+     IDSetNumber(&ShutterSpeedNP, NULL);
+     return;
+  }
+  
+  if (!strcmp (WhiteBalanceNP.name, name))
+  {
+     if (checkPowerN(&WhiteBalanceNP))
+       return;
+       
+     WhiteBalanceNP.s = IPS_IDLE;
+     
+     int oldBalance[2];
+     oldBalance[0] = (int) WhiteBalanceN[0].value;
+     oldBalance[1] = (int) WhiteBalanceN[1].value;
+     
+     if (IUUpdateNumbers(&WhiteBalanceNP, values, names, n) < 0)
+       return;
+     
+     if (setWhiteBalanceRed( (int) WhiteBalanceN[0].value * 256, errmsg))
+     {
+       WhiteBalanceN[0].value = oldBalance[0];
+       WhiteBalanceN[1].value = oldBalance[1];
+       IDSetNumber(&WhiteBalanceNP, errmsg);
+       return;
+     }
+     if (setWhiteBalanceBlue( (int) WhiteBalanceN[1].value * 256, errmsg))
+     {
+       WhiteBalanceN[0].value = oldBalance[0];
+       WhiteBalanceN[1].value = oldBalance[1];
+       IDSetNumber(&WhiteBalanceNP, errmsg);
+       return;
+     }
+     
+     IUResetSwitches(&WhiteBalanceModeSP);
+     WhiteBalanceModeS[1].s = ISS_ON;
+     WhiteBalanceModeSP.s   = IPS_OK;
+     WhiteBalanceNP.s = IPS_OK;
+     IDSetSwitch(&WhiteBalanceModeSP, NULL);
+     IDSetNumber(&WhiteBalanceNP, NULL);
+     return;
+   }
   
   	
 }
@@ -465,7 +859,6 @@ int grabImage()
    int err, fd;
    char errmsg[1024];
    char filename[] = "/tmp/fitsXXXXXX";
-  
    
    if ((fd = mkstemp(filename)) < 0)
    { 
@@ -558,7 +951,9 @@ int writeFITS(char * filename, char errmsg[])
 void getBasicData()
 {
 
-  int xmax, ymax, xmin, ymin;
+  char errmsg[1024];
+  bool result;
+  int xmax, ymax, xmin, ymin, index;
   
   IDLog("In getBasicData()\n");
   
@@ -579,14 +974,86 @@ void getBasicData()
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
   IDSetText(&camNameTP, NULL);
   
-  ImageAdjustN[0].value = getContrast() / 128.;
-  ImageAdjustN[1].value = getBrightness() / 128.;
-  ImageAdjustN[2].value = getHue() / 128.;
-  ImageAdjustN[3].value = getColor() / 128.;
-  ImageAdjustN[4].value = getWhiteness() / 128.;
-     
+  IDLog("Raw values\n Contrast: %d \n Brightness %d \n Color %d \n Sharpness %d \n Gain %d \n Gama %d \n", getContrast(), getBrightness(), getColor(), getSharpness(), getGain(), getGama());
+  
+  ImageAdjustN[0].value = getContrast() / 256.;
+  ImageAdjustN[1].value = getBrightness() / 256.;
+  ImageAdjustN[2].value = getColor() / 256.;
+  index = getSharpness();
+  if (index < 0)
+  	ImageAdjustN[3].value = -1;
+  else
+    ImageAdjustN[3].value = getSharpness() / 256.;
+    
+  ImageAdjustN[4].value = getGain() / 256.;
+  ImageAdjustN[5].value = getGama() / 256.;
+       
   ImageAdjustNP.s = IPS_OK;
   IDSetNumber(&ImageAdjustNP, NULL);
+  
+  if (setFrameRate( (int) FrameRateN[0].value, errmsg) < 0)
+  {
+    FrameRateNP.s = IPS_ALERT;
+    IDSetNumber(&FrameRateNP, errmsg);
+  }
+  else
+  {
+    FrameRateNP.s = IPS_OK;
+    IDSetNumber(&FrameRateNP, NULL);
+  }
+  
+  result = getBackLight();
+  if (result)
+  {
+   BackLightS[0].s = ISS_ON;
+   BackLightS[1].s = ISS_OFF;
+  }
+  else
+  {
+   BackLightS[0].s = ISS_OFF;
+   BackLightS[1].s = ISS_ON;
+  }
+  IDSetSwitch(&BackLightSP, NULL);
+  
+  result = getFlicker();
+  if (result)
+  {
+    AntiFlickerS[0].s = ISS_ON;
+    AntiFlickerS[1].s = ISS_OFF;
+  }
+  else
+  {
+    AntiFlickerS[0].s = ISS_OFF;
+    AntiFlickerS[1].s = ISS_ON;
+  }
+  IDSetSwitch(&AntiFlickerSP, NULL);
+  
+  index = getNoiseRemoval();
+  IUResetSwitches(&NoiseReductionSP);
+  NoiseReductionS[index].s = ISS_ON;
+  IDSetSwitch(&NoiseReductionSP, NULL);
+  
+  index = getWhiteBalance();
+  IUResetSwitches(&WhiteBalanceModeSP);
+  switch (index)
+  {
+    case PWC_WB_AUTO:
+     WhiteBalanceModeS[0].s = ISS_ON;
+     break;
+    case PWC_WB_MANUAL:
+     WhiteBalanceModeS[1].s = ISS_ON;
+     break;
+    case PWC_WB_INDOOR:
+     WhiteBalanceModeS[2].s = ISS_ON;
+     break;
+    case PWC_WB_OUTDOOR:
+     WhiteBalanceModeS[3].s = ISS_ON;
+     break;
+    case PWC_WB_FL:
+     WhiteBalanceModeS[3].s = ISS_ON;
+     break;
+  }
+  IDSetSwitch(&WhiteBalanceModeSP, NULL);    
   
   IDLog("Exiting getBasicData()\n");
 }
@@ -606,7 +1073,6 @@ int checkPowerS(ISwitchVectorProperty *sp)
 
 int checkPowerN(INumberVectorProperty *np)
 {
-   
   if (PowerSP.s != IPS_OK)
   {
     IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
@@ -620,7 +1086,6 @@ int checkPowerN(INumberVectorProperty *np)
 
 int checkPowerT(ITextVectorProperty *tp)
 {
-
   if (PowerSP.s != IPS_OK)
   {
     IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
@@ -640,7 +1105,7 @@ void connectV4L()
   switch (PowerS[0].s)
   {
      case ISS_ON:
-      if (connectCam(PortT[0].text))
+      if (connectPhilips(PortT[0].text))
       {
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
@@ -651,6 +1116,7 @@ void connectV4L()
       }
       
       /* Sucess! */
+      
       PowerS[0].s = ISS_ON;
       PowerS[1].s = ISS_OFF;
       PowerSP.s = IPS_OK;
@@ -663,6 +1129,7 @@ void connectV4L()
         disableUpdate = false;
         updateDataChannel(NULL);
       }
+      
       IDLog("V4L Device is online. Retrieving basic data.\n");
       getBasicData();
       
@@ -674,10 +1141,17 @@ void connectV4L()
       PowerSP.s = IPS_IDLE;
       
       disableUpdate = true;
+      // Disable stream if running
+      if (streamTimerID != -1)
+      {
+      	rmTimer(streamTimerID);
+      	streamTimerID = -1;
+      }
       
-      disconnectCam();
       
       free(V4LFrame->compressedFrame);
+      V4LFrame->compressedFrame = NULL;
+      disconnectCam();      
       
       IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
       
@@ -736,6 +1210,8 @@ void updateStream(void *p)
    char frameSize[FRAME_ILEN];
    int nr=0, n=0,r, frameLen;
    p=p;
+   if (PowerS[0].s == ISS_OFF) return;
+   //IDLog("entering update Stream\n");
    
    V4LFrame->Y      		= getY();
    V4LFrame->U      		= getU();
@@ -798,6 +1274,7 @@ void updateStream(void *p)
   if (streamTimerID != -1)
     	streamTimerID = addTimer(1000/ (int) FrameRateN[0].value, updateStream, NULL);
    
+ // IDLog("Leaving update stream\n");
 }
 
 void uploadFile(char * filename)
@@ -942,15 +1419,18 @@ void updateDataChannel(void *p)
   char buffer[1];
   fd_set rs;
   int nr;
+  p=p;
   timeval tv;
   tv.tv_sec  = 0;
   tv.tv_usec = 0;
-  p=p;
   if (disableUpdate)
   {
    dataChannelTimerID = -1;
    return;
   }
+  
+   
+  //IDLog("Entering updateDataChannel\n");
     
   for (int i=0; i < nclients; i++)
   {
@@ -966,6 +1446,7 @@ void updateDataChannel(void *p)
 	 continue;
 
   	nr = read(INDIClients[i].rp, buffer, 1);
+	buffer[1]='\0';
   	if (nr > 0 && atoi(buffer) == 0)
 	{
 	        IDLog("Client %d is ready to receive stream\n", i);
@@ -979,8 +1460,7 @@ void updateDataChannel(void *p)
 	}
    }
   
-   dataChannelTimerID = addTimer(1000, updateDataChannel, NULL);
-  
+   dataChannelTimerID = addTimer(1000, updateDataChannel, NULL);    
 }
 
 int findPort()
@@ -1101,7 +1581,7 @@ void waitForData(int rp, int wp)
 	
 	while (1)
 	{
-                /*IDLog("Waiting for input from driver\n");	*/
+                //IDLog("#1 Waiting for input from driver\n");
 	
 		i = select(rp+1, &rs, NULL, NULL, NULL);
 		if (i < 0)
@@ -1112,6 +1592,7 @@ void waitForData(int rp, int wp)
 			write(wp, dummy, 1);
 	  		exit(1);
 		}
+		else if (i==0) continue;
 		
 		nr = read(rp, buffer, PIPEBUFSIZ);
 		if (nr < 0) {
@@ -1119,13 +1600,16 @@ void waitForData(int rp, int wp)
 		write(wp, dummy, 1);
 	    	exit(1);
 		}
-		if (nr == 0) {
+		if (nr == 0) 
+		{
 		sprintf(dummy, "%d", -1);
 		write(wp, dummy, 1);
-		fprintf (stderr, "Client %d: EOF\n", s);
+		fprintf (stderr, "Data Client %d: EOF\n", s);
 	    	exit(1);
+		continue;
 		}
 		
+		//IDLog("#2 Writing stuff to client\n");
 		for (i=0; i < nr; i+=n)
 		{
 		  n = write(s, buffer + i, nr - i);
@@ -1138,13 +1622,15 @@ void waitForData(int rp, int wp)
 		    		fprintf(stderr, "%s\n", strerror(errno));
 			else
 		    	        fprintf(stderr, "Short write of FITS pixels.\n");
-				
+			
 		       sprintf(dummy, "%d", -1);
 		       write(wp, dummy, 1);
 		       exit(1);
 		  }
 		  
 		}
+		
+		//IDLog("#3 All seems okay in Wait for Data\n");
 		
 	}
 

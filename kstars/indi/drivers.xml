@@ -63,6 +63,10 @@
 		<Exec>v4ldriver</Exec>
 		<Version>0.2</Version>
 	</device>
+	<device label="Philips Webcam" driver="v4lphilips">
+		<Exec>v4lphilips</Exec>
+		<Version>0.1</Version>
+	</device>
 </devGroup>
 
 

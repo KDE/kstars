@@ -29,6 +29,7 @@
 #include <qpainter.h>
 #include <qstringlist.h>
 #include <qdir.h>
+#include <qlayout.h>
 
 
 #include <stdlib.h>
@@ -48,8 +49,9 @@ FILE *wfp;
 //   streamFD       = -1;
    processStream  = colorFrame = false;
    
-   streamFrame    = new VideoWG(videoFrame);
-   
+   //videoFrameLayout = new QVBoxLayout(videoFrame, 0, 0); 
+   streamFrame      = new VideoWG(videoFrame);
+      
   KIconLoader *icons = KGlobal::iconLoader();
   
   playPix    = icons->loadIcon( "player_play", KIcon::Toolbar );
@@ -134,12 +136,8 @@ void StreamWG::setSize(int wd, int ht)
   streamWidth  = wd;
   streamHeight = ht;
   
-  //kdDebug() << "BEFORE Main widget width " << width() << " -- Height " << height() << endl;
-  resize(wd , ht + playB->height());
+  resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 2 + layout()->spacing());  
   streamFrame->resize(wd, ht);
-  
-  //kdDebug() << "Main widget width " << width() << " -- Height " << height() << endl;
-  //kdDebug() << "Stream width " << streamFrame->width() << " -- Height " << streamFrame->height() << endl;
 }
 
 void StreamWG::resizeEvent(QResizeEvent *ev)
@@ -303,7 +301,7 @@ void VideoWG::paintEvent(QPaintEvent *ev)
    {
 	if (streamImage->isNull()) return;
   	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	qPix = kPixIO.convertToPixmap(streamImage->smoothScale(width(), height()));
+	qPix = kPixIO.convertToPixmap(streamImage->scale(width(), height()));
 	delete (streamImage);
 	streamImage = NULL;
    }

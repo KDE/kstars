@@ -283,6 +283,14 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       numberFormat(iNumber, lp->format.ascii(), lp->value);
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
+	       if (lp->spin_w)
+	       {
+	         kdDebug() << "We have element " << lp->label << endl;
+		 kdDebug() << "With new value " << lp->text << " and in numeric form " << lp->value << endl;
+		 
+	         lp->spin_w->setValue(lp->value);
+	       }
+		 
 	       ap = findXMLAtt (ep, "min");
 	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
 	       ap = findXMLAtt (ep, "max");

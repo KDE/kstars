@@ -31,16 +31,31 @@ bool grey_;
 int frameRate_;
 bool usingTimer;
 bool streamActive;
+bool frameUpdate;
+int  selectCallBackID;
+int  timerCallBackID;
 unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer;
 
-int connectCam(const char * devpath,int preferedPalette,
-                 unsigned long options /* cf QCamV4L::options */) {
-   options_=options;
+enum Options {
+      ioNoBlock=(1<<0),
+      ioUseSelect=(1<<1),
+      haveBrightness=(1<<2),
+      haveContrast=(1<<3),
+      haveHue=(1<<4),
+      haveColor=(1<<5),
+      haveWhiteness=(1<<6) };
+   
+int connectCam(const char * devpath,int preferedPalette)
+{
+   options_= (haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
    tmpBuffer_=NULL;
    frameRate_=10;
    device_=-1;
    usingTimer = false;
    streamActive = true;
+   frameUpdate = true;
+   selectCallBackID = -1;
+   timerCallBackID  = -1;
    
    cerr << "In connect Cam with device " << devpath << endl;
    if (-1 == (device_=open(devpath,
@@ -76,14 +91,14 @@ int connectCam(const char * devpath,int preferedPalette,
    //notifier_=NULL;
    //timer_=NULL;
    if (options_&ioUseSelect) {
-      addCallback(device_, updateFrame, NULL);
+      selectCallBackID = addCallback(device_, updateFrame, NULL);
       //notifier_ = new QSocketNotifier(device_, QSocketNotifier::Read, this);
       //connect(notifier_,SIGNAL(activated(int)),this,SLOT(updateFrame()));
      cerr << "Using select to wait new frames." << endl;
    } else {
       //timer_=new QTimer(this);
       usingTimer = true;
-      addTimer(1000/frameRate_, callFrame, NULL);
+      timerCallBackID = addTimer(1000/frameRate_, callFrame, NULL);
       //connect(timer_,SIGNAL(timeout()),this,SLOT(updateFrame()));
       //timer_->start(1000/frameRate_) ; // value 0 => called every time event loop is empty
       cerr << "Using timer to wait new frames.\n";
@@ -299,7 +314,8 @@ bool dropFrame() {
    }
 }
 
-void updateFrame(int d, void * p) {
+void updateFrame(int d, void * p) 
+{
    p=p; d=d;
    static unsigned char nullBuf[640*480];
    bool res;
@@ -318,7 +334,8 @@ void updateFrame(int d, void * p) {
       //setTime();
       res=true;
       
-      switch (picture_.palette) {
+      switch (picture_.palette) 
+      {
       case VIDEO_PALETTE_GREY:
          memcpy(YBuf,mmapLastFrame(),window_.width * window_.height);
          break;
@@ -352,17 +369,19 @@ void updateFrame(int d, void * p) {
          cerr << "invalid palette "<<picture_.palette<<endl;
          exit(1);
       }
-   } else {
-   switch (picture_.palette) {
-   case VIDEO_PALETTE_GREY:
-      res = 0 < read(device_,YBuf,window_.width * window_.height);
-      //if (res) setTime();
-      break;
-   case VIDEO_PALETTE_YUV420P:
-      res = 0 < read(device_,YBuf,window_.width * window_.height);
-      //if (res) setTime();
-      res = res && (0 < read(device_,UBuf,(window_.width/2) * (window_.height/2)));
-      res = res && (0 < read(device_,VBuf,(window_.width/2) * (window_.height/2)));
+   }
+   else
+   {
+      switch (picture_.palette)
+      {
+       case VIDEO_PALETTE_GREY:
+            res = 0 < read(device_,YBuf,window_.width * window_.height);
+            break;
+	    
+       case VIDEO_PALETTE_YUV420P:
+            res = 0 < read(device_,YBuf,window_.width * window_.height);
+            res = res && (0 < read(device_,UBuf,(window_.width/2) * (window_.height/2)));
+            res = res && (0 < read(device_,VBuf,(window_.width/2) * (window_.height/2)));
       break;
 #if 0
    case VIDEO_PALETTE_YUV420:
@@ -388,36 +407,16 @@ void updateFrame(int d, void * p) {
       }
       break;
 #endif
-   default:
-      cerr << "invalid palette "<<picture_.palette<<endl;
-      exit(1);
+    default:
+         cerr << "invalid palette "<<picture_.palette<<endl;
+         exit(1);
+     }
    }
-   }
-   if (res) {
-      //newFrameAvaible();
-      //cout <<"b"<<flush;
-      /*
-        if (options_ & haveBrightness) emit brightnessChange(getBrightness());
-        if (options_ & haveContrast) emit contrastChange(getContrast());
-        if (options_ & haveHue) emit hueChange(getHue());
-        if (options_ & haveColor) emit colorChange(getColor());
-        if (options_ & haveWhiteness) emit whitenessChange(getWhiteness());
-      */
-      //cerr << "+";
-   } else {
-      //newFrameAvaible();
-      //cerr("updateFrame");
-      //cerr << ".";
-   }
-   //cout <<"k"<<flush;
-   /*int newFrameRate=getFrameRate();
-   if (frameRate_ != newFrameRate) {
-      frameRate_=newFrameRate;
-      
-   }*/
-   //return res;
+   
    if (usingTimer)
-       addTimer(1000/frameRate_, callFrame, NULL);
+       timerCallBackID = addTimer(1000/frameRate_, callFrame, NULL);
+     
+   frameUpdate = res;  
 }
 
 void setContrast(int val) {
@@ -467,25 +466,35 @@ int getWhiteness() {
 
 void disconnectCam()
 {
+   streamActive = false;
    delete tmpBuffer_;
    delete YBuf;
    delete UBuf;
    delete VBuf;
    tmpBuffer_ = YBuf = UBuf = VBuf = NULL;
-   streamActive = false;
-   munmap (mmap_buffer_, mmap_mbuf_.size);
-   close(device_);
+   
+   if (usingTimer && timerCallBackID != -1)
+     rmTimer(timerCallBackID);
+     
+   if (munmap (mmap_buffer_, mmap_mbuf_.size) < 0)
+     fprintf(stderr, "munmap: %s\n", strerror(errno));
+     
+   if (close(device_) < 0)
+     fprintf(stderr, "close(device_): %s\n", strerror(errno));
+     
    fprintf(stderr, "Disconnect cam\n");
 }
 
-void updatePictureSettings() {
+void updatePictureSettings()
+{
    if (ioctl(device_, VIDIOCSPICT, &picture_) ) {
       cerr << "updatePictureSettings" << endl;
    }
    ioctl(device_, VIDIOCGPICT, &picture_);
 }
 
-void refreshPictureSettings() {
+void refreshPictureSettings()
+{
    if (ioctl(device_, VIDIOCGPICT, &picture_) ) {
       cerr << "refreshPictureSettings" << endl;
    }
@@ -512,7 +521,8 @@ void setGrey(bool val) {
    //yuvBuffer_.setGrey(grey_);
 }
 
-bool mmapInit() {
+bool mmapInit()
+{
    mmap_mbuf_.size = 0;
    mmap_mbuf_.frames = 0;
    mmap_last_sync_buff_=-1;
@@ -531,10 +541,10 @@ bool mmapInit() {
       mmap_buffer_=NULL;
       return false;
    }
-   cerr << "mmap() in use: "
+  /* cerr << "mmap() in use: "
         << "frames="<<mmap_mbuf_.frames
-      //<<" size="<<mmap_mbuf_.size
-        <<"\n";
+       <<" size="<<mmap_mbuf_.size
+        <<"\n";*/
    /*
    for(int i=0;i<mmap_mbuf_.frames;++i) {
       cout << i<<"="<<mmap_mbuf_.offsets[i]<<"  ";
@@ -543,14 +553,22 @@ bool mmapInit() {
    return true;
 }
 
-void mmapSync() {
+void mmapSync()
+{
+   if (!streamActive) return;
+   //cerr << "In mmapSync " << endl;
+   
    mmap_last_sync_buff_=(mmap_last_sync_buff_+1)%mmap_mbuf_.frames;
    if (ioctl(device_, VIDIOCSYNC, &mmap_last_sync_buff_) < 0) {
-      cerr << "QCamV4L::mmapSync()" << endl;
+      cerr << "Error QCamV4L::mmapSync()" << endl;
    }
 }
 
-unsigned char * mmapLastFrame() {
+unsigned char * mmapLastFrame()
+{
+   if (!streamActive) return NULL;
+  //cerr << "in mmapLastFrame " << endl;
+   
    return mmap_buffer_ + mmap_mbuf_.offsets[mmap_last_sync_buff_];
 #if 0
    if (mmap_curr_buff_ == 1 ) {
@@ -563,7 +581,11 @@ unsigned char * mmapLastFrame() {
 #endif
 }
 
-void mmapCapture() {
+void mmapCapture() 
+{
+   if (!streamActive) return;
+   //cerr << "in mmapCapture " << endl;
+   
    struct video_mmap vm;
    mmap_last_capture_buff_=(mmap_last_capture_buff_+1)%mmap_mbuf_.frames;
    vm.frame = mmap_last_capture_buff_;
@@ -571,7 +593,7 @@ void mmapCapture() {
    vm.width = window_.width;
    vm.height = window_.height;
    if (ioctl(device_, VIDIOCMCAPTURE, &vm) < 0) {
-      cerr << "QCamV4L::mmapCapture" << endl;
+      cerr << "Error QCamV4L::mmapCapture" << endl;
    }
 }
 
@@ -593,6 +615,8 @@ unsigned char * getV()
 
 unsigned char * getColorBuffer()
 {
+  //cerr << "in get color buffer " << endl;
+  
   ccvt_420p_bgr32(window_.width, window_.height,
                       YBuf, UBuf , VBuf, (void*)colorBuffer);
 

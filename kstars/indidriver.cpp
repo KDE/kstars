@@ -134,9 +134,29 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
         affectedItem->setPixmap(0, disconnected);
 	connectHostB->setEnabled(true);
         disconnectHostB->setEnabled(false);
-	break;
+	return;
      }
  }
+ 
+  for (uint i=0; i < devices.size(); i++)
+  {
+    if (devices[i]->mgrID == mgrID)
+    {
+      affectedItem = localListView->findItem(devices[i]->label, 0);
+      if (!affectedItem) return;
+      affectedItem->setPixmap(1, stopPix);
+      affectedItem->setPixmap(2, NULL);
+      affectedItem->setText(4, QString(""));
+      runServiceB->setEnabled(true);
+      stopServiceB->setEnabled(false);
+      devices[i]->managed = false;
+      devices[i]->restart();
+      return;
+	
+    }
+  }
+      
+          
 }
 
 void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p, int column)

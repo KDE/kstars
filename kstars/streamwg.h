@@ -24,6 +24,7 @@
  class VideoWG;
  class INDIStdDevice;
  class QPainter;
+ class QVBoxLayout;
  
  class StreamWG : public streamForm
  {
@@ -48,6 +49,7 @@
    private:
    INDIStdDevice        *stdDev;
    QPixmap               playPix, pausePix, capturePix;
+   QVBoxLayout           *videoFrameLayout;
    
    protected:
    void closeEvent ( QCloseEvent * e );

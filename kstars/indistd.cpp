@@ -73,6 +73,9 @@
  
  INDIStdDevice::~INDIStdDevice()
  {
+   streamWindow->enableStream(false);
+   streamWindow->close();
+   streamDisabled();
    free(streamBuffer);
    free(compressedBuffer);
  }
@@ -145,6 +148,7 @@ void INDIStdDevice::streamReceived()
    int nr=0, n=0, r;
    unsigned int newCompressSize, newFrameSize, fullFrameSize;
    
+   //kdDebug() << "We're in stream recevied... " << endl;
    /* #1 Read first the frame size in bytes */
    for (int i=0; i < FRAME_ILEN; i+=n)
    {
@@ -152,9 +156,9 @@ void INDIStdDevice::streamReceived()
      if (n <= 0)
 	   {
 	    	if (n < 0)
-			sprintf (msg, "INDI: input error.");
+			sprintf (msg, "INDI Data: input error.");
 	    	else
-			sprintf (msg, "INDI: agent closed connection.");
+			sprintf (msg, "INDI Data: agent closed connection.");
 
 	    sNotifier->disconnect();
 	    close(streamFD);
@@ -215,7 +219,7 @@ void INDIStdDevice::streamReceived()
     }
    }
    
-    //kdDebug() << "Will read actual frame now ... " << endl;
+   // kdDebug() << "Will read actual frame now ... " << endl;
    
     /* #2 Read actual frame */    
     for (nr = 0; nr < totalCompressedBytes; nr+=n)
@@ -235,7 +239,7 @@ void INDIStdDevice::streamReceived()
             return;
 	   }
 	   
-	   if (dataType == DATA_FITS || dataType == DATA_OTHER)
+	   if (dataType != DATA_STREAM)
 	   {
 	       downloadDialog->progressBar()->setProgress(nr);
 	       kapp->eventLoop()->processEvents(QEventLoop::ExcludeSocketNotifiers);
@@ -329,6 +333,8 @@ void INDIStdDevice::streamReceived()
        fv->show();
        
     }
+    
+   // kdDebug() << "We're done from streamReceived" << endl;
        
 
 }
@@ -411,8 +417,12 @@ void INDIStdDevice::streamReceived()
       {
         if (streamWindow)
 	{
+	  //sNotifier->disconnect();
+	  //dp->parentMgr->sNotifier->disconnect();
 	  streamWindow->enableStream(false);
 	  streamWindow->close();
+	  
+	    //close(streamFD);
 	}
        	ksw->map()->forceUpdateNow();
         emit linkRejected();
@@ -469,13 +479,20 @@ void INDIStdDevice::streamReceived()
  void INDIStdDevice::streamDisabled()
  {
     INDI_P *pp;
+    INDI_E *el;
     
-    pp = dp->findProp("CONNECTION");
-    if (!pp) return;
-    if (pp->state == PS_OFF) return;
+    //pp = dp->findProp("CONNECTION");
+    //if (!pp) return;
+    //if (pp->state == PS_OFF) return;
     
     pp = dp->findProp("VIDEO_STREAM");
     if (!pp) return;
+    
+    el = pp->findElement("OFF");
+    if (!el) return;
+    
+    if (el->state == PS_ON)
+     return;
     
     // Turn stream off
     pp->newSwitch(1); 
@@ -895,14 +912,19 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 bool INDIStdProperty::newSwitch(int id, INDI_E* el)
 {
   INDI_P *prop;
-  id=id; el=el;
+  el=el; 
 
   switch (pp->stdID)
   {
-    case CONNECTION:      
-      prop = pp->pg->dp->findProp("DEVICE_PORT");
-      if (prop)
-      prop->newText();
+    case CONNECTION: 
+      if (id == 1)
+        stdDev->streamDisabled();
+      else
+      { 
+       prop = pp->pg->dp->findProp("DEVICE_PORT");
+       if (prop)
+       prop->newText();
+      }
       break;
     case ABORT_MOTION:
     case PARK:

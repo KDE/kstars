@@ -1,33 +1,20 @@
-#ifndef _QCamV4L_hpp_
-#define _QCamV4L_hpp_
+#ifndef QCAMV4L_H
+#define QCAMV4L_H
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <linux/types.h>
 #include <linux/videodev.h>
 
-enum Options {
-      ioNoBlock=(1<<0),
-      ioUseSelect=(1<<1),
-      haveBrightness=(1<<2),
-      haveContrast=(1<<3),
-      haveHue=(1<<4),
-      haveColor=(1<<5),
-      haveWhiteness=(1<<6) };
-   
-static const int DefaultOptions=(haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
-   
-//static QCam * openBestDevice(const char * devpath = "/dev/video0");
-int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/, unsigned long options =  DefaultOptions /* cf QCamV4L::options */);
+int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/);
 void disconnectCam();
 char * getDeviceName();
 
 /* Image settings */
-int getBrightness();
-int getContrast();
-int getColor();
-int getHue();
-int getWhiteness();
+int  getBrightness();
+int  getContrast();
+int  getColor();
+int  getHue();
+int  getWhiteness();
 void setContrast(int val);
 void setBrightness(int val);
 void setColor(int val);
@@ -68,3 +55,4 @@ unsigned char * getColorBuffer();
 
 
 #endif
+

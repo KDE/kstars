@@ -1,4 +1,4 @@
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd v4ldriver
+bin_PROGRAMS = indiserver lx200generic celestrongps fliccd v4ldriver v4lphilips
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c
@@ -19,6 +19,9 @@ fliccd_LDADD = fli/libfli.la lzo/libminilzo.la libindicom.a liblilxml.a -lm
 
 v4ldriver_SOURCES = eventloop.c indidrivermain.c v4ldriver.cpp
 v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la lzo/libminilzo.la
+
+v4lphilips_SOURCES = eventloop.c indidrivermain.c v4lphilips.cpp
+v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la lzo/libminilzo.la
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
