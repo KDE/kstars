@@ -97,8 +97,9 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
 {
     currentURL = *url;
-    imgBuffer = NULL;
-    Dirty = 0;
+    imgBuffer  = NULL;
+    histo      = NULL;
+    Dirty      = 0;
 
     /* Setup image widget */    
     image = new FITSImage(this);
@@ -110,8 +111,8 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return; }
     /* Initiliaze menu actions */
     history = new KCommandHistory(actionCollection());
-    history->setUndoLimit(5);
-    history->setRedoLimit(5);
+    history->setUndoLimit(10);
+    history->setRedoLimit(10);
     history->documentSaved();
     connect(history, SIGNAL(documentRestored()), this, SLOT(fitsRestore()));
     
@@ -172,7 +173,7 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
    calculateStats();
      
    /* initially resize in accord with KDE rules */
-   resize(640, 480);
+   resize(640, 480); 
 }
 
 FITSViewer::~FITSViewer()
@@ -233,16 +234,16 @@ void FITSViewer::show_fits_errors()
      KMessageBox::error(0, msg);
 }
 
-unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
+float * FITSViewer::loadData(const char *filename, float *buffer)
 {
   FILE *fp;
   FITS_FILE *ifp;
   FITS_HDU_LIST *hdulist;
   unsigned char *tempData, *tempDataPtr;
-  register FITS_BITPIX16  pixval_16;
-  register FITS_BITPIX32  pixval_32;
-  register FITS_BITPIXM32 pixval_m32;
-  register FITS_BITPIXM64 pixval_m64;
+  register FITS_BITPIX16  pixval_16  =0;
+  register FITS_BITPIX32  pixval_32  =0;
+  register FITS_BITPIXM32 pixval_m32 =0;
+  register FITS_BITPIXM64 pixval_m64 =0;
   
   int width, height, bpp, bitpix;
  
@@ -275,8 +276,8 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
   height = hdulist->naxisn[1];
   bpp    = hdulist->bpp;
   bitpix = hdulist->bitpix;
-
-  buffer           = (unsigned int   *) malloc (height * width * sizeof(unsigned int )); 
+  
+  buffer           = (float          *) malloc (height * width * sizeof(float)); 
   tempData         = (unsigned char  *) malloc (height * width * bpp * sizeof(unsigned char));
   if (buffer == NULL || tempData == NULL)
   {
@@ -285,19 +286,22 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
   }
   tempDataPtr      = tempData;
   
-  fread(tempData, 1, width * height * bpp, ifp->fp); 
+  if (fread(tempData, 1, width * height * bpp, ifp->fp) != (width * height * bpp))
+  {
+    KMessageBox::error(0, i18n("Unable to read FITS data from file. %1.\n").arg(strerror(errno)));
+    return (NULL);
+  }
   
   switch (bitpix)
   {
    case 8:
     for (int i=0; i < width * height; i++)
-      buffer[i] = (int) tempData[i];
+      buffer[i] = tempData[i];
     break;
     
    case 16:
     for (int i=0; i < height * width ; i++)
     {
-       
        FITS_GETBITPIX16(tempData, pixval_16);
        buffer[i] = ntohs(pixval_16);
        tempData+=2;
@@ -308,7 +312,9 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
    for (int i=0; i < width * height ; i++)
     {
     FITS_GETBITPIX32(tempData, pixval_32);
-    buffer[i] = ntohl(pixval_32);
+    pixval_32 = ntohl(pixval_32);
+    if (isnan(pixval_32)) pixval_32 = 0;
+    buffer[i] = pixval_32;
     tempData+=4;
    }
     break;
@@ -316,8 +322,11 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
    case -32:
    for (int i=0; i < width * height ; i++)
     {
-    FITS_GETBITPIXM32(tempData, pixval_m32);
-    buffer[i] = pixval_m32;
+    if (fits_nan_32 (tempData))
+     pixval_m32 = 0;
+    else
+     FITS_GETBITPIXM32(tempData, pixval_m32);
+    buffer[i] = pixval_m32;    
     tempData+=4;
     }
     break;
@@ -325,7 +334,10 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
     case -64:
     for (int i=0; i < width * height ; i++)
     {
-    FITS_GETBITPIXM64(tempData, pixval_m64);
+    if (fits_nan_64 (tempData))
+     pixval_m64 = 0;
+    else
+     FITS_GETBITPIXM64(tempData, pixval_m64);
     buffer[i] = pixval_m64;
     tempData+=8;
    }
@@ -461,7 +473,7 @@ void FITSViewer::fileSave()
   FITS_FILE *ifp;
   QString recordList;
   KURL backupCurrent = currentURL;
-  int k=0;
+  int k=0, index=0;
   
   QString currentDir = Options::fitsSaveDirectory();
   
@@ -503,20 +515,24 @@ void FITSViewer::fileSave()
     	
 	setbuf(ifp->fp, NULL);
 	
-	recordList = QString((char *) record);
-	recordList.replace(recordList.find("BITPIX"), 80, "BITPIX  =                    8 /Modified by KStars                              ");
+	for (int i=0; i < record.count(); i++)
+	{
+	  recordList = record[i];
+	  
+	  if ( (index = recordList.find("BITPIX")) != -1)
+	  	recordList.replace(index, FITS_CARD_SIZE, "BITPIX  =                    8 /Modified by KStars                              ");
 	
-	memcpy(record , recordList.ascii(), FITS_RECORD_SIZE);
+	  fwrite(recordList.ascii(), 1, FITS_RECORD_SIZE, ifp->fp);
+        }
 	
-	fwrite(record, 1, FITS_RECORD_SIZE, ifp->fp);
-	if (recordList.findRev("END") == -1)
+	/*if (record.last() != QString("END"))
 	{
 		fputs("END", ifp->fp);
 		k =  3;
 	
 	        while (k++ < FITS_RECORD_SIZE)
           	putc (' ', ifp->fp);
-	}
+	}*/
 	
 	for (int i= image->height - 1; i >= 0; i--)
 		fwrite(image->displayImage->scanLine(i), 1, image->width, ifp->fp);
@@ -566,9 +582,10 @@ void FITSViewer::updateImgBuffer()
 
 void FITSViewer::imageReduction()
 {
-  fitsChangeCommand *cbc;
-  QStringList darkFiles, flatFiles;
-  int darkCombineMode = 0 , flatCombineMode = 0;
+  FITSProcessCommand *cbc;
+  FITSHistogramCommand *hbc;
+  QStringList darkFiles, flatFiles, darkflatFiles;
+  int darkCombineMode = 0 , flatCombineMode = 0, darkflatCombineMode =0;
   QListViewItem *file;
   
   image->saveTemplateImage();
@@ -582,9 +599,10 @@ void FITSViewer::imageReduction()
 	 image->destroyTemplateImage();
 	 return;
 	}
-	 
-    darkCombineMode = irDialog.darkAverageB->isChecked() ? 0 : 1;
-    flatCombineMode = irDialog.flatAverageB->isChecked() ? 0 : 1;
+     
+    darkCombineMode    = irDialog.darkAverageB->isChecked() ? 0 : 1;
+    flatCombineMode    = irDialog.flatAverageB->isChecked() ? 0 : 1;
+    darkflatCombineMode= irDialog.darkflatAverageB->isChecked() ? 0 : 1;
     
     file = irDialog.darkListView->firstChild();
     while (file)
@@ -600,14 +618,21 @@ void FITSViewer::imageReduction()
       file = file->nextSibling();
     }
     
-    FITSProcess reduc(this, darkFiles, flatFiles, darkCombineMode, flatCombineMode);
-    calculateStats();
-    image->rescale(FITSImage::FITSLinear, (int) stats.min, (int) stats.max);
-    
-    fitsChange();
-    cbc = new fitsChangeCommand(this, IMAGE_REDUCTION, image->displayImage, image->templateImage);
-    history->addCommand(cbc, false);
-       
+    file = irDialog.darkflatListView->firstChild();
+    while (file)
+    {
+      darkflatFiles << file->text(0);
+      file = file->nextSibling();
+    }
+      
+      cbc = new FITSProcessCommand(this);
+      FITSProcess reduc(this, darkFiles, flatFiles, darkflatFiles, darkCombineMode, flatCombineMode, darkflatCombineMode);
+      reduc.reduce();
+      history->addCommand(cbc, false);
+      calculateStats();
+      hbc = new FITSHistogramCommand(this, NULL, FITSImage::FITSLinear, stats.min, stats.max);
+      history->addCommand(hbc);
+      fitsChange();
   }
   
   image->destroyTemplateImage();
@@ -616,7 +641,7 @@ void FITSViewer::imageReduction()
 
 void FITSViewer::BrightContrastDlg()
 {
-  fitsChangeCommand *cbc;
+  FITSChangeCommand *cbc;
   image->saveTemplateImage();
   ContrastBrightnessDlg conbriDlg(this);
     
@@ -629,7 +654,7 @@ void FITSViewer::BrightContrastDlg()
   {
     fitsChange();
     image->update();
-    cbc = new fitsChangeCommand(this, CONTRAST_BRIGHTNESS, image->displayImage, image->templateImage);
+    cbc = new FITSChangeCommand(this, CONTRAST_BRIGHTNESS, image->displayImage, image->templateImage);
     history->addCommand(cbc, false);
 
   }
@@ -641,7 +666,7 @@ void FITSViewer::BrightContrastDlg()
 void FITSViewer::imageHistogram()
 {
 
-  /*histCommand *histC;
+  /*FITSHistogramCommand *histC;
   unsigned int * backupBuf = (unsigned int *) malloc (image->width * image->height * sizeof(unsigned int));
   if (backBuf == NULL)
   {
@@ -650,10 +675,21 @@ void FITSViewer::imageHistogram()
   }
   memcpy(backupBuf, imgBuffer, width * height);*/
    
-  image->saveTemplateImage();
-  FITSHistogram hist(this);
+  //image->saveTemplateImage();
+  
+  if (histo == NULL)
+  {
+    histo = new FITSHistogram(this);
+    histo->show();
+  }
+  else
+  {
+    histo->constructHistogram(imgBuffer);
+    histo->updateBoxes();
+    histo->show();
+  }
     
-  if (hist.exec() == QDialog::Rejected)
+  /*if (hist.exec() == QDialog::Rejected)
   {
     if (hist.napply > 0)
       for (int i=0; i < hist.napply; i++)
@@ -668,12 +704,12 @@ void FITSViewer::imageHistogram()
   else
   {
     if (hist.napply > 0) fitsChange();
-    //histC = new histCommand(this, hist.type, backupBuf, image->displayImage, image->templateImage);
+    //histC = new FITSHistogramCommand(this, hist.type, backupBuf, image->displayImage, image->templateImage);
     //history->addCommand(histC, false);
 
   }
   
-  image->destroyTemplateImage();
+  image->destroyTemplateImage();*/
   
 }
 
@@ -719,50 +755,50 @@ void FITSViewer::fitsHeader()
 
    fitsHeaderDialog header(this);
    header.headerView->setSorting(-1);
+   header.headerView->setColumnAlignment(1, Qt::AlignHCenter);
    
    //fprintf(stderr, "%s", image->hdl->header_record_list->data);
-   
-   recordList = QString((char *) record);
-   
-   for (int i=0; i < FITS_RECORD_SIZE / FITS_CARD_SIZE; i++)
+   for (int i=0; i < record.count(); i++)
    {
-     property = recordList.left(FITS_CARD_SIZE);
-     
-     equal = property.find('=');
-     cards << property.left(equal);
-     slash = property.find("'");
-     if (slash != -1)
-       slash = property.find("'", slash + 1) + 1;
-     else
-       slash = property.find('/') - 1;
+     recordList = record[i];
+     //recordList = QString((char *) record);
+   
+   	for (int j=0; j < FITS_RECORD_SIZE / FITS_CARD_SIZE; j++)
+   	{
+     	       property = recordList.left(FITS_CARD_SIZE);
+	       
+	       equal = property.find('=');
+	       
+	       if (equal == -1)
+	       {
+	        if (property.contains(" ") != FITS_CARD_SIZE)
+	         	cards << property << "" << "";
+		 recordList.remove(0, FITS_CARD_SIZE);
+		 if (property.find("END") != -1)
+		  break;
+		 else
+		  continue;
+	       }
+	       
+	       
+     	       cards << property.left(equal);
+     	       slash = property.find("'");
+     	       if (slash != -1)
+       		slash = property.find("'", slash + 1) + 1;
+     	       else
+       		slash = property.find('/') - 1;
        
-     cards << property.mid(equal + 2, slash - (equal + 2));
-     cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1));
-     
-     recordList.remove(0, FITS_CARD_SIZE);
+     		cards << property.mid(equal + 2, slash - (equal + 2)).simplifyWhiteSpace().remove("'");
+     		cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1)).simplifyWhiteSpace();
+		recordList.remove(0, FITS_CARD_SIZE);
+		
+	}
+	
    }
    
-   //kdDebug() << "Testing " << cards[0] << " -- " << cards[1] << " -- " << cards[2] << endl;
-   //kdDebug() << "Testing " << cards[3] << " -- " << cards[4] << " -- " << cards[5] << endl;
-   
-   for (int i= cards.count() - 3; i >=0 ; i-=3)
-       new QListViewItem( header.headerView, cards[i], cards[i+1], cards[i+2]);
-   
-      
-  /* if (image->hdulist->used.datamax)
-    new QListViewItem( header.headerView, "DATAMAX", QString("%1").arg(image->hdulist->datamax));
-   if (image->hdulist->used.datamin)
-    new QListViewItem( header.headerView, "DATAMIN", QString("%1").arg(image->hdulist->datamin));
-   if (image->hdulist->used.bzero)
-    new QListViewItem( header.headerView, "BZERO", QString("%1").arg(image->hdulist->bzero));
-      if (image->hdulist->used.bscale)
-    new QListViewItem( header.headerView, "BSCALE", QString("%1").arg(image->hdulist->bscale));
-    
-   new QListViewItem( header.headerView, "NAXIS2", QString("%1").arg(image->hdulist->naxisn[1]));
-   new QListViewItem( header.headerView, "NAXIS1", QString("%1").arg(image->hdulist->naxisn[0]));
-   new QListViewItem( header.headerView, "NAXIS", QString("%1").arg(image->hdulist->naxis)); 
-   new QListViewItem( header.headerView, "BITPIX", QString("%1").arg(image->hdulist->bitpix));
-   new QListViewItem( header.headerView, "SIMPLE", image->hdulist->used.simple ? "T" : "F");*/
+   for (int k= cards.count() - 3; k >=0 ; k-=3)
+       		   new QListViewItem( header.headerView, cards[k], cards[k+1], cards[k+2]);
+  
    
    header.exec();
 
@@ -777,7 +813,7 @@ void FITSViewer::fitsFilter()
 
 }
 
-fitsChangeCommand::fitsChangeCommand(QWidget * parent, int inType, QImage* newIMG, QImage *oldIMG)
+FITSChangeCommand::FITSChangeCommand(QWidget * parent, int inType, QImage* newIMG, QImage *oldIMG)
 {
   viewer    = (FITSViewer *) parent;
   newImage  = new QImage();
@@ -787,9 +823,9 @@ fitsChangeCommand::fitsChangeCommand(QWidget * parent, int inType, QImage* newIM
   type = inType;
 }
 
-fitsChangeCommand::~fitsChangeCommand() {}
+FITSChangeCommand::~FITSChangeCommand() {}
             
-void fitsChangeCommand::execute()
+void FITSChangeCommand::execute()
 {
 
   viewer->image->displayImage = newImage;
@@ -798,7 +834,7 @@ void fitsChangeCommand::execute()
 
 }
 
-void fitsChangeCommand::unexecute()
+void FITSChangeCommand::unexecute()
 {
 
   viewer->image->displayImage = oldImage;
@@ -806,7 +842,7 @@ void fitsChangeCommand::unexecute()
 
 }
 
-QString fitsChangeCommand::name() const
+QString FITSChangeCommand::name() const
 {
    switch (type)
    {

@@ -32,10 +32,13 @@
      public slots:
      void addDarkFile();
      void addFlatFile();
+     void addDarkFlatFile();
      void removeDarkFile();
      void removeFlatFile();
+     void removeDarkFlatFile();
      void detailsDarkFile();
      void detailsFlatFile();
+     void detailsDarkFlatFile();
 
 };
 

@@ -20,6 +20,7 @@
  
  #include <qptrlist.h>
  #include <qstringlist.h>
+ #include <kcommand.h>
  
  /*1. QPtrList<unsigned int *> darkFrames;
       2. QPtrList<unsigned int *> flatFrames;
@@ -30,33 +31,54 @@
       7. void divide(unsigned int * img1, unsigned int * img2); we know numOfPixels already.*/
 
 class FITSViewer;
+class QImage;
 
 class FITSProcess
 {
    public:
-     FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, int darkMode, int flatMode);
+     FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode);
      ~FITSProcess();
      
-     QPtrList<unsigned int> darkFrames;
-     QPtrList<unsigned int> flatFrames;
+     QPtrList<float> darkFrames;
+     QPtrList<float> flatFrames;
+     QPtrList<float> darkflatFrames;
      FITSViewer *viewer;
      
+     int npix;
      int darkCombineMode;
      int flatCombineMode;
+     int darkflatCombineMode;
+     float *finalDark;
+     float *finalFlat;
+     float *finalDarkFlat;
      
-     void combine(QPtrList<unsigned int *> list, int mode);
-     void subtract(unsigned int * img1, unsigned int * img2);
-     void divide(unsigned int * img1, unsigned int * img2);
+     float * combine(QPtrList<float> & frames, int mode);
+     void subtract(float * img1, float * img2);
+     void divide(float * img1, float * img2);
+     void reduce();
+     void normalize(float *buf);
+     float quick_select(float * arr, int n);
+     float average(float * array, int n);
+     float min(float *buf);
      
 };
 
-
+class FITSProcessCommand : public KCommand
+{
+  public:
+  
+  FITSProcessCommand(FITSViewer *parent);
+  ~FITSProcessCommand();
  
+  void execute();
+  void unexecute();
+  QString name() const;
+  
+  private:
+  FITSViewer *viewer;
+  float * buffer;
+  QImage *oldImage;
  
- 
- 
+};
  
 #endif
-
-
- 

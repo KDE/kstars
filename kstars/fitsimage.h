@@ -48,11 +48,13 @@ class FITSImage : public QScrollView  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
-	friend class fitsChangeCommand;
+	friend class FITSProcess;
+	friend class FITSFrame;
 	friend class FITSViewer;
 	friend class FITSHistogram;
-	friend class histCommand;
-	friend class FITSFrame;
+	friend class FITSHistogramCommand;
+	friend class FITSChangeCommand;
+	friend class FITSProcessCommand;
 	
 	FITSImage(QWidget * parent, const char * name = 0);
 	~FITSImage();
@@ -88,11 +90,7 @@ class FITSImage : public QScrollView  {
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
-	void rescale(scaleType type, int min, int max);		/* rescale image from main image buffer */
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
-	void updateReducedBuffer();				/* Updates the reduced buffer */
-	int min();
-	int max();
 	
 	protected:
 	void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );

@@ -34,7 +34,7 @@
     FITSHistogram(QWidget *parent, const char * name = 0);
     ~FITSHistogram();
     
-    void constructHistogram(unsigned int *buffer);
+    void constructHistogram(float *buffer);
     int  findMax();
     int type;
     int napply;
@@ -42,12 +42,10 @@
     private:
     int histArray[BARS]; 
     double binSize;
-    bool downSample;
 
     FITSViewer * viewer;
     QPixmap *histogram;
-    
-    
+       
     
     protected:
     void paintEvent( QPaintEvent *e);
@@ -62,11 +60,11 @@
     
  };
  
- class histCommand : public KCommand
+ class FITSHistogramCommand : public KCommand
 {
   public:
-        histCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
-	~histCommand();
+        FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
+	~FITSHistogramCommand();
             
         void execute();
         void unexecute();
@@ -77,9 +75,8 @@
         FITSHistogram *histo;
         int type;
 	int min, max;
-	unsigned int *buffer;
+	float *buffer;
         FITSViewer *viewer;
-        QImage *newImage;
 	QImage *oldImage;
 };
  

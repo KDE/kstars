@@ -149,6 +149,8 @@ FITS_DATA     *fits_decode_card (const char *card, FITS_DATA_TYPES data_type);
 char          *fits_search_card (FITS_RECORD_LIST *rl, char *keyword);
 int            fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist,
                                 int npix, FITS_PIX_TRANSFORM *trans, void *buf);
+int 	       fits_nan_32 (unsigned char *v);
+int            fits_nan_64 (unsigned char *v);
 
 char *fits_get_error (void);
 

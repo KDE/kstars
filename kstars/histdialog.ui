@@ -7,7 +7,7 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>4</y>
+            <y>0</y>
             <width>640</width>
             <height>325</height>
         </rect>
@@ -249,23 +249,6 @@
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>okB</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;OK</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
                         <cstring>applyB</cstring>
                     </property>
                     <property name="text">
@@ -286,10 +269,10 @@
                         <cstring>cancelB</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Cancel</string>
+                        <string>&amp;Close</string>
                     </property>
                     <property name="accel">
-                        <string></string>
+                        <string>Alt+C</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -356,12 +339,6 @@
     </grid>
 </widget>
 <connections>
-    <connection>
-        <sender>okB</sender>
-        <signal>clicked()</signal>
-        <receiver>histDialog</receiver>
-        <slot>accept()</slot>
-    </connection>
     <connection>
         <sender>cancelB</sender>
         <signal>clicked()</signal>

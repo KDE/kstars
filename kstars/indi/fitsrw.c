@@ -98,8 +98,8 @@ static FITS_HDU_LIST *fits_new_hdulist (void);
 static void fits_delete_filestruct (FITS_FILE *ff);
 static void fits_delete_recordlist (FITS_RECORD_LIST *rl);
 static void fits_delete_hdulist (FITS_HDU_LIST *hl);
-static int  fits_nan_32 (unsigned char *value);
-static int  fits_nan_64 (unsigned char *value);
+int  fits_nan_32 (unsigned char *value);
+int  fits_nan_64 (unsigned char *value);
 static void fits_set_error (char *errmsg);
 static void fits_drop_error (void);
 static FITS_RECORD_LIST *fits_read_header (FILE *fp, int *nrec);
@@ -333,7 +333,7 @@ static void fits_delete_hdulist (FITS_HDU_LIST *hl)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-static int fits_nan_32 (unsigned char *v)
+int fits_nan_32 (unsigned char *v)
 
 {register unsigned long k;
 
@@ -364,7 +364,7 @@ static int fits_nan_32 (unsigned char *v)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-static int fits_nan_64 (unsigned char *v)
+int fits_nan_64 (unsigned char *v)
 
 {register unsigned long k;
 

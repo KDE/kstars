@@ -20,6 +20,7 @@
  
  #include <kurl.h>
  #include <kfiledialog.h>
+ #include <klocale.h>
  
  #include "imagereductiondlg.h"
  
@@ -31,9 +32,14 @@
   connect(flatRemoveB, SIGNAL(clicked()), this, SLOT(removeFlatFile()));
   connect(darkDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFile()));
   connect(flatDetailsB, SIGNAL(clicked()), this, SLOT(detailsFlatFile()));
+  connect(darkflatAddB, SIGNAL(clicked()), this, SLOT(addDarkFlatFile()));
+  connect(darkflatRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFlatFile()));
+  connect(darkflatDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFlatFile()));
   
   darkListView->setSorting(-1);
   flatListView->setSorting(-1);
+  darkflatListView->setSorting(-1);
+  
 }
 
 ImageReductionDlg::~ImageReductionDlg()
@@ -46,12 +52,10 @@ ImageReductionDlg::~ImageReductionDlg()
 
 void ImageReductionDlg::addDarkFile()
 {
-   KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+   KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
   
-  if (fileURL.isEmpty())
-    return;
-    
-  new QListViewItem( darkListView, fileURL.path());
+  for (int i=0; i < fileURLs.size(); i++)
+  	new QListViewItem( darkListView, fileURLs[i].path());
   
   darkRemoveB->setEnabled(true);
   darkDetailsB->setEnabled(true);
@@ -60,15 +64,26 @@ void ImageReductionDlg::addDarkFile()
 
 void ImageReductionDlg::addFlatFile()
 {
-   KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+   KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
   
-  if (fileURL.isEmpty())
-    return;
-    
-  new QListViewItem( flatListView, fileURL.path());
+  for (int i=0; i < fileURLs.size(); i++) 
+  	new QListViewItem( flatListView, fileURLs[i].path());
   
   flatRemoveB->setEnabled(true);
   flatDetailsB->setEnabled(true);
+
+}
+
+void ImageReductionDlg::addDarkFlatFile()
+{
+     KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
+  
+     for (int i=0; i < fileURLs.size(); i++) 
+  	new QListViewItem( darkflatListView, fileURLs[i].path());
+  
+  darkflatRemoveB->setEnabled(true);
+  darkflatDetailsB->setEnabled(true);
+
 
 }
 
@@ -79,6 +94,16 @@ void ImageReductionDlg::removeDarkFile()
     return;
   
   darkListView->takeItem(darkListView->currentItem());
+
+}
+
+void ImageReductionDlg::removeDarkFlatFile()
+{
+
+  if (darkflatListView->currentItem() == NULL)
+    return;
+  
+  darkflatListView->takeItem(darkflatListView->currentItem());
 
 }
 
@@ -101,6 +126,15 @@ void ImageReductionDlg::detailsDarkFile()
 }
 
 void ImageReductionDlg::detailsFlatFile()
+{
+
+
+
+
+
+}
+
+void ImageReductionDlg::detailsDarkFlatFile()
 {
 
 

@@ -27,6 +27,7 @@
 #include <qframe.h>
 #include <qrect.h> 
 #include <qptrlist.h>
+#include <qstringlist.h>
 #include <qscrollview.h>
 
 #include <kpixmapio.h>
@@ -42,6 +43,7 @@ class KCommandHistory;
 class ContrastBrightnessDlg;
 class QScrollView;
 class FITSImage;
+class FITSHistogram;
 
 class FITSViewer : public KMainWindow  {
 	Q_OBJECT
@@ -49,11 +51,12 @@ class FITSViewer : public KMainWindow  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
-	friend class fitsChangeCommand;
+	friend class FITSChangeCommand;
 	friend class FITSProcess;
 	friend class FITSImage;
 	friend class FITSHistogram;
-	friend class histCommand;
+	friend class FITSHistogramCommand;
+	friend class FITSProcessCommand;
 	
 	/**Constructor. */
 	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
@@ -85,7 +88,7 @@ class FITSViewer : public KMainWindow  {
 	
 	private:
 	//int  loadImage(unsigned int *buffer, bool displayImage = false);
-	unsigned int * loadData(const char * filename, unsigned int *buffer);
+	float * loadData(const char * filename, float *buffer);
 	void show_fits_errors();
 
 	double average();
@@ -96,9 +99,10 @@ class FITSViewer : public KMainWindow  {
 	FITSImage *image;					/* FITS image object */
 	int Dirty;						/* Document modified? */
 	KURL currentURL;					/* FITS File name and path */
-	unsigned int *imgBuffer;				/* Main unmodified FITS data buffer */
+	float *imgBuffer;					/* Main unmodified FITS data buffer */
 	KCommandHistory *history;				/* History for undo/redo */
-	unsigned char *record[FITS_RECORD_SIZE];		/* FITS records */
+	QStringList record;					/* FITS records */
+	FITSHistogram *histo;
 	
 	/* stats struct to hold statisical data about the FITS data */
 	struct {
@@ -112,11 +116,11 @@ class FITSViewer : public KMainWindow  {
 		
 };
 
-class fitsChangeCommand : public KCommand
+class FITSChangeCommand : public KCommand
 {
   public:
-        fitsChangeCommand(QWidget * parent, int inType, QImage *newIMG, QImage *oldIMG);
-	~fitsChangeCommand();
+        FITSChangeCommand(QWidget * parent, int inType, QImage *newIMG, QImage *oldIMG);
+	~FITSChangeCommand();
             
         void execute();
         void unexecute();

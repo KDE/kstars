@@ -41,6 +41,8 @@
  {
    viewer = (FITSViewer *) parent;
    
+   setModal(false);
+   
    minSlider->setMinValue(0);
    minSlider->setMaxValue(BARS-1);
    minSlider->setValue(0);
@@ -51,7 +53,6 @@
    
    type = 0;
    napply=0;
-   downSample = false;
    
    histFrame->setCursor(Qt::CrossCursor);
    histFrame->setMouseTracking(true);
@@ -92,7 +93,7 @@ void FITSHistogram::applyScale()
   int min = minSlider->value();
   int max = maxSlider->value();
   
-  histCommand *histC;
+  FITSHistogramCommand *histC;
   //kdDebug() << "Width " << viewer->image->width << endl;
   
   if (min > max)
@@ -102,67 +103,42 @@ void FITSHistogram::applyScale()
     max  = swap;
   }
   
-  if (downSample)
-  {
-  	min  = min * binSize + viewer->stats.min;
-  	max  = max * binSize + viewer->stats.min;
-  }
+   min  = min * binSize + viewer->stats.min;
+   max  = max * binSize + viewer->stats.min;
+
   
   napply++;
   
-  //kdDebug() << "min " << min << " -- max " << max << endl;
-  
   // Auto
   if (autoR->isOn())
-  {
-    //viewer->image->rescale(FITSImage::FITSAuto, min, max);
     type = 0;
-  }
   // Linear
   else if (linearR->isOn())
-  {
-    //viewer->image->rescale(FITSImage::FITSLinear, min, max);
     type = 1;
-  } 
   // Log
   else if (logR->isOn())
-  {
-    //viewer->image->rescale(FITSImage::FITSLog, min, max);
     type = 2;
-  }
   // Exp
   else if (expoR->isOn())
-  {
-    //viewer->image->rescale(FITSImage::FITSExp, min, max);
     type = 3;
-  }
   else if (sqrtR->isOn())
-  {
-    //viewer->image->rescale(FITSImage::FITSSqrt, min, max);
     type = 4;
-  }
   
-  histC = new histCommand(viewer, this, type, min, max);
+  histC = new FITSHistogramCommand(viewer, this, type, min, max);
   viewer->history->addCommand(histC);
     
 }
  
-void FITSHistogram::constructHistogram(unsigned int * buffer)
+void FITSHistogram::constructHistogram(float * buffer)
 {
   int maxHeight = 0;
   int height    = histFrame->height(); 
   int id;
   int index;
   int range = (viewer->stats.max - viewer->stats.min);
-  //FILE *out;
-  //out = fopen("/home/slovin/test2.txt", "w");
-  
-  //kdDebug() << "#1" << endl; 
-  //if (range > BARS)
-  //{
-    for (int i=0; i < BARS; i++)
+    
+  for (int i=0; i < BARS; i++)
       histArray[i] = 0;
-    downSample = true;
     binSize = ( (double) range / (double) BARS); 
     
     //kdDebug() << "#2" << endl; 
@@ -177,8 +153,6 @@ void FITSHistogram::constructHistogram(unsigned int * buffer)
 	
      }
      
-     //kdDebug() << "#3" << endl; 
-     
      if (binSize < 1)
      for (int i=0; i < BARS - 1; i++)
          if (histArray[i] == 0)
@@ -188,37 +162,6 @@ void FITSHistogram::constructHistogram(unsigned int * buffer)
                 histArray[i] = histArray[i+1];
          }
   
-     //kdDebug() << "#4" << endl; 
-     //for (int i=0; i < 256; i++)
-        //fprintf(out, "%0.2f %d\n", i * binSize, histArray[i]);
-	
-     //fclose(out);
-     
-  //}
-  /*else
-  {
-    for (int i=0; i < BARS; i++)
-      histArray[i] = -1;
-    //thin = abs(range - BARS);
-    binSize = ( (double) range / (double) BARS); 
-    
-    for (int i=0; i < viewer->stats.width * viewer->stats.height; i++)
-    {
-        id = (int) ((buffer[i] - viewer->stats.min) / binSize);
-        if (id >= BARS) id = BARS - 1;
-	if (histArray[id] == -1) histArray[id] = 0;
-        histArray[id]++;
-    }
-    
-    for (int i=0; i < BARS - 1; i++)
-    {
-     if (histArray[i] == -1)
-        histArray[i] = histArray[i+1];
-     kdDebug() << "intensity " << i << " -- frequency " << histArray[i] << endl;
-     }
-  }*/
-  
- //kdDebug() << "height is " << height << endl; 
  maxHeight = findMax() / height;
  
  kdDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
@@ -236,7 +179,6 @@ void FITSHistogram::constructHistogram(unsigned int * buffer)
 
 void FITSHistogram::paintEvent( QPaintEvent *e)
 {
- //FIXME fix this, no tolerance
   int height    = histFrame->height(); 
   int xMin = minSlider->value(), xMax = maxSlider->value();
   
@@ -268,14 +210,7 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
   if (x < 0 || x >= BARS || y < 0 || y > histFrame->height() )
    return;
   
-  //kdDebug() << "X= " << x << " -- Y= " << y << endl;
- 
-  // x *= binSize;
-   
-  //kdDebug() << "*** X= " << x << endl;
-  
   updateIntenFreq(x);
-  
   
 }
 
@@ -284,12 +219,9 @@ void FITSHistogram::updateIntenFreq(int x)
 
   int index = ceil(x * binSize);
     
-  //if (x == BARS - 1)
-   //intensityOUT->setText(QString("%1").arg((int) viewer->stats.max));
-  //else 
-   intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
+  intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
   
-   frequencyOUT->setText(QString("%1").arg(histArray[x]));
+  frequencyOUT->setText(QString("%1").arg(histArray[x]));
   
 }
 
@@ -304,39 +236,36 @@ int FITSHistogram::findMax()
   return max;
 }
 
-histCommand::histCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
+FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
 {
   viewer    = (FITSViewer *) parent;
   type      = newType;
   histo     = inHisto;
-  //newImage  = new QImage();
   oldImage  = new QImage();
   // TODO apply maximum compression against this buffer
-  buffer = (unsigned int *) malloc (viewer->image->width * viewer->image->height * sizeof(unsigned int));
+  buffer = (float *) malloc (viewer->image->width * viewer->image->height * sizeof(float));
    
   //if (buffer == NULL)
    //return;
    min = lmin;
    max = lmax;
-  //*newImage = newIMG->copy();
-  //*oldImage = oldIMG->copy();
 }
 
-histCommand::~histCommand() 
+FITSHistogramCommand::~FITSHistogramCommand() 
 {
   free(buffer);
   delete (oldImage);
 }
             
-void histCommand::execute()
+void FITSHistogramCommand::execute()
 {
   int val, bufferVal;
   double coeff;
   FITSImage *image = viewer->image;
   int width  = image->width;
   int height = image->height;
-  memcpy(buffer, viewer->imgBuffer, viewer->image->width * viewer->image->height * sizeof(unsigned int));
-  *oldImage = viewer->image->displayImage->copy();
+  memcpy(buffer, viewer->imgBuffer,image->width * image->height * sizeof(float));
+  *oldImage = image->displayImage->copy();
  
   switch (type)
   {
@@ -415,25 +344,20 @@ void histCommand::execute()
   for (int i=1; i < width * height; i++)
     if ( image->reducedImgBuffer[i] > lmax) lmax = image->reducedImgBuffer[i];
     
-  double datadiff = 255.;
+ double datadiff = 255.;
  double pixdiff = lmax - lmin;
  double offs = -lmin*datadiff/pixdiff;
  double scale = datadiff / pixdiff;
  int tdata =0;
  FITS_BITPIX8 bp8=0;
  
-//  for (int i=0; i < height; i++)
-  //    for (int j=0; j < width; j++)
-       //  reducedImgBuffer[i * width + j] = qRed(displayImage->pixel(j, i));
-
  for (int i=0; i < height; i++)
   for (int j=0; j < width; j++)
   {
-           bp8 = (FITS_BITPIX8) image->reducedImgBuffer[i * width + j];//(displayImage->scanLine(i) + j);//buf[i * width + j];
+           bp8 = (FITS_BITPIX8) image->reducedImgBuffer[i * width + j];
            tdata = (long)(bp8 * scale + offs);
            if (tdata < 0) tdata = 0;
            else if (tdata > 255) tdata = 255;
-           //reducedImgBuffer[i * width + j] = (unsigned char)tdata;           
 	   image->displayImage->setPixel(j, height - i - 1, tdata);
   }
     
@@ -445,29 +369,27 @@ void histCommand::execute()
   	histo->updateBoxes();
   }
   
-  // We only update the histogram once, because that's the only possible way
-  // each command history can update the histogram once.
-  histo = NULL;
-  
   viewer->image->zoomToCurrent();
   viewer->fitsChange();
   
-  
-  //updateReducedBuffer();
-  //viewer->image->displayImage = newImage;
-  
 }
 
-void histCommand::unexecute()
+void FITSHistogramCommand::unexecute()
 {
-  memcpy( viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(unsigned int));
+  memcpy( viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(float));
   viewer->calculateStats();
-  //viewer->updateImgBuffer();
   *viewer->image->displayImage = oldImage->copy();
   viewer->image->zoomToCurrent();
+  
+  if (histo != NULL)
+  {
+  	histo->constructHistogram(viewer->imgBuffer);
+  	histo->update();
+  	histo->updateBoxes();
+  }
 }
 
-QString histCommand::name() const
+QString FITSHistogramCommand::name() const
 {
 
  switch (type)
