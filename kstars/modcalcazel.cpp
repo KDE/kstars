@@ -25,9 +25,13 @@
 #include "ksutils.h"
 #include "kstars.h"
 
+#include <qcheckbox.h>
 #include <qdatetimeedit.h>
 #include <qradiobutton.h>
 #include <qstring.h>
+#include <qtextstream.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
 
 
 modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDlg (parentSplit,name) {
@@ -209,4 +213,339 @@ void modCalcAzel::slotComputeCoords()
 		showEquCoords( sp, jd );
 	}
 
+}
+void modCalcAzel::slotUtChecked(){
+
+	if ( utCheckBatch->isChecked() )
+		utBoxBatch->setEnabled( false );
+	else {
+		utBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotDateChecked(){
+
+	if ( dateCheckBatch->isChecked() )
+		dateBoxBatch->setEnabled( false );
+	else {
+		dateBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotRaChecked(){
+
+	if ( raCheckBatch->isChecked() ) {
+		raBoxBatch->setEnabled( false );
+		horNoCheck();
+	}
+	else {
+		raBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotDecChecked(){
+
+	if ( decCheckBatch->isChecked() ) {
+		decBoxBatch->setEnabled( false );
+		horNoCheck();
+	}
+	else {
+		decBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotEpochChecked(){
+
+	if ( epochCheckBatch->isChecked() )
+		epochBoxBatch->setEnabled( false );
+	else 
+		epochBoxBatch->setEnabled( true );
+}
+
+void modCalcAzel::slotLongChecked(){
+
+	if ( longCheckBatch->isChecked() )
+		longBoxBatch->setEnabled( false );
+	else 
+		longBoxBatch->setEnabled( true );
+}
+
+void modCalcAzel::slotLatChecked(){
+
+	if ( latCheckBatch->isChecked() )
+		latBoxBatch->setEnabled( false );
+	else {
+		latBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotAzChecked(){
+
+	if ( azCheckBatch->isChecked() ) {
+		azBoxBatch->setEnabled( false );
+		equNoCheck();
+	}
+	else {
+		azBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::slotElChecked(){
+
+	if ( elCheckBatch->isChecked() ) {
+		elBoxBatch->setEnabled( false );
+		equNoCheck();
+	}
+	else {
+		elBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcAzel::horNoCheck() {
+
+	azCheckBatch->setChecked(false);
+	azBoxBatch->setEnabled(false);
+	elCheckBatch->setChecked(false);
+	elBoxBatch->setEnabled(false);
+	horInputCoords = FALSE;
+
+}
+
+void modCalcAzel::equNoCheck() {
+
+	raCheckBatch->setChecked(false);
+	raBoxBatch->setEnabled(false);
+	decCheckBatch->setChecked(false);
+	decBoxBatch->setEnabled(false);
+	horInputCoords = TRUE;
+}
+
+
+void modCalcAzel::slotInputFile() {
+	QString inputFileName;
+	inputFileName = KFileDialog::getOpenFileName( );
+	InputLineEditBatch->setText( inputFileName );
+}
+
+void modCalcAzel::slotOutputFile() {
+	QString outputFileName;
+	outputFileName = KFileDialog::getSaveFileName( );
+	OutputLineEditBatch->setText( outputFileName );
+}
+
+void modCalcAzel::slotRunBatch() {
+
+	QString inputFileName;
+
+	inputFileName = InputLineEditBatch->text();
+
+	// We open the input file and read its content
+
+	if ( QFile::exists(inputFileName) ) {
+		QFile f( inputFileName );
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1"
+			).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			inputFileName = "";
+			return;
+		}
+
+//		processLines(&f);
+		QTextStream istream(&f);
+		processLines(istream);
+//		readFile( istream );
+		f.close();
+	} else  {
+		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+		inputFileName = "";
+		InputLineEditBatch->setText( inputFileName );
+		return;
+	}
+}
+
+void modCalcAzel::processLines( QTextStream &istream ) {
+
+	// we open the output file
+
+//	QTextStream istream(&fIn);
+	QString outputFileName;
+	outputFileName = OutputLineEditBatch->text();
+	QFile fOut( outputFileName );
+	fOut.open(IO_WriteOnly);
+	QTextStream ostream(&fOut);
+
+	QString line;
+	QString space = " ";
+	int i = 0;
+	long double jd0, jdf;
+	dms LST;
+	SkyPoint sp;
+	dms raB, decB, latB, longB, azB, elB;
+	double epoch0B;
+	QTime utB;
+	QDate dtB;
+
+	while ( ! istream.eof() ) {
+		line = istream.readLine();
+		line.stripWhiteSpace();
+
+		//Go through the line, looking for parameters
+
+		QStringList fields = QStringList::split( " ", line );
+
+		i = 0;
+
+		// Read Ut and write in ostream if corresponds
+		
+		if(utCheckBatch->isChecked() ) {
+			utB = QTime::fromString( fields[i] );
+			i++;
+		} else
+			utB = utBoxBatch->time();
+		
+		if ( allRadioBatch->isChecked() )
+			ostream << utB.toString() << space;
+		else
+			if(utCheckBatch->isChecked() )
+				ostream << utB.toString() << space;
+			
+		// Read date and write in ostream if corresponds
+		
+		if(dateCheckBatch->isChecked() ) {
+			 dtB = QDate::fromString( fields[i] );
+			 i++;
+		} else
+			dtB = dateBoxBatch->date();
+		if ( allRadioBatch->isChecked() )
+			ostream << dtB.toString().append(space);
+		else
+			if(dateCheckBatch->isChecked() )
+			 	ostream << dtB.toString().append(space);
+		
+		// Read Longitude and write in ostream if corresponds
+		
+		if (longCheckBatch->isChecked() ) {
+			longB = dms::fromString( fields[i],TRUE);
+			i++;
+		} else
+			longB = longBoxBatch->createDms(TRUE);
+		
+		if ( allRadioBatch->isChecked() )
+			ostream << longB.toDMSString() << space;
+		else
+			if (longCheckBatch->isChecked() )
+				ostream << longB.toDMSString() << space;
+		
+		// Read Latitude
+
+
+		if (latCheckBatch->isChecked() ) {
+			latB = dms::fromString( fields[i], TRUE);
+			i++;
+		} else
+			latB = latBoxBatch->createDms(TRUE);
+		if ( allRadioBatch->isChecked() )
+			ostream << latB.toDMSString() << space;
+		else
+			if (latCheckBatch->isChecked() )
+				ostream << latB.toDMSString() << space;
+		
+		// Read Epoch and write in ostream if corresponds
+	
+		if(epochCheckBatch->isChecked() ) {
+			epoch0B = fields[i].toDouble();
+			i++;
+		} else
+			epoch0B = getEpoch( epochBoxBatch->text() );
+
+		if ( allRadioBatch->isChecked() )
+			ostream << epoch0B << space;
+		else
+			if(epochCheckBatch->isChecked() )
+				ostream << epoch0B << space;
+
+		// We make the first calculations
+		
+		jdf = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jd0 = KSUtils::epochToJd ( epoch0B );
+
+		LST = KSUtils::UTtoLST( QDateTime(dtB,utB), &longB );
+		
+		// Equatorial coordinates are the input coords.
+
+		if (!horInputCoords) {
+		// Read RA and write in ostream if corresponds
+
+			if(raCheckBatch->isChecked() ) {
+				raB = dms::fromString( fields[i],FALSE);
+				i++;
+			} else
+				raB = raBoxBatch->createDms(FALSE);
+
+			if ( allRadioBatch->isChecked() )
+				ostream << raB.toHMSString() << space;
+			else
+				if(raCheckBatch->isChecked() )
+					ostream << raB.toHMSString() << space;
+
+			// Read DEC and write in ostream if corresponds
+
+			if(decCheckBatch->isChecked() ) {
+				decB = dms::fromString( fields[i], TRUE);
+				i++;
+			} else
+				decB = decBoxBatch->createDms();
+
+			if ( allRadioBatch->isChecked() )
+				ostream << decB.toDMSString() << space;
+			else
+				if(decCheckBatch->isChecked() )
+					ostream << decB.toDMSString() << space;
+
+			sp = SkyPoint (raB, decB);
+			sp.apparentCoord(jd0, jdf);
+			sp.EquatorialToHorizontal( &LST, &latB );
+			ostream << sp.az()->toDMSString() << space << sp.alt()->toDMSString() << endl;
+
+		// Input coords are horizontal coordinates
+		
+		} else {
+			if(azCheckBatch->isChecked() ) {
+				azB = dms::fromString( fields[i],FALSE);
+				i++;
+			} else
+				azB = azBoxBatch->createDms();
+
+			if ( allRadioBatch->isChecked() )
+				ostream << azB.toHMSString() << space;
+			else
+				if(raCheckBatch->isChecked() )
+					ostream << azB.toHMSString() << space;
+
+			// Read DEC and write in ostream if corresponds
+
+			if(elCheckBatch->isChecked() ) {
+				elB = dms::fromString( fields[i], TRUE);
+				i++;
+			} else
+				elB = decBoxBatch->createDms();
+
+			if ( allRadioBatch->isChecked() )
+				ostream << elB.toDMSString() << space;
+			else
+				if(elCheckBatch->isChecked() )
+					ostream << elB.toDMSString() << space;
+
+			sp.setAz(azB);
+			sp.setAlt(elB);
+			sp.HorizontalToEquatorial( &LST, &latB );
+			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+		}
+
+	}
+
+
+	fOut.close();
 }
