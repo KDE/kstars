@@ -1,5 +1,5 @@
 /***************************************************************************
-                          planetviewer.h  -  Display overhead view of the solar system
+                          planetviewer.cpp  -  Display overhead view of the solar system
                              -------------------
     begin                : Sun May 25 2003
     copyright            : (C) 2003 by Jason Harris
@@ -23,11 +23,11 @@
 #include "dms.h"
 
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
- : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Ok, Ok, parent )
+ : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent )
 {
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	pw = new PlotWidget( -46.0, 46.0, -46.0, 46.0, page );
+	pw = new KStarsPlotWidget( -46.0, 46.0, -46.0, 46.0, page );
 	vlay->addWidget( pw );
 	resize( 500, 500 );
 
@@ -44,7 +44,7 @@ void PlanetViewer::paintEvent( QPaintEvent *e ) {
 
 void PlanetViewer::initPlotObjects() {
 	//**Orbits**//
-	PlotObject *orbit[9];
+	KPlotObject *orbit[9];
 
 	//mean orbital radii, in AU
 	double rad[9];
@@ -59,7 +59,7 @@ void PlanetViewer::initPlotObjects() {
 	rad[8] = 39.5;
 
 	for ( unsigned int i=0; i<9; ++i ) {
-		orbit[i] = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
+		orbit[i] = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 
 		for ( double t=0.0; t<=360.0; t+=5.0 ) {
 			dms d( t );
@@ -71,7 +71,8 @@ void PlanetViewer::initPlotObjects() {
 	}
 
 	//**Planets**//
-	PlotObject *planets;
+	KPlotObject *sun;
+	KPlotObject *planets;
 	PlanetCatalog *PC = ((KStars*)parent())->data()->PC;
 	dms elong[9];
 
@@ -85,13 +86,17 @@ void PlanetViewer::initPlotObjects() {
 	elong[7] = dms( PC->findByName( "Neptune" )->ecLong()->Degrees() );
 	elong[8] = dms( PC->findByName( "Pluto"   )->ecLong()->Degrees() );
 
-	planets = new PlotObject( "Planets", "cyan2", PlotObject::POINTS, 8, PlotObject::CIRCLE );
+	sun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::SOLID );
+	sun->addPoint( new DPoint( 0.0, 0.0 ) );
+	
+	planets = new KPlotObject( "Planets", "cyan2", KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
 	for ( unsigned int i=0; i<9; ++i ) {
 		double s, c;
 		elong[i].SinCos( s, c );
 		planets->addPoint( new DPoint( rad[i]*c, rad[i]*s ) );
 	}
 
+	pw->addObject( sun );
 	pw->addObject( planets );
 }
 
@@ -110,14 +115,14 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 
 void PlanetViewer::slotZoomIn() {
 	if ( pw->x2() > 0.4 ) {
-		pw->setLimits( 0.95*pw->x1(), 0.95*pw->x2(), 0.95*pw->y1(), 0.95*pw->y2() );
+		pw->setLimits( 0.95*pw->x(), 0.95*pw->x2(), 0.95*pw->y(), 0.95*pw->y2() );
 		pw->update();
 	}
 }
 
 void PlanetViewer::slotZoomOut() {
 	if ( pw->x2() < 50.0 ) {
-		pw->setLimits( 1.05*pw->x1(), 1.05*pw->x2(), 1.05*pw->y1(), 1.05*pw->y2() );
+		pw->setLimits( 1.05*pw->x(), 1.05*pw->x2(), 1.05*pw->y(), 1.05*pw->y2() );
 		pw->update();
 	}
 }

@@ -18,7 +18,7 @@
 #define PLANETVIEWER_H
 
 #include <kdialogbase.h>
-#include "plotwidget.h"
+#include "kstarsplotwidget.h"
 
 /**@class PlanetViewer
 	*@short Display an overhead view of the solar system
@@ -42,7 +42,7 @@ protected:
 
 private:
 	void initPlotObjects();
-	PlotWidget *pw;
+	KStarsPlotWidget *pw;
 };
 
 #endif

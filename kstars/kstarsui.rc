@@ -74,6 +74,7 @@
 		<Action name="whats_up_tonight" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
+		<Action name="jmoontool" />
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>

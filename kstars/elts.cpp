@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include "elts.h"
 #include "dms.h"
-#include "plotwidget.h"
 #include "skypoint.h"
 #include "skyobject.h"
 #include "geolocation.h"
@@ -52,8 +51,9 @@ elts::elts( QWidget* parent)  :
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page, "avtView" );
 	View->setFixedSize( 500, 400 );
-	View->setXAxisType( PlotWidget::TIME );
-	View->setYAxisType( PlotWidget::ANGLE );
+	View->setXAxisType( KStarsPlotWidget::TIME );
+	View->setYAxisType( KStarsPlotWidget::ANGLE );
+	View->setShowGrid( false );
 
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 
@@ -364,7 +364,7 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 
 		//make sure existing curves are thin and red
 		for ( int i=0; i<View->objectCount(); ++i ) {
-			PlotObject *obj = View->object( i );
+			KPlotObject *obj = View->object( i );
 			if ( obj->size() == 2 ) {
 				obj->setColor( "red" );
 				obj->setSize( 1 );
@@ -372,7 +372,7 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 		}
 
 		//add new curve with width=2, and color=white
-		PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 2, PlotObject::SOLID );
+		KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 2, KPlotObject::SOLID );
 		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 			po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 		}
@@ -428,7 +428,7 @@ void elts::slotHighlight(void) {
 
 	//highlight the curve of the selected object
 	for ( int i=0; i<View->objectCount(); ++i ) {
-		PlotObject *obj = View->object( i );
+		KPlotObject *obj = View->object( i );
 
 		if ( i == iPlotList ) {
 			obj->setSize( 2 );
@@ -533,7 +533,7 @@ void elts::slotUpdateDateLoc(void) {
 				//update pList entry
 				pList.replace( i, (SkyPoint*)o );
 
-				PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
+				KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 				for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 					po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 				}
@@ -658,7 +658,7 @@ long double elts::epochToJd (double epoch)
 }
 
 AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
-	: PlotWidget( x1, x2, y1, y2, parent, name )
+	: KStarsPlotWidget( x1, x2, y1, y2, parent, name )
 {
 //empty
 }
@@ -669,35 +669,37 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 	p.begin( buffer );
 	p.fillRect( 0, 0, width(), height(), bgColor() );
 
-	p.translate( XS1, YS1 );
+	p.translate( XPADDING, YPADDING );
 
 	//draw daytime sky
-	int dawn = dXS/4;
-	int dusk = 3*dXS/4;
-	p.fillRect( 0, 0, dawn, dYS/2, QColor( 0, 100, 200 ) );
-	p.fillRect( dusk, 0, dXS, dYS/2, QColor( 0, 100, 200 ) );
+	int pW = PixRect.width();
+	int pH = PixRect.height();
+	int dawn = pW/4;
+	int dusk = 3*pW/4;
+	p.fillRect( 0, 0, dawn, pH/2, QColor( 0, 100, 200 ) );
+	p.fillRect( dusk, 0, pW, pH/2, QColor( 0, 100, 200 ) );
 
 	//draw twilight gradients
 	int W = 40;
 	for ( unsigned int i=0; i<W; ++i ) {
 		p.setPen( QColor( 0, 100*i/W, 200*i/W ) );
-		p.drawLine( dawn - (i-20), 0, dawn - (i-20), dYS );
-		p.drawLine( dusk + (i-20), 0, dusk + (i-20), dYS );
+		p.drawLine( dawn - (i-20), 0, dawn - (i-20), pH );
+		p.drawLine( dusk + (i-20), 0, dusk + (i-20), pH );
 	}
 
 	//draw ground
-	p.fillRect( 0, dYS/2, dXS, dYS/2, QColor( "#002200" ) );
+	p.fillRect( 0, pH/2, pW, pH/2, QColor( "#002200" ) );
 
-	drawBox( &p, true, true, true, true );
+	drawBox( &p );
 	drawObjects( &p );
 
 	//Add vertical line indicating "now"
 	QTime t = QTime::currentTime();
 	double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
 	while ( x > 24.0 ) x -= 24.0;
-	int ix = int(x*dXS/24.0); //convert to screen pixel coords
+	int ix = int(x*pW/24.0); //convert to screen pixel coords
 	p.setPen( QPen( "white", 2, DotLine ) );
-	p.drawLine( ix, 0, ix, dYS );
+	p.drawLine( ix, 0, ix, pH );
 
 	p.end();
 

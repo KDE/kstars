@@ -34,8 +34,8 @@ PlotWidget::PlotWidget( double x1, double x2, double y1, double y2, QWidget *par
 	setSecondaryLimits( 0.0, 0.0, 0.0, 0.0 );
 
 	//Set dXS, XS2, dYS, YS2
-	XS2 = width() - XS1;
-	YS2 = height() - YS2;
+	XS2 = width() - XPADDING;
+	YS2 = height() - YPADDING;
 	dXS = XS2 - XS1;
 	dYS = YS2 - YS1;
 
@@ -275,8 +275,8 @@ void PlotWidget::paintEvent( QPaintEvent *e ) {
 
 	p.translate( XS1, YS1 );
 
-	drawBox( &p, true, true, true, true );
 	drawObjects( &p );
+	drawBox( &p, true, true, true, true );
 	p.end();
 
 	bitBlt( this, 0, 0, buffer );
@@ -371,14 +371,16 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 		double x0 = XA1 - dmod( XA1, dXtick1 ); //zeropoint; x(i) is this plus i*dXtick1
 		for ( int ix = 0; ix <= nmajX1+1; ix++ ) {
 			int px = int( dXS * ( (x0 + ix*dXtick1 - XA1)/dXA ) );
-			p->drawLine( px, 0, px, dYS );
+			if ( px > XS1 && px<= dXS )
+				p->drawLine( px, 0, px, dYS );
 		}
 
 		//horizontal grid lines
 		double y0 = YA1 - dmod( YA1, dYtick1 ); //zeropoint; y(i) is this plus i*mX
 		for ( int iy = 0; iy <= nmajY1+1; iy++ ) {
 			int py = int( dYS * ( (y0 + iy*dYtick1 - YA1)/dYA ) );
-			p->drawLine( 0, py, dXS, py );
+			if ( py > YS1 && py<= dYS )
+				p->drawLine( 0, py, dXS, py );
 		}
 	}
 

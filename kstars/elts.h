@@ -26,7 +26,7 @@
 #include <kapplication.h>
 #include <klocale.h>
 
-#include "plotwidget.h"
+#include "kstarsplotwidget.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -48,7 +48,7 @@ class KStars;
 class KLineEdit;
 class KListBox;
 
-class AVTPlotWidget : public PlotWidget
+class AVTPlotWidget : public KStarsPlotWidget
 {
 	Q_OBJECT
 public:
@@ -56,7 +56,7 @@ public:
 	*/
 	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
 
-private:
+protected:
 	void paintEvent( QPaintEvent *e );
 };
 

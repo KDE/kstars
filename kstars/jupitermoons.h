@@ -36,11 +36,17 @@ public:
 	SkyPoint* pos( int id ) { return &Pos[id]; }
 	bool inFront( int id ) const { return InFront[id]; }
 	QString name( int id ) const { return Name[id]; }
+	int moonNamed( const QString &name ) const;
 	void EquatorialToHorizontal( const dms *LSTh, const dms *lat );
+	double x( int i ) const { return XJ[i]; }
+	double y( int i ) const { return YJ[i]; }
+	double z( int i ) const { return ZJ[i]; }
 private:
 	SkyPoint Pos[4];
 	QString Name[4];
 	bool InFront[4];
+	//the rectangular position, relative to Jupiter.  X-axis is equator of Jupiter; usints are Jup. Radius
+	double XJ[4], YJ[4], ZJ[4];
 };
 
 #endif

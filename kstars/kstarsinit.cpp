@@ -212,6 +212,8 @@ void KStars::initActions() {
 						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
 	new KAction(i18n( "Solar System..."), KAccel::stringToKey("Ctrl+Y"),
 						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
+	new KAction(i18n( "Jupiter's Moons..."), KAccel::stringToKey("Ctrl+J"),
+						this, SLOT(slotJMoonTool()), actionCollection(), "jmoontool");
 
 // devices Menu
 	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");

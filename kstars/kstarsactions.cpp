@@ -43,6 +43,7 @@
 #include "scriptbuilder.h"
 #include "indiconf.h"
 #include "planetviewer.h"
+#include "jmoontool.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -108,6 +109,11 @@ void KStars::slotScriptBuilder() {
 void KStars::slotSolarSystem() {
 	PlanetViewer pv(this);
 	pv.exec();
+}
+
+void KStars::slotJMoonTool() {
+	JMoonTool jmt(this);
+	jmt.exec();
 }
 
 void KStars::slotINDIPanel() {

@@ -96,7 +96,8 @@ public:
 	friend class INDIDriver;
 	friend class INDI_P;
 	friend class PlanetViewer;
-
+	friend class JMoonTool;
+	
 	/**Constructor. */
 	KStarsData();
 

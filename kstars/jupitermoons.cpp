@@ -23,6 +23,19 @@ JupiterMoons::JupiterMoons(){
 	Name[1] = i18n( "Jupiter's moon Europa", "Europa" );
 	Name[2] = i18n( "Jupiter's moon Ganymede", "Ganymede" );
 	Name[3] = i18n( "Jupiter's moon Callisto", "Callisto" );
+	
+	for ( unsigned int i=0; i<4; ++i ) {
+		XJ[i] = 0.0;
+		YJ[i] = 0.0;
+		ZJ[i] = 0.0;
+	}
+}
+
+int JupiterMoons::moonNamed( const QString &name ) const {
+	for ( int i=0; i<4; ++i ) {
+		if ( Name[i] == name ) return i;
+	}
+	return -1;
 }
 
 JupiterMoons::~JupiterMoons(){
@@ -471,14 +484,14 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	pa = Jupiter->pa()*dms::PI/180.0;
 	
 	for ( int i=0; i<4; ++i ) {
-		X[i] = A6[i] * cos( D ) - C6[i] * sin( D );
-		Y[i] = A6[i] * sin( D ) + C6[i] * cos( D );
-		Z[i] = B6[i];
+		XJ[i] = A6[i] * cos( D ) - C6[i] * sin( D );
+		YJ[i] = A6[i] * sin( D ) + C6[i] * cos( D );
+		ZJ[i] = B6[i];
 		
-		Pos[i].setRA( Jupiter->ra()->Hours() - 0.011*( X[i] * cos( pa ) - Y[i] * sin( pa ) )/15.0 );
-		Pos[i].setDec( Jupiter->dec()->Degrees() - 0.011*( X[i] * sin( pa ) + Y[i] * cos( pa ) ) );
+		Pos[i].setRA( Jupiter->ra()->Hours() - 0.011*( XJ[i] * cos( pa ) - YJ[i] * sin( pa ) )/15.0 );
+		Pos[i].setDec( Jupiter->dec()->Degrees() - 0.011*( XJ[i] * sin( pa ) + YJ[i] * cos( pa ) ) );
 		
-		if ( Z[i] < 0.0 ) InFront[i] = true;
+		if ( ZJ[i] < 0.0 ) InFront[i] = true;
 		else InFront[i] = false;
 	}
 }

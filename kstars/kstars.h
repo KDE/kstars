@@ -295,6 +295,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 		void slotSolarSystem();
 
+		/**
+		 * action slot: open Jupiter Moons tool
+		 */
+		void slotJMoonTool();
+
 		 /**
 		 * action slot: open INDI driver panel
 		 */
