@@ -97,7 +97,7 @@ void PlanetViewer::initPlotObjects() {
 	pw->addObject( ksun );
 	
 	for ( unsigned int i=0; i<9; ++i ) {
-		elong[i] = dms( PCat->findByName( pName[i] )->ecLong()->Degrees() );
+		elong[i] = dms( PCat->findByName( pName[i] )->helEcLong()->Degrees() );
 		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
 		planetLabel[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::LABEL );
 		double s, c;
