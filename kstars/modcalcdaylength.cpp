@@ -37,10 +37,10 @@
 #include <qpushbutton.h>
 #include <qstring.h>
 #include <qdatetime.h>
-#include <qdatetimeedit.h>
 #include <klocale.h>
 
 //#include <kapplication.h> ...already included in modcalcdaylength.h
+//#include <qdatetimeedit.h>
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 

@@ -87,8 +87,15 @@ public:
 	* Clears all entries.
 	*/
 	void clearFields (void) { setEntry(""); }
-	
+
 private:
+
+#if (QT_VERSION < 300)
+	/**
+	* substitute for Qt 3.x function QDate::fromString(s)
+	*/
+	QDate stringToDate(const QString& s);
+#endif
 
 	bool timet;
 };

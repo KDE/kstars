@@ -33,13 +33,13 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qabstractlayout.h>
-#include <qdatetimeedit.h>
 #include <klocale.h>
 
 #if (QT_VERSION < 300)
 #include <kapp.h>
 #else
 #include <kapplication.h>
+#include <qdatetimeedit.h>
 #endif
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
@@ -243,8 +243,11 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 
 void modCalcSidTime::showUT ( QTime dt )
 {
-//	UtBox->showTime( dt );
+#if (QT_VERSION < 300)
+	UtBox->showTime( dt );
+#else
 	UtBox->setTime( dt );
+#endif
 }
 
 void modCalcSidTime::showST ( QTime dt )

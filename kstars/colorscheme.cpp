@@ -34,6 +34,12 @@
 #include "ksutils.h"
 #include "colorscheme.h"
 
+#if (QT_VERSION < 300)
+typedef QStringList::ConstIterator SL_it;
+#else
+typedef QStringList::const_iterator SL_it;
+#endif
+
 ColorScheme::ColorScheme(){
 	//Each color has two names associated with it.  The KeyName is its
 	//identification in the QMap, the *.colors file, and the config file.
@@ -134,17 +140,17 @@ QString ColorScheme::colorNamed( QString name ) const {
 }
 
 QString ColorScheme::colorAt( int i ) const {
-	QStringList::const_iterator it = KeyName.at(i);
+	SL_it it = KeyName.at(i);
 	return Palette[ QString(*it) ];
 }
 
 QString ColorScheme::nameAt( int i ) const {
-	QStringList::const_iterator it = Name.at(i);
+	SL_it it = Name.at(i);
 	return QString(*it);
 }
 
 QString ColorScheme::keyAt( int i ) const {
-	QStringList::const_iterator it = KeyName.at(i);
+	SL_it it = KeyName.at(i);
 	return QString(*it);
 }
 

@@ -23,10 +23,10 @@ cflags=
 cppflags=
 cxxflags=\s-O0 -g3 -Wall
 ldadd=-lkio -lkdeprint -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s
+ldflags=\s\s
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Jason Harris
 configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --with-qt-dir=/usr/lib/qt2\s
 email=kstars@30doradus.org
@@ -40,7 +40,7 @@ project_type=normal_kde2
 sgml_file=
 short_info=A Desktop Planetarium for KDE
 sub_dir=kstars/
-version=0.8
+version=0.9.1
 version_control=None
 workspace=0
 

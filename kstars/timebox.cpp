@@ -46,8 +46,11 @@ timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,
 void timeBox::showTime (QTime t)
 {
 
-//	setEntry( QString("%1 %2 %3").arg(t.hour(),2).arg(t.tminute(),2).arg(t.second(),2); );
+#if (QT_VERSION < 300)
+        setEntry( t.toString() );
+#else
 	setEntry( t.toString("hh:mm:ss") );
+#endif
 }
 
 void timeBox::showDate (QDate t)
@@ -138,7 +141,7 @@ QTime timeBox::createTime ( bool *ok )
 
 			if ( ok != NULL ) *ok = true;
 
-			QTime qt(h,m,s);
+			QTime qt(h,m,is);
 			return qt;
 
 		} else {
@@ -160,17 +163,60 @@ QDate timeBox::createDate (bool *ok)
 	QString entry = text().stripWhiteSpace();
 
 	// if entry is an empty string or invalid date use current date
+
+#if (QT_VERSION < 300)
+	QDate date = stringToDate(entry);
+#else
 	QDate date = QDate().fromString(entry);
+#endif
+
 	if (entry.isEmpty() || !date.isValid()) {
 		kdDebug() << k_funcinfo << "Invalid date" << endl;
 		showDate(QDate::currentDate());
 		entry = text().stripWhiteSpace();
 	}
 	
+#if (QT_VERSION < 300)
+	QDate qd = QDate::currentDate();
+#else
 	QDate qd = KGlobal::locale()->readDate( entry, ok );
+#endif
 
 	return qd;
 }
 
 timeBox::~timeBox(){
 }
+
+#if (QT_VERSION < 300)
+QDate timeBox::stringToDate( const QString& s)
+{
+  //Adapted from QT 3.x function QDate::fromString()
+  //There's no Qt::DateFormat, so I'll try to parse the string according
+  //to each format, and accept the first that results in a valid date
+    if (  s.isEmpty() ) return QDate();
+	 
+    //ISO Date
+    int year( s.mid( 0, 4 ).toInt() );
+    int month( s.mid( 5, 2 ).toInt() );
+    int day( s.mid( 8, 2 ).toInt() );
+    if ( year && month && day ) return QDate( year, month, day );
+
+    //Text date
+    month=0;
+    QString sMonth( s.mid( 4, 3 ) );
+    // Assume that English monthnames are the default
+    for ( int i = 1; i <= 12; ++i ) {
+      if ( sMonth == QDate().monthName(i) ) {
+	month = i;
+	break;
+      }
+    }
+
+    day = s.mid( 8, 2 ).simplifyWhiteSpace().toInt();
+    year = s.right( 4 ).toInt();
+    if ( year && month && day ) return QDate( year, month, day );
+
+    return QDate();
+}
+#endif

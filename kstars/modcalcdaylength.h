@@ -24,6 +24,7 @@
 #include <kapp.h>
 #else
 #include <kapplication.h>
+#include <qdatetimeedit.h>
 #endif
 
 /** Module to compute the equatorial coordinates for a given date and time 
@@ -37,8 +38,6 @@ class dmsBox;
 class GeoLocation;
 class QDateTime;
 class timeBox;
-class QDateEdit;
-class QTimeEdit;
 
 
 class modCalcDayLength : public QWidget  {

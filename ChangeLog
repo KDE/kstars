@@ -123,3 +123,44 @@ Code Structure:
 
 Several bugfixes, including some crash conditions.
 
+
+0.9.1 (Indus):
+This is a maintenance release; it contains all the feature improvements
+we have made up to the KDE 3.1 feature freeze.  
+
+- The Info Panel has been removed; in its place, we display the 
+time/geography/focus data directly on screen in three separate "Info 
+Boxes".  These can be dragged around the window to any position, 
+and they "stick" to the window edges on resize events.  In addition, each 
+box can be "shaded" (by double-clicking) between a full mode, and a 
+short mode, in which only one line of information is shown.  
+
+- New "Detailed Information" window displays name, position and other 
+information about any object in the sky.
+
+- Redesign of Time Step widget in the main toolbar.  The new custom widget
+renders properly in all widget styles and should function more consistently.
+
+- ~50% improvement in sky-rendering speed due to code optimization
+
+- Improved display of angle values (use degree/minute/second symbols instead 
+of letters d,m,s).
+
+- More accurate Rise/Set/Transit times for planets
+
+- new AstroCalculator module: "Day Duration"...calculates time of 
+sunrise/sunset/noon as well as length of day and position of Sun
+at these three times.
+
+- Added many locations to geographic database, including major 
+observatories.
+
+- More AstroInfo articles on on Blackbody Radiation, Parallax, 
+Stars, Star Colors, Dark Matter, and Elliptical Galaxies
+
+- Handling of Daylight Savings time (a.k.a. Summer Time) is more stable
+
+- Many bugfixes, including some more memory leaks.
+
+- Various usability/stability improvements.
+
