@@ -92,7 +92,7 @@ void FocusDialog::validatePoint( void ) {
 	//6. space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 -33 0.0 )
 	//7. space-delimited, with unit labels ( 5h 0m 0s, -33d 0m 0s )
 
-	QString errMsg = i18n( "Could not parse %1 entry.  Specify a %1 value " ) +
+	QString errMsg = i18n( "Could not parse %1 entry. Specify a %1 value " ) +
 						i18n( "as a simple integer, a floating-point number, or as a triplet " ) +
 						i18n( "of values using colons or spaces as separators." );
 

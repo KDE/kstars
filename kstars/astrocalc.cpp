@@ -68,7 +68,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 //	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
 //	dayItem->setPixmap(0,sunsetIcon);
 	
-	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinates conversor"));
+	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinates converter"));
 	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
 	
@@ -96,7 +96,7 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genTimeText();
 	if(!(election.compare(i18n("Sidereal Time"))))
 		genSidFrame();
-	if(!(election.compare(i18n("Coordinates conversor"))))
+	if(!(election.compare(i18n("Coordinates converter"))))
 		genCoordText();
 	if(!(election.compare(i18n("Julian Day"))))
 		genJdFrame();
@@ -125,7 +125,7 @@ void AstroCalc::genTimeText(void)
 	splashScreen->setText(i18n("<QT>"
 														 "Section which includes algorithms for computing time ephemeris"
 														 "<UL><LI>"
-														 "<B>Julian Day:</B>  Julian Day/Calendar conversion"
+														 "<B>Julian Day:</B> Julian Day/Calendar conversion"
 														 "</LI><LI>"
 														 "<B>Sidereal Time:</B> Sidereal/Universal time conversion"
 														 "</LI><LI>"
@@ -159,7 +159,7 @@ void AstroCalc::genCoordText(void)
 														 "</LI><LI>"
 														 "<B>Ecliptic:</B> Ecliptic/Equatorial coordinates conversion"
 														 "</LI><LI>"
-														 "<B>Horizontal:</B> Computation of azimuth and elevation for a"
+														 "<B>Horizontal:</B> Computation of azimuth and elevation for a "
 														 "given source, time, and location on the Earth"
 														 "</LI></UL>"
 														 "</QT>"));
@@ -177,7 +177,7 @@ void AstroCalc::genGeodText(void)
 	splashScreen->show();
 	
 	splashScreen->setText(i18n("<QT>"
-														 "Section with algorithms for the conversion of"
+														 "Section with algorithms for the conversion of "
 														 "systems of coordinates for the Earth"
 														 "<UL><LI>"
 														 "<B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion"

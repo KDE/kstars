@@ -75,10 +75,10 @@ TimeZoneRule::~TimeZoneRule() {
 
 void TimeZoneRule::setDST( bool activate ) {
 	if ( activate ) {
-		kdDebug() << i18n( "Daylight Savings Time active" ) << endl;
+		kdDebug() << i18n( "Daylight Saving Time active" ) << endl;
 		dTZ = HourOffset;
 	} else {
-		kdDebug() << i18n( "Daylight Savings Time inactive" ) << endl;
+		kdDebug() << i18n( "Daylight Saving Time inactive" ) << endl;
 		dTZ = 0.0;
 	}
 }
