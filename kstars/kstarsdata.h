@@ -54,13 +54,13 @@
 #include "skymap.h"
 #include "objectnamelist.h"
 #include "timezonerule.h"
-#include "lcgenerator.h"
 #include "detaildialog.h"
 #include "jupitermoons.h"
 #include "indidriver.h"
 #include "indistd.h"
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
+#include "tools/lcgenerator.h"
 
 #define NHIPFILES 127
 #define NMWFILES  11

@@ -1,0 +1,18 @@
+The tools subdirectory contains code for the following Tools in KStars:
+
+AltVsTime: Plots Altitude of a list of objects as a function of time 
+           for any date and any location. 
+
+AstroCalculator: Calculator for astronomical functions
+
+JupiterMoons: Plot positions of Jupiter's 4 largest moons vs. time
+
+LCGenerator: Plot light curves for variable stars
+
+PlanetViewer: Plot the positions of planets in their orbits around the Sun
+
+ScriptBuilder: GUI for building complex behavior scripts
+
+WUT: "What's Up Tonight" summary.
+
+
