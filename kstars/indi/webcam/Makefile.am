@@ -10,7 +10,7 @@ if NULL
    libwebcam_null = libwebcam_null.la
 endif
 
-noinst_LTLIBRARIES = libwebcam.la $(libwebcam_linux) $(libwebcam_bsd)
+noinst_LTLIBRARIES = libwebcam.la $(libwebcam_linux) $(libwebcam_bsd) $(libwebcam_null)
 
 libwebcam_linux_la_SOURCES = PPort.cpp port.cpp vcvt_c.c QCamV4L.cpp ccvt_mmx_old.S
 libwebcam_null_la_SOURCES = dummy.cpp
