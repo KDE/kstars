@@ -60,20 +60,35 @@ kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 # (LW 18/04/2002) Stripped trailing slashes from comments, to keep make happy
 # (JH 16/08/2002) Patch submitted by Stefan Asserhall to deal with diacritic characters properly
 # (JH 16/08/2002) modified to sort strings alphabetically and filter through uniq.
+# (HE 31/08/2002) treat cities, regions, countries separatedly
 stringsfile:
 	cd $(srcdir);
 	rm -f kstars_i18n.cpp; 
-	rm -f placenames.dat;
+	rm -f cities.tmp;
+	rm -f regions.tmp;
+	rm -f countries.tmp;
 
-	echo "#if 0" >> kstars_i18n.cpp; 
+	echo "#if 0" >> kstars_i18n.cpp;
+# extract constellations
 	sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
-	    sed 's/\([A-Z].*\)/i18n("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp";
-	awk 'BEGIN {FS=":"}; {print "\"" $$1 "\""; print "\"" $$2 "\""; print "\"" $$3 "\""}' < data/Cities.dat | \
-	    sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"/g' | sed 's/i18n("");//' >> "placenames.dat";
-	sort placenames.dat | uniq >> kstars_i18n.cpp;
+	sed 's/\([A-Z].*\)/i18n("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp";
+# extract cities
+	awk 'BEGIN {FS=":"}; {print "\"" $$1 "\""; }' < data/Cities.dat | \
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18n("");//' >> "cities.tmp";
+	sort cities.tmp | uniq >> kstars_i18n.cpp;
+# extract regions
+	awk 'BEGIN {FS=":"}; {print "\"" $$2 "\""; }' < data/Cities.dat | \
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Region/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18n("");//' >> "regions.tmp";
+	sort regions.tmp | uniq >> kstars_i18n.cpp;
+# extract countries
+	awk 'BEGIN {FS=":"}; {print "\"" $$3 "\""; }' < data/Cities.dat | \
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18n("");//' >> "countries.tmp";
+	sort countries.tmp | uniq >> kstars_i18n.cpp;
 	echo "#endif" >>kstars_i18n.cpp;
-
-	rm -f placenames.dat;
+# cleanup temporary files
+	rm -f cities.tmp;
+	rm -f regions.tmp;
+	rm -f countries.tmp;
 
 messages: stringsfile rc.cpp
 	rm -f tips.cpp
