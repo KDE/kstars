@@ -274,3 +274,5 @@ void KSPopupMenu::setRiseSetLabels( void ) {
 	pmSetTime->setText( st );
 	pmTransitTime->setText( tt ) ;
 }
+
+#include "kspopupmenu.moc"

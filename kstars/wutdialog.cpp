@@ -316,3 +316,5 @@ void WUTDialog::slotDetails() {
 		detail.exec();
 	}
 }
+
+#include "wutdialog.moc"

@@ -456,3 +456,5 @@ long double elts::epochToJd (double epoch)
 	}
 
 }
+
+#include "elts.moc"
