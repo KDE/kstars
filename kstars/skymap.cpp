@@ -1153,8 +1153,8 @@ void SkyMap::forceUpdate( bool now )
 	else update();
 }
 
-float SkyMap::fov( bool useWidth ) {
-	if ( useWidth ) 
+float SkyMap::fov() {
+	if ( width() >= height() ) 
 		return 28.65*width()/Options::zoomFactor();
 	else
 		return 28.65*height()/Options::zoomFactor();
@@ -1174,6 +1174,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 	} else {
 		dY = fabs( p->dec()->Degrees() - focus()->dec()->Degrees() );
 	}
+	if ( isPoleVisible ) dY *= 0.75; //increase effective FOV when pole visible.
 	if ( dY > FOV ) return false;
 	if ( isPoleVisible ) return true;
 

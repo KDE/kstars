@@ -839,10 +839,10 @@ private:
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
 /**@return the angular field of view of the sky map, in degrees.
-	*@param useWidth if true, then the X-direction of the window is used in determining
-	*the fov angle.  Otherwise, the Y-direction is used (true by default).
+	*@note it must use either the height or the width of the window to calculate the 
+	*FOV angle.  It chooses whichever is larger.
 	*/
-	float fov( bool useWidth=true );
+	float fov();
 
 /**@short Determine if the skypoint p is likely to be visible in the display 
 	*window.

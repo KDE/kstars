@@ -89,7 +89,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 			p.setFont( stdFont );
 		}
 
-		if ( checkVisibility( transientObject(), fov(false), XRange ) ) {
+		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
 			QPoint o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
@@ -1054,7 +1054,7 @@ void SkyMap::drawConstellationNames( QPainter& psky, QFont& stdFont, double scal
 	psky.setFont( stdFont );
 	psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
 	for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
-		if ( checkVisibility( p, fov(false), XRange ) ) {
+		if ( checkVisibility( p, fov(), XRange ) ) {
 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 				if ( Options::useLatinConstellNames() ) {
@@ -1104,7 +1104,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
 
-			if ( checkVisibility( curStar, fov(false), XRange ) ) {
+			if ( checkVisibility( curStar, fov(), XRange ) ) {
 				QPoint o = getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
 
 				// draw star if currently on screen
@@ -1153,7 +1153,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
 
 		for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
-			if ( checkVisibility( obj, fov(false), XRange ) ) {
+			if ( checkVisibility( obj, fov(), XRange ) ) {
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
 				if ( mag > 90.0 || mag < (float)maglim ) {
@@ -1252,7 +1252,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 
 			for ( DeepSkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, fov(false), XRange ) ) {
+				if ( checkVisibility( obj, fov(), XRange ) ) {
 					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
@@ -1330,7 +1330,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
 
-		if ( checkVisibility( obj, fov(false), XRange ) ) {
+		if ( checkVisibility( obj, fov(), XRange ) ) {
 			QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 				drawNameLabel( psky, obj, o.x(), o.y(), scale );
@@ -1468,7 +1468,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 				if ( ast->mag() > Options::magLimitAsteroid() ) break;
 				
-				if ( checkVisibility( ast, fov(false), XRange ) ) {
+				if ( checkVisibility( ast, fov(), XRange ) ) {
 					psky.setPen( QPen( QColor( "gray" ) ) );
 					psky.setBrush( QBrush( QColor( "gray" ) ) );
 					QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
@@ -1493,7 +1493,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		//Draw Comets
 		if ( Options::showComets() ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-				if ( checkVisibility( com, fov(false), XRange ) ) {
+				if ( checkVisibility( com, fov(), XRange ) ) {
 					psky.setPen( QPen( QColor( "cyan4" ) ) );
 					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
 					QPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
@@ -1625,7 +1625,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		double zoommin, int resize_mult, double scale ) {
 
-	if ( checkVisibility( p, fov(false), XRange ) ) {
+	if ( checkVisibility( p, fov(), XRange ) ) {
 		int Width = int( scale * width() );
 		int Height = int( scale * height() );
 	
@@ -1774,7 +1774,7 @@ void SkyMap::setMapGeometry() {
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
 	//at high zoom, double FOV for guide lines so they don't disappear.
-	guideFOV = fov(false);
+	guideFOV = fov();
 	guideXRange = XRange;
 	if ( Options::zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
 }
