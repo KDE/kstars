@@ -446,12 +446,33 @@ int setSiteLongitude(int degrees, int minutes)
 
 int setSiteLatitude(int degrees, int minutes)
 {
-    char tempString[16];
+   char tempString[16];
 
    sprintf(tempString, "#:St %+02d:%02d#", degrees, minutes);
 
    return (setStandardProcedure(tempString));
 }
+
+int setObjAz(int degrees, int minutes)
+{
+
+   char tempString[16];
+
+   sprintf(tempString, "#:Sz%03d:%02d#", degrees, minutes);
+
+   return (setStandardProcedure(tempString));
+
+}
+
+int setObjAlt(int degrees, int minutes)
+{
+    char tempString[16];
+
+   sprintf(tempString, "#:Sa%+02d*%02d#", degrees, minutes);
+
+   return (setStandardProcedure(tempString));
+}
+
 
 int setSiteName(char * siteName, int siteNum)
 {

@@ -73,10 +73,7 @@ if (dev && strcmp (mydev, dev))
     return;
 
 // process parent first
-if (callParent)
     LX200Generic::ISGetProperties(dev);
-else
-   callParent = 1;
 
 ICDefText (&VersionNumber, "Version Number", IP_RO);
 ICDefText (&VersionTime  , "Version Time", IP_RO);
@@ -88,10 +85,7 @@ ICDefText (&ProductName  , "Product Name", IP_RO);
 
 void LX200Autostar::ISNewText (IText *t)
 {
-  if (callParent)
-      LX200Generic::ISNewText(t);
-  else
-     callParent = 1;
+  LX200Generic::ISNewText(t);
 
 
 
@@ -100,35 +94,20 @@ void LX200Autostar::ISNewText (IText *t)
 
 void LX200Autostar::ISNewNumber (INumber *n)
 {
-  if (callParent)
-      LX200Generic::ISNewNumber(n);
-  else
-      callParent = 1;
- }
+    LX200Generic::ISNewNumber(n);
+}
 
  void LX200Autostar::ISNewSwitch (ISwitches *s)
  {
 
-    if (callParent)
-        LX200Generic::ISNewSwitch(s);
-    else
-       callParent = 1;
-
-
+   LX200Generic::ISNewSwitch(s);
 
  }
 
  void LX200Autostar::ISPoll ()
  {
 
-   if (callParent)
       LX200Generic::ISPoll();
-   else
-      callParent =1;
-
-
-
-
 
  }
 
@@ -136,11 +115,8 @@ void LX200Autostar::ISNewNumber (INumber *n)
  {
 
    // process parent first
-   if (callParent)
-      LX200Generic::getBasicData();
-   else
-      callParent = 1;
-
+   LX200Generic::getBasicData();
+   
    getVersionDate(VersionDate.text);
    getVersionTime(VersionTime.text);
    getVersionNumber(VersionNumber.text);

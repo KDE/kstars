@@ -21,9 +21,9 @@
 
 */
 
-#include "lx200autostar.h"
+#include "lx200_16.h"
 
-class LX200GPS : public LX200Autostar
+class LX200GPS : public LX200_16
 {
  public:
   LX200GPS();

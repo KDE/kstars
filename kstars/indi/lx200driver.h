@@ -99,8 +99,8 @@ extern const char* USBPort[];
 #define updateGPS_System()		setStandardProcedure("#:gT#")
 #define enableDecAltPec()		portWrite("#:QA+#")
 #define disableDecAltPec()		portWrite("#:QA-#")
-#define enableRA_AZPec()		portWrite("#:QZ+#")
-#define disableRA_AZPec()		portWrite("#:QZ-#")
+#define enableRaAzPec()			portWrite("#:QZ+#")
+#define disableRaAzPec()		portWrite("#:QZ-#")
 #define activateAltDecAntiBackSlash()	portWrite("#$BAdd#")
 #define activateAzRaAntiBackSlash()	portWrite("#$BZdd#")
 #define SelenographicSync()		portWrite("#:CL#")
@@ -111,7 +111,7 @@ extern const char* USBPort[];
 #define toggleTimeFormat()		portWrite("#:H#")
 #define increaseReticleBrightness()	portWrite("#:B+#")
 #define decreaseReticleBrightness()	portWrite("#:B-#")
-#define turnFarOn()			portWrite("#:f+#")
+#define turnFanOn()			portWrite("#:f+#")
 #define turnFanOff()			portWrite("#:f-#")
 #define seekHomeAndSave()		portWrite("#:hS#")
 #define seekHomeAndSet()		portWrite("#:hF#")
@@ -176,6 +176,9 @@ int setTrackFreq(double trackF);
 
 int setSiteLongitude(int degrees, int minutes);
 int setSiteLatitude(int degrees, int minutes);
+int setObjAz(int degrees, int minutes);
+int setObjAlt(int degrees, int minutes);
+
 int setSiteName(char * siteName, int siteNum);
 
 void setFocuserMotion(int motionType);

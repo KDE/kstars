@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "lx200_16.h"
 #include "lx200driver.h"
@@ -28,6 +29,8 @@
 
 extern LX200Generic *telescope;
 extern char mydev[];
+extern int MaxReticleFlashRate;
+
 
 //void turnFanOn();
    //void turnFanOff();
@@ -52,17 +55,19 @@ extern char mydev[];
 static ISwitch FanStatusS[]		= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
 static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set"}};
 static ISwitch FieldDeRotatorS[]	= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
+static ISwitch SlewAltAzS[]		= { {"Slew to Object Az/Alt", ISS_OFF}};
 
 static ISwitches FanStatusSw		= { mydev, "Fan", FanStatusS, NARRAY(FanStatusS), ILS_IDLE, 0};
 static ISwitches HomeSearchSw		= { mydev, "Home Search", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0};
 static ISwitches FieldDeRotatorSw	= { mydev, "Field De-rotator", FieldDeRotatorS, NARRAY(FieldDeRotatorS), ILS_IDLE, 0};
+static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0};
 
 static INumber ObjectAlt		= { mydev, "Object Altitude", NULL, ILS_IDLE};
 static INumber ObjectAz			= { mydev, "Object Azimuth", NULL, ILS_IDLE};
 
 
 
- 
+
 #ifdef LX200_SIXTEEN
 void
 ISInit()
@@ -75,6 +80,9 @@ ISInit()
 	// 2. device = sub_class
 	telescope = new LX200_16();
 
+	// Back to 3 again for class 16"
+	MaxReticleFlashRate = 3;
+
 }
 
 #endif
@@ -82,7 +90,8 @@ ISInit()
 LX200_16::LX200_16() : LX200Autostar()
 {
 
-
+ ObjectAlt.nstr	= strcpy( new char[9], "DD:MM");
+ ObjectAz.nstr	= strcpy( new char[9], "DDD:MM");
 
 }
 
@@ -93,54 +102,201 @@ if (dev && strcmp (mydev, dev))
     return;
 
  // process parent first
- if (callParent)
-    LX200Autostar::ISGetProperties(dev);
- callParent = 1;
+  LX200Autostar::ISGetProperties(dev);
+
+  ICDefNumber (&ObjectAlt, "Object Alt", IP_RW, NULL);
+  ICDefNumber (&ObjectAz , "Object Az", IP_RW, NULL);
+
+  ICDefSwitches(&SlewAltAzSw, "Az/Alt Slew", ISP_W, IR_1OFMANY);
+
+  ICDefSwitches (&FanStatusSw, "Fan", ISP_W, IR_1OFMANY);
+  ICDefSwitches (&HomeSearchSw, "Home Search", ISP_W, IR_1OFMANY);
+  ICDefSwitches (&FieldDeRotatorSw, "Field deRotator", ISP_W, IR_1OFMANY);
 
 }
 
 void LX200_16::ISNewText (IText *t)
 {
 
-  if (callParent)
-     LX200Autostar::ISNewText(t);
-  callParent = 1;
+   LX200Autostar::ISNewText(t);
 
 }
 
 void LX200_16::ISNewNumber (INumber *n)
 {
-  if (callParent)
-     LX200Autostar::ISNewNumber(n);
-  callParent = 1;
+  int h,m;
+
+  LX200Autostar::ISNewNumber(n);
+
+  // ignore if not ours //
+  if (strcmp (n->dev, mydev))
+    return;
+
+  if ( !strcmp (n->name, ObjectAz.name) )
+	{
+	  if (checkPower())
+	  {
+	    ObjectAz.s = ILS_IDLE;
+	    ICSetNumber(&ObjectAz, NULL);
+	    return;
+	  }
+
+	  if (!sscanf(n->nstr, "%d:%d", &h, &m) || m > 59 || m < 0 || h < 0 || h > 360)
+	  {
+	    ObjectAz.s = ILS_IDLE;
+	    ICSetNumber(&ObjectAz , "Coordinates invalid");
+	    return;
+	  }
+
+          setObjAz(h, m);
+	  ObjectAz.s = ILS_OK;
+	  strcpy(ObjectAz.nstr , n->nstr);
+	  ICSetNumber(&ObjectAz , "Object Azimuth set to %d:%d", h, m);
+	  return;
+        }
+
+	if ( !strcmp (n->name, ObjectAlt.name) )
+	{
+	  if (checkPower())
+	  {
+	    ObjectAlt.s = ILS_IDLE;
+	    ICSetNumber(&ObjectAlt, NULL);
+	    return;
+	  }
+
+	  if (!sscanf(n->nstr, "%d:%d", &h, &m) || m > 59 || m < 0 || h < -90 || h > 90)
+	  {
+	    ObjectAlt.s = ILS_IDLE;
+	    ICSetNumber(&ObjectAlt , "Coordinates invalid");
+	    return;
+	  }
+
+          setObjAlt(h, m);
+	  ObjectAlt.s = ILS_OK;
+	  strcpy(ObjectAlt.nstr , n->nstr);
+	  ICSetNumber(&ObjectAlt , "Object Altitude set to %d:%d", h, m);
+	  return;
+        }
 
  }
 
- void LX200_16::ISNewSwitch (ISwitches *s)
- {
+void LX200_16::ISNewSwitch (ISwitches *s)
+{
+   int index[16], i;
+   char msg[32];
 
-   if (callParent)
-      LX200Autostar::ISNewSwitch(s);
-   callParent = 1;
+  if (strcmp (s->dev, mydev))
+    return;
 
+   // process parent
+   LX200Autostar::ISNewSwitch(s);
 
+   if (!validateSwitch(s, &FanStatusSw, NARRAY(FanStatusS), index, 1))
+   {
+	  index[0] == 0 ? turnFanOn() : turnFanOff();
+	  FanStatusSw.s = ILS_OK;
+	  strcpy(msg, index[0] == 0 ? "Fan is ON" : "Fan is Off");
+	  ICSetSwitch (&FanStatusSw, msg);
+	  return;
+   }
 
- }
+   if (!validateSwitch(s, &HomeSearchSw, NARRAY(HomeSearchS), index, 1))
+   {
+	  index[0] == 0 ? seekHomeAndSave() : seekHomeAndSet();
+	  HomeSearchSw.s = ILS_BUSY;
+	  ICSetSwitch (&HomeSearchSw, msg);
+	  return;
+   }
+
+   if (!validateSwitch(s, &FieldDeRotatorSw, NARRAY(FieldDeRotatorS), index, 1))
+   {
+	  index[0] == 0 ? turnFieldDeRotatorOn() : turnFieldDeRotatorOff();
+	  FanStatusSw.s = ILS_OK;
+	  strcpy(msg, index[0] == 0 ? "Field deRotator is ON" : "Field deRotator is Off");
+	  ICSetSwitch (&FanStatusSw, msg);
+	  return;
+   }
+
+   if (!validateSwitch(s, &SlewAltAzSw, NARRAY(SlewAltAzS), index, 1))
+   {
+     if (checkPower())
+	  {
+	    SlewAltAzSw.s = ILS_IDLE;
+	    ICSetSwitch(&SlewAltAzSw, NULL);
+	    return;
+	  }
+
+	  if (SlewAltAzSw.s == ILS_BUSY)
+	  {
+	     abortSlew();
+
+	     // sleep for 100 mseconds
+	     usleep(100000);
+	  }
+
+	  if ((i = slewToAltAz()))
+	  {
+            SlewAltAzSw.s = ILS_IDLE;
+	    ICSetSwitch(&SlewAltAzSw, "Slew not possible");
+	    return;
+	  }
+
+	  // TODO
+	  // We need to convert Object's Alt/Az to RA/DEC because we can't get Object's
+	  // Alt/Az directly from the telescope. Without this, we can't update and check the
+	  // slew status
+	  SlewAltAzSw.s = ILS_OK;
+	  ICSetSwitch(&SlewAltAzSw, "Slewing to Az %s - Alt %s", ObjectAz.nstr, ObjectAlt.nstr);
+
+	  return;
+	}
+
+}
 
  void LX200_16::ISPoll ()
  {
+   int searchResult;
+   LX200Autostar::ISPoll();
 
-   if (callParent)
-      LX200Autostar::ISPoll();
-   callParent = 1;
+   	switch (HomeSearchSw.s)
+	{
+	case ILS_IDLE:
+	     break;
+
+	case ILS_BUSY:
+
+	    searchResult = getHomeSearchStatus();
+
+	    if (!searchResult)
+	    {
+	      HomeSearchSw.s = ILS_IDLE;
+	      ICSetSwitch(&HomeSearchSw, "Home search failed");
+	    }
+	    else if (searchResult == 1)
+	    {
+	      HomeSearchSw.s = ILS_OK;
+	      ICSetSwitch(&HomeSearchSw, "Home search successful");
+	    }
+	    else if (searchResult == 2)
+	      ICSetSwitch(&HomeSearchSw, "Home search in progress...");
+	    else
+	    {
+	      HomeSearchSw.s = ILS_IDLE;
+	      ICSetSwitch(&HomeSearchSw, "Home search error");
+	    }
+	    break;
+
+	 case ILS_OK:
+	   break;
+	 case ILS_ALERT:
+	  break;
+	}
 
  }
 
  void LX200_16::getBasicData()
  {
    // process parent first
-   if (callParent)
-      LX200Autostar::getBasicData();
-   callParent = 1;
+   LX200Autostar::getBasicData();
 
  }

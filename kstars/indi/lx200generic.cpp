@@ -141,8 +141,6 @@ LX200Generic::LX200Generic()
    portIndex = 0;
 
    // Children call parent routines, this is the default
-   callParent = 1;
-
    fprintf(stderr , "initilizaing from generic LX200 device...\n");
 
 }

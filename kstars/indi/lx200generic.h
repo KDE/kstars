@@ -62,10 +62,6 @@ class LX200Generic
   double oldLX200RA;
   double oldLX200DEC;
 
-protected:
-  int callParent;
-
-
 };
 
 
