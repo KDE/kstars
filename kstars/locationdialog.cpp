@@ -239,6 +239,9 @@ void LocationDialog::initCityList( void ) {
 		}
 	}
 
+	//Sort the list of Cities alphabetically
+	GeoBox->sort();
+	
 	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
 	bool cityFound(false);

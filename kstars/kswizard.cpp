@@ -125,6 +125,9 @@ void KSWizard::initGeoPage() {
 			index = ksw->data()->geoList.at();
 	}
 	
+	//Sort alphabetically
+	CityListBox->sort();
+	
 	//preset to current city
 	CityListBox->setCurrentItem( index );
 	Geo = ksw->data()->geoList.at( GeoID[ index ] );
