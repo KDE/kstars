@@ -97,7 +97,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	new KListViewItem( ui->table, obj->translatedName(), 
 			obj->ra()->toHMSString(),
 			obj->dec()->toDMSString(),
-			QString::number( obj->mag() ),
+			QString::number( obj->mag(), 'g', 2 ),
 			obj->typeName() );
 
 	//Note addition in statusbar
