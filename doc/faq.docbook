@@ -58,24 +58,41 @@ color which indicates that there are extra images available in the
 <qandaentry>
 <question>
 <para>
-Why are there so many more U.S. cities than in other countries?  Is it a
-conspiracy?
+Why are there so many more U.S. cities than in other countries?
 </para>
 </question>
 <answer>
 <para>
-It may be a conspiracy, but &kstars; is not involved!  We were unable to
-find a single longitude/latitude database that covers the globe equitably.
-We are currently working on adding many more non-U.S. cities to the
-database.  We have already received city lists from users in Norway, Italy
-and Korea.  If you can contribute to this effort, please let us know.
+When we started &kstars;, we were unable to find a longitude/latitude 
+database that covered the globe equitably.  However, the &kstars; 
+community is rapidly overcoming this problem!  We have already 
+received city lists from many users around the world.  If you can 
+contribute to this effort, please send us your list of cities and 
+coordinates.
 </para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para>Why can I not display the ground when using Equatorial Coordinates</para>
+<para>
+I have added a custom location to &kstars; that I no longer want.  How
+do I remove it from the program?
+</para>
+</question>
+<answer>
+<para>
+You will have to edit the 
+<filename>~/.kde/share/apps/kstars/mycities.dat</filename> file, and
+remove the location's line from that file.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Why can I not display the ground when using Equatorial 
+Coordinates?</para>
 </question>
 <answer>
 <para>
@@ -90,9 +107,8 @@ a low priority.
 
 <qandaentry>
 <question>
-<para>
-Why do some objects disappear when I am scrolling the display?
-</para>
+<para>Why do some objects disappear when I am scrolling the 
+display?</para>
 </question>
 <answer>
 <para>
@@ -122,6 +138,33 @@ astronomical topics that can be explored and illustrated with &kstars;.
 AstroInfo is a community effort, like GNUpedia or Everything2.  If
 you'd like to contribute to AstroInfo, please join our mailing list:
 <email>kstars-info@lists.sourceforge.net</email>.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>I want &kstars; to start up with a time and date different from 
+my system CPU clock.  Is this possible?</para>
+</question>
+<answer>
+<para>
+Yes; to start kstars with a different time/date, use the 
+<arg>--date</arg> argument, followed by a date string like 
+<quote>4 July 1976 12:30:00</quote>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>I want &kstars; to start up with the simulation clock paused.
+Is this possible?</para>
+</question>
+<answer>
+<para>
+Yes; to start kstars with the clock paused, simply add the 
+<arg>--paused</arg> argument to the command line.
 </para>
 </answer>
 </qandaentry>

@@ -17,6 +17,8 @@ desired image dimensions:
 <arg>--height <replaceable>640</replaceable></arg>
 <arg>--width <replaceable>480</replaceable></arg>
 <arg>--script <replaceable>myscript.kstars</replaceable></arg>
+<arg>--date <replaceable><quote>4 July 1976 
+12:30:00</quote></replaceable></arg>
 </cmdsynopsis>
 </para>
 <para>
@@ -55,10 +57,11 @@ functions are encountered while parsing the script, they are
 simply ignored.
 </para>
 <para>
-As an alternative to having to execute a &kstars; 
-<acronym>DCOP</acronym> script, we will provide an argument to 
-specify an alternate <filename>kstarsrc</filename> config file, 
-in a future version of &kstars;. 
+By default, &kstars; will use the system CPU time and date for 
+generating the image.  Alternatively, you may specify a time 
+and date with the <arg>--date</arg> argument.  You can also 
+use this argument for specifying the startup date in normal 
+GUI mode.  
 </para>
 
 </chapter>
