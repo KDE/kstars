@@ -164,13 +164,11 @@ void KStars::slotSetTime() {
 		if ( options()->useAltAz ) {
 			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
 		}
-
-//	kdDebug() << "after Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
-
 	}
 }
 
 void KStars::slotFind() {
+	clearCachedFindDialog();
 	if ( !findDialog ) {	  // create new dialog if no dialog is existing
 		findDialog = new FindDialog( this );
 	}
@@ -182,6 +180,7 @@ void KStars::slotFind() {
 		map()->setClickedPoint( map()->clickedObject() );
 		map()->slotCenter();
 	}
+	
 	// check if data has changed while dialog was open
 	if ( DialogIsObsolete ) clearCachedFindDialog();
 }
@@ -225,26 +224,6 @@ void KStars::slotPrint() {
 	if( printer.setup( this ) ) {
 		kapp->setOverrideCursor( waitCursor );
 
-		//PRINT_REDRAW
-		/*
-		QPainter *p = new QPainter( &printer );
-		QPaintDeviceMetrics pdm( p->device() );
-		QImage img( map()->skyPixmap().convertToImage() );
-	
-		//Fit map image to page if it's larger than the page.
-		if ( img.width() > pdm.width() || img.height() > pdm.height() )
-			img = img.smoothScale( pdm.width(), pdm.height(), QImage::ScaleMin );
-
-		//Make sure image is centered on the page
-		QPoint pt( (pdm.width() - img.width())/2, (pdm.height() - img.height())/2 );
-
-		//Draw Image
-		p->drawImage( pt, img );
-
-		delete p;
-		*/
-		
-		//PRINT_REDRAW: the new draw code
 		QPainter p;
 		
 		//shortcuts to inform wheter to draw different objects
@@ -310,7 +289,7 @@ void KStars::slotPrint() {
 		options()->colorScheme()->copy( cs );
 		// restore colormode in skymap
 		map()->setStarColorMode( cs.starColorMode() );
-//		map()->UpdateNow();
+		map()->Update();
 	}
 }
 
@@ -372,13 +351,14 @@ void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
+		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
+		if ( options()->useAltAz && options()->useRefraction ) {
+			focusDialog.point()->EquatorialToHorizontal( LSTh(), geo()->lat() );
+			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
+			focusDialog.point()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+		}
 		map()->setClickedPoint( focusDialog.point() );
 		if ( options()->isTracking ) slotTrack();
-//		map()->setClickedObject( NULL );
-//		map()->setFoundObject( NULL ); //make sure no longer tracking
-//		options()->isTracking = false;
-//		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
-//		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 
 		map()->slotCenter();
 	}
@@ -408,6 +388,11 @@ void KStars::slotZoomOut() {
 void KStars::slotDefaultZoom() {
 	options()->ZoomLevel = DEFAULTZOOMLEVEL;
 	map()->Update();
+	
+	if ( options()->ZoomLevel > MINZOOMLEVEL )
+		actionCollection()->action("zoom_out")->setEnabled (true);
+	if ( options()->ZoomLevel < MAXZOOMLEVEL )
+		actionCollection()->action("zoom_in")->setEnabled (true);
 }
 
 void KStars::slotCoordSys() {

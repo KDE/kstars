@@ -18,6 +18,7 @@
 #include "wutdialog.h"
 
 #include "kstars.h"
+#include "ksutils.h"
 #include "objectnamelist.h"
 #include "detaildialog.h"
 
@@ -205,8 +206,8 @@ void WUTDialog::appendToList(SkyObjectName *o) {
 	// split into several lists
 	switch (o->skyObject()->type()) {
 		case SkyObject::PLANET						: lists.visibleList[0].append(o); break;
-		case SkyObject::STAR							:
-		case SkyObject::CATALOG_STAR			: lists.visibleList[1].append(o); break;
+		case SkyObject::STAR							: lists.visibleList[1].append(o); break;
+		//case SkyObject::CATALOG_STAR			: //Omitting CATALOG_STARs from list
 		case SkyObject::COMET							:
 		case SkyObject::ASTEROID					: lists.visibleList[3].append(o); break;
 		case SkyObject::OPEN_CLUSTER			:
@@ -254,6 +255,34 @@ void WUTDialog::loadList(int i) {
 }
 
 bool WUTDialog::checkVisibility(SkyObjectName *oname) {
+	bool visible( false );
+	double minAlt = 20.0; //minimum altitude for object to be considered 'visible'
+	SkyPoint sp = (SkyPoint)*(oname->skyObject()); //local copy of skyObject's position
+	
+	QDateTime ssDT( kstars->data()->LTime.date(), sunSetToday );
+	QDateTime srDT( kstars->data()->LTime.date().addDays(1), sunRiseTomorrow );
+	
+	for ( QDateTime test = ssDT; test < srDT; test = test.addSecs(3600) ) {
+		//Need LST of the test time, expressed as a dms object.
+		QDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
+		QTime lst = KSUtils::UTtoLST( ut, geo->lng() );
+		dms LSTh;
+		LSTh.setH( lst.hour(), lst.minute(), lst.second() );
+		
+		//check altitude of object at this time.
+		sp.EquatorialToHorizontal( &LSTh, geo->lat() );
+		
+		if ( sp.alt()->Degrees() > minAlt ) {
+			visible = true;
+			break;
+		}
+	}
+	
+	return visible;
+}
+
+/*
+bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	bool visible = false;
 	// circumpolar objects
 	if (oname->skyObject()->checkCircumpolar(geo->lat()) == true) {
@@ -263,8 +292,8 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		QTime riseTimeToday = oname->skyObject()->riseTime(today, geo);
 		QTime setTimeToday, setTimeTomorrow;
 		// if rise time is invalid => circumpolar
-		// object rises after sunset and before sunrise => visible
-		if (riseTimeToday.isValid() == false || riseTimeToday > sunSetToday && riseTimeToday < sunRiseTomorrow) {
+		// object rises after sunset => visible
+		if (riseTimeToday.isValid() == false || riseTimeToday > sunSetToday) {
 			visible = true;
 		} else {
 			// object set time is after sunset => visible
@@ -293,6 +322,7 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	}
 	return visible;
 }
+*/
 
 void WUTDialog::updateTimes(QListBoxItem *item) {
 	QString rise, set;

@@ -15,13 +15,13 @@ is January 1, 4713 BC (or -4712 January 1, since there was no year '0').  Julian
 Days are very useful because they make it easy to determine the number of days
 between two events by simply subtracting their Julian Day numbers.
 Such a calculation is difficult for the standard (Gregorian) calendar, because
-days are grouped into months, which can contain a variable number of days, and
+days are grouped into months, which contain a variable number of days, and
 there is the added complication of <link linkend="ai-leapyear">Leap
 Years</link>.
 </para><para>
 Converting from the standard (Gregorian) calendar to Julian Days and vice versa
-is best left to a special program written to do this, and there are many to be
-found on the web (and &kstars; does this too, of course!).  However, for those
+is best left to a special program written to do this, such as the &kstars; 
+<link linkend="tool-calculator">Astrocalculator</link>.  However, for those
 interested, here is a simple example of a Gregorian to Julian day converter:
 </para><para>
 <abbrev>JD</abbrev> = <abbrev>D</abbrev> - 32075 + 1461*( <abbrev>Y</abbrev> +
@@ -47,7 +47,7 @@ Astronomers use certain Julian Day values as important reference points, called
 <firstterm>Epochs</firstterm>.  One widely-used epoch is called J2000; it is the
 Julian Day for 1 Jan, 2000 at 12:00 noon = <abbrev>JD</abbrev> 2451545.0.
 </para><para>
-Much more information on Julian Days is availabel on the internet.  A good
+Much more information on Julian Days is available on the internet.  A good
 starting point is the <ulink
 url="http://aa.usno.navy.mil/faq/docs/JD_Formula.html">U.S. Naval
 Observatory</ulink>.  If that site is not available when you read this, try

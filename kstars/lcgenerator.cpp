@@ -203,7 +203,7 @@ void LCGenerator::createGUI()
     CCDICheck->setText( i18n( "CCDI" ) );
     plotLabel->setText( i18n( "Plot average" ) );
     daysLabel->setText( i18n( "days" ) );
-    GetCurveButton->setText( i18n( "Retrive Curve" ) );
+    GetCurveButton->setText( i18n( "Retrieve Curve" ) );
     UpdateListButton->setText( i18n( "Update List" ) );
     CloseButton->setText( i18n( "Close" ) );
     

@@ -36,6 +36,27 @@ by pressing Ctrl+C or by selecting the "Tools->Calculator" menu item.
 </tip>
 <tip category="KStars|General">
 <html>
+<p>The AAVSO Light Curve Generator tool connects to a server at the 
+American Association of Variable Star Observers, and constructs a 
+lightcurve for any of the 6000+ variable stars that they monitor 
+on a daily basis.
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
+<p>The Altitude vs. Time tool will plot altitude curves for any group 
+of objects that you select.  This is a great tool for planning 
+observing sessions.
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
+<p>With the What's Up Tonight? tool, you can tell at a glance what 
+objects will be visible from your location on a given night.
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
 <p>There are three on-screen "Info Boxes" which show data related to the
 time/date, your geographic location, and the current central position on the
 sky (the focus).  You can drag these boxes with the mouse, and "shade" them
@@ -208,7 +229,8 @@ objects are hidden while the display is in motion.
 <tip category="KStars|Trivia">
 <html>
 <p>KStars displays 40,000 stars, 13,000 deep-sky objects, 88 constellations,
-8 planets, the Sun, the Moon, and the Milky Way.
+all planets, the Sun, the Moon, thousands of comets and asteroids, and the 
+Milky Way.
 </html>
 </tip>
 <tip category="KStars|Trivia">

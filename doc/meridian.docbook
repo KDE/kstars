@@ -7,7 +7,7 @@
 </sect1info>
 <title>The Local Meridian</title>
 <para>
-The Meridian is an imaginary <link linkend="ai-greatcircle">Great Circle</link>
+The Local Meridian is an imaginary <link linkend="ai-greatcircle">Great Circle</link>
 on the <link linkend="ai-csphere">Celestial Sphere</link> that is perpendicular
 to the local <link linkend="ai-horizon">Horizon</link>.  It passes through the
 North point on the Horizon, through the <link linkend="ai-cpoles">Celestial

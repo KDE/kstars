@@ -89,8 +89,15 @@ class SimClock : public QObject, public SimClockInterface {
 	/**DCOP function to set the time of the SimClock. */
 		virtual ASYNC setUTC(const QDateTime &newtime);
 
+	/**DCOP function to set scale of simclock.  Calls setScale, and 
+		*calls SkyMap::setClockSlewing() to put the clock in Manual mode, if required
+		*/
+		virtual ASYNC setClockScale(float s);
+	
 	public slots:
-		virtual ASYNC setScale(float s);
+		
+		/**Adjust the clock timescale*/
+		void setScale(float s);
 
 		/**Respond to the QTimer::timeout signal */
 		void tick();

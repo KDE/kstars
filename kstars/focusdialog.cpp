@@ -178,7 +178,7 @@ void FocusDialog::validatePoint( void ) {
 		QString warnDecMess = i18n( "The Dec value you entered is not between -90 and +90 degrees. "
 					    "Please enter a new value." );
 
-		kdDebug() << "RA, Dec: " << RA.Hours() << ", " << Dec.Degrees() << endl;
+		kdDebug() << "Manual Focus: " << RA.toHMSString() << ", " << Dec.toDMSString() << endl;
 
 		//can't check using RA.Hours() because this automatically calls reduce().
 		if ( RA.Degrees() < 0.0 || RA.Degrees() > 360.0 ) {

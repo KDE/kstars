@@ -98,7 +98,8 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	GeoLocation *Geo = geo();
 	KStarsData *Data = data();
 
-	clock->stop();
+//Don't stop the clock just because time changed.
+//	clock->stop();
 
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
 	Data->setFullTimeUpdate();
@@ -224,12 +225,16 @@ void KStars::showFocusCoords( void ) {
 			oname += " (" + map()->foundObject()->name2() + ")";
 	}
 
-	//
-	//This is ugly, got to find a way to change this. But for now.
-	//
 	infoBoxes()->focusObjChanged(oname);
-	infoBoxes()->focusCoordChanged(map()->focus());
-
+	
+	if ( options()->useAltAz && options()->useRefraction ) {
+		SkyPoint corrFocus( *(map()->focus()) );
+		corrFocus.setAlt( map()->refract( map()->focus()->alt(), false ) );
+		corrFocus.HorizontalToEquatorial( LSTh(), geo()->lat() );
+		infoBoxes()->focusCoordChanged( &corrFocus );
+	} else {
+		infoBoxes()->focusCoordChanged( map()->focus() );
+	}
 }
 
 QString KStars::getDateString( QDate date ) {

@@ -125,9 +125,11 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	EclipticToEquatorial( num->obliquity() );
 
 	nutate(num);
-
 	aberrate(num);
 
+	//Determine the position angle
+	findPA( num );
+	
 	if ( hasTrail() ) {
 		Trail.append( new SkyPoint( ra(), dec() ) );
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();

@@ -32,6 +32,7 @@
 #include "detaildialog.h"
 #include "kstars.h"
 #include "imageviewer.h"
+#include "infoboxes.h"
 #include "addlinkdialog.h"
 #include "kspopupmenu.h"
 #include "skymap.h"
@@ -422,6 +423,10 @@ void SkyMap::slewFocus( void ) {
 		//set focus=destination.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+		
+		ksw->infoBoxes()->focusObjChanged( ksw->options()->focusObject );
+		ksw->infoBoxes()->focusCoordChanged( ksw->map()->focus() );
+		
 		ksw->setHourAngle();
 		slewing = false;
 

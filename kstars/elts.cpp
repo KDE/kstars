@@ -245,11 +245,12 @@ elts::~elts()
 //}
 
 void elts::slotAddSource(void) {
+	bool objFound( false );
+	
 	//First, attempt to find the object name in the list of known objects
 	if ( ! nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		QString text = nameBox->text().lower();
-		bool objFound(false);
 		
 		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == text ) {
@@ -261,11 +262,14 @@ void elts::slotAddSource(void) {
 				break;
 			}
 		}
+		
 		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
-	
+		
 	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject 
 	//with these parameters
-	} else if ( ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+	} 
+	
+	if ( !objFound && ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		bool ok( true );
 		dms newRA( 0.0 ), newDec( 0.0 );
 		newRA = raBox->createDms( false, &ok );
@@ -278,13 +282,14 @@ void elts::slotAddSource(void) {
 		
 	//If the Ra and Dec boxes are filled, but the name field is empty, 
 	//move input focus to nameBox`
-	} else if ( ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+	} else if ( nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		nameBox->QWidget::setFocus();
 	
 	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
-	} else {
-		if ( decBox->text().isEmpty() ) decBox->QWidget::setFocus();
-		if (  raBox->text().isEmpty() )  raBox->QWidget::setFocus();
+	} else if (  raBox->text().isEmpty() ) { 
+		raBox->QWidget::setFocus();
+	} else if ( decBox->text().isEmpty() ) { 
+		decBox->QWidget::setFocus();
 	}
 	
 	eltsView->repaint(false);
@@ -301,7 +306,7 @@ void elts::slotBrowseObject(void) {
 	eltsView->repaint();
 }
 
-void elts::processObject( SkyObject *o ) {
+void elts::processObject( SkyObject *o, bool forceAdd ) {
 	//We need earth for findPosition.  Store KSNumbers for simulation date/time 
 	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
@@ -338,7 +343,7 @@ void elts::processObject( SkyObject *o ) {
 			break;
 		}
 	}
-	if ( found ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
+	if ( found && !forceAdd ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
 	else {
 		pList.append( (SkyPoint*)o );
 		PlotList->insertItem( o->name() );
@@ -421,6 +426,54 @@ void elts::slotClearBoxes(void) {
 }
 
 void elts::slotUpdateDateLoc(void) {
+	//reprocess objects to update their coordinates.
+	//Again find each object in the list of known objects, and update
+	//coords if the object is a solar system body
+	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
+	KSNumbers *oldNum = new KSNumbers( ks->getClock()->JD() );
+	KSPlanet *Earth = ks->data()->earth();
+	
+	for ( unsigned int i = 0; i < PlotList->count(); ++i ) {
+		QString oName = PlotList->text( i ).lower();
+		ObjectNameList &ObjNames = ks->data()->ObjNames;
+		bool objFound(false);
+		
+		kdDebug() << i << ": " << oName << endl;
+		
+		for( SkyObjectName *name = ObjNames.first( oName ); name; name = ObjNames.next() ) {
+			if ( name->text().lower() == oName ) {
+				//object found
+				SkyObject *o = name->skyObject();
+				
+				//If the object is in the solar system, recompute its position for the given date
+				if ( ks->data()->isSolarSystem( o ) ) {
+					Earth->findPosition( num );
+		
+					if ( o->type() == 2 && o->name() == "Moon" ) {
+						((KSMoon*)o)->findPosition(num, Earth);
+					} else if ( o->type() == 2 ) {
+						((KSPlanet*)o)->findPosition(num, Earth);
+					} else if ( o->type() == 9 ) {
+						((KSComet*)o)->findPosition(num, Earth);
+					} else if ( o->type() == 10 ) {
+						((KSAsteroid*)o)->findPosition(num, Earth);
+					} else {
+						kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
+					}
+				}
+				
+				//precess coords to target epoch
+				o->updateCoords( num );
+				
+				//update pList entry
+				pList.replace( i, (SkyPoint*)o );
+				
+				objFound = true;
+				break;
+			}
+		}
+	}
+	
 	eltsView->repaint();
 }
 

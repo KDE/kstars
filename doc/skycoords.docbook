@@ -27,7 +27,8 @@ The <firstterm>Equatorial coordinate system</firstterm> is probably the most
 widely used celestial coordinate system.  It is also the most closely related
 to the <link linkend="ai-geocoords">Geographic coordinate system</link>, because
 they use the same fundamental plane, and the same poles.  The projection of the
-Earth's equator onto the celestial sphere is called the Celestial Equator.
+Earth's equator onto the celestial sphere is called the 
+<link linkend="ai-cequator">Celestial Equator</link>.
 Similarly, projecting the geographic Poles onto the celestial sphere defines the
 North and South <link linkend="ai-cpoles">Celestial Poles</link>.
 </para><para>

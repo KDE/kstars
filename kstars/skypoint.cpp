@@ -56,8 +56,10 @@ void SkyPoint::EquatorialToHorizontal( const dms *LSTh, const dms *lat ) {
 	AzRad = acos( ( sindec - sinlat*sinAlt )/( coslat*cosAlt ) );
 	if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
 
-	Az.setRadians( AzRad );
+	//Do not reset Az if Alt > 89.5 or <-89.5
 	Alt.setRadians( AltRad );
+	if ( Alt.Degrees() < 89.5 && Alt.Degrees() > -89.5 ) 
+		Az.setRadians( AzRad );
 }
 
 void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {

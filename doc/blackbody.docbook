@@ -14,20 +14,23 @@
 <title>Blackbody Radiation</title>
 
 <para>
-A <firstterm>blackbody</firstterm> refers to a dense opaque object that emits <firstterm>thermal radiation</firstterm>.
-A perfect blackbody is one that absorbs all incoming light and does not reflect any.  Therefore, at room temperature, such an
-object would appear to be perfectly black.  Hence the term
-<emphasis>blackbody</emphasis>. Despite its name, a blackbody is not necessarily black. The color of a blackbody changes with temperature,
-but at room temperture, the blackbody emits very little radiation that renders it black.
+A <firstterm>blackbody</firstterm> refers to an opaque object that 
+emits <firstterm>thermal radiation</firstterm>.  A perfect 
+blackbody is one that absorbs all incoming light and does not 
+reflect any.  At room temperature, such an object would 
+appear to be perfectly black (hence the term
+<emphasis>blackbody</emphasis>).  However, if heated to a high 
+temperature, a blackbody will begin to glow with 
+<firstterm>thermal radiation</firstterm>.
 </para>
 
 <para>
-All objects emit thermal radiation (as long as their temperature is
-above Absolute Zero, or -276.15 degrees Celsius), but no object is
-really a perfect emitter; rather, they are better at
-emitting/absorbing some wavelengths of light than others.  These
-uneven efficiencies make it difficult to study the interaction of
-light, heat and matter using normal objects.
+In fact, all objects emit thermal radiation (as long as their 
+temperature is above Absolute Zero, or -276.15 degrees Celsius), 
+but no object emits thermal radiation perfectly; rather, they are 
+better at emitting/absorbing some wavelengths of light than others.  
+These uneven efficiencies make it difficult to study the interaction 
+of light, heat and matter using normal objects.
 </para>
 
 <para>
@@ -35,7 +38,7 @@ Fortunately, it is possible to construct a nearly-perfect blackbody.
 Construct a box made of a thermally conductive material, such as
 metal.  The box should be completely closed on all sides, so that the
 inside forms a cavity that does not receive light from the
-surroundings.  Then, make a very small hole somewhere on the box.
+surroundings.  Then, make a small hole somewhere on the box.
 The light coming out of this hole will almost perfectly resemble the
 light from an ideal blackbody, for the temperature of the air inside
 the box.

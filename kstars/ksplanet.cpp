@@ -283,6 +283,10 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		calcEcliptic(num->julianMillenia(), ep);
 	}
 
+	//determine the position angle
+	findPA( num );
+
+	//Add point to Planet Trail
 	if ( hasTrail() ) {
 		Trail.append( new SkyPoint( ra(), dec() ) );
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();

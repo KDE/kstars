@@ -178,6 +178,9 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 
 	EclipticToEquatorial( num->obliquity() );
 
+	//Determine position angle 
+	findPA( num );
+
 //NEW_EARTH
 //	if ( newEarth ) { delete Earth; Earth = 0; } //yikes!  it was mostly harmless, anyway...
 	return true;

@@ -286,8 +286,8 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	//compute Ecliptic coordinates
 	EquatorialToEcliptic( num->obliquity() );
 
-	//nutate(num);
-	//aberrate(num);
+	//determine the position angle
+	findPA( num );
 
 	if ( hasTrail() ) {
 		Trail.append( new SkyPoint( ra(), dec() ) );

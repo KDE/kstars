@@ -3,6 +3,7 @@
 
 <itemizedlist><title>The Sky and Coordinate Systems</title>
   <listitem><para><link linkend="ai-skycoords">Celestial Coordinate Systems</link></para></listitem>
+  <listitem><para><link linkend="ai-cequator">Celestial Equator</link></para></listitem>
   <listitem><para><link linkend="ai-cpoles">Celestial Poles</link></para></listitem>
   <listitem><para><link linkend="ai-csphere">Celestial Sphere</link></para></listitem>
   <listitem><para><link linkend="ai-ecliptic">The Ecliptic</link></para></listitem>
@@ -35,6 +36,7 @@
 
 <itemizedlist><title>Astrophysics</title>
   <listitem><para><link linkend="ai-ellipgal">Elliptical Galaxies</link></para></listitem>
+  <listitem><para><link linkend="ai-spiralgal">Spiral Galaxies</link></para></listitem>
   <listitem><para><link linkend="ai-magnitude">The Magnitude Scale</link></para></listitem>
   <listitem><para><link linkend="ai-stars">Stars: An Introductory FAQ</link></para></listitem>
   <listitem><para><link linkend="ai-colorandtemp">Star Colors and Temperatures</link></para></listitem>

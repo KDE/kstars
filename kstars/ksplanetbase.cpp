@@ -59,6 +59,25 @@ void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {
 		sp->EquatorialToHorizontal( LST, lat );
 }
 
+void KSPlanetBase::findPA( const KSNumbers *num ) {
+	//Determine position angle of planet (assuming that it is aligned with
+	//the Ecliptic, which is only roughly correct).
+	//Displace a point along +Ecliptic Latitude by 1 degree
+	SkyPoint test;
+	dms newELat( ecLat()->Degrees() + 1.0 );
+	test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
+	double dx = test.ra()->Degrees() - ra()->Degrees();
+	double dy = dec()->Degrees() - test.dec()->Degrees();
+	double pa;
+	if ( dy ) {
+		pa = atan( dx/dy )*180.0/dms::PI;
+	} else {
+		pa = 90.0;
+		if ( dx > 0 ) pa = -90.0;
+	}
+	setPA( pa );
+}
+
 void KSPlanetBase::rotateImage( double imAngle ) {
 //Update PositionAngle and rotate Image if the new position angle (p) is
 //more than 5 degrees from the stored PositionAngle.

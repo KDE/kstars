@@ -639,6 +639,7 @@ bool KStarsData::readDeepSkyData( void ) {
 				// all other are skyobjects
 				SkyObject *o = 0;
 				if (type < 2) {
+					if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
 					o = new StarObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 				} else {
 					o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
@@ -1622,10 +1623,17 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			}
 		} else if ( ! skymap->isSlewing() ) {
 			//Not tracking and not slewing, let sky drift by
-			skymap->focus()->setRA( LSTh->Hours() - HourAngle->Hours() );
-			skymap->setDestination( skymap->focus() );
-			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
-			skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+			if ( options->useAltAz ) {
+				skymap->focus()->setAlt( skymap->destination()->alt()->Degrees() );
+				skymap->focus()->setAz( skymap->destination()->az()->Degrees() );
+				skymap->focus()->HorizontalToEquatorial( LSTh, geo->lat() );
+				//skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
+			} else {
+				skymap->focus()->setRA( LSTh->Hours() - HourAngle->Hours() );
+				skymap->setDestination( skymap->focus() );
+				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
+				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+			}
 		}
 
 		skymap->setOldFocus( skymap->focus() );

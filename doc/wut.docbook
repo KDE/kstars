@@ -1,0 +1,23 @@
+<sect1 id="tool-whatsup">
+<title>What's Up Tonight? Tool</title>
+
+<screenshot>
+<screeninfo>
+The What's Up Tonight Tool
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="wut.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>What's Up Tonight?</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para>
+This tool displays a list of objects that will be visible at night from 
+any location, on any date.
+</para>
+</sect1>
+

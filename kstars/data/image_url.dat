@@ -17,6 +17,7 @@ M 32:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/40/content/9940w.
 M 42:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/OrionMos.jpg
 M 51:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/10/content/0110w.jpg
 M 57:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/01/content/9901w.jpg
+M 64:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910e.jpg
 M 80:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/26/content/9926w.jpg
 M 82:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/08/content/0108a1w.jpg
 M 87:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/20/content/0020w.jpg
@@ -67,7 +68,6 @@ NGC 4603:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/19/content/99
 NGC 4622:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/03/content/0203w.jpg
 NGC 4650:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/16/content/9916w.jpg
 NGC 4676:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2002/11/prc/0211dw.jpg
-NGC 4826:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910e.jpg
 NGC 4881:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/NGC4881.gif
 NGC 5128:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/14/content/9814aw.jpg
 NGC 5139:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/33/content/0133w.jpg
@@ -270,7 +270,7 @@ M 104:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/m104zaphod.
 M 106:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/m106allen.jpg
 M 108:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/m108cross.jpg
 M 109:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/m109young.jpg
-NGC 205:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n205hecht.gif
+M 110:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n205hecht.gif
 NGC 210:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n210block.jpg
 NGC 246:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n246martinez.jpg
 NGC 253:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n253levinson.jpg
@@ -290,6 +290,7 @@ NGC 1300:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1232sch
 NGC 1358:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1358block.jpg
 NGC 1491:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1491rawers.jpg
 NGC 1514:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1514rearwin.jpg
+NGC 1530:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1530block.jpg
 NGC 1532:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1532pakul.jpg
 NGC 1535:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1535block.jpg
 NGC 1579:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n1579myers.jpg

@@ -204,7 +204,7 @@ void KStars::initActions() {
 	new KAction(i18n( "Altitude vs. Time..."), KAccel::stringToKey ( "Ctrl+A"),
 			                           this, SLOT( slotElTs() ), actionCollection(), "altitude_vs_time");
 
-	new KAction(i18n( "What's up tonight..."), 0,
+	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
 //Help Menu:
@@ -560,11 +560,16 @@ void KStars::privatedata::buildGUI() {
 //		ks->map()->slotCenter();
 	}
 	
+	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
+	
 	ks->map()->setDestination( ks->map()->clickedPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 
+	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
+	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
+	
 	ks->setHourAngle();
 
 	ks->map()->setOldFocus( ks->map()->focus() );

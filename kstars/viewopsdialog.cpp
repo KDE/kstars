@@ -1082,11 +1082,6 @@ void ViewOpsDialog::updateDisplay( void ) {
 void ViewOpsDialog::changeCoordSys( void ) {
 	ksw->options()->useAltAz = AltAzRadio->isChecked();
 	showGround->setEnabled( AltAzRadio->isChecked() );
-
-	if ( EquatRadio->isChecked() ) {
-		showGround->setChecked( false );
-	}
-	ksw->options()->drawGround = showGround->isChecked();
 	ksw->map()->Update();
 }
 

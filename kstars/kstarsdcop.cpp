@@ -105,7 +105,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	
 	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
 		if ( loc->translatedName() == city &&
-					loc->translatedProvince() == province &&
+					( province.isEmpty() || loc->translatedProvince() == province ) &&
 					loc->translatedCountry() == country ) {
 			
 			cityFound = true;
@@ -158,6 +158,8 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	bool bVal(false);
 	if ( val.lower() == "true" ) { bOk = true; bVal = true; }
 	if ( val.lower() == "false" ) { bOk = true; bVal = false; }
+	if ( val == "1" ) { bOk = true; bVal = true; }
+	if ( val == "0" ) { bOk = true; bVal = false; }
 	
 	//parse int value
 	int nVal = val.toInt( &nOk );
