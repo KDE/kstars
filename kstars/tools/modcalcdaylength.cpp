@@ -120,20 +120,20 @@ void modCalcDayLength::slotComputePosTime()
 
 		dayLBox->showTime( dayLQtime );
 	} else if (transAlt.Degrees() > 0. ) {
-		azSetBox->showCircumpolar();
+		azSetBox->setDMS(i18n("Circumpolar"));
 		elTransitBox->show( transAlt );
-		azRiseBox->showCircumpolar();
+		azRiseBox->setDMS(i18n("Circumpolar"));
 
 		setTimeBox->showTime( setQtime );
 		riseTimeBox->showTime( riseQtime );
 		transitTimeBox->showTime( transitQtime );
 
-		dayLBox->showTime( QTime(23,59,59) );
+		dayLBox->setEntry("24:00:00");
 
 	} else if (transAlt.Degrees() < 0. ) {
-		azSetBox->showDoesNotRise();
-		elTransitBox->showDoesNotRise();
-		azRiseBox->showDoesNotRise();
+		azSetBox->setDMS("does not rise");
+		elTransitBox->setDMS("does not rise");
+		azRiseBox->setDMS("does not rise");
 
 		setTimeBox->clearFields();
 		riseTimeBox->clearFields();
