@@ -589,6 +589,9 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( NULL );
 	} else {
 		map()->setClickedPoint( map()->focus() );
+		map()->setClickedObject( NULL );
+		map()->setFocusObject( NULL );//no longer tracking focusObject
+		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
