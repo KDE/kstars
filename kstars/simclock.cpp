@@ -41,6 +41,7 @@ SimClock::SimClock(QObject *parent, const QDateTime &when) :
 
 SimClock::SimClock (const SimClock &old) :
 	QObject(old.parent()),
+	SimClockInterface(),
 	DCOPObject("clock#" + QCString().setNum(idgen++)),
 	tmr(this)
 {

@@ -304,7 +304,7 @@ void LocationDialog::changeCity( void ) {
 	TZBox->setCurrentItem( int( c.TZ0() ) + 12 );
 
 //Pick the City's rule from the rulebook
-	for ( unsigned int i=0; i<TZRuleBox->count(); ++i ) {
+	for ( int i=0; i<TZRuleBox->count(); ++i ) {
 		if ( p->data()->Rulebook[ TZRuleBox->text(i) ].equals( c.tzrule() ) ) {
 			TZRuleBox->setCurrentItem( i );
 			break;

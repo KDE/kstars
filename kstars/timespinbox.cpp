@@ -154,7 +154,7 @@ QString TimeSpinBox::mapValueToText( int value ) {
 
 void TimeSpinBox::changeScale( float x ) {
 	//Pick the closest value
-	int imin;
+	int imin = 0;
 	float dx, dxlast(10000000000.0), dxmin(10000000000.0);
 	for ( unsigned int i=0; i<42; ++i ) {
 		dx = fabs( TimeScale[i] - fabs(x) );
