@@ -55,6 +55,10 @@
 		<Exec>lx200generic</Exec>
 		<Version>0.1</Version>
 	</device>
+	<device label="Temma Takahashi" driver="Temma">
+	  <Exec>temma</Exec>
+	  <Version>0.1</Version>
+	</device>
 </devGroup>
 <devGroup group="CCDs">
 	<device label="FLI CCD" driver="FLI CCD">
