@@ -1351,8 +1351,9 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 						int dx = 5*ksw->data()->cnameList.at(i)->name().length();
 						psky.drawText( o.x()-dx, o.y(), ksw->data()->cnameList.at(i)->name() );	// latin constellation names
 					} else if ( ksw->options()->useLocalConstellNames ) {
-						int dx = 5*ksw->data()->cnameList.at(i)->translatedName().length();
-						psky.drawText( o.x()-dx, o.y(), ksw->data()->cnameList.at(i)->translatedName() ); // localized constellation names
+						//can't use translatedName() because we need the i18n() comment string...
+						int dx = 5*( i18n( "Constellation name (optional)", ksw->data()->cnameList.at(i)->name().local8Bit().data() ).length() );
+						psky.drawText( o.x()-dx, o.y(), i18n( "Constellation name (optional)", ksw->data()->cnameList.at(i)->name().local8Bit().data() ) ); // localized constellation names
 					} else {
 						int dx = 5*ksw->data()->cnameList.at(i)->name2().length();
 						psky.drawText( o.x()-dx, o.y(), ksw->data()->cnameList.at(i)->name2() );

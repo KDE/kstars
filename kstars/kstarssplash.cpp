@@ -21,10 +21,14 @@
 #include <qpaintdevice.h>
 #include <qlayout.h>
 #include <kmessagebox.h>
-#include <kapplication.h>
 #include <klocale.h>
-
 #include "kstarssplash.h"
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 KStarsSplash::KStarsSplash( KStarsData* kstarsData, QWidget *parent, const char* name, bool modal )
 		: KDialogBase( KDialogBase::Plain, i18n( "Loading KStars..." ),

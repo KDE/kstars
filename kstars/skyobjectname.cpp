@@ -30,7 +30,9 @@ SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *
 	if ( useLatinConstellNames && obj->skyObject()->type()==-1) //type=-1 == constellation
 		setText ( obj->text() );
 	else
-		setText ( obj->translatedText() );
+		//can't use translatedText(), because we need the i18n() comment string...
+//		setText ( obj->translatedText() );
+		setText( i18n( "Constellation name (optional)", obj->text().local8Bit().data() ) );
 }
 
 

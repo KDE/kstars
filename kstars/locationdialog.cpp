@@ -18,7 +18,6 @@
 
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlistbox.h>
@@ -37,6 +36,11 @@
 
 #include "locationdialog.h"
 
+#if (KDE_VERSION <= 222)
+#include <kstddirs.h>
+#else
+#include <kstandarddirs.h>
+#endif
 LocationDialog::LocationDialog( QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "Set Location" ), Ok|Cancel, Ok, parent ) {
 

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kurl.h>
@@ -30,6 +29,12 @@
 
 #include "skymap.h"
 #include "addlinkdialog.h"
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 AddLinkDialog::AddLinkDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {

@@ -16,7 +16,6 @@
  ***************************************************************************/
 //JH 25.08.2001: added i18n() to strings
 
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <qtextstream.h>
 
@@ -25,6 +24,12 @@
 
 #include "kstars.h"
 #include <kdebug.h>
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 KStarsData::KStarsData() : reloadingInProgress ( false ) {
 	stdDirs = new KStandardDirs();

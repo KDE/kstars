@@ -16,9 +16,13 @@
  ***************************************************************************/
 
 #include "kstarsoptions.h"
-
-#include <kapplication.h>
 #include <kconfig.h>
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 KStarsOptions::KStarsOptions()
 	:	useAltAz (true )

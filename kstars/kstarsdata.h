@@ -23,7 +23,6 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
-#include <kstandarddirs.h>
 #include <klocale.h>
 
 #include "geolocation.h"
@@ -37,6 +36,12 @@
 #include "skypoint.h"
 #include "skyobjectname.h"
 #include "dms.h"
+
+#if (KDE_VERSION <= 222)
+#include <kstddirs.h>
+#else
+#include <kstandarddirs.h>
+#endif
 
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for

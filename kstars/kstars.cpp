@@ -27,7 +27,6 @@
 #include <qlayout.h>
 #include <qtimer.h>
 
-#include <kapplication.h>
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kaccel.h>

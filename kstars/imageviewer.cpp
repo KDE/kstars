@@ -28,10 +28,15 @@
 #include <ktoolbar.h>
 #include <kaction.h>
 #include <kaccel.h>
-#include <kapplication.h>
 #include <kiconloader.h>
 #include <kdebug.h>
 #include "imageviewer.h"
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name), imageURL (*url), downloadComplete (false), fileIsImage (false),

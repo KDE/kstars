@@ -21,11 +21,9 @@
 #include <config.h>
 #endif
 
-#include <kapplication.h>
 #include <kmainwindow.h>
 #include <kmenubar.h>
 #include <kaction.h>
-#include <kstandarddirs.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <qframe.h>
@@ -43,6 +41,14 @@
 
 #include "kstarsdata.h"
 #include "kstarsoptions.h"
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#include <kstddirs.h>
+#else
+#include <kapplication.h>
+#include <kstandarddirs.h>
+#endif
 
 // forward declaration is enough. We only need pointers
 class TimeDialog;
