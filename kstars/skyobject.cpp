@@ -117,23 +117,10 @@ QTime SkyObject::auxRiseSetTimeUT( long double jd, const GeoLocation *geo,
 	// if riseT = true => rise Time, else setTime
 
 	dms LST = auxRiseSetTimeLST(geo->lat(), righta, decl, riseT );
+	QDateTime dt = KSUtils::JDtoUT(jd);
+	QTime UT = KSUtils::LSTtoUT( LST, dt, geo->lng());
 
-	//convert LST to Greenwich ST
-	dms GST = dms( LST.Degrees() - geo->lng()->Degrees() ).reduce();
-
-	//convert GST to UT
-	double T = ( jd - J2000 )/36525.0;
-	dms T0, dT, UTh;
-	T0.setH( 6.697374558 + (2400.051336*T) + (0.000025862*T*T) );
-	T0 = T0.reduce();
-	dT.setH( GST.Hours() - T0.Hours() );
-	dT = dT.reduce();
-
-	UTh.setH( 0.9972695663 * dT.Hours() );
-	UTh = UTh.reduce();
-
-
-	return QTime( UTh.hour(), UTh.minute(), UTh.second() );
+	return UT;
 }
 
 dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms *decl, bool riseT ) {
