@@ -471,7 +471,13 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		
 		if ( ( err = setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year) < 0) )
 	  	{
-		  handleError(&Time, err, "Setting local date.");
+		  handleError(&Time, err, "Setting local time");
+		  return;
+		}
+		
+		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
+	  	{
+		  handleError(&Time, err, "Setting local time");
 		  return;
 		}
 		
