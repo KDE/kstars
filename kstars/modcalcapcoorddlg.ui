@@ -567,7 +567,7 @@
                                     <string>Output File...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>File for the outut data</string>
+                                    <string>File for the output data</string>
                                 </property>
                             </widget>
                         </grid>

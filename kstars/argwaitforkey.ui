@@ -45,7 +45,7 @@
                     <property name="whatsThis" stdset="0">
                         <string>The script execution will pause until the user presses the key specified here.  
 
-Only simple keys can currently be used; you cannot use modifier keys such as Ctrl or Shift.  type "space" to specify the spacebar, otherwise use the key itself.</string>
+Only simple keys can currently be used; you cannot use modifier keys such as Ctrl or Shift.  Type "space" to specify the spacebar, otherwise use the key itself.</string>
                     </property>
                 </widget>
                 <spacer>
