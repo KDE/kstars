@@ -759,11 +759,23 @@ void ScriptBuilder::slotSave() {
 	if ( currentFileURL.isValid() ) {
 		currentDir = currentFileURL.directory();
 
-		if ( currentFileURL.isLocalFile() )
+		if ( currentFileURL.isLocalFile() ) {
 			fname = currentFileURL.path();
-		else
+			
+			//Warn user if file exists
+			if (QFile::exists(currentFileURL.path())) {
+				int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+						i18n( "A file named \"%1\" already exists. "
+								"Overwrite it?" ).arg(currentFileURL.fileName()),
+						i18n( "Overwrite File?" ),
+						i18n( "&Overwrite" ) );
+		
+				if(r==KMessageBox::Cancel) return;
+			}
+		} else {
 			fname = tmpfile.name();
-
+		}
+		
 		if ( fname.right( 7 ).lower() != ".kstars" ) fname += ".kstars";
 
 		QFile f( fname );

@@ -206,11 +206,16 @@ void ImageViewer::saveFileToDisc()
 	if (!newURL.isEmpty())
 	{
 		QFile f (newURL.directory() + "/" +  newURL.fileName());
-                kdDebug()<<"Saving to :"<<f.name()<<endl;
 		if (f.exists())
 		{
-                    kdDebug()<<"Warning! Remove existing file "<< f.name()<<endl;
-                    f.remove();
+			int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+									i18n( "A file named \"%1\" already exists. "
+											"Overwrite it?" ).arg(newURL.fileName()),
+									i18n( "Overwrite File?" ),
+									i18n( "&Overwrite" ) );
+			if(r==KMessageBox::Cancel) return;
+			
+			f.remove();
 		}
 		saveFile (newURL);
 	}

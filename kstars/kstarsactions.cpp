@@ -408,6 +408,18 @@ void KStars::slotOpenFITS()
 void KStars::slotExportImage() {
 	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 
+	//Warn user if file exists!
+	if (QFile::exists(fileURL.path()))
+	{
+		int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+								i18n( "A file named \"%1\" already exists. "
+										"Overwrite it?" ).arg(fileURL.fileName()),
+								i18n( "Overwrite File?" ),
+								i18n( "&Overwrite" ) );
+		
+		if(r==KMessageBox::Cancel) return;
+	}
+	
 	exportImage( fileURL.url(), map()->width(), map()->height() );
 }
 
