@@ -90,7 +90,8 @@ void eltsCanvas::paintEvent( QPaintEvent * ) {
 }
 
 void eltsCanvas::drawGrid( QPainter * pcanvas ) {
-//	int lst_minutes = UtMinutes();
+	
+	int lst_minutes = UtMinutes();
 	pcanvas->setPen( white );
 	pcanvas->setFont( topLevelWidget()->font() );
 	pcanvas->translate(40, 40);
@@ -118,7 +119,8 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 		
 		pcanvas->setPen( "white" );
 //		pcanvas->drawText(xt-2*xticksize-2, ymax+xmticksize, s);
-		pcanvas->drawText(xt-2*xticksize, ymax+xmticksize, s);
+		pcanvas->drawLine(xt,ymax, xt,ymax-xmticksize);
+		pcanvas->drawText(xt-2*xticksize+2, ymax+xmticksize, s);
 	}
 	QString xLowLabel = i18n("Local Time");
 	pcanvas->drawText((xmax-xmin)/2-3*xticksize,ymax+xMticksize,xLowLabel);
@@ -143,12 +145,50 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 	pcanvas->drawText((ymin-ymax)/2-3*yticksize,xmin-xwidth/20,yLeftLabel);
 	pcanvas->restore();
 
-	// X minor ticks:
+	// X minor ticks for the lower axis:
+	
 	for (ix=1;ix<xnticks;ix++) {
 		xt = xmin+xticksep*ix;
-		pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
+//		pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
 		pcanvas->drawLine(xt,ymax, xt,ymax-xticksize);
 	}
+	// X minor ticks for the upper axis
+	for (int i = 0; i<2 ; i++) {
+		pcanvas->save();
+		pcanvas->translate(i*xmax-lst_minutes/3, 0);
+		int xtranslation = i*xmax-lst_minutes/3;
+		for (ix=1;ix<xnticks;ix++) {
+			xt = xmin+xticksep*ix;
+			pcanvas->setPen( "white" );
+			if (xt+xtranslation < xmax && xt+xtranslation > xmin)
+				pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
+                }
+                
+                // Major ticks and labels for the upper axis
+
+		for (ix=0;ix<xmticks;ix++) {
+			xt = xmin+xmticksep*ix;
+			
+			int h = int(xt*24/xmax);
+			QString s;
+			if ( h<10 ) {
+				s = QString("0%1:00").arg(h);
+			} else {
+				s = QString("%1:00").arg(h);
+			}
+			pcanvas->setPen( "white" );
+			if (xt+xtranslation < xmax && xt+xtranslation > xmin) {
+//			If we want larger ticks each four hours uncomment the following
+//			line:
+				pcanvas->drawLine(xt,ymin, xt,ymin+xmticksize);
+				pcanvas->drawText(xt-2*xticksize+2, ymin-xmticksize/2, s);
+			}
+                }
+
+                pcanvas->restore();
+        }
+	QString xUpperLabel = i18n("Local Sidereal Time");
+	pcanvas->drawText((xmax-xmin)/2-4*xticksize,ymin-xwidth/20,xUpperLabel);
 	
 	// Y minor ticks:
 	for (iy=1;iy<ynticks;iy++) {
@@ -228,8 +268,6 @@ dms eltsCanvas::DateTimetoLST (QDateTime date, int ut, dms longitude)
 	return LSTh;
 }
 
-// Tomar esto de modCalcAzel::QTimeToDMS haciendolo static ?
-//
 dms eltsCanvas::QTimeToDMS(QTime qtime) {
 
 	dms tt;
@@ -244,8 +282,3 @@ int eltsCanvas::Interpol(int x1,int x2,int y1,int y2) {
 	return (x1 - y1*(x2-x1)/(y2-y1));
 
 }
-
-// Por hacer:
-//  - Pasar UT al eje de abajo
-//  - Slot para añadir fuentes nuevas sin borrar las viejas.
-//  - Guardar las fuentes en una lista? 
