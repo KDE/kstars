@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>Geodetic Coordinates</string>
     </property>
     <vbox>
         <property name="name">
@@ -25,22 +25,22 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QButtonGroup">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>InputBox</cstring>
+                <cstring>layout31</cstring>
             </property>
-            <property name="title">
-                <string>Input Selection</string>
-            </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget">
+                <widget class="QButtonGroup">
                     <property name="name">
-                        <cstring>layout3</cstring>
+                        <cstring>InputBox</cstring>
                     </property>
-                    <vbox>
+                    <property name="title">
+                        <string>Choose Input Coordinates</string>
+                    </property>
+                    <hbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
@@ -73,193 +73,223 @@
                                 </widget>
                             </hbox>
                         </widget>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout2</cstring>
-                            </property>
-                            <hbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer6</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>81</width>
-                                            <height>20</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>Compute</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Compute</string>
-                                    </property>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer4</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>51</width>
-                                            <height>20</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>Clear</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>clear</string>
-                                    </property>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer5</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>91</width>
-                                            <height>21</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                            </hbox>
-                        </widget>
-                    </vbox>
+                    </hbox>
                 </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>cartBox</cstring>
-            </property>
-            <property name="title">
-                <string>Cartesian Coordinates</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="1" column="0">
+                <widget class="QGroupBox">
                     <property name="name">
-                        <cstring>yLabel</cstring>
+                        <cstring>groupBox11</cstring>
                     </property>
-                    <property name="text">
-                        <string>Y (km):</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>zLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Z (km):</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>xLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>X (km):</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="0" column="1">
-                    <property name="name">
-                        <cstring>xGeoName</cstring>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="2" column="1">
-                    <property name="name">
-                        <cstring>zGeoName</cstring>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>yGeoName</cstring>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>spheBox</cstring>
-            </property>
-            <property name="title">
-                <string>Geographic Coordinates</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout5</cstring>
+                    <property name="title">
+                        <string>Ellipsoid Model</string>
                     </property>
                     <hbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLabel">
+                        <widget class="KComboBox">
                             <property name="name">
-                                <cstring>longLabel</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Long:</string>
+                                <cstring>ellipsoidBox</cstring>
                             </property>
                         </widget>
-                        <widget class="dmsBox">
+                    </hbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>81</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Compute</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Convert</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>51</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Clear</cstring>
+                    </property>
+                    <property name="text">
+                        <string>clear</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>91</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout32</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>cartBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Cartesian Coordinates</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>yLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Y (km):</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="0">
+                            <property name="name">
+                                <cstring>zLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Z (km):</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>xLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>X (km):</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="0" column="1">
+                            <property name="name">
+                                <cstring>xGeoName</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="2" column="1">
+                            <property name="name">
+                                <cstring>zGeoName</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="1" column="1">
+                            <property name="name">
+                                <cstring>yGeoName</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>spheBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Geographic Coordinates</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="dmsBox" row="0" column="1" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>lonGeoBox</cstring>
                             </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
                         </widget>
-                        <widget class="QLabel">
+                        <widget class="dmsBox" row="1" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>latGeoBox</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
                             <property name="name">
                                 <cstring>latLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Lat:</string>
+                                <string>Latitude:</string>
                             </property>
                         </widget>
-                        <widget class="dmsBox">
+                        <widget class="QLabel" row="0" column="0">
                             <property name="name">
-                                <cstring>latGeoBox</cstring>
+                                <cstring>longLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Longitude:</string>
                             </property>
                         </widget>
-                        <widget class="QLabel">
+                        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
                             <property name="name">
                                 <cstring>TextLabel3_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Alt:</string>
+                                <string>Elevation (meters):</string>
                             </property>
                         </widget>
-                        <widget class="KLineEdit">
+                        <widget class="KLineEdit" row="2" column="2">
                             <property name="name">
                                 <cstring>altGeoBox</cstring>
                             </property>
@@ -267,58 +297,9 @@
                                 <string>0.0</string>
                             </property>
                         </widget>
-                    </hbox>
+                    </grid>
                 </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout6</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>151</width>
-                                    <height>31</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KComboBox">
-                            <property name="name">
-                                <cstring>ellipsoidBox</cstring>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>161</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-            </vbox>
+            </hbox>
         </widget>
         <spacer>
             <property name="name">
@@ -332,8 +313,8 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>70</height>
+                    <width>20</width>
+                    <height>60</height>
                 </size>
             </property>
         </spacer>
@@ -364,10 +345,10 @@
 </images>
 <connections>
     <connection>
-        <sender>Compute</sender>
-        <signal>clicked()</signal>
+        <sender>ellipsoidBox</sender>
+        <signal>activated(int)</signal>
         <receiver>modCalcGeodCoordDlg</receiver>
-        <slot>slotComputeGeoCoords()</slot>
+        <slot>setEllipsoid()</slot>
     </connection>
     <connection>
         <sender>Clear</sender>
@@ -376,16 +357,14 @@
         <slot>slotClearGeoCoords()</slot>
     </connection>
     <connection>
-        <sender>ellipsoidBox</sender>
-        <signal>activated(int)</signal>
+        <sender>Compute</sender>
+        <signal>clicked()</signal>
         <receiver>modCalcGeodCoordDlg</receiver>
-        <slot>setEllipsoid()</slot>
+        <slot>slotComputeGeoCoords()</slot>
     </connection>
 </connections>
 <tabstops>
-    <tabstop>Clear</tabstop>
     <tabstop>spheRadio</tabstop>
-    <tabstop>Compute</tabstop>
     <tabstop>cartRadio</tabstop>
     <tabstop>xGeoName</tabstop>
     <tabstop>yGeoName</tabstop>
@@ -400,14 +379,14 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

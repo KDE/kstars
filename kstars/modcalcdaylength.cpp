@@ -94,10 +94,6 @@ void modCalcDayLength::slotClearCoords(){
 	datBox->setDate(QDate::currentDate());
 
 // reset times to 00:00:00
-/*	QTime time(0,0,0);
-	setTimeBox->setTime(time);
-	riseTimeBox->setTime(time);
-	transitTimeBox->setTime(time);*/
 	setTimeBox->clearFields();
 	riseTimeBox->clearFields();
 	transitTimeBox->clearFields();
@@ -138,9 +134,6 @@ void modCalcDayLength::slotComputePosTime()
 	elTransitBox->show( transAlt );
 	azRiseBox->show( riseAz );
 
-/*	setTimeBox->setTime( setQtime );
-	riseTimeBox->setTime( riseQtime );
-	transitTimeBox->setTime( transitQtime );*/
 	setTimeBox->showTime( setQtime );
 	riseTimeBox->showTime( riseQtime );
 	transitTimeBox->showTime( transitQtime );

@@ -36,8 +36,8 @@ modCalcGalCoord::~modCalcGalCoord() {
 
 void modCalcGalCoord::getGalCoords (void) {
 
-	galLong = dms( lgName->text().toDouble() );
-	galLat = dms( bgName->text().toDouble() );
+	galLong = lgBox->createDms();
+	galLat = bgBox->createDms();
 	getEpoch();
 }
 
@@ -57,8 +57,8 @@ void modCalcGalCoord::slotClearCoords (void) {
 	
 	raBox->clearFields();
 	decBox->clearFields();
-	lgName->setText("");
-	bgName->setText("");
+	lgBox->clearFields();
+	bgBox->clearFields();
 	
 }
 
@@ -84,8 +84,8 @@ void modCalcGalCoord::showEquCoords(void) {
 }
 
 void modCalcGalCoord::showGalCoords(void) {
-	lgName->setText(QString("%1").arg( galLong.Degrees() ,11,'f',6));
-	bgName->setText(QString("%1").arg( galLat.Degrees() ,11,'f',6));
+	lgBox->show( galLong );
+	bgBox->show( galLat );
 }
 
 void modCalcGalCoord::GalToEqu(void) {

@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>Apparent Coordinates</string>
     </property>
     <vbox>
         <property name="name">
@@ -25,39 +25,26 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QButtonGroup">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>InputBox</cstring>
+                <cstring>layout11</cstring>
             </property>
-            <property name="title">
-                <string>Target Time/Date</string>
-            </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget">
+                <widget class="QButtonGroup">
                     <property name="name">
-                        <cstring>layout1</cstring>
+                        <cstring>InputBox</cstring>
                     </property>
-                    <hbox>
+                    <property name="title">
+                        <string>Target Time and Date</string>
+                    </property>
+                    <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>timeLabel</cstring>
-                            </property>
-                            <property name="text">
-                                <string>UT:</string>
-                            </property>
-                        </widget>
-                        <widget class="QTimeEdit">
-                            <property name="name">
-                                <cstring>timBox</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
+                        <widget class="QLabel" row="1" column="0">
                             <property name="name">
                                 <cstring>dateLabel</cstring>
                             </property>
@@ -65,64 +52,102 @@
                                 <string>Date:</string>
                             </property>
                         </widget>
-                        <widget class="QDateEdit">
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>timeLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>UT:</string>
+                            </property>
+                        </widget>
+                        <widget class="QTimeEdit" row="0" column="1">
+                            <property name="name">
+                                <cstring>timBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QDateEdit" row="1" column="1">
                             <property name="name">
                                 <cstring>datBox</cstring>
                             </property>
                         </widget>
-                    </hbox>
+                        <spacer row="2" column="0">
+                            <property name="name">
+                                <cstring>spacer16</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Fixed</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </grid>
                 </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>origCoordBox</cstring>
-            </property>
-            <property name="title">
-                <string>Catalog Coordinates</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
+                <widget class="QGroupBox">
                     <property name="name">
-                        <cstring>ra0Label</cstring>
+                        <cstring>origCoordBox</cstring>
                     </property>
-                    <property name="text">
-                        <string>RA:</string>
+                    <property name="title">
+                        <string>Catalog Coordinates</string>
                     </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>ra0Box</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>dec0Label</cstring>
-                    </property>
-                    <property name="text">
-                        <string>DEC:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>dec0Box</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>epoch0Label</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Epoch:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>epoch0Name</cstring>
-                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>ra0Box</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>dec0Box</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>dec0Label</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Declination:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>ra0Label</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Right Ascension:</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="2" column="1">
+                            <property name="name">
+                                <cstring>epoch0Name</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="0">
+                            <property name="name">
+                                <cstring>epoch0Label</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Epoch:</string>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
             </hbox>
         </widget>
@@ -214,32 +239,76 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <spacer>
                     <property name="name">
-                        <cstring>rafLabel</cstring>
+                        <cstring>spacer15</cstring>
                     </property>
-                    <property name="text">
-                        <string>RA:</string>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
-                </widget>
-                <widget class="dmsBox">
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>102</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>rafBox</cstring>
+                        <cstring>layout12</cstring>
                     </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>rafLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Right Ascension:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>decfLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Declination:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>rafBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>decfBox</cstring>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
-                <widget class="QLabel">
+                <spacer>
                     <property name="name">
-                        <cstring>decfLabel</cstring>
+                        <cstring>spacer12</cstring>
                     </property>
-                    <property name="text">
-                        <string>DEC:</string>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>decfBox</cstring>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
                     </property>
-                </widget>
+                    <property name="sizeHint">
+                        <size>
+                            <width>70</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
             </hbox>
         </widget>
         <spacer>

@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>Sidereal Time</string>
     </property>
     <vbox>
         <property name="name">
@@ -25,22 +25,22 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QButtonGroup">
+        <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>InputBox</cstring>
+                <cstring>layout47</cstring>
             </property>
-            <property name="title">
-                <string>Input Selection</string>
-            </property>
-            <grid>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget" row="0" column="0">
+                <widget class="QButtonGroup">
                     <property name="name">
-                        <cstring>layout1</cstring>
+                        <cstring>InputBox</cstring>
                     </property>
-                    <hbox>
+                    <property name="title">
+                        <string>Input Selection</string>
+                    </property>
+                    <vbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
@@ -63,11 +63,140 @@
                                 <string>Sidereal time</string>
                             </property>
                         </widget>
-                    </hbox>
+                    </vbox>
                 </widget>
-                <widget class="QLayoutWidget" row="1" column="0">
+                <widget class="QGroupBox">
                     <property name="name">
-                        <cstring>layout3</cstring>
+                        <cstring>longdataBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Date and Location</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>dateBox</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Date:</string>
+                            </property>
+                        </widget>
+                        <widget class="QDateEdit" row="0" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>datBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>longLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Longitude:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="2">
+                            <property name="name">
+                                <cstring>longBox</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer8</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>41</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Compute</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Convert</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>101</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Clear</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Clear</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer7</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>41</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout47</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>UtimeBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Universal Time</string>
                     </property>
                     <hbox>
                         <property name="name">
@@ -75,7 +204,7 @@
                         </property>
                         <spacer>
                             <property name="name">
-                                <cstring>spacer8</cstring>
+                                <cstring>spacer76</cstring>
                             </property>
                             <property name="orientation">
                                 <enum>Horizontal</enum>
@@ -85,22 +214,27 @@
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>41</width>
-                                    <height>21</height>
+                                    <width>40</width>
+                                    <height>20</height>
                                 </size>
                             </property>
                         </spacer>
-                        <widget class="KPushButton">
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>Compute</cstring>
+                                <cstring>UtLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Compute</string>
+                                <string>UT:</string>
+                            </property>
+                        </widget>
+                        <widget class="QTimeEdit">
+                            <property name="name">
+                                <cstring>UtBox</cstring>
                             </property>
                         </widget>
                         <spacer>
                             <property name="name">
-                                <cstring>spacer6</cstring>
+                                <cstring>spacer4</cstring>
                             </property>
                             <property name="orientation">
                                 <enum>Horizontal</enum>
@@ -110,197 +244,73 @@
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>101</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Clear</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Clear</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer7</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>41</width>
+                                    <width>30</width>
                                     <height>20</height>
                                 </size>
                             </property>
                         </spacer>
                     </hbox>
                 </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>longdataBox</cstring>
-            </property>
-            <property name="title">
-                <string>Input Data</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
+                <widget class="QGroupBox">
                     <property name="name">
-                        <cstring>longLabel</cstring>
+                        <cstring>St0Box</cstring>
                     </property>
-                    <property name="text">
-                        <string>Longitude:</string>
+                    <property name="title">
+                        <string>Sidereal Time</string>
                     </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer77</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>StLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>ST:</string>
+                            </property>
+                        </widget>
+                        <widget class="QTimeEdit">
+                            <property name="name">
+                                <cstring>StBox</cstring>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>30</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
                 </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>longBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>dateBox</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Date:</string>
-                    </property>
-                </widget>
-                <widget class="QDateEdit">
-                    <property name="name">
-                        <cstring>datBox</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>UtimeBox</cstring>
-            </property>
-            <property name="title">
-                <string>Universal Time</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer5</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>81</width>
-                            <height>21</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>UtLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>UT:</string>
-                    </property>
-                </widget>
-                <widget class="QTimeEdit">
-                    <property name="name">
-                        <cstring>UtBox</cstring>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer4</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>150</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>St0Box</cstring>
-            </property>
-            <property name="title">
-                <string>Sidereal Time</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer3</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>140</width>
-                            <height>31</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>StLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>ST:</string>
-                    </property>
-                </widget>
-                <widget class="QTimeEdit">
-                    <property name="name">
-                        <cstring>StBox</cstring>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>141</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
             </hbox>
         </widget>
         <spacer>
@@ -315,8 +325,8 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>134</height>
+                    <width>20</width>
+                    <height>150</height>
                 </size>
             </property>
         </spacer>
@@ -347,16 +357,16 @@
 </images>
 <connections>
     <connection>
-        <sender>Compute</sender>
-        <signal>clicked()</signal>
-        <receiver>modCalcSidTimeDlg</receiver>
-        <slot>slotComputeTime()</slot>
-    </connection>
-    <connection>
         <sender>Clear</sender>
         <signal>clicked()</signal>
         <receiver>modCalcSidTimeDlg</receiver>
         <slot>slotClearFields()</slot>
+    </connection>
+    <connection>
+        <sender>Compute</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcSidTimeDlg</receiver>
+        <slot>slotComputeTime()</slot>
     </connection>
 </connections>
 <slots>
@@ -365,9 +375,8 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>qwidget.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

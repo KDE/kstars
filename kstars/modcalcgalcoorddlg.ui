@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>Galactic Coordinates</string>
     </property>
     <vbox>
         <property name="name">
@@ -30,7 +30,7 @@
                 <cstring>ButtonGroup1</cstring>
             </property>
             <property name="title">
-                <string>Input Selection</string>
+                <string>Choose Input Coordinates</string>
             </property>
             <vbox>
                 <property name="name">
@@ -116,179 +116,251 @@
                         </spacer>
                     </hbox>
                 </widget>
-                <widget class="QLayoutWidget">
+            </vbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
                     <property name="name">
-                        <cstring>layout2</cstring>
+                        <cstring>spacer7</cstring>
                     </property>
-                    <hbox>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>51</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Compute</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Convert</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>51</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Clear</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Clear</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>71</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout22</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>equBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Equatorial Coordinates</string>
+                    </property>
+                    <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <spacer>
+                        <widget class="dmsBox" row="0" column="2">
                             <property name="name">
-                                <cstring>spacer7</cstring>
+                                <cstring>raBox</cstring>
                             </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>51</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Compute</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Compute</string>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
                             </property>
                         </widget>
-                        <spacer>
+                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
                             <property name="name">
-                                <cstring>spacer6</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>51</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Clear</cstring>
+                                <cstring>raLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Clear</string>
+                                <string>Right Ascension:</string>
                             </property>
                         </widget>
-                        <spacer>
+                        <widget class="dmsBox" row="1" column="2">
                             <property name="name">
-                                <cstring>spacer5</cstring>
+                                <cstring>decBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="0">
+                            <property name="name">
+                                <cstring>epochLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Epoch:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>decLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Declination:</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>epochName</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>1950.0</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer31</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox7</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Galactic Coordinates</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>lgBox</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>lgLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Galactic Longitude:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>bgLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Galactic Latitude:</string>
+                            </property>
+                        </widget>
+                        <spacer row="2" column="0">
+                            <property name="name">
+                                <cstring>spacer33</cstring>
                             </property>
                             <property name="orientation">
                                 <enum>Horizontal</enum>
                             </property>
                             <property name="sizeType">
-                                <enum>Expanding</enum>
+                                <enum>Fixed</enum>
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>71</width>
-                                    <height>21</height>
+                                    <width>40</width>
+                                    <height>20</height>
                                 </size>
                             </property>
                         </spacer>
-                    </hbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>galBox</cstring>
-            </property>
-            <property name="title">
-                <string>Galactic Coordinates</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lgLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>l:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>lgName</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>bgLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>b:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>bgName</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>equBox</cstring>
-            </property>
-            <property name="title">
-                <string>Equatorial Coordinates</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>raLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>RA:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>raBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>decLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>DEC:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>decBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>epochLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Epoch:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>epochName</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>1950.0</string>
-                    </property>
+                        <widget class="dmsBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>bgBox</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
             </hbox>
         </widget>
@@ -304,8 +376,8 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>206</height>
+                    <width>20</width>
+                    <height>90</height>
                 </size>
             </property>
         </spacer>
@@ -336,16 +408,16 @@
 </images>
 <connections>
     <connection>
-        <sender>Compute</sender>
-        <signal>clicked()</signal>
-        <receiver>modCalcGalCoordDlg</receiver>
-        <slot>slotComputeCoords()</slot>
-    </connection>
-    <connection>
         <sender>Clear</sender>
         <signal>clicked()</signal>
         <receiver>modCalcGalCoordDlg</receiver>
         <slot>slotClearCoords()</slot>
+    </connection>
+    <connection>
+        <sender>Compute</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotComputeCoords()</slot>
     </connection>
 </connections>
 <slots>
@@ -356,10 +428,10 @@
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
 </includehints>
 </UI>

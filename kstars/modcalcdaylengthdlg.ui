@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>Day Length</string>
     </property>
     <vbox>
         <property name="name">
@@ -30,47 +30,21 @@
                 <cstring>InputBox</cstring>
             </property>
             <property name="title">
-                <string>Input Data</string>
+                <string>Location and Date</string>
             </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout2</cstring>
+                        <cstring>layout37</cstring>
                     </property>
                     <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QDateEdit" row="1" column="1" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>datBox</cstring>
-                            </property>
-                        </widget>
                         <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>datLabel</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Date:</string>
-                            </property>
-                        </widget>
-                        <widget class="dmsBox" row="0" column="2">
-                            <property name="name">
-                                <cstring>longBox</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>longLabel</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Longitude:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="3">
                             <property name="name">
                                 <cstring>latLabel</cstring>
                             </property>
@@ -78,201 +52,411 @@
                                 <string>Latitude:</string>
                             </property>
                         </widget>
-                        <widget class="dmsBox" row="0" column="4">
+                        <widget class="dmsBox" row="1" column="1">
                             <property name="name">
                                 <cstring>latBox</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>16</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>longLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Longitude:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>longBox</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>16</height>
+                                </size>
                             </property>
                         </widget>
                     </grid>
                 </widget>
-                <widget class="QLayoutWidget">
+                <spacer>
                     <property name="name">
-                        <cstring>layout3</cstring>
+                        <cstring>spacer11</cstring>
                     </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer5</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>71</width>
-                                    <height>21</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Compute</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Compute</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer4</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>51</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>Clear</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Clear</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>81</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>60</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>datLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Date:</string>
+                    </property>
                 </widget>
-            </vbox>
+                <widget class="QDateEdit">
+                    <property name="name">
+                        <cstring>datBox</cstring>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer53</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>71</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Compute</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Compute</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>51</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>Clear</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Clear</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>81</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
                 <cstring>resultsBox</cstring>
             </property>
             <property name="title">
-                <string>Positions and Times</string>
+                <string>Sunrise, Noon and Sunset Data</string>
             </property>
-            <grid>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="dmsBox" row="0" column="3">
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>azRiseBox</cstring>
+                        <cstring>layout10</cstring>
                     </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="timeBox" row="3" column="1">
+                            <property name="name">
+                                <cstring>dayLBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>riseTimeLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Sunrise:</string>
+                            </property>
+                        </widget>
+                        <widget class="timeBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>transitTimeBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>transitTimeLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Noon:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="3" column="0">
+                            <property name="name">
+                                <cstring>dayLLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Day length:</string>
+                            </property>
+                        </widget>
+                        <widget class="timeBox" row="2" column="1">
+                            <property name="name">
+                                <cstring>setTimeBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="timeBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>riseTimeBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="0">
+                            <property name="name">
+                                <cstring>setTimeLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Sunset:</string>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
-                <widget class="dmsBox" row="2" column="3">
+                <spacer>
                     <property name="name">
-                        <cstring>azSetBox</cstring>
+                        <cstring>spacer12</cstring>
                     </property>
-                </widget>
-                <widget class="QLabel" row="2" column="2">
-                    <property name="name">
-                        <cstring>azSetLabel</cstring>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
-                    <property name="text">
-                        <string>Azimuth:</string>
+                    <property name="sizeType">
+                        <enum>Preferred</enum>
                     </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>setTimeLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Sunset:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox" row="1" column="3">
-                    <property name="name">
-                        <cstring>elTransitBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="2">
-                    <property name="name">
-                        <cstring>elTransitLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Elevation:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>transitTimeLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Noon:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="2">
-                    <property name="name">
-                        <cstring>azRiseLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Azimuth:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>riseTimeLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Sunrise:</string>
-                    </property>
-                </widget>
-                <widget class="timeBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>riseTimeBox</cstring>
-                    </property>
-                </widget>
-                <widget class="timeBox" row="1" column="1">
-                    <property name="name">
-                        <cstring>transitTimeBox</cstring>
-                    </property>
-                </widget>
-                <widget class="timeBox" row="2" column="1">
-                    <property name="name">
-                        <cstring>setTimeBox</cstring>
-                    </property>
-                </widget>
-                <widget class="timeBox" row="3" column="1">
-                    <property name="name">
-                        <cstring>dayLBox</cstring>
-                    </property>
-                    <property name="minimumSize">
+                    <property name="sizeHint">
                         <size>
-                            <width>0</width>
+                            <width>40</width>
                             <height>20</height>
                         </size>
                     </property>
-                </widget>
-                <widget class="QLabel" row="3" column="0">
+                </spacer>
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>dayLLabel</cstring>
+                        <cstring>layout12</cstring>
                     </property>
-                    <property name="text">
-                        <string>Day length:</string>
-                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout11</cstring>
+                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel" row="2" column="0">
+                                    <property name="name">
+                                        <cstring>azSetLabel</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Sunset Azimuth:</string>
+                                    </property>
+                                </widget>
+                                <widget class="dmsBox" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>elTransitBox</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>5</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                </widget>
+                                <widget class="dmsBox" row="2" column="1">
+                                    <property name="name">
+                                        <cstring>azSetBox</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>5</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                </widget>
+                                <widget class="dmsBox" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>azRiseBox</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>5</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>elTransitLabel</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Altitude at Noon:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>azRiseLabel</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Sunrise Azimuth:</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer14</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>16</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </vbox>
                 </widget>
-            </grid>
+            </hbox>
         </widget>
         <spacer>
             <property name="name">
@@ -287,7 +471,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>140</height>
+                    <height>110</height>
                 </size>
             </property>
         </spacer>
@@ -332,21 +516,21 @@
         <data format="XPM.GZ" length="4350">789c6dd7594f23471007f0f7fd14d6d6db2aaaf58c3db647511eb831b7317794879ac30760cc61c010e5bba7dcf5af5688167664fdb66bbaababbb67cccf1f8dab93c3c68f9fdf5e16b298968d7222cf8d1fd5eb6cf6f1e75f7ffcfded7b9a3656ff9aad46fafdb76fdf078b46d9389a3fd42bf04841699e964933b830b79a7019dd0b96955b895b5a703bcd572e08eea576ff6570ae0eedd477b792103f854b8b2fc6d1163f77237e646e37113f89b6f8307e3bf1785a8b0eedbc696eb7ad9db7e01ee6476ee4ffe0c6fd158c7c69182cde4eec6e87fea50dfbf8176e6ba7d07f96669999cfa325ccaf862bcc97a36dbccf60f178cee11cde706761f16917ae30fe6b7488a7851bf14d7327417f676eb4f756eea41e2f57e6d83e83919f6cba117f04235fd9765b3b0fa36dfc398cf973edc67a6fb951ffe768ab6765ee26b8dff213ef5f4630e2b9e7463ea7ee8ee5ff60ee2618af8eb6fe3238437eb91bf1299cdbfacad3cadd5617f5a11738c7fe4adcb8ffd68d7aeec15e8fc3683b9f62ee2518ef33dafa3f75e3bc957086f86eb4d56f3db8e8e6dd56f01a5cc1bbe65e629673d8ebd18d0efdc9058cf9f2c08df9e630ce037db8719ec37c7a9a7fb708f10267b65e7cef46fb3e9ca3fd23dad6ef0cf67abe99f304f95ec3a8871cbb71be52d8d777e8b6fee412f6f958be3adf5ea817b561afe7d86ded7c67ce13c46fc37ede2766c17a17059cd9f38e466e8c3f8eb6fd700f0b9ef7095c37cd3d37de178f2be76dcf876fa343bd790267f012f67a77cc319f69b4ed872e2ca8e732daeabfe3c6fa9cc235f21f9b8bd4f2a5cd687bfedbfd659ee7ede017b842becf6eb44fa3cbd0df8559b0ffe808ceb0ff37e01afba3652e52cc87a26dbe276ecca7097790ff73b4cdef0616ac4fdf6df1c2d1d67ee8c6f80318eb4bd1180ff529513f0ecf7b694b62f5a002ceccb2662e523c2fb7605f9f0fd8fbbf75e3bc2dcd3e9ebcb9f17ce8c05e8f83685bcf701e44eb2db65e4fd1b65eebe62245be53b8c6f3ffdd8dfd3933fbf884761f5f0edcd88f951bf118bf44bde926dae24fe01ae7af76e3f9169e2f45bb143c0f5fdcf6fea23b18f773eac6f3e63ddac6db75e37df5e8c6fbae65aebcde6d37beaf84f528aa52f03c9dc3359ea79939c627d136deab1befaf75b883ef23e76e3ccfaea36d7dc2f795322b05ebfb0ad738af7db7ad371f99fd7e59b8b13f276e9cdf1318f5e54337e6d78cb67cf761ec170efba1acaa1afd9db92d3f3a36d729ea77efc6f33cbccf2beddfe6478fe6d85e45dbfd851bf1577007f5d877e3bc86f5a9ea3a2d6cffdfc1debe116df5db73a39e37b0e777191dda257c7fa83b6e8a2eaae00eeceb13d6b7d69f325b79b058fd32b170c1a55ebffaac2ccae2b9e6118f79c253bd6ef9ee3fd7587fef79c60f7acf3cc617fcc84ffcac6d8ffcc20b7ee5377ee7257ff027aff1bac66ff0269716cf5b1ab7cd3bbcabb17ddee37d3ee0433ee2633ee1019ff290cff89c2ff89229c48b66f1ac3d5df135df7093134eb9c56dcef4b3c35dee71ce393111dbfa8c784a4205955451cd1d1ad1982634a55bbad3f80eddd38c1ef882e66cf52ab5ff2b8d7ea4277aa6175ad06bb866f446efb4d4df0ffad4fed762ffb7b44e1b9cd2266dd142c75e5ddb3cd0bb3e347a477bd9d5f83ee245e3f7689f0ee830f67d44c77412ee186946033aa5e197fecfe85c7bf7be2fe892aee89a6ea84989f6bfa434f4eff9df52c509b5d0779b32ea684d13ea528f728d1e882ebfce37f6cf077422b4ea5b440ad14af1a15452ab473aee52c65ff39789b64fe955f44eb9937b5d858c5b32d377c0c32a7fee7ecd5fe61aff284ff22c2fb290577993775db1443fb53ef2219f5ff2bf93356d5b970dd9d41eb77820dbb223bbab155ed55ffab2f725ffb1eccb81aed6931cca116ab490633909d10339fd5ffdef795d869ae7923bc27226e772415d5986b51d683663b9d4fcfbb1ff190fe54aaec35aeaa577ee20f24673e94b531249a585fc2b69ebfe3ed7dae91f75ba964b5c03e9d344ba1add93bce0826c3f87f3b2a9fb6f18aeba10ba2f563f25eb1b563771a5d17531e2513c5fba538b3111cd690dd73c7ef6a95f4c8aa99de12fe77da4951de9ffffea730be7fd9fdfbffd0b690edc6c</data>
     </image>
     <image name="image1">
-        <data format="XPM.GZ" length="3326">789c959549532b470cc7ef7c0a17ba51293dcfea994ae580591e186c30c60ba472e859bcb0d8e0153b95ef1e4db7340f777c09a2303feb2fb5a4ee9ef9715219dc372b273f8e164bb59ca49574ace695936cf5febefdf3af3ffe3e3a76dd0afd3a5e5c718f7f3b3a6e2f2b69a5359be60520104055ff689e59ac2c4e2c4e2dce2cce2d1e165c4b6a712dd1dcb1fc67164ff719ac7ae0cde28d15ff60b16be9adfee1d5e2f53eab89956f54b0f295a37ccdefecf7d95fb7e2c756bce6d88f9dd8c4eb7ebcd88bbc5873db8ab7e73db0b85f72a4ebafeed703e3928d3fd01c95fcc81c19469f39754cfc57c14eb530cd5d66893f13367e35628e78fd8530c747cc29c7df08b3ff5673247aac318bbf69d8957ad8eff2faa0e7e75685f18959d6d7fbe5c62ee75389614fe63d2cd9cca327ccf1bb928d3f60f69943bd9f8e17319f1af6657fee78bf53e307bdbeeff8cc78af590531af1f09b35eef4fe00aab8c39e3fc17c29ccf311c3ac6af7261eee7b364137f2dec1aff8a39e0fc922f307ed4f72750411628edaf1b0eb97eb814e6fdf04a36fe9130afd763967e1ac25caf9e6fe8d6a4fe8930d7d3600eb8ff1b61f63f33f37af8a299f287a6febee152df65ce0c2bfdfca87951e09afb7acd2cf5df976cfc93fde71f740c977a7dbfa324e6fcf86858717f7859b2e9e74298e39f853d47fbaf98b97ff810667d4bd8e8e1a7791e29e96727cccf23f12baee7b664937f2bccf9e39275bc52cc39d7df329cb81c3f14e6f5f5fd88d3d29f0973fe65c9467f2eec9b7ea6cc21d7db2cd9e49b31733f90976ceaab0af37a0f25ebf5c033cfff24643f324b7c2cccfe79c926fe9439e7faf5f351a5491eea97b532f9d254fa7d610e397ec02cf9cf99733e3f7a3e892ff97065387599e7c2354ff3a77064decf5be6d0dc675c0b73fc17b3320c4f863399ef9530d7a3cf5f922539bf2f3786cb78d770c6f5b7978521a0c20453cc30b72ca36f13f2427b297a1ce208c738c19703f68a6ff88e538a9a193de51ee1077ee21c17b8c415aec93664c5e7176e7187a758c7334c59af28f7279ee3055ee24fbcc26b6ce00dfdbdc526b6c8eef01edbf8801dd62754c99cd48fa4e8620ffb3820ebe3133e6395629ae810bb38657d4a552eb4da23551f7d0c30c49afe3fc218b0d00380627d46fa2555d22d324302296490c3104630269ec08bd6bfc21beb73d2aff00adeb53a8329cce0033e610e13ecc30296b022cf1a36dff46beaaf0f5f94bb506f614794c0699103afa17e40dfa0ef76949dd445cf7046ba73b820bd0797ffd16f6882030c21c78b2237fd5f839f7005d7a41c41e380bea8e786ba3475dd92a2092db8a3cffb03fa35de429b942378a0ba3b94bb499a2f78842e4db47740df049a374df086ba1cc0133cc382545570c03da86f8107beded71ef834cd3b08485d8536cd33dcd3677406b7744e9ab4f284f675600cba94bb0611c4d67ea5746277851e723ae64b9ae308460a28daa5fe63a554a2d26fe721a1f37d4a67d051193ab0823a5c42435b8f5e5cb91aaa911a7f3b6f8a6e439d4eece0b0a9548dd5e4db7906aae88cd8a5355fa9af7d7b05a0dc0fbfee0b45cc28a2835350f0061bcbdea058bff3eb3efe8ffbfecfef47ff02c914d57c</data>
+        <data format="XPM.GZ" length="2926">789c9d95594f32591086effd15c4ba3393fae895ee4ce6824540141011b7c95cf406a202caa6f065fefb549faaea0b24996fc623cb937aeb3d55754e871f67a587eb6ee9ecc7c96a1dada74929798e96a5b374339bedfefceb8f9f27a7b65da27fcb724bf6e96f27a783752929f516f32c070402289b3fc39d8203c3136157e276c1260eac0f0ade0907927f2d9c58261f929cad72be0cef8535ff5959e277c201ef0fa02cf1ae7022f9efca12ff301ca81e87c21a5f32db5acf95b0eebfcdd92e2be3a5b0fa7986435bfd6e981d99278c0ae6795c288b3e2b98e3036157d8f839961308af985df51b1b0e9dc0098ddf5a3811fd7dceaee52a370d475e28f9b7ca1c07539f67173c144e65be2fcae2d763f62d89df2acb7cc282393e57b6b9ff58d893fca632c7d1ccc78bbcd48b4c7cc2ec4bfdf0aa2cfbf50be6fa2c65d9af2aacfd2c94e53cccf9fa7645eb7794a59ebdb027fe5565895f09cb7e981a267f9febaf3117fab6702af599e7a5e2049e6dce1377c25affa6608e4786e34a58894dfc8b59f5f890731087e28f2de648fbdb16ccfd6c9465bf7365c732f12f61ed3f5016fd4a59f4e6790fddd00a5d137f638eb4bfa532df5ffc148ea4be5ac17c5ea9b2ecd72b98efff403893fa1accb12d5c5696fd4d7f6152c41f95c53f2a98f56b6597fbf3857da9b75e30fb5584b59fa78239de5596fd3e0be6fdccf311b99115f1fcdaccb12fe77927ac7e2365f1c382793e63e14cfccdf3132571e69b1f07e83327d23fbac2bee4d785d57f2a9c89de9c6fecaa1fce98135bf845b9e2189e2a07e6fee287b0cfcf3bce9525ff5d38927a1bcca9cc1b66ca528ff93d89d338e3f9e182b9c86f31a752ff609d2f847f5f83b5ea31c218137a4f8fac0cc738e10cd6d3b7189f718a2ff88a6f38c339ad05adfcf31d3f7089ab037d42ea356e708b9ff8853bdc6395de6b58c706ad736c1ee823f2de608b146dbcc08e8976f012afb04b3975ec1de853aa2457f749d5c16b1ce00d0ecdf75b1ce1dd11fd1b55d236cef7f8808ff88465b4d02676d03da29f51dd9e513fa28f150c3004246d07002288bfe9e7d45f0712f22635a490d15ef730361e3b389c67aedf2390ea3157e73dc333e9a6f042d13ebc7ed32f6882405d3ee1c678030ee10d6630a76f162c8ee8f37adeb14c0aaa0b3e68b725ac80a2b039a29f630db6e46bc127d5fd45de4b5226b0833d8ea07a445f871ae96dacc218ead08073c835136842eba8be016db830e77a419f21aca143f76c025b9ae7e5813ea35bd5a0731fd1c4877a7f614fde57d085deb7f31ad31dccf54fd087883ab7a88f6baabb45fdf760003707fa09ddd826f66048af1826f00a0bb3aa7009b73082bb03fd2faeffa7fff58cfffcbcfffdfbc93f7f7d62d7</data>
     </image>
 </images>
 <connections>
-    <connection>
-        <sender>Compute</sender>
-        <signal>clicked()</signal>
-        <receiver>modCalcDayLengthDlg</receiver>
-        <slot>slotComputePosTime()</slot>
-    </connection>
     <connection>
         <sender>Clear</sender>
         <signal>clicked()</signal>
         <receiver>modCalcDayLengthDlg</receiver>
         <slot>slotClearCoords()</slot>
+    </connection>
+    <connection>
+        <sender>Compute</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcDayLengthDlg</receiver>
+        <slot>slotComputePosTime()</slot>
     </connection>
 </connections>
 <slots>
@@ -359,12 +543,12 @@
     <includehint>dmsbox.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>timebox.h</includehint>
-    <includehint>timebox.h</includehint>
-    <includehint>timebox.h</includehint>
-    <includehint>timebox.h</includehint>
 </includehints>
 </UI>
