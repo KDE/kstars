@@ -57,7 +57,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QPixmap sunsetIcon = QPixmap ("sunset.png");
 	QPixmap timeIcon = QPixmap ("sunclock.png");
 			
-	QListViewItem * timeItem = new QListViewItem(navigationPanel,i18n("Time calculator"));
+	QListViewItem * timeItem = new QListViewItem(navigationPanel,i18n("Time calculators"));
 	timeItem->setPixmap(0,timeIcon);
 	
 	QListViewItem * jdItem = new QListViewItem(timeItem,i18n("Julian Day"));
@@ -68,7 +68,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 //	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
 //	dayItem->setPixmap(0,sunsetIcon);
 	
-	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinates converter"));
+	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate converters"));
 	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
 	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent coordinates"));
