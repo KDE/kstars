@@ -111,7 +111,7 @@ void LCGenerator::createGUI()
     NameIn->setAutoScrollBar(true);
 
     // Fill star names
-    for (i=0; i<ksw->data()->VariableStarsList.count(); i++)
+    for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
      NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 
     StartDateIn = new QLineEdit( StarInfoBox, "StartDateIn" );
