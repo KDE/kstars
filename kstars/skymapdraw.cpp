@@ -59,8 +59,10 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		drawTelescopeSymbols( p );
 		drawZoomBox( p );
 		if ( transientObject() ) drawTransientLabel( p );
-		if (isAngleMode())
+		if (isAngleMode()) {
+			updateAngleRuler();
 			drawAngleRuler( p );
+		}
 	}
 }
 

@@ -365,8 +365,13 @@ public:
 	void invokeKey( int key );
 
 /**@return true if the angular distance measuring mode is on 
-	*/
+ */
 	bool isAngleMode() const {return angularDistanceMode;}
+
+/**@short update the geometry of the angle ruler
+ */
+	void updateAngleRuler();
+
 
 /**@return true if the object currently has a user label attached.
 	*@note this function only checks for a label explicitly added to the object

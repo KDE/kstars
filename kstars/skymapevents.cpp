@@ -428,20 +428,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		HoverTimer.start( HOVER_INTERVAL, true );
 	}
 	
-	// Are we in angularDistanceMode?: Then draw a line
-	if ( isAngleMode() ) {
-
-		// We put this instruction here so that the first point of the 
-		// ruler is recomputed when moving the mouse. The initial 
-		// point of the ruler may change if the time step is high.
-
-		if ( Options::useAltAz() ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
-
-		endRulerPoint =  QPoint(e->x(), e->y());
-	}
-		
-	
 	//Are we dragging an infoBox?
 	if ( infoBoxes()->dragBox( e ) ) {
 		update();

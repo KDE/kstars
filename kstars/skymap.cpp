@@ -1329,4 +1329,12 @@ void SkyMap::addLink( void ) {
 	}
 }
 
+void SkyMap::updateAngleRuler() {
+	if ( Options::useAltAz() ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
+
+//	endRulerPoint =  QPoint(e->x(), e->y());
+	endRulerPoint = mapFromGlobal( QCursor::pos() );
+}
+
 #include "skymap.moc"
