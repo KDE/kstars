@@ -34,6 +34,15 @@ public slots:
 
 protected:
 	virtual void keyPressEvent( QKeyEvent *e );
+	virtual void mousePressEvent( QMouseEvent *e );
+	virtual void mouseMoveEvent( QMouseEvent *e );
+	virtual void mouseReleaseEvent( QMouseEvent * );
+	virtual void mouseDoubleClickEvent( QMouseEvent *e );
+	virtual void wheelEvent( QWheelEvent *e );
+
+private:
+	bool mouseButtonDown;
+	int oldx, oldy;
 };
 
 /**@class PlanetViewer

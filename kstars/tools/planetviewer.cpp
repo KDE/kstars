@@ -27,6 +27,8 @@
 #include "planetviewer.h"
 #include "dms.h"
 
+#define AUMAX 48
+
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name )
 {
@@ -144,8 +146,10 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 }
 
 PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char *name ) :
-		KStarsPlotWidget( x1, x2, y1, y2, parent, name ) {
+			KStarsPlotWidget( x1, x2, y1, y2, parent, name ), 
+			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( QWidget::StrongFocus );
+	setMouseTracking (true);
 }
 
 PVPlotWidget::~ PVPlotWidget() {}
@@ -155,33 +159,33 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 	double yc = (y2() + y())*0.5;
 	double xstep = 0.01*(x2() - x());
 	double ystep = 0.01*(y2() - y());
-	double dx = 0.5*(x2() - x());
-	double dy = 0.5*(y2() - y());
+	double dx = 0.5*dataWidth();
+	double dy = 0.5*dataHeight();
 	
 	switch ( e->key() ) {
 		case Key_Left:
-			if ( xc - xstep > -48.0 ) {
+			if ( xc - xstep > -AUMAX ) {
 				setLimits( x() - xstep, x2() - xstep, y(), y2() );
 				update();
 			}
 			break;
 		
 		case Key_Right:
-			if ( xc + xstep < 48.0 ) { 
+			if ( xc + xstep < AUMAX ) { 
 				setLimits( x() + xstep, x2() + xstep, y(), y2() );
 				update();
 			}
 			break;
 		
 		case Key_Down:
-			if ( yc - ystep > -48.0 ) {
+			if ( yc - ystep > -AUMAX ) {
 				setLimits( x(), x2(), y() - ystep, y2() - ystep );
 				update();
 			}
 			break;
 		
 		case Key_Up:
-			if ( yc + ystep < 48.0 ) {
+			if ( yc + ystep < AUMAX ) {
 				setLimits( x(), x2(), y() + ystep, y2() + ystep );
 				update();
 			}
@@ -278,6 +282,59 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 			e->ignore();
 			break;
 	}
+}
+
+void PVPlotWidget::mousePressEvent( QMouseEvent *e ) {
+	mouseButtonDown = true;
+	oldx = e->x();
+	oldy = e->y();
+}
+
+void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
+	mouseButtonDown = false;
+	update();
+}
+
+void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
+	if ( mouseButtonDown ) {
+		//Determine how far we've moved
+		double xc = (x2() + x())*0.5;
+		double yc = (y2() + y())*0.5;
+		double xscale = dataWidth()/( width() - leftPadding() - rightPadding() );
+		double yscale = dataHeight()/( height() - topPadding() - bottomPadding() );
+		
+		xc += ( oldx  - e->x() )*xscale;
+		yc -= ( oldy - e->y() )*yscale; //Y data axis is reversed...
+		
+		if ( xc > -AUMAX && xc < AUMAX && yc > -AUMAX && yc < AUMAX ) {
+			setLimits( xc - 0.5*dataWidth(), xc + 0.5*dataWidth(), 
+					yc - 0.5*dataHeight(), yc + 0.5*dataHeight() );
+			update();
+			kapp->processEvents(20);
+		}
+		
+		oldx = e->x();
+		oldy = e->y();
+	}
+}
+
+void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
+	double xscale = dataWidth()/( width() - leftPadding() - rightPadding() );
+	double yscale = dataHeight()/( height() - topPadding() - bottomPadding() );
+	
+	double xc = x() + xscale*( e->x() - leftPadding() );
+	double yc = y2() - yscale*( e->y() - topPadding() );
+
+	if ( xc > -AUMAX && xc < AUMAX && yc > -AUMAX && yc < AUMAX ) {
+		setLimits( xc - 0.5*dataWidth(), xc + 0.5*dataWidth(), 
+				yc - 0.5*dataHeight(), yc + 0.5*dataHeight() );
+		update();
+	}
+}
+
+void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
+	if ( e->delta() > 0 ) slotZoomIn();
+	else slotZoomOut();
 }
 
 void PVPlotWidget::slotZoomIn() {
