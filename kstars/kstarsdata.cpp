@@ -1,4 +1,4 @@
-/***************************************************************************
+ /***************************************************************************
                           kstarsdata.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Jul 29 2001
@@ -584,6 +584,9 @@ bool KStarsData::openStarFile( int i ) {
 bool KStarsData::readStarData( void ) {
 	bool ready = false;
 
+	float loadUntilMag = MINDRAWSTARMAG;
+	if (Options::magLimitDrawStar() > loadUntilMag) loadUntilMag = Options::magLimitDrawStar();
+	
 	for (unsigned int i=1; i<NHIPFILES+1; ++i) {
 		emit progressText( i18n( "Loading Star Data (%1%)" ).arg( int(100.*float(i)/float(NHIPFILES)) ) );
 		
@@ -596,7 +599,7 @@ bool KStarsData::readStarData( void ) {
 				if ( line.left(1) != "#" ) {  //ignore comments
 					// check star magnitude
 					mag = line.mid( 46,5 ).toFloat();
-					if ( mag > Options::magLimitDrawStar() ) {
+					if ( mag > loadUntilMag ) {
 						ready = true;
 						break;
 					}
@@ -1859,8 +1862,11 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
 		//Stars
 		if ( Options::showStars() ) {
+			// use MINDRAWSTARMAG for calculating constellation lines right
+			float mag = Options::magLimitDrawStar();
+			if (mag < MINDRAWSTARMAG) mag = MINDRAWSTARMAG;
 			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
-				if ( star->mag() > Options::magLimitDrawStar() ) break;
+				if ( star->mag() > mag ) break;
 				if (needNewCoords) star->updateCoords( &num );
 				star->EquatorialToHorizontal( LST, geo->lat() );
 			}

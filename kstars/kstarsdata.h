@@ -46,6 +46,8 @@
 #define DZOOM 1.10
 #define AU_KM 1.49605e8  //km in one AU
 
+#define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
+
 class QDataPump;
 class QFile;
 class QTimer;
