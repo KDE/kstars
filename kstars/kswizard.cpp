@@ -97,6 +97,7 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	#endif
 	
 	//Initialize Geographic Location page
+	filteredCityList.setAutoDelete( false );
 	initGeoPage();
 }
 
@@ -111,17 +112,10 @@ void KSWizard::initGeoPage() {
 	//flag the ID of the current City
 	int index(0);
 	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
-		QString s;
-		if ( loc->province().isEmpty() ) {
-			s = loc->translatedName() + ", " + loc->translatedCountry();
-		} else {
-			s = loc->translatedName() + ", " + loc->translatedProvince() + 
-					", " + loc->translatedCountry();
-		}
-		CityListBox->insertItem( s );
-		GeoID[CityListBox->count() - 1] = ksw->data()->geoList.at();
+		CityListBox->insertItem( loc->fullName() );
+		filteredCityList.append( loc );
 		
-		if ( loc->name() == ksw->data()->geo()->name() && loc->country() == ksw->data()->geo()->country() ) 
+		if ( loc->fullName() == ksw->data()->geo()->fullName() ) 
 			index = ksw->data()->geoList.at();
 	}
 	
@@ -130,17 +124,28 @@ void KSWizard::initGeoPage() {
 	
 	//preset to current city
 	CityListBox->setCurrentItem( index );
-	Geo = ksw->data()->geoList.at( GeoID[ index ] );
 }
 
 void KSWizard::slotChangeCity() {
-	Geo = ksw->data()->geoList.at(GeoID[CityListBox->currentItem()]);
+	Geo = 0L;
+	
+	if ( CityListBox->currentItem() >= 0 ) {
+		for (GeoLocation *loc = filteredCityList.first(); loc; loc = filteredCityList.next()) {
+			if ( loc->fullName() == CityListBox->currentText() ) {
+				Geo = loc;
+				break;
+			}
+		}
+	}
+
 	LongBox->showInDegrees( Geo->lng() );
 	LatBox->showInDegrees( Geo->lat() );
 }
 
 void KSWizard::slotFilterCities() {
 	CityListBox->clear();
+	filteredCityList.clear();
+
 	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
 		QString sc( loc->translatedName() );
 		QString ss( loc->translatedCountry() );
@@ -151,22 +156,15 @@ void KSWizard::slotFilterCities() {
 		if ( sc.lower().startsWith( CityFilter->text().lower() ) &&
 				sp.lower().startsWith( ProvinceFilter->text().lower() ) &&
 				ss.lower().startsWith( CountryFilter->text().lower() ) ) {
-			sc.append( ", " );
-			if ( !sp.isEmpty() ) {
-				sc.append( sp );
-				sc.append( ", " );
-			}
-			sc.append( ss );
-			
-			CityListBox->insertItem( sc );
-			GeoID[CityListBox->count() - 1] = ksw->data()->geoList.at();
+			CityListBox->insertItem( loc->fullName() );
+			filteredCityList.append( loc );
 		}
 	}
+	
+	CityListBox->sort();
 
-	if ( CityListBox->firstItem() ) {  // set first item in list as selected
+	if ( CityListBox->firstItem() )  // set first item in list as selected
 		CityListBox->setCurrentItem( CityListBox->firstItem() );
-		Geo = ksw->data()->geoList.at( GeoID[ CityListBox->currentItem() ] );
-	}
 }
 
 //Uncomment if we ever need the telescope page...
