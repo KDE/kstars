@@ -28,6 +28,7 @@
 #include "modcalcprec.h"
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
+#include "modcalcazel.h"
 
 #include <qvbox.h>
 #include <qstring.h>
@@ -77,7 +78,8 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
 	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent coordinates"));
-	
+	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal coordinates"));
+		
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth coordinates"));
 	geoItem->setPixmap(0,geodIcon);
 
@@ -112,6 +114,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genPrecFrame();
 	if(!(election.compare(i18n("Apparent coordinates"))))
 		genAppFrame();
+	if(!(election.compare(i18n("Horizontal coordinates"))))
+		genAzelFrame();
 	if(!(election.compare(i18n("Earth coordinates"))))
 		genGeodText();
 	if(!(election.compare(i18n("Geodetic coordinates"))))
@@ -215,6 +219,8 @@ void AstroCalc::delRightPanel(void)
 		delete PrecFrame;
 	else if (rightPanel == Apparent)
 		delete AppFrame;
+	else if (rightPanel == Azel)
+		delete AzelFrame;
 
 }
 
@@ -265,6 +271,13 @@ void AstroCalc::genAppFrame(void)
 	delRightPanel();
 	AppFrame = new modCalcApCoord(split,"Apparent");
 	rightPanel = Apparent;
+}
+
+void AstroCalc::genAzelFrame(void)
+{
+	delRightPanel();
+	AzelFrame = new modCalcAzel(split,"Horizontal");
+	rightPanel = Azel;
 }
 
 QSize AstroCalc::sizeHint() const
