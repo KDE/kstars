@@ -328,8 +328,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 		//--- Draw primary Y tickmarks on left axis ---//
 		double y0 = YA1 - dmod( YA1, dYtick1 ); //zeropoint; tickmark i is this plus i*dYtick1 (in data units)
+		if ( YA1 < 0 ) y0 -= dYtick1;
 
-		for ( int iy = 0; iy <= nmajY1; iy++ ) {
+		for ( int iy = 0; iy <= nmajY1+1; iy++ ) {
 			int py = dYS - int( dYS * ( (y0 + iy*dYtick1 - YA1)/dYA ) ); //position of tickmark i (in screen units)
 			if ( py > 0 && py < dYS ) {
 				p->drawLine( 0, py, BIGTICKSIZE, py );

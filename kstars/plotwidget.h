@@ -66,6 +66,8 @@ public:
 
 	void addObject( PlotObject *o ) { ObjectList.append( o ); }
 	void clearObjectList() { ObjectList.clear(); update(); }
+	void replaceObject( int i, PlotObject *o ) { ObjectList.replace( i, o ); }
+	int objectCount() const { return ObjectList.count(); }
 
 	QColor bgColor() const { return cBackground; }
 	void setBGColor( const QColor &bg ) { cBackground = bg; setBackgroundColor( bg ); }
