@@ -105,7 +105,15 @@ public:
 
 /**@returns the name of the selected city.
 	*/
-	QString selectedCityName( void ) { return NewCityName->text(); }
+	QString selectedCity( void ) { return NewCityName->text(); }
+
+/**@returns the name of the selected city.
+	*/
+	QString selectedProvince( void ) { return NewProvinceName->text(); }
+
+/**@returns the name of the selected city.
+	*/
+	QString selectedCountry( void ) { return NewCountryName->text(); }
 
 /**@returns true if the AddCityBUtton is enabled
 	*/

@@ -207,6 +207,9 @@ void KStars::initActions() {
 	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
+	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
+			                           this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
+
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,
 			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );

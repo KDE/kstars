@@ -63,6 +63,7 @@
 		<Action name="lightcurvegenerator" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
+		<Action name="scriptbuilder" />
 	</Menu>
 
 	<Menu name="help"><text>&amp;Help</text>

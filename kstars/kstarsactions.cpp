@@ -33,6 +33,7 @@
 #include "ksutils.h"
 #include "elts.h"
 #include "wutdialog.h"
+#include "scriptbuilder.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -88,6 +89,11 @@ void KStars::slotElTs() {
 void KStars::slotWUT() {
 	WUTDialog dialog(this);
 	dialog.exec();
+}
+
+void KStars::slotScriptBuilder() {
+	ScriptBuilder sb(this);
+	sb.exec();
 }
 
 void KStars::slotGeoLocator() {

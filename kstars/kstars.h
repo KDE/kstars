@@ -306,6 +306,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
     void slotWUT();
 
 		/**
+		 * action slot: open ScriptBuilder dialog
+		 */
+    void slotScriptBuilder();
+
+		/**
 			*action slot: open dialog for setting the view options
 			*/	
 		void slotViewOps();

@@ -1,49 +1,53 @@
-KStars 0.9.X To-Do list:
-[updated Feb 2003]
+KStars 1.0.x To-Do list:
+[updated April 2003]
 
 + Bug Fixes
-  - data in some astrocalculator fields is being ignored.  
-    Known to exist in Day duration module.
-
-  - Attempt to add custom city claims fields are empty, even when 
-    all fields are filled.
-
   - Audit object catalogs; verify/improve accuracy of data.
 
 + GUI Improvements
-  - "What's up tonight?" window:
-    Popup dialog listing "interesting" objects that are visible in the
-    sky, for the current date and location. Option to show this
-    window whenever KStars starts, or even whenever the date changes.
+  - What's Up Tonight Window: add option to show only evening/morning
+    also add an option to show only abjects brighter than some limit.
+
+  - AAVSO Lightcurve generator: better integration with KStars; for example,  
+    option to download lightcurve should appear in popup menu of variable 
+    stars.
 
   - Solar system viewer (a.k.a. "orrery", a rather unfortunate word)
 
-  - Finish Altitude vs. time window. 
+  - Tool to plot positions of Jupiter's moons as a function of time.
 
-  - Add a "What's this" button.
+  - Add "What's this" functionality (perhaps tied to AstroInfo).
 
   - Should night vision mode change desktop colors? (bug 43595)
 
-  - add labels along ecliptic, equator and grid lines (bug 51299)
+  - Add labels along ecliptic, equator and grid lines (bug 51299)
 
-  - better rendering of asteroids and comets
+  - Better rendering of asteroids and comets
+
+  - Add alternative projection schemes
 
 + Add Functionality
   - Add moons for planets other than Jupiter
 
   - Indicate on the map whether stars are multiple or variable.
 
-  - finish minor planets (increase number of objects in catalogs; 
-    add a spinbox to select how many to display/how many to label)
-
   - Allow ephemerides of planetary bodies to be updated from online
     sources (e.g., JPL)
+
+  - Ability to measure angular distance between objects (from the 
+    popup menu, perhaps).
 
   - Add contour lines tracing the Magellanic Clouds and other nebulae
 
   - Add realistic sky-lighting effects?
 
   - Add more catalogs?  
+
+  - Finish DCOP functions
+
+  - Add ScriptBuilder window for easy construction of DCOP scripts.
+
+  - Ability to construct spreadsheet-like observing lists.
 
 + Long-term wishlist:
   - KStars: The Screensaver!  
@@ -57,27 +61,11 @@ KStars 0.9.X To-Do list:
     to think much about this part. Someday, I'll do it (unless you
     want to! :)  
 
-  - KStars: The Scripting Language!
-    This is already underway in the form of our DCOP interface.  We 
-    need to add more functions (tracking, focus-to-coordinates, wait 
-    for N seconds, and even things like opening small text windows and 
-    drawing lines and arrows), and provide an easy way to write scripts 
-    (such as recording manual actions, or providing a window with a 
-    listbox of all the functions).
-
-  - AstroInfo
-    These last two items could be integrated into a comprehensive,
-    interactive astronomy encyclopedia. It would be similar to other
-    open online encyclopedias (everything2, wikipedia, GNUpedia): 
-    user-contributed articles, and hyperlinks to other articles or to 
-    websites. The difference would be that it could also "link" to
-    KStars, and perhaps spawn a script that illustrates the article's
-    topic. There are already some AstroInfo articles on the KStars
-    webpage. I'll be including the first iteration of it in KStars
-    soon (it will probably start out as just a menu item or button
-    that spawns konqueror open to an index of articles). 
+  - OpenGL rendering of the sky
 
 + Ever-present needs
   - Translations
   - Improve documentation
   - More AstroInfo articles
+  - More internet links
+
