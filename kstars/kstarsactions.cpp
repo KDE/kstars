@@ -456,8 +456,13 @@ void KStars::slotTrack() {
 
 void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
-
+	if ( options()->useAltAz ) focusDialog.activateAzAltPage();
+	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
+		//Do we need to convert Az/Alt to RA/Dec?
+		if ( focusDialog.usedAltAz() ) 
+			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
+		
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
 		if ( options()->useAltAz && options()->useRefraction ) {
 			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
