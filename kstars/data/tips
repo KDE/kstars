@@ -23,8 +23,8 @@ popup menu.
 </html>
 <tip category="KStars|General">
 <html>
-<p>...that the KStars Handbook includes a series of informative
-articles about Astronomy?
+<p>...that the KStars Handbook includes the AstroInfo Project, a series 
+of informative articles about Astronomy?
 </html>
 </tip>
 <tip category="KStars|General">
@@ -168,8 +168,8 @@ menu item?
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can hide all or part of the Info Panel?
-Select your preferences in the "Settings->Infopanel" menu.
+<p>...that you can hide the on-screen Info Boxes?
+Select your preferences in the "Settings->Info Boxes" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
@@ -243,5 +243,12 @@ is called the Virgo Cluster of Galaxies.
 <p>The large group of clusters and nebulae near the south celestial pole
 are objects in the Large Magellanic Cloud, which is a dwarf galaxy in
 orbit around the Milky Way!
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>The Messier Catalog is a list of 110 of the brightest non-stellar objects 
+in the sky.  It includes such famous objects as the Orion Nebula (M 42), the 
+Andromeda Galaxy (M 31), and the Pleiades (M 45).
 </html>
 </tip>
