@@ -29,7 +29,7 @@
   <!ENTITY timezones SYSTEM "timezones.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
-  <!ENTITY magnitude SYSTEM "magnitude.docbook">
+  <!ENTITY magnitude SYSTEM "magnitude.docbook"> 
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -160,4 +160,5 @@ sgml-indent-step:0
 sgml-indent-data:nil
 End:
 -->
+
 
