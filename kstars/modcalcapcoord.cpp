@@ -22,6 +22,7 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
+#include "qcheckbox.h"
 #include <klineedit.h>
 #include <qdatetimeedit.h>
 #include <klocale.h>
@@ -74,7 +75,7 @@ long double modCalcApCoord::computeJdFromCalendar (void)
 }
 
 double modCalcApCoord::getEpoch (QString eName) {
-	
+
 	double epoch = eName.toDouble();
 
 	return epoch;
@@ -100,7 +101,7 @@ long double modCalcApCoord::epochToJd (double epoch) {
 }
 
 void modCalcApCoord::slotClearCoords(){
- 	
+
 	ra0Box->clearFields();
 	dec0Box->clearFields();
 	rafBox->clearFields();
@@ -115,11 +116,61 @@ void modCalcApCoord::slotComputeCoords(){
 	long double jd = computeJdFromCalendar();
 	double epoch0 = getEpoch( epoch0Name->text() );
 	long double jd0 = epochToJd ( epoch0 );
-	
+
 	SkyPoint sp;
 	sp = getEquCoords();
 
 	sp.apparentCoord(jd0, jd);
 	showEquCoords( sp );
 
+}
+
+void modCalcApCoord::slotUtCheckedBatch(){
+
+	if ( utCheckBatch->isChecked() )
+		utBoxBatch->setEnabled( false );
+	else {
+		utBoxBatch->setEnabled( true );
+//		utB = utBoxBatch->time();
+	}
+}
+
+void modCalcApCoord::slotDateCheckedBatch(){
+
+	if ( dateCheckBatch->isChecked() )
+		dateBoxBatch->setEnabled( false );
+	else {
+		dateBoxBatch->setEnabled( true );
+//		dtB = dateBoxBatch->time();
+	}
+}
+
+void modCalcApCoord::slotRaCheckedBatch(){
+
+	if ( raCheckBatch->isChecked() )
+		raBoxBatch->setEnabled( false );
+	else {
+		raBoxBatch->setEnabled( true );
+//		ra0B = raBoxBatch->createDms(FALSE);
+	}
+}
+
+void modCalcApCoord::slotDecCheckedBatch(){
+
+	if ( decCheckBatch->isChecked() )
+		decBoxBatch->setEnabled( false );
+	else {
+		decBoxBatch->setEnabled( true );
+//		dec0B = decBoxBatch->createDms();
+	}
+}
+
+void modCalcApCoord::slotEpochCheckedBatch(){
+
+	if ( epochCheckBatch->isChecked() )
+		epochBoxBatch->setEnabled( false );
+	else {
+		epochBoxBatch->setEnabled( true );
+//		epoch0B = epochBoxBatch.toDouble();
+	}
 }
