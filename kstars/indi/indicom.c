@@ -246,8 +246,8 @@ void SinCos( double Degrees, double *sina, double *cosa )
 		#endif
 		#else
 		/* ANSI-compliant version */
-		Sin = ::sin( DegToRad(Degrees) );
-		Cos = ::cos( DegToRad(Degrees) );
+		Sin = sin( DegToRad(Degrees) );
+		Cos = cos( DegToRad(Degrees) );
 		rDirty = 0;
 		#endif
 	        }
@@ -317,7 +317,7 @@ void precessFromAnyEpoch(double jd0, double jdf, double *RA, double *Dec)
 {
  	double cosRA0, sinRA0, cosDec0, sinDec0;
 	double v[3], s[3];
-	uint i=0;
+	unsigned int i=0;
 
 	SinCos( *RA, &sinRA0, &cosRA0 );
 	SinCos( *Dec, &sinDec0, &cosDec0 );
