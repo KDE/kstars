@@ -1,0 +1,33 @@
+<chapter id="astroinfo">
+<title>The AstroInfo Project</title>
+
+<para>
+Here you can find a collection of short articles that explain various
+astronomical concepts used in &kstars;.  From coordinate systems to
+celestial mechanics, you can find answers to your questions here.
+</para><para>
+The articles sometimes also contain exercises that you can perform with
+&kstars; to illustrate the concept behind the article.
+</para>
+
+&contents;     <!--AstroInfo: Table of Contents-->
+&skycoords;    <!--AstroInfo: Celestial Coordinate Systems-->
+&cpoles;       <!--AstroInfo: Celestial Poles-->
+&csphere;      <!--AstroInfo: Celestial Sphere-->
+&ecliptic;     <!--AstroInfo: The Ecliptic-->
+&equinox;      <!--AstroInfo: The Equinoxes-->
+&geocoords;    <!--AstroInfo: Geographic Coordinates-->
+&greatcircle;  <!--AstroInfo: Great Circles-->
+&horizon;      <!--AstroInfo: Horizon-->
+&hourangle;    <!--AstroInfo: Hour Angle-->
+&julianday;    <!--AstroInfo: Great Circles-->
+&leapyear;     <!--AstroInfo: Leap Year-->
+&meridian;     <!--AstroInfo: Local Meridian-->
+&precession;   <!--AstroInfo: Precession-->
+&retrograde;   <!--AstroInfo: Retrograde Motion-->
+&sidereal;     <!--AstroInfo: Sidereal Time-->
+&timezones;    <!--AstroInfo: Time zones-->
+&utime;        <!--AstroInfo: Universal Time-->
+&zenith;       <!--AstroInfo: The Zenith-->
+&magnitude;    <!--AstroInfo: The Magnitude Scale-->
+</chapter>
