@@ -73,9 +73,10 @@
       
       friend class StreamWG;
       
-      void newFrame(unsigned char *buffer, int w, int h, bool color);
+      void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
       
     private:
+      int		totalBaseCount;
       QRgb              *grayTable;
       QImage		*streamImage;
       QPixmap		 qPix;

@@ -136,6 +136,8 @@ void StreamWG::setSize(int wd, int ht)
   streamWidth  = wd;
   streamHeight = ht;
   
+  streamFrame->totalBaseCount = wd * ht;
+  
   resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 2 + layout()->spacing());  
   streamFrame->resize(wd, ht);
 }
@@ -279,12 +281,13 @@ VideoWG::~VideoWG()
  delete (streamImage);
 }
 
-void VideoWG::newFrame(unsigned char *buffer, int w, int h, bool color)
+void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
 {
    //delete (streamImage);
    //streamImage = NULL;
   
-  if (color)
+  //if (color)
+  if (buffSiz > totalBaseCount)
      streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
    else
    

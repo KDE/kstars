@@ -18,22 +18,25 @@
 
 #endif
 
-/*******************************************************************************
- * This is the interface to the reference INDI C API device implementation on
- * the Device Driver side. This file are divided into two main sections:
- *
- *   Functions the INDI device driver framework defines which the Driver may
- *   call:
- *
- *     IDxxx functions to send messages to an INDI client.
- *     IExxx functions to implement the event driven model.
- *     IUxxx functions to perform handy utility functions.
- *
- *   Functions the INDI device driver framework calls which the Driver must
- *   define:
- *
- *     ISxxx to respond to messages from a Client.
- */
+/** \file indidevapi.h
+    \brief Interface to the reference INDI C API device implementation on the Device Driver side.
+    \author Elwood C. Downey
+    \author Jasem Mutlaq
+     
+     This file is divided into two main sections:\n
+     <ol><li> Functions the INDI device driver framework defines which the Driver may
+     call:</li>
+ 
+      <ul><li>IDxxx functions to send messages to an INDI client.</li>
+      <li>IExxx functions to implement the event driven model.</li>
+      <li>IUxxx functions to perform handy utility functions.</li></ul>
+ 
+     <li>Functions the INDI device driver framework calls which the Driver must
+    define:</li>
+ 
+     <ul><li>ISxxx to respond to messages from a Client.</li></ul></ol>
+*/
+ 
 
 /*******************************************************************************
  * get the data structures
@@ -54,113 +57,232 @@
 extern "C" {
 #endif
 
-/*******************************************************************************
- * Functions Drivers call to define their Properties to Clients.
+/**
+ * \defgroup d2cFunctions Functions Drivers call to define their Properties to Clients.
  */
- 
- extern void IDDefText (const ITextVectorProperty *t, const char *msg, ...);
+/*@{*/
 
+/** \brief Tell client to create a text vector property.
+    \param t pointer to the vector text property to be defined.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
+extern void IDDefText (const ITextVectorProperty *t, const char *msg, ...);
+
+/** \brief Tell client to create a number number property.
+    \param n pointer to the vector number property to be defined.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDDefNumber (const INumberVectorProperty *n, const char *msg, ...);
 
+/** \brief Tell client to create a switch vector property.
+    \param s pointer to the vector switch property to be defined.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDDefSwitch (const ISwitchVectorProperty *s, const char *msg, ...);
 
+/** \brief Tell client to create a light vector property.
+    \param l pointer to the vector light property to be defined.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDDefLight (const ILightVectorProperty *l, const char *msg, ...);
 
+/*@}*/
 
-
-/*******************************************************************************
- * Functions Drivers call to tell Clients of new values for existing Properties.
- * msg argument functions like printf in ANSI C; may be NULL for no message.
+/**
+ * \defgroup d2cuFunctions Functions Drivers call to tell Clients of new values for existing Properties.
  */
+/*@{*/
 
+/** \brief Tell client to update an existing text vector property.
+    \param t pointer to the vector text property.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDSetText (const ITextVectorProperty *t, const char *msg, ...);
 
+/** \brief Tell client to update an existing number vector property.
+    \param n pointer to the vector number property.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDSetNumber (const INumberVectorProperty *n, const char *msg, ...);
 
+/** \brief Tell client to update an existing switch vector property.
+    \param s pointer to the vector switch property.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDSetSwitch (const ISwitchVectorProperty *s, const char *msg, ...);
 
+/** \brief Tell client to update an existing light vector property.
+    \param l pointer to the vector light property.
+    \param msg message in printf style to send to the client. May be NULL.
+*/
 extern void IDSetLight (const ILightVectorProperty *l, const char *msg, ...);
 
+/*@}*/
 
-/*******************************************************************************
- * Function Drivers call to send log messages to Clients. If dev is specified
- * the Client shall associate the message with that device; if dev is NULL the
- * Client shall treat the message as generic from no specific Device.
- */
 
+/** \brief Function Drivers call to send log messages to Clients.
+ 
+    If dev is specified the Client shall associate the message with that device; if dev is NULL the Client shall treat the message as generic from no specific Device.
+    
+    \param dev device name
+    \param msg message in printf style to send to the client.
+*/
 extern void IDMessage (const char *dev, const char *msg, ...);
 
+/** \brief Function Drivers call to inform Clients a Property is no longer available, or the entire device is gone if name is NULL.
 
-/*******************************************************************************
- * Function Drivers call to inform Clients a Property is no longer
- * available, or the entire device is gone if name is NULL.
- * msg argument functions like printf in ANSI C; may be NULL for no message.
- */
-
+    \param dev device name. If device name is NULL, the entire device will be deleted.
+    \param name property name to be deleted.
+    \param msg message in printf style to send to the client.
+*/
 extern void IDDelete (const char *dev, const char *name, const char *msg, ...);
 
-
-/*******************************************************************************
- * Function Drivers call to log a message locally; the message
- * is not sent to any Clients.
- * msg argument functions like printf in ANSI C; may be NULL for no message.
- */
-
+/** \brief Function Drivers call to log a message locally.
+ 
+    The message is not sent to any Clients.
+    
+    \param msg message in printf style to send to the client.
+*/
 extern void IDLog (const char *msg, ...);
 
-
-/*******************************************************************************
- * Functions Drivers call to register with the INDI event utilities.
- *
- *   Callbacks are called when a read on a file descriptor will not block.
- *   Timers are called once after a specified interval.
- *   Workprocs are called when there is nothing else to do.
- *
- * The "Add" functions return a unique id for use with their corresponding "Rm"
- * removal function. An arbitrary pointer may be specified when a function is
- * registered which will be stored and forwarded unchanged when the function
- * is later involked.
+/**
+ * \defgroup deventFunctions Functions Drivers call to register with the INDI event utilities.
+ 
+     Callbacks are called when a read on a file descriptor will not block. Timers are called once after a specified interval. Workprocs are called when there is nothing else to do. The "Add" functions return a unique id for use with their corresponding "Rm" removal function. An arbitrary pointer may be specified when a function is registered which will be stored and forwarded unchanged when the function is later invoked.
  */
+/*@{*/
+     
+ /* signature of a callback, timout caller and work procedure function */
 
-/* signature of a callback, timout caller and work procedure function */
-
+/** \typedef IE_CBF Signature of a callback. */
 typedef void (IE_CBF) (int readfiledes, void *userpointer);
+/** \typedef IE_CBF Signature of a timeout caller. */
 typedef void (IE_TCF) (void *userpointer);
+/** \typedef IE_CBF Signature of a work procedure function. */
 typedef void (IE_WPF) (void *userpointer);
 
 /* functions to add and remove callbacks, timers and work procedures */
 
+/** \brief Register a new callback, \e fp, to be called with \e userpointer as argument when \e readfiledes is ready.
+*
+* \param readfiledes file descriptor.
+* \param fp a pointer to the callback function.
+* \param userpointer a pointer to be passed to the callback function when called.
+* \return a unique callback id for use with IERmCallback().
+*/
 extern int  IEAddCallback (int readfiledes, IE_CBF *fp, void *userpointer);
+
+/** \brief Remove a callback function.
+*
+* \param callbackid the callback ID returned from IEAddCallback()
+*/
 extern void IERmCallback (int callbackid);
 
+/** \brief Register a new timer function, \e fp, to be called with \e ud as argument after \e ms.
+ 
+ Add to list in order of decreasing time from epoch, ie, last entry runs soonest. The timer will only invoke the callback function \b once. You need to call addTimer again if you want to repeat the process.
+*
+* \param millisecs timer period in milliseconds.
+* \param fp a pointer to the callback function.
+* \param userpointer a pointer to be passed to the callback function when called.
+* \return a unique id for use with IERmTimer().
+*/
 extern int  IEAddTimer (int millisecs, IE_TCF *fp, void *userpointer);
+
+/** \brief Remove the timer with the given \e timerid, as returned from IEAddTimer.
+*
+* \param timerid the timer callback ID returned from IEAddTimer().
+*/
 extern void IERmTimer (int timerid);
 
+/** \brief Add a new work procedure, fp, to be called with ud when nothing else to do.
+*
+* \param fp a pointer to the work procedure callback function.
+* \param userpointer a pointer to be passed to the callback function when called.
+* \return a unique id for use with IERmWorkProc().
+*/
 extern int  IEAddWorkProc (IE_WPF *fp, void *userpointer);
+
+/** \brief Remove the work procedure with the given \e workprocid, as returned from IEAddWorkProc().
+*
+* \param workprocid the work procedure callback ID returned from IEAddWorkProc().
+*/
 extern void IERmWorkProc (int workprocid);
 
+/*@}*/
 
-/*******************************************************************************
- * Functions Drivers call to perform handy utility functions.
- * these do not communicate with the Client in any way.
+/**
+ * \defgroup dutilFunctions Functions Drivers call to perform handy utility functions.
+ 
+   These do not communicate with the Client in any way.
  */
+/*@{*/
 
-/* functions to find a specific member of a vector property */
 
+/** \brief Find an IText member in a vector text property.
+*
+* \param tp a pointer to a text vector property.
+* \param name the name of the member to search for.
+* \return a pointer to an IText member on match, or NULL if nothing is found.
+*/
 extern IText   *IUFindText  (const ITextVectorProperty *tp, const char *name);
+
+/** \brief Find an INumber member in a number text property.
+*
+* \param tp a pointer to a number vector property.
+* \param name the name of the member to search for.
+* \return a pointer to an INumber member on match, or NULL if nothing is found.
+*/
 extern INumber *IUFindNumber(const INumberVectorProperty *tp, const char *name);
+
+/** \brief Find an ISwitch member in a vector switch property.
+*
+* \param tp a pointer to a switch vector property.
+* \param name the name of the member to search for.
+* \return a pointer to an ISwitch member on match, or NULL if nothing is found.
+*/
 extern ISwitch *IUFindSwitch(const ISwitchVectorProperty *tp, const char *name);
+
+/** \brief Returns the first ON switch it finds in the vector switch property.
+
+*   \note This is only valid for ISR_1OFMANY mode. That is, when only one switch out of many is allowed to be ON. Do not use this function if you can have multiple ON switches in the same vector property.
+*        
+* \param tp a pointer to a switch vector property.
+* \return a pointer to the \e first ON ISwitch member if found. If all switches are off, NULL is returned. 
+*/
 extern ISwitch *IUFindOnSwitch (const ISwitchVectorProperty *tp);
 
-/* function to set all property switches off */
+/** \brief Reset all switches in a switch vector property to OFF.
+*
+* \param svp a pointer to a switch vector property.
+*/
 extern void IUResetSwitches(const ISwitchVectorProperty *svp);
 
+/** \brief Update all switches in a switch vector property.
+*
+* \param svp a pointer to a switch vector property.
+* \param states the states of the new ISwitch members.
+* \param names the names of the ISwtich members to update.
+* \param n the number of ISwitch members to update.
+*/
 extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n);
 
+/** \brief Update all numbers in a number vector property.
+*
+* \param nvp a pointer to a number vector property.
+* \param values the states of the new INumber members.
+* \param names the names of the INumber members to update.
+* \param n the number of INumber members to update.
+*/
 extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
-/* function to reliably save new text in a IText */
+/** \brief Function to reliably save new text in a IText.
+    \param tp pointer to an IText member.
+    \param newtext the new text to be saved     
+*/
 extern void IUSaveText (IText *tp, const char *newtext);
+
+/*@}*/
 
 /*******************************************************************************
  *******************************************************************************
@@ -173,30 +295,54 @@ extern void IUSaveText (IText *tp, const char *newtext);
  */
 
 
-/*******************************************************************************
- * Function defined by Drivers that is called when a Client asks for the
- * definitions of all Properties this Driver supports for the given
- * device, or all its devices if dev is NULL.
- */
-
+/** \brief Function defined by Drivers that is called when a Client asks for the definitions of all Properties this Driver supports for the given device.
+    \param dev the name of the device.
+*/  
 extern void ISGetProperties (const char *dev);
 
 
-/*******************************************************************************
- * Functions defined by Drivers that are called when a Client wishes to set
- * different values named members of the given vector Property. The values and
- * their names are parallel arrays of n elements each.
- */
+/**
+ * \defgroup dcuFunctions Functions defined by Drivers that are called when a Client wishes to set different values named members of the given vector Property.
+ 
+ The values and their names are parallel arrays of n elements each.
+*/
+/*@{*/
 
+/** \brief Update the value of an existing text vector property.
+    \param dev the name of the device.
+    \param name the name of the text vector property to update.
+    \param texts an array of text values.
+    \param names parallel names to the array of text values.
+    \param n the dimension of texts[].
+    \note You do not need to call this function, it is called by INDI when new text values arrive from the client.
+*/
 extern void ISNewText (const char *dev, const char *name, char *texts[],
     char *names[], int n); 
 
+/** \brief Update the value of an existing number vector property.
+    \param dev the name of the device.
+    \param name the name of the number vector property to update.
+    \param doubles an array of number values.
+    \param names parallel names to the array of number values.
+    \param n the dimension of doubles[].
+    \note You do not need to call this function, it is called by INDI when new number values arrive from the client.
+*/
 extern void ISNewNumber (const char *dev, const char *name, double *doubles,
     char *names[], int n); 
 
+/** \brief Update the value of an existing switch vector property.
+    \param dev the name of the device.
+    \param name the name of the switch vector property to update.
+    \param states an array of switch states.
+    \param names parallel names to the array of switch states.
+    \param n the dimension of states[].
+    \note You do not need to call this function, it is called by INDI when new switch values arrive from the client.
+*/
 extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
     char *names[], int n); 
-  
+
+/*@}*/
+
 #ifdef __cplusplus
 }
 #endif

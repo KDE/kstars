@@ -18,14 +18,15 @@
 
 #endif
 
-/* INDI Server.
- * argv lists names of driver processes to run.
- * Clients can come and go and will see each device reported by each driver.
- * all newXXX() received from one Client are sent to all other Clients.
- *   atomicity is achieved by XML parsing and printing, a bit crude.
- *   TODO: since we are parsing, could send drivers only cmds for their devices.
- * each driver process's stderr is connected to our stderr.
+/** \file indiserver.c
+    \brief INDI Server provides data steering services among drivers and clients.
+    
+    The server is passed an argv lists of the names of driver processes to run. Clients can come and go and will see each device reported by each driver. All newXXX() received from one Client are sent to all other Clients. Atomicity is achieved by XML parsing and printing, a bit crude. \n
+    
+    Refer to the <a href="http://www.clearskyinstitute.com/INDI/INDI.pdf">INDI White Paper</a> for more details on the INDI Server.
  */
+ 
+ /* TODO: since we are parsing, could send drivers only cmds for their devices. Each driver process's stderr is connected to our stderr.*/
 
 #include <stdio.h>
 #include <stdlib.h>

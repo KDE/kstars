@@ -49,7 +49,7 @@
  #include <kurl.h>
  
  #define STD_BUFFER_SIZ		1024000
- #define FRAME_ILEN		64
+ #define FRAME_ILEN		1024
  
  INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
  {
@@ -154,11 +154,10 @@ void INDIStdDevice::streamReceived()
 
    char msg[1024];
    char frameSize[FRAME_ILEN];
-   int nr=0, n=0, r;
-   unsigned int newCompressSize, newFrameSize, fullFrameSize;
+   int n=0, r, fieldIndex=0;
+   unsigned int newCompressSize, newFrameSize, fullFrameSize, nr=0;
    
-   //kdDebug() << "We're in stream recevied... " << endl;
-   /* #1 Read first the frame size in bytes */
+   /* #1 Read first the frame size in bytes. Read the header up to 1KB, if NIL is not found, terminate */
    for (int i=0; i < FRAME_ILEN; i+=n)
    {
      n = read (streamFD, frameSize + i, 1);
@@ -176,37 +175,41 @@ void INDIStdDevice::streamReceived()
             return;
 	   }
 	   
-    /* A. Check for data type */
-    if (frameSize[i] == ';')
-    {
-      frameSize[i] = '\0';
-      if (!strcmp(frameSize, "VIDEO"))
-       		dataType = DATA_STREAM;
-      else if (!strcmp(frameSize, "FITS"))
-      		dataType = DATA_FITS;
-      else   
-      { 
-      		dataType = DATA_OTHER;
-		dataExt  = QString(frameSize);
-      }
-      
-      i = n = 0;
-    }
-    /* B. Check for full uncompressed frame size */
+    // Check filed delimiters
     if (frameSize[i] == ',')
     {
       frameSize[i] = '\0';
-      fullFrameSize = atoi(frameSize);
-      if (fullFrameSize != totalBytes)
+      
+      /* A. Check for data type */
+      if (fieldIndex == 0)
       {
-        totalBytes = fullFrameSize;
-	allocateStreamBuffer();
-	if (streamBuffer == NULL) return;
+      	if (!strcmp(frameSize, "VIDEO"))
+       		dataType = DATA_STREAM;
+      	else if (!strcmp(frameSize, "FITS"))
+      		dataType = DATA_FITS;
+      	else   
+      	{ 
+      		dataType = DATA_OTHER;
+		dataExt  = QString(frameSize);
+      	}
       }
+      /* B. Check for full uncompressed frame size */
+      else if (fieldIndex == 1)
+      {
+       fullFrameSize = atoi(frameSize);
+       if (fullFrameSize != totalBytes)
+       {
+         totalBytes = fullFrameSize;
+	 allocateStreamBuffer();
+	 if (streamBuffer == NULL) return;
+       }
+      }
+    
+      fieldIndex++;
       i = n = 0;
     }
     /* C. Check for compressed frame size */
-    else if (frameSize[i] == ']')
+    else if (frameSize[i] == '\n')
     {
        frameSize[i] = '\0';
        newCompressSize = atoi(frameSize);
@@ -223,13 +226,15 @@ void INDIStdDevice::streamReceived()
 	 downloadDialog->setMinimumWidth(300);
 	 downloadDialog->show();
        }
-       //kdDebug() << "*** Uncompressed size is " << totalBytes << " and compressed is " << totalCompressedBytes << endl;
+       fieldIndex = 2;
        break;
     }
    }
    
-   // kdDebug() << "Will read actual frame now ... " << endl;
-   
+   // Make sure we read all the necessary fields
+   n = 0;
+   if (fieldIndex != 2) return;
+      
     /* #2 Read actual frame */    
     for (nr = 0; nr < totalCompressedBytes; nr+=n)
     {
@@ -279,7 +284,7 @@ void INDIStdDevice::streamReceived()
 	
 	streamWindow->show();
 	
-	streamWindow->streamFrame->newFrame(streamBuffer, streamWindow->streamWidth, streamWindow->streamHeight, streamWindow->colorFrame);
+	streamWindow->streamFrame->newFrame(streamBuffer, totalBytes, streamWindow->streamWidth, streamWindow->streamHeight);
      }
      else if (dataType == DATA_FITS || dataType == DATA_OTHER)
      {
@@ -356,7 +361,8 @@ void INDIStdDevice::streamReceived()
   switch (pp->stdID)
   {
     case EQUATORIAL_COORD:
-      ksw->map()->forceUpdateNow();
+      //ksw->map()->forceUpdateNow();
+      ksw->map()->update();
       break;
     
     case TIME:
@@ -468,17 +474,6 @@ void INDIStdDevice::streamReceived()
           streamWindow->enableStream(false);
        break;
        
-    case IMAGE_TYPE:
-      lp = pp->findElement("COLOR");
-      if (!lp) return;
-      if (lp->state == PS_ON)
-        streamWindow->setColorFrame(true);
-      else
-        streamWindow->setColorFrame(false);
-	
-       // streamWindow->allocateStreamBuffer();
-      break;
-      
     default:
       break;
     }
@@ -903,10 +898,6 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    case MOVEMENT:
       pp->newSwitch(switchIndex);
       break;
-   
-   case IMAGE_TYPE:
-     pp->newSwitch(switchIndex);
-     break;
       
    default:
          return false;

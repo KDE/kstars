@@ -135,7 +135,7 @@ typedef struct {
 client_t *INDIClients;			/* INDI clients */
 static int DataPort;			/* Data Port */
 static int streamTimerID;		/* Stream ID */
-static int nclients;			/* # of clients using the binary stream */
+static unsigned int nclients;		/* # of clients using the binary stream */
 
 static flidev_t fli_dev;
 static cam_t *FLICam;
@@ -955,8 +955,8 @@ void uploadFile(char * filename)
    FILE * fitsFile;
    char frameSize[FRAME_ILEN];
    unsigned char *fitsData, *compressedData;
-   int nr=0, n=0, i=0, j=0, r=0;
-   unsigned int totalBytes, compressedBytes = 0, frameLen;
+   int n=0,r=0;
+   unsigned int i =0, j = 0, totalBytes, compressedBytes = 0, nr = 0, frameLen;
    struct stat stat_p; 
  
    if ( -1 ==  stat (filename, &stat_p))
@@ -1003,7 +1003,7 @@ void uploadFile(char * filename)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "FITS;%d,%d]", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
    
@@ -1578,7 +1578,7 @@ void updateDataChannel(void *p)
 {
   char buffer[1];
   fd_set rs;
-  int nr, i;
+  unsigned int nr, i;
   struct timeval tv;
   tv.tv_sec  = 0;
   tv.tv_usec = 0;

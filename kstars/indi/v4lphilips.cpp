@@ -137,12 +137,12 @@ static INumber ShutterSpeedN[]		= {{"Speed", "", "%0.f", 0., 65535., 100., 0., 0
 static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), 0, 0};
 
 /* Exposure */
-  static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF, 0, 0}};
+  static ISwitch ExposeS[]    = {{ "FITS", "", ISS_OFF, 0, 0}};
   static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS), 0, 0};
 
 /* Image color */
-static ISwitch ImageTypeS[]		= {{ "GREY", "Grey", ISS_ON, 0, 0}, { "COLOR", "Color", ISS_OFF, 0, 0 }};
-static ISwitchVectorProperty ImageTypeSP= { mydev, "IMAGE_TYPE", "Image Type", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), 0, 0};
+static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
+static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), 0, 0};
 
 /* Frame dimension */
 static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0, 0},
@@ -1249,9 +1249,10 @@ void updateStream(void *p)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "VIDEO;%d,%d]", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "VIDEO,%d,%d\n", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
+
    
   for (int i=0; i < nclients; i++)
   {
@@ -1310,17 +1311,6 @@ void uploadFile(char * filename)
    
    totalBytes = stat_p.st_size;
    fitsData = new unsigned char[totalBytes];
-   
-   /*
-   
-   IDLog("File size is   %d bytes\n", stat_p.st_size); 
-   DataSizeN[0].value = stat_p.st_size;
-   IDSetNumber(&DataSizeNP, NULL);
- 
-    TODO This is temporary to avoid race condition.
-            I need to introduce some hand-shake signals later on 
-	    
-   usleep(500000); */
 
    fitsFile = fopen(filename, "r");
    
@@ -1351,8 +1341,8 @@ void uploadFile(char * filename)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "FITS;%d,%d]", totalBytes, compressedBytes);
-   frameLen = strlen(frameSize);
+   snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
+   frameLen = strlen(frameSize); 
    r = 0;
    
      for (i=0; i < nclients; i++)

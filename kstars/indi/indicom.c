@@ -47,33 +47,18 @@ double RadToDeg( double num );
 void SinCos( double Degrees, double *sina, double *cosa );
 
 double obliquity(void);
-/**@returns the constant of aberration (20.49 arcsec). */
 double constAberr(void);
-/**@returns the mean solar anomaly. */
 double sunMeanAnomaly(void);
-/**@returns the mean solar longitude. */
 double sunMeanLongitude(void);
-/**@returns the true solar anomaly. */
 double sunTrueAnomaly(void);
-/**@returns the true solar longitude. */
 double sunTrueLongitude(void);
-/**@returns the longitude of the Earth's perihelion point. */
 double earthPerihelionLongitude(void);
-/**@returns eccentricity of Earth's orbit.*/
 double earthEccentricity(void);
-/**@returns the change in obliquity due to the nutation of Earth's orbit. */
 double dObliq(void);
-/**@returns the change in Ecliptic Longitude due to nutation. */
 double dEcLong(void);
-/**@returns Julian centuries since J2000*/
 double julianCenturies(void);
-/**@returns Julian Millenia since J2000*/
-/* double julianMillenia(void);*/
-/**@returns element of P1 precession array at position [i1][i2] */
 double p1( int i1, int i2 );
-/**@returns element of P2 precession array at position [i1][i2] */
 double p2( int i1, int i2 );
-/**@short update all values for the date given as an argument. */
 void updateAstroValues( double jd );
 void nutate(double *RA, double *Dec);
 void aberrate(double *RA, double *Dec);
@@ -90,31 +75,17 @@ double deltaObliquity, deltaEcLong;
 double e, T;
 
 double obliquity() { return Obliquity; }
-/**@returns the constant of aberration (20.49 arcsec). */
 double constAberr() { return K; }
-/**@returns the mean solar anomaly. */
 double sunMeanAnomaly() { return M; }
-/**@returns the mean solar longitude. */
 double sunMeanLongitude() { return L; }
-/**@returns the true solar anomaly. */
 double sunTrueAnomaly() { return M0; }
-/**@returns the true solar longitude. */
 double sunTrueLongitude() { return L0; }
-/**@returns the longitude of the Earth's perihelion point. */
 double earthPerihelionLongitude() { return P; }
-/**@returns eccentricity of Earth's orbit.*/
 double earthEccentricity() { return e; }
-/**@returns the change in obliquity due to the nutation of Earth's orbit. */
 double dObliq() { return deltaObliquity; }
-/**@returns the change in Ecliptic Longitude due to nutation. */
 double dEcLong() { return deltaEcLong; }
-/**@returns Julian centuries since J2000*/
 double julianCenturies() { return T; }
-/**@returns Julian Millenia since J2000*/
-/* double julianMillenia() { return jm; }*/
-/**@returns element of P1 precession array at position [i1][i2] */
 double p1( int i1, int i2 ) { return P1[i1][i2]; }
-/**@returns element of P2 precession array at position [i1][i2] */
 double p2( int i1, int i2 ) { return P2[i1][i2]; }
 
 void updateAstroValues( double jd )

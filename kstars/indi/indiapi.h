@@ -18,11 +18,39 @@
 
 #endif
 
-/*******************************************************************************
- * These are the Constants and Data structure definitions for the interface to
- * the reference INDI C API implementation. These may be used on both the
- * Client and Device side.
- */
+/** \mainpage Instrument Neutral Distributed Interface INDI
+    \section Introduction
+    
+    INDI is a simple XML-like communications protocol described for interactive and automated remote control of diverse instrumentation.\n
+ 
+ INDI is small, easy to parse, and stateless. In the INDI paradigm each Device poses all command and status functions in terms of settings and getting Properties. Each Property is a vector of one or more names members. Each property has a current value vector; a target value vector; provides information about how it should be sequenced with respect to other Properties to accomplish one coordinated unit of observation; and provides hints as to how it might be displayed for interactive manipulation in a GUI.\n
+ 
+ Clients learn the Properties of a particular Device at runtime using introspection. This decouples Client and Device implementation histories. Devices have a complete authority over whether to accept commands from Clients. INDI accommpdates intermediate servers, broadcasting, and connection topologies ranging from one-to-one on a single system to many-to-many between systems of different genre.\n
+ 
+ The INDI protocol can be nested within other XML elements such as constraints for automatic scheduling and execution.\n
+ 
+ For a complete review on the INDI protocol, please refer to the INDI <a href="http://www.clearskyinstitute.com/INDI/INDI">white paper</a>. 
+ 
+\section Audience Intended Audience 
+
+INDI is intended for developers who seek a scalable and mature API for device control and automation. Hardware drivers written under INDI can be used under any INDI-compatible client. INDI serves as a backend only, you need frontend clients to control devices. Current clients include <a href="http://edu.kde.org/kstars">KStars</a> and <a href="http://www.clearyskyinstitute.com/xephem">Xephem</a>. 
+
+\section Development Developing under INDI
+
+Please refere to the <a href="http://indi.sf.net">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework. 
+
+\section Help 
+
+You can find information on INDI development in the <a href="http://indi.sf.net">INDI sourceforge</a> site. Furthermore, you can discuss INDI related issues on the <a href="http://sourceforge.net/mail/?group_id=90275">INDI development mailing list</a>. 
+
+\author Elwood Downey
+\author Jasem Mutlaq
+*/
+
+/** \file indiapi.h
+    \brief Constants and Data structure definitions for the interface to the reference INDI C API implementation.
+    \author Elwood C. Downey
+*/
 
 /*******************************************************************************
  * INDI wire protocol version implemented by this API.
@@ -35,23 +63,35 @@
  * Manifest constants
  */
 
+/** \typedef ISState
+    \brief Switch state.
+*/
 typedef enum {
     ISS_OFF, ISS_ON
 } ISState;				/* switch state */
 
+/** \typedef IPState
+    \brief Property state.
+*/
 typedef enum {
     IPS_IDLE, IPS_OK, IPS_BUSY, IPS_ALERT
 } IPState;				/* property state */
 
+/** \typedef ISRule
+    \brief Switch vector rule hint.
+*/
 typedef enum {
     ISR_1OFMANY, ISR_ATMOST1, ISR_NOFMANY
 } ISRule;				/* switch vector rule hint */
 
+/** \typedef IPerm
+    \brief Permission hint, with respect to client.
+*/
 typedef enum {
     IP_RO, IP_WO, IP_RW
 } IPerm;				/* permission hint, WRT client */
 
-/* the XML strings for these attributes may be any length but implementations
+/* The XML strings for these attributes may be any length but implementations
  * are only obligued to support these lengths for the various string attributes.
  */
 #define	MAXINDINAME	32
@@ -81,99 +121,184 @@ typedef enum {
  *  "  0:01:02"    %9.6m
  */
 
-typedef struct {			/* one text descriptor */
-    char name[MAXINDINAME];		/* index name */
-    char label[MAXINDILABEL];		/* short description */
-    char *text;				/* malloced text string */
-    struct _ITextVectorProperty *tvp;	/* pointer to parent */
-    void *aux0, *aux1;			/* handy place to hang helper info */
+/** \struct IText
+    \brief One text descriptor.
+*/
+typedef struct {		
+    /** index name */	
+    char name[MAXINDINAME];	
+    /** short description */
+    char label[MAXINDILABEL];		
+    /** malloced text string */
+    char *text;				
+    /** pointer to parent */
+    struct _ITextVectorProperty *tvp;	
+    /** handy place to hang helper info */
+    void *aux0;   			
+    /** handy place to hang helper info */
+    void *aux1;				
 } IText;
 
-typedef struct _ITextVectorProperty {	/* text vector property descriptor */
-    char device[MAXINDIDEVICE];		/* device name */
-    char name[MAXINDINAME];		/* property name */
-    char label[MAXINDILABEL];		/* short description */
-    char group[MAXINDIGROUP];		/* GUI grouping hint */
-    IPerm p;				/* client accessibility hint */
-    double timeout;			/* current max time to change, secs */
-    IPState s;				/* current property state */
-    IText *tp;				/* texts comprising this vector */
-    int ntp;				/* dimension of tp[] */
-    double timestamp;			/* secs since 1/1/1970 UTC, else 0 */
-    void *aux;				/* handy place to hang helper info */
+/** \struct _ITextVectorProperty
+    \brief Text vector property descriptor.
+*/
+typedef struct _ITextVectorProperty {
+    /** device name */
+    char device[MAXINDIDEVICE];		
+    /** property name */
+    char name[MAXINDINAME];		
+    /** short description */
+    char label[MAXINDILABEL];		
+    /** GUI grouping hint */
+    char group[MAXINDIGROUP];		
+    /** client accessibility hint */
+    IPerm p;				
+    /** current max time to change, secs */
+    double timeout;			
+    /** current property state */
+    IPState s;				
+    /** texts comprising this vector */
+    IText *tp;				
+    /** dimension of tp[] */
+    int ntp;				
+    /** secs since 1/1/1970 UTC, else 0 */
+    double timestamp;			
+    /** handy place to hang helper info */
+    void *aux;				
 } ITextVectorProperty;
 
-typedef struct {			/* one number descriptor */
-    char name[MAXINDINAME];		/* index name */
-    char label[MAXINDILABEL];		/* short description */
-    char format[MAXINDIFORMAT];		/* GUI display format, see above */
-    double min, max;			/* range, ignore if min == max */
-    double step;			/* step size, ignore if step == 0 */
-    double value;			/* current value */
-    struct _INumberVectorProperty *nvp;	/* pointer to parent */
-    void *aux0, *aux1;			/* handy place to hang helper info */
+/** \struct INumber
+    \brief One number descriptor.
+*/
+typedef struct {
+    char name[MAXINDINAME];		/** index name */
+    char label[MAXINDILABEL];		/** short description */
+    char format[MAXINDIFORMAT];		/** GUI display format, see above */
+    double min, max;			/** range, ignore if min == max */
+    double step;			/** step size, ignore if step == 0 */
+    double value;			/** current value */
+    struct _INumberVectorProperty *nvp;	/** pointer to parent */
+    void *aux0, *aux1;			/** handy place to hang helper info */
 } INumber;
 
-typedef struct _INumberVectorProperty {	/* number vector property descriptor */
-    char device[MAXINDIDEVICE];		/* device name */
-    char name[MAXINDINAME];		/* property name */
-    char label[MAXINDILABEL];		/* short description */
-    char group[MAXINDIGROUP];		/* GUI grouping hint */
-    IPerm p;				/* client accessibility hint */
-    double timeout;			/* current max time to change, secs */
-    IPState s;				/* current property state */
-    INumber *np;			/* numbers comprising this vector */
-    int nnp;				/* dimension of np[] */
-    double timestamp;			/* secs since 1/1/1970 UTC, else 0 */
-    void *aux;				/* handy place to hang helper info */
+/** \struct _INumberVectorProperty
+    \brief Number vector property descriptor.
+    
+    INumber.format may be any printf-style appropriate for double or style "m" to create sexigesimal using the form "%\<w\>.\<f\>m" where:\n
+    \<w\> is the total field width.\n
+    \<f\> is the width of the fraction. valid values are:\n
+        9  ->  \<w\>:mm:ss.ss \n
+        8  ->  \<w\>:mm:ss.s \n
+        6  ->  \<w\>:mm:ss \n
+        5  ->  \<w\>:mm.m \n
+        3  ->  \<w\>:mm \n
+	
+   examples:\n 
+ 
+   To produce "-123:45", use \%7.3m \n
+   To produce "  0:01:02", use \%9.6m 
+*/
+typedef struct _INumberVectorProperty {
+    /** device name */
+    char device[MAXINDIDEVICE];		
+    /** property name */
+    char name[MAXINDINAME];		
+    /** short description */
+    char label[MAXINDILABEL];		
+    /** GUI grouping hint */
+    char group[MAXINDIGROUP];		
+    /** client accessibility hint */
+    IPerm p;				
+    /** current max time to change, secs */
+    double timeout;			
+    /** current property state */
+    IPState s;				
+    /** numbers comprising this vector */
+    INumber *np;			
+    /** dimension of np[] */
+    int nnp;				
+    /** secs since 1/1/1970 UTC, else 0 */
+    double timestamp;			
+    /** handy place to hang helper info */
+    void *aux;				
 } INumberVectorProperty;
 
-typedef struct {			/* one switch descriptor */
-    char name[MAXINDINAME];		/* index name */
-    char label[MAXINDILABEL];		/* this switch's label */
-    ISState s;				/* this switch's state */
-    struct _ISwitchVectorProperty *svp;	/* pointer to parent */
-    void *aux;				/* handy place to hang helper info */
+/** \struct ISwitch
+    \brief One switch descriptor.
+*/
+typedef struct {			
+    char name[MAXINDINAME];		/** index name */
+    char label[MAXINDILABEL];		/** this switch's label */
+    ISState s;				/** this switch's state */
+    struct _ISwitchVectorProperty *svp;	/** pointer to parent */
+    void *aux;				/** handy place to hang helper info */
 } ISwitch;
 
-typedef struct _ISwitchVectorProperty {	/* switch vector property descriptor */
-    char device[MAXINDIDEVICE];		/* device name */
-    char name[MAXINDINAME];		/* property name */
-    char label[MAXINDILABEL];		/* short description */
-    char group[MAXINDIGROUP];		/* GUI grouping hint */
-    IPerm p;				/* client accessibility hint */
-    ISRule r;				/* switch behavior hint */
-    double timeout;			/* current max time to change, secs */
-    IPState s;				/* current property state */
-    ISwitch *sp;			/* switches comprising this vector */
-    int nsp;				/* dimension of sp[] */
-    double timestamp;			/* secs since 1/1/1970 UTC, else 0 */
-    void *aux;				/* handy place to hang helper info */
+/** \struct _ISwitchVectorProperty
+    \brief Switch vector property descriptor.
+*/
+typedef struct _ISwitchVectorProperty {
+    /** device name */
+    char device[MAXINDIDEVICE];		
+    /** property name */
+    char name[MAXINDINAME];		
+    /** short description */
+    char label[MAXINDILABEL];		
+    /** GUI grouping hint */
+    char group[MAXINDIGROUP];		
+    /** client accessibility hint */
+    IPerm p;				
+    /** switch behavior hint */
+    ISRule r;				
+    /** current max time to change, secs */
+    double timeout;			
+    /** current property state */
+    IPState s;				
+    /** switches comprising this vector */
+    ISwitch *sp;			
+    /** dimension of sp[] */
+    int nsp;				
+    /** secs since 1/1/1970 UTC, else 0 */
+    double timestamp;			
+    /** handy place to hang helper info */
+    void *aux;				
 } ISwitchVectorProperty;
 
-typedef struct {			/* one light descriptor */
-    char name[MAXINDINAME];		/* index name */
-    char label[MAXINDILABEL];		/* this lights's label */
-    IPState s;				/* this lights's state */
-    struct _ILightVectorProperty *lvp;	/* pointer to parent */
-    void *aux;				/* handy place to hang helper info */
+/** \struct ILight
+    \brief One light descriptor.
+*/
+typedef struct {			
+    char name[MAXINDINAME];		/** index name */
+    char label[MAXINDILABEL];		/** this lights's label */
+    IPState s;				/** this lights's state */
+    struct _ILightVectorProperty *lvp;	/** pointer to parent */
+    void *aux;				/** handy place to hang helper info */
 } ILight;
 
-typedef struct _ILightVectorProperty {	/* light vector property descriptor */
-    char device[MAXINDIDEVICE];		/* device name */
-    char name[MAXINDINAME];		/* property name */
-    char label[MAXINDILABEL];		/* short description */
-    char group[MAXINDIGROUP];		/* GUI grouping hint */
-    IPState s;				/* current property state */
-    ILight *lp;				/* lights comprising this vector */
-    int nlp;				/* dimension of lp[] */
-    double timestamp;			/* secs since 1/1/1970 UTC, else 0 */
-    void *aux;				/* handy place to hang helper info */
+/** \struct _ILightVectorProperty
+    \brief Light vector property descriptor.
+*/
+typedef struct _ILightVectorProperty {	
+    /** device name */
+    char device[MAXINDIDEVICE];		
+    /** property name */
+    char name[MAXINDINAME];		
+    /** short description */
+    char label[MAXINDILABEL];		
+    /** GUI grouping hint */
+    char group[MAXINDIGROUP];		
+    /** current property state */
+    IPState s;				
+    /** lights comprising this vector */
+    ILight *lp;				
+    /** dimension of lp[] */
+    int nlp;				
+    /** secs since 1/1/1970 UTC, else 0 */
+    double timestamp;			
+    /** handy place to hang helper info */
+    void *aux;				
 } ILightVectorProperty;
 
-/*******************************************************************************
- * Handy macro to find the number of elements in array a[].
- * N.B. must be used with actual array, not pointer.
- */
-
+/** \brief Handy macro to find the number of elements in array a[]. Must be used with actual array, not pointer.
+*/
 #define NARRAY(a)       (sizeof(a)/sizeof(a[0]))

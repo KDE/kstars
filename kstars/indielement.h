@@ -48,7 +48,7 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
 enum stdProperties { CONNECTION, EQUATORIAL_COORD, ON_COORD_SET, ABORT_MOTION, SOLAR_SYSTEM,
                      GEOGRAPHIC_COORD, HORIZONTAL_COORD, TIME, EXPOSE_DURATION, 
-                     DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE, IMAGE_TYPE };
+                     DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE};
 		     
 /* Devices families that we explicity support (i.e. with std properties) */
 enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
