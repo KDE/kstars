@@ -108,7 +108,6 @@ DeviceManager::~DeviceManager()
 bool DeviceManager::indiConnect(QString host, QString port)
 {
 
-        kdDebug() << "in INDI connect with " << host << " and port " << port << endl;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
 	QString errMsg;
@@ -721,6 +720,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
  buttonLayout = new QHBoxLayout(0, 5, 5);
 
  clear   = new QPushButton(i18n("Clear"), tabContainer);
+ clear->setDefault(false);
  savelog = new QPushButton(i18n("Save Log..."), tabContainer);
 
  buttonLayout->addWidget(clear);
@@ -1158,7 +1158,7 @@ void INDI_D::initTelescope()
   	  if (prop)
 	  {
             prop->updateTime();
-	    initDevCounter += 3;
+	    initDevCounter += 2;
 	  }
   }
 
@@ -2066,6 +2066,11 @@ void INDI_P::convertSwitch(int id)
        if (prop == NULL)
         return;
 
+       // We need to get from JNow (Skypoint) to J2000
+       // The ra0() of a skyPoint is the same as its JNow ra() without this process
+       pg->dp->parent->ksw->map()->clickedPoint()->apparentCoord( pg->dp->parent->ksw->clock()->JD() , (long double) J2000);
+
+       // Use J2000 coordinate as required by INDI
        prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->hour())
         						 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->minute())
 							 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->second()));

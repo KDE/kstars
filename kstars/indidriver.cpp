@@ -165,7 +165,6 @@ void INDIDriver::processDeviceStatus(int id)
 	  localListView->selectedItem()->setPixmap(1, runningPix);
 
 	  localListView->selectedItem()->setText(3, QString("%1").arg(devices[i]->indiPort));
-	  kdDebug() << "listening port okay and returning" << endl;
 	  return;
 	}
 
