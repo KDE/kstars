@@ -44,7 +44,7 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 
 		//DEBUG
 		kdDebug() << "Details for: " << selectedObject->name() << endl;
-
+		
     createGeneralTab(lt, geo);
     createLinksTab();
     createAdvancedTab();
@@ -278,11 +278,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	PrimaryName->setFont( boldFont );
 	Type->setFont( boldFont );
 	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
-	if(mag=="99.9")
-		Mag = new QLabel( i18n("unknown"), this );
-	else
-		Mag = new QLabel( mag, this );
-
+	Mag = new QLabel( mag, this );
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
 
@@ -357,7 +353,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	long double jd = KSUtils::UTtoJD( ut );
 	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
 	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time
-
+	
 	//If transit time is before rise time, use transit time for tomorrow
 	QTime tt = o->transitTime( jd, geo );
 	dms talt = o->transitAltitude( jd, geo );
@@ -606,7 +602,7 @@ void DetailDialog::removeLinkDialog()
         type = 0;
         currentItemTitle = imagesList->currentText();
   }
-
+  
   if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"))!=KMessageBox::Yes)
    return;
 
@@ -685,7 +681,7 @@ bool DetailDialog::verifyUserData(int type)
                 }
          }
 	 break;
-
+	 
     }
 
    return ObjectFound;
@@ -705,7 +701,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
         	   return false;
                 }
        break;
-
+       
        case 1:
             file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
              if ( !file.open( IO_ReadOnly) )
@@ -713,9 +709,9 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
         	   ksw->data()->initError("info_url.dat", false);
                    return false;
              }
-
+           
            break;
-
+	  
     }
 
    // Must reset file
