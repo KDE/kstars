@@ -18,7 +18,7 @@
 #ifndef MODCALCGEODCOORD_H
 #define MODCALCGEODCOORD_H
 
-#include <qvbox.h>
+#include "modcalcgeoddlg.h"
 
 /**
   * Class which implements the KStars calculator module to compute
@@ -29,14 +29,13 @@
 	*@version 0.9
   */
 
-class QWidget;
-class VBox;
-class QLineEdit;
-class QRadioButton;
-class dmsBox;
+//class QWidget;
+//class QLineEdit;
+//class QRadioButton;
+//class dmsBox;
 class GeoLocation;
 
-class modCalcGeodCoord : public QVBox  {
+class modCalcGeodCoord : public modCalcGeodCoordDlg {
 
 	Q_OBJECT
 	public:
@@ -60,10 +59,10 @@ class modCalcGeodCoord : public QVBox  {
 
 		void showLongLat(void);
 
-		QRadioButton *cartRadio, *spheRadio;
-		QVBox *vbox, *rightBox;
-		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
-		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
+//		QRadioButton *cartRadio, *spheRadio;
+//		QVBox *vbox, *rightBox;
+//		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
+//		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
 		GeoLocation *geoPlace;
 
