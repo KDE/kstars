@@ -26,6 +26,8 @@
 #include "ksnumbers.h"
 #include "dms.h"
 
+#define B1950 2433282.4235 
+
 
 /**
 	*Encapsulates the sky coordinates of a point in the sky.  The
@@ -242,6 +244,57 @@ public:
 
 /**Determine the effects of aberration for this SkyPoint*/
 	void aberrate(const KSNumbers *num);
+
+	/** Determine the E-terms of aberration 
+	 *In the past, the mean places of stars published in catalogs included
+	 *the contribution to the aberration due to the ellipticity of the orbit
+	 *of the Earth. These terms, known as E-terms were almost constant, and
+	 *in the newer catalogs (FK5) are not included. Therefore to convert from
+	 *FK4 to FK5 one has to compute these E-terms.
+	 */
+	SkyPoint Eterms(void);
+
+	/** Exact precession from Besselian epoch 1950 to epoch J2000. The coordinates
+	*referred to the first epoch are in the FK4 catalog, while the latter are in the
+	*Fk5 one.
+	*Reference: Smith, C. A.; Kaplan, G. H.; Hughes, J. A.; Seidelmann,
+	*P. K.; Yallop, B. D.; Hohenkerk, C. Y.
+	*Astronomical Journal, vol. 97, Jan. 1989, p. 265-279
+	*This transformation requires 4 steps:
+	* - Correct E-terms
+	* - Precess from B1950 to 1984, January 1st, 0h, using Newcomb expressions
+	* - Add zero point correction in right ascension for 1984
+	* - Precess from 1984, January 1st, 0h to J2000
+	*/
+	void B1950ToJ2000(void);
+
+	/** Exact precession from epoch J2000 Besselian epoch 1950. The coordinates
+	*referred to the first epoch are in the FK4 catalog, while the latter are in the
+	*Fk5 one.
+	*Reference: Smith, C. A.; Kaplan, G. H.; Hughes, J. A.; Seidelmann,
+	*P. K.; Yallop, B. D.; Hohenkerk, C. Y.
+	*Astronomical Journal, vol. 97, Jan. 1989, p. 265-279
+	*This transformation requires 4 steps:
+	* - Precess from J2000 to 1984, January 1st, 0h
+	* - Add zero point correction in right ascension for 1984
+	* - Precess from 1984, January 1st, 0h, to B1950 using Newcomb expressions
+	* - Correct E-terms
+	*/
+	void J2000ToB1950(void);
+
+	/** Coordinates in the FK4 catalog include the effect of aberration due
+	 *to the ellipticity of the orbit of the Earth. Coordinates in the FK5
+	 *catalog do not include these terms. In order to convert from B1950 (FK4)
+	 *to actual mean places one has to use this function.
+	*/
+	void addEterms(void);
+
+	/** Coordinates in the FK4 catalog include the effect of aberration due
+	 *to the ellipticity of the orbit of the Earth. Coordinates in the FK5 
+	 *catalog do not include these terms. In order to convert from FK5 coordinates
+	 * to B1950 (FK4) one has to use this function. 
+	*/
+	void subtractEterms(void);
 
 protected:
 /**Precess this SkyPoint's catalog coordinates */
