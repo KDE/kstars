@@ -193,7 +193,8 @@ void modCalcAzel::slotComputeCoords()
 	sp = getEquCoords();
 
 	sp.apparentCoord(jd0, jd);
-	sp.EquatorialToHorizontal( &LSTh, &(dms(getLatitude())) );
+	dms lat(getLatitude());
+	sp.EquatorialToHorizontal( &LSTh, &lat );
 	showHorCoords( sp );
 
 }
