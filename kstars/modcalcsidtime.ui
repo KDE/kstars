@@ -1,0 +1,260 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>464</width>
+            <height>437</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>ButtonGroup1</cstring>
+            </property>
+            <property name="title">
+                <string>Input Selection</string>
+            </property>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>KPushButton1</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>90</x>
+                        <y>60</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Compute</string>
+                </property>
+            </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>KPushButton2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>60</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>clear</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>RadioButton13</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>20</y>
+                        <width>140</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Sidereal time</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>RadioButton11</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>70</x>
+                        <y>20</y>
+                        <width>121</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Universal time</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox5</cstring>
+            </property>
+            <property name="title">
+                <string>Input Data</string>
+            </property>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>100</x>
+                        <y>20</y>
+                        <width>80</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>20</y>
+                        <width>60</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Longitude:</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>210</x>
+                        <y>20</y>
+                        <width>60</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Date:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>260</x>
+                        <y>20</y>
+                        <width>80</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox5_2</cstring>
+            </property>
+            <property name="title">
+                <string>Universal Time</string>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2_3</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>20</y>
+                        <width>22</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>UT:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_5</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>80</x>
+                        <y>20</y>
+                        <width>110</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox5_2_2</cstring>
+            </property>
+            <property name="title">
+                <string>Sidereal Time</string>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel5</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>20</y>
+                        <width>33</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>ST:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_5_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>80</x>
+                        <y>20</y>
+                        <width>110</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>0</width>
+                    <height>65</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

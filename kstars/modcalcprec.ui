@@ -1,0 +1,270 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Form1</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>464</width>
+            <height>437</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>ButtonGroup1</cstring>
+            </property>
+            <property name="title">
+                <string>Orignial Coordinates</string>
+            </property>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>KPushButton2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>clear</string>
+                </property>
+            </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>KPushButton1</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>90</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Compute</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>30</y>
+                        <width>37</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>RA:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_3</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>70</x>
+                        <y>30</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel5_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>150</x>
+                        <y>30</y>
+                        <width>37</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>DEC:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_2_3</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>200</x>
+                        <y>30</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel1_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>280</x>
+                        <y>30</y>
+                        <width>43</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Epoch:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_2_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>30</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox5</cstring>
+            </property>
+            <property name="title">
+                <string>Precessed Coordinates</string>
+            </property>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>20</y>
+                        <width>37</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>RA:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>60</x>
+                        <y>20</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel5</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>140</x>
+                        <y>20</y>
+                        <width>37</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>DEC:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>190</x>
+                        <y>20</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel1_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>270</x>
+                        <y>20</y>
+                        <width>43</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Epoch:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_2_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>320</x>
+                        <y>20</y>
+                        <width>70</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>0</width>
+                    <height>151</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
