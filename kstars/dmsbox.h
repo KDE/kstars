@@ -44,10 +44,8 @@ public:
 	 * @p deg is a boolean. TRUE if it is an object that will contain
 	 *  degrees, arcminutes, ...
 	 *  FALSE if it will contain hours, minutes, seconds..
-	 * @p n is the number of characters of the first field. Defaults to
-	 * 3.
 	 */
-	dmsBox(QWidget *parent, const char *ni, bool deg=TRUE, int n=3);
+	dmsBox(QWidget *parent, const char *ni, bool deg=TRUE);
 
 	~dmsBox();
 
@@ -70,42 +68,12 @@ public:
 	/**
 	*@p s Fills the degrees entry field with string s
 	*/
-	void setDegree(QString s) { degreeName->setText(s); }
-
-	/**
-	*@p s Fills the minutes entry field with string s
-	*/
-	void setMinute(QString s) { minuteName->setText(s); }
-
-	/**
-	*@p s Fills the seconds entry field with string s
-	*/
-	void setSecond(QString s) { secondName->setText(s); }
+	void setDMS(QString s) { dmsName->setText(s); }
 
 	/**
 	* returns a dms object constructed from the fields of the dmsbox
 	*/
 	dms createDms(void);
-
-	/**
-	* returns the hour as an integer
-	*/
-	int hours(void) {return degreeName->text().toInt(); }
-
-	/**
-	* returns the degrees field as an integer
-	*/
-	int degrees(void) {return degreeName->text().toInt(); }
-
-	/**
-	* returns the minutes field as an integer
-	*/
-	int minutes(void) {return minuteName->text().toInt(); }
-
-	/**
-	* returns the seconds field as an integer
-	*/
-	double seconds(void) {return secondName->text().toDouble(); }
 
 	/**
 	* returns a boolean indicating if object contains degrees or hours
@@ -115,7 +83,7 @@ public:
 	/**
 	* Clears the entries of the object
 	*/
-	void clearFields (void);
+	void clearFields (void) { setDMS(""); }
 
 private:
 
@@ -123,7 +91,7 @@ private:
 	double second;
 	int second_int, msecond;
 	bool deg;
-	QLineEdit *degreeName, *minuteName, *secondName;
+	QLineEdit *dmsName;
 	dms degValue;
 };
 

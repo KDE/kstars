@@ -18,56 +18,48 @@
 #include <stdlib.h>
 #include "dmsbox.h"
 #include "dms.h"
+
+#include <qstringlist.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 #include <qlabel.h>
 #include <qhbox.h>
 #include <qlineedit.h>
 #include <qstring.h>
 #include <qwidget.h>
 
-dmsBox::dmsBox(QWidget *parent, const char *name, bool dg, int nc) : QHBox(parent,name) {
+dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QHBox(parent,name) {
 
 	
 	QHBox * dBox = new QHBox(parent,name);
 	
-	degreeName = new QLineEdit( dBox,"HourName");
-	minuteName = new QLineEdit( dBox,"MinuteName");
-	secondName = new QLineEdit( dBox,"SecondName");
+	dmsName = new QLineEdit( dBox,"dmsName");
 	
 	dBox->setSpacing(1);
-	setStretchFactor(dBox,0);
+//	setStretchFactor(dBox,0);
 	dBox->setMargin(6);
 
-	int nw = nc*10;
-	// Deg
-	degreeName->setMaxLength(nc);
-	degreeName->setMaximumWidth(nw);
-	// Min
-	minuteName->setMaxLength(2);
-	minuteName->setMaximumWidth(20);
-	//Sec
-	secondName->setMaxLength(5);
-	secondName->setMaximumWidth(50);
+	dmsName->setMaxLength(14);
+	dmsName->setMaximumWidth(160);
 
-	dBox->setMaximumWidth(110);
+	dBox->setMaximumWidth(180);
 
 	deg = dg;
 }
 
 void dmsBox::showInDegrees (dms d)
 {
-	setDegree( QString("%1").arg(d.degree(),2) );
-	setMinute( QString("%1").arg(d.getArcMin(),2) );
 	double seconds = d.getArcSec() + d.getmArcSec()/1000.;
-	setSecond( QString("%1").arg(seconds,6,'f',3) );
 
+	setDMS ( QString("%1 %2 %3").arg(d.degree(),2).arg(d.getArcMin(),2).arg(seconds,6,'f',3) );
 }
 
 void dmsBox::showInHours (dms d)
 {
-	setDegree( QString("%1").arg(d.hour(),2) );
-	setMinute( QString("%1").arg(d.minute(),2) );
 	double seconds = d.second() + d.msecond()/1000.;
-	setSecond( QString("%1").arg(seconds,6,'f',3) );
+
+	setDMS ( QString("%1 %2 %3").arg(d.hour(),2).arg(d.minute(),2).arg(seconds,6,'f',3) );
 
 }
 
@@ -81,30 +73,96 @@ void dmsBox::show(dms d)
 
 dms dmsBox::createDms ()
 {
-	if (deg) {  	
-		double D = (double)abs( degrees() ) + (double)minutes()/60. +
-			(double)seconds()/3600.;
-		if ( degrees() <0 ) {D = -1.0*D;}
-		
-		return	dms( D );
-	}
-	else {
-		double H = (double)abs( degrees() ) + (double)minutes()/60. +
-			(double)seconds()/3600.;
-		if ( degrees() <0)
-			H = -1.0*H;
-		
-		dms h;
-		h.setH (H);
-		return	h;
-	}
-}
+//	QString entry;
+	int d = 0, m = 0;
+	double s = 0.0;
+	dms dmsAng;
+	bool valueFound = false, badEntry = false , checkValue = false;
 
-void dmsBox::clearFields (void) {
 
-	setDegree("");
-	setMinute("");
-	setSecond("");
+//	QString errMsg = i18n( "Could not parse %1 entry.  Specify a %1 value ") + i18n( "as a simple integer, a floating-point number, or as a triplet " ) + i18n( "of values using colons or spaces as separators." );
+
+	QString entry = dmsName->text().stripWhiteSpace();
+
+	//Try simplest cases: integer or double representation
+
+	d = entry.toInt( &checkValue );
+	if ( checkValue ) {
+		if (deg) dmsAng.setD( d, 0, 0 );
+		else dmsAng.setH( d, 0, 0 );
+		valueFound = true;
+		return dmsAng;
+	} else {
+		double x = entry.toDouble( &checkValue );
+		if ( checkValue ) {
+			if ( deg ) dmsAng.setD( x );
+			else dmsAng.setH( x );
+			valueFound = true;
+			return dmsAng;
+		}
+	}
+
+	//no success yet...try assuming multiple fields
+
+	if ( !valueFound ) { 
+		QStringList fields;
+		
+		//check for colon-delimiters or space-delimiters
+		if ( entry.contains(':') ) 
+			fields = QStringList::split( ':', entry );
+		else fields = QStringList::split( " ", entry ); 
+
+		// If two fields we will add a third one, and then parse with 
+		// the 3-field code block. If field[1] is a double, convert 
+		// it to integer arcmin, and convert the remainder to arcsec
+		 
+		if ( fields.count() == 2 ) {
+			double mx = fields[1].toDouble( &checkValue );
+			if ( checkValue ) {
+				fields[1] = QString("%1").arg( int(mx) );
+				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+			} else {
+				fields.append( QString( "0" ) );
+			}
+		}
+		
+		// Three fields space-delimited ( h/d m s ); 
+		// ignore all after 3rd field
+
+		if ( fields.count() >= 3 ) {
+			fields[0].replace( QRegExp("h"), "" );
+			fields[0].replace( QRegExp("d"), "" );
+			fields[1].replace( QRegExp("m"), "" );
+			fields[2].replace( QRegExp("s"), "" );
+		}
+		//See if first two fields parse as integers.
+		//
+		d = fields[0].toInt( &checkValue );
+		if ( !checkValue ) badEntry = true;
+		m = fields[1].toInt( &checkValue );
+		if ( !checkValue ) badEntry = true;
+		s = fields[2].toDouble( &checkValue );
+		if ( !checkValue ) badEntry = true;
+
+		if ( !badEntry ) {
+			valueFound = true;
+			double D = (double)abs(d) + (double)m/60. 
+					+ (double)s/3600.;
+			if ( d <0 ) {D = -1.0*D;}
+
+			if (deg) {  	
+				return	dms( D );
+			} else {
+				dms h;
+				h.setH (D);
+				return	h;
+			}
+		}
+	}
+
+//	 if ( !valueFound )
+//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could not set value" ) );
+
 }
 
 dmsBox::~dmsBox(){
