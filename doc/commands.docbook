@@ -1143,13 +1143,6 @@ drag vertically.
 	Boxes will <quote>stick</quote> to window edges, so that they
 	remain on the edge when the window is resized.
 	</para></listitem></varlistentry>
-
-	<varlistentry><term><keycap>Ctrl</keycap>-Dragging</term>
-	<listitem><para>If you hold down the <keycap>Ctrl</keycap> key 
-	before dragging, a Zoom box is drawn on the map.  When you release 
-	the moiuse button, the display is zoomed so that the region 
-	defined by the box fills the display.
-	</para></listitem></varlistentry>
 	</variablelist>
 </para></listitem>
 </varlistentry>
