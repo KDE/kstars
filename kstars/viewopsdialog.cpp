@@ -58,7 +58,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	cat->showSAO->setChecked( ksw->options()->drawSAO );
 	cat->magSpinBoxDrawStars->setMinValue( 0.0 );
-	cat->magSpinBoxDrawStars->setMaxValue( 13.0 );
+	cat->magSpinBoxDrawStars->setMaxValue( 12.0 );
 	cat->magSpinBoxDrawStars->setValue( ksw->options()->magLimitDrawStar );
 	cat->magSpinBoxDrawStarZoomOut->setMinValue( 0.0 );
 	cat->magSpinBoxDrawStarZoomOut->setMaxValue( cat->magSpinBoxDrawStars->value() );
@@ -87,6 +87,14 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 		QCheckListItem *newItem = new QCheckListItem( cat->CatalogList, ksw->options()->CatalogName[i], QCheckListItem::CheckBox );
 		newItem->setOn( ksw->options()->drawCatalog[i] );
 	}
+
+	//Magnitude limits for deep-sky objects
+	cat->magSpinBoxDrawDeepSky->setMinValue( 0.0 );
+	cat->magSpinBoxDrawDeepSky->setMaxValue( 16.0 );
+	cat->magSpinBoxDrawDeepSky->setValue( ksw->options()->magLimitDrawDeepSky );
+	cat->magSpinBoxDrawDeepSkyZoomOut->setMinValue( 0.0 );
+	cat->magSpinBoxDrawDeepSkyZoomOut->setMaxValue( cat->magSpinBoxDrawDeepSky->value() );
+	cat->magSpinBoxDrawDeepSkyZoomOut->setValue( ksw->options()->magLimitDrawDeepSkyZoomOut );
 
 	catlay->addWidget( cat );
 
@@ -254,6 +262,8 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( cat->magSpinBoxDrawStars, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawStars( double ) ) );
 	connect( cat->magSpinBoxDrawStarZoomOut, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawStarZoomOut( double ) ) );
 	connect( cat->magSpinBoxDrawStarInfo, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawInfo( double ) ) );
+	connect( cat->magSpinBoxDrawDeepSky, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawDeepSky( double ) ) );
+	connect( cat->magSpinBoxDrawDeepSkyZoomOut, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawDeepSkyZoomOut( double ) ) );
 	connect( cat->AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( cat->RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
 
@@ -340,6 +350,22 @@ void ViewOpsDialog::changeMagDrawStars( double newValue )
 
 void ViewOpsDialog::changeMagDrawStarZoomOut( double newValue ) {
 	ksw->options()->magLimitDrawStarZoomOut = newValue;
+
+	// force redraw
+	ksw->map()->forceUpdate();
+}
+
+void ViewOpsDialog::changeMagDrawDeepSky( double newValue )
+{
+	ksw->options()->magLimitDrawDeepSky = newValue;
+	cat->magSpinBoxDrawDeepSkyZoomOut->setMaxValue( ksw->options()->magLimitDrawDeepSky );
+
+	// force redraw
+	ksw->map()->forceUpdate();
+}
+
+void ViewOpsDialog::changeMagDrawDeepSkyZoomOut( double newValue ) {
+	ksw->options()->magLimitDrawDeepSkyZoomOut = newValue;
 
 	// force redraw
 	ksw->map()->forceUpdate();

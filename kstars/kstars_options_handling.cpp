@@ -141,6 +141,8 @@ void KStarsData::loadOptions()
 	options->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 9.0 );
 	options->magLimitDrawStarZoomOut = conf->readDoubleNumEntry( "magLimitDrawStarZoomOut", 6.0 );
 	options->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
+	options->magLimitDrawDeepSky = conf->readDoubleNumEntry( "magLimitDrawDeepSky", 14.0 );
+	options->magLimitDrawDeepSkyZoomOut = conf->readDoubleNumEntry( "magLimitDrawDeepSkyZoomOut", 10.0 );
 	options->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );
 	options->magLimitAsteroid = conf->readDoubleNumEntry( "magLimitAsteroid", 8.0 );
 	options->magLimitAsteroidName = conf->readDoubleNumEntry( "magLimitAsteroidName", 4.0 );
@@ -298,6 +300,8 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "magLimitDrawStar", options->magLimitDrawStar );
 	conf->writeEntry( "magLimitDrawStarZoomOut", options->magLimitDrawStarZoomOut );
 	conf->writeEntry( "magLimitDrawStarInfo",options->magLimitDrawStarInfo );
+	conf->writeEntry( "magLimitDrawDeepSky", options->magLimitDrawDeepSky );
+	conf->writeEntry( "magLimitDrawDeepSkyZoomOut", options->magLimitDrawDeepSkyZoomOut );
 	conf->writeEntry( "magLimitHideStar",options->magLimitHideStar );
 	conf->writeEntry( "magLimitAsteroid",options->magLimitAsteroid );
 	conf->writeEntry( "magLimitAsteroidName",options->magLimitAsteroidName );

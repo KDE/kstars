@@ -112,6 +112,8 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	magLimitDrawStarZoomOut = o.magLimitDrawStarZoomOut;
 	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
 	magLimitHideStar     = o.magLimitHideStar;
+	magLimitDrawDeepSky  = o.magLimitDrawDeepSky;
+	magLimitDrawDeepSkyZoomOut = o.magLimitDrawDeepSkyZoomOut;
 
 	magLimitAsteroid     = o.magLimitAsteroid;
 	magLimitAsteroidName = o.magLimitAsteroidName;
@@ -218,6 +220,8 @@ void KStarsOptions::setDefaultOptions() {
 	magLimitDrawStarZoomOut = 6.0;
 	magLimitDrawStarInfo = 3.0;
 	magLimitHideStar = 5.0;
+	magLimitDrawDeepSky = 14.0;
+	magLimitDrawDeepSkyZoomOut = 10.0;
 	magLimitAsteroid     = 8.0;
 	magLimitAsteroidName = 4.0;
 	maxRadCometName = 3.0;

@@ -241,6 +241,9 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "SlewTimeScale"    && dOk ) options()->slewTimeScale      = dVal;
 	if ( op == "ZoomFactor"       && dOk ) options()->ZoomFactor         = dVal;
 	if ( op == "magLimitDrawStar"     && dOk ) options()->magLimitDrawStar     = dVal;
+	if ( op == "magLimitDrawStarZoomOut" && dOk ) options()->magLimitDrawStarZoomOut = dVal;
+	if ( op == "magLimitDrawDeepSky"     && dOk ) options()->magLimitDrawDeepSky     = dVal;
+	if ( op == "magLimitDrawDeepSkyZoomOut" && dOk ) options()->magLimitDrawDeepSkyZoomOut = dVal;
 	if ( op == "magLimitDrawStarInfo" && dOk ) options()->magLimitDrawStarInfo = dVal;
 	if ( op == "magLimitHideStar"     && dOk ) options()->magLimitHideStar     = dVal;
 	if ( op == "magLimitAsteroid"     && dOk ) options()->magLimitAsteroid     = dVal;

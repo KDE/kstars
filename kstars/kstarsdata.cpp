@@ -2076,6 +2076,9 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( fn[1] == "SlewTimeScale"    && dOk ) { options->slewTimeScale      = dVal; cmdCount++; }
 				if ( fn[1] == "ZoomFactor"       && dOk ) { options->ZoomFactor         = dVal; cmdCount++; }
 				if ( fn[1] == "magLimitDrawStar"     && dOk ) { options->magLimitDrawStar     = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitDrawStarZoomOut" && dOk ) { options->magLimitDrawStarZoomOut = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitDrawDeepSky"     && dOk ) { options->magLimitDrawDeepSky     = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitDrawDeepSkyZoomOut" && dOk ) { options->magLimitDrawDeepSkyZoomOut = dVal; cmdCount++; }
 				if ( fn[1] == "magLimitDrawStarInfo" && dOk ) { options->magLimitDrawStarInfo = dVal; cmdCount++; }
 				if ( fn[1] == "magLimitHideStar"     && dOk ) { options->magLimitHideStar     = dVal; cmdCount++; }
 				if ( fn[1] == "magLimitAsteroid"     && dOk ) { options->magLimitAsteroid     = dVal; cmdCount++; }

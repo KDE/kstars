@@ -136,6 +136,9 @@ private slots:
   */
 	void changeMagDrawStarZoomOut( double newValue );
 
+	void changeMagDrawDeepSky( double newValue );
+	void changeMagDrawDeepSkyZoomOut( double newValue );
+
 /**
   * We have a new minimum star magnitude to be used while moving the display
   */

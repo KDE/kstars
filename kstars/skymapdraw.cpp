@@ -541,8 +541,18 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 
 	//Draw Deep-Sky Objects
 	for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
-
-		if ( drawObject || drawImage ) {
+		//MAGLIMIT
+		//adjust maglimit for ZoomLevel
+		double lgmin = log10(MINZOOM);
+		double lgmax = log10(MAXZOOM);
+		double lgz = log10(zoomFactor());
+		double maglim = options->magLimitDrawDeepSky;
+		if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawDeepSky - options->magLimitDrawDeepSkyZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax 
+		float mag = obj->mag();
+		if ( mag == 0.0 || mag > 90.0 ) mag = 14.0;
+		
+		if ( ( drawObject || drawImage ) && mag < (float)maglim ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {

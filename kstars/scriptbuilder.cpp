@@ -341,13 +341,19 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "FadePlanetTrails" );
 
 	opsLimit = new QListViewItem( otv->OptionsList, i18n( "Limits" ) );
-	new QListViewItem( opsLimit, "magLimitDrawStar", i18n( "magnitude of faintest star drawn on map" ), i18n( "double" ) );
+	new QListViewItem( opsLimit, "magLimitDrawStar", i18n( "magnitude of faintest star drawn on map when zoomed in" ), i18n( "double" ) );
+	new QListViewItem( opsLimit, "magLimitDrawStarZoomOut", i18n( "magnitude of faintest star drawn on map when zoomed out" ), i18n( "double" ) );
+	new QListViewItem( opsLimit, "magLimitDrawDeepSky", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ), i18n( "double" ) );
+	new QListViewItem( opsLimit, "magLimitDrawDeepSkyZoomOut", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ), i18n( "double" ) );
 	new QListViewItem( opsLimit, "magLimitDrawStarInfo", i18n( "magnitude of faintest star labeled on map" ), i18n( "double" ) );
 	new QListViewItem( opsLimit, "magLimitHideStar", i18n( "magnitude of brightest star hidden while slewing" ), i18n( "double" ) );
 	new QListViewItem( opsLimit, "magLimitAsteroid", i18n( "magnitude of faintest asteroid drawn on map" ), i18n( "double" ) );
 	new QListViewItem( opsLimit, "magLimitAsteroidName", i18n( "magnitude of faintest asteroid labeled on map" ), i18n( "double" ) );
 	new QListViewItem( opsLimit, "maxRadCometName", i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ), i18n( "double" ) );
 	argChangeViewOption->OptionName->insertItem( "magLimitDrawStar" );
+	argChangeViewOption->OptionName->insertItem( "magLimitDrawStarZoomOut" );
+	argChangeViewOption->OptionName->insertItem( "magLimitDrawDeepSky" );
+	argChangeViewOption->OptionName->insertItem( "magLimitDrawDeepSkyZoomOut" );
 	argChangeViewOption->OptionName->insertItem( "magLimitDrawStarInfo" );
 	argChangeViewOption->OptionName->insertItem( "magLimitHideStar" );
 	argChangeViewOption->OptionName->insertItem( "magLimitAsteroid" );
