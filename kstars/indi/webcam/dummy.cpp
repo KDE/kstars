@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "ccvt.h"
-#include "QCamV4L.h"
 #include "../eventloop.h"
 
 using namespace std;

@@ -36,7 +36,6 @@ int  selectCallBackID;
 int  timerCallBackID;
 unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer;
 
-   
 int connectCam(const char * devpath,int preferedPalette)
 {
    options_= (haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
@@ -350,20 +349,20 @@ void updateFrame(int d, void * p)
                 (window_.width/2) * (window_.height/2));
          break;
 #if 1
-      case VIDEO_PALETTE_YUV420:
-         ccvt_420i_420p(window_.width,window_.height,
+      case VIDEO_PALETTE_YUYV:
+         ccvt_yuyv_420p(window_.width,window_.height,
                            mmapLastFrame(),
                            YBuf,
                            UBuf,
                            VBuf);
          break;
-      case VIDEO_PALETTE_RGB24:
-         ccvt_bgr24_420p(window_.width,window_.height,
+     /* case VIDEO_PALETTE_RGB24:
+         ccvt_rgb24_420p(window_.width,window_.height,
                             mmapLastFrame(),
                          YBuf,
                          UBuf,
                          VBuf);
-         break;
+         break;*/
 #endif
 
       default:
@@ -621,8 +620,27 @@ unsigned char * getColorBuffer()
 {
   //cerr << "in get color buffer " << endl;
   
-  ccvt_420p_bgr32(window_.width, window_.height,
-                      YBuf, UBuf , VBuf, (void*)colorBuffer);
+  switch (picture_.palette) 
+  {
+      case VIDEO_PALETTE_YUV420P:
+        ccvt_420p_bgr32(window_.width, window_.height,
+                      mmapLastFrame(), (void*)colorBuffer);
+      break;
+
+    case VIDEO_PALETTE_YUYV:
+         ccvt_yuyv_bgr32(window_.width, window_.height,
+                      mmapLastFrame(), (void*)colorBuffer);
+         break;
+	 
+    case VIDEO_PALETTE_RGB24:
+         ccvt_rgb24_bgr32(window_.width, window_.height,
+                      mmapLastFrame(), (void*)colorBuffer);
+         break;
+	 
+   default:
+    break;
+  }
+  
 
   return colorBuffer;
 

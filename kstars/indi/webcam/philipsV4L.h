@@ -23,25 +23,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <linux/videodev.h>
+#include "videodev.h"
 
-/*int device_;
-unsigned long options_;
-struct video_capability capability_;
-struct video_window window_;
-struct video_picture picture_;
-/// mmap stuf
-struct video_mbuf mmap_mbuf_;
-unsigned char * mmap_buffer_;
-unsigned char * tmpBuffer_;
-long mmap_last_sync_buff_;
-long mmap_last_capture_buff_;  
-bool grey_;
-int frameRate_;
-bool usingTimer;
-bool streamActive;
-unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer;*/
- 
 //static QCam * openBestDevice(const char * devpath = "/dev/video0");
 int connectPhilips(const char * devpath="/dev/video0", int preferedPalette = 0);
 

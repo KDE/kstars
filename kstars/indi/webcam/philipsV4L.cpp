@@ -44,7 +44,6 @@ extern int errno;
 
 using namespace std;
 
-   
 int whiteBalanceMode_;
 int whiteBalanceRed_;
 int whiteBalanceBlue_;
@@ -218,7 +217,7 @@ bool setPhilipsSize(int x, int y)
    return true;
 }
 
-void updatePhilipsFrame(int d, void *p)
+void updatePhilipsFrame(int /*d*/, void * /*p*/)
 {
    static int tmp;
    if (!streamActive) return;
@@ -241,7 +240,7 @@ void updatePhilipsFrame(int d, void *p)
    } else
    {
       //if (updateFrame())
-      updateFrame(NULL, NULL);
+      updateFrame(0, NULL);
       if (frameUpdate)
       {
          skippedFrame_=0;
@@ -253,8 +252,7 @@ void updatePhilipsFrame(int d, void *p)
 	    cerr << "Reseting time left exposure... " << endl;
          }*/
 	 
-         int tmpVal;
-	 
+
 	 // TODO get gain..etc
          //setProperty("Gain",tmpVal=getGain(),false);
          //emit gainChange(tmpVal);

@@ -56,6 +56,8 @@
 #define USBDEVFS_BULK              _IOWR('U', 2, struct usbdevfs_bulktransfer)
 #define USBDEVFS_RELEASEINTERFACE  _IOR('U', 16, unsigned int)
 
+long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io);
+
 /* Device descriptor */
 typedef struct     
 {
@@ -73,7 +75,7 @@ typedef struct
   u_int8_t  iProduct;
   u_int8_t  iSerialNumber;
   u_int8_t  bNumConfigurations;
-} usb_device_descriptor;
+} usb_device_descriptor __attribute__ ((packed));
 
 struct usbdevfs_bulktransfer {
 	unsigned int ep;
@@ -145,7 +147,7 @@ static long linux_bulktransfer(flidev_t dev, int ep, void *buf, long *len)
   if (ioctl(io->fd, USBDEVFS_RELEASEINTERFACE, &iface))
     return -errno;
 
-  if (*len != bulk.len)
+  if (*len != (long) bulk.len)
     return -errno;
   else
     return 0;

@@ -3,6 +3,10 @@
 		<Exec>lx200generic</Exec>
 		<Version>0.5</Version>
 	</device>
+	<device label="LX200 Autostar" driver="LX200 Autostar">
+		<Exec>lx200autostar</Exec>
+		<Version>0.5</Version>
+	</device>
 	<device label="LX200 Classic" driver="LX200 Classic">
 		<Exec>lx200classic</Exec>
 		<Version>0.5</Version>

@@ -47,22 +47,18 @@
 #define FLI_CMD_ENDPOINT 2
 
 #if defined(__linux__)
-
 #define unix_bulkwrite linux_bulkwrite
 #define unix_bulkread linux_bulkread
 
 #elif defined(__FreeBSD__) || defined(__NetBSD__)
-
 #define unix_bulkwrite bsd_bulkwrite
 #define unix_bulkread bsd_bulkread
 
 #else
-
 #define unix_bulkwrite null_bulkwrite
 #define unix_bulkread null_bulkread
 
 #warning "using null I/O operations!"
-
 #endif
 
 long unix_bulkwrite(flidev_t dev, void *buf, long *wlen);

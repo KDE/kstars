@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum Options {
+enum DummyOptions {
       ioNoBlock=(1<<0),
       ioUseSelect=(1<<1),
       haveBrightness=(1<<2),
@@ -18,7 +18,7 @@ enum Options {
 static const int DefaultOptions=(haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
    
 //static QCam * openBestDevice(const char * devpath = "/dev/video0");
-int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/, unsigned long options =  DefaultOptions /* cf QCamV4L::options */);
+int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/, unsigned long Dummyoptions =  DefaultOptions /* cf QCamV4L::options */);
 void disconnectCam();
 char * getDeviceName();
 

@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <linux/videodev.h>
+#include "videodev.h"
 
 int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/);
 void disconnectCam();

@@ -12,7 +12,7 @@ endif
 
 noinst_LTLIBRARIES = libwebcam.la $(libwebcam_linux) $(libwebcam_bsd) $(libwebcam_null)
 
-libwebcam_linux_la_SOURCES = PPort.cpp port.cpp vcvt_c.c QCamV4L.cpp philipsV4L.cpp ccvt_mmx_old.S
+libwebcam_linux_la_SOURCES = PPort.cpp port.cpp QCamV4L.cpp philipsV4L.cpp ccvt_c2.c ccvt_misc.c
 libwebcam_bsd_la_SOURCES = dummy.cpp
 libwebcam_null_la_SOURCES = dummy.cpp
 
