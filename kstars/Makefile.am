@@ -96,8 +96,10 @@ stringsfile:
 
 messages: rc.cpp stringsfile
 	rm -f tips.cpp
+	$(EXTRACTRC) *.ui *.rc > rc.cpp
 	(cd data && $(PREPARETIPS) > ../tips.cpp)
-	$(XGETTEXT) *.cpp *.h -o $(podir)/kstars.pot;
+	$(XGETTEXT) *.cpp *.h tools/*.cpp tools/*.h -o $(podir)/kstars.pot;
 	rm -f tips.cpp
+	rm -f kstars_i18n.cpp
 
 noinst_HEADERS = fovdialog.h imagesequence.h
