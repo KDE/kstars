@@ -1,0 +1,107 @@
+indiserver is a generic INDI server. It launches and manages traffic to and
+from one or more INDI device processes. It accepts connections from multiple
+simultaneous INDI Clients to give them access to these devices. So long as the
+implementation architecture is available, it need not be changed across
+platforms nor with different devices. Thus it serves as a stable infrastructure
+for building a real INDI server for a real observatory by just building
+device processes to operate the real hardware. It also serves as a reference
+implementation for the services to be provided any INDI-compliant server.
+
+This directory also contains several sample INDI device drivers. They
+simulate much of the hardware expected at a real observatory. These were
+useful during the design and development of INDI but it is hoped these
+now serve as useful templates for adding real hardware control.
+
+Architecture:
+
+    Typical INDI Client / Server / Driver / Device connectivity:
+
+
+    INDI Client 1 ----|                  |---- INDI Driver A  ---- Dev X
+                      |                  |
+    INDI Client 2 ----|                  |---- INDI Driver B  ---- Dev Y
+                      |                  |                     |
+     ...              |--- indiserver ---|                     |-- Dev Z
+                      |                  |
+                      |                  |
+    INDI Client n ----|                  |---- INDI Driver C  ---- Dev T
+
+
+     Client       INET       Server       UNIX    Driver           Device
+     processes    sockets    process      pipes   processes        code
+
+
+
+    The architecture is one process, indiserver, is the public service access
+    point, and one process, called a driver, per device or family of devices.
+    Indiserver launches each driver process and arranges for it to receive
+    the INDI protocol from Clients on its stdin and expects to find commands
+    destined for Clients on the driver's stdout. Anything arriving from a
+    device process' stderr is copied to indiserver's stderr.
+
+    Threads, as opposed to processes, were considered for each device but
+    were rejected. Putting drivers in their own bona fide processes has
+    the following advantages:
+
+        + devices are completely separated.
+        + pipes are more portable than thread and dlopen APIs.
+        + all INDI device traffic is on stdin/out for convenient debugging.
+	+ using netpipes or ssh, devices can easily be on different machines.
+
+
+Linking:
+
+    The indiserver process does not change with different devices. It takes
+    the names of each device process to run in its command line args. To build
+    the server type 'make indiserver'; to build all the drivers too type
+    'make all'; to run the sample server with all drivers type 'make run'.
+
+
+    Typical INDI device driver linking arrangement:
+
+    indimain.c   <->  indidevA.c   <->   liblilxml.a
+      main()           
+
+    Each device process implements the IS*() functions but never calls them.
+    When they are called, by the main() in indimain.c, they do their thing
+    with the hardware and report to the Clients by calling the IC*()
+    functions, which are implemented in indimain.c. Prototypes for both
+    families of calls are in indiapi.h. To build all the simulation devices
+    in this kit on POSIX systems, type 'make sim'.
+
+Secure remote operation:
+
+    Assume the INDI client, such as XEphem, is running on the local host.
+    Assume the INDI server and drivers are running on remote host s. Build
+    an ssh connection by running:
+
+	ssh2 -L 7624:s:7624 s
+
+    after logging in, run indiserver in the normal way on the remote side:
+    
+	indiserver cam ota wx tmount >& indi.errs &
+	
+    On the local side, start the INDI client and it will connect to the
+    remote INDI server automatically since its port 7624 will appear to be
+    local.
+
+Testing:
+
+    A raw way to test the socket, forking and data steering abilities of
+    indiserver is to use the 'hose' command from the netpipes collection
+    (http://web.purplefrog.com/~thoth/netpipes/netpipes.html):
+
+    1. start indiserver using UNIX' cat as the only INDI "device":
+
+	% indiserver cat &
+
+    2. use hose to connect to "cat" device driver which just copies back:
+
+	% hose localhost 7624 --slave
+	hello world
+	hello world
+	more stuff
+	more stuff
+
+! For RCS Only -- Do Not Edit
+! @(#) $RCSfile$ $Date$ $Revision$ $Name:  $
