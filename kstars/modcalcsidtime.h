@@ -18,30 +18,23 @@
 #ifndef MODCALCSIDTIME_H
 #define MODCALCSIDTIME_H
 
-#include <qvbox.h>
-
+#include "modcalcsidtimedlg.h"
 #include <kapplication.h>
 
 /**
   * Class which implements the KStars calculator module to compute Universal
   * time to/from Sidereal time.
   *
-  * Inherits QWidget
+  * Inherits modCalcSidTimeDlg
   *@author Pablo de Vicente
 	*@version 0.9
   */
 
-class QWidget;
 class dms;
-class dmsBox;
-class timeBox;
 class QTime;
 class QDate;
-class QRadioButton;
-class QTimeEdit;
-class QDateEdit;
 
-class modCalcSidTime : public QWidget  {
+class modCalcSidTime : public modCalcSidTimeDlg  {
 
 Q_OBJECT
 
@@ -77,16 +70,6 @@ private:
 	QDate getDate (void);
 	dms getLongitude (void);
 	
-	QRadioButton *UtRadio, *StRadio;
-	QWidget *rightBox;
-#if (KDE_VERSION < 300)
-	timeBox *UtBox, *StBox, *datBox;
-#else
-	QTimeEdit *UtBox, *StBox;
-	QDateEdit *datBox;
-#endif
-	dmsBox *longBox;
-
 };
 
 #endif

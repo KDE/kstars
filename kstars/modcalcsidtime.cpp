@@ -15,170 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "timebox.h"
-#include "dmsbox.h"
-#include "dms.h"
 #include "ksutils.h"
+#include "dmsbox.h"
 #include "modcalcsidtime.h"
 #include "modcalcsidtime.moc"
 #include "kstars.h"
 
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-
-#include <kapplication.h>
 #include <qdatetimeedit.h>
+#include <qradiobutton.h>
+#include <qdatetime.h>
 
-modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
-
-	rightBox = new QWidget (parentSplit);
-	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
-
-// Radio Buttons
-	
-	QButtonGroup * InputBox = new QButtonGroup (rightBox);
-	InputBox->setTitle( i18n("Input Selection") );
-
-	UtRadio = new QRadioButton( i18n( "Universal time" ), InputBox );
-	StRadio = new QRadioButton( i18n( "Sidereal time" ), InputBox );
-
-	UtRadio->setChecked(TRUE);
-
-	QPushButton * Compute = new QPushButton( i18n( "Compute" ), InputBox );
-	QPushButton * Clear = new QPushButton( i18n( "Clear" ), InputBox );
-	
-// Layout for the Radio Buttons Box
-
-	QVBoxLayout * InputLay = new QVBoxLayout(InputBox);
-	QHBoxLayout * hlay = new QHBoxLayout(2);
-	QHBoxLayout * hlay2 = new QHBoxLayout(2);
-	
-	InputLay->setMargin(14);
-
-	hlay->setSpacing(20);
-	hlay->setMargin(6);
-	hlay2->setMargin(6);
-		
-	Compute->setFixedHeight(25);
-	Compute->setMaximumWidth(100);
-	
-	Clear->setFixedHeight(25);
-	Clear->setMaximumWidth(100);
-		
-	InputLay->addLayout (hlay);
-	InputLay->addLayout (hlay2);
-	
-	hlay2->addWidget (Compute);
-	hlay2->addWidget (Clear);
-
-	hlay->addWidget ( UtRadio);
-	hlay->addWidget ( StRadio);
-	
-	// Input for Longitude and Date
-	
-	QGroupBox *longdateBox = new QGroupBox (rightBox);
-	longdateBox->setTitle( i18n("Input Data") );
-
-	QHBoxLayout * D0Lay = new QHBoxLayout( longdateBox);
-	D0Lay->setMargin(20);
-	D0Lay->setSpacing(6);
-	
-	QHBox * l0Box = new QHBox(longdateBox);
-	l0Box->setMaximumWidth(150);
-	
-	QLabel * longLabel = new QLabel(l0Box);
-	longLabel->setText( i18n( "Geographical Longitude","Longitude:") );
-	longBox = new dmsBox(l0Box,"LongBox");
-
-	QHBox * d0Box = new QHBox(longdateBox);
-	d0Box->setMaximumWidth(120);
-
-	QLabel * dateLabel = new QLabel(d0Box);
-	dateLabel->setText( i18n( "Date:") );
-	datBox = new QDateEdit(d0Box,"dateBox");
-
-	D0Lay->addWidget(l0Box);
-	D0Lay->addWidget(d0Box);
-
-// Input for Ut
-
-	QGroupBox *UtimeBox = new QGroupBox (rightBox);
-	UtimeBox->setTitle( i18n("Universal Time"));
-
-	QHBox *Ut0Box = new QHBox (UtimeBox);
-	Ut0Box->setMaximumWidth(110);
-
-	QLabel * UtLabel = new QLabel( Ut0Box);
-	UtLabel->setText( i18n("Universal Time","UT:") );
-	UtBox = new QTimeEdit( Ut0Box, "UtBox" );
-
-	QHBoxLayout * UtLay = new QHBoxLayout( UtimeBox);
-	UtLay->setSpacing(6);
-	UtLay->setMargin(20);
-
-	UtLay->addWidget ( Ut0Box);
-
-// Input for St	
-
-	QGroupBox *StimeBox = new QGroupBox (rightBox);
-	StimeBox->setTitle( i18n("Sidereal Time"));
-	
-	QHBox *St0Box = new QHBox (StimeBox);
-	St0Box->setMaximumWidth(110);
-	
-	QLabel * StLabel = new QLabel( St0Box );
-	StLabel->setText( i18n("Sidereal Time","ST:") );
-
-	StBox = new QTimeEdit( St0Box, "StBox" );
-
-	QHBoxLayout * StLay = new QHBoxLayout( StimeBox);
-	StLay->setSpacing(6);
-	StLay->setMargin(20);
-	
-	StLay->addWidget ( St0Box );
+modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
 	showCurrentTimeAndLong();
-
-	QSpacerItem * downSpacer = new QSpacerItem(400,40);
-
-	rightBoxLayout->addWidget(InputBox);
-	rightBoxLayout->addWidget(longdateBox);
-	rightBoxLayout->addWidget(UtimeBox);
-	rightBoxLayout->addWidget(StimeBox);
-	rightBoxLayout->addItem(downSpacer);
-
-	rightBox->setMaximumWidth(550);
-	rightBox->setMinimumWidth(400);
-	rightBox->show();
-
-	connect( Compute, SIGNAL(clicked() ), this, SLOT( slotComputeTime() ) ) ;
-	connect( Clear, SIGNAL(clicked() ), this, SLOT( slotClearFields() ) ) ;
-		
+	this->show();		
 }
 
 modCalcSidTime::~modCalcSidTime(void) {
 
-	delete rightBox;
 }
-
-//Del by KDevelop: void modCalcSidTime::slotComputeTime (void)
-//Del by KDevelop: {
-//Del by KDevelop: 	QTime ut, st;
-//Del by KDevelop: 
-//Del by KDevelop: 	QDate dt = getDate();
-//Del by KDevelop: 	dms longitude = getLongitude();
-//Del by KDevelop: 
-//Del by KDevelop: 	if(UtRadio->isChecked()) {
-//Del by KDevelop: 		ut = getUT();
-//Del by KDevelop: 		st = computeUTtoST( ut, dt, longitude );
-//Del by KDevelop: 		showST( st );
-//Del by KDevelop: 	} else { 
-//Del by KDevelop: 		st = getST();
-//Del by KDevelop: 		ut = computeSTtoUT( st, dt, longitude );
-//Del by KDevelop: 		showUT( ut );
-//Del by KDevelop: 	}
-//Del by KDevelop: 
-//Del by KDevelop: }
 
 void modCalcSidTime::showCurrentTimeAndLong (void)
 {
@@ -186,7 +41,8 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	datBox->setDate( dt.date() );
 	showUT( dt.time() );
 
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) parent()->parent()->parent();
+	 // modCalcSidTimeDlg -> QSplitter->AstroCalc->KStars
 
 	longBox->show( ks->geo()->lng() );
 }
@@ -208,12 +64,6 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 	ut = KSUtils::LSTtoUT( dtst, &longitude);
 	return ut;
 }
-
-//Del by KDevelop: void modCalcSidTime::slotClearTime (void)
-//Del by KDevelop: {
-//Del by KDevelop: 	UtBox->clearFields();
-//Del by KDevelop: 	StBox->clearFields();
-//Del by KDevelop: }
 
 void modCalcSidTime::showUT ( QTime dt )
 {
