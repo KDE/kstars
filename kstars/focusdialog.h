@@ -54,7 +54,6 @@ public:
 	long double epochToJd (double epoch);
 
 	double getEpoch (QString eName);
-	void setOriginalEpoch (void);
 
 public slots:
 	/**If text has been entered in both KLineEdits, enable the Ok button. */

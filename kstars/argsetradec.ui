@@ -12,6 +12,9 @@
             <height>91</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>ArgSetRaDec</string>
+    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -40,7 +43,7 @@
                         <string>Declination</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Enter the Declination coordinate to be focused on in the skymap.  You can express an angle value in several ways in this edit box.  As a simple integer ("45") or flaoting-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
+                        <string>Enter the Declination coordinate to be focused on in the skymap, in degrees.  You can express the angle as a simple integer ("45") or floating-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
 
 Declination is one of the coordinates in the Equatorial coordinate system; it measures the angle of an object North or South of the Celestial Equator.  The star Polaris, which is near the celestial north pole, has a Declination of nearly 90 degrees.</string>
                     </property>
@@ -69,7 +72,7 @@ Declination is one of the coordinates in the Equatorial coordinate system; it me
                         <string>Right Ascension</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Enter the Right Ascension coordinate to be focused on in the skymap.  You can express an angle value in several ways in this edit box.  As a simple integer ("12") or flaoting-point ("12.333") value, or as space- or colon-delimited values specifying hours, minutes and seconds ("12:20", "12:20:00", "12:20", "12 20.0", etc.).
+                        <string>Enter the Right Ascension coordinate to be focused on in the skymap, in hours.  You can express the angle as a simple integer ("12") or floating-point ("12.333") value, or as space- or colon-delimited values specifying hours, minutes and seconds ("12:20", "12:20:00", "12:20", "12 20.0", etc.).
 
 Right Ascension is one of the coordinates in the Equatorial coordinate system.  It measures the angle around the celestial equator from the Vernal equinox, increasing to the East.  Right Ascension (RA) is almost always expressed in Hours instead of Degrees; the Celestial Equator is divided into 24 Hours, so 1 Hour of RA is equal to 360/24=15 Degrees.  See the AstroInfo article for more details,</string>
                     </property>

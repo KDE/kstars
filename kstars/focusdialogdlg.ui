@@ -46,10 +46,16 @@
                         <property name="name">
                             <cstring>raBox</cstring>
                         </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Enter new Right Ascension</string>
+                        </property>
                     </widget>
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>decBox</cstring>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Enter new Declination</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
@@ -74,6 +80,9 @@
                         </property>
                         <property name="text">
                             <string>2000.0</string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Epoch for the RA/Dec coordinates</string>
                         </property>
                     </widget>
                 </grid>
@@ -108,6 +117,9 @@
                     <widget class="dmsBox" row="0" column="1">
                         <property name="name">
                             <cstring>azBox</cstring>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Enter new Azimuth</string>
                         </property>
                     </widget>
                     <spacer row="2" column="0">
@@ -147,6 +159,9 @@
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>altBox</cstring>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Enter new Altitude</string>
                         </property>
                     </widget>
                 </grid>

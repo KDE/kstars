@@ -36,7 +36,6 @@ FocusDialog::FocusDialog( QWidget *parent )
 
 	fdlg = new FocusDialogDlg(this);
 	setMainWidget(fdlg);
-//	setOriginalEpoch();
 	this->show();
 
 	connect( fdlg->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
@@ -95,17 +94,13 @@ void FocusDialog::validatePoint( void ) {
 
 
 double FocusDialog::getEpoch (QString eName) {
-
-	double epoch = eName.toDouble();
-
+	//If eName is empty (or not a number) assume 2000.0
+	bool ok(false);
+	double epoch = eName.toDouble( &ok );
+	if ( eName.isEmpty() || ! ok )
+		return 2000.0;
+	
 	return epoch;
-}
-
-void FocusDialog::setOriginalEpoch (void) {
-
-	double epoch = 2000.0;
-	QString eName = QString("%1").arg(epoch,7,'f',2);
-	fdlg->epochName->setText(eName);
 }
 
 long double FocusDialog::epochToJd (double epoch) {

@@ -12,6 +12,9 @@
             <height>90</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>ArgSetAltAz</string>
+    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -40,7 +43,7 @@
                         <string>Altitude angle</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Set the Altitude coordinate to be focused on in the sky map.  You can express an angle value in several ways in this edit box.  As a simple integer ("45") or flaoting-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
+                        <string>Set the Altitude coordinate to be focused on in the sky map, in degrees.  You can express the angle as a simple integer ("45") or floating-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
 
 The Altitude is one of the coordinates in the Horizontal coordinate system.  It is defined as the angle of an object above or below the horizon.  For example, the Zenith has an Altitude of 90 degrees.  Altitude is also known as Elevation.</string>
                     </property>
@@ -69,7 +72,7 @@ The Altitude is one of the coordinates in the Horizontal coordinate system.  It 
                         <string>Azimuth angle</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Set the Azimuth coordinate to be focused on in the skymap.  You can express an angle value in several ways in this edit box.  As a simple integer ("45") or flaoting-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
+                        <string>Set the Azimuth coordinate to be focused on in the skymap, in degrees.  You can express the angle as a simple integer ("45") or floating-point ("45.333") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds ("45:20", "45:20:00", "45:20", "45 20.0", etc.).
 
 The azimuth is one of the coordinates in the horizontal coordinate system.  It is defined as the angle measured along the horizon, between the North point and the point on the horizon directly below the object.  Azimuth increases clockwise around the horizon</string>
                     </property>
