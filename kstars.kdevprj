@@ -24,7 +24,7 @@ ldadd=-lkio -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Jason Harris
 configure_args=--with-qt-dir=/usr/lib/qt2 --prefix=/usr
 email=kstars@30doradus.org
@@ -2009,7 +2009,7 @@ type=SOURCE
 [kstars/kstars.desktop]
 dist=true
 install=true
-install_location=$$(kde_appsdir)/Applications/kstars.desktop
+install_location=$$(kde_appsdir)/Edutainment/kstars.desktop
 type=DATA
 
 [kstars/kstars.h]

@@ -69,10 +69,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	CoordsGroup = new QButtonGroup( 1, Qt::Vertical, i18n( "Coordinate system" ), DisplayBox );
 
-	EquatRadio = new QRadioButton( i18n( "Equatorial" ), CoordsGroup );
+	EquatRadio = new QRadioButton( i18n( "The Equatorial (RA/Dec) coordinate system", "Equatorial" ), CoordsGroup );
 	EquatRadio->setChecked( !ksw->options()->useAltAz );
 
-	AltAzRadio = new QRadioButton( i18n( "Horizontal" ), CoordsGroup );
+	AltAzRadio = new QRadioButton( i18n( "The Horizontal (Alt/Az) coordinate system", "Horizontal" ), CoordsGroup );
 	AltAzRadio->setChecked( ksw->options()->useAltAz );
 
 	DisplayBoxLayout->addSpacing( 10 );
@@ -245,7 +245,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayGuideTab->addWidget( showGround );
 	vlayGuideTab->addItem( spacerGuideTab );
 
-	DisplayTabs->insertTab( GuideTab, i18n( "Guides" ) );
+	DisplayTabs->insertTab( GuideTab, i18n( "guides are imaginary lines drawn on the sky map", "Guides" ) );
 
 //Construct Planets tab:
 	PlanetTab = new QWidget( DisplayTabs, "PlanetTab" );
@@ -295,10 +295,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showPluto->setFont( stdFont );
 	showPluto->setChecked( ksw->options()->drawPluto );
 
-	showAll = new QPushButton( i18n( "Show All" ), PlanetTab );
+	showAll = new QPushButton( i18n( "show all planets", "Show All" ), PlanetTab );
 	showAll->setFont( stdFont );
 
-	showNone = new QPushButton( i18n( "Show None" ), PlanetTab );
+	showNone = new QPushButton( i18n( "hide all planets", "Show None" ), PlanetTab );
 	showNone->setFont( stdFont );
 
 	QSpacerItem *smallSpacerLeft  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
@@ -368,7 +368,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	LinksColor = new QPixmap( 30, 20 );
 	LinksColor->fill( QColor( ksw->options()->colorHST ) );
-	ColorPalette->insertItem( *LinksColor, i18n( "Object w/ Links" ) );
+	ColorPalette->insertItem( *LinksColor, i18n( "object with extra URLs attached", "Object w/ Links" ) );
 
 	SNameColor = new QPixmap( 30, 20 );
 	SNameColor->fill( QColor( ksw->options()->colorSName ) );
@@ -376,11 +376,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	CNameColor = new QPixmap( 30, 20 );
 	CNameColor->fill( QColor( ksw->options()->colorCName ) );
-	ColorPalette->insertItem( *CNameColor, i18n( "Constell. Name" ) );
+	ColorPalette->insertItem( *CNameColor, i18n( "constellation name", "Constell. Name" ) );
 
 	CLineColor = new QPixmap( 30, 20 );
 	CLineColor->fill( QColor( ksw->options()->colorCLine ) );
-	ColorPalette->insertItem( *CLineColor, i18n( "Constell. Line" ) );
+	ColorPalette->insertItem( *CLineColor, i18n( "constellation lines", "Constell. Line" ) );
 
 	MWColor = new QPixmap( 30, 20 );
 	MWColor->fill( QColor( ksw->options()->colorMW ) );
@@ -411,17 +411,17 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	StarColorMode = new QComboBox( LeftBox );
 	QLabel *ColorModeLabel = new QLabel( StarColorMode, i18n( "Star Color &Mode" ), LeftBox );
 	ColorModeLabel->setAlignment ( AlignRight | AlignVCenter );
-	StarColorMode->insertItem( i18n( "Real Colors" ) );
-	StarColorMode->insertItem( i18n( "Solid Red" ) );
-	StarColorMode->insertItem( i18n( "Solid Black" ) );
-	StarColorMode->insertItem( i18n( "Solid White" ) );
+	StarColorMode->insertItem( i18n( "realistic star colors", "Real Colors" ) );
+	StarColorMode->insertItem( i18n( "solid red star color", "Solid Red" ) );
+	StarColorMode->insertItem( i18n( "solid black star color", "Solid Black" ) );
+	StarColorMode->insertItem( i18n( "solid white star color", "Solid White" ) );
 
 //The list of preset color schemes
 	PresetBox = new QListBox( RightBox );
   PresetBox->setSelectionMode( QListBox::Single );
-	PresetBox->insertItem( i18n( "Default Colors" ) );
-	PresetBox->insertItem( i18n( "Star Chart" ) );
-	PresetBox->insertItem( i18n( "Night Vision" ) );
+	PresetBox->insertItem( i18n( "default color scheme", "Default Colors" ) );
+	PresetBox->insertItem( i18n( "'star chart' color scheme", "Star Chart" ) );
+	PresetBox->insertItem( i18n( "'night vision' color scheme", "Night Vision" ) );
 
 	PresetFileList.append( "default.colors" );
 	PresetFileList.append( "chart.colors" );
