@@ -25,6 +25,7 @@
   <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY julianday SYSTEM "julianday.docbook">
   <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY lightcurves SYSTEM "lightcurves.docbook">
   <!ENTITY luminosity SYSTEM "luminosity.docbook">
   <!ENTITY magnitude SYSTEM "magnitude.docbook">
   <!ENTITY meridian SYSTEM "meridian.docbook">
@@ -199,12 +200,13 @@ the automated bug reporting tool, accessible from the Help menu.
 
 &quicktour; 
 <!--A Quick Tour of KStars-->
-&config;    <!--Configuring KStars-->
-&commands;  <!--Command Reference-->
-&astroinfo; <!--AstroInfo Articles-->
-&faq;       <!--Questions and Answers-->
-&credits;   <!--Credits and License-->
-&install;   <!--Installation-->
+&config;      <!--Configuring KStars-->
+&commands;    <!--Command Reference-->
+&astroinfo;   <!--AstroInfo Articles-->
+&lightcurves; <!--The AASVO Lightcurve Tool-->
+&faq;         <!--Questions and Answers-->
+&credits;     <!--Credits and License-->
+&install;     <!--Installation-->
 
 &documentation.index;
 </book>
