@@ -19,7 +19,6 @@
 #include "modcalcprec.h"
 #include "dms.h"
 #include "dmsbox.h"
-#include "timebox.h"
 #include "skyobject.h"
 #include "ksutils.h"
 #include "kssun.h"
@@ -288,6 +287,7 @@ void modCalcDayLength::slotComputePosTime()
 {
 
 	long double jd0 = computeJdFromCalendar();
+	getGeoLocation();
 
 	KSNumbers * num = new KSNumbers(jd0);
 	KSSun *Sun = new KSSun((KStars*) parent()->parent()->parent());

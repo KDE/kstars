@@ -17,7 +17,7 @@
 
 #include <qstring.h>
 #include <qimage.h>
-#include <qvector.h>
+#include <qptrvector.h>
 #include <qdict.h>
 #include "ksplanetbase.h"
 #include "dms.h"
