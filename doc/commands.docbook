@@ -956,11 +956,21 @@ Point (straight up)</para></listitem>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Keyboard Actions</secondary></indexterm>
 
+<!--FIXME: text to be added after strings freeze ends
+<para>Each of the following keystrokes performs an action on the 
+<firstterm>selected object</firstterm>.  The selected object is the last 
+object which was clicked on (identified in the status bar).  Alternatively, 
+if you hold down the <keycap>Shift</keycap> key, then the action is 
+performed on the centered object instead.</para>
+-->
+
+<!-- FIXME: this feature does not exist yet; to be added after feature thaw
 <variablelist>
 <varlistentry>
 <term><keycap>C</keycap></term>
 <listitem><para>Center and Track on the selected object</para></listitem>
 </varlistentry>
+-->
 
 <varlistentry>
 <term><keycap>D</keycap></term>
@@ -976,6 +986,13 @@ Point (straight up)</para></listitem>
 <term><keycap>O</keycap></term>
 <listitem><para>Add the selected object to the observing list</para></listitem>
 </varlistentry>
+
+<!-- FIXME: this feature is undocumented, but can't add this item until strings freeze ends
+<varlistentry>
+<term><keycap>P</keycap></term>
+<listitem><para>Open the selected object's popup menu</para></listitem>
+</varlistentry>
+-->
 
 <varlistentry>
 <term><keycap>T</keycap></term>
