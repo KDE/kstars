@@ -6,7 +6,7 @@ kde_kcfg_DATA = kstars.kcfg
 
 kstars_LDADD = indi/liblilxml.a indi/libindicom.a tools/libkstarstools.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la -lkdeprint -lm
 
-SUBDIRS = data indi icons tools
+SUBDIRS = . indi tools data icons 
 
 EXTRA_DIST = kstars.desktop kstarsui.rc fitsviewer.rc
 
