@@ -406,6 +406,7 @@ public:
 	GeoLocation *geo() { return options->Location(); }
 	SimClock *clock() { return Clock; }
 	dms *lst() { return LST; }
+	long double currentDate() {return CurrentDate;}
 
 	bool executeScript( const QString &name, SkyMap *map );
 
