@@ -375,7 +375,7 @@
                                     <cstring>ra1CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Final Right Ascention:</string>
+                                    <string>Final right ascention:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -386,7 +386,7 @@
                                     <cstring>dec1CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Final Declination:</string>
+                                    <string>Final declination:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -397,7 +397,7 @@
                                     <cstring>dec0CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Initial Declination:</string>
+                                    <string>Initial declination:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -408,7 +408,7 @@
                                     <cstring>ra0CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Initial Right Ascention:</string>
+                                    <string>Initial right ascention:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>

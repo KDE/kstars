@@ -24,7 +24,7 @@
                 <cstring>UsePrintDialog</cstring>
             </property>
             <property name="text">
-                <string>Show Print Dialog</string>
+                <string>Show print dialog</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -32,7 +32,7 @@
                 <cstring>UseChartColors</cstring>
             </property>
             <property name="text">
-                <string>Use Star Chart Colors</string>
+                <string>Use star chart colors</string>
             </property>
             <property name="checked">
                 <bool>true</bool>

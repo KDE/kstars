@@ -186,7 +186,7 @@
                         <cstring>fitsLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>Default FITS Directory:</string>
+                        <string>Default FITS directory:</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -250,7 +250,7 @@
                         <cstring>videoLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>Video Port:</string>
+                        <string>Video port:</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">

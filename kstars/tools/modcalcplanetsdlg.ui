@@ -79,7 +79,7 @@
                                         <cstring>textLabel1</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Solar System Body:</string>
+                                        <string>Solar system body:</string>
                                     </property>
                                 </widget>
                                 <widget class="QComboBox">
@@ -267,7 +267,7 @@
                                 <cstring>textLabel4</cstring>
                             </property>
                             <property name="text">
-                                <string>Heliocentric Long.:</string>
+                                <string>Heliocentric long.:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="1" column="2">
@@ -275,7 +275,7 @@
                                 <cstring>textLabel7</cstring>
                             </property>
                             <property name="text">
-                                <string>Geocentric Lat.:</string>
+                                <string>Geocentric lat.:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="0" column="2">
@@ -283,7 +283,7 @@
                                 <cstring>textLabel6</cstring>
                             </property>
                             <property name="text">
-                                <string>Geocentric Long.:</string>
+                                <string>Geocentric long.:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="1" column="0">
@@ -291,7 +291,7 @@
                                 <cstring>textLabel5</cstring>
                             </property>
                             <property name="text">
-                                <string>Heliocentric Lat.:</string>
+                                <string>Heliocentric lat.:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="2" column="0">
@@ -299,7 +299,7 @@
                                 <cstring>textLabel8</cstring>
                             </property>
                             <property name="text">
-                                <string>Dist. to Sun (AU):</string>
+                                <string>Dist. to sun (AU):</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="2" column="2">
@@ -307,7 +307,7 @@
                                 <cstring>textLabel8_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Dist. to Earth (AU):</string>
+                                <string>Dist. to earth (AU):</string>
                             </property>
                         </widget>
                         <widget class="KLineEdit" row="2" column="1">
@@ -358,7 +358,7 @@
                                 <cstring>textLabel9</cstring>
                             </property>
                             <property name="text">
-                                <string>Right Ascention:</string>
+                                <string>Right ascention:</string>
                             </property>
                         </widget>
                         <widget class="dmsBox">
@@ -642,7 +642,7 @@
                                 <bool>false</bool>
                             </property>
                             <property name="text">
-                                <string>Solar System Body:</string>
+                                <string>Solar system body:</string>
                             </property>
                             <property name="checked">
                                 <bool>false</bool>
@@ -740,7 +740,7 @@
                                 <bool>false</bool>
                             </property>
                             <property name="text">
-                                <string>Heliocentric Ecliptic Coordinates</string>
+                                <string>Heliocentric ecliptic coordinates</string>
                             </property>
                             <property name="checked">
                                 <bool>false</bool>
@@ -751,7 +751,7 @@
                                 <cstring>equGeoCheckBatch</cstring>
                             </property>
                             <property name="text">
-                                <string>Equatorial Geocentric Coordinates</string>
+                                <string>Equatorial geocentric coordinates</string>
                             </property>
                             <property name="checked">
                                 <bool>true</bool>
@@ -762,7 +762,7 @@
                                 <cstring>topoCheckBatch</cstring>
                             </property>
                             <property name="text">
-                                <string>Topocentric Coordinates</string>
+                                <string>Topocentric coordinates</string>
                             </property>
                             <property name="checked">
                                 <bool>false</bool>
@@ -773,7 +773,7 @@
                                 <cstring>geoEclCheckBatch</cstring>
                             </property>
                             <property name="text">
-                                <string>Geocentric Ecliptic Coordinates</string>
+                                <string>Geocentric ecliptic coordinates</string>
                             </property>
                             <property name="checked">
                                 <bool>false</bool>

@@ -70,7 +70,7 @@
                                     <cstring>equRadio</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Geocentric Equatorial</string>
+                                    <string>Geocentric equatorial</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -98,7 +98,7 @@
                                     <cstring>eclRadio</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Geocentric Ecliptic</string>
+                                    <string>Geocentric ecliptic</string>
                                 </property>
                             </widget>
                             <spacer>

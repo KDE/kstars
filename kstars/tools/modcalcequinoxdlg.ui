@@ -248,7 +248,7 @@
                                     <cstring>textLabel2</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Start Date &amp; Time</string>
+                                    <string>Start date &amp; time:</string>
                                 </property>
                             </widget>
                             <widget class="ExtDateTimeEdit" row="0" column="1" rowspan="1" colspan="2">

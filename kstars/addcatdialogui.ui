@@ -24,7 +24,7 @@
                 <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>Enter Filename for custom catalog:</string>
+                <string>Enter filename for custom catalog:</string>
             </property>
         </widget>
         <widget class="KURLRequester">

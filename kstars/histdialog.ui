@@ -317,7 +317,7 @@
                         <cstring>sqrtR</cstring>
                     </property>
                     <property name="text">
-                        <string>Square Root</string>
+                        <string>Square root</string>
                     </property>
                 </widget>
             </vbox>
