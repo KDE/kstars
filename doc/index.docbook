@@ -105,14 +105,14 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <copyright>
-<year>2001-2002</year>
+<year>2001</year><year>2002</year>
 <holder>Jason Harris</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2002-09-10</date>
-<releaseinfo>0.9.1</releaseinfo>
+<releaseinfo>0.09.01</releaseinfo>
 
 <abstract>
 <para>
