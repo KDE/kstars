@@ -110,14 +110,14 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 
 void PlanetViewer::slotZoomIn() {
 	if ( pw->x2() > 0.4 ) {
-		pw->setLimits( 0.9*pw->x1(), 0.9*pw->x2(), 0.9*pw->y1(), 0.9*pw->y2() );
+		pw->setLimits( 0.95*pw->x1(), 0.95*pw->x2(), 0.95*pw->y1(), 0.95*pw->y2() );
 		pw->update();
 	}
 }
 
 void PlanetViewer::slotZoomOut() {
 	if ( pw->x2() < 50.0 ) {
-		pw->setLimits( 1.1*pw->x1(), 1.1*pw->x2(), 1.1*pw->y1(), 1.1*pw->y2() );
+		pw->setLimits( 1.05*pw->x1(), 1.05*pw->x2(), 1.05*pw->y1(), 1.05*pw->y2() );
 		pw->update();
 	}
 }

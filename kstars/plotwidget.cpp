@@ -272,8 +272,8 @@ void PlotWidget::paintEvent( QPaintEvent *e ) {
 
 	p.translate( XS1, YS1 );
 
-	drawBox( &p, true, true, true, true );
 	drawObjects( &p );
+	drawBox( &p, true, true, true, true );
 	p.end();
 
 	bitBlt( this, 0, 0, buffer );
@@ -329,18 +329,6 @@ void PlotWidget::drawObjects( QPainter *p ) {
 double PlotWidget::dmod( double a, double b ) { return ( b * ( ( a / b ) - int( a / b ) ) ); }
 
 void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool showTickLabels, bool showGrid ) {
-	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
-	p->setPen( bgColor() );
-	p->setBrush( bgColor() );
-	//left padding
-	p->drawRect( -XS1, -YS1, XS1, height() );
-	//right padding
-	p->drawRect( dXS, -YS1, XS1, height() );
-	//top padding
-	p->drawRect( 0, -YS1, dXS, YS1 );
-	//bottom padding
-	p->drawRect( 0, dYS, dXS, YS1 );
-
 	if ( showGrid ) {
 		//Grid lines are placed at locations of primary axes' major tickmarks
 
@@ -361,6 +349,17 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 		}
 	}
 
+	//Next, fill in padding region with bgColor() to mask out-of-bounds plot data (including grid lines)
+	p->setPen( bgColor() );
+	p->setBrush( bgColor() );
+	//left padding
+	p->drawRect( -XS1, -YS1, XS1, height() );
+	//right padding
+	p->drawRect( dXS, -YS1, XS1, height() );
+	//top padding
+	p->drawRect( 0, -YS1, dXS, YS1 );
+	//bottom padding
+	p->drawRect( 0, dYS, dXS, YS1 );
 	p->setPen( fgColor() );
 	p->setBrush( Qt::NoBrush );
 
@@ -561,7 +560,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 				//minor ticks
 				for ( int j=0; j < nminY2; j++ ) {
 					int pmin = py - int( dYS*j*dminY2/dYB ); //position of minor tickmark j (in screen units)
-					if ( pmin > 0 && pmin < dYS ) p->drawLine( dXS, pmin, dXS-SMALLTICKSIZE, pmin );
+					if ( pmin > 0 && pmin < dYS ) p->drawLine( dXS-1, pmin, dXS-SMALLTICKSIZE-1, pmin );
 				}
 			}
 
