@@ -29,7 +29,7 @@ KSAsteroid::KSAsteroid( KStars *ks, QString s, QString imfile,
  : KSPlanetBase(ks, s, imfile), JD(_JD), a(_a), e(_e), i(_i), w(_w), N(_N), M(_M), H(_H) {
 	
 	setType( 10 ); //Asteroid
-	
+	setMag( H );
 	//Compute the orbital Period from Kepler's 3rd law:
 	P = 365.2568984 * pow(a, 1.5); //period in days
 }

@@ -498,7 +498,7 @@ bool KStarsData::readCometData( void ) {
 			KSComet *com = 0;
 			
 			line = fileReader.readLine();
-			name = line.mid( 5, 33 ).stripWhiteSpace();
+			name = line.mid( 3, 35 ).stripWhiteSpace();
 			mJD  = line.mid( 38, 5 ).toInt();
 			q    = line.mid( 44, 10 ).toDouble();
 			e    = line.mid( 55, 10 ).toDouble();
@@ -1379,16 +1379,18 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
 		LastPlanetUpdate = CurrentDate;
 
-		PC->findPosition(&num);
+		if ( options->drawPlanets ) PC->findPosition(&num);
 
 		//Asteroids
-		for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
-			ast->findPosition( &num, earth() );
-		
+		if ( options->drawPlanets && options->drawAsteroids ) 
+			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) 
+				ast->findPosition( &num, earth() );
+
 		//Comets
-		for ( KSComet *com = cometList.first(); com; com = cometList.next() ) 
-			com->findPosition( &num, earth() );
-		
+		if ( options->drawPlanets && options->drawComets ) 
+			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) 
+				com->findPosition( &num, earth() );
+
 		//Add a point to the planet trail if the centered object is a solar system body.
 		if ( isSolarSystem( skymap->foundObject() ) ) {
 			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
@@ -1420,7 +1422,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		}
 	
 		//for now, update positions of Jupiter's moons here also
-		jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
+		if ( options->drawPlanets && options->drawJupiter )
+			jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level

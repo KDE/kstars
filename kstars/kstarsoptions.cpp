@@ -106,7 +106,10 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	magLimitDrawStar     = o.magLimitDrawStar;
 	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
 	magLimitHideStar     = o.magLimitHideStar;
-
+	
+	magLimitAsteroidName = o.magLimitAsteroidName;
+	maxRadCometName      = o.maxRadCometName;
+	
 	// color options
 	CScheme.copy( *o.colorScheme() );
 
@@ -194,9 +197,11 @@ void KStarsOptions::setDefaultOptions() {
 	ZoomLevel    = DEFAULTZOOMLEVEL;
 	windowWidth  = 600;
 	windowHeight = 600;
-//  magLimitDrawStar = 8.0;		// read entry below
+	magLimitDrawStar = 8.0;
 	magLimitDrawStarInfo = 3.0;
 	magLimitHideStar = 5.0;
+	magLimitAsteroidName = 4.0;
+	maxRadCometName = 5.0;
 	drawStarName      = true;
 	drawPlanetName    = true;
 	drawAsteroidName  = true;

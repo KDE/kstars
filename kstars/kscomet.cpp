@@ -47,6 +47,12 @@ KSComet::KSComet( KStars *ks, QString _s, QString imfile,
 	
 	//Compute the orbital Period from Kepler's 3rd law:
 	P = 365.2568984 * pow(a, 1.5); //period in days
+
+	//If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
+	if ( name().contains( "/" ) ) {
+		setLongName( name() );
+		setName( name().mid( name().find("/") + 1 ) );
+	}
 }
 
 bool KSComet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {

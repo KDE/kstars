@@ -40,6 +40,7 @@ class QListBoxItem;
 class QListView;
 class QCheckListItem;
 class QPixmap;
+class QSpinBox;
 class MagnitudeSpinBox;
 class TimeStepBox;
 class KIntSpinBox;
@@ -116,6 +117,8 @@ private:
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 
 	MagnitudeSpinBox *magSpinBoxHideStars;
+	MagnitudeSpinBox *astNameSpinBox;
+	QSpinBox *comNameSpinBox;
 	TimeStepBox *hideSpinBox;
 
 	QListView *CatalogList;
@@ -207,6 +210,16 @@ private slots:
 	*/
 	void changeStarColorMode( int newMode );
 
+/**
+	* Set magnitude limit for labeling asteroids.
+	*/
+	void changeAstNameMagLimit( int );
+	
+/**
+	* Set maximum solar radius for labeling comets.
+	*/
+	void changeComNameMaxRad( int );
+	
 /**
 	* Mark all planets for display.
 	*/

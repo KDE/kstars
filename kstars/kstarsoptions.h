@@ -180,7 +180,9 @@ class KStarsOptions {
 		float magLimitDrawStar;
 		float magLimitHideStar;
 		float magLimitDrawStarInfo;
-
+		float magLimitAsteroidName;
+		float maxRadCometName;
+		
 		//the colors of things
 		ColorScheme CScheme;
 

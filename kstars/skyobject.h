@@ -99,8 +99,8 @@ public:
 
 /**@returns object's primary name
 	*/
-  QString name( void ) const { return Name; }
-
+	QString name( void ) const { return Name; }
+	void setName( const QString &name ) { Name = name; }
 /**@returns translated primary name
 	*/
 	QString translatedName() const { return i18n(Name.local8Bit().data());}
@@ -130,6 +130,7 @@ public:
 /**@returns object's magnitude
 	*/
 	float mag( void ) const { return Magnitude; }
+	void setMag( float m ) { Magnitude = m; }
 
 /**@returns the object's major axis length, which should be in arcminutes.
 	*/

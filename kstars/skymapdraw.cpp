@@ -783,13 +783,13 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 					
 					int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
-					if ( size < 2 ) size = 2;
+					if ( size <= 1 ) psky.drawPoint( o.x(), o.y() );
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
 					psky.drawEllipse( x1, y1, size, size );
 				
 					//draw Name
-					if ( ksw->options()->drawAsteroidName ) {
+					if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
 						int offset( int( 0.5*size ) );
 						if ( offset < 2 ) offset = 2;
 
@@ -812,13 +812,13 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 					
 					int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
-					if ( size < 2 ) size = 2;
+					if ( size <= 1 )  psky.drawPoint( o.x(), o.y() );
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
 					psky.drawEllipse( x1, y1, size, size );
 					
 					//draw Name
-					if ( ksw->options()->drawCometName ) {
+					if ( ksw->options()->drawCometName && com->rsun() < ksw->options()->maxRadCometName ) {
 						int offset( int( 0.5*size ) );
 						if ( offset < 2 ) offset = 2;
 

@@ -22,6 +22,7 @@
 #include <qcheckbox.h>
 #include <qcolordialog.h>
 #include <qlistview.h>
+#include <qspinbox.h>
 
 #include <knuminput.h>
 #include <klineeditdlg.h>
@@ -285,7 +286,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	MinorBox = new QGroupBox( i18n( "Minor Planets" ), PlanetTab, "MinorBox" );
 	vlayMinorBox = new QVBoxLayout( MinorBox );
-	glayMinorBox = new QGridLayout( 2, 2 );
+	glayMinorBox = new QGridLayout( 2, 3 );
 	vlayMinorBox->setSpacing( 6 );
 	vlayMinorBox->setMargin( 11 );
 	
@@ -293,22 +294,34 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showAsteroids->setFont( stdFont );
 	showAsteroids->setChecked( ksw->options()->drawAsteroids );
 	
-	showAsteroidNames = new QCheckBox( i18n( "Asteroid names" ), MinorBox, "show_asteroid_names" );
+	showAsteroidNames = new QCheckBox( i18n( "Show names of asteroids brighter than: " ), MinorBox, "show_asteroid_names" );
 	showAsteroidNames->setFont( stdFont );
 	showAsteroidNames->setChecked( ksw->options()->drawAsteroidName );
+	
+	int intMagLimitAsteroidName = int( 10 * ksw->options()->magLimitAsteroidName );
+	astNameSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
+	astNameSpinBox->setFont( stdFont );
+	astNameSpinBox->setValue( intMagLimitAsteroidName );
 	
 	showComets = new QCheckBox( i18n( "Comets" ), MinorBox, "show_comets" );
 	showComets->setFont( stdFont );
 	showComets->setChecked( ksw->options()->drawComets );
 	
-	showCometNames = new QCheckBox( i18n( "Comet names" ), MinorBox, "show_comet_names" );
+	showCometNames = new QCheckBox( i18n( "Show names of comets within (AU): " ), MinorBox, "show_comet_names" );
 	showCometNames->setFont( stdFont );
 	showCometNames->setChecked( ksw->options()->drawCometName );
+	
+	int intMaxRadCometName = int( 10 * ksw->options()->maxRadCometName );
+	comNameSpinBox = new MagnitudeSpinBox( 0, 1000, MinorBox );	// max rad = 100.0 AU 
+	comNameSpinBox->setFont( stdFont );
+	comNameSpinBox->setValue( intMaxRadCometName );
 	
 	glayMinorBox->addWidget( showAsteroids, 0, 0 );
 	glayMinorBox->addWidget( showComets, 1, 0 );
 	glayMinorBox->addWidget( showAsteroidNames, 0, 1 );
 	glayMinorBox->addWidget( showCometNames, 1, 1 );
+	glayMinorBox->addWidget( astNameSpinBox, 0, 2 );
+	glayMinorBox->addWidget( comNameSpinBox, 1, 2 );
 	
 	QSpacerItem *spacerPlanetTab  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerPlanetBox  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
@@ -659,6 +672,8 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( showAsteroidNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showComets, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showCometNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( astNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeAstNameMagLimit( int ) ) );
+	connect( comNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeComNameMaxRad( int ) ) );
 
 //Guide Tab
 	connect( showConstellLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -944,6 +959,11 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->drawPlanetName = showPlanetNames->isChecked();
 	ksw->options()->drawPlanetImage = showPlanetImages->isChecked();
 
+	showAsteroidNames->setEnabled( showAsteroids->isChecked() );
+	showCometNames->setEnabled( showComets->isChecked() );
+	astNameSpinBox->setEnabled( showAsteroids->isChecked() && showAsteroidNames->isChecked() );
+	comNameSpinBox->setEnabled( showComets->isChecked() && showCometNames->isChecked() );
+
 //Guides Tab
 	ksw->options()->drawConstellLines = showConstellLines->isChecked();
 	ksw->options()->drawConstellNames = showConstellNames->isChecked();
@@ -1019,6 +1039,20 @@ void ViewOpsDialog::changeStarColorMode( int newValue ) {
 	ksw->options()->colorScheme()->setStarColorMode( newValue );
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
+	ksw->map()->Update();
+}
+
+void ViewOpsDialog::changeAstNameMagLimit( int newValue ) {
+	float fNewValue = float( newValue ) / 10.0;
+	ksw->options()->magLimitAsteroidName = fNewValue;
+	// force redraw
+	ksw->map()->Update();
+}
+
+void ViewOpsDialog::changeComNameMaxRad( int newValue ) {
+	float fNewValue = float( newValue ) / 10.0;
+	ksw->options()->maxRadCometName = fNewValue;
+	// force redraw
 	ksw->map()->Update();
 }
 
