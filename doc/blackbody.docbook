@@ -95,8 +95,8 @@ following equation:
 </para>
 
 <para>
-where T is the temperature in Kelvin.  Wein's law (also known as
-Wein's displacement law) states that the
+where T is the temperature in Kelvin.  Wien's law (also known as
+Wien's displacement law) states that the
 wavelength of maximum emission from a blackbody is inversely
 proportional to its temperature.  This makes sense;
 shorter-wavelength (higher-frequency) light corresponds to
@@ -105,8 +105,8 @@ higher-temperature object.
 </para>
 
 <para>
-For example, the sun has an average temperature of 5800 K with a
-wavelength of maximum emission equal to
+For example, the sun has an average temperature of 5800 K, so 
+its wavelength of maximum emission is given by:
 
 <mediaobject>
 <imageobject>
@@ -144,7 +144,7 @@ from a blackbody increase by a factor of 2^4 or 16.
 
 <para>
 Five years later, Austrian physicist Ludwig Boltzman derived the same
-equation and is now known as the Stephan-Boltzman law. If we assume a
+equation and is now known as the Stefan-Boltzman law. If we assume a
 spherical star with radius R, then the luminosity of such a star is
 </para>
 
@@ -158,7 +158,7 @@ spherical star with radius R, then the luminosity of such a star is
 
 <para>
 where R is the star radius in cm, and the alpha is the
-Stephan-Boltzman constant, which has the value:
+Stefan-Boltzman constant, which has the value:
 
 <mediaobject>
 <imageobject>
