@@ -820,6 +820,7 @@ void KStars::mFind() {
 		skymap->setClickedObject( finddialog.currentItem()->objName()->skyObject() );
 		skymap->setClickedPoint( skymap->clickedObject()->pos() );
 		skymap->slotCenter();
+
 	}
 }
 
@@ -982,7 +983,7 @@ void KStars::updateTime( void ) {
 	showFocusCoords();
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
-	if ( fabs( data()->CurrentDate - data()->LastSkyUpdate) > 0.25/skymap->getPixelScale() ) {
+	if ( isNewEpoch || fabs( data()->CurrentDate - data()->LastSkyUpdate) > 0.25/skymap->getPixelScale() ) {
 		data()->LastSkyUpdate = data()->CurrentDate;
 
 		//Recompute Alt, Az coords for all objects

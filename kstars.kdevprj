@@ -24,7 +24,7 @@ ldadd=-lkio -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Jason Harris
 configure_args=--with-qt-dir=/usr/lib/qt2 --prefix=/usr
 email=kstars@30doradus.org

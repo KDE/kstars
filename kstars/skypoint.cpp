@@ -110,7 +110,7 @@ void SkyPoint::setEcliptic( double ELong, double ELat, long double jd ) {
 	setDec( newDec );
 }
 
-void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq, double dEcLong ) { //, double Obliquity, double dObliq, double dEcLong ) {
+void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq, double dEcLong ) {
 	//Correct the catalog coordinates for the time-dependent effects
 	//of precession, nutation and aberration
 	dms dRA1, dRA2, dDec1, dDec2;
@@ -118,7 +118,7 @@ void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq,
 	
 	//precession
 	precess( NewEpoch, J2000 );
-	
+
 	//nutation
 	if ( fabs( Dec.Degrees() ) < 80.0 ) { //approximate method
 		Obliquity.SinCos( sinOb, cosOb );
@@ -128,7 +128,7 @@ void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq,
 		
 		dRA1.setD( dEcLong*( cosOb + sinOb*sinRA*tanDec ) - dObliq*cosRA*tanDec );
 		dDec1.setD( dEcLong*( sinOb*cosRA ) + dObliq*sinRA );
-		
+	
 		RA = RA.Degrees() + dRA1.Degrees();
 		Dec = Dec.Degrees() + dDec1.Degrees();
 	} else { //exact method, not yet implemented
@@ -171,7 +171,7 @@ void SkyPoint::precess( long double JD, long double JD0 ) {
 		P[1][0] = CX*CY*SZ + SX*CZ;
 		P[2][0] = CX*SY;
 		P[0][1] = -1.0*SX*CY*CZ - CX*SZ;
-		P[1][1] = -1.0*SX*CY*SZ - CX*CZ;
+		P[1][1] = -1.0*SX*CY*SZ + CX*CZ;
 		P[2][1] = -1.0*SX*SY;
 		P[0][2] = -1.0*SY*CZ;
 		P[1][2] = -1.0*SY*SZ;

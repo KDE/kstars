@@ -308,6 +308,10 @@ bool KStarsData::readNGCData( void ) {
 		  int type, ingc, imess, rah, ram, ras, dd, dm;
 	  	QChar sgn, cat_id, cat2_id, mflag;
 
+			//set the compiler at ease; initialize these variables
+			imess = 0;
+			mag = 0.0;
+
 		  line = stream.readLine();
 
 		  cat_id = line.at( 0 ); //check for IC catalog flag
@@ -655,7 +659,7 @@ QDateTime KStarsData::getDateTime( long double jd ) {
 
 	day = C - E - int( 30.6001*G );
 	
-	if ( G < 13 ) month = G - 1;
+	if ( G < 14 ) month = G - 1;
 	else month = G - 13;
 
 	if ( month > 2 ) year = D - 4716;
@@ -680,7 +684,6 @@ void KStarsData::setMagnitude( float newMagnitude ) {
 	*/
 	if ( newMagnitude > maxSetMagnitude )
 		reloadStarData( newMagnitude );
-	qDebug( "KStars::setMagnitude" );
 
 // change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar( newMagnitude );

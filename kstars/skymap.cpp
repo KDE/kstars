@@ -511,7 +511,9 @@ void SkyMap::mouseReleaseEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
-// if button is down and cursor is not moved set the move cursor after 500 ms
+	int id=0;
+
+  // if button is down and cursor is not moved set the move cursor after 500 ms
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
@@ -729,7 +731,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		QStringList::Iterator itList;
 		QStringList::Iterator itTitle;
     QString s, DisplayName;
-		int id;
+
 		setClickedObject( NULL );
 		StarObject *starobj = NULL;
 

@@ -181,7 +181,7 @@ void KSPlanet::EclipticToEquatorial( long double jd ) {
 	nutate( jd, dEclong, dObliq );
 	Obliquity.setD( 23.439292 - DeltaObliq/3600.0 + dObliq/3600.0 );
 	EcLong.setD( EcLong.Degrees() + dEclong );
-	
+
 	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
 	EcLong.SinCos( sinLong, cosLong );
 	EcLat.SinCos( sinLat, cosLat );
