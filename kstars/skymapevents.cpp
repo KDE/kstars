@@ -632,7 +632,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
-							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Iimage" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
 							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
 
