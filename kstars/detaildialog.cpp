@@ -47,7 +47,7 @@
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo,
 		QWidget *parent, const char *name ) :
-		KDialogBase( KDialogBase::Plain, i18n( "Object Details" ), Close, Close, parent, name ) ,
+		KDialogBase( KDialogBase::Plain, i18n( "%1 Details" ).arg( o->longname() ), Close, Close, parent, name ) ,
 		selectedObject(o), ksw((KStars*)parent)
 {
 	QFrame *page = plainPage();
@@ -433,12 +433,13 @@ void DetailDialog::updateLists()
 
 void DetailDialog::editLinkDialog()
 {
-	int originalType, currentInfoItem, currentImageItem;
+	int currentInfoItem, currentImageItem;
 	uint i;
+	bool originalType;
 	QString originalURL, originalDesc, entry;
 	QFile newFile;
 
-	AddLinkDialog ald( this );
+	AddLinkDialog ald( this, selectedObject->name() );
 	
 	currentInfoItem = dd->InfoList->currentItem();
 	currentImageItem = dd->ImageList->currentItem();
@@ -450,14 +451,16 @@ void DetailDialog::editLinkDialog()
 		originalDesc = *selectedObject->InfoTitle.at( currentInfoItem );
 		ald.setURL( originalURL );
 		ald.setDesc( originalDesc );
-		originalType = 0;
+		ald.setImageLink( false );
+		originalType = false;
 	} else if ( currentImageItem != -1 && dd->ImageList->isSelected( currentImageItem ) ) {
 		//Image Link selected
 		originalURL  = *selectedObject->ImageList.at( currentImageItem );
 		originalDesc = *selectedObject->ImageTitle.at( currentImageItem );
 		ald.setURL( originalURL );
 		ald.setDesc( originalDesc );
-		originalType = 1;
+		ald.setImageLink( true );
+		originalType = true;
 	} else 
 		//uh oh!  no link selected?
 		return;
@@ -480,7 +483,7 @@ void DetailDialog::editLinkDialog()
 	//Remove the currently-selected object's existing entry in the URL file
 	//(this opens the existing URL file, and populates dataList with its 
 	//contents, except for the current object)
-	if ( ! removeExistingEntry( originalType, originalDesc ) )
+	if ( ! removeExistingEntry( int(originalType), originalDesc ) )
 		return;
 
 	//Open a new URL file with the same name and copy dataList into it

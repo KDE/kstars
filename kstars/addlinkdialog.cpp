@@ -23,11 +23,10 @@
 #include <qlayout.h>
 
 #include "addlinkdialog.h"
-#include "skymap.h"
 #include "skyobject.h"
 
-AddLinkDialog::AddLinkDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {
+AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
+	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
 
 	QFrame *page = plainPage();
 	setMainWidget(page);
@@ -41,6 +40,9 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 	//connect signals to slots
 	connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
 	connect( ald->TypeBox, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultDescription( int ) ) );
+
+	ald->ImageRadio->setChecked(true);
+	ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
 }
 
 void AddLinkDialog::checkURL( void ) {
@@ -57,16 +59,14 @@ void AddLinkDialog::checkURL( void ) {
 }
 
 void AddLinkDialog::changeDefaultDescription( int id ) {
-	SkyMap *map = (SkyMap *)parent();
-
 //If the user hasn't changed the default desc text, but the link type (image/webpage)
 //has been toggled, update the default desc text
 	if ( id==1 && desc().startsWith( i18n( "Show image of " ) ) ) {
-		ald->DescBox->setText( i18n( "Show webpage about " ) + map->clickedObject()->name() );
+		ald->DescBox->setText( i18n( "Show webpage about " ) + ObjectName );
 	}
 
 	if ( id==0 && desc().startsWith( i18n( "Show webpage about " ) ) ) {
-		ald->DescBox->setText( i18n( "Show image of " ) + map->clickedObject()->name() );
+		ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
 	}
 }
 

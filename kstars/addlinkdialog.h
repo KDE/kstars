@@ -20,6 +20,7 @@
 
 #include <kdialogbase.h>
 #include <klineedit.h>
+#include <klocale.h>
 #include <qradiobutton.h>
 
 #include "addlinkdialogui.h"
@@ -37,7 +38,7 @@ class AddLinkDialog : public KDialogBase  {
 	Q_OBJECT
 public:
 /**Constructor. */
-	AddLinkDialog( QWidget* parent = 0 );
+	AddLinkDialog( QWidget* parent = 0, const QString &oname=i18n("object") );
 
 /**Destructor (empty) */
 	~AddLinkDialog() {}
@@ -61,6 +62,11 @@ public:
 /**@return TRUE if user declared the link is an image */
 	bool isImageLink() const { return ald->ImageRadio->isChecked(); }
 
+/**@short Set the link type
+	*@param b if true, link is an image link.
+	*/
+	void setImageLink( bool b ) { ald->ImageRadio->setChecked( b ); }
+
 private slots:
 /**Open the entered URL in the web browser 
 	*/
@@ -74,6 +80,7 @@ private slots:
 	void changeDefaultDescription( int id );
 
 private:
+	QString ObjectName;
 	QVBoxLayout *vlay;
 	AddLinkDialogUI *ald;
 };
