@@ -155,7 +155,7 @@ void AstroCalc::genCoordText(void)
 														 "<B>Galactic:</B> Galactic/Equatorial coordinates conversion"
 														 "</LI><LI>"
 														 "<B>Apparent:</B> Computation of current equatorial coordinates"
-														 "          from a given epoch\n"
+														 " from a given epoch"
 														 "</LI><LI>"
 														 "<B>Ecliptic:</B> Ecliptic/Equatorial coordinates conversion"
 														 "</LI><LI>"
