@@ -373,8 +373,8 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 		RTime = new QLabel( rs, this );
 		STime = new QLabel( ss, this );
-		RAz = new QLabel( i18n( "Not Applicalble", "N/A" ), this );
-		SAz = new QLabel( i18n( "Not Applicalble", "N/A" ), this );
+		RAz = new QLabel( i18n( "Not Applicable", "N/A" ), this );
+		SAz = new QLabel( i18n( "Not Applicable", "N/A" ), this );
 	}
 
 	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );

@@ -346,7 +346,7 @@
                                             <string></string>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>Copy Fucntion</string>
+                                            <string>Copy Function</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>If a function is highlighted in the "Current Script" box, this button will add a duplicate of the function.</string>

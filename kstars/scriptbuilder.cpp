@@ -324,7 +324,7 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsSkymap, "FOV Size", i18n( "Select angular size for the FOV symbol (in arcmin)" ), i18n( "double" ) );
 	new QListViewItem( opsSkymap, "FOV Shape", i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
 	new QListViewItem( opsSkymap, "FOV Color", i18n( "Select color for the FOV symbol" ), i18n( "string" ) );
-	new QListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewin? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
+	new QListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseAutoLabel", i18n( "Automatically attach name label to centered object?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseAutoTrail", i18n( "Automatically add trail to centered solar system body?" ), i18n( "bool" ) );

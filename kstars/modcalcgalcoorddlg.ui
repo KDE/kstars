@@ -588,7 +588,7 @@
                                     <cstring>allRadioBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>All parametres</string>
+                                    <string>All parameters</string>
                                 </property>
                             </widget>
                             <widget class="QRadioButton">
@@ -596,7 +596,7 @@
                                     <cstring>inputRadioBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Only parametres in input file</string>
+                                    <string>Only parameters in input file</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>

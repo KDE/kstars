@@ -896,7 +896,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 			fileFound = true;
 		else
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
-				if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
+				if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using default English file." ) << endl;
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(IO_WriteOnly)) {
