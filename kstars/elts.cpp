@@ -130,7 +130,7 @@ elts::elts( QWidget* parent)  :
 
 	addButton = new QPushButton( sourceTab );
 	addButton->setMinimumSize( QSize( 80, 0 ) );
-	addButton->setText( i18n( "Add" ) );
+	addButton->setText( i18n( "Plot" ) );
 
 	clearAddLayout->addItem( spacer );
 	clearAddLayout->addWidget( clearButton );
@@ -299,6 +299,7 @@ void elts::slotBrowseObject(void) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
 		
 		processObject( o );
+		slotAddSource();
 	} 
 }
 
