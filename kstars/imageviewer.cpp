@@ -28,7 +28,7 @@
 #include <ktoolbar.h>
 #include <kaction.h>
 #include <kaccel.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kiconloader.h>
 #include <kdebug.h>
 #include "imageviewer.h"

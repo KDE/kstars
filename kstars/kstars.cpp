@@ -25,8 +25,9 @@
 #include <qsizepolicy.h>
 #include <qtooltip.h>
 #include <qlayout.h>
+#include <qtimer.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kaccel.h>

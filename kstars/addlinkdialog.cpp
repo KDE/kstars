@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kurl.h>

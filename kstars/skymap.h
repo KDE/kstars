@@ -23,9 +23,7 @@
 
 #include <qwidget.h>
 #include <qpainter.h>
-#include <qpixmap.h>
 #include <qpoint.h>
-#include <qpixmap.h>
 
 #include "skyobject.h"
 #include "starobject.h"

@@ -16,7 +16,7 @@
  ***************************************************************************/
 //JH 25.08.2001: added i18n() to strings
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <qtextstream.h>
 

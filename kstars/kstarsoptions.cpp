@@ -17,7 +17,7 @@
 
 #include "kstarsoptions.h"
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kconfig.h>
 
 KStarsOptions::KStarsOptions()

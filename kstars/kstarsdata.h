@@ -18,12 +18,12 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qfile.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <klocale.h>
 
 #include "geolocation.h"

@@ -16,14 +16,12 @@
  ***************************************************************************/
 
 #include <qwidget.h>
-#include <qlabel.h>
 #include <qpixmap.h>
 #include <qfile.h>
 #include <qpaintdevice.h>
 #include <qlayout.h>
-#include <qlabel.h>
 #include <kmessagebox.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 #include "kstarssplash.h"

@@ -31,8 +31,8 @@
 #include <qfont.h>
 #include <qtextstream.h>
 #include <qbitmap.h>
-#include <qbitmap.h>
 #include <qcursor.h>
+#include <qtimer.h>
 
 #include <math.h>
 #include <stdlib.h>

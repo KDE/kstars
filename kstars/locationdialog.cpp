@@ -18,7 +18,7 @@
 
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlistbox.h>

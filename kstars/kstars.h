@@ -21,21 +21,17 @@
 #include <config.h>
 #endif
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kmainwindow.h>
 #include <kmenubar.h>
 #include <kaction.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <qframe.h>
 #include <qfile.h>
-#include <qlist.h>
-#include <qdatetime.h>
-#include <qtimer.h>
+#include <qptrlist.h>
 #include <qlabel.h>
-#include <qdatetime.h>
-#include <qtimer.h>
 #include <qdir.h>
 
 #include "skymap.h"

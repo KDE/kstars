@@ -43,7 +43,7 @@
 	*@version 0.4
   */
 #include <kdialogbase.h>
-#include <qarray.h>
+#include <qmemarray.h>
 
 #include "mapcanvas.h"
 
