@@ -634,8 +634,10 @@ void SkyMap::slotInfo( int id ) {
 }
 
 void SkyMap::slotBeginAngularDistance(void) {
-	angularDistanceMode = true;
 	setPreviousClickedPoint( mousePoint() );
+	angularDistanceMode = true;
+	beginRulerPoint = getXY( previousClickedPoint(), data->options->useAltAz, data->options->useRefraction);
+	endRulerPoint =  QPoint( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
 void SkyMap::slotEndAngularDistance(void) {
