@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include <kdebug.h>
 #include <kfiledialog.h>
-#include <kurlcompletion.h>
 
 #include "kstars.h"
 #include "skyobject.h"
@@ -34,17 +33,12 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 	QLabel *catFileLabel = new QLabel( i18n( "Enter filename of custom catalog:" ), page );
 	QLabel *catNameLabel = new QLabel( i18n( "Enter name for this catalog:" ), page );
 
-	catFileName = new KLineEdit( "", page );
-	catFileName->setMinimumWidth( 255 );
-	KURLCompletion *comp = new KURLCompletion();
-	catFileName->setCompletionObject( comp );
 
-	browseForFile = new QPushButton( i18n( "Browse..." ), page );
+	catFileName = new KURLRequester( "", page );
 
 	catName = new KLineEdit( "", page );
 
 	hlay->addWidget( catFileName );
-	hlay->addWidget( browseForFile );
 
 	vlay->addWidget( catFileLabel );
 	vlay->addLayout( hlay );
@@ -52,7 +46,6 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 	vlay->addWidget( catNameLabel );
 	vlay->addWidget( catName );
 
-	connect( browseForFile, SIGNAL( clicked() ), this, SLOT( findFile() ) );
 	connect( catFileName, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( catName, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validateFile() ) );
@@ -103,12 +96,10 @@ void AddCatDialog::validateFile() {
 
 void AddCatDialog::findFile() {
 	QString fname = KFileDialog::getOpenFileName();
-	if ( !fname.isEmpty() ) catFileName->setText( fname );
+	if ( !fname.isEmpty() )
+            catFileName->lineEdit()->setText( fname );
 }
 
 void AddCatDialog::checkLineEdits() {
-	if ( catFileName->text().length() > 0 && catName->text().length() > 0 )
-		enableButtonOK( true );
-	else
-		enableButtonOK( false );
+    enableButtonOK(!catFileName->lineEdit()->text().isEmpty() && !catName->text().isEmpty());
 }

@@ -24,12 +24,11 @@
 
 #include <kdialogbase.h>
 #include <klineedit.h>
-
+#include <kurlrequester.h>
 #include "skyobject.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
-class QPushButton;
 
 /**@short dialog for adding custom object catalogs to KStars
   *@author Jason Harris
@@ -53,7 +52,7 @@ public:
 
 /**@returns text entered into "catalog filename" KLineEdit.
 	*/
-	QString filename() const { return catFileName->text(); }
+	QString filename() const { return catFileName->lineEdit()->text(); }
 
 /**@returns QPtrList of SkyObjects as parsed from the custom catalog file.
 	*/
@@ -82,8 +81,8 @@ private slots:
 private:
 	QVBoxLayout *vlay;
 	QHBoxLayout *hlay;
-	KLineEdit *catFileName, *catName;
-	QPushButton *browseForFile;
+	KLineEdit *catName;
+    KURLRequester *catFileName;
 	QPtrList<SkyObject> objList;
 
 };
