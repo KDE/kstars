@@ -1029,7 +1029,11 @@ void SkyMap::setRiseSetLabels( void ) {
 		rt = i18n( "No rise time: Never rises" );
 	}
 
+	//If stime is before rtime, use set time from tomorrow
 	QTime stime = clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
+	if ( stime < rtime ) 
+	  stime = clickedObject()->setTime( ksw->data()->CurrentDate+1.0, ksw->geo() );
+
 	QString st, st2, st3;
 	dms sAz = clickedObject()->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {
@@ -1053,7 +1057,12 @@ void SkyMap::setRiseSetLabels( void ) {
 	}
 
 	//QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
+
+	//If transit time is before rise time, use transit time for tomorrow
 	QTime ttime = clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
+	if ( ttime < rtime ) 
+	  ttime = clickedObject()->transitTime( ksw->data()->CurrentDate+1.0, ksw->geo() );
+
 	QString tt, tt2, tt3;
 	dms trAlt = clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
 
