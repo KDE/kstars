@@ -94,11 +94,11 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 	if (item==0L) return;
 	
 	election = item->text(0);
-	if(!(election.compare(i18n("Time calculator"))))
+	if(!(election.compare(i18n("Time calculators"))))
 		genTimeText();
 	if(!(election.compare(i18n("Sidereal Time"))))
 		genSidFrame();
-	if(!(election.compare(i18n("Coordinates converter"))))
+	if(!(election.compare(i18n("Coordinate converters"))))
 		genCoordText();
 	if(!(election.compare(i18n("Julian Day"))))
 		genJdFrame();
