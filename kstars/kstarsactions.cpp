@@ -606,9 +606,9 @@ void KStars::slotManualFocus() {
 
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
 		if ( Options::useAltAz() && Options::useRefraction() ) {
-			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
-			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
-			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
+//			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
+//			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
+//			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 
 		map()->setClickedPoint( focusDialog.point() );
@@ -616,6 +616,13 @@ void KStars::slotManualFocus() {
 
 		map()->slotCenter();
 
+		//The slew takes some time to complete, and this often causes the final focus point to be slightly 
+		//offset from the user's requested coordinates (because EquatorialToHorizontal() is called 
+		//throughout the process, which depends on the sidereal time).  So we now "polish" the final
+		//position by resetting the final focus to the focusDialog point:
+		data()->setSnapNextFocus();
+		map()->setDestinationAltAz( focusDialog.point()->alt()->Degrees(), focusDialog.point()->az()->Degrees() );
+		
 		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
 		if ( focusDialog.usedAltAz() ) map()->stopTracking();
 	}

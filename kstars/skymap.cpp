@@ -512,17 +512,20 @@ void SkyMap::slotCenter( void ) {
 	}
 
 	//update the destination to the selected coordinates
-	if ( Options::useAltAz() && Options::useRefraction() ) { //correct for atmospheric refraction if using horizontal coords
-		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
-	} else {
+//	if ( Options::useAltAz() && Options::useRefraction() ) { //correct for atmospheric refraction if using horizontal coords
+//		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
+//	} else {
 		setDestination( focusPoint() );
-		destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	}
+//	}
 
 	//display coordinates in statusBar
-	QString s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
-	if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
-
+	if ( ksw ) {
+		QString s = focusPoint()->az()->toDMSString() + ",  " + focusPoint()->alt()->toDMSString(true);
+		ksw->statusBar()->changeItem( s, 1 );
+		s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
+		ksw->statusBar()->changeItem( s, 2 );
+	}
+	
 	showFocusCoords(); //update FocusBox
 }
 
