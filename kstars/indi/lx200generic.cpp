@@ -28,12 +28,16 @@
 #include "lx200driver.h"
 #include "lx200GPS.h"
 
-/***** IMPORTANT: Each sub device must has its own ISInit function wrapped in LX200_DEVICENAME structure
-****** The make file then must have -DLX200_DEVICENAME option for that specfic sub device*/
-
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
-char mydev[] = "LX200 Generic";	/* Device name we call ourselves */
+char mydev[] = "LX200 Generic";
+
+/* There is _one_ binary for all LX200 drivers, but each binary is renamed
+** to its device name (i.e. lx200gps, lx200_16..etc). The main function will
+** fetch from std args the binary name and ISInit will create the apporpiate
+** device afterwards. If the binary name does not match any known devices,
+** we simply create a generic device
+*/
 extern char* me;
 
 #define COMM_GROUP	"Communication"
@@ -87,7 +91,6 @@ void ISInit()
 
 }
 
-
 /*INDI controls */
 static INRange FreqRange         = { INR_MIN|INR_MAX|INR_STEP , 50.0, 80.0, 0.1};
 static INRange RDutyCycle	 = { INR_MIN|INR_MAX|INR_STEP , 0, MaxReticleDutyCycle, 1};
@@ -138,7 +141,6 @@ static ISwitches abortSlewSw     = { mydev, "Abort Slew/Track", abortSlewS, NARR
 static ISwitches MovementSw      = { mydev, "Move toward", MovementS, NARRAY(MovementS), ILS_IDLE, 0, MOVE_GROUP};
 static ISwitches haltMoveSw      = { mydev, "Halt movement", haltMoveS, NARRAY(haltMoveS), ILS_IDLE, 0, MOVE_GROUP};
 
-
 /* Data & Time */
 static ISwitches TimeFormatSw    = { mydev, "Time Format", TimeFormatS, NARRAY(TimeFormatS), ILS_IDLE, 0, DATETIME_GROUP};
 static INumber LocalTime         = { mydev, "Local Time", NULL, ILS_IDLE, 0 , DATETIME_GROUP};
@@ -158,9 +160,6 @@ static ISwitches DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", DeepSkyCatalogS
 static ISwitches SolarSw         = { mydev, "Solar System", SolarS, NARRAY(SolarS), ILS_IDLE, 0, LIBRARY_GROUP};
 static INumber ObjectNo          = { mydev, "Object Number", NULL, ILS_IDLE, 0, LIBRARY_GROUP};
 
-
-
-
 /* send client definitions of all properties */
 void ISGetProperties (char *dev) {telescope->ISGetProperties(dev);}
 void ISNewText (IText *t) {telescope->ISNewText(t);}
@@ -168,6 +167,7 @@ void ISNewNumber (INumber *n) {telescope->ISNewNumber(n);}
 void ISNewSwitch (ISwitches *s) {telescope->ISNewSwitch(s);}
 void ISPoll () {telescope->ISPoll();}
 
+// FIXME FIXME Numeric properties are numbers, doh!
 
 /**************************************************
 *** LX200 Generic Implementation
@@ -205,10 +205,6 @@ LX200Generic::LX200Generic()
    fprintf(stderr , "initilizaing from generic LX200 device...\n");
 
 }
-
-ILight sLight[] = { {"Power", ILS_ALERT}, {"Aleins", ILS_OK}, {"Whatever", ILS_BUSY},
-{"Whatever", ILS_BUSY}};
-ILights allLights = { mydev, "Stuff about lights", sLight, NARRAY(sLight), ILS_IDLE, 0};
 
 void LX200Generic::ISGetProperties(char *dev)
 {

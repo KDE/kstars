@@ -143,7 +143,7 @@ sendWX ()
 	msg = NULL;
 	if (s > 25) {
 	    if (sNum.s != ILS_ALERT) {
-		msg = "Weed speed now exceeds 25 kph";
+		msg = "Wind speed now exceeds 25 kph";
 		sNum.s = ILS_ALERT;
 	    }
 	} else {
