@@ -36,6 +36,7 @@
 class QLabel;
 class KSPopupMenu;
 class KStars;
+class KStarsData;
 class InfoBoxes;
 
 /**This is the canvas on which the sky is painted.  It's the main widget for KStars.
@@ -58,7 +59,8 @@ public:
 	*Constructor.  Read stored settings from KConfig object (focus position,
 	*zoom level, sky color, etc.).  Run initPopupMenus().
 	*/
-	SkyMap(QWidget *parent=0, const char *name=0);
+	SkyMap( KStarsData *d, QWidget *parent=0, const char *name=0);
+
 /**
 	*Destructor (empty)
 	*/
@@ -422,6 +424,7 @@ private:
 	double guideXmax;
 
 	KStars *ksw;
+	KStarsData *data;
 	QString sURL;
 	KSPopupMenu *pmenu;
 	QPixmap *sky;

@@ -33,6 +33,7 @@
 
 #include "detaildialog.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "imageviewer.h"
 #include "infoboxes.h"
 #include "addlinkdialog.h"
@@ -42,11 +43,11 @@
 #include <kapplication.h>
 #include <qmemarray.h>
 
-SkyMap::SkyMap(QWidget *parent, const char *name )
- : QWidget (parent,name), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0)
+SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
+ : QWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0)
 {
-	ksw = (KStars*) parent->parent();
-
+	if ( parent ) ksw = (KStars*) parent->parent();
+	else ksw = 0;
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
 
@@ -56,12 +57,12 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 	setDefaultMouseCursor();	// set the cross cursor
 	kapp->config()->setGroup( "View" );
-	ksw->options()->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
-	if ( ksw->options()->ZoomLevel > NZOOM-1 ) ksw->options()->ZoomLevel = NZOOM-1;
-	if ( ksw->options()->ZoomLevel < 0 )  ksw->options()->ZoomLevel = 0;
+	data->options->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
+	if ( data->options->ZoomLevel > NZOOM-1 ) data->options->ZoomLevel = NZOOM-1;
+	if ( data->options->ZoomLevel < 0 )  data->options->ZoomLevel = 0;
 
 	// load the pixmaps of stars
-	starpix = new StarPixmap( ksw->options()->colorScheme()->starColorMode(), ksw->options()->colorScheme()->starColorIntensity() );
+	starpix = new StarPixmap( data->options->colorScheme()->starColorMode(), data->options->colorScheme()->starColorIntensity() );
 
   //initialize pixelScale array, will be indexed by ZoomLevel
 	for ( unsigned int i=0; i<NZOOM; ++i ) {
@@ -69,7 +70,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 		Range[i] = 75.0*256.0/pixelScale[i];
 	}
 
-	setBackgroundColor( QColor( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
+	setBackgroundColor( QColor( data->options->colorScheme()->colorNamed( "SkyColor" ) ) );
 	setBackgroundMode( QWidget::NoBackground );
 	setFocusPolicy( QWidget::StrongFocus );
 	setMinimumSize( 380, 250 );
@@ -86,29 +87,29 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 	sky = new QPixmap();
 	pmenu = new KSPopupMenu( ksw );
-	IBoxes = new InfoBoxes( ksw->options()->windowWidth, ksw->options()->windowHeight,
-			ksw->options()->posTimeBox, ksw->options()->shadeTimeBox,
-			ksw->options()->posGeoBox, ksw->options()->shadeGeoBox,
-			ksw->options()->posFocusBox, ksw->options()->shadeFocusBox,
-			ksw->options()->colorScheme()->colorNamed( "BoxTextColor" ),
-			ksw->options()->colorScheme()->colorNamed( "BoxGrabColor" ),
-			ksw->options()->colorScheme()->colorNamed( "BoxBGColor" ) );
+	IBoxes = new InfoBoxes( data->options->windowWidth, data->options->windowHeight,
+			data->options->posTimeBox, data->options->shadeTimeBox,
+			data->options->posGeoBox, data->options->shadeGeoBox,
+			data->options->posFocusBox, data->options->shadeFocusBox,
+			data->options->colorScheme()->colorNamed( "BoxTextColor" ),
+			data->options->colorScheme()->colorNamed( "BoxGrabColor" ),
+			data->options->colorScheme()->colorNamed( "BoxBGColor" ) );
 
-	IBoxes->showTimeBox( ksw->options()->showTimeBox );
-	IBoxes->showFocusBox( ksw->options()->showFocusBox );
-	IBoxes->showGeoBox( ksw->options()->showGeoBox );
-	IBoxes->timeBox()->setAnchorFlag( ksw->options()->stickyTimeBox );
-	IBoxes->geoBox()->setAnchorFlag( ksw->options()->stickyGeoBox );
-	IBoxes->focusBox()->setAnchorFlag( ksw->options()->stickyFocusBox );
+	IBoxes->showTimeBox( data->options->showTimeBox );
+	IBoxes->showFocusBox( data->options->showFocusBox );
+	IBoxes->showGeoBox( data->options->showGeoBox );
+	IBoxes->timeBox()->setAnchorFlag( data->options->stickyTimeBox );
+	IBoxes->geoBox()->setAnchorFlag( data->options->stickyGeoBox );
+	IBoxes->focusBox()->setAnchorFlag( data->options->stickyFocusBox );
 
-	IBoxes->geoChanged( ksw->geo() );
+	IBoxes->geoChanged( data->options->Location() );
 
-	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveTimeBoxShaded(bool) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveGeoBoxShaded(bool) ) );
-	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveFocusBoxShaded(bool) ) );
-	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveTimeBoxPos(QPoint) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveGeoBoxPos(QPoint) ) );
-	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveFocusBoxPos(QPoint) ) );
+	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), data, SLOT( saveTimeBoxShaded(bool) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), data, SLOT( saveGeoBoxShaded(bool) ) );
+	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), data, SLOT( saveFocusBoxShaded(bool) ) );
+	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), data, SLOT( saveTimeBoxPos(QPoint) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), data, SLOT( saveGeoBoxPos(QPoint) ) );
+	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), data, SLOT( saveFocusBoxPos(QPoint) ) );
 
 	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
@@ -131,16 +132,16 @@ SkyMap::~SkyMap() {
 	if ( IBoxes ) delete IBoxes;
 
 //delete any remaining object Image pointers
-	for ( SkyObject *obj = ksw->data()->deepSkyListMessier.first(); obj; obj = ksw->data()->deepSkyListMessier.next() ) {
+	for ( SkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = ksw->data()->deepSkyListNGC.first(); obj; obj = ksw->data()->deepSkyListNGC.next() ) {
+	for ( SkyObject *obj = data->deepSkyListNGC.first(); obj; obj = data->deepSkyListNGC.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = ksw->data()->deepSkyListIC.first(); obj; obj = ksw->data()->deepSkyListIC.next() ) {
+	for ( SkyObject *obj = data->deepSkyListIC.first(); obj; obj = data->deepSkyListIC.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = ksw->data()->deepSkyListOther.first(); obj; obj = ksw->data()->deepSkyListOther.next() ) {
+	for ( SkyObject *obj = data->deepSkyListOther.first(); obj; obj = data->deepSkyListOther.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
 }
@@ -161,7 +162,7 @@ void SkyMap::showFocusCoords( void ) {
 	QString oname;
 
 	oname = i18n( "nothing" );
-	if ( focusObject() != NULL && ksw->options()->isTracking ) {
+	if ( focusObject() != NULL && data->options->isTracking ) {
 		oname = focusObject()->translatedName();
 		//add genetive name for stars
 	  if ( focusObject()->type()==0 && focusObject()->name2().length() )
@@ -170,10 +171,10 @@ void SkyMap::showFocusCoords( void ) {
 
 	infoBoxes()->focusObjChanged(oname);
 
-	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) {
+	if ( data->options->useAltAz && data->options->useRefraction ) {
 		SkyPoint corrFocus( *(focus()) );
 		corrFocus.setAlt( refract( focus()->alt(), false ) );
-		corrFocus.HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+		corrFocus.HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 		infoBoxes()->focusCoordChanged( &corrFocus );
 	} else {
 		infoBoxes()->focusCoordChanged( focus() );
@@ -182,26 +183,26 @@ void SkyMap::showFocusCoords( void ) {
 
 //Slots
 void SkyMap::slotCenter( void ) {
-	clickedPoint()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+	clickedPoint()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 
 	//clear the planet trail of focusObject, if it was temporary
-	if ( ksw->data()->isSolarSystem( focusObject() ) && ksw->data()->temporaryTrail ) {
+	if ( data->isSolarSystem( focusObject() ) && data->temporaryTrail ) {
 		((KSPlanetBase*)focusObject())->clearTrail();
-		ksw->data()->temporaryTrail = false;
+		data->temporaryTrail = false;
 	}
 
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
-	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
+	if ( data->options->useAltAz && data->options->drawGround &&
 			focus()->alt()->Degrees() > -1.0 && clickedPoint()->alt()->Degrees() < -1.0 ) {
 
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
-		if ( KMessageBox::warningYesNo( ksw, message, caption,
+		if ( KMessageBox::warningYesNo( this, message, caption,
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFocusObject( NULL );
-			ksw->options()->isTracking = false;
+			data->options->isTracking = false;
 
 			return;
 		}
@@ -210,23 +211,23 @@ void SkyMap::slotCenter( void ) {
 //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFocusObject( ClickedObject );
-	ksw->options()->isTracking = true;
-	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	data->options->isTracking = true;
+	if ( ksw ) ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
-	if ( focusObject() && ksw->data()->isSolarSystem( focusObject() )
-			&& ksw->options()->useAutoTrail
+	if ( focusObject() && data->isSolarSystem( focusObject() )
+			&& data->options->useAutoTrail
 			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
 		((KSPlanetBase*)focusObject())->addToTrail();
-		ksw->data()->temporaryTrail = true;
+		data->temporaryTrail = true;
 	}
 
 //update the destination to the selected coordinates
-	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
+	if ( data->options->useAltAz && data->options->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
 		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az()->Degrees() );
 	} else {
 		setDestination( clickedPoint() );
-		destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 	}
 
 	//display coordinates in statusBar
@@ -241,7 +242,7 @@ void SkyMap::slotCenter( void ) {
 	sRA = sRA.sprintf( "%02d:%02d:%02d", clickedPoint()->ra()->hour(), clickedPoint()->ra()->minute(), clickedPoint()->ra()->second() );
 	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
 	s = sRA + ",  " + sDec;
-	ksw->statusBar()->changeItem( s, 1 );
+	if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
 
 	showFocusCoords(); //update FocusBox
 //	forceUpdate();	// must be new computed
@@ -263,7 +264,7 @@ void SkyMap::slotDSS( void ) {
 		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
 		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
 		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
-		clickedPoint()->precessFromAnyEpoch( ksw->data()->CurrentDate, J2000 );
+		clickedPoint()->precessFromAnyEpoch( data->CurrentDate, J2000 );
 		ra.setH( clickedPoint()->ra()->Hours() );
 		dec.setD( clickedPoint()->dec()->Degrees() );
 
@@ -302,7 +303,7 @@ void SkyMap::slotDSS2( void ) {
 		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
 		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
 		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
-		clickedPoint()->precessFromAnyEpoch( ksw->data()->CurrentDate, J2000 );
+		clickedPoint()->precessFromAnyEpoch( data->CurrentDate, J2000 );
 		ra.setH( clickedPoint()->ra()->Hours() );
 		dec.setD( clickedPoint()->dec()->Degrees() );
 
@@ -343,7 +344,7 @@ void SkyMap::slotImage( int id ) {
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-	for ( SkyObject *o = ksw->data()->ObjLabelList.first(); o; o = ksw->data()->ObjLabelList.next() ) {
+	for ( SkyObject *o = data->ObjLabelList.first(); o; o = data->ObjLabelList.next() ) {
 		if ( o == object ) return true;
 	}
 
@@ -351,10 +352,10 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
 }
 
 void SkyMap::slotRemoveObjectLabel( void ) {
-	for ( SkyObject *o = ksw->data()->ObjLabelList.first(); o; o = ksw->data()->ObjLabelList.next() ) {
+	for ( SkyObject *o = data->ObjLabelList.first(); o; o = data->ObjLabelList.next() ) {
 		if ( o == clickedObject() ) {
 			//remove object from list
-			ksw->data()->ObjLabelList.remove();
+			data->ObjLabelList.remove();
 			break;
 		}
 	}
@@ -363,13 +364,13 @@ void SkyMap::slotRemoveObjectLabel( void ) {
 }
 
 void SkyMap::slotAddObjectLabel( void ) {
-	ksw->data()->ObjLabelList.append( clickedObject() );
+	data->ObjLabelList.append( clickedObject() );
 	forceUpdate();
 }
 
 void SkyMap::slotRemovePlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
-	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
+	if ( data->isSolarSystem( clickedObject() ) ) {
 		((KSPlanetBase*)clickedObject())->clearTrail();
 		forceUpdate();
 	}
@@ -377,7 +378,7 @@ void SkyMap::slotRemovePlanetTrail( void ) {
 
 void SkyMap::slotAddPlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
-	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
+	if ( data->isSolarSystem( clickedObject() ) ) {
 		((KSPlanetBase*)clickedObject())->addToTrail();
 		forceUpdate();
 	}
@@ -389,27 +390,27 @@ void SkyMap::slotDetail( void ) {
     	KMessageBox::sorry( this, i18n("No Object selected!"), i18n("Object Details") );
 		return;
    }
-	DetailDialog detail( clickedObject(), ksw->data()->LTime, ksw->geo(), ksw );
+	DetailDialog detail( clickedObject(), data->LTime, data->options->Location(), ksw );
 	detail.exec();
 }
 
 void SkyMap::slotClockSlewing() {
 //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-	if ( fabs( ksw->clock()->scale() ) > ksw->options()->slewTimeScale ) {
+	if ( fabs( data->clock->scale() ) > data->options->slewTimeScale ) {
 		if ( ! clockSlewing ) {
 			clockSlewing = true;
-			ksw->clock()->setManualMode( true );
+			data->clock->setManualMode( true );
 
 			// don't change automatically the DST status
-			ksw->updateTime( false );
+			if ( ksw ) ksw->updateTime( false );
 		}
 	} else {
 		if ( clockSlewing ) {
 			clockSlewing = false;
-			ksw->clock()->setManualMode( false );
+			data->clock->setManualMode( false );
 
 			// don't change automatically the DST status
-			ksw->updateTime( false );
+			if ( ksw ) ksw->updateTime( false );
 		}
 	}
 }
@@ -417,72 +418,72 @@ void SkyMap::slotClockSlewing() {
 void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAlt(alt);
 	focus()->setAz(az);
-	focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+	focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 	slewing = false;
 
 	oldfocus()->set( focus()->ra(), focus()->dec() );
 	oldfocus()->setAz( focus()->az()->Degrees() );
 	oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-	double dHA = ksw->LST()->Hours() - focus()->ra()->Hours();
+	double dHA = data->LST->Hours() - focus()->ra()->Hours();
 	while ( dHA < 0.0 ) dHA += 24.0;
-	ksw->data()->HourAngle->setH( dHA );
+	data->HourAngle->setH( dHA );
 
 	forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
 void SkyMap::setDestination( SkyPoint *p ) {
 	Destination.set( p->ra(), p->dec() );
-	destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz(double alt, double az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
-	destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::updateFocus() {
-	if ( ksw->options()->isTracking && focusObject() != NULL ) {
-		if ( ksw->options()->useAltAz ) {
+	if ( data->options->isTracking && focusObject() != NULL ) {
+		if ( data->options->useAltAz ) {
 			//Tracking any object in Alt/Az mode requires focus updates
 			setDestinationAltAz(
 					refract( focusObject()->alt(), true ).Degrees(),
 					focusObject()->az()->Degrees() );
-			destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 			setFocus( destination() );
 		} else {
 			//Tracking in equatorial coords
 			setDestination( focusObject() );
 			setFocus( destination() );
-			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 		}
-	} else if ( ksw->options()->isTracking ) {
-		if ( ksw->options()->useAltAz ) {
+	} else if ( data->options->isTracking ) {
+		if ( data->options->useAltAz ) {
 			//Tracking on empty sky in Alt/Az mode
 			setDestination( clickedPoint() );
-			destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 			setFocus( destination() );
 		}
 	} else if ( ! isSlewing() ) {
 		//Not tracking and not slewing, let sky drift by
-		if ( ksw->options()->useAltAz ) {
+		if ( data->options->useAltAz ) {
 			focus()->setAlt( destination()->alt()->Degrees() );
 			focus()->setAz( destination()->az()->Degrees() );
-			focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
-			//destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+			//destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 		} else {
-			focus()->setRA( ksw->LST()->Hours() - ksw->data()->HourAngle->Hours() );
+			focus()->setRA( data->LST->Hours() - data->HourAngle->Hours() );
 			setDestination( focus() );
-			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-			destination()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 		}
 	}
 
 	setOldFocus( focus() );
-	oldfocus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+	oldfocus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 }
 
 void SkyMap::slewFocus( void ) {
@@ -494,11 +495,11 @@ void SkyMap::slewFocus( void ) {
 //Also, no animated slews if the Manual Clock is active
 //08/2002: added possibility for one-time skipping of slew with snapNextFocus
 	if ( !mouseButtonDown ) {
-		bool goSlew = ( ksw->options()->useAnimatedSlewing &&
-			! ksw->options()->snapNextFocus() ) &&
-			!( ksw->clock()->isManualMode() && ksw->clock()->isActive() );
+		bool goSlew = ( data->options->useAnimatedSlewing &&
+			! data->options->snapNextFocus() ) &&
+			!( data->clock->isManualMode() && data->clock->isActive() );
 		if ( goSlew  ) {
-			if ( ksw->options()->useAltAz ) {
+			if ( data->options->useAltAz ) {
 				dX = destination()->az()->Degrees() - focus()->az()->Degrees();
 				dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 			} else {
@@ -516,22 +517,22 @@ void SkyMap::slewFocus( void ) {
 				fX = dX / r;
 				fY = dY / r;
 
-				if ( ksw->options()->useAltAz ) {
+				if ( data->options->useAltAz ) {
 					focus()->setAlt( focus()->alt()->Degrees() + fY*step );
 					focus()->setAz( focus()->az()->Degrees() + fX*step );
-					focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+					focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 				} else {
 					fX = fX/15.; //convert RA degrees to hours
 					newFocus.set( focus()->ra()->Hours() + fX*step, focus()->dec()->Degrees() + fY*step );
 					setFocus( &newFocus );
-					focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+					focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 				}
 
 				slewing = true;
 				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
 
-				if ( ksw->options()->useAltAz ) {
+				if ( data->options->useAltAz ) {
 					dX = destination()->az()->Degrees() - focus()->az()->Degrees();
 					dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 				} else {
@@ -550,19 +551,19 @@ void SkyMap::slewFocus( void ) {
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
 		setFocus( destination() );
-		focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 
 		if ( focusObject() )
 			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
 
-		infoBoxes()->focusCoordChanged( ksw->map()->focus() );
+		infoBoxes()->focusCoordChanged( focus() );
 
-		ksw->setHourAngle();
+		data->HourAngle->setH( data->LST->Hours() - focus()->ra()->Hours() );
 		slewing = false;
 
 		//Turn off snapNextFocus, we only want it to happen once
-		if ( ksw->options()->snapNextFocus() ) {
-			ksw->options()->setSnapNextFocus(false);
+		if ( data->options->snapNextFocus() ) {
+			data->options->setSnapNextFocus(false);
 		}
 
 		forceUpdate();
@@ -582,11 +583,11 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/pixelScale radians (so distance is always 100 pixels)
 	//this is 5730/pixelScale degrees
-	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ ksw->options()->ZoomLevel ];
+	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ data->options->ZoomLevel ];
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
-	if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-	QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction );
+	if ( data->options->useAltAz ) test.EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	QPoint t = getXY( &test, data->options->useAltAz, data->options->useRefraction );
 	double dx = double( x - t.x() );  //backwards to get counterclockwise angle
 	double dy = double( t.y() - y );
 	double north;
@@ -610,7 +611,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	int Width = int( width() * scale );
 	int Height = int( height() * scale );
 
-	double pscale = pixelScale[ ksw->options()->ZoomLevel ] * scale;
+	double pscale = pixelScale[ data->options->ZoomLevel ] * scale;
 
 	if ( Horiz ) {
 		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
@@ -764,13 +765,16 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 //if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
 void SkyMap::forceUpdate( bool now )
 {
+	//DEBUG
+	kdDebug() << "forceUpdate: " << now << endl;
+	
 	computeSkymap = true;
 	if ( now ) repaint();
 	else update();
 }
 
 float SkyMap::fov( void ) {
-	return Range[ ksw->options()->ZoomLevel ]*width()/600.;
+	return Range[ data->options->ZoomLevel ]*width()/600.;
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
@@ -780,7 +784,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 //commented out because ground disappears if it fills the view
 //	if ( useAltAz && drawGround && p->alt()->Degrees() < -2.0 ) return false;
 
-	bool useAltAz = ksw->options()->useAltAz;
+	bool useAltAz = data->options->useAltAz;
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
@@ -912,13 +916,13 @@ void SkyMap::addLink( void ) {
 }
 
 int SkyMap::getPixelScale( void ) {
-	return pixelScale[ ksw->options()->ZoomLevel ];
+	return pixelScale[ data->options->ZoomLevel ];
 }
 
 bool SkyMap::setColors( QString filename ) {
-  if ( ksw->options()->colorScheme()->load( filename ) ) {
-    if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
-      setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
+  if ( data->options->colorScheme()->load( filename ) ) {
+    if ( starColorMode() != data->options->colorScheme()->starColorMode() )
+      setStarColorMode( data->options->colorScheme()->starColorMode() );
 
     forceUpdate();
     return true;

@@ -38,7 +38,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 		if ( testWState(WState_AutoMask) ) updateMask();
 		
 		// avoid phantom positions of infoboxes
-		if ( isVisible() || width() == ksw->width() || height() == ksw->height() ) {
+		if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
 			infoBoxes()->resize( width(), height() );
 		}
 }
@@ -50,7 +50,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	if ( e->state() & ShiftButton ) step = 4.0;
 
 	//If the DCOP resume key was pressed, we process it here
-	if ( ! ksw->data()->resumeKey.isNull() && e->key() == ksw->data()->resumeKey.keyCodeQt() ) {
+	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
 		//kdDebug() << "resumeKey pressed; resuming DCOP." << endl;
 		ksw->resumeDCOP();
 		return;
@@ -58,12 +58,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	
 	switch ( e->key() ) {
 		case Key_Left :
-			if ( ksw->options()->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			if ( data->options->useAltAz ) {
+				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
 			stopTracking = true;
@@ -72,12 +72,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Right :
-			if ( ksw->options()->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			if ( data->options->useAltAz ) {
+				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
 			stopTracking = true;
@@ -86,14 +86,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Up :
-			if ( ksw->options()->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
+			if ( data->options->useAltAz ) {
+				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
-				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
 				if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
-				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
 			stopTracking = true;
@@ -102,14 +102,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Down:
-			if ( ksw->options()->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
+			if ( data->options->useAltAz ) {
+				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
-				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
 				if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
-				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
 			stopTracking = true;
@@ -119,12 +119,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Plus:   //Zoom in
 		case Key_Equal:
-			ksw->slotZoomIn();
+			if ( ksw ) ksw->slotZoomIn();
 			break;
 
 		case Key_Minus:  //Zoom out
 		case Key_Underscore:
-			ksw->slotZoomOut();
+			if ( ksw ) ksw->slotZoomOut();
 			break;
 
 //In the following cases, we set slewing=true in order to disengage tracking
@@ -159,61 +159,61 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_0: //center on Sun
-			setClickedObject( ksw->data()->PC->findByName("Sun") );
+			setClickedObject( data->PC->findByName("Sun") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_1: //center on Mercury
-			setClickedObject( ksw->data()->PC->findByName("Mercury") );
+			setClickedObject( data->PC->findByName("Mercury") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_2: //center on Venus
-			setClickedObject( ksw->data()->PC->findByName("Venus") );
+			setClickedObject( data->PC->findByName("Venus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_3: //center on Moon
-			setClickedObject( ksw->data()->Moon );
+			setClickedObject( data->Moon );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_4: //center on Mars
-			setClickedObject( ksw->data()->PC->findByName("Mars") );
+			setClickedObject( data->PC->findByName("Mars") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_5: //center on Jupiter
-			setClickedObject( ksw->data()->PC->findByName("Jupiter") );
+			setClickedObject( data->PC->findByName("Jupiter") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_6: //center on Saturn
-			setClickedObject( ksw->data()->PC->findByName("Saturn") );
+			setClickedObject( data->PC->findByName("Saturn") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_7: //center on Uranus
-			setClickedObject( ksw->data()->PC->findByName("Uranus") );
+			setClickedObject( data->PC->findByName("Uranus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_8: //center on Neptune
-			setClickedObject( ksw->data()->PC->findByName("Neptune") );
+			setClickedObject( data->PC->findByName("Neptune") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_9: //center on Pluto
-			setClickedObject( ksw->data()->PC->findByName("Pluto") );
+			setClickedObject( data->PC->findByName("Pluto") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
@@ -311,13 +311,13 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	oldfocus()->setAz( focus()->az()->Degrees() );
 	oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-	double dHA = ksw->LST()->Hours() - focus()->ra()->Hours();
+	double dHA = data->LST->Hours() - focus()->ra()->Hours();
 	while ( dHA < 0.0 ) dHA += 24.0;
-	ksw->data()->HourAngle->setH( dHA );
+	data->HourAngle->setH( dHA );
 
 	if ( stopTracking ) {
-		if ( ksw->options()->isTracking ) {
-			ksw->slotTrack();  //toggle tracking off
+		if ( data->options->isTracking ) {
+			if ( ksw ) ksw->slotTrack();  //toggle tracking off
 		}
 
 		if ( scrollCount > 10 ) {
@@ -350,25 +350,25 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		return;
 	}
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
+	double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
 	double dyPix = 0.5*height() - e->y();
 
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	//determine RA, Dec of mouse pointer
-	setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LST(), ksw->geo()->lat() ) );
+	setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
 
 	if ( midMouseButtonDown ) { //zoom according to y-offset
 		float yoff = dyPix - y0;
 
 		if (yoff > 10 ) {
 			y0 = dyPix;
-			ksw->slotZoomIn();
+			if ( ksw ) ksw->slotZoomIn();
 		}
 		if (yoff < -10 ) {
 			y0 = dyPix;
-			ksw->slotZoomOut();
+			if ( ksw ) ksw->slotZoomOut();
 		}
 	}
 
@@ -377,13 +377,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!mouseMoveCursor) setMouseMoveCursor();
 		if (!slewing) {
 			slewing = true;
-			if ( ksw->options()->isTracking ) ksw->slotTrack(); //toggle tracking off
+			if ( ksw && data->options->isTracking ) ksw->slotTrack(); //toggle tracking off
 		}
 
 		//Update focus such that the sky coords at mouse cursor remain approximately constant
-		if ( ksw->options()->useAltAz ) {
-			mousePoint()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-			clickedPoint()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		if ( data->options->useAltAz ) {
+			mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
 			dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
 			focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
@@ -392,7 +392,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 89.9999 );
 			if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -89.9999 );
 			focus()->setAz( focus()->az()->reduce() );
-			focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
+			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 		} else {
 			dms dRA = mousePoint()->ra()->Degrees() - clickedPoint()->ra()->Degrees();
 			dms dDec = mousePoint()->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -402,7 +402,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			if ( focus()->dec()->Degrees() >90.0 ) focus()->setDec( 90.0 );
 			if ( focus()->dec()->Degrees() <-90.0 ) focus()->setDec( -90.0 );
 			focus()->setRA( focus()->ra()->reduce() );
-			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		}
 
 		++scrollCount;
@@ -413,12 +413,12 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		setOldFocus( focus() );
 
-		double dHA = ksw->LST()->Hours() - focus()->ra()->Hours();
+		double dHA = data->LST->Hours() - focus()->ra()->Hours();
 		while ( dHA < 0.0 ) dHA += 24.0;
-		ksw->data()->HourAngle->setH( dHA );
+		data->HourAngle->setH( dHA );
 
 		//redetermine RA, Dec of mouse pointer, using new focus
-		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LST(), ksw->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
 		setClickedPoint( mousePoint() );
 
 		forceUpdate();  // must be new computed
@@ -428,13 +428,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		sRA = mousePoint()->ra()->toHMSString();
 		sDec = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
 		s = sRA + ",  " + sDec;
-		ksw->statusBar()->changeItem( s, 1 );
+		if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
 	}
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-	if ( e->delta() > 0 ) ksw->slotZoomIn();
-	else ksw->slotZoomOut();
+	if ( ksw && e->delta() > 0 ) ksw->slotZoomIn();
+	else if ( ksw ) ksw->slotZoomOut();
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
@@ -470,8 +470,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
+	double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	if ( !midMouseButtonDown && e->button() == MidButton ) {
@@ -486,11 +486,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, 
-				ksw->LST(), ksw->geo()->lat(), ksw->options()->useRefraction ) );
+		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, 
+				data->LST, data->geo()->lat(), data->options->useRefraction ) );
 		setClickedPoint( mousePoint() );
 
-		double r0 = 200.0/pixelScale[ ksw->options()->ZoomLevel ];  //the maximum search radius
+		double r0 = 200.0/pixelScale[ data->options->ZoomLevel ];  //the maximum search radius
 		double rmin = r0;
 
 		//Search stars database for nearby object.
@@ -498,12 +498,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		double starmag_min = 20.0;      //absurd initial value
 		int istar_min = -1;
 
-		if ( ksw->options()->drawSAO ) { //Can only click on a star if it's being drawn!
+		if ( data->options->drawSAO ) { //Can only click on a star if it's being drawn!
 			
 			//test RA and dec to see if this star is roughly nearby
 			
-			for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
-				SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
+			for ( register unsigned int i=0; i<data->starList.count(); ++i ) {
+				SkyObject *test = (SkyObject *)data->starList.at(i);
 
 				double dRA = test->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = test->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -523,8 +523,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		double rsolar_min = r0;
 		SkyObject *solarminobj = NULL;
 		
-		if ( ksw->options()->drawPlanets )
-			solarminobj = ksw->data()->PC->findClosest(clickedPoint(), r);
+		if ( data->options->drawPlanets )
+			solarminobj = data->PC->findClosest(clickedPoint(), r);
 
 		if ( r < r0 ) {
 			rsolar_min = r;
@@ -533,26 +533,26 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//Moon
-		if ( ksw->options()->drawMoon ) {
-			double dRA = ksw->data()->Moon->ra()->Hours() - clickedPoint()->ra()->Hours();
-			double dDec = ksw->data()->Moon->dec()->Degrees() - clickedPoint()->dec()->Degrees();
-			double f = 15.0*cos( ksw->data()->Moon->dec()->radians() );
+		if ( data->options->drawMoon ) {
+			double dRA = data->Moon->ra()->Hours() - clickedPoint()->ra()->Hours();
+			double dDec = data->Moon->dec()->Degrees() - clickedPoint()->dec()->Degrees();
+			double f = 15.0*cos( data->Moon->dec()->radians() );
 			r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
 			if (r < rsolar_min) {
-				solarminobj= ksw->data()->Moon;
+				solarminobj= data->Moon;
 				rsolar_min = r;
 			}
 		}
 
 		//Asteroids
-		if ( ksw->options()->drawAsteroids ) {
-			for ( KSAsteroid *ast = ksw->data()->asteroidList.first(); ast; ast = ksw->data()->asteroidList.next() ) {
+		if ( data->options->drawAsteroids ) {
+			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 				//test RA and dec to see if this object is roughly nearby
 				double dRA = ast->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = ast->dec()->Degrees() - clickedPoint()->dec()->Degrees();
 				double f = 15.0*cos( ast->dec()->radians() );
 				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-				if ( r < rsolar_min && ast->mag() < ksw->options()->magLimitAsteroid ) {
+				if ( r < rsolar_min && ast->mag() < data->options->magLimitAsteroid ) {
 					solarminobj = ast;
 					rsolar_min = r;
 				}
@@ -560,8 +560,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 		
 		//Comets
-		if ( ksw->options()->drawComets ) {
-			for ( KSComet *com = ksw->data()->cometList.first(); com; com = ksw->data()->cometList.next() ) {
+		if ( data->options->drawComets ) {
+			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
 				//test RA and dec to see if this object is roughly nearby
 				double dRA = com->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = com->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -584,13 +584,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int iic_min = -1;
 		int iother_min = -1;
 
-		for ( SkyObject *o = ksw->data()->deepSkyList.first(); o; o = ksw->data()->deepSkyList.next() ) {
+		for ( SkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
 			bool checkObject = false;
 			if ( o->isCatalogM() &&
-					( ksw->options()->drawMessier || ksw->options()->drawMessImages ) ) checkObject = true;
-			if ( o->isCatalogNGC() && ksw->options()->drawNGC ) checkObject = true;
-			if ( o->isCatalogIC() && ksw->options()->drawIC ) checkObject = true;
-			if ( o->catalog().isEmpty() && ksw->options()->drawOther ) checkObject = true;
+					( data->options->drawMessier || data->options->drawMessImages ) ) checkObject = true;
+			if ( o->isCatalogNGC() && data->options->drawNGC ) checkObject = true;
+			if ( o->isCatalogIC() && data->options->drawIC ) checkObject = true;
+			if ( o->catalog().isEmpty() && data->options->drawOther ) checkObject = true;
 
 			if ( checkObject ) {
 				//test RA and dec to see if this object is roughly nearby
@@ -599,19 +599,19 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				double f = 15.0*cos( o->dec()->radians() );
 				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
 				if ( o->isCatalogM() && r < rmess_min) {
-					imess_min = ksw->data()->deepSkyList.at();
+					imess_min = data->deepSkyList.at();
 					rmess_min = r;
 				}
 				if ( o->isCatalogNGC() && r < rngc_min) {
-					ingc_min = ksw->data()->deepSkyList.at();
+					ingc_min = data->deepSkyList.at();
 					rngc_min = r;
 				}
 				if ( o->isCatalogIC() && r < ric_min) {
-					iic_min = ksw->data()->deepSkyList.at();
+					iic_min = data->deepSkyList.at();
 					ric_min = r;
 				}
 				if ( o->catalog().isEmpty() && r < rother_min) {
-					iother_min = ksw->data()->deepSkyList.at();
+					iother_min = data->deepSkyList.at();
 					rother_min = r;
 				}
 			}
@@ -622,9 +622,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int icust_min = -1;
 		int icust_cat = -1;
 
-		for ( register unsigned int j=0; j<ksw->options()->CatalogCount; ++j ) {
-			if ( ksw->options()->drawCatalog[j] ) {
-				QPtrList<SkyObject> cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[j] ];
+		for ( register unsigned int j=0; j<data->options->CatalogCount; ++j ) {
+			if ( data->options->drawCatalog[j] ) {
+				QPtrList<SkyObject> cat = data->CustomCatalogs[ data->options->CatalogName[j] ];
 
 				for ( register unsigned int i=0; i<cat.count(); ++i ) {
 					//test RA and dec to see if this object is roughly nearby
@@ -699,8 +699,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			switch (icat) {
 				case 0: //star
-					starobj = (StarObject *)ksw->data()->starList.at(istar_min);
-					setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
+					starobj = (StarObject *)data->starList.at(istar_min);
+					setClickedObject( (SkyObject *)data->starList.at(istar_min) );
 					
 					setClickedPoint( clickedObject() );
 
@@ -711,7 +711,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					break;
 
 				case 1: //Deep-Sky Objects
-					setClickedObject( (SkyObject *)ksw->data()->deepSkyList.at(jmin) );
+					setClickedObject( (SkyObject *)data->deepSkyList.at(jmin) );
 					setClickedPoint( clickedObject());
 
 					if (e->button() == RightButton ) {
@@ -721,7 +721,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					break;
 
 				case 2: //Custom Catalog Object
-					cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[icust_cat] ];
+					cat = data->CustomCatalogs[ data->options->CatalogName[icust_cat] ];
 					setClickedObject( (SkyObject *)cat.at(icust_min) );
 					setClickedPoint( clickedObject() );
 
@@ -742,10 +742,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					break;
 			}
 
-			if ( e->button() == LeftButton ) {
+			if ( ksw && e->button() == LeftButton ) {
 				//Display name in status bar
 				ksw->statusBar()->changeItem( i18n(clickedObject()->longname().latin1()), 0 );
-
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
@@ -754,7 +753,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			switch (e->button()) {
 				case LeftButton:
-					ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
+					if ( ksw ) ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
 				case RightButton:
 					pmenu->createEmptyMenu();
@@ -775,8 +774,8 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 			return;
 		}
 
-		double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->options()->ZoomLevel ];
-		double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->options()->ZoomLevel ];
+		double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
+		double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
 		if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 		if (mouseButtonDown ) mouseButtonDown = false;
@@ -786,8 +785,11 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 
 void SkyMap::paintEvent( QPaintEvent * )
 {
-	KStarsOptions* options = ksw->options();
+	KStarsOptions* options = data->options;
 
+	//DEBUG
+	kdDebug() << "sky width: " << sky->width() << endl;
+	
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
 	if (!computeSkymap)
 	{
@@ -821,7 +823,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
-	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->clock()->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
@@ -840,13 +842,13 @@ void SkyMap::paintEvent( QPaintEvent * )
 
 	if ( drawMW ) drawMilkyWay( psky );
 	if ( drawGrid ) drawCoordinateGrid( psky );
-	if ( ksw->options()->drawEquator ) drawEquator( psky );
+	if ( data->options->drawEquator ) drawEquator( psky );
 	if ( options->drawEcliptic ) drawEcliptic( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
 	if ( drawCNames ) drawConstellationNames( psky, stdFont );
 	
 	// stars and planets use the same font size
-	if ( ksw->options()->ZoomLevel < 6 ) {
+	if ( data->options->ZoomLevel < 6 ) {
 		psky.setFont( smallFont );
 	} else {
 		psky.setFont( stdFont );

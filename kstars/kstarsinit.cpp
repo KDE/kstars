@@ -459,7 +459,7 @@ void KStars::privatedata::buildGUI() {
 	//INDI driver set to null
 	ks->indidriver = 0;
 
-	ks->skymap = new SkyMap( ks->centralWidget );
+	ks->skymap = new SkyMap( ks->data(), ks->centralWidget );
 	// update skymap if KStarsData send update signal
 	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( forceUpdate() ) );
 

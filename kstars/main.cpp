@@ -57,14 +57,59 @@ int main(int argc, char *argv[])
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	
+	KApplication a;
+	
 	if ( args->isSet( "dump" ) ) {
 		kdDebug() << "Dumping sky image" << endl;
-		kdDebug() << "Width: " << args->getOption( "width" ) << "  Height: " << args->getOption( "height" ) << endl;
-		return 1;
+		
+		//parse filename and image format
+		const char* format = "PNG";
+		QString fname = args->getOption( "filename" );
+		QString ext = fname.mid( fname.findRev(".")+1 );
+		if ( ext.lower() == "png" ) { format = "PNG"; }
+		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
+		else if ( ext.lower() == "gif" ) { format = "GIF"; }
+		else { kdDebug() << "Error: could not parse image format for filename: " << fname << endl; return 1; }
+		
+		//parse width and height
+		bool ok(false);
+		int w(0), h(0);
+		w = args->getOption( "width" ).toInt( &ok );
+		if ( ok ) h =  args->getOption( "height" ).toInt( &ok );
+		if ( !ok ) { 
+			kdWarning() << "Unable to parse arguments: " << endl;
+			kdWarning() << "Width: " << args->getOption( "width" ) 
+				<< "  Height: " << args->getOption( "height" ) << endl;
+			return 1;
+		}
+		
+		KStarsData *dat = new KStarsData();
+		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
+		dat->initialize();
+		while (!dat->startupComplete) { kapp->processEvents(50); }
+		SkyMap *map = new SkyMap( dat );
+		map->resize( w, h );
+		
+		dat->setFullTimeUpdate();
+		dat->updateTime(dat->geo(), map );
+		
+		//A debug message in forceUpdate() gets printed 
+		map->forceUpdate(true);
+		
+		/**if the following line is uncommented, the program just waits forever;  
+		 **we never see the debug statement at the top of SkyMap::paintEvent()...*/
+		//while ( map->skyPixmap().isNull() ) { kapp->processEvents(100); }
+		
+		if ( map->skyPixmap().isNull() ) kdWarning() << "pixmap is NULL!" << endl;
+		if ( ! map->skyPixmap().save( fname, format ) ) kdWarning() << "Unable to save image." << endl;
+		else kdDebug() << "Saved to file: " << fname << endl;
+
+		delete map;
+		delete dat;
+		return 0;
 	}
 	
 	//start up normally
-	KApplication a;
 	KStars *kstars = new KStars( true );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();

@@ -358,7 +358,9 @@ public:
 		*/
 	void setFullTimeUpdate();
 
-	bool useDefaultOptions;
+	GeoLocation *geo() { return options->Location(); }
+	
+	bool useDefaultOptions, startupComplete;
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -384,6 +386,9 @@ public slots:
 	/**Create a timer and connect its timeout() signal to slotInitialize(). */
 	void initialize();
 
+	/**@short send a message to the console*/
+	void slotConsoleMessage( QString s ) { cout << s.utf8() << endl; }
+	
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
 		*Draw new Skymap.
@@ -528,7 +533,6 @@ private:
 	KStars *kstars; //pointer to the parent widget
 
 	QTimer *initTimer;
-	bool startupComplete;
 	int initCounter;
 
 /**

@@ -1410,7 +1410,7 @@ void KStarsData::slotInitialize() {
 		default:
 			initTimer->stop();
 			delete initTimer;
-                        initTimer = 0L;
+			initTimer = 0L;
 			startupComplete = true;
 			emit initFinished(true);
 			break;
