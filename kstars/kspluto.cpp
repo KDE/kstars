@@ -154,8 +154,8 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
   //Use Meeus's Eq. 32.10 to find Rsun, RA and Dec:
 	setRsun( sqrt( X*X + Y*Y + Z*Z ) );
 	RARad = atan( Y / X );
-	if ( X<0 ) RARad += PI();
-	if ( X>0 && Y<0 ) RARad += 2.0*PI();
+	if ( X<0 ) RARad += dms::PI;
+	if ( X>0 && Y<0 ) RARad += 2.0*dms::PI;
 	dms newRA; newRA.setRadians( RARad );
 	dms newDec; newDec.setRadians( asin( Z/rsun() ) );
 	pos()->setRA( newRA );
