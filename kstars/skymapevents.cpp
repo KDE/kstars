@@ -338,11 +338,11 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 		case Key_Down :
 			slewing = false;
 			scrollCount = 0;
-			
+
 			setDestination( focus() );
-			if ( data->options->useAltAz ) 
+			if ( data->options->useAltAz )
 				destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
-			
+
 			showFocusCoords();
 			forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
 			break;
@@ -358,7 +358,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 	//Are we defining a ZoomRect?
 	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
-		//cancel operation if the user let go of CTRL	
+		//cancel operation if the user let go of CTRL
 		if ( !( e->state() & ControlButton ) ) {
 			ZoomRect = QRect(); //invalidate ZoomRect
 			update();
@@ -367,17 +367,17 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			QPoint pcenter = ZoomRect.center();
 			int dx = abs(e->x() - pcenter.x());
 			int dy = abs(e->y() - pcenter.y());
-			if ( dx == 0 || float(dy)/float(dx) > float(height())/float(width()) ) { 
+			if ( dx == 0 || float(dy)/float(dx) > float(height())/float(width()) ) {
 				//Size rect by height
 				ZoomRect.setHeight( 2*dy );
 				ZoomRect.setWidth( 2*dy*width()/height() );
-			} else { 
+			} else {
 				//Size rect by height
 				ZoomRect.setWidth( 2*dx );
 				ZoomRect.setHeight( 2*dx*height()/width() );
 			}
 			ZoomRect.moveCenter( pcenter ); //reset center
-			
+
 			update();
 			return;
 		}
@@ -477,7 +477,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	}
 
 	if ( ZoomRect.isValid() ) {
-		//Zoom in on center of Zoom Circle, by a factor equal to the ratio 
+		//Zoom in on center of Zoom Circle, by a factor equal to the ratio
 		//of the sky pixmap's width to the Zoom Circle's diameter
 		float factor = float(width()) / float(ZoomRect.width());
 
@@ -498,7 +498,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	} else {
 		ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
 	}
-	
+
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, because it's unset there.
 		mouseButtonDown = false;
@@ -527,7 +527,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		update(); //refresh without redrawing skymap
 		return;
 	}
-	
+
 	// if button is down and cursor is not moved set the move cursor after 500 ms
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
@@ -808,7 +808,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				//Display name in status bar
 				//STAR_IDENTIFICATION
 				//if ( icat == 0 ) {
-				//	ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "  " + 
+				//	ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "  " +
 				//			QString("%1").arg(data->starList.at()/1000) + ": " +
 				//			QString("%1").arg(data->starList.at()%1000 + 1), 0 );
 				//} else {

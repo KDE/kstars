@@ -40,9 +40,9 @@ class KStars;
 
 /**This is the canvas on which the sky is painted.  It's the main widget for KStars.
 	*Contains SkyPoint members for the map's Focus (current central position), Destination
-	*(requested central position), MousePoint (position of mouse cursor), and
-	*ClickedPoint (position of last mouse click).  Also contains the InfoBoxes for on-screen
-	*data display.
+	*(requested central position), FocusPoint (next queued position to be focused),
+	*MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
+	*Also contains the InfoBoxes for on-screen data display.
 	*
 	*SkyMap handles most user interaction events (both mouse and keyboard).
 	*
@@ -169,6 +169,9 @@ public:
 	*@param f pointer to the new ClickedPoint.
 	*/
 	void setClickedPoint( SkyPoint *f ) { ClickedPoint.set( f->ra(), f->dec() ); }
+
+	SkyPoint* focusPoint() { return &FocusPoint; }
+	void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint.set( f->ra(), f->dec() ); }
 
 /**When the user moves the mouse in the sky map, the sky coordinates of the mouse
 	*cursor are continually passed to the private member MousePoint.  This function retrieves
@@ -474,7 +477,7 @@ private:
 	KSPopupMenu *pmenu;
 	QPixmap *sky;
 	InfoBoxes   *IBoxes;
-	SkyPoint  Focus, OldFocus, ClickedPoint, MousePoint, Destination;
+	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination;
 	SkyObject *ClickedObject, *FocusObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 

@@ -50,7 +50,7 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	else ksw = 0;
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
-	
+
 	ZoomRect = QRect();
 
 //DEBUG
@@ -175,7 +175,8 @@ void SkyMap::showFocusCoords( void ) {
 
 //Slots
 void SkyMap::slotCenter( void ) {
-	clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+	setFocusPoint( clickedPoint() );
+	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 	//clear the planet trail of old focusObject, if it was temporary
 	if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
@@ -186,7 +187,7 @@ void SkyMap::slotCenter( void ) {
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
 	if ( data->options->useAltAz && data->options->drawGround &&
-			focus()->alt()->Degrees() > -1.0 && clickedPoint()->alt()->Degrees() < -1.0 ) {
+			focus()->alt()->Degrees() > -1.0 && focusPoint()->alt()->Degrees() < -1.0 ) {
 
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
@@ -214,11 +215,11 @@ void SkyMap::slotCenter( void ) {
 		data->temporaryTrail = true;
 	}
 
-//update the destination to the selected coordinates
+	//update the destination to the selected coordinates
 	if ( data->options->useAltAz && data->options->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
-		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az()->Degrees() );
+		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
 	} else {
-		setDestination( clickedPoint() );
+		setDestination( focusPoint() );
 		destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 	}
 
@@ -226,12 +227,12 @@ void SkyMap::slotCenter( void ) {
 	QString sRA, sDec, s;
 	char dsgn = '+';
 
-	if ( clickedPoint()->dec()->Degrees() < 0 ) dsgn = '-';
-	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->arcmin() );
-	int ds = abs( clickedPoint()->dec()->arcsec() );
+	if ( focusPoint()->dec()->Degrees() < 0 ) dsgn = '-';
+	int dd = abs( focusPoint()->dec()->degree() );
+	int dm = abs( focusPoint()->dec()->arcmin() );
+	int ds = abs( focusPoint()->dec()->arcsec() );
 
-	sRA = sRA.sprintf( "%02d:%02d:%02d", clickedPoint()->ra()->hour(), clickedPoint()->ra()->minute(), clickedPoint()->ra()->second() );
+	sRA = sRA.sprintf( "%02d:%02d:%02d", focusPoint()->ra()->hour(), focusPoint()->ra()->minute(), focusPoint()->ra()->second() );
 	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
 	s = sRA + ",  " + sDec;
 	if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
@@ -490,10 +491,10 @@ void SkyMap::updateFocus() {
 			setFocus( destination() );
 			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 		}
-	} else if ( data->options->isTracking ) {
+	} else if ( data->options->isTracking && focusPoint() != NULL ) {
 		if ( data->options->useAltAz ) {
 			//Tracking on empty sky in Alt/Az mode
-			setDestination( clickedPoint() );
+			setDestination( focusPoint() );
 			destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
 			setFocus( destination() );
 		}

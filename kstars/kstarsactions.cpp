@@ -562,6 +562,7 @@ void KStars::slotTrack() {
 
 		map()->setClickedObject( NULL );
 		map()->setFocusObject( NULL );//no longer tracking focusObject
+		map()->setFocusPoint( NULL );
 	} else {
 		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
