@@ -156,7 +156,7 @@ bool KSPopupMenu::addINDI(void)
 	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
 	   {
 	     // Only std are allowed to show
-	     if (prop->stdID == -1) continue;
+	     if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
 	     // Only switches are shown
  	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO) continue;
 	   

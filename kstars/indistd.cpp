@@ -210,7 +210,7 @@ void INDIStdDevice::initDeviceOptions()
 bool INDIStdDevice::handleNonSidereal(SkyObject *o)
 {
    if (!o)
-    return false;
+      return false;
 
     int trackIndex=0;
 
@@ -282,6 +282,7 @@ void INDIStdDevice::timerDone()
 {
       INDI_P *prop;
       INDI_E *RAEle, *DecEle;
+      INDI_E *el;
 
        if (!dp->isOn())
        {
@@ -289,6 +290,19 @@ void INDIStdDevice::timerDone()
 	return;
        }
 
+       prop = dp->findProp("ON_COORD_SET");
+       if (prop == NULL || !currentObject)
+        return;
+
+       el   = prop->findElement("TRACK");
+       if (!el) return;
+       
+       if (el->state != PS_ON)
+       {
+        devTimer->stop();
+        return;
+       }
+	
        prop = dp->findProp("EQUATORIAL_COORD");
        if (prop == NULL || !currentObject)
         return;
@@ -300,6 +314,9 @@ void INDIStdDevice::timerDone()
        kdDebug() << "Timer called, starting processing" << endl;
 
 	SkyPoint sp(currentObject->ra(), currentObject->dec());
+	
+	kdDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString() << endl;
+	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
         sp.apparentCoord( ksw->data()->clock()->JD() , (long double) J2000);
 
@@ -419,6 +436,10 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	 return true;
 	 break;
 	 
+   case MOVEMENT:
+      pp->newSwitch(switchIndex);
+      break;
+	 
    default:
          return false;
 	 break;
@@ -428,17 +449,30 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  
  }
  
-void INDIStdProperty::newSwitch(int id)
+// Return true if the complete operation is done here, or false if the operation is to be completed in the properties newSwitch()
+bool INDIStdProperty::newSwitch(int id, INDI_E* el)
 {
+  INDI_P *prop;
+
   switch (pp->stdID)
   {
+    case CONNECTION:
+      prop = pp->pg->dp->findProp("DEVICE_PORT");
+      if (prop)
+      prop->newText();
+      break;
     case ABORT_MOTION:
+    case PARK:
+    case MOVEMENT:
+       //TODO add text in the status bar "Slew aborted."
        stdDev->devTimer->stop();
        break;
     
     default:
        break;
    }
+   
+   return false;
 
 }
 

@@ -260,16 +260,10 @@ void INDI_P::newSwitch(int id)
 
   drawLt(state);
   
-  /* INDI Std. We send in new device port when we hit 'connect' */
-  if (name == "CONNECTION")
-  {
-    INDI_P *pp = pg->dp->findProp("DEVICE_PORT");
-    
-    if (pp)
-     pp->newText();
-  }
+  if (indistd->newSwitch(id, lp))
+   return;
 
-  pg->dp->parentMgr->sendNewSwitch (this);
+  pg->dp->parentMgr->sendNewSwitch (this, id);
 
 
 }

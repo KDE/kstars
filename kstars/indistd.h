@@ -74,11 +74,13 @@
     
     /* Perform switch converting */
     bool convertSwitch(int switchIndex, INDI_E *lp);
+    bool newSwitch(int id, INDI_E* el);
     
     public slots:
     void newTime();
     void newText();
-    void newSwitch(int id); 
+    
+
     
 };
 

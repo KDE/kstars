@@ -611,3 +611,20 @@ numberFormat (char *buf, const char *format, double value)
             return (sprintf (buf, format, value));
         }
 }
+
+double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC)
+{
+
+	double dalpha = DegToRad(fromRA) - DegToRad(toRA);
+	double ddelta = DegToRad(fromDEC) - DegToRad(toDEC);
+
+	double sa = sin(dalpha/2.);
+	double sd = sin(ddelta/2.);
+	
+	double hava = sa*sa;
+	double havd = sd*sd;
+
+	double aux = havd + cos (DegToRad(fromDEC)) * cos(DegToRad(toDEC)) * hava;
+	
+	return (RadToDeg ( 2 * fabs(asin( sqrt(aux) ))));
+}

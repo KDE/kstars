@@ -120,21 +120,19 @@ int INDI_E::buildTextGUI(QString initText)
     case PP_RW:
     setupElementRead(ELEMENT_READ_WIDTH);
     setupElementWrite(ELEMENT_WRITE_WIDTH);
-    pp->PVBox->addLayout(EHBox);
+    
     break;
     
     case PP_RO:
     setupElementRead(ELEMENT_FULL_WIDTH);
-    pp->PVBox->addLayout(EHBox);
     break;
     
     case PP_WO:
-    setupElementRead(ELEMENT_FULL_WIDTH);
-    pp->PVBox->addLayout(EHBox);
-    
+    setupElementWrite(ELEMENT_FULL_WIDTH);
     break;
   }
   
+  pp->PVBox->addLayout(EHBox);
   return (0);
     
 }
@@ -259,6 +257,7 @@ void INDI_E::setupElementWrite(int length)
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
     
+    QObject::connect(write_w, SIGNAL(returnPressed()), pp, SLOT(newText()));
     EHBox->addWidget(write_w);
 }
 

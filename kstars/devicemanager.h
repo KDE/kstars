@@ -50,7 +50,7 @@ class DeviceManager : public QObject
    ******************************************************************/
    void sendNewText    (INDI_P *pp);
    void sendNewNumber  (INDI_P *pp);
-   void sendNewSwitch  (INDI_P *pp);
+   void sendNewSwitch  (INDI_P *pp, int index);
 
    /*****************************************************************
    * Misc.

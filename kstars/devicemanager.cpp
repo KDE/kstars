@@ -300,18 +300,15 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	if (!ap)
 	    return NULL;
 
-	 // FIXME change the mechanism by which naming is assiged.
-	 // Make a list (QStristList or something) that holds active devices
-	 // And each new device should be checked against this list.
 	if (parent->currentLabel.isEmpty())
 	 parent->setCustomLabel(valuXMLAtt(ap));
 
-	//fprintf(stderr, "\n\n\n ***************** Adding a device %s with label %s *************** \n\n\n", valuXMLAtt(ap), label);
 	dp = new INDI_D(parent, this, QString(valuXMLAtt(ap)), parent->currentLabel);
 
-	parent->currentLabel = "";
-
 	indi_dev.append(dp);
+	
+	// Reset label
+	parent->currentLabel = "";
 	
        /* ok */
 	return dp;
@@ -440,21 +437,24 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 
 }
 
-void DeviceManager::sendNewSwitch (INDI_P *pp)
+void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 {  
         INDI_E *lp;
+	int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
 	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.ascii());
 	fprintf (serverFP,"  name='%s'>\n", pp->name.ascii());
 	
-	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
-        {
+	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
+	  if (i == index)
+          {
 	    fprintf (serverFP,"  <oneSwitch\n");
 	    fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
 	    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
 	    fprintf (serverFP,"  </oneSwitch>\n");
-	}
+	    break;
+	  }
 	fprintf (serverFP, "</newSwitchVector>\n");
 
 }

@@ -116,12 +116,87 @@ if (dev && strcmp (thisDevice, dev))
 void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 
+        double UTCOffset;
+	struct tm *ltp = new tm;
+	struct tm utm;
+	time_t ltime;
+	time (&ltime);
+	localtime_r (&ltime, ltp);
+	IText *tp;
+	int err;
+
 	// ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
 	n=n;
+
+	if (!strcmp (name, Time.name))
+       {
+	  if (checkPower(&Time))
+	   return;
+
+	  if (extractISOTime(texts[0], &utm) < 0)
+	  {
+	    Time.s = IPS_IDLE;
+	    IDSetText(&Time , "Time invalid");
+	    return;
+	  }
+	        utm.tm_mon   += 1;
+		ltp->tm_mon  += 1;
+		utm.tm_year  += 1900;
+		ltp->tm_year += 1900;
+
+	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
+
+		if (utm.tm_mday - ltp->tm_mday != 0)
+			 UTCOffset += 24;
+
+		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		
+		if ( ( err = setUTCOffset(UTCOffset) < 0) )
+	  	{
+	        Time.s = IPS_IDLE;
+	        IDSetText( &Time , "Setting UTC Offset failed.");
+		return;
+	  	}
+		
+		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
+	  	{
+	          handleError(&Time, err, "Setting local time");
+        	  return;
+	  	}
+
+		tp = IUFindText(&Time, names[0]);
+		if (!tp)
+		 return;
+		tp->text = new char[strlen(texts[0])+1];
+	        strcpy(tp->text, texts[0]);
+		Time.s = IPS_OK;
+
+		// update JD
+                JD = UTtoJD(&utm);
+
+		IDLog("New JD is %f\n", (float) JD);
+
+		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
+		    (localTM->tm_year == ltp->tm_year))
+		{
+		  IDSetText(&Time , "Time updated to %s", texts[0]);
+		  return;
+		}
+
+		localTM = ltp;
+		
+		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
+	  	{
+		  handleError(&Time, err, "Setting local time");
+		  return;
+		}
+		
+ 		IDSetText(&Time , "Date changed, updating planetary data...");
+	}
 
    LX200Autostar::ISNewText (dev, name, texts, names,  n);
 
@@ -215,8 +290,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FanStatusSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&FanStatusSw);
+          IUResetSwitches(&FanStatusSw);
+          IUUpdateSwitches(&FanStatusSw, states, names, n);
+          index = getOnSwitch(&FanStatusSw);
 
 	  if (index == 0)
 	  {
@@ -246,8 +322,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&HomeSearchSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&HomeSearchSw);
+          IUResetSwitches(&HomeSearchSw);
+          IUUpdateSwitches(&HomeSearchSw, states, names, n);
+          index = getOnSwitch(&HomeSearchSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  HomeSearchSw.s = IPS_BUSY;
@@ -260,8 +337,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FieldDeRotatorSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&FieldDeRotatorSw);
+          IUResetSwitches(&FieldDeRotatorSw);
+          IUUpdateSwitches(&FieldDeRotatorSw, states, names, n);
+          index = getOnSwitch(&FieldDeRotatorSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  FieldDeRotatorSw.s = IPS_OK;
