@@ -232,12 +232,10 @@ public:
 /**
 	*Determine the current coordinates (RA, Dec) from the catalog
 	*coordinates (RA0, Dec0), accounting for both precession and nutation.
-	*@param NewEpoch Julian date to use for calculating current coordinates.
-	*@param Obliquity The current Obliquity of the Ecliptic (see kstars::findObliquity())
-	*@param dObliq The change in Obliquity caused by nutation.
-	*@param dEcLong The change in Ecliptic longitude caused by nutation.
+	*@param num KSNumbers object containing current values of time-dependent variables
+	*@param forcePlanet does nothing in this implementation.  See KSPlanetBase::updateCoords().
 	*/
-	virtual void updateCoords( KSNumbers *num );
+	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
 
 /**Determine the effects of nutation for this SkyPoint*/
 	void nutate(const KSNumbers *num);

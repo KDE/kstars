@@ -84,13 +84,10 @@ KStars::KStars( KStarsData* kd )
 KStars::~KStars()
 {
 	saveOptions();
-	//Sync the config file
 
-//	colorActions.clear(); //dispose of colorActions...
-
+	delete skymap;
 	delete pd;
 	delete Location;
-	delete skymap;
 	delete clock;
 	delete centralWidget;
 }

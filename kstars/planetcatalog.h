@@ -40,6 +40,8 @@
 #include <qglobal.h>
 #if (QT_VERSION > 299)
 #include <qptrlist.h>
+#else
+#include <qlist.h>
 #endif
 
 
@@ -65,6 +67,9 @@ class PlanetCatalog : public QObject {
 
 	/**@returns pointer to the Sun. */
 		const KSSun *sun() const { return Sun; };
+
+	/**@returns pointer to the Earth. (must not be const because we call findPosition on it in KSPlanetBase::updateCoords() )*/
+		KSPlanet *earth() { return Earth; };
 
 	/**Compute the present Horizontal coordinates of all planets. */
 		void EquatorialToHorizontal( const dms LST, const dms lat );

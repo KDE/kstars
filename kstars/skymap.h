@@ -192,6 +192,9 @@ public:
 /**@returns a pointer to the current sky pixmap. */
 	QPixmap skyPixmap() const { return *sky; }
 
+/**@returns whether the map is in slewing mode */
+	bool isSlewing() const { return slewing; }
+
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
 	virtual void setGeometry( const QRect &r );

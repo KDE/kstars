@@ -88,6 +88,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	midMouseButtonDown = false;
 	mouseButtonDown = false;
 	slewing = false;
+	clockSlewing = false;
 
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
@@ -214,14 +215,6 @@ void SkyMap::slotCenter( void ) {
 	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
 	s = sRA + ",  " + sDec;
 	ksw->statusBar()->changeItem( s, 1 );
-
-//	if ( foundObject() != NULL ) { //set tracking to true
-		ksw->options()->isTracking = true;
-		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
-//	} else {
-//		ksw->options()->isTracking = false;
-//		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-//	}
 
 	ksw->showFocusCoords(); //update infoPanel
 //	Update();	// must be new computed
@@ -383,7 +376,7 @@ void SkyMap::slewFocus( void ) {
 	
 				slewing = true;
 				Update();
-			  kapp->processEvents(10); //keep up with other stuff
+				kapp->processEvents(10); //keep up with other stuff
 	
 				if ( ksw->options()->useAltAz ) {
 					dX = destination()->az().Degrees() - focus()->az().Degrees();
@@ -403,9 +396,21 @@ void SkyMap::slewFocus( void ) {
 
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
+		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+
+		ksw->setHourAngle();
 		slewing = false;
+
+		if ( foundObject() != NULL ) { //set tracking to true
+			ksw->options()->isTracking = true;
+			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+		} else {
+			ksw->options()->isTracking = false;
+			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+		}
+
 		Update();
 	}
 }

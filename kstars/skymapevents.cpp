@@ -516,6 +516,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		QStringList::Iterator itList;
 		QStringList::Iterator itTitle;
 		QString s, DisplayName;
+
 		int id(-1), jmin(-1);
 		int icat(-1);
 		setClickedObject( NULL );
@@ -929,7 +930,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
-
 	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
 				&& ksw->options()->hideOnSlew );
 

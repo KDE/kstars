@@ -116,7 +116,7 @@ public:
 	bool showMainToolBar, showViewToolBar;
 
 //Custom Catalogs
-	int CatalogCount;
+	unsigned int CatalogCount;
 	QValueList<bool> drawCatalog;
 	QStringList CatalogName, CatalogFile;
 

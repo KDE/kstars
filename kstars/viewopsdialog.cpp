@@ -869,9 +869,9 @@ void ViewOpsDialog::slotPreset( int index ) {
 
 void ViewOpsDialog::slotAddPreset( void ) {
 	QFile file;
-	bool okPressed = false;
 
 //KDE3-only version (incompatible w/KDE2 because of different arguments)
+//	bool okPressed = false;
 //  QString schemename = KLineEditDlg::getText( i18n( "New Color Scheme" ),
 //											i18n( "Enter a name for the new color scheme" ),
 //											QString::null, &okPressed, 0 );
@@ -881,7 +881,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 	if ( result ) {
 		QString filename = schemeDlg.text().lower().stripWhiteSpace();
 		if ( !filename.isEmpty() ) {
-			for( int i=0; i<filename.length(); ++i)
+			for( unsigned int i=0; i<filename.length(); ++i)
 				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
 			filename = filename.append( ".colors" );

@@ -21,7 +21,7 @@
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
 #include <kapp.h>
-#else
+#else 
 #include <kapplication.h>
 #endif
 

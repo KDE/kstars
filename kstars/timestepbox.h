@@ -21,8 +21,7 @@
 #include <qframe.h>
 #include <qlayout.h>
 #include "timespinbox.h"
-
-#define NUNITS 8
+#include "timeunitbox.h"
 
 /**TimeStepBox consists of a TimeSpinBox, coupled with a second QSpinBox.
 	*The second spinbox is sized so that only the up/down buttons are visible.
@@ -51,7 +50,7 @@ signals:
 private slots:
 /**Set the TimeSpinBox value according to the current UnitBox value.
 	*This is connected to the UnitBox valueChanged() Signal. */
-	void changeUnits( int );
+	void changeUnits( void );
 
 /**Make sure the current UnitBox value represents the correct units for the
 	*current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot. */
@@ -60,7 +59,7 @@ private:
 	int UnitStep[NUNITS];
 	QHBoxLayout *hlay;
 	TimeSpinBox *timeBox;
-	QSpinBox *unitBox;
+	TimeUnitBox *unitBox;
 };
 
 #endif

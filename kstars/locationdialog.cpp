@@ -119,7 +119,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	for ( int i=0; i<25; ++i )
 		TZBox->insertItem( QString("%1").arg( i-12 ) );
 
-	QMap<QString, TimeZoneRule>::iterator it;
+	QMap<QString, TimeZoneRule>::Iterator it;
 	for ( it = p->data()->Rulebook.begin(); it != p->data()->Rulebook.end(); ++it )
 		TZRuleBox->insertItem( it.key() );
 

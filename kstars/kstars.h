@@ -36,6 +36,17 @@
 #include <qdir.h>
 #include <qwidget.h>
 
+#include <qglobal.h>
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#include <kstddirs.h>
+#include <qlist.h>
+#else
+#include <kapplication.h>
+#include <kstandarddirs.h>
+#include <qptrlist.h>
+#endif
+
 #include "skymap.h"
 #include "geolocation.h"
 #include "ksnumbers.h"
@@ -49,16 +60,6 @@
 #include "kstarsinterface.h"
 #include "kstarssplash.h"
 #include "toggleaction.h"
-
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapp.h>
-#include <kstddirs.h>
-#else
-#include <kapplication.h>
-#include <kstandarddirs.h>
-#include <qptrlist.h>
-#endif
 
 // forward declaration is enough. We only need pointers
 class TimeDialog;
@@ -162,6 +163,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**@returns the timestep scale of the simulation clock.
 		*/
 		double clockScale( void ) const { return clock->scale(); }
+
+/**Set the KStarsData::HourAngle according to the current LST and focus->ra
+	*/
+		void setHourAngle();
 
 	/**DCOP interface function.
 		*Point in the direction described by the string argument.  */
@@ -320,10 +325,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void changeTime(QDate newDate, QTime newTime);
 
-/**Set the KStarsData::HourAngle according to the current LST and focus->ra
-	*/
-		void setHourAngle();
-
 /**Set the KStarsData::LSTh member from the current UTC.
 	*/
 		void setLSTh( QDateTime UTC );
@@ -363,6 +364,7 @@ class KStars::privatedata {
 		virtual ~privatedata() {
 			delete splash;
 			delete kstarsData;
+			qDebug( "privatedata destructor done." );
 		};
 };
 

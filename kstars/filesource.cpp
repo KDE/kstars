@@ -65,7 +65,7 @@ int FileSource::readyToSend() {
 
 void FileSource::sendTo( QDataSink *sink, int count ) {
 	int counter = 0;
-	float mag;
+	float mag(0.0);
 	while ( !stream.atEnd() && readingData ) {  // read stream until eof or readingData == false
 		stringArray[ counter ] = stream.readLine();  // read 1 line into array
 		mag = stringArray[ counter ].mid( 33, 4 ).toFloat();  // check magnitude

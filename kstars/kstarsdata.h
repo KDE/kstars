@@ -47,7 +47,7 @@
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
 #include <qlist.h>
-#else
+#else 
 #include <qptrlist.h>
 #endif
 
@@ -272,6 +272,7 @@ public:
 
 	KLocale *getLocale() { return locale; };
 
+	KSPlanet *earth() { return PC.earth(); }
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/

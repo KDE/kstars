@@ -80,15 +80,43 @@ KStarsData::~KStarsData() {
   	delete oldOptions;
 		oldOptions = 0;
 	}
+
 	if ( 0 != options ) {
 		delete options;
 		options = 0;
 	}
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
+
 	delete stdDirs;
 	delete Moon;
 	delete locale;
+	qDebug( "kstarsData destructor done." );
+/*
+	QString s = QString( "geoList count: %1" ).arg( geoList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "starList count: %1" ).arg( starList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "deepSkyList count: %1" ).arg( deepSkyList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "clineList count: %1" ).arg( clineList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "clineModeList count: %1" ).arg( clineModeList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "cnameList count: %1" ).arg( cnameList.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "Equator count: %1" ).arg( Equator.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "Ecliptic count: %1" ).arg( Ecliptic.count() );
+	qDebug( s.local8Bit() );
+	s = QString( "Horizon count: %1" ).arg( Horizon.count() );
+	qDebug( s.local8Bit() );
+
+	for ( unsigned int i=0; i<11; ++i ) {
+		s = QString( "MW[%1] count: %2" ).arg( i ).arg( MilkyWay[i].count() );
+		qDebug( s.local8Bit() );
+	}
+*/
 }
 
 bool KStarsData::readMWData( void ) {
@@ -281,7 +309,7 @@ bool KStarsData::readDeepSkyData( void ) {
 			float mag(1000.0), ras, a, b;
 			int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
 			int pgc, ugc;
-			QChar sgn, mflag, iflag;
+			QChar sgn, iflag;
 
 			line = stream.readLine();
 
@@ -488,7 +516,7 @@ bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bo
 
 				if ( !badLine ) { //valid data found!  add to objList
 					++countValidLines;
-					int Mark(4); //field marker; 5 for stars, 4 for deep-sky
+					unsigned int Mark(4); //field marker; 5 for stars, 4 for deep-sky
 
 					//Stars:
 					if ( iType==0 || iType==1 ) Mark = 5;
@@ -564,7 +592,7 @@ bool KStarsData::processCity( QString line ) {
 	QString name, province, country;
 	QStringList fields;
 	TimeZoneRule *TZrule;
-	bool intCheck = true, lastField = false;
+	bool intCheck = true;
 	char latsgn, lngsgn;
 	int lngD, lngM, lngS;
 	int latD, latM, latS;
@@ -1164,8 +1192,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 //						skymap->focus()->az().Degrees() );
 //				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
 			}
-		} else {
-			//Not tracking, let sky drift by
+		} else if ( ! skymap->isSlewing() ) {
+			//Not tracking and not slewing, let sky drift by
 			skymap->focus()->setRA( LSTh.Hours() - HourAngle.Hours() );
 			skymap->setDestination( skymap->focus() );
 			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );

@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <kaccel.h>
 #include <kiconloader.h>
+#include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktip.h>
 #include <qpaintdevicemetrics.h>
@@ -170,30 +171,103 @@ void KStars::closeWindow() {
 }
 
 void KStars::slotPrint() {
-//Doesn't work under KDE2:
-//		KPrinter printer( true, QPrinter::PrinterResolution );
-		KPrinter printer( true );
+	int currSColorMode;
+	QString currSky, currMess, currNGC, currIC, currHST, currSName, currPName;
+	QString currCName, currCLine, currMW, currEq, currEcl, currHorz, currGrid;
+	bool switchColors(false);
 
-	printer.setFullPage( true );
+#if (KDE_VERSION <= 222)
+	KPrinter printer( true );
+#else
+	KPrinter printer( true, QPrinter::PrinterResolution );
+#endif
+
+//Suggest Chart color scheme
+	if ( options()->colorSky != "#FFFFFF" ) {
+		QString message = i18n( "You can save printer ink by using the \"Star Chart\" " );
+		message += i18n( "color scheme, which uses a white background.  Would you like " );
+		message += i18n( "to switch to the Star Chart color scheme for printing? " );
+		message += i18n( "(your current color settings will be restored when printing is finished)" );
+
+//KDE3 version of the messagebox allows us to include a "Don't ask again" checkbox...
+		int answer;
+#if (KDE_VERSION <= 222)
+		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart colors?" ) );
+#else
+		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart colors?" ),
+			KStdGuiItem::yes(), KStdGuiItem::no(), "askAgainPrintColors" );
+#endif
+
+		if ( answer == KMessageBox::Yes ) {
+			//First, store current colors
+			//I should implement a ColorScheme class...
+			switchColors = true;
+			currSColorMode = options()->starColorMode;
+			currSky = options()->colorSky;
+			currMess = options()->colorMess;
+			currNGC = options()->colorNGC;
+			currIC = options()->colorIC;
+			currHST = options()->colorHST;
+			currSName = options()->colorSName;
+			currPName = options()->colorPName;
+			currCName = options()->colorCName;
+			currCLine = options()->colorCLine;
+			currMW = options()->colorMW;
+			currEq = options()->colorEq;
+			currEcl = options()->colorEcl;
+			currHorz = options()->colorHorz;
+			currGrid = options()->colorGrid;
+
+			map()->setColors( "chart.colors" );
+			map()->UpdateNow();
+		}
+	}
+
+	printer.setFullPage( false );
 	if( printer.setup( this ) ) {
 		kapp->setOverrideCursor( waitCursor );
 
-		QPaintDeviceMetrics pdm( &printer );
-		QPainter *p = new QPainter;
+		QPainter *p = new QPainter( &printer );
+		QPaintDeviceMetrics pdm( p->device() );
 
-		p->setWindow( 0, 0, map()->width(), map()->height() );
-		p->setViewport( 0, 0, pdm.width(), pdm.height() );
-		p->begin( &printer );
-		p->drawPixmap( 0, 0, map()->skyPixmap() );
-		p->setPen( QColor("red") );
-		p->drawRect( p->window() );
-		p->end();
+		//Fit map image to page if it's larger than the page.
+		QImage img( map()->skyPixmap().convertToImage() );
+		if ( img.width() > pdm.width() || img.height() > pdm.height() )
+			img = img.smoothScale( pdm.width(), pdm.height(), QImage::ScaleMin );
+
+		//Make sure image is centered on the page
+		QPoint pt( (pdm.width() - img.width())/2, (pdm.height() - img.height())/2 );
+
+		//Draw Image
+		p->drawImage( pt, img );
+
 		delete p;
+
+		if ( switchColors ) {
+			options()->starColorMode = currSColorMode;
+			options()->colorSky = currSky;
+			options()->colorMess = currMess;
+			options()->colorNGC = currNGC;
+			options()->colorIC = currIC;
+			options()->colorHST = currHST;
+			options()->colorSName = currSName;
+			options()->colorPName = currPName;
+			options()->colorCName = currCName;
+			options()->colorCLine = currCLine;
+			options()->colorMW = currMW;
+			options()->colorEq = currEq;
+			options()->colorEcl = currEcl;
+			options()->colorHorz = currHorz;
+			options()->colorGrid = currGrid;
+
+			map()->UpdateNow();
+		}
+
 		kapp->restoreOverrideCursor();
 	}
 }
 
-//Time
+//Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
   clock->setUTC( QDateTime::currentDateTime().addSecs( int( -3600 * geo()->TZ() ) ) );
 }
@@ -244,6 +318,11 @@ void KStars::slotManualFocus() {
 	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		map()->setClickedPoint( focusDialog.point() );
+		map()->setClickedObject( NULL );
+		map()->setFoundObject( NULL ); //make sure no longer tracking
+		options()->isTracking = false;
+		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+
 		map()->slotCenter();
 	}
 }

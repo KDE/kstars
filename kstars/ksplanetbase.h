@@ -21,6 +21,7 @@
 
 #include <qstring.h>
 #include <qimage.h>
+#include <qwmatrix.h>
 
 #include <kdebug.h>
 
@@ -162,7 +163,7 @@ public:
 	/**
 	 * @short reimplemented from SkyPoint
 	 */
-	virtual void updateCoords( KSNumbers *num );
+	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
 
 	/**Return the Planet's position angle.
 		*/
@@ -178,6 +179,10 @@ public:
 		*/
 	void updatePA( double pa );
 
+	/**Function coopied from Qt 3.0 QImage...this allows simple rotation of the planet images.
+		*/
+	QImage xFormImage( const QWMatrix &matrix ) const;
+
 protected:
 	virtual bool loadData(QString n) { 
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
@@ -189,5 +194,15 @@ private:
 	QImage Image0, Image;
 	double PositionAngle;
 };
+
+/**Helper function for xFormImage */
+#ifndef QT_NO_PIXMAP_TRANSFORMATION
+#  define QT_XFORM_TYPE_MSBFIRST 0
+#  define QT_XFORM_TYPE_LSBFIRST 1
+#  if defined(Q_WS_WIN)
+#    define QT_XFORM_TYPE_WINDOWSPIXMAP 2
+#  endif
+bool qt_xForm_helper( const QWMatrix&, int, int, int, uchar*, int, int, int, uchar*, int, int, int );
+#endif
 
 #endif

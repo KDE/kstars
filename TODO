@@ -17,20 +17,11 @@ KStars 0.9 To-Do list:
       very useful.  However, it would probably be faster to copy the 
       data for the new window in RAM instead of reloading it from disk...
 
-  - Printing is pretty broken.  It doesn't properly scale the image 
-    to fit the page.
-
-  - The timespinbox has some problems (at least on my machine).  In the 
-    3.0 branch, it gets permanently stuck at the 0.25 and 0.5 timesteps.  
-    In the 3.1 branch, it gets stuck at 0.6, but this can be fixed by 
-    entering a new timestep manually.
-
-  - Occassionally, a long animated slew will be interrupted, I think by
-    the updateTime() function.
-
   - Moving to the Zenith resets the Azimuth to 90 degrees
 
 + GUI Improvements
+  - Ability to customize colors of info panel. 
+  - Field-of-view indicator.
   - Detailed information popup window:
     Show detailed information for an object (depending on its type):
     Rise/set/transit times, object type (for messier/NGC/IC),
@@ -42,22 +33,25 @@ KStars 0.9 To-Do list:
     sky, for the current date and location. Option to show this
     window whenever KStars starts, or even whenever the date changes.
 
-  - Realistic position angles for planets
+  - Solar system viewer (a.k.a. "orrery", a rather unfortunate word)
 
-  - Add a "What's this" button to all windows
+  - Plot Altitude vs. time for any object.
+
+  - Add a "What's this" button.
 
 + Add Functionality
   - Add minor planets and comets
+  - Add planetary moons (esp. Jupiter)
   - Allow ephemerides of planetary bodies to be updated from online
     sources (e.g., JPL)
   - Add contour lines tracing the Magellanic Clouds
   - Ability to add text annotation to popup menu for any location
   - Add realistic sky-lighting effects?
   - Add more catalogs?  
-  - Wider variety of timesteps.  Include a spinbox for time units
-    (seconds, minutes, hours, days, years) as well as values.
   - Option for planets to leave a "trail", so their paths across the 
     sky can be traced.
+  - Batch processing of calculator functions.
+
 + Long-term wishlist:
   - KStars: The Screensaver!  
     A "lite" version of KStars to be used as a screensaver. A few
