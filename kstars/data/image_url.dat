@@ -1,3 +1,19 @@
+# File: image_url.dat
+# version 1.0;  last update:  09 March 2004
+# by Jason Harris
+# No copyright claimed, this is merely a list of "facts"
+#
+#Data file for KStars, specifying object-specific Image URLs.
+#For Webpage URLs, see info_url.dat.
+#
+#Line format is:  Object_Name:Label_String:URL
+#The Object_Name needs to match an object's *primary* name!
+#
+#You should not need to modify this file; 
+#you can manage these links from within KStars.
+#Please report broken links to kstars@30doradus.org !
+#
+# HST Images:
 IC 349:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/36/content/0036.jpg
 IC 418:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/28/content/0028.jpg
 IC 434:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/12/content/0112w.jpg
@@ -115,6 +131,8 @@ Uranus:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/35/content/9835
 Uranus:Show HST (Rings and Moons):http://imgsrc.hubblesite.org/hu/db/2003/29/images/a/formats/web_print.jpg
 Neptune:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/17/images/a/formats/web_print.jpg
 Pluto:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/Pluto4.jpg
+#
+# SEDS Images:
 M 1:Show SEDS Image:http://www.seds.org/messier/Jpg/m1.jpg
 M 2:Show SEDS Image:http://www.seds.org/messier/Jpg/m2.jpg
 M 3:Show SEDS Image:http://www.seds.org/messier/Jpg/m3.jpg
@@ -225,6 +243,8 @@ M 107:Show SEDS Image:http://www.seds.org/messier/Jpg/m107.jpg
 M 108:Show SEDS Image:http://www.seds.org/messier/Jpg/m108.jpg
 M 109:Show SEDS Image:http://www.seds.org/messier/Jpg/m109.jpg
 M 110:Show SEDS Image:http://www.seds.org/messier/Jpg/m110.jpg
+#
+# KPNO AOP Images:
 IC 10:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic10block.jpg
 IC 289:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic289ehrhorn.jpg
 IC 342:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic342block.jpg
@@ -512,6 +532,8 @@ Mars:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/mars080303bl
 Jupiter:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/jupmoon4.gif
 Saturn:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/saturndonnelly.jpg
 Uranus:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/uranussawit.jpg
+#
+# NOAO Images:
 Pluto:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/03024b.jpg
 IC 434:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/horseheady.jpg
 IC 4182:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ic4182na.jpg
@@ -628,6 +650,8 @@ NGC 6992:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/veilea.jpg
 NGC 7129:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/n7129a.jpg
 NGC 7317:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/sq2a.jpg
 NGC 7635:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/bubblea.jpg
+#
+# Misc. Solar System Images:
 Sun:Show Sun Image:http://www.solarviews.com/browse/sun/sun.jpg
 Sun:Total Eclipse Image:http://umbra.nascom.nasa.gov/eclipse/images/freds_excellent_eclipse_img.jpg
 Mercury:Show NASA Mosaic:http://nssdc.gsfc.nasa.gov/image/planetary/mercury/mercuryglobe2.jpg
@@ -639,6 +663,8 @@ Mars:Show Pathfinder Lander Image:http://mpfwww.jpl.nasa.gov/MPF/ops/81696_full.
 Jupiter:Show Voyager 1 Image:http://pds.jpl.nasa.gov/planets/images/browse/jupiter/jupiter.jpg
 Saturn:Show Collage of Saturn and moons:http://nssdc.gsfc.nasa.gov/image/planetary/saturn/saturn_family.jpg
 Uranus:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-31a-02-preview.jpg
+#
+# VLT Images:
 IC 434:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-02a-02-normal.jpg
 M 17:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-24a-00-preview.jpg
 M 27:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-38a-98-preview.jpg

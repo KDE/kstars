@@ -1054,24 +1054,26 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 	while ( !stream.eof() ) {
 		QString line = stream.readLine();
 
-		QString name = line.mid( 0, line.find(':') );
-		QString sub = line.mid( line.find(':')+1 );
-		QString title = sub.mid( 0, sub.find(':') );
-		QString url = sub.mid( sub.find(':')+1 );
-
-		SkyObjectName *sonm = ObjNames.find(name);
-		if (sonm == 0) {
-			kdWarning() << k_funcinfo << name << " not found" << endl;
-		} else {
-			if ( type==0 ) { //image URL
-				sonm->skyObject()->ImageList.append( url );
-				sonm->skyObject()->ImageTitle.append( title );
-			} else if ( type==1 ) { //info URL
-				sonm->skyObject()->InfoList.append( url );
-				sonm->skyObject()->InfoTitle.append( title );
+		//ignore comment lines
+		if ( line.left(1) != "#" ) {
+			QString name = line.mid( 0, line.find(':') );
+			QString sub = line.mid( line.find(':')+1 );
+			QString title = sub.mid( 0, sub.find(':') );
+			QString url = sub.mid( sub.find(':')+1 );
+	
+			SkyObjectName *sonm = ObjNames.find(name);
+			if (sonm == 0) {
+				kdWarning() << k_funcinfo << name << " not found" << endl;
+			} else {
+				if ( type==0 ) { //image URL
+					sonm->skyObject()->ImageList.append( url );
+					sonm->skyObject()->ImageTitle.append( title );
+				} else if ( type==1 ) { //info URL
+					sonm->skyObject()->InfoList.append( url );
+					sonm->skyObject()->InfoTitle.append( title );
+				}
 			}
 		}
-
 	}
 	file.close();
 	return true;
