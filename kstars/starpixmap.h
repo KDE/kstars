@@ -43,13 +43,13 @@ class StarPixmap {
 
 	/**Destructor (empty)*/
 		~StarPixmap() {}
-		
+
 	/**Retrieve the pixmap from the array indexed by color and size
 		*@param color the spectral type (one of O,B,A,F,G,K,M,N,P)
 		*@param s the size index
 		*/
 		QPixmap* getPixmap (QChar *color, int s);
-		
+
 	/**Change the Color mode.  Regenerate the star image array.
 		*@param newMode the new Color Mode to use.
 		*/
@@ -61,13 +61,13 @@ class StarPixmap {
 		void setIntensity ( int newIntensity );
 
 	/**@returns the current color mode*/
-		int mode() { return colorMode; }
-	
+		int mode() const { return colorMode; }
+
 	/**@returns the current colorIntensity value*/
-		int intensity() { return colorIntensity; }
-		
+		int intensity() const { return colorIntensity; }
+
 	private:
-		
+
 		QPixmap starPixmaps[10][26];	// the preloaded starpixmaps 10 colors/ 24 sizes
 		int size, colorMode, colorIntensity;
 

@@ -19,16 +19,17 @@
 #define TIMEDIALOG_H
 
 #include <kdialogbase.h>
-#include <kdatepik.h>
 #include <qdatetime.h>
-#include <qcombobox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qspinbox.h>
-#include <qlayout.h>
 #include <qvariant.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
+
+class QHBoxLayout;
+class QVBoxLayout;
+class KDatePicker;
+class QSpinBox;
+class QLabel;
+class QPushButton;
 
 /**Dialog for adjusting the Time and Date.  Contains a KDatePicker widget
 	*for selecting the date, and three QSpinBoxes for selecting the Hour,
@@ -86,13 +87,13 @@ public slots:
 
 /**
 	*When the value of the MinuteBox QSpinBox is changed, prefix a "0" to
-	*the displayed text, if the value is less than 10. 	
+	*the displayed text, if the value is less than 10.
 	*/
 	void MinutePrefix( int value );
 
 /**
 	*When the value of the SecondBox QSpinBox is changed, prefix a "0" to
-	*the displayed text, if the value is less than 10. 	
+	*the displayed text, if the value is less than 10.
 	*/
 	void SecondPrefix( int value );
 

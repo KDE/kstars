@@ -19,6 +19,8 @@
 #include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
+#include <qpushbutton.h>
+
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name )
 	: QVBox( parent, name ) {
@@ -29,11 +31,11 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name )
 	DownButton = new QPushButton( "-", this );
 	DownButton->setMaximumWidth( 22 );
 	DownButton->setMaximumHeight( 10 );
-	
+
 	setMinValue( 1-NUNITS );
 	setMaxValue( NUNITS-1 );
 	setValue( 1 ); // Start out with seconds units
-	
+
 	UnitStep[0] = 0;
 	UnitStep[1] = 4;
 	UnitStep[2] = 10;

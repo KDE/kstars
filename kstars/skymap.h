@@ -40,10 +40,10 @@ class InfoBoxes;
 
 /**This is the canvas on which the sky is painted.  It's the main widget for KStars.
 	*Contains SkyPoint members for the map's Focus (current central position), Destination
-	*(requested central position), MousePoint (position of mouse cursor), and 
+	*(requested central position), MousePoint (position of mouse cursor), and
 	*ClickedPoint (position of last mouse click).  Also contains the InfoBoxes for on-screen
 	*data display.
-	*  
+	*
 	*SkyMap handles most user interaction events (both mouse and keyboard).
 	*
 	*@short Canvas widget for displaying the sky bitmap; also handles user interaction events.
@@ -67,7 +67,7 @@ public:
 /**
 	*@returns pointer to InfoBoxes object.
 	*/
-		InfoBoxes* infoBoxes() { return IBoxes; }
+		InfoBoxes* infoBoxes() const { return IBoxes; }
 
 /**Display object name and coordinates in the FocusBox
 	*/
@@ -90,7 +90,7 @@ public:
 
 /**@returns a pointer to the destination point of the sky map
 	*/
-	SkyPoint* destination() { return &Destination; }
+	SkyPoint* destination()  { return &Destination; }
 
 /**@short sets the destination point of the sky map
 	*@param f a pointer to the SkyPoint the map should slew to
@@ -231,9 +231,9 @@ public slots:
 
 /**Recalculates the positions of objects in the sky, and then repaints the sky map.
 	*If the positions don't need to be recalculated, use update() instead of forceUpdate().
-	*This saves a lot of CPU time.  
+	*This saves a lot of CPU time.
 	*@param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
-	*/	
+	*/
 	void forceUpdate( bool now=false );
 	void forceUpdateNow() { forceUpdate( true ); }
 
@@ -273,7 +273,7 @@ public slots:
 
 	void slotAddObjectLabel( void );
 	void slotRemoveObjectLabel( void );
-	
+
 	void slotAddPlanetTrail( void );
 	void slotRemovePlanetTrail( void );
 
@@ -287,7 +287,7 @@ public slots:
 signals:
 	void destinationChanged();
     void linkAdded();
-	
+
 protected:
 /**Draw the Sky, and all objects in it. */
 	virtual void paintEvent( QPaintEvent *e );
@@ -323,11 +323,11 @@ protected:
 /**If the skymap will be resized, the sky must be new computed. So this function calls explicite new computing of
 	*the skymap. */
 	virtual void resizeEvent( QResizeEvent * );
-	
+
 private slots:
 /**Set the shape of mouse cursor to a cross with 4 arrows. */
 	void setMouseMoveCursor();
-	
+
 private:
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.  If Horiz==true, use the SkyPoint's
@@ -346,13 +346,13 @@ private:
 	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
 	*@param LSTh Local sidereal time.
 	*@param lat current geographic laitude
-	*/	
+	*/
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
 /**Large switch-controlled statement to draw objects on the SkyMap
 	*according to their type and catalog.  This is going to be changed
 	*So that each SkyObject has its own draw() function, which will be
-	*called from SkyMap's paintEvent().	
+	*called from SkyMap's paintEvent().
 	*color is only needed by Stars.
 	*/
 	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0, double scale = 1.0 );
@@ -369,10 +369,10 @@ private:
 	*is high enough (but not so high that the image fills the screen), and the
 	*user has selected that planet images be shown.  If one of these conditions
 	*is false, then a simple circle is drawn instead.  */
-	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, 
+	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			int zoommin, int resize_mult = 1, double scale = 1.0 );
 
-/**Draw the InfoBoxes on the pixmap passed as an argument (this should be 
+/**Draw the InfoBoxes on the pixmap passed as an argument (this should be
 	*the skymap's pixmap).
 	*/
 	void drawBoxes( QPixmap *pm );
@@ -382,12 +382,12 @@ private:
 	*@param style The kind of FOV indicator to draw:
 	*0: no symbol
 	*1: 1-degree circle
-	*2: crosshairs 
+	*2: crosshairs
 	*3: bullseye (2, 1, 0.5 degrees)
 	*4: rectangle (user-defined width, height)
 	*/
 	void drawTargetSymbol( QPainter &psky, int style );
-	
+
 /**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 
@@ -406,7 +406,7 @@ private:
 	double Range[NZOOM];
 	double RefractCorr1[184], RefractCorr2[184];
 	double y0;
-	
+
 	//data for checkVisibility
 	bool isPoleVisible;
 	int guidemax;
@@ -414,7 +414,7 @@ private:
 	float guideFOV;
 	double Xmax, Ymax;
 	double guideXmax;
-	
+
 	KStars *ksw;
 	QString sURL;
 	KSPopupMenu *pmenu;

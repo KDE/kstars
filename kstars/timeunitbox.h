@@ -19,7 +19,6 @@
 #define TIMEUNITBOX_H
 
 #include <qvbox.h>
-#include <qpushbutton.h>
 #include <qwidget.h>
 
 #define NUNITS 8
@@ -32,9 +31,11 @@
 	*@version 0.9
   */
 
+class QPushButton;
+
 class TimeUnitBox : public QVBox {
    Q_OBJECT
-public: 
+public:
 	TimeUnitBox(QWidget *parent=0, const char *name=0);
 	~TimeUnitBox();
 	/**@returns the value of UnitStep for the current spinbox value() */
