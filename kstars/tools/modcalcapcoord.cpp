@@ -38,6 +38,8 @@
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : modCalcApCoordDlg(parentSplit,name) {
 
 	showCurrentTime();
+	ra0Box->setDegType(FALSE);
+	rafBox->setDegType(FALSE);
 	this->show();
 
 }

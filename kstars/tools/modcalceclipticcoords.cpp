@@ -38,6 +38,7 @@
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit, const char *name) : modCalcEclCoordsDlg(parentSplit,name) {
 
 	equRadio->setChecked(TRUE);
+	raBox->setDegType(FALSE);
 	this->show();
 }
 

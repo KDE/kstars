@@ -41,6 +41,7 @@
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit, const char *name) : modCalcPlanetsDlg (parentSplit,name) {
 	showCurrentDateTime();
 	showLongLat();
+	raBox->setDegType(FALSE);
 	this->show();
 }
 

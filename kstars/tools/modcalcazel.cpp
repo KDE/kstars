@@ -41,6 +41,7 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDl
  	initGeo();
 	showLongLat();
 	horInputCoords = FALSE;
+	raBox->setDegType(FALSE);
 	this->show();
 }
 
