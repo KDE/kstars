@@ -347,7 +347,10 @@ bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double j
 	if ( ot1 == TimeBox->text1() && ot2 == TimeBox->text2() &&
 			ot3 == TimeBox->text3() ) 
 		return false;
-	else return true;
+	else {
+		checkBorders(); 
+		return true;
+	}
 }
 
 bool InfoBoxes::geoChanged(const GeoLocation *geo) {
@@ -366,7 +369,10 @@ bool InfoBoxes::geoChanged(const GeoLocation *geo) {
 	
 	if ( ot1 == GeoBox->text1() && ot2 == GeoBox->text2() )
 		return false;
-	else return true;
+	else {
+		checkBorders();
+		return true;
+	}
 }
 
 bool InfoBoxes::focusObjChanged( const QString &n ) {
@@ -374,7 +380,10 @@ bool InfoBoxes::focusObjChanged( const QString &n ) {
 	
 	FocusBox->setText1( i18n( "Focused on: " ) + n );
 	if ( ot1 == FocusBox->text1() ) return false;
-	else return true;
+	else {
+		checkBorders();
+		return true;
+	}
 }
 
 bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
@@ -388,7 +397,10 @@ bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 
 	if ( ot2 == FocusBox->text2() && ot3 == FocusBox->text3() ) 
 		return false;
-	else return true;
+	else {
+		checkBorders();
+		return true;
+	}
 }
 
 void InfoBoxes::checkBorders(bool resetToDefault) {

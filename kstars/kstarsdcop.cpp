@@ -105,7 +105,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	
 	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
 		if ( loc->translatedName() == city &&
-					loc->translatedProvince() == province &&
+					( province.isEmpty() || loc->translatedProvince() == province ) &&
 					loc->translatedCountry() == country ) {
 			
 			cityFound = true;

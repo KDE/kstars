@@ -19,6 +19,7 @@
 #include <klocale.h>
 
 #include "simclock.h"
+#include "kstars.h"
 #include "ksutils.h"
 
 int SimClock::idgen = 1;
@@ -189,6 +190,14 @@ void SimClock::setScale(float s) {
 	} else {
 		kdDebug() << "setScale: scale and parm equal " << s << endl;
 	}
+}
+
+//DCOP function to set clock scale
+void SimClock::setClockScale(float s) {
+	KStars *ks = (KStars*)parent();
+	
+	setScale(s);
+	ks->map()->slotClockSlewing();
 }
 
 #include "simclock.moc"

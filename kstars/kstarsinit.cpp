@@ -560,6 +560,9 @@ void KStars::privatedata::buildGUI() {
 //		ks->map()->slotCenter();
 	}
 	
+	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
+	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
+	
 	ks->map()->setDestination( ks->map()->clickedPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
