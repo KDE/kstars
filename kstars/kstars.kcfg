@@ -148,12 +148,22 @@
 		<entry name="indiMessages" type="Bool">
 			<label>Display INDI messages in the statusbar?</label>
 			<default>true</default>
-			<whatsthis>Toggle display of INDI messages in the KStars statusbar</whatsthis>
+			<whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
 		</entry>
-		<entry name="indiPortName" type="String">
-			<label>INDI device port</label>
+		<entry name="indiTelescopePort" type="String">
+			<label>INDI Telescope port</label>
 			<default>/dev/ttyS0</default>
 			<whatsthis>The port to which the telescope is attached (e.g., /dev/ttyS0)</whatsthis>
+		</entry>
+		<entry name="indiVideoPort" type="String">
+			<label>INDI Video port</label>
+			<default>/dev/video0</default>
+			<whatsthis>The port to which the video device is connected to</whatsthis>
+		</entry>
+		<entry name="fitsSaveDirectory" type="String">
+			<label>FITS Default directory</label>
+			<default></default>
+			<whatsthis>The default location of saved FITS files</whatsthis>
 		</entry>
 	</group>
 

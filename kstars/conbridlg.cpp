@@ -21,6 +21,7 @@
  #include <kdebug.h>
  
  #include <qslider.h>
+ #include <qimage.h>
  #include <qdatetime.h>
  #include <knuminput.h>
  
@@ -41,8 +42,10 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
-  width  = (int) viewer->image->displayImage->width();
-  height = (int) viewer->image->displayImage->height();
+  displayImage = viewer->image->displayImage;
+  width  = displayImage->width();
+  height = displayImage->height();
+  
   
   ConBriDlg = new ConBriForm(this);
   if (!ConBriDlg) return;
@@ -53,7 +56,8 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     kdDebug() << "Not enough memory for local image buffer" << endl;
     return;
   }
-  memcpy(localImgBuffer, viewer->image->reducedImgBuffer, width * height * sizeof(unsigned char));
+  for (int i=0; i < height; i++)
+   memcpy(localImgBuffer + i * width, displayImage->scanLine(i), width);
   
   setMainWidget(ConBriDlg);
   this->show();
@@ -65,42 +69,54 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
 
 ContrastBrightnessDlg::~ContrastBrightnessDlg()
 {
+  free (localImgBuffer);
+}
 
-
+void ContrastBrightnessDlg::range(int min, int max, int & num)
+{
+   if (num < min) num = min;
+   else if (num > max) num = max;
 }
 
 void ContrastBrightnessDlg::setContrast(int contrastValue)
 {
   int val=0;
   if (!viewer) return;
-
-   // #1 Apply Contrast
+  QColor myCol;
+  //unsigned char * data = viewer->image->templateImage->bits();
+  contrast = contrastValue;
+  
+   // Apply Contrast and brightness
    for (int i=0; i < height; i++)
            for (int j=0; j < width; j++)
 	   {
 		val  = localImgBuffer[ i * width + j];
-		val = (val - 255.) * (-0.01 * -contrastValue) + val;
-		if (val > 255) val = 255;
-		if (val < 0) val = 0;
-		viewer->image->displayImage->setPixel(j, i, qRgb(val, val, val));
+		if (contrast)
+		{
+			if (val < 128)
+			{
+		  		val -= contrast;
+		 		range(0, 127, val);
+		        }
+		        else
+		        {
+		                val += contrast;
+		                range(128, 255, val);
+		        }
+	        }
+		if (brightness)
+		{
+			myCol.setRgb(val,val,val);
+                	if ( brightness < 0 )
+                		myCol = myCol.dark(100+(128-brightness));
+                	else
+                		myCol = myCol.light(100+(brightness));
+			val   = myCol.red();
+		}
+
+		displayImage->setPixel(j, i, val);
 	   }
-	     
-  // #2 Apply brightness
-  if (brightness <= 64 && brightness >= -64)
-    KImageEffect::intensity(*viewer->image->displayImage, brightness/64.);
-  else if (brightness > 64)
-  {
-    KImageEffect::intensity(*viewer->image->displayImage, 1.);
-    KImageEffect::intensity(*viewer->image->displayImage, (brightness - 64.) / 64.);
-  }
-  else if (brightness < -64)
-  {
-    KImageEffect::intensity(*viewer->image->displayImage, -1.);
-    KImageEffect::intensity(*viewer->image->displayImage, (brightness + 64.) / 64.);
-  }
-  
-  contrast = contrastValue;
-  
+
   viewer->image->zoomToCurrent();
 			  
 }
@@ -109,35 +125,41 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 {
   int val = 0;
   if (!viewer) return;
-    
-  // #1 Apply Contrast
+  QColor myCol;
+  //unsigned char * data = viewer->image->templateImage->bits();
+  brightness = brightnessValue;
+
+  // Apply Contrast and brightness
   for (int i=0; i < height; i++)
            for (int j=0; j < width; j++)
 	   {
 		val  = localImgBuffer[ i * width + j];
-		val = (val - 255.) * (-0.01 * -contrast) + val;
-		//val += brightness;
-		if (val > 255) val = 255;
-		if (val < 0) val = 0;
-		
-		viewer->image->displayImage->setPixel(j, i, qRgb(val, val, val));
+		if (contrast)
+		{
+			if (val < 128)
+			{
+		  		val -= contrast;
+		                range(0, 127, val);
+		        }
+		        else
+		       {
+		                val += contrast;
+		                range(128, 255, val);
+		       }
+		 }
+		if (brightness)
+		{
+			myCol.setRgb(val,val,val);
+                	if ( brightness < 0 )
+                		myCol = myCol.dark(100+(128-brightness));
+                	else
+                		myCol = myCol.light(100+(brightness));
+			val   = myCol.red();
+		}
+		 
+
+		displayImage->setPixel(j, i, val);
 	   }
-  
-  // #2 Apply brightness
-  if (brightness <= 64 && brightness >= -64)
-    KImageEffect::intensity(*viewer->image->displayImage, brightness/64.);
-  else if (brightness > 64)
-  {
-    KImageEffect::intensity(*viewer->image->displayImage, 1.);
-    KImageEffect::intensity(*viewer->image->displayImage, (brightness - 64.) / 64.);
-  }
-  else if (brightness < -64)
-  {
-    KImageEffect::intensity(*viewer->image->displayImage, -1.);
-    KImageEffect::intensity(*viewer->image->displayImage, (brightness + 64.) / 64.);
-  }
-  
-  brightness = brightnessValue;
   
   viewer->image->zoomToCurrent();
  
@@ -147,33 +169,5 @@ QSize ContrastBrightnessDlg::sizeHint() const
 {
   return QSize(400,130);
 }
-
-conbriCommand::conbriCommand(QWidget * parent, QImage* newIMG, QImage *oldIMG)
-{
-  viewer    = (FITSViewer *) parent;
-  newImage  = new QImage();
-  oldImage  = new QImage();
-  *newImage = newIMG->copy();
-  *oldImage = oldIMG->copy();
-}
-
-conbriCommand::~conbriCommand() {}
-            
-void conbriCommand::execute()
-{
-
-  viewer->image->displayImage = newImage;
-  viewer->image->zoomToCurrent();
-
-}
-
-void conbriCommand::unexecute()
-{
-
-  viewer->image->displayImage = oldImage;
-  viewer->image->zoomToCurrent();
-
-}
-
 
 #include "conbridlg.moc"

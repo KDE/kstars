@@ -48,10 +48,10 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
 enum stdProperties { CONNECTION, EQUATORIAL_COORD, ON_COORD_SET, ABORT_MOTION, SOLAR_SYSTEM,
                      GEOGRAPHIC_COORD, HORIZONTAL_COORD, TIME, EXPOSE_DURATION, 
-                     DEVICE_PORT, PARK, MOVEMENT, SDTIME };
+                     DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE, IMAGE_TYPE, FILE_NAME };
 		     
 /* Devices families that we explicity support (i.e. with std properties) */
-enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
+enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
 
 #define	MAXSCSTEPS	1000	/* max number of steps in a scale */
 #define MAXRADIO	4	/* max numbere of buttons in a property */
@@ -112,6 +112,8 @@ class INDI_E
    
    void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);
    void updateValue(double newValue);
+   void setMin (int inMin);
+   void setMax (int inMax);
    
    void setupElementLabel();
    void setupElementRead(int length);

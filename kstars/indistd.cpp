@@ -14,9 +14,12 @@
  #include "indiproperty.h"
  #include "indigroup.h"
  #include "indidevice.h"
+ #include "indidriver.h"
  #include "indistd.h"
  #include "kstars.h"
+ #include "devicemanager.h"
  #include "timedialog.h"
+ #include "streamwg.h"
  
  #include <qtimer.h>
  #include <qlabel.h>
@@ -31,6 +34,7 @@
    ksw  = kswPtr;
    initDevCounter = 0;
    
+   streamWindow   = new StreamWG(this, ksw);
    currentObject  = NULL; 
    devTimer = new QTimer(this);
    QObject::connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
@@ -44,7 +48,9 @@
  
  void INDIStdDevice::setTextValue(INDI_P *pp)
  {
- 
+   INDI_E *el;
+   int wd, ht;
+   
   switch (pp->stdID)
   {
     case EQUATORIAL_COORD:
@@ -57,7 +63,7 @@
       break;
       
     case SDTIME:
-      if ( Options::indiAutoTime)
+      if ( Options::indiAutoTime())
        handleDevCounter();
       break;
     
@@ -70,7 +76,24 @@
        if (pp->state == PS_IDLE || pp->state == PS_OK)
          pp->set_w->setText(i18n("Start"));
        break;
-   
+       
+    case IMAGE_SIZE:
+         el = pp->findElement("WIDTH");
+	 if (!el) return;
+	 wd = (int) el->value;
+	 el = pp->findElement("HEIGHT");
+	 if (!el) return;
+	 ht = (int) el->value;
+	 
+	 streamWindow->setSize(wd, ht);
+	 streamWindow->allocateStreamBuffer();
+	 break;
+	 
+      case DATA_CHANNEL:
+         el = pp->findElement("CHANNEL");
+	 if (el && el->value)
+	    streamWindow->establishDataChannel(dp->parentMgr->host, (int) el->value);
+     break;
     default:
         break;
 	
@@ -98,11 +121,32 @@
       }
       break;
       
+      case VIDEO_STREAM:
+       lp = pp->findElement("ON");
+       if (!lp) return;
+       if (lp->state == PS_ON)
+          streamWindow->enableStream(true);
+       else
+          streamWindow->enableStream(false);
+       break;
+      
     default:
       break;
     }
  
  }
+ 
+ void INDIStdDevice::streamDisabled()
+ {
+    INDI_P *pp;
+    
+    pp = dp->findProp("VIDEO_STREAM");
+    if (!pp) return;
+    
+    // Turn stream off
+    pp->newSwitch(1); 
+   
+}
  
  void INDIStdDevice::updateTime()
 {
@@ -163,17 +207,53 @@ void INDIStdDevice::updateLocation()
  void INDIStdDevice::registerProperty(INDI_P *pp)
  {
    INDI_E * portEle;
+   INDIDriver *drivers = ksw->getINDIDriver();
+   QString str;
  
-   if (pp->name == "DEVICE_PORT")
+   switch (pp->stdID)
    {
+     case DEVICE_PORT:
      portEle = pp->findElement("PORT");
      if (!portEle) return;
      
-     portEle->read_w->setText( Options::indiPortName() );
-     portEle->write_w->setText( Options::indiPortName() );
-     portEle->text = Options::indiPortName();
+     if (drivers)
+     {
+       for (int i=0; i < drivers->devices.size(); i++)
+       {
+         if (drivers->devices[i]->mgrID == dp->parentMgr->mgrID)
+	 {
+	        if (drivers->devices[i]->deviceType == KSTARS_TELESCOPE)
+		{
+     		   portEle->read_w->setText( Options::indiTelescopePort() );
+     		   portEle->write_w->setText( Options::indiTelescopePort() );
+     		   portEle->text = Options::indiTelescopePort();
+		   break;
+		}
+		else if (drivers->devices[i]->deviceType == KSTARS_VIDEO)
+		{
+		   portEle->read_w->setText( Options::indiVideoPort() );
+     		   portEle->write_w->setText( Options::indiVideoPort() );
+     		   portEle->text = Options::indiVideoPort();
+		   break;
+		}
+	}
+      }     
+     }
+     break;
+     
+     case FILE_NAME:
+     portEle = pp->findElement("FILE");
+     if (!portEle) return;
+     str = Options::fitsSaveDirectory() + "/" + portEle->text;
+     portEle->read_w->setText( str );
+     portEle->write_w->setText( str);
+     portEle->text = str;
+     pp->newText();
+     break;
+     
    }
- }
+  
+}
  
 void INDIStdDevice::initDeviceOptions()
 {
@@ -368,6 +448,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  void INDIStdProperty::newText()
  {
    INDI_E *lp;
+   INDIDriver *drivers = ksw->getINDIDriver();
    
    switch (pp->stdID)
    {
@@ -379,10 +460,29 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
       /* Save Port name in KStars options */
      case DEVICE_PORT:
         lp = pp->findElement("PORT");
-        if (lp)
-          Options::setIndiPortName( lp->text );
-     break;
-    
+	
+        if (lp && drivers) 
+	{
+          for (int i=0; i < drivers->devices.size(); i++)
+          {
+              if (drivers->devices[i]->mgrID == stdDev->dp->parentMgr->mgrID)
+	      {
+	        if (drivers->devices[i]->deviceType == KSTARS_TELESCOPE)
+		{
+		   Options::setIndiTelescopePort( lp->text );
+		   kdDebug() << "Setting telescope port " << lp->text << endl;
+		}
+		else if (drivers->devices[i]->deviceType == KSTARS_VIDEO)
+		{
+		   Options::setIndiVideoPort( lp->text );
+		   kdDebug() << "Setting video port " << lp->text << endl;
+		}
+		break;
+	      }
+	  }
+        }
+     
+	break;
    }
  
  }
@@ -453,7 +553,11 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    case MOVEMENT:
       pp->newSwitch(switchIndex);
       break;
-	 
+   
+   case IMAGE_TYPE:
+     pp->newSwitch(switchIndex);
+     break;
+      
    default:
          return false;
 	 break;
@@ -470,7 +574,13 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
 
   switch (pp->stdID)
   {
-    case CONNECTION:
+    case CONNECTION:      
+      if (el->name == "DISCONNECT" && el->state == PS_ON)
+      {
+        stdDev->streamWindow->enableStream(false);
+	stdDev->streamWindow->close();
+	break;
+      }
       prop = pp->pg->dp->findProp("DEVICE_PORT");
       if (prop)
       prop->newText();
@@ -481,7 +591,14 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
        //TODO add text in the status bar "Slew aborted."
        stdDev->devTimer->stop();
        break;
-    
+    case IMAGE_TYPE:
+      if (el->name == "COLOR" && el->state == PS_ON)
+        stdDev->streamWindow->setColorFrame(true);
+      else
+        stdDev->streamWindow->setColorFrame(false);
+	
+       stdDev->streamWindow->allocateStreamBuffer();
+      break;
     default:
        break;
    }

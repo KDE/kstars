@@ -48,7 +48,7 @@ class FITSImage : public QScrollView  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
-	friend class conbriCommand;
+	friend class fitsChangeCommand;
 	friend class FITSViewer;
 	friend class FITSHistogram;
 	friend class histCommand;
@@ -81,15 +81,18 @@ class FITSImage : public QScrollView  {
 	double currentWidth,currentHeight;			/* Current width and height due to zoom */
 	const double zoomFactor;				/* Image zoom factor */
 	double currentZoom;					/* Current Zoom level */
+	QRgb   *grayTable;
 	unsigned char *reducedImgBuffer;			/* scaled image buffer (0-255) range */
-	FITS_HDU_LIST *hdulist;
 	
+
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
 	void rescale(scaleType type, int min, int max);		/* rescale image from main image buffer */
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
 	void updateReducedBuffer();				/* Updates the reduced buffer */
+	int min();
+	int max();
 	
 	protected:
 	void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );

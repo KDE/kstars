@@ -75,11 +75,11 @@
 #include <kstatusbar.h>
 #include <kpopupmenu.h>
 
-#define NINDI_STD	13
+#define NINDI_STD	18
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] = 
   {"CONNECTION", "EQUATORIAL_COORD", "ON_COORD_SET", "ABORT_MOTION", "SOLAR_SYSTEM",
-   "GEOGRAPHIC_COORD", "HORIZONTAL_COORD", "TIME", "EXPOSE_DURATION", "DEVICE_PORT", "PARK", "MOVEMENT", "SDTIME"};
+   "GEOGRAPHIC_COORD", "HORIZONTAL_COORD", "TIME", "EXPOSE_DURATION", "DEVICE_PORT", "PARK", "MOVEMENT", "SDTIME", "DATA_CHANNEL", "VIDEO_STREAM", "IMAGE_SIZE", "IMAGE_TYPE", "FILE_NAME"};
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its
@@ -243,6 +243,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	INDI_E *lp;
 	QString elementName;
 	char iNumber[32];
+	int min, max;
 	
 	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
 	{
@@ -282,6 +283,10 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       numberFormat(iNumber, lp->format.ascii(), lp->value);
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
+	       ap = findXMLAtt (ep, "min");
+	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+	       ap = findXMLAtt (ep, "max");
+	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
 	     }
 	     break;
 
@@ -298,6 +303,11 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
                 lp->spin_w->setValue(lp->value);
 	      else
  	        lp->write_w->setText(lp->text);
+		
+	       ap = findXMLAtt (ep, "min");
+	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+	       ap = findXMLAtt (ep, "max");
+	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
 	    }
 	    break;
 

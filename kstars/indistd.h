@@ -19,6 +19,8 @@
  class INDI_D;
  class KStars;
  class SkyObject;
+ class StreamWG;
+
  
  /* This class implmements standard properties on the device level*/
  class INDIStdDevice : public QObject
@@ -28,11 +30,13 @@
    INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr);
    ~INDIStdDevice();
    
-   KStars      *ksw;			/* Handy pointer to KStars */
-   INDI_D      *dp;			/* associated device */
+   KStars      		*ksw;			/* Handy pointer to KStars */
+   INDI_D      		*dp;			/* associated device */
 
-   SkyObject *currentObject;
-   QTimer *devTimer;
+   StreamWG             *streamWindow;
+   SkyObject   		*currentObject;
+   QTimer      		*devTimer;	
+   
     
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);
@@ -43,6 +47,7 @@
    void handleDevCounter();
     
    bool handleNonSidereal(SkyObject *o);
+   void streamDisabled();
    
    /* INDI STD: Updates device time */
    void updateTime();

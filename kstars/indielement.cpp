@@ -250,6 +250,27 @@ spin_w->setMinimumWidth( length );
 EHBox->addWidget(spin_w);
 }
 
+void INDI_E::setMin (int inMin)
+{
+  min = inMin;
+  if (spin_w)
+  {
+    spin_w->setMinValue(min);
+    spin_w->setValue(value);
+  }
+}
+   
+void INDI_E::setMax (int inMax)
+{
+ max = inMax;
+ if (spin_w)
+ {
+   spin_w->setMaxValue(max);
+   spin_w->setValue(value);
+ }
+ 
+}
+   
 void INDI_E::setupElementWrite(int length)
 {
     write_w = new KLineEdit( pp->pg->propertyContainer);

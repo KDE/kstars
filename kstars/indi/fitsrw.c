@@ -115,10 +115,10 @@ static int fits_n_error = 0;
 static char fits_error[FITS_MAX_ERROR][FITS_ERROR_LENGTH];
 
 /* What byte ordering for IEEE-format we are running on ? */
-static int fits_ieee32_intel = 0;
-static int fits_ieee32_motorola = 0;
-static int fits_ieee64_intel = 0;
-static int fits_ieee64_motorola = 0;
+int fits_ieee32_intel = 0;
+int fits_ieee32_motorola = 0;
+int fits_ieee64_intel = 0;
+int fits_ieee64_motorola = 0;
 
 /* Macros */
 #define FITS_RETURN(msg, val) { fits_set_error (msg); return (val); }
@@ -1901,6 +1901,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
  }
  return (transcount);
 }
+
 
 
 #ifndef FITS_NO_DEMO

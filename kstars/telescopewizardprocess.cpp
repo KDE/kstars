@@ -81,8 +81,8 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
               if (indidriver->devices[i]->deviceType == KSTARS_TELESCOPE)
    		    telescopeCombo->insertItem(indidriver->devices[i]->label);
 
-   if ( !Options::indiPortName().isEmpty())
-    portList << Options::indiPortName();
+   if ( !Options::indiTelescopePort().isEmpty())
+    portList << Options::indiTelescopePort();
     
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
              << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";// << "/dev/ttyUSB4";

@@ -37,7 +37,9 @@ const char * Direction[] = { "North", "West", "East", "South", "All"};
 const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
 
 /* make it compile on solaris */
+#ifndef M_PI
 #define M_PI 3.14159265358979323846264338327950288419716939937510582097494459
+#endif
 
 /******** Prototypes ***********/
 double DegToRad( double num );

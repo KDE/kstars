@@ -297,19 +297,5 @@
         </widget>
     </vbox>
 </widget>
-<slots>
-    <slot>slotAddFunction()</slot>
-    <slot>slotMoveFunctionUp()</slot>
-    <slot>slotMoveFunctionDown()</slot>
-    <slot>slotShowDoc()</slot>
-    <slot>slotArgWidget()</slot>
-    <slot>slotNew()</slot>
-    <slot>slotOpen()</slot>
-    <slot>slotSave()</slot>
-    <slot>slotSaveAs()</slot>
-    <slot>slotCopyFunction()</slot>
-    <slot>slotRemoveFunction()</slot>
-    <slot>slotRunScript()</slot>
-</slots>
 <layoutdefaults spacing="6" margin="4"/>
 </UI>

@@ -20,11 +20,11 @@
  #define CONTRASTBRIGHTNESSDLG_H
  
  #include <kdialogbase.h>
- #include <kcommand.h>
  #include <klocale.h>
  
  class ConBriForm;
  class FITSViewer;
+ class QImage;
 
   
 class ContrastBrightnessDlg : public KDialogBase {
@@ -34,6 +34,7 @@ class ContrastBrightnessDlg : public KDialogBase {
    ~ContrastBrightnessDlg();
    
   QSize sizeHint() const;
+  void range(int min, int max, int & num);
   
   private:
   int contrast;
@@ -43,30 +44,12 @@ class ContrastBrightnessDlg : public KDialogBase {
   FITSViewer *viewer;
   ConBriForm *ConBriDlg;
   unsigned char *localImgBuffer;
-  unsigned char *templateImgBuffer;
+  QImage *displayImage;
   
   public slots:
   void setContrast(int contrastValue);
   void setBrightness(int brightnessValue);
    
-};
-
-class conbriCommand : public KCommand
-{
-  public:
-        conbriCommand(QWidget * parent, QImage *newIMG, QImage *oldIMG);
-	~conbriCommand();
-            
-        void execute();
-        void unexecute();
-        QString name() const {
-            return i18n("Brightness/Contrast");
-        }
-
-    protected:
-        FITSViewer *viewer;
-        QImage *newImage;
-	QImage *oldImage;
 };
 
 

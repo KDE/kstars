@@ -29,6 +29,7 @@
  #include <kpushbutton.h>
  #include <knuminput.h> 
  #include <kdebug.h>
+ #include <kmessagebox.h>
  
  #include <qbuttongroup.h> 
  #include <qcheckbox.h>
@@ -161,8 +162,15 @@ void INDI_P::newText()
 	}
 	
 	if (guitype == PG_NUMERIC)
+	{
            f_scansexa(lp->text.ascii(), &(lp->targetValue));
-      }
+	   if ((lp->targetValue > lp->max || lp->targetValue < lp->min) && lp->min != lp->max)
+	   {
+	     KMessageBox::error(0, i18n("Invalid range. Valid values range from %1 to %2").arg(lp->min).arg(lp->max));
+	     return;
+	   }
+        }
+     }
   }
 
   state = PS_BUSY;

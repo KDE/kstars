@@ -1,4 +1,4 @@
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd
+bin_PROGRAMS = indiserver lx200generic celestrongps fliccd v4ldriver
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c
@@ -16,6 +16,9 @@ celestrongps_LDADD = liblilxml.a libindicom.a
 
 fliccd_SOURCES =  eventloop.c fli_ccd.c indidrivermain.c
 fliccd_LDADD = fli/libfli.a libindicom.a liblilxml.a -lm
+
+v4ldriver_SOURCES = eventloop.c indidrivermain.c v4ldriver.cpp
+v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.a
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
@@ -37,5 +40,4 @@ uninstall-local:
 
 KDE_OPTIONS = nofinal
 
-SUBDIRS =  fli
-
+SUBDIRS = fli webcam

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>fitsHeaderDialog</class>
 <widget class="QDialog">
     <property name="name">
@@ -72,23 +72,6 @@
                 <number>4</number>
             </property>
         </widget>
-        <widget class="QPushButton" row="1" column="0">
-            <property name="name">
-                <cstring>addB</cstring>
-            </property>
-            <property name="text">
-                <string>Add...</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
         <spacer row="2" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>Horizontal Spacing2</cstring>
@@ -112,57 +95,6 @@
             </property>
             <property name="text">
                 <string>Close</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <spacer row="1" column="3" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>Horizontal Spacing2_2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>140</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QPushButton" row="1" column="1">
-            <property name="name">
-                <cstring>removeB_2</cstring>
-            </property>
-            <property name="text">
-                <string>Edit...</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="1" column="2">
-            <property name="name">
-                <cstring>removeB</cstring>
-            </property>
-            <property name="text">
-                <string>Remove</string>
             </property>
             <property name="accel">
                 <string></string>

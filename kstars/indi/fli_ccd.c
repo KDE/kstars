@@ -43,7 +43,8 @@ int  manageDefaults(char errmsg[]);
 int  grabImage();
 void ISPoll(void *);
 void handleExposure(void *);
-void connectCCD(ISState *s);
+void connectCCD();
+int getOnSwitch(ISwitchVectorProperty *sp);
 double min();
 double max();
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
@@ -102,7 +103,6 @@ static flidev_t fli_dev;
 static cam_t *FLICam;
 static img_t *FLIImg;
 static int portSwitchIndex;
-static int imagesLeft;
 static int imageCount; 
 
 long int Domains[] = { FLIDOMAIN_USB, FLIDOMAIN_SERIAL, FLIDOMAIN_PARALLEL_PORT,  FLIDOMAIN_INET };
@@ -167,10 +167,6 @@ static INumber FrameN[]          	= {
  /* Temperature control */
  static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0.}};
  static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (°C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN)};
- 
- /* Start/Stop expose */
- static ISwitch ExposeS[] 	  = { {"EXPOSE_ON", "Start", ISS_OFF}, {"EXPOSE_OFF", "Cancel", ISS_OFF} };
- static ISwitchVectorProperty ExposeSP = { mydev, "EXPOSE", "Expose", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ExposeS, NARRAY(ExposeS) };
  
  /* Expose progress */
  static INumber ExposeProgressN[] = { {"Time left", "", "%.0f", 0., 0., 0., 0.} };
@@ -283,7 +279,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, PortSP.name))
 	{
    	  PortSP.s = IPS_IDLE; 
-	  portSwitchIndex = getOnSwitch(states, n);
+	  IUUpdateSwitches(&PortSP, states, names, n);
+	  portSwitchIndex = getOnSwitch(&PortSP);
 	  
 	  if (portSwitchIndex == -1)
 	  {
@@ -313,7 +310,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, PowerSP.name))
 	{
-   	  connectCCD(states);
+	  IUUpdateSwitches(&PowerSP, states, names, n);
+   	  connectCCD();
 	  return;
 	}
 	
@@ -445,7 +443,7 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  return;
 	}
 	
-	if (!strcmp, FileNameTP.name)
+	if (!strcmp(name, FileNameTP.name))
 	{
 	  tp = IUFindText(&FileNameTP, names[0]);
 	  FileNameTP.s = IPS_IDLE;
@@ -1275,17 +1273,15 @@ int manageDefaults(char errmsg[])
     
 }
 
-int getOnSwitch(ISState * states, int n)
+int getOnSwitch(ISwitchVectorProperty *sp)
 {
- int i;
- 
- for (i=0; i < n ; i++)
-     if (states[i] == ISS_ON)
+  int i=0;
+ for (i=0; i < sp->nsp ; i++)
+     if (sp->sp[i].s == ISS_ON)
       return i;
 
  return -1;
 }
-
 
 int checkPowerS(ISwitchVectorProperty *sp)
 {
@@ -1328,17 +1324,13 @@ int checkPowerT(ITextVectorProperty *tp)
 
 }
 
-void connectCCD(ISState *s)
+void connectCCD()
 {
-  int i=0;
   long err;
   char errmsg[1024];
  
   IDLog ("In ConnectCCD\n");
   
-  for (i=0; i < NARRAY(PowerS); i++)
-    PowerS[i].s = s[i];
-    
   /* USB by default {USB, SERIAL, PARALLEL, INET} */
   switch (PowerS[0].s)
   {
@@ -1485,22 +1477,17 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  FITS_HDU_LIST *hdulist;
  int print_ctype3 = 0;   /* The CTYPE3-card may not be FITS-conforming */
  char temp_s[80], expose_s[80], binning_s[80], pixel_s[80], frame_s[80];
- static char *ctype3_card[] = {
-   NULL, NULL, NULL,  /* bpp = 0: no additional card */
-   "COMMENT Image type : GRAY_IMAGE",
-   NULL,
-   NULL,
-   "COMMENT Image type : GRAYA_IMAGE (gray with alpha channel)",
-   "COMMENT Sequence for NAXIS3   : GRAY, ALPHA",
-   "CTYPE3  = 'GRAYA   '           / GRAY IMAGE WITH ALPHA CHANNEL",
-   "COMMENT Image type : RGB_IMAGE",
-   "COMMENT Sequence for NAXIS3   : RED, GREEN, BLUE",
-   "CTYPE3  = 'RGB     '           / RGB IMAGE",
-   "COMMENT Image type : RGBA_IMAGE (rgb with alpha channel)",
-   "COMMENT Sequence for NAXIS3   : RED, GREEN, BLUE, ALPHA",
-   "CTYPE3  = 'RGBA    '           / RGB IMAGE WITH ALPHA CHANNEL"
- };
-
+ char obsDate[80];
+ char ts[32];
+ struct tm *tp;
+ time_t t;
+ 
+ time (&t);
+ tp = gmtime (&t);
+ strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+ 
+ snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
+ 
  hdulist = fits_add_hdu (ofp);
  if (hdulist == NULL) return (NULL);
 
@@ -1544,24 +1531,21 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  fits_add_card (hdulist, expose_s);
  fits_add_card (hdulist, pixel_s);
  fits_add_card (hdulist, "INSTRUME= 'Finger Lakes Instruments'");
- 
- fits_add_card (hdulist, "");
- fits_add_card (hdulist, ctype3_card[3]);
- fits_add_card (hdulist, "");
- 
+ fits_add_card (hdulist, obsDate);
+  
  return (hdulist);
 }
 
 double min()
 {
   double lmin = FLIImg->img[0];
-  int index=0, i, j;
+  int ind=0, i, j;
   
   for (i= 0; i < FLIImg->height ; i++)
     for (j= 0; j < FLIImg->width; j++)
     {
-       index = (i * FLIImg->width) + j;
-       if (FLIImg->img[index] < lmin) lmin = FLIImg->img[index];
+       ind = (i * FLIImg->width) + j;
+       if (FLIImg->img[ind] < lmin) lmin = FLIImg->img[ind];
     }
     
     return lmin;
@@ -1570,13 +1554,13 @@ double min()
 double max()
 {
   double lmax = FLIImg->img[0];
-  int index=0, i, j;
+  int ind=0, i, j;
   
    for (i= 0; i < FLIImg->height ; i++)
     for (j= 0; j < FLIImg->width; j++)
     {
-      index = (i * FLIImg->width) + j;
-       if (FLIImg->img[index] > lmax) lmax = FLIImg->img[index];
+      ind = (i * FLIImg->width) + j;
+       if (FLIImg->img[ind] > lmax) lmax = FLIImg->img[ind];
     }
     
     return lmax;

@@ -74,6 +74,9 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, 
   addChild(imgFrame);
   
   currentZoom = 0.0;
+  grayTable=new QRgb[256];
+  for (int i=0;i<256;i++)
+        grayTable[i]=qRgb(i,i,i);
   
   viewport()->setMouseTracking(true);
   imgFrame->setMouseTracking(true);
@@ -148,19 +151,20 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   // invert the Y since we read FITS buttom up
   y = height - y;
   
-  //kdDebug() << "Zoom= " << currentZoom << " -- X= " << x << " -- Y= " << y << endl;
+  //kdDebug() << " -- X= " << x << " -- Y= " << y << endl;
   
   if (viewer->imgBuffer == NULL)
    kdDebug() << "viewer buffer is NULL " << endl;
   
   if (validPoint)
   {
-  viewer->statusBar()->changeItem(QString("(%1,%2) Value= %3").arg( (int) x,4).arg( (int) y,-4).arg(viewer->imgBuffer[(int) (y * width + x)], -6), 0);
+  viewer->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
+  viewer->statusBar()->changeItem(QString("%1").arg(viewer->imgBuffer[(int) (y * width + x)]), 1);
   setCursor(Qt::CrossCursor);
   }
   else
   {
-  viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
+  //viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
   setCursor(Qt::ArrowCursor);
   }
 }
@@ -205,13 +209,62 @@ void FITSImage::destroyTemplateImage()
 
 void FITSImage::updateReducedBuffer()
 {
+ int lmax = max();
+ int lmin = min();
+ 
+ kdDebug() << "lmin " << lmin << " -- lmax " << lmax << endl;
+ 
+ //unsigned char * buf = displayImage->bits();
+ double datadiff = 255.;
+ double pixdiff = lmax - lmin;
+ double offs = -lmin*datadiff/pixdiff;
+ double scale = datadiff / pixdiff;
+ int tdata =0;
+ FITS_BITPIX8 bp8=0;
+ 
+//  for (int i=0; i < height; i++)
+  //    for (int j=0; j < width; j++)
+       //  reducedImgBuffer[i * width + j] = qRed(displayImage->pixel(j, i));
 
-  for (int i=0; i < height; i++)
-      for (int j=0; j < width; j++)
-        reducedImgBuffer[i * width + j] = qRed(displayImage->pixel(j, i));
-
+ for (int i=0; i < height; i++)
+  for (int j=0; j < width; j++)
+  {
+           bp8 = (FITS_BITPIX8) reducedImgBuffer[i * width + j];//(displayImage->scanLine(i) + j);//buf[i * width + j];
+           tdata = (long)(bp8 * scale + offs);
+           if (tdata < 0) tdata = 0;
+           else if (tdata > 255) tdata = 255;
+           //reducedImgBuffer[i * width + j] = (unsigned char)tdata;           
+	   displayImage->setPixel(j, height - i - 1, tdata);
+  }
+ 
+    //for (int i=0; i < height; i++)
+     //for (int j=0; j < width; j++)
+       //  reducedImgBuffer[i * width + j] = qRed(displayImage->pixel(j, i));
+      
 }
 
+int FITSImage:: min()
+{
+  //unsigned char * buf = displayImage->bits();
+  int lmin= reducedImgBuffer[0];
+  
+  for (int i=1; i < width * height; i++)
+    if ( reducedImgBuffer[i] < lmin) lmin = reducedImgBuffer[i];
+    
+   return lmin;
+}
+	
+int FITSImage::max()
+{
+  //unsigned char * buf = displayImage->bits();
+  int lmax=0;
+  
+  for (int i=1; i < width * height; i++)
+    if ( reducedImgBuffer[i] > lmax) lmax = reducedImgBuffer[i];
+    
+   return lmax;
+}
+	
 void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 {
   
@@ -222,16 +275,16 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
   {
     case FITSAuto:
     case FITSLinear:
-    for (int i=0; i < width; i++)
-      for (int j=0; j < height; j++)
+    for (int i=0; i < height; i++)
+      for (int j=0; j < width; j++)
       {
               bufferVal = viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
-      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+	      reducedImgBuffer[i * width + j] = val;
+      	      //displayImage->setPixel(j, height - i - 1, val);
       }
-      updateReducedBuffer();
      break;
      
     case FITSLog:
@@ -244,9 +297,9 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * log(1 + bufferVal));
-      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+	      reducedImgBuffer[i * width + j] = val;
+      	      //displayImage->setPixel(j, height - i - 1, val);
       }
-      updateReducedBuffer();
       break;
       
     case FITSExp:
@@ -259,9 +312,9 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * exp(bufferVal));
-      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+	      reducedImgBuffer[i * width + j] = val;
+      	      //displayImage->setPixel(j, height - i - 1, val);
       }
-      updateReducedBuffer();
       break;
     
     case FITSSqrt:
@@ -274,18 +327,19 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * sqrt(bufferVal));
-      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+	      reducedImgBuffer[i * width + j] = val;
+      	      //displayImage->setPixel(j, height - i - 1, val);
       }
-      updateReducedBuffer();
+      
       break;
     
      
     default:
      break;
   }
-  
-  //convertImageToPixmap();
-  //update();
+       
+  updateReducedBuffer();
+  viewer->updateImgBuffer();
   zoomToCurrent();
 }
 
@@ -294,9 +348,10 @@ int FITSImage::loadFits (const char *filename)
 {
  FILE *fp;
  FITS_FILE *ifp;
- //FITS_HDU_LIST *hdulist;
+ FITS_HDU_LIST *hdl;
  FITS_PIX_TRANSFORM trans;
  register unsigned char *dest; 
+ register unsigned char *tempBuffer;
  unsigned char *data;
  int i, j, val;
  double a, b;
@@ -323,21 +378,21 @@ int FITSImage::loadFits (const char *filename)
    return (-1);
  }
 
- displayImage  = new QImage();
+ //displayImage  = new QImage();
  KProgressDialog fitsProgress(this, 0, i18n("FITS Viewer"), i18n("Loading FITS..."));
  
- hdulist = fits_seek_image (ifp, 1);
- if (hdulist == NULL) return (-1);
+ hdl = fits_seek_image (ifp, 1);
+ if (hdl == NULL) return (-1);
 
- width  = currentWidth = hdulist->naxisn[0]; 
- height = currentHeight = hdulist->naxisn[1];
- 
- bitpix = hdulist->bitpix;
- bpp    = hdulist->bpp;
+ width  = currentWidth = hdl->naxisn[0]; 
+ height = currentHeight = hdl->naxisn[1]; 
+ bitpix = hdl->bitpix;
+ bpp    = hdl->bpp;
  
  imgFrame->setGeometry(0, 0, width, height);
  
  data = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
+ tempBuffer = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
  if (data == NULL)
  {
   KMessageBox::error(0, i18n("Not enough memory to load FITS."));
@@ -347,25 +402,25 @@ int FITSImage::loadFits (const char *filename)
  /* If the transformation from pixel value to */
  /* data value has been specified, use it */
  if (   plvals.use_datamin
-     && hdulist->used.datamin && hdulist->used.datamax
-     && hdulist->used.bzero && hdulist->used.bscale)
+     && hdl->used.datamin && hdl->used.datamax
+     && hdl->used.bzero && hdl->used.bscale)
  {
-   a = (hdulist->datamin - hdulist->bzero) / hdulist->bscale;
-   b = (hdulist->datamax - hdulist->bzero) / hdulist->bscale;
+   a = (hdl->datamin - hdl->bzero) / hdl->bscale;
+   b = (hdl->datamax - hdl->bzero) / hdl->bscale;
    if (a < b) trans.pixmin = a, trans.pixmax = b;
    else trans.pixmin = b, trans.pixmax = a;
  }
  else
  {
-   trans.pixmin = hdulist->pixmin;
-   trans.pixmax = hdulist->pixmax;
+   trans.pixmin = hdl->pixmin;
+   trans.pixmax = hdl->pixmax;
  }
  trans.datamin = 0.0;
  trans.datamax = 255.0;
  trans.replacement = plvals.replace;
  trans.dsttyp = 'c';
-
- displayImage->create(width, height, 32); 
+ 
+ //displayImage->create(width, height, 32); 
  currentRect.setX(0);
  currentRect.setY(0);
  currentRect.setWidth(width);
@@ -375,6 +430,13 @@ int FITSImage::loadFits (const char *filename)
  fitsProgress.setMinimumWidth(300);
  fitsProgress.show();
 
+ displayImage = new QImage(width, height, 8, 256, QImage::IgnoreEndian);
+ for (int i=0; i < 256; i++)
+   displayImage->setColor(i, grayTable[i]);
+//displayImage = new QImage();
+//displayImage->create(width, height, 32);
+
+
  /* FITS stores images with bottom row first. Therefore we have */
  /* to fill the image from bottom to top. */
    dest = data + height * width;
@@ -383,27 +445,31 @@ int FITSImage::loadFits (const char *filename)
    {
      /* Read FITS line */
      dest -= width;
-     if (fits_read_pixel (ifp, hdulist, width, &trans, dest) != width)
+     if (fits_read_pixel (ifp, hdl, width, &trans, dest) != width)
      {
        err = 1;
        break;
      }
      
+     //for (j=0; j < width; j++)
+     //{
+       //val = dest[j];
+       //displayImage->setPixel(j, i, qRgb(val, val, val));
+     //}
        for (j = 0 ; j < width; j++)
-       {
-       val = dest[j];
-       displayImage->setPixel(j, i, qRgb(val, val, val));
-      }
+         displayImage->setPixel(j, i, dest[j]);
       
       fitsProgress.progressBar()->setProgress(height - i);
    }
-   
+ 
  reducedImgBuffer = data;
  convertImageToPixmap();
  
  if (err)
    KMessageBox::error(0, i18n("EOF encountered on reading."));
- 
+
+ memcpy(viewer->record, hdl->header_record_list->data , FITS_RECORD_SIZE);
+ fits_close(ifp);
  return (err ? -1 : 0);
 }
 
@@ -498,7 +564,7 @@ void FITSImage::fitsZoomDefault()
 
 }
 
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name)
+FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
 {
   image = img;
 }

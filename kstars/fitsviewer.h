@@ -34,6 +34,7 @@
 #include <kdialog.h>
 #include <kmainwindow.h>
 #include <kurl.h>
+#include <kcommand.h>
 
 #include "indi/fitsrw.h"
 
@@ -48,7 +49,7 @@ class FITSViewer : public KMainWindow  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
-	friend class conbriCommand;
+	friend class fitsChangeCommand;
 	friend class FITSProcess;
 	friend class FITSImage;
 	friend class FITSHistogram;
@@ -57,25 +58,30 @@ class FITSViewer : public KMainWindow  {
 	/**Constructor. */
 	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
 	~FITSViewer();
-		
+
+	enum undoTypes { CONTRAST_BRIGHTNESS, IMAGE_REDUCTION, IMAGE_FILTER };
+			
 	protected:
 	/* key press event */
 	void keyPressEvent (QKeyEvent *ev);
 	/* Calculate stats */
 	void calculateStats();
+	void closeEvent(QCloseEvent *ev);
 	
 	private slots:
 	void fileSave();
         void fileSaveAs();
 	void fitsCOPY();
-	void fitsUndo();
-	void fitsRedo();
+	void fitsRestore();
+	void fitsChange();
 	void fitsStatistics();
 	void fitsHeader();
 	void fitsFilter();
+	void slotClose();
 	void imageReduction();
 	void imageHistogram();
 	void BrightContrastDlg();
+	void updateImgBuffer();
 	
 	private:
 	//int  loadImage(unsigned int *buffer, bool displayImage = false);
@@ -88,10 +94,11 @@ class FITSViewer : public KMainWindow  {
 	double stddev();
 
 	FITSImage *image;					/* FITS image object */
-	bool Dirty;						/* Document modified? */
+	int Dirty;						/* Document modified? */
 	KURL currentURL;					/* FITS File name and path */
 	unsigned int *imgBuffer;				/* Main unmodified FITS data buffer */
 	KCommandHistory *history;				/* History for undo/redo */
+	unsigned char *record[FITS_RECORD_SIZE];		/* FITS records */
 	
 	/* stats struct to hold statisical data about the FITS data */
 	struct {
@@ -104,5 +111,25 @@ class FITSViewer : public KMainWindow  {
 		
 		
 };
+
+class fitsChangeCommand : public KCommand
+{
+  public:
+        fitsChangeCommand(QWidget * parent, int inType, QImage *newIMG, QImage *oldIMG);
+	~fitsChangeCommand();
+            
+        void execute();
+        void unexecute();
+        QString name() const;
+
+    private:
+        int type;
+	
+    protected:
+        FITSViewer *viewer;
+        QImage *newImage;
+	QImage *oldImage;
+};
+
 
 #endif

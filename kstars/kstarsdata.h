@@ -56,7 +56,6 @@
 #include "detaildialog.h"
 #include "jupitermoons.h"
 #include "indistd.h"
-#include "fitsviewer.h"
 #include "tools/lcgenerator.h"
 
 #define NHIPFILES 127

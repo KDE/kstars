@@ -34,6 +34,7 @@
 #include <qpaintdevicemetrics.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
+#include <qdir.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -63,7 +64,7 @@
 #include "indimenu.h"
 #include "devmanager.h"
 #include "indidriver.h"
-#include "indiconf.h"
+#include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
 
@@ -197,12 +198,19 @@ void KStars::slotINDIDriver() {
 
 void KStars::slotINDIConf() {
 
-   INDIConf indiconf(this);
+   INDIFITSConf indiconf(this);
 
    indiconf.timeCheck->setChecked( Options::indiAutoTime() );
    indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
    indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
    indiconf.messagesCheck->setChecked ( Options::indiMessages() );
+   indiconf.telPort_IN->setText ( Options::indiTelescopePort());
+   indiconf.vidPort_IN->setText ( Options::indiVideoPort());
+   
+   if (Options::fitsSaveDirectory().isEmpty())
+     indiconf.fitsDIR_IN->setText (QDir:: homeDirPath());
+   else
+   indiconf.fitsDIR_IN->setText ( Options::fitsSaveDirectory());
 
    if (indiconf.exec() == QDialog::Accepted)
    {
@@ -210,6 +218,9 @@ void KStars::slotINDIConf() {
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
      Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
      Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
+     Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
+     Options::setIndiVideoPort( indiconf.vidPort_IN->text());
+     Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
 
      map()->forceUpdateNow();
    }

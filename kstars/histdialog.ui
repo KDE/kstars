@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>histDialog</class>
 <widget class="QDialog">
     <property name="name">
@@ -7,10 +7,30 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>0</y>
-            <width>660</width>
-            <height>367</height>
+            <y>4</y>
+            <width>640</width>
+            <height>325</height>
         </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>640</width>
+            <height>325</height>
+        </size>
+    </property>
+    <property name="maximumSize">
+        <size>
+            <width>640</width>
+            <height>325</height>
+        </size>
     </property>
     <property name="caption">
         <string>Histogram</string>
@@ -63,7 +83,7 @@
                         </size>
                     </property>
                     <property name="frameShape">
-                        <enum>StyledPanel</enum>
+                        <enum>NoFrame</enum>
                     </property>
                     <property name="frameShadow">
                         <enum>Raised</enum>
@@ -282,7 +302,7 @@
                 <cstring>scaleGroup</cstring>
             </property>
             <property name="title">
-                <string>Scaling</string>
+                <string>FITS Scale</string>
             </property>
             <vbox>
                 <property name="name">

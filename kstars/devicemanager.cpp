@@ -77,14 +77,14 @@ DeviceManager::~DeviceManager()
 
 }
 
-bool DeviceManager::indiConnect(QString host, QString port)
+bool DeviceManager::indiConnect(QString inHost, QString inPort)
 {
-
+        host = inHost;
+	port = inPort;
+	QString errMsg;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
-	QString errMsg;
 	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
-
 
 	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
@@ -396,7 +396,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	
        txt_w->insert( QString(valuXMLAtt(message)) + QString("\n"));
        
-       if ( Options::indiMessages )
+       if ( Options::indiMessages() )
 	    	parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
 
 }

@@ -37,13 +37,17 @@
     void constructHistogram(unsigned int *buffer);
     int  findMax();
     int type;
+    int napply;
     
     private:
     int histArray[BARS]; 
     double binSize;
+    bool downSample;
 
     FITSViewer * viewer;
     QPixmap *histogram;
+    
+    
     
     protected:
     void paintEvent( QPaintEvent *e);
@@ -53,6 +57,7 @@
     public slots:
     void applyScale();
     void updateBoxes();
+    void updateIntenFreq(int x);
     
     
  };
@@ -60,15 +65,19 @@
  class histCommand : public KCommand
 {
   public:
-        histCommand(QWidget * parent, int newType, QImage *newIMG, QImage *oldIMG);
+        histCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
 	~histCommand();
             
         void execute();
         void unexecute();
         QString name() const;
 
-    protected:
+    
+    private:
+        FITSHistogram *histo;
         int type;
+	int min, max;
+	unsigned int *buffer;
         FITSViewer *viewer;
         QImage *newImage;
 	QImage *oldImage;

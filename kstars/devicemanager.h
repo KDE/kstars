@@ -39,6 +39,8 @@ class DeviceManager : public QObject
    FILE			*serverFP;
    LilXML		*XMLParser;
    QSocketNotifier 	*sNotifier;
+   QString		host;
+   QString		port;
 
    int dispatchCommand   (XMLEle *root, char errmsg[]);
 
@@ -63,7 +65,7 @@ class DeviceManager : public QObject
    void checkMsg       (XMLEle *root, INDI_D *dp);
    void doMsg          (XMLEle *msg , INDI_D *dp);
 
-   bool indiConnect    (QString host, QString port);
+   bool indiConnect    (QString inHost, QString inPort);
 
   public slots:
    void dataReceived();
