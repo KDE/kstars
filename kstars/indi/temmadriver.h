@@ -104,7 +104,7 @@ int set_TemmaLatitude(char *buffer);
 int get_TemmaLST(char *buffer);
 int set_TemmaLST(char *buffer);
 int  set_TemmaStandbyState(int on);
-int  get_TemmaStandbyState(char *buffer);
+int  get_TemmaStandbyState(unsigned char *buffer);
 int  get_TemmaCometTracking(char *buffer);
 int  set_TemmaCometTracking(char *buffer);
 int  set_TemmaSolarRate(void);

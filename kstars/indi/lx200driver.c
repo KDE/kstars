@@ -588,7 +588,7 @@ int setCommandInt(int data, const char *cmd)
 
   char tempString[16];
 
-  sprintf(tempString, "%s%d#", cmd, data);
+  snprintf(tempString, sizeof( tempString ), "%s%d#", cmd, data);
 
   if (portWrite(tempString) < 0)
     return -1;
@@ -600,7 +600,7 @@ int setMinElevationLimit(int min)
 {
  char tempString[16];
 
- sprintf(tempString, "#:Sh%02d#", min);
+ snprintf(tempString, sizeof( tempString ), "#:Sh%02d#", min);
 
  return (setStandardProcedure(tempString));
 }
@@ -609,7 +609,7 @@ int setMaxElevationLimit(int max)
 {
  char tempString[16];
 
- sprintf(tempString, "#:So%02d*#", max);
+ snprintf(tempString, sizeof( tempString ), "#:So%02d*#", max);
 
  return (setStandardProcedure(tempString));
 
@@ -623,7 +623,7 @@ int setMaxSlewRate(int slewRate)
    if (slewRate < 2 || slewRate > 8)
     return -1;
 
-   sprintf(tempString, "#:Sw%d#", slewRate);
+   snprintf(tempString, sizeof( tempString ), "#:Sw%d#", slewRate);
 
    return (setStandardProcedure(tempString));
 
@@ -638,7 +638,7 @@ int setObjectRA(double ra)
 
  getSexComponents(ra, &h, &m, &s);
 
- sprintf(tempString, "#:Sr %02d:%02d:%02d#", h, m, s);
+ snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d:%02d#", h, m, s);
  IDLog("Set Object RA String %s\n", tempString);
   return (setStandardProcedure(tempString));
 }
@@ -653,9 +653,9 @@ int setObjectDEC(double dec)
 
   /* case with negative zero */
   if (!d && dec < 0)
-   sprintf(tempString, "#:Sd -%02d:%02d:%02d#", d, m, s);
+    snprintf(tempString, sizeof( tempString ), "#:Sd -%02d:%02d:%02d#", d, m, s);
   else
-  sprintf(tempString, "#:Sd %+03d:%02d:%02d#", d, m, s);
+    snprintf(tempString, sizeof( tempString ), "#:Sd %+03d:%02d:%02d#", d, m, s);
 
   IDLog("Set Object DEC String %s\n", tempString);
   
@@ -667,7 +667,7 @@ int setCommandXYZ(int x, int y, int z, const char *cmd)
 {
   char tempString[16];
 
-  sprintf(tempString, "%s %02d:%02d:%02d#", cmd, x, y, z);
+  snprintf(tempString, sizeof( tempString ), "%s %02d:%02d:%02d#", cmd, x, y, z);
 
   return (setStandardProcedure(tempString));
 }
@@ -702,7 +702,7 @@ int setCalenderDate(int dd, int mm, int yy)
    char boolRet[2];
    yy = yy % 100;
 
-   sprintf(tempString, "#:SC %02d/%02d/%02d#", mm, dd, yy);
+   snprintf(tempString, sizeof( tempString ), "#:SC %02d/%02d/%02d#", mm, dd, yy);
 
    if (portWrite(tempString) < 0)
     return -1;
@@ -729,7 +729,7 @@ int setUTCOffset(double hours)
    char tempString[16];
 
    /*TODO add fractions*/
-   sprintf(tempString, "#:SG %+03d#", (int) hours);
+   snprintf(tempString, sizeof( tempString ), "#:SG %+03d#", (int) hours);
 
    fprintf(stderr, "UTC string is %s\n", tempString);
 
@@ -744,7 +744,7 @@ int setSiteLongitude(double Long)
 
    getSexComponents(Long, &d, &m, &s);
 
-   sprintf(tempString, "#:Sg%03d:%02d#", d, m);
+   snprintf(tempString, sizeof( tempString ), "#:Sg%03d:%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 }
@@ -756,7 +756,7 @@ int setSiteLatitude(double Lat)
 
    getSexComponents(Lat, &d, &m, &s);
 
-   sprintf(tempString, "#:St%+03d:%02d:%02d#", d, m, s);
+   snprintf(tempString, sizeof( tempString ), "#:St%+03d:%02d:%02d#", d, m, s);
 
    return (setStandardProcedure(tempString));
 }
@@ -768,7 +768,7 @@ int setObjAz(double az)
 
    getSexComponents(az, &d, &m, &s);
 
-   sprintf(tempString, "#:Sz%03d:%02d#", d, m);
+   snprintf(tempString, sizeof( tempString ), "#:Sz%03d:%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 
@@ -781,7 +781,7 @@ int setObjAlt(double alt)
 
    getSexComponents(alt, &d, &m, &s);
 
-   sprintf(tempString, "#:Sa%+02d*%02d#", d, m);
+   snprintf(tempString, sizeof( tempString ), "#:Sa%+02d*%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 }
@@ -795,16 +795,16 @@ int setSiteName(char * siteName, int siteNum)
    switch (siteNum)
    {
      case 1:
-      sprintf(tempString, "#:SM %s#", siteName);
+      snprintf(tempString, sizeof( tempString ), "#:SM %s#", siteName);
       break;
      case 2:
-      sprintf(tempString, "#:SN %s#", siteName);
+      snprintf(tempString, sizeof( tempString ), "#:SN %s#", siteName);
       break;
      case 3:
-      sprintf(tempString, "#:SO %s#", siteName);
+      snprintf(tempString, sizeof( tempString ), "#:SO %s#", siteName);
       break;
     case 4:
-      sprintf(tempString, "#:SP %s#", siteName);
+      snprintf(tempString, sizeof( tempString ), "#:SP %s#", siteName);
       break;
     default:
       return -1;
@@ -891,7 +891,7 @@ int setTrackFreq(double trackF)
 {
   char tempString[16];
 
-  sprintf(tempString, "#:ST %04.1f#", trackF);
+  snprintf(tempString, sizeof( tempString ), "#:ST %04.1f#", trackF);
 
   return (setStandardProcedure(tempString));
 
@@ -1052,13 +1052,13 @@ int selectCatalogObject(int catalog, int NNNN)
  switch (catalog)
  {
    case LX200_STAR_C:
-    sprintf(tempString, "#:LS%d#", NNNN);
+    snprintf(tempString, sizeof( tempString ), "#:LS%d#", NNNN);
     break;
    case LX200_DEEPSKY_C:
-    sprintf(tempString, "#:LC%d#", NNNN);
+    snprintf(tempString, sizeof( tempString ), "#:LC%d#", NNNN);
     break;
    case LX200_MESSIER_C:
-    sprintf(tempString, "#:LM%d#", NNNN);
+    snprintf(tempString, sizeof( tempString ), "#:LM%d#", NNNN);
     break;
    default:
     return -1;
@@ -1076,10 +1076,10 @@ int selectSubCatalog(int catalog, int subCatalog)
   switch (catalog)
   {
     case LX200_STAR_C:
-    sprintf(tempString, "#:LsD%d#", subCatalog);
+    snprintf(tempString, sizeof( tempString ), "#:LsD%d#", subCatalog);
     break;
     case LX200_DEEPSKY_C:
-    sprintf(tempString, "#:LoD%d#", subCatalog);
+    snprintf(tempString, sizeof( tempString ), "#:LoD%d#", subCatalog);
     break;
     case LX200_MESSIER_C:
      return 1;

@@ -361,16 +361,16 @@ void INDIStdDevice::streamReceived()
 	    strncpy(tempFileStr, filename, 256);
 	    
 	    if ( batchMode && !ISOMode)
-	      snprintf(filename, 256, "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
+	      snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
 	    else if (!batchMode && !Options::indiFITSDisplay())
 	    {
 	      strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	      snprintf(filename, 256, "%s/file_%s.fits", tempFileStr, ts);
+	      snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
 	    }
 	    else
 	    {
 	     strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	     snprintf(filename, 256, "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
+	     snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
 	    }
 	     
 	     seqCount++;

@@ -339,7 +339,7 @@ static void connectMount () {
 					powSw.s = IPS_OK;
 					power[0].s = ISS_ON;
 					power[1].s = ISS_OFF;
-					snprintf(buffer2,25,"%s",buffer+4);
+					snprintf(buffer2,sizeof( buffer2 ),"%s",buffer+4);
 
 					IDSetText(&TemmaVersion , "Temma version set");
 					TemmaVersionT->text = realloc(TemmaVersionT->text, strlen(buffer2)+1);
@@ -353,7 +353,7 @@ static void connectMount () {
 					strcpy(TemmaVersionT->text, buffer2);
 					TemmaVersion.s = IPS_OK; 
 					IDSetText (&TemmaVersion, NULL);
-					IDLog(buffer2);
+					IDLog("%s", buffer2);
 					/* start timer to read mount coords */
 					IEAddTimer (POLLMS, readMountcurrentpos, NULL);
 				}
@@ -457,7 +457,7 @@ int set_CometTracking(int RArate, int DECrate){
 	DECrate=600;
 	}
 
-	sprintf(local_buffer, "%+6d,%+5d", RArate, DECrate);
+	snprintf(local_buffer, sizeof( local_buffer ), "%+6d,%+5d", RArate, DECrate);
 	set_TemmaCometTracking(local_buffer);
 	
 	return 0;
@@ -487,7 +487,7 @@ int do_TemmaGOTO() {
 		sign='-';
 	}
 
-	sprintf(buffer,"%.2d%.2d%.2d%c%.2d%.2d%.1d\0",
+	snprintf(buffer, sizeof(buffer),"%.2d%.2d%.2d%c%.2d%.2d%.1d",
 			(int)currentRA,(int)(currentRA*(double)60)%60,((int)(currentRA*(double)6000))%100,sign,
 			(int)dec,(int)(dec*(double)60)%60,((int)(dec*(double)600))%10);
 	fprintf(stderr,"Goto %s\n", buffer);
@@ -583,12 +583,12 @@ int set_TemmaCurrentpos(void) {
 		sign='-';
 	}
 
-	sprintf(buffer,"%.2d%.2d%.2d%c%.2d%.2d%.1d\0",
+	sprintf(buffer,"%.2d%.2d%.2d%c%.2d%.2d%.1d",
 			(int)currentRA,(int)(currentRA*(double)60)%60,((int)(currentRA*(double)6000))%100,sign,
 			(int)dec,(int)(dec*(double)60)%60,((int)(dec*(double)600))%10);
 	fprintf(stderr,"sync to %s %f %f\n", buffer,currentRA,dec);
 
-	sprintf(buf,"D%s",buffer);
+	snprintf(buf, sizeof(buf), "D%s",buffer);
 	buf[13]=0;
 	portWrite(buf);
 	*buffer=0;
@@ -723,7 +723,7 @@ int set_TemmaLatitude(char *local_buffer){
 		sign='-';
 	}
 
-	sprintf(command,"I%c%.2d%.2d%.1d\0", sign,
+	sprintf(command,"I%c%.2d%.2d%.1d", sign,
 			(int)lat,
 			(int)(lat*(double)60)%60,
 			((int)(lat*(double)600))%10);
@@ -777,7 +777,7 @@ int set_TemmaStandbyState(int on){
 	return 0;
 }
 
-int get_TemmaStandbyState(char *local_buffer){
+int get_TemmaStandbyState(unsigned char *local_buffer){
 	int nb;
 	int status;
 
@@ -811,7 +811,7 @@ int get_TemmaStandbyState(char *local_buffer){
 		return 0;
 	}
 	if (status<=ETIMEOUT && status >=ECOMMAND){
-		IDSetSwitch(&RAmotorSw, errormes[ETIMEOUT - status]);
+		IDSetSwitch(&RAmotorSw, "%s", errormes[ETIMEOUT - status]);
 	}
 	
 	return -1;

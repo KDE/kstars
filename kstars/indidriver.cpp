@@ -19,6 +19,7 @@
 #include "indihostconf.h"
 #include "devicemanager.h"
 #include "indidevice.h"
+#include "indi/indicom.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -532,7 +533,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a group attribute", tagXMLEle(root));
+    snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a group attribute", tagXMLEle(root));
     return false;
   }
   
@@ -580,7 +581,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
   ap = findXMLAtt(root, "label");
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a label attribute", tagXMLEle(root));
+    snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a label attribute", tagXMLEle(root));
     return false;
   }
 
@@ -590,7 +591,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
   ap = findXMLAtt(root, "driver");
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a driver attribute", tagXMLEle(root));
+    snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a driver attribute", tagXMLEle(root));
     return false;
   }
 
@@ -833,7 +834,7 @@ IDevice::IDevice(QString inLabel, QString inDriver, QString inExec, QString inVe
 
 }
 
-void IDevice::processstd(KProcess */*proc*/, char* buffer, int /*buflen*/)
+void IDevice::processstd(KProcess* /*proc*/, char* buffer, int /*buflen*/)
 {
   serverBuffer.append(buffer);
   emit newServerInput();

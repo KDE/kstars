@@ -135,8 +135,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       index = getOnSwitch(&GPSPowerSw);
       index == 0 ? turnGPSOn() : turnGPSOff();
       GPSPowerSw.s = IPS_OK;
-      strcpy(msg, index == 0 ? "GPS System is ON" : "GPS System is OFF");
-      IDSetSwitch (&GPSPowerSw, msg);
+      IDSetSwitch (&GPSPowerSw, index == 0 ? "GPS System is ON" : "GPS System is OFF" );
       return;
     }
 
@@ -169,7 +168,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       }
 
 	GPSStatusSw.s = IPS_OK;
-	IDSetSwitch (&GPSStatusSw, msg);
+	IDSetSwitch (&GPSStatusSw, "%s", msg);
 	return;
 
     }
@@ -218,7 +217,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       }
 
       AltDecPecSw.s = IPS_OK;
-      IDSetSwitch(&AltDecPecSw, msg);
+      IDSetSwitch(&AltDecPecSw, "%s", msg);
 
       return;
     }
@@ -245,7 +244,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       }
 
       AzRaPecSw.s = IPS_OK;
-      IDSetSwitch(&AzRaPecSw, msg);
+      IDSetSwitch(&AzRaPecSw, "%s", msg);
 
       return;
     }

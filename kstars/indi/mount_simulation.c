@@ -140,10 +140,10 @@ char *names[], int n)
 		targetDEC = newdec;
 		fs_sexa (r, targetRA, 2, 3600);
 		fs_sexa (d, targetDEC, 3, 3600);
-		sprintf (msg, "Moving to RA Dec %s %s", r, d);
+		snprintf (msg, sizeof(msg), "Moving to RA Dec %.32s %.32s", r, d);
 	    } else {
 		eqNum.s = IPS_IDLE;
-		sprintf (msg, "RA or Dec absent or bogus");
+		snprintf (msg, sizeof(msg), "RA or Dec absent or bogus");
 	    }
 	    sendeq (msg);
 	    return;

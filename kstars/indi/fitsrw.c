@@ -155,31 +155,31 @@ int fits_ieee64_motorola = 0;
 
 #define FITS_WRITE_BOOLCARD(fp,key,value) \
 {char card[81]; \
- sprintf (card, "%-8.8s= %20s%50s", key, value ? "T" : "F", " "); \
+ snprintf (card, sizeof( card ), "%-8.8s= %20s%50s", key, value ? "T" : "F", " "); \
  fwrite (card, 1, 80, fp); }
 
 #define FITS_WRITE_LONGCARD(fp,key,value) \
 {char card[81]; \
- sprintf (card, "%-8.8s= %20ld%50s", key, (long)value, " "); \
+ snprintf (card, sizeof( card ), "%-8.8s= %20ld%50s", key, (long)value, " "); \
  fwrite (card, 1, 80, fp); }
 
 #define FITS_WRITE_DOUBLECARD(fp,key,value) \
 {char card[81], dbl[21], *istr; \
- sprintf (dbl, "%20f", (double)value); istr = strstr (dbl, "e"); \
+ snprintf (dbl, sizeof( dbl ), "%20f", (double)value); istr = strstr (dbl, "e"); \
  if (istr) *istr = 'E'; \
- sprintf (card, "%-8.8s= %20.20s%50s", key, dbl, " "); \
+ snprintf (card, sizeof( card ), "%-8.8s= %20.20s%50s", key, dbl, " "); \
  fwrite (card, 1, 80, fp); }
 
 #define FITS_WRITE_STRINGCARD(fp,key,value) \
 {char card[81]; int k;\
- sprintf (card, "%-8.8s= \'%s", key, value); \
+ snprintf (card, sizeof( card ), "%-8.8s= \'%s", key, value); \
  for (k = strlen (card); k < 81; k++) card[k] = ' '; \
  k = strlen (key); if (k < 8) card[19] = '\''; else card[11+k] = '\''; \
  fwrite (card, 1, 80, fp); }
 
 #define FITS_WRITE_CARD(fp,value) \
 {char card[81]; \
- sprintf (card, "%-80.80s", value); \
+ snprintf (card, sizeof( card ), "%-80.80s", value); \
  fwrite (card, 1, 80, fp); }
 
 
@@ -474,7 +474,8 @@ static void fits_drop_error (void)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-FITS_FILE *fits_open (const char *filename, const char *openmode)
+ 
+FITS_FILE *fits_open (const char* filename, const char *openmode)
 
 {int reading, writing, n_rec, n_hdr;
  long fpos_header, fpos_data;
@@ -483,8 +484,10 @@ FITS_FILE *fits_open (const char *filename, const char *openmode)
  FITS_RECORD_LIST *hdrlist;
  FITS_HDU_LIST *hdulist, *last_hdulist;
 
- /* initialize */
+ if ((filename == NULL) || (*filename == '\0') || (openmode == NULL))
+   FITS_RETURN ("fits_open: Invalid parameters", NULL);
 
+ /* initialize */
  hdulist = NULL;
  last_hdulist = NULL;
 
@@ -505,9 +508,6 @@ FITS_FILE *fits_open (const char *filename, const char *openmode)
     fits_ieee64_motorola = (op64[0] == 0x3f);
   }
  }
-
- if ((filename == NULL) || (*filename == '\0') || (openmode == NULL))
-   FITS_RETURN ("fits_open: Invalid parameters", NULL);
 
  reading = (strcmp (openmode, "r") == 0);
  writing = (strcmp (openmode, "w") == 0);
@@ -858,7 +858,7 @@ int fits_write_header (FITS_FILE *ff, FITS_HDU_LIST *hdulist)
 
  for (r = 0; r < hdulist->naxis; r++)
  {char naxisn[10];
-   sprintf (naxisn, "NAXIS%d", r+1);
+   snprintf (naxisn, sizeof( naxisn ), "NAXIS%d", r+1);
    FITS_WRITE_LONGCARD (ff->fp, naxisn, hdulist->naxisn[r]);
    numcards++;
  }
@@ -1025,7 +1025,7 @@ static FITS_HDU_LIST *fits_decode_header (FITS_RECORD_LIST *hdr,
  for (k = 1; k <= FITS_MAX_AXIS; k++)
  {char naxisn[9];
 
-   sprintf (naxisn, "NAXIS%-3d", k);
+   snprintf (naxisn, sizeof( naxisn ), "NAXIS%-3d", k);
    fdat = fits_decode_card (fits_search_card (hdr, naxisn), typ_flong);
    if (fdat == NULL)
    {
@@ -1121,7 +1121,7 @@ static FITS_HDU_LIST *fits_decode_header (FITS_RECORD_LIST *hdr,
  }
  else
  {char msg[160];
-   sprintf (msg, "fits_decode_header: IEEE floating point format required for\
+   snprintf (msg, sizeof( msg ), "fits_decode_header: IEEE floating point format required for\
  BITPIX=%d\nis not supported on this machine", hdulist->bitpix);
    fits_set_error (msg);
  }
@@ -1130,7 +1130,7 @@ static FITS_HDU_LIST *fits_decode_header (FITS_RECORD_LIST *hdr,
  return (hdulist);
 
 err_missing:
- sprintf (errmsg, "fits_decode_header: missing/invalid %s card", key);
+ snprintf (errmsg, sizeof(errmsg),  "fits_decode_header: missing/invalid %.50s card", key);
 
 err_return:
  fits_delete_hdulist (hdulist);
@@ -1429,7 +1429,7 @@ FITS_DATA *fits_decode_card (const char *card, FITS_DATA_TYPES data_type)
 
  if (strncmp (card+8, "= ", 2) != 0)
  {
-   sprintf (msg, "fits_decode_card (warning): Missing value indicator\
+   snprintf (msg, sizeof( msg ), "fits_decode_card (warning): Missing value indicator\
  '= ' for %8.8s", l_card);
    fits_set_error (msg);
  }

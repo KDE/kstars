@@ -45,8 +45,8 @@
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
-static int dispatch (XMLEle *root, char msg[]);
-static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
+static int dispatch (XMLEle *root, char errmsg[]);
+static int crackDN (XMLEle *root, char **dev, char **name, char errmsg[]);
 const  char *pstateStr(IPState s);
 const  char *sstateStr(ISState s);
 const  char *ruleStr(ISRule r);
@@ -70,6 +70,9 @@ static ROSC *roCheck;
 int
 main (int ac, char *av[])
 {
+        setgid( getgid() );
+        setuid( getuid() );
+
 	/* save handy pointer to our base name */
 	for (me = av[0]; av[0][0]; av[0]++)
 	    if (av[0][0] == '/')
@@ -210,6 +213,7 @@ IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 /* tell client to create a new switch vector property */
 void
 IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
+
 {
 	int i;
 	ROSC *SC;
@@ -701,12 +705,12 @@ usage(void)
 static void
 clientMsgCB (int fd, void *arg)
 {
-	char buf[1024], msg[1024], *bp;
+	char buf[1024], errmsg[ERRMSG_SIZE], *bp;
 	int nr;
 	arg=arg;
 
 	/* one read */
-	nr = read (fd, buf, sizeof(buf));
+	nr = read (fd, buf, sizeof(buf)-1);
 	if (nr < 0) {
 	    fprintf (stderr, "%s: %s\n", me, strerror(errno));
 	    exit(1);
@@ -715,26 +719,27 @@ clientMsgCB (int fd, void *arg)
 	    fprintf (stderr, "%s: EOF\n", me);
 	    exit(1);
 	}
+        buf[ sizeof( buf )-1 ] = '\0';
 
 	/* crack and dispatch when complete */
 	for (bp = buf; nr-- > 0; bp++) {
-	    XMLEle *root = readXMLEle (clixml, *bp, msg);
+	    XMLEle *root = readXMLEle (clixml, *bp, errmsg);
 	    if (root) {
-		if (dispatch (root, msg) < 0)
-		    fprintf (stderr, "%s dispatch error: %s\n", me, msg);
+		if (dispatch (root, errmsg) < 0)
+		    fprintf (stderr, "%s dispatch error: %s\n", me, errmsg);
 		delXMLEle (root);
-	    } else if (msg[0])
-		fprintf (stderr, "%s XML error: %s\n", me, msg);
+	    } else if (errmsg[0])
+		fprintf (stderr, "%s XML error: %s\n", me, errmsg);
 	}
 }
 
 /* crack the given INDI XML element and call driver's IS* entry points as they
  *   are recognized.
- * return 0 if ok else -1 with reason in msg[].
+ * return 0 if ok else -1 with reason in errmsg[].
  * N.B. exit if getProperties does not proclaim a compatible version.
  */
 static int
-dispatch (XMLEle *root, char msg[])
+dispatch (XMLEle *root, char errmsg[])
 {
 	XMLEle *ep;
 	int n;
@@ -752,7 +757,7 @@ dispatch (XMLEle *root, char msg[])
 	    char *dev, *name;
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, msg) < 0)
+	    if (crackDN (root, &dev, &name, errmsg) < 0)
 		return (-1);
 
 	    /* pull out each name/value pair */
@@ -804,7 +809,7 @@ printf ("%s\n", valuXMLAtt(na));
 	    /*XMLEle *ep;*/
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, msg) < 0)
+	    if (crackDN (root, &dev, &name, errmsg) < 0)
 		return (-1);
 
 	    /* pull out each name/state pair */
@@ -860,7 +865,7 @@ printf ("%s\n", valuXMLAtt(na));
 	    char *dev, *name;
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, msg) < 0)
+	    if (crackDN (root, &dev, &name, errmsg) < 0)
 		return (-1);
 
 	    /* pull out each name/text pair */
@@ -923,28 +928,28 @@ printf ("%s\n", valuXMLAtt(na));
 	    return (0);
 	}
 
-	sprintf (msg, "Unknown command: %s", tagXMLEle(root));
+	snprintf (errmsg, ERRMSG_SIZE, "Unknown command: %s", tagXMLEle(root));
 	return(1);
 }
 
 /* pull out device and name attributes from root.
- * return 0 if ok else -1 with reason in msg[].
+ * return 0 if ok else -1 with reason in errmsg[].
  */
 static int
-crackDN (XMLEle *root, char **dev, char **name, char msg[])
+crackDN (XMLEle *root, char **dev, char **name, char errmsg[])
 {
 	XMLAtt *ap;
 
 	ap = findXMLAtt (root, "device");
 	if (!ap) {
-	    sprintf (msg, "%s requires 'device' attribute", tagXMLEle(root));
+	    snprintf (errmsg, ERRMSG_SIZE, "%s requires 'device' attribute", tagXMLEle(root));
 	    return (-1);
 	}
 	*dev = valuXMLAtt(ap);
 
 	ap = findXMLAtt (root, "name");
 	if (!ap) {
-	    sprintf (msg, "%s requires 'name' attribute", tagXMLEle(root));
+	    snprintf (errmsg, ERRMSG_SIZE, "%s requires 'name' attribute", tagXMLEle(root));
 	    return (-1);
 	}
 	*name = valuXMLAtt(ap);

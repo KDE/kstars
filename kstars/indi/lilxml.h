@@ -189,7 +189,7 @@ extern int nXMLAtt (XMLEle *ep);
     \param name the name of the XML attribute to retrieve its value.
     \return the value string of an XML element on success. NULL on failure.
 */
-extern char *findXMLAttValu (XMLEle *ep, char *name);
+extern const char *findXMLAttValu (XMLEle *ep, char *name);
 
 /** \brief Handy wrapper to read one xml file.
     \param fp pointer to FILE to read.

@@ -51,9 +51,9 @@ void getBasicData(void);
 void initDataChannel(void);
 void waitForData(int rp, int wp);
 void updateDataChannel(void *p);
-void uploadFile(char * filename);
+void uploadFile(const char* filename);
 int  findPort(void);
-int  writeFITS(char *filename, char errmsg[]);
+int  writeFITS(const char* filename, char errmsg[]);
 int  findcam(flidomain_t domain);
 int  setImageArea(char errmsg[]);
 int  manageDefaults(char errmsg[]);
@@ -393,7 +393,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       long err;
       int i;
       INumber *np;
-      char errmsg[1024];
+      char errmsg[ERRMSG_SIZE];
 
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -530,14 +530,14 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       
       if (nset < 4)
       {
-        IDSetNumber(&FrameNP, "Invalid range. Valid range is (0,0) - (%0.f,%0.f)", FLICam->width, FLICam->height);
-	IDLog("Invalid range. Valid range is (0,0) - (%0.f,%0.f)", FLICam->width, FLICam->height);
+        IDSetNumber(&FrameNP, "Invalid range. Valid range is (0,0) - (%0d,%0d)", FLICam->width, FLICam->height);
+	IDLog("Invalid range. Valid range is (0,0) - (%0d,%0d)", FLICam->width, FLICam->height);
 	return; 
       }
       
       if (setImageArea(errmsg))
       {
-        IDSetNumber(&FrameNP, errmsg);
+        IDSetNumber(&FrameNP, "%s", errmsg);
 	return;
       }
       	    
@@ -574,8 +574,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       {
         if (values[i] < 1 || values[i] > MAX_X_BIN)
 	{
-	  IDSetNumber(&BinningNP, "Error: Valid X bin values are from 1 to %d", MAX_X_BIN);
-	  IDLog("Error: Valid X bin values are from 1 to %d", MAX_X_BIN);
+	  IDSetNumber(&BinningNP, "Error: Valid X bin values are from 1 to %g", MAX_X_BIN);
+	  IDLog("Error: Valid X bin values are from 1 to %g", MAX_X_BIN);
 	  return;
 	}
 	
@@ -592,8 +592,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       {
         if (values[i] < 1 || values[i] > MAX_Y_BIN)
 	{
-	  IDSetNumber(&BinningNP, "Error: Valid Y bin values are from 1 to %d", MAX_Y_BIN);
-	  IDLog("Error: Valid X bin values are from 1 to %d", MAX_Y_BIN);
+	  IDSetNumber(&BinningNP, "Error: Valid Y bin values are from 1 to %g", MAX_Y_BIN);
+	  IDLog("Error: Valid X bin values are from 1 to %g", MAX_Y_BIN);
 	  return;
 	}
 	
@@ -611,7 +611,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      if (setImageArea(errmsg))
      {
        IDSetNumber(&BinningNP, errmsg, NULL);
-       IDLog(errmsg);
+       IDLog("%s", errmsg);
        return;
      }
      
@@ -791,8 +791,8 @@ int setImageArea(char errmsg[])
    
    if ( (err = FLISetImageArea(fli_dev, x_1, y_1, x_2, y_2) ))
    {
-     sprintf(errmsg, "FLISetImageArea() failed. %s.\n", strerror((int)-err));
-     IDLog(errmsg, NULL);
+     snprintf(errmsg, ERRMSG_SIZE, "FLISetImageArea() failed. %s.\n", strerror((int)-err));
+     IDLog("%s", errmsg);
      return -1;
    }
    
@@ -806,13 +806,13 @@ int grabImage()
 {
   long err;
   int img_size,i, fd;
-  char errmsg[1024];
+  char errmsg[ERRMSG_SIZE];
   char filename[] = "/tmp/fitsXXXXXX";
   
    if ((fd = mkstemp(filename)) < 0)
    { 
-    IDMessage(mydev, "Error making temporary filename.", NULL);
-    IDLog("Error making temporary filename.\n", NULL);
+    IDMessage(mydev, "Error making temporary filename.");
+    IDLog("Error making temporary filename.\n");
     return -1;
    }
    close(fd);
@@ -823,8 +823,8 @@ int grabImage()
   
   if (FLIImg->img == NULL)
   {
-    IDMessage(mydev, "Not enough memory to store image.", NULL);
-    IDLog("Not enough memory to store image.\n", NULL);
+    IDMessage(mydev, "Not enough memory to store image.");
+    IDLog("Not enough memory to store image.\n");
     return -1;
   }
   
@@ -854,7 +854,7 @@ int grabImage()
  
 }
 
-int writeFITS(char *filename, char errmsg[])
+int writeFITS(const char* filename, char errmsg[])
 {
   FITS_FILE* ofp;
   int i, j, bpp, bpsl, width, height;
@@ -864,7 +864,7 @@ int writeFITS(char *filename, char errmsg[])
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
-    sprintf(errmsg, "Error: cannot open file for writing.");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: cannot open file for writing.");
     return (-1);
   }
   
@@ -877,12 +877,12 @@ int writeFITS(char *filename, char errmsg[])
   hdu = create_fits_header (ofp, width, height, bpp);
   if (hdu == NULL)
   {
-     sprintf(errmsg, "Error: creating FITS header failed.");
+     snprintf(errmsg, ERRMSG_SIZE, "Error: creating FITS header failed.");
      return (-1);
   }
   if (fits_write_header (ofp, hdu) < 0)
   {
-    sprintf(errmsg, "Error: writing to FITS header failed.");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: writing to FITS header failed.");
     return (-1);
   }
   
@@ -906,7 +906,7 @@ int writeFITS(char *filename, char errmsg[])
   
   if (ferror (ofp->fp))
   {
-    sprintf(errmsg, "Error: write error occured");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: write error occured");
     return (-1);
   }
  
@@ -925,7 +925,7 @@ int writeFITS(char *filename, char errmsg[])
 
 }
 
-void uploadFile(char * filename)
+void uploadFile(const char* filename)
 {
    FILE * fitsFile;
    char frameSize[FRAME_ILEN];
@@ -938,7 +938,7 @@ void uploadFile(char * filename)
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
-     IDLog(" Error occoured attempting to stat %s\n", filename); 
+     IDLog(" Error occoured attempting to stat file.\n"); 
      return; 
    }
    
@@ -1160,7 +1160,7 @@ int manageDefaults(char errmsg[])
   IDLog("Setting default exposure time of %d ms.\n", exposeTimeMS);
   if ( (err = FLISetExposureTime(fli_dev, exposeTimeMS) ))
   {
-    sprintf(errmsg, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
+    snprintf(errmsg, ERRMSG_SIZE, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
     IDLog(errmsg, NULL);
     return -1;
   }
@@ -1168,7 +1168,7 @@ int manageDefaults(char errmsg[])
   /* Default frame type is NORMAL */
   if ( (err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
   {
-    sprintf(errmsg, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
+    snprintf(errmsg, ERRMSG_SIZE, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
     IDLog(errmsg, NULL);
     return -1;
   }
@@ -1176,7 +1176,7 @@ int manageDefaults(char errmsg[])
   /* X horizontal binning */
   if ( (err = FLISetHBin(fli_dev, BinningN[0].value) ))
   {
-    sprintf(errmsg, "FLISetBin() failed. %s.\n", strerror((int)-err));
+    snprintf(errmsg, ERRMSG_SIZE, "FLISetBin() failed. %s.\n", strerror((int)-err));
     IDLog(errmsg, NULL);
     return -1;
   }
@@ -1184,7 +1184,7 @@ int manageDefaults(char errmsg[])
   /* Y vertical binning */
   if ( (err = FLISetVBin(fli_dev, BinningN[1].value) ))
   {
-    sprintf(errmsg, "FLISetVBin() failed. %s.\n", strerror((int)-err));
+    snprintf(errmsg, ERRMSG_SIZE, "FLISetVBin() failed. %s.\n", strerror((int)-err));
     IDLog(errmsg, NULL);
     return -1;
   }
@@ -1271,7 +1271,7 @@ int checkPowerT(ITextVectorProperty *tp)
 void connectCCD()
 {
   long err;
-  char errmsg[1024];
+  char errmsg[ERRMSG_SIZE];
  
   IDLog ("In ConnectCCD\n");
    
@@ -1311,7 +1311,7 @@ void connectCCD()
       if (manageDefaults(errmsg))
       {
         IDMessage(mydev, errmsg, NULL);
-	IDLog(errmsg);
+	IDLog("%s", errmsg);
 	return;
       }
       
@@ -1474,7 +1474,7 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  fits_add_card (hdulist, temp_s);
  fits_add_card (hdulist, expose_s);
  fits_add_card (hdulist, pixel_s);
- fits_add_card (hdulist, "INSTRUME= 'Finger Lakes Instruments'");
+ fits_add_card (hdulist, ( char* ) "INSTRUME= 'Finger Lakes Instruments'");
  fits_add_card (hdulist, obsDate);
   
  return (hdulist);
@@ -1611,7 +1611,7 @@ int findPort()
   /* bind to given port for any IP address */
   memset (&serv_socket, 0, sizeof(serv_socket));
   serv_socket.sin_family = AF_INET;
-  serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+  serv_socket.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
   
   for (i=0; i < 100; i++)
   {
@@ -1654,7 +1654,7 @@ void waitForData(int rp, int wp)
 	/* bind to given port for any IP address */
 	memset (&serv_socket, 0, sizeof(serv_socket));
 	serv_socket.sin_family = AF_INET;
-	serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+	serv_socket.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
 	
 	serv_socket.sin_port = htons ((unsigned short)DataPort);
 	if (setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse)) < 0){

@@ -51,8 +51,8 @@ void waitForData(int rp, int wp);
 void updateDataChannel(void *p);
 void updateStream(void * p);
 void getBasicData(void);
-void uploadFile(char * filename);
-int  writeFITS(char *filename, char errmsg[]);
+void uploadFile(const char * filename);
+int  writeFITS(const char *filename, char errmsg[]);
 int  grabImage(void);
 int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
@@ -453,14 +453,14 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 int grabImage()
 {
    int err, fd;
-   char errmsg[1024];
+   char errmsg[ERRMSG_SIZE];
    char filename[] = "/tmp/fitsXXXXXX";
   
    
    if ((fd = mkstemp(filename)) < 0)
    { 
-    IDMessage(mydev, "Error making temporary filename.", NULL);
-    IDLog("Error making temporary filename.\n", NULL);
+    IDMessage(mydev, "Error making temporary filename.");
+    IDLog("Error making temporary filename.\n");
     return -1;
    }
    close(fd);
@@ -475,7 +475,7 @@ int grabImage()
   return 0;
 }
 
-int writeFITS(char * filename, char errmsg[])
+int writeFITS(const char * filename, char errmsg[])
 {
   FITS_FILE* ofp;
   int i, bpp, bpsl, width, height;
@@ -487,7 +487,7 @@ int writeFITS(char * filename, char errmsg[])
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
-    sprintf(errmsg, "Error: cannot open file for writing.");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: cannot open file for writing.");
     return (-1);
   }
   
@@ -500,12 +500,12 @@ int writeFITS(char * filename, char errmsg[])
   hdu = create_fits_header (ofp, width, height, bpp);
   if (hdu == NULL)
   {
-     sprintf(errmsg, "Error: creating FITS header failed.");
+     snprintf(errmsg, ERRMSG_SIZE, "Error: creating FITS header failed.");
      return (-1);
   }
   if (fits_write_header (ofp, hdu) < 0)
   {
-    sprintf(errmsg, "Error: writing to FITS header failed.");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: writing to FITS header failed.");
     return (-1);
   }
   
@@ -524,7 +524,7 @@ int writeFITS(char * filename, char errmsg[])
   
   if (ferror (ofp->fp))
   {
-    sprintf(errmsg, "Error: write error occured");
+    snprintf(errmsg, ERRMSG_SIZE, "Error: write error occured");
     return (-1);
   }
  
@@ -722,7 +722,7 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  hdulist->used.bscale = 1;
  hdulist->bscale = 1.0;
  
- sprintf(expose_s, "EXPOSURE= %d / milliseconds", V4LFrame->expose);
+ snprintf(expose_s, sizeof(expose_s), "EXPOSURE= %d / milliseconds", V4LFrame->expose);
  
  fits_add_card (hdulist, expose_s);
  fits_add_card (hdulist, instrumentName);
@@ -809,7 +809,7 @@ void updateStream(void *p)
  
 }
 
-void uploadFile(char * filename)
+void uploadFile(const char * filename)
 {
    
    FILE * fitsFile;
