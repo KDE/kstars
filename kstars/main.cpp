@@ -23,6 +23,8 @@
 #include "kstarsdata.h"
 #include "kstarssplash.h"
 
+#define KSTARS_VERSION "0.8.3"
+
 static const char *description =
 	I18N_NOOP("Desktop Planetarium");
 
@@ -41,7 +43,7 @@ int main(int argc, char *argv[])
 {
 
   KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
-    version, description, KAboutData::License_GPL,
+    KSTARS_VERSION, description, KAboutData::License_GPL,
     "(c) 2001, Jason Harris", 0, "http://edu.kde.org/kstars");
   aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
   aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
