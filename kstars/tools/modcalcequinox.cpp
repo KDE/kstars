@@ -31,6 +31,8 @@
 #include <qtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
 
 
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) : modCalcEquinoxDlg (parentSplit,name) {
@@ -78,7 +80,7 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 	}
 	else if(equinoxSolsticesComboBox->currentItem() == 3) {
 		julianDay = Sun->winterSolstice(year0);
-		jdf = Sun->springEquinox(year0);
+		jdf = Sun->springEquinox(year0+1);
 	}
 	
 	deltaJd = (float) (jdf - julianDay);
@@ -103,3 +105,119 @@ void modCalcEquinox::showSeasonDuration(float deltaJd)
 	seasonDuration->setText( QString( "%1").arg( deltaJd ) );
 }
 
+void modCalcEquinox::slotYearCheckedBatch(){
+
+	if ( yearCheckBatch->isChecked() )
+		yearCheckBatch->setEnabled( false );
+	else {
+		yearCheckBatch->setEnabled( true );
+	}
+}
+
+void modCalcEquinox::slotInputFile() {
+	QString inputFileName;
+	inputFileName = KFileDialog::getOpenFileName( );
+	InputLineEditBatch->setText( inputFileName );
+}
+
+void modCalcEquinox::slotOutputFile() {
+	QString outputFileName;
+	outputFileName = KFileDialog::getSaveFileName( );
+	OutputLineEditBatch->setText( outputFileName );
+}
+
+void modCalcEquinox::slotRunBatch() {
+
+	QString inputFileName;
+
+	inputFileName = InputLineEditBatch->text();
+
+	// We open the input file and read its content
+
+	if ( QFile::exists(inputFileName) ) {
+		QFile f( inputFileName );
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1"
+			).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			inputFileName = "";
+			return;
+		}
+
+//		processLines(&f);
+		QTextStream istream(&f);
+		processLines(istream);
+//		readFile( istream );
+		f.close();
+	} else  {
+		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+		inputFileName = "";
+		InputLineEditBatch->setText( inputFileName );
+		return;
+	}
+}
+
+void modCalcEquinox::processLines( QTextStream &istream ) {
+
+	// we open the output file
+
+//	QTextStream istream(&fIn);
+	QString outputFileName;
+	outputFileName = OutputLineEditBatch->text();
+	QFile fOut( outputFileName );
+	fOut.open(IO_WriteOnly);
+	QTextStream ostream(&fOut);
+
+	QString line;
+	QString space = " ";
+	int yearB;
+	int i = 0;
+	long double jdsp = 0., jdsu = 0., jdau = 0., jdwin = 0., jdsp1 = 0.;
+	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
+	KSSun *Sun = new KSSun(kd);
+
+	while ( ! istream.eof() ) {
+		line = istream.readLine();
+		line.stripWhiteSpace();
+
+		//Go through the line, looking for parameters
+
+		QStringList fields = QStringList::split( " ", line );
+
+		i = 0;
+
+		// Read year and write in ostream if corresponds
+
+		if(yearCheckBatch->isChecked() ) {
+			yearB = fields[i].toInt();
+			i++;
+		} else
+			yearB = yearEditBatch->text().toInt();
+
+		if ( allRadioBatch->isChecked() )
+			ostream << yearB << space;
+		else
+			if(yearCheckBatch->isChecked() )
+				ostream << yearB << space;
+
+		jdsp = Sun->springEquinox(yearB);
+		ExtDateTime dts(KSUtils::JDtoUT( jdsp ));
+		jdsu = Sun->summerSolstice(yearB);
+		ExtDateTime dtu(KSUtils::JDtoUT( jdsu ));
+		jdau = Sun->autumnEquinox(yearB);
+		ExtDateTime dta(KSUtils::JDtoUT( jdau ));
+		jdwin = Sun->winterSolstice(yearB);
+		ExtDateTime dtw(KSUtils::JDtoUT( jdwin ));
+
+		jdsp1 = Sun->springEquinox(yearB+1);
+
+		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space <<
+			dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space <<
+			dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space <<
+			dtw.toString(Qt::ISODate) << space << (float)(jdsp1 - jdwin) << endl;
+	}
+
+
+	fOut.close();
+}

@@ -23,6 +23,7 @@
 #include "modcalcequinoxdlg.h"
 
 class QWidget;
+class QTextStream;
 
 /**
   *@author Pablo de Vicente
@@ -40,6 +41,10 @@ public slots:
 
 	void slotComputeEquinoxesAndSolstices(void);
 	void slotClear(void);
+	void slotYearCheckedBatch();
+	void slotInputFile();
+	void slotOutputFile();
+	void slotRunBatch();
 
 private:
 
@@ -47,6 +52,7 @@ private:
 	void showCurrentYear (void);
 	void showStartDateTime(double jd);
 	void showSeasonDuration(float deltaJd);
+	void processLines( QTextStream &istream );
   
 };
 

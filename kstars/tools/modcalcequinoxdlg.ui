@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>499</width>
-            <height>474</height>
+            <height>478</height>
         </rect>
     </property>
     <property name="caption">
@@ -314,6 +314,17 @@
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>yearCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Year:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
                         <spacer>
                             <property name="name">
                                 <cstring>spacer23</cstring>
@@ -331,36 +342,14 @@
                                 </size>
                             </property>
                         </spacer>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Year:</string>
-                            </property>
-                        </widget>
                         <widget class="KLineEdit">
                             <property name="name">
-                                <cstring>kLineEdit9_2</cstring>
+                                <cstring>yearEditBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
                             </property>
                         </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer24</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>81</width>
-                                    <height>31</height>
-                                </size>
-                            </property>
-                        </spacer>
                     </hbox>
                 </widget>
                 <widget class="QButtonGroup">
@@ -530,9 +519,30 @@
         <receiver>modCalcEquinoxDlg</receiver>
         <slot>slotComputeEquinoxesAndSolstices()</slot>
     </connection>
+    <connection>
+        <sender>InputButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcEquinoxDlg</receiver>
+        <slot>slotInputFile()</slot>
+    </connection>
+    <connection>
+        <sender>OutButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcEquinoxDlg</receiver>
+        <slot>slotOutputFile()</slot>
+    </connection>
+    <connection>
+        <sender>runButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcEquinoxDlg</receiver>
+        <slot>slotRunBatch()</slot>
+    </connection>
 </connections>
 <slots>
     <slot>slotComputeEquinoxesAndSolstices()</slot>
+    <slot>slotInputFile()</slot>
+    <slot>slotOutputFile()</slot>
+    <slot>slotRunBatch()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
