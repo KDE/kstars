@@ -186,7 +186,9 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 
 	datBox->showDate( dt.date() );
 	showUT( dt.time() );
-	//longBox->show( KStars::ks->geo()->lng() );
+
+	KStars *ks = (KStars*)kapp->mainWidget();
+	longBox->show( ks->geo()->lng() );
 }
 
 QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
