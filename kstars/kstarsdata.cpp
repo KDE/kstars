@@ -1421,8 +1421,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				com->findPosition( &num, earth() );
 
 //		//Add a point to the planet trail if the centered object is a solar system body.
-//		if ( isSolarSystem( skymap->foundObject() ) ) {
-//			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
+//		if ( isSolarSystem( skymap->focusObject() ) ) {
+//			PlanetTrail.append( new SkyPoint(skymap->focusObject()->ra(), skymap->focusObject()->dec()) );
 //
 //			//Allow no more than 200 points in the trail
 //			while ( PlanetTrail.count() > 400 )
@@ -1600,18 +1600,18 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		}
 
 		//Update focus
-		if ( options->isTracking && skymap->foundObject() != NULL ) {
+		if ( options->isTracking && skymap->focusObject() != NULL ) {
 			if ( options->useAltAz ) {
 				//Tracking any object in Alt/Az mode requires focus updates
 				skymap->setDestinationAltAz(
-						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(),
-						skymap->foundObject()->az()->Degrees() );
+						skymap->refract( skymap->focusObject()->alt(), true ).Degrees(),
+						skymap->focusObject()->az()->Degrees() );
 				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 
-			} else if ( isSolarSystem( skymap->foundObject() ) ) {
+			} else if ( isSolarSystem( skymap->focusObject() ) ) {
 				//Tracking on solar system body requires focus updates in both coord systems
-				skymap->setDestination( skymap->foundObject() );
+				skymap->setDestination( skymap->focusObject() );
 				skymap->setFocus( skymap->destination() );
 
 			} else { //tracking non-solar system object in equatorial; update alt/az

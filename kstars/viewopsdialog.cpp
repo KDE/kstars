@@ -1213,14 +1213,14 @@ void ViewOpsDialog::changeSlewTimeScale( float f ) {
 }
 
 void ViewOpsDialog::changeAutoTrail( void ) {
-	if ( ksw->data()->isSolarSystem( ksw->map()->foundObject() ) ) {
+	if ( ksw->data()->isSolarSystem( ksw->map()->focusObject() ) ) {
 		if ( autoTrail->isChecked() ) {
 			//add the temporary trail
-			((KSPlanetBase*)ksw->map()->foundObject())->addToTrail();
+			((KSPlanetBase*)ksw->map()->focusObject())->addToTrail();
 			ksw->data()->temporaryTrail = true;
 		} else {
 			//remove the temporary trail
-			((KSPlanetBase*)ksw->map()->foundObject())->clearTrail();
+			((KSPlanetBase*)ksw->map()->focusObject())->clearTrail();
 			ksw->data()->temporaryTrail = false;
 		}
 	}

@@ -41,7 +41,7 @@
 #include <qmemarray.h>
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
- : QWidget (parent,name), computeSkymap (true), IBoxes(0), ClickedObject(0), FoundObject(0)
+ : QWidget (parent,name), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0)
 {
 	ksw = (KStars*) parent->parent();
 
@@ -82,7 +82,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	clockSlewing = false;
 
 	ClickedObject = NULL;
-	FoundObject = NULL;
+	FocusObject = NULL;
 
 	sky = new QPixmap();
 	pmenu = new KSPopupMenu( ksw );
@@ -161,11 +161,11 @@ void SkyMap::showFocusCoords( void ) {
 	QString oname;
 
 	oname = i18n( "nothing" );
-	if ( foundObject() != NULL && ksw->options()->isTracking ) {
-		oname = foundObject()->translatedName();
+	if ( focusObject() != NULL && ksw->options()->isTracking ) {
+		oname = focusObject()->translatedName();
 		//add genetive name for stars
-	  if ( foundObject()->type()==0 && foundObject()->name2().length() )
-			oname += " (" + foundObject()->name2() + ")";
+	  if ( focusObject()->type()==0 && focusObject()->name2().length() )
+			oname += " (" + focusObject()->name2() + ")";
 	}
 
 	infoBoxes()->focusObjChanged(oname);
@@ -184,9 +184,9 @@ void SkyMap::showFocusCoords( void ) {
 void SkyMap::slotCenter( void ) {
 	clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
-	//clear the planet trail of foundObject, if it was temporary
-	if ( ksw->data()->isSolarSystem( foundObject() ) && ksw->data()->temporaryTrail ) {
-		((KSPlanetBase*)foundObject())->clearTrail();
+	//clear the planet trail of focusObject, if it was temporary
+	if ( ksw->data()->isSolarSystem( focusObject() ) && ksw->data()->temporaryTrail ) {
+		((KSPlanetBase*)focusObject())->clearTrail();
 		ksw->data()->temporaryTrail = false;
 	}
  
@@ -200,24 +200,24 @@ void SkyMap::slotCenter( void ) {
 		if ( KMessageBox::warningYesNo( ksw, message, caption,
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			ksw->options()->isTracking = false;
 
 			return;
 		}
 	}
 	
-//set FoundObject before slewing.  Otherwise, KStarsData::updateTime() can reset
+//set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
-	setFoundObject( ClickedObject );
+	setFocusObject( ClickedObject );
 	ksw->options()->isTracking = true;
 	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
-	//If foundObject is a SS body and doesn't already have a trail, set the temporaryTrail
-	if ( foundObject() && ksw->data()->isSolarSystem( foundObject() ) 
+	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
+	if ( focusObject() && ksw->data()->isSolarSystem( focusObject() ) 
 			&& ksw->options()->useAutoTrail  
-			&& ! ((KSPlanetBase*)foundObject())->hasTrail() ) { 
-		((KSPlanetBase*)foundObject())->addToTrail();
+			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) { 
+		((KSPlanetBase*)focusObject())->addToTrail();
 		ksw->data()->temporaryTrail = true;
 	}
 
@@ -474,8 +474,8 @@ void SkyMap::slewFocus( void ) {
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 		
-		if ( foundObject() )
-			infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+		if ( focusObject() )
+			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
 		
 		infoBoxes()->focusCoordChanged( ksw->map()->focus() );
 		

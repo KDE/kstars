@@ -152,15 +152,15 @@ public:
 
 /**If the user centers the sky map on an object (by double-clicking or using the
 	*Find Object dialog), a pointer to the "focused" object is stored in
-	*the private member FoundObject.  This function returns the FoundObject pointer.
+	*the private member FocusObject.  This function returns the FocusObject pointer.
 	*@returns a pointer to the object centered on by the user.
 	*/
-	SkyObject* foundObject( void ) const { return FoundObject; }
+	SkyObject* focusObject( void ) const { return FocusObject; }
 
-/**Sets the FoundObject pointer to the argument.
-	*@param o the SkyObject pointer to be assigned to FoundObject
+/**Sets the FocusObject pointer to the argument.
+	*@param o the SkyObject pointer to be assigned to FocusObject
 	*/
-	void setFoundObject( SkyObject *o ) { FoundObject = o; }
+	void setFocusObject( SkyObject *o ) { FocusObject = o; }
 
 /**@returns the current setting of the starpix color mode (real colors, solid red, solid
 	*white or solid black)
@@ -427,7 +427,7 @@ private:
 	QPixmap *sky;
 	InfoBoxes   *IBoxes;
 	SkyPoint  Focus, OldFocus, ClickedPoint, MousePoint, Destination;
-	SkyObject *ClickedObject, *FoundObject;
+	SkyObject *ClickedObject, *FocusObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)

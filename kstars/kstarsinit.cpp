@@ -413,7 +413,7 @@ void KStars::datainitFinished(bool worked) {
 		if ( KMessageBox::warningYesNo( this, message, caption, 
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
 			map()->setClickedObject( NULL );
-			map()->setFoundObject( NULL );
+			map()->setFocusObject( NULL );
 			options()->isTracking = false;
 			options()->setSnapNextFocus(true);
 			
@@ -425,10 +425,10 @@ void KStars::datainitFinished(bool worked) {
 		}
 	}
 
-	//If there is a foundObject() and it is a SS body, add a temporary Trail to it.
-	if ( map()->foundObject() && data()->isSolarSystem( map()->foundObject() ) 
+	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
+	if ( map()->focusObject() && data()->isSolarSystem( map()->focusObject() ) 
 			&& options()->useAutoTrail ) { 
-		((KSPlanetBase*)map()->foundObject())->addToTrail();
+		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;
 	}
 
@@ -506,10 +506,10 @@ void KStars::privatedata::buildGUI() {
 		newPoint.set( ks->options()->focusRA, ks->options()->focusDec );
 	}
 
-//need to set foundObject before updateTime, otherwise tracking is set to false
+//need to set focusObject before updateTime, otherwise tracking is set to false
 	if ( (ks->options()->focusObject != i18n( "star" ) ) &&
 		     (ks->options()->focusObject != i18n( "nothing" ) ) )
-			ks->map()->setFoundObject( ks->getObjectNamed( ks->options()->focusObject ) );
+			ks->map()->setFocusObject( ks->getObjectNamed( ks->options()->focusObject ) );
 
 	ks->updateTime();
 

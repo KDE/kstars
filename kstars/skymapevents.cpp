@@ -126,31 +126,31 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 //In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			setDestinationAltAz( 15.0, 0.0 );
 			break;
 
 		case Key_E: //center on east horizon
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			setDestinationAltAz( 15.0, 90.0 );
 			break;
 
 		case Key_S: //center on south horizon
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			setDestinationAltAz( 15.0, 180.0 );
 			break;
 
 		case Key_W: //center on west horizon
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			setDestinationAltAz( 15.0, 270.0 );
 			break;
 
 		case Key_Z: //center on Zenith
 			setClickedObject( NULL );
-			setFoundObject( NULL );
+			setFocusObject( NULL );
 			setDestinationAltAz( 90.0, focus()->az()->Degrees() );
 			break;
 

@@ -669,10 +669,10 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 	}
 	
 	//Attach a label to the centered object
-	if ( foundObject() != NULL && ksw->options()->useAutoLabel ) {
-		QPoint o = getXY( foundObject(), ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
+	if ( focusObject() != NULL && ksw->options()->useAutoLabel ) {
+		QPoint o = getXY( focusObject(), ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) 
-			drawNameLabel( psky, foundObject(), o.x(), o.y(), scale );
+			drawNameLabel( psky, focusObject(), o.x(), o.y(), scale );
 	}
 }
 
