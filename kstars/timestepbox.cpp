@@ -26,8 +26,6 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	: QFrame( parent, name ) {
 
 	timeBox = new TimeSpinBox( this );
-	kdWarning() << "Creating unitBox" << endl;
-
 	unitBox = new TimeUnitBox( this );
 
 	QToolTip::add( timeBox, i18n( "Adjust Time Step" ) );
@@ -43,7 +41,6 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	connect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );
 	connect( timeBox, SIGNAL( valueChanged( int ) ), this, SLOT( syncUnits( int ) ) );
 	connect( timeBox, SIGNAL( scaleChanged( float ) ), this, SIGNAL( scaleChanged( float ) ) );
-
 }
 
 void TimeStepBox::changeUnits( void ) {

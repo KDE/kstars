@@ -364,7 +364,6 @@ class KStars::privatedata {
 		virtual ~privatedata() {
 			delete splash;
 			delete kstarsData;
-			qDebug( "privatedata destructor done." );
 		};
 };
 

@@ -1405,37 +1405,37 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 	//Draw Sun
 	if ( ksw->options()->drawSun && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Sun"), QColor( "Yellow" ), 8, 2.2, 3 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
 	}
 
 	//Draw Moon
 	if ( ksw->options()->drawMoon && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->Moon, QColor( "White" ), 8, 2.2, -1 );
+	  	drawPlanet(psky, ksw->data()->Moon, QColor( "White" ), 8, 2.5, -1 );
 	}
 
 	//Draw Mercury
 	if ( ksw->options()->drawMercury && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Mercury"), QColor( "SlateBlue1" ), 4, .004, 4 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4 );
 	}
 
 	//Draw Venus
 	if ( ksw->options()->drawVenus && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Venus"), QColor( "LightGreen" ), 4, .01, 2 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2 );
 	}
 
 	//Draw Mars
 	if ( ksw->options()->drawMars && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Mars"), QColor( "Red" ), 4, .00555, 2 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2 );
 	}
 
 	//Draw Jupiter
 	if ( ksw->options()->drawJupiter && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Jupiter"), QColor( "Goldenrod" ), 4, .024, 2 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
 	}
 
 	//Draw Saturn
 	if ( ksw->options()->drawSaturn && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.024, 2, 2 );
+	  	drawPlanet(psky, ksw->data()->PC.findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2 );
 	}
 
 	//Draw Uranus

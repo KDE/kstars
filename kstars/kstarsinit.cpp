@@ -520,6 +520,11 @@ void KStars::privatedata::buildGUI() {
 		newPoint.set( ks->options()->focusRA, ks->options()->focusDec );
 	}
 
+//need to set foundObject before updateTime, otherwise tracking is set to false
+	if ( (ks->options()->focusObject != i18n( "star" ) ) &&
+		     (ks->options()->focusObject != i18n( "nothing" ) ) )
+			ks->map()->setFoundObject( ks->getObjectNamed( ks->options()->focusObject ) );
+
 	ks->updateTime();
 
 	//Set focus of Skymap.

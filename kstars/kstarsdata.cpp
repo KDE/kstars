@@ -91,7 +91,7 @@ KStarsData::~KStarsData() {
 	delete stdDirs;
 	delete Moon;
 	delete locale;
-	qDebug( "kstarsData destructor done." );
+
 /*
 	QString s = QString( "geoList count: %1" ).arg( geoList.count() );
 	qDebug( s.local8Bit() );
