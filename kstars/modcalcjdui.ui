@@ -27,62 +27,14 @@
         </property>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>ButtonGroup1</cstring>
+                <cstring>InputBox</cstring>
             </property>
             <property name="title">
                 <string>Input Selection</string>
             </property>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>RadioButton11</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>70</x>
-                        <y>20</y>
-                        <width>121</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Julian Day</string>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>RadioButton12</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>170</x>
-                        <y>20</y>
-                        <width>150</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Modifed Julian Day</string>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>RadioButton13</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>320</x>
-                        <y>20</y>
-                        <width>61</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Date</string>
-                </property>
-            </widget>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton1</cstring>
+                    <cstring>Compute</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -98,7 +50,7 @@
             </widget>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton2</cstring>
+                    <cstring>Clear</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -112,10 +64,58 @@
                     <string>clear</string>
                 </property>
             </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>MjdRadio</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>20</y>
+                        <width>150</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Modifed Julian Day</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>DateRadio</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>320</x>
+                        <y>20</y>
+                        <width>61</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Date</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>JdRadio</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>70</x>
+                        <y>20</y>
+                        <width>121</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Julian Day</string>
+                </property>
+            </widget>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5</cstring>
+                <cstring>JdBox</cstring>
             </property>
             <property name="title">
                 <string>Julian Day</string>
@@ -135,7 +135,7 @@
             </widget>
             <widget class="QLabel">
                 <property name="name">
-                    <cstring>TextLabel4_2</cstring>
+                    <cstring>JdLabel</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -152,11 +152,24 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5_2</cstring>
+                <cstring>MjdBox</cstring>
             </property>
             <property name="title">
                 <string>Modified Julian Day</string>
             </property>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>KLineEdit15_5</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>100</x>
+                        <y>20</y>
+                        <width>320</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>TextLabel4_2_3</cstring>
@@ -173,23 +186,10 @@
                     <string>MJD:</string>
                 </property>
             </widget>
-            <widget class="KLineEdit">
-                <property name="name">
-                    <cstring>KLineEdit15_5</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>100</x>
-                        <y>20</y>
-                        <width>320</width>
-                        <height>22</height>
-                    </rect>
-                </property>
-            </widget>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5_2_2</cstring>
+                <cstring>Datebox</cstring>
             </property>
             <property name="title">
                 <string>Date and Time</string>
@@ -254,7 +254,7 @@
             </widget>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton17</cstring>
+                    <cstring>Now</cstring>
                 </property>
                 <property name="geometry">
                     <rect>

@@ -27,7 +27,7 @@
         </property>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>ButtonGroup1</cstring>
+                <cstring>InputBox</cstring>
             </property>
             <property name="title">
                 <string>Input Data</string>
@@ -43,38 +43,6 @@
                         <width>80</width>
                         <height>22</height>
                     </rect>
-                </property>
-            </widget>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>80</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Compute</string>
-                </property>
-            </widget>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>240</x>
-                        <y>80</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>clear</string>
                 </property>
             </widget>
             <widget class="QLabel">
@@ -151,10 +119,42 @@
                     </rect>
                 </property>
             </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>Compute</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>90</x>
+                        <y>80</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Compute</string>
+                </property>
+            </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>Clear</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>80</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>clear</string>
+                </property>
+            </widget>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5</cstring>
+                <cstring>resultsBox</cstring>
             </property>
             <property name="title">
                 <string>Positions and Times</string>

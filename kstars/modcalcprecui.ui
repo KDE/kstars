@@ -27,43 +27,11 @@
         </property>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>ButtonGroup1</cstring>
+                <cstring>InputBox</cstring>
             </property>
             <property name="title">
                 <string>Orignial Coordinates</string>
             </property>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>240</x>
-                        <y>70</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>clear</string>
-                </property>
-            </widget>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>90</x>
-                        <y>70</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Compute</string>
-                </property>
-            </widget>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>TextLabel4_2_2</cstring>
@@ -138,9 +106,41 @@
                     <string>Epoch:</string>
                 </property>
             </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>Compute</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>90</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Compute</string>
+                </property>
+            </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>Clear</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>clear</string>
+                </property>
+            </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit15_2_2_2</cstring>
+                    <cstring>epoch0Name</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -154,7 +154,7 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5</cstring>
+                <cstring>outputBox</cstring>
             </property>
             <property name="title">
                 <string>Precessed Coordinates</string>
@@ -235,7 +235,7 @@
             </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit15_2_2</cstring>
+                    <cstring>epochfName</cstring>
                 </property>
                 <property name="geometry">
                     <rect>

@@ -34,23 +34,7 @@
             </property>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>240</x>
-                        <y>70</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>clear</string>
-                </property>
-            </widget>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton1</cstring>
+                    <cstring>Compute</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -64,25 +48,25 @@
                     <string>Compute</string>
                 </property>
             </widget>
-            <widget class="QRadioButton">
+            <widget class="KPushButton">
                 <property name="name">
-                    <cstring>RadioButton2</cstring>
+                    <cstring>Clear</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
-                        <x>250</x>
-                        <y>30</y>
-                        <width>80</width>
-                        <height>21</height>
+                        <x>240</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Galactic</string>
+                    <string>clear</string>
                 </property>
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>RadioButton1</cstring>
+                    <cstring>equRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -96,40 +80,30 @@
                     <string>Equatorial</string>
                 </property>
             </widget>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>GroupBox1</cstring>
-            </property>
-            <property name="title">
-                <string>Galactic Coordinates</string>
-            </property>
-            <widget class="KLineEdit">
+            <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>KLineEdit1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>40</x>
-                        <y>30</y>
-                        <width>161</width>
-                        <height>22</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="KLineEdit">
-                <property name="name">
-                    <cstring>KLineEdit2</cstring>
+                    <cstring>galRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
                         <x>250</x>
                         <y>30</y>
-                        <width>161</width>
-                        <height>22</height>
+                        <width>80</width>
+                        <height>21</height>
                     </rect>
                 </property>
+                <property name="text">
+                    <string>Galactic</string>
+                </property>
             </widget>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>galBox</cstring>
+            </property>
+            <property name="title">
+                <string>Galactic Coordinates</string>
+            </property>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>TextLabel1</cstring>
@@ -152,20 +126,46 @@
                 </property>
                 <property name="geometry">
                     <rect>
-                        <x>20</x>
+                        <x>16</x>
                         <y>30</y>
-                        <width>16</width>
+                        <width>20</width>
                         <height>21</height>
                     </rect>
                 </property>
                 <property name="text">
-                    <string>t:</string>
+                    <string>l:</string>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>lgName</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>30</y>
+                        <width>161</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>bgName</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>250</x>
+                        <y>30</y>
+                        <width>161</width>
+                        <height>22</height>
+                    </rect>
                 </property>
             </widget>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox2</cstring>
+                <cstring>equBox</cstring>
             </property>
             <property name="title">
                 <string>Equatorial Coordinates</string>
@@ -246,7 +246,7 @@
             </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit5</cstring>
+                    <cstring>epochName</cstring>
                 </property>
                 <property name="geometry">
                     <rect>

@@ -27,14 +27,14 @@
         </property>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>ButtonGroup1</cstring>
+                <cstring>InputBox</cstring>
             </property>
             <property name="title">
                 <string>Input Selection</string>
             </property>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton1</cstring>
+                    <cstring>Compute</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -50,7 +50,7 @@
             </widget>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton2</cstring>
+                    <cstring>Clear</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -66,7 +66,7 @@
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>RadioButton13</cstring>
+                    <cstring>StRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -82,7 +82,7 @@
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>RadioButton11</cstring>
+                    <cstring>UtRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -95,11 +95,14 @@
                 <property name="text">
                     <string>Universal time</string>
                 </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
             </widget>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5</cstring>
+                <cstring>longdataBox</cstring>
             </property>
             <property name="title">
                 <string>Input Data</string>
@@ -165,7 +168,7 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5_2</cstring>
+                <cstring>UtimeBox</cstring>
             </property>
             <property name="title">
                 <string>Universal Time</string>
@@ -202,7 +205,7 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5_2_2</cstring>
+                <cstring>St0Box</cstring>
             </property>
             <property name="title">
                 <string>Sidereal Time</string>

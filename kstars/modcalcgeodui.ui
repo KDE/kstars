@@ -27,30 +27,14 @@
         </property>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>ButtonGroup1</cstring>
+                <cstring>InputBox</cstring>
             </property>
             <property name="title">
                 <string>Input Selection</string>
             </property>
             <widget class="KPushButton">
                 <property name="name">
-                    <cstring>KPushButton2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>240</x>
-                        <y>70</y>
-                        <width>100</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>clear</string>
-                </property>
-            </widget>
-            <widget class="KPushButton">
-                <property name="name">
-                    <cstring>KPushButton1</cstring>
+                    <cstring>Compute</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -64,9 +48,25 @@
                     <string>Compute</string>
                 </property>
             </widget>
+            <widget class="KPushButton">
+                <property name="name">
+                    <cstring>Clear</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>clear</string>
+                </property>
+            </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>RadioButton6</cstring>
+                    <cstring>spheRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -82,7 +82,7 @@
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>RadioButton5</cstring>
+                    <cstring>cartRadio</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -99,27 +99,11 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox5</cstring>
+                <cstring>cartBox</cstring>
             </property>
             <property name="title">
                 <string>Cartesian Coordinates</string>
             </property>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel4_2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>21</y>
-                        <width>37</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>X (m):</string>
-                </property>
-            </widget>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>TextLabel5</cstring>
@@ -152,41 +136,57 @@
                     <string>Z (m):</string>
                 </property>
             </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel4_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>21</y>
+                        <width>37</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>X (m):</string>
+                </property>
+            </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit15</cstring>
+                    <cstring>xGeoName</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
                         <x>60</x>
                         <y>20</y>
-                        <width>251</width>
+                        <width>350</width>
                         <height>22</height>
                     </rect>
                 </property>
             </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit16</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>60</x>
-                        <y>50</y>
-                        <width>261</width>
-                        <height>22</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="KLineEdit">
-                <property name="name">
-                    <cstring>KLineEdit17</cstring>
+                    <cstring>zGeoName</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
                         <x>60</x>
                         <y>80</y>
-                        <width>281</width>
+                        <width>350</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="KLineEdit">
+                <property name="name">
+                    <cstring>yGeoName</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>60</x>
+                        <y>50</y>
+                        <width>350</width>
                         <height>22</height>
                     </rect>
                 </property>
@@ -194,7 +194,7 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>GroupBox1</cstring>
+                <cstring>spheBox</cstring>
             </property>
             <property name="title">
                 <string>Geographic Coordinates</string>
@@ -210,35 +210,6 @@
                         <width>80</width>
                         <height>22</height>
                     </rect>
-                </property>
-            </widget>
-            <widget class="KComboBox">
-                <property name="name">
-                    <cstring>KComboBox1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>70</y>
-                        <width>81</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>30</y>
-                        <width>32</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Long</string>
                 </property>
             </widget>
             <widget class="QLabel">
@@ -288,7 +259,7 @@
             </widget>
             <widget class="KLineEdit">
                 <property name="name">
-                    <cstring>KLineEdit13</cstring>
+                    <cstring>altGeoBox</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -300,6 +271,35 @@
                 </property>
                 <property name="text">
                     <string>0.0</string>
+                </property>
+            </widget>
+            <widget class="KComboBox">
+                <property name="name">
+                    <cstring>ellipsoidBox</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>50</x>
+                        <y>70</y>
+                        <width>81</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>30</y>
+                        <width>32</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Long</string>
                 </property>
             </widget>
         </widget>
@@ -322,5 +322,18 @@
         </spacer>
     </vbox>
 </widget>
+<tabstops>
+    <tabstop>Clear</tabstop>
+    <tabstop>spheRadio</tabstop>
+    <tabstop>Compute</tabstop>
+    <tabstop>cartRadio</tabstop>
+    <tabstop>xGeoName</tabstop>
+    <tabstop>yGeoName</tabstop>
+    <tabstop>zGeoName</tabstop>
+    <tabstop>KLineEdit1</tabstop>
+    <tabstop>ellipsoidBox</tabstop>
+    <tabstop>KLineEdit2</tabstop>
+    <tabstop>altGeoBox</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
