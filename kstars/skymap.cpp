@@ -424,7 +424,9 @@ void SkyMap::slewFocus( void ) {
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 		
-		ksw->infoBoxes()->focusObjChanged( ksw->options()->focusObject );
+		if ( foundObject() )
+			ksw->infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+		
 		ksw->infoBoxes()->focusCoordChanged( ksw->map()->focus() );
 		
 		ksw->setHourAngle();
