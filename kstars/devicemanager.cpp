@@ -300,18 +300,15 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	if (!ap)
 	    return NULL;
 
-	 // FIXME change the mechanism by which naming is assiged.
-	 // Make a list (QStristList or something) that holds active devices
-	 // And each new device should be checked against this list.
 	if (parent->currentLabel.isEmpty())
 	 parent->setCustomLabel(valuXMLAtt(ap));
 
-	//fprintf(stderr, "\n\n\n ***************** Adding a device %s with label %s *************** \n\n\n", valuXMLAtt(ap), label);
 	dp = new INDI_D(parent, this, QString(valuXMLAtt(ap)), parent->currentLabel);
 
-	parent->currentLabel = "";
-
 	indi_dev.append(dp);
+	
+	// Reset label
+	parent->currentLabel = "";
 	
        /* ok */
 	return dp;

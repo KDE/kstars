@@ -166,7 +166,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						psky.drawEllipse( x2, y2, s2, s2 );
 
 						//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
-						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr.at(i)->indi_dev.at(j)->name) );
+						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 
 					}
 				}

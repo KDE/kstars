@@ -290,6 +290,7 @@ LX200Generic::LX200Generic()
    currentSubCatalog = 0;
    trackingMode = LX200_TRACK_DEFAULT;
 
+   fault     = false;
    targetRA  = 0;
    targetDEC = 0;
    currentRA = 0;
@@ -746,6 +747,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   return;
 
 	  lastSet = getOnSwitch(states, n);
+	  OnCoordSetSw.s = IPS_OK;
+	  IDSetSwitch(&OnCoordSetSw, NULL);
 	  /*handleCoordSet();*/
 	}
 	
@@ -1088,11 +1091,13 @@ void LX200Generic::handleError(ISwitchVectorProperty *svp, int err, const char *
       if (err == -2)
       {
        svp->s = IPS_ALERT;
-       IDSetSwitch(svp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetSwitch(svp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
       else
     /* Changing property failed, user should retry. */
        IDSetSwitch( svp , "%s failed.", msg);
+       
+       fault = true;
 }
 
 void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *msg)
@@ -1119,11 +1124,13 @@ void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *
       if (err == -2)
       {
        nvp->s = IPS_ALERT;
-       IDSetNumber(nvp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetNumber(nvp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
       else
     /* Changing property failed, user should retry. */
        IDSetNumber( nvp , "%s failed.", msg);
+       
+       fault = true;
 }
 
 void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *msg)
@@ -1150,13 +1157,23 @@ void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *ms
       if (err == -2)
       {
        tvp->s = IPS_ALERT;
-       IDSetText(tvp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetText(tvp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
        
       else
     /* Changing property failed, user should retry. */
        IDSetText( tvp , "%s failed.", msg);
+       
+       fault = true;
 }
+
+ void LX200Generic::correctFault()
+ {
+ 
+   fault = false;
+   IDMessage(thisDevice, "Telescope is online.");
+   
+ }
 
 bool LX200Generic::isTelescopeOn(void)
 {
@@ -1193,13 +1210,6 @@ void LX200Generic::ISPoll()
 	switch (eqNum.s)
 	{
 	case IPS_IDLE:
-	/*if ( (err = getLX200RA(&currentRA)) < 0 || (err = getLX200DEC(&currentDEC)) < 0)
-	  {
-	    handleError(&eqNum, err, "Getting RA/DEC");
-	    return;
-	  }
-	*/
-	
 	getLX200RA(&currentRA);
 	getLX200DEC(&currentDEC);
 	
@@ -1286,6 +1296,9 @@ void LX200Generic::ISPoll()
 	  handleError(&eqNum, err, "Getting RA/DEC");
 	  return;
 	}
+	
+	if (fault)
+	  correctFault();
 
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{

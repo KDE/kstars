@@ -179,13 +179,21 @@ close(fd);
 
 int testTelescope()
 {  
+  int i=0;
   char ack[1] = { (char) 0x06 };
   char MountAlign[64];
   fprintf(stderr, "Testing telescope's connection...\n");
 
-  write(fd, ack, 1);
+  for (i=0; i < 2; i++)
+  {
+    write(fd, ack, 1);
+    read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);
+    if (read_ret == 1)
+     return 0;
+    usleep(50000);
+  }
   
-  return (portRead(MountAlign, 1, LX200_TIMEOUT) == 1 ? 0 : -1);
+  return -1;
 }
 
 /**********************************************************************
