@@ -109,7 +109,7 @@ void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[],
 
 		if (ltp->tm_isdst > 0)
 		{
-		  UTCOffset--;
+		  UTCOffset++;
 		  IDLog("Correcting for DST, new UTC is %d\n", UTCOffset);
 		}
 
@@ -132,7 +132,7 @@ void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[],
 		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
 		    (localTM->tm_year == ltp->tm_year))
 		{
-		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %d", texts[0], UTCOffset);
+		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %d", texts[0], UTCOffset*-1);
 		  return;
 		}
 
