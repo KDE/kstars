@@ -64,7 +64,7 @@ appdata_CLEAN = sao01.dat sao02.dat sao03.dat sao04.dat sao05.dat sao06.dat sao0
 		sao.dat ngcic.dat
 
 #Remove deprecated data files:
-install-exec-hook:
+install-data-hook:
 	@list='$(appdata_CLEAN)'; for p in $$list; do \
 	    if test -f "$(appdatadir)/$$p"; then \
 	      echo " rm -f $(appdatadir)/$$p"; \
