@@ -391,6 +391,7 @@ public:
 
 	GeoLocation *geo() { return &Geo; }
 	void setLocation( const GeoLocation &l );
+	void setLocationFromOptions();
 
 	ColorScheme *colorScheme() { return &CScheme; }
 	

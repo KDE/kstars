@@ -1947,6 +1947,13 @@ void KStarsData::setFullTimeUpdate() {
 			LastNumUpdate = -1000000.0;
 }
 
+void KStarsData::setLocationFromOptions() {
+	QMap<QString, TimeZoneRule>::Iterator it = Rulebook.find( Options::dST() );
+	setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
+			Options::cityName(), Options::provinceName(), Options::countryName(), 
+			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
+}
+
 void KStarsData::setLocation( const GeoLocation &l ) {
  	GeoLocation g( l );
 	if ( g.lat()->Degrees() >= 90.0 ) g.setLat( 89.99 );

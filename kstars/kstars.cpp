@@ -61,10 +61,7 @@ KStars::KStars( bool doSplash ) :
 	pd->kstarsData->initialize();
 
 	//Set Geographic Location
-	QMap<QString, TimeZoneRule>::Iterator it = pd->kstarsData->Rulebook.find( Options::dST() );
-	pd->kstarsData->setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
-			Options::cityName(), Options::provinceName(), Options::countryName(), 
-			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
+	pd->kstarsData->setLocationFromOptions();
 
 	//set up Dark color scheme for application windows
 	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));

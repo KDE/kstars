@@ -92,6 +92,12 @@ int main(int argc, char *argv[])
 		dat->initialize();
 		while (!dat->startupComplete) { kapp->processEvents(50); }
 
+		//Set Geographic Location
+		dat->setLocationFromOptions(); 
+
+		//Set color scheme
+		dat->colorScheme()->loadFromConfig( kapp->config() );
+
 		//reset clock now that we have a location:
 		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( -3600 * dat->geo()->TZ() ) );
 
