@@ -145,7 +145,7 @@ QTime timeBox::createTime ( bool *ok )
 	}
 
 //	 if ( !valueFound )
-//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could not Set Value" ) );
+//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could Not Set Value" ) );
 
 
 	return qt;

@@ -39,8 +39,14 @@
                     <property name="name">
                         <cstring>textLabel1</cstring>
                     </property>
+                    <property name="frameShape">
+                        <enum>NoFrame</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Plain</enum>
+                    </property>
                     <property name="text">
-                        <string>Script Name:</string>
+                        <string>Script name:</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">

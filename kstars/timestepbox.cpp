@@ -28,8 +28,8 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	timeBox = new TimeSpinBox( this );
 	unitBox = new TimeUnitBox( this );
 
-	QToolTip::add( timeBox, i18n( "Adjust Time Step" ) );
-	QToolTip::add( unitBox, i18n( "Adjust Time Step Units" ) );
+	QToolTip::add( timeBox, i18n( "Adjust time step" ) );
+	QToolTip::add( unitBox, i18n( "Adjust time step units" ) );
 
 	hlay = new QHBoxLayout( this, 2, 0 );
 	hlay->addWidget( timeBox );

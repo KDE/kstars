@@ -136,9 +136,9 @@ void DetailDialog::createLinksTab()
   imagesLayout->addWidget(imagesList);
   
   view = new QPushButton(i18n("View"), linksTab, "view");
-  addLink = new QPushButton(i18n("Add link..."), linksTab, "addlink");
-  editLink = new QPushButton(i18n("Edit link..."), linksTab, "editlink");
-  removeLink = new QPushButton(i18n("Remove link"), linksTab, "removelink");
+  addLink = new QPushButton(i18n("Add Link..."), linksTab, "addlink");
+  editLink = new QPushButton(i18n("Edit Link..."), linksTab, "editlink");
+  removeLink = new QPushButton(i18n("Remove Link"), linksTab, "removelink");
   buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
  
   buttonLayout = new QHBoxLayout(5, "buttonlayout");
@@ -471,7 +471,7 @@ void DetailDialog::editLinkDialog()
   QString defaultURL , entry;
   QFile newFile;
 
-  KDialogBase editDialog(KDialogBase::Plain, i18n("Edit link..."), Ok|Cancel, Ok , this, "editlink", false);
+  KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
   QFrame *editFrame = editDialog.plainPage();
 
   editLinkURL = new QLabel(i18n("URL:"), editFrame);
@@ -714,7 +714,7 @@ bool DetailDialog::readUserFile(int type, int sourceFileType)
                 if ( !file.open( IO_ReadOnly) )
                 {
         			   QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                    KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                    KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         	         return false;
                }
            }
@@ -735,7 +735,7 @@ bool DetailDialog::readUserFile(int type, int sourceFileType)
                  if ( !file.open( IO_ReadOnly) )
                  {
         			   QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                    KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                    KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                    return false;
                   }
 
@@ -933,7 +933,7 @@ void DetailDialog::saveLogData()
    if ( !file.open( IO_WriteOnly))
     {
       			QString message = i18n( "user log file could not be opened.\nCurrent user log cannot be recorded for future sessions." );
-              KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+              KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
       	       return;
      }
 

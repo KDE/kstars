@@ -239,7 +239,7 @@ void LCGenerator::VerifyData()
 
     if (FinalEndDate.toInt() < FinalStartDate.toInt())
     {
-        KMessageBox::error(this, i18n("End Date must occur after Start Date."));
+        KMessageBox::error(this, i18n("End date must occur after start date."));
         return;
     }
 

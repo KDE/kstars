@@ -235,7 +235,7 @@ bool ColorScheme::save( const QString &name ) {
 
 		if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
 			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-			KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;
 		} else {
 			QTextStream stream( &file );
@@ -251,7 +251,7 @@ bool ColorScheme::save( const QString &name ) {
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-			KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;
 		} else {
 			QTextStream stream( &file );

@@ -251,10 +251,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showPluto->setFont( stdFont );
 	showPluto->setChecked( ksw->options()->drawPluto );
 
-	showAll = new QPushButton( i18n( "Show all planets", "Select all" ), PlanetBox, "show_all_planets" );
+	showAll = new QPushButton( i18n( "Show all planets", "Select All" ), PlanetBox, "show_all_planets" );
 	showAll->setFont( stdFont );
 
-	showNone = new QPushButton( i18n( "Hide all planets", "Select none" ), PlanetBox, "show_none_planets" );
+	showNone = new QPushButton( i18n( "Hide all planets", "Select None" ), PlanetBox, "show_none_planets" );
 	showNone->setFont( stdFont );
 
 	showPlanetNames = new QCheckBox( i18n( "Use name labels" ), PlanetBox, "show_planet_names" );
@@ -351,7 +351,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayTrailBox->setSpacing( 6 );
 	vlayTrailBox->setMargin( 11 );
 
-	autoTrail = new QCheckBox( i18n( "Always show Trail when tracking a solar system body" ), TrailBox );
+	autoTrail = new QCheckBox( i18n( "Always show trail when tracking a solar system body" ), TrailBox );
 	autoTrail->setFont( stdFont );
 	autoTrail->setChecked( ksw->options()->useAutoTrail );
 
@@ -840,7 +840,7 @@ void ViewOpsDialog::slotPreset( int index ) {
 	bool result = setColors( *it );
 	if (!result) {
 		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( QString(*it) );
-		KMessageBox::sorry( 0, message, i18n( "Could not set Color Scheme" ) );
+		KMessageBox::sorry( 0, message, i18n( "Could Not Set Color Scheme" ) );
 	}
 }
 
@@ -890,7 +890,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
-		KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 	} else {
 		//Read the contents of colors.dat into a QStringList, except for the entry to be removed.
 		QTextStream stream( &cdatFile );
@@ -919,7 +919,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 				stream << slist[i] << endl;
 		} else {
 			QString message = i18n( "Could not find an entry named %1 in colors.dat" ).arg( name );
-			KMessageBox::sorry( 0, message, i18n( "Scheme not Found in colors.dat" ) );
+			KMessageBox::sorry( 0, message, i18n( "Scheme Not Found in colors.dat" ) );
 		}
 		cdatFile.close();
 	}

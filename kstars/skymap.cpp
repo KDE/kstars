@@ -801,7 +801,7 @@ void SkyMap::addLink( void ) {
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );		
-				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();

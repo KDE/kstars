@@ -387,7 +387,7 @@
                             </size>
                         </property>
                         <property name="title">
-                            <string>Function arguments</string>
+                            <string>Function Arguments</string>
                         </property>
                         <vbox>
                             <property name="name">

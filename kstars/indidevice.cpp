@@ -679,7 +679,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
  buttonLayout = new QHBoxLayout(0, 5, 5);
 
  clear   = new QPushButton(i18n("Clear"), tabContainer);
- savelog = new QPushButton(i18n("Save log..."), tabContainer);
+ savelog = new QPushButton(i18n("Save Log..."), tabContainer);
 
  buttonLayout->addWidget(clear);
  buttonLayout->addWidget(savelog);

@@ -59,7 +59,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="text">
-                                <string>Julian Day</string>
+                                <string>Julian day</string>
                             </property>
                         </widget>
                         <widget class="QRadioButton">
@@ -75,7 +75,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="text">
-                                <string>Modified Julian Day</string>
+                                <string>Modified Julian day</string>
                             </property>
                         </widget>
                         <widget class="QRadioButton">

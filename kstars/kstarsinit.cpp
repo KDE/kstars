@@ -71,7 +71,7 @@ void KStars::initActions() {
 	KAction *tmpAction = KStdAction::find( this, SLOT( slotFind() ),
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
-	tmpAction->setToolTip( i18n( "Find Object" ) );
+	tmpAction->setToolTip( i18n( "Find object" ) );
 	new KAction( i18n( "&Track Object" ), "decrypted", KAccel::stringToKey( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
 	new KAction( i18n( "Set Focus &Manually..." ), KAccel::stringToKey( "Ctrl+M" ),
@@ -184,7 +184,7 @@ void KStars::initActions() {
 		tmpAction = new KAction( i18n( "Set Geographic Location..." ),
 				tempFile.name(), KAccel::stringToKey( "Ctrl+G"  ),
 				this, SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
-		tmpAction->setToolTip( i18n( "Geographic Location" ) );
+		tmpAction->setToolTip( i18n( "Geographic location" ) );
 		tempFile.close();
 	} else {
 		new KAction( i18n( "Location on Earth", "&Geographic..." ), "gohome", KAccel::stringToKey( "Ctrl+G"  ),
