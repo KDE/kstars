@@ -312,6 +312,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	data->HourAngle->setH( dHA );
 
 	if ( arrowKeyPressed ) {
+		infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 		stopTracking();
 		
 		if ( scrollCount > 10 ) {
