@@ -22,9 +22,12 @@ appdata_DATA = drivers.xml
 
 install-exec-hook:
 	$(mkinstalldirs) $(DESTDIR)/bin
-	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200autostar
-	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200_16
-	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200gps
+	rm -f $(DESTDIR)$(bindir)/lx200autostar
+	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200autostar
+	rm -f $(DESTDIR)$(bindir)/lx200_16
+	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200_16
+	rm -f $(DESTDIR)$(bindir)/lx200gps
+	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200gps
 
 uninstall-local:
 	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)lx200_16 $(DESTDIR)$(bindir)lx200gps
