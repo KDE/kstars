@@ -42,6 +42,7 @@
 
 class dmsBox : public KLineEdit  {
 Q_OBJECT
+Q_PROPERTY (bool degType READ degType WRITE setDegType)
 
 public:
 	/**Constructor for the dmsBox object.

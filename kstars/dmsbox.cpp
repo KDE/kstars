@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include <qregexp.h>
 #include <qstring.h>
+#include <qtooltip.h>
 #include <qwhatsthis.h>
 
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) 
@@ -31,7 +32,6 @@ dmsBox::dmsBox(QWidget *parent, const char *name, bool dg)
 	setMaximumWidth(160);
 	setDegType( dg );
 	
-	setEmptyText();
 	
 	connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
@@ -90,10 +90,15 @@ void dmsBox::slotTextChanged( const QString &t ) {
 void dmsBox::setDegType( bool t ) {
 	deg = t;
 
-	if ( deg )
-		QWhatsThis::add( this, i18n( "Enter an angle value in degrees.  The angle can be expressed as a simple integer (\"45\") or floating-point (\"45.333\") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds (\"45:20\", \"45:20:00\", \"45:20\", \"45 20.0\", etc.)." ) );
-	else
+	if ( deg ) {
+		QToolTip::add( this, i18n( "Angle value in degrees. You may enter a simple integer \nor a floating-point value, or space- or colon-delimited values \nspecifying degrees, arcminutes and arcseconds." ) );
+		QWhatsThis::add( this, i18n( "Enter an angle value in degrees.  The angle can be expressed as a simple integer (\"45\") or floating-point (\"45.333\") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds (\"45:20\", \"45:20:00\", \"45:20\", \"45 20.0\", etc.)." ) ); 
+	} else {
+		QToolTip::add( this, i18n( "Angle value in hours. You may enter a simple integer \nor floating-point value, or space- or colon-delimited values \nspecifying hours, minutes and seconds." ) );
 		QWhatsThis::add( this, i18n( "Enter an angle value in hours.  The angle can be expressed as a simple integer (\"12\") or floating-point (\"12.333\") value, or as space- or colon-delimited values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", \"12:20\", \"12 20.0\", etc.)." ) );
+	}
+
+	setEmptyText();
 }
 
 void dmsBox::showInDegrees (const dms *d) { showInDegrees( dms( *d ) ); }
