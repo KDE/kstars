@@ -475,7 +475,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	//determine RA, Dec of mouse pointer
-	setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat() ) );
+	setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
 	mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 
@@ -539,7 +539,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		data->HourAngle->setH( dHA );
 
 		//redetermine RA, Dec of mouse pointer, using new focus
-		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
 		setClickedPoint( mousePoint() );
 
 		forceUpdate();  // must be new computed
@@ -579,7 +579,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		double dx = ( 0.5*width()  - ZoomRect.center().x() )/Options::zoomFactor();
 		double dy = ( 0.5*height() - ZoomRect.center().y() )/Options::zoomFactor();
 
-		SkyPoint newcenter = dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat() );
+		SkyPoint newcenter = dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() );
 		setClickedPoint( &newcenter );
 		setClickedObject( NULL );
 		setFocusObject( NULL );

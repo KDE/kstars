@@ -522,7 +522,10 @@ void SkyMap::slotCenter( void ) {
 
 	//update the destination to the selected coordinates
 	if ( Options::useAltAz() ) { 
-		setDestinationAltAz( focusPoint()->alt()->Degrees(), focusPoint()->az()->Degrees() );
+		if ( Options::useRefraction() )
+			setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
+		else
+			setDestinationAltAz( focusPoint()->alt()->Degrees(), focusPoint()->az()->Degrees() );
 	} else {
 		setDestination( focusPoint() );
 	}
@@ -812,9 +815,10 @@ void SkyMap::updateFocus() {
 	if ( Options::isTracking() && focusObject() != NULL ) {
 		if ( Options::useAltAz() ) {
 			//Tracking any object in Alt/Az mode requires focus updates
-			setFocusAltAz(
-					refract( focusObject()->alt(), true ).Degrees(),
-					focusObject()->az()->Degrees() );
+			double dAlt = focusObject()->alt()->Degrees();
+			if ( Options::useRefraction() ) 
+				dAlt = refract( focusObject()->alt(), true ).Degrees();
+			setFocusAltAz( dAlt, focusObject()->az()->Degrees() );
 			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			setDestination( focus() );
 		} else {
@@ -1141,7 +1145,7 @@ void SkyMap::forceUpdate( bool now )
 
 	if (! unusablePoint (dx, dy)) {
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
 	}
 
 	computeSkymap = true;
