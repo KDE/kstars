@@ -50,7 +50,7 @@ ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *pare
 	
 	if (!imageURL.isValid())		//check URL
 		kdDebug()<<"URL is malformed"<<endl;
-	setCaption (imageURL.filename()); // the title of the window
+	setCaption (imageURL.fileName()); // the title of the window
 	loadImageFromURL();
 }
 
@@ -202,10 +202,10 @@ void ImageViewer::showImage()
 
 void ImageViewer::saveFileToDisc()
 {
-	KURL newURL = KFileDialog::getSaveURL(imageURL.filename());  // save-dialog with default filename
+	KURL newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
 	if (!newURL.isEmpty())
 	{
-		QFile f (newURL.directory() + "/" +  newURL.filename());
+		QFile f (newURL.directory() + "/" +  newURL.fileName());
                 kdDebug()<<"Saving to :"<<f.name()<<endl;
 		if (f.exists())
 		{
