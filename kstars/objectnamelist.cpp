@@ -132,7 +132,7 @@ int ObjectNameList::getIndex( const QString &name ) {
 
 			/**
 				*Avoid invalid index due to non ASCII letters like "ö" etc. Add your own letters to put them in
-				*the right list (due to %26 index can't never get smaller than 0).
+				*the right list (due to %96 index can't never get smaller than 0).
 				*/
 			if (index > 26) {
 				switch (index) {
