@@ -263,7 +263,8 @@ void KStars::slotViewOps() {
 	dialog->addPage( opguides,   i18n("Guides"), stdDirs.findResource( "data", "kstars/opsguides.png" ) ); 
 	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) ); 
 	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) ); 
- 
+
+	dialog->show();
 }
 
 void KStars::slotApplySettings() {

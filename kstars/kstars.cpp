@@ -93,6 +93,10 @@ KStars::~KStars()
 	Options::setFocusRA( skymap->focus()->ra()->Hours() );
 	Options::setFocusDec( skymap->focus()->dec()->Degrees() );
 
+	//Store Window geometry in Options object
+	Options::setWindowWidth( width() );
+	Options::setWindowHeight( height() );
+
 	//We need to explicitly save the colorscheme data to the config file
 	data()->colorScheme()->saveToConfig( kapp->config() );
 
