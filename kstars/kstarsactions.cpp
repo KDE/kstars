@@ -74,7 +74,7 @@ void KStars::slotCalculator() {
  }
 
 void KStars::slotLCGenerator() {
-	if (AAVSODialog == 0)
+	if (AAVSODialog == NULL)
         AAVSODialog = new LCGenerator(this);
         
   AAVSODialog->show();

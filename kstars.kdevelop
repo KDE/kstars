@@ -9,6 +9,9 @@
       <keyword>KDE</keyword>
       <keyword>Qt</keyword>
     </keywords>
+    <version></version>
+    <description></description>
+    <ignoreparts/>
   </general>
   <kdevautoproject>
     <general>
@@ -18,10 +21,10 @@
       <configargs>\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --with-qt-dir=/usr/lib/qt2\s</configargs>
     </configure>
     <make>
-      <abortonerror/>
-      <numberofjobs/>
-      <dontact/>
-      <makebin/>
+      <abortonerror>false</abortonerror>
+      <numberofjobs>1</numberofjobs>
+      <dontact>false</dontact>
+      <makebin></makebin>
     </make>
     <compiler>
       <cflags/>
@@ -31,6 +34,11 @@
       <envvar value="1" name="WANT_AUTOCONF_2_5" />
       <envvar value="1" name="WANT_AUTOMAKE_1_6" />
     </makeenvvars>
+    <run>
+      <mainprogram>kstars/kstars</mainprogram>
+      <programargs></programargs>
+    </run>
+    <envvars/>
   </kdevautoproject>
   <kdevfileview>
     <groups>
@@ -54,10 +62,59 @@
       <toc>php</toc>
       <toc>perl</toc>
     </ignoretocs>
+    <projectdoc>
+      <userdocDir>/home/slovin/Projects/kdeedu/kstars/html/</userdocDir>
+      <apidocDir>/home/slovin/Projects/kdeedu/kstars/html/</apidocDir>
+    </projectdoc>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
+      <programargs></programargs>
+      <gdbpath></gdbpath>
+      <breakonloadinglibs>true</breakonloadinglibs>
+      <separatetty>false</separatetty>
+      <floatingtoolbar>false</floatingtoolbar>
     </general>
+    <display>
+      <staticmembers>false</staticmembers>
+      <demanglenames>true</demanglenames>
+    </display>
   </kdevdebugger>
+  <kdevfilecreate>
+    <filetypes/>
+    <useglobaltypes/>
+  </kdevfilecreate>
+  <cppsupportpart>
+    <codecompletion>
+      <codehinting outputview="1" enablech="0" selectview="0" />
+    </codecompletion>
+    <classstore>
+      <enablepcs>false</enablepcs>
+      <enablepp>false</enablepp>
+      <preparsing/>
+    </classstore>
+    <filetemplates>
+      <choosefiles>false</choosefiles>
+      <interfaceURL></interfaceURL>
+      <implementationURL></implementationURL>
+      <interfacesuffix>.h</interfacesuffix>
+      <implementationsuffix>.cpp</implementationsuffix>
+      <lowercasefilenames>true</lowercasefilenames>
+    </filetemplates>
+  </cppsupportpart>
+  <kdevclassview>
+    <folderhierarchy>true</folderhierarchy>
+    <depthoffolders>2</depthoffolders>
+  </kdevclassview>
+  <kdevcvs>
+    <cvsoptions>-f</cvsoptions>
+    <commitoptions></commitoptions>
+    <updateoptions>-dP</updateoptions>
+    <addoptions></addoptions>
+    <removeoptions>-f</removeoptions>
+    <diffoptions>-u3 -p</diffoptions>
+    <logoptions></logoptions>
+    <rshoptions></rshoptions>
+  </kdevcvs>
 </kdevelop>
