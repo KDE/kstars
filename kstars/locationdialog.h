@@ -25,7 +25,7 @@
 	*The top section allows the location to be selected from a database
 	*of 2000 cities.  It contains a MapCanvas (showing map of the globe
 	*with cities overlaid, with a handler for mouse clicks), a QListBox
-	*containing the names of cities in the database, and three QLineEdit
+	*containing the names of cities in the database, and three KLineEdit
 	*widgets, which allow the user to filter the List by the name of the
 	*City, Province, and Country.  In addition, the List
 	*can be filtered by location, by clicking anywhere in the MapCanvas.
@@ -33,7 +33,7 @@
 	*
 	*The bottom section allows the location to be specified manually.
 	*The Longitude, Latitude, City name, Province/State name, and Country name
-	*are entered into QLineEdits.  There is also a QPushButton for adding the
+	*are entered into KLineEdits.  There is also a QPushButton for adding the
 	*location to the custom Cities database.  If the user selects "Add" without
 	*filling in all of the manual entry fields, an error message is displayed.
 	*@short Geographic Location dialog
@@ -41,7 +41,7 @@
 	*@version 0.9
   */
 #include <kdialogbase.h>
-#include <qlineedit.h>
+#include <klineedit.h>
 #include <qpushbutton.h>
 
 #include "mapcanvas.h"
@@ -115,7 +115,7 @@ public:
 
 public slots:
 /**
-	*When text is entered in the City/Province/Country Filter QLineEdits,
+	*When text is entered in the City/Province/Country Filter KLineEdits,
 	*the List of cities is trimmed to show only cities beginning with the entered text.
 	*Also, the QArray of ID numbers is kept in sync with the filtered list.
 	*/
@@ -161,9 +161,9 @@ private:
 	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
 	QLabel *LongLabel, *LatLabel, *CountLabel;
 	QLabel *TZLabel, *TZRuleLabel;
-	QLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
+	KLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
+	KLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
 	dmsBox *NewLong, *NewLat;
-	QLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;

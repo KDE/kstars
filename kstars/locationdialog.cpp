@@ -66,10 +66,10 @@ LocationDialog::LocationDialog( QWidget* parent )
 
   CountLabel = new QLabel( CityBox );
 
-  CityFilter = new QLineEdit( CityBox );
-  CityFilter->setFocus();		// set focus to city inputline
-  ProvinceFilter = new QLineEdit( CityBox );
-  CountryFilter = new QLineEdit( CityBox );
+  CityFilter = new KLineEdit( CityBox );
+  CityFilter->setFocus();  // set focus to city inputline
+  ProvinceFilter = new KLineEdit( CityBox );
+  CountryFilter = new KLineEdit( CityBox );
 
   GeoBox = new QListBox( CityBox );
   GeoBox->setVScrollBarMode( QListBox::AlwaysOn );
@@ -86,9 +86,9 @@ LocationDialog::LocationDialog( QWidget* parent )
 	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT offset: " ), CoordBox );
 	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "    DST rule: " ), CoordBox );
 
-	NewCityName = new QLineEdit( CoordBox );
-	NewProvinceName = new QLineEdit( CoordBox );
-	NewCountryName = new QLineEdit( CoordBox );
+	NewCityName = new KLineEdit( CoordBox );
+	NewProvinceName = new KLineEdit( CoordBox );
+	NewCountryName = new KLineEdit( CoordBox );
 	NewLong = new dmsBox( CoordBox );
 	NewLat = new dmsBox( CoordBox );
 
@@ -191,6 +191,13 @@ LocationDialog::LocationDialog( QWidget* parent )
 	nameModified = false;
 	AddCityButton->setEnabled( false );
 
+	NewCityName->setTrapReturnKey(true);
+	NewProvinceName->setTrapReturnKey(true);
+	NewCountryName->setTrapReturnKey(true);
+	CityFilter->setTrapReturnKey(true);
+	ProvinceFilter->setTrapReturnKey(true);
+	CountryFilter->setTrapReturnKey(true);
+	
 	initCityList();
 	resize (640, 480);
 }
