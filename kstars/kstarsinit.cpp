@@ -670,6 +670,7 @@ void KStars::privatedata::buildGUI() {
 			ks->map()->setClickedObject( ks->data()->objectNamed( Options::focusObject() ) );
 			if ( ks->map()->clickedObject() ) {
 				ks->map()->setFocusPoint( ks->map()->clickedObject() );
+				ks->map()->setFocusObject( ks->map()->clickedObject() );
 			} else {
 				ks->map()->setFocusPoint( &newPoint );
 			}
@@ -680,16 +681,17 @@ void KStars::privatedata::buildGUI() {
 //		ks->map()->slotCenter();
 	}
 
-	if ( Options::focusObject() == i18n( "star" ) ) Options::setFocusObject( i18n( "nothing" ) );
+//	if ( Options::focusObject() == i18n( "star" ) ) Options::setFocusObject( i18n( "nothing" ) );
 
 	ks->map()->setDestination( ks->map()->focusPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
-	ks->infoBoxes()->focusObjChanged( Options::focusObject() );
-	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
-
+//	ks->infoBoxes()->focusObjChanged( Options::focusObject() );
+//	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
+	ks->map()->showFocusCoords();
+	
 	ks->data()->setHourAngle( ks->LST()->Hours() - ks->map()->focus()->ra()->Hours() );
 
 	ks->map()->setOldFocus( ks->map()->focus() );
