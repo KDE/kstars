@@ -217,8 +217,8 @@ void LocationDialog::initCityList( void ) {
 		GeoBox->insertItem( s );
 		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
 
-		//If TZ is not even integer value, add it to listbox (don't worry about dupes, they are excluded)
-		if ( loc->TZ0() - int( loc->TZ0() ) ) { //&& ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
+		//If TZ is not even integer value, add it to listbox 
+		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
 			for ( unsigned int i=0; i<TZBox->count(); ++i ) {
 				if ( TZBox->text( i ).toDouble() > loc->TZ0() ) {
 					TZBox->insertItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ), i-1 );
@@ -341,15 +341,18 @@ void LocationDialog::addCity( void ) {
 		return;
 	}
 
-	bool latOk(false), lngOk(false);
+	bool latOk(false), lngOk(false), tzOk(false);
 	dms lat = NewLat->createDms( true, &latOk );
 	dms lng = NewLong->createDms( true, &lngOk );
+	double TZ = TZBox->lineEdit()->text().toDouble( &tzOk );
 
 	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ) {
 		QString message = i18n( "All fields (except province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 		return;
-	} else if ( ! latOk || ! lngOk ) {
+	
+	//FIXME after strings freeze lifts, separate TZ check from lat/long check 
+	} else if ( ! latOk || ! lngOk || ! tzOk ) {
 		QString message = i18n( "Could not parse coordinates." );
 		KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
 		return;
@@ -378,7 +381,6 @@ void LocationDialog::addCity( void ) {
 		} else {
 			char ltsgn = 'N'; if ( lat.degree()<0 ) ltsgn = 'S';
 			char lgsgn = 'E'; if ( lng.degree()<0 ) lgsgn = 'W';
-			double TZ = double( TZBox->currentItem() - 12 );
 			QString TZrule = TZRuleBox->currentText();
 
 			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : %5.1f : %2s\n",
@@ -472,7 +474,7 @@ void LocationDialog::clearFields( void ) {
 	NewCountryName->clear();
 	NewLong->clearFields();
 	NewLat->clearFields();
-	TZBox->setCurrentItem( 12 );
+	TZBox->lineEdit()->setText( QString( "%1" ).arg( 0.0, 0, 'f', 2 ) );
 	TZRuleBox->setCurrentItem( 0 );
 	nameModified = true;
 	dataModified = false;
