@@ -81,7 +81,7 @@ public:
 	QTime GSTtoUT( dms GST ) const;
 	
 	double epoch() const { return ( double( date().year() ) 
-			+ double( date().dayOfYear()/date().daysInYear() ) ); }
+			+ double( date().dayOfYear() )/double( date().daysInYear() ) ); }
 	void setFromEpoch( double e );
 private:
 	dms GSTat0hUT() const;
