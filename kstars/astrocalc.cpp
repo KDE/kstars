@@ -36,7 +36,7 @@
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true,
-	i18n("KStars Calculator"), Ok | Close | Cancel ) {
+	i18n("KStars Calculator"), Ok | Cancel ) {
 
 	split = new QSplitter ( this );
 	setMainWidget(split);
