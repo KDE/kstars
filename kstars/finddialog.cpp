@@ -91,20 +91,18 @@ FindDialog::FindDialog( QWidget* parent )
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
 	connect (SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
-	
-	startTimer (0);		// we use this timer to make sure initObjectList is called only after
-                   // the dialog is created and shown.
+
+	// first create and paint dialog and then load list
+	QTimer::singleShot(0, this, SLOT( init() ));
 }
 
 FindDialog::~FindDialog() {
 	delete SearchList;
 }
 
-void FindDialog::timerEvent (QTimerEvent *)
-{
-	killTimers(); //make sure timer fires only one time.
+void FindDialog::init() {
 	SearchBox->clear();  // QLineEdit
-	filterType->setCurrentItem( 0 );  // all types
+	filterType->setCurrentItem(0);  // show all types of objects
 	filter();
 }
 

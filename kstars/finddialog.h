@@ -42,9 +42,9 @@ class QStringList;
 	*the list by name, and a QCombobox for filtering the list by object type.
 	*
 	*@short Find Object Dialog
-  *@author Jason Harris
-  *@version 0.9
-  */
+	*@author Jason Harris
+	*@version 0.9
+	*/
 
 class FindDialog : public KDialogBase  {
 	Q_OBJECT
@@ -97,13 +97,12 @@ public slots:
 	*/
 	void filterByType();
 	
-	protected:
-/**
-	*This is only needed so that the list gets initialized only after the constructor is finished
-	*/
-		void timerEvent (QTimerEvent *);
-	
 	private slots:
+/**
+	Init object list after opening dialog.
+	*/
+		void init();
+
 /**
 	*Set the selected item in the list to the item specified.
 	*/
