@@ -42,7 +42,6 @@
 #include "kstarssplash.h"
 #include "simclock.h"
 #include "ksutils.h"
-//#include "infopanel.h"
 #include "infoboxes.h"
 
 KStars::KStars( bool doSplash ) :
@@ -97,55 +96,66 @@ KStars::~KStars()
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {
+
+	QDateTime new_time(newDate, newTime);
+
+	GeoLocation *Geo = geo();
+	KStarsData *Data = data();
+
 	clock->stop();
 
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
-	data()->LastNumUpdate = -1000000.0;
-	data()->LastMoonUpdate = -1000000.0;
-	data()->LastPlanetUpdate = -1000000.0;
-	data()->LastSkyUpdate = -1000000.0;
+	Data->LastNumUpdate = -1000000.0;
+	Data->LastMoonUpdate = -1000000.0;
+	Data->LastPlanetUpdate = -1000000.0;
+	Data->LastSkyUpdate = -1000000.0;
 
-//compute JD for the next DST adjustment
-	QDateTime changetime = geo()->tzrule()->nextDSTChange( QDateTime( newDate, newTime ) );
-	data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+	// reset tzrules data with newlocal time and time direction (forward or backward)
+	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
+	// reset next dst change time
+	Data->setNextDSTChange( KSUtils::UTtoJulian( Geo->tzrule()->nextDSTChange() ) );
 
-//compute JD for the previous DST adjustment (in case time is running backwards)
-	changetime = geo()->tzrule()->previousDSTChange( QDateTime( newDate, newTime ) );
-	data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
-
-	geo()->tzrule()->setDST( geo()->tzrule()->isDSTActive( QDateTime( newDate, newTime ) ) );
-	clock->setUTC( QDateTime(newDate, newTime).addSecs(int(-3600 * geo()->TZ()) ) );
+	clock->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
+	
+	// reset local sideral time
+	setLSTh( clock->UTC() );
 }
 
 void KStars::clearCachedFindDialog() {
-	if ( findDialog  ) {  // dialog is in memory
+	if ( findDialog  ) {  // dialog is cached
 /**
 	*Delete findDialog only if it is not opened
 	*/	
 		if ( findDialog->isHidden() ) {
-  			delete findDialog;
-  			findDialog = 0;
+			delete findDialog;
+			findDialog = 0;
 			DialogIsObsolete = false;
-  		}
-    	else
+		}
+		else
 			DialogIsObsolete = true;  // dialog was opened so it could not deleted
    }
 }
 
 void KStars::updateTime( void ) {
 	QTime oldLST = data()->LST;
-	data()->updateTime( clock, geo(), map() );
+	// Due to frequently use of this function save data and map pointers for speedup.
+	// Save options() and geo() to a pointer would not speedup because most of time options
+	// and geo will accessed only one time.
+	KStarsData *Data = data();
+	SkyMap *Map = map();
 
-//	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
-	infoBoxes()->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
-	if ( !options()->isTracking && data()->LST > oldLST ) { //kludge advancing the focus
-		int nSec = oldLST.secsTo( data()->LST );
-		map()->focus()->setRA( map()->focus()->ra().Hours() + double( nSec )/3600. );
-		if ( options()->useAltAz ) map()->focus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	Data->updateTime( clock, geo(), Map );
+
+	infoBoxes()->timeChanged(Data->UTime, Data->LTime, Data->LST, Data->CurrentDate);
+
+	if ( !options()->isTracking && Data->LST > oldLST ) { //kludge advancing the focus
+		int nSec = oldLST.secsTo( Data->LST );
+		Map->focus()->setRA( Map->focus()->ra().Hours() + double( nSec )/3600. );
+		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( Data->LSTh, geo()->lat() );
 		showFocusCoords();
 	}
 
-	map()->update();
+	Map->update();
 
 	//If time is accelerated beyond slewTimescale, then the clock's timer is stopped,
 	//so that it can be ticked manually after each update, in order to make each time
@@ -200,8 +210,6 @@ void KStars::showFocusCoords( void ) {
 	//
 	//This is ugly, got to find a way to change this. But for now.
 	//
-//	infoPanel->focusObjChanged(oname);
-//	infoPanel->focusCoordChanged(map()->focus());
 	infoBoxes()->focusObjChanged(oname);
 	infoBoxes()->focusCoordChanged(map()->focus());
 

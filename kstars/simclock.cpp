@@ -126,8 +126,6 @@ bool SimClock::isActive() {
 	else return tmr.isActive();
 }
 
-
-
 // The SimClockInterface
 void SimClock::stop() {
 	if ( ManualMode && ManualActive ) {
@@ -172,8 +170,10 @@ void SimClock::setUTC(const QDateTime &newtime) {
 		sysmark.start();
 		lastelapsed = 0;
 	}
+/****************** don't write debug messages due to performance **************
 	kdDebug() << i18n( "Setting clock UTC = " ) << utc.toString() <<
 		i18n( " julian day = " ) << QString("%1").arg( julian, 10, 'f', 2) << endl;
+*****************************************************************************************/
 	emit timeChanged();
 
 }

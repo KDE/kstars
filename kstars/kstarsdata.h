@@ -254,12 +254,6 @@ public:
 		*/
 	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
 
-	/**Set the PrevDSTChange member.
-		*Need this accessor because I could not make KStars::privatedata a friend
-		*class for some reason...:/
-		*/
-	void setPrevDSTChange( long double jd ) { PrevDSTChange = jd; }
-
 	/**Make a backup copy of the KStarsOptions object.
 		*This is needed in case the user presses "cancel" after making changes in
 		*the ViewOpsDialog. */
@@ -270,9 +264,15 @@ public:
 		*the ViewOpsDialog. */
 	void restoreOptions();
 
+	/**Returns true if time is running forward else false. Used by KStars to prevent
+		*2 calculations of daylight saving change time.
+		*/
+	bool isTimeRunningForward() { return TimeRunsForward; }
+
 	KLocale *getLocale() { return locale; };
 
 	KSPlanet *earth() { return PC.earth(); }
+
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/
@@ -307,6 +307,12 @@ public slots:
 		*/
 	void updateTime(SimClock *clock, GeoLocation *geo, SkyMap * skymap);
 
+	/**Sets the direction of time and stores it in bool TimeRunForwards. If scale >= 0
+		*time is running forward else time runs backward. We need this to calculate just
+		*one daylight saving change time (previous or next DST change).
+		*/
+	void setTimeDirection( float scale );
+
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
 		*starting up.  It is connected to the timeout() signal of a timer
@@ -336,6 +342,11 @@ private slots:
 	void sendClearCache();
 
 private:
+/**Reset local time to new daylight saving time. Use this function if DST has changed.
+	*Used by updateTime().
+	*/
+	void resetToNewDST(const GeoLocation *geo);
+
 /*
 	* Store the highest magnitude level at the current session and compare with current used
 	* magnitude. If current magnitude is equal to maxSetMagnitude reload data on next increment
@@ -371,8 +382,9 @@ private:
 	KStandardDirs *stdDirs;
 
 	QDateTime LTime, UTime;
-	QTime     LST;
-	dms       LSTh, HourAngle;
+	QTime LST;
+	bool TimeRunsForward;
+	dms LSTh, HourAngle;
 	int ZoomLevel;
 	KLocale *locale;
 
@@ -382,7 +394,7 @@ private:
 
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
-	long double NextDSTChange, PrevDSTChange;
+	long double NextDSTChange;
 
 	// options
 	KStarsOptions* options;

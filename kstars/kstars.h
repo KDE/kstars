@@ -308,11 +308,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void initStatusBar();
 
 		/**
-			*Initialize Geographic location.
-			*/
-		void initLocation();
-
-		/**
 			*Initialize celestial equator, horizon and ecliptic.
 			*/
 		void initGuides(KSNumbers *num);
@@ -324,13 +319,14 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		QString getDateString( QDate d );
 
 		/**change the current simulation time to the time and date specified as the arguments.
+			*Specified date and time is always local time.
 			*@param newDate the date to set.
 			*@param newTIme the time to set.
 			*/
 		void changeTime(QDate newDate, QTime newTime);
 
-/**Set the KStarsData::LSTh member from the current UTC.
-	*/
+		/**Set the KStarsData::LSTh member from the current UTC.
+		*/
 		void setLSTh( QDateTime UTC );
 
 		SkyMap *skymap;

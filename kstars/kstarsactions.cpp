@@ -75,36 +75,13 @@ void KStars::slotGeoLocator() {
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
 			GeoLocation *newLocation = data()->geoList.at(ii);
-
-			// first check if daylight saving time is active otherwise TZ() is undefined
-			newLocation->tzrule()->setDST( newLocation->tzrule()->isDSTActive( data()->LTime ) );
-
-			// Adjust universal time for new location with current set local time
-			clock->setUTC( data()->LTime.addSecs( int( -3600 * newLocation->TZ() ) ) );
-			data()->UTime = clock->UTC();
-
-			//compute JD for the next DST adjustment
-			QDateTime changetime = newLocation->tzrule()->nextDSTChange( data()->LTime );
-			data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * newLocation->TZ())) );
-
-			//compute JD for the previous DST adjustment
-			changetime = newLocation->tzrule()->previousDSTChange( data()->LTime );
-			data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * newLocation->TZ())) );
-
-			//Set local sidereal time
-			data()->LST = KSUtils::UTtoLST( data()->UTime, newLocation->lng() );
-			data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
-			data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
-
-			// set new location to options data and infoboxes
+			// save location in options
 			options()->setLocation( *newLocation );
+			// reset infoboxes
 			infoBoxes()->geoChanged( newLocation );
 
-			//need to recompute Alt/Az coordinates of all objects, so
-			//adjust LastSkyUpdate to ensure computation.  Then
-			//explicitly call updateTime()
-			data()->LastSkyUpdate -= 1.0; // a full day, should be plenty
-			updateTime();
+			// reset utc and DST change times
+			changeTime( data()->LTime.date(), data()->LTime.time() );
 		}
 	}
 }
@@ -240,7 +217,8 @@ void KStars::slotPrint() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-  clock->setUTC( QDateTime::currentDateTime().addSecs( int( -3600 * geo()->TZ() ) ) );
+	QDateTime now = QDateTime::currentDateTime();
+	changeTime( now.date(), now.time() );
 }
 
 void KStars::slotToggleTimer() {

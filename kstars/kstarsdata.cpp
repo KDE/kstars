@@ -57,7 +57,7 @@ KStarsData::KStarsData( KStars *ks ) : kstars( ks ), initTimer(0), inited(false)
 	Horizon.setAutoDelete( TRUE );
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
 
-  //Initialize object type strings
+	//Initialize object type strings
 	//(type==-1 is a constellation)
 	TypeName[0] = i18n( "star" );
 	TypeName[1] = i18n( "multiple star" );
@@ -69,6 +69,9 @@ KStarsData::KStarsData( KStars *ks ) : kstars( ks ), initTimer(0), inited(false)
 	TypeName[7] = i18n( "supernova remnant" );
 	TypeName[8] = i18n( "galaxy" );
 	TypeName[9] = i18n( "Users should never see this", "UNUSED_TYPE" );
+	
+	// at startup times run forward
+	setTimeDirection( 0.0 );
 }
 
 KStarsData::~KStarsData() {
@@ -1012,27 +1015,33 @@ void KStarsData::slotInitialize() {
 	initCounter++;
 }
 
+void KStarsData::resetToNewDST(const GeoLocation *geo) {
+	// reset tzrules data with universal time and time direction (forward or backward)
+	geo->tzrule()->reset_with_utc( UTime, TimeRunsForward );
+	// reset next DST change time
+	setNextDSTChange( KSUtils::UTtoJulian( geo->tzrule()->nextDSTChange() ) );
+	//reset LTime, because TZoffset has changed
+	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
+}
+
 void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap ) {
+	// sync times with clock
 	UTime = clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 	CurrentDate = clock->JD();
 
-//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
-//the DST change date/time.
-	if ( !geo->tzrule()->isEmptyRule() && ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) ) {
-		//compute JD for the next DST adjustment
-		QDateTime changetime = geo->tzrule()->nextDSTChange( LTime );
-		setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
-
-		//compute JD for the previous DST adjustment (in case time is running backwards)
-		changetime = geo->tzrule()->previousDSTChange( LTime );
-		setPrevDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
-
-		//turn DST on or off
-		geo->tzrule()->setDST( geo->tzrule()->isDSTActive( LTime ) );
-
-		//reset LTime, because TZoffset has changed
-		LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
+	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
+	//the DST change date/time.
+	if ( !geo->tzrule()->isEmptyRule() ) {
+		if ( TimeRunsForward ) {
+			// timedirection is forward
+			// DST change happens if current date is bigger than next calculated dst change
+			if ( CurrentDate > NextDSTChange ) resetToNewDST(geo);
+		} else {
+			// timedirection is backward
+			// DST change happens if current date is smaller than next calculated dst change
+			if ( CurrentDate < NextDSTChange ) resetToNewDST(geo);
+		}
 	}
 
 	KSNumbers num(CurrentDate);
@@ -1116,7 +1125,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 		//Planets
 
 		PC.EquatorialToHorizontal( LSTh, geo->lat() );
-		if ( options->drawMoon) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
+		if ( options->drawMoon ) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
 
 		//Stars
 		if ( options->drawSAO ) {
@@ -1204,6 +1213,10 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 			QTimer::singleShot( 0, skymap, SLOT( UpdateNow() ) );
 		else skymap->Update();
 	}
+}
+
+void KStarsData::setTimeDirection( float scale ) {
+	TimeRunsForward = ( scale < 0 ? false : true );
 }
 
 #include "kstarsdata.moc"

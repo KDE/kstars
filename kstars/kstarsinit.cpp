@@ -291,82 +291,6 @@ void KStars::initStatusBar() {
 	statusBar()->setItemFixed( 1, -1 );
 }
 
-void KStars::initLocation() {
-	//Initialize geographic location
-	bool bFound = false; bool oldConfig = false;
-	GeoLocation *GeoData;
-
-	kapp->config()->setGroup( "Location" );
-	if ( !kapp->config()->readEntry( "State", "" ).stripWhiteSpace().isEmpty() ) {
-		oldConfig = true;
-    kapp->config()->writeEntry( "State", "" ); //ignore this key from now on...
-	}
-
-	for (GeoData = data()->geoList.first(); GeoData; GeoData = data()->geoList.next())
-	{
-
-	//If the config file is old (has a State key) match a city if the city name
-  //AND EITHER the province name OR the country name match
-  //(old config files set both province and country to "StateName")
-  //this can produce the wrong city, if more than one matches these criteria...
-		if ( oldConfig ) {
-			if ( (GeoData->name().lower() == options()->cityName().lower()) &&
-					( (GeoData->province().lower() == options()->provinceName().lower()) ||
-					(GeoData->country().lower() == options()->countryName().lower()) ) )
-			{
-				bFound = TRUE;
-				if ( GeoData->province().lower() != options()->provinceName().lower() )
-					options()->setProvinceName( GeoData->province() );
-				if ( GeoData->country().lower() != options()->countryName().lower() )
-					options()->setCountryName( GeoData->country() );
-				break ;
-			}
-		} else {
-	//Otherwise, require all three fields (City, Province, and Country) to match
-			if ( options()->provinceName().stripWhiteSpace().length() ) {
-				if ( (GeoData->name().lower() == options()->cityName().lower()) &&
-						(GeoData->province().lower() == options()->provinceName().lower()) &&
-						(GeoData->country().lower() == options()->countryName().lower()) )
-				{
-					bFound = TRUE;
-					break ;
-				}
-			} else {
-				if ( (GeoData->name().lower() == options()->cityName().lower()) &&
-						(GeoData->country().lower() == options()->countryName().lower()) )
-				{
-					bFound = TRUE;
-					break ;
-				}
-
-			}
-		}
-	}
-
-	if ( !bFound ) { // set city, province and country to default values
-		options()->setCityName( "Greenwich" );
-		options()->setProvinceName( "" );
-		options()->setCountryName( "United Kingdom" );
-		for (GeoData = data()->geoList.first(); GeoData; GeoData = data()->geoList.next())
-		{
-			if ( (GeoData->name().lower() == options()->cityName().lower()) &&
-					(GeoData->province().lower() == options()->provinceName().lower()) &&
-					(GeoData->country().lower() == options()->countryName().lower()) )
-			{
-				bFound = TRUE;
-				break ;
-			}
-		}
-	}
-
-	if (bFound) {
-		options()->setLocation( GeoData );
-	} else { //couldn't set geographic location, so set the "null" location.
-		QString message = i18n( "Could not set geographic location!" );
-		KMessageBox::sorry( 0, message, i18n( "No Location Set" ) );
-	}
-}
-
 void KStars::initGuides(KSNumbers *num)
 {
 	// Define the Celestial Equator
@@ -390,7 +314,7 @@ void KStars::initGuides(KSNumbers *num)
 
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
-   		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
+		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
 		RA = data()->LSTh.Degrees() - HA.Degrees();
@@ -442,7 +366,6 @@ void KStars::privatedata::buildGUI() {
 	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
-//	ks->infoPanel = new InfoPanel( ks->centralWidget, "ip", ks->data()->getLocale() );
 	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight );
 
 	ks->initStatusBar();
@@ -457,14 +380,12 @@ void KStars::privatedata::buildGUI() {
 
 	// create the layout of the central widget
 	ks->topLayout = new QVBoxLayout( ks->centralWidget );
-//	ks->topLayout->addWidget( ks->infoPanel );
 	ks->topLayout->addWidget( ks->skymap );
 
-//	ks->infoPanel->geoChanged(ks->geo());
 	ks->infoBoxes()->geoChanged(ks->geo());
 
-	ks->createGUI("kstarsui.rc", false); //2nd parameter must be false, or
-                                      //plugActionList won't work!
+	// 2nd parameter must be false, or plugActionList won't work!
+	ks->createGUI("kstarsui.rc", false);
 
 	//Initialize show/hide state of toolbars.
 	//These were in initActions, but they must appear after createGUI...
@@ -472,35 +393,19 @@ void KStars::privatedata::buildGUI() {
 	if ( !ks->options()->showViewToolBar ) ks->toolBar( "viewToolBar" )->hide();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
-//	ks->TimeStep->setMaximumWidth( ks->TimeStep->minimumWidth() );
-
-//Tooltip is now part of TimeStepBox class definition
-//	QToolTip::add( ks->TimeStep, i18n( "Time Step (seconds)" ) );
 
 //Changing the timestep needs to propagate to the clock, check if slew mode should be
 //(dis)engaged, and return input focus to the skymap.
+	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data(), SLOT( setTimeDirection( float ) ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock, SLOT( setScale( float )) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
-//	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep->tsbox(), SLOT( changeScale( float )) );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 14 );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
 
-	//Set DST, if necessary
-	ks->geo()->tzrule()->setDST( ks->geo()->tzrule()->isDSTActive( QDateTime::currentDateTime() ) );
-
-	//intitialize time to system clock
-	ks->clock->setUTC(QDateTime::currentDateTime().addSecs(int(-3600 * ks->geo()->TZ()) ));
-	ks->setLSTh( ks->clock->UTC() );
-
-//compute JD for the next DST adjustment
-	QDateTime changetime = ks->geo()->tzrule()->nextDSTChange( QDateTime::currentDateTime() );
-	ks->data()->setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * ks->geo()->TZ())) ) );
-
-//compute JD for the previous DST adjustment (in case time is running backwards)
-	changetime = ks->geo()->tzrule()->previousDSTChange( QDateTime::currentDateTime() );
-	ks->data()->setPrevDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * ks->geo()->TZ())) ) );
+	// initialize clock with current time/date
+	ks->slotSetTimeToNow();
 
 	//Define the celestial equator, horizon and ecliptic
 	KSNumbers tempnum(ks->clock->JD());
@@ -530,7 +435,7 @@ void KStars::privatedata::buildGUI() {
 	ks->updateTime();
 
 	//Set focus of Skymap.
-  //Set default position in case stored focus is below horizon
+	//Set default position in case stored focus is below horizon
 	SkyPoint DefaultFocus;
 	DefaultFocus.setAz( 180.0 );
 	DefaultFocus.setAlt( 45.0 );
