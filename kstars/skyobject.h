@@ -225,15 +225,15 @@ public:
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
-	QTime transitTime( QDateTime currentTime, dms LST );
+//	QTime transitTime( QDateTime currentTime, dms LST );
 
-//	dms transitUTTime(long double jd, dms gLng);
-//	QTime transitTime( long double jd, GeoLocation *geo );
+	dms transitUTTime(long double jd, dms gLng);
+	QTime transitTime( long double jd, GeoLocation *geo );
 
 	double approxHourAngle (dms h0, dms gLng, dms d2);
 	dms gstAtCeroUT (long double jd);
-//	dms transitAltitude(long double jd, GeoLocation *geo);
-	dms transitAltitude(GeoLocation *geo);
+	dms transitAltitude(long double jd, GeoLocation *geo);
+//	dms transitAltitude(GeoLocation *geo);
 
 
 	/**

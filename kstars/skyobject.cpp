@@ -226,70 +226,56 @@ dms SkyObject::riseSetTimeAz (long double jd, GeoLocation *geo, bool riseT) {
 
 	return Azimuth;
 }
-//dms SkyObject::transitUTTime(long double jd, dms gLng ) {
-//
-//	QDateTime utDateTime;
-//	utDateTime = KSUtils::JDtoDateTime(jd );
-//	QTime lstTime;
-//	lstTime = KSUtils::UTtoLST( utDateTime, gLng );
-//	dms LST = QTimeToDMS(lstTime);
-//	
-// 	dms HourAngle = dms ( LST.Degrees() - ra().Degrees() );
-//	int dSec = int( -3600.*HourAngle.Hours() );
-//
-//	utDateTime.addSecs(dSec);
-//
-	// we repeat the computation for a new Time and RA
-//	
-//	dms UT = QTimeToDMS( utDateTime.time() );
-//	long double jd0 = newJDfromJDandUT(jd, UT);
-//
-//	SkyPoint sp = getNewCoords(jd, jd0);
-//	dms ram = sp.ra0();
-//
-//	lstTime = KSUtils::UTtoLST( utDateTime, gLng );
-//	LST = QTimeToDMS(lstTime);
-//	HourAngle = dms ( LST.Degrees() - ram.Degrees() );
-//	dSec = int( -3600.*HourAngle.Hours() );
+dms SkyObject::transitUTTime(long double jd, dms gLng ) {
 
-//	utDateTime.addSecs(dSec);
-//	UT = QTimeToDMS( utDateTime.time() );
-//	UT.reduce();
-//
-//	return UT;
-//}
+	QDateTime utDateTime;
+	utDateTime = KSUtils::JDtoDateTime(jd );
+	QTime lstTime;
+	lstTime = KSUtils::UTtoLST( utDateTime, gLng );
+	dms LST = QTimeToDMS(lstTime);
+	
+	dms HourAngle = dms ( LST.Degrees() - ra().Degrees() );
+	int dSec = int( -3600.*HourAngle.Hours() );
+	dms UT0 = QTimeToDMS( utDateTime.time() );
 
-//QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
-//
-//	dms UT = transitUTTime(jd, geo->lng() );
-//
-//	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
-//
-//	return QTime( LT.hour(), LT.minute(), LT.second() );
-//}
+	UT0 = dms (UT0.Degrees() + dSec*15/3600.);
+	
+ long double jd0 = newJDfromJDandUT(jd, UT0);
 
-QTime SkyObject::transitTime( QDateTime currentTime, dms LST ) {
+	SkyPoint sp = getNewCoords(jd, jd0);
+	dms ram = sp.ra0();
 
-        dms HourAngle = dms ( LST.Degrees() - ra().Degrees() );
-        int dSec = int( -3600.*HourAngle.Hours() );
-        return currentTime.addSecs( dSec ).time();
+	HourAngle = dms ( LST.Degrees() - ram.Degrees() );
+	dSec = int( -3600.*HourAngle.Hours() );
+
+	dms UT = QTimeToDMS( utDateTime.time() );
+	UT = dms (UT.Degrees() + dSec*15/3600.);
+
+	return UT;
 }
 
+QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
 
-//dms SkyObject::transitAltitude(long double jd, GeoLocation *geo) {
-dms SkyObject::transitAltitude(GeoLocation *geo) {
+	dms UT = transitUTTime(jd, geo->lng() );
+
+	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
+
+	return QTime( LT.hour(), LT.minute(), LT.second() );
+}
+
+dms SkyObject::transitAltitude(long double jd, GeoLocation *geo) {
 
 	dms delta;
 
-//	dms UT = transitUTTime (jd, geo->lng());
-//	long double jd0 = newJDfromJDandUT(jd, UT);
-//	SkyPoint sp = getNewCoords(jd,jd0);
-//	dms decm = sp.dec0();
+	dms UT = transitUTTime (jd, geo->lng());
+	long double jd0 = newJDfromJDandUT(jd, UT);
+	SkyPoint sp = getNewCoords(jd,jd0);
+	dms decm = sp.dec0();
 	
 	delta.setRadians( asin ( sin (geo->lat().radians()) * 
-				sin ( dec().radians() ) +
+				sin ( decm.radians() ) +
 				cos (geo->lat().radians()) * 
-				cos (dec().radians() ) ) );
+				cos (decm.radians() ) ) );
 
 	return delta;
 }
