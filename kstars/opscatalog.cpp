@@ -43,6 +43,11 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	showMessier = new QCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
 	showMessier->setOn( Options::showMessier() );
 
+	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
+	kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
+	kcfg_MagLimitDrawStar->setMinValue( Options::magLimitDrawStarZoomOut() );
+	kcfg_MagLimitDrawStarZoomOut->setMaxValue( Options::magLimitDrawStar() );
+	
 	kcfg_MagLimitDrawDeepSky->setMaxValue( 16.0 );
 	kcfg_MagLimitDrawDeepSkyZoomOut->setMaxValue( 16.0 );
 	
@@ -142,11 +147,13 @@ void OpsCatalog::slotRemoveCatalog() {
 }
 
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
+	kcfg_MagLimitDrawStarZoomOut->setMaxValue( newValue );
 	ksw->data()->setMagnitude( newValue );
 }
 
 void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
-	Options::setMagLimitDrawStarZoomOut(newValue);
+	kcfg_MagLimitDrawStar->setMinValue( newValue );
+	Options::setMagLimitDrawStarZoomOut( newValue );
 	// force redraw
 	ksw->map()->forceUpdate();
 }
