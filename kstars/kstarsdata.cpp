@@ -45,9 +45,10 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 
 	PC = new PlanetCatalog(ks);
 
+	//REVERTED...remove comments after 1/1/2003
 	//ARRAY: setting static array limit for now
-	starArray = new StarObject[40000];
-//	starList.setAutoDelete( TRUE );
+	//starArray = new StarObject[40000];
+	starList.setAutoDelete( TRUE );
 	
 	geoList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );
@@ -94,8 +95,9 @@ KStarsData::~KStarsData() {
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
+	//REVERTED...remove comments after 1/1/2003
 	//ARRAY
-	delete[] starArray;
+	//delete[] starArray;
 
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
@@ -322,8 +324,9 @@ bool KStarsData::readStarData( void ) {
 	if ( KSUtils::openDataFile( file, "sao.dat" ) ) {
 		QTextStream stream( &file );
 		
+		//REVERTED...remove comments after 1/1/2003
 		//ARRAY:
-		StarCount = 0;
+		//StarCount = 0;
 		
 		while ( !stream.eof() ) {
 			QString line, name, gname, SpType;
@@ -364,11 +367,12 @@ bool KStarsData::readStarData( void ) {
 
 			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
+			//REVERTED...remove comments after 1/1/2003
 			//ARRAY:
-			//StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-			//starList.append( o );
-			starArray[StarCount++] = StarObject( r, d, mag, name, gname, SpType );
-			StarObject *o = &starArray[StarCount-1];
+			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+			starList.append( o );
+			//starArray[StarCount++] = StarObject( r, d, mag, name, gname, SpType );
+			//StarObject *o = &starArray[StarCount-1];
 			
 			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				ObjNames.append( o );
@@ -1300,11 +1304,12 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		
 		//Stars
 		if ( options->drawSAO ) {
+			//REVERTED...remove comments after 1/1/2003
 			//ARRAY:
-			//for ( StarObject *star = starList.first(); star; star = starList.next() ) {
-			StarObject *star;
-			for ( unsigned int i=0; i<StarCount; ++i ) {
-				star = &starArray[i];
+			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
+			//StarObject *star;
+			//for ( unsigned int i=0; i<StarCount; ++i ) {
+			//	star = &starArray[i];
 				
 				if ( star->mag() > options->magLimitDrawStar ) break;
 				if (needNewCoords) star->updateCoords( &num );

@@ -90,12 +90,12 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 
 		if ( sgn == "-" ) d.setD( -1.0*d.Degrees() );
 
-		
+		//REVERTED...remove comments after 1/1/2003
 		//ARRAY:
-		//StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-		//ksData->starList.append( o );
-		ksData->starArray[ksData->StarCount++] = StarObject( r, d, mag, name, gname, SpType );
-		StarObject *o = &(ksData->starArray[ksData->StarCount-1]);
+		StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+		ksData->starList.append( o );
+		//ksData->starArray[ksData->StarCount++] = StarObject( r, d, mag, name, gname, SpType );
+		//StarObject *o = &(ksData->starArray[ksData->StarCount-1]);
 		if ( o->name() != "star" ) {		// just add to name list if a name is given
 			ksData->ObjNames.append ( o );
 			nameListChanged = true;

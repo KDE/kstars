@@ -417,9 +417,10 @@ private:
 	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
 
+//REVERTED...remove comments after 1/1/2003
 //ARRAY: replacing starList with starArray
-//	QList<StarObject> starList;
-	StarObject *starArray;
+	QList<StarObject> starList;
+//	StarObject *starArray;
 	unsigned int StarCount;
 
 	QList<SkyObject> deepSkyList;

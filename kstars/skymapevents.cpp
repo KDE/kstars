@@ -421,11 +421,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			
 			//test RA and dec to see if this star is roughly nearby
 			
+			//REVERTED...remove comments after 1/1/2003
 			//ARRAY:
-			//for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
-			//	SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
-			for ( register unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
-				SkyObject *test = (SkyObject *)&(ksw->data()->starArray[i]);
+			for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
+				SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
+			//for ( register unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
+			//	SkyObject *test = (SkyObject *)&(ksw->data()->starArray[i]);
 
 				double dRA = test->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = test->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -588,11 +589,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			switch (icat) {
 				case 0: //star
+					//REVERTED...remove comments after 1/1/2003
 					//ARRAY:
-					//starobj = (StarObject *)ksw->data()->starList.at(istar_min);
-					//setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
-					starobj = (StarObject *)&(ksw->data()->starArray[istar_min]);
-					setClickedObject( (SkyObject *)starobj );
+					starobj = (StarObject *)ksw->data()->starList.at(istar_min);
+					setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
+					//starobj = (StarObject *)&(ksw->data()->starArray[istar_min]);
+					//setClickedObject( (SkyObject *)starobj );
 					
 					setClickedPoint( clickedObject() );
 
@@ -1109,10 +1111,11 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	  //Only draw bright stars if slewing
 		if ( hideFaintStars && maglim > ksw->options()->magLimitHideStar ) maglim = ksw->options()->magLimitHideStar;
 		
+		//REVERTED...remove comments after 1/1/2003
 		//ARRAY:
-		//for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
-		for ( unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
-			StarObject *curStar = &(ksw->data()->starArray[i]);
+		for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
+		//for ( unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
+		//	StarObject *curStar = &(ksw->data()->starArray[i]);
 			
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;

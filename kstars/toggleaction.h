@@ -1,5 +1,5 @@
 /***************************************************************************
-                          stardatasink.h  -  description
+                          toggleaction.h  -  description
                              -------------------
     begin                : Son Feb 10 2002
     copyright            : (C) 2002 by Mark Hollomon

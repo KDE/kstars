@@ -175,14 +175,15 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 		return so;
 
 	//Stars
+	//REVERTED...remove comments after 1/1/2003
 	//ARRAY:
-	//for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
-	//	if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
-	//}
-	for ( unsigned int i=0; i < data()->StarCount; ++i ) {
-		StarObject *o = &(data()->starArray[i]);
-		if ( name == o->name() ) return o;
+	for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
+		if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
 	}
+	//for ( unsigned int i=0; i < data()->StarCount; ++i ) {
+	//	StarObject *o = &(data()->starArray[i]);
+	//	if ( name == o->name() ) return o;
+	//}
 	
 	//Deep-sky catalogs
 	for ( unsigned int i=0; i<data()->deepSkyList.count(); ++i ) {
