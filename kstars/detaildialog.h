@@ -19,6 +19,7 @@
 #define DETAILDIALOG_H
 
 #include <qfile.h>
+#include <qlabel.h>
 #include <qptrlist.h>
 #include <kdialogbase.h>
 #include <ktextedit.h>
@@ -29,6 +30,7 @@ class GeoLocation;
 class QHBoxLayout;
 class QLineEdit;
 class QFile;
+class QPixmap;
 class QString;
 class QStringList;
 class KStars;
@@ -65,6 +67,23 @@ protected:
 	void focusOutEvent( QFocusEvent *e );
 };
 
+/**@class ClickLabel is a QLabel with a clicked() signal.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+class ClickLabel : public QLabel {
+	Q_OBJECT
+public:
+	ClickLabel( QWidget *parent=0, const char *name=0 );
+	~ClickLabel() {}
+	
+signals:
+	void clicked();
+	
+protected:
+	void mousePressEvent( QMouseEvent * ) { emit clicked(); }
+};
+
 /**@class DetailDialog is a window showing detailed information for a selected object.
 	*The window is split into four Tabs: General, Links, Advanced and Log.
 	*The General Tab displays some type-specific data about the object, as well as its 
@@ -94,6 +113,8 @@ public:
 	*/
 	~DetailDialog() {}
 
+	QPixmap* thumbnail() { return Thumbnail; }
+
 public slots:
 /**@short Add this object to the observing list.
 	*/
@@ -106,6 +127,14 @@ public slots:
 /**@short Center this object in the telescope.
 	*/
 	void centerTelescope();
+
+/**@short Display thumbnail image for the object
+	*/
+	void showThumbnail();
+
+/**@short Update thumbnail image for the object
+	*/
+	void updateThumbnail();
 
 /**@short View the selected image or info URL in the web browser.
 	*/
@@ -202,6 +231,7 @@ private:
 	QLabel *editLinkURL;
 	QLineEdit *editLinkField;
 	QFile file;
+	QPixmap *Thumbnail;
 	int currentItemIndex;
 	QString currentItemURL, currentItemTitle;
 	QStringList dataList;

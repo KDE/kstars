@@ -16,9 +16,10 @@
  ***************************************************************************/
 
 #include <qstring.h>
-#include <qlabel.h>
 #include <qlayout.h> //still needed for secondary dialogs
 #include <qlineedit.h>
+#include <qimage.h>
+#include <qregexp.h>
 
 #include <kapplication.h>
 #include <kstandarddirs.h>
@@ -46,6 +47,7 @@
 #include "deepskyobject.h"
 #include "ksplanetbase.h"
 #include "ksmoon.h"
+#include "thumbnailpicker.h"
 
 LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
@@ -59,6 +61,9 @@ void LogEdit::focusOutEvent( QFocusEvent *e ) {
 	QWidget::focusOutEvent(e);
 }
 
+ClickLabel::ClickLabel( QWidget *parent, const char *name ) : QLabel( parent, name ) 
+{}
+
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent, const char *name ) : 
 		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
@@ -68,16 +73,20 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
 
+	//Create thumbnail image
+	Thumbnail = new QPixmap( 200, 200 );
+
 	createGeneralTab();
 	createPositionTab( ut, geo );
 	createLinksTab();
 	createAdvancedTab();
 	createLogTab();
 
-	//Connection
+	//Connections
 	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
 	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
 	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
+	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 }
 
 void DetailDialog::createGeneralTab()
@@ -98,6 +107,9 @@ void DetailDialog::createGeneralTab()
 	Data->MagLabel->setPalette( palette() );
 	Data->DistanceLabel->setPalette( palette() );
 	Data->AngSizeLabel->setPalette( palette() );
+
+	//Show object thumbnail image
+	showThumbnail();
 
 	QVBoxLayout *vlay = new QVBoxLayout( DataTab, 0, 0 );
 	vlay->addWidget( Data );
@@ -877,6 +889,56 @@ void DetailDialog::centerMap() {
 
 void DetailDialog::centerTelescope() {
 	//FIXME: point telescope at selectedObject
+}
+
+void DetailDialog::showThumbnail() {
+	//No image if object is a star
+	if ( selectedObject->type() == SkyObject::STAR || 
+			selectedObject->type() == SkyObject::CATALOG_STAR ) {
+		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
+		Thumbnail->fill( Data->paletteBackgroundColor() );
+		Data->Image->setPixmap( *Thumbnail );
+		return;
+	}
+
+	//Try to load the object's image from disk
+	//If no image found, load "no image" image
+	//If that isn't found, make it blank.
+	QFile file;
+	QString fname = "thumb-" + selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png";
+	if ( KSUtils::openDataFile( file, fname ) ) {
+		file.close();
+		Thumbnail->load( file.name(), "PNG" );
+	} else if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+		file.close();
+		Thumbnail->load( file.name(), "PNG" );
+	} else {
+		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
+		Thumbnail->fill( Data->paletteBackgroundColor() );
+	}
+
+	Data->Image->setPixmap( *Thumbnail );
+}
+
+void DetailDialog::updateThumbnail() {
+	ThumbnailPicker tp( selectedObject, *Thumbnail, this, "thumbnaileditor" );
+	
+	if ( tp.exec() == QDialog::Accepted ) {
+		QString fname = locateLocal( "appdata", "thumb-" 
+				+ selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png" );
+
+		Data->Image->setPixmap( *(tp.image()) );
+
+		//If a real image was set, display it.
+		//If the image was unset, delete the old image on disk.
+		if ( tp.imageFound() ) {
+			Data->Image->pixmap()->save( fname, "PNG" );
+		} else {
+			QFile f;
+			f.setName( fname );
+			f.remove();
+		}
+	}
 }
 
 #include "detaildialog.moc"
