@@ -40,9 +40,10 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   pluto.freq pluto.x pluto.y pluto.z \
 		   asteroids.dat comets.dat \
 		   sun.png mercury.png venus.png earth.png mars.png jupiter.png saturn.png uranus.png neptune.png pluto.png \
-		   moon0.png moon1.png moon2.png moon3.png moon4.png moon5.png moon6.png moon7.png moon8.png \
-		   moon9.png moon10.png moon11.png moon12.png moon13.png moon14.png moon15.png \
-		   moon16.png moon17.png moon18.png moon19.png moon20.png moon21.png moon22.png moon23.png \
+		   moon00.png moon01.png moon02.png moon03.png moon04.png moon05.png moon06.png moon07.png moon08.png \
+		   moon09.png moon10.png moon11.png moon12.png moon13.png moon14.png moon15.png moon16.png moon17.png \
+		   moon18.png moon19.png moon20.png moon21.png moon22.png moon23.png moon24.png moon25.png moon26.png \
+		   moon27.png moon28.png moon29.png moon30.png moon31.png moon32.png moon33.png moon34.png moon35.png \
 		   m1.png m10.png m100.png m101.png m102.png m103.png m104.png m105.png \
 		   m106.png m107.png m108.png m109.png m11.png m110.png m12.png m13.png m14.png m15.png m16.png m17.png m19.png \
 		   m2.png m20.png m22.png m27.png m28.png m3.png m30.png m31.png m32.png m33.png m4.png m42.png m45.png m49.png \

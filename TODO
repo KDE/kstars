@@ -12,6 +12,9 @@ KStars 1.0.x To-Do list:
     option to download lightcurve should appear in popup menu of variable 
     stars.
 
+  - Generalized plot widget to be used for various tools (Alt vs Time, Solar
+    System Viewer, Jupiter moons, etc)
+
   - Solar system viewer (a.k.a. "orrery", a rather unfortunate word)
 
   - Tool to plot positions of Jupiter's moons as a function of time.
@@ -45,9 +48,11 @@ KStars 1.0.x To-Do list:
 
   - Finish DCOP functions
 
-  - Add ScriptBuilder window for easy construction of DCOP scripts.
-
   - Ability to construct spreadsheet-like observing lists.
+
+  - add command-line option to dump the sky image to a file without launching GUI
+    (useful for using KStars as dynamic background generator, and possibly as the 
+    basis for a screensaver)
 
 + Long-term wishlist:
   - KStars: The Screensaver!  

@@ -922,50 +922,55 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 	QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
 	
 	if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
+		//image angle is PA plus the North angle.
+		//Find North angle:
+		SkyPoint test;
+		test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
+		if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+		QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
+		double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
+		double dy = double( t.y() - o.y() );
+		double north(0.0);
+		if ( dy ) {
+			north = atan( dx/dy )*180.0/dms::PI;
+		} else {
+			north = 90.0;
+			if ( dx > 0 ) north = -90.0;
+		}
+		
 		//Image size must be modified to account for possibility that rotated image's
-		//size is bigger than original image size.
-		int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * p->image()->width()/p->image0()->width() );
+		//size is bigger than original image size.  The rotated image is a square 
+		//superscribed on the original image.  The superscribed square is larger than
+		//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+		//which the two squares are rotated (in our case, equal to the position angle +
+		//the north angle, reduced between 0 and 90 degrees).  
+		//The proof is left as an exercise to the student :)
+		dms pa( p->pa() + north );
+		double spa, cpa;
+		pa.SinCos( spa, cpa );
+		cpa = fabs(cpa); spa = fabs(spa);
+		
+		//int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * (cpa + spa) );
+		int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
 		if ( size < sizemin ) size = sizemin;
-		int x1 = o.x() - size/2;
-		int y1 = o.y() - size/2;
-
-                                             //Only draw planet image if:
-		if ( ksw->options()->drawPlanetImage &&  //user wants them,
-				ksw->options()->ZoomLevel > zoommin &&  //zoomed in enough,
-				!p->image()->isNull() &&             //image loaded ok,
-				size < Width ) {                   //and size isn't too big.
+                                               //Only draw planet image if:
+		if ( ksw->options()->drawPlanetImage &&    //user wants them,
+				ksw->options()->ZoomLevel > zoommin && //zoomed in enough,
+				!p->image()->isNull() &&               //image loaded ok,
+				size < Width ) {                       //and size isn't too big.
 
 			if (resize_mult != 1) {
 				size *= resize_mult;
-				x1 = o.x() - size/2;
-				y1 = o.y() - size/2;
 			}
 
-			//rotate Planet image, if necessary
-			//image angle is PA plus the North angle.
-			//Find North angle:
-			SkyPoint test;
-			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
-			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
-			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
-			double dy = double( t.y() - o.y() );
-			double north(0.0);
-			if ( dy ) {
-				north = atan( dx/dy )*180.0/dms::PI;
-			} else {
-				north = 90.0;
-				if ( dx > 0 ) north = -90.0;
-			}
-			
-			//rotate Image
-			p->rotateImage( p->pa() + north );
-			
-			psky.drawImage( x1, y1,  p->image()->smoothScale( size, size ));
+			p->scaleRotateImage( size, p->pa() + north );
+			int x1 = o.x() - p->image()->width()/2;
+			int y1 = o.y() - p->image()->height()/2;
+			psky.drawImage( x1, y1, *(p->image()));
 
-		} else { //Otherwise, draw a simple circle.
+		} else {                                   //Otherwise, draw a simple circle.
 
-			psky.drawEllipse( x1, y1, size, size );
+			psky.drawEllipse( o.x()-size/2, o.y()-size/2, size, size );
 		}
 
 		//draw Name

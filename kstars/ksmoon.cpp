@@ -214,11 +214,10 @@ void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {
 void KSMoon::findPhase( const KSSun *Sun ) {
 	Phase.setD( ecLong()->Degrees() - Sun->ecLong()->Degrees() );
 	Phase.setD( Phase.reduce().Degrees() );
-//	int iPhase = 24 - int( Phase.Hours()+0.5 );
-	int iPhase = int( Phase.Hours()+0.5 );
-	if (iPhase==24) iPhase = 0;
+	int iPhase = int( 0.1*Phase.Degrees()+0.5 );
+	if (iPhase==36) iPhase = 0;
 	QString sPhase;
-	sPhase = sPhase.sprintf( "%d", iPhase );
+	sPhase = sPhase.sprintf( "%02d", iPhase );
 	QString imName = "moon" + sPhase + ".png";
 
 	QFile imFile;

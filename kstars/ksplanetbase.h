@@ -207,6 +207,12 @@ public:
 	*/
 	void rotateImage( double imageAngle );
 
+/**@short scale and rotate Planet image
+	*@param scale the scaling factor
+	*@param imageAngle the new angle of rotation for the image
+	*/
+	void scaleRotateImage( int scale, double imageAngle );
+
 protected:
 	virtual bool loadData(QString n) { 
 		kdDebug() << "didn't reimplement for " << n << endl; return false;

@@ -84,3 +84,10 @@ void KSPlanetBase::rotateImage( double imAngle ) {
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m );
 }
+
+void KSPlanetBase::scaleRotateImage( int scale, double imAngle ) {
+	ImageAngle = imAngle;
+	QWMatrix m;
+	m.rotate( ImageAngle );
+	Image = Image0.smoothScale( scale, scale ).xForm( m );
+}

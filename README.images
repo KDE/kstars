@@ -17,6 +17,8 @@ FFNP:     Free for non-profit/non-commercial use
 FFE:      Free for educational use
 FWC:      Free to use, with credit
 UWP:      Used with Permission
+PD:       Public Domain
+CR:       Authorship Credit Requested
 
 DSS:      Digitized Sky Survey
 KPNO AOP: Kitt Peak Nat'l Observatory Advanced Observing Program
@@ -144,24 +146,21 @@ M 110: N. A. Sharp AURA/NOAO/NSF (FFE/FFNP)
 
 
 Planets Inline Image Credits:
-Mercury:  NASA/GSFC (FWC)
-Venus:    NASA/GSFC (FWC)
-Moon:     Antonio Cidadao (UWP)
-Mars:     NASA and Hubble Heritage team (FWC)
-Jupiter:  NASA/GSFC (FWC)
-Saturn:   NASA and Hubble Heritage team (FWC)
-Uranus:   Erich Karkoschka (University of Arizona) and NASA (FWC)
-Neptune:  NASA Voyager 2 (FWC)
-Pluto:    NASA/GSFC (FWC)
+Mercury:  NASA/GSFC (PD/CR)
+Venus:    NASA/GSFC (PD/CR)
+Moon:     US Naval Observatory (PD)
+Mars:     NASA and Hubble Heritage team (PD/CR)
+Jupiter:  NASA/GSFC (PD/CR)
+Saturn:   NASA and Hubble Heritage team (PD/CR)
+Uranus:   Erich Karkoschka (University of Arizona) and NASA (PD/CR)
+Neptune:  NASA Voyager 2 (PD/CR)
+Pluto:    NASA/GSFC (PD/CR)
 
 
 Credits and permissions, listed by author/source:
 
 
 Individual Authors:
-
-Antonio Cidadao:  http://www.astrosurf.com/cidadao/
-Moon images copyright Antonio Cidadao.  Used with permission.
 
 Till Credner and Sven Kohle: http://www.allthesky.com
 Images copyright Till Credner and Sven Kohle.  They may be used for 

@@ -19,8 +19,10 @@ Basic Installation
           kdelibs(-devel) (KDE libraries and headers)
           libpng(-devel)  (PNG graphics library)
           libjpeg(-devel) (JPEG graphics library)
-          libfam(-devel)  (file monitoring library)
+          fam(-devel)     (file monitoring library)
           zlib(-devel)    (image compression, may be named zlib1)
+          arts(-devel)    (why does kstars need sound libs?)
+          libart_lgpl(-devel) (GNOME library required by KDE apps (why?))
 
        If you are using an RPM-based distro (e.g., redhat or mandrake), you
        can check for these packages with "rpm -qa |grep <package-name>".
