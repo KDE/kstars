@@ -199,9 +199,8 @@ void SkyMap::slotCenter( void ) {
 		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az().Degrees() );
 	} else {
 		setDestination( clickedPoint() );
+		destination()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 	}
-
-	destination()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
 	//display coordinates in statusBar
 	QString sRA, sDec, s;
@@ -410,7 +409,13 @@ void SkyMap::slewFocus( void ) {
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
 		//Also, now that the focus has re-centered, engage tracking.
-		setFocus( destination() );
+		if ( ksw->options()->useAltAz ) {
+			focus()->setAlt( destination()->alt() );
+			focus()->setAz( destination()->az() );
+		} else {
+			setFocus( destination() );
+		}
+
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
 		ksw->setHourAngle();
@@ -747,8 +752,11 @@ float SkyMap::fov( void ) {
 	return Range[ ksw->data()->ZoomLevel ]*width()/600.;
 }
 
-bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPoleVisible ) {
+bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPoleVisible, bool drawGround ) {
 	double dX, dY, XMax;
+
+//Skip objects below the horizon if the ground is drawn.
+	if ( useAltAz && drawGround && p->alt().Degrees() < -2.0 ) return false;
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt().Degrees() - focus()->alt().Degrees() );

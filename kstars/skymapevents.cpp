@@ -79,7 +79,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Up :
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt().Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
-				if ( focus()->alt().Degrees() > 90.0 ) focus()->setAlt( 89.99 );
+				if ( focus()->alt().Degrees() > 90.0 ) focus()->setAlt( 89.9999 );
 				focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec().Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
@@ -95,7 +95,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Down:
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt().Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
-				if ( focus()->alt().Degrees() < -90.0 ) focus()->setAlt( -90.0 );
+				if ( focus()->alt().Degrees() < -90.0 ) focus()->setAlt( -89.9999 );
 				focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec().Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
@@ -121,37 +121,47 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 //In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
 			setClickedObject( NULL );
-			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 0.0 );
-			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-			slotCenter();
+			setFoundObject( NULL );
+//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 0.0 );
+//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+//			slotCenter();
+			setDestinationAltAz( 15.0, 0.0 );
 			break;
 
 		case Key_E: //center on east horizon
 			setClickedObject( NULL );
-			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 90.0 );
-			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-			slotCenter();
+			setFoundObject( NULL );
+//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 90.0 );
+//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+//			slotCenter();
+			setDestinationAltAz( 15.0, 90.0 );
 			break;
 
 		case Key_S: //center on south horizon
 			setClickedObject( NULL );
-			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 180.0 );
-			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-			slotCenter();
+			setFoundObject( NULL );
+//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 180.0 );
+//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+//			slotCenter();
+			setDestinationAltAz( 15.0, 180.0 );
 			break;
 
 		case Key_W: //center on west horizon
 			setClickedObject( NULL );
-			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 270.0 );
-			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-			slotCenter();
+			setFoundObject( NULL );
+//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 270.0 );
+//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+//			slotCenter();
+			setDestinationAltAz( 15.0, 270.0 );
 			break;
 
 		case Key_Z: //center on Zenith
 			setClickedObject( NULL );
-			clickedPoint()->setAlt( 90.0 ); clickedPoint()->setAz( 180.0 );
-			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-			slotCenter();
+			setFoundObject( NULL );
+//			clickedPoint()->setAlt( 90.0 ); clickedPoint()->setAz( focus()->az() );
+//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+//			slotCenter();
+			setDestinationAltAz( 90.0, focus()->az().Degrees() );
 			break;
 
 		case Key_0: //center on Sun
@@ -311,8 +321,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
 			focus()->setAlt( focus()->alt().Degrees() - dAlt.Degrees() );
 
-			if ( focus()->alt().Degrees() >90.0 ) focus()->setAlt( 90.0 );
-			if ( focus()->alt().Degrees() <-90.0 ) focus()->setAlt( -90.0 );
+			if ( focus()->alt().Degrees() >90.0 ) focus()->setAlt( 89.9999 );
+			if ( focus()->alt().Degrees() <-90.0 ) focus()->setAlt( -89.9999 );
 			focus()->setAz( focus()->az().reduce() );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 		} else {
@@ -982,6 +992,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	bool drawCNames( ksw->options()->drawConstellNames && !(checkSlewing && ksw->options()->hideCNames) );
 	bool drawCLines( ksw->options()->drawConstellLines &&!(checkSlewing && ksw->options()->hideCLines) );
 	bool drawGrid( ksw->options()->drawGrid && !(checkSlewing && ksw->options()->hideGrid) );
+	bool drawGround( ksw->options()->drawGround );
 
 	psky.begin( sky );
 	psky.fillRect( 0, 0, width(), height(), QBrush( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
@@ -1248,7 +1259,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		psky.setFont( stdFont );
 		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = ksw->data()->cnameList.first(); p; p = ksw->data()->cnameList.next() ) {
-			if ( checkVisibility( p, FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( p, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 				QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 					if ( ksw->options()->useLatinConstellNames ) {
@@ -1289,7 +1300,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		// break loop if maglim is reached
 		if ( curStar->mag() > maglim ) break;
 
-		if ( checkVisibility( curStar, FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+		if ( checkVisibility( curStar, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 			QPoint o = getXY( curStar, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 			// draw star if currently on screen
@@ -1354,7 +1365,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
 
 		if ( drawObject || drawImage ) {
-			if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 				QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -1418,7 +1429,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 					QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
