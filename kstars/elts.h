@@ -72,7 +72,7 @@ public:
 	double QDateToEpoch( const QDate &d );
 	double getEpoch (QString eName);
 	long double epochToJd (double epoch);
-	void processObject( SkyObject *o );
+	void processObject( SkyObject *o, bool forceAdd=false );
 
 public slots:
 

@@ -103,7 +103,7 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 		}
 	}
 
-	if (ld->getCityIndex() < int(ks->data()->geoList.count())) {
+	if (ld->getCityIndex() >= 0 && ld->getCityIndex() < int(ks->data()->geoList.count())) {
 		o.setX( int( ks->data()->geoList.at(ld->getCityIndex())->lng()->Degrees() + origin.x() ) );
 		o.setY( height() - int( ks->data()->geoList.at(ld->getCityIndex())->lat()->Degrees() + origin.y() ) );
 
