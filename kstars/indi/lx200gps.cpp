@@ -50,7 +50,7 @@ static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", 
 static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecBackSlashS, NARRAY(AltDecBackSlashS), 0, 0};
 static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS), 0, 0};
 
-static INumber Temp[]	= { {"Temp.", "", "%g", 0., 0., 0., 0., 0, 0, 0 } };
+static INumber Temp[]	= { {"Temp.", "", "%g", -200., 500., 0., 0., 0, 0, 0 } };
 static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), 0, 0};
 
 void changeLX200GPSDeviceName(const char *newName)
