@@ -88,7 +88,9 @@ KStarsData::KStarsData() {
 	cometList.setAutoDelete( TRUE );
 	asteroidList.setAutoDelete( TRUE );
 
-	clineList.setAutoDelete( TRUE );
+	//Constellation lines are now pointers to existing StarObjects;
+	//these are already auto-deleted by starList.
+	clineList.setAutoDelete( FALSE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
 
@@ -372,36 +374,52 @@ while ( (c = (char) file.getch()) != -1)
 }
 
 bool KStarsData::readCLineData( void ) {
+	//The constellation lines data file (clines.dat) contains lists
+	//of abbreviated genetive star names in the same format as they 
+	//appear in the star data files (hipNNN.dat).  
+	//
+	//Each constellation consists of a QPtrList of SkyPoints, 
+	//corresponding to the stars at each "node" of the constellation.
+	//These are pointers to the starobjects themselves, so the nodes 
+	//will automatically be fixed to the stars even as the star 
+	//positions change due to proper motions.  In addition, each node 
+	//has a corresponding flag that determines whether a line should 
+	//connect this node and the previous one.
+	
 	QFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
 			QString line, name;
-			int rah, ram, ras, dd, dm, ds;
-			QChar sgn;
 			QChar *mode;
 
 			line = stream.readLine();
 
-			rah = line.mid( 0, 2 ).toInt();
-			ram = line.mid( 2, 2 ).toInt();
-			ras = line.mid( 4, 2 ).toInt();
-
-			sgn = line.at( 6 );
-			dd = line.mid( 7, 2 ).toInt();
-			dm = line.mid( 9, 2 ).toInt();
-			ds = line.mid( 11, 2 ).toInt();
-			mode = new QChar( line.at( 13 ) );
-			dms r; r.setH( rah, ram, ras );
-			dms d( dd, dm,  ds );
-
-		  if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-		  SkyPoint *o = new SkyPoint( r.Hours(), d.Degrees() );
-		  clineList.append( o );
-			clineModeList.append( mode );
-  	}
+			//ignore lines beginning with "#":
+			if ( line.at( 0 ) != '#' ) {
+				name = line.mid( 2 ).stripWhiteSpace();
+				
+				//Find the star with the same abbreviated genitive name ( name2() )
+				//increase efficiency by searching the list of named objects, rather than the 
+				//full list of all stars.  
+				bool starFound( false );
+				for ( SkyObjectName *oname = ObjNames.first(); oname; oname = ObjNames.next() ) {
+					if ( oname->skyObject()->type() == SkyObject::STAR && 
+							 oname->skyObject()->name2() == name ) {
+						starFound = true;
+						clineList.append( (SkyPoint *)( oname->skyObject() ) );
+						
+						mode = new QChar( line.at( 0 ) );
+						clineModeList.append( mode );
+						break;
+					}
+				}
+				
+				if ( ! starFound ) 
+					kdWarning() << i18n( "No star named %1 found!" ).arg(name) << endl;
+			}
+		}
 		file.close();
 
 		return true;
@@ -562,11 +580,14 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 	name = i18n("star name", name.local8Bit().data());
 
 	bool starIsUnnamed( false );
-	if (name.isEmpty()) {
+	if (name.isEmpty() ) {
 		name = "star";
-		starIsUnnamed = true;
+		
+		if ( gname.isEmpty() ) { //both names are empty
+			starIsUnnamed = true;
+		}
 	}
-
+	
 	dms r;
 	r.setH(rah, ram, ras, ras2);
 	dms d(dd, dm, ds, ds2);
@@ -1902,13 +1923,15 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
-		//CLines
-		if ( options->drawConstellLines ) {
-			for ( SkyPoint *p = clineList.first(); p; p = clineList.next() ) {
-				if (needNewCoords) p->updateCoords( &num );
-				p->EquatorialToHorizontal( LST, geo->lat() );
-			}
-		}
+//		//CLines
+// No longer necesary; the clines are just pointers to stars, 
+// they are no longer independent skypoints.
+//		if ( options->drawConstellLines ) {
+//			for ( SkyPoint *p = clineList.first(); p; p = clineList.next() ) {
+//				if (needNewCoords) p->updateCoords( &num );
+//				p->EquatorialToHorizontal( LST, geo->lat() );
+//			}
+//		}
 
 		//CNames
 		if ( options->drawConstellNames ) {

@@ -51,7 +51,6 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	//If genetive name exists, but no primary name, set primary name = genetive name.
 	if ( n2.length() && n == "star" ) {
 		setName( gname() );
-		setName2(); //no secondary name (it is now primary)
 	}
 
 	setLongName( lname );
@@ -101,7 +100,7 @@ QString StarObject::gname( void ) const {
 
 QString StarObject::greekLetter( void ) const {
 	QString code = name2().left(3);
-	QString letter = "";
+	QString letter = code;  //in case genitive name is *not* a Greek letter
 	int alpha = 0x03B1;
 
 	if ( code == "alp" ) letter = QString( QChar(alpha + 0) );
