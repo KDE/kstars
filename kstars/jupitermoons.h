@@ -32,7 +32,7 @@ public:
 	JupiterMoons();
 	~JupiterMoons();
 
-	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sun );
+	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *Sun );
 	SkyPoint* pos( int id ) { return &Pos[id]; }
 	bool inFront( int id ) const { return InFront[id]; }
 	QString name( int id ) const { return Name[id]; }
