@@ -876,22 +876,22 @@ void KStarsData::initError(QString s, bool required = false) {
 	QString message, caption;
 	initTimer->stop();
 	if (required) {
-		message = i18n( "The file " ) + s + i18n( " could not be found." )+ "\n" +
-			i18n( "Shutting down, because KStars cannot run properly without this file.") + "\n" +
-			i18n( "Place it in one of the following locations, then try again:" ) + "\n\n" +
-			(QString)"\t$(KDEDIR)/share/apps/kstars/" + s +
-			(QString)"\n\t~/.kde/share/apps/kstars/" + s +
-			(QString)"\n\t[KSTARS_SOURCE_DIR]/data/" + s;
-		caption = i18n( "Critical file not found: " ) + s;
+		message = i18n( "The file %1 could not be found.\n"
+				"Shutting down, because KStars cannot run properly without this file.\n"
+				"Place it in one of the following locations, then try again:\n\n"
+				"\t$(KDEDIR)/share/apps/kstars/%1\n"
+				"\t~/.kde/share/apps/kstars/%1\n"
+				"\t[KSTARS_SOURCE_DIR]/data/%1").arg(s);
+		caption = i18n( "Critical File Not Found: %1" ).arg(s);
 	} else {
-		message = i18n( "The file " ) + s + i18n( " could not be found." )+ "\n" +
-			i18n( "KStars can still run without this file, so I will continue.") + "\n" +
-			i18n( "However, to avoid seeing this message in the future, you may want to " ) + "\n" +
-			i18n( "place the file in one of the following locations:" ) + "\n\n" +
-			(QString)"\t$(KDEDIR)/share/apps/kstars/" + s +
-			(QString)"\n\t~/.kde/share/apps/kstars/" + s +
-			(QString)"\n\t[KSTARS_SOURCE_DIR]/data/" + s;
-		caption = i18n( "Non-critical file not found: " ) + s;
+		message = i18n( "The file %1 could not be found.\n"
+				"KStars can still run without this file, so will continue.\n"
+				"However, to avoid seeing this message in the future, you may want to\n"
+				"place the file in one of the following locations:\n\n"
+				"\t$(KDEDIR)/share/apps/kstars/%1"
+				"\n\t~/.kde/share/apps/kstars/%1"
+				"\n\t[KSTARS_SOURCE_DIR]/data/%1").arg(s);
+		caption = i18n( "Non-Critical File Not Found: %1" ).arg(s);
 	}
 	
 	KMessageBox::information( 0, message, caption );

@@ -92,9 +92,9 @@ void FocusDialog::validatePoint( void ) {
 	//6. space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 -33 0.0 )
 	//7. space-delimited, with unit labels ( 5h 0m 0s, -33d 0m 0s )
 
-	QString errMsg = i18n( "Could not parse %1 entry. Specify a value " ) +
-						i18n( "as a simple integer, a floating-point number, or as a triplet " ) +
-						i18n( "of values using colons or spaces as separators." );
+	QString errMsg = i18n( "Unable to parse %1 entry. Specify a value as a simple integer, "
+			       "a floating-point number, or a triplet of values using colons or "
+			       "spaces as separators." );
 
 	QString entry;
 	bool valueFound[2], badEntry( false ), checkValue( false );
@@ -175,10 +175,10 @@ void FocusDialog::validatePoint( void ) {
 
 	if ( valueFound[0] && valueFound[1] ) {
 		//Check to make sure entered values are in bounds.
-		QString warnRAMess = i18n( "The RA value you entered is not between 0 and 24 hours. " )
-						+ i18n( "Would you like the value to be wrapped?" );
-		QString warnDecMess = i18n( "The Dec value you entered is not between -90 and +90 degrees. " )
-						+ i18n( "Please enter a new value." );
+		QString warnRAMess = i18n( "The RA value you entered is not between 0 and 24 hours. "
+					   "Would you like the value to be wrapped?" );
+		QString warnDecMess = i18n( "The Dec value you entered is not between -90 and +90 degrees. "
+					    "Please enter a new value." );
 
 		kdDebug() << "RA, Dec: " << RA.Hours() << ", " << Dec.Degrees() << endl;
 

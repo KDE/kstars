@@ -86,7 +86,7 @@ dms dmsBox::createDms ( bool *ok )
 //Initialize bool for result
 	if ( ok != NULL ) *ok = false;
 
-//	QString errMsg = i18n( "Could not parse %1 entry.  Specify a %1 value ") + i18n( "as a simple integer, a floating-point number, or as a triplet " ) + i18n( "of values using colons or spaces as separators." );
+//	QString errMsg = i18n( "Unable to parse %1 entry.  Specify a %1 value as a simple integer, a floating-point number, or a triplet of values using colons or spaces as separators." );
 
 	QString entry = text().stripWhiteSpace();
 
