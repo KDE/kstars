@@ -213,7 +213,7 @@
   if (!lp) return;
   
   QTime newTime( ksw->data()->clock()->UTC().time());
-  QDate newDate( ksw->data()->clock()->UTC().date());
+  ExtDate newDate( ksw->data()->clock()->UTC().date());
 
   lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
 					.arg(newDate.day()).arg(newTime.hour())
@@ -658,7 +658,7 @@ void INDIStdProperty::newTime()
 	if ( timedialog.exec() == QDialog::Accepted )
 	{
 		QTime newTime( timedialog.selectedTime() );
-		QDate newDate( timedialog.selectedDate() );
+		ExtDate newDate( timedialog.selectedDate() );
 
                 timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
 					.arg(newDate.year()).arg(newDate.month())

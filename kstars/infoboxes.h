@@ -20,12 +20,12 @@
 
 #include <qobject.h>
 #include <qcolor.h>
-#include <qdatetime.h>
 #include <qevent.h>
 #include <qpoint.h>
 #include <kdebug.h>
 
 #include "infobox.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 /**@class InfoBoxes
 	*Infoboxes manages the three infobox objects which are drawn on the Skymap.
@@ -213,7 +213,7 @@ public slots:
 	*@param jd The Julian Date (long double)
 	*@return true if values have changed
 	*/
-	bool timeChanged(QDateTime ut, QDateTime lt, dms *lst, long double julian);
+	bool timeChanged(ExtDateTime ut, ExtDateTime lt, dms *lst, long double julian);
 
 /**Update the GeoBox strings according to the argument.
 	*@param geo The Geographic Location (we get the name, longitude and latitude from this)

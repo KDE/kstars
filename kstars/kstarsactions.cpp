@@ -125,7 +125,7 @@ void KStars::slotWizard() {
 		// call changeTime to reset DST change times
 		// However, adjust local time to keep UT the same.
 		// create new LT without DST offset
-		QDateTime ltime = data()->UTime.addSecs( int( 3600 * geo()->TZ0()) );
+		ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * geo()->TZ0()) );
 
 		// reset timezonerule to compute next dst change
 		geo()->tzrule()->reset_with_ltime( ltime, geo()->TZ0(), data()->isTimeRunningForward() );
@@ -248,7 +248,7 @@ void KStars::slotGeoLocator() {
 			// call changeTime to reset DST change times
 			// However, adjust local time to keep UT the same.
 			// create new LT without DST offset
-			QDateTime ltime = data()->UTime.addSecs( int( 3600 * newLocation->TZ0()) );
+			ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * newLocation->TZ0()) );
 
 			// reset timezonerule to compute next dst change
 			newLocation->tzrule()->reset_with_ltime( ltime, newLocation->TZ0(), data()->isTimeRunningForward() );
@@ -560,7 +560,7 @@ void KStars::slotPrint() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-	QDateTime now = QDateTime::currentDateTime();
+	ExtDateTime now = ExtDateTime::currentDateTime();
 	data()->changeTime( now.date(), now.time() );
 
 	if ( Options::useAltAz() ) {

@@ -24,7 +24,7 @@
 
 class QWidget;
 class SkyPoint;
-class QDateTime;
+class ExtDateTime;
 class GeoLocation;
 class dms;
 
@@ -73,8 +73,8 @@ private:
 	 * CPU clock. */
 	void showCurrentDateTime(void);
 
-	/**@returns a QDateTime constructed from the Time and Date fields. */
-	QDateTime getQDateTime (void);
+	/**@returns a ExtDateTime constructed from the Time and Date fields. */
+	ExtDateTime getExtDateTime (void);
 
 	/**Convert the Time and Date to a Julian Day. */
 	long double computeJdFromCalendar (void);

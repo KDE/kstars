@@ -17,9 +17,7 @@
 
 
 #include <klocale.h>
-#include <kdatepik.h>
 
-#include <qdatetime.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qspinbox.h>
@@ -29,8 +27,9 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "simclock.h"
+#include "libkdeedu/extdate/extdatepicker.h"
 
-TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
+TimeDialog::TimeDialog( ExtDateTime now, QWidget* parent, bool isUTCNow )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
         ksw = (KStars*) parent;
@@ -41,7 +40,7 @@ TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
 
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout
-	dPicker = new KDatePicker( page );
+	dPicker = new ExtDatePicker( page );
 	dPicker->setDate( now.date() );
 
 	HourBox = new QSpinBox( page, "HourBox" );
@@ -103,7 +102,7 @@ TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
 
 //Add handler for Escape key to close window
 //Use keyReleaseEvent because keyPressEvents are already consumed
-//by the KDatePicker.
+//by the ExtDatePicker.
 void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 	switch( kev->key() ) {
 		case Key_Escape:
@@ -164,13 +163,13 @@ void TimeDialog::setNow( void )
 
   if (UTCNow)
   {
-    QDateTime dt( ksw->data()->clock()->UTC() );
+    ExtDateTime dt( ksw->data()->clock()->UTC() );
     dPicker->setDate( dt.date() );
     t = dt.time();
   }
   else
   {
-  dPicker->setDate( QDate::currentDate() );
+  dPicker->setDate( ExtDate::currentDate() );
   t = QTime::currentTime();
   }
 
@@ -199,13 +198,13 @@ QTime TimeDialog::selectedTime( void ) {
 	return t;
 }
 
-QDate TimeDialog::selectedDate( void ) {
-	QDate d( dPicker->date() );
+ExtDate TimeDialog::selectedDate( void ) {
+	ExtDate d( dPicker->date() );
 	return d;
 }
 
-QDateTime TimeDialog::selectedDateTime( void ) {
-	QDateTime dt( selectedDate(), selectedTime() );
+ExtDateTime TimeDialog::selectedDateTime( void ) {
+	ExtDateTime dt( selectedDate(), selectedTime() );
 	return dt;
 }
 

@@ -25,7 +25,7 @@
   *@author Pablo de Vicente
   */
 
-class QDateTime;
+class ExtDateTime;
 class GeoLocation;
 
 
@@ -52,8 +52,8 @@ private:
 /**Fills the Date fields with the current values from the current date. */
 	void showCurrentDate(void);
 
-/**@returns a QDateTime constructed from the Time and Date fields. */
-	QDateTime getQDateTime (void);
+/**@returns a ExtDateTime constructed from the Time and Date fields. */
+	ExtDateTime getExtDateTime (void);
 
 /**@returns a GeoLocation constructed from the Longitude and Latitude fields.
  * Height is arbitrarily set to 0.0 */

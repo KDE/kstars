@@ -20,7 +20,6 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qdatetime.h>
 
 #include <klocale.h>
 

@@ -1994,12 +1994,12 @@ void KStarsData::setLST() {
 	setLST( Clock->UTC() );
 }
 
-void KStarsData::setLST( QDateTime UTC ) {
+void KStarsData::setLST( ExtDateTime UTC ) {
 	LST->set( KSUtils::UTtoLST( UTC, geo()->lng() ) );
 }
 
-void KStarsData::changeTime( QDate newDate, QTime newTime ) {
-	QDateTime new_time(newDate, newTime);
+void KStarsData::changeTime( ExtDate newDate, QTime newTime ) {
+	ExtDateTime new_time(newDate, newTime);
 
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
 	setFullTimeUpdate();
@@ -2160,7 +2160,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( ok ) min = fn[5].toInt(&ok);
 				if ( ok ) sec = fn[6].toInt(&ok);
 				if ( ok ) {
-					changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
+					changeTime( ExtDate(yr, mth, day), QTime(hr,min,sec));
 					cmdCount++;
 				} else {
 					kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )

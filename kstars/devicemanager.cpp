@@ -18,7 +18,8 @@
 #include "indigroup.h"
 #include "indidevice.h"
 #include "kstars.h"
- 
+#include "libkdeedu/extdate/extdatetime.h"
+
 #include <qsocketnotifier.h>
 #include <qtextedit.h>
 
@@ -390,7 +391,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	if (timestamp)
             txt_w->insert(QString(valuXMLAtt(timestamp)) + QString(" "));
 	else
-	   txt_w->insert( (QDateTime().currentDateTime()).toString("yyyy/mm/dd - h:m:s ap "));
+	   txt_w->insert( (ExtDateTime().currentDateTime()).toString("yyyy/mm/dd - h:m:s ap "));
 
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");

@@ -21,7 +21,6 @@
 #include <qmap.h>
 #include <qptrlist.h>
 #include <qstring.h>
-#include <qdatetime.h>
 
 #include <kshortcut.h>
 
@@ -33,6 +32,7 @@
 #include "objectnamelist.h"
 #include "planetcatalog.h"
 #include "tools/lcgenerator.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 #define NHIPFILES 127
 #define NMWFILES  11
@@ -426,7 +426,7 @@ public:
 		*@param newDate the date to set.
 		*@param newTIme the time to set.
 		*/
-	void changeTime(QDate newDate, QTime newTime );
+	void changeTime(ExtDate newDate, QTime newTime );
 
 	/**Set the LST from the simulation clock's UTC value.
 		*/
@@ -435,7 +435,7 @@ public:
 	/**Set the LST from the UTC specified as an argument.
 		*@param UTC the Universal time from which to set the LST.
 		*/
-	void setLST( QDateTime UTC );
+	void setLST( ExtDateTime UTC );
 
 	/**Set the HourAngle member variable according to the argument.
 		*@param ha The new HourAngle
@@ -680,7 +680,7 @@ private:
 	SimClock *Clock;
 	ColorScheme CScheme;
 
-	QDateTime LTime, UTime;
+	ExtDateTime LTime, UTime;
 
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 

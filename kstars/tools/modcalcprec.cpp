@@ -21,12 +21,12 @@
 #include "ksutils.h"
 #include "skypoint.h"
 #include "dms.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 #include <qtextstream.h>
 #include <klocale.h>
-#include <qdatetime.h>
 #include <klineedit.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
@@ -63,7 +63,7 @@ QString modCalcPrec:: showCurrentEpoch () {
 
 double modCalcPrec::setCurrentEpoch () {
 
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 	long double jd = KSUtils::UTtoJD( dt );
 	double epoch = JdtoEpoch(jd);
 

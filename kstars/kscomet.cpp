@@ -40,7 +40,7 @@ KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
 	int m = int( 60.0 * ( Hour - h ) );
 	int s = int( 60.0 * ( 60.0 * ( Hour - h) - m ) );
 
-	JDp = KSUtils::UTtoJD( QDateTime( QDate( year, month, day ), QTime( h, m, s ) ) );
+	JDp = KSUtils::UTtoJD( ExtDateTime( ExtDate( year, month, day ), QTime( h, m, s ) ) );
 
 	//compute the semi-major axis, a:
 	a = q/(1.0-e);

@@ -17,8 +17,9 @@
 
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qdatetimeedit.h>
+#include <qdatetimeedit.h>  //need for QTimeEdit
 #include <qradiobutton.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -57,7 +58,7 @@ void modCalcJD::computeFromCalendar (void)
 {
 	long double julianDay, modjulianDay;
 	
-	julianDay = KSUtils::UTtoJD( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getExtDateTime() );
 	showJd(julianDay);
 
 	modjulianDay = julianDay - 2400000.5;
@@ -78,7 +79,7 @@ void modCalcJD::computeFromJd (void)
 {
 	long double julianDay, modjulianDay;
 
-	QDateTime dt;
+	ExtDateTime dt;
 
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoUT( julianDay );
@@ -95,20 +96,20 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-	datBox->setDate(QDate::currentDate());
+	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
 }
 
 void modCalcJD::showCurrentTime (void)
 {
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 }
 
-QDateTime modCalcJD::getQDateTime (void)
+ExtDateTime modCalcJD::getExtDateTime (void)
 {
-	QDateTime dt ( datBox->date() , timBox->time() );
+	ExtDateTime dt ( datBox->date() , timBox->time() );
 	return dt;
 }
 

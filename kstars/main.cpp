@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 		dat->colorScheme()->loadFromConfig( kapp->config() );
 
 		//reset clock now that we have a location:
-		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( int( -3600 * dat->geo()->TZ() ) ) );
+		dat->clock()->setUTC( ExtDateTime::currentDateTime().addSecs( int( -3600 * dat->geo()->TZ() ) ) );
 
 		KSNumbers num( dat->clock()->JD() );
 		dat->initGuides(&num);

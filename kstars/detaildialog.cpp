@@ -38,8 +38,7 @@
 #include "deepskyobject.h"
 #include "ksplanetbase.h"
 
-
-DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
+DetailDialog::DetailDialog(SkyObject *o, ExtDateTime lt, GeoLocation *geo,
 		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) {
 
     selectedObject = o;
@@ -193,7 +192,7 @@ void DetailDialog::createLinksTab()
 
 }
 
-void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
+void DetailDialog::createGeneralTab(ExtDateTime lt, GeoLocation *geo)
 {
 
 	QFrame *generalTab= addPage(i18n("General"));
@@ -360,7 +359,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 
 //In the printf() statements, the "176" refers to the ASCII code for the degree symbol
 
-DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, dms *LST, QWidget *parent,
+DetailDialog::CoordBox::CoordBox( SkyObject *o, ExtDateTime t, dms *LST, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
 	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
@@ -433,10 +432,10 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, dms *LST, QWidget *
 	vlayMain->addLayout( glayCoords );
 }
 
-DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *geo,
+DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, ExtDateTime lt, GeoLocation *geo,
 		QWidget *parent, const char *name ) : QGroupBox( i18n( "Rise/Set/Transit" ), parent, name ) {
 
-	QDateTime ut = lt.addSecs( int( -3600*geo->TZ() ) );
+	ExtDateTime ut = lt.addSecs( int( -3600*geo->TZ() ) );
 	long double jd = KSUtils::UTtoJD( ut );
 	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
 	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time

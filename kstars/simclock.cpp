@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetime.h>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -27,7 +26,7 @@ int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 
-SimClock::SimClock(QObject *parent, const QDateTime &when) :
+SimClock::SimClock(QObject *parent, const ExtDateTime &when) :
 	QObject(parent),
 	DCOPObject("clock#" + QCString().setNum(idgen++)),
 	tmr(this)
@@ -68,11 +67,12 @@ void SimClock::tick() {
 		lastelapsed = mselapsed;
 		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 		
-		julian = julianmark + (scaledsec / (24 * 3600));
+		julian = julianmark + (scaledsec / (24. * 3600.));
 
-//	kdDebug() << "tick() : julianmark = " << QString("%1").arg( julianmark, 10, 'f', 2) <<
-//		" julian = " << QString("%1").arg( julian, 10, 'f', 2) <<
-//		" mselapsed = " << mselapsed << " scale = " << Scale << endl;
+// 		kdDebug() << "tick() : julian = " << QString("%1").arg( julian, 15, 'f', 7) <<
+// 			" mselapsed = " << mselapsed << " scale = " << Scale <<
+// 			"  scaledsec = " << double(scaledsec) << endl;
+
 		utcvalid = false;
 		emit timeAdvanced();
 	}
@@ -114,7 +114,7 @@ long double SimClock::JD() {
 	return julian;
 }
 
-QDateTime SimClock::UTC() {
+ExtDateTime SimClock::UTC() {
 	if (! utcvalid) {
 		utc = KSUtils::JDtoUT(julian);
 		utcvalid = true;
@@ -163,7 +163,7 @@ void SimClock::start() {
 	}
 }
 
-void SimClock::setUTC(const QDateTime &newtime) {
+void SimClock::setUTC(const ExtDateTime &newtime) {
 	utc = newtime;
 	utcvalid = true;
 	julian = KSUtils::UTtoJD(utc);

@@ -342,7 +342,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
     dateFormat[1] = Date.mid(slashRefrence[0]+1, slashRefrence[1] - (slashRefrence[0] +1)).toInt();
     dateFormat[2] = Date.mid(slashRefrence[1]+1, Date.length()).toInt();
 
-    QDate tempdate(dateFormat[2], dateFormat[0], dateFormat[1]);
+    ExtDate tempdate(dateFormat[2], dateFormat[0], dateFormat[1]);
     if (!tempdate.isValid())
     {
         KMessageBox::error(this, invalidFormatMsg);
@@ -350,7 +350,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
      }
 
      // Convert to JD and verify its lower limit
-     QDateTime datetime( tempdate );
+     ExtDateTime datetime( tempdate );
 
      TempJD =  int(KSUtils::UTtoJD(datetime));
 

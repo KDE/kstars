@@ -41,16 +41,16 @@
 	*string on its own indicates the last weekday of the month (i.e.,
 	*"mon" is the last Monday of the month).
 	*
-	*The isDSTActive(QDateTime) function returns true if DST is active for the
+	*The isDSTActive(ExtDateTime) function returns true if DST is active for the
 	*DateTime given as an argument.
 	*
-	*The nextDSTChange(QDateTime) function returns the QDateTime of the moment
+	*The nextDSTChange(ExtDateTime) function returns the ExtDateTime of the moment
 	*at which the next DST change will occur for the current location.
 	*@author Jason Harris
 	*@version 1.0
 	*/
 
-#include <qdatetime.h>
+#include "libkdeedu/extdate/extdatetime.h"
 #include <qstring.h>
 
 class TimeZoneRule {
@@ -76,7 +76,7 @@ public:
 	/**Determine whether DST is in effect for the given DateTime, according to this rule 
 		*@p date the date/time to test for DST
 		*/
-	bool isDSTActive(QDateTime date);
+	bool isDSTActive(ExtDateTime date);
 
 	/**@return TRUE if the rule is the "empty" TZ rule. */
 	bool isEmptyRule( void ) { if ( HourOffset ) return false; else return true; }
@@ -96,16 +96,16 @@ public:
 	*@param bool time_runs_forward time direction
 	*@param automaticDSTchange is automatic DST change?
 	*/
-	void reset_with_ltime( QDateTime &ltime, const double TZoffset, const bool time_runs_forward,
+	void reset_with_ltime( ExtDateTime &ltime, const double TZoffset, const bool time_runs_forward,
 												const bool automaticDSTchange = false );
 
 	/**@return computed value for next DST change in universal time.
 		*/
-	QDateTime nextDSTChange() { return next_change_utc; }
+	ExtDateTime nextDSTChange() { return next_change_utc; }
 
 	/**@return computed value for next DST change in local time.
 		*/
-	QDateTime nextDSTChange_LTime() { return next_change_ltime; }
+	ExtDateTime nextDSTChange_LTime() { return next_change_ltime; }
 
 	/**@return TRUE if this rule is the same as the argument.
 		*@p r the rule to check for equivalence
@@ -116,20 +116,20 @@ public:
 
 private:
 
-	/**@return the QDateTime of the moment when the next DST change will occur in local time
+	/**@return the ExtDateTime of the moment when the next DST change will occur in local time
 		*This is useful because DST change times are saved in local times*/
-	void nextDSTChange_LTime( const QDateTime date );
+	void nextDSTChange_LTime( const ExtDateTime date );
 
-	/**@return the QDateTime of the moment when the last DST change occurred in local time
+	/**@return the ExtDateTime of the moment when the last DST change occurred in local time
 		*This is useful because DST change times are saved in local times
 		*We need this in case time is running backwards. */
-	void previousDSTChange_LTime( const QDateTime date );
+	void previousDSTChange_LTime( const ExtDateTime date );
 
 	/**calculate the next DST change in universal time for current location */
-	void nextDSTChange( const QDateTime local_date, const double TZoffset );
+	void nextDSTChange( const ExtDateTime local_date, const double TZoffset );
 
 	/**calculate the previous DST change in universal time for current location */
-	void previousDSTChange( const QDateTime local_date, const double TZoffset );
+	void previousDSTChange( const ExtDateTime local_date, const double TZoffset );
 
 	/**Interpret the string as a month of the year; 
 		*@return the month integer (1=jan ... 12=dec) 
@@ -146,21 +146,21 @@ private:
 	bool initDay( const QString d, int &day, int &week );
 
 	/**Find the calendar date on which DST starts for the calendar year
-		*of the given QDateTime.
+		*of the given ExtDateTime.
 		*@p d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
-	int findStartDay( const QDateTime d );
+	int findStartDay( const ExtDateTime d );
 
 	/**Find the calendar date on which DST ends for the calendar year
-		*of the given QDateTime.
+		*of the given ExtDateTime.
 		*@p d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
-	int findRevertDay( const QDateTime d );
+	int findRevertDay( const ExtDateTime d );
 
 	int StartDay, RevertDay;
 	int StartWeek, RevertWeek;
 	QTime StartTime, RevertTime;
-	QDateTime next_change_utc, next_change_ltime;
+	ExtDateTime next_change_utc, next_change_ltime;
 	double dTZ, HourOffset;
 	
 };

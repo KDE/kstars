@@ -26,9 +26,9 @@
 #include "timebox.h"
 #include "kssun.h"
 #include "ksnumbers.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <kapplication.h> //...already included in modcalcdaylength.h
-#include <qdatetimeedit.h>
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
 
@@ -45,7 +45,7 @@ modCalcDayLength::~modCalcDayLength(){
 
 void modCalcDayLength::showCurrentDate (void)
 {
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 	datBox->setDate( dt.date() );
 }
 
@@ -71,9 +71,9 @@ void modCalcDayLength::getGeoLocation (void)
 
 }
 
-QDateTime modCalcDayLength::getQDateTime (void)
+ExtDateTime modCalcDayLength::getExtDateTime (void)
 {
-	QDateTime dt ( datBox->date() , QTime(8,0,0) );
+	ExtDateTime dt ( datBox->date() , QTime(8,0,0) );
 	return dt;
 }
 
@@ -81,7 +81,7 @@ long double modCalcDayLength::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJD( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getExtDateTime() );
 
 	return julianDay;
 }
@@ -93,7 +93,7 @@ void modCalcDayLength::slotClearCoords(){
 	elTransitBox->clearFields();
 
 	// reset to current date
-	datBox->setDate(QDate::currentDate());
+	datBox->setDate(ExtDate::currentDate());
 
 // reset times to 00:00:00
 	setTimeBox->clearFields();

@@ -24,9 +24,10 @@
 #include "geolocation.h"
 #include "ksutils.h"
 #include "kstars.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
+#include <qdatetimeedit.h>  //need for QTimeEdit
 #include <qcheckbox.h>
-#include <qdatetimeedit.h>
 #include <qradiobutton.h>
 #include <qstring.h>
 #include <qtextstream.h>
@@ -77,7 +78,7 @@ SkyPoint modCalcAzel::getHorCoords (void)
 void modCalcAzel::showCurrentDateTime (void)
 {
 
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
@@ -85,10 +86,10 @@ void modCalcAzel::showCurrentDateTime (void)
 	utBoxBatch->setTime( dt.time() );
 }
 
-QDateTime modCalcAzel::getQDateTime (void)
+ExtDateTime modCalcAzel::getExtDateTime (void)
 {
 
-	QDateTime dt ( datBox->date() , timBox->time() );
+	ExtDateTime dt ( datBox->date() , timBox->time() );
 
 	return dt;
 }
@@ -97,7 +98,7 @@ long double modCalcAzel::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJD( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getExtDateTime() );
 
 	return julianDay;
 }
@@ -184,7 +185,7 @@ void modCalcAzel::slotClearCoords()
 	elBox->clearFields();
 	epochName->setText("");
 
-	datBox->setDate(QDate::currentDate());
+	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
 
 }
@@ -197,7 +198,7 @@ void modCalcAzel::slotComputeCoords()
 	long double jd0 = KSUtils::epochToJd ( epoch0 );
 
 	dms lgt = getLongitude();
-	dms LST = KSUtils::UTtoLST( getQDateTime(), &lgt );
+	dms LST = KSUtils::UTtoLST( getExtDateTime(), &lgt );
 
 	SkyPoint sp;
 
@@ -389,7 +390,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 	dms raB, decB, latB, longB, azB, elB;
 	double epoch0B;
 	QTime utB;
-	QDate dtB;
+	ExtDate dtB;
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -418,7 +419,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 		// Read date and write in ostream if corresponds
 		
 		if(dateCheckBatch->isChecked() ) {
-			 dtB = QDate::fromString( fields[i] );
+			 dtB = ExtDate::fromString( fields[i] );
 			 i++;
 		} else
 			dtB = dateBoxBatch->date();
@@ -472,10 +473,10 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 
 		// We make the first calculations
 		
-		jdf = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jdf = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
 		jd0 = KSUtils::epochToJd ( epoch0B );
 
-		LST = KSUtils::UTtoLST( QDateTime(dtB,utB), &longB );
+		LST = KSUtils::UTtoLST( ExtDateTime(dtB,utB), &longB );
 		
 		// Equatorial coordinates are the input coords.
 

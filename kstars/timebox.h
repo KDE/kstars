@@ -23,7 +23,7 @@
 #include <qstring.h>
 
 class QTime;
-class QDate;
+class ExtDate;
 
 /**@class timeBox
 	* This class creates a QHBox with 3 QLineEdit Fields which will contain
@@ -59,7 +59,7 @@ public:
 	* showing hours, minutes and seconds.
 	*@p t QTime object from which to fill the entry fields
 	*/
-	void showDate(QDate t);
+	void showDate(ExtDate t);
 
 	/**
 	* returns a QTime object constructed from the fields of the timebox
@@ -67,9 +67,9 @@ public:
 	QTime createTime(bool *ok=0);
 
 	/**
-	* returns a QDate object constructed from the fields of the timebox
+	* returns a ExtDate object constructed from the fields of the timebox
 	*/
-	QDate createDate(bool *ok=0);
+	ExtDate createDate(bool *ok=0);
 
 
 	/**
@@ -89,14 +89,6 @@ public:
 	void clearFields (void) { setEntry(""); }
 
 private:
-
-#if (QT_VERSION < 300)
-	/**
-	* substitute for Qt 3.x function QDate::fromString(s)
-	*/
-	QDate stringToDate(const QString& s);
-#endif
-
 	bool timet;
 };
 

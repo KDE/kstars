@@ -19,19 +19,20 @@
 #define TIMEDIALOG_H
 
 #include <kdialogbase.h>
-#include <qdatetime.h>
 #include <qvariant.h>
+
+#include "libkdeedu/extdate/extdatetime.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
-class KDatePicker;
+class ExtDatePicker;
 class QSpinBox;
 class QLabel;
 class QPushButton;
 class KStars;
 
 /**@class TimeDialog 
-	*A class for adjusting the Time and Date.  Contains a KDatePicker widget
+	*A class for adjusting the Time and Date.  Contains a ExtDatePicker widget
 	*for selecting the date, and three QSpinBoxes for selecting the Hour,
 	*Minute and Second.  There is also a "Now" QPushbutton for selecting the
 	*Time and Date from the system clock.
@@ -47,7 +48,7 @@ public:
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( QDateTime now, QWidget* parent = 0, bool isUTCNow = false );
+	TimeDialog( ExtDateTime now, QWidget* parent = 0, bool isUTCNow = false );
 
 /**
 	*Destructor (empty)
@@ -58,18 +59,18 @@ public:
 	*/
 	QTime selectedTime( void );
 
-/**@returns a QDate object with the selected date
+/**@returns a ExtDate object with the selected date
 	*/
-	QDate selectedDate( void );
+	ExtDate selectedDate( void );
 
-/**@returns a QDateTime object with the selected date and time
+/**@returns a ExtDateTime object with the selected date and time
 	*/
-	QDateTime selectedDateTime( void );
+	ExtDateTime selectedDateTime( void );
 
 public slots:
 /**
 	*When the "Now" QPushButton is pressed, read the time and date
-	*from the system clock.  Change the selected date in the KDatePicker
+	*from the system clock.  Change the selected date in the ExtDatePicker
 	*to the system's date, and the displayed Hour, Minute and Second
 	*to the system time.
 	*/
@@ -106,7 +107,7 @@ private:
   bool UTCNow;
   QHBoxLayout *hlay;
   QVBoxLayout *vlay;
-  KDatePicker *dPicker;
+  ExtDatePicker *dPicker;
   QSpinBox* HourBox;
   QLabel* TextLabel1;
   QSpinBox* MinuteBox;

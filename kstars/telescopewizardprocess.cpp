@@ -12,7 +12,6 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qwidgetstack.h>
-#include <qdatetime.h>
 #include <qstring.h>
 #include <qtimer.h>
 #include <qtable.h>
@@ -29,6 +28,7 @@
 #include "kstarsdata.h"
 #include "timedialog.h"
 #include "ksutils.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 #include "indimenu.h"
 #include "indidriver.h"
@@ -67,7 +67,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
    Options::setIndiMessages( false );
 
   QTime newTime( ksw->data()->LTime.time() );
-  QDate newDate( ksw->data()->LTime.date() );
+  ExtDate newDate( ksw->data()->LTime.date() );
 
   timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
   dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
@@ -197,7 +197,7 @@ void telescopeWizardProcess::newTime()
 	if ( timedialog.exec() == QDialog::Accepted )
 	{
 		QTime newTime( timedialog.selectedTime() );
-		QDate newDate( timedialog.selectedDate() );
+		ExtDate newDate( timedialog.selectedDate() );
 
 		ksw->data()->changeTime(newDate, newTime);
 

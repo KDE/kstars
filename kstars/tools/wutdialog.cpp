@@ -75,7 +75,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
 	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date(), true ) ) );
+	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Today.toString() ) );
 
 	initCategories();
 
@@ -268,9 +268,9 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
-	QDateTime T1 = Today;
+	ExtDateTime T1 = Today;
 	T1.setTime( sunSetToday );
-	QDateTime T2 = Today;
+	ExtDateTime T2 = Today;
 	T2 = T2.addDays( 1 );
 	T2.setTime( sunRiseTomorrow );
 
@@ -284,9 +284,9 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		T2.setTime( sunRiseTomorrow );
 	}
 
-	for ( QDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
+	for ( ExtDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
 		//Need LST of the test time, expressed as a dms object.
-		QDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
+		ExtDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
 		long double jd = KSUtils::UTtoJD( ut );
 		dms LST = KSUtils::UTtoLST( ut, geo->lng() );
 		SkyPoint sp = oname->skyObject()->computeCoordsForJD( jd, geo );
@@ -369,7 +369,7 @@ void WUTDialog::slotChangeDate() {
 		if ( Today.time().hour() < 6 ) Today = Today.addDays( -1 ); //assume user wants previous night.
 		JDToday = KSUtils::UTtoJD( Today.addSecs( int( -3600.*geo->TZ() ) ) );
 		JDTomorrow = JDToday + 1.0;
-		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date(), true ) ) );
+		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Today.toString() ) );
 
 		int i = WUT->CategoryListBox->currentItem();
 		init();

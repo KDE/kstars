@@ -81,7 +81,7 @@ void KStars::zoom( double z ) {
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-	data()->changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
+	data()->changeTime( ExtDate(yr, mth, day), QTime(hr,min,sec));
 }
 
 void KStars::waitFor( double t ) {
@@ -127,7 +127,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			infoBoxes()->geoChanged( loc );
 
 			//configure time zone rule
-			QDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
+			ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
 			loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
 			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
 

@@ -32,7 +32,7 @@
 
 class dms;
 class QTime;
-class QDate;
+class ExtDate;
 
 class modCalcSidTime : public modCalcSidTimeDlg  {
 
@@ -43,8 +43,8 @@ public:
 	modCalcSidTime(QWidget *p, const char *n);
 	~modCalcSidTime();
 
-	QTime computeUTtoST (QTime u, QDate d, dms l);
-	QTime computeSTtoUT (QTime s, QDate d, dms l);
+	QTime computeUTtoST (QTime u, ExtDate d, dms l);
+	QTime computeSTtoUT (QTime s, ExtDate d, dms l);
 
 public slots:	
 	
@@ -79,7 +79,7 @@ private:
 
 	QTime getUT (void);
 	QTime getST (void);
-	QDate getDate (void);
+	ExtDate getDate (void);
 	dms getLongitude (void);
 	bool stInputTime;
 	

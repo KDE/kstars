@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetime.h>
-#include <qdatetimeedit.h>
 #include <qlayout.h>
 #include <qpainter.h>
 #include <klocale.h>
@@ -40,6 +38,9 @@
 #include "simclock.h"
 #include "finddialog.h"
 #include "locationdialog.h"
+
+#include "libkdeedu/extdate/extdatetime.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
 AltVsTime::AltVsTime( QWidget* parent)  :
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
@@ -75,7 +76,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
 	DayOffset = 0;
 	showCurrentDate();
-	if ( getQDate().time().hour() > 12 ) DayOffset = 1;
+	if ( getExtDate().time().hour() > 12 ) DayOffset = 1;
 
 	geo = ks->geo();
 	avtUI->longBox->show( geo->lng() );
@@ -249,7 +250,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		avtUI->nameBox->setText(o->translatedName() );
 
 		//Set epochName to epoch shown in date tab
-		avtUI->epochName->setText( QString().setNum( QDateToEpoch( avtUI->dateBox->date() ) ) );
+		avtUI->epochName->setText( QString().setNum( ExtDateToEpoch( avtUI->dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
@@ -272,8 +273,8 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 	int m = int(60.*(hour - h));
 	int s = int(60.*(60.*(hour - h) - m));
 
-	QDateTime lt( getQDate().date().addDays( dDay ), QTime( h,m,s ) );
-	QDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
+	ExtDateTime lt( getExtDate().date().addDays( dDay ), QTime( h,m,s ) );
+	ExtDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
 
 	dms LST = KSUtils::UTtoLST( ut , geo->lng() );
 	p->EquatorialToHorizontal( &LST, geo->lat() );
@@ -335,7 +336,7 @@ void AltVsTime::slotClearBoxes(void) {
 	avtUI->nameBox->clear();
 	avtUI->raBox->clear() ;
 	avtUI->decBox->clear();
-	avtUI->epochName->setText( QString().setNum( QDateToEpoch( avtUI->dateBox->date() ) ) );
+	avtUI->epochName->setText( QString().setNum( ExtDateToEpoch( avtUI->dateBox->date() ) ) );
 
 }
 
@@ -435,7 +436,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 		}
 	}
 
-	if ( getQDate().time().hour() > 12 ) DayOffset = 1;
+	if ( getExtDate().time().hour() > 12 ) DayOffset = 1;
 	else DayOffset = 0;
 
 	setLSTLimits();
@@ -462,8 +463,8 @@ int AltVsTime::currentPlotListItem() const {
 }
 
 void AltVsTime::setLSTLimits(void) {
-	QDateTime lt( getQDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
-	QDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
+	ExtDateTime lt( getExtDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
+	ExtDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
 
 	dms lst = KSUtils::UTtoLST( ut, geo->lng() );
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
@@ -471,22 +472,22 @@ void AltVsTime::setLSTLimits(void) {
 
 void AltVsTime::showCurrentDate (void)
 {
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 	avtUI->dateBox->setDate( dt.date() );
 }
 
-QDateTime AltVsTime::getQDate (void)
+ExtDateTime AltVsTime::getExtDate (void)
 {
-	QDateTime dt ( avtUI->dateBox->date(),QTime(0,0,0) );
+	ExtDateTime dt ( avtUI->dateBox->date(),QTime(0,0,0) );
 	return dt;
 }
 
 long double AltVsTime::computeJdFromCalendar (void)
 {
-	return KSUtils::UTtoJD( getQDate().addSecs( int( -3600*geo->TZ() ) ) );
+	return KSUtils::UTtoJD( getExtDate().addSecs( int( -3600*geo->TZ() ) ) );
 }
 
-double AltVsTime::QDateToEpoch( const QDate &d )
+double AltVsTime::ExtDateToEpoch( const ExtDate &d )
 {
 	return double(d.year()) + double(d.dayOfYear())/double(d.daysInYear());
 }

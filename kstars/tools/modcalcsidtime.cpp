@@ -15,9 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetimeedit.h>
+#include <qdatetimeedit.h>  //need for QTimeEdit
 #include <qradiobutton.h>
-#include <qdatetime.h>
 #include <qcheckbox.h>
 #include <qstring.h>
 #include <qtextstream.h>
@@ -31,6 +30,8 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "simclock.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
@@ -53,17 +54,17 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	longBox->show( ks->geo()->lng() );
 }
 
-QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
+QTime modCalcSidTime::computeUTtoST (QTime ut, ExtDate dt, dms longitude)
 {
-	QDateTime utdt = QDateTime( dt, ut);
+	ExtDateTime utdt = ExtDateTime( dt, ut);
 	dms st = KSUtils::UTtoLST( utdt, &longitude);
 	QTime dst( st.hour(), st.minute(), st.second() );
 	return dst;
 }
 
-QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
+QTime modCalcSidTime::computeSTtoUT (QTime st, ExtDate dt, dms longitude)
 {
-	QDateTime dtt = QDateTime( dt, QTime());
+	ExtDateTime dtt = ExtDateTime( dt, QTime());
 	dms dst;
 	dst.setH(st.hour(), st.minute(), st.second());
 	return KSUtils::LSTtoUT( dst, dtt, &longitude);
@@ -95,9 +96,9 @@ QTime modCalcSidTime::getST( void )
 	return st;
 }
 
-QDate modCalcSidTime::getDate( void ) 
+ExtDate modCalcSidTime::getDate( void ) 
 {
-	QDate dt;
+	ExtDate dt;
 	dt = datBox->date();
 	return dt;
 }
@@ -110,7 +111,7 @@ dms modCalcSidTime::getLongitude( void )
 }
 
 void modCalcSidTime::slotClearFields(){
-	datBox->setDate(QDate::currentDate());
+	datBox->setDate(ExtDate::currentDate());
 	QTime time(0,0,0);
 	UtBox->setTime(time);
 	StBox->setTime(time);
@@ -119,7 +120,7 @@ void modCalcSidTime::slotClearFields(){
 void modCalcSidTime::slotComputeTime(){
 	QTime ut, st;
 
-	QDate dt = getDate();
+	ExtDate dt = getDate();
 	dms longitude = getLongitude();
 
 	if(UtRadio->isChecked()) {
@@ -242,7 +243,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 	dms longB, LST;
 	double epoch0B;
 	QTime utB, stB;
-	QDate dtB;
+	ExtDate dtB;
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -271,7 +272,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		// Read date and write in ostream if corresponds
 		
 		if(dateCheckBatch->isChecked() ) {
-			 dtB = QDate::fromString( fields[i] );
+			 dtB = ExtDate::fromString( fields[i] );
 			 i++;
 		} else
 			dtB = dateBoxBatch->date();
@@ -284,10 +285,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		
 		// We make the first calculations
 		
-		jdf = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jdf = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
 		jd0 = KSUtils::epochToJd ( epoch0B );
 
-		LST = KSUtils::UTtoLST( QDateTime(dtB,utB), &longB );
+		LST = KSUtils::UTtoLST( ExtDateTime(dtB,utB), &longB );
 		
 		// Universal Time is the input time.
 

@@ -335,15 +335,15 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	else return false;
 }
 
-bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, dms *lst, long double julian) {
+bool InfoBoxes::timeChanged(ExtDateTime ut, ExtDateTime lt, dms *lst, long double julian) {
 	QString ot1 = TimeBox->text1();
 	QString ot2 = TimeBox->text2();
 	QString ot3 = TimeBox->text3();
 	
 	TimeBox->setText1( i18n( "Local Time", "LT: " ) + lt.time().toString()
-		+ "   " + KGlobal::locale()->formatDate( lt.date(), true ) );	
+		+ "   " + lt.date().toString("dd MMM yyyy") );
 	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
-		+ "   " + KGlobal::locale()->formatDate( ut.date(), true ) );
+		+ "   " + ut.date().toString("dd MMM yyyy") );
 	QString STString;
 	STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +

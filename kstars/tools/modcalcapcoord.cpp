@@ -22,10 +22,12 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
+
 #include <qcheckbox.h>
 #include <qradiobutton.h>
+#include <qdatetimeedit.h>  //needed for QTimeEdit
 #include <klineedit.h>
-#include <qdatetimeedit.h>
 #include <qtextstream.h>
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -56,15 +58,15 @@ SkyPoint modCalcApCoord::getEquCoords (void) {
 
 void modCalcApCoord::showCurrentTime (void)
 {
-	QDateTime dt = QDateTime::currentDateTime();
+	ExtDateTime dt = ExtDateTime::currentDateTime();
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 }
 
-QDateTime modCalcApCoord::getQDateTime (void)
+ExtDateTime modCalcApCoord::getExtDateTime (void)
 {
-	QDateTime dt ( datBox->date() , timBox->time() );
+	ExtDateTime dt ( datBox->date() , timBox->time() );
 
 	return dt;
 }
@@ -73,7 +75,7 @@ long double modCalcApCoord::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJD( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getExtDateTime() );
 
 	return julianDay;
 }
@@ -111,7 +113,7 @@ void modCalcApCoord::slotClearCoords(){
 	rafBox->clearFields();
 	decfBox->clearFields();
 	epoch0Name->setText("");
-	datBox->setDate(QDate::currentDate());
+	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
 }
 
@@ -236,7 +238,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 	long double jd, jd0;
 	SkyPoint sp;
 	QTime utB;
-	QDate dtB;
+	ExtDate dtB;
 	dms raB, decB;
 	double epoch0B;
 
@@ -267,7 +269,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 		// Read date and write in ostream if corresponds
 
 		if(dateCheckBatch->isChecked() ) {
-			dtB = QDate::fromString( fields[i] );
+			dtB = ExtDate::fromString( fields[i] );
 			i++;
 		} else
 			dtB = dateBoxBatch->date();
@@ -320,7 +322,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 			if(decCheckBatch->isChecked() )
 				ostream << epoch0B;
 
-		jd = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jd = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
 		jd0 = epochToJd ( epoch0B );
 		sp = SkyPoint (raB, decB);
 		sp.apparentCoord(jd0, jd);

@@ -30,7 +30,7 @@
 class dms;
 class dmsBox;
 class SkyPoint;
-class QDateTime;
+class ExtDateTime;
 class QTextStream;
 
 class modCalcApCoord : public modCalcApCoordDlg  {
@@ -77,8 +77,8 @@ private:
 /**Fill the Time and Date fields with the current values from the CPU clock. */
 	void showCurrentTime(void);
 
-/**@returns a QDateTime constructed from the Time and Date fields. */
-	QDateTime getQDateTime (void);
+/**@returns a ExtDateTime constructed from the Time and Date fields. */
+	ExtDateTime getExtDateTime (void);
 
 /**Convert the Time and Date to a Julian Day. */
 	long double computeJdFromCalendar (void);

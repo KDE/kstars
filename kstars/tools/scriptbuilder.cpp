@@ -39,11 +39,11 @@
 
 #include <qcheckbox.h>
 #include <qspinbox.h>
-#include <qdatetimeedit.h>
 #include <qwidgetstack.h>
 #include <qwidget.h>
 #include <qptrlist.h>
 #include <qlayout.h>
+#include <qdatetimeedit.h>
 
 #include "scriptfunction.h"
 #include "scriptbuilderui.h"
@@ -69,6 +69,7 @@
 #include "locationdialog.h"
 #include "skyobjectname.h"
 #include "timestepbox.h"
+#include "libkdeedu/extdate/extdatewidget.h"
 
 ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent, name ), UnsavedChanges(false), currentFileURL(),
@@ -184,7 +185,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
 	connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
 	connect( argSetAltAz->AzBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAz() ) );
-	connect( argSetLocalTime->DateBox, SIGNAL( changed(QDate) ), this, SLOT( slotChangeDate() ) );
+	connect( argSetLocalTime->DateBox, SIGNAL( changed(ExtDate) ), this, SLOT( slotChangeDate() ) );
 	connect( argSetLocalTime->TimeBox, SIGNAL( valueChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
 	connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
 	connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
@@ -590,7 +591,7 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 	ostream << "#!/bin/bash" << endl;
 	ostream << "#KStars DCOP script: " << currentScriptName << endl;
 	ostream << "#by " << currentAuthor << endl;
-	ostream << "#last modified: " << QDateTime::currentDateTime().toString() << endl;
+	ostream << "#last modified: " << ExtDateTime::currentDateTime().toString() << endl;
 	ostream << "#" << endl;
 	ostream << "KSTARS=`dcopfind -a 'kstars*'`" << endl;
 	ostream << "MAIN=KStarsInterface" << endl;
@@ -869,8 +870,8 @@ void ScriptBuilder::slotArgWidget() {
 			year = sf->argVal(0).toInt(&ok);
 			if (ok) month = sf->argVal(1).toInt(&ok);
 			if (ok) day   = sf->argVal(2).toInt(&ok);
-			if (ok) argSetLocalTime->DateBox->setDate( QDate( year, month, day ) );
-			else argSetLocalTime->DateBox->setDate( QDate::currentDate() );
+			if (ok) argSetLocalTime->DateBox->setDate( ExtDate( year, month, day ) );
+			else argSetLocalTime->DateBox->setDate( ExtDate::currentDate() );
 
 			hour = sf->argVal(3).toInt(&ok);
 			if ( sf->argVal(3).isEmpty() ) ok = false;
@@ -1095,7 +1096,7 @@ void ScriptBuilder::slotChangeDate() {
 	if ( sf->name() == "setLocalTime" ) {
 		setUnsavedChanges( true );
 
-		QDate date = argSetLocalTime->DateBox->date();
+		ExtDate date = argSetLocalTime->DateBox->date();
 
 		sf->setArg( 0, QString( "%1" ).arg( date.year()   ) );
 		sf->setArg( 1, QString( "%1" ).arg( date.month()  ) );

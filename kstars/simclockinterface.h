@@ -19,7 +19,8 @@
 #define KSTARS_SIMCLOCKIF_H_
 
 #include <dcopobject.h>
-#include <qdatetime.h>
+
+#include "libkdeedu/extdate/extdatetime.h"
 
 /**@class SimclockInterface
 	*DCOP functions for the KSTars simulation clock.
@@ -39,10 +40,10 @@ class SimClockInterface : virtual public DCOPObject {
 			*/
 		virtual ASYNC start() = 0;
 		
-		/**Set the clock to the given QDateTime value.
+		/**Set the clock to the given ExtDateTime value.
 			*@p newtime the time/date to adopt
 			*/
-		virtual ASYNC setUTC(const QDateTime &newtime) = 0;
+		virtual ASYNC setUTC(const ExtDateTime &newtime) = 0;
 		
 		/**Set the clock scale (the number of simulation seconds that 
 			*pass per real-time second.

@@ -20,7 +20,8 @@
 
 #include "kstarsplotwidget.h"
 
-class QDateTime;
+class ExtDate;
+class ExtDateTime;
 class QTime;
 class QVariant;
 class QVBoxLayout;
@@ -115,10 +116,10 @@ public:
 	*/
 	void showCurrentDate (void);
 	
-/**@return a QDateTime object constructed from the current 
+/**@return a ExtDateTime object constructed from the current 
 	*setting in the Date widget.
 	*/
-	QDateTime getQDate (void);
+	ExtDateTime getExtDate (void);
 	
 /**Determine the time of sunset and sunrise for the current 
 	*date and location settings.  Convert the times to doubles, 
@@ -134,11 +135,11 @@ public:
 	*/
 	long double computeJdFromCalendar (void);
 	
-/**Convert a QDate to an Epoch number.  For example,
+/**Convert a ExtDate to an Epoch number.  For example,
 	*the date 1 June 2003 becomes 2003.5.
 	*@param d the date to convert
 	*/
-	double QDateToEpoch( const QDate &d );
+	double ExtDateToEpoch( const ExtDate &d );
 	
 /**Parse a string as an epoch number.  If the string can't 
 	*be parsed, return 2000.0.

@@ -24,9 +24,9 @@
 #include <kdialogbase.h>
 
 #include "skyobject.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 class GeoLocation;
-class QDateTime;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
@@ -69,7 +69,7 @@ class DetailDialog : public KDialogBase  {
 public: 
 /**Constructor
 	*/
-	DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+	DetailDialog(SkyObject *o, ExtDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
 	
 /**Destructor (empty)
 	*/
@@ -128,11 +128,11 @@ private:
 	bool verifyUserData(int type);
 
 /**Build the General Tab for the current object.
-	*@param lt The QDateTime to use for time-dependent data
+	*@param lt The ExtDateTime to use for time-dependent data
 	*@param geo pointer to the Geographic location to use for 
 	*location-dependent data
 	*/
-	void createGeneralTab(QDateTime lt, GeoLocation *geo);
+	void createGeneralTab(ExtDateTime lt, GeoLocation *geo);
 
 /**Build the Links Tab, populating the image and info lists with the 
 	*known URLs for the current Object.
@@ -207,7 +207,7 @@ private:
 	QHBoxLayout *LOGbuttonLayout;
 
 	long double jd;
-	QDateTime ut;
+	ExtDateTime ut;
 
 	class NameBox : public QGroupBox {
 	public:
@@ -232,7 +232,7 @@ private:
 	public:
 	/**Constructor
 		*/
-		CoordBox( SkyObject *o, QDateTime lt, dms *LST, QWidget *parent, const char *name=0 );
+		CoordBox( SkyObject *o, ExtDateTime lt, dms *LST, QWidget *parent, const char *name=0 );
 	
 	/**Destructor (empty)
 		*/
@@ -249,7 +249,7 @@ private:
 	public:
 	/**Constructor
 		*/
-		RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent, const char *name=0 );
+		RiseSetBox( SkyObject *o, ExtDateTime lt, GeoLocation *geo, QWidget *parent, const char *name=0 );
 	
 	/**Destructor (empty)
 		*/

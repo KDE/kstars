@@ -26,6 +26,7 @@
 #include "ksnumbers.h"
 #include "dms.h"
 #include "geolocation.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
@@ -108,7 +109,7 @@ QTime SkyObject::riseSetTimeUT( long double jd, const GeoLocation *geo, bool ris
 
 dms SkyObject::riseSetTimeLST( long double jd, const GeoLocation *geo, bool riseT) {
 	QTime UT = riseSetTimeUT(jd, geo, riseT);
-	QDateTime utTime = KSUtils::JDtoUT( jd );
+	ExtDateTime utTime = KSUtils::JDtoUT( jd );
 	utTime.setTime( UT );
 	return KSUtils::UTtoLST( utTime, geo->lng() );
 }
@@ -119,7 +120,7 @@ QTime SkyObject::auxRiseSetTimeUT( long double jd, const GeoLocation *geo,
 	// if riseT = true => rise Time, else setTime
 
 	dms LST = auxRiseSetTimeLST(geo->lat(), righta, decl, riseT );
-	QDateTime dt = KSUtils::JDtoUT(jd);
+	ExtDateTime dt = KSUtils::JDtoUT(jd);
 	QTime UT = KSUtils::LSTtoUT( LST, dt, geo->lng());
 
 	return UT;
@@ -181,7 +182,7 @@ dms SkyObject::riseSetTimeAz(long double jd, const GeoLocation *geo, bool riseT)
 
 QTime SkyObject::transitTimeUT(long double jd, const GeoLocation *geo ) {
 
-	QDateTime utDateTime = KSUtils::JDtoUT( jd );
+	ExtDateTime utDateTime = KSUtils::JDtoUT( jd );
 	dms LST = KSUtils::UTtoLST( utDateTime, geo->lng() );
 
 	//dSec is the number of seconds until the object transits.
@@ -264,7 +265,7 @@ dms SkyObject::elevationCorrection(void) {
 }
 
 long double SkyObject::newJDfromJDandUT(long double jd, QTime UT) {
-	QDateTime dt = KSUtils::JDtoUT(jd);
+	ExtDateTime dt = KSUtils::JDtoUT(jd);
 	dt.setTime( UT );
 	return KSUtils::UTtoJD( dt );
 }
