@@ -416,7 +416,12 @@ private:
 
 	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
-	QList<StarObject> starList;
+
+//ARRAY: replacing starList with starArray
+//	QList<StarObject> starList;
+	StarObject *starArray;
+	unsigned int StarCount;
+
 	QList<SkyObject> deepSkyList;
 	QList<SkyPoint> clineList;
 	QList<QChar> clineModeList;

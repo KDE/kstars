@@ -14,11 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-//JH 25.08.2001: added i18n() to strings
 
 #include <qtextstream.h>
 #include <qregexp.h>
-
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -57,8 +55,11 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 
 	PC = new PlanetCatalog(ks);
 
+	//ARRAY: setting static array limit for now
+	starArray = new StarObject[40000];
+//	starList.setAutoDelete( TRUE );
+	
 	geoList.setAutoDelete( TRUE );
-	starList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
@@ -102,6 +103,9 @@ KStarsData::~KStarsData() {
 	}
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
+
+	//ARRAY
+	delete[] starArray;
 
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
@@ -327,7 +331,10 @@ bool KStarsData::readStarData( void ) {
 	QFile file;
 	if ( KSUtils::openDataFile( file, "sao.dat" ) ) {
 		QTextStream stream( &file );
-
+		
+		//ARRAY:
+		StarCount = 0;
+		
 		while ( !stream.eof() ) {
 			QString line, name, gname, SpType;
 			float mag;
@@ -367,21 +374,25 @@ bool KStarsData::readStarData( void ) {
 
 			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
-			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-				starList.append( o );
-
+			//ARRAY:
+			//StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+			//starList.append( o );
+			starArray[StarCount++] = StarObject( r, d, mag, name, gname, SpType );
+			StarObject *o = &starArray[StarCount-1];
+			
 			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				ObjNames.append( o );
 			}
 
-  		}	// end of while
+  	}  // end of while
 		file.close();
 
 /*
 	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
 	*/
 		maxSetMagnitude = options->magLimitDrawStar;
-    	return true;
+		
+		return true;
 	} else {
 		maxSetMagnitude = 0;  // nothing loaded
 		return false;
@@ -1107,11 +1118,10 @@ void KStarsData::slotInitialize() {
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
-            if (!readVARData())
-                initError( "var.dat", false);
-            if (!readADVTreeData())
-                initError( "advinterface.dat", false);
-
+			if (!readVARData())
+				initError( "var.dat", false);
+			if (!readADVTreeData())
+				initError( "advinterface.dat", false);
 			break;
 
 		case 3: //Load NGC 2000 database//
@@ -1300,7 +1310,12 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		
 		//Stars
 		if ( options->drawSAO ) {
-			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
+			//ARRAY:
+			//for ( StarObject *star = starList.first(); star; star = starList.next() ) {
+			StarObject *star;
+			for ( unsigned int i=0; i<StarCount; ++i ) {
+				star = &starArray[i];
+				
 				if ( star->mag() > options->magLimitDrawStar ) break;
 				if (needNewCoords) star->updateCoords( &num );
 				star->EquatorialToHorizontal( LSTh, geo->lat() );

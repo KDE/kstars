@@ -423,9 +423,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int istar_min = -1;
 
 		if ( ksw->options()->drawSAO ) { //Can only click on a star if it's being drawn!
-			for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
-				//test RA and dec to see if this star is roughly nearby
-				SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
+			
+			//test RA and dec to see if this star is roughly nearby
+			
+			//ARRAY:
+			//for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
+			//	SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
+			for ( register unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
+				SkyObject *test = (SkyObject *)&(ksw->data()->starArray[i]);
+
 				double dRA = test->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = test->dec()->Degrees() - clickedPoint()->dec()->Degrees();
 				//determine angular distance between this object and mouse cursor
@@ -587,8 +593,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			switch (icat) {
 				case 0: //star
-					starobj = (StarObject *)ksw->data()->starList.at(istar_min);
-					setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
+					//ARRAY:
+					//starobj = (StarObject *)ksw->data()->starList.at(istar_min);
+					//setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
+					starobj = (StarObject *)&(ksw->data()->starArray[istar_min]);
+					setClickedObject( (SkyObject *)starobj );
+					
 					setClickedPoint( clickedObject() );
 
 					if ( e->button() == RightButton ) {
@@ -1103,8 +1113,12 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	  //Only draw bright stars if slewing
 		if ( hideFaintStars && maglim > ksw->options()->magLimitHideStar ) maglim = ksw->options()->magLimitHideStar;
-	
-		for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
+		
+		//ARRAY:
+		//for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
+		for ( unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
+			StarObject *curStar = &(ksw->data()->starArray[i]);
+			
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
