@@ -173,7 +173,7 @@ static INumber ImageAdjustN[] = {  {"Contrast", "", "%0.f", 0., 256., 1., 0., 0,
 				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
 				   {"Sharpness", "", "%0.f", -1., 256., 1., -1., 0 , 0 ,0},
 				   {"Gain", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
-				   {"Gama", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
+				   {"Gamma", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
 				   
 static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), 0, 0 };
 
@@ -781,7 +781,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
      if ( ImageAdjustN[5].value != oldImgPar[5])
      {
-       IDLog("Setting gama %g\n",  (ImageAdjustN[5].value * 256));
+       IDLog("Setting gamma %g\n",  (ImageAdjustN[5].value * 256));
        setGama ( (int) (ImageAdjustN[5].value * 256));
        ImageAdjustN[5].value = getGama() / 256.;
      }
@@ -974,7 +974,7 @@ void getBasicData()
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
   IDSetText(&camNameTP, NULL);
   
-  IDLog("Raw values\n Contrast: %d \n Brightness %d \n Color %d \n Sharpness %d \n Gain %d \n Gama %d \n", getContrast(), getBrightness(), getColor(), getSharpness(), getGain(), getGama());
+  IDLog("Raw values\n Contrast: %d \n Brightness %d \n Color %d \n Sharpness %d \n Gain %d \n Gamma %d \n", getContrast(), getBrightness(), getColor(), getSharpness(), getGain(), getGama());
   
   ImageAdjustN[0].value = getContrast() / 256.;
   ImageAdjustN[1].value = getBrightness() / 256.;

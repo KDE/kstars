@@ -21,6 +21,7 @@
 #include <qlayout.h>
 #include <qstring.h>
 #include <qptrlist.h>
+#include <qslider.h>
 
 #include <kled.h>
 #include <ksqueezedtextlabel.h> 
@@ -74,6 +75,7 @@ INDI_E::INDI_E(INDI_P *parentProperty, QString inName, QString inLabel)
   read_w    = NULL;
   write_w   = NULL;
   spin_w    = NULL;
+  slider_w  = NULL;
   push_w    = NULL;
   check_w   = NULL;
   led_w     = NULL;
@@ -88,6 +90,7 @@ INDI_E::~INDI_E()
     delete (read_w);
     delete (write_w);
     delete (spin_w);
+    delete (slider_w);
     delete (push_w);
     delete (check_w);
     delete (led_w);
@@ -238,19 +241,42 @@ void INDI_E::updateValue(double newValue)
 void INDI_E::setupElementScale(int length)
 {
 
-spin_w = new KDoubleSpinBox(min, max, step, value, 2, pp->pg->propertyContainer );
+int steps = (int) ((max - min) / step);
+spin_w    = new KDoubleSpinBox(min, max, step, value, 2, pp->pg->propertyContainer );
+slider_w  = new QSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizontal, pp->pg->propertyContainer );
+
+connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
+connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
+
+//kdDebug() << "For element " << label << " we have step of " << step << endl;
 
   if (length == ELEMENT_FULL_WIDTH)
 	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
   else
 	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
 	
-spin_w->setMinimumWidth( length );
+spin_w->setMinimumWidth( (int) (length * 0.45) );
+slider_w->setMinimumWidth( (int) (length * 0.55) );
 
+EHBox->addWidget(slider_w);
 EHBox->addWidget(spin_w);
 }
 
-void INDI_E::setMin (int inMin)
+void INDI_E::spinChanged(double value)
+{
+  int slider_value = (int) ((value - min) / step);
+  slider_w->setValue(slider_value);
+}
+
+void INDI_E::sliderChanged(int value)
+{
+
+ double spin_value = (value * step) + min;
+ spin_w->setValue(spin_value);  
+
+}
+   
+void INDI_E::setMin (double inMin)
 {
   min = inMin;
   if (spin_w)
@@ -258,15 +284,30 @@ void INDI_E::setMin (int inMin)
     spin_w->setMinValue(min);
     spin_w->setValue(value);
   }
+  if (slider_w)
+  {
+    slider_w->setMaxValue((int) ((max - min) / step));
+    slider_w->setMinValue(0);
+    slider_w->setPageStep(1);
+    slider_w->setValue( (int) ((value - min) / step ));
+  }
+  
 }
    
-void INDI_E::setMax (int inMax)
+void INDI_E::setMax (double inMax)
 {
  max = inMax;
  if (spin_w)
  {
    spin_w->setMaxValue(max);
    spin_w->setValue(value);
+ }
+ if (slider_w)
+ {
+    slider_w->setMaxValue((int) ((max - min) / step));
+    slider_w->setMinValue(0);
+    slider_w->setPageStep(1);
+    slider_w->setValue( (int) ((value - min) / step ));
  }
  
 }
@@ -308,4 +349,4 @@ void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char
   format = newFormat;
 }
 
-
+#include "indielement.moc"

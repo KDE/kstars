@@ -131,7 +131,7 @@ int connectPhilips(const char * devpath,int preferedPalette)
   if (IsPhilips)
       cerr << "Philips webcam type " << type_ << " detected" << endl;
   // TODO enable this line again, we want to reject non-philips cameras
-  //else return -1;
+  else return -1;
     
    //cerr << "In connect Cam with device " << devpath << endl;
    

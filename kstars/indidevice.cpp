@@ -243,7 +243,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	INDI_E *lp;
 	QString elementName;
 	char iNumber[32];
-	int min, max;
+	double min, max;
 	
 	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
 	{
@@ -283,18 +283,18 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       numberFormat(iNumber, lp->format.ascii(), lp->value);
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
+	       
+	       ap = findXMLAtt (ep, "min");
+	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+	       ap = findXMLAtt (ep, "max");
+	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
+	       
 	       if (lp->spin_w)
 	       {
-	         kdDebug() << "We have element " << lp->label << endl;
-		 kdDebug() << "With new value " << lp->text << " and in numeric form " << lp->value << endl;
-		 
-	         lp->spin_w->setValue(lp->value);
-	       }
-		 
-	       ap = findXMLAtt (ep, "min");
-	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
-	       ap = findXMLAtt (ep, "max");
-	       if (ap) { max = (int) atof(valuXMLAtt(ap)); lp->setMax(max); }
+	        lp->spin_w->setValue(lp->value);
+		lp->spinChanged(lp->value);
+               }
+	      
 	     }
 	     break;
 

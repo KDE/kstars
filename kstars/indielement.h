@@ -69,6 +69,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QSpacerItem;
 class QCheckBox;
+class QSlider;
 
 class INDI_P;
 
@@ -77,8 +78,9 @@ XMLAtt *   findAtt     (XMLEle *ep  , const char *name , char errmsg[]);
 XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, char errmsg[]);
 
 /* INDI Element */
-class INDI_E
+class INDI_E : public QObject
 {
+ Q_OBJECT
  public:
   INDI_E(INDI_P *parentProperty, QString inName, QString inLabel);
   ~INDI_E();
@@ -95,6 +97,7 @@ class INDI_E
     KLineEdit	   *write_w;		// write field
     KLed	   *led_w;		// light led
     KDoubleSpinBox *spin_w;		// spinbox
+    QSlider	   *slider_w;		// Slider
     KPushButton    *push_w;		// push button
     QCheckBox      *check_w;		// check box
     QSpacerItem    *hSpacer;		// Horizontal spacer
@@ -112,13 +115,17 @@ class INDI_E
    
    void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);
    void updateValue(double newValue);
-   void setMin (int inMin);
-   void setMax (int inMax);
+   void setMin (double inMin);
+   void setMax (double inMax);
    
    void setupElementLabel();
    void setupElementRead(int length);
    void setupElementWrite(int length);
    void setupElementScale(int length);
+   
+   public slots:
+   void spinChanged(double value);
+   void sliderChanged(int value);
 
 };
 
