@@ -74,21 +74,30 @@ stringsfile:
 	sed 's/\([A-Z].*\)/i18n("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp";
 # extract cities
 	awk 'BEGIN {FS=":"}; {print "\"" $$1 "\""; }' < data/Cities.dat | \
-	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18n("");//' >> "cities.tmp";
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18n(.*,"");//' >> "cities.tmp";
 	sort cities.tmp | uniq >> kstars_i18n.cpp;
 # extract regions
 	awk 'BEGIN {FS=":"}; {print "\"" $$2 "\""; }' < data/Cities.dat | \
-	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Region/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18n("");//' >> "regions.tmp";
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Region\/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18n(.*,"");//' >> "regions.tmp";
 	sort regions.tmp | uniq >> kstars_i18n.cpp;
 # extract countries
 	awk 'BEGIN {FS=":"}; {print "\"" $$3 "\""; }' < data/Cities.dat | \
-	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18n("");//' >> "countries.tmp";
+	sed 's/ *\"$$/\");/g' | sed 's/^\" */i18n(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18n(.*,"");//' >> "countries.tmp";
 	sort countries.tmp | uniq >> kstars_i18n.cpp;
-	echo "#endif" >>kstars_i18n.cpp;
+# extract image/info menu items
+	awk 'BEGIN {FS=":"}; {print "i18n(\"Image/info menu item (should be translated)\",\"" $$2 "\");"; }' < data/image_url.dat | \
+	sed 's/i18n(.*,"");//' >> "image_url.tmp";
+	sort image_url.tmp | uniq >> kstars_i18n.cpp;
+	awk 'BEGIN {FS=":"}; {print "i18n(\"Image/info menu item (should be translated)\",\"" $$2 "\");"; }' < data/info_url.dat | \
+	sed 's/i18n(.*,"");//' >> "info_url.tmp";
+	sort info_url.tmp | uniq >> kstars_i18n.cpp;
+	echo "#endif" >> kstars_i18n.cpp;
 # cleanup temporary files
 	rm -f cities.tmp;
 	rm -f regions.tmp;
 	rm -f countries.tmp;
+	rm -f image_url.tmp;
+	rm -f info_url.tmp;
 
 messages: stringsfile rc.cpp
 	rm -f tips.cpp

@@ -177,7 +177,7 @@ void SkyMap::addLinksToMenu( bool showDSS, bool allowCustom ) {
 	for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
+		pmenu->insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
 		++itTitle;
 	}
 
@@ -195,7 +195,7 @@ void SkyMap::addLinksToMenu( bool showDSS, bool allowCustom ) {
 	for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
+		pmenu->insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 		++itTitle;
 	}
 
