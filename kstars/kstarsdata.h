@@ -64,7 +64,7 @@
 #define NTYPENAME 12
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-#define MINZOOM 300.
+#define MINZOOM 200.
 #define MAXZOOM 1000000.
 #define DEFAULTZOOM 2000.
 #define DZOOM 1.10
