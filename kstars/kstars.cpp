@@ -43,7 +43,7 @@
 KStars::KStars( bool doSplash ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
 	skymap(0), findDialog(0), centralWidget(0),
-	AAVSODialog(0), DialogIsObsolete(false)
+	AAVSODialog(0), kns(0), DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
 
@@ -61,7 +61,7 @@ KStars::KStars( bool doSplash ) :
 				pd->splash, SLOT( setMessage(QString) ));
 		pd->splash->show();
 	}
-	
+
 	pd->kstarsData->initialize();
 
 	//Set Geographic Location
@@ -73,7 +73,7 @@ KStars::KStars( bool doSplash ) :
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Text, QColor( "red2" ) );
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Highlight, QColor( "red2" ) );
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
-	
+
 	//set color scheme
 	OriginalPalette = QApplication::palette();
 	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
@@ -120,12 +120,12 @@ KStars::~KStars()
 
 	clearCachedFindDialog();
 
-	delete skymap; 
-	delete pd;     
-	delete centralWidget; 
-	delete AAVSODialog;   
-	delete indimenu;   
-	delete indidriver; 
+	delete skymap;
+	delete pd;
+	delete centralWidget;
+	delete AAVSODialog;
+	delete indimenu;
+	delete indidriver;
 
 	skymap = 0;
 	pd = 0;
