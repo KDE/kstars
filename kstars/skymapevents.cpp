@@ -407,6 +407,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!mouseMoveCursor) setMouseMoveCursor();
 		if (!slewing) {
 			slewing = true;
+			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 			if ( ksw && data->options->isTracking ) ksw->slotTrack(); //toggle tracking off
 		}
 
