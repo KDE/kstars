@@ -250,10 +250,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 		void slotWizard();
 
+#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 		/**
 		 * action slot: open KNewStuff window to download extra data.
 		 */
 		void slotDownload();
+#endif //KDE >= 3.2.90
 
 		/**
 		 * action slot: open KStars calculator to compute astronomical
