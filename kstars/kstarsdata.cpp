@@ -525,129 +525,110 @@ bool KStarsData::readDeepSkyData( void ) {
 	return true;
 }
 
-bool KStarsData::openURLFile(QString urlfile, QFile & file)
-{
-
+bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 	//QFile file;
 	QString localFile;
 	bool fileFound = false;
-    QFile localeFile;
+	QFile localeFile;
 
 	if ( locale->language() != "en_US" )
 		localFile = locale->language() + "/" + urlfile;
 
-	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) )
-   {
+	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) ) {
 		fileFound = true;
-	} else
+	} else {
    // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-   {
-    	file.setName( locateLocal( "appdata", urlfile ) );
-		if ( file.open( IO_ReadOnly ) ) fileFound = true;
-       else if ( KSUtils::openDataFile( file, urlfile ) )
-                {
-           	        if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
-                      // we found urlfile, we need to copy it to locale
-                      localeFile.setName( locateLocal( "appdata", urlfile ) );
-                      if (localeFile.open(IO_WriteOnly)) {
-                        QTextStream readStream(&file);
-                        QTextStream writeStream(&localeFile);
-                        writeStream <<  readStream.read();
-                        localeFile.close();
-                        file.reset(); }
-                      else
-                         kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
-                      fileFound = true;
-           	 } 
-	
+		file.setName( locateLocal( "appdata", urlfile ) );
+		if ( file.open( IO_ReadOnly ) )
+			fileFound = true;
+		else
+			if ( KSUtils::openDataFile( file, urlfile ) ) {
+				if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
+				// we found urlfile, we need to copy it to locale
+				localeFile.setName( locateLocal( "appdata", urlfile ) );
+				if (localeFile.open(IO_WriteOnly)) {
+				QTextStream readStream(&file);
+				QTextStream writeStream(&localeFile);
+				writeStream <<  readStream.read();
+				localeFile.close();
+				file.reset();
+			} else
+				kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
+			fileFound = true;
+		}
 	}
-
 	return fileFound;
 }
 
 bool KStarsData::readUserLog(void)
 {
+	QFile file;
+	QString buffer;
+	QString sub, name, data;
 
-  QFile file;
-  QString buffer;
-  QString sub, name, data;
-  
-    if (!KSUtils::openDataFile( file, "userlog.dat" ))
-     return false;
+	if (!KSUtils::openDataFile( file, "userlog.dat" )) return false;
 
-    QTextStream stream(&file);
+	QTextStream stream(&file);
 
-  if (!stream.eof())
-    buffer = stream.read();
+	if (!stream.eof()) buffer = stream.read();
 
-  while (!buffer.isEmpty())
-  {
-     int startIndex, endIndex;
+	while (!buffer.isEmpty()) {
+		int startIndex, endIndex;
 
-    startIndex = buffer.find("[KSLABEL:");
-    sub = buffer.mid(startIndex);
-    endIndex = sub.find("[KSLogEnd]");
+		startIndex = buffer.find("[KSLABEL:");
+		sub = buffer.mid(startIndex);
+		endIndex = sub.find("[KSLogEnd]");
 
-    // Read name after KSLABEL identifer
-    name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
-    // Read data and skip new line
-    data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
-    buffer = buffer.mid(endIndex + 11);
+		// Read name after KSLABEL identifer
+		name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
+		// Read data and skip new line
+		data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
+		buffer = buffer.mid(endIndex + 11);
 
-  for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() )
-       {
-          if ( sonm->text() == name )
-          {
-    		  sonm->skyObject()->userLog = data;
-             break;
+		for ( SkyObjectName *sonm = ObjNames.first(name); sonm; sonm = ObjNames.next() ) {
+			if ( sonm->text() == name ) {
+				sonm->skyObject()->userLog = data;
+				break;
 			}
-        }
-        
-   } // end while
-
-  file.close();
-
-     return true;
+		}
+	} // end while
+	file.close();
+	return true;
 }
+
 bool KStarsData::readURLData( QString urlfile, int type ) {
+	QFile file;
+	if (!openURLFile(urlfile, file)) return false;
 
-    QFile file;
-    if (!openURLFile(urlfile, file))
-      return false;
-    
-    QTextStream stream(&file);
-    
-  	while ( !stream.eof() ) {
-   	QString line = stream.readLine();
+	QTextStream stream(&file);
 
-			QString name = line.mid( 0, line.find(':') );
-			QString sub = line.mid( line.find(':')+1 );
-			QString title = sub.mid( 0, sub.find(':') );
-			QString url = sub.mid( sub.find(':')+1 );
+	while ( !stream.eof() ) {
+		QString line = stream.readLine();
 
-			bool bMatched = false;
-			for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() ) {
-				if ( sonm->text() == name ) {
-             
-					bMatched = true;
+		QString name = line.mid( 0, line.find(':') );
+		QString sub = line.mid( line.find(':')+1 );
+		QString title = sub.mid( 0, sub.find(':') );
+		QString url = sub.mid( sub.find(':')+1 );
 
-					if ( type==0 ) { //image URL
-					  sonm->skyObject()->ImageList.append( url );
-						sonm->skyObject()->ImageTitle.append( title );
-					} else if ( type==1 ) { //info URL
+		bool bMatched = false;
+		for ( SkyObjectName *sonm = ObjNames.first(name); sonm; sonm = ObjNames.next() ) {
+			if ( sonm->text() == name ) {
+				bMatched = true;
+
+				if ( type==0 ) { //image URL
+					sonm->skyObject()->ImageList.append( url );
+					sonm->skyObject()->ImageTitle.append( title );
+				} else if ( type==1 ) { //info URL
 					  sonm->skyObject()->InfoList.append( url );
 						sonm->skyObject()->InfoTitle.append( title );
-					}
-	        break;
 				}
+				break;
 			}
-
-//			if ( ! bMatched ) kdWarning() << i18n( "Could not find match to object named " ) << name << endl;
 		}
-		file.close();
-
-     return true;
-
+//			if ( ! bMatched ) kdWarning() << i18n( "Could not find match to object named " ) << name << endl;
+	}
+	file.close();
+	return true;
 }
 
 bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bool showerrs ) {
