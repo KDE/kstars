@@ -509,3 +509,22 @@ void SkyPoint::subtractEterms(void) {
 	Dec.setD( Dec.Degrees() - spd.dec()->Degrees() );
 }
 
+dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
+
+	double dalpha = ra()->radians() - sp->ra()->radians() ;
+	double ddelta = dec()->radians() - sp->dec()->radians() ;
+
+	double sa = sin(dalpha/2.);
+	double sd = sin(ddelta/2.);
+	
+	double hava = sa*sa;
+	double havd = sd*sd;
+
+	double aux = havd + cos (dec()->radians()) * cos(sp->dec()->radians()) 
+		* hava;
+	
+	dms angDist;
+	angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
+	
+	return angDist;
+}

@@ -361,6 +361,21 @@ public:
 	*/
 	void subtractEterms(void);
 
+	/** Computes the angular distance between two SkyObjects. The algorithm
+	 *  to compute this distance is:
+	 *  cos(distance) = sin(d1)*sin(d2) + cos(d1)*cos(d2)*cos(a1-a2)
+	 *  where a1,d1 are the coordinates of the first object and a2,d2 are
+	 *  the coordinates of the second object.
+	 *  However this algorithm is not accurate when the angular separation
+	 *  is small.
+	 *  Meeus provides a different algorithm in page 111 which we 
+	 *  implement here.
+	 *  @param SkyPoint to which distance is to be calculated
+	 *  @return dms angle representing angular separation.
+	 **/
+
+	dms angularDistanceTo( SkyPoint *sp);
+
 ////
 //// 5. Calculating Rise/Set/Transit data.
 //// =====================================
