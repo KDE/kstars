@@ -964,7 +964,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 			
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( drawMW ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ) ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ), 1, SolidLine ) ); //change to colorGrid
 		psky.setBrush( QBrush( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ) ) );
 		bool offscreen, lastoffscreen=false;
 
@@ -1014,7 +1014,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw coordinate grid
 	if ( drawGrid ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "GridColor" ) ), 0, DotLine ) ); //change to colorGrid
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to colorGrid
 
 		//First, the parallels
 		for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
@@ -1094,7 +1094,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Equator (currently can't be hidden on slew)
 	if ( ksw->options()->drawEquator ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EqColor" ) ), 0, SolidLine ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
 
 		SkyPoint *p = ksw->data()->Equator.first();
 		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
@@ -1138,7 +1138,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Ecliptic (currently can't be hidden on slew)
 	if ( ksw->options()->drawEcliptic ) {
-		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
 
 		SkyPoint *p = ksw->data()->Ecliptic.first();
 		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
@@ -1181,7 +1181,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Constellation Lines
 	if ( drawCLines ) {
-		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+//		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ) );
 		int iLast = -1;
 
 		for ( SkyPoint *p = ksw->data()->clineList.first(); p; p = ksw->data()->clineList.next() ) {
@@ -1481,7 +1482,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	if (ksw->options()->drawHorizon || ksw->options()->drawGround) {
 		QPoint OutLeft(0,0), OutRight(0,0);
 
-		psky.setPen( QColor ( ksw->options()->colorScheme()->colorNamed( "HorzColor" ) ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) ); //change to colorGrid
 		psky.setBrush( QColor ( ksw->options()->colorScheme()->colorNamed( "HorzColor" ) ) );
 		ptsCount = 0;
 
