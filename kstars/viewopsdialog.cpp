@@ -202,88 +202,126 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayPlanetTab = new QVBoxLayout( PlanetTab );
 	vlayPlanetTab->setSpacing( 6 );
 	vlayPlanetTab->setMargin( 11 );
-	glayPlanetTab = new QGridLayout( 7, 2 );
+	
+	PlanetBox = new QGroupBox( i18n( "Sun, Moon and Planets" ), PlanetTab, "PlanetBox" );
+	vlayPlanetBox = new QVBoxLayout( PlanetBox );
+	glayPlanetBox = new QGridLayout( 5, 3 );
+	vlayPlanetBox->setSpacing( 6 );
+	vlayPlanetBox->setMargin( 11 );
 
-	showSun = new QCheckBox( i18n( "The sun" ), PlanetTab, "show_sun" );
+	showSun = new QCheckBox( i18n( "The sun" ), PlanetBox, "show_sun" );
 	showSun->setFont( stdFont );
 	showSun->setChecked( ksw->options()->drawSun );
 
-	showMoon = new QCheckBox( i18n( "The moon" ), PlanetTab, "show_moon" );
+	showMoon = new QCheckBox( i18n( "The moon" ), PlanetBox, "show_moon" );
   showMoon->setFont( stdFont );
   showMoon->setChecked( ksw->options()->drawMoon );
   showMoon->setChecked( ksw->options()->drawMoon );
 
-	showMercury = new QCheckBox( i18n( "Mercury" ), PlanetTab, "show_mercury" );
+	showMercury = new QCheckBox( i18n( "Mercury" ), PlanetBox, "show_mercury" );
 	showMercury->setFont( stdFont );
 	showMercury->setChecked( ksw->options()->drawMercury );
 
-	showVenus = new QCheckBox( i18n( "Venus" ), PlanetTab, "show_venus" );
+	showVenus = new QCheckBox( i18n( "Venus" ), PlanetBox, "show_venus" );
 	showVenus->setFont( stdFont );
 	showVenus->setChecked( ksw->options()->drawVenus );
 
-	showMars = new QCheckBox( i18n( "Mars" ), PlanetTab, "show_mars" );
+	showMars = new QCheckBox( i18n( "Mars" ), PlanetBox, "show_mars" );
 	showMars->setFont( stdFont );
 	showMars->setChecked( ksw->options()->drawMars );
 
-	showJupiter = new QCheckBox( i18n( "Jupiter" ), PlanetTab, "show_jupiter" );
+	showJupiter = new QCheckBox( i18n( "Jupiter" ), PlanetBox, "show_jupiter" );
 	showJupiter->setFont( stdFont );
 	showJupiter->setChecked( ksw->options()->drawJupiter );
 
-	showSaturn = new QCheckBox( i18n( "Saturn" ), PlanetTab, "show_saturn" );
+	showSaturn = new QCheckBox( i18n( "Saturn" ), PlanetBox, "show_saturn" );
 	showSaturn->setFont( stdFont );
 	showSaturn->setChecked( ksw->options()->drawSaturn );
 
-	showUranus = new QCheckBox( i18n( "Uranus" ), PlanetTab, "show_uranus" );
+	showUranus = new QCheckBox( i18n( "Uranus" ), PlanetBox, "show_uranus" );
 	showUranus->setFont( stdFont );
 	showUranus->setChecked( ksw->options()->drawUranus );
 
-	showNeptune = new QCheckBox( i18n( "Neptune" ), PlanetTab, "show_neptune" );
+	showNeptune = new QCheckBox( i18n( "Neptune" ), PlanetBox, "show_neptune" );
 	showNeptune->setFont( stdFont );
 	showNeptune->setChecked( ksw->options()->drawNeptune );
 
-	showPluto = new QCheckBox( i18n( "Pluto" ), PlanetTab, "show_pluto" );
+	showPluto = new QCheckBox( i18n( "Pluto" ), PlanetBox, "show_pluto" );
 	showPluto->setFont( stdFont );
 	showPluto->setChecked( ksw->options()->drawPluto );
 
-	showAll = new QPushButton( i18n( "Show All Planets", "Show All" ), PlanetTab, "show_all_planets" );
+	showAll = new QPushButton( i18n( "Show all planets", "Select all" ), PlanetBox, "show_all_planets" );
 	showAll->setFont( stdFont );
 
-	showNone = new QPushButton( i18n( "Hide All Planets", "Show None" ), PlanetTab, "show_none_planets" );
+	showNone = new QPushButton( i18n( "Hide all planets", "Select none" ), PlanetBox, "show_none_planets" );
 	showNone->setFont( stdFont );
 
-	QSpacerItem *smallSpacerLeft  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
-	QSpacerItem *smallSpacerRight = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
-	QSpacerItem *smallSpacerVert = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
-
-	showPlanetNames = new QCheckBox( i18n( "Show planet names" ), PlanetTab, "show_planet_names" );
+	showPlanetNames = new QCheckBox( i18n( "Use name labels" ), PlanetBox, "show_planet_names" );
 	showPlanetNames->setFont( stdFont );
 	showPlanetNames->setChecked( ksw->options()->drawPlanetName );
 
-	showPlanetImages = new QCheckBox( i18n( "Show planet images" ), PlanetTab, "show_planet_images" );
+	showPlanetImages = new QCheckBox( i18n( "Use images" ), PlanetBox, "show_planet_images" );
 	showPlanetImages->setFont( stdFont );
 	showPlanetImages->setChecked( ksw->options()->drawPlanetImage );
 
+	QSpacerItem *planetBoxSpacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
+
+
+	glayPlanetBox->addWidget( showSun, 0, 0 );
+	glayPlanetBox->addWidget( showMoon, 1, 0 );
+	glayPlanetBox->addWidget( showMercury, 2, 0 );
+	glayPlanetBox->addWidget( showVenus, 3, 0 );
+	glayPlanetBox->addWidget( showMars, 4, 0 );
+	glayPlanetBox->addWidget( showJupiter, 0, 1 );
+	glayPlanetBox->addWidget( showSaturn, 1, 1 );
+	glayPlanetBox->addWidget( showUranus, 2, 1 );
+	glayPlanetBox->addWidget( showNeptune, 3, 1 );
+	glayPlanetBox->addWidget( showPluto, 4, 1 );
+	glayPlanetBox->addWidget( showAll, 0, 2 );
+	glayPlanetBox->addWidget( showNone, 1, 2 );
+	glayPlanetBox->addWidget( showPlanetNames, 2, 2 );
+	glayPlanetBox->addWidget( showPlanetImages, 3, 2 );
+	glayPlanetBox->addItem( planetBoxSpacer, 4, 2 );
+
+	MinorBox = new QGroupBox( i18n( "Minor Planets" ), PlanetTab, "MinorBox" );
+	vlayMinorBox = new QVBoxLayout( MinorBox );
+	glayMinorBox = new QGridLayout( 2, 2 );
+	vlayMinorBox->setSpacing( 6 );
+	vlayMinorBox->setMargin( 11 );
+	
+	showAsteroids = new QCheckBox( i18n( "Asteroids" ), MinorBox, "show_asteroids" );
+	showAsteroids->setFont( stdFont );
+	showAsteroids->setChecked( ksw->options()->drawAsteroids );
+	
+	showAsteroidNames = new QCheckBox( i18n( "Asteroid names" ), MinorBox, "show_asteroid_names" );
+	showAsteroidNames->setFont( stdFont );
+	showAsteroidNames->setChecked( ksw->options()->drawAsteroidName );
+	
+	showComets = new QCheckBox( i18n( "Comets" ), MinorBox, "show_comets" );
+	showComets->setFont( stdFont );
+	showComets->setChecked( ksw->options()->drawComets );
+	
+	showCometNames = new QCheckBox( i18n( "Comet names" ), MinorBox, "show_comet_names" );
+	showCometNames->setFont( stdFont );
+	showCometNames->setChecked( ksw->options()->drawCometName );
+	
+	glayMinorBox->addWidget( showAsteroids, 0, 0 );
+	glayMinorBox->addWidget( showComets, 1, 0 );
+	glayMinorBox->addWidget( showAsteroidNames, 0, 1 );
+	glayMinorBox->addWidget( showCometNames, 1, 1 );
+	
 	QSpacerItem *spacerPlanetTab  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-
-	glayPlanetTab->addWidget( showSun, 0, 0 );
-	glayPlanetTab->addWidget( showMoon, 1, 0 );
-	glayPlanetTab->addWidget( showMercury, 2, 0 );
-	glayPlanetTab->addWidget( showVenus, 3, 0 );
-	glayPlanetTab->addWidget( showMars, 4, 0 );
-	glayPlanetTab->addWidget( showJupiter, 0, 1 );
-	glayPlanetTab->addWidget( showSaturn, 1, 1 );
-	glayPlanetTab->addWidget( showUranus, 2, 1 );
-	glayPlanetTab->addWidget( showNeptune, 3, 1 );
-	glayPlanetTab->addWidget( showPluto, 4, 1 );
-	glayPlanetTab->addItem( smallSpacerLeft, 5, 0 );
-	glayPlanetTab->addItem( smallSpacerRight, 5, 1 );
-	glayPlanetTab->addWidget( showAll, 6, 0 );
-	glayPlanetTab->addWidget( showNone, 6, 1 );
-
-	vlayPlanetTab->addLayout( glayPlanetTab );
-	vlayPlanetTab->addItem( smallSpacerVert );
-	vlayPlanetTab->addWidget( showPlanetNames );
-	vlayPlanetTab->addWidget( showPlanetImages );
+	QSpacerItem *spacerPlanetBox  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+	QSpacerItem *spacerMinorBox   = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+	
+	vlayPlanetBox->addItem( spacerPlanetBox );
+	vlayPlanetBox->addLayout( glayPlanetBox );
+	vlayMinorBox->addItem( spacerMinorBox );
+	vlayMinorBox->addLayout( glayMinorBox );
+	
+	vlayPlanetTab->addWidget( PlanetBox );
+	vlayPlanetTab->addWidget( MinorBox );
+	
 	vlayPlanetTab->addItem( spacerPlanetTab );
 
 	DisplayTabs->insertTab( PlanetTab, i18n( "Solar System" ) );
@@ -617,6 +655,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( showNone, SIGNAL( clicked() ), this, SLOT( unMarkPlanets() ) );
 	connect( showPlanetNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showPlanetImages, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( showAsteroids, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( showAsteroidNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( showComets, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( showCometNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 
 //Guide Tab
 	connect( showConstellLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -849,6 +891,10 @@ void ViewOpsDialog::updateDisplay( void ) {
 			sender()->name() == QString( "show_uranus" ) ||
 			sender()->name() == QString( "show_neptune" ) ||
 			sender()->name() == QString( "show_pluto" ) ||
+			sender()->name() == QString( "show_asteroids" ) ||
+			sender()->name() == QString( "show_asteroid_names" ) ||
+			sender()->name() == QString( "show_comets" ) ||
+			sender()->name() == QString( "show_comet_names" ) ||
 			sender()->name() == QString( "show_planet_names" ) ||
 			sender()->name() == QString( "show_planet_images" ) ||
 			sender()->name() == QString( "show_all_planets" ) ||
@@ -891,6 +937,10 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->drawUranus = showUranus->isChecked();
 	ksw->options()->drawNeptune = showNeptune->isChecked();
 	ksw->options()->drawPluto = showPluto->isChecked();
+	ksw->options()->drawAsteroids = showAsteroids->isChecked();
+	ksw->options()->drawComets = showComets->isChecked();
+	ksw->options()->drawAsteroidName = showAsteroidNames->isChecked();
+	ksw->options()->drawCometName = showCometNames->isChecked();
 	ksw->options()->drawPlanetName = showPlanetNames->isChecked();
 	ksw->options()->drawPlanetImage = showPlanetImages->isChecked();
 
@@ -989,7 +1039,7 @@ void ViewOpsDialog::markPlanets( void ) {
 void ViewOpsDialog::unMarkPlanets( void ) {
 	showSun->setChecked( false );
 	showMoon->setChecked( false );
-	showMercury->setChecked( false );
+ 	showMercury->setChecked( false );
 	showVenus->setChecked( false );
 	showMars->setChecked( false );
 	showJupiter->setChecked( false );

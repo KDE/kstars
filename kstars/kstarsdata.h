@@ -34,6 +34,8 @@
 #include "starobject.h"
 #include "kstarsoptions.h"
 #include "ksplanet.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
 #include "kspluto.h"
 #include "kssun.h"
 #include "ksmoon.h"
@@ -52,6 +54,7 @@
 #define NSAOFILES 40
 #define NMWFILES  11
 #define NNGCFILES 13
+#define NTYPENAME 11
 
 class KStandardDirs;
 class FileSource;
@@ -178,6 +181,9 @@ public:
 		*/
 	bool readDeepSkyData( void );
 
+	bool readAsteroidData( void );
+	bool readCometData( void );
+	
 	/**Read in Constellation line data.  The constellations are represented as a list of
 		*SkyPoints and an associated list of chars that indicates whether to draw a line
 		*between points (i) and (i+1) or to simply move to point (i+1). The lines are parsed
@@ -312,7 +318,9 @@ public:
 		*2 calculations of daylight saving change time.
 		*/
 	bool isTimeRunningForward() { return TimeRunsForward; }
-
+	
+	bool isSolarSystem( SkyObject *obj );
+	
 	KLocale *getLocale() { return locale; };
 
 	KSPlanet *earth() { return PC->earth(); }
@@ -442,13 +450,18 @@ private:
   /** List of all deep sky objects per type, to speed up drawing the sky map */
 	QList<SkyObject> deepSkyListOther;
 
+	QList<KSAsteroid> asteroidList;
+	QList<KSComet> cometList;
+	
+	QList<SkyPoint> MilkyWay[NMWFILES];
+	
 	QList<SkyPoint> clineList;
 	QList<QChar> clineModeList;
 	QList<SkyObject> cnameList;
+	
 	QList<SkyPoint> Equator;
 	QList<SkyPoint> Ecliptic;
 	QList<SkyPoint> Horizon;
-	QList<SkyPoint> MilkyWay[11];
 	QList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	QList<SkyPoint> PlanetTrail;
@@ -468,7 +481,7 @@ private:
 	int ZoomLevel;
 	KLocale *locale;
 
-	QString TypeName[10];
+	QString TypeName[NTYPENAME];
 	KKey resumeKey;
 
 	PlanetCatalog *PC;

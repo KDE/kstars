@@ -416,6 +416,8 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==6 ) return i18n( "Planetary Nebula" );
 	else if ( Type==7 ) return i18n( "Supernova Remnant" );
 	else if ( Type==8 ) return i18n( "Galaxy" );
+	else if ( Type==9 ) return i18n( "Comet" );
+	else if ( Type==10 ) return i18n( "Asteroid" );
 	else return i18n( "Unknown Type" );
 }
 

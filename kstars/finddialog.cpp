@@ -53,7 +53,9 @@ FindDialog::FindDialog( QWidget* parent )
 	filterType->insertItem( i18n ("Plan. Nebulae") );
 	filterType->insertItem( i18n ("SN Remnants") );
 	filterType->insertItem( i18n ("Galaxies") );
-	
+	filterType->insertItem( i18n ("Comets") );
+	filterType->insertItem( i18n ("Asteroids") );
+
 	SearchList = new QListBox( page, "SearchList" );
 	SearchList->setMinimumWidth( 256 );
 	SearchList->setMinimumHeight( 320 );

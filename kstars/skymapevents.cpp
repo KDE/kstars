@@ -505,12 +505,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			
 			//test RA and dec to see if this star is roughly nearby
 			
-			//REVERTED...remove comments after 1/1/2003
-			//ARRAY:
 			for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
 				SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
-			//for ( register unsigned int i=0; i<ksw->data()->StarCount; ++i ) {
-			//	SkyObject *test = (SkyObject *)&(ksw->data()->starArray[i]);
 
 				double dRA = test->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = test->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -548,6 +544,36 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			}
 		}
 
+		//Asteroids
+		if ( ksw->options()->drawAsteroids ) {
+			for ( KSAsteroid *ast = ksw->data()->asteroidList.first(); ast; ast = ksw->data()->asteroidList.next() ) {
+				//test RA and dec to see if this object is roughly nearby
+				double dRA = ast->ra()->Hours() - clickedPoint()->ra()->Hours();
+				double dDec = ast->dec()->Degrees() - clickedPoint()->dec()->Degrees();
+				double f = 15.0*cos( ast->dec()->radians() );
+				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+				if ( r < rsolar_min ) {
+					solarminobj = ast;
+					rsolar_min = r;
+				}
+			}
+		}
+		
+		//Comets
+		if ( ksw->options()->drawComets ) {
+			for ( KSComet *com = ksw->data()->cometList.first(); com; com = ksw->data()->cometList.next() ) {
+				//test RA and dec to see if this object is roughly nearby
+				double dRA = com->ra()->Hours() - clickedPoint()->ra()->Hours();
+				double dDec = com->dec()->Degrees() - clickedPoint()->dec()->Degrees();
+				double f = 15.0*cos( com->dec()->radians() );
+				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+				if ( r < rsolar_min ) {
+					solarminobj = com;
+					rsolar_min = r;
+				}
+			}
+		}
+
 //Next, search for nearest deep-sky object within r0
 		double rmess_min = r0;
 		double rngc_min = r0;
@@ -564,10 +590,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					( ksw->options()->drawMessier || ksw->options()->drawMessImages ) ) checkObject = true;
 			if ( o->isCatalogNGC() && ksw->options()->drawNGC ) checkObject = true;
 			if ( o->isCatalogIC() && ksw->options()->drawIC ) checkObject = true;
-			if ( o->catalog().isEmpty() && ksw->options()->drawOther ) checkObject = true;
+			if ( ! o->catalog().isEmpty() && ksw->options()->drawOther ) checkObject = true;
 
 			if ( checkObject ) {
-				//test RA and dec to see if this star is roughly nearby
+				//test RA and dec to see if this object is roughly nearby
 				double dRA = o->ra()->Hours() - clickedPoint()->ra()->Hours();
 				double dDec = o->dec()->Degrees() - clickedPoint()->dec()->Degrees();
 				double f = 15.0*cos( o->dec()->radians() );
@@ -856,8 +882,8 @@ void SkyMap::drawBoxes( QPixmap *pm ) {
 
 void SkyMap::paintEvent( QPaintEvent * )
 {
-  KStarsData* data = ksw->data();
-  KStarsOptions* options = ksw->options();
+	KStarsData* data = ksw->data();
+	KStarsOptions* options = ksw->options();
 
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
 	if (!computeSkymap)
@@ -941,9 +967,9 @@ void SkyMap::paintEvent( QPaintEvent * )
   drawPlanetTrail(psky );
   drawSolarSystem(psky, drawPlanets );
   drawHorizon(psky, stdFont );
+	
 	//Draw a Field-of-View indicator
-	//if ( options->drawFOV )
-		drawTargetSymbol( psky, options->targetSymbol );
+	drawTargetSymbol( psky, options->targetSymbol );
 
 	//Finish up
 	psky.end();
@@ -1545,41 +1571,41 @@ void SkyMap::drawPlanetTrail(QPainter& psky)
 }
 
 
-void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets)
+void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets )
 {
-  KStarsData* data = ksw->data();
-  KStarsOptions* options = ksw->options();
+	KStarsData* data = ksw->data();
+	KStarsOptions* options = ksw->options();
 
 	//Draw Sun
 	if ( options->drawSun && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
+		drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
 	}
 
 	//Draw Moon
 	if ( options->drawMoon && drawPlanets ) {
-	  	drawPlanet(psky, data->Moon, QColor( "White" ), 8, 2.5, -1 );
+		drawPlanet(psky, data->Moon, QColor( "White" ), 8, 2.5, -1 );
 	}
 
 	//Draw Mercury
 	if ( options->drawMercury && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4 );
+		drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4 );
 	}
 
 	//Draw Venus
 	if ( options->drawVenus && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2 );
+		drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2 );
 	}
 
 	//Draw Mars
 	if ( options->drawMars && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2 );
+		drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2 );
 	}
 
 	//Draw Jupiter
 	if ( options->drawJupiter && drawPlanets ) {
 		drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
 		
-		//Draw moons
+		//Draw Jovian moons
 		psky.setPen( QPen( QColor( "white" ) ) );
 		if ( data->ZoomLevel > 5 ) {
 			for ( int i=0; i<5; ++i ) {
@@ -1595,24 +1621,85 @@ void SkyMap::drawSolarSystem(QPainter& psky, bool drawPlanets)
 
 	//Draw Saturn
 	if ( options->drawSaturn && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2 );
+		drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2 );
 	}
 
 	//Draw Uranus
 	if ( options->drawUranus && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 4, 0.007, 2 );
+		drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 4, 0.007, 2 );
 	}
 
 	//Draw Neptune
 	if ( options->drawNeptune && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 4, 0.0035, 2 );
+		drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 4, 0.0035, 2 );
 	}
 
 	//Draw Pluto
 	if ( options->drawPluto && drawPlanets ) {
-	  	drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 0.001, 4 );
+		drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 0.001, 4 );
+	}
+
+	//Draw Asteroids
+	if ( options->drawAsteroids && drawPlanets ) {
+		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+			psky.setPen( QPen( QColor( "gray" ) ) );
+			psky.setBrush( QBrush( QColor( "gray" ) ) );
+			//if ( data->ZoomLevel > 3 ) {
+				QPoint o = getXY( ast, options->useAltAz, options->useRefraction );
+
+				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
+						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
+					
+					int size = int( 0.05 * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] );
+					if ( size < 2 ) size = 2;
+					int x1 = o.x() - size/2;
+					int y1 = o.y() - size/2;
+					psky.drawEllipse( x1, y1, size, size );
+				
+					//draw Name
+					if ( ksw->options()->drawAsteroidName ) {
+						int offset( int( 0.5*size ) );
+						if ( offset < 2 ) offset = 2;
+
+						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
+						psky.drawText( o.x()+offset, o.y()+offset, ast->translatedName() );
+					}
+				}
+			//}
+		}
+	}
+
+	//Draw Comets
+	if ( options->drawComets && drawPlanets ) {
+		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+			psky.setPen( QPen( QColor( "cyan4" ) ) );
+			psky.setBrush( QBrush( QColor( "cyan4" ) ) );
+			//if ( data->ZoomLevel > 3 ) {
+				QPoint o = getXY( com, options->useAltAz, options->useRefraction );
+
+				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
+						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
+					
+					int size = int( 0.05 * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] );
+					if ( size < 2 ) size = 2;
+					int x1 = o.x() - size/2;
+					int y1 = o.y() - size/2;
+					psky.drawEllipse( x1, y1, size, size );
+					
+					//draw Name
+					if ( ksw->options()->drawCometName ) {
+						int offset( int( 0.5*size ) );
+						if ( offset < 2 ) offset = 2;
+
+						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
+						psky.drawText( o.x()+offset, o.y()+offset, com->translatedName() );
+					}
+				}
+			//}
+		}
 	}
 }
+
 	//Label the clicked Object...commenting out for now
 	//I'd like the text to "fade out", but this will require masking the skymap image
   //and updating just the portion of the label on a more rapid timescale than the rest

@@ -72,9 +72,11 @@ private:
   QHBoxLayout *hlayDrawLimit, *hlayLabelLimit, *hlayCatButtons;
 	QVBoxLayout *vlayStarsBox, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab, *vlayAdvancedTab;
 	QVBoxLayout *vlayLeftBox, *vlayRightBox, *DisplayBoxLayout, *vlayAdvHideObj;
-	QGridLayout *glayPlanetTab, *glayAdvHideObj;
+	QVBoxLayout *vlayPlanetBox, *vlayMinorBox;
+	QGridLayout *glayPlanetBox, *glayMinorBox, *glayAdvHideObj;
 
 	QGroupBox  *DisplayBox, *StarsBox, *LeftBox, *RightBox, *HideBox;
+	QGroupBox  *PlanetBox, *MinorBox;
 	QTabWidget *DisplayTabs;
 	QWidget    *CatalogTab, *GuideTab, *PlanetTab, *ColorTab, *AdvancedTab;
 	
@@ -108,7 +110,7 @@ private:
 	QCheckBox *showMercury, *showVenus, *showMars, *showJupiter;
 	QCheckBox *showSaturn, *showUranus, *showNeptune, *showPluto;
 	QCheckBox *showPlanetNames, *showPlanetImages;
-
+	QCheckBox *showAsteroids, *showComets, *showAsteroidNames, *showCometNames;
 	QCheckBox *useRefraction, *animateSlewing, *hideObjects;
 	QCheckBox *hideStars, *hidePlanets, *hideMess, *hideNGC, *hideIC;
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;

@@ -117,6 +117,7 @@ public:
 /**@returns object's type identifier
 	*/
 	int type( void ) const { return Type; }
+	void setType( int t ) { Type = t; }
 
 /**@returns a string describing object's type
         */

@@ -136,8 +136,12 @@ class KStarsOptions {
 		bool drawUranus;
 		bool drawNeptune;
 		bool drawPluto;
+		bool drawAsteroids;
+		bool drawComets;
 		bool drawStarName;
 		bool drawPlanetName;
+		bool drawAsteroidName;
+		bool drawCometName;
 		bool drawPlanetImage;
 		bool drawStarMagnitude;	
 		bool drawPlanets;  //Meta-option to control all planets with viewToolBar button
