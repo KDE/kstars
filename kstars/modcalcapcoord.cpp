@@ -22,10 +22,14 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
-#include "qcheckbox.h"
+#include <qcheckbox.h>
+#include <qradiobutton.h>
 #include <klineedit.h>
 #include <qdatetimeedit.h>
+#include <qtextstream.h>
 #include <klocale.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h
 
@@ -131,7 +135,6 @@ void modCalcApCoord::slotUtCheckedBatch(){
 		utBoxBatch->setEnabled( false );
 	else {
 		utBoxBatch->setEnabled( true );
-//		utB = utBoxBatch->time();
 	}
 }
 
@@ -141,7 +144,6 @@ void modCalcApCoord::slotDateCheckedBatch(){
 		dateBoxBatch->setEnabled( false );
 	else {
 		dateBoxBatch->setEnabled( true );
-//		dtB = dateBoxBatch->time();
 	}
 }
 
@@ -151,7 +153,6 @@ void modCalcApCoord::slotRaCheckedBatch(){
 		raBoxBatch->setEnabled( false );
 	else {
 		raBoxBatch->setEnabled( true );
-//		ra0B = raBoxBatch->createDms(FALSE);
 	}
 }
 
@@ -161,7 +162,6 @@ void modCalcApCoord::slotDecCheckedBatch(){
 		decBoxBatch->setEnabled( false );
 	else {
 		decBoxBatch->setEnabled( true );
-//		dec0B = decBoxBatch->createDms();
 	}
 }
 
@@ -171,6 +171,163 @@ void modCalcApCoord::slotEpochCheckedBatch(){
 		epochBoxBatch->setEnabled( false );
 	else {
 		epochBoxBatch->setEnabled( true );
-//		epoch0B = epochBoxBatch.toDouble();
 	}
+}
+
+void modCalcApCoord::slotInputFile() {
+	QString inputFileName;
+	inputFileName = KFileDialog::getOpenFileName( );
+	InputLineEditBatch->setText( inputFileName );
+}
+
+void modCalcApCoord::slotOutputFile() {
+	QString outputFileName;
+	outputFileName = KFileDialog::getSaveFileName( );
+	OutputLineEditBatch->setText( outputFileName );
+}
+
+void modCalcApCoord::slotRunBatch() {
+
+	QString inputFileName;
+
+	inputFileName = InputLineEditBatch->text();
+
+	// We open the input file and read its content
+
+	if ( QFile::exists(inputFileName) ) {
+		QFile f( inputFileName );
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1"
+			).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			inputFileName = "";
+			return;
+		}
+
+//		processLines(&f);
+		QTextStream istream(&f);
+		processLines(istream);
+//		readFile( istream );
+		f.close();
+	} else  {
+		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+		inputFileName = "";
+		InputLineEditBatch->setText( inputFileName );
+		return;
+	}
+}
+
+//void modCalcApCoord::processLines( const QFile * fIn ) {
+void modCalcApCoord::processLines( QTextStream &istream ) {
+
+	// we open the output file
+
+//	QTextStream istream(&fIn);
+	QString outputFileName;
+	outputFileName = OutputLineEditBatch->text();
+	QFile fOut( outputFileName );
+	fOut.open(IO_WriteOnly);
+	QTextStream ostream(&fOut);
+
+	QString line;
+	QString space = " ";
+	int i = 0;
+	long double jd, jd0;
+	SkyPoint sp;
+	QTime utB;
+	QDate dtB;
+	dms raB, decB;
+	double epoch0B;
+
+	while ( ! istream.eof() ) {
+		line = istream.readLine();
+		line.stripWhiteSpace();
+
+		//Go through the line, looking for parameters
+
+		QStringList fields = QStringList::split( " ", line );
+
+		i = 0;
+
+		// Read Ut and write in ostream if corresponds
+
+		if(utCheckBatch->isChecked() ) {
+			utB = QTime::fromString( fields[i] );
+			i++;
+		} else
+			utB = utBoxBatch->time();
+
+		if ( allRadioBatch->isChecked() )
+			ostream << utB.toString() << space;
+		else
+			if(utCheckBatch->isChecked() )
+				ostream << utB.toString() << space;
+
+		// Read date and write in ostream if corresponds
+
+		if(dateCheckBatch->isChecked() ) {
+			dtB = QDate::fromString( fields[i] );
+			i++;
+		} else
+			dtB = dateBoxBatch->date();
+
+		if ( allRadioBatch->isChecked() )
+			ostream << dtB.toString().append(space);
+		else
+			if(dateCheckBatch->isChecked() )
+				ostream << dtB.toString().append(space);
+
+		// Read RA and write in ostream if corresponds
+
+		if(raCheckBatch->isChecked() ) {
+			raB = dms::fromString( fields[i],FALSE);
+			i++;
+		} else
+			raB = raBoxBatch->createDms(FALSE);
+
+		if ( allRadioBatch->isChecked() )
+			ostream << raB.toHMSString() << space;
+		else
+			if(raCheckBatch->isChecked() )
+				ostream << raB.toHMSString() << space;
+
+		// Read DEC and write in ostream if corresponds
+
+		if(decCheckBatch->isChecked() ) {
+			decB = dms::fromString( fields[i], TRUE);
+			i++;
+		} else
+			decB = decBoxBatch->createDms();
+
+		if ( allRadioBatch->isChecked() )
+			ostream << decB.toDMSString() << space;
+		else
+			if(decCheckBatch->isChecked() )
+				ostream << decB.toHMSString() << space;
+
+		// Read Epoch and write in ostream if corresponds
+
+		if(epochCheckBatch->isChecked() ) {
+			epoch0B = fields[i].toDouble();
+			i++;
+		} else
+			epoch0B = getEpoch( epochBoxBatch->text() );
+
+		if ( allRadioBatch->isChecked() )
+			ostream << epoch0B;
+		else
+			if(decCheckBatch->isChecked() )
+				ostream << epoch0B;
+
+		jd = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jd0 = epochToJd ( epoch0B );
+		sp = SkyPoint (raB, decB);
+		sp.apparentCoord(jd0, jd);
+
+		ostream << sp.ra()->toHMSString() << sp.dec()->toDMSString() << endl;
+	}
+
+
+	fOut.close();
 }
