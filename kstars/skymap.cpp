@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -636,10 +635,6 @@ void SkyMap::slotInfo( int id ) {
 void SkyMap::slotBeginAngularDistance(void) {
 	angularDistanceMode = true;
 	setPreviousClickedPoint( mousePoint() );
-//		cout << previousClickedPoint()->ra()->hour() << ":" <<
-//			previousClickedPoint()->ra()->minute() << ":" <<
-//			previousClickedPoint()->ra()->second() << endl ;
-
 }
 
 void SkyMap::slotEndAngularDistance(void) {
