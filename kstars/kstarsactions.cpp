@@ -74,40 +74,33 @@ void KStars::slotGeoLocator() {
 
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
-			geo()->reset( data()->geoList.at(ii) );
-			options()->setCityName( geo()->name() );
-			options()->setProvinceName( geo()->province() );
-			options()->setCountryName( geo()->country() );
+			GeoLocation *newLocation = data()->geoList.at(ii);
 
-//			infoPanel->geoChanged(geo());
-			infoBoxes()->geoChanged(geo());
+			// first check if daylight saving time is active otherwise TZ() is undefined
+			newLocation->tzrule()->setDST( newLocation->tzrule()->isDSTActive( data()->LTime ) );
 
-			// Adjust Local time for new time zone (but we aren't sure about DST yet)
-			data()->LTime.setDate( data()->UTime.date() );
-			data()->LTime.setTime( data()->UTime.time() );
-			data()->LTime = data()->LTime.addSecs( int(geo()->TZ()*3600) );
-
-//Set DST, if necessary
-			geo()->tzrule()->setDST( geo()->tzrule()->isDSTActive( data()->LTime ) );
+			// Adjust universal time for new location with current set local time
+			clock->setUTC( data()->LTime.addSecs( int( -3600 * newLocation->TZ() ) ) );
+			data()->UTime = clock->UTC();
 
 			//compute JD for the next DST adjustment
-			QDateTime changetime = geo()->tzrule()->nextDSTChange( data()->LTime );
-			data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+			QDateTime changetime = newLocation->tzrule()->nextDSTChange( data()->LTime );
+			data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * newLocation->TZ())) );
 
 			//compute JD for the previous DST adjustment
-			changetime = geo()->tzrule()->previousDSTChange( data()->LTime );
-			data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+			changetime = newLocation->tzrule()->previousDSTChange( data()->LTime );
+			data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * newLocation->TZ())) );
 
-			//Set local time again, this time using correct DST setting
-			data()->LTime.setDate( data()->UTime.date() );
-			data()->LTime.setTime( data()->UTime.time() );
-			data()->LTime = data()->LTime.addSecs( int(geo()->TZ()*3600) );
-
-			data()->LST = KSUtils::UTtoLST( data()->UTime, geo()->lng() );
+			//Set local sidereal time
+			data()->LST = KSUtils::UTtoLST( data()->UTime, newLocation->lng() );
 			data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 			data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
 
-      //need to recompute Alt/Az coordinates of all objects, so
+			// set new location to options data and infoboxes
+			options()->setLocation( *newLocation );
+			infoBoxes()->geoChanged( newLocation );
+
+			//need to recompute Alt/Az coordinates of all objects, so
 			//adjust LastSkyUpdate to ensure computation.  Then
 			//explicitly call updateTime()
 			data()->LastSkyUpdate -= 1.0; // a full day, should be plenty
