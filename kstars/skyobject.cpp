@@ -23,6 +23,7 @@
 #include "ksutils.h"
 #include "dms.h"
 #include "geolocation.h"
+#include <iostream>
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
@@ -80,17 +81,26 @@ QTime SkyObject::riseSetTime( long double jd, const GeoLocation *geo, bool rst )
 }
 
 QTime SkyObject::riseSetTimeUT( long double jd, const GeoLocation *geo, bool riseT) {
+	// First trial to calculate UT
+	
 	QTime UT = auxRiseSetTimeUT(jd, geo, ra(), dec(), riseT);
 
 	// We iterate once more using the calculated UT to compute again
-	// the ra and dec and hence the rise time.
+	// the ra and dec for that time and hence the rise/set time.
+
 	long double jd0 = newJDfromJDandUT( jd, UT );
 	SkyPoint sp = getNewCoords( jd, jd0, geo );
 
-	const dms *ram = sp.ra0();
-	const dms *decm = sp.dec0();
+	UT = auxRiseSetTimeUT(jd0, geo, sp.ra(), sp.dec(), riseT);
 
-	UT = auxRiseSetTimeUT(jd0, geo, ram, decm, riseT);
+	// We iterate a second time (For the Moon the second iteration changes
+	// aprox. 1.5 arcmin the coordinates).
+	
+	jd0 = newJDfromJDandUT( jd0, UT );
+	sp = getNewCoords( jd, jd0, geo );
+
+	UT = auxRiseSetTimeUT(jd0, geo, sp.ra(), sp.dec(), riseT);
+
 	return UT;
 }
 
@@ -256,10 +266,10 @@ dms SkyObject::elevationCorrection(void) {
 	 * is needed.
 	 */
 
-	if ( name() == "Sun"  )
+	if ( name() == "Sun" || name() == "Moon" )
 		return dms(-0.8333);
-	else if ( name() == "Moon" )
-		return dms(0.125);       
+//	else if ( name() == "Moon" )
+//		return dms(0.125);       
 	else                             // All sources point-like.
 		return dms(-0.5667);
 }
@@ -274,6 +284,7 @@ SkyPoint SkyObject::getNewCoords(long double jd, long double jd0, const GeoLocat
 	// compute coords for new time jd0
 	KSNumbers *num0 = new KSNumbers(jd0);
 	if ( isSolarSystem() && geo ) {
+//		KSPlanetBase *ksp = ksp(,);
 		dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( jd0 ), geo->lng() );
 		updateCoords( num0, true, geo->lat(), &LST );
 	} else {
@@ -281,8 +292,7 @@ SkyPoint SkyObject::getNewCoords(long double jd, long double jd0, const GeoLocat
 	}
 	delete num0;
 
-	const dms *ram = ra();
-	const dms *decm = dec();
+	SkyPoint sp = SkyPoint(ra(), dec());
 
 	// restore coords to original time jd
 	KSNumbers *num = new KSNumbers(jd);
@@ -294,7 +304,7 @@ SkyPoint SkyObject::getNewCoords(long double jd, long double jd0, const GeoLocat
 	}
 	delete num;
 
-	return SkyPoint(ram, decm);
+	return sp;
 }
 
 bool SkyObject::checkCircumpolar( const dms *gLat ) {
