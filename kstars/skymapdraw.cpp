@@ -668,7 +668,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 	}
 	
 	//Attach a label to the centered object
-	if ( foundObject() != NULL /*&& ksw->options()->labelFoundObject */ ) {
+	if ( foundObject() != NULL && ksw->options()->useAutoLabel ) {
 		QPoint o = getXY( foundObject(), ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) 
 			drawNameLabel( psky, foundObject(), o.x(), o.y(), scale );
@@ -732,7 +732,7 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 			firstPoint = true;
 		}
 		
-		psky.setPen( tcolor1 );
+		psky.setPen( QPen( tcolor1, 1 ) );
 		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
 			if ( options->fadePlanetTrails ) {
 				//Define interpolated color
@@ -740,10 +740,10 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
 							(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
 							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
-				psky.setPen( tcolor );
 				++i;
+				psky.setPen( QPen( tcolor, 1 ) );
 			}
-
+			
 			o = getXY( p, options->useAltAz, options->useRefraction, scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 				

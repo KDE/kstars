@@ -73,11 +73,11 @@ private:
   QHBoxLayout *hlayDrawLimit, *hlayLabelLimit, *hlayCatButtons;
 	QVBoxLayout *vlayStarsBox, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab, *vlayAdvancedTab;
 	QVBoxLayout *vlayLeftBox, *vlayRightBox, *DisplayBoxLayout, *vlayAdvHideObj;
-	QVBoxLayout *vlayPlanetBox, *vlayMinorBox;
-	QGridLayout *glayPlanetBox, *glayMinorBox, *glayAdvHideObj;
+	QVBoxLayout *vlayPlanetBox, *vlayMinorBox, *vlayTrailBox;
+	QGridLayout *glayPlanetBox, *glayMinorBox, *glayTrailBox, *glayAdvHideObj;
 
 	QGroupBox  *DisplayBox, *StarsBox, *LeftBox, *RightBox, *HideBox;
-	QGroupBox  *PlanetBox, *MinorBox;
+	QGroupBox  *PlanetBox, *MinorBox, *TrailBox;
 	QTabWidget *DisplayTabs;
 	QWidget    *CatalogTab, *GuideTab, *PlanetTab, *ColorTab, *AdvancedTab;
 	
@@ -112,7 +112,8 @@ private:
 	QCheckBox *showSaturn, *showUranus, *showNeptune, *showPluto;
 	QCheckBox *showPlanetNames, *showPlanetImages;
 	QCheckBox *showAsteroids, *showComets, *showAsteroidNames, *showCometNames;
-	QCheckBox *useRefraction, *animateSlewing, *fadePlanetTrails, *hideObjects;
+	QCheckBox *fadePlanetTrails, *autoTrail;
+	QCheckBox *useRefraction, *animateSlewing, *autoLabel, *hideObjects;
 	QCheckBox *hideStars, *hidePlanets, *hideMess, *hideNGC, *hideIC;
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 
@@ -129,8 +130,9 @@ private:
 	
 	QPushButton *AddPreset, *RemovePreset;
 	QPushButton *showAll, *showNone;
-  QPushButton *AddCatalog, *RemoveCatalog;
-
+	QPushButton *AddCatalog, *RemoveCatalog;
+	QPushButton *ClearAllTrails;
+	
 	QButtonGroup *CoordsGroup;
 	QRadioButton *EquatRadio;
 	QRadioButton *AltAzRadio;
@@ -247,6 +249,15 @@ private slots:
 
 	void selectCatalog( void );
 
+	/**Toggle whether trails are added to centered planet.
+		*The actual option toggle is handled bu updateDisplay().  
+		*Here, we just check to see if there is currently a temporaryTrail (or if one is needed)
+		*/
+	void changeAutoTrail( void );
+	
+	/**Remove all planet trails
+		*/
+	void clearPlanetTrails( void );
 /**
 	*emit signal clearCache.
 	*@see signals: clearCache()

@@ -164,6 +164,7 @@ void SkyMap::slotCenter( void ) {
 
 	//If foundObject is a SS body and doesn't already have a trail, set the temporaryTrail
 	if ( foundObject() && ksw->data()->isSolarSystem( foundObject() ) 
+			&& ksw->options()->useAutoTrail  
 			&& ! ((KSPlanetBase*)foundObject())->hasTrail() ) { 
 		((KSPlanetBase*)foundObject())->addToTrail();
 		ksw->data()->temporaryTrail = true;

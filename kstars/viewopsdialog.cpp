@@ -284,6 +284,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	glayPlanetBox->addWidget( showPlanetImages, 3, 2 );
 	glayPlanetBox->addItem( planetBoxSpacer, 4, 2 );
 
+	//Minor Planets
 	MinorBox = new QGroupBox( i18n( "Minor Planets" ), PlanetTab, "MinorBox" );
 	vlayMinorBox = new QVBoxLayout( MinorBox );
 	glayMinorBox = new QGridLayout( 3, 3 );
@@ -337,17 +338,44 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	glayMinorBox->addWidget( astNameSpinBox, 1, 2 );
 	glayMinorBox->addWidget( comNameSpinBox, 2, 2 );
 	
+	//Planet Trails
+	TrailBox = new QGroupBox( i18n( "Planetary Trails" ), PlanetTab, "TrailBox" );
+	vlayTrailBox = new QVBoxLayout( TrailBox );
+	glayTrailBox = new QGridLayout( 2, 2 );
+	vlayTrailBox->setSpacing( 6 );
+	vlayTrailBox->setMargin( 11 );
+	
+	autoTrail = new QCheckBox( i18n( "Always show Trail when tracking a solar system body" ), TrailBox );
+	autoTrail->setFont( stdFont );
+	autoTrail->setChecked( ksw->options()->useAutoTrail );
+	
+	fadePlanetTrails = new QCheckBox( i18n( "Planet trails fade to background color" ), TrailBox );
+	fadePlanetTrails->setFont( stdFont );
+	fadePlanetTrails->setChecked( ksw->options()->fadePlanetTrails );
+	
+	ClearAllTrails = new QPushButton( i18n( "Remove All Trails" ), TrailBox );
+	ClearAllTrails->setFont( stdFont );
+	
+	glayTrailBox->addWidget( autoTrail, 0, 0 );
+	glayTrailBox->addWidget( fadePlanetTrails, 1, 0 );
+	glayTrailBox->addItem( new QSpacerItem( 20, 10, QSizePolicy::Minimum, QSizePolicy::Minimum ), 0, 1 );
+	glayTrailBox->addWidget( ClearAllTrails, 1, 1 );
+	
 	QSpacerItem *spacerPlanetTab  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerPlanetBox  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerMinorBox   = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+	QSpacerItem *spacerTrailBox   = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	
 	vlayPlanetBox->addItem( spacerPlanetBox );
 	vlayPlanetBox->addLayout( glayPlanetBox );
 	vlayMinorBox->addItem( spacerMinorBox );
 	vlayMinorBox->addLayout( glayMinorBox );
+	vlayTrailBox->addItem( spacerTrailBox );
+	vlayTrailBox->addLayout( glayTrailBox );
 	
 	vlayPlanetTab->addWidget( PlanetBox );
 	vlayPlanetTab->addWidget( MinorBox );
+	vlayPlanetTab->addWidget( TrailBox );
 	
 	vlayPlanetTab->addItem( spacerPlanetTab );
 
@@ -547,9 +575,9 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setFont( stdFont );
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
-	fadePlanetTrails = new QCheckBox( i18n( "Planet trails fade to background color" ), AdvancedTab );
-	fadePlanetTrails->setFont( stdFont );
-	fadePlanetTrails->setChecked( ksw->options()->fadePlanetTrails );
+	autoLabel = new QCheckBox( i18n( "Attach label to centered object" ), AdvancedTab );
+	autoLabel->setFont( stdFont );
+	autoLabel->setChecked( ksw->options()->useAutoLabel );
 
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
 	hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
@@ -641,7 +669,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	vlayAdvancedTab->addWidget( useRefraction );
 	vlayAdvancedTab->addWidget( animateSlewing );
-	vlayAdvancedTab->addWidget( fadePlanetTrails );
+	vlayAdvancedTab->addWidget( autoLabel );
 	vlayAdvancedTab->addSpacing( 20 );
 	vlayAdvancedTab->addWidget( hideObjects );
 	vlayAdvancedTab->addLayout( hlayAdvHideTimeScale );
@@ -694,6 +722,9 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( astDrawSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeAstDrawMagLimit( int ) ) );
 	connect( astNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeAstNameMagLimit( int ) ) );
 	connect( comNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeComNameMaxRad( int ) ) );
+	connect( autoTrail, SIGNAL( clicked() ), this, SLOT( changeAutoTrail() ) );
+	connect( fadePlanetTrails, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( ClearAllTrails, SIGNAL( clicked() ), this, SLOT( clearPlanetTrails() ) );
 
 //Guide Tab
 	connect( showConstellLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -723,7 +754,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 //Advanced Tab
 	connect( useRefraction, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( animateSlewing, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
-	connect( fadePlanetTrails, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( autoLabel, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hideSpinBox, SIGNAL( scaleChanged( float ) ), this, SLOT( changeSlewTimeScale( float ) ) );
 	connect( hideObjects, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hideStars, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -982,8 +1013,12 @@ void ViewOpsDialog::updateDisplay( void ) {
 
 	showAsteroidNames->setEnabled( showAsteroids->isChecked() );
 	showCometNames->setEnabled( showComets->isChecked() );
+	astDrawSpinBox->setEnabled( showAsteroids->isChecked() );
 	astNameSpinBox->setEnabled( showAsteroids->isChecked() && showAsteroidNames->isChecked() );
 	comNameSpinBox->setEnabled( showComets->isChecked() && showCometNames->isChecked() );
+
+	ksw->options()->fadePlanetTrails = fadePlanetTrails->isChecked();
+	ksw->options()->useAutoTrail = autoTrail->isChecked();
 
 //Guides Tab
 	ksw->options()->drawConstellLines = showConstellLines->isChecked();
@@ -1006,7 +1041,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	//Advanced Tab
 	ksw->options()->useRefraction = useRefraction->isChecked();
 	ksw->options()->useAnimatedSlewing = animateSlewing->isChecked();
-	ksw->options()->fadePlanetTrails = fadePlanetTrails->isChecked();
+	ksw->options()->useAutoLabel = autoLabel->isChecked();
 	ksw->options()->hideOnSlew = hideObjects->isChecked();
 	ksw->options()->hideStars = hideStars->isChecked();
 	ksw->options()->hidePlanets = hidePlanets->isChecked();
@@ -1174,4 +1209,42 @@ void ViewOpsDialog::changeSlewTimeScale( float f ) {
 		hideSpinBox->tsbox()->changeScale( 0.0 );
 	}
 	ksw->options()->slewTimeScale = f;
+}
+
+void ViewOpsDialog::changeAutoTrail( void ) {
+	if ( ksw->data()->isSolarSystem( ksw->map()->foundObject() ) ) {
+		if ( autoTrail->isChecked() ) {
+			//add the temporary trail
+			((KSPlanetBase*)ksw->map()->foundObject())->addToTrail();
+			ksw->data()->temporaryTrail = true;
+		} else {
+			//remove the temporary trail
+			((KSPlanetBase*)ksw->map()->foundObject())->clearTrail();
+			ksw->data()->temporaryTrail = false;
+		}
+	}
+	
+	updateDisplay();
+}
+
+void ViewOpsDialog::clearPlanetTrails( void ) {
+	//remove each solar system body's trail
+	ksw->data()->PC->findByName("Sun")->clearTrail();
+	ksw->data()->PC->findByName("Mercury")->clearTrail();
+	ksw->data()->PC->findByName("Venus")->clearTrail();
+	ksw->data()->Moon->clearTrail();
+	ksw->data()->PC->findByName("Mars")->clearTrail();
+	ksw->data()->PC->findByName("Jupiter")->clearTrail();
+	ksw->data()->PC->findByName("Saturn")->clearTrail();
+	ksw->data()->PC->findByName("Uranus")->clearTrail();
+	ksw->data()->PC->findByName("Neptune")->clearTrail();
+	ksw->data()->PC->findByName("Pluto")->clearTrail();
+
+	for ( KSPlanetBase *ksp = ksw->data()->asteroidList.first(); ksp; ksp = ksw->data()->asteroidList.next() ) 
+		ksp->clearTrail();
+
+	for ( KSPlanetBase *ksp = ksw->data()->cometList.first(); ksp; ksp = ksw->data()->cometList.next() ) 
+		ksp->clearTrail();
+
+	ksw->map()->Update();
 }

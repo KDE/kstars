@@ -89,6 +89,7 @@ public:
 	friend class elts;   
 	friend class KSPopupMenu;
 	friend class WUTDialog;
+	friend class ViewOpsDialog;
 
 	/**Constructor. */
 	KStarsData( KStars *ks );

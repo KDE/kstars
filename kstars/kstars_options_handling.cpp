@@ -153,6 +153,8 @@ void KStars::loadOptions()
 	options()->windowHeight = conf->readNumEntry( "windowHeight", 600 );
 	options()->useRefraction = conf->readBoolEntry( "UseRefraction", true );
 	options()->useAnimatedSlewing = conf->readBoolEntry( "AnimateSlewing", true );
+	options()->useAutoLabel       = conf->readBoolEntry( "UseAutoLabel", true );
+	options()->useAutoTrail       = conf->readBoolEntry( "UseAutoTrail", true );
 	options()->fadePlanetTrails   = conf->readBoolEntry( "FadePlanetTrails", true );
 	options()->hideOnSlew  = conf->readBoolEntry( "HideOnSlew", true );
 	options()->hideStars   = conf->readBoolEntry( "HideStars", true );
@@ -285,6 +287,8 @@ void KStars::saveOptions() {
 	conf->writeEntry( "drawStarMagnitude",   options()->drawStarMagnitude );
 	conf->writeEntry( "UseRefraction", options()->useRefraction );
 	conf->writeEntry( "AnimateSlewing", options()->useAnimatedSlewing );
+	conf->writeEntry( "UseAutoLabel", options()->useAutoLabel );
+	conf->writeEntry( "UseAutoTrail", options()->useAutoTrail );
 	conf->writeEntry( "FadePlanetTrails", options()->fadePlanetTrails );
 	conf->writeEntry( "HideOnSlew", options()->hideOnSlew );
 	conf->writeEntry( "HideStars", options()->hideStars );
