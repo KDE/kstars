@@ -28,7 +28,6 @@
 #include "focusdialog.h"
 #include "viewopsdialog.h"
 #include "astrocalc.h"
-//#include "infopanel.h"
 #include "infoboxes.h"
 #include "ksutils.h"
 
@@ -37,6 +36,7 @@
 /** ViewToolBar Action.  All of the viewToolBar buttons are connected to this slot. **/
 
 void KStars::slotViewToolBar() {
+
 	if ( sender()->name() == QString( "show_stars" ) ) {
 		options()->drawSAO = !options()->drawSAO;
 	} else if ( sender()->name() == QString( "show_deepsky" ) ) {
@@ -54,6 +54,13 @@ void KStars::slotViewToolBar() {
 	} else if ( sender()->name() == QString( "show_horizon" ) ) {
 		options()->drawGround = !options()->drawGround;
 	}
+
+	// force a recomputing of coordinates because some objects may not be initalized and will not
+	// shown after activating
+	// TK: normally this is just needed if Alt/Az coordinates are used and if something will enabled
+	// but I think it's better at every change with every coordinate system to update
+	data()->LastSkyUpdate = -1000000.0;
+	updateTime();
 
 	map()->Update();
 }
