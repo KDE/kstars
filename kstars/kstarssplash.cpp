@@ -53,6 +53,7 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	label = new QLabel( page, "label1" );
 	QPalette pal( label->palette() );
 	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "Black" ) );
+	pal.setColor( QPalette::Inactive, QColorGroup::Background, QColor( "Black" ) );
 	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "White" ) );
 	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "White" ) );
 	label->setPalette( pal );

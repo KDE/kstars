@@ -473,6 +473,8 @@ bool KStarsData::readStarData( void ) {
 	bool ready = false;
 
 	for (unsigned int i=1; i<NHIPFILES+1; ++i) {
+		emit progressText( i18n( "Loading Star Data (%1%)" ).arg( int(100.*float(i)/float(NHIPFILES)) ) );
+		
 		if (openStarFile(i) == true) {
 			while (starFileReader->hasMoreLines()) {
 				QString line;
@@ -774,6 +776,8 @@ bool KStarsData::readDeepSkyData( void ) {
 		QString snum, fname;
 		snum = QString().sprintf( "%02d", i+1 );
 		fname = "ngcic" + snum + ".dat";
+
+		emit progressText( i18n( "Loading NGC/IC Data (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			KSFileReader fileReader( file ); // close file is included
@@ -1571,7 +1575,7 @@ void KStarsData::slotInitialize() {
 
 		case 2: //Load stellar database//
 
-			emit progressText(i18n("Loading Star Data" ) );
+			emit progressText(i18n("Loading Star Data (%1%)" ).arg(0) );
 			if ( !readStarData( ) )
 				initError( "hipN.dat", true );
 			if (!readVARData())
@@ -1582,7 +1586,7 @@ void KStarsData::slotInitialize() {
 
 		case 3: //Load NGC/IC database//
 
-			emit progressText( i18n("Loading NGC/IC Data" ) );
+			emit progressText( i18n("Loading NGC/IC Data (%1%)" ).arg(0) );
 			if ( !readDeepSkyData( ) )
 				initError( "ngcicN.dat", true );
 			break;
