@@ -74,7 +74,6 @@ KStars::KStars( KStarsData* kstarsData )
 	skymap->setMinimumSize( 380, 250 );
 	skymap->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
 
-
 // create the layout of the central widget
 	QVBoxLayout *topLayout = new QVBoxLayout( centralWidget );
 	topLayout->addWidget( infoPanel );
@@ -638,6 +637,8 @@ void KStars::initLocation() {
 		KMessageBox::sorry( 0, message, i18n( "No location set" ) );
 		Location = new GeoLocation();
 	}
+// With KDE 3 this needs explicite set (why?)
+	((KStars*) kapp)->setLocation( Location );
 }
 
 void KStars::initAltAz()

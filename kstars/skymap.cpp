@@ -45,7 +45,7 @@
 #include "addlinkdialog.h"
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
- : QWidget (parent,name), downloads (0), computeSkymap (true)
+ : QWidget (parent,name), ClickedObject(0), FoundObject(0), downloads (0), computeSkymap (true)
 {
 	ksw = (KStars*) kapp->mainWidget();
 

@@ -680,6 +680,7 @@ void KStarsData::setMagnitude( float newMagnitude ) {
 	*/
 	if ( newMagnitude > maxSetMagnitude )
 		reloadStarData( newMagnitude );
+	qDebug( "KStars::setMagnitude" );
 
 // change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar( newMagnitude );

@@ -103,6 +103,11 @@ class KStars : public KMainWindow
 			*/
 		GeoLocation* geo( void ) const { return Location; }
 
+		/**
+			*@sets Location new (currently needed by kapp->geo())
+			*/
+		void setLocation( GeoLocation *l ) { Location = l; }
+
 		/**Display object name and coordinates in the KStars infoPanel
 			*/
 		void showFocusCoords( void );
