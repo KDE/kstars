@@ -38,7 +38,7 @@
 #endif /* LOCKING */
 
 #ifdef __linux__
-  #if defined(arm) || defined(__hppa__)
+  #if defined(arm) || defined(__hppa__) || defined(__sparc__) || defined(__ppc__) || defined(__powerpc__)
   #include <fcntl.h>
   #else
   #include <sys/io.h>
@@ -74,7 +74,7 @@ port_t::port_t(int iport) {
 #endif /* LOCKING */
 
 #ifdef LINUX
-#if defined(arm) || defined(__hppa__)
+#if defined(arm) || defined(__hppa__) || defined(__sparc__) || defined(__ppc__) || defined(__powerpc__)
   if ((devport = open("/dev/port", O_RDWR)) < 0) {
     perror("open /dev/port");
     return;
@@ -118,7 +118,7 @@ port_t::~port_t(void) {
   unlock(port);
 #endif /* LOCKING */
 #ifdef LINUX
-#if defined(arm) || defined(__hppa__)
+#if defined(arm) || defined(__hppa__) || defined(__sparc__) || defined(__ppc__) || defined(__powerpc__)
   if (devport >= 0)
     close(devport);
 #else
