@@ -91,7 +91,7 @@ static int createKMessageBox(KDialogBase *dialog, QMessageBox::Icon icon,
 
     if (!details.isEmpty())
     {
-       QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details:"), dialog);
+       QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), dialog);
        QLabel *label3 = new QLabel(details, detailsGroup);
        label3->setMinimumSize(label3->sizeHint());
        dialog->setDetailsWidget(detailsGroup);
