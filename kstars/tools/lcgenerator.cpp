@@ -228,6 +228,8 @@ void LCGenerator::VerifyData()
     bool AverageDaysOK;
 
     // Get initial user input
+    if ( StartDateIn->text().isEmpty() ) StartDateIn->setText( i18n( "default" ) );
+    if ( EndDateIn->text().isEmpty() ) EndDateIn->setText( i18n( "default" ) );
     InitialStartDate     = StartDateIn->text().lower();
     InitialEndDate       = EndDateIn->text().lower();
     AverageDays       =  AverageDayIn->text();
