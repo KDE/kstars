@@ -138,10 +138,35 @@ devices:</para>
 <entry>fliccd</entry>
 <entry>0.1</entry>
 </row>
+<row>
+<entry>Apogee CCDs</entry>
+<entry>apogee_ppi, apogee_pci, apogee_isa, apogee_usb</entry>
+<entry>0.1</entry>
+</row>
 </tbody>
 </tgroup>
 </table>
 
+<table id="filter-table" pgwide="1" frame="all">
+  <title>Supported Filter Wheels</title>
+  <tgroup cols="3" colsep="1" rowsep="1">
+    <thead>
+      <row>
+	<entry>Filter Wheel</entry>
+	<entry>Device driver</entry>
+	<entry>Version</entry>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+	<entry>FLI Filter Wheels</entry>
+	<entry>fliwheel</entry>
+	<entry>0.1</entry>
+      </row>
+    </tbody>
+  </tgroup>
+  </table>
+  
 <para></para>
 <table id="video-table" pgwide="1" frame="all">
 <title>Supported Webcams</title>
@@ -376,7 +401,7 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 
 <para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
 
-<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars FITSViewer. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
 
 <important>
 <para>The FLICCD driver requires root privilges in order to operate properly. Note that running the driver as root is considered a security risk</para>

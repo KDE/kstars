@@ -62,6 +62,7 @@
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-observinglist SYSTEM "observinglist.docbook">
+  <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
