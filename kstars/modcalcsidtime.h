@@ -20,11 +20,7 @@
 
 #include <qvbox.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
-#include <kapplication.h>  
-#endif
+#include <kapplication.h>
 
 /**
   * Class which implements the KStars calculator module to compute Universal

@@ -20,14 +20,10 @@
 
 #include <qvbox.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
 #include <qdatetimeedit.h>
-#endif
 
-/** Module to compute the equatorial coordinates for a given date and time 
+/** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
   *@author Pablo de Vicente
   */
@@ -84,12 +80,7 @@ private:
 	dmsBox *azSetBox, *azRiseBox, *elTransitBox, *longBox, *latBox;
 	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
 //	QTimeEdit *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
-#if (QT_VERSION < 300)
-	timeBox *datBox;
-#else
 	QDateEdit *datBox;
-#endif
-
 	GeoLocation *geoPlace;
 };
 

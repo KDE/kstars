@@ -23,11 +23,7 @@
 #include "skypoint.h"
 #include "ksutils.h"
 
-#if (QT_VERSION < 300)
-#include "timebox.h"
-#else
 #include <qdatetimeedit.h>
-#endif
 
 #include <qgroupbox.h>
 #include <qlayout.h>
@@ -66,22 +62,14 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal Time","UT:") );
-#if (QT_VERSION < 300)
-	timBox = new timeBox(d0Box,"timeBox");
-#else
 	timBox = new QTimeEdit(d0Box,"timeBox");
-#endif
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Date:") );
-#if (QT_VERSION < 300)
-	datBox = new timeBox(d1Box,"dateBox",FALSE);
-#else
 	datBox = new QDateEdit(d1Box,"dateBox");
-#endif
 
 	showCurrentTime();
 
@@ -180,23 +168,13 @@ void modCalcApCoord::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-#if (QT_VERSION < 300)
-	datBox->showDate( dt.date() );
-	timBox->showTime( dt.time() );
-#else
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
-#endif
-
 }
 
 QDateTime modCalcApCoord::getQDateTime (void)
 {
-#if (QT_VERSION < 300)
-	QDateTime dt ( datBox->createDate() , timBox->createTime() );
-#else
 	QDateTime dt ( datBox->date() , timBox->time() );
-#endif
 
 	return dt;
 }
@@ -243,13 +221,8 @@ void modCalcApCoord::slotClearCoords(){
 	rafBox->clearFields();
 	decfBox->clearFields();
 	epoch0Name->setText("");
-#if (QT_VERSION < 300)
-	datBox->clearFields();
-	timBox->clearFields();
-#else
 	datBox->setDate(QDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
-#endif
 }
 
 void modCalcApCoord::slotComputeCoords(){

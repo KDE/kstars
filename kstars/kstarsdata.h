@@ -47,12 +47,7 @@
 #include "detaildialog.h"
 #include "jupitermoons.h"
 
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <qlist.h>
-#else 
 #include <qptrlist.h>
-#endif
 
 class KStandardDirs;
 class FileSource;

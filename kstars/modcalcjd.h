@@ -20,11 +20,7 @@
 
 #include <qvbox.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
@@ -40,13 +36,8 @@ class VBox;
 class QLineEdit;
 class QRadioButton;
 class QDateTime;
-#if (QT_VERSION < 300)
-class timeBox;
-#else
 class QTimeEdit;
 class QDateEdit;
-#endif
-
 
 class modCalcJD : public QVBox
 {
@@ -77,13 +68,8 @@ private:
 	QVBox *rightBox;
 	QLineEdit *JdName, *MjdName, *DayName, *MonthName, *YearName;
 	QRadioButton *JdRadio, *MjdRadio, *DateRadio;
-#if (QT_VERSION < 300)
-	timeBox *timBox, *datBox;
-#else
 	QTimeEdit *timBox;
 	QDateEdit *datBox;
-#endif
-
 };
 
 #endif

@@ -66,11 +66,8 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	QLabel * dateLabel = new QLabel(InputBox);
 	dateLabel->setText( i18n( "Date:") );
-#if (QT_VERSION < 300)
-	datBox = new timeBox(InputBox,"dateBox",FALSE);
-#else
+
 	datBox = new QDateEdit(QDate::currentDate(), InputBox, "dateBox");
-#endif
 
 	showCurrentDate();
  	initGeo();
@@ -183,12 +180,7 @@ modCalcDayLength::~modCalcDayLength(){
 void modCalcDayLength::showCurrentDate (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
-
-#if (QT_VERSION < 300)
-	datBox->showDate( dt.date() );
-#else
 	datBox->setDate( dt.date() );
-#endif
 }
 
 void modCalcDayLength::initGeo(void)
@@ -215,12 +207,7 @@ void modCalcDayLength::getGeoLocation (void)
 
 QDateTime modCalcDayLength::getQDateTime (void)
 {
-#if (QT_VERSION < 300)
-	QDateTime dt ( datBox->createDate() , QTime(8,0,0) );
-#else
 	QDateTime dt ( datBox->date() , QTime(8,0,0) );
-#endif
-
 	return dt;
 }
 
@@ -240,13 +227,9 @@ void modCalcDayLength::slotClearCoords(){
 	elTransitBox->clearFields();
 
 	// reset to current date
-#if (QT_VERSION < 300)
-	datBox->showDate(QDate::currentDate());
-#else
 	datBox->setDate(QDate::currentDate());
-#endif
 
-	// reset times to 00:00:00
+// reset times to 00:00:00
 /*	QTime time(0,0,0);
 	setTimeBox->setTime(time);
 	riseTimeBox->setTime(time);

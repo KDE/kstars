@@ -48,9 +48,7 @@
 #include "dmsbox.h"
 
 #include <qglobal.h>
-#if (QT_VERSION > 299)
 #include <qmemarray.h>
-#endif
 
 class QVBoxLayout;
 class QHBoxLayout;

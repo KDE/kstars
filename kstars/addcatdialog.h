@@ -20,11 +20,7 @@
 
 #include <qglobal.h>
 
-#if (QT_VERSION <= 299)
-#include <qlist.h>
-#else
 #include <qptrlist.h>
-#endif
 
 #include <kdialogbase.h>
 #include <klineedit.h>

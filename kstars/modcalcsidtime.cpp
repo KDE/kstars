@@ -95,34 +95,27 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * dateLabel = new QLabel(d0Box);
 	dateLabel->setText( i18n( "Date:") );
-#if (QT_VERSION < 300)
-	datBox = new timeBox(d0Box,"dateBox",FALSE);
-#else
 	datBox = new QDateEdit(d0Box,"dateBox");
-#endif
 
 	D0Lay->addWidget(l0Box);
 	D0Lay->addWidget(d0Box);
 
-// Input for Ut	
+// Input for Ut
 
 	QGroupBox *UtimeBox = new QGroupBox (rightBox);
 	UtimeBox->setTitle( i18n("Universal Time"));
-	
+
 	QHBox *Ut0Box = new QHBox (UtimeBox);
 	Ut0Box->setMaximumWidth(110);
-	
+
 	QLabel * UtLabel = new QLabel( Ut0Box);
 	UtLabel->setText( i18n("Universal Time","UT:") );
-#if (QT_VERSION < 300)
-	UtBox = new timeBox( Ut0Box, "UtBox" );
-#else
 	UtBox = new QTimeEdit( Ut0Box, "UtBox" );
-#endif
+
 	QHBoxLayout * UtLay = new QHBoxLayout( UtimeBox);
 	UtLay->setSpacing(6);
 	UtLay->setMargin(20);
-	
+
 	UtLay->addWidget ( Ut0Box);
 
 // Input for St	
@@ -135,12 +128,9 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 	
 	QLabel * StLabel = new QLabel( St0Box );
 	StLabel->setText( i18n("Sidereal Time","ST:") );
-#if (QT_VERSION < 300)
-	StBox = new timeBox( St0Box, "StBox" );
-#else
+
 	StBox = new QTimeEdit( St0Box, "StBox" );
-#endif
-		
+
 	QHBoxLayout * StLay = new QHBoxLayout( StimeBox);
 	StLay->setSpacing(6);
 	StLay->setMargin(20);
@@ -193,11 +183,7 @@ modCalcSidTime::~modCalcSidTime(void) {
 void modCalcSidTime::showCurrentTimeAndLong (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
-#if (QT_VERSION < 300)
-	datBox->showDate( dt.date() );
-#else
 	datBox->setDate( dt.date() );
-#endif
 	showUT( dt.time() );
 
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
@@ -231,52 +217,32 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 
 void modCalcSidTime::showUT ( QTime dt )
 {
-#if (QT_VERSION < 300)
-	UtBox->showTime( dt );
-#else
 	UtBox->setTime( dt );
-#endif
 }
 
 void modCalcSidTime::showST ( QTime dt )
 {
-#if (QT_VERSION < 300)
-	StBox->showTime( dt );
-#else
 	StBox->setTime( dt );
-#endif
 }
 
 QTime modCalcSidTime::getUT (void) 
 {
 	QTime dt;
-#if (QT_VERSION < 300)
-	dt = UtBox->createTime();
-#else
 	dt = UtBox->time();
-#endif
 	return dt;
 }
 
 QTime modCalcSidTime::getST (void) 
 {
 	QTime dt;
-#if (QT_VERSION < 300)
-	dt = StBox->createTime();
-#else
 	dt = StBox->time();
-#endif
 	return dt;
 }
 
 QDate modCalcSidTime::getDate (void) 
 {
 	QDate dt;
-#if (QT_VERSION < 300)
-	dt = datBox->createDate();
-#else
 	dt = datBox->date();
-#endif
 	return dt;
 }
 
@@ -288,15 +254,10 @@ dms modCalcSidTime::getLongitude (void)
 }
 
 void modCalcSidTime::slotClearFields(){
-#if (QT_VERSION < 300)
-	UtBox->clearFields();
-	StBox->clearFields();
-#else
 	datBox->setDate(QDate::currentDate());
 	QTime time(0,0,0);
 	UtBox->setTime(time);
 	StBox->setTime(time);
-#endif
 }
 
 void modCalcSidTime::slotComputeTime(){

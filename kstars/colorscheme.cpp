@@ -19,22 +19,12 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-
-
-#if ( QT_VERSION < 300 )
-#include <kstddirs.h>
-#else
 #include <kstandarddirs.h>
-#endif
 
 #include "ksutils.h"
 #include "colorscheme.h"
 
-#if (QT_VERSION < 300)
-typedef QStringList::ConstIterator SL_it;
-#else
 typedef QStringList::const_iterator SL_it;
-#endif
 
 ColorScheme::ColorScheme(){
 	//Each color has two names associated with it.  The KeyName is its

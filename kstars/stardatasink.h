@@ -32,11 +32,7 @@
 #include "starobject.h"
 
 #include <qglobal.h>
-#if (QT_VERSION > 299)
 #include <qptrlist.h>
-#else
-#include <qlist.h>
-#endif
 
 class KStarsData;
 

@@ -51,11 +51,6 @@ int main(int argc, char *argv[])
 
 	KApplication a;
 
-#if (QT_VERSION <= 299)
-	a.dcopClient()->attach();
-	a.dcopClient()->registerAs("kstars");
-#endif
-
 	KStars *kstars = new KStars( true );
 
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));

@@ -63,11 +63,7 @@ class ColorScheme {
 
 		void saveToConfig( KConfig* );
 
-#if (QT_VERSION < 300)
-		unsigned int numberOfColors() const { return (int)Palette.count(); }
-#else
 		unsigned int numberOfColors() const { return (int)Palette.size(); }
-#endif
 
 		int starColorMode() const { return StarColorMode; }
 

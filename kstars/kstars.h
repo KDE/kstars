@@ -37,15 +37,9 @@
 #include <qwidget.h>
 #include <qpoint.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#include <kstddirs.h>
-#include <qlist.h>
-#else
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <qptrlist.h>
-#endif
 
 #include "skymap.h"
 #include "geolocation.h"

@@ -18,12 +18,7 @@
  * @author Mark Hollomon mhh@mindpsring.com
  */
 
-
-#if (QT_VERSION <=299)
-#include <kstddirs.h>
-#else
 #include <kstandarddirs.h>
-#endif
 
 #include "dms.h"
 #include "ksutils.h"

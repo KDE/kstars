@@ -25,11 +25,7 @@
 #include "kstarsmessagebox.h"
 #include "locationdialog.h"
 
-#if (QT_VERSION <= 299)
-#include <kstddirs.h>
-#else
 #include <kstandarddirs.h>
-#endif
 
 LocationDialog::LocationDialog( QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "Set Geographic Location" ), Ok|Cancel, Ok, parent ) {

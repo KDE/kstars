@@ -22,10 +22,8 @@
 #include "finddialog.h"
 #include "kstars.h"
 
-#if (QT_VERSION > 299)
 #include <qptrlist.h>
-#endif
-
+ 
 FindDialog::FindDialog( QWidget* parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ) {
 	
