@@ -9,7 +9,7 @@ MX  May  1Sun  02:00  Sep   Sun  02:00
 
 #"EU": DST starts on the last Sunday of March, reverts on last 
 #      Sunday of October (1:00 am)
-EU  Mar   Sun  01:00  Oct   Sun  01:00
+EU  Mar   Sun  02:00  Oct   Sun  03:00
 
 #"RU": Same as EU but changes at 2:00 instead of 1:00 (Russia)
 RU  Mar   Sun  02:00  Oct   Sun  02:00
