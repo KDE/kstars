@@ -1094,12 +1094,12 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 		if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawStar() - Options::magLimitDrawStarZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 		float sizeFactor = 6.0 + (lgz - lgmin);
 
-		//Need a pen color for the multiple star and variable star indicators
-		switch( Options::starColorMode() ) {
-			case 1 : psky.setPen( Qt::red ); break;
-			case 2 : psky.setPen( Qt::black ); break;
-			default: psky.setPen( Qt::white ); break;
-		}
+//		//Need a pen color for the multiple star and variable star indicators
+//		switch( data->colorScheme()->starColorMode() ) {
+//			case 1 : psky.setPen( Qt::red ); break;
+//			case 2 : psky.setPen( Qt::black ); break;
+//			default: psky.setPen( Qt::white ); break;
+//		}
 
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
@@ -1188,10 +1188,6 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 								bColorChanged = true;
 							}
 	
-							//DEBUG
-							if ( obj->name() == "M 31" )
-							  qDebug( "M 31 PA: %f  %f", PositionAngle, obj->pa() );
-
 							obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), scale );
 	
 							// revert temporary color change
