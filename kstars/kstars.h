@@ -75,10 +75,10 @@ class KStars : public KMainWindow
 		SkyMap *skymap;
 		SkyPoint focus, oldfocus;
 		dms LSTh;
-		QLabel 		*FocusObject, *FocusRADec, *FocusAltAz;
+		QLabel 		*FocusObject, *FocusRA, *FocusDec, *FocusAz, *FocusAlt;
 
 		QString TypeName[10];
-    QString CurrentPosition;
+		QString CurrentRA, CurrentDec;
 		GeoLocation *geo;
 		
 		KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo, *actHandbook;
@@ -128,6 +128,7 @@ class KStars : public KMainWindow
 		QHBoxLayout *iplay;
 		QGridLayout *coolay;
 		QVBoxLayout *tlablay, *timelay, *datelay, *focuslay, *geolay;
+		QHBoxLayout *radeclay, *altazlay;
 		
 		QFrame    *infoPanel;
 		QLabel			*LT, *UT, *LTLabel, *UTLabel;

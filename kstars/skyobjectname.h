@@ -35,7 +35,7 @@ class SkyObjectName {
 		~SkyObjectName();
 
 		QString text() { return Text; }
-		QString translatedText() { return i18n( Text.utf8().data()); }
+		QString translatedText() { return i18n( Text.local8Bit().data()); }
 		SkyObject *skyObject() { return skyobject; }
 		
 	private:

@@ -166,10 +166,10 @@ void SkyMap::slotCenter( void ) {
 	int dm = abs( clickedPoint.getDec().getArcMin() );
 	int ds = abs( clickedPoint.getDec().getArcSec() );
 
-	ksw->CurrentPosition = s.sprintf( " %02d:%02d:%02d, %c%02d:%02d:%02d ",
-				clickedPoint.getRA().getHour(), clickedPoint.getRA().getHMin(), clickedPoint.getRA().getHSec(),
-				dsgn, dd, dm, ds );
-	ksw->statusBar()->changeItem( ksw->CurrentPosition, 1 );
+	ksw->CurrentRA = s.sprintf( "%02d:%02d:%02d", clickedPoint.getRA().getHour(), clickedPoint.getRA().getHMin(), clickedPoint.getRA().getHSec() );
+	ksw->CurrentDec = s.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
+	s = ksw->CurrentRA + ",  " + ksw->CurrentDec;
+	ksw->statusBar()->changeItem( s, 1 );
 
   foundObject = clickedObject;
 	if (foundObject != NULL ) { //set tracking to true
@@ -496,10 +496,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		dm = abs( MousePoint.getDec().getArcMin() );
 		ds = abs( MousePoint.getDec().getArcSec() );
 
-		ksw->CurrentPosition = dummy.sprintf( " %02d:%02d:%02d, %c%02d:%02d:%02d ",
-					MousePoint.getRA().getHour(), MousePoint.getRA().getHMin(),  MousePoint.getRA().getHSec(),
-					dsgn, dd, dm, ds );
-		ksw->statusBar()->changeItem( ksw->CurrentPosition, 1 );
+		ksw->CurrentRA = dummy.sprintf( " %02d:%02d:%02d", MousePoint.getRA().getHour(), MousePoint.getRA().getHMin(),  MousePoint.getRA().getHSec() );
+		ksw->CurrentDec = dummy.sprintf( "%c%02d:%02d:%02d ", dsgn, dd, dm, ds );
+		dummy = ksw->CurrentRA + ",  " + ksw->CurrentDec;
+		ksw->statusBar()->changeItem( dummy, 1 );
 	}
 }
 
@@ -847,8 +847,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 							setRiseSetLabels();
 
-							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 
 							//can't add links to anonymous stars, because links indexed by object name :(
 							if (clickedObject->name != "star" ) {
@@ -893,8 +893,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
-							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
 
 							itList  = clickedObject->InfoList.begin();
@@ -948,8 +948,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
-							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
 
 							itList  = clickedObject->InfoList.begin();
@@ -1003,8 +1003,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
-							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
 
               itList  = clickedObject->InfoList.begin();
@@ -1041,8 +1041,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					pmTitle->setText( i18n( "nothing" ) );
 					pmTitle2->setText( QString::null );
 					pmType->setText( QString::null );
-					pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-					pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+					pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
+					pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 
 					pmenu->popup( QCursor::pos() );
 					break;
@@ -1676,7 +1676,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	}
 
 	//Draw Pluto
-  if ( ksw->GetOptions()->drawNeptune ) {
+  if ( ksw->GetOptions()->drawPluto ) {
 		psky.setPen( QColor( "gray" ) );
 		psky.setBrush( QColor( "gray" ) );
 		QPoint o = getXY( ksw->GetData()->Pluto->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1773,7 +1773,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "N" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "North", "N" ) );
 		}
 
 		//NorthEast
@@ -1783,7 +1783,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "NE" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northeast", "NE" ) );
 		}
 
 		//East
@@ -1793,7 +1793,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "E" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "East", "E" ) );
 		}
 
 		//SouthEast
@@ -1803,7 +1803,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "SE" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southeast", "SE" ) );
 		}
 
 		//South
@@ -1813,7 +1813,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "S" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "South", "S" ) );
 		}
 
 		//SouthWest
@@ -1823,7 +1823,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "SW" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southwest", "SW" ) );
 		}
 
 		//West
@@ -1833,7 +1833,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "W" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "West", "W" ) );
 		}
 
 		//NorthWest
@@ -1843,7 +1843,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		cpoint = getXY( c, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		cpoint.setY( cpoint.y() + 20 );
 		if (cpoint.x() > 0 && cpoint.x() < width() && cpoint.y() > 0 && cpoint.y() < height() ) {
-			psky.drawText( cpoint.x(), cpoint.y(), i18n( "NW" ) );
+			psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northwest", "NW" ) );
 		}
 
 		delete c;
@@ -2194,9 +2194,8 @@ void SkyMap::showFocusCoords( void ) {
 	int dd = abs( focus.getDec().getDeg() );
 	int dm = abs( focus.getDec().getArcMin() );
 	int ds = abs( focus.getDec().getArcSec() );
-	ksw->FocusRADec->setText( s.sprintf( "RA: %02d:%02d:%02d  Dec: %c%02d:%02d:%02d ",
-					focus.getRA().getHour(), focus.getRA().getHMin(),  focus.getRA().getHSec(),
-					dsgn, dd, dm, ds ) );
+	ksw->FocusRA->setText( i18n( "Right Ascension", "RA" ) + s.sprintf( ": %02d:%02d:%02d", focus.getRA().getHour(), focus.getRA().getHMin(),  focus.getRA().getHSec() ) );
+	ksw->FocusDec->setText( i18n( "Declination", "Dec" ) +  s.sprintf( ": %c%02d:%02d:%02d", dsgn, dd, dm, ds ) );
 
 	if ( focus.getAlt().getD() < 0 ) altsgn = '-';
 	if ( focus.getAz().getD() < 0 ) azsgn = '-';
@@ -2206,9 +2205,8 @@ void SkyMap::showFocusCoords( void ) {
 	int azd = abs( focus.getAz().getDeg() );
 	int azm = abs( focus.getAz().getArcMin() );
 	int azs = abs( focus.getAz().getArcSec() );
-	ksw->FocusAltAz->setText( s.sprintf( "Alt: %c%02d:%02d:%02d  Az: %c%02d:%02d:%02d ",
-					altsgn, altd, altm, alts,
-					azsgn, azd, azm, azs ) );
+	ksw->FocusAlt->setText( i18n( "Altitude", "Alt" ) + s.sprintf( ": %c%02d:%02d:%02d", altsgn, altd, altm, alts ) );
+	ksw->FocusAz->setText( i18n( "Azimuth", "Az" ) + s.sprintf( ": %c%02d:%02d:%02d", azsgn, azd, azm, azs ) );
 }
 
 void SkyMap::addLink( void ) {

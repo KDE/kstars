@@ -66,7 +66,7 @@ KStars::KStars( KStarsData* kstarsData )
 	TypeName[6] = i18n( "planetary nebula" );
 	TypeName[7] = i18n( "supernova remnant" );
 	TypeName[8] = i18n( "galaxy" );
-	TypeName[9] = i18n( "UNUSED_TYPE" );
+	TypeName[9] = i18n( "Users should never see this", "UNUSED_TYPE" );
 
 	//resize( 640, 600 );
 	initMenuBar();
@@ -118,9 +118,9 @@ KStars::KStars( KStarsData* kstarsData )
 	iplay = new QHBoxLayout( infoPanel, 2, 2, "iplay" );
 
 	//Create Widgets to appear in the info panel
-	LTLabel = new QLabel( i18n( "LT:" ), infoPanel );
-	UTLabel = new QLabel( i18n( "UT:" ), infoPanel );
-	STLabel = new QLabel( i18n( "ST:" ), infoPanel );
+	LTLabel = new QLabel( i18n( "Local Time", "LT:" ), infoPanel );
+	UTLabel = new QLabel( i18n( "Universal Time", "UT:" ), infoPanel );
+	STLabel = new QLabel( i18n( "Sidereal Time", "ST:" ), infoPanel );
 	LTLabel->setPalette( pal );
 	UTLabel->setPalette( pal );
 	STLabel->setPalette( pal );
@@ -161,14 +161,22 @@ KStars::KStars( KStarsData* kstarsData )
 	JD->setFont( ipFont );
 
 	FocusObject = new QLabel( i18n( "Focused on: " ) + i18n( "nothing" ), infoPanel );
-	FocusRADec = new QLabel( "RA: 00:00:00  Dec: +00:00:00", infoPanel );
-	FocusAltAz = new QLabel( "Alt: +00:00:00 Az: +00:00:00", infoPanel );
+	FocusRA = new QLabel( i18n( "Right Ascension", "RA" ) + ": 00:00:00    ", infoPanel );
+	FocusDec = new QLabel( i18n( "Declination", "Dec" ) + ": +00:00:00", infoPanel );
+	FocusAz = new QLabel( i18n( "Azimuth", "Az" ) + ": +000:00:00 ", infoPanel );
+	FocusAlt = new QLabel( i18n( "Altitude", "Alt" ) + ": +00:00:00", infoPanel );
+	FocusRA->setFixedSize( FocusRA->sizeHint() );
+	FocusAz->setFixedSize( FocusAz->sizeHint() );
 	FocusObject->setPalette( pal );
-	FocusRADec->setPalette( pal );
-	FocusAltAz->setPalette( pal );
+	FocusRA->setPalette( pal );
+	FocusDec->setPalette( pal );
+	FocusAz->setPalette( pal );
+	FocusAlt->setPalette( pal );
 	FocusObject->setFont( ipFont );
-	FocusRADec->setFont( ipFont );
-	FocusAltAz->setFont( ipFont );
+	FocusRA->setFont( ipFont );
+	FocusDec->setFont( ipFont );
+	FocusAz->setFont( ipFont );
+	FocusAlt->setFont( ipFont );
 
 	PlaceName = new QLabel( i18n("nowhere"), infoPanel );
 	if ( geo->province().isEmpty() ) {
@@ -176,8 +184,8 @@ KStars::KStars( KStarsData* kstarsData )
 	} else {
 		PlaceName->setText( geo->translatedName() + ", " + geo->translatedProvince() + ",  " + geo->translatedCountry() );
 	}
-	LongLabel = new QLabel( i18n( "Long: " ), infoPanel );
-	LatLabel = new QLabel( i18n( "Lat:  " ), infoPanel );
+	LongLabel = new QLabel( i18n( "Longitude", "Long: " ), infoPanel );
+	LatLabel = new QLabel( i18n( "Latitude", "Lat:  " ), infoPanel );
 	Long = new QLabel( QString::number( geo->lng().getD(), 'f', 3 ), infoPanel );
 	Long->setAlignment( AlignRight );
 	Lat = new QLabel( QString::number( geo->lat().getD(), 'f', 3 ), infoPanel );
@@ -218,8 +226,14 @@ KStars::KStars( KStarsData* kstarsData )
 	datelay->addWidget( JD );
 
 	focuslay->addWidget( FocusObject );
-	focuslay->addWidget( FocusRADec );
-	focuslay->addWidget( FocusAltAz );
+
+	radeclay = new QHBoxLayout( focuslay, 1, "radeclay" );
+	radeclay->addWidget( FocusRA );
+	radeclay->addWidget( FocusDec );
+
+	altazlay = new QHBoxLayout( focuslay, 1, "altazlay" );
+	altazlay->addWidget( FocusAz );
+	altazlay->addWidget( FocusAlt );
 
 	geolay->addWidget( PlaceName );
 
@@ -242,8 +256,8 @@ KStars::KStars( KStarsData* kstarsData )
 		focus.setAlt( 45.0 );
 		focus.AltAzToRADec( skymap->LSTh, geo->lat() );
 
-		if ( (GetOptions()->focusObject== "star" ) ||
-		     (GetOptions()->focusObject== "nothing" ) ) {
+		if ( (GetOptions()->focusObject== i18n( "star" ) ) ||
+		     (GetOptions()->focusObject== i18n( "nothing" ) ) ) {
 			skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
 		} else {
 			skymap->clickedObject = getObjectNamed( GetOptions()->focusObject );
@@ -255,27 +269,9 @@ KStars::KStars( KStarsData* kstarsData )
 		}
 	} else {
 		skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
-//		skymap->focus.setRA( GetOptions()->focusRA );
-//		skymap->focus.setDec( GetOptions()->focusDec );
-//		skymap->focus.RADecToAltAz( skymap->LSTh, geo->lat() );
 	}
 
 	skymap->slotCenter();
-
-/*** this warning is now issued in SkyMap::slotCenter()
-//If the focus is below the horizon, we might want to issue a warning message
-	if ( GetOptions()->drawGround && skymap->focus.getAlt().getD() < 0.0 ) {
-		QString caption = i18n( "KStars pointing below horizon!" );
-		QString message = i18n( "Warning: the stored position of KStars is below the Horizon.\nWould you like me to reset the position?" );
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::Yes ) {
-			skymap->focus.setAlt( 45.0 );
-			skymap->focus.setAz( 180.0 );
-			skymap->focus.AltAzToRADec( skymap->LSTh, geo->lat() );
-			GetOptions()->isTracking = false;
-			actTrack->setIconSet( BarIcon( "unlock" ) );
-		}
-	}
-*/
 
 	skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
 	skymap->oldfocus.set( skymap->focus.getRA(), skymap->focus.getDec() );
@@ -336,7 +332,7 @@ KStars::~KStars()
 	if ( skymap->foundObject != NULL ) {
 		kapp->config()->writeEntry( "FocusObject",  skymap->foundObject->name );
 	} else {
-		kapp->config()->writeEntry( "FocusObject", "nothing" );
+		kapp->config()->writeEntry( "FocusObject", i18n( "nothing" ) );
 	}
 	kapp->config()->writeEntry( "UseAltAz", 	GetOptions()->useAltAz );
 	kapp->config()->writeEntry( "FocusRA", skymap->focus.getRA().getH() );
@@ -383,16 +379,13 @@ KStarsOptions* KStars::GetOptions()
 
 
 void KStars::initMenuBar() {
-//	QPopupMenu *p;
 	KPopupMenu *p;
 
-//	p = new QPopupMenu;
 	p = new KPopupMenu;
 	actQuit = KStdAction::quit(this, SLOT( close() ), actionCollection() );
 	actQuit->plug( p );
 	menuBar()->insertItem( i18n( "&File" ), p );
 
-//	p = new QPopupMenu;
 	p = new KPopupMenu;
 	actTimeNow = new KAction( i18n( "Set Time to &Now" ), 0, this, SLOT( mSetTimeToNow() ), actionCollection() );
 	actTimeNow->setAccel( KAccel::stringToKey( "Ctrl+N"  ) );
@@ -404,7 +397,6 @@ void KStars::initMenuBar() {
 	actTimeRun->plug( p );
 	menuBar()->insertItem( i18n( "&Time" ), p );
 
-//	p = new QPopupMenu;
 	p = new KPopupMenu;
 	p->insertItem( i18n( "&Zenith" ), this, SLOT( mZenith() ));
 	actFind = KStdAction::find( this, SLOT( mFind() ), actionCollection() );
@@ -414,8 +406,6 @@ void KStars::initMenuBar() {
 	actTrack = new KAction( i18n( "&Track Object" ), BarIcon( "unlock" ), 0, this, SLOT( mTrack() ), actionCollection() );
 	actTrack->setAccel( KAccel::stringToKey( "Ctrl+T"  ) );
 	actTrack->plug( p );
-//	int trackItemID = p->insertItem( i18n( "&Track" ), this, SLOT( mTrack() ));
-//	p->setItemEnabled( trackItemID, false );
 	p->insertSeparator();
 
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
@@ -432,7 +422,6 @@ void KStars::initMenuBar() {
 	actLocation->plug( p );
 	menuBar()->insertItem( i18n( "&Location" ), p );
 
-//	p = new QPopupMenu;
 	p = new KPopupMenu;
 //	p->insertItem( i18n( "&Reverse Video" ), this, SLOT( mReverseVideo() ));
 	actZoomIn = KStdAction::zoomIn(this, SLOT( mZoomIn() ), actionCollection() );
@@ -445,11 +434,7 @@ void KStars::initMenuBar() {
 	actViewOps->plug( p );
 	menuBar()->insertItem( i18n( "&View" ), p );
 
-//	p = helpMenu( false );
 	p = helpMenu( 0, false );
-//	actInfo = new KAction( i18n( "&AstroInfo..." ), BarIcon( "help" ), 0, this, SLOT( mAstroInfo() ), actionCollection() );
-//	actInfo->setAccel( KAccel::stringToKey( "Ctrl+A"  ) );
-//	actInfo->plug( p );
 
 	menuBar()->insertItem( i18n( "&Help" ), p );
 
@@ -489,9 +474,11 @@ void KStars::initToolBar() {
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	CurrentPosition = "     00:00:00, +00:00:00 ";
+	CurrentRA = "00:00:00";
+	CurrentDec = "  +00:00:00";
+	QString s = CurrentRA + ",  " + CurrentDec;
 
-	statusBar()->insertItem( CurrentPosition, 1, 1, true );
+	statusBar()->insertItem( s, 1, 1, true );
 	statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
 	statusBar()->setItemFixed( 1, -1 );
 }
@@ -916,7 +903,7 @@ void KStars::mGeoLocator() {
  			// Adjust Local time for new time zone
 	 		GetData()->LTime.setDate( GetData()->UTime.date() );
  			GetData()->LTime.setTime( GetData()->UTime.time() );
- 			GetData()->LTime = GetData()->LTime.addSecs( int(geo->TZ()*-3600) );
+ 			GetData()->LTime = GetData()->LTime.addSecs( int(geo->TZ()*3600) );
 
 			GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
 			skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );

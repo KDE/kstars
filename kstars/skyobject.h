@@ -101,7 +101,7 @@ public:
 /**
 	*Return translated name
 	*/
-	QString translatedName() { return i18n(name.utf8().data());}
+	QString translatedName() { return i18n(name.local8Bit().data());}
 /**
   *Return the local time that the object will rise
   *@param jd  current Julian date
