@@ -312,3 +312,23 @@ void SkyObject::setName2( const QString &name2 ) {
 	else
 		{ Name2 = 0; /*kdDebug() << "name2 saved" << endl;*/ }
 }
+
+QString SkyObject::messageFromTitle( const QString &imageTitle ) {
+	QString message = imageTitle;
+	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
+		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]" ).arg( longname() );  
+	} else if ( imageTitle == i18n( "Show SEDS Image" ) ) {
+		message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]" ).arg( longname() );
+	} else if ( imageTitle == i18n( "Show KPNO AOP Image" ) ) {
+		message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]" ).arg( longname() );
+	} else if ( imageTitle == i18n( "Show NOAO Image" ) ){
+		message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]" ).arg( longname() );
+	} else if ( imageTitle.contains( "VLT" ) ) {
+		message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]" ).arg( longname() );
+	} else if ( imageTitle.startsWith( i18n( "Show" ) ) ) {
+		message = imageTitle.mid( imageTitle.find( " " ) + 1 ); //eat first word, "Show"
+		message = longname() + ": " + message;
+	}
+	
+	return message;
+}

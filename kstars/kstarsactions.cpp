@@ -119,6 +119,8 @@ void KStars::slotCalculator() {
 void KStars::slotWizard() {
 	KSWizard wizard(this);
 	if ( wizard.exec() == QDialog::Accepted ) {
+		Options::setRunStartupWizard( false );  //don't run on startup next time
+		
 		data()->setLocation( wizard.geo() );
 
 		// reset infoboxes

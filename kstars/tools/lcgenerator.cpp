@@ -368,23 +368,23 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
 void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay)
 {
 
-        QString buf(Hostprefix);
+	QString buf(Hostprefix);
 	QString Yes("yes");
 	QString No("no");
 	
 	//FainterCheck;
 	//CCDVCheck;
-        //CCDICheck;
+	//CCDICheck;
 	//CCDRCheck;
-        //CCDBCheck;
-        //VisualCheck;
-        //DiscrepantCheck;
+	//CCDBCheck;
+	//VisualCheck;
+	//DiscrepantCheck;
     
 
-        buf.append("?"+FinalStartDate);
-        buf.append("?"+FinalEndDate);
-        buf.append("?"+FinalDesignation);
-        buf.append("?"+AverageDay);
+	buf.append("?"+FinalStartDate);
+	buf.append("?"+FinalEndDate);
+	buf.append("?"+FinalDesignation);
+	buf.append("?"+AverageDay);
 	buf.append("?"+ (FainterCheck->isOn() ? Yes : No));
 	buf.append("?"+ (CCDVCheck->isOn() ? Yes : No));
 	buf.append("?"+ (CCDICheck->isOn() ? Yes : No));
@@ -394,9 +394,10 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
 	buf.append("?"+ (DiscrepantCheck->isOn() ? Yes : No));
 	
 
-        KURL url(buf);
-        // parent of imageview is KStars
-        new ImageViewer(&url, ksw, "lightcurve");
+	KURL url(buf);
+	QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
+	// parent of imageview is KStars
+	new ImageViewer(&url, message, ksw, "lightcurve");
         
 }
 

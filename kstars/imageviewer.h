@@ -29,7 +29,7 @@
 /**@class ImageViewer
 	*@short Image viewer widget for KStars
 	*@author Thomas Kabelmann
-	*@version 0.9
+	*@version 1.0
 	*
 	*This image-viewer automatically resizes the picture. The output 
 	*works with kio-slaves and not directly with the QImage save-routines 
@@ -50,7 +50,7 @@ class ImageViewer : public KMainWindow  {
 
 	public:
 	/**Constructor. */
-		ImageViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
+		ImageViewer (const KURL *imageName, const QString &capText, QWidget *parent, const char *name = 0);
 
 	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
@@ -103,7 +103,7 @@ class ImageViewer : public KMainWindow  {
 		KPixmapIO kpix;
 		KTempFile tempfile;
 		QFile *file;
-				
+		
 		const KURL imageURL;
 		bool fileIsImage;
 		QString filename;

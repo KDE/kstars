@@ -21,17 +21,17 @@
 		</entry>
 		<entry name="ShadeTimeBox" type="Bool">
 			<label>Is the time InfoBox in the "shaded" state?</label>
-			<default>false</default>
+			<default>true</default>
 			<whatsthis>If true, the Time InfoBox will show only its top line of data.</whatsthis>
 		</entry>
 		<entry name="ShadeFocusBox" type="Bool">
 			<label>Is the focus InfoBox in the "shaded" state?</label>
-			<default>false</default>
+			<default>true</default>
 			<whatsthis>If true, the Focus InfoBox will show only its top line of data.</whatsthis>
 		</entry>
 		<entry name="ShadeGeoBox" type="Bool">
 			<label>Is the geographic InfoBox in the "shaded" state?</label>
-			<default>false</default>
+			<default>true</default>
 			<whatsthis>If true, the Geographic Location InfoBox will show only its top line of data.</whatsthis>
 		</entry>
 		<entry name="ShowInfoBoxes" type="Bool">
@@ -104,6 +104,10 @@
 		<entry name="WindowHeight" type="UInt">
 			<label>Height of main window, in pixels</label>
 			<default>600</default>
+		</entry>
+		<entry name="RunStartupWizard" type="Bool">
+			<label>Run Startup Wizard when KStars launches?</label>
+			<default>true</default>
 		</entry>
 	</group>
 

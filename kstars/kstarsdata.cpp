@@ -609,9 +609,8 @@ bool KStarsData::readStarData( void ) {
 			}  // end of while
 
 		} else { //one of the star files could not be read.
-			//maxSetMagnitude = starList.last()->mag();  // faintest star loaded (assumes stars are read in order of decreasing brightness)
-			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
-			return false;
+			if ( starList.count() ) return true;
+			else return false;
 		}
 		// magnitude level is reached
 		if (ready == true) break;
@@ -1071,7 +1070,7 @@ bool KStarsData::readUserLog(void)
 	return true;
 }
 
-bool KStarsData::readURLData( QString urlfile, int type ) {
+bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
 	QFile file;
 	if (!openURLFile(urlfile, file)) return false;
 
@@ -1088,15 +1087,18 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 			QString url = sub.mid( sub.find(':')+1 );
 	
 			SkyObjectName *sonm = ObjNames.find(name);
+			
 			if (sonm == 0) {
 				kdWarning() << k_funcinfo << name << " not found" << endl;
 			} else {
-				if ( type==0 ) { //image URL
-					sonm->skyObject()->ImageList.append( url );
-					sonm->skyObject()->ImageTitle.append( title );
-				} else if ( type==1 ) { //info URL
-					sonm->skyObject()->InfoList.append( url );
-					sonm->skyObject()->InfoTitle.append( title );
+				if ( ! deepOnly || ( sonm->skyObject()->type() > 2 && sonm->skyObject()->type() < 9 ) ) {
+					if ( type==0 ) { //image URL
+						sonm->skyObject()->ImageList.append( url );
+						sonm->skyObject()->ImageTitle.append( title );
+					} else if ( type==1 ) { //info URL
+						sonm->skyObject()->InfoList.append( url );
+						sonm->skyObject()->InfoTitle.append( title );
+					}
 				}
 			}
 		}

@@ -37,6 +37,9 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	ksw = (KStars *)parent;
 	GeoID.resize(10000);
 	
+	//Removing telescope page for now...
+	removePage( page(2) );
+	
 	//each page should have a finish button
 	for ( unsigned int i=0; i<pageCount(); ++i ) {
 		setFinishEnabled( page(i), true );
@@ -61,11 +64,18 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	}
 	Banner2->setPixmap( im );
 	
-	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
+//Uncomment if we ever need the telescope page...
+//	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
+//		imFile.close(); //Just need the filename...
+//		im.load( imFile.name() );
+//	}
+//	Banner3->setPixmap( im );
+
+	if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.name() );
 	}
-	Banner3->setPixmap( im );
+	Banner4->setPixmap( im );
 
 	//connect signals/slots
 	connect( CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
@@ -73,6 +83,7 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
+	connect( DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
 
 	//Initialize Geographic Location page
 	initGeoPage();

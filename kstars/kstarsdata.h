@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ 
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
@@ -112,7 +112,8 @@ public:
 	friend class PlanetViewer;
 	friend class JMoonTool;
 	friend class telescopeWizardProcess;
-
+	friend class KSNewStuff;
+	
 	/**Constructor. */
 	KStarsData();
 
@@ -359,7 +360,7 @@ public:
 		*@short Read in image and information URLs.
 		*@return true if data files were successfully read.
 		*/
-	bool readURLData( QString url, int type=0 );
+	bool readURLData( QString url, int type=0, bool deepOnly=false );
 
 	/**@short open a file containing URL links.
 		*@param urlfile string representation of the filename to open

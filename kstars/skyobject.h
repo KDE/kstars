@@ -235,6 +235,10 @@ public:
 	
 	const bool hasLongName() const { return LongName != 0; }
 	
+/**@short Given the Image title from a URL file, try to convert it to an image credit string.
+	*/
+	QString messageFromTitle( const QString &imageTitle );
+	
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
 	QString userLog;

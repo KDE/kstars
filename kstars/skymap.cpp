@@ -566,7 +566,9 @@ void SkyMap::slotDSS( void ) {
 
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
-	new ImageViewer (&url, this);
+	
+	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	new ImageViewer (&url, message, this);
 }
 
 void SkyMap::slotDSS2( void ) {
@@ -606,7 +608,9 @@ void SkyMap::slotDSS2( void ) {
 
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
-	new ImageViewer (&url, this);
+	
+	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	new ImageViewer (&url, message, this);
 }
 
 void SkyMap::slotInfo( int id ) {
@@ -648,10 +652,12 @@ void SkyMap::slotCancelAngularDistance(void) {
 
 void SkyMap::slotImage( int id ) {
 	QStringList::Iterator it = clickedObject()->ImageList.at(id-100);
-  QString sURL = (*it);
+	QStringList::Iterator it2 = clickedObject()->ImageTitle.at(id-100);
+	QString sURL = (*it);
+	QString message = (*it2);
 	KURL url ( sURL );
 	if (!url.isEmpty())
-		new ImageViewer (&url, this);
+		new ImageViewer (&url, clickedObject()->messageFromTitle(message), this);
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {

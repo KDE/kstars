@@ -15,10 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfont.h>
 
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <kstatusbar.h>
 #include <kio/netaccess.h>
 #include <kaction.h>
 #include <kaccel.h>
@@ -27,21 +29,27 @@
 
 #include <kapplication.h>
 
-ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
+ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *parent, const char *name)
 	: KMainWindow (parent, name), imageURL (*url), fileIsImage (false),
 	  ctrl (false), key_s (false), key_q (false), downloadJob(0)
 {
 // toolbar can dock only on top-position and can't be minimized
 // JH: easier to just disable its mobility
-	toolBar()->enableMoving( false );
+	toolBar()->setMovingEnabled( false );
 
 	KAction *action = new KAction (i18n ("Close Window"), "fileclose", KAccel::stringToKey( "Ctrl+Q" ), this, SLOT (close()), actionCollection());
 	action->plug (toolBar());
 	action = new KAction (i18n ("Save Image"), "filesave", KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
 
+	statusBar()->insertItem( capText, 0, 1, true );
+	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
+	QFont fnt = statusBar()->font();
+	fnt.setPointSize( fnt.pointSize() - 2 );
+	statusBar()->setFont( fnt );
+	
 	if (!imageURL.isValid())		//check URL
-            kdDebug()<<"URL is malformed"<<endl;
+		kdDebug()<<"URL is malformed"<<endl;
 	setCaption (imageURL.filename()); // the title of the window
 	loadImageFromURL();
 }
@@ -70,7 +78,9 @@ void ImageViewer::paintEvent (QPaintEvent *ev)
 void ImageViewer::resizeEvent (QResizeEvent *ev)
 {
 	if ( !downloadJob )  // only if image is loaded
-		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() ) );	// convert QImage to QPixmap (fastest method)
+		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
+
+	update();
 }
 
 void ImageViewer::closeEvent (QCloseEvent *ev)
@@ -158,25 +168,32 @@ void ImageViewer::showImage()
 	}
 	fileIsImage = true;	// we loaded the file and know now, that it is an image
 
-	int w = kapp->desktop()->width();	// screen width
-	int h = int ( 0.9*kapp->desktop()->height() );	// 90% of screen height (accounts for taskbar)
-	if (image.width() <= w && image.height() <= h)
-		resize ( image.width(), image.height() + toolBar()->height());	// the 32 pixel are the space of the toolbar
+	//First, if the image is less wide than the statusBar, we have to scale it up.
+	if ( image.width() < statusBar()->width() ) {
+		image.smoothScale ( statusBar()->width() , image.height() * statusBar()->width() / image.width() );
+	}
+	
+	QRect deskRect = kapp->desktop()->availableGeometry();
+	int w = deskRect.width(); // screen width
+	int h = deskRect.height(); // screen height
+	int h2 = image.height() + toolBar()->height() + statusBar()->height(); //height required for ImageViewer
+	if (image.width() <= w && h2 <= h)
+		resize ( image.width(), h2 );
 
 //If the image is larger than screen width and/or screen height, shrink it to fit the screen
 //while preserving the original aspect ratio
 
 	else if (image.width() <= w) //only the height is too large
-		resize ( int( image.width()*h/image.height() ), h );
+		resize ( int( image.width()*h/h2 ), h );
 	else if (image.height() <= h) //only the width is too large
-		resize ( w, int( image.height()*w/image.width() ) );
+		resize ( w, int( h2*w/image.width() ) );
 	else { //uh-oh...both width and height are too large.  which needs to be shrunk least?
 		float fx = float(w)/float(image.width());
-		float fy = float(h)/float(image.height());
+		float fy = float(h)/float(h2);
     if (fx > fy) //width needs to be shrunk less, so shrink to fit in height
 			resize ( int( image.width()*fy ), h );
 		else //vice versa
-			resize ( w, int( image.height()*fx ) );
+			resize ( w, int( h2*fx ) );
 	}
 
 	show();	// hide is default

@@ -522,11 +522,16 @@ void KStars::datainitFinished(bool worked) {
 
 	show();
 
-//Check whether initial position is below the horizon.
-//We used to just call slotCenter() in buildGUI() which performs this check.
-//However, on some systems, if the messagebox is shown before show() is called,
-//the program exits.  It does not crash (at least there are no error messages),
-//it simply exits.  Very strange.
+	//If this is the first startup, show the wizard
+	if ( Options::runStartupWizard() ) {
+		slotWizard();
+	}
+
+	//Check whether initial position is below the horizon.
+	//We used to just call slotCenter() in buildGUI() which performs this check.
+	//However, on some systems, if the messagebox is shown before show() is called,
+	//the program exits.  It does not crash (at least there are no error messages),
+	//it simply exits.  Very strange.
 	if ( Options::useAltAz() && Options::showGround() &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Initial Position is Below Horizon" );

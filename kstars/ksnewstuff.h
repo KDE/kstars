@@ -3,12 +3,16 @@
 
 #include <klocale.h>
 #include <kdebug.h>
+#include <qobject.h>
 
 #include <knewstuff/knewstuff.h>
-#include "kstars.h"
 
-class KSNewStuff : public KNewStuff
+class KDirWatch;
+class KStars;
+
+class KSNewStuff : public QObject, public KNewStuff
 {
+	Q_OBJECT
 	public:
 		KSNewStuff( QWidget *parent = 0 );
 		bool install( const QString &fileName );
@@ -18,6 +22,13 @@ class KSNewStuff : public KNewStuff
 			kdDebug() << i18n( "Uploading data is not possible yet!" );
 			return false;
 		}
+
+	public slots:
+		void updateData( const QString &newFile );
+
+ private:
+	KDirWatch *kdw;
+	KStars *ks;
 };
 
 #endif
