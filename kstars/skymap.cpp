@@ -586,6 +586,8 @@ void SkyMap::slewFocus( void ) {
 
 		if ( focusObject() )
 			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
+		else
+			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 
 		infoBoxes()->focusCoordChanged( focus() );
 

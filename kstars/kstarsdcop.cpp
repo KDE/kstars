@@ -40,22 +40,22 @@ void KStars::lookTowards ( const QString direction ) {
 	else if (dir == "south" || dir=="s") map()->invokeKey( KAccel::stringToKey( "S" ) );
 	else if (dir == "west"  || dir=="w") map()->invokeKey( KAccel::stringToKey( "W" ) );
 	else if (dir == "northeast" || dir=="ne") {
-		map()->setClickedObject( NULL );
+		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
 		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "southeast" || dir=="se") {
-		map()->setClickedObject( NULL );
+		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
 		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "southwest" || dir=="sw") {
-		map()->setClickedObject( NULL );
+		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
 		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "northwest" || dir=="nw") {
-		map()->setClickedObject( NULL );
+		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
 		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();

@@ -46,7 +46,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
-	bool stopTracking( false );
+	bool arrowKeyPressed( false );
 	float step = 1.0;
 	if ( e->state() & ShiftButton ) step = 2.0;
 
@@ -67,7 +67,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
-			stopTracking = true;
+			arrowKeyPressed = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -81,7 +81,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
-			stopTracking = true;
+			arrowKeyPressed = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -97,7 +97,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
-			stopTracking = true;
+			arrowKeyPressed = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -113,7 +113,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
-			stopTracking = true;
+			arrowKeyPressed = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -130,32 +130,27 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 //In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
-			setClickedObject( NULL );
-			setFocusObject( NULL );
+			stopTracking();
 			setDestinationAltAz( 15.0, 0.0 );
 			break;
 
 		case Key_E: //center on east horizon
-			setClickedObject( NULL );
-			setFocusObject( NULL );
+			stopTracking();
 			setDestinationAltAz( 15.0, 90.0 );
 			break;
 
 		case Key_S: //center on south horizon
-			setClickedObject( NULL );
-			setFocusObject( NULL );
+			stopTracking();
 			setDestinationAltAz( 15.0, 180.0 );
 			break;
 
 		case Key_W: //center on west horizon
-			setClickedObject( NULL );
-			setFocusObject( NULL );
+			stopTracking();
 			setDestinationAltAz( 15.0, 270.0 );
 			break;
 
 		case Key_Z: //center on Zenith
-			setClickedObject( NULL );
-			setFocusObject( NULL );
+			stopTracking();
 			setDestinationAltAz( 90.0, focus()->az()->Degrees() );
 			break;
 
@@ -316,11 +311,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	while ( dHA < 0.0 ) dHA += 24.0;
 	data->HourAngle->setH( dHA );
 
-	if ( stopTracking ) {
-		if ( data->options->isTracking ) {
-			if ( ksw ) ksw->slotTrack();  //toggle tracking off
-		}
-
+	if ( arrowKeyPressed ) {
+		stopTracking();
+		
 		if ( scrollCount > 10 ) {
 			setDestination( focus() );
 			scrollCount = 0;
@@ -328,6 +321,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	}
 
 	forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
+}
+
+void SkyMap::stopTracking() {
+	if ( ksw && data->options->isTracking ) ksw->slotTrack();
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {

@@ -250,6 +250,10 @@ public:
 
 	bool isObjectLabeled( SkyObject *o );
 
+/**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
+	*/
+	void stopTracking();
+
   //These were protected, but KStars needs them for slotPrint()...
 	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
 	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
