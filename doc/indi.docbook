@@ -1,6 +1,6 @@
 <chapter id="indi">
-<title>Telescope Control with <acronym>INDI</acronym></title>
-<indexterm><primary>Telescope Control</primary>
+<title>Astronomical Device Control with <acronym>INDI</acronym></title>
+<indexterm><primary>INDI Control</primary>
 <secondary>Overview</secondary>
 </indexterm>
 
@@ -28,29 +28,29 @@ devices:</para>
 <entry>0.5</entry>
 </row>
 <row>
-<entry>LX-90, LX50, ETX90</entry>
+<entry>Autostar based telescopes</entry>
 <entry>LX200 Autostar</entry>
 <entry>0.5</entry>
 </row>
 <row>
 <entry>LX200 GPS 8"-16"</entry>
 <entry>LX200 GPS</entry>
-<entry>0.2</entry>
+<entry>0.5</entry>
 </row>
 <row>
 <entry>LX200 Classic 16"</entry>
 <entry>LX00 16"</entry>
-<entry>0.2</entry>
+<entry>0.5</entry>
 </row>
 <row>
+<entry>NexStar GPS, CGE, AS-GT</entry>
 <entry>Celestron GPS</entry>
-<entry>Celestron GPS</entry>
-<entry>0.2</entry>
+<entry>0.5</entry>
 </row>
 <row>
-<entry>Celestron NexStar</entry>
+<entry>New GT, NexStar 5i/8i</entry>
 <entry>Celestron GPS</entry>
-<entry>0.2</entry>
+<entry>0.5</entry>
 </row>
 <row>
 <entry>Astro-Physics AP</entry>
@@ -116,18 +116,95 @@ devices:</para>
 <para>The focusers must be connected to the focuser port in the LX200 GPS, Autostar, or Classic telescopes <emphasis>only</emphasis>.</para>
 </note>
 
-<para>
-KStars can control local and remote devices seemlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. The local/server setup is used to control a local device (i.e. a device attached to your machine) and it is also used to establish a server that remote clients can connect to. A remote/client setup is used to connect a client to remote hosts running an INDI server.</para>
+<para></para>
+<table id="ccd-table" pgwide="1" frame="all">
+<title>Supported CCDs</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>CCD</entry>
+<entry>Device driver</entry>
+<entry>Version</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Finger Lakes Instruments CCDs</entry>
+<entry>fliccd</entry>
+<entry>0.1</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
 
-<para>Controlling your telescope with KStars requires few simple steps. It
-is <emphasis>vital</emphasis> to complete each step before moving to the
-next one.</para>
+<para></para>
+<table id="video-table" pgwide="1" frame="all">
+<title>Supported Webcams</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>Webcam</entry>
+<entry>Device driver</entry>
+<entry>Version</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Any Video4Linux compatible device</entry>
+<entry>v4ldriver</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Philips webcam</entry>
+<entry>v4lphilips</entry>
+<entry>0.1</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<sect1 id="indi-kstars-setup">
+<title>INDI Setup</title>
+<indexterm><primary>INDI</primary>
+<secondary>Setup</secondary>
+</indexterm>
+<para>
+KStars can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
+
+<orderedlist>
+<listitem><para>Local: The local mode the most common and is used to control local device (i.e. a device attached to your machine).</para></listitem>
+<listitem><para>Server: The server mode establishes an INDI server for a particular device and waits for connections from remote clients. You cannot operate server devices, you can only start and shut them down.</para></listitem>
+<listitem><para>Client: The client mode is used to connect to remote INDI servers running INDI devices. You can control remote devices seamlessly like local devices.</para></listitem>
+</orderedlist>
+
+<para>You can run local device, establish INDI servers, and connect to remote clients from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu.</para>
+
+<para>Here is a screenshot of the <guilabel>Device Manager</guilabel>
+window:</para>
+
+<screenshot>
+<screeninfo>Running device drivers</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="devicemanager.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Start device drivers</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service button</guibutton>. You can select the operation mode, either local or server as defined above.</para>
+
+<para>To control remove devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
+</sect1>
 
 <sect1 id="indi-telescope-setup">
 <title>Telescope Setup</title>
-<indexterm><primary>Telescope Control</primary>
+<indexterm><primary>INDI</primary>
 <secondary>Setup</secondary>
 </indexterm>
+
 <para>Most telescopes are equipped with <hardware>RS232</hardware> interface
 for remote control. Connect the RS232 jack in your telescope to your
 computer's <hardware>Serial/USB</hardware> port. Traditionally, the RS232
@@ -144,18 +221,12 @@ controller.</para>
 <para>The telescope needs to be aligned before it can be used properly.
 Align your telescope (one or two stars alignment) as illustrated in your
 telescope manual.</para>
-</sect1>
 
-<sect1 id="indi-kstars-setup">
-<title>KStars INDI Setup</title>
+<para>&kstars; needs to verify time and location settings before connecting to the telescope. This insures proper tracking and synchronization between the telescope and &kstars;. The following steps will enable you to connect to a device that is connected to your computer. To connect and control remote devices, please refer to <link linkend="indi-remote-control">remote device control</link> section.</para>
 
-<para>&kstars; needs to verify time and location settings before connecting
-to the telescope. This insures proper tracking and synchronization between
-the telescope and &kstars;. The following steps will enable you to connect
-to a device that is connected to your computer. To connect and control remote devices, please refer to <link
-linkend="indi-remote-control">remote device control</link> section.</para>
+<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Setup Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
 
-<para>To connect to a local telescope, please perform the following
+<para>Alternatively, you can connect to a local telescope by performing the following
 steps:</para>
 
 <orderedlist>
@@ -186,31 +257,17 @@ Dialog.</para>
 </listitem>
 </orderedlist>
 
-<para>Here is a screen shot of the <guilabel>Device Manager</guilabel>
-window:</para>
+<note id="geo-time-note">
+<title>Frequent Settings</title>
+<para>You do not need to set the geographic location and time every time you connect to a telescope. Only adjust the settings as needed.</para></note>
 
-<screenshot>
-<screeninfo>Running device drivers</screeninfo>
-<mediaobject>
-        <imageobject>
-                <imagedata fileref="devicemanager.png" format="PNG"/>
-        </imageobject>
-        <textobject>
-                <phrase>Start device drivers</phrase>
-        </textobject>
-</mediaobject>
-</screenshot>
-
-<para>You are now ready to use the device features, &kstars; conveniently
-provides two interchangeable GUI interfaces for controlling
-telescopes:</para>
+<para>You are now ready to use the device features, &kstars; conveniently provides two interchangeable GUI interfaces for controlling telescopes:</para>
 
 <orderedlist>
 <title>Controlling your telescope</title>
 <listitem>
 <para>
-<guilabel>Sky map Control</guilabel>: For each device you run in the
-<guilabel>Device Manager</guilabel>, a corresponding entry will show up in popup menu that allows you to control the properties of the device. You can
+<guilabel>Sky map Control</guilabel>: For each device you run in the <guilabel>Device Manager</guilabel>, a corresponding entry will show up in popup menu that allows you to control the properties of the device. You can
 issue commands like <command>Slew, Sync,</command> and
 <command>Track</command> directly from the sky map.
 </para>
@@ -219,74 +276,62 @@ device:</para>
 <screenshot>
 <screeninfo>Controlling devices from sky map</screeninfo>
 <mediaobject>
-        <imageobject>
-                <imagedata fileref="skymapdevice.png" format="PNG"/>
-        </imageobject>
+<imageobject>
+<imagedata fileref="skymapdevice.png" format="PNG"/>
+</imageobject>
 </mediaobject>
 </screenshot>
 </listitem>
 
 <listitem>
 <para>
-<guilabel>INDI Control Panel</guilabel>: The panel offers the user all the
-features a device is supporting for a finer control over the telescope.
-Properties like port settings, site management, and slew controls among
-others can be manipulated from the INDI control panel.
+<guilabel>INDI Control Panel</guilabel>: The panel offers the user with all the
+features supported by a device.
 </para>
 
 <para>The panel is divided into three main sections:</para>
-                <itemizedlist>
-                        <listitem>
-                        <para>
+<itemizedlist>
+<listitem>
+<para>
 <guilabel>Device tabs</guilabel>: Each additional active device occupies a
 tab in the INDI panel. Multiple devices can run simultaneously without
 affecting the operation of other devices.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
+</para>
+</listitem>
+<listitem>
+<para>
 <guilabel>Property view</guilabel>: Properties are the key element in INDI
 architecture. Each device defines a set of properties to communicate with
 the client. The current position of the telescope is an example of a
 property. Semantically similar properties are usually contained in logical
 blocks or groupings.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-<guilabel>Log viewers</guilabel>: Devices report their status and
-acknowledge commands by sending INDI messages. Each device has its own log
-view, and all devices share one generic log viewer. A device usually send
-messages to its device driver only, but a device is permitted to send a
-generic message when appropriate.
-                        </para>
-                        </listitem>
-                </itemizedlist>
+</para>
+</listitem>
+<listitem>
+<para>
+<guilabel>Log viewers</guilabel>: Devices report their status and acknowledge commands by sending INDI messages. Each device has its own log view, and all devices share one generic log viewer. A device usually send messages to its device driver only, but a device is permitted to send a generic message when appropriate.
+</para>
+</listitem>
+</itemizedlist>
 <screenshot>
 <screeninfo>INDI Control Panel</screeninfo>
 <mediaobject>
-        <imageobject>
-                <imagedata fileref="indicontrolpanel.png" format="PNG"/>
-        </imageobject>
+<imageobject>
+<imagedata fileref="indicontrolpanel.png" format="PNG"/>
+</imageobject>
 </mediaobject>
 </screenshot>
 </listitem>
 </orderedlist>
 
-<para>You are not restricted on using one interface over another as they can
-be both used simultaneously. Actions from the <guilabel>Sky map</guilabel>
-are automatically reflected in the <guilabel>INDI Control Panel</guilabel>
+<para>You are not restricted on using one interface over another as they can be both used simultaneously. Actions from the <guilabel>Sky map</guilabel> are automatically reflected in the <guilabel>INDI Control Panel</guilabel>
 and vice versa.</para>
 
-<para>Finally, to connect to your telescope, you can either select
-<guimenuitem>Connect</guimenuitem> from your device popup menu or
-alternatively, you can press <guibutton>Connect</guibutton> under your
-device tab in the <guilabel>INDI Control Panel</guilabel>.</para>
+<para>To connect to your telescope, you can either select <guimenuitem>Connect</guimenuitem> from your device popup menu or
+alternatively, you can press <guibutton>Connect</guibutton> under your device tab in the <guilabel>INDI Control Panel</guilabel>.</para>
 
 <important><para>By default, KStars will try to connect to the <constant>/dev/ttyS0</constant>
-port. To change the connection port, select <guilabel>INDI Control
-Panel</guilabel> from the <guimenu>Devices</guimenu> menu and change the
-port under your device tab.</para></important>
+port. To change the connection port, select <guilabel>INDI Control Panel</guilabel> from the <guimenu>Devices</guimenu> menu and change the port under your device tab.</para></important>
 
 <para>&kstars; automatically updates the telescope's longitude, latitude, and
 time based on current settings in &kstars;. You can enable/disable these
@@ -294,21 +339,13 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <guimenu>Devices</guimenu> menu.
 </para>
 
-<para>If &kstars; communicates successfully with the telescope, it will
-retrieve the current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the
-telescope and will display a crosshair on the sky map indicating the
-telescope position.</para>
+<para>If &kstars; communicates successfully with the telescope, it will retrieve the current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the telescope and will display a crosshair on the sky map indicating the telescope position.</para>
 
 <note id="indi-sync">
 <title>Synchronizing your telescope</title>
-        <para>If you aligned your telescope and the last alignment star was, for
-example, Vega, then the crosshair should be centered around Vega. If the
-crosshair was off target, then you can
-<mousebutton>right</mousebutton>-click Vega from the sky map and select
-<command>Sync</command> from your telescope menu. This action will instruct
-the telescope to synchronize its internal coordinates to match those of
-Vega, and the telescope's crosshair should now be centered around Vega.
-        </para>
+<para>If you aligned your telescope and the last alignment star was, for example, Vega, then the crosshair should be centered around Vega. If the crosshair was off target, then you can <mousebutton>right</mousebutton>-click Vega from the sky map and select
+<command>Sync</command> from your telescope menu. This action will instruct the telescope to synchronize its internal coordinates to match those of Vega, and the telescope's crosshair should now be centered around Vega.
+</para>
 </note>
 
 <para>That's it! Your telescope is ready to explore the heavens!</para>
@@ -319,6 +356,18 @@ Vega, and the telescope's crosshair should now be centered around Vega.
 </warning>
 </sect1>
 
+<sect1 id="indi-other-setup">
+<title>CCD and Video Capture Setup</title>
+<indexterm><primary>CCD Video Control</primary>
+<secondary>Setup</secondary>
+</indexterm>
+
+<para>KStars supports Finger Lakes instruments CCDs and any Video4Linux compatible device. Philips webcam extended features are supported as well.</para>
+<para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
+
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be displayed in the KStars FITSViewer. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
+</sect1>
+
 <sect1 id="indi-concepts">
 <title>INDI Concepts</title>
 <indexterm><primary>Telescope Control</primary>
@@ -326,10 +375,7 @@ Vega, and the telescope's crosshair should now be centered around Vega.
 </indexterm>
 
 <para>
-The INDI control panel offers many device properties not accessible from the
-sky map. The properties offered differ from one device to another.
-Nevertheless, all properties share common features that constrains how they
-are displayed and used:</para>
+The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
 
 <itemizedlist>
 <listitem>
@@ -344,43 +390,43 @@ the client.</para><para></para>
 <listitem>
 <para>State: Prefixed to each property is a state indicator (round LED).
 Each property has a state and an associated color code:</para>
-        <table frame="top"><title>INDI State color code</title>
-        <tgroup cols="3" colsep="1" rowsep="1">
-        <thead>
-        <row>
-        <entry>State</entry>
-        <entry>Color</entry>
-        <entry>Description</entry>
-        </row>
-        </thead>
-        <tbody>
-        <row>
-        <entry>Idle</entry>
-        <entry>Gray</entry>
-        <entry>Device is performing no action with respect to this property</entry>
-        </row>
-        <row>
-        <entry>Ok</entry>
-        <entry>Green</entry>
-        <entry>Last operation performed on this property was successful and
+<table frame="top"><title>INDI State color code</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>State</entry>
+<entry>Color</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Idle</entry>
+<entry>Gray</entry>
+<entry>Device is performing no action with respect to this property</entry>
+</row>
+<row>
+<entry>Ok</entry>
+<entry>Green</entry>
+<entry>Last operation performed on this property was successful and
 active</entry>
-        </row>
-        <row>
-        <entry>Busy</entry>
-        <entry>Yellow</entry>
-        <entry>The property is performing an action</entry>
-        </row>
-        <row>
-        <entry>Alert</entry>
-        <entry>Red</entry>
-        <entry>The property is in critical condition and needs immediate
+</row>
+<row>
+<entry>Busy</entry>
+<entry>Yellow</entry>
+<entry>The property is performing an action</entry>
+</row>
+<row>
+<entry>Alert</entry>
+<entry>Red</entry>
+<entry>The property is in critical condition and needs immediate
 attention</entry>
 	</row>
 	</tbody>
-        </tgroup>
-        </table>
-        <para></para>
-        <para>The device driver updates the property state in real-time when
+</tgroup>
+</table>
+<para></para>
+<para>The device driver updates the property state in real-time when
 necessary. For example, if the telescope is in the process of slewing to a
 target, then the RA/DEC properties will be signaled as
 <guilabel>Busy</guilabel>. When the slew process is completed successfully,
@@ -393,11 +439,11 @@ Context: Numerical properties can accept and process numbers in two formats:
 decimal and sexagesimal. The sexagesimal format is convenient when expressing
 time or equatorial/geographical coordinates. You can use any format at your
 convenience. For example, all the following numbers are equal:</para>
-        <itemizedlist>
-        <listitem><para>-156.40</para></listitem>
-        <listitem><para>-156:24:00</para></listitem>
-        <listitem><para>-156:24</para><para></para></listitem>
-        </itemizedlist>
+<itemizedlist>
+<listitem><para>-156.40</para></listitem>
+<listitem><para>-156:24:00</para></listitem>
+<listitem><para>-156:24</para><para></para></listitem>
+</itemizedlist>
 </listitem>
 <listitem>
 <para>
@@ -512,20 +558,6 @@ software drivers. Clients that use the device drivers (like &kstars;) are comple
 <qandaentry>
 <question>
 <para>
-What devices does KStars support?
-</para>
-</question>
-<answer>
-<para>
-Currently, &kstars; supports LX200 Classic, LX200 Autostar, LX200 GPS, LX200
-16", and Celestron GPS.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>
 Do you plan to support more devices?
 </para>
 </question>
@@ -564,6 +596,9 @@ telescope is not connected to the serial/USB port. What can I do?
 <para>This message is triggered when &kstars; cannot communicate with the telescope. Here are few things you can do:</para>
 
    <orderedlist>
+   <listitem>
+<para>Check that you have both reading and writing permisstion for the port you're trying to connect to.</para>
+   </listitem>
    <listitem>
 <para>Check the connection cable, make sure it is in good condition and test it with other applications.</para>
    </listitem>
