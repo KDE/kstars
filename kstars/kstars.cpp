@@ -43,9 +43,9 @@
 
 KStars::KStars( bool doSplash ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
-	centralWidget(0), skymap(0), viewToolBar(0), TimeStep(0), topLayout(0),
+	skymap(0), centralWidget(0), topLayout(0), viewToolBar(0), TimeStep(0),
 	actCoordSys(0), colorActionMenu(0), fovActionMenu(0),
-	findDialog(0), AAVSODialog(0), kns(0), 
+	AAVSODialog(0), findDialog(0), kns(0), 
 	indimenu(0), indidriver(0), indiseq(0),
 	DialogIsObsolete(false)
 {

@@ -58,9 +58,11 @@ QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() : stdDirs(0), locale(0), initTimer(0), 
-		starFileReader(0), source(0), loader(0), pump(0),
-		LST(0), HourAngle(0), PCat(0), Moon(0), jmoons(0)
+KStarsData::KStarsData() : stdDirs(0), locale(0), 
+		LST(0), HourAngle(0),
+		PCat(0), Moon(0), jmoons(0),
+		starFileReader(0), initTimer(0),
+		source(0), loader(0), pump(0)
 {
 	startupComplete = false;
 	objects++;

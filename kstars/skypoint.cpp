@@ -226,7 +226,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 	Dec.setD( Dec.Degrees() + dDec2.Degrees() );
 }
 
-void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ) {
+void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
 	dms pRA, pDec;
 	//Correct the catalog coordinates for the time-dependent effects
 	//of precession, nutation and aberration

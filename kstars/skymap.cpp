@@ -52,9 +52,9 @@
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
  : QWidget (parent,name), computeSkymap(true), 
-		ksw(0), data(d), pmenu(0), sky(0), IBoxes(0), starpix(0),
+		ksw(0), data(d), pmenu(0), sky(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
-		pts(0), sp(0)
+		starpix(0), pts(0), sp(0)
 {
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;
