@@ -324,13 +324,26 @@ void SkyMap::slotInfo( int id ) {
 		kapp->invokeBrowser(sURL);
 }
 
-void SkyMap::slotAngularDistance(void) {
+void SkyMap::slotBeginAngularDistance(void) {
 	if ( clickedObject() ) {
-		measuringAngularDistance = true;
+		angularDistanceMode = true;
 		setPreviousClickedPoint( clickedPoint() );
-		//previousClickedObject->setDec( clickedObject()->dec()->Degrees() );
 	}
 
+}
+
+void SkyMap::slotEndAngularDistance(void) {
+	dms angularDistance;
+	if ( clickedObject() ) {
+		 if(angularDistanceMode) {
+			angularDistance = clickedObject()->angularDistanceTo( previousClickedPoint() );
+			ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + 
+					"     " +
+					i18n("Angular distance: " ) +
+					angularDistance.toDMSString(), 0 );
+			angularDistanceMode=false;
+		}
+	}
 }
 
 void SkyMap::slotImage( int id ) {

@@ -254,7 +254,12 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	
 	//Insert item for measuring distances
 	if ( showAngularDistance && obj ) {
-		insertItem( i18n( "Angular distance to ...." ), ksw->map(), SLOT( slotAngularDistance() ) );
+		if (! (ksw->map()->isAngleMode()) ) {
+			insertItem( i18n( "Angular distance to ....     CTRl+[" ), ksw->map(), SLOT( slotBeginAngularDistance() ) );
+		} else {
+			insertItem( i18n( "Compute angular distance     CTRL+]" ), ksw->map(), SLOT( slotEndAngularDistance() ) );
+		}
+
 	}
 
 

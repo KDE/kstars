@@ -214,6 +214,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			slotCenter();
 			break;
 
+		case Key_BracketLeft:   // Begin measuring angular distance
+			if ( !isAngleMode() ) {
+				slotBeginAngularDistance();
+			}
+
+			break;
+
+		case Key_BracketRight:  // End measuring angular distance
+			if ( isAngleMode() ) {
+				slotEndAngularDistance();
+			}
+
+			break;
+
 //DUMP_HORIZON
 /*
 		case Key_X: //Spit out coords of horizon polygon
@@ -296,7 +310,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kdDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
 
 */
-
 			break;
 		}
 
@@ -348,6 +361,19 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 }
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
+	// Are we in angularDistanceMode: Then draw a line
+	
+	if ( isAngleMode() ) {
+
+//		KStarsOptions* options = ksw->options();
+//		beginRulerPoint = getXY( previousClickedPoint(), options->useAltAz, false);
+		beginRulerPoint = getXY( previousClickedPoint(), false, true);
+		endRulerPoint =  QPoint(e->x(), e->y());
+		update();
+		return;
+	}
+		
+	
 	//Are we dragging an infoBox?
 	if ( infoBoxes()->dragBox( e ) ) {
 		update();
@@ -389,6 +415,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 	//determine RA, Dec of mouse pointer
 	setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
+
 
 	if ( midMouseButtonDown ) { //zoom according to y-offset
 		float yoff = dyPix - y0;
@@ -815,15 +842,6 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				//} else {
 					ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()), 0 );
 				//}
-					if(measuringAngularDistance) {
-						//deleteRuler();
-						 angularDistance = clickedObject()->angularDistanceTo( previousClickedPoint() );
-//						ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "  " + i18n("Angular distance:" ), 0 );
-						ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "     " + 
-					i18n("Angular distance: " ) + 
-					angularDistance.toDMSString(), 0 );
-						measuringAngularDistance=false;
-					}
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.

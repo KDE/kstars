@@ -27,6 +27,7 @@
 #include "indiproperty.h"
 #include "indielement.h"
 #include "indidevice.h"
+#include <iostream>
 
 #include <qpaintdevicemetrics.h>
 #include <stdlib.h> // abs
@@ -42,7 +43,15 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		ksw->data()->fovSymbol.draw( p, (float)(data->options->FOVSize*zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
 		drawZoomBox( p );
+		if (isAngleMode())
+			drawAngleRuler( p );
 	}
+}
+
+void SkyMap::drawAngleRuler( QPainter &p ) {
+	//draw the manual zoom-box, if it exists
+	p.setPen( QPen( "white", 1, DotLine ) );
+	p.drawLine( beginRulerPoint, endRulerPoint );
 }
 
 void SkyMap::drawZoomBox( QPainter &p ) {

@@ -257,6 +257,9 @@ public:
 
 	bool isObjectLabeled( SkyObject *o );
 
+	//** @returns if the angular distance measuring mode is on */
+	bool isAngleMode() const {return angularDistanceMode;}
+
 /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
 	*/
 	void stopTracking();
@@ -339,7 +342,8 @@ public slots:
 /**Checks whether the timestep exceeds a threshold value.  If so, sets
 	*ClockSlewing=true and sets the SimClock to ManualMode. */
 	void slotClockSlewing();
-	void slotAngularDistance(void);
+	void slotBeginAngularDistance(void);
+	void slotEndAngularDistance(void);
 
 signals:
 	void destinationChanged();
@@ -453,6 +457,7 @@ private:
 
 	void drawTelescopeSymbols(QPainter &psky);
 	void drawZoomBox( QPainter &psky);
+	void SkyMap::drawAngleRuler( QPainter &psky );
 
 /**@short Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
@@ -497,10 +502,11 @@ private:
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
+	QPoint beginRulerPoint, endRulerPoint;  // used in angle mode
 	QRect ZoomRect; //The manual-focus circle.
 //DEBUG
 	bool dumpHorizon;
-	bool measuringAngularDistance;
+	bool angularDistanceMode;
 //END_DEBUG
 };
 
