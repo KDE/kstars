@@ -447,6 +447,15 @@ from your location on a given date.
 <title><guimenu>Devices</guimenu> Menu</title>
 
 <variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>Telescope Wizard</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up the telescope setup wizard, which provides a step by step guide to help you connect to your telescope and control it from &kstars;.</para></listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <guimenu>Devices</guimenu>

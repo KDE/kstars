@@ -2,7 +2,7 @@
 <title>Telescope Control with <acronym>INDI</acronym></title>
 
 <para>KStars provides an interface to configure and control telescopes via
-the <acronym>INDI</acronym> protocol.</para>
+the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
 
 <para>The <acronym>INDI</acronym> protocol is <emphasis>not</emphasis>
 restricted to telescopes but extends to a variety of astronomical devices
@@ -50,11 +50,7 @@ devices:</para>
 </table>
 
 <para>
-KStars can control local and remote devices seemingly via the INDI
-server/client architecture. The local/server setup is used to control a
-local device (i.e. a device attached to your machine) and it is also used to
-establish a server that remote clients can connect to. A Client/Remote setup
-is used to connect to remote hosts running an INDI server.</para>
+KStars can control local and remote devices seemingly via the <link linkend="what-is-indi">INDI</link> server/client architecture. The local/server setup is used to control a local device (i.e. a device attached to your machine) and it is also used to establish a server that remote clients can connect to. A remote/client setup is used to connect a client to remote hosts running an INDI server.</para>
 
 <para>Controlling your telescope with KStars requires few simple steps. It
 is <emphasis>vital</emphasis> to complete each step before moving to the
@@ -241,7 +237,7 @@ retrieve the current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the
 telescope and will display a crosshair on the sky map indicating the
 telescope position.</para>
 
-<note>
+<note id="indi-sync">
 <title>Synchronizing your telescope</title>
         <para>If you aligned your telescope and the last alignment star was, for
 example, Vega, then the crosshair should be centered around Vega. If the
@@ -331,12 +327,17 @@ the properties will be signaled as
 Context: Numerical properties can accept and process numbers in two formats:
 decimal and sexigismal. The sexagesimal format is convenient when expressing
 time or equatorial/geographical coordinates. You can use any format at your
-convenience. For example, the following numbers are all equal:</para>
+convenience. For example, all the following numbers are equal:</para>
         <itemizedlist>
         <listitem><para>-156.40</para></listitem>
         <listitem><para>-156:24:00</para></listitem>
-        <listitem><para>-156:24</para></listitem>
+        <listitem><para>-156:24</para><para></para></listitem>
         </itemizedlist>
+</listitem>
+<listitem>
+<para>
+Time: The standard time for all INDI-related communications is Universal Time UTC specefied as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>Configure INDI</guimenuitem> dialog under the <guimenu>Devices</guimenu> menu.
+</para>
 </listitem>
 </itemizedlist>
 </sect1>
@@ -354,15 +355,11 @@ control:</para>
 
 <orderedlist>
 <listitem>
-<para>Server: To prepare a device for remote control, follow the same steps
-in the <link linkend="indi-kstars-setup">local/server</link> setup on the
-<emphasis>server</emphasis> machine. When you start a device service in the <guimenu>Device Manager</guimenu>, a port number is displayed under the <guilabel>Listening port</guilabel> column in the <guimenu>Device Manager</guimenu>. You also need the hostname or IP address of your server.
+<para>Server: To prepare a device for remote control, follow the same steps in the <link linkend="indi-kstars-setup">local/server</link> setup. When you start a device service in the <guimenu>Device Manager</guimenu>, a port number is displayed under the <guilabel>Listening port</guilabel> column. In addition to the port number, you also need the hostname or IP address of your server.
 </para>
 </listitem>
 <listitem>
-<para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the
-<guimenu>Device</guimenu> menu and click on the <guilabel>Client</guilabel>
-tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port number obtained from the <emphasis>server</emphasis> machine in step 1.
+<para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the <guimenu>Device</guimenu> menu and click on the <guilabel>Client</guilabel> tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port number obtained from the <emphasis>server</emphasis> machine in step 1.
 </para>
 </listitem>
 </orderedlist>
@@ -380,8 +377,7 @@ tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> 
 <guimenuitem>Connect</guimenuitem> or <guimenuitem>Disconnect</guimenuitem>.
 If a connection is established, you can control the telescope from the
 <guilabel>Sky map</guilabel> or <guilabel>INDI Control Panel</guilabel>
-exactly as described in the <link linkend="indi-kstars-setup">local/server
-section</link>. It's as easy at that!
+exactly as described in the <link linkend="indi-kstars-setup">local/server</link> section. It's as easy at that!
 </para>
 
 <sect2 id="indi-commandline">
@@ -430,7 +426,7 @@ following command:</para>
 
 <qandaset defaultlabel="qanda">
 <qandaentry>
-<question>
+<question id="what-is-indi">
 <para>What is INDI?</para>
 </question>
 <answer>
@@ -508,6 +504,15 @@ telescope is not connected to the serial/USB port. What can I do?
    <para>Restart &kstars; and retry again.</para>
    </listitem>
    </orderedlist>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>&kstars; reports that the telescope is online and ready, but I can't find the telescope's crosshair, where is it?</para>
+</question>
+<answer>
+<para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target.</para>
 </answer>
 </qandaentry>
 
