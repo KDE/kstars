@@ -43,7 +43,7 @@
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent ), ks( _ks ), LogObject(0), noNameStars(0)
+				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), noNameStars(0)
 {
 	QFrame *page = plainPage();
 //	setMainWidget( page );
