@@ -286,8 +286,22 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	//compute Ecliptic coordinates
 	EquatorialToEcliptic( num->obliquity() );
 
-	//nutate(num);
-	//aberrate(num);
+	//Determine position angle of pluto (assuming that it is aligned with
+	//the Ecliptic, which is only roughly correct).
+	//Displace a point along +Ecliptic Latitude by 1 degree
+	SkyPoint test;
+	dms newELat( ecLat()->Degrees() + 1.0 );
+	test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
+	double dx = test.ra()->Degrees() - ra()->Degrees();
+	double dy = dec()->Degrees() - test.dec()->Degrees();
+	double pa;
+	if ( dy ) {
+		pa = atan( dx/dy )*180.0/dms::PI;
+	} else {
+		pa = 90.0;
+		if ( dx > 0 ) pa = -90.0;
+	}
+	setPA( pa );
 
 	if ( hasTrail() ) {
 		Trail.append( new SkyPoint( ra(), dec() ) );

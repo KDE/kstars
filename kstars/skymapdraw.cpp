@@ -938,39 +938,16 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 				y1 = o.y() - size/2;
 			}
 
-			//Determine position angle of planet (assuming that it is aligned with
-			//the Ecliptic, which is only roughly correct).
-			//Displace a point along +Ecliptic Latitude by 1 degree
-      SkyPoint test, test2;
-			KSNumbers num( ksw->data()->CurrentDate );
-
-			dms newELat( p->ecLat()->Degrees() + 1.0 );
-			test.setFromEcliptic( num.obliquity(), p->ecLong(), &newELat );
-			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
-			
-			double dx = test.ra()->Degrees() - p->ra()->Degrees();
-			double dy = p->dec()->Degrees() - test.dec()->Degrees();
-			
-			double pa;
-			if ( dy ) {
-				pa = atan( dx/dy )*180.0/dms::PI;
-			} else {
-				pa = 90.0;
-				if ( dx > 0 ) pa = -90.0;
-			}
-
-			p->setPA( pa );
-
 			//rotate Planet image, if necessary
 			//image angle is PA plus the North angle.
-			
 			//Find North angle:
+			SkyPoint test;
 			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
 			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
-			dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
-			dy = double( t.y() - o.y() );
-			double north;
+			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
+			double dy = double( t.y() - o.y() );
+			double north(0.0);
 			if ( dy ) {
 				north = atan( dx/dy )*180.0/dms::PI;
 			} else {
@@ -979,7 +956,6 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 			}
 			
 			//rotate Image
-			
 			p->rotateImage( p->pa() + north );
 			
 			psky.drawImage( x1, y1,  p->image()->smoothScale( size, size ));
