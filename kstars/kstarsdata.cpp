@@ -66,6 +66,9 @@ KStarsData::KStarsData() {
 	//Instantiate planet catalog
 	PC = new PlanetCatalog(this);
 
+	//initialize FOV symbol
+	fovSymbol = FOV();
+
 	//set AutoDelete property for QPtrLists.  Most are set TRUE,
 	//but some 'meta-lists' need to be FALSE.
 	starList.setAutoDelete( TRUE );
@@ -358,7 +361,7 @@ while ( (c = (char) file.getch()) != -1)
   }
 
   delLilXML(xmlParser);
-  
+
   return true;
 
 
@@ -463,6 +466,7 @@ bool KStarsData::openStarFile( int i ) {
 
 bool KStarsData::readStarData( void ) {
 	bool ready = false;
+
 	for (unsigned int i=1; i<NHIPFILES+1; ++i) {
 		if (openStarFile(i) == true) {
 			while (starFileReader->hasMoreLines()) {
@@ -564,7 +568,6 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
 
 	StarObject *o = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
-
 	starList.append(o);
 
 	// add named stars to list
@@ -2027,7 +2030,9 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				//parse double value
 				double dVal = fn[2].toDouble( &dOk );
 
-				if ( fn[1] == "TargetSymbol"    && nOk ) { options->targetSymbol    = nVal; cmdCount++; }
+				if ( fn[1] == "FOVSize"         && dOk ) { options->FOVSize         = (float)dVal; cmdCount++; }
+				if ( fn[1] == "FOVShape"        && nOk ) { options->FOVShape        = nVal; cmdCount++; }
+				if ( fn[1] == "FOVColor"               ) { options->FOVColor        = fn[2]; cmdCount++; }
 				if ( fn[1] == "ShowSAO"         && bOk ) { options->drawSAO         = bVal; cmdCount++; }
 				if ( fn[1] == "ShowMess"        && bOk ) { options->drawMessier     = bVal; cmdCount++; }
 				if ( fn[1] == "ShowMessImages"  && bOk ) { options->drawMessImages  = bVal; cmdCount++; }

@@ -185,7 +185,9 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "ShowViewToolBar" && bOk ) options()->showViewToolBar = bVal;
 
 	//[View]
-	if ( op == "TargetSymbol"    && nOk ) options()->targetSymbol    = nVal;
+	if ( op == "FOVSize"         && dOk ) options()->FOVSize         = (float)dVal;
+	if ( op == "FOVShape"        && nOk ) options()->FOVShape        = nVal;
+	if ( op == "FOVColor"               ) options()->FOVColor         = val;
 	if ( op == "ShowSAO"         && bOk ) options()->drawSAO         = bVal;
 	if ( op == "ShowMess"        && bOk ) options()->drawMessier     = bVal;
 	if ( op == "ShowMessImages"  && bOk ) options()->drawMessImages  = bVal;

@@ -97,7 +97,9 @@ void KStarsData::loadOptions()
 	options->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 	conf->setGroup( "View" );
 	options->colorScheme()->loadFromConfig( conf );
-	options->targetSymbol   = conf->readNumEntry( "TargetSymbol", 0 );
+	options->FOVSize        = conf->readDoubleNumEntry( "FOVSize", 0.0 );
+	options->FOVShape       = conf->readNumEntry( "FOVShape", 0 );
+	options->FOVColor       = conf->readEntry( "FOVColor", "#FFFFFF" );
 
 	options->drawSAO        = conf->readBoolEntry( "ShowSAO", true );
 	options->drawMessier    = conf->readBoolEntry( "ShowMess", true );
@@ -239,7 +241,9 @@ void KStarsData::saveOptions(KStars *ks) {
 
 	conf->setGroup( "View" );
 	options->colorScheme()->saveToConfig( conf );
-	conf->writeEntry( "TargetSymbol", options->targetSymbol );
+	conf->writeEntry( "FOVSize", options->FOVSize );
+	conf->writeEntry( "FOVShape", options->FOVShape );
+	conf->writeEntry( "FOVColor", options->FOVColor );
 
 	conf->writeEntry( "ShowSAO", 		options->drawSAO );
 	conf->writeEntry( "ShowMess", 	options->drawMessier );

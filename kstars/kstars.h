@@ -345,6 +345,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Select the Target symbol (a.k.a. field-of-view indicator) */
 		void slotTargetSymbol();
 
+		void slotFOVEdit();
+
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
@@ -366,6 +368,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void initActions();
 
+		void initFOV();
+
 		/**
 			*Initialize Status bar.
 			*/
@@ -378,7 +382,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		TimeStepBox *TimeStep;
 
 		ToggleAction *actCoordSys;
-		KActionMenu *colorActionMenu;
+		KActionMenu *colorActionMenu, *fovActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
 

@@ -26,6 +26,7 @@
 #include <ktempfile.h>
 #include <ktip.h>
 #include <kfiledialog.h>
+#include <kpopupmenu.h>
 #include <kprocess.h>
 #include <qpaintdevicemetrics.h>
 #include <qradiobutton.h>
@@ -36,6 +37,7 @@
 #include "locationdialog.h"
 #include "finddialog.h"
 #include "focusdialog.h"
+#include "fovdialog.h"
 #include "viewopsdialog.h"
 #include "astrocalc.h"
 #include "lcgenerator.h"
@@ -648,7 +650,52 @@ void KStars::slotColorScheme() {
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
 	options()->setTargetSymbol( symbolName );
+	data()->fovSymbol.setName( symbolName );
+	data()->fovSymbol.setSize( options()->FOVSize );
+	data()->fovSymbol.setShape( options()->FOVShape );
+	data()->fovSymbol.setColor( options()->FOVColor );
 	map()->forceUpdate();
+}
+
+void KStars::slotFOVEdit() {
+	FOVDialog fovdlg( this );
+	if ( fovdlg.exec() == QDialog::Accepted ) {
+		//replace existing fov.dat with data from the FOVDialog
+		QFile f;
+		f.setName( locateLocal( "appdata", "fov.dat" ) );
+		if ( ! f.open( IO_WriteOnly ) ) {
+			kdDebug() << i18n( "Could not open fov.dat for writing!" ) << endl;
+		} else {
+			QTextStream ostream(&f);
+
+			for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
+				ostream << fov->name() << ":" << QString("%1").arg( fov->size(), 0, 'f', 2 )
+						<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
+
+			f.close();
+		}
+
+		//repopulate FOV menu  with items from new fov.dat
+		fovActionMenu->popupMenu()->clear();
+
+		if ( f.open( IO_ReadOnly ) ) {
+			QTextStream stream( &f );
+			while ( !stream.eof() ) {
+				QString line = stream.readLine();
+				QStringList fields = QStringList::split( ":", line );
+
+				if ( fields.count() == 4 ) {
+					QString nm = fields[0].stripWhiteSpace();
+					fovActionMenu->insert( new KAction( nm, 0, this, SLOT( slotTargetSymbol() ), actionCollection(), nm.utf8() ) );
+				}
+			}
+		} else {
+			kdDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+		}
+
+		fovActionMenu->popupMenu()->insertSeparator();
+		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+	}
 }
 
 //Help Menu

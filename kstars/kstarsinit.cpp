@@ -17,6 +17,7 @@
 #include <dcopclient.h>
 #include <kaccel.h>
 #include <kiconloader.h>
+#include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
 
@@ -164,21 +165,24 @@ void KStars::initActions() {
 		file.close();
 	}
 
-	//Add Target Symbol actions
-	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0,
-			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_none" );
+	//Add FOV Symbol actions
+	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
+	initFOV();
 
-	new KAction( i18n( "use a circle target symbol", "Circle" ), 0,
-			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_circle" );
-
-	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0,
-			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_crosshairs" );
-
-	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0,
-			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_bullseye" );
-
-	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0,
-			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_rectangle" );
+// 	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0,
+// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_none" );
+//
+// 	new KAction( i18n( "use a circle target symbol", "Circle" ), 0,
+// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_circle" );
+//
+// 	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0,
+// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_crosshairs" );
+//
+// 	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0,
+// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_bullseye" );
+//
+// 	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0,
+// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_rectangle" );
 
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
@@ -342,6 +346,48 @@ void KStars::initActions() {
 	}
 }
 
+void KStars::initFOV() {
+	//Read in the user's fov.dat and populate the FOV menu with its symbols.  If no fov.dat exists, populate
+	//create a default version.
+	QFile f;
+	QStringList fields;
+	QString nm;
+
+	f.setName( locateLocal( "appdata", "fov.dat" ) );
+
+	if ( ! f.exists() ) {
+		if ( ! f.open( IO_WriteOnly ) ) {
+			kdDebug() << i18n( "Could not open fov.dat!" ) << endl;
+		} else {
+			QTextStream ostream(&f);
+			ostream << i18n( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
+			ostream << i18n( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
+			ostream << i18n( "use 1-degree field-of-view indicator", "One degree" ) << ":60:2:#AAAAAA" << endl;
+			ostream << i18n( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
+			f.close();
+		}
+	}
+
+	//just populate the FOV menu with items, don't need to fully parse the lines
+	if ( f.open( IO_ReadOnly ) ) {
+		QTextStream stream( &f );
+		while ( !stream.eof() ) {
+			QString line = stream.readLine();
+			fields = QStringList::split( ":", line );
+
+			if ( fields.count() == 4 ) {
+				nm = fields[0].stripWhiteSpace();
+				fovActionMenu->insert( new KAction( nm, 0, this, SLOT( slotTargetSymbol() ), actionCollection(), nm.utf8() ) );
+			}
+		}
+	} else {
+		kdDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+	}
+
+	fovActionMenu->popupMenu()->insertSeparator();
+	fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+}
+
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
@@ -367,6 +413,11 @@ void KStars::datainitFinished(bool worked) {
 	data()->setFullTimeUpdate();
 	updateTime();
 	data()->clock()->start();
+
+//Initialize FOV symbol from options
+	data()->fovSymbol.setSize( options()->FOVSize );
+	data()->fovSymbol.setShape( options()->FOVShape );
+	data()->fovSymbol.setColor( options()->FOVColor );
 
 	show();
 

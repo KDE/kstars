@@ -100,7 +100,9 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	focusObject = o.focusObject;
 	focusRA     = o.focusRA;
 	focusDec    = o.focusDec;
-	targetSymbol = o.targetSymbol;
+	FOVSize     = o.FOVSize;
+	FOVShape    = o.FOVShape;
+	FOVColor    = o.FOVColor;
 	slewTimeScale  = o.slewTimeScale;
 	ZoomFactor     = o.ZoomFactor;
 	windowWidth    = o.windowWidth;
@@ -205,7 +207,9 @@ void KStarsOptions::setDefaultOptions() {
 	posGeoBox   = QPoint( 0, 600 );
 	focusRA  = 0.0;
 	focusDec = 0.0;
-	targetSymbol = 0;
+	FOVSize = 0.0;
+	FOVShape = 0;
+	FOVColor = "#FFFFFF";
 	slewTimeScale = 60.0;
 	ZoomFactor   = DEFAULTZOOM;
 	windowWidth  = 600;
@@ -231,15 +235,54 @@ void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {
 }
 
 bool KStarsOptions::setTargetSymbol( QString name ) {
-	targetSymbol = 0;
+	//read the user's fov.dat file for the specified target symbol.
+	QFile f;
+	QStringList fields;
+	QString nm, cl;
+	float sz;
+	int sh;
+	bool found( false );
 
-	if ( name == QString( "target_symbol_circle" ) ) targetSymbol = 1;
-	if ( name == QString( "target_symbol_crosshairs" ) ) targetSymbol = 2;
-	if ( name == QString( "target_symbol_bullseye" ) ) targetSymbol = 3;
-	if ( name == QString( "target_symbol_rectangle" ) ) targetSymbol = 4;
+	f.setName( locateLocal( "appdata", "fov.dat" ) );
 
-	if ( targetSymbol==0 ) return false;
-	return true;
+	if ( ! f.exists() ) {
+		kdDebug() << i18n( "Could not open fov.dat!" ) << endl;
+	} else {
+		if ( f.open( IO_ReadOnly ) ) {
+			QTextStream stream( &f );
+			while ( !stream.eof() ) {
+				fields = QStringList::split( ":", stream.readLine() );
+
+				if ( fields.count() == 4 ) {
+					nm = fields[0].stripWhiteSpace();
+					if ( name == nm ) { //found the selected FOV!
+						bool ok( false );
+
+						sz = (float)(fields[1].toDouble( &ok ));
+						if ( ok ) {
+							sh = fields[2].toInt( &ok );
+							if ( ok ) {
+								cl = fields[3];
+
+								FOVSize = sz;
+								FOVShape = sh;
+								FOVColor = cl;
+								found = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			if ( ! found )
+				kdDebug() << i18n( "Unable to set FOV named %1 from fov.dat!" ).arg( name ) << endl;
+
+			f.close();
+		}
+	}
+
+	return found;
 }
 
 GeoLocation* KStarsOptions::Location() {

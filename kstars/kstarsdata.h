@@ -32,6 +32,7 @@
 #include <iostream>
 
 #include "dms.h"
+#include "fov.h"
 #include "geolocation.h"
 #include "skypoint.h"
 #include "skyobject.h"
@@ -579,6 +580,8 @@ private:
 	PlanetCatalog *PC;
 	KSMoon *Moon;
 	JupiterMoons *jmoons;
+
+	FOV fovSymbol;
 
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;

@@ -167,7 +167,9 @@ class KStarsOptions {
 		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;
 		int stickyTimeBox, stickyGeoBox, stickyFocusBox;
 		QPoint posTimeBox, posFocusBox, posGeoBox;
-		int targetSymbol;
+		int FOVShape;
+		float FOVSize;
+		QString FOVColor;
 
 		//Custom Catalogs
 		unsigned int CatalogCount;

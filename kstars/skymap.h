@@ -413,8 +413,8 @@ private:
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			double zoommin, int resize_mult = 1, double scale = 1.0 );
 
-/**Draw overlays on top of the sky map.  These include the infoboxes, 
-	*field-of-view indicator, telescope symbols, zoom box and any other 
+/**Draw overlays on top of the sky map.  These include the infoboxes,
+	*field-of-view indicator, telescope symbols, zoom box and any other
 	*user-interaction graphics
 	*/
 	void drawOverlays( QPixmap *pm );
@@ -433,7 +433,7 @@ private:
 	*3: bullseye (2, 1, 0.5 degrees)
 	*4: rectangle (user-defined width, height)
 	*/
-	void drawTargetSymbol( QPainter &psky, int style );
+	void drawTargetSymbol( QPainter &psky );
 
 	void drawTelescopeSymbols(QPainter &psky);
 	void drawZoomBox( QPainter &psky);

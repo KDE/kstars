@@ -32,9 +32,11 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ksw ) { //only if we are drawing in the GUI window
 		QPainter p;
 		p.begin( pm );
-		
+
 		drawBoxes( p );
-		drawTargetSymbol( p, data->options->targetSymbol );
+
+		//draw FOV symbol
+		ksw->data()->fovSymbol.draw( p, (float)(data->options->FOVSize*zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
 		drawZoomBox( p );
 	}
@@ -143,70 +145,6 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 	}
 }
 
-void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
-	//Draw this last so it is never "behind" other things.
-	psky.setPen( QPen( QColor( data->options->colorScheme()->colorNamed("TargetColor" ) ) ) );
-	psky.setBrush( NoBrush );
-	int pxperdegree = int(zoomFactor()/57.3);
-
-	switch ( style ) {
-		case 1: { //simple circle, one degree in diameter.
-			int size = pxperdegree;
-			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
-			break;
-		}
-		case 2: { //case 1, fancy crosshairs
-			int s1 = pxperdegree/2;
-			int s2 = pxperdegree;
-			int s3 = 2*pxperdegree;
-
-			int x0 = width()/2;  int y0 = height()/2;
-			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-			//Draw radial lines
-			psky.drawLine( x1, y0, x3, y0 );
-			psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
-			psky.drawLine( x0, y1, x0, y3 );
-			psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
-
-			//Draw circles at 0.5 & 1 degrees
-			psky.drawEllipse( x1, y1, s1, s1 );
-			psky.drawEllipse( x2, y2, s2, s2 );
-
-			break;
-		}
-
-		case 3: { //Bullseye
-			int s1 = pxperdegree/2;
-			int s2 = pxperdegree;
-			int s3 = 2*pxperdegree;
-
-			int x0 = width()/2;  int y0 = height()/2;
-			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-			psky.drawEllipse( x1, y1, s1, s1 );
-			psky.drawEllipse( x2, y2, s2, s2 );
-			psky.drawEllipse( x3, y3, s3, s3 );
-
-			break;
-		}
-
-		case 4: { //Rectangle
-			int s = pxperdegree;
-			int x1 = width()/2 - s/2;
-			int y1 = height()/2 - s/2;
-
-			psky.drawRect( x1, y1, s, s );
-			break;
-		}
-
-	}
-}
-
 void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 {
 	KStarsOptions* options = data->options;
@@ -216,7 +154,6 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	//Draw Milky Way (draw this first so it's in the "background")
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "MWColor" ) ), 1, SolidLine ) ); //change to colorGrid
 		psky.setBrush( QBrush( QColor( options->colorScheme()->colorNamed( "MWColor" ) ) ) );
@@ -1267,7 +1204,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 //END_DUMP_HORIZON
 
 //		Finish the Ground polygon by adding a square bottom edge, offscreen
-			if ( options->useAltAz ) { 
+			if ( options->useAltAz ) {
 				if ( options->drawGround ) {
 					ptsCount = points.count();
 					pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
@@ -1280,13 +1217,13 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 						points.remove(i);
 					}
 				}
-				
+
 //	Draw compass heading labels along horizon
 				SkyPoint *c = new SkyPoint;
 				QPoint cpoint;
 				psky.setFont( stdFont );
 
-				if ( options->drawGround ) 
+				if ( options->drawGround )
 					psky.setPen( QColor ( options->colorScheme()->colorNamed( "CompassColor" ) ) );
 				else
 					psky.setPen( QColor ( options->colorScheme()->colorNamed( "HorzColor" ) ) );

@@ -321,7 +321,9 @@ void ScriptBuilder::initViewOptions() {
 	opsSkymap = new QListViewItem( otv->OptionsList, i18n( "Skymap Options" ) );
 	new QListViewItem( opsSkymap, "UseAltAz", i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "ZoomFactor", i18n( "Set the Zoom Factor" ), i18n( "double" ) );
-	new QListViewItem( opsSkymap, "Target Symbol", i18n( "Select Target symbol (0=none, 1=circle, 2=crosshairs, 3=bullseye, 4=rectangle)" ), i18n( "int" ) );
+	new QListViewItem( opsSkymap, "FOV Size", i18n( "Select angular size for the FOV symbol (in arcmin)" ), i18n( "double" ) );
+	new QListViewItem( opsSkymap, "FOV Shape", i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
+	new QListViewItem( opsSkymap, "FOV Color", i18n( "Select color for the FOV symbol" ), i18n( "string" ) );
 	new QListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewin? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseAutoLabel", i18n( "Automatically attach name label to centered object?" ), i18n( "bool" ) );
@@ -329,7 +331,9 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsSkymap, "FadePlanetTrails", i18n( "Planet trails fade to sky color? (otherwise color is constant)" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "UseAltAz" );
 	argChangeViewOption->OptionName->insertItem( "ZoomFactor" );
-	argChangeViewOption->OptionName->insertItem( "TargetSymbol" );
+	argChangeViewOption->OptionName->insertItem( "FOVSize" );
+	argChangeViewOption->OptionName->insertItem( "FOVShape" );
+	argChangeViewOption->OptionName->insertItem( "FOVColor" );
 	argChangeViewOption->OptionName->insertItem( "UseRefraction" );
 	argChangeViewOption->OptionName->insertItem( "UseAutoLabel" );
 	argChangeViewOption->OptionName->insertItem( "UseAutoTrail" );
