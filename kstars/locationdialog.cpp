@@ -22,7 +22,6 @@
 #include <kmessagebox.h>
 
 #include "kstars.h"
-#include "kstarsmessagebox.h"
 #include "locationdialog.h"
 
 #include <kstandarddirs.h>
@@ -518,7 +517,7 @@ void LocationDialog::showTZRules( void ) {
 	lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
 	QString message = i18n( "Daylight Saving Time Rules" );
-	KStarsMessageBox::badCatalog( 0, message, lines, message );
+	KMessageBox::informationList( 0, message, lines, message );
 }
 
 void LocationDialog::nameChanged( void ) {

@@ -23,7 +23,6 @@
 
 #include "ksutils.h"
 #include "kstarsdata.h"
-#include "kstarsmessagebox.h"
 #include "skymap.h"
 #include "deepskyobject.h"
 #include "filesource.h"
@@ -1224,10 +1223,8 @@ bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objL
 	} else {
 		if ( showerrs ) {
 			QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
-			KStarsMessageBox::badCatalog( 0, message, errs,
+			KMessageBox::informationList( 0, message, errs,
 					i18n( "No Valid Data Found in File" ) );
-//			KMessageBox::warningContinueCancelList( 0, message, errs,
-//							 i18n( "No valid data found in file" ), i18n( "Close" ) );
 		}
 		return false;
 	}
