@@ -15,6 +15,8 @@
  ***************************************************************************/
 
 #include "indidriver.h"
+#include "indimenu.h"
+#include "indihostconf.h"
 
 #include "kstars.h"
 #include "ksutils.h"
@@ -24,80 +26,133 @@
 #include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kmessagebox.h>
-
-
+#include <kpushbutton.h>
+#include <klineedit.h>
 
 /*
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-INDIDriver::INDIDriver(QWidget *parent, const char *name ) : KDialogBase( parent, name, true, i18n("Driver Control Panel"), KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
+INDIDriver::INDIDriver(QWidget *parent) : INDIConf( parent )
+
 {
 
     lastPort = 7263;
     lastGroup = NULL;
     lastDevice = NULL;
-    silentRemove = false;
 
     ksw = (KStars *) parent;
 
-    FormLayout =  makeVBoxMainWidget();
+    //FormLayout =  makeVBoxMainWidget();
 
-    deviceContainer = new KListView(FormLayout);
-    deviceContainer->addColumn( i18n( "Devices" ) );
-    deviceContainer->addColumn( i18n( "Status" ) );
-    deviceContainer->addColumn( i18n( "Version" ) );
-    deviceContainer->setSorting(-1);
+    localListView->setSorting(-1);
 
     KIconLoader *icons = KGlobal::iconLoader();
     runningPix = icons->loadIcon( "exec", KIcon::Small);
     stopPix    = icons->loadIcon( "button_cancel", KIcon::Small);
 
-    popMenu = new KPopupMenu(deviceContainer);
-    popMenu->insertItem( runningPix, i18n("Run Service") , 0);
-    popMenu->insertItem( stopPix, i18n("Stop Service"), 1);
+    LocalpopMenu = new KPopupMenu(localListView);
+    LocalpopMenu->insertItem( runningPix, i18n("Run Service") , 0);
+    LocalpopMenu->insertItem( stopPix, i18n("Stop Service"), 1);
 
-    topItem = new QListViewItem(deviceContainer);
+    topItem = new QListViewItem(localListView);
     topItem->setPixmap( 0, icons->loadIcon( "gear", KIcon::Small) );
 
     topItem->setOpen(true);
 
-QObject::connect(deviceContainer, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(processRightButton( QListViewItem *, const QPoint &, int )));
 
-QObject::connect(popMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
+  connected           = icons->loadIcon( "connect_established", KIcon::Small);
+  disconnected        = icons->loadIcon( "connect_no", KIcon::Small);
+  establishConnection = icons->loadIcon( "connect_creating", KIcon::Small);
+
+  ClientpopMenu = new KPopupMenu(clientListView);
+  ClientpopMenu->insertItem( establishConnection, i18n("Connect") , 0);
+  ClientpopMenu->insertItem( disconnected, i18n("Disconnect"), 1);
 
 
-    readXMLDriver();
+  for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
+  {
+  	QListViewItem *item = new QListViewItem(clientListView);
+	item->setPixmap(0, disconnected);
+        item->setText(1, ksw->data()->INDIHostsList.at(i)->hostname);
+	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
 
-    resize( 400, 300);
+  }
+
+
+  QObject::connect(addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
+  QObject::connect(modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
+  QObject::connect(removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
+
+  QObject::connect(clientListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(ClientprocessRightButton( QListViewItem *, const QPoint &, int )));
+
+QObject::connect(ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
+
+QObject::connect(localListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(LocalprocessRightButton( QListViewItem *, const QPoint &, int )));
+
+QObject::connect(LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
+
+QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
+
+   readXMLDriver();
+
+   resize( 500, 300);
 
 }
 
-void INDIDriver::processRightButton( QListViewItem *item, const QPoint &p, int column)
+void INDIDriver::shutdownHost(int mgrID)
+{
+
+  QListViewItem *affectedItem;
+
+for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
+     {
+        affectedItem = clientListView->itemAtIndex(i);
+	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
+	ksw->data()->INDIHostsList.at(i)->isConnected = false;
+        affectedItem->setPixmap(0, disconnected);
+	break;
+     }
+}
+
+void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p, int column)
 {
 
   column = 0;
 
   if (item && item->childCount() == 0)
-  	popMenu->popup(p);
+  	ClientpopMenu->popup(p);
+}
+
+void INDIDriver::LocalprocessRightButton( QListViewItem *item, const QPoint &p, int column)
+{
+
+  column = 0;
+
+  if (item && item->childCount() == 0)
+  	LocalpopMenu->popup(p);
 }
 
 void INDIDriver::processDeviceStatus(int id)
 {
 
    for (uint i=0; i < devices.size(); i++)
-     if (deviceContainer->selectedItem()->text(0) == QString(devices[i]->name))
+     if (localListView->selectedItem()->text(0) == QString(devices[i]->name))
      {
 	devices[i]->state = id == 0 ? 1 : 0;
 	if (devices[i]->state)
 	{
-	  deviceContainer->selectedItem()->setPixmap(1, runningPix);
+	  localListView->selectedItem()->setPixmap(1, runningPix);
 	  runDevice(devices[i]);
+	  localListView->selectedItem()->setText(3, QString("%1").arg(devices[i]->indiPort));
+
 	}
         else
 	{
-	    silentRemove = true;
-	    deviceContainer->selectedItem()->setPixmap(1, stopPix);
+	    ksw->getINDIMenu()->processServer();
+	    localListView->selectedItem()->setPixmap(1, stopPix);
+	    localListView->selectedItem()->setText(3, QString(""));
 	    devices[i]->restart();
 	}
 
@@ -109,7 +164,6 @@ bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
 {
   dev->indiPort = getINDIPort();
   dev->proc = new KProcess;
-
 
   *dev->proc << "indiserver";
   *dev->proc << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
@@ -124,10 +178,7 @@ void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
 
   for (uint i=0 ; i < devices.size(); i++)
      if (!strcmp(dev->name, devices[i]->name))
-     {
-        kdDebug() << "INDI Driver: removing driver " << dev->name << endl;
-	dev->restart();
-     }
+     	dev->restart();
 }
 
 int INDIDriver::getINDIPort()
@@ -147,7 +198,7 @@ bool INDIDriver::readXMLDriver()
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
   {
-     KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file or download it from http://edu.kde.org/kstars and place the file in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
+     KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
 
     return false;
  }
@@ -185,6 +236,10 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   // Get device grouping name
   ap = findXMLAtt(root, "group");
+
+  // avoid overflow
+  if (strlen(root->tag) > 1024)
+   return false;
 
   if (!ap)
   {
@@ -274,6 +329,8 @@ INDIDriver::IDevice::IDevice(char *inName, char * inExec, char *inVersion)
   // not yet managed by DeviceManager
   managed = false;
 
+  mgrID = -1;
+
   proc = NULL;
 
 }
@@ -301,12 +358,19 @@ int INDIDriver::activeDriverCount()
     if (devices[i]->state)
       count++;
 
+  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+    if (ksw->data()->INDIHostsList.at(i)->isConnected)
+      count++;
+
+
   return count;
 
 }
 
 void INDIDriver::IDevice::restart()
 {
+
+  mgrID = -1;
 
   state = 0;
 
@@ -315,6 +379,153 @@ void INDIDriver::IDevice::restart()
   proc->kill();
 
   proc = NULL;
+
+}
+<<<<<<< indidriver.cpp
+
+void INDIDriver::processHostStatus(int id)
+{
+   int mgrID;
+   bool toConnect = (id == 0);
+   QListViewItem *currentItem = clientListView->selectedItem();
+   INDIHostsInfo *hostInfo;
+
+   for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   {
+     hostInfo = ksw->data()->INDIHostsList.at(i);
+     if (currentItem->text(1) == hostInfo->hostname)
+     {
+        // Nothing changed, return
+        if (hostInfo->isConnected == toConnect)
+	 return;
+
+	// connect to host
+	if (toConnect)
+	{
+	   // if connection successful
+          if ( (mgrID = ksw->getINDIMenu()->processClient(currentItem->text(1), currentItem->text(2))) >= 0)
+	  {
+	    currentItem->setPixmap(0, connected);
+	    hostInfo->isConnected = true;
+	    hostInfo->mgrID = mgrID;
+	  }
+	}
+	else
+	{
+	  ksw->getINDIMenu()->removeDeviceMgr(hostInfo->mgrID);
+	  hostInfo->mgrID = mgrID = -1;
+	  hostInfo->isConnected = false;
+	  currentItem->setPixmap(0, disconnected);
+	}
+
+
+     }
+    }
+}
+
+void INDIDriver::addINDIHost()
+{
+  INDIHostConf hostConf(this);
+  hostConf.setCaption(i18n("Add host"));
+
+  if (hostConf.exec() == QDialog::Accepted)
+  {
+    INDIHostsInfo *hostItem = new INDIHostsInfo;
+    hostItem->hostname   = hostConf.hostname->text();
+    hostItem->portnumber = hostConf.portnumber->text();
+
+
+    ksw->data()->INDIHostsList.append(hostItem);
+
+    QListViewItem *item = new QListViewItem(clientListView);
+    item->setPixmap(0, disconnected);
+    item->setText(1, hostConf.hostname->text());
+    item->setText(2, hostConf.portnumber->text());
+
+  }
+
+    saveHosts();
+}
+
+
+
+void INDIDriver::modifyINDIHost()
+{
+
+  INDIHostConf hostConf(this);
+  hostConf.setCaption(i18n("Modify host"));
+
+  QListViewItem *currentItem = clientListView->currentItem();
+
+  if (currentItem == NULL)
+   return;
+
+  hostConf.hostname->setText(currentItem->text(1));
+  hostConf.portnumber->setText(currentItem->text(2));
+
+  if (hostConf.exec() == QDialog::Accepted)
+  {
+    INDIHostsInfo *hostItem = new INDIHostsInfo;
+    hostItem->hostname   = hostConf.hostname->text();
+    hostItem->portnumber = hostConf.portnumber->text();
+
+    currentItem->setText(1, hostConf.hostname->text());
+    currentItem->setText(2, hostConf.portnumber->text());
+
+    ksw->data()->INDIHostsList.replace(clientListView->itemIndex(currentItem), hostItem);
+
+    saveHosts();
+  }
+
+}
+
+void INDIDriver::removeINDIHost()
+{
+
+ if (clientListView->currentItem() == NULL)
+  return;
+
+ if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the host?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
+   return;
+
+ ksw->data()->INDIHostsList.remove(clientListView->itemIndex(clientListView->currentItem()));
+ clientListView->takeItem(clientListView->currentItem());
+
+ saveHosts();
+
+}
+
+void INDIDriver::saveHosts()
+{
+
+ QFile file;
+ QString hostData;
+
+ file.setName( locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
+
+ if ( !file.open( IO_WriteOnly))
+ {
+  QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
+ KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+  return;
+ }
+
+ QTextStream outstream(&file);
+
+ for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
+ {
+
+ hostData  = "<INDIHost hostname='";
+ hostData += ksw->data()->INDIHostsList.at(i)->hostname;
+ hostData += "' port='";
+ hostData += ksw->data()->INDIHostsList.at(i)->portnumber;
+ hostData += "' />\n";
+
+ outstream << hostData;
+
+ }
+
+  file.close();
 
 }
 

@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "indi/lilxml.h"
+#include "indiconf.h"
 
 class KStars;
 
@@ -30,15 +31,23 @@ class KListView;
 class KPopupMenu;
 class KProcess;
 
-// Doh, only temp
-class INDIDriver : public KDialogBase
+struct INDIHostsInfo
+{
+  QString hostname;
+  QString portnumber;
+  bool isConnected;
+  int mgrID;
+};
+
+
+class INDIDriver : public INDIConf
 {
 
    Q_OBJECT
 
    public:
 
-   INDIDriver(QWidget * parent = 0 , const char *name = 0);
+   INDIDriver(QWidget * parent = 0);
    ~INDIDriver();
 
     KListView* deviceContainer;
@@ -55,13 +64,15 @@ class INDIDriver : public KDialogBase
 
     QPixmap runningPix;
     QPixmap stopPix;
-    QPixmap updatePix;
+    QPixmap connected;
+    QPixmap disconnected;
+    QPixmap establishConnection;
 
-    KPopupMenu *popMenu;
+    KPopupMenu *ClientpopMenu;
+    KPopupMenu *LocalpopMenu;
 
     int lastPort;
-    bool silentRemove;
-    
+
     class IDevice
     {
      public:
@@ -74,6 +85,7 @@ class INDIDriver : public KDialogBase
       int state;
       int indiPort;
       bool managed;
+      int mgrID;
       KProcess *proc;
 
       void restart();
@@ -84,18 +96,23 @@ class INDIDriver : public KDialogBase
     int getINDIPort();
     int activeDriverCount();
 
+
+    void saveHosts();
+
    std::vector <IDevice *> devices;
 
    KStars *ksw;
 
-protected:
-    QVBox* FormLayout;
 
 public slots:
-    void processRightButton( QListViewItem *, const QPoint &, int );
+    void ClientprocessRightButton( QListViewItem *, const QPoint &, int );
+    void LocalprocessRightButton( QListViewItem *, const QPoint &, int );
     void processDeviceStatus(int);
-
-
+    void processHostStatus(int);
+    void addINDIHost();
+    void modifyINDIHost();
+    void removeINDIHost();
+    void shutdownHost(int mgrID);
 };
 
 #endif
