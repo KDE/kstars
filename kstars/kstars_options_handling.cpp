@@ -23,9 +23,15 @@
 void KStars::loadOptions()
 {
 	KConfig *conf = kapp->config();
-	//Check if kstarsrc exists.  If not, we are using default options (need to know for setting initial focus point)
-	if ( conf->hasGroup( "Location" ) ) useDefaultOptions = false;
-	else useDefaultOptions = true;
+	//Check if kstarsrc exists.  If not, we are using default options 
+	//(need to know for setting initial focus point).
+	//We used to use hasGroup() here, but I have reason to suspect that this
+	//this causes a crash on some systems (see bug #44869).  At Kevin
+	//Krammer's suggestion, using findResource("kstarsrc") instead.
+	//if ( conf->hasGroup( "Location" ) ) useDefaultOptions = false;
+	//else useDefaultOptions = true;
+	if ( data()->stdDirs->findResource( "config", "kstarsrc" ).isNull() ) useDefaultOptions = true;
+	else useDefaultOptions = false;
 
 	// Get initial Location from config()
 	conf->setGroup( "Location" );
