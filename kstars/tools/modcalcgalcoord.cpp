@@ -37,6 +37,7 @@
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : modCalcGalCoordDlg(parentSplit,name) {
 
 	equRadio->setChecked(TRUE);
+	raBox->setDegType(FALSE);
 	this->show();
 }
 
