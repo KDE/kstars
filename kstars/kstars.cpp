@@ -36,7 +36,8 @@
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
-	skymap(0), clock(0), findDialog(0), IBoxes(0), centralWidget(0), DialogIsObsolete(false)
+	skymap(0), clock(0), findDialog(0), IBoxes(0), centralWidget(0),
+	AAVSODialog(0), DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
 
@@ -90,7 +91,7 @@ KStars::~KStars()
 	delete pd;
 	if (clock) delete clock;
 	if (centralWidget) delete centralWidget;
-    if (AAVSODialog) delete AAVSODialog;
+	if (AAVSODialog) delete AAVSODialog;
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {
