@@ -227,3 +227,5 @@ XMLEle * INDIMenu::findEle (XMLEle *ep, INDI_P *pp, const char *child, char errm
 }
 
 
+
+#include "indimenu.moc"

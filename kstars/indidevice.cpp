@@ -2014,3 +2014,5 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	return (0);
 }
 
+
+#include "indidevice.moc"

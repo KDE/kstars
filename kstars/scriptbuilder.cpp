@@ -1121,3 +1121,5 @@ void ScriptBuilder::slotTimeScale() {
 		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
 	}
 }
+
+#include "scriptbuilder.moc"

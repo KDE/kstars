@@ -317,3 +317,5 @@ void INDIDriver::IDevice::restart()
   proc = NULL;
 
 }
+
+#include "indidriver.moc"
