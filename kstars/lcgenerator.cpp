@@ -43,9 +43,9 @@ LCGenerator::LCGenerator( QWidget* parent)
 
   ksw = (KStars*) parent;
   createGUI();
-  
+
   downloadJob = 0;
-  
+
   file = new QFile();
 }
 
@@ -60,10 +60,10 @@ void LCGenerator::createGUI()
 
     QWidget *page = new QWidget(this);
     setMainWidget(page);
-    
-    LCGeneratorDialogLayout = new QVBoxLayout( page, 11, 6, "LCGeneratorDialogLayout"); 
 
-    SDLayout = new QHBoxLayout( 0, 0, 6, "SDLayout"); 
+    LCGeneratorDialogLayout = new QVBoxLayout( page, 11, 6, "LCGeneratorDialogLayout");
+
+    SDLayout = new QHBoxLayout( 0, 0, 6, "SDLayout");
 
     StarInfoBox = new QGroupBox( page, "StarInfoBox" );
     StarInfoBox->setColumnLayout(0, Qt::Vertical );
@@ -72,7 +72,7 @@ void LCGenerator::createGUI()
     StarInfoBoxLayout = new QVBoxLayout( StarInfoBox->layout() );
     StarInfoBoxLayout->setAlignment( Qt::AlignTop );
 
-    DesignHLayout = new QHBoxLayout( 0, 0, 6, "DesignHLayout"); 
+    DesignHLayout = new QHBoxLayout( 0, 0, 6, "DesignHLayout");
 
     desigLabel = new QLabel( StarInfoBox, "desigLabel" );
     desigLabel->setMinimumSize( QSize( 70, 0 ) );
@@ -81,12 +81,12 @@ void LCGenerator::createGUI()
     DesignationIn = new KListBox( StarInfoBox, "DesignationIn" );
     DesignHLayout->addWidget( DesignationIn );
     StarInfoBoxLayout->addLayout( DesignHLayout );
-    
+
     // Fill stars designations
     for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
      DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
-    NameHLayout = new QHBoxLayout( 0, 0, 6, "NameHLayout"); 
+    NameHLayout = new QHBoxLayout( 0, 0, 6, "NameHLayout");
 
     nameLabel = new QLabel( StarInfoBox, "nameLabel" );
     nameLabel->setMinimumSize( QSize( 70, 0 ) );
@@ -95,12 +95,12 @@ void LCGenerator::createGUI()
     NameIn = new KListBox( StarInfoBox, "NameIn" );
     NameHLayout->addWidget( NameIn );
     StarInfoBoxLayout->addLayout( NameHLayout );
-    
+
     // Fill star names
     for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
      NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 
-    StartHLayout = new QHBoxLayout( 0, 0, 6, "StartHLayout"); 
+    StartHLayout = new QHBoxLayout( 0, 0, 6, "StartHLayout");
 
     startLabel = new QLabel( StarInfoBox, "startLabel" );
     startLabel->setMinimumSize( QSize( 70, 0 ) );
@@ -110,7 +110,7 @@ void LCGenerator::createGUI()
     StartHLayout->addWidget( StartDateIn );
     StarInfoBoxLayout->addLayout( StartHLayout );
 
-    EndHLayout = new QHBoxLayout( 0, 0, 6, "EndHLayout"); 
+    EndHLayout = new QHBoxLayout( 0, 0, 6, "EndHLayout");
 
     endLabel = new QLabel( StarInfoBox, "endLabel" );
     endLabel->setMinimumSize( QSize( 70, 0 ) );
@@ -155,7 +155,7 @@ void LCGenerator::createGUI()
     CCDICheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( CCDICheck );
 
-    PlotHLayout = new QHBoxLayout( 0, 0, 6, "PlotHLayout"); 
+    PlotHLayout = new QHBoxLayout( 0, 0, 6, "PlotHLayout");
 
     plotLabel = new QLabel( DataSelectBox, "plotLabel" );
     PlotHLayout->addWidget( plotLabel );
@@ -169,7 +169,7 @@ void LCGenerator::createGUI()
     SDLayout->addWidget( DataSelectBox );
     LCGeneratorDialogLayout->addLayout( SDLayout );
 
-    ButtonHLayout = new QHBoxLayout( 0, 0, 6, "ButtonHLayout"); 
+    ButtonHLayout = new QHBoxLayout( 0, 0, 6, "ButtonHLayout");
 
     GetCurveButton = new KPushButton( page, "GetCurveButton" );
     ButtonHLayout->addWidget( GetCurveButton );
@@ -179,11 +179,11 @@ void LCGenerator::createGUI()
     QSpacerItem* spacer = new QSpacerItem( 128, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
     ButtonHLayout->addItem( spacer );
 
-    CloseButton = new KPushButton( page, "closeButton" );
+    CloseButton = new KPushButton( KStdGuiItem::close(), page, "closeButton" );
     ButtonHLayout->addWidget( CloseButton );
     LCGeneratorDialogLayout->addLayout( ButtonHLayout );
-    
-    
+
+
     StarInfoBox->setTitle( i18n( "Star Info:" ) );
     desigLabel->setText( i18n( "Designation:" ) );
     nameLabel->setText( i18n( "Or name:" ) );
@@ -205,18 +205,17 @@ void LCGenerator::createGUI()
     daysLabel->setText( i18n( "days" ) );
     GetCurveButton->setText( i18n( "Retrieve Curve" ) );
     UpdateListButton->setText( i18n( "Update List" ) );
-    CloseButton->setText( i18n( "Close" ) );
-    
+
     resize( QSize(500, 360) );
-        
+
     // Signals/Slots
     QObject::connect(CloseButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(GetCurveButton, SIGNAL(clicked()), this, SLOT(VerifyData()));
     QObject::connect(UpdateListButton, SIGNAL(clicked()), this, SLOT(updateStarList()));
     QObject::connect(DesignationIn, SIGNAL(highlighted(int)), this, SLOT(updateNameList(int)));
     QObject::connect(NameIn, SIGNAL(highlighted(int)), this, SLOT(updateDesigList(int)));
-      
-    
+
+
 }
 
 void LCGenerator::VerifyData()
@@ -260,13 +259,13 @@ void LCGenerator::VerifyData()
             	return;
 	  }
 	 }
-	  
+
    }
    else AverageDays = QString("default");
 
     //Download the curve!
    DownloadCurve(FinalStartDate, FinalEndDate, FinalDesignation, AverageDays);
-  
+
 }
 
 bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
@@ -278,11 +277,11 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
 
     int dateFormat[3];
     bool isNumber;
-    
+
     const QString invalidFormatStartJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves for the past 500 days."));
     const QString invalidFormatENDJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves until today."));
     QString invalidFormatMsg(JDType ? invalidFormatENDJD : invalidFormatStartJD);
-    
+
 
     // check for "default" date
     if (Date == i18n("default"))
@@ -362,7 +361,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
              KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
              return false;
         }
-  
+
 }
 
 void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay)
@@ -371,7 +370,7 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
         QString buf(Hostprefix);
 	QString Yes("yes");
 	QString No("no");
-	
+
 	//FainterCheck;
 	//CCDVCheck;
         //CCDICheck;
@@ -379,7 +378,7 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
         //CCDBCheck;
         //VisualCheck;
         //DiscrepantCheck;
-    
+
 
         buf.append("?"+FinalStartDate);
         buf.append("?"+FinalEndDate);
@@ -392,12 +391,12 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
 	buf.append("?"+ (CCDBCheck->isOn() ? Yes : No));
 	buf.append("?"+ (VisualCheck->isOn() ? Yes : No));
 	buf.append("?"+ (DiscrepantCheck->isOn() ? Yes : No));
-	
+
 
         KURL url(buf);
         // parent of imageview is KStars
         new ImageViewer(&url, ksw, "lightcurve");
-        
+
 }
 
 void LCGenerator::updateDesigList(int index)
@@ -405,7 +404,7 @@ void LCGenerator::updateDesigList(int index)
 
     DesignationIn->setSelected(index, true);
     DesignationIn->centerCurrentItem();
-    
+
 }
 
 void LCGenerator::updateNameList(int index)
@@ -413,16 +412,16 @@ void LCGenerator::updateNameList(int index)
 
     NameIn->setSelected(index, true);
     NameIn->centerCurrentItem();
-    
+
 }
 
 void LCGenerator::updateStarList()
 {
 	file->setName( locateLocal( "appdata", "valaav.txt" ) );
-	
+
 	KURL AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
 	KURL saveFile (file->name());
-	
+
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
 	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 }
@@ -444,10 +443,10 @@ downloadJob = 0;
 	if ( file->exists() )
 	{
 		ksw->data()->readVARData();
-		
+
 		DesignationIn->clear();
                 NameIn->clear();
-		
+
 		// Fill stars designations
                 for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
                 DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
@@ -455,10 +454,10 @@ downloadJob = 0;
                 // Fill star names
                 for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
                 NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
-		
+
                 KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully"));
 
-		
+
 		return;
 	}
 	closeEvent (0);

@@ -250,7 +250,7 @@ void KStars::slotSetTime() {
 		}
 
 		//If focusObject has a Planet Trail, clear it and start anew.
-		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
 		     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
 		  ((KSPlanetBase*)map()->focusObject())->clearTrail();
 		  ((KSPlanetBase*)map()->focusObject())->addToTrail();
@@ -342,7 +342,7 @@ void KStars::slotRunScript() {
 			message += i18n( "To cancel the download, press Cancel. " );
 
 			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
-					i18n( "&Continue" ), i18n( "&Save" ) );
+					KStdGuiItem::cont(), KStdGuiItem::save() );
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
@@ -543,7 +543,7 @@ void KStars::slotSetTimeToNow() {
 	}
 
 	//If focusObject has a Planet Trail, clear it and start anew.
-	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
 	     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
 	  ((KSPlanetBase*)map()->focusObject())->clearTrail();
 	  ((KSPlanetBase*)map()->focusObject())->addToTrail();
@@ -621,7 +621,7 @@ void KStars::slotManualFocus() {
 		if ( options()->isTracking ) slotTrack();
 
 		map()->slotCenter();
-		
+
 		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
 		if ( focusDialog.usedAltAz() ) map()->stopTracking();
 	}
