@@ -203,7 +203,12 @@ QString ScriptFunction::scriptLine() const {
 	QString out( Name );
 	unsigned int i=0;
 	while ( ! ArgName[i].isEmpty() && i < 6 ) {
-		out += " " + ArgVal[i];
+		// Wrap arg in quotes if it contains a space
+		if ( ArgVal[i].contains(" ") ) {
+			out += " \"" + ArgVal[i] + "\"";
+		} else {
+			out += " " + ArgVal[i];
+		}
 		++i;
 	}
 
