@@ -25,6 +25,7 @@
 #include <qregexp.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include <stdlib.h>
 
 timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,name) 
 { 
