@@ -1264,11 +1264,15 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Planet Trail
 	if ( ksw->data()->PlanetTrail.count() ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
+		QColor tcolor1 = QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) );
+		QColor tcolor2 = QColor( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) );
+		
 		SkyPoint *p = ksw->data()->PlanetTrail.first();
 		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 		bool firstPoint(false);
-
+		int i = 0;
+		int n = ksw->data()->PlanetTrail.count();
+		
 		if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
 				 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
 			psky.moveTo(o.x(), o.y());
@@ -1276,8 +1280,15 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
 		
 		for ( p = ksw->data()->PlanetTrail.next(); p; p = ksw->data()->PlanetTrail.next() ) {
+			//Define interpolated color
+			QColor tcolor = QColor( 
+						(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
+						(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
+						(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
+			psky.setPen( tcolor );
+			++i;
+			
 			o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
-
 			if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
 					 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
 					
@@ -1318,7 +1329,20 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Jupiter
 	if ( ksw->options()->drawJupiter && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
+		drawPlanet(psky, ksw->data()->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
+		
+		//Draw moons
+		psky.setPen( QPen( QColor( "white" ) ) );
+		if ( ksw->data()->ZoomLevel > 5 ) {
+			for ( int i=0; i<5; ++i ) {
+				QPoint o = getXY( ksw->data()->jmoons->pos(i), ksw->options()->useAltAz, ksw->options()->useRefraction );
+
+				if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
+						 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
+					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+				}
+			}
+		} 
 	}
 
 	//Draw Saturn
@@ -1615,7 +1639,7 @@ void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 	//Draw this last so it is never "behind" other things.
 	psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
 	psky.setBrush( NoBrush );
-	int pxperdegree = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
+	int pxperdegree = int(pixelScale[ ksw->data()->ZoomLevel ]/57.3);
 	
 	switch ( style ) {
 		case 1: { //simple circle, one degree in diameter.

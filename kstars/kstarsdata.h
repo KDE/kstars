@@ -44,6 +44,7 @@
 #include "objectnamelist.h"
 #include "timezonerule.h"
 #include "lcgenerator.h"
+#include "jupitermoons.h"
 
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
@@ -402,7 +403,6 @@ private:
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
-	PlanetCatalog *PC;
 
 	QString cnameFile;
 	KStandardDirs *stdDirs;
@@ -416,7 +416,9 @@ private:
 
 	QString TypeName[10];
 
+	PlanetCatalog *PC;
 	KSMoon *Moon;
+	JupiterMoons *jmoons;
 
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;

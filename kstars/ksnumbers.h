@@ -77,7 +77,7 @@ public:
 	double julianCenturies() const { return T; }
 
 	/**@returns Julian Day*/
-	long double julianDate() const { return days; }
+	long double julianDay() const { return days; }
 
 	/**@returns Julian Millenia since J2000*/
 	double julianMillenia() const { return jm; }

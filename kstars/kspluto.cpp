@@ -220,7 +220,7 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double olddst = -1000;
 	double dst = 0;
 
-	double jd = num->julianDate();
+	double jd = num->julianDay();
 	Earth->ecLong().SinCos( sinL0, cosL0 );
 	Earth->ecLat().SinCos( sinB0, cosB0 );
 	double eX = Earth->rsun()*cosB0*cosL0;
@@ -244,7 +244,7 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		dst = sqrt( dX * dX + dY * dY + dZ * dZ );
 		double delay = .0057755183 * dst;
 
-		jd = num->julianDate() - delay;
+		jd = num->julianDay() - delay;
 
 	}
 

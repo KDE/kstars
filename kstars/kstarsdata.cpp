@@ -1009,6 +1009,8 @@ void KStarsData::slotInitialize() {
 			emit progressText( i18n("Creating Planets" ) );
 			if (PC->initialize())
 				PC->addObject( ObjNames );
+			
+			jmoons = new JupiterMoons();
 			break;
 
 		case 9: //Initialize the Moon//
@@ -1128,6 +1130,9 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			Moon->findPosition( &num, geo->lat(), LSTh );
 			Moon->findPhase( PC->planetSun() );
 		}
+	
+		//for now, update positions of Jupiter's moons here also
+		jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
@@ -1138,8 +1143,13 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		//Recompute Alt, Az coords for all objects
 		//Planets
 		PC->EquatorialToHorizontal( LSTh, geo->lat() );
+		jmoons->EquatorialToHorizontal( LSTh, geo->lat() );
 		if ( options->drawMoon ) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
 
+		//Planet Trails
+		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() ) 
+			p->EquatorialToHorizontal( LSTh, geo->lat() );
+		
 		//Stars
 		if ( options->drawSAO ) {
 			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
