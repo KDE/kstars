@@ -17,19 +17,25 @@
 
 #include <stdlib.h>
 #include <qpushbutton.h>
+#include <qlineedit.h>
 #include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
 
-TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name ) : QSpinBox(parent,name) {
-	setValidator( 0 );
-	setButtonSymbols( QSpinBox::UpDownArrows );
+TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name )
+	: QVBox( parent, name ) {
+
+	UpButton = new QPushButton( "+", this );
+	UpButton->setMaximumWidth( 22 );
+	UpButton->setMaximumHeight( 10 );
+	DownButton = new QPushButton( "-", this );
+	DownButton->setMaximumWidth( 22 );
+	DownButton->setMaximumHeight( 10 );
+	
 	setMinValue( 1-NUNITS );
 	setMaxValue( NUNITS-1 );
-	setLineStep( 1 );
-	setWrapping( false );
 	setValue( 1 ); // Start out with seconds units
-
+	
 	UnitStep[0] = 0;
 	UnitStep[1] = 4;
 	UnitStep[2] = 10;
@@ -39,19 +45,25 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name ) : QSpinBox(parent,n
 	UnitStep[6] = 28;
 	UnitStep[7] = 34;
 
-//Qt 2.x: why is iconSet still NULL here???  Can't set size of the spinbox because
-//I have no way of knowing how wide the up/down buttons are going to be.  grrr....
-//	if ( downButton()->iconSet()==NULL ) qDebug( "iconset is null" );
-//	setMaximumWidth( downButton()->iconSet()->pixmap().width() );
-
-#if ( QT_VERSION >= 300 )
-	setMaximumWidth( downRect().width() );
-#else
-	setMaximumWidth( 20 );
-#endif
+	connect( UpButton, SIGNAL( clicked() ), this, SLOT( increase() ) );
+	connect( DownButton, SIGNAL( clicked() ), this, SLOT( decrease() ) );
 }
 
 TimeUnitBox::~TimeUnitBox(){
+}
+
+void TimeUnitBox::increase() {
+	if ( value() < maxValue() ) {
+		setValue( value()+1 );
+		emit valueChanged( value() );
+	}
+}
+
+void TimeUnitBox::decrease() {
+	if ( value() > minValue() ) {
+		setValue( value()-1 );
+		emit valueChanged( value() );
+	}
 }
 
 int TimeUnitBox::unitValue() {

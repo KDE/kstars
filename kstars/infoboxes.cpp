@@ -26,18 +26,40 @@ InfoBoxes::InfoBoxes( int w, int h ) {
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;
 
-	resize( w, h );
 	GeoBox   = new InfoBox( 0, 0, "", "" );
 	TimeBox  = new InfoBox( 0, 0, "", "", "" );
 	FocusBox = new InfoBox( 0, 0, "", "", "" );
+
 	TimeBox->move( width(), 0 );
 	GeoBox->move( 0, height() );
+	TimeBox->setAnchorRight( true );
+	GeoBox->setAnchorBottom( true );
+	resize( w, h );
 }
 
 InfoBoxes::~InfoBoxes(){
 	delete FocusBox;
 	delete TimeBox;
 	delete GeoBox;
+}
+
+void InfoBoxes::resize( int w, int h ) {
+	Width = w;
+	Height = h;
+
+	if ( GeoBox->rect().right() >= w-2 ) GeoBox->setAnchorRight(true);
+	if ( TimeBox->rect().right() >= w-2 ) TimeBox->setAnchorRight(true);
+	if ( FocusBox->rect().right() >= w-2 ) FocusBox->setAnchorRight(true);
+	if ( GeoBox->rect().bottom() >= h-2 ) GeoBox->setAnchorBottom(true);
+	if ( TimeBox->rect().bottom() >= h-2 ) TimeBox->setAnchorBottom(true);
+	if ( FocusBox->rect().bottom() >= h-2 ) FocusBox->setAnchorBottom(true);
+	
+	if ( GeoBox->anchorRight() ) GeoBox->move( w, GeoBox->y() );
+	if ( TimeBox->anchorRight() ) TimeBox->move( w, TimeBox->y() );
+	if ( FocusBox->anchorRight() ) FocusBox->move( w, FocusBox->y() );
+	if ( GeoBox->anchorBottom() ) GeoBox->move( GeoBox->x(), h );
+	if ( TimeBox->anchorBottom() ) TimeBox->move( TimeBox->x(), h );
+	if ( FocusBox->anchorBottom() ) FocusBox->move( FocusBox->x(), h );
 }
 
 void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
@@ -108,31 +130,16 @@ bool InfoBoxes::dragBox( QMouseEvent *e ) {
 		case 1: //GeoBox
 			GeoBox->move( e->x() - GrabPos.x(), e->y() - GrabPos.y() );
 			fixCollisions( GeoBox );
-//			GeoBox->constrain( QRect( 0, 0, width(), height() ) );
-//			if ( GeoBox->x() < 0 ) GeoBox->move( 0, GeoBox->y() );
-//			if ( GeoBox->y() < 0 ) GeoBox->move( GeoBox->x(), 0 );
-//			if ( GeoBox->x() + GeoBox->width() > width() ) GeoBox->move( width() - GeoBox->width(), GeoBox->y() );
-//			if ( GeoBox->y() + GeoBox->height() > height() ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
 			return true;
 			break;
 		case 2: //TimeBox
 			TimeBox->move( e->x() - GrabPos.x(), e->y() - GrabPos.y() );
 			fixCollisions( TimeBox );
-//			TimeBox->constrain( QRect( 0, 0, width(), height() ) );
-//			if ( TimeBox->x() < 0 ) TimeBox->move( 0, TimeBox->y() );
-//			if ( TimeBox->y() < 0 ) TimeBox->move( TimeBox->x(), 0 );
-//			if ( TimeBox->x() + TimeBox->width() > width() ) TimeBox->move( width() - TimeBox->width(), TimeBox->y() );
-//			if ( TimeBox->y() + TimeBox->height() > height() ) TimeBox->move( TimeBox->x(), height() - TimeBox->height() );
 			return true;
 			break;
 		case 3: //FocusBox
 			FocusBox->move( e->x() - GrabPos.x(), e->y() - GrabPos.y() );
 			fixCollisions( FocusBox );
-//			FocusBox->constrain( QRect( 0, 0, width(), height() ) );
-//			if ( FocusBox->x() < 0 ) FocusBox->move( 0, FocusBox->y() );
-//			if ( FocusBox->y() < 0 ) FocusBox->move( FocusBox->x(), 0 );
-//			if ( FocusBox->x() + FocusBox->width() > width() ) FocusBox->move( width() - FocusBox->width(), FocusBox->y() );
-//			if ( FocusBox->y() + FocusBox->height() > height() ) FocusBox->move( FocusBox->x(), height() - FocusBox->height() );
 			return true;
 			break;
 		default: //no box is grabbed; return false
@@ -142,41 +149,30 @@ bool InfoBoxes::dragBox( QMouseEvent *e ) {
 }
 
 bool InfoBoxes::shadeBox( QMouseEvent *e ) {
-	bool anchorRight( false ), anchorBottom( false );
-
 	if ( GeoBox->rect().contains( e->pos() ) ) {
-		if ( GeoBox->rect().right() == width()-2 ) anchorRight = true;
-		if ( GeoBox->rect().bottom() == height()-2 ) anchorBottom = true;
-
 		GeoBox->toggleShade();
 		if ( GeoBox->rect().bottom() > height() ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
 		if ( GeoBox->rect().right() > width() ) GeoBox->move( width() - GeoBox->width(), GeoBox->y() );
-		if ( anchorBottom ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
-		if ( anchorRight ) GeoBox->move( width() - GeoBox->width(), GeoBox->y() );
+		if ( GeoBox->anchorBottom() ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
+		if ( GeoBox->anchorRight() ) GeoBox->move( width() - GeoBox->width(), GeoBox->y() );
 		fixCollisions( TimeBox );
 		fixCollisions( FocusBox );
 		return true;
 	} else if ( TimeBox->rect().contains( e->pos() ) ) {
-		if ( TimeBox->rect().right() == width()-2 ) anchorRight = true;
-		if ( TimeBox->rect().bottom() == height()-2 ) anchorBottom = true;
-
 		TimeBox->toggleShade();
 		if ( TimeBox->rect().bottom() > height() ) TimeBox->move( TimeBox->x(), height() - TimeBox->height() );
 		if ( TimeBox->rect().right() > width() ) TimeBox->move( width() - TimeBox->width(), TimeBox->y() );
-		if ( anchorBottom ) TimeBox->move( TimeBox->x(), height() - TimeBox->height() );
-		if ( anchorRight ) TimeBox->move( width() - TimeBox->width(), TimeBox->y() );
+		if ( TimeBox->anchorBottom() ) TimeBox->move( TimeBox->x(), height() - TimeBox->height() );
+		if ( TimeBox->anchorRight() ) TimeBox->move( width() - TimeBox->width(), TimeBox->y() );
 		fixCollisions( GeoBox );
 		fixCollisions( FocusBox );
 		return true;
 	} else if ( FocusBox->rect().contains( e->pos() ) ) {
-		if ( FocusBox->rect().right() == width()-2 ) anchorRight = true;
-		if ( FocusBox->rect().bottom() == height()-2 ) anchorBottom = true;
-
 		FocusBox->toggleShade();
 		if ( FocusBox->rect().bottom() > height() ) FocusBox->move( FocusBox->x(), height() - FocusBox->height() );
 		if ( FocusBox->rect().right() > width() ) FocusBox->move( width() - FocusBox->width(), FocusBox->y() );
-		if ( anchorBottom ) FocusBox->move( FocusBox->x(), height() - FocusBox->height() );
-		if ( anchorRight ) FocusBox->move( width() - FocusBox->width(), FocusBox->y() );
+		if ( FocusBox->anchorBottom() ) FocusBox->move( FocusBox->x(), height() - FocusBox->height() );
+		if ( FocusBox->anchorRight() ) FocusBox->move( width() - FocusBox->width(), FocusBox->y() );
 		fixCollisions( TimeBox );
 		fixCollisions( GeoBox );
 		return true;
@@ -266,9 +262,6 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		}
 		if ( !area.contains( downRect ) ) { dDown = 100000; }
 
-
-//		kdDebug() << "Left: " << dLeft << "  Right: " << dRight << "  Up: " << dUp << "  Down: " << dDown << endl;
-
 		//find the smallest displacement, and move the target box there.
 		//if the smallest displacement is 100000, then the function has failed
 		//to find any legal position; return false.
@@ -280,19 +273,20 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		if ( dmin == 100000 ) return false;
 		else if ( dmin == dLeft ) {
 			target->move( leftRect.x(), leftRect.y() );
-//			kdDebug() << "left" << endl;
 		} else if ( dmin == dRight ) {
 			target->move( rightRect.x(), rightRect.y() );
-//			kdDebug() << "right" << endl;
 		} else if ( dmin == dUp ) {
 			target->move( upRect.x(), upRect.y() );
-//			kdDebug() << "up" << endl;
 		} else if ( dmin == dDown ) {
 			target->move( downRect.x(), downRect.y() );
-//			kdDebug() << "down" << endl;
 		}
-
 	}
+
+	//Set Anchor flags based on new position
+	if ( target->rect().right() >= width()-2 ) target->setAnchorRight(true);
+	else target->setAnchorRight(false);
+	if ( target->rect().bottom() >= height()-2 ) target->setAnchorBottom(true);
+	else target->setAnchorBottom(false);
 
 	//Final check to see if we're still inside area (we may not be if target
 	//is bigger than area)

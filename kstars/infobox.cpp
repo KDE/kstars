@@ -30,6 +30,9 @@ InfoBox::InfoBox(){
 	FullTextHeight = 0;
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
+
+	AnchorRight = false;
+	AnchorBottom = false;
 }
 
 InfoBox::InfoBox( int x, int y, QString t1, QString t2, QString t3 ) {
@@ -43,6 +46,9 @@ InfoBox::InfoBox( int x, int y, QString t1, QString t2, QString t3 ) {
 	FullTextHeight = 0;
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
+
+	AnchorRight = false;
+	AnchorBottom = false;
 }
 
 InfoBox::InfoBox( QPoint pt, QString t1, QString t2, QString t3 ) {
@@ -56,6 +62,9 @@ InfoBox::InfoBox( QPoint pt, QString t1, QString t2, QString t3 ) {
 	FullTextHeight = 0;
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
+
+	AnchorRight = false;
+	AnchorBottom = false;
 }
 
 InfoBox::~InfoBox(){
@@ -94,7 +103,6 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 		return false;
 	}
 }
-
 
 void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 	QRect r;

@@ -36,8 +36,8 @@
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
-    computeSkymap = true;	// skymap must be new computed
-    if ( testWState(WState_AutoMask) )
+		computeSkymap = true;	// skymap must be new computed
+		if ( testWState(WState_AutoMask) )
 		updateMask();
 		ksw->infoBoxes()->resize( width(), height() );
 }
@@ -834,7 +834,13 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
 	if ( ksw->data()->ZoomLevel > 4 ) guideFOV *= 2.0;
-			
+
+//	//DEBUG
+//	if ( ksw->options()->isTracking && checkSlewing ) {
+//		kdDebug() << "clickedObject RA: " << clickedObject()->ra().toHMSString() << endl;
+//		kdDebug() << "focus RA: " << focus()->ra().toHMSString() << endl;
+//	}
+
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( drawMW ) {
 		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ), 1, SolidLine ) ); //change to colorGrid

@@ -18,8 +18,9 @@
 #ifndef TIMEUNITBOX_H
 #define TIMEUNITBOX_H
 
+#include <qvbox.h>
+#include <qpushbutton.h>
 #include <qwidget.h>
-#include <qspinbox.h>
 
 #define NUNITS 8
 
@@ -31,7 +32,7 @@
 	*@version 0.9
   */
 
-class TimeUnitBox : public QSpinBox  {
+class TimeUnitBox : public QVBox {
    Q_OBJECT
 public: 
 	TimeUnitBox(QWidget *parent=0, const char *name=0);
@@ -44,8 +45,25 @@ public:
 		*/
 	int getUnitValue( int );
 
+	void setValue( int value ) { Value = value; }
+	int value() const { return Value; }
+
+signals:
+	void valueChanged(int);
+
+private slots:
+	void increase();
+	void decrease();
+
 private:
-	int UnitStep[ NUNITS ];
+	void setMinValue( int minValue ) { MinimumValue = minValue; }
+	void setMaxValue( int maxValue ) { MaximumValue = maxValue; }
+
+	int minValue() const { return MinimumValue; }
+	int maxValue() const { return MaximumValue; }
+
+	QPushButton *UpButton, *DownButton;
+	int MinimumValue, MaximumValue, Value, UnitStep[ NUNITS ];
 };
 
 #endif

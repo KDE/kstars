@@ -44,7 +44,7 @@ public:
 	TimeSpinBox* tsbox() const { return timeBox; }
 
 /**@returns a pointer to the child QSpinBox (which performs the large unit steps) */
-	QSpinBox* unitbox() const { return unitBox; }
+	TimeUnitBox* unitbox() const { return unitBox; }
 signals:
 	void scaleChanged( float );
 private slots:

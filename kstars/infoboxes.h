@@ -36,8 +36,22 @@ Q_OBJECT
 public:
 	InfoBoxes( int w, int h );
 	~InfoBoxes();
-	void resize( int w, int h ) { Width = w;  Height = h; }
+
+	/**Resets the width and height parameters.  These usually reflect the size
+		*of the Skymap widget (Skymap::resizeEvent() calls this function).
+		*Will also reposition the infoboxes to fit the new size.  Infoboxes
+		*that were along an edge will remain along thr edge.
+		*/
+	void resize( int w, int h );
+
+	/**@returns the width of the region containing the infoboxes (usually the
+		*width of the Skymap)
+		*/
 	int width() const { return Width; }
+
+	/**@returns the height of the region containing the infoboxes (usually the
+		*height of the Skymap)
+		*/
 	int height() const { return Height; }
 	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
 			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),

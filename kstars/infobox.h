@@ -48,9 +48,9 @@ public:
 
 	void toggleShade();
 
-	/**Reset the x,y position*/
+	/**Reset the x,y position.  Check the anchors*/
 	void move( int x, int y ) { Pos.setX( x ); Pos.setY( y ); }
-	void move( QPoint p ) { Pos.setX( p.x() ); Pos.setY( p.y() ); }
+	void move( QPoint p ) { move( p.x(), p.y() ); }
 
 	/**Reset the width and height*/
 	void resize( int w, int h ) { Size.setWidth( w ); Size.setHeight( h ); }
@@ -89,9 +89,13 @@ public:
 	QString text2() const { return Text2; }
 	QString text3() const { return Text3; }
 	QRect rect() const;
+	bool anchorRight() const { return AnchorRight; }
+	bool anchorBottom() const { return AnchorBottom; }
+	void setAnchorRight( const bool ar ) { AnchorRight = ar; }
+	void setAnchorBottom( const bool ab ) { AnchorBottom = ab; }
 
 private:
-	bool Shaded, Visible;
+	bool Shaded, Visible, AnchorRight, AnchorBottom;
 	//TextWidth, TextHeight are the text dimensions when box is unshaded;
 	//TextWidth1, TextHeight1 are the text dimensions when the box is shaded.
 	int FullTextWidth, FullTextHeight;
