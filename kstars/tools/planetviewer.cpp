@@ -155,6 +155,8 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 	double yc = (y2() + y())*0.5;
 	double xstep = 0.01*(x2() - x());
 	double ystep = 0.01*(y2() - y());
+	double dx = 0.5*(x2() - x());
+	double dy = 0.5*(y2() - y());
 	
 	switch ( e->key() ) {
 		case Key_Left:
@@ -194,6 +196,83 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Key_Underscore:
 			slotZoomOut();
 			break;
+		
+		case Key_0: //Sun
+			setLimits( -dx, dx, -dy, dy );
+			update();
+			break;
+		
+		case Key_1: //Mercury
+		{
+			DPoint *p = object(10)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_2: //Venus
+		{
+			DPoint *p = object(12)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_3: //Earth
+		{
+			DPoint *p = object(14)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_4: //Mars
+		{
+			DPoint *p = object(16)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_5: //Jupiter
+		{
+			DPoint *p = object(18)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_6: //Saturn
+		{
+			DPoint *p = object(20)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_7: //Uranus
+		{
+			DPoint *p = object(22)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_8: //Neptune
+		{
+			DPoint *p = object(24)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
+		
+		case Key_9: //Pluto
+		{
+			DPoint *p = object(26)->point(0);
+			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			update();
+			break;
+		}
 		
 		default:
 			e->ignore();
