@@ -1437,7 +1437,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 			// start reloading
 			pump = new QDataPump (source, (QDataSink*) loader);
 		}
-	} else if ( newMagnitude < maxSetMagnitude ) {
+	} /*else if ( newMagnitude < maxSetMagnitude ) {
 		StarObject *lastStar = starList.last();
 		while ( lastStar->mag() > newMagnitude  && starList.count() ) {
 			//check if star is named.  If so, remove it from ObjNames
@@ -1450,7 +1450,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 			//Need to recompute names of objects
 			sendClearCache();
 		}
-	}
+	}*/
 
 	// change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar(newMagnitude);

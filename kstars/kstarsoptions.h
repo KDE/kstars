@@ -87,6 +87,8 @@ class KStarsOptions {
 
 		double latitude();
 
+		const float& currentMagLimitDrawStar() const { return magLimitDrawStar; }
+
 		bool snapNextFocus() const { return snapToFocus; }
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 

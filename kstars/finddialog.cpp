@@ -113,11 +113,14 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	QString searchFor = SearchBox->text().lower();
 		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
-				new SkyObjectNameListItem ( SearchList, name );
-				if ( i++ >= 5000 ) {              //Every 5000 name insertions,
+				// show only visible objects
+				if (name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
+					new SkyObjectNameListItem ( SearchList, name );
+				}
+/*				if ( i++ >= 5000 ) {              //Every 5000 name insertions,
 					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
 					i = 0;
-				}
+				}*/
 			}
 		}
 	setListItemEnabled(); // Automatically highlight first item
@@ -138,13 +141,16 @@ void FindDialog::filterByType() {
 	for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 		if ( name->skyObject()->type() + 2 == Filter ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
-				new SkyObjectNameListItem ( SearchList, name );
+				// show only visible objects
+				if (name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
+					new SkyObjectNameListItem ( SearchList, name );
+				}
 			}
 		}
-		if (i++ >= 5000) {            //Every 5000 name insertions,
+/*		if (i++ >= 5000) {            //Every 5000 name insertions,
 			kapp->processEvents (50);   //spend 50 msec processing KApplication events
 			i = 0;
-		}
+		}*/
 	}
 
 	setListItemEnabled();    // Automatically highlight first item
