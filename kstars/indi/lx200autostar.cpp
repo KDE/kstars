@@ -33,6 +33,9 @@ extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
 extern ITextVectorProperty Time;
 extern INumberVectorProperty SDTime;
+extern INumberVectorProperty eqNum;
+extern ISwitchVectorProperty ParkSP;
+extern ISwitchVectorProperty PowerSP;
 
 static IText   VersionT[] ={{ "Date", ""} ,
 			   { "Time", ""} ,
@@ -89,6 +92,34 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 
  void LX200Autostar::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
  {
+ 
+   if (!strcmp(name, ParkSP.name))
+   {
+	  if (checkPower(&ParkSP))
+	    return;
+           
+	   ParkSP.s = IPS_IDLE;
+	   
+   	  if (eqNum.s == IPS_BUSY)
+	  {
+	     abortSlew();
+
+	     // sleep for 200 mseconds
+	     usleep(200000);
+	  }
+
+	  slewToPark();
+
+	  ParkSP.s = IPS_OK;
+	  eqNum.s = IPS_IDLE;
+	  PowerSP.s   = IPS_IDLE;
+	  PowerSP.sp[0].s = ISS_OFF;
+	  PowerSP.sp[1].s = ISS_ON;
+	  IDSetNumber(&eqNum, NULL);
+	  IDSetSwitch(&ParkSP, "The telescope is slewing to park position. Turn off the telescope after park is complete. Disconnecting...");
+	  IDSetSwitch(&PowerSP, NULL);
+	  return;
+    }
 
    LX200Generic::ISNewSwitch (dev, name, states, names,  n);
 
