@@ -283,6 +283,11 @@ void SkyMap::slotImage( int id ) {
 }
 
 void SkyMap::slotDetail( void ) {
+// check if object is selected
+	if ( !clickedObject() ) {
+    	KMessageBox::sorry( this, i18n("No Object selected!"), i18n("Object Details") );
+		return;
+   }
 	DetailDialog detail( clickedObject(), ksw->data()->LTime, ksw->geo() );
 	detail.exec();
 }
