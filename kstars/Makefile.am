@@ -9,8 +9,7 @@ SUBDIRS = data indi
 EXTRA_DIST = kstars.desktop kstarsui.rc
 
 
-mydatadir = $(kde_appsdir)/Edutainment/Science/
-mydata_DATA = kstars.desktop
+xdg_apps_DATA = kstars.desktop
 
 rcdir = $(kde_datadir)/kstars/
 rc_DATA = kstarsui.rc
