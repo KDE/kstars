@@ -18,25 +18,18 @@
 #ifndef MODCALCDAYLENGTH_H
 #define MODCALCDAYLENGTH_H
 
-#include <qvbox.h>
-
-#include <kapplication.h>
-#include <qdatetimeedit.h>
+#include "modcalcdaylengthdlg.h"
 
 /** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
   *@author Pablo de Vicente
   */
 
-class QWidget;
-class dms;
-class dmsBox;
-class GeoLocation;
 class QDateTime;
-class timeBox;
+class GeoLocation;
 
 
-class modCalcDayLength : public QWidget  {
+class modCalcDayLength : public modCalcDayLengthDlg  {
 Q_OBJECT
 public: 
 
@@ -47,10 +40,10 @@ public:
 
 public slots:
 
-  /** No descriptions */
-  void slotComputePosTime();
-  /** No descriptions */
-  void slotClearCoords();
+	/** No descriptions */
+	void slotComputePosTime();
+	/** No descriptions */
+	void slotClearCoords();
 
 private:
 /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
@@ -76,12 +69,8 @@ private:
 /**Fills the Longitude and Latitude with the current location ones */
 	void showLongLat(void);
 
-	QWidget *rightBox;
-	dmsBox *azSetBox, *azRiseBox, *elTransitBox, *longBox, *latBox;
-	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
-//	QTimeEdit *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
-	QDateEdit *datBox;
 	GeoLocation *geoPlace;
+
 };
 
 #endif
