@@ -706,12 +706,13 @@ void SkyMap::paintEvent( QPaintEvent * )
 
 	if ( drawMW ) drawMilkyWay( psky );
 	if ( drawGrid ) drawCoordinateGrid( psky );
-	if ( Options::showEquator() ) drawEquator( psky );
-	if ( Options::showEcliptic() ) drawEcliptic( psky );
 	
 	if ( drawCBounds ) drawConstellationBoundaries( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
 	if ( drawCNames ) drawConstellationNames( psky, stdFont );
+
+	if ( Options::showEquator() ) drawEquator( psky );
+	if ( Options::showEcliptic() ) drawEcliptic( psky );
 
 	// stars and planets use the same font size
 	if ( Options::zoomFactor() < 10.*MINZOOM ) {

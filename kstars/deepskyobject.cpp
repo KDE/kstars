@@ -122,7 +122,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 
 	int psize;
 
-	QColor tempcolor;
+	QBrush tempBrush;
 	
 	switch ( type() ) {
 		case 0:
@@ -134,7 +134,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 		case 2: //Planet
 			break;
 		case 3: //Open cluster
-			tempcolor = psky.brush().color();
+			tempBrush = psky.brush();
 			psky.setBrush( psky.pen().color() );
 			psize = 2;
 			if ( size > 50 )  psize *= 2;
@@ -147,7 +147,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 			psky.drawEllipse( x1, yb, psize, psize );
 			psky.drawEllipse( x2, ya, psize, psize );
 			psky.drawEllipse( x2, yb, psize, psize );
-			psky.setBrush( tempcolor );
+			psky.setBrush( tempBrush );
 			break;
 		case 4: //Globular Cluster
 			if (size<2) size = 2;

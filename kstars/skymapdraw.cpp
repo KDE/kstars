@@ -1722,12 +1722,13 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 
 	if ( drawMW ) drawMilkyWay( p, scale );
 	if ( drawGrid ) drawCoordinateGrid( p, scale );
-	if ( Options::showEquator() ) drawEquator( p, scale );
-	if ( Options::showEcliptic() ) drawEcliptic( p, scale );
 	
 	if ( drawCBounds ) drawConstellationBoundaries( p, scale );
 	if ( drawCLines ) drawConstellationLines( p, scale );
 	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
+
+	if ( Options::showEquator() ) drawEquator( p, scale );
+	if ( Options::showEcliptic() ) drawEcliptic( p, scale );
 
 	// stars and planets use the same font size
 	if ( Options::zoomFactor() < 10.*MINZOOM ) {
