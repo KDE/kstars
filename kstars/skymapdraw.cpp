@@ -1259,10 +1259,8 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	 //kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
 	 //kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
 
-
-
-
 	 SkyPoint sp( raDMS, decDMS);
+	 sp.apparentCoord( (double) J2000, ksw->clock()->JD());
 	 sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
          QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
 
@@ -1284,8 +1282,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	psky.drawEllipse( x1, y1, s1, s1 );
 	psky.drawEllipse( x2, y2, s2, s2 );
 
-	//FIXME the label is not displayed right, it needs
-	// to be adjusted
+	//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
 	psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr[i]->indi_dev[j]->name) );
 
 
