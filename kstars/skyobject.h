@@ -18,6 +18,7 @@
 #ifndef SKYOBJECT_H
 #define SKYOBJECT_H
 
+#include <qpainter.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>

@@ -473,7 +473,7 @@ bool KStarsData::readAsteroidData( void ) {
 			JD = double( mJD ) + 2400000.5;
 			
 			ast = new KSAsteroid( kstars, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
-			
+			ast->setAngSize( 0.001 );
 			asteroidList.append( ast );
 			ObjNames.append( ast );
 		}
@@ -510,6 +510,7 @@ bool KStarsData::readCometData( void ) {
 			JD = double( mJD ) + 2400000.5;
 			
 			com = new KSComet( kstars, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
+			com->setAngSize( 0.001 );
 			
 			cometList.append( com );
 			ObjNames.append( com );
@@ -1293,6 +1294,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText( i18n("Creating Moon" ) );
 			Moon = new KSMoon(kstars);
+			Moon->setAngSize( 31.5 );
 			ObjNames.append( Moon );
 			Moon->loadData();
 			break;

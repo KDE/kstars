@@ -208,7 +208,7 @@ public:
 	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
 	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );
 	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
-
+	void drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale );
 
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
@@ -357,8 +357,8 @@ private:
 	*is high enough (but not so high that the image fills the screen), and the
 	*user has selected that planet images be shown.  If one of these conditions
 	*is false, then a simple circle is drawn instead.  */
-	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, int sizemin,
-			double mult, int zoommin, int resize_mult = 1, double scale = 1.0 );
+	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, 
+			int zoommin, int resize_mult = 1, double scale = 1.0 );
 
 /**Draw the InfoBoxes on the pixmap passed as an argument (this should be 
 	*the skymap's pixmap).

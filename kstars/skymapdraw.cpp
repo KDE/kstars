@@ -412,22 +412,11 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 						// now that we have drawn the star, we can display some extra info
 						if ( !checkSlewing && (curStar->mag() <= options->magLimitDrawStarInfo )
-								&& (options->drawStarName || options->drawStarMagnitude ) ) {
-							// collect info text
-							QString sTmp = "";
-							if ( options->drawStarName ) {
-								if (curStar->name() != "star") sTmp = curStar->name() + " ";	// see line below
-							}
-							if ( options->drawStarMagnitude ) {
-								sTmp += QString().sprintf("%.1f", curStar->mag() );
-							}
+								&& ( ( options->drawStarName && curStar->name() != "star" ) 
+										|| options->drawStarMagnitude ) ) {
 							
-							if ( ! sTmp.isEmpty() ) {
-								int offset = int( scale * (3 + int(0.5*(5.0-mag)) + int(0.5*( options->ZoomLevel - 6)) ));
-
-								psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
-								psky.drawText( o.x()+offset, o.y()+offset, sTmp );
-							}
+							psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
+							drawNameLabel( psky, curStar, o.x(), o.y(), scale );
 						}
 					}
 				}
@@ -466,7 +455,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 						//readImage reads image from disk, or returns pointer to existing image.
 						QImage *image=obj->readImage();
 						if ( image ) {
-							int w = int( obj->a()*dms::PI*scale*pixelScale[ options->ZoomLevel ]/10800.0 );
+							int w = int( obj->a() * scale * dms::PI * pixelScale[ options->ZoomLevel ]/10800.0 );
 							int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
 							int dx = int( 0.5*w );
 							int dy = int( 0.5*h );
@@ -497,7 +486,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
             }
 						else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
 							psky.setPen( colorHST );
-              bColorChanged = true;
+							bColorChanged = true;
             }
 
 						float majorAxis = obj->a();
@@ -508,7 +497,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 						}
 
 						//scale parameter is included in drawSymbol, so we don't place it here in definition of Size
-						int Size = int( majorAxis*dms::PI*pixelScale[ options->ZoomLevel ]/10800.0 );
+						int Size = int( majorAxis * dms::PI * pixelScale[ options->ZoomLevel ]/10800.0 );
 
 						// use star draw function
 						drawSymbol( psky, obj->type(), o.x(), o.y(), Size, obj->e(), PositionAngle, 0, scale );
@@ -628,17 +617,95 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 	if ( v > 128 ) psky.setPen( QColor( "black" ) );
 	else psky.setPen( QColor( "white" ) );
 
+	bool checkSlewing = ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) ) && ksw->options()->hideOnSlew;
+	bool drawPlanets( ksw->options()->drawPlanets && !(checkSlewing && ksw->options()->hidePlanets) );
+	bool drawComets( drawPlanets && ksw->options()->drawComets );
+	bool drawAsteroids( drawPlanets && ksw->options()->drawAsteroids );
+	bool drawMessier( ksw->options()->drawDeepSky && ( ksw->options()->drawMessier || ksw->options()->drawMessImages ) && !(checkSlewing && ksw->options()->hideMess) );
+	bool drawNGC( ksw->options()->drawDeepSky && ksw->options()->drawNGC && !(checkSlewing && ksw->options()->hideNGC) );
+	bool drawIC( ksw->options()->drawDeepSky && ksw->options()->drawIC && !(checkSlewing && ksw->options()->hideIC) );
+	bool drawOther( ksw->options()->drawDeepSky && ksw->options()->drawOther && !(checkSlewing && ksw->options()->hideOther) );
+	bool drawSAO = ( ksw->options()->drawSAO );
+	bool hideFaintStars( checkSlewing && ksw->options()->hideStars );
+	
 	for ( SkyObject *obj = ksw->data()->ObjLabelList.first(); obj; obj = ksw->data()->ObjLabelList.next() ) {
+		//Only draw an attached label if the object is being drawn to the map
+		//reproducing logic from other draw funcs here...not an optimal solution
+		if ( obj->type() == SkyObject::STAR ) { 
+			if ( ! drawSAO ) return;
+			if ( obj->mag() > ksw->options()->magLimitDrawStar ) return;
+			if ( hideFaintStars && obj->mag() > ksw->options()->magLimitHideStar ) return;
+		}
+		if ( obj->type() == SkyObject::PLANET ) {
+			if ( ! drawPlanets ) return;
+			if ( obj->name() == "Sun" && ! ksw->options()->drawSun ) return;
+			if ( obj->name() == "Mercury" && ! ksw->options()->drawMercury ) return;
+			if ( obj->name() == "Venus" && ! ksw->options()->drawVenus ) return;
+			if ( obj->name() == "Moon" && ! ksw->options()->drawMoon ) return;
+			if ( obj->name() == "Mars" && ! ksw->options()->drawMars ) return;
+			if ( obj->name() == "Jupiter" && ! ksw->options()->drawJupiter ) return;
+			if ( obj->name() == "Saturn" && ! ksw->options()->drawSaturn ) return;
+			if ( obj->name() == "Uranus" && ! ksw->options()->drawUranus ) return;
+			if ( obj->name() == "Neptune" && ! ksw->options()->drawNeptune ) return;
+			if ( obj->name() == "Pluto" && ! ksw->options()->drawPluto ) return;
+		}
+		if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
+			if ( obj->isCatalogM() && ! drawMessier ) return;
+			if ( obj->isCatalogNGC() && ! drawNGC ) return;
+			if ( obj->isCatalogIC() && ! drawIC ) return;
+			if ( obj->isCatalogNone() && ! drawOther ) return;
+		}
+		if ( obj->type() == SkyObject::COMET && ! drawComets ) return; 
+		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return; 
+		
 		if ( checkVisibility( obj, FOV, Xmax ) ) {
 			QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-				int offset = int( scale * (3 + int(0.5*( ksw->options()->ZoomLevel - 6)) ));
-				if ( obj->type() == 0 ) offset +=  + int(0.5*(5.0-obj->mag()));
-				
-				psky.drawText( o.x() + offset, o.y() + offset, obj->translatedName() );
+				drawNameLabel( psky, obj, o.x(), o.y(), scale );
 			}
 		}
 	}
+	
+	//Attach a label to the centered object
+	if ( foundObject() != NULL /*&& ksw->options()->labelFoundObject */ ) {
+		QPoint o = getXY( foundObject(), ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
+		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) 
+			drawNameLabel( psky, foundObject(), o.x(), o.y(), scale );
+	}
+}
+
+void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale ) {
+	int size(0);
+
+	//Stars
+	if ( obj->type() == SkyObject::STAR ) {
+		((StarObject*)obj)->drawLabel( psky, x, y, ksw->options()->ZoomLevel, true, false, scale );
+		return;
+
+	//Solar system
+	} else if ( obj->type() == SkyObject::PLANET 
+						|| obj->type() == SkyObject::ASTEROID 
+						|| obj->type() == SkyObject::COMET ) {
+		KSPlanetBase *p = (KSPlanetBase*)obj;
+		size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * p->image()->width()/p->image0()->width() );
+		int minsize = 4;
+		if ( p->type() == SkyObject::ASTEROID || p->type() == SkyObject::COMET ) 
+			minsize = 2;
+		if ( p->name() == "Sun" || p->name() == "Moon" ) 
+			minsize = 8;
+		if ( size < minsize ) 
+			size = minsize;
+
+	//Other
+	} else {
+		//Calculate object size in pixels
+		float majorAxis = obj->a();
+		if ( majorAxis == 0.0 && obj->type() == 1 ) majorAxis = 1.0; //catalog stars
+		size = int( majorAxis * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
+	}
+
+	int offset = int( ( 0.5*size + 4 ) );
+	psky.drawText( x+offset, y+offset, obj->name() );
 }
 
 void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
@@ -698,32 +765,32 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 	
 	//Draw Sun
 	if ( options->drawSun && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 3, 1, scale );
 	}
 
 	//Draw Moon
 	if ( options->drawMoon && drawPlanets ) {
-		drawPlanet(psky, data->Moon, QColor( "White" ), 8, 2.5, -1, 1, scale );
+		drawPlanet(psky, data->Moon, QColor( "White" ), -1, 1, scale );
 	}
 
 	//Draw Mercury
 	if ( options->drawMercury && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 1, scale );
 	}
 
 	//Draw Venus
 	if ( options->drawVenus && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 2, 1, scale );
 	}
 
 	//Draw Mars
 	if ( options->drawMars && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 2, 1, scale );
 	}
 
 	//Draw Jupiter
 	if ( options->drawJupiter && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 2, 1, scale );
 		
 		//Draw Jovian moons
 		psky.setPen( QPen( QColor( "white" ) ) );
@@ -739,10 +806,9 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
 					
 					//Draw Moon name labels if at high zoom
-					if ( options->ZoomLevel > 15 ) {
+					if ( options->drawPlanetName && options->ZoomLevel > 15 ) {
 						int offset = int(3*scale);
 						psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
-						
 					}
 				}
 			}
@@ -754,22 +820,22 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 	//Draw Saturn
 	if ( options->drawSaturn && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2, scale );
+		drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 2, 2, scale );
 	}
 
 	//Draw Uranus
 	if ( options->drawUranus && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 4, 0.007, 2, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 2, 1, scale );
 	}
 
 	//Draw Neptune
 	if ( options->drawNeptune && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 4, 0.0035, 2, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 2, 1, scale );
 	}
 
 	//Draw Pluto
 	if ( options->drawPluto && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 0.001, 4, 1, scale );
+		drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 1, scale );
 	}
 
 	//Draw Asteroids
@@ -782,19 +848,16 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 			QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
 
 			if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-				int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
-				if ( size <= 1 ) psky.drawPoint( o.x(), o.y() );
+				int size = int( ast->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
+				if ( size < 2 ) size = 2;
 				int x1 = o.x() - size/2;
 				int y1 = o.y() - size/2;
 				psky.drawEllipse( x1, y1, size, size );
 
 				//draw Name
 				if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
-					int offset( int( 0.5*size ) );
-					if ( offset < 2 ) offset = 2;
-
 					psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					psky.drawText( o.x()+offset, o.y()+offset, ast->translatedName() );
+					drawNameLabel( psky, ast, o.x(), o.y(), scale );
 				}
 			}
 		}
@@ -809,20 +872,16 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
 
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-					
-					int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
-					if ( size <= 1 )  psky.drawPoint( o.x(), o.y() );
+					int size = int( com->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
+					if ( size < 2 ) size = 2;
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
 					psky.drawEllipse( x1, y1, size, size );
 					
 					//draw Name
 					if ( ksw->options()->drawCometName && com->rsun() < ksw->options()->maxRadCometName ) {
-						int offset( int( 0.5*size ) );
-						if ( offset < 2 ) offset = 2;
-
 						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
-						psky.drawText( o.x()+offset, o.y()+offset, com->translatedName() );
+						drawNameLabel( psky, com, o.x(), o.y(), scale );
 					}
 				}
 			//}
@@ -831,10 +890,13 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 }
 
 void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
-		int sizemin, double mult, int zoommin, int resize_mult, double scale ) {
+		int zoommin, int resize_mult, double scale ) {
 	
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
+	
+	int sizemin = 4;
+	if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
 	sizemin = int( sizemin * scale );
 	
 	psky.setPen( c );
@@ -844,7 +906,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 	if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 		//Image size must be modified to account for possibility that rotated image's
 		//size is bigger than original image size.
-		int size = int( mult * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] * p->image()->width()/p->image0()->width() );
+		int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * p->image()->width()/p->image0()->width() );
 		if ( size < sizemin ) size = sizemin;
 		int x1 = o.x() - size/2;
 		int y1 = o.y() - size/2;
@@ -914,11 +976,8 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 
 		//draw Name
 		if ( ksw->options()->drawPlanetName ) {
-			int offset( int( 0.5*size ) );
-			if ( offset < sizemin ) offset = sizemin;
-
 			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
-			psky.drawText( o.x()+offset, o.y()+offset, p->translatedName() );
+			drawNameLabel( psky, p, o.x(), o.y(), scale );
 		}
 	}
 }

@@ -17,6 +17,8 @@
 
 #include "starobject.h"
 
+#include <qpainter.h>
+#include <qstring.h>
 #include <kdebug.h>
 
 StarObject::StarObject() : SkyObject(), SpType(""), soName( 0 )
@@ -77,3 +79,19 @@ QString StarObject::greekLetter( void ) {
 
 	return letter;
 }
+
+void StarObject::drawLabel( QPainter &psky, int x, int y, int zoom, bool drawName, bool drawMag, double scale ) {
+	QString sName("");
+	if ( drawName ) {
+		if ( name() != "star" ) sName = name() + " ";
+		else if ( ! longname().isEmpty() ) sName = longname() + " ";
+	}
+	if ( drawMag ) {
+		sName += QString().sprintf("%.1f", mag() );
+	}
+	
+	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.5*( zoom - 6)) ));
+	
+	psky.drawText( x+offset, y+offset, sName );
+}
+

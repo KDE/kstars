@@ -40,41 +40,59 @@ bool PlanetCatalog::initialize() {
 	if (!Earth->loadData())
 		return false;
 
-	Sun = new KSSun( kstars, "sun.png");
-	if (Sun->loadData())
+	Sun = new KSSun( kstars, "sun.png" );
+	if (Sun->loadData()) {
+		Sun->setAngSize( 32.0 );
 		planets.append(Sun);
+	}
 
-	ksp = new KSPluto( kstars, "pluto.png");
-	if (ksp->loadData())
+	ksp = new KSPluto( kstars, "pluto.png" );
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.0017 );
 		planets.append(ksp);
-
+	}
+	
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Mercury" ), "mercury.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.137 );
 		planets.append(ksp);
-
+	}
+	
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Venus" ), "venus.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.56 );
 		planets.append(ksp);
+	}
 
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Mars" ), "mars.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.178 );
 		planets.append(ksp);
-
+	}
+	
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Jupiter" ), "jupiter.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
-
+	}
+	
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Saturn" ), "saturn.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
-
+	}
+	
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Uranus" ), "uranus.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.06 );
 		planets.append(ksp);
+	}
 
 	ksp = new KSPlanet( kstars, I18N_NOOP( "Neptune" ), "neptune.png");
-	if (ksp->loadData())
+	if (ksp->loadData()) {
+		ksp->setAngSize( 0.038 );
 		planets.append(ksp);
+	}
 
 	return true;
 }

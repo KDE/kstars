@@ -525,7 +525,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 //Next, find the nearest solar system body within r0
 		double r = 0.0;
 		double rsolar_min = r0;
-		SkyObject *solarminobj = ksw->data()->PC->findClosest(clickedPoint(), r);
+		SkyObject *solarminobj = NULL;
+		
+		if ( ksw->options()->drawPlanets )
+			solarminobj = ksw->data()->PC->findClosest(clickedPoint(), r);
 
 		if ( r < r0 ) {
 			rsolar_min = r;
@@ -591,7 +594,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					( ksw->options()->drawMessier || ksw->options()->drawMessImages ) ) checkObject = true;
 			if ( o->isCatalogNGC() && ksw->options()->drawNGC ) checkObject = true;
 			if ( o->isCatalogIC() && ksw->options()->drawIC ) checkObject = true;
-			if ( ! o->catalog().isEmpty() && ksw->options()->drawOther ) checkObject = true;
+			if ( o->catalog().isEmpty() && ksw->options()->drawOther ) checkObject = true;
 
 			if ( checkObject ) {
 				//test RA and dec to see if this object is roughly nearby

@@ -176,6 +176,15 @@ public:
 		*/
 		void setPA( double p ) { PositionAngle = p; }
 
+	/**@returns the Planet's angular size, in arcminutes
+		*/
+		double angSize() const { return AngularSize; }
+		
+	/**@short Set the Planet's angular size in arcminutes
+		*@param a the new angular size
+		*/
+		void setAngSize( double a ) { AngularSize = a; }
+
 	/**
 		*If pa argument is more than 5 degrees different than current internal
 		*PositionAngle, then update the internal PA and rotate the Planet image.
@@ -196,7 +205,7 @@ protected:
 
 private:
 	QImage Image0, Image;
-	double PositionAngle, ImageAngle;
+	double PositionAngle, ImageAngle, AngularSize;
 	KStars *kstars;
 };
 

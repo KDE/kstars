@@ -24,6 +24,8 @@
 #include "skyobject.h"
 
 class SkyObjectName;
+class QPainter;
+class QString;
 
 /**StarObject is a subclass of SkyObject.  It adds the Spectral type of the star as a QString.
 	*For stars, the primary name (n) is the latin name (e.g., "Betelgeuse").  The
@@ -120,6 +122,9 @@ class StarObject : public SkyObject {
   *@returns greek letter portion of genetive name
   */
 		QString greekLetter( void );		
+		
+		//overloaded from SkyObject
+		void drawLabel( QPainter &psky, int x, int y, int zoom, bool drawName, bool drawMag, double scale );
 		
 	private:
 		QString SpType;
