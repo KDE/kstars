@@ -310,8 +310,8 @@ double getOTATemp()
 
 int setStandardProcedure(char * data)
 {
- portWrite(data);
  char boolRet[2];
+ portWrite(data);
  read_ret = portRead(boolRet, 1);
  
    if (boolRet[0] == '0')
@@ -328,11 +328,10 @@ int setStandardProcedure(char * data)
 
 int setCommand(double data, char * cmd)
 {
+  char tempString[16];
   int hours = (int) data;
   int minutes = (int) ((data - hours) * 60.0);
   int seconds = (int) ( (data - hours) * 60.0 - minutes);
-
-  char tempString[16];
 
   sprintf(tempString, "%s %02d:%02d:%02d#", cmd, hours, minutes, seconds);
   return (setStandardProcedure(tempString));
@@ -352,7 +351,7 @@ void setCommandInt(int data, char *cmd)
 
 int setObjectDEC(double DEC)
 {
-
+  char tempString[16];
   int degrees = (int) DEC;
   int minutes = (int) ((DEC - degrees) * 60.0);
   int seconds = (int) ( (DEC - degrees) * 60.0 - minutes);
@@ -361,8 +360,6 @@ int setObjectDEC(double DEC)
     minutes *= -1;
   if (seconds < 0)
     seconds *= -1;
-   
-   char tempString[16];
 
    sprintf(tempString, "#:Sd %+03d:%02d:%02d#", degrees, minutes, seconds);
 
@@ -729,9 +726,10 @@ int validateFormat(char * str, double * result)
 
   float h = 0, m = 0, s = 0;
   char localstr[64];
-  strcpy(localstr, str);
   char * negative;
   int ret;
+
+  strcpy(localstr, str);
 
   negative = strchr (localstr, '-');
   if (negative)
