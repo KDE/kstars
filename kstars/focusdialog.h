@@ -63,6 +63,7 @@ public slots:
 		*If the point is validated, close the window.
 		*/
 	void validatePoint();
+	void slotOk();
 
 private:
 	QVBoxLayout *vlay;

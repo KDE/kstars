@@ -18,6 +18,7 @@
 //needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
 #include <sys/stat.h>
 
+#include <kdebug.h>
 #include <kaccel.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -593,6 +594,7 @@ void KStars::slotManualFocus() {
 			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
+		
 		map()->setClickedPoint( focusDialog.point() );
 		if ( options()->isTracking ) slotTrack();
 

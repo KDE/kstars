@@ -19,6 +19,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 #include <qstring.h>
 
@@ -62,36 +63,61 @@ void FocusDialog::checkLineEdits() {
 		enableButtonOK( false );
 }
 
-void FocusDialog::validatePoint( void ) {
+void FocusDialog::slotOk() {
+	emit okClicked();
+}
+
+void FocusDialog::validatePoint() {
 	bool raOk(false), decOk(false), azOk(false), altOk(false);
 	dms ra( fdlg->raBox->createDms( false, &raOk ) ); //false means expressed in hours
 	dms dec( fdlg->decBox->createDms( true, &decOk ) );
-
+	QString message;
+	
 	KStars *ks = (KStars*) parent();
 
 	if ( raOk && decOk ) {
+		//make sure values are in valid range
+		if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 ) 
+			message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
+		if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 ) 
+			message += "\n" + i18n( "The Declination value must be between -90.0 and 90.0." );
+		if ( ! message.isEmpty() ) {
+			KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+			return;
+		}
+		
 		Point = new SkyPoint( ra, dec );
 		double epoch0 = getEpoch( fdlg->epochName->text() );
 		long double jd0 = epochToJd ( epoch0 );
 		Point->apparentCoord(jd0, ks->data()->currentDate() );
 
-		emit QDialog::accept();
+		QDialog::accept();
 	} else {
 		dms az(  fdlg->azBox->createDms( true, &azOk ) );
 		dms alt( fdlg->altBox->createDms( true, &altOk ) );
 
 		if ( azOk && altOk ) {
+			//make sure values are in valid range
+			if ( az.Degrees() < 0.0 || az.Degrees() > 360.0 ) 
+				message = i18n( "The Azimuth value must be between 0.0 and 360.0." );
+			if ( alt.Degrees() < -90.0 || alt.Degrees() > 90.0 ) 
+				message += "\n" + i18n( "The Altitude value must be between -90.0 and 90.0." );
+			if ( ! message.isEmpty() ) {
+				KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+				return;
+			}
+
 			Point = new SkyPoint();
 			Point->setAz( az );
 			Point->setAlt( alt );
 			UsedAltAz = true;
-			emit QDialog::accept();
+			
+			QDialog::accept();
+		} else {
+			QDialog::reject();
 		}
 	}
-
-	close();
 }
-
 
 double FocusDialog::getEpoch (QString eName) {
 	//If eName is empty (or not a number) assume 2000.0
