@@ -245,11 +245,12 @@ elts::~elts()
 //}
 
 void elts::slotAddSource(void) {
+	bool objFound( false );
+	
 	//First, attempt to find the object name in the list of known objects
 	if ( ! nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		QString text = nameBox->text().lower();
-		bool objFound(false);
 		
 		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == text ) {
@@ -261,11 +262,14 @@ void elts::slotAddSource(void) {
 				break;
 			}
 		}
+		
 		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
-	
+		
 	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject 
 	//with these parameters
-	} else if ( ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+	} 
+	
+	if ( !objFound && ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		bool ok( true );
 		dms newRA( 0.0 ), newDec( 0.0 );
 		newRA = raBox->createDms( false, &ok );
@@ -278,13 +282,14 @@ void elts::slotAddSource(void) {
 		
 	//If the Ra and Dec boxes are filled, but the name field is empty, 
 	//move input focus to nameBox`
-	} else if ( ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+	} else if ( nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		nameBox->QWidget::setFocus();
 	
 	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
-	} else {
-		if ( decBox->text().isEmpty() ) decBox->QWidget::setFocus();
-		if (  raBox->text().isEmpty() )  raBox->QWidget::setFocus();
+	} else if (  raBox->text().isEmpty() ) { 
+		raBox->QWidget::setFocus();
+	} else if ( decBox->text().isEmpty() ) { 
+		decBox->QWidget::setFocus();
 	}
 	
 	eltsView->repaint(false);

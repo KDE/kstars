@@ -561,13 +561,15 @@ void KStars::privatedata::buildGUI() {
 	}
 	
 	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
-	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
 	
 	ks->map()->setDestination( ks->map()->clickedPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 
+	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
+	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
+	
 	ks->setHourAngle();
 
 	ks->map()->setOldFocus( ks->map()->focus() );

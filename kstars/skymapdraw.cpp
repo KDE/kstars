@@ -416,7 +416,8 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 										|| options->drawStarMagnitude ) ) {
 							
 							psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
-							drawNameLabel( psky, curStar, o.x(), o.y(), scale );
+							curStar->drawLabel( psky, o.x(), o.y(), ksw->options()->ZoomLevel, 
+									options->drawStarName, options->drawStarMagnitude, scale );
 						}
 					}
 				}

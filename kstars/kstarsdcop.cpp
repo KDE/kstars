@@ -158,6 +158,8 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	bool bVal(false);
 	if ( val.lower() == "true" ) { bOk = true; bVal = true; }
 	if ( val.lower() == "false" ) { bOk = true; bVal = false; }
+	if ( val == "1" ) { bOk = true; bVal = true; }
+	if ( val == "0" ) { bOk = true; bVal = false; }
 	
 	//parse int value
 	int nVal = val.toInt( &nOk );

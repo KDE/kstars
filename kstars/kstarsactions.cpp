@@ -164,9 +164,6 @@ void KStars::slotSetTime() {
 		if ( options()->useAltAz ) {
 			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
 		}
-
-//	kdDebug() << "after Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
-
 	}
 }
 
@@ -354,13 +351,14 @@ void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
+		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
+		if ( options()->useAltAz && options()->useRefraction ) {
+			focusDialog.point()->EquatorialToHorizontal( LSTh(), geo()->lat() );
+			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
+			focusDialog.point()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+		}
 		map()->setClickedPoint( focusDialog.point() );
 		if ( options()->isTracking ) slotTrack();
-//		map()->setClickedObject( NULL );
-//		map()->setFoundObject( NULL ); //make sure no longer tracking
-//		options()->isTracking = false;
-//		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
-//		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 
 		map()->slotCenter();
 	}

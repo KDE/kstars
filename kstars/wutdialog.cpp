@@ -206,8 +206,8 @@ void WUTDialog::appendToList(SkyObjectName *o) {
 	// split into several lists
 	switch (o->skyObject()->type()) {
 		case SkyObject::PLANET						: lists.visibleList[0].append(o); break;
-		case SkyObject::STAR							:
-		case SkyObject::CATALOG_STAR			: lists.visibleList[1].append(o); break;
+		case SkyObject::STAR							: lists.visibleList[1].append(o); break;
+		//case SkyObject::CATALOG_STAR			: //Omitting CATALOG_STARs from list
 		case SkyObject::COMET							:
 		case SkyObject::ASTEROID					: lists.visibleList[3].append(o); break;
 		case SkyObject::OPEN_CLUSTER			:
