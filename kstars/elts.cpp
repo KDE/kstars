@@ -31,7 +31,6 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qtabwidget.h>
-#include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include <qimage.h>
@@ -49,7 +48,7 @@ elts::elts( QWidget* parent)  :
 	QFrame *page = plainPage();
 
 	setMainWidget(page);
-	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
+	topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page, "avtView" );
 	View->setFixedSize( 500, 400 );

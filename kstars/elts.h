@@ -18,6 +18,7 @@
 #ifndef ELTS_H
 #define ELTS_H
 
+#include <qlayout.h>
 #include <qptrlist.h>
 #include <qvariant.h>
 #include <kdialogbase.h>
@@ -128,7 +129,7 @@ private:
 	AVTPlotWidget *View;
 	KListBox *PlotList;
 
-	QVBoxLayout *dateLocationLayout, *eltsTotalBoxLayout,
+	QVBoxLayout *topLayout, *dateLocationLayout, *eltsTotalBoxLayout,
 		*sourceLeftLayout, *sourceMidLayout;
 	QHBoxLayout *sourceLayout, *nameLayout, *coordLayout,
 		*clearAddLayout, *longLatLayout, *updateLayout;
