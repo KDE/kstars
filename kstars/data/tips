@@ -29,34 +29,6 @@ of informative articles about Astronomy.
 </tip>
 <tip category="KStars|General">
 <html>
-<p>You can directly access many of the calculations that
-KStars does behind-the-scenes.  Open the KStars Astrocalculator 
-by pressing Ctrl+C or by selecting the "Tools->Calculator" menu item.
-</html>
-</tip>
-<tip category="KStars|General">
-<html>
-<p>The AAVSO Light Curve Generator tool connects to a server at the 
-American Association of Variable Star Observers, and constructs a 
-lightcurve for any of the 6000+ variable stars that they monitor 
-on a daily basis.
-</html>
-</tip>
-<tip category="KStars|General">
-<html>
-<p>The Altitude vs. Time tool will plot altitude curves for any group 
-of objects that you select.  This is a great tool for planning 
-observing sessions.
-</html>
-</tip>
-<tip category="KStars|General">
-<html>
-<p>With the What's Up Tonight? tool, you can tell at a glance what 
-objects will be visible from your location on a given night.
-</html>
-</tip>
-<tip category="KStars|General">
-<html>
 <p>There are three on-screen "Info Boxes" which show data related to the
 time/date, your geographic location, and the current central position on the
 sky (the focus).  You can drag these boxes with the mouse, and "shade" them
@@ -64,49 +36,54 @@ by double-clicking them to show more (or less) information.  You can hide
 them altogether in the Settings->Info Boxes menu.
 </html>
 </tip>
-<tip category="KStars|Navigation">
+<tip category="KStars|General">
 <html>
-<p>The N,S,E,W keys will point the display at the North,
-South, East and West points on the Horizon.  The Z key will point the 
-display at the Zenith.
+<p>KStars has a full-screen mode; you can toggle this mode using the 
+"fullscreen" toolbar button, or by pressing Ctrl+Shift+F.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>Click and Drag with the mouse to slew the skymap to a new location.
+<p>The N,S,E,W keys will point the display at the North,
+South, East and West points on the Horizon.  The Z key will point the 
+display at the Zenith.  
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>The 0-9 keys will center the display on one of the major solar system 
+bodies.  0 centers on the Sun, 3 centers on the Moon; the rest are the eight 
+planets, in order of their distance from the Sun.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>Click and Drag with the mouse to slew the skymap to a new position on 
+the sky.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
 <p>Double-click with the mouse to center the display on the location
-of the mouse cursor.
+of the mouse cursor.  If you double-click on an object, KStars will 
+automatically begin tracking it.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>When you click your mouse in the map, the object in the sky nearest
-the mouse cursor is identified in the status bar.
+<p>The status bar displays the current sky coordinates of the mouse cursor,
+in both Equatorial and Horizontal coordinate systems.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>Right-click with the mouse to open a popup menu of detailed options
-for a particular object, including links to images and information on
-the Internet.
-</html>
-</tip>
-<tip category="KStars|Navigation">
-<html>
-<p>The status bar always displays the current Right Ascension, Declination
-coordinates of the mouse cursor.
-</html>
-</tip>
-<tip category="KStars|Navigation">
-<html>
-<p>There are 5 different ways to zoom the display in and out.
-You can use the mouse's scroll wheel, drag the mouse vertically while pressing
-the middle button, use the +/- keys, use the zoom buttons on the toolbar,
-and use the "Zoom In" and "Zoom Out" items in the "View" menu.
+<p>The display can be zoomed in or out by spinning your mouse's scroll wheel, 
+or by dragging the mouse up or down with the middle mouse button pressed.  You
+can also use the +/- keys, or the "Zoom In"/"Zoom Out" items in the toolbar and 
+in the View menu.  The Zoom Level can be set manually using the "Zoom to Angular 
+Size" item in the View menu (Shift+Ctrl+Z), and you can set it graphically by 
+holding down the Ctrl button while dragging the mouse to define a rectangle for 
+the new window boundaries.
 </html>
 </tip>
 <tip category="KStars|Navigation">
@@ -125,7 +102,8 @@ systems, use the "View->Coordinates" menu item, or press the spacebar.
 <tip category="KStars|Time">
 <html>
 <p>To set the Time and Date, type Ctrl+S, use the "Time->Set Time" menu item, 
-or press the "time" toolbar button.
+or press the "time" toolbar button.  Note that dates in KStars can be very 
+remote; you can use any year between -50,000 and +50,000.
 </html>
 </tip>
 <tip category="KStars|Time">
@@ -147,6 +125,32 @@ Note: negative values make time run backwards.
 in the Toolbar, or with the "Time->Stop/Start Clock" menu item.
 </html>
 </tip>
+<tip category="KStars|Time">
+<html>
+<p>You can advance the simulation clock forward or backward by a single
+time step by pressing the "&gt;" or "&lt;" keys.
+</html>
+</tip>
+<tip category="KStars|Objects">
+<html>
+<p>When you click your mouse in the map, the object in the sky nearest
+the mouse cursor is identified in the status bar.  
+</html>
+</tip>
+<tip category="KStars|Objects">
+<html>
+When you hold the mouse cursor still for a moment, the nearest object 
+will be identified by a temporary name label that automatically fades 
+out when you move the mouse again.
+</html>
+</tip>
+<tip category="KStars|Objects">
+<html>
+<p>Right-click with the mouse to open a popup menu of detailed options
+for a particular object, including links to images and information on
+the Internet.
+</html>
+</tip>
 <tip category="KStars|Objects">
 <html>
 <p>The deep-sky objects with a special color (the default is Red)
@@ -158,6 +162,64 @@ have extra URL links available in their popup menu.
 <p>By default, stars in KStars are displayed with realistic colors.
 A star's color depends on its temperature; cooler stars are red,
 while hotter stars are blue.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>You can directly access many of the calculations that
+KStars does behind-the-scenes.  Open the KStars Astrocalculator 
+by pressing Ctrl+C or by selecting the "Tools->Calculator" menu item.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>The AAVSO Light Curve Generator tool connects to a server at the 
+American Association of Variable Star Observers, and constructs a 
+lightcurve for any of the 6000+ variable stars that they monitor 
+on a daily basis.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>The Altitude vs. Time tool will plot altitude curves for any group 
+of objects that you select.  This is a great tool for planning 
+observing sessions.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>With the What's Up Tonight? tool, you can tell at a glance what 
+objects will be visible from your location on a given night.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>The ScriptBuilder tool allows you to construct complex DCOP 
+scripts using a simple GUI.  The scripts can be played back later 
+from the command line, or from within KStars.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>The Solar System Viewer tool shows an overhead view of the solar 
+system, showing the positions of the major planets for the current 
+simulation date.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>The Jupiter Moons tool shows the relative positions of Jupiter's
+four largest moons (Io, Europa, Ganymede and Callisto), as seen from 
+Earth, and as a function of time.
+</html>
+</tip>
+<tip category="KStars|Tools">
+<html>
+<p>You can export the sky image to a file using the "Save Sky Image" 
+item in the File menu, or by pressing Ctrl+I.  In addition, you can 
+run KStars from a command prompt with the "--dump" argument to save a
+sky image to disk without even opening the program window.  This can 
+be used to generate dynamic wallpaper for your KDE desktop.
 </html>
 </tip>
 <tip category="KStars|Customize">
@@ -193,6 +255,12 @@ menu item.
 </tip>
 <tip category="KStars|Customize">
 <html>
+<p>You can hide either the Ra/Dec or Az/Alt coordinate fields in the statusbar, 
+or hide the stausbar completely, using the Settings|Statusbar menu.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
 <p>You can easily switch between predefined color schemes by selecting
 the scheme from the "Settings->Color Schemes" menu.
 </html>
@@ -215,6 +283,13 @@ all future sessions.
 </tip>
 <tip category="KStars|Customize">
 <html>
+<p>You can construct your own field-of-view (FOV) symbols, using the 
+FOV Editor under the Tools menu.  You can set the angular size, the 
+shape, and the color of your new symbols.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
 <p>The Advanced tab of the KStars Configuration window allows you to fine-tune
 the behavior of KStars. You can specify whether to correct for atmospheric
 refraction, and whether to use animated slewing. You can also specify which
@@ -223,7 +298,7 @@ objects are hidden while the display is in motion.
 </tip>
 <tip category="KStars|Trivia">
 <html>
-<p>KStars displays 40,000 stars, 13,000 deep-sky objects, 88 constellations,
+<p>KStars displays 126,000 stars, 13,000 deep-sky objects, 88 constellations,
 all planets, the Sun, the Moon, thousands of comets and asteroids, and the 
 Milky Way.
 </html>

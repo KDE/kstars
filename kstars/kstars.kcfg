@@ -604,7 +604,7 @@
 		</entry>
 		<entry name="MagLimitDrawStarInfo" type="Double">
 			<label>Faint limit for star name labels and/or magnitudes</label>
-			<default>3.0</default>
+			<default>2.0</default>
 			<whatsthis>The faint magnitude limit for drawing star name and magnitude labels.</whatsthis>
 		</entry>
 		<entry name="MaxRadCometName" type="Double">
