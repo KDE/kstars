@@ -148,9 +148,10 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	}
 
 	if ( !badEntry ) {
-		double D = (double)abs(d) + (double)m/60.
-				+ (double)s/3600.;
-		if ( d <0 ) {D = -1.0*D;}
+		double D = (double)abs(d) + (double)abs(m)/60.
+				+ (double)fabs(s)/3600.;
+
+		if ( d<0 || m < 0 || s<0 ) { D = -1.0*D;}
 
 		if (isDeg) {
 			setD( D );
