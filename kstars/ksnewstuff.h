@@ -4,7 +4,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include "knewstuff/knewstuff.h"
+#include <knewstuff/knewstuff.h>
 #include "kstars.h"
 
 class KSNewStuff : public KNewStuff
