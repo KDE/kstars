@@ -243,9 +243,9 @@ coordinates to center on.</para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Horizontal/Equatorial Coordinates</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle between the 
-<link linkend="horizontal">Horizontal</link> and 
-<link linkend="equatorial">Equatorial</link> 
+<listitem><para>Toggle between the
+<link linkend="horizontal">Horizontal</link> and
+<link linkend="equatorial">Equatorial</link>
 <link linkend="ai-skycoords">Coordinate Systems</link></para></listitem>
 </varlistentry>
 </variablelist>
@@ -438,6 +438,37 @@ which presents a summary of the objects which are observable
 from your location on a given date.
 </para>
 </listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2>
+<title><guimenu>Devices</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>Device Manager</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>INDI Control Panel</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>Configure INDI</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up a dialog to configure INDI-related features such as automatic device updates.</para></listitem>
 </varlistentry>
 
 </variablelist>

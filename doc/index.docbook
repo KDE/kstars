@@ -32,6 +32,7 @@
   <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
   <!ENTITY horizon SYSTEM "horizon.docbook">
   <!ENTITY hourangle SYSTEM "hourangle.docbook">
+  <!ENTITY indi SYSTEM "indi.docbook">
   <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY julianday SYSTEM "julianday.docbook">
   <!ENTITY leapyear SYSTEM "leapyear.docbook">
@@ -61,9 +62,8 @@
 ]>
 
 <book lang="&language;">
-
-<bookinfo>
 <title>The &kstars; Handbook</title>
+<bookinfo>
 
 <authorgroup>
 <author>
@@ -223,6 +223,9 @@ but in a future version, we will provide a GUI tool for editing
 behavioral scripts easily.
 </para>
 <para>
+Furthermore, KStars allows you to control telescopes using &kstars; simple and powerful <link linkend="indi">INDI</link> interface. &kstars; supports several popular telescopes including Meade's LX200 family and Celestron GPS. Additional support for more astronomical devices such as CCD cameras and focusers is in development. You can track any object in KStars using simple slew/track commands; or you can configure and control the device features using the powerful INDI Control Panel. Furthermore, INDI's Client/Server architecture allows you to control local and remote astronomical devices seemingly.
+</para>
+<para>
 We are very interested in your feedback; please report bugs or
 feature requests to the &kstars; development mailing list:
 <email>kstars-devel@lists.sourceforge.net</email>. You can also use
@@ -236,12 +239,13 @@ the automated bug reporting tool, accessible from the Help menu.
 &astroinfo;   <!--AstroInfo Articles-->
 &tools;       <!--The AASVO Lightcurve Tool-->
 &dcop;        <!--The DCOP Interface-->
+&indi;	      <!-- INDI-->
 &faq;         <!--Questions and Answers-->
 &credits;     <!--Credits and License-->
 &install;     <!--Installation-->
 
-<index id='doc-index'></index> 
-<!-- For DocBook 4.2, remove the above line and use this instead 
+<index id='doc-index'></index>
+<!-- For DocBook 4.2, remove the above line and use this instead
 &documentation.index;
 -->
 </book>
