@@ -1,6 +1,30 @@
 bin_PROGRAMS = kstars
 
-kstars_SOURCES = Options.kcfgc kspluto.cpp addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp detaildialog.cpp dmsbox.cpp dms.cpp filesource.cpp finddialog.cpp focusdialog.cpp geolocation.cpp imageviewer.cpp indidevice.cpp indidriver.cpp indimenu.cpp infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp ksfilereader.cpp ksmoon.cpp ksnewstuff.cpp ksnumbers.cpp ksplanetbase.cpp ksplanet.cpp kspopupmenu.cpp kssun.cpp kstarsactions.cpp kstars.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp kstarssplash.cpp ksutils.cpp locationdialog.cpp magnitudespinbox.cpp main.cpp mapcanvas.cpp objectnamelist.cpp planetcatalog.cpp simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp skyobject.cpp skyobjectname.cpp skypoint.cpp stardatasink.cpp starobject.cpp starpixmap.cpp telescopewizardprocess.cpp timebox.cpp timedialog.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp timezonerule.cpp toggleaction.cpp deepskyobject.cpp fovdialog.cpp fov.cpp indigroup.cpp indiproperty.cpp indielement.cpp devicemanager.cpp indistd.cpp kswizard.cpp csegment.cpp fitsviewer.cpp conbridlg.cpp fitsimage.cpp fitsprocess.cpp imagereductiondlg.cpp opsadvanced.cpp opscatalog.cpp opscolors.cpp fitshistogram.cpp kstarsinterface.skel simclockinterface.skel addcatdialogui.ui addlinkdialogui.ui detaildialogui.ui devmanager.ui focusdialogdlg.ui indiconf.ui indihostconf.ui opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguides.ui opssolarsystem.cpp opssolarsystemui.ui telescopewizard.ui fovdialogui.ui newfovui.ui kswizardui.ui contrastbrightnessgui.ui imagereductionui.ui histdialog.ui statform.ui fitsheaderdialog.ui streamformui.ui streamwg.cpp indifitsconf.cpp imgsequencedlgui.ui imagesequence.cpp
+kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp conbridlg.cpp \
+	csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp \
+	dmsbox.cpp filesource.cpp finddialog.cpp fitshistogram.cpp fitsimage.cpp \
+	fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp \
+	geolocation.cpp imagereductiondlg.cpp imagesequence.cpp imageviewer.cpp \
+	indidevice.cpp indidriver.cpp indielement.cpp indifitsconf.cpp indigroup.cpp \
+	indimenu.cpp indiproperty.cpp indistd.cpp infobox.cpp infoboxes.cpp \
+	jupitermoons.cpp ksasteroid.cpp kscomet.cpp ksfilereader.cpp ksmoon.cpp \
+	ksnewstuff.cpp ksnumbers.cpp ksplanet.cpp ksplanetbase.cpp kspluto.cpp \
+	kspopupmenu.cpp kssun.cpp kstars.cpp kstarsactions.cpp kstarsdata.cpp \
+	kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp kstarssplash.cpp ksutils.cpp \
+	kswizard.cpp locationdialog.cpp magnitudespinbox.cpp main.cpp mapcanvas.cpp \
+	objectnamelist.cpp opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp \
+	opssolarsystem.cpp planetcatalog.cpp simclock.cpp skymap.cpp skymapdraw.cpp \
+	skymapevents.cpp skyobject.cpp skyobjectname.cpp skypoint.cpp \
+	stardatasink.cpp starobject.cpp starpixmap.cpp streamwg.cpp \
+	telescopewizardprocess.cpp timebox.cpp timedialog.cpp timespinbox.cpp \
+	timestepbox.cpp timeunitbox.cpp timezonerule.cpp toggleaction.cpp \
+	addcatdialogui.ui addlinkdialogui.ui contrastbrightnessgui.ui \
+	detaildialogui.ui devmanager.ui fitsheaderdialog.ui focusdialogdlg.ui \
+	fovdialogui.ui histdialog.ui imagereductionui.ui imgsequencedlgui.ui \
+	indiconf.ui indihostconf.ui kswizardui.ui newfovui.ui \
+	opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
+	statform.ui streamformui.ui telescopewizard.ui \
+	Options.kcfgc kstarsinterface.skel simclockinterface.skel 
 
 kde_kcfg_DATA = kstars.kcfg
 kde_conf_DATA = kstarsrc

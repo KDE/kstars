@@ -1,0 +1,265 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>OpsGuidesUI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>OpsGuidesUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>420</width>
+            <height>555</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>OpsGuides</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowCLines</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Constellation lines</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Show constellation lines?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, constellation lines will be drawn on the sky map.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowCBounds</cstring>
+            </property>
+            <property name="text">
+                <string>Constellation &amp;boundaries</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowCNames</cstring>
+            </property>
+            <property name="text">
+                <string>Constellation &amp;names</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw constellation names?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, constellation names will be drawn on the sky map.</string>
+            </property>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>ConstellOptions</cstring>
+            </property>
+            <property name="title">
+                <string>Constellation Name Options</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>kcfg_UseLatinConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>L&amp;atin</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use Latin constellation names</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use Latin constellation names on the sky map</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>kcfg_UseLocalConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Localized</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use Localized constellation names</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use constellation names from your locality (if available)</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>kcfg_UseAbbrevConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Abbre&amp;viated</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use IAU abbreviations</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use abbreviations from the International Astronomical Union as constellation labels</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer12_2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Fixed</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowMilkyWay</cstring>
+            </property>
+            <property name="text">
+                <string>Mil&amp;ky Way</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw the Milky Way contour?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a contour representing the Milky Way will be drawn on the sky map</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_FillMilkyWay</cstring>
+            </property>
+            <property name="text">
+                <string>Fill Milk&amp;y Way</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Use filled Milky Way contour?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the Milky Way contour will be shown filled.  Otherwise, only the outline will be drawn.</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer12</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Fixed</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowGrid</cstring>
+            </property>
+            <property name="text">
+                <string>Coor&amp;dinate grid</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw coordinate grid?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a grid of lines will be drawn every 2 hours in Right Ascension and every 20 degrees in Declination.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowEquator</cstring>
+            </property>
+            <property name="text">
+                <string>Celestial e&amp;quator</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw Celestial equator?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the celestial equator will be drawn in the sky map.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowEcliptic</cstring>
+            </property>
+            <property name="text">
+                <string>Ecliptic</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw Ecliptic?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the ecliptic will be drawn on the sky map.  The ecliptic is a great circle on the sky that the Sun appears to follow over the course of one year.  All other solar system bodies roughly follow the ecliptic as well.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowHorizon</cstring>
+            </property>
+            <property name="text">
+                <string>Hori&amp;zon (line)</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw horizon?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a line representing the local horizon will be drawn on the map.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_ShowGround</cstring>
+            </property>
+            <property name="text">
+                <string>Opaque &amp;ground</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw opaque ground?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the area below the horizon will be filled in, to simulate the ground beneath you.  Note that the ground is never drawn when using the Equatorial coordinate system.</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer13</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>60</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

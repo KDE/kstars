@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qlabel.h>
+#include <qcheckbox.h>
+#include <qgroupbox.h>
+
 #include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
@@ -29,12 +33,31 @@ OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl )
 	SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );
 
 	connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
+
+	connect( kcfg_HideOnSlew, SIGNAL( clicked() ), this, SLOT( slotToggleHideOptions() ) );
 }
 
 OpsAdvanced::~OpsAdvanced() {}
 
 void OpsAdvanced::slotChangeTimeScale( float newScale ) {
 	Options::setSlewTimeScale( newScale );
+}
+
+void OpsAdvanced::slotToggleHideOptions() {
+	textLabelHideTimeStep->setEnabled( kcfg_HideOnSlew->isChecked() );
+	SlewTimeScale->setEnabled( kcfg_HideOnSlew->isChecked() );
+	HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
+/*	kcfg_MagLimitHideStar->setEnabled( kcfg_HideOnSlew->isChecked() );
+	textLabelMag1->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HidePlanets->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideMessier->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideNGC->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideIC->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideMilkyWay->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideCNames->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideCLines->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideCBounds->setEnabled( kcfg_HideOnSlew->isChecked() );
+	kcfg_HideGrid->setEnabled( kcfg_HideOnSlew->isChecked() );*/
 }
 
 #include "opsadvanced.moc"
