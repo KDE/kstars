@@ -29,7 +29,7 @@
 #include <kaction.h>
 #include <kaccel.h>
 #include <kapp.h>
-
+#include <kiconloader.h>
 #include "imageviewer.h"
 
 ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
@@ -43,7 +43,7 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 // toolbar can dock only on top-position and can't be minimized
 // JH: easier to just disable its mobility
 	toolBar()->enableMoving( false );
-	
+
 //JH: don't need a new KToolbar...KMainWindow has one automatically at toolBar()
 //	KToolBar *toolbar = new KToolBar (this, "toolbar");
 //	new KToolBar (this, "toolbar");
@@ -51,7 +51,7 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 	action->plug (toolBar());
 	action = new KAction (i18n ("Save Image"), BarIcon( "filesave" ), KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
-	
+
 	if (imageURL.isMalformed())		//check URL
 		qDebug ("URL is malformed");
 	setCaption (imageURL.filename()); // the title of the window
@@ -131,7 +131,7 @@ void ImageViewer::loadImageFromURL()
 	KURL saveURL (file->name());
 	if (saveURL.isMalformed())
 		qDebug ("tempfile-URL is malformed");
-	
+
 	emit StartDownload();
 	KIO::Job *downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
 	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
@@ -146,9 +146,9 @@ void ImageViewer::downloadReady (KIO::Job *job)
 		closeEvent (0);
 		return;		// exit this function
 	}
-	
+
 	file->close(); // to get the newest informations of the file and not any informations from opening of the file
-	
+
 	if (file->exists())
 	{
 		downloadComplete = true;
@@ -168,7 +168,7 @@ void ImageViewer::showImage()
 		return;
 	}
 	fileIsImage = true;	// we loaded the file and know now, that it is an image
-	
+
 	int w = kapp->desktop()->width();	// screen width
 	int h = kapp->desktop()->height();	// screen height
 	if (image.width() <= w && image.height() <= h)
@@ -193,7 +193,7 @@ void ImageViewer::showImage()
 /********************** old code **********************
 	if (image.width() <= 800 && image.height() <= 600)
 		resize ( image.width(), image.height() + toolBar()->height());
-	
+
 	//If the image is larger than 800 in x and/or 600 in y, shrink it to fit the screen
   //while preserving the original aspect ratio
 	else if (image.width() <= 800) //only the height is too large
@@ -208,7 +208,7 @@ void ImageViewer::showImage()
 		else //vice versa
 			resize ( 800, int( image.height()*fx ) );
 	}
-**********************************************************/	
+**********************************************************/
 	show();	// hide is default
 // pix will be initialized in resizeEvent(), which will automatically called first time
 }

@@ -20,6 +20,7 @@
 #include <klocale.h>
 #include <kurl.h>
 #include <kiconloader.h>
+#include <kstatusbar.h>
 
 #include <qpopupmenu.h>
 #include <qlabel.h>
@@ -50,17 +51,17 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
 	if (ZoomLevel == 12) ksw->actZoomIn->setEnabled (false);
 	if (ZoomLevel == 0) ksw->actZoomOut->setEnabled (false);
-	
+
 	// load the pixmaps of stars
 	starpix = new StarPixmap (ksw->GetOptions()->useNightColors, ksw->GetOptions()->starColorIntensity);
-	
+
   //initialize pixelScale array, will be indexed by ZoomLevel
 	for ( int i=0; i<13; ++i ) {
 		pixelScale[i] = int( 256.*pow(sqrt(2.0),i) );
 		Range[i] = 75.0*256.0/pixelScale[i];
 	}
-		
-	setBackgroundColor( QColor( ksw->GetOptions()->colorSky ) );	
+
+	setBackgroundColor( QColor( ksw->GetOptions()->colorSky ) );
 	setBackgroundMode( QWidget::NoBackground );
 	setFocusPolicy( QWidget::StrongFocus );
 	setMouseTracking (true); //Generate MouseMove events!
@@ -129,7 +130,7 @@ void SkyMap::slotCenter( void ) {
 	ksw->statusBar()->changeItem( ksw->CurrentPosition, 1 );
 
 	showFocusCoords(); //updateinfoPanel
-	
+
   foundObject = clickedObject;
 	if (foundObject != NULL ) { //set tracking to true
 		ksw->GetOptions()->isTracking = true;
@@ -199,7 +200,7 @@ void SkyMap::slotImage( int id ) {
 	if (!url.isEmpty())
 		new ImageViewer (&url, this);
 }
-				
+
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 	slewing = false;
 //	update();
@@ -283,7 +284,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	double dHA = LSTh.getH() - focus.getRA().getH();
   while ( dHA < 0.0 ) dHA += 24.0;
 	HourAngle.setH( dHA );
-	
+
 	if ( slewing ) {
 		if ( ksw->GetOptions()->isTracking ) {
 			clickedObject = NULL;
@@ -302,7 +303,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	double dy = ( 0.5*height() - e->y() )/pixelScale[ZoomLevel];
 
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
-	
+
 	//determine RA, Dec of mouse pointer
 	MousePoint = dXdYToRaDec( dx, dy, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 
@@ -321,7 +322,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if ( ksw->GetOptions()->useAltAz ) {
 			MousePoint.RADecToAltAz( LSTh, ksw->geo->lat() );
 			clickedPoint.RADecToAltAz( LSTh, ksw->geo->lat() );
-			dms dAz = MousePoint.getAz().getD() - clickedPoint.getAz().getD();	
+			dms dAz = MousePoint.getAz().getD() - clickedPoint.getAz().getD();
 			dms dAlt = MousePoint.getAlt().getD() - clickedPoint.getAlt().getD();
 			focus.setAz( focus.getAz().getD() - dAz.getD() ); //move focus in opposite direction
 			focus.setAlt( focus.getAlt().getD() - dAlt.getD() );
@@ -330,7 +331,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			if ( focus.getAlt().getD() <-90.0 ) focus.setAlt( -90.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
 		} else {
-			dms dRA = MousePoint.getRA().getD() - clickedPoint.getRA().getD();	
+			dms dRA = MousePoint.getRA().getD() - clickedPoint.getRA().getD();
 			dms dDec = MousePoint.getDec().getD() - clickedPoint.getDec().getD();
 			focus.setRA( focus.getRA().getH() - dRA.getH() ); //move focus in opposite direction
 			focus.setDec( focus.getDec().getD() - dDec.getD() );
@@ -349,11 +350,11 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		//redetermine RA, Dec of mouse pointer, using new focus
 		MousePoint = dXdYToRaDec( dx, dy, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
     clickedPoint.set( MousePoint.getRA(), MousePoint.getDec() );
-	
+
 		showFocusCoords(); //update infoPanel
 		Update();  // must be new computed
 	} else {
-	
+
 		QString dummy;
 		int dd,dm,ds;
 		char dsgn = '+';
@@ -361,7 +362,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		dd = abs( MousePoint.getDec().getDeg() );
 		dm = abs( MousePoint.getDec().getArcMin() );
 		ds = abs( MousePoint.getDec().getArcSec() );
-		
+
 		ksw->CurrentPosition = dummy.sprintf( " %02d:%02d:%02d, %c%02d:%02d:%02d ",
 					MousePoint.getRA().getHour(), MousePoint.getRA().getHMin(),  MousePoint.getRA().getHSec(),
 					dsgn, dd, dm, ds );
@@ -390,16 +391,16 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		double dy = ( 0.5*height() - e->y() )/pixelScale[ZoomLevel];
 
 		if (unusablePoint (dx, dy)) return;	// break if point is unusable
-		
+
 		//determine RA, Dec of mouse pointer
 		MousePoint = dXdYToRaDec( dx, dy, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		clickedPoint.set( MousePoint.getRA(), MousePoint.getDec() );
-	
+
 		double rmin;
 		double rstar_min = 10000000.0;
 		int istar_min = -1;
-	
-		//Search stars database for nearby object.		
+
+		//Search stars database for nearby object.
 		for ( unsigned int i=0; i<ksw->GetData()->starList.count(); ++i ) {
 			//test RA and dec to see if this star is roughly nearby
 			SkyObject *test = (SkyObject *)ksw->GetData()->starList.at(i);
@@ -413,13 +414,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				rstar_min = r;
 			}
 		}
-		
+
 		rmin = rstar_min;
 		int icat = 0;
-		
+
 		double rsolar_min = 10000000.0;
 		int isolar_min = -1;
-		
+
 		//Sun
 		double dRA = ksw->GetData()->Sun->getRA().getH() - clickedPoint.getRA().getH();
 		double dDec = ksw->GetData()->Sun->getDec().getD() - clickedPoint.getDec().getD();
@@ -429,7 +430,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 0;
 			rsolar_min = r;
 		}
-		
+
 		//Moon
 		dRA = ksw->GetData()->Moon->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Moon->getDec().getD() - clickedPoint.getDec().getD();
@@ -439,7 +440,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 1;
 			rsolar_min = r;
 		}
-		
+
 		//Mercury
 		dRA = ksw->GetData()->Mercury->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Mercury->getDec().getD() - clickedPoint.getDec().getD();
@@ -449,7 +450,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 2;
 			rsolar_min = r;
 		}
-		
+
 		//Venus
 		dRA = ksw->GetData()->Venus->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Venus->getDec().getD() - clickedPoint.getDec().getD();
@@ -459,7 +460,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 3;
 			rsolar_min = r;
 		}
-		
+
 		//Mars
 		dRA = ksw->GetData()->Mars->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Mars->getDec().getD() - clickedPoint.getDec().getD();
@@ -469,7 +470,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 4;
 			rsolar_min = r;
 		}
-		
+
 		//Jupiter
 		dRA = ksw->GetData()->Jupiter->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Jupiter->getDec().getD() - clickedPoint.getDec().getD();
@@ -479,7 +480,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 5;
 			rsolar_min = r;
 		}
-		
+
 		//Saturn
 		dRA = ksw->GetData()->Saturn->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Saturn->getDec().getD() - clickedPoint.getDec().getD();
@@ -489,7 +490,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 6;
 			rsolar_min = r;
 		}
-		
+
 		//Uranus
 		dRA = ksw->GetData()->Uranus->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Uranus->getDec().getD() - clickedPoint.getDec().getD();
@@ -499,7 +500,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 7;
 			rsolar_min = r;
 		}
-		
+
 		//Neptune
 		dRA = ksw->GetData()->Neptune->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Neptune->getDec().getD() - clickedPoint.getDec().getD();
@@ -509,7 +510,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 8;
 			rsolar_min = r;
 		}
-		
+
 		//Pluto
 		dRA = ksw->GetData()->Pluto->getRA().getH() - clickedPoint.getRA().getH();
 		dDec = ksw->GetData()->Pluto->getDec().getD() - clickedPoint.getDec().getD();
@@ -519,15 +520,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			isolar_min = 9;
 			rsolar_min = r;
 		}
-		
+
 		if (rsolar_min < rmin) {
 			rmin = rsolar_min;
 			icat = -1;
 		}
-		
+
 		double rmess_min = 10000000.0;
 		int imess_min = -1;
-	
+
 		//Search Messier database for nearby object.
 		for ( unsigned int i=0; i<ksw->GetData()->messList.count(); ++i ) {
 			//test RA and dec to see if this star is roughly nearby
@@ -541,15 +542,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					rmess_min = r;
 				}
 		}
-	
+
 		if (rmess_min < rmin) {
 			rmin = rmess_min;
 			icat = 1;
 		}
-		
+
 		double rngc_min = 10000000.0;
 		int ingc_min = -1;
-	
+
 		//Search NGC database for nearby object.
 		for ( unsigned int i=0; i<ksw->GetData()->ngcList.count(); ++i ) {
 			//test RA and dec to see if this star is roughly nearby
@@ -563,15 +564,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					rngc_min = r;
 				}
 		}
-	
+
 		if (rngc_min < rmin) {
 			rmin = rngc_min;
 			icat = 2;
 		}
-		
+
 		double ric_min = 10000000.0;
 		int iic_min = -1;
-	
+
 		//Search NGC database for nearby object.
 		for ( unsigned int i=0; i<ksw->GetData()->icList.count(); ++i ) {
 			//test RA and dec to see if this star is roughly nearby
@@ -590,7 +591,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			rmin = ric_min;
 			icat = 3;
 		}
-		
+
 		initPopupMenu();
 		QStringList::Iterator itList;
 		QStringList::Iterator itTitle;
@@ -634,9 +635,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							clickedObject = (SkyObject *)ksw->GetData()->Pluto;
 							break;
 					}
-					
+
 					if ( clickedObject != NULL ) clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
-					
+
 					switch (e->button()) {
 						case LeftButton:
 							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
@@ -656,7 +657,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								QString t = QString(*itTitle);
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 							}
-			
+
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
 
               itList  = clickedObject->InfoList.begin();
@@ -669,7 +670,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->popup( QCursor::pos() );
 
 							break;
@@ -678,8 +679,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 0: //star
 					starobj = (StarObject *)ksw->GetData()->starList.at(istar_min);
 					clickedObject = (SkyObject *)ksw->GetData()->starList.at(istar_min);
-					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );	
-					
+					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+
 					switch (e->button()) {
 						case LeftButton:
 							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
@@ -704,7 +705,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 1: //Messier Object
 					clickedObject = (SkyObject *)ksw->GetData()->messList.at(imess_min);
 					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
-					
+
 					switch (e->button()) {
 						case LeftButton:
 							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
@@ -744,7 +745,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -754,7 +755,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 2: //NGC Object
 					clickedObject = (SkyObject *)ksw->GetData()->ngcList.at(ingc_min);
 					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
-	
+
 					switch (e->button()) {
 						case LeftButton:
 							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
@@ -779,7 +780,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
 							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
@@ -794,7 +795,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -804,7 +805,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 3: //IC Object
 					clickedObject = (SkyObject *)ksw->GetData()->icList.at(iic_min);
 					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
-	
+
 					switch (e->button()) {
 						case LeftButton:
 							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
@@ -829,7 +830,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
 							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
@@ -844,7 +845,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( showImage( int ) ), 0, id++ );
 								++itTitle;
 							}
-			
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -856,7 +857,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
 	    //If right-click, open pmStar with "nothing" as star name.
 			clickedObject = NULL;
-	
+
 			switch (e->button()) {
 				case LeftButton:
 					ksw->statusBar()->changeItem( i18n( "nothing" ), 0 );
@@ -875,11 +876,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 	}
 }
-	
+
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	double dx = ( 0.5*width()  - e->x() )/pixelScale[ZoomLevel];
 	double dy = ( 0.5*height() - e->y() )/pixelScale[ZoomLevel];
-	
+
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	if ( dx != 0.0 || dy != 0.0 ) {
@@ -900,7 +901,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 // if the sky should be recomputed (this is not every paintEvent call needed, explicite call with Update())
 	QPainter psky;
 	QImage ScaledImage;
-	
+
 	float FOV = Range[ZoomLevel]*width()/600.;
 	float dY;
   bool isPoleVisible = false;
@@ -913,11 +914,11 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 	psky.begin( sky );
 	psky.fillRect( 0, 0, width(), height(), QBrush( ksw->GetOptions()->colorSky ) );
-	
+
 	QFont stdFont = psky.font();
 	QFont smallFont = psky.font();
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	
+
 	QPointArray pts;
 	QList<QPoint> points;
 	int ptsCount = 0;
@@ -956,7 +957,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					if ( abs(dx) < max && abs(dy) < max && ( o2.x()!=0 || o2.y()!=0 ) )
 						psky.lineTo( o2.x(), o2.y() );
 					o2 = o;
-					psky.moveTo( o.x(), o.y() );	
+					psky.moveTo( o.x(), o.y() );
 				}
 			} else {
 				newlyVisible = true;
@@ -969,7 +970,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		if (abs(dx) < max && abs(dy) < max ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
-			psky.moveTo( o1.x(), o1.y() );	
+			psky.moveTo( o1.x(), o1.y() );
 		}
   }
 
@@ -985,9 +986,9 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		for ( unsigned int i=1; i<ksw->GetData()->Equator.count(); ++i ) {
 			if ( checkVisibility( ksw->GetData()->Equator.at(i), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				o = getXY( ksw->GetData()->Equator.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-  	
+
 				int dx = psky.pos().x() - o.x();
-		
+
 				if ( abs(dx) < 250 ) {
 						if ( newlyVisible ) {
 						newlyVisible = false;
@@ -996,7 +997,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					}
 					psky.lineTo( o.x(), o.y() );
 				} else {
-					psky.moveTo( o.x(), o.y() );	
+					psky.moveTo( o.x(), o.y() );
 				}
 			} else {
 				newlyVisible = true;
@@ -1007,14 +1008,14 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		if (abs(dx) < 250 ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
-			psky.moveTo( o1.x(), o1.y() );	
+			psky.moveTo( o1.x(), o1.y() );
 		}
   }
 
 	//Draw Ecliptic
 	if ( ksw->GetOptions()->drawEcliptic ) {
 		psky.setPen( QColor( ksw->GetOptions()->colorEcl ) );
-		
+
 		QPoint o = getXY( ksw->GetData()->Ecliptic.at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		QPoint o1 = o;
 		psky.moveTo( o.x(), o.y() );
@@ -1024,7 +1025,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			if ( checkVisibility( ksw->GetData()->Ecliptic.at(i), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				o = getXY( ksw->GetData()->Ecliptic.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 				int dx = psky.pos().x() - o.x();
-			
+
 				if ( abs(dx) < 250 ) {
 					if ( newlyVisible ) {
 						newlyVisible = false;
@@ -1033,7 +1034,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					}
 					psky.lineTo( o.x(), o.y() );
 				} else {
-					psky.moveTo( o.x(), o.y() );	
+					psky.moveTo( o.x(), o.y() );
 				}
 			} else {
 				newlyVisible = true;
@@ -1044,7 +1045,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		if (abs(dx) < 250 ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
-			psky.moveTo( o1.x(), o1.y() );	
+			psky.moveTo( o1.x(), o1.y() );
 		}
   }
 
@@ -1090,7 +1091,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			}
 		}
   }
-	
+
 	//Draw Stars
 	if ( ksw->GetOptions()->drawBSC ) {
 //		psky.setPen( QColor( ksw->GetOptions()->colorSky ) );
@@ -1117,10 +1118,10 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			StarObject* curStar = ksw->GetData()->starList.at(i);
 			if ( checkVisibility( curStar->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				QPoint o = getXY( curStar->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-			
+
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-					// but only if the star is bright enough.				
+					// but only if the star is bright enough.
 					if ( curStar->mag <= maglim ) {
 						float mag = curStar->mag;
 						float sizeFactor = 2.0;
@@ -1159,20 +1160,20 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
   if ( !slewing && ksw->GetOptions()->drawIC ) {
 		psky.setBrush( NoBrush );
 		psky.setPen( QColor( ksw->GetOptions()->colorIC ) );
-		
+
 		for ( unsigned int i=0; i < ksw->GetData()->icList.count(); ++i ) {
 			if ( checkVisibility( ksw->GetData()->icList.at(i)->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				QPoint o = getXY( ksw->GetData()->icList.at(i)->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int size = pixelScale[ZoomLevel]/pixelScale[0];
 					if (size>8) size = 8;
-				
+
 					//change color if extra images are available
 					if ( ksw->GetData()->icList.at(i)->ImageList.count() )
 						psky.setPen( QColor( ksw->GetOptions()->colorHST ) );
 					drawSymbol( psky, ksw->GetData()->icList.at(i)->type, o.x(), o.y(), size );
 					psky.setPen( QColor( ksw->GetOptions()->colorIC ) );
-				
+
 				}
 			}
 		}
@@ -1182,14 +1183,14 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
   if ( !slewing && ksw->GetOptions()->drawNGC ) {
 		psky.setBrush( NoBrush );
 		psky.setPen( QColor( ksw->GetOptions()->colorNGC ) );
-		
+
 		for ( unsigned int i=0; i < ksw->GetData()->ngcList.count(); ++i ) {
 			if ( checkVisibility( ksw->GetData()->ngcList.at(i)->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				QPoint o = getXY( ksw->GetData()->ngcList.at(i)->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int size = pixelScale[ZoomLevel]/pixelScale[0];
 					if (size>8) size = 8;
-				
+
 					//change color if extra images are available
 					if ( ksw->GetData()->ngcList.at(i)->ImageList.count() )
 						psky.setPen( QColor( ksw->GetOptions()->colorHST ) );
@@ -1235,7 +1236,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 						drawSymbol( psky, ksw->GetData()->messList.at(i)->type, o.x(), o.y(), size );
             //reset color
 						psky.setPen( QColor( ksw->GetOptions()->colorMess ) );
-					}			
+					}
 				}
 			}
 		}
@@ -1258,7 +1259,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			}
 		}
 	}
-	
+
 	//Draw Moon
   if ( ksw->GetOptions()->drawMoon ) {
 		psky.setPen( QColor( "White" ) );
@@ -1276,7 +1277,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			}
 		}
 	}
-	
+
 	//Draw Mercury
   if ( ksw->GetOptions()->drawMercury ) {
 		psky.setPen( QColor( "SlateBlue1" ) );
@@ -1294,7 +1295,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			}
 		}
 	}
-				
+
 	//Draw Venus
   if ( ksw->GetOptions()->drawVenus ) {
 		psky.setPen( QColor( "LightGreen" ) );
@@ -1312,7 +1313,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			}
 		}
 	}
-			
+
 	//Draw Mars
   if ( ksw->GetOptions()->drawMars ) {
 		psky.setPen( QColor( "Red" ) );
@@ -1329,8 +1330,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawEllipse( x1, y1, size, size );
 			}
 		}
-	}	
-			
+	}
+
 	//Draw Jupiter
   if ( ksw->GetOptions()->drawJupiter ) {
 		psky.setPen( QColor( "Goldenrod" ) );
@@ -1368,8 +1369,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawEllipse( x1, y1, size, size );
 			}
 		}
-	}	
-		
+	}
+
 	//Draw Uranus
   if ( ksw->GetOptions()->drawUranus ) {
 		psky.setPen( QColor( "LightSeaGreen" ) );
@@ -1386,8 +1387,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawEllipse( x1, y1, size, size );
 			}
 		}
-	}	
-		
+	}
+
 	//Draw Neptune
   if ( ksw->GetOptions()->drawNeptune ) {
 		psky.setPen( QColor( "SkyBlue" ) );
@@ -1404,8 +1405,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawEllipse( x1, y1, size, size );
 			}
 		}
-	}		
-	
+	}
+
 	//Draw Pluto
   if ( ksw->GetOptions()->drawNeptune ) {
 		psky.setPen( QColor( "gray" ) );
@@ -1422,8 +1423,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawEllipse( x1, y1, size, size );
 			}
 		}
-	}		
-	
+	}
+
 	//Draw Horizon
 
 	ptsCount = 0;
@@ -1499,7 +1500,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		QPoint cpoint;
 		psky.setPen( QColor ( ksw->GetOptions()->colorSky ) );
 		psky.setFont( stdFont );
-		
+
 		//North
 		c->setAz( 359.99 );
 		c->setAlt( 0.0 );
@@ -1600,7 +1601,7 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, QChar
 	int yb = y + size/4;
 
 	QPixmap *star;
-				
+
 	switch (type) {
 		case 0: //star
 			star = starpix->getPixmap (&color, size, ZoomLevel);
@@ -1687,7 +1688,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, dms LSTh, dms lat ) {
 		} else {
 			dX = X0.getD() - X.getD();
 		}
-		
+
 		focus.getAlt().SinCos( sinY0, cosY0 );
 
   } else {
@@ -1703,7 +1704,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, dms LSTh, dms lat ) {
 	//Convert dX, Y coords to screen pixel coords.
 	dX.SinCos( sindX, cosdX );
 	Y.SinCos( sinY, cosY );
-	
+
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
@@ -1724,7 +1725,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, dms LSTh, dms lat ) {
 SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms lat ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel
 	//coordinates in the SkyMap with the center of the map as the origin.
-	
+
 	SkyPoint MousePoint;
 	double sinDec, cosDec, sinDec0, cosDec0, sinc, cosc, sinlat, coslat;
 	double xx, yy;
@@ -1732,7 +1733,7 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 	double r  = sqrt( dx*dx + dy*dy );
 	dms centerAngle;
 	centerAngle.setRadians( 2.0*asin(0.5*r) );
-	
+
 	focus.getDec().SinCos( sinDec0, cosDec0 );
 	centerAngle.SinCos( sinc, cosc );
 
@@ -1749,7 +1750,7 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 		dx = -dx; //Flip East-west (Az goes in opposite direction of RA)
 		yy = dx*sinc;
 		xx = r*cosAlt0*cosc - dy*sinAlt0*sinc;
-		
+
 		A = atan( yy/xx );
 		//resolve ambiguity of atan():
 		if ( xx<0 ) A = A + PI();
@@ -1759,17 +1760,17 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 		deltaAz.setRadians( A );
 		az = focus.getAz().getD() + deltaAz.getD();
 		alt.setRadians( asin( cosc*sinAlt0 + ( dy*sinc*cosAlt0 )/r ) );
-		
+
 		az.SinCos( sinAz, cosAz );
 		alt.SinCos( sinAlt, cosAlt );
 		lat.SinCos( sinlat, coslat );
 
 		Dec.setRadians( asin( sinAlt*sinlat + cosAlt*coslat*cosAz ) );
 		Dec.SinCos( sinDec, cosDec );
-		
+
 		HA.setRadians( acos( ( sinAlt - sinlat*sinDec )/( coslat*cosDec ) ) );
 		if ( sinAz > 0.0 ) HA.setH( 24.0 - HA.getH() );
-		
+
 		MousePoint.setRA( LSTh.getH() - HA.getH() );
 		MousePoint.setRA( MousePoint.getRA().reduce() );
 		MousePoint.setDec( Dec.getD() );
@@ -1779,16 +1780,16 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
   } else {
 		yy = dx*sinc;
 		xx = r*cosDec0*cosc - dy*sinDec0*sinc;
-		
+
 		double RARad = ( atan( yy / xx ) );
 		//resolve ambiguity of atan():
 		if ( xx<0 ) RARad = RARad + PI();
 //		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*PI();
-		
+
 		dms deltaRA, Dec;
 		deltaRA.setRadians( RARad );
 		Dec.setRadians( asin( cosc*sinDec0 + (dy*sinc*cosDec0)/r ) );
-		
+
 		MousePoint.setRA( focus.getRA().getH() + deltaRA.getH() );
 		MousePoint.setRA( MousePoint.getRA().reduce() );
 		MousePoint.setDec( Dec.getD() );
@@ -1877,11 +1878,11 @@ void SkyMap::setDefaultMouseCursor()
 	p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
 	p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
 	p.end();
-	
+
 // create a mask to make parts of the pixmap invisible
 	QBitmap mask (32, 32);
 	mask.fill (color0);	// all is invisible
-	
+
 	p.begin (&mask);
 // paint over the parts which should be visible
 	p.setPen (QPen (color1, 3));
@@ -1919,7 +1920,7 @@ void SkyMap::showFocusCoords( void ) {
 	if ( focus.getDec().getD() < 0 ) dsgn = '-';
 	int dd = abs( focus.getDec().getDeg() );
 	int dm = abs( focus.getDec().getArcMin() );
-	int ds = abs( focus.getDec().getArcSec() );		
+	int ds = abs( focus.getDec().getArcSec() );
 	ksw->FocusRADec->setText( s.sprintf( "RA: %02d:%02d:%02d  Dec: %c%02d:%02d:%02d ",
 					focus.getRA().getHour(), focus.getRA().getHMin(),  focus.getRA().getHSec(),
 					dsgn, dd, dm, ds ) );
@@ -1928,10 +1929,10 @@ void SkyMap::showFocusCoords( void ) {
 	if ( focus.getAz().getD() < 0 ) azsgn = '-';
 	int altd = abs( focus.getAlt().getDeg() );
 	int altm = abs( focus.getAlt().getArcMin() );
-	int alts = abs( focus.getAlt().getArcSec() );		
+	int alts = abs( focus.getAlt().getArcSec() );
 	int azd = abs( focus.getAz().getDeg() );
 	int azm = abs( focus.getAz().getArcMin() );
-	int azs = abs( focus.getAz().getArcSec() );		
+	int azs = abs( focus.getAz().getArcSec() );
 	ksw->FocusAltAz->setText( s.sprintf( "Alt: %c%02d:%02d:%02d  Az: %c%02d:%02d:%02d ",
 					altsgn, altd, altm, alts,
 					azsgn, azd, azm, azs ) );
