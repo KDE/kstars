@@ -166,3 +166,45 @@ QImage* SkyObject::readImage( void ) {
 
 	return Image;
 }
+
+double SkyObject::Interpolate (double y1, double y2, double y3, double n) {
+
+	double a = y2 - y1;
+	double b = y3 - y2;
+	double c = y1 + y3 - 2*y2;
+
+	return (y2 + (a + b + n*c) * n /2. );
+}
+
+double SkyObject::reduceToOne(double m) {
+
+	while (m<0.0) {m+= 1.0;}
+	while (m>=1.0) {m -= 1.0;}
+
+	return m;
+}
+
+double SkyObject::reduceTo180(double H) {
+
+	while (H<-180) {H+= 360.0;}
+	while (H>=180.0) {H -= 360.0;}
+
+	return H;
+}
+
+bool SkyObject::checkCircumpolar(GeoLocation *geo) {
+	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
+	if ( r < -1.0 || r > 1.0 )
+		return true;
+	else
+		return false;
+}
+
+dms SkyObject::elevationCorrection(void) {
+	if ( name() == "Sun"  )
+		return dms(0.5667);
+	else if ( name() == "Moon" )
+		return dms(0.125); // a rough approximation
+	else
+		return dms(0.8333);
+}

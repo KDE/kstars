@@ -66,6 +66,12 @@ class KSUtils {
 
 		static bool openDataFile( QFile &file, QString filename );
 
+		/* Extracts the Julian Day at 0h UT.
+		* @param j The julian day
+		* @returns julian day at 0h UT
+		* */
+		static long double JdAtZeroUT (long double j);
+
 	private:
 		//
 		// So you can't instantiate the class.

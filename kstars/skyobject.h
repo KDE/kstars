@@ -175,6 +175,61 @@ public:
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
+	/**
+	 * Interpolates the value of a function y=f(n+x2)
+	 * given the values of the function at three points:
+	 * y1=f(x1)    y2=f(x2)    y3=f(x3)    n=x-x2 / x1<x2<x3
+	 *
+	 *@param y1    First y value
+	 *@param y2    Second y value
+	 *@param y3    Third y value
+	 *@param n     Interpolation factor
+	 *
+	 *@returns    interpolated value
+	 **/
+
+	double Interpolate (double x1, double x2, double x3, double nx);
+	/**
+	 * Reduces a double variable which corresponds to time expressed in 
+	 * Days, to the interval (0,1). If value is < 0 or > 1, one 
+	 * has to add or substract 1.
+	 *
+	 *@param x    value to correct
+	 *@returns    corrected value
+	 */
+	double reduceToOne(double x);
+
+	/**
+	 * Reduces a double variable which corresponds to degrees so that
+	 * it remains in the interval (-180,180)
+	 * has to add or substract 1.
+
+	 *@param h    angle to correct
+	 *@returns    corrected value
+	 */
+	double reduceTo180(double h);
+
+	/**
+	 * Checks whether a source is circumpolar or not. True = cirmcumpolar
+	 * False = Not circumpolar
+	 *
+	 *@returns boolean
+	 */
+	bool checkCircumpolar(GeoLocation *g);
+
+	/**
+	 * Corrects for the geometric altitude of the center of the body at the
+	 * time of rising or setting. This is due to refraction at the horizon
+	 * and to the size of the body. The moon correction is only a rough
+	 * approximation.
+	 *
+	 * Weather status (temperature and pressure basically) is not taken 
+	 * into account.
+	 *
+	 *@returns dms object with the correction. 
+	 */
+	dms elevationCorrection(void);
+
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
 

@@ -244,3 +244,10 @@ QTime KSUtils::LSTtoUT( QDateTime LST, dms longitude) {
 
 	return ut;
 }
+
+long double JdAtZeroUT (long double jd) {
+
+	long double jd0 = int(jd - 0.5) + 0.5;
+
+	return jd0;
+}
