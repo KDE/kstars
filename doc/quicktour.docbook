@@ -3,7 +3,7 @@
 
 <para>
 This chapter introduces most of the useful features of &kstars;, in the
-form of a guided tour.
+form of a guided tour.</para>
 
 <screenshot>
 <screeninfo>
@@ -18,27 +18,25 @@ Here's a screenshot of the &kstars; main window:
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
 
-<para> 
-In the above screenshot, you can see the sky display centered
+<para> In the above screenshot, you can see the sky display centered
 on the constellation Orion, which is about to set below the western
 horizon.  Stars are displayed with realistic colors and relative
 brightnesses.  The brightest stars have their names labeled (&eg;,
-Betelgeuse).  M 42, the Orion Nebula, is visible below Orion's "belt"
-stars, just above the horizon.  In three corners of the Sky display,
-there are on-screen text labels displaying data on the current time
-("LT: 11:38:34 09/10/02"), the current Geographic Location
-("Greenwich, United Kingdom"), and the current object in the center of
-the display ("Focused on: nothing").  Above the sky display, there are
-two toolbars.  The main toolbar contains shortcuts for menu functions,
-as well as a time-step widget which controls how fast the simulation
-clock runs.  The view toolbar contains buttons that toggle the display
-of different kinds of objects in the sky.  At the bottom of the
-window, there is a status bar which displays the name of any object
-you click on, and the sky coordinates (Right Ascension and
-Declination) of the mouse cursor.  
-</para>
+Betelgeuse).  M 42, the Orion Nebula, is visible below Orion's
+<quote>belt</quote> stars, just above the horizon.  In three corners
+of the Sky display, there are on-screen text labels displaying data on
+the current time (<quote>LT: 11:38:34 09/10/02</quote>), the current
+Geographic Location (<quote>Greenwich, United Kingdom</quote>),
+and the current object in the center of the display
+(<quote>Focused on: nothing</quote>).  Above the sky display,
+there are two toolbars.  The main toolbar contains shortcuts for menu
+functions, as well as a time-step widget which controls how fast the
+simulation clock runs.  The view toolbar contains buttons that toggle
+the display of different kinds of objects in the sky.  At the bottom
+of the window, there is a status bar which displays the name of any
+object you click on, and the sky coordinates (Right Ascension and
+Declination) of the mouse cursor.  </para>
 
 <sect1 id="geolocation">
 <title>Where am I?</title>
@@ -73,13 +71,14 @@ window:
 </para>
 
 <para>
-In the upper right, there is a list of over 2000 predefined cities.
+There is a list of over 2000 predefined cities available to choose from. 
 You set your location by highlighting a city from this list.  Each
 city is represented in the world map as a small dot, and when a city
 is highlighted in the list, a red crosshairs appears on its location
 in the map.
-</para><para>
-It isn't practical to scroll through the full list of 2000 locations,
+</para>
+
+<para>It isn't practical to scroll through the full list of 2000 locations,
 looking for a specific city. To make searches easier, the list can be
 filtered by entering text in the boxes below the map. For example, in
 the screenshot, the text <quote>Ba</quote> appears in the
@@ -142,11 +141,13 @@ pressing the <guiicon>hourglass</guiicon> icon in the toolbar.  The
 widget, coupled with three spinboxes for setting the hours, minutes and 
 seconds.  If you ever need to reset the clock back to the current time, 
 just select <guimenuitem>Set Time to Now</guimenuitem> from the
-<guimenu>Time</guimenu> menu.  [NB: the current version of KStars cannot 
+<guimenu>Time</guimenu> menu.</para>
+
+<note><para>The current version of &kstars; cannot 
 accept dates before October 1, 1752, nor dates after the year 8000.  
-These are limitations of the Qt Date/Time class.  We may implement our 
-own date/time class in a future version.]
-</para>
+These are limitations of the &Qt; Date/Time class.  We may implement our 
+own date/time class in a future version.</para></note>
+
 </sect1>
 
 <sect1 id="lookaround">
@@ -157,18 +158,25 @@ You can pan the display using the arrow keys.  If you hold down the
 &Shift; key before panning, the scrolling speed is doubled.  The
 display can also be panned by clicking and dragging with the mouse.  Note 
 that while the display is scrolling, not all objects are displayed.  This 
-is done to cut down on the CPU load of recomputing object positions, which
+is done to cut down on the <acronym>CPU</acronym> load of recomputing object positions, which
 makes the scrolling smoother (you can configure what gets hidden while 
 scrolling in the Display Options window; this is covered in the next 
-chapter).  There are five ways to change the magnification of the display: 
-(1) use the <keycap>+</keycap> and <keycap>-</keycap> keys, (2) press the
-zoom in/out buttons in the toolbar, (3) select 
-<guimenuitem>Zoom In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem> 
-in the <guimenu>View</guimenu> menu, (4) use the scroll wheel on your 
-mouse, or (5) drag the mouse up and down with the middle button pressed.  
-Notice that as you zoom in, you can see fainter
-stars than at lower zoom settings.
-</para><para>
+chapter).  There are five ways to change the magnification of the display:</para>
+
+<orderedlist>
+<listitem><para>Use the <keycap>+</keycap> and <keycap>-</keycap> keys</para>
+</listitem>
+<listitem><para>Press the zoom in/out buttons in the toolbar</para></listitem>
+<listitem><para>Select <guimenuitem>Zoom In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem> in the <guimenu>View</guimenu> menu</para></listitem>
+<listitem><para>Use the scroll wheel on your mouse</para></listitem>
+<listitem><para>Drag the mouse up and down with the &MMB; pressed.</para>
+</listitem>
+</orderedlist>
+
+<para>Notice that as you zoom in, you can see fainter stars than at
+lower zoom settings.</para> 
+
+<para>
 Zoom out until you can see a green curve; this represents your local
 horizon.  If you haven't adjusted the &kstars; configuration, the
 display will be solid green below the horizon, representing the solid
@@ -195,17 +203,18 @@ to which they belong (Messier, NGC or IC).  Most Messier objects are
 drawn as real images on the map at higher zoom levels.  Deep-sky 
 objects with extra image or information links available are drawn with 
 a special color (red by default).  Clicking on an object will identify 
-it in the status bar.  Double-clicking will recenter the display on the 
+it in the status bar.  Double clicking will recenter the display on the 
 object and begin tracking the object (so that it will remain centered 
-as time passes).  Right-clicking an object opens a popup menu with 
-more options.
+as time passes).  <mousebutton>Right</mousebutton> clicking an object 
+opens a popup menu with more options.
 </para>
 
 <sect2 id="popupmenu">
 <title>The Popup Menu</title>
 
 <para>
-Here is an example of the right-click popup menu, for the Orion Nebula:
+Here is an example of the <mousebutton>right</mousebutton> click popup menu, for the Orion Nebula:</para>
+
 <screenshot>
 <screeninfo>Popup Menu for M 42</screeninfo>
 <mediaobject>
@@ -217,43 +226,42 @@ Here is an example of the right-click popup menu, for the Orion Nebula:
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
 
-<para>
-The appearance of the popup menu depends somewhat on the kind of object 
-you right-click on, but the basic structure is the following:  
-</para><para>
-The top section contains information 
-labels, which are not selectable.  The top one to three labels display 
-the object's name(s) and object type.  The next three labels show the 
-object's rise, transit, and set times.  The next section contains two
-selectable items.  First, a "Center and Track" item, which will recenter 
-the display on the object, and keep it centered as time passes 
-(you can also center and track an object by simply double-clicking on 
-it).  Next, a "Details..." item, which will show a window with more 
-detailed information about the object.  The bottom section contains 
-links to images and/or informative webpages about the selected object.
-</para><para>
-If you know of an additional &URL; with information or an image of the
-object, you can add a custom link to the object's popup menu using the
-<guimenuitem>Add Link...</guimenuitem> item at the bottom of the menu.  
-This opens a window in which you can enter the &URL; and the text that 
-should appear in the popup menu.  You can make sure the &URL; is correct 
-with the <guibutton>Check URL</guibutton> button, which will test the 
-&URL; in your web browser.  Please specify whether the &URL; points to 
-an Image, or to an HTML document!  If you specify Image here, the new 
-menu item will open the Image Viewer, not the web browser.  You can 
-also point to files on your local disk, so this feature could be used 
-to attach observing logs or other custom information to objects in 
-&kstars;.  Your custom links are automatically loaded whenever &kstars; 
-starts up, and they are stored in the directory 
-<filename class="directory">~/.kde/share/apps/kstars/</filename>, in 
-files <filename>myimage_url.dat</filename> and 
-<filename>myinfo_url.dat</filename>.  If you build an extensive list of 
-custom links, consider submitting them to us, we would like to include 
-them in the next version of &kstars;!
-</para>
-</sect2>
+<para>The appearance of the popup menu depends somewhat on the kind of
+object you <mousebutton>right</mousebutton> click on, but the basic
+structure is the following: </para>
+
+<para> The top section contains information labels, which are not
+selectable.  The top one to three labels display the object's name(s)
+and object type.  The next three labels show the object's rise,
+transit, and set times.  The next section contains two selectable
+items.  First, a <guimenuitem>Center and Track</guimenuitem> item,
+which will recenter the display on the object, and keep it centered as
+time passes (you can also center and track an object by simply double
+clicking on it).  Next, a <guimenuitem>Details...</guimenuitem> item,
+which will show a window with more detailed information about the
+object.  The bottom section contains links to images and/or
+informative webpages about the selected object.  </para>
+
+<para>If you know of an additional &URL; with information or an image
+of the object, you can add a custom link to the object's popup menu
+using the <guimenuitem>Add Link...</guimenuitem> item at the bottom of
+the menu.  This opens a window in which you can enter the &URL; and
+the text that should appear in the popup menu.  You can make sure the
+&URL; is correct with the <guibutton>Check URL</guibutton> button,
+which will test the &URL; in your web browser.  Please specify whether
+the &URL; points to an Image, or to an <acronym>HTML</acronym>
+document!  If you specify Image here, the new menu item will open the
+Image Viewer, not the web browser.  You can also point to files on
+your local disk, so this feature could be used to attach observing
+logs or other custom information to objects in &kstars;.  Your custom
+links are automatically loaded whenever &kstars; starts up, and they
+are stored in the directory <filename
+class="directory">~/.kde/share/apps/kstars/</filename>, in files
+<filename>myimage_url.dat</filename> and
+<filename>myinfo_url.dat</filename>.  If you build an extensive list
+of custom links, consider submitting them to us, we would like to
+include them in the next version of &kstars;! </para> </sect2>
 
 <sect2 id="findobjects">
 <title>Finding Objects</title>
@@ -262,7 +270,7 @@ You can search for named objects by clicking on the
 <guiicon>search</guiicon> icon in the toolbar, by selecting 
 <guimenuitem>Find Object...</guimenuitem> from the 
 <guimenu>Focus</guimenu> menu, or by pressing 
-<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>.  
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>.  
 The <guilabel>Find Object</guilabel> 
 window lists all the named objects in the &kstars; database.  Many 
 objects are listed only by their catalog name (for example, NGC 3077), 
@@ -274,40 +282,43 @@ if the object is below the horizon, the program will warn you that you
 may not see anything except the ground (you can make the ground 
 invisible in the <guilabel>Display Options</guilabel> window, or by 
 pressing the <guiicon>Ground</guiicon> button in the View toolbar).
-</para><para>
-Object Tracking is automatically engaged whenever an object is
-centered in the display, either by using the 
-<guilabel>Find Object</guilabel> window, by double-clicking on an object, 
-or by selecting <guimenuitem>Center and Track</guimenuitem> from the 
-<mousebutton>right</mousebutton>-click popup menu.  You can disengage 
-tracking by panning the display, pressing the <guiicon>Lock</guiicon> 
-icon in the Main toolbar, or selecting 
-<guimenuitem>Track Object</guimenuitem> from the 
-<guimenu>Focus</guimenu> menu.
 </para>
+
+<para> Object Tracking is automatically engaged whenever an object is
+centered in the display, either by using the <guilabel>Find
+Object</guilabel> window, by double-clicking on an object, or by
+selecting <guimenuitem>Center and Track</guimenuitem> from the
+<mousebutton>right</mousebutton>-click popup menu.  You can disengage
+tracking by panning the display, pressing the <guiicon>Lock</guiicon>
+icon in the Main toolbar, or selecting <guimenuitem>Track
+Object</guimenuitem> from the <guimenu>Focus</guimenu> menu.  </para>
+
 </sect2>
 </sect1>
 
-<sect1 id="customize">
-<title>Customizing the Display</title>
-<para>
-There are several ways to modify the display to your liking.  First of 
-all, you can select a different color scheme in the 
-<guimenu>Settings|Color Schemes</guimenu> menu.  There are three 
-predefined color schemes, and you can define your own in the 
-<guilabel>View Options</guilabel> window (covered in the next chapter).
-You can hide the Toolbars in the <guimenu>Settings|Toolbars</guimenu>
-menu, and hide the Info Boxes in the 
-<guimenu>Settings|Info Boxes</guimenu> menu.  In addition, you can 
-manipulate the Info Boxes with the mouse.  Each box has additional lines 
-of data that are hidden by default.  You can toggle whether these 
-additional lines are visible by double-clicking a box to "shade" it. 
-Also, you can reposition a box by dragging it with the mouse.  When a 
-box hits a window edge, it will "stick" to the edge when the window is 
-resized.  
-</para>
-<para>
-The remaining customizations are covered in the next chapter.
-</para>
+<sect1 id="customize"> 
+<title>Customizing the Display</title> 
+
+<para> There are several ways to modify the display to your liking.
+First of all, you can select a different color scheme in the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Color
+Schemes</guimenuitem></menuchoice> menu.  There are three predefined
+color schemes, and you can define your own in the <guilabel>View
+Options</guilabel> window (covered in the next chapter).  You can hide
+the Toolbars in the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars</guimenuitem></menuchoice>
+menu, and hide the Info Boxes in the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Info
+Boxes</guimenuitem></menuchoice> menu.  In addition, you can
+manipulate the Info Boxes with the mouse.  Each box has additional
+lines of data that are hidden by default.  You can toggle whether
+these additional lines are visible by double-clicking a box to
+<quote>shade</quote> it.  Also, you can reposition a box by dragging
+it with the mouse.  When a box hits a window edge, it will
+<quote>stick</quote> to the edge when the window is resized.</para>
+
+<para>The remaining customizations are covered in the next chapter.</para>
+
+
 </sect1>
 </chapter>

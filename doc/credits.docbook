@@ -72,15 +72,16 @@ Calculator</quote> by Peter Duffet-Smith</para></listitem>
 Meeus</para></listitem>
 </itemizedlist>
 </para>
-<para>
-Special thanks:  To the &kde; and &Qt; developers for providing the
-world with a peerless set of free API libraries.  To the KDevelop
-team, for their excellent IDE, which made developing &kstars; so much
-easier and more fun.  To everyone on the KDevelop message board, the 
-KDE mailing lists, and on irc.kde.org, for answering my frequent 
-questions.  Thank you to Anne-Marie Mahfouf, for inviting KStars to 
-join the KDE-Edu module.  Finally, thanks to everyone who has submitted 
-bug reports and other feedback.  Thank you, everyone.
+
+<para> Special thanks: To the &kde; and &Qt; developers for providing
+the world with a peerless set of free <acronym>API</acronym>
+libraries.  To the <application>KDevelop</application> team, for their excellent
+<acronym>IDE</acronym>, which made developing &kstars; so much easier
+and more fun.  To everyone on the <application>KDevelop</application> message board, the &kde; 
+mailing lists, and on irc.kde.org, for answering my frequent
+questions.  Thank you to Anne-Marie Mahfouf, for inviting &kstars; to
+join the &kde;-Edu module.  Finally, thanks to everyone who has
+submitted bug reports and other feedback.  Thank you, everyone.
 </para>
 
 <para>

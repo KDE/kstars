@@ -19,7 +19,7 @@
  Because the Earth is in orbit around the Sun, we observe the sky from
  a constantly moving position in space.  Therefore, we should expect
  to see an <firstterm>annual parallax</firstterm> effect, in which the
- positions of nearby objects appear to "wobble" back and forth in
+ positions of nearby objects appear to <quote>wobble</quote> back and forth in
  response to our motion around the Sun.  This does in fact happen, but
  the distances to even the nearest stars are so great that you need to
  make careful observations with a telescope to detect
@@ -53,8 +53,8 @@ larger
  arcsecond".  One parsec is the distance a star would have if its
  observed parallax angle was one arcsecond.  It is equal to 3.26
  light-years, or 31 trillion kilometers<footnote><para>Astronomers
- like this unit so much that they now use "kiloparsecs" to measure
- galaxy-scale distances, and "Megaparsecs" to measure intergalactic
+ like this unit so much that they now use <quote>kiloparsecs</quote> to measure
+ galaxy-scale distances, and <quote>Megaparsecs</quote> to measure intergalactic
  distances, even though these distances are much too large to have an
  actual, observable parallax.  Other methods are required to determine
  these distances</para></footnote>.

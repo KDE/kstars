@@ -9,14 +9,17 @@
 </para><para>
 2500 years ago, the ancient Greek astronomer Hipparchus classified the
 brightnesses of visible stars in the sky on a scale from 1 to 6.  He
-called the very brightest stars in the sky "first magnitude", and the
-very faintest stars he could see "sixth magnitude".  Amazingly, two
+called the very brightest stars in the sky <quote>first magnitude</quote>, and the
+very faintest stars he could see <quote>sixth magnitude</quote>.  Amazingly, two
 and a half millenia later, Hipparchus's classification scheme is still
 widely used by astronomers, although it has since been modernized and
-quantified.  (Note that the magnitude scale runs backwards to what you
+quantified.</para>
+<note><para>The magnitude scale runs backwards to what you
 might expect: brighter stars have <emphasis>smaller</emphasis>
 magnitudes than fainter stars).
-</para><para>
+</para>
+</note>
+<para>
 The modern magnitude scale is a quantitative measurement of the
 <firstterm>flux</firstterm> of light coming from a star, with a
 logarithmic scaling:
@@ -67,8 +70,8 @@ can image stars nearly as faint as 30th magnitude, which is one
 </para><para>
 A final note: the magnitude is usually measured through a color filter
 of some kind, and these magnitudes are denoted by a subscript
-describing the filter (i.e., m_V is the magnitude through a "visual"
+describing the filter (&ie;, m_V is the magnitude through a <quote>visual</quote>
 filter, which is greenish; m_B is the magnitude through a blue filter;
-m_pg is the photographic plate magnitude, etc.).
+m_pg is the photographic plate magnitude, &etc;).
 </para>
 </sect1>

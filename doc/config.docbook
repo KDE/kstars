@@ -31,7 +31,7 @@ are not committed until you press the <guibutton>Ok</guibutton> button.
 </para><para>
 In the <guilabel>Catalogs</guilabel> tab, you determine which object catalogs 
 are displayed in the map.  The SAO star catalog also allows you to set the 
-"faint limit" for stars, and the magnitude (brightness) limit for displaying
+<quote>faint limit</quote> for stars, and the magnitude (brightness) limit for displaying
 the names and/or magnitudes of stars.  Below the stars section, there is a box
 containing a list of checkboxes for the available deep-sky object catalogs. 
 You can add your own custom object catalogs by pressing the <guibutton>Add 
@@ -47,7 +47,7 @@ or images, and whether name labels should be attached to the Planets.
 The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects are 
 displayed (&ie;, constellation lines, constellation names, Milky Way contour, 
 celestial equator, ecliptic, horizon line, and opaque ground).  You can also 
-choose whether you would like to see Latin constellation names, IAU-standard 
+choose whether you would like to see Latin constellation names, <acronym>IAU</acronym>-standard 
 three-letter abbreviations, or names using your local language.
 </para><para>
 The <guilabel>Colors</guilabel> tab allows you to set the color scheme, and to 
