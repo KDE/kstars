@@ -77,8 +77,11 @@ public:
 	double deltaTZ() const { return dTZ; }
 
 /**@Recalculate next dst change and if DST is active by a given local time with timezone offset and time direction.
+	@param bool time_runs_forward time direction
+	@param automaticDSTchange is automatic DST change?
 	*/
-	void reset_with_ltime( const QDateTime ltime, const double TZoffset, const bool time_runs_forward );
+	void reset_with_ltime( QDateTime &ltime, const double TZoffset, const bool time_runs_forward,
+												const bool automaticDSTchange = false );
 
 /**@Returns computed value for next DST change in universal time.
 	*/
@@ -87,10 +90,6 @@ public:
 /**@Returns computed value for next DST change in local time.
 	*/
 	QDateTime nextDSTChange_LTime() { return next_change_ltime; }
-
-/**Returns a valid local time. Changed by reset_with_ltime.
-	*/
-	QDateTime validLTime() { return ValidLTime; }
 
 	bool equals( TimeZoneRule *r );
 
@@ -138,12 +137,6 @@ private:
 	QDateTime next_change_utc, next_change_ltime;
 	double dTZ, HourOffset;
 	
-/**In some cases the input local time is invalid. For example the local time is 2:30 at start day,
-	*but DST change is at 02:00 to 03:00, so this time doesn't exists. reset_with_ltime checks,
-	*if time is valid and changes to a valid if necessary. This can just happen if somebody tries to set
-	*the time manually (like KStars::changeTime()) and should checked there for valid time.
-	*/
-	QDateTime ValidLTime;
 };
 
 #endif

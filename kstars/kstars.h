@@ -192,7 +192,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.
 			*/
-		void updateTime( void );
+		void updateTime( const bool automaticDSTchange = true );
 
 		/**
 			*Zoom in
@@ -323,7 +323,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*@param newDate the date to set.
 			*@param newTIme the time to set.
 			*/
-		void changeTime(QDate newDate, QTime newTime);
+		void changeTime(QDate newDate, QTime newTime );
 
 		/**Set the KStarsData::LSTh member from the current UTC.
 		*/

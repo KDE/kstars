@@ -96,7 +96,6 @@ KStars::~KStars()
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {
-
 	QDateTime new_time(newDate, newTime);
 
 	GeoLocation *Geo = geo();
@@ -112,8 +111,6 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 
 	// reset tzrules data with newlocal time and time direction (forward or backward)
 	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
-	// Reset the local time to a valid local time. See TimeZoneRule for explanation.
-	new_time = Geo->tzrule()->validLTime();
 	
 	// reset next dst change time
 	Data->setNextDSTChange( KSUtils::UTtoJulian( Geo->tzrule()->nextDSTChange() ) );
@@ -139,7 +136,7 @@ void KStars::clearCachedFindDialog() {
    }
 }
 
-void KStars::updateTime( void ) {
+void KStars::updateTime( const bool automaticDSTchange ) {
 	QTime oldLST = data()->LST;
 	// Due to frequently use of this function save data and map pointers for speedup.
 	// Save options() and geo() to a pointer would not speedup because most of time options
@@ -147,7 +144,7 @@ void KStars::updateTime( void ) {
 	KStarsData *Data = data();
 	SkyMap *Map = map();
 
-	Data->updateTime( clock, geo(), Map );
+	Data->updateTime( clock, geo(), Map, automaticDSTchange );
 
 	infoBoxes()->timeChanged(Data->UTime, Data->LTime, Data->LST, Data->CurrentDate);
 

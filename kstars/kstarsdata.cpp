@@ -1015,16 +1015,17 @@ void KStarsData::slotInitialize() {
 	initCounter++;
 }
 
-void KStarsData::resetToNewDST(const GeoLocation *geo) {
+void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange) {
 	// reset tzrules data with local time, timezone offset and time direction (forward or backward)
-	geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward );
+	// force a DST change with option true for 3. parameter
+	geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );
 	// reset next DST change time
 	setNextDSTChange( KSUtils::UTtoJulian( geo->tzrule()->nextDSTChange() ) );
 	//reset LTime, because TZoffset has changed
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 }
 
-void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap ) {
+void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
 	// sync times with clock
 	UTime = clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
@@ -1036,11 +1037,11 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 		if ( TimeRunsForward ) {
 			// timedirection is forward
 			// DST change happens if current date is bigger than next calculated dst change
-			if ( CurrentDate > NextDSTChange ) resetToNewDST(geo);
+			if ( CurrentDate > NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
 		} else {
 			// timedirection is backward
 			// DST change happens if current date is smaller than next calculated dst change
-			if ( CurrentDate < NextDSTChange ) resetToNewDST(geo);
+			if ( CurrentDate < NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
 		}
 	}
 

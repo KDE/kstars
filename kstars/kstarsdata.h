@@ -305,7 +305,7 @@ public slots:
 		* It _will_ change!
 		*(JH:)hey, it's much less ugly now...can we lose the comment yet? :p
 		*/
-	void updateTime(SimClock *clock, GeoLocation *geo, SkyMap * skymap);
+	void updateTime(SimClock *clock, GeoLocation *geo, SkyMap * skymap, const bool automaticDSTchange = true);
 
 	/**Sets the direction of time and stores it in bool TimeRunForwards. If scale >= 0
 		*time is running forward else time runs backward. We need this to calculate just
@@ -345,7 +345,7 @@ private:
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().
 	*/
-	void resetToNewDST(const GeoLocation *geo);
+	void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
 
 /*
 	* Store the highest magnitude level at the current session and compare with current used

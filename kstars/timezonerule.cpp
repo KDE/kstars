@@ -311,51 +311,103 @@ void TimeZoneRule::previousDSTChange( const QDateTime local_date, const double T
 	next_change_utc = result;
 }
 
-void TimeZoneRule::reset_with_ltime( const QDateTime ltime, const double TZoffset, const bool time_runs_forward ) {
+void TimeZoneRule::reset_with_ltime( QDateTime &ltime, const double TZoffset, const bool time_runs_forward,
+		const bool automaticDSTchange ) {
+/**There are some problems using local time for getting next daylight saving change time.
+	1. The local time is the start time of DST change. So the local time doesn't exists and must
+		  corrected.
+	2. The local time is the revert time. So the local time exists twice.
+	3. Neither start time nor revert time. There is no problem.
 
-	// check if current time is start time, this means if a DST change happend in last time
+	Problem #1 is more complicated and we have to change the local time by reference.
+	Problem #2 we just have to reset status of DST.
+	
+	automaticDSTchange should only set to true if DST status changed due to running automatically over
+	a DST change time. If local time will changed manually the automaticDSTchange should always set to
+	false, to hold current DST status if possible (just on start and revert time possible).
+	*/
+
+	// check if DST is active before resetting with new time
+	bool wasDSTactive = dTZ != 0;
+
+	// check if current time is start time, this means if a DST change happend in last hour(s)
 	bool active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * -3600) ) );
 	bool active_normal = isDSTActive( ltime );
 
 	// store a valid local time
-	ValidLTime = ltime;
+	QDateTime ValidLTime = ltime;
 
 	if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth ) {
-		// current time == start time -> set DST inactive
+		// current time is the start time
 		kdDebug() << "Current time = Starttime: invalid local time due to daylight saving time" << endl;
+
 		// set a correct local time because the current time doesn't exists
-		if ( time_runs_forward ) {
-			// activate DST if time runs forward
-			ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
-			setDST( true );
-		} else {
-			// deactivate DST if time runs backward and set back local time
-			ValidLTime = ltime.addSecs( int( HourOffset * - 3600) );
-			setDST( false );
-		}
-	} else {
-		// current time was not start time
-		// so check if current time is revert time and deactivate DST if necessary
+		// if automatic DST change happend, new DST setting is the opposite of current setting
+		if ( automaticDSTchange ) {
+			// revert DST status
+			setDST( !wasDSTactive );
+			// new setting DST is inactive, so subtract hour offset to new time
+			if ( wasDSTactive ) {
+				// DST inactive
+				ValidLTime = ltime.addSecs( int( HourOffset * - 3600) );
+			} else {
+				// DST active
+				// add hour offset to new time
+				ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
+			}
+		} else {  // if ( automaticDSTchange )
+		// no automatic DST change happend, so stay in current DST mode
+			setDST( wasDSTactive );
+			if ( wasDSTactive ) {
+				// DST active
+				// add hour offset to current time, because time doesn't exists
+				ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
+			} else {
+				// DST inactive
+				// subtrace hour offset to current time, because time doesn't exists
+				ValidLTime = ltime.addSecs( int( HourOffset * -3600) );
+			}
+		}  // else { // if ( automaticDSTchange )
+
+	} else {  // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
+
+		// If current time was not start time, so check if current time is revert time
+		// this means if a DST change happend in next hour(s)
 		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
 		if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
-			kdDebug() << "Current time = Reverttime: deactivate DST" << endl;
-			setDST( false );
-		}
-		else
-		// current time was not starttime or reverttime
+			// current time is the revert time
+			kdDebug() << "Current time = Reverttime" << endl;
+
+			// we don't kneed to change the local time, because local time allways exists, but
+			// some times exists twice, so we have to reset DST status
+			if ( automaticDSTchange ) {
+				// revert DST status
+				setDST( !wasDSTactive );
+			} else {
+				// no automatic DST change so stay in current DST mode
+				setDST( wasDSTactive );
+			}
+
+		} else {
+			//Current time was neither starttime nor reverttime, so use normal calculated DST status
 			setDST( active_normal );
-	}
-	
+		}
+	}  // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
+
+//	kdDebug() << "Using Valid Local Time = " << ValidLTime.toString() << endl;
+
 	if (time_runs_forward) {
 		// get next DST change time in local time
-		nextDSTChange_LTime( ltime );
+		nextDSTChange_LTime( ValidLTime );
 		nextDSTChange( next_change_ltime, TZoffset );
 	} else {
 		// get previous DST change time in local time
-		previousDSTChange_LTime( ltime );
+		previousDSTChange_LTime( ValidLTime );
 		previousDSTChange( next_change_ltime, TZoffset );
 	}
+	ltime = ValidLTime;
 }
+
 
 bool TimeZoneRule::equals( TimeZoneRule *r ) {
 	if ( StartDay == r->StartDay && RevertDay == r->RevertDay &&

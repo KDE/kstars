@@ -296,14 +296,16 @@ void SkyMap::slotClockSlewing() {
 			clockSlewing = true;
 			ksw->getClock()->setManualMode( true );
 
-			ksw->updateTime();
+			// don't change automatically the DST status
+			ksw->updateTime( false );
 		}
 	} else {
 		if ( clockSlewing ) {
 			clockSlewing = false;
 			ksw->getClock()->setManualMode( false );
 
-			ksw->updateTime();
+			// don't change automatically the DST status
+			ksw->updateTime( false );
 		}
 	}
 }
