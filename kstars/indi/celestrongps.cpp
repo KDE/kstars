@@ -29,6 +29,9 @@
 #include "celestronprotocol.h"
 #include "celestrongps.h"
 
+#define RA_THRESHOLD	0.01
+#define DEC_THRESHOLD	0.05
+
 CelestronGPS *telescope = NULL;
 char mydev[] = "Celestron GPS";
 
@@ -557,7 +560,7 @@ void CelestronGPS::ISPoll()
 	currentRA = GetRA();
 	currentDEC = GetDec();
 
-        if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
+        if ( fabs (currentRA - lastRA) > RA_THRESHOLD || fabs (currentDEC - lastDEC) > DEC_THRESHOLD)
 	{
 	        eqNum.n[0].value = currentRA;
 		eqNum.n[1].value = currentDEC;
