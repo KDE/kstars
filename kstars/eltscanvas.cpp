@@ -206,10 +206,10 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 
 	tzm = int( el->getTZ()*60.0 );
 
-	int iPlotList = el->PlotList->currentItem();
+	int iPlotList = el->currentPlotListItem();
 
 	int index = 0;
-	for ( SkyPoint *p = el->pList.first(); p; p = el->pList.next() ) {
+	for ( SkyPoint *p = el->skyPointList()->first(); p; p = el->skyPointList()->next() ) {
 		if ( index == iPlotList ) pcanvas->setPen( QPen( white, 2 ) );
 		else pcanvas->setPen( QPen( red, 1 ) );
 		++index;
@@ -218,7 +218,7 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 		utmPrev = ltmPrev - tzm;
 		while ( utmPrev < 0 ) utmPrev += 24*60;
 		while ( utmPrev >=24*60 ) utmPrev -= 24*60;
-		
+
 		elevationPrev = getAlt(p, utmPrev);
 		pcanvas->moveTo( ltmPrev, elevationPrev );
 

@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #include "elts.h"
-#include "eltscanvas.h"
+#include "dms.h"
+#include "plotwidget.h"
 #include "skypoint.h"
 #include "skyobject.h"
 #include "geolocation.h"
@@ -40,23 +41,19 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 
-elts::elts( QWidget* parent)  : 
-	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent ) 
+elts::elts( QWidget* parent)  :
+	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
 {
 
 	ks = (KStars*) parent;
 
 	QFrame *page = plainPage();
-	
+
 	setMainWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-	eltsView = new eltsCanvas( page );
-
-	// each pixel 3 minutes x 30 arcmin 
-	// Total size is X: 24x60 = 1440; 1440/3 = 480 + 2*40 (padding) = 560
-	//            is Y: 360 + 2*40 (padding) = 440
-	eltsView->setFixedSize( 560, 440 );
+	View = new PlotWidget( 0, 24, -95, 95, page );
+	View->setFixedSize( 500, 400 );
 
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 
@@ -79,20 +76,20 @@ elts::elts( QWidget* parent)  :
 	raLabel->setText( i18n( "RA:" ) );
 	epochLabel = new QLabel( sourceTab );
 	epochLabel->setText( i18n( "Epoch:" ) );
-	
+
 	sourceLeftLayout->addWidget( nameLabel );
 	sourceLeftLayout->addWidget( raLabel );
 	sourceLeftLayout->addWidget( epochLabel );
-	
+
 	//widgets for nameLayout
 	nameBox = new KLineEdit( sourceTab );
 	browseButton = new QPushButton( sourceTab );
 	browseButton->setText( i18n( "Browse" ) );
-	
+
 	nameLayout->addWidget( nameBox );
 //	nameLayout->addSpacing( 12 );
 	nameLayout->addWidget( browseButton );
-	
+
 	//widgets for coordLayout
 	raBox = new dmsBox( sourceTab , "rabox", FALSE);
 	decLabel = new QLabel( sourceTab );
@@ -103,7 +100,7 @@ elts::elts( QWidget* parent)  :
 	coordLayout->addSpacing( 12 );
 	coordLayout->addWidget( decLabel );
 	coordLayout->addWidget( decBox );
-	
+
 	//widgets for clearAddLayout
 	epochName = new KLineEdit( sourceTab, "epochname" );
 	epochName->setMaximumSize( QSize( 80, 32767 ) );
@@ -125,7 +122,7 @@ elts::elts( QWidget* parent)  :
 
 	PlotList = new KListBox( sourceTab );
 	PlotList->setVScrollBarMode( QScrollView::AlwaysOn );
-	
+
 	//populate sourceMidLayout
 	sourceMidLayout->addLayout( nameLayout );
 	sourceMidLayout->addLayout( coordLayout );
@@ -135,16 +132,16 @@ elts::elts( QWidget* parent)  :
 	sourceLayout->addLayout( sourceLeftLayout );
 	sourceLayout->addLayout( sourceMidLayout );
 	sourceLayout->addWidget( PlotList );
-	
+
 	ctlTabs->insertTab( sourceTab, i18n( "Sources" ) );
 
 	/** Tab for Date and Location */
 	/** 2nd Tab */
 
 	dateTab = new QWidget( ctlTabs );
-	dateLocationLayout = new QVBoxLayout( dateTab, 0, 6, "dateLocationLayout"); 
+	dateLocationLayout = new QVBoxLayout( dateTab, 0, 6, "dateLocationLayout");
 
-	longLatLayout = new QHBoxLayout( 0, 2, 9, "longLatLayout"); 
+	longLatLayout = new QHBoxLayout( 0, 2, 9, "longLatLayout");
 
 	dateLabel = new QLabel( dateTab );
 	dateLabel->setText( i18n( "Date:" ) );
@@ -169,20 +166,20 @@ elts::elts( QWidget* parent)  :
 
 	/* Layout for the button part */
 
-	updateLayout = new QHBoxLayout( 0, 0, 6); 
+	updateLayout = new QHBoxLayout( 0, 0, 6);
 	QSpacerItem* spacer_2 = new QSpacerItem( 10, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
 	cityButton = new QPushButton( dateTab );
 	cityButton->setText( i18n( "Choose City..." ) );
-	
+
 	updateButton = new QPushButton( dateTab );
 //	updateButton->setMinimumSize( QSize( 80, 0 ) );
 	updateButton->setText( i18n( "Update" ) );
-	
+
 	updateLayout->addItem( spacer_2 );
 	updateLayout->addWidget( cityButton );
 	updateLayout->addWidget( updateButton );
-	
+
 	/** Closing layouts the date/location tab */
 
 	dateLocationLayout->addLayout( longLatLayout );
@@ -191,7 +188,7 @@ elts::elts( QWidget* parent)  :
 	ctlTabs->insertTab( dateTab, i18n( "Date && Location" ) );
 
 //	eltsTotalBoxLayout->addSpacing( 10 );
-	topLayout->addWidget( eltsView );
+	topLayout->addWidget( View );
 	topLayout->addWidget( ctlTabs );
 
 	showCurrentDate();
@@ -216,7 +213,7 @@ elts::elts( QWidget* parent)  :
 	connect( latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 //	connect( PlotList, SIGNAL( highlighted(int) ), eltsView, SLOT( update() ) );
 	connect( PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
-	
+
 	pList.setAutoDelete(FALSE);
 	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
 
@@ -230,7 +227,7 @@ elts::elts( QWidget* parent)  :
 }
 
 
-/*  
+/*
  *  Destroys the object and frees any allocated resources
  */
 elts::~elts()
@@ -245,29 +242,29 @@ elts::~elts()
 
 void elts::slotAddSource(void) {
 	bool objFound( false );
-	
+
 	//First, attempt to find the object name in the list of known objects
 	if ( ! nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		QString text = nameBox->text().lower();
-		
+
 		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == text ) {
 				//object found
 				SkyObject *o = name->skyObject();
 				processObject( o );
-				
+
 				objFound = true;
 				break;
 			}
 		}
-		
+
 		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
-		
-	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject 
+
+	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject
 	//with these parameters
-	} 
-	
+	}
+
 	if ( !objFound && ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		bool ok( true );
 		dms newRA( 0.0 ), newDec( 0.0 );
@@ -278,20 +275,20 @@ void elts::slotAddSource(void) {
 			deleteList.append( obj ); //this object will be deleted when window is destroyed
 			processObject( obj );
 		}
-		
-	//If the Ra and Dec boxes are filled, but the name field is empty, 
+
+	//If the Ra and Dec boxes are filled, but the name field is empty,
 	//move input focus to nameBox`
 	} else if ( nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		nameBox->QWidget::setFocus();
-	
+
 	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
-	} else if (  raBox->text().isEmpty() ) { 
+	} else if (  raBox->text().isEmpty() ) {
 		raBox->QWidget::setFocus();
-	} else if ( decBox->text().isEmpty() ) { 
+	} else if ( decBox->text().isEmpty() ) {
 		decBox->QWidget::setFocus();
 	}
-	
-	eltsView->repaint(false);
+
+	View->repaint(false);
 }
 
 //Use find dialog to choose an object
@@ -300,23 +297,23 @@ void elts::slotBrowseObject(void) {
 	if ( fd.exec() == QDialog::Accepted ) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
 		processObject( o );
-	} 
+	}
 
-	eltsView->repaint();
+	View->repaint();
 }
 
 void elts::processObject( SkyObject *o, bool forceAdd ) {
-	//We need earth for findPosition.  Store KSNumbers for simulation date/time 
+	//We need earth for findPosition.  Store KSNumbers for simulation date/time
 	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
 	KSPlanet *Earth = ks->data()->earth();
-	
+
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( ks->data()->isSolarSystem( o ) ) {
 		oldNum = new KSNumbers( ks->clock()->JD() );
 		Earth->findPosition( num );
-		
+
 		if ( o->type() == 2 && o->name() == "Moon" ) {
 			((KSMoon*)o)->findPosition(num, Earth);
 		} else if ( o->type() == 2 ) {
@@ -330,10 +327,10 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 			kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
 		}
 	}
-	
+
 	//precess coords to target epoch
 	o->updateCoords( num );
-	
+
 	//If this point is not in list already, add it to list
 	bool found(false);
 	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
@@ -345,33 +342,51 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 	if ( found && !forceAdd ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
 	else {
 		pList.append( (SkyPoint*)o );
+
+		PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
+		for ( double h=0.0; h<=24.0; h+=0.5 ) {
+			po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
+		}
+		View->addObject( po );
+
 		PlotList->insertItem( o->name() );
 		PlotList->setCurrentItem( PlotList->count() - 1 );
 		raBox->showInHours(o->ra() );
 		decBox->showInDegrees(o->dec() );
 		nameBox->setText(o->name() );
-		
+
 		//CLEAR_FIELDS
 //		dirtyFlag = true;
-		
+
 		//Set epochName to epoch shown in date tab
 		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 	}
-	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
-	
+	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
 	//restore original Earth position
 	if ( ks->data()->isSolarSystem( o ) ) {
 		Earth->findPosition( oldNum );
 		delete oldNum;
 	}
-	
+
 	delete num;
 }
 
-void elts::slotHighlight(void) {
+double elts::findAltitude( SkyPoint *p, double hour ) {
+	int h = int(hour);
+	int m = int(60.*(hour - h));
+	int s = int(60.*(60.*(hour - h) - m));
+	QDateTime ut( getQDate().date(), QTime( h,m,s ) );
+	dms lat = getLatitude();
+	dms lgt = getLongitude();
+	dms LST = KSUtils::UTtoLST( ut , &lgt );
+	p->EquatorialToHorizontal( &LST, &lat );
 
-	eltsView->update();
+	return p->alt()->Degrees();
+}
+
+void elts::slotHighlight(void) {
+	View->update();
 
 	int iPlotList = PlotList->currentItem();
 
@@ -402,8 +417,9 @@ void elts::slotClear(void) {
 	nameBox->clear();
 	raBox->clear();
 	decBox->clear();
-	eltsView->repaint();
-	
+	View->clearObjectList();
+	View->repaint();
+
 	//CLEAR_FIELDS
 //	dirtyFlag = false;
 }
@@ -411,7 +427,7 @@ void elts::slotClear(void) {
 void elts::slotClearBoxes(void) {
 	//clear the name, ra, and dec fields
 	// This still does not work. I will have a look later.
-	
+
 	//CLEAR_FIELDS Two next lines
 //	if ( dirtyFlag ) {
 //		dirtyFlag = false;
@@ -419,7 +435,7 @@ void elts::slotClearBoxes(void) {
 		raBox->clear() ;
 		decBox->clear();
 		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
-		
+
 	//CLER_FIELDS
 //	}
 }
@@ -430,23 +446,23 @@ void elts::slotUpdateDateLoc(void) {
 	//coords if the object is a solar system body
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSPlanet *Earth = ks->data()->earth();
-	
+
 	for ( unsigned int i = 0; i < PlotList->count(); ++i ) {
 		QString oName = PlotList->text( i ).lower();
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		bool objFound(false);
-		
+
 		kdDebug() << i << ": " << oName << endl;
-		
+
 		for( SkyObjectName *name = ObjNames.first( oName ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == oName ) {
 				//object found
 				SkyObject *o = name->skyObject();
-				
+
 				//If the object is in the solar system, recompute its position for the given date
 				if ( ks->data()->isSolarSystem( o ) ) {
 					Earth->findPosition( num );
-		
+
 					if ( o->type() == 2 && o->name() == "Moon" ) {
 						((KSMoon*)o)->findPosition(num, Earth);
 					} else if ( o->type() == 2 ) {
@@ -459,20 +475,26 @@ void elts::slotUpdateDateLoc(void) {
 						kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
 					}
 				}
-				
+
 				//precess coords to target epoch
 				o->updateCoords( num );
-				
+
 				//update pList entry
 				pList.replace( i, (SkyPoint*)o );
-				
+
+				PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
+				for ( double h=0.0; h<=24.0; h+=0.5 ) {
+					po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
+				}
+				View->replaceObject( i, po );
+
 				objFound = true;
 				break;
 			}
 		}
 	}
-	
-	eltsView->repaint();
+
+	View->repaint();
 }
 
 void elts::slotChooseCity(void) {
@@ -547,12 +569,12 @@ double elts::getEpoch (QString eName)
 	//If Epoch field not a double, assume J2000
 	bool ok(false);
 	double epoch = eName.toDouble(&ok);
-	
+
 	if ( !ok ) {
 		kdDebug() << "Invalid Epoch.  Assuming 2000.0." << endl;
 		return 2000.0;
 	}
-	
+
 	return epoch;
 }
 
