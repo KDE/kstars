@@ -27,6 +27,7 @@
 #include <qwidget.h>
 #include <qgroupbox.h>
 #include <qbuttongroup.h>
+#include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qframe.h>
