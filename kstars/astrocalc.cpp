@@ -49,13 +49,12 @@
 //	KMenuBar * menu = menuBar();menu->insertItem( i18n("&File"), filemenu);
 //	menu->insertSeparator();
 //	menu->insertItem( i18n("&Help"), helpmenu);
-AstroCalc::AstroCalc( QWidget* parent ) : KDialogBase( KDialogBase::Plain, i18n( "KStars Calculator" ), Ok|Close|Cancel, Ok, parent ) {
-
-	//QFrame *page = plainPage();
-
-//	vbox = new QVBox (this);
+AstroCalc::AstroCalc( QWidget* parent ) :
+	KDialogBase( parent, "starscalculator", true,
+	i18n("KStars Calculator"), Ok | Close | Cancel ) {
 
 	split = new QSplitter ( this );
+	setMainWidget(split);
 
 	navigationPanel = new QListView (split,"NavigationPanel");
 	splashScreen = new QTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
@@ -90,23 +89,6 @@ AstroCalc::AstroCalc( QWidget* parent ) : KDialogBase( KDialogBase::Plain, i18n(
 
 	connect(navigationPanel, SIGNAL(clicked(QListViewItem *)), this,
 		SLOT(slotItemSelection(QListViewItem *)));
-	
-//	splashScreen->setMaximumWidth(450);
-	splashScreen->setMinimumWidth(420);
-//	splashScreen->setMaximumHeight(380);
-	splashScreen->setMinimumHeight(360);
-	splashScreen->setMinimumSize(420, 360);
-	navigationPanel->setMaximumWidth(180);
-	navigationPanel->setMinimumWidth(160);
-	split->show();
-//	navigationPanel->show();
-	
-//	page->resize(600,430);
-	setMinimumSize(620, 430);
-	resize(640,430);
-	
-//	setCentralWidget(vbox);
-	
 }
 
 AstroCalc::~AstroCalc()
@@ -261,3 +243,7 @@ void AstroCalc::genPrecFrame(void)
 	rightPanel = Precessor;
 }
 
+QSize AstroCalc::sizeHint() const
+{
+  return QSize(640,430);
+}

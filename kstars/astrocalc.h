@@ -65,6 +65,8 @@ Q_OBJECT
 		void genGalFrame(void);
 		void genPrecFrame(void);
 		void delRightPanel(void);
+
+		QSize sizeHint() const;
 				
 	public slots:
 		void slotItemSelection(QListViewItem *it);
