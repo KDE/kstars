@@ -174,6 +174,14 @@ public:
 	*/
 	bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
 
+/**Draw the object's symbol on the map
+	*/
+	void drawSymbol( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale=1.0 );
+
+/**Draw the Object's image on the map
+	*/
+	void drawImage( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale=1.0 );
+
 /**Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
 	*@param pmenu pointer to the KSPopupMenu object

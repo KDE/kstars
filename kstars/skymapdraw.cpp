@@ -544,6 +544,13 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 		if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawStar() - Options::magLimitDrawStarZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 		float sizeFactor = 6.0 + (lgz - lgmin);
 
+		//Need a pen color for the multiple star and variable star indicators
+		switch( Options::starColorMode() ) {
+			case 1 : psky.setPen( Qt::red ); break;
+			case 2 : psky.setPen( Qt::black ); break;
+			default: psky.setPen( Qt::white ); break;
+		}
+
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
@@ -556,9 +563,9 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 					int size = int( sizeFactor*( maglim - curStar->mag())/maglim ) + 1;
 
 					if ( size > 0 ) {
-						psky.setPen( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, 1.0, 0, curStar->color(), scale );
-
+						QPixmap *spixmap = starpix->getPixmap( &(curStar->color()), size );
+						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+						
 						// now that we have drawn the star, we can display some extra info
 						if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
 								&& ( Options::showStarNames() || Options::showStarMagnitudes() ) ) {
@@ -577,8 +584,6 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
 			bool drawObject, bool drawImage, double scale )
 {
-	QImage ScaledImage;
-
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
@@ -608,59 +613,29 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 
 					//Draw Image
 					if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-						QFile file;
-
-						//readImage reads image from disk, or returns pointer to existing image.
-						//cancel drawing the image if it is larger than 0.75*width()
-						QImage *image=obj->readImage();
-						if ( image ) {
-							int w = int( obj->a() * scale * dms::PI * Options::zoomFactor()/10800.0 );
-
-							if ( w < 0.75*width() ) {
-								int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
-								int dx = int( 0.5*w );
-								int dy = int( 0.5*h );
-								ScaledImage = image->smoothScale( w, h );
-								psky.save();
-								psky.translate( o.x(), o.y() );
-								psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
-								psky.drawImage( -dx, -dy, ScaledImage );
-								psky.restore();
-							}
-						}
+						obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
 					}
 
 					//Draw Symbol
 					if ( drawObject ) {
 						//change color if extra images are available
-            // most objects don't have those, so we only change colors temporarily
-            // for the few exceptions. Changing color is expensive!!!
-            bool bColorChanged = false;
+						// most objects don't have those, so we only change colors temporarily
+						// for the few exceptions. Changing color is expensive!!!
+						bool bColorChanged = false;
 						if ( obj->isCatalogM() && obj->ImageList.count() > 1 ) {
 							psky.setPen( colorHST );
-              bColorChanged = true;
-            }
-						else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
+							bColorChanged = true;
+						} else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
 							psky.setPen( colorHST );
 							bColorChanged = true;
-            }
-
-						float majorAxis = obj->a();
-						// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
-						// if we use size 0.0 the star wouldn't be drawn
-						if ( majorAxis == 0.0 && obj->type() < 2 ) {
-							majorAxis = 1.0;
 						}
 
-						//scale parameter is included in drawSymbol, so we don't place it here in definition of Size
-						int Size = int( majorAxis * dms::PI * Options::zoomFactor()/10800.0 );
+						obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
 
-						// use star draw function
-						drawSymbol( psky, obj->type(), o.x(), o.y(), Size, obj->e(), PositionAngle, 0, scale );
-            // revert temporary color change
-            if ( bColorChanged ) {
+						// revert temporary color change
+						if ( bColorChanged ) {
 							psky.setPen( color );
-            }
+						}
 					}
 				}
 			}
@@ -731,20 +706,23 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 
-						if ( obj->type()==0 || obj->type()==1 ) {
+						if ( obj->type()==0 ) {
 							StarObject *starobj = (StarObject*)obj;
-//							float zoomlim = 7.0 + float( Options::ZoomLevel )/4.0;
 							float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
-
 							float mag = starobj->mag();
 							float sizeFactor = 2.0;
 							int size = int( sizeFactor*(zoomlim - mag) ) + 1;
 							if (size>23) size=23;
-							if ( size > 0 ) drawSymbol( psky, starobj->type(), o.x(), o.y(), size, 1.0, 0, starobj->color(), scale );
+							if ( size ) {
+								QPixmap *spixmap = starpix->getPixmap( &(starobj->color()), size );
+								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+							}
 						} else {
 							int size = int(Options::zoomFactor()/MINZOOM);
 							if (size>8) size = 8;
-							drawSymbol( psky, obj->type(), o.x(), o.y(), size, 1.0, 0, 0, scale );
+							int pa = findPA( obj, o.x(), o.y() );
+							obj->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
+							obj->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 						}
 					}
 				}
@@ -1414,131 +1392,6 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			}
 		}
 	}  //endif drawing horizon
-}
-
-void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, double e, int pa, QChar color, double scale ) {
-	size = int( scale * size );
-
-	int dx1 = -size/2;
-	int dx2 =  size/2;
-	int dy1 = int( -e*size/2 );
-	int dy2 = int( e*size/2 );
-	int x1 = x + dx1;
-	int x2 = x + dx2;
-	int y1 = y + dy1;
-	int y2 = y + dy2;
-
-	int dxa = -size/4;
-	int dxb =  size/4;
-	int dya = int( -e*size/4 );
-	int dyb = int( e*size/4 );
-	int xa = x + dxa;
-	int xb = x + dxb;
-	int ya = y + dya;
-	int yb = y + dyb;
-
-	int psize;
-
-	QPixmap *star;
-
-	switch (type) {
-		case 0: //star
-			star = starpix->getPixmap (&color, size);
-
-			//Only bitBlt() if we are drawing to the sky pixmap
-			if ( psky.device() == sky )
-				bitBlt ((QPaintDevice *) sky, x - star->width()/2, y - star->height()/2, star);
-			else
-				psky.drawPixmap( x - star->width()/2, y - star->height()/2, *star );
-			break;
-		case 1: //catalog star
-			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
-			if (size<2) size = 2;
-			psky.drawEllipse( x1, y1, size/2, size/2 );
-			break;
-		case 2: //Planet
-			break;
-		case 3: //Open cluster
-			psky.setBrush( psky.pen().color() );
-			psize = 2;
-			if ( size > 50 )  psize *= 2;
-			if ( size > 100 ) psize *= 2;
-			psky.drawEllipse( xa, y1, psize, psize ); // draw circle of points
-			psky.drawEllipse( xb, y1, psize, psize );
-			psky.drawEllipse( xa, y2, psize, psize );
-			psky.drawEllipse( xb, y2, psize, psize );
-			psky.drawEllipse( x1, ya, psize, psize );
-			psky.drawEllipse( x1, yb, psize, psize );
-			psky.drawEllipse( x2, ya, psize, psize );
-			psky.drawEllipse( x2, yb, psize, psize );
-			psky.setBrush( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-			break;
-		case 4: //Globular Cluster
-			if (size<2) size = 2;
-			psky.save();
-			psky.translate( x, y );
-			psky.rotate( double( pa ) );  //rotate the coordinate system
-			psky.drawEllipse( dx1, dy1, size, int( e*size ) );
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( 0, dy2 );
-			psky.moveTo( dx1, 0 );
-			psky.lineTo( dx2, 0 );
-			psky.restore(); //reset coordinate system
-			break;
-		case 5: //Gaseous Nebula
-			if (size <2) size = 2;
-			psky.save();
-			psky.translate( x, y );
-			psky.rotate( double( pa ) );  //rotate the coordinate system
-			psky.drawLine( dx1, dy1, dx2, dy1 );
-			psky.drawLine( dx2, dy1, dx2, dy2 );
-			psky.drawLine( dx2, dy2, dx1, dy2 );
-			psky.drawLine( dx1, dy2, dx1, dy1 );
-			psky.restore(); //reset coordinate system
-			break;
-		case 6: //Planetary Nebula
-			if (size<2) size = 2;
-			psky.save();
-			psky.translate( x, y );
-			psky.rotate( double( pa ) );  //rotate the coordinate system
-			psky.drawEllipse( dx1, dy1, size, int( e*size ) );
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( 0, dy1 - int( e*size/2 ) );
-			psky.moveTo( 0, dy2 );
-			psky.lineTo( 0, dy2 + int( e*size/2 ) );
-			psky.moveTo( dx1, 0 );
-			psky.lineTo( dx1 - size/2, 0 );
-			psky.moveTo( dx2, 0 );
-			psky.lineTo( dx2 + size/2, 0 );
-			psky.restore(); //reset coordinate system
-			break;
-		case 7: //Supernova remnant
-			if (size<2) size = 2;
-			psky.save();
-			psky.translate( x, y );
-			psky.rotate( double( pa ) );  //rotate the coordinate system
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( dx2, 0 );
-			psky.lineTo( 0, dy2 );
-			psky.lineTo( dx1, 0 );
-			psky.lineTo( 0, dy1 );
-			psky.restore(); //reset coordinate system
-			break;
-		case 8: //Galaxy
-			if ( size <1 && Options::zoomFactor() > 20*MINZOOM ) size = 3; //force ellipse above zoomFactor 20
-			if ( size <1 && Options::zoomFactor() > 5*MINZOOM ) size = 1; //force points above zoomFactor 5
-			if ( size>2 ) {
-				psky.save();
-				psky.translate( x, y );
-				psky.rotate( double( pa ) );  //rotate the coordinate system
-				psky.drawEllipse( dx1, dy1, size, int( e*size ) );
-				psky.restore(); //reset coordinate system
-
-			} else if ( size>0 ) {
-				psky.drawPoint( x, y );
-			}
-			break;
-	}
 }
 
 void SkyMap::exportSkyImage( const QPaintDevice *pd ) {

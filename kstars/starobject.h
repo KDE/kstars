@@ -192,6 +192,8 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
+	void draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool drawMultiple=true, double scale=1.0 );
+
 	//overloaded from SkyObject
 	void drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
 

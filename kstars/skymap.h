@@ -456,14 +456,6 @@ private:
 	*/
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
-/**Large switch-controlled statement to draw objects on the SkyMap
-	*according to their type and catalog.  This is going to be changed
-	*So that each SkyObject has its own draw() function, which will be
-	*called from SkyMap's paintEvent().
-	*color is only needed by Stars.
-	*/
-	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0, double scale = 1.0 );
-
 /**Determine the on-screen position angle of a DeepSkyObject.  This is the sum
 	*of the object's sky position angle (w.r.t. North), and the position angle
 	*of "North" at the position of the object.  The latter is determined by

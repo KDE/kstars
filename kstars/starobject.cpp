@@ -230,6 +230,23 @@ QString StarObject::constell( void ) const {
 	return QString("");
 }
 
+void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool showMultiple, double scale ) {
+	//Indicate multiple stars with a short horizontal line
+	//(only draw this for stars larger than 3 pixels)
+//Commenting out for now...
+//	if ( showMultiple &&  starpix->width() > 3 ) {
+//		int lsize = int(3*starpix->width()/4);  //size of half line segment
+//		psky.drawLine( x - lsize, y, x + lsize, y );
+//	}
+
+	//Only bitBlt() if we are drawing to the sky pixmap
+	if ( psky.device() == sky )
+		bitBlt ((QPaintDevice *) sky, x - starpix->width()/2, y - starpix->height()/2, starpix );
+	else
+		psky.drawPixmap( x - starpix->width()/2, y - starpix->height()/2, *starpix );
+
+}
+
 void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName("");
 	if ( drawName ) {
