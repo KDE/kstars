@@ -935,7 +935,7 @@ void ScriptBuilder::slotFindCity() {
 				sf->setArg( 1, ld.selectedProvince() );
 				sf->setArg( 2, ld.selectedCountry() );
 			} else {
-				kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setGeoLocation" ) << endl;
+				kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 			}
 		}
 	}
@@ -967,7 +967,7 @@ void ScriptBuilder::slotLookToward() {
 		sf->setArg( 0, argLookToward->FocusEdit->currentText() );
 		sf->setValid(true);
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "lookTowards" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "lookTowards" ) << endl;
 	}
 }
 
@@ -991,7 +991,7 @@ void ScriptBuilder::slotRa() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setRaDec" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
 	}
 }
 
@@ -1015,7 +1015,7 @@ void ScriptBuilder::slotDec() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setRaDec" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
 	}
 }
 
@@ -1037,7 +1037,7 @@ void ScriptBuilder::slotAz() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setAltAz" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
 	}
 }
 
@@ -1060,7 +1060,7 @@ void ScriptBuilder::slotAlt() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setAltAz" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
 	}
 }
 
@@ -1077,7 +1077,7 @@ void ScriptBuilder::slotChangeDate() {
 		sf->setArg( 2, QString( "%1" ).arg( date.day()    ) );
 		if ( ! sf->argVal(3).isEmpty() ) sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setLocalTime" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
 	}
 }
 
@@ -1094,7 +1094,7 @@ void ScriptBuilder::slotChangeTime() {
 		sf->setArg( 5, QString( "%1" ).arg( time.second() ) );
 		if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setLocalTime" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
 	}
 }
 
@@ -1114,7 +1114,7 @@ void ScriptBuilder::slotWaitFor() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "waitFor" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitFor" ) << endl;
 	}
 }
 
@@ -1135,7 +1135,7 @@ void ScriptBuilder::slotWaitForKey() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "waitForKey" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForKey" ) << endl;
 	}
 }
 
@@ -1152,7 +1152,7 @@ void ScriptBuilder::slotTracking() {
 		}
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setTracking" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setTracking" ) << endl;
 	}
 }
 
@@ -1171,7 +1171,7 @@ void ScriptBuilder::slotViewOption() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "changeViewOption" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "changeViewOption" ) << endl;
 	}
 }
 
@@ -1191,7 +1191,7 @@ void ScriptBuilder::slotChangeCity() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setGeoLocation" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -1211,7 +1211,7 @@ void ScriptBuilder::slotChangeProvince() {
 			//might not be invalid
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setGeoLocation" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -1231,7 +1231,7 @@ void ScriptBuilder::slotChangeCountry() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setGeoLocation" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -1244,7 +1244,7 @@ void ScriptBuilder::slotTimeScale() {
 		sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
 	}
 }
 
@@ -1261,7 +1261,7 @@ void ScriptBuilder::slotZoom() {
 			sf->setValid( true );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
 	}
 }
 

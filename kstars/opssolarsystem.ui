@@ -91,7 +91,7 @@
                                 <string>Attach Name labels to the major solar system bodies?</string>
                             </property>
                             <property name="whatsThis" stdset="0">
-                                <string>If checked, name labels will bne attached to the planets, the Sun and the Moon</string>
+                                <string>If checked, name labels will be attached to the planets, the Sun and the Moon</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="4" column="1">

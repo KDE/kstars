@@ -684,7 +684,7 @@
 		<entry name="MilkyWayWColor" type="Color">
 			<label>Color of Milky Way contour</label>
 			<default>#123</default>
-			<whatsthis>The color for MMilky Way contour.</whatsthis>
+			<whatsthis>The color for the Milky Way contour.</whatsthis>
 		</entry>
 		<entry name="StarNameColor" type="Color">
 			<label>Color of star name labels</label>
