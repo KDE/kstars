@@ -31,7 +31,7 @@
 
 class dms;
 class QFile;
-class ExtDateTime;
+class QDateTime;
 
 class KSUtils {
 	public:
@@ -39,19 +39,19 @@ class KSUtils {
 		*@param t the Universal Time/Date
 		*@return long double representing the corresponding Julian Day
 		*/
-		static long double UTtoJD(const ExtDateTime &t);
+		static long double UTtoJD(const QDateTime &t);
 
 	/**Compute UT time/date from the julian day.
 		*@param jd the julian day
-		*@return ExtDateTime representing date and time
+		*@return QDateTime representing date and time
 		*/
-		static ExtDateTime JDtoUT(long double jd);
+		static QDateTime JDtoUT(long double jd);
 
 	/**Compute Greenwich Sidereal Time from the UT DateTime.
 		*@param t the Universal Time/Date
 		*@return dms representing the Greenwich Sidereal Time.
 		*/
-		static dms UTtoGST( const ExtDateTime &UT );
+		static dms UTtoGST( const QDateTime &UT );
 
 	/**Compute the Universal Time from the Greenwich Sidereal Time.
 		*This operation requires a date, which is why the UT
@@ -60,7 +60,7 @@ class KSUtils {
 		*@param UT the Universal Time/Date
 		*@return QTime representing the Universal Time corresponding to GST.
 		*/
-		static QTime GSTtoUT( const dms &GST, const ExtDateTime &UT );
+		static QTime GSTtoUT( const dms &GST, const QDateTime &UT );
 
 	/**convert Greenwich sidereal time to local sidereal time
 		*@param GST the Greenwich Sidereal Time
@@ -82,7 +82,7 @@ class KSUtils {
 		*@param longitude the current location's longitude
 		*@return dms representing local sidereal time
 		*/
-		static dms UTtoLST( const ExtDateTime &UT, const dms *longitude );
+		static dms UTtoLST( const QDateTime &UT, const dms *longitude );
 
 	/**convert universal time to local sidereal time.
 		*This is a convenience function: it calls UTtoGST, followed by GSTtoLST.
@@ -90,7 +90,7 @@ class KSUtils {
 		*@param longitude the current location's longitude
 		*@return dms representing local sidereal time
 		*/
-		static QTime LSTtoUT( const dms &LST, const ExtDateTime &UT, const dms *longitude );
+		static QTime LSTtoUT( const dms &LST, const QDateTime &UT, const dms *longitude );
 
 	/**Convenience function to compute the Julian Day at 0h UT.
 		*@param j The julian day
@@ -103,7 +103,7 @@ class KSUtils {
 		*@param ut The Universal Time/Date
 		*@returns julian day at 0h UT
 		*/
-		static long double JDat0hUT( const ExtDateTime &ut );
+		static long double JDat0hUT( const QDateTime &ut );
 
 	/**Convenience function to compute the Greenwich sidereal
 		*time at 0h of universal time.
@@ -111,7 +111,7 @@ class KSUtils {
 		*@param DT = date and time
 		*@returns sidereal time in hours.
 		*/
-		static dms GSTat0hUT( const ExtDateTime &DT );
+		static dms GSTat0hUT( const QDateTime &DT );
 
 	/**Attempt to open the data file named filename, using the QFile object "file".
 		*First look in the standard KDE directories, then look in a local "data"
@@ -140,6 +140,14 @@ class KSUtils {
 		*/
 		static long double epochToJd (double epoch);
 
+	/** Lagrange interpolation using a maximum number of 10 points.
+	 	*@param x[] double array with x values
+	 	*@param v[] double array with y values
+		*@param n number of points to use for interpolation
+		*@param x value for which we are looking for the y value.
+	 	*/
+		static double lagrangeInterpolation(const double x[], const double v[], int n, double xval);
+		
 	private:
 	/**Constructor.  This class is just a collection of static functions, so 
 		*we have made the constructor private (so it is not possible to  

@@ -1,0 +1,546 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>modCalcEquinoxDlg</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>modCalcEquinoxDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>499</width>
+            <height>474</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Equinoxes, Solstices and Seasons</string>
+    </property>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>tabWidget3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>477</width>
+                <height>450</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Interactive Mode</string>
+            </attribute>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox6</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>GroupBoxPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="title">
+                        <string>Select Input</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer20_2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>70</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QComboBox">
+                            <item>
+                                <property name="text">
+                                    <string>Spring Equinox</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Summer Solstice</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Autumn Equinox</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Winter Solstice</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>equinoxSolsticesComboBox</cstring>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer20</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Year:</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit">
+                            <property name="name">
+                                <cstring>yearEdit</cstring>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer19</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>30</width>
+                                    <height>31</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer6</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>81</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>Compute</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Compute</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer4</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>51</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>Clear</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Clear</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer5</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>91</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox7</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Season Information</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QDateTimeEdit" row="0" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>startDateTimeEquinox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="1" column="2">
+                            <property name="name">
+                                <cstring>seasonDuration</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>textLabel3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Duration of the season:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>textLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Start Date &amp; Time</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer22</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>41</width>
+                            <height>237</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Batch Mode</string>
+            </attribute>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>InputBox_2_2</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="title">
+                        <string>Select Fields in Input File</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer23</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>111</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Year:</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit">
+                            <property name="name">
+                                <cstring>kLineEdit9_2</cstring>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer24</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>81</width>
+                                    <height>31</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>buttonFieldsGroup</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Fields in Output File Plus Result</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>allRadioBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>All parameters</string>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>inputRadioBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Only parameters in input file</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupFilesBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Files</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>InputButtonBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Input File...</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>File with the input data</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="0" column="1">
+                            <property name="name">
+                                <cstring>InputLineEditBatch</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="1" column="1">
+                            <property name="name">
+                                <cstring>OutputLineEditBatch</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="0">
+                            <property name="name">
+                                <cstring>OutButtonBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Output File...</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>File for the output data</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout22</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer20_2_2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>151</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>runButtonBatch</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Run</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer19_2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>131</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer27</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>41</width>
+                            <height>71</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+    </widget>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>Compute</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcEquinoxDlg</receiver>
+        <slot>slotComputeEquinoxesAndSolstices()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>slotComputeEquinoxesAndSolstices()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>

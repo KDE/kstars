@@ -18,13 +18,13 @@
 #include <kstandarddirs.h>
 
 #include <qfile.h>
+#include <qdatetime.h>
 
 #include "dms.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
-long double KSUtils::UTtoJD(const ExtDateTime &t) {
+long double KSUtils::UTtoJD(const QDateTime &t) {
   int year = t.date().year();
   int month = t.date().month();
   int day = t.date().day();
@@ -68,11 +68,11 @@ long double KSUtils::UTtoJD(const ExtDateTime &t) {
   return jd;
 }
 
-ExtDateTime KSUtils::JDtoUT( long double jd ) {
+QDateTime KSUtils::JDtoUT( long double jd ) {
 	int year, month, day, seconds, msec;
 	int a, b, c, d, e, alpha, z;
 	double daywithDecimals, secfloat, f;
-	ExtDateTime dateTime;
+	QDateTime dateTime;
 
 	jd+=0.5;
 	z = int(jd);
@@ -96,18 +96,14 @@ ExtDateTime KSUtils::JDtoUT( long double jd ) {
 	seconds = int(secfloat);
 	msec = int((secfloat - seconds) * 1000.);
 
-	dateTime = ExtDateTime(ExtDate(year,month,day));
+	dateTime = QDateTime(QDate(year,month,day));
 	dateTime = dateTime.addSecs(seconds);
-
-	dateTime.setTime( dateTime.time().addMSecs( msec ) );
-
-//	//DEBUG
-//	kdDebug() << "seconds=" << seconds << "   msec=" << msec << "   daywithDecimals=" << daywithDecimals << endl;
+  dateTime.setTime( dateTime.time().addMSecs( msec ) );
 
 	return dateTime;
 }
 
-dms KSUtils::UTtoGST( const ExtDateTime &UT ) {
+dms KSUtils::UTtoGST( const QDateTime &UT ) {
 	dms gst0 = KSUtils::GSTat0hUT( UT );
 
 	double hr = double( UT.time().hour() );
@@ -120,7 +116,7 @@ dms KSUtils::UTtoGST( const ExtDateTime &UT ) {
 	return gst;
 }
 
-QTime KSUtils::GSTtoUT( const dms &GST, const ExtDateTime &UT ) {
+QTime KSUtils::GSTtoUT( const dms &GST, const QDateTime &UT ) {
 	dms gst0 = KSUtils::GSTat0hUT( UT );
 
 	//dt is the number of sidereal hours since UT 0h.
@@ -146,21 +142,21 @@ dms KSUtils::LSTtoGST( const dms &LST, const dms *longitude) {
 	return dms( LST.Degrees() - longitude->Degrees() );
 }
 
-dms KSUtils::UTtoLST( const ExtDateTime &UT, const dms *longitude) {
+dms KSUtils::UTtoLST( const QDateTime &UT, const dms *longitude) {
 	return KSUtils::GSTtoLST( KSUtils::UTtoGST( UT ), longitude );
 }
 
-QTime KSUtils::LSTtoUT( const dms &LST, const ExtDateTime &UT, const dms *longitude) {
+QTime KSUtils::LSTtoUT( const dms &LST, const QDateTime &UT, const dms *longitude) {
 	dms GST = KSUtils::LSTtoGST( LST, longitude );
 	return KSUtils::GSTtoUT( GST, UT );
 }
 
-dms KSUtils::GSTat0hUT( const ExtDateTime &td ) {
+dms KSUtils::GSTat0hUT( const QDateTime &td ) {
 	double sinOb, cosOb;
 	
 	// Mean greenwich sidereal time
 	
-	ExtDateTime t0( td.date(), QTime( 0, 0, 0 ) );
+	QDateTime t0( td.date(), QTime( 0, 0, 0 ) );
 	long double jd0 = KSUtils::UTtoJD( t0 );
 	long double s = jd0 - J2000;
 	double t = s/36525.0;
@@ -188,7 +184,7 @@ dms KSUtils::GSTat0hUT( const ExtDateTime &td ) {
 	return gst.reduce();
 }
 
-long double KSUtils::JDat0hUT( const ExtDateTime &UT ) {
+long double KSUtils::JDat0hUT( const QDateTime &UT ) {
 	long double jd =  UTtoJD( UT );
 	return JDat0hUT( jd );
 }
@@ -235,4 +231,19 @@ long double KSUtils::epochToJd (double epoch) {
 		return ( J2000 - yearsTo2000 * 365.2425 );
 	}
 
+}
+
+double KSUtils::lagrangeInterpolation( const double x[], const double v[], int n, double xval) {
+	
+	double value = 0;
+	for (int i=1; i<n; ++i) {
+		double c = 1;
+		for (int j = 1; j<n;++j) 
+			if (i != j)
+				c *= (xval - x[j]) / (x[i] - x[j]);
+		value += c *v[i];
+	}
+	
+	return value;
+					
 }

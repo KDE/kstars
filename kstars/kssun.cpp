@@ -19,6 +19,7 @@
 
 #include "kssun.h"
 #include "ksnumbers.h"
+#include "ksutils.h"
 
 KSSun::KSSun( KStarsData *kd, QString fn ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn ) {
 	/*
@@ -121,8 +122,47 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 	nutate(num);
 	aberrate(num);
 
+	// We obtain the apparent geocentric ecliptic coordinates. That is, after 
+	// nutation and aberration have been applied.
+	EquatorialToEcliptic( num->obliquity() );
+	
 	//Determine the position angle
 	findPA( num );
 
 	return true;
+}
+
+long double KSSun::springEquinox(int year) {
+	return equinox(year, 18, 3, 0.);
+}
+
+long double KSSun::summerSolstice(int year) {
+	return equinox(year, 18, 6, 90.);
+}
+
+long double KSSun::autumnEquinox(int year) {
+	return equinox(year, 19, 9, 180.);
+}
+
+long double KSSun::winterSolstice(int year) {
+	return equinox(year, 18, 12, 270.);
+}
+
+long double KSSun::equinox(int year, int d, int m, double angle) {
+
+	double jd0[5];
+	double eclipticLongitude[5];
+	
+	for(int i = 0; i<5; ++i) {
+		jd0[i] = (double)KSUtils::UTtoJD(QDateTime(QDate(year,m,d+i),QTime(0,0,0)) );
+		KSNumbers *ksn = new KSNumbers(jd0[i]);
+		//FIXME this is the Earth position
+		findGeocentricPosition( ksn);
+		delete ksn;
+		eclipticLongitude[i] = ecLong()->Degrees();
+	}
+
+	long double jdEquinox = KSUtils::lagrangeInterpolation(eclipticLongitude, jd0, 5, angle);
+
+	return jdEquinox;
 }
