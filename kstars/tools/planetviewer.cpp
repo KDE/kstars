@@ -45,8 +45,6 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	
 	pw->timeStep->tsbox()->setMinValue( 21 );
 	pw->timeStep->tsbox()->setValue( 21 );
-	pw->inclinationSpinBox->setValue(0);
-	setInclination(0);
 	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 	pw->dateBox->setDate( ExtDate::currentDate() );
 	
@@ -88,7 +86,6 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 
 	connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
 	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
-	connect( pw->inclinationSpinBox, SIGNAL( valueChanged(int) ), SLOT( setInclination(int) ) );
 	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
 	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
 }
@@ -107,12 +104,6 @@ void PlanetViewer::tick() {
 
 void PlanetViewer::setTimeScale(float f) {
 	scale = f/86400.; //convert seconds to days
-}
-
-void PlanetViewer::setInclination(int incl) {
-	dms inclination = dms(incl);
-	double sinInclination;
-	inclination.SinCos(sinInclination,cosInclination);
 }
 
 void PlanetViewer::slotRunClock() {
@@ -151,7 +142,7 @@ void PlanetViewer::updatePlanets() {
 			double s, c;
 			p->helEcLong()->SinCos( s, c );
 			planet[i]->point(0)->setX( p->rsun()*c );
-			planet[i]->point(0)->setY( p->rsun()*s*cosInclination );
+			planet[i]->point(0)->setY( p->rsun()*s );
 			planetLabel[i]->point(0)->setX( p->rsun()*c );
 			planetLabel[i]->point(0)->setY( p->rsun()*s );
 			
@@ -207,7 +198,7 @@ void PlanetViewer::initPlotObjects() {
 			double x, y, z;
 			while ( !orbitStream.eof() ) {
 				orbitStream >> x >> y >> z;
-				orbit[i]->addPoint( new DPoint( x, y*cosInclination ) );
+				orbit[i]->addPoint( new DPoint( x, y ) );
 			}
 		}
 		
@@ -222,8 +213,8 @@ void PlanetViewer::initPlotObjects() {
 		KSPlanetBase *p = PCat.findByName( pName[i] );
 		p->helEcLong()->SinCos( s, c );
 		
-		planet[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s*cosInclination ) );
-		planetLabel[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s*cosInclination ) );
+		planet[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
+		planetLabel[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
 		pw->map->addObject( planet[i] );
 		pw->map->addObject( planetLabel[i] );
 	}
