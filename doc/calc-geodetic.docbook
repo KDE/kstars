@@ -1,6 +1,20 @@
 <sect2 id="calc-geodetic">
 <title>Geodetic Coordinates module</title>
 
+<screenshot>
+<screeninfo>
+The Geodetic Coordinates calculator module
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-geodetic.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Geodetic Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 The normal <link linkend="ai-geocoords">geographic coordinate 
 system</link> assumes that the Earth is a perfect sphere.  This is 

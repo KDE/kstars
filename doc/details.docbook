@@ -1,6 +1,20 @@
 <sect1 id="tool-details">
 <title>Detailed Information Dialog</title>
 
+<screenshot>
+<screeninfo>
+The Detailed Information Dialog
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="detaildialog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Detailed Information Dialog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 The Detailed Information Dialog.
 </para>

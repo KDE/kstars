@@ -16,7 +16,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>New Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open another &kstars; window</action>
+<listitem><para>Open another &kstars; window
 </para></listitem>
 </varlistentry>
 
@@ -28,7 +28,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Close Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Close &kstars; window</action>
+<listitem><para>Close &kstars; window
 </para></listitem>
 </varlistentry>
 
@@ -40,8 +40,8 @@
 <guimenu>File</guimenu>
 <guimenuitem>Print...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Send the current sky map to the printer (or to a 
-PostScript/PDF file)</action>
+<listitem><para>Send the current sky map to the printer (or to a 
+PostScript/PDF file)
 </para></listitem>
 </varlistentry>
 
@@ -53,7 +53,7 @@ PostScript/PDF file)</action>
 <guimenu>File</guimenu>
 <guimenuitem>Quit</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Quit &kstars;</action>
+<listitem><para>Quit &kstars;
 </para></listitem>
 </varlistentry>
 </variablelist>
@@ -72,7 +72,7 @@ PostScript/PDF file)</action>
 <guimenu>Time</guimenu>
 <guimenuitem>Set Time to Now</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Sync time to system clock</action></para></listitem>
+<listitem><para>Sync time to system clock</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -83,7 +83,7 @@ PostScript/PDF file)</action>
 <guimenu>Time</guimenu>
 <guimenuitem>Set Time...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Set time and date</action></para></listitem>
+<listitem><para>Set time and date</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -91,7 +91,7 @@ PostScript/PDF file)</action>
 <guimenu>Time</guimenu>
 <guimenuitem>Start/Stop Clock</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Toggle whether time passes</action></para></listitem>
+<listitem><para>Toggle whether time passes</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -109,8 +109,8 @@ PostScript/PDF file)</action>
 <guimenu>Focus</guimenu>
 <guimenuitem>Zenith</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Center at the Zenith point 
-(straight up)</action></para></listitem>
+<listitem><para>Center at the Zenith point 
+(straight up)</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -121,8 +121,8 @@ PostScript/PDF file)</action>
 <guimenu>Focus</guimenu>
 <guimenuitem>North</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Center above the North point on the 
-horizon</action></para></listitem>
+<listitem><para>Center above the North point on the 
+horizon</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -133,8 +133,8 @@ horizon</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>East</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Center above the East point on the 
-horizon</action></para></listitem>
+<listitem><para>Center above the East point on the 
+horizon</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -145,8 +145,8 @@ horizon</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>South</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Center above the South point on the 
-horizon</action></para></listitem>
+<listitem><para>Center above the South point on the 
+horizon</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -157,8 +157,8 @@ horizon</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>West</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Center above the West point on the 
-horizon</action></para></listitem>
+<listitem><para>Center above the West point on the 
+horizon</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -169,7 +169,7 @@ horizon</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>Find Object</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Locate an object by name</action></para></listitem>
+<listitem><para>Locate an object by name</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -180,9 +180,9 @@ horizon</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>Track Object</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Toggle tracking on/off.  While tracking,
+<listitem><para>Toggle tracking on/off.  While tracking,
 the display will remain centered on the current position or 
-object.</action></para></listitem>
+object.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -193,8 +193,8 @@ object.</action></para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>Set Focus Manually...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Opens a dialog in which you can enter specific RA/Dec
-coordinates to center on.</action></para></listitem>
+<listitem><para>Opens a dialog in which you can enter specific RA/Dec
+coordinates to center on.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -346,8 +346,8 @@ Circle, Crosshairs, Bullsyeye, Rectangle.
 </menuchoice></term>
 <listitem>
 <para>
-<action>Select a new <link linkend="geolocation">geographic 
-location</link></action>
+Select a new <link linkend="geolocation">geographic 
+location</link>
 </para>
 </listitem>
 </varlistentry>
@@ -357,8 +357,8 @@ location</link></action>
 <guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Modify <link linkend="config">view 
-options</link></action></para></listitem>
+<listitem><para>Modify <link linkend="config">view 
+options</link></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -375,9 +375,9 @@ options</link></action></para></listitem>
 </menuchoice></term>
 <listitem>
 <para>
-<action>Opens the <guilabel>Astrocalculator</guilabel> Tool, which 
+Opens the <guilabel>Astrocalculator</guilabel> Tool, which 
 provides full access to many of the mathematical functions used by 
-&kstars;.</action>
+&kstars;.
 </para>
 </listitem>
 </varlistentry>
@@ -389,9 +389,9 @@ provides full access to many of the mathematical functions used by
 </menuchoice></term>
 <listitem>
 <para>
-<action>Opens the <guilabel>AAVSO Light Curve Generator</guilabel> 
+Opens the <guilabel>AAVSO Light Curve Generator</guilabel> 
 Tool, which allows you to download a light curve for any variable 
-star from the American Association of Variable Star Observers.</action>
+star from the American Association of Variable Star Observers.
 </para>
 </listitem>
 </varlistentry>
@@ -403,10 +403,10 @@ star from the American Association of Variable Star Observers.</action>
 </menuchoice></term>
 <listitem>
 <para>
-<action>Opens the <guilabel>Altitude vs. Time</guilabel> Tool, which
+Opens the <guilabel>Altitude vs. Time</guilabel> Tool, which
 can plot curves representing the altitude of any object as a 
 function of time.  This is useful for planning observing 
-sessions.</action>
+sessions.
 </para>
 </listitem>
 </varlistentry>
@@ -418,9 +418,9 @@ sessions.</action>
 </menuchoice></term>
 <listitem>
 <para>
-<action>Opens the <guilabel>What's Up Tonight</guilabel> Tool, 
+Opens the <guilabel>What's Up Tonight</guilabel> Tool, 
 which presents a summary of the objects which are observable 
-from your location on a given date.</action>
+from your location on a given date.
 </para>
 </listitem>
 </varlistentry>

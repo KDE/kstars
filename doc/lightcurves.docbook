@@ -12,6 +12,20 @@
 
 <title>AAVSO Light Curves</title>
 
+<screenshot>
+<screeninfo>
+The AAVSO Lightcurves Tool
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="aavso.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>AAVSO Lightcurves</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <sect2 id="aavso-intro">
 <title>Introduction</title>
 <para>
@@ -23,6 +37,31 @@ observations going back almost a century.  &kstars; downloads the very
 latest data directly from the <abbrev>AAVSO</abbrev> database via the 
 Internet, so a network connection is required to use this tool.
 </para>
+<para>
+To use the tool, select a variable star either by 
+<firstterm>designation</firstterm> or name in the left panel, and 
+set the start and end dates to be plotted.  In the right panel,
+select the type of data that should be plotted (see below).  When you have 
+made you selections, press the <guibutton>Retrieve Curve</guibutton>
+button.  &kstars; will automatically connect to the AAVSO server, 
+which will generate the lightcurve plot and send it to your computer for 
+display.  A sample lightcurve plot is shown below:
+</para>
+
+<screenshot>
+<screeninfo>
+A Sample Lightcurve
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="lightcurve.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Sample Lightcurve</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 Please not these light curves should <emphasis>NEVER</emphasis> be used 
 in research, papers, presentations, publications, etc. They are only 

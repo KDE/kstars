@@ -1,6 +1,20 @@
 <sect1 id="tool-altvstime">
 <title>Altitude vs. Time Tool</title>
 
+<screenshot>
+<screeninfo>
+The Altitude vs. Time Tool
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="altvstime.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Altitude vs. Time Plotter</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 This tool plots the altitude of any objects as a function of time, 
 for any date and location on Earth.

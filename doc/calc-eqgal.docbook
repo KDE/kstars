@@ -1,6 +1,20 @@
 <sect2 id="calc-eqgal">
 <title>Equatorial/Galactic Coordinates module</title>
 
+<screenshot>
+<screeninfo>
+The Equatorial/Galactic Coordinates calculator module
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-eqgal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Equatorial/Galactic Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 This module converts from <link linkend="equatorial">Equatorial 
 coordinates</link> to <link linkend="galactic">Galactic 

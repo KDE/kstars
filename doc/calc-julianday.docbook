@@ -1,6 +1,20 @@
 <sect2 id="calc-julian">
 <title>Julian Day module</title>
 
+<screenshot>
+<screeninfo>
+The Julian Day calculator module
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-julian.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Julian Day</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
 <para>
 This module converts between the calendar date, the <link 
 linkend="ai-julianday">Julian Day</link>, and the 

@@ -1,5 +1,19 @@
 <sect2 id="calc-apcoords">
-<title>Apparent coordinates module</title>
+<title>Apparent Coordinates module</title>
+
+<screenshot>
+<screeninfo>
+The Apparent Coordinates calculator module
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-apcoords.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Apparent Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
 
 <para>
 The Apparent Coordinates module converts the <firstterm>catalog 
