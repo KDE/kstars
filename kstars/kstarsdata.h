@@ -424,7 +424,17 @@ private:
 //	StarObject *starArray;
 	unsigned int StarCount;
 
+  /** List of all deep sky objects */
 	QList<SkyObject> deepSkyList;
+  /** List of all deep sky objects per type, to speed up drawing the sky map */
+	QList<SkyObject> deepSkyListMessier;
+  /** List of all deep sky objects per type, to speed up drawing the sky map */
+	QList<SkyObject> deepSkyListNGC;
+  /** List of all deep sky objects per type, to speed up drawing the sky map */
+	QList<SkyObject> deepSkyListIC;
+  /** List of all deep sky objects per type, to speed up drawing the sky map */
+	QList<SkyObject> deepSkyListOther;
+
 	QList<SkyPoint> clineList;
 	QList<QChar> clineModeList;
 	QList<SkyObject> cnameList;

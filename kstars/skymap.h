@@ -261,6 +261,19 @@ signals:
 protected:
 /**Draw the Sky, and all objects in it. */
 	virtual void paintEvent( QPaintEvent *e );
+  void drawMilkyWay( QPainter& psky);
+  void drawCoordinateGrid(QPainter& psky);
+  void drawEquator(QPainter& psky);
+  void drawEcliptic(QPainter& psky);
+  void drawConstellationLines(QPainter& psky);
+  void drawConstellationNames(QPainter& psky, QFont& stdFont);
+  void drawStars(QPainter& psky);
+  void drawDeepSkyObjects(QPainter& psky );
+  void drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage );
+  void drawPlanetTrail(QPainter& psky);
+  void drawSolarSystem(QPainter& psky, bool drawPlanets);
+  void drawHorizon(QPainter& psky, QFont& stdFont);
+
 
 /**Detect keystrokes: arrow keys, and +/- keys. */
 	virtual void keyPressEvent( QKeyEvent *e );

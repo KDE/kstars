@@ -105,8 +105,18 @@ SkyMap::~SkyMap() {
 	delete pmenu;
 
 //delete any remaining object Image pointers
-	for ( SkyObject *obj = ksw->data()->deepSkyList.first(); obj; obj = ksw->data()->deepSkyList.next() )
+	for ( SkyObject *obj = ksw->data()->deepSkyListMessier.first(); obj; obj = ksw->data()->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
+  }
+	for ( SkyObject *obj = ksw->data()->deepSkyListNGC.first(); obj; obj = ksw->data()->deepSkyListNGC.next() ) {
+		if ( obj->image() ) obj->deleteImage();
+  }
+	for ( SkyObject *obj = ksw->data()->deepSkyListIC.first(); obj; obj = ksw->data()->deepSkyListIC.next() ) {
+		if ( obj->image() ) obj->deleteImage();
+  }
+	for ( SkyObject *obj = ksw->data()->deepSkyListOther.first(); obj; obj = ksw->data()->deepSkyListOther.next() ) {
+		if ( obj->image() ) obj->deleteImage();
+  }
 }
 
 void SkyMap::createEmptyMenu( void ) {

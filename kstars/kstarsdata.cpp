@@ -51,7 +51,14 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	starList.setAutoDelete( TRUE );
 	
 	geoList.setAutoDelete( TRUE );
-	deepSkyList.setAutoDelete( TRUE );
+	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
+  // Keep separated lists per deep space object type, to speed up drawing the sky map
+  // only the complete list will delete the objects, when kstardata gets deleted.
+  deepSkyListMessier.setAutoDelete( FALSE );
+  deepSkyListNGC.setAutoDelete( FALSE );
+  deepSkyListIC.setAutoDelete( FALSE );
+  deepSkyListOther.setAutoDelete( FALSE );
+
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
@@ -483,7 +490,24 @@ bool KStarsData::readDeepSkyData( void ) {
 				o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 			}
 
+      // keep object in deep sky objects' list
 			deepSkyList.append( o );
+      // plus: keep objects separated for performance reasons. Switching the colors during
+      // paint is too expensive.
+      if ( o->isCatalogM()) {
+        deepSkyListMessier.append( o );
+      }
+      else if (o->isCatalogNGC() ) {
+        deepSkyListNGC.append( o );
+      }
+      else if ( o->isCatalogIC() ) {
+        deepSkyListIC.append( o );
+      }
+      else {
+        deepSkyListOther.append( o );
+      }
+
+      // list of object names
 			ObjNames.append( o );
 
 			//Add longname to objList, unless longname is the same as name
@@ -1318,7 +1342,32 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			}
 		}
 
-		//Deep-sky
+		//Deep-sky objects. Keep lists separated for performance reasons
+    if ( options->drawMessier || options->drawMessImages ) {
+  		for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LSTh, geo->lat() );
+      }
+    }
+    if ( options->drawNGC ) {
+  		for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LSTh, geo->lat() );
+      }
+    }
+    if ( options->drawIC ) {
+  		for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LSTh, geo->lat() );
+      }
+    }
+    if ( options->drawOther ) {
+  		for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LSTh, geo->lat() );
+      }
+    }
+    /* old code was
 		for ( SkyObject *o = deepSkyList.first(); o; o = deepSkyList.next() ) {
 			bool update = false;
 			if ( o->catalog()=="M" &&
@@ -1332,6 +1381,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				o->EquatorialToHorizontal( LSTh, geo->lat() );
 			}
 		}
+    */
 
 		//Custom Catalogs
 		for ( unsigned int j=0; j<options->CatalogCount; ++j ) {

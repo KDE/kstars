@@ -33,6 +33,7 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	Name2 = "";
 	LongName = Name;
 	Catalog = "";
+  calcCatalogFlags(); // optimize string handling
 	Image = 0;
 	
 }
@@ -48,6 +49,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	Name = o.name();
 	Name2 = o.name2();
 	Catalog = o.catalog();
+  calcCatalogFlags(); // optimize string handling
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
 	InfoList = o.InfoList;
@@ -70,6 +72,7 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	Name = n;
 	Name2 = n2;
 	Catalog = cat;
+  calcCatalogFlags(); // optimize string handling
 	Image = 0;
 
 	setLongName(lname);
@@ -88,6 +91,7 @@ SkyObject::SkyObject( int t, double r, double d, double m,
 	Name = n;
 	Name2 = n2;
 	Catalog = cat;
+  calcCatalogFlags(); // optimize string handling
 	Image = 0;
 
 	setLongName(lname);
@@ -414,3 +418,12 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==8 ) return i18n( "Galaxy" );
 	else return i18n( "Unknown Type" );
 }
+
+// optimizate string handling
+void SkyObject::calcCatalogFlags() {
+  bIsCatalogIC   = (Catalog == "IC" );
+  bIsCatalogM    = (Catalog == "M" );
+  bIsCatalogNGC  = (Catalog == "NGC" );
+  bIsCatalogNone = (Catalog.isEmpty() );
+}
+

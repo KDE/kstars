@@ -187,8 +187,22 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 	//}
 	
 	//Deep-sky catalogs
+/*
 	for ( unsigned int i=0; i<data()->deepSkyList.count(); ++i ) {
 		if ( name==data()->deepSkyList.at(i)->name() ) return data()->deepSkyList.at(i);
+	}
+*/
+	for ( unsigned int i=0; i<data()->deepSkyListMessier.count(); ++i ) {
+		if ( name==data()->deepSkyListMessier.at(i)->name() ) return data()->deepSkyListMessier.at(i);
+	}
+	for ( unsigned int i=0; i<data()->deepSkyListNGC.count(); ++i ) {
+		if ( name==data()->deepSkyListNGC.at(i)->name() ) return data()->deepSkyListNGC.at(i);
+	}
+	for ( unsigned int i=0; i<data()->deepSkyListIC.count(); ++i ) {
+		if ( name==data()->deepSkyListIC.at(i)->name() ) return data()->deepSkyListIC.at(i);
+	}
+	for ( unsigned int i=0; i<data()->deepSkyListOther.count(); ++i ) {
+		if ( name==data()->deepSkyListOther.at(i)->name() ) return data()->deepSkyListOther.at(i);
 	}
 
 	//Constellations

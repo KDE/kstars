@@ -262,6 +262,12 @@ public:
 	QStringList InfoList, InfoTitle;
    QString userLog;
 
+  // optimize stting handling for deep space objects
+  bool isCatalogM()    { return bIsCatalogM; }
+  bool isCatalogNGC()  { return bIsCatalogNGC; }
+  bool isCatalogIC()   { return bIsCatalogIC; }
+  bool isCatalogNone() { return bIsCatalogNone; }
+
 private:
 
 /**
@@ -294,7 +300,10 @@ private:
   */
 	dms auxRiseLSTTime( const dms *gLt, const dms *rga, const dms *decl, bool rst );
 
-	QDateTime DMStoQDateTime(long double jd, dms UT); 
+  // optimizate string handling
+  void calcCatalogFlags();
+
+	QDateTime DMStoQDateTime(long double jd, dms UT);
 
 	dms QTimeToDMS(QTime dT);
 
@@ -306,6 +315,14 @@ private:
 	QString LongName;
 	QString Catalog;
 	QImage *Image;
+
+  // optimize string handling: precalculate boolean flags
+  bool bIsCatalogM;
+  bool bIsCatalogNGC;
+  bool bIsCatalogIC;
+  bool bIsCatalogNone;
+
+
 	
 };
 
