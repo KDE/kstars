@@ -221,10 +221,11 @@ public:
 	*/
 	virtual void updateCoords( KSNumbers *num );
 
-protected:
-	void precess(const KSNumbers *num);
 	void nutate(const KSNumbers *num);
 	void aberrate(const KSNumbers *num);
+
+protected:
+	void precess(const KSNumbers *num);
 
 private:
 	dms RA0, Dec0; //catalog coordinates
