@@ -20,6 +20,8 @@
 #include "dms.h"
 #include "ksutils.h"
 #include "modcalcsidtime.h"
+#include "kstars.h"
+
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>
@@ -143,6 +145,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(p
 //	rightBox->setMaximumWidth(450);
 //	rightBox->setMinimumWidth(400);
 
+	showCurrentTimeAndLong();
+
 	rightBox->setMargin(14);
 	rightBox->setSpacing(7);
 	rightBox->show();
@@ -175,6 +179,15 @@ modCalcSidTime::~modCalcSidTime(void) {
 //Del by KDevelop: 	}
 //Del by KDevelop: 
 //Del by KDevelop: }
+
+void modCalcSidTime::showCurrentTimeAndLong (void)
+{
+	QDateTime dt = QDateTime::currentDateTime();
+
+	datBox->showDate( dt.date() );
+	showUT( dt.time() );
+	//longBox->show( KStars::ks->geo()->lng() );
+}
 
 QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
 {

@@ -63,6 +63,12 @@ private:
 
 	void showUT ( QTime d );
 	void showST ( QTime d );
+
+	/* Fills the UT, Date boxes with the current time 
+	 * and date and the longitude box with the current Geo location 
+	 */
+	void showCurrentTimeAndLong (void);
+
 	QTime getUT (void);
 	QTime getST (void);
 	QDate getDate (void);
