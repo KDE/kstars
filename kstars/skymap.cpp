@@ -412,6 +412,25 @@ void SkyMap::slotClockSlewing() {
 	}
 }
 
+void SkyMap::setFocus( SkyPoint *p ) {
+	Focus.set( p->ra(), p->dec() );
+	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+}
+
+void SkyMap::setFocus( const dms &ra, const dms &dec ) {
+	Focus.set( ra, dec );
+	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+}
+
+void SkyMap::setFocus( double ra, double dec ) {
+	Focus.set( ra, dec );
+	focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+}
+
+void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
+	setFocusAltAz( alt.Degrees(), az.Degrees() );
+}
+
 void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAlt(alt);
 	focus()->setAz(az);
@@ -447,14 +466,14 @@ void SkyMap::setDestination( double ra, double dec ) {
 	emit destinationChanged();
 }
 
-void SkyMap::setDestinationAltAz(double alt, double az) {
+void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
 	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
 	emit destinationChanged();
 }
 
-void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
+void SkyMap::setDestinationAltAz(double alt, double az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
 	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );

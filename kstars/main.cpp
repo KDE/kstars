@@ -29,11 +29,12 @@ static const char description[] =
 	I18N_NOOP("Desktop Planetarium");
 static const char notice[] =
 	I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
-	
-	
+
+
 static KCmdLineOptions options[] =
 {
 	{ "!dump", I18N_NOOP( "dump sky image to file" ), 0 },
+	{ "script ", I18N_NOOP( "script to execute" ), 0 },
 	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
 	{ "filename ", I18N_NOOP( "filename for sky image" ), 0 },
@@ -56,12 +57,12 @@ int main(int argc, char *argv[])
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-	
+
 	KApplication a;
-	
+
 	if ( args->isSet( "dump" ) ) {
 		kdDebug() << i18n( "Dumping sky image" ) << endl;
-		
+
 		//parse filename and image format
 		const char* format = "PNG";
 		QString fname = args->getOption( "filename" );
@@ -70,45 +71,56 @@ int main(int argc, char *argv[])
 		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
 		else { kdDebug() << "Error: could not parse image format for filename: " << fname << endl; return 1; }
-		
+
 		//parse width and height
 		bool ok(false);
 		int w(0), h(0);
 		w = args->getOption( "width" ).toInt( &ok );
 		if ( ok ) h =  args->getOption( "height" ).toInt( &ok );
-		if ( !ok ) { 
+		if ( !ok ) {
 			kdWarning() << "Unable to parse arguments: " << endl;
-			kdWarning() << "Width: " << args->getOption( "width" ) 
+			kdWarning() << "Width: " << args->getOption( "width" )
 				<< "  Height: " << args->getOption( "height" ) << endl;
 			return 1;
 		}
-		
+
 		KStarsData *dat = new KStarsData();
 		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
 		dat->initialize();
 		while (!dat->startupComplete) { kapp->processEvents(50); }
-		
+
 		//reset clock now that we have a location:
 		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( -3600 * dat->geo()->TZ() ) );
-		
+
 		KSNumbers num( dat->clock()->JD() );
 		dat->initGuides(&num);
-		
+
 		SkyMap *map = new SkyMap( dat );
 		map->resize( w, h );
 		QPixmap sky( w, h );
+
 		dat->setFullTimeUpdate();
 		dat->updateTime(dat->geo(), map );
-		
+
 		map->setDestination( new SkyPoint( dat->getOptions()->focusRA, dat->getOptions()->focusDec ) );
 		map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 		map->setFocus( map->destination() );
 		map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
+
+		//Execute the specified script
+		QString scriptfile = args->getOption( "script" );
+		if ( ! scriptfile.isEmpty() ) {
+			if ( dat->executeScript( scriptfile, map ) ) {
+				std::cout << i18n( "Script executed." ).utf8() << std::endl;
+			} else {
+				kdWarning() << i18n( "Could not execute script." ) << endl;
+			}
+		}
+
 		map->setMapGeometry();
 		map->exportSkyImage( &sky );
 		kapp->processEvents(100000);
-		
-//		if ( map->skyPixmap().isNull() ) kdWarning() << "pixmap is NULL!" << endl;
+
 		if ( ! sky.save( fname, format ) ) kdWarning() << "Unable to save image." << endl;
 		else kdDebug() << "Saved to file: " << fname << endl;
 
@@ -116,7 +128,7 @@ int main(int argc, char *argv[])
 		delete dat;
 		return 0;
 	}
-	
+
 	//start up normally
 	KStars *kstars = new KStars( true );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));

@@ -74,28 +74,47 @@ public:
 	*/
 		void showFocusCoords();
 
+/**@short Update the focus position according to current options.
+	*/
+	void updateFocus();
+
 /**@returns a pointer to the central focus point of the sky map
 	*/
 	SkyPoint* focus() { return &Focus; }
 
+/**@returns a pointer to the destination point of the sky map
+	*/
+	SkyPoint* destination()  { return &Destination; }
+
 /**@short sets the central focus point of the sky map
 	*@param f a pointer to the SkyPoint the map should be centered on
 	*/
-	void setFocus( SkyPoint *f ) { Focus.set( f->ra(), f->dec() ); }
+	void setFocus( SkyPoint *f );
 
-/**@short Update the focus position according to current options.
+/**@short sets the focus point of the skymap, using ra/dec coordinates
+	*@param ra the new right ascension
+	*@param dec the new declination
 	*/
-	void updateFocus();
+	void setFocus( const dms &ra, const dms &dec );
+
+/**@short sets the focus point of the sky map, using ra/dec coordinates
+	*Differs from the above function only in the type of its parameters
+	*@param ra the new right ascension
+	*@param dec the new declination
+	*/
+	void setFocus(double ra, double dec);
+
+/**@short sets the focus point of the sky map, using alt/az coordinates
+	*@param alt the new altitude
+	*@param az the new azimuth
+	*/
+	void setFocusAltAz( const dms &alt, const dms & az);
 
 /**@short sets the central focus point of the sky map, using alt/az coordinates
 	*@param alt the new altitude
 	*@param az the new azimuth
 	*/
 	void setFocusAltAz(double alt, double az);
-
-/**@returns a pointer to the destination point of the sky map
-	*/
-	SkyPoint* destination()  { return &Destination; }
 
 /**@short sets the destination point of the sky map
 	*@param f a pointer to the SkyPoint the map should slew to

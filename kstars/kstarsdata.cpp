@@ -1802,242 +1802,219 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 //be modified or ignored.  For example, we don't need to call slotCenter() on recentering
 //commands, just setDestination().  (sltoCenter() does additional things that we dont need).
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
-	KURL url( scriptname );
 	int cmdCount(0);
 
-	if ( url.isValid() ) {
-		if ( url.isLocalFile() ) {
-			//Remove the leading 'file:', which confuses QFile
-			QString fname = url.url().mid(5);
-			QFile f( fname );
-			if ( !f.open( IO_ReadOnly) ) {
-				kdDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
-				return false;
-			}
-
-			QTextStream istream(&f);
-			while ( ! istream.eof() ) {
-				QString line = istream.readLine();
-
-				//found a dcop line
-				if ( line.left(4) == "dcop" ) {
-					line = line.mid( 20 );  //strip away leading characters
-					QStringList fn = QStringList::split( " ", line );
-
-					if ( fn[0] == "lookTowards" && fn.count() >= 2 ) {
-						double az(-1.0);
-						QString arg = fn[1].lower();
-						if ( arg == "n"  || arg == "north" )     az =   0.0;
-						if ( arg == "ne" || arg == "northeast" ) az =  45.0;
-						if ( arg == "e"  || arg == "east" )      az =  90.0;
-						if ( arg == "se" || arg == "southeast" ) az = 135.0;
-						if ( arg == "s"  || arg == "south" )     az = 180.0;
-						if ( arg == "sw" || arg == "southwest" ) az = 225.0;
-						if ( arg == "w"  || arg == "west" )      az = 270.0;
-						if ( arg == "nw" || arg == "northwest" ) az = 335.0;
-						if ( az >= 0.0 ) { map->setDestinationAltAz( 15.0, az ); cmdCount++; break; }
-
-						if ( arg == "z" || arg == "zenith" ) {
-							map->setDestinationAltAz( 90.0, map->focus()->az()->Degrees() );
-							cmdCount++;
-							break;
-						}
-
-						//try a named object.  name is everything after the first word (which is 'lookTowards')
-						fn.remove( fn.first() );
-						SkyObject *target = objectNamed( fn.join( " " ) );
-						if ( target ) { map->setDestination( target ); cmdCount++; break; }
-
-					} else if ( fn[0] == "setRaDec" && fn.count() == 3 ) {
-						bool ok( false );
-						dms r(0.0), d(0.0);
-
-						ok = r.setFromString( fn[1], false ); //assume angle in hours
-						if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
-						if ( ok ) {
-							map->setDestination( r, d );
-							cmdCount++;
-							break;
-						}
-
-					} else if ( fn[0] == "setAltAz" && fn.count() == 3 ) {
-						bool ok( false );
-						dms az(0.0), alt(0.0);
-
-						ok = alt.setFromString( fn[1] );
-						if ( ok ) ok = az.setFromString( fn[2] );
-						if ( ok ) {
-							map->setDestinationAltAz( alt, az );
-							cmdCount++;
-							break;
-						}
-
-					} else if ( fn[0] == "zoom" && fn.count() == 2 ) {
-						bool ok(false);
-						double z = fn[1].toDouble(&ok);
-						if ( ok ) {
-							if ( z > MAXZOOM ) z = MAXZOOM;
-							if ( z < MINZOOM ) z = MINZOOM;
-							options->ZoomFactor = z;
-							cmdCount++;
-							break;
-						}
-
-					} else if ( fn[0] == "zoomIn" ) {
-						if ( options->ZoomFactor < MAXZOOM ) {
-							options->ZoomFactor *= DZOOM;
-							cmdCount++;
-							break;
-						}
-					} else if ( fn[0] == "zoomOut" ) {
-						if ( options->ZoomFactor > MINZOOM ) {
-							options->ZoomFactor /= DZOOM;
-							cmdCount++;
-							break;
-						}
-					} else if ( fn[0] == "defaultZoom" ) {
-						options->ZoomFactor = DEFAULTZOOM;
-						cmdCount++;
-						break;
-					} else if ( fn[0] == "setLocalTime" && fn.count() == 7 ) {
-						bool ok(false);
-						int yr(0), mth(0), day(0) ,hr(0), min(0), sec(0);
-						yr = fn[1].toInt(&ok);
-						if ( ok ) mth = fn[2].toInt(&ok);
-						if ( ok ) day = fn[3].toInt(&ok);
-						if ( ok ) hr  = fn[4].toInt(&ok);
-						if ( ok ) min = fn[5].toInt(&ok);
-						if ( ok ) sec = fn[6].toInt(&ok);
-						if ( ok ) {
-							changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
-							cmdCount++;
-							break;
-						} else {
-							kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
-								.arg(day).arg(mth).arg(yr).arg(hr).arg(min).arg(sec) << endl;
-						}
-					} else if ( fn[0] == "changeViewOption" && fn.count() == 3 ) {
-						bool bOk(false), nOk(false), dOk(false);
-
-						//parse bool value
-						bool bVal(false);
-						if ( fn[2].lower() == "true" ) { bOk = true; bVal = true; }
-						if ( fn[2].lower() == "false" ) { bOk = true; bVal = false; }
-						if ( fn[2] == "1" ) { bOk = true; bVal = true; }
-						if ( fn[2] == "0" ) { bOk = true; bVal = false; }
-
-						//parse int value
-						int nVal = fn[2].toInt( &nOk );
-
-						//parse double value
-						double dVal = fn[2].toDouble( &dOk );
-
-						if ( fn[1] == "TargetSymbol"    && nOk ) { options->targetSymbol    = nVal; cmdCount++; break; }
-						if ( fn[1] == "ShowSAO"         && bOk ) { options->drawSAO         = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMess"        && bOk ) { options->drawMessier     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMessImages"  && bOk ) { options->drawMessImages  = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowNGC"         && bOk ) { options->drawNGC         = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowIC"          && bOk ) { options->drawIC          = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowCLines"      && bOk ) { options->drawConstellLines = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowCNames"      && bOk ) { options->drawConstellNames = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMilkyWay"    && bOk ) { options->drawMilkyWay    = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowGrid"        && bOk ) { options->drawGrid        = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowEquator"     && bOk ) { options->drawEquator     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowEcliptic"    && bOk ) { options->drawEcliptic    = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowHorizon"     && bOk ) { options->drawHorizon     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowGround"      && bOk ) { options->drawGround      = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowSun"         && bOk ) { options->drawSun         = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMoon"        && bOk ) { options->drawMoon        = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMercury"     && bOk ) { options->drawMercury     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowVenus"       && bOk ) { options->drawVenus       = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowMars"        && bOk ) { options->drawMars        = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowJupiter"     && bOk ) { options->drawJupiter     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowSaturn"      && bOk ) { options->drawSaturn      = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowUranus"      && bOk ) { options->drawUranus      = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowNeptune"     && bOk ) { options->drawNeptune     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowPluto"       && bOk ) { options->drawPluto       = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowAsteroids"   && bOk ) { options->drawAsteroids   = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowComets"      && bOk ) { options->drawComets      = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowPlanets"     && bOk ) { options->drawPlanets     = bVal; cmdCount++; break; }
-						if ( fn[1] == "ShowDeepSky"     && bOk ) { options->drawDeepSky     = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawStarName"      && bOk ) { options->drawStarName      = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawStarMagnitude" && bOk ) { options->drawStarMagnitude = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawAsteroidName"  && bOk ) { options->drawAsteroidName  = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawCometName"     && bOk ) { options->drawCometName     = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawPlanetName"    && bOk ) { options->drawPlanetName    = bVal; cmdCount++; break; }
-						if ( fn[1] == "drawPlanetImage"   && bOk ) { options->drawPlanetImage   = bVal; cmdCount++; break; }
-
-						if ( fn[1] == "UseAltAz"         && bOk ) { options->useAltAz           = bVal; cmdCount++; break; }
-						if ( fn[1] == "UseRefraction"    && bOk ) { options->useRefraction      = bVal; cmdCount++; break; }
-						if ( fn[1] == "UseAutoLabel"     && bOk ) { options->useAutoLabel       = bVal; cmdCount++; break; }
-						if ( fn[1] == "UseAutoTrail"     && bOk ) { options->useAutoTrail       = bVal; cmdCount++; break; }
-						if ( fn[1] == "AnimateSlewing"   && bOk ) { options->useAnimatedSlewing = bVal; cmdCount++; break; }
-						if ( fn[1] == "FadePlanetTrails" && bOk ) { options->fadePlanetTrails   = bVal; cmdCount++; break; }
-						if ( fn[1] == "SlewTimeScale"    && dOk ) { options->slewTimeScale      = dVal; cmdCount++; break; }
-						if ( fn[1] == "ZoomFactor"       && dOk ) { options->ZoomFactor         = dVal; cmdCount++; break; }
-						if ( fn[1] == "magLimitDrawStar"     && dOk ) { options->magLimitDrawStar     = dVal; cmdCount++; break; }
-						if ( fn[1] == "magLimitDrawStarInfo" && dOk ) { options->magLimitDrawStarInfo = dVal; cmdCount++; break; }
-						if ( fn[1] == "magLimitHideStar"     && dOk ) { options->magLimitHideStar     = dVal; cmdCount++; break; }
-						if ( fn[1] == "magLimitAsteroid"     && dOk ) { options->magLimitAsteroid     = dVal; cmdCount++; break; }
-						if ( fn[1] == "magLimitAsteroidName" && dOk ) { options->magLimitAsteroidName = dVal; cmdCount++; break; }
-						if ( fn[1] == "maxRadCometName"      && dOk ) { options->maxRadCometName      = dVal; cmdCount++; break; }
-
-						//these three are a "radio group"
-						if ( fn[1] == "UseLatinConstellationNames" && bOk ) {
-							options->useLatinConstellNames = true;
-							options->useLocalConstellNames = false;
-							options->useAbbrevConstellNames = false;
-							cmdCount++;
-							break;
-						}
-						if ( fn[1] == "UseLocalConstellationNames" && bOk ) {
-							options->useLatinConstellNames = false;
-							options->useLocalConstellNames = true;
-							options->useAbbrevConstellNames = false;
-							cmdCount++;
-							break;
-						}
-						if ( fn[1] == "UseAbbrevConstellationNames" && bOk ) {
-							options->useLatinConstellNames = false;
-							options->useLocalConstellNames = false;
-							options->useAbbrevConstellNames = true;
-							cmdCount++;
-							break;
-						}
-					} else if ( fn[0] == "setGeoLocation" && ( fn.count() == 3 || fn.count() == 4 ) ) {
-						QString city( fn[1] ), province( "" ), country( fn[2] );
-						if ( fn.count() == 4 ) {
-							province = fn[2];
-							country = fn[3];
-						}
-
-						bool cityFound( false );
-						for (GeoLocation *loc = geoList.first(); loc; loc = geoList.next()) {
-							if ( loc->translatedName() == city &&
-										( province.isEmpty() || loc->translatedProvince() == province ) &&
-										loc->translatedCountry() == country ) {
-
-								cityFound = true;
-								options->setLocation( *loc );
-								cmdCount++;
-								break;
-							}
-						}
-
-						if ( !cityFound )
-							kdWarning() << i18n( "Could not set location named %1, %2, %3" ).arg(city).arg(province).arg(country) << endl;
-					}
-				}
-			}  //end while
-
-			if ( cmdCount ) return true;
-		} else {
-			kdDebug() << i18n( "Cannot access remote scripts yet." ) << endl;
-		}
-	} else {
-		kdDebug() << i18n( "Script name is malformed." ) << endl;
+	QFile f( scriptname );
+	if ( !f.open( IO_ReadOnly) ) {
+		kdDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
+		return false;
 	}
 
+	QTextStream istream(&f);
+	while ( ! istream.eof() ) {
+		QString line = istream.readLine();
+
+		//found a dcop line
+		if ( line.left(4) == "dcop" ) {
+			line = line.mid( 20 );  //strip away leading characters
+			QStringList fn = QStringList::split( " ", line );
+
+			if ( fn[0] == "lookTowards" && fn.count() >= 2 ) {
+				double az(-1.0);
+				QString arg = fn[1].lower();
+				if ( arg == "n"  || arg == "north" )     az =   0.0;
+				if ( arg == "ne" || arg == "northeast" ) az =  45.0;
+				if ( arg == "e"  || arg == "east" )      az =  90.0;
+				if ( arg == "se" || arg == "southeast" ) az = 135.0;
+				if ( arg == "s"  || arg == "south" )     az = 180.0;
+				if ( arg == "sw" || arg == "southwest" ) az = 225.0;
+				if ( arg == "w"  || arg == "west" )      az = 270.0;
+				if ( arg == "nw" || arg == "northwest" ) az = 335.0;
+				if ( az >= 0.0 ) { map->setFocusAltAz( 15.0, az ); cmdCount++; }
+
+				if ( arg == "z" || arg == "zenith" ) {
+					map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
+					cmdCount++;
+				}
+
+				//try a named object.  name is everything after the first word (which is 'lookTowards')
+				fn.remove( fn.first() );
+				SkyObject *target = objectNamed( fn.join( " " ) );
+				if ( target ) { map->setFocus( target ); cmdCount++; }
+
+			} else if ( fn[0] == "setRaDec" && fn.count() == 3 ) {
+				bool ok( false );
+				dms r(0.0), d(0.0);
+
+				ok = r.setFromString( fn[1], false ); //assume angle in hours
+				if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
+				if ( ok ) {
+					map->setFocus( r, d );
+					cmdCount++;
+				}
+
+			} else if ( fn[0] == "setAltAz" && fn.count() == 3 ) {
+				bool ok( false );
+				dms az(0.0), alt(0.0);
+
+				ok = alt.setFromString( fn[1] );
+				if ( ok ) ok = az.setFromString( fn[2] );
+				if ( ok ) {
+					map->setFocusAltAz( alt, az );
+					cmdCount++;
+				}
+
+			} else if ( fn[0] == "zoom" && fn.count() == 2 ) {
+				bool ok(false);
+				double z = fn[1].toDouble(&ok);
+				if ( ok ) {
+					if ( z > MAXZOOM ) z = MAXZOOM;
+					if ( z < MINZOOM ) z = MINZOOM;
+					options->ZoomFactor = z;
+					cmdCount++;
+				}
+
+			} else if ( fn[0] == "zoomIn" ) {
+				if ( options->ZoomFactor < MAXZOOM ) {
+					options->ZoomFactor *= DZOOM;
+					cmdCount++;
+				}
+			} else if ( fn[0] == "zoomOut" ) {
+				if ( options->ZoomFactor > MINZOOM ) {
+					options->ZoomFactor /= DZOOM;
+					cmdCount++;
+				}
+			} else if ( fn[0] == "defaultZoom" ) {
+				options->ZoomFactor = DEFAULTZOOM;
+				cmdCount++;
+			} else if ( fn[0] == "setLocalTime" && fn.count() == 7 ) {
+				bool ok(false);
+				int yr(0), mth(0), day(0) ,hr(0), min(0), sec(0);
+				yr = fn[1].toInt(&ok);
+				if ( ok ) mth = fn[2].toInt(&ok);
+				if ( ok ) day = fn[3].toInt(&ok);
+				if ( ok ) hr  = fn[4].toInt(&ok);
+				if ( ok ) min = fn[5].toInt(&ok);
+				if ( ok ) sec = fn[6].toInt(&ok);
+				if ( ok ) {
+					changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
+					cmdCount++;
+				} else {
+					kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
+						.arg(day).arg(mth).arg(yr).arg(hr).arg(min).arg(sec) << endl;
+				}
+			} else if ( fn[0] == "changeViewOption" && fn.count() == 3 ) {
+				bool bOk(false), nOk(false), dOk(false);
+
+				//parse bool value
+				bool bVal(false);
+				if ( fn[2].lower() == "true" ) { bOk = true; bVal = true; }
+				if ( fn[2].lower() == "false" ) { bOk = true; bVal = false; }
+				if ( fn[2] == "1" ) { bOk = true; bVal = true; }
+				if ( fn[2] == "0" ) { bOk = true; bVal = false; }
+
+				//parse int value
+				int nVal = fn[2].toInt( &nOk );
+
+				//parse double value
+				double dVal = fn[2].toDouble( &dOk );
+
+				if ( fn[1] == "TargetSymbol"    && nOk ) { options->targetSymbol    = nVal; cmdCount++; }
+				if ( fn[1] == "ShowSAO"         && bOk ) { options->drawSAO         = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMess"        && bOk ) { options->drawMessier     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMessImages"  && bOk ) { options->drawMessImages  = bVal; cmdCount++; }
+				if ( fn[1] == "ShowNGC"         && bOk ) { options->drawNGC         = bVal; cmdCount++; }
+				if ( fn[1] == "ShowIC"          && bOk ) { options->drawIC          = bVal; cmdCount++; }
+				if ( fn[1] == "ShowCLines"      && bOk ) { options->drawConstellLines = bVal; cmdCount++; }
+				if ( fn[1] == "ShowCNames"      && bOk ) { options->drawConstellNames = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMilkyWay"    && bOk ) { options->drawMilkyWay    = bVal; cmdCount++; }
+				if ( fn[1] == "ShowGrid"        && bOk ) { options->drawGrid        = bVal; cmdCount++; }
+				if ( fn[1] == "ShowEquator"     && bOk ) { options->drawEquator     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowEcliptic"    && bOk ) { options->drawEcliptic    = bVal; cmdCount++; }
+				if ( fn[1] == "ShowHorizon"     && bOk ) { options->drawHorizon     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowGround"      && bOk ) { options->drawGround      = bVal; cmdCount++; }
+				if ( fn[1] == "ShowSun"         && bOk ) { options->drawSun         = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMoon"        && bOk ) { options->drawMoon        = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMercury"     && bOk ) { options->drawMercury     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowVenus"       && bOk ) { options->drawVenus       = bVal; cmdCount++; }
+				if ( fn[1] == "ShowMars"        && bOk ) { options->drawMars        = bVal; cmdCount++; }
+				if ( fn[1] == "ShowJupiter"     && bOk ) { options->drawJupiter     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowSaturn"      && bOk ) { options->drawSaturn      = bVal; cmdCount++; }
+				if ( fn[1] == "ShowUranus"      && bOk ) { options->drawUranus      = bVal; cmdCount++; }
+				if ( fn[1] == "ShowNeptune"     && bOk ) { options->drawNeptune     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowPluto"       && bOk ) { options->drawPluto       = bVal; cmdCount++; }
+				if ( fn[1] == "ShowAsteroids"   && bOk ) { options->drawAsteroids   = bVal; cmdCount++; }
+				if ( fn[1] == "ShowComets"      && bOk ) { options->drawComets      = bVal; cmdCount++; }
+				if ( fn[1] == "ShowPlanets"     && bOk ) { options->drawPlanets     = bVal; cmdCount++; }
+				if ( fn[1] == "ShowDeepSky"     && bOk ) { options->drawDeepSky     = bVal; cmdCount++; }
+				if ( fn[1] == "drawStarName"      && bOk ) { options->drawStarName      = bVal; cmdCount++; }
+				if ( fn[1] == "drawStarMagnitude" && bOk ) { options->drawStarMagnitude = bVal; cmdCount++; }
+				if ( fn[1] == "drawAsteroidName"  && bOk ) { options->drawAsteroidName  = bVal; cmdCount++; }
+				if ( fn[1] == "drawCometName"     && bOk ) { options->drawCometName     = bVal; cmdCount++; }
+				if ( fn[1] == "drawPlanetName"    && bOk ) { options->drawPlanetName    = bVal; cmdCount++; }
+				if ( fn[1] == "drawPlanetImage"   && bOk ) { options->drawPlanetImage   = bVal; cmdCount++; }
+
+				if ( fn[1] == "UseAltAz"         && bOk ) { options->useAltAz           = bVal; cmdCount++; }
+				if ( fn[1] == "UseRefraction"    && bOk ) { options->useRefraction      = bVal; cmdCount++; }
+				if ( fn[1] == "UseAutoLabel"     && bOk ) { options->useAutoLabel       = bVal; cmdCount++; }
+				if ( fn[1] == "UseAutoTrail"     && bOk ) { options->useAutoTrail       = bVal; cmdCount++; }
+				if ( fn[1] == "AnimateSlewing"   && bOk ) { options->useAnimatedSlewing = bVal; cmdCount++; }
+				if ( fn[1] == "FadePlanetTrails" && bOk ) { options->fadePlanetTrails   = bVal; cmdCount++; }
+				if ( fn[1] == "SlewTimeScale"    && dOk ) { options->slewTimeScale      = dVal; cmdCount++; }
+				if ( fn[1] == "ZoomFactor"       && dOk ) { options->ZoomFactor         = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitDrawStar"     && dOk ) { options->magLimitDrawStar     = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitDrawStarInfo" && dOk ) { options->magLimitDrawStarInfo = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitHideStar"     && dOk ) { options->magLimitHideStar     = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitAsteroid"     && dOk ) { options->magLimitAsteroid     = dVal; cmdCount++; }
+				if ( fn[1] == "magLimitAsteroidName" && dOk ) { options->magLimitAsteroidName = dVal; cmdCount++; }
+				if ( fn[1] == "maxRadCometName"      && dOk ) { options->maxRadCometName      = dVal; cmdCount++; }
+
+				//these three are a "radio group"
+				if ( fn[1] == "UseLatinConstellationNames" && bOk ) {
+					options->useLatinConstellNames = true;
+					options->useLocalConstellNames = false;
+					options->useAbbrevConstellNames = false;
+					cmdCount++;
+				}
+				if ( fn[1] == "UseLocalConstellationNames" && bOk ) {
+					options->useLatinConstellNames = false;
+					options->useLocalConstellNames = true;
+					options->useAbbrevConstellNames = false;
+					cmdCount++;
+				}
+				if ( fn[1] == "UseAbbrevConstellationNames" && bOk ) {
+					options->useLatinConstellNames = false;
+					options->useLocalConstellNames = false;
+					options->useAbbrevConstellNames = true;
+					cmdCount++;
+				}
+			} else if ( fn[0] == "setGeoLocation" && ( fn.count() == 3 || fn.count() == 4 ) ) {
+				QString city( fn[1] ), province( "" ), country( fn[2] );
+				if ( fn.count() == 4 ) {
+					province = fn[2];
+					country = fn[3];
+				}
+
+				bool cityFound( false );
+				for (GeoLocation *loc = geoList.first(); loc; loc = geoList.next()) {
+					if ( loc->translatedName() == city &&
+								( province.isEmpty() || loc->translatedProvince() == province ) &&
+								loc->translatedCountry() == country ) {
+
+						cityFound = true;
+						options->setLocation( *loc );
+						cmdCount++;
+						break;
+					}
+				}
+
+				if ( !cityFound )
+					kdWarning() << i18n( "Could not set location named %1, %2, %3" ).arg(city).arg(province).arg(country) << endl;
+			}
+		}
+	}  //end while
+
+	if ( cmdCount ) return true;
 	return false;
 }
 
