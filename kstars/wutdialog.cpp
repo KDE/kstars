@@ -362,7 +362,7 @@ void WUTDialog::slotChangeLocation() {
 			geo = kstars->data()->geoList.at( ld.getCityIndex() );
 			QString sGeo = geo->translatedName();
 			if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
-			sGeo += geo->translatedCountry();
+			sGeo += ", " + geo->translatedCountry();
 			WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
 			
 			int i = WUT->CategoryListBox->currentItem();
