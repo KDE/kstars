@@ -1069,7 +1069,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 		LastMoonUpdate = CurrentDate;
 		if ( options->drawMoon ) {
 			Moon->findPosition( &num, geo->lat(), LSTh );
-			Moon->findPhase( PC.sun() );
+			Moon->findPhase( PC.planetSun() );
 		}
 	}
 

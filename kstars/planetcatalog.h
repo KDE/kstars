@@ -66,7 +66,7 @@ class PlanetCatalog : public QObject {
 		void findPosition( const KSNumbers *num);
 
 	/**@returns pointer to the Sun. */
-		const KSSun *sun() const { return Sun; };
+		const KSSun *planetSun() const { return Sun; };
 
 	/**@returns pointer to the Earth. (must not be const because we call findPosition on it in KSPlanetBase::updateCoords() )*/
 		KSPlanet *earth() { return Earth; };
