@@ -218,7 +218,7 @@ void KStarsOptions::setDefaultOptions() {
 	ZoomFactor   = DEFAULTZOOM;
 	windowWidth  = 600;
 	windowHeight = 600;
-	magLimitDrawStar = 9.0;
+	magLimitDrawStar = 8.0;
 	magLimitDrawStarZoomOut = 6.0;
 	magLimitDrawStarInfo = 3.0;
 	magLimitHideStar = 5.0;

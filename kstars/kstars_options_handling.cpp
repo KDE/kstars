@@ -139,7 +139,7 @@ void KStarsData::loadOptions()
 	options->focusDec = conf->readDoubleNumEntry( "FocusDec", 45.0 );
 	options->focusRA  = conf->readDoubleNumEntry( "FocusRA", 180.0 );
 	options->slewTimeScale = conf->readDoubleNumEntry( "SlewTimeScale", 60.0 );
-	options->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 9.0 );
+	options->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 8.0 );
 	options->magLimitDrawStarZoomOut = conf->readDoubleNumEntry( "magLimitDrawStarZoomOut", 6.0 );
 	options->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options->magLimitDrawDeepSky = conf->readDoubleNumEntry( "magLimitDrawDeepSky", 14.0 );
