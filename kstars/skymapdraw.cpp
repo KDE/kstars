@@ -441,6 +441,41 @@ void SkyMap::drawConstellationLines( QPainter& psky, double scale )
   }
 }
 
+void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
+	KStarsOptions* options = data->options;
+
+	int Width = int( scale * width() );
+	int Height = int( scale * height() );
+
+	//TODO: add CBoundColor
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+
+	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
+		bool started( false );
+		SkyPoint *p = seg->firstNode();
+		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+			psky.moveTo( o.x(), o.y() );
+			started = true;
+		}
+		
+		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
+			QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+			
+			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+				if ( started ) {
+					psky.lineTo( o.x(), o.y() );
+				} else { 
+					psky.moveTo( o.x(), o.y() );
+					started = true;
+				}
+			} else {
+				started = false;
+			}
+		}
+	}
+}
+
 void SkyMap::drawConstellationNames( QPainter& psky, QFont& stdFont, double scale ) {
 	KStarsOptions* options = data->options;
 
@@ -1538,6 +1573,9 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	if ( drawGrid ) drawCoordinateGrid( p, scale );
 	if ( data->options->drawEquator ) drawEquator( p, scale );
 	if ( data->options->drawEcliptic ) drawEcliptic( p, scale );
+	
+	//TODO: add drawCBounds option
+	if ( drawCLines ) drawConstellationBoundaries( p, scale );
 	if ( drawCLines ) drawConstellationLines( p, scale );
 	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
 

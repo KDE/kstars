@@ -93,6 +93,7 @@ KStarsData::KStarsData() {
 	clineList.setAutoDelete( FALSE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
+	csegmentList.setAutoDelete( TRUE );
 
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
@@ -471,6 +472,77 @@ bool KStarsData::readCNameData( void ) {
 	}
 }
 
+bool KStarsData::readCBoundData( void ) {
+	QFile file;
+
+	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
+		QTextStream stream( &file );
+
+		unsigned int nn(0);
+		double ra(0.0), dec(0.0);
+		QString d1, d2;
+		bool ok(false), comment(false);
+		
+		//read the stream one field at a time.  Individual segments can span
+		//multiple lines, so our normal readLine() is less convenient here.
+		//Read fields into strings and then attempt to recast them as ints 
+		//or doubles..this lets us do error checking on the stream.
+		while ( !stream.eof() ) {
+			stream >> d1;
+			if ( d1.at(0) == '#' ) { 
+				comment = true; 
+				ok = true; 
+			} else {
+				comment = false;
+				nn = d1.toInt( &ok );
+			}
+			
+			if ( !ok || comment ) {
+				d1 = stream.readLine();
+				
+				if ( !ok ) 
+					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+				
+			} else { 
+				CSegment *seg = new CSegment();
+				
+				for ( unsigned int i=0; i<nn; ++i ) {
+					stream >> d1 >> d2;
+					ra = d1.toDouble( &ok );
+					if ( ok ) dec = d2.toDouble( &ok );
+					if ( !ok ) break;
+					
+					seg->addPoint( ra, dec );
+				}
+				
+				if ( !ok ) {
+					//uh oh, this entry was not parsed.  Skip to the next line.
+					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+					delete seg;
+					d1 = stream.readLine();
+					
+				} else {
+					stream >> d1; //this should always equal 2
+					
+					nn = d1.toInt( &ok );
+					//error check
+					if ( !ok || nn != 2 ) {
+						kdWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
+						delete seg;
+						d1 = stream.readLine();
+					}
+				}
+
+				if ( ok ) {
+					stream >> d1 >> d2;
+					ok = seg->setNames( d1, d2 );
+					if ( ok ) csegmentList.append( seg );
+				}
+			}
+		}
+	}
+}
+
 bool KStarsData::openStarFile( int i ) {
 	if (starFileReader != 0) delete starFileReader;
 	QFile file;
@@ -606,110 +678,6 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 		ObjNames.append(o);
 	}
 }
-
-/***Old SAO catalog code...Ok to remove
-bool KStarsData::openSAOFile(int i) {
-	if (saoFileReader != 0) delete saoFileReader;
-	QFile file;
-	QString snum, fname;
-	snum = QString().sprintf("%02d", i);
-	fname = "sao" + snum + ".dat";
-	if (KSUtils::openDataFile(file, fname)) {
-		saoFileReader = new KSFileReader(file); // close file is included
-	} else {
-		saoFileReader = 0;
-		return false;
-	}
-	return true;
-}
-
-//02/2003: NEW: split data files, using Heiko's new KSFileReader.
-bool KStarsData::readStarData( void ) {
-	bool ready = false;
-	for (unsigned int i=1; i<NSAOFILES+1; ++i) {
-		if (openSAOFile(i) == true) {
-			while (saoFileReader->hasMoreLines()) {
-				QString line;
-				float mag;
-
-				line = saoFileReader->readLine();
-
-				// check star magnitude
-				mag = line.mid( 33, 4 ).toFloat();
-				if ( mag > options->magLimitDrawStar ) {
-					ready = true;
-					break;
-				}
-
-				processSAO(&line);
-			}  // end of while
-
-		} else { //one of the star files could not be read.
-			//maxSetMagnitude = starList.last()->mag();  // faintest star loaded (assumes stars are read in order of decreasing brightness)
-			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
-			return false;
-		}
-		// magnitude level is reached
-		if (ready == true) break;
-	}
-
-//Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
-	maxSetMagnitude = options->magLimitDrawStar;
-	delete saoFileReader;
-	saoFileReader = 0;
-	return true;
-}
-
-void KStarsData::processSAO(QString *line, bool reloadedData) {
-	QString name, gname, SpType;
-	int rah, ram, ras, dd, dm, ds;
-	QChar sgn;
-	float mag;
-
-	name = ""; gname = "";
-
-	rah = line->mid( 0, 2 ).toInt();
-	ram = line->mid( 2, 2 ).toInt();
-	ras = int(line->mid( 4, 6 ).toDouble() + 0.5); //add 0.5 to make int() pick nearest integer
-
-	sgn = line->at(17);
-	dd = line->mid(18, 2).toInt();
-	dm = line->mid(20, 2).toInt();
-	ds = int(line->mid(22, 5).toDouble() + 0.5); //add 0.5 to make int() pick nearest integer
-	// star magnitude
-	mag = line->mid( 33, 4 ).toFloat();
-
-	SpType = line->mid(37, 2);
-	name = line->mid(40 ).stripWhiteSpace(); //the rest of the line
-	if (name.contains( ':' )) { //genetive form exists
-		gname = name.mid( name.find(':')+1 );
-		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
-	}
-
-	// HEV: look up star name in internationalization filesource
-	name = i18n("star name", name.local8Bit().data());
-
-	bool starIsUnnamed = false;
-	if (name.isEmpty()) {
-		name = "star";
-		starIsUnnamed = true;
-	}
-
-	dms r;
-	r.setH(rah, ram, ras);
-	dms d(dd, dm, ds);
-
-	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
-
-	StarObject *o = new StarObject(r, d, mag, name, gname, SpType);
-	starList.append(o);
-
-	// add named stars to list
-	if (starIsUnnamed == false) {
-		ObjNames.append(o);
-	}
-}
-End of old SAO catalog data***/
 
 bool KStarsData::readAsteroidData( void ) {
 	QFile file;
@@ -1632,14 +1600,21 @@ void KStarsData::slotInitialize() {
 				initError( cnameFile, true );
 			break;
 
-		case 6: //Load Milky Way//
+		case 6: //Load Constellation boundaries//
+
+			emit progressText( i18n("Loading Constellation Boundaries" ) );
+			if ( !readCBoundData( ) )
+				initError( "cbound.dat", true );
+			break;
+
+		case 7: //Load Milky Way//
 
 			emit progressText( i18n("Loading Milky Way" ) );
 			if ( !readMWData( ) )
 				initError( "mw*.dat", true );
 			break;
 
-		case 7: //Initialize the Planets//
+		case 8: //Initialize the Planets//
 
 			emit progressText( i18n("Creating Planets" ) );
 			if (PCat->initialize())
@@ -1648,7 +1623,7 @@ void KStarsData::slotInitialize() {
 			jmoons = new JupiterMoons();
 			break;
 
-		case 8: //Initialize Asteroids & Comets//
+		case 9: //Initialize Asteroids & Comets//
 
 			emit progressText( i18n( "Creating Asteroids and Comets" ) );
 			if ( !readAsteroidData() )
@@ -1658,7 +1633,7 @@ void KStarsData::slotInitialize() {
 
 			break;
 
-		case 9: //Initialize the Moon//
+		case 10: //Initialize the Moon//
 
 			emit progressText( i18n("Creating Moon" ) );
 			Moon = new KSMoon(this);
@@ -1667,7 +1642,7 @@ void KStarsData::slotInitialize() {
 			Moon->loadData();
 			break;
 
-		case 10: //Load Image URLs//
+		case 11: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
 			if ( !readURLData( "image_url.dat", 0 ) ) {
@@ -1681,7 +1656,7 @@ void KStarsData::slotInitialize() {
 
 			break;
 
-		case 11: //Load Information URLs//
+		case 12: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
 			if ( !readURLData( "info_url.dat", 1 ) ) {
@@ -1941,6 +1916,16 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
+		//Constellation Boundaries
+		if ( options->drawConstellLines ) {  //TODO: add drawCBound option
+			for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
+				for ( SkyPoint *p = seg->firstNode(); p; p = seg->nextNode() ) {
+					if ( needNewCoords ) p->updateCoords( &num );
+					p->EquatorialToHorizontal( LST, geo->lat() );
+				}
+			}
+		}
+		
 		//Celestial Equator
 		if ( options->drawEquator ) {
 			for ( SkyPoint *p = Equator.first(); p; p = Equator.next() ) {

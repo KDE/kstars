@@ -33,6 +33,7 @@
 
 #include "dms.h"
 #include "fov.h"
+#include "csegment.h"
 #include "geolocation.h"
 #include "skypoint.h"
 #include "skyobject.h"
@@ -250,6 +251,8 @@ public:
 		*@returns true if data file was successfully read.
 		*/
 	bool readCNameData( void );
+
+	bool readCBoundData( void );
 
 	/**Read Milky Way data.  Coordinates for the Milky Way contour are divided into 11
 		*files, each representing a simple closed curve that can be drawn with
@@ -552,6 +555,7 @@ private:
 	QPtrList<SkyPoint> MilkyWay[NMWFILES];
 
 	QPtrList<SkyPoint> clineList;
+	QPtrList<CSegment> csegmentList;
 	QPtrList<QChar> clineModeList;
 	QPtrList<SkyObject> cnameList;
 	QPtrList<SkyObject> ObjLabelList;

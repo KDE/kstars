@@ -260,6 +260,7 @@ public:
 	void drawEquator( QPainter& psky, double scale = 1.0 );
 	void drawEcliptic( QPainter& psky, double scale = 1.0 );
 	void drawConstellationLines( QPainter& psky, double scale = 1.0 );
+	void drawConstellationBoundaries( QPainter& psky, double scale = 1.0 );
 	void drawConstellationNames( QPainter& psky, QFont& stdFont, double scale = 1.0 );
 	void drawStars( QPainter& psky, double scale = 1.0 );
 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );

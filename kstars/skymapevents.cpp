@@ -900,6 +900,9 @@ void SkyMap::paintEvent( QPaintEvent * )
 	if ( drawGrid ) drawCoordinateGrid( psky );
 	if ( data->options->drawEquator ) drawEquator( psky );
 	if ( options->drawEcliptic ) drawEcliptic( psky );
+	
+	//TODO: add a drawCBounds option
+	if ( drawCLines ) drawConstellationBoundaries( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
 	if ( drawCNames ) drawConstellationNames( psky, stdFont );
 
