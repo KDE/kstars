@@ -46,7 +46,7 @@
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
-	findDialog(0), DialogIsObsolete(false), IBoxes(0), skymap(0), clock(0), centralWidget(0)
+	skymap(0), clock(0), findDialog(0), IBoxes(0), centralWidget(0), DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
 
