@@ -163,7 +163,7 @@ dms dmsBox::createDms ()
 	}
 
 //	 if ( !valueFound )
-//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could not set value" ) );
+//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could not Set Value" ) );
 
 }
 

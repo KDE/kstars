@@ -863,7 +863,7 @@ void ViewOpsDialog::slotPreset( int index ) {
 	bool result = setColors( *it );
 	if (!result) {
 		QString message = i18n( "The specified color scheme file could not be found, or it was corrupted." );
-		KMessageBox::sorry( 0, message, i18n( "Could not set color scheme" ) );
+		KMessageBox::sorry( 0, message, i18n( "Could not set Color Scheme" ) );
 	}
 }
 
@@ -889,7 +889,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 
 			if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-				KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 			} else {
 				QTextStream stream( &file );
 				stream << ksw->options()->starColorMode << endl;
@@ -914,7 +914,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-				KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 			} else {
 				QTextStream stream( &file );
 				stream << schemeDlg.text() << ":" << filename << endl;
@@ -939,7 +939,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
-		KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+		KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 	} else {
 		//Read the contents of colors.dat into a QStringList, except for the entry to be removed.
 		QTextStream stream( &cdatFile );
@@ -960,7 +960,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 			colorFile.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 			if ( !colorFile.remove() ) {
 				QString message = i18n( "Could not delete the file: %1" ).arg( colorFile.name() );
-				KMessageBox::sorry( 0, message, i18n( "Error deleting file" ) );
+				KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
 			}
 
 			//remove the old colors.dat file, and rebuild it with the modified string list.
@@ -971,7 +971,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 				stream << slist[i] << endl;
 		} else {
 			QString message = i18n( "Could not find an entry named %1 in colors.dat" ).arg( name );
-			KMessageBox::sorry( 0, message, i18n( "Scheme not found in colors.dat" ) );
+			KMessageBox::sorry( 0, message, i18n( "Scheme not Found in colors.dat" ) );
 		}
 		cdatFile.close();
 	}

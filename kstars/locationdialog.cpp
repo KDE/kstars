@@ -258,7 +258,7 @@ void LocationDialog::addCity( void ) {
 		NewLat->text().isEmpty() || NewLong->text().isEmpty() ) {
 
 		QString message = i18n( "All fields (except Province) must be filled to add this location." );
-		KMessageBox::sorry( 0, message, i18n( "Fields are empty" ) );
+		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 	} else {
     QString entry;
 		QFile file;
@@ -273,7 +273,7 @@ void LocationDialog::addCity( void ) {
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );		
-			KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+			KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 			return;
 		} else {
 			dms lat = dms( NewLat->text().toDouble() );

@@ -168,10 +168,10 @@ void FocusDialog::validatePoint( void ) {
 	}
 
 	if ( !valueFound[0] )
-		KMessageBox::sorry( 0, errMsg.arg( "RA" ), i18n( "Could not set RA value" ) );
+		KMessageBox::sorry( 0, errMsg.arg( "RA" ), i18n( "Could not set RA Value" ) );
 
 	if ( !valueFound[1] )
-		KMessageBox::sorry( 0, errMsg.arg( "Dec" ), i18n( "Could not set Dec value" ) );
+		KMessageBox::sorry( 0, errMsg.arg( "Dec" ), i18n( "Could not set Dec Value" ) );
 
 	if ( valueFound[0] && valueFound[1] ) {
 		Point = new SkyPoint( RA, Dec );

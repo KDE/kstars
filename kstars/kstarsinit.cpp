@@ -361,7 +361,7 @@ void KStars::initLocation() {
 		Location = new GeoLocation (GeoData);
 	} else { //couldn't set geographic location, so set the "null" location.
 		QString message = i18n( "Could not set geographic location!" );
-		KMessageBox::sorry( 0, message, i18n( "No location set" ) );
+		KMessageBox::sorry( 0, message, i18n( "No Location Set" ) );
 		Location = new GeoLocation();
 	}
 }

@@ -816,7 +816,7 @@ void SkyMap::addLink( void ) {
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );		
-				KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();
@@ -832,7 +832,7 @@ void SkyMap::addLink( void ) {
 			file.setName( locateLocal( "appdata", "myinfo_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();
