@@ -92,15 +92,10 @@ INDI_L::INDI_L(INDI_P *parentProperty, QString inName, QString inLabel)
 INDI_L::~INDI_L()
 {
 
-  if (label_w)
     delete (label_w);
-  if (spin_w)
     delete (spin_w);
-  if (check_w)
     delete (check_w);
-  if (push_w)
     delete (push_w);
-  if (led_w)
     delete (led_w);
 
 }
@@ -130,27 +125,21 @@ INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
 INDI_P::~INDI_P()
 {
 
-   if (light)
       delete(light);
 
      //fprintf(stderr, "light ok\n");
-    if (label_w)
       delete(label_w);
 
      // fprintf(stderr, "label ok\n");
-    if (om_w)
       delete (om_w);
 
      // fprintf(stderr, "om_w ok\n");
-    if (hLayout)
       delete (hLayout);
 
      // fprintf(stderr, "hLayout ok\n");
-    if (set_w)
       delete (set_w);
 
       //fprintf(stderr, "set_w ok\n");
-    if (groupB)
       delete (groupB);
 
 
