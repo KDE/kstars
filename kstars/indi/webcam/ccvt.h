@@ -84,4 +84,14 @@ void ccvt_420i_yuyv(int width, int height, const void *src, void *dst);
 }
 #endif
 
+enum Options {
+      ioNoBlock=(1<<0),
+      ioUseSelect=(1<<1),
+      haveBrightness=(1<<2),
+      haveContrast=(1<<3),
+      haveHue=(1<<4),
+      haveColor=(1<<5),
+      haveWhiteness=(1<<6) };
+
+
 #endif
