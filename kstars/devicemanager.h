@@ -69,6 +69,9 @@ class DeviceManager : public QObject
 
   public slots:
    void dataReceived();
+   
+  signals:
+   void newDevice();
 
 };
 

@@ -135,8 +135,8 @@ void CelestronGPS::ISGetProperties(const char *dev)
     return;
 
   // COMM_GROUP
-  IDDefText   (&Port, NULL);
   IDDefSwitch (&PowerSw, NULL);
+  IDDefText   (&Port, NULL);
   
   // BASIC_GROUP
   IDDefNumber (&eqNum, NULL);

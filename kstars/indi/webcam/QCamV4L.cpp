@@ -36,7 +36,7 @@ int  selectCallBackID;
 int  timerCallBackID;
 unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer;
 
-int connectCam(const char * devpath,int preferedPalette)
+int connectCam(const char * devpath, char *errmsg)
 {
    options_= (haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
    tmpBuffer_=NULL;
@@ -52,7 +52,7 @@ int connectCam(const char * devpath,int preferedPalette)
    if (-1 == (device_=open(devpath,
                            O_RDONLY | ((options_ & ioNoBlock) ? O_NONBLOCK : 0)))) {
       
-      cerr << "strlen " << strlen (devpath) << " -- " << devpath << endl;
+      strncpy(errmsg, strerror(errno), 1024);
       cerr << strerror(errno);
       return -1;
    }
@@ -61,19 +61,21 @@ int connectCam(const char * devpath,int preferedPalette)
    
    if (device_ != -1) {
       if (-1 == ioctl(device_,VIDIOCGCAP,&capability_)) {
-         cerr << "ioctl (VIDIOCGCAP)" << endl;
+         cerr << "Error: ioctl (VIDIOCGCAP)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGCAP)", 1024);
 	 return -1;
       }
       if (-1 == ioctl (device_, VIDIOCGWIN, &window_)) {
-         cerr << "ioctl (VIDIOCGWIN)" << endl;
+         cerr << "Error ioctl (VIDIOCGWIN)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGWIN)", 1024);
 	 return -1;
       }
       if (-1 == ioctl (device_, VIDIOCGPICT, &picture_)) {
-         cerr << "ioctl (VIDIOCGPICT)" << endl;
-	 
+         cerr << "Error: ioctl (VIDIOCGPICT)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGPICT)", 1024);
 	 return -1;
       }
-      init(preferedPalette);
+      init(0);
    }
 
 #if 1

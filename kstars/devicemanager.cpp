@@ -310,6 +310,8 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 
 	indi_dev.append(dp);
 	
+	emit newDevice();
+	
 	// Reset label
 	parent->currentLabel = "";
 	

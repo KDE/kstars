@@ -17,6 +17,7 @@
 #include "indimenu.h"
 #include "indidevice.h"
 #include "indistd.h"
+#include "devicemanager.h"
 
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -49,6 +50,7 @@ imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFla
   connect(stopB, SIGNAL(clicked()), this, SLOT(stopSequence()));
   connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
   connect(seqTimer, SIGNAL(timeout()), this, SLOT(captureImage()));
+  connect(deviceCombo, SIGNAL(activated(const QString &)), this, SLOT(checkDevice(const QString &)));
   
   active 		= false;
   ISOStamp		= false;
@@ -67,39 +69,39 @@ imagesequence::~imagesequence()
 
 bool imagesequence::updateStatus()
 {
-
   bool imgDeviceFound = false;
-  
-  // #1 Let's make sure there are active image device 
-  INDIDriver *driver = ksw->getINDIDriver();
-  if (!driver)
-  {
-    KMessageBox::error(this, i18n("No INDI devices currently running. To run devices, select devices from the Device Manager in the devices menu."));
-    close();
-    return false;
-  }
+  INDI_P *imgProp;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  if (devMenu == NULL)
+     return false;
   
   deviceCombo->clear();
   
-  for (unsigned int i=0; i < driver->devices.size(); i++)
+  for (uint i=0; i < devMenu->mgr.count(); i++)
   {
-       if ( (driver->devices[i]->deviceType == KSTARS_CCD || driver->devices[i]->deviceType == KSTARS_VIDEO) &&
-            (driver->devices[i]->state == 1) && (driver->devices[i]->mode != IDevice::M_SERVER) )
-            
-       {
-         imgDeviceFound = true;
-	 deviceCombo->insertItem(driver->devices[i]->label);
-       }
-  }
-  
-  deviceCombo->setCurrentItem(lastItem);
-  
-  if (!imgDeviceFound)
+	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
+	{
+  		imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EXPOSE_DURATION");
+		if (!imgProp)
+			 continue;
+				 
+		imgDeviceFound = true;
+		 
+		if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())
+			devMenu->mgr.at(i)->indi_dev.at(j)->label = devMenu->mgr.at(i)->indi_dev.at(j)->name;
+				
+		deviceCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+			
+	}
+	
+   }
+         
+  if (imgDeviceFound)
   {
-    KMessageBox::error(this, i18n("No INDI imaging devices currently running. To run devices, select devices from the Device Manager in the devices menu."));
-    close();
-    return false;
+  	deviceCombo->setCurrentItem(lastItem);
+  	currentDevice = deviceCombo->currentText();
   }
+  else return false;
   
   if (!verifyDeviceIntegrity())
   {
@@ -212,6 +214,38 @@ void imagesequence::stopSequence()
 
 }
 
+void imagesequence::checkDevice(const QString & deviceLabel)
+{
+  INDI_D *idevice = NULL;
+  
+  INDIMenu *imenu = ksw->getINDIMenu();
+  if (!imenu)
+  {
+    KMessageBox::error(this, i18n("INDI Menu has not been initialized properly. Restart KStars."));
+    return;
+  }
+  
+  idevice = imenu->findDeviceByLabel(deviceLabel);
+  
+  if (!idevice)
+  {
+	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(deviceLabel));
+    	deviceCombo->setCurrentItem(lastItem);
+    	return;
+  }
+  
+  if (!idevice->isOn())
+  {
+        KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(deviceLabel));
+		
+	deviceCombo->setCurrentItem(lastItem);
+    	return;
+  }
+  
+  currentDevice = deviceLabel;
+
+}
+
 void imagesequence::newFITS(QString deviceLabel)
 {
   // If the FITS is not for our device, simply ignore
@@ -247,9 +281,10 @@ void imagesequence::newFITS(QString deviceLabel)
 
 bool imagesequence::verifyDeviceIntegrity()
 {
-  
+  INDI_D *idevice = NULL;
   INDI_P *exposeProp;
   INDI_E *exposeElem;
+  stdDev = NULL;
   
   INDIMenu *imenu = ksw->getINDIMenu();
   if (!imenu)
@@ -259,21 +294,20 @@ bool imagesequence::verifyDeviceIntegrity()
   }
   
   // #2 Check if the device exists
-  INDI_D *idevice = imenu->findDeviceByLabel(active ? currentDevice : deviceCombo->currentText());
-  
+  idevice = imenu->findDeviceByLabel(currentDevice);
+	
+	
   if (!idevice)
   {
-    	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(active ? currentDevice : deviceCombo->currentText()));
-    	
-    return false;
+    	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(currentDevice));
+    	return false;
   }
   
-  // #3 check if the device is connected
   if (!idevice->isOn())
   {
-    	KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(active ? currentDevice : deviceCombo->currentText()));
-    
-    return false;
+	    	KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(currentDevice));
+		
+    		return false;
   }
   
   stdDev = idevice->stdDev;

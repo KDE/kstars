@@ -52,6 +52,7 @@ public slots:
  void stopSequence();
  void captureImage();
  void newFITS(QString deviceLabel);
+ void checkDevice(const QString & deviceLabel);
 
 };
 

@@ -1,4 +1,8 @@
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd v4ldriver v4lphilips
+if LINUX
+bin_add   =  v4ldriver v4lphilips
+endif
+
+bin_PROGRAMS = indiserver lx200generic celestrongps fliccd $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c

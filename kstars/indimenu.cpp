@@ -126,6 +126,7 @@ DeviceManager *dev;
 	        drivers->devices[i]->mgrID   = mgrCounter;
 	        drivers->devices[i]->managed = true;
       		mgr.append(dev);
+		connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
 		mgrCounter++;
 
 	}
@@ -153,10 +154,15 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 {
 
   DeviceManager *dev;
+  INDIDriver *drivers = ksw->getINDIDriver();
 
   dev = new DeviceManager(this, mgrCounter);
   if (dev->indiConnect(hostname, portnumber))
+  {
       mgr.append(dev);
+      if (drivers)
+      	connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
+  }
   else
   {
      delete (dev);

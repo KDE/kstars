@@ -54,11 +54,11 @@
 
 long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
 {
-  usb_device_descriptor usb_desc;
+  usb_device_descriptor_t usb_desc;
   int r;
   
-  if ((r = read(io->fd, &usb_desc, sizeof(usb_device_descriptor))) !=
-      sizeof(usb_device_descriptor))
+  if ((r = read(io->fd, &usb_desc, sizeof(usb_device_descriptor_t))) !=
+      sizeof(usb_device_descriptor_t))
   {
     debug(FLIDEBUG_FAIL, "linux_usbverifydescriptor(): Could not read descriptor.");
     return -EIO;

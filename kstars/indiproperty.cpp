@@ -112,6 +112,7 @@ void INDI_P::drawLt(PState lstate)
 	{
 	  case PS_IDLE:
 	  light->setColor(Qt::gray);
+	  
 	  break;
 
 	  case PS_OK:
@@ -289,7 +290,8 @@ void INDI_P::addGUI (XMLEle *root)
 	/* add to GUI group */
 	light = new KLed (pg->propertyContainer);
 	light->setMaximumSize(16,16);
-	light->setLook( KLed::Sunken );
+	light->setLook(KLed::Sunken);
+	//light->setShape(KLed::Rectangular);
 	drawLt(state);
 	
 	/* #1 First widegt is the LED status indicator */
@@ -303,7 +305,7 @@ void INDI_P::addGUI (XMLEle *root)
 	else
 	    label = valuXMLAtt(prompt);
 	
-	// use property name is label is empty
+	// use property name if label is empty
 	if (label.isEmpty())
 	{
 	   label = name;

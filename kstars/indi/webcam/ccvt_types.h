@@ -22,75 +22,35 @@
 #ifndef CCVT_TYPES_H
 #define CCVT_TYPES_H
 
-#include <asm/byteorder.h>
-
-#if defined (__LITTLE_ENDIAN)
-
-	typedef struct
-	{
+typedef struct
+{
 		unsigned char b;
 		unsigned char g;
 		unsigned char r;
 		unsigned char z;
-	} PIXTYPE_bgr32;
+} PIXTYPE_bgr32;
 
-	typedef struct
-	{
+typedef struct
+{
 		unsigned char b;
 		unsigned char g;
 		unsigned char r;
-	} PIXTYPE_bgr24;
+} PIXTYPE_bgr24;
 
-	typedef struct
-	{
+typedef struct
+{
 		unsigned char r;
 		unsigned char g;
 		unsigned char b;
 		unsigned char z;
-	} PIXTYPE_rgb32;
+} PIXTYPE_rgb32;
 
-	typedef struct
-	{
+typedef struct
+{
 		unsigned char r;
 		unsigned char g;
 		unsigned char b;
-	} PIXTYPE_rgb24;
-
-#elif defined (__BIG_ENDIAN)
-
-	typedef struct
-	{
-		unsigned char z;
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-	} PIXTYPE_bgr32;
-
-	typedef struct
-	{
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-	} PIXTYPE_bgr24;
-
-	typedef struct
-	{
-		unsigned char z;
-		unsigned char b;
-		unsigned char g;
-		unsigned char r;
-	} PIXTYPE_rgb32;
-
-	typedef struct
-	{
-		unsigned char b;
-		unsigned char g;
-		unsigned char r;
-	} PIXTYPE_rgb24;
-
-#else
-#	error "Neither __BIG_ENDIAN, nor __LITTLE_ENDIAN???"
-#endif
+} PIXTYPE_rgb24;
 
 #define SAT(c) \
 	if (c & (~255)) { if (c < 0) c = 0; else c = 255; }

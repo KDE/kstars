@@ -120,6 +120,7 @@ class INDIDriver : public devManager
 
 
 public slots:
+    void updateMenuActions();
     void ClientprocessRightButton( QListViewItem *, const QPoint &, int );
     void LocalprocessRightButton( QListViewItem *, const QPoint &, int );
     void processDeviceStatus(int);

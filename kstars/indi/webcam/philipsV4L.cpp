@@ -69,14 +69,11 @@ extern unsigned char * mmap_buffer_;
 extern int  selectCallBackID;
 extern int  timerCallBackID;
 
-int connectPhilips(const char * devpath,int preferedPalette)
+int connectPhilips(const char * devpath, char *errmsg)
 {
-   //options_= (haveBrightness|haveContrast|haveColor);
    options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
    struct pwc_probe probe;
    bool IsPhilips = false;
-   char errmsg[1024];
-   //tmpBuffer_=NULL;
    frameRate_=15;
    device_=-1;
    usingTimer = false;
@@ -85,7 +82,7 @@ int connectPhilips(const char * devpath,int preferedPalette)
    if (-1 == (device_=open(devpath,
                            O_RDONLY | ((options_ & ioNoBlock) ? O_NONBLOCK : 0)))) {
       
-      cerr << "strlen " << strlen (devpath) << " -- " << devpath << endl;
+      strncpy(errmsg, strerror(errno), 1024);
       cerr << strerror(errno);
       return -1;
    } 
@@ -94,19 +91,21 @@ int connectPhilips(const char * devpath,int preferedPalette)
    
    if (device_ != -1) {
       if (-1 == ioctl(device_,VIDIOCGCAP,&capability_)) {
-         cerr << "ioctl (VIDIOCGCAP)" << endl;
+         cerr << "Error: ioctl (VIDIOCGCAP)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGCAP)", 1024);
 	 return -1;
       }
       if (-1 == ioctl (device_, VIDIOCGWIN, &window_)) {
-         cerr << "ioctl (VIDIOCGWIN)" << endl;
+         cerr << "Error: ioctl (VIDIOCGWIN)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGWIN)", 1024);
 	 return -1;
       }
       if (-1 == ioctl (device_, VIDIOCGPICT, &picture_)) {
-         cerr << "ioctl (VIDIOCGPICT)" << endl;
-	 
+         cerr << "Error: ioctl (VIDIOCGPICT)" << endl;
+	 strncpy(errmsg, "ioctl (VIDIOCGPICT)", 1024);
 	 return -1;
       }
-      init(preferedPalette);
+      init(0);
    }
    
   // Check to see if it's really a philips webcam       
@@ -121,7 +120,11 @@ int connectPhilips(const char * devpath,int preferedPalette)
 	 
   if (IsPhilips)
       cerr << "Philips webcam type " << type_ << " detected" << endl;
-  else return -1;
+  else
+  {
+   strncpy(errmsg, "No Philips webcam detected.", 1024);
+   return -1;
+  }
     
    cerr << "initial size w:" << window_.width << " -- h: " << window_.height << endl;
    

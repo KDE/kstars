@@ -49,6 +49,7 @@
  #include <kprogress.h>
  #include <kurl.h>
  #include <kdirlister.h>
+ #include <kaction.h>
   
  #define STD_BUFFER_SIZ		1024000
  #define FRAME_ILEN		1024
@@ -470,6 +471,9 @@ void INDIStdDevice::streamReceived()
  void INDIStdDevice::setLabelState(INDI_P *pp)
  {
     INDI_E *lp;
+    INDI_P *imgProp;
+    KAction *tmpAction;
+    INDIDriver *drivers = ksw->getINDIDriver();
     QFont buttonFont;
     
     switch (pp->stdID)
@@ -482,6 +486,16 @@ void INDIStdDevice::streamReceived()
       {
         initDeviceOptions();
 	emit linkAccepted();
+	
+	imgProp = dp->findProp("EXPOSE_DURATION");
+	if (imgProp)
+	{
+        	tmpAction = ksw->actionCollection()->action("capture_sequence");
+  		if (!tmpAction)
+	  		kdDebug() << "Warning: capture_sequence action not found" << endl;
+  		else
+	  		tmpAction->setEnabled(true);
+       }
       }
       else
       {
@@ -494,6 +508,8 @@ void INDIStdDevice::streamReceived()
 	  
 	    //close(streamFD);
 	}
+	
+	drivers->updateMenuActions();
        	ksw->map()->forceUpdateNow();
         emit linkRejected();
       }

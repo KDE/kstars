@@ -25,8 +25,7 @@
 #include <stdlib.h>
 #include "videodev.h"
 
-//static QCam * openBestDevice(const char * devpath = "/dev/video0");
-int connectPhilips(const char * devpath="/dev/video0", int preferedPalette = 0);
+int connectPhilips(const char * devpath, char *errmsg);
 
 /* Philips related, from QAstrocam */
 int    saveSettings(char *errmsg);

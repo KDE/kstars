@@ -17,6 +17,8 @@
 #include "indidriver.h"
 #include "indimenu.h"
 #include "indihostconf.h"
+#include "devicemanager.h"
+#include "indidevice.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -36,6 +38,7 @@
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <kstandarddirs.h>
+#include <kaction.h>
 
 #include <kextsock.h>
 #include <unistd.h>
@@ -279,6 +282,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  localListView->selectedItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
 	  runServiceB->setEnabled(false);
 	  stopServiceB->setEnabled(true);
+	  
 	  return;
 	}
 	
@@ -291,7 +295,8 @@ void INDIDriver::processDeviceStatus(int id)
 	  runServiceB->setEnabled(true);
 	  stopServiceB->setEnabled(false);
 	  devices[i]->restart();
-	return;
+	  updateMenuActions();
+	  return;
      }
 }
 
@@ -302,11 +307,6 @@ void INDIDriver::processHostStatus(int id)
    QListViewItem *currentItem = clientListView->selectedItem();
    if (!currentItem) return;
    INDIHostsInfo *hostInfo;
-
-   //kdDebug() << "The INDI host size is " << ksw->data()->INDIHostsList.count() << endl;
-   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     //kdDebug() << "The name is " << ksw->data()->INDIHostsList.at(i)->name << endl;
-
 
    for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
@@ -338,11 +338,57 @@ void INDIDriver::processHostStatus(int id)
 	  currentItem->setPixmap(0, disconnected);
 	  connectHostB->setEnabled(true);
 	  disconnectHostB->setEnabled(false);
+	  updateMenuActions();
 	}
+	
+	
 
-
-     }
+       }
     }
+}
+
+void INDIDriver::updateMenuActions()
+{
+  // We iterate over devices, we enable INDI Control Panel if we have any active device
+  // We enable capture image sequence if we have any imaging device
+  
+  KAction *tmpAction;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  bool activeDevice = false;
+  bool activeImaging = false;
+  INDI_P *imgProp = NULL;
+  
+  if (devMenu == NULL)
+     return;
+  
+  if (devMenu->mgr.count() > 0)
+   activeDevice = true;
+   
+  for (uint i=0; i < devMenu->mgr.count(); i++)
+  {
+	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
+	{
+  		        imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EXPOSE_DURATION");
+			if (imgProp && devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
+			{
+			  activeImaging = true;
+			  break;
+			}
+	}
+  }
+   
+  tmpAction = ksw->actionCollection()->action("indi_control_panel");
+  if (!tmpAction)
+  	kdDebug() << "Warning: indi_control_panel action not found" << endl;
+  else
+  	tmpAction->setEnabled(activeDevice);
+  
+  tmpAction = ksw->actionCollection()->action("capture_sequence");
+  if (!tmpAction)
+  	kdDebug() << "Warning: capture_sequence action not found" << endl;
+  else
+  	tmpAction->setEnabled(activeImaging);
+  
 }
 
 bool INDIDriver::runDevice(IDevice *dev)

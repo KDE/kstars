@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include "videodev.h"
 
-int connectCam(const char * devpath="/dev/video0", int preferedPalette = 0 /* auto palette*/);
+
+int connectCam(const char * devpath, char *errmsg);
 void disconnectCam();
 char * getDeviceName();
 

@@ -50,10 +50,11 @@
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
 		<Action name="telescope_wizard" />
-		<Action name="capture_sequence" />
+		<Action name="device_manager" />
+		
 		<Separator />
-	        <Action name="device_manager" />
 		<Action name="indi_control_panel" />
+		<Action name="capture_sequence" />
 		<Separator />
 		<Action name="configure_indi" />
 

@@ -644,18 +644,20 @@ int checkPowerT(ITextVectorProperty *tp)
 
 void connectV4L()
 {
+  char errmsg[1024];
   IDLog ("In ConnectV4L\n");
+  
     
   switch (PowerS[0].s)
   {
      case ISS_ON:
-      if (connectCam(PortT[0].text))
+      if (connectCam(PortT[0].text, errmsg))
       {
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
 	  PowerS[1].s = ISS_ON;
-	  IDSetSwitch(&PowerSP, "Error: no cameras were detected.");
-	  IDLog("Error: no cameras were detected.\n");
+	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
+	  IDLog("Error: %s\n", errmsg);
 	  return;
       }
       

@@ -313,8 +313,8 @@ void LX200Generic::ISGetProperties(const char *dev)
     return;
 
   // COMM_GROUP
-  IDDefText   (&Port, NULL);
   IDDefSwitch (&PowerSP, NULL);
+  IDDefText   (&Port, NULL);
   IDDefSwitch (&AlignmentSw, NULL);
 
   // BASIC_GROUP
