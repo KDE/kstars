@@ -2,8 +2,10 @@
                           ksnumbers.h  -  description
                              -------------------
     begin                : Sun Jan 13 2002
-    copyright            : (C) 2002 by Jason Harris
+    copyright            : (C) 2002-2005 by Jason Harris
     email                : kstars@30doradus.org
+    copyright            : (C) 2004-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -100,11 +102,12 @@ public:
 	/**@return element of P2B precession array at position [i1][i2] */
 	double p2b( int i1, int i2 ) const { return P2B[i1][i2]; }
 
-
 	/**@short update all values for the date given as an argument. 
 		*@param jd the Julian date for which to compute values
 		*/
 	void updateValues( long double jd );
+
+	double vEarth(int i) const {return vearth[i];}
 
 private:
 	dms Obliquity, K, L, L0, LM, M, M0, O, P, D, MM, F;
@@ -118,7 +121,7 @@ private:
 	double jm;
 	static const int arguments[NUTTERMS][5];
 	static const int amp[NUTTERMS][4];
-
+	double vearth[3];
 };
 
 #endif

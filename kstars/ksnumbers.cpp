@@ -2,8 +2,10 @@
                           ksnumbers.cpp  -  description
                              -------------------
     begin                : Sun Jan 13 2002
-    copyright            : (C) 2002 by Jason Harris
+    copyright            : (C) 2002-2005 by Jason Harris
     email                : kstars@30doradus.org
+    copyright            : (C) 2004-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -211,10 +213,10 @@ void KSNumbers::updateValues( long double jd ) {
 	//Obliquity of the Ecliptic
 	double U = T/100.0;
 	double dObliq = -4680.93*U - 1.55*U*U + 1999.25*U*U*U
-									- 51.38*U*U*U*U - 249.67*U*U*U*U*U
-									- 39.05*U*U*U*U*U*U + 7.12*U*U*U*U*U*U*U
-									+ 27.87*U*U*U*U*U*U*U*U + 5.79*U*U*U*U*U*U*U*U*U
-									+ 2.45*U*U*U*U*U*U*U*U*U*U;
+					- 51.38*U*U*U*U - 249.67*U*U*U*U*U
+					- 39.05*U*U*U*U*U*U + 7.12*U*U*U*U*U*U*U
+					+ 27.87*U*U*U*U*U*U*U*U + 5.79*U*U*U*U*U*U*U*U*U
+					+ 2.45*U*U*U*U*U*U*U*U*U*U;
 	Obliquity.setD( 23.43929111 + dObliq/3600.0);
 
 	//Nutation parameters
@@ -313,4 +315,92 @@ void KSNumbers::updateValues( long double jd ) {
 	P2B[0][2] = CXB*SYB;
 	P2B[1][2] = -1.0*SXB*SYB;
 	P2B[2][2] = CYB;
+
+	
+	// Mean longitudes for the planets. radians
+	//
+
+	// TODO Pasar a grados
+	double LVenus   = 3.1761467+1021.3285546*T; // Venus
+	double LMars    = 1.7534703+ 628.3075849*T; // Mars
+	double LEarth   = 6.2034809+ 334.0612431*T; // Earth
+	double LJupiter = 0.5995465+  52.9690965*T; // Jupiter
+	double LSaturn  = 0.8740168+  21.3299095*T; // Saturn
+	double LNeptune = 5.3118863+   3.8133036*T; // Neptune
+	double LUranus  = 5.4812939+   7.4781599*T; // Uranus
+	
+	double LMRad = 3.8103444+8399.6847337*T; // Moon
+	double DRad  = 5.1984667+7771.3771486*T;
+	double MMRad = 2.3555559+8328.6914289*T; // Moon
+	double FRad  = 1.6279052+8433.4661601*T;
+
+	/** Contibutions to the velocity of the Earth referred to the barycenter of the solar system
+	    in the J2000 equatorial system
+	    Velocities 10^{-8} AU/day
+	    Ron & Vondrak method
+	**/
+
+	double vondrak[36][7] = {
+	{LMars,             -1719914-2*T,        -25,   25-13*T,1578089+156*T,   10+32*T,684185-358*T},
+	{2*LMars,             6434+141*T,28007-107*T,25697-95*T,  -5904-130*T,11141-48*T,  -2559-55*T},
+	{LJupiter,                   715,           0,        6,         -657,       -15,        -282},
+	{LMRad,                      715,           0,        0,         -656,         0,        -285},
+	{3*LMars,                486-5*T,    -236-4*T, -216-4*T,     -446+5*T,       -94,        -193},
+	{LSaturn,                    159,           0,        2,         -147,        -6,         -61},
+	{FRad,                         0,           0,        0,           26,         0,         -59},
+	{LMRad+MMRad,                 39,           0,        0,          -36,         0,         -16},
+	{2*LJupiter,                  33,         -10,       -9,          -30,        -5,         -13},
+	{2*LMars-LJupiter,            31,           1,        1,          -28,         0,         -12},
+	{3*LMars-8*LEarth+3*LJupiter,  8,         -28,       25,            8,        11,           3},
+	{5*LMars-8*LEarth+3*LJupiter,  8,         -28,      -25,           -8,       -11,          -3},
+	{2*LVenus-LMars,              21,           0,        0,          -19,         0,          -8},
+	{LVenus,                     -19,           0,        0,           17,         0,           8},
+	{LNeptune,                    17,           0,        0,          -16,         0,          -7},
+	{LMars-2*LJupiter,            16,           0,        0,           15,         1,           7},
+	{LUranus,                     16,           0,        1,          -15,        -3,          -6},
+	{LMars+LJupiter,              11,          -1,       -1,          -10,        -1,          -5},
+	{2*LVenus-2*LMars,             0,         -11,      -10,            0,        -4,           0},
+	{LMars-LJupiter,             -11,          -2,       -2,            9,        -1,           4},
+	{4*LMars,                     -7,          -8,       -8,            6,        -3,           3},
+	{3*LMars-2*LJupiter,         -10,           0,        0,            9,         0,           4},
+	{LVenus-2*LMars,              -9,           0,        0,           -9,         0,          -4},
+	{2*LVenus-3*LMars,            -9,           0,        0,           -8,         0,          -4},
+	{2*LSaturn,                    0,          -9,       -8,            0,        -3,           0},
+	{2*LVenus-4*LMars,             0,          -9,        8,            0,         3,           0},
+	{3*LMars-2*LEarth,             8,           0,        0,           -8,         0,          -3},
+	{LMRad+2*DRad-MMRad,           8,           0,        0,           -7,         0,          -3},
+	{8*LVenus-12*LMars,           -4,          -7,       -6,            4,        -3,           2},
+	{8*LVenus-14*LMars,           -4,          -7,        6,           -4,         3,          -2},
+	{2*LEarth,                    -6,          -5,       -4,            5,        -2,           2},
+	{3*LVenus-4*LMars,            -1,          -1,       -2,           -7,         1,          -4},
+	{2*LMars-2*LJupiter,           4,          -6,       -5,           -4,        -2,          -2},
+	{3*LVenus-3*LMars,             0,          -7,       -6,            0,        -3,           0},
+	{2*LMars-2*LEarth,             5,          -5,       -4,           -5,        -2,          -2},
+	{LMRad-2*DRad,                 5,           0,        0,           -5,         0,          -2}
+	};
+
+	dms anglev;
+	double sa, ca;
+	// Vearth X component
+	vearth[0] = 0.;  
+	// Vearth Y component
+	vearth[1] = 0.; 
+	// Vearth Z component
+	vearth[2] = 0.;
+
+	for (unsigned int i=0; i<36; i++) {
+		anglev.setRadians(vondrak[i][0]);
+		anglev.SinCos(sa,ca);
+		for (unsigned int j=0; j<3; j++) {
+			vearth[j] += vondrak[i][2*j+1]*sa +vondrak[i][2*j+2]*ca;
+		}
+	}
+
+	const double UA2km  =  1.49597870/86400.;     // 10^{-8}*UA/dia -> km/s
+
+	for (unsigned int j=0; j<3; j++) {
+		vearth[j] = vearth[j] * UA2km;
+		kdDebug() << vearth[j] << endl;
+	}
+//	kdDebug() << "Earth Velocity " << vearth[0] << " " << vearth[1] << " " << vearth[2] << endl;
 }
