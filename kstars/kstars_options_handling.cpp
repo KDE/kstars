@@ -22,21 +22,12 @@
 void KStars::loadOptions()
 {
 	KConfig *conf = kapp->config();
-//Check if kstarsrc exists.  If not, we are using default options (need to know for setting initial focus point)
+	//Check if kstarsrc exists.  If not, we are using default options (need to know for setting initial focus point)
 	if ( conf->hasGroup( "Location" ) ) useDefaultOptions = false;
 	else useDefaultOptions = true;
 
 	// Get initial Location from config()
 	conf->setGroup( "Location" );
-/*	options()->CityName = conf->readEntry( "City", "Greenwich" );
-	if ( conf->readEntry( "State", "" ).length() ) { //old version of config file
-		options()->ProvinceName = conf->readEntry( "State", "" );
-		options()->CountryName = conf->readEntry( "State", "United Kingdom" );
-	} else {
-		options()->ProvinceName = conf->readEntry( "Province", "" );
-		options()->CountryName = conf->readEntry( "Country", "United Kingdom" );
-	}
-*/
 	// set Greenwich as default
 	QString city = conf->readEntry( "City", "Greenwich" );
 	QString province = conf->readEntry( "Province", "" );
