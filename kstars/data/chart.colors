@@ -18,3 +18,5 @@
 #FF0000 :BoxGrabColor
 #FFFFFF :BoxBGColor
 #006600 :TargetColor
+#000000 :UserLabelColor
+#BB9900 :PlanetTrailColor

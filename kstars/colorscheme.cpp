@@ -90,7 +90,13 @@ ColorScheme::ColorScheme(){
 	Default.append( "#000" );
 	KeyName.append( "TargetColor" );
 	Name.append( i18n( "Target Indicator" ) );
-	Default.append( "#AFA" );
+	Default.append( "#8B8" );
+	KeyName.append( "UserLabelColor" );
+	Name.append( i18n( "User Labels" ) );
+	Default.append( "#FFF" );
+	KeyName.append( "PlanetTrailColor" );
+	Name.append( i18n( "Planet Trails" ) );
+	Default.append( "#963" );
 	
 	//Default values for integer variables:
 	StarColorMode = 0;

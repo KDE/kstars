@@ -610,12 +610,13 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 	
-	//Set color to contrast well with background
-	QColor csky( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) );
-	int h,s,v;
-	csky.hsv( &h, &s, &v );
-	if ( v > 128 ) psky.setPen( QColor( "black" ) );
-	else psky.setPen( QColor( "white" ) );
+//Old code: set color to contrast with background
+//	QColor csky( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) );
+//	int h,s,v;
+//	csky.hsv( &h, &s, &v );
+//	if ( v > 128 ) psky.setPen( QColor( "black" ) );
+//	else psky.setPen( QColor( "white" ) );
+	psky.setPen( ksw->options()->colorScheme()->colorNamed( "UserLabelColor" ) );
 
 	bool checkSlewing = ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) ) && ksw->options()->hideOnSlew;
 	bool drawPlanets( ksw->options()->drawPlanets && !(checkSlewing && ksw->options()->hidePlanets) );
@@ -717,7 +718,7 @@ void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
 	int Height = int( scale * height() );
 	
 	if ( data->PlanetTrail.count() ) {
-		QColor tcolor1 = QColor( options->colorScheme()->colorNamed( "EclColor" ) );
+		QColor tcolor1 = QColor( options->colorScheme()->colorNamed( "PlanetTrailColor" ) );
 		QColor tcolor2 = QColor( options->colorScheme()->colorNamed( "SkyColor" ) );
 		
 		SkyPoint *p = data->PlanetTrail.first();
@@ -731,15 +732,19 @@ void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
 			firstPoint = true;
 		}
 		
+		psky.setPen( tcolor1 );
 		for ( p = data->PlanetTrail.next(); p; p = data->PlanetTrail.next() ) {
-			//Define interpolated color
-			QColor tcolor = QColor( 
-						(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
-						(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
-						(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
-			psky.setPen( tcolor );
-			++i;
-			
+//FADE_TRAIL
+//			if ( options->fadePlanetTrails ) {
+				//Define interpolated color
+				QColor tcolor = QColor( 
+							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
+							(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
+							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
+				psky.setPen( tcolor );
+				++i;
+//			}
+
 			o = getXY( p, options->useAltAz, options->useRefraction, scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 					
