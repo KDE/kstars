@@ -929,10 +929,11 @@ void DetailDialog::updateThumbnail() {
 
 		Data->Image->setPixmap( *(tp.image()) );
 
-		//If a real image was set, display it.
+		//If a real image was set, save it.
 		//If the image was unset, delete the old image on disk.
 		if ( tp.imageFound() ) {
 			Data->Image->pixmap()->save( fname, "PNG" );
+			*Thumbnail = *(Data->Image->pixmap());
 		} else {
 			QFile f;
 			f.setName( fname );

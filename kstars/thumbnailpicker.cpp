@@ -21,6 +21,7 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qfile.h>
+#include <qrect.h>
 
 #include <kpushbutton.h>
 #include <klistbox.h>
@@ -39,9 +40,10 @@
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Choose a Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
-		dd((DetailDialog*)parent), Object(o), bImageFound( false )
+		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
 	Image = new QPixmap( current );
+	ImageRect = new QRect( 0, 0, 200, 200 );
 
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
@@ -60,6 +62,8 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 						this, SLOT( slotSetFromURL( const QString& ) ) );
 	connect( ui->ImageURLBox, SIGNAL( textChanged( const QString& ) ),
 						this, SLOT( slotCheckValidURL( const QString& ) ) );
+
+	ui->EditButton->setEnabled( false );
 
 	slotFillList();
 }
@@ -136,9 +140,6 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
 		//Image URL is everything from index to next occurence of "&"
 		ImList.append( PageHTML.mid( index, PageHTML.find( "&", index ) - index ) );
 
-//		//DEBUG
-//		kdDebug() << index << "::" << ImList.last() << endl;
-
 		index = PageHTML.find( "?imgurl=", index );
 	}
 }
@@ -173,9 +174,10 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	}
 }
 
-QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, uint size ) {
-	uint w( pm->width() ), h( pm->height() );
-	int rx(0), ry(0), sx(0), sy(0);
+QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
+	int w( pm->width() ), h( pm->height() );
+	int bigSize( w );
+	int rx(0), ry(0), sx(0), sy(0), bx(0), by(0);
 	if ( size == 0 ) return QPixmap();
 
 	//Prepare variables for rescaling image (if it is larger than 'size')
@@ -191,6 +193,8 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, uint size ) {
 	if ( sx < 0 ) { rx = -sx; sx = 0; }
 	if ( sy < 0 ) { ry = -sy; sy = 0; }
 
+	if ( setImage ) bigSize = int( 200.*float(pm->width())/float(w) );
+
 	QPixmap result( size, size );
 	result.fill( QColor( "white" ) ); //in case final image is smaller than 'size'
 
@@ -201,9 +205,19 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, uint size ) {
 		
 		//bitBlt sizexsize square section of image
 		bitBlt( &result, rx, ry, &im, sx, sy, size, size );
+		if ( setImage ) {
+			bx = int( sx*float(pm->width())/float(w) );
+			by = int( sy*float(pm->width())/float(w) );
+			ImageRect->setRect( bx, by, bigSize, bigSize );
+		}
 
 	} else { //image is smaller than size x size
 		bitBlt( &result, rx, ry, pm );
+		if ( setImage ) {
+			bx = int( rx*float(pm->width())/float(w) );
+			by = int( ry*float(pm->width())/float(w) );
+			ImageRect->setRect( bx, by, bigSize, bigSize );
+		}
 	}
 
 	return result;
@@ -212,8 +226,10 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, uint size ) {
 void ThumbnailPicker::slotEditImage() {
 	ThumbnailEditor te( this );
 	if ( te.exec() == QDialog::Accepted ) {
-		//FIXME: set Image to the edited pixmap.  
-		//note it should always be 200x200 
+		QPixmap pm = te.thumbnail();
+		*Image = pm;
+		ui->CurrentImage->setPixmap( pm );
+		ui->CurrentImage->update();
 	}
 }
 
@@ -227,6 +243,7 @@ void ThumbnailPicker::slotUnsetImage() {
 		Image->fill( dd->paletteBackgroundColor() );
 	}
 
+	ui->EditButton->setEnabled( false );
 	ui->CurrentImage->setPixmap( *Image );
 	ui->CurrentImage->update();
 
@@ -236,10 +253,12 @@ void ThumbnailPicker::slotUnsetImage() {
 void ThumbnailPicker::slotSetFromList( int i ) {
 	//Display image in preview pane
 	QPixmap pm;
-	pm = shrinkImage( PixList.at(i), 200 ); //scale width
+	pm = shrinkImage( PixList.at(i), 200, true ); //scale image
+	SelectedImageIndex = i;
 
 	ui->CurrentImage->setPixmap( pm );
 	ui->CurrentImage->update();
+	ui->EditButton->setEnabled( true );
 
 	//Set Image to the selected 200x200 pixmap
 	*Image = pm;

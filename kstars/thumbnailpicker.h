@@ -26,6 +26,7 @@ class ThumbnailPickerUI;
 class ThumbnailEditor;
 class QPixmap;
 class QFile;
+class QRect;
 class DetailDialog;
 class SkyObject;
 
@@ -41,8 +42,9 @@ public:
 	~ThumbnailPicker();
 
 	QPixmap* image() { return Image; }
-	QPixmap* currentListImage() { return PixList.current(); }
+	QPixmap* currentListImage() { return PixList.at( SelectedImageIndex ); }
 	bool imageFound() const { return bImageFound; }
+	QRect* imageRect() const { return ImageRect; }
 
 private slots:
 	void slotEditImage();
@@ -56,9 +58,10 @@ private slots:
 	void downloadReady (KIO::Job *);
 
 private:
-	QPixmap shrinkImage( QPixmap *original, uint newSize );
+	QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
 	void parseGooglePage( QStringList &ImList, QString URL );
 
+	int SelectedImageIndex;
 	ThumbnailPickerUI *ui;
 	QPixmap *Image;
 	DetailDialog *dd;
@@ -66,6 +69,7 @@ private:
 	QPtrList<KIO::Job> JobList;
 	QPtrList<QPixmap> PixList;
 	bool bImageFound;
+	QRect *ImageRect;
 };
 
 #endif
