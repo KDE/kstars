@@ -590,7 +590,8 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 	switch (type) {
 		case 0: //star
 			//This line should only execute for KDE 3...the starpix images look bad for size==2.
-			if ( QT_VERSION >=300 && size==2 ) size = 1;
+//			if ( QT_VERSION >=300 && size==2 ) size = 1;
+				if (size == 2) size = 1;
 
 			star = starpix->getPixmap (&color, size);
 			bitBlt ((QPaintDevice *) sky, xa-star->width()/2, ya-star->height()/2, star);
@@ -833,10 +834,11 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms *LSTh, co
 }
 
 dms SkyMap::refract( const dms *alt, bool findApparent ) {
-	int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
-	dms result;
 
 	if ( alt->Degrees() <= -2.000 ) return dms( alt->Degrees() );
+
+	int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
+	dms result;
 
 	if ( findApparent ) {
 		result.setD( alt->Degrees() + RefractCorr1[index] );
