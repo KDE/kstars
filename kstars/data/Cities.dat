@@ -1,3 +1,4 @@
+Aachen                          Germany          50 46 00 N    6 06 00 E
 Aalborg                         Denmark          57  5 49 N   9 50 59 E
 Abbotsford                      Canada           49  1 48 N 122 19 11 W
 Aberdeen                        Idaho            42 57  0 N 112 49 47 W
@@ -9,8 +10,8 @@ Abilene                         Kansas           38 53 59 N  97 12  0 W
 Abilene                         Texas            32 27 54 N  99 42 47 W
 Acapulco                        Mexico           16 45  0 N  99 46  1 W
 Accra                           Ghana             5 35 59 N   0 10  1 W
-Ada                             Minnesota        47 16 58 N  96 31 58 W
 Adak                            Alaska           51 40  1 N 176 28  1 W
+Ada                             Minnesota        47 16 58 N  96 31 58 W
 Adams                           Massachusetts    42 34 58 N  73 10  1 W
 Addis Ababa                     Ethiopia          9  0  0 N  38 43 59 E
 Adelaide                        Australia        34 45 59 S 138 32 12 E
@@ -23,10 +24,9 @@ Aiken                           South Carolina   33 31 58 N  81 43  1 W
 Ainsworth                       Nebraska         42 31 58 N  99 50 59 W
 Ajo                             Arizona          32 19 58 N 112 55  1 W
 Akron                           Ohio             41  4 59 N  81 30 43 W
-Al Manamah                      Bahrain          26  1  0 N  50 32 59 E
 Alameda                         California       37 45 47 N 122 14 34 W
-Alamo                           Nevada           37 22  1 N 115 10  1 W
 Alamogordo                      New Mexico       32 53 59 N 105 57 25 W
+Alamo                           Nevada           37 22  1 N 115 10  1 W
 Albany                          Georgia          31 34 29 N  84  9 29 W
 Albany                          New York         42 39  1 N  73 45  1 W
 Albany                          Oregon           44 37 59 N 123  5 52 W
@@ -44,6 +44,7 @@ Alhambra                        California       34  8 24 N 118  6 25 W
 Alice Springs                   Australia        23 48  0 S 133 54  0 E
 Allentown                       Pennsylvania     40 36 10 N  75 28  5 W
 Alliance                        Nebraska         42  6  0 N 102 52 58 W
+Al Manamah                      Bahrain          26  1  0 N  50 32 59 E
 Alpharetta                      Georgia          34  3 39 N  84 13 19 W
 Alpine                          California       32 30 13 N 116 27  3 W
 Altenstadt                      Germany          47 50  2 N  10 52  4 E
@@ -61,13 +62,13 @@ Amsterdam                       Netherlands      52 21  0 N   4 51 59 E
 Anaconda                        Montana          46  7 41 N 112 57 10 W
 Anaheim                         California       33 50  6 N 117 54 46 W
 Anchorage                       Alaska           61 10  0 N 149 58 58 W
+Anderson AFB                    Guam             13 35 12 N 144 56 12 E
 Anderson                        Indiana          40 10  0 N  85 41  6 W
 Anderson                        South Carolina   34 30 35 N  82 39 18 W
-Anderson AFB                    Guam             13 35 12 N 144 56 12 E
 Angaur Island                   Palau             6 54  0 N 134  9  0 E
 Ankara                          Turkey           40  1 48 N  32 53 59 E
-Ann Arbor                       Michigan         42 16 59 N  83 44 52 W
 Annapolis                       Maryland         38 58 23 N  76 29 42 W
+Ann Arbor                       Michigan         42 16 59 N  83 44 52 W
 Annette Island                  Alaska           55  2 42 N 131 33 36 W
 Anniston                        Alabama          33 38 59 N  85 46 58 W
 Ansbach                         Germany          49 19 47 N  10 35 49 E
@@ -82,14 +83,14 @@ Arese                           Italy            45 36  0 N   9  9  0 E
 Argyle                          Minnesota        48 21  0 N  96 47 59 W
 Arica                           Chile            18 21  0 S  70 19 59 W
 Arkadelphia                     Arkansas         34  6  0 N  93  4 58 W
+Arlington Heights               Illinois         42  5 17 N  87 58 48 W
 Arlington                       Massachusetts    42 24 53 N  71  9  6 W
 Arlington                       Texas            32 44 12 N  97  6 47 W
 Arlington                       Virginia         38 53 59 N  77  5 59 W
-Arlington Heights               Illinois         42  5 17 N  87 58 48 W
 Armour                          South Dakota     43 17 59 N  98 20 59 W
 Arvada                          Colorado         39 47 59 N 105  4 40 W
-Ash Fork                        Arizona          35 13  1 N 112 28 58 W
 Asheville                       North Carolina   35 35 41 N  82 33 25 W
+Ash Fork                        Arizona          35 13  1 N 112 28 58 W
 Ashland                         Kansas           37 10 58 N  99 46  1 W
 Ashland                         Kentucky         38 28 36 N  82 38 22 W
 Ashland                         Maine            46 37  1 N  68 25 58 W
@@ -110,6 +111,7 @@ Attleboro                       Massachusetts    41 57 28 N  71 17 30 W
 Auburn                          Alabama          32 36 24 N  85 28 59 W
 Auburn                          Maine            44  5 48 N  70 13 41 W
 Auckland                        New Zealand      36 52 59 S 174 45  0 E
+Augsburg                        Germany          48 22 00 N   10 53 00 E
 Augusta                         Arkansas         35 16  1 N  91 20 59 W
 Augusta                         Georgia          33 28 19 N  81 58  0 W
 Augusta                         Maine            44 18 52 N  69 46 28 W
@@ -145,9 +147,9 @@ Bangalore                       India            13 48  0 N  77 17 59 E
 Bangkok                         Thailand         13 49 59 N 100 28 59 E
 Bangor                          Maine            44 48 12 N  68 46 18 W
 Banjul                          Gambia           13 20  9 N  16 39 35 W
-Bar Harbor                      Maine            44 22  1 N  68 13  1 W
 Baraboo                         Wisconsin        43 28 58 N  89 43 58 W
 Barcelona                       Spain            41 18  7 N   2  5 31 E
+Bar Harbor                      Maine            44 22  1 N  68 13  1 W
 Barnesville                     Ohio             40  0 11 N  81 11 30 W
 Barranquilla                    Colombia         10 54  0 N  74 46 59 W
 Barre                           Vermont          44 11 53 N  72 30  6 W
@@ -161,15 +163,15 @@ Batesburg                       South Carolina   33 52 58 N  81 34  1 W
 Baton Rouge                     Louisiana        30 26 57 N  91 10 59 W
 Battle Creek                    Michigan         42 18 57 N  85 10 48 W
 Bay City                        Michigan         43 36  3 N  83 53 15 W
-Bay St. Louis                   Mississippi      30 19  1 N  89 19 58 W
 Bayonne                         New Jersey       40 40  0 N  74  7 12 W
+Bay St. Louis                   Mississippi      30 19  1 N  89 19 58 W
 Baytown                         Texas            29 43  5 N  94 58 36 W
 Beach                           North Dakota     46 55  1 N 104  0  0 W
 Beatty                          Nevada           36 58  1 N 116 47 59 W
 Beaufort                        South Carolina   32 25  1 N  80 40  1 W
 Beaumont                        Texas            30  5 20 N  94  6  9 W
-Beaver                          Utah             38 15  0 N 112 40  1 W
 Beaverton                       Oregon           45 29 17 N 122 48 25 W
+Beaver                          Utah             38 15  0 N 112 40  1 W
 Beckley                         West Virginia    37 46 36 N  81 11 23 W
 Beijing                         China            39 54 59 N 116 22 59 E
 Beirut                          Lebanon          33 52 59 N  35 30  0 E
@@ -185,11 +187,12 @@ Bellevue                        Washington       47 37  0 N 122 12  0 W
 Bellflower                      California       33 53 24 N 118  8 31 W
 Bellingham                      Washington       48 45  1 N 122 28 37 W
 Bellows Falls                   Vermont          43  7 59 N  72 27  0 W
-Ben Guerir                      Morocco          32  7 39 N   7 52 47 W
 Bend                            Oregon           44  4  1 N 121 16 58 W
+Ben Guerir                      Morocco          32  7 39 N   7 52 47 W
 Bennington                      Vermont          42 52 48 N  73 11 48 W
 Benton                          Arkansas         34 33 53 N  92 35 12 W
 Bergen                          Norway           60 17 23 N   5 13 11 E
+Bergisch-Gladbach               Germany          50 59 00 N    7 08 00 E
 Berkeley                        California       37 52  9 N 122 16 15 W
 Berlin                          Germany          52 31  0 N  13 19 59 E
 Berlin                          New Hampshire    44 25  1 N  71 10  1 W
@@ -222,9 +225,9 @@ Boca Raton                      Florida          26 21  0 N  80  5 12 W
 Bodo                            Norway           67 16 11 N  14 22  0 E
 Bogalusa                        Louisiana        30 48  0 N  89 52  1 W
 Bogota                          Colombia          4 37 59 N  74  5 59 W
-Boise                           Idaho            43 37  6 N 116 11 56 W
-Boise                           Idaho            43 37 59 N 116 16  1 W
 Boise City                      Oklahoma         36 42  0 N 102 30  0 W
+Boise                           Idaho            43 37 59 N 116 16  1 W
+Boise                           Idaho            43 37  6 N 116 11 56 W
 Bologna                         Italy            44 32 16 N  11 17 23 E
 Bombay                          India            18 58  0 N  72 49 59 E
 Bonn                            Germany          50 43 11 N   7  4 48 E
@@ -237,8 +240,9 @@ Boscobel                        Wisconsin        43  7 58 N  90 43 58 W
 Bossier City                    Louisiana        32 30  0 N  93 42  0 W
 Bossier City                    Louisiana        32 31  0 N  93 43 54 W
 Boston                          Massachusetts    42 21 24 N  71  3 24 W
-Boulder                         Colorado         40  0 47 N 105 16 48 W
+Bottrop                         Germany          51 31 00 N    6 55 00 E
 Boulder City                    Nevada           35 58 41 N 114 50 16 W
+Boulder                         Colorado         40  0 47 N 105 16 48 W
 Boulder Creek                   California       37  2 59 N 122  9  0 W
 Bountiful                       Utah             40 53  5 N 111 52 47 W
 Bowie                           Maryland         39  0 24 N  76 46 54 W
@@ -249,7 +253,9 @@ Brandon                         Canada           49 51  0 N  99 57  0 W
 Brandon                         Vermont          43 45  0 N  73  4 58 W
 Brasilia                        Brazil           15 52  0 S  47 55  0 W
 Brattleboro                     Vermont          42 51  6 N  72 33 47 W
+Braunschweig                    Germany          52 16 00 N   10 32 00 E
 Bremen                          Germany          53  2 49 N   8 47 23 E
+Bremerhaven                     Germany          53 33 00 N    8 35 00 E
 Bremerton                       Washington       47 34  1 N 122 37 58 W
 Brest                           France           48 23 59 N   4 29 59 W
 Bridgeport                      Connecticut      41 10 49 N  73 11 21 W
@@ -326,8 +332,8 @@ Carson                          California       33 48 24 N 118 16 58 W
 Carson City                     Nevada           39 10  0 N 119 46  1 W
 Cartersville                    Georgia          34  8 59 N  84 46 58 W
 Cary                            Illinois         42 13  0 N  88 13 59 W
-Casa Grande                     Arizona          32 52 48 N 111 44 52 W
 Casablanca                      Morocco          33 31 59 N   7 40 59 W
+Casa Grande                     Arizona          32 52 48 N 111 44 52 W
 Casper                          Wyoming          42 50 48 N 106 18 46 W
 Castlerock                      Washington       46 16 58 N 122 52 58 W
 Castries                        St. Lucia        13 43 59 N  60 57  0 W
@@ -352,6 +358,7 @@ Chatham                         Canada           47  2 59 N  65 27  0 W
 Chattanooga                     Tennessee        35  2 40 N  85 18 32 W
 Cheju                           South Korea      33 30  0 N 126 30  0 E
 Cheltenham                      Pennsylvania     40  2 59 N  75  6 35 W
+Chemnitz                        Germany          50 50 00 N   12 55 00 E
 Cheraw                          South Carolina   34 40  1 N  79 52  1 W
 Cherbourg                       France           49 38 59 N   1 28  1 W
 Cherokee                        Oklahoma         36 43 58 N  98 22  1 W
@@ -389,8 +396,8 @@ Clarksdale                      Mississippi      34 11 53 N  90 34 30 W
 Clarksville                     Tennessee        36 31 36 N  87 20 53 W
 Claymont                        Delaware         39 48 17 N  75 27 11 W
 Clear                           Alaska           64 19 47 N 149  9  0 W
-Clear Lake City                 Texas            29 31 48 N  95  4 40 W
 Clearlake                       California       38 55 59 N 122 35 59 W
+Clear Lake City                 Texas            29 31 48 N  95  4 40 W
 Clearwater                      Florida          27 58  0 N  82 47 53 W
 Cleveland                       Ohio             41 29 51 N  81 41 49 W
 Cleveland                       Tennessee        35  9 29 N  84 52 36 W
@@ -403,16 +410,16 @@ Cocos Island                    Australia        12 10 59 S  96 49 59 E
 Cody                            Wyoming          44 31  1 N 109  1 58 W
 Cold Bay                        Alaska           55 12  0 N 162 43 29 W
 Cold Lake                       Canada           54 25 47 N 110 13 48 W
-College Park                    Maryland         38 59 12 N  76 56  6 W
 Collegedale                     Tennessee        35  2 49 N  85  3  3 W
+College Park                    Maryland         38 59 12 N  76 56  6 W
 Cologne                         Germany          50 55 59 N   6 57  0 E
 Colombo                         Sri Lanka         6 58  0 N  79 51 59 E
 Colon                           Panama            9 22  0 N  79 53 59 W
 Colorado Springs                Colorado         38 50  7 N 104 49 15 W
 Columbia                        Missouri         38 57  2 N  92 19 45 W
 Columbia                        South Carolina   34  0  1 N  81  1 59 W
-Columbia                        Tennessee        35 36 54 N  87  2 12 W
 Columbia Station                Ohio             41 19  4 N  81 57 38 W
+Columbia                        Tennessee        35 36 54 N  87  2 12 W
 Columbus                        Georgia          32 28  6 N  84 59 23 W
 Columbus                        Mississippi      33 29 53 N  88 25  0 W
 Columbus                        Nebraska         42 25 29 N  97 21 35 W
@@ -435,6 +442,7 @@ Corpus Christi                  Texas            27 47 50 N  97 23 44 W
 Cortez                          Colorado         37 21  0 N 108 34 58 W
 Corvallis                       Oregon           44 34  0 N 123 16 11 W
 Costa Mesa                      California       33 38 24 N 117 55  4 W
+Cottbus                         Germany          51 46 00 N   14 20 00 E
 Council Bluffs                  Iowa             41 15 42 N  95 51 53 W
 Covington                       Kentucky         39  5 12 N  84 30 42 W
 Cranbrook                       Canada           49 40 47 N 115 45 36 W
@@ -462,24 +470,25 @@ Danielson                       Connecticut      41 47 23 N  71 52 47 W
 Danville                        Iowa             40 46 59 N  91  7 59 W
 Danville                        Virginia         36 35 30 N  79 23  3 W
 Dar es Salaam                   Tanzania          6 47 59 S  39 16 59 E
+Darmstadt                       Germany          49 52 00 N    8 39 00 E
 Darwin                          Australia        12 25 11 S 130 50 12 E
 Davenport                       Iowa             41 31 18 N  90 34 32 W
+Daytona Beach                   Florida          29 12 43 N  81  1  9 W
 Dayton                          Ohio             39 45 32 N  84 11 43 W
 Dayton                          Tennessee        35 30  0 N  85  0  0 W
-Daytona Beach                   Florida          29 12 43 N  81  1  9 W
-DeMotte                         Indiana          41 12  0 N  87 10 20 W
 Deadhorse                       Alaska           70 11 41 N 148 27 36 W
-Dearborn                        Michigan         42 19 23 N  83 10 29 W
 Dearborn Heights                Michigan         42 19 30 N  83 17 30 W
+Dearborn                        Michigan         42 19 23 N  83 10 29 W
 Death Valley                    California       36 27 50 N 116 52 51 W
 Decataur                        Illinois         39 50 41 N  88 56 47 W
 Decimomannu                     Italy            39 24 35 N   8 58  1 E
 Dekalb                          Illinois         41 55 47 N  88 42 48 W
-Del Rio                         Texas            29 22  0 N 100 43 48 W
 Delavan                         Wisconsin        49 38 59 N  88 37 59 W
 Delhi                           Louisiana        32 25 58 N  91 28 58 W
-Delta                           Utah             39 19 58 N 112 34 58 W
+Del Rio                         Texas            29 22  0 N 100 43 48 W
 Delta Junction                  Alaska           64  1 48 N 145 43 11 W
+Delta                           Utah             39 19 58 N 112 34 58 W
+DeMotte                         Indiana          41 12  0 N  87 10 20 W
 Denali Nat'l Park               Alaska           63 42 36 N 148 56 23 W
 Denton                          Texas            33 13 11 N  97  8 12 W
 Denver                          Colorado         39 44 57 N 104 59 20 W
@@ -488,6 +497,7 @@ Derby                           United Kingdom   52 49  1 N   1 19 58 W
 Derry                           New Hampshire    42 52 54 N  71 19 23 W
 Des Moines                      Iowa             41 35 13 N  93 37  0 W
 Des Plaines                     Illinois         42  2 35 N  87 52 12 W
+Dessau                          Germany          51 50 00 N   12 15 00 E
 Detroit                         Michigan         42 19 47 N  83  2 57 W
 Devils Lake                     North Dakota     48  6 35 N  98 51 47 W
 Dhahran                         Saudi Arabia     26 15 36 N  50  8 59 E
@@ -514,11 +524,14 @@ Dover                           Florida          27 57 59 N  82 15 29 W
 Dover                           New Hampshire    43 11 30 N  70 52 47 W
 Dover                           United Kingdom   51  7 59 N   1 19  0 E
 Downey                          California       33 56  6 N 118  7 30 W
+Dresden                         Germany          51 03 00 N   13 45 00 E
 Dryden                          Canada           49 46 12 N  92 49 47 W
 Dubai                           U.A.E.           25 18  0 N  55 25 59 E
 Dublin                          Ireland          53 25 58 N   6 15  0 W
 Dubrovnik                       Croatia          42 33 50 N  18 15  3 E
 Dubuque                         Iowa             42 30 11 N  90 40 29 W
+Duesseldorf                     Germany          51 13 00 N    6 47 00 E
+Duisburg                        Germany          51 26 00 N    6 45 00 E
 Duluth                          Minnesota        46 46 55 N  92  6 24 W
 Dundalk                         Maryland         39 16  1 N  76 31  1 W
 Dunedin                         New Zealand      45 55 59 S 170 11 59 E
@@ -531,6 +544,7 @@ Dutch Harbor                    Alaska           53 54 35 N 166 32 23 W
 Eagan                           Minnesota        44 49 47 N  93 13 11 W
 Eagle                           Alaska           64 42  0 N 141 19 58 W
 Eagle River                     Alaska           61 19 18 N 149 34  1 W
+Eastampton                      New Jersey       39 34 47 N  74 24  0 W
 East Boston                     Massachusetts    42 20 34 N  71  2 59 W
 East Brunswick                  New Jersey       40 26 23 N  74 25 12 W
 East Lansing                    Michigan         42 44  5 N  84 28 59 W
@@ -541,7 +555,6 @@ East Point                      Georgia          33 40 36 N  84 26 35 W
 East St. Louis                  Illinois         38 37 18 N  90  9 18 W
 East Stroudsburg                Pennsylvania     41  4 59 N  75 13  0 W
 East Wenatchee                  Washington       47 12 12 N 120  3 10 W
-Eastampton                      New Jersey       39 34 47 N  74 24  0 W
 Eatonton                        Georgia          33  4 58 N  83 15  0 W
 Eau Claire                      Wisconsin        44 48 47 N  91 29 42 W
 Edina                           Minnesota        44 52 59 N  93 20 59 W
@@ -555,22 +568,22 @@ Efate                           Vanuatu          17 58 48 S 168 41 59 E
 Effingham                       Illinois         39  4 58 N  88 30  0 W
 El Cajon                        California       32 47 42 N 116 57 35 W
 El Dorado                       Arkansas         33 12 24 N  92 40  0 W
-El Mirage                       Arizona          33 35 14 N 112 20  9 W
-El Monte                        California       34  4  0 N 118  1 30 W
-El Paso                         Texas            31 45 36 N 106 29  9 W
 Eldorado                        Illinois         37 49 58 N  88 30  0 W
 Eldridge                        Iowa             41 36 43 N  90 35 24 W
 Elgin                           Illinois         42  2 17 N  88 17 24 W
-Elizabeth                       New Jersey       40 39 42 N  74 12 59 W
 Elizabeth City                  North Carolina   36 15  0 N  76 15  0 W
+Elizabeth                       New Jersey       40 39 42 N  74 12 59 W
 Elizabethtown                   Kentucky         37 41 23 N  85 52 12 W
 Elk City                        Oklahoma         35 22 58 N  99 22 58 W
-Elk Point                       South Dakota     42 40 58 N  96 43 58 W
-Elk River                       Idaho            46 46 58 N 116 10 58 W
 Elkhart                         Indiana          41 40  1 N  86  0  0 W
 Elkins                          West Virginia    38 55  1 N  79 49 58 W
 Elko                            Nevada           40 49 47 N 115 45 36 W
+Elk Point                       South Dakota     42 40 58 N  96 43 58 W
+Elk River                       Idaho            46 46 58 N 116 10 58 W
+El Mirage                       Arizona          33 35 14 N 112 20  9 W
 Elmira                          New York         42  4 58 N  76 49 58 W
+El Monte                        California       34  4  0 N 118  1 30 W
+El Paso                         Texas            31 45 36 N 106 29  9 W
 Elsmere                         Delaware         39 44 24 N  75 35 24 W
 Elverson                        Pennsylvania     40  9 11 N  75 51 46 W
 Elyria                          Ohio             41 21 54 N  82  6 35 W
@@ -582,8 +595,10 @@ Ephrata                         Pennsylvania     40  6 35 N  76  5 59 W
 Erding                          Germany          48 19 12 N  11 55 58 E
 Erfurt                          Germany          50 58 30 N  10 57 28 E
 Erie                            Pennsylvania     42  7 14 N  80  4 56 W
+Erlangen                        Germany          49 36 00 N   11 01 00 E
 Escondido                       California       33  7  0 N 117  5  5 W
 Esfahan                         Iran             32 45  0 N  51 51 50 E
+Essen                           Germany          51 27 00 N    7 01 00 E
 Essex Junction                  Vermont          44 29 17 N  73  6 42 W
 Euclid                          Ohio             41 34 12 N  81 32 12 W
 Eudora                          Arkansas         33  7  1 N  91 16  1 W
@@ -599,17 +614,17 @@ Everett                         Washington       47 58 47 N 122 12  0 W
 Evergreen                       Colorado         39 38 27 N 105 24 57 W
 Ewa                             Hawaii           21 20  6 N 158  2 34 W
 Exeter                          New Hampshire    42 57 57 N  70 55 12 W
-Fair Haven                      Vermont          43 34 58 N  73 15  0 W
 Fairbanks                       Alaska           64 47 59 N 147 50 59 W
 Fairfax                         Minnesota        44 28 58 N  94 43 58 W
 Fairfax                         South Carolina   32 28 58 N  81 13  1 W
 Fairfield                       California       38 15  0 N 122  2 31 W
 Fairfield                       Connecticut      41  8 30 N  73 15 47 W
+Fair Haven                      Vermont          43 34 58 N  73 15  0 W
 Fairmont                        West Virginia    39 28 59 N  80  8 35 W
 Faith                           South Dakota     45  1 58 N 102  1 58 W
 Falcon                          Colorado         38 56 52 N 104 33 39 W
-Fall River                      Massachusetts    41 42  6 N  71  9 18 W
 Fallon                          Nevada           39 30  0 N 118 47 59 W
+Fall River                      Massachusetts    41 42  6 N  71  9 18 W
 Falmouth                        Kentucky         38 40  1 N  84 19 58 W
 Fargo                           North Dakota     46 52 30 N  96 47 17 W
 Farmington                      New Mexico       36 43 59 N 108 12 10 W
@@ -693,6 +708,7 @@ Gassaway                        West Virginia    38 40  1 N  80 45  0 W
 Gastonia                        North Carolina   35 15 54 N  81 10 54 W
 Gdansk                          Poland           54 19 59 N  18 40  0 E
 Geilenkirchen                   Germany          50 57 39 N   6  1 58 E
+Gelsenkirchen                   Germany          51 31 00 N    7 06 00 E
 Geneva                          Switzerland      46 13 59 N   6  4  0 E
 Genoa                           Italy            44 24 46 N   8 50 59 E
 Georgetown                      Ascension Island  7 52 47 S  14 25 11 W
@@ -714,6 +730,7 @@ Glens Falls                     New York         43 47 59 N  74  4 59 W
 Glenwood                        Minnesota        45 38 59 N  95 22 58 W
 Glenwood Springs                Colorado         39 34 58 N 107 19 58 W
 Godthab                         Greenland        64 12  0 N  51 40 47 W
+Goettingen                      Germany          51 32 00 N    9 56 00 E
 Goldfield                       Nevada           37 42  0 N 117 15  0 W
 Goldsboro                       North Carolina   35 22 58 N  77 58 58 W
 Goldstone                       California       35 21  0 N 116 52 58 W
@@ -735,9 +752,9 @@ Great Falls                     Montana          47 30  6 N 111 17  5 W
 Great Falls                     South Carolina   34 31 58 N  80 52 58 W
 Greeley                         Colorado         40 25  5 N 104 41 34 W
 Green Bay                       Wisconsin        44 30 47 N  88  0 50 W
+Greenbelt                       Maryland         39  0  0 N  76 51 15 E
 Green River                     Utah             39  0  0 N 110  4 58 W
 Green River                     Wyoming          41 31 36 N 109 28  4 W
-Greenbelt                       Maryland         39  0  0 N  76 51 15 E
 Greensboro                      North Carolina   36  4 17 N  79 47 25 W
 Greenville                      Maine            45 25 58 N  69 34 58 W
 Greenville                      Mississippi      33 24 24 N  91  3 36 W
@@ -759,16 +776,20 @@ Gulfport                        Mississippi      30 22  4 N  89  5 35 W
 Gulkana                         Alaska           62  6  0 N 145 30  0 W
 Gutersloh                       Germany          51 55 15 N   8 18 14 E
 Guthrie                         Oklahoma         35 52  1 N  97 25 58 W
+Haarlem                         Netherlands      52 23 00 N    4 38 00 E
+Hagen                           Germany          51 21 00 N    7 28 00 E
 Hagerstown                      Maryland         39 38 42 N  77 43 11 W
 Haiku                           Hawaii           20 58 59 N 156 16 58 W
 Hailey                          Idaho            43 31  1 N 114 19  1 W
 Haines                          Alaska           59 15  0 N 135 27 36 W
 Halifax                         Canada           44 40 12 N  63 34 47 W
+Halle                           Germany          51 28 00 N   11 58 00 E
 Hamburg                         Germany          53 34  0 N  10  1 59 E
 Hamden                          Connecticut      41 23  5 N  72 54 11 W
 Hamilton                        Bermuda          32 22  1 N  64 40 58 W
 Hamilton                        Canada           43 15  0 N  79 50 59 W
 Hamilton                        Ohio             39 23 58 N  84 33 46 W
+Hamm                            Germany          51 41 00 N    7 48 00 E
 Hammond                         Indiana          41 37 48 N  87 30 17 W
 Hampton                         Virginia         37  1 29 N  76 20 30 W
 Hana                            Hawaii           20 43  1 N 155 58 58 W
@@ -778,8 +799,8 @@ Hannah                          North Dakota     48 58  1 N  98 42  0 W
 Hannibal                        Missouri         39 42  0 N  91 22  1 W
 Hannover                        Germany          52 27  0 N   9 41 59 E
 Hao                             French Polynesia 17 59 59 S 141  0  0 W
-Harper Woods                    Michigan         42 23 59 N  82 55  1 W
 Harpers Ferry                   West Virginia    39 19 58 N  77 45  0 W
+Harper Woods                    Michigan         42 23 59 N  82 55  1 W
 Harrington                      Delaware         38 55  1 N  75 34 58 W
 Harrisburg                      Pennsylvania     40 15 42 N  76 52 58 W
 Harrisburg                      South Dakota     43 25  0 N  96 40 59 W
@@ -788,8 +809,8 @@ Harrisonburg                    Virginia         38 30  0 N  78 49 58 W
 Hartford                        Connecticut      41 46 12 N  72 40 49 W
 Harvey                          North Dakota     47 46  1 N  99 55  1 W
 Hastings                        Nebraska         40 35 24 N  98 23 12 W
-Hat Yai                         Thailand          6 56 12 N 100 24  0 E
 Hattiesburg                     Mississippi      31 19 36 N  89 17 17 W
+Hat Yai                         Thailand          6 56 12 N 100 24  0 E
 Hauula                          Hawaii           21 37  1 N 157 45  0 W
 Havana                          Cuba             23  7 59 N  82 22 59 W
 Havre                           Montana          48 32 59 N 109 41  6 W
@@ -797,6 +818,8 @@ Hawthorne                       California       33 55  0 N 118 21  7 W
 Hawthorne                       Nevada           38 32 59 N 118 39  0 W
 Hayward                         California       37 39 53 N 122  4 37 W
 Hazard                          Kentucky         37 13  1 N  83 10  1 W
+Heidelberg                      Germany          49 25 00 N    8 42 00 E
+Heilbronn                       Germany          49 08 00 N    9 13 00 E
 Helena                          Montana          46 35 33 N 112  2 24 W
 Helgoland                       Germany          54 11  6 N   7 54 18 E
 Helsinki                        Finland          60  9 59 N  24 52 59 E
@@ -804,11 +827,12 @@ Henderson                       Kentucky         37 50 12 N  87 35 12 W
 Henderson                       Nevada           36  2 12 N 114 58 48 W
 Hendersonville                  Tennessee        36 18 17 N  86 37 12 W
 Herndon                         Virginia         38 53 51 N  77  0 33 W
+Herne                           Germany          51 33 00 N    7 13 00 E
 Hialeah                         Florida          25 49 41 N  80 16 59 W
 Hickory                         North Carolina   35 43  1 N  81 20 59 W
-High Point                      North Carolina   35 57  6 N  80  0 17 W
 Highland Lakes                  New Jersey       41  9 39 N  74 27 12 W
 Highmore                        South Dakota     44 30  0 N  99 25 58 W
+High Point                      North Carolina   35 57  6 N  80  0 17 W
 Hill City                       Minnesota        46 58  1 N  93 37 58 W
 Hillsboro                       North Dakota     47 22 58 N  97  4 58 W
 Hillsboro                       Oregon           45 31 12 N 122 59 13 W
@@ -834,9 +858,9 @@ Hot Springs Nat Pk              Arkansas         34 30 29 N  93  3 11 W
 Houma                           Louisiana        29 36  0 N  90 43  1 W
 Houston                         Texas            29 45 25 N  95 21 37 W
 Humboldt                        Nebraska         40 10  1 N  95 57  0 W
-Huntington                      West Virginia    38 25 12 N  82 26 32 W
 Huntington Beach                California       33 40  5 N 118  4 58 W
 Huntington Station              New York         40 50 34 N  73 24  3 W
+Huntington                      West Virginia    38 25 12 N  82 26 32 W
 Huntsville                      Alabama          34 43 54 N  86 35 12 W
 Hurley                          Wisconsin        46 25 58 N  90 10 58 W
 Huron                           South Dakota     44 21 35 N  98 13  5 W
@@ -877,6 +901,7 @@ Jasper                          Canada           53  0  0 N 118  2 59 W
 Jatiluhur                       Indonesia         6 31 16 S 107  0  0 E
 Jeddah                          Saudia Arabia    21 30  0 N  39 12  0 E
 Jefferson City                  Missouri         38 31  0 N  92 13  0 W
+Jena                            Germany          50 56 00 N   11 35 00 E
 Jensen Beach                    Florida          27 15  0 N  80 15  0 W
 Jersey City                     New Jersey       40 43 49 N  74  3 56 W
 Jerusalem                       Israel           31 46  0 N  35 13 59 E
@@ -893,6 +918,7 @@ Kabul                           Afghanistan      34 34  1 N  69 13  1 E
 Kaena Point                     Hawaii           21 30  0 N 158 11 59 W
 Kahului                         Hawaii           20 52 58 N 156 28  1 W
 Kailua Kona                     Hawaii           19 49  1 N 155 58 58 W
+Kaiserslautern                  Germany          49 27 00 N    7 45 00 E
 Kalamazoo                       Michigan         42 17 29 N  85 35 13 W
 Kalapana                        Hawaii           19 25  1 N 155  0  0 W
 Kalaupapa                       Hawaii           21 12 48 N 156 58 40 W
@@ -910,6 +936,7 @@ Kapaa                           Hawaii           22  6  0 N 159 19 58 W
 Kapalua                         Hawaii           20 57 57 N 156 40 37 W
 Kapuskasing                     Canada           49 25 12 N  82 30  0 W
 Karachi                         Pakistan         24 53 59 N  67  9  0 E
+Karlsruhe                       Germany          49 01 00 N    8 24 00 E
 Kassel                          Germany          51 19 26 N   9 22 19 E
 Kathmandu                       Nepal            27 49  0 N  85 20 59 E
 Kaunakakai                      Hawaii           21  6  0 N 156 58 58 W
@@ -932,8 +959,8 @@ Kiel                            Germany          54 19  0 N  10  7 59 E
 Kili                            Marshall Islands  5 39  0 N 169  7  0 E
 Kimball                         Nebraska         41 13 58 N 103 40 58 W
 King George                     Virginia         38 12  0 N  77  1 11 W
-King Salmon                     Alaska           58 40 47 N 156 39  0 W
 Kingman                         Arizona          35 10  1 N 114  4 58 W
+King Salmon                     Alaska           58 40 47 N 156 39  0 W
 Kings Beach                     Australia        26 48  0 S 153  5 59 E
 Kingsport                       Tennessee        36 32 42 N  82 32 35 W
 Kingston                        Canada           44 13 11 N  76 35 59 W
@@ -945,6 +972,7 @@ Kitchener                       Canada           43 15  0 N  80 19 47 W
 Klamath Falls                   Oregon           42 13  1 N 121 49  1 W
 Knightdale                      North Carolina   35 47 48 N  78 26 21 W
 Knoxville                       Tennessee        35 57 38 N  83 55  6 W
+Koblenz                         Germany          50 21 00 N    7 36 00 E
 Kodiak                          Alaska           57 47 17 N 152 24 10 W
 Kohala                          Hawaii           20  0 15 N 155 40 15 W
 Koko Head                       Hawaii           21 16  5 N 157 42 21 W
@@ -956,47 +984,47 @@ Korat                           Thailand         14 56 12 N 102  4 59 E
 Kosrae                          Micronesia        5 22  2 N 162 58 35 E
 Kota Kinabalu                   Malaysi           5 56 12 N 116  2 59 E
 Kotzebue                        Alaska           66 54  0 N 162 35 59 W
+Krefeld                         Germany          51 20 00 N    6 34 00 E
 Kuala Lumpur                    Malaysia          3  7 59 N 101 42  0 E
 Kuching                         Malaysia          1 29 12 N 110 19 59 E
 Kure Island                     Hawaii           28 22 59 N 178 18  0 W
 Kuwait City                     Kuwait           29  4  0 N  47 58 59 E
 Kwajalein Atoll                 Marshall Islands  9  0  0 N 167 35 59 E
 Kyoto                           Japan            35  0  0 N 135 46  0 E
-La Crosse                       Wisconsin        43 47 59 N  91 14 42 W
-La Grande                       Oregon           45 19 58 N 118  5 59 W
-La Grange                       Georgia          33  1  1 N  85  0  0 W
-La Mesa                         California       32 46  5 N 117  2 31 W
-La Paz                          Bolivia          16 31  1 S  68 10 58 W
-La Rochelle                     France           46 10  0 N   1  8 59 W
-La Verne                        California       34  4 58 N 117 46 58 W
-LaPeer                          Michigan         43  3 34 N  83 17  7 W
 Laconia                         New Hampshire    43 31 36 N  71 28 11 W
+La Crosse                       Wisconsin        43 47 59 N  91 14 42 W
 Lafayette                       Indiana          40 25 10 N  86 53 39 W
 Lafayette                       Louisiana        30 13 30 N  92  1 11 W
 Lagos                           Nigeria           6 34 58 N   3  1 58 E
+La Grande                       Oregon           45 19 58 N 118  5 59 W
+La Grange                       Georgia          33  1  1 N  85  0  0 W
 Lahore                          Pakistan         32  0  0 N  74 17 59 E
 Lahr                            Germany          48 22 11 N   7 49 33 E
 Lajes                           Azores           38 46 12 N  27  6  0 W
 Lake Charles                    Louisiana        30 13 41 N  93 13  0 W
 Lake City                       Florida          30  8 59 N  82 40  1 W
-Lake Oswego                     Oregon           45 25  1 N 122 40  1 W
-Lake Villa                      Illinois         42 19 47 N  88  4 40 W
-Lake Village                    Arkansas         33 19 58 N  91 16 58 W
 Lakeland                        Florida          28  0  2 N  81 33 37 W
+Lake Oswego                     Oregon           45 25  1 N 122 40  1 W
+Lake Village                    Arkansas         33 19 58 N  91 16 58 W
+Lake Villa                      Illinois         42 19 47 N  88  4 40 W
 Lakewood                        California       33 57  0 N 118  8 13 W
 Lakewood                        Colorado         39 44 24 N 105  4 40 W
 Lakewood                        Colorado         39 44 24 N 105  4 40 W
 Lakewood                        Ohio             41 29 12 N  81 48 11 W
 Lakota                          North Dakota     48  4  1 N  98 20 59 W
 Lamar                           Colorado         38  4  1 N 102 43 58 W
+La Mesa                         California       32 46  5 N 117  2 31 W
 Lanai City                      Hawaii           20 49 58 N 156 55 58 W
 Lancaster                       New Hampshire    44 25  1 N  71 30  0 W
 Lancaster                       Pennsylvania     40  2 25 N  76 18 28 W
 Lander                          Wyoming          42 50  6 N 108 43 58 W
 Lansing                         Michigan         42 44  0 N  84 33 15 W
+La Paz                          Bolivia          16 31  1 S  68 10 58 W
+LaPeer                          Michigan         43  3 34 N  83 17  7 W
 Laramie                         Wyoming          41 18 42 N 105 35  5 W
 Laredo                          Texas            27 30 21 N  99 30 29 W
 Largo                           Florida          27 55  5 N  82 47 24 W
+La Rochelle                     France           46 10  0 N   1  8 59 W
 Las Cruces                      New Mexico       32 18 42 N 106 46 40 W
 Las Palmas                      Canary Island    27 55 58 N  15 22 58 W
 Las Vegas                       Nevada           36 10 19 N 115  8 38 W
@@ -1005,11 +1033,11 @@ Laurel                          Delaware         38 30  0 N  75 40  1 W
 Laurel                          Maryland         39  6  0 N  76 50 59 W
 Laurel                          Mississippi      31 41 17 N  89  7 59 W
 Laval                           Canada           45 29 56 N  73 36 14 W
+La Verne                        California       34  4 58 N 117 46 58 W
 Lawrence                        Kansas           38 57 47 N  95 14 17 W
 Lawrence                        Massachusetts    42 42 15 N  71 10  8 W
 Lawton                          Oklahoma         34 36 42 N  98 24 42 W
 Layton                          Utah             41  3 42 N 111 57 46 W
-Le Havre                        France           49 31  0 N   0  7  0 E
 Learmonth                       Australia        22 14 12 S 114  4 59 E
 Leavenworth                     Kansas           39 18 42 N  94 54 47 W
 Leavenworth                     Washington       47 34 58 N 120 39  0 W
@@ -1018,9 +1046,11 @@ Lebanon                         Missouri         37 40  1 N  92 43  1 W
 Lebanon                         New Hampshire    43 40  1 N  72 15  0 W
 Leck                            Germany          54 47 20 N   8 56 31 E
 Leeds                           United Kingdom   53 47 59 N   1 32 59 W
+Le Havre                        France           49 31  0 N   0  7  0 E
 Leipzig                         Germany          51 24 32 N  12 13 26 E
 Lemmon                          South Dakota     45 55  1 N 102 10  1 W
 Lethbridge                      Canada           49 37 11 N 112 46 48 W
+Leverkusen                      Germany          51 01 00 N    6 59 00 E
 Lewes                           Delaware         38 45  0 N  75 10  1 W
 Lewisburg                       West Virginia    37 49 58 N  80 19 58 W
 Lewiston                        Idaho            46 24 42 N 117  1 11 W
@@ -1035,8 +1065,8 @@ Lima                            Ohio             40 44 34 N  84  6 19 W
 Lima                            Peru             12  5 59 S  76 54 59 W
 Lincoln                         Kansas           39  1 58 N  98  7 58 W
 Lincoln                         Maine            45 22 58 N  68 31  1 W
-Lincoln                         Nebraska         40 48 59 N  96 42 15 W
 Lincoln Muni                    Nebraska         40 51  2 N  96 45 32 W
+Lincoln                         Nebraska         40 48 59 N  96 42 15 W
 Lindenhurst                     New York         40 41 49 N  73 21 24 W
 Linz                            Austria          48 13 59 N  14 11 23 E
 Lisbon                          North Dakota     46 21  0 N  97 43  1 W
@@ -1069,13 +1099,15 @@ Loveland                        Colorado         40 12 36 N 105  3 36 W
 Lovelock                        Nevada           40 10  1 N 118 37  1 W
 Lowell                          Massachusetts    42 38 25 N  71 19 13 W
 Lubbock                         Texas            33 35  4 N 101 50 34 W
+Ludwigshafen                    Germany          49 29 00 N    8 27 00 E
 Ludwigshafen                    Germany          49 29  5 N   8 22 58 E
+Luebeck                         Germany          53 52 00 N   10 42 00 E
 Lusaka                          Zambia           15 19 58 S  28 26 59 E
 Luxembourg City                 Luxembourg       49 37  1 N   6 12  0 E
 Lynchburg                       Virginia         37 24 53 N  79  8 35 W
 Lynden                          Washington       48 55 58 N 122 27  0 W
-Lynn                            Massachusetts    42 27 47 N  70 56 53 W
 Lynn Haven                      Florida          30 14 50 N  85 40 18 W
+Lynn                            Massachusetts    42 27 47 N  70 56 53 W
 Lyon                            France           45 43 59 N   4 52  0 E
 Macao                           China            22  0  0 N 113  0  0 E
 Mackay                          Idaho            43 55  1 N 113 37 58 W
@@ -1088,7 +1120,9 @@ Madison                         Wisconsin        43  4 22 N  89 22 54 W
 Madras                          India            13  0  0 N  80 10 58 E
 Madrid                          Spain            40 25 59 N   3 42  0 W
 Magdalena                       New Mexico       34 10  1 N 107 45  0 W
+Magdeburg                       Germany          52 08 00 N   11 37 00 E
 Magnolia                        Arkansas         33 15 45 N  93 14  4 W
+Mainz                           Germany          50 00 00 N    8 15 00 E
 Maiquetia                       Venezuela        10 35 59 N  66 58 59 W
 Majuro                          Marshall Islands  7  3 47 N 171 16 10 E
 Malden                          Massachusetts    42 25 23 N  71  4  0 W
@@ -1103,9 +1137,9 @@ Manchester                      United Kingdom   53 28  0 N   2 13 59 W
 Mandalay                        Myanmar          22  0  0 N  96  7 59 E
 Mandan                          North Dakota     46 49 36 N 100 53 41 W
 Mangum                          Oklahoma         34 53 59 N  99 31  1 W
-Manhattan                       Kansas           39 10 59 N  96 34 30 W
 Manhattan Beach                 California       33 52 19 N 118 23 52 W
 Manhattan Beach                 California       33 53 50 N 118 23 45 W
+Manhattan                       Kansas           39 10 59 N  96 34 30 W
 Manila                          Philippines      14 37  0 N 121  0  0 E
 Manitowoc                       Wisconsin        44  4 58 N  87 42  0 W
 Mannheim                        Germany          49 28 15 N   8 30  0 E
@@ -1127,14 +1161,14 @@ Mauldin                         South Carolina   34 47 52 N  82 17 56 W
 Mayaguez                        PR               18 15  0 N  67  9  0 W
 Maysville                       Kentucky         38 34 58 N  83 45  0 W
 Mc Alester                      Oklahoma         34 55  1 N  95 45  0 W
+McAllen                         Texas            26 12 11 N  98 13 48 W
+McAllen                         Texas            26 12 11 N  98 13 48 W
 Mc Cook                         Nebraska         40 13  1 N 100 37  1 W
 Mc Gill                         Nevada           39 25  1 N 114 46 58 W
-Mc Nary                         Louisiana        30 58  1 N  92 31 58 W
-McAllen                         Texas            26 12 11 N  98 13 48 W
-McAllen                         Texas            26 12 11 N  98 13 48 W
 McGrath                         Alaska           62 53 59 N 155 35 59 W
 McKeesport                      Pennsylvania     40 21  0 N  79 50 59 W
 McNary                          Arizona          34 10  1 N 109 55  1 W
+Mc Nary                         Louisiana        30 58  1 N  92 31 58 W
 Medford                         Massachusetts    42 25  5 N  71  6 24 W
 Medford                         Oregon           42 19 23 N 122 52  1 W
 Medicine Hat                    Canada           50  1 48 N 110 43 48 W
@@ -1153,10 +1187,10 @@ Merritt Island                  Florida          28 22 47 N  80 42  0 W
 Mesa                            Arizona          33 24 53 N 111 49 40 W
 Mesquite                        Texas            32 45 54 N  96 35 48 W
 Metairie                        Louisiana        30  0  0 N  90 10 58 W
-Mexico                          Missouri         39 10  0 N  91 49 59 W
 Mexico City                     Mexico           19 28  0 N  99  8 59 W
-Miami                           Florida          25 46 36 N  80 11 31 W
+Mexico                          Missouri         39 10  0 N  91 49 59 W
 Miami Beach                     Florida          25 47 17 N  80  7 47 W
+Miami                           Florida          25 46 36 N  80 11 31 W
 Midas                           Nevada           41 15  0 N 116 49 58 W
 Middlebury                      Vermont          44  0  0 N  73 10  1 W
 Middletown                      Delaware         39 30  0 N  75 40  1 W
@@ -1189,15 +1223,16 @@ Mitchell                        South Dakota     43 32 35 N  98  1 30 W
 Mobile                          Alabama          30 41 35 N  88  2 33 W
 Mobridge                        South Dakota     45 31 58 N 100 25 58 W
 Modesto                         California       37 38 35 N 121  0  7 W
+Moenchengladbach                Germany          51 12 00 N    6 26 00 E
 Moenkopi                        Arizona          36  7  1 N 111 13  1 W
+Moers                           Germany          51 27 00 N    6 39 00 E
 Moline                          Illinois         41 30 30 N  90 30 48 W
 Molokai                         Hawaii           21  9 21 N 157  5 56 W
 Moncton                         Canada           46  6 35 N  64 40 12 W
 Monroe                          Louisiana        32 30  0 N  92  7  0 W
 Monrovia                        Liberia           6 15  0 N  10 20 59 W
-Mont-Joli                       Canada           48 36  0 N  68 13 11 W
-Monte Carlo                     Monaco           43 43  0 N   7 46 59 E
 Montebello                      California       34  0  0 N 118  5 59 W
+Monte Carlo                     Monaco           43 43  0 N   7 46 59 E
 Montego Bay                     Jamaica          18 30  0 N  77 55  0 W
 Monterey                        California       36 36  0 N 121 52 58 W
 Monterey Park                   California       34  3 42 N 118  7 37 W
@@ -1206,6 +1241,7 @@ Montgomery                      Alabama          32 22 32 N  86 18 30 W
 Monticello                      Indiana          40  4 58 N  88 34 58 W
 Monticello                      Maine            46 19  1 N  67 52 58 W
 Monticello                      Utah             37 55  1 N 109 25  1 W
+Mont-Joli                       Canada           48 36  0 N  68 13 11 W
 Montour Falls                   New York         42 20 24 N  76 47 24 W
 Montpelier                      Indiana          40 34 58 N  85 19 58 W
 Montpelier                      Vermont          44 15 35 N  72 34 40 W
@@ -1223,12 +1259,14 @@ Morrow                          Georgia          33 35 24 N  84 19 40 W
 Moscow                          Idaho            46 43 59 N 117  0  0 W
 Moscow                          Russia           55 45  0 N  37 37  0 E
 Moses Lake                      Washington       47  7 58 N 119 15  0 W
-Mount Erebus                    Antarcti         77 27 25 S 167  4 48 E
-Mount Hopkins                   Arizona          31 41 19 N 110 53  2 W
-Mount Vernon                    New York         40 54 35 N  73 49 30 W
 Mountain Brook                  Alabama          33 29 53 N  86 45 11 W
 Mountain View                   California       37 23 17 N 122  4 47 W
 Mountain View                   Missouri         36 58 58 N  91 46  1 W
+Mount Erebus                    Antarcti         77 27 25 S 167  4 48 E
+Mount Hopkins                   Arizona          31 41 19 N 110 53  2 W
+Mount Vernon                    New York         40 54 35 N  73 49 30 W
+Muelheim                        Germany          51 26 00 N    6 53 00 E
+Muenster                        Germany          51 58 00 N    7 38 00 E
 Muncie                          Indiana          40 11 27 N  85 23 16 W
 Muncy                           Pennsylvania     41 14 31 N  75 53 16 W
 Munich                          Germany          48  7 59 N  11 34 59 E
@@ -1237,7 +1275,6 @@ Murray                          Utah             40 39 35 N 111 53 13 W
 Muskegon                        Michigan         43 15  0 N  86 19 58 W
 Muskogee                        Oklahoma         35 44 41 N  95 22  0 W
 Myrtle Beach                    South Carolina   33 42  0 N  78 52 58 W
-N'djamina                       Chad             12  8 24 N  15  2 23 E
 Naalehu                         Hawaii           19  0  0 N 155 34 58 W
 Nagasaki                        Japan            32 55  0 N 129 55  0 E
 Nagoya                          Japan            35 15  0 N 136 55  0 E
@@ -1255,11 +1292,15 @@ Nashville                       Tennessee        36  9 33 N  86 46 54 W
 Nassau                          Bahamas          25  3  0 N  77 28  1 W
 Natal                           Brazil            5 17 59 S  35 47 59 W
 Natchez                         Mississippi      31 33 47 N  91 23 30 W
+N'djamina                       Chad             12  8 24 N  15  2 23 E
 Needles                         California       34 51  0 N 114 39  0 W
 Nenana                          Alaska           64 34 11 N 149  4 11 W
 Neponsit                        New York         43 34  1 N  73 52  1 W
+Neuss                           Germany          51 12 00 N    6 42 00 E
 Nevada                          Missouri         37 49  1 N  94 20 59 W
 New Albany                      Indiana          38 16 58 N  85 49  1 W
+Newark                          Delaware         39 40 59 N  75 45 29 W
+Newark                          New Jersey       40 44 13 N  74 10 18 W
 New Bedford                     Massachusetts    41 38 12 N  70 55 41 W
 New Britian                     Connecticut      41 40  8 N  72 46 59 W
 New Brunswick                   New Jersey       40 28 58 N  74 27  0 W
@@ -1268,7 +1309,9 @@ New Castle                      Australia        32 47 59 S 151 49 59 E
 New Castle                      Delaware         39 39 47 N  75 33 42 W
 New Castle                      Indiana          39 55  1 N  85 25  1 W
 New Castle                      Pennsylvania     41  0  0 N  80 25  1 W
+Newcastle                       United Kingdom   53  1  0 N   2 13 59 W
 New Delhi                       India            28 53 59 N  77 13  0 E
+Newell                          South Dakota     44 43  1 N 103 25 58 W
 New Hampton                     Iowa             43  2 59 N  92 19 58 W
 New Hartford                    Connecticut      41 52 30 N  73  2 30 W
 New Haven                       Connecticut      41 18 24 N  72 55 29 W
@@ -1276,23 +1319,19 @@ New Iberia                      Louisiana        30  0 42 N  91 49 23 W
 New London                      Connecticut      41 19 58 N  72  4 58 W
 New Meadows                     Idaho            44 58  1 N 116 19 58 W
 New Orleans                     Louisiana        29 56 52 N  90  4  9 W
-New Rochelle                    New York         40 54 29 N  73 46 54 W
-New Rockford                    North Dakota     47 40  1 N  99  7 58 W
-New Washoe City                 California       39 18 48 N 119 47  9 W
-New York                        New York         40 45  6 N  73 59 39 W
-Newark                          Delaware         39 40 59 N  75 45 29 W
-Newark                          New Jersey       40 44 13 N  74 10 18 W
-Newcastle                       United Kingdom   53  1  0 N   2 13 59 W
-Newell                          South Dakota     44 43  1 N 103 25 58 W
+Newport Beach                   California       33 37 11 N 117 55 37 W
 Newport                         Kentucky         39  5 17 N  84 29 42 W
 Newport                         New Hampshire    43 19 58 N  72 10  1 W
+Newport News                    Virginia         36 58 36 N  76 25  5 W
 Newport                         Oregon           44 38 59 N 124  1 58 W
 Newport                         Rhode Island     41 28 54 N  71 19  0 W
 Newport                         Vermont          44 55  1 N  72 15  0 W
-Newport Beach                   California       33 37 11 N 117 55 37 W
-Newport News                    Virginia         36 58 36 N  76 25  5 W
+New Rochelle                    New York         40 54 29 N  73 46 54 W
+New Rockford                    North Dakota     47 40  1 N  99  7 58 W
 Newton                          Massachusetts    42 20 53 N  71 11 23 W
 Newton                          New Jersey       41  2 59 N  74 45  0 W
+New Washoe City                 California       39 18 48 N 119 47  9 W
+New York                        New York         40 45  6 N  73 59 39 W
 Niagara Falls                   New York         43  5 34 N  79  3 25 W
 Nice                            France           43 42  0 N   7 20 59 E
 Nicosia                         Cyprus           35  8 59 N  33 16 58 E
@@ -1307,12 +1346,12 @@ North Bay                       Canada           46 19 12 N  79 27 35 W
 North Bellmore                  New York         40 41 32 N  73 32 55 W
 North Cape May                  New Jersey       39  0  0 N  74 33 36 W
 North Charleston                South Carolina   32 53  5 N  80  0  0 W
+Northfield                      Minnesota        44 28  1 N  93 10 58 W
 North Hollywood                 California       34  7 59 N 118 25  1 W
 North Las Vegas                 Nevada           36 12 11 N 115  6 43 W
 North Little Rock               Arkansas         34 45 18 N  92 16  0 W
 North Olmstead                  Ohio             41 21  0 N  81 58  0 W
 North Platte                    Nebraska         41  8 17 N 100 45 43 W
-Northfield                      Minnesota        44 28  1 N  93 10 58 W
 Northport                       Washington       48 52 58 N 117 46 58 W
 Northrop Strip                  New Mexico       32 42  0 N 106 19 47 W
 Northway                        Alaska           62 58 11 N 141 55 48 W
@@ -1326,11 +1365,12 @@ Nouan                           France           47 30 15 N   2  0 10 E
 Noumea                          New Caledonia    22 18  0 S 166 48  0 E
 Novi                            Michigan         42 28 30 N  83 31 30 W
 Nurnberg                        Germany          49 27  0 N  11  5 56 E
-Oak Park                        Illinois         41 53 59 N  87 46 59 W
-Oak Ridge                       Tennessee        36  0 42 N  84 16  0 W
 Oakfield                        Maine            46  7 58 N  68 10  1 W
 Oakland                         California       37 48  2 N 122 15 54 W
 Oakley                          Kansas           39  7 58 N 100 49  1 W
+Oak Park                        Illinois         41 53 59 N  87 46 59 W
+Oak Ridge                       Tennessee        36  0 42 N  84 16  0 W
+Oberhausen                      Germany          51 28 00 N    6 51 00 E
 Oberlin                         Ohio             41 15 51 N  82 15 24 W
 Oberpfaffenhofen                Germany          48  4 30 N  11 16 58 E
 Ocala                           Florida          29 10 58 N  82  9  0 W
@@ -1338,12 +1378,14 @@ Ocean City                      Maryland         38 19 58 N  75 10  1 W
 Ocean Grove                     New Jersey       40 10  1 N  74  0  0 W
 Oceanside                       California       33 11 53 N 117 22 37 W
 Odessa                          Texas            31 51 29 N 102 22 30 W
+Offenbach                       Germany          50 06 00 N    8 46 00 E
 Ogallala                        Nebraska         41  7 58 N 101 43 58 W
 Ogden                           Utah             41 13 31 N 111 58 22 W
 Ohakea                          New Zealand      40 12  0 S 175 22 59 E
 Okinawa                         Japan            26 21  0 N 127 46  0 E
 Oklahoma City                   Oklahoma         35 28 26 N  97 31  4 W
 Olathe                          Kansas           38 53  5 N  94 49 18 W
+Oldenburg                       Germany          53 10 00 N    8 12 00 E
 Oldendorf                       Germany          52 17 39 N   8 32 36 E
 Olean                           New York         42  4 58 N  78 25  1 W
 Olympia                         Washington       47  1 59 N 122 58  1 W
@@ -1353,11 +1395,11 @@ Oostende                        Belgium          51  7 48 N   2 32 59 E
 Opelika                         Alabama          32 38 53 N  85 23  6 W
 Opheim                          Montana          48 51  0 N 106 19  1 W
 Oran                            Algeria          35 46  0 N   0 44 59 W
+Orangeburg                      South Carolina   33 30  0 N  80 49 58 W
 Orange                          California       33 47 12 N 117 50 59 W
 Orange                          Connecticut      41 15  0 N  73  0  0 W
 Orange Park                     Florida          30  6 35 N  81 26 23 W
 Orange Park                     Florida          30  9 30 N  81 43 58 W
-Orangeburg                      South Carolina   33 30  0 N  80 49 58 W
 Orem                            Utah             40 18 42 N 111 42  0 W
 Orlando                         Florida          28 32 42 N  81 22 37 W
 Orleans                         France           47 55  0 N   1 55 59 E
@@ -1365,6 +1407,7 @@ Osaka                           Japan            34 46 58 N 135 26 59 E
 Osborne                         Kansas           39 25  1 N  98 42  0 W
 Oshkosh                         Wisconsin        44  1 18 N  88 32 42 W
 Oslo                            Norway           59 55 59 N  10 40 59 E
+Osnabrueck                      Germany          52 16 00 N    8 03 00 E
 Ottawa                          Canada           45 25 12 N  75 40 12 W
 Ottumwa                         Iowa             41  0  0 N  92 25 58 W
 Overland Park                   Kansas           38 58 11 N  94 40  0 W
@@ -1374,8 +1417,9 @@ Oxford                          North Carolina   36 16 58 N  78 34 58 W
 Oxnard                          California       34 12 17 N 119 10 29 W
 Ozark                           Arkansas         35 28 58 N  93 49  1 W
 Paauilo                         Hawaii           20  3  0 N 155 25  1 W
-Pacific                         Missouri         38 28 11 N  90 45 54 W
 Pacific Beach                   California       32 43 59 N 117 10  1 W
+Pacific                         Missouri         38 28 11 N  90 45 54 W
+Paderborn                       Germany          51 43 00 N    8 46 00 E
 Paducah                         Kentucky         37  5 12 N  88 35 56 W
 Pagan Island                    US Territory     18  7 27 N 145 46  6 E
 Pago Pago                       Samoa            14 19 58 S 170 43  1 W
@@ -1390,9 +1434,9 @@ Papeete                         Tahiti           17 34  1 S 149 37  1 W
 Paradise                        Nevada           36  6  0 N 115  7  1 W
 Paris                           France           48 51  0 N   2 19 59 E
 Paris                           Illinois         39 34 58 N  87 40  1 W
+Parkersburg                     West Virginia    39 16  0 N  81 33 29 W
 Park Rapids                     Minnesota        46 52 58 N  95  4 58 W
 Park View                       New Mexico       36 45  0 N 106 30  0 W
-Parkersburg                     West Virginia    39 16  0 N  81 33 29 W
 Parma                           Ohio             41 23  5 N  81 42 42 W
 Parsons                         West Virginia    39  4 58 N  79 40  1 W
 Pasadena                        California       34  8 44 N 118  8 41 W
@@ -1407,12 +1451,13 @@ Penang                          Malaysia          5 17 59 N 100 16 59 E
 Pendleton                       Oregon           45 40 58 N 118 46 58 W
 Pensacola                       Florida          30 24 51 N  87 12 55 W
 Peoria                          Illinois         40 41 42 N  89 35 33 W
-Perth                           Australia        31 49 59 S 116 10  0 E
 Perth Amboy                     New Jersey       40 31  1 N  74 16  1 W
+Perth                           Australia        31 49 59 S 116 10  0 E
 Peru                            Illinois         41 19 58 N  89 10  1 W
 Peshawar                        Pakistan         34  0  0 N  71 30 47 E
 Petersburg                      Alaska           56 48 36 N 132 56 59 W
 Petersburg                      Virginia         37 12  0 N  77 30  0 W
+Pforzheim                       Germany          48 53 00 N    8 42 00 E
 Phenix City                     Alabama          32 27 47 N  85  0 11 W
 Philadelphia                    Pennsylvania     39 56 57 N  75  9 20 W
 Philip                          South Dakota     44  2 59 N 101 34 58 W
@@ -1447,23 +1492,24 @@ Ponca City                      Oklahoma         36 42 25 N  97  0 33 W
 Ponca City                      Oklahoma         36 42 25 N  97  0 33 W
 Ponce                           PR               18  1  0 N  66 34  0 W
 Pontiac                         Michigan         42 38 12 N  83 17 30 W
-Poplar                          Montana          48  7 58 N 105 10  1 W
 Poplar Bluff                    Missouri         36 43  1 N  90 22  1 W
+Poplar                          Montana          48  7 58 N 105 10  1 W
 Port Allen                      Hawaii           21 53 59 N 159 36 21 W
 Port Arthur                     Texas            29 52 30 N  93 56 15 W
-Port Huron                      Michigan         43  0  0 N  82 30  0 W
-Port Moresby                    Papua             9 26 59 S 147 13  0 E
-Port Salerno                    Florida          27 11 59 N  80 12  0 W
-Port Sulphur                    Louisiana        29 28  1 N  89 40 58 W
-Port of Spain                   Trinida          10 35 59 N  61 21  0 W
 Port-au-Prince                  Haiti            18 34 59 N  72 19 59 W
+Port Huron                      Michigan         43  0  0 N  82 30  0 W
 Portland                        Maine            43 39 33 N  70 15 19 W
 Portland                        Oregon           45 31  5 N 122 40 33 W
+Port Moresby                    Papua             9 26 59 S 147 13  0 E
+Port of Spain                   Trinida          10 35 59 N  61 21  0 W
+Port Salerno                    Florida          27 11 59 N  80 12  0 W
 Portsmouth                      New Hampshire    43  4 30 N  70 45 24 W
 Portsmouth                      Ohio             38 45  0 N  83  0  0 W
 Portsmouth                      United Kingdom   50 45  0 N   1  2 59 W
 Portsmouth                      Virginia         36 50  7 N  76 18 14 W
+Port Sulphur                    Louisiana        29 28  1 N  89 40 58 W
 Potomac                         Maryland         39  2 19 N  77 10 29 W
+Potsdam                         Germany          52 24 00 N   13 04 00 E
 Pottstown                       Pennsylvania     40 15  0 N  75 40  1 W
 Poughkeepsie                    New York         41 45  0 N  73 55  1 W
 Prague                          Czech Republic   50  4 59 N  14 25 59 E
@@ -1506,11 +1552,14 @@ Rawalpindi                      Pakistan         33 37  1 N  73  5 59 E
 Rawlins                         Wyoming          41 47 23 N 107 14 16 W
 Reading                         Pennsylvania     40 20  8 N  75 55 40 W
 Recife                          Brazil            8  7 58 S  34 55 58 W
+Recklinghausen                  Germany          51 37 00 N    7 12 00 E
 Redding                         California       40 36  0 N 122 25  1 W
 Redondo Beach                   California       33 49 36 N 118 23 13 W
 Redwood City                    California       37 28  0 N 122 15  0 W
+Regensburg                      Germany          49 01 00 N   12 06 00 E
 Regina                          Canada           50 30  0 N 104 30  0 W
 Reims                           France           49 16  0 N   4  0  0 E
+Remscheid                       Germany          51 11 00 N    7 12 00 E
 Rennes                          France           48  7  0 N   1  1 59 W
 Reno                            Nevada           39 31 27 N 119 48 39 W
 Reseda                          California       34 12  0 N 118 31 58 W
@@ -1532,15 +1581,15 @@ Riyadh                          Saudi Arabia     24 31  0 N  46 46 59 E
 Roanoke                         Virginia         37 16 13 N  79 56 43 W
 Robinson                        Illinois         39 49 58 N  87 47 59 W
 Rochdale Lanc                   United Kingdom   53 36  0 N   2  6  0 E
+Rochester Hills                 Michigan         42 40 59 N  83  7 59 W
 Rochester                       Minnesota        44  1 21 N  92 28  3 W
 Rochester                       New Hampshire    43 18 11 N  70 58 29 W
 Rochester                       New York         43  9 41 N  77 36 20 W
-Rochester Hills                 Michigan         42 40 59 N  83  7 59 W
-Rock Hill                       South Carolina   34 55 41 N  81  1 23 W
-Rock Springs                    Wyoming          41 35  6 N 109 13 29 W
 Rockford                        Illinois         42 16  6 N  89  5 48 W
+Rock Hill                       South Carolina   34 55 41 N  81  1 23 W
 Rockland                        Maine            44  5 30 N  69  6 15 W
 Rockport                        Missouri         40 25  1 N  95 30  0 W
+Rock Springs                    Wyoming          41 35  6 N 109 13 29 W
 Rockville                       Maryland         39  4 47 N  77  5 59 W
 Rockville                       Maryland         39  4 59 N  77  8 35 W
 Rockwood                        Maine            45 38 59 N  69 45  0 W
@@ -1566,6 +1615,7 @@ Rumford                         Rhode Island     41 49 12 N  71 24 35 W
 Russell                         Kansas           38 51  0 N  98 50 59 W
 Ruston                          Louisiana        32 31 29 N  92 38 17 W
 Rutland                         Vermont          43 36 29 N  72 58 18 W
+Saarbruecken                    Germany          49 14 00 N    7 00 00 E
 Saco                            Maine            43 30  0 N  70 26 35 W
 Sacramento                      California       38 34 57 N 121 29 42 W
 Sacramento                      California       38 39 35 N 121 19 11 W
@@ -1578,19 +1628,25 @@ Salem                           New Hampshire    42 42  0 N  71 15  0 W
 Salem                           Oregon           44 56 23 N 123  1 58 W
 Salem                           West Virginia    39 15  0 N  80 34 58 W
 Salina                          Kansas           38 50  6 N  97 36 29 W
-Salina                          Utah             39  0  0 N 111 55  1 W
 Salinas                         California       36 40 12 N 121 39  7 W
+Salina                          Utah             39  0  0 N 111 55  1 W
 Salisbury                       Maryland         38 19 58 N  75 40  1 W
 Sallisaw                        Oklahoma         35 27  0 N  94 47 59 W
 Salmon                          Idaho            45 30  0 N 115 45  0 W
 Salt Lake City                  Utah             40 45 23 N 111 53 27 W
 Salton City                     California       33 14 24 N 115 57  0 W
 Salzburg                        Austria          47 46 48 N  13  0  0 E
+Salzgitter                      Germany          52 05 00 N   10 20 00 E
 Samarrah                        Iraq             34 12  0 N  43 54 18 E
 San Angelo                      Texas            31 27 38 N 100 26  2 W
 San Antonio                     Texas            29 25 36 N  98 29  5 W
 San Bernardino                  California       34  6 29 N 117 17 27 W
+Sanders                         Arizona          35 13  1 N 109 19 58 W
+Sandersville                    Georgia          33  0  0 N  82 27 35 W
+Sandhurst Surry                 United Kingdom   51 20 48 N   0 48 18 W
 San Diego                       California       32 42 52 N 117  9 21 W
+Sandpoint                       Idaho            48 16 58 N 116 34  1 W
+Sanford                         Maine            43 26 30 N  70 46 36 W
 San Francisco                   California       37 46 39 N 122 24 39 W
 San Jose                        California       37 20 16 N 121 53 24 W
 San Jose                        Costa Rica        9 56 59 N  84  4 59 W
@@ -1599,11 +1655,6 @@ San Leandro                     California       37 43 30 N 122  9 18 W
 San Mateo                       California       37 33 47 N 122 19 22 W
 San Pedro                       California       33 43 59 N 118 16 58 W
 San Salvador                    El Salvador      13 41 59 N  89  7  1 W
-Sanders                         Arizona          35 13  1 N 109 19 58 W
-Sandersville                    Georgia          33  0  0 N  82 27 35 W
-Sandhurst Surry                 United Kingdom   51 20 48 N   0 48 18 W
-Sandpoint                       Idaho            48 16 58 N 116 34  1 W
-Sanford                         Maine            43 26 30 N  70 46 36 W
 Santa Ana                       California       33 45 47 N 117 51 53 W
 Santa Barbara                   California       34 25 18 N 119 41 56 W
 Santa Clara                     California       37 20 41 N 121 56 49 W
@@ -1627,6 +1678,7 @@ Scarborough                     Canada           43 40 12 N  79 22 12 W
 Schaumburg                      Illinois         42  2 23 N  88  4 47 W
 Schenectady                     New York         42 48 42 N  73 55 41 W
 Schuyler                        Nebraska         41 28  1 N  97  4 58 W
+Schwerin                        Germany          53 38 00 N   11 23 00 E
 Scottsdale                      Arizona          33 29 17 N 111 55 37 W
 Scranton                        Pennsylvania     41 24 32 N  75 39 46 W
 Seabrook                        Texas            29 33 49 N  95  1 32 W
@@ -1658,6 +1710,7 @@ Shoshone                        Idaho            42 55 58 N 114 24  0 W
 Shreveport                      Louisiana        32 30 46 N  93 44 57 W
 Shungnak                        Alaska           66 55  1 N 157 19 58 W
 Sibu                            Malaysia          2 21  0 N 111 49 59 E
+Siegen                          Germany          50 52 00 N    8 02 00 E
 Sigonella                       Sicily           37 23 59 N  14 55 30 E
 Silver Spring                   Maryland         39  0  0 N  77  0  0 W
 Simi Valley                     California       34 16  5 N 118 46 40 W
@@ -1674,6 +1727,7 @@ Smyrna                          Delaware         39 18 10 N  75 36 24 W
 Soda Springs                    Idaho            42 38 59 N 111 37  1 W
 Soeborg                         Denmark          55 25 12 N  12 20 59 E
 Sofia                           Bulgaria         42 43  0 N  23 19 59 E
+Solingen                        Germany          51 11 00 N    7 05 00 E
 Somerset                        Kentucky         37  2 23 N  84 21 35 W
 Somerset                        New Jersey       40 30 35 N  74 33 36 W
 Somerville                      Massachusetts    42 21 24 N  71  3 24 W
@@ -1681,13 +1735,13 @@ Somerville                      Massachusetts    42 23 15 N  71  6  6 W
 Somerville                      New Jersey       40 34  1 N  74 37  1 W
 Sondrestrom                     Greenland        67  1 11 N  50 43 11 W
 Sonoma                          California       38 17 53 N 122 30 46 W
-South Bend                      Indiana          41 40 32 N  86 15  1 W
-South Gate                      California       33 57 17 N 118 12 17 W
-South Kauai VORTAC              Hawaii           21 54 12 N 159 31 55 W
 Southampton                     New York         40 52 58 N  72 24  0 W
 Southampton                     United Kingdom   50 53 59 N   1 29 59 W
+South Bend                      Indiana          41 40 32 N  86 15  1 W
 Southfield                      Michigan         42 28 30 N  83 16 36 W
+South Gate                      California       33 57 17 N 118 12 17 W
 Southington                     Connecticut      41 37 49 N  72 52 14 W
+South Kauai VORTAC              Hawaii           21 54 12 N 159 31 55 W
 Sparks                          Nevada           39 32 17 N 119 45 10 W
 Spartanburg                     South Carolina   34 57  2 N  81 56  6 W
 Spenard                         Alaska           61 11 17 N 149 55  1 W
@@ -1700,14 +1754,23 @@ Springfield                     Missouri         37 13  3 N  93 17 31 W
 Springfield                     Ohio             39 55 37 N  83 48 28 W
 Springfield                     Oregon           44  2 59 N 123  1 11 W
 Springfield                     Vermont          43 17 48 N  72 28 54 W
-St-Hubert                       Quebec           45 30  0 N  73 34 47 W
 St. Albans                      Vermont          44 49 58 N  73  4 58 W
+Stamford                        Connecticut      41  3  9 N  73 32 24 W
+Stanley                         Falkland Island  51 45 59 S  57 58 59 W
+Staten Island                   New York         40 34 59 N  74  9  0 W
+Statesville                     North Carolina   34 45  0 N  80 54  0 W
 St. Catherines                  Canada           43  6  0 N  79  7 12 W
 St. Charles                     Missouri         38 47 12 N  90 28 48 W
 St. Clair Shores                Michigan         42 29 48 N  82 53 12 W
 St. Cloud                       Minnesota        45 34  0 N  94 10 23 W
 St. Croix                       Virgin Islands   17 41 59 N  64 47 59 W
+Steamboat Springs               Colorado         40 30  0 N 106 47 59 W
+Sterling Heights                Michigan         42 34 59 N  83  1  0 W
+Sterling                        Illinois         41 46 58 N  89 39  0 W
+Sterling                        Virginia         38 56 40 N  77 27 20 W
+Steubenville                    Ohio             40 21 42 N  80 36 52 W
 St. George                      Utah             37  4 58 N 113 40  1 W
+St-Hubert                       Quebec           45 30  0 N  73 34 47 W
 St. John                        Canada           45 20 24 N  65 57 35 W
 St. John's                      Antigua          17  7 59 N  61 46 59 W
 St. John's                      Canada           47  4 47 N  52 42 36 W
@@ -1715,34 +1778,25 @@ St. Joseph                      Missouri         39 45 56 N  94 51  2 W
 St. Louis                       Missouri         38 37 45 N  90 12 21 W
 St. Michales                    Maryland         38 47 59 N  76 12  0 W
 St. Nazaire                     France           47 17 59 N   2 12 59 W
-St. Paul                        Minnesota        44 57 19 N  93  6  6 W
-St. Peter Port                  Guernsey         49 25 47 N   2 36 10 W
-St. Petersburg                  Florida          27 46 18 N  82 38 18 W
-St. Petersburg                  Russia           59 57  0 N  30 19 59 E
-St. Thomas                      Virgin Islands   18 19 59 N  64 58  0 W
-Stamford                        Connecticut      41  3  9 N  73 32 24 W
-Stanley                         Falkland Island  51 45 59 S  57 58 59 W
-Staten Island                   New York         40 34 59 N  74  9  0 W
-Statesville                     North Carolina   34 45  0 N  80 54  0 W
-Steamboat Springs               Colorado         40 30  0 N 106 47 59 W
-Sterling                        Illinois         41 46 58 N  89 39  0 W
-Sterling                        Virginia         38 56 40 N  77 27 20 W
-Sterling Heights                Michigan         42 34 59 N  83  1  0 W
-Steubenville                    Ohio             40 21 42 N  80 36 52 W
 Stockholm                       Maine            47  4 58 N  68  7 58 W
 Stockholm                       Sweden           59 22 59 N  18  0  0 E
 Stockton                        California       37 57 29 N 121 17 16 W
 Stony Brook                     New York         40 55 12 N  73  7 47 W
+St. Paul                        Minnesota        44 57 19 N  93  6  6 W
+St. Peter Port                  Guernsey         49 25 47 N   2 36 10 W
+St. Petersburg                  Florida          27 46 18 N  82 38 18 W
+St. Petersburg                  Russia           59 57  0 N  30 19 59 E
 Strasbourg                      France           48 32 23 N   7 37 33 E
 Stratford                       Connecticut      41 12  0 N  73  7 59 W
+St. Thomas                      Virgin Islands   18 19 59 N  64 58  0 W
 Sturtevant                      Wisconsin        42 42  0 N  87 54  0 W
 Stuttgart                       Germany          48 47 59 N   9 15  0 E
 Sudbury                         Canada           46 32 23 N  80 51 35 W
 Suffolk                         Virginia         36 43 41 N  76 34 47 W
 Sumter                          South Carolina   33 55  5 N  80 20 48 W
-Sun Valley                      California       34 15  0 N 118 22 22 W
 Sunnyvale                       California       37 22 36 N 122  1 58 W
 Sunrise                         Florida          26  8 51 N  80 15 14 W
+Sun Valley                      California       34 15  0 N 118 22 22 W
 Superior                        Wisconsin        46 43 14 N  92  6  6 W
 Swannanoa                       North Carolina   35 35 41 N  82 33 25 W
 Swift Current                   Canada           50 16 48 N 107 45  0 W
@@ -1752,8 +1806,8 @@ Syracuse                        New York         43  3  3 N  76  9 14 W
 Tabriz                          Iran             38  7 59 N  46 14  9 E
 Tacoma                          Washington       47 14 58 N 122 26 16 W
 Tahiti                          French Polynesia 17 33  0 S 149 35 59 W
-Tai Tam                         Hong Kong        22 15  0 N 114 12  0 E
 Taipei                          Taiwan           25  1 59 N 121 37 59 E
+Tai Tam                         Hong Kong        22 15  0 N 114 12  0 E
 Talara                          Peru              4 34  0 S  81 15  0 W
 Tallahassee                     Florida          30 26 42 N  84 16 54 W
 Tampa                           Florida          27 56 57 N  82 27 24 W
@@ -1779,6 +1833,7 @@ Thousand Oaks                   California       34 10 18 N 118 50 24 W
 Thule                           Greenland        76 32 24 N  68 42  0 W
 Thunder Bay                     Canada           48 27  0 N  89 12  0 W
 Tifton                          Georgia          31 25  1 N  83 34  1 W
+Tilburg                         Netherlands      51 34 00 N    5 05 00 E
 Tillson                         New York         41 50 18 N  74  4 11 W
 Timmins                         Canada           48 28 47 N  81 19 47 W
 Tinak                           Marshall Islands  7  7 59 N 171 55  0 E
@@ -1817,6 +1872,7 @@ Ubon                            Thailand         15 15  0 N 104 52  0 E
 Udon-Thani                      Thailand         17 22 59 N 102 47 59 E
 Uelzen                          Germany          52 58 11 N  10 31 11 E
 Ujung Pandang                   Indones           5  4  0 S 119 32 59 E
+Ulm                             Germany          48 25 00 N   10 00 00 E
 Unalaska                        Alaska           53 54 35 N 166 32 23 W
 Union City                      New Jersey       40 45 11 N  74  2 17 W
 Union City                      Tennessee        36 25  1 N  89  4  1 W
@@ -1826,22 +1882,23 @@ Upolu Point                     Hawaii           20 12 12 N 155 50 45 W
 Urbana                          Illinois         40  6 42 N  88 12  6 W
 Utica                           New York         43  6 11 N  75 13 32 W
 Utirik                          Marshall Islands 11 13 59 N 169 50 59 E
+Utrecht                         Netherlands      52 06 00 N    5 07 00 E
 Vacaville                       California       38 16 12 N 121 30  0 W
-Val-d'or                        Canada           48  4 47 N  77 46 48 W
 Valdez                          Alaska           61  7 48 N 146 16 48 W
+Val-d'or                        Canada           48  4 47 N  77 46 48 W
 Valdosta                        Georgia          30 49 54 N  83 16 41 W
-Vale                            Oregon           43 58 58 N 117 13 58 W
 Valentine                       Nebraska         42 52  1 N 100 34  1 W
+Vale                            Oregon           43 58 58 N 117 13 58 W
 Valhalla                        New York         41 48 46 N  73 46 20 W
 Vallejo                         California       38  6 35 N 122 15  0 W
 Valletta                        Malta            35 49 59 N  14 28 59 E
 Valletta                        Malta            35 52  1 N  14 28 58 E
 Valparaiso                      Chile            33  1 59 S  71 31 59 W
 Van Buren                       Maine            47  8 59 N  67 58  1 W
-Van Nuys                        California       34 10 59 N 118 22  1 W
 Vancouver                       Canada           49 15  0 N 123  4 47 W
 Vancouver                       Washington       45 37 30 N 122 40 12 W
 Vandans                         Austria          47  5 57 N   9 51 48 E
+Van Nuys                        California       34 10 59 N 118 22  1 W
 Vaughn                          New Mexico       34 37  1 N 105 13  1 W
 Venice                          California       33 53 59 N 118 26 31 W
 Venice                          Italy            45 25  0 N  12 18  0 E
@@ -1867,12 +1924,12 @@ Waikola                         Hawaii           19 52  1 N 155 45  0 W
 Wailuku                         Hawaii           20 55  1 N 156 30  0 W
 Waimea                          Hawaii           21 55 58 N 159 37 58 W
 Waipahu                         Hawaii           21 19 58 N 158  1 58 W
-Wake Island                     US Territory     19 16 54 N 166 38 11 E
 Wakefield                       Massachusetts    42 30  0 N  71  4  0 W
+Wake Island                     US Territory     19 16 54 N 166 38 11 E
 Waldoboro                       Maine            44  6  0 N  69 22  1 W
 Walker                          Louisiana        30 26 57 N  91 10 59 W
-Walla Walla                     Washington       46  4  8 N 118 20 24 W
 Wallace                         Idaho            47 27  0 N 115 55  1 W
+Walla Walla                     Washington       46  4  8 N 118 20 24 W
 Wallowa                         Oregon           45 34  1 N 117 31 58 W
 Walnut Creek                    California       37 54  6 N 122  3 28 W
 Waltham                         Massachusetts    42 22 23 N  71 14 12 W
@@ -1906,31 +1963,33 @@ Wellington                      N Zealand        41 14 59 S 174 45  0 E
 Wells                           Nevada           41  7  1 N 115  4  1 W
 Wendover                        Utah             40 46 58 N 114  1  1 W
 West Allis                      Wisconsin        43  0 29 N  88  0 24 W
+Westbrook                       Maine            43 40 36 N  70 21 47 W
 West Covina                     California       34  4 18 N 117 54 32 W
+Westerly                        Rhode Island     41 25  1 N  71 49 58 W
 West Haven                      Connecticut      41 16 59 N  72 57 11 W
 West Hills                      California       34 11 13 N 118 38 16 W
-West Memphis                    Arkansas         35  8 48 N  90 10 36 W
-West Palm Beach                 Florida          26 43  0 N  80  3 11 W
-Westbrook                       Maine            43 40 36 N  70 21 47 W
-Westerly                        Rhode Island     41 25  1 N  71 49 58 W
 Westland                        Michigan         42 17 48 N  83 23 12 W
+West Memphis                    Arkansas         35  8 48 N  90 10 36 W
 Westminster                     California       33 46 29 N 117 59 34 W
 Westminster                     Colorado         39 49 47 N 105  1 58 W
 Westminster                     Maryland         38 33 39 N  76 59 39 W
+West Palm Beach                 Florida          26 43  0 N  80  3 11 W
 Weymouth                        Massachusetts    42 13 18 N  70 57 54 W
 Wheaton                         Maryland         39  4 58 N  77  4 58 W
 Wheeling                        West Virginia    40  4  3 N  80 43 19 W
 Whenuapai                       New Zealand      36 46 59 S 174 37 59 E
 Whidbey Island                  Washington       48 17 59 N 122 39  0 W
-White Plains                    New York         41  1 59 N  73 45 47 W
 Whitehorse                      Yukon            60 43  1 N 135  4  1 W
+White Plains                    New York         41  1 59 N  73 45 47 W
 Whittier                        California       33 58  0 N 118  2 31 W
-Wichita                         Kansas           37 41 30 N  97 20 16 W
 Wichita Falls                   Texas            33 54 33 N  98 29 27 W
+Wichita                         Kansas           37 41 30 N  97 20 16 W
 Wickenburg                      Arizona          33 58  1 N 112 43 58 W
+Wiesbaden                       Germany          50 05 00 N    8 15 00 E
 Wilder                          Idaho            43 36 37 N 116 56 31 W
 Wilkes-Barre                    Pennsylvania     41 14 31 N  75 53 16 W
 Willcox                         Arizona          32 15  0 N 109 49 58 W
+Willemstad                      Netherlands      12 06 00 N   68 57 00 W
 Williston                       North Dakota     48  8 53 N 103 37 19 W
 Wilmington                      Delaware         39 44 45 N  75 32 50 W
 Wilmington                      North Carolina   34 14 12 N  77 55 23 W
@@ -1950,6 +2009,8 @@ Winona                          Mississippi      33 28 58 N  89 43  1 W
 Winooski                        Vermont          44 30  0 N  73 10  1 W
 Winsted                         Connecticut      41 55  1 N  73  4 58 W
 Winston-Salem                   North Carolina   36  5 52 N  80 14 42 W
+Witten                          Germany          51 26 00 N    7 20 00 E
+Wolfsburg                       Germany          52 26 00 N   10 48 00 E
 Wolphaartsdijk                  Netherlands      51 31 59 N   3 53 54 E
 Woodland Hills                  California       34  9  1 N 118 35 24 W
 Woodsville                      New Hampshire    44 10  1 N  72  0  0 W
@@ -1958,6 +2019,7 @@ Woonsocket                      Rhode Island     42  0  0 N  71 30  0 W
 Woonsocket                      South Dakota     44  2 59 N  98 16 58 W
 Worcester                       Massachusetts    42 15 37 N  71 48 16 W
 Wotje                           Marshall Islands  9 28  0 N 170 13 59 E
+Wuppertal                       Germany          51 16 00 N    7 11 00 E
 Wurzburg                        Germany          49 49 12 N   9 53 27 E
 Wynnewood                       Pennsylvania     40  0 35 N  75 10 47 W
 Wyoming                         Michigan         42 53 48 N  85 42 24 W
