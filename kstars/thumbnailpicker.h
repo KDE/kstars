@@ -56,7 +56,7 @@ private slots:
 	void downloadReady (KIO::Job *);
 
 private:
-	QPixmap shrinkImage( QPixmap *original, int newWidth, int newHieght );
+	QPixmap shrinkImage( QPixmap *original, uint newSize );
 	void parseGooglePage( QStringList &ImList, QString URL );
 
 	ThumbnailPickerUI *ui;

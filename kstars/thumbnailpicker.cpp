@@ -97,11 +97,12 @@ void ThumbnailPicker::slotFillList() {
 	for ( ; itList != itListEnd; ++itList ) {
 		QString s( *itList );
 		KURL u( s );
-		if ( u.isValid() ) {
+		if ( u.isValid() && KIO::NetAccess::exists(u, true, this) ) {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
 			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
+			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
 			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 
 		}
@@ -113,7 +114,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
 	QString PageHTML;
 
 	//Read the google image page's HTML into the PageHTML QString:
-	if ( KIO::NetAccess::download( URL, tmpFile ) ) {
+	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile ) ) {
 		QFile file( tmpFile );
 		if ( file.open( IO_ReadOnly ) ) {
 			QTextStream instream(&file);
@@ -167,20 +168,44 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 		PixList.append( new QPixmap( tmp.name() ) );
 
 		//Add small image and URL to listbox
-		ui->ImageList->insertItem( shrinkImage( PixList.current(), 0, 50 ), // 0 means scale width 
+		ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
 				cjob->srcURLs().first().prettyURL() );
 	}
 }
 
-QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int w, int h ) {
-	if ( w == 0 & &h == 0 ) return QPixmap();
-	if ( w == 0 ) w = h*pm->width()/pm->height();
-	if ( h == 0 ) h = w*pm->height()/pm->width();
+QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, uint size ) {
+	uint w( pm->width() ), h( pm->height() );
+	int rx(0), ry(0), sx(0), sy(0);
+	if ( size == 0 ) return QPixmap();
 
-	//Resize a copy of the image so it will fit in listbox:
-	QImage im( pm->convertToImage() );
-	if ( pm->height() > h ) im = im.smoothScale( w, h );
-	QPixmap result; result.convertFromImage(im);
+	//Prepare variables for rescaling image (if it is larger than 'size')
+	if ( w > size && w >= h ) {
+		h = size;
+		w = size*pm->width()/pm->height();
+	} else if ( h > size && h > w ) {
+		w = size;
+		h = size*pm->height()/pm->width();
+	}
+	sx = (w - size)/2;
+	sy = (h - size)/2;
+	if ( sx < 0 ) { rx = -sx; sx = 0; }
+	if ( sy < 0 ) { ry = -sy; sy = 0; }
+
+	QPixmap result( size, size );
+	result.fill( QColor( "white" ) ); //in case final image is smaller than 'size'
+
+	if ( pm->width() > size || pm->height() > size ) { //image larger than 'size'?
+		//convert to QImage so we can smoothscale it
+		QImage im( pm->convertToImage() );
+		im = im.smoothScale( w, h );
+		
+		//bitBlt sizexsize square section of image
+		bitBlt( &result, rx, ry, &im, sx, sy, size, size );
+
+	} else { //image is smaller than size x size
+		bitBlt( &result, rx, ry, pm );
+	}
+
 	return result;
 }
 
@@ -210,25 +235,14 @@ void ThumbnailPicker::slotUnsetImage() {
 
 void ThumbnailPicker::slotSetFromList( int i ) {
 	//Display image in preview pane
-	QPixmap pm, pm2;
-	if ( PixList.at(i)->width() > PixList.at(i)->height() )
-		pm = shrinkImage( PixList.at(i), 0, 200 ); //scale width
-	else
-		pm = shrinkImage( PixList.at(i), 200, 0 ); //scale height
+	QPixmap pm;
+	pm = shrinkImage( PixList.at(i), 200 ); //scale width
 
-	pm2.resize( 200, 200 ); //crop image to make it square
-	int sx(0), sy(0);
-	if ( pm.width() > pm.height() ) 
-		sx = (pm.width() - 200)/2;
-	else 
-		sy = (pm.height() - 200)/2;
-
-	bitBlt( &pm2, 0, 0, &pm, sx, sy );
-	ui->CurrentImage->setPixmap( pm2 );
+	ui->CurrentImage->setPixmap( pm );
 	ui->CurrentImage->update();
 
 	//Set Image to the selected 200x200 pixmap
-	*Image = pm2;
+	*Image = pm;
 	bImageFound = true;
 }
 
