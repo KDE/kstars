@@ -73,6 +73,11 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	createLinksTab();
 	createAdvancedTab();
 	createLogTab();
+
+	//Connection
+	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
+	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
+	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
 }
 
 void DetailDialog::createGeneralTab()
@@ -81,10 +86,9 @@ void DetailDialog::createGeneralTab()
 	Data = new DetailsDataUI( DataTab, "general_data_tab" );
  
 	//Modify colors
-	Data->DataTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Data->DataTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Data->Names->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Data->Names->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
 	Data->DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Data->Names->setPalette( palette() );
 	Data->Type->setPalette( palette() );
 	Data->Constellation->setPalette( palette() );
 	Data->Mag->setPalette( palette() );
@@ -146,14 +150,14 @@ void DetailDialog::createGeneralTab()
 	case 2:  //planets (including comets and asteroids)
 		ps = (KSPlanetBase *)selectedObject;
 		
-		Data->Names->setText( s->longname() );
+		Data->Names->setText( ps->longname() );
 		//Type is "G5 star" for Sun
 		if ( ps->name() == "Sun" )
 			Data->Type->setText( i18n("G5 star") );
 		else
 			Data->Type->setText( ps->typeName() );
 
-		Data->Constellation->setText( s->constellation( ksw->data()->csegmentList, 
+		Data->Constellation->setText( ps->constellation( ksw->data()->csegmentList, 
 																	ksw->data()->cnameList ) );
 
 		//Magnitude: The moon displays illumination fraction instead
@@ -162,7 +166,7 @@ void DetailDialog::createGeneralTab()
 			Data->Mag->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
 		} else {
 			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
-					KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+					KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
 		}
 
 		//Distance from Earth.  The moon requires a unit conversion
@@ -285,7 +289,6 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	vlay->addWidget( Pos );
 	
 	//Coordinates Section:
-
 	//Don't use KLocale::formatNumber() for the epoch string,
 	//because we don't want a thousands-place separator!
 	QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
@@ -372,10 +375,10 @@ void DetailDialog::createLinksTab()
 	Links = new DetailsLinksUI( LinksTab, "links_tab" );
 
 	//Modify colors
-	Links->InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Links->InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Links->ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Links->InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	Links->InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	Links->ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 
 	QPalette p = palette();
 	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
@@ -454,8 +457,8 @@ void DetailDialog::createLogTab()
 	Log = new DetailsLogUI( LogTab, "log_tab" );
 
 	//Modify colors
-	Log->LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Log->LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Log->LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	Log->LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 
 	QVBoxLayout *vlay = new QVBoxLayout( LogTab, 0, 0 );
 	vlay->addWidget( Log );
@@ -861,6 +864,19 @@ QString DetailDialog::parseADVData(QString link)
 
 void DetailDialog::saveLogData() {
   selectedObject->saveUserLog( Log->UserLog->text() );
+}
+
+void DetailDialog::addToObservingList() {
+	ksw->observingList()->slotAddObject( selectedObject );
+}
+
+void DetailDialog::centerMap() {
+	ksw->map()->setClickedObject( selectedObject );
+	ksw->map()->slotCenter();
+}
+
+void DetailDialog::centerTelescope() {
+	//FIXME: point telescope at selectedObject
 }
 
 #include "detaildialog.moc"

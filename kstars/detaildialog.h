@@ -95,6 +95,18 @@ public:
 	~DetailDialog() {}
 
 public slots:
+/**@short Add this object to the observing list.
+	*/
+	void addToObservingList();
+
+/**@short Center this object in the display.
+	*/
+	void centerMap();
+
+/**@short Center this object in the telescope.
+	*/
+	void centerTelescope();
+
 /**@short View the selected image or info URL in the web browser.
 	*/
 	void viewLink();
