@@ -351,18 +351,19 @@ void KStars::initGuides(KSNumbers *num)
 		Az = dms(*(point->ra()));
 		
 		//SPEED_DMS
-		//Az.SinCos( sinAz, cosAz );
-		//geo()->lat()->SinCos( sinlat, coslat );
-		sinAz = Az.sin();
-		cosAz = Az.cos();
-		sinlat = geo()->lat()->sin();
-		coslat = geo()->lat()->cos();
+// reverted to dms::sincos() due to uninitalized values of dms::sin() and cos()
+		Az.SinCos( sinAz, cosAz );
+		geo()->lat()->SinCos( sinlat, coslat );
+//		sinAz = Az.sin();
+//		cosAz = Az.cos();
+//		sinlat = geo()->lat()->sin();
+//		coslat = geo()->lat()->cos();
 		
 		dec.setRadians( asin( coslat*cosAz ) );
 		//SPEED_DMS
-		//dec.SinCos( sindec, cosdec );
-		sindec = dec.sin();
-		cosdec = dec.cos();
+		dec.SinCos( sindec, cosdec );
+//		sindec = dec.sin();
+//		cosdec = dec.cos();
 		
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
