@@ -53,6 +53,7 @@
 #include "focusdialog.h"
 #include "fovdialog.h"
 #include "viewopsdialog.h"
+#include "kswizard.h"
 #include "astrocalc.h"
 #include "lcgenerator.h"
 #include "infoboxes.h"
@@ -105,6 +106,13 @@ void KStars::slotViewToolBar() {
 void KStars::slotCalculator() {
 	AstroCalc astrocalc (this);
 	astrocalc.exec();
+}
+
+void KStars::slotWizard() {
+	KSWizard wizard(this);
+	wizard.exec();
+	
+	//TODO: Add code here to deal with settings 
 }
 
 void KStars::slotLCGenerator() {

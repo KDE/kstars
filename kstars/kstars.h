@@ -246,6 +246,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotFind();
 
 		/**
+		 * action slot: open KStars setup wizard
+		 */
+
+		void slotWizard();
+
+		/**
 		 * action slot: open KStars calculator to compute astronomical
 		 * ephemeris
 		 */
