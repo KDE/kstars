@@ -373,7 +373,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
@@ -528,7 +528,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 
 	QImage ScaledImage;
 
-	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
@@ -619,7 +619,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 //	else psky.setPen( QColor( "white" ) );
 	psky.setPen( ksw->options()->colorScheme()->colorNamed( "UserLabelColor" ) );
 
-	bool checkSlewing = ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) ) && ksw->options()->hideOnSlew;
+	bool checkSlewing = ( slewing || ( clockSlewing && ksw->clock()->isActive() ) ) && ksw->options()->hideOnSlew;
 	bool drawPlanets( ksw->options()->drawPlanets && !(checkSlewing && ksw->options()->hidePlanets) );
 	bool drawComets( drawPlanets && ksw->options()->drawComets );
 	bool drawAsteroids( drawPlanets && ksw->options()->drawAsteroids );

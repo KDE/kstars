@@ -46,6 +46,7 @@
 #include "geolocation.h"
 #include "ksnumbers.h"
 #include "kssun.h"
+#include "simclock.h"
 #include "skyobject.h"
 #include "skypoint.h"
 #include "timestepbox.h"
@@ -63,7 +64,6 @@ class TimeDialog;
 class LocationDialog;
 class FindDialog;
 class ViewOpsDialog;
-class SimClock;
 class InfoBoxes;
 class AstroCalc;
 class INDIMenu;
@@ -92,56 +92,61 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
   Q_OBJECT 
   public:
-    /**
-	 *Constructor.
-	 *
-	 *@param kstarsData the KStars Data object
-	 */
-    KStars( KStarsData* kstarsData );
+	/**Constructor.
+		*@param kstarsData the KStars Data object
+		*/
+		KStars( KStarsData* kstarsData );
 
-	/**
-	 * Constructor.
-	 *
-	 * @param doSplash should the splash panel be displayed during
-	 * intialization.
-	 */
-	KStars( bool doSplash );
+	/**Constructor.
+		*@param doSplash should the splash panel be displayed during
+		*intialization.
+		*/
+		KStars( bool doSplash );
 
-    /**
-			*Destructor.  Synchs config file.  Deletes objects.
-			*/
-    ~KStars();
+	/**Destructor.  Synchs config file.  Deletes objects.
+		*/
+		~KStars();
 
-		/**
-			*@returns pointer to KStarsData object which contains application data.
-			*/
+	/**@returns pointer to KStarsData object which contains application data.
+		*/
 		KStarsData* data();
 
-		/**
-			*@returns pointer to KStarsOptions object which contains application options.
-			*/
+	/**@returns pointer to the simulation clock.
+		*/
+		SimClock* clock( void ) { return data()->clock; }
+
+	/**@returns pointer to the local sidereal time.
+		*/
+		dms* LST() { return data()->LST; }
+
+	/**@returns pointer to KStarsOptions object which contains application options.
+		*/
 		KStarsOptions* options() { return data()->options; }
 
-		/**
-			*@returns pointer to SkyMap object which is the sky display widget.
-			*/
+	/**@returns pointer to SkyMap object which is the sky display widget.
+		*/
 		SkyMap* map() { return skymap; }
 
-		/**
-			*@returns pointer to GeoLocation object which is the current geographic location.
-			*/
+	/**@returns pointer to GeoLocation object which is the current geographic location.
+		*/
 		GeoLocation* geo() { return options()->Location(); }
 
-		/**
-			*@returns pointer to InfoBoxes object.
-			*/
+	/**@returns pointer to InfoBoxes object.
+		*/
 		InfoBoxes* infoBoxes() { return map()->infoBoxes(); }
 
-		/**
-			*Add an item to the color-scheme action manu
-			*@param name The name to use in the menu
-			*@param actionName The internal name for the action (derived from filename)
-			*/
+	/**@returns pointer to the INDI driver
+		*/
+		INDIDriver* getINDIDriver(void) { return indidriver; }
+
+	/**@returns pointer to the INDI menu
+		*/
+		INDIMenu* getINDIMenu(void) { return indimenu; }
+
+	/**Add an item to the color-scheme action manu
+		*@param name The name to use in the menu
+		*@param actionName The internal name for the action (derived from filename)
+		*/
 		void addColorMenuItem( QString name, QString actionName );
 
 		void removeColorMenuItem( QString actionName );
@@ -152,28 +157,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		SkyObject* getObjectNamed( QString name );	
 
-	/**@returns pointer to the simulation clock.
+	/**Set the KStarsData::HourAngle according to the current LST and focus->ra
 		*/
-		SimClock* getClock( void ) { return clock; }
-
-	/**@returns pointer to the INDI driver
-		*/
-                INDIDriver* getINDIDriver(void) { return indidriver; }
-
-         /**@returns pointer to the INDI menu
-		*/
-		INDIMenu* getINDIMenu(void) { return indimenu; }
-
-	/**@returns pointer to the local sidereal time.
-		*/
-		dms* LST() { return data()->LST; }
-
-	/**@returns the timestep scale of the simulation clock.
-		*/
-		double clockScale( void ) const { return clock->scale(); }
-
-/**Set the KStarsData::HourAngle according to the current LST and focus->ra
-	*/
 		void setHourAngle();
 
 	/**DCOP interface function.  Set focus to given Ra/Dec coordinates */
@@ -403,7 +388,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void setLST( QDateTime UTC );
 
 		SkyMap *skymap;
-		SimClock *clock;
 
 		FindDialog *findDialog;
 		KToolBar *viewToolBar;

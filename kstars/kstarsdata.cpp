@@ -45,26 +45,35 @@ KStarsData::KStarsData() {
 	source = 0;
 	loader = 0;
 	pump = 0;
-
 	objects++;
+	
+	//standard directories and locale objects
 	stdDirs = new KStandardDirs();
+	locale = new KLocale( "kstars" );
+	
+	//Instantiate the SimClock object
+	clock = new SimClock();
+
+	//Instantiate KStarsOptions object
 	options = new KStarsOptions();
+	oldOptions = 0;
+	
+	//Sidereal Time and Hour Angle objects 
 	LST = new dms();
 	HourAngle = new dms();
 
-	locale = new KLocale( "kstars" );
-	oldOptions = 0;
-
+	//Instantiate planet catalog
 	PC = new PlanetCatalog(this);
 
+	//set AutoDelete property for QPtrLists.  Most are set TRUE, 
+	//but some 'meta-lists' need to be FALSE.
 	starList.setAutoDelete( TRUE );
-	ADVtreeList.setAutoDelete(true);
-
+	ADVtreeList.setAutoDelete( TRUE );
 	geoList.setAutoDelete( TRUE );
-
 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
-  // Keep separated lists per deep space object type, to speed up drawing the sky map
-  // only the complete list will delete the objects, when kstardata gets deleted.
+  
+	//separate lists for each deep-sky catalog.  The objects are duplicates of
+	//deepSkyList, so do not delete them twice!
   deepSkyListMessier.setAutoDelete( FALSE );
   deepSkyListNGC.setAutoDelete( FALSE );
   deepSkyListIC.setAutoDelete( FALSE );
@@ -79,13 +88,14 @@ KStarsData::KStarsData() {
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
+	
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
-
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
-    VariableStarsList.setAutoDelete(TRUE);
-    INDIHostsList.setAutoDelete(TRUE);
+	
+	VariableStarsList.setAutoDelete(TRUE);
+	INDIHostsList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	//(type==-1 is a constellation)
@@ -123,11 +133,8 @@ KStarsData::~KStarsData() {
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
-	//REVERTED...remove comments after 1/1/2003
-	//ARRAY
-	//delete[] starArray;
-
 	if (stdDirs) delete stdDirs;
+	if (clock) delete clock;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
 	if (LST) delete LST;
@@ -384,9 +391,8 @@ bool KStarsData::readCLineData( void ) {
 }
 
 bool KStarsData::readCNameData( void ) {
-  QFile file;
+	QFile file;
 	cnameFile = "cnames.dat";
-//	if ( locale->language()=="fr" ) cnameFile = "fr_cnames.dat";
 
 	if ( KSUtils::openDataFile( file, cnameFile ) ) {
 	  QTextStream stream( &file );
@@ -527,13 +533,6 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 	if (starIsUnnamed == false) {
 		ObjNames.append(o);
 	}
-
-	if (reloadedData == true) {
-		// recompute coordinates if AltAz is used
-		//REMOVE_KSTARS : can we do without this initial call to EquatorialToHorizontal() ?
-		//o->EquatorialToHorizontal( LST, kstars->geo()->lat() );
-	}
-
 }
 
 bool KStarsData::readAsteroidData( void ) {
@@ -1357,13 +1356,7 @@ void KStarsData::slotInitialize() {
 				initError( "mw*.dat", true );
 			break;
 
-		case 7: //Start the Clock//
-
-			emit progressText( i18n("Starting Clock" ) );
-			setFullTimeUpdate();
-			break;
-
-		case 8: //Initialize the Planets//
+		case 7: //Initialize the Planets//
 
 			emit progressText( i18n("Creating Planets" ) );
 			if (PC->initialize())
@@ -1372,7 +1365,7 @@ void KStarsData::slotInitialize() {
 			jmoons = new JupiterMoons();
 			break;
 
-		case 9: //Initialize Asteroids & Comets//
+		case 8: //Initialize Asteroids & Comets//
 
 			emit progressText( i18n( "Creating Asteroids and Comets" ) );
 			if ( !readAsteroidData() )
@@ -1382,7 +1375,7 @@ void KStarsData::slotInitialize() {
 
 			break;
 
-		case 10: //Initialize the Moon//
+		case 9: //Initialize the Moon//
 
 			emit progressText( i18n("Creating Moon" ) );
 			Moon = new KSMoon(this);
@@ -1391,7 +1384,7 @@ void KStarsData::slotInitialize() {
 			Moon->loadData();
 			break;
 
-		case 11: //Load Image URLs//
+		case 10: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
 			if ( !readURLData( "image_url.dat", 0 ) ) {
@@ -1405,7 +1398,7 @@ void KStarsData::slotInitialize() {
 
 			break;
 
-		case 12: //Load Information URLs//
+		case 11: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
 			if ( !readURLData( "info_url.dat", 1 ) ) {
@@ -1437,7 +1430,7 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 }
 
-void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
+void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
 	// sync times with clock
 	UTime = clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );

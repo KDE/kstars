@@ -53,10 +53,10 @@ void KStars::initActions() {
 				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
-	QObject::connect(clock, SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
-	QObject::connect(clock, SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
+	QObject::connect(clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
+	QObject::connect(clock(), SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
 //UpdateTime() if clock is stopped (so hidden objects get drawn)
-	QObject::connect(clock, SIGNAL(clockStopped()), this, SLOT(updateTime()) );
+	QObject::connect(clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
 //Focus Menu:
 	new KAction(i18n( "&Zenith" ), KAccel::stringToKey( "Z" ),
@@ -402,8 +402,9 @@ void KStars::datainitFinished(bool worked) {
 	}
 
 	pd->buildGUI();
+	data()->setFullTimeUpdate();
 	updateTime();
-	clock->start();
+	clock()->start();
 	
 	show();
 
@@ -443,11 +444,6 @@ void KStars::datainitFinished(bool worked) {
 }
 
 void KStars::privatedata::buildGUI() {
-	// here we get the preloaded data (stars, constellations etc.)
-
-	//Instantiate the SimClock object
-	ks->clock = new SimClock(ks);
-
 	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
@@ -489,8 +485,9 @@ void KStars::privatedata::buildGUI() {
 //Changing the timestep needs to propagate to the clock, check if slew mode should be
 //(dis)engaged, and return input focus to the skymap.
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data(), SLOT( setTimeDirection( float ) ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock, SLOT( setScale( float )) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
+	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock(), SLOT( setScale( float )) );
+//	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
+	connect( ks->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
@@ -499,12 +496,12 @@ void KStars::privatedata::buildGUI() {
 	ks->slotSetTimeToNow();
 
 	//Define the celestial equator, horizon and ecliptic
-	KSNumbers tempnum(ks->clock->JD());
+	KSNumbers tempnum(ks->clock()->JD());
 	ks->initGuides(&tempnum);
 
 	//Connect the clock.
-	QObject::connect( ks->clock, SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
-	QObject::connect( ks->clock, SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
+	QObject::connect( ks->clock(), SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
+	QObject::connect( ks->clock(), SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
 
 	// Connect cache function
 	QObject::connect( kstarsData, SIGNAL( clearCache() ), ks, SLOT( clearCachedFindDialog() ) );

@@ -821,7 +821,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
-	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects

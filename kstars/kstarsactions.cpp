@@ -140,7 +140,7 @@ void KStars::slotGeoLocator() {
 			data()->setNextDSTChange( KSUtils::UTtoJD( newLocation->tzrule()->nextDSTChange() ) );
 
 			// reset local sideral time
-			setLST( clock->UTC() );
+			setLST( clock()->UTC() );
 			
 			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
@@ -371,14 +371,14 @@ void KStars::slotSetTimeToNow() {
 }
 
 void KStars::slotToggleTimer() {
-	if ( clock->isActive() ) {
-		clock->stop();
+	if ( clock()->isActive() ) {
+		clock()->stop();
 		updateTime();
 	} else {
-		if ( fabs( clock->scale() ) > options()->slewTimeScale )
-			clock->setManualMode( true );
-		clock->start();
-		if ( clock->isManualMode() ) map()->forceUpdate();
+		if ( fabs( clock()->scale() ) > options()->slewTimeScale )
+			clock()->setManualMode( true );
+		clock()->start();
+		if ( clock()->isManualMode() ) map()->forceUpdate();
 	}
 }
 

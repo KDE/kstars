@@ -356,10 +356,10 @@ void SkyMap::slotDetail( void ) {
 
 void SkyMap::slotClockSlewing() {
 //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-	if ( fabs( ksw->getClock()->scale() ) > ksw->options()->slewTimeScale ) {
+	if ( fabs( ksw->clock()->scale() ) > ksw->options()->slewTimeScale ) {
 		if ( ! clockSlewing ) {
 			clockSlewing = true;
-			ksw->getClock()->setManualMode( true );
+			ksw->clock()->setManualMode( true );
 
 			// don't change automatically the DST status
 			ksw->updateTime( false );
@@ -367,7 +367,7 @@ void SkyMap::slotClockSlewing() {
 	} else {
 		if ( clockSlewing ) {
 			clockSlewing = false;
-			ksw->getClock()->setManualMode( false );
+			ksw->clock()->setManualMode( false );
 
 			// don't change automatically the DST status
 			ksw->updateTime( false );
@@ -416,7 +416,7 @@ void SkyMap::slewFocus( void ) {
 	if ( !mouseButtonDown ) {
 		bool goSlew = ( ksw->options()->useAnimatedSlewing &&
 			! ksw->options()->snapNextFocus() ) &&
-			!( ksw->getClock()->isManualMode() && ksw->getClock()->isActive() );
+			!( ksw->clock()->isManualMode() && ksw->clock()->isActive() );
 		if ( goSlew  ) {
 			if ( ksw->options()->useAltAz ) {
 				dX = destination()->az()->Degrees() - focus()->az()->Degrees();

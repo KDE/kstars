@@ -194,10 +194,7 @@ void SimClock::setScale(float s) {
 
 //DCOP function to set clock scale
 void SimClock::setClockScale(float s) {
-	KStars *ks = (KStars*)parent();
-	
 	setScale(s);
-	ks->map()->slotClockSlewing();
 }
 
 #include "simclock.moc"

@@ -40,8 +40,8 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	KStars *ks = (KStars*) parent()->parent()->parent();
 	 // modCalcSidTimeDlg -> QSplitter->AstroCalc->KStars
 
-	showUT( ks->getClock()->UTC().time() );
-	datBox->setDate( ks->getClock()->UTC().date() );
+	showUT( ks->clock()->UTC().time() );
+	datBox->setDate( ks->clock()->UTC().date() );
 
 	longBox->show( ks->geo()->lng() );
 }

@@ -37,7 +37,7 @@
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
-	skymap(0), clock(0), findDialog(0), centralWidget(0),
+	skymap(0), findDialog(0), centralWidget(0),
 	AAVSODialog(0), DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
@@ -73,11 +73,8 @@ KStars::KStars( KStarsData* kd )
 	pd = new privatedata(this);
 	pd->kstarsData = kd;
 	pd->buildGUI();
-
-	//Instantiate the SimClock object
-//JH (22 Jan 2002): we instantiated clock already in buildGUI()...
-//	clock = new SimClock(this);
-	clock->start();
+	
+	clock()->start();
 	
 	show();
 }
@@ -89,8 +86,7 @@ KStars::~KStars()
 	clearCachedFindDialog();
 
 	if (skymap) delete skymap;
-	delete pd;
-	if (clock) delete clock;
+	if (pd) delete pd;
 	if (centralWidget) delete centralWidget;
 	if (AAVSODialog) delete AAVSODialog;
 	if (indimenu) delete indimenu;
@@ -103,9 +99,6 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	GeoLocation *Geo = geo();
 	KStarsData *Data = data();
 
-//Don't stop the clock just because time changed.
-//	clock->stop();
-
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
 	Data->setFullTimeUpdate();
 
@@ -117,10 +110,10 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 
 	//Turn off animated slews for the next time step.
 	options()->setSnapNextFocus();
-	clock->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
+	clock()->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
 
 	// reset local sideral time
-	setLST( clock->UTC() );
+	setLST( clock()->UTC() );
 }
 
 void KStars::clearCachedFindDialog() {
@@ -146,7 +139,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	KStarsData *Data = data();
 	SkyMap *Map = map();
 
-	Data->updateTime( clock, geo(), Map, automaticDSTchange );
+	Data->updateTime( geo(), Map, automaticDSTchange );
 	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, LST(), Data->CurrentDate) )
 	        Map->update();
 
@@ -164,8 +157,8 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	//step exactly equal to the timeScale setting.
 	//Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
 	//the skymap has been completely updated.
-	if ( clock->isManualMode() && clock->isActive() ) {
-		QTimer::singleShot( 0, clock, SLOT( manualTick() ) );
+	if ( Data->clock->isManualMode() && Data->clock->isActive() ) {
+		QTimer::singleShot( 0, Data->clock, SLOT( manualTick() ) );
 	}
 }
 

@@ -121,7 +121,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
 			
 			//reset LST
-			setLST( clock->UTC() );
+			setLST( clock()->UTC() );
 			
 			//make sure planets, etc. are updated immediately
 			data()->setFullTimeUpdate();

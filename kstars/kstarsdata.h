@@ -390,7 +390,7 @@ public slots:
 		* It _will_ change!
 		*(JH:)hey, it's much less ugly now...can we lose the comment yet? :p
 		*/
-	void updateTime(SimClock *clock, GeoLocation *geo, SkyMap * skymap, const bool automaticDSTchange = true);
+	void updateTime(GeoLocation *geo, SkyMap * skymap, const bool automaticDSTchange = true);
 
 	/**Sets the direction of time and stores it in bool TimeRunForwards. If scale >= 0
 		*time is running forward else time runs backward. We need this to calculate just
@@ -498,15 +498,15 @@ private:
 	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
-
-	QString cnameFile;
-	KStandardDirs *stdDirs;
-
+	SimClock *clock;
 	QDateTime LTime, UTime;
 	bool TimeRunsForward, temporaryTrail;
 
-	dms *LST, *HourAngle;
+	QString cnameFile;
+	KStandardDirs *stdDirs;
 	KLocale *locale;
+
+	dms *LST, *HourAngle;
 
 	QString TypeName[NTYPENAME];
 	KKey resumeKey;

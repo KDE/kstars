@@ -314,7 +314,7 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 	
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( ks->data()->isSolarSystem( o ) ) {
-		oldNum = new KSNumbers( ks->getClock()->JD() );
+		oldNum = new KSNumbers( ks->clock()->JD() );
 		Earth->findPosition( num );
 		
 		if ( o->type() == 2 && o->name() == "Moon" ) {
