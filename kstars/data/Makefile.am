@@ -1,5 +1,3 @@
-KDE_ICON = kstars
-
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = kstars.png geomap.png show_clines.png show_cnames.png show_deepsky.png \
 		   show_grid.png show_horiz.png show_mw.png show_planets.png show_stars.png \

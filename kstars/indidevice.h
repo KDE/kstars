@@ -13,32 +13,17 @@
 
 #include <kdialogbase.h>
 #include <unistd.h>
-#include <vector>
-#include <qvaluelist.h>
+#include <qptrlist.h>
 
-#include "indi/lilxml.h"
-
-#define	INDIVERSION	1.11	/* we support this or less */
-
-/* decoded elements.
- * lights use PState, TB's use the alternate binary names.
- */
-typedef enum {PS_IDLE = 0, PS_OK, PS_BUSY, PS_ALERT, PS_N} PState;
-#define	PS_OFF	PS_IDLE		/* alternate name */
-#define	PS_ON	PS_OK		/* alternate name */
-typedef enum {PP_RW = 0, PP_WO, PP_RO} PPerm;
-typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
-    PG_RADIO, PG_MENU, PG_LIGHTS} PGui;
-
-#define	MAXSCSTEPS	1000	/* max number of steps in a scale */
-#define MAXRADIO	4
+#include "indielement.h"
 
 class DeviceManager;
 class INDI_D;
 class INDI_P;
 class INDI_G;
-class INDI_L;
+class INDI_E;
 class INDIMenu;
+class INDIStdDevice;
 class SkyObject;
 
 class KLed;
@@ -59,7 +44,6 @@ class QTextEdit;
 class QListView;
 class QTabWidget;
 class QSpacerItem;
-class QGroupBox;
 class QGridLayout;
 class QButtonGroup;
 class QCheckBox;
@@ -70,7 +54,7 @@ class QVBox;
 /*************************************************************************
 ** The INDI Tree
 **
-** INDI_LABEL <------------------------------------------
+** INDI_ELEMENT <----------------------------------------
 **     |						|
 **     -----> INDI_PROPERTY				|
 **                        |				|
@@ -81,121 +65,32 @@ class QVBox;
                                           Device Manager  INDI Menu
 **************************************************************************/
 
-/* INDI label for various widgets */
-class INDI_L
-{
- public:
-  INDI_L(INDI_P *parentProperty, QString inName, QString inLabel);
-  ~INDI_L();
-    QString name;				//  name
-    QString label;			// label is the name by default, unless specefied
-    PState state;			/* control on/off t/f etc */
-    INDI_P *pp;				/* parent property */
-
-    QLabel         *label_w;		// label widget (lights)
-    KDoubleSpinBox *spin_w;		// spinbox
-    QPushButton    *push_w;		// push button
-    QCheckBox      *check_w;		// check box
-    KLed           *led_w;		// light led
-    double min, max, step;		// params for scale
-    double value;			// current value
-    QString text;			// current text
-    QString format;			// number format, if applicable
-};
-
-/* INDI property */
-class INDI_P : public QObject
-{
-  Q_OBJECT
-   public:
-   INDI_P(INDI_G *parentGroup, QString inName);
-   ~INDI_P();
-
-    QString	name;			/* malloced name */
-    INDI_G	*pg;			/* parent group */
-    float	timeout;		/* TODO timeout, seconds */
-    PState	state;			/* state light code */
-    KLed	*light;
-    QLabel      *label_w;
-    bool        isINDIStd;		/* is it an INDI std policy? */
-    KPopupMenu  *parentPopup;		/* Parent popup menu, if any */
-    PPerm perm;			        /* permissions wrt client */
-
-
-    PGui guitype;			/* type of GUI, if any */
-    QPushButton    *set_w;		// set button
-    QTable         *table_w;
-    KComboBox      *om_w;		// option menu -- PG_MENU only
-    QHBoxLayout    *hLayout;   		// Horizontal layout
-    QButtonGroup   *groupB;		// group button for radio and check boxes
-    std::vector<INDI_L *>      labels;
-
-    void drawLt(KLed *w, PState lstate);
-    void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
-    INDI_L * findLabel(QString lname);
-
-    void updateTime();
-    void updateLocation();
-    bool isOn(QString component);
-
-
-    public slots:
-    void newText();
-    void newSwitch(int id);
-    void convertSwitch(int id);
-    void newTime();
-
-};
-
-/* INDI group */
-class INDI_G
-{
-  public:
-  INDI_G(INDI_D *parentDevice, QString inName);
-  ~INDI_G();
-
-  QGroupBox   *box;
-  QGridLayout *layout;
-
-  INDI_D *dp;
-
-  void addProperty(INDI_P *pp);
-  int removeProperty(INDI_P *pp);
-
-
-  std::vector<INDI_P      *> pl;	/* malloced list of pointers to properties */
-
-};
 
 /* INDI device */
-class INDI_D : public QObject
+class INDI_D : public KDialogBase  
 {
  Q_OBJECT
   public:
    INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, QString inName, QString inLabel);
    ~INDI_D();
 
-    QString 	name;			/* malloced name */
-    QString	label;
-    QFrame	*tabContainer;
+    QString 	name;			/* device name */
+    QString	label;			/* device label */
+    QVBox	*deviceVBox;		/* device tab frame */
+    QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
-    QScrollView *sv;
-    QVBoxLayout *mainLayout;
-    QVBox       *propertyLayout;
-    QSpacerItem *vSpacer;
-    QSpacerItem *hSpacer;
+    //QScrollView *sv;			/* Scroll view */
+    //QVBoxLayout *mainLayout;
+    //QVBox       *propertyLayout;
+    //QSpacerItem *vSpacer;
+    //QSpacerItem *hSpacer;
 
-    QPushButton  *clear;
-    //QPushButton  *savelog;
-    QHBoxLayout  *buttonLayout;
+    //QPushButton  *clear;
+    //QHBoxLayout  *buttonLayout;
+    INDIStdDevice  *stdDev;
 
-    std::vector<INDI_G      *> gl;	/* malloced list of pointers to groups */
-
-    int biggestLabel;
-    int widestTableCol;
-    int uniHeight;
-    int initDevCounter;
-
+    QPtrList<INDI_G> gl;		/* list of pointers to groups */
+  
     INDI_G        *curGroup;
     bool	  INDIStdSupport;
 
@@ -206,7 +101,6 @@ class INDI_D : public QObject
    * Build
    ******************************************************************/
    int buildTextGUI    (XMLEle *root, char errmsg[]);
-   int buildRawTextGUI (INDI_P *pp, char *label, char *initstr, int enableSet, char errmsg[]);
    int buildNumberGUI  (XMLEle *root, char errmsg[]);
    int buildSwitchesGUI(XMLEle *root, char errmsg[]);
    int buildMenuGUI    (INDI_P *pp, XMLEle *root, char errmsg[]);
@@ -216,7 +110,6 @@ class INDI_D : public QObject
    * Add
    ******************************************************************/
    INDI_P *  addProperty (XMLEle *root, char errmsg[]);
-   int       addGUI      (INDI_P *pp  , XMLEle *root, char errmsg[]);
 
    /*****************************************************************
    * Find
@@ -239,8 +132,6 @@ class INDI_D : public QObject
    int newAnyCmd      (XMLEle *root, char errmsg[]);
 
    int  removeProperty(INDI_P *pp);
-   void resizeGroups();
-   void resizeTableHeaders();
 
    /*****************************************************************
    * Crack
@@ -254,67 +145,6 @@ class INDI_D : public QObject
    bool isOn();
    void registerProperty(INDI_P *pp);
    bool isINDIStd(INDI_P *pp);
-   bool handleNonSidereal(SkyObject *o);
-   void initDeviceOptions();
-   void handleDevCounter();
-
-   SkyObject *currentObject;
-   QTimer *devTimer;
-
-   public slots:
-   void timerDone();
-
-   signals:
-   void linkRejected();
-   void linkAccepted();
-
-};
-
-// INDI device manager
-class DeviceManager : public QObject
-{
-   Q_OBJECT
-   public:
-   DeviceManager(INDIMenu *INDIparent, int inID);
-   ~DeviceManager();
-
-   INDIMenu *parent;
-
-   std::vector<INDI_D *> indi_dev;
-
-   int			mgrID;
-   int			serverFD;
-   FILE			*serverFP;
-   LilXML		*XMLParser;
-   QSocketNotifier 	*sNotifier;
-
-   int dispatchCommand (XMLEle *root, char errmsg[]);
-
-   INDI_D *  addDevice   (XMLEle *dep , char errmsg[]);
-   INDI_D *  findDev     (XMLEle *root, int  create, char errmsg[]);
-
-   /*****************************************************************
-   * Send to server
-   ******************************************************************/
-   void sendNewText  (INDI_P *pp);
-   void sendNewNumber (INDI_P *pp);
-   void sendNewSwitch  (INDI_P *pp);
-
-   /*****************************************************************
-   * Misc.
-   ******************************************************************/
-   int  delPropertyCmd (XMLEle *root, char errmsg[]);
-   int  removeDevice(QString devName, char errmsg[]);
-   INDI_D *  findDev(QString devName, char errmsg[]);
-
-   int  messageCmd     (XMLEle *root, char errmsg[]);
-   void checkMsg       (XMLEle *root, INDI_D *dp);
-   void doMsg          (XMLEle *msg , INDI_D *dp);
-
-   bool indiConnect(QString host, QString port);
-
-  public slots:
-   void dataReceived();
 
 };
 

@@ -23,6 +23,9 @@
 #include "kstars.h"
 #include "infoboxes.h"
 #include "indimenu.h"
+#include "devicemanager.h"
+#include "indiproperty.h"
+#include "indielement.h"
 #include "indidevice.h"
 
 #include <qpaintdevicemetrics.h>
@@ -60,10 +63,11 @@ void SkyMap::drawBoxes( QPainter &p ) {
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky) {
+  
 	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
 		INDI_P *portConnect;
-		INDI_L *lp;
+		INDI_E *lp;
 		INDIMenu *devMenu = ksw->getINDIMenu();
 		KStarsOptions* options = ksw->options();
 
@@ -75,14 +79,14 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 		int pxperdegree = int(zoomFactor()/57.3);
 
 		//fprintf(stderr, "in draw telescope function with mgrsize of %d\n", devMenu->mgr.size());
-		for (uint i=0; i < devMenu->mgr.size(); i++)
+		for (uint i=0; i < devMenu->mgr.count(); i++)
 		{
-			for (uint j=0; j < devMenu->mgr[i]->indi_dev.size(); j++)
+			for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 			{
 				// make sure the dev is on first
-				if (devMenu->mgr[i]->indi_dev[j]->isOn())
+				if (devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
 				{
-				        portConnect = devMenu->mgr[i]->indi_dev[j]->findProp(QString("CONNECTION"));
+				        portConnect = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CONNECTION");
 
 					if (!portConnect)
 					 return;
@@ -90,35 +94,29 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 					 if (portConnect->state == PS_BUSY)
 					  return;
 
-					eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
+					eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
 
-					//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
 					// make sure it has RA and DEC properties
 					if ( eqNum)
 					{
 						//fprintf(stderr, "Looking for RA label\n");
-						lp = eqNum->findLabel(QString("RA"));
+						lp = eqNum->findElement("RA");
 						if (!lp)
 							continue;
 
+						// express hours in degrees on the celestial sphere
 						dms raDMS(lp->value);
+						raDMS.setD ( raDMS.Degrees() * 15.0);
 
-						//fprintf(stderr, "RA (%s) value is %g\n", lp->text, lp->value);
-						//fprintf(stderr, "Looking for DEC label\n");
-						lp = eqNum->findLabel(QString("DEC"));
+						lp = eqNum->findElement("DEC");
 						if (!lp)
 							continue;
 
 						dms decDMS(lp->value);
 
-						//fprintf(stderr, "DEC (%s) value is %g\n", lp->text, lp->value);
 
-						raDMS.setD ( raDMS.Degrees() * 15.0);
-
-						//fprintf(stderr, "RA is %d , DEC is %g\n", raDMS.Degrees(), decDMS.Degrees());
-
-						//kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
-						//kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
+						//kdDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
+						//kdDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
 
 						SkyPoint sp( &raDMS, &decDMS);
 						sp.apparentCoord( (double) J2000, ksw->data()->clock()->JD());
@@ -145,13 +143,14 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						psky.drawEllipse( x2, y2, s2, s2 );
 
 						//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
-						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr[i]->indi_dev[j]->name) );
+						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 
 					}
 				}
 			}
 		}
 	}
+	
 }
 
 void SkyMap::drawMilkyWay( QPainter& psky, double scale )

@@ -21,10 +21,11 @@
 #ifndef LX200GENERIC_H
 #define LX200GENERIC_H
 
-#include "indiapi.h"
+#include "indidevapi.h"
 #include "indicom.h"
 
 #define	POLLMS		1000		/* poll period, ms */
+#define mydev		"LX200 Generic" /* The device name */
 
 class LX200Generic
 {
@@ -42,19 +43,22 @@ class LX200Generic
  int checkPower(INumberVectorProperty *np);
  int checkPower(ISwitchVectorProperty *sp);
  int checkPower(ITextVectorProperty *tp);
+ void handleError(ISwitchVectorProperty *svp, int err, const char *msg);
+ void handleError(INumberVectorProperty *nvp, int err, const char *msg);
+ void handleError(ITextVectorProperty *tvp, int err, const char *msg);
  bool isTelescopeOn(void);
- void powerTelescope(ISState *s);
+ void powerTelescope();
  void slewError(int slewCode);
  void getAlignment();
  int handleCoordSet();
- int getOnSwitch(ISState * states, int n);
- void resetSwitches(ISwitchVectorProperty *driverSw);
+ int getOnSwitch(ISwitchVectorProperty *sp);
+ void setCurrectDeviceName(const char * devName);
+ void correctFault();
+ 
 
  protected:
   int timeFormat;
   int currentSiteNum;
-  int currentCatalog;
-  int currentSubCatalog;
   int trackingMode;
 
   double JD;
@@ -64,14 +68,19 @@ class LX200Generic
   double targetDEC;
   double lastRA;
   double lastDEC;
+  bool   fault;
 
   struct tm *localTM;
+  
+  char thisDevice[64];
 
+  int currentSet;
   int lastSet;
   int lastMove[4];
 
 };
 
-
+void changeLX200GenericDeviceName(char * newName);
+void changeAllDeviceNames(char *newName);
 
 #endif

@@ -27,11 +27,9 @@
 #include "lx200_16.h"
 #include "lx200driver.h"
 
-
 #define LX16GROUP	"GPS/16 inch Features"
 
 extern LX200Generic *telescope;
-extern char mydev[];
 extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
@@ -57,9 +55,15 @@ extern int MaxReticleFlashRate;
 
 
 static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
-static ISwitch HomeSearchS[]		= { {"Seek home and save", "", ISS_OFF} , {"Seek home and set", "", ISS_OFF}};
+static ISwitch HomeSearchS[]		= { {"Save home", "", ISS_OFF} , {"Set home", "", ISS_OFF}};
 static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
 //static ISwitch SlewAltAzS[]		= { {"Slew To Alt/Az",  ISS_ON}};
+
+#define	MAXINDINAME	32
+#define	MAXINDILABEL	32
+#define	MAXINDIDEVICE	32
+#define	MAXINDIGROUP	32
+#define	MAXINDIFORMAT	32
 
 static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS)};
 
@@ -79,25 +83,33 @@ static INumberVectorProperty horNum = {
     hor, NARRAY(hor),
 };
 
+void changeLX200_16DeviceName(char * newName)
+{
+  strcpy(horNum.device, newName);
+  strcpy(FanStatusSw.device, newName);
+  strcpy(HomeSearchSw.device, newName);
+  strcpy(FieldDeRotatorSw.device,newName);
+}
+
 LX200_16::LX200_16() : LX200Autostar()
 {
 
 }
-
+ 
 void LX200_16::ISGetProperties (const char *dev)
 {
 
-if (dev && strcmp (mydev, dev))
+if (dev && strcmp (thisDevice, dev))
     return;
 
   // process parent first
   LX200Autostar::ISGetProperties(dev);
 
-  IDDefNumber (&horNum);
+  IDDefNumber (&horNum, NULL);
 
-  IDDefSwitch (&FanStatusSw);
-  IDDefSwitch (&HomeSearchSw);
-  IDDefSwitch (&FieldDeRotatorSw);
+  IDDefSwitch (&FanStatusSw, NULL);
+  IDDefSwitch (&HomeSearchSw, NULL);
+  IDDefSwitch (&FieldDeRotatorSw, NULL);
 
 }
 
@@ -111,16 +123,16 @@ void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char
 	time (&ltime);
 	localtime_r (&ltime, ltp);
 	IText *tp;
+	int err;
 
 	// ignore if not ours //
-	if (strcmp (dev, mydev))
+	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
 	n=n;
 
-       // Override LX200 Autostar
-       if (!strcmp (name, Time.name))
+	if (!strcmp (name, Time.name))
        {
 	  if (checkPower(&Time))
 	   return;
@@ -142,13 +154,24 @@ void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char
 			 UTCOffset += 24;
 
 		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-		setUTCOffset(UTCOffset);
-	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		
+		if ( ( err = setUTCOffset(UTCOffset) < 0) )
+	  	{
+	        Time.s = IPS_IDLE;
+	        IDSetText( &Time , "Setting UTC Offset failed.");
+		return;
+	  	}
+		
+		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
+	  	{
+	          handleError(&Time, err, "Setting local time");
+        	  return;
+	  	}
 
 		tp = IUFindText(&Time, names[0]);
 		if (!tp)
 		 return;
-		tp->text = new char[strlen(texts[0]+1)];
+		tp->text = new char[strlen(texts[0])+1];
 	        strcpy(tp->text, texts[0]);
 		Time.s = IPS_OK;
 
@@ -165,12 +188,15 @@ void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char
 		}
 
 		localTM = ltp;
-		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
+		
+		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
+	  	{
+		  handleError(&Time, err, "Setting local time");
+		  return;
+		}
+		
  		IDSetText(&Time , "Date changed, updating planetary data...");
-
-		return;
 	}
-
 
    LX200Autostar::ISNewText (dev, name, texts, names,  n);
 
@@ -180,12 +206,13 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 {
   double newAlt=0, newAz=0;
   char altStr[64], azStr[64];
+  int err;
 
 
   LX200Autostar::ISNewNumber (dev, name, values, names, n);
 
   // ignore if not ours //
-  if (strcmp (dev, mydev))
+  if (strcmp (dev, thisDevice))
     return;
 
   if ( !strcmp (name, horNum.name) )
@@ -211,10 +238,12 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 
 	  if (nset == 2)
 	  {
-	   if (!setObjAz(newAz) && !setObjAlt(newAlt))
+	   if ( (err = setObjAz(newAz)) < 0 || (err = setObjAlt(newAlt)) < 0)
 	   {
-
-               horNum.s = IPS_OK;
+	     handleError(&horNum, err, "Setting Alt/Az");
+	     return;
+	   }
+	        horNum.s = IPS_OK;
 	       //horNum.n[0].value = values[0];
 	       //horNum.n[1].value = values[1];
 	       targetAz  = newAz;
@@ -244,16 +273,13 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
     }
 
 
-
- }
-
-
 void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
    int index;
    char msg[32];
+   int err;
 
-  if (strcmp (dev, mydev))
+  if (strcmp (dev, thisDevice))
     return;
 
    // process parent
@@ -264,10 +290,27 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FanStatusSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  resetSwitches(&FanStatusSw);
+          IUResetSwitches(&FanStatusSw);
+          IUUpdateSwitches(&FanStatusSw, states, names, n);
+          index = getOnSwitch(&FanStatusSw);
 
-	  index == 0 ? turnFanOn() : turnFanOff();
+	  if (index == 0)
+	  {
+	    if ( (err = turnFanOn()) < 0)
+	    {
+	      handleError(&FanStatusSw, err, "Changing fan status");
+	      return;
+	    }
+	  }
+	  else
+	  {
+	    if ( (err = turnFanOff()) < 0)
+	    {
+	      handleError(&FanStatusSw, err, "Changing fan status");
+	      return;
+	    }
+	  }
+	  
 	  FanStatusSw.s = IPS_OK;
 	  strcpy(msg, index == 0 ? "Fan is ON" : "Fan is OFF");
 	  IDSetSwitch (&FanStatusSw, msg);
@@ -279,8 +322,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&HomeSearchSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  resetSwitches(&HomeSearchSw);
+          IUResetSwitches(&HomeSearchSw);
+          IUUpdateSwitches(&HomeSearchSw, states, names, n);
+          index = getOnSwitch(&HomeSearchSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  HomeSearchSw.s = IPS_BUSY;
@@ -293,8 +337,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FieldDeRotatorSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  resetSwitches(&FieldDeRotatorSw);
+          IUResetSwitches(&FieldDeRotatorSw);
+          IUUpdateSwitches(&FieldDeRotatorSw, states, names, n);
+          index = getOnSwitch(&FieldDeRotatorSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  FieldDeRotatorSw.s = IPS_OK;
@@ -336,8 +381,10 @@ void LX200_16::handleAltAzSlew()
 
  void LX200_16::ISPoll ()
  {
-   int searchResult;
+   int searchResult=0;
    double dx, dy;
+   int err;
+   
    LX200Autostar::ISPoll();
 
    	switch (HomeSearchSw.s)
@@ -347,24 +394,28 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    searchResult = getHomeSearchStatus();
+	    if ( (err = getHomeSearchStatus(&searchResult)) < 0)
+	    {
+	      handleError(&HomeSearchSw, err, "Home search");
+	      return;
+	    }
 
-	    if (!searchResult)
+	    if (searchResult == 0)
 	    {
 	      HomeSearchSw.s = IPS_IDLE;
-	      IDSetSwitch(&HomeSearchSw, "Home search failed");
+	      IDSetSwitch(&HomeSearchSw, "Home search failed.");
 	    }
 	    else if (searchResult == 1)
 	    {
 	      HomeSearchSw.s = IPS_OK;
-	      IDSetSwitch(&HomeSearchSw, "Home search successful");
+	      IDSetSwitch(&HomeSearchSw, "Home search successful.");
 	    }
 	    else if (searchResult == 2)
 	      IDSetSwitch(&HomeSearchSw, "Home search in progress...");
 	    else
 	    {
 	      HomeSearchSw.s = IPS_IDLE;
-	      IDSetSwitch(&HomeSearchSw, "Home search error");
+	      IDSetSwitch(&HomeSearchSw, "Home search error.");
 	    }
 	    break;
 
@@ -381,13 +432,18 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    currentAz = getLX200Az();
-	    currentAlt = getLX200Alt();
+	    if ( (err = getLX200Az(&currentAz)) < 0 || (err = getLX200Alt(&currentAlt)) < 0)
+	    {
+	      IDSetNumber(&horNum, NULL);
+	      handleError(&horNum, err, "Get Alt/Az");
+	      return;
+	    }
+	    
 	    dx = targetAz - currentAz;
 	    dy = targetAlt - currentAlt;
 
-            horNum.n[0].value = currentAlt;
-	    horNum.n[1].value = currentAz;
+            horNum.np[0].value = currentAlt;
+	    horNum.np[1].value = currentAz;
 
 	    IDLog("targetAz is %g, currentAz is %g\n", targetAz, currentAz);
 	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);
@@ -419,11 +475,11 @@ void LX200_16::handleAltAzSlew()
    // process parent first
    LX200Autostar::getBasicData();
 
-   targetAz = getLX200Az();
-   targetAlt = getLX200Alt();
+   getLX200Az(&targetAz);
+   getLX200Alt(&targetAlt);
 
-   horNum.n[0].value = targetAlt;
-   horNum.n[1].value = targetAz;
+   horNum.np[0].value = targetAlt;
+   horNum.np[1].value = targetAz;
 
    IDSetNumber (&horNum, NULL);
 

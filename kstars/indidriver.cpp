@@ -172,6 +172,9 @@ void INDIDriver::activateHostDisconnection()
     
 void INDIDriver::updateLocalButtons()
 {
+  
+  if (localListView->selectedItem() == NULL)
+   return;
  
   for (uint i=0; i < devices.size(); i++)
      if (localListView->selectedItem()->text(0) == devices[i]->label)
@@ -185,7 +188,10 @@ void INDIDriver::updateLocalButtons()
 
 void INDIDriver::updateClientButtons()
 {
-INDIHostsInfo *hostInfo;
+ INDIHostsInfo *hostInfo;
+ if (clientListView->currentItem() == NULL)
+  return;
+
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
@@ -203,6 +209,8 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     
 void INDIDriver::processDeviceStatus(int id)
 {
+  if (localListView->selectedItem() == NULL)
+    return;
 
    for (uint i=0; i < devices.size(); i++)
      if (localListView->selectedItem()->text(0) == devices[i]->label)
@@ -252,6 +260,7 @@ void INDIDriver::processHostStatus(int id)
    int mgrID;
    bool toConnect = (id == 0);
    QListViewItem *currentItem = clientListView->selectedItem();
+   if (!currentItem) return;
    INDIHostsInfo *hostInfo;
 
    //kdDebug() << "The INDI host size is " << ksw->data()->INDIHostsList.count() << endl;
@@ -307,18 +316,15 @@ bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
   }
 
   dev->proc = new KProcess;
-
+  
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
-
-
 
   //connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)), this, SLOT(processstd(KProcess *, char*, int)));
 
   //dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
   dev->proc->start();
-
-
+  
   return (dev->proc->isRunning());
 }
 
@@ -436,36 +442,53 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 {
 
   XMLAtt *ap;
+  XMLEle *ep;
+  QString groupName;
+  int groupType;
 
   // Get device grouping name
   ap = findXMLAtt(root, "group");
 
   // avoid overflow
-  if (strlen(root->tag) > 1024)
+  if (strlen(tagXMLEle(root)) > 1024)
    return false;
 
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a group attribute", root->tag);
+    sprintf(errmsg, "Tag %s does not have a group attribute", tagXMLEle(root));
     return false;
   }
+  
+  groupName = valuXMLAtt(ap);
+  
+  if (groupName.find("Telescopes") != -1)
+    groupType = KSTARS_TELESCOPE;
+  else if (groupName.find("CCDs") != -1)
+    groupType = KSTARS_CCD;
+  else if (groupName.find("Focusers") != -1)
+    groupType = KSTARS_FOCUSER;
+  else if (groupName.find("Domes") != -1)
+    groupType = KSTARS_DOME;
+  else if (groupName.find("GPS") != -1)
+    groupType = KSTARS_GPS;
 
 
   //KListViewItem *group = new KListViewItem(topItem, lastGroup);
   QListViewItem *group = new QListViewItem(localListView, lastGroup);
-  group->setText(0, QString(ap->valu));
+  group->setText(0, groupName);
   lastGroup = group;
   //group->setOpen(true);
 
 
-  for (int i = 0; i < root->nel; i++)
-	if (!buildDriverElement(root->el[i], group, errmsg))
+  for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+  /*for (int i = 0; i < root->nel; i++)*/
+	if (!buildDriverElement(ep, group, groupType, errmsg))
 	  return false;
 
   return true;
 }
 
-bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char errmsg[])
+bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[])
 {
   XMLAtt *ap;
   XMLEle *el;
@@ -478,38 +501,38 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   ap = findXMLAtt(root, "label");
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a label attribute", root->tag);
+    sprintf(errmsg, "Tag %s does not have a label attribute", tagXMLEle(root));
     return false;
   }
 
-  label = new char[strlen(ap->valu) + 1];
-  strcpy(label, ap->valu);
+  label = new char[strlen(valuXMLAtt(ap)) + 1];
+  strcpy(label, valuXMLAtt(ap));
 
   ap = findXMLAtt(root, "driver");
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a driver attribute", root->tag);
+    sprintf(errmsg, "Tag %s does not have a driver attribute", tagXMLEle(root));
     return false;
   }
 
-  driver = new char[strlen(ap->valu) + 1];
-  strcpy(driver, ap->valu);
+  driver = new char[strlen(valuXMLAtt(ap)) + 1];
+  strcpy(driver, valuXMLAtt(ap));
 
   el = findXMLEle(root, "Exec");
 
   if (!el)
    return false;
 
-  exec = new char[strlen(ap->valu) + 1];
-  strcpy(exec, el->pcdata);
+  exec = new char[strlen(valuXMLAtt(ap)) + 1];
+  strcpy(exec, pcdataXMLEle(el));
 
   el = findXMLEle(root, "Version");
 
   if (!el)
    return false;
 
-  version = new char[strlen(ap->valu) + 1];
-  strcpy(version ,el->pcdata);
+  version = new char[strlen(valuXMLAtt(ap)) + 1];
+  strcpy(version , pcdataXMLEle(el));
 
   QListViewItem *device = new QListViewItem(DGroup, lastDevice);
 
@@ -520,6 +543,8 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   lastDevice = device;
 
   dv = new IDevice(QString(label), QString(driver), QString(exec), QString(version));
+  dv->deviceType = groupType;
+  
   devices.push_back(dv);
 
   delete [] label;
@@ -692,15 +717,25 @@ void INDIDriver::removeINDIHost()
  if (clientListView->currentItem() == NULL)
   return;
 
- if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 host?").arg(clientListView->currentItem()->text(1)), i18n("Delete Confirmation"))!=KMessageBox::Yes)
-   return;
-
  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
      if (clientListView->currentItem()->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
          clientListView->currentItem()->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
- 	ksw->data()->INDIHostsList.remove(i);
+   {
+        if (ksw->data()->INDIHostsList.at(i)->isConnected)
+        {
+           KMessageBox::error( 0, i18n("You need to disconnect the client before removing it."));
+           return;
+        }
 
- clientListView->takeItem(clientListView->currentItem());
+        if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 client?").arg(clientListView->currentItem()->text(1)), i18n("Delete Confirmation"))!=KMessageBox::Yes)
+           return;
+	   
+ 	ksw->data()->INDIHostsList.remove(i);
+	clientListView->takeItem(clientListView->currentItem());
+	break;
+   }
+
+ 
 
  saveHosts();
 

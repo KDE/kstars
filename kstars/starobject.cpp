@@ -104,13 +104,15 @@ QString StarObject::greekLetter( void ) const {
 	if ( code == "omi" ) letter = QString( QChar(alpha +14) );
 	if ( code == "pi " ) letter = QString( QChar(alpha +15) );
 	if ( code == "rho" ) letter = QString( QChar(alpha +16) );
-	if ( code == "sig" ) letter = QString( QChar(alpha +17) );
-	if ( code == "tau" ) letter = QString( QChar(alpha +18) );
-	if ( code == "ups" ) letter = QString( QChar(alpha +19) );
-	if ( code == "phi" ) letter = QString( QChar(alpha +20) );
-	if ( code == "chi" ) letter = QString( QChar(alpha +21) );
-	if ( code == "psi" ) letter = QString( QChar(alpha +22) );
-	if ( code == "ome" ) letter = QString( QChar(alpha +23) );
+	//there are two unicode symbols for sigma;
+	//skip the first one, the second is more widely used 
+	if ( code == "sig" ) letter = QString( QChar(alpha +18) );
+	if ( code == "tau" ) letter = QString( QChar(alpha +19) );
+	if ( code == "ups" ) letter = QString( QChar(alpha +20) );
+	if ( code == "phi" ) letter = QString( QChar(alpha +21) );
+	if ( code == "chi" ) letter = QString( QChar(alpha +22) );
+	if ( code == "psi" ) letter = QString( QChar(alpha +23) );
+	if ( code == "ome" ) letter = QString( QChar(alpha +24) );
 
 	if ( name2().length() && name2().mid(3,1) != " " ) 
 		letter += "[" + name2().mid(3,1) + "]";

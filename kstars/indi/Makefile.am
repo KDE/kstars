@@ -14,6 +14,7 @@ lx200generic_LDADD = liblilxml.a libindicom.a
 celestrongps_SOURCES =  indidrivermain.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a
 
+
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
 
@@ -32,4 +33,5 @@ uninstall-local:
 	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)/lx200_16 $(DESTDIR)$(bindir)/lx200gps
 
 KDE_OPTIONS = nofinal
+
 

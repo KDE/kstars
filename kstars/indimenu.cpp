@@ -19,7 +19,10 @@
  */
 
 #include "indimenu.h"
+#include "indiproperty.h"
+#include "indigroup.h"
 #include "indidevice.h"
+#include "devicemanager.h"
 
 #include <stdlib.h>
 
@@ -55,32 +58,23 @@
 ** INDI Menu: Handles communication to server and fetching basic XML
 ** data.
 *******************************************************************/
-INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase::Plain, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name)
+INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)
 {
 
  ksw = (KStars *) parent;
 
  mgrCounter = 0;
+ 
+ mgr.setAutoDelete(true);
 
  currentLabel = "";
-
- mainLayout = new QVBoxLayout(plainPage(), 5, 5);
-
- deviceContainer = new QTabWidget(plainPage(), "deviceContainer");
- msgST_w	 = new QTextEdit(plainPage(), "genericMsgForm");
- msgST_w->setReadOnly(true);
- msgST_w->setMaximumHeight(100);
-
- mainLayout->addWidget(deviceContainer);
- mainLayout->addWidget(msgST_w);
 
  resize( 640, 480);
 }
 
 INDIMenu::~INDIMenu()
 {
-  for (uint i=0; i < mgr.size(); i++)
-    delete (mgr[i]);
+  mgr.clear();
 }
 
 /*********************************************************************
@@ -102,7 +96,7 @@ void INDIMenu::updateStatus()
        return;
     }
    }
-   else if (mgr.size() == 0)
+   else if (mgr.count() == 0)
    {
       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
       return;
@@ -131,7 +125,7 @@ DeviceManager *dev;
 	{
 	        drivers->devices[i]->mgrID   = mgrCounter;
 	        drivers->devices[i]->managed = true;
-      		mgr.push_back(dev);
+      		mgr.append(dev);
 		mgrCounter++;
 
 	}
@@ -162,7 +156,7 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 
   dev = new DeviceManager(this, mgrCounter);
   if (dev->indiConnect(hostname, portnumber))
-      mgr.push_back(dev);
+      mgr.append(dev);
   else
   {
      delete (dev);
@@ -173,99 +167,39 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
  return (mgrCounter - 1);
 }
 
-bool INDIMenu::removeDevice(QString devName)
-{
-
-  char errmsg[1024];
-
-  for (unsigned int i=0; i < mgr.size(); i++)
-    if (!mgr[i]->removeDevice(devName, errmsg))
-    {
-      if (mgr[i]->indi_dev.size() == 0)
-      {
-        delete mgr[i];
-        mgr.erase(mgr.begin() + i);
-      }
-      return true;
-    }
-
-  kdDebug() << errmsg;
-
-  return false;
-
-}
-
 void INDIMenu::removeDeviceMgr(int mgrID)
 {
  char errmsg[1024];
 
- for (unsigned int i=0; i < mgr.size(); i++)
-  {
-       if (mgrID == mgr[i]->mgrID)
-       {
+ for (unsigned int i=0; i < mgr.count(); i++)
+ {
+   if (mgrID == mgr.at(i)->mgrID)
+        mgr.remove(i);
 
-      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-         mgr[i]->removeDevice(mgr[i]->indi_dev[j]->name, errmsg);
-
-       delete mgr[i];
-       mgr.erase(mgr.begin() + i);
-
-       emit driverDisconnected(mgrID);
-       }
-  }
-
-}
-
-/* search element for attribute.
- * return XMLAtt if find, else NULL with helpful info in errmsg.
- */
-XMLAtt * INDIMenu::findAtt (XMLEle *ep, const char *name, char errmsg[])
-{
-	XMLAtt *ap = findXMLAtt (ep, name);
-	if (ap)
-	    return (ap);
-	if (errmsg)
-	    sprintf (errmsg, "INDI: <%s> missing attribute '%s'", ep->tag,name);
-	return NULL;
-}
-
-/* search element for given child. pp is just to build a better errmsg.
- * return XMLEle if find, else NULL with helpful info in errmsg.
- */
-XMLEle * INDIMenu::findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
-{
-	XMLEle *cp = findXMLEle (ep, child);
-	if (cp)
-	    return (cp);
-	if (errmsg)
-	    sprintf (errmsg, "INDI: <%s %s %s> missing child '%s'", ep->tag,
-						pp->pg->dp->name.ascii(), pp->name.ascii(), child);
-	return (NULL);
+      emit driverDisconnected(mgrID);
+ }
 }
 
 INDI_D * INDIMenu::findDevice(QString deviceName)
 {
-
-  for (unsigned int i=0; i < mgr.size(); i++)
+  for (unsigned int i=0; i < mgr.count(); i++)
   {
-      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-        if (mgr[i]->indi_dev[j]->name == deviceName)
-       		return mgr[i]->indi_dev[j];
+      for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
+        if (mgr.at(i)->indi_dev.at(j)->name == deviceName)
+       		return mgr.at(i)->indi_dev.at(j);
  }
-
   return NULL;
-
 }
 
 INDI_D * INDIMenu::findDeviceByLabel(QString label)
 {
-  for (unsigned int i=0; i < mgr.size(); i++)
+  for (unsigned int i=0; i < mgr.count(); i++)
   {
-      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-        if (mgr[i]->indi_dev[j]->label == label)
-       		return mgr[i]->indi_dev[j];
+      for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
+        if (mgr.at(i)->indi_dev.at(j)->label == label)
+       		return mgr.at(i)->indi_dev.at(j);
  }
-
+  
   return NULL;
 }
 
@@ -275,9 +209,9 @@ void INDIMenu::setCustomLabel(QString deviceName)
 
  int nset=0;
 
-for (unsigned int i=0; i < mgr.size(); i++)
-   for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-         if (mgr[i]->indi_dev[j]->label.find(deviceName) >= 0)
+for (unsigned int i=0; i < mgr.count(); i++)
+   for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
+         if (mgr.at(i)->indi_dev.at(j)->label.find(deviceName) >= 0)
 	 	nset++;
 
 if (nset)
