@@ -52,6 +52,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : mod
 }
 
 modCalcGeodCoord::~modCalcGeodCoord(){
+    delete geoPlace;
 }
 
 void modCalcGeodCoord::showLongLat(void)
@@ -338,11 +339,11 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			geoPl->setXPos( xB*1000.0 );
 			geoPl->setYPos( yB*1000.0 );
 			geoPl->setZPos( zB*1000.0 );
-			ostream << geoPl->lng()->toDMSString() << space << 
-				geoPl->lat()->toDMSString() << space << 
+			ostream << geoPl->lng()->toDMSString() << space <<
+				geoPl->lat()->toDMSString() << space <<
 				geoPl->height() << endl;
-		
-		// Input coords. are Long, Lat and Height 
+
+		// Input coords. are Long, Lat and Height
 
 		} else {
 
@@ -392,8 +393,8 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			geoPl->setLat(  latB );
 			geoPl->setHeight( hB );
 
-			ostream << geoPl->xPos()/1000.0 << space << 
-				geoPl->yPos()/1000.0 << space << 
+			ostream << geoPl->xPos()/1000.0 << space <<
+				geoPl->yPos()/1000.0 << space <<
 				geoPl->zPos()/1000.0 << endl;
 
 		}
