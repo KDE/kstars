@@ -422,6 +422,7 @@ void SkyMap::slewFocus( void ) {
 		//set focus=destination.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+		
 		ksw->setHourAngle();
 		slewing = false;
 

@@ -86,7 +86,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Up :
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 89.9999 );
+				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
@@ -101,7 +101,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Down:
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -89.9999 );
+				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
 				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
@@ -545,7 +545,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				double dDec = ast->dec()->Degrees() - clickedPoint()->dec()->Degrees();
 				double f = 15.0*cos( ast->dec()->radians() );
 				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-				if ( r < rsolar_min ) {
+				if ( r < rsolar_min && ast->mag() < ksw->options()->magLimitAsteroid ) {
 					solarminobj = ast;
 					rsolar_min = r;
 				}

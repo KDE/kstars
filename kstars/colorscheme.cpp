@@ -270,10 +270,15 @@ bool ColorScheme::save( const QString &name ) {
 void ColorScheme::loadFromConfig( KConfig *conf ) {
 	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
 		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
+	
+	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
+	setStarColorIntensity( conf->readNumEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it ) {
+	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it ) 
 		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
-	}
+	
+	conf->writeEntry( "StarColorMode", starColorMode() );
+	conf->writeEntry( "StarColorIntensity", starColorIntensity() );
 }
