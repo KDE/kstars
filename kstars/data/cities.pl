@@ -14,7 +14,14 @@ while ( $city = <CITIES> ) {
 	  $fields[$i] =~ s/\s+$//;
 	}
 	#printf("calling 0: %s, 1: %s, 2: %s \n", $fields[0], $fields[1], $fields[2]);
-	$TZ = &calcTZ($fields[2], $fields[1]);
+
+  #Only calculate TZ if it is currently set to "x"
+  if ($fields[11]=="x") {
+		$TZ = &calcTZ($fields[2], $fields[1]);
+  } else {
+		$TZ = $fields[11];
+	}
+
 	if ( $fieldcount == 11 ) {
 		printf ( "%-32s :", $fields[0] ); # City
     printf ( " %-21s :", $fields[1] ); # Province

@@ -171,8 +171,6 @@ void SkyMap::slotCenter( void ) {
 				dsgn, dd, dm, ds );
 	ksw->statusBar()->changeItem( ksw->CurrentPosition, 1 );
 
-	showFocusCoords(); //updateinfoPanel
-
   foundObject = clickedObject;
 	if (foundObject != NULL ) { //set tracking to true
 		ksw->GetOptions()->isTracking = true;
@@ -182,6 +180,7 @@ void SkyMap::slotCenter( void ) {
 		ksw->actTrack->setIconSet( BarIcon( "unlock" ) );
 	}
 
+	showFocusCoords(); //updateinfoPanel
 	Update();	// must be new computed
 }
 
