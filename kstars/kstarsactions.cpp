@@ -184,7 +184,7 @@ void KStars::slotPrint() {
 
 //Suggest Chart color scheme
 	if ( options()->colorSky != "#FFFFFF" ) {
-		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background.  Would you like to switch to the Star Chart color scheme for printing? (your current color settings will be restored when printing is finished)" );
+		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing? (Your current color settings will be restored when printing is finished.)" );
 
 //KDE3 version of the messagebox allows us to include a "Don't ask again" checkbox...
 		int answer;
