@@ -122,6 +122,16 @@ public:
 		*/
 	void clearFields (void) { setDMS(""); }
 
+	/*
+	* Shows in the KLineEdit "Circumpolar"
+	*/
+	void showCircumpolar();
+
+	/*
+	* Shows in the KLineEdit "Does not rise"
+	*/
+	void showDoesNotRise();
+
 private:
 
 	int degree, minute, hour;
