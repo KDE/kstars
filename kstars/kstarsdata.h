@@ -60,7 +60,7 @@
 #define NHIPFILES 127
 #define NMWFILES  11
 #define NNGCFILES 13
-#define NTYPENAME 11
+#define NTYPENAME 12
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
 #define MINZOOM 300.
