@@ -99,6 +99,8 @@ QImage* DeepSkyObject::readImage( void ) {
 	return Image;
 }
 
+void DeepSkyObject::deleteImage() { delete Image; Image = 0; }
+
 void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale ) {
 	// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
 	// if we use size 0.0 the star wouldn't be drawn

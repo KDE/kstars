@@ -23,6 +23,7 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "addcatdialog.h"
+#include "magnitudespinbox.h"
 
 OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl ) 
 	: OpsCatalogUI( p, name, fl ) 
@@ -42,6 +43,9 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	showMessier = new QCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
 	showMessier->setOn( Options::showMessier() );
 
+	kcfg_MagLimitDrawDeepSky->setMaxValue( 16.0 );
+	kcfg_MagLimitDrawDeepSkyZoomOut->setMaxValue( 16.0 );
+	
 	//Add custom catalogs, if necessary
 	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) { //loop over custom catalogs
 		QCheckListItem *newItem = new QCheckListItem( CatalogList, Options::catalogName()[i], QCheckListItem::CheckBox );

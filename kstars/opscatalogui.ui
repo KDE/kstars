@@ -432,6 +432,9 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="name">
                                 <cstring>kcfg_MagLimitDrawDeepSky</cstring>
                             </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
                             </property>
@@ -471,6 +474,9 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         <widget class="MagnitudeSpinBox" row="1" column="1">
                             <property name="name">
                                 <cstring>kcfg_MagLimitDrawDeepSkyZoomOut</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
                             </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>

@@ -152,7 +152,7 @@ public:
 
 /**delete the Image pointer, and set it to 0.
 	*/
-	void deleteImage() { delete Image; Image = 0; }
+	void deleteImage();
 
 /**@return true if the object is in the Messier catalog
 	*/

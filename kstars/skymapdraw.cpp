@@ -1149,8 +1149,12 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		double lgmax = log10(MAXZOOM);
 		double lgz = log10(Options::zoomFactor());
 		double maglim = Options::magLimitDrawDeepSky();
-		if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
+		
+		//FIXME
+		//disabling faint limits until the NGC/IC catalog has reasonable mags
+		//if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+		//else 
+			maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
 
 		for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
