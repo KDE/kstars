@@ -5,8 +5,8 @@
 # Changes made to the raw catalog include stripping out certain data 
 # fields, reformatting, and manual matching up common and genetive 
 # star names.  The modified catalog is (C) Jason Harris, 2003, and is 
-# licensed under the terms of the Open Content License (OPL):
-# http://www.opencontent.org/opl.shtml
+# licensed under the terms of the GNU General Public License (GPL):
+# http://www.gnu.org/licenses/gpl.html
 #
 #  RA        DEC      pmRA     pmDEC  plx      mag  BV SpT b? dV   vper  Name : genetive name
 # 
