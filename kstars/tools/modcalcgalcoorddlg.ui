@@ -572,7 +572,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Gal. Long.:</string>
+                                    <string>Gal. long.:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -589,7 +589,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Gal. Lat.:</string>
+                                    <string>Gal. lat.:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
