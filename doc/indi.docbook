@@ -472,7 +472,7 @@ following command:</para>
 
 <para>$ <command>indiserver</command> -p <varname>port</varname> [<filename>driver</filename>...]</para>
 
-<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> and add a host under the <guilabel>Client</guilabel> tab. The host should be <constant>local_host</constant> (usually 127.0.0.1) and the port number should be the <varname>port</varname> used in all the steps above. <mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from the popup menu. &kstars; will connect to the remote INDI server securely.</para>
+<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> and add a host under the <guilabel>Client</guilabel> tab. The host should be <constant>local_host</constant> (usually 127.0.0.1) and the port number should be the <varname>port</varname> used in all the steps above. <mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from the popup menu. &kstars; will connect to the remote INDI server securely. The host information will be saved for future sessions.</para>
 </sect2>
 </sect1>
 
@@ -485,7 +485,7 @@ following command:</para>
 <para>What is INDI?</para>
 </question>
 <answer>
-<para> <acronym>INDI</acronym> is the <ulink url="http://www.clearskyinstitute.com/INDI/INDI.pdf"> Instrument-Neutral-Distributed-Interface</ulink> control protocol developed by <author><firstname>Elwood</firstname><surname>C.
+<para> <acronym>INDI</acronym> is the <ulink url="http://indi.sourceforge.net"> Instrument-Neutral-Distributed-Interface</ulink> control protocol developed by <author><firstname>Elwood</firstname><surname>C.
 Downey</surname></author> of <ulink url="http://www.clearskyinstitute.com/">ClearSky Institute</ulink>. &kstars; employs device drivers that are compatible with the INDI protocol. INDI has many advantages including loose coupling between hardware devices and
 software drivers. Clients that use the device drivers (like &kstars;) are completely unaware of the device capabilities. In run time, &kstars; communicates with the device drivers and builds a completely dynamical GUI based on services provided by the device. Therefore, new device drivers can be written or updated and KStars can take full advantage of them without any changes on the client side.</para>
 </answer>
@@ -515,7 +515,7 @@ Do you plan to support more devices?
 <para>
 Yes. We plan to support major CCD cameras and focusers and extend support
 for more telescopes. If you'd like INDI to support a particular device,
-please send an email to <email>mutlaqja@ikarustech.com</email>
+please send an email to <email>indi-devel@lists.sourceforge.net</email>
 </para>
 </answer>
 </qandaentry>
@@ -605,7 +605,7 @@ telescope is not connected to the serial/USB port. What can I do?
 </orderedlist>
 
 <para>If you think all settings are correct but the telescope still moves erratically or not at all, then please send a report to
-<email>kstars-devel@lists.sourceforge.net</email></para>
+<email>kstars-devel@kde.org</email></para>
 </answer>
 </qandaentry>
 </qandaset>
