@@ -423,12 +423,12 @@ void SkyMap::slotTransientLabel( void ) {
 	//TransientLabel and then set TransientObject to NULL.
 	//
 	//Do not show a transient label if the map is in motion, or if the mouse 
-	//pointer is below the opaque horizon
+	//pointer is below the opaque horizon, or if the object has a permanent label
 	if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() && 
 			mousePoint()->alt()->Degrees() < 0.0 ) ) {
 		SkyObject *so = objectNearest( mousePoint() );
 		
-		if ( so ) {
+		if ( so && ! isObjectLabeled( so ) ) {
 			setTransientObject( so );
 			
 			TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
@@ -690,6 +690,8 @@ void SkyMap::slotRemoveObjectLabel( void ) {
 
 void SkyMap::slotAddObjectLabel( void ) {
 	data->ObjLabelList.append( clickedObject() );
+	//Since we just added a permanent label, we don't want it to fade away!
+	if ( transientObject() == clickedObject() ) setTransientObject( NULL );
 	forceUpdate();
 }
 
