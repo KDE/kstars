@@ -64,6 +64,8 @@ public:
 	bool readCNameData( void );
 	bool readURLData( QString url, int type=0 );
 	long double getJD( QDateTime t);
+	bool appendNewStarData( float newMag );
+	void deleteUnusedStarData( float newMag );
 	
 	QList<GeoLocation> geoList;
 	QList<SkyObject> *objList;

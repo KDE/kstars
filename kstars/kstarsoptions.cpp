@@ -17,6 +17,9 @@
 
 #include "kstarsoptions.h"
 
+#include <kapp.h>
+#include <kconfig.h>
+
 KStarsOptions::KStarsOptions()
 	:	useAltAz (true )
 	, drawBSC( true )
@@ -52,7 +55,7 @@ KStarsOptions::KStarsOptions()
   , focusDec( 0.0 )
   , windowWidth( 600 )
   , windowHeight( 600 )
-  , magLimitDrawStar( 8.0 )
+//  , magLimitDrawStar( 8.0 )		// read entry below
   , magLimitDrawStarInfo( 3.0 )
   , drawStarName( true )
   , drawStarMagnitude( true )
@@ -74,6 +77,9 @@ KStarsOptions::KStarsOptions()
 	,	CityName()
   , StateName()
 {
+// read entry for loading not more stars than needed
+	kapp->config()->setGroup( "View" );
+	magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );
 }
 
 KStarsOptions::~KStarsOptions()

@@ -23,7 +23,9 @@
 #include "dms.h"
 #include "skypoint.h"
 #include "kstarsdata.h"
-#include "klocale.h"
+#include <klocale.h>
+
+#include "kstars.h"
 
 KStarsData::KStarsData() {
 	stdDirs = new KStandardDirs();
@@ -227,20 +229,22 @@ bool KStarsData::readStarData( void ) {
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
 
-	  	line = stream.readLine();
+			line = stream.readLine();
 
+			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
+			if ( mag > options->magLimitDrawStar ) break;	// break reading file if magnitude is higher than needed
+			
 			name = "star";
 			rah = line.mid( 0, 2 ).toInt();
-		  ram = line.mid( 2, 2 ).toInt();
+			ram = line.mid( 2, 2 ).toInt();
 			ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
 			sgn = line.at( 17 );
-		  dd = line.mid( 18, 2 ).toInt();
+			dd = line.mid( 18, 2 ).toInt();
 			dm = line.mid( 20, 2 ).toInt();
 			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
-		  mag = line.mid( 33, 4 ).toFloat();
-		  SpType = line.mid( 37, 2 );
+			SpType = line.mid( 37, 2 );
 			name = line.mid( 40, 20 ).stripWhiteSpace();
 			if ( name.isEmpty() ) name = "star";
 
@@ -251,13 +255,14 @@ bool KStarsData::readStarData( void ) {
 			if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
 
 			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
-		  	starList.append( o );
+	  		starList.append( o );
 			
-			if ( o->name != "star" ) {
+			if ( o->name != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
-  				ObjNames->append (new SkyObjectName (o->name, objList->last()));
+				ObjNames->append (new SkyObjectName (o->name, objList->last()));
+				starList.last()->setSkyObjectName( ObjNames->last() );	// set pointer to ObjNames
 			}
-						
+			
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
@@ -595,4 +600,94 @@ long double KStarsData::getJD( QDateTime t ) {
   long double jd = B + C + D + d + 1720994.5;
 
   return jd;
+}
+
+bool KStarsData::appendNewStarData( float newMag ) {
+	QFile file;
+	if ( openDataFile( file, "sao.dat" ) ) {
+		QTextStream stream( &file );
+
+		while ( !stream.eof() ) {
+			QString line, name, SpType;
+			float mag;
+			int rah, ram, ras, dd, dm, ds;
+			QChar sgn;
+
+			line = stream.readLine();
+
+			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
+			if ( mag > newMag ) break;	// break reading file if magnitude is higher than needed
+							
+			if ( mag > options->magLimitDrawStar ) {	// just add higher magnitudes
+				name = "star";
+				rah = line.mid( 0, 2 ).toInt();
+				ram = line.mid( 2, 2 ).toInt();
+				ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+
+				sgn = line.at( 17 );
+				dd = line.mid( 18, 2 ).toInt();
+				dm = line.mid( 20, 2 ).toInt();
+				ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+
+				SpType = line.mid( 37, 2 );
+				name = line.mid( 40, 20 ).stripWhiteSpace();
+				if ( name.isEmpty() ) name = "star";
+
+				dms r;
+				r.setH( rah, ram, ras );
+				dms d( dd, dm,  ds );
+	
+				if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+
+				StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
+		  		starList.append( o );
+			
+				if ( o->name != "star" ) {		// just add to name list if a name is given
+					objList->append( o );
+					ObjNames->append (new SkyObjectName (o->name, objList->last()));
+					starList.last()->setSkyObjectName( ObjNames->last() );
+				}
+				// recompute coordinates if AltAz is used
+				if ( options->useAltAz ) o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
+				}
+			
+			if (mag < 4.0) starCount0 = starList.count();
+			if (mag < 6.0) starCount1 = starList.count();
+			if (mag < 7.0) starCount2 = starList.count();
+			if (mag < 7.5) starCount3 = starList.count();
+  		}	// enf of while
+		file.close();
+//		qDebug( "%i", starCount3 );
+    	return true;
+	} else {
+		return false;
+	}
+
+}
+
+void KStarsData::deleteUnusedStarData( float newMag ) {
+	StarObject *o = starList.last();
+	
+	while ( o && o->mag > newMag ) {
+	
+			if (o->mag < 4.0) starCount0--;
+			if (o->mag < 6.0) starCount1--;
+			if (o->mag < 7.0) starCount2--;
+			if (o->mag < 7.5) starCount3--;
+			
+			if ( o->skyObjectName() ) {		// just search object in objList and ObjNames if an object was allocated
+				int index = 0;
+				index = objList->findRef( o );
+				if ( index ) {
+					objList->remove( index );
+					ObjNames->remove( index );
+				
+				}
+			}
+		
+			starList.remove( o );	// delete from starList
+			o = starList.prev();
+	}
+	
+//	qDebug( "%i", starCount3 );
 }

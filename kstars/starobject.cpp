@@ -20,7 +20,7 @@
 
 #include "starobject.h"
 
-StarObject::StarObject() : SkyObject(), SpType("")
+StarObject::StarObject() : SkyObject(), SpType(""), soName( 0 )
 {
 }
 
@@ -28,15 +28,16 @@ StarObject::StarObject( StarObject &o )
 	: SkyObject (o)
 {
 	SpType = o.SpType;
+	soName = o.soName;
 }
 
 StarObject::StarObject( int t, dms r, dms d, double m, QString n, QString n2, QString lname, QString st )
-	: SkyObject (t, r, d, m, n, n2, lname), SpType(st)
+	: SkyObject (t, r, d, m, n, n2, lname), SpType(st), soName( 0 )
 {
 }
 
 StarObject::StarObject( int t, double r, double d, double m, QString n, QString n2, QString lname, QString st )
-	: SkyObject (t, r, d, m, n, n2, lname), SpType(st)
+	: SkyObject (t, r, d, m, n, n2, lname), SpType(st), soName( 0 )
 {
 }
 

@@ -229,6 +229,10 @@ private:
 	
 	int downloads;		// the current downloads of images
 	bool computeSkymap;	// if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
+
+	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
+	SkyPoint *sp;			// see line above
+
 };
 
 #endif

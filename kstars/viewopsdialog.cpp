@@ -36,15 +36,18 @@
 #include <qcolordialog.h>
 #include <qlabel.h>
 #include <qlistbox.h>
+#include <qpushbutton.h>
 
 #include "kstars.h"
 #include "magnitudespinbox.h"
 #include "viewopsdialog.h"
 
+#include "viewopsdialog.moc"
+
 ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Display Options" ), Ok|Cancel, Ok, parent ) {
 	QFrame *page = plainPage();
-	KStars *ksw = (KStars *)parent;
+	ksw = (KStars *)parent;
 
 	// Layout manager for entire dialog
 	hlay = new QHBoxLayout( page, 2, 2 );
@@ -88,10 +91,12 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showBSC->setChecked( ksw->GetOptions()->drawBSC );
 
 	// Spin box : show stars brighter than magnitude limit
-	int intMagLimitDrawStars = 10*((int)(ksw->GetOptions()->magLimitDrawStar));
+	int intMagLimitDrawStars = int ( 10.0 * ksw->GetOptions()->magLimitDrawStar );
 
-	int faintLimit = int( 10.*ksw->GetData()->starList.at(ksw->GetData()->starList.count()-1)->mag );
-	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, faintLimit, StarsTab );
+// faintLimit doesn't work with reloading star data
+//	int faintLimit = int( 10.*ksw->GetData()->starList.at(ksw->GetData()->starList.count()-1)->mag );
+//	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, faintLimit, StarsTab );
+	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 79, StarsTab );	// max mag = 7.9
 	magSpinBoxDrawStars->setFont( stdFont );
 	magSpinBoxDrawStars->setValue( intMagLimitDrawStars );
 
@@ -519,8 +524,19 @@ ViewOpsDialog::~ViewOpsDialog(){
 
 void ViewOpsDialog::changeMagDrawStars( int newValue )
 {
-	KStars *ksw = (KStars *)parent();
 	float fNewValue = ( newValue * 1.0) / 10.0;
+	
+	float diff = ksw->GetOptions()->magLimitDrawStar - fNewValue;
+	if ( diff > 0.0 ) {	// delete unused star data
+		ksw->GetData()->deleteUnusedStarData( fNewValue );
+	}
+	else
+	if ( diff < 0.0 ) {	// load new star data
+		ksw->GetData()->appendNewStarData( fNewValue );
+	}
+	else
+		return;		// break because nothing has changed
+	
 	ksw->GetOptions()->magLimitDrawStar = fNewValue;
 	// force redraw
 	ksw->skymap->Update();
@@ -528,7 +544,6 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 
 void ViewOpsDialog::changeMagDrawInfo( int newValue )
 {
-	KStars *ksw = (KStars *)parent();
 	qDebug( "magnitude limit draw star info %d", newValue );
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	ksw->GetOptions()->magLimitDrawStarInfo = fNewValue;
@@ -537,7 +552,6 @@ void ViewOpsDialog::changeMagDrawInfo( int newValue )
 }
 
 void ViewOpsDialog::newColor( QListBoxItem *item ) {
-	KStars *ksw = (KStars *)parent();
 	QPixmap *temp = new QPixmap( 30, 20 );
   QColor newColor;
 	if ( item->text() == i18n( "Sky" ) ) {
@@ -661,7 +675,6 @@ void ViewOpsDialog::slotPreset( int index ) {
 }
 
 void ViewOpsDialog::slotAddPreset( void ) {
-	KStars *ksw = (KStars *)parent();
 	QFile file;
 	QString filename;
 
@@ -714,7 +727,6 @@ void ViewOpsDialog::slotAddPreset( void ) {
 }
 
 bool ViewOpsDialog::setColors( QString filename ) {
-	KStars *ksw = (KStars *)parent();
 	QPixmap *temp = new QPixmap( 30, 20 );
 	QFile file;
 	int i=0;
@@ -833,7 +845,6 @@ bool ViewOpsDialog::setColors( QString filename ) {
 }
 
 void ViewOpsDialog::updateDisplay( void ) {
-	KStars *ksw = (KStars *)parent();
 	ksw->GetOptions()->drawBSC = showBSC->isChecked();
 	ksw->GetOptions()->drawMessier = showMessier->isChecked();
 	ksw->GetOptions()->drawMessImages = showMessImages->isChecked();
@@ -870,7 +881,6 @@ void ViewOpsDialog::updateDisplay( void ) {
 }
 
 void ViewOpsDialog::changeCoordSys( void ) {
-	KStars *ksw = (KStars *)parent();
 	ksw->GetOptions()->useAltAz = AltAzRadio->isChecked();
 	showGround->setEnabled( AltAzRadio->isChecked() );
 
@@ -882,14 +892,12 @@ void ViewOpsDialog::changeCoordSys( void ) {
 }
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
-	KStars *ksw = (KStars *)parent();
 	ksw->skymap->starpix->setIntensity (newValue);
 	ksw->GetOptions()->starColorIntensity = ksw->skymap->starpix->intensity();
 	ksw->skymap->Update();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
-	KStars *ksw = (KStars *)parent();
 	ksw->skymap->starpix->setColorMode( newValue );
 	ksw->GetOptions()->starColorMode = ksw->skymap->starpix->mode();
 	if (newValue) IntensityBox->setEnabled( false );
@@ -924,4 +932,3 @@ void ViewOpsDialog::unMarkPlanets( void ) {
 	showPluto->setChecked( false );
 	updateDisplay();
 }
-#include "viewopsdialog.moc"

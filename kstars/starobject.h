@@ -23,6 +23,8 @@
 
 #include "skyobject.h"
 
+class SkyObjectName;
+
 /**
   *@author Thomas Kabelmann
   */
@@ -34,19 +36,24 @@ class StarObject : public SkyObject {
 
 		StarObject(StarObject & o);
 
-  	StarObject( int t, dms r, dms d, double m, QString n="unnamed",
+	  	StarObject( int t, dms r, dms d, double m, QString n="unnamed",
   					 		QString n2="", QString lname="", QString SpType="" );
 
-  	StarObject( int t, double r, double d, double m, QString n="unnamed",
+  		StarObject( int t, double r, double d, double m, QString n="unnamed",
   					 		QString n2="", QString lname="", QString SpType="" );
 
 		~StarObject();
 
 		QChar color() { return SpType.at(0); }
 		QString sptype() { return SpType; }
-
+		
+		void setSkyObjectName( SkyObjectName *n ) { soName = n; }
+		SkyObjectName *skyObjectName() { return soName; }
+		
 	private:
 		QString SpType;
+		
+		SkyObjectName *soName;
 };
 
 #endif

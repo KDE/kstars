@@ -40,6 +40,7 @@ class QListBoxItem;
 class QPixmap;
 class MagnitudeSpinBox;
 class KIntSpinBox;
+class KStars;
 
 /**
 	*Dialog containing controls for all user-configuration options in KStars,
@@ -137,6 +138,8 @@ private:
 
 	QStringList PresetFileList;
 
+	KStars *ksw;
+	
 private slots:
 /**
 	*Choose a new palette Color for the selected item with a QColorDialog.

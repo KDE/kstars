@@ -48,6 +48,10 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
  : QWidget (parent,name), downloads (0), computeSkymap (true)
 {
 	ksw = (KStars*) kapp->mainWidget();
+
+	pts = new QPointArray( 2000 );  // points for milkyway and horizon
+	sp = new SkyPoint();            // needed by coordinate grid
+
 	setDefaultMouseCursor();	// set the cross cursor
 	kapp->config()->setGroup( "View" );
 	ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
@@ -77,6 +81,10 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 SkyMap::~SkyMap() {
 	delete starpix;
+	delete pts;
+	delete sp;
+	delete sky;
+	delete pmenu;
 }
 
 void SkyMap::initPopupMenu( void ) {
@@ -1069,7 +1077,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	QFont smallFont = psky.font();
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
 
-	QPointArray pts;
+//	QPointArray pts;
 	QList<QPoint> points;
 	int ptsCount;
 
@@ -1083,22 +1091,20 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		for ( unsigned int j=0; j<11; ++j ) {
 			if ( ksw->GetOptions()->fillMilkyWay ) {
 				ptsCount = 0;
-				pts.resize( 2000 );
 				bool partVisible = false;
 
 				QPoint o = getXY( ksw->GetData()->MilkyWay[j].at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-				if ( o.x() != -100000 && o.y() != -100000 ) pts.setPoint( ptsCount++, o.x(), o.y() );
+				if ( o.x() != -100000 && o.y() != -100000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) partVisible = true;
 
 				for ( unsigned int i=1; i<ksw->GetData()->MilkyWay[j].count(); ++i ) {
 					o = getXY( ksw->GetData()->MilkyWay[j].at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-					if ( o.x() != -100000 && o.y() != -100000 ) pts.setPoint( ptsCount++, o.x(), o.y() );
+					if ( o.x() != -100000 && o.y() != -100000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) partVisible = true;
 				}
 
 				if ( ptsCount && partVisible ) {
-					pts.resize( ptsCount );
-					psky.drawPolygon( pts );
+					psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
 	 	  	}
 			} else {
 	      QPoint o = getXY( ksw->GetData()->MilkyWay[j].at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1133,7 +1139,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		//First, the parallels
 		for ( double Dec=-80.; Dec<=80.; Dec += 20. ) {
 			bool newlyVisible = false;
-			SkyPoint *sp = new SkyPoint( 0.0, Dec );
+//			SkyPoint *sp = new SkyPoint( 0.0, Dec );
+			sp->set( 0.0, Dec );
 			if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
 			QPoint o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 			QPoint o1 = o;
@@ -1164,8 +1171,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			} else {
 				psky.moveTo( o1.x(), o1.y() );	
 			}
-
-			delete sp; //leaks are bad :)
 		}
 
     //next, the meridians
@@ -1193,8 +1198,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					psky.moveTo( o.x(), o.y() );	
 				}
 			}
-
-			delete sp; //leaks are bad :)
 		}
 	}
 
@@ -1341,50 +1344,49 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		unsigned int numStars = ksw->GetData()->starList.count();
 	  //Only draw bright stars if slewing
 		if ( slewing ) numStars = ksw->GetData()->starCount1;
+//		if ( slewing ) maglim = 6.0;
+	
+	int i = 0;
+	for ( StarObject *curStar = ksw->GetData()->starList.first(); curStar; curStar = ksw->GetData()->starList.next() ) {
+//		if ( curStar->mag > maglim || ( slewing && curStar->mag > 6.0 ) ) break;
+		if ( i++ > numStars ) break;
+		
+		if ( checkVisibility( curStar->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+			QPoint o = getXY( curStar->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 
-		// draw a limited amount of stars
-		for ( unsigned int i=0; i < numStars; ++i ) {
-			StarObject* curStar = ksw->GetData()->starList.at(i);
-			if ( checkVisibility( curStar->pos(), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
-				QPoint o = getXY( curStar->pos(), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+			// draw star if currently on screen
+			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+				// but only if the star is bright enough.
+					float mag = curStar->mag;
+					float sizeFactor = 2.0;
+					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
+					if (size>23) size=23;
 
-				// draw star if currently on screen
-				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-					// but only if the star is bright enough.
-					if ( curStar->mag <= maglim ) {
-						float mag = curStar->mag;
-						float sizeFactor = 2.0;
-						int size = int( sizeFactor*(zoomlim - mag) ) + 1;
-            if (size>23) size=23;
-
-						if ( size > 0 ) {
-							psky.setPen( QColor( ksw->GetOptions()->colorSky ) );
-							drawSymbol( psky, curStar->type, o.x(), o.y(), size, curStar->color() );
-							// now that we have drawn the star, we can display some extra info
-							if ( !slewing && (curStar->mag <= ksw->GetOptions()->magLimitDrawStarInfo )
-									&& (ksw->GetOptions()->drawStarName || ksw->GetOptions()->drawStarMagnitude ) )
-							{
-								// collect info text
-								QString sTmp = "";
-								if ( ksw->GetOptions()->drawStarName ) {
-									if (curStar->name != "star") sTmp = curStar->name + " ";
-								}
-								if ( ksw->GetOptions()->drawStarMagnitude ) {
-									sTmp += QString().sprintf("%.1f", curStar->mag );
-								}
-	  	    	 	  int offset = int( 7.5 - mag ) + 5;
-								psky.setPen( QColor( ksw->GetOptions()->colorSName ) );
-								psky.drawText( o.x()+offset, o.y()+offset, sTmp );
-  	  	  	 	}
-						}
-					} else {
-						break; //stars are ordered by brightness.  once one id too faint, skip the rest...
+					if ( size > 0 ) {
+						psky.setPen( QColor( ksw->GetOptions()->colorSky ) );
+						drawSymbol( psky, curStar->type, o.x(), o.y(), size, curStar->color() );
+						// now that we have drawn the star, we can display some extra info
+						if ( !slewing && (curStar->mag <= ksw->GetOptions()->magLimitDrawStarInfo )
+								&& (ksw->GetOptions()->drawStarName || ksw->GetOptions()->drawStarMagnitude ) ) {
+							// collect info text
+							QString sTmp = "";
+							if ( ksw->GetOptions()->drawStarName ) {
+//								if (curStar->name != "star") sTmp = curStar->name + " ";	// see line below
+								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
+							}
+							if ( ksw->GetOptions()->drawStarMagnitude ) {
+								sTmp += QString().sprintf("%.1f", curStar->mag );
+							}
+							int offset = int( 7.5 - mag ) + 5;
+							psky.setPen( QColor( ksw->GetOptions()->colorSName ) );
+							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
+  	  	  	 			}
 					}
 				}
 			}
 		}
-  }
-
+	}
+	
   //Draw IC Objects
   if ( !slewing && ksw->GetOptions()->drawIC ) {
 		psky.setBrush( NoBrush );
@@ -1659,7 +1661,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		psky.setPen( QColor ( ksw->GetOptions()->colorHorz ) );
 		psky.setBrush( QColor ( ksw->GetOptions()->colorHorz ) );
 		ptsCount = 0;
-		pts.resize( 720 );
 
 		for ( unsigned int i=0; i<ksw->GetData()->Horizon.count(); ++i ) {
 			QPoint *o = new QPoint();
@@ -1689,11 +1690,11 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		}
 
 //	Fill the pts array with sorted horizon points, Draw Horizon Line
-		pts.setPoint( 0, points.at(0)->x(), points.at(0)->y() );
+		pts->setPoint( 0, points.at(0)->x(), points.at(0)->y() );
 		if ( ksw->GetOptions()->drawHorizon ) psky.moveTo( points.at(0)->x(), points.at(0)->y() );
 
 		for ( unsigned int i=1; i<points.count(); ++i ) {
-			pts.setPoint( i, points.at(i)->x(), points.at(i)->y() );
+			pts->setPoint( i, points.at(i)->x(), points.at(i)->y() );
 			if ( ksw->GetOptions()->drawHorizon ) {
 				if ( !ksw->GetOptions()->useAltAz && ( abs( points.at(i)->x() - psky.pos().x() ) > 250 ||
 							abs( points.at(i)->y() - psky.pos().y() ) > 250 ) ) {
@@ -1711,11 +1712,10 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 //  Finish the polygon by adding a square bottom edge, offscreen
 	if ( ksw->GetOptions()->useAltAz && ksw->GetOptions()->drawGround ) {
 		ptsCount = points.count();
-		pts.setPoint( ptsCount++, width()+10, height()+10 );
-		pts.setPoint( ptsCount++, -10, height()+10 );
-		pts.resize( ptsCount );
+		pts->setPoint( ptsCount++, width()+10, height()+10 );
+		pts->setPoint( ptsCount++, -10, height()+10 );
 
-		psky.drawPolygon( pts );
+		psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
 
 //  remove all items in points list
 

@@ -24,15 +24,19 @@
 #include <qlineedit.h>
 #include <qsizepolicy.h>
 #include <qtooltip.h>
-#include <stdio.h>
-#include <stream.h>
+#include <qlayout.h>
+
 #include <kapp.h>
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kaccel.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <qlayout.h>
+#include <kstatusbar.h>
+#include <kpopupmenu.h>
+
+#include <stdio.h>
+#include <stream.h>
 
 #include "timedialog.h"
 #include "locationdialog.h"
@@ -372,14 +376,17 @@ KStarsOptions* KStars::GetOptions()
 
 
 void KStars::initMenuBar() {
-	QPopupMenu *p;
+//	QPopupMenu *p;
+	KPopupMenu *p;
 
-	p = new QPopupMenu;
+//	p = new QPopupMenu;
+	p = new KPopupMenu;
 	actQuit = KStdAction::quit(this, SLOT( close() ), actionCollection() );
 	actQuit->plug( p );
 	menuBar()->insertItem( i18n( "&File" ), p );
 
-	p = new QPopupMenu;
+//	p = new QPopupMenu;
+	p = new KPopupMenu;
 	actTimeNow = new KAction( i18n( "Set Time to &Now" ), 0, this, SLOT( mSetTimeToNow() ), actionCollection() );
 	actTimeSet = new KAction( i18n( "&Set Time..." ), BarIcon( "clock" ), 0, this, SLOT( mSetTime() ), actionCollection() );
 	actTimeSet->setAccel( KAccel::stringToKey( "Ctrl+S"  ) );
@@ -389,7 +396,8 @@ void KStars::initMenuBar() {
 	actTimeRun->plug( p );
 	menuBar()->insertItem( i18n( "&Time" ), p );
 
-	p = new QPopupMenu;
+//	p = new QPopupMenu;
+	p = new KPopupMenu;
 	p->insertItem( i18n( "&Zenith" ), this, SLOT( mZenith() ));
 	actFind = KStdAction::find( this, SLOT( mFind() ), actionCollection() );
 	actFind->setText( i18n( "&Find Object..." ) );
@@ -416,7 +424,8 @@ void KStars::initMenuBar() {
 	actLocation->plug( p );
 	menuBar()->insertItem( i18n( "&Location" ), p );
 
-	p = new QPopupMenu;
+//	p = new QPopupMenu;
+	p = new KPopupMenu;
 //	p->insertItem( i18n( "&Reverse Video" ), this, SLOT( mReverseVideo() ));
 	actZoomIn = KStdAction::zoomIn(this, SLOT( mZoomIn() ), actionCollection() );
 	actZoomOut = KStdAction::zoomOut(this, SLOT( mZoomOut() ), actionCollection() );
@@ -428,7 +437,8 @@ void KStars::initMenuBar() {
 	actViewOps->plug( p );
 	menuBar()->insertItem( i18n( "&View" ), p );
 
-	p = helpMenu( false );
+//	p = helpMenu( false );
+	p = helpMenu( 0, false );
 	actInfo = new KAction( i18n( "&AstroInfo..." ), BarIcon( "help" ), 0, this, SLOT( mAstroInfo() ), actionCollection() );
 	actInfo->setAccel( KAccel::stringToKey( "Ctrl+A"  ) );
 	actInfo->plug( p );
@@ -538,7 +548,7 @@ void KStars::initOptions()
 	GetOptions()->focusObject = kapp->config()->readEntry( "FocusObject", "nothing" );
 	GetOptions()->focusDec = kapp->config()->readDoubleNumEntry( "FocusDec", 45.0 );
 	GetOptions()->focusRA = kapp->config()->readDoubleNumEntry( "FocusRA", 180.0 );
-	GetOptions()->magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );
+//	GetOptions()->magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );		// readed in KStarsOptions()
 	GetOptions()->magLimitDrawStarInfo = kapp->config()->readDoubleNumEntry( "magLimitDrawStarInfo", 2.0 );
 	GetOptions()->drawStarName = kapp->config()->readBoolEntry( "drawStarName", false );
 	GetOptions()->drawStarMagnitude = kapp->config()->readBoolEntry( "drawStarMagnitude", false );
