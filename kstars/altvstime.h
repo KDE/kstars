@@ -57,6 +57,8 @@ public:
 	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
 
 protected:
+	void mouseMoveEvent( QMouseEvent *e );
+	void mousePressEvent( QMouseEvent *e );
 	void paintEvent( QPaintEvent *e );
 };
 

@@ -667,6 +667,36 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 //empty
 }
 
+void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
+	mouseMoveEvent( e );
+}
+
+void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
+	QRect checkRect( leftPadding(), topPadding(), PixRect.width(), PixRect.height() );
+	int Xcursor = e->x();
+	int Ycursor = e->y();
+	
+	if ( ! checkRect.contains( e->x(), e->y() ) ) {
+		if ( e->x() < checkRect.left() )   Xcursor = checkRect.left();
+		if ( e->x() > checkRect.right() )  Xcursor = checkRect.right();
+		if ( e->y() < checkRect.top() )    Ycursor = checkRect.top();
+		if ( e->y() > checkRect.bottom() ) Ycursor = checkRect.bottom();
+	}
+	
+	Xcursor -= leftPadding();
+	Ycursor -= topPadding();
+	
+	QPixmap buffer2( *buffer );
+	QPainter p;
+	p.begin( &buffer2 );
+	p.translate( leftPadding(), topPadding() );
+	p.setPen( QPen( "grey", 1, SolidLine ) );
+	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
+	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
+	p.end();
+	bitBlt( this, 0, 0, &buffer2 );
+}
+
 void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 	QPainter p;
 
