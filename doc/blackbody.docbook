@@ -29,7 +29,7 @@ temperature, a blackbody will begin to glow with
 
 <para>
 In fact, all objects emit thermal radiation (as long as their
-temperature is above Absolute Zero, or -276.15 degrees Celsius),
+temperature is above Absolute Zero, or -273.15 degrees Celsius),
 but no object emits thermal radiation perfectly; rather, they are
 better at emitting/absorbing some wavelengths of light than others.
 These uneven efficiencies make it difficult to study the interaction
