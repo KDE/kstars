@@ -20,7 +20,6 @@
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
-#include <qcolordialog.h>
 #include <qlistview.h>
 #include <qspinbox.h>
 
@@ -28,6 +27,7 @@
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kcolordialog.h>
 
 #include "kstars.h"
 #include "magnitudespinbox.h"
@@ -203,7 +203,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayPlanetTab = new QVBoxLayout( PlanetTab );
 	vlayPlanetTab->setSpacing( 6 );
 	vlayPlanetTab->setMargin( 11 );
-	
+
 	PlanetBox = new QGroupBox( i18n( "Sun, Moon and Planets" ), PlanetTab, "PlanetBox" );
 	vlayPlanetBox = new QVBoxLayout( PlanetBox );
 	glayPlanetBox = new QGridLayout( 5, 3 );
@@ -290,28 +290,28 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	glayMinorBox = new QGridLayout( 3, 3 );
 	vlayMinorBox->setSpacing( 6 );
 	vlayMinorBox->setMargin( 11 );
-	
+
 	showAsteroids = new QCheckBox( i18n( "Asteroids" ), MinorBox, "show_asteroids" );
 	showAsteroids->setFont( stdFont );
 	showAsteroids->setChecked( ksw->options()->drawAsteroids );
-	
+
 	textLabelMagAsteroids = new QLabel( MinorBox, "LabelMagAsteroids" );
 	textLabelMagAsteroids->setFont( stdFont );
 	textLabelMagAsteroids->setText( i18n( "Show asteroids brighter than " ) );
-	
+
 	int intMagLimitAsteroid = int( 10 * ksw->options()->magLimitAsteroid );
-	astDrawSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
+	astDrawSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0
 	astDrawSpinBox->setFont( stdFont );
 	astDrawSpinBox->setValue( intMagLimitAsteroid );
 	astDrawSpinBox->setEnabled( ksw->options()->drawAsteroids );
-	
+
 	showAsteroidNames = new QCheckBox( i18n( "Show names of asteroids brighter than: " ), MinorBox, "show_asteroid_names" );
 	showAsteroidNames->setFont( stdFont );
 	showAsteroidNames->setChecked( ksw->options()->drawAsteroidName );
 	showAsteroidNames->setEnabled( ksw->options()->drawAsteroids );
-	
+
 	int intMagLimitAsteroidName = int( 10 * ksw->options()->magLimitAsteroidName );
-	astNameSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
+	astNameSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0
 	astNameSpinBox->setFont( stdFont );
 	astNameSpinBox->setValue( intMagLimitAsteroidName );
 	astNameSpinBox->setEnabled( ksw->options()->drawAsteroids );
@@ -320,20 +320,20 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showComets = new QCheckBox( i18n( "Comets" ), MinorBox, "show_comets" );
 	showComets->setFont( stdFont );
 	showComets->setChecked( ksw->options()->drawComets );
-	
+
 	showCometNames = new QCheckBox( i18n( "Show names of comets within (AU): " ), MinorBox, "show_comet_names" );
 	showCometNames->setFont( stdFont );
 	showCometNames->setChecked( ksw->options()->drawCometName );
 	showCometNames->setEnabled( ksw->options()->drawComets );
-	
+
 	int intMaxRadCometName = int( 10 * ksw->options()->maxRadCometName );
-	comNameSpinBox = new MagnitudeSpinBox( 0, 1000, MinorBox );	// max rad = 100.0 AU 
+	comNameSpinBox = new MagnitudeSpinBox( 0, 1000, MinorBox );	// max rad = 100.0 AU
 	comNameSpinBox->setFont( stdFont );
 	comNameSpinBox->setValue( intMaxRadCometName );
 	comNameSpinBox->setEnabled( ksw->options()->drawComets && ksw->options()->drawCometName );
-	
+
 	QSpacerItem *spacerAsteroid  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
-	
+
 	glayMinorBox->addWidget( showAsteroids, 0, 0 );
 	glayMinorBox->addItem( spacerAsteroid, 1, 0 );
 	glayMinorBox->addWidget( showComets, 2, 0 );
@@ -343,46 +343,46 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	glayMinorBox->addWidget( astDrawSpinBox, 0, 2 );
 	glayMinorBox->addWidget( astNameSpinBox, 1, 2 );
 	glayMinorBox->addWidget( comNameSpinBox, 2, 2 );
-	
+
 	//Planet Trails
 	TrailBox = new QGroupBox( i18n( "Planetary Trails" ), PlanetTab, "TrailBox" );
 	vlayTrailBox = new QVBoxLayout( TrailBox );
 	glayTrailBox = new QGridLayout( 2, 2 );
 	vlayTrailBox->setSpacing( 6 );
 	vlayTrailBox->setMargin( 11 );
-	
+
 	autoTrail = new QCheckBox( i18n( "Always show Trail when tracking a solar system body" ), TrailBox );
 	autoTrail->setFont( stdFont );
 	autoTrail->setChecked( ksw->options()->useAutoTrail );
-	
+
 	fadePlanetTrails = new QCheckBox( i18n( "Planet trails fade to background color" ), TrailBox );
 	fadePlanetTrails->setFont( stdFont );
 	fadePlanetTrails->setChecked( ksw->options()->fadePlanetTrails );
-	
+
 	ClearAllTrails = new QPushButton( i18n( "Remove All Trails" ), TrailBox );
 	ClearAllTrails->setFont( stdFont );
-	
+
 	glayTrailBox->addWidget( autoTrail, 0, 0 );
 	glayTrailBox->addWidget( fadePlanetTrails, 1, 0 );
 	glayTrailBox->addItem( new QSpacerItem( 20, 10, QSizePolicy::Minimum, QSizePolicy::Minimum ), 0, 1 );
 	glayTrailBox->addWidget( ClearAllTrails, 1, 1 );
-	
+
 	QSpacerItem *spacerPlanetTab  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerPlanetBox  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerMinorBox   = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerTrailBox   = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-	
+
 	vlayPlanetBox->addItem( spacerPlanetBox );
 	vlayPlanetBox->addLayout( glayPlanetBox );
 	vlayMinorBox->addItem( spacerMinorBox );
 	vlayMinorBox->addLayout( glayMinorBox );
 	vlayTrailBox->addItem( spacerTrailBox );
 	vlayTrailBox->addLayout( glayTrailBox );
-	
+
 	vlayPlanetTab->addWidget( PlanetBox );
 	vlayPlanetTab->addWidget( MinorBox );
 	vlayPlanetTab->addWidget( TrailBox );
-	
+
 	vlayPlanetTab->addItem( spacerPlanetTab );
 
 	DisplayTabs->insertTab( PlanetTab, i18n( "Solar System" ) );
@@ -669,7 +669,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	glayAdvHideObj->addWidget( hideCNames, 1, 1 );
 	glayAdvHideObj->addWidget( hideCLines, 2, 1 );
 	glayAdvHideObj->addWidget( hideGrid, 3, 1 );
-	
+
 	vlayAdvHideObj->addLayout( hlayAdvHideStars );
 	vlayAdvHideObj->addLayout( glayAdvHideObj );
 
@@ -686,7 +686,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 //*** Done Making Tabs ***//
 
-//Activate main layout	
+//Activate main layout
 	hlay->addWidget( DisplayBox );
 	hlay->activate();
 
@@ -818,7 +818,9 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 
 	for ( i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
 		if ( item->text() == ksw->options()->colorScheme()->nameAt( i ) ) {
-			newColor = QColorDialog::getColor( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
+                    QColor col( ksw->options()->colorScheme()->colorAt( i ) );
+                    if(KColorDialog::getColor( col ))
+                        newColor = col;
 			break;
 		}
 	}
@@ -885,7 +887,7 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 
 	//Remove action from color-schemes menu
 	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).local8Bit() );
-	
+
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
 		KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
@@ -935,7 +937,7 @@ bool ViewOpsDialog::setColors( QString filename ) {
 	if ( ksw->options()->colorScheme()->load( filename ) ) {
 	  if ( ksw->map()->starColorMode() != ksw->options()->colorScheme()->starColorMode() )
 	    ksw->map()->setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
-	  
+
 		for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
 			temp->fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
 			ColorPalette->changeItem( *temp, ksw->options()->colorScheme()->nameAt( i ), i );
@@ -1224,7 +1226,7 @@ void ViewOpsDialog::changeAutoTrail( void ) {
 			ksw->data()->temporaryTrail = false;
 		}
 	}
-	
+
 	updateDisplay();
 }
 
@@ -1241,10 +1243,10 @@ void ViewOpsDialog::clearPlanetTrails( void ) {
 	ksw->data()->PC->findByName("Neptune")->clearTrail();
 	ksw->data()->PC->findByName("Pluto")->clearTrail();
 
-	for ( KSPlanetBase *ksp = ksw->data()->asteroidList.first(); ksp; ksp = ksw->data()->asteroidList.next() ) 
+	for ( KSPlanetBase *ksp = ksw->data()->asteroidList.first(); ksp; ksp = ksw->data()->asteroidList.next() )
 		ksp->clearTrail();
 
-	for ( KSPlanetBase *ksp = ksw->data()->cometList.first(); ksp; ksp = ksw->data()->cometList.next() ) 
+	for ( KSPlanetBase *ksp = ksw->data()->cometList.first(); ksp; ksp = ksw->data()->cometList.next() )
 		ksp->clearTrail();
 
 	ksw->map()->forceUpdate();
