@@ -888,7 +888,7 @@ private:
 	*a slightly increased Dec as the object, and calculating the angle w.r.t. the 
 	*Y-axis of the line connecing the object to its test point. 
 	*/
-	double findPA( SkyObject *o, int x, int y );
+	double findPA( SkyObject *o, int x, int y, double scale=1.0 );
 
 /**@short Sets the shape of the default mouse cursor to a cross.  
 	*/

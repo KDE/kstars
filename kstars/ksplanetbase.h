@@ -211,7 +211,7 @@ public:
 
 /**@return the Planet's position angle.
 	*/
-		double pa() const { return PositionAngle; }
+		virtual double pa() const { return PositionAngle; }
 
 /**@short Set the Planet's position angle.
 	*@param p the new position angle

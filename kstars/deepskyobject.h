@@ -59,7 +59,7 @@ public:
 	DeepSkyObject( int t=SkyObject::STAR, dms r=dms(0.0), dms d=dms(0.0), 
 			float m=0.0, QString n="unnamed", QString n2="", 
 			QString lname="", QString cat="", 
-			float a=0.0, float b=0.0, short int pa=0, 
+			float a=0.0, float b=0.0, double pa=0.0, 
 			int pgc=0, int ugc=0 );
 
 /**Constructor.  Create DeepSkyObject with data according to arguments.  
@@ -81,7 +81,7 @@ public:
 	DeepSkyObject( int t, double r, double d, float m=0.0,
 			QString n="unnamed", QString n2="", QString lname="", 
 			QString cat="", float a=0.0, float b=0.0,
-			short int pa=0, int pgc=0, int ugc=0 );
+			double pa=0.0, int pgc=0, int ugc=0 );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -130,7 +130,7 @@ public:
 
 /**@return the object's position angle, meausred clockwise from North.
 	*/
-	int pa() const { return PositionAngle; }
+	virtual double pa() const { return PositionAngle; }
 
 /**@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
 	*/
@@ -187,7 +187,7 @@ public:
 
 private:
 	unsigned char Catalog; 
-	short int PositionAngle;
+        double PositionAngle;
 	int UGC, PGC;
 	float MajorAxis, MinorAxis;
 	QImage *Image;

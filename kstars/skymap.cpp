@@ -941,7 +941,7 @@ void SkyMap::invokeKey( int key ) {
 	delete e;
 }
 
-double SkyMap::findPA( SkyObject *o, int x, int y ) {
+double SkyMap::findPA( SkyObject *o, int x, int y, double scale ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/zoomFactor radians (so distance is always 100 pixels)
 	//this is 5730/zoomFactor degrees
@@ -949,7 +949,7 @@ double SkyMap::findPA( SkyObject *o, int x, int y ) {
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	QPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction() );
+	QPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction(), scale );
 	double dx = double( t.x() - x );  
 	double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
 	double north;
@@ -962,6 +962,10 @@ double SkyMap::findPA( SkyObject *o, int x, int y ) {
 		north = 90.0;
 		if ( dx > 0 ) north = -90.0;
 	}
+
+	//DEBUG
+	if ( o->name() == "M 31" ) 
+	  qDebug( "M 31: dx: %f  dy: %f  north: %f   o->pa(): %f", dx, dy, north, o->pa() );
 
 	return ( north + o->pa() );
 }

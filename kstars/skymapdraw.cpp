@@ -1114,8 +1114,11 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 					if ( size > 0 ) {
 						QChar c = curStar->color();
-						QPixmap *spixmap = starpix->getPixmap( &c, size );
-						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+						QImage tmp = starpix->getPixmap( &c, size )->convertToImage();
+						if ( scale != 1.0 ) tmp = tmp.smoothScale( int(scale*tmp.width()), int(scale*tmp.height()) );
+						QPixmap spixmap( tmp );
+						//QPixmap *spixmap = starpix->getPixmap( &c, size );
+						curStar->draw( psky, sky, &spixmap, o.x(), o.y(), true, scale );
 						
 						// now that we have drawn the star, we can display some extra info
 						if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
@@ -1164,11 +1167,11 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-						double PositionAngle = 90. + findPA( obj, o.x(), o.y() );
+						double PositionAngle = 90. + findPA( obj, o.x(), o.y(), scale );
 						
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-							obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
+							obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), scale );
 						}
 						
 						//Draw Symbol
@@ -1185,7 +1188,11 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 								bColorChanged = true;
 							}
 	
-							obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
+							//DEBUG
+							if ( obj->name() == "M 31" )
+							  qDebug( "M 31 PA: %f  %f", PositionAngle, obj->pa() );
+
+							obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), scale );
 	
 							// revert temporary color change
 							if ( bColorChanged ) {
@@ -1276,7 +1283,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							}
 						} else {
 							//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-							double pa = 90. + findPA( obj, o.x(), o.y() );
+							double pa = 90. + findPA( obj, o.x(), o.y(), scale );
 							obj->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 							obj->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 						}
@@ -1371,6 +1378,8 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 			minsize = 8;
 		if ( size < minsize )
 			size = minsize;
+		if ( p->name() == "Saturn" )
+			size = int(2.5*size);
 
 	//Other
 	} else {
@@ -1659,7 +1668,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 				//which the two squares are rotated (in our case, equal to the position angle +
 				//the north angle, reduced between 0 and 90 degrees).
 				//The proof is left as an exercise to the student :)
-				dms pa( findPA( (SkyObject *)p, o.x(), o.y() ) );
+				dms pa( findPA( p, o.x(), o.y(), scale ) );
 				double spa, cpa;
 				pa.SinCos( spa, cpa );
 				cpa = fabs(cpa); 
@@ -1668,7 +1677,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 				
 				//Because Saturn has rings, we inflate its image size by a factor 2.5 
 				if ( p->name() == "Saturn" ) size = int(2.5*size);
-				
+
 				if (resize_mult != 1) {
 					size *= resize_mult;
 				}
