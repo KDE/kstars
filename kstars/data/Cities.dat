@@ -17,7 +17,7 @@ Adak                             : Alaska                : USA                  
 Adams                            : Massachusetts         : USA                   : 42 : 34 : 58 : N :  73 : 10 :  1 : W : -5.0 : US
 Adamstown                        :                       : Pitcairn Islands      : 25 :  3 : 59 : S : 130 :  4 : 58 : W : -8.0 : --
 Addis Ababa                      :                       : Ethiopia              :  9 :  0 :  0 : N :  38 : 43 : 59 : E : 3.0  : --
-Adelaide                         : South Australia       : Australia             : 34 : 45 : 59 : S : 138 : 32 : 12 : E : +9.0 : AU
+Adelaide                         : South Australia       : Australia             : 34 : 45 : 59 : S : 138 : 32 : 12 : E : +9.5 : AU
 Aden                             :                       : Yemen                 : 12 : 48 :  0 : N :  45 :  0 :  0 : E : 3.0  : --
 Afton                            : Oklahoma              : USA                   : 36 : 42 :  0 : N :  94 : 55 : 58 : W : -6.0 : US
 Afton                            : Wyoming               : USA                   : 42 : 42 :  0 : N : 110 : 52 :  1 : W : -7.0 : US
@@ -50,7 +50,7 @@ Algiers                          :                       : Algeria              
 Algonquin                        :                       : Canada                : 45 : 57 :  3 : N :  78 :  4 : 30 : W : -5.0 : US
 Alhambra                         : California            : USA                   : 34 :  8 : 24 : N : 118 :  6 : 25 : W : -8.0 : US
 Alicante                         :                       : Spain                 : 38 : 20 : 43 : N :  00 : 28 : 58 : W : 1.0  : EU
-Alice Springs                    : Northern Territory    : Australia             : 23 : 48 :  0 : S : 133 : 54 :  0 : E : +9.0 : --
+Alice Springs                    : Northern Territory    : Australia             : 23 : 48 :  0 : S : 133 : 54 :  0 : E : +9.5 : --
 Allegheny Obs.                   : Pennsylvania          : USA                   : 40 : 29 :  0 : N :  80 :  1 : 14 : W : -5.0 : US
 Allentown                        : Pennsylvania          : USA                   : 40 : 36 : 10 : N :  75 : 28 :  5 : W : -5.0 : US
 Alliance                         : Nebraska              : USA                   : 42 :  6 :  0 : N : 102 : 52 : 58 : W : -7.0 : US
@@ -563,7 +563,7 @@ Danville                         : Virginia              : USA                  
 Danyang                          :                       : South Korea           : 36 : 56 :  0 : N : 128 : 27 : 29 : E :  9.0 : SK
 Dar es Salaam                    :                       : Tanzania              :  6 : 47 : 59 : S :  39 : 16 : 59 : E : 3.0  : --
 Darmstadt                        :                       : Germany               : 49 : 52 : 00 : N :   8 : 39 : 00 : E : 1.0  : EU
-Darwin                           : Northern Territory    : Australia             : 12 : 25 : 11 : S : 130 : 50 : 12 : E : 9.5  : --
+Darwin                           : Northern Territory    : Australia             : 12 : 25 : 11 : S : 130 : 50 : 12 : E : +9.5 : --
 Davenport                        : Iowa                  : USA                   : 41 : 31 : 18 : N :  90 : 34 : 32 : W : -6.0 : US
 Dayton                           : Ohio                  : USA                   : 39 : 45 : 32 : N :  84 : 11 : 43 : W : -5.0 : US
 Dayton                           : Tennessee             : USA                   : 35 : 30 :  0 : N :  85 :  0 :  0 : W : -5.0 : US
@@ -1779,7 +1779,7 @@ Paris                            : Illinois              : USA                  
 Park Rapids                      : Minnesota             : USA                   : 46 : 52 : 58 : N :  95 :  4 : 58 : W : -6.0 : US
 Park View                        : New Mexico            : USA                   : 36 : 45 :  0 : N : 106 : 30 :  0 : W : -7.0 : US
 Parkersburg                      : West Virginia         : USA                   : 39 : 16 :  0 : N :  81 : 33 : 29 : W : -5.0 : US
-Parkes                           :                       : Australia             : 33 :  0 :  0 : S : 148 : 15 : 45 : E :-10.0 : AU
+Parkes                           :                       : Australia             : 33 :  0 :  0 : S : 148 : 15 : 45 : E : 10.0 : AU
 Parma                            :                       : Italy                 : 44 : 48 :  3 : N :  10 : 19 : 43 : E :  1.0 : EU
 Parma                            : Ohio                  : USA                   : 41 : 23 :  5 : N :  81 : 42 : 42 : W : -5.0 : US
 Parsons                          : West Virginia         : USA                   : 39 :  4 : 58 : N :  79 : 40 :  1 : W : -5.0 : US
@@ -2124,7 +2124,7 @@ Shoshone                         : Idaho                 : USA                  
 Shreveport                       : Louisiana             : USA                   : 32 : 30 : 46 : N :  93 : 44 : 57 : W : -6.0 : US
 Shungnak                         : Alaska                : USA                   : 66 : 55 :  1 : N : 157 : 19 : 58 : W : -9.0 : US
 Sibu                             :                       : Malaysia              :  2 : 21 :  0 : N : 111 : 49 : 59 : E : 8.0  : --
-Siding Spring                    :                       : Australia             : 31 : 16 :  4 : S : 149 :  3 : 45 : E :-10.0 : AU
+Siding Spring                    :                       : Australia             : 31 : 16 :  4 : S : 149 :  3 : 45 : E : 10.0 : AU
 Siegen                           :                       : Germany               : 50 : 52 : 00 : N :   8 : 02 : 00 : E : 1.0  : EU
 Siena                            :                       : Italy                 : 43 : 19 : 16 : N :  11 : 19 : 39 : E :  1.0 : EU
 Sigonella                        :                       : Italy                 : 37 : 23 : 59 : N :  14 : 55 : 30 : E :  1.0 : EU
@@ -2362,7 +2362,7 @@ University City                  : Missouri              : USA                  
 Upolu                            : Hawaii                : USA                   : 20 : 16 :  5 : N : 155 : 51 : 46 : W :-10.0 : US
 Upolu Point                      : Hawaii                : USA                   : 20 : 12 : 12 : N : 155 : 50 : 45 : W :-10.0 : US
 Uppsala                          :                       : Sweden                : 59 : 51 :  5 : N :  17 : 37 : 30 : E :  1.0 : EU
-Uppsala Sur                      :                       : Australia             : 31 : 16 :  6 : S : 149 :  4 :  0 : E :-10.0 : AU
+Uppsala Sur                      :                       : Australia             : 31 : 16 :  6 : S : 149 :  4 :  0 : E : 10.0 : AU
 Urbana                           : Illinois              : USA                   : 40 :  6 : 42 : N :  88 : 12 :  6 : W : -6.0 : US
 Utica                            : New York              : USA                   : 43 :  6 : 11 : N :  75 : 13 : 32 : W : -5.0 : US
 Utirik                           :                       : Marshall Islands      : 11 : 13 : 59 : N : 169 : 50 : 59 : E : 12.0 : --
