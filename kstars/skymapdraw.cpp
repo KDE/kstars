@@ -733,7 +733,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 			moonFont.setPointSize( pfont.pointSize() - 2 );
 			psky.setFont( moonFont );
 			
-			for ( unsigned int i=0; i<5; ++i ) {
+			for ( unsigned int i=0; i<4; ++i ) {
 				QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
