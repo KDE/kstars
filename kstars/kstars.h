@@ -324,6 +324,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Close KStars window. */
 		void closeWindow();
+		
+		/** Open FITS image. */
+		void slotOpenFITS();
 
 		/**Action slot to save the sky image to a file.*/
 		void slotExportImage();

@@ -431,6 +431,9 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 
 		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 		
+		getSDTime(&STime[0].value);
+		IDSetNumber(&SDTime, NULL);
+		
 		if ( ( err = setUTCOffset(UTCOffset) < 0) )
 	  	{
 	        Time.s = IPS_IDLE;
@@ -748,23 +751,21 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	
 	if (!strcmp(name, ParkSP.name))
 	{
-	  double SDTime;
-	  
 	  if (checkPower(&ParkSP))
 	    return;
            
 	   ParkSP.s = IPS_IDLE;
 	   
-	   if ( (err = getSDTime(&SDTime)) < 0)
+	   if ( (err = getSDTime(&STime[0].value)) < 0)
 	   {
-  	  	handleError(&OnCoordSetSw, err, "Get siderial time");
+  	  	handleError(&ParkSP, err, "Get siderial time");
 	  	return;
 	   }
 	   
 	   /* Polar */
 	   if (AlignmentS[0].s == ISS_ON)
 	   {
-	     targetRA  = SDTime;
+	     targetRA  = STime[0].value;
 	     targetDEC = 0;
 	     setObjectRA(targetRA);
 	     setObjectDEC(targetDEC);
@@ -772,11 +773,13 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   /* AltAz */
 	   else if (AlignmentS[1].s == ISS_ON)
 	   {
-	     targetRA  = calculateRA(SDTime);
-	     targetDEC = calculateDec(geo[0].value, SDTime);
+	     targetRA  = calculateRA(STime[0].value);
+	     targetDEC = calculateDec(geo[0].value, STime[0].value);
 	     setObjectRA(targetRA);
 	     setObjectDEC(targetDEC);
 	     IDLog("Parking the scope in AltAz (0,0) which corresponds to (RA,DEC) of (%g,%g)\n", targetRA, targetDEC);
+	     IDLog("Current Sidereal time is: %g\n", STime[0].value);
+	     IDSetNumber(&SDTime, NULL);
 	   }
 	   else
 	   {
@@ -784,6 +787,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	     return;
 	   }
 	   
+	   IDSetNumber(&SDTime, NULL);
 	   lastSet = LX200_PARK;
 	   handleCoordSet();
 	}
@@ -925,7 +929,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  return;
 	}
 
-	// Focus speed
+	// Focus Motion
 	if (!strcmp (name, FocusMotionSw.name))
 	{
 	  if (checkPower(&FocusMotionSw))
@@ -1261,6 +1265,10 @@ void LX200Generic::ISPoll()
 			MoveTo(LX200_EAST);
 			IUResetSwitches(&MovementSw);
 			MovementS[LX200_EAST].s = ISS_ON;
+			MovementSw.s = IPS_BUSY;
+			for (int i=0; i < 4; i++)
+			  lastMove[i] = 0;
+			lastMove[LX200_EAST] = 1;
 			IDSetSwitch(&MovementSw, NULL);
 			
 			ParkSP.s = IPS_OK;

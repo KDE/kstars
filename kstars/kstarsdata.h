@@ -59,6 +59,7 @@
 #include "indidriver.h"
 #include "indistd.h"
 #include "telescopewizardprocess.h"
+#include "fitsviewer.h"
 
 #define NHIPFILES 127
 #define NMWFILES  11
@@ -566,6 +567,8 @@ private:
 	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
+   /** List of all FITS viewer windows */
+	QPtrList<FitsViewer> FITSList;
 	ObjectNameList ObjNames;
 
 	QMap<QString, QPtrList<DeepSkyObject> > CustomCatalogs;

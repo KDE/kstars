@@ -27,6 +27,7 @@
 
 extern LX200Generic *telescope;
 extern INumberVectorProperty eqNum;
+extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
 #define BASIC_GROUP	"Basic Data"
@@ -85,7 +86,7 @@ void LX200Classic::ISNewText (const char *dev, const char *name, char *texts[], 
     // ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
-	    
+
   LX200Generic::ISNewText (dev, name, texts, names, n);
 }
 

@@ -47,7 +47,7 @@
 /* Debug functions */
 int debugclose(void);
 int debugopen(char *host);
-void debug(int level, const char *format, ...);
+void debug(int level, char *format, ...);
 void setdebuglevel(char *host, int level);
 
 #endif /* _LIBFLI_DEBUG_H_ */

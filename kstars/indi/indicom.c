@@ -265,6 +265,7 @@ void SinCos( double Degrees, double *sina, double *cosa )
 
 double calculateDec(double latitude, double SDTime)
 {
+  if (SDTime > 12) SDTime -= 12;
   
   return RadToDeg ( atan ( (cos (DegToRad (latitude)) / sin (DegToRad (latitude))) * cos (DegToRad (SDTime))) );
 

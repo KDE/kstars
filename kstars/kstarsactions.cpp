@@ -68,6 +68,7 @@
 #include "planetviewer.h"
 #include "jmoontool.h"
 #include "telescopewizardprocess.h"
+#include "fitsviewer.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -295,6 +296,22 @@ void KStars::closeWindow() {
 	// since QT 3.1 close() just emits lastWindowClosed if the window is not hidden
 	show();
 	close();
+}
+
+void KStars::slotOpenFITS()
+{
+
+  KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  
+  if (fileURL.isEmpty())
+    return;
+    
+  FitsViewer * fv = new FitsViewer(&fileURL, this);
+  
+  //data()->FITSList.append(fv);
+  
+  fv->show();
+  
 }
 
 void KStars::slotExportImage() {

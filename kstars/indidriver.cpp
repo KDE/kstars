@@ -172,6 +172,9 @@ void INDIDriver::activateHostDisconnection()
     
 void INDIDriver::updateLocalButtons()
 {
+  
+  if (localListView->selectedItem() == NULL)
+   return;
  
   for (uint i=0; i < devices.size(); i++)
      if (localListView->selectedItem()->text(0) == devices[i]->label)
@@ -185,7 +188,10 @@ void INDIDriver::updateLocalButtons()
 
 void INDIDriver::updateClientButtons()
 {
-INDIHostsInfo *hostInfo;
+ INDIHostsInfo *hostInfo;
+ if (clientListView->currentItem() == NULL)
+  return;
+
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
@@ -203,6 +209,8 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     
 void INDIDriver::processDeviceStatus(int id)
 {
+  if (localListView->selectedItem() == NULL)
+    return;
 
    for (uint i=0; i < devices.size(); i++)
      if (localListView->selectedItem()->text(0) == devices[i]->label)

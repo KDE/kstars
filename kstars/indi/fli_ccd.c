@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 
 #include "fli/libfli.h"
-#include "qfits/qfits.h"
+#include "fitsrw.h"
 #include "indidevapi.h"
 #include "indicom.h"
 
@@ -44,6 +44,9 @@ int  grabImage();
 void ISPoll(void *);
 void handleExposure(void *);
 void connectCCD(ISState *s);
+double min();
+double max();
+FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
 
 extern char* me;
 
@@ -67,6 +70,8 @@ extern char* me;
 #define LIBVERSIZ 	1024
 #define PREFIXSIZ	64
 
+#define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
+
 enum FLIFrames { LIGHT_FRAME = 0, BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
 
 
@@ -89,7 +94,8 @@ typedef struct {
 int  width;
 int  height;
 int  frameType;
-short  *img;
+int  expose;
+unsigned short  *img;
 } img_t;
 
 static flidev_t fli_dev;
@@ -311,60 +317,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	  return;
 	}
 	
-	/* Expose */
-	if (!strcmp (name, ExposeSP.name))
-	{
-   	  if (checkPowerS(&ExposeSP))
-	    return;
-	    
-	  IUResetSwitches(&ExposeSP); 
-	  
-	  imagesLeft = (int) NumberOfExpN[0].value;
-	  
-	  for (i=0; i < n ; i++)
-	  {
-	    sp = IUFindSwitch(&ExposeSP, names[i]);
-	    
-	    if (!sp)
-	    {
-	      IDSetSwitch(&ExposeSP, "Unknown error. %s is not a member of %s property.", names[0], name);
-	      return;
-	    }
-	    
-	  if ((sp == &ExposeS[0]) &&  (states[i] == ISS_ON))
-	  {
-	    imageCount = 0;
-	    handleExposure(NULL);
-	    return;
-	  }
-	  else if ((sp == &ExposeS[1]) && (states[i] == ISS_ON))
-	  {
-	     if ( (err = FLICancelExposure(fli_dev)))
-	  	{
-	    	ExposeSP.s = IPS_IDLE;
-	    	IDSetSwitch(&ExposeSP, "FLICancelExposure() failed. %s.", strerror((int)-err));
-	    	IDLog("FLICancelExposure() failed. %s.\n", strerror((int)-err));
-	    	return;
-	  	}
-	
-	  ExposeSP.s = IPS_IDLE;
-	  ExposeProgressNP.s = IPS_IDLE;
-	  ExposeProgressN[0].value = imageCount = 0;
-	  
-	  IDSetSwitch(&ExposeSP, "Exposure cancelled.");
-	  IDSetNumber(&ExposeProgressNP, NULL);
-	  IDLog("Exposure Cancelled.\n");
-	  return;
-	 }
-	 else
-	 {
-	  ExposeSP.s = IPS_IDLE;
-	  IDSetSwitch(&ExposeSP, "Unknown error.");
-	 }
-	
-       } /* end for loop */
-     }
-     
      /* Frame Type */
      if (!strcmp(FrameTypeSP.name, name))
      {
@@ -384,14 +336,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	 }
 	 
 	 /* NORMAL, BIAS, or FLAT */
-	 if ( (sp == &FrameTypeS[LIGHT_FRAME] || sp == &FrameTypeS[BIAS_FRAME] 
-	    || sp == &FrameTypeS[FLAT_FRAME]) && states[i] == ISS_ON)
+	 if ( (sp == &FrameTypeS[LIGHT_FRAME] || sp == &FrameTypeS[FLAT_FRAME]) && states[i] == ISS_ON)
 	 {
 	   if (sp == &FrameTypeS[LIGHT_FRAME])
 	     FLIImg->frameType = LIGHT_FRAME;
-	   else if (sp == &FrameTypeS[BIAS_FRAME])
-	     FLIImg->frameType = BIAS_FRAME;
-	   else
+  	   else
 	     FLIImg->frameType = FLAT_FRAME;
 	   
 	   if ((err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
@@ -409,10 +358,14 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	   IDSetSwitch(&FrameTypeSP, NULL);
 	   break;
 	 }
-	 /* DARK */
-	 else if (sp == &FrameTypeS[DARK_FRAME] && states[i] == ISS_ON)
+	 /* DARK AND BIAS */
+	 else if ( (sp == &FrameTypeS[DARK_FRAME] || sp == &FrameTypeS[BIAS_FRAME]) && states[i] == ISS_ON)
 	 {
-	   FLIImg->frameType = DARK_FRAME;
+	   
+	  if (sp == &FrameTypeS[DARK_FRAME])
+	     FLIImg->frameType = DARK_FRAME;
+	  else
+	     FLIImg->frameType = BIAS_FRAME;
 	   
 	   if ((err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_DARK) ))
   	   {
@@ -492,35 +445,6 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  return;
 	}
 	
-	/* Image Prefix */
-	if (!strcmp(ImagePrefixTP.name, name))
-	{
-	  tp = IUFindText(&ImagePrefixTP, names[0]);
-	  ImagePrefixTP.s = IPS_IDLE;
-	  
-	  if (!tp)
-	  {
-	    IDSetText(&ImagePrefixTP, "Error: %s is not a member of %s property.", names[0], name);
-	    IDLog("Error: %s is not a member of %s property.", names[0], name);
-	    return;
-	  }
-	  
-	  if ( strlen(texts[0]) > PREFIXSIZ)
-	  {
-	    IDSetText(&ImagePrefixTP, "Prefix is too long.");
-	    IDLog("Prefix is too long.");
-	    return;
-	  }
-	   
-	  strcpy(tp->text, texts[0]);
-	  
-	  IDLog("Image Prefix is: %s\n", tp->text);
-	  
-	  ImagePrefixTP.s = IPS_OK;
-	  IDSetText(&ImagePrefixTP, NULL);
-	  return;
-	}
-	
 	if (!strcmp, FileNameTP.name)
 	{
 	  tp = IUFindText(&FileNameTP, names[0]);
@@ -538,8 +462,7 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  IDSetText(&FileNameTP, NULL);
 	  return;
 	  
-	}
-	  
+	}	  
 	      	
 }
 
@@ -584,7 +507,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
     
        ExposeTimeNP.s = IPS_IDLE;
        
-       IDLog("Trying to find a member\n");
        np = IUFindNumber(&ExposeTimeNP, names[0]);
 	 
        if (!np)
@@ -594,6 +516,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
         }
 	 
         np->value = values[0];
+	FLIImg->expose = (int) (values[0] * 1000.);
 	
       /* Set duration */  
      if ( (err = FLISetExposureTime(fli_dev, np->value * 1000.) ))
@@ -886,7 +809,7 @@ void ISPoll(void *p)
 	    }*/
 	    
 	    /* We're done exposing */
-	    ExposeTimeNP.s = IPS_OK; 
+	    ExposeTimeNP.s = IPS_IDLE; 
 	    ExposeTimeN[0].value = 0;
 	    /*ExposeProgressNP.s = IPS_IDLE;*/
 	    IDSetNumber(&ExposeTimeNP, "Exposure done, downloading image...");
@@ -1023,7 +946,7 @@ int grabImage()
   char filename[FILENAMESIZ];
   char errmsg[1024];
   
-  img_size = FLIImg->width * FLIImg->height * sizeof(short);
+  img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
   
   FLIImg->img = malloc (img_size);
   
@@ -1063,7 +986,7 @@ int writeRAW (char *filename, char errmsg[])
 
 int fd, i, img_size;
 
-img_size = FLIImg->width * FLIImg->height * sizeof(short);
+img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
 
 /*sprintf(filename, "%s.raw", filename);*/
 
@@ -1085,7 +1008,8 @@ if ((fd = open(filename, O_WRONLY | O_CREAT  | O_EXCL,
  close(fd);
    
  /* Success */
- IDMessage(mydev, "Raw image written to %s", filename);
+ ExposeTimeNP.s = IPS_OK;
+ IDSetNumber(&ExposeTimeNP, "Raw image written to %s", filename);
  IDLog("Raw image written to '%s'\n", filename);
 
  return 0;
@@ -1094,119 +1018,65 @@ if ((fd = open(filename, O_WRONLY | O_CREAT  | O_EXCL,
 
 int writeFITS(char *filename, char errmsg[])
 {
-  FILE * fits_file;
-  qfits_header* fits_header;
-  qfitsdumper qdump;
-  char width_s[8], height_s[8], temp_s[8], frame_s[16], binning_s[8];
-  int *buf;
-  int i;
+  FITS_FILE* ofp;
+  int i, j, bpp, bpsl, width, height;
+  long nbytes;
+  FITS_HDU_LIST *hdu;
   
-  /*IDLog("Some stats: Width: %d - Height: %d - Intensity[100]: %d\n", FLIImg->width, FLIImg->height, FLIImg->img[100]);*/
-  
-  fits_file = fopen(filename, "w");
-  
-  qdump.npix		= FLIImg->width * FLIImg->height;
-  qdump.ptype		= PTYPE_INT;
-  
-  /* Copy 2 byte buffer to 4 byte buffer */
-  
-  if ( (buf = malloc (FLIImg->width * FLIImg->height * sizeof( int) )) == NULL)
+  ofp = fits_open (filename, "w");
+  if (!ofp)
   {
-    fprintf(stderr, "Error: malloc() failed. Not enough memory.");
-    return -1;
+    sprintf(errmsg, "Error: can't open file for writing.");
+    return (-1);
   }
   
-  for (i=0; i < (FLIImg->height * FLIImg->width); i++)
-       buf[i] = FLIImg->img[i];
-       
-  qdump.ibuf		= buf;
-  qdump.out_ptype	= BPP_16_SIGNED;
+  width  = FLIImg->width;
+  height = FLIImg->height;
+  bpp    = sizeof(unsigned short); /* Bytes per Pixel */
+  bpsl   = bpp * FLIImg->width;    /* Bytes per Line */
+  nbytes = 0;
   
-  if ( (qdump.filename = malloc(sizeof(char) * (strlen(filename) + 1))) == NULL)
+  hdu = create_fits_header (ofp, width, height, bpp);
+  if (hdu == NULL)
   {
-    free(buf);
-    fprintf(stderr, "Error: malloc() failed. Not enough memory.");
-    return -1;
+     sprintf(errmsg, "Error: creating FITS header failed.");
+     return (-1);
+  }
+  if (fits_write_header (ofp, hdu) < 0)
+  {
+    sprintf(errmsg, "Error: writing to FITS header failed.");
+    return (-1);
   }
   
-  strcpy(qdump.filename, filename);
+  /* Convert buffer to BIG endian */
+  for (i=0; i < FLIImg->height; i++)
+    for (j=0 ; j < FLIImg->width; j++)
+      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j]) );
   
-  if ( (fits_file = fopen(qdump.filename, "w")) == NULL)
+  for (i= 0; i < FLIImg->height  ; i++)
   {
-    free(buf);
-    fprintf(stderr, "Error: failed to open file %s.", qdump.filename);
-    return -1;
+    fwrite(FLIImg->img + (i * FLIImg->width), 2, FLIImg->width, ofp->fp);
+    nbytes += bpsl;
   }
   
-  if ( (fits_header = qfits_header_default()) == NULL)
+  nbytes = nbytes % FITS_RECORD_SIZE;
+  if (nbytes)
   {
-    free(buf);
-    fprintf(stderr, "Error: failed allocate FITS header.");
-    return -1;
+    while (nbytes++ < FITS_RECORD_SIZE)
+      putc (0, ofp->fp);
   }
   
-  sprintf(width_s, "%d", FLIImg->width);
-  sprintf(height_s, "%d", FLIImg->height);
-  sprintf(temp_s, "%g", TemperatureN[0].value);
-  sprintf(binning_s, "(%g x %g)", BinningN[0].value, BinningN[0].value);
-  switch (FLIImg->frameType)
+  if (ferror (ofp->fp))
   {
-    case LIGHT_FRAME:
-      	strcpy(frame_s, "Light");
-	break;
-    case BIAS_FRAME:
-        strcpy(frame_s, "Bias");
-	break;
-    case FLAT_FRAME:
-        strcpy(frame_s, "Flat Field");
-	break;
-    case DARK_FRAME:
-        strcpy(frame_s, "Dark");
-	break;
+    sprintf(errmsg, "Error: write error occured");
+    return (-1);
   }
-  
-    
-  
-  /* Obligatory FITS files */
-  qfits_header_add(fits_header, "NAXIS2", width_s, "NAXIS2 comment", NULL);
-  qfits_header_add(fits_header, "NAXIS1", height_s, "NAXIS1 comment", NULL);
-  qfits_header_add(fits_header, "NAXIS",  "2", "NAXIS comment", NULL);
-  qfits_header_add(fits_header, "BITPIX",  "16", "BITPIX comment", NULL);
-  qfits_header_add(fits_header, "DATE-OBS", get_datetime_iso8601(), "Date of Observation", NULL);
-  qfits_header_add(fits_header, "TEMPERATURE", temp_s, "Temperature", NULL);
-  qfits_header_add(fits_header, "BINNING", binning_s, "Binning (x,y)", NULL);
-  qfits_header_add(fits_header, "FRAME", frame_s, "Frame Type", NULL);
-  
-  IDLog("Dumping header....\n");
-  if ( qfits_header_dump(fits_header, fits_file) !=0 )
-  {
-    free(buf);
-    fprintf(stderr, "Error: dumping FITS header to file failed.");
-    qfits_header_destroy(fits_header);
-    return -1;
-  }
-   
-  fclose(fits_file);
-
-  /*int *buf = malloc (10000 * sizeof(int));
-       for (i=0; i < 10000 ; i++)
-            buf[i] = i;*/
-            
-  IDLog("Dumping pixel information...\n");
-  
-  if (qfits_pixdump(&qdump)!=0)
-  {
-    free(buf);
-    fprintf(stderr, "Error: qfits_pixdump() failed.");
-    qfits_header_destroy(fits_header);
-    return -1;
-  }
-    
-  qfits_header_destroy(fits_header);
-  free(buf);
-  
+ 
+ fits_close (ofp);      
+ 
   /* Success */
- IDMessage(mydev, "FITS image written to %s", filename);
+ ExposeTimeNP.s = IPS_OK;
+ IDSetNumber(&ExposeTimeNP, "FITS image written to %s", filename);
  IDLog("FITS image written to '%s'\n", filename);
   
   return 0;
@@ -1221,7 +1091,7 @@ void handleExposure(void *p)
   /* no warning */
   p=p;
   
-  /* BIAS frame opens the shutter for a minimum period of time as allowed by the shutter 
+  /* BIAS frame is the same as DARK but with minimum period. i.e. readout from camera electronics.
   */
   if (FLIImg->frameType == BIAS_FRAME)
   {
@@ -1241,10 +1111,11 @@ void handleExposure(void *p)
     	IDLog("FLIExposeFrame() failed. %s.\n", strerror((int)-err));
     	return;
   }
- 	  
+ 
    ExposeTimeNP.s = IPS_BUSY;
 		  
    IDSetNumber(&ExposeTimeNP, "Taking a %g seconds frame...", ExposeTimeN[0].value);
+   
    IDLog("Taking a frame...\n");
 }
 
@@ -1608,3 +1479,106 @@ int findcam(flidomain_t domain)
   IDLog("Findcam() finished successfully.\n");
   return 0;
 }
+
+FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
+{
+ FITS_HDU_LIST *hdulist;
+ int print_ctype3 = 0;   /* The CTYPE3-card may not be FITS-conforming */
+ char temp_s[80], expose_s[80], binning_s[80], pixel_s[80], frame_s[80];
+ static char *ctype3_card[] = {
+   NULL, NULL, NULL,  /* bpp = 0: no additional card */
+   "COMMENT Image type : GRAY_IMAGE",
+   NULL,
+   NULL,
+   "COMMENT Image type : GRAYA_IMAGE (gray with alpha channel)",
+   "COMMENT Sequence for NAXIS3   : GRAY, ALPHA",
+   "CTYPE3  = 'GRAYA   '           / GRAY IMAGE WITH ALPHA CHANNEL",
+   "COMMENT Image type : RGB_IMAGE",
+   "COMMENT Sequence for NAXIS3   : RED, GREEN, BLUE",
+   "CTYPE3  = 'RGB     '           / RGB IMAGE",
+   "COMMENT Image type : RGBA_IMAGE (rgb with alpha channel)",
+   "COMMENT Sequence for NAXIS3   : RED, GREEN, BLUE, ALPHA",
+   "CTYPE3  = 'RGBA    '           / RGB IMAGE WITH ALPHA CHANNEL"
+ };
+
+ hdulist = fits_add_hdu (ofp);
+ if (hdulist == NULL) return (NULL);
+
+ hdulist->used.simple = 1;
+ hdulist->bitpix = 16;/*sizeof(unsigned short) * 8;*/
+ hdulist->naxis = 2;
+ hdulist->naxisn[0] = width;
+ hdulist->naxisn[1] = height;
+ hdulist->naxisn[2] = bpp;
+ hdulist->used.datamin = min();
+ hdulist->datamin = min();
+ hdulist->used.datamax = max();
+ hdulist->datamax = max();
+ hdulist->used.bzero = 1;
+ hdulist->bzero = 0.0;
+ hdulist->used.bscale = 1;
+ hdulist->bscale = 1.0;
+ 
+ sprintf(temp_s, "CCD-TEMP= %g / degrees celcius", TemperatureN[0].value);
+ sprintf(expose_s, "EXPOSURE= %d / milliseconds", FLIImg->expose);
+ sprintf(binning_s, "BINNING = '(%g x %g)'", BinningN[0].value, BinningN[1].value);
+ sprintf(pixel_s, "PIX-SIZ = '%.0f microns square'", PixelSizeN[0].value);
+ switch (FLIImg->frameType)
+  {
+    case LIGHT_FRAME:
+      	strcpy(frame_s, "FRAME   = 'Light'");
+	break;
+    case BIAS_FRAME:
+        strcpy(frame_s, "FRAME   = 'Bias'");
+	break;
+    case FLAT_FRAME:
+        strcpy(frame_s, "FRAME   = 'Flat Field'");
+	break;
+    case DARK_FRAME:
+        strcpy(frame_s, "FRAME   = 'Dark'");
+	break;
+  }
+ 
+ fits_add_card (hdulist, frame_s);   
+ fits_add_card (hdulist, temp_s);
+ fits_add_card (hdulist, expose_s);
+ fits_add_card (hdulist, pixel_s);
+ fits_add_card (hdulist, "INSTRUME= 'Finger Lakes Instruments'");
+ 
+ fits_add_card (hdulist, "");
+ fits_add_card (hdulist, ctype3_card[3]);
+ fits_add_card (hdulist, "");
+ 
+ return (hdulist);
+}
+
+double min()
+{
+  double lmin = FLIImg->img[0];
+  int index=0, i, j;
+  
+  for (i= 0; i < FLIImg->height ; i++)
+    for (j= 0; j < FLIImg->width; j++)
+    {
+       index = (i * FLIImg->width) + j;
+       if (FLIImg->img[index] < lmin) lmin = FLIImg->img[index];
+    }
+    
+    return lmin;
+}
+
+double max()
+{
+  double lmax = FLIImg->img[0];
+  int index=0, i, j;
+  
+   for (i= 0; i < FLIImg->height ; i++)
+    for (j= 0; j < FLIImg->width; j++)
+    {
+      index = (i * FLIImg->width) + j;
+       if (FLIImg->img[index] > lmax) lmax = FLIImg->img[index];
+    }
+    
+    return lmax;
+}
+

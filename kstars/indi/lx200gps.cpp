@@ -95,83 +95,12 @@ IDDefNumber (&OTATemp, NULL);
 
 void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-        double UTCOffset;
-	struct tm *ltp = new tm;
-	struct tm utm;
-	time_t ltime;
-	time (&ltime);
-	localtime_r (&ltime, ltp);
-	IText *tp;
-
 	// ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
 	n=n;
-
-       // Override LX200 Generic
-       if (!strcmp (name, Time.name))
-       {
-	  if (checkPower(&Time))
-	   return;
-
-	   IDLog("*** We are in the LX200 GPS time update ***\n");
-
-	  if (extractISOTime(texts[0], &utm) < 0)
-	  {
-	    Time.s = IPS_IDLE;
-	    IDSetText(&Time , "Time invalid");
-	    return;
-	  }
-	        utm.tm_mon   += 1;
-		ltp->tm_mon  += 1;
-		utm.tm_year  += 1900;
-		ltp->tm_year += 1900;
-
-	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
-
-		IDLog("The initial UTC offset is %g\n", UTCOffset);
-
-		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset += 24;
-
-		if (ltp->tm_isdst > 0)
-		{
-		  UTCOffset++;
-		  IDLog("Correcting for DST, new UTC is %g\n", UTCOffset);
-		}
-
-		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		setUTCOffset(UTCOffset);
-	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		tp = IUFindText(&Time, names[0]);
-		if (!tp)
-		 return;
-		tp->text = new char[strlen(texts[0]+1)];
-	        strcpy(tp->text, texts[0]);
-		Time.s = IPS_OK;
-
-		// update JD
-                JD = UTtoJD(&utm);
-
-		IDLog("New JD is %f\n", (float) JD);
-
-		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
-		    (localTM->tm_year == ltp->tm_year))
-		{
-		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %g", texts[0], UTCOffset*-1);
-		  return;
-		}
-
-		localTM = ltp;
-		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
- 		IDSetText(&Time , "Date changed, updating planetary data...");
-
-		return;
-	}
 
      LX200_16::ISNewText (dev, name, texts, names, n);
 }

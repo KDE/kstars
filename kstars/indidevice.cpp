@@ -244,8 +244,6 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	QString elementName;
 	char iNumber[32];
 	
-	fprintf(stderr, "in setTextValue()\n");
-
 	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
 	{
 	    if (strcmp (tagXMLEle(ep), "oneText") && strcmp(tagXMLEle(ep), "oneNumber"))

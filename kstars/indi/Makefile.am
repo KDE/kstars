@@ -1,7 +1,7 @@
 bin_PROGRAMS = indiserver lx200generic celestrongps fliccd
 
 liblilxml_a_SOURCES = lilxml.c
-libindicom_a_SOURCES = indicom.c
+libindicom_a_SOURCES = indicom.c fitsrw.c
 
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
@@ -15,7 +15,7 @@ celestrongps_SOURCES =  indidrivermain.c eventloop.c celestronprotocol.c celestr
 celestrongps_LDADD = liblilxml.a libindicom.a
 
 fliccd_SOURCES =  eventloop.c fli_ccd.c indidrivermain.c
-fliccd_LDADD = fli/libfli.a qfits/libqfits.a libindicom.a liblilxml.a -lm
+fliccd_LDADD = fli/libfli.a libindicom.a liblilxml.a -lm
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
@@ -37,5 +37,5 @@ uninstall-local:
 
 KDE_OPTIONS = nofinal
 
-SUBDIRS =  fli qfits
+SUBDIRS =  fli
 

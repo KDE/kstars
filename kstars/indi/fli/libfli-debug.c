@@ -85,7 +85,7 @@ int debugclose(void)
   return 0;
 }
 
-void debug(int level, const char *format, ...)
+void debug(int level, char *format, ...)
 {
   va_list ap;
 

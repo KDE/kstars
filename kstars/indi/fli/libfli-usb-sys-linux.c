@@ -137,7 +137,7 @@ static long linux_bulktransfer(flidev_t dev, int ep, void *buf, long *len)
   if (ioctl(io->fd, USBDEVFS_RELEASEINTERFACE, &iface))
     return -errno;
 
-  if (*len != (long) bulk.len)
+  if (*len != bulk.len)
     return -errno;
   else
     return 0;
