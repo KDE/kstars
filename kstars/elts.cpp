@@ -360,9 +360,9 @@ void elts::slotClear(void) {
 void elts::slotClearBoxes(void) {
 	//clear the name, ra, and dec fields
 	// This still does not work. I will have a look later.
-	nameBox->clear();
-	raBox->clear() ;
-	decBox->clear();
+//	nameBox->clear();
+//	raBox->clear() ;
+//	decBox->clear();
 //	epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 
 }
