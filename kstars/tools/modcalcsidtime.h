@@ -74,8 +74,8 @@ private:
 	 */
 	void showCurrentTimeAndLong (void);
 
-	void modCalcSidTime::sidNoCheck();
-	void modCalcSidTime::utNoCheck();
+	void sidNoCheck();
+	void utNoCheck();
 
 	QTime getUT (void);
 	QTime getST (void);
