@@ -10,6 +10,8 @@ up-to-date to-do list.
     constellation lines.
 
 + GUI Improvements
+  - Use XMLGUI to describe widgets
+
   - Customizable info panel:
     Some users may prefer a smaller infopanel with less information,
     or even no panel at all.  This should be configurable.
@@ -47,6 +49,7 @@ up-to-date to-do list.
   - Improve accuracy of positions.  Correct for aberration, atmospheric
     refraction, and the figure of the Earth.
   - Ability to print charts
+  - Ability to remove custom items (color schemes, URLs, locations)
   - Animated slew to new positions, instead of just "popping" there
     instantly.  This will be useful for the scripting functionality
     (see below)
@@ -58,6 +61,8 @@ up-to-date to-do list.
     will allow us to add...
   - Wider variety of timesteps.  Include a spinbox for time units
     (seconds, minutes, hours, days, years) as well as values.
+  - Option for planets to leave a "trail", so their paths across the 
+    sky can be traced.
 + Long-term wishlist:
   - KStars: The Screensaver!  
     A "lite" version of KStars to be used as a screensaver. A few

@@ -1095,16 +1095,21 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	QFont smallFont = psky.font();
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
 
-//	QPointArray pts;
 	QList<QPoint> points;
 	int ptsCount;
+	int mwmax = pixelScale[ZoomLevel]/100;
+	int guidemax = pixelScale[ZoomLevel]/10;
+
+	//at high zoom, double FOV for guide lines so they don't disappear.
+	float guideFOV = FOV;
+	if (ZoomLevel > 4) guideFOV *= 2.0;
+			
 
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( !slewing && ksw->GetOptions()->drawMilkyWay ) {
 		psky.setPen( QPen( QColor( ksw->GetOptions()->colorMW ) ) );
 		psky.setBrush( QBrush( QColor( ksw->GetOptions()->colorMW ) ) );
 		bool offscreen, lastoffscreen=false;
-		int max = pixelScale[ZoomLevel]/100;
 
 		for ( unsigned int j=0; j<11; ++j ) {
 			if ( ksw->GetOptions()->fillMilkyWay ) {
@@ -1139,7 +1144,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					//don't draw a line if the last point's getXY was (-100000, -100000)
 					int dx = abs(o.x()-psky.pos().x());
 					int dy = abs(o.y()-psky.pos().y());
-					if ( (!lastoffscreen && !offscreen) && (dx<max && dy<max) ) {
+					if ( (!lastoffscreen && !offscreen) && (dx<mwmax && dy<mwmax) ) {
 						psky.lineTo( o.x(), o.y() );
 					} else {
 						psky.moveTo( o.x(), o.y() );
@@ -1153,11 +1158,10 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	//Draw coordinate grid
 	if ( ksw->GetOptions()->drawGrid ) {
 		psky.setPen( QPen( QColor( ksw->GetOptions()->colorGrid ), 0, DotLine ) ); //change to colorGrid
-			
+
 		//First, the parallels
 		for ( double Dec=-80.; Dec<=80.; Dec += 20. ) {
 			bool newlyVisible = false;
-//			SkyPoint *sp = new SkyPoint( 0.0, Dec );
 			sp->set( 0.0, Dec );
 			if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
 			QPoint o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1169,24 +1173,28 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				sp->set( RA, Dec );
 				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
 
-				if ( checkVisibility( sp, FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp, guideFOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 					o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
   	
 					int dx = psky.pos().x() - o.x();
-					if ( abs(dx) < 250 ) {
+					int dy = psky.pos().y() - o.y();
+					if ( abs(dx) < guidemax && abs(dy) < guidemax ) {
 						if ( newlyVisible ) {
 							newlyVisible = false;
 							psky.moveTo( o.x(), o.y() );
+						} else {
+							psky.lineTo( o.x(), o.y() );
 						}
-						psky.lineTo( o.x(), o.y() );
 					} else {
 						psky.moveTo( o.x(), o.y() );	
 					}
 				}
      }
+
 			//connect the final segment
 			int dx = psky.pos().x() - o1.x();
-			if (abs(dx) < 250 ) {
+			int dy = psky.pos().y() - o1.y();
+			if (abs(dx) < guidemax && abs(dy) < guidemax ) {
 				psky.lineTo( o1.x(), o1.y() );
 			} else {
 				psky.moveTo( o1.x(), o1.y() );	
@@ -1206,16 +1214,18 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				sp->set( RA, Dec );
 				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
 
-				if ( checkVisibility( sp, FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp, guideFOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 					o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
   	  	
 					int dx = psky.pos().x() - o.x();
-					if ( abs(dx) < 250 ) {
+					int dy = psky.pos().y() - o.y();
+					if ( abs(dx) < guidemax && abs(dy) < guidemax ) {
 						if ( newlyVisible ) {
 							newlyVisible = false;
 							psky.moveTo( o.x(), o.y() );
+						} else {
+							psky.lineTo( o.x(), o.y() );
 						}
-						psky.lineTo( o.x(), o.y() );
 					} else {
 						psky.moveTo( o.x(), o.y() );	
 					}
@@ -1234,12 +1244,13 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 		bool newlyVisible = false;
 		for ( unsigned int i=1; i<ksw->GetData()->Equator.count(); ++i ) {
-			if ( checkVisibility( ksw->GetData()->Equator.at(i), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( ksw->GetData()->Equator.at(i), guideFOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				o = getXY( ksw->GetData()->Equator.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 
 				int dx = psky.pos().x() - o.x();
+				int dy = psky.pos().y() - o.y();
 
-				if ( abs(dx) < 250 ) {
+				if ( abs(dx) < guidemax && abs(dy) < guidemax ) {
 						if ( newlyVisible ) {
 						newlyVisible = false;
 						QPoint last = getXY( ksw->GetData()->Equator.at(i-1), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1253,9 +1264,11 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				newlyVisible = true;
 			}
 		}
+
 		//connect the final segment
 		int dx = psky.pos().x() - o1.x();
-		if (abs(dx) < 250 ) {
+		int dy = psky.pos().y() - o1.y();
+		if (abs(dx) < guidemax && abs(dy) < guidemax ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
 			psky.moveTo( o1.x(), o1.y() );
@@ -1272,11 +1285,12 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 		bool newlyVisible = false;
 		for ( unsigned int i=1; i<ksw->GetData()->Ecliptic.count(); ++i ) {
-			if ( checkVisibility( ksw->GetData()->Ecliptic.at(i), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( ksw->GetData()->Ecliptic.at(i), guideFOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
 				o = getXY( ksw->GetData()->Ecliptic.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-				int dx = psky.pos().x() - o.x();
 
-				if ( abs(dx) < 250 ) {
+				int dx = psky.pos().x() - o.x();
+				int dy = psky.pos().y() - o.y();
+				if ( abs(dx) < guidemax && abs(dy) < guidemax ) {
 					if ( newlyVisible ) {
 						newlyVisible = false;
 						QPoint last = getXY( ksw->GetData()->Ecliptic.at(i-1), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
@@ -1290,9 +1304,11 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				newlyVisible = true;
 			}
 		}
+
 		//connect the final segment
 		int dx = psky.pos().x() - o1.x();
-		if (abs(dx) < 250 ) {
+		int dy = psky.pos().y() - o1.y();
+		if (abs(dx) < width() && abs(dy) < height() ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
 			psky.moveTo( o1.x(), o1.y() );
@@ -1349,8 +1365,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 	//Draw Stars
 	if ( ksw->GetOptions()->drawBSC ) {
-//		psky.setPen( QColor( ksw->GetOptions()->colorSky ) );
-//		psky.setBrush( QColor( ksw->GetOptions()->colorStar ) );
+
 		if ( ZoomLevel < 6 ) {
 			psky.setFont( smallFont );
 		} else {

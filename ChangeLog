@@ -32,3 +32,24 @@ parameters make more sense.  If focus point is below horizon when KStars
 restarts, a warning message is triggered.  Also, if it is shut down while
 tracking an object, it will still be tracking when restarted.  Choose latin or
 localized constellation names.  Various bug fixes and minor improvements.
+
+0.8 (Hydra):  
+Sky display: Milky Way is now filled.  Added coordinate grid.  Reorganized 
+"colors" tab in options window.  Added options to show constellation names 
+in native language, or as official IAU abbreviations.  Popup menu now shows 
+Rise/Set times of the object.  Added "genetive" star names (e.g., 
+"alpha Orionis").  Added keyboard shortcuts to center on planets, and on 
+cardinal direction points along the horizon (N, S, E, W).
+	
+Customization: Ability to add custom geographic locations, custom URLs, 
+and custom color schemes.  Added "star chart" predefined color scheme.  
+
+Geographic locations: Added about 80 non-US cities to locations database.  
+Improved determination of a location's time zone.  Added optional "Province" 
+field to geolocation database.
+	
+Documentation: Updated Handbook.  Added AstroInfo articles to the Handbook. 
+Added toolbar button to launch handbook browser
+	
+Performance: Improved memory handling (unused objects are not loaded into 
+memory on startup).  Various bug fixes.
