@@ -92,7 +92,7 @@ public:
 /**@enum PTYPE
 	*The Type classification of the PlotObject
 	*/
-	enum PTYPE { POINTS=0, CURVE=1, LABEL=2, UNKNOWN_TYPE };
+	enum PTYPE { POINTS=0, CURVE=1, LABEL=2, POLYGON=3, UNKNOWN_TYPE };
 
 /**@enum PPARAM
 	*Parameter specifying the kind of points

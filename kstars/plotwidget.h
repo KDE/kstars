@@ -87,7 +87,7 @@ public:
 	QColor gridColor() const { return cGrid; }
 	void setGridColor( const QColor &gc ) { cGrid = gc; }
 
-private:
+protected:
 	void paintEvent( QPaintEvent *e );
 	void resizeEvent( QResizeEvent *e );
 /**@short draws all of the objects onto the widget.  Internal use only; one should simply call update()

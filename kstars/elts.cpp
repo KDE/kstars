@@ -44,7 +44,6 @@
 elts::elts( QWidget* parent)  :
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
 {
-
 	ks = (KStars*) parent;
 
 	QFrame *page = plainPage();
@@ -52,11 +51,10 @@ elts::elts( QWidget* parent)  :
 	setMainWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-	View = new PlotWidget( 0, 24, -90, 90, page );
+	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page, "avtView" );
 	View->setFixedSize( 500, 400 );
 	View->setXAxisType( PlotWidget::TIME );
 	View->setYAxisType( PlotWidget::ANGLE );
-	View->updateTickmarks();
 
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 
@@ -194,10 +192,15 @@ elts::elts( QWidget* parent)  :
 	topLayout->addWidget( View );
 	topLayout->addWidget( ctlTabs );
 
+	DayOffset = 0;
 	showCurrentDate();
+	if ( getQDate().time().hour() > 12 ) DayOffset = 1;
+
 	initGeo();
 	showLongLat();
-//	initVars();
+
+	setLSTLimits();
+	View->updateTickmarks();
 
 	connect( browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
 	connect( cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -371,7 +374,7 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 
 		//add new curve with width=2, and color=white
 		PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 2, PlotObject::SOLID );
-		for ( double h=0.0; h<=24.0; h+=0.5 ) {
+		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 			po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 		}
 		View->addObject( po );
@@ -400,10 +403,19 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 }
 
 double elts::findAltitude( SkyPoint *p, double hour ) {
+	int dDay = DayOffset;
+	if ( hour < 0.0 ) {
+		dDay--;
+		hour += 24.0;
+	}
+
 	int h = int(hour);
 	int m = int(60.*(hour - h));
 	int s = int(60.*(60.*(hour - h) - m));
-	QDateTime ut( getQDate().date(), QTime( h,m,s ) );
+
+	QDateTime lt( getQDate().date().addDays( dDay ), QTime( h,m,s ) );
+	QDateTime ut = lt.addSecs( int( -3600.0*getTZ() ) );
+
 	dms lat = getLatitude();
 	dms lgt = getLongitude();
 	dms LST = KSUtils::UTtoLST( ut , &lgt );
@@ -523,7 +535,7 @@ void elts::slotUpdateDateLoc(void) {
 				pList.replace( i, (SkyPoint*)o );
 
 				PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
-				for ( double h=0.0; h<=24.0; h+=0.5 ) {
+				for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 					po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 				}
 				View->replaceObject( i, po );
@@ -534,6 +546,10 @@ void elts::slotUpdateDateLoc(void) {
 		}
 	}
 
+	if ( getQDate().time().hour() > 12 ) DayOffset = 1;
+	else DayOffset = 0;
+
+	setLSTLimits();
 	View->repaint();
 }
 
@@ -547,6 +563,15 @@ void elts::slotChooseCity(void) {
 			longBox->showInDegrees( geo->lng() );
 		}
 	}
+}
+
+void elts::setLSTLimits(void) {
+	QDateTime lt( getQDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
+	QDateTime ut = lt.addSecs( int( -3600.0*getTZ() ) );
+
+	dms lgt = getLongitude();
+	dms lst = KSUtils::UTtoLST( ut, &lgt );
+	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
 
 void elts::showCurrentDate (void)
@@ -631,6 +656,53 @@ long double elts::epochToJd (double epoch)
 		return ( J2000 - yearsTo2000 * 365.2425 );
 	}
 
+}
+
+AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
+	: PlotWidget( x1, x2, y1, y2, parent, name )
+{
+//empty
+}
+
+void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
+	QPainter p;
+
+	p.begin( buffer );
+	p.fillRect( 0, 0, width(), height(), bgColor() );
+
+	p.translate( XS1, YS1 );
+
+	//draw daytime sky
+	int dawn = dXS/4;
+	int dusk = 3*dXS/4;
+	p.fillRect( 0, 0, dawn, dYS/2, QColor( 0, 100, 200 ) );
+	p.fillRect( dusk, 0, dXS, dYS/2, QColor( 0, 100, 200 ) );
+
+	//draw twilight gradients
+	int W = 40;
+	for ( unsigned int i=0; i<W; ++i ) {
+		p.setPen( QColor( 0, 100*i/W, 200*i/W ) );
+		p.drawLine( dawn - (i-20), 0, dawn - (i-20), dYS );
+		p.drawLine( dusk + (i-20), 0, dusk + (i-20), dYS );
+	}
+
+	//draw ground
+	p.fillRect( 0, dYS/2, dXS, dYS/2, QColor( "#002200" ) );
+
+	drawBox( &p, true, true, true, true );
+	drawObjects( &p );
+
+	//Add vertical line indicating "now"
+	QTime t = QTime::currentTime();
+	double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
+	while ( x > 24.0 ) x -= 24.0;
+	int ix = int(x*dXS/24.0); //convert to screen pixel coords
+	p.setPen( QPen( "white", 2, DotLine ) );
+	p.drawLine( ix, 0, ix, dYS );
+
+	p.end();
+
+	bitBlt( this, 0, 0, buffer );
 }
 
 #include "elts.moc"

@@ -25,6 +25,8 @@
 #include <kapplication.h>
 #include <klocale.h>
 
+#include "plotwidget.h"
+
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
@@ -40,11 +42,22 @@ class SkyObject;
 class SkyPoint;
 class dms;
 class dmsBox;
-class PlotWidget;
 class GeoLocation;
 class KStars;
 class KLineEdit;
 class KListBox;
+
+class AVTPlotWidget : public PlotWidget
+{
+	Q_OBJECT
+public:
+/**Constructor
+	*/
+	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
+
+private:
+	void paintEvent( QPaintEvent *e );
+};
 
 class elts : public KDialogBase
 {
@@ -57,6 +70,7 @@ public:
 //	void paintEvent(QPaintEvent *);
 //	void drawGrid( QPainter *);
 //	void initVars(void);
+	void setLSTLimits();
 	void showCurrentDate (void);
 	QDateTime getQDate (void);
 	dms getLongitude (void);
@@ -111,7 +125,7 @@ private:
 	QDateEdit *dateBox;
 	dmsBox *latBox, *longBox, *raBox, *decBox;
 	QPushButton *browseButton, *cityButton, *clearFieldsButton, *clearButton, *addButton, *updateButton;
-	PlotWidget *View;
+	AVTPlotWidget *View;
 	KListBox *PlotList;
 
 	QVBoxLayout *dateLocationLayout, *eltsTotalBoxLayout,
@@ -123,6 +137,7 @@ private:
 	QPtrList<SkyPoint> pList;
 	QPtrList<SkyPoint> deleteList;
 
+	int DayOffset;
 	bool dirtyFlag;
 };
 

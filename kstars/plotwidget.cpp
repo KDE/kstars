@@ -101,7 +101,7 @@ void PlotWidget::updateTickmarks() {
 			type = yAxisType();
 		}
 
-		int ntry(1);
+		unsigned int ntry(1);
 		if ( dzb > 0.0 ) ntry=2; //secondary limits are defined
 
 		for ( unsigned int itry=1; itry<=ntry; ++itry ) {
@@ -227,6 +227,9 @@ void PlotWidget::updateTickmarks() {
 
 					break;
 				} //end case TIME
+
+				case UNKNOWN_TYPE: break;
+
 			} //end type switch
 
 			if ( iaxis==1 ) { //X axis
@@ -272,8 +275,8 @@ void PlotWidget::paintEvent( QPaintEvent *e ) {
 
 	p.translate( XS1, YS1 );
 
-	drawObjects( &p );
 	drawBox( &p, true, true, true, true );
+	drawObjects( &p );
 	p.end();
 
 	bitBlt( this, 0, 0, buffer );
@@ -322,6 +325,24 @@ void PlotWidget::drawObjects( QPainter *p ) {
 				p->drawText( q, po->name() );
 				break;
 			}
+
+			case PlotObject::POLYGON :
+			{
+				p->setPen( QPen( QColor( po->color() ), po->size(), (QPen::PenStyle)po->param() ) );
+				p->setBrush( po->color() );
+
+				QPointArray a( po->count() );
+
+				unsigned int i=0;
+				for ( DPoint *dp = po->points()->first(); dp; dp = po->points()->next() )
+					a.setPoint( i++, dp->qpoint( PixRect, DataRect ) );
+
+				p->drawPolygon( a );
+
+				break; //purposely misspelled because I left off here
+			}
+
+			case PlotObject::UNKNOWN_TYPE : break;
 		}
 	}
 }
@@ -329,6 +350,18 @@ void PlotWidget::drawObjects( QPainter *p ) {
 double PlotWidget::dmod( double a, double b ) { return ( b * ( ( a / b ) - int( a / b ) ) ); }
 
 void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool showTickLabels, bool showGrid ) {
+	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
+	p->setPen( bgColor() );
+	p->setBrush( bgColor() );
+	//left padding
+	p->drawRect( -XS1, -YS1, XS1, height() );
+	//right padding
+	p->drawRect( dXS, -YS1, XS1, height() );
+	//top padding
+	p->drawRect( 0, -YS1, dXS, YS1 );
+	//bottom padding
+	p->drawRect( 0, dYS, dXS, YS1 );
+
 	if ( showGrid ) {
 		//Grid lines are placed at locations of primary axes' major tickmarks
 
@@ -349,17 +382,6 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 		}
 	}
 
-	//Next, fill in padding region with bgColor() to mask out-of-bounds plot data (including grid lines)
-	p->setPen( bgColor() );
-	p->setBrush( bgColor() );
-	//left padding
-	p->drawRect( -XS1, -YS1, XS1, height() );
-	//right padding
-	p->drawRect( dXS, -YS1, XS1, height() );
-	//top padding
-	p->drawRect( 0, -YS1, dXS, YS1 );
-	//bottom padding
-	p->drawRect( 0, dYS, dXS, YS1 );
 	p->setPen( fgColor() );
 	p->setBrush( Qt::NoBrush );
 
@@ -370,8 +392,10 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 		double dminX = dXtick1/nminX1;
 		double dminY = dYtick1/nminY1;
 
-		bool secondaryLimits( false );
-		if ( dXB > 0.0 ) secondaryLimits = true;
+		bool secondaryXLimits( false );
+		bool secondaryYLimits( false );
+		if ( dXB > 0.0 && ( XB1 != XA1 || XB2 != XA2 ) ) secondaryXLimits = true;
+		if ( dYB > 0.0 && ( YB1 != YA1 || YB2 != YA2 ) ) secondaryYLimits = true;
 
 		//--- Draw primary X tickmarks on bottom axis---//
 		double x0 = XA1 - dmod( XA1, dXtick1 ); //zeropoint; tickmark i is this plus i*dXtick1 (in data units)
@@ -381,7 +405,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 			int px = int( dXS * ( (x0 + ix*dXtick1 - XA1)/dXA ) ); //position of tickmark i (in screen units)
 			if ( px > 0 && px < dXS ) {
 				p->drawLine( px, dYS - 2, px, dYS - BIGTICKSIZE - 2 ); //move tickmarks 2 pixels (avoids sticking out other side)
-				if ( !secondaryLimits ) p->drawLine( px, 0, px, BIGTICKSIZE );
+				if ( !secondaryXLimits ) p->drawLine( px, 0, px, BIGTICKSIZE );
 			}
 
 			//tick label
@@ -400,6 +424,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 					{
 						int h = int(lab);
 						int m = int(60.*(lab - h));
+						while ( h > 24 ) { h -= 24; }
+						while ( h <  0 ) { h += 24; }
+
 						QString str = QString().sprintf( "%02d:%02d", h, m );
 						if ( px > 0 && px < dXS ) p->drawText( px - 2*BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
 						break;
@@ -410,6 +437,8 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 						if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
 						break;
 					}
+
+					case UNKNOWN_TYPE : break;
 				}
 			}
 
@@ -419,7 +448,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 				if ( pmin > 0 && pmin < dXS ) {
 					p->drawLine( pmin, dYS - 2, pmin, dYS - SMALLTICKSIZE - 2 );
-					if ( !secondaryLimits ) p->drawLine( pmin, 0, pmin, SMALLTICKSIZE );
+					if ( !secondaryXLimits ) p->drawLine( pmin, 0, pmin, SMALLTICKSIZE );
 				}
 			}
 		}
@@ -432,7 +461,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 			int py = dYS - int( dYS * ( (y0 + iy*dYtick1 - YA1)/dYA ) ); //position of tickmark i (in screen units)
 			if ( py > 0 && py < dYS ) {
 				p->drawLine( 0, py, BIGTICKSIZE, py );
-				if ( !secondaryLimits ) p->drawLine( dXS, py, dXS-BIGTICKSIZE, py );
+				if ( !secondaryYLimits ) p->drawLine( dXS, py, dXS-BIGTICKSIZE, py );
 			}
 
 			//tick label
@@ -451,6 +480,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 					{
 						int h = int(lab);
 						int m = int(60.*(lab - h));
+						while ( h > 24 ) { h -= 24; }
+						while ( h <  0 ) { h += 24; }
+
 						QString str = QString().sprintf( "%02d:%02d", h, m );
 						if ( py > 0 && py < dYS ) p->drawText( -2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
 						break;
@@ -461,6 +493,8 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 						if ( py > 0 && py < dYS ) p->drawText(-3*BIGTICKSIZE, py + SMALLTICKSIZE, str );
 						break;
 					}
+
+					case UNKNOWN_TYPE : break;
 				}
 			}
 
@@ -469,16 +503,14 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 				int pmin = int( py - dYS*j*dminY/dYA ); //position of minor tickmark j (in screen units)
 				if ( pmin > 0 && pmin < dYS ) {
 					p->drawLine( 0, pmin, SMALLTICKSIZE, pmin );
-					if ( !secondaryLimits ) p->drawLine( dXS, pmin, dXS-SMALLTICKSIZE, pmin );
+					if ( !secondaryYLimits ) p->drawLine( dXS, pmin, dXS-SMALLTICKSIZE, pmin );
 				}
 			}
 		}
 
-		if ( secondaryLimits ) {
+		//--- Draw secondary X tickmarks on top axis---//
+		if ( secondaryXLimits ) {
 			double dminX2 = dXtick2/nminX2;
-			double dminY2 = dYtick2/nminY2;
-
-			//--- Draw secondary X tickmarks on top axis---//
 			double x0 = XB1 - dmod( XB1, dXtick2 ); //zeropoint; tickmark i is this plus i*dXtick2 (in data units)
 
 			for ( int ix = 0; ix <= nmajX2; ix++ ) {
@@ -501,6 +533,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 						{
 							int h = int(lab);
 							int m = int(60.*(lab - h));
+							while ( h > 24 ) { h -= 24; }
+							while ( h <  0 ) { h += 24; }
+
 							QString str = QString().sprintf( "%02d:%02d", h, m );
 							if ( px > 0 && px < dXS ) p->drawText( px - 2*BIGTICKSIZE, -2*BIGTICKSIZE, str );
 							break;
@@ -511,6 +546,8 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 							if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, -2*BIGTICKSIZE, str );
 							break;
 						}
+
+						case UNKNOWN_TYPE : break;
 					}
 				}
 
@@ -520,8 +557,11 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 					if ( pmin > 0 && pmin < dXS ) p->drawLine( pmin, 0, pmin, SMALLTICKSIZE );
 				}
 			}
+		} //end if ( secondaryXLimits )
 
-			//--- Draw secondary Y tickmarks on right axis ---//
+		//--- Draw secondary Y tickmarks on right axis ---//
+		if ( secondaryYLimits ) {
+			double dminY2 = dYtick2/nminY2;
 			double y0 = YB1 - dmod( YB1, dYtick2 ); //zeropoint; tickmark i is this plus i*mX (in data units)
 
 			for ( int iy = 0; iy <= nmajY2; iy++ ) {
@@ -544,6 +584,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 						{
 							int h = int(lab);
 							int m = int(60.*(lab - h));
+							while ( h > 24 ) { h -= 24; }
+							while ( h <  0 ) { h += 24; }
+
 							QString str = QString().sprintf( "%02d:%02d", h, m );
 							if ( py > 0 && py < dYS ) p->drawText( dXS + 2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
 							break;
@@ -554,17 +597,18 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 							if ( py > 0 && py < dYS ) p->drawText( dXS + 3*BIGTICKSIZE, py + SMALLTICKSIZE, str );
 							break;
 						}
+
+						case UNKNOWN_TYPE : break;
 					}
 				}
 
 				//minor ticks
 				for ( int j=0; j < nminY2; j++ ) {
 					int pmin = py - int( dYS*j*dminY2/dYB ); //position of minor tickmark j (in screen units)
-					if ( pmin > 0 && pmin < dYS ) p->drawLine( dXS-1, pmin, dXS-SMALLTICKSIZE-1, pmin );
+					if ( pmin > 0 && pmin < dYS ) p->drawLine( dXS, pmin, dXS-SMALLTICKSIZE, pmin );
 				}
 			}
-
-		} //end if ( secondaryLimits )
+		} //end if ( secondaryYLimits )
 
 	} //end if ( showTickmarks )
 }
