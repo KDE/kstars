@@ -17,6 +17,7 @@
 
 //This file contains drawing functions SkyMap class.
 
+#include <iostream.h> //DEBUG
 #include <math.h> //log10()
 
 #include "skymap.h"
@@ -350,11 +351,25 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	psky.moveTo( o.x(), o.y() );
 	bool newlyVisible = false;
 
+	//index of point near the left or top/bottom edge
+	int index1(0), index2(0);
+	double xSmall(10000.0); //ridiculous initial value
+	
 	//start loop at second item
 	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
 		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
+			//first iteration for positioning the "Equator" label:
+			//flag the onscreen equator point with the smallest positive x value
+			//we don't draw the label while slewing
+			if ( ! slewing && o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
+				if ( o.x() < xSmall ) {
+					xSmall = o.x();
+					index1 = data->Equator.at();
+				}
+			}
+			
 			//When drawing on the printer, the psky.pos() point does NOT get updated
 			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
 			int dx = cur.x() - o.x();
@@ -383,6 +398,88 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 		psky.lineTo( o1.x(), o1.y() );
 	} else {
 		psky.moveTo( o1.x(), o1.y() );
+	}
+	
+	//Instead of keying off of one of the equator points, I should determine the 
+	//RA of the equator at x=0.0 by interpolating from bracketing 
+	//Equator points.
+	
+	if ( ! slewing && xSmall < width() ) {
+		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
+		//If the zoom level is below 1000, simply adopt this point as the anchor for the 
+		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+		//point at which the Equator goes offscreen, and anchor from that point.
+		p = data->Equator.at(index1);
+		double ra0(0.0);  //the RA of our anchor point (the Dec is known to be 0.0 
+											//since it's the Equator)
+		
+		if ( Options::zoomFactor() < 1000. ) {
+			ra0 = p->ra()->Hours();
+		
+		} else {
+			
+			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
+			//offscreen.  Determine the exact point at which this happens.
+			index2 = index1 + 1;
+			if ( index2 >= data->Equator.count() ) index2 -= data->Equator.count();
+			SkyPoint *p2 = data->Equator.at(index2);
+			
+			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			QPoint o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			
+			double x1, x2;
+			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
+			if ( o2.x() < 0 ) { 
+				x1 = double(o.x())/double(o.x()-o2.x());
+				x2 = -1.0*double(o2.x())/double(o.x()-o2.x());
+			} else if ( o2.y() < 0 ) {
+				x1 = double(o.y())/double(o.y()-o2.y());
+				x2 = -1.0*double(o2.y())/double(o.y()-o2.y());
+			} else if ( o2.y() > height() ) {
+				x1 = double(height() - o.y())/double(o2.y()-o.y());
+				x2 = double(o2.y() - height())/double(o2.y()-o.y());
+			} else {  //should never get here
+				x1 = 0.0;
+				x2 = 1.0;
+			}
+			
+			//ra0 is the exact RA at which the Equator intersects a screen edge
+			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
+		}
+		
+		//LabelPoint is offset from the anchor point by -1.5 degree (0.1 hour) in RA 
+		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are 
+		//independent of zoom.
+		SkyPoint LabelPoint( ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
+		
+		if ( Options::useAltAz() ) 
+			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+		
+		//now we need the position angle between p and an Equator point at index1-5
+		//to approximate the angle at the position of the label
+		index2 = index1 - 5;
+		if ( index2 < 0 ) index2 += data->Equator.count();
+		SkyPoint *p2 = data->Equator.at(index2);
+		
+		QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
+		QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
+		double sx = double( t.x() - t2.x() );
+		double sy = double( t.y() - t2.y() );
+		double angle;
+		if ( sx ) {
+			angle = atan( sy/sx )*180.0/dms::PI;
+		} else {
+			angle = 90.0;
+			if ( sy < 0 ) angle = -90.0;
+		}
+		
+		//Finally, draw the "Equator" label at the determined location and angle
+		psky.save();
+		psky.translate( o.x(), o.y() );
+		psky.rotate( double( angle ) );  //rotate the coordinate system
+		psky.drawText( 0, 0, i18n( "Equator" ) );
+		psky.restore(); //reset coordinate system
 	}
 }
 
