@@ -1,5 +1,5 @@
 /***************************************************************************
-                          NewDialog.cpp  -  description
+                          kstarssplash.cpp  -  description
                              -------------------
     begin                : Thu Jul 26 2001
     copyright            : (C) 2001 by Heiko Evermann
@@ -80,6 +80,10 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	topLayout->activate();
 	disableResize();
 	setMessage(QString::null);  // force repaint of widget with no text
+}
+
+KStarsSplash::~KStarsSplash() {
+	delete splashImage;
 }
 
 void KStarsSplash::paintEvent( QPaintEvent *e ) {

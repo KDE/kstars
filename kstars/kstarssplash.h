@@ -41,6 +41,9 @@ class KStarsSplash : public KDialogBase
 		*/
 		KStarsSplash( QWidget *parent, const char* name );
 
+		/**Destructor
+			*/
+		~KStarsSplash();
 
 	public slots:
 	/**Display the text argument in the Splash Screen's status label.
