@@ -263,7 +263,7 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		QTime riseTimeToday = oname->skyObject()->riseTime(today, geo);
 		QTime setTimeToday, setTimeTomorrow;
 		// if rise time is invalid => circumpolar
-		// object rises after sunset and before sunrise => visible
+		// object rises after sunset => visible
 		if (riseTimeToday.isValid() == false || riseTimeToday > sunSetToday) {
 			visible = true;
 		} else {
