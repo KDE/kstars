@@ -390,11 +390,12 @@ void KStars::datainitFinished(bool worked) {
 	pd->buildGUI();
 	updateTime();
 	clock->start();
+	
 	show();
 
 //Check whether initial position is below the horizon.
-//We sued to just call slotCenter() in buildGUI() which performs this check.  
-//However, on a Gentoo system, if the messagebox is shown before show() is called, 
+//We used to just call slotCenter() in buildGUI() which performs this check.  
+//However, on some systems, if the messagebox is shown before show() is called, 
 //the program exits.  It does not crash (at least there are no error messages),
 //it simply exits.  Very strange.
 	if ( options()->useAltAz && options()->drawGround &&
@@ -418,7 +419,6 @@ void KStars::datainitFinished(bool worked) {
 
 // just show dialog if option is set (don't force it)	
 	KTipDialog::showTip( "kstars/tips" );
-
 }
 
 void KStars::privatedata::buildGUI() {
@@ -445,7 +445,7 @@ void KStars::privatedata::buildGUI() {
 	ks->infoBoxes()->showTimeBox( ks->options()->showTimeBox );
 	ks->infoBoxes()->showFocusBox( ks->options()->showFocusBox );
 	ks->infoBoxes()->showGeoBox( ks->options()->showGeoBox );
-	ks->infoBoxes()->geoChanged(ks->geo());
+	ks->infoBoxes()->geoChanged( ks->geo() );
 
 	connect( ks->infoBoxes()->timeBox(),  SIGNAL( shaded(bool) ), ks, SLOT( saveTimeBoxShaded(bool) ) );
 	connect( ks->infoBoxes()->geoBox(),   SIGNAL( shaded(bool) ), ks, SLOT( saveGeoBoxShaded(bool) ) );

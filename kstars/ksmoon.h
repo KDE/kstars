@@ -97,6 +97,7 @@ public:
 protected:
 
 private:
+	KStars *ks;
 	double Rearth; //Distance from Earth, in km.
 	dms Phase;
 	static bool data_loaded;

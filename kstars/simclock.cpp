@@ -102,7 +102,6 @@ void SimClock::setManualMode( bool on ) {
 
 void SimClock::manualTick() {
 	if ( ManualMode && ManualActive ) {
-
 		setUTC( UTC().addSecs( int( Scale ) ) );
 		julian += Scale / ( 24.*3600. );
 	} else if ( ! ManualMode ) tick();

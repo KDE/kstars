@@ -181,7 +181,7 @@ public:
 		*PositionAngle, then update the internal PA and rotate the Planet image.
 		*@param pa the new position angle
 		*/
-	void updatePA( double pa );
+	void rotateImage( double imageAngle );
 
 	/**Function coopied from Qt 3.0 QImage...this allows simple rotation of the planet images.
 		*/
@@ -196,7 +196,7 @@ protected:
 
 private:
 	QImage Image0, Image;
-	double PositionAngle;
+	double PositionAngle, ImageAngle;
 	KStars *kstars;
 };
 

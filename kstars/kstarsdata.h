@@ -87,7 +87,8 @@ public:
 	friend class LCGenerator;
 	friend class DetailDialog;
 	friend class elts;   
-	
+	friend class KSPopupMenu;
+		
 	/**Constructor. */
 	KStarsData( KStars *ks );
 

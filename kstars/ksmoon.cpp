@@ -21,9 +21,12 @@
 #include "ksutils.h"
 #include "kssun.h"
 #include "ksmoon.h"
+#include "kstars.h"
 
-KSMoon::KSMoon(KStars *ks)
- : KSPlanetBase( ks, I18N_NOOP( "Moon" ) ) {
+KSMoon::KSMoon(KStars *k)
+ : KSPlanetBase( k, I18N_NOOP( "Moon" ) ) {
+	ks = k;
+	 
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
 }
@@ -174,6 +177,7 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 void KSMoon::findPosition( KSNumbers *num, const dms *lat, const dms *LST ) {
 	findPosition(num);
 	localizeCoords( lat, LST );
+	EquatorialToEcliptic( num->obliquity() );
 }
 
 void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {
@@ -215,8 +219,6 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 		imFile.close();
 		image0()->load( imFile.name() );
 		image()->load( imFile.name() );
-		double p = pa();
-		setPA( 0.0 );
-		updatePA( p );
+		
 	}
 }

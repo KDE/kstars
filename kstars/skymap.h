@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #ifndef SKYMAP_H
 #define SKYMAP_H
 
@@ -35,8 +32,8 @@
 
 #define NZOOM 30
 
-class QPopupMenu;
 class QLabel;
+class KSPopupMenu;
 class KStars;
 
 /**Class for the sky display, derived from QWidget.  This widget is just a canvas
@@ -317,26 +314,6 @@ private slots:
 	void setMouseMoveCursor();
 	
 private:
-/**Initialize the popup menus. Adds name and type labels, and possibly
-	*Rise/Set/Transit labels, Center/Track item, and Show Details item.
-	*@short initialize the right-click popup menu
-	*@param name1 The primary object name
-	*@param name2 The (optional) secondary object name
-	*@param type a string identifying the object type
-	*@param showRiseSet if true, the Rise/Set/Transit labels are added
-	*@param showCenterTrack if true, the Center/Track item is added
-	*@param showDetails if true, the Show-Details item is added
-	*/
-	void initPopupMenu( QString name1, QString name2, QString type,
-		bool showRiseSet=true, bool showCenterTrack=true, bool showDetails=true );
-
-	void addLinksToMenu( bool showDSS=true, bool allowCustom=true );
-	void createStarMenu( StarObject *star );
-	void createSkyObjectMenu( SkyObject *obj );
-	void createCustomObjectMenu( SkyObject *obj );
-	void createPlanetMenu( SkyObject *p );
-	void createEmptyMenu( void );
-	
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.  If Horiz==true, use the SkyPoint's
 	*Alt/AZ coordinates; otherwise, use RA/Dec.
@@ -404,15 +381,9 @@ private:
 	*corners of the sky map at the lowest zoom level are the invalid points).  */
 	bool unusablePoint (double dx, double dy);
 
-/**Set the text of the Rise time and Set time labels in the popup menu  */
-	void setRiseSetLabels( void );
-
 	KStars *ksw;
 	QString sURL;
-	QPopupMenu *pmenu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
-	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2, *nothing_label;
-	QLabel *pmMessType, *pmNGCType, *pmTitle, *pmTitle2, *pmType;
-	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
+	KSPopupMenu *pmenu;
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
 	

@@ -116,6 +116,8 @@ void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
 			}
 			FocusBox->draw( p, BGColor, fillBG );
 		}
+		
+		checkBorders();
 	}
 }
 

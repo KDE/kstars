@@ -76,6 +76,7 @@ KStars::KStars( KStarsData* kd )
 //JH (22 Jan 2002): we instantiated clock already in buildGUI()...
 //	clock = new SimClock(this);
 	clock->start();
+	
 	show();
 }
 

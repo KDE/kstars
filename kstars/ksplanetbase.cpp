@@ -35,6 +35,7 @@ KSPlanetBase::KSPlanetBase( KStars *ks, QString s, QString image_file )
 		}
 	}
 	PositionAngle = 0.0;
+	ImageAngle = 0.0;
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -52,16 +53,18 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
 	}
 }
 
-void KSPlanetBase::updatePA( double p ) {
+void KSPlanetBase::rotateImage( double imAngle ) {
 //Update PositionAngle and rotate Image if the new position angle (p) is
 //more than 5 degrees from the stored PositionAngle.
-	if ( fabs( p - PositionAngle ) > 5.0 ) {
-		PositionAngle = p;
-
+	
+//JH: 2003 Feb 28 now rotating each time, even for small changes in angle
+	//if ( fabs( imAngle - ImageAngle ) > 5.0 ) {
+		ImageAngle = imAngle;
 		QWMatrix m;
-		m.rotate( PositionAngle );
-		Image = xFormImage( m );
-	}
+		m.rotate( ImageAngle );
+		//Image = xFormImage( m );
+		Image = Image0.xForm( m );
+	//}
 }
 
 /*JH: This is copied verbatim from the Qt 3.0 function QImage::xForm().  We

@@ -30,6 +30,7 @@
 #include "skymap.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
+#include "kspopupmenu.h"
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
@@ -709,7 +710,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					setClickedPoint( clickedObject() );
 
 					if ( e->button() == RightButton ) {
-						createStarMenu( starobj );
+						pmenu->createStarMenu( starobj );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -719,7 +720,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					setClickedPoint( clickedObject());
 
 					if (e->button() == RightButton ) {
-						createSkyObjectMenu( clickedObject() );
+						pmenu->createSkyObjectMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -730,7 +731,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					setClickedPoint( clickedObject() );
 
 					if ( e->button() == RightButton ) {
-						createCustomObjectMenu( clickedObject() );
+						pmenu->createCustomObjectMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -740,7 +741,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					if ( clickedObject() != NULL ) setClickedPoint( clickedObject() );
 
 					if ( e->button() == RightButton ) {
-						createPlanetMenu( clickedObject() );
+						pmenu->createPlanetMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -763,7 +764,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
 				case RightButton:
-					createEmptyMenu();
+					pmenu->createEmptyMenu();
 					pmenu->popup(  QCursor::pos() );
 					break;
 				default:
@@ -826,21 +827,17 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 
 			//Determine position angle of planet (assuming that it is aligned with
 			//the Ecliptic, which is only roughly correct).
-			//Displace a point along +Ecliptic Latitude by 100/pixelScale radians
-			//(so distance is always 100 pixels) this is 5730/pixelScale degrees
-      SkyPoint test;
+			//Displace a point along +Ecliptic Latitude by 1 degree
+      SkyPoint test, test2;
 			KSNumbers num( ksw->data()->CurrentDate );
 
-			dms newELat( p->ecLat()->Degrees() + 5730./pixelScale[ ksw->options()->ZoomLevel ] );
-			if ( ksw->options()->ZoomLevel > 8 )
-				newELat.setD( p->ecLat()->Degrees() + 20.*5730./pixelScale[ ksw->options()->ZoomLevel ] );
-
+			dms newELat( p->ecLat()->Degrees() + 1.0 );
 			test.setFromEcliptic( num.obliquity(), p->ecLong(), &newELat );
 			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
-			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction );
-
-			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
-			double dy = double( t.y() - o.y() );
+			
+			double dx = test.ra()->Degrees() - p->ra()->Degrees();
+			double dy = p->dec()->Degrees() - test.dec()->Degrees();
+			
 			double pa;
 			if ( dy ) {
 				pa = atan( dx/dy )*180.0/dms::PI;
@@ -849,9 +846,29 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 				if ( dx > 0 ) pa = -90.0;
 			}
 
-			//rotate Planet image, if necessary
-			p->updatePA( pa );
+			p->setPA( pa );
 
+			//rotate Planet image, if necessary
+			//image angle is PA plus the North angle.
+			
+			//Find North angle:
+			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
+			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction );
+			dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
+			dy = double( t.y() - o.y() );
+			double north;
+			if ( dy ) {
+				north = atan( dx/dy )*180.0/dms::PI;
+			} else {
+				north = 90.0;
+				if ( dx > 0 ) north = -90.0;
+			}
+			
+			//rotate Image
+			
+			p->rotateImage( p->pa() + north );
+			
 			psky.drawImage( x1, y1,  p->image()->smoothScale( size, size ));
 
 		} else { //Otherwise, draw a simple circle.
@@ -1993,8 +2010,6 @@ void SkyMap::drawHorizon(QPainter& psky, QFont& stdFont)
 }
 
 void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
-  KStarsData* data = ksw->data();
-
 	//Draw this last so it is never "behind" other things.
 	psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
 	psky.setBrush( NoBrush );
