@@ -81,7 +81,7 @@ QString DeepSkyObject::catalog() const {
 void DeepSkyObject::setCatalog( const QString &cat ) {
 	if ( cat.upper() == "M" ) Catalog = (unsigned char)CAT_MESSIER;
 	else if ( cat.upper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
-	else if ( cat.upper() == "IC"  ) Catalog = (unsigned char)CAT_NGC;
+	else if ( cat.upper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
 	else Catalog = (unsigned char)CAT_UNKNOWN;
 }
 
