@@ -87,7 +87,6 @@ KStars::~KStars()
 
 	delete skymap;
 	delete pd;
-	delete Location;
 	delete clock;
 	delete centralWidget;
 }

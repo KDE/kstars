@@ -128,7 +128,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*@returns GeoLocation object which is the current geographic location.
 			*/
-		GeoLocation* geo() const { return Location; }
+		GeoLocation* geo() { return options()->Location(); }
 
 		/**Display object name and coordinates in the KStars infoPanel
 			*/
@@ -329,7 +329,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		SkyMap *skymap;
 		SimClock *clock;
-		GeoLocation *Location;
 
 		FindDialog *findDialog;
 		InfoPanel   *infoPanel;
