@@ -188,8 +188,7 @@ class KStarsOptions {
 		float maxRadCometName;
 
 		bool indiAutoTime;
-		bool indiAutoLong;
-		bool indiAutoLat;
+		bool indiAutoGeo;
 		bool indiCrosshairs;
 		bool indiMessages;
 

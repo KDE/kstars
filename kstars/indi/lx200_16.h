@@ -29,13 +29,13 @@ class LX200_16 : public LX200Autostar
   LX200_16();
   ~LX200_16() {}
 
- virtual void ISGetProperties (const char *dev);
- virtual void ISNewText (IText *t);
- virtual void ISNewNumber (INumber *n);
- virtual void ISNewSwitch (ISwitches *s);
- virtual void ISPoll ();
- virtual void getBasicData();
-         void handleAltAzSlew();
+ void ISGetProperties (const char *dev);
+ void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
+ void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
+ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
+ void ISPoll ();
+ void getBasicData();
+ void handleAltAzSlew();
 
  private:
 

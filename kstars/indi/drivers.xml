@@ -1,7 +1,7 @@
 <devGroup group="Telescopes">
 	<device name="LX200 Classic">
-		<Exec>lx200generic</Exec>
-		<Version>0.1</Version>
+		<Exec>lx200classic</Exec>
+		<Version>0.2</Version>
 	</device>
 	<device name="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
@@ -17,12 +17,6 @@
 	</device>
 	<device name="Celestron GPS">
 		<Exec>celestrongps</Exec>
-		<Version>0.1</Version>
-	</device>
-</devGroup>
-<devGroup group="Simulation">
-	<device name="Weather Station Simulation">
-		<Exec>wx</Exec>
 		<Version>0.1</Version>
 	</device>
 </devGroup>

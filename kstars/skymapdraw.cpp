@@ -1209,11 +1209,10 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 void SkyMap::drawTelescopeSymbols(QPainter &psky)
 {
 
-  INDI_P *ra, *dec;
-  dms * raDMS,  * decDMS;
-  INDIMenu *devMenu = 0;
-  if ( ksw ) devMenu = ksw->getINDIMenu();
-  KStarsOptions* options = data->options;
+  INDI_P *eqNum;
+  INDI_L *lp;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  KStarsOptions* options = ksw->options();
 
   if (!options->indiCrosshairs || devMenu == NULL)
    return;
@@ -1222,34 +1221,50 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	psky.setBrush( NoBrush );
 	int pxperdegree = int(zoomFactor()/57.3);
 
+  //fprintf(stderr, "in draw telescope function with mgrsize of %d\n", devMenu->mgr.size());
   for (uint i=0; i < devMenu->mgr.size(); i++)
     for (uint j=0; j < devMenu->mgr[i]->indi_dev.size(); j++)
     {
       // make sure the dev is on first
       if (devMenu->mgr[i]->indi_dev[j]->isOn())
       {
-        ra = devMenu->mgr[i]->indi_dev[j]->findProp("RA");
-	dec = devMenu->mgr[i]->indi_dev[j]->findProp("DEC");
+        eqNum = devMenu->mgr[i]->indi_dev[j]->findProp("EQUATORIAL_COORD");
 
+	//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
         // make sure it has RA and DEC properties
-        if ( ra && dec)
+        if ( eqNum)
 	{
 
-	raDMS = ra->getDMS();
-	decDMS = dec->getDMS();
-
-	if (raDMS == NULL || decDMS == NULL)
+	//fprintf(stderr, "Looking for RA label\n");
+	lp = eqNum->findLabel("RA");
+	if (!lp)
 	 continue;
 
-	 raDMS->setD ( raDMS->Degrees() * 15.0);
+	 dms raDMS(lp->value);
+
+	 //fprintf(stderr, "RA (%s) value is %g\n", lp->text, lp->value);
+
+	 //fprintf(stderr, "Looking for DEC label\n");
+	lp = eqNum->findLabel("DEC");
+	if (!lp)
+	 continue;
+
+	dms decDMS(lp->value);
+
+	//fprintf(stderr, "DEC (%s) value is %g\n", lp->text, lp->value);
+
+	 raDMS.setD ( raDMS.Degrees() * 15.0);
+
+	 //fprintf(stderr, "RA is %d , DEC is %g\n", raDMS.Degrees(), decDMS.Degrees());
 
 	 //kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
 	 //kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
 
-	 SkyPoint sp( raDMS, decDMS);
-	 sp.apparentCoord( (double) J2000, data->clock()->JD());
-	 sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-         QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
+	 SkyPoint sp( &raDMS, &decDMS);
+	 sp.apparentCoord( (double) J2000, ksw->data()->clock()->JD());
+	 sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+
+	 QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
 
 	int s1 = pxperdegree/2;
 	int s2 = pxperdegree;

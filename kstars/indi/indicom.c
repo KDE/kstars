@@ -2,6 +2,7 @@
     INDI LIB
     Common routines used by all drivers
     Copyright (C) 2003 by Jason Harris (jharris@30doradus.org)
+                          Elwood C. Downey
 
     This is the C version of the astronomical library in KStars
     modified by Jasem Mutlaq (mutlaqja@ikarustech.com)
@@ -73,6 +74,7 @@ void nutate(double *RA, double *Dec);
 void aberrate(double *RA, double *Dec);
 void precessFromAnyEpoch(double jd0, double jdf, double *RA, double *Dec);
 void apparentCoord(double jd0, double jdf, double *RA, double *Dec);
+void getSexComponents(double value, int *d, int *m, int *s);
 
 double K = ( 20.49552 / 3600. );
 double Obliquity, K, L, L0, LM, M, M0, O, P;
@@ -385,87 +387,6 @@ void apparentCoord(double jd0, double jdf, double *RA, double *Dec)
 	*RA = *RA / 15.0;
 }
 
-int validateSex(const char * str, float *x, float *y, float *z)
-{
-  int ret;
-
-  ret = sscanf(str, "%f%*c%f%*c%f", x, y, z);
-  if (ret < 1)
-   return -1;
-
-  if (ret == 1)
-  {
-   *y = 0;
-   *z = 0;
-  }
-  else if (ret == 2)
-   *z = 0;
-
-
-  return (0);
-
-}
-
-int getSex(const char *str, double * value)
-{
-  float x,y,z;
-
-  if (validateSex(str, &x, &y, &z))
-   return (-1);
-
-  if (x > 0)
-   *value = x + (y / 60.0) + (z / (3600.00));
-  else
-   *value = x - (y / 60.0) - (z / (3600.00));
-
-   return (0);
-}
-
-/* Mode 0   XX:YY:ZZ
-   Mode 1 +-XX:YY:ZZ
-   Mode 2   XX:YY
-   Mode 3 +-XX:YY
-   Mode 3   XX:YY.Z
-   Mode 4   XXX:YY */
-void formatSex(double number, char * str, int mode)
-{
-  int x;
-  double y, z;
-
-  x = (int) number;
-
-  y = ((number - x) * 60.00);
-
-  if (y < 0) y *= -1;
-
-  z = (y - (int) y) * 60.00;
-
-  if (z < 0) z *= -1;
-
-  switch (mode)
-  {
-    case XXYYZZ:
-      	sprintf(str, "%02d:%02d:%02.0f", x, (int) y, z);
-	break;
-    case SXXYYZZ:
-        sprintf(str, "%+03d:%02d:%02.0f", x, (int) y, z);
-	break;
-    case XXYY:
-        sprintf(str, "%02d:%02d", x, (int) y);
-	break;
-    case SXXYY:
-    sprintf(str, "%+03d:%02d", x, (int) y);
-	break;
-    case XXYYZ:
-        sprintf(str, "%02d:%02.1f", x, (float) y);
-	break;
-    case XXXYY:
-    	sprintf(str, "%03d:%02d", x, (int) y);
-	break;
-  }
-
-}
-
 double UTtoJD(struct tm *utm)
 {
   int year, month, day, hour, minute, second;
@@ -535,4 +456,139 @@ int extractISOTime(char *timestr, struct tm *utm)
    return (-1);
 
 }
+
+/* sprint the variable a in sexagesimal format into out[].
+ * w is the number of spaces for the whole part.
+ * fracbase is the number of pieces a whole is to broken into; valid options:
+ *	360000:	<w>:mm:ss.ss
+ *	36000:	<w>:mm:ss.s
+ *	3600:	<w>:mm:ss
+ *	600:	<w>:mm.m
+ *	60:	<w>:mm
+ * return number of characters written to out, not counting final '\0'.
+ */
+int
+fs_sexa (char *out, double a, int w, int fracbase)
+{
+	char *out0 = out;
+	unsigned long n;
+	int d;
+	int f;
+	int m;
+	int s;
+	int isneg;
+
+	/* save whether it's negative but do all the rest with a positive */
+	isneg = (a < 0);
+	if (isneg)
+	    a = -a;
+
+	/* convert to an integral number of whole portions */
+	n = (unsigned long)(a * fracbase + 0.5);
+	d = n/fracbase;
+	f = n%fracbase;
+
+	/* form the whole part; "negative 0" is a special case */
+	if (isneg && d == 0)
+	    out += sprintf (out, "%*s-0", w-2, "");
+	else
+	    out += sprintf (out, "%*d", w, isneg ? -d : d);
+
+	/* do the rest */
+	switch (fracbase) {
+	case 60:	/* dd:mm */
+	    m = f/(fracbase/60);
+	    out += sprintf (out, ":%02d", m);
+	    break;
+	case 600:	/* dd:mm.m */
+	    out += sprintf (out, ":%02d.%1d", f/10, f%10);
+	    break;
+	case 3600:	/* dd:mm:ss */
+	    m = f/(fracbase/60);
+	    s = f%(fracbase/60);
+	    out += sprintf (out, ":%02d:%02d", m, s);
+	    break;
+	case 36000:	/* dd:mm:ss.s*/
+	    m = f/(fracbase/60);
+	    s = f%(fracbase/60);
+	    out += sprintf (out, ":%02d:%02d.%1d", m, s/10, s%10);
+	    break;
+	case 360000:	/* dd:mm:ss.ss */
+	    m = f/(fracbase/60);
+	    s = f%(fracbase/60);
+	    out += sprintf (out, ":%02d:%02d.%02d", m, s/100, s%100);
+	    break;
+	default:
+	    printf ("fs_sexa: unknown fracbase: %d\n", fracbase);
+	    exit(1);
+	}
+
+	return (out - out0);
+}
+
+/* convert sexagesimal string str AxBxC to double.
+ *   x can be anything non-numeric. Any missing A, B or C will be assumed 0.
+ *   optional - and + can be anywhere.
+ * return 0 if ok, -1 if can't find a thing.
+ */
+int
+f_scansexa (
+const char *str0,	/* input string */
+double *dp)		/* cracked value, if return 0 */
+{
+	double a = 0, b = 0, c = 0;
+	char str[128];
+	char *neg;
+	int r;
+
+	/* copy str0 so we can play with it */
+	strncpy (str, str0, sizeof(str)-1);
+	str[sizeof(str)-1] = '\0';
+
+	neg = strchr(str, '-');
+	if (neg)
+	    *neg = ' ';
+	r = sscanf (str, "%lf%*[^0-9]%lf%*[^0-9]%lf", &a, &b, &c);
+	if (r < 1)
+	    return (-1);
+	*dp = a + b/60 + c/3600;
+	if (neg)
+	    *dp *= -1;
+	return (0);
+}
+
+void getSexComponents(double value, int *d, int *m, int *s)
+{
+
+  *d = (int) fabs(value);
+  *m = (int) ((fabs(value) - *d) * 60.0);
+  *s = (int) (((fabs(value) - *d) * 60.0 - *m) *60.0);
+
+  if (value < 0)
+   *d *= -1;
+}
+
+/* fill buf with properly formatted INumber string. return length */
+int
+numberFormat (char *buf, char *format, double value)
+{
+        int w, f, s, l;
+
+        if (sscanf (format, "%%%d.%dm", &w, &f) == 2) {
+            /* INDI sexi format */
+            switch (f) {
+            case 9:  s = 360000; break;
+            case 8:  s = 36000;  break;
+            case 6:  s = 3600;   break;
+            case 5:  s = 600;    break;
+            default: s = 60;     break;
+            }
+            l = fs_sexa (buf, value, w-f, s);
+        } else {
+            /* normal printf format */
+            l = sprintf (buf, format, value);
+        }
+        return (l);
+}
+
 

@@ -165,12 +165,20 @@ bool KSPopupMenu::addINDI(void)
 
 	     if (prop->guitype == PG_BUTTONS)
   	     {
-                for (uint g=0; g < prop->u.multi.push_v->size(); g++)
+                for (uint g=0; g < prop->labels.size(); g++)
 		{
-			menuDevice->insertItem ( (*prop->u.multi.push_v)[g]->text(), id);
+			menuDevice->insertItem ( QString(prop->labels[g]->label), id);
 
-	 	if ((*prop->u.multi.push_v)[g]->isDown())
+	 	if ( prop->labels[g]->state == PS_ON)
+		{
+		        // Slew, Track, Sync are not checked
+			if ( strcmp (prop->labels[g]->name, "Slew") &&
+			     strcmp (prop->labels[g]->name, "Track") &&
+			     strcmp (prop->labels[g]->name, "Sync"))
 		  	menuDevice->setItemChecked(id, true);
+			else
+			menuDevice->setItemChecked(id, false);
+		}
 	 	else
 	        	menuDevice->setItemChecked(id, false);
 

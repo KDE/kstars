@@ -404,6 +404,8 @@ int SyncToCoords(double newRA, double newDec)
    GetRAandDec();
    offsetRA = returnRA - newRA;
    offsetDec = returnDec - newDec;
+
+   return (0);
 }
 
 
@@ -738,17 +740,17 @@ char *ptr;
 int nbytes;
 int sec;
 {
-  int stat;
+  int status;
   int nleft, nread;
   nleft = nbytes;
-  while (nleft > 0) 
+  while (nleft > 0)
   {
-    stat = telstat(fd,sec,0);
-    if (stat <=  0 ) break;
+    status = telstat(fd,sec,0);
+    if (status <=  0 ) break;
     nread  = read (fd, ptr, nleft);
 
-/*  Diagnostic */    
-    
+/*  Diagnostic */
+
 /*    printf("readn: %d read\n", nread);  */
 
     if (nread <= 0)  break;

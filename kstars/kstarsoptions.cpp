@@ -115,8 +115,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	maxRadCometName      = o.maxRadCometName;
 
 	indiAutoTime   = o.indiAutoTime;
-	indiAutoLong   = o.indiAutoLong;
-	indiAutoLat    = o.indiAutoLat;
+	indiAutoGeo    = o.indiAutoGeo;
 	indiCrosshairs = o.indiCrosshairs;
 	indiMessages   = o.indiMessages;
 

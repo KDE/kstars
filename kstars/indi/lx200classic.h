@@ -1,5 +1,5 @@
 /*
-    LX200 Autostar
+    LX200 Classic
     Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
@@ -18,16 +18,16 @@
 
 */
 
-#ifndef LX200AUTOSTAR_H
-#define LX200AUTOSTAR_H
+#ifndef LX200CLASSIC_H
+#define LX200CLASSIC_H
 
 #include "lx200generic.h"
 
-class LX200Autostar : public LX200Generic
+class LX200Classic : public LX200Generic
 {
  public:
-  LX200Autostar();
-  ~LX200Autostar() {}
+  LX200Classic();
+  ~LX200Classic() {}
 
  void ISGetProperties (const char *dev);
  void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);

@@ -1,6 +1,6 @@
 /*  INDI frontend for KStars
-    Copyright (C) 2003 Elwood C. Downey
-    		       Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+    		       Elwood C. Downey.
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -13,6 +13,8 @@
     2003-05-02 Added scrolling area. Most things are rewritten
     2003-05-05 Device/Group seperation
     2003-05-29 Replaced raw INDI time with KStars's timedialog
+    2003-08-02 Upgrading to INDI v 1.11
+    2003-08-09 Initial support for non-sidereal tracking
 
  */
 
@@ -24,7 +26,6 @@
 #include "skyobject.h"
 #include "timedialog.h"
 #include "geolocation.h"
-#include "dms.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -50,6 +51,7 @@
 #include <qsocketnotifier.h>
 #include <qvbox.h>
 #include <qdatetime.h>
+#include <qtable.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -64,6 +66,2204 @@
 #include <kdialogbase.h>
 #include <kstatusbar.h>
 #include <kpopupmenu.h>
+
+// Pulse tracking
+#define INDI_PULSE_TRACKING   15000
+
+/*******************************************************************
+** INDI Label
+*******************************************************************/
+INDI_L::INDI_L(INDI_P *parentProperty, char *inName, char *inLabel)
+{
+  format = new char[64];
+  text = new char[1024];
+  name = new char [strlen (inName) + 1];
+  label = new char [strlen (inLabel) + 1];
+  strcpy(name, inName);
+  strcpy(label, inLabel);
+  pp = parentProperty;
+
+  label_w = NULL;
+  spin_w = NULL;
+  push_w = NULL;
+  check_w = NULL;
+  led_w = NULL;
+
+}
+
+INDI_L::~INDI_L()
+{
+
+  if (label_w)
+    delete (label_w);
+  if (spin_w)
+    delete (spin_w);
+  if (check_w)
+    delete (check_w);
+  if (push_w)
+    delete (push_w);
+  if (led_w)
+    delete (led_w);
+
+}
+
+/*******************************************************************
+** INDI Property: contains widgets, labels, and their status
+*******************************************************************/
+INDI_P::INDI_P(INDI_G *parentGroup, char * inName)
+{
+  name = new char[64];
+  strcpy(name, inName);
+  pg = parentGroup;
+  isINDIStd = false;
+
+  light = NULL;
+  label_w = NULL;
+  set_w = NULL;
+  parentPopup = NULL;
+  groupB = NULL;
+  hLayout = NULL;
+  table_w = NULL;
+  om_w = NULL;
+
+}
+
+/* INDI property desstructor, makes sure everything is "gone" right */
+INDI_P::~INDI_P()
+{
+
+   if (light)
+      delete(light);
+
+     //fprintf(stderr, "light ok\n");
+    if (label_w)
+      delete(label_w);
+
+     // fprintf(stderr, "label ok\n");
+    if (om_w)
+      delete (om_w);
+
+     // fprintf(stderr, "om_w ok\n");
+    if (hLayout)
+      delete (hLayout);
+
+     // fprintf(stderr, "hLayout ok\n");
+    if (set_w)
+      delete (set_w);
+
+      //fprintf(stderr, "set_w ok\n");
+    if (groupB)
+      delete (groupB);
+
+
+
+     	/*for (uint i=0; i < labels.size(); i++)
+	{
+	      labels.erase(labels.begin() + i);
+              delete (labels[i]);
+	}*/
+
+}
+
+bool INDI_P::isOn(QString component)
+{
+
+  INDI_L *lp;
+
+  lp = findLabel(component.ascii());
+
+  if (!lp)
+   return false;
+
+  if (lp->check_w)
+    if (lp->check_w->isChecked())
+     return true;
+  if (lp->push_w)
+     if (lp->push_w->isDown())
+      return true;
+
+  return false;
+}
+
+INDI_L * INDI_P::findLabel(const char *lname)
+{
+  for (unsigned int i=0; i < labels.size(); i++)
+    if (!strcmp (labels[i]->name, lname) || !strcmp (labels[i]->label, lname))
+     return (labels[i]);
+
+  return NULL;
+}
+
+void INDI_P::drawLt(KLed *w, PState lstate)
+{
+
+        /* set state light */
+	switch (lstate)
+	{
+	  case PS_IDLE:
+	  w->setColor(Qt::gray);
+	  break;
+
+	  case PS_OK:
+	  w->setColor(Qt::green);
+	  break;
+
+	  case PS_BUSY:
+	  w->setColor(Qt::yellow);
+	  break;
+
+	  case PS_ALERT:
+	  w->setColor(Qt::red);
+	  break;
+
+	  default:
+	  break;
+
+	}
+}
+
+void INDI_P::newText()
+{
+
+  for (unsigned int i=0; i < labels.size(); i++)
+  {
+    if (table_w->cellWidget(i, 1))
+    {
+     if ((table_w->cellWidget(i, 1))->hasFocus())
+    	(table_w->cellWidget(i, 1))->clearFocus();
+    }
+
+       // PG_SCALE
+      if (labels[i]->spin_w)
+      {
+
+        labels[i]->value = labels[i]->spin_w->value();
+	//fprintf(stderr, "A spin value chanegd, the value is %g\n", labels[i]->value);
+      }
+      // PG_NUMERIC or PG_TEXT
+      else
+      {
+        if (perm == PP_WO)
+	{
+	  if ((table_w->text( i , 0)).isNull())
+	   strcpy(labels[i]->text, "0");
+	  else
+	   strcpy(labels[i]->text, (table_w->text( i , 0)).ascii());
+	}
+      	else if ((table_w->text( i , 1)).isNull())
+       	strcpy(labels[i]->text, (table_w->text( i , 0)).ascii());
+      	else
+       	strcpy(labels[i]->text, (table_w->text( i , 1)).ascii());
+
+	if (guitype == PG_NUMERIC)
+        f_scansexa(labels[i]->text, &(labels[i]->value));
+      }
+
+
+  }
+
+  state = PS_BUSY;
+
+  drawLt(light, state);
+
+  if (guitype == PG_TEXT)
+  pg->dp->parentMgr->sendNewText(this);
+  else if (guitype == PG_NUMERIC)
+  pg->dp->parentMgr->sendNewNumber(this);
+
+}
+
+void INDI_P::convertSwitch(int id)
+{
+
+ int RARowIndex, DECRowIndex;
+ int switchIndex=0;
+ INDI_P *prop;
+ INDI_L *lp;
+
+ if (parentPopup == NULL)
+  return;
+
+ //fprintf(stderr, "Property name is %s. Conevrting a switch, we have %s\n", name, parentPopup->text(id).ascii());
+
+ lp = findLabel(parentPopup->text(id).ascii());
+
+ if (!lp)
+  return;
+
+ //if (lp->state == PS_ON)
+  //return;
+
+ for (uint i=0; i < labels.size(); i++)
+ {
+   if (!strcmp(labels[i]->label, parentPopup->text(id).ascii()))
+   {
+     switchIndex = i;
+     break;
+   }
+ }
+
+ //fprintf(stderr, "The label is %s and its state is %s. Also, the switch index is %d\n", lp->name, lp->state == PS_OFF ? "Off" : "On", switchIndex);
+
+ if (!strcmp(lp->name, "Slew") || !strcmp(lp->name, "Sync") || !strcmp(lp->name, "Track"))
+ {
+    // #1 set current object to NULL
+    pg->dp->currentObject = NULL;
+   // #2 Deactivate timer if present
+   if (pg->dp->devTimer->isActive())
+		 pg->dp->devTimer->stop();
+
+
+
+   prop = pg->dp->findProp("EQUATORIAL_COORD");
+       if (prop == NULL)
+        return;
+
+	// Track is a special case
+	 if (!strcmp(lp->name, "Track"))
+        	if (pg->dp->handleNonSidereal(pg->dp->parent->ksw->map()->clickedObject()))
+		        return;
+
+        /*fprintf(stderr, "\n******** The point BEFORE it was precessed ********\n");
+	fprintf(stderr, "RA : %s - DEC : %s\n", pg->dp->parent->ksw->map()->clickedPoint()->ra()->toHMSString().ascii(),
+	pg->dp->parent->ksw->map()->clickedPoint()->dec()->toDMSString().ascii());*/
+
+	SkyPoint sp;
+
+       // We need to get from JNow (Skypoint) to J2000
+       // The ra0() of a skyPoint is the same as its JNow ra() without this process
+       if (pg->dp->currentObject)
+         sp.set (pg->dp->currentObject->ra(), pg->dp->currentObject->dec());
+       else
+         sp.set (pg->dp->parent->ksw->map()->clickedPoint()->ra(), pg->dp->parent->ksw->map()->clickedPoint()->dec());
+
+       sp.apparentCoord( pg->dp->parent->ksw->data()->clock()->JD() , (long double) J2000);
+
+       // Use J2000 coordinate as required by INDI
+       if ( !strcmp (prop->labels[0]->name, "RA"))
+         { RARowIndex = 0; DECRowIndex = 1;}
+       else
+         { RARowIndex = 1; DECRowIndex = 0;}
+
+       switch (prop->perm)
+       {
+         case PP_RW:
+	    prop->table_w->setText( RARowIndex, 1, QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+            prop->table_w->setText( DECRowIndex, 1, QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+
+	   if (lp->state == PS_OFF)
+	   	newSwitch(switchIndex);
+	   prop->newText();
+
+	 case PP_WO:
+	  prop->table_w->setText( RARowIndex, 0, QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+            prop->table_w->setText( DECRowIndex, 0, QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+
+           if (lp->state == PS_OFF)
+		   newSwitch(switchIndex);
+	   prop->newText();
+	 default:
+	  break;
+        }
+	return;
+   }
+   else if (!strcmp(lp->name, "Abort Slew/Track"))
+   {
+         kdDebug() << "Stopping timer " << endl;
+	 pg->dp->devTimer->stop();
+	 if (lp->state == PS_OFF)
+	 	newSwitch(switchIndex);
+	 return;
+   }
+   else if (lp->state == PS_OFF)
+         newSwitch(switchIndex);
+
+}
+
+void INDI_P::updateTime()
+{
+  QTime newTime( pg->dp->parent->ksw->data()->clock()->UTC().time());
+  QDate newDate( pg->dp->parent->ksw->data()->clock()->UTC().date());
+
+  switch (perm)
+  {
+   case PP_RW:
+     table_w->setText(0, 1, QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
+					.arg(newDate.day()).arg(newTime.hour())
+					.arg(newTime.minute()).arg(newTime.second()));
+     newText();
+     break;
+   case PP_WO:
+     table_w->setText(0, 0, QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
+					.arg(newDate.day()).arg(newTime.hour())
+					.arg(newTime.minute()).arg(newTime.second()));
+     newText();
+     break;
+    default:
+     break;
+  }
+
+}
+
+void INDI_P::updateLocation()
+{
+
+   GeoLocation *geo = pg->dp->parent->ksw->geo();
+   int longRowIndex, latRowIndex;
+
+  if (!strcmp(name, "GEOGRAPHIC_COORD"))
+  {
+    dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
+    dms fullCir(360,0,0);
+
+    if (tempLong.degree() < 0)
+      tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
+
+    if (!strcmp (labels[0]->name, "LONG"))
+    { longRowIndex = 0; latRowIndex = 1;}
+    else
+    { longRowIndex = 1; latRowIndex = 0;}
+
+    switch (perm)
+    {
+      case PP_RW:
+          table_w->setText(longRowIndex, 1, QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
+	  table_w->setText(latRowIndex, 1, QString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
+	  newText();
+	  break;
+      case PP_WO:
+          table_w->setText(longRowIndex, 0, QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
+	  table_w->setText(latRowIndex, 0, QString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
+	  newText();
+	  break;
+      default:
+         break;
+  }
+ }
+}
+
+
+void INDI_P::newTime()
+{
+
+TimeDialog timedialog ( pg->dp->parent->ksw->data()->UTime, pg->dp->parent->ksw, true );
+
+	if ( timedialog.exec() == QDialog::Accepted )
+	{
+		QTime newTime( timedialog.selectedTime() );
+		QDate newDate( timedialog.selectedDate() );
+
+                table_w->setText(0,1, QString("%1-%2-%3T%4:%5:%6")
+					.arg(newDate.year()).arg(newDate.month())
+					.arg(newDate.day()).arg(newTime.hour())
+					.arg(newTime.minute()).arg(newTime.second()));
+	        newText();
+	}
+
+}
+
+void INDI_P::newSwitch(int id)
+{
+
+  QFont buttonFont;
+  INDI_L *lp;
+
+  lp = labels[id];
+
+  if (guitype== PG_MENU)
+  {
+
+   //fprintf(stderr, "We received menu ID %d\n", id);
+   if (lp->state == PS_ON)
+    return;
+
+   for (unsigned int i=0; i < labels.size(); i++)
+   {
+     if (i == (unsigned) id)
+       labels[i]->state = PS_ON;
+     else
+       labels[i]->state = PS_OFF;
+   }
+
+  }
+
+  if (guitype == PG_BUTTONS)
+  {
+    for (unsigned int i=0; i < labels.size(); i++)
+     	if (i != (unsigned) id)
+	{
+	  labels[i]->push_w->setDown(false);
+       	  buttonFont = labels[i]->push_w->font();
+	  buttonFont.setBold(FALSE);
+	  labels[i]->push_w->setFont(buttonFont);
+          labels[i]->state = PS_OFF;
+        }
+
+        lp->push_w->setDown(true);
+	buttonFont = lp->push_w->font();
+	buttonFont.setBold(TRUE);
+	//(*u.multi.push_v)[i]->setFont(buttonFont);
+	lp->push_w->setFont(buttonFont);
+	lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
+
+	if ( !strcmp(name, "ABORT_MOTION"))
+	  pg->dp->devTimer->stop();
+
+  }
+
+  state = PS_BUSY;
+
+  drawLt(light, state);
+
+ // do I need last item?
+//  lastItem = id;
+
+  pg->dp->parentMgr->sendNewSwitch (this); //(*u.multi.labels)[id], (*u.multi.labels)[id]->state);
+
+}
+
+/*******************************************************************
+** INDI Group: a group box for common properties. All properties
+** belong to a group, whether they have one or not but how the group
+** is displayed differs
+*******************************************************************/
+INDI_G::INDI_G(INDI_D *parentDevice, char *inName)
+{
+  dp = parentDevice;
+
+ if (!strcmp(inName, ""))
+  {
+    box = new QGroupBox(dp->propertyLayout);
+    box->setFrameShape(QFrame::NoFrame);
+    layout = new QGridLayout(box, 1, 1, 5 , 5);
+  }
+  else
+  {
+  box = new QGroupBox(QString(inName), dp->propertyLayout);
+  box->setColumnLayout(0, Qt::Vertical );
+  box->layout()->setSpacing( 5 );
+  box->layout()->setMargin( 5 );
+  layout = new QGridLayout(box->layout());
+  }
+
+}
+
+INDI_G::~INDI_G()
+{
+  delete(layout);
+  delete(box);
+}
+
+void INDI_G::addProperty(INDI_P *pp)
+{
+   dp->registerProperty(pp);
+   pl.push_back(pp);
+}
+
+int INDI_G::removeProperty(INDI_P *pp)
+{
+
+  for (uint i=0; i < pl.size(); i++)
+   if (!strcmp(pl[i]->name, pp->name))
+   {
+     pl.erase(pl.begin() + i);
+     delete (pp);
+     return (0);
+   }
+
+   return (-1);
+
+}
+
+/*******************************************************************
+** INDI Device: The work-horse. Responsible for handling its
+** child properties and managing signal and changes.
+*******************************************************************/
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName)
+{
+  name = new char[64];
+  strcpy(name, inName);
+  parent = menuParent;
+  parentMgr = parentManager;
+
+ tabContainer  = new QFrame( parent->deviceContainer, name);
+ parent->deviceContainer->addTab (tabContainer, i18n(name));
+
+ curGroup = NULL;
+ biggestLabel = 0;
+ widestTableCol =0;
+ initDevCounter = 0;
+ currentObject = NULL;
+
+ sv = new QScrollView(tabContainer);
+ sv->setResizePolicy(QScrollView::AutoOneFit);
+
+ mainLayout	   = new QVBoxLayout (tabContainer, 11, 6, "dev_mainLayout");
+
+ propertyLayout= new QVBox(sv);
+ propertyLayout->setMargin(5);
+ propertyLayout->setSpacing(10);
+
+ sv->addChild(propertyLayout);
+
+ msgST_w	   = new QTextEdit(tabContainer, "msgST_w");
+ msgST_w->setReadOnly(true);
+ msgST_w->setMaximumHeight(100);
+
+ vSpacer       = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+ hSpacer       = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+ buttonLayout = new QHBoxLayout(0, 5, 5);
+
+ clear   = new QPushButton(i18n("Clear"), tabContainer);
+ clear->setDefault(false);
+ savelog = new QPushButton(i18n("Save Log..."), tabContainer);
+
+ buttonLayout->addWidget(clear);
+ buttonLayout->addWidget(savelog);
+ buttonLayout->addItem(hSpacer);
+
+ mainLayout->addWidget(sv);
+ mainLayout->addItem(vSpacer);
+ mainLayout->addWidget(msgST_w);
+ mainLayout->addLayout(buttonLayout);
+
+ msgST_w->setFocus();
+
+ QObject::connect(clear, SIGNAL(clicked()), msgST_w, SLOT(clear()));
+
+ /* hmmmmmm, a way to know the optimal widget height, there is a probably
+ * a better way to do it, but oh well! */
+  KLineEdit *tempLine = new KLineEdit(tabContainer);
+  uniHeight = tempLine->sizeHint().height();
+  delete(tempLine);
+
+  INDIStdSupport = false;
+  devTimer = new QTimer(this);
+  QObject::connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
+
+}
+
+INDI_D::~INDI_D()
+{
+  char errmsg[1024];
+
+   for (uint j=0; j < gl.size(); j++)
+	      for (uint k=0; j < gl[j]->pl.size(); k++)
+	          removeProperty(gl[j]->pl[0], errmsg);
+
+  if (tabContainer)
+    delete (tabContainer);
+
+}
+
+void INDI_D::registerProperty(INDI_P *pp)
+{
+   if (isINDIStd(pp))
+   {
+    pp->isINDIStd = true;
+    pp->pg->dp->INDIStdSupport = true;
+   }
+}
+
+bool INDI_D::isINDIStd(INDI_P *pp)
+{
+
+  if ( (pp->name == QString("CONNECTION"))   || (pp->name == QString("EQUATORIAL_COORD")) ||
+     (pp->name == QString("ON_COORD_SET")) || (pp->name == QString("ABORT_MOTION"))     ||
+     (pp->name == QString("SOLAR_SYSTEM")) || (pp->name == QString("GEOGRAPHIC_COORD")) ||
+     (pp->name == QString("HORIZONTAL_COORD")) || (pp->name == QString("TIME")))
+    return true;
+
+  return false;
+}
+
+bool INDI_D::handleNonSidereal(SkyObject *o)
+{
+
+   if (!o)
+    return false;
+
+    int trackIndex=0;
+
+    fprintf(stderr, "Object of type %s\n", o->typeName().ascii());
+  //TODO Meade claims that the library access is available to
+  // all telescopes, which is unture. Only classic meade support
+  // that. They claim that library funcion will be available to all
+  // in "later" firmware revisions for the autostar and GPS.
+  // As a temprory solution, I'm going to explicity check for the
+  // device name which ideally I'm not supposed to do since all properties
+  // should be defined from the INDI driver, but since the INDI autostar
+  // and gps define the library functions (based on Meade's future claims)
+  // I will check the device name until Meade's respondes to my query.
+
+  // Update: Solution
+  // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
+  // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
+  // based on the object type. Objects with high proper motions will require faster updates.
+  // handle Non Sideral is ONLY called when tracking an object, not slewing.
+
+
+  kdDebug() << "In handle non sidereal " << endl;
+
+  INDI_P *prop = findProp("SOLAR_SYSTEM");
+  INDI_P *setMode = findProp("ON_COORD_SET");
+
+  // If the device support it
+  if (prop && setMode)
+  {
+    for (uint i=0; i < setMode->labels.size(); i++)
+      if (!strcmp(setMode->labels[i]->name, "Track"))
+      { trackIndex = i; break; }
+
+    kdDebug() << "Device supports SOLAR_SYSTEM property" << endl;
+
+    for (unsigned int i=0; i < prop->labels.size(); i++)
+     if (o->name().lower() == QString(prop->labels[i]->label).lower())
+     {
+       setMode->newSwitch(trackIndex);
+       prop->newSwitch(i);
+       return true;
+     }
+  }
+
+   kdDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer" << endl;
+   kdDebug() << "Starting timer for object of type " << o->typeName() << endl;
+   currentObject = o;
+
+   switch (currentObject->type())
+   {
+    // Planet/Moon
+    case 2:
+       fprintf(stderr, "Initiating pulse tracking for %s.\n", currentObject->name().ascii());
+       devTimer->start(INDI_PULSE_TRACKING);
+       break;
+    // Comet/Asteroid
+    case 9:
+    case 10:
+      fprintf(stderr, "Initiating pulse tracking for %s.\n", currentObject->name().ascii());
+      devTimer->start(INDI_PULSE_TRACKING);
+      break;
+    default:
+      break;
+    }
+
+   return false;
+}
+
+void INDI_D::timerDone()
+{
+      INDI_P *prop;
+
+       int RARowIndex, DECRowIndex;
+
+       if (!isOn())
+       {
+        devTimer->stop();
+	return;
+       }
+
+       prop = findProp("ON_COORD_SET");
+       if (prop == NULL || !currentObject)
+        return;
+
+       // wait until slew is done
+       if (prop->state == PS_BUSY)
+        return;
+
+       //kdDebug() << "Timer called, starting processing" << endl;
+       fprintf(stderr, "Time called, starting processing\n");
+
+       prop = findProp("EQUATORIAL_COORD");
+       if (prop == NULL)
+        return;
+
+
+	SkyPoint sp(currentObject->ra(), currentObject->dec());
+
+        sp.apparentCoord( parent->ksw->data()->clock()->JD() , (long double) J2000);
+
+
+       // We need to get from JNow (Skypoint) to J2000
+       // The ra0() of a skyPoint is the same as its JNow ra() without this process
+
+       // Use J2000 coordinate as required by INDI
+       if ( !strcmp (prop->labels[0]->name, "RA"))
+         { RARowIndex = 0; DECRowIndex = 1;}
+       else
+         { RARowIndex = 1; DECRowIndex = 0;}
+
+       switch (prop->perm)
+       {
+         case PP_RW:
+	    prop->table_w->setText( RARowIndex, 1,  QString("%1:%2:%3").arg(sp.ra()->hour())
+        						 .arg(sp.ra()->minute())
+							 .arg(sp.ra()->second()));
+            prop->table_w->setText( DECRowIndex, 1, QString("%1:%2:%3").arg(sp.dec()->degree())
+                                                         .arg(sp.dec()->arcmin())
+							 .arg(sp.dec()->arcsec()));
+	    prop->newText();
+	 case PP_WO:
+	    prop->table_w->setText( RARowIndex, 0,  QString("%1:%2:%3").arg(sp.ra()->hour())
+        						 .arg(sp.ra()->minute())
+							 .arg(sp.ra()->second()));
+            prop->table_w->setText( DECRowIndex, 0, QString("%1:%2:%3").arg(sp.dec()->degree())
+                                                         .arg(sp.dec()->arcmin())
+							 .arg(sp.dec()->arcsec()));
+	    prop->newText();
+	 default:
+	  break;
+        }
+
+}
+
+
+int INDI_D::removeProperty(INDI_P *pp, char errmsg[])
+{
+    if (!pp->pg->removeProperty(pp))
+    {
+    	for (uint j=0; j < gl.size(); j++)
+    	{
+		if (gl[j]->pl.size() == 0)
+		{
+	        	delete (gl[j]);
+			gl.erase(gl.begin() + j);
+		}
+    	}
+
+	return (0);
+    }
+
+    sprintf (errmsg, "INDI: Device %s has no property named %s", name, pp->name);
+    return (-1);
+
+}
+
+/* implement any <set???> received from the device.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
+{
+	XMLAtt *ap;
+	INDI_P *pp;
+
+	ap = parent->findAtt (root, "name", errmsg);
+	if (!ap)
+	    return (-1);
+
+	pp = findProp (ap->valu);
+	if (!pp)
+	{
+	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
+						root->tag, name, ap->valu);
+	    return (-1);
+	}
+
+	parentMgr->checkMsg (root, this);
+
+	return (setValue (pp, root, errmsg));
+}
+
+/* set the given GUI property according to the XML command.
+ * return 0 if ok else -1 with reason in errmsg
+ */
+int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+	char *pn = pp->name;
+	XMLAtt *ap;
+
+	/* set overall property state, if any */
+	ap = findXMLAtt (root, "state");
+	if (ap)
+	{
+	    if (crackLightState (ap->valu, &pp->state) == 0)
+	      pp->drawLt (pp->light, pp->state);
+	    else
+	    {
+		sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
+						root->tag, ap->valu, name, pn);
+		return (-1);
+	    }
+	}
+
+	/* allow changing the timeout */
+	ap = findXMLAtt (root, "timeout");
+	if (ap)
+	    pp->timeout = atof(ap->valu);
+
+	/* process specific GUI features */
+	switch (pp->guitype)
+	{
+	case PG_NONE:
+	    break;
+
+	case PG_NUMERIC:	/* FALLTHRU */
+	case PG_TEXT:
+	    return (setTextValue (pp, root, errmsg));
+	    break;
+
+	case PG_BUTTONS:	/* FALLTHRU */
+	case PG_LIGHTS:
+	case PG_RADIO:		/* FALLTHRU */
+	case PG_MENU:
+	    return (setLabelState (pp, root, errmsg));
+	    break;
+
+	default:
+	    break;
+	}
+
+	return (0);
+}
+
+
+/* set the given TEXT or NUMERIC property from the given element.
+ * root should have <text> or <number> child.
+ * return 0 if ok else -1 with reason in errmsg
+ */
+int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+	XMLEle *ep;
+
+	for (int i = 0; i < root->nel; i++)
+	{
+	    ep = root->el[i];
+
+	    if (strcmp (ep->tag, "setText") && strcmp(ep->tag, "setNumber"))
+		continue;
+
+	    //fprintf(stderr, "tag okay, getting perm\n");
+	   switch (pp->perm)
+	   {
+	   case PP_RW:	// FALLTHRU
+	   case PP_RO:
+	     if (pp->guitype == PG_TEXT)
+	     {
+	     	pp->table_w->setText(i , 0, QString(ep->pcdata));
+		pp->labels[i]->text = new char[strlen(ep->pcdata)+1];
+		strcpy(pp->labels[i]->text, ep->pcdata);
+             }
+	     else if (pp->guitype == PG_NUMERIC)
+	     {
+	       pp->labels[i]->value = atof(ep->pcdata);
+	       numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
+	       pp->table_w->setText(i , 0, QString(pp->labels[i]->text));
+	     }
+	     break;
+
+	    break;
+	case PP_WO:
+	    if (pp->guitype == PG_TEXT)
+	       pp->table_w->setText(i , 0, QString(ep->pcdata));
+	    else if (pp->guitype == PG_NUMERIC)
+	    {
+	      pp->labels[i]->value = atof(ep->pcdata);
+	      numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
+
+	      if (pp->labels[i]->spin_w)
+                pp->labels[i]->spin_w->setValue(pp->labels[i]->value);
+	      else
+ 	        pp->table_w->setText(i , 0, QString(pp->labels[i]->text));
+	    }
+
+
+	    break;
+	   }
+	}
+
+        if (!strcmp(pp->name , "EQUATORIAL_COORD"))
+	  parent->ksw->map()->forceUpdateNow();
+	else if  ( (!strcmp(pp->name, "TIME") && parent->ksw->options()->indiAutoTime) ||
+	           (!strcmp(pp->name, "GEOGRAPHIC_COORD") && parent->ksw->options()->indiAutoGeo))
+		  handleDevCounter();
+
+        // suppress warning
+	errmsg = errmsg;
+
+	return (0);
+}
+
+void INDI_D::handleDevCounter()
+{
+
+  if (initDevCounter <= 0)
+   return;
+
+  initDevCounter--;
+
+  if (initDevCounter == 0 && parent->ksw->options()->indiMessages)
+    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online and ready."), 0);
+
+}
+
+/* set the user input TEXT or NUMERIC field from the given element.
+ * root should have <text> or <number> child.
+ * ignore if property is not RW.
+ * return 0 if ok else -1 with reason in errmsg
+ */
+int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+        XMLEle *ep;// = parent->findEle (root, pp, "setText", errmsg);
+
+	for (int i = 0; i < root->nel; i++)
+	{
+	    ep = root->el[i];
+
+	    if (strcmp (ep->tag, "newText") && strcmp(ep->tag, "newNumber"))
+		continue;
+
+	   switch (pp->perm)
+	   {
+	   case PP_RW:	// FALLTHRU
+	   case PP_WO:
+	     if (pp->guitype == PG_TEXT)
+	     	pp->table_w->setText(i , 1, QString(ep->pcdata));
+             else if (pp->guitype == PG_NUMERIC)
+	     {
+	       pp->labels[i]->value = atof(ep->pcdata);
+	       numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
+	       pp->table_w->setText(i , 1, QString(pp->labels[i]->text));
+	     }
+
+
+	     break;
+	case PP_RO:
+	      break;
+	   }
+	}
+
+	// suppress warning
+	errmsg = errmsg;
+
+	return (0);
+}
+
+/* set the given BUTTONS or LIGHTS property from the given element.
+ * root should have some <switch> or <light> children.
+ * return 0 if ok else -1 with reason in errmsg
+ */
+int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+	char *pn = pp->name;
+	uint i;
+	int menuChoice=0;
+
+	//fprintf(stderr, "In set Label state\n");
+
+	/* for each child element */
+	for (i = 0; i < (uint) root->nel; i++)
+	{
+	    XMLEle *ep = root->el[i];
+	    XMLAtt *ap;
+	    INDI_L *lp = NULL;
+	    int islight;
+	    PState state;
+
+	    /* only using light and switch */
+	    islight = !strcmp (ep->tag, "setLight");
+	    if (!islight && strcmp (ep->tag, "setSwitch"))
+		continue;
+
+	    ap =  findXMLAtt (ep, "name");
+	    /* no name */
+	    if (!ap)
+	    {
+		sprintf (errmsg, "INDI: <%s> %s %s %s requires name",
+						    root->tag, name, pn, ep->tag);
+		return (-1);
+	    }
+
+	    if ((islight && crackLightState (ep->pcdata, &state) < 0)
+		    || (!islight && crackSwitchState (ep->pcdata, &state) < 0))
+	    {
+		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
+					    root->tag, ep->pcdata, name, pn, ep->tag);
+		return (-1);
+	    }
+
+	    /* find matching label */
+	    //fprintf(stderr, "Find matching label. Name from XML is %s\n", ap->valu);
+	    lp = pp->findLabel(ap->valu);
+
+	    if (!lp)
+	    {
+		sprintf (errmsg,"INDI: <%s> %s %s has no choice named %s",
+						    root->tag, name, pn, ap->valu);
+		return (-1);
+	    }
+
+	    QFont buttonFont;
+	    /* engage new state */
+	    lp->state = state;
+
+	    switch (pp->guitype)
+	    {
+	     case PG_BUTTONS:
+	      if (islight)
+	       break;
+
+               lp->push_w->setDown(state == PS_ON ? true : false);
+		buttonFont = lp->push_w->font();
+		buttonFont.setBold(state == PS_ON ? TRUE : FALSE);
+		lp->push_w->setFont(buttonFont);
+
+		if (state == PS_ON && !strcmp(lp->name, "CONNECT"))
+		  initDeviceOptions();
+		else if (state == PS_ON && !strcmp(lp->name, "DISCONNECT"))
+		  parent->ksw->map()->forceUpdateNow();
+		break;
+
+	     case PG_RADIO:
+                 lp->check_w->setChecked(state == PS_ON ? true : false);
+		 break;
+	     case PG_MENU:
+	       if (state == PS_ON)
+	       {
+	      	if (menuChoice)
+	      	{
+	        	sprintf(errmsg, "INDI: <%s> %s %s has multiple ON states", root->tag, name, pn);
+			return (-1);
+              	}
+	      	menuChoice = 1;
+	        pp->om_w->setCurrentItem(i);
+	       }
+	       break;
+
+	     case PG_TEXT:
+	      if (!islight)
+	       break;
+        	pp->drawLt (lp->led_w, lp->state);
+		break;
+	     default:
+	      break;
+	   }
+
+	}
+
+	return (0);
+}
+
+void INDI_D::initDeviceOptions()
+{
+  INDI_P *prop;
+
+  initDevCounter = 0;
+
+  if (parent->ksw->options()->indiAutoTime)
+  {
+  	prop = findProp("TIME");
+  	  if (prop)
+	  {
+            prop->updateTime();
+	    initDevCounter += 2;
+	  }
+  }
+
+  if (parent->ksw->options()->indiAutoGeo)
+  {
+  	prop = findProp("GEOGRAPHIC_COORD");
+   	   if (prop)
+	   {
+   		prop->updateLocation();
+         	initDevCounter += 2;
+	   }
+  }
+
+  /*if (parent->ksw->options()->indiAutoLat)
+  {
+  	prop = findProp("LAT");
+   	 if (prop)
+	 {
+   		prop->updateLocation();
+     	        initDevCounter += 2;
+	 }
+   }*/
+
+  if (parent->ksw->options()->indiMessages)
+    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online."), 0);
+
+  parent->ksw->map()->forceUpdateNow();
+
+}
+
+bool INDI_D::isOn()
+{
+
+  INDI_P *prop;
+
+  //fprintf(stderr, "Trying to find property CONNECTION\n");
+
+  prop = findProp("CONNECTION");
+  if (!prop)
+   return false;
+
+   //fprintf(stderr, "Property found, trying to see if the switch is ON\n");
+
+  return (prop->isOn(QString("CONNECT")));
+}
+
+/* implement any <new???> received from the device.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::newAnyCmd (XMLEle *root, char errmsg[])
+{
+	XMLAtt *ap;
+	INDI_P *pp;
+
+	ap = parent->findAtt (root, "name", errmsg);
+	if (!ap)
+	    return (-1);
+
+	pp = findProp(ap->valu);
+	if (!pp) {
+	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
+						root->tag, name, ap->valu);
+	    return (-1);
+	}
+
+	return (newValue (pp, root, errmsg));
+}
+
+/* set the user input field of the given RW GUI property according to the XML
+ * command.
+ * return 0 if ok else -1 with reason in errmsg
+ */
+int INDI_D::newValue (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+	/* process specific GUI features */
+	switch (pp->guitype)
+	{
+	case PG_NONE:
+	    break;
+
+	case PG_NUMERIC:	/* FALLTHRU */
+	case PG_TEXT:
+	    return (newTextValue (pp, root, errmsg));
+	    break;
+
+	case PG_BUTTONS:	/* FALLTHRU */
+	case PG_LIGHTS:
+	case PG_RADIO:		/* FALLTHRU */
+	case PG_MENU:
+	    return (setLabelState (pp, root, errmsg));
+	    break;
+
+
+	default:
+	    break;
+	}
+
+	return (0);
+}
+
+INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
+{
+	INDI_P *pp = NULL;
+	INDI_G *pg = NULL;
+	XMLAtt *ap = NULL;
+
+        // Search for group tag
+	ap = parent->findAtt (root, "grouptag", errmsg);
+        if (!ap)
+        {
+                kdDebug() << QString(errmsg) << endl;
+                return NULL;
+        }
+	// Find an existing group, if none found, create one
+        pg = findGroup(ap->valu, 1, errmsg);
+
+	if (!pg)
+	 return NULL;
+
+        /* get property name and add new property to dp */
+	ap = parent->findAtt (root, "name", errmsg);
+	if (ap == NULL)
+	    return NULL;
+
+	if (findProp (ap->valu))
+	{
+	    sprintf (errmsg, "INDI: <%s %s %s> already exists", root->tag,
+							name, ap->valu);
+	    return NULL;
+	}
+
+	pp = new INDI_P(pg, ap->valu);
+
+	/* N.B. if trouble from here on must call delP() */
+
+	/* init state */
+	ap = parent->findAtt (root, "state", errmsg);
+	if (!ap)
+	{
+	    delete(pp);
+	    return (NULL);
+	}
+
+	if (crackLightState (ap->valu, &pp->state) < 0)
+	{
+	    sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
+				root->tag, ap->valu, pp->pg->dp->name, pp->name);
+	    delete(pp);
+	    return (NULL);
+	}
+
+	//TODO
+	/* init timeout */
+	ap = parent->findAtt (root, "timeout", NULL);
+	/* default */
+	pp->timeout = ap ? atof(ap->valu) : 0;
+
+	/* log any messages */
+	parentMgr->checkMsg (root, this);
+
+	if (addGUI (pp, root, errmsg) < 0)
+	{
+	   delete(pp);
+	   return (NULL);
+	}
+
+	/* ok! */
+	return (pp);
+}
+
+INDI_P * INDI_D::findProp (const char *name)
+{
+       for (uint i = 0; i < gl.size(); i++)
+	for (uint j = 0; j < gl[i]->pl.size(); j++)
+	    if (!strcmp (name, gl[i]->pl[j]->name))
+		return (gl[i]->pl[j]);
+
+	return NULL;
+}
+
+INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
+{
+  for (int i= gl.size() - 1 ; i >= 0; i--)
+  {
+    curGroup      = gl[i];
+
+    // If the new group is empty and the LAST group is not, then
+    // create a new group, otherwise return the LAST empty group
+    if (!strcmp(grouptag, ""))
+    {
+      if ((!curGroup->box->title().isEmpty()) && create)
+       break;
+      else
+       return curGroup;
+    }
+
+    if (QString(grouptag) == curGroup->box->title())
+      return (curGroup);
+  }
+
+  /* couldn't find an existing group, create a new one if create is 1*/
+  if (create)
+  {
+  	curGroup = new INDI_G(this, grouptag);
+  	gl.push_back(curGroup);
+        return curGroup;
+  }
+
+  sprintf (errmsg, "INDI: group %s not found in %s", grouptag, name);
+  return NULL;
+}
+
+/* find "perm" attribute in root, crack and set *pp.
+ * return 0 if ok else -1 with excuse in errmsg[]
+ */
+
+ int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, char errmsg[])
+{
+	XMLAtt *ap;
+
+	ap = findXMLAtt(root, "perm");
+	if (!ap) {
+	    sprintf (errmsg, "INDI: <%s %s %s> missing attribute 'perm'",
+					root->tag, pp->pg->dp->name, pp->name);
+	    return (-1);
+	}
+	if (!strcmp(ap->valu, "ro") || !strcmp(ap->valu, "r"))
+	    *permp = PP_RO;
+	else if (!strcmp(ap->valu, "wo"))
+	    *permp = PP_WO;
+	else if (!strcmp(ap->valu, "rw") || !strcmp(ap->valu, "w"))
+	    *permp = PP_RW;
+	else {
+	    sprintf (errmsg, "INDI: <%s> unknown perm %s for %s %s",
+				root->tag, ap->valu, pp->pg->dp->name, pp->name);
+	    return (-1);
+	}
+
+	return (0);
+}
+
+/* convert the given light/property state string to the PState at psp.
+ * return 0 if successful, else -1 and leave *psp unchanged.
+ */
+int INDI_D::crackLightState (char *name, PState *psp)
+{
+	typedef struct
+	{
+	    PState s;
+	    const char *name;
+	} PSMap;
+
+	PSMap psmap[] =
+	{
+	    {PS_IDLE,  "Idle"},
+	    {PS_OK,    "Ok"},
+	    {PS_BUSY,  "Busy"},
+	    {PS_ALERT, "Alert"},
+	};
+
+	for (int i = 0; i < 4; i++)
+	    if (!strcmp (psmap[i].name, name)) {
+		*psp = psmap[i].s;
+		return (0);
+	    }
+
+	return (-1);
+}
+
+void INDI_D::resizeTableHeaders()
+{
+
+  for (uint i=0; i < gl.size(); i++)
+   for (uint j=0; j < gl[i]->pl.size(); j++)
+  {
+        if (gl[i]->pl[j]->table_w)
+	     gl[i]->pl[j]->table_w->setLeftMargin(widestTableCol);
+  }
+
+}
+
+void INDI_D::resizeGroups()
+{
+
+  for (uint i=0; i < gl.size(); i++)
+  {
+        gl[i]->layout->addColSpacing(1, biggestLabel);
+	gl[i]->layout->addColSpacing(6, 50);
+  }
+
+}
+
+
+/* build widgets for property pp using info in root.
+ * we have already handled device+name+timeout+state attributes.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::addGUI (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+	//XMLEle *prompt;
+	XMLAtt *prompt;
+
+	/* add to GUI group */
+	pp->light = new KLed (curGroup->box);
+	pp->drawLt(pp->light, pp->state);
+        pp->light->setMaximumSize(16,16);
+	curGroup->layout->addWidget(pp->light, curGroup->pl.size(), 0);
+
+	/* add label for prompt */
+	//prompt = parent->findEle (root, pp, "prompt", errmsg);
+	  prompt = parent->findAtt(root, "label", errmsg);
+	if (prompt)
+	{
+	 // use prop name is label is empty
+	 if (!strcmp (prompt->valu, ""))
+	 pp->label_w = new QLabel(QString(pp->name), curGroup->box);
+	 else
+	   pp->label_w = new QLabel(QString(prompt->valu), curGroup->box);
+	 curGroup->layout->addWidget(pp->label_w, curGroup->pl.size(), 1);
+
+	 if (pp->label_w->sizeHint().width() > biggestLabel)
+	   biggestLabel = pp->label_w->sizeHint().width();
+
+         pp->light->show();
+	 pp->label_w->show();
+
+ 	 resizeGroups();
+
+         return (0);
+	}
+	else
+	  /* findEle already set errmsg */
+	    return (-1);
+
+}
+
+
+/* convert the given switch state string to the PState at psp.
+ * return 0 if successful, else -1 and leave *psp unchanged.
+ */
+int INDI_D::crackSwitchState (char *name, PState *psp)
+{
+	typedef struct
+	{
+	    PState s;
+	    const char *name;
+	} PSMap;
+
+	PSMap psmap[] =
+	{
+	    {PS_ON,  "On"},
+	    {PS_OFF, "Off"},
+	};
+
+
+	for (int i = 0; i < 2; i++)
+	    if (!strcmp (psmap[i].name, name))
+	    {
+		*psp = psmap[i].s;
+		return (0);
+	    }
+
+	return (-1);
+}
+
+int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
+{
+       	INDI_P *pp = NULL;
+	INDI_L *lp = NULL;
+	XMLEle *text;
+	XMLAtt *ap;
+	//char *tlabel;
+	//char *tname;
+	PPerm p;
+
+
+	/* build a new property */
+	pp = addProperty (root, errmsg);
+
+	if (pp == NULL)
+	    return (-1);
+
+	//fprintf(stderr, "in build new Text for Property %s\n", pp->name);
+
+	/* N.B. if trouble from here one must call delP() */
+	/* get the permission, it will determine layout issues */
+	if (findPerm (pp, root, &p, errmsg))
+	{
+	    delete(pp);
+	    return (-1);
+	}
+
+	//pp->hLayout = new QHBoxLayout(0, 0, 5);
+	//curGroup->layout->addMultiCellLayout(pp->hLayout, curGroup->pl.size(), curGroup->pl.size(), 2, 5);
+        pp->table_w = new QTable (curGroup->box);
+
+	switch (p)
+	{
+	  case PP_RW:
+	   pp->table_w->setNumCols(2);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->horizontalHeader()->setLabel( 1, i18n("Set"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_RO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_WO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Set"));
+
+	   break;
+	 }
+
+	 pp->table_w->setColumnStretchable(0, true);
+
+	for (int i = 0; i < root->nel; i++)
+	{
+	    text = root->el[i];
+
+	    if (strcmp (text->tag, "defText"))
+		continue;
+
+	    pp->table_w->insertRows(i);
+	    pp->table_w->setRowHeight(i, uniHeight);
+
+	    ap = findXMLAtt(text, "name");
+	    if (!ap)
+	    {
+	        kdDebug() << "Error: unable to find attribute 'name' for property " << pp->name << endl;
+	        delete(pp);
+	        return (-1);
+	    }
+
+	    char * tname = new char[ strlen(ap->valu) + 1];
+	    strcpy(tname, ap->valu);
+
+	    ap = findXMLAtt(text, "label");
+
+	    if (!ap)
+	    {
+	      kdDebug() << "Error: unable to find attribute 'label' for property " << pp->name << endl;
+	      delete(pp);
+	      return (-1);
+	    }
+
+            char * tlabel = new char[ strlen(ap->valu) + 1];
+	    strcpy(tlabel, ap->valu);
+
+	    if (!strcmp(tlabel, ""))
+	    {
+	     tlabel = new char [ strlen(tname) + 1];
+	     strcpy(tlabel, tname);
+	    }
+
+	    lp = new INDI_L(pp, tname, tlabel);
+
+	     pp->labels.push_back(lp);
+
+	     pp->table_w->verticalHeader()->setLabel(i, QString(tlabel));
+	     pp->table_w->setText(i , 0, QString(text->pcdata));
+
+	     if (pp->table_w->verticalHeader()->sizeHint().width() > widestTableCol)
+	     {
+	        widestTableCol = pp->table_w->verticalHeader()->sizeHint().width();
+		if (widestTableCol > 200)
+		  widestTableCol = 200;
+
+		resizeTableHeaders();
+ 	     }
+	     else
+	      pp->table_w->setLeftMargin(widestTableCol);
+
+
+	 }
+
+	/* we know it will be a general text GUI */
+	pp->guitype = PG_TEXT;
+	pp->perm = p;
+
+	pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	pp->table_w->setMaximumHeight(pp->labels.size() * uniHeight + pp->table_w->horizontalHeader()->height() + 5);
+
+
+	  curGroup->layout->addMultiCellWidget(pp->table_w, curGroup->pl.size(), curGroup->pl.size(), 2, 5);
+
+        if (pp->perm != PP_RO)
+	{
+	    // INDI STD, but we use our own controls
+	    if (!strcmp(pp->name, "TIME"))
+	    {
+	     	pp->set_w   = new QPushButton(i18n("Set Time..."), curGroup->box);
+	        QObject::connect(pp->set_w, SIGNAL(clicked()), pp, SLOT(newTime()));
+	    }
+	    else
+	    {
+		pp->set_w   = new QPushButton(i18n("Set"), curGroup->box);
+        	QObject::connect(pp->set_w, SIGNAL(clicked()), pp, SLOT(newText()));
+            }
+		curGroup->layout->addWidget(pp->set_w, curGroup->pl.size(), 6);
+	}
+
+
+	curGroup->addProperty(pp);
+
+
+	return (0);
+}
+
+/* build GUI for a number property.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
+{
+
+        INDI_P *pp = NULL;
+	INDI_L *lp = NULL;
+	XMLEle *number;
+	XMLAtt *ap;
+	char *nlabel;
+	char *nname;
+	PPerm p;
+
+	/* build a new property */
+	pp = addProperty (root, errmsg);
+
+	if (pp == NULL)
+	    return (-1);
+
+	/* N.B. if trouble from here one must call delP() */
+	/* get the permission, it will determine layout issues */
+	if (findPerm (pp, root, &p, errmsg))
+	{
+	    delete(pp);
+	    return (-1);
+	}
+
+	//pp->hLayout = new QHBoxLayout(0, 0, 5);
+	//curGroup->layout->addMultiCellLayout(pp->hLayout, curGroup->pl.size(), curGroup->pl.size(), 2, 5);
+        pp->table_w = new QTable (curGroup->box);
+
+	switch (p)
+	{
+	  case PP_RW:
+	   pp->table_w->setNumCols(2);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->horizontalHeader()->setLabel( 1, i18n("Set"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_RO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_WO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Set"));
+
+	   break;
+	 }
+
+	 pp->table_w->setColumnStretchable(0, true);
+
+
+	for (int i = 0; i < root->nel; i++)
+	{
+	    number = root->el[i];
+
+	    if (strcmp (number->tag, "defNumber"))
+		continue;
+
+	    //initstr = text->pcdata;
+
+	    pp->table_w->insertRows(i);
+	    pp->table_w->setRowHeight(i, uniHeight);
+
+
+	    ap = findXMLAtt(number, "name");
+	    if (!ap)
+	    {
+	        kdDebug() << "Error: unable to find attribute 'name' for property " << pp->name << endl;
+	        delete(pp);
+	        return (-1);
+	    }
+
+	    nname = new char [strlen(ap->valu) + 1];
+	    strcpy(nname, ap->valu);
+
+	    ap = findXMLAtt(number, "label");
+
+	    if (!ap)
+	    {
+	      kdDebug() << "Error: unable to find attribute 'label' for property " << pp->name << endl;
+	      delete(pp);
+	      return (-1);
+	    }
+
+	    nlabel = new char [strlen(ap->valu) + 1];
+	    strcpy(nlabel, ap->valu);
+
+	    if (!strcmp(nlabel, ""))
+	    {
+	     nlabel = new char [ strlen(nname) + 1];
+	     strcpy(nlabel, nname);
+	    }
+
+	    lp = new INDI_L(pp, nname, nlabel);
+
+	    ap = findXMLAtt (number, "min");
+	    if (ap)
+		lp->min = atof(ap->valu);
+	    ap = findXMLAtt (number, "max");
+	    if (ap)
+		lp->max = atof(ap->valu);
+	    ap = findXMLAtt (number, "step");
+	    if (ap)
+		lp->step = atof(ap->valu);
+	    ap = findXMLAtt (number, "format");
+	    if (ap)
+		strcpy(lp->format, ap->valu);
+
+	    lp->value = atof(number->pcdata);
+
+	    numberFormat(lp->text, lp->format, lp->value);
+
+	    pp->labels.push_back(lp);
+
+	     pp->table_w->verticalHeader()->setLabel(i, QString(nlabel));
+	     pp->table_w->setText(i , 0, QString(lp->text));
+
+	     // SCALE
+	     if (lp->step != 0 && (lp->max - lp->min)/lp->step <= MAXSCSTEPS)
+	     {
+	       if (p == PP_RW)
+	       {
+	         lp->spin_w = new KDoubleSpinBox(lp->min, lp->max, lp->step, lp->value, 2, curGroup->box);
+ 	         pp->table_w->setCellWidget(i, 1, lp->spin_w);
+	       }
+	       else if (p == PP_WO)
+	       {
+	         lp->spin_w = new KDoubleSpinBox(lp->min, lp->max, lp->step, lp->value, 2, curGroup->box);
+ 	         pp->table_w->setCellWidget(i, 0, lp->spin_w);
+	       }
+
+	     }
+
+	     if (pp->table_w->verticalHeader()->sizeHint().width() > widestTableCol)
+	     {
+	        widestTableCol = pp->table_w->verticalHeader()->sizeHint().width();
+		if (widestTableCol > 200)
+		  widestTableCol = 200;
+		//fprintf(stderr, "Found a new wide col %d for %s, readjusting\n", widestTableCol, nlabel);
+		resizeTableHeaders();
+ 	     }
+	     else
+	       pp->table_w->setLeftMargin(widestTableCol);
+
+
+
+	     //pp->table_w->setText(i , 0, QString(tlabel));
+
+	 }
+
+	/* we know it will be a general text GUI */
+	pp->guitype = PG_NUMERIC;
+	pp->perm = p;
+
+	//pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	pp->table_w->setMaximumHeight(pp->labels.size() * uniHeight + pp->table_w->horizontalHeader()->height() + 5);
+	curGroup->layout->addMultiCellWidget(pp->table_w, curGroup->pl.size(), curGroup->pl.size(), 2, 5);
+	//pp->hLayout->addWidget(pp->table_w);
+
+
+	if (p != PP_RO)
+	{
+		pp->set_w   = new QPushButton(i18n("Set"), curGroup->box);
+        	QObject::connect(pp->set_w, SIGNAL(clicked()), pp, SLOT(newText()));
+		curGroup->layout->addWidget(pp->set_w, curGroup->pl.size(), 6);
+	}
+
+
+	curGroup->addProperty(pp);
+
+
+	return (0);
+
+
+
+}
+
+/* build GUI for switches property.
+ * rule and number of will determine exactly how the GUI is built.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
+{
+	INDI_P *pp;
+	XMLAtt *ap;
+	int i, j, n;
+
+	/* build a new property */
+	pp = addProperty (root, errmsg);
+	if (!pp)
+	    return (-1);
+
+	/* N.B. if trouble from here on must call delP() */
+
+	ap = parent->findAtt (root, "rule", errmsg);
+	if (!ap)
+	{
+	    delete(pp);
+	    return (-1);
+	}
+
+	/* decide GUI. might use MENU if OneOf but too many for button array */
+	if (!strcmp (ap->valu, "OneOfMany"))
+	{
+	    /* count number of switches -- make menu if too many */
+	    for (n = i = 0; i < root->nel; i++)
+		if (!strcmp (root->el[i]->tag, "defSwitch"))
+		    n++;
+	    if (n > MAXRADIO)
+	    {
+		i = buildMenuGUI (pp, root, errmsg);
+		if (i < 0)
+		    delete(pp);
+		return (i);
+	    }
+
+	    pp->guitype = PG_BUTTONS;
+
+	}
+	else if (!strcmp (ap->valu, "AnyOfMany"))
+	    pp->guitype = PG_RADIO;
+	else
+	{
+	    sprintf (errmsg, "INDI: <%s> unknown rule %s for %s %s",
+				root->tag, ap->valu, name, pp->name);
+	    delete(pp);
+	    return (-1);
+	}
+
+	/* ok, build array of toggle buttons.
+	 * only difference is /visual/ appearance of 1ofMany or anyofMany */
+
+	 //pp->hLayout = new QHBoxLayout(0, 0, 5);
+
+	pp->groupB = new QButtonGroup(0);
+	if (pp->guitype == PG_BUTTONS)
+	  pp->groupB->setExclusive(true);
+
+
+        QObject::connect(pp->groupB, SIGNAL(clicked(int)),
+    		     pp, SLOT(newSwitch(int)));
+
+	XMLEle *sep;
+        char *sstate;
+	char sname[128];
+	char slabel[128];
+	QPushButton *button;
+	QCheckBox   *checkbox;
+	INDI_L *lp;
+	QFont buttonFont;
+
+	for (i = 0, j = -1; i < root->nel; i++)
+	{
+	    sep = root->el[i];
+
+	    /* look for switch tage */
+	    if (strcmp (sep->tag, "defSwitch"))
+                   continue;
+
+            /* find name  */
+	    ap = parent->findAtt (sep, "name", errmsg);
+	    if (!ap)
+	    {
+		delete(pp);
+		return (-1);
+	    }
+
+	    strcpy(sname, ap->valu);
+
+	    /* find label */
+	    ap = parent->findAtt (sep, "label", errmsg);
+	     if (!ap)
+	     {
+		delete(pp);
+		return (-1);
+	     }
+
+	    strcpy(slabel, ap->valu);
+
+	    if (!strcmp (slabel, ""))
+	     strcpy(slabel, sname);
+
+            lp = new INDI_L(pp, sname, slabel);
+
+	    sstate = sep->pcdata;
+
+	    if (crackSwitchState (sstate, &(lp->state)) < 0)
+	    {
+		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
+			    root->tag, ap->valu, name, pp->name, name);
+		delete(pp);
+		return (-1);
+	    }
+
+	    j++;
+
+	    /* build toggle */
+	    switch (pp->guitype)
+	    {
+	      case PG_BUTTONS:
+	       button = new KPushButton(QString(slabel), curGroup->box);
+	       pp->groupB->insert(button, j);
+
+	       if (lp->state == PS_ON)
+	       {
+	           button->setDown(true);
+		   buttonFont = button->font();
+		   buttonFont.setBold(TRUE);
+		   button->setFont(buttonFont);
+	       }
+
+	       lp->push_w = button;
+
+	       //pp->u.multi.push_v->push_back(button);
+	       curGroup->layout->addWidget(button, curGroup->pl.size(), j + 2);
+	       button->show();
+
+	       break;
+
+	      case PG_RADIO:
+	      checkbox = new QCheckBox(QString(slabel), curGroup->box);
+	      pp->groupB->insert(checkbox, j);
+
+	      if (lp->state == PS_ON)
+	        checkbox->setChecked(true);
+
+	      curGroup->layout->addWidget(checkbox, curGroup->pl.size(), j + 2);
+
+	      lp->check_w = checkbox;
+	      //pp->u.multi.check_v->push_back(checkbox);
+	      checkbox->show();
+
+	      break;
+
+	      default:
+	      break;
+
+	    }
+
+	    pp->labels.push_back(lp);
+
+	}
+
+        if (j < 0)
+	 return (-1);
+
+	pp->groupB->setFrameShape(QFrame::NoFrame);
+
+        curGroup->addProperty(pp);
+
+	return (0);
+}
+
+
+/* build a menu version of oneOfMany.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+
+int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
+{
+
+	INDI_L *initlp = NULL;
+	XMLEle *sep = NULL;
+	XMLAtt *ap;
+	INDI_L *lp;
+	char *sname;
+	char *slabel;
+	char *sstate;
+	int i=0, onItem=0;
+
+	pp->guitype = PG_MENU;
+
+	QStringList menuOptions;
+
+	/*pp->table_w = new QTable(curGroup->box);
+	pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+	switch (pp->perm)
+	{
+	  case PP_RW:
+	   pp->table_w->setNumCols(2);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->horizontalHeader()->setLabel( 1, i18n("Set"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_RO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Current"));
+	   pp->table_w->setColumnReadOnly(0, true);
+	   break;
+
+	  case PP_WO:
+	   pp->table_w->setNumCols(1);
+	   pp->table_w->horizontalHeader()->setLabel( 0, i18n("Set"));
+
+	   break;
+	 }*/
+
+	// build pulldown menu first
+	// create each switch.
+	// N.B. can only be one in On state.
+
+	for (i = 0; i < root->nel; i++)
+	{
+	    sep = root->el[i];
+
+	    /* look for switch tage */
+	    if (strcmp (sep->tag, "defSwitch"))
+                   continue;
+
+            /* find name  */
+	    ap = parent->findAtt (sep, "name", errmsg);
+	    if (!ap)
+	    {
+		delete(pp);
+		return (-1);
+	    }
+
+	    sname = new char [ strlen(ap->valu) + 1];
+	    strcpy(sname, ap->valu);
+
+	    /* find label */
+	    ap = parent->findAtt (sep, "label", errmsg);
+	     if (!ap)
+	     {
+		delete(pp);
+		return (-1);
+	     }
+
+	    slabel = new char [strlen(ap->valu) + 1];
+	    strcpy(slabel, ap->valu);
+
+	    if (!strcmp (slabel, ""))
+	     strcpy(slabel, sname);
+
+            lp = new INDI_L(pp, sname, slabel);
+
+	    sstate = sep->pcdata;
+
+	    if (crackSwitchState (sstate, &(lp->state)) < 0)
+	    {
+		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
+			    root->tag, ap->valu, name, pp->name, name);
+		delete(pp);
+		return (-1);
+	    }
+
+
+             menuOptions.append(QString(slabel));
+	    //pp->u.multi.om_w->insertItem(QString(name));
+
+	    if (lp->state == PS_ON)
+	    {
+		if (initlp)
+		{
+		    sprintf (errmsg,"INDI: <%s> %s %s has multiple On switches",
+					root->tag, name, pp->name);
+		    return (-1);
+		}
+		initlp = lp;
+		onItem = i;
+		//pp->u.multi.om_w->setCurrentItem(j);
+		//pp->u.multi.lastItem = j;
+	    }
+
+            pp->labels.push_back(lp);
+
+	}
+
+
+	//pp->table_w->insertRows(0);
+	//pp->table_w->setRowHeight(i, uniHeight);
+	//pp->table_w->setColumnStrechable(0, true);
+	pp->om_w = new KComboBox(curGroup->box);
+	pp->om_w->insertStringList(menuOptions);
+	pp->om_w->setCurrentItem(onItem);
+
+
+	/*if (pp->perm == PP_RW)
+	 pp->table_w->setCellWidget(0, 1, pp->om_w);
+	else
+	 pp->table_w->setCellWidget(0, 0, pp->om_w);*/
+
+	curGroup->layout->addMultiCellWidget(pp->om_w, curGroup->pl.size(), curGroup->pl.size(), 2, 3);
+
+	QObject::connect( pp->om_w, SIGNAL(activated(int)), pp, SLOT(newSwitch(int)));
+
+        //pp->u.multi.om_w->show();
+
+	curGroup->addProperty(pp);
+
+	return (0);
+}
+
+/* build GUI for a lights GUI.
+ * return 0 if ok, else -1 with reason in errmsg[]
+ */
+int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
+{
+
+	INDI_P *pp;
+	int i;
+
+	// build a new property
+	pp = addProperty (root, errmsg);
+	if (!pp)
+	    return (-1);
+
+	// N.B. if trouble from here on must call delP()
+
+	pp->guitype = PG_LIGHTS;
+
+	pp->hLayout = new QHBoxLayout(0, 0, 5);
+	curGroup->layout->addMultiCellLayout(pp->hLayout, curGroup->pl.size(), curGroup->pl.size(), 3, 5);
+
+	XMLEle *lep;
+	XMLAtt *ap;
+	INDI_L *lp;
+	QLabel *label;
+	KLed   *led;
+	char sname[128];
+	char slabel[128];
+
+	for (i = 0; i < root->nel; i++)
+	{
+	    lep = root->el[i];
+
+	    if (strcmp (lep->tag, "defLight"))
+		continue;
+
+	/* find name  */
+	    ap = parent->findAtt (lep, "name", errmsg);
+	    if (!ap)
+	    {
+		delete(pp);
+		return (-1);
+	    }
+
+	    strcpy(sname, ap->valu);
+
+	    /* find label */
+	    ap = parent->findAtt (lep, "label", errmsg);
+	     if (!ap)
+	     {
+		delete(pp);
+		return (-1);
+	     }
+
+	    strcpy(slabel, ap->valu);
+
+	    if (!strcmp (slabel, ""))
+	     strcpy(slabel, sname);
+
+	   lp = new INDI_L(pp, sname, slabel);
+
+	    if (crackLightState (lep->pcdata, &lp->state) < 0)
+	     {
+		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
+			    root->tag, ap->valu, name, pp->name, sname);
+		delete(pp);
+		return (-1);
+	    }
+
+
+	    label = new QLabel(QString(slabel), curGroup->box);
+	    led   = new KLed(curGroup->box);
+
+	    pp->drawLt(led, lp->state);
+
+	    pp->hLayout->addWidget(led);
+            pp->hLayout->addWidget(label);
+
+	    lp->label_w  = label;
+	    lp->led_w    = led;
+            //pp->u.multi.label_v->push_back(label);
+	    //pp->u.multi.led_v->push_back(led);
+
+	    pp->labels.push_back(lp);
+	}
+
+	curGroup->addProperty(pp);
+
+	return (0);
+}
+
+
 
 /*******************************************************************
 ** The device manager contain devices running from one indiserver
@@ -193,7 +2393,8 @@ void DeviceManager::dataReceived()
 	    {
 		if (dispatchCommand(root, msg) < 0)
 		{
-		    kdDebug() << msg << endl;
+		    //kdDebug() << msg << endl;
+		    fprintf(stderr, msg);
 		    prXMLEle (stdout, root, 0);
 		}
 
@@ -232,22 +2433,22 @@ int DeviceManager::dispatchCommand(XMLEle *root, char errmsg[])
       if (dp == NULL)
 	    return -1;
 
-   if (!strcmp (root->tag, "defText"))
+   if (!strcmp (root->tag, "defTextVector"))
       return dp->buildTextGUI(root, errmsg);
-   else if (!strcmp (root->tag, "defNumber"))
+   else if (!strcmp (root->tag, "defNumberVector"))
       return dp->buildNumberGUI(root, errmsg);
-   else if (!strcmp (root->tag, "defSwitches"))
+   else if (!strcmp (root->tag, "defSwitchVector"))
        return dp->buildSwitchesGUI(root, errmsg);
-   else if (!strcmp (root->tag, "defLights"))
+   else if (!strcmp (root->tag, "defLightVector"))
         return dp->buildLightsGUI(root, errmsg);
-   else if (!strcmp (root->tag, "setText") ||
-   	    !strcmp (root->tag, "setNumber") ||
-	    !strcmp (root->tag, "setSwitch") ||
-	    !strcmp (root->tag, "setLights"))
+   else if (!strcmp (root->tag, "setTextVector") ||
+   	    !strcmp (root->tag, "setNumberVector") ||
+	    !strcmp (root->tag, "setSwitchVector") ||
+	    !strcmp (root->tag, "setLightVector"))
 	return dp->setAnyCmd(root, errmsg);
-  else if  (!strcmp (root->tag, "newText") ||
-  	    !strcmp (root->tag, "newNumber") ||
-	    !strcmp (root->tag, "newSwitch"))
+  else if  (!strcmp (root->tag, "newTextVector") ||
+  	    !strcmp (root->tag, "newNumberVector") ||
+	    !strcmp (root->tag, "newSwitchVector"))
 	 return dp->newAnyCmd(root, errmsg);
 
 
@@ -439,1926 +2640,62 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
 }
 
-void DeviceManager::sendNewString (INDI_P *pp, const char *txt)
+void DeviceManager::sendNewText (INDI_P *pp)
 {
-   if (pp->guitype == PG_TEXT)
-    fprintf (serverFP, "<newText device='%s' name='%s'><text>%s</text></newText>\n",
-						pp->pg->dp->name, pp->name, txt);
-   else
-    fprintf (serverFP, "<newNumber device='%s' name='%s'><number>%s</number></newNumber>\n", pp->pg->dp->name, pp->name, txt);
-}
 
-void DeviceManager::sendNewSwitch (INDI_L *lp, int set)
-{
-	INDI_P *pp = lp->pp;
-
-	fprintf (serverFP, "<newSwitch device='%s' name='%s'><switch state='%s'>%s</switch></newSwitch>\n",
-			pp->pg->dp->name, pp->name, set ? "On" : "Off", lp->name);
-}
-
-/*******************************************************************
-** INDI Label
-*******************************************************************/
-INDI_L::INDI_L(INDI_P *parentProperty, char *inName)
-{
-  name = new char[64];
-  strcpy(name, inName);
-  pp = parentProperty;
-}
-
-/*******************************************************************
-** INDI Property: contains widgets, labels, and their status
-*******************************************************************/
-INDI_P::INDI_P(INDI_G *parentGroup, char * inName)
-{
-  name = new char[64];
-  strcpy(name, inName);
-  pg = parentGroup;
-  isINDIStd = false;
-
-  u.multi.push_v  = new std::vector<QPushButton *>;
-  u.multi.check_v = new std::vector<QCheckBox   *>;
-  u.multi.label_v = new std::vector<QLabel      *>;
-  u.multi.led_v   = new std::vector<KLed        *>;
-
-  light = NULL;
-  label_w = NULL;
-
-  parentPopup = NULL;
-
-  u.text.read_w = NULL;
-  u.text.write_w = NULL;
-  u.text.set_w = NULL;
-
-  u.scale.read_w = NULL;
-  u.scale.spin_w = NULL;
-  u.scale.set_w  = NULL;
-
-  u.multi.om_w = NULL;
-  u.multi.groupB = NULL;
-  u.multi.hLayout = NULL;
-
-  u.multi.labels  = new std::vector<INDI_L *>;
-
-}
-
-/* INDI property desstructor, makes sure everything is "gone" right */
-INDI_P::~INDI_P()
-{
-    if (light)
-      delete(light);
-
-    if (label_w)
-      delete(label_w);
-
-    switch (guitype)
-    {
-      case PG_TEXT:
-      case PG_NUMERIC:
-        switch (u.text.perm)
+	fprintf(serverFP, "<newTextVector\n");
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name);
+	fprintf(serverFP, "  name='%s'\n>", pp->name);
+	for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
-	  case PP_RW:
-	   delete (u.text.read_w);
-	   delete (u.text.write_w);
-	   delete (u.text.set_w);
-	   break;
-
-	  case PP_RO:
-	  delete (u.text.read_w);
-	  break;
-
-	  case PP_WO:
-	  delete (u.text.write_w);
-	  delete (u.text.set_w);
-	  break;
-        }
-	return;
-	break;
-
-     case PG_SCALE:
-        switch (u.scale.perm)
-	{
-   	  case PP_RW:
-	   delete (u.scale.read_w);
-	   delete (u.scale.spin_w);
-	   delete (u.scale.set_w);
-	   break;
-
-	  case PP_RO:
-	  delete (u.scale.read_w);
-	  break;
-
-	  case PP_WO:
-	  delete (u.scale.spin_w);
-	  delete (u.scale.set_w);
-	  break;
-        }
-	return;
-	break;
-
-      case PG_BUTTONS:
-       delete (u.multi.groupB);
-       delete (u.multi.hLayout);
-       for (uint i=0; i < u.multi.push_v->size(); i++)
-          delete ((*u.multi.push_v)[i]);
-      delete u.multi.push_v;
-      break;
-
-      case PG_RADIO:
-       delete (u.multi.groupB);
-       delete (u.multi.hLayout);
-       for (uint i=0; i < u.multi.check_v->size(); i++)
-        delete ((*u.multi.check_v)[i]);
-
-       delete u.multi.check_v;
-       break;
-
-      case PG_MENU:
-       delete (u.multi.om_w);
-       break;
-
-      case PG_LIGHTS:
-      for (uint i=0; i < u.multi.led_v->size(); i++)
-      delete ((*u.multi.led_v)[i]);
-
-      delete u.multi.led_v;
-
-     default: break;
-  }
-
-     for (uint i=0; i < u.multi.labels->size(); i++)
-      {
-        delete ((*u.multi.labels)[i]);
-	u.multi.labels->erase(u.multi.labels->begin());
-//	u.multi.labels->erase(0);
-      }
-
-}
-
-bool INDI_P::isOn(QString component)
-{
-
-  //TODO this now only searches in push_v. I should move all
-  // of that to labels where it logically belongs
-
-  for (uint i=0; i < u.multi.push_v->size(); i++)
-  {
-    if ((*u.multi.push_v)[i]->text() == component)
-       if ((*u.multi.push_v)[i]->isDown())
-        return true;
-       else
-        return false;
-  }
-
-  return false;
-}
-
-dms * INDI_P::getDMS()
-{
-    double value;
-
-    //kdDebug() << "Validating this DMS " << u.text.read_w->text().ascii() << endl;
-
-    if (!getSex(u.text.read_w->text().ascii(), &value))
-         return (new dms(value));
-    else
-     return NULL;
-
-}
-
-/*******************************************************************
-** INDI Group: a group box for common properties. All properties
-** belong to a group, whether they have one or not but how the group
-** is displayed differs
-*******************************************************************/
-INDI_G::INDI_G(INDI_D *parentDevice, char *inName)
-{
-  dp = parentDevice;
-
- if (!strcmp(inName, ""))
-  {
-    box = new QGroupBox(dp->propertyLayout);
-    box->setFrameShape(QFrame::NoFrame);
-    layout = new QGridLayout(box, 1, 1, 5 , 5);
-  }
-  else
-  {
-  box = new QGroupBox(QString(inName), dp->propertyLayout);
-  box->setColumnLayout(0, Qt::Vertical );
-  box->layout()->setSpacing( 5 );
-  box->layout()->setMargin( 5 );
-  layout = new QGridLayout(box->layout());
-  }
-
-}
-
-INDI_G::~INDI_G()
-{
-  delete(layout);
-  delete(box);
-}
-
-void INDI_G::addProperty(INDI_P *pp)
-{
-   dp->registerProperty(pp);
-   pl.push_back(pp);
-}
-
-int INDI_G::removeProperty(INDI_P *pp)
-{
-
-  for (uint i=0; i < pl.size(); i++)
-   if (!strcmp(pl[i]->name, pp->name))
-   {
-     pl.erase(pl.begin() + i);
-     delete (pp);
-     return (0);
-   }
-
-   return (-1);
-
-}
-
-
-/*******************************************************************
-** INDI Device: The work-horse. Responsible for handling its
-** child properties and managing signal and changes.
-*******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName)
-{
-  name = new char[64];
-  strcpy(name, inName);
-  parent = menuParent;
-  parentMgr = parentManager;
-
- tabContainer  = new QFrame( parent->deviceContainer, name);
- parent->deviceContainer->addTab (tabContainer, i18n(name));
-
- curGroup = NULL;
- biggestLabel = 0;
- initDevCounter = 0;
-
- sv = new QScrollView(tabContainer);
- sv->setResizePolicy(QScrollView::AutoOneFit);
-
- mainLayout	   = new QVBoxLayout (tabContainer, 11, 6, "dev_mainLayout");
-
- propertyLayout= new QVBox(sv);
- propertyLayout->setMargin(5);
- propertyLayout->setSpacing(10);
-
- sv->addChild(propertyLayout);
-
- msgST_w	   = new QTextEdit(tabContainer, "msgST_w");
- msgST_w->setReadOnly(true);
- msgST_w->setMaximumHeight(100);
-
- vSpacer       = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum);
-
- hSpacer       = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
- buttonLayout = new QHBoxLayout(0, 5, 5);
-
- clear   = new QPushButton(i18n("Clear"), tabContainer);
- clear->setDefault(false);
- savelog = new QPushButton(i18n("Save Log..."), tabContainer);
-
- buttonLayout->addWidget(clear);
- buttonLayout->addWidget(savelog);
- buttonLayout->addItem(hSpacer);
-
- mainLayout->addWidget(sv);
- mainLayout->addItem(vSpacer);
- mainLayout->addWidget(msgST_w);
- mainLayout->addLayout(buttonLayout);
-
- msgST_w->setFocus();
-
- QObject::connect(clear, SIGNAL(clicked()), msgST_w, SLOT(clear()));
-
- /* hmmmmmm, a way to know the optimal widget height, there is a probably
- * a better way to do it, but oh well! */
-  KLineEdit *tempLine = new KLineEdit(tabContainer);
-  uniHeight = tempLine->height() - 10;
-  delete(tempLine);
-
-  INDIStdSupport = false;
-
-}
-
-INDI_D::~INDI_D()
-{
-  char errmsg[1024];
-
-   for (uint j=0; j < gl.size(); j++)
-	      for (uint k=0; j < gl[j]->pl.size(); k++)
-	          removeProperty(gl[j]->pl[0], errmsg);
-
-  if (tabContainer)
-    delete (tabContainer);
-
-}
-
-void INDI_D::registerProperty(INDI_P *pp)
-{
-
-  /*INDI_STD prop;
-  INDI_L *label;
-
-  switch (pp->guitype)
-  {
-    case PG_BUTTONS:
-     for (uint i=0; i < pp->u.multi.push_v->size(); i++)
-     {
-       if (isINDIStd(pp->u.multi.push_v[i]->text()))
-       {
-         prop.name    = pp->u.multi.push_v[i]->text();
-	 prop.guitype = PG_BUTTONS;
-	 prop.visible = true;
-	 prop.parent  = pp;
-
-	 indiSTD.push_back(prop);
-       }
-     }
-     break;
-    default:
-     break;
-   }*/
-
-   if (isINDIStd(pp))
-   {
-    pp->isINDIStd = true;
-    pp->pg->dp->INDIStdSupport = true;
-   }
-
-
-
-}
-
-bool INDI_D::isINDIStd(INDI_P *pp)
-{
-
-  if (pp->name == QString("POWER"))
-   return true;
-  else if (pp->name == QString("RA"))
-   return true;
-  else if (pp->name == QString("DEC"))
-   return true;
-  else if (pp->name == QString("ONCOORDSET"))
-   return true;
-  else if (pp->name == QString("ABORTSLEW"))
-   return true;
-  else if (pp->name == QString("SOLARSYSTEM"))
-   return true;
-  // Time is a special case property. KStars offers
-  // its own non-INDI controls to facilitate the time and date
-  // selection process
-  else if (pp->name == QString("TIME"))
-     return true;
-  else if (pp->name == QString("UTC"))
-   return true;
-  else if (pp->name == QString("LONG") || pp->name == QString("LAT"))
-    return true;
-
-  return false;
-}
-
-bool INDI_D::handleNonSidereal(SkyObject *o)
-{
-
-  INDI_P *prop = findProp("SOLARSYSTEM");
-
-  if (prop == NULL || o == NULL)
-   return false;
-
-  for (int i=0; i < prop->u.multi.om_w->count(); i++)
-     if (o->name().lower() == prop->u.multi.om_w->text(i).lower())
-     {
-       prop->newSwitch(i);
-       return true;
-     }
-
- return false;
-
-}
-
-int INDI_D::removeProperty(INDI_P *pp, char errmsg[])
-{
-    if (!pp->pg->removeProperty(pp))
-    {
-    	for (uint j=0; j < gl.size(); j++)
-    	{
-		if (gl[j]->pl.size() == 0)
-		{
-	        	delete (gl[j]);
-			gl.erase(gl.begin() + j);
-		}
-    	}
-
-	return (0);
-    }
-
-    sprintf (errmsg, "INDI: Device %s has no property named %s", name, pp->name);
-    return (-1);
-
-}
-
-/* implement any <set???> received from the device.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
-{
-	XMLAtt *ap;
-	INDI_P *pp;
-
-	ap = parent->findAtt (root, "name", errmsg);
-	if (!ap)
-	    return (-1);
-
-	pp = findProp (ap->valu);
-	if (!pp)
-	{
-	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
-						root->tag, name, ap->valu);
-	    return (-1);
+	    INDI_L *lp = pp->labels[i];
+	    fprintf(serverFP, "  <newText\n");
+	    fprintf(serverFP, "    name='%s'>\n", lp->name);
+	    fprintf(serverFP, "      %s\n", lp->text);
+	    fprintf(serverFP, "  </newText>\n");
 	}
-
-	parentMgr->checkMsg (root, this);
-
-	return (setValue (pp, root, errmsg));
+	fprintf(serverFP, "</newTextVector>\n");
 }
 
-/* set the given GUI property according to the XML command.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
+void DeviceManager::sendNewNumber (INDI_P *pp)
 {
-	char *pn = pp->name;
-	XMLAtt *ap;
-
-	/* set overall property state, if any */
-	ap = findXMLAtt (root, "state");
-	if (ap)
+        fprintf(serverFP, "<newNumberVector\n");
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name);
+	fprintf(serverFP, "  name='%s'\n>", pp->name);
+	for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
-	    if (crackLightState (ap->valu, &pp->state) == 0)
-	      pp->drawLt (pp->light, pp->state);
-	    else
-	    {
-		sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
-						root->tag, ap->valu, name, pn);
-		return (-1);
-	    }
+	    INDI_L *lp = pp->labels[i];
+	    fprintf(serverFP, "  <newNumber\n");
+	    fprintf(serverFP, "    name='%s'>\n", lp->name);
+	    fprintf(serverFP, "      %g\n", lp->value);
+	    fprintf(serverFP, "  </newNumber>\n");
 	}
+	fprintf(serverFP, "</newNumberVector>\n");
 
-	/* allow changing the timeout */
-	ap = findXMLAtt (root, "timeout");
-	if (ap)
-	    pp->timeout = atof(ap->valu);
+}
 
-	/* process specific GUI features */
-	switch (pp->guitype)
+void DeviceManager::sendNewSwitch (INDI_P *pp)//, int set)
+{
+	//INDI_P *pp = lp->pp;
+
+	//fprintf (serverFP, "<newSwitch device='%s' name='%s'><switch state='%s'>%s</switch></newSwitch>\n",
+	//		pp->pg->dp->name, pp->name, set ? "On" : "Off", lp->name);
+
+	fprintf (serverFP,"<newSwitchVector\n");
+	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name);
+	fprintf (serverFP,"  name='%s'>\n", pp->name);
+        for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
-	case PG_NONE:
-	    break;
-
-	case PG_SCALE:
-	    return (setScaleValue (pp, root, errmsg));
-	    break;
-
-	case PG_NUMERIC:	/* FALLTHRU */
-	case PG_TEXT:
-	    return (setTextValue (pp, root, errmsg));
-	    break;
-
-	case PG_BUTTONS:	/* FALLTHRU */
-	case PG_LIGHTS:
-	    return (setLabelState (pp, root, errmsg));
-	    break;
-
-	case PG_RADIO:		/* FALLTHRU */
-	case PG_MENU:
-	    return (setMenuChoice (pp, root, errmsg));
-	    break;
+	    INDI_L *lp = pp->labels[i];
+	    fprintf (serverFP,"  <newSwitch\n");
+	    fprintf (serverFP,"    name='%s'>\n", lp->name);
+	    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
+	    fprintf (serverFP,"  </newSwitch>\n");
 	}
-
-	return (0);
-}
-
-/* set the given SCALE property from the given element.
- * root should have <number> child.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::setScaleValue (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	XMLEle *ep = parent->findEle (root, pp, "number", errmsg);
-
-	if (!ep)
-	    return (-1);
-
-	switch (pp->u.scale.perm)
-	{
-	case PP_RW:	/* FALLTHRU */
-	case PP_RO:
-	    /* set where the user can only see, not edit */
-	    pp->u.scale.read_w->setText(QString(ep->pcdata));
-	    break;
-	case PP_WO:
-	    /* set where the user edits */
-	    pp->u.scale.read_w->setText(QString(ep->pcdata));
-	    pp->u.scale.spin_w->setValue(atof(ep->pcdata));
-	    break;
-	}
-
-	return (0);
-}
-
-/* set the given TEXT or NUMERIC property from the given element.
- * root should have <text> or <number> child.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	const char *tag = pp->guitype == PG_TEXT ? "text" : "number";
-	XMLEle *ep = parent->findEle (root, pp, tag, errmsg);
-
-	if (!ep)
-	    return (-1);
-
-	switch (pp->u.text.perm)
-	{
-	case PP_RW:	/* FALLTHRU */
-	case PP_RO:
-	    /* set where the user can only see, not edit */
-	    pp->u.text.read_w->setText(QString(ep->pcdata));
-	    break;
-	case PP_WO:
-	    /* set where the user edits */
-	    pp->u.text.write_w->setText(QString(ep->pcdata));
-	    break;
-	}
-
-	// Only update skymap is if it's NOT idle
-	//INDI_P * prop = findProp("ONCOORDSET");
-	//if (prop == NULL)
-	 //return (0);
-
-	//if (prop->isOn(QString("Idle")))
-//	  return (0);
-
-	if (!strcmp(pp->name , "RA"))
-	  parent->ksw->map()->forceUpdateNow();
-	else if (!strcmp(pp->name , "DEC"))
-	  parent->ksw->map()->forceUpdateNow();
-	else if  ( (!strcmp(pp->name, "TIME") && parent->ksw->options()->indiAutoTime) ||
-	           (!strcmp(pp->name, "LONG") && parent->ksw->options()->indiAutoLong) ||
-		   (!strcmp(pp->name, "LAT") && parent->ksw->options()->indiAutoLat))
-		  handleDevCounter();
-
-	return (0);
-}
-
-void INDI_D::handleDevCounter()
-{
-
-  if (initDevCounter <= 0)
-   return;
-
-  initDevCounter--;
-
-  if (initDevCounter == 0 && parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online and ready."), 0);
+	fprintf (serverFP, "</newSwitchVector>\n");
 
 }
 
-/* set the user input SCALE field from the given element.
- * root should have <number> child.
- * ignore if property is not RW.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::newScaleValue (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	XMLEle *ep = parent->findEle (root, pp, "number", errmsg);
-
-	if (!ep)
-	    return (-1);
-
-	if (pp->u.scale.perm == PP_RW)
-	    pp->u.scale.read_w->setText(QString(ep->pcdata));
-
-	return (0);
-}
-
-/* set the user input TEXT or NUMERIC field from the given element.
- * root should have <text> or <number> child.
- * ignore if property is not RW.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	const char *tag = pp->guitype == PG_TEXT ? "text" : "number";
-	XMLEle *ep = parent->findEle (root, pp, tag, errmsg);
-
-	if (!ep)
-	    return (-1);
-
-	if (pp->u.text.perm == PP_RW)
-	    pp->u.text.read_w->setText(QString(ep->pcdata));
-
-
-	return (0);
-}
-
-/* set the given BUTTONS or LIGHTS property from the given element.
- * root should have some <switch> or <light> children.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	char *pn = pp->name;
-	uint i, j;
-
-	/* for each child element */
-	for (i = 0; i < (uint) root->nel; i++)
-	{
-	    XMLEle *ep = root->el[i];
-	    XMLAtt *ap = findXMLAtt (ep, "state");
-	    char *lname = ep->pcdata;
-	    INDI_L *lp = NULL;
-	    int islight;
-	    PState state;
-
-	    /* only using light and switch */
-	    islight = !strcmp (ep->tag, "light");
-	    if (!islight && strcmp (ep->tag, "switch"))
-		continue;
-
-	    /* get state */
-	    if (!ap)
-	    {
-		sprintf (errmsg, "INDI: <%s> %s %s %s requires state",
-						    root->tag, name, pn, lname);
-		return (-1);
-	    }
-	    if ((islight && crackLightState (ap->valu, &state) < 0)
-		    || (!islight && crackSwitchState (ap->valu, &state) < 0))
-	    {
-		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-					    root->tag, ap->valu, name, pn, lname);
-		return (-1);
-	    }
-
-	    /* find matching label */
-	    for (j = 0; j < pp->u.multi.labels->size(); j++)
-	    {
-		lp = (*pp->u.multi.labels)[j];
-		if (!strcmp (lname, lp->name))
-		    break;
-	    }
-
-	    if (j == pp->u.multi.labels->size())
-	    {
-		sprintf (errmsg,"INDI: <%s> %s %s has no choice named %s",
-						    root->tag, name, pn, lname);
-		return (-1);
-	    }
-
-	    QFont buttonFont;
-	    /* engage new state */
-	    lp->state = state;
-	    if (pp->guitype == PG_BUTTONS && !islight)
-	    {
-		(*pp->u.multi.push_v)[i]->setDown(state == PS_ON ? true : false);
-		buttonFont = (*pp->u.multi.push_v)[i]->font();
-		buttonFont.setBold(state == PS_ON ? TRUE : FALSE);
-		(*pp->u.multi.push_v)[i]->setFont(buttonFont);
-
-		// INDI STD properties
-		if (state == PS_ON && (*pp->u.multi.push_v)[i]->text() == QString("Power On"))
-		  initTelescope();
-		else if (state == PS_ON && (*pp->u.multi.push_v)[i]->text() == QString("Power Off"))
-		  parent->ksw->map()->forceUpdateNow();
-            }
-	    else if (pp->guitype == PG_LIGHTS && islight)
-		pp->drawLt ((*pp->u.multi.led_v)[j], lp->state);
-
-	}
-
-	return (0);
-}
-
-void INDI_D::initTelescope()
-{
-  INDI_P *prop;
-
-  initDevCounter = 0;
-
-  if (parent->ksw->options()->indiAutoTime)
-  {
-  	prop = findProp("TIME");
-  	  if (prop)
-	  {
-            prop->updateTime();
-	    initDevCounter += 2;
-	  }
-  }
-
-  if (parent->ksw->options()->indiAutoLong)
-  {
-  	prop = findProp("LONG");
-   	   if (prop)
-	   {
-   		prop->updateLocation();
-         	initDevCounter += 2;
-	   }
-  }
-
-  if (parent->ksw->options()->indiAutoLat)
-  {
-  	prop = findProp("LAT");
-   	 if (prop)
-	 {
-   		prop->updateLocation();
-     	        initDevCounter += 2;
-	 }
-   }
-
-  if (parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online."), 0);
-
-  parent->ksw->map()->forceUpdateNow();
-
-}
-
-bool INDI_D::isOn()
-{
-
-  INDI_P *prop;
-
-  prop = findProp("POWER");
-  if (!prop)
-   return false;
-
-  return (prop->isOn(QString("Power On")));
-}
-
-
-
-
-/* set the given RADIO or MENU property from the given element.
- * root should have some <switch> children.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::setMenuChoice (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-        char *pn = pp->name;
-	uint i, j;
-
-	/* for each child element */
-	for (i = 0; i < (uint) root->nel; i++)
-	{
-	    XMLEle *ep = root->el[i];
-	    XMLAtt *ap = findXMLAtt (ep, "state");
-	    char *lname = ep->pcdata;
-	    INDI_L *lp = NULL;
-	    PState state;
-
-	    /* both RADIO and MENU use <switch> */
-	    if (strcmp (ep->tag, "switch"))
-		continue;
-
-	    /* get state */
-	    if (!ap)
-	    {
-		sprintf (errmsg, "INDI: <%s> %s %s %s requires state",
-						    root->tag, name, pn, lname);
-		return (-1);
-	    }
-
-	    if (crackSwitchState (ap->valu, &state) < 0)
-	    {
-		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-					    root->tag, ap->valu, name, pn, lname);
-		return (-1);
-	    }
-
-	    /* find matching label */
-	    for (j = 0; j < pp->u.multi.labels->size(); j++)
-	    {
-		lp = (*pp->u.multi.labels)[j];
-		if (!strcmp (lname, lp->name))
-		    break;
-	    }
-
-
-
-	    if (j == pp->u.multi.labels->size())
-	    {
-		sprintf (errmsg,"INDI: <%s> %s %s has no choice named %s",
-						    root->tag, name, pn, lname);
-		return (-1);
-	    }
-
-	    /* engage new state */
-	    lp->state = state;
-	    if (pp->guitype == PG_MENU && lp->state != PS_OFF)
-		pp->u.multi.om_w->setCurrentItem(j);
-	    else if (pp->guitype == PG_RADIO)
-		(*pp->u.multi.check_v)[j]->setChecked(state == PS_ON ? true : false);
-	}
-
-	return (0);
-}
-
-/* implement any <new???> received from the device.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::newAnyCmd (XMLEle *root, char errmsg[])
-{
-	XMLAtt *ap;
-	INDI_P *pp;
-
-	ap = parent->findAtt (root, "name", errmsg);
-	if (!ap)
-	    return (-1);
-
-	pp = findProp(ap->valu);
-	if (!pp) {
-	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
-						root->tag, name, ap->valu);
-	    return (-1);
-	}
-
-	return (newValue (pp, root, errmsg));
-}
-
-/* set the user input field of the given RW GUI property according to the XML
- * command.
- * return 0 if ok else -1 with reason in errmsg
- */
-int INDI_D::newValue (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	/* process specific GUI features */
-	switch (pp->guitype)
-	{
-	case PG_NONE:
-	    break;
-
-	case PG_SCALE:
-	    return (newScaleValue (pp, root, errmsg));
-	    break;
-
-	case PG_NUMERIC:	/* FALLTHRU */
-	case PG_TEXT:
-	    return (newTextValue (pp, root, errmsg));
-	    break;
-
-	case PG_BUTTONS:	/* FALLTHRU */
-	case PG_LIGHTS:
-	    return (setLabelState (pp, root, errmsg));
-	    break;
-
-	case PG_RADIO:		/* FALLTHRU */
-	case PG_MENU:
-	    return (setMenuChoice (pp, root, errmsg));
-	    break;
-	}
-
-	return (0);
-}
-
-int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
-{
-       	INDI_P *pp = NULL;
-	XMLEle *text;
-	char *initstr;
-	PPerm p;
-
-	/* build a new property */
-	pp = addProperty (root, errmsg);
-
-	if (pp == NULL)
-	    return (-1);
-
-	/* N.B. if trouble from here on must call delP() */
-	/* get the permission, it will determine layout issues */
-	if (findPerm (pp, root, &p, errmsg))
-	{
-	    delete(pp);
-	    return (-1);
-	}
-
-	/* get initial string */
-	text = parent->findEle (root, pp, "text", errmsg);
-	if (!text)
-	{
-	    delete(pp);
-	    return (-1);
-
-	}
-
-	initstr = text->pcdata;
-
-	/* build */
-	if (buildRawTextGUI (pp, initstr, p, errmsg) < 0)
-	{
-	    delete(pp);
-	    return (-1);
-	}
-
-	/* we know it will be a general text GUI */
-	pp->guitype = PG_TEXT;
-	pp->u.text.perm = p;
-
-	curGroup->addProperty(pp);
-	return (0);
-}
-
-INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
-{
-	INDI_P *pp = NULL;
-	INDI_G *pg = NULL;
-	XMLAtt *ap = NULL;
-
-        // Search for group tag
-	ap = parent->findAtt (root, "grouptag", errmsg);
-        if (!ap)
-        {
-                kdDebug() << QString(errmsg) << endl;
-                return NULL;
-        }
-	// Find an existing group, if none found, create one
-        pg = findGroup(ap->valu, 1, errmsg);
-
-	if (!pg)
-	 return NULL;
-
-        /* get property name and add new property to dp */
-	ap = parent->findAtt (root, "name", errmsg);
-	if (ap == NULL)
-	    return NULL;
-
-	if (findProp (ap->valu))
-	{
-	    sprintf (errmsg, "INDI: <%s %s %s> already exists", root->tag,
-							name, ap->valu);
-	    return NULL;
-	}
-
-	pp = new INDI_P(pg, ap->valu);
-
-	/* N.B. if trouble from here on must call delP() */
-
-	/* init state */
-	ap = parent->findAtt (root, "state", errmsg);
-	if (!ap)
-	{
-	    delete(pp);
-	    return (NULL);
-	}
-
-	if (crackLightState (ap->valu, &pp->state) < 0)
-	{
-	    sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
-				root->tag, ap->valu, pp->pg->dp->name, pp->name);
-	    delete(pp);
-	    return (NULL);
-	}
-
-	//TODO
-	/* init timeout */
-	ap = parent->findAtt (root, "timeout", NULL);
-	/* default */
-	pp->timeout = ap ? atof(ap->valu) : 0;
-
-	/* log any messages */
-	parentMgr->checkMsg (root, this);
-
-	if (addGUI (pp, root, errmsg) < 0)
-	{
-	   delete(pp);
-	   return (NULL);
-	}
-
-	/* ok! */
-	return (pp);
-}
-
-INDI_P * INDI_D::findProp (const char *name)
-{
-       for (uint i = 0; i < gl.size(); i++)
-	for (uint j = 0; j < gl[i]->pl.size(); j++)
-	    if (!strcmp (name, gl[i]->pl[j]->name))
-		return (gl[i]->pl[j]);
-
-	return NULL;
-}
-
-INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
-{
-  for (int i= gl.size() - 1 ; i >= 0; i--)
-  {
-    curGroup      = gl[i];
-
-    // If the new group is empty and the LAST group is not, then
-    // create a new group, otherwise return the LAST empty group
-    if (!strcmp(grouptag, ""))
-    {
-      if ((!curGroup->box->title().isEmpty()) && create)
-       break;
-      else
-       return curGroup;
-    }
-
-    if (QString(grouptag) == curGroup->box->title())
-      return (curGroup);
-  }
-
-  /* couldn't find an existing group, create a new one if create is 1*/
-  if (create)
-  {
-  	curGroup = new INDI_G(this, grouptag);
-  	gl.push_back(curGroup);
-        return curGroup;
-  }
-
-  sprintf (errmsg, "INDI: group %s not found in %s", grouptag, name);
-  return NULL;
-}
-
-/* find "perm" attribute in root, crack and set *pp.
- * return 0 if ok else -1 with excuse in errmsg[]
- */
-
- int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, char errmsg[])
-{
-	XMLAtt *ap;
-
-	ap = findXMLAtt (root, "perm");
-	if (!ap) {
-	    sprintf (errmsg, "INDI: <%s %s %s> missing attribute 'perm'",
-					root->tag, pp->pg->dp->name, pp->name);
-	    return (-1);
-	}
-	if (!strcmp(ap->valu, "ro") || !strcmp(ap->valu, "r"))
-	    *permp = PP_RO;
-	else if (!strcmp(ap->valu, "wo"))
-	    *permp = PP_WO;
-	else if (!strcmp(ap->valu, "rw") || !strcmp(ap->valu, "w"))
-	    *permp = PP_RW;
-	else {
-	    sprintf (errmsg, "INDI: <%s> unknown perm %s for %s %s",
-				root->tag, ap->valu, pp->pg->dp->name, pp->name);
-	    return (-1);
-	}
-
-	return (0);
-}
-
-/* convert the given light/property state string to the PState at psp.
- * return 0 if successful, else -1 and leave *psp unchanged.
- */
-int INDI_D::crackLightState (char *name, PState *psp)
-{
-	typedef struct
-	{
-	    PState s;
-	    const char *name;
-	} PSMap;
-
-	PSMap psmap[] =
-	{
-	    {PS_IDLE,  "Idle"},
-	    {PS_OK,    "Ok"},
-	    {PS_BUSY,  "Busy"},
-	    {PS_ALERT, "Alert"},
-	};
-
-	for (int i = 0; i < 4; i++)
-	    if (!strcmp (psmap[i].name, name)) {
-		*psp = psmap[i].s;
-		return (0);
-	    }
-
-	return (-1);
-}
-
-void INDI_P::drawLt(KLed *w, PState lstate)
-{
-
-        /* set state light */
-	switch (lstate)
-	{
-	  case PS_IDLE:
-	  w->setColor(Qt::gray);
-	  break;
-
-	  case PS_OK:
-	  w->setColor(Qt::green);
-	  break;
-
-	  case PS_BUSY:
-	  w->setColor(Qt::yellow);
-	  break;
-
-	  case PS_ALERT:
-	  w->setColor(Qt::red);
-	  break;
-
-	  default:
-	  break;
-
-	}
-}
-
-void INDI_D::resizeGroups()
-{
-
-  for (uint i=0; i < gl.size(); i++)
-  {
-        gl[i]->layout->addColSpacing(1, biggestLabel);
-	gl[i]->layout->addColSpacing(6, 50);
-  }
-}
-
-/* build widgets for property pp using info in root.
- * we have already handled device+name+timeout+state attributes.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::addGUI (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	XMLEle *prompt;
-
-	/* TODO add to GUI group */
-	pp->light = new KLed (curGroup->box);
-	pp->drawLt(pp->light, pp->state);
-        pp->light->setMaximumSize(16,16);
-	curGroup->layout->addWidget(pp->light, curGroup->pl.size(), 0);
-
-	/* add label for prompt */
-	prompt = parent->findEle (root, pp, "prompt", errmsg);
-	if (prompt)
-	{
-	 pp->label_w = new QLabel(QString(prompt->pcdata), curGroup->box);
-	 curGroup->layout->addWidget(pp->label_w, curGroup->pl.size(), 1);
-
-	 if (pp->label_w->sizeHint().width() > biggestLabel)
-	   biggestLabel = pp->label_w->sizeHint().width();
-
-         pp->light->show();
-	 pp->label_w->show();
-
- 	 resizeGroups();
-
-         return (0);
-	}
-	else
-	  /* findEle already set errmsg */
-	    return (-1);
-
-}
-
-
-/* build a basic text gui to be used for PG_TEXT or PG_NUMERIC.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::buildRawTextGUI (INDI_P *pp, char *initstr, PPerm p, char errmsg[])
-{
-  	switch (p) {
-
-	case PP_RW:
-
-	    pp->u.text.read_w  = new QLabel(QString(initstr), curGroup->box);
-	    pp->u.text.read_w->setFrameShape(QFrame::Box);
-	    pp->u.text.read_w->setMinimumWidth(100);
-
-	    pp->u.text.write_w = new KLineEdit(QString(initstr), curGroup->box);
-
-	    if (!strcmp(pp->name, "TIME"))
-	     pp->u.text.set_w   = new QPushButton(i18n("Set Time..."), curGroup->box);
-	    else
-	    pp->u.text.set_w   = new QPushButton(i18n("Set"), curGroup->box);
-
-	    pp->u.text.read_w->setFixedHeight(uniHeight);
-	    pp->u.text.read_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-            curGroup->layout->addMultiCellWidget(pp->u.text.read_w, curGroup->pl.size(), curGroup->pl.size(), 2, 3);
-            curGroup->layout->addMultiCellWidget(pp->u.text.write_w, curGroup->pl.size() , curGroup->pl.size(), 4, 5);
-            curGroup->layout->addWidget(pp->u.text.set_w, curGroup->pl.size() , 6);
-
-	    QObject::connect(pp->u.text.write_w, SIGNAL(returnPressed()),
-	    		     pp, SLOT(newText()));
-
-	    if (!strcmp(pp->name, "TIME"))
-	    QObject::connect(pp->u.text.set_w, SIGNAL(clicked()),
-	    		     pp, SLOT(newTime()));
-	    else
-	    QObject::connect(pp->u.text.set_w, SIGNAL(clicked()),
-	    		     pp, SLOT(newText()));
-
-	    pp->u.text.read_w->show();
-	    pp->u.text.write_w->show();
-	    pp->u.text.set_w->show();
-	    break;
-
-	case PP_RO:
-
-	    pp->u.text.read_w  = new QLabel(QString(initstr), curGroup->box);
-	    pp->u.text.read_w->setFrameShape(QFrame::Box);
-	    pp->u.text.read_w->setMinimumWidth(100);
-	    pp->u.text.read_w->setFixedHeight(uniHeight);
-	    curGroup->layout->addMultiCellWidget(pp->u.text.read_w, curGroup->pl.size(), curGroup->pl.size(), 2, 5);
-
-	    pp->u.text.read_w->show();
-
-		break;
-
-	case PP_WO:
-  	    pp->u.text.write_w = new KLineEdit(QString(initstr), curGroup->box);
-	    pp->u.text.set_w   = new QPushButton(i18n("Set"), curGroup->box);
-
-	    curGroup->layout->addMultiCellWidget(pp->u.text.write_w, curGroup->pl.size() , curGroup->pl.size(), 4, 5);
-            curGroup->layout->addWidget(pp->u.text.set_w, curGroup->pl.size() , 6);
-
-	    QObject::connect(pp->u.text.write_w, SIGNAL(returnPressed()),
-	    		     pp, SLOT(newText()));
-	    QObject::connect(pp->u.text.set_w, SIGNAL(clicked()),
-	    		     pp, SLOT(newText()));
-
-	    pp->u.text.write_w->show();
-	    pp->u.text.set_w->show();
-	    break;
-	}
-
-	// no warnings
-        errmsg = NULL;
-	return (0);
-}
-
-void INDI_P::newText()
-{
-  QString text;
-
-  if (guitype == PG_TEXT || guitype == PG_NUMERIC)
-  {
-     text = u.text.write_w->text();
-     u.text.read_w->setText(text);
-
-  }
-  else
-  {
-    text = u.scale.spin_w->text();
-    u.scale.read_w->setText(text);
-  }
-
-  state = PS_BUSY;
-
-  drawLt(light, state);
-
-  pg->dp->parentMgr->sendNewString(this, text.ascii());
-
-}
-
-/* build GUI for a number property.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
-{
-	INDI_P *pp;
-	char *initstr;
-	XMLEle *number, *range;
-	PPerm p;
-
-	/* build a new property */
-	pp = addProperty (root, errmsg);
-	if (!pp)
-	    return (-1);
-
-	/* N.B. if trouble from here on must call delP() */
-
-	/* get the permission, it will determine layout issues */
-	if (findPerm (pp, root, &p, errmsg) < 0)
-	{
-	    delete(pp);
-	    return (-1);
-	}
-
-	/* get initial value */
-	number = parent->findEle (root, pp, "number", errmsg);
-	if (!number)
-	{
-	    delete(pp);
-	    return (-1);
-	}
-	initstr = number->pcdata;
-
-	/* get range, use scale if small enough, else same as text */
-	pp->u.scale.min = -1e20;
-	pp->u.scale.max = 1e20;
-	pp->u.scale.step = 0;
-
-	range = findXMLEle (root, "range");
-	if (range)
-	{
-	    XMLEle *vp;
-
-	    vp = findXMLEle (range, "min");
-	    if (vp)
-		pp->u.scale.min = atof(vp->pcdata);
-	    vp = findXMLEle (range, "max");
-	    if (vp)
-		pp->u.scale.max = atof(vp->pcdata);
-	    vp = findXMLEle (range, "step");
-	    if (vp)
-		pp->u.scale.step = atof(vp->pcdata);
-	}
-
-	if (pp->u.scale.step == 0 || (pp->u.scale.max -
-			    pp->u.scale.min)/pp->u.scale.step > MAXSCSTEPS)
-        {
-	    if (buildRawTextGUI (pp, initstr, p, errmsg) < 0)
-	    {
-	        delete(pp);
-		return (-1);
-	    }
-
-	    pp->guitype = PG_NUMERIC;
-	    pp->u.text.perm = p;
-
-	    curGroup->addProperty(pp);
-	    return (0);
-	}
-
-	/* ok, we build a scale */
-	pp->guitype = PG_SCALE;
-	pp->u.scale.perm = p;
-
-	switch (pp->u.scale.perm)
-	{
-	case PP_RW:
-	   pp->u.scale.read_w  = new QLabel(QString(initstr), curGroup->box);
-           pp->u.scale.read_w->setFrameShape(QFrame::Box);
-	   pp->u.scale.read_w->setMinimumWidth(100);
-	   pp->u.scale.read_w->setFixedHeight(uniHeight);
-	   pp->u.scale.read_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-	   pp->u.scale.spin_w = new KDoubleSpinBox(pp->u.scale.min, pp->u.scale.max,
-	                       pp->u.scale.step, atoi(initstr), 2, curGroup->box);
-
-           pp->u.scale.set_w  = new QPushButton(i18n("Set"), curGroup->box);
-
-	   curGroup->layout->addMultiCellWidget(pp->u.scale.read_w, curGroup->pl.size(), curGroup->pl.size(), 2, 4);
-	   curGroup->layout->addWidget(pp->u.scale.spin_w, curGroup->pl.size(), 5);
-	   curGroup->layout->addWidget(pp->u.scale.set_w, curGroup->pl.size(), 6);
-
-	    QObject::connect(pp->u.scale.set_w, SIGNAL(clicked()),
-	    		     pp, SLOT(newText()));
-
-            pp->u.scale.read_w->show();
-	    pp->u.scale.spin_w->show();
-	    pp->u.scale.set_w->show();
-	    break;
-
-	case PP_RO:
-	   pp->u.scale.read_w  = new QLabel(QString(initstr), curGroup->box);
-           pp->u.scale.read_w->setFrameShape(QFrame::Box);
-	   pp->u.scale.read_w->setMinimumWidth(100);
-	   pp->u.scale.read_w->setFixedHeight(uniHeight);
-	   pp->u.scale.read_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	   curGroup->layout->addMultiCellWidget(pp->u.scale.read_w, curGroup->pl.size(),
-	   curGroup->pl.size(), 2, 5);
-
-	   pp->u.scale.read_w->show();
-
-
-         break;
-
-	case PP_WO:
-	   pp->u.scale.spin_w = new KDoubleSpinBox(pp->u.scale.min, pp->u.scale.max,
-	                       pp->u.scale.step, atoi(initstr), 2, curGroup->box);
-
-           pp->u.scale.set_w  = new QPushButton(i18n("Set"), curGroup->box);
-
-	   curGroup->layout->addWidget(pp->u.scale.spin_w, curGroup->pl.size(), 5);
-	   curGroup->layout->addWidget(pp->u.scale.set_w, curGroup->pl.size(), 6);
-
-           QObject::connect(pp->u.scale.set_w, SIGNAL(clicked()),
-	    		     pp, SLOT(newText()));
-
-	    pp->u.scale.spin_w->show();
-	    pp->u.scale.set_w->show();
-
-	   break;
-	}
-
-	curGroup->addProperty(pp);
-
-	return (0);
-}
-
-/* build GUI for switches property.
- * rule and number of will determine exactly how the GUI is built.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
-{
-	INDI_P *pp;
-	XMLAtt *ap;
-	int i, j, n;
-
-	/* build a new property */
-	pp = addProperty (root, errmsg);
-	if (!pp)
-	    return (-1);
-
-	/* N.B. if trouble from here on must call delP() */
-
-	ap = parent->findAtt (root, "rule", errmsg);
-	if (!ap)
-	{
-	    delete(pp);
-	    return (-1);
-	}
-
-	/* decide GUI. might use MENU if OneOf but too many for button array */
-	if (!strcmp (ap->valu, "OneOfMany"))
-	{
-	    /* count number of switches -- make menu if too many */
-	    for (n = i = 0; i < root->nel; i++)
-		if (!strcmp (root->el[i]->tag, "switch"))
-		    n++;
-	    if (n > MAXRADIO)
-	    {
-		i = buildMenuGUI (pp, root, errmsg);
-		if (i < 0)
-		    delete(pp);
-		return (i);
-	    }
-
-	    pp->guitype = PG_BUTTONS;
-
-	}
-	else if (!strcmp (ap->valu, "AnyOfMany"))
-	    pp->guitype = PG_RADIO;
-	else
-	{
-	    sprintf (errmsg, "INDI: <%s> unknown rule %s for %s %s",
-				root->tag, ap->valu, name, pp->name);
-	    delete(pp);
-	    return (-1);
-	}
-
-	/* ok, build array of toggle buttons.
-	 * only difference is /visual/ appearance of 1ofMany or anyofMany */
-
-	 pp->u.multi.hLayout = new QHBoxLayout(0, 0, 5);
-
-	pp->u.multi.groupB = new QButtonGroup(0);
-	if (pp->guitype == PG_BUTTONS)
-	  pp->u.multi.groupB->setExclusive(true);
-
-
-        QObject::connect(pp->u.multi.groupB, SIGNAL(clicked(int)),
-    		     pp, SLOT(newSwitch(int)));
-
-	XMLEle *sep;
-        char *name;
-	QPushButton *button;
-	QCheckBox   *checkbox;
-	INDI_L *lp;
-	QFont buttonFont;
-
-	for (i = 0, j = -1; i < root->nel; i++)
-	{
-	    sep = root->el[i];
-	    name = sep->pcdata;
-
-	    /* look for switch tage */
-	    if (strcmp (sep->tag, "switch"))
-		continue;
-
-	    lp = new INDI_L(pp, name);
-
-	    j++;
-
-	    /* find state */
-	    ap = parent->findAtt (sep, "state", errmsg);
-	    if (!ap)
-	    {
-		delete(pp);
-		return (-1);
-	    }
-
-	    if (crackSwitchState (ap->valu, &(lp->state)) < 0)
-	    {
-		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, name);
-		delete(pp);
-		return (-1);
-	    }
-
-	    /* build toggle */
-	    switch (pp->guitype)
-	    {
-	      case PG_BUTTONS:
-	       button = new KPushButton(QString(name), curGroup->box);
-	       pp->u.multi.groupB->insert(button, j);
-
-	       if (lp->state == PS_ON)
-	       {
-	           button->setDown(true);
-		   buttonFont = button->font();
-		   buttonFont.setBold(TRUE);
-		   button->setFont(buttonFont);
-	       }
-
-
-	       pp->u.multi.push_v->push_back(button);
-	       curGroup->layout->addWidget(button, curGroup->pl.size(), j + 2);
-	       button->show();
-
-	       break;
-
-	      case PG_RADIO:
-	      checkbox = new QCheckBox(QString(name), curGroup->box);
-	      pp->u.multi.groupB->insert(checkbox, j);
-
-	      if (lp->state == PS_ON)
-	        checkbox->setChecked(true);
-
-	      curGroup->layout->addWidget(checkbox, curGroup->pl.size(), j + 2);
-
-	      pp->u.multi.check_v->push_back(checkbox);
-	      checkbox->show();
-
-	      break;
-
-	      default:
-	      break;
-
-	    }
-
-	    pp->u.multi.labels->push_back(lp);
-
-	}
-
-        if (j < 0)
-	 return (-1);
-
-	pp->u.multi.groupB->setFrameShape(QFrame::NoFrame);
-
-        curGroup->addProperty(pp);
-
-	return (0);
-}
-
-/* convert the given switch state string to the PState at psp.
- * return 0 if successful, else -1 and leave *psp unchanged.
- */
-int INDI_D::crackSwitchState (char *name, PState *psp)
-{
-	typedef struct
-	{
-	    PState s;
-	    const char *name;
-	} PSMap;
-
-	PSMap psmap[] =
-	{
-	    {PS_ON,  "On"},
-	    {PS_OFF, "Off"},
-	};
-
-
-	for (int i = 0; i < 2; i++)
-	    if (!strcmp (psmap[i].name, name))
-	    {
-		*psp = psmap[i].s;
-		return (0);
-	    }
-
-	return (-1);
-}
-
-void INDI_P::convertSwitch(int id)
-{
-
- if (parentPopup == NULL)
-  return;
-
- INDI_P *prop;
-
- for (uint i=0; i < u.multi.push_v->size(); i++)
- {
-   if ( (*u.multi.push_v)[i]->text() == parentPopup->text(id))
-   {
-
-
-     if (parentPopup->text(id) == QString("Slew") ||
-         parentPopup->text(id) == QString("Track") ||
-	 parentPopup->text(id) == QString("Sync"))
-     {
-       // let's make it IDLE first
-       newSwitch(0);
-
-       if (!pg->dp->handleNonSidereal(pg->dp->parent->ksw->map()->clickedObject()))
-       {
-       prop = pg->dp->findProp("RA");
-       if (prop == NULL)
-        return;
-
-       // We need to get from JNow (Skypoint) to J2000
-       // The ra0() of a skyPoint is the same as its JNow ra() without this process
-       pg->dp->parent->ksw->map()->clickedPoint()->apparentCoord( pg->dp->parent->ksw->data()->clock()->JD() , (long double) J2000);
-
-       // Use J2000 coordinate as required by INDI
-       prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->hour())
-        						 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->minute())
-							 .arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->second()));
-
-       prop->newText();
-
-       prop = pg->dp->findProp("DEC");
-       if (prop == NULL)
-        return;
-
-       prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->degree())
-                                                         .arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->arcmin())
-							 .arg(pg->dp->parent->ksw->map()->clickedPoint()->dec()->arcsec()));
-
-       prop->newText();
-       }
-     }
-
-     // The switch issue MUST be the last thing to do
-     newSwitch(i);
-      break;
-  }
-
- }
-
-}
-
-void INDI_P::updateTime()
-{
-
-  QTime newTime( pg->dp->parent->ksw->data()->clock()->UTC().time());
-  QDate newDate( pg->dp->parent->ksw->data()->clock()->UTC().date());
-
-  u.text.write_w->setText(QString("%1-%2-%3T%4:%5:%6")
-					.arg(newDate.year()).arg(newDate.month())
-					.arg(newDate.day()).arg(newTime.hour())
-					.arg(newTime.minute()).arg(newTime.second()));
-  newText();
-
-}
-
-void INDI_P::updateUTC()
-{
-  GeoLocation *geo = pg->dp->parent->ksw->geo();
-  u.text.write_w->setText(QString("%1").arg(geo->TZ0()));
-
-  newText();
-
-}
-
-void INDI_P::updateLocation()
-{
-
-  GeoLocation *geo = pg->dp->parent->ksw->geo();
-
-  if (!strcmp(name, "LONG"))
-  {
-    dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
-    dms fullCir(360,0,0);
-
-    if (tempLong.degree() < 0)
-      tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
-
-    u.text.write_w->setText(QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
-  }
-  else
-   u.text.write_w->setText(QString("%1:%2:%3").arg(geo->lat()->degree())
-                                              .arg(geo->lat()->arcmin())
-  				              .arg(geo->lat()->arcsec()));
-
-  newText();
-}
-
-
-void INDI_P::newTime()
-{
-
-TimeDialog timedialog ( pg->dp->parent->ksw->data()->UTime, pg->dp->parent->ksw, true );
-
-	if ( timedialog.exec() == QDialog::Accepted )
-	{
-		QTime newTime( timedialog.selectedTime() );
-		QDate newDate( timedialog.selectedDate() );
-
-                u.text.write_w->setText(QString("%1-%2-%3T%4:%5:%6")
-					.arg(newDate.year()).arg(newDate.month())
-					.arg(newDate.day()).arg(newTime.hour())
-					.arg(newTime.minute()).arg(newTime.second()));
-	        newText();
-	}
-
-}
-
-void INDI_P::newSwitch(int id)
-{
-
-  QFont buttonFont;
-
-  if (guitype== PG_MENU)
-  {
-
-  //if (u.multi.om_w->text(0).isEmpty())
-  //{
-   //kdDebug() << "The first empty option was selected, returning" << endl;
-   //return;
-  //}
-
-  /* did it change? */
-  if ((*u.multi.labels)[id]->state == PS_ON)
-   return;
-
-  // everything else off
-  (*u.multi.labels)[u.multi.lastItem]->state = PS_OFF;
-
- }
-
-  (*u.multi.labels)[id]->state = (*u.multi.labels)[id]->state == PS_ON ? PS_OFF : PS_ON;
-
-  if (guitype == PG_BUTTONS)
-  {
-    for (int i=0; i < (int) u.multi.push_v->size(); i++)
-     	if (i == id)
-      {
-        (*u.multi.push_v)[i]->setDown(true);
-	buttonFont = (*u.multi.push_v)[i]->font();
-	buttonFont.setBold(TRUE);
-	(*u.multi.push_v)[i]->setFont(buttonFont);
-      }
-     else
-     {
-       (*u.multi.push_v)[i]->setDown(false);
-       	buttonFont = (*u.multi.push_v)[i]->font();
-	buttonFont.setBold(FALSE);
-       (*u.multi.push_v)[i]->setFont(buttonFont);
-       (*u.multi.labels)[i]->state = PS_OFF;
-     }
-
-  }
-
-  state = PS_BUSY;
-
-  drawLt(light, state);
-
-  u.multi.lastItem = id;
-
-  pg->dp->parentMgr->sendNewSwitch ((*u.multi.labels)[id], (*u.multi.labels)[id]->state);
-
-}
-
-/* build a menu version of oneOfMany.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
-{
-	INDI_L *initlp = NULL;
-	int i, j;
-
-	pp->guitype = PG_MENU;
-
-	pp->u.multi.om_w = new KComboBox(curGroup->box);
-	curGroup->layout->addMultiCellWidget(pp->u.multi.om_w, curGroup->pl.size(), curGroup->pl.size(), 2, 3);
-
-	/* build pulldown menu first */
-	/* create each switch.
-	 * N.B. can only be one in On state.
-	 */
-	for (i = 0, j = -1; i < root->nel; i++)
-	{
-	    XMLEle *sep = root->el[i];
-	    char *name = sep->pcdata;
-	    XMLAtt *ap;
-	    INDI_L *lp;
-
-            if (strcmp (sep->tag, "switch"))
-		continue;
-
-	    j++;
-	    lp = new INDI_L(pp, name);
-
-	    ap = parent->findAtt (sep, "state", errmsg);
-	    if (!ap)
-		return (-1);
-	    if (crackSwitchState (ap->valu, &lp->state) < 0)
-	    {
-		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, name);
-		return (-1);
-	    }
-
-	    pp->u.multi.om_w->insertItem(QString(name));
-
-	    if (lp->state == PS_ON)
-	    {
-		if (initlp)
-		{
-		    sprintf (errmsg,"INDI: <%s> %s %s has multiple On switches",
-					root->tag, name, pp->name);
-		    return (-1);
-		}
-		lp->state = PS_ON;
-		initlp = lp;
-		pp->u.multi.om_w->setCurrentItem(j);
-		pp->u.multi.lastItem = j;
-	    }
-
-            pp->u.multi.labels->push_back(lp);
-
-	}
-
-	QObject::connect( pp->u.multi.om_w, SIGNAL(activated(int)), pp, SLOT(newSwitch(int)));
-
-        pp->u.multi.om_w->show();
-
-	curGroup->addProperty(pp);
-
-	return (0);
-}
-
-/* build GUI for a lights GUI.
- * return 0 if ok, else -1 with reason in errmsg[]
- */
-int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
-{
-	INDI_P *pp;
-	int i;
-
-	/* build a new property */
-	pp = addProperty (root, errmsg);
-	if (!pp)
-	    return (-1);
-
-	/* N.B. if trouble from here on must call delP() */
-
-	pp->guitype = PG_LIGHTS;
-
-	pp->u.multi.hLayout = new QHBoxLayout(0, 0, 5);
-	curGroup->layout->addMultiCellLayout(pp->u.multi.hLayout, curGroup->pl.size(), curGroup->pl.size(), 3, 5);
-
-	XMLEle *lep;
-	char *lname;
-	XMLAtt *ap;
-	INDI_L *lp;
-	QLabel *label;
-	KLed   *led;
-
-	for (i = 0; i < root->nel; i++)
-	{
-	    lep = root->el[i];
-	    lname = lep->pcdata;
-
-	    if (strcmp (lep->tag, "light"))
-		continue;
-
-	    lp = new INDI_L(pp, lname);
-
-	    label = new QLabel(QString(lname), curGroup->box);
-	    led   = new KLed(curGroup->box);
-
-	    /* init state */
-	    ap = parent->findAtt (lep, "state", errmsg);
-	    if (!ap)
-	    {
-		delete(pp);
-		return (-1);
-	    }
-
-	    if (crackLightState (ap->valu, &lp->state) < 0)
-	     {
-		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, lname);
-		delete(pp);
-		return (-1);
-	    }
-	    pp->drawLt(led, lp->state);
-
-	    pp->u.multi.hLayout->addWidget(led);
-            pp->u.multi.hLayout->addWidget(label);
-
-            pp->u.multi.label_v->push_back(label);
-	    pp->u.multi.led_v->push_back(led);
-
-	    pp->u.multi.labels->push_back(lp);
-	}
-
-	curGroup->addProperty(pp);
-
-	return (0);
-}
 
 
 #include "indidevice.moc"

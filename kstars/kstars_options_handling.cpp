@@ -171,8 +171,7 @@ void KStarsData::loadOptions()
 
 	conf->setGroup( "INDI" );
 	options->indiAutoTime    = conf->readBoolEntry( "indiAutoTime", true);
-	options->indiAutoLong    = conf->readBoolEntry( "indiAutoLong", true);
-	options->indiAutoLat     = conf->readBoolEntry( "indiAutoLat" , true);
+	options->indiAutoGeo     = conf->readBoolEntry( "indiAutoGeo", true);
 	options->indiCrosshairs  = conf->readBoolEntry( "indiCrosshairs", true);
 	options->indiMessages    = conf->readBoolEntry( "indiMessages", true);
 
@@ -321,8 +320,7 @@ void KStarsData::saveOptions(KStars *ks) {
 
 	conf->setGroup( "INDI" );
 	conf->writeEntry( "indiAutoTime", options->indiAutoTime);
-	conf->writeEntry( "indiAutoLong", options->indiAutoLong);
-	conf->writeEntry( "indiAutoLat", options->indiAutoLat);
+	conf->writeEntry( "indiAutoGeo", options->indiAutoGeo);
 	conf->writeEntry( "indiCrosshairs", options->indiCrosshairs);
 	conf->writeEntry( "indiMessages", options->indiMessages);
 

@@ -160,20 +160,20 @@ void setAlignmentMode(unsigned int alignMode);
 
 /*int setObjectRA(double RA)			setCommand(x, "#:Sr")
 int setObjectDEC(double DEC); */
-int setObjectRA(double h, double m, double s);
-int setObjectDEC(double d, double m, double s);
+int setObjectRA(double ra);
+int setObjectDEC(double dec);
 
 int setCalenderDate(int dd, int mm, int yy);
-int setUTCOffset(int hours);
+int setUTCOffset(double hours);
 int setTrackFreq(double trackF);
 
-int setSiteLongitude(int degrees, int minutes);
-int setSiteLatitude(int degrees, int minutes, int seconds);
-int setObjAz(int degrees, int minutes);
-int setObjAlt(int degrees, int minutes);
+int setSiteLongitude(double Long);
+int setSiteLatitude(double Lat);
+int setObjAz(double az);
+int setObjAlt(double alt);
 
 int setSiteName(char * siteName, int siteNum);
-
+int setMaxSlewRate(int slewRate);
 void setFocuserMotion(int motionType);
 void setFocuserSpeedMode (int speedMode);
 int setMinElevationLimit(int min);

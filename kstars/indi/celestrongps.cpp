@@ -30,7 +30,6 @@
 #include "celestrongps.h"
 
 CelestronGPS *telescope = NULL;
-int MaxReticleFlashRate = 3;
 char mydev[] = "Celestron GPS";
 
 /* There is _one_ binary for all LX200 drivers, but each binary is renamed
@@ -45,44 +44,65 @@ extern char* me;
 #define BASIC_GROUP	"Basic Data"
 #define MOVE_GROUP	"Movement Control"
 
-void ISInit()
-{
-   telescope = new CelestronGPS();
-}
+static void ISPoll(void *);
 
-static ISwitch PowerS[]          = {{"Power On" , ISS_OFF},{"Power Off", ISS_ON}};
+/*INDI controls */
+static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONNECT", "Disconnect", ISS_ON}};
+static ISwitch SlewModeS[]       = {{"Slew", "", ISS_ON}, {"Find", "", ISS_OFF}, {"Centering", "", ISS_OFF}, {"Guide", "", ISS_OFF}};
+static ISwitch OnCoordSetS[]     = {{"Slew", "", ISS_ON }, {"Track", "", ISS_OFF}, {"Sync", "", ISS_OFF }};
+static ISwitch abortSlewS[]      = {{"Abort", "Abort Slew/Track", ISS_OFF }};
 
-static ISwitch SlewModeS[]       = {{"Slew", ISS_ON}, {"Find", ISS_OFF}, {"Center", ISS_OFF}, {"Guide", ISS_OFF}};
+static ISwitch MovementS[]       = {{"N", "North", ISS_OFF}, {"W", "West", ISS_OFF}, {"E", "East", ISS_OFF}, {"S", "South", ISS_OFF}};
+static ISwitch haltMoveS[]       = {{"TN", "Northward", ISS_OFF}, {"TW", "Westward", ISS_OFF}, {"TE", "Eastward", ISS_OFF}, {"TS", "Southward", ISS_OFF}};
 
-static ISwitch OnCoordSetS[]     = {{"Idle", ISS_ON}, { "Slew", ISS_OFF }, { "Sync", ISS_OFF }};
-static ISwitch abortSlewS[]      = {{"Abort Slew/Track", ISS_OFF }};
-static ISwitch MovementS[]       = {{"North", ISS_OFF}, {"West", ISS_OFF}, {"East", ISS_OFF}, {"South", ISS_OFF}};
-static ISwitch haltMoveS[]       = {{"Northward", ISS_OFF}, {"Westward", ISS_OFF}, {"Eastward", ISS_OFF}, {"Southward", ISS_OFF}};
-
+/* equatorial position */
+static INumber eq[] = {
+    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0.},
+    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.},
+};
+//TODO decide appropiate TIME_OUT
+static INumberVectorProperty eqNum = {
+    mydev, "EQUATORIAL_COORD", "Equatorial J2000", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
+    eq, NARRAY(eq),
+};
 
 /* Fundamental group */
-static ISwitches PowerSw	 = { mydev, "POWER" , PowerS, NARRAY(PowerS), ILS_IDLE, 0, COMM_GROUP };
-static IText Port		 = { mydev, "Ports", NULL, ILS_IDLE, 0, COMM_GROUP};
-
-/* Basic data group */
-static INumber RA          = { mydev, "RA", NULL, ILS_IDLE, 0 , BASIC_GROUP};
-static INumber DEC         = { mydev, "DEC", NULL, ILS_IDLE, 0 , BASIC_GROUP};
+static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS)};
+static IText PortT[]			= {{"Port", "Port", "/dev/ttyS0"}};
+static ITextVectorProperty Port		= { mydev, "Ports", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
 
 /* Movement group */
-static ISwitches OnCoordSetSw    = { mydev, "ONCOORDSET", OnCoordSetS, NARRAY(OnCoordSetS), ILS_IDLE, 0, BASIC_GROUP};
-static ISwitches SlewModeSw      = { mydev, "Slew rate", SlewModeS, NARRAY(SlewModeS), ILS_IDLE, 0, MOVE_GROUP};
-static ISwitches abortSlewSw     = { mydev, "ABORTSLEW", abortSlewS, NARRAY(abortSlewS), ILS_IDLE, 0, MOVE_GROUP};
-static ISwitches MovementSw      = { mydev, "Move toward", MovementS, NARRAY(MovementS), ILS_IDLE, 0, MOVE_GROUP};
-static ISwitches haltMoveSw      = { mydev, "Halt movement", haltMoveS, NARRAY(haltMoveS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS)};
+static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS)};
+static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS)};
 
-
+static ISwitchVectorProperty MovementSw      = { mydev, "Move toward", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS)};
+static ISwitchVectorProperty haltMoveSw      = { mydev, "Halt movement", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, haltMoveS, NARRAY(haltMoveS)};
 
 /* send client definitions of all properties */
-void ISGetProperties (const char *dev) {telescope->ISGetProperties(dev);}
-void ISNewText (IText *t) {telescope->ISNewText(t);}
-void ISNewNumber (INumber *n) {telescope->ISNewNumber(n);}
-void ISNewSwitch (ISwitches *s) {telescope->ISNewSwitch(s);}
-void ISPoll () {telescope->ISPoll();}
+void ISInit()
+{
+  static int isInit=0;
+
+ if (isInit)
+  return;
+
+ isInit = 1;
+
+  telescope = new CelestronGPS();
+
+   IEAddTimer (POLLMS, ISPoll, NULL);
+}
+
+void ISGetProperties (const char *dev)
+{ ISInit(); telescope->ISGetProperties(dev);}
+void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
+{ ISInit(); telescope->ISNewSwitch(dev, name, states, names, n);}
+void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
+{ ISInit(); telescope->ISNewText(dev, name, texts, names, n);}
+void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
+{ ISInit(); telescope->ISNewNumber(dev, name, values, names, n);}
+void ISPoll (void *p) { telescope->ISPoll(); IEAddTimer (POLLMS, ISPoll, NULL); p=p;}
 
 /**************************************************
 *** LX200 Generic Implementation
@@ -90,16 +110,16 @@ void ISPoll () {telescope->ISPoll();}
 
 CelestronGPS::CelestronGPS()
 {
-   ICPollMe (POLLMS);
-   RA.nstr     = strcpy (new char[12] , " 00:00:00");
-   DEC.nstr    = strcpy (new char[12] , " 00:00:00");
-   Port.text         = strcpy (new char[32] , "/dev/ttyS0");
 
-   targetRA  = 0;
-   targetDEC = 0;
+   targetRA  = lastRA = 0;
+   targetDEC = lastDEC = 0;
+   lastSet   = 0;
+   lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
+
+   JD = 0;
 
    // Children call parent routines, this is the default
-   fprintf(stderr , "initilizaing from Celestron GPS device...\n");
+   IDLog("initilizaing from Celeston GPS device...\n");
 
 }
 
@@ -109,31 +129,46 @@ void CelestronGPS::ISGetProperties(const char *dev)
  if (dev && strcmp (mydev, dev))
     return;
 
-  ICDefSwitches (&PowerSw, "Power", ISP_W, IR_1OFMANY);
-  ICDefText     (&Port , "Port", IP_RW);
+  // COMM_GROUP
+  IDDefSwitch (&PowerSw);
+  IDDefText   (&Port);
 
-  ICDefNumber (&RA, "RA J2000 H:M:S", IP_RW, NULL);
-  ICDefNumber (&DEC, "DEC J2000 D:M:S", IP_RW, NULL);
-  ICDefSwitches (&OnCoordSetSw, "On Set", ISP_W, IR_1OFMANY);
 
-  ICDefSwitches (&abortSlewSw, "Abort", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&SlewModeSw, "Slew rate", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&MovementSw, "Move toward", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&haltMoveSw, "Halt movement", ISP_W, IR_1OFMANY);
+  // BASIC_GROUP
+  IDDefNumber (&eqNum);
+  IDDefSwitch (&OnCoordSetSw);
+  IDDefSwitch (&abortSlewSw);
+  IDDefSwitch (&SlewModeSw);
 
+  // Movement group
+  IDDefSwitch (&MovementSw);
+  IDDefSwitch (&haltMoveSw);
+
+  //TODO this is really a test message only
+  IDMessage(NULL, "KTelescope components registered successfully");
 }
 
-void CelestronGPS::ISNewText(IText *t)
+void CelestronGPS::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
+        IText *tp;
+
+	// suppress warning
+	n=n;
 	// ignore if not ours //
-	if (strcmp (t->dev, mydev))
+	if (strcmp (dev, mydev))
 	    return;
 
-	if (!strcmp(t->name, Port.name) )
+	if (!strcmp(name, Port.name) )
 	{
-	  Port.s = ILS_OK;
-	  strcpy(Port.text, t->text);
-	  ICSetText (&Port, NULL);
+	  Port.s = IPS_OK;
+
+	  tp = IUFindText( &Port, names[0] );
+	  if (!tp)
+	   return;
+
+	  tp->text = new char[strlen(texts[0]+1)];
+	  strcpy(tp->text, texts[0]);
+	  IDSetText (&Port, NULL);
 	  return;
 	}
 }
@@ -142,29 +177,16 @@ int CelestronGPS::handleCoordSet()
 {
 
   int i=0;
+  char RAStr[32], DecStr[32];
 
   switch (lastSet)
   {
 
-    //idle
+    // Slew & Track
     case 0:
-    if (RA.s == ILS_BUSY)
-    {
-      RA.s = ILS_OK;
-      ICSetNumber(&RA, "RA coordinates stored.");
-    }
-    else if (DEC.s == ILS_BUSY)
-    {
-      DEC.s = ILS_OK;
-      ICSetNumber(&DEC, "Dec coordinates stored.");
-    }
-    return (0);
-    break;
-
-    // Slew
     case 1:
 
-	  if (OnCoordSetSw.s == ILS_BUSY)
+	  if (OnCoordSetSw.s == IPS_BUSY)
 	  {
 	     StopNSEW();
 
@@ -178,21 +200,49 @@ int CelestronGPS::handleCoordSet()
 	    return (-1);
 	  }
 
-	  OnCoordSetSw.s = ILS_BUSY;
-	  ICSetSwitch(&OnCoordSetSw, "Slewing to J2000 RA %s - DEC %s", RA.nstr, DEC.nstr);
+	  OnCoordSetSw.s = IPS_BUSY;
+	  eqNum.s = IPS_BUSY;
+	  fs_sexa(RAStr, eqNum.n[0].value, 2, 3600);
+	  fs_sexa(DecStr, eqNum.n[1].value, 2, 3600);
+	  IDSetSwitch(&OnCoordSetSw, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&eqNum, NULL);
 	  break;
 
 
+  /*// track
+  case 1:
+
+         abortSlew();
+
+	 // sleep for 200 mseconds
+	 usleep(200000);
+
+
+          if ((i = Slew()))
+	  {
+	    slewError(i);
+	    return (-1);
+	  }
+
+	  OnCoordSetSw.s = IPS_BUSY;
+	  fs_sexa(RAStr, targetRA, 2, 3600);
+	  fs_sexa(DecStr, targetDEC, 2, 3600);
+	  IDSetSwitch(&OnCoordSetSw, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&eqNum, NULL);
+
+	  //IDSetSwitch(&OnCoordSetSw, "Tracking...");
+   break;
+*/
   // Sync
   case 2:
-	  OnCoordSetSw.s = ILS_OK;
+	  OnCoordSetSw.s = IPS_OK;
 	  SyncToCoords(targetRA, targetDEC);
 
-          RA.s = ILS_OK;
-	  DEC.s = ILS_OK;
-	  ICSetNumber(&RA, NULL);
-	  ICSetNumber(&DEC, NULL);
-	  ICSetSwitch(&OnCoordSetSw, "Synchronization successful.", NULL);
+          resetSwitches(&OnCoordSetSw);
+          OnCoordSetSw.sw[2].s = ISS_ON;
+          eqNum.s = IPS_OK;
+   	  IDSetNumber(&eqNum, NULL);
+	  IDSetSwitch(&OnCoordSetSw, "Synchronization successful.");
 	  break;
    }
 
@@ -200,11 +250,13 @@ int CelestronGPS::handleCoordSet()
 
 }
 
-void CelestronGPS::ISNewNumber (INumber *n)
+void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
+        double newRA=0, newDEC=0;
 
-	double tempRA=0, tempDEC=0;
-	char tempNum[32];
+        // ignore if not ours //
+	if (strcmp (dev, mydev))
+	    return;
 
 	struct tm *tp;
 	time_t t;
@@ -212,180 +264,199 @@ void CelestronGPS::ISNewNumber (INumber *n)
 	time (&t);
 	tp = gmtime (&t);
 
-	tp->tm_mon  += 1;
-	tp->tm_year += 1900;
-
-	JD = UTtoJD(tp);
-
-	// ignore if not ours //
-	if (strcmp (n->dev, mydev))
-	    return;
-
-	if ( !strcmp (n->name, RA.name))
+	if (!strcmp (name, eqNum.name))
 	{
-	   if (getSex(n->nstr, &tempRA))
-	   {
-	     RA.s = ILS_IDLE;
-	     ICSetNumber (&RA, "RA coordinates invalid (0 to 24 hours)");
-	     return;
-	  }
+	  IDLog("in EQ number\n");
+	  int i=0, nset=0;
 
-	  if (checkPower())
-	  {
-	    RA.s = ILS_IDLE;
-	    ICSetNumber(&RA, NULL);
-	    return;
-	  }
-
-
-	   fprintf(stderr, "We recevined J2000 RA %s\n", n->nstr);
-	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
-	   formatSex(tempRA, tempNum, XXYYZZ);
-	   fprintf(stderr, "Processed to RA %f and %s\n", tempRA, tempNum);
-
-	   strcpy(RA.nstr, n->nstr);
-           RA.s = ILS_BUSY;
-	   targetRA = tempRA;
-
-	   if (handleCoordSet())
-	   {
-	        RA.s = ILS_IDLE;
-	    	ICSetNumber(&RA, NULL);
-	   }
+	  if (checkPower(&eqNum))
 	   return;
 
-	} // end RA set
+	    for (nset = i = 0; i < n; i++)
+	    {
+		INumber *eqp = IUFindNumber (&eqNum, names[i]);
+		if (eqp == &eq[0])
+		{
+                    newRA = values[i];
+		    nset += newRA >= 0 && newRA <= 24.0;
+		} else if (eqp == &eq[1])
+		{
+		    newDEC = values[i];
+		    nset += newDEC >= -90.0 && newDEC <= 90.0;
+		}
+	    }
 
-        if (!strcmp (n->name, DEC.name))
-	{
-	   if (getSex(n->nstr, &tempDEC))
-	   {
-	     DEC.s = ILS_IDLE;
-	     ICSetNumber (&DEC, "DEC coordinates invalid (-90 to +90 degrees)");
-	     return;
-	  }
-
-	  if (checkPower())
+	  if (nset == 2)
 	  {
-	    DEC.s = ILS_IDLE;
-	    ICSetNumber(&DEC, NULL);
+	   eqNum.s = IPS_BUSY;
+
+	   tp->tm_mon   += 1;
+	   tp->tm_year  += 1900;
+
+	   // update JD
+           JD = UTtoJD(tp);
+
+	   IDLog("We recevined J2000 RA %f - DEC %f\n", newRA, newDEC);;
+	   apparentCoord( (double) J2000, JD, &newRA, &newDEC);
+	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);
+
+	       eqNum.n[0].value = values[0];
+	       eqNum.n[1].value = values[1];
+	       targetRA  = newRA;
+	       targetDEC = newDEC;
+
+	       if (handleCoordSet())
+	       {
+	        eqNum.s = IPS_IDLE;
+	    	IDSetNumber(&eqNum, NULL);
+	       }
+	    }
+	    else
+	    {
+		eqNum.s = IPS_IDLE;
+		IDSetNumber(&eqNum, "RA or Dec missing or invalid");
+	    }
+
 	    return;
-	  }
-
-	   fprintf(stderr, "We recevined J2000 DEC %s\n", n->nstr);
-	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
-	   formatSex(tempDEC, tempNum, SXXYYZZ);
-	   fprintf(stderr, "Processed to DEC %f and %s\n", tempDEC, tempNum);
-           strcpy(DEC.nstr, n->nstr);
-	   targetDEC = tempDEC;
-	   DEC.s = ILS_BUSY;
-
-	   if (handleCoordSet())
-	   {
-	      DEC.s = ILS_IDLE;
-	      ICSetNumber(&DEC, NULL);
-	   }
-
-	       return;
-	} // end DEC set
-
+	 }
 }
 
-void CelestronGPS::ISNewSwitch(ISwitches *s)
+void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
 
-	int index[16];
+        int index;
+
+	// Suppress warning
+	names = names;
+
+	IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
+	//IDLog("SolarSw name is %s\n", SolarSw.name);
 
 	// ignore if not ours //
-	if (strcmp (s->dev, mydev))
+	if (strcmp (dev, mydev))
 	    return;
 
 	// FIRST Switch ALWAYS for power
-	if (!strcmp (s->name, PowerSw.name))
+	if (!strcmp (name, PowerSw.name))
 	{
-   	 powerTelescope(s);
+   	 powerTelescope(states);
 	 return;
 	}
 
-	if (!validateSwitch(s, &OnCoordSetSw, NARRAY(OnCoordSetS), index, 0))
+	if (!strcmp(name, OnCoordSetSw.name))
 	{
-	  lastSet = index[0];
+  	  if (checkPower(&OnCoordSetSw))
+	   return;
+
+	  lastSet = getOnSwitch(states, n);
 	  handleCoordSet();
-	  return;
 	}
 
 	// Abort Slew
-	if (!strcmp (s->name, abortSlewSw.name))
+	if (!strcmp (name, abortSlewSw.name))
 	{
-	  if (checkPower())
+	  if (checkPower(&abortSlewSw))
 	  {
-	    abortSlewSw.s = ILS_IDLE;
-	    ICSetSwitch(&abortSlewSw, NULL);
+	    abortSlewSw.s = IPS_IDLE;
+	    IDSetSwitch(&abortSlewSw, NULL);
 	    return;
 	  }
 
-	    if (OnCoordSetSw.s == ILS_BUSY || OnCoordSetSw.s == ILS_OK)
+	    if (OnCoordSetSw.s == IPS_BUSY || OnCoordSetSw.s == IPS_OK)
 	    {
 	    	StopNSEW();
-		abortSlewSw.s = ILS_OK;
-		OnCoordSetSw.s = ILS_IDLE;
-		ICSetSwitch(&abortSlewSw, "Slew aborted");
-		ICSetSwitch(&OnCoordSetSw, NULL);
+		abortSlewSw.s = IPS_OK;
+		abortSlewSw.sw[0].s = ISS_OFF;
+		OnCoordSetSw.s = IPS_IDLE;
+		eqNum.s = IPS_IDLE;
+		IDSetSwitch(&abortSlewSw, "Slew aborted");
+		IDSetSwitch(&OnCoordSetSw, NULL);
+		IDSetNumber(&eqNum, NULL);
+
             }
-	    else if (MovementSw.s == ILS_BUSY)
+	    else if (MovementSw.s == IPS_BUSY)
 	    {
 	        StopSlew(NORTH);
 		StopSlew(WEST);
 		StopSlew(EAST);
 		StopSlew(SOUTH);
-		abortSlewSw.s = ILS_OK;
-		MovementSw.s = ILS_IDLE;
-		ICSetSwitch(&abortSlewSw, "Slew aborted");
-		ICSetSwitch(&MovementSw, NULL);
+		lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
+		abortSlewSw.s = IPS_OK;
+		abortSlewSw.sw[0].s = ISS_OFF;
+		MovementSw.s = IPS_IDLE;
+		resetSwitches(&MovementSw);
+		eqNum.s = IPS_IDLE;
+		IDSetSwitch(&abortSlewSw, "Slew aborted");
+		IDSetSwitch(&MovementSw, NULL);
+		IDSetNumber(&eqNum, NULL);
 	    }
 	    else
 	    {
-	        abortSlewSw.s = ILS_IDLE;
-	        ICSetSwitch(&abortSlewSw, NULL);
+	        abortSlewSw.sw[0].s = ISS_OFF;
+	        abortSlewSw.s = IPS_IDLE;
+	        IDSetSwitch(&abortSlewSw, NULL);
 	    }
 
 	    return;
 	}
 
-	if (!validateSwitch(s, &SlewModeSw, NARRAY(SlewModeS), index, 1))
+
+	// Slew mode
+	if (!strcmp (name, SlewModeSw.name))
 	{
-	  SetRate(index[0]);
-	  SlewModeSw.s = ILS_OK;
-	  ICSetSwitch(&SlewModeSw, NULL);
+	  if (checkPower(&SlewModeSw))
+	   return;
+
+	  index = getOnSwitch(states, n);
+	  SetRate(index);
+          resetSwitches(&SlewModeSw);
+	  SlewModeSw.sw[index].s = ISS_ON;
+
+	  SlewModeSw.s = IPS_OK;
+	  IDSetSwitch(&SlewModeSw, NULL);
 	  return;
 	}
 
-	if (!validateSwitch(s, &MovementSw, NARRAY(MovementS), index,1))
+	if (!strcmp (name, MovementSw.name))
 	{
-          if (lastMove[index[0]])
+	  if (checkPower(&MovementSw))
+	   return;
+
+	 index = getOnSwitch(states, n);
+
+	 if (index < 0)
+	  return;
+
+	  if (lastMove[index])
 	    return;
 
-	  lastMove[index[0]] = 1;
+	  lastMove[index] = 1;
 
-	  StartSlew(index[0]);
+	  StartSlew(index);
 
 	  for (uint i=0; i < 4; i++)
 	    MovementSw.sw[i].s = lastMove[i] == 0 ? ISS_OFF : ISS_ON;
 
-	  MovementSw.s = ILS_BUSY;
-	  ICSetSwitch(&MovementSw, "Moving %s...", Direction[index[0]]);
+	  MovementSw.s = IPS_BUSY;
+	  IDSetSwitch(&MovementSw, "Moving %s...", Direction[index]);
 	  return;
 	}
 
-	if (!validateSwitch(s, &haltMoveSw, NARRAY(haltMoveS), index, 1))
+	// Halt Movement
+	if (!strcmp (name, haltMoveSw.name))
 	{
-	  if (MovementSw.s == ILS_BUSY)
+	  if (checkPower(&haltMoveSw))
+	   return;
+
+	  index = getOnSwitch(states, n);
+
+	  if (MovementSw.s == IPS_BUSY)
 	  {
-		StopSlew(index[0]);
-		lastMove[index[0]] = 0;
+	  	StopSlew(index);
+		lastMove[index] = 0;
 
 		if (!lastMove[0] && !lastMove[1] && !lastMove[2] && !lastMove[3])
-		  MovementSw.s = ILS_IDLE;
+		  MovementSw.s = IPS_IDLE;
 
 		for (uint i=0; i < 4; i++)
 		{
@@ -393,109 +464,62 @@ void CelestronGPS::ISNewSwitch(ISwitches *s)
 		   MovementSw.sw[i].s = lastMove[i] == 0 ? ISS_OFF : ISS_ON;
 		}
 
-		RA.s = ILS_IDLE;
-		DEC.s = ILS_IDLE;
-                haltMoveSw.s = ILS_IDLE;
+		eqNum.s = IPS_IDLE;
+		haltMoveSw.s = IPS_IDLE;
 
-		ICSetSwitch(&haltMoveSw, "Moving toward %s aborted", Direction[index[0]]);
-	  	ICSetSwitch(&MovementSw, NULL);
+		IDSetSwitch(&haltMoveSw, "Moving toward %s aborted", Direction[index]);
+	  	IDSetSwitch(&MovementSw, NULL);
 	  }
 	  else
 	  {
-	        haltMoveSw.sw[index[0]].s = ISS_OFF;
-	     	haltMoveSw.s = ILS_IDLE;
-	        ICSetSwitch(&haltMoveSw, NULL);
+	        haltMoveSw.sw[index].s = ISS_OFF;
+	     	haltMoveSw.s = IPS_IDLE;
+	        IDSetSwitch(&haltMoveSw, NULL);
 	  }
 	  return;
 	 }
 
 }
 
-void CelestronGPS::ISPoll()
+void CelestronGPS::resetSwitches(ISwitchVectorProperty *driverSw)
 {
 
-       double currentRA, currentDEC;
-
-	switch (OnCoordSetSw.s)
-	{
-	case ILS_IDLE:
-	     break;
-
-	case ILS_BUSY:
-
-	    fprintf(stderr , "Getting LX200 RA, DEC...\n");
-	    currentRA = GetRA();
-	    currentDEC = GetDec();
-
-	    apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
-
-	    formatSex (currentRA, RA.nstr, XXYYZZ);
-	    formatSex (currentDEC, DEC.nstr, SXXYYZZ);
-
-	    fprintf(stderr, "targetRA is %f, currentRA is %f\n", (float) targetRA, (float) currentRA);
-	    fprintf(stderr, "targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
-
-
-	    if (!CheckCoords( targetRA, targetDEC))
-	    {
-
-		OnCoordSetSw.s = ILS_OK;
-		currentRA = targetRA;
-		currentDEC = targetDEC;
-
-		apparentCoord( JD, (double) J2000, &targetRA, &targetDEC);
-
-		formatSex (targetRA, RA.nstr, XXYYZZ);
-		formatSex (targetDEC, DEC.nstr, SXXYYZZ);
-
-		RA.s = ILS_OK;
-		DEC.s = ILS_OK;
-		ICSetNumber (&RA, NULL);
-		ICSetNumber (&DEC, NULL);
-		ICSetSwitch (&OnCoordSetSw, "Slew is complete");
-
-
-	    } else
-	    {
-		ICSetNumber (&RA, NULL);
-		ICSetNumber (&DEC, NULL);
-	    }
-	    break;
-
-	case ILS_OK:
-	    break;
-
-	case ILS_ALERT:
-	    break;
-	}
-
-	switch (MovementSw.s)
-	{
-	  case ILS_IDLE:
-	   break;
-	 case ILS_BUSY:
-	     currentRA = GetRA();
-	     currentDEC = GetDec();
-	     apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
-	     formatSex(currentRA, RA.nstr, XXYYZZ);
-	     formatSex(currentDEC, DEC.nstr, SXXYYZZ);
-	     ICSetNumber (&RA, NULL);
-	     ICSetNumber (&DEC, NULL);
-	     break;
-	 case ILS_OK:
-	   break;
-	 case ILS_ALERT:
-	   break;
-	 }
+   for (int i=0; i < driverSw->nsw; i++)
+      driverSw->sw[i].s = ISS_OFF;
 
 }
 
-int CelestronGPS::checkPower()
+int CelestronGPS::getOnSwitch(ISState * states, int n)
+{
+ for (int i=0; i < n ; i++)
+     if (states[i] == ISS_ON)
+      return i;
+
+ return -1;
+}
+
+
+int CelestronGPS::checkPower(ISwitchVectorProperty *sp)
+{
+  if (PowerSw.s != IPS_OK)
+  {
+    IDMessage (mydev, "Cannot change a property while the telescope is offline.");
+    sp->s = IPS_IDLE;
+    IDSetSwitch(sp, NULL);
+    return -1;
+  }
+
+  return 0;
+}
+
+int CelestronGPS::checkPower(INumberVectorProperty *np)
 {
 
-  if (PowerSw.s != ILS_OK)
+  if (PowerSw.s != IPS_OK)
   {
-    ICMessage (mydev, "Cannot change a property while the telescope is offline");
+    IDMessage (mydev, "Cannot change a property while the telescope is offline");
+    np->s = IPS_IDLE;
+    IDSetNumber(np, NULL);
     return -1;
   }
 
@@ -503,105 +527,220 @@ int CelestronGPS::checkPower()
 
 }
 
-int CelestronGPS::validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int driverArraySize, int index[], int validatePower)
+int CelestronGPS::checkPower(ITextVectorProperty *tp)
 {
-//fprintf(stderr , "IN validate switch\n");
-  int i, j;
 
-  if (!strcmp (clientSw->name, driverSw->name))
+  if (PowerSw.s != IPS_OK)
   {
-	  // check if the telescope is connected //
-	 if (validatePower && (checkPower()))
-	 {
-	     driverSw->s = ILS_IDLE;
-	     ICSetSwitch (driverSw, NULL);
-	     return -1;
-	 }
-
-	 for (i = 0, j =0 ; i < driverArraySize; i++)
-	 {
-		if (!strcmp (clientSw->sw[0].name, driverSw->sw[i].name))
-		{
-		    index[j++] = i;
-		    driverSw->sw[i].s = ISS_ON;
-		} else
-		    driverSw->sw[i].s = ISS_OFF;
-	  }
-	   return 0;
+    IDMessage (mydev, "Cannot change a property while the telescope is offline");
+    tp->s = IPS_IDLE;
+    IDSetText(tp, NULL);
+    return -1;
   }
 
-    return -1;
- }
+  return 0;
+
+}
+
+void CelestronGPS::ISPoll()
+{
+
+       double dx, dy;
+       double currentRA, currentDEC;
 
 
+	switch (OnCoordSetSw.s)
+	{
+	case IPS_IDLE:
+	if (PowerSw.s != IPS_OK)
+	 break;
+	currentRA = GetRA();
+	currentDEC = GetDec();
+
+        if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
+	{
+	        eqNum.n[0].value = currentRA;
+		eqNum.n[1].value = currentDEC;
+		lastRA  = currentRA;
+		lastDEC = currentDEC;
+		IDSetNumber (&eqNum, NULL);
+
+	}
+        break;
+
+        case IPS_BUSY:
+	IDLog("in POLL _ BUSY\n");
+
+	    currentRA = GetRA();
+	    currentDEC = GetDec();
+	    dx = targetRA - currentRA;
+	    dy = targetDEC - currentDEC;
+
+	    IDLog("targetRA is %f, currentRA is %f\n", (float) targetRA, (float) currentRA);
+	    IDLog("targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
+
+	    eqNum.n[0].value = currentRA;
+	    eqNum.n[1].value = currentDEC;
+
+	    // Wait until acknowledged or within 3.6', change as desired.
+	    if (fabs(dx) <= 0.009 && fabs(dy) <= 0.05)
+	    {
+
+		currentRA = targetRA;
+		currentDEC = targetDEC;
+
+		apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+
+		eqNum.n[0].value = currentRA;
+		eqNum.n[1].value = currentDEC;
+
+
+
+		//formatSex (targetRA, eq[0].nstr, XXYYZZ);
+		//formatSex (targetDEC, DEC.nstr, SXXYYZZ);
+		OnCoordSetSw.s = IPS_OK;
+
+		if (lastSet == 0)
+		{
+
+		  //eq[0].s = IPS_OK;
+		  //DEC.s = IPS_OK;
+		  eqNum.s = IPS_OK;
+		  resetSwitches(&OnCoordSetSw);
+		  OnCoordSetSw.sw[0].s = ISS_ON;
+		  IDSetSwitch (&OnCoordSetSw, "Slew is complete");
+		}
+		else
+		{
+		  eqNum.s = IPS_OK;
+		  resetSwitches(&OnCoordSetSw);
+		  OnCoordSetSw.sw[1].s = ISS_ON;
+		  IDSetSwitch (&OnCoordSetSw, "Slew is complete. Tracking...");
+		  //abortSlew();
+		  //IDSetSwitch (&OnCoordSetSw, NULL);
+		}
+
+		 IDSetNumber (&eqNum, NULL);
+		 //IDSetNumber (&DEC, NULL);
+
+	    } else
+		IDSetNumber (&eqNum, NULL);
+
+	    break;
+
+	case IPS_OK:
+	if (PowerSw.s != IPS_OK)
+	 break;
+	currentRA = GetRA();
+	currentDEC = GetDec();
+
+        if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
+	{
+
+		eqNum.n[0].value = currentRA;
+		eqNum.n[1].value = currentDEC;
+		lastRA  = currentRA;
+		lastDEC = currentDEC;
+		IDSetNumber (&eqNum, NULL);
+
+	}
+        break;
+
+
+	case IPS_ALERT:
+	    break;
+	}
+
+	switch (MovementSw.s)
+	{
+	  case IPS_IDLE:
+	   break;
+	 case IPS_BUSY:
+	     currentRA = GetRA();
+	     currentDEC = GetDec();
+
+	     apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+
+
+	     eqNum.n[0].value = currentRA;
+	     eqNum.n[1].value = currentDEC;
+
+	     IDSetNumber (&eqNum, NULL);
+
+	     break;
+	 case IPS_OK:
+	   break;
+	 case IPS_ALERT:
+	   break;
+	 }
+
+}
 
 void CelestronGPS::getBasicData()
 {
 
-  formatSex ( (targetRA = GetRA()), RA.nstr, XXYYZZ);
-  formatSex ( (targetDEC = GetDec()), DEC.nstr, SXXYYZZ);
+  targetRA = GetRA();
+  targetDEC = GetDec();
 
-  ICSetNumber(&RA, NULL);
-  ICSetNumber(&DEC, NULL);
+  eqNum.n[0].value = targetRA;
+  eqNum.n[1].value = targetDEC;
+
+  IDSetNumber(&eqNum, NULL);
 
 }
 
-void CelestronGPS::powerTelescope(ISwitches* s)
+void CelestronGPS::powerTelescope(ISState *s)
 {
-   fprintf(stderr , "In POWER\n");
-    for (uint i= 0; i < NARRAY(PowerS); i++)
-    {
-        if (!strcmp (s->sw[0].name, PowerS[i].name))
-	   PowerS[i].s = ISS_ON;
-	else
-	   PowerS[i].s = ISS_OFF;
-    }
 
-     if ((PowerSw.sw[0].s == ISS_ON) && ConnectTel(Port.text) < 0)
-     {
-        PowerSw.s = ILS_IDLE;
-	PowerS[0].s = ISS_OFF;
-	PowerS[1].s = ISS_ON;
+ for (uint i= 0; i < NARRAY(PowerS); i++)
+     PowerS[i].s = s[i];
 
-	ICSetSwitch (&PowerSw, "Telescope is not connected to the serial/usb port");
-	DisconnectTel();
-     }
-     else if (PowerSw.sw[0].s == ISS_ON)
+     switch (PowerSw.sw[0].s)
      {
-        PowerSw.s = ILS_OK;
-	ICSetSwitch (&PowerSw, "Telescope is online. Retrieving basic data...");
+      case ISS_ON:
+
+         if (ConnectTel(Port.t[0].text) < 0)
+	 {
+	   PowerS[0].s = ISS_OFF;
+	   PowerS[1].s = ISS_ON;
+	   IDSetSwitch (&PowerSw, "Error connecting to port %s\n", Port.t[0].text);
+	   return;
+	 }
+
+	PowerSw.s = IPS_OK;
+	IDSetSwitch (&PowerSw, "Telescope is online. Retrieving basic data...");
 	getBasicData();
-     }
-     else
-     {
-         PowerSw.s = ILS_IDLE;
-	 ICSetSwitch (&PowerSw, "Telescope is offline.");
+	break;
+
+     case ISS_OFF:
+         IDSetSwitch (&PowerSw, "Telescope is offline.");
+	 IDLog("Telescope is offline.");
 	 DisconnectTel();
+	 break;
 
-     }
-
+    }
 }
 
 void CelestronGPS::slewError(int slewCode)
 {
-    OnCoordSetSw.s = ILS_IDLE;
+    OnCoordSetSw.s = IPS_IDLE;
 
     switch (slewCode)
     {
       case 1:
-       ICSetSwitch (&OnCoordSetSw, "Invalid newDec in SlewToCoords");
+       IDSetSwitch (&OnCoordSetSw, "Invalid newDec in SlewToCoords");
        break;
       case 2:
-       ICSetSwitch (&OnCoordSetSw, "RA count overflow in SlewToCoords");
+       IDSetSwitch (&OnCoordSetSw, "RA count overflow in SlewToCoords");
        break;
       case 3:
-       ICSetSwitch (&OnCoordSetSw, "Dec count overflow in SlewToCoords");
+       IDSetSwitch (&OnCoordSetSw, "Dec count overflow in SlewToCoords");
        break;
       case 4:
-       ICSetSwitch (&OnCoordSetSw, "No acknowledgement from telescope after SlewToCoords");
+       IDSetSwitch (&OnCoordSetSw, "No acknowledgement from telescope after SlewToCoords");
        break;
       default:
-       ICSetSwitch (&OnCoordSetSw, "Unknown error");
+       IDSetSwitch (&OnCoordSetSw, "Unknown error");
        break;
     }
 

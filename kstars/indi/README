@@ -1,16 +1,5 @@
-indiserver is a generic INDI server. It launches and manages traffic to and
-from one or more INDI device processes. It accepts connections from multiple
-simultaneous INDI Clients to give them access to these devices. So long as the
-implementation architecture is available, it need not be changed across
-platforms nor with different devices. Thus it serves as a stable infrastructure
-for building a real INDI server for a real observatory by just building
-device processes to operate the real hardware. It also serves as a reference
-implementation for the services to be provided any INDI-compliant server.
-
-This directory also contains several sample INDI device drivers. They
-simulate much of the hardware expected at a real observatory. These were
-useful during the design and development of INDI but it is hoped these
-now serve as useful templates for adding real hardware control.
+The code here demonstrates the use of INDI, an Instrument-Neutral Device
+Interface protocol. See http://www.clearskyinstitute.com/INDI/INDI.pdf.
 
 Architecture:
 
@@ -27,75 +16,82 @@ Architecture:
     INDI Client n ----|                  |---- INDI Driver C  ---- Dev T
 
 
-     Client       INET       Server       UNIX    Driver           Device
-     processes    sockets    process      pipes   processes        code
+     Client       INET       Server       UNIX     Driver          Hardware
+     processes    sockets    process      pipes    processes       devices
 
 
 
-    The architecture is one process, indiserver, is the public service access
-    point, and one process, called a driver, per device or family of devices.
-    Indiserver launches each driver process and arranges for it to receive
-    the INDI protocol from Clients on its stdin and expects to find commands
-    destined for Clients on the driver's stdout. Anything arriving from a
-    device process' stderr is copied to indiserver's stderr.
+    Indiserver is the public network access point where one or more INDI Clients
+    may contact one or more INDI Drivers. Indiserver launches each driver
+    process and arranges for it to receive the INDI protocol from Clients on
+    its stdin and expects to find commands destined for Clients on the
+    driver's stdout. Anything arriving from a driver process' stderr is copied
+    to indiserver's stderr.
 
-    Threads, as opposed to processes, were considered for each device but
-    were rejected. Putting drivers in their own bona fide processes has
-    the following advantages:
+    Indiserver only provides convenient port, fork and data steering services.
+    If desired, a Client may run and connect to INDI Drivers directly.
 
-        + devices are completely separated.
-        + pipes are more portable than thread and dlopen APIs.
-        + all INDI device traffic is on stdin/out for convenient debugging.
-	+ using netpipes or ssh, devices can easily be on different machines.
+Construction:
 
+    An INDI driver typically consists of one .c file, eg, mydriver.c, which
+    #includes indiapi.h to access the reference API declarations. It is
+    compiled then linked with indidrivermain.o, eventloop.o and liblilxml.a to
+    form an INDI process. These supporting files contain the implementation of
+    the INDI Driver API and need not be changed in any way. Note that
+    evenloop.[ch] provide a nice callback facility independent of INDI which
+    may be used in other projects if desired.
+    
+    The driver implementation, again in our example mydriver.c, does not
+    contain a main() but is expected to operate as an event-driver program.
+    The driver must implement each ISxxx() function but never call them. The
+    IS() functions are called by the reference implementation main() as messages
+    arrive from Clients. Within each IS function the driver performs the
+    desired tasks then may report back to the Client by calling the IDxxx()
+    functions.
 
-Linking:
+    The reference API provides IE() functions to allow the driver to add its
+    own callback functions if desired. The driver can arrange for functions to
+    be called when reading a file descriptor will not block; when a time
+    interval has expired; or when there is no other client traffic in progress.
 
-    The indiserver process does not change with different devices. It takes
-    the names of each device process to run in its command line args. To build
-    the server type 'make indiserver'; to build all the drivers too type
-    'make all'; to run the sample server with all drivers type 'make run'.
+    The sample indiserver is a stand alone process that may be used to run one
+    or more INDI-compliant drivers. It takes the names of each driver process
+    to run in its command line args.
 
-
-    Typical INDI device driver linking arrangement:
-
-    indimain.c   <->  indidevA.c   <->   liblilxml.a
-      main()           
-
-    Each device process implements the IS*() functions but never calls them.
-    When they are called, by the main() in indimain.c, they do their thing
-    with the hardware and report to the Clients by calling the IC*()
-    functions, which are implemented in indimain.c. Prototypes for both
-    families of calls are in indiapi.h. To build all the simulation devices
-    in this kit on POSIX systems, type 'make sim'.
+    To build indiserver type 'make indiserver';
+    to build all the sample drivers type 'make drivers';
+    to run the sample server with all drivers type 'make run'.
+    Killing indiserver will also kill all the drivers it started.
 
 Secure remote operation:
 
-    Assume the INDI client, such as XEphem, is running on the local host.
-    Assume the INDI server and drivers are running on remote host s. Build
-    an ssh connection by running:
+    Suppose we want to run indiserver and its clients on a remote machine, r,
+    and connect them to our favorite INDI client, XEphem, running on the
+    local machine.
 
-	ssh2 -L 7624:s:7624 s
+    From the local machine log onto the remote machine, r, by typing:
 
-    after logging in, run indiserver in the normal way on the remote side:
+	ssh2 -L 7624:s:7624 r
+
+    after logging in, run indiserver on the remote machine:
     
-	indiserver cam ota wx tmount >& indi.errs &
+	make run
 	
-    On the local side, start the INDI client and it will connect to the
-    remote INDI server automatically since its port 7624 will appear to be
-    local.
+    Back on the local machine, start XEphem, then open Views -> Sky View ->
+    Telescope -> INDI panel. XEphem will connect to the remote INDI server
+    securely and automatically begin running. Sweet.
 
 Testing:
 
-    A raw way to test the socket, forking and data steering abilities of
+    A low-level way to test the socket, forking and data steering abilities of
     indiserver is to use the 'hose' command from the netpipes collection
     (http://web.purplefrog.com/~thoth/netpipes/netpipes.html):
 
-    1. start indiserver using UNIX' cat as the only INDI "device":
+    1. start indiserver using UNIX' cat program as the only INDI "device":
 
 	% indiserver cat &
 
-    2. use hose to connect to "cat" device driver which just copies back:
+    2. use hose to connect to the "cat" device driver which just copies back:
 
 	% hose localhost 7624 --slave
 	hello world

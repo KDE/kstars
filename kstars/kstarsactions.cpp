@@ -141,16 +141,14 @@ void KStars::slotINDIConf() {
    INDIConf indiconf(this);
 
    indiconf.timeCheck->setChecked( options()->indiAutoTime );
-   indiconf.longCheck->setChecked( options()->indiAutoLong );
-   indiconf.latCheck->setChecked ( options()->indiAutoLat  );
+   indiconf.GeoCheck->setChecked( options()->indiAutoGeo );
    indiconf.crosshairCheck->setChecked( options()->indiCrosshairs);
    indiconf.messagesCheck->setChecked ( options()->indiMessages);
 
    if (indiconf.exec() == QDialog::Accepted)
    {
      options()->indiAutoTime = indiconf.timeCheck->isChecked();
-     options()->indiAutoLong = indiconf.longCheck->isChecked();
-     options()->indiAutoLat  = indiconf.latCheck->isChecked();
+     options()->indiAutoGeo  = indiconf.GeoCheck->isChecked();
      options()->indiCrosshairs = indiconf.crosshairCheck->isChecked();
      options()->indiMessages = indiconf.messagesCheck->isChecked();
 

@@ -25,7 +25,7 @@
 #include <math.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include <fcntl.h>   
+#include <fcntl.h>
 #include <termios.h>
 #include <time.h>
 
@@ -64,18 +64,19 @@ int setCommandXYZ( int x, int y, int z, const char *cmd);
 int setStandardProcedure(char * writeData);
 void setSlewMode(int slewMode);
 void setAlignmentMode(unsigned int alignMode);
-int setObjectRA(double h, double m, double s);
-int setObjectDEC(double d, double m, double s);
+int setObjectRA(double ra);
+int setObjectDEC(double dec);
 int setCalenderDate(int dd, int mm, int yy);
-int setUTCOffset(int hours);
+int setUTCOffset(double hours);
 int setTrackFreq(double trackF);
-int setSiteLongitude(int degrees, int minutes);
-int setSiteLatitude(int degrees, int minutes, int seconds);
-int setObjAz(int degrees, int minutes);
-int setObjAlt(int degrees, int minutes);
+int setSiteLongitude(double Long);
+int setSiteLatitude(double Lat);
+int setObjAz(double az);
+int setObjAlt(double alt);
 int setSiteName(char * siteName, int siteNum);
 void setFocuserMotion(int motionType);
 void setFocuserSpeedMode (int speedMode);
+int setMaxSlewRate(int slewRate);
 int Slew(void);
 void Sync(char *matchedObject);
 void abortSlew(void);
@@ -151,7 +152,7 @@ double getCommand(const char * cmd)
     read_ret = portRead(tempString, -1);
     tempString[read_ret - 1] = '\0';
 
-  if (getSex(tempString, &value))
+  if (f_scansexa(tempString, &value))
    return -1000;
  else
    return value;
@@ -178,17 +179,20 @@ int getCommandStr(char *data, const char* cmd)
 int getCalenderDate(char *date)
 {
 
- float dd, mm, yy;
+ int dd, mm, yy;
 
  if (getCommandStr(date, "#:GC#"))
   return (-1);
 
  /* Meade format is MM/DD/YY */
- if (validateSex(date, &mm, &dd, &yy))
-  return (-1);
+/* if (validateSex(date, &mm, &dd, &yy))
+  return (-1);*/
+  read_ret = sscanf(date, "%d%*c%d%*c%d", &mm, &dd, &yy);
+  if (read_ret < 3)
+   return -1;
 
  /* We need to have in in YYYY/MM/DD format */
- sprintf(date, "20%02d/%02d/%02d", (int) yy, (int) mm, (int) dd);
+ sprintf(date, "20%02d/%02d/%02d", yy, mm, dd);
 
  return (0);
 
@@ -241,12 +245,14 @@ int getMaxElevationLimit()
     portWrite("#:Go#");
 
     read_ret = portRead(tempString, -1);
-    if (read_ret)
+    if (read_ret < 1)
      return -1;
 
     tempString[read_ret-1] = '\0';
 
     sscanf(tempString, "%d", &limit);
+
+    fprintf(stderr, "Max elevation limit string is %s\n", tempString);
 
     return limit;
 }
@@ -259,12 +265,14 @@ int getMinElevationLimit()
     portWrite("#:Gh#");
 
     read_ret = portRead(tempString, -1);
-    if (read_ret)
+    if (read_ret < 1)
      return -1;
 
     tempString[read_ret-1] = '\0';
 
     sscanf(tempString, "%d", &limit);
+
+    fprintf(stderr, "Min elevation limit string is %s\n", tempString);
 
     return limit;
 
@@ -297,9 +305,15 @@ int getSiteName(char *siteName, int siteNum)
      return -1;
 
    siteName[read_ret - 1] = '\0';
+
    term = strchr (siteName, ' ');
     if (term)
       *term = '\0';
+
+    term = strchr (siteName, '<');
+    if (term)
+      strcpy(siteName, "unused site");
+
 
    fprintf(stderr, "Requested site name: %s\n", siteName);
 
@@ -442,17 +456,6 @@ void setCommandInt(int data, const char *cmd)
 
 }
 
-/*int setObjectRA(double RA)
-{
-  char tempString[16];
-  int hours = (int) data;
-  int minutes = (int) ((data - hours) * 60.0);
-  int seconds = (int) ( (data - hours) * 60.0 - minutes);
-
-  sprintf(tempString, "#:Sr %02d:%02d:%02d#", hours, minutes, seconds);
-  return (setStandardProcedure(tempString));
-}*/
-
 int setMinElevationLimit(int min)
 {
  char tempString[16];
@@ -466,49 +469,54 @@ int setMaxElevationLimit(int max)
 {
  char tempString[16];
 
- sprintf(tempString, "#:So%02d#", max);
+ sprintf(tempString, "#:So%02d*#", max);
 
  return (setStandardProcedure(tempString));
 
 }
 
-
-int setObjectRA(double h, double m, double s)
+int setMaxSlewRate(int slewRate)
 {
 
+   char tempString[16];
+
+   if (slewRate < 2 || slewRate > 8)
+    return -1;
+
+   sprintf(tempString, "#:Sw%d#", slewRate);
+
+   return (setStandardProcedure(tempString));
+
+}
+
+
+
+int setObjectRA(double ra)
+{
+
+ int h, m, s;
  char tempString[16];
+
+ getSexComponents(ra, &h, &m, &s);
+
  sprintf(tempString, "#:Sr %02d:%02d:%02d#", (int) h, (int) m, (int) s);
   return (setStandardProcedure(tempString));
 }
 
 
-int setObjectDEC(double d, double m, double s)
+int setObjectDEC(double dec)
 {
+  int d, m, s;
   char tempString[16];
+
+  getSexComponents(dec, &d, &m, &s);
+
+
    sprintf(tempString, "#:Sd %+03d:%02d:%02d#", (int) d, (int) m, (int) s);
 
    return (setStandardProcedure(tempString));
 
 }
-
-/*int setObjectDEC(double DEC)
-{
-  char tempString[16];
-  int degrees = (int) DEC;
-  int minutes = (int) ((DEC - degrees) * 60.0);
-  int seconds = (int) ( (DEC - degrees) * 60.0 - minutes);
-
-  if (minutes < 0)
-    minutes *= -1;
-  if (seconds < 0)
-    seconds *= -1;
-
-   sprintf(tempString, "#:Sd %+03d:%02d:%02d#", degrees, minutes, seconds);
-
-   return (setStandardProcedure(tempString));
-}
-*/
-
 
 int setCommandXYZ(int x, int y, int z, const char *cmd)
 {
@@ -568,50 +576,64 @@ int setCalenderDate(int dd, int mm, int yy)
    return result;
 }
 
-int setUTCOffset(int hours)
+int setUTCOffset(double hours)
 {
    char tempString[16];
 
-   sprintf(tempString, "#:SG %+03d#", hours);
+   /*TODO add fractions*/
+   sprintf(tempString, "#:SG %+03d#", (int) hours);
+
+   fprintf(stderr, "UTC string is %s\n", tempString);
 
    return (setStandardProcedure(tempString));
 
 }
 
-int setSiteLongitude(int degrees, int minutes)
+int setSiteLongitude(double Long)
 {
+   int d, m, s;
    char tempString[32];
 
-   sprintf(tempString, "#:Sg%03d:%02d#", degrees, minutes);
+   getSexComponents(Long, &d, &m, &s);
+
+   sprintf(tempString, "#:Sg%03d:%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 }
 
-int setSiteLatitude(int degrees, int minutes, int seconds)
+int setSiteLatitude(double Lat)
 {
+   int d, m, s;
    char tempString[32];
 
-   sprintf(tempString, "#:St%+03d:%02d:%02d#", degrees, minutes, seconds);
+   getSexComponents(Lat, &d, &m, &s);
+
+   sprintf(tempString, "#:St%+03d:%02d:%02d#", d, m, s);
 
    return (setStandardProcedure(tempString));
 }
 
-int setObjAz(int degrees, int minutes)
+int setObjAz(double az)
 {
-
+   int d,m,s;
    char tempString[16];
 
-   sprintf(tempString, "#:Sz%03d:%02d#", degrees, minutes);
+   getSexComponents(az, &d, &m, &s);
+
+   sprintf(tempString, "#:Sz%03d:%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 
 }
 
-int setObjAlt(int degrees, int minutes)
+int setObjAlt(double alt)
 {
+    int d, m, s;
     char tempString[16];
 
-   sprintf(tempString, "#:Sa%+02d*%02d#", degrees, minutes);
+   getSexComponents(alt, &d, &m, &s);
+
+   sprintf(tempString, "#:Sa%+02d*%02d#", d, m);
 
    return (setStandardProcedure(tempString));
 }
@@ -717,7 +739,7 @@ int setTrackFreq(double trackF)
 int Slew()
 {
     char slewNum[2];
-    char errorMsg[64];
+    char errorMsg[128];
 
     portWrite("#:MS#");
 
@@ -965,7 +987,7 @@ int portWrite(const char * buf)
 
     if (bytesWritten < 0)
      return WRITE_ERROR;
-   
+
 
     buf += bytesWritten;
     nbytes -= bytesWritten;
@@ -975,7 +997,6 @@ int portWrite(const char * buf)
   return (nbytes);
 }
 
-/* I hate C !!!! */
 int portReadT(char *buf, int nbytes, int timeout)
 {
 
@@ -993,13 +1014,13 @@ int bytesRead = 0;
 
          if (bytesRead < 0 )
             return READ_ERROR;
-            
+
         if (bytesRead)
           totalBytes++;
 
         if (*buf == '#')
 	   return totalBytes;
-	
+
         buf += bytesRead;
      }
   }
@@ -1013,7 +1034,7 @@ int bytesRead = 0;
 
      if (bytesRead < 0 )
       return bytesRead;
-     
+
      buf += bytesRead;
      nbytes -= bytesRead;
   }
@@ -1024,7 +1045,7 @@ int bytesRead = 0;
 int portRead(char *buf, int nbytes)
 {
   int bytesRead = 0;
-  
+
   /* if nbytes is -1 then read till encountering terminating # */
   if (nbytes == -1)
   {
@@ -1046,7 +1067,7 @@ int portRead(char *buf, int nbytes)
 	{
 	   return totalBytes;
 	}
-	
+
         buf += bytesRead;
      }
   }
@@ -1061,7 +1082,7 @@ int portRead(char *buf, int nbytes)
 
      if (bytesRead < 0 )
       return bytesRead;
-     
+
      buf += bytesRead;
      nbytes -= bytesRead;
   }
@@ -1088,9 +1109,9 @@ int LX200readOut(int timeout)
   if (retval > 0)
    return 0;
   else
-   return 
+   return
    	READOUT_ERROR;
-     
+
 
 }
- 
+

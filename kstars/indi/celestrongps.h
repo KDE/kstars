@@ -24,7 +24,7 @@
 #include "indiapi.h"
 #include "indicom.h"
 
-#define	POLLMS		500		/* poll period, ms */
+#define	POLLMS		2000		/* poll period, ms */
 
 class CelestronGPS
 {
@@ -33,27 +33,34 @@ class CelestronGPS
  virtual ~CelestronGPS() {}
 
  virtual void ISGetProperties (const char *dev);
- virtual void ISNewText (IText *t);
- virtual void ISNewNumber (INumber *n);
- virtual void ISNewSwitch (ISwitches *s);
+ virtual void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
+ virtual void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
+ virtual void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
  virtual void ISPoll ();
  virtual void getBasicData();
 
- int checkPower();
- int validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int driverArraySize, int index[], int validatePower);
- void powerTelescope(ISwitches* s);
+ int checkPower(INumberVectorProperty *np);
+ int checkPower(ISwitchVectorProperty *sp);
+ int checkPower(ITextVectorProperty *tp);
+ void powerTelescope(ISState *s);
  void slewError(int slewCode);
  int handleCoordSet();
+ int getOnSwitch(ISState * states, int n);
+ void resetSwitches(ISwitchVectorProperty *driverSw);
 
  private:
+  int timeFormat;
 
- int lastSet;
- double JD;
- double currentRA;
- double currentDEC;
- double targetRA;
- double targetDEC;
- int lastMove[4];
+  double JD;
+  double currentRA;
+  double currentDEC;
+  double targetRA;
+  double targetDEC;
+  double lastRA;
+  double lastDEC;
+
+  int lastSet;
+  int lastMove[4];
 
 };
 

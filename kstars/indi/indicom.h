@@ -2,6 +2,7 @@
     INDI LIB
     Common routines used by all drivers
     Copyright (C) 2003 by Jason Harris (jharris@30doradus.org)
+    			  Elwood C. Downey
 
     This is the C version of the astronomical library in KStars
     modified by Jasem Mutlaq (mutlaqja@ikarustech.com)
@@ -28,8 +29,7 @@
 #include <time.h>
 
 #define J2000 2451545.0
-
-enum SexFormat { XXYYZZ = 0 , SXXYYZZ, XXYY, SXXYY, XXYYZ, XXXYY };
+#define TRACKING_THRESHOLD	0.083		/* 5' for tracking */
 
 extern const char * Direction[];
 extern const char * SolarSystem[];
@@ -77,11 +77,12 @@ void aberrate(double *RA, double *Dec);
 void precessFromAnyEpoch(double jd0, double jdf, double *RA, double *Dec);
 void apparentCoord(double jd0, double jdf, double *RA, double *Dec);
 
-int validateSex(const char * str, float *x, float *y, float *z);
-void formatSex(double number, char * str, int mode);
-int getSex(const char *str, double * value);
+int fs_sexa (char *out, double a, int w, int fracbase);
+int f_scansexa (const char *str0, double *dp);
 int extractISOTime(char *timestr, struct tm *utm);
 double UTtoJD(struct tm *utm);
+void getSexComponents(double value, int *d, int *m, int *s);
+int numberFormat (char *buf, char *format, double value);
 
 #ifdef __cplusplus
 }

@@ -1,27 +1,26 @@
-bin_PROGRAMS = indiserver lx200generic wx celestrongps
+bin_PROGRAMS = indiserver lx200generic celestrongps
 
-liblilxml_a_SOURCES =  lilxml.c
-libindicom_a_SOURCES =  indicom.c
+liblilxml_a_SOURCES = lilxml.c
+libindicom_a_SOURCES = indicom.c
 
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
 indiserver_SOURCES = indiserver.c
 indiserver_LDADD = liblilxml.a
 
-lx200generic_SOURCES = indimain.c lx200_16.cpp lx200autostar.cpp lx200driver.c lx200generic.cpp lx200GPS.cpp
+lx200generic_SOURCES = indidrivermain.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a
 
-celestrongps_SOURCES =  indimain.c celestrongps.cpp celestronprotocol.c
+celestrongps_SOURCES =  indidrivermain.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a
-
-wx_SOURCES =  indimain.c wx.c
-wx_LDADD = liblilxml.a
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
 
 install-exec-hook:
 	$(mkinstalldirs) $(DESTDIR)/bin
+	rm -f $(DESTDIR)$(bindir)/lx200classic
+	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200classic
 	rm -f $(DESTDIR)$(bindir)/lx200autostar
 	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200autostar
 	rm -f $(DESTDIR)$(bindir)/lx200_16
@@ -30,4 +29,5 @@ install-exec-hook:
 	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200gps
 
 uninstall-local:
-	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)lx200_16 $(DESTDIR)$(bindir)lx200gps
+	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)/lx200_16 $(DESTDIR)$(bindir)/lx200gps
+

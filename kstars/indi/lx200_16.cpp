@@ -22,14 +22,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 
 #include "lx200_16.h"
 #include "lx200driver.h"
 
 
-#define LX16Group	"GPS/16 inch Features"
+#define LX16GROUP	"GPS/16 inch Features"
+
 extern LX200Generic *telescope;
 extern char mydev[];
+extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
 
@@ -53,25 +56,31 @@ extern int MaxReticleFlashRate;
 //    bool setObjAz(int degrees, int minutes);
 
 
-static ISwitch FanStatusS[]		= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
-static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set", ISS_OFF}};
-static ISwitch FieldDeRotatorS[]	= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
-static ISwitch SlewAltAzS[]		= { {"Slew to Object Az/Alt", ISS_OFF}};
+static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
+static ISwitch HomeSearchS[]		= { {"Seek home and save", "", ISS_OFF} , {"Seek home and set", "", ISS_OFF}};
+static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
+//static ISwitch SlewAltAzS[]		= { {"Slew To Alt/Az",  ISS_ON}};
 
-static ISwitches FanStatusSw		= { mydev, "Fan", FanStatusS, NARRAY(FanStatusS), ILS_IDLE, 0, LX16Group };
-static ISwitches HomeSearchSw		= { mydev, "Park", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0, LX16Group};
-static ISwitches FieldDeRotatorSw	= { mydev, "Field De-rotator", FieldDeRotatorS, NARRAY(FieldDeRotatorS), ILS_IDLE, 0, LX16Group};
-static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
+static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS)};
 
-static INumber ALT		        = { mydev, "Altitude D:M:S up", NULL, ILS_IDLE, 0, LX16Group};
-static INumber AZ			= { mydev, "Azimuth D:M:S E of N", NULL, ILS_IDLE, 0, LX16Group};
+static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS)};
 
+static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS)};
+
+//static ISwitches SlewAltAzSw		= { mydev, "AltAzSet", "On Alt/Az Set",  SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
+
+/* horizontal position */
+static INumber hor[] = {
+    {"ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.},
+    {"AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.},
+};
+static INumberVectorProperty horNum = {
+    mydev, "HORIZONTAL_COORD", "Horizontal Coords", LX16GROUP, IP_RW, 0, IPS_IDLE,
+    hor, NARRAY(hor),
+};
 
 LX200_16::LX200_16() : LX200Autostar()
 {
-
- ALT.nstr	= strcpy( new char[9], "DD:MM");
- AZ.nstr	= strcpy( new char[9], "DDD:MM");
 
 }
 
@@ -81,131 +90,216 @@ void LX200_16::ISGetProperties (const char *dev)
 if (dev && strcmp (mydev, dev))
     return;
 
- // process parent first
+  // process parent first
   LX200Autostar::ISGetProperties(dev);
 
-  ICDefNumber (&ALT, "ALT", IP_RW, NULL);
-  ICDefNumber (&AZ , "AZ", IP_RW, NULL);
+  IDDefNumber (&horNum);
 
-  ICDefSwitches (&FanStatusSw, "Fan", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&HomeSearchSw, "Home Search", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&FieldDeRotatorSw, "Field deRotator", ISP_W, IR_1OFMANY);
-
-}
-
-void LX200_16::ISNewText (IText *t)
-{
-
-   LX200Autostar::ISNewText(t);
+  IDDefSwitch (&FanStatusSw);
+  IDDefSwitch (&HomeSearchSw);
+  IDDefSwitch (&FieldDeRotatorSw);
 
 }
 
-void LX200_16::ISNewNumber (INumber *n)
+void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-  float h,d,m,s;
 
-  LX200Autostar::ISNewNumber(n);
+        double UTCOffset;
+	struct tm *ltp = new tm;
+	struct tm utm;
+	time_t ltime;
+	time (&ltime);
+	localtime_r (&ltime, ltp);
+	IText *tp;
+
+	// ignore if not ours //
+	if (strcmp (dev, mydev))
+	    return;
+
+	// suppress warning
+	n=n;
+
+       // Override LX200 Autostar
+       if (!strcmp (name, Time.name))
+       {
+	  if (checkPower(&Time))
+	   return;
+
+	  if (extractISOTime(texts[0], &utm) < 0)
+	  {
+	    Time.s = IPS_IDLE;
+	    IDSetText(&Time , "Time invalid");
+	    return;
+	  }
+	        utm.tm_mon   += 1;
+		ltp->tm_mon  += 1;
+		utm.tm_year  += 1900;
+		ltp->tm_year += 1900;
+
+	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
+
+		if (utm.tm_mday - ltp->tm_mday != 0)
+			 UTCOffset += 24;
+
+		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		setUTCOffset(UTCOffset);
+	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+
+		tp = IUFindText(&Time, names[0]);
+		if (!tp)
+		 return;
+		tp->text = new char[strlen(texts[0]+1)];
+	        strcpy(tp->text, texts[0]);
+		Time.s = IPS_OK;
+
+		// update JD
+                JD = UTtoJD(&utm);
+
+		IDLog("New JD is %f\n", (float) JD);
+
+		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
+		    (localTM->tm_year == ltp->tm_year))
+		{
+		  IDSetText(&Time , "Time updated to %s", texts[0]);
+		  return;
+		}
+
+		localTM = ltp;
+		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
+ 		IDSetText(&Time , "Date changed, updating planetary data...");
+
+		return;
+	}
+
+
+   LX200Autostar::ISNewText (dev, name, texts, names,  n);
+
+}
+
+void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
+{
+  double newAlt=0, newAz=0;
+  char altStr[64], azStr[64];
+
+
+  LX200Autostar::ISNewNumber (dev, name, values, names, n);
 
   // ignore if not ours //
-  if (strcmp (n->dev, mydev))
+  if (strcmp (dev, mydev))
     return;
 
-  if ( !strcmp (n->name, AZ.name) )
-	{
-	  if (checkPower())
-	  {
-	    AZ.s = ILS_IDLE;
-	    ICSetNumber(&AZ, NULL);
-	    return;
-	  }
+  if ( !strcmp (name, horNum.name) )
+  {
+      int i=0, nset=0;
 
-	  if (validateSex(n->nstr, &h, &m,&s))
-	  {
-            AZ.s = ILS_IDLE;
-	    ICSetNumber(&AZ, NULL);
-	    return;
-	  }
-	  if (m > 59 || m < 0 || h < 0 || h > 360)
-	  {
- 	    AZ.s = ILS_IDLE;
-	    ICSetNumber(&AZ , "Coordinates invalid");
-	    return;
-	  }
+      if (checkPower(&horNum))
+	   return;
 
-	  getSex(n->nstr, &targetAz);
-          setObjAz( (int) h, (int) m);
-	  AZ.s = ILS_OK;
-	  strcpy(AZ.nstr , n->nstr);
-	  handleAltAzSlew();
-	  return;
-        }
+        for (nset = i = 0; i < n; i++)
+	    {
+		INumber *horp = IUFindNumber (&horNum, names[i]);
+		if (horp == &hor[0])
+		{
+                    newAlt = values[i];
+		    nset += newAlt >= -90. && newAlt <= 90.0;
+		} else if (horp == &hor[1])
+		{
+		    newAz = values[i];
+		    nset += newAz >= 0. && newAz <= 360.0;
+		}
+	    }
 
-	if ( !strcmp (n->name, ALT.name) )
-	{
-	  if (checkPower())
+	  if (nset == 2)
 	  {
-	    ALT.s = ILS_IDLE;
-	    ICSetNumber(&ALT, NULL);
-	    return;
-	  }
+	   if (!setObjAz(newAz) && !setObjAlt(newAlt))
+	   {
 
-	  if (validateSex(n->nstr, &d, &m, &s))
-	  {
-            ALT.s = ILS_IDLE;
-	    ICSetNumber(&ALT , NULL);
-	    return;
-	  }
-	  if (s > 60 || s < 0 || m > 59 || m < 0 || d < -90 || d > 90)
-	  {
- 	    ALT.s = ILS_IDLE;
-	    ICSetNumber(&ALT , "Coordinates invalid");
-	    return;
-	  }
+               horNum.s = IPS_OK;
+	       //horNum.n[0].value = values[0];
+	       //horNum.n[1].value = values[1];
+	       targetAz  = newAz;
+	       targetAlt = newAlt;
 
-	  getSex(n->nstr, &targetAlt);
-          setObjAlt( (int) h, (int) m);
-	  ALT.s = ILS_OK;
-	  strcpy(ALT.nstr , n->nstr);
-	  handleAltAzSlew();
-	  return;
-        }
+	       fs_sexa(azStr, targetAz, 2, 3600);
+	       fs_sexa(altStr, targetAlt, 2, 3600);
+
+	       IDSetNumber (&horNum, "Attempting to slew to Alt %s - Az %s", altStr, azStr);
+	       handleAltAzSlew();
+	    }
+	    else
+	    {
+	        horNum.s = IPS_ALERT;
+		IDSetNumber (&horNum, "Error setting coordinates.");
+            }
+
+	    return;
+
+	   } // end nset
+	   else
+	   {
+		horNum.s = IPS_IDLE;
+		IDSetNumber(&horNum, "Altitude or Azimuth missing or invalid");
+	   }
+
+    }
+
+
 
  }
 
-void LX200_16::ISNewSwitch (ISwitches *s)
+
+void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-   int index[16];
+   int index;
    char msg[32];
 
-  if (strcmp (s->dev, mydev))
+  if (strcmp (dev, mydev))
     return;
 
    // process parent
-   LX200Autostar::ISNewSwitch(s);
+   LX200Autostar::ISNewSwitch (dev, name, states, names, n);
 
-   if (!validateSwitch(s, &FanStatusSw, NARRAY(FanStatusS), index, 1))
+   if (!strcmp(name, FanStatusSw.name))
    {
-	  index[0] == 0 ? turnFanOn() : turnFanOff();
-	  FanStatusSw.s = ILS_OK;
-	  strcpy(msg, index[0] == 0 ? "Fan is ON" : "Fan is Off");
-	  ICSetSwitch (&FanStatusSw, msg);
+      if (checkPower(&FanStatusSw))
+       return;
+
+          index = getOnSwitch(states, n);
+	  resetSwitches(&FanStatusSw);
+
+	  index == 0 ? turnFanOn() : turnFanOff();
+	  FanStatusSw.s = IPS_OK;
+	  strcpy(msg, index == 0 ? "Fan is ON" : "Fan is OFF");
+	  IDSetSwitch (&FanStatusSw, msg);
 	  return;
    }
 
-   if (!validateSwitch(s, &HomeSearchSw, NARRAY(HomeSearchS), index, 1))
+   if (!strcmp(name, HomeSearchSw.name))
    {
-	  index[0] == 0 ? seekHomeAndSave() : seekHomeAndSet();
-	  HomeSearchSw.s = ILS_BUSY;
-	  ICSetSwitch (&HomeSearchSw, msg);
+      if (checkPower(&HomeSearchSw))
+       return;
+
+          index = getOnSwitch(states, n);
+	  resetSwitches(&HomeSearchSw);
+
+	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
+	  HomeSearchSw.s = IPS_BUSY;
+	  IDSetSwitch (&HomeSearchSw, msg);
 	  return;
    }
 
-   if (!validateSwitch(s, &FieldDeRotatorSw, NARRAY(FieldDeRotatorS), index, 1))
+   if (!strcmp(name, FieldDeRotatorSw.name))
    {
-	  index[0] == 0 ? turnFieldDeRotatorOn() : turnFieldDeRotatorOff();
-	  FanStatusSw.s = ILS_OK;
-	  strcpy(msg, index[0] == 0 ? "Field deRotator is ON" : "Field deRotator is Off");
-	  ICSetSwitch (&FanStatusSw, msg);
+      if (checkPower(&FieldDeRotatorSw))
+       return;
+
+          index = getOnSwitch(states, n);
+	  resetSwitches(&FieldDeRotatorSw);
+
+	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
+	  FieldDeRotatorSw.s = IPS_OK;
+	  strcpy(msg, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
+	  IDSetSwitch (&FieldDeRotatorSw, msg);
 	  return;
    }
 
@@ -215,8 +309,9 @@ void LX200_16::ISNewSwitch (ISwitches *s)
 void LX200_16::handleAltAzSlew()
 {
         int i=0;
+	char altStr[64], azStr[64];
 
-	  if (SlewAltAzSw.s == ILS_BUSY)
+	  if (horNum.s == IPS_BUSY)
 	  {
 	     abortSlew();
 
@@ -226,15 +321,16 @@ void LX200_16::handleAltAzSlew()
 
 	  if ((i = slewToAltAz()))
 	  {
-            SlewAltAzSw.s = ILS_IDLE;
-	    ICSetSwitch(&SlewAltAzSw, "Slew not possible");
+	    horNum.s = IPS_IDLE;
+	    IDSetNumber(&horNum, "Slew not possible");
 	    return;
 	  }
 
-	  SlewAltAzSw.s = ILS_BUSY;
-	  ICSetNumber(&ALT , NULL);
-	  ICSetNumber(&AZ , NULL);
-	  ICSetSwitch(&SlewAltAzSw, "Slewing to Az %s - Alt %s", AZ.nstr, ALT.nstr);
+	  horNum.s = IPS_BUSY;
+	  fs_sexa(azStr, targetAz, 2, 3600);
+	  fs_sexa(altStr, targetAlt, 2, 3600);
+
+	  IDSetNumber(&horNum, "Slewing to Alt %s - Az %s", altStr, azStr);
 	  return;
 }
 
@@ -246,86 +342,73 @@ void LX200_16::handleAltAzSlew()
 
    	switch (HomeSearchSw.s)
 	{
-	case ILS_IDLE:
+	case IPS_IDLE:
 	     break;
 
-	case ILS_BUSY:
+	case IPS_BUSY:
 
 	    searchResult = getHomeSearchStatus();
 
 	    if (!searchResult)
 	    {
-	      HomeSearchSw.s = ILS_IDLE;
-	      ICSetSwitch(&HomeSearchSw, "Home search failed");
+	      HomeSearchSw.s = IPS_IDLE;
+	      IDSetSwitch(&HomeSearchSw, "Home search failed");
 	    }
 	    else if (searchResult == 1)
 	    {
-	      HomeSearchSw.s = ILS_OK;
-	      ICSetSwitch(&HomeSearchSw, "Home search successful");
+	      HomeSearchSw.s = IPS_OK;
+	      IDSetSwitch(&HomeSearchSw, "Home search successful");
 	    }
 	    else if (searchResult == 2)
-	      ICSetSwitch(&HomeSearchSw, "Home search in progress...");
+	      IDSetSwitch(&HomeSearchSw, "Home search in progress...");
 	    else
 	    {
-	      HomeSearchSw.s = ILS_IDLE;
-	      ICSetSwitch(&HomeSearchSw, "Home search error");
+	      HomeSearchSw.s = IPS_IDLE;
+	      IDSetSwitch(&HomeSearchSw, "Home search error");
 	    }
 	    break;
 
-	 case ILS_OK:
+	 case IPS_OK:
 	   break;
-	 case ILS_ALERT:
+	 case IPS_ALERT:
 	  break;
 	}
 
-	switch (SlewAltAzSw.s)
+	switch (horNum.s)
 	{
-	case ILS_IDLE:
+	case IPS_IDLE:
 	     break;
 
-	case ILS_BUSY:
+	case IPS_BUSY:
 
-	    fprintf(stderr , "Getting LX200 RA, DEC...\n");
 	    currentAz = getLX200Az();
 	    currentAlt = getLX200Alt();
 	    dx = targetAz - currentAz;
 	    dy = targetAlt - currentAlt;
 
-	    formatSex ( currentAz, AZ.nstr, XXYYZZ);
-	    formatSex (currentAlt, ALT.nstr, SXXYYZZ);
+            horNum.n[0].value = currentAlt;
+	    horNum.n[1].value = currentAz;
 
-	    if (dx < 0) dx *= -1;
-	    if (dy < 0) dy *= -1;
-	    fprintf(stderr, "targetAz is %f, currentAz is %f\n", (float) targetAz, (float) currentAz);
-	    fprintf(stderr, "targetAlt is %f, currentAlt is %f\n****************************\n", (float) targetAlt, (float) currentAlt);
+	    IDLog("targetAz is %g, currentAz is %g\n", targetAz, currentAz);
+	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);
 
 
-	    if (dx <= 0.001 && dy <= 0.001)
+	    // accuracy threshhold (3'), can be changed as desired.
+	    if ( fabs(dx) <= 0.05 && fabs(dy) <= 0.05)
 	    {
 
-		SlewAltAzSw.s = ILS_OK;
+		horNum.s = IPS_OK;
 		currentAz = targetAz;
 		currentAlt = targetAlt;
-
-		formatSex (targetAz, AZ.nstr, XXYYZZ);
-		formatSex (targetAlt, ALT.nstr, SXXYYZZ);
-
-		AZ.s = ILS_OK;
-		ALT.s = ILS_OK;
-		ICSetNumber (&AZ, NULL);
-		ICSetNumber (&ALT, NULL);
-		ICSetSwitch (&SlewAltAzSw, "Slew is complete");
+                IDSetNumber (&horNum, "Slew is complete");
 	    } else
-	    {
-		ICSetNumber (&AZ, NULL);
-		ICSetNumber (&ALT, NULL);
-	    }
+	    	IDSetNumber (&horNum, NULL);
 	    break;
 
-	case ILS_OK:
+	case IPS_OK:
 	    break;
 
-	case ILS_ALERT:
+	case IPS_ALERT:
 	    break;
 	}
 
@@ -336,10 +419,12 @@ void LX200_16::handleAltAzSlew()
    // process parent first
    LX200Autostar::getBasicData();
 
-  formatSex ( (targetAz = getLX200Az()), AZ.nstr, XXXYY);
-  formatSex ( (targetAlt = getLX200Alt()), ALT.nstr, SXXYY);
+   targetAz = getLX200Az();
+   targetAlt = getLX200Alt();
 
-  ICSetNumber (&AZ, NULL);
-  ICSetNumber (&ALT, NULL);
+   horNum.n[0].value = targetAlt;
+   horNum.n[1].value = targetAz;
+
+   IDSetNumber (&horNum, NULL);
 
  }

@@ -18,119 +18,157 @@
 
 #endif
 
-/* Prototypes for functions in an INDI Device.
+/*******************************************************************************
+ * This is the interface to the reference INDI C API implementation. The API
+ * and this file are divided into three main sections:
  *
- * The first set of functions are those which the Driver may call; they each
- * start with IC because they communicate with an INDI Client. The second set
- * are those functions which the Driver must define and are called by the
- * INDI system, implemented here in indimain.c; they each start with IS
- * because they must be defined by an INDI Server (or Driver).
+ *   Constants and Data structure definitions.
+ *
+ *   Functions we define which the Driver calls
+ *
+ *     IDxxx functions to send messages to an INDI client.
+ *     IExxx functions to implement the event driven model.
+ *     IUxxx functions to perform handy utility functions.
+ *
+ *   Functions we call which the Driver must define.
+ *
+ *     ISxxx to respond to messages from a Client.
  */
 
-#define	INDIV	1.01			/* version */
+/*******************************************************************************
+ * INDI wire protocol version implemented by this API.
+ * N.B. this is indepedent of the API itself.
+ */
 
+#define	INDIV	1.11
 
-/**********************************************************************
- **********************************************************************
+
+/*******************************************************************************
+ *******************************************************************************
  *
- * Common Constants and Data structures
+ *   Constants and Data structure definitions.
  *
- **********************************************************************
- **********************************************************************/
+ *******************************************************************************
+ *******************************************************************************
+ */
 
 
-/**********************************************************************
+/*******************************************************************************
  * Manifest constants
  */
 
 typedef enum {
     ISS_ON, ISS_OFF
-} ISState;					/* switch state */
+} ISState;				/* switch state */
 
 typedef enum {
-    ILS_IDLE, ILS_OK, ILS_BUSY, ILS_ALERT
-} ILState;					/* light and property state */
+    IPS_IDLE, IPS_OK, IPS_BUSY, IPS_ALERT
+} IPState;				/* property state */
+
+typedef enum {
+    ISR_1OFMANY, ISR_NOFMANY
+} ISRule;				/* switch vector rule hint */
 
 typedef enum {
     IP_RO, IP_WO, IP_RW
-} IPerm;					/* text and number permission */
+} IPerm;				/* permission hint */
 
-typedef enum {
-    ISP_R, ISP_W
-} ISPerm;					/* switch permission */
-
-typedef enum {
-    IR_1OFMANY, IR_NOFMANY
-} IRule;					/* switch behavior rule */
-
-typedef enum {					/* which range fields are set */
-    INR_MIN=1, INR_MAX=2, INR_STEP=4		/* |-able bit masks */
-} INRangeSet;
-
-
-/**********************************************************************
+/*******************************************************************************
  * Typedefs for each INDI Property type.
- * comments for fields that are not set when the ISNew dispatch functions
- * are called begin with *
+ *
+ * INumber.format may be any printf-style appropriate for double
+ * or style "m" to create sexigesimal using the form "%<w>.<f>m" where
+ *   <w> is the total field width.
+ *   <f> is the width of the fraction. valid values are:
+ *      9  ->  :mm:ss.ss
+ *      8  ->  :mm:ss.s
+ *      6  ->  :mm:ss
+ *      5  ->  :mm.m
+ *      3  ->  :mm
+ *
+ * examples:
+ *
+ *   to produce     use
+ *
+ *    "-123:45"    %7.3m
+ *  "  0:01:02"    %9.6m
  */
 
-typedef struct {			/* text property descriptor */
-    const char *dev;				/* device name */
-    const char *name;				/* propert name */
-    char *text;				/* text string */
-    ILState s;				/* * property state */
-    double tout;			/* * max time to change, secs */
-    const char *grouptag;			/* * group Propertiess within one Dev */
+typedef struct {			/* one text descriptor */
+    const char *name;			/* index name */
+    const char *label;			/* short description */
+    char *text;				/* current text string */
 } IText;
 
-typedef struct {			/* number property descriptor */
-    const char *dev;				/* device name */
-    const char *name;				/* propert name */
-    char *nstr;				/* numeric value as a string */
-    ILState s;				/* * property state */
-    double tout;			/* * max time to change, secs */
-    const char *grouptag;			/* * group Propertiess within one Dev */
+typedef struct {			/* text vector property descriptor */
+    const char *device;			/* device name */
+    const char *name;			/* property name */
+    const char *label;			/* short description */
+    const char *grouptag;		/* GUI grouping hint, ignore if NULL */
+    const IPerm p;			/* client accessibility hint */
+    double timeout;			/* current max time to change, secs */
+    IPState s;				/* current property state */
+    IText *t;				/* texts comprising this vector */
+    const int nt;			/* dimension of this vector */
+} ITextVectorProperty;
+
+typedef struct {			/* one number descriptor */
+    const char *name;			/* index name */
+    const char *label;			/* short description */
+    const char *format;			/* GUI display format, see above */
+    const double min, max;		/* range, ignore if min == max */
+    const double step;			/* step size, ignore if step == 0 */
+    double value;			/* current value */
 } INumber;
 
-typedef struct {			/* specify legal range of an INumber */
-    int rSet;				/* | of approproate INRangeSet */
-    double min;				/* min value */
-    double max;				/* max value */
-    double step;			/* allowed increments */
-} INRange;
+typedef struct {			/* number vector property descriptor */
+    const char *device;			/* device name */
+    const char *name;			/* property name */
+    const char *label;			/* short description */
+    const char *grouptag;		/* GUI grouping hint, ignore if NULL */
+    const IPerm p;			/* client accessibility hint */
+    double timeout;			/* current max time to change, secs */
+    IPState s;				/* current property state */
+    INumber *n;				/* numbers comprising this vector */
+    const int nn;			/* dimension of this vector */
+} INumberVectorProperty;
 
 typedef struct {			/* one switch descriptor */
-    const char *name;				/* this switch's label */
+    const char *name;			/* index name */
+    const char *label;			/* this switch's label */
     ISState s;				/* this switch's state */
 } ISwitch;
 
-typedef struct {			/* switch property descriptor */
-    const char *dev;				/* device name */
-    const char *name;				/* propert name */
-    ISwitch *sw;			/* array of each switch */
-    int nsw;				/* * number in array sw */
-    ILState s;				/* * property state */
-    double tout;			/* * max time to change, secs */
-    const char *grouptag;			/* * group Propertiess within one Dev */
-} ISwitches;
+typedef struct {			/* switch vector property descriptor */
+    const char *device;			/* device name */
+    const char *name;			/* property name */
+    const char *label;			/* short description */
+    const char *grouptag;		/* GUI grouping hint, ignore if NULL */
+    const IPerm p;			/* client accessibility hint */
+    const ISRule r;			/* switch behavior hint */
+    double timeout;			/* current max time to change, secs */
+    IPState s;				/* current property state */
+    ISwitch *sw;			/* switches comprising this vector */
+    const int nsw;			/* dimension of this vector */
+} ISwitchVectorProperty;
 
 typedef struct {			/* one light descriptor */
-    const char *name;				/* this lights's label */
-    ILState s;				/* this lights's state */
+    const char *name;			/* index name */
+    const char *label;			/* this lights's label */
+    IPState s;				/* this lights's state */
 } ILight;
 
-typedef struct {			/* Light property descriptor */
-    const char *dev;				/* device name */
-    const char *name;				/* propert name */
-    ILight *l;				/* array of each light */
-    int nl;				/* number in array l */
-    ILState s;				/* property state */
-    double tout;			/* max time to change, secs */
-    const char *grouptag;			/* * group Propertiess within one Dev */
-} ILights;
+typedef struct {			/* light vector property descriptor */
+    const char *device;			/* device name */
+    const char *name;			/* property name */
+    const char *label;			/* short description */
+    const char *grouptag;		/* GUI grouping hint, ignore if NULL */
+    IPState s;				/* current property state */
+    ILight *l;				/* lights comprising this vector */
+    const int nl;			/* dimension of this vector */
+} ILightVectorProperty;
 
-
-/**********************************************************************
+/*******************************************************************************
  * Handy macro to find the number of elements in array a[].
  * N.B. must be used with actual array, not pointer.
  */
@@ -138,136 +176,155 @@ typedef struct {			/* Light property descriptor */
 #define NARRAY(a)       (sizeof(a)/sizeof(a[0]))
 
 
-
-
-/**********************************************************************
- **********************************************************************
- *
- * Functions the Driver may call to send commands to Clients.
- * all msg arguments function like printf in ANSI C.
- *
- **********************************************************************
- **********************************************************************/
-
-
-/**********************************************************************
- * Functions Drivers call to define their Properties to Clients.
- */
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void ICDefText (IText *t, const char *prompt, IPerm p);
-
-extern void ICDefNumber (INumber *n, const char *prompt, IPerm p, INRange *rp);
-
-extern void ICDefSwitches (ISwitches *s, const char *prompt, ISPerm p, IRule r);
-
-extern void ICDefLights (ILights *l, const char *prompt);
-
-
-
-/**********************************************************************
- * Functions Drivers call to inform Clients of new values to existing
- * Properties. msg may be NULL.
+/*******************************************************************************
+ *******************************************************************************
+ *
+ *   Functions we define which the Driver calls
+ *
+ *******************************************************************************
+ *******************************************************************************
  */
 
-extern void ICSetText (IText *t, const char *msg, ...);
 
-extern void ICSetNumber (INumber *n, const char *msg, ...);
-
-extern void ICSetSwitch (ISwitches *s, const char *msg, ...);
-
-extern void ICSetLights (ILights *l, const char *msg, ...);
-
-
-
-/**********************************************************************
- * Function Drivers call to send a message to Clients. If dev is specified
- * the Client should associate the message with that device; if dev is NULL
- * the Client should treat the message as a general one from no specific Device.
+/*******************************************************************************
+ * Functions Drivers call to define their Properties to Clients.
  */
 
-extern void ICMessage (const char *dev, const char *msg, ...);
+extern void IDDefText (const ITextVectorProperty *t);
+
+extern void IDDefNumber (const INumberVectorProperty *n);
+
+extern void IDDefSwitch (const ISwitchVectorProperty *s);
+
+extern void IDDefLight (const ILightVectorProperty *l);
 
 
-/**********************************************************************
- * Function Drivers call to inform Clients a Property is no longer available,
- * or the entire device is if name is NULL. msg may be NULL.
+
+/*******************************************************************************
+ * Functions Drivers call to tell Clients of new values for existing Properties.
+ * msg argument functions like printf in ANSI C; may be NULL for no message.
  */
 
-extern void ICDelete (const char *dev, const char *name, const char *msg, ...);
+extern void IDSetText (const ITextVectorProperty *t, const char *msg, ...);
+
+extern void IDSetNumber (const INumberVectorProperty *n, const char *msg, ...);
+
+extern void IDSetSwitch (const ISwitchVectorProperty *s, const char *msg, ...);
+
+extern void IDSetLight (const ILightVectorProperty *l, const char *msg, ...);
 
 
+/*******************************************************************************
+ * Function Drivers call to send log messages to Clients. If dev is specified
+ * the Client shall associate the message with that device; if dev is NULL the
+ * Client shall treat the message as generic from no specific Device.
+ */
 
-/**********************************************************************
+extern void IDMessage (const char *dev, const char *msg, ...);
+
+
+/*******************************************************************************
+ * Function Drivers call to inform Clients a Property is no longer
+ * available, or the entire device is gone if name is NULL.
+ * msg argument functions like printf in ANSI C; may be NULL for no message.
+ */
+
+extern void IDDelete (const char *dev, const char *name, const char *msg, ...);
+
+
+/*******************************************************************************
  * Function Drivers call to log a message locally; the message
  * is not sent to any Clients.
+ * msg argument functions like printf in ANSI C; may be NULL for no message.
  */
 
-extern void ICLog (const char *msg, ...);
+extern void IDLog (const char *msg, ...);
 
 
-/**********************************************************************
- * Function Drivers call to ask that ISPoll() be called every ms
- * millisecs, or stop calling it if ms is 0.
- */
-
-extern void ICPollMe (int ms);
-
-
-
-
-/**********************************************************************
- **********************************************************************
+/*******************************************************************************
+ * Functions Drivers call to register with the INDI event utilities.
  *
- * Functions defined by Drivers that get called to handle commands from
- * Clients. Drivers should not blindly trust Client commands but apply
- * their own sanity checks before proceeding with making any changes.
- * Drivers should return quietly if dev is not one of theirs.
+ *   Callbacks are called when a read on a file descriptor will not block.
+ *   Timers are called once after a specified interval.
+ *   Workprocs are called when there is nothing else to do.
  *
- **********************************************************************
- **********************************************************************/
-
-
-/**********************************************************************
- * Function defined by Drivers that will be the first INDI function to be
- * called and which will be called exactly that one time and one time only.
+ * The "Add" functions return a unique id for use with their corresponding "Rm"
+ * removal function. An arbitrary pointer may be specified when a function is
+ * registered which will be stored and forwarded unchanged when the function
+ * is later involked.
  */
 
-extern void ISInit (void);
+/* signature of a callback, timout caller and work procedure function */
+
+typedef void (IE_CBF) (int readfiledes, void *userpointer);
+typedef void (IE_TCF) (void *userpointer);
+typedef void (IE_WPF) (void *userpointer);
+
+/* functions to add and remove callbacks, timers and work procedures */
+
+extern int  IEAddCallback (int readfiledes, IE_CBF *fp, void *userpointer);
+extern void IERmCallback (int callbackid);
+
+extern int  IEAddTimer (int millisecs, IE_TCF *fp, void *userpointer);
+extern void IERmTimer (int timerid);
+
+extern int  IEAddWorkProc (IE_WPF *fp, void *userpointer);
+extern void IERmWorkProc (int workprocid);
 
 
-/**********************************************************************
+/*******************************************************************************
+ * Functions Drivers call to perform handy utility functions.
+ * these do not communicate with the Client in any way.
+ */
+
+/* functions to find a specific member of a vector property */
+
+extern IText   *IUFindText  (const ITextVectorProperty *tp, const char *name);
+extern INumber *IUFindNumber(const INumberVectorProperty *tp, const char *name);
+extern ISwitch *IUFindSwitch(const ISwitchVectorProperty *tp, const char *name);
+
+/* function to reliably save new text in a IText */
+extern void IUSaveText (IText *tp, const char *newtext);
+
+
+
+/*******************************************************************************
+ *******************************************************************************
+ *
+ *   Functions we call which the Driver must define.
+ *
+ *******************************************************************************
+ *******************************************************************************
+ */
+
+ extern int INumFormat (char *buf, INumber *ip);
+ 
+/*******************************************************************************
  * Function defined by Drivers that is called when a Client asks for the
  * definitions of all Properties this Driver supports for the given
- * device, or all its devices if dev is NULL. It is polite to call the
- * approprate defXXX functions soon after receiving this call.
+ * device, or all its devices if dev is NULL.
  */
 
 extern void ISGetProperties (const char *dev);
 
 
-/**********************************************************************
- * Functions defined by Drivers that are called when a Client wishes
- * to set a different value for the given Property.
+/*******************************************************************************
+ * Functions defined by Drivers that are called when a Client wishes to set
+ * different values for the n named members of the given vector Property.
  */
 
-extern void ISNewText (IText *t);
+extern void ISNewText (const char *dev, const char *name, char *texts[],
+    char *names[], int n); 
 
-extern void ISNewNumber (INumber *n);
+extern void ISNewNumber (const char *dev, const char *name, double *doubles,
+    char *names[], int n); 
 
-extern void ISNewSwitch (ISwitches *s);	/* s->nsw will always be 1 */
-
-
-
-/**********************************************************************
- * Function defined by Drivers that is called as specified in last
- * call to ICPollMe().
- */
-
-extern void ISPoll (void);
+extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
+    char *names[], int n); 
 
 #ifdef __cplusplus
 }

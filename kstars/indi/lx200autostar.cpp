@@ -30,24 +30,28 @@
 
 extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
+extern ITextVectorProperty Time;
 extern char mydev[];
 
-static IText   VersionDate	 = { mydev, "Version Date", NULL, ILS_IDLE, 0, FirmwareGroup};
-static IText   VersionTime       = { mydev, "Version Time", NULL, ILS_IDLE, 0, FirmwareGroup};
-static IText   VersionNumber     = { mydev, "Version Number", NULL, ILS_IDLE, 0 , FirmwareGroup};
-static IText   FullVersion	 = { mydev, "Full Version", NULL, ILS_IDLE, 0 , FirmwareGroup};
-static IText   ProductName       = { mydev, "Product Name", NULL, ILS_IDLE, 0 , FirmwareGroup};
+static IText   VersionT[] ={{ "Version Date", "", 0} ,
+			   { "Version Time", "", 0} ,
+			   { "Version Number", "", 0} ,
+			   { "Full Version", "", 0} ,
+			   { "Product Name", "", 0}};
+
+static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT)};
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
 
-  VersionDate.text	= new char[16];
-  VersionTime.text	= new char[16];
-  FullVersion.text	= new char[64];
-  VersionNumber.text	= new char[16];
-  ProductName.text	= new char[32];
+  VersionInfo.t[0].text	= new char[32];
+  VersionInfo.t[1].text	= new char[32];
+  VersionInfo.t[2].text	= new char[32];
+  VersionInfo.t[3].text	= new char[64];
+  VersionInfo.t[4].text	= new char[64];
 
 }
+
 
 void LX200Autostar::ISGetProperties (const char *dev)
 {
@@ -55,35 +59,96 @@ void LX200Autostar::ISGetProperties (const char *dev)
 if (dev && strcmp (mydev, dev))
     return;
 
-// process parent first
     LX200Generic::ISGetProperties(dev);
 
-ICDefText (&VersionNumber, "Version Number", IP_RO);
-ICDefText (&VersionTime  , "Version Time", IP_RO);
-ICDefText (&VersionDate  , "Version Date", IP_RO);
-ICDefText (&FullVersion  , "Full Version", IP_RO);
-ICDefText (&ProductName  , "Product Name", IP_RO);
+    IDDefText (&VersionInfo);
 
 }
 
-void LX200Autostar::ISNewText (IText *t)
+void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-  LX200Generic::ISNewText(t);
 
+        double UTCOffset;
+	struct tm *ltp = new tm;
+	struct tm utm;
+	time_t ltime;
+	time (&ltime);
+	localtime_r (&ltime, ltp);
+	IText *tp;
 
+	// ignore if not ours //
+	if (strcmp (dev, mydev))
+	    return;
 
+	// suppress warning
+	n=n;
+
+       // Override LX200 Generic
+       if (!strcmp (name, Time.name))
+       {
+	  if (checkPower(&Time))
+	   return;
+
+	  if (extractISOTime(texts[0], &utm) < 0)
+	  {
+	    Time.s = IPS_IDLE;
+	    IDSetText(&Time , "Time invalid");
+	    return;
+	  }
+	        utm.tm_mon   += 1;
+		ltp->tm_mon  += 1;
+		utm.tm_year  += 1900;
+		ltp->tm_year += 1900;
+
+	  	UTCOffset = (ltp->tm_hour - utm.tm_hour);
+
+		if (utm.tm_mday - ltp->tm_mday != 0)
+			 UTCOffset -= 24;
+
+		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		setUTCOffset(UTCOffset);
+	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+
+		tp = IUFindText(&Time, names[0]);
+		if (!tp)
+		 return;
+		tp->text = new char[strlen(texts[0]+1)];
+	        strcpy(tp->text, texts[0]);
+		Time.s = IPS_OK;
+
+		// update JD
+                JD = UTtoJD(&utm);
+
+		IDLog("New JD is %f\n", (float) JD);
+
+		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
+		    (localTM->tm_year == ltp->tm_year))
+		{
+		  IDSetText(&Time , "Time updated to %s", texts[0]);
+		  return;
+		}
+
+		localTM = ltp;
+		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
+ 		IDSetText(&Time , "Date changed, updating planetary data...");
+
+		return;
+	}
+
+  LX200Generic::ISNewText (dev, name, texts, names, n);
 
 }
 
-void LX200Autostar::ISNewNumber (INumber *n)
+
+void LX200Autostar::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
-    LX200Generic::ISNewNumber(n);
+    LX200Generic::ISNewNumber (dev, name, values, names, n);
 }
 
- void LX200Autostar::ISNewSwitch (ISwitches *s)
+ void LX200Autostar::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
  {
 
-   LX200Generic::ISNewSwitch(s);
+   LX200Generic::ISNewSwitch (dev, name, states, names,  n);
 
  }
 
@@ -99,17 +164,14 @@ void LX200Autostar::ISNewNumber (INumber *n)
 
    // process parent first
    LX200Generic::getBasicData();
-   
-   getVersionDate(VersionDate.text);
-   getVersionTime(VersionTime.text);
-   getVersionNumber(VersionNumber.text);
-   getFullVersion(FullVersion.text);
-   getProductName(ProductName.text);
 
-   ICSetText(&VersionDate, NULL);
-   ICSetText(&VersionTime, NULL);
-   ICSetText(&VersionNumber, NULL);
-   ICSetText(&ProductName, NULL);
-   ICSetText(&FullVersion, NULL);
+   getVersionDate(VersionInfo.t[0].text);
+   getVersionTime(VersionInfo.t[1].text);
+   getVersionNumber(VersionInfo.t[2].text);
+   getFullVersion(VersionInfo.t[3].text);
+   getProductName(VersionInfo.t[4].text);
+
+   IDSetText(&VersionInfo, NULL);
+
 
  }

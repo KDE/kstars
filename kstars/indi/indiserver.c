@@ -378,7 +378,7 @@ indiRun(void)
 static void
 newClient()
 {
-	ClInfo *cp = NULL;
+	ClInfo *cp;
 	int s, cli;
 
 	/* assign new socket */
@@ -582,3 +582,6 @@ newClSocket ()
 	fcntl (cli_fd, F_SETFL, O_NONBLOCK);
 	return (cli_fd);
 }
+
+/* For RCS Only -- Do Not Edit */
+static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};
