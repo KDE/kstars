@@ -109,7 +109,6 @@ Arlington                        : Virginia              : USA                  
 Arlington Heights                : Illinois              : USA                   : 42 :  5 : 17 : N :  87 : 58 : 48 : W : -6.0 : US
 Armagh                           : Northern Ireland      : United Kingdom        : 54 : 21 :  2 : N :   6 : 39 :  0 : W :  0.0 : EU
 Armour                           : South Dakota          : USA                   : 43 : 17 : 59 : N :  98 : 20 : 59 : W : -6.0 : US
-Arrecife                         : Gran Canaria          : Spain                 : 28 : 57 :  0 : N :  13 : 32 :  0 : W :  0.0 : EU
 Arvada                           : Colorado              : USA                   : 39 : 47 : 59 : N : 105 :  4 : 40 : W : -7.0 : US
 Ash Fork                         : Arizona               : USA                   : 35 : 13 :  1 : N : 112 : 28 : 58 : W : -7.0 : --
 Asheville                        : North Carolina        : USA                   : 35 : 35 : 41 : N :  82 : 33 : 25 : W : -5.0 : US
@@ -219,7 +218,6 @@ Bellingham                       : Washington            : USA                  
 Bellows Falls                    : Vermont               : USA                   : 43 :  7 : 59 : N :  72 : 27 :  0 : W : -5.0 : US
 Ben Guerir                       :                       : Morocco               : 32 :  7 : 39 : N :   7 : 52 : 47 : W : 0.0  : --
 Bend                             : Oregon                : USA                   : 44 :  4 :  1 : N : 121 : 16 : 58 : W : -8.0 : US
-Bendigo                          : Victoria              : Australia             : 36 : 45 : 59 : S : 144 : 16 : 59 : E : 10.0 : AU
 Bennington                       : Vermont               : USA                   : 42 : 52 : 48 : N :  73 : 11 : 48 : W : -5.0 : US
 Benton                           : Arkansas              : USA                   : 34 : 33 : 53 : N :  92 : 35 : 12 : W : -6.0 : US
 Bergamo                          :                       : Italy                 : 45 : 41 : 38 : N :   9 : 40 : 13 : E :  1.0 : EU
@@ -1063,7 +1061,7 @@ Islamabad                        :                       : Pakistan             
 Istanbul                         :                       : Turkey                : 41 :  1 : 59 : N :  29 :  0 :  0 : E : 2.0  : EU
 Istrana                          :                       : Italy                 : 45 : 44 : 13 : N :  12 :  8 :  2 : E :  1.0 : EU
 Itapetinga                       :                       : Brazil                : 23 : 11 :  1 : S :  46 : 33 : 45 : W : -3.0 : BZ
-Izaña                            : Tenerife              : Spain                 : 28 : 18 : 00 : N :  16 : 30 : 35 : W :  0.0 : EU
+Izaña                            :                       : Spain                 : 28 : 17 :  5 : N :  16 : 29 : 44 : W :  1.0 : EU
 J. Horrocks                      :                       : United Kingdom        : 53 : 46 :  5 : N :   2 : 42 : 15 : W :  0.0 : EU
 Jackson                          : Michigan              : USA                   : 42 : 14 : 43 : N :  84 : 24 : 21 : W : -5.0 : US
 Jackson                          : Mississippi           : USA                   : 32 : 17 : 56 : N :  90 : 11 :  6 : W : -6.0 : US
@@ -1128,6 +1126,7 @@ Kansas City                      : Missouri              : USA                  
 Kanzelheohe                      :                       : Austria               : 46 : 40 :  7 : N :  13 : 54 : 29 : E :  1.0 : EU
 Kapaa                            : Hawaii                : USA                   : 22 :  6 :  0 : N : 159 : 19 : 58 : W :-10.0 : US
 Kapalua                          : Hawaii                : USA                   : 20 : 57 : 57 : N : 156 : 40 : 37 : W :-10.0 : US
+Kapteyn                          :                       : Netherlands           : 51 : 49 :  5 : N :   5 : 52 :  0 : E :  1.0 : EU
 Kapuskasing                      : Ontario               : Canada                : 49 : 25 : 12 : N :  82 : 30 :  0 : W : -5.0 : US
 Karachi                          :                       : Pakistan              : 24 : 53 : 59 : N :  67 :  9 :  0 : E : 5.0  : --
 Karlsruhe                        :                       : Germany               : 49 : 01 : 00 : N :   8 : 24 : 00 : E : 1.0  : EU
@@ -1213,7 +1212,6 @@ La Grange                        : Georgia               : USA                  
 La Habana                        :                       : Cuba                  : 22 : 54 :  0 : N :  82 : 24 :  0 : W :  5.0 : US
 La Mesa                          : California            : USA                   : 32 : 46 :  5 : N : 117 :  2 : 31 : W : -8.0 : US
 La Paz                           :                       : Bolivia               : 16 : 31 :  1 : S :  68 : 10 : 58 : W : -4.0 : --
-La Palma Obs.                    : Canary Islands        : Spain                 : 28 : 45 : 37 : N :  17 : 52 : 57 : W :  0.0 : EU
 La Rochelle                      :                       : France                : 46 : 10 :  0 : N :   1 :  8 : 59 : W : 1.0  : EU
 La Silla Obs.                    :                       : Chile                 : 29 : 15 :  4 : S :  70 : 43 : 45 : W : -4.0 : CL
 La Spezia                        :                       : Italy                 : 44 :  6 : 18 : N :   9 : 49 :  8 : E :  1.0 : EU
@@ -1249,7 +1247,7 @@ Laredo                           : Texas                 : USA                  
 Largo                            : Florida               : USA                   : 27 : 55 :  5 : N :  82 : 47 : 24 : W : -5.0 : US
 Las Campanas Obs.                :                       : Chile                 : 29 :  0 :  5 : S :  70 : 42 :  0 : W : -4.0 : CL
 Las Cruces                       : New Mexico            : USA                   : 32 : 18 : 42 : N : 106 : 46 : 40 : W : -7.0 : US
-Las Palmas de Gran Canaria       : Gran Canaria          : Spain                 : 28 : 06 :  0 : N :  15 : 25 : 00 : W :  0.0 : EU
+Las Palmas                       : Canary Islands        : Spain                 : 27 : 55 : 58 : N :  15 : 22 : 58 : W : 0.0  : EU
 Las Vegas                        : Nevada                : USA                   : 36 : 10 : 19 : N : 115 :  8 : 38 : W : -8.0 : US
 Latham                           : ACT                   : Australia             : 35 : 21 :  0 : S : 149 : 10 : 11 : E :+10.0 : --
 Latina                           :                       : Italy                 : 41 : 27 : 59 : N :  12 : 54 : 12 : E :  1.0 : EU
@@ -1270,7 +1268,6 @@ Lebanon                          : Kentucky              : USA                  
 Lebanon                          : Missouri              : USA                   : 37 : 40 :  1 : N :  92 : 43 :  1 : W : -6.0 : US
 Lebanon                          : New Hampshire         : USA                   : 43 : 40 :  1 : N :  72 : 15 :  0 : W : -5.0 : US
 Lecce                            :                       : Italy                 : 40 : 21 :  4 : N :  18 : 10 :  8 : E :  1.0 : EU
-Lecco                            : Lecco                 : Italy                 : 45 : 51 : 11 : N :   9 : 24 : 11 : E :  1.0 : EU
 Leck                             :                       : Germany               : 54 : 47 : 20 : N :   8 : 56 : 31 : E : 1.0  : EU
 Lee                              :                       : Lebanon               : 33 : 54 :  4 : N :  35 : 28 : 14 : E :  3.0 : --
 Leeds                            :                       : United Kingdom        : 53 : 47 : 59 : N :   1 : 32 : 59 : W : 0.0  : EU
@@ -1304,7 +1301,6 @@ Lindenhurst                      : New York              : USA                  
 Linz                             :                       : Austria               : 48 : 13 : 59 : N :  14 : 11 : 23 : E : 1.0  : EU
 Lisbon                           :                       : Portugal              : 38 : 42 :  5 : N :   9 : 11 : 15 : W :  0.0 : EU
 Lisbon                           : North Dakota          : USA                   : 46 : 21 :  0 : N :  97 : 43 :  1 : W : -6.0 : US
-Litchville                       : North Dakota          : USA                   : 46 : 39 : 21 : N :  98 : 12 : 21 : W : -6.0 : US
 Little Rock                      : Arkansas              : USA                   : 34 : 44 : 41 : N :  92 : 16 : 36 : W : -6.0 : US
 Littleton                        : New Hampshire         : USA                   : 44 : 15 :  0 : N :  71 : 45 :  0 : W : -5.0 : US
 Liverpool                        :                       : United Kingdom        : 53 : 25 :  0 : N :   2 : 51 : 59 : W : 0.0  : EU
@@ -1410,7 +1406,6 @@ Malden                           : Massachusetts         : USA                  
 Male                             :                       : Maldives              :  4 :  0 :  0 : N :  73 :  0 :  0 : E : 5.0  : --
 Maloelap                         :                       : Marshall Islands      :  8 : 42 : 29 : N : 171 : 13 : 59 : E : 12.0 : --
 Malone                           : New York              : USA                   : 44 : 49 : 58 : N :  74 : 19 : 58 : W : -5.0 : US
-Mamoudzou                        : Mayotte               : France                : 12 : 46 : 45 : S :  45 : 13 : 45 : E :  4.0 : --
 Managua                          :                       : Nicaragua             : 12 : 10 :  0 : N :  86 : 15 : 59 : W : -6.0 : --
 Manaus                           :                       : Brazil                :  3 :  1 : 59 : S :  60 :  2 : 59 : W : -4.0 : --
 Manchester                       :                       : United Kingdom        : 53 : 28 :  0 : N :   2 : 13 : 59 : W : 0.0  : EU
@@ -1660,7 +1655,6 @@ Newton                           : New Jersey            : USA                  
 Niagara Falls                    : New York              : USA                   : 43 :  5 : 34 : N :  79 :  3 : 25 : W : -5.0 : US
 Nice                             :                       : France                : 43 : 42 :  0 : N :   7 : 20 : 59 : E : 1.0  : EU
 Nicosia                          :                       : Cyprus                : 35 :  8 : 59 : N :  33 : 16 : 58 : E : 2.0  : --
-Nijmegen                         :                       : Netherlands           : 51 : 49 : 48 : N :   5 : 52 : 12 : E :  1.0 : EU
 Nitro                            : West Virginia         : USA                   : 38 : 25 :  1 : N :  81 : 49 : 58 : W : -5.0 : US
 Nobeyama                         :                       : Japan                 : 35 : 36 :  3 : N : 138 : 28 : 45 : E :  9.0 : --
 Nogales                          : Arizona               : USA                   : 31 : 19 : 58 : N : 110 : 55 :  1 : W : -7.0 : --
@@ -1717,7 +1711,6 @@ Odessa                           : Texas                 : USA                  
 Offenbach                        :                       : Germany               : 50 : 06 : 00 : N :   8 : 46 : 00 : E : 1.0  : EU
 Ogallala                         : Nebraska              : USA                   : 41 :  7 : 58 : N : 101 : 43 : 58 : W : -7.0 : US
 Ogden                            : Utah                  : USA                   : 41 : 13 : 31 : N : 111 : 58 : 22 : W : -7.0 : US
-Oggiono                          : Lecco                 : Italy                 : 45 : 47 : 10 : N :   9 : 20 : 10 : E :  1.0 : EU
 Ohakea                           :                       : New Zealand           : 40 : 12 :  0 : S : 175 : 22 : 59 : E : 12.0 : NZ
 Okayama                          :                       : Japan                 : 34 : 34 :  4 : N : 133 : 35 : 44 : E :  9.0 : --
 Okinawa                          :                       : Japan                 : 26 : 21 :  0 : N : 127 : 46 :  0 : E : 9.0  : --
@@ -1780,6 +1773,7 @@ Palencia                         :                       : Spain                
 Palermo                          :                       : Italy                 : 38 :  6 :  7 : N :  13 : 21 : 15 : E :  1.0 : EU
 Palm City                        : Florida               : USA                   : 27 :  6 : 35 : N :  80 :  6 : 35 : W : -5.0 : US
 Palma de Mallorca                :                       : Spain                 : 39 : 34 : 32 : N :  02 : 39 : 06 : E : 1.0  : EU
+Palmas de G. C., Las             :                       : Spain                 : 28 : 05 : 58 : N :  15 : 24 : 49 : W : 1.0  : EU
 Palmdale                         : California            : USA                   : 34 : 59 : 45 : N : 118 :  7 :  1 : W : -8.0 : US
 Palmer                           : Alaska                : USA                   : 61 : 36 :  0 : N : 149 :  5 : 59 : W : -9.0 : US
 Palo Alto                        : California            : USA                   : 37 : 26 : 30 : N : 122 :  9 : 46 : W : -8.0 : US
@@ -1912,7 +1906,6 @@ Providence                       : Rhode Island          : USA                  
 Provo                            : Utah                  : USA                   : 40 : 14 :  5 : N : 111 : 39 : 25 : W : -7.0 : US
 Prudhoe Bay                      : Alaska                : USA                   : 70 : 16 : 11 : N : 148 : 20 : 24 : W : -9.0 : US
 Pueblo                           : Colorado              : USA                   : 38 : 16 : 17 : N : 104 : 36 : 32 : W : -7.0 : US
-Puerto del Rosario               : Gran Canaria          : Spain                 : 28 : 30 :  0 : N :  13 : 52 : 00 : W :  0.0 : EU
 Puerto Montt                     :                       : Chile                 : 41 : 25 : 59 : S :  73 :  5 : 59 : W : -4.0 : CL
 Puerto Real                      : Puerto Rico           : USA                   : 18 : 20 : 30 : N :  65 : 37 : 17 : W : -5.0 : US
 Pulkovo                          :                       : Russia                : 59 : 46 :  4 : N :  30 : 19 : 30 : E :  1.0 : RU
@@ -2003,7 +1996,7 @@ Roenne                           : Bornholm              : Denmark              
 Rogers                           : Arkansas              : USA                   : 36 : 16 : 48 : N :  94 : 16 : 48 : W : -6.0 : US
 Rome                             :                       : Italy                 : 41 : 52 :  0 : N :  12 : 37 :  0 : E :  1.0 : EU
 Roosevelt Roads                  : Puerto Rico           : USA                   : 18 : 15 :  0 : N :  65 : 37 : 59 : W : -5.0 : US
-Roque de los Muchachos           : Tenerife              : Spain                 : 28 : 45 : 34 : N :  17 : 52 : 34 : W :  0.0 : EU
+Roque de los Muchachos           :                       : Spain                 : 28 : 45 :  5 : N :  17 : 52 : 30 : W :  1.0 : EU
 Rosemead                         : California            : USA                   : 34 :  4 : 12 : N : 118 :  5 : 24 : W : -8.0 : US
 Roseville                        : California            : USA                   : 38 : 34 : 57 : N : 121 : 29 : 42 : W : -8.0 : US
 Roseville                        : Michigan              : USA                   : 42 : 30 : 11 : N :  82 : 56 : 12 : W : -5.0 : US
@@ -2066,7 +2059,6 @@ San Pedro                        : California            : USA                  
 San Pedro Martir                 :                       : Mexico                : 31 :  2 :  6 : N : 115 : 27 : 45 : W : -6.0 : MX
 San Salvador                     :                       : El Salvador           : 13 : 41 : 59 : N :  89 :  7 :  1 : W : -6.0 : --
 San Sebastián                    :                       : Spain                 : 43 : 19 : 01 : N :  01 : 58 : 55 : W : 1.0  : EU
-San Sebastián de la Gomera       : Tenerife              : Spain                 : 28 : 06 :  0 : N :  17 : 06 :  0 : W :  0.0 : EU
 Sancheong                        : Gyeongnam             : Korea                 : 35 : 25 :  0 : N : 127 : 53 :  0 : E : 9.0  : SK
 Sanders                          : Arizona               : USA                   : 35 : 13 :  1 : N : 109 : 19 : 58 : W : -7.0 : --
 Sandersville                     : Georgia               : USA                   : 33 :  0 :  0 : N :  82 : 27 : 35 : W : -5.0 : US
@@ -2077,8 +2069,7 @@ Santa Ana                        : California            : USA                  
 Santa Barbara                    : California            : USA                   : 34 : 25 : 18 : N : 119 : 41 : 56 : W : -8.0 : US
 Santa Clara                      : California            : USA                   : 37 : 20 : 41 : N : 121 : 56 : 49 : W : -8.0 : US
 Santa Cruz                       :                       : Bolivia               : 17 : 38 : 59 : S :  63 :  7 : 59 : W : -4.0 : --
-Santa Cruz de la Palma           : Tenerife              : Spain                 : 28 : 40 : 60 : N :  17 : 45 : 00 : W :  0.0 : EU
-Santa Cruz de Tenerife           : Tenerife              : Spain                 : 28 : 27 :  0 : N :  16 : 14 :  0 : W :  0.0 : EU
+Santa Cruz de Tenerife           :                       : Spain                 : 28 : 27 : 47 : N :  16 : 16 : 52 : W : 1.0  : EU
 Santa Fe                         : New Mexico            : USA                   : 35 : 41 : 11 : N : 105 : 56 :  9 : W : -7.0 : US
 Santa Maria                      : California            : USA                   : 34 : 53 : 56 : N : 120 : 27 : 21 : W : -8.0 : US
 Santa Maria Capua Vetere         :                       : Italy                 : 41 :  4 : 41 : N :  14 : 15 : 21 : E :  1.0 : EU
@@ -2168,7 +2159,7 @@ Smyrna                           : Delaware              : USA                  
 Soda Springs                     : Idaho                 : USA                   : 42 : 38 : 59 : N : 111 : 37 :  1 : W : -7.0 : US
 Soeborg                          :                       : Denmark               : 55 : 25 : 12 : N :  12 : 20 : 59 : E : 1.0  : EU
 Soenderborg                      : Jylland               : Denmark               : 54 : 55 :  1 : N :   9 : 46 :  1 : E :   1.0 : EU
-Sofia                            :                       : Bulgary               : 42 : 43 :  0 : N :  23 : 19 : 59 : E : 2.0  : EU
+Sofia                            :                       : Bulgaria              : 42 : 43 :  0 : N :  23 : 19 : 59 : E : 2.0  : EU
 Sokcho                           : Gangwon               : Korea                 : 38 : 15 :  0 : N : 128 : 34 :  0 : E : 9.0  : SK
 Solingen                         :                       : Germany               : 51 : 11 : 00 : N :   7 : 05 : 00 : E : 1.0  : EU
 Somerset                         : Kentucky              : USA                   : 37 :  2 : 23 : N :  84 : 21 : 35 : W : -5.0 : US
@@ -2389,7 +2380,6 @@ Vallejo                          : California            : USA                  
 Valletta                         :                       : Malta                 : 35 : 49 : 59 : N :  14 : 28 : 59 : E : 1.0  : EU
 Valparaiso                       :                       : Chile                 : 33 :  1 : 59 : S :  71 : 31 : 59 : W : -4.0 : CL
 Valéncia                         :                       : Spain                 : 39 : 28 : 31 : N :  00 : 22 : 34 : W : 1.0  : EU
-Valverde                         : Tenerife              : Spain                 : 27 : 48 :  0 : N :  17 : 55 :  0 : W :  0.0 : EU
 Van Buren                        : Maine                 : USA                   : 47 :  8 : 59 : N :  67 : 58 :  1 : W : -5.0 : US
 Van Nuys                         : California            : USA                   : 34 : 10 : 59 : N : 118 : 22 :  1 : W : -8.0 : US
 Vancouver                        : British Columbia      : Canada                : 49 : 15 :  0 : N : 123 :  4 : 47 : W : -8.0 : US
@@ -2513,7 +2503,6 @@ Winchester                       : Kentucky              : USA                  
 Winchester                       : New Hampshire         : USA                   : 42 : 45 :  0 : N :  72 : 25 :  1 : W : -5.0 : US
 Winchester                       : Virginia              : USA                   : 39 : 10 :  1 : N :  78 : 10 :  1 : W : -5.0 : US
 Windam                           : Connecticut           : USA                   : 41 : 45 :  0 : N :  72 :  4 : 58 : W : -5.0 : US
-Windhoek                         : Khomas Hochland       : Namibia               : 22 : 33 : 35 : S :  17 : 04 : 34 : E :  1.0 : NB
 Windsor                          : Ontario               : Canada                : 42 : 16 : 58 : N :  82 : 58 :  1 : W : -5.0 : US
 Winnemucca                       : Nevada                : USA                   : 40 :  6 :  0 : N : 119 :  7 :  1 : W : -8.0 : US
 Winner                           : South Dakota          : USA                   : 43 : 22 :  1 : N :  99 : 49 : 58 : W : -6.0 : US
@@ -2572,6 +2561,5 @@ Zanesville                       : Ohio                  : USA                  
 Zaragoza                         :                       : Spain                 : 41 : 39 : 24 : N :  00 : 52 : 48 : W : 1.0  : EU
 Zelenchukskaya                   :                       : Russia                : 43 : 39 :  2 : N :  41 : 26 : 30 : E :  3.0 : RU
 Zimmerwald                       :                       : Switzerland           : 46 : 52 :  6 : N :   7 : 28 :  0 : E :  1.0 : EU
-Zorneding                        :                       : Germany               : 48 :  5 : 13 : N :  11 : 50 : 13 : E :  1.0 : EU
 Zwickau                          :                       : Germany               : 50 : 42 :  0 : N :  12 : 30 :  0 : E : 1.0  : EU
 Zürich                           :                       : Switzerland           : 47 : 22 :  0 : N :   8 : 31 : 59 : E : 1.0  : EU
