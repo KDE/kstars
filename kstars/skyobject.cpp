@@ -35,12 +35,7 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	LongName = "";
 	Catalog = "";
 	Image = 0;
-	ra1 = dms(0.);
-	ra2 = dms(0.);
-	ra3 = dms(0.);
-	dec1 = dms(0.);
-	dec2 = dms(0.);
-	dec3 = dms(0.);
+	
 }
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
@@ -60,12 +55,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	InfoList = o.InfoList;
 	InfoTitle = o.InfoTitle;
 	Image = o.image();
-	ra1 = o.ra1;
-	ra2 = o.ra2;
-	ra3 = o.ra3;
-	dec1 = o.dec1;
-	dec2 = o.dec2;
-	dec3 = o.dec3;
+
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, double m,
@@ -83,12 +73,7 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	LongName = lname;
 	Catalog = cat;
 	Image = 0;
-	ra1 = dms(0.);
-	ra2 = dms(0.);
-	ra3 = dms(0.);
-	dec1 = dms(0.);
-	dec2 = dms(0.);
-	dec3 = dms(0.);
+
 }
 
 SkyObject::SkyObject( int t, double r, double d, double m,
@@ -172,31 +157,61 @@ QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
 	if ( checkCircumpolar(geo->lat() ) )
 		return QTime( 25, 0, 0 );
 
-	double UT = transitUTTime (jd, geo->lng(), geo->lat());
+	dms UT = transitUTTime (jd, geo->lng(), geo->lat());
 
-	dms LT = dms( UT + 15.0*geo->TZ() ).reduce();
+	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
 
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
 
-double SkyObject::transitUTTime( long double jd, dms gLng, dms gLat ) {
+dms SkyObject::transitUTTime( long double jd, dms gLng, dms gLat ) {
 
-	setThreeCoords (jd);
+	KSNumbers *num = new KSNumbers(jd);
+
+	long double jd2 = KSUtils::JdAtZeroUT(jd);
+
+	// Coordinates for day -1, day0 and day+1
+	
+	KSNumbers *num1 = new KSNumbers(jd2-1);
+	updateCoords(num1);
+	dms ra1 = ra();
+	dms dec1 = dec();
+	delete num1;
+
+	KSNumbers *num2 = new KSNumbers(jd2);
+	updateCoords(num2);
+	dms ra2 = ra();
+	dms dec2 = dec();
+	delete num2;
+
+	KSNumbers *num3 = new KSNumbers(jd2+1);
+	updateCoords(num3);
+	dms ra3 = ra();
+	dms dec3 = dec();
+	delete num3;
+
+	// we leave the object in its original state
+	
+	updateCoords(num);
+	delete num;
+
+//	setThreeCoords (jd);
 	dms h0 = elevationCorrection();
 //  No need for transitTime, but necessary for riseTime and setTime.
-//	double H = approxHourAngle( h0, gLat );
+//	double H = approxHourAngle( h0, gLat, dec2 );
 	dms ts0 = gstAtCeroUT(jd);
 
-	double m0 = ra2.Degrees()+ gLng.Degrees() - ts0.Degrees();
+	dms m0aux = dms (ra2.Degrees() + gLng.Degrees() - ts0.Degrees() ).reduce();
+	double m0 = m0aux.Degrees();
 
 	m0 = m0 / 360. ;
 	reduceToOne(m0);
-	double ts_0 = ts0.Degrees() + 360.985647 * m0;
-	double ram = Interpolate ( ra1.Degrees(), ra2.Degrees(), ra3.Degrees(), m0);
-	double HourAngle = ts_0 - gLng.Degrees() - ram;
-	reduceTo180(HourAngle);
+	dms ts_0 = dms( ts0.Degrees() + 360.985647 * m0).reduce();
+	dms ram = Interpolate ( ra1, ra2, ra3, m0);
+	dms HourAngle = dms( ts_0.Degrees() - gLng.Degrees() - ram.Degrees()).reduce();
+//	reduceTo180(HourAngle);
 
-	double UT = (m0 - HourAngle/360.) * 24.;
+	dms UT = dms(m0*360.0 - HourAngle.Degrees());
 
 	return UT;
 }
@@ -242,7 +257,7 @@ dms SkyObject::gstAtCeroUT (long double jd) {
 	return T0;
 }
 
-double SkyObject::approxHourAngle (dms h0, dms gLat) {
+double SkyObject::approxHourAngle (dms h0, dms gLat, dms dec2) {
 
 	double sh0 = sin ( h0.radians() );
 	double r = (sh0 - sin( gLat.radians() ) * sin(dec2.radians() ))
@@ -261,11 +276,12 @@ void SkyObject::setThreeCoords (long double jd) {
 
 	long double jd2 = KSUtils::JdAtZeroUT(jd);
 
+	SkyPoint *sp1 = new SkyPoint();
 
 	KSNumbers *num1 = new KSNumbers(jd2-1);
-	updateCoords(num1);
-	dms ra1 = ra();
-	dms dec1 = dec();
+	sp1->updateCoords(num1);
+	dms ra1 = sp1->ra();
+	dms dec1 = sp1->dec();
 	delete num1;
 
 	KSNumbers *num2 = new KSNumbers(jd2);
@@ -286,13 +302,13 @@ void SkyObject::setThreeCoords (long double jd) {
 	delete num;
 }
 
-double SkyObject::Interpolate (double y1, double y2, double y3, double n) {
+dms SkyObject::Interpolate (dms y1, dms y2, dms y3, double n) {
 
-	double a = y2 - y1;
-	double b = y3 - y2;
-	double c = y1 + y3 - 2*y2;
+	double a = y2.Degrees() - y1.Degrees();
+	double b = y3.Degrees() - y2.Degrees();
+	double c = y1.Degrees() + y3.Degrees() - 2*y2.Degrees();
 
-	return (y2 + (a + b + n*c) * n /2. );
+	return dms( y2.Degrees() + (a + b + n*c) * n /2. );
 }
 
 double SkyObject::reduceToOne(double m) {

@@ -176,9 +176,9 @@ public:
 	QTime setTime( long double jd, GeoLocation *geo );
 
 	QTime transitTime( long double jd, GeoLocation *geo );
-	double transitUTTime( long double jd, dms gLng, dms gLat );
+	dms transitUTTime( long double jd, dms gLng, dms gLat );
 	void setThreeCoords (long double jd);
-	double approxHourAngle (dms h0, dms gLng);
+	double approxHourAngle (dms h0, dms gLng, dms d2);
 	dms gstAtCeroUT (long double jd);
 	dms transitAltitude(GeoLocation *geo);
 
@@ -195,7 +195,7 @@ public:
 	 *@returns    interpolated value
 	 **/
 
-	double Interpolate (double y1, double y2, double y3, double nx);
+	dms Interpolate (dms y1, dms y2, dms y3, double nx);
 	/**
 	 * Reduces a double variable which corresponds to time expressed in 
 	 * Days, to the interval (0,1). If value is < 0 or > 1, one 
@@ -252,7 +252,7 @@ private:
 	
 	// Auxiliary variables
 	
-	dms ra1, dec1, ra2, dec2, ra3, dec3;
+//	dms ra1, dec1, ra2, dec2, ra3, dec3;
 };
 
 #endif
