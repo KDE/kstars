@@ -277,16 +277,6 @@ public:
 	*/
 
 	void geodToCart (void);
-
-private:
-	dms Longitude, Latitude;
-	QString Name, Province, Country;
-	TimeZoneRule *TZrule;
-	double TimeZone, Height;
-	double axis, flattening;
-	long double PosCartX, PosCartY, PosCartZ;
-	int indexEllipsoid;
-
 /**
 	* The geoid is an elliposid which fits the shape of the Earth. It is
 	* characterized by two parameters: the semimajor axis and the
@@ -298,6 +288,16 @@ private:
 	*/
 
 	void setEllipsoid( int i );
+
+
+private:
+	dms Longitude, Latitude;
+	QString Name, Province, Country;
+	TimeZoneRule *TZrule;
+	double TimeZone, Height;
+	double axis, flattening;
+	long double PosCartX, PosCartY, PosCartZ;
+	int indexEllipsoid;
 
 
 };

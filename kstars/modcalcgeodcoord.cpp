@@ -274,8 +274,11 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 	QString space = " ";
 	int i = 0;
 	GeoLocation *geoPl = new GeoLocation();
+	geoPl->setEllipsoid(0);
+
 	double xB, yB, zB, hB;
 	dms latB, longB;
+
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -294,10 +297,10 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			// Read X and write in ostream if corresponds
 
 			if(xCheckBatch->isChecked() ) {
-				xB = fields[i].toDouble() * 1000.;
+				xB = fields[i].toDouble();
 				i++;
 			} else
-				xB = 1000. * KGlobal::locale()->readNumber(xBoxBatch->text()) ;
+				xB = KGlobal::locale()->readNumber(xBoxBatch->text()) ;
 
 			if ( allRadioBatch->isChecked() )
 				ostream << xB << space;
@@ -308,10 +311,10 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			// Read Y and write in ostream if corresponds
 
 			if(yCheckBatch->isChecked() ) {
-				yB = fields[i].toDouble() * 1000.;
+				yB = fields[i].toDouble();
 				i++;
 			} else
-				yB = 1000.0*KGlobal::locale()->readNumber( yBoxBatch->text()) ;
+				yB = KGlobal::locale()->readNumber( yBoxBatch->text()) ;
 
 			if ( allRadioBatch->isChecked() )
 				ostream << yB << space;
@@ -321,10 +324,10 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			// Read Z and write in ostream if corresponds
 
 			if(zCheckBatch->isChecked() ) {
-				zB = fields[i].toDouble() * 1000.;
+				zB = fields[i].toDouble();
 				i++;
 			} else
-				zB = 1000.0 * KGlobal::locale()->readNumber( zBoxBatch->text());
+				zB = KGlobal::locale()->readNumber( zBoxBatch->text());
 
 			if ( allRadioBatch->isChecked() )
 				ostream << zB << space;
@@ -332,9 +335,9 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 				if(yCheckBatch->isChecked() )
 					ostream << zB << space;
 
-			geoPl->setXPos( xB );
-			geoPl->setYPos( yB );
-			geoPl->setZPos( zB );
+			geoPl->setXPos( xB*1000.0 );
+			geoPl->setYPos( yB*1000.0 );
+			geoPl->setZPos( zB*1000.0 );
 			ostream << geoPl->lng()->toDMSString() << space << 
 				geoPl->lat()->toDMSString() << space << 
 				geoPl->height() << endl;
