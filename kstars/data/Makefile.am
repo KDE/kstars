@@ -3,11 +3,12 @@ KDE_ICON = kstars
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames.png show_deepsky.png \
 		   show_grid.png show_horiz.png show_mw.png show_planets.png show_stars.png \
-		   sao01.dat sao02.dat sao03.dat sao04.dat sao05.dat sao06.dat sao07.dat sao08.dat \
-		   sao09.dat sao10.dat sao11.dat sao12.dat sao13.dat sao14.dat sao15.dat sao16.dat \
-		   sao17.dat sao18.dat sao19.dat sao20.dat sao21.dat sao22.dat sao23.dat sao24.dat \
-		   sao25.dat sao26.dat sao27.dat sao28.dat sao29.dat sao30.dat sao31.dat sao32.dat \
-		   sao33.dat sao34.dat sao35.dat sao36.dat sao37.dat sao38.dat sao39.dat sao40.dat \
+		   hip001.dat hip002.dat hip003.dat hip004.dat hip005.dat hip006.dat hip007.dat \
+		   hip008.dat hip009.dat hip010.dat hip011.dat hip012.dat hip013.dat hip014.dat \
+		   hip015.dat hip016.dat hip017.dat hip018.dat hip019.dat hip020.dat hip021.dat \
+		   hip022.dat hip023.dat hip024.dat hip025.dat hip026.dat hip027.dat hip028.dat \
+		   hip029.dat hip030.dat hip031.dat hip032.dat hip033.dat hip034.dat hip035.dat \
+		   hip036.dat hip037.dat hip038.dat hip039.dat hip040.dat hip041.dat hip042.dat \
 		   ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat ngcic06.dat \
 		   ngcic07.dat ngcic08.dat ngcic09.dat ngcic10.dat ngcic11.dat ngcic12.dat ngcic13.dat \
 		   mw01.dat mw02.dat mw03.dat mw04.dat mw05.dat mw06.dat mw07.dat mw08.dat mw09.dat mw10.dat mw11.dat \
@@ -53,4 +54,20 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png \
 		   opscatalog.png opssolarsystem.png opsguides.png opscolors.png opsadvanced.png wizardside.png \
 		   chart.colors default.colors moonless-night.colors night.colors \
-		   tips TZrules.dat valaav.txt advinterface.dat 
+		   tips TZrules.dat valaav.txt advinterface.dat
+
+#deprecated data files that should be removed, if present
+appdata_CLEAN = sao01.dat sao02.dat sao03.dat sao04.dat sao05.dat sao06.dat sao07.dat sao08.dat sao09.dat sao10.dat \
+		sao11.dat sao12.dat sao13.dat sao14.dat sao15.dat sao16.dat sao17.dat sao18.dat sao19.dat sao20.dat \
+		sao21.dat sao22.dat sao23.dat sao24.dat sao25.dat sao26.dat sao27.dat sao28.dat sao29.dat sao30.dat \
+		sao31.dat sao32.dat sao33.dat sao34.dat sao35.dat sao36.dat sao37.dat sao38.dat sao39.dat sao40.dat \
+		sao.dat ngcic.dat
+
+#Remove deprecated data files:
+install-exec-hook:
+	@list='$(appdata_CLEAN)'; for p in $$list; do \
+	    if test -f "$(appdatadir)/$$p"; then \
+	      echo " rm -f $(appdatadir)/$$p"; \
+	      rm -f $(appdatadir)/$$p; \
+	    fi; \
+	done

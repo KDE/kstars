@@ -37,7 +37,7 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 int KStarsData::objects = 0;
 
 KStarsData::KStarsData() {
-	saoFileReader = 0;
+	starFileReader = 0;
 	Moon = 0;
 	jmoons = 0;
 	initTimer = 0L;
@@ -433,6 +433,140 @@ bool KStarsData::readCNameData( void ) {
 	}
 }
 
+bool KStarsData::openStarFile( int i ) {
+	if (starFileReader != 0) delete starFileReader;
+	QFile file;
+	QString snum, fname;
+	snum = QString().sprintf("%03d", i);
+	fname = "hip" + snum + ".dat";
+	if (KSUtils::openDataFile(file, fname)) {
+		starFileReader = new KSFileReader(file); // close file is included
+	} else {
+		starFileReader = 0;
+		return false;
+	}
+	return true;
+}
+
+bool KStarsData::readStarData( void ) {
+	bool ready = false;
+	for (unsigned int i=1; i<NHIPFILES+1; ++i) {
+		if (openStarFile(i) == true) {
+			while (starFileReader->hasMoreLines()) {
+				QString line;
+				float mag;
+
+				line = starFileReader->readLine();
+				if ( line.left(1) != "#" ) {  //ignore comments
+					// check star magnitude
+					mag = line.mid( 46,5 ).toFloat();
+					if ( mag > options->magLimitDrawStar ) {
+						ready = true;
+						break;
+					}
+
+					processStar(&line);
+				}
+			}  // end of while
+
+		} else { //one of the star files could not be read.
+			//maxSetMagnitude = starList.last()->mag();  // faintest star loaded (assumes stars are read in order of decreasing brightness)
+			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
+			return false;
+		}
+		// magnitude level is reached
+		if (ready == true) break;
+	}
+
+//Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
+	maxSetMagnitude = options->magLimitDrawStar;
+	delete starFileReader;
+	starFileReader = 0;
+	return true;
+}
+
+void KStarsData::processStar(QString *line, bool reloadedData) {
+	QString name, gname, SpType;
+	int rah, ram, ras, ras2, dd, dm, ds, ds2;
+	bool mult, var;
+	QChar sgn;
+	double mag, bv, dmag, vper;
+	double pmra, pmdec, plx;
+
+	name = ""; gname = "";
+
+	//parse coordinates
+	rah = line->mid( 0, 2 ).toInt();
+	ram = line->mid( 2, 2 ).toInt();
+	ras = int(line->mid( 4, 5 ).toDouble());
+	ras2 = int(60.0*(line->mid( 4, 5 ).toDouble()-ras) + 0.5); //add 0.5 to get nearest integer with int()
+
+	sgn = line->at(10);
+	dd = line->mid(11, 2).toInt();
+	dm = line->mid(13, 2).toInt();
+	ds = int(line->mid(15, 4).toDouble());
+	ds2 = int(60.0*(line->mid( 15, 5 ).toDouble()-ds) + 0.5); //add 0.5 to get nearest integer with int()
+
+	//parse proper motion and parallax
+	pmra = line->mid( 20, 9 ).toDouble();
+	pmdec = line->mid( 29, 9 ).toDouble();
+	plx = line->mid( 38, 7 ).toDouble();
+
+	//parse magnitude, B-V color, and spectral type
+	mag = line->mid( 46, 5 ).toDouble();
+	bv  = line->mid( 51, 5 ).toDouble();
+	SpType = line->mid(56, 2);
+
+	//parse multiplicity
+	mult = line->mid( 59, 1 ).toInt();
+
+	//parse variablility
+	var = false; dmag = 0.0; vper = 0.0;
+	if ( line->at( 62 ) == '.' ) {
+		var = true;
+		dmag = line->mid( 61, 4 ).toDouble();
+		vper = line->mid( 66, 6 ).toDouble();
+	}
+
+	//parse name(s)
+	name = line->mid( 72 ).stripWhiteSpace(); //the rest of the line
+	if (name.contains( ':' )) { //genetive form exists
+		gname = name.mid( name.find(':')+1 ).stripWhiteSpace();
+		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+	}
+
+	// HEV: look up star name in internationalization filesource
+	name = i18n("star name", name.local8Bit().data());
+
+	bool starIsUnnamed( false );
+	if (name.isEmpty()) {
+		name = "star";
+		starIsUnnamed = true;
+	}
+
+	dms r;
+	r.setH(rah, ram, ras, ras2);
+	dms d(dd, dm, ds, ds2);
+
+	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
+
+	StarObject *o = new StarObject(r, d, mag, name, gname, SpType);
+	o->setMultiple( mult );
+	o->setVariable( var );
+	o->setVRange( dmag );
+	o->setVPeriod( vper );
+	o->setProperMotion( pmra, pmdec );
+	o->setParallax( plx );
+
+	starList.append(o);
+
+	// add named stars to list
+	if (starIsUnnamed == false) {
+		ObjNames.append(o);
+	}
+}
+
+/***Old SAO catalog code
 bool KStarsData::openSAOFile(int i) {
 	if (saoFileReader != 0) delete saoFileReader;
 	QFile file;
@@ -534,6 +668,7 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 		ObjNames.append(o);
 	}
 }
+End of old SAO catalog data***/
 
 bool KStarsData::readAsteroidData( void ) {
 	QFile file;

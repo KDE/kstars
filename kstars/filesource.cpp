@@ -29,10 +29,10 @@ FileSource::FileSource(KStarsData *ksdata, float magnitude)
 	lineNumber = ksdata->starList.count() % 1000;
 //	kdDebug() << "fileNumber=" << fileNumber << " lineNumber=" << lineNumber << endl;
 
-	if (fileNumber <= NSAOFILES) {
+	if (fileNumber <= NHIPFILES) {
 		// if file opened it's true else false
-		readingData = data->openSAOFile(fileNumber);
-		if (data->saoFileReader->setLine(lineNumber) == true) {
+		readingData = data->openStarFile(fileNumber);
+		if (data->starFileReader->setLine(lineNumber) == true) {
 //			kdDebug() << "line reset ok" << endl;
 		} else {
 //			kdDebug() << "line reset not ok" << endl;
@@ -57,8 +57,8 @@ int FileSource::readyToSend() {
 
 void FileSource::sendTo(QDataSink *sink, int) {
 	counter = 0;
-	while (data->saoFileReader->hasMoreLines() && counter < maxLines) {
-		QString line = data->saoFileReader->readLine();
+	while (data->starFileReader->hasMoreLines() && counter < maxLines) {
+		QString line = data->starFileReader->readLine();
 		float mag = line.mid(33, 4).toFloat();  // check magnitude
 //		kdDebug() << "mag=" << mag << " maxmag=" << maxMagnitude << endl;
 		if (mag > maxMagnitude) {
@@ -69,13 +69,13 @@ void FileSource::sendTo(QDataSink *sink, int) {
 		}
 	}
 	// open next file if end is reached
-	if (data->saoFileReader->hasMoreLines() == false && readingData == true && fileNumber < 41) {
+	if (data->starFileReader->hasMoreLines() == false && readingData == true && fileNumber < 41) {
 		fileNumber++;
 //		kdDebug() << "sendTo: open file #" << fileNumber << endl;
-		data->openSAOFile(fileNumber);
+		data->openStarFile(fileNumber);
 	}
 	// check if more data are available
-	if (readingData == true && data->saoFileReader != 0 && data->saoFileReader->hasMoreLines() == true) {
+	if (readingData == true && data->starFileReader != 0 && data->starFileReader->hasMoreLines() == true) {
 		readingData = true;
 	} else {
 		readingData = false;

@@ -55,7 +55,7 @@
 #include "indidriver.h"
 #include "telescopewizardprocess.h"
 
-#define NSAOFILES 40
+#define NHIPFILES 42
 #define NMWFILES  11
 #define NNGCFILES 13
 #define NTYPENAME 11
@@ -152,16 +152,21 @@ public:
 		*columns  field
 		*0-1      RA hours [int]
 		*2-3      RA minutes [int]
-		*4-9      RA seconds [float]
-		*10-16    dRA/dt (we don't read this field yet)
-		*17       Dec sign [char; '+' or '-']
-		*18-19    Dec degrees [int]
-		*20-21    Dec minutes [int]
-		*22-26    Dec seconds [float]
-		*27-32    dDec/dt (we don't read this field yet)
-		*33-36    magnitude [float]
-		*37-39    Spectral type [string]
-		*40-      Name(s) [string].  This field may be blank.  The string is the common
+		*4-8      RA seconds [float]
+		*10       Dec sign [char; '+' or '-']
+		*11-12    Dec degrees [int]
+		*13-14    Dec minutes [int]
+		*15-18    Dec seconds [float]
+		*20-28    dRA/dt (milli-arcsec/yr) [float]
+		*29-37    dDec/dt (milli-arcsec/yr) [float]
+		*38-44    Parallax (milli-arcsec) [float]
+		*46-50    Magnitude [float]
+		*51-55    B-V color index [float]
+		*56-57    Spectral type [string]
+		*59       Multiplicity flag (1=true, 0=false) [int]
+		*61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
+		*66-71    Variability period (days; blank if not variable) [float]
+		*72-      Name(s) [string].  This field may be blank.  The string is the common
              name for the star (e.g., "Betelgeuse").  If there is a colon, then
              everything after the colon is the genetive name for the star (e.g.,
              "alpha Orionis").
@@ -170,7 +175,8 @@ public:
 		*/
 	bool readStarData( void );
 
-	void processSAO(QString *line, bool reloadedData=false);
+//	void processSAO(QString *line, bool reloadedData=false);
+	void processStar(QString *line, bool reloadedData=false);
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
@@ -510,9 +516,10 @@ private:
 
 	bool reloadingData();  // is currently reloading of data in progress
 
-	bool openSAOFile(int i);
+/*	bool openSAOFile(int i);*/
+	bool openStarFile(int i);
 
-	KSFileReader *saoFileReader;
+	KSFileReader *starFileReader;
 
 	static QPtrList<GeoLocation> geoList;
 	QPtrList<SkyObject> objList;
