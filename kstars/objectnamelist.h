@@ -76,13 +76,13 @@ class ObjectNameList {
 		*Change language option.
 		*/
 		void setLanguage( Language lang );
-		
+
 	/**
 		*Change language option (latin, localized).
 		*/
 		void setLanguage( bool lang );
 
-		uint count() { return amount; }
+		uint count() const { return amount; }
 
 	private:
 
@@ -103,7 +103,7 @@ class ObjectNameList {
 	/**
 		*Set mode
 		*@see first()
-		*/		
+		*/
 		void setMode( Mode m );
 
 		/**Reimplemented from QPtrList for sorting objects in the list. */

@@ -32,7 +32,7 @@ StarDataSink::StarDataSink(KStarsData *parent, const char *name) : QObject(paren
 StarDataSink::~StarDataSink(){
 }
 
-int StarDataSink::readyToReceive() {
+int StarDataSink::readyToReceive(){
 	// return a value != NULL, to show that the object is ready for receiveing data.
 	return 1;
 }

@@ -38,7 +38,7 @@ public:
 	virtual int mapTextToValue( bool *ok);
 
 	/**@returns the current TimeStep setting */
-	float timeScale();
+	float timeScale() const;
 
 signals:
 	void scaleChanged( float s );

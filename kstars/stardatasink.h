@@ -77,7 +77,7 @@ class StarDataSink : public QObject, public QDataSink {
 		*send signal if all data were transmitted
 		*/
 		void done();
-		
+
 	/**
 		*send signal to update skymap time by time
 		*just for long data transmissions needed.

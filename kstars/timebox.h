@@ -35,7 +35,7 @@ class QDate;
   */
 
 class timeBox : public QLineEdit  {
-public: 
+public:
 	/**
 	 * Constructor for the timeBox object.
 	 * @p parent is the parent QWidget
@@ -78,10 +78,10 @@ public:
 	void setEntry(QString s) { setText(s); }
 
 	/**
-	* returns a boolean. True indicates that the object holds a 
+	* returns a boolean. True indicates that the object holds a
 	* Time Box. False that the object holds a Date Box.
 	*/
-	bool timeType(void) {return timet;}
+	bool timeType(void) const {return timet;}
 
 	/**
 	* Clears all entries.

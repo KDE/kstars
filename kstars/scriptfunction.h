@@ -21,7 +21,7 @@
 #include <qstring.h>
 
 /**
- * 
+ *
  * Jason Harris
  **/
 class ScriptFunction
@@ -44,18 +44,18 @@ public:
 	QString argType( unsigned int n ) const { return ArgType[n]; }
 	QString argName( unsigned int n ) const { return ArgName[n]; }
 	QString argVal( unsigned int n ) const { return ArgVal[n]; }
-	
+
 	void setValid( bool b ) { Valid = b; }
 	bool valid() const { return Valid; }
-	
+
 	void setClockFunction( bool b=true ) { ClockFunction = b; }
 	bool isClockFunction() const { return ClockFunction; }
-	
+
 	void setArg( unsigned int n, QString newVal ) { ArgVal[n] = newVal; }
 	bool checkArgs();
 	unsigned int numArgs() const { return NumArgs; }
-	
-	QString scriptLine();
+
+	QString scriptLine() const;
 
 private:
 	QString Name, Description;

@@ -167,7 +167,7 @@ void TimeSpinBox::changeScale( float x ) {
 	setValue( imin );
 }
 
-float TimeSpinBox::timeScale( void ) {
+float TimeSpinBox::timeScale( void ) const {
 	return value() > 0 ? TimeScale[ value() ] : -1.*TimeScale[ abs(value()) ];
 }
 
