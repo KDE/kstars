@@ -18,7 +18,6 @@
 #ifndef DETAILDIALOG_H
 #define DETAILDIALOG_H
 
-#include <qgroupbox.h>
 #include <qfile.h>
 #include <qptrlist.h>
 #include <kdialogbase.h>
@@ -27,16 +26,19 @@
 #include "skyobject.h"
 
 class GeoLocation;
-class QLabel;
 class QHBoxLayout;
-class QVBoxLayout;
-class QFrame;
 class QLineEdit;
+class QFile;
 class QString;
 class QStringList;
-class QListView;
 class KStars;
 class KStarsDateTime;
+
+class DetailsDataUI;
+class DetailsPositionUI;
+class DetailsLinksUI;
+class DetailsDatabaseUI;
+class DetailsLogUI;
 
 struct ADVTreeData
 {
@@ -144,9 +146,13 @@ private:
 	*/
 	bool verifyUserData(int type);
 
-/**Build the General Tab for the current object.
+/**Build the General Data Tab for the current object.
 	*/
-	void createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo );
+	void createGeneralTab();
+
+/**Build the Position Tab for the current object.
+	*/
+	void createPositionTab( const KStarsDateTime &ut, GeoLocation *geo );
 
 /**Build the Links Tab, populating the image and info lists with the 
 	*known URLs for the current Object.
@@ -179,19 +185,6 @@ private:
 	SkyObject *selectedObject;
 	KStars* ksw;
 
-	// General Tab
-	QVBoxLayout *vlay;
-
-	// Links Tab
-	QFrame *linksTab;
-	QGroupBox *infoBox, *imagesBox;
-	QVBoxLayout *infoLayout, *imagesLayout, *topLayout;
-	KListBox *infoList, *imagesList; 
-
-	QPushButton *view, *addLink, *editLink, *removeLink;
-	QSpacerItem *buttonSpacer;
-	QHBoxLayout *buttonLayout;
-
 	// Edit Link Dialog
 	QHBoxLayout *editLinkLayout;
 	QLabel *editLinkURL;
@@ -201,79 +194,13 @@ private:
 	QString currentItemURL, currentItemTitle;
 	QStringList dataList;
 
-	// Advanced Tab
-	QFrame *advancedTab;
-	KListView *ADVTree;
-	QPushButton *viewTreeItem;
-	QLabel *treeLabel;
-	QVBoxLayout *treeLayout;
-	QSpacerItem *ADVbuttonSpacer;
-	QHBoxLayout *ADVbuttonLayout;
-
 	QPtrListIterator<ADVTreeData> * treeIt;
 
-	// Log Tab
-	QFrame *logTab;
-	LogEdit *userLog;
-	QVBoxLayout *logLayout;
-
-	class NameBox : public QGroupBox {
-	public:
-	/**Constructor
-		*/
-		NameBox( QString pname, QString oname, QString typelabel, QString type,
-			QString mag, QString distStr, QString size, 
-			QWidget *parent, const char *name=0, bool useSize=true );
-	
-	/**Destructor (empty)
-		*/
-		~NameBox() {}
-	private:
-		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;
-		QLabel  *DistLabel, *Dist, *SizeLabel, *AngSize;
-		QVBoxLayout *vlay;
-		QHBoxLayout *hlayType, *hlayMag, *hlayDist, *hlaySize;
-		QGridLayout *glay;
-	};
-
-	class CoordBox : public QGroupBox {
-	public:
-	/**Constructor
-		*/
-		CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent, const char *name=0 );
-	
-	/**Destructor (empty)
-		*/
-		~CoordBox() {}
-	private:
-		QLabel *RALabel, *DecLabel, *HALabel, *RA, *Dec, *HA;
-		QLabel *AzLabel, *AltLabel, *AirMassLabel, *Az, *Alt, *AirMass;
-
-		QVBoxLayout *vlayMain;
-		QGridLayout *glayCoords;
-	};
-
-	class RiseSetBox : public QGroupBox {
-	public:
-	/**Constructor
-		*/
-		RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent, const char *name=0 );
-	
-	/**Destructor (empty)
-		*/
-		~RiseSetBox() {}
-	private:
-		QLabel *RTime, *TTime, *STime;
-		QLabel *RTimeLabel, *TTimeLabel, *STimeLabel;
-		QLabel *RAz, *TAlt, *SAz;
-		QLabel *RAzLabel, *TAltLabel, *SAzLabel;
-		QGridLayout *glay;
-		QVBoxLayout *vlay;
-	};
-
-	NameBox *Names;
-	CoordBox *Coords;
-	RiseSetBox *RiseSet;
+	DetailsDataUI *Data;
+	DetailsPositionUI *Pos;
+	DetailsLinksUI *Links;
+	DetailsDatabaseUI *Adv;
+	DetailsLogUI *Log;
 
 };
 

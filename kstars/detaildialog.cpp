@@ -15,19 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlineedit.h>
-#include <qtextedit.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
 #include <qstring.h>
-#include <qlayout.h>
+#include <qlabel.h>
+#include <qlayout.h> //still needed for secondary dialogs
+#include <qlineedit.h>
 
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
+#include <kactivelabel.h>
+#include <kpushbutton.h>
 #include <klistview.h>
 
 #include "detaildialog.h"
+//UI headers
+#include "details_data.h"
+#include "details_position.h"
+#include "details_links.h"
+#include "details_database.h"
+#include "details_log.h"
+
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
@@ -42,6 +49,9 @@
 
 LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
+	setFrameStyle( QFrame::StyledPanel );
+	setFrameShadow( QFrame::Plain );
+	setLineWidth( 4 );
 }
 
 void LogEdit::focusOutEvent( QFocusEvent *e ) {
@@ -52,253 +62,136 @@ void LogEdit::focusOutEvent( QFocusEvent *e ) {
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent, const char *name ) : 
 		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
-		selectedObject(o), ksw((KStars*)parent)
+		selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
-	createGeneralTab( ut, geo );
+	//Modify color palette
+	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+
+	createGeneralTab();
+	createPositionTab( ut, geo );
 	createLinksTab();
 	createAdvancedTab();
 	createLogTab();
 }
 
-void DetailDialog::createLogTab()
+void DetailDialog::createGeneralTab()
 {
-	// We don't create a a log tab for an unnamed object
-	if (selectedObject->name() == QString("star"))
-			return;
+	QFrame *DataTab = addPage(i18n("General"));
+	Data = new DetailsDataUI( DataTab, "general_data_tab" );
+ 
+	//Modify colors
+	Data->DataTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Data->DataTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Data->DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Data->Names->setPalette( palette() );
+	Data->Type->setPalette( palette() );
+	Data->Constellation->setPalette( palette() );
+	Data->Mag->setPalette( palette() );
+	Data->Distance->setPalette( palette() );
+	Data->AngSize->setPalette( palette() );
+	Data->InLabel->setPalette( palette() );
+	Data->MagLabel->setPalette( palette() );
+	Data->DistanceLabel->setPalette( palette() );
+	Data->AngSizeLabel->setPalette( palette() );
 
-	// Log Tab
-	logTab = addPage(i18n("Log"));
+	QVBoxLayout *vlay = new QVBoxLayout( DataTab, 0, 0 );
+	vlay->addWidget( Data );
 
-	userLog = new LogEdit(logTab, "userLog");
-//	userLog->setTextFormat(Qt::RichText);
+	//Fill in the data fields
+	//Contents depend on type of object
+	StarObject *s = 0L;
+	DeepSkyObject *dso = 0L;
+	KSPlanetBase *ps = 0L;
+	QString pname(""), oname("");
 
-	if (selectedObject->userLog.isEmpty())
-		userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
-	else
-		userLog->setText(selectedObject->userLog);
-
-	logLayout = new QVBoxLayout(logTab, 6, 6, "logLayout");
-	logLayout->addWidget(userLog);
-
-	connect( userLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
-}
-
-void DetailDialog::createAdvancedTab()
-{
-	// We don't create an adv tab for an unnamed object or if advinterface file failed loading
-	// We also don't need adv dialog for solar system objects.
-   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || 
-				selectedObject->type() == SkyObject::PLANET || 
-				selectedObject->type() == SkyObject::COMET || 
-				selectedObject->type() == SkyObject::ASTEROID )
-		return;
-
-	advancedTab = addPage(i18n("Advanced"));
-
-	ADVTree = new KListView(advancedTab, "advancedtree");
-	ADVTree->addColumn(i18n("Data"));
-	ADVTree->setRootIsDecorated(true);
-
-	viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
-
-	ADVbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-	ADVbuttonLayout = new QHBoxLayout(5, "buttonlayout");
-	ADVbuttonLayout->addWidget(viewTreeItem);
-	ADVbuttonLayout->addItem(ADVbuttonSpacer);
-
-	treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");
-	treeLayout->addWidget(ADVTree);
-	treeLayout->addLayout(ADVbuttonLayout);
-
-	treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
-
-	connect(viewTreeItem, SIGNAL(clicked()), this, SLOT(viewADVData()));
-	connect(ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
-
-	populateADVTree(NULL);
-
-	//ADVtreeRoot->setOpen(true);
-}
-
-
-void DetailDialog::createLinksTab()
-{
-	// We don't create a link tab for an unnamed object
-	if (selectedObject->name() == QString("star"))
-		return;
-
-	linksTab = addPage(i18n("Links"));
-
-	infoBox = new QGroupBox(i18n("Info Links"), linksTab, "linksgroup");
-	infoLayout = new QVBoxLayout(infoBox, 20, 0, "linksbox");
-	infoList = new KListBox(infoBox, "links");
-	infoLayout->addWidget(infoList);
-
-	imagesBox = new QGroupBox(i18n("Image Links"), linksTab, "imagesgroup");
-	imagesLayout = new QVBoxLayout(imagesBox, 20, 0, "imagesbox");
-	imagesList = new KListBox(imagesBox, "links");
-	imagesLayout->addWidget(imagesList);
-
-	view = new QPushButton(i18n("View"), linksTab, "view");
-	addLink = new QPushButton(i18n("Add Link..."), linksTab, "addlink");
-	editLink = new QPushButton(i18n("Edit Link..."), linksTab, "editlink");
-	removeLink = new QPushButton(i18n("Remove Link"), linksTab, "removelink");
-	buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-	buttonLayout = new QHBoxLayout(5, "buttonlayout");
-	buttonLayout->addWidget(view);
-	buttonLayout->addWidget(addLink);
-	buttonLayout->addWidget(editLink);
-	buttonLayout->addWidget(removeLink);
-	buttonLayout->addItem(buttonSpacer);
-
-	topLayout = new QVBoxLayout(linksTab, 6, 6 , "toplayout");
-	topLayout->addWidget(infoBox);
-	topLayout->addWidget(imagesBox);
-	topLayout->addLayout(buttonLayout);
-
-	QStringList::Iterator itList = selectedObject->InfoList.begin();
-	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
-
-	for ( ; itList != itListEnd; ++itList ) {
-		infoList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
-
-	infoList->setSelected(0, true);
-
-	itList  = selectedObject->ImageList.begin();
-	itTitle = selectedObject->ImageTitle.begin();
-	itListEnd  = selectedObject->ImageList.end();
-
-	for ( ; itList != itListEnd; ++itList ) {
-		imagesList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
-
-	if (!infoList->count() && !imagesList->count())
-			editLink->setDisabled(true);
-
-	// Signals/Slots
-	connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
-	connect(addLink, SIGNAL(clicked()), ksw->map(), SLOT(addLink()));
-	connect(ksw->map(), SIGNAL(linkAdded()), this, SLOT(updateLists()));
-	connect(editLink, SIGNAL(clicked()), this, SLOT(editLinkDialog()));
-	connect(removeLink, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
-	connect(infoList, SIGNAL(highlighted(int)), this, SLOT(unselectImagesList()));
-	connect(imagesList, SIGNAL(highlighted(int)), this, SLOT(unselectInfoList()));
-}
-
-void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo )
-{
-	QFrame *generalTab= addPage(i18n("General"));
-
-	dms lst = ksw->data()->geo()->GSTtoLST( ut.gst() );
-	
-	Coords = new CoordBox( selectedObject, ut.epoch(), &lst, generalTab );
-	RiseSet = new RiseSetBox( selectedObject, ut, geo, generalTab );
-
-	StarObject *s;
-	DeepSkyObject *dso;
-	KSPlanetBase *ps;
-	
-	QString pname, oname, distStr, angStr, illumStr, magStr;
-	QString sflags( "" );
-	
-//arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
 	case 0: //stars
 		s = (StarObject *)selectedObject;
-		pname = s->translatedName();
-		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
-		
+
+		Data->Names->setText( s->longname() );
+		Data->Type->setText( s->sptype() + " " + i18n("star") );
+		Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+
 		//distance
-		if ( s->distance() > 50.0 ) //show to nearest integer
-			distStr = QString::number( int( s->distance() + 0.5 ) ) + i18n(" parsecs", " pc");
+		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas 
+			Data->Distance->setText( QString(i18n("larger than 2000 parsecs", "> 2000 pc") ) );
+		else if ( s->distance() > 50.0 ) //show to nearest integer
+			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
+					QString::number( int( s->distance() + 0.5 ) ) ) );
 		else if ( s->distance() > 10.0 ) //show to tenths place
-			distStr = KGlobal::locale()->formatNumber( s->distance(), 1 ) + i18n(" parsecs", " pc");
+			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
+					KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
 		else //show to hundredths place
-			distStr = KGlobal::locale()->formatNumber( s->distance() ) + i18n(" parsecs", " pc");
-		// astrometric precision limit for Hipparcos is:
-		// This is not clear:
-		// 7 mas if V < 9   => 7 mas -> 142 pc 
-		// 25 mas if V > 10 => 25 mas -> 40 pc
+			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
+					KGlobal::locale()->formatNumber( s->distance(), 2 ) ) );
 
-		/*
-		double magnitude = 10;
-		magnitude = mag.toDouble();
-
-		if (distance > 142) 
-			distStr = QString(i18n("larger than 142 parsecs", "> 142 pc") );
-		if (magnitude >= 10 && distance > 40 )
-			distStr = QString( i18n("larger than 40 parsecs", " > 40 pc") );
-		*/
-		if (s->distance() > 2000 || s->distance() < 0)  // parallax < 0.5 mas 
-			distStr = QString(i18n("larger than 2000 parsecs", "> 2000 pc") );
-
-		if ( s->isMultiple() ) sflags += i18n( "the star is a multiple star", "multiple" );
-		if ( s->isMultiple() && s->isVariable() ) sflags += ", ";
-		if ( s->isVariable() ) sflags += i18n( "the star is a variable star", "variable" );
+		//Note multiplicity/variablility in angular size label
+		Data->AngSizeLabel->setText( "" );
+		Data->AngSize->setText( "" );
+		Data->AngSizeLabel->setFont( Data->AngSize->font() );
+		if ( s->isMultiple() && s->isVariable() ) {
+			Data->AngSizeLabel->setText( i18n( "the star is a multiple star", "multiple" ) + "," );
+			Data->AngSize->setText( i18n( "the star is a variable star", "variable" ) );
+		} else if ( s->isMultiple() ) 
+			Data->AngSizeLabel->setText( i18n( "the star is a multiple star", "multiple" ) );
+		else if ( s->isVariable() ) 
+			Data->AngSizeLabel->setText( i18n( "the star is a variable star", "variable" ) );
 		
-		Names = new NameBox( pname, s->gname(),
-				i18n( "Spectral type:" ), s->sptype(),
-				QString("%1").arg( s->mag() ), distStr, sflags, generalTab, 0, false );
-//		ProperMotion = new ProperMotionBox( s );
-		break;
-	case 2: //planets
-		//Want to add distance from Earth, Mass, angular size.
-		//Perhaps: list of moons
+		break; //end of stars case
 
+	case 9:  //asteroids [fall through to planets]
+	case 10: //comets [fall through to planets]
+	case 2:  //planets (including comets and asteroids)
 		ps = (KSPlanetBase *)selectedObject;
 		
-		//Construct string for distance from Earth.  The moon requires a unit conversion
+		Data->Names->setText( s->longname() );
+		//Type is "G5 star" for Sun
+		if ( ps->name() == "Sun" )
+			Data->Type->setText( i18n("G5 star") );
+		else
+			Data->Type->setText( ps->typeName() );
+
+		Data->Constellation->setText( s->constellation( ksw->data()->csegmentList, 
+																	ksw->data()->cnameList ) );
+
+		//Magnitude: The moon displays illumination fraction instead
+		if ( selectedObject->name() == "Moon" ) {
+			Data->MagLabel->setText( i18n("Illumination:") );
+			Data->Mag->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
+		} else {
+			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+					KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+		}
+
+		//Distance from Earth.  The moon requires a unit conversion
 		if ( ps->name() == "Moon" ) {
-			distStr = i18n("distance in kilometers", "%1 km").arg( KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) );
+			Data->Distance->setText( i18n("distance in kilometers", "%1 km").arg( 
+						KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) ) );
 		} else {
-			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( KGlobal::locale()->formatNumber( ps->rearth() ) );
+			Data->Distance->setText( i18n("distance in Astronomical Units", "%1 AU").arg( 
+						KGlobal::locale()->formatNumber( ps->rearth() ) ) );
 		}
 
-		// Construct string for magnitude:
-		magStr = KGlobal::locale()->formatNumber( ps->mag(), 1 );
-		
-		//Construct the string for angular size
-		angStr = "--";
+		//Angular size; moon and sun in arcmin, others in arcsec
 		if ( ps->angSize() ) {
-			angStr = i18n("angular size in arcseconds", "%1 arcsec").arg( KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) );
 			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
-				angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( ps->angSize() ) );
-		} 
-		
-		//the Sun should display type=star, not planet!
-		if ( selectedObject->name() == "Sun" ) {
-			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-													 i18n("star"), KGlobal::locale()->formatNumber( -26.8 ), distStr, angStr, generalTab );
-		
-		//the Moon displays illumination fraction instead of magnitude
-		} else if ( selectedObject->name() == "Moon" ) {
-			//special string that will signal NameBox to use label "Illumination" instead of "Magnitude"
-			//I can't seem to recats selectedObject as a KSMoon, so I'll just grab the pointer from KStarsData
-			illumStr = QString("i%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) );
-			Names = new NameBox( selectedObject->translatedName(), ((KSMoon *)selectedObject)->phaseName(), i18n( "Object type:" ),
-					selectedObject->typeName(), illumStr, distStr, angStr, generalTab );
-		
+				Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+							KGlobal::locale()->formatNumber( ps->angSize() ) ) );
+			else
+				Data->AngSize->setText( i18n("angular size in arcseconds", "%1 arcsec").arg( 
+							KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) );
 		} else {
-			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), magStr, distStr, angStr, generalTab );
+			Data->AngSize->setText( "--" );
 		}
-		break;
-	case 9:  //comets
-	case 10: //asteroids:
-		ps = (KSPlanetBase *)selectedObject;
-		distStr = i18n("distance in Astronomical Units", "%1 AU").arg( KGlobal::locale()->formatNumber( ps->rearth() ) );
-		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", distStr, "--", generalTab );
-		break;
+
+		break; //end of planets/comets/asteroids case
+
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
 
+		//Show all names recorded for the object
 		if ( ! dso->longname().isEmpty() && dso->longname() != dso->name() ) {
 			pname = dso->translatedLongName();
 			oname = dso->translatedName();
@@ -320,285 +213,282 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 			oname += "PGC " + QString("%1").arg( dso->pgc() );
 		}
 		
+		if ( ! oname.isEmpty() ) pname += ", " + oname;
+		Data->Names->setText( pname );
+
+		Data->Type->setText( dso->typeName() );
+
+		if ( dso->mag() > 90.0 )
+			Data->Mag->setText( "--" );
+		else
+			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+					KGlobal::locale()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
+
+		//No distances at this point...
+		Data->Distance->setText( "--" );
+
 		//Only show decimal place for small angular sizes
 		if ( dso->a() > 10.0 ) 
-			angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( int( dso->a() ) );
+			Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+					int( dso->a() ) ) );
 		else if ( dso->a() ) 
-			angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( dso->a(), 1 ) );
+			Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+					KGlobal::locale()->formatNumber( dso->a(), 1 ) ) );
 		else 
-			angStr = "--";
+			Data->AngSize->setText( "--" );
 		
-		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				dso->typeName(), QString("%1").arg( dso->mag() ), "--", angStr, generalTab );
 		break;
 	}
 
-//Layout manager
-	vlay = new QVBoxLayout( generalTab, 2 );
-	vlay->addWidget( Names );
-	vlay->addWidget( Coords );
-	vlay->addWidget( RiseSet );
-	vlay->activate();
-
+	//Common to all types:
+	Data->Constellation->setText( selectedObject->constellation( ksw->data()->csegmentList, 
+						ksw->data()->cnameList ) );
 }
 
-DetailDialog::NameBox::NameBox( QString pname, QString oname,
-		QString typelabel, QString type, QString mag,
-		QString distStr, QString size, QWidget *parent, const char *name, bool useSize )
-		: QGroupBox( i18n( "General" ), parent, name ) {
+void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
+	QFrame *PosTab = addPage( i18n("Position") );
+	Pos = new DetailsPositionUI( PosTab, "position_tab" );
 
-	PrimaryName = new QLabel( pname, this );
-	OtherNames = new QLabel( oname, this );
+	//Modify colors
+	Pos->CoordTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Pos->CoordTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Pos->CoordFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Pos->RSTTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Pos->RSTTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Pos->RSTFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Pos->RA->setPalette( palette() );
+	Pos->Dec->setPalette( palette() );
+	Pos->Az->setPalette( palette() );
+	Pos->Alt->setPalette( palette() );
+	Pos->HA->setPalette( palette() );
+	Pos->Airmass->setPalette( palette() );
+	Pos->TimeRise->setPalette( palette() );
+	Pos->TimeTransit->setPalette( palette() );
+	Pos->TimeSet->setPalette( palette() );
+	Pos->AzRise->setPalette( palette() );
+	Pos->AltTransit->setPalette( palette() );
+	Pos->AzSet->setPalette( palette() );
+	Pos->RALabel->setPalette( palette() );
+	Pos->DecLabel->setPalette( palette() );
+	Pos->AzLabel->setPalette( palette() );
+	Pos->AltLabel->setPalette( palette() );
+	Pos->HALabel->setPalette( palette() );
+	Pos->AirmassLabel->setPalette( palette() );
+	Pos->TimeRiseLabel->setPalette( palette() );
+	Pos->TimeTransitLabel->setPalette( palette() );
+	Pos->TimeSetLabel->setPalette( palette() );
+	Pos->AzRiseLabel->setPalette( palette() );
+	Pos->AltTransitLabel->setPalette( palette() );
+	Pos->AzSetLabel->setPalette( palette() );
 
-	TypeLabel = new QLabel( typelabel, this );
-	Type = new QLabel( type, this );
-	Type->setAlignment( AlignRight );
-	QFont boldFont = Type->font();
-	boldFont.setWeight( QFont::Bold );
-	PrimaryName->setFont( boldFont );
-	Type->setFont( boldFont );
+	QVBoxLayout *vlay = new QVBoxLayout( PosTab, 0, 0 );
+	vlay->addWidget( Pos );
 	
-	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
-	if ( mag.startsWith( "i" ) ) {
-		MagLabel->setText( i18n( "Illumination:" ) );
-		mag = mag.mid(1);
-	} 
-	
-	Mag = new QLabel( mag, this );
-	if ( mag == "99.9" ) {
-		Mag->setText( "--" );
-	}
-	
-	Mag->setAlignment( AlignRight );
-	Mag->setFont( boldFont );
+	//Coordinates Section:
 
-	DistLabel = new QLabel( i18n( "Distance:" ), this);
-	Dist = new QLabel (distStr, this);
-	Dist->setAlignment( AlignRight );
-	Dist->setFont( boldFont );
+	//Don't use KLocale::formatNumber() for the epoch string,
+	//because we don't want a thousands-place separator!
+	QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
+	//Replace the decimal point with localized decimal symbol
+	sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
 
-	if ( useSize ) { SizeLabel = new QLabel( i18n( "Angular size:" ), this ); }
-	AngSize = new QLabel( size, this );
-	AngSize->setAlignment( AlignRight );
-	AngSize->setFont( boldFont );
+	Pos->RALabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
+	Pos->DecLabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
+	Pos->RA->setText( selectedObject->ra()->toHMSString() );
+	Pos->Dec->setText( selectedObject->dec()->toDMSString() );
+	Pos->Az->setText( selectedObject->az()->toDMSString() );
+	Pos->Alt->setText( selectedObject->alt()->toDMSString() );
 
-//Layout
-	hlayType = new QHBoxLayout( 2 );
-	hlayMag  = new QHBoxLayout( 2 );
-	hlayDist = new QHBoxLayout( 2 );
-	hlaySize = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 4, 10 );
-	vlay     = new QVBoxLayout( this, 12 );
-
-	hlayType->addWidget( TypeLabel );
-	hlayType->addWidget( Type );
-	hlayMag->addWidget( MagLabel );
-	hlayMag->addWidget( Mag );
-	hlayDist->addWidget( DistLabel);
-	hlayDist->addWidget( Dist);
-	if ( useSize ) hlaySize->addWidget( SizeLabel );
-	hlaySize->addWidget( AngSize );
-
-	glay->setColStretch( 0, 1 );
-
-	glay->addWidget( PrimaryName, 0, 0);
-	glay->addWidget( OtherNames, 1, 0);
-	glay->addLayout( hlayType, 0, 1 );
-	glay->addLayout( hlayMag, 1, 1 );
-	glay->addLayout( hlayDist, 2, 1 );
-	glay->addLayout( hlaySize, 3, 1 );
-	vlay->addSpacing( 10 );
-	vlay->addLayout( glay );
-}
-
-//In the printf() statements, the "176" refers to the ASCII code for the degree symbol
-
-DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent,
-		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
-
-			//Displaying the epoch as a string; don't use KLocale::formatNumber(), 
-			//because we don't want a thousands-place separator!
-			QString sEpoch = QString::number( epoch, 'f', 1 );
-			//Replace the decimal point with localized version
-			sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
-			
-			RALabel = new QLabel( i18n( "RA (%1):" ).arg( sEpoch ), this );
-			DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( sEpoch ), this );
-	HALabel = new QLabel( i18n( "Hour angle:" ), this );
-	
-	RA  = new QLabel( o->ra()->toHMSString(), this );
-	Dec = new QLabel( o->dec()->toDMSString(), this );
-	dms ha( LST->Degrees() - o->ra()->Degrees() );
-	
-	//Hour Angle can be negative, but dms HMS expressions cannot.  
+	//Hour Angle can be negative, but dms HMS expressions cannot.
 	//Here's a kludgy workaround:
+	dms lst = geo->GSTtoLST( ut.gst() );
+	dms ha( lst.Degrees() - selectedObject->ra()->Degrees() );
 	QChar sgn('+');
 	if ( ha.Hours() > 12.0 ) {
 		ha.setH( 24.0 - ha.Hours() );
 		sgn = '-';
 	}
-	HA = new QLabel( QString("%1%2").arg(sgn).arg(ha.toHMSString()), this );
-	
-	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
-	AltLabel = new QLabel( i18n( "Altitude:" ), this );
-	AirMassLabel = new QLabel( i18n( "Airmass:" ), this );
-	
-	Az = new QLabel( o->az()->toDMSString(), this );
-	Alt = new QLabel( o->alt()->toDMSString(), this );
-	
-	//airmass is approximated as the secant of the zenith distance,
+	Pos->HA->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+
+	//Airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
-	if ( o->alt()->Degrees() > 0.0 ) 
-		AirMass = new QLabel( QString("%1").arg( KGlobal::locale()->formatNumber( 1./sin( o->alt()->radians() ) ) ), this );
+	if ( selectedObject->alt()->Degrees() > 0.0 ) 
+		Pos->Airmass->setText( KGlobal::locale()->formatNumber( 
+				1./sin( selectedObject->alt()->radians() ), 2 ) );
 	else 
-		AirMass = new QLabel( "--", this );
+		Pos->Airmass->setText( "--" );
 
-	QFont boldFont = RA->font();
-	boldFont.setWeight( QFont::Bold );
-	RA->setFont( boldFont );
-	Dec->setFont( boldFont );
-	HA->setFont( boldFont );
-	Az->setFont( boldFont );
-	Alt->setFont( boldFont );
-	AirMass->setFont( boldFont );
-	RA->setAlignment( AlignRight );
-	Dec->setAlignment( AlignRight );
-	HA->setAlignment( AlignRight );
-	Az->setAlignment( AlignRight );
-	Alt->setAlignment( AlignRight );
-	AirMass->setAlignment( AlignRight );
+	//Rise/Set/Transit Section:
 
-//Layouts
-	glayCoords = new QGridLayout( 5, 3, 10 );
-	vlayMain = new QVBoxLayout( this, 12 );
-
-	glayCoords->addWidget( RALabel, 0, 0 );
-	glayCoords->addWidget( DecLabel, 1, 0 );
-	glayCoords->addWidget( HALabel, 2, 0 );
-	glayCoords->addWidget( RA, 0, 1 );
-	glayCoords->addWidget( Dec, 1, 1 );
-	glayCoords->addWidget( HA, 2, 1 );
-	glayCoords->addItem( new QSpacerItem(20,2), 0, 2 );
-	glayCoords->addItem( new QSpacerItem(20,2), 1, 2 );
-	glayCoords->addItem( new QSpacerItem(20,2), 2, 2 );
-	glayCoords->addWidget( AzLabel, 0, 3 );
-	glayCoords->addWidget( AltLabel, 1, 3 );
-	glayCoords->addWidget( AirMassLabel, 2, 3 );
-	glayCoords->addWidget( Az, 0, 4 );
-	glayCoords->addWidget( Alt, 1, 4 );
-	glayCoords->addWidget( AirMass, 2, 4 );
-	vlayMain->addSpacing( 10 );
-	vlayMain->addLayout( glayCoords );
-}
-
-DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent, const char *name ) : QGroupBox( i18n( "Rise/Set/Transit" ), parent, name ) {
-
-	QTime rt = o->riseSetTime( ut, geo, true ); //true = use rise time
-	dms raz = o->riseSetTimeAz( ut, geo, true ); //true = use rise time
+	//Prepare time/position variables
+	QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+	dms raz = selectedObject->riseSetTimeAz( ut, geo, true ); //true = use rise time
 
 	//If transit time is before rise time, use transit time for tomorrow
-	QTime tt = o->transitTime( ut, geo );
-	dms talt = o->transitAltitude( ut, geo );
+	QTime tt = selectedObject->transitTime( ut, geo );
+	dms talt = selectedObject->transitAltitude( ut, geo );
 	if ( tt < rt ) {
-		tt = o->transitTime( ut.addDays( 1 ), geo );
-		talt = o->transitAltitude( ut.addDays( 1 ), geo );
+		tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
+		talt = selectedObject->transitAltitude( ut.addDays( 1 ), geo );
 	}
 
 	//If set time is before rise time, use set time for tomorrow
-	QTime st = o->riseSetTime(  ut, geo, false ); //false = use set time
-	dms saz = o->riseSetTimeAz( ut, geo, false ); //false = use set time
+	QTime st = selectedObject->riseSetTime(  ut, geo, false ); //false = use set time
+	dms saz = selectedObject->riseSetTimeAz( ut, geo, false ); //false = use set time
 	if ( st < rt ) {
-		st = o->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
-		saz = o->riseSetTimeAz( ut.addDays( 1 ), geo, false ); //false = use set time
+		st = selectedObject->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
+		saz = selectedObject->riseSetTimeAz( ut.addDays( 1 ), geo, false ); //false = use set time
 	}
-
-	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );
-	TTimeLabel = new QLabel( i18n( "Transit time:" ), this );
-	STimeLabel = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ), this );
-	RAzLabel = new QLabel( i18n( "azimuth of object as it rises above horizon", "Azimuth at rise:" ), this );
-	TAltLabel = new QLabel( i18n( "altitude of object as it transits the meridian", "Altitude at transit:" ), this );
-	SAzLabel = new QLabel( i18n( "azimuth angle of object as it sets below horizon", "Azimuth at set:" ), this );
 
 	if ( rt.isValid() ) {
-		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );
-		STime = new QLabel( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ), this );
-		RAz = new QLabel( raz.toDMSString(), this );
-		SAz = new QLabel( saz.toDMSString(), this );
+		Pos->TimeRise->setText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
+		Pos->TimeSet->setText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
+		Pos->AzRise->setText( raz.toDMSString() );
+		Pos->AzSet->setText( saz.toDMSString() );
 	} else {
-		QString rs, ss;
-		if ( o->alt()->Degrees() > 0.0 ) {
-			rs = i18n( "Circumpolar" );
-			ss = i18n( "Circumpolar" );
+		if ( selectedObject->alt()->Degrees() > 0.0 ) {
+			Pos->TimeRise->setText( i18n( "Circumpolar" ) );
+			Pos->TimeSet->setText( i18n( "Circumpolar" ) );
 		} else {
-			rs = i18n( "Never rises" );
-			ss = i18n( "Never rises" );
+			Pos->TimeRise->setText( i18n( "Never rises" ) );
+			Pos->TimeSet->setText( i18n( "Never rises" ) );
 		}
 
-		RTime = new QLabel( rs, this );
-		STime = new QLabel( ss, this );
-		RAz = new QLabel( i18n( "Not Applicable", "N/A" ), this );
-		SAz = new QLabel( i18n( "Not Applicable", "N/A" ), this );
+		Pos->AzRise->setText( i18n( "Not Applicable", "N/A" ) );
+		Pos->AzSet->setText( i18n( "Not Applicable", "N/A" ) );
 	}
 
-	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );
-	TAlt = new QLabel( talt.toDMSString(), this );
-
-	QFont boldFont = RTime->font();
-	boldFont.setWeight( QFont::Bold );
-	RTime->setFont( boldFont );
-	TTime->setFont( boldFont );
-	STime->setFont( boldFont );
-	RAz->setFont( boldFont );
-	TAlt->setFont( boldFont );
-	SAz->setFont( boldFont );
-	RTime->setAlignment( AlignRight );
-	TTime->setAlignment( AlignRight );
-	STime->setAlignment( AlignRight );
-	RAz->setAlignment( AlignRight );
-	TAlt->setAlignment( AlignRight );
-	SAz->setAlignment( AlignRight );
-
-//Layout
-	vlay = new QVBoxLayout( this, 12 );
-	glay = new QGridLayout( 5, 3, 10 ); //ncols, nrows, spacing
-	glay->addWidget( RTimeLabel, 0, 0 );
-	glay->addWidget( TTimeLabel, 1, 0 );
-	glay->addWidget( STimeLabel, 2, 0 );
-	glay->addWidget( RTime, 0, 1 );
-	glay->addWidget( TTime, 1, 1 );
-	glay->addWidget( STime, 2, 1 );
-	glay->addItem( new QSpacerItem(20,2), 0, 2 );
-	glay->addItem( new QSpacerItem(20,2), 1, 2 );
-	glay->addItem( new QSpacerItem(20,2), 2, 2 );
-	glay->addWidget( RAzLabel, 0, 3 );
-	glay->addWidget( TAltLabel, 1, 3 );
-	glay->addWidget( SAzLabel, 2, 3 );
-	glay->addWidget( RAz, 0, 4 );
-	glay->addWidget( TAlt, 1, 4 );
-	glay->addWidget( SAz, 2, 4 );
-	vlay->addSpacing( 10 );
-	vlay->addLayout( glay );
+	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
+	Pos->AltTransit->setText( talt.toDMSString() );
 }
+
+void DetailDialog::createLinksTab()
+{
+	// don't create a link tab for an unnamed star
+	if (selectedObject->name() == QString("star"))
+		return;
+
+	QFrame *LinksTab = addPage( i18n( "Links" ) );
+	Links = new DetailsLinksUI( LinksTab, "links_tab" );
+
+	//Modify colors
+	Links->InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Links->InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Links->ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+
+	QPalette p = palette();
+	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Links->InfoList->setPalette( p );
+	Links->ImagesList->setPalette( p );
+
+	QVBoxLayout *vlay = new QVBoxLayout( LinksTab, 0, 0 );
+	vlay->addWidget( Links );
+
+	QStringList::Iterator itList = selectedObject->InfoList.begin();
+	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
+
+	for ( ; itList != itListEnd; ++itList ) {
+		Links->InfoList->insertItem(QString(*itTitle));
+		itTitle++;
+	}
+
+	Links->InfoList->setSelected(0, true);
+
+	itList  = selectedObject->ImageList.begin();
+	itTitle = selectedObject->ImageTitle.begin();
+	itListEnd  = selectedObject->ImageList.end();
+
+	for ( ; itList != itListEnd; ++itList ) {
+		Links->ImagesList->insertItem(QString(*itTitle));
+		itTitle++;
+	}
+
+	if (! Links->InfoList->count() && ! Links->ImagesList->count()) {
+		Links->EditLinkButton->setDisabled(true);
+		Links->RemoveLinkButton->setDisabled(true);
+	}
+
+	// Signals/Slots
+	connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
+	connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
+	connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
+	connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
+	connect( Links->InfoList, SIGNAL(highlighted(int)), this, SLOT( unselectImagesList() ) );
+	connect( Links->ImagesList, SIGNAL(highlighted(int)), this, SLOT( unselectInfoList() ) );
+	connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+}
+
+void DetailDialog::createAdvancedTab()
+{
+	// Don't create an adv tab for an unnamed star or if advinterface file failed loading
+	// We also don't need adv dialog for solar system objects.
+   if (selectedObject->name() == QString("star") || 
+				ksw->data()->ADVtreeList.isEmpty() || 
+				selectedObject->type() == SkyObject::PLANET || 
+				selectedObject->type() == SkyObject::COMET || 
+				selectedObject->type() == SkyObject::ASTEROID )
+		return;
+
+	QFrame *AdvancedTab = addPage(i18n("Advanced"));
+	Adv = new DetailsDatabaseUI( AdvancedTab, "database_tab" );
+//	Adv->setPaletteBackgroundColor( QColor( "white" ) );
+	QVBoxLayout *vlay = new QVBoxLayout( AdvancedTab, 0, 0 );
+	vlay->addWidget( Adv );
+
+	treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+	connect( Adv->ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
+
+	populateADVTree(NULL);
+}
+
+void DetailDialog::createLogTab()
+{
+	//Don't create a a log tab for an unnamed star
+	if (selectedObject->name() == QString("star"))
+		return;
+
+	// Log Tab
+	QFrame *LogTab = addPage(i18n("Log"));
+	Log = new DetailsLogUI( LogTab, "log_tab" );
+
+	//Modify colors
+	Log->LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Log->LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+
+	QVBoxLayout *vlay = new QVBoxLayout( LogTab, 0, 0 );
+	vlay->addWidget( Log );
+
+	if ( selectedObject->userLog.isEmpty() )
+		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
+	else
+		Log->UserLog->setText(selectedObject->userLog);
+
+	//Automatically save the log contents when the widget loses focus
+	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
+}
+
 
 void DetailDialog::unselectInfoList()
 {
-	infoList->setSelected(infoList->currentItem(), false);
+	Links->InfoList->setSelected( Links->InfoList->currentItem(), false );
 }
 
 void DetailDialog::unselectImagesList()
 {
-	imagesList->setSelected(imagesList->currentItem(), false);
+	Links->ImagesList->setSelected( Links->ImagesList->currentItem(), false );
 }
 
 void DetailDialog::viewLink()
 {
 	QString URL;
 
-	if (infoList->currentItem() != -1 && infoList->isSelected(infoList->currentItem()))
-		URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
-	else if (imagesList->currentItem() != -1)
-		URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
+	if ( Links->InfoList->currentItem() != -1 && 
+			Links->InfoList->isSelected( Links->InfoList->currentItem() ) )
+		URL = QString( *selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
+	else if ( Links->ImagesList->currentItem() != -1 )
+		URL = QString( *selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
 
 	if (!URL.isEmpty())
 		kapp->invokeBrowser(URL);
@@ -606,25 +496,25 @@ void DetailDialog::viewLink()
 
 void DetailDialog::updateLists()
 {
-	infoList->clear();
-	imagesList->clear();
+	Links->InfoList->clear();
+	Links->ImagesList->clear();
 	
 	QStringList::Iterator itList = selectedObject->InfoList.begin();
 	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
 	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
 	
 	for ( ; itList != itListEnd; ++itList ) {
-		infoList->insertItem(QString(*itTitle));
+		Links->InfoList->insertItem(QString(*itTitle));
 		itTitle++;
 	}
 
-	infoList->setSelected(0, true);
+	Links->InfoList->setSelected(0, true);
 	itList  = selectedObject->ImageList.begin();
 	itTitle = selectedObject->ImageTitle.begin();
 	itListEnd = selectedObject->ImageList.end();
 
 	for ( ; itList != itListEnd; ++itList ) {
-		imagesList->insertItem(QString(*itTitle));
+		Links->ImagesList->insertItem(QString(*itTitle));
 		itTitle++;
 	}
 }
@@ -647,21 +537,21 @@ void DetailDialog::editLinkDialog()
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
 	
-	currentItemIndex = infoList->currentItem();
+	currentItemIndex = Links->InfoList->currentItem();
 	
-	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+	if (currentItemIndex != -1 && Links->InfoList->isSelected(currentItemIndex))
 	{
 		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
 		editLinkField->setText(defaultURL);
 		type = 1;
-		currentItemTitle = infoList->currentText();
+		currentItemTitle = Links->InfoList->currentText();
 	}
-	else if ( (currentItemIndex = imagesList->currentItem()) != -1)
+	else if ( (currentItemIndex = Links->ImagesList->currentItem()) != -1)
 	{
 		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
 		editLinkField->setText(defaultURL);
 		type = 0;
-		currentItemTitle = imagesList->currentText();
+		currentItemTitle = Links->ImagesList->currentText();
 	}
 	else return;
 
@@ -729,20 +619,20 @@ void DetailDialog::removeLinkDialog()
 	QString defaultURL, entry;
 	QFile newFile;
 	
-	currentItemIndex = infoList->currentItem();
+	currentItemIndex = Links->InfoList->currentItem();
 	
-	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+	if (currentItemIndex != -1 && Links->InfoList->isSelected(currentItemIndex))
 	{
 		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
 		type = 1;
-		currentItemTitle = infoList->currentText();
+		currentItemTitle = Links->InfoList->currentText();
 	}
 	else
 	{
-		currentItemIndex = imagesList->currentItem();
+		currentItemIndex = Links->ImagesList->currentItem();
 		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
 		type = 0;
-		currentItemTitle = imagesList->currentText();
+		currentItemTitle = Links->ImagesList->currentText();
 	}
 
 	if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"))!=KMessageBox::Yes)
@@ -882,9 +772,9 @@ void DetailDialog::populateADVTree(QListViewItem *parent)
 			break;
 
 		if (parent)
-			new QListViewItem(parent, treeIt->current()->Name);
+			new QListViewItem( parent, treeIt->current()->Name);
 		else
-			new QListViewItem(ADVTree, treeIt->current()->Name);
+			new QListViewItem( Adv->ADVTree, treeIt->current()->Name);
 
 		++(*treeIt);
 	}
@@ -896,7 +786,7 @@ void DetailDialog::forkTree(QListViewItem *parent)
 	if (parent)
 		current = new QListViewItem(parent, treeIt->current()->Name);
 	else
-		current = new QListViewItem(ADVTree, treeIt->current()->Name);
+		current = new QListViewItem(Adv->ADVTree, treeIt->current()->Name);
 
 	// we need to increment the iterator before and after populating the tree
 	++(*treeIt);
@@ -907,7 +797,7 @@ void DetailDialog::forkTree(QListViewItem *parent)
 void  DetailDialog::viewADVData()
 {
 	QString link;
-	QListViewItem * current = ADVTree->currentItem();
+	QListViewItem * current = Adv->ADVTree->currentItem();
 
 	if (!current)  return;
 
@@ -970,7 +860,7 @@ QString DetailDialog::parseADVData(QString link)
 }
 
 void DetailDialog::saveLogData() {
-  selectedObject->saveUserLog( userLog->text() );
+  selectedObject->saveUserLog( Log->UserLog->text() );
 }
 
 #include "detaildialog.moc"

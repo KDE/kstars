@@ -19,8 +19,9 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp conbridlg.cp
 	telescopewizardprocess.cpp timebox.cpp timedialog.cpp timespinbox.cpp \
 	timestepbox.cpp timeunitbox.cpp timezonerule.cpp toggleaction.cpp \
 	addcatdialogui.ui addlinkdialogui.ui contrastbrightnessgui.ui \
-	detaildialogui.ui devmanager.ui fitsheaderdialog.ui focusdialogdlg.ui \
-	fovdialogui.ui histdialog.ui imagereductionui.ui imgsequencedlgui.ui \
+	details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui \
+	devmanager.ui fitsheaderdialog.ui focusdialogdlg.ui fovdialogui.ui \
+	histdialog.ui imagereductionui.ui imgsequencedlgui.ui \
 	indiconf.ui indihostconf.ui kswizardui.ui newfovui.ui \
 	opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
 	statform.ui streamformui.ui telescopewizard.ui \
