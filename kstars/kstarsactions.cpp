@@ -188,9 +188,9 @@ void KStars::slotPrint() {
 //KDE3 version of the messagebox allows us to include a "Don't ask again" checkbox...
 		int answer;
 #if (KDE_VERSION <= 222)
-		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart colors?" ) );
+		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart Colors?" ) );
 #else
-		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart colors?" ),
+		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart Colors?" ),
 			KStdGuiItem::yes(), KStdGuiItem::no(), "askAgainPrintColors" );
 #endif
 

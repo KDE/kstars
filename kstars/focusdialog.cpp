@@ -40,8 +40,8 @@ FocusDialog::FocusDialog( QWidget *parent )
 	hlayRA = new QHBoxLayout();
 	hlayDec = new QHBoxLayout();
 
-	QLabel *RALabel = new QLabel( i18n( "the new Right ascension", "new RA:" ), page );
-	QLabel *DecLabel = new QLabel( i18n( "the new Declination", "new Dec:" ), page );
+	QLabel *RALabel = new QLabel( i18n( "the new Right ascension", "New RA:" ), page );
+	QLabel *DecLabel = new QLabel( i18n( "the new Declination", "New Dec:" ), page );
 
 	editRA  = new KLineEdit( "", page );
 	editRA->setFocus();

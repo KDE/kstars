@@ -610,7 +610,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 					if ( e->button() == RightButton ) {
 						pmTitle->setText( DisplayName );
-						pmTitle2->setText( i18n( "Spectral Type: %1" ).arg(starobj->sptype()) );
+						pmTitle2->setText( i18n( "Spectral type: %1" ).arg(starobj->sptype()) );
 						if ( clickedObject()->name() != "star" ) {
 							pmType->setText( i18n( "star" ) );
 						} else {
@@ -632,8 +632,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
-							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Iimage" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 							if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
 
 							itList  = clickedObject()->InfoList.begin();
@@ -650,8 +650,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							pmenu->insertSeparator();
 							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
 						} else {
-							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 						}
 
 						pmenu->popup( QCursor::pos() );
@@ -686,8 +686,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							++itTitle;
 						}
 
-						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 						if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
 
 						itList  = clickedObject()->InfoList.begin();
@@ -738,8 +738,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 */
-						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 						if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
 
 /*
@@ -827,8 +827,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					pmTitle->setText( i18n( "nothing" ) );
 					pmTitle2->setText( QString::null );
 					pmType->setText( QString::null );
-					pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
-					pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+					pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+					pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
 
 					pmenu->popup( QCursor::pos() );
 					break;

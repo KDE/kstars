@@ -576,7 +576,7 @@ bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bo
 		if ( showerrs ) {
 			QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
 			KStarsMessageBox::badCatalog( 0, message, errs,
-					i18n( "No valid data found in file" ) );
+					i18n( "No Valid Data Found in File" ) );
 //			KMessageBox::warningContinueCancelList( 0, message, errs,
 //							 i18n( "No valid data found in file" ), i18n( "Close" ) );
 		}
@@ -906,7 +906,7 @@ void KStarsData::slotInitialize() {
 			break;
 
 		case 1: //Load Cities//
-			emit progressText( i18n("Loading city data") );
+			emit progressText( i18n("Loading City Data") );
 
 //			if ( !readTimeZoneRulebook( ) )
 //				initError( "TZrules.dat", true );
@@ -917,28 +917,28 @@ void KStarsData::slotInitialize() {
 
 		case 2: //Load SAO stellar database//
 
-			emit progressText(i18n("Loading star data" ) );
+			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
 			break;
 
 		case 3: //Load NGC 2000 database//
 
-			emit progressText( i18n("Loading NGC/IC data" ) );
+			emit progressText( i18n("Loading NGC/IC Data" ) );
 			if ( !readDeepSkyData( ) )
 				initError( "ngcic.dat", true );
 			break;
 
 		case 4: //Load Constellation lines//
 
-			emit progressText( i18n("Loading constellations" ) );
+			emit progressText( i18n("Loading Constellations" ) );
 			if ( !readCLineData( ) )
 				initError( "clines.dat", true );
 			break;
 
 		case 5: //Load Constellation names//
 
-			emit progressText( i18n("Loading constellation names" ) );
+			emit progressText( i18n("Loading Constellation Names" ) );
 			if ( !readCNameData( ) )
 				initError( cnameFile, true );
 			break;
@@ -999,7 +999,7 @@ void KStarsData::slotInitialize() {
 			if ( !readURLData( "myinfo_url.dat", 1 ) ) {
 			//Don't do anything if the local file is not found.
 			}
-			break;	
+			break;
 
 		default:
 			initTimer->stop();

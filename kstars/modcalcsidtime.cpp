@@ -47,8 +47,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(p
 	QButtonGroup * InputBox = new QButtonGroup (rightBox);
 	InputBox->setTitle( i18n("Input Selection") );
 
-	UtRadio = new QRadioButton( i18n( "Universal Time" ), InputBox );
-	StRadio = new QRadioButton( i18n( "Sidereal Time" ), InputBox );
+	UtRadio = new QRadioButton( i18n( "Universal time" ), InputBox );
+	StRadio = new QRadioButton( i18n( "Sidereal time" ), InputBox );
 
 	UtRadio->setChecked(TRUE);
 

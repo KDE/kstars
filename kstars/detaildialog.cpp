@@ -48,14 +48,14 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 		pname = s->translatedName();
 		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
 		Names = new NameBox( pname, s->gname(),
-				i18n( "   Spectral Type:" ), s->sptype(),
+				i18n( "Spectral type:" ), s->sptype(),
 				QString("%1").arg( s->mag() ), page );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
 		//Want to add distance from Earth, Mass, angular size.
 		//Perhaps: list of moons
-		Names = new NameBox( o->translatedName(), "", i18n( "   Object Type:" ),
+		Names = new NameBox( o->translatedName(), "", i18n( "Object type:" ),
 				o->typeName(), "--", page );
 		break;
 	default: //deep-sky objects
@@ -69,7 +69,7 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 		if ( o->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( o->ugc() );
 		if ( o->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( o->pgc() );
 
-		Names = new NameBox( pname, oname, i18n( "Object Type:" ),
+		Names = new NameBox( pname, oname, i18n( "Object type:" ),
 				o->typeName(), QString("%1").arg(o->mag()), page );
 		break;
 	}
@@ -98,7 +98,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	boldFont.setWeight( QFont::Bold );
 	PrimaryName->setFont( boldFont );
 	Type->setFont( boldFont );
-	MagLabel = new QLabel( i18n( "   Magnitude:" ), this );
+	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
 	Mag = new QLabel( mag, this );
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
@@ -128,13 +128,13 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
 	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
-	RALabel = new QLabel( i18n( "RA (%1): " ).arg( epoch, 7, 'f', 2 ), this );
-	DecLabel = new QLabel( i18n( "Dec (%1): " ).arg( epoch, 7, 'f', 2 ), this );
+	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
+	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra().hour(), o->ra().minute(), o->ra().second() ), this );
 	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec().degree(), 176, o->dec().getArcMin(), o->dec().getArcSec() ), this );
 
-	AzLabel = new QLabel( i18n( "   Azimuth: " ), this );
-	AltLabel = new QLabel( i18n( "   Altitude: " ), this );
+	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
+	AltLabel = new QLabel( i18n( "Altitude:" ), this );
 	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az().degree(), 176, o->az().getArcMin(), o->az().getArcSec() ), this );
 	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt().degree(), 176, o->alt().getArcMin(), o->alt().getArcSec() ), this );
 
@@ -182,12 +182,12 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	//dms talt = o->transitAltitude( geo );
 	dms talt = o->transitAltitude( jd, geo );
 
-	RTimeLabel = new QLabel( i18n( "Rise Time: " ), this );
-	TTimeLabel = new QLabel( i18n( "Transit Time: " ), this );
-	STimeLabel = new QLabel( i18n( "Set Time: " ), this );
-	RAzLabel = new QLabel( i18n( "   Azimuth at Rise: " ), this );
-	TAltLabel = new QLabel( i18n( "   Altitude at Transit: " ), this );
-	SAzLabel = new QLabel( i18n( "   Azimuth at Set: " ), this );
+	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );
+	TTimeLabel = new QLabel( i18n( "Transit time:" ), this );
+	STimeLabel = new QLabel( i18n( "Set time:" ), this );
+	RAzLabel = new QLabel( i18n( "Azimuth at rise:" ), this );
+	TAltLabel = new QLabel( i18n( "Altitude at transit:" ), this );
+	SAzLabel = new QLabel( i18n( "Azimuth at set:" ), this );
 
 	if ( rt.isValid() ) {
 		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );

@@ -77,11 +77,11 @@ LocationDialog::LocationDialog( QWidget* parent )
 
 //Create widgets
   CityFiltLabel = new QLabel( CityBox );
-  CityFiltLabel->setText( i18n( "City Filter"  ) );
+  CityFiltLabel->setText( i18n( "City filter:"  ) );
   ProvinceFiltLabel = new QLabel( CityBox );
-  ProvinceFiltLabel->setText( i18n( "Province Filter"  ) );
+  ProvinceFiltLabel->setText( i18n( "Province filter:"  ) );
   CountryFiltLabel = new QLabel( CityBox );
-  CountryFiltLabel->setText( i18n( "Country Filter"  ) );
+  CountryFiltLabel->setText( i18n( "Country filter:"  ) );
 
   CountLabel = new QLabel( CityBox );
 
@@ -124,7 +124,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 		TZRuleBox->insertItem( it.key() );
 
 	ClearFields = new QPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
-	ShowTZRules = new QPushButton( i18n( "Explain DST rules" ), CoordBox, "ShowDSTRules" );
+	ShowTZRules = new QPushButton( i18n( "Explain DST Rules" ), CoordBox, "ShowDSTRules" );
 
 	AddCityButton = new QPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
 	

@@ -47,8 +47,8 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 	QButtonGroup * InputBox = new QButtonGroup (rightBox);
 	InputBox->setTitle( i18n("Input Selection") );
 
-	JdRadio = new QRadioButton( i18n( "Julian Day" ), InputBox );
-	MjdRadio = new QRadioButton( i18n( "Modified Julian Day" ), InputBox );
+	JdRadio = new QRadioButton( i18n( "Julian day" ), InputBox );
+	MjdRadio = new QRadioButton( i18n( "Modified Julian day" ), InputBox );
 	DateRadio = new QRadioButton( i18n( "Date" ), InputBox );
 
 	DateRadio->setChecked(TRUE);
@@ -121,24 +121,24 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 // Input for Date and Time
 	
 	QGroupBox *DateBox = new QGroupBox (rightBox,"DateBox");
-	DateBox->setTitle( i18n("Date & Time") );
+	DateBox->setTitle( i18n("Date && Time") );
 
 	QVBoxLayout * D0Lay = new QVBoxLayout( DateBox );
-	
+
 	QHBox * datetimeBox = new QHBox(DateBox,"datetimeBox");
 
 	QHBox * d0Box = new QHBox(datetimeBox,"datetimeBox");
 	d0Box->setMaximumWidth(100);
-	
+
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
-	timeLabel->setText( i18n( "Universal Time","UT:") );
+	timeLabel->setText( i18n( "Universal time","UT:") );
 	timBox = new timeBox(d0Box,"timeBox");
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
-	
+
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
-	dateLabel->setText( i18n( "Universal Time","Date:") );
+	dateLabel->setText( i18n( "Universal time","Date:") );
 	datBox = new timeBox(d1Box,"dateBox",FALSE);
 
 	QPushButton *Now = new QPushButton( i18n( "Now" ), DateBox );

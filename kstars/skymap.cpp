@@ -136,17 +136,17 @@ void SkyMap::initPopupMenu( void ) {
 	pmenu->insertItem( pmTitle );
 	pmenu->insertItem( pmTitle2 );
 	pmenu->insertItem( pmType );
-	pmRiseTime = new QLabel( i18n( "Rise Time: 00:00" ), pmenu );
+	pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), pmenu );
 	pmRiseTime->setAlignment( AlignCenter );
 	pmRiseTime->setPalette( pal );
 	QFont rsFont = pmRiseTime->font();
 	rsFont.setPointSize( rsFont.pointSize() - 2 );
 	pmRiseTime->setFont( rsFont );
-	pmSetTime = new QLabel( i18n( "Set Time: 00:00" ), pmenu );
+	pmSetTime = new QLabel( i18n( "Set time: 00:00" ), pmenu );
 	pmSetTime->setAlignment( AlignCenter );
 	pmSetTime->setPalette( pal );
 	pmSetTime->setFont( rsFont );
-	pmTransitTime = new QLabel( i18n( "Transit Time: 00:00" ), pmenu );
+	pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), pmenu );
 	pmTransitTime->setAlignment( AlignCenter );
 	pmTransitTime->setPalette( pal );
 	pmTransitTime->setFont( rsFont );
@@ -179,7 +179,7 @@ void SkyMap::slotCenter( void ) {
 
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
 			focus()->alt().Degrees() > -1.0 && clickedPoint()->alt().Degrees() < -1.0 ) {
-		QString caption = i18n( "Requested position below horizon" );
+		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 
 		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
@@ -883,14 +883,14 @@ void SkyMap::setRiseSetLabels( void ) {
 		if ( rtime.second() >=30 ) ++min;
 		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
 		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
-//		rt = i18n( "Rise Time: " ) + rt2 +
+//		rt = i18n( "Rise time: " ) + rt2 +
 //			i18n(", Azimuth: ") + rt3;
-		rt = i18n( "Rise Time: " ) + rt2;
+		rt = i18n( "Rise time: " ) + rt2;
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
-		rt = i18n( "No Rise Time: Circumpolar" );
+		rt = i18n( "No rise time: Circumpolar" );
 	} else {
-		rt = i18n( "No Rise Time: Never rises" );
+		rt = i18n( "No rise time: Never rises" );
 	}
 
 	QTime stime = clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
@@ -901,14 +901,14 @@ void SkyMap::setRiseSetLabels( void ) {
 		if ( stime.second() >=30 ) ++min;
 		st2.sprintf( "%02d:%02d", stime.hour(), min );
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
-//		st = i18n( "Set Time: " ) + st2 +
+//		st = i18n( "Set time: " ) + st2 +
 //			i18n(", Azimuth: ") + st3;
-		st = i18n( "Set Time: " ) + st2;
+		st = i18n( "Set time: " ) + st2;
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
-		st = i18n( "No Set Time: Circumpolar" );
+		st = i18n( "No set time: Circumpolar" );
 	} else {
-		st = i18n( "No Set Time: Never rises" );
+		st = i18n( "No set time: Never rises" );
 	}
 
 	//QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
@@ -921,9 +921,9 @@ void SkyMap::setRiseSetLabels( void ) {
 		if ( ttime.second() >=30 ) ++min;
 		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
 		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
-//		tt = i18n( "Transit Time: " ) + tt2 +
+//		tt = i18n( "Transit time: " ) + tt2 +
 //			i18n(", Altitude: ") + tt3 ;
-		tt = i18n( "Transit Time: " ) + tt2;
+		tt = i18n( "Transit time: " ) + tt2;
 	}
 
 	pmRiseTime->setText( rt );

@@ -33,7 +33,6 @@
 #include <qlistbox.h>
 #include <qlistview.h>
 #include <qpushbutton.h>
-//#include <qinputdialog.h>
 
 #include <klocale.h>
 #include <knuminput.h>
@@ -72,7 +71,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	DisplayTabs->move( 10, 24 );
 	DisplayTabs->setMinimumSize( 220, 300 );
 
-	CoordsGroup = new QButtonGroup( 1, Qt::Vertical, i18n( "Coordinate system" ), DisplayBox );
+	CoordsGroup = new QButtonGroup( 1, Qt::Vertical, i18n( "Coordinate System" ), DisplayBox );
 
 	EquatRadio = new QRadioButton( i18n( "The Equatorial (RA/Dec) coordinate system", "Equatorial" ), CoordsGroup );
 	EquatRadio->setChecked( !ksw->options()->useAltAz );
@@ -190,7 +189,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	hlayCatButtons = new QHBoxLayout( 4 );
 
-	AddCatalog = new QPushButton( i18n( "Add Custom Catalog" ), CatalogTab );
+	AddCatalog = new QPushButton( i18n( "Add Custom Catalog..." ), CatalogTab );
 	AddCatalog->setFont( stdFont );
 
 	RemoveCatalog = new QPushButton( i18n( "Remove Custom Catalog" ), CatalogTab );
@@ -218,11 +217,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayPlanetTab->setMargin( 11 );
 	glayPlanetTab = new QGridLayout( 7, 2 );
 
-	showSun = new QCheckBox( i18n( "The Sun" ), PlanetTab, "show_sun" );
+	showSun = new QCheckBox( i18n( "The sun" ), PlanetTab, "show_sun" );
 	showSun->setFont( stdFont );
 	showSun->setChecked( ksw->options()->drawSun );
 
-	showMoon = new QCheckBox( i18n( "The Moon" ), PlanetTab, "show_moon" );
+	showMoon = new QCheckBox( i18n( "The moon" ), PlanetTab, "show_moon" );
   showMoon->setFont( stdFont );
   showMoon->setChecked( ksw->options()->drawMoon );
   showMoon->setChecked( ksw->options()->drawMoon );
@@ -353,7 +352,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showHorizon->setFont( stdFont );
 	showHorizon->setChecked( ksw->options()->drawHorizon );
 
-	showGround = new QCheckBox( i18n( "display the ground as solid, opaque green", "Opaque Ground" ), GuideTab );
+	showGround = new QCheckBox( i18n( "display the ground as solid, opaque green", "Opaque ground" ), GuideTab );
 	showGround->setFont( stdFont );
 	showGround->setChecked( ksw->options()->drawGround );
 	if ( !ksw->options()->useAltAz ) showGround->setEnabled( false );
@@ -411,12 +410,12 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
   // the spinbox for colorintensity of stars
 	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->options()->colorScheme()->starColorIntensity(), 10, LeftBox);
-	QLabel *IntensityLabel = new QLabel (IntensityBox, i18n ( "scale for the color saturation of stars", "Star Color &Intensity" ), LeftBox);
+	QLabel *IntensityLabel = new QLabel (IntensityBox, i18n ( "scale for the color saturation of stars", "Star color &intensity:" ), LeftBox);
 	IntensityLabel->setAlignment ( AlignRight | AlignVCenter );
 
   // the QComboBox for the starcolor mode
 	StarColorMode = new QComboBox( LeftBox );
-	QLabel *ColorModeLabel = new QLabel( StarColorMode, i18n( "How stars are colored", "Star Color &Mode" ), LeftBox );
+	QLabel *ColorModeLabel = new QLabel( StarColorMode, i18n( "How stars are colored", "Star color &mode:" ), LeftBox );
 	ColorModeLabel->setAlignment ( AlignRight | AlignVCenter );
 	StarColorMode->insertItem( i18n( "use realistic star colors", "Real Colors" ) );
 	StarColorMode->insertItem( i18n( "show stars as red circles", "Solid Red" ) );
@@ -497,7 +496,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
 	hideSpinBox->tsbox()->changeScale( ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
-	hsbLabel->setText( i18n( "also hide if Time Scale greater than: " ) );
+	hsbLabel->setText( i18n( "also hide if time scale greater than:" ) );
 
 	hideObjects = new QCheckBox( i18n( "Hide objects while moving" ), AdvancedTab );
 	hideObjects->setFont( stdFont );
@@ -514,15 +513,15 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	hidePlanets->setFont( stdFont );
 	hidePlanets->setChecked( ksw->options()->hidePlanets );
 
-	hideMess = new QCheckBox( i18n( "Messier Objects" ), HideBox );
+	hideMess = new QCheckBox( i18n( "Messier objects" ), HideBox );
 	hideMess->setFont( stdFont );
 	hideMess->setChecked( ksw->options()->hideMess );
 
-	hideNGC = new QCheckBox( i18n( "NGC Objects" ), HideBox );
+	hideNGC = new QCheckBox( i18n( "NGC objects" ), HideBox );
 	hideNGC->setFont( stdFont );
 	hideNGC->setChecked( ksw->options()->hideNGC );
 
-	hideIC = new QCheckBox( i18n( "IC Objects" ), HideBox );
+	hideIC = new QCheckBox( i18n( "IC objects" ), HideBox );
 	hideIC->setFont( stdFont );
 	hideIC->setChecked( ksw->options()->hideIC );
 
@@ -745,9 +744,9 @@ void ViewOpsDialog::slotAddPreset( void ) {
 //KDE3-only version (incompatible w/KDE2 because of different arguments)
 //	bool okPressed = false;
 //  QString schemename = KLineEditDlg::getText( i18n( "New Color Scheme" ),
-//											i18n( "Enter a name for the new color scheme" ),
+//											i18n( "Enter a name for the new color scheme:" ),
 //											QString::null, &okPressed, 0 );
-	KLineEditDlg schemeDlg( i18n( "Enter a name for the new color scheme" ),
+	KLineEditDlg schemeDlg( i18n( "Enter a name for the new color scheme:" ),
 											QString::null, 0 );
 	int result = schemeDlg.exec();
 	if ( result ) {

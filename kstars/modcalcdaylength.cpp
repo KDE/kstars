@@ -104,7 +104,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QVB
 // Results
 
 	QGroupBox * resultsBox = new QGroupBox (rightBox);
-	resultsBox->setTitle( i18n("Positions and times") );
+	resultsBox->setTitle( i18n("Positions and Times") );
 
 	QVBoxLayout * D0Lay = new QVBoxLayout( resultsBox );
 

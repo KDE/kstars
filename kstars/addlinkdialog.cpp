@@ -52,12 +52,12 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 
 	QLabel *titleLabel = new QLabel( page, "TitleLabel" );
 	titleLabel->setAlignment( AlignRight );
-	titleLabel->setText( i18n( "Menu Text: " ) );
+	titleLabel->setText( i18n( "Menu text:" ) );
 	TitleEntry = new KLineEdit( i18n( "Show image of " ) + map->clickedObject()->name(), page );
 
 	QLabel *URLLabel = new QLabel( page, "URLLabel" );
 	URLLabel->setAlignment( AlignRight );
-	URLLabel->setText( i18n( "URL: " ) );
+	URLLabel->setText( i18n( "URL:" ) );
 	URLEntry = new KLineEdit( "http://", page );
 	URLEntry->setMinimumWidth( 250 );
 
