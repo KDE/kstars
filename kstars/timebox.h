@@ -34,7 +34,7 @@ class QDate;
 	*@version 0.9
   */
 
-class timeBox : public QHBox  {
+class timeBox : public QLineEdit  {
 public: 
 	/**
 	 * Constructor for the timeBox object.
@@ -62,74 +62,20 @@ public:
 	void showDate(QDate t);
 
 	/**
-	*@p s Fills the Hours entry field with string s
-	*/
-	void setHour(QString s) { hourName->setText(s); }
-
-	/**
-	*@p s Fills the Days entry field with string s
-	*/
-	void setDay(QString s) { hourName->setText(s); }
-
-	/**
-	*@p s Fills the Minutes entry field with string s
-	*/
-	void setMinute(QString s) { minuteName->setText(s); }
-
-	/**
-	*@p s Fills the Month entry field with string s
-	*/
-	void setMonth(QString s) { minuteName->setText(s); }
-
-	/**
-	*@p s Fills the Seconds entry field with string s
-	*/
-	void setSecond(QString s) { secondName->setText(s); }
-
-	/**
-	*@p s Fills the Year entry field with string s
-	*/
-	void setYear(QString s) { secondName->setText(s); }
-
-	/**
 	* returns a QTime object constructed from the fields of the timebox
 	*/
-	QTime createTime(void);
+	QTime createTime(bool *ok=0);
 
 	/**
 	* returns a QDate object constructed from the fields of the timebox
 	*/
-	QDate createDate(void);
+	QDate createDate(bool *ok=0);
+
 
 	/**
-	* returns the hour as an integer
-	*/
-	int hour(void) {return hourName->text().toInt(); }
-
-	/**
-	* returns the Degrees field as an integer
-	*/
-	int day(void) {return hourName->text().toInt(); }
-
-	/**
-	* returns the Minutes field as an integer
-	*/
-	int minute(void) {return minuteName->text().toInt(); }
-
-	/**
-	* returns the Month field as an integer
-	*/
-	int month(void) {return minuteName->text().toInt(); }
-
-	/**
-	* returns the Seconds field as an integer
-	*/
-	int second(void) {return secondName->text().toInt(); }
-
-	/**
-	* returns the Year field as an integer
-	*/
-	int year(void) {return secondName->text().toInt(); }
+	*         *@p s Fills the degrees entry field with string s
+	*                 */
+	void setEntry(QString s) { setText(s); }
 
 	/**
 	* returns a boolean. True indicates that the object holds a 
@@ -140,12 +86,11 @@ public:
 	/**
 	* Clears all entries.
 	*/
-	void clearFields (void);
+	void clearFields (void) { setEntry(""); }
 	
 private:
 
 	bool timet;
-	QLineEdit *hourName, *minuteName, *secondName;
 };
 
 #endif
