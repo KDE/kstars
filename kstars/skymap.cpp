@@ -871,7 +871,7 @@ void SkyMap::addLink( void ) {
 void SkyMap::setRiseSetLabels( void ) {
 	QTime rtime = clickedObject()->riseTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString rt, rt2, rt3;
-	dms rAz = clickedObject()->riseSetTimeAz( ksw->geo()->lat(), true );
+	dms rAz = clickedObject()->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
 	if ( rtime.isValid() ) {
 		int min = rtime.minute();
 		if ( rtime.second() >=30 ) ++min;
@@ -889,7 +889,7 @@ void SkyMap::setRiseSetLabels( void ) {
 
 	QTime stime = clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString st, st2, st3;
-	dms sAz = clickedObject()->riseSetTimeAz( ksw->geo()->lat(), false );
+	dms sAz = clickedObject()->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {
 		int min = stime.minute();
 		if ( stime.second() >=30 ) ++min;

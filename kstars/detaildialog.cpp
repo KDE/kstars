@@ -175,8 +175,8 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	QTime tt = o->transitTime( lt, LSTd );
 	QTime st = o->setTime( jd, geo );
 
-	dms raz = o->riseSetTimeAz( geo->lat(), true ); //true = use rise time
-	dms saz = o->riseSetTimeAz( geo->lat(), false ); //false = use set time
+	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time
+	dms saz = o->riseSetTimeAz(jd, geo, false ); //false = use set time
 	dms talt = o->transitAltitude( geo );
 
 	RTimeLabel = new QLabel( i18n( "Rise Time: " ), this );
