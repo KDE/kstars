@@ -18,6 +18,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include "planetviewer.h"
+#include "dms.h"
 
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Ok, Ok, parent )
@@ -26,9 +27,20 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 
 	pw = new PlotWidget( -46.0, 46.0, -46.0, 46.0, page );
-	pw->setFixedSize( 500, 500 );
+	PlotObject *po = new PlotObject( "Mercury", "white", PlotObject::CURVE, 1 );
+	po->setParam( PlotObject::SOLID );
+
+	for ( double t=0.0; t<=360.0; t+=20.0 ) {
+		dms d( t );
+		double sd, cd;
+		d.SinCos( sd, cd );
+		po->addPoint( new DPoint( 10.0*cd, 10.0*sd ) );
+	}
+
+	pw->addObject( po );
 
 	vlay->addWidget( pw );
+	resize( 500, 500 );
 }
 
 PlanetViewer::~PlanetViewer()

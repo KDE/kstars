@@ -51,6 +51,8 @@ void PlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
 	else { YA1=y1; YA2=y2; }
 
 	dXA=XA2-XA1; dYA=YA2-YA1;
+
+	DataRect = DRect( XA1, YA1, dXA, dYA );
 }
 
 void PlotWidget::setSecondaryLimits( double x1, double x2, double y1, double y2 ) {
@@ -162,6 +164,7 @@ void PlotWidget::resizeEvent( QResizeEvent *e ) {
 	YS2 = height() - YPADDING;
 	dXS = XS2 - XS1;
 	dYS = YS2 - YS1;
+	PixRect = QRect( 0, 0, dXS, dYS );
 }
 
 void PlotWidget::paintEvent( QPaintEvent *e ) {
@@ -179,6 +182,43 @@ void PlotWidget::paintEvent( QPaintEvent *e ) {
 void PlotWidget::drawObjects( QPainter *p ) {
 	for ( PlotObject *po = ObjectList.first(); po; po = ObjectList.next() ) {
 		//draw the plot object
+		p->setPen( QColor( po->color() ) );
+
+		switch ( po->type() ) {
+			case PlotObject::POINTS :
+			{
+				for ( DPoint *dp = po->points()->first(); dp; dp = po->points()->next() ) {
+					QPoint q = dp->qpoint( PixRect, DataRect );
+					int x1 = q.x() - po->size()/2;
+					int y1 = q.y() - po->size()/2;
+
+					switch( po->param() ) {
+						case PlotObject::CIRCLE : p->drawEllipse( x1, y1, po->size(), po->size() ); break;
+						case PlotObject::SQUARE : p->drawRect( x1, y1, po->size(), po->size() ); break;
+						case PlotObject::LETTER : p->drawText( q, po->name().left(1) ); break;
+						default: p->drawPoint( q );
+					}
+				}
+				break;
+			}
+
+			case PlotObject::CURVE :
+			{
+				p->setPen( QPen( QColor( po->color() ), po->size(), (QPen::PenStyle)po->param() ) );
+				DPoint *dp = po->points()->first();
+				p->moveTo( dp->qpoint( PixRect, DataRect ) );
+				for ( dp = po->points()->next(); dp; dp = po->points()->next() )
+					p->lineTo( dp->qpoint( PixRect, DataRect ) );
+				break;
+			}
+
+			case PlotObject::LABEL :
+			{
+				QPoint q = po->points()->first()->qpoint( PixRect, DataRect );
+				p->drawText( q, po->name() );
+				break;
+			}
+		}
 	}
 }
 
@@ -207,7 +247,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 	}
 
 	p->setPen( fgColor() );
-	if ( showAxes ) p->drawRect( 0, 0, dXS, dYS ); //box outline
+	if ( showAxes ) p->drawRect( PixRect ); //box outline
 
 	if ( showTickMarks ) {
 		//spacing between minor tickmarks (in data units)

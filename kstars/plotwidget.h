@@ -91,6 +91,8 @@ private:
 	int dXS, XS1, XS2, dYS, YS1, YS2;
 	double dXA, XA1, XA2, dYA, YA1, YA2;
 	double dXB, XB1, XB2, dYB, YB1, YB2;
+	QRect PixRect;
+	DRect DataRect;
 	QPtrList<PlotObject> ObjectList;
 	QColor cBackground, cForeground, cGrid;
 };

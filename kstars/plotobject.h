@@ -24,6 +24,60 @@
 class QString;
 class QPainter;
 
+/**class DRect
+	*@short equivalent of QRect with double x,y coordinates
+	*@author Jason Harris
+	*@version 1.0
+	*/
+class DRect {
+public:
+	DRect() { DRect( 0.0, 0.0, 1.0, 1.0 ); }
+	DRect( double x, double y, double w, double h ) { X = x; Y = y; W = w; H = h; }
+	~DRect() {}
+
+	double x() const { return X; }
+	double y() const { return Y; }
+	double w() const { return W; }
+	double h() const { return H; }
+	double x2() const { return X + W; }
+	double y2() const { return Y + H; }
+
+	void setX( double x ) { X = x; }
+	void setY( double y ) { Y = y; }
+	void setw( double w ) { W = w; }
+	void seth( double h ) { H = h; }
+
+private:
+	double X,Y,W,H;
+};
+
+/**class DPoint
+	*@short equivalent of QPoint with double x,y coordinates
+	*@author Jason Harris
+	*@version 1.0
+	*/
+class DPoint {
+public:
+	DPoint() { DPoint( 0.0, 0.0 ); }
+	DPoint( double x, double y ) { setX( x ); setY( y ); }
+	~DPoint() {}
+
+	double x() const { return X; }
+	double y() const { return Y; }
+
+	QPoint qpoint( QRect pb, DRect db ) {
+		int px = pb.left() + int( pb.width()*( x() -  db.x() )/db.w() );
+		int py = pb.top() + int( pb.height()*( db.y2() - y() )/db.h() );
+		return QPoint( px, py );
+	}
+
+	void setX( double x ) { X = x; }
+	void setY( double y ) { Y = y; }
+
+private:
+	double X, Y;
+};
+
 /**@class PlotObject
 	*@short Encapsulates an object to be plotted in a PlotWidget.
 	*@author Jason Harris
@@ -35,7 +89,7 @@ class QPainter;
 	*/
 class PlotObject{
 public:
-/**Default constructor.  Create a POINTS object with an empty list of points.
+/**Default constructor.  Create a POINTS-type object with an empty list of points.
 	*/
 	PlotObject();
 
@@ -61,7 +115,7 @@ public:
 	*Parameter specifying the kind of line.  These are numerically equal to
 	*the Qt::PenStyle enum values.
 	*/
-	enum CPARAM { NO_LINE=0, SOLID=0, DASHED=1, DOTTED=2, DASHDOTTED=3, DASHDOTDOTTED=4, UNKNOWN_CURVE };
+	enum CPARAM { NO_LINE=0, SOLID=1, DASHED=2, DOTTED=3, DASHDOTTED=4, DASHDOTDOTTED=5, UNKNOWN_CURVE };
 
 /**@return the PlotObject's Name
 	*/
@@ -108,21 +162,23 @@ public:
 	*/
 	void setParam( unsigned int p ) { Parameter = p; }
 
-/**@return a pointer to the QPoint at position i
+/**@return a pointer to the DPoint at position i
 	*@param i the index of the desired point.
 	*/
-	QPoint* point( unsigned int i ) { return pList.at(i); }
+	DPoint* point( unsigned int i ) { return pList.at(i); }
+
+	QPtrList<DPoint>* points() { return &pList; }
 
 /**@short Add a point to the object's list.
-	*@param p the point to add.
+	*@param p the DPoint to add.
 	*/
-	void addPoint( const QPoint &p ) { pList.append( new QPoint( p.x(), p.y() ) ); }
+	void addPoint( const DPoint &p ) { pList.append( new DPoint( p.x(), p.y() ) ); }
 
 /**@short Add a point to the object's list.  This is an overloaded function,
 	*provided for convenience.  It behaves essentially like the above function.
-	*@param p pointer to the point to add.
+	*@param p pointer to the DPoint to add.
 	*/
-	void addPoint( QPoint *p ) { pList.append( p ); }
+	void addPoint( DPoint *p ) { pList.append( p ); }
 
 /**@short remove the QPoint at position index from the list of points
 	*@param index the index of the point to be removed.
@@ -139,11 +195,13 @@ public:
 
 /**@short Draw the PlotObject on a QPainter.
 	*@param p the target QPainter.
+	*@param pbound rectangle defining the plot boundary in pixel coordinates
+	*@param dbound d-rectangle defining the plot boundary in data coordinates
 	*/
-	void draw( QPainter &p );
+	void draw( QPainter &p, QRect pbound, DRect dbound );
 
 private:
-	QPtrList<QPoint> pList;
+	QPtrList<DPoint> pList;
 	unsigned int Size, Type, Parameter;
 	QString Color, Name;
 };

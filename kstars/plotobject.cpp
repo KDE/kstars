@@ -51,8 +51,7 @@ void PlotObject::removePoint( unsigned int index ) {
 	pList.remove( index );
 }
 
-void PlotObject::draw( QPainter &p ) {
-	QRect r = p.window();
+void PlotObject::draw( QPainter &p, QRect pbound, DRect dbound ) {
 	int s = size();
 
 	//Draw the object according to its type
@@ -61,30 +60,29 @@ void PlotObject::draw( QPainter &p ) {
 		{
 			p.setPen( QColor( color() ) );
 			p.setBrush( QColor( color() ) );
-			for ( QPoint *o = pList.first(); o; o = pList.next() ) {
-				if ( r.contains( *o ) ) {
-					int x1 = o->x() - s/2;
-					int y1 = o->y() - s/2;
+			for ( DPoint *o = pList.first(); o; o = pList.next() ) {
+				QPoint q = o->qpoint( pbound, dbound );
+				int x1 = q.x() - s/2;
+				int y1 = q.y() - s/2;
 
-					switch ( param() ) {
-						case DOT:
-							p.drawPoint( *o );
-							break;
-						case SQUARE:
-							p.drawRect( x1, y1, s, s );
-							break;
-						case CIRCLE:
-							p.drawEllipse( x1, y1, s, s );
-							break;
-						case LETTER:
-						{
-							QString letter = name().left(1);
-							p.drawText( o->x(), o->y(), letter );
-							break;
-						}
-						default:
-							break;
+				switch ( param() ) {
+					case DOT:
+						p.drawPoint( q );
+						break;
+					case SQUARE:
+						p.drawRect( x1, y1, s, s );
+						break;
+					case CIRCLE:
+						p.drawEllipse( x1, y1, s, s );
+						break;
+					case LETTER:
+					{
+						QString letter = name().left(1);
+						p.drawText( q.x(), q.y(), letter );
+						break;
 					}
+					default:
+						break;
 				}
 			}
 			break;
@@ -93,10 +91,13 @@ void PlotObject::draw( QPainter &p ) {
 		case CURVE:
 		{
 			p.setPen( QPen( QColor( color() ), size(), (Qt::PenStyle)param() ) );
-			QPoint *o = pList.first();
-			p.moveTo( *o );
+			DPoint *o = pList.first();
+			QPoint q = o->qpoint( pbound, dbound );
+
+			p.moveTo( q );
 			for ( o = pList.next(); o; o = pList.next() ) {
-				p.lineTo( *o );
+				q = o->qpoint( pbound, dbound );
+				p.lineTo( q );
 			}
 			break;
 		}
@@ -104,8 +105,9 @@ void PlotObject::draw( QPainter &p ) {
 		case LABEL:
 		{
 			p.setPen( QColor( color() ) );
-			QPoint *o = pList.first();
-			p.drawText( *o, name() );
+			DPoint *o = pList.first();
+			QPoint q = o->qpoint( pbound, dbound );
+			p.drawText( q, name() );
 			break;
 		}
 
