@@ -218,6 +218,8 @@ void PlanetViewer::initPlotObjects() {
 		pw->map->addObject( planet[i] );
 		pw->map->addObject( planetLabel[i] );
 	}
+	
+	update();
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
