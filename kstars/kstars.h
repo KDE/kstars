@@ -79,8 +79,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**Constructor.
 		*@param doSplash should the splash panel be displayed during
 		*initialization.
+		*@param startClockRunning should the clock be running on startup?
 		*/
-		KStars( bool doSplash );
+		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = "" );
 
 	/**Destructor.  Synchs config file.  Deletes objects.
 		*/
@@ -478,7 +479,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		int idSpinBox;
 		bool DialogIsObsolete;
-		
+		bool StartClockRunning;
+		QString StartDateString;
+
 		QPalette OriginalPalette, DarkPalette;
 
 		class privatedata;

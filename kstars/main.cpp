@@ -43,8 +43,9 @@ static KCmdLineOptions options[] =
 	{ "script ", I18N_NOOP( "script to execute" ), 0 },
 	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
-	{ "date ", I18N_NOOP( "date and time" ), "" },
 	{ "filename ", I18N_NOOP( "filename for sky image" ), "kstars.png" },
+	{ "date ", I18N_NOOP( "date and time" ), "" },
+	{ "!paused", I18N_NOOP( "start with clock paused" ), 0 },
 	KCmdLineLastOption
 };
 
@@ -171,10 +172,14 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	//start up normally
-	//DEBUG
-	kdDebug() << "creating KStars object..." << endl;
-	/*KStars *kstars = */new KStars( true );
+	//start up normally in GUI mode
+	
+	//warn about invalid dates
+	QString datestring = args->getOption( "date" );
+	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
+		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ) << endl;
+	
+	new KStars( true, ! args->isSet( "paused" ), datestring );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 

@@ -42,13 +42,13 @@
 #include "indimenu.h"
 #include "indidriver.h"
 
-KStars::KStars( bool doSplash ) :
+KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
 	skymap(0), centralWidget(0), topLayout(0), viewToolBar(0), TimeStep(0),
 	actCoordSys(0), colorActionMenu(0), fovActionMenu(0),
 	AAVSODialog(0), findDialog(0), kns(0), 
 	indimenu(0), indidriver(0), indiseq(0),
-	DialogIsObsolete(false)
+	DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
 	pd = new privatedata(this);
 
@@ -72,6 +72,9 @@ KStars::KStars( bool doSplash ) :
 	//Set Geographic Location
 	pd->kstarsData->setLocationFromOptions();
 
+	//Pause the clock if the user gave the "--paused" arg
+	if ( ! StartClockRunning ) pd->kstarsData->clock()->stop();
+	
 	//set up Dark color scheme for application windows
 	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Base, QColor( "black" ) );
@@ -92,7 +95,7 @@ KStars::KStars( bool doSplash ) :
 	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
 	#endif
 
-    obsList = new ObservingList( this, this );
+	obsList = new ObservingList( this, this );
 }
 
 KStars::KStars( KStarsData* kd )

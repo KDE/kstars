@@ -511,7 +511,9 @@ void KStars::datainitFinished(bool worked) {
 	data()->setFullTimeUpdate();
 	updateTime();
 
-	data()->clock()->start();
+	//Do not start the clock if the user specified "--paused" on the cmd line
+	if ( StartClockRunning )
+		data()->clock()->start();
 
 //Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );
@@ -621,9 +623,13 @@ void KStars::privatedata::buildGUI() {
 
 	ks->resize( Options::windowWidth(), Options::windowHeight() );
 
-	// initialize clock with current time/date
-	ks->slotSetTimeToNow();
-
+	// initialize clock with current time/date or the date/time specified on the command line
+	KStarsDateTime startDate = KStarsDateTime::fromString( ks->StartDateString );
+	if ( startDate.isValid() )
+		ks->data()->changeDateTime( ks->geo()->LTtoUT( startDate ) );
+	else 
+		ks->slotSetTimeToNow();
+	
 	//Define the celestial equator, horizon and ecliptic
 	KSNumbers tempnum(ks->data()->ut().djd());
 	ks->data()->initGuides(&tempnum);
