@@ -600,6 +600,7 @@ void KStars::slotTrack() {
 			data()->temporaryTrail = false;
 		}
 
+		data()->setHourAngle( LST()->Hours() - map()->focus()->ra()->Hours() );
 		map()->setClickedObject( NULL );
 		map()->setFocusObject( NULL );//no longer tracking focusObject
 		map()->setFocusPoint( NULL );
