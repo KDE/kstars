@@ -39,7 +39,7 @@
 #endif
 
 KStarsData::KStarsData( KStars *ks ) : kstars( ks ), initTimer(0), inited(false),
-	source( 0 ), loader( 0 ), pump( 0 ) {
+	source(0), loader(0), pump(0), Moon(0) {
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
 
@@ -89,9 +89,9 @@ KStarsData::~KStarsData() {
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
-	delete stdDirs;
-	delete Moon;
-	delete locale;
+	if (stdDirs) delete stdDirs;
+	if (Moon) delete Moon;
+	if (locale) delete locale;
 
 /*
 	QString s = QString( "geoList count: %1" ).arg( geoList.count() );

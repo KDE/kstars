@@ -46,7 +46,7 @@
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
-	findDialog( 0 ), DialogIsObsolete( false )
+	findDialog(0), DialogIsObsolete(false), IBoxes(0), skymap(0), clock(0), centralWidget(0)
 {
 	pd = new privatedata(this);
 
@@ -59,6 +59,7 @@ KStars::KStars( bool doSplash ) :
 				this, SLOT( datainitFinished(bool) ) );
 
 		pd->splash = new KStarsSplash(0, "Splash");
+		QObject::connect(pd->splash, SIGNAL( closeWindow() ), this, SLOT( closeWindow() ) );
 		QObject::connect(pd->kstarsData, SIGNAL( progressText(QString) ),
 				pd->splash, SLOT( setMessage(QString) ));
 		pd->splash->show();
@@ -88,11 +89,11 @@ KStars::~KStars()
 
 	clearCachedFindDialog();
 
-	delete IBoxes;
-	delete skymap;
+	if (IBoxes) delete IBoxes;
+	if (skymap) delete skymap;
 	delete pd;
-	delete clock;
-	delete centralWidget;
+	if (clock) delete clock;
+	if (centralWidget) delete centralWidget;
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {

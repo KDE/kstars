@@ -155,6 +155,12 @@ void KStars::loadOptions()
 }
 
 void KStars::saveOptions() {
+	// don't save options if no options or map exists
+	// this is normally the case if application was closed over splashscreen
+	if ( !map() || options() ) { kdDebug() << "Warning: Options not saved!" << endl;
+		return;
+	}
+
 	KConfig *conf = kapp->config();
 
 	conf->setGroup( "Location" );
@@ -223,6 +229,7 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowDeepSky", 	options()->drawDeepSky );
 	conf->writeEntry( "IsTracking", 	options()->isTracking );
 	if ( map()->foundObject() != NULL ) {
+		kdDebug() << "map found" << endl;
 		conf->writeEntry( "FocusObject",  map()->foundObject()->name() );
 	} else {
 		conf->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );

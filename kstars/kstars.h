@@ -362,8 +362,8 @@ class KStars::privatedata {
 		void buildGUI();
 
 		virtual ~privatedata() {
-			delete splash;
-			delete kstarsData;
+			if (splash) delete splash;
+			if (kstarsData) delete kstarsData;
 		};
 };
 

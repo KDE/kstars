@@ -92,6 +92,11 @@ void KStarsSplash::paintEvent( QPaintEvent *e ) {
 	textCurrentStatus->repaint();  // status text label
 }
 
+void KStarsSplash::closeEvent( QCloseEvent *e ) {
+	e->ignore();
+	emit closeWindow();
+}
+
 void KStarsSplash::setMessage( QString s ) {
 	textCurrentStatus->setText( s );
 	repaint();  // repaint splash screen

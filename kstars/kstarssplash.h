@@ -58,6 +58,11 @@ class KStarsSplash : public KDialogBase
 		*/
 		virtual void paintEvent( QPaintEvent *e );
 
+		void closeEvent( QCloseEvent *e );
+
+		signals:
+			void closeWindow();
+
 	private:
 		QLabel *textCurrentStatus, *label;
 		QWidget *Banner;
