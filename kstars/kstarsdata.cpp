@@ -717,7 +717,7 @@ bool KStarsData::readAsteroidData( void ) {
 			JD = double( mJD ) + 2400000.5;
 
 			ast = new KSAsteroid( this, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
-			ast->setAngSize( 0.001 );
+			ast->setAngSize( 0.005 );
 			asteroidList.append( ast );
 			ObjNames.append( ast );
 		}
@@ -754,7 +754,7 @@ bool KStarsData::readCometData( void ) {
 			JD = double( mJD ) + 2400000.5;
 
 			com = new KSComet( this, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
-			com->setAngSize( 0.001 );
+			com->setAngSize( 0.005 );
 
 			cometList.append( com );
 			ObjNames.append( com );
@@ -1167,9 +1167,9 @@ bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objL
 					if ( iType==0 || iType==1 ) Mark = 5;
 
 					//First, check for name:
-					if ( fields.count() > Mark && (*fields.at(Mark)).left(1)=="" ) {
+					if ( fields.count() > Mark && (*fields.at(Mark)).left(1)=="\"" ) {
 						//The name is (probably) more than one word...
-						name = (*fields.at(Mark)).mid(1, (*fields.at(Mark)).length()); //remove leading quote mark
+						name = (*fields.at(Mark)).mid(1); //remove leading quote mark
 						if (name.right(1)=="\"") { //name was one word in quotes...
 							name = name.left( name.length() -1 ); //remove trailing quote mark
 						} else {

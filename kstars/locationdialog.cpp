@@ -177,8 +177,6 @@ LocationDialog::LocationDialog( QWidget* parent )
 	connect( NewCityName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
 	connect( NewProvinceName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
 	connect( NewCountryName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
-	connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLong() ) );
-	connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLat() ) );
 	connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
 	connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
 	connect( TZBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
@@ -450,23 +448,19 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 	repaint();
 }
 
-void LocationDialog::checkLong( void ) {
-	double lng = NewLong->createDms().Degrees();
+bool LocationDialog::checkLongLat( void ) {
+	if ( NewLong->text().isEmpty() || NewLat->text().isEmpty() ) return false;
+	
+	bool ok(false);
+	double lng = NewLong->createDms(true, &ok).Degrees();
+	if ( ! ok ) return false;
+	double lat = NewLat->createDms(true, &ok).Degrees();
+	if ( ! ok ) return false;
+	 
+	if ( lng < -180.0 || lng > 180.0 ) return false;
+	if ( lat <  -90.0 || lat >  90.0 ) return false;
 
-	if ( ! NewLong->text().isEmpty() && ( lng < -180.0 || lng > 180.0 ) ) {
-		QString message = i18n( "The longitude must be expressed as \na floating-point number between -180.0 and 180.0" );
-		KMessageBox::sorry( 0, message, i18n( "Invalid Longitude" ) );
-		NewLong->clearFields();
-	}
-}
-
-void LocationDialog::checkLat( void ) {
-	double lat = NewLat->createDms().Degrees();
-	if ( ! NewLat->text().isEmpty() && ( lat < -90.0 || lat > 90.0 ) ) {
-		QString message = i18n( "The latitude must be expressed as \na floating-point number between -90.0 and 90.0" );
-		KMessageBox::sorry( 0, message, i18n( "Invalid Latitude" ) );
-		NewLat->clearFields();
-	}
+	return true;
 }
 
 void LocationDialog::clearFields( void ) {
@@ -522,16 +516,16 @@ void LocationDialog::showTZRules( void ) {
 
 void LocationDialog::nameChanged( void ) {
 	nameModified = true;
-	if ( !NewCityName->text().isEmpty() && !NewProvinceName->text().isEmpty() &&
-				!NewCountryName->text().isEmpty() )
-		AddCityButton->setEnabled( true );
-//	kdDebug() << "name changed." << endl;
+	dataChanged();
 }
 
+//do not enable Add button until all data are present and valid.
 void LocationDialog::dataChanged( void ) {
 	dataModified = true;
-	AddCityButton->setEnabled( true );
-//	kdDebug() << "data changed." << endl;
+	if ( ! NewCityName->text().isEmpty() && ! NewCountryName->text().isEmpty() && checkLongLat() )
+		AddCityButton->setEnabled( true );
+	else
+		AddCityButton->setEnabled( false );
 }
 
 void LocationDialog::slotOk( void ) {

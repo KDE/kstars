@@ -79,31 +79,32 @@ QString StarObject::gname( void ) const {
 QString StarObject::greekLetter( void ) const {
 	QString code = name2().left(3);
 	QString letter = "";
-
-	if ( code == "alp" ) letter = QString("alpha");
-	if ( code == "bet" ) letter = QString("beta");
-	if ( code == "gam" ) letter = QString("gamma");
-	if ( code == "del" ) letter = QString("delta");
-	if ( code == "eps" ) letter = QString("epsilon");
-	if ( code == "zet" ) letter = QString("zeta");
-	if ( code == "eta" ) letter = QString("eta");
-	if ( code == "the" ) letter = QString("theta");
-	if ( code == "iot" ) letter = QString("iota");
-	if ( code == "kap" ) letter = QString("kappa");
-	if ( code == "lam" ) letter = QString("lambda");
-	if ( code == "mu " ) letter = QString("mu");
-	if ( code == "nu " ) letter = QString("nu");
-	if ( code == "xi " ) letter = QString("xi");
-	if ( code == "omi" ) letter = QString("omicron");
-	if ( code == "pi " ) letter = QString("pi");
-	if ( code == "rho" ) letter = QString("rho");
-	if ( code == "sig" ) letter = QString("sigma");
-	if ( code == "tau" ) letter = QString("tau");
-	if ( code == "ups" ) letter = QString("upsilon");
-	if ( code == "phi" ) letter = QString("phi");
-	if ( code == "chi" ) letter = QString("chi");
-	if ( code == "psi" ) letter = QString("psi");
-	if ( code == "ome" ) letter = QString("omega");
+	int alpha = 0x03B1;
+	
+	if ( code == "alp" ) letter = QString( QChar(alpha + 0) );
+	if ( code == "bet" ) letter = QString( QChar(alpha + 1) );
+	if ( code == "gam" ) letter = QString( QChar(alpha + 2) );
+	if ( code == "del" ) letter = QString( QChar(alpha + 3) );
+	if ( code == "eps" ) letter = QString( QChar(alpha + 4) );
+	if ( code == "zet" ) letter = QString( QChar(alpha + 5) );
+	if ( code == "eta" ) letter = QString( QChar(alpha + 6) );
+	if ( code == "the" ) letter = QString( QChar(alpha + 7) );
+	if ( code == "iot" ) letter = QString( QChar(alpha + 8) );
+	if ( code == "kap" ) letter = QString( QChar(alpha + 9) );
+	if ( code == "lam" ) letter = QString( QChar(alpha +10) );
+	if ( code == "mu " ) letter = QString( QChar(alpha +11) );
+	if ( code == "nu " ) letter = QString( QChar(alpha +12) );
+	if ( code == "xi " ) letter = QString( QChar(alpha +13) );
+	if ( code == "omi" ) letter = QString( QChar(alpha +14) );
+	if ( code == "pi " ) letter = QString( QChar(alpha +15) );
+	if ( code == "rho" ) letter = QString( QChar(alpha +16) );
+	if ( code == "sig" ) letter = QString( QChar(alpha +17) );
+	if ( code == "tau" ) letter = QString( QChar(alpha +18) );
+	if ( code == "ups" ) letter = QString( QChar(alpha +19) );
+	if ( code == "phi" ) letter = QString( QChar(alpha +20) );
+	if ( code == "chi" ) letter = QString( QChar(alpha +21) );
+	if ( code == "psi" ) letter = QString( QChar(alpha +22) );
+	if ( code == "ome" ) letter = QString( QChar(alpha +23) );
 
 	if ( name2().length() && name2().mid(3,1) != " " ) 
 		letter += "[" + name2().mid(3,1) + "]";
@@ -209,13 +210,13 @@ void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool draw
 	QString sName("");
 	if ( drawName ) {
 		if ( name() != "star" ) sName = name() + " ";
-		else if ( ! longname().isEmpty() ) sName = longname() + " ";
+		else if ( longname() != "star" ) sName = longname() + " ";
 	}
 	if ( drawMag ) {
 		sName += QString().sprintf("%.1f", mag() );
 	}
 
-	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.1*( zoom/500. )) ));
+	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.01*( zoom/500. )) ));
 
 	psky.drawText( x+offset, y+offset, sName );
 }

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>545</width>
-            <height>353</height>
+            <height>356</height>
         </rect>
     </property>
     <property name="caption">
@@ -61,26 +61,6 @@
                             </property>
                         </widget>
                         <widget class="KComboBox">
-                            <item>
-                                <property name="text">
-                                    <string>Real Colors</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Solid Red</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Solid Black</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Solid White</string>
-                                </property>
-                            </item>
                             <property name="name">
                                 <cstring>StarColorMode</cstring>
                             </property>
@@ -259,6 +239,8 @@
         </widget>
     </hbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <tabstops>
     <tabstop>ColorPalette</tabstop>
     <tabstop>StarColorMode</tabstop>
@@ -268,4 +250,12 @@
     <tabstop>RemovePreset</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistbox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>

@@ -66,13 +66,9 @@ them altogether in the Settings->Info Boxes menu.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>The Z key will point the display at the Zenith.
-</html>
-</tip>
-<tip category="KStars|Navigation">
-<html>
 <p>The N,S,E,W keys will point the display at the North,
-South, East and West points on the Horizon.
+South, East and West points on the Horizon.  The Z key will point the 
+display at the Zenith.
 </html>
 </tip>
 <tip category="KStars|Navigation">
@@ -123,8 +119,7 @@ the desired coordinates in the popup window.
 <tip category="KStars|Navigation">
 <html>
 <p>To switch between Equatorial and Horizontal coordinate
-systems, use the "View->Coordinates" menu item, or the buttons
-in the KStars Configuration Options window.
+systems, use the "View->Coordinates" menu item, or press the spacebar.
 </html>
 </tip>
 <tip category="KStars|Time">

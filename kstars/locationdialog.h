@@ -141,16 +141,6 @@ public slots:
 	*/
 	void addCity( void );
 
-/**
-	*Make sure a valid Longitude value was entered.
-	*/
-	void checkLong( void );
-
-/**
-	*Make sure a valid Latitude value was entered.
-	*/
-	void checkLat( void );
-
 	void clearFields( void );
 	void showTZRules( void );
 	void nameChanged( void );
@@ -159,7 +149,12 @@ public slots:
 	void slotOk();
 
 private:
-  int newCity;
+/**
+	*Make sure Longitude and Latitude values are valid.
+	*/
+	bool checkLongLat( void );
+
+	int newCity;
 	bool dataModified, nameModified, bCityAdded;
 	QGridLayout *glay, *glay2;
 	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;

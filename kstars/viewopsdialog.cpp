@@ -69,6 +69,19 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	cat->showStarNames->setChecked( ksw->options()->drawStarName );
 	cat->showStarMagnitude->setChecked( ksw->options()->drawStarMagnitude );
 
+	//star options enabled only if showSAO is checked...
+	cat->showStarNames->setEnabled( cat->showSAO->isChecked() );
+	cat->showStarMagnitude->setEnabled( cat->showSAO->isChecked() );
+	cat->magSpinBoxDrawStars->setEnabled( cat->showSAO->isChecked() );
+	cat->magSpinBoxDrawStarZoomOut->setEnabled( cat->showSAO->isChecked() );
+	cat->magSpinBoxDrawStarInfo->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMagStars->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMagStarsZoomOut->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMagStarInfo->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMag1->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMag2->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMag3->setEnabled( cat->showSAO->isChecked() );
+	
 	//Populate CatalogList
 	showIC = new QCheckListItem( cat->CatalogList, i18n( "Index Catalog (IC)" ), QCheckListItem::CheckBox );
 	showIC->setOn( ksw->options()->drawIC );
@@ -233,8 +246,9 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	adv->useRefraction->setChecked( ksw->options()->useRefraction );
 	adv->animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 	adv->autoLabel->setChecked( ksw->options()->useAutoLabel );
-	adv->hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
+	
 	adv->hideObjects->setChecked( ksw->options()->hideOnSlew );
+	adv->hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
 	adv->hideStars->setChecked( ksw->options()->hideStars );
 	adv->hidePlanets->setChecked( ksw->options()->hidePlanets );
 	adv->hideMess->setChecked( ksw->options()->hideMess );
@@ -245,6 +259,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	adv->hideCLines->setChecked( ksw->options()->hideCLines );
 	adv->hideGrid->setChecked( ksw->options()->hideGrid );
 	adv->magSpinBoxHideStars->setValue( ksw->options()->magLimitHideStar );
+
+	//HideBox widgets enabled only if hideObjects is checked...
+	adv->hideSpinBox->setEnabled( adv->hideObjects->isChecked() );
+	adv->textLabelHideTimeStep->setEnabled( adv->hideObjects->isChecked() );
+	adv->HideBox->setEnabled( adv->hideObjects->isChecked() );
 
 	advlay->addWidget( adv );
 
@@ -569,9 +588,11 @@ void ViewOpsDialog::updateDisplay( void ) {
 	cat->magSpinBoxDrawStarZoomOut->setEnabled( cat->showSAO->isChecked() );
 	cat->magSpinBoxDrawStarInfo->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMagStars->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMagStarsZoomOut->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMagStarInfo->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMag1->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMag2->setEnabled( cat->showSAO->isChecked() );
+	cat->textLabelMag3->setEnabled( cat->showSAO->isChecked() );
 
 //Planets Tab
 	ksw->options()->drawSun = ss->showSun->isChecked();
@@ -634,18 +655,11 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->hideCNames = adv->hideCNames->isChecked();
 	ksw->options()->hideCLines = adv->hideCLines->isChecked();
 	ksw->options()->hideGrid = adv->hideGrid->isChecked();
+	
 	//HideBox widgets enabled only if hideObjects is checked...
 	adv->hideSpinBox->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideStars->setEnabled( adv->hideObjects->isChecked() );
-	adv->magSpinBoxHideStars->setEnabled( adv->hideObjects->isChecked() );
-	adv->hidePlanets->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideMess->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideNGC->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideIC->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideMW->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideCNames->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideCLines->setEnabled( adv->hideObjects->isChecked() );
-	adv->hideGrid->setEnabled( adv->hideObjects->isChecked() );
+	adv->textLabelHideTimeStep->setEnabled( adv->hideObjects->isChecked() );
+	adv->HideBox->setEnabled( adv->hideObjects->isChecked() );
 
 	// update time for all objects because they might be not initialized
 	// it's needed when using horizontal coordinates
@@ -758,6 +772,8 @@ void ViewOpsDialog::slotRemoveCatalog() {
 //Remove entry in the QListView
 //	int i = CatalogList->itemPos( CatalogList->currentItem() );
 	cat->CatalogList->takeItem( cat->CatalogList->currentItem() );
+
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::selectCatalog() {

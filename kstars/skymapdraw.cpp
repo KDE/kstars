@@ -163,51 +163,52 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	if ( true ) {
-		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "MWColor" ) ), 1, SolidLine ) ); //change to colorGrid
-		psky.setBrush( QBrush( QColor( options->colorScheme()->colorNamed( "MWColor" ) ) ) );
-		bool offscreen, lastoffscreen=false;
+	int thick(1);
+	if ( ! options->fillMilkyWay ) thick=3;
 
-		for ( register unsigned int j=0; j<11; ++j ) {
-			if ( options->fillMilkyWay ) {
-				ptsCount = 0;
-				bool partVisible = false;
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) ); 
+	psky.setBrush( QBrush( QColor( options->colorScheme()->colorNamed( "MWColor" ) ) ) );
+	bool offscreen, lastoffscreen=false;
 
-				QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction, scale );
+	for ( register unsigned int j=0; j<11; ++j ) {
+		if ( options->fillMilkyWay ) {
+			ptsCount = 0;
+			bool partVisible = false;
+
+			QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction, scale );
+			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
+			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+
+			for ( SkyPoint *p = data->MilkyWay[j].first(); p; p = data->MilkyWay[j].next() ) {
+				o = getXY( p, options->useAltAz, options->useRefraction, scale );
 				if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+			}
 
-				for ( SkyPoint *p = data->MilkyWay[j].first(); p; p = data->MilkyWay[j].next() ) {
-					o = getXY( p, options->useAltAz, options->useRefraction, scale );
-					if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
-					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
-				}
+			if ( ptsCount && partVisible ) {
+				psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
+			}
+		} else {
+			QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction, scale );
+			if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
+			else offscreen = false;
 
-				if ( ptsCount && partVisible ) {
-					psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
-	 	  	}
-			} else {
-	      QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction, scale );
+			psky.moveTo( o.x(), o.y() );
+
+			for ( register unsigned int i=1; i<data->MilkyWay[j].count(); ++i ) {
+				o = getXY( data->MilkyWay[j].at(i), options->useAltAz, options->useRefraction, scale );
 				if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
 				else offscreen = false;
 
-				psky.moveTo( o.x(), o.y() );
-
-				for ( register unsigned int i=1; i<data->MilkyWay[j].count(); ++i ) {
-					o = getXY( data->MilkyWay[j].at(i), options->useAltAz, options->useRefraction, scale );
-					if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
-					else offscreen = false;
-
-					//don't draw a line if the last point's getXY was (-10000000, -10000000)
-					int dx = abs(o.x()-psky.pos().x());
-					int dy = abs(o.y()-psky.pos().y());
-					if ( (!lastoffscreen && !offscreen) && (dx<mwmax && dy<mwmax) ) {
-						psky.lineTo( o.x(), o.y() );
-					} else {
-						psky.moveTo( o.x(), o.y() );
-					}
-					lastoffscreen = offscreen;
+				//don't draw a line if the last point's getXY was (-10000000, -10000000)
+				int dx = abs(o.x()-psky.pos().x());
+				int dy = abs(o.y()-psky.pos().y());
+				if ( (!lastoffscreen && !offscreen) && (dx<mwmax && dy<mwmax) ) {
+					psky.lineTo( o.x(), o.y() );
+				} else {
+					psky.moveTo( o.x(), o.y() );
 				}
+				lastoffscreen = offscreen;
 			}
 		}
 	}
@@ -219,172 +220,25 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 	QPoint cur;
 
 	//Draw coordinate grid
-	if ( true ) {
-		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
 
-		//First, the parallels
-		for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
-			bool newlyVisible = false;
-			sp->set( 0.0, Dec );
+	//First, the parallels
+	for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
+		bool newlyVisible = false;
+		sp->set( 0.0, Dec );
+		if ( options->useAltAz ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		QPoint o = getXY( sp, options->useAltAz, options->useRefraction, scale );
+		QPoint o1 = o;
+		cur = o;
+		psky.moveTo( o.x(), o.y() );
+
+		double dRA = 1./15.; //180 points along full circle of RA
+		for ( register double RA=dRA; RA<24.; RA+=dRA ) {
+			sp->set( RA, Dec );
 			if ( options->useAltAz ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-			QPoint o = getXY( sp, options->useAltAz, options->useRefraction, scale );
-			QPoint o1 = o;
-			cur = o;
-			psky.moveTo( o.x(), o.y() );
 
-			double dRA = 1./15.; //180 points along full circle of RA
-			for ( register double RA=dRA; RA<24.; RA+=dRA ) {
-				sp->set( RA, Dec );
-				if ( options->useAltAz ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-				if ( checkVisibility( sp, guideFOV, guideXRange ) ) {
-					o = getXY( sp, options->useAltAz, options->useRefraction, scale );
-
-					//When drawing on the printer, the psky.pos() point does NOT get updated
-					//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
-					int dx = cur.x() - o.x();
-					int dy = cur.y() - o.y();
-					cur = o;
-
-					if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-						if ( newlyVisible ) {
-							newlyVisible = false;
-							psky.moveTo( o.x(), o.y() );
-						} else {
-							psky.lineTo( o.x(), o.y() );
-						}
-					} else {
-						psky.moveTo( o.x(), o.y() );
-					}
-				}
-     }
-
-			//connect the final segment
-			int dx = psky.pos().x() - o1.x();
-			int dy = psky.pos().y() - o1.y();
-			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-				psky.lineTo( o1.x(), o1.y() );
-			} else {
-				psky.moveTo( o1.x(), o1.y() );
-			}
-		}
-
-    //next, the meridians
-		for ( register double RA=0.; RA<24.; RA += 2. ) {
-			bool newlyVisible = false;
-			SkyPoint *sp1 = new SkyPoint( RA, -90. );
-			if ( options->useAltAz ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-			QPoint o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
-			cur = o;
-			psky.moveTo( o.x(), o.y() );
-
-			double dDec = 1.;
-			for ( register double Dec=-89.; Dec<=90.; Dec+=dDec ) {
-				sp1->set( RA, Dec );
-				if ( options->useAltAz ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-				if ( checkVisibility( sp1, guideFOV, guideXRange ) ) {
-					o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
-
-					//When drawing on the printer, the psky.pos() point does NOT get updated
-					//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
-					int dx = cur.x() - o.x();
-					int dy = cur.y() - o.y();
-					cur = o;
-
-					if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-						if ( newlyVisible ) {
-							newlyVisible = false;
-							psky.moveTo( o.x(), o.y() );
-						} else {
-							psky.lineTo( o.x(), o.y() );
-						}
-					} else {
-						psky.moveTo( o.x(), o.y() );
-					}
-				}
-			}
-			delete sp1;  // avoid memory leak
-		}
-	}
-}
-
-void SkyMap::drawEquator( QPainter& psky, double scale )
-{
-	KStarsOptions* options = data->options;
-
-	//Draw Equator (currently can't be hidden on slew)
-	if ( true ) {
-		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
-
-		SkyPoint *p = data->Equator.first();
-		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
-		QPoint o1 = o;
-		QPoint last = o;
-		QPoint cur = o;
-		psky.moveTo( o.x(), o.y() );
-		bool newlyVisible = false;
-
-		//start loop at second item
-		for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXRange ) ) {
-				o = getXY( p, options->useAltAz, options->useRefraction, scale );
-
-				//When drawing on the printer, the psky.pos() point does NOT get updated
-				//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
-				int dx = cur.x() - o.x();
-				int dy = cur.y() - o.y();
-				cur = o;
-
-				if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-						if ( newlyVisible ) {
-							newlyVisible = false;
-							psky.moveTo( last.x(), last.y() );
-						}
-						psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );
-				}
-			} else {
-				newlyVisible = true;
-			}
-			last = o;
-		}
-
-		//connect the final segment
-		int dx = psky.pos().x() - o1.x();
-		int dy = psky.pos().y() - o1.y();
-		if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-			psky.lineTo( o1.x(), o1.y() );
-		} else {
-			psky.moveTo( o1.x(), o1.y() );
-		}
-  }
-}
-
-void SkyMap::drawEcliptic( QPainter& psky, double scale )
-{
-	KStarsOptions* options = data->options;
-
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
-
-	//Draw Ecliptic (currently can't be hidden on slew)
-	if ( true ) {
-		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
-
-		SkyPoint *p = data->Ecliptic.first();
-		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
-		QPoint o1 = o;
-		QPoint last = o;
-		QPoint cur = o;
-		psky.moveTo( o.x(), o.y() );
-
-		bool newlyVisible = false;
-		//Start loop at second item
-		for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXRange ) ) {
-				o = getXY( p, options->useAltAz, options->useRefraction, scale );
+			if ( checkVisibility( sp, guideFOV, guideXRange ) ) {
+				o = getXY( sp, options->useAltAz, options->useRefraction, scale );
 
 				//When drawing on the printer, the psky.pos() point does NOT get updated
 				//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
@@ -395,27 +249,168 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 				if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
 					if ( newlyVisible ) {
 						newlyVisible = false;
-						psky.moveTo( last.x(), last.y() );
+						psky.moveTo( o.x(), o.y() );
+					} else {
+						psky.lineTo( o.x(), o.y() );
 					}
-					psky.lineTo( o.x(), o.y() );
 				} else {
 					psky.moveTo( o.x(), o.y() );
 				}
-			} else {
-				newlyVisible = true;
 			}
-			last = o;
-		}
+	}
 
 		//connect the final segment
 		int dx = psky.pos().x() - o1.x();
 		int dy = psky.pos().y() - o1.y();
-		if ( abs(dx) < Width && abs(dy) < Height ) {
+		if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
 			psky.lineTo( o1.x(), o1.y() );
 		} else {
 			psky.moveTo( o1.x(), o1.y() );
 		}
-  }
+	}
+
+	//next, the meridians
+	for ( register double RA=0.; RA<24.; RA += 2. ) {
+		bool newlyVisible = false;
+		SkyPoint *sp1 = new SkyPoint( RA, -90. );
+		if ( options->useAltAz ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		QPoint o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
+		cur = o;
+		psky.moveTo( o.x(), o.y() );
+
+		double dDec = 1.;
+		for ( register double Dec=-89.; Dec<=90.; Dec+=dDec ) {
+			sp1->set( RA, Dec );
+			if ( options->useAltAz ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+
+			if ( checkVisibility( sp1, guideFOV, guideXRange ) ) {
+				o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
+
+				//When drawing on the printer, the psky.pos() point does NOT get updated
+				//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+				int dx = cur.x() - o.x();
+				int dy = cur.y() - o.y();
+				cur = o;
+
+				if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+					if ( newlyVisible ) {
+						newlyVisible = false;
+						psky.moveTo( o.x(), o.y() );
+					} else {
+						psky.lineTo( o.x(), o.y() );
+					}
+				} else {
+					psky.moveTo( o.x(), o.y() );
+				}
+			}
+		}
+		delete sp1;  // avoid memory leak
+	}
+}
+
+void SkyMap::drawEquator( QPainter& psky, double scale )
+{
+	KStarsOptions* options = data->options;
+
+	//Draw Equator (currently can't be hidden on slew)
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
+
+	SkyPoint *p = data->Equator.first();
+	QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+	QPoint o1 = o;
+	QPoint last = o;
+	QPoint cur = o;
+	psky.moveTo( o.x(), o.y() );
+	bool newlyVisible = false;
+
+	//start loop at second item
+	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
+		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
+			o = getXY( p, options->useAltAz, options->useRefraction, scale );
+
+			//When drawing on the printer, the psky.pos() point does NOT get updated
+			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+			int dx = cur.x() - o.x();
+			int dy = cur.y() - o.y();
+			cur = o;
+
+			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+					if ( newlyVisible ) {
+						newlyVisible = false;
+						psky.moveTo( last.x(), last.y() );
+					}
+					psky.lineTo( o.x(), o.y() );
+			} else {
+				psky.moveTo( o.x(), o.y() );
+			}
+		} else {
+			newlyVisible = true;
+		}
+		last = o;
+	}
+
+	//connect the final segment
+	int dx = psky.pos().x() - o1.x();
+	int dy = psky.pos().y() - o1.y();
+	if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+		psky.lineTo( o1.x(), o1.y() );
+	} else {
+		psky.moveTo( o1.x(), o1.y() );
+	}
+}
+
+void SkyMap::drawEcliptic( QPainter& psky, double scale )
+{
+	KStarsOptions* options = data->options;
+
+	int Width = int( scale * width() );
+	int Height = int( scale * height() );
+
+	//Draw Ecliptic (currently can't be hidden on slew)
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
+
+	SkyPoint *p = data->Ecliptic.first();
+	QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+	QPoint o1 = o;
+	QPoint last = o;
+	QPoint cur = o;
+	psky.moveTo( o.x(), o.y() );
+
+	bool newlyVisible = false;
+	//Start loop at second item
+	for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
+		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
+			o = getXY( p, options->useAltAz, options->useRefraction, scale );
+
+			//When drawing on the printer, the psky.pos() point does NOT get updated
+			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+			int dx = cur.x() - o.x();
+			int dy = cur.y() - o.y();
+			cur = o;
+
+			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+				if ( newlyVisible ) {
+					newlyVisible = false;
+					psky.moveTo( last.x(), last.y() );
+				}
+				psky.lineTo( o.x(), o.y() );
+			} else {
+				psky.moveTo( o.x(), o.y() );
+			}
+		} else {
+			newlyVisible = true;
+		}
+		last = o;
+	}
+
+	//connect the final segment
+	int dx = psky.pos().x() - o1.x();
+	int dy = psky.pos().y() - o1.y();
+	if ( abs(dx) < Width && abs(dy) < Height ) {
+		psky.lineTo( o1.x(), o1.y() );
+	} else {
+		psky.moveTo( o1.x(), o1.y() );
+	}
 }
 
 void SkyMap::drawConstellationLines( QPainter& psky, double scale )
@@ -426,25 +421,23 @@ void SkyMap::drawConstellationLines( QPainter& psky, double scale )
 	int Height = int( scale * height() );
 
 	//Draw Constellation Lines
-	if ( true ) {
-		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
-		int iLast = -1;
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+	int iLast = -1;
 
-		for ( SkyPoint *p = data->clineList.first(); p; p = data->clineList.next() ) {
-			QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+	for ( SkyPoint *p = data->clineList.first(); p; p = data->clineList.next() ) {
+		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
 
-			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-				if ( data->clineModeList.at(data->clineList.at())->latin1()=='M' ) {
+		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+			if ( data->clineModeList.at(data->clineList.at())->latin1()=='M' ) {
+				psky.moveTo( o.x(), o.y() );
+			} else if ( data->clineModeList.at(data->clineList.at())->latin1()=='D' ) {
+				if ( data->clineList.at()== (int)(iLast+1) ) {
+					psky.lineTo( o.x(), o.y() );
+				} else {
 					psky.moveTo( o.x(), o.y() );
-				} else if ( data->clineModeList.at(data->clineList.at())->latin1()=='D' ) {
-					if ( data->clineList.at()== (int)(iLast+1) ) {
-						psky.lineTo( o.x(), o.y() );
-					} else {
-						psky.moveTo( o.x(), o.y() );
-  	      }
 				}
-				iLast = data->clineList.at();
 			}
+			iLast = data->clineList.at();
 		}
   }
 }
@@ -456,25 +449,22 @@ void SkyMap::drawConstellationNames( QPainter& psky, QFont& stdFont, double scal
 	int Height = int( scale * height() );
 
 	//Draw Constellation Names
-	//Don't draw names if slewing
-	if ( true ) {
-		psky.setFont( stdFont );
-		psky.setPen( QColor( options->colorScheme()->colorNamed( "CNameColor" ) ) );
-		for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
-			if ( checkVisibility( p, fov(), XRange ) ) {
-				QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
-				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
-					if ( options->useLatinConstellNames ) {
-						int dx = 5*p->name().length();
-						psky.drawText( o.x()-dx, o.y(), p->name() );  // latin constellation names
-					} else if ( options->useLocalConstellNames ) {
-						// can't use translatedName() because we need the context string in i18n()
-						int dx = 5*( i18n( "Constellation name (optional)", p->name().local8Bit().data() ).length() );
-						psky.drawText( o.x()-dx, o.y(), i18n( "Constellation name (optional)", p->name().local8Bit().data() ) ); // localized constellation names
-					} else {
-						int dx = 5*p->name2().length();
-						psky.drawText( o.x()-dx, o.y(), p->name2() ); //name2 is the IAU abbreviation
-					}
+	psky.setFont( stdFont );
+	psky.setPen( QColor( options->colorScheme()->colorNamed( "CNameColor" ) ) );
+	for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
+		if ( checkVisibility( p, fov(), XRange ) ) {
+			QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
+			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
+				if ( options->useLatinConstellNames ) {
+					int dx = 5*p->name().length();
+					psky.drawText( o.x()-dx, o.y(), p->name() );  // latin constellation names
+				} else if ( options->useLocalConstellNames ) {
+					// can't use translatedName() because we need the context string in i18n()
+					int dx = 5*( i18n( "Constellation name (optional)", p->name().local8Bit().data() ).length() );
+					psky.drawText( o.x()-dx, o.y(), i18n( "Constellation name (optional)", p->name().local8Bit().data() ) ); // localized constellation names
+				} else {
+					int dx = 5*p->name2().length();
+					psky.drawText( o.x()-dx, o.y(), p->name2() ); //name2 is the IAU abbreviation
 				}
 			}
 		}
@@ -520,8 +510,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 						// now that we have drawn the star, we can display some extra info
 						if ( !checkSlewing && (curStar->mag() <= options->magLimitDrawStarInfo )
-								&& ( ( options->drawStarName && curStar->name() != "star" )
-										|| options->drawStarMagnitude ) ) {
+								&& ( options->drawStarName || options->drawStarMagnitude ) ) {
 
 							psky.setPen( QColor( options->colorScheme()->colorNamed( "SNameColor" ) ) );
 							curStar->drawLabel( psky, o.x(), o.y(), zoomFactor(),
@@ -965,7 +954,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 					int size = int( ast->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
-					if ( size < 2 ) size = 2;
+					if ( size < 1 ) size = 1;
 					int x1 = o.x() - size/2;
 					int y1 = o.y() - size/2;
 					psky.drawEllipse( x1, y1, size, size );
@@ -988,21 +977,19 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 				psky.setPen( QPen( QColor( "cyan4" ) ) );
 				psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-				if ( zoomFactor() > 10.*MINZOOM ) {
-					QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
+				QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
 
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						int size = int( com->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
-						if ( size < 2 ) size = 2;
-						int x1 = o.x() - size/2;
-						int y1 = o.y() - size/2;
-						psky.drawEllipse( x1, y1, size, size );
+				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+					int size = int( com->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
+					if ( size < 1 ) size = 1;
+					int x1 = o.x() - size/2;
+					int y1 = o.y() - size/2;
+					psky.drawEllipse( x1, y1, size, size );
 
-						//draw Name
-						if ( data->options->drawCometName && com->rsun() < data->options->maxRadCometName ) {
-							psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
-							drawNameLabel( psky, com, o.x(), o.y(), scale );
-						}
+					//draw Name
+					if ( data->options->drawCometName && com->rsun() < data->options->maxRadCometName ) {
+						psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
+						drawNameLabel( psky, com, o.x(), o.y(), scale );
 					}
 				}
 			}
