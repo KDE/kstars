@@ -30,5 +30,3 @@ install-exec-hook:
 
 uninstall-local:
 	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)/lx200_16 $(DESTDIR)$(bindir)/lx200gps
-
-AM_CXXFLAGS = -g
