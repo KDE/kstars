@@ -369,7 +369,7 @@ private:
 	QPopupMenu *pmenu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
 	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2;
 	QLabel *pmMessType, *pmNGCType, *pmTitle, *pmTitle2, *pmType;
-	QLabel *pmRiseTime, *pmSetTime;
+	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
 	
