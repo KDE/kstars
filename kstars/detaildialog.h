@@ -160,7 +160,6 @@ private:
    QHBoxLayout *ADVbuttonLayout;
 
    QPtrListIterator<ADVTreeData> * treeIt;
-   QListViewItem *ADVtreeRoot;
 
    // Log Tab
    QFrame *logTab;

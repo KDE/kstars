@@ -86,11 +86,7 @@ void DetailDialog::createAdvancedTab()
 
   ADVTree = new KListView(advancedTab, "advancedtree");
   ADVTree->addColumn(i18n("Data"));
-  ADVtreeRoot = new QListViewItem(ADVTree);
-
-  QFile ADVIcon;
-  if (KSUtils::openDataFile(ADVIcon, "advdataicon.png"))
-    ADVtreeRoot->setPixmap( 0, QPixmap (ADVIcon.name()));
+  ADVTree->setRootIsDecorated(true);
 
   viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
 
@@ -111,7 +107,7 @@ void DetailDialog::createAdvancedTab()
 
   Populate(NULL);
 
-  ADVtreeRoot->setOpen(true);
+  //ADVtreeRoot->setOpen(true);
 
 }
 
@@ -797,7 +793,7 @@ void DetailDialog::Populate(QListViewItem *parent)
        if (parent)
            new QListViewItem(parent, treeIt->current()->Name);
        else
-           new QListViewItem(ADVtreeRoot, treeIt->current()->Name);
+           new QListViewItem(ADVTree, treeIt->current()->Name);
 
 
        ++(*treeIt);
@@ -812,7 +808,7 @@ void DetailDialog::forkTree(QListViewItem *parent)
    if (parent)
      current = new QListViewItem(parent, treeIt->current()->Name);
    else
-     current = new QListViewItem(ADVtreeRoot, treeIt->current()->Name);
+     current = new QListViewItem(ADVTree, treeIt->current()->Name);
 
   // we need to increment the iterator before and after populating the tree
   ++(*treeIt);
