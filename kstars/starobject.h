@@ -116,6 +116,16 @@ class StarObject : public SkyObject {
 	*/
 	QString constell( void ) const;
 
+/**Determine the current coordinates (RA, Dec) from the catalog
+	*coordinates (RA0, Dec0), accounting for both precession and nutation.
+	*@param num pointer to KSNumbers object containing current values of
+	*time-dependent variables.
+	*@param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
+	*@param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
+	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
+	*/
+	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).
 	*@param pmra the new RA propoer motion
