@@ -295,8 +295,6 @@ LX200Generic::LX200Generic()
    
    IDLog("Julian Day is %g\n", JD);
    
-   delete (utp);
-
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
 }
