@@ -93,6 +93,7 @@ public:
 	friend class ViewOpsDialog;
 	friend class INDIDriver;
 	friend class INDI_P;
+	friend class PlanetViewer;
 
 	/**Constructor. */
 	KStarsData();
@@ -288,7 +289,7 @@ public:
    // Used several times in the code, so why not
    bool openURLFile(QString urlfile, QFile& file);
 
-	/**Read in custom object catalog.  Object data is read from a file, and parsed into a 
+	/**Read in custom object catalog.  Object data is read from a file, and parsed into a
 		*QPtrList of SkyObjects which is returned by reference through the 2nd argument.
 		*@param filename The custom catalog data file
 		*@param olist the list of skyobjects, returned as a reference through this variable
@@ -323,7 +324,7 @@ public:
 	void loadOptions();
 
 	/**
-		*Save KStars options.  Optional KStars parameter for saving 
+		*Save KStars options.  Optional KStars parameter for saving
 		*certain GUI options.
 		*/
 	void saveOptions(KStars *ks=0);
@@ -342,9 +343,9 @@ public:
 		*2 calculations of daylight saving change time.
 		*/
 	bool isTimeRunningForward() { return TimeRunsForward; }
-	
+
 	bool isSolarSystem( SkyObject *obj );
-	
+
 	KLocale *getLocale() { return locale; };
 
 	KSPlanet *earth() { return PC->earth(); }
@@ -357,7 +358,7 @@ public:
 		*/
 	void setFullTimeUpdate();
 
-	bool useDefaultOptions; 
+	bool useDefaultOptions;
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -375,7 +376,7 @@ signals:
 
 /**
 	*If data changed, emit clearCache signal.
-	*/	
+	*/
 	void clearCache();
 
 public slots:
@@ -405,7 +406,7 @@ public slots:
 	void saveTimeBoxPos( QPoint p ) { options->posTimeBox = p; }
 	void saveGeoBoxPos( QPoint p ) { options->posGeoBox = p; }
 	void saveFocusBoxPos( QPoint p ) { options->posFocusBox = p; }
-	
+
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
 		*starting up.  It is connected to the timeout() signal of a timer
@@ -437,7 +438,7 @@ private slots:
 private:
 
  	void initError(QString fn, bool required);
-  
+
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().
 	*/
@@ -447,7 +448,7 @@ private:
 	* Store the highest magnitude level at the current session and compare with current used
 	* magnitude. If current magnitude is equal to maxSetMagnitude reload data on next increment
 	* of magnitude level.
-	*/	
+	*/
 	float maxSetMagnitude;
 /*
 	* Store the last position in star data file. Needed by reloading star data.
@@ -480,14 +481,14 @@ private:
 
 	QPtrList<KSAsteroid> asteroidList;
 	QPtrList<KSComet> cometList;
-	
+
 	QPtrList<SkyPoint> MilkyWay[NMWFILES];
-	
+
 	QPtrList<SkyPoint> clineList;
 	QPtrList<QChar> clineModeList;
 	QPtrList<SkyObject> cnameList;
 	QPtrList<SkyObject> ObjLabelList;
-	
+
 	QPtrList<SkyPoint> Equator;
 	QPtrList<SkyPoint> Ecliptic;
 	QPtrList<SkyPoint> Horizon;
@@ -495,7 +496,7 @@ private:
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
 	ObjectNameList ObjNames;
-	
+
 	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 

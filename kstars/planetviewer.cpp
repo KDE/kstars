@@ -17,6 +17,8 @@
 #include <qlayout.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include "kstars.h"
+#include "planetcatalog.h"
 #include "planetviewer.h"
 #include "dms.h"
 
@@ -70,17 +72,18 @@ void PlanetViewer::initPlotObjects() {
 
 	//**Planets**//
 	PlotObject *planets;
+	PlanetCatalog *PC = ((KStars*)parent())->data()->PC;
 	dms elong[9];
 
-	elong[0] = dms(   0.0 );
-	elong[1] = dms(  30.0 );
-	elong[2] = dms(  60.0 );
-	elong[3] = dms(  90.0 );
-	elong[4] = dms( 120.0 );
-	elong[5] = dms( 150.0 );
-	elong[6] = dms( 180.0 );
-	elong[7] = dms( 210.0 );
-	elong[8] = dms( 240.0 );
+	elong[0] = dms( PC->findByName( "Mercury" )->ecLong()->Degrees() );
+	elong[1] = dms( PC->findByName( "Venus"   )->ecLong()->Degrees() );
+	elong[2] = dms( PC->findByName( "Earth"   )->ecLong()->Degrees() );
+	elong[3] = dms( PC->findByName( "Mars"    )->ecLong()->Degrees() );
+	elong[4] = dms( PC->findByName( "Jupiter" )->ecLong()->Degrees() );
+	elong[5] = dms( PC->findByName( "Saturn"  )->ecLong()->Degrees() );
+	elong[6] = dms( PC->findByName( "Uranus"  )->ecLong()->Degrees() );
+	elong[7] = dms( PC->findByName( "Neptune" )->ecLong()->Degrees() );
+	elong[8] = dms( PC->findByName( "Pluto"   )->ecLong()->Degrees() );
 
 	planets = new PlotObject( "Planets", "cyan2", PlotObject::POINTS, 8, PlotObject::CIRCLE );
 	for ( unsigned int i=0; i<9; ++i ) {
