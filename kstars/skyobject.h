@@ -74,7 +74,7 @@ public:
 /**
 	*Destructor (empty)
 	*/
-	~SkyObject() {};
+	~SkyObject();
 
 /**@enum TYPE
 	*The type classification of the SkyObject.

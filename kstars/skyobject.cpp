@@ -68,6 +68,12 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 	setLongName(lname);
 }
 
+SkyObject::~SkyObject() {
+	delete Name;
+	delete Name2;
+	delete LongName;
+}
+
 void SkyObject::setLongName( const QString &longname ) {
 	delete LongName;
 	if ( longname.isEmpty() ) {
