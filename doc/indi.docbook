@@ -476,18 +476,18 @@ following command:</para>
 <sect2 id="indi-secure-remote">
 <title>Secure Remote Operation</title>
 
-<para>Suppose we want to run indiserver and its clients on a remote machine,
-<constant>remote_machine</constant>, and connect them to &kstars; running on the local machine.</para>
+<para>Suppose we want to run an indiserver with INDI drivers on a remote host,
+<constant>remote_host</constant>, and connect them to &kstars; running on the local machine.</para>
 
-<para>From the local machine log onto the remote machine, <constant>remote_machine</constant>, by typing:</para>
+<para>From the local machine log onto the remote host, <constant>remote_host</constant>, by typing:</para>
 
-<para>$ <command>ssh</command> -L <varname>port</varname>:<constant>local_host</constant>:<varname>port</varname> <constant>remote_machine</constant></para>
+<para>$ <command>ssh</command> -L <varname>local_port</varname>:<constant>remote_host</constant>:<varname>remote_port</varname></para>
 
-<para>after logging in, run indiserver on the remote machine:</para>
+<para>This binds the <varname>local_port</varname> on the local machine to the <varname>remote_port</varname> on the <constant>remote_host</constant>. After logging in, run indiserver on the remote host:</para>
 
-<para>$ <command>indiserver</command> -p <varname>port</varname> [<filename>driver</filename>...]</para>
+<para>$ <command>indiserver</command> -p <varname>remote_port</varname> [<filename>driver</filename>...]</para>
 
-<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> and add a host under the <guilabel>Client</guilabel> tab. The host should be <constant>local_host</constant> (usually 127.0.0.1) and the port number should be the <varname>port</varname> used in all the steps above. <mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from the popup menu. &kstars; will connect to the remote INDI server securely. The host information will be saved for future sessions.</para>
+<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> and add a host under the <guilabel>Client</guilabel> tab. The host should be the local host (usually 127.0.0.1) and the port number should be the <varname>local_port</varname> used in the steps above. <mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from the popup menu. &kstars; will connect to the remote INDI server securely. The host information will be saved for future sessions.</para>
 </sect2>
 </sect1>
 
