@@ -22,7 +22,7 @@
 #include <qtimer.h>
 #include <qdatetime.h>
 
-#include <simclockinterface.h>
+#include "simclockinterface.h"
 
 /*
  * @short kstars simulation clock

@@ -42,6 +42,9 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
     selectedObject = o;
     ksw = (KStars*) parent;
 
+		//DEBUG
+		kdDebug() << "Details for: " << selectedObject->name() << endl;
+		
     createGeneralTab(lt, geo);
     createLinksTab();
     createAdvancedTab();
@@ -81,7 +84,7 @@ void DetailDialog::createLogTab()
 }
 void DetailDialog::createAdvancedTab()
 {
-  // We don't create a a log tab for an unnamed object or if advinterface file failed loading
+  // We don't create an adv tab for an unnamed object or if advinterface file failed loading
   // We also don't need adv dialog for solar system objects.
    if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || selectedObject->type() == SkyObject::PLANET ||selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
        return;

@@ -55,7 +55,7 @@ public:
 	void createDeepSkyObjectMenu( SkyObject *obj );
 	void createCustomObjectMenu( SkyObject *obj );
 	void createPlanetMenu( SkyObject *p );
-	void createEmptyMenu( void );
+	void createEmptyMenu( SkyObject *nullObj=0 );
 	void setRiseSetLabels( SkyObject *obj );
 	bool addINDI(void);
 

@@ -35,8 +35,8 @@ KSPopupMenu::~KSPopupMenu()
 {
 }
 
-void KSPopupMenu::createEmptyMenu( void ) {
-	initPopupMenu( 0, i18n( "Empty sky" ), QString::null, QString::null, false, true, false );
+void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
+	initPopupMenu( nullObj, i18n( "Empty sky" ), QString::null, QString::null, true, true, false );
 
 	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
 	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
@@ -233,7 +233,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	}
 
 	//Insert Rise/Set/Transit labels
-	if ( showRiseSet ) {
+	if ( showRiseSet && obj ) {
 		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), this );
 		pmRiseTime->setAlignment( AlignCenter );
 		pmRiseTime->setPalette( pal );
@@ -257,18 +257,18 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	}
 
 	//Insert item for centering on object
-	if ( showCenterTrack ) {
+	if ( showCenterTrack && obj ) {
 		insertSeparator();
 		insertItem( i18n( "Center && Track" ), ksw->map(), SLOT( slotCenter() ) );
 	}
 
 	//Insert item for Showing details dialog
-	if ( showDetails ) {
+	if ( showDetails && obj ) {
 		insertItem( i18n( "Show Detailed Information Dialog", "Details" ), ksw->map(), SLOT( slotDetail() ) );
 	}
 
 	//Insert "Add/Remove Label" item
-	if ( showLabel ) {
+	if ( showLabel && obj ) {
 		if ( ksw->map()->isObjectLabeled( obj ) ) {
 			insertItem( i18n( "Remove Label" ), ksw->map(), SLOT( slotRemoveObjectLabel() ) );
 		} else {
@@ -276,7 +276,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 		}
 	}
 
-	if ( showTrail ) {
+	if ( showTrail && obj && obj->isSolarSystem() ) {
 		if ( addTrail ) {
 			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );
 		} else {
@@ -291,6 +291,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 }
 
 void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
+	if ( ! obj ) return;
+	
 	QString rt, rt2, rt3;
 	QTime rtime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
 	dms rAz = obj->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );

@@ -48,6 +48,12 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	} else if ( n2.length() )
 		lname = gname();
 
+	//If genetive name exists, but no primary name, set primary name = genetive name.
+	if ( n2.length() && n == i18n( "star" ) ) {
+		setName( gname() );
+		setName2(); //no secondary name (it is now primary)
+	}
+
 	setLongName( lname );
 }
 

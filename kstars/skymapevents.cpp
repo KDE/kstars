@@ -824,9 +824,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					if ( ksw ) ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
 				case RightButton:
-					pmenu->createEmptyMenu();
+				{
+					SkyObject *nullObj = new SkyObject( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
+					pmenu->createEmptyMenu( nullObj );
+					delete nullObj;
+					
 					pmenu->popup(  QCursor::pos() );
 					break;
+				}
+				
 				default:
 					break;
 			}

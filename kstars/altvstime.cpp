@@ -268,7 +268,7 @@ void AltVsTime::slotHighlight(void) {
 		if ( i == iPlotList ) {
 			obj->setSize( 2 );
 			obj->setColor( "white" );
-		} else if ( obj->size() == 2 ) {
+		} else {
 			obj->setSize( 1 );
 			obj->setColor( "red" );
 		}
@@ -368,6 +368,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	else DayOffset = 0;
 
 	setLSTLimits();
+	slotHighlight();
 	View->repaint();
 
 	delete num;

@@ -103,7 +103,7 @@ public:
 /**Set the object's secondary name.
 	*@param the object's secondary name.
 	*/
-	void setName2( const QString &name2="" );
+	void setName2( const QString &name2="" ) { Name2 = name2; }
 
 /**@return object's common (long) name
 	*/

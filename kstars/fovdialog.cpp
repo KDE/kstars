@@ -43,7 +43,7 @@ FOVDialog::FOVDialog( QWidget *parent )
 	fov = new FOVDialogUI( page );
 	vlay->addWidget( fov );
 
-	connect( fov->FOVListBox, SIGNAL( selectionChanged( QListBoxItem* ) ), SLOT( slotSelect( QListBoxItem* ) ) );
+	connect( fov->FOVListBox, SIGNAL( currentChanged( QListBoxItem* ) ), SLOT( slotSelect( QListBoxItem* ) ) );
 	connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
 	connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
 	connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
@@ -142,6 +142,7 @@ void FOVDialog::slotNewFOV() {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->insertItem( newfdlg.ui->FOVName->text() );
+		fov->FOVListBox->setSelected( fov->FOVListBox->count() -1, true );
 		FOVList.append( newfov );
 	}
 }
@@ -172,8 +173,10 @@ void FOVDialog::slotRemoveFOV() {
 	int i = fov->FOVListBox->currentItem();
 	FOVList.remove( i );
 	fov->FOVListBox->removeItem( i );
+	if ( i == fov->FOVListBox->count() ) i--; //last item was removed
 	fov->FOVListBox->setSelected( i, true );
-
+	fov->FOVListBox->update();
+	
 	if ( FOVList.isEmpty() ) {
 		QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
 		KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );

@@ -1510,32 +1510,37 @@ void KStarsData::initError(QString s, bool required = false) {
 	QString message, caption;
 	initTimer->stop();
 	if (required) {
-		message = i18n( "The file %1 could not be found.\n"
-				"Shutting down, because KStars cannot run properly without this file.\n"
-				"Place it in one of the following locations, then try again:\n\n"
-				"\t$(KDEDIR)/share/apps/kstars/%1\n"
-				"\t~/.kde/share/apps/kstars/%1" ).arg(s);
-		caption = i18n( "Critical File Not Found: %1" ).arg(s);
+		message = i18n( "The file %1 could not be found. "
+				"KStars cannot run properly without this file. "
+				"To continue loading, place the file in one of the "
+				"following locations, then press Retry:\n\n" ).arg( s )
+				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
+				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s ) 
+				+ i18n( "Otherwise, press Cancel to shutdown." );
+		caption = i18n( "Critical File Not Found: %1" ).arg( s );
 	} else {
-		message = i18n( "The file %1 could not be found.\n"
-				"KStars can still run without this file, so will continue.\n"
-				"However, to avoid seeing this message in the future, you may want to\n"
-				"place the file in one of the following locations:\n\n"
-				"\t$(KDEDIR)/share/apps/kstars/%1"
-				"\n\t~/.kde/share/apps/kstars/%1" ).arg(s);
-		caption = i18n( "Non-Critical File Not Found: %1" ).arg(s);
+		message = i18n( "The file %1 could not be found. "
+				"KStars can still run without this file. "
+				"However, to avoid seeing this message in the future, you can "
+				"place the file in one of the following locations, then press Retry:\n\n" ).arg( s )
+				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
+				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
+				+ i18n( "Otherwise, press Cancel to continue loading without this file." ).arg( s );
+		caption = i18n( "Non-Critical File Not Found: %1" ).arg( s );
 	}
 
-	KMessageBox::information( 0, message, caption );
-
-	if (required) {
-		delete initTimer;
-                initTimer = 0L;
-		emit initFinished(false);
-	} else {
+	if ( KMessageBox::warningContinueCancel( 0, message, caption, i18n( "Retry" ) ) == KMessageBox::Continue ) {
+		initCounter--;
 		initTimer->start(1);
+	} else {
+		if (required) {
+			delete initTimer;
+			initTimer = 0L;
+			emit initFinished(false);
+		} else {
+			initTimer->start(1);
+		}
 	}
-
 }
 
 void KStarsData::slotInitialize() {
@@ -1574,7 +1579,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText(i18n("Loading Star Data (%1%)" ).arg(0) );
 			if ( !readStarData( ) )
-				initError( "hipN.dat", true );
+				initError( "hipNNN.dat", true );
 			if (!readVARData())
 				initError( "valaav.dat", false);
 			if (!readADVTreeData())
