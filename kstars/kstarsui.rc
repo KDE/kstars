@@ -44,6 +44,7 @@
 			<Action name="show_mainToolBar" />
 			<Action name="show_viewToolBar" />
 		</Menu>
+		<Separator />
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="geolocation" />
 		<Separator />
