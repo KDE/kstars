@@ -184,28 +184,6 @@ public:
 	*/
 	void setGalLat( double gla ) { galLat.setD( gla ); }
 
-	/**@short Set Ecliptic Longitude according to argument.
-	*@param elong Ecliptic Longitude
-	*/
-	void setEclLong( dms elong ) { EcLong = elong; }
-
-	/**@short Set Ecliptic Longitude according to argument.
-	*Differs from above function only in argument type.
-	*@param elong Ecliptic Longitude
-	*/
-	void setEclLong( double elong ) { EcLong.setD( elong ); }
-
-	/**@short Set Ecliptic Latitude according to argument.
-	*@param elat Ecliptic Latitude
-	*/
-	void setEclLat( dms elat ) { EcLat = elat; }
-
-	/** @short Set Ecliptic Latitude according to argument.
-	*Differs from above function only in argument type.
-	*@param elat Ecliptic Latitude
-	*/
-	void setEclLat( double elat ) { EcLat.setD( elat ); }
-
 ////
 //// 2. Returning coordinates.
 //// =========================
@@ -241,15 +219,6 @@ public:
 /**@return a pointer to the current galactic longitude.
 	*/
 	const dms* gLong() const { return &galLong; }
-
-	/**@return pointer to Ecliptic Longitude coordinate
-	*/
-	const dms* eclLong( void ) const { return &EcLong; };
-
-	/**
-	*@return pointer to Ecliptic Latitude coordinate
-	*/
-	const dms* eclLat( void ) const { return &EcLat; };
 
 ////
 //// 3. Coordinate conversions.
@@ -437,7 +406,7 @@ private:
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
 	dms galLat, galLong; // Galactic coordinates
-	dms EcLong, EcLat; // Ecliptic longitude and ecliptic Latitude
+//	dms EcLong, EcLat; // Ecliptic longitude and ecliptic Latitude
 };
 
 #endif

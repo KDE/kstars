@@ -106,9 +106,9 @@ void modCalcEclCoords::EclToEqu(void) {
 	dt.setFromEpoch( epoch );
 	KSNumbers *num = new KSNumbers( dt.djd() );
 
-	sp.setEclLong(eclipLong);
-	sp.setEclLat(eclipLat);
-	sp.EclipticToEquatorial(num);
+//	sp.setEclLong(eclipLong);
+//	sp.setEclLat(eclipLat);
+	sp.setFromEcliptic(num->obliquity(), &eclipLong, &eclipLat);
 	
 	raCoord.set( *sp.ra() );
 	decCoord.set( *sp.dec() );
@@ -123,9 +123,7 @@ void modCalcEclCoords::EquToEcl(void) {
 	dt.setFromEpoch( epoch );
 	KSNumbers *num = new KSNumbers( dt.djd() );
 
-	sp.EquatorialToEcliptic(num);
-	eclipLong.set( *sp.eclLong() );
-	eclipLat.set( *sp.eclLat() );
+	sp.findEcliptic(num->obliquity(), eclipLong, eclipLat);
 
 	delete num;
 }
@@ -318,13 +316,11 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 					ostream << epoch0B << space;
 
 			sp = SkyPoint ();
-			sp.setEclLong(eclLongB);
-			sp.setEclLat(eclLatB);
 
 			KStarsDateTime dt;
 			dt.setFromEpoch( epoch0B );
 			KSNumbers *num = new KSNumbers( dt.djd() );
-			sp.EclipticToEquatorial(num);
+			sp.setFromEcliptic(num->obliquity(), &eclLongB, &eclLatB);
 			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
 		// Input coords. are equatorial coordinates:
 
@@ -376,8 +372,8 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			KStarsDateTime dt;
 			dt.setFromEpoch( epoch0B );
 			KSNumbers *num = new KSNumbers( dt.djd() );
-			sp.EquatorialToEcliptic(num);
-			ostream << sp.eclLong()->toDMSString() << space << sp.eclLat()->toDMSString() << endl;
+			sp.findEcliptic(num->obliquity(), eclLongB, eclLatB);
+			ostream << eclLongB.toDMSString() << space << eclLatB.toDMSString() << endl;
 			delete num;
 
 		}
