@@ -383,7 +383,7 @@ The main key concept in INDI is that devices have the ability to describe themse
 <listitem><para>Light property (Represented in GUI by colored LEDs).</para></listitem>
 </itemizedlist>
 
-<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECT property has two elements: CONNECT and DISCONNECT switches. KStars parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
+<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECTION property has two elements: CONNECT and DISCONNECT switches. KStars parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
 
 <para>The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
 
