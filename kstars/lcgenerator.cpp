@@ -420,7 +420,7 @@ void LCGenerator::updateStarList()
 {
 	file->setName( locateLocal( "appdata", "valaav.txt" ) );
 	
-	KURL AAVSOFile("http://www.aavso.org/valaav.txt");
+	KURL AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
 	KURL saveFile (file->name());
 	
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
