@@ -214,6 +214,12 @@ void ISPoll (void *p) { telescope->ISPoll(); IEAddTimer (POLLMS, ISPoll, NULL); 
 
 LX200Generic::LX200Generic()
 {
+   struct tm *utp;
+   time_t t;
+   time (&t);
+   utp = gmtime (&t);
+
+   
    currentSiteNum = 1;
    currentCatalog = LX200_STAR_C;
    currentSubCatalog = 0;
@@ -227,7 +233,15 @@ LX200Generic::LX200Generic()
    lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    localTM = new tm;
-   JD = 0;
+   
+   
+   utp->tm_mon  += 1;
+   utp->tm_year += 1900;
+   JD = UTtoJD(utp);
+   
+   IDLog("Julian Day is %g\n", JD);
+   
+   delete (utp);
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
