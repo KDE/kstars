@@ -1225,17 +1225,27 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 					//Draw Symbol
 					if ( drawObject ) {
-						int type = obj->type();
-						if (type==0) type = 1; //use catalog star draw fcn
+//						int type = obj->type();
+//						if (type==0) type = 1; //use catalog star draw fcn
 						//change color if extra images are available
 						if ( obj->catalog() == "M" && obj->ImageList.count() > 1 )
 							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
 						else if ( obj->catalog() != "M" && obj->ImageList.count() )
 							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
 
-						int Size = int( obj->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+						float majorAxis = obj->a();
+						// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
+						// if we use size 0.0 the star wouldn't be drawn
+						if ( majorAxis == 0.0 && obj->type() < 2 ) {
+							majorAxis = 1.0;
+						}
 
-						drawSymbol( psky, type, o.x(), o.y(), Size, obj->e(), PositionAngle );
+						int Size = int( majorAxis*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+
+						// use star draw function
+						drawSymbol( psky, obj->type(), o.x(), o.y(), Size, obj->e(), PositionAngle );
+// this use the catalog star draw function (remove at clean up)
+//						drawSymbol( psky, type, o.x(), o.y(), Size, obj->e(), PositionAngle );
 					}
 				}
 			} else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
