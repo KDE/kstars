@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h> //needed for abs() on some platforms
+
 #include <qfile.h>
 #include <qlayout.h>
 #include <kdebug.h>
