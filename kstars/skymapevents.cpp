@@ -131,7 +131,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 //In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
 			stopTracking();
-			setDestinationAltAz( 15.0, 0.0 );
+			setDestinationAltAz( 15.0, 0.0001 );
 			break;
 
 		case Key_E: //center on east horizon
