@@ -26,6 +26,7 @@
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <klineedit.h>
+#include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kpushbutton.h>
 
@@ -115,17 +116,23 @@ void FOVDialog::slotSelect(QListBoxItem *item) {
 }
 
 void FOVDialog::paintEvent( QPaintEvent * ) {
-	FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
-
 	//Draw the selected target symbol in the pixmap.
-	if ( f->size() > 0.0 ) {
-		QPainter p;
-		p.begin( fov->ViewBox );
-		p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
-		f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
-		p.drawText( 0, 0, QString( "%1 arcmin" ).arg( (double)(f->size()), 0, 'g', 3 ) );
-		p.end();
+	QPainter p;
+	p.begin( fov->ViewBox );
+	p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
+
+	if ( fov->FOVListBox->currentItem() >= 0 ) {
+		FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
+		if ( f->size() > 0 ) {
+			f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
+			QFont smallFont = p.font();
+			smallFont.setPointSize( p.font().pointSize() - 2 );
+			p.setFont( smallFont );
+			p.drawText( 0, fov->ViewBox->contentsRect().height(), QString( "%1 arcmin" ).arg( (double)(f->size()), 0, 'g', 3 ) );
+		}
 	}
+
+	p.end();
 }
 
 void FOVDialog::slotNewFOV() {
@@ -165,7 +172,14 @@ void FOVDialog::slotRemoveFOV() {
 	int i = fov->FOVListBox->currentItem();
 	FOVList.remove( i );
 	fov->FOVListBox->removeItem( i );
-	fov->FOVListBox->setCurrentItem( i );
+	fov->FOVListBox->setSelected( i, true );
+
+	if ( FOVList.isEmpty() ) {
+		QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
+		KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );
+	}
+
+	update();
 }
 
 //-------------NewFOV------------------//

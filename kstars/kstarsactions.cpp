@@ -33,14 +33,14 @@
 #include <qcheckbox.h>
 
 //keep KDE 3.0.x and 3.1.x compatibility
-//KDE_VERSION changed from decimal to hex during KDE 3.1.x, so have to use 
+//KDE_VERSION changed from decimal to hex during KDE 3.1.x, so have to use
 //the MAJOR/MINOR/RELEASE triplet.  We can assume KDE_VERSION_MAJOR >= 3.
-//for KDE_VERSION_RELEASE, I believe the post 3_1_BRANCH stuff started at 90, 
+//for KDE_VERSION_RELEASE, I believe the post 3_1_BRANCH stuff started at 90,
 //but I'll use 20 just in case (the highest 3.1.x will likely be x=4).
 #include <kdeversion.h>
 #if ( KDE_VERSION_MINOR >= 1 && KDE_VERSION_RELEASE > 20 )
 #include <kinputdialog.h>
-#else 
+#else
 #include <klineeditdlg.h>
 #include <qvalidator.h>
 #endif
@@ -652,12 +652,12 @@ void KStars::slotSetZoom() {
 	#else
 	QString sCurrent = QString("%1").arg( currentAngle, 0, 'f', 1 );
 	QString entry = KLineEditDlg::getText( i18n( "The user should enter an angle for the field-of-view of the display",
-			"Enter desired field-of-view angle" ), i18n( "Enter a field-of-view angle in degrees: " ), 
+			"Enter desired field-of-view angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
 			sCurrent, &ok, 0, &QDoubleValidator( minAngle, maxAngle, 1, 0 ) );
-	
+
 	if ( ok ) angSize = entry.toDouble( &ok );
 	#endif
-	
+
 	if ( ok ) {
 		options()->ZoomFactor = map()->width() / ( angSize * dms::DegToRad );
 
@@ -718,16 +718,23 @@ void KStars::slotFOVEdit() {
 		//replace existing fov.dat with data from the FOVDialog
 		QFile f;
 		f.setName( locateLocal( "appdata", "fov.dat" ) );
-		if ( ! f.open( IO_WriteOnly ) ) {
-			kdDebug() << i18n( "Could not open fov.dat for writing!" ) << endl;
+
+		//rebuild fov.dat if FOVList is empty
+		if ( fovdlg.FOVList.isEmpty() ) {
+			f.remove();
+			initFOV();
 		} else {
-			QTextStream ostream(&f);
+			if ( ! f.open( IO_WriteOnly ) ) {
+				kdDebug() << i18n( "Could not open fov.dat for writing!" ) << endl;
+			} else {
+				QTextStream ostream(&f);
 
-			for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
-				ostream << fov->name() << ":" << QString("%1").arg( fov->size(), 0, 'f', 2 )
-						<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
+				for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
+					ostream << fov->name() << ":" << QString("%1").arg( fov->size(), 0, 'f', 2 )
+							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
 
-			f.close();
+				f.close();
+			}
 		}
 
 		//repopulate FOV menu  with items from new fov.dat
@@ -752,11 +759,13 @@ void KStars::slotFOVEdit() {
 		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
 
 		//set FOV to whatever was highlighted in FOV dialog
-		options()->setTargetSymbol( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
-		data()->fovSymbol.setName( options()->FOVName );
-		data()->fovSymbol.setSize( options()->FOVSize );
-		data()->fovSymbol.setShape( options()->FOVShape );
-		data()->fovSymbol.setColor( options()->FOVColor );
+		if ( fovdlg.FOVList.count() > 0 ) {
+			options()->setTargetSymbol( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
+			data()->fovSymbol.setName( options()->FOVName );
+			data()->fovSymbol.setSize( options()->FOVSize );
+			data()->fovSymbol.setShape( options()->FOVShape );
+			data()->fovSymbol.setColor( options()->FOVColor );
+		}
 
 //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
 //		//set ZoomLevel to match the FOV symbol

@@ -357,6 +357,9 @@ void KStars::initFOV() {
 
 	f.setName( locateLocal( "appdata", "fov.dat" ) );
 
+	//if file s empty, let's start over
+	if ( (uint)f.size() == 0 ) f.remove();
+
 	if ( ! f.exists() ) {
 		if ( ! f.open( IO_WriteOnly ) ) {
 			kdDebug() << i18n( "Could not open fov.dat!" ) << endl;
