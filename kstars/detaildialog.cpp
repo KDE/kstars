@@ -194,7 +194,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 	QFrame *generalTab= addPage(i18n("General"));
 
 	ut = lt.addSecs( int( 3600*geo->TZ() ) );
-	jd = KSUtils::UTtoJulian( ut );
+	jd = KSUtils::UTtoJD( ut );
 
 	Coords = new CoordBox( selectedObject, lt, generalTab );
 	RiseSet = new RiseSetBox( selectedObject, lt, geo, generalTab );
@@ -333,9 +333,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 		QWidget *parent, const char *name ) : QGroupBox( i18n( "Rise/Set/Transit" ), parent, name ) {
 
 	QDateTime ut = lt.addSecs( int( -3600*geo->TZ() ) );
-	long double jd = KSUtils::UTtoJulian( ut );
-	QTime LST = KSUtils::UTtoLST( ut, geo->lng() );
-	dms LSTd; LSTd.setH( LST.hour(), LST.minute(), LST.second() );
+	long double jd = KSUtils::UTtoJD( ut );
 	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
 	QTime st = o->riseSetTime( jd, geo, false ); //false = use set time
 	QTime tt = o->transitTime( jd, geo );

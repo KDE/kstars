@@ -38,12 +38,12 @@ void SkyPoint::set( double r, double d ) {
 SkyPoint::~SkyPoint(){
 }
 
-void SkyPoint::EquatorialToHorizontal( const dms *LSTh, const dms *lat ) {
+void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 	double AltRad, AzRad;
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
   double sinAlt, cosAlt;
 
-	dms HourAngle = LSTh->Degrees() - ra()->Degrees();
+	dms HourAngle = LST->Degrees() - ra()->Degrees();
 
 	lat->SinCos( sinlat, coslat );
 	dec()->SinCos( sindec, cosdec );
@@ -62,7 +62,7 @@ void SkyPoint::EquatorialToHorizontal( const dms *LSTh, const dms *lat ) {
 		Az.setRadians( AzRad );
 }
 
-void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {
+void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 	double HARad, DecRad;
 	double sinlat, coslat, sinAlt, cosAlt, sinAz, cosAz;
   double sinDec, cosDec;
@@ -93,7 +93,7 @@ void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {
 
 	if ( sinAz > 0.0 ) HARad = 2.0*dms::PI - HARad; // resolve acos() ambiguity	
 
-	RA.setRadians( LSTh->radians() - HARad );
+	RA.setRadians( LST->radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 

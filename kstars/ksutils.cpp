@@ -23,7 +23,7 @@
 #include "dms.h"
 #include "ksutils.h"
 
-long double KSUtils::UTtoJulian(const QDateTime &t) {
+long double KSUtils::UTtoJD(const QDateTime &t) {
   int year = t.date().year();
   int month = t.date().month();
   int day = t.date().day();
@@ -67,30 +67,7 @@ long double KSUtils::UTtoJulian(const QDateTime &t) {
   return jd;
 }
 
-QTime KSUtils::UTtoGST( const QDateTime &UT ) {
-	
-  double t1 = KSUtils::GSTat0hUT( UT );
-
-  double hr = double( UT.time().hour() );
-  double mn = double( UT.time().minute() );
-  double sc = double( UT.time().second() ) + double ( 0.001 * UT.time().msec() );
-
-  double t2 = (hr + ( mn + sc/60.0)/60.0)*1.002737909;
-  double gsth = t1 + t2;
-
-  while (gsth < 0.0) gsth += 24.0;
-  while (gsth >24.0) gsth -= 24.0;
-
-  int gh = int(gsth);
-  int gm = int((gsth - gh)*60.0);
-  int gs = int(((gsth - gh)*60.0 - gm)*60.0);
-
-  QTime gst(gh, gm, gs);
-
-  return gst;
-}
-
-QDateTime KSUtils::JDtoDateTime( long double jd ) {
+QDateTime KSUtils::JDtoUT( long double jd ) {
 	int year, month, day, seconds, msec;
 	int a, b, c, d, e, alpha, z;
 	double daywithDecimals, secfloat, f;
@@ -125,61 +102,75 @@ QDateTime KSUtils::JDtoDateTime( long double jd ) {
 	return dateTime;
 }
 
-/**Deprecated function.
-void KSUtils::nutate( long double JD, double &dEcLong, double &dObliq ) {
-	//This uses the pre-1984 theory of nutation.  The results
-	//are accurate to 0.5 arcsec, should be fine for KStars.
-	//calculations from "Practical Astronomy with Your Calculator"
-	//by Peter Duffett-Smith
-	//
-	//Nutation is a small, quasi-periodic oscillation of the Earth's
-	//spin axis (in addition to the more regular precession).  It
-	//is manifested as a change in the zeropoint of the Ecliptic
-	//Longitude (dEcLong) and a change in the Obliquity angle (dObliq)
-	//see the Astronomy Help pages for more info.
-	
-	dms  L2, M2, O, O2;
-	double T;
-	double sin2L, cos2L, sin2M, cos2M;
-	double sinO, cosO, sin2O, cos2O;
-	
-	T = ( JD - J2000 )/36525.0; //centuries since J2000.0
-  O.setD( 125.04452 - 1934.136261*T + 0.0020708*T*T + T*T*T/450000.0 ); //ecl. long. of Moon's ascending node
-	O2.setD( 2.0*O.Degrees() );
-	L2.setD( 2.0*( 280.4665 + 36000.7698*T ) ); //twice mean ecl. long. of Sun
-	M2.setD( 2.0*( 218.3165 + 481267.8813*T ) );//twice mean ecl. long. of Moon
-		
-	O.SinCos( sinO, cosO );
-	O2.SinCos( sin2O, cos2O );
-	L2.SinCos( sin2L, cos2L );
-	M2.SinCos( sin2M, cos2M );
+dms KSUtils::UTtoGST( const QDateTime &UT ) {
+	dms gst0 = KSUtils::GSTat0hUT( UT );
 
-	dEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
-	dObliq = (   9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
-}
-*/
+	double hr = double( UT.time().hour() );
+	double mn = double( UT.time().minute() );
+	double sc = double( UT.time().second() ) + double ( 0.001 * UT.time().msec() );
+	double t = (hr + ( mn + sc/60.0)/60.0)*1.002737909;
+	
+	dms gst = dms( gst0.Degrees() + t*15.0 ).reduce();
 
-QTime KSUtils::UTtoLST( QDateTime UT, const dms *longitude) {
-  QTime GST = KSUtils::UTtoGST( UT );
-  QTime LST = KSUtils::GSTtoLST( GST, longitude );
-  return LST;
+	return gst;
 }
 
+QTime KSUtils::GSTtoUT( const dms &GST, const QDateTime &UT ) {
+	dms gst0 = KSUtils::GSTat0hUT( UT );
+	
+	//dt is the number of sidereal hours since UT 0h.
+	double dt = GST.Hours() - gst0.Hours();
+	while ( dt < 0.0 ) dt += 24.0;
+	while ( dt >= 24.0 ) dt -= 24.0;
+	
+	//convert to solar time.  dt is now the number of hours since 0h UT.
+	dt /= 1.002737909;
+	
+	int hr = int( dt );
+	int mn = int( 60.0*( dt - double( hr ) ) );
+	int sc = int( 60.0*( 60.0*( dt - double( hr ) ) - double( mn ) ) );
+	
+	return QTime( hr, mn, sc );
+}
 
-QTime KSUtils::GSTtoLST( QTime GST, const dms *longitude) {
-  double lsth = double(GST.hour()) + (double(GST.minute()) +
-			   double(GST.second())/60.0)/60.0 + longitude->Degrees()/15.0;
+dms KSUtils::GSTtoLST( const dms &GST, const dms *longitude) {
+	return dms( GST.Degrees() + longitude->Degrees() );
+}
 
-  while (lsth < 0.0) lsth += 24.0;
-  while (lsth >24.0) lsth -= 24.0;
+dms KSUtils::LSTtoGST( const dms &LST, const dms *longitude) {
+	return dms( LST.Degrees() - longitude->Degrees() );
+}
 
-  int lh = int(lsth);
-  int lm = int((lsth - lh)*60.0);
-  int ls = int(((lsth - lh)*60.0 - lm)*60.0);
+dms KSUtils::UTtoLST( const QDateTime &UT, const dms *longitude) {
+	return KSUtils::GSTtoLST( KSUtils::UTtoGST( UT ), longitude );
+}
 
-  QTime lst(lh, lm, ls);
+QTime KSUtils::LSTtoUT( const dms &LST, const QDateTime &UT, const dms *longitude) {
+	dms GST = KSUtils::LSTtoGST( LST, longitude );
+	return KSUtils::GSTtoUT( GST, UT );
+}
 
-  return lst;
+dms KSUtils::GSTat0hUT( const QDateTime &td ) {
+	QDateTime t0( td.date(), QTime( 0, 0, 0 ) );
+	long double jd0 = KSUtils::UTtoJD( t0 );
+	long double s = jd0 - J2000;
+	double t = s/36525.0;
+	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t + 
+		0.000000002*t*t*t;
+
+	dms gst;
+	gst.setH( t1 );
+	
+	return gst.reduce();
+}
+
+long double KSUtils::JDat0hUT( const QDateTime &UT ) {
+	long double jd =  UTtoJD( UT );
+	return JDat0hUT( jd );
+}
+
+long double KSUtils::JDat0hUT( long double jd ) {
+	return int( jd - 0.5 ) + 0.5;;
 }
 
 bool KSUtils::openDataFile( QFile &file, QString s ) {
@@ -202,48 +193,3 @@ bool KSUtils::openDataFile( QFile &file, QString s ) {
 	return result;
 }
 
-double KSUtils::GSTat0hUT( QDateTime DT ) {
-
-	QDateTime t0 = DT;
-	t0.setTime( QTime(0,0,0) );
-	long double jd0 = KSUtils::UTtoJulian( t0 );
-	long double s = jd0 - 2451545.0;
-	double t = s/36525.0;
-	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t + 
-		0.000000002*t*t*t;
-
-	while (t1 >= 24.0) {t1 -= 24.0;}
-	while (t1 <   0.0) {t1 += 24.0;}
-
-	return t1;
-}
-
-
-QTime KSUtils::LSTtoUT( QDateTime LST, const dms *longitude) {
-
-	double t1 = KSUtils::GSTat0hUT( LST );
-	double tslocal0h = t1 + longitude->Degrees()/15.0;
-	double lsth = double(LST.time().hour()) + (double(LST.time().minute()) +
-			   double(LST.time().second())/60.0)/60.0;
-
-	double uth = lsth - tslocal0h;
-	while (uth >= 24.0) {uth -= 24.0;}
-	while (uth <   0.0) {uth += 24.0;}
-
-	uth = uth/1.00273790935;
-	
-	int uh = int(uth);
-	int um = int((uth - uh)*60.0);
-	int us = int(((uth - uh)*60.0 - um)*60.0);
-
-	QTime ut(uh, um, us);
-
-	return ut;
-}
-
-long double KSUtils::JdAtZeroUT (long double jd) {
-
-	long double jd0 = int(jd - 0.5) + 0.5;
-
-	return jd0;
-}

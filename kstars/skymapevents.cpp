@@ -59,10 +59,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Left :
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 			} else {
 				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
 //			setDestination( focus() );
@@ -73,10 +73,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Right :
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 			} else {
 				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
-				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
 			slewing = true;
@@ -87,11 +87,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
-				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
-				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
 			slewing = true;
@@ -102,11 +102,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
-				focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ ksw->options()->ZoomLevel ] );
 				if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
-				focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
 			slewing = true;
@@ -307,7 +307,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	oldfocus()->setAz( focus()->az()->Degrees() );
 	oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-	double dHA = ksw->LSTh()->Hours() - focus()->ra()->Hours();
+	double dHA = ksw->LST()->Hours() - focus()->ra()->Hours();
 	while ( dHA < 0.0 ) dHA += 24.0;
 	ksw->data()->HourAngle->setH( dHA );
 
@@ -353,7 +353,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	//determine RA, Dec of mouse pointer
-	setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), ksw->geo()->lat() ) );
+	setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LST(), ksw->geo()->lat() ) );
 
 	if ( midMouseButtonDown ) { //zoom according to y-offset
 		float yoff = dyPix - y0;
@@ -378,8 +378,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		//Update focus such that the sky coords at mouse cursor remain approximately constant
 		if ( ksw->options()->useAltAz ) {
-			mousePoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
-			clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			mousePoint()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+			clickedPoint()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
 			dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
 			focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
@@ -388,7 +388,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 89.9999 );
 			if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -89.9999 );
 			focus()->setAz( focus()->az()->reduce() );
-			focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+			focus()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 		} else {
 			dms dRA = mousePoint()->ra()->Degrees() - clickedPoint()->ra()->Degrees();
 			dms dDec = mousePoint()->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -398,7 +398,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			if ( focus()->dec()->Degrees() >90.0 ) focus()->setDec( 90.0 );
 			if ( focus()->dec()->Degrees() <-90.0 ) focus()->setDec( -90.0 );
 			focus()->setRA( focus()->ra()->reduce() );
-			focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 		}
 
 		++scrollCount;
@@ -409,12 +409,12 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		setOldFocus( focus() );
 
-		double dHA = ksw->LSTh()->Hours() - focus()->ra()->Hours();
+		double dHA = ksw->LST()->Hours() - focus()->ra()->Hours();
 		while ( dHA < 0.0 ) dHA += 24.0;
 		ksw->data()->HourAngle->setH( dHA );
 
 		//redetermine RA, Dec of mouse pointer, using new focus
-		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), ksw->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LST(), ksw->geo()->lat() ) );
 		setClickedPoint( mousePoint() );
 
 		forceUpdate();  // must be new computed
@@ -483,7 +483,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 		//determine RA, Dec of mouse pointer
 		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, 
-				ksw->LSTh(), ksw->geo()->lat(), ksw->options()->useRefraction ) );
+				ksw->LST(), ksw->geo()->lat(), ksw->options()->useRefraction ) );
 		setClickedPoint( mousePoint() );
 
 		double r0 = 200.0/pixelScale[ ksw->options()->ZoomLevel ];  //the maximum search radius

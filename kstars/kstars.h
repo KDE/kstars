@@ -168,11 +168,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**@returns pointer to the INDI driver
 		*/
-                INDIDriver* getINDIDriver(void) { return indidriver; }
+		INDIDriver* getINDIDriver(void) { return indidriver; }
 		
 	/**@returns pointer to the local sidereal time.
 		*/
-		dms* LSTh() { return data()->LSTh; }
+		dms* LST() { return data()->LST; }
 
 	/**@returns the timestep scale of the simulation clock.
 		*/
@@ -419,9 +419,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void changeTime(QDate newDate, QTime newTime );
 
-		/**Set the KStarsData::LSTh member from the current UTC.
+		/**Set the KStarsData::LST member from the current UTC.
 		*/
-		void setLSTh( QDateTime UTC );
+		void setLST( QDateTime UTC );
 
 		SkyMap *skymap;
 		SimClock *clock;

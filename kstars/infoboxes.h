@@ -206,7 +206,7 @@ public slots:
 	*@param jd The Julian Date (long double)
 	*@returns true if values have changed
 	*/
-	bool timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian);
+	bool timeChanged(QDateTime ut, QDateTime lt, dms *lst, long double julian);
 
 /**Update the GeoBox strings according to the argument.
 	*@param geo The Geographic Location (we get the name, longitude and latitude from this)

@@ -329,7 +329,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	else return false;
 }
 
-bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian) {
+bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, dms *lst, long double julian) {
 	QString ot1 = TimeBox->text1();
 	QString ot2 = TimeBox->text2();
 	QString ot3 = TimeBox->text3();
@@ -339,7 +339,7 @@ bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double j
 	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
 		+ "   " + KGlobal::locale()->formatDate( ut.date(), true ) );
 	QString STString;
-	STString = STString.sprintf( "%02d:%02d:%02d   ", lst.hour(), lst.minute(), lst.second() );
+	STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
 		i18n( "Julian Day", "JD: " ) +
 		KGlobal::locale()->formatNumber( julian, 2 ) );

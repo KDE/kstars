@@ -475,10 +475,9 @@ private:
 	KStandardDirs *stdDirs;
 
 	QDateTime LTime, UTime;
-	QTime LST;
 	bool TimeRunsForward, temporaryTrail;
 
-	dms *LSTh, *HourAngle;
+	dms *LST, *HourAngle;
 	KLocale *locale;
 
 	QString TypeName[NTYPENAME];

@@ -199,7 +199,7 @@ public:
 	*@param LST pointer to the local sidereal time
 	*@param lat pointer to the geographic latitude
 	*/
-	void HorizontalToEquatorial( const dms* LSTh, const dms* lat );
+	void HorizontalToEquatorial( const dms* LST, const dms* lat );
 
 /**Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
 	*The ecliptic coordinates are returned as reference arguments (since 

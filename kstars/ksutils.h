@@ -14,15 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-/**This class contains static member functions to perform various time
+/**@short KStars utility functions
+	*@author Mark Hollomon
+	*@version 1.0
+	*This class contains static member functions to perform various time
 	*conversion functions, and coordinate-related functions.
 	*The openDataFile() function is also here.  This function searches
 	*the standard KDE directories for the data filename given as an argument.
 	*All functions are static, so we have made the constructor private
 	*(so it is impossible to instantiate a KSUtils object).
-	*@short KStars utility functions
-	*@author Mark Hollomon
-	*@version 0.9
 	*/
 
 #ifndef KSTARS_KSUTILS_H_
@@ -35,60 +35,83 @@
 
 class KSUtils {
 	public:
-		/**Computes julian day from the UT DateTime.
-		 * @p t = Universal Time/Date
-		 * @returns long double representing the corresponding Julian Day
-		 */
-		static long double UTtoJulian(const QDateTime &t);
+	/**Compute julian day from the UT time/date.
+		*@param t the Universal Time/Date
+		*@return long double representing the corresponding Julian Day
+		*/
+		static long double UTtoJD(const QDateTime &t);
 
-		/**Computes Greenwich Sidereal Time from the UT DateTime.
-		 * @p t = Universal Time/Date
-		 * @returns QTime representing the Greenwich Sidereal Time.
-		 */
-		static QTime UTtoGST( const QDateTime &UT );
+	/**Compute UT time/date from the julian day.
+		*@param jd the julian day
+		*@return QDateTime representing date and time
+		*/
+		static QDateTime JDtoUT(long double jd);
 
-		/**convert Greenwich sidereal time to local sidereal time
-			*@param GST the Greenwich Sidereal Time
-			*@param longitude the current location's longitude
-			*@returns QTime representing local sidereal time
-			*/
-		static QTime GSTtoLST( QTime GST, const dms *longitude );
+	/**Compute Greenwich Sidereal Time from the UT DateTime.
+		*@param t the Universal Time/Date
+		*@return dms representing the Greenwich Sidereal Time.
+		*/
+		static dms UTtoGST( const QDateTime &UT );
 
-		/**convert universal time to local sidereal time.
-			*This is a convenience function: it calls UTtoGST, followed by GSTtoLST.
-			*@param UT the Universal Time
-			*@param longitude the current location's longitude
-			*@returns QTime representing local sidereal time
-			*/
-		static QTime UTtoLST( QDateTime UT, const dms *longitude );
+	/**Compute the Universal Time from the Greenwich Sidereal Time.
+		*This operation requires a date, which is why the UT 
+		*is needed as an argument (we only use the Date portion of the UT).
+		*@param GST the Greenwich sidereal time
+		*@param UT the Universal Time/Date
+		*@return QTime representing the Universal Time corresponding to GST.
+		*/
+		static QTime GSTtoUT( const dms &GST, const QDateTime &UT );
 
-		/**Converts local sidereal time to universal time.
-		 * @param UT = universal time
-		 * @param longitude = east longitude
-		 * @returns QTime representing universal time
-		 */
-		static QTime LSTtoUT( QDateTime LST, const dms *longitude);
+	/**convert Greenwich sidereal time to local sidereal time
+		*@param GST the Greenwich Sidereal Time
+		*@param longitude the current location's longitude
+		*@return dms representing local sidereal time
+		*/
+		static dms GSTtoLST( const dms &GST, const dms *longitude );
 
-		/**Convenience function to compute the Greenwich sidereal 
-		 * time at 0h of universal time. This function is called
-		 * by other functions.
-		 *
-		 * @param DT = date and time
-		 * @returns sidereal time in hours.
-		 */
-		static double GSTat0hUT( QDateTime DT );
+	/**convert local sidereal time to Greenwich sidereal time
+		*@param LST the local`Sidereal Time
+		*@param longitude the current location's longitude
+		*@return dms representing Greenwich sidereal time
+		*/
+		static dms LSTtoGST( const dms &LST, const dms *longitude );
 
-		/**Computes date and time from the julian day.
-		 * @param jd = julian day
-		 * @returns QDateTime representing date and time
-		 */
-		static QDateTime JDtoDateTime(long double jd);
+	/**convert universal time to local sidereal time.
+		*This is a convenience function: it calls UTtoGST, followed by GSTtoLST.
+		*@param UT the Universal Time
+		*@param longitude the current location's longitude
+		*@return dms representing local sidereal time
+		*/
+		static dms UTtoLST( const QDateTime &UT, const dms *longitude );
 
-//Deprecated function (see SkyPoint::nutate() )
-//		static void nutate( long double jd, double &dEcLong, double &dObliq );
+	/**convert universal time to local sidereal time.
+		*This is a convenience function: it calls UTtoGST, followed by GSTtoLST.
+		*@param UT the Universal Time
+		*@param longitude the current location's longitude
+		*@return dms representing local sidereal time
+		*/
+		static QTime LSTtoUT( const dms &LST, const QDateTime &UT, const dms *longitude );
 
-//Deprecated function (see KSNumbers::obliquity() )
-//		static dms findObliquity( long double jd );
+	/**Convenience function to compute the Julian Day at 0h UT.
+		*@param j The julian day
+		*@returns julian day at 0h UT
+		*/
+		static long double JDat0hUT( long double j );
+		
+	/**Overloaded member function, provided for convenience.
+		*It behaves essentially like the above function.
+		*@param ut The Universal Time/Date
+		*@returns julian day at 0h UT
+		*/
+		static long double JDat0hUT( const QDateTime &ut );
+
+	/**Convenience function to compute the Greenwich sidereal 
+		*time at 0h of universal time. 
+		*
+		*@param DT = date and time
+		*@returns sidereal time in hours.
+		*/
+		static dms GSTat0hUT( const QDateTime &DT );
 
 	/**
 		*Attempt to open the data file named filename, using the QFile object "file".
@@ -102,12 +125,6 @@ class KSUtils {
 		*@returns a reference to the opened file.
 		*/
 		static bool openDataFile( QFile &file, QString filename );
-
-		/* Extracts the Julian Day at 0h UT.
-		* @param j The julian day
-		* @returns julian day at 0h UT
-		* */
-		static long double JdAtZeroUT (long double j);
 
 	private:
 		//

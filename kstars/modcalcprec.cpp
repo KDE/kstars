@@ -59,7 +59,7 @@ QString modCalcPrec:: showCurrentEpoch () {
 double modCalcPrec::setCurrentEpoch () {
 
 	QDateTime dt = QDateTime::currentDateTime();
-	long double jd = KSUtils::UTtoJulian( dt );
+	long double jd = KSUtils::UTtoJD( dt );
 	double epoch = JdtoEpoch(jd);
 
 	return epoch;

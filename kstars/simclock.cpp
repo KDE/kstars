@@ -115,7 +115,7 @@ long double SimClock::JD() {
 
 QDateTime SimClock::UTC() {
 	if (! utcvalid) {
-		utc = KSUtils::JDtoDateTime(julian);
+		utc = KSUtils::JDtoUT(julian);
 		utcvalid = true;
 	}
 
@@ -165,7 +165,7 @@ void SimClock::start() {
 void SimClock::setUTC(const QDateTime &newtime) {
 	utc = newtime;
 	utcvalid = true;
-	julian = KSUtils::UTtoJulian(utc);
+	julian = KSUtils::UTtoJD(utc);
 	if (tmr.isActive()) {
 		julianmark = julian;
 		sysmark.start();

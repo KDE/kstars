@@ -429,7 +429,6 @@ void elts::slotUpdateDateLoc(void) {
 	//Again find each object in the list of known objects, and update
 	//coords if the object is a solar system body
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
-	KSNumbers *oldNum = new KSNumbers( ks->getClock()->JD() );
 	KSPlanet *Earth = ks->data()->earth();
 	
 	for ( unsigned int i = 0; i < PlotList->count(); ++i ) {
@@ -533,7 +532,7 @@ long double elts::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJulian( getQDate() );
+	julianDay = KSUtils::UTtoJD( getQDate() );
 
 	return julianDay;
 }

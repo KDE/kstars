@@ -57,7 +57,7 @@ void modCalcJD::computeFromCalendar (void)
 {
 	long double julianDay, modjulianDay;
 	
-	julianDay = KSUtils::UTtoJulian( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getQDateTime() );
 	showJd(julianDay);
 
 	modjulianDay = julianDay - 2400000.5;
@@ -81,7 +81,7 @@ void modCalcJD::computeFromJd (void)
 	QDateTime dt;
 
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
-	dt = KSUtils::JDtoDateTime( julianDay );
+	dt = KSUtils::JDtoUT( julianDay );
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );

@@ -349,7 +349,7 @@ void KStars::initGuides(KSNumbers *num)
 	// Define the Celestial Equator
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		o->EquatorialToHorizontal( LST(), geo()->lat() );
 		data()->Equator.append( o );
 	}
 
@@ -373,7 +373,7 @@ void KStars::initGuides(KSNumbers *num)
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
-		RA = LSTh()->Degrees() - HA.Degrees();
+		RA = LST()->Degrees() - HA.Degrees();
 
 		SkyPoint *o = new SkyPoint( RA, dec );
 		o->setAlt( 0.0 );
@@ -384,7 +384,7 @@ void KStars::initGuides(KSNumbers *num)
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		o = new SkyPoint( 0.0, 0.0 );
 		o->setFromEcliptic( num->obliquity(), point->ra(), &temp );
-		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		o->EquatorialToHorizontal( LST(), geo()->lat() );
 		data()->Ecliptic.append( o );
 	}
 }
@@ -425,7 +425,7 @@ void KStars::datainitFinished(bool worked) {
 			SkyPoint DefaultFocus;
 			DefaultFocus.setAz( 180.0 );
 			DefaultFocus.setAlt( 45.0 );
-			DefaultFocus.HorizontalToEquatorial( LSTh(), geo()->lat() );
+			DefaultFocus.HorizontalToEquatorial( LST(), geo()->lat() );
 			map()->setDestination( &DefaultFocus );
 		}
 	}
@@ -508,7 +508,7 @@ void KStars::privatedata::buildGUI() {
 	if ( ks->useDefaultOptions ) {
 		newPoint.setAz( ks->options()->focusRA );
 		newPoint.setAlt( ks->options()->focusDec + 0.0001 );
-		newPoint.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
+		newPoint.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
 	} else {
 		newPoint.set( ks->options()->focusRA, ks->options()->focusDec );
 	}
@@ -525,7 +525,7 @@ void KStars::privatedata::buildGUI() {
 //	SkyPoint DefaultFocus;
 //	DefaultFocus.setAz( 180.0 );
 //	DefaultFocus.setAlt( 45.0 );
-//	DefaultFocus.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
+//	DefaultFocus.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
 //	ks->map()->setDestination( &DefaultFocus );
 
 	//if user was tracking last time, track on same object now.
@@ -550,9 +550,9 @@ void KStars::privatedata::buildGUI() {
 	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
 	
 	ks->map()->setDestination( ks->map()->clickedPoint() );
-	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
+	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
-	ks->map()->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
+	ks->map()->focus()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
 	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
 	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );

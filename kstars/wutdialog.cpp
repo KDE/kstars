@@ -266,12 +266,10 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	for ( QDateTime test = ssDT; test < srDT; test = test.addSecs(3600) ) {
 		//Need LST of the test time, expressed as a dms object.
 		QDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
-		QTime lst = KSUtils::UTtoLST( ut, geo->lng() );
-		dms LSTh;
-		LSTh.setH( lst.hour(), lst.minute(), lst.second() );
+		dms LST = KSUtils::UTtoLST( ut, geo->lng() );
 		
 		//check altitude of object at this time.
-		sp.EquatorialToHorizontal( &LSTh, geo->lat() );
+		sp.EquatorialToHorizontal( &LST, geo->lat() );
 		
 		if ( sp.alt()->Degrees() > minAlt ) {
 			visible = true;

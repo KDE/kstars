@@ -113,14 +113,14 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
 	
 	// reset next dst change time
-	Data->setNextDSTChange( KSUtils::UTtoJulian( Geo->tzrule()->nextDSTChange() ) );
+	Data->setNextDSTChange( KSUtils::UTtoJD( Geo->tzrule()->nextDSTChange() ) );
 
 	//Turn off animated slews for the next time step.
 	options()->setSnapNextFocus();
 	clock->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
 
 	// reset local sideral time
-	setLSTh( clock->UTC() );
+	setLST( clock->UTC() );
 }
 
 void KStars::clearCachedFindDialog() {
@@ -139,7 +139,7 @@ void KStars::clearCachedFindDialog() {
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
-	QTime oldLST = data()->LST;
+	dms oldLST( LST()->Degrees() );
 	// Due to frequently use of this function save data and map pointers for speedup.
 	// Save options() and geo() to a pointer would not speedup because most of time options
 	// and geo will accessed only one time.
@@ -147,15 +147,15 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	SkyMap *Map = map();
 
 	Data->updateTime( clock, geo(), Map, automaticDSTchange );
-	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, Data->LST, Data->CurrentDate) )
+	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, LST(), Data->CurrentDate) )
 	        Map->update();
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
-	if ( !options()->isTracking && Data->LST > oldLST ) { 
-		int nSec = oldLST.secsTo( Data->LST );
+	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) { 
+		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
 		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
-		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( Data->LSTh, geo()->lat() );
+		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
 		Map->showFocusCoords();
 	}
 
@@ -220,12 +220,11 @@ QString KStars::getDateString( QDate date ) {
 //class where they _really_ belong, we'll do the forwarding.
 //
 void KStars::setHourAngle() {
-	data()->HourAngle->setH( LSTh()->Hours() - map()->focus()->ra()->Hours() );
+	data()->HourAngle->setH( LST()->Hours() - map()->focus()->ra()->Hours() );
 }
 
-void KStars::setLSTh( QDateTime UTC ) {
-	data()->LST = KSUtils::UTtoLST( UTC, geo()->lng() );
-	LSTh()->setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
+void KStars::setLST( QDateTime UTC ) {
+	LST()->set( KSUtils::UTtoLST( UTC, geo()->lng() ) );
 }
 
 KStarsData* KStars::data( void ) { return pd->kstarsData; }

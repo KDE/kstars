@@ -1160,7 +1160,7 @@ void ViewOpsDialog::slotAddCatalog() {
 	if ( ac.exec()==QDialog::Accepted ) {
 		//compute Horizontal coords for custom objects:
 		for ( unsigned int i=0; i < ac.objectList().count(); ++i )
-			ac.objectList().at(i)->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			ac.objectList().at(i)->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 		//Add new custom catalog, based on the list of SkyObjects we just parsed
 		ksw->data()->addCatalog( ac.name(), ac.objectList() );

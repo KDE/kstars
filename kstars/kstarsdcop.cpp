@@ -42,22 +42,22 @@ void KStars::lookTowards ( const QString direction ) {
 	else if (dir == "northeast" || dir=="ne") {
 		map()->setClickedObject( NULL );
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
-		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "southeast" || dir=="se") {
 		map()->setClickedObject( NULL );
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
-		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "southwest" || dir=="sw") {
 		map()->setClickedObject( NULL );
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
-		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else if (dir == "northwest" || dir=="nw") {
 		map()->setClickedObject( NULL );
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
-		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else {
 		SkyObject *target = getObjectNamed( direction );
@@ -118,10 +118,10 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			//configure time zone rule
 			QDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
 			loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
-			data()->setNextDSTChange( KSUtils::UTtoJulian( loc->tzrule()->nextDSTChange() ) );
+			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
 			
 			//reset LST
-			setLSTh( clock->UTC() );
+			setLST( clock->UTC() );
 			
 			//make sure planets, etc. are updated immediately
 			data()->setFullTimeUpdate();
@@ -129,7 +129,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			// If the sky is in Horizontal mode and not tracking, reset focus such that
 			// Alt/Az remain constant.
 			if ( ! options()->isTracking && options()->useAltAz ) {
-				map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+				map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 			}
 
 			// recalculate new times and objects

@@ -258,7 +258,6 @@ void KSPopupMenu::setRiseSetLabels( void ) {
 		st = i18n( "No set time: Never rises" );
 	}
 
-	//QTime ttime = ksw->map()->clickedObject()->transitTime( ksw->data()->LTime, ksw->LSTh() );
 	QTime ttime = ksw->map()->clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString tt, tt2, tt3;
 	dms trAlt = ksw->map()->clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );

@@ -47,56 +47,51 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	longBox->show( ks->geo()->lng() );
 }
 
-QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
+dms modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
 {
-	QTime lst;
-
 	QDateTime utdt = QDateTime( dt, ut);
-	lst = KSUtils::UTtoLST( utdt, &longitude);
-	return lst;
+	return KSUtils::UTtoLST( utdt, &longitude);
 }
 
-QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
+QTime modCalcSidTime::computeSTtoUT (dms st, QDate dt, dms longitude)
 {
-	QTime ut;
-
-	QDateTime dtst = QDateTime( dt, st);
-	ut = KSUtils::LSTtoUT( dtst, &longitude);
-	return ut;
+	QDateTime dtt = QDateTime( dt, QTime());
+	return KSUtils::LSTtoUT( st, dtt, &longitude);
 }
 
-void modCalcSidTime::showUT ( QTime dt )
+void modCalcSidTime::showUT( QTime dt )
 {
 	UtBox->setTime( dt );
 }
 
-void modCalcSidTime::showST ( QTime dt )
+void modCalcSidTime::showST( dms st )
 {
+	QTime dt( st.hour(), st.minute(), st.second() );
 	StBox->setTime( dt );
 }
 
-QTime modCalcSidTime::getUT (void) 
+QTime modCalcSidTime::getUT( void ) 
 {
 	QTime dt;
 	dt = UtBox->time();
 	return dt;
 }
 
-QTime modCalcSidTime::getST (void) 
+dms modCalcSidTime::getST( void ) 
 {
-	QTime dt;
-	dt = StBox->time();
-	return dt;
+	QTime dt = StBox->time();
+	dms st; st.setH( dt.hour(), dt.minute(), dt.second() );
+	return st;
 }
 
-QDate modCalcSidTime::getDate (void) 
+QDate modCalcSidTime::getDate( void ) 
 {
 	QDate dt;
 	dt = datBox->date();
 	return dt;
 }
 
-dms modCalcSidTime::getLongitude (void)
+dms modCalcSidTime::getLongitude( void )
 {
 	dms longitude;
 	longitude = longBox->createDms();
@@ -111,7 +106,8 @@ void modCalcSidTime::slotClearFields(){
 }
 
 void modCalcSidTime::slotComputeTime(){
-	QTime ut, st;
+	QTime ut;
+	dms st;
 
 	QDate dt = getDate();
 	dms longitude = getLongitude();

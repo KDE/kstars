@@ -74,7 +74,7 @@ long double modCalcAzel::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJulian( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getQDateTime() );
 
 	return julianDay;
 }
@@ -150,11 +150,7 @@ long double modCalcAzel::epochToJd (double epoch)
 
 dms modCalcAzel::DateTimetoLST (QDateTime utdt, dms longitude)
 {
-
-	QTime lst = KSUtils::UTtoLST( utdt, &longitude);
-	dms LSTh = QTimeToDMS (lst);
-	
-	return LSTh;
+	return KSUtils::UTtoLST( utdt, &longitude);
 }
 
 dms modCalcAzel::QTimeToDMS(QTime qtime) {

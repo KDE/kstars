@@ -248,8 +248,8 @@ int eltsCanvas::getEl (SkyPoint *sp, int ut) {
 
 	dms lat = el->getLatitude();
 
-	dms LSTh = DateTimetoLST (el->getQDate(), ut , el->getLongitude() );
-	sp->EquatorialToHorizontal( &LSTh, &lat );
+	dms LST = DateTimetoLST (el->getQDate(), ut , el->getLongitude() );
+	sp->EquatorialToHorizontal( &LST, &lat );
 
 	int sgn = 1;
 	if ( sp->alt()->degree() < 0 ) sgn = -1;
@@ -258,42 +258,33 @@ int eltsCanvas::getEl (SkyPoint *sp, int ut) {
 }
 
 int eltsCanvas::UtMinutes(void) {
-
 	elts *el = (elts *)topLevelWidget();
 	dms longit;
 
 	longit = el->getLongitude();
 
-	QTime lst_at_ut0 = KSUtils::UTtoLST( el->getQDate(), &longit);
-	return lst_at_ut0.hour()*60+lst_at_ut0.minute();
+	dms lst_at_ut0 = KSUtils::UTtoLST( el->getQDate(), &longit);
+	return lst_at_ut0.hour()*60 + lst_at_ut0.minute();
 }
 
 dms eltsCanvas::DateTimetoLST (QDateTime date, int ut, dms longitude)
 {
-
 	int uth = ut/60;
 	int utm = ut%60;
 
 	QDateTime utdt = QDateTime( date.date(), QTime(uth, utm, 0) );
-	QTime lst = KSUtils::UTtoLST( utdt, &longitude);
-	dms LSTh = QTimeToDMS (lst);
-
-	return LSTh;
+	return KSUtils::UTtoLST( utdt, &longitude);
 }
 
 dms eltsCanvas::QTimeToDMS(QTime qtime) {
-
 	dms tt;
 	tt.setH(qtime.hour(), qtime.minute(), qtime.second());
 	tt.reduce();
-
 	return tt;
 }
 
 int eltsCanvas::Interpol(int x1,int x2,int y1,int y2) {
-
 	return (x1 - y1*(x2-x1)/(y2-y1));
-
 }
 
 #include "eltscanvas.moc"

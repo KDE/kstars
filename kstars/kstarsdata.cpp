@@ -47,7 +47,7 @@ KStarsData::KStarsData( KStars *ks ) {
 	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
-	LSTh = new dms();
+	LST = new dms();
 	HourAngle = new dms();
 
 	locale = new KLocale( "kstars" );
@@ -127,7 +127,7 @@ KStarsData::~KStarsData() {
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
-	if (LSTh) delete LSTh;
+	if (LST) delete LST;
 	if (HourAngle) delete HourAngle;
 	if (PC) delete PC;
 	if (jmoons) delete jmoons;
@@ -469,7 +469,7 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 
 	if (reloadedData == true) {
 		// recompute coordinates if AltAz is used
-		o->EquatorialToHorizontal( LSTh, kstars->geo()->lat() );
+		o->EquatorialToHorizontal( LST, kstars->geo()->lat() );
 	}
 
 }
@@ -1367,7 +1367,7 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 	// force a DST change with option true for 3. parameter
 	geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );
 	// reset next DST change time
-	setNextDSTChange( KSUtils::UTtoJulian( geo->tzrule()->nextDSTChange() ) );
+	setNextDSTChange( KSUtils::UTtoJD( geo->tzrule()->nextDSTChange() ) );
 	//reset LTime, because TZoffset has changed
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 }
@@ -1377,6 +1377,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	UTime = clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 	CurrentDate = clock->JD();
+	LST->set( KSUtils::UTtoLST( UTime, geo->lng() ) );
 
 	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 	//the DST change date/time.
@@ -1400,9 +1401,6 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		needNewCoords = true;
 		LastNumUpdate = CurrentDate;
 	}
-
-	LST = KSUtils::UTtoLST( UTime, geo->lng() );
-	LSTh->setH( LST.hour(), LST.minute(), LST.second() );
 
 	// Update positions of objects, if necessary
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
@@ -1446,7 +1444,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	if ( fabs( CurrentDate - LastMoonUpdate ) > 0.00069444 ) {
 		LastMoonUpdate = CurrentDate;
 		if ( options->drawMoon ) {
-			Moon->findPosition( &num, geo->lat(), LSTh );
+			Moon->findPosition( &num, geo->lat(), LST );
 			Moon->findPhase( PC->planetSun() );
 		}
 
@@ -1463,31 +1461,31 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		//Recompute Alt, Az coords for all objects
 		//Planets
 		//This updates trails as well
-		PC->EquatorialToHorizontal( LSTh, geo->lat() );
+		PC->EquatorialToHorizontal( LST, geo->lat() );
 
-		jmoons->EquatorialToHorizontal( LSTh, geo->lat() );
+		jmoons->EquatorialToHorizontal( LST, geo->lat() );
 		if ( options->drawMoon ) {
-			Moon->EquatorialToHorizontal( LSTh, geo->lat() );
-			if ( Moon->hasTrail() ) Moon->updateTrail( LSTh, geo->lat() );
+			Moon->EquatorialToHorizontal( LST, geo->lat() );
+			if ( Moon->hasTrail() ) Moon->updateTrail( LST, geo->lat() );
 		}
 
 //		//Planet Trails
 //		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() )
-//			p->EquatorialToHorizontal( LSTh, geo->lat() );
+//			p->EquatorialToHorizontal( LST, geo->lat() );
 
 		//Asteroids
 		if ( options->drawAsteroids ) {
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) {
-				ast->EquatorialToHorizontal( LSTh, geo->lat() );
-				if ( ast->hasTrail() ) ast->updateTrail( LSTh, geo->lat() );
+				ast->EquatorialToHorizontal( LST, geo->lat() );
+				if ( ast->hasTrail() ) ast->updateTrail( LST, geo->lat() );
 			}
 		}
 
 		//Comets
 		if ( options->drawComets ) {
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) {
-				com->EquatorialToHorizontal( LSTh, geo->lat() );
-				if ( com->hasTrail() ) com->updateTrail( LSTh, geo->lat() );
+				com->EquatorialToHorizontal( LST, geo->lat() );
+				if ( com->hasTrail() ) com->updateTrail( LST, geo->lat() );
 			}
 		}
 
@@ -1496,7 +1494,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
 				if ( star->mag() > options->magLimitDrawStar ) break;
 				if (needNewCoords) star->updateCoords( &num );
-				star->EquatorialToHorizontal( LSTh, geo->lat() );
+				star->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
@@ -1504,25 +1502,25 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
     if ( options->drawMessier || options->drawMessImages ) {
   		for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LSTh, geo->lat() );
+				o->EquatorialToHorizontal( LST, geo->lat() );
       }
     }
     if ( options->drawNGC ) {
   		for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LSTh, geo->lat() );
+				o->EquatorialToHorizontal( LST, geo->lat() );
       }
     }
     if ( options->drawIC ) {
   		for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LSTh, geo->lat() );
+				o->EquatorialToHorizontal( LST, geo->lat() );
       }
     }
     if ( options->drawOther ) {
   		for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LSTh, geo->lat() );
+				o->EquatorialToHorizontal( LST, geo->lat() );
       }
     }
     /* old code was
@@ -1536,7 +1534,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 			if ( update ) {
 				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LSTh, geo->lat() );
+				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
     */
@@ -1547,7 +1545,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			if ( options->drawCatalog[j] ) {
 				for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );
-					o->EquatorialToHorizontal( LSTh, geo->lat() );
+					o->EquatorialToHorizontal( LST, geo->lat() );
 				}
 			}
 		}
@@ -1557,7 +1555,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			for ( unsigned int j=0; j<11; ++j ) {
 				for ( SkyPoint *p = MilkyWay[j].first(); p; p = MilkyWay[j].next() ) {
 					if (needNewCoords) p->updateCoords( &num );
-					p->EquatorialToHorizontal( LSTh, geo->lat() );
+					p->EquatorialToHorizontal( LST, geo->lat() );
 				}
 			}
 		}
@@ -1566,7 +1564,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		if ( options->drawConstellLines ) {
 			for ( SkyPoint *p = clineList.first(); p; p = clineList.next() ) {
 				if (needNewCoords) p->updateCoords( &num );
-				p->EquatorialToHorizontal( LSTh, geo->lat() );
+				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
@@ -1574,28 +1572,28 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		if ( options->drawConstellNames ) {
 			for ( SkyPoint *p = cnameList.first(); p; p = cnameList.next() ) {
 				if (needNewCoords) p->updateCoords( &num );
-				p->EquatorialToHorizontal( LSTh, geo->lat() );
+				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Celestial Equator
 		if ( options->drawEquator ) {
 			for ( SkyPoint *p = Equator.first(); p; p = Equator.next() ) {
-				p->EquatorialToHorizontal( LSTh, geo->lat() );
+				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Ecliptic
 		if ( options->drawEcliptic ) {
 			for ( SkyPoint *p = Ecliptic.first(); p; p = Ecliptic.next() ) {
-				p->EquatorialToHorizontal( LSTh, geo->lat() );
+				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		//Horizon: different than the others; Alt & Az remain constant, RA, Dec must keep up
 		if ( options->drawHorizon || options->drawGround ) {
 			for ( SkyPoint *p = Horizon.first(); p; p = Horizon.next() ) {
-				p->HorizontalToEquatorial( LSTh, geo->lat() );
+				p->HorizontalToEquatorial( LST, geo->lat() );
 			}
 		}
 
@@ -1606,7 +1604,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				skymap->setDestinationAltAz(
 						skymap->refract( skymap->focusObject()->alt(), true ).Degrees(),
 						skymap->focusObject()->az()->Degrees() );
-				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
+				skymap->destination()->HorizontalToEquatorial( LST, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 
 			} else if ( isSolarSystem( skymap->focusObject() ) ) {
@@ -1615,13 +1613,13 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				skymap->setFocus( skymap->destination() );
 
 			} else { //tracking non-solar system object in equatorial; update alt/az
-				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
+				skymap->focus()->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		} else if ( options->isTracking ) {
 			if ( options->useAltAz ) {
 				//Tracking on empty sky in Alt/Az mode
 				skymap->setDestination( skymap->clickedPoint() );
-				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+				skymap->destination()->EquatorialToHorizontal( LST, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 			}
 		} else if ( ! skymap->isSlewing() ) {
@@ -1629,18 +1627,18 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			if ( options->useAltAz ) {
 				skymap->focus()->setAlt( skymap->destination()->alt()->Degrees() );
 				skymap->focus()->setAz( skymap->destination()->az()->Degrees() );
-				skymap->focus()->HorizontalToEquatorial( LSTh, geo->lat() );
-				//skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
+				skymap->focus()->HorizontalToEquatorial( LST, geo->lat() );
+				//skymap->destination()->HorizontalToEquatorial( LST, geo->lat() );
 			} else {
-				skymap->focus()->setRA( LSTh->Hours() - HourAngle->Hours() );
+				skymap->focus()->setRA( LST->Hours() - HourAngle->Hours() );
 				skymap->setDestination( skymap->focus() );
-				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
-				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+				skymap->focus()->EquatorialToHorizontal( LST, geo->lat() );
+				skymap->destination()->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
 
 		skymap->setOldFocus( skymap->focus() );
-		skymap->oldfocus()->EquatorialToHorizontal( LSTh, geo->lat() );
+		skymap->oldfocus()->EquatorialToHorizontal( LST, geo->lat() );
 
 		if (clock->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );

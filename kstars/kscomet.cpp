@@ -1,5 +1,5 @@
 /***************************************************************************
-                          kscomet.h  -  K Desktop Planetarium
+                          kscomet.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Wed 19 Feb 2003
     copyright            : (C) 2001 by Jason Harris
@@ -40,7 +40,7 @@ KSComet::KSComet( KStars *_ks, QString _s, QString imfile,
 	int m = int( 60.0 * ( Hour - h ) );
 	int s = int( 60.0 * ( 60.0 * ( Hour - h) - m ) );
 	
-	JDp = KSUtils::UTtoJulian( QDateTime( QDate( year, month, day ), QTime( h, m, s ) ) );
+	JDp = KSUtils::UTtoJD( QDateTime( QDate( year, month, day ), QTime( h, m, s ) ) );
 
 	//compute the semi-major axis, a:
 	a = q/(1.0-e);

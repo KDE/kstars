@@ -140,11 +140,9 @@ QTime SkyObject::riseSetTimeUT( long double jd, const dms *gLng, const dms *gLat
 
 dms SkyObject::riseSetTimeLST( long double jd, const dms *gLng, const dms *gLat, bool riseT) {
 	QTime UT = riseSetTimeUT(jd, gLng, gLat, riseT);
-	QDateTime utTime = KSUtils::JDtoDateTime( jd );
+	QDateTime utTime = KSUtils::JDtoUT( jd );
 	utTime.setTime( UT );
-	
-	QTime lstTime = KSUtils::UTtoLST( utTime, gLng ); 
-	return QTimeToDMS(lstTime);
+	return KSUtils::UTtoLST( utTime, gLng ); 
 }
 
 QTime SkyObject::auxRiseSetTimeUT( long double jd, const dms *gLng, const dms *gLat, 
@@ -228,10 +226,8 @@ dms SkyObject::riseSetTimeAz(long double jd, const GeoLocation *geo, bool riseT)
 
 QTime SkyObject::transitTimeUT(long double jd, const dms *gLng ) {
 
-	QDateTime utDateTime = KSUtils::JDtoDateTime( jd );
-	QTime lstTime;
-	lstTime = KSUtils::UTtoLST( utDateTime, gLng );
-	dms LST = QTimeToDMS( lstTime );
+	QDateTime utDateTime = KSUtils::JDtoUT( jd );
+	dms LST = KSUtils::UTtoLST( utDateTime, gLng );
 	
 	//dSec is the number of seconds until the object transits.
 	dms HourAngle = dms ( LST.Degrees() - ra()->Degrees() );
@@ -280,7 +276,7 @@ dms SkyObject::transitAltitude(long double jd, const GeoLocation *geo) {
 /*
 dms SkyObject::gstAtZeroUT (long double jd) {
 
-	long double jd0 = KSUtils::JdAtZeroUT (jd) ;
+	long double jd0 = KSUtils::JDatZeroUT (jd) ;
 	long double s = jd0 - 2451545.0;
 	double t = s/36525.0;
 	dms T0;
@@ -312,9 +308,9 @@ dms SkyObject::elevationCorrection(void) {
 }
 
 long double SkyObject::newJDfromJDandUT(long double jd, QTime UT) {
-	QDateTime dt = KSUtils::JDtoDateTime(jd);
+	QDateTime dt = KSUtils::JDtoUT(jd);
 	dt.setTime( UT );
-	return KSUtils::UTtoJulian ( dt );
+	return KSUtils::UTtoJD( dt );
 }
 
 SkyPoint SkyObject::getNewCoords(long double jd, long double jd0) {

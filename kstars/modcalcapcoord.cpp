@@ -68,7 +68,7 @@ long double modCalcApCoord::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
-	julianDay = KSUtils::UTtoJulian( getQDateTime() );
+	julianDay = KSUtils::UTtoJD( getQDateTime() );
 
 	return julianDay;
 }

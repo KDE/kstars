@@ -349,7 +349,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
      // Convert to JD and verify its lower limit
      QDateTime datetime( tempdate );
 
-     TempJD =  int(KSUtils::UTtoJulian(datetime));
+     TempJD =  int(KSUtils::UTtoJD(datetime));
 
      if (TempJD >= JDCutOff)
         {

@@ -107,7 +107,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 		for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
 			bool newlyVisible = false;
 			sp->set( 0.0, Dec );
-			if ( options->useAltAz ) sp->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			if ( options->useAltAz ) sp->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			QPoint o = getXY( sp, options->useAltAz, options->useRefraction, scale );
 			QPoint o1 = o;
 			cur = o;
@@ -116,7 +116,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 			double dRA = 1./15.; //180 points along full circle of RA
 			for ( register double RA=dRA; RA<24.; RA+=dRA ) {
 				sp->set( RA, Dec );
-				if ( options->useAltAz ) sp->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				if ( options->useAltAz ) sp->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 				if ( checkVisibility( sp, guideFOV, guideXmax ) ) {
 					o = getXY( sp, options->useAltAz, options->useRefraction, scale );
@@ -154,7 +154,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 		for ( register double RA=0.; RA<24.; RA += 2. ) {
 			bool newlyVisible = false;
 			SkyPoint *sp1 = new SkyPoint( RA, -90. );
-			if ( options->useAltAz ) sp1->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			if ( options->useAltAz ) sp1->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			QPoint o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
 			cur = o;
 			psky.moveTo( o.x(), o.y() );
@@ -162,7 +162,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 			double dDec = 1.;
 			for ( register double Dec=-89.; Dec<=90.; Dec+=dDec ) {
 				sp1->set( RA, Dec );
-				if ( options->useAltAz ) sp1->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+				if ( options->useAltAz ) sp1->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 				if ( checkVisibility( sp1, guideFOV, guideXmax ) ) {
 					o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
@@ -944,7 +944,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 			//Find North angle:
 			SkyPoint test;
 			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
-			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction, scale );
 			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
 			double dy = double( t.y() - o.y() );
@@ -1135,7 +1135,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//North
 				c->setAz( 359.99 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1145,7 +1145,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//NorthEast
 				c->setAz( 45.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1155,7 +1155,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//East
 				c->setAz( 90.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1165,7 +1165,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//SouthEast
 				c->setAz( 135.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1175,7 +1175,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//South
 				c->setAz( 179.99 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1185,7 +1185,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//SouthWest
 				c->setAz( 225.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1195,7 +1195,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//West
 				c->setAz( 270.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -1205,7 +1205,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//NorthWest
 				c->setAz( 315.0 );
 				c->setAlt( 0.0 );
-				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+				if ( !options->useAltAz ) c->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 				cpoint = getXY( c, options->useAltAz, false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {

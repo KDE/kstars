@@ -157,10 +157,10 @@ void KStars::slotGeoLocator() {
 			newLocation->tzrule()->reset_with_ltime( ltime, newLocation->TZ0(), data()->isTimeRunningForward() );
 
 			// reset next dst change time
-			data()->setNextDSTChange( KSUtils::UTtoJulian( newLocation->tzrule()->nextDSTChange() ) );
+			data()->setNextDSTChange( KSUtils::UTtoJD( newLocation->tzrule()->nextDSTChange() ) );
 
 			// reset local sideral time
-			setLSTh( clock->UTC() );
+			setLST( clock->UTC() );
 			
 			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
@@ -168,7 +168,7 @@ void KStars::slotGeoLocator() {
 			// If the sky is in Horizontal mode and not tracking, reset focus such that
 			// Alt/Az remain constant.
 			if ( ! options()->isTracking && options()->useAltAz ) {
-				map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+				map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 			}
 
 			// recalculate new times and objects
@@ -206,7 +206,7 @@ void KStars::slotSetTime() {
 		changeTime(newDate, newTime);
 
 		if ( options()->useAltAz ) {
-			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 	}
 }
@@ -444,9 +444,9 @@ void KStars::slotManualFocus() {
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
 		if ( options()->useAltAz && options()->useRefraction ) {
-			focusDialog.point()->EquatorialToHorizontal( LSTh(), geo()->lat() );
+			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
 			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
-			focusDialog.point()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 		map()->setClickedPoint( focusDialog.point() );
 		if ( options()->isTracking ) slotTrack();
