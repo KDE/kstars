@@ -12,9 +12,6 @@
             <height>57</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>Form7</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
