@@ -33,7 +33,7 @@ setting sail.
 <para>
 Set the geographic location to <quote>Greenwich, England</quote> using the
 <guilabel>Set Location</guilabel> window
-(<keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>).  Note that the
+(<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>).  Note that the
 Local Time (<abbrev>LT</abbrev>)and the Universal Time (<abbrev>UT</abbrev>) are
 now the same.
 </para><para>

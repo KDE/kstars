@@ -96,7 +96,7 @@ before you can add the location to the list of known places.  &kstars; will
 automatically load your custom locations in future sessions.  Please note, at
 this point, the only way to remove a custom location is to remove the
 appropriate line from the file
-<filename>~/.kde/share/apps/kstars/mycities.dat.</filename>
+<filename>~/.kde/share/apps/kstars/mycities.dat</filename>.
 </para>
 </sect1>
 
@@ -127,7 +127,7 @@ ever need to reset the clock back to the current time, just select
 <para>
 Now that we have the time and location set, let's have a look around.
 You can pan the display using the arrow keys.  If you hold down the
-<keycap>Shift</keycap> key before panning, the scrolling speed is doubled.  The
+&Shift; key before panning, the scrolling speed is doubled.  The
 display can also be panned by clicking and dragging with the mouse.  Note that
 while the display is scrolling, not all objects are displayed.  This is
 done to cut down on the CPU load of recomputing object positions, which
@@ -161,12 +161,12 @@ can get more information about an object by right-clicking on it.  A
 popup menu will appear, showing its name(s), object type, and links to
 images and information from the internet.
 </para><para>
-If you know of an additional URL with information or an image of the
+If you know of an additional &URL; with information or an image of the
 object, you can add a custom link to the object's popup menu using the
 <guimenuitem>Add Link...</guimenuitem> item.  This opens a window in which you
-can enter the URL and the text that should appear in the popup menu.  You can
-make sure the URL is correct with the <guibutton>Check URL</guibutton> button,
-which will test the URL in your web browser.  Please specify whether the URL
+can enter the &URL; and the text that should appear in the popup menu.  You can
+make sure the &URL; is correct with the <guibutton>Check URL</guibutton> button,
+which will test the &URL; in your web browser.  Please specify whether the &URL;
 points to an Image, or to an HTML document!  If you specify Image here, the new
 menu item will open the Image Viewer, not the web browser.  You can also
 point to files on your local disk, so this feature could be used to attach
@@ -182,15 +182,15 @@ Object...</guimenuitem> from the <guimenu>Location</guimenu> menu.  The
 &kstars; database.  Many objects are listed only by their catalog name (for
 example, NGC 3077), but some are also listed by their common name (for example,
 Whirlpool Galaxy).  You can filter the list by name, or by object type.
-Highlight the desired object, and press Ok.  The display will center on the
-object and begin tracking it. Note that if the object is below the horizon, you
-may not see anything except the ground.  You can make the ground invisible in
-the <guilabel>Display Options</guilabel> window.
+Highlight the desired object, and press <guibutton>Ok</guibutton>.  The display 
+will center on the object and begin tracking it. Note that if the object is below 
+the horizon, you may not see anything except the ground.  You can make the ground 
+invisible in the <guilabel>Display Options</guilabel> window.
 </para><para>
 Object Tracking is automatically engaged whenever an object is
 centered in the display, either by using the <guilabel>Find Object</guilabel>
 window, by double-clicking on an object, or by selecting <guimenuitem>Center and
-Track</guimenuitem> from the right-click popup menu.  You can
+Track</guimenuitem> from the <mousebutton>right</mousebutton>-click popup menu.  You can
 disengage tracking by panning the display, pressing the
 <guiicon>Lock</guiicon> icon in the toolbar, or selecting
 <guimenuitem>Track Object</guimenuitem> from the

@@ -5,13 +5,13 @@
 <title>Menu Commands</title>
 
 <sect2>
-<title>File Menu</title>
-<para>
+<title><guimenu>File</guimenu> Menu</title>
+
 <variablelist>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
 <guimenuitem>Quit</guimenuitem>
@@ -20,12 +20,12 @@
 </para></listitem>
 </varlistentry>
 </variablelist>
-</para>
+
 </sect2>
 
 <sect2>
-<title>Time Menu</title>
-<para>
+<title><guimenu>Time</guimenu> Menu</title>
+
 <variablelist>
 <varlistentry>
 <term><menuchoice>
@@ -37,7 +37,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
 </shortcut>
 <guimenu>Time</guimenu>
 <guimenuitem>Set Time...</guimenuitem>
@@ -52,12 +52,12 @@
 <listitem><para><action>Toggle whether time passes</action></para></listitem>
 </varlistentry>
 </variablelist>
-</para>
+
 </sect2>
 
 <sect2>
-<title>Location Menu</title>
-<para>
+<title><guimenu>Location</guimenu> Menu</title>
+
 <variablelist>
 <varlistentry>
 <term><menuchoice>
@@ -70,7 +70,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Find Object</guimenuitem>
@@ -80,7 +80,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>t</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
 </shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Track Object</guimenuitem>
@@ -91,7 +91,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Geographic...</guimenuitem>
@@ -100,12 +100,12 @@
  location</action></para></listitem>
 </varlistentry>
 </variablelist>
-</para>
+
 </sect2>
 
 <sect2>
-<title>View Menu</title>
-<para>
+<title><guimenu>View</guimenu> Menu</title>
+
 <variablelist>
 <varlistentry>
 <term><menuchoice>
@@ -129,23 +129,23 @@
 <listitem><para><action>Change view options</action></para></listitem>
 </varlistentry>
 </variablelist>
-</para>
+
 </sect2>
 
 <sect2>
 <title>Help Menu</title>
-<para>
-A standard KDE help menu: you can access this document (the
-&kstars; Handbook), file a bug report, or view our About Box.
-</para>
+
+&help.menu.documentation;
+
 </sect2>
+
 <sect2>
 <title>Popup Menu</title>
-<para>
-The right-click popup menu is context-sensitive, meaning it is
-different depending on what kind of object you click on.  We list all
-possible popup menu items here, with the object type [in brackets].
-</para>
+
+<para>The <mousebutton>right</mousebutton> click popup menu is
+context-sensitive, meaning it is different depending on what kind of
+object you click on.  We list all possible popup menu items here, with
+the object type [in brackets].</para>
 
 <variablelist>
 <varlistentry>
@@ -243,11 +243,11 @@ viewer.</para></listitem>
 
 <sect1 id="kstars-keys">
 <title>Keyboard Commands</title>
-<para>
+
 <variablelist>
 <varlistentry><term>Arrow Keys</term>
 <listitem><para>
-Use the arrow keys to pan the display.  Holding down the <keycap>Shift</keycap>
+Use the arrow keys to pan the display.  Holding down the &Shift;
 key doubles the scrolling speed.
 </para></listitem></varlistentry>
 
@@ -289,28 +289,28 @@ key doubles the scrolling speed.
 <varlistentry><term><keycap>F1</keycap></term>
 <listitem><para>Open &kstars; Handbook.</para></listitem></varlistentry>
 
-<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </term>
 <listitem><para>Open Find Object Window.</para></listitem></varlistentry>
 
-<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </term>
 <listitem><para>Open Change Location Window.</para></listitem></varlistentry>
 
-<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
 </term>
 <listitem><para>Open Set Time Window.</para></listitem></varlistentry>
 
-<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>t</keycap></keycombo>
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
 </term>
 <listitem><para>Toggle tracking.</para></listitem></varlistentry>
 
-<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
 </term>
 <listitem><para>Quit &kstars;.</para></listitem></varlistentry>
 
 </variablelist>
-</para>
+
 </sect1>
 
 <sect1 id="kstars-mouse">
@@ -320,7 +320,7 @@ The current RA, Dec coordinates of the mouse cursor is always
 displayed in the status bar.  Clicking the Mouse anywhere will
 identify the nearest object in the status bar.  Double-clicking will
 center and track on the clicked location or object.  Click and drag
-to pan the display.  Right-click to bring up the popup menu
+to pan the display.  <mousebutton>Right</mousebutton> click to bring up the popup menu
 with detailed options for the clicked object.
 </para>
 </sect1>

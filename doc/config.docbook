@@ -4,7 +4,7 @@
 &kstars; has many configuration options, which you can access by opening
 the <guilabel>Display Options</guilabel> window, either with the
 <guiicon>wrench</guiicon> toolbar icon, or selecting <guimenuitem>Configure
-KStars...</guimenuitem> from the <guimenu>View</guimenu> menu.  The
+&kstars;...</guimenuitem> from the <guimenu>View</guimenu> menu.  The
 window is depicted below:
 
 <screenshot>
@@ -18,7 +18,9 @@ window is depicted below:
   </textobject>
 </mediaobject>
 </screenshot>
-</para><para>
+</para>
+
+<para>
 The <guilabel>Display Options</guilabel> window is divided into five tabs:
 <guilabel>Stars</guilabel>, <guilabel>Catalogs</guilabel>,
 <guilabel>Guides</guilabel>, <guilabel>Solar System</guilabel>, and

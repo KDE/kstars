@@ -1,6 +1,6 @@
 <sect1 id="ai-contents">
 <title>AstroInfo: Table of Contents</title>
-<para>
+
 <itemizedlist>
 <listitem><para><link linkend="ai-skycoords">Celestial Coordinate
  Systems</link></para></listitem>
@@ -32,5 +32,5 @@
 <listitem><para><link linkend="ai-utime">Universal Time</link></para></listitem>
 <listitem><para><link linkend="ai-zenith">The Zenith</link></para></listitem>
 </itemizedlist>
-</para>
+
 </sect1>

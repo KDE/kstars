@@ -34,7 +34,7 @@ the pole for a small fraction of the time.
 <para>Exercises:</para>
 <para>
 Use the <guilabel>Find Object</guilabel> window
-(<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>) to locate
+(<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>) to locate
 Polaris.  Notice that its Declination is almost (but not exactly) +90 degrees.
 Compare the Altitude reading when focused on Polaris to your location's
 geographic latitude.  They are always within one degree of each other.

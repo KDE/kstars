@@ -48,7 +48,7 @@ The symbol indicates the object type:
 Mostly, the different colors indicate which catalog the object belongs
 with (Messier, NGC or IC).  However, some objects have a different color
 (the default is red).  This indicates that there are extra images available
-in the right-click popup menu.
+in the <mousebutton>right</mousebutton> click popup menu.
 </para>
 </answer>
 </qandaentry>

@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN"
  "dtd/kdex.dtd" [
-  <!ENTITY kappname "&kstars;"><!-- replace kapp here -->
-  <!ENTITY kstars "<application>KStars</application>">
+  <!ENTITY kappname "&kstars;">
+  <!ENTITY package "kdeedu">
   <!ENTITY quicktour SYSTEM "quicktour.docbook">
   <!ENTITY config SYSTEM "config.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
@@ -10,25 +10,25 @@
   <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY install SYSTEM "install.docbook">
-    <!ENTITY contents SYSTEM "ai-contents.docbook">
-    <!ENTITY skycoords SYSTEM "skycoords.docbook">
-    <!ENTITY cpoles SYSTEM "cpoles.docbook">
-    <!ENTITY csphere SYSTEM "csphere.docbook">
-    <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
-    <!ENTITY equinox SYSTEM "equinox.docbook">
-    <!ENTITY geocoords SYSTEM "geocoords.docbook">
-    <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
-    <!ENTITY horizon SYSTEM "horizon.docbook">
-    <!ENTITY hourangle SYSTEM "hourangle.docbook">
-    <!ENTITY julianday SYSTEM "julianday.docbook">
-    <!ENTITY leapyear SYSTEM "leapyear.docbook">
-    <!ENTITY meridian SYSTEM "meridian.docbook">
-    <!ENTITY precession SYSTEM "precession.docbook">
-    <!ENTITY retrograde SYSTEM "retrograde.docbook">
-    <!ENTITY sidereal SYSTEM "sidereal.docbook">
-    <!ENTITY timezones SYSTEM "timezones.docbook">
-    <!ENTITY utime SYSTEM "utime.docbook">
-    <!ENTITY zenith SYSTEM "zenith.docbook">
+  <!ENTITY contents SYSTEM "ai-contents.docbook">
+  <!ENTITY skycoords SYSTEM "skycoords.docbook">
+  <!ENTITY cpoles SYSTEM "cpoles.docbook">
+  <!ENTITY csphere SYSTEM "csphere.docbook">
+  <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
+  <!ENTITY equinox SYSTEM "equinox.docbook">
+  <!ENTITY geocoords SYSTEM "geocoords.docbook">
+  <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
+  <!ENTITY horizon SYSTEM "horizon.docbook">
+  <!ENTITY hourangle SYSTEM "hourangle.docbook">
+  <!ENTITY julianday SYSTEM "julianday.docbook">
+  <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY meridian SYSTEM "meridian.docbook">
+  <!ENTITY precession SYSTEM "precession.docbook">
+  <!ENTITY retrograde SYSTEM "retrograde.docbook">
+  <!ENTITY sidereal SYSTEM "sidereal.docbook">
+  <!ENTITY timezones SYSTEM "timezones.docbook">
+  <!ENTITY utime SYSTEM "utime.docbook">
+  <!ENTITY zenith SYSTEM "zenith.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -36,7 +36,7 @@
 <book lang="&language;">
 
 <bookinfo>
-<title>The KStars Handbook</title>
+<title>The &kstars; Handbook</title>
 
 <authorgroup>
 <author>
@@ -90,12 +90,10 @@
 <year>2001</year>
 <holder>Jason Harris</holder>
 </copyright>
-<!-- Translators: put here the copyright notice of the translation -->
-<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
-     and in the FDL itself on how to use it. -->
+
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>11/20/2001</date>
+<date>2001-11-20</date>
 <releaseinfo>0.80.00</releaseinfo>
 
 <abstract>
@@ -112,10 +110,6 @@ is to make &kstars; an interactive tool for
 learning about astronomy and the night sky.
 </para>
 </abstract>
-
-<!-- This is a set of Keywords for indexing by search engines.
-Please at least include KDE, the KDE package it is in, the name
- of your application, and a few relevant keywords. -->
 
 <keywordset>
 <keyword>KDE</keyword>
