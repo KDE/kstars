@@ -268,6 +268,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			break;
 
+		case Key_O: //Add object to Observing List
+			if ( shiftPressed ) setClickedObject( focusObject() );
+			if ( clickedObject() ) 
+				ksw->observingList()->slotAddObject();
+			break;
+
 		case Key_L: //Toggle User label on Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) {

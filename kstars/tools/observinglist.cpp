@@ -21,6 +21,7 @@
 #include <qstringlist.h>
 #include <klistview.h>
 #include <kpushbutton.h>
+#include <kstatusbar.h>
 #include <ktextedit.h>
 
 #include "observinglist.h"
@@ -90,6 +91,9 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 			obj->dec()->toDMSString(),
 			QString::number( obj->mag() ),
 			obj->typeName() );
+
+	//Note addition in statusbar
+	ks->statusBar()->changeItem( i18n( "Added %1 to observing list." ).arg( ks->map()->clickedObject()->name() ), 0 );
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
