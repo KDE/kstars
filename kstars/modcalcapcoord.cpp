@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "modcalcapcoord.h"
-//#include "modcalcapcoord.moc"
+#include "modcalcapcoord.moc"
 #include "modcalcprec.h"
 #include "dms.h"
 #include "dmsbox.h"
