@@ -40,7 +40,7 @@
 */
 
 
-#if TIMEZONE_IS_INT
+#if !(TIMEZONE_IS_INT)
 static int daylight = 0;
 #endif
 
