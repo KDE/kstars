@@ -551,7 +551,7 @@ IUUpdateSwitches(const ISwitchVectorProperty *svp, ISState *states, char *names[
    if (!sp)
    {
               svp->s = IPS_IDLE;
-	      IDSetSwitch(svp, "Error: %s is not a member of %s property.", names[0], svp->name);
+	      IDSetSwitch(svp, "Error: %s is not a member of %s property.", names[i], svp->name);
 	      return -1;
    }
 	 

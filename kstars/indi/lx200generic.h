@@ -47,11 +47,11 @@ class LX200Generic
  void handleError(INumberVectorProperty *nvp, int err, const char *msg);
  void handleError(ITextVectorProperty *tvp, int err, const char *msg);
  bool isTelescopeOn(void);
- void powerTelescope(ISState *s);
+ void powerTelescope();
  void slewError(int slewCode);
  void getAlignment();
  int handleCoordSet();
- int getOnSwitch(ISState * states, int n);
+ int getOnSwitch(ISwitchVectorProperty *sp);
  void setCurrectDeviceName(const char * devName);
  void correctFault();
  
@@ -59,8 +59,6 @@ class LX200Generic
  protected:
   int timeFormat;
   int currentSiteNum;
-  int currentCatalog;
-  int currentSubCatalog;
   int trackingMode;
 
   double JD;
@@ -76,6 +74,7 @@ class LX200Generic
   
   char thisDevice[64];
 
+  int currentSet;
   int lastSet;
   int lastMove[4];
 

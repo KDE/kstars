@@ -143,10 +143,10 @@ double getOTATemp();
       if (checkPower(&GPSPowerSw))
        return;
 
-      index = getOnSwitch(states, n);
       IUResetSwitches(&GPSPowerSw);
+      IUUpdateSwitches(&GPSPowerSw, states, names, n);
+      index = getOnSwitch(&GPSPowerSw);
       index == 0 ? turnGPSOn() : turnGPSOff();
-      GPSPowerSw.sp[index].s = ISS_ON;
       GPSPowerSw.s = IPS_OK;
       strcpy(msg, index == 0 ? "GPS System is ON" : "GPS System is OFF");
       IDSetSwitch (&GPSPowerSw, msg);
@@ -158,18 +158,19 @@ double getOTATemp();
       if (checkPower(&GPSStatusSw))
        return;
 
-      index = getOnSwitch(states, n);
       IUResetSwitches(&GPSPowerSw);
+      IUUpdateSwitches(&GPSStatusSw, states, names, n);
+      index = getOnSwitch(&GPSStatusSw);
 
       if (index == 0)
       {
 	   gpsSleep();
-	   strcpy(msg, "GPS system is in sleep mode");
+	   strcpy(msg, "GPS system is in sleep mode.");
       }
       else if (index == 1)
       {
 	   gpsWakeUp();
-           strcpy(msg, "GPS system is reactivated");
+           strcpy(msg, "GPS system is reactivated.");
       }
       else
       {
@@ -178,7 +179,6 @@ double getOTATemp();
       }
 
 	GPSStatusSw.s = IPS_OK;
-        GPSStatusSw.sp[index].s = ISS_ON;
 	IDSetSwitch (&GPSStatusSw, msg);
 	return;
 
@@ -192,11 +192,11 @@ double getOTATemp();
      GPSUpdateSw.s = IPS_OK;
      IDSetSwitch(&GPSUpdateSw, "Updating GPS system. This operation might take few minutes to complete...");
      if (updateGPS_System())
-     	IDSetSwitch(&GPSUpdateSw, "GPS system update successful");
+     	IDSetSwitch(&GPSUpdateSw, "GPS system update successful.");
      else
      {
         GPSUpdateSw.s = IPS_IDLE;
-        IDSetSwitch(&GPSUpdateSw, "GPS system update failed");
+        IDSetSwitch(&GPSUpdateSw, "GPS system update failed.");
      }
      return;
     }
@@ -206,9 +206,10 @@ double getOTATemp();
       if (checkPower(&AltDecPecSw))
        return;
 
-      index = getOnSwitch(states, n);
       IUResetSwitches(&AltDecPecSw);
-
+      IUUpdateSwitches(&AltDecPecSw, states, names, n);
+      index = getOnSwitch(&AltDecPecSw);
+      
        if (index == 0)
       {
         enableDecAltPec();
@@ -221,7 +222,6 @@ double getOTATemp();
       }
 
       AltDecPecSw.s = IPS_OK;
-      AltDecPecSw.sp[index].s = ISS_ON;
       IDSetSwitch(&AltDecPecSw, msg);
 
       return;
@@ -232,8 +232,9 @@ double getOTATemp();
       if (checkPower(&AzRaPecSw))
        return;
 
-      index = getOnSwitch(states, n);
       IUResetSwitches(&AzRaPecSw);
+      IUUpdateSwitches(&AzRaPecSw, states, names, n);
+      index = getOnSwitch(&AzRaPecSw);
 
        if (index == 0)
       {
@@ -247,7 +248,6 @@ double getOTATemp();
       }
 
       AzRaPecSw.s = IPS_OK;
-      AzRaPecSw.sp[index].s = ISS_ON;
       IDSetSwitch(&AzRaPecSw, msg);
 
       return;

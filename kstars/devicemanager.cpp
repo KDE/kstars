@@ -437,21 +437,24 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 
 }
 
-void DeviceManager::sendNewSwitch (INDI_P *pp)
+void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 {  
         INDI_E *lp;
+	int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
 	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.ascii());
 	fprintf (serverFP,"  name='%s'>\n", pp->name.ascii());
 	
-	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
-        {
+	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
+	  if (i == index)
+          {
 	    fprintf (serverFP,"  <oneSwitch\n");
 	    fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
 	    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
 	    fprintf (serverFP,"  </oneSwitch>\n");
-	}
+	    break;
+	  }
 	fprintf (serverFP, "</newSwitchVector>\n");
 
 }

@@ -35,6 +35,10 @@ class LX200Classic : public LX200Generic
  void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
  void ISPoll ();
  void getBasicData();
+ 
+ private:
+ int currentCatalog;
+ int currentSubCatalog;
 
 
 };

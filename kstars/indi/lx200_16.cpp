@@ -290,8 +290,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FanStatusSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&FanStatusSw);
+          IUResetSwitches(&FanStatusSw);
+          IUUpdateSwitches(&FanStatusSw, states, names, n);
+          index = getOnSwitch(&FanStatusSw);
 
 	  if (index == 0)
 	  {
@@ -321,8 +322,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&HomeSearchSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&HomeSearchSw);
+          IUResetSwitches(&HomeSearchSw);
+          IUUpdateSwitches(&HomeSearchSw, states, names, n);
+          index = getOnSwitch(&HomeSearchSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  HomeSearchSw.s = IPS_BUSY;
@@ -335,8 +337,9 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
       if (checkPower(&FieldDeRotatorSw))
        return;
 
-          index = getOnSwitch(states, n);
-	  IUResetSwitches(&FieldDeRotatorSw);
+          IUResetSwitches(&FieldDeRotatorSw);
+          IUUpdateSwitches(&FieldDeRotatorSw, states, names, n);
+          index = getOnSwitch(&FieldDeRotatorSw);
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  FieldDeRotatorSw.s = IPS_OK;

@@ -155,8 +155,9 @@ bool KSPopupMenu::addINDI(void)
 	{
 	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
 	   {
-	     // Only std are allowed to show
-	     if (prop->stdID == -1) continue;
+	     // Only std are allowed to show. Movement is somewhat problematic due to an issue with the LX200 telescopes (the telescope
+	     // does not update RA/DEC while moving N/W/E/S) so it's better off the skymap. It's avaiable in the INDI control panel nonetheless.
+	     if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
 	     // Only switches are shown
  	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO) continue;
 	   
