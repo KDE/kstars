@@ -39,7 +39,7 @@ void KStars::initActions() {
 			this, SLOT( newWindow() ), actionCollection(), "new_window");
 	new KAction(i18n("&Close Window"), "fileclose", KShortcut( "Ctrl+W"  ),
 			this, SLOT( closeWindow() ), actionCollection(), "close_window");
-	new KAction( i18n( "Open..."), "open_file", KShortcut( "Ctrl+O"), this, SLOT( slotOpenFITS()), actionCollection(), "open_file");
+	new KAction( i18n( "Open FITS..."), "fileopen", KShortcut( "Ctrl+O"), this, SLOT( slotOpenFITS()), actionCollection(), "open_file");
 	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KShortcut( "Ctrl+I" ),
 			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
 	new KAction( i18n( "&Run Script..." ), "launch", KShortcut( "Ctrl+R" ),

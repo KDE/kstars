@@ -49,6 +49,7 @@
 #include "fitsviewer.h"
 #include "fitsimage.h"
 #include "fitsprocess.h"
+#include "fitshistogram.h"
 #include "conbridlg.h"
 #include "imagereductiondlg.h"
 #include "ksutils.h"
@@ -74,17 +75,26 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     
     /* Initiliaze menu actions */
     history = new KCommandHistory(actionCollection());
+    history->setUndoLimit(5);
+    history->setRedoLimit(5);
+
+    new KAction( i18n("Image Reduction"), "blend", KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
+    new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
+    new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( imageFilters()), actionCollection(), "image_filters");
+    new KAction ( i18n("Histogram"), "wizard", KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
+       
     KStdAction::save(this, SLOT(fileSave()), actionCollection());
     KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
     KStdAction::close(this, SLOT(close()), actionCollection());
     KStdAction::copy(this, SLOT(fitsCOPY()), actionCollection());
+    KStdAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
+    KStdAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
+    new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+D" ),
+		image, SLOT(fitsZoomDefault()), actionCollection(), "zoom_default" );
     
-    new KAction( i18n("Image Reduction"), "blend", KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
-    new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
-    new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( imageFilters()), actionCollection(), "image_filters");
-
    /* Create GUI */  
    createGUI("fitsviewer.rc");
+    
    setCaption(currentURL.filename());
    statusBar()->insertItem("                               ", 0, true);
    statusBar()->setItemAlignment(0 , Qt::AlignLeft);
@@ -408,7 +418,8 @@ void FITSViewer::imageReduction()
     }
     
     FITSProcess reduc(this, darkFiles, flatFiles, darkCombineMode, flatCombineMode);
-    image->rescale();
+    calculateStats();
+    image->rescale(FITSImage::FITSLinear, stats.min, stats.max);
        
   }
   
@@ -420,20 +431,23 @@ void FITSViewer::imageReduction()
 
 void FITSViewer::BrightContrastDlg()
 {
+  conbriCommand *cbc;
   image->saveTemplateImage();
   ContrastBrightnessDlg conbriDlg(this);
     
   if (conbriDlg.exec() == QDialog::Rejected)
   {
     image->reLoadTemplateImage();
-    image->convertImageToPixmap();
-    image->update();
+    image->zoomToCurrent();
+    //image->convertImageToPixmap();
+    //image->update();
   }
   else
   {
-    //TODO the undo/redo stuff here
-    //imageList.append(currentImage);
-    //undo++;
+    image->update();
+    cbc = new conbriCommand(this, image->displayImage, image->templateImage);
+    history->addCommand(cbc, false);
+
   }
   
   image->destroyTemplateImage();
@@ -445,4 +459,56 @@ void FITSViewer::imageFilters()
 
 
 }
+
+void FITSViewer::imageHistogram()
+{
+
+  unsigned int *backupBuffer = (unsigned int *) malloc(stats.width * stats.height * sizeof(unsigned int));
+  memcpy(backupBuffer, imgBuffer, stats.width * stats.height);
+  
+  histCommand *histC;
+  image->saveTemplateImage();
+  FITSHistogram hist(this);
+    
+  if (hist.exec() == QDialog::Rejected)
+  {
+    image->reLoadTemplateImage();
+    image->zoomToCurrent();
+  }
+  else
+  {
+    //image->update();
+    //histC = new histCommand(this, hist.type, image->displayImage, image->templateImage, backupBuffer);
+    //history->addCommand(histC, false);
+
+  }
+  
+  image->destroyTemplateImage();
+  
+}
+
+void FITSViewer::fitsUndo()
+{
+
+
+
+
+
+
+
+}
+
+void FITSViewer::fitsRedo()
+{
+
+
+
+
+
+
+
+
+
+}
+
 

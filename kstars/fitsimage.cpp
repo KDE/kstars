@@ -62,14 +62,16 @@ static FITSLoadVals plvals =
   0         /* Dont compose images */
 };
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, name)
+FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, name), zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
   reducedImgBuffer = NULL;
-  currentImage     = NULL;
+  displayImage     = NULL;
   
   imgFrame = new QFrame(viewport());
   addChild(imgFrame);
+  
+  currentZoom = 0.0;
   
   viewport()->setMouseTracking(true);
   imgFrame->setMouseTracking(true);
@@ -103,37 +105,54 @@ void FITSImage::resizeEvent (QResizeEvent *ev)
 void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
 {
 
-  int x,y;
+  double x,y;
   bool validPoint = true;
-  if (!currentImage) return;
+  if (!displayImage) return;
+  
+  
+   x = e->x();
+   y = e->y();
   
   if (imgFrame->x() > 0)
-    x = e->x() - imgFrame->x();
-  else
-    x = e->x();
+    x -= imgFrame->x();
   
-  if (x < 0 || x > currentImage->width())
+  if (imgFrame->y() > 0)
+    y -= imgFrame->y();
+  
+   //kdDebug() << "X= " << x << " -- Y= " << y << endl;      
+   
+  if (currentZoom > 0)
+  {
+    x /= pow(zoomFactor, currentZoom);
+    y /= pow(zoomFactor, currentZoom);
+  }
+  else if (currentZoom < 0)
+  {
+    x *= pow(zoomFactor, abs(currentZoom));
+    //kdDebug() << "The X power is " << pow(zoomFactor, abs(currentZoom)) << " -- X final = " << x << endl;
+    y *= pow(zoomFactor, abs(currentZoom));
+  }
+  
+  if (x < 0 || x > width)
     validPoint = false;
   
-  //kdDebug() << "regular x= " << e->x() << " -- X= " << x << " -- imgFrame->x()= " << imgFrame->x() << " - currentImageWidth= " << viewer->currentImage->width() << endl;
-  if (imgFrame->y() > 0)
-    y = e->y() - imgFrame->y();
-  else
-    y = e->y();
-  if (y < 0 || y > currentImage->height())
+  //kdDebug() << "regular x= " << e->x() << " -- X= " << x << " -- imgFrame->x()= " << imgFrame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
+  
+  
+  if (y < 0 || y > height)
     validPoint = false;
   else    
   // invert the Y since we read FITS buttom up
-  y = currentImage->height() - y;
+  y = height - y;
   
-  //kdDebug() << "X= " << x << " -- Y= " << y << endl;
+  //kdDebug() << "Zoom= " << currentZoom << " -- X= " << x << " -- Y= " << y << endl;
   
   if (viewer->imgBuffer == NULL)
    kdDebug() << "viewer buffer is NULL " << endl;
   
   if (validPoint)
   {
-  viewer->statusBar()->changeItem(QString("(%1,%2) Value= %3").arg(x,4).arg(y,-4).arg(viewer->imgBuffer[y * imgFrame->width() + x], -6), 0);
+  viewer->statusBar()->changeItem(QString("(%1,%2) Value= %3").arg( (int) x,4).arg( (int) y,-4).arg(viewer->imgBuffer[(int) (y * width + x)], -6), 0);
   setCursor(Qt::CrossCursor);
   }
   else
@@ -146,7 +165,7 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
 void FITSImage::viewportResizeEvent ( QResizeEvent * e)
 {
         int w, h, x, y;
-	if (!currentImage) return;
+	if (!displayImage) return;
 	
 	w = viewport()->width();
         h = viewport()->height();
@@ -166,13 +185,14 @@ void FITSImage::viewportResizeEvent ( QResizeEvent * e)
 
 void FITSImage::reLoadTemplateImage()
 {
-  *currentImage = templateImage->copy();
+  *displayImage = templateImage->copy();
 }
 
 void FITSImage::saveTemplateImage()
 {
-  templateImage = new QImage(currentImage->copy());
-  //*templateImage = currentImage->copy();
+  templateImage = new QImage(displayImage->copy());
+  //*templateImage = displayImage->copy();
+
 }
 
 void FITSImage::destroyTemplateImage()
@@ -180,17 +200,68 @@ void FITSImage::destroyTemplateImage()
   delete (templateImage);
 }
 
-void FITSImage::rescale()
+
+void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 {
+  
   int val;
-  
-  viewer->calculateStats();
-  
-  for (int i=0; i < height; i++)
-      for (int j=0; j < width; j++)
+  double coeff;
+ 
+  // Very inefficient, find a better way, like a tree or some sort.
+  for (int i=0; i < width * height ; i++)
   {
-      val = (int) (255. * ( (double) (viewer->imgBuffer[i * width + j] - viewer->stats.min) / (double) (viewer->stats.max - viewer->stats.min)));
-      currentImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+    if (viewer->imgBuffer[i] < min) viewer->imgBuffer[i] = min;
+    else if (viewer->imgBuffer[i] > max) viewer->imgBuffer[i] = max; 
+  }
+ 
+  switch (type)
+  {
+    case FITSAuto:
+    case FITSLinear:
+    for (int i=0; i < width; i++)
+      for (int j=0; j < height; j++)
+      {
+	      val = (int) (255. * ((double) (viewer->imgBuffer[i * 530 + j] - min) / (double) (max - min)));
+      	      displayImage->setPixel(j, 530 - i - 1, qRgb(val, val, val));
+      }
+     break;
+     
+    case FITSLog:
+    coeff = 255. / log(1 + max);
+    
+    for (int i=0; i < height; i++)
+      for (int j=0; j < width; j++)
+      {
+	      val = (int) (coeff * log(1 + viewer->imgBuffer[i * width + j]));
+      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+      }
+      break;
+      
+    case FITSExp:
+    coeff = 255. / exp(max);
+    
+    for (int i=0; i < height; i++)
+      for (int j=0; j < width; j++)
+      {
+	      val = (int) (coeff * exp(viewer->imgBuffer[i * width + j]));
+      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+      }
+      break;
+    
+    case FITSSqrt:
+    coeff = 255. / sqrt(max);
+    
+    for (int i=0; i < height; i++)
+      for (int j=0; j < width; j++)
+      {
+	      val = (int) (coeff * sqrt(viewer->imgBuffer[i * width + j]));
+      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
+      }
+      break;
+    
+     
+    default:
+     break;
   }
   
   convertImageToPixmap();
@@ -231,14 +302,15 @@ int FITSImage::loadFits (const char *filename)
    return (-1);
  }
 
- currentImage = new QImage();
+ displayImage  = new QImage();
  KProgressDialog fitsProgress(this, 0, i18n("FITS Viewer"), i18n("Loading FITS..."));
  
  hdulist = fits_seek_image (ifp, 1);
  if (hdulist == NULL) return (-1);
 
- width  = hdulist->naxisn[0]; 
- height = hdulist->naxisn[1];
+ width  = currentWidth = hdulist->naxisn[0]; 
+ height = currentHeight = hdulist->naxisn[1];
+ 
  bitpix = hdulist->bitpix;
  bpp    = hdulist->bpp;
  
@@ -272,8 +344,7 @@ int FITSImage::loadFits (const char *filename)
  trans.replacement = plvals.replace;
  trans.dsttyp = 'c';
 
- currentImage->create(width, height, 32);
- 
+ displayImage->create(width, height, 32); 
  currentRect.setX(0);
  currentRect.setY(0);
  currentRect.setWidth(width);
@@ -300,12 +371,12 @@ int FITSImage::loadFits (const char *filename)
        for (j = 0 ; j < width; j++)
        {
        val = dest[j];
-       currentImage->setPixel(j, i, qRgb(val, val, val));
+       displayImage->setPixel(j, i, qRgb(val, val, val));
       }
       
       fitsProgress.progressBar()->setProgress(height - i);
    }
- 
+   
  reducedImgBuffer = data;
  convertImageToPixmap();
  
@@ -317,5 +388,93 @@ int FITSImage::loadFits (const char *filename)
 
 void FITSImage::convertImageToPixmap()
 {
-    qpix = kpix.convertToPixmap ( *(currentImage) );
+    qpix = kpix.convertToPixmap ( *(displayImage) );
 }
+
+void FITSImage::zoomToCurrent()
+{
+
+ double cwidth, cheight;
+ 
+ if (currentZoom >= 0)
+ {
+   cwidth  = ((double) displayImage->width()) * pow(zoomFactor, currentZoom) ;
+   cheight = ((double) displayImage->height()) * pow(zoomFactor, currentZoom);
+ }
+ else
+ { 
+   cwidth  = ((double) displayImage->width()) / pow(zoomFactor, abs(currentZoom)) ;
+   cheight = ((double) displayImage->height()) / pow(zoomFactor, abs(currentZoom));
+ }
+  
+ if (cwidth != displayImage->width() || cheight != displayImage->height())
+ {
+ 	qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
+        //imgFrame->resize( (int) width, (int) height);
+        viewportResizeEvent (NULL);
+	update();
+ }
+ else
+ {
+   qpix = kpix.convertToPixmap ( *displayImage );
+   update();
+  }
+ 
+}
+
+
+void FITSImage::fitsZoomIn()
+{
+   currentZoom++;
+   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
+   if (currentZoom > 5)
+     viewer->actionCollection()->action("view_zoom_in")->setEnabled (false);
+   
+   currentWidth  *= zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
+   currentHeight *= zoomFactor; //pow(zoomFactor, abs(currentZoom));
+
+   //kdDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
+   
+   qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+   imgFrame->resize( (int) currentWidth, (int) currentHeight);
+
+   update();
+   viewportResizeEvent (NULL);  
+}
+
+void FITSImage::fitsZoomOut()
+{
+  currentZoom--;
+  if (currentZoom < -5)
+     viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
+  viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+  
+  currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
+  currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
+  
+  qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+  imgFrame->resize( (int) currentWidth, (int) currentHeight);
+   
+  update();
+  viewportResizeEvent (NULL);
+}
+
+void FITSImage::fitsZoomDefault()
+{
+
+  viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
+  viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+  
+  currentZoom   = 0;
+  currentWidth  = width;
+  currentHeight = height;
+  
+  qpix = kpix.convertToPixmap (*displayImage);
+  imgFrame->resize( (int) currentWidth, (int) currentHeight);
+  
+  update();
+  viewportResizeEvent (NULL);
+
+}
+
+

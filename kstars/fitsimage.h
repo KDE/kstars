@@ -47,10 +47,15 @@ class FITSImage : public QScrollView  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
+	friend class conbriCommand;
 	friend class FITSViewer;
+	friend class FITSHistogram;
+	friend class histCommand;
 	
 	FITSImage(QWidget * parent, const char * name = 0);
 	~FITSImage();
+	
+	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSExp, FITSSqrt, FITSCustom };
 	
 	/**Bitblt the image onto the viewer widget */
 	void paintEvent (QPaintEvent *ev);
@@ -64,24 +69,33 @@ class FITSImage : public QScrollView  {
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
 	QFrame  *imgFrame;					/* Frame holding the image */
-	QImage  *currentImage;					/* FITS image that is displayed in the GUI */
+	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
 	QImage  *templateImage;					/* backup image for currentImage */
 	QPixmap qpix; 						/* Pixmap for drawing */
 	KPixmapIO kpix;						/* Pixmap IO for fast converting */
 	QRect currentRect;					/* Current rectangle encapsulating the image */
 	int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
-	int width, height;					/* FITS dimensions */
+	int width, height;					/* Original FITS dimensions */
+	double currentWidth,currentHeight;			/* Current width and height due to zoom */
+	const double zoomFactor;				/* Image zoom factor */
+	double currentZoom;					/* Current Zoom level */
 	unsigned char *reducedImgBuffer;			/* scaled image buffer (0-255) range */
 	
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
-	void rescale();						/* rescale image from main image buffer */
+	void rescale(scaleType type, int min, int max);		/* rescale image from main image buffer */
+	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
 	
 	protected:
 	void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );
 	void contentsMouseMoveEvent ( QMouseEvent * e );
 	void viewportResizeEvent ( QResizeEvent * e) ;
+	
+	public slots:
+	void fitsZoomIn();
+	void fitsZoomOut();
+	void fitsZoomDefault();
 };
 
 #endif

@@ -38,8 +38,8 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
-  width  = viewer->stats.width;
-  height = viewer->stats.height;
+  width  = (int) viewer->image->displayImage->width();
+  height = (int) viewer->image->displayImage->height();
   
   ConBriDlg = new ConBriForm(this);
   if (!ConBriDlg) return;
@@ -79,26 +79,27 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
 		val = (val - 255.) * (-0.01 * -contrastValue) + val;
 		if (val > 255) val = 255;
 		if (val < 0) val = 0;
-		viewer->image->currentImage->setPixel(j, i, qRgb(val, val, val));
+		viewer->image->displayImage->setPixel(j, i, qRgb(val, val, val));
 	   }
 	     
   // #2 Apply brightness
   if (brightness <= 64 && brightness >= -64)
-    KImageEffect::intensity(*viewer->image->currentImage, brightness/64.);
+    KImageEffect::intensity(*viewer->image->displayImage, brightness/64.);
   else if (brightness > 64)
   {
-    KImageEffect::intensity(*viewer->image->currentImage, 1.);
-    KImageEffect::intensity(*viewer->image->currentImage, (brightness - 64.) / 64.);
+    KImageEffect::intensity(*viewer->image->displayImage, 1.);
+    KImageEffect::intensity(*viewer->image->displayImage, (brightness - 64.) / 64.);
   }
   else if (brightness < -64)
   {
-    KImageEffect::intensity(*viewer->image->currentImage, -1.);
-    KImageEffect::intensity(*viewer->image->currentImage, (brightness + 64.) / 64.);
+    KImageEffect::intensity(*viewer->image->displayImage, -1.);
+    KImageEffect::intensity(*viewer->image->displayImage, (brightness + 64.) / 64.);
   }
   
   contrast = contrastValue;
-  viewer->image->convertImageToPixmap();
-  viewer->image->update();
+  viewer->image->zoomToCurrent();
+  //viewer->image->convertImageToPixmap();
+  //viewer->image->update();
   //viewer->paintEvent(NULL);
 				  
 }
@@ -118,26 +119,26 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 		if (val > 255) val = 255;
 		if (val < 0) val = 0;
 		
-		viewer->image->currentImage->setPixel(j, i, qRgb(val, val, val));
+		viewer->image->displayImage->setPixel(j, i, qRgb(val, val, val));
 	   }
   
   // #2 Apply brightness
   if (brightness <= 64 && brightness >= -64)
-    KImageEffect::intensity(*viewer->image->currentImage, brightness/64.);
+    KImageEffect::intensity(*viewer->image->displayImage, brightness/64.);
   else if (brightness > 64)
   {
-    KImageEffect::intensity(*viewer->image->currentImage, 1.);
-    KImageEffect::intensity(*viewer->image->currentImage, (brightness - 64.) / 64.);
+    KImageEffect::intensity(*viewer->image->displayImage, 1.);
+    KImageEffect::intensity(*viewer->image->displayImage, (brightness - 64.) / 64.);
   }
   else if (brightness < -64)
   {
-    KImageEffect::intensity(*viewer->image->currentImage, -1.);
-    KImageEffect::intensity(*viewer->image->currentImage, (brightness + 64.) / 64.);
+    KImageEffect::intensity(*viewer->image->displayImage, -1.);
+    KImageEffect::intensity(*viewer->image->displayImage, (brightness + 64.) / 64.);
   }
   
   brightness = brightnessValue;
-  viewer->image->convertImageToPixmap();
-  viewer->image->update();
+  viewer->image->zoomToCurrent();
+  //viewer->image->update();
   //viewer->paintEvent(NULL);
 
 }
@@ -145,5 +146,32 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 QSize ContrastBrightnessDlg::sizeHint() const
 {
   return QSize(400,130);
+}
+
+conbriCommand::conbriCommand(QWidget * parent, QImage* newIMG, QImage *oldIMG)
+{
+  viewer    = (FITSViewer *) parent;
+  newImage  = new QImage();
+  oldImage  = new QImage();
+  *newImage = newIMG->copy();
+  *oldImage = oldIMG->copy();
+}
+
+conbriCommand::~conbriCommand() {}
+            
+void conbriCommand::execute()
+{
+
+  viewer->image->displayImage = newImage;
+  viewer->image->zoomToCurrent();
+
+}
+
+void conbriCommand::unexecute()
+{
+
+  viewer->image->displayImage = oldImage;
+  viewer->image->zoomToCurrent();
+
 }
 

@@ -48,8 +48,11 @@ class FITSViewer : public KMainWindow  {
 	public:
 	
 	friend class ContrastBrightnessDlg;
+	friend class conbriCommand;
 	friend class FITSProcess;
 	friend class FITSImage;
+	friend class FITSHistogram;
+	friend class histCommand;
 	
 	/**Constructor. */
 	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
@@ -65,9 +68,12 @@ class FITSViewer : public KMainWindow  {
 	void fileSave();
         void fileSaveAs();
 	void fitsCOPY();
+	void fitsUndo();
+	void fitsRedo();
 	void imageReduction();
-	void BrightContrastDlg();
 	void imageFilters();	
+	void imageHistogram();
+	void BrightContrastDlg();
 	
 	private:
 	//int  loadImage(unsigned int *buffer, bool displayImage = false);

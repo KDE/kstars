@@ -1,7 +1,7 @@
 /***************************************************************************
-                          conbridlg.h  -  Contrast/Brightness Dialog
-                             -------------------
-    begin                : Fri Feb 6th 2004
+                          fitshistogram.h  -  FITS Historgram
+                          ---------------
+    begin                : Thu Mar 4th 2004
     copyright            : (C) 2004 by Jasem Mutlaq
     email                : mutlaqja@ikarustech.com
  ***************************************************************************/
@@ -13,60 +13,69 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  									   *
  ***************************************************************************/
  
- #ifndef CONTRASTBRIGHTNESSDLG_H
- #define CONTRASTBRIGHTNESSDLG_H
+ #ifndef FITSHISTOGRAM
+ #define FITSHISTOGRAM
  
- #include <kdialogbase.h>
+ #include "histdialog.h"
  #include <kcommand.h>
- #include <klocale.h>
  
- class ConBriForm;
+ #define BARS 500
+ 
  class FITSViewer;
-  
-class ContrastBrightnessDlg : public KDialogBase {
-	Q_OBJECT
- public:
-   ContrastBrightnessDlg(QWidget *parent=0);
-   ~ContrastBrightnessDlg();
+ class QPixmap;
+ 
+ class FITSHistogram : public histDialog
+ {
+   Q_OBJECT
    
-  QSize sizeHint() const;
-  
-  private:
-  int contrast;
-  int brightness;
-  int height;
-  int width;
-  FITSViewer *viewer;
-  ConBriForm *ConBriDlg;
-  unsigned char *localImgBuffer;
-  unsigned char *templateImgBuffer;
-  
-  public slots:
-  void setContrast(int contrastValue);
-  void setBrightness(int brightnessValue);
-   
-};
+   public:
+    FITSHistogram(QWidget *parent, const char * name = 0);
+    ~FITSHistogram();
+    
+    void constructHistogram(unsigned int *buffer);
+    int  findMax();
+    int type;
+    
+    private:
+    int histArray[BARS]; 
+    int binSize;
 
-class conbriCommand : public KCommand
+    FITSViewer * viewer;
+    QPixmap *histogram;
+    
+    protected:
+    void paintEvent( QPaintEvent *e);
+    void mouseMoveEvent( QMouseEvent *e);
+    
+    
+    public slots:
+    void applyScale();
+    void updateBoxes();
+    
+    
+ };
+ 
+ class histCommand : public KCommand
 {
   public:
-        conbriCommand(QWidget * parent, QImage *newIMG, QImage *oldIMG);
-	~conbriCommand();
+        histCommand(QWidget * parent, int newType, QImage *newIMG, QImage *oldIMG, unsigned int * old_buffer);
+	~histCommand();
             
         void execute();
         void unexecute();
-        QString name() const {
-            return i18n("Brightness/Contrast");
-        }
+        QString name() const;
 
     protected:
+        int type;
+	unsigned int *oldBuffer;
         FITSViewer *viewer;
         QImage *newImage;
 	QImage *oldImage;
 };
-
-
-#endif
+ 
+ 
+ #endif
+ 
+ 
