@@ -24,6 +24,11 @@
 #include "ksutils.h"
 #include "ksnumbers.h"
 
+#ifdef B0
+// There are systems that #define B0 as a special termios flag (for baud rate)
+#undef B0
+#endif
+
 int KSPluto::DATAARRAYSIZE = 106;
 bool KSPluto::data_loaded = false;
 double *KSPluto::freq = 0;
