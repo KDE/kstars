@@ -96,7 +96,7 @@ stringsfile:
 
 messages: rc.cpp stringsfile
 	rm -f tips.cpp
-	$(EXTRACTRC) *.ui *.rc > rc.cpp
+	$(EXTRACTRC) *.ui tools/*.ui *.rc > rc.cpp
 	(cd data && $(PREPARETIPS) > ../tips.cpp)
 	$(XGETTEXT) *.cpp *.h tools/*.cpp tools/*.h -o $(podir)/kstars.pot;
 	rm -f tips.cpp
