@@ -24,6 +24,8 @@
 
 #define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
                        //defined here because this file is included in every other class.
+#define B1950 2433282.4235  // Julian date for Jan 0.9235, 1950
+
 class SkyPoint;
 
 /**@class dms

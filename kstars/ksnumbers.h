@@ -92,16 +92,24 @@ public:
 	/**@returns element of P2 precession array at position [i1][i2] */
 	double p2( int i1, int i2 ) const { return P2[i1][i2]; }
 
+	/**@returns element of P1B precession array at position [i1][i2] */
+	double p1b( int i1, int i2 ) const { return P1B[i1][i2]; }
+
+	/**@returns element of P2B precession array at position [i1][i2] */
+	double p2b( int i1, int i2 ) const { return P2B[i1][i2]; }
+
+
 	/**@short update all values for the date given as an argument. */
 	void updateValues( long double jd );
 
 private:
 	dms Obliquity, K, L, L0, LM, M, M0, O, P, D, MM, F;
-	dms XP, YP, ZP;
+	dms XP, YP, ZP, XB, YB, ZB;
 	double CX, SX, CY, SY, CZ, SZ;
-	double P1[3][3], P2[3][3];
+	double CXB, SXB, CYB, SYB, CZB, SZB;
+	double P1[3][3], P2[3][3], P1B[3][3], P2B[3][3];
 	double deltaObliquity, deltaEcLong;
-	double e, T;
+	double e, T, TB;
 	long double days;
 	double jm;
 	static const int arguments[NUTTERMS][5];

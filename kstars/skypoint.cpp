@@ -240,72 +240,84 @@ void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 
- 	double cosRA0, sinRA0, cosDec0, sinDec0;
-	double v[3], s[3];
+	double cosRA, sinRA, cosDec, sinDec;
+        double v[3], s[3];
 
-	RA0.SinCos( sinRA0, cosRA0 );
-	Dec0.SinCos( sinDec0, cosDec0 );
+	RA.setD( RA0.Degrees() );
+	Dec.setD( Dec0.Degrees() );
 
-	//Need first to precess to J2000.0 coords
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
 
-	if ( jd0 != J2000 ) {
+	if (jd0 == jdf)
+		return;
 
-	//v is a column vector representing input coordinates.
-
-		KSNumbers *num = new KSNumbers (jd0);
-
-		v[0] = cosRA0*cosDec0;
-		v[1] = sinRA0*cosDec0;
-		v[2] = sinDec0;
-
-	//s is the product of P1 and v; s represents the
-	//coordinates precessed to J2000
-		for ( unsigned int i=0; i<3; ++i ) {
-			s[i] = num->p1( 0, i )*v[0] + num->p1( 1, i )*v[1] +
-				num->p1( 2, i )*v[2];
-		}
-		delete num;
-
-	} else {
-
-	//Input coords already in J2000, set s accordingly.
-
-
-
-		s[0] = cosRA0*cosDec0;
-		s[1] = sinRA0*cosDec0;
-		s[2] = sinDec0;
-       }
-
-	KSNumbers *num = new KSNumbers (jdf);
-
-	//Multiply P2 and s to get v, the vector representing the new coords.
-
-	for ( unsigned int i=0; i<3; ++i ) {
-		v[i] = num->p2( 0, i )*s[0] + num->p2( 1, i )*s[1] +
-		num->p2( 2, i )*s[2];
+	if ( jd0 == B1950) {
+		B1950ToJ2000();
+		jd0 = J2000;
 	}
 
-	delete num;
+	if (jd0 !=jdf) {
+		// The original coordinate is referred to the FK5 system and
+		// is NOT J2000.
+		if ( jd0 != J2000 ) {
 
-	//Extract RA, Dec from the vector:
+		//v is a column vector representing input coordinates.
 
-	//RA.setRadians( atan( v[1]/v[0] ) );
-	RA.setRadians( atan2( v[1],v[0] ) );
-	Dec.setRadians( asin( v[2] ) );
+			KSNumbers *num = new KSNumbers (jd0);
 
-	//resolve ambiguity of atan()
+			v[0] = cosRA*cosDec;
+			v[1] = sinRA*cosDec;
+			v[2] = sinDec;
 
-//	if ( v[0] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 180.0 );
-//	} else if( v[1] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 360.0 );
-//	}
+			//Need to first precess to J2000.0 coords
+			//s is the product of P1 and v; s represents the
+			//coordinates precessed to J2000
+			for ( unsigned int i=0; i<3; ++i ) {
+				s[i] = num->p1( 0, i )*v[0] +
+					num->p1( 1, i )*v[1] +
+					num->p1( 2, i )*v[2];
+			}
+			delete num;
 
-	if (RA.Degrees() < 0.0 )
-		RA.setD( RA.Degrees() + 360.0 );
+		//Input coords already in J2000, set s accordingly.
+		} else {
+
+			s[0] = cosRA*cosDec;
+			s[1] = sinRA*cosDec;
+			s[2] = sinDec;
+		}
+
+		if ( jdf == B1950) {
+
+			RA.setRadians( atan2( s[1],s[0] ) );
+			Dec.setRadians( asin( s[2] ) );
+			J2000ToB1950();
+
+			return;
+		}
+
+		KSNumbers *num = new KSNumbers (jdf);
+
+		for ( unsigned int i=0; i<3; ++i ) {
+			v[i] = num->p2( 0, i )*s[0] +
+			num->p2( 1, i )*s[1] +
+			num->p2( 2, i )*s[2];
+		}
+
+		delete num;
+
+		RA.setRadians( atan2( v[1],v[0] ) );
+		Dec.setRadians( asin( v[2] ) );
+
+		if (RA.Degrees() < 0.0 )
+			RA.setD( RA.Degrees() + 360.0 );
+
+		return;
+	} 
 
 }
+
 /** No descriptions */
 void SkyPoint::apparentCoord(long double jd0, long double jdf){
 
@@ -360,3 +372,137 @@ void SkyPoint::GalacticToEquatorial1950(void) {
 
 	Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
 }
+
+void SkyPoint::B1950ToJ2000(void) {
+	double cosRA, sinRA, cosDec, sinDec;
+//	double cosRA0, sinRA0, cosDec0, sinDec0;
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	// Eterms due to aberration
+	addEterms();
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	// Precession from B1950 to J1984
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2b( 0, i )*s[0] + num->p2b( 1, i )*s[1] +
+		num->p2b( 2, i )*s[2];
+	}
+
+	// RA zero-point correction at 1984 day 1, 0h.
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	RA.setH( RA.Hours() + 0.06390/3600. );
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+
+	// Precession from 1984 to J2000.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1( 0, i )*s[0] +
+		num->p1( 1, i )*s[1] +
+		num->p1( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	delete num;
+}
+
+void SkyPoint::J2000ToB1950(void) {
+	double cosRA, sinRA, cosDec, sinDec;
+//	double cosRA0, sinRA0, cosDec0, sinDec0;
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+
+	// Precession from J2000 to 1984 day, 0h.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2( 0, i )*s[0] +
+		num->p2( 1, i )*s[1] +
+		num->p2( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// RA zero-point correction at 1984 day 1, 0h.
+
+	RA.setH( RA.Hours() - 0.06390/3600. );
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	// Precession from B1950 to J1984
+
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1b( 0, i )*s[0] + num->p1b( 1, i )*s[1] +
+		num->p1b( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// Eterms due to aberration
+	subtractEterms();
+
+	delete num;
+}
+
+SkyPoint SkyPoint::Eterms(void) {
+
+	double sd, cd, sinEterm, cosEterm;
+	dms raTemp, raDelta, decDelta;
+
+	Dec.SinCos(sd,cd);
+	raTemp.setH( RA.Hours() + 11.25);
+	raTemp.SinCos(sinEterm,cosEterm);
+
+	raDelta.setH( 0.0227*sinEterm/(3600.*cd) );
+	decDelta.setD( 0.341*cosEterm*sd/3600. + 0.029*cd/3600. );
+
+	SkyPoint spDelta = SkyPoint (raDelta, decDelta);
+
+	return spDelta;
+}
+
+void SkyPoint::addEterms(void) {
+
+	SkyPoint spd = Eterms();
+
+	RA.setD( RA.Degrees() + spd.ra()->Degrees() );
+	Dec.setD( Dec.Degrees() + spd.dec()->Degrees() );
+
+}
+
+void SkyPoint::subtractEterms(void) {
+
+	SkyPoint spd = Eterms();
+
+	RA.setD( RA.Degrees() - spd.ra()->Degrees() );
+	Dec.setD( Dec.Degrees() - spd.dec()->Degrees() );
+}
+
