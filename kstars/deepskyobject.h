@@ -130,7 +130,7 @@ public:
 
 /**@return the object's position angle, meausred clockwise from North.
 	*/
-	int pa( void ) const { return PositionAngle; }
+	int pa() const { return PositionAngle; }
 
 /**@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
 	*/
@@ -176,7 +176,7 @@ public:
 
 /**Draw the Object's image on the map
 	*/
-	void drawImage( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale=1.0 );
+	void drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()

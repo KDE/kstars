@@ -223,7 +223,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, int PositionAngle,
 	}
 }
 
-void DeepSkyObject::drawImage( QPainter &psky, int x, int y, int PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
 	QImage *image = readImage();
 	QImage ScaledImage;
 	
@@ -237,7 +237,7 @@ void DeepSkyObject::drawImage( QPainter &psky, int x, int y, int PositionAngle, 
 			ScaledImage = image->smoothScale( w, h );
 			psky.save();
 			psky.translate( x, y );
-			psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+			psky.rotate( PositionAngle );  //rotate the coordinate system
 			psky.drawImage( -dx, -dy, ScaledImage );
 			psky.restore();
 		}

@@ -1163,13 +1163,14 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 				if ( mag > 90.0 || mag < (float)maglim ) {
 					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-						int PositionAngle = findPA( obj, o.x(), o.y() );
-	
+						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
+						double PositionAngle = 90. + findPA( obj, o.x(), o.y() );
+						
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
 							obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
 						}
-	
+						
 						//Draw Symbol
 						if ( drawObject ) {
 							//change color if extra images are available
@@ -1274,9 +1275,8 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 							}
 						} else {
-							int size = int(Options::zoomFactor()/MINZOOM);
-							if (size>8) size = 8;
-							int pa = findPA( obj, o.x(), o.y() );
+							//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
+							double pa = 90. + findPA( obj, o.x(), o.y() );
 							obj->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 							obj->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 						}
@@ -1642,22 +1642,6 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 	
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-			//image angle is PA plus the North angle.
-			//Find North angle:
-			SkyPoint test;
-			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
-			if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-			QPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction(), scale );
-			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
-			double dy = double( t.y() - o.y() );
-			double north(0.0);
-			if ( dy ) {
-				north = atan( dx/dy )*180.0/dms::PI;
-			} else {
-				north = 90.0;
-				if ( dx > 0 ) north = -90.0;
-			}
-	
 			//Image size must be modified to account for possibility that rotated image's
 			//size is bigger than original image size.  The rotated image is a square
 			//superscribed on the original image.  The superscribed square is larger than
@@ -1665,12 +1649,11 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 			//which the two squares are rotated (in our case, equal to the position angle +
 			//the north angle, reduced between 0 and 90 degrees).
 			//The proof is left as an exercise to the student :)
-			dms pa( p->pa() + north );
+			dms pa( findPA( (SkyObject *)p, o.x(), o.y() ) );
 			double spa, cpa;
 			pa.SinCos( spa, cpa );
 			cpa = fabs(cpa); spa = fabs(spa);
-	
-			//int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+			
 			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 * (cpa + spa) );
 			//Because Saturn has rings, we inflate its size by a factor 2.5 
 			if ( p->name() == "Saturn" ) size = int(2.5*size);
@@ -1686,7 +1669,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 					size *= resize_mult;
 				}
 	
-				p->scaleRotateImage( size, p->pa() + north );
+				p->scaleRotateImage( size, pa.Degrees() );
 				int x1 = o.x() - p->image()->width()/2;
 				int y1 = o.y() - p->image()->height()/2;
 				psky.drawImage( x1, y1, *(p->image()));

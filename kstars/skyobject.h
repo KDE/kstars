@@ -146,6 +146,11 @@ public:
 	*/
 	void setMag( float m ) { Magnitude = m; }
 
+/**@return the object's position angle.  This is overridden in KSPlanetBase 
+	*and DeepSkyObject; for all other SkyObjects, this returns 0.0.
+	*/
+	double pa() const { return 0.0; }
+
 /**@return true if the object is a solar system body.
 	*/
 	bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
