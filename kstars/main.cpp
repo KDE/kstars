@@ -27,6 +27,8 @@
 
 static const char description[] =
 	I18N_NOOP("Desktop Planetarium");
+static const char notice[] =
+	I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 	
 	
 static KCmdLineOptions options[] =
@@ -43,7 +45,7 @@ int main(int argc, char *argv[])
 
 	KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
 		KSTARS_VERSION, description, KAboutData::License_GPL,
-		"(c) 2001-2003, The KStars Team", 0, "http://edu.kde.org/kstars");
+		"(c) 2001-2003, The KStars Team", notice, "http://edu.kde.org/kstars");
 	aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
 	aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
 	aboutData.addAuthor("Thomas Kabelmann", 0, "tk78@gmx.de", 0);
