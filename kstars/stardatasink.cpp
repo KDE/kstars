@@ -49,7 +49,7 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 	QString *line = (QString *) data;
 	int counter = -1;
 	while (++counter < entries) {  // run counter from 0 to entries -1
-		ksData->processStar(line);
+		ksData->processStar(line, true);
 		line++;
 	}
 

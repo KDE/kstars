@@ -621,7 +621,7 @@ bool KStarsData::readStarData( void ) {
 	return true;
 }
 
-void KStarsData::processStar( QString *line ) {
+void KStarsData::processStar( QString *line, bool reloadMode ) {
 	QString name, gname, SpType;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
 	bool mult, var;
@@ -691,7 +691,13 @@ void KStarsData::processStar( QString *line ) {
 
 	StarObject *o = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
 	starList.append(o);
-
+	
+	// get horizontal coordinates when object will loaded while running the application
+	// first run doesn't need this because updateTime() will called after loading all data
+	if (reloadMode) {
+		o->EquatorialToHorizontal( LST, geo()->lat() );
+	}
+	
 	//STAR_SIZE
 //	StarObject *p = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
 //	starList.append(p);
@@ -1500,8 +1506,8 @@ void KStarsData::initialize() {
 
 	initTimer = new QTimer;
 	QObject::connect(initTimer, SIGNAL(timeout()), this, SLOT( slotInitialize() ) );
-	initTimer->start(1);
 	initCounter = 0;
+	initTimer->start(1);
 }
 
 void KStarsData::initError(QString s, bool required = false) {

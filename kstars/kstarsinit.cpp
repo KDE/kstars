@@ -527,7 +527,7 @@ void KStars::privatedata::buildGUI() {
 
 	ks->skymap = new SkyMap( ks->data(), ks->centralWidget );
 	// update skymap if KStarsData send update signal
-	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( forceUpdate() ) );
+	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( forceUpdateNow() ) );
 
 	// get focus of keyboard and mouse actions (for example zoom in with +)
 	ks->map()->QWidget::setFocus();

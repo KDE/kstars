@@ -49,7 +49,10 @@ private slots:
 	void selectCatalog();
 	void slotAddCatalog();
 	void slotRemoveCatalog();
+	void slotSetDrawStarMagnitude(double newValue);
+	void slotSetDrawStarZoomOutMagnitude(double newValue);
 
+	
 private:
 	QCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
 	KStars *ksw;

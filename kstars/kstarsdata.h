@@ -188,9 +188,10 @@ public:
 		*             "alpha Orionis").
 		*
 		*@param line pointer to the line of data to be processed as a StarObject
+		*@param reloadMode makes additional calculations in reload mode, not needed at start up
 		*@see KStarsData::readStarData()
 		*/
-	void processStar( QString *line );
+	void processStar( QString *line, bool reloadMode = false );
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:

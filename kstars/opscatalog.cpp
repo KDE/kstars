@@ -57,6 +57,13 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
 
+	// draw star magnitude box
+	connect( kcfg_MagLimitDrawStar, SIGNAL( valueChanged(double) ),
+		SLOT( slotSetDrawStarMagnitude(double) ) );
+	
+	// draw star zoom out magnitude box
+	connect( kcfg_MagLimitDrawStarZoomOut, SIGNAL( valueChanged(double) ),
+		SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
 }
 
 //empty destructor
@@ -131,6 +138,16 @@ void OpsCatalog::slotRemoveCatalog() {
 	//Remove entry in the QListView
 	CatalogList->takeItem( CatalogList->currentItem() );
 
+	ksw->map()->forceUpdate();
+}
+
+void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
+	ksw->data()->setMagnitude( newValue );
+}
+
+void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
+	Options::setMagLimitDrawStarZoomOut(newValue);
+	// force redraw
 	ksw->map()->forceUpdate();
 }
 
