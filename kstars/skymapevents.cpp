@@ -338,6 +338,11 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 		case Key_Down :
 			slewing = false;
 			scrollCount = 0;
+			
+			setDestination( focus() );
+			if ( data->options->useAltAz ) 
+				destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			
 			showFocusCoords();
 			forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
 			break;
