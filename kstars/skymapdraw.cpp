@@ -1661,27 +1661,99 @@ void SkyMap::setMapGeometry() {
 //*** OPENGL: The GL draw functions ***
 //*************************************
 
+bool SkyMap::loadTexture( const QString & fileName, unsigned int & textureID )
+{
+	//load image
+	QImage tmp;
+	if ( !tmp.load( fileName ) )
+		return false;
+	
+	//convert it to suitable format (flipped RGBA)
+	QImage texture = QGLWidget::convertToGLFormat( tmp );
+	if ( texture.isNull() )
+		return false;
+	
+	//get texture number and bind loaded image to that texture
+	glGenTextures( 1, &textureID );
+	glBindTexture( GL_TEXTURE_2D, textureID );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexImage2D( GL_TEXTURE_2D, 0, 4, texture.width(), texture.height(),
+		0, GL_RGBA, GL_UNSIGNED_BYTE, texture.bits() );
+	return true;
+}
+
 GLuint SkyMap::createGLStarList() {
 	GLuint list;
 	list = glGenLists( 1 );
 	glNewList( list, GL_COMPILE );
 	qglColor( white );
-	glPointSize( 2.0f );
-	glBegin( GL_POINTS );
+
+	if ( GLStarTexture ) {
+		glBindTexture( GL_TEXTURE_2D, GLStarTexture );
+		glEnable( GL_TEXTURE_2D );
+	}
+
+	// from drawStars()
+	KStarsOptions* options = data->options;
+	double lgmin = log10(MINZOOM),
+	       lgmax = log10(MAXZOOM),
+	       lgz = log10(zoomFactor()),
+	       maglim = options->magLimitDrawStar;
+	if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawStar - options->magLimitDrawStarZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+	float sizeFactor = 6.0 + (lgz - lgmin);
+
+	glBegin( GL_QUADS );
 	for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 		// break loop if maglim is reached
 		if ( curStar->mag() > data->options->magLimitDrawStar ) break;
 
-		//for now, only add named stars:
-		if ( curStar->name() != i18n( "star" ) ) {
-			//DEBUG
-			kdDebug() << curStar->name() << " : " << curStar->x() << ", " << curStar->y() << ", " << curStar->z() << endl;
+		//for now, only add named stars
+		if ( curStar->name() == i18n( "star" ) ) continue;
 
-			glVertex3f( curStar->x(), curStar->y(), curStar->z() );
+		//draw a smaller inner white star
+		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
+		float sX = curStar->x(),
+		      sY = curStar->y(),
+		      sZ = curStar->z(),
+		      size = 1 + sizeFactor*( maglim - curStar->mag())/maglim,
+		      mm = 0.05f * size,
+		      mM = 0.50f * size;
+		glTexCoord2f( 0.0f, 0.0f );
+		glVertex3f( sX - mm, sY - mm, sZ );
+		glTexCoord2f( 0.0f, 1.0f );
+		glVertex3f( sX - mm, sY + mm, sZ );
+		glTexCoord2f( 1.0f, 1.0f );
+		glVertex3f( sX + mm, sY + mm, sZ );
+		glTexCoord2f( 1.0f, 0.0f );
+		glVertex3f( sX + mm, sY - mm, sZ );
+
+		//draw a larger outer colored star
+		switch( curStar->color() ) {
+			case 'O' : glColor4f( 0.0f, 0.0f, 1.0f, 0.06f ); break;
+			case 'B' : glColor4f( 0.0f, 0.784f, 1.0f, 0.06f ); break;
+			case 'A' : glColor4f( 0.0f, 1.0f, 1.0f, 0.06f ); break;
+			case 'F' : glColor4f( 0.784f, 1.0f, 0.39f, 0.06f ); break;
+			case 'G' : glColor4f( 1.0f, 1.0f, 0.0f, 0.06f ); break;
+			case 'K' : glColor4f( 1.0f, 0.39f, 0.0f, 0.06f ); break;
+			case 'M' : glColor4f( 1.0f, 0.0f, 0.0f, 0.06f ); break;
+			default : glColor4f( 1.0f, 1.0f, 1.0f, 0.06f );
 		}
+		glTexCoord2f( 0.0f, 0.0f );
+		glVertex3f( sX - mM, sY - mM, sZ );
+		glTexCoord2f( 0.0f, 1.0f );
+		glVertex3f( sX - mM, sY + mM, sZ );
+		glTexCoord2f( 1.0f, 1.0f );
+		glVertex3f( sX + mM, sY + mM, sZ );
+		glTexCoord2f( 1.0f, 0.0f );
+		glVertex3f( sX + mM, sY - mM, sZ );
+	}
+	glEnd();
+
+	if ( GLStarTexture ) {
+		glDisable( GL_TEXTURE_2D );
 	}
 
-	glEnd();
 	glEndList();
 
 	return list;
@@ -1692,6 +1764,7 @@ GLuint SkyMap::createGLCLineList() {
 	list = glGenLists( 1 );
 	glNewList( list, GL_COMPILE );
 	qglColor( QColor( data->options->colorScheme()->colorNamed( "CLineColor" ) ) );
+	glLineWidth(3.0);
 	
 	//this is a bit convoluted.  We need to begin a strip on the first node,
 	//and end the previous strip and begin a nw one on subsequent nodes with "M" flags.
@@ -1719,7 +1792,8 @@ GLuint SkyMap::createGLCLineList() {
 
 void SkyMap::drawGLCoordinateGrid() {
 	qglColor( QColor( data->options->colorScheme()->colorNamed( "GridColor" ) ) );
-	glutWireSphere( 10.0f, 24, 18 );
+	glLineWidth( 1.5f );
+	glutWireSphere( 10.0f, 48, 36 );
 }
 
 void SkyMap::drawGLStars() { glCallList( GLStarList ); }

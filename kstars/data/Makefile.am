@@ -65,6 +65,7 @@ appdata_DATA = kstars.png geomap.png show_clines.png show_cnames.png show_deepsk
                    m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png \
                    opscatalog.png opssolarsystem.png opsguides.png opscolors.png opsadvanced.png \
                    wzstars.png wzgeo.png wzscope.png wizardside.png \
+                   glstarbase.png \
                    chart.colors default.colors moonless-night.colors night.colors \
                    tips TZrules.dat valaav.txt advinterface.dat
 

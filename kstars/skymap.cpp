@@ -133,10 +133,26 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 
 //OPENGL
 void SkyMap::initializeGL() {
-	qglClearColor( black ); 		// Let OpenGL clear to black
+	// GL::Operations and transforms (view transform is done in resizeGL)
+	glShadeModel( GL_SMOOTH );
+
+	// blending: setup for alpha composting
+	glBlendEquation( GL_FUNC_ADD ); //GL_FUNC_ADD or GL_MAX (looks bad)
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE );  //check GL_ALPHA_SATURATE
+	glEnable( GL_BLEND );
+	// color buffer
+	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+
+	// Antialiasing GL_POINT_SMOOTH, GL_LINE_SMOOTH, GL_POLYGON_SMOOTH
+	// note alpha blending must be enabled to use antialiased primitives
+	glEnable( GL_POINT_SMOOTH );	//point
+	glEnable( GL_LINE_SMOOTH );	//line
+
+	// Load textures
+	loadTexture( locate("data","kstars/glstarbase.png"), GLStarTexture );
+
 	GLStarList = createGLStarList();		// Generate an OpenGL display list for stars
 	GLCLineList = createGLCLineList();		//generate an OpenGL display list for constellation lines
-	glShadeModel( GL_FLAT );
 }
 
 //OPENGL
@@ -158,7 +174,7 @@ void SkyMap::computeGLProjection() {
 	
 	//Set clipping volume.  The front/back depth values are set such that only the back half
 	//of the celestial sphere will be drawn.
-	gluPerspective( FieldOfView, AspectRatio, 10.0f, 20.0f ); 
+	gluPerspective( FieldOfView, AspectRatio, 10.0f, 22.0f ); 
 	
 	//reset for modelview mode
 	glMatrixMode( GL_MODELVIEW );

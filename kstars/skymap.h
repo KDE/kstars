@@ -582,7 +582,8 @@ private:
 	unsigned int nHoverTicks, MaxHoverTicks, TransientTimeout;
 
 	//OPENGL members
-	GLuint GLStarList, GLCLineList, OldHeight;
+	bool loadTexture( const QString & fileName, unsigned int & textureID );
+	GLuint GLStarList, GLCLineList, OldHeight, GLStarTexture;
 	GLfloat xRot, yRot, zRot, scale, FieldOfView, AspectRatio;
 
 //DEBUG
