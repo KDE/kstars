@@ -49,6 +49,13 @@ public:
 public slots:
 	void slotClearCoords (void);
 	void slotComputeCoords (void);
+	void slotRaCheckedBatch(void);
+	void slotDecCheckedBatch(void);
+	void slotEpochCheckedBatch(void);
+	void slotTargetEpochCheckedBatch(void);
+	void slotInputFile(void);
+	void slotOutputFile(void);
+	void slotRunBatch(void);
 
 private:
 	SkyPoint getEquCoords(void);
@@ -56,7 +63,7 @@ private:
 	double setCurrentEpoch(void);
 	double getEpoch (QString eName);
 	void showEquCoords ( SkyPoint sp );
-
+	void processLines( QTextStream &istream );
 
 };
 
