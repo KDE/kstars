@@ -1,0 +1,22 @@
+<chapter id="ai-tools">
+<title>KStars Tools</title>
+<para>
+&kstars; comes with a number of tools that allow you to explore 
+some more advanced aspects of astronomy and the night sky.
+</para>
+
+<itemizedlist>
+<listitem><para><link linkend="tool-calculator">Astrocalculator</link></para></listitem>
+<listitem><para><link linkend="tool-aavso">AAVSO Lightcurves</link></para></listitem>
+<listitem><para><link linkend="tool-altvstime">Altitude vs. Time Plotter</link></para></listitem>
+<listitem><para><link linkend="tool-whatsup">What's Up Tonight?</link></para></listitem>
+<listitem><para><link linkend="tool-details">Object Details</link></para></listitem>
+</itemizedlist>
+
+&tool-calculator;
+&tool-aavso;
+&tool-altvstime;
+&tool-whatsup;
+&tool-details;
+
+</chapter>

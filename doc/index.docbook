@@ -5,6 +5,15 @@
   <!ENTITY package "kdeedu">
   <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
   <!ENTITY blackbody SYSTEM "blackbody.docbook">
+  <!ENTITY calc-apcoords SYSTEM "calc-apcoords.docbook">
+  <!ENTITY calc-eqgal SYSTEM "calc-eqgal.docbook">
+  <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
+  <!ENTITY calc-precess SYSTEM "calc-precess.docbook">
+  <!ENTITY calc-geodetic SYSTEM "calc-geodetic.docbook">
+  <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
+  <!ENTITY calc-julian SYSTEM "calc-julianday.docbook">
+  <!ENTITY calc-sidereal SYSTEM "calc-sidereal.docbook">
+  <!ENTITY calculator SYSTEM "calculator.docbook">
   <!ENTITY colorandtemp SYSTEM "colorandtemp.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
   <!ENTITY config SYSTEM "config.docbook">
@@ -37,6 +46,12 @@
   <!ENTITY skycoords SYSTEM "skycoords.docbook">
   <!ENTITY stars SYSTEM "stars.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
+  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook">
+  <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
+  <!ENTITY tool-calculator SYSTEM "calculator.docbook">
+  <!ENTITY tool-details SYSTEM "details.docbook">
+  <!ENTITY tool-whatsup SYSTEM "wut.docbook">
+  <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
   <!ENTITY % addindex "IGNORE">
@@ -198,12 +213,11 @@ the automated bug reporting tool, accessible from the Help menu.
 </para>
 </chapter>
 
-&quicktour; 
-<!--A Quick Tour of KStars-->
+&quicktour;   <!--A Quick Tour of KStars-->
 &config;      <!--Configuring KStars-->
 &commands;    <!--Command Reference-->
 &astroinfo;   <!--AstroInfo Articles-->
-&lightcurves; <!--The AASVO Lightcurve Tool-->
+&tools;       <!--The AASVO Lightcurve Tool-->
 &faq;         <!--Questions and Answers-->
 &credits;     <!--Credits and License-->
 &install;     <!--Installation-->
