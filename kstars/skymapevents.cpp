@@ -878,7 +878,7 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			double dy = double( t.y() - o.y() );
 			double pa;
 			if ( dy ) {
-				pa = atan( dx/dy )*180.0/PI();
+				pa = atan( dx/dy )*180.0/dms::PI;
 			} else {
 				pa = 90.0;
 				if ( dx > 0 ) pa = -90.0;
@@ -1328,7 +1328,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 						//readImage reads image from disk, or returns pointer to existing image.
 						QImage *image=obj->readImage();
 						if ( image ) {
-							int w = int( obj->a()*PI()*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+							int w = int( obj->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
 							int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
 							int dx = int( 0.5*w );
 							int dy = int( 0.5*h );
@@ -1352,7 +1352,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 						else if ( obj->catalog() != "M" && obj->ImageList.count() )
 							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
 
-						int Size = int( obj->a()*PI()*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+						int Size = int( obj->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
 
 						drawSymbol( psky, obj->type(),
 												o.x(), o.y(), Size, obj->e(), PositionAngle );
@@ -1467,7 +1467,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				int dx(20), dy(20);
 				if ( clickedObject()->a() ) {
-					dx = int( clickedObject()->a()*PI()*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
+					dx = int( clickedObject()->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
 					dy = int( dx*clickedObject()->e() );
 				}
 				psky.setBrush( QColor( "White" ) );

@@ -224,7 +224,7 @@ dms SkyObject::riseSetTimeAz (long double jd, GeoLocation *geo, bool riseT) {
 
 	AzRad = acos( ( sindec - sinlat*sinAlt )/( coslat*cosAlt ) );
 	// AzRad = acos( sindec /( coslat*cosAlt ) );
-	if ( sinHA > 0.0 ) AzRad = 2.0*PI() - AzRad; // resolve acos() ambiguity
+	if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
 	Azimuth.setRadians( AzRad );
 
 	return Azimuth;

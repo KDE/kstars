@@ -248,8 +248,8 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
   //Use Meeus's Eq. 32.10 to find Rsun, RA and Dec:
 	setRsun( sqrt( pos.X*pos.X + pos.Y*pos.Y + pos.Z*pos.Z ) );
 	RARad = atan( pos.Y / pos.X );
-	if ( pos.X<0 ) RARad += PI();
-	if ( pos.X>0 && pos.Y<0 ) RARad += 2.0*PI();
+	if ( pos.X<0 ) RARad += dms::PI;
+	if ( pos.X>0 && pos.Y<0 ) RARad += 2.0*dms::PI;
 	dms newRA; newRA.setRadians( RARad );
 	dms newDec; newDec.setRadians( asin( pos.Z/rsun() ) );
 	setRA( newRA );

@@ -158,8 +158,8 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 	sumB += ( -2235.0*sin( L ) + 382.0*sin( A3 ) + 175.0*sin( A1-F ) + 175.0*sin( A1+F ) + 127.0*sin( L-M1 ) - 115.0*sin( L+M1 ) );
 
 	//Geocentric coordinates
-	setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./PI() );  //convert radians to degrees
-	setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./PI() );
+	setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./dms::PI );  //convert radians to degrees
+	setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./dms::PI );
 	Rearth = 385000.56 + sumR/1000.0;
 
 

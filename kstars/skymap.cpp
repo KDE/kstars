@@ -101,8 +101,8 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	for ( unsigned int index = 0; index <184; ++index ) {
 		double alt = -1.75 + index*0.5;  //start at -0.75 degrees to get midpoint value for each interval.
 
-		RefractCorr1[index] = 1.02 / tan( PI()*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
-		RefractCorr2[index] = -1.0 / tan( PI()*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
+		RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
+		RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
 	}
 }
 
@@ -452,7 +452,7 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 	double dy = double( t.y() - y );
 	double north;
 	if ( dy ) {
-		north = atan( dx/dy )*180.0/PI();
+		north = atan( dx/dy )*180.0/dms::PI;
 	} else {
 		north = 90.0;
 		if ( dx > 0 ) north = -90.0;
@@ -659,8 +659,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		A = atan( yy/xx );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) A = A + PI();
-//		if ( xx>0 && yy<0 ) A = A + 2.0*PI();
+		if ( xx<0 ) A = A + dms::PI;
+//		if ( xx>0 && yy<0 ) A = A + 2.0*dms::PI;
 
 		dms deltaAz;
 		deltaAz.setRadians( A );
@@ -691,8 +691,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		double RARad = ( atan( yy / xx ) );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) RARad = RARad + PI();
-//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*PI();
+		if ( xx<0 ) RARad = RARad + dms::PI;
+//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*dms::PI;
 
 		dms deltaRA, Dec;
 		deltaRA.setRadians( RARad );
