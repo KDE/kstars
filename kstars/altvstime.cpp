@@ -55,6 +55,11 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	avtUI->raBox->setDegType( false );
 	avtUI->decBox->setDegType( true );
 
+	//POST-3.2
+	//Doesn't make sense to manually adjust long/lat unless we can modify TZ also
+	avtUI->longBox->setReadOnly( true );
+	avtUI->latBox->setReadOnly( true );
+
 	topLayout->addWidget( View );
 	topLayout->addWidget( avtUI );
 
@@ -62,8 +67,11 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	showCurrentDate();
 	if ( getQDate().time().hour() > 12 ) DayOffset = 1;
 
-	initGeo();
-	showLongLat();
+	geo = ks->geo();
+	avtUI->longBox->show( geo->lng() );
+	avtUI->latBox->show( geo->lat() );
+
+	computeSunRiseSetTimes();
 
 	setLSTLimits();
 	View->updateTickmarks();
@@ -174,16 +182,13 @@ void AltVsTime::slotBrowseObject(void) {
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
-	//We need earth for findPosition.  Store KSNumbers for simulation date/time
-	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
-//	KSPlanet *Earth = ks->data()->earth();
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( o && o->isSolarSystem() ) {
 		oldNum = new KSNumbers( ks->data()->clock()->JD() );
-		o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
+		o->updateCoords( num, true, geo->lat(), ks->LST() );
 	}
 
 	//precess coords to target epoch
@@ -230,7 +235,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
 	//restore original position
 	if ( o->isSolarSystem() ) {
-		o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
+		o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
 		delete oldNum;
 	}
 	delete num;
@@ -248,12 +253,10 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 	int s = int(60.*(60.*(hour - h) - m));
 
 	QDateTime lt( getQDate().date().addDays( dDay ), QTime( h,m,s ) );
-	QDateTime ut = lt.addSecs( int( -3600.0*getTZ() ) );
+	QDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
 
-	dms lat = getLatitude();
-	dms lgt = getLongitude();
-	dms LST = KSUtils::UTtoLST( ut , &lgt );
-	p->EquatorialToHorizontal( &LST, &lat );
+	dms LST = KSUtils::UTtoLST( ut , geo->lng() );
+	p->EquatorialToHorizontal( &LST, geo->lat() );
 
 	return p->alt()->Degrees();
 }
@@ -316,14 +319,50 @@ void AltVsTime::slotClearBoxes(void) {
 
 }
 
+void AltVsTime::computeSunRiseSetTimes() {
+	//Determine the time of sunset and sunrise for the desired date and location
+	//expressed as doubles, the fraction of a full day.
+	long double JDToday = computeJdFromCalendar();
+	
+	SkyObject *oSun = (SkyObject*) ks->data()->PCat->planetSun();
+	double sunRise = -1.0 * oSun->riseSetTime( JDToday + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
+	double sunSet = -1.0 * oSun->riseSetTime( JDToday, geo, false ).secsTo(QTime()) / 86400.0;
+
+	//check to see if Sun is circumpolar
+	//requires temporary repositioning of Sun to target date
+	KSNumbers *num = new KSNumbers( JDToday );
+	KSNumbers *oldNum = new KSNumbers( ks->data()->clock()->JD() );
+	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( JDToday ), geo->lng() );
+	oSun->updateCoords( num, true, geo->lat(), &LST );
+	if ( oSun->checkCircumpolar( geo->lat() ) ) {
+		if ( oSun->alt()->Degrees() > 0.0 ) {
+			//Circumpolar, signal it this way:
+			sunRise = 0.0;
+			sunSet = 1.0;
+		} else {
+			//never rises, signal it this way:
+			sunRise = 0.0;
+			sunSet = -1.0;
+		}
+	}
+
+	//Notify the View about new sun rise/set times:
+	View->setSunRiseSetTimes( sunRise, sunSet );
+
+	//Restore Sun coordinates:
+	oSun->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
+
+	delete num;
+	delete oldNum;
+}
+
 void AltVsTime::slotUpdateDateLoc(void) {
-	//reprocess objects to update their coordinates.
-	//Again find each object in the list of known objects, and update
-	//coords if the object is a solar system body
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
-//	KSPlanet *Earth = ks->data()->earth();
-
+	
+	//First determine time of sunset and sunrise
+	computeSunRiseSetTimes();
+	
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
 		QString oName = avtUI->PlotList->text( i ).lower();
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
@@ -337,7 +376,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				//If the object is in the solar system, recompute its position for the given date
 				if ( o->isSolarSystem() ) {
 					oldNum = new KSNumbers( ks->data()->clock()->JD() );
-					o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
+					o->updateCoords( num, true, geo->lat(), ks->LST() );
 				}
 
 				//precess coords to target epoch
@@ -371,7 +410,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	setLSTLimits();
 	slotHighlight();
 	View->repaint();
-
+	
 	delete num;
 }
 
@@ -380,7 +419,7 @@ void AltVsTime::slotChooseCity(void) {
 	if ( ld.exec() == QDialog::Accepted ) {
 		int ii = ld.getCityIndex();
 		if ( ii >= 0 ) {
-			GeoLocation *geo = ks->data()->geoList.at(ii);
+			geo = ks->data()->geoList.at(ii);
 			avtUI->latBox->showInDegrees( geo->lat() );
 			avtUI->longBox->showInDegrees( geo->lng() );
 		}
@@ -393,10 +432,9 @@ int AltVsTime::currentPlotListItem() const {
 
 void AltVsTime::setLSTLimits(void) {
 	QDateTime lt( getQDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
-	QDateTime ut = lt.addSecs( int( -3600.0*getTZ() ) );
+	QDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
 
-	dms lgt = getLongitude();
-	dms lst = KSUtils::UTtoLST( ut, &lgt );
+	dms lst = KSUtils::UTtoLST( ut, geo->lng() );
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
 
@@ -410,31 +448,6 @@ QDateTime AltVsTime::getQDate (void)
 {
 	QDateTime dt ( avtUI->dateBox->date(),QTime(0,0,0) );
 	return dt;
-}
-
-dms AltVsTime::getLongitude (void)
-{
-	return avtUI->longBox->createDms();
-}
-
-dms AltVsTime::getLatitude (void)
-{
-	return avtUI->latBox->createDms();
-}
-
-double AltVsTime::getTZ( void ) {
-	return geoPlace->TZ();
-}
-
-void AltVsTime::initGeo(void)
-{
-	geoPlace = new GeoLocation( ks->geo() );
-}
-
-void AltVsTime::showLongLat(void)
-{
-	avtUI->longBox->show( ks->geo()->lng() );
-	avtUI->latBox->show( ks->geo()->lat() );
 }
 
 long double AltVsTime::computeJdFromCalendar (void)
@@ -479,7 +492,9 @@ long double AltVsTime::epochToJd (double epoch)
 AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
 	: KStarsPlotWidget( x1, x2, y1, y2, parent, name )
 {
-//empty
+	//Default SunRise/SunSet values
+	SunRise = 0.25; 
+	SunSet = 0.75;
 }
 
 void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
@@ -520,24 +535,34 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 
 	p.translate( leftPadding(), topPadding() );
 
-	//draw daytime sky
 	int pW = PixRect.width();
 	int pH = PixRect.height();
-	int dawn = pW/4;
-	int dusk = 3*pW/4;
-	p.fillRect( 0, 0, dawn, pH/2, QColor( 0, 100, 200 ) );
-	p.fillRect( dusk, 0, pW, pH/2, QColor( 0, 100, 200 ) );
 
-	//draw twilight gradients
-	int W = 40;
-	for ( unsigned int i=0; i<W; ++i ) {
-		p.setPen( QColor( 0, 100*i/W, 200*i/W ) );
-		p.drawLine( dawn - (i-20), 0, dawn - (i-20), pH );
-		p.drawLine( dusk + (i-20), 0, dusk + (i-20), pH );
+	//draw daytime sky if the Sun rises for the current date/location
+	//(when Sun does not rise, SunSet = -1.0)
+	if ( SunSet != -1.0 ) { 
+		//If Sun does not set, then just fill the daytime sky color
+		if ( SunSet == 1.0 ) { 
+			p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
+		} else {
+			//Display centered on midnight, so need to modulate dawn/dusk by 0.5
+			int dawn = int(pW*(0.5 + SunRise));
+			int dusk = int(pW*(SunSet - 0.5));
+			p.fillRect( 0, 0, dusk, int(0.5*pH), QColor( 0, 100, 200 ) );
+			p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), QColor( 0, 100, 200 ) );
+
+			//draw twilight gradients
+			unsigned short int W = 40;
+			for ( unsigned short int i=0; i<W; ++i ) {
+				p.setPen( QColor( 0, int(100*i/W), 200*i/W ) );
+				p.drawLine( dusk - (i-20), 0, dusk - (i-20), pH );
+				p.drawLine( dawn + (i-20), 0, dawn + (i-20), pH );
+			}
+		}
 	}
 
 	//draw ground
-	p.fillRect( 0, pH/2, pW, pH/2, QColor( "#002200" ) );
+	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
 	drawBox( &p );
 	drawObjects( &p );

@@ -43,10 +43,15 @@ public:
 	*/
 	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
 
+	void setSunRiseSetTimes( double sr, double ss ) { SunRise = sr; SunSet = ss; }
+
 protected:
 	void mouseMoveEvent( QMouseEvent *e );
 	void mousePressEvent( QMouseEvent *e );
 	void paintEvent( QPaintEvent *e );
+
+private: 
+	double SunRise, SunSet;
 };
 
 class AltVsTime : public KDialogBase
@@ -63,13 +68,10 @@ public:
 	void setLSTLimits();
 	void showCurrentDate (void);
 	QDateTime getQDate (void);
-	dms getLongitude (void);
-	dms getLatitude (void);
-	double getTZ( void );
-	void initGeo(void);
 	void showLongLat(void);
 //	int UtMinutes(void);
 //	QSize sizeHint() const;
+	void computeSunRiseSetTimes();
 	long double computeJdFromCalendar (void);
 	double QDateToEpoch( const QDate &d );
 	double getEpoch (QString eName);
@@ -95,7 +97,7 @@ private:
 	AltVsTimeUI *avtUI;
 	QVBoxLayout *topLayout;
 
-	GeoLocation *geoPlace;
+	GeoLocation *geo;
 	KStars *ks;
 	QPtrList<SkyPoint> pList;
 	QPtrList<SkyPoint> deleteList;
