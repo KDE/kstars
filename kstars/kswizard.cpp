@@ -40,6 +40,11 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	//Removing telescope page for now...
 	removePage( page(2) );
 	
+	//Remove Download page if KDE < 3.2.90
+	#if ( ! KDE_IS_VERSION( 3, 2, 90 ) ) 
+	removePage( page(3) );
+	#endif
+	
 	//each page should have a finish button
 	for ( unsigned int i=0; i<((unsigned int) pageCount()); ++i ) {
 		setFinishEnabled( page(i), true );
@@ -71,20 +76,26 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 //	}
 //	Banner3->setPixmap( im );
 
+	//Only load the download page banner if KDE >= 3.2.90
+	#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 	if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.name() );
 	}
 	Banner4->setPixmap( im );
+	#endif
 
 	//connect signals/slots
 	connect( CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
 	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
+//Uncomment if we ever need the telescope page...
+//	connect( TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
+	#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 	connect( DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
-
+	#endif
+	
 	//Initialize Geographic Location page
 	initGeoPage();
 }
@@ -155,9 +166,10 @@ void KSWizard::slotFilterCities() {
 	}
 }
 
-void KSWizard::slotTelescopeSetup() {
-	telescopeWizardProcess twiz(ksw);
-	twiz.exec();
-}
+//Uncomment if we ever need the telescope page...
+//void KSWizard::slotTelescopeSetup() {
+//	telescopeWizardProcess twiz(ksw);
+//	twiz.exec();
+//}
 
 #include "kswizard.moc"

@@ -25,9 +25,7 @@
 	*The Setup Wizard will be automatically opened when KStars runs 
 	*for the first time.  It allows the user to set up some basic parameters:
 	*@li Geographic Location
-	*@li Telescopes and other devices
 	*@li Download extra data files
-	*@li Set basic view options (?) 
 	*@author Jason Harris
 	*@version 1.0
 	*/
@@ -46,7 +44,8 @@ public:
 private slots:
 	void slotChangeCity();
 	void slotFilterCities();
-	void slotTelescopeSetup();
+//Uncomment if we ever need the telescope page...
+//	void slotTelescopeSetup();
 
 private:
 	void initGeoPage();

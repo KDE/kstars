@@ -36,6 +36,7 @@
 #include <kprocess.h>
 #include <qcheckbox.h>
 #include <qdir.h>
+#include <kdeversion.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -73,7 +74,10 @@
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
+
+#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 #include "ksnewstuff.h"
+#endif  // KDE >= 3.2.90
 #include "imagesequence.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -155,11 +159,12 @@ void KStars::slotWizard() {
 	}
 }
 
+#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 void KStars::slotDownload() {
-//	KNS::DownloadDialog::open("kstars/data");
 	if (!kns) kns = new KSNewStuff( this );
 	kns->download();
 }
+#endif //KDE >= 3.2.90
 
 void KStars::slotLCGenerator() {
 	if (AAVSODialog == NULL)

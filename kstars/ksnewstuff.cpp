@@ -1,3 +1,23 @@
+/***************************************************************************
+                          ksnewstuff.cpp  -  description
+                             -------------------
+    begin                : Wed 21 May 2004
+    copyright            : (C) 2004 by Jason Harris
+    email                : kstars@30doradus.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include <kdeversion.h>
+#if KDE_IS_VERSION( 3, 2, 90 )
+
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kglobal.h>
@@ -113,3 +133,5 @@ void KSNewStuff::updateData( const QString &path ) {
 }
 
 #include "ksnewstuff.moc"
+
+#endif // KDE >= 3.2.90
