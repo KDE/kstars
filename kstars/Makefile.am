@@ -71,5 +71,8 @@ stringsfile:
 	echo "#endif" >>kstars_i18n.cpp;
 
 messages: stringsfile rc.cpp
+	rm -f tips.cpp
+	(cd data && $(PREPARETIPS) > ../tips.cpp)
 	$(XGETTEXT) *.cpp *.h -o $(podir)/kstars.pot;
+	rm -f tips.cpp
 
