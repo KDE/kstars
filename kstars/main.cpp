@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
   KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
     VERSION, description, KAboutData::License_GPL,
-    "(c) 2001, Jason Harris");
+    "(c) 2001, Jason Harris", 0, "http://edu.kde.org/kstars");
   aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
   aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
   aboutData.addAuthor("Thomas Kabelmann", 0, "tk78@gmx.de", 0);
@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 	KStarsData *   kstarsData = new KStarsData();
 	KStarsSplash*  splashDialog = new KStarsSplash(kstarsData, 0, "Splash", true );
 	// show splash screen and load KStarsData from data files
+	splashDialog->disableResize();
 	if ( splashDialog->exec()==QDialog::Accepted ) {
 		KStars *kstars = new KStars( kstarsData );
 		kstars->show();
