@@ -70,26 +70,36 @@
 <affiliation>
 <address><email>tk78@gmx.de</email></address>
 </affiliation>
-<contrib>Core Developer, German Translation</contrib>
+<contrib>Core Developer</contrib>
 </othercredit>
 
-<othercredit role="translator">
-<firstname>Vincent</firstname>
-<surname>Jagot</surname>
+<othercredit role="developer">
+<firstname>Pablo</firstname>
+<surname>de Vicente</surname>
 <affiliation>
-<address><email>vincent.jagot@free.fr</email></address>
+<address><email>pvicentea@wanadoo.es</email></address>
 </affiliation>
-<contrib>French Translation</contrib>
+<contrib>Core Developer</contrib>
 </othercredit>
 
-<othercredit role="translator">
-<firstname>Davide</firstname>
-<surname>Rizzo</surname>
+<othercredit role="developer">
+<firstname>Carsten</firstname>
+<surname>Niehaus</surname>
 <affiliation>
-<address><email>rizzo@merate.mi.astro.it</email></address>
+<address><email>cniehaus@gmx.de</email></address>
 </affiliation>
-<contrib>Italian Translation</contrib>
+<contrib>Core Developer</contrib>
 </othercredit>
+
+<othercredit role="developer">
+<firstname>Mark</firstname>
+<surname>Holloman</surname>
+<affiliation>
+<address><email>mhh@mindspring.com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
 </authorgroup>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -101,8 +111,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-05-01</date>
-<releaseinfo>0.90.00</releaseinfo>
+<date>2002-09-10</date>
+<releaseinfo>0.9.1</releaseinfo>
 
 <abstract>
 <para>

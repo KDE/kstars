@@ -52,7 +52,7 @@ url="http://adc.gsfc.nasa.gov">NASA Astronomical Data Center</ulink></para>
   </itemizedlist>
 </listitem>
 <listitem>
-<para>Lunar images coyright 1999-2001 by <ulink
+<para>Lunar images copyright 1999-2001 by <ulink
 url="http://www.astrosurf.com/cidadao">Antonio Cidadao</ulink> (used
 with permission)</para>
 </listitem>
@@ -76,14 +76,16 @@ Meeus</para></listitem>
 Special thanks:  To the &kde; and &Qt; developers for providing the
 world with a peerless set of free API libraries.  To the KDevelop
 team, for their excellent IDE, which made developing &kstars; so much
-easier and more fun.  To everyone on the KDevelop message board and on
-irc.kde.org, for answering my frequent questions.  Finally, to
-everyone who has submitted bug reports and other feedback.  Thank you,
-everyone.
+easier and more fun.  To everyone on the KDevelop message board, the 
+KDE mailing lists, and on irc.kde.org, for answering my frequent 
+questions.  Thank you to Anne-Marie Mahfouf, for inviting KStars to 
+join the KDE-Edu module.  Finally, thanks to everyone who has submitted 
+bug reports and other feedback.  Thank you, everyone.
 </para>
 
 <para>
-Documentation copyright 2001-2002 Jason Harris <email>kstars@30doradus.org</email>
+Documentation copyright 2001-2002 Jason Harris 
+<email>kstars@30doradus.org</email>
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->

@@ -41,7 +41,7 @@
 <guimenuitem>Print...</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Send the current sky map to the printer (or to a 
-PostScript file)</action>
+PostScript/PDF file)</action>
 </para></listitem>
 </varlistentry>
 
@@ -53,7 +53,7 @@ PostScript file)</action>
 <guimenu>File</guimenu>
 <guimenuitem>Quit</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Quits &kstars;</action>
+<listitem><para><action>Quit &kstars;</action>
 </para></listitem>
 </varlistentry>
 </variablelist>
@@ -131,7 +131,7 @@ horizon</action></para></listitem>
 <keycap>E</keycap>
 </shortcut>
 <guimenu>Focus</guimenu>
-<guimenuitem>North</guimenuitem>
+<guimenuitem>East</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Center above the East point on the 
 horizon</action></para></listitem>
@@ -143,7 +143,7 @@ horizon</action></para></listitem>
 <keycap>S</keycap>
 </shortcut>
 <guimenu>Focus</guimenu>
-<guimenuitem>North</guimenuitem>
+<guimenuitem>South</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Center above the South point on the 
 horizon</action></para></listitem>
@@ -155,7 +155,7 @@ horizon</action></para></listitem>
 <keycap>W</keycap>
 </shortcut>
 <guimenu>Focus</guimenu>
-<guimenuitem>North</guimenuitem>
+<guimenuitem>West</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Center above the West point on the 
 horizon</action></para></listitem>
@@ -244,40 +244,40 @@ Systems</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Infopanel</guisubmenu>
-<guimenuitem>Show Infopanel</guimenuitem>
+<guisubmenu>Info Boxes</guisubmenu>
+<guimenuitem>Show Info Boxes</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the entire Infopanel 
+<listitem><para>Toggle display of all three Info Boxes
 on/off</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Infopanel</guisubmenu>
+<guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Time</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Time row in the Infopanel
+<listitem><para>Toggle display of the Time Info Box
 on/off</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Infopanel</guisubmenu>
+<guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Focus</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Focus row in the Infopanel 
+<listitem><para>Toggle display of the Focus Info Box
 on/off</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Infopanel</guisubmenu>
+<guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Location</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Location row in the Infopanel 
+<listitem><para>Toggle display of the Location Info Box
 on/off</para></listitem>
 </varlistentry>
 
@@ -317,7 +317,7 @@ automatically.</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
-<guimenuitem>Geographic...</guimenuitem>
+<guimenuitem>Set Geographic Location...</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Select a new geographic
  location</action></para></listitem>
@@ -369,7 +369,7 @@ the object type [in brackets].</para>
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-Identification and type:  The top three lines are devoted to the
+Identification and type:  The top one to three lines are devoted to the
 name(s) of the object, and its type.  For stars, the Spectral Type
 is also shown here.
 </para></listitem>
@@ -457,9 +457,11 @@ taken, and we include over 100 of them in our database of links.
 links to the popup menu of any object.  It opens a small window in which you
 enter the <abbrev>URL</abbrev> of the link, and the text you want to appear in
 the popup menu.  There is also a pair of radio buttons which allow you to
-specify whether the <abbrev>URL</abbrev> is an image or an <abbrev>HTML</abbrev>
-document, so &kstars; knows whether to launch the web browser or the image
-viewer.</para></listitem>
+specify whether the <abbrev>URL</abbrev> is an image or an 
+<abbrev>HTML</abbrev> document, so &kstars; knows whether to launch the 
+web browser or the image viewer.
+</para>
+</listitem>
 </varlistentry>
 </variablelist>
 
@@ -525,7 +527,7 @@ on.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </term>
-<listitem><para>Open Change Location Window.</para></listitem></varlistentry>
+<listitem><para>Open Set Geographic Location window.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo>
 </term>
@@ -533,7 +535,7 @@ on.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
 </term>
-<listitem><para>Open Set Time Window.</para></listitem></varlistentry>
+<listitem><para>Open Set Time window.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
 </term>
@@ -550,7 +552,7 @@ stable).</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
 </term>
-<listitem><para>Close &kstars; window (warning: not yet 
+<listitem><para>Close a &kstars; window (warning: not yet 
 stable).</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
@@ -572,10 +574,13 @@ The current RA, Dec coordinates of the mouse cursor is always
 displayed in the status bar.  Clicking the Mouse anywhere will
 identify the nearest object in the status bar.  Double-clicking will
 center and track on the clicked location or object.  Click and drag
-to pan the display.  <mousebutton>Right</mousebutton> click to bring up the popup menu
-with detailed options for the clicked object. Holding the right and left mousebutton and moving
-the mouse vertical with change the zoomlevel. Moving upwards will cause a zoom out and moving downwards
-will cause a zoom in.
+to pan the display.  <mousebutton>Right</mousebutton> click to bring up 
+the popup menu with detailed options for the clicked object. Holding the 
+middle mouse button and moving the mouse vertically will change the 
+zoom level (you can also use the mouse scroll wheel, if you have one). 
+</para><para>
+You can also move the Info Boxes by dragging them with the mouse, and 
+"shade" the Info Boxes by double-clicking on them.
 </para>
 </sect1>
 </chapter>

@@ -24,10 +24,10 @@ window is depicted below:
 The <guilabel>Display Options</guilabel> window is divided into five tabs:
 <guilabel>Catalogs</guilabel>, <guilabel>Guides</guilabel>, 
 <guilabel>Solar System</guilabel>, <guilabel>Colors</guilabel>, and 
-<guilabel>Advanced</guilabel>.  Below the tabs, you can choose between Equatorial
-and Horizontal coordinate systems.  Note that changes you make in this window
-are reflected immediately in the map, but that the changes are not committed
-until you press <guibutton>Ok</guibutton>.
+<guilabel>Advanced</guilabel>.  Below the tabs, you can choose between 
+Equatorial and Horizontal coordinate systems.  Note that changes you make 
+in this window are reflected immediately in the map, but that the changes 
+are not committed until you press the <guibutton>Ok</guibutton> button.
 </para><para>
 In the <guilabel>Catalogs</guilabel> tab, you determine which object catalogs 
 are displayed in the map.  The SAO star catalog also allows you to set the 
@@ -38,16 +38,16 @@ You can add your own custom object catalogs by pressing the <guibutton>Add
 Custom Catalog</guibutton> button, which will open a <guilabel>File 
 Dialog</guilabel>, so that you can point it to your catalog data file.  For 
 detailed instructions on preparing a catalog data file, see the 
-<filename>README.customize</filename> file that shipped with &kstars;.
+<filename>README.customize</filename> file that ships with &kstars;.
 </para><para>
 In the <guilabel>Solar System</guilabel> tab, you can specify whether the Sun, 
-Moon and Planets are displayed, whether Planets are drawn as circles or images,
-and whether name labels should be attached to the Planets.  
+Moon and Planets are displayed, whether these objects are drawn as circles 
+or images, and whether name labels should be attached to the Planets.  
 </para><para>
 The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects are 
 displayed (&ie;, constellation lines, constellation names, Milky Way contour, 
 celestial equator, ecliptic, horizon line, and opaque ground).  You can also 
-choose whether you would like to see Latin constellation names, standard 
+choose whether you would like to see Latin constellation names, IAU-standard 
 three-letter abbreviations, or names using your local language.
 </para><para>
 The <guilabel>Colors</guilabel> tab allows you to set the color scheme, and to 

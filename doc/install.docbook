@@ -9,7 +9,7 @@
 We also occasionally make an independent release.  These independent releases 
 will be available as a gzipped tar archive from the following website:
 <ulink
- url="http://prdownloads.sourceforge.net/kstars/">http://prdownloads.sourceforge.net/kstars/</ulink>
+ url="http://prdownloads.sourceforge.net/kstars/">http://prdownloads.sourceforge.net/kstars/</ulink>.
 </para><para>
 Independent releases are announced through the 
 <email>kstars-announce@lists.sourceforge.net</email> mailing list.  Releases
@@ -31,22 +31,21 @@ follow <ulink url="http://edu.kde.org/kstars/cvs.html">these instructions</ulink
 <title>Requirements</title>
 <para>
 In order to successfully run &kstars;, you need
-&kde; >=2.1 and &Qt;>=2.2.4.  It may run on &kde; 2.0 (and a similarly
-deprecated &Qt;), but this has not been tested.  If you try, please contact us
-with the results (success or failure)!
+&kde; >=2.1 and &Qt;>=2.2.4.  It has been reported not to run under &kde; 
+2.0.
 </para><para>
-Note that, beginning with version 0.9, there are separate tarballs for each 
-release, depending on whether you use KDE 2.x or KDE 3.x.  The code is identical
-in each version (we were careful to maintain backward compatibility), but the 
-configure/make scripts are incompatible.
+Note that, beginning with version 0.9, there are separate tarballs for 
+each release, depending on whether you use KDE 2.x or KDE 3.x.  The code 
+is identical in each version (we were careful to maintain backward 
+compatibility); the only difference is in the configure/make scripts.
 </para><para>
 To compile &kstars;, you will also have to have the following packages
 installed:
 <itemizedlist>
 <listitem><para>kdelibs-devel</para></listitem>
-<listitem><para>libqt2-headers</para></listitem>
+<listitem><para>libqt-headers (a.k.a. qt-devel)</para></listitem>
 <listitem><para>zlib-devel</para></listitem>
-<listitem><para>autoconf less than 2.5!!</para></listitem>
+<listitem><para>autoconf (2.1 for &kde; 2; 2.5 for &kde; 3)</para></listitem>
 </itemizedlist></para>
 
 <para> On

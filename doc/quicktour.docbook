@@ -20,21 +20,24 @@ Here's a screenshot of the &kstars; main window:
 </screenshot>
 </para>
 
-<para>
-In the above screenshot, you can see the sky display centered on the
-constellation Andromeda.  Stars are displayed with realistic colors and 
-relative brightnesses.  The brightest stars have their names labeled (&eg;, 
-Mirach).  M 31, the Andromeda galaxy, is visible near the center, shown with 
-the correct angular size and position angle on the sky.  Above the sky
-display, there is an information panel displaying the current time and date
-(top row), the coordinates of the screen center and the name of the focused 
-object (middle row), and the current geographic location (bottom row). 
-Above this information panel, there are two toolbars.  The main toolbar
-contains shortcuts for menu functions, and the view toolbar
-contains buttons that allow you to toggle the display of different kinds of 
-objects in the sky.  At the bottom of the window, there is a status bar
-which displays the name of any object you click on, and the sky 
-coordinates of the mouse cursor.
+<para> 
+In the above screenshot, you can see the sky display centered
+on the constellation Orion, which is about to set below the western
+horizon.  Stars are displayed with realistic colors and relative
+brightnesses.  The brightest stars have their names labeled (&eg;,
+Betelgeuse).  M 42, the Orion Nebula, is visible below Orion's "belt"
+stars, just above the horizon.  In three corners of the Sky display,
+there are on-screen text labels displaying data on the current time
+("LT: 11:38:34 09/10/02"), the current Geographic Location
+("Greenwich, United Kingdom"), and the current object in the center of
+the display ("Focused on: nothing").  Above the sky display, there are
+two toolbars.  The main toolbar contains shortcuts for menu functions,
+as well as a time-step widget which controls how fast the simulation
+clock runs.  The view toolbar contains buttons that toggle the display
+of different kinds of objects in the sky.  At the bottom of the
+window, there is a status bar which displays the name of any object
+you click on, and the sky coordinates (Right Ascension and
+Declination) of the mouse cursor.  
 </para>
 
 <sect1 id="geolocation">
@@ -46,17 +49,18 @@ where longitude=0 is defined).  Since you are probably somewhere else,
 you'll want to change this.
 </para>
 <para>
-Open the <guilabel>Set Location</guilabel> window by selecting
+Open the <guilabel>Set Geographic Location</guilabel> window by selecting
 <guimenuitem>Set Geographic Location...</guimenuitem> from the
-<guimenu>Settings</guimenu> menu, by pressing the
+<guimenu>Settings</guimenu> menu, or by pressing the
 <guiicon>Globe</guiicon> icon in the toolbar, or by typing 
 <keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>.
 </para>
 
 <para>
-Here is a screenshot of the <guilabel>Set Location</guilabel> window:
+Here is a screenshot of the <guilabel>Set Geographic Location</guilabel> 
+window:
 <screenshot>
-<screeninfo>Changing the Location</screeninfo>
+<screeninfo>Changing the Geographic Location</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="screen2.png" format="PNG"/>
@@ -69,39 +73,45 @@ Here is a screenshot of the <guilabel>Set Location</guilabel> window:
 </para>
 
 <para>
-In the upper right, there is a list of over 2000 predefined cities.  You set
-your location by highlighting a city from this list.  Each city is
-represented in the world map as a small dot, and when a city is
-highlighted in the list, a red crosshairs appears on its location in the map.
+In the upper right, there is a list of over 2000 predefined cities.
+You set your location by highlighting a city from this list.  Each
+city is represented in the world map as a small dot, and when a city
+is highlighted in the list, a red crosshairs appears on its location
+in the map.
 </para><para>
-It isn't practical to scroll through the full list of 2000 locations, looking
-for a specific city. To make searches easier, the list can be filtered by
-entering text in the boxes below the map. For example, in the screenshot, the
-text <quote>Ba</quote> appears in the <guilabel>City Filter</guilabel> box,
-while <quote>M</quote> has been entered in the <guilabel>Province
-Filter</guilabel> box, and <quote>USA</quote> is in the <guilabel>Country
-Filter</guilabel> box. Note that all of the cities displayed in the list have
-city, province, and country names that begin with the entered filter strings,
-and that the message below the filter boxes indicates that 7 cities are matched
-by the filters.
+It isn't practical to scroll through the full list of 2000 locations,
+looking for a specific city. To make searches easier, the list can be
+filtered by entering text in the boxes below the map. For example, in
+the screenshot, the text <quote>Ba</quote> appears in the
+<guilabel>City Filter</guilabel> box, while <quote>M</quote> has been
+entered in the <guilabel>Province Filter</guilabel> box, and
+<quote>USA</quote> is in the <guilabel>Country Filter</guilabel>
+box. Note that all of the cities displayed in the list have city,
+province, and country names that begin with the entered filter
+strings, and that the message below the filter boxes indicates that 7
+cities are matched by the filters.  Also notice that the dots
+representing these seven cities in the map have been colored white,
+while the unmatched cities remain grey.
 </para><para>
-The list can also be filtered by location in the map.
-Clicking anywhere in the world map will show only those cities within two
-degrees of the clicked location.  At this time, you can search by name, or by
-location, but not both at once.  In other words, when you click on the map, the
+The list can also be filtered by location in the map.  Clicking anywhere 
+in the world map will show only those cities within two degrees of the 
+clicked location.  At this time, you can search by name, or by location, 
+but not both at once.  In other words, when you click on the map, the
 name filters are ignored, and vice versa.
 </para><para>
-The longitude, latitude and time zone information for the currently-selected
-location are displayed in the boxes at the bottom of the window.  If you
-feel that any of these values are inaccurate, you can modify them and press
-the <guibutton>Add to List</guibutton> button to record your custom version of 
-the location.  You can also define a completely new location by pressing the
-<guibutton>Clear Fields</guibutton> button, and entering the data for the new
-location.  Note that all fields except the optional 
-<guilabel>State/Province</guilabel> must be filled before the new location can
-be added to the list.  &kstars; will automatically load your custom locations
-for all future sessions.  Please note, at this point, the only way to remove 
-a custom location is to remove the appropriate line from the file
+The longitude, latitude and time zone information for the 
+currently-selected location are displayed in the boxes at the bottom of 
+the window.  If you feel that any of these values are inaccurate, you 
+can modify them and press the <guibutton>Add to List</guibutton> button 
+to record your custom version of the location.  You can also define a 
+completely new location by pressing the 
+<guibutton>Clear Fields</guibutton> button, and entering the data for 
+the new location.  Note that all fields except the optional 
+<guilabel>State/Province</guilabel> must be filled before the new 
+location can be added to the list.  &kstars; will automatically load 
+your custom locations for all future sessions.  Please note, at this 
+point, the only way to remove a custom location is to remove the 
+appropriate line from the file
 <filename>~/.kde/share/apps/kstars/mycities.dat</filename>.
 </para><para>
 If you add custom locations (or modify existing ones), please send us your
@@ -113,25 +123,29 @@ the master list.
 <sect1 id="settime">
 <title>What Time Is It?</title>
 <para>
-The next thing you may want to do is change the time and/or date.  When &kstars;
-starts up, the time is set to your computer's system clock, and the &kstars; clock
-is running to keep up with the real time.  If you want to stop the clock, select
-<guimenuitem>Stop Clock</guimenuitem> from the <guimenu>Time</guimenu> menu, or
-simply click on the <guiicon>Pause</guiicon> icon in the toolbar.  You can make the
-clock run slower or faster (even backward) than normal using the time-step 
-spinbox in the toolbar.  This spinbox has two sets of up/down buttons.  The first 
-one will step through all 82 available time steps, one by one.  The second one 
-will switch to the next higher (or lower) even unit of time, which allows you to 
-make large timestep changes more quickly.    
+The next thing you may want to do is change the time and/or date.  When 
+&kstars; starts up, the time is set to your computer's system clock, and 
+the &kstars; clock is running to keep up with the real time.  If you want 
+to stop the clock, select <guimenuitem>Stop Clock</guimenuitem> from the 
+<guimenu>Time</guimenu> menu, or simply click on the 
+<guiicon>Pause</guiicon> icon in the toolbar.  You can make the clock run 
+slower or faster (even backward) than normal using the time-step spinbox 
+in the toolbar.  This spinbox has two sets of up/down buttons.  The first 
+one will step through all 83 available time steps, one by one.  The second 
+one will skip to the next higher (or lower) unit of time, which 
+allows you to make large timestep changes more quickly.    
 </para><para>
 You can change to any time or date by selecting <guimenuitem>Set
 Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
 pressing the <guiicon>hourglass</guiicon> icon in the toolbar.  The
-<guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker widget,
-coupled with three spinboxes for setting the hours, minutes and seconds.  If you
-ever need to reset the clock back to the current time, just select
-<guimenuitem>Set Time to Now</guimenuitem> from the
-<guimenu>Time</guimenu> menu.
+<guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker 
+widget, coupled with three spinboxes for setting the hours, minutes and 
+seconds.  If you ever need to reset the clock back to the current time, 
+just select <guimenuitem>Set Time to Now</guimenuitem> from the
+<guimenu>Time</guimenu> menu.  [NB: the current version of KStars cannot 
+accept dates before October 1, 1752, nor dates after the year 8000.  
+These are limitations of the Qt Date/Time class.  We may implement our 
+own date/time class in a future version.]
 </para>
 </sect1>
 
@@ -141,14 +155,18 @@ ever need to reset the clock back to the current time, just select
 Now that we have the time and location set, let's have a look around.
 You can pan the display using the arrow keys.  If you hold down the
 &Shift; key before panning, the scrolling speed is doubled.  The
-display can also be panned by clicking and dragging with the mouse.  Note that
-while the display is scrolling, not all objects are displayed.  This is
-done to cut down on the CPU load of recomputing object positions, which
-makes the scrolling smoother.  You can zoom in and out with the
-<keycap>+</keycap> and <keycap>-</keycap> keys, with the zoom in/out buttons in
-the toolbar, or by selecting <guimenuitem>Zoom
-In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem> in the
-<guimenu>View</guimenu> menu.  Notice that as you zoom in, you can see fainter
+display can also be panned by clicking and dragging with the mouse.  Note 
+that while the display is scrolling, not all objects are displayed.  This 
+is done to cut down on the CPU load of recomputing object positions, which
+makes the scrolling smoother (you can configure what gets hidden while 
+scrolling in the Display Options window; this is covered in the next 
+chapter).  There are five ways to change the magnification of the display: 
+(1) use the <keycap>+</keycap> and <keycap>-</keycap> keys, (2) press the
+zoom in/out buttons in the toolbar, (3) select 
+<guimenuitem>Zoom In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem> 
+in the <guimenu>View</guimenu> menu, (4) use the scroll wheel on your 
+mouse, or (5) drag the mouse up and down with the middle button pressed.  
+Notice that as you zoom in, you can see fainter
 stars than at lower zoom settings.
 </para><para>
 Zoom out until you can see a green curve; this represents your local
@@ -168,47 +186,128 @@ far from it.
 <title>Objects in the Sky</title>
 <para>
 &kstars; displays thousands of objects: stars, planets, clusters,
-nebulae and galaxies.  You can identify any object by clicking on it
-(its name appears in the statusbar at the bottom of the window).  You
-can get more information about an object by right-clicking on it.  A
-popup menu will appear, showing its name(s), object type, and links to
-images and information from the internet.
+nebulae and galaxies.  By default, stars are drawn as white circles 
+with a colored border that simulates the star's real color.  Planets
+are drawn as colored dots at low zoom levels, but as an actual image
+of the planet as you zoom in.  Deep-sky objects (clusters, nebulae and
+galaxies) are drawn with symbols color-coded to indicate the catalog
+to which they belong (Messier, NGC or IC).  Most Messier objects are 
+drawn as real images on the map at higher zoom levels.  Deep-sky 
+objects with extra image or information links available are drawn with 
+a special color (red by default).  Clicking on an object will identify 
+it in the status bar.  Double-clicking will recenter the display on the 
+object and begin tracking the object (so that it will remain centered 
+as time passes).  Right-clicking an object opens a popup menu with 
+more options.
+</para>
+
+<sect2 id="popupmenu">
+<title>The Popup Menu</title>
+
+<para>
+Here is an example of the right-click popup menu, for the Orion Nebula:
+<screenshot>
+<screeninfo>Popup Menu for M 42</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="screen4.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Popup Menu for M 42</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para>
+The appearance of the popup menu depends somewhat on the kind of object 
+you right-click on, but the basic structure is the following:  
+</para><para>
+The top section contains information 
+labels, which are not selectable.  The top one to three labels display 
+the object's name(s) and object type.  The next three labels show the 
+object's rise, transit, and set times.  The next section contains two
+selectable items.  First, a "Center and Track" item, which will recenter 
+the display on the object, and keep it centered as time passes 
+(you can also center and track an object by simply double-clicking on 
+it).  Next, a "Details..." item, which will show a window with more 
+detailed information about the object.  The bottom section contains 
+links to images and/or informative webpages about the selected object.
 </para><para>
 If you know of an additional &URL; with information or an image of the
 object, you can add a custom link to the object's popup menu using the
-<guimenuitem>Add Link...</guimenuitem> item.  This opens a window in which you
-can enter the &URL; and the text that should appear in the popup menu.  You can
-make sure the &URL; is correct with the <guibutton>Check URL</guibutton> button,
-which will test the &URL; in your web browser.  Please specify whether the &URL;
-points to an Image, or to an HTML document!  If you specify Image here, the new
-menu item will open the Image Viewer, not the web browser.  You can also
-point to files on your local disk, so this feature could be used to attach
-observing logs or other custom information to objects in &kstars;.  Your custom
-links are automatically loaded whenever &kstars; starts up, and they are stored
-in the directory
-<filename class="directory">~/.kde/share/apps/kstars/</filename>, in files
-<filename>myimage_url.dat</filename> and <filename>myinfo_url.dat</filename>.
-</para><para> You can search for named objects by clicking on the
-<guiicon>search</guiicon> icon in the toolbar, or by selecting <guimenuitem>Find
-Object...</guimenuitem> from the <guimenu>Focus</guimenu> menu.  The
-<guilabel>Find Object</guilabel> window lists all the named objects in the
-&kstars; database.  Many objects are listed only by their catalog name (for
-example, NGC 3077), but some are also listed by their common name (for example,
-Whirlpool Galaxy).  You can filter the list by name, or by object type.
-Highlight the desired object, and press <guibutton>Ok</guibutton>.  The display 
-will center on the object and begin tracking it. Note that if the object is below 
-the horizon, you may not see anything except the ground.  You can make the ground 
-invisible in the <guilabel>Display Options</guilabel> window.
+<guimenuitem>Add Link...</guimenuitem> item at the bottom of the menu.  
+This opens a window in which you can enter the &URL; and the text that 
+should appear in the popup menu.  You can make sure the &URL; is correct 
+with the <guibutton>Check URL</guibutton> button, which will test the 
+&URL; in your web browser.  Please specify whether the &URL; points to 
+an Image, or to an HTML document!  If you specify Image here, the new 
+menu item will open the Image Viewer, not the web browser.  You can 
+also point to files on your local disk, so this feature could be used 
+to attach observing logs or other custom information to objects in 
+&kstars;.  Your custom links are automatically loaded whenever &kstars; 
+starts up, and they are stored in the directory 
+<filename class="directory">~/.kde/share/apps/kstars/</filename>, in 
+files <filename>myimage_url.dat</filename> and 
+<filename>myinfo_url.dat</filename>.  If you build an extensive list of 
+custom links, consider submitting them to us, we would like to include 
+them in the next version of &kstars;!
+</para>
+</sect2>
+
+<sect2 id="findobjects">
+<title>Finding Objects</title>
+<para> 
+You can search for named objects by clicking on the
+<guiicon>search</guiicon> icon in the toolbar, by selecting 
+<guimenuitem>Find Object...</guimenuitem> from the 
+<guimenu>Focus</guimenu> menu, or by pressing 
+<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>.  
+The <guilabel>Find Object</guilabel> 
+window lists all the named objects in the &kstars; database.  Many 
+objects are listed only by their catalog name (for example, NGC 3077), 
+but some are also listed by their common name (for example, Whirlpool 
+Galaxy).  You can filter the list by name, or by object type.  Highlight 
+the desired object in the list, and press <guibutton>Ok</guibutton>.  
+The display will center on the object and begin tracking it.  Note that 
+if the object is below the horizon, the program will warn you that you 
+may not see anything except the ground (you can make the ground 
+invisible in the <guilabel>Display Options</guilabel> window, or by 
+pressing the <guiicon>Ground</guiicon> button in the View toolbar).
 </para><para>
 Object Tracking is automatically engaged whenever an object is
-centered in the display, either by using the <guilabel>Find Object</guilabel>
-window, by double-clicking on an object, or by selecting <guimenuitem>Center and
-Track</guimenuitem> from the <mousebutton>right</mousebutton>-click popup menu.  You can
-disengage tracking by panning the display, pressing the
-<guiicon>Lock</guiicon> icon in the toolbar, or selecting
-<guimenuitem>Track Object</guimenuitem> from the
+centered in the display, either by using the 
+<guilabel>Find Object</guilabel> window, by double-clicking on an object, 
+or by selecting <guimenuitem>Center and Track</guimenuitem> from the 
+<mousebutton>right</mousebutton>-click popup menu.  You can disengage 
+tracking by panning the display, pressing the <guiicon>Lock</guiicon> 
+icon in the Main toolbar, or selecting 
+<guimenuitem>Track Object</guimenuitem> from the 
 <guimenu>Focus</guimenu> menu.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="customize">
+<title>Customizing the Display</title>
+<para>
+There are several ways to modify the display to your liking.  First of 
+all, you can select a different color scheme in the 
+<guimenu>Settings|Color Schemes</guimenu> menu.  There are three 
+predefined color schemes, and you can define your own in the 
+<guilabel>View Options</guilabel> window (covered in the next chapter).
+You can hide the Toolbars in the <guimenu>Settings|Toolbars</guimenu>
+menu, and hide the Info Boxes in the 
+<guimenu>Settings|Info Boxes</guimenu> menu.  In addition, you can 
+manipulate the Info Boxes with the mouse.  Each box has additional lines 
+of data that are hidden by default.  You can toggle whether these 
+additional lines are visible by double-clicking a box to "shade" it. 
+Also, you can reposition a box by dragging it with the mouse.  When a 
+box hits a window edge, it will "stick" to the edge when the window is 
+resized.  
+</para>
+<para>
+The remaining customizations are covered in the next chapter.
 </para>
 </sect1>
 </chapter>
-
