@@ -1,8 +1,8 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>OpsAdvanced</class>
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>OpsAdvancedUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>OpsAdvanced</cstring>
+        <cstring>OpsAdvancedUI</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -124,7 +124,7 @@
                 </widget>
                 <widget class="TimeStepBox">
                     <property name="name">
-                        <cstring>kcfg_SlewTimeScale</cstring>
+                        <cstring>SlewTimeScale</cstring>
                     </property>
                     <property name="focusPolicy">
                         <enum>StrongFocus</enum>
@@ -423,7 +423,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="XPM.GZ" length="3342">789c9dd5596fe3460c07f0f77c0a63f916145cebb025a1e8434ee74eec9c4ed18791e42b9bd371cea2dfbdf4f0cf296007e8b6ab4de29fc9e1702839f9bedab83a396cac7e5f799eb9d9a46a5463376dacd62f77771fbffff1db9f2bdfe2b821ffa3b4d988bffdb2f2ad3b6b548da387fbc11c4c026afa7fde27c1b9f7044e11ef076b3c31471aef7ae721de336b9c4ee01cf1ebb9a3e6fcf2f1fb601fa777d8d61f07fbb8bb8173ed8f7e98919fc395ee473b66c47dbf928d7c8e618bef06ebfacdb9e3666cfdedc1d6df51b09eef14ce919f7a17c13318fbb9893ac1fc696046fda760addf846d1ed5dc4994d8fc8fcdc88f609c87c7de45922785afbf0123ee6a756afd1c98d17f628e757e2fb0cd633a771aa5b65fe1ed5a96bf07175adff9f3b6e2568dfe5333f2dbea7684fcb119fbfd63ed6fdbacebdd106e21ffda8cfa17de2ec4d7e102cfc755b0d62fcdba9e2218fdbb9119ebbddb729eb6ff303aa70eeb5f61e4d39a19f1537566e7ed046b3f37669c67036e217e6e46dccfbb2dfdb59d8fb7d419cecf9b66ec5f05ebf37206a37f36d71a673fef2c69d759e29da9b3083e82edfe6ea973abe7e79395599195de355cabe9456df9f411acfbafc336bfbb608defcf9dcbfeb9ef87d8bb2cac9f43b5c3bcf923589fcf3518f3653f9f222da222f5f5fa6a1725918fbfc336ff83609de7be19f93373aafe841df6bb34e37c6fc17abe1c1e207fdb8cfcc760cddf5597319e177ffea2b27c579ad1df8e3ae40fcda8ef82b5fe9b19e7e9c06dac2fcc583f821de6eff777324fa7f3bd555b7dca60ab179b518f8235ff01b6799e9b91df0bd6fe5b30e6e9d88cfc8919f3f19f4757b996ab7cfc426d71a7fd5495cdebd9ac71aa61ebf712b6fe3e61eccffe3c655ac5fafb85ef83fde79befccf8fc3dc16de43f06ebef832b758df9b1fffb5ad6e540cfc3afea2ac6f3de86addead59e3fc0c3bc4a7c1badf96daf623fff7ad6a0d707fbbb3f9c5f4ef577766f9ecb8e48a6b1ef070e96bc4639ee80acd975737fc836ff98eeff9811ff989a7fe7ac6f719bf2ce457fcca6ffcce1ffcc96bbcce1bbcc95bbccd1ddee15df9da5bc8df97da077c2819477ccc27dc95f77a7cca677c2e57872f16f207d2c7215ff215f725fb9a9b1c71cc89bc4e25bfc5ed85fc4cf273a9dd958c4202c4e7e4a8943d882aaabfa87fcf6b349057050db943233ea0314de886fbf4836e97f2337ea23b3ea17b79f341ae477ae22e4de99966f2f3855e97ea4f65267d7aa2218de84d76ead33b7dd0a7f44fb446eb4bf5a73241a20d39ddc1bcb6ecb529afb6685bea97d4f9a2fe1627b423a7dc96195dd3aeacdea37d3a909f1f4bfd64fc4c8774c43da93591bee56e88888ee984bad4a3d32fea77e84ca6d9a373baa04bbaa23ecdef5a97aea949d172ff72d2787e3a5931e094b6299153747942a9f4d85ac81f519b772993bb54c97dedcb3bf244ca84aee988727a5cbabf639e51c11dc78ee856e6bde69c9cb2279d3857d2d0550bf91357cb3378e1066ee886b42ed7ab1bd12b4574eac66ee26e16f27ff2fa7ff93fbfe23f7fdefffa75e56fa0a1b9be</data>
+        <data format="PNG" length="872">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000032f49444154789cb5953148254718c77f1e5b7c030ab3e0c12e5ce00927f88a14af7d87c5590ac29d6013b0497b844008a9120e1248938354a6b1482131cde5a510b4f03081f07c8d4421c2063cd85708bbe0831938613ec8c0a5588dd1dc33452e5f33bb33c36f7ffbed7fd889fe7e9fcb7ad07df09ab750fdfdfec4c425787b6bfb757bae8df79e6a54e1bcc36008845b47e71dc549c1e06000f10a9e5c9a3effee39690ef92cb4a25e2c3b4804709844807035cfd57d7122f0ad65f0c25f0703d4a39af41d28473fa0af4a42548c81f007f85aa86a4510cc34cccc8288420405640ad2bbcadfeb2fb01b39021e7d5513a2c74c59ca43d8db510e0f6a24018d8a2496ecbeb0b892d29d0f08cdbc9d149ac7dc0057bea2831262853196fd5d6573dd43046b85fcbe2002d55019be54bef9a2a45ecd585e059106fe46639318403153427908bd0be8e2a38c874b90e70692806acade4ea0b7eee96d0cc9b2360b8f0d92e835e33b97172106400801b6b73c1a95c54719cbef439a2b9a54f833c3f68f8ec59594f73eb090089b1b153afa67e4ae1b270e5fa7144725d636a6228d853fcf59fbca511e7bdc193cf92467b0eb297f578a2220721d7ccdd82442553b48206f417a1714c5fb94b5cf2b8a638f58a13b9fc2a4a3ddb16854aa53d03806dcf4180481a8d8c98b8f7296b3f6a5a33c6ee2652785fc1ea4d2bcaf248246901bca377a0c661a482cc5505135ecbd088de9a490ddb30c8735cf9e5614872955a96854665a066e4f85a33d0bad96500f95bd9dc0f26a8a3b53ba0f53f20c9e3d85e1cb9a4f3facd0734f9659da1da8ea5b7a0c02a22cae081a95deba676fc7f1e4a39cce7ca0d5097cfc594e9659fca88608dd25cbccdcbfe6384014baf3509f66f436866c7e0d835d4ffb5d0b0954a5c38fb4e92d4af18b521c19ac8c39796ee42ecebe22c0f2aa90656d7adf5714c74a71346c7647b0d39685c7965f7f52aa738fc6947a34c6b83829284a41d2c6441258580a74e7738a22509d36d0bc65687760660e8a25033187c451fec69bc1838301ac0b69de444ad53779c32317bb2481f2d437b9dd6adae13d14874a558f3126c2e0e7cbc59be3b81abf7e67ecca7fac3bd0fca3fe17f0db86f7f7fb137f0208c29bb28f971c5b0000000049454e44ae426082</data>
     </image>
 </images>
 <tabstops>
@@ -431,7 +431,7 @@
     <tabstop>kcfg_UseAnimatedSlewing</tabstop>
     <tabstop>kcfg_UseAutoLabel</tabstop>
     <tabstop>kcfg_HideOnSlew</tabstop>
-    <tabstop>kcfg_SlewTimeScale</tabstop>
+    <tabstop>SlewTimeScale</tabstop>
     <tabstop>kcfg_HideStars</tabstop>
     <tabstop>kcfg_MagLimitHideStar</tabstop>
     <tabstop>kcfg_HidePlanets</tabstop>
