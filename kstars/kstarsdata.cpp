@@ -898,6 +898,9 @@ void KStarsData::slotInitialize() {
 	{
 		case 0: //Load Options//
 			emit progressText( i18n("Loading Options") );
+			// timezone rules
+			if ( !readTimeZoneRulebook( ) )
+				initError( "TZrules.dat", true );
 
 				kstars->loadOptions();
 			break;
@@ -905,8 +908,8 @@ void KStarsData::slotInitialize() {
 		case 1: //Load Cities//
 			emit progressText( i18n("Loading city data") );
 
-			if ( !readTimeZoneRulebook( ) )
-				initError( "TZrules.dat", true );
+//			if ( !readTimeZoneRulebook( ) )
+//				initError( "TZrules.dat", true );
 
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );

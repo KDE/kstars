@@ -38,11 +38,17 @@ void KStars::loadOptions()
 	}
 */
 	// set Greenwich as default
-	options()->setCityName( conf->readEntry( "City", "Greenwich" ) );
-	options()->setProvinceName( conf->readEntry( "Province", "" ) );
-	options()->setCountryName( conf->readEntry( "Country", "United Kingdom" ) );
-	options()->setLongitude( conf->readDoubleNumEntry( "Longitude", 0.0 ) );
-	options()->setLatitude( conf->readDoubleNumEntry( "Latitude", 51.4667 ) );
+	QString city = conf->readEntry( "City", "Greenwich" );
+	QString province = conf->readEntry( "Province", "" );
+	QString country = conf->readEntry( "Country", "United Kingdom" );
+	double longitude = conf->readDoubleNumEntry( "Longitude", 0.0 );
+	double latitude = conf->readDoubleNumEntry( "Latitude", 51.4667 );
+	double timezone = conf->readDoubleNumEntry( "TimeZone", 0.0 );
+	QString tzRule = conf->readEntry( "DST", "--" );
+	double height = conf->readDoubleNumEntry( "Height", -10.0 );
+	// find TZrule and if not found use default rule == last rule in QMap
+	QMap<QString, TimeZoneRule>::Iterator it = data()->Rulebook.find( tzRule );
+	options()->setLocation( GeoLocation ( longitude, latitude, city, province, country, timezone, &(it.data()), 4, height ) );
 
 	conf->setGroup( "Catalogs" );
 	options()->CatalogCount = conf->readNumEntry( "CatalogCount", 0 );
@@ -166,6 +172,14 @@ void KStars::saveOptions() {
 	conf->writeEntry( "Country", options()->countryName() );
 	conf->writeEntry( "Longitude", options()->longitude() );
 	conf->writeEntry( "Latitude", options()->latitude() );
+	conf->writeEntry( "TimeZone", options()->Location()->TZ0() );
+// search for key of TZrule and store it in configfile
+	QMap<QString, TimeZoneRule>::Iterator it;
+	for ( it = data()->Rulebook.begin(); it != data()->Rulebook.end(); ++it ) {
+		if ( &(it.data()) == options()->Location()->tzrule() ) break;  // break loop if found
+	}
+	conf->writeEntry( "DST", it.key() );
+	conf->writeEntry( "Height", options()->Location()->height() );
 
 	conf->setGroup( "Catalogs" );
 	conf->writeEntry( "CatalogCount", options()->CatalogCount );
