@@ -169,7 +169,7 @@ void CelestronGPS::ISNewText (const char *dev, const char *name, char *texts[], 
 	  if (!tp)
 	   return;
 
-	  tp->text = new char[strlen(texts[0]+1)];
+	  tp->text = new char[strlen(texts[0])+1];
 	  strcpy(tp->text, texts[0]);
 	  IDSetText (&Port, NULL);
 	  return;
@@ -711,7 +711,7 @@ void CelestronGPS::powerTelescope(ISState *s)
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSw, "Error connecting to port %s\n", Port.t[0].text);
+	   IDSetSwitch (&PowerSw, "Error connecting to port %s", Port.t[0].text);
 	   return;
 	 }
 
