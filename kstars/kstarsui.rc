@@ -33,12 +33,12 @@
 	</Menu>
 
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-		<Menu name="infopanel"><text>&amp;Infopanel</text>
-			<Action name="show_panel"/>
+		<Menu name="infopanel"><text>&amp;Info Boxes</text>
+			<Action name="show_boxes"/>
 			<Separator />
-			<Action name="show_time_panel" />
-			<Action name="show_focus_panel" />
-			<Action name="show_location_panel" />
+			<Action name="show_time_box" />
+			<Action name="show_focus_box" />
+			<Action name="show_location_box" />
 		</Menu>
 		<Menu name="toolbars"><text>&amp;Toolbars</text>
 			<Action name="show_mainToolBar" />

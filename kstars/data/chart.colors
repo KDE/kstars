@@ -14,3 +14,6 @@
 #55AA33 :HorzColor
 #FFFFFF :CompassColor
 #445566 :GridColor
+#000000 :BoxTextColor
+#FF0000 :BoxGrabColor
+#FFFFFF :BoxBGColor

@@ -96,7 +96,7 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 }
 
 
-void InfoBox::draw( QPainter &p ) {
+void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 	QRect r;
 	int w,h;
 
@@ -128,12 +128,11 @@ void InfoBox::draw( QPainter &p ) {
 
 //Draw the box boundary and the text
 
-//Uncomment to hide box when unGrabbed...
-	if ( p.pen().color() == QColor( "red" ) )
+	if ( fillBG ) {
+		p.fillRect( x(), y(), width(), height(), QBrush( BGColor ) );
 		p.drawRect( x(), y(), width(), height() );
+	}
 
-//Uncomment for filled background...
-//	p.fillRect( x(), y(), width(), height(), QBrush( QColor( "black" ) ) );
 	p.drawText( x() + padx(), y() + ShadedTextHeight/2 + pady(), text1() );
 
 	if ( !Shaded ) {

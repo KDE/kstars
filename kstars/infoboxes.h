@@ -39,7 +39,9 @@ public:
 	void resize( int w, int h ) { Width = w;  Height = h; }
 	int width() const { return Width; }
 	int height() const { return Height; }
-	void drawBoxes( QPainter &p );
+	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
+			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),
+			bool fillBG=false );
 	bool grabBox( QMouseEvent *e );
 	bool unGrabBox();
 	bool dragBox( QMouseEvent *e );

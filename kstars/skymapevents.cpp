@@ -39,6 +39,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
     computeSkymap = true;	// skymap must be new computed
     if ( testWState(WState_AutoMask) )
 		updateMask();
+		ksw->infoBoxes()->resize( width(), height() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
@@ -932,7 +933,10 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 void SkyMap::drawBoxes( QPixmap *pm ) {
 	QPainter p;
 	p.begin( pm );
-	ksw->infoBoxes()->drawBoxes( p );
+	ksw->infoBoxes()->drawBoxes( p,
+			ksw->options()->colorScheme()->colorNamed( "BoxTextColor" ),
+			ksw->options()->colorScheme()->colorNamed( "BoxGrabColor" ),
+			ksw->options()->colorScheme()->colorNamed( "BoxBGColor" ), false );
 	p.end();
 }
 

@@ -345,7 +345,6 @@ private:
 			double mult, int zoommin, int resize_mult = 1);
 
 	void drawBoxes( QPixmap *pm );
-	void drawBoxes( void );
 
 /**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();

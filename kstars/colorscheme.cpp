@@ -87,6 +87,15 @@ ColorScheme::ColorScheme(){
 	KeyName.append( "GridColor" );
 	Name.append( i18n( "Coordinate Grid" ) );
 	Default.append( "#456" );
+	KeyName.append( "BoxTextColor" );
+	Name.append( i18n( "Infobox Text Color" ) );
+	Default.append( "#FFF" );
+	KeyName.append( "BoxGrabColor" );
+	Name.append( i18n( "Infobox Grabbed Color" ) );
+	Default.append( "#F00" );
+	KeyName.append( "BoxBGColor" );
+	Name.append( i18n( "Infobox Background Color" ) );
+	Default.append( "#000" );
 	
 	//Default values for integer variables:
 	StarColorMode = 0;

@@ -135,7 +135,7 @@ void KStars::updateTime( void ) {
 
 //	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
 	infoBoxes()->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
-	if ( data()->LST > oldLST ) { //kludge advancing the focus
+	if ( !options()->isTracking && data()->LST > oldLST ) { //kludge advancing the focus
 		int nSec = oldLST.secsTo( data()->LST );
 		map()->focus()->setRA( map()->focus()->ra().Hours() + double( nSec )/3600. );
 		if ( options()->useAltAz ) map()->focus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );

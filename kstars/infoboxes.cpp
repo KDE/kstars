@@ -37,18 +37,36 @@ InfoBoxes::InfoBoxes( int w, int h ) {
 InfoBoxes::~InfoBoxes(){
 }
 
-void InfoBoxes::drawBoxes( QPainter &p ) {
-	p.setPen( QPen( boxColor ) );
-	if ( GrabbedBox == 1 ) p.setPen( QPen( grabColor ) );
-	GeoBox->draw( p );
+void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
+		QColor BGColor, bool fillBG ) {
+	if ( isVisible() ) {
+		if ( GeoBox->isVisible() ) {
+			p.setPen( QPen( FGColor ) );
+			if ( GrabbedBox == 1 ) {
+				p.setPen( QPen( grabColor ) );
+				p.drawRect( GeoBox->x(), GeoBox->y(), GeoBox->width(), GeoBox->height() );
+			}
+			GeoBox->draw( p, BGColor, fillBG );
+		}
 
-	p.setPen( QPen( boxColor ) );
-	if ( GrabbedBox == 2 ) p.setPen( QPen( grabColor ) );
-	TimeBox->draw( p );
+		if ( TimeBox->isVisible() ) {
+			p.setPen( QPen( FGColor ) );
+			if ( GrabbedBox == 2 ) {
+				p.setPen( QPen( grabColor ) );
+				p.drawRect( TimeBox->x(), TimeBox->y(), TimeBox->width(), TimeBox->height() );
+			}
+			TimeBox->draw( p, BGColor, fillBG );
+		}
 
-	p.setPen( QPen( boxColor ) );
-	if ( GrabbedBox == 3 ) p.setPen( QPen( grabColor ) );
-	FocusBox->draw( p );
+		if ( FocusBox->isVisible() ) {
+			p.setPen( QPen( FGColor ) );
+			if ( GrabbedBox == 3 ) {
+				p.setPen( QPen( grabColor ) );
+				p.drawRect( FocusBox->x(), FocusBox->y(), FocusBox->width(), FocusBox->height() );
+			}
+			FocusBox->draw( p, BGColor, fillBG );
+		}
+	}
 }
 
 bool InfoBoxes::grabBox( QMouseEvent *e ) {
