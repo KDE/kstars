@@ -22,6 +22,8 @@
 
 #include "skypoint.h"
 #include "dms.h"
+#include <kglobal.h>
+#include <klocale.h>
 #include <qregexp.h>
 
 //DMS_SPEED
@@ -73,6 +75,10 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	entry.replace( QRegExp("\'"), "" );
 	entry.replace( QRegExp("\""), "" );
 
+	//Account for localized decimal-point settings
+	//QString::toDouble() requires that the decimal symbol is "."
+	entry.replace( KGlobal::locale()->decimalSymbol(), "." );
+ 
 	//empty entry returns false
 	if ( entry.isEmpty() ) {
 		setD( 0.0 );
