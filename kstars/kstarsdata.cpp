@@ -488,8 +488,6 @@ bool KStarsData::readCityData( void ) {
 				abort = true;
 			}
 
-			kdDebug() << "test" << endl;
-
 			lngD = field[index++].toInt( &intCheck );
 			if ( !intCheck ) {
 				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
