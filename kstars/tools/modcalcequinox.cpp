@@ -94,7 +94,9 @@ void modCalcEquinox::slotClear(void){
 
 void modCalcEquinox::showStartDateTime(double jd)
 {
-	startDateTimeEquinox->setDateTime( KSUtils::JDtoUT( jd ) );
+	ExtDateTime dt(KSUtils::JDtoUT( jd ));
+
+	startDateTimeEquinox->setDateTime( QDateTime(QDate( dt.date().year(), dt.date().month(), dt.date().day()), dt.time()) );
 }
 void modCalcEquinox::showSeasonDuration(float deltaJd)
 {

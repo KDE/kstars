@@ -142,6 +142,7 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
 	z = rsun()*sinB - eZ;
 
 	Rearth = sqrt(x*x + y*y + z*z);
+
 }
 
 void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {

@@ -16,10 +16,12 @@
  ***************************************************************************/
 
 #include <math.h>
+#include <qdatetime.h>
 
 #include "kssun.h"
 #include "ksnumbers.h"
 #include "ksutils.h"
+#include "libkdeedu/extdate/extdatetime.h"
 
 KSSun::KSSun( KStarsData *kd, QString fn ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn ) {
 	/*
@@ -154,7 +156,7 @@ long double KSSun::equinox(int year, int d, int m, double angle) {
 	double eclipticLongitude[5];
 	
 	for(int i = 0; i<5; ++i) {
-		jd0[i] = (double)KSUtils::UTtoJD(QDateTime(QDate(year,m,d+i),QTime(0,0,0)) );
+		jd0[i] = (double)KSUtils::UTtoJD(ExtDateTime(ExtDate(year,m,d+i),QTime(0,0,0)) );
 		KSNumbers *ksn = new KSNumbers(jd0[i]);
 		//FIXME this is the Earth position
 		findGeocentricPosition( ksn);
