@@ -98,13 +98,13 @@ void INDIMenu::updateStatus()
    {
     if (drivers->activeDriverCount() == 0)
     {
-       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
+       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
        return;
     }
    }
    else if (mgr.size() == 0)
    {
-      KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
+      KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
       return;
    }
 

@@ -64,8 +64,8 @@ public:
 	~DetailDialog() {}
 private:
 
-    bool readUserFile(int type, int sourceFileType);
-    bool verifyUserData(int type, uint & ObjectIndex);
+    bool readUserFile(int type);
+    bool verifyUserData(int type);
     void createGeneralTab(QDateTime lt, GeoLocation *geo);
     void createLinksTab();
     void createAdvancedTab();

@@ -3,6 +3,7 @@
                              -------------------
     begin                : Sun May 5 2002
     copyright            : (C) 2002 by Jason Harris
+    				       Jasem Mutlaq
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -60,7 +61,7 @@ void DetailDialog::createLogTab()
 //   userLog->setTextFormat(Qt::RichText);
 
    if (selectedObject->userLog.isEmpty())
-      userLog->setText(i18n("Record here observation logs and/or data on ") + selectedObject->name());
+      userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->name()));
    else
       userLog->setText(selectedObject->userLog);
 
@@ -81,7 +82,8 @@ void DetailDialog::createLogTab()
 void DetailDialog::createAdvancedTab()
 {
   // We don't create a a log tab for an unnamed object or if advinterface file failed loading
-   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty())
+  // We also don't need adv dialog for solar system objects.
+   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || selectedObject->type() == SkyObject::PLANET ||selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
        return;
 
   advancedTab = addPage(i18n("Advanced"));
@@ -439,7 +441,7 @@ void DetailDialog::viewLink()
 {
      QString URL;
 
-    if (infoList->currentItem() != -1)
+    if (infoList->currentItem() != -1 && infoList->isSelected(infoList->currentItem()))
         URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
     else if (imagesList->currentItem() != -1)
        URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
@@ -519,17 +521,17 @@ void DetailDialog::editLinkDialog()
         return;
 
   // Save the URL of the current item
-   currentItemURL =  editLinkField->text();
+    currentItemURL =  editLinkField->text();
     entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
 
    switch (type)
    {
      case 0:
-       if (!verifyUserData(0, ObjectIndex))
+       if (!verifyUserData(type))
            return;
        break;
      case 1:
-       if (!verifyUserData(1, ObjectIndex))
+       if (!verifyUserData(type))
           return;
        break;
    }
@@ -542,26 +544,22 @@ void DetailDialog::editLinkDialog()
 
    for (i=0; i<dataList.count(); i++)
    {
-      if (i != ObjectIndex)
-      {
         newStream << dataList[i] << endl;
         continue;
-      }
+   }
 
-     if (type==0)
-     {
+   if (type==0)
+   {
        *selectedObject->ImageTitle.at(currentItemIndex) = currentItemTitle;
        *selectedObject->ImageList.at(currentItemIndex) = currentItemURL;
-     }
-     else
-     {
+   }
+   else
+   {
         *selectedObject->InfoTitle.at(currentItemIndex) = currentItemTitle;
         *selectedObject->InfoList.at(currentItemIndex) = currentItemURL;
-     }
-
-     newStream << entry << endl;
-
    }
+
+   newStream << entry << endl;
 
     newFile.close();
     file.close();
@@ -574,9 +572,6 @@ void DetailDialog::removeLinkDialog()
   uint i, ObjectIndex;
   QString defaultURL, entry;
   QFile newFile;
-
-  if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the link?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
-   return;
 
    currentItemIndex = infoList->currentItem();
 
@@ -593,18 +588,22 @@ void DetailDialog::removeLinkDialog()
         type = 0;
         currentItemTitle = imagesList->currentText();
   }
+  
+  if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete confirmation..."))!=KMessageBox::Yes)
+   return;
+
 
     switch (type)
     {
        case 0:
-        if (!verifyUserData(0, ObjectIndex))
+        if (!verifyUserData(type))
            return;
         selectedObject->ImageTitle.remove( selectedObject->ImageTitle.at(currentItemIndex));
         selectedObject->ImageList.remove( selectedObject->ImageList.at(currentItemIndex));
         break;
 
         case 1:
-         if (!verifyUserData(1, ObjectIndex))
+         if (!verifyUserData(type))
           return;
         selectedObject->InfoTitle.remove(selectedObject->InfoTitle.at(currentItemIndex));
         selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
@@ -618,17 +617,14 @@ void DetailDialog::removeLinkDialog()
    QTextStream newStream(&newFile);
 
    for (i=0; i<dataList.count(); i++)
-   {
-      if (i != ObjectIndex)
-        newStream << dataList[i] << endl;
-   }
+          newStream << dataList[i] << endl;
 
     newFile.close();
     file.close();
     updateLists();
 }
 
-bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
+bool DetailDialog::verifyUserData(int type)
 {
   QString line, name, sub, title;
   bool ObjectFound = false;
@@ -637,137 +633,78 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
   switch (type)
    {
      case 0:
-        if (!readUserFile(0,0))
+        if (!readUserFile(type))
           return false;
         for (i=0; i<dataList.count(); i++)
         {
              line = dataList[i];
              name = line.mid( 0, line.find(':') );
-        	  sub = line.mid( line.find(':')+1 );
+             sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
             if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
-                  ObjectIndex = i;
+                  dataList.remove(dataList.at(i));
                   break;
                 }
          }
 
-         if (!ObjectFound)
-           if (!readUserFile(0, 1))
-              return false;
-
-        for (i=0; i<dataList.count(); i++)
-        {
-             line = dataList[i];
-             name = line.mid( 0, line.find(':') );
-        	  sub = line.mid( line.find(':')+1 );
-             title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == currentItemTitle)
-                {
-                  ObjectFound = true;
-                  ObjectIndex = i;
-                  break;
-                }
-         }
-
-        break;
+         break;
      case 1:
-        if (!readUserFile(1,0))
+        if (!readUserFile(type))
           return false;
         for (i=0; i<dataList.count(); i++)
         {
              line = dataList[i];
              name = line.mid( 0, line.find(':') );
-        	  sub = line.mid( line.find(':')+1 );
+             sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
             if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
-                  ObjectIndex = i;
+                  dataList.remove(dataList.at(i));
                   break;
                 }
          }
+	 break;
+	 
+    }
 
-         if (!ObjectFound)
-           if (!readUserFile(1, 1))
-              return false;
-
-        for (i=0; i<dataList.count(); i++)
-        {
-             line = dataList[i];
-             name = line.mid( 0, line.find(':') );
-        	  sub = line.mid( line.find(':')+1 );
-             title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == currentItemTitle)
-                {
-                  ObjectFound = true;
-                  ObjectIndex = i;
-                  break;
-                }
-         }
-       break;
-   }
-
-   return true;
+   return ObjectFound;
 
 }
 
-bool DetailDialog::readUserFile(int type, int sourceFileType)
+bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 {
 
    switch (type)
    {
        case 0:
-          if (!sourceFileType)
-          {
-              file.setName( locateLocal( "appdata", "myimage_url.dat" ) ); //determine filename in local user KDE directory tree.
-                if ( !file.open( IO_ReadOnly) )
-                {
-        			   QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                    KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-        	         return false;
-               }
-           }
-          else
-          {
              file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
              if ( !file.open( IO_ReadOnly) )
                 {
-        			   ksw->data()->initError("image_url.dat", false);
-        	         return false;
-               }
-           }
-           break;
+        	   ksw->data()->initError("image_url.dat", false);
+        	   return false;
+                }
+       break;
+       
        case 1:
-         if (!sourceFileType)
-         {
-               file.setName( locateLocal( "appdata", "myinfo_url.dat" ) ); //determine filename in local user KDE directory tree.
-                 if ( !file.open( IO_ReadOnly) )
-                 {
-        			   QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                    KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-                   return false;
-                  }
-
-         }
-         else
-         {
-             file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
+            file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
              if ( !file.open( IO_ReadOnly) )
              {
-        			   ksw->data()->initError("info_url.dat", false);
-        	         return false;
+        	   ksw->data()->initError("info_url.dat", false);
+                   return false;
              }
-           }
+           
            break;
+	  
     }
-
 
    // Must reset file
    file.reset();
    QTextStream stream(&file);
 
+  dataList.clear();
   // read all data into memory
    while (!stream.eof())
      dataList.append(stream.readLine());

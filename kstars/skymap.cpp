@@ -905,7 +905,7 @@ void SkyMap::addLink( void ) {
 
 			//Also, update the user's custom image links database
 			//check for user's image-links database.  If it doesn't exist, create it.
-			file.setName( locateLocal( "appdata", "myimage_url.dat" ) ); //determine filename in local user KDE directory tree.
+			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
@@ -923,7 +923,7 @@ void SkyMap::addLink( void ) {
 			clickedObject()->InfoTitle.append( adialog.title() );
 
 			//check for user's image-links database.  If it doesn't exist, create it.
-			file.setName( locateLocal( "appdata", "myinfo_url.dat" ) ); //determine filename in local user KDE directory tree.
+			file.setName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
 				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );

@@ -990,7 +990,7 @@ void INDI_D::handleDevCounter()
   initDevCounter--;
 
   if (initDevCounter == 0 && parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( name + i18n(" is online and ready."), 0);
+    parent->ksw->statusBar()->changeItem( i18n("%1 is online and ready.").arg(name), 0);
 
 }
 
@@ -1171,7 +1171,7 @@ void INDI_D::initDeviceOptions()
   }
 
   if (parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( name + i18n(" is online."), 0);
+    parent->ksw->statusBar()->changeItem( i18n("%1 is online.").arg(name), 0);
 
   parent->ksw->map()->forceUpdateNow();
 
@@ -2316,7 +2316,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
 	QString errMsg;
-	errMsg = QString("Connection to INDI agent at %1 on port %2 failed").arg(host).arg(port);
+	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 
 
 	bzero(&pin, sizeof(pin));
@@ -2375,9 +2375,9 @@ void DeviceManager::dataReceived()
 	if (nr <= 0)
 	{
 	    if (nr < 0)
-		sprintf (msg, "INDI: input error");
+		sprintf (msg, "INDI: input error.");
 	    else
-		sprintf (msg, "INDI: agent closed connection");
+		sprintf (msg, "INDI: agent closed connection.");
 
 
             tcflush(serverFD, TCIFLUSH);

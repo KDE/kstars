@@ -1642,9 +1642,9 @@ void KStarsData::slotInitialize() {
 			if ( !readURLData( "image_url.dat", 0 ) ) {
 				initError( "image_url.dat", false );
 			}
-			if ( !readURLData( "myimage_url.dat", 0 ) ) {
+			//if ( !readURLData( "myimage_url.dat", 0 ) ) {
 			//Don't do anything if the local file is not found.
-			}
+			//}
           // doesn't belong here, only temp
              readUserLog();
 
@@ -1656,9 +1656,9 @@ void KStarsData::slotInitialize() {
 			if ( !readURLData( "info_url.dat", 1 ) ) {
 				initError( "info_url.dat", false );
 			}
-			if ( !readURLData( "myinfo_url.dat", 1 ) ) {
+			//if ( !readURLData( "myinfo_url.dat", 1 ) ) {
 			//Don't do anything if the local file is not found.
-			}
+			//}
 			break;
 
 		default:

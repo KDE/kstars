@@ -302,7 +302,7 @@ bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
 
   if (dev->indiPort < 0)
   {
-   KMessageBox::error(0, i18n("Cannot start INDI server : port error"));
+   KMessageBox::error(0, i18n("Cannot start INDI server : port error."));
    return false;
   }
 
@@ -611,15 +611,17 @@ void INDIDriver::addINDIHost()
   if (hostConf.exec() == QDialog::Accepted)
   {
     INDIHostsInfo *hostItem = new INDIHostsInfo;
-    hostItem->name       = hostConf.nameIN->text();
-    hostItem->hostname   = hostConf.hostname->text();
-    hostItem->portnumber = hostConf.portnumber->text();
+    hostItem->name        = hostConf.nameIN->text();
+    hostItem->hostname    = hostConf.hostname->text();
+    hostItem->portnumber  = hostConf.portnumber->text();
+    hostItem->isConnected = false;
+    hostItem->mgrID       = -1;
 
     hostItem->portnumber.toInt(&portOk);
 
     if (portOk == false)
     {
-     KMessageBox::error(0, i18n("Error: the port number is invalid"));
+     KMessageBox::error(0, i18n("Error: the port number is invalid."));
      return;
     }
 
@@ -628,7 +630,7 @@ void INDIDriver::addINDIHost()
      if (hostItem->name   == ksw->data()->INDIHostsList.at(i)->name &&
          hostItem->portnumber == ksw->data()->INDIHostsList.at(i)->portnumber)
      {
-       KMessageBox::error(0, i18n("Host: ") + hostItem->name + " Port: " + hostItem->portnumber + i18n(" already exist."));
+       KMessageBox::error(0, i18n("Host: %1 Port: %1 already exists.").arg(hostItem->name).arg(hostItem->portnumber));
        return;
      }
 
@@ -690,7 +692,7 @@ void INDIDriver::removeINDIHost()
  if (clientListView->currentItem() == NULL)
   return;
 
- if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the host?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
+ if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 host?").arg(clientListView->currentItem()->text(1)), i18n("Delete confirmation..."))!=KMessageBox::Yes)
    return;
 
  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
