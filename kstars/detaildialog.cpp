@@ -223,6 +223,11 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 					selectedObject->typeName(), "--", generalTab );
 		}
 		break;
+	case 9:  //comets
+	case 10: //asteroids:
+		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
+					selectedObject->typeName(), "--", generalTab );
+		break;
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
 
@@ -433,12 +438,12 @@ void DetailDialog::unselectImagesList()
 void DetailDialog::viewLink()
 {
      QString URL;
- 
+
     if (infoList->currentItem() != -1)
         URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
     else if (imagesList->currentItem() != -1)
        URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
-       
+
   if (!URL.isEmpty())
        kapp->invokeBrowser(URL);
 

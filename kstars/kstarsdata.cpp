@@ -932,22 +932,27 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 							while ( ! gStream.eof() ) {
 								QString line = gStream.readLine();
 
-								//does local file contain the current global file line, up to second ':' ?
+								//If global-file line begins with "XXX:" then this line should be removed from the local file.
+								if ( line.left( 4 ) == "XXX:"  && urlData.contains( line.mid( 4 ) ) ) {
+									urlData.remove( urlData.find( line.mid( 4 ) ) );
+								} else {
+									//does local file contain the current global file line, up to second ':' ?
 
-								bool linefound( false );
-								for ( unsigned int j=0; j< urlData.count(); ++j ) {
-									if ( urlData[j].contains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
-										//replace line in urlData with its equivalent in the newer global file.
-										urlData.remove( urlData.at(j) );
-										urlData.insert( urlData.at(j), line );
-										if ( !newDataFound ) newDataFound = true;
-										linefound = true;
-										break;
+									bool linefound( false );
+									for ( unsigned int j=0; j< urlData.count(); ++j ) {
+										if ( urlData[j].contains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
+											//replace line in urlData with its equivalent in the newer global file.
+											urlData.remove( urlData.at(j) );
+											urlData.insert( urlData.at(j), line );
+											if ( !newDataFound ) newDataFound = true;
+											linefound = true;
+											break;
+										}
 									}
-								}
-								if ( ! linefound ) {
-									urlData.append( line );
-									if ( !newDataFound ) newDataFound = true;
+									if ( ! linefound ) {
+										urlData.append( line );
+										if ( !newDataFound ) newDataFound = true;
+									}
 								}
 							}
 						}
@@ -978,7 +983,12 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 				if (localeFile.open(IO_WriteOnly)) {
 					QTextStream readStream(&file);
 					QTextStream writeStream(&localeFile);
-					writeStream <<  readStream.read();
+					while ( ! readStream.eof() ) {
+						QString line = readStream.readLine();
+						if ( line.left( 4 ) != "XXX:" ) //do not write "deleted" lines
+							writeStream << line << endl;
+					}
+
 					localeFile.close();
 					file.reset();
 				} else {
