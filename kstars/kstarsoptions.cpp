@@ -194,7 +194,11 @@ GeoLocation* KStarsOptions::Location() {
 }
 
 void KStarsOptions::setLocation(const GeoLocation& l) {
-	location = l;
+	GeoLocation l2( l );
+	if ( l2.lat().Degrees() >= 90.0 ) l2.setLat( 89.99 );
+	if ( l2.lat().Degrees() <= -90.0 ) l2.setLat( -89.99 );
+	
+	location = l2;
 }
 
 void KStarsOptions::setCityName(const QString& city) {

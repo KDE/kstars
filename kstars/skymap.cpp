@@ -465,8 +465,12 @@ void SkyMap::slewFocus( void ) {
 
 //Don't slew if the mouse button is pressed
 //Also, no animated slews if the Manual Clock is active
+//08/2002: added possibility for one-time skipping of slew with snapNextFocus
 	if ( !mouseButtonDown ) {
-		if ( ksw->options()->useAnimatedSlewing && !( ksw->getClock()->isManualMode() && ksw->getClock()->isActive() ) ) {
+		bool goSlew = ( ksw->options()->useAnimatedSlewing &&
+			! ksw->options()->snapNextFocus() ) &&
+			!( ksw->getClock()->isManualMode() && ksw->getClock()->isActive() );
+		if ( goSlew  ) {
 			if ( ksw->options()->useAltAz ) {
 				dX = destination()->az().Degrees() - focus()->az().Degrees();
 				dY = destination()->alt().Degrees() - focus()->alt().Degrees();
@@ -520,11 +524,13 @@ void SkyMap::slewFocus( void ) {
 		//set focus=destination.
 		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
-
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
-
 		ksw->setHourAngle();
 		slewing = false;
+
+		if ( ksw->options()->snapNextFocus() ) {
+			ksw->options()->setSnapNextFocus(false);
+		}
 
 		if ( foundObject() != NULL ) { //set tracking to true
 			// avoid flicker and paint only one time the icon

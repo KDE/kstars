@@ -216,12 +216,12 @@ void KStars::initActions() {
 
 //show_planets:
 	if (KSUtils::openDataFile( tempFile, "show_planets.png" ) ) {
-		new KAction( i18n( "Toggle Planets" ),
+		new KAction( i18n( "Toggle Solar System" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
 		tempFile.close();
 	} else {
-		new KAction( i18n( "Toggle Planets" ), "wizard", 0,
+		new KAction( i18n( "Toggle Solar System" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
 	}
 

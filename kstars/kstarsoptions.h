@@ -86,6 +86,9 @@ class KStarsOptions {
 
 		double latitude();
 
+		bool snapNextFocus() const { return snapToFocus; }
+		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
+
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
 		// (false=equatorial coordinate system)
 		bool useAltAz;
@@ -143,6 +146,9 @@ class KStarsOptions {
 		bool hideOnSlew;
 		bool hideStars, hidePlanets, hideMess, hideNGC, hideIC, hideOther;
 		bool hideMW, hideCNames, hideCLines, hideGrid;
+
+		//snapToFocus is set true for one-time skipping of animated slews
+		bool snapToFocus;
 
 		//GUI options
 		bool showInfoBoxes;

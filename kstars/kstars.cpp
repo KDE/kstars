@@ -113,8 +113,10 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	// reset next dst change time
 	Data->setNextDSTChange( KSUtils::UTtoJulian( Geo->tzrule()->nextDSTChange() ) );
 
+	//Turn off animated slews for the next time step.
+	options()->setSnapNextFocus();
 	clock->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
-	
+
 	// reset local sideral time
 	setLSTh( clock->UTC() );
 }

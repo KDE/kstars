@@ -104,6 +104,7 @@ void KStars::slotGeoLocator() {
 			data()->setFullTimeUpdate();
 
 			// recalculate new times and objects
+			options()->setSnapNextFocus();
 			updateTime();
 		}
 	}
