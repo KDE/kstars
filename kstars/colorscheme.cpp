@@ -221,7 +221,7 @@ bool ColorScheme::load( const QString &filename ) {
 			//Assuming the old *.colors format.  Loop through the KeyName list,
 			//and assign each color.  Note that order matters here, but only here
 			//(so if you don't use the old format, then order doesn't ever matter)
-			QStringList::Iterator it = KeyName.begin()
+			QStringList::Iterator it = KeyName.begin();
 			QStringList::Iterator it_end = KeyName.end();
 			for ( ; it != it_end; ++it )
 				setColor( QString(*it), line.left( 7 ) );
