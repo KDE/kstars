@@ -396,7 +396,7 @@ void KStars::slotExportImage() {
 		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
 
 		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
-			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL ) ) {
+			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
 				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
@@ -438,11 +438,11 @@ void KStars::slotRunScript() {
 					fname = tmpfile.name();
 				}
 
-				if( KIO::NetAccess::download( fileURL, fname ) ) {
+				if( KIO::NetAccess::download( fileURL, fname, this ) ) {
 					chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
 
 					if ( tmpfile.name() == fname ) { //upload to remote location
-						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL ) ) {
+						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
 							QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
 							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 						}
@@ -461,7 +461,7 @@ void KStars::slotRunScript() {
 
 		if ( ! fileURL.isLocalFile() ) {
 			fname = tmpfile.name();
-			if( KIO::NetAccess::download( fileURL, fname ) ) {
+			if( KIO::NetAccess::download( fileURL, fname, this ) ) {
 				chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 				f.setName( fname );
 			}

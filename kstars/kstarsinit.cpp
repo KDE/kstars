@@ -224,7 +224,6 @@ void KStars::initActions() {
 	}
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
-	actionCollection()->action( "configure" )->setShortcut( KShortcut( "Ctrl+O" ) );
 
 	new KAction(i18n( "Startup Wizard..." ), 0, this, SLOT( slotWizard() ), 
 		actionCollection(), "startwizard" );

@@ -127,7 +127,6 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 void FindDialog::filterByType() {
 	KStars *p = (KStars *)parent();
 
-	int i = 0;
 	SearchList->clear();	// QListBox
 	QString searchFor = SearchBox->text().lower();  // search string
 
@@ -145,10 +144,6 @@ void FindDialog::filterByType() {
 				}
 			}
 		}
-/*		if (i++ >= 5000) {            //Every 5000 name insertions,
-			kapp->processEvents (50);   //spend 50 msec processing KApplication events
-			i = 0;
-		}*/
 	}
 
 	setListItemEnabled();    // Automatically highlight first item
@@ -207,7 +202,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 			break;
 			
 		case Key_Up :
-			if ( SearchList->currentItem() > 0 )
+			if ( SearchList->currentItem() )
 				SearchList->setCurrentItem( SearchList->currentItem() - 1 );
 			break;
 			
