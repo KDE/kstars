@@ -23,8 +23,8 @@
 
 #define BIGTICKSIZE 10
 #define SMALLTICKSIZE 4
-#define XPADDING 40
-#define YPADDING 40
+#define XPADDING 20
+#define YPADDING 20
 
 class QColor;
 class QPixmap;
@@ -58,19 +58,19 @@ public:
 	void setLimits( double xb1, double xb2, double yb1, double yb2 );
 	void setSecondaryLimits( double xb1, double xb2, double yb1, double yb2 );
 	void checkLimits();
-	
+
 	double xb() const { return DataRect2.x(); }
 	double xb2() const { return DataRect2.x2(); }
 	double yb() const { return DataRect2.y(); }
 	double yb2() const { return DataRect2.y2(); }
 	double dataWidth2() const { return DataRect2.width(); }
 	double dataHeight2() const { return DataRect2.height(); }
-	
+
 	double xScale() const { return XScaleFactor; }
 	void setXScale( double s ) { XScaleFactor = s; }
 	double yScale() const { return YScaleFactor; }
 	void setYScale( double s ) { YScaleFactor = s; }
-	
+
 	/**@return the data type of the x-axis (DOUBLE, TIME or ANGLE)
 		*/
 	AXIS_TYPE xAxisType() const { return XAxisType; }
@@ -79,7 +79,7 @@ public:
 		*/
 	AXIS_TYPE yAxisType() const { return YAxisType; }
 	AXIS_TYPE yAxisType0() const { return YAxisType_0; }
-	
+
 	/**@short set the data type of the x-axis
 		*@param xtype the new data type (DOUBLE, TIME, or ANGLE)
 		*/
@@ -91,6 +91,28 @@ public:
 	void setYAxisType( AXIS_TYPE ytype ) { YAxisType = ytype; }
 	void setYAxisType0( AXIS_TYPE ytype ) { YAxisType_0 = ytype; }
 
+	/**@short set the secondary X-axis label
+		*@param xlabel a short string describing the data plotted on the x-axis.
+		*Set the label to an empty string to omit the axis label.
+		*/
+	virtual void setXAxisLabel2( QString xlabel ) { XAxisLabel2 = xlabel; }
+	/**@short set the secondary Y-axis label
+		*@param ylabel a short string describing the data plotted on the y-axis.
+		*Set the label to an empty string to omit the axis label.
+		*/
+	virtual void setYAxisLabel2( QString ylabel ) { YAxisLabel2 = ylabel; }
+
+	/**@returns the number of pixels to the right of the plot area.
+		*Padding values are set to -1 by default; if unchanged, this function will try to guess
+		*a good value, based on whether ticklabels and/or axis labels are to be drawn.
+		*/
+	int rightPadding()  const;
+	/**@returns the number of pixels above the plot area.
+		*Padding values are set to -1 by default; if unchanged, this function will try to guess
+		*a good value, based on whether ticklabels and/or axis labels are to be drawn.
+		*/
+	int topPadding()    const;
+
 protected:
 	void drawBox( QPainter *p );
 
@@ -99,6 +121,8 @@ protected:
 	AXIS_TYPE XAxisType, YAxisType, XAxisType_0, YAxisType_0;
 	double XScaleFactor, YScaleFactor;
 	DRect DataRect2;
+
+	QString XAxisLabel2, YAxisLabel2;
 };
 
 #endif

@@ -54,9 +54,10 @@ elts::elts( QWidget* parent)  :
 	View->setXAxisType( KStarsPlotWidget::TIME );
 	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
-
+	View->setXAxisLabel( i18n( "Local Time" ) );
+	View->setXAxisLabel2( i18n( "Local Sidereal Time" ) );
+	View->setYAxisLabel( i18n( "the angle of an object above (or below) the horizon", "Altitude" ) );
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
-
 
 	/** Tab for adding individual sources and clearing the plot */
 	/** 1st Tab **/
@@ -503,8 +504,6 @@ void elts::slotUpdateDateLoc(void) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		bool objFound(false);
 
-		kdDebug() << i << ": " << oName << endl;
-
 		for( SkyObjectName *name = ObjNames.first( oName ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == oName ) {
 				//object found
@@ -669,7 +668,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 	p.begin( buffer );
 	p.fillRect( 0, 0, width(), height(), bgColor() );
 
-	p.translate( XPADDING, YPADDING );
+	p.translate( leftPadding(), topPadding() );
 
 	//draw daytime sky
 	int pW = PixRect.width();
