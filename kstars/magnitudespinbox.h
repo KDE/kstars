@@ -1,3 +1,6 @@
+#ifndef magnitudespinbox_h
+#define magnitudespinbox_h
+
 /***************************************************************************
                           magnitudespinbox.h  -  description
                              -------------------
@@ -31,10 +34,12 @@ class QWidget;
 
 class MagnitudeSpinBox  : public QSpinBox
 {
-	public:	
+	public:
 	MagnitudeSpinBox( int minValue, int maxValue, QWidget* parent = 0, const char* name = 0);
-	
+
 	virtual QString mapValueToText( int value );
 	virtual int mapTextToValue( bool* ok );
 };
 
+
+#endif
