@@ -18,7 +18,13 @@
 #define PLANETVIEWER_H
 
 #include <kdialogbase.h>
+#include <kpushbutton.h>
+#include <qtimer.h>
+
 #include "kstarsplotwidget.h"
+#include "planetviewerui.h"
+#include "kstarsdatetime.h"
+#include "planetcatalog.h"
 
 class PVPlotWidget : public KStarsPlotWidget
 {
@@ -26,6 +32,7 @@ Q_OBJECT
 public:
 	PVPlotWidget( double x1, double x2, double y1, double y2, 
 			QWidget *parent=0, const char *name=0 );
+	PVPlotWidget( QWidget *parent=0, const char *name=0 );
 	~PVPlotWidget();
 
 public slots:
@@ -63,9 +70,26 @@ protected:
 
 private slots:
 	void initPlotObjects();
+	void tick();
+	void setTimeScale(float);
+	void slotChangeDate( const ExtDate &d );
+	void slotRunClock();
 
 private:
-	PVPlotWidget *pw;
+	void updatePlanets();
+	
+	PlanetViewerUI *pw;
+	KStarsDateTime ut;
+	PlanetCatalog PCat;
+	double scale;
+	bool isClockRunning;
+	QTimer tmr;
+	int UpdateInterval[9], LastUpdate[9];
+	QString pName[9], pColor[9];
+
+	KPlotObject *ksun;
+	KPlotObject *planet[9];
+	KPlotObject *planetLabel[9];
 };
 
 #endif

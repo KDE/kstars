@@ -14,44 +14,153 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfile.h>
 #include <qlayout.h>
-#include <qtimer.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 
+#include "planetviewer.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksutils.h"
 #include "ksnumbers.h"
 #include "ksplanetbase.h"
-#include "planetcatalog.h"
-#include "planetviewer.h"
 #include "dms.h"
+#include "timestepbox.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #define AUMAX 48
 
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
- : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name )
+ : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name ), PCat( ((KStars*)parent)->data() ), scale(1.0), isClockRunning(false), tmr(this)
 {
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	pw = new PVPlotWidget( -48.0, 48.0, -48.0, 48.0, page );
-	pw->setXAxisLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", 
-		"X-position (AU)" ) );
-	pw->setYAxisLabel( i18n( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", 
-		"Y-position (AU)" ) );
+	pw = new PlanetViewerUI( page );
+	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
+	pw->map->setXAxisLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
+	pw->map->setYAxisLabel( i18n( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", "Y-position (AU)" ) );
+	
+	pw->timeStep->tsbox()->setMinValue( 21 );
+	pw->timeStep->tsbox()->setValue( 21 );
+	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
+	pw->dateBox->setDate( ExtDate::currentDate() );
+	
 	vlay->addWidget( pw );
 	resize( 500, 500 );
-	pw->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
+	pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
+	
+	pName[0] = "Mercury"; pColor[0] = "SlateBlue1";
+	pName[1] = "Venus";   pColor[1] = "LightGreen";
+	pName[2] = "Earth";   pColor[2] = "Blue";
+	pName[3] = "Mars";    pColor[3] = "Red";
+	pName[4] = "Jupiter"; pColor[4] = "Goldenrod";
+	pName[5] = "Saturn";  pColor[5] = "LightYellow2";
+	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
+	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
+	pName[8] = "Pluto";   pColor[8] = "gray";
+
+	PCat.initialize();
+	ut = ((KStars*)parent)->data()->ut();
+	KSNumbers num( ut.djd() );
+	PCat.findPosition( &num, 0, 0 ); //NULL args: don't need geocent. coords.
+	
+	for ( uint i=0; i<9; ++i ) 
+		LastUpdate[i] = int( ut.date().jd() );
+	
+	//The planets' update intervals are 0.5% of one period:
+	UpdateInterval[0] = 0;
+	UpdateInterval[1] = 0;
+	UpdateInterval[2] = 1;
+	UpdateInterval[3] = 2;
+	UpdateInterval[4] = 11;
+	UpdateInterval[5] = 27;
+	UpdateInterval[6] = 76;
+	UpdateInterval[7] = 150;
+	UpdateInterval[8] = 227;
 	
 	QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
+
+	connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
+	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
+	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
+	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
+	
+	//start with clock paused
+//	tmr.start( 100 );
 }
 
 PlanetViewer::~PlanetViewer()
 {
 }
 
+void PlanetViewer::tick() {
+	//Update the time/date
+	ut.setDJD( ut.djd() + scale*0.1 );
+	pw->dateBox->setDate( ut.date() );
+	
+	updatePlanets();
+}
+
+void PlanetViewer::setTimeScale(float f) {
+	scale = f/86400.; //convert seconds to days
+}
+
+void PlanetViewer::slotRunClock() {
+	isClockRunning = !isClockRunning;
+	
+	if ( isClockRunning ) {
+		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "player_pause", KIcon::Toolbar ) );
+		tmr.start( 100 );
+//		pw->dateBox->setEnabled( false );
+	} else {
+		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
+		tmr.stop();
+//		pw->dateBox->setEnabled( true );
+	}
+}
+
+void PlanetViewer::slotChangeDate( const ExtDate &d ) {
+	ut.setDate( d ); 
+	updatePlanets();
+}
+
+void PlanetViewer::updatePlanets() {
+	KSNumbers num( ut.djd() );
+	bool changed(false);
+	
+	//Check each planet to see if it needs to be updated
+	for ( unsigned int i=0; i<9; ++i ) {
+		if ( abs( int(ut.date().jd()) - LastUpdate[i] ) > UpdateInterval[i] ) {
+			//DEBUG
+			kdDebug() << "Updating " << pName[i] << endl;
+			
+			KSPlanetBase *p = PCat.findByName( pName[i] );
+			
+			//Call findPosition w/o Earth pointer to skip geocentric coords calculation
+			//(however, this is not possible for Pluto)
+			if ( pName[i] == "Pluto" ) p->findPosition( &num, 0, 0, PCat.findByName( "Earth" ) );
+			else p->findPosition( &num );
+			
+			double s, c;
+			p->helEcLong()->SinCos( s, c );
+			planet[i]->point(0)->setX( p->rsun()*c );
+			planet[i]->point(0)->setY( p->rsun()*s );
+			planetLabel[i]->point(0)->setX( p->rsun()*c );
+			planetLabel[i]->point(0)->setY( p->rsun()*s );
+			
+			LastUpdate[i] = int(ut.date().jd());
+			changed = true;
+		}
+	}
+	
+	if ( changed ) pw->map->update();
+}
+
 void PlanetViewer::paintEvent( QPaintEvent* ) {
-	pw->update();
+	pw->map->update();
 }
 
 void PlanetViewer::initPlotObjects() {
@@ -71,52 +180,25 @@ void PlanetViewer::initPlotObjects() {
 	rad[8] = 39.5;
 
 	// Planets
-	PlanetCatalog *PCat = ((KStars*)parent())->data()->PCat;
-	KPlotObject *ksun;
-	KPlotObject *planet[9];
-	KPlotObject *planetLabel[9];
-	QString pName[9], pColor[9];
-	
-	pName[0] = "Mercury"; pColor[0] = "SlateBlue1";
-	pName[1] = "Venus";   pColor[1] = "LightGreen";
-	pName[2] = "Earth";   pColor[2] = "Blue";
-	pName[3] = "Mars";    pColor[3] = "Red";
-	pName[4] = "Jupiter"; pColor[4] = "Goldenrod";
-	pName[5] = "Saturn";  pColor[5] = "LightYellow2";
-	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
-	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
-	pName[8] = "Pluto";   pColor[8] = "gray";
-
 	ksun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
 	ksun->addPoint( new DPoint( 0.0, 0.0 ) );
-	pw->addObject( ksun );
+	pw->map->addObject( ksun );
 	
-	//Construct the orbit curves.  For each planet, divide one orbital period 
-	//into 100 steps, and compute the planet's position at each step.
+	//Read in the orbit curves.  
 	for ( unsigned int i=0; i<9; ++i ) {
 		orbit[i] = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 		
-		double Period = pow(rad[i], 1.5)*1.1*86400.*365.25; //estimate orbital period in seconds
-		KSNumbers *num = new KSNumbers( KStarsDateTime::currentDateTime().djd() );
-		KSPlanetBase *p = PCat->findByName( pName[i] );
-		
-		for ( double t=-Period; t <= 0.0; t += 0.01*Period ) {
-			num->updateValues( KStarsDateTime::currentDateTime().addSecs( t ).djd() );
-			
-			p->updateCoords( num );
-			double sLg, cLg, sLt, cLt;
-			p->helEcLong()->SinCos( sLg, cLg );
-			p->helEcLat()->SinCos( sLt, cLt );
-			
-			orbit[i]->addPoint( new DPoint( p->rsun()*cLg*cLt, p->rsun()*sLg*cLt ) );
+		QFile orbitFile;
+		if ( KSUtils::openDataFile( orbitFile, pName[i].lower() + ".orbit" ) ) {
+			QTextStream orbitStream( &orbitFile );
+			double x, y, z;
+			while ( !orbitStream.eof() ) {
+				orbitStream >> x >> y >> z;
+				orbit[i]->addPoint( new DPoint( x, y ) );
+			}
 		}
 		
-		//reset original position
-		num->updateValues( ((KStars*)parent())->data()->ut().djd() );
-		p->updateCoords( num );
-		delete num;
-		
-		pw->addObject( orbit[i] );
+		pw->map->addObject( orbit[i] );
 	}
 	
 	for ( unsigned int i=0; i<9; ++i ) {
@@ -124,13 +206,13 @@ void PlanetViewer::initPlotObjects() {
 		planetLabel[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::LABEL );
 		
 		double s, c;
-		KSPlanetBase *p = PCat->findByName( pName[i] );
+		KSPlanetBase *p = PCat.findByName( pName[i] );
 		p->helEcLong()->SinCos( s, c );
 		
 		planet[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
 		planetLabel[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
-		pw->addObject( planet[i] );
-		pw->addObject( planetLabel[i] );
+		pw->map->addObject( planet[i] );
+		pw->map->addObject( planetLabel[i] );
 	}
 }
 
@@ -147,6 +229,13 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 
 PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char *name ) :
 			KStarsPlotWidget( x1, x2, y1, y2, parent, name ), 
+			mouseButtonDown(false), oldx(0), oldy(0) {
+	setFocusPolicy( QWidget::StrongFocus );
+	setMouseTracking (true);
+}
+
+PVPlotWidget::PVPlotWidget( QWidget *parent, const char *name ) :
+			KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, parent, name ), 
 			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( QWidget::StrongFocus );
 	setMouseTracking (true);

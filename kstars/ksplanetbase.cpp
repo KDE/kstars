@@ -75,7 +75,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 	if ( lat && LST )
 		localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
 
-	setRearth( Earth );
+	if ( Earth ) setRearth( Earth );
 
 	if ( hasTrail() ) {
 		Trail.append( new SkyPoint( ra(), dec() ) );
