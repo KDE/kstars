@@ -31,7 +31,7 @@ visible to the right of Orion's <quote>belt</quote> stars, just
 above the horizon.  If you look closely, you can see the planet Saturn, 
 and comets Russel and LINEAR (2002 X1).  In three corners of the Sky 
 display, there are on-screen text labels displaying data on the current 
-time (<quote>LT: 12:49:07 03/15/03</quote>), the current Geographic 
+time (<quote>LT: 12:29:51 03/23/03</quote>), the current Geographic 
 Location (<quote>Baltimore, Maryland, USA</quote>), and the current 
 object in the center of the display (<quote>Focused on: Betelgeuse 
 (alpha Orionis)</quote>).  Above the sky display, there are two 
@@ -173,9 +173,10 @@ Note that while the display is scrolling, not all objects are
 displayed.  This is done to cut down on the <acronym>CPU</acronym> load 
 of recomputing object positions, which makes the scrolling smoother 
 (you can configure what gets hidden while scrolling in the <link 
-linkend="config">Display Options</link> window).  There are five 
-ways to change the magnification (or <firstterm>Zoom level</firstterm> 
-of the display:</para>
+linkend="config">Display Options</link> window).  
+
+There are five ways to change the magnification (or 
+<firstterm>Zoom level</firstterm>) of the display:</para>
 
 <orderedlist>
 <listitem>
