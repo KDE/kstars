@@ -93,6 +93,10 @@ public:
 	*/
 	~SkyObject() {};
 
+	enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
+		GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8, COMET=9,
+		ASTEROID=10, UNKNOWN};
+
 /**@returns object's primary name
 	*/
   QString name( void ) const { return Name; }
