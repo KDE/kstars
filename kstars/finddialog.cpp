@@ -105,7 +105,6 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	
 	int i=0;
 	SearchList->clear();
-	SearchList->sort (false);		// the Items will faster inserted
 
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
@@ -121,7 +120,6 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 				}
 			}
 		}
-	SearchList->sort (true);  // sort QListBox
 	setListItemEnabled(); // Automatically highlight first item
 	SearchBox->setFocus();  // set cursor to QLineEdit
 }
@@ -131,7 +129,6 @@ void FindDialog::filterByType() {
 
 	int i = 0;	
 	SearchList->clear();	// QListBox
-	SearchList->sort (false);		// the Items will faster inserted
 	QString searchFor = SearchBox->text().lower();  // search string
 	
 	ObjectNameList &ObjNames = p->data()->ObjNames;
@@ -150,7 +147,6 @@ void FindDialog::filterByType() {
 		}
 	}
 
-	SearchList->sort (true);  // sort QListBox
 	setListItemEnabled();    // Automatically highlight first item
 	SearchBox->setFocus();  // set cursor to QLineEdit
 }

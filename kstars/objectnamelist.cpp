@@ -25,7 +25,11 @@ ObjectNameList::ObjectNameList() {
 	mode = allLists;
 
 	// delete just objects of local list
-	for (int i= 0; i< 27; i++) list[local][i].setAutoDelete(true);
+	for (int i= 0; i< 27; i++) {
+		list[local][i].setAutoDelete(true);
+		unsorted[i] = false;
+	}
+
 	constellations.setAutoDelete(true);
 }
 
@@ -63,24 +67,27 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	SkyObjectName *soName = new SkyObjectName( iName, object );
 	// append in localized list
 	currentIndex = getIndex( iName );
-	list[ local ] [ currentIndex ].append( soName );
+	list[local] [currentIndex].append(soName);
 
 	// type == -1 -> constellation
-	if ( object->type() == -1 ) {
+	if (object->type() == -1) {
 		// get latin name (default name)
 		iName = name;
 		// create new SkyObject with localized name
-		soName = new SkyObjectName( iName, object );
+		soName = new SkyObjectName(iName, object);
 		// to delete these objects store them in separate list
 		constellations.append(soName);
 	}
 
 	// append in latin list
-	currentIndex = getIndex( iName );
-	list[ latin ] [ currentIndex ].append(  soName );
+	currentIndex = getIndex(iName);
+	list[latin][currentIndex].append(soName);
+	// set list unsorted
+	unsorted[currentIndex] = true;
 }
 
 SkyObjectName* ObjectNameList::first( const QString &name ) {
+	sort();
 	SkyObjectName *soName = 0;
 	// set mode: string is empty set mode to all lists
 	name.isEmpty() ? setMode( allLists ) : setMode( oneList );
@@ -88,21 +95,20 @@ SkyObjectName* ObjectNameList::first( const QString &name ) {
 	// start with first list in array
 	if ( mode == allLists ) {
 		currentIndex = 0;
-	}
-	else {
+	} else {
 		// start with list which contains the first letter
 		currentIndex = getIndex( name );
 	}
 
-	soName = list[ language ] [ currentIndex ].first();
+	soName = list[language][currentIndex].first();
 
 	//It's possible that there is no object that belongs to currentIndex
 	//If not, and mode==allLists, try the next index
 	while ( !soName && mode==allLists && currentIndex < 26 ) {
 		currentIndex++;  // loop through the array
-		soName = list[ language ] [ currentIndex ].first();
+		soName = list[language][currentIndex].first();
   }
-  
+
 	return soName;
 }
 
@@ -114,11 +120,11 @@ SkyObjectName* ObjectNameList::next() {
 	// if all lists must checked and SkyObjectName is NULL
 	// check next available list in array and set to first element in list
 	// if currentIndex == 26 -> last index is reached
-	if ( mode == allLists && !soName && currentIndex < 26 ) {
+	if ( mode==allLists && soName==0 && currentIndex<26 ) {
 		do {
 			currentIndex++;  // loop through the array
 			soName = list[ language ] [ currentIndex ].first();
-		} while ( currentIndex < 26 && !soName );  // break if currentIndex == 27 or soName is found
+		} while ( currentIndex<26 && soName==0 );  // break if currentIndex == 27 or soName is found
 	}
 
 	return soName;
@@ -153,4 +159,47 @@ int ObjectNameList::getIndex( const QString &name ) {
 	}
 
 	return index;
+}
+
+void ObjectNameList::sort() {
+	for (int i=0; i<27; ++i) {
+		if (unsorted[i] == true) {
+			unsorted[i] = false;
+			list[latin][i].sort();
+			list[local][i].sort();
+		}
+	}
+}
+
+SkyObjectName* ObjectNameList::find(const QString &name) {
+	sort();
+	if (name.isNull()) return 0;
+	// find works only in one list and not in all lists
+	setMode(oneList);
+	int index = getIndex(name);
+
+	// first item
+	int lower = 0;
+	SortedList <SkyObjectName> *l = &(list[language][index]);
+	// last item
+	int upper = l->count() - 1;
+	// break if list is empty
+	if (upper == -1) return 0;
+
+	int next;
+	// items are translated stored
+	QString translatedName = i18n(name.latin1());
+
+	// it's the "binary search" algorithm
+	SkyObjectName *o;
+	while (upper >= lower) {
+		next = (lower + upper) / 2;
+		o = l->at(next);
+		if (translatedName == o->text()) { return o; }
+		if (translatedName < o->text())
+			upper = next - 1;
+		else
+			lower = next + 1;
+	}
+	return 0;
 }

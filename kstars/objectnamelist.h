@@ -48,17 +48,24 @@ class ObjectNameList {
 		*Appends skyobjects to list.
 		*@param useLongName - using of longname might be forced by true
 		*/
-		void append( SkyObject *object, bool useLongName = false );
+		void append(SkyObject *object, bool useLongName=false);
 
 	/**
 		*Returns first object in list if available.
+		*This function is caseinsensitive.
 		*/
-		SkyObjectName* first( const QString &name = QString::null );
+		SkyObjectName* first(const QString &name = QString::null);
 
 	/**
 		*Returns next object in list if available.
 		*/
 		SkyObjectName* next();
+
+	/**
+		*Returns object if it is in list else NULL.
+		*This function is casesensitive.
+		*/
+		SkyObjectName* find(const QString &name = QString::null);
 
 	/**
 		*Define the languages which should be used.
@@ -80,6 +87,12 @@ class ObjectNameList {
 	private:
 
 	/**
+		*Sorts the lists with objects for faster access.
+		*It's needed for find(). first() and find() call this function.
+		*/
+		void sort();
+
+	/**
 		*To modes are available:
 		*allLists = loop through the whole list if next() is called
 		*oneList = loop through one list if next is called
@@ -93,15 +106,25 @@ class ObjectNameList {
 		*/		
 		void setMode( Mode m );
 
+		/**Reimplemented from QPtrList for sorting objects in the list. */
+		template <class T> class SortedList : public QPtrList <T> {
+			protected:
+				int compareItems(QPtrCollection::Item item1, QPtrCollection::Item item2) {
+					if ( *((T*)item1) == *((T*)item2) ) return 0;
+					return ( *((T*)item1) < *((T*)item2) ) ? -1 : 1;
+				}
+		};
+
 	/**
 		*Hold 2 pointer lists in memory. Number of lists can easily increased for adding more languages.
 		*First index is the language and second index is reserved for alphabetically sorted list.
 		* 0 = all objects beginning with a number
-		* 1 = A
-		*  ...
-		*26 = Z
+		* 1 = A ... 26 = Z
 		*/
-		QList < SkyObjectName > list [2] [27];
+		SortedList <SkyObjectName> list[2][27];
+
+		/**Hold status if list is unsorted or not.*/
+		bool unsorted[27];
 
 	/**
 		*Constellations has latin names and alloc extra SkyObjectNames which will stored in 2 list.
@@ -109,7 +132,7 @@ class ObjectNameList {
 		*are in first list too. We just have to delete objects which are not in first list. These objects
 		*will stored in this list.
 		*/
-		QList < SkyObjectName > constellations;
+		QList <SkyObjectName> constellations;
 
 	/**
 		*Which list was accessed last time by first() or next()

@@ -50,6 +50,10 @@ class SkyObjectName {
 	/**@returns pointer to the SkyObject*/
 		SkyObject *skyObject() { return skyobject; }
 
+		bool operator < (SkyObjectName &o) { return Text < o.Text; }
+
+		bool operator == (SkyObjectName &o) { return Text == o.Text; }
+
 	private:
 	
 		SkyObject *skyobject;

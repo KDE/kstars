@@ -711,12 +711,13 @@ bool KStarsData::readUserLog(void)
 		data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
 		buffer = buffer.mid(endIndex + 11);
 
-		for ( SkyObjectName *sonm = ObjNames.first(name); sonm; sonm = ObjNames.next() ) {
-			if ( sonm->text() == name ) {
-				sonm->skyObject()->userLog = data;
-				break;
-			}
+		SkyObjectName *sonm = ObjNames.find(name);
+		if (sonm == 0) {
+			kdWarning() << k_funcinfo << name << " not found" << endl;
+		} else {
+			sonm->skyObject()->userLog = data;
 		}
+
 	} // end while
 	file.close();
 	return true;
@@ -736,22 +737,19 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 		QString title = sub.mid( 0, sub.find(':') );
 		QString url = sub.mid( sub.find(':')+1 );
 
-		bool bMatched = false;
-		for ( SkyObjectName *sonm = ObjNames.first(name); sonm; sonm = ObjNames.next() ) {
-			if ( sonm->text() == name ) {
-				bMatched = true;
-
-				if ( type==0 ) { //image URL
-					sonm->skyObject()->ImageList.append( url );
-					sonm->skyObject()->ImageTitle.append( title );
-				} else if ( type==1 ) { //info URL
-					  sonm->skyObject()->InfoList.append( url );
-						sonm->skyObject()->InfoTitle.append( title );
-				}
-				break;
+		SkyObjectName *sonm = ObjNames.find(name);
+		if (sonm == 0) {
+			kdWarning() << k_funcinfo << name << " not found" << endl;
+		} else {
+			if ( type==0 ) { //image URL
+				sonm->skyObject()->ImageList.append( url );
+				sonm->skyObject()->ImageTitle.append( title );
+			} else if ( type==1 ) { //info URL
+				  sonm->skyObject()->InfoList.append( url );
+					sonm->skyObject()->InfoTitle.append( title );
 			}
 		}
-//			if ( ! bMatched ) kdWarning() << i18n( "Could not find match to object named " ) << name << endl;
+
 	}
 	file.close();
 	return true;
