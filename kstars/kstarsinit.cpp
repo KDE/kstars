@@ -351,20 +351,11 @@ void KStars::initGuides(KSNumbers *num)
 		dms dec, HA, RA, Az;
 		Az = dms(*(point->ra()));
 		
-		//SPEED_DMS
-// reverted to dms::sincos() due to uninitalized values of dms::sin() and cos()
 		Az.SinCos( sinAz, cosAz );
 		geo()->lat()->SinCos( sinlat, coslat );
-//		sinAz = Az.sin();
-//		cosAz = Az.cos();
-//		sinlat = geo()->lat()->sin();
-//		coslat = geo()->lat()->cos();
 		
 		dec.setRadians( asin( coslat*cosAz ) );
-		//SPEED_DMS
 		dec.SinCos( sindec, cosdec );
-//		sindec = dec.sin();
-//		cosdec = dec.cos();
 		
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
@@ -486,6 +477,7 @@ void KStars::privatedata::buildGUI() {
 	if ( !ks->options()->showViewToolBar ) ks->toolBar( "viewToolBar" )->hide();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
+	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 15 );
 
 //Changing the timestep needs to propagate to the clock, check if slew mode should be
 //(dis)engaged, and return input focus to the skymap.
@@ -493,7 +485,6 @@ void KStars::privatedata::buildGUI() {
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock, SLOT( setScale( float )) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
-	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 14 );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
 
