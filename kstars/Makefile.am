@@ -18,7 +18,7 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/kstarsui.rc $(kde_datadir)/kstars/kstarsui.rc
 
 uninstall-local:
-	-rm -f $(kde_appsdir)/Applications/kstars.desktop
+	-rm -f $(kde_appsdir)/Edutainment/kstars.desktop
 	-rm -f $(kde_datadir)/kstars/kstarsui.rc
 
 ####### kdevelop will overwrite this part!!! (end)############
