@@ -306,7 +306,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 
 	if ( showObsList && obj ) {
 		if ( ksw->observingList()->contains( obj ) )
-			insertItem( i18n("Remove from List"), ksw->observingList(), SLOT( slotRemoveObject() ) );
+			insertItem( i18n("Remove From List"), ksw->observingList(), SLOT( slotRemoveObject() ) );
 		else 
 			insertItem( i18n("Add to List"), ksw->observingList(), SLOT( slotAddObject() ) );
 	}
