@@ -16,6 +16,10 @@ appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
 
 install-exec-hook:
-	-$(LN_S) $(bindir)/lx200generic $(bindir)/lx200autostar
-	-$(LN_S) $(bindir)/lx200generic $(bindir)/lx200_16
-	-$(LN_S) $(bindir)/lx200generic $(bindir)/lx200gps
+	$(mkinstalldirs) $(DESTDIR)/bin
+	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200autostar
+	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200_16
+	-$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200gps
+
+uninstall-local:
+	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)lx200_16 $(DESTDIR)$(bindir)lx200gps
