@@ -1,0 +1,146 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>FocusDialogDlg</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>FocusDialogDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form2</string>
+    </property>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>focusDialogDlg</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>193</width>
+                <height>96</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Ra/Dec</string>
+            </attribute>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>raLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>new RA:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>decLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>new Dec:</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>editRA</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>editDec</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Az/El</string>
+            </attribute>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>azLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>new Az:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>altLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>new Alt:</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>azBox</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>altBox</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>editRA</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FocusDialogDlg</receiver>
+        <slot>checkLineEdits()</slot>
+    </connection>
+    <connection>
+        <sender>editDec</sender>
+        <signal>textRotation(KCompletionBase::KeyBindingType)</signal>
+        <receiver>FocusDialogDlg</receiver>
+        <slot>checkLineEdits()</slot>
+    </connection>
+    <connection>
+        <sender>azBox</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FocusDialogDlg</receiver>
+        <slot>checkLineEdits()</slot>
+    </connection>
+    <connection>
+        <sender>altBox</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FocusDialogDlg</receiver>
+        <slot>checkLineEdits()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>checkLineEdits()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>
