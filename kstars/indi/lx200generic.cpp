@@ -520,7 +520,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	     		MovementS[i].s = ISS_OFF;
 	   	}
 		
-		MovementSw.s == IPS_IDLE;
+		MovementSw.s = IPS_IDLE;
 		IDSetSwitch(&MovementSw, NULL);
 	   }
 	   
