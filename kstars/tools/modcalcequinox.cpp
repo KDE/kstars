@@ -36,7 +36,7 @@
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) 
 		: modCalcEquinoxDlg (parentSplit,name) {
 	showCurrentYear();
-	this->show();
+	show();
 }
 
 modCalcEquinox::~modCalcEquinox(){

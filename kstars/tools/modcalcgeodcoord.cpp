@@ -47,7 +47,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : mod
 	geoPlace = new GeoLocation();
 	showLongLat();
 	setEllipsoid(0);
-	this->show();
+	show();
 
 }
 

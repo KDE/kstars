@@ -35,7 +35,7 @@
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
 	showCurrentTimeAndLong();
-	this->show();		
+	show();		
 }
 
 modCalcSidTime::~modCalcSidTime(void) {

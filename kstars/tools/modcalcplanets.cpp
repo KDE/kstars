@@ -42,7 +42,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit, const char *name) : modCalc
 	showCurrentDateTime();
 	showLongLat();
 	raBox->setDegType(FALSE);
-	this->show();
+	show();
 }
 
 modCalcPlanets::~modCalcPlanets(){

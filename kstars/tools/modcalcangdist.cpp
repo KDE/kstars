@@ -34,7 +34,7 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit, const char *name) : modCalc
 
 	ra0Box->setDegType(FALSE);
 	ra1Box->setDegType(FALSE);
-	this->show();
+	show();
 
 }
 

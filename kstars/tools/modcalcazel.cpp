@@ -42,7 +42,7 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDl
 	showLongLat();
 	horInputCoords = FALSE;
 	raBox->setDegType(FALSE);
-	this->show();
+	show();
 }
 
 modCalcAzel::~modCalcAzel(){

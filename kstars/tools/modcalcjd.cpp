@@ -32,7 +32,7 @@
 modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : modCalcJdDlg(parentSplit,name) {
 	
 	showCurrentTime();
-	this->show();
+	show();
 }
 
 modCalcJD::~modCalcJD(void)

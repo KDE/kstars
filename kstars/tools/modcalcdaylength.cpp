@@ -33,7 +33,7 @@
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
 	showCurrentDate();
 	initGeo();
-	this->show();
+	show();
 }
 
 modCalcDayLength::~modCalcDayLength() {}

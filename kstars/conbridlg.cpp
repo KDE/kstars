@@ -66,7 +66,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   memcpy(localImgBuffer, viewer->imgBuffer, width * height * sizeof(float));
   
   setMainWidget(ConBriDlg);
-  this->show();
+  show();
   
   connect(ConBriDlg->conSlider, SIGNAL( valueChanged(int)), this, SLOT (setContrast(int )));
   connect(ConBriDlg->briSlider, SIGNAL( valueChanged(int)), this, SLOT (setBrightness(int)));

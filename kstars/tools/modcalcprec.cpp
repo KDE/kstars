@@ -35,7 +35,7 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : modCalcPrecDl
 
 	ra0Box->setDegType(FALSE);
 	rafBox->setDegType(FALSE);
-	this->show();
+	show();
 
 }
 
