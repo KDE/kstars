@@ -150,7 +150,7 @@ my system CPU clock.  Is this possible?</para>
 <answer>
 <para>
 Yes; to start kstars with a different time/date, use the 
-<arg>--date</arg> argument, followed by a date string like 
+<quote>--date</quote> argument, followed by a date string like 
 <quote>4 July 1976 12:30:00</quote>
 </para>
 </answer>
@@ -164,7 +164,7 @@ Is this possible?</para>
 <answer>
 <para>
 Yes; to start kstars with the clock paused, simply add the 
-<arg>--paused</arg> argument to the command line.
+<quote>--paused</quote> argument to the command line.
 </para>
 </answer>
 </qandaentry>
