@@ -291,11 +291,11 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       ap = findXMLAtt (ep, "max");
 	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
 	       
-	       if (lp->spin_w)
+	       /*if (lp->spin_w)
 	       {
 	        lp->spin_w->setValue(lp->value);
 		lp->spinChanged(lp->value);
-               }
+	     }*/
 	      
 	     }
 	     break;

@@ -327,6 +327,7 @@ LX200Generic::LX200Generic()
    
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
+   IDLog("INDI Version: 2004-02-17\n");
  
    //enableSimulation(true);  
 }
@@ -750,7 +751,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	//IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
 	//IDLog("SolarSw name is %s\n", SolarSw.name);
 
-	IDLog("The device name is %s\n", dev);
+	//IDLog("The device name is %s\n", dev);
 	// ignore if not ours //
 	if (strcmp (thisDevice, dev))
 	    return;
@@ -1524,6 +1525,8 @@ int LX200Generic::handleCoordSet()
   char syncString[256];
   char RAStr[32], DecStr[32];
   double dx, dy;
+  
+  IDLog("In Handle Coord Set()\n");
 
   switch (currentSet)
   {
@@ -1533,6 +1536,7 @@ int LX200Generic::handleCoordSet()
           lastSet = LX200_SLEW;
 	  if (eqNum.s == IPS_BUSY)
 	  {
+	     IDLog("Aboring Slew\n");
 	     abortSlew();
 
 	     // sleep for 100 mseconds
@@ -1554,8 +1558,10 @@ int LX200Generic::handleCoordSet()
 
      // Track
      case LX200_TRACK:
+          IDLog("We're in LX200_TRACK\n");
           if (eqNum.s == IPS_BUSY)
 	  {
+	     IDLog("Aboring Slew\n");
 	     abortSlew();
 
 	     // sleep for 200 mseconds

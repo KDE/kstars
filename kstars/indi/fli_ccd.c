@@ -828,7 +828,7 @@ int grabImage()
     return -1;
   }
   
-  for (i=0; i < FLIImg->width ; i++)
+  for (i=0; i < FLIImg->height ; i++)
   {
     if ( (err = FLIGrabRow(fli_dev, &FLIImg->img[i * FLIImg->width], FLIImg->width)))
     {

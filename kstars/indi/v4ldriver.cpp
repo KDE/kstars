@@ -564,6 +564,7 @@ void getBasicData()
   ImageSizeN[1].min = ymin;
   ImageSizeN[1].max = ymax;
   
+  IUUpdateMinMax(&ImageSizeNP);
   IDSetNumber(&ImageSizeNP, NULL);
   
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
