@@ -4,7 +4,7 @@ bin_PROGRAMS = kstars
 ## INCLUDES were found outside kdevelop specific part
 
 kstars_SOURCES = modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui modcalcapcoorddlg.ui modcalcgeoddlg.ui kstarsdcop.cpp skymapdraw.cpp kspopupmenu.cpp modcalcprecdlg.ui modcalcsidtimedlg.ui modcalcjddlg.ui kscomet.cpp ksasteroid.cpp ksfilereader.cpp eltscanvas.cpp elts.cpp modcalcazel.cpp modcalcazeldlg.ui jupitermoons.cpp lcgenerator.cpp modcalcdaylength.cpp infoboxes.cpp infobox.cpp colorscheme.cpp detaildialog.cpp timeunitbox.cpp timestepbox.cpp modcalcapcoord.cpp timezonerule.cpp kstars_options_handling.cpp focusdialog.cpp skymapevents.cpp kstarsmessagebox.cpp addcatdialog.cpp kstarsinit.cpp kstarsactions.cpp objectnamelist.cpp planetcatalog.cpp stardatasink.cpp filesource.cpp modcalcgeodcoord.cpp modcalcsidtime.cpp modcalcgalcoord.cpp modcalcprec.cpp modcalcjd.cpp astrocalc.cpp timebox.cpp dmsbox.cpp ksplanetbase.cpp ksnumbers.cpp ksutils.cpp simclock.cpp toggleaction.cpp addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp wutdialog.cpp scriptbuilderui.ui scriptbuilder.cpp scriptfunction.cpp argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argwaitfor.ui argwaitforkey.ui argtimescale.ui scriptnamedialog.ui optionstreeview.ui indimenu.cpp indidevice.cpp indiconf.ui indidriver.cpp
-kstars_LDADD = -llilxml -lkdeprint -lm 
+kstars_LDADD = indi/liblilxml.a -lkdeprint -lm 
 
 SUBDIRS = data indi 
 
@@ -42,7 +42,7 @@ INCLUDES= $(all_includes)
 METASOURCES = AUTO
 
 # the library search path.
-kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH) -Lindi/
+kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH) 
 
 # Uncomment the following two lines if you add a ui.rc file for your application to make use of
 # KDE
