@@ -415,11 +415,15 @@ void SkyMap::slewFocus( void ) {
 		slewing = false;
 
 		if ( foundObject() != NULL ) { //set tracking to true
+			// avoid flicker and paint only one time the icon
+			if (ksw->options()->isTracking == false)
+				ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 			ksw->options()->isTracking = true;
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 		} else {
+			// avoid flicker and paint only one time the icon
+			if (ksw->options()->isTracking == true)
+				ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 			ksw->options()->isTracking = false;
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		}
 
 		Update();
