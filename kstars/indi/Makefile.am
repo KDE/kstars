@@ -1,6 +1,6 @@
 bin_PROGRAMS = indiserver lx200generic wx
 
-liblilxml_a_SOURCES =  lilxml.c lilxml.h
+liblilxml_a_SOURCES =  lilxml.c
 noinst_LIBRARIES =  liblilxml.a
 
 indiserver_SOURCES = indiserver.c
