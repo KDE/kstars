@@ -213,3 +213,22 @@ bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 	return result;
 }
 
+double KSUtils::JdToEpoch (long double jd) {
+
+	long double Jd2000 = 2451545.00;
+	return ( 2000.0 - ( Jd2000 - jd ) / 365.2425);
+}
+
+long double KSUtils::epochToJd (double epoch) {
+
+	double yearsTo2000 = 2000.0 - epoch;
+
+	if (epoch == 1950.0) {
+		return 2433282.4235;
+	} else if ( epoch == 2000.0 ) {
+		return J2000;
+	} else {
+		return ( J2000 - yearsTo2000 * 365.2425 );
+	}
+
+}

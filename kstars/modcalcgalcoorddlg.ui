@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>575</width>
-            <height>443</height>
+            <height>445</height>
         </rect>
     </property>
     <property name="caption">
@@ -281,10 +281,10 @@
                                             <cstring>epochName</cstring>
                                         </property>
                                         <property name="enabled">
-                                            <bool>false</bool>
+                                            <bool>true</bool>
                                         </property>
                                         <property name="text">
-                                            <string>1950.0</string>
+                                            <string></string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
@@ -896,6 +896,8 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -906,5 +908,6 @@
     <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

@@ -126,6 +126,10 @@ class KSUtils {
 		*/
 		static bool openDataFile( QFile &file, const QString &filename );
 
+		static double JdToEpoch (long double jd);
+
+		static long double epochToJd (double epoch);
+
 	private:
 		//
 		// So you can't instantiate the class.
