@@ -87,7 +87,7 @@ requirements.  If &kstars; complains that there are missing data
 files, become root and manually copy all files in <filename
 class="directory">kstars/data/</filename> to
 <filename class="directory">$(KDEDIR)/apps/kstars/</filename> (If you
-don't have <systemitem class="username">root</systemitem> priveliges, copy them to
+don't have <systemitem class="username">root</systemitem> privileges, copy them to
 <filename class="directory">~/.kde/share/apps/kstars/.</filename>)
 </para>
 </sect1>

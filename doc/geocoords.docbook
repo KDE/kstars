@@ -24,7 +24,7 @@ the center of the Earth to a point 39.3 degrees above the Equator and
 76.6 degrees west of Greenwich, England will pass through Baltimore.
 </para><para>
 The Equator is obviously an important part of this coordinate system, it
-representing the <emphasis>zeropoint</emphasis> of the latitude angle, and the
+represents the <emphasis>zeropoint</emphasis> of the latitude angle, and the
 halfway point between the poles.  The Equator is the <firstterm>Fundamental
 Plane</firstterm> of the geographic coordinate system.  <link
 linkend="ai-skycoords">All Spherical Coordinate Systems</link> define such a

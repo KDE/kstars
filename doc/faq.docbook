@@ -182,7 +182,7 @@ is because it is quite perturbed by the Earth, and because it is so
 close, even minute effects that would be indetectable in more
 distant bodies are easily apparent in the moon.
 </para><para>
-The discussion of very remote dates is currently somehwat moot because
+The discussion of very remote dates is currently somewhat moot because
 the QDate class we use for storing dates does not allow dates prior to
 October 1752 (when the currently-standard Gregorian calendar was
 adopted).  However, you can enter future dates up to around 8000 AD.
