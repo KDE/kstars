@@ -34,6 +34,7 @@
       ~StreamWG();
  
    friend class VideoWG;
+   friend class INDIStdDevice;
    
    void setColorFrame(bool color);
    void establishDataChannel(QString host, int port);

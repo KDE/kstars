@@ -464,6 +464,7 @@ int FITSImage::loadFits (const char *filename)
  
  reducedImgBuffer = data;
  convertImageToPixmap();
+ viewportResizeEvent (NULL);
  
  if (err)
    KMessageBox::error(0, i18n("EOF encountered on reading."));

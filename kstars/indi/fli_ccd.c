@@ -258,6 +258,10 @@ void ISGetProperties (const char *dev)
   IDDefNumber(&FWRevisionNP, NULL);
   IDDefNumber(&PixelSizeNP, NULL);*/
   
+  /* Send the basic data to the new client if the previous client(s) are already connected. */		
+  if (PowerSP.s == IPS_OK)
+	  getBasicData();
+	  
   IEAddTimer (POLLMS, ISPoll, NULL);
   
 }
@@ -1024,7 +1028,7 @@ int writeFITS(char *filename, char errmsg[])
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
-    sprintf(errmsg, "Error: can't open file for writing.");
+    sprintf(errmsg, "Error: cannot open file for writing.");
     return (-1);
   }
   
@@ -1287,7 +1291,7 @@ int checkPowerS(ISwitchVectorProperty *sp)
 {
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the CCD is offline.");
+    IDMessage (mydev, "Cannot change property %s while the CCD is offline.", sp->label);
     sp->s = IPS_IDLE;
     IDSetSwitch(sp, NULL);
     return -1;
@@ -1300,7 +1304,7 @@ int checkPowerN(INumberVectorProperty *np)
 {
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the CCD is offline");
+    IDMessage (mydev, "Cannot change property %s while the CCD is offline.", np->label);
     np->s = IPS_IDLE;
     IDSetNumber(np, NULL);
     return -1;
@@ -1314,7 +1318,7 @@ int checkPowerT(ITextVectorProperty *tp)
 
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the CCD is offline");
+    IDMessage (mydev, "Cannot change property %s while the CCD is offline.", tp->label);
     tp->s = IPS_IDLE;
     IDSetText(tp, NULL);
     return -1;

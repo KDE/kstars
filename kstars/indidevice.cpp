@@ -452,11 +452,6 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 	if (!pg)
 	 return NULL;
-	 
-	 /* Remove Vertical spacer from group layout, this is done everytime
-	  * a new property arrives. The spacer is then appended to the end of the 
-	  * properties */
-	pg->propertyLayout->removeItem(pg->VerticalSpacer);
 
         /* get property name and add new property to dp */
 	ap = findAtt (root, "name", errmsg);
@@ -465,11 +460,16 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 	if (findProp (valuXMLAtt(ap)))
 	{
-	    sprintf (errmsg, "INDI: <%s %s %s> already exists", tagXMLEle(root),
+	    sprintf (errmsg, "INDI: <%s %s %s> already exists.\n", tagXMLEle(root),
 							name.ascii(), valuXMLAtt(ap));
 	    return NULL;
 	}
 
+	/* Remove Vertical spacer from group layout, this is done everytime
+	  * a new property arrives. The spacer is then appended to the end of the 
+	  * properties */
+	pg->propertyLayout->removeItem(pg->VerticalSpacer);
+	
 	pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
 
 	/* init state */

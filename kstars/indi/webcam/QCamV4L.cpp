@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 #include <sys/mman.h>
 
 #include "ccvt.h"
@@ -25,7 +26,6 @@ unsigned char * mmap_buffer_;
 unsigned char * tmpBuffer_;
 long mmap_last_sync_buff_;
 long mmap_last_capture_buff_;  
-//QCamFrame yuvBuffer_;
 bool grey_;
 int frameRate_;
 bool usingTimer;
@@ -43,10 +43,14 @@ int connectCam(const char * devpath,int preferedPalette,
    
    cerr << "In connect Cam with device " << devpath << endl;
    if (-1 == (device_=open(devpath,
-                           O_RDONLY | ((options_ & ioNoBlock)?O_NONBLOCK:0)))) {
-      cerr << devpath << endl;
+                           O_RDONLY | ((options_ & ioNoBlock) ? O_NONBLOCK : 0)))) {
+      
+      cerr << "strlen " << strlen (devpath) << " -- " << devpath << endl;
+      cerr << strerror(errno);
       return -1;
    }
+   
+   cerr << "Device opened" << endl;
    
    if (device_ != -1) {
       if (-1 == ioctl(device_,VIDIOCGCAP,&capability_)) {
@@ -465,6 +469,7 @@ void disconnectCam()
    delete YBuf, UBuf, VBuf;
    tmpBuffer_ = YBuf = UBuf = VBuf = NULL;
    streamActive = false;
+   munmap (mmap_buffer_, mmap_mbuf_.size);
    close(device_);
    fprintf(stderr, "Disconnect cam\n");
 }

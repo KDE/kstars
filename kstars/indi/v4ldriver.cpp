@@ -45,9 +45,10 @@ void ISInit();
 void ISPoll(void *);
 void connectV4L();
 void initDataChannel();
-void waitForData();
+void waitForData(int rp, int wp);
 void updateDataChannel(void *p);
 void updateStream(void * p);
+void getBasicData();
 int  writeFITS(char *filename, char errmsg[]);
 int  writeRAW (char *filename, char errmsg[]);
 int  grabImage();
@@ -61,7 +62,7 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
 extern char* me;
 extern int errno;
 
-#define mydev           "V4L Device"
+#define mydev           "Video4Linux Generic Device"
 
 #define COMM_GROUP	"Communication"
 #define EXPOSE_GROUP	"Expose"
@@ -74,8 +75,7 @@ extern int errno;
 #define FILENAMESIZ	2048
 #define LIBVERSIZ 	1024
 #define PREFIXSIZ	64
-#define BUFSIZ		8192
-//#define BUFSIZ		101376
+#define PIPEBUFSIZ	8192
 
 typedef struct {
 int  width;
@@ -87,12 +87,17 @@ unsigned char  *V;
 unsigned char  *colorBuffer;
 } img_t;
 
+typedef struct {
+ int rp;				/* Read pipe */
+ int wp;				/* Write pipe */
+ bool streamReady;			/* Can we write to data stream? */
+} client_t;
+
+client_t *INDIClients;			/* INDI clients */
 img_t * V4LFrame;			/* V4L frame */
-FILE *wfp;				/* File buffer */
-int wp[2], rp[2];			/* Pipes */
-int DataPort;				/* Data Port */
-bool streamReady;			/* Can we write to data stream? */
-int streamTimerID;
+static int DataPort;			/* Data Port */
+static int streamTimerID;		/* Stream ID */
+static int nclients;			/* # of clients using the binary stream */
 
 /*INDI controls */
 
@@ -101,7 +106,7 @@ static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONN
 static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS)};
 
 /* Ports */
-static IText PortT[]			= {{"PORT", "Port", "/dev/ttyS0"}};
+static IText PortT[]			= {{"PORT", "Port", "/dev/video0"}};
 static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
 
 /* Camera Name */
@@ -141,6 +146,14 @@ static ITextVectorProperty FileNameTP	= { mydev, "FILE_NAME", "File name", EXPOS
 /* Exposure */
   static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF}};
   static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS)};
+  
+static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0. }, 
+                                   {"Brightness", "", "%0.f", 0., 256., 1., 0.}, 
+				   {"Hue", "", "%0.f", 0., 256., 1., 0.}, 
+				   {"Color", "", "%0.f", 0., 256., 1., 0.}, 
+				   {"Whiteness", "", "%0.f", 0., 256., 1., 0.}};
+				   
+static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN) };
  
 /* send client definitions of all properties */
 void ISInit()
@@ -160,9 +173,11 @@ void ISInit()
  }
  
  streamTimerID = -1;
- streamReady   = false;
  FileNameT[0].text = strcpy(new char[FILENAMESIZ], "image1.fits");
  camNameT[0].text  = new char[MAXINDILABEL];
+ 
+ INDIClients = NULL;
+ nclients    = 0;
  
  isInit = 1;
 
@@ -192,14 +207,24 @@ void ISGetProperties (const char *dev)
   IDDefSwitch(&ImageTypeSP, NULL);
   IDDefSwitch(&ImageFormatSP, NULL);
   IDDefNumber(&ImageSizeNP, NULL);
+  IDDefNumber(&ImageAdjustNP, NULL);
   
-  
-  DataPort = findPort();
- 
-  if (DataPort > 0)
- 	initDataChannel(); 
-  
-  //IEAddTimer (POLLMS, ISPoll, NULL);
+  INDIClients = INDIClients ? (client_t *) realloc(INDIClients, (nclients+1) * sizeof(client_t)) :
+                              (client_t *) malloc (sizeof(client_t));
+    
+  if (INDIClients)
+  {
+        INDIClients[nclients].streamReady = false;
+	INDIClients[nclients].rp	  = 0;
+	INDIClients[nclients].wp          = 0;
+  	DataPort = findPort();
+        if (DataPort > 0)
+ 		initDataChannel();
+
+        /* Send the basic data to the new client if the previous client(s) are already connected. */		
+	if (PowerSP.s == IPS_OK)
+	  getBasicData();
+  }
   
 }
   
@@ -214,8 +239,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	    return;
 	    
 	ISInit();
-	
-	IDLog("In new Switch\n");
 	
      /* Connection */
      if (!strcmp (name, PowerSP.name))
@@ -256,17 +279,17 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        
        IUResetSwitches(&StreamSP);
        IUUpdateSwitches(&StreamSP, states, names, n);
+       StreamSP.s = IPS_IDLE;
        
        if (StreamS[0].s == ISS_ON && streamTimerID == -1)
        {
-         fprintf(stderr, "We are starting the stream.\n");
+         IDLog("Starting the video stream.\n");
          streamTimerID = addTimer(1000 / (int) FrameRateN[0].value, updateStream, NULL);
-	 //streamTimerID = addTimer(10000, updateStream, NULL);
 	 StreamSP.s  = IPS_BUSY;
        }
        else
        {
-         StreamSP.s = IPS_IDLE;
+         IDLog("The video stream has been disabled.\n");
 	 rmTimer(streamTimerID);
 	 streamTimerID = -1;
        }
@@ -289,7 +312,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	V4LFrame->U      = getU();
 	V4LFrame->V      = getV();
 	
-        grabImage();
+        if (grabImage() < 0)
+	{
+	 ExposeS[0].s = ISS_OFF;
+	 ExposeSP.s   = IPS_IDLE;
+	 IDSetSwitch(&ExposeSP, NULL);
+	}
+	  
 	
      return;
     } 
@@ -368,6 +397,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       
       if (setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value))
       {
+         ImageSizeN[0].value = getWidth();
+	 ImageSizeN[1].value = getHeight();
          IDSetNumber(&ImageSizeNP, NULL);
 	 return;
       }
@@ -397,148 +428,36 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      IDSetNumber(&FrameRateNP, NULL);
      return;
    }
+   
+   if (!strcmp (ImageAdjustNP.name, name))
+   {
+     if (checkPowerN(&ImageAdjustNP))
+       return;
+       
+     ImageAdjustNP.s = IPS_IDLE;
+     
+     if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
+       return;
+     
+     setContrast(ImageAdjustN[0].value * 128);
+     setBrightness(ImageAdjustN[1].value * 128);
+     setHue(ImageAdjustN[2].value * 128);
+     setColor(ImageAdjustN[3].value * 128);
+     setWhiteness(ImageAdjustN[4].value * 128);
+     
+     ImageAdjustN[0].value = getContrast() / 128.;
+     ImageAdjustN[1].value = getBrightness() / 128.;
+     ImageAdjustN[2].value = getHue() / 128.;
+     ImageAdjustN[3].value = getColor() / 128.;
+     ImageAdjustN[4].value = getWhiteness() / 128.;
+     
+     ImageAdjustNP.s = IPS_OK;
+     IDSetNumber(&ImageAdjustNP, NULL);
+     return;
+   }
       
   
   	
-}
-
-void ISPoll(void *p)
-{
-    #if 0
-	long err;
-	long timeleft;
-	double ccdTemp;
-	
-	if (!isCCDConnected())
-	{
-	 IEAddTimer (POLLMS, ISPoll, NULL);
-	 return;
-	}
-	 
-	
-	switch (ExposeTimeNP.s)
-	{
-	  case IPS_IDLE:
-	    break;
-	    
-	  case IPS_OK:
-	    break;
-	    
-	  case IPS_BUSY:
-	    if ( (err = FLIGetExposureStatus(fli_dev, &timeleft)))
-	    { 
-	      ExposeTimeNP.s = IPS_IDLE; 
-	      ExposeTimeN[0].value = 0;
-	      
-	      IDSetNumber(&ExposeTimeNP, "FLIGetExposureStatus() failed. %s.", strerror((int)-err));
-	      IDLog("FLIGetExposureStatus() failed. %s.\n", strerror((int)-err));
-	      break;
-	    }
-	    
-	    /*ExposeProgressN[0].value = (timeleft / 1000.);*/
-	    
-	    if (timeleft > 0)
-	    {
-	      ExposeTimeN[0].value = timeleft / 1000.;
-	      IDSetNumber(&ExposeTimeNP, NULL); 
-	      break;
-	    }
-	    /*{
-	      IDSetNumber(&ExposeProgressNP, NULL);
-	      break;
-	    }*/
-	    
-	    /* We're done exposing */
-	    ExposeTimeNP.s = IPS_IDLE; 
-	    ExposeTimeN[0].value = 0;
-	    /*ExposeProgressNP.s = IPS_IDLE;*/
-	    IDSetNumber(&ExposeTimeNP, "Exposure done, downloading image...");
-	    IDLog("Exposure done, downloading image...\n");
-	    /*IDSetNumber(&ExposeProgressNP, NULL);*/
-	    
-	    /* grab and save image */
-	     if (grabImage())
-	      break;
-	    
-	    /* Multiple image exposure 
-	    if ( imagesLeft > 0)
-	    { 
-	      IDMessage(mydev, "Image #%d will be taken in %0.f seconds.", imageCount+1, DelayN[0].value);
-	      IDLog("Image #%d will be taken in %0.f seconds.", imageCount+1, DelayN[0].value);
-	      IEAddTimer (DelayN[0].value * 1000., handleExposure, NULL);
-	    }*/
-	    break;
-	    
-	  case IPS_ALERT:
-	    break;
-	 }
-	 
-	 switch (ExposeProgressNP.s)
-	 {
-	   case IPS_IDLE:
-	   case IPS_OK:
-	   	break;
-           case IPS_BUSY:
-	      ExposeProgressN[0].value--;
-	      
-	      if (ExposeProgressN[0].value > 0)
-	          IDSetNumber(&ExposeProgressNP, NULL);
-	      else
-	      {
-	        ExposeProgressNP.s = IPS_IDLE;
-		IDSetNumber(&ExposeProgressNP, NULL);
-	      }
-	      break;
-	      
-	  case IPS_ALERT:
-	     break;
-	  }
-		
-	 
-	 switch (TemperatureNP.s)
-	 {
-	   case IPS_IDLE:
-	   case IPS_OK:
-	     if ( (err = FLIGetTemperature(fli_dev, &ccdTemp)))
-	     {
-	       TemperatureNP.s = IPS_IDLE;
-	       IDSetNumber(&TemperatureNP, "FLIGetTemperature() failed. %s.", strerror((int)-err));
-	       IDLog("FLIGetTemperature() failed. %s.", strerror((int)-err));
-	       return;
-	     }
-	     
-	     if (fabs(TemperatureN[0].value - ccdTemp) >= TEMP_THRESHOLD)
-	     {
-	       TemperatureN[0].value = ccdTemp;
-	       IDSetNumber(&TemperatureNP, NULL);
-	     }
-	     break;
-	     
-	   case IPS_BUSY:
-	   if ((err = FLIGetTemperature(fli_dev, &ccdTemp)))
-	     {
-	       TemperatureNP.s = IPS_ALERT;
-	       IDSetNumber(&TemperatureNP, "FLIGetTemperature() failed. %s.", strerror((int)-err));
-	       IDLog("FLIGetTemperature() failed. %s.", strerror((int)-err));
-	       return;
-	     }
-	     
-	     if (fabs(FLICam->temperature - ccdTemp) <= TEMP_THRESHOLD)
-	       TemperatureNP.s = IPS_OK;
-	     	       
-              TemperatureN[0].value = ccdTemp;
-	      IDSetNumber(&TemperatureNP, NULL);
-	      break;
-	      
-	    case IPS_ALERT:
-	     break;
-	  }
-  	 
-	 p=p; 
-	 
-	 #endif
- 	
-	 IEAddTimer (POLLMS, ISPoll, NULL);
 }
 
 /* Downloads the image from the CCD row by row and store them
@@ -599,10 +518,12 @@ int writeFITS(char *filename, char errmsg[])
   long nbytes;
   FITS_HDU_LIST *hdu;
   
+  IDLog("in writeFITS with filename %s\n", filename);
+  
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
-    sprintf(errmsg, "Error: can't open file for writing.");
+    sprintf(errmsg, "Error: cannot open file for writing.");
     return (-1);
   }
   
@@ -680,81 +601,23 @@ void getBasicData()
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
   IDSetText(&camNameTP, NULL);
   
+  ImageAdjustN[0].value = getContrast() / 128.;
+  ImageAdjustN[1].value = getBrightness() / 128.;
+  ImageAdjustN[2].value = getHue() / 128.;
+  ImageAdjustN[3].value = getColor() / 128.;
+  ImageAdjustN[4].value = getWhiteness() / 128.;
+     
+  ImageAdjustNP.s = IPS_OK;
+  IDSetNumber(&ImageAdjustNP, NULL);
+  
   IDLog("Exiting getBasicData()\n");
 }
-
-#if 0
-int manageDefaults(char errmsg[])
-{
-  long err;
-  int exposeTimeMS;
-  
-  exposeTimeMS = (int) (ExposeTimeN[0].value * 1000.);
-  
-  IDLog("Setting default exposure time of %d ms.\n", exposeTimeMS);
-  if ( (err = FLISetExposureTime(fli_dev, exposeTimeMS) ))
-  {
-    sprintf(errmsg, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* Default frame type is NORMAL */
-  if ( (err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
-  {
-    sprintf(errmsg, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* X horizontal binning */
-  if ( (err = FLISetHBin(fli_dev, BinningN[0].value) ))
-  {
-    sprintf(errmsg, "FLISetBin() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* Y vertical binning */
-  if ( (err = FLISetVBin(fli_dev, BinningN[1].value) ))
-  {
-    sprintf(errmsg, "FLISetVBin() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  IDLog("Setting default binning %f x %f.\n", BinningN[0].value, BinningN[1].value);
-  
-  FLISetNFlushes(fli_dev, NFLUSHES);
-  
-  /* Set image area */
-  if (setImageArea(errmsg))
-    return -1;
-  
-  /* Success */
-  return 0;
-    
-}
-
-
-int getOnSwitch(ISState * states, int n)
-{
- int i;
- 
- for (i=0; i < n ; i++)
-     if (states[i] == ISS_ON)
-      return i;
-
- return -1;
-}
-
-#endif
 
 int checkPowerS(ISwitchVectorProperty *sp)
 {
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the camera is offline.");
+    IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->label);
     sp->s = IPS_IDLE;
     IDSetSwitch(sp, NULL);
     return -1;
@@ -765,9 +628,10 @@ int checkPowerS(ISwitchVectorProperty *sp)
 
 int checkPowerN(INumberVectorProperty *np)
 {
+   
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the camera is offline");
+    IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
     np->s = IPS_IDLE;
     IDSetNumber(np, NULL);
     return -1;
@@ -781,7 +645,7 @@ int checkPowerT(ITextVectorProperty *tp)
 
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change a property while the camera is offline");
+    IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
     tp->s = IPS_IDLE;
     IDSetText(tp, NULL);
     return -1;
@@ -815,15 +679,9 @@ void connectV4L()
       PowerS[0].s = ISS_ON;
       PowerS[1].s = ISS_OFF;
       PowerSP.s = IPS_OK;
-      IDSetSwitch(&PowerSP, "V4LDevice is online. Retrieving basic data.");
+      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is online. Retrieving basic data.");
       IDLog("V4L Device is online. Retrieving basic data.\n");
       getBasicData();
-      /*if (manageDefaults(errmsg))
-      {
-        IDMessage(mydev, errmsg, NULL);
-	IDLog(errmsg);
-	return;
-      }*/
       
       break;
       
@@ -832,7 +690,7 @@ void connectV4L()
       PowerS[1].s = ISS_ON;
       PowerSP.s = IPS_IDLE;
       disconnectCam();
-      IDSetSwitch(&PowerSP, "V4L Device is offline.");
+      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
       
       break;
      }
@@ -885,142 +743,52 @@ void updateStream(void *p)
 {
    int width  = getWidth();
    int height = getHeight();
-   int totalBytes = width * height;
+   int totalBytes;
+   unsigned char *targetFrame;
    int nr=0, n=0;
-   
-   //int static writenow =0;
    
    V4LFrame->Y      		= getY();
    V4LFrame->U      		= getU();
    V4LFrame->V      		= getV();
    V4LFrame->colorBuffer 	= getColorBuffer();
+  
+   totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
+   targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;
    
-   //fprintf(stderr, "Total bytes: %d\n", width * height);
-   
-  if (StreamS[0].s == ISS_ON && streamReady)
+  for (int i=0; i < nclients; i++)
   {
-    /* Grey */
-    if (ImageTypeS[0].s == ISS_ON)
-    {
-
-	//V4LFrame->Y[0] = 111;
-	//V4LFrame->Y[1] = 222;
-	
-	  for (nr=0; nr < totalBytes; nr+=n)
-	  {
-		n = write(wp[1], V4LFrame->Y + nr, totalBytes - nr );
-		
+  	if (StreamS[0].s == ISS_ON && INDIClients[i].streamReady)
+        {
+             for (nr=0; nr < totalBytes; nr+=n)
+   	     {
+	  	n = write(INDIClients[i].wp, targetFrame + nr, totalBytes - nr );
 		if (n <= 0)
 		{
-		        fprintf(stderr, "nr is %d\n", nr);
-			
-			if (n < 0)
-		    		fprintf(stderr, "%s\n", strerror(errno));
-			else
-		    	        fprintf(stderr, "Short write of pixels.\n");
-				
-			
-		    return;
+			if (nr <= 0)
+    			{
+      				IDLog("Stream error: %s\n", strerror(errno));
+      				StreamS[0].s = ISS_OFF;
+      				StreamS[1].s = ISS_ON;
+      				StreamSP.s   = IPS_IDLE;
+      				IDSetSwitch(&StreamSP, "Stream error: %s.", strerror(errno));
+      				return;
+    			}
+		        break;
 		}		
-		
-		//fprintf(stderr, "We've written to the pipe %d\n", n);
-          }
-	
-        
-		
-    }
-    /* Color */
-    else
-    {
-        //V4LFrame->colorBuffer[0] = 111;
-	//V4LFrame->colorBuffer[1] = 222;
-        //fprintf(wfp, "%s", (char *) getColorBuffer());
-	for (nr=0; nr < totalBytes * 4; nr+=n)
-	  {
-		n = write(wp[1], V4LFrame->colorBuffer + nr, (totalBytes * 4) - nr );
-		
-		if (n <= 0)
-		{
-		        fprintf(stderr, "nr is %d\n", nr);
-			
-			if (n < 0)
-		    		fprintf(stderr, "%s\n", strerror(errno));
-			else
-		    	        fprintf(stderr, "Short write of FITS pixels.\n");
-				
-			
-		    return;
-		}		
-		
-		//fprintf(stderr, "We've written to the pipe %d\n", n);
-          }
-
-	/*if (writenow == 0)
-	{	
-	fwrite(getColorBuffer(), 1, nr, wfp);
-	writenow = 1;
-        }*/
-     }
+		 
+             }
+        }
+  }
     
-    //if (ferror(wfp))
-    if (nr <= 0)
-    {
-      fprintf(stderr, "Stream error: %s\n", strerror(errno));
-      StreamS[0].s = ISS_OFF;
-      StreamS[1].s = ISS_ON;
-      StreamSP.s   = IPS_IDLE;
-      IDSetSwitch(&StreamSP, "Stream error: %s.", strerror(errno));
-      return;
-    }
-    
-    if (!streamTimerID != -1)
+  if (!streamTimerID != -1)
     	streamTimerID = addTimer(1000/ (int) FrameRateN[0].value, updateStream, NULL);
-	//streamTimerID = addTimer(4000, updateStream, NULL);
    
-  }
-
 }
-
-
-void updateDataChannel(void *p)
-{
-  char buffer[1];
-  fd_set rs;
-  int nr;
-  timeval tv;
-  tv.tv_sec  = 0;
-  tv.tv_usec = 0;
-  
-  FD_ZERO(&rs);
-  FD_SET(rp[0], &rs);
-  
-  nr = select(rp[0]+1, &rs, NULL, NULL, &tv);
-  fprintf(stderr , "In update data channel with nr sekect %d \n", nr);
-  
-  if (nr <= 0)
-  {
-    addTimer(500, updateDataChannel, NULL);
-    return;
-  }
-  
-  nr = read(rp[0], buffer, 1);
-  if (nr > 0)
-  {
-    streamReady = true;
-    DataChannelN[0].value = DataPort;
-    DataChannelNP.s = IPS_OK;
-    IDSetNumber(&DataChannelNP, NULL);
-    //tcflush(rp[0], TCIFLUSH);
-    return;
-  }
-  
-  
-}
-    
 
 void initDataChannel ()
 {
 	int pid;
+	int rp[2], wp[2];
 
 	/* new pipes */
 	if (pipe (rp) < 0) {
@@ -1040,28 +808,64 @@ void initDataChannel ()
 	}
 	if (pid == 0) {
 	    /* child: listen to driver */
-	    /* Bind pipes to stdin/stdout */
-	    //dup2 (wp[0], 0);
-	    //dup2 (rp[1], 1);
-	    
 	    close(wp[1]);
 	    close(rp[0]);
 	    
-	    waitForData();
+	    waitForData(wp[0], rp[1]);
 	    
 	    return;
 	}
 
-	//fcntl (rp[0], F_SETFL, O_NONBLOCK);
-	//fcntl (wp[1], F_SETFL, O_NONBLOCK);
-	//wfp = fopen ("/home/slovin/driver.txt", "w");
-	//setbuf (wfp, NULL);
 	close (wp[0]);
 	close (rp[1]);
+	INDIClients[nclients].rp = rp[0];
+	INDIClients[nclients].wp = wp[1];
+	
+	nclients++;
 	
 	fprintf(stderr, "Going to listen on fd %d, and write to fd %d\n", rp[0], wp[1]);
 	updateDataChannel(NULL);
 
+}
+
+void updateDataChannel(void *p)
+{
+  char buffer[1];
+  fd_set rs;
+  int nr;
+  timeval tv;
+  tv.tv_sec  = 0;
+  tv.tv_usec = 0;
+  
+  for (int i=0; i < nclients; i++)
+  {
+        if (INDIClients[i].rp < 0)
+	 continue;
+	 
+  	FD_ZERO(&rs);
+  	FD_SET(INDIClients[i].rp, &rs);
+  
+  	nr = select(INDIClients[i].rp+1, &rs, NULL, NULL, &tv);
+  
+  	if (nr <= 0)
+	 continue;
+
+  	nr = read(INDIClients[i].rp, buffer, 1);
+  	if (nr > 0 && atoi(buffer) == 0)
+	{
+	        IDLog("Client %d is ready to receive stream\n", i);
+		INDIClients[i].streamReady = true;
+	}
+	else
+	{
+		INDIClients[i].streamReady = false;
+		INDIClients[i].rp          = -1;
+		IDLog("Lost connection with client %d\n", i);
+	}
+   }
+  
+   addTimer(1000, updateDataChannel, NULL);
+  
 }
 
 int findPort()
@@ -1082,21 +886,19 @@ int findPort()
   serv_socket.sin_family = AF_INET;
   serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
   
-  for (i=0; i < 10; i++)
+  for (i=0; i < 100; i++)
   {
   	serv_socket.sin_port = htons ((unsigned short)port);
 	if (bind(sfd,(struct sockaddr*)&serv_socket,sizeof(serv_socket)) < 0)
 	{
 	  	fprintf (stderr, "%s: bind: %s\n", me, strerror(errno));
-		port +=10;
+		port +=5;
 	}
 	else break;
   }
   
   close(sfd);
-  
-  if (i == 10)
-   return -1;
+  if (i == 100) return -1;
   
   return port;
 	
@@ -1104,7 +906,7 @@ int findPort()
 	
 	
   
-void waitForData()
+void waitForData(int rp, int wp)
 {
         struct sockaddr_in serv_socket;
 	struct sockaddr_in cli_socket;
@@ -1114,7 +916,7 @@ void waitForData()
         fd_set rs;
 	int maxfd;
 	int i, s, nr, n;
-	unsigned char buffer[BUFSIZ];
+	unsigned char buffer[PIPEBUFSIZ];
 	char dummy[8];
 	
 	/* make socket endpoint */
@@ -1138,8 +940,11 @@ void waitForData()
 		exit(1);
 	    	}
 	
-        /* Tell driver we're ready to receive data */
-	write(rp[1], dummy, 4);
+        /* Tell client we're ready to connect */
+	/* N.B. This only modifies the child DataChannelNP, the parent's property remains unchanged. */
+	DataChannelN[0].value = DataPort;
+        DataChannelNP.s = IPS_OK;
+        IDSetNumber(&DataChannelNP, NULL);
 	
 	/* willing to accept connections with a backlog of 1 pending */
 	if (listen (sfd, 1) < 0) {
@@ -1171,17 +976,13 @@ void waitForData()
 	    exit (1);
 	}
 	
-	/* ok */
-	//fcntl (s, F_SETFL, O_NONBLOCK);
-	
-	/*wfp = fopen ("/home/slovin/client.txt", "w");
-	int static writenow=0;
-	setbuf (wfp, NULL);*/
+	/* Tell the driver that this client established a connection to the data channel and is ready
+	   to receive stream data */
+	sprintf(dummy, "%d", 0);
+	write(wp, dummy, 1);
 	
 	FD_ZERO(&rs);
-	FD_SET(wp[0], &rs);
-	
-	IDLog("We have a streaming client at %d\n", s);
+	FD_SET(rp, &rs);
 	
 	int bufcount=0;
 	
@@ -1189,31 +990,29 @@ void waitForData()
 	{
                // IDLog("Waiting for input from driver\n");	
 	
-		i = select(wp[0]+1, &rs, NULL, NULL, NULL);
+		i = select(rp+1, &rs, NULL, NULL, NULL);
 		if (i < 0)
 		{
 	  		fprintf (stderr, "%s: select: %s\n", me, strerror(errno));
+			/* Tell driver the client has disconnected the data channel */
+			sprintf(dummy, "%d", -1);
+			write(wp, dummy, 1);
 	  		exit(1);
 		}
 		
-		nr = read(wp[0], buffer, BUFSIZ);
+		nr = read(rp, buffer, PIPEBUFSIZ);
 		if (nr < 0) {
-	    	fprintf (stderr, "Client %d: %s\n", s, strerror(errno));
-	    	//fclose(wfp);
+		sprintf(dummy, "%d", -1);
+		write(wp, dummy, 1);
 	    	exit(1);
 		}
 		if (nr == 0) {
+		sprintf(dummy, "%d", -1);
+		write(wp, dummy, 1);
 		fprintf (stderr, "Client %d: EOF\n", s);
-		//fclose(wfp);
 	    	exit(1);
 		}
 		
-		
-		
-		//fprintf(wfp, "%s", (char *) buffer);
-		//for (int i=0; i < BUFSIZ; i++)
-		  //buffer[i] = 128;
-	        
 		for (i=0; i < nr; i+=n)
 		{
 		  n = write(s, buffer + i, nr - i);
@@ -1227,27 +1026,12 @@ void waitForData()
 			else
 		    	        fprintf(stderr, "Short write of FITS pixels.\n");
 				
-			
+		       sprintf(dummy, "%d", -1);
+		       write(wp, dummy, 1);
 		       exit(1);
 		  }		
 		}
 		
-		//bufcount+= nr;
-		
-		//fprintf(stderr, "Receving stream from driver and we WROTE a total size of %d\n", i);
-		
-		//if (bufcount > 4096 && bufcount < 8000)
-		  //fprintf(stderr, "Byte %d is %d\n", bufcount, buffer[0]);
-		  
-		//if (bufcount < 101376)
-			//fwrite(buffer, 1, nr, wfp);
-	
-		
-		/*if (ferror(wfp)) 
-		{
-			fprintf (stderr, "Client %d: %s\n", s, strerror(errno));
-			exit(1);
-		}*/
 	}
 
 }

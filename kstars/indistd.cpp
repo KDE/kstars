@@ -24,6 +24,9 @@
  #include <qtimer.h>
  #include <qlabel.h>
  
+ #include <qfont.h>
+ 
+ #include <kpushbutton.h>
  #include <klineedit.h>
  #include <kstatusbar.h>
  
@@ -91,7 +94,7 @@
 	 
       case DATA_CHANNEL:
          el = pp->findElement("CHANNEL");
-	 if (el && el->value)
+	 if (el && el->value && streamWindow->streamFD == -1)
 	    streamWindow->establishDataChannel(dp->parentMgr->host, (int) el->value);
      break;
     default:
@@ -104,11 +107,14 @@
  void INDIStdDevice::setLabelState(INDI_P *pp)
  {
     INDI_E *lp;
+    QFont buttonFont;
+    
     switch (pp->stdID)
     {
       case CONNECTION:
       lp = pp->findElement("CONNECT");
       if (!lp) return;
+      
       if (lp->state == PS_ON)
       {
         initDeviceOptions();
@@ -116,12 +122,38 @@
       }
       else
       {
+        if (streamWindow)
+	{
+	  streamWindow->enableStream(false);
+	  streamWindow->close();
+	}
        	ksw->map()->forceUpdateNow();
         emit linkRejected();
       }
       break;
       
       case VIDEO_STREAM:
+       if (streamWindow->streamFD == -1)
+       {
+          pp->state = PS_OFF;
+	  pp->drawLt(pp->state);
+	  lp = pp->findElement("ON");
+	  if (!lp) return;
+	  lp->state = PS_OFF;
+	  lp->push_w->setDown(lp->state == PS_ON ? true : false);
+	  buttonFont = lp->push_w->font();
+	  buttonFont.setBold(lp->state == PS_ON ? TRUE : FALSE);
+	  lp->push_w->setFont(buttonFont);
+	  lp = pp->findElement("OFF");
+	  if (!lp) return;
+	  lp->state = PS_ON;
+	  lp->push_w->setDown(lp->state == PS_ON ? true : false);
+	  buttonFont = lp->push_w->font();
+	  buttonFont.setBold(lp->state == PS_ON ? TRUE : FALSE);
+	  lp->push_w->setFont(buttonFont);
+	  break;
+       }
+	
        lp = pp->findElement("ON");
        if (!lp) return;
        if (lp->state == PS_ON)
@@ -129,6 +161,17 @@
        else
           streamWindow->enableStream(false);
        break;
+       
+    case IMAGE_TYPE:
+      lp = pp->findElement("COLOR");
+      if (!lp) return;
+      if (lp->state == PS_ON)
+        streamWindow->setColorFrame(true);
+      else
+        streamWindow->setColorFrame(false);
+	
+        streamWindow->allocateStreamBuffer();
+      break;
       
     default:
       break;
@@ -139,6 +182,10 @@
  void INDIStdDevice::streamDisabled()
  {
     INDI_P *pp;
+    
+    pp = dp->findProp("CONNECTION");
+    if (!pp) return;
+    if (pp->state == PS_OFF) return;
     
     pp = dp->findProp("VIDEO_STREAM");
     if (!pp) return;
@@ -244,7 +291,7 @@ void INDIStdDevice::updateLocation()
      case FILE_NAME:
      portEle = pp->findElement("FILE");
      if (!portEle) return;
-     str = Options::fitsSaveDirectory() + "/" + portEle->text;
+     str = Options::fitsSaveDirectory() + "/" + "image1.fits";
      portEle->read_w->setText( str );
      portEle->write_w->setText( str);
      portEle->text = str;
@@ -575,12 +622,6 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
   switch (pp->stdID)
   {
     case CONNECTION:      
-      if (el->name == "DISCONNECT" && el->state == PS_ON)
-      {
-        stdDev->streamWindow->enableStream(false);
-	stdDev->streamWindow->close();
-	break;
-      }
       prop = pp->pg->dp->findProp("DEVICE_PORT");
       if (prop)
       prop->newText();
@@ -591,14 +632,6 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
        //TODO add text in the status bar "Slew aborted."
        stdDev->devTimer->stop();
        break;
-    case IMAGE_TYPE:
-      if (el->name == "COLOR" && el->state == PS_ON)
-        stdDev->streamWindow->setColorFrame(true);
-      else
-        stdDev->streamWindow->setColorFrame(false);
-	
-       stdDev->streamWindow->allocateStreamBuffer();
-      break;
     default:
        break;
    }

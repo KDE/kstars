@@ -176,9 +176,6 @@ void StreamWG::streamReceived()
 	char msg[1024];
 	int nr=0, n=0;
 	
-	if (!processStream)
-	  return;
-	
 	for (nr = 0; nr < frameTotalBytes; nr+=n)
 	{
            n = read (streamFD, streamBuffer + nr, frameTotalBytes - nr);
@@ -195,6 +192,9 @@ void StreamWG::streamReceived()
             return;
 	   }
 	}
+	
+	if (!processStream)
+	  return;
 	
 	streamFrame->newFrame(streamBuffer, streamWidth, streamHeight, colorFrame);
 
@@ -286,8 +286,8 @@ VideoWG::~VideoWG()
 
 void VideoWG::newFrame(unsigned char *buffer, int w, int h, bool color)
 {
-   delete (streamImage);
-   streamImage = NULL;
+   //delete (streamImage);
+   //streamImage = NULL;
   
   if (color)
      streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
@@ -300,9 +300,17 @@ void VideoWG::newFrame(unsigned char *buffer, int w, int h, bool color)
 
 void VideoWG::paintEvent(QPaintEvent *ev)
 {
-  if (!streamImage) return;
-  qPix = kPixIO.convertToPixmap(streamImage->smoothScale(width(), height()));
-  bitBlt(this, 0, 0, &qPix);
+  	
+   if (streamImage)
+   {
+	if (streamImage->isNull()) return;
+  	qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
+	delete (streamImage);
+	streamImage = NULL;
+   }
+   
+   bitBlt(this, 0, 0, &qPix);
+   
 }
 
 #include "streamwg.moc"
