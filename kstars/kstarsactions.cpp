@@ -126,7 +126,7 @@ void KStars::slotWizard() {
 	KSWizard wizard(this);
 	if ( wizard.exec() == QDialog::Accepted ) {
 		Options::setRunStartupWizard( false );  //don't run on startup next time
-		
+
 		data()->setLocation( wizard.geo() );
 
 		// reset infoboxes
@@ -203,7 +203,7 @@ void KStars::slotImageSequence()
 {
   if (indiseq == NULL)
     indiseq = new imagesequence(this);
-  
+
   if (indiseq->updateStatus())
     indiseq->show();
 }
@@ -238,7 +238,7 @@ void KStars::slotINDIConf() {
    indiconf.messagesCheck->setChecked ( Options::indiMessages() );
    indiconf.telPort_IN->setText ( Options::indiTelescopePort());
    indiconf.vidPort_IN->setText ( Options::indiVideoPort());
-   
+
    if (Options::fitsSaveDirectory().isEmpty())
    {
      indiconf.fitsDIR_IN->setText (QDir:: homeDirPath());
@@ -304,30 +304,30 @@ void KStars::slotGeoLocator() {
 
 void KStars::slotViewOps() {
 	KStandardDirs stdDirs;
- 
-	//An instance of your dialog could be already created and could be cached, 
-	//in which case you want to display the cached dialog instead of creating 
-	//another one 
-	if ( KConfigDialog::showDialog( "settings" ) ) return; 
- 
-	//KConfigDialog didn't find an instance of this dialog, so lets create it : 
-	KConfigDialog* dialog = new KConfigDialog( this, "settings", 
-					     Options::self() ); 
+
+	//An instance of your dialog could be already created and could be cached,
+	//in which case you want to display the cached dialog instead of creating
+	//another one
+	if ( KConfigDialog::showDialog( "settings" ) ) return;
+
+	//KConfigDialog didn't find an instance of this dialog, so lets create it :
+	KConfigDialog* dialog = new KConfigDialog( this, "settings",
+					     Options::self() );
 
 	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( slotApplySettings() ) );
 	connect( dialog, SIGNAL( okClicked() ), this, SLOT( slotApplySettings() ) );
 
-	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" ); 
-	OpsGuides  *opguides     = new OpsGuides( this, "guides" ); 
-	OpsSolarSystem *opsolsys = new OpsSolarSystem( this, "solarsystem" ); 
-	OpsColors  *opcolors     = new OpsColors( this, "colors" ); 
-	OpsAdvanced *opadvanced  = new OpsAdvanced( this, "advanced" ); 
- 
-	dialog->addPage( opcatalog,  i18n("Catalogs"), stdDirs.findResource( "data", "kstars/opscatalog.png" ) ); 
-	dialog->addPage( opsolsys,   i18n("Solar System"), stdDirs.findResource( "data", "kstars/opssolarsystem.png" ) ); 
-	dialog->addPage( opguides,   i18n("Guides"), stdDirs.findResource( "data", "kstars/opsguides.png" ) ); 
-	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) ); 
-	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) ); 
+	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" );
+	OpsGuides  *opguides     = new OpsGuides( this, "guides" );
+	OpsSolarSystem *opsolsys = new OpsSolarSystem( this, "solarsystem" );
+	OpsColors  *opcolors     = new OpsColors( this, "colors" );
+	OpsAdvanced *opadvanced  = new OpsAdvanced( this, "advanced" );
+
+	dialog->addPage( opcatalog,  i18n("Catalogs"), stdDirs.findResource( "data", "kstars/opscatalog.png" ) );
+	dialog->addPage( opsolsys,   i18n("Solar System"), stdDirs.findResource( "data", "kstars/opssolarsystem.png" ) );
+	dialog->addPage( opguides,   i18n("Guides"), stdDirs.findResource( "data", "kstars/opsguides.png" ) );
+	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) );
+	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) );
 
 	dialog->show();
 }
@@ -392,18 +392,18 @@ void KStars::slotOpenFITS()
 {
 
   KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
-  
+
   if (fileURL.isEmpty())
     return;
-    
+
   FITSViewer * fv = new FITSViewer(&fileURL, this);
   fv->show();
-  
+
 }
 
 void KStars::slotExportImage() {
 	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
-	
+
 	exportImage( fileURL.url(), map()->width(), map()->height() );
 }
 
@@ -589,6 +589,9 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( NULL );
 	} else {
 		map()->setClickedPoint( map()->focus() );
+		map()->setClickedObject( NULL );
+		map()->setFocusObject( NULL );//no longer tracking focusObject
+		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
@@ -627,12 +630,12 @@ void KStars::slotManualFocus() {
 
 		map()->slotCenter();
 
-		//The slew takes some time to complete, and this often causes the final focus point to be slightly 
-		//offset from the user's requested coordinates (because EquatorialToHorizontal() is called 
+		//The slew takes some time to complete, and this often causes the final focus point to be slightly
+		//offset from the user's requested coordinates (because EquatorialToHorizontal() is called
 		//throughout the process, which depends on the sidereal time).  So we now "polish" the final
 		//position by resetting the final focus to the focusDialog point.
 		//
-		//Also, if the requested position was within 1 degree of the coordinate pole, this will 
+		//Also, if the requested position was within 1 degree of the coordinate pole, this will
 		//automatically correct the final pointing from the intermediate offset position to the final position
 		if ( Options::useAltAz() ) {
 			data()->setSnapNextFocus();
@@ -641,11 +644,11 @@ void KStars::slotManualFocus() {
 			data()->setSnapNextFocus();
 			map()->setDestination( focusDialog.point()->ra()->Hours(), focusDialog.point()->dec()->Degrees() );
 		}
-		
+
 		//Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
 		if ( Options::useAltAz() && realAlt > 89.0 ) map()->focus()->setAlt( realAlt );
 		if ( ! Options::useAltAz() && realDec > 89.0 ) map()->focus()->setDec( realAlt );
-		
+
 		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
 		if ( focusDialog.usedAltAz() ) map()->stopTracking();
 	}
@@ -741,7 +744,7 @@ void KStars::slotColorScheme() {
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
 	FOV f( symbolName ); //read data from fov.dat
-	
+
 	Options::setFOVName( f.name() );
 	Options::setFOVSize( f.size() );
 	Options::setFOVShape( f.shape() );
@@ -794,7 +797,7 @@ void KStars::slotFOVEdit() {
 
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].stripWhiteSpace();
-					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
+					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
 							actionCollection(), nm.utf8() );
 					kta->setExclusiveGroup( "fovsymbol" );
 					fovActionMenu->insert( kta );
@@ -805,7 +808,7 @@ void KStars::slotFOVEdit() {
 		}
 
 		fovActionMenu->popupMenu()->insertSeparator();
-		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, 
+		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this,
 				SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
 
 		//set FOV to whatever was highlighted in FOV dialog
@@ -862,10 +865,10 @@ void KStars::slotShowGUIItem( bool show ) {
 	if ( sender()->name() == QString( "show_sbAzAlt" ) ) {
 		Options::setShowAltAzField( show );
 		if ( show ) {
-			//To preserve the order (AzAlt before RADec), we have to remove 
+			//To preserve the order (AzAlt before RADec), we have to remove
 			//the RADec field and then add both back.
 			if ( Options::showRADecField() ) statusBar()->removeItem( 2 );
-			
+
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 1, true );
 			statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
@@ -880,7 +883,7 @@ void KStars::slotShowGUIItem( bool show ) {
 			statusBar()->removeItem( 1 );
 		}
 	}
-	
+
 	if ( sender()->name() == QString( "show_sbRADec" ) ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
