@@ -37,7 +37,6 @@
 #include <zlib.h>
 
 #include "fli/libfli.h"
-#include "lzo/minilzo.h"
 #include "fitsrw.h"
 #include "indidevapi.h"
 #include "eventloop.h"
@@ -216,9 +215,6 @@ void ISInit()
  streamTimerID = -1;
  INDIClients = NULL;
  nclients    = 0;
- 
- if (lzo_init() != LZO_E_OK)
-   IDLog("lzo_init() failed !!!\n");
  
  isInit = 1;
  

@@ -1821,14 +1821,10 @@ void LX200Generic::updateTime()
   if ( (result = getSDTime(&STime[0].value)) < 0)
     IDMessage(thisDevice, "Failed to retrieve siderial time from device.");
   
-  IDLog("Telescope SD Time is: %g\n", STime[0].value);
-  
   getCalenderDate(cdate);
   
-  result = sscanf(cdate, "%d/%d/%d", &month, &day, &year);
+  result = sscanf(cdate, "%d/%d/%d", &year, &month, &day);
   if (result != 3) return;
-  
-  year += 2000;
   
   if (year % 4 == 0)
   {
@@ -1851,7 +1847,7 @@ void LX200Generic::updateTime()
   UTC_month = month;
   UTC_day   = day;
   
-  IDLog("day: %d - month %d - year: %d - len(cdate): %d\n", day, month, year, strlen(cdate));
+  IDLog("day: %d - month %d - year: %d\n", day, month, year);
   
   // we'll have to convert telescope time to UTC manually starting from hour up
   // seems like a stupid way to do it.. oh well
@@ -1957,7 +1953,10 @@ void LX200Generic::updateTime()
   /* Format it into ISO 8601 */
   sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", UTC_year, UTC_month, UTC_day, UTC_h, m, s);
   
-  IDLog("Telescope ISO date and time: %s\n", UTC[0].text);
+  IDLog("Local telescope time: %02d:%02d:%02d\n", h, m , s);
+  IDLog("Telescope SD Time is: %g\n", STime[0].value);
+  IDLog("UTC date and time: %s\n", UTC[0].text);
+  
 
   // Let's send everything to the client
   IDSetText(&Time, NULL);

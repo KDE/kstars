@@ -206,7 +206,8 @@ int CelestronGPS::handleCoordSet()
 	  eqNum.s = IPS_BUSY;
 	  fs_sexa(RAStr, targetRA, 2, 3600);
 	  fs_sexa(DecStr, targetDEC, 2, 3600);
-	  IDSetNumber(&eqNum, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&eqNum, "Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
+	  IDLog("Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
 	  break;
 
 
@@ -236,7 +237,8 @@ int CelestronGPS::handleCoordSet()
 		fs_sexa(RAStr, targetRA, 2, 3600);
 	        fs_sexa(DecStr, targetDEC, 2, 3600);
 		eqNum.s = IPS_BUSY;
-		IDSetNumber(&eqNum, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+		IDSetNumber(&eqNum, "Slewing to JNow RA %s - DEC %s", RAStr, DecStr);
+		IDLog("Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
 	  }
 	  else
 	  {
@@ -311,7 +313,7 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	   // update JD
            JD = UTtoJD(tp);
 
-	   IDLog("We recevined J2000 RA %f - DEC %f\n", newRA, newDEC);;
+	   IDLog("We recevined JNOW RA %f - DEC %f\n", newRA, newDEC);;
 	   /*apparentCoord( (double) J2000, JD, &newRA, &newDEC);
 	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);*/
 
@@ -357,7 +359,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// Suppress warning
 	names = names;
 
-	IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
+	//IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
 	//IDLog("SolarSw name is %s\n", SolarSw.name);
 
 	// ignore if not ours //
@@ -497,8 +499,8 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	      return;
 	   }
 	      
-          IDLog("We have switch %d \n ", index);
-	  IDLog("NORTH: %d -- WEST: %d -- EAST: %d -- SOUTH %d\n", lastMove[0], lastMove[1], lastMove[2], lastMove[3]);
+          //IDLog("We have switch %d \n ", index);
+	  //IDLog("NORTH: %d -- WEST: %d -- EAST: %d -- SOUTH %d\n", lastMove[0], lastMove[1], lastMove[2], lastMove[3]);
 
 	  if (lastMove[index] == 1)
 	    StartSlew(index);
