@@ -1,5 +1,5 @@
 # File: image_url.dat
-# version 1.0;  last update:  09 March 2004
+# version 1.1;  last update:  05 March 2005
 # by Jason Harris
 # No copyright claimed, this is merely a list of "facts"
 #
@@ -29,6 +29,7 @@ M 16:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/44/images/a/formats/
 M 17:Show HST Image (2002):http://imgsrc.hubblesite.org/hu/db/2002/11/images/a/formats/web_print.jpg
 M 17:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/13/images/a/formats/web_print.jpg
 M 20:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/42/images/a/formats/web_print.jpg
+M 20:Show HST Image (Detail):http://imgsrc.hubblesite.org/hu/db/2004/17/images/a/formats/web_print.jpg
 M 22:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/20/images/a/formats/web_print.jpg
 M 27:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/06/images/a/formats/web_print.jpg
 M 31:Show HST Image (stars in M 31):http://imgsrc.hubblesite.org/hu/db/2003/15/images/a/formats/web_print.jpg
@@ -36,21 +37,28 @@ M 32:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/40/images/a/formats/
 M 42:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/45/images/a/formats/web_print.jpg
 M 51:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/10/images/a/formats/web_print.jpg
 M 57:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/01/images/a/formats/web_print.jpg
-M 64:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
+M 64:Show HST Image (1999):http://imgsrc.hubblesite.org/hu/db/1999/10/images/f/formats/full_jpg.jpg
+M 64:Show HST Image (2004):http://imgsrc.hubblesite.org/hu/db/2004/04/images/a/formats/web_print.jpg
+M 74:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/43/images/a/formats/full_jpg.jpg
 M 80:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/26/images/a/formats/web_print.jpg
 M 82:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/08/images/b/formats/web_print.jpg
 M 87:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/20/images/a/formats/web_print.jpg
 M 100:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1994/49/images/c/formats/web_print.jpg
 NGC 253:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/10/images/a/formats/web_print.jpg
 NGC 253:Show HST Image (1998):http://imgsrc.hubblesite.org/hu/db/1998/42/images/a/formats/web_print.jpg
+NGC 300:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/13/images/e/formats/web_print.jpg
+NGC 346:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2005/04/images/a/formats/web_print.jpg
 NGC 604:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/30/images/b/formats/web_print.jpg
 NGC 891:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
 NGC 1275:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/14/images/a/formats/web_print.jpg
+NGC 1300:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2005/01/images/a/formats/web_print.jpg
 NGC 1316:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/06/images/a/formats/web_print.jpg
 NGC 1365:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/34/images/b/formats/web_print.jpg
 NGC 1409:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/02/images/a/formats/web_print.jpg
 NGC 1410:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/02/images/a/formats/web_print.jpg
+NGC 1427:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2005/09/images/a/formats/web.jpg
 NGC 1512:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/16/images/a/formats/web_print.jpg
+NGC 1569:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/06/images/a/formats/web_print.jpg
 NGC 1705:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/07/images/a/formats/web_print.jpg
 NGC 1748:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/11/images/a/formats/web_print.jpg
 NGC 1808:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/12/images/c/formats/full_jpg.jpg
@@ -61,10 +69,11 @@ NGC 1999:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/10/images/a/form
 NGC 2080:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/34/images/a/formats/web_print.jpg
 NGC 2207:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/41/images/a/formats/web_print.jpg
 NGC 2261:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/c/formats/web_print.jpg
-NGC 2264:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/11/images/a/formats/web_print.jpg
+NGC 2264:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/11/images/f/formats/small_web.jpg
 NGC 2346:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/d/formats/web_print.jpg
 NGC 2363:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/31/images/a/formats/web_print.jpg
 NGC 2392:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/07/images/a/formats/web_print.jpg
+NGC 2403:Show HST Image (SN 2004dj):http://imgsrc.hubblesite.org/hu/db/2004/23/images/a/formats/web_print.jpg
 NGC 2440:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/e/formats/web_print.jpg
 NGC 2736:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/16/images/a/formats/web_print.jpg
 NGC 2787:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/07/images/a/formats/web_print.jpg
@@ -78,6 +87,7 @@ NGC 3372:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/06/images/a/form
 NGC 3593:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
 NGC 3603:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/20/images/a/formats/web_print.jpg
 NGC 3918:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/i/formats/full_jpg.jpg
+NGC 3949:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/25/images/a/formats/web_print.jpg
 NGC 4013:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/07/images/a/formats/web_print.jpg
 NGC 4038:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/34/images/d/formats/full_jpg.jpg
 NGC 4039:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/34/images/d/formats/full_jpg.jpg
@@ -98,9 +108,11 @@ NGC 5653:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/form
 NGC 6027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/22/images/a/formats/web_print.jpg
 NGC 6210:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/36/images/a/formats/web_print.jpg
 NGC 6251:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/28/images/a/formats/web_print.jpg
+NGC 6302:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/46/images/a/formats/web.jpg
 NGC 6369:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/25/images/a/formats/web_print.jpg
 NGC 6397:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/21/images/a/formats/web_print.jpg
-NGC 6543:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/01/images/a/formats/web_print.jpg
+NGC 6543:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/01/images/a/formats/web_print.jpg
+NGC 6543:Show HST Image (2004):http://imgsrc.hubblesite.org/hu/db/2004/27/images/a/formats/web_print.jpg
 NGC 6745:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/34/images/a/formats/web_print.jpg
 NGC 6751:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/12/images/a/formats/web_print.jpg
 NGC 6782:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/37/images/a/formats/web_print.jpg
@@ -115,18 +127,25 @@ NGC 7027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/d/form
 NGC 7052:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/22/images/a/formats/web_print.jpg
 NGC 7293:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/11/images/a/formats/large_web.jpg
 NGC 7293:Show HST Image (detail):http://imgsrc.hubblesite.org/hu/db/2003/11/images/b/formats/web_print.jpg
+NGC 7293:Show HST Image (2004):http://imgsrc.hubblesite.org/hu/db/2004/32/images/d/formats/web_print.jpg
 NGC 7317:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/22/images/a/formats/web_print.jpg
 NGC 7635:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/28/images/a/formats/web_print.jpg
 NGC 7635:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/04/images/a/formats/web_print.jpg
 NGC 7742:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/28/images/a/formats/web_print.jpg
+Venus:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/16/images/g/formats/web_print.jpg
+Moon:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/14/images/a/formats/web.jpg
+Mars:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/16/images/b/formats/web_print.jpg
 Mars:Show HST Image (2001):http://imgsrc.hubblesite.org/hu/db/2001/24/images/a/formats/web_print.jpg
 Mars:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/22/images/f/formats/web_print.jpg
 Mars:Global Dust Storm (HST):http://imgsrc.hubblesite.org/hu/db/2001/31/images/a/formats/web_print.jpg
 Jupiter:Jupiter and Io (HST):http://imgsrc.hubblesite.org/hu/db/1999/13/images/a/formats/web_print.jpg
 Jupiter:Galilean Satellites (HST):http://imgsrc.hubblesite.org/hu/db/1995/35/images/a/formats/web_print.jpg
+Jupiter:Triple Eclipse (HST):http://imgsrc.hubblesite.org/hu/db/2004/30/images/a/formats/web_print.jpg
 Jupiter:Comet Impact Scars (HST):http://imgsrc.hubblesite.org/hu/db/1995/15/images/a/formats/web_print.jpg
-Saturn:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/15/images/a/formats/web_print.jpg
-Saturn:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/23/images/a/formats/web_print.jpg
+Saturn:Show HST Image (1996):http://imgsrc.hubblesite.org/hu/db/1996/16/images/a/formats/web_print.jpg
+Saturn:Show HST Image (2001):http://imgsrc.hubblesite.org/hu/db/2001/15/images/a/formats/web_print.jpg
+Saturn:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/23/images/a/formats/web_print.jpg
+Saturn:Show HST Image (Aurora):http://imgsrc.hubblesite.org/hu/db/2005/06/images/a/formats/web_print.jpg
 Uranus:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/35/images/a/formats/web_print.jpg
 Uranus:Show HST (Rings and Moons):http://imgsrc.hubblesite.org/hu/db/2003/29/images/a/formats/web_print.jpg
 Neptune:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/17/images/a/formats/web_print.jpg
@@ -355,7 +374,7 @@ NGC 2146:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2146blo
 NGC 2158:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2158block.jpg
 NGC 2174:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2174hitchcock.jpg
 NGC 2207:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2207martinez.jpg
-NGC 2238:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/rosemartinez.jpg
+NGC 2237:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/rosemartinez.jpg
 NGC 2264:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/conepatten.jpg
 NGC 2276:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2276acosta.jpg
 NGC 2280:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n2280marcus.jpg
@@ -540,9 +559,11 @@ IC 4182:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ic4182na.jpg
 M 1:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/02673a.jpg
 M 3:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m3_400.jpg
 M 4:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m4a.jpg
+M 5:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m5a.jpg
 M 6:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/02637a.jpg
 M 7:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m7a.jpg
-M 8:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02172a.jpg
+M 8:Show NOAO Image (Halpha):http://www.noao.edu/image_gallery/images/d2/02172a.jpg
+M 8:Show NOAO Image (Optical):http://www.noao.edu/image_gallery/images/d4/m8a.jpg
 M 9:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m9a.jpg
 M 10:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m10a.jpg
 M 11:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m11a.jpg
@@ -559,6 +580,7 @@ M 21:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m21a.jpg
 M 22:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m22a.jpg
 M 23:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m23a.jpg
 M 24:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m24a.jpg
+M 25:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m25a.jpg
 M 26:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m26a.jpg
 M 27:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m27mma.jpg
 M 28:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m28a.jpg
@@ -571,6 +593,8 @@ M 35:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m35a.jpg
 M 36:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m36a.jpg
 M 37:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m37a.jpg
 M 38:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m38a.jpg
+M 39:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m39a.jpg
+M 40:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m40a.jpg
 M 41:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m41a.jpg
 M 42:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/02677a.jpg
 M 43:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m43a.jpg
@@ -579,6 +603,7 @@ M 46:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m46a.jpg
 M 47:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m47a.jpg
 M 48:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m48a.jpg
 M 50:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m50a.jpg
+M 51:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m51a.jpg
 M 52:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m52a.jpg
 M 53:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m53a.jpg
 M 54:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m54a.jpg
@@ -588,6 +613,7 @@ M 57:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ring_400.jpg
 M 60:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m60.jpg
 M 63:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m63.jpg
 M 64:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m64a.jpg
+M 65:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m65a.jpg
 M 67:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m67pumpa.jpg
 M 68:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m68a.jpg
 M 69:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m69a.jpg
@@ -597,6 +623,7 @@ M 72:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m72a.jpg
 M 73:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m73a.jpg
 M 74:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m74.jpg
 M 75:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m75a.jpg
+M 76:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m76a.jpg
 M 77:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m77a.jpg
 M 78:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m78nsa.jpg
 M 79:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m79a.jpg
@@ -604,7 +631,10 @@ M 80:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m80a.jpg
 M 81:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m81y.jpg
 M 82:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m82a.jpg
 M 83:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/02676a.jpg
+M 88:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/m88a.jpg
+M 89:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/m89a.jpg
 M 90:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m90a.jpg
+M 91:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m91a.jpg
 M 92:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/m92a.jpg
 M 93:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/m93a.jpg
 M 94:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/m94a.jpg
@@ -632,22 +662,29 @@ NGC 1300:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/ngc1300a.jp
 NGC 1333:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ngc1333_400.jpg
 MGC 1435:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/meropea.jpg
 NGC 1530:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02334a.jpg
+NGC 1532:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ngc1532-31_500.jpg
 NGC 1854:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02208a.jpg
 NGC 1872:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02209a.jpg
 NGC 1999:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/n1999lgy.jpg
-NGC 2238:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/01780a.jpg
-NGC 2237:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/03063a.jpg
+NGC 2237:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ngc2237_400.jpg
+NGC 2261:Show NOAO Image:http://www.noao.edu/image_gallery/images/hnla.gif
 NGC 2264:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/04493a.jpg
 NGC 2420:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/n2420a.jpg
+NGC 2467:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ngc2467_500.jpg
+NGC 3190:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/n3190mma.jpg
 NGC 3372:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/carinaa.jpg
 NGC 4013:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/02953.jpg
+NGC 4402:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/n4402_450.jpg
 NGC 5128:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/01780a.jpg
 NGC 6027:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/n6027.jpg
+NGC 6302:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02207a.jpg
 NGC 6822:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/n6822a.jpg
 NGC 6888:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/04494a.jpg
+NGC 6946:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ngc6946_500.jpg
 NGC 6960:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/veilwa.jpg
 NGC 6992:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/veilea.jpg
 NGC 7129:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/n7129a.jpg
+NGC 7293:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/04535a.jpg
 NGC 7317:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/sq2a.jpg
 NGC 7635:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/bubblea.jpg
 #
@@ -666,11 +703,44 @@ Uranus:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-31a-02-
 #
 # VLT Images:
 IC 434:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-02a-02-normal.jpg
+IC 4248:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-19c-99-preview.jpg
+IC 4406:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-21-98-preview.jpg
+M 1:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-40f-99-preview.jpg
+M 16:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-37b-01-preview.jpg
 M 17:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-24a-00-preview.jpg
 M 27:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-38a-98-preview.jpg
 M 42:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-12a-01-normal.jpg
 M 83:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-32a-01-normal.jpg
+M 87:Show VLT Image:http://www.eso.org/outreach/ut1fl/pr-pictures/ut1fl-03-07-preview.jpg
+M 100:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09h-02-preview.jpg
+M 104:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-07b-00-preview.jpg
 NGC 300:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-18a-02-preview.jpg
+NGC 1316:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-18a-00-preview.jpg
+NGC 2613:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09g-02-preview.jpg
+NGC 2997:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-17a-99-preview.jpg
 NGC 3603:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-33d-01-preview.jpg
+NGC 4038:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09a-02-preview.jpg
 NGC 4365:Show HST/VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-15a-02-preview.jpg
+NGC 5090:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-20d-99-preview.jpg
 NGC 5128:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-08a-01-normal.jpg
+NGC 6302:Show VLT Image:http://www.eso.org/outreach/ut1fl/pr-pictures/ut1fl-03-04-preview.jpg
+NGC 6822:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-22f-00-preview.jpg
+NGC 6872:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-20b-99-preview.jpg
+#
+# APOD Images:
+Moon:Show APOD Image:http://antwrp.gsfc.nasa.gov/apod/image/0503/moon8_mandel_big.jpg
+Sun:Show APOD Image:http://antwrp.gsfc.nasa.gov/apod/image/0001/sunhalpha_gendler_big.jpg
+Venus:Show APOD Image (Radar):http://antwrp.gsfc.nasa.gov/apod/image/9911/venus2_mag_big.gif
+Venus:Show APOD Image (Venera lander):http://antwrp.gsfc.nasa.gov/apod/image/venera_13_left.gif
+#
+# Spitzer Images:
+IC 1396:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06a_medium.jpg
+M 20:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-02a_medium.jpg
+M 51:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-19a_medium.jpg
+M 57:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-07a_medium.jpg
+M 81:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06d_medium.jpg
+NGC 246:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-13a_small.jpg
+NGC 4038:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-14a_medium.jpg
+NGC 5128:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-09a_medium.jpg
+NGC 7129:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-02a_medium.jpg
+NGC 7331:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-12a_medium.jpg
