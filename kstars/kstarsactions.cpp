@@ -20,6 +20,7 @@
 
 #include <kdebug.h>
 #include <kaction.h>
+#include <kactionclasses.h>
 #include <klineedit.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
@@ -788,7 +789,10 @@ void KStars::slotFOVEdit() {
 
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].stripWhiteSpace();
-					fovActionMenu->insert( new KAction( nm, 0, this, SLOT( slotTargetSymbol() ), actionCollection(), nm.utf8() ) );
+					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
+							actionCollection(), nm.utf8() );
+					kta->setExclusiveGroup( "fovsymbol" );
+					fovActionMenu->insert( kta );
 				}
 			}
 		} else {
@@ -796,7 +800,8 @@ void KStars::slotFOVEdit() {
 		}
 
 		fovActionMenu->popupMenu()->insertSeparator();
-		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, 
+				SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
 
 		//set FOV to whatever was highlighted in FOV dialog
 		if ( fovdlg.FOVList.count() > 0 ) {

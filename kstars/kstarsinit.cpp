@@ -236,21 +236,6 @@ void KStars::initActions() {
 	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
 	initFOV();
 
-// 	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0,
-// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_none" );
-//
-// 	new KAction( i18n( "use a circle target symbol", "Circle" ), 0,
-// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_circle" );
-//
-// 	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0,
-// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_crosshairs" );
-//
-// 	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0,
-// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_bullseye" );
-//
-// 	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0,
-// 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_rectangle" );
-
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
 	QFile tempFile;
@@ -471,7 +456,11 @@ void KStars::initFOV() {
 
 			if ( fields.count() == 4 ) {
 				nm = fields[0].stripWhiteSpace();
-				fovActionMenu->insert( new KAction( nm, 0, this, SLOT( slotTargetSymbol() ), actionCollection(), nm.utf8() ) );
+				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
+						actionCollection(), nm.utf8() );
+				kta->setExclusiveGroup( "fovsymbol" );
+				if ( nm == Options::fOVName() ) kta->setChecked( true );
+				fovActionMenu->insert( kta );
 			}
 		}
 	} else {
