@@ -226,6 +226,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	raBox->setTrapReturnKey( true );
 	decBox->setTrapReturnKey( true );
 
+	setMouseTracking( true );
+
 	//CLEAR_FIELDS
 //	dirtyFlag = false;
 }
