@@ -30,7 +30,8 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	
-	colIo = "White";
+	colJp = "White";
+	colIo = "Red";
 	colEu = "Yellow";
 	colGn = "Orange";
 	colCa = "YellowGreen";
@@ -82,6 +83,7 @@ JMoonTool::~JMoonTool()
 
 void JMoonTool::initPlotObjects() {
 	KPlotObject *orbit[4];
+	KPlotObject *jpath;
 	long double jd0 = ksw->clock()->JD();
 	KSSun *sun = (KSSun*)ksw->data()->PC->findByName( "Sun" );
 	KSPlanet *jup = (KSPlanet*)ksw->data()->PC->findByName( "Jupiter" );
@@ -93,7 +95,8 @@ void JMoonTool::initPlotObjects() {
 	orbit[1] = new KPlotObject( "europa", colEu, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	orbit[2] = new KPlotObject( "ganymede", colGn, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	orbit[3] = new KPlotObject( "callisto", colCa, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-
+	jpath    = new KPlotObject( "jupiter", colJp, KPlotObject::CURVE, 1, KPlotObject::SOLID );
+	
 	//t is the offset from jd0, in hours.
 	double dy = 0.01*pw->dataHeight();
 	
@@ -103,10 +106,14 @@ void JMoonTool::initPlotObjects() {
 		
 		for ( unsigned int i=0; i<4; ++i ) 
 			orbit[i]->addPoint( new DPoint( jm.x(i), t ) );
+		
+		jpath->addPoint( new DPoint( 0.0, t ) );
 	}
 
 	for ( unsigned int i=0; i<4; ++i ) 
 		pw->addObject( orbit[i] );
+
+	pw->addObject( jpath );
 }
 
 void JMoonTool::keyPressEvent( QKeyEvent *e ) {

@@ -41,7 +41,7 @@ private:
 	void initPlotObjects();
 	KStarsPlotWidget *pw;
 	KStars *ksw;
-	QString colIo, colEu, colGn, colCa;
+	QString colJp, colIo, colEu, colGn, colCa;
 };
 
 #endif
