@@ -54,7 +54,8 @@ void ImageReductionDlg::addDarkFile()
 {
    KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
   
-  for (int i=0; i < fileURLs.size(); i++)
+  const int limit = (int) fileURLs.size();
+  for (int i=0; i < limit ; ++i)
   	new QListViewItem( darkListView, fileURLs[i].path());
   
   darkRemoveB->setEnabled(true);
@@ -66,7 +67,9 @@ void ImageReductionDlg::addFlatFile()
 {
    KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
   
-  for (int i=0; i < fileURLs.size(); i++) 
+  const int limit = (int) fileURLs.size();
+  
+  for (int i=0; i < limit; ++i) 
   	new QListViewItem( flatListView, fileURLs[i].path());
   
   flatRemoveB->setEnabled(true);
@@ -78,7 +81,8 @@ void ImageReductionDlg::addDarkFlatFile()
 {
      KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
   
-     for (int i=0; i < fileURLs.size(); i++) 
+     const int limit = (int) fileURLs.size();
+     for (int i=0; i < limit; ++i) 
   	new QListViewItem( darkflatListView, fileURLs[i].path());
   
   darkflatRemoveB->setEnabled(true);

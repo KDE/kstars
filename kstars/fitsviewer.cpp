@@ -313,7 +313,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
   }
   tempDataPtr      = tempData;
   
-  if (fread(tempData, 1, width * height * bpp, ifp->fp) != (width * height * bpp))
+  if (fread(tempData, 1, width * height * bpp, ifp->fp) != (unsigned int) (width * height * bpp))
   {
     KMessageBox::error(0, i18n("Unable to read FITS data from file. %1.\n").arg(strerror(errno)));
     return (NULL);

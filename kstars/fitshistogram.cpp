@@ -175,7 +175,7 @@ void FITSHistogram::constructHistogram(float * buffer)
   
 }
 
-void FITSHistogram::paintEvent( QPaintEvent *e)
+void FITSHistogram::paintEvent( QPaintEvent */*e*/)
 {
   int height    = histFrame->height(); 
   int xMin = minSlider->value(), xMax = maxSlider->value();

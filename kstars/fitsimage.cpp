@@ -104,7 +104,7 @@ FITSImage::~FITSImage()
 }*/
 
 /* Resize event */
-void FITSImage::resizeEvent (QResizeEvent *ev)
+void FITSImage::resizeEvent (QResizeEvent */*ev*/)
 {
 	updateScrollBars();
 }
@@ -172,7 +172,7 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   }
 }
 
-void FITSImage::viewportResizeEvent ( QResizeEvent * e)
+void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
 {
         int w, h, conW, conH, x, y;
 	if (!displayImage) return;
@@ -467,7 +467,7 @@ FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFr
 
 FITSFrame::~FITSFrame() {}
 
-void FITSFrame::paintEvent(QPaintEvent * e)
+void FITSFrame::paintEvent(QPaintEvent * /*e*/)
 {
  
  bitBlt(this, 20, 20, &(image->qpix));

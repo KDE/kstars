@@ -348,4 +348,4 @@ QString FITSProcessCommand::name() const
   return i18n("Image Reduction");
 }
 
-  
+

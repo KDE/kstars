@@ -349,7 +349,7 @@ void INDIStdDevice::streamReceived()
        
        if (fitsTempFile == NULL) return;
        
-       for (nr=0; nr < newFrameSize; nr += n)
+       for (nr=0; nr < (int) newFrameSize; nr += n)
            n = fwrite(streamBuffer + nr, 1, newFrameSize - nr, fitsTempFile);
        
        fclose(fitsTempFile);

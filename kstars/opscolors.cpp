@@ -23,7 +23,7 @@
 #include <kpushbutton.h>
 #include <kcolordialog.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kstandarddirs.h>
 
 #include "opscolors.h"
@@ -144,9 +144,9 @@ bool OpsColors::setColors( QString filename ) {
 
 void OpsColors::slotAddPreset() {
 	bool okPressed = false;
-	QString schemename = KLineEditDlg::getText( i18n( "New Color Scheme" ),
-											i18n( "Enter a name for the new color scheme:" ),
-											QString::null, &okPressed, 0 );
+	QString schemename = KInputDialog::getText( i18n( "New Color Scheme" ),
+						    i18n( "Enter a name for the new color scheme:" ),
+						    QString::null, &okPressed, 0 );
 
 	if ( okPressed && ! schemename.isEmpty() ) {
 		if ( ksw->data()->colorScheme()->save( schemename ) ) {

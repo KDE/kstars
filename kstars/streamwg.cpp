@@ -252,7 +252,7 @@ void StreamWG::captureImage()
 	if ( tmpfile.name() == fname )
 	{ //need to upload to remote location
 	
-	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL ) )
+	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) )
 	  {
 		QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
 		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
@@ -297,7 +297,7 @@ void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
     
 }
 
-void VideoWG::paintEvent(QPaintEvent *ev)
+void VideoWG::paintEvent(QPaintEvent */*ev*/)
 {
   	
    if (streamImage)

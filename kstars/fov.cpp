@@ -24,10 +24,10 @@
 #include "fov.h"
 
 //------------FOV-----------------//
-FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Size( sz ), Shape( sh ), Color( col )
+FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
 {}
 
-FOV::FOV() : Name( i18n( "No FOV" ) ), Size( 0.0 ), Shape( 0 ), Color( "#FFFFFF" )
+FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), Size( 0.0 ), Shape( 0 )
 {}
 
 FOV::FOV( QString sname ) {

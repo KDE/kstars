@@ -148,7 +148,7 @@ QTime timeBox::createTime ( bool *ok )
 }
 
 
-ExtDate timeBox::createDate (bool *ok)
+ExtDate timeBox::createDate (bool */*ok*/)
 {
 	
 	QString entry = text().stripWhiteSpace();

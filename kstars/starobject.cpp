@@ -222,7 +222,7 @@ QString StarObject::constell( void ) const {
 	return QString("");
 }
 
-void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool showMultiple, double scale ) {
+void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool /*showMultiple*/, double /*scale*/ ) {
 	//Indicate multiple stars with a short horizontal line
 	//(only draw this for stars larger than 3 pixels)
 //Commenting out for now...

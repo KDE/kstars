@@ -41,7 +41,7 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	removePage( page(2) );
 	
 	//each page should have a finish button
-	for ( unsigned int i=0; i<pageCount(); ++i ) {
+	for ( unsigned int i=0; i<((unsigned int) pageCount()); ++i ) {
 		setFinishEnabled( page(i), true );
 	}
 
