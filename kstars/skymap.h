@@ -496,7 +496,7 @@ private:
 	void drawTelescopeSymbols(QPainter &psky);
 	void drawZoomBox( QPainter &psky);
 	void drawTransientLabel( QPainter &psky );
-	void SkyMap::drawAngleRuler( QPainter &psky );
+	void drawAngleRuler( QPainter &psky );
 
 /**@short Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
