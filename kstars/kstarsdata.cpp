@@ -303,43 +303,49 @@ bool KStarsData::readDeepSkyData( void ) {
 
 			line = stream.readLine();
 
-			iflag = line.at( 0 ); //check for IC catalog flag
+			iflag = line.at( 0 ); //check for NGC/IC catalog flag
 			if ( iflag == 'I' ) cat = "IC";
-			else if ( iflag == ' ' ) cat = "NGC"; // if blank, set catalog to NGC
+			else if ( iflag == 'N' ) cat = "NGC"; // if blank, set catalog to NGC
 
 			ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
 			if ( ingc==0 ) cat = ""; //object is not in NGC or IC catalogs
 
-			con = line.mid( 6, 3 );     // constellation
-			rah = line.mid( 10, 2 ).toInt();
-			ram = line.mid( 13, 2 ).toInt();
-			ras = line.mid( 16, 4 ).toFloat();
-			sgn = line.at( 21 );
-			dd = line.mid( 22, 2 ).toInt();
-			dm = line.mid( 25, 2 ).toInt();
-			ds = line.mid( 28, 2 ).toInt();
-			type = line.mid( 31, 1 ).toInt();
-			//Skipping detailed type string for now (it's mid(33,4) )
-			ss = line.mid( 38, 4 );
-		  if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
-			ss = line.mid( 43, 6 );
+			rah = line.mid( 6, 2 ).toInt();
+			ram = line.mid( 8, 2 ).toInt();
+			ras = line.mid( 10, 4 ).toFloat();
+			sgn = line.at( 15 );
+			dd = line.mid( 16, 2 ).toInt();
+			dm = line.mid( 18, 2 ).toInt();
+			ds = line.mid( 20, 2 ).toInt();
+
+			ss = line.mid( 23, 4 );
+			if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
+
+			type = line.mid( 29, 1 ).toInt();
+
+			ss = line.mid( 31, 6 );
 			if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
-			ss = line.mid( 50, 5 );
+			ss = line.mid( 37, 5 );
 			if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
-			ss = line.mid( 56, 3 );
+			ss = line.mid( 43, 3 );
 			if (ss == "   " ) { pa = 0; } else { pa = ss.toInt(); }
-			ss = line.mid( 60, 3 );
-			if (ss != "   " ) { //Messier object
-				cat2 = cat;
-				if ( ingc==0 ) cat2 = "";
-				cat = "M";
-				imess = ss.toInt();
-			}
-			ss = line.mid( 64, 6 );
+
+			ss = line.mid( 47, 6 );
 			if (ss == "      " ) { pgc = 0; } else { pgc = ss.toInt(); }
-			ss = line.mid( 71, 5 );
-			if (ss == "     " ) { ugc = 0; } else { ugc = ss.toInt(); }
-			longname = line.mid( 77, line.length() ).stripWhiteSpace();
+			if ( line.mid( 54, 3 ) == "UGC" ) {
+			  ugc = line.mid( 58, 5 ).toInt();
+			} else { 
+			  ugc = 0;
+			}
+
+			if ( line.at( 70 ) == 'M' ) {
+			  cat2 = cat;
+			  if ( ingc==0 ) cat2 = "";
+			  cat = "M";
+			  imess = line.mid( 72, 3 ).toInt();
+			}
+			
+			longname = line.mid( 76, line.length() ).stripWhiteSpace();
 
 			dms r;
 			r.setH( rah, ram, int(ras) );
