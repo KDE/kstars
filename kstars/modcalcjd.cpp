@@ -33,6 +33,7 @@
 #include <qlistview.h>
 #include <qtextview.h>
 #include <klocale.h>
+#include <kglobal.h>
 
 #include <kapplication.h>
 
@@ -191,19 +192,23 @@ void modCalcJD::computeFromCalendar (void)
 	long double julianDay, modjulianDay;
 	
 	julianDay = KSUtils::UTtoJulian( getQDateTime() );
-	JdName->setText(QString("%1").arg(julianDay,13,'f',5));
+//	JdName->setText(QString("%1").arg(julianDay,13,'f',5));
+	JdName->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
 
 	modjulianDay = julianDay - 2400000.5;
-	MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
+	//MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
+	MjdName->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
 }
 
 void modCalcJD::computeFromMjd (void)
 {
 	long double julianDay, modjulianDay;
 
-	modjulianDay = MjdName->text().toDouble();
+	//modjulianDay = MjdName->text().toDouble();
+	modjulianDay = KGlobal::locale()->readNumber( MjdName->text() );
 	julianDay = 	2400000.5 + modjulianDay;
-	JdName->setText(QString("%1").arg(julianDay,13,'f',5));
+	JdName->setText(KGlobal::locale()->formatNumber( julianDay, 5 ) );
+	//JdName->setText(QString("%1").arg(julianDay,13,'f',5));
 	computeFromJd();
 	
 }
@@ -213,14 +218,16 @@ void modCalcJD::computeFromJd (void)
 
 	QDateTime dt;
 
-	julianDay = JdName->text().toDouble();
+	//julianDay = JdName->text().toDouble();
+	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoDateTime( julianDay );
 
 	datBox->showDate( dt.date() );
 	timBox->showTime( dt.time() );
 
 	modjulianDay = julianDay - 2400000.5;
-	MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
+	MjdName->setText(KGlobal::locale()->formatNumber( modjulianDay, 5 ) );
+	//MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
 }
 
 
