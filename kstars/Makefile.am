@@ -96,7 +96,7 @@ stringsfile:
 	sed 's/i18n(.*,"");//' >> "info_url.tmp";
 	sort info_url.tmp | uniq >> kstars_i18n.cpp;
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
-	cat data/sao01.dat | perl -e 'while ( $$line=<STDIN> ) { $$starname = substr ($$line,40);    chop $$starname; if ( $$starname =~ /(.*)\:/ ) { $$starname = $$1 . " ";   }   if ( $$starname =~ /(.*\w)(\s+)/) { $$starname = $$1;	$$starnames{$$starname} = 1;   } } foreach $$star( sort keys %starnames) { printf "i18n(\"star name\",\"%s\");\n", $$star; }' >> kstars_i18n.cpp;
+	cat data/sao*.dat | perl -e 'while ( $$line=<STDIN> ) { $$starname = substr ($$line,40);    chop $$starname; if ( $$starname =~ /(.*)\:/ ) { $$starname = $$1 . " ";   }   if ( $$starname =~ /(.*\w)(\s+)/) { $$starname = $$1;	$$starnames{$$starname} = 1;   } } foreach $$star( sort keys %starnames) { printf "i18n(\"star name\",\"%s\");\n", $$star; }' >> kstars_i18n.cpp;
 # finish file
 	echo "#endif" >> kstars_i18n.cpp;
 # cleanup temporary files
