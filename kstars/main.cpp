@@ -24,7 +24,7 @@
 #include "kstarsdata.h"
 #include "kstarssplash.h"
 
-#define KSTARS_VERSION "0.9"
+#define KSTARS_VERSION "0.9.1"
 
 static const char *description =
 	I18N_NOOP("Desktop Planetarium");
