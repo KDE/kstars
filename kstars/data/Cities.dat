@@ -42,7 +42,7 @@ Alcoa                            : Tennessee             : USA                  
 Aldermaston                      :                       : United Kingdom        : 51 :  7 :  9 : N :   1 :  9 : 19 : W : 0.0  : EU
 Alert                            : Nunavut               : Canada                : 82 : 31 : 11 : N :  62 : 16 : 48 : W : -5.0 : US
 Alessandria                      :                       : Italy                 : 44 : 54 : 46 : N :   8 : 36 : 53 : E :  1.0 : EU
-Alexander City                   : Alabama               : USA                   : 32 : 55 :  1 : N :  85 : 55 :  1 : W : -6.0 : US 
+Alexander City                   : Alabama               : USA                   : 32 : 55 :  1 : N :  85 : 55 :  1 : W : -6.0 : US
 Alexandria                       :                       : Egypt                 : 31 : 11 : 24 : N :  29 : 56 : 59 : E : 2.0  : EG
 Alexandria                       : Louisiana             : USA                   : 31 : 18 :  6 : N :  92 : 27 : 11 : W : -6.0 : US
 Alexandria                       : Virginia              : USA                   : 38 : 48 : 11 : N :  77 :  2 : 59 : W : -5.0 : US
@@ -688,7 +688,7 @@ Elkins                           : West Virginia         : USA                  
 Elko                             : Nevada                : USA                   : 40 : 49 : 47 : N : 115 : 45 : 36 : W : -8.0 : US
 Elmira                           : New York              : USA                   : 42 :  4 : 58 : N :  76 : 49 : 58 : W : -5.0 : US
 Elsmere                          : Delaware              : USA                   : 39 : 44 : 24 : N :  75 : 35 : 24 : W : -5.0 : US
-Elva                             :                       : Estonia               : 58 : 13 : 36 : N :  26 : 25 : 05 : E :  2.0 : EU    
+Elva                             :                       : Estonia               : 58 : 13 : 36 : N :  26 : 25 : 05 : E :  2.0 : EU
 Elverson                         : Pennsylvania          : USA                   : 40 :  9 : 11 : N :  75 : 51 : 46 : W : -5.0 : US
 Elyria                           : Ohio                  : USA                   : 41 : 21 : 54 : N :  82 :  6 : 35 : W : -5.0 : US
 Enfield                          : Connecticut           : USA                   : 41 : 55 :  1 : N :  72 : 34 : 58 : W : -5.0 : US
@@ -921,7 +921,7 @@ Gönsdorf                         :                       : Germany             
 Göttingen                        :                       : Germany               : 51 : 31 :  8 : N :   9 : 56 : 30 : E :  1.0 : EU
 Göttingen                        :                       : Germany               : 51 : 32 : 00 : N :   9 : 56 : 00 : E : 1.0  : EU
 H. List                          :                       : Germany               : 50 :  9 :  8 : N :   6 : 51 :  0 : E :  1.0 : EU
-Haapsalu                         :                       : Estonia               : 58 : 56 : 34 : N :  23 : 32 : 28 : E :  2.0 : EU    
+Haapsalu                         :                       : Estonia               : 58 : 56 : 34 : N :  23 : 32 : 28 : E :  2.0 : EU
 Haarlem                          :                       : Netherlands           : 52 : 23 : 00 : N :   4 : 38 : 00 : E : 1.0  : EU
 Haderslev                        : Jylland               : Denmark               : 55 : 15 :  0 : N :   9 : 30 :  0 : E :   1.0 : EU
 Hadong                           : Gyeongnam             : Korea                 : 35 : 03 : 58 : N : 127 : 45 : 03 : E : 9.0  : SK
@@ -1128,7 +1128,7 @@ Kalamazoo                        : Michigan              : USA                  
 Kalapana                         : Hawaii                : USA                   : 19 : 25 :  1 : N : 155 :  0 :  0 : W :-10.0 : US
 Kalaupapa                        : Hawaii                : USA                   : 21 : 12 : 48 : N : 156 : 58 : 40 : W :-10.0 : US
 Kalispell                        : Montana               : USA                   : 48 : 11 : 42 : N : 114 : 18 : 46 : W : -7.0 : US
-Kallaste                         :                       : Estonia               : 58 : 40 : 05 : N :  27 : 09 : 20 : E :  2.0 : EU    
+Kallaste                         :                       : Estonia               : 58 : 40 : 05 : N :  27 : 09 : 20 : E :  2.0 : EU
 Kalundborg                       : Zealand               : Denmark               : 55 : 40 : 58 : N :  11 :  5 : 58 : E :   1.0 : EU
 Kamloops                         : British Columbia      : Canada                : 50 : 42 :  0 : N : 120 : 27 :  0 : W : -8.0 : US
 Kamuela                          : Hawaii                : USA                   : 20 :  1 :  1 : N : 155 : 40 :  1 : W :-10.0 : US
@@ -1153,8 +1153,8 @@ Keahole                          : Hawaii                : USA                  
 Kearney                          : Nebraska              : USA                   : 40 : 41 : 53 : N :  99 :  4 : 59 : W : -6.0 : US
 Keene                            : New Hampshire         : USA                   : 42 : 55 : 59 : N :  71 : 16 : 48 : W : -5.0 : US
 Keflavik                         :                       : Iceland               : 64 :  0 :  0 : N :  22 : 37 :  1 : W : 0.0  : --
-Kehra                            :                       : Estonia               : 59 : 20 : 21 : N :  25 : 19 : 43 : E :  2.0 : EU    
-Keila                            :                       : Estonia               : 59 : 18 : 24 : N :  24 : 24 : 59 : E :  2.0 : EU    
+Kehra                            :                       : Estonia               : 59 : 20 : 21 : N :  25 : 19 : 43 : E :  2.0 : EU
+Keila                            :                       : Estonia               : 59 : 18 : 24 : N :  24 : 24 : 59 : E :  2.0 : EU
 Kekaha                           : Hawaii                : USA                   : 21 : 56 : 59 : N : 159 : 41 : 59 : W :-10.0 : US
 Kelso                            : Washington            : USA                   : 46 :  8 : 54 : N : 122 : 52 : 51 : W : -8.0 : US
 Kenai                            : Alaska                : USA                   : 60 : 32 : 59 : N : 151 : 16 :  1 : W : -9.0 : US
@@ -1211,10 +1211,10 @@ Kristiansand                     :                       : Norway               
 Kuala Lumpur                     :                       : Malaysia              :  3 :  7 : 59 : N : 101 : 42 :  0 : E : 8.0  : --
 Kuching                          :                       : Malaysia              :  1 : 29 : 12 : N : 110 : 19 : 59 : E : 8.0  : --
 Kuffner                          :                       : Austria               : 40 : 12 :  8 : N :  16 : 17 : 44 : E :  1.0 : EU
-Kunda                            :                       : Estonia               : 59 : 30 : 33 : N :  26 : 31 : 39 : E :  2.0 : EU    
+Kunda                            :                       : Estonia               : 59 : 30 : 33 : N :  26 : 31 : 39 : E :  2.0 : EU
 Kuopio                           :                       : Finland               : 62 : 54 : 00 : N :  27 : 40 : 00 : E : 2.0  : EU
 Kure Island                      : Hawaii                : USA                   : 28 : 22 : 59 : N : 178 : 18 :  0 : W :-10.0 : US
-Kuressaare                       :                       : Estonia               : 58 : 15 : 26 : N :  22 : 29 : 37 : E :  2.0 : EU    
+Kuressaare                       :                       : Estonia               : 58 : 15 : 26 : N :  22 : 29 : 37 : E :  2.0 : EU
 Kuwait City                      :                       : Kuwait                : 29 :  4 :  0 : N :  47 : 58 : 59 : E : 3.0  : --
 Kwajalein Atoll                  :                       : Marshall Islands      :  9 :  0 :  0 : N : 167 : 35 : 59 : E : 12.0 : --
 Kwasan                           :                       : Japan                 : 34 : 59 :  4 : N : 135 : 47 : 44 : E :  9.0 : --
@@ -1333,7 +1333,7 @@ Lockwood Valley                  : California            : USA                  
 Logan                            : Utah                  : USA                   : 41 : 44 : 24 : N : 111 : 49 : 40 : W : -7.0 : US
 Logroño                          :                       : Spain                 : 42 : 28 : 00 : N :  02 : 26 : 45 : W : 1.0  : EU
 Loiano                           :                       : Italy                 : 44 : 15 :  5 : N :  11 : 20 : 15 : E :  1.0 : EU
-Loksa                            :                       : Estonia               : 59 : 35 : 03 : N :  25 : 43 : 16 : E :  2.0 : EU    
+Loksa                            :                       : Estonia               : 59 : 35 : 03 : N :  25 : 43 : 16 : E :  2.0 : EU
 Lolo                             : Montana               : USA                   : 46 : 45 :  0 : N : 114 :  4 : 58 : W : -7.0 : US
 Lomniky Stit                     :                       : Slovakia              : 49 : 11 :  8 : N :  20 : 13 : 14 : E :  1.0 : EU
 Lompoc                           : California            : USA                   : 34 : 40 : 47 : N : 120 : 27 :  0 : W : -8.0 : US
@@ -1368,7 +1368,7 @@ Lyon                             :                       : France               
 Lérida                           :                       : Spain                 : 41 : 37 : 03 : N :  00 : 37 : 35 : E : 1.0  : EU
 Lübeck                          :                       : Germany               : 53 : 52 : 00 : N :  10 : 42 : 00 : E : 1.0  : EU
 Maando                           : Pyungbuk              : Korea                 : 39 : 47 : 60 : N : 124 : 10 : 60 : E : 9.0  : SK
-Maardu                           :                       : Estonia               : 59 : 28 : 50 : N :  25 : 01 : 14 : E :  2.0 : EU    
+Maardu                           :                       : Estonia               : 59 : 28 : 50 : N :  25 : 01 : 14 : E :  2.0 : EU
 Maastricht                       :                       : Netherlands           : 50 : 51 :  0 : N :   5 : 42 :  0 : E : 1.0  : EU
 Macao                            :                       : China                 : 22 :  0 :  0 : N : 113 :  0 :  0 : E : 8.0  : CH
 Mackay                           : Idaho                 : USA                   : 43 : 55 :  1 : N : 113 : 37 : 58 : W : -7.0 : US
@@ -1382,6 +1382,42 @@ Madras                           :                       : India                
 Madrid                           :                       : Spain                 : 40 : 24 : 31 : N :  03 : 41 : 11 : W : 1.0  : EU
 Magdalena                        : New Mexico            : USA                   : 34 : 10 :  1 : N : 107 : 45 :  0 : W : -7.0 : US
 Magdeburg                        :                       : Germany               : 52 : 08 : 00 : N :  11 : 37 : 00 : E : 1.0  : EU
+Machern                          :                       : Germany               : 51 : 21 : 21 : N :  12 : 37 : 21 : E :   1.0 : EU
+Mahlow                           :                       : Germany               : 52 : 22 :  1 : N :  13 : 23 :  1 : E :   1.0 : EU
+Malchin                          :                       : Germany               : 53 : 44 : 27 : N :  12 : 45 : 27 : E :   1.0 : EU
+Malchow                          :                       : Germany               : 53 : 28 : 37 : N :  12 : 25 : 37 : E :   1.0 : EU
+Manebach                         :                       : Germany               : 50 : 40 : 37 : N :  10 : 51 : 37 : E :   1.0 : EU
+Mansfeld                         :                       : Germany               : 51 : 35 : 31 : N :  11 : 27 : 31 : E :   1.0 : EU
+Marbach                          :                       : Germany               : 51 :  2 : 38 : N :  13 : 13 : 38 : E :   1.0 : EU
+Marienberg                       :                       : Germany               : 50 : 38 : 56 : N :  13 :  9 : 56 : E :   1.0 : EU
+Markersbach                      :                       : Germany               : 50 : 32 : 13 : N :  12 : 52 : 13 : E :   1.0 : EU
+Markersdorf                      :                       : Germany               : 50 : 55 : 51 : N :  12 : 52 : 51 : E :   1.0 : EU
+Markkleeberg                     :                       : Germany               : 51 : 16 :  4 : N :  12 : 22 :  4 : E :   1.0 : EU
+Markneukirchen                   :                       : Germany               : 50 : 18 : 43 : N :  12 : 20 : 43 : E :   1.0 : EU
+Markranst?t                      :                       : Germany               : 51 : 17 : 52 : N :  12 : 12 : 52 : E :   1.0 : EU
+Marlow                           :                       : Germany               : 54 :  9 :  3 : N :  12 : 34 :  3 : E :   1.0 : EU
+Massen                           :                       : Germany               : 51 : 38 : 38 : N :  13 : 44 : 38 : E :   1.0 : EU
+Medingen                         :                       : Germany               : 51 : 10 : 51 : N :  13 : 47 : 51 : E :   1.0 : EU
+Meerane                          :                       : Germany               : 50 : 51 : 21 : N :  12 : 27 : 21 : E :   1.0 : EU
+Meinersdorf                      :                       : Germany               : 50 : 43 : 30 : N :  12 : 52 : 30 : E :   1.0 : EU
+Meiningen                        :                       : Germany               : 50 : 34 :  1 : N :  10 :  9 :  1 : E :   1.0 : EU
+Mei?n                            :                       : Germany               : 51 : 10 :  1 : N :  13 : 28 :  1 : E :   1.0 : EU
+Mellenbach-Glasbach              :                       : Germany               : 50 : 35 : 38 : N :  11 :  6 : 38 : E :   1.0 : EU
+Mellensee                        :                       : Germany               : 52 : 10 : 58 : N :  13 : 27 : 58 : E :   1.0 : EU
+Mellingen                        :                       : Germany               : 50 : 56 : 34 : N :  11 : 23 : 34 : E :   1.0 : EU
+Mengersgereuth-H?mern            :                       : Germany               : 50 : 23 : 56 : N :  11 :  7 : 56 : E :   1.0 : EU
+Menteroda                        :                       : Germany               : 51 : 18 : 25 : N :  10 : 33 : 25 : E :   1.0 : EU
+Merkers                          :                       : Germany               : 50 : 49 : 47 : N :  10 :  7 : 47 : E :   1.0 : EU
+Merschwitz                       :                       : Germany               : 51 : 15 : 50 : N :  13 : 24 : 50 : E :   1.0 : EU
+Merseburg                        :                       : Germany               : 51 : 21 : 10 : N :  11 : 59 : 10 : E :   1.0 : EU
+Merzdorf                         :                       : Germany               : 51 : 24 :  3 : N :  13 : 31 :  3 : E :   1.0 : EU
+Meuselbach-Schwarzmhle           :                       : Germany               : 50 : 34 : 22 : N :  11 :  5 : 22 : E :   1.0 : EU
+Meuselwitz                       :                       : Germany               : 51 :  2 : 38 : N :  12 : 18 : 38 : E :   1.0 : EU
+Meyenburg                        :                       : Germany               : 53 : 18 : 50 : N :  12 : 14 : 50 : E :   1.0 : EU
+Michendorf                       :                       : Germany               : 52 : 18 : 36 : N :  13 :  1 : 36 : E :   1.0 : EU
+Mieste                           :                       : Germany               : 52 : 28 : 55 : N :  11 : 12 : 55 : E :   1.0 : EU
+Mildenau                         :                       : Germany               : 50 : 35 : 38 : N :  13 :  4 : 38 : E :   1.0 : EU
+Milkau                           :                       : Germany               : 51 :  2 :  2 : N :  12 : 53 :  2 : E :   1.0 : EU
 Magnolia                         : Arkansas              : USA                   : 33 : 15 : 45 : N :  93 : 14 :  4 : W : -6.0 : US
 Mainz                            :                       : Germany               : 50 : 00 : 00 : N :   8 : 15 : 00 : E : 1.0  : EU
 Maiquetia                        :                       : Venezuela             : 10 : 35 : 59 : N :  66 : 58 : 59 : W : -4.0 : --
@@ -1567,7 +1603,7 @@ Murfreesboro                     : Tennessee             : USA                  
 Murray                           : Utah                  : USA                   : 40 : 39 : 35 : N : 111 : 53 : 13 : W : -7.0 : US
 Muskegon                         : Michigan              : USA                   : 43 : 15 :  0 : N :  86 : 19 : 58 : W : -5.0 : US
 Muskogee                         : Oklahoma              : USA                   : 35 : 44 : 41 : N :  95 : 22 :  0 : W : -6.0 : US
-Mustvee                          :                       : Estonia               : 58 : 50 : 54 : N :  26 : 56 : 40 : E :  2.0 : EU    
+Mustvee                          :                       : Estonia               : 58 : 50 : 54 : N :  26 : 56 : 40 : E :  2.0 : EU
 Myrtle Beach                     : South Carolina        : USA                   : 33 : 42 :  0 : N :  78 : 52 : 58 : W : -5.0 : US
 Málaga                           :                       : Spain                 : 36 : 43 : 13 : N :  04 : 25 : 12 : W : 1.0  : EU
 Möisaküla                        :                       : Estonia               : 58 : 05 : 34 : N :  25 : 10 : 51 : E :  2.0 : EU
@@ -1594,7 +1630,7 @@ Napa                             : California            : USA                  
 Naperville                       : Illinois              : USA                   : 41 : 45 :  0 : N :  88 : 10 :  0 : W : -6.0 : US
 Naples                           :                       : Italy                 : 40 : 37 :  0 : N :  14 : 11 : 59 : E :  1.0 : EU
 Naples                           : Florida               : USA                   : 26 :  7 :  1 : N :  81 : 46 :  1 : W : -5.0 : US
-Narva                            :                       : Estonia               : 59 : 22 : 33 : N :  28 : 09 : 45 : E :  2.0 : EU    
+Narva                            :                       : Estonia               : 59 : 22 : 33 : N :  28 : 09 : 45 : E :  2.0 : EU
 Narva-Jöesuu                     :                       : Estonia               : 59 : 27 : 17 : N :  28 : 02 : 06 : E :  2.0 : EU
 Nashua                           : New Hampshire         : USA                   : 42 : 46 : 58 : N :  71 : 22 : 58 : W : -5.0 : US
 Nashville                        : Tennessee             : USA                   : 36 :  9 : 33 : N :  86 : 46 : 54 : W : -6.0 : US
@@ -1757,8 +1793,8 @@ Padova                           :                       : Italy                
 Paducah                          : Kentucky              : USA                   : 37 :  5 : 12 : N :  88 : 35 : 56 : W : -6.0 : US
 Pagan Island                     :                       : US Territory          : 18 :  7 : 27 : N : 145 : 46 :  6 : E : x    : --
 Pago Pago                        :                       : Samoa                 : 14 : 19 : 58 : S : 170 : 43 :  1 : W :-11.0 : --
-Paide                            :                       : Estonia               : 58 : 53 : 12 : N :  25 : 33 : 44 : E :  2.0 : EU    
-Paldiski                         :                       : Estonia               : 59 : 21 : 08 : N :  24 : 03 : 28 : E :  2.0 : EU    
+Paide                            :                       : Estonia               : 58 : 53 : 12 : N :  25 : 33 : 44 : E :  2.0 : EU
+Paldiski                         :                       : Estonia               : 59 : 21 : 08 : N :  24 : 03 : 28 : E :  2.0 : EU
 Palembang                        :                       : Indonesia             :  2 : 53 : 59 : S : 104 : 42 :  0 : E : 7.0  : --
 Palencia                         :                       : Spain                 : 42 : 00 : 28 : N :  04 : 32 : 05 : W : 1.0  : EU
 Palermo                          :                       : Italy                 : 38 :  6 :  7 : N :  13 : 21 : 15 : E :  1.0 : EU
@@ -1808,7 +1844,7 @@ Peshawar                         :                       : Pakistan             
 Petach Tikva                     :                       : Israel                : 31 : 52 : 00 : N :  34 : 55 : 00 : E : 2.0  : ZN
 Petersburg                       : Alaska                : USA                   : 56 : 48 : 36 : N : 132 : 56 : 59 : W : -9.0 : US
 Petersburg                       : Virginia              : USA                   : 37 : 12 :  0 : N :  77 : 30 :  0 : W : -5.0 : US
-Petseri                          :                       : Estonia               : 57 : 48 : 30 : N :  27 : 36 : 00 : E :  2.0 : EU    
+Petseri                          :                       : Estonia               : 57 : 48 : 30 : N :  27 : 36 : 00 : E :  2.0 : EU
 Pforzheim                        :                       : Germany               : 48 : 53 : 00 : N :   8 : 42 : 00 : E : 1.0  : EU
 Phenix City                      : Alabama               : USA                   : 32 : 27 : 47 : N :  85 :  0 : 11 : W : -6.0 : US
 Philadelphia                     : Pennsylvania          : USA                   : 39 : 56 : 57 : N :  75 :  9 : 20 : W : -5.0 : US
@@ -1917,7 +1953,7 @@ R.M. Aller de S. de Compostela   :                       : Spain                
 Ra'anana                         :                       : Israel                : 32 : 10 : 59 : N :  34 : 52 : 30 : E : 2.0  : ZN
 Rabat                            :                       : Morocco               : 34 :  2 : 59 : N :   6 : 45 :  0 : W : 0.0  : --
 Racine                           : Wisconsin             : USA                   : 42 : 43 : 49 : N :  87 : 47 : 12 : W : -6.0 : US
-Rakvere                          :                       : Estonia               : 59 : 21 : 10 : N :  26 : 21 : 38 : E :  2.0 : EU    
+Rakvere                          :                       : Estonia               : 59 : 21 : 10 : N :  26 : 21 : 38 : E :  2.0 : EU
 Raleigh                          : North Carolina        : USA                   : 35 : 46 : 37 : N :  78 : 38 : 21 : W : -5.0 : US
 Ramat Gan                        :                       : Israel                : 32 : 04 : 00 : N :  34 : 48 : 00 : E : 2.0  : ZN
 Ramstein                         :                       : Germany               : 49 : 25 : 58 : N :   7 : 35 : 59 : E : 1.0  : EU
@@ -1927,7 +1963,8 @@ Randolph                         : Vermont               : USA                  
 Rangeley                         : Maine                 : USA                   : 45 :  0 :  0 : N :  70 : 25 :  1 : W : -5.0 : US
 Rangoon                          :                       : Myanmar               : 16 : 46 :  0 : N :  96 :  9 :  0 : E : 6.5  : --
 Rapid City                       : South Dakota          : USA                   : 44 :  4 : 47 : N : 103 : 13 : 40 : W : -7.0 : US
-Rapla                            :                       : Estonia               : 58 : 59 : 38 : N :  24 : 46 : 20 : E :  2.0 : EU    
+Rapla                            :                       : Estonia               : 58 : 59 : 38 : N :  24 : 46 : 20 : E :  2.0 : EU
+Rastede                          :                       : Germany               : 53 : 15 :  0 : N :   8 : 11 :  0 : E :   1.0 : EU
 Ravenna                          :                       : Italy                 : 44 : 25 :  2 : N :  12 : 11 : 54 : E :  1.0 : EU
 Rawalpindi                       :                       : Pakistan              : 33 : 37 :  1 : N :  73 :  5 : 59 : E : 5.0  : --
 Rawlins                          : Wyoming               : USA                   : 41 : 47 : 23 : N : 107 : 14 : 16 : W : -7.0 : US
@@ -2079,7 +2116,7 @@ Sarasota                         : Florida               : USA                  
 Sargent                          : Nebraska              : USA                   : 41 : 40 :  1 : N :  99 : 37 : 58 : W : -6.0 : US
 Saskatoon                        : Saskatchewan          : Canada                : 52 :  8 : 59 : N : 106 : 35 : 59 : W : -6.0 : US
 Sassari                          :                       : Italy                 : 40 : 43 : 26 : N :   8 : 33 : 49 : E :  1.0 : EU
-Saue                             :                       : Estonia               : 59 : 19 : 13 : N :  24 : 32 : 39 : E :  2.0 : EU    
+Saue                             :                       : Estonia               : 59 : 19 : 13 : N :  24 : 32 : 39 : E :  2.0 : EU
 Sault St. Marie                  : Michigan              : USA                   : 46 : 28 : 58 : N :  84 : 20 : 59 : W : -5.0 : US
 Savannah                         : Georgia               : USA                   : 32 :  4 : 41 : N :  81 :  5 : 36 : W : -5.0 : US
 Savona                           :                       : Italy                 : 44 : 18 : 26 : N :   8 : 28 : 49 : E :  1.0 : EU
@@ -2132,7 +2169,7 @@ Silkeborg                        : Jylland               : Denmark              
 Sillamäe                         :                       : Estonia               : 59 : 24 : 01 : N :  27 : 44 : 09 : E :  2.0 : EU
 Silver Spring                    : Maryland              : USA                   : 39 :  0 :  0 : N :  77 :  0 :  0 : W : -5.0 : US
 Simi Valley                      : California            : USA                   : 34 : 16 :  5 : N : 118 : 46 : 40 : W : -8.0 : US
-Sindi                            :                       : Estonia               : 58 : 24 : 11 : N :  24 : 39 : 32 : E :  2.0 : EU    
+Sindi                            :                       : Estonia               : 58 : 24 : 11 : N :  24 : 39 : 32 : E :  2.0 : EU
 Singapore                        :                       : Singapore             :  1 : 22 :  0 : N : 103 : 45 :  0 : E : 8.0  : --
 Sinuiju                          :                       : Korea                 : 40 : 05 :  0 : N : 124 : 24 :  0 : E : 9.0  : SK
 Sioux City                       : Iowa                  : USA                   : 42 : 29 : 45 : N :  96 : 24 : 29 : W : -6.0 : US
@@ -2238,7 +2275,7 @@ Sunnyvale                        : California            : USA                  
 Sunrise                          : Florida               : USA                   : 26 :  8 : 51 : N :  80 : 15 : 14 : W : -5.0 : US
 Superior                         : Wisconsin             : USA                   : 46 : 43 : 14 : N :  92 :  6 :  6 : W : -6.0 : US
 Sutherland                       :                       : South Africa          : 32 : 22 :  8 : S :  20 : 56 : 44 : E :  2.0 : --
-Suure-Jaani                      :                       : Estonia               : 58 : 32 : 10 : N :  25 : 28 : 05 : E :  2.0 : EU    
+Suure-Jaani                      :                       : Estonia               : 58 : 32 : 10 : N :  25 : 28 : 05 : E :  2.0 : EU
 Suwon                            : Gyeonggi              : Korea                 : 37 : 16 :  0 : N : 126 : 09 :  0 : E : 9.0  : SK
 Svendborg                        : Fyn                   : Denmark               : 55 :  2 : 59 : N :  10 : 37 : 59 : E :   1.0 : EU
 Swannanoa                        : North Carolina        : USA                   : 35 : 35 : 41 : N :  82 : 33 : 25 : W : -5.0 : US
@@ -2260,10 +2297,10 @@ Tallahassee                      : Florida               : USA                  
 Tallinn                          :                       : Estonia               : 59 : 26 :  0 : N :  24 : 45 : 00 : E : 2.0  : EU
 Tampa                            : Florida               : USA                   : 27 : 56 : 57 : N :  82 : 27 : 24 : W : -5.0 : US
 Tampere                          :                       : Finland               : 61 : 32 : 00 : N :  23 : 45 : 00 : E : 2.0  : EU
-Tamsalu                          :                       : Estonia               : 59 : 09 : 51 : N :  26 : 05 : 37 : E :  2.0 : EU    
+Tamsalu                          :                       : Estonia               : 59 : 09 : 51 : N :  26 : 05 : 37 : E :  2.0 : EU
 Tangier                          :                       : Morocco               : 35 : 52 :  0 : N :   5 : 54 : 59 : W : 0.0  : --
 Taora Island                     :                       : Marshall Islands      :  8 : 42 : 29 : N : 171 : 13 : 59 : E : 12.0 : --
-Tapa                             :                       : Estonia               : 59 : 16 : 18 : N :  25 : 56 : 54 : E :  2.0 : EU    
+Tapa                             :                       : Estonia               : 59 : 16 : 18 : N :  25 : 56 : 54 : E :  2.0 : EU
 Taranto                          :                       : Italy                 : 40 : 27 : 31 : N :  17 : 14 : 47 : E :  1.0 : EU
 Tarragona                        :                       : Spain                 : 41 : 07 : 09 : N :  01 : 15 : 29 : E : 1.0  : EU
 Tartu                            :                       : Estonia               : 58 : 22 : 47 : N :  26 : 37 : 59 : E : 2.0  : EU
@@ -2374,7 +2411,7 @@ Valdez                           : Alaska                : USA                  
 Valdosta                         : Georgia               : USA                   : 30 : 49 : 54 : N :  83 : 16 : 41 : W : -5.0 : US
 Vale                             : Oregon                : USA                   : 43 : 58 : 58 : N : 117 : 13 : 58 : W : -8.0 : US
 Valentine                        : Nebraska              : USA                   : 42 : 52 :  1 : N : 100 : 34 :  1 : W : -6.0 : US
-Valga                            :                       : Estonia               : 57 : 46 : 44 : N :  26 : 02 : 59 : E :  2.0 : EU    
+Valga                            :                       : Estonia               : 57 : 46 : 44 : N :  26 : 02 : 59 : E :  2.0 : EU
 Valhalla                         : New York              : USA                   : 41 : 48 : 46 : N :  73 : 46 : 20 : W : -5.0 : US
 Valladolid                       :                       : Spain                 : 41 : 39 : 08 : N :  04 : 43 : 24 : W : 1.0  : EU
 Vallejo                          : California            : USA                   : 38 :  6 : 35 : N : 122 : 15 :  0 : W : -8.0 : US
@@ -2407,7 +2444,7 @@ Victoria                         : British Columbia      : Canada               
 Victoria                         : Texas                 : USA                   : 28 : 48 : 17 : N :  97 :  0 : 17 : W : -6.0 : US
 Vienna                           :                       : Austria               : 48 : 13 :  0 : N :  16 : 22 :  0 : E : 1.0  : EU
 Vigo                             :                       : Spain                 : 42 : 14 : 26 : N :  08 : 43 : 29 : W : 1.0  : EU
-Viljandi                         :                       : Estonia               : 58 : 21 : 41 : N :  25 : 34 : 29 : E :  2.0 : EU    
+Viljandi                         :                       : Estonia               : 58 : 21 : 41 : N :  25 : 34 : 29 : E :  2.0 : EU
 Vilnius                          :                       : Lithuania             : 54 : 41 :  0 : N :  25 : 17 : 15 : E :  2.0 : RU
 Vineland                         : New Jersey            : USA                   : 39 : 29 : 12 : N :  75 :  1 : 36 : W : -5.0 : US
 Virginia Beach                   : Virginia              : USA                   : 36 : 50 : 45 : N :  76 :  8 : 21 : W : -5.0 : US
