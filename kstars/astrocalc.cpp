@@ -19,7 +19,6 @@
 #include "astrocalc.moc"
 #include "dms.h"
 #include "dmsbox.h"
-#include "ksutils.h"
 #include "modcalcjd.h"
 #include "modcalcgeodcoord.h"
 #include "geolocation.h"
@@ -30,13 +29,8 @@
 #include "modcalcdaylength.h"
 #include "modcalcazel.h"
 
-#include <qvbox.h>
-#include <qstring.h>
-#include <qsplitter.h>
 #include <qlistview.h>
 #include <qtextview.h>
-#include <klocale.h>
-#include <kmenubar.h>
 
 //#include <kapplication.h> ...already defined in astrocalc.h
 

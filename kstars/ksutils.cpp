@@ -18,9 +18,7 @@
  * @author Mark Hollomon mhh@mindpsring.com
  */
 
-#include <qdatetime.h>
 
-#include <qglobal.h>
 #if (QT_VERSION <=299)
 #include <kstddirs.h>
 #else

@@ -22,24 +22,11 @@
 #include "geolocation.h"
 #include "kstars.h"
 
-#include <qwidget.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
 #include <qradiobutton.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qstring.h>
 #include <qbuttongroup.h>
-#include <qcombobox.h>
-#include <klocale.h>
-#include <knumvalidator.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
+#include <knumvalidator.h>
 
 modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
 

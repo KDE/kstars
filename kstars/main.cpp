@@ -17,12 +17,9 @@
 
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <klocale.h>
 #include <dcopclient.h>
 
 #include "kstars.h"
-#include "kstarsdata.h"
-#include "kstarssplash.h"
 
 #define KSTARS_VERSION "0.9.1"
 

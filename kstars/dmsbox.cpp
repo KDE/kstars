@@ -19,16 +19,7 @@
 #include "dmsbox.h"
 #include "dms.h"
 
-#include <qstringlist.h>
 #include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <qlabel.h>
-#include <qhbox.h>
-#include <qlineedit.h>
-#include <qstring.h>
-#include <qregexp.h>
-#include <qwidget.h>
 #include <qregexp.h>
 
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QLineEdit(parent,name) {

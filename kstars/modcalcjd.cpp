@@ -25,19 +25,12 @@
 #endif
 
 #include "ksutils.h"
-#include <qwidget.h>
 #include <qlabel.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qdatetime.h>
-#include <qstring.h>
 #include <qbuttongroup.h>
-#include <qlistview.h>
-#include <qtextview.h>
 #include <klocale.h>
 #include <kglobal.h>
 

@@ -14,16 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qfile.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qtextstream.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
-#include <klocale.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
 #include <kurlcompletion.h>
 
 #include "kstars.h"

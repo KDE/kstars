@@ -19,17 +19,8 @@
 //JH 25.08.2001: added toolbar, converted menu items to KAction objects
 //JH 25.08.2001: main window now resizable, window size saved in config file
 
-#include <qfont.h>
-#include <qpopupmenu.h>
-#include <qtextstream.h>
-#include <qlineedit.h>
-#include <qsizepolicy.h>
-#include <qlayout.h>
 
 #include <kaccel.h>
-#include <kconfig.h>
-#include <kstdaction.h>
-#include <kpopupmenu.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +30,6 @@
 
 #include "finddialog.h"
 #include "kstars.h"
-#include "kstarssplash.h"
 #include "simclock.h"
 #include "ksutils.h"
 #include "infoboxes.h"

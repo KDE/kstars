@@ -21,22 +21,12 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qvbox.h>
 #include <qgroupbox.h>
-#include <qlineedit.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qstring.h>
-#include <qdatetime.h>
 #include <klocale.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 

@@ -15,25 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <qpaintdevice.h>
 #include <qlayout.h>
-#include <qlabel.h>
-#include <kmessagebox.h>
 #include <klocale.h>
 
 #include "ksutils.h"
 #include "kstarssplash.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#define FLUSH flushX
-#else
 #include <kapplication.h>
-#define FLUSH flush
-#endif
 
 KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	: KDialogBase( KDialogBase::Plain, i18n( "Loading KStars..." ),
@@ -106,7 +94,7 @@ void KStarsSplash::setMessage( QString s ) {
 	*repaint call will queued in event buffer. With flush all X11 events of
 	*this application will flushed.
 	*/
-	kapp->FLUSH();
+	kapp->flush();
 }
 
 #include "kstarssplash.moc"

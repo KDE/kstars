@@ -17,7 +17,6 @@
 
 #include "filesource.h"
 
-#include <qfile.h>
 
 #include "kstarsdata.h"
 #include "ksutils.h"

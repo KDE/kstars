@@ -20,10 +20,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qmap.h>
-#include <qstringlist.h>
 
 #if ( QT_VERSION < 300 )
 #include <kstddirs.h>

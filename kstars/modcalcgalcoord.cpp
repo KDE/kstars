@@ -19,25 +19,13 @@
 #include "dmsbox.h"
 #include "modcalcgalcoord.h"
 #include "modcalcgalcoord.moc"
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
 #include <qradiobutton.h>
-#include <qlineedit.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qstring.h>
 #include <qbuttongroup.h>
-#include <qcombobox.h>
 #include <klocale.h>
 
-#include <qglobal.h>
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {

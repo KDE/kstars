@@ -22,22 +22,10 @@
 #include "timebox.h"
 #include "skyobject.h"
 #include "ksutils.h"
-#include "kssun.h"
 #include "geolocation.h"
 #include "kstars.h"
-#include "ksnumbers.h"
 #include "timebox.h"
 
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qstring.h>
-#include <qdatetime.h>
-#include <klocale.h>
 
 //#include <kapplication.h> ...already included in modcalcdaylength.h
 //#include <qdatetimeedit.h>

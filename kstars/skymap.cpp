@@ -16,38 +16,25 @@
  ***************************************************************************/
 
 #include <kconfig.h>
-#include <klocale.h>
-#include <kurl.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
 #include <kmessagebox.h>
 
-#include <qlabel.h>
-#include <qpopupmenu.h>
 #include <qcursor.h>
-#include <qpointarray.h>
-#include <qfont.h>
-#include <qtextstream.h>
 #include <qbitmap.h>
 
 #include <math.h>
 #include <stdlib.h>
-//#include <iostream.h>
 #include <unistd.h>
 
 #include "detaildialog.h"
 #include "kstars.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "imageviewer.h"
 #include "addlinkdialog.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
 #include <qmemarray.h>
-#endif
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
  : QWidget (parent,name), ClickedObject(0), FoundObject(0),  computeSkymap (true)

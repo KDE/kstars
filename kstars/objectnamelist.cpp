@@ -17,7 +17,6 @@
 
 #include "objectnamelist.h"
 
-#include <klocale.h>
 #include <kdebug.h>
 
 ObjectNameList::ObjectNameList()

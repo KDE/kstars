@@ -15,34 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 #include <qcheckbox.h>
-#include <qhbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qmessagebox.h>
-#include <qstringlist.h>
 #include <qvbox.h>
 #include <qvgroupbox.h>
-#include <qstylesheet.h>
-#include <qstyle.h>
-#include <qsimplerichtext.h>
 
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kdialogbase.h>
-#include <klistbox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <qlayout.h>
-//KDE3-only
-//#include <kguiitem.h>
-//#include <kstdguiitem.h>
-//#include <kactivelabel.h>
-
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 #include "kstarsmessagebox.h"
 

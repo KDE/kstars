@@ -19,7 +19,6 @@
 #include <klocale.h>
 
 #include "dms.h"
-#include "ksnumbers.h"
 #include "skypoint.h"
 
 SkyPoint::~SkyPoint(){

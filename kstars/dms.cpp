@@ -19,7 +19,6 @@
 #define _GNU_SOURCE
 
 #include <stdlib.h>
-#include <qstring.h>
 
 #include "skypoint.h"
 #include "dms.h"

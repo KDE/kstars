@@ -17,7 +17,6 @@
 
 
 #include <klocale.h>
-#include <qframe.h>
 #include "timedialog.h"
 
 TimeDialog::TimeDialog( QDateTime now, QWidget* parent )

@@ -23,25 +23,11 @@
 #include "modcalcsidtime.moc"
 #include "kstars.h"
 
-#include <qwidget.h>
-#include <qwidgetlist.h>
-#include <qlabel.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
 #include <qradiobutton.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qstring.h>
 #include <qbuttongroup.h>
-#include <qabstractlayout.h>
-#include <klocale.h>
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
 #include <qdatetimeedit.h>
-#endif
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 

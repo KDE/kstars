@@ -15,21 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qframe.h>
-#include <qlayout.h>
-#include <qlabel.h>
 #include <qlineedit.h>
-#include <qlistbox.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
 
 #include "finddialog.h"
 #include "kstars.h"
 
-#include <qglobal.h>
 #if (QT_VERSION > 299)
 #include <qptrlist.h>
 #endif

@@ -19,7 +19,6 @@
 #include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktip.h>
-#include <kdialogbase.h>
 #include <qpaintdevicemetrics.h>
 
 #include "kstars.h"

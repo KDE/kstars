@@ -18,15 +18,10 @@
 #include "stardatasink.h"
 #include "stardatasink.moc"
 
-#include "kstarsdata.h"
 #include "dms.h"
 #include "kstars.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 StarDataSink::StarDataSink( KStarsData *parent, const char *name )
 	: QObject( parent, name ), ksData( parent ), lastMagnitude( 0.0 ), magLevel( 0 ),

@@ -18,10 +18,6 @@
 //This file contains Event handlers for the SkyMap class.
 
 #include <qcursor.h>
-#include <qlabel.h>
-#include <qpopupmenu.h>
-#include <qtextstream.h>
-#include <qtimer.h>
 
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -31,7 +27,6 @@
 
 #include "infoboxes.h"
 #include "kstars.h"
-#include "ksutils.h"
 #include "skymap.h"
 
 void SkyMap::resizeEvent( QResizeEvent * )

@@ -16,32 +16,19 @@
  ***************************************************************************/
 
 
-#include <qtextstream.h>
-#include <qlayout.h>
 #include <qtabwidget.h>
-#include <qwidget.h>
-#include <qgroupbox.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
-#include <qframe.h>
-#include <qbutton.h>
-#include <qcolor.h>
-#include <qfont.h>
 #include <qcolordialog.h>
-#include <qlabel.h>
-#include <qlistbox.h>
 #include <qlistview.h>
-#include <qpushbutton.h>
 
-#include <klocale.h>
 #include <knuminput.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 
 #include "kstars.h"
-#include "ksutils.h"
 #include "magnitudespinbox.h"
 #include "timestepbox.h"
 #include "addcatdialog.h"

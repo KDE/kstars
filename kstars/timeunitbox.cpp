@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include <stdlib.h>
-#include <qpushbutton.h>
-#include <qlineedit.h>
 #include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"

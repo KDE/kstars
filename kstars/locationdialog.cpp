@@ -18,28 +18,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlistbox.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qgroupbox.h>
-#include <qvalidator.h>
-#include <qvariant.h>
-#include <qspinbox.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qfile.h>
-#include <qtextstream.h>
 
-#include <klocale.h>
 #include <kmessagebox.h>
 
 #include "kstars.h"
 #include "kstarsmessagebox.h"
 #include "locationdialog.h"
 
-#include <qglobal.h>
 #if (QT_VERSION <= 299)
 #include <kstddirs.h>
 #else

@@ -17,7 +17,6 @@
 
 #include "skyobjectname.h"
 
-#include <klocale.h>
 
 SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
 	: skyobject ( obj ), Text ( str )

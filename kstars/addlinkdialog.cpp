@@ -15,25 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
 #include <kurl.h>
 #include <kmessagebox.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qframe.h>
-#include <qstring.h>
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
 
 #include "skymap.h"
 #include "addlinkdialog.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 AddLinkDialog::AddLinkDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {

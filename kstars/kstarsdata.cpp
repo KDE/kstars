@@ -15,10 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtextstream.h>
 #include <qregexp.h>
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <kdebug.h>
 
 #include "kstars.h"
@@ -28,15 +26,7 @@
 #include "filesource.h"
 #include "stardatasink.h"
 
-#include <qasyncio.h>
-
-#if (QT_VERSION < 300)
-#define FLUSH flushX
-#include <kapp.h>
-#else 
-#define FLUSH flush
 #include <kapplication.h>
-#endif
 
 QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
@@ -1088,7 +1078,7 @@ void KStarsData::slotInitialize() {
 	QFile imFile;
 	QString ImageName;
 
-	kapp->FLUSH(); // flush all paint events before loading data
+	kapp->flush(); // flush all paint events before loading data
 
 	switch ( initCounter )
 	{

@@ -29,15 +29,9 @@
 #include <qdatetimeedit.h>
 #endif
 
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qvbox.h>
 #include <qgroupbox.h>
-#include <qlineedit.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qstring.h>
-#include <qdatetime.h>
 #include <klocale.h>
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h

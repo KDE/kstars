@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qtextstream.h>
 #include <math.h>
 #include <kdebug.h>
 #include "ksutils.h"

@@ -17,9 +17,7 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include <klocale.h>
 
-#include <qtextstream.h>
 #include "ksutils.h"
 #include "kssun.h"
 #include "ksmoon.h"

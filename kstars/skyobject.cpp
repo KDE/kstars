@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <qregexp.h>
-#include <qfile.h>
 #include "skyobject.h"
 #include "ksutils.h"
 #include "dms.h"

@@ -16,14 +16,11 @@
  ***************************************************************************/
 
 #include <math.h>
-#include <qfile.h>
-#include <qtextstream.h>
 
 #include <kdebug.h>
 
 #include "ksutils.h"
 #include "kspluto.h"
-#include "kstars.h"
 
 int KSPluto::DATAARRAYSIZE = 106;
 bool KSPluto::data_loaded = false;

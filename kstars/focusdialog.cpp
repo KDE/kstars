@@ -15,11 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
-#include <qstringlist.h>
 
 #include <kdebug.h>
 #include <klineedit.h>

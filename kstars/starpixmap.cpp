@@ -19,7 +19,6 @@
 #include "starpixmap.h"
 
 #include <qbitmap.h>
-#include <qcolor.h>
 #include <qimage.h>
 #include <qpainter.h>
 

@@ -15,13 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
-#include <kstars.h>
-#include <qfile.h>
-#include <qtextstream.h>
 #include <math.h>
 #include "kssun.h"
-#include "ksutils.h"
 
 KSSun::KSSun( KStars *ks, QString fn ) : KSPlanet( ks, I18N_NOOP( "Sun" ), fn ) {
 	/*

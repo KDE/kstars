@@ -16,11 +16,6 @@
  ***************************************************************************/
 
 #include "timebox.h"
-#include <qhbox.h>
-#include <qstringlist.h>
-#include <qlineedit.h>
-#include <qstring.h>
-#include <qwidget.h>
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <kglobal.h>

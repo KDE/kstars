@@ -15,27 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpainter.h>
-#include <qfile.h>
 
 #include <klocale.h>
-#include <kurl.h>
-#include <ktempfile.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kio/netaccess.h>
-#include <ktoolbar.h>
 #include <kaction.h>
 #include <kaccel.h>
-#include <kiconloader.h>
 #include <kdebug.h>
 #include "imageviewer.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name), imageURL (*url), fileIsImage (false),

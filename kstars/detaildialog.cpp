@@ -15,22 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetime.h>
-#include <qfont.h>
-#include <qframe.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qfile.h>
-#include <qtextstream.h>
 #include <qtextedit.h>
-#include <qpixmap.h>
 
-#include <klistbox.h>
-#include <kurl.h>
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <klistview.h>
 
 #include "geolocation.h"
@@ -42,11 +30,7 @@
 
 #include "detaildialog.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 
 DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,

@@ -17,8 +17,6 @@
 
 
 #include "planetcatalog.h"
-#include "kssun.h"
-#include "kspluto.h"
 #include "kstars.h"
 
 PlanetCatalog::PlanetCatalog(KStars *ks) : Earth(0), Sun(0), kstars(ks) {

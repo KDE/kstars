@@ -16,15 +16,10 @@
  ***************************************************************************/
 #include <dcopclient.h>
 #include <kaccel.h>
-#include <kconfig.h>
 #include <kiconloader.h>
-#include <kmessagebox.h>
 #include <kstatusbar.h>
-#include <kstdaction.h>
 #include <ktip.h>
 
-#include <qtooltip.h>
-#include <qtextstream.h>
 
 //#include "infopanel.h"
 #include "infoboxes.h"

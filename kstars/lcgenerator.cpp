@@ -14,32 +14,19 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qvariant.h>
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
 #include <qlineedit.h>
-#include <qpushbutton.h>
 #include <qradiobutton.h>
-#include <qlayout.h>
-#include <qtextstream.h>
-#include <qframe.h>
 
-#include <klocale.h>
 #include <kmessagebox.h>
-#include <klistbox.h>
 
 #include "lcgenerator.h"
 #include "imageviewer.h"
 #include "ksutils.h"
 #include "kstars.h"
 
-#if (QT_VERSION < 300)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 LCGenerator::LCGenerator( QWidget* parent)
     : KDialogBase( parent, "lcgenerator", false, i18n( "AAVSO Light Curve Generator"),0) , Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)

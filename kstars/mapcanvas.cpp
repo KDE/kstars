@@ -19,7 +19,6 @@
 
 
 #include <stdlib.h>
-#include <qcolor.h>
 #include "mapcanvas.h"
 #include "locationdialog.h"
 #include "kstars.h"
