@@ -706,13 +706,13 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	}
 
 	int offset = int( ( 0.5*size + 4 ) );
-	psky.drawText( x+offset, y+offset, obj->name() );
+	psky.drawText( x+offset, y+offset, i18n(obj->name().latin1()) );
 }
 
 void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 {
 	if ( ksp->hasTrail() ) {
-		KStarsData* data = ksw->data();
+//		KStarsData* data = ksw->data();
 		KStarsOptions* options = ksw->options();
 
 		int Width = int( scale * width() );
@@ -765,120 +765,121 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
-	
-	//Draw Sun
-	if ( options->drawSun && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 3, 1, scale );
-	}
 
-	//Draw Moon
-	if ( options->drawMoon && drawPlanets ) {
-		drawPlanet(psky, data->Moon, QColor( "White" ), -1, 1, scale );
-	}
+	if (drawPlanets == true) {
+		//Draw Sun
+		if ( options->drawSun ) {
+			drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), 3, 1, scale );
+		}
 
-	//Draw Mercury
-	if ( options->drawMercury && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 1, scale );
-	}
+		//Draw Moon
+		if ( options->drawMoon ) {
+			drawPlanet(psky, data->Moon, QColor( "White" ), -1, 1, scale );
+		}
 
-	//Draw Venus
-	if ( options->drawVenus && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 2, 1, scale );
-	}
+		//Draw Mercury
+		if ( options->drawMercury ) {
+			drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 1, scale );
+		}
 
-	//Draw Mars
-	if ( options->drawMars && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 2, 1, scale );
-	}
+		//Draw Venus
+		if ( options->drawVenus ) {
+			drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 2, 1, scale );
+		}
 
-	//Draw Jupiter
-	if ( options->drawJupiter && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 2, 1, scale );
+		//Draw Mars
+		if ( options->drawMars ) {
+			drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 2, 1, scale );
+		}
+
+		//Draw Jupiter
+		if ( options->drawJupiter ) {
+			drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 2, 1, scale );
 		
-		//Draw Jovian moons
-		psky.setPen( QPen( QColor( "white" ) ) );
-		if ( options->ZoomLevel > 5 ) {
-			QFont pfont = psky.font();
-			QFont moonFont = psky.font();
-			moonFont.setPointSize( pfont.pointSize() - 2 );
-			psky.setFont( moonFont );
+			//Draw Jovian moons
+			psky.setPen( QPen( QColor( "white" ) ) );
+			if ( options->ZoomLevel > 5 ) {
+				QFont pfont = psky.font();
+				QFont moonFont = psky.font();
+				moonFont.setPointSize( pfont.pointSize() - 2 );
+				psky.setFont( moonFont );
 			
-			for ( unsigned int i=0; i<4; ++i ) {
-				QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
-				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+				for ( unsigned int i=0; i<4; ++i ) {
+					QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
+					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
 					
-					//Draw Moon name labels if at high zoom
-					if ( options->drawPlanetName && options->ZoomLevel > 15 ) {
-						int offset = int(3*scale);
-						psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
+						//Draw Moon name labels if at high zoom
+						if ( options->drawPlanetName && options->ZoomLevel > 15 ) {
+							int offset = int(3*scale);
+							psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
+						}
+					}
+				}
+			
+				//reset font
+				psky.setFont( pfont );
+			} 
+		}
+
+		//Draw Saturn
+		if ( options->drawSaturn ) {
+			drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 2, 2, scale );
+		}
+
+		//Draw Uranus
+		if ( options->drawUranus && drawPlanets ) {
+			drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 2, 1, scale );
+		}
+
+		//Draw Neptune
+		if ( options->drawNeptune ) {
+			drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 2, 1, scale );
+		}
+
+		//Draw Pluto
+		if ( options->drawPluto ) {
+			drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 1, scale );
+		}
+
+		//Draw Asteroids
+		if ( options->drawAsteroids ) {
+			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+				if ( ast->mag() > ksw->options()->magLimitAsteroid ) break;
+			
+				//draw Trail
+				if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
+			
+				psky.setPen( QPen( QColor( "gray" ) ) );
+				psky.setBrush( QBrush( QColor( "gray" ) ) );
+				QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
+
+				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+					int size = int( ast->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
+					if ( size < 2 ) size = 2;
+					int x1 = o.x() - size/2;
+					int y1 = o.y() - size/2;
+					psky.drawEllipse( x1, y1, size, size );
+
+					//draw Name
+					if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
+						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
+						drawNameLabel( psky, ast, o.x(), o.y(), scale );
 					}
 				}
 			}
-			
-			//reset font
-			psky.setFont( pfont );
-		} 
-	}
-
-	//Draw Saturn
-	if ( options->drawSaturn && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 2, 2, scale );
-	}
-
-	//Draw Uranus
-	if ( options->drawUranus && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 2, 1, scale );
-	}
-
-	//Draw Neptune
-	if ( options->drawNeptune && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 2, 1, scale );
-	}
-
-	//Draw Pluto
-	if ( options->drawPluto && drawPlanets ) {
-		drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 4, 1, scale );
-	}
-
-	//Draw Asteroids
-	if ( options->drawAsteroids && drawPlanets ) {
-		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
-			if ( ast->mag() > ksw->options()->magLimitAsteroid ) break;
-			
-			//draw Trail
-			if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
-			
-			psky.setPen( QPen( QColor( "gray" ) ) );
-			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
-
-			if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-				int size = int( ast->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
-				if ( size < 2 ) size = 2;
-				int x1 = o.x() - size/2;
-				int y1 = o.y() - size/2;
-				psky.drawEllipse( x1, y1, size, size );
-
-				//draw Name
-				if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
-					psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					drawNameLabel( psky, ast, o.x(), o.y(), scale );
-				}
-			}
 		}
-	}
 
-	//Draw Comets
-	if ( options->drawComets && drawPlanets ) {
-		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+		//Draw Comets
+		if ( options->drawComets ) {
+			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
 			
-			//draw Trail
-			if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
+				//draw Trail
+				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
 			
-			psky.setPen( QPen( QColor( "cyan4" ) ) );
-			psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-			//if ( options->ZoomLevel > 3 ) {
+				psky.setPen( QPen( QColor( "cyan4" ) ) );
+				psky.setBrush( QBrush( QColor( "cyan4" ) ) );
+				//if ( options->ZoomLevel > 3 ) {
 				QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
 
 				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
@@ -895,6 +896,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 					}
 				}
 			//}
+			}
 		}
 	}
 }
