@@ -49,28 +49,53 @@ public slots:
 
 private:
   
-/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
+	/**@returns a SkyPoint constructed from the coordinates in the 
+	 * RA and Dec dmsBoxes. */
 	SkyPoint getEquCoords(void);
 
-/**Fill the Time and Date fields with the current values from the CPU clock. */
+	/**@returns a SkyPoint constructed from the coordinates in the 
+	 * Az and El dmsBoxes. */
+	SkyPoint getHorCoords(void);
+
+	/**Fill the Time and Date fields with the current values from the 
+	 * CPU clock. */
 	void showCurrentDateTime(void);
 
-/**@returns a QDateTime constructed from the Time and Date fields. */
+	/**@returns a QDateTime constructed from the Time and Date fields. */
 	QDateTime getQDateTime (void);
 
-/**Convert the Time and Date to a Julian Day. */
+	/**Convert the Time and Date to a Julian Day. */
 	long double computeJdFromCalendar (void);
 
-/**Parse the string argument as a double */
+	/**Parse the string argument as a double
+	 * @param eName    String from which the epoch is to be constructed
+	 *                 once it is converted to a double
+	 */
 	double getEpoch (QString eName);
 
-	long double epochToJd (double epoch);
-
-/**Fill the Az and El dmsBoxes with values of the SkyPoint argument. */
+	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument.
+	 * @param sp   SkypPoint object which contains the coordinates to 
+	 *             be displayed */
 	void showHorCoords ( SkyPoint sp );
 
+	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument. 
+	 * @param sp   SkypPoint object which contains the coordinates to 
+	 *             be displayed 
+	 * @param jd   Julian day for which the conversion has been performed
+	 *             The epoch is constructed for that day
+	 */
+	void showEquCoords ( SkyPoint sp, long double jd );
+	
+	/**Fills the epoch box with the value corresponding to a julian day
+	 * @param jd   Julian day for which the conversion has been performed
+	 *             The epoch is constructed for that day
+	 */
+	void showEpoch (long double jd);
+
+	/* Creates a dms object from the latitude box */
 	dms getLatitude (void);
 
+	/* Creates a dms object from the longitude box */
 	dms getLongitude (void);
 	
 	void initGeo(void);

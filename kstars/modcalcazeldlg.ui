@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcAzelDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -12,7 +12,7 @@
             <x>0</x>
             <y>0</y>
             <width>473</width>
-            <height>392</height>
+            <height>394</height>
         </rect>
     </property>
     <property name="caption">
@@ -127,6 +127,38 @@
                             </property>
                         </widget>
                     </grid>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>buttonGroup4_2</cstring>
+            </property>
+            <property name="title">
+                <string>Select Input</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioApCoords</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Apparent coordinates</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioHorCoords</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Horizontal coordinates</string>
+                    </property>
                 </widget>
             </hbox>
         </widget>
@@ -338,7 +370,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>80</height>
                 </size>
             </property>
         </spacer>

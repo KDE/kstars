@@ -26,6 +26,8 @@
 #include "kstars.h"
 
 #include <qdatetimeedit.h>
+#include <qradiobutton.h>
+#include <qstring.h>
 
 
 modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDlg (parentSplit,name) {
@@ -48,6 +50,21 @@ SkyPoint modCalcAzel::getEquCoords (void)
 	decCoord = decBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
+
+	return sp;
+}
+
+SkyPoint modCalcAzel::getHorCoords (void)
+{
+	dms azCoord, elCoord;
+
+	azCoord = azBox->createDms();
+	elCoord = elBox->createDms();
+
+	SkyPoint sp = SkyPoint();
+
+	sp.setAz(azCoord);
+	sp.setAlt(elCoord);
 
 	return sp;
 }
@@ -133,19 +150,21 @@ void modCalcAzel::showHorCoords ( SkyPoint sp )
 
 }
 
-long double modCalcAzel::epochToJd (double epoch)
+void modCalcAzel::showEquCoords ( SkyPoint sp, long double jd )
 {
+	raBox->show( sp.ra(), FALSE );
+	decBox->show( sp.dec() );
+	showEpoch(jd);
+}
 
-	double yearsTo2000 = 2000.0 - epoch;
-
-	if (epoch == 1950.0) {
-		return 2433282.4235;
-	} else if ( epoch == 2000.0 ) {
-		return J2000;
-	} else {
-		return ( J2000 - yearsTo2000 * 365.2425 );
-	}
-
+void modCalcAzel::showEpoch ( long double jd )
+{
+	double epochN = 0.;
+	epochN = KSUtils::JdToEpoch(jd);
+//	Localization
+//	epochName->setText(KGlobal::locale()->formatNumber(epochN,3));
+	epochName->setText( QString("%1").arg(epochN, 0, 'f', 2));
+	
 }
 
 void modCalcAzel::slotClearCoords()
@@ -167,17 +186,27 @@ void modCalcAzel::slotComputeCoords()
 
 	long double jd = computeJdFromCalendar();
 	double epoch0 = getEpoch( epochName->text() );
-	long double jd0 = epochToJd ( epoch0 );
+	long double jd0 = KSUtils::epochToJd ( epoch0 );
 
 	dms lgt = getLongitude();
 	dms LST = KSUtils::UTtoLST( getQDateTime(), &lgt );
 
 	SkyPoint sp;
-	sp = getEquCoords();
 
-	sp.apparentCoord(jd0, jd);
-	dms lat(getLatitude());
-	sp.EquatorialToHorizontal( &LST, &lat );
-	showHorCoords( sp );
+	if(radioApCoords->isChecked()) {
+
+		sp = getEquCoords();
+		sp.apparentCoord(jd0, jd);
+		dms lat(getLatitude());
+		sp.EquatorialToHorizontal( &LST, &lat );
+		showHorCoords( sp );
+
+	} else {
+
+		sp = getHorCoords();
+		dms lat(getLatitude());
+		sp.HorizontalToEquatorial( &LST, &lat );
+		showEquCoords( sp, jd );
+	}
 
 }
