@@ -29,6 +29,8 @@ OpsSolarSystem::OpsSolarSystem( QWidget *parent, const char *name, WFlags fl )
 	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
 	connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
 	connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );
+	connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
+	connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
 
 	slotAsteroidWidgets( kcfg_ShowAsteroids->isChecked() );
 	slotCometWidgets( kcfg_ShowComets->isChecked() );
@@ -54,4 +56,19 @@ void OpsSolarSystem::slotCometWidgets( bool on ) {
 	textLabel4->setEnabled( on );
 }
 
+void OpsSolarSystem::slotSelectPlanets() {
+	bool b=true;
+	if ( sender()->name() == QString( "showNonePlanets" ) ) b = false;
+	
+	kcfg_ShowSun->setChecked( b );
+	kcfg_ShowMoon->setChecked( b );
+	kcfg_ShowMercury->setChecked( b );
+	kcfg_ShowVenus->setChecked( b );
+	kcfg_ShowMars->setChecked( b );
+	kcfg_ShowJupiter->setChecked( b );
+	kcfg_ShowSaturn->setChecked( b );
+	kcfg_ShowUranus->setChecked( b );
+	kcfg_ShowNeptune->setChecked( b );
+	kcfg_ShowPluto->setChecked( b );
+}
 #include "opssolarsystem.moc"

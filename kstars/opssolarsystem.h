@@ -40,6 +40,7 @@ public:
 private slots:
 	void slotAsteroidWidgets(bool on);
 	void slotCometWidgets(bool on);
+	void slotSelectPlanets();
 
 private:
 	KStars *ksw;
