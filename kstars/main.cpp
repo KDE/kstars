@@ -128,10 +128,10 @@ int main(int argc, char *argv[])
 				kdWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" << endl;
 				kdWarning() << i18n( "Using CPU date/time instead." ) << endl;
 				
-				kdt = KStarsDateTime::currentDateTime();
+				kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 			}
 		} else { 
-			kdt = KStarsDateTime::currentDateTime();
+			kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 		}
 		dat->clock()->setUTC( kdt );
 		
