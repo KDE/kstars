@@ -73,7 +73,7 @@ int sysloglevel(int level)
 
 int debugopen(char *host)
 {
-  openlog("libfli", LOG_PID | LOG_PERROR, LOG_USER);
+  openlog("libfli", LOG_PID , LOG_USER);
 
   return 0;
 }
