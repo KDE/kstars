@@ -80,7 +80,7 @@ private:
 	public:
 		/**Constructor for stars */
 		NameBox( QString pname, QString oname, QString typelabel, QString type,
-			QString mag, QString distStr, QString size, QWidget *parent, const char *name=0 );
+			QString mag, QString distStr, QString size, QWidget *parent, const char *name=0, bool useSize=true );
 		~NameBox() {}
 	private:
 		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;

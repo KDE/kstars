@@ -205,6 +205,8 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 	KSPlanetBase *ps;
 
 	QString pname, oname, distStr;
+	QString sflags( "" );
+
 //arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
 	case 0: //stars
@@ -229,9 +231,13 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		if (s->distance() > 2000 || s->distance() < 0)  // parallax < 0.5 mas 
 			distStr = QString(i18n("larger than 2000 parsecs", "> 2000 pc") );
 
+		if ( s->isMultiple() ) sflags += i18n( "the star is a multiple star", "multiple" );
+		if ( s->isMultiple() && s->isVariable() ) sflags += ", ";
+		if ( s->isVariable() ) sflags += i18n( "the star is a variable star", "variable" );
+		
 		Names = new NameBox( pname, s->gname(),
 				i18n( "Spectral type:" ), s->sptype(),
-				QString("%1").arg( s->mag() ), distStr, QString( "--" ), generalTab );
+				QString("%1").arg( s->mag() ), distStr, sflags, generalTab, 0, false );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
@@ -287,7 +293,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 
 DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
-		QString distStr, QString size, QWidget *parent, const char *name )
+		QString distStr, QString size, QWidget *parent, const char *name, bool useSize )
 		: QGroupBox( i18n( "General" ), parent, name ) {
 
 	PrimaryName = new QLabel( pname, this );
@@ -314,7 +320,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	Dist->setAlignment( AlignRight );
 	Dist->setFont( boldFont );
 
-	SizeLabel = new QLabel( i18n( "Angular Size:" ), this );
+	if ( useSize ) { SizeLabel = new QLabel( i18n( "Angular Size:" ), this ); }
 	AngSize = new QLabel( size, this );
 	AngSize->setAlignment( AlignRight );
 	AngSize->setFont( boldFont );
@@ -333,7 +339,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	hlayMag->addWidget( Mag );
 	hlayDist->addWidget( DistLabel);
 	hlayDist->addWidget( Dist);
-	hlaySize->addWidget( SizeLabel );
+	if ( useSize ) hlaySize->addWidget( SizeLabel );
 	hlaySize->addWidget( AngSize );
 
 	glay->setColStretch( 0, 1 );
