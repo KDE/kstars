@@ -1565,7 +1565,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw a Field-of-View indicator
 	//if ( ksw->options()->drawFOV )
-		drawFOV( psky, 2 ); //drawFOV( psky, ksw->options()->FOVstyle );
+		drawTargetSymbol( psky, ksw->options()->targetSymbol );
 
 	//Finish up 
 	psky.end();
@@ -1578,7 +1578,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	computeSkymap = false;	// use Update() to compute new skymap else old pixmap will be shown
 }
 
-void SkyMap::drawFOV( QPainter &psky, int style ) {
+void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 	//Draw this last so it is never "behind" other things.
 //	psky.setPen( QPen( QColor( ksw->options()->colorscheme()->colorNamed("FOVColor" ) ) ) );
 	psky.setPen( QPen( QColor( "white" ) ) );
@@ -1586,7 +1586,12 @@ void SkyMap::drawFOV( QPainter &psky, int style ) {
 	int pxperdegree = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
 	
 	switch ( style ) {
-		case 1: { //case 1, fancy crosshairs
+		case 1: { //simple circle, one degree in diameter.
+			int size = pxperdegree;
+			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
+			break;
+		}
+		case 2: { //case 1, fancy crosshairs
 			int s1 = pxperdegree/2;
 			int s2 = pxperdegree;
 			int s3 = 2*pxperdegree;
@@ -1609,7 +1614,7 @@ void SkyMap::drawFOV( QPainter &psky, int style ) {
 			break;
 		}
 		
-		case 2: { //Bullseye
+		case 3: { //Bullseye
 			int s1 = pxperdegree/2;
 			int s2 = pxperdegree;
 			int s3 = 2*pxperdegree;
@@ -1626,7 +1631,7 @@ void SkyMap::drawFOV( QPainter &psky, int style ) {
 			break;
 		}
 		
-		case 3: { //Rectangle
+		case 4: { //Rectangle
 			int s = pxperdegree;
 			int x1 = width()/2 - s/2;
 			int y1 = height()/2 - s/2;
@@ -1635,11 +1640,6 @@ void SkyMap::drawFOV( QPainter &psky, int style ) {
 			break;
 		}
 		
-		default: { //case 0, simple circle, one degree in diameter.
-			int size = pxperdegree;
-			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
-			break;
-		}
 	}
 }
 

@@ -299,6 +299,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Action which sent the activating signal.  */
 		void slotColorScheme();
 
+		/**Select the Target symbol (a.k.a. field-of-view indicator) */
+		void slotTargetSymbol();
+		
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 

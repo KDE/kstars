@@ -96,6 +96,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	focusObject    = o.focusObject;
 	focusRA     = o.focusRA;
 	focusDec    = o.focusDec;
+	targetSymbol = o.targetSymbol;
 	slewTimeScale  = o.slewTimeScale;
 	windowWidth    = o.windowWidth;
 	windowHeight   = o.windowHeight;
@@ -188,6 +189,7 @@ void KStarsOptions::setDefaultOptions() {
 	posGeoBox = QPoint( 0, 600 );
 	focusRA = 0.0;
 	focusDec = 0.0;
+	targetSymbol = 0;
 	slewTimeScale = 60.0;
 	windowWidth = 600;
 	windowHeight = 600;
@@ -202,6 +204,18 @@ void KStarsOptions::setDefaultOptions() {
 
 void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {
 	magLimitDrawStar = newMagnitude;
+}
+
+bool KStarsOptions::setTargetSymbol( QString name ) {
+	targetSymbol = 0;
+	
+	if ( name == QString( "target_symbol_circle" ) ) targetSymbol = 1;
+	if ( name == QString( "target_symbol_crosshairs" ) ) targetSymbol = 2;
+	if ( name == QString( "target_symbol_bullseye" ) ) targetSymbol = 3;
+	if ( name == QString( "target_symbol_rectangle" ) ) targetSymbol = 4;
+	
+	if ( targetSymbol==0 ) return false;
+	return true;
 }
 
 GeoLocation* KStarsOptions::Location() {

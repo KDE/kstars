@@ -90,6 +90,8 @@ class KStarsOptions {
 		bool snapNextFocus() const { return snapToFocus; }
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 
+		bool setTargetSymbol( QString name );
+
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
 		// (false=equatorial coordinate system)
 		bool useAltAz;
@@ -157,7 +159,8 @@ class KStarsOptions {
 		bool showTimeBox, showFocusBox, showGeoBox;
 		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;
 		QPoint posTimeBox, posFocusBox, posGeoBox;
-
+		int targetSymbol;
+		
 		//Custom Catalogs
 		unsigned int CatalogCount;
 		QValueList<bool> drawCatalog;
@@ -175,26 +178,6 @@ class KStarsOptions {
 
 		//the colors of things
 		ColorScheme CScheme;
-		/*
-		QString colorSky;   //Sky background
-		QString colorMess;  //Messier catalog
-		QString colorNGC;   //NGC catalog
-		QString colorIC;    //IC catalog
- 		QString colorHST;   //object w/ HST image
-		QString colorMW;    //milky way contour
-		QString colorEq;    //celestial equator
-		QString colorEcl;   //ecliptic
-		QString colorHorz;  //horizon
-		QString colorGrid;  //coordinate grid
-		QString colorCLine; //constellation lines
-		QString colorCName; //constellation names
-		QString colorSName; //star names
-		QString colorPName; //planet names
-
-		int starColorMode;  // 0 = temperature colors; 1 = all red; 2 = all black; 3 = all white
-		// intensity of star colors
-		int starColorIntensity;
-		*/
 
 		private:
 			GeoLocation location;  // store all location data here

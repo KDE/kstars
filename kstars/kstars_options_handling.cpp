@@ -85,7 +85,8 @@ void KStars::loadOptions()
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 	conf->setGroup( "View" );
 	options()->colorScheme()->loadFromConfig( conf );
-
+	options()->targetSymbol   = conf->readNumEntry( "TargetSymbol", 0 );
+	
 	options()->drawSAO        = conf->readBoolEntry( "ShowSAO", true );
 	options()->drawMessier    = conf->readBoolEntry( "ShowMess", true );
 	options()->drawMessImages = conf->readBoolEntry( "ShowMessImages", true );
@@ -195,6 +196,8 @@ void KStars::saveOptions() {
 
 	conf->setGroup( "View" );
 	options()->colorScheme()->saveToConfig( conf );
+	conf->writeEntry( "TargetSymbol", options()->targetSymbol );
+	
 	conf->writeEntry( "ShowSAO", 		options()->drawSAO );
 	conf->writeEntry( "ShowMess", 	options()->drawMessier );
 	conf->writeEntry( "ShowMessImages", 	options()->drawMessImages );

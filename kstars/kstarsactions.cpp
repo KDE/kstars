@@ -325,7 +325,7 @@ void KStars::slotManualFocus() {
 	}
 }
 
-//View
+//View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( data()->ZoomLevel < MAXZOOMLEVEL ) {
@@ -357,13 +357,20 @@ void KStars::slotCoordSys() {
 	map()->Update();
 }
 
+//Settings Menu:
 void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
 	map()->setColors( filename );
 }
 
-//Help
+void KStars::slotTargetSymbol() {
+	QString symbolName( sender()->name() );
+	options()->setTargetSymbol( symbolName ); 
+	map()->Update();
+}
+
+//Help Menu
 void KStars::slotTipOfDay() {
 	KTipDialog::showTip("kstars/tips", true);
 }
