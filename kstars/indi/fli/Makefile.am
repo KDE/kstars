@@ -20,4 +20,5 @@ libfli_bsd_la_SOURCES = libfli-usb-sys-bsd.c
 libfli_null_la_SOURCES = libfli-usb-sys-null.c
 
 libfli_la_SOURCES = libfli.c libfli-camera.c libfli-camera-parport.c libfli-camera-usb.c libfli-filter-focuser.c libfli-mem.c libfli-serial.c libfli-sys.c libfli-usb.c libfli-debug.c
-libfli_la_LIBADD  = $(libfli_linux) $(libfli_bsd) $(libfli_null) $(all_libraries)
+AM_LDFLAGS = $(all_libraries)
+libfli_la_LIBADD  = $(libfli_linux) $(libfli_bsd) $(libfli_null)
