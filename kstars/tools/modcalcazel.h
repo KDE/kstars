@@ -116,9 +116,9 @@ private:
 
 	void getGeoLocation (void);
 
-	void modCalcAzel::horNoCheck();
-	void modCalcAzel::equNoCheck();
-	void modCalcAzel::processLines( QTextStream &istream );
+	void horNoCheck();
+	void equNoCheck();
+	void processLines( QTextStream &istream );
   
 	GeoLocation *geoPlace;
 	bool horInputCoords;
