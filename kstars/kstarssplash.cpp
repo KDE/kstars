@@ -59,7 +59,7 @@ KStarsSplash::KStarsSplash( KStarsData* kstarsData, QWidget *parent, const char*
 	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "White" ) );
   label->setPalette( pal );
 	label->setAlignment( AlignHCenter );
-  label->setText( i18n( "Welcome to KStars. Please standby while loading..." ) );
+  label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );
   topLayout->addWidget( label );
 
   //
@@ -134,7 +134,7 @@ void KStarsSplash::slotLoadDataFile()
 			KludgeError( "clines.dat" );
 			reject();
 		}
-	  textCurrentStatus->setText( i18n("Loading constellations names" ) ); // next load, show text now
+	  textCurrentStatus->setText( i18n("Loading constellation names" ) ); // next load, show text now
 		break;
 	case 10:
 		if ( !kstarsData->readCNameData( ) ) {

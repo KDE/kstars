@@ -138,7 +138,7 @@ void SkyMap::slotCenter( void ) {
 	clickedPoint.RADecToAltAz( LSTh, ksw->geo->lat() );
 	if ( ksw->GetOptions()->drawGround && clickedPoint.getAlt().getD() < 0.0 ) {
 		QString caption = i18n( "KStars pointing below horizon!" );
-		QString message = i18n( "Warning: the requested position is below the Horizon.\nWould you like me to point there anyway?" );
+		QString message = i18n( "Warning: the requested position is below the horizon.\nWould you like me to point there anyway?" );
 		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
 			clickedObject = NULL;
 			foundObject = NULL;

@@ -635,7 +635,7 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 void ViewOpsDialog::defaultColors( void ) {
 	bool result = setColors( "default.colors" );
 	if (!result) {
-		QString message = i18n( "The specified color-scheme file could not be found." );
+		QString message = i18n( "The specified color scheme file could not be found." );
 		KMessageBox::sorry( 0, message, i18n( "Could not set color scheme" ) );
 	}
 }
@@ -643,7 +643,7 @@ void ViewOpsDialog::defaultColors( void ) {
 void ViewOpsDialog::redColors( void ) {
 	bool result = setColors( "night.colors" );
 	if (!result) {
-		QString message = i18n( "The specified color-scheme file could not be found." );
+		QString message = i18n( "The specified color scheme file could not be found." );
 		KMessageBox::sorry( 0, message, i18n( "Could not set color scheme" ) );
 	}
 }
@@ -651,7 +651,7 @@ void ViewOpsDialog::redColors( void ) {
 void ViewOpsDialog::chartColors( void ) {
 	bool result = setColors( "chart.colors" );
 	if (!result) {
-		QString message = i18n( "The specified color-scheme file could not be found." );
+		QString message = i18n( "The specified color scheme file could not be found." );
 		KMessageBox::sorry( 0, message, i18n( "Could not set color scheme" ) );
 	}
 }
@@ -660,7 +660,7 @@ void ViewOpsDialog::slotPreset( int index ) {
 	QStringList::Iterator it = PresetFileList.at( index );
 	bool result = setColors( *it );
 	if (!result) {
-		QString message = i18n( "The specified color-scheme file could not be found." );
+		QString message = i18n( "The specified color scheme file could not be found." );
 		KMessageBox::sorry( 0, message, i18n( "Could not set color scheme" ) );
 	}
 }
@@ -669,7 +669,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 	QFile file;
 	QString filename;
 
-	KLineEditDlg getName( i18n( "Enter a name for the new Scheme:" ), "", this );
+	KLineEditDlg getName( i18n( "Enter a name for the new scheme:" ), "", this );
 
 	if ( getName.exec() == QDialog::Accepted ) {
 		filename = getName.text();
