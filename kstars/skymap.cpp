@@ -1100,7 +1100,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	int ptsCount;
 
 	//Draw Milky Way (draw this first so it's in the "background")
-	if ( ksw->GetOptions()->drawMilkyWay ) {
+	if ( !slewing && ksw->GetOptions()->drawMilkyWay ) {
 		psky.setPen( QPen( QColor( ksw->GetOptions()->colorMW ) ) );
 		psky.setBrush( QBrush( QColor( ksw->GetOptions()->colorMW ) ) );
 		bool offscreen, lastoffscreen=false;
@@ -1168,20 +1168,22 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			for ( double RA=dRA; RA<24.; RA+=dRA ) {
 				sp->set( RA, Dec );
 				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
-				o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-  	
-				int dx = psky.pos().x() - o.x();
-				if ( abs(dx) < 250 ) {
-					if ( newlyVisible ) {
-						newlyVisible = false;
-						psky.moveTo( o.x(), o.y() );
-					}
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );	
-				}
-			}
 
+				if ( checkVisibility( sp, FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+					o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+  	
+					int dx = psky.pos().x() - o.x();
+					if ( abs(dx) < 250 ) {
+						if ( newlyVisible ) {
+							newlyVisible = false;
+							psky.moveTo( o.x(), o.y() );
+						}
+						psky.lineTo( o.x(), o.y() );
+					} else {
+						psky.moveTo( o.x(), o.y() );	
+					}
+				}
+     }
 			//connect the final segment
 			int dx = psky.pos().x() - o1.x();
 			if (abs(dx) < 250 ) {
@@ -1203,17 +1205,20 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			for ( double Dec=-89.; Dec<=90.; Dec+=dDec ) {
 				sp->set( RA, Dec );
 				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
-				o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-  	
-				int dx = psky.pos().x() - o.x();
-				if ( abs(dx) < 250 ) {
-					if ( newlyVisible ) {
-						newlyVisible = false;
-						psky.moveTo( o.x(), o.y() );
+
+				if ( checkVisibility( sp, FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
+					o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+  	  	
+					int dx = psky.pos().x() - o.x();
+					if ( abs(dx) < 250 ) {
+						if ( newlyVisible ) {
+							newlyVisible = false;
+							psky.moveTo( o.x(), o.y() );
+						}
+						psky.lineTo( o.x(), o.y() );
+					} else {
+						psky.moveTo( o.x(), o.y() );	
 					}
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );	
 				}
 			}
 		}
