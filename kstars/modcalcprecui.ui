@@ -30,7 +30,7 @@
                 <cstring>InputBox</cstring>
             </property>
             <property name="title">
-                <string>Orignial Coordinates</string>
+                <string>Original Coordinates</string>
             </property>
             <widget class="QLabel">
                 <property name="name">
