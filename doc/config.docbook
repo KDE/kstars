@@ -94,5 +94,47 @@ you for a name for the new scheme, and then your scheme will appear in
 the list in all future &kstars; sessions.  To remove a custom scheme, 
 simply highlight it in the list, and press the <guibutton>Remove Color 
 Scheme</guibutton> button.
+</para><para>
+The <guilabel>Advanced</guilabel> Tab provides fine-grained control 
+over the more obscure behaviors of &kstars;.
+</para><para>
+The <guilabel>Correct for atmospheric refraction</guilabel> checkbox
+controls whether the positions of objects are corrected for the effects 
+of the atmosphere.  Because the atmosphere is a spherical shell, light from 
+outer space is <quote>bent</quote> as it passes through the atmosphere to 
+our telescopes or eyes on the surface.  The effect is largest for objects 
+near the horizon, and actually changes the predicted rise or set times of 
+objects by a few minutes!  In fact, when you <quote>see</quote> a sunset, 
+the Sun's actual position is already well below the horizon; atmospheric 
+refraction makes it seem as if the Sun is still in the sky!  Note that 
+atmospheric refraction is never applied if you are using 
+<guilabel>Equatorial coordinates</guilabel>.
+</para><para>
+The <guilabel>Use animating slewing</guilabel> checkbox controls how the 
+display changes when a new focus position is selected in the map.  By 
+default, you will see the sky drift or <quote>slew</quote> to the new 
+position; if you uncheck this option, then the display will instead 
+<quote>snap</quote> immediately to the new focus position.
+</para><para>
+If the <guilabel>Attach label to centered object</guilabel> checkbox is 
+selected, then a name label will automatically be attached to an object 
+when it is being tracked by the program.  The label will be removed when 
+the object is no longer being tracked.  Note that you can also manually 
+attach a persistent name label to any object with its <link 
+linkend="popupmenu">popup menu</link>.
+</para><para>
+There are three situations when &kstars must redraw the sky display very 
+rapidly: when a new focus position is selected (and <guilabel>Use 
+animated slewing</guilabel> is checked), when the sky is dragged with the 
+mouse, and when the time step is large.  In these situations, the positions
+of all objects must be recomputed as rapidly as possible, which can put 
+a large load on the <abbrev>CPU</abbrev>.  If the <abbrev>CPU</abbrev> 
+cannot keep up with the demand, then the display will seem sluggish or jerky.  
+To mitigate this, &kstars; will hide certain objects during these rapid-redraw 
+situations, as long as the <guilabel>Hide objects while moving</guilabel> 
+checkbox is selected.  The timestep threshhold above which objects will be 
+hidden is determined by the <guilabel>Also hide if timescale greater 
+than:</guilabel> timestep-spinbox.  You can specify the objects that should 
+be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </para>
 </chapter>
