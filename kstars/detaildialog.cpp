@@ -202,17 +202,36 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 
 	StarObject *s;
 	DeepSkyObject *dso;
+	KSPlanetBase *ps;
 
-	QString pname, oname;
+	QString pname, oname, distStr;
 //arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
 	case 0: //stars
 		s = (StarObject *)selectedObject;
 		pname = s->translatedName();
 		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
+		distStr = QString("%1").arg( s->distance(), 0, 'f',1 ) + i18n(" parsecs", " pc");
+		// astrometric precision limit for Hipparcos is:
+		// This is not clear:
+		// 7 mas if V < 9   => 7 mas -> 142 pc 
+		// 25 mas if V > 10 => 25 mas -> 40 pc
+
+		/*
+		double magnitude = 10;
+		magnitude = mag.toDouble();
+
+		if (distance > 142) 
+			distStr = QString(i18n("larger than 142 parsecs", "> 142 pc") );
+		if (magnitude >= 10 && distance > 40 )
+			distStr = QString( i18n("larger than 40 parsecs", " > 40 pc") );
+		*/
+		if (s->distance() > 2000 || s->distance() < 0)  // parallax < 0.5 mas 
+			distStr = QString(i18n("larger than 2000 parsecs", "> 2000 pc") );
+
 		Names = new NameBox( pname, s->gname(),
 				i18n( "Spectral type:" ), s->sptype(),
-				QString("%1").arg( s->mag() ), generalTab );
+				QString("%1").arg( s->mag() ), distStr, generalTab );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
@@ -220,18 +239,20 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		//Perhaps: list of moons
 
 		//the Sun should display type=star, not planet!
+		ps = (KSPlanetBase *)selectedObject;
+		distStr = QString("%1").arg( ps->rearth(), 0, 'f',1 ) + i18n(" Astronomical Units", " AU");
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					i18n("star"), "--", generalTab );
+					i18n("star"), "--", distStr , generalTab );
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", generalTab );
+					selectedObject->typeName(), "--", distStr, generalTab );
 		}
 		break;
 	case 9:  //comets
 	case 10: //asteroids:
 		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", generalTab );
+					selectedObject->typeName(), "--", "?", generalTab );
 		break;
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
@@ -247,7 +268,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				dso->typeName(), QString("%1").arg( dso->mag() ), generalTab );
+				dso->typeName(), QString("%1").arg( dso->mag() ), "?", generalTab );
 		break;
 	}
 
@@ -262,7 +283,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 
 DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
-		QWidget *parent, const char *name )
+		QString distStr, QWidget *parent, const char *name )
 		: QGroupBox( i18n( "General" ), parent, name ) {
 
 	PrimaryName = new QLabel( pname, this );
@@ -286,21 +307,34 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
 
+	DistLabel = new QLabel( i18n( "Distance:" ), this);
+//	QString distStr; 
+//	distStr = QString("%1").arg( distance, 0, 'f',1 ) + i18n(" parsecs", "pc");
+	
+	Dist = new QLabel (distStr, this);
+	Dist->setAlignment( AlignRight );
+	Dist->setFont( boldFont );
+
+
 //Layout
 	hlayType = new QHBoxLayout( 2 );
 	hlayMag  = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 2, 10 );
+	hlayDist = new QHBoxLayout( 2 );
+	glay     = new QGridLayout( 2, 3, 10 );
 	vlay     = new QVBoxLayout( this, 12 );
 
 	hlayType->addWidget( TypeLabel );
 	hlayType->addWidget( Type );
 	hlayMag->addWidget( MagLabel );
 	hlayMag->addWidget( Mag );
+	hlayDist->addWidget( DistLabel);
+	hlayDist->addWidget( Dist);
 
 	glay->addWidget( PrimaryName, 0, 0);
 	glay->addWidget( OtherNames, 1, 0);
 	glay->addLayout( hlayType, 0, 1 );
 	glay->addLayout( hlayMag, 1, 1 );
+	glay->addLayout( hlayDist, 2, 1 );
 	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
