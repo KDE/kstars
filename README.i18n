@@ -1,4 +1,8 @@
-KStars:  Instructions for Translators.
+README.i18n:  Instructions for Translating KStars
+copyright 2002 by Jason Harris and the KStars team.
+This document is licensed under the terms of the GNU Free Documentation License
+-------------------------------------------------------------------------------
+
 
 Some parts of i18n in KStars are a bit complicated, so we provide 
 this document to answer some questions you might have.
