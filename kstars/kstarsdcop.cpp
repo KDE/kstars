@@ -224,6 +224,8 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	
 	if ( op == "UseAltAz"         && bOk ) options()->useAltAz           = bVal;
 	if ( op == "UseRefraction"    && bOk ) options()->useRefraction      = bVal;
+	if ( op == "UseAutoLabel"     && bOk ) options()->useAutoLabel       = bVal;
+	if ( op == "UseAutoTrail"     && bOk ) options()->useAutoTrail       = bVal;
 	if ( op == "AnimateSlewing"   && bOk ) options()->useAnimatedSlewing = bVal;
 	if ( op == "FadePlanetTrails" && bOk ) options()->fadePlanetTrails   = bVal;
 	if ( op == "SlewTimeScale"    && dOk ) options()->slewTimeScale      = dVal;
