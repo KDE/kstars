@@ -413,10 +413,16 @@ private:
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			double zoommin, int resize_mult = 1, double scale = 1.0 );
 
-/**Draw the InfoBoxes on the pixmap passed as an argument (this should be
-	*the skymap's pixmap).
+/**Draw overlays on top of the sky map.  These include the infoboxes, 
+	*field-of-view indicator, telescope symbols, zoom box and any other 
+	*user-interaction graphics
 	*/
-	void drawBoxes( QPixmap *pm );
+	void drawOverlays( QPixmap *pm );
+
+/**Draw the InfoBoxes on the QPainter passed as an argument (this should be
+	*the skymap's painter).
+	*/
+	void drawBoxes( QPainter &p );
 
 /**Draw the Field-of-View indicator.
 	*@param psky The QPainter to draw on (this should be skymap's QPainter).
@@ -430,6 +436,7 @@ private:
 	void drawTargetSymbol( QPainter &psky, int style );
 
 	void drawTelescopeSymbols(QPainter &psky);
+	void drawZoomBox( QPainter &psky);
 
 /**@short Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
@@ -474,6 +481,7 @@ private:
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
+	QRect ZoomRect; //The manual-focus circle.
 //DEBUG
 	bool dumpHorizon;
 //END_DEBUG

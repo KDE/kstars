@@ -50,19 +50,14 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	else ksw = 0;
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
+	
+	ZoomRect = QRect();
 
 //DEBUG
 	dumpHorizon = false;
 //END_DEBUG
 
 	setDefaultMouseCursor();	// set the cross cursor
-
-	//read ZoomFactor from config object
-	//JH: this has already been done by KStarsData::loadOptions()
-	//kapp->config()->setGroup( "View" );
-	//data->options->ZoomFactor = kapp->config()->readDoubleNumEntry( "ZoomFactor", MINZOOM );
-	//if ( zoomFactor() > MAXZOOM ) data->options->ZoomFactor = MAXZOOM;
-	//if ( zoomFactor() < MINZOOM ) data->options->ZoomFactor = MINZOOM;
 
 	// load the pixmaps of stars
 	starpix = new StarPixmap( data->options->colorScheme()->starColorMode(), data->options->colorScheme()->starColorIntensity() );

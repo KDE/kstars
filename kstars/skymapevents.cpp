@@ -351,6 +351,33 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		return;
 	}
 
+	//Are we defining a ZoomRect?
+	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
+		//cancel operation if the user let go of CTRL	
+		if ( !( e->state() & ControlButton ) ) {
+			ZoomRect = QRect(); //invalidate ZoomRect
+			update();
+		} else {
+			//Resize the rectangle so that it passes through the cursor position
+			QPoint pcenter = ZoomRect.center();
+			int dx = abs(e->x() - pcenter.x());
+			int dy = abs(e->y() - pcenter.y());
+			if ( dx == 0 || float(dy)/float(dx) > float(height())/float(width()) ) { 
+				//Size rect by height
+				ZoomRect.setHeight( 2*dy );
+				ZoomRect.setWidth( 2*dy*width()/height() );
+			} else { 
+				//Size rect by height
+				ZoomRect.setWidth( 2*dx );
+				ZoomRect.setHeight( 2*dx*height()/width() );
+			}
+			ZoomRect.moveCenter( pcenter ); //reset center
+			
+			update();
+			return;
+		}
+	}
+
 	double dx = ( 0.5*width()  - e->x() )/zoomFactor();
 	double dy = ( 0.5*height() - e->y() )/zoomFactor();
 	double dyPix = 0.5*height() - e->y();
@@ -444,6 +471,24 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		return;
 	}
 
+	if ( ZoomRect.isValid() ) {
+		//Zoom in on center of Zoom Circle, by a factor equal to the ratio 
+		//of the sky pixmap's width to the Zoom Circle's diameter
+		float factor = float(width()) / float(ZoomRect.width());
+
+		double dx = ( 0.5*width()  - ZoomRect.center().x() )/zoomFactor();
+		double dy = ( 0.5*height() - ZoomRect.center().y() )/zoomFactor();
+
+		SkyPoint newcenter = dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() );
+		setFocus( &newcenter );
+		setDestination( &newcenter );
+		setOldFocus( &newcenter );
+		ksw->zoom( zoomFactor() * factor );
+
+		ZoomRect = QRect(); //invalidate ZoomRect
+		forceUpdate();
+	}
+
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, because it's unset there.
 		mouseButtonDown = false;
@@ -461,13 +506,19 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
-//did we Grab an infoBox?
+	//did we Grab an infoBox?
 	if ( e->button() == LeftButton && infoBoxes()->grabBox( e ) ) {
-		update();
+		update(); //refresh without redrawing skymap
 		return;
 	}
 
-// if button is down and cursor is not moved set the move cursor after 500 ms
+	if ( (e->state() & ControlButton) && (e->button() == LeftButton) ) {
+		ZoomRect.moveCenter( e->pos() );
+		update(); //refresh without redrawing skymap
+		return;
+	}
+	
+	// if button is down and cursor is not moved set the move cursor after 500 ms
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
@@ -745,7 +796,14 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			if ( ksw && e->button() == LeftButton ) {
 				//Display name in status bar
-				ksw->statusBar()->changeItem( i18n(clickedObject()->longname().latin1()), 0 );
+				//STAR_IDENTIFICATION
+				//if ( icat == 0 ) {
+				//	ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "  " + 
+				//			QString("%1").arg(data->starList.at()/1000) + ": " +
+				//			QString("%1").arg(data->starList.at()%1000 + 1), 0 );
+				//} else {
+					ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()), 0 );
+				//}
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
@@ -792,7 +850,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	if (!computeSkymap)
 	{
 		QPixmap *sky2 = new QPixmap( *sky );
-		drawBoxes( sky2 );
+		drawOverlays( sky2 );
 		bitBlt( this, 0, 0, sky2 );
 		delete sky2;
 		return ; // exit because the pixmap is repainted and that's all what we want
@@ -844,15 +902,11 @@ void SkyMap::paintEvent( QPaintEvent * )
 	drawAttachedLabels( psky );
 	drawHorizon( psky, stdFont );
 
-	//Draw a Field-of-View indicator
-	drawTargetSymbol( psky, options->targetSymbol );
-	drawTelescopeSymbols(psky);
-
 	//Finish up
 	psky.end();
 
 	QPixmap *sky2 = new QPixmap( *sky );
-	drawBoxes( sky2 );
+	drawOverlays( sky2 );
 	bitBlt( this, 0, 0, sky2 );
 	delete sky2;
 

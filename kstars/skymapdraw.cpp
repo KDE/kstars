@@ -28,15 +28,182 @@
 #include <qpaintdevicemetrics.h>
 #include <stdlib.h> // abs
 
-void SkyMap::drawBoxes( QPixmap *pm ) {
-	if ( ksw ) {
+void SkyMap::drawOverlays( QPixmap *pm ) {
+	if ( ksw ) { //only if we are drawing in the GUI window
 		QPainter p;
 		p.begin( pm );
+		
+		drawBoxes( p );
+		drawTargetSymbol( p, data->options->targetSymbol );
+		drawTelescopeSymbols( p );
+		drawZoomBox( p );
+	}
+}
+
+void SkyMap::drawZoomBox( QPainter &p ) {
+	//draw the manual zoom-box, if it exists
+	if ( ZoomRect.isValid() ) {
+		p.setPen( QPen( "white", 1, DotLine ) );
+		p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
+	}
+}
+
+void SkyMap::drawBoxes( QPainter &p ) {
+	if ( ksw ) { //only if we are drawing in the GUI window
 		ksw->infoBoxes()->drawBoxes( p,
 				data->options->colorScheme()->colorNamed( "BoxTextColor" ),
 				data->options->colorScheme()->colorNamed( "BoxGrabColor" ),
 				data->options->colorScheme()->colorNamed( "BoxBGColor" ), false );
-		p.end();
+	}
+}
+
+void SkyMap::drawTelescopeSymbols(QPainter &psky) {
+	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
+		INDI_P *eqNum;
+		INDI_L *lp;
+		INDIMenu *devMenu = ksw->getINDIMenu();
+		KStarsOptions* options = ksw->options();
+
+		if (!options->indiCrosshairs || devMenu == NULL)
+			return;
+
+		psky.setPen( QPen( QColor( data->options->colorScheme()->colorNamed("TargetColor" ) ) ) );
+		psky.setBrush( NoBrush );
+		int pxperdegree = int(zoomFactor()/57.3);
+
+		//fprintf(stderr, "in draw telescope function with mgrsize of %d\n", devMenu->mgr.size());
+		for (uint i=0; i < devMenu->mgr.size(); i++)
+		{
+			for (uint j=0; j < devMenu->mgr[i]->indi_dev.size(); j++)
+			{
+				// make sure the dev is on first
+				if (devMenu->mgr[i]->indi_dev[j]->isOn())
+				{
+					eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
+
+					//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
+					// make sure it has RA and DEC properties
+					if ( eqNum)
+					{
+						//fprintf(stderr, "Looking for RA label\n");
+						lp = eqNum->findLabel(QString("RA"));
+						if (!lp)
+							continue;
+
+						dms raDMS(lp->value);
+
+						//fprintf(stderr, "RA (%s) value is %g\n", lp->text, lp->value);
+						//fprintf(stderr, "Looking for DEC label\n");
+						lp = eqNum->findLabel(QString("DEC"));
+						if (!lp)
+							continue;
+
+						dms decDMS(lp->value);
+
+						//fprintf(stderr, "DEC (%s) value is %g\n", lp->text, lp->value);
+
+						raDMS.setD ( raDMS.Degrees() * 15.0);
+
+						//fprintf(stderr, "RA is %d , DEC is %g\n", raDMS.Degrees(), decDMS.Degrees());
+
+						//kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
+						//kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
+
+						SkyPoint sp( &raDMS, &decDMS);
+						sp.apparentCoord( (double) J2000, ksw->data()->clock()->JD());
+						sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+
+						QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
+
+						int s1 = pxperdegree/2;
+						int s2 = pxperdegree;
+						int s3 = 2*pxperdegree;
+
+						int x0 = P.x();  int y0 = P.y();
+						int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+						int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+						int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+						//Draw radial lines
+						psky.drawLine( x1, y0, x3, y0 );
+						psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
+						psky.drawLine( x0, y1, x0, y3 );
+						psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
+						//Draw circles at 0.5 & 1 degrees
+						psky.drawEllipse( x1, y1, s1, s1 );
+						psky.drawEllipse( x2, y2, s2, s2 );
+
+						//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
+						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr[i]->indi_dev[j]->name) );
+
+					}
+				}
+			}
+		}
+	}
+}
+
+void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
+	//Draw this last so it is never "behind" other things.
+	psky.setPen( QPen( QColor( data->options->colorScheme()->colorNamed("TargetColor" ) ) ) );
+	psky.setBrush( NoBrush );
+	int pxperdegree = int(zoomFactor()/57.3);
+
+	switch ( style ) {
+		case 1: { //simple circle, one degree in diameter.
+			int size = pxperdegree;
+			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
+			break;
+		}
+		case 2: { //case 1, fancy crosshairs
+			int s1 = pxperdegree/2;
+			int s2 = pxperdegree;
+			int s3 = 2*pxperdegree;
+
+			int x0 = width()/2;  int y0 = height()/2;
+			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+			//Draw radial lines
+			psky.drawLine( x1, y0, x3, y0 );
+			psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
+			psky.drawLine( x0, y1, x0, y3 );
+			psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
+
+			//Draw circles at 0.5 & 1 degrees
+			psky.drawEllipse( x1, y1, s1, s1 );
+			psky.drawEllipse( x2, y2, s2, s2 );
+
+			break;
+		}
+
+		case 3: { //Bullseye
+			int s1 = pxperdegree/2;
+			int s2 = pxperdegree;
+			int s3 = 2*pxperdegree;
+
+			int x0 = width()/2;  int y0 = height()/2;
+			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+			psky.drawEllipse( x1, y1, s1, s1 );
+			psky.drawEllipse( x2, y2, s2, s2 );
+			psky.drawEllipse( x3, y3, s3, s3 );
+
+			break;
+		}
+
+		case 4: { //Rectangle
+			int s = pxperdegree;
+			int x1 = width()/2 - s/2;
+			int y1 = height()/2 - s/2;
+
+			psky.drawRect( x1, y1, s, s );
+			break;
+		}
+
 	}
 }
 
@@ -1210,158 +1377,6 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			}
 		}
 	}  //endif drawing horizon
-}
-
-void SkyMap::drawTelescopeSymbols(QPainter &psky)
-{
-
-  INDI_P *eqNum;
-  INDI_L *lp;
-  INDIMenu *devMenu = ksw->getINDIMenu();
-  KStarsOptions* options = ksw->options();
-
-  if (!options->indiCrosshairs || devMenu == NULL)
-   return;
-
-  psky.setPen( QPen( QColor( data->options->colorScheme()->colorNamed("TargetColor" ) ) ) );
-	psky.setBrush( NoBrush );
-	int pxperdegree = int(zoomFactor()/57.3);
-
-  //fprintf(stderr, "in draw telescope function with mgrsize of %d\n", devMenu->mgr.size());
-  for (uint i=0; i < devMenu->mgr.size(); i++)
-    for (uint j=0; j < devMenu->mgr[i]->indi_dev.size(); j++)
-    {
-      // make sure the dev is on first
-      if (devMenu->mgr[i]->indi_dev[j]->isOn())
-      {
-        eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
-
-	//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
-        // make sure it has RA and DEC properties
-        if ( eqNum)
-	{
-
-	//fprintf(stderr, "Looking for RA label\n");
-	lp = eqNum->findLabel(QString("RA"));
-	if (!lp)
-	 continue;
-
-	 dms raDMS(lp->value);
-
-	 //fprintf(stderr, "RA (%s) value is %g\n", lp->text, lp->value);
-
-	 //fprintf(stderr, "Looking for DEC label\n");
-	lp = eqNum->findLabel(QString("DEC"));
-	if (!lp)
-	 continue;
-
-	dms decDMS(lp->value);
-
-	//fprintf(stderr, "DEC (%s) value is %g\n", lp->text, lp->value);
-
-	 raDMS.setD ( raDMS.Degrees() * 15.0);
-
-	 //fprintf(stderr, "RA is %d , DEC is %g\n", raDMS.Degrees(), decDMS.Degrees());
-
-	 //kdDebug() << "the KStars RA is " << raDMS->toHMSString() << endl;
-	 //kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
-
-	 SkyPoint sp( &raDMS, &decDMS);
-	 sp.apparentCoord( (double) J2000, ksw->data()->clock()->JD());
-	 sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-
-	 QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
-
-	int s1 = pxperdegree/2;
-	int s2 = pxperdegree;
-	int s3 = 2*pxperdegree;
-
-	int x0 = P.x();  int y0 = P.y();
-	int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-	int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-	int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-	//Draw radial lines
-	psky.drawLine( x1, y0, x3, y0 );
-	psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
-	psky.drawLine( x0, y1, x0, y3 );
-	psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
-	//Draw circles at 0.5 & 1 degrees
-	psky.drawEllipse( x1, y1, s1, s1 );
-	psky.drawEllipse( x2, y2, s2, s2 );
-
-	//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
-	psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr[i]->indi_dev[j]->name) );
-
-
-	}
-      }
-    }
-
-}
-
-void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
-	//Draw this last so it is never "behind" other things.
-	psky.setPen( QPen( QColor( data->options->colorScheme()->colorNamed("TargetColor" ) ) ) );
-	psky.setBrush( NoBrush );
-	int pxperdegree = int(zoomFactor()/57.3);
-
-	switch ( style ) {
-		case 1: { //simple circle, one degree in diameter.
-			int size = pxperdegree;
-			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
-			break;
-		}
-		case 2: { //case 1, fancy crosshairs
-			int s1 = pxperdegree/2;
-			int s2 = pxperdegree;
-			int s3 = 2*pxperdegree;
-
-			int x0 = width()/2;  int y0 = height()/2;
-			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-			//Draw radial lines
-			psky.drawLine( x1, y0, x3, y0 );
-			psky.drawLine( x0+s2, y0, x0+s1/2, y0 );
-			psky.drawLine( x0, y1, x0, y3 );
-			psky.drawLine( x0, y0+s1/2, x0, y0+s2 );
-
-			//Draw circles at 0.5 & 1 degrees
-			psky.drawEllipse( x1, y1, s1, s1 );
-			psky.drawEllipse( x2, y2, s2, s2 );
-
-			break;
-		}
-
-		case 3: { //Bullseye
-			int s1 = pxperdegree/2;
-			int s2 = pxperdegree;
-			int s3 = 2*pxperdegree;
-
-			int x0 = width()/2;  int y0 = height()/2;
-			int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-			int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-			int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-			psky.drawEllipse( x1, y1, s1, s1 );
-			psky.drawEllipse( x2, y2, s2, s2 );
-			psky.drawEllipse( x3, y3, s3, s3 );
-
-			break;
-		}
-
-		case 4: { //Rectangle
-			int s = pxperdegree;
-			int x1 = width()/2 - s/2;
-			int y1 = height()/2 - s/2;
-
-			psky.drawRect( x1, y1, s, s );
-			break;
-		}
-
-	}
 }
 
 void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, double e, int pa, QChar color, double scale ) {
