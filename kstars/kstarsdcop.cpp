@@ -295,18 +295,21 @@ void KStars::setColor( const QString name, const QString value ) {
 
 void KStars::loadColorScheme( const QString _name ) {
 	QString name( _name );
-	//Parse default names which don't follow the regular file-naming scheme
-	if ( name == i18n("use default color scheme", "Default Colors") ) name = "default.colors";
-	if ( name == i18n("use 'star chart' color scheme", "Star Chart") ) name = "chart.colors"; 
-	if ( name == i18n("use 'night vision' color scheme", "Night Vision") ) name = "night.colors"; 
+	QString filename = name.lower().stripWhiteSpace();
+	bool ok( false );
 	
-	//Try assuming arg was the filename
-	bool ok = data()->colorScheme()->load( name );
+	//Parse default names which don't follow the regular file-naming scheme
+	if ( name == i18n("use default color scheme", "Default Colors") ) filename = "default.colors";
+	if ( name == i18n("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors"; 
+	if ( name == i18n("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors"; 
+	
+	//Try the filename if it ends with ".colors"
+	if ( filename.endsWith( ".colors" ) )
+		ok = data()->colorScheme()->load( filename );
 
-	//If that didn't work, try assuming it was the color scheme namespace
-	//convert it to the filename exactly as ColorScheme::save() does
+	//If that didn't work, try assuming that 'name' is the color scheme name
+	//convert it to a filename exactly as ColorScheme::save() does
 	if ( ! ok ) {
-		QString filename = name.lower().stripWhiteSpace();
 		if ( !filename.isEmpty() ) {
 			for( unsigned int i=0; i<filename.length(); ++i)
 				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
@@ -321,6 +324,19 @@ void KStars::loadColorScheme( const QString _name ) {
 	if ( ok ) {
 		map()->setStarColorMode( data()->colorScheme()->starColorMode() );
 		map()->setStarColorIntensity( data()->colorScheme()->starColorIntensity() );
+		
+		//set the application colors for the Night Vision scheme
+		if ( Options::darkAppColors() == false && filename == "night.colors" )  {
+			Options::setDarkAppColors( true );
+			OriginalPalette = QApplication::palette();
+			QApplication::setPalette( DarkPalette, true );
+		}
+		
+		if ( Options::darkAppColors() && filename != "night.colors" ) {
+			Options::setDarkAppColors( false );
+			QApplication::setPalette( OriginalPalette, true );
+		}
+		
 		map()->forceUpdate();
 	}
 }

@@ -129,16 +129,13 @@ bool OpsColors::setColors( QString filename ) {
 	else RemovePreset->setEnabled( false );
 	test.close();
 
-	if ( ksw->data()->colorScheme()->load( filename ) ) {
-	  if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
-	    ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
+	ksw->loadColorScheme( filename );
+	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
+		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
 
-		for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-			temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
-			ColorPalette->changeItem( *temp, ksw->data()->colorScheme()->nameAt( i ), i );
-		}
-	} else {
-		return false;
+	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
+		temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
+		ColorPalette->changeItem( *temp, ksw->data()->colorScheme()->nameAt( i ), i );
 	}
 
 	ksw->map()->forceUpdate();
