@@ -147,6 +147,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		SkyMap *skymap;
 		dms LSTh();
 
+		double clockScale( void ) const { return clock->scale(); }
+
 		//KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo, *actHandbook;
 		//KAction *actTimeSet, *actTimeNow, *actLocation, *actViewOps;
 		//ToggleAction *actTimeRun;
@@ -288,7 +290,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		QVBoxLayout *topLayout;
 		InfoPanel   *infoPanel;
 		KToolBar *viewToolBar;
-		SimClock	*clock;
+		SimClock *clock;
 		TimeSpinBox *TimeStep;
 		GeoLocation *Location;
 		ToggleAction *actCoordSys;

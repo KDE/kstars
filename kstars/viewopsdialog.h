@@ -41,6 +41,7 @@ class QListView;
 class QCheckListItem;
 class QPixmap;
 class MagnitudeSpinBox;
+class TimeSpinBox;
 class KIntSpinBox;
 class KStars;
 
@@ -67,7 +68,7 @@ public:
 
 private:
 	QHBoxLayout *hlay, *ColorButtonsLayout, *hlayColorTab;
-	QHBoxLayout *hlayLeftBox, *hlayLeftBox2, *hlayAdvHideStars;
+	QHBoxLayout *hlayLeftBox, *hlayLeftBox2, *hlayAdvHideStars, *hlayAdvHideTimeScale;
   QHBoxLayout *hlayDrawLimit, *hlayLabelLimit, *hlayCatButtons;
 	QVBoxLayout *vlayStarsBox, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab, *vlayAdvancedTab;
 	QVBoxLayout *vlayLeftBox, *vlayRightBox, *DisplayBoxLayout, *vlayAdvHideObj;
@@ -113,6 +114,7 @@ private:
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 
 	MagnitudeSpinBox *magSpinBoxHideStars;
+	TimeSpinBox *hideSpinBox;
 
 	QListView *CatalogList;
 	QListBox *ColorPalette, *PresetBox;
@@ -182,6 +184,11 @@ private slots:
 	*Sync the KStars display with a newly-changed option.
 	*/
 	void updateDisplay( void );
+
+/**
+	*Adjust the ksw->options()->slewTimeScale variable.
+	*/
+	void changeSlewTimeScale( float );
 
 /**
 	*Switch between Equatorial (RA, Dec) and Horizontal (Az, Alt)

@@ -119,6 +119,7 @@ public:
 	bool isTracking;
 	QString focusObject;
 	float focusRA, focusDec;	
+	float slewTimeScale;
 	int windowWidth, windowHeight;
 
 	float magLimitDrawStar;

@@ -165,6 +165,7 @@ KStars::~KStars()
 	kapp->config()->writeEntry( "UseAltAz", 	options()->useAltAz );
 	kapp->config()->writeEntry( "FocusRA", skymap->focus()->ra().Hours() );
 	kapp->config()->writeEntry( "FocusDec", skymap->focus()->dec().Degrees() );
+	kapp->config()->writeEntry( "SlewTimeScale", options()->slewTimeScale );
 	kapp->config()->writeEntry( "ZoomLevel", data()->ZoomLevel );
 	kapp->config()->writeEntry( "windowWidth", width() );
 	kapp->config()->writeEntry( "windowHeight", height() );

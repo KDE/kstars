@@ -79,6 +79,7 @@ KStarsOptions::KStarsOptions()
 	, focusObject()
   , focusRA( 0.0 )
   , focusDec( 0.0 )
+  , slewTimeScale( 20.0 )
   , windowWidth( 600 )
   , windowHeight( 600 )
 //  , magLimitDrawStar( 8.0 )		// read entry below
@@ -181,6 +182,7 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	focusObject    = dataSource->focusObject;
 	focusRA     = dataSource->focusRA;
 	focusDec    = dataSource->focusDec;
+	slewTimeScale  = dataSource->slewTimeScale;
 	windowWidth    = dataSource->windowWidth;
 	windowHeight   = dataSource->windowHeight;
 	// magnitude limits and other star options

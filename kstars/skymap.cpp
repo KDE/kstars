@@ -110,6 +110,10 @@ SkyMap::~SkyMap() {
 	delete sp;
 	delete sky;
 	delete pmenu;
+
+//delete any remaining object Image pointers
+	for ( SkyObject *obj = ksw->data()->deepSkyList.first(); obj; obj = ksw->data()->deepSkyList.next() )
+		if ( obj->image() ) obj->deleteImage();
 }
 
 void SkyMap::initPopupMenu( void ) {

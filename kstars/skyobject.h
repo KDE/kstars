@@ -21,7 +21,10 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
+#include <qimage.h>
+
 #include <klocale.h>
+
 #include "skypoint.h"
 #include "dms.h"
 #include "geolocation.h"
@@ -118,12 +121,45 @@ public:
 	*/
 	float mag( void ) const { return Magnitude; }
 
+/**@returns the object's major axis length, which should be in arcminutes.
+	*/
 	float a( void ) const { return MajorAxis; }
+
+/**@returns the object's minor axis length, which should be in arcminutes.
+	*/
 	float b( void ) const { return MinorAxis; }
+
+/**@returns the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
+	*if the object's MinorAxis=0.0.
+	*/
 	float e( void ) const;
+
+/**@returns the object's position angle, meausred clockwise from North.
+	*/
 	int pa( void ) const { return PositionAngle; }
+
+/**@returns the object's UGC catalog number.  This is only valid for some
+	*deep-sky objects, and will return 0 in other cases.
+	*/
 	int ugc( void ) const { return UGC; }
+
+/**@returns the object's PGC catalog number.  This is only valid for some
+	*deep-sky objects, and will return 0 in other cases.
+	*/
 	int pgc( void ) const { return PGC; }
+
+/**Read in this object's image from disk, unless it already exists in memory.
+	*@returns pointer to newly-created image.
+	*/
+	QImage *readImage();
+/**@returns pointer to the object's inline image.  If it is currently
+	*a null pointer, it loads the image from disk.
+	*/
+	QImage *image() const { return Image; }
+
+/**@delete the Image pointer, and set it to 0.
+	*/
+	void deleteImage() { delete Image; Image = 0; }
 
 /**
   *Return the local time that the object will rise
@@ -134,6 +170,8 @@ public:
 
 /**
   *Return the local time that the object will set
+  *@param jd  current Julian date
+  *@param geo current geographic location
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
@@ -148,6 +186,7 @@ private:
 	QString Name2;
 	QString LongName;
 	QString Catalog;
+	QImage *Image;
 };
 
 #endif

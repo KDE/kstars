@@ -31,6 +31,7 @@ class SimClock : public QObject, public SimClockInterface {
 		long double JD();
 		QDateTime UTC();
 		bool isActive();
+		double scale() const { return Scale; }
 
 		/**
 		 * implementation of SimClockInterface
@@ -57,7 +58,7 @@ class SimClock : public QObject, public SimClockInterface {
 		QDateTime utc;
 		QTime gst;
 		QTimer tmr;
-		double scale;
+		double Scale;
 		QTime sysmark;
 		int lastelapsed;
 		bool utcvalid;

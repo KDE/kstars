@@ -31,7 +31,7 @@ SimClock::SimClock(QObject *parent, const QDateTime &when) :
 	tmr(this)
 {
 	if (! when.isValid() ) tmr.stop();
-	scale = 1.0;
+	Scale = 1.0;
 	setUTC(when);
 	julianmark = julian;
 	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
@@ -46,7 +46,7 @@ SimClock::SimClock (const SimClock &old) :
 	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 	julian = old.julian;
 	utcvalid = false;
-	scale = old.scale;
+	Scale = old.Scale;
 }
 
 void SimClock::tick() {
@@ -57,10 +57,10 @@ void SimClock::tick() {
 		// The clock has been running more than 24 hours "real" time.
 		// Reset our julian base by scale number of days.
 		//
-		julianmark += 1.0 * scale;
+		julianmark += 1.0 * Scale;
 	}
 	lastelapsed = mselapsed;
-	long double scaledsec = (long double)mselapsed * (long double)scale / 1000.0; 
+	long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 	
 	julian = julianmark + (scaledsec / (24 * 3600));
 //	kdDebug() << "tick() : julianmark = " << QString("%1").arg( julianmark, 10, 'f', 2) <<
@@ -125,9 +125,9 @@ void SimClock::setUTC(const QDateTime &newtime) {
 }
 
 void SimClock::setScale(float s) {
-	if (scale != s ) {
+	if (Scale != s ) {
 		kdDebug() << "setScale: setting scale = " << s << endl;
-		scale = s;
+		Scale = s;
 		if (tmr.isActive()) {
 			julianmark = julian;
 			sysmark.start();

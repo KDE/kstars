@@ -44,6 +44,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "magnitudespinbox.h"
+#include "timespinbox.h"
 #include "addcatdialog.h"
 #include "viewopsdialog.h"
 
@@ -543,6 +544,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setFont( stdFont );
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
+	hideSpinBox = new TimeSpinBox( AdvancedTab, "HideSpinBox" );
+	hideSpinBox->changeScale( ksw->options()->slewTimeScale );
+	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
+	hsbLabel->setText( i18n( "also hide if Time Scale greater than: " ) );
+
 	hideObjects = new QCheckBox( i18n( "Hide Objects While Moving" ), AdvancedTab );
 	hideObjects->setFont( stdFont );
 	hideObjects->setChecked( ksw->options()->hideOnSlew );
@@ -593,7 +599,8 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	magSpinBoxHideStars->setMinimumWidth( 20 );
 
 	QSpacerItem *spacerAdvTab = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-	QSpacerItem *spacerAdvHS = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	QSpacerItem *spacerAdvHStars = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	QSpacerItem *spacerAdvHTime = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
 	//Construct layouts and add widgets to them
 	vlayAdvHideObj = new QVBoxLayout( HideBox );
@@ -602,11 +609,16 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayAdvHideObj->addSpacing( 10 ); //Otherwise first widget overlaps title
 
 	hlayAdvHideStars = new QHBoxLayout( 4 );  //add to vlayAdvHideObj
+	hlayAdvHideTimeScale = new QHBoxLayout( 4 );  //add to vlayAdvHideObj
 	glayAdvHideObj = new QGridLayout( 4, 2 ); //add to vlayAdvHideObj
 
 	hlayAdvHideStars->addWidget( hideStars );
 	hlayAdvHideStars->addWidget( magSpinBoxHideStars );
-	hlayAdvHideStars->addItem( spacerAdvHS );
+	hlayAdvHideStars->addItem( spacerAdvHStars );
+
+	hlayAdvHideTimeScale->addWidget( hsbLabel );
+	hlayAdvHideTimeScale->addWidget( hideSpinBox );
+	hlayAdvHideTimeScale->addItem( spacerAdvHTime );
 
 	glayAdvHideObj->addWidget( hidePlanets, 0, 0 );
 	glayAdvHideObj->addWidget( hideMess, 1, 0 );
@@ -622,8 +634,9 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	vlayAdvancedTab->addWidget( useRefraction );
 	vlayAdvancedTab->addWidget( animateSlewing );
-	vlayAdvancedTab->addSpacing( 10 );
+	vlayAdvancedTab->addSpacing( 20 );
 	vlayAdvancedTab->addWidget( hideObjects );
+	vlayAdvancedTab->addLayout( hlayAdvHideTimeScale );
 	vlayAdvancedTab->addWidget( HideBox );
 	vlayAdvancedTab->addItem( spacerAdvTab );
 
@@ -695,6 +708,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 //Advanced Tab
 	connect( useRefraction, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( animateSlewing, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( hideSpinBox, SIGNAL( scaleChanged( float ) ), this, SLOT( changeSlewTimeScale( float ) ) );
 	connect( hideObjects, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hideStars, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hidePlanets, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -1248,6 +1262,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->hideCLines = hideCLines->isChecked();
 	ksw->options()->hideGrid = hideGrid->isChecked();
 	//HideBox widgets enabled only if hideObjects is checked...
+	hideSpinBox->setEnabled( hideObjects->isChecked() );
 	hideStars->setEnabled( hideObjects->isChecked() );
 	magSpinBoxHideStars->setEnabled( hideObjects->isChecked() );
 	hidePlanets->setEnabled( hideObjects->isChecked() );
@@ -1368,4 +1383,12 @@ void ViewOpsDialog::selectCatalog() {
 			break;
 		}
 	}
+}
+
+void ViewOpsDialog::changeSlewTimeScale( float f ) {
+	if ( f < 0.0 ) {
+		f = 0.0;
+		hideSpinBox->changeScale( 0.0 );
+	}
+	ksw->options()->slewTimeScale = f;
 }

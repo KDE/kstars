@@ -15,7 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qregexp.h>
+#include <qfile.h>
 #include "skyobject.h"
+#include "ksutils.h"
 #include "dms.h"
 
 SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
@@ -30,6 +33,7 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	Name2 = "";
 	LongName = "";
 	Catalog = "";
+	Image = 0;
 }
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
@@ -48,6 +52,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	ImageTitle = o.ImageTitle;
 	InfoList = o.InfoList;
 	InfoTitle = o.InfoTitle;
+	Image = o.image();
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, double m,
@@ -64,6 +69,7 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	Name2 = n2;
 	LongName = lname;
 	Catalog = cat;
+	Image = 0;
 }
 
 SkyObject::SkyObject( int t, double r, double d, double m,
@@ -80,6 +86,7 @@ SkyObject::SkyObject( int t, double r, double d, double m,
 	Name2 = n2;
 	LongName = lname;
 	Catalog = cat;
+	Image = 0;
 }
 
 QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
@@ -144,4 +151,18 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 float SkyObject::e( void ) const {
 	if ( MajorAxis==0.0 || MinorAxis==0.0 ) return 1.0; //assume circular
 	return MinorAxis / MajorAxis;
+}
+
+QImage* SkyObject::readImage( void ) {
+	QFile file;
+	if ( Image==0 ) { //Image not currently set; try to load it from disk.
+		QString fname = Name.lower().replace( QRegExp(" "), "" ) + ".png";
+
+		if ( KSUtils::openDataFile( file, fname ) ) {
+			file.close();
+			Image = new QImage( file.name(), "PNG" );
+		}
+	}
+
+	return Image;
 }

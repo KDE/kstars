@@ -388,6 +388,7 @@ void KStars::initOptions()
 	options()->focusObject = kapp->config()->readEntry( "FocusObject", "nothing" );
 	options()->focusDec = kapp->config()->readDoubleNumEntry( "FocusDec", 45.0 );
 	options()->focusRA = kapp->config()->readDoubleNumEntry( "FocusRA", 180.0 );
+	options()->slewTimeScale = kapp->config()->readDoubleNumEntry( "SlewTimeScale", 20.0 );
 	options()->magLimitDrawStarInfo = kapp->config()->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options()->magLimitHideStar = kapp->config()->readDoubleNumEntry( "magLimitHideStar", 5.0 );
 	options()->drawStarName = kapp->config()->readBoolEntry( "drawStarName", false );
