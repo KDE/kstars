@@ -40,8 +40,8 @@
 #include "ksplanetbase.h"
 #include "ksmoon.h"
 
-DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent, const char *name ) : 
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo,
+		QWidget *parent, const char *name ) :
 		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
 		selectedObject(o), ksw((KStars*)parent)
 {
@@ -86,9 +86,9 @@ void DetailDialog::createAdvancedTab()
 {
 	// We don't create an adv tab for an unnamed object or if advinterface file failed loading
 	// We also don't need adv dialog for solar system objects.
-   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || 
-				selectedObject->type() == SkyObject::PLANET || 
-				selectedObject->type() == SkyObject::COMET || 
+   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() ||
+				selectedObject->type() == SkyObject::PLANET ||
+				selectedObject->type() == SkyObject::COMET ||
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
@@ -195,17 +195,17 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	QFrame *generalTab= addPage(i18n("General"));
 
 	dms lst = ksw->data()->geo()->GSTtoLST( ut.gst() );
-	
+
 	Coords = new CoordBox( selectedObject, ut.epoch(), &lst, generalTab );
 	RiseSet = new RiseSetBox( selectedObject, ut, geo, generalTab );
 
 	StarObject *s;
 	DeepSkyObject *dso;
 	KSPlanetBase *ps;
-	
+
 	QString pname, oname, distStr, angStr, illumStr;
 	QString sflags( "" );
-	
+
 //arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
 	case 0: //stars
@@ -215,25 +215,25 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		distStr = QString("%1").arg( s->distance(), 0, 'f',1 ) + i18n(" parsecs", " pc");
 		// astrometric precision limit for Hipparcos is:
 		// This is not clear:
-		// 7 mas if V < 9   => 7 mas -> 142 pc 
+		// 7 mas if V < 9   => 7 mas -> 142 pc
 		// 25 mas if V > 10 => 25 mas -> 40 pc
 
 		/*
 		double magnitude = 10;
 		magnitude = mag.toDouble();
 
-		if (distance > 142) 
+		if (distance > 142)
 			distStr = QString(i18n("larger than 142 parsecs", "> 142 pc") );
 		if (magnitude >= 10 && distance > 40 )
 			distStr = QString( i18n("larger than 40 parsecs", " > 40 pc") );
 		*/
-		if (s->distance() > 2000 || s->distance() < 0)  // parallax < 0.5 mas 
-			distStr = QString(i18n("larger than 2000 parsecs", "> 2000 pc") );
+		if (s->distance() > 2000 || s->distance() < 0)  // parallax < 0.5 mas
+			distStr = i18n("larger than 2000 parsecs", "> 2000 pc");
 
 		if ( s->isMultiple() ) sflags += i18n( "the star is a multiple star", "multiple" );
 		if ( s->isMultiple() && s->isVariable() ) sflags += ", ";
 		if ( s->isVariable() ) sflags += i18n( "the star is a variable star", "variable" );
-		
+
 		Names = new NameBox( pname, s->gname(),
 				i18n( "Spectral type:" ), s->sptype(),
 				QString("%1").arg( s->mag() ), distStr, sflags, generalTab, 0, false );
@@ -244,27 +244,27 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		//Perhaps: list of moons
 
 		ps = (KSPlanetBase *)selectedObject;
-		
+
 		//Construct string for distance from Earth.  The moon requires a unit conversion
 		if ( ps->name() == "Moon" ) {
 			distStr = i18n("distance in kilometers", "%1 km").arg( ps->rearth()*AU_KM, 0, 'f', 1 );
 		} else {
 			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
 		}
-		
+
 		//Construct the string for angular size
 		angStr = "--";
 		if ( ps->angSize() ) {
 			angStr = i18n("angular size in arcseconds", "%1 arcsec").arg( ps->angSize()*60.0, 0, 'f', 1 );
-			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
+			if ( ps->name() == "Sun" || ps->name() == "Moon" )
 				angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( ps->angSize(), 0, 'f', 1 );
-		} 
-		
+		}
+
 		//the Sun should display type=star, not planet!
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
 					i18n("star"), "--", distStr, angStr, generalTab );
-		
+
 		//the Moon displays illumination fraction instead of magnitude
 		} else if ( selectedObject->name() == "Moon" ) {
 			//special string that will signal NameBox to use label "Illumination" instead of "Magnitude"
@@ -272,7 +272,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 			illumStr = QString("i%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) );
 			Names = new NameBox( selectedObject->translatedName(), ((KSMoon *)selectedObject)->phaseName(), i18n( "Object type:" ),
 					selectedObject->typeName(), illumStr, distStr, angStr, generalTab );
-		
+
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
 					selectedObject->typeName(), "--", distStr, angStr, generalTab );
@@ -305,7 +305,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 
 		if ( dso->a() ) angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( dso->a() );
 		else angStr = "--";
-		
+
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
 				dso->typeName(), QString("%1").arg( dso->mag() ), "--", angStr, generalTab );
 		break;
@@ -335,18 +335,18 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	boldFont.setWeight( QFont::Bold );
 	PrimaryName->setFont( boldFont );
 	Type->setFont( boldFont );
-	
+
 	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
 	if ( mag.startsWith( "i" ) ) {
 		MagLabel->setText( i18n( "Illumination:" ) );
 		mag = mag.mid(1);
-	} 
-	
+	}
+
 	Mag = new QLabel( mag, this );
 	if ( mag == "99.9" ) {
 		Mag->setText( "--" );
 	}
-	
+
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
 
@@ -397,12 +397,12 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget 
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	HALabel = new QLabel( i18n( "Hour angle:" ), this );
-	
+
 	RA  = new QLabel( o->ra()->toHMSString(), this );
 	Dec = new QLabel( o->dec()->toDMSString(), this );
 	dms ha( LST->Degrees() - o->ra()->Degrees() );
-	
-	//Hour Angle can be negative, but dms HMS expressions cannot.  
+
+	//Hour Angle can be negative, but dms HMS expressions cannot.
 	//Here's a kludgy workaround:
 	QChar sgn('+');
 	if ( ha.Hours() > 12.0 ) {
@@ -410,19 +410,19 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget 
 		sgn = '-';
 	}
 	HA = new QLabel( QString("%1%2").arg(sgn).arg(ha.toHMSString()), this );
-	
+
 	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
 	AltLabel = new QLabel( i18n( "Altitude:" ), this );
 	AirMassLabel = new QLabel( i18n( "Airmass:" ), this );
-	
+
 	Az = new QLabel( o->az()->toDMSString(), this );
 	Alt = new QLabel( o->alt()->toDMSString(), this );
-	
+
 	//airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
-	if ( o->alt()->Degrees() > 0.0 ) 
+	if ( o->alt()->Degrees() > 0.0 )
 		AirMass = new QLabel( QString("%1").arg( 1./sin( o->alt()->radians() ), 4, 'f', 2 ), this );
-	else 
+	else
 		AirMass = new QLabel( "--", this );
 
 	QFont boldFont = RA->font();
@@ -463,7 +463,7 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget 
 	vlayMain->addLayout( glayCoords );
 }
 
-DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
+DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo,
 		QWidget *parent, const char *name ) : QGroupBox( i18n( "Rise/Set/Transit" ), parent, name ) {
 
 	QTime rt = o->riseSetTime( ut, geo, true ); //true = use rise time
@@ -580,11 +580,11 @@ void DetailDialog::updateLists()
 {
 	infoList->clear();
 	imagesList->clear();
-	
+
 	QStringList::Iterator itList = selectedObject->InfoList.begin();
 	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
 	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
-	
+
 	for ( ; itList != itListEnd; ++itList ) {
 		infoList->insertItem(QString(*itTitle));
 		itTitle++;
@@ -607,10 +607,10 @@ void DetailDialog::editLinkDialog()
 	uint i;
 	QString defaultURL , entry;
 	QFile newFile;
-	
+
 	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
 	QFrame *editFrame = editDialog.plainPage();
-	
+
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
 	editLinkField = new QLineEdit(editFrame, "lineedit");
 	editLinkField->setMinimumWidth(300);
@@ -618,9 +618,9 @@ void DetailDialog::editLinkDialog()
 	editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
-	
+
 	currentItemIndex = infoList->currentItem();
-	
+
 	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
 	{
 		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
@@ -696,9 +696,9 @@ void DetailDialog::removeLinkDialog()
 	uint i;
 	QString defaultURL, entry;
 	QFile newFile;
-	
+
 	currentItemIndex = infoList->currentItem();
-	
+
 	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
 	{
 		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
@@ -752,7 +752,7 @@ bool DetailDialog::verifyUserData(int type)
 	QString line, name, sub, title;
 	bool ObjectFound = false;
 	uint i;
-	
+
 	switch (type)
 	{
 		case 0:
@@ -821,7 +821,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	QTextStream stream(&file);
 
 	dataList.clear();
-	
+
 	// read all data into memory
 	while (!stream.eof())
 		dataList.append(stream.readLine());
@@ -899,7 +899,7 @@ QString DetailDialog::parseADVData(QString link)
 {
 	QString subLink;
 	int index;
-	
+
 	if ( (index = link.find("KSOBJ")) != -1)
 	{
 		link.remove(index, 5);
@@ -942,7 +942,7 @@ void DetailDialog::saveLogData()
 	QFile file;
 	QString logs;
 	QString currentLog = userLog->text();
-	
+
 	if (currentLog == (i18n("Record here observation logs and/or data on ") + selectedObject->name()))
 		return;
 
@@ -972,7 +972,7 @@ void DetailDialog::saveLogData()
 	}
 
 	selectedObject->userLog = currentLog;
-    
+
 	// append log to existing logs
 	if (!currentLog.isEmpty())
 		logs.append( KSLabel + "\n" + currentLog + "\n[KSLogEnd]\n");
