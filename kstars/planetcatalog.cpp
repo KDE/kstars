@@ -172,12 +172,6 @@ SkyObject *PlanetCatalog::findClosest(const SkyPoint *p, double &r) const {
 		}
 	}
 
-	trialr = dist_squared(Earth, p);
-	if (trialr < rmin) {
-		rmin = trialr;
-		found = Earth;
-	}
-
 	r = rmin;
 	return found;
 

@@ -791,6 +791,8 @@ bool KStarsData::readDeepSkyData( void ) {
 				line = fileReader.readLine();
 				//Ignore comment lines
 				while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
+				//Ignore lines with no coordinate values
+				while ( line.mid(6,8).stripWhiteSpace().isEmpty() ) line = fileReader.readLine();
 				
 				iflag = line.at( 0 ); //check for NGC/IC catalog flag
 				if ( iflag == 'I' ) cat = "IC";
