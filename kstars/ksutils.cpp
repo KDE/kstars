@@ -22,6 +22,7 @@
 
 #include "dms.h"
 #include "ksutils.h"
+#include "ksnumbers.h"
 
 long double KSUtils::UTtoJD(const QDateTime &t) {
   int year = t.date().year();
@@ -151,12 +152,29 @@ QTime KSUtils::LSTtoUT( const dms &LST, const QDateTime &UT, const dms *longitud
 }
 
 dms KSUtils::GSTat0hUT( const QDateTime &td ) {
+	double sinOb, cosOb;
+	
+	// Mean greenwich sidereal time
+	
 	QDateTime t0( td.date(), QTime( 0, 0, 0 ) );
 	long double jd0 = KSUtils::UTtoJD( t0 );
 	long double s = jd0 - J2000;
 	double t = s/36525.0;
 	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t +
 		0.000000002*t*t*t;
+
+	// To obtain the apparent sidereal time, we have to correct the
+	// mean greenwich sidereal time with nutation in longitude multiplied
+	// by the cosine of the obliquity of the ecliptic. This correction
+	// is called nutation in right ascention, and may ammount 0.3 secs. 
+	
+	KSNumbers *num = new KSNumbers(jd0);
+	num->obliquity()->SinCos( sinOb, cosOb );
+	
+	// nutLong has to be in hours of time since t1 is hours of time.
+	double nutLong = num->dEcLong()*cosOb/15.0;
+
+	t1 += nutLong;
 
 	dms gst;
 	gst.setH( t1 );
