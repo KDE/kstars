@@ -39,6 +39,7 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDl
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
+	horInputCoords = FALSE;
 	this->show();
 }
 
@@ -80,7 +81,8 @@ void modCalcAzel::showCurrentDateTime (void)
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
-
+	dateBoxBatch->setDate( dt.date() );
+	utBoxBatch->setTime( dt.time() );
 }
 
 QDateTime modCalcAzel::getQDateTime (void)
@@ -144,6 +146,8 @@ void modCalcAzel::showLongLat(void)
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );
+	longBoxBatch->show( ks->geo()->lng() );
+	latBoxBatch->show( ks->geo()->lat() );
 }
 
 void modCalcAzel::showHorCoords ( SkyPoint sp )
