@@ -19,8 +19,8 @@
 
 #include <kdebug.h>
 
-ObjectNameList::ObjectNameList()
-{
+ObjectNameList::ObjectNameList() {
+	amount = 0;
 	language = latin;
 	mode = allLists;
 
@@ -45,6 +45,7 @@ void ObjectNameList::setMode( Mode m ) {
 }
 
 void ObjectNameList::append( SkyObject *object, bool useLongName ) {
+	amount++;
 	// create name string and init with longname if forced by parameter else default name
 	QString name = ( useLongName ) ? object->longname() : object->name();
 

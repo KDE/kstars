@@ -59,6 +59,7 @@ class FileSource;
 class StarDataSink;
 class QDataPump;
 class elts;
+class KSFileReader;
 
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
@@ -147,6 +148,8 @@ public:
 		*@returns true if the data file was successfully opened and read.
 		*/
 	bool readStarData( void );
+
+	void processSAO(QString *line, bool reloadedData=false);
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
@@ -415,12 +418,17 @@ private:
 
 	bool reloadingData();  // is currently reloading of data in progress
 
+	bool openSAOFile(int i);
+
+	KSFileReader *saoFileReader;
+
 	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
 
 //REVERTED...remove comments after 1/1/2003
 //ARRAY: replacing starList with starArray
 	QList<StarObject> starList;
+
 //	StarObject *starArray;
 	unsigned int StarCount;
 

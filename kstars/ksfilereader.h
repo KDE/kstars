@@ -36,6 +36,8 @@ public:
   bool hasMoreLines();
   QString& readLine();
 
+  bool setLine(int i);
+
 private:
   /** After loading the whole file, we split it into lines and keep them here. */
   QStringList lines;

@@ -45,4 +45,13 @@ QString& KSFileReader::readLine(){
   return lines[curLine++];
 }
 
+bool KSFileReader::setLine(int i) {
+	if (i <= numLines) {
+		curLine = i;
+		return true;
+	} else {
+		return false;
+	}
+}
+
 #include "ksfilereader.moc"

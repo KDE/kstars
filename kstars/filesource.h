@@ -28,11 +28,12 @@
   */
 
 #include <qasyncio.h>
-#include <qtextstream.h>
+//#include <qtextstream.h>
 #include <qstring.h>
 
 class KStarsData;
-class QFile;
+//class QFile;
+class KSFileReader;
 
 class FileSource : public QDataSource  {
 
@@ -40,7 +41,7 @@ class FileSource : public QDataSource  {
 	/**
 		*constructor needs an KStarsData object, a file name and the new magnitude
 		*/
-		FileSource( KStarsData *parent, const char *file, float magnitude );
+		FileSource( KStarsData *ksdata, float magnitude );
 
 	/** destructor */
 		~FileSource();
@@ -72,21 +73,18 @@ class FileSource : public QDataSource  {
 
 		bool readingData;
 
-		int currentBlockSize;
+		KSFileReader *fileReader;
 
-		QFile *inputFile;
+		// which sao file should be opened and which line
+		int fileNumber, lineNumber;
 
-		QTextStream stream;
+		// counts blocksize
+		int counter;
 
-	/**
-		*new magnitude to load
-		*/
+		// new magnitude to load
 		float maxMagnitude;
-		
-	/**
-		*Changes KStarsData::lastFileIndex to current position in data file.
-		*/
-		int &index;
+
+		KStarsData *data;
 
 	/**
 		*maxLines defines how many lines in data file should be read and

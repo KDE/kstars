@@ -33,8 +33,17 @@ QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData( KStars *ks ) : Moon(0), jmoons(0), kstars( ks ), initTimer(0),
-	inited(false), source(0), loader(0), pump(0) {
+KStarsData::KStarsData( KStars *ks ) {
+	saoFileReader = 0;
+	Moon = 0;
+	jmoons = 0;
+	kstars = ks;
+	initTimer = 0;
+	inited = false;
+	source = 0;
+	loader = 0;
+	pump = 0;
+
 	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
@@ -46,9 +55,6 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), jmoons(0), kstars( ks ), initTim
 
 	PC = new PlanetCatalog(ks);
 
-	//REVERTED...remove comments after 1/1/2003
-	//ARRAY: setting static array limit for now
-	//starArray = new StarObject[40000];
 	starList.setAutoDelete( TRUE );
 
 	ADVtreeList.setAutoDelete(true);
@@ -328,62 +334,41 @@ bool KStarsData::readCNameData( void ) {
 	}
 }
 
+bool KStarsData::openSAOFile(int i) {
+	if (saoFileReader != 0) delete saoFileReader;
+	QFile file;
+	QString snum, fname;
+	snum = QString().sprintf("%02d", i);
+	fname = "sao" + snum + ".dat";
+	if (KSUtils::openDataFile(file, fname)) {
+		saoFileReader = new KSFileReader(file); // close file is included
+	} else {
+		saoFileReader = 0;
+		return false;
+	}
+	return true;
+}
+
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readStarData( void ) {
-	QFile file;
-	
-	for ( unsigned int i=0; i<8; ++i ) {
-		QString snum, fname;
-		snum = QString().sprintf( "%02d", i+1 );
-		fname = "sao" + snum + ".dat";
-		
-		if ( KSUtils::openDataFile( file, fname ) ) {
-			KSFileReader fileReader( file ); // close file is included
-			while ( fileReader.hasMoreLines() ) {
-				QString line, name, gname, SpType;
+	bool ready = false;
+	for (unsigned int i=1; i<41; ++i) {
+		if (openSAOFile(i) == true) {
+			while (saoFileReader->hasMoreLines()) {
+				QString line;
 				float mag;
-				int rah, ram, ras, dd, dm, ds;
-				QChar sgn;
 
-				line = fileReader.readLine();
+				line = saoFileReader->readLine();
 
-				mag = line.mid( 33, 4 ).toFloat();	// star magnitude
-				if ( mag > options->magLimitDrawStar )
-					break;	// break reading file if magnitude is higher than needed
-				else
-					lastFileIndex = file.at();	// stores current file index - needed by reloading
-
-				name = ""; gname = "";
-
-				rah = line.mid( 0, 2 ).toInt();
-				ram = line.mid( 2, 2 ).toInt();
-				ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
-
-				sgn = line.at( 17 );
-				dd = line.mid( 18, 2 ).toInt();
-				dm = line.mid( 20, 2 ).toInt();
-				ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
-
-				SpType = line.mid( 37, 2 );
-				name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
-				if ( name.contains( ':' ) ) { //genetive form exists
-					gname = name.mid( name.find(':')+1 );
-					name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+				// check star magnitude
+				mag = line.mid( 33, 4 ).toFloat();
+				if ( mag > options->magLimitDrawStar ) {
+					kdDebug() << "magnitude limit reached" << endl;
+					ready = true;
+					break;
 				}
-				if ( name.isEmpty() ) name = "star";
 
-				dms r;
-				r.setH( rah, ram, ras );
-				dms d( dd, dm,  ds );
-
-				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-				StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-				starList.append( o );
-
-				if ( o->name() != "star" ) {		// just add to name list if a name is given
-					ObjNames.append( o );
-				}
+				processSAO(&line);
 			}  // end of while
 
 		} else { //one of the star files could not be read.
@@ -392,12 +377,70 @@ bool KStarsData::readStarData( void ) {
 			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
 			return false;
 		}
+		// magnitude level is reached
+		if (ready == true) break;
 	}
 
 //Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
 	maxSetMagnitude = options->magLimitDrawStar;
+	delete saoFileReader;
+	saoFileReader = 0;
 	return true;
 }
+
+void KStarsData::processSAO(QString *line, bool reloadedData) {
+	QString name, gname, SpType;
+	int rah, ram, ras, dd, dm, ds;
+	QChar sgn;
+	float mag;
+
+	name = ""; gname = "";
+
+	rah = line->mid( 0, 2 ).toInt();
+	ram = line->mid( 2, 2 ).toInt();
+	ras = int(line->mid( 4, 6 ).toDouble() + 0.5); //add 0.5 to make int() pick nearest integer
+
+	sgn = line->at(17);
+	dd = line->mid(18, 2).toInt();
+	dm = line->mid(20, 2).toInt();
+	ds = int(line->mid(22, 5).toDouble() + 0.5); //add 0.5 to make int() pick nearest integer
+	// star magnitude
+	mag = line->mid( 33, 4 ).toFloat();
+
+	SpType = line->mid(37, 2);
+	name = line->mid(40 ).stripWhiteSpace(); //the rest of the line
+	if (name.contains( ':' )) { //genetive form exists
+		gname = name.mid( name.find(':')+1 );
+		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+	}
+
+	bool starIsUnnamed = false;
+	if (name.isEmpty()) {
+		name = "star";
+		starIsUnnamed = true;
+	}
+
+	dms r;
+	r.setH(rah, ram, ras);
+	dms d(dd, dm, ds);
+
+	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
+
+	StarObject *o = new StarObject(r, d, mag, name, gname, SpType);
+	starList.append(o);
+
+	// add named stars to list
+	if (starIsUnnamed == true) {
+		ObjNames.append(o);
+	}
+
+	if (reloadedData == true) {
+		// recompute coordinates if AltAz is used
+		o->EquatorialToHorizontal( LSTh, kstars->geo()->lat() );
+	}
+
+}
+
 
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readDeepSkyData( void ) {
@@ -928,7 +971,6 @@ bool KStarsData::readCityData( void ) {
 	QFile file;
 	bool citiesFound = false;
 
-
 // begin new code
 	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
     KSFileReader fileReader( file ); // close file is included
@@ -974,56 +1016,47 @@ void KStarsData::restoreOptions()
 }
 
 void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
-/*
-	* Only reload data if not loaded yet or if it is forced by parameter (checkDataPumpAction).
-	*/
+// only reload data if not loaded yet
+// if checkDataPumpAction() detects that new magnitude is higher than the
+// loaded, it can force a reload
 	if ( newMagnitude > maxSetMagnitude || forceReload ) {
-
 		maxSetMagnitude = newMagnitude;  // store new highest magnitude level
 		
-		if ( !reloadingData() ) {  // if not allready reloading data
-			// create source object
-			source = new FileSource( this, "sao.dat" , newMagnitude );
-			// create dataSink object
-			loader = new StarDataSink( this );
-			// make connections
-			connect( loader, SIGNAL( done() ), this, SLOT( checkDataPumpAction() ) );
-			connect( loader, SIGNAL( updateSkymap() ), this, SLOT( updateSkymap() ) );
-			connect( loader, SIGNAL( clearCache() ), this, SLOT( sendClearCache() ) );
-			// create QDataPump object and start reloading
-			pump = new QDataPump ( source, (QDataSink *) loader );
+		if (reloadingData() == false) {  // if not allready reloading data
+			source = new FileSource(this, newMagnitude);
+			loader = new StarDataSink(this);
+			connect(loader, SIGNAL(done()), this, SLOT(checkDataPumpAction()));
+			connect(loader, SIGNAL(updateSkymap()), this, SLOT(updateSkymap()));
+			connect(loader, SIGNAL(clearCache()), this, SLOT(sendClearCache()));
+			// start reloading
+			pump = new QDataPump (source, (QDataSink*) loader);
 		}
 	}
-// change current magnitude level in KStarsOptions
-	options->setMagLimitDrawStar( newMagnitude );
-	
+	// change current magnitude level in KStarsOptions
+	options->setMagLimitDrawStar(newMagnitude);
 }
 
 void KStarsData::checkDataPumpAction() {
-	bool reloadMoreData = false;  // default is false, just if new datas are needed it will set to true
-	float sourceMag(0.0);  // init with 0.0 if source doesn't exist
-	if ( source ) {  // if source exists
-		sourceMag = source->magnitude();
-		if ( sourceMag < maxSetMagnitude ) reloadMoreData = true;
+	// it will set to true if new data should be reloaded
+	bool reloadMoreData = false;
+	if (source != 0) {
+		// check if a new reload must be started
+		if (source->magnitude() < maxSetMagnitude) reloadMoreData = true;
 		delete source;
 		source = 0;
 	}
-	if ( pump ) {  // if pump exists
+	if (pump != 0) {  // if pump exists
 		delete pump;
 		pump = 0;
 	}
-	if ( loader ) {  // if loader exists
+	if (loader != 0) {  // if loader exists
 		delete loader;
 		loader = 0;
 	}
-/**
-	*If magnitude was changed while reloading data start a new reload of data.
-	*/
-	if ( reloadMoreData ) {
-		setMagnitude( maxSetMagnitude, true );
+	// If magnitude was changed while reloading data start a new reload of data.
+	if (reloadMoreData == true) {
+		setMagnitude(maxSetMagnitude, true);
 	}
-	else
-		if ( sourceMag <= 6.0 ) updateSkymap();  // update Skymap
 }
 
 bool KStarsData::reloadingData() {

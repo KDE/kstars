@@ -28,7 +28,6 @@
 
 #include <qobject.h>
 #include <qasyncio.h>
-#include <qtextstream.h>
 
 #include "starobject.h"
 
@@ -68,16 +67,14 @@ class StarDataSink : public QObject, public QDataSink {
 
 	private:
 
-		QTextStream stream;
-
 		KStarsData *ksData;
-      	
-		float lastMagnitude;
-		
-		int magLevel;
 
-		bool nameListChanged;
-      	
+		// has objectnamelist changed while reloading?
+		uint nameListCount;
+
+		// counts the number of blocks
+		uint receivedBlocks;
+
 	signals:
 
 	/**

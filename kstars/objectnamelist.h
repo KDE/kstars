@@ -78,6 +78,8 @@ class ObjectNameList {
 		*/
 		void setLanguage( bool lang );
 
+		uint count() { return amount; }
+
 	private:
 
 	/**
@@ -121,6 +123,8 @@ class ObjectNameList {
 		int getIndex( const QString &name = QString::null );
 
 		Language language;
+
+		unsigned int amount;
 };
 
 #endif
