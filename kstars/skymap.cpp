@@ -152,7 +152,7 @@ void SkyMap::initPopupMenu( void ) {
 	pmenu->insertItem( pmTransitTime );
 	pmenu->insertItem( pmSetTime );
 	pmenu->insertSeparator();
-	pmenu->insertItem( i18n( "Center and track" ), this, SLOT( slotCenter() ) );
+	pmenu->insertItem( i18n( "Center and Track" ), this, SLOT( slotCenter() ) );
 	pmenu->insertSeparator();
 }
 

@@ -269,11 +269,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QSpacerItem *smallSpacerRight = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
 	QSpacerItem *smallSpacerVert = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
 
-	showPlanetNames = new QCheckBox( i18n( "Show Planet Names" ), PlanetTab, "show_planet_names" );
+	showPlanetNames = new QCheckBox( i18n( "Show planet names" ), PlanetTab, "show_planet_names" );
 	showPlanetNames->setFont( stdFont );
 	showPlanetNames->setChecked( ksw->options()->drawPlanetName );
 
-	showPlanetImages = new QCheckBox( i18n( "Show Planet Images" ), PlanetTab, "show_planet_images" );
+	showPlanetImages = new QCheckBox( i18n( "Show planet images" ), PlanetTab, "show_planet_images" );
 	showPlanetImages->setFont( stdFont );
 	showPlanetImages->setChecked( ksw->options()->drawPlanetImage );
 
@@ -309,7 +309,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayGuideTab->setSpacing( 6 );
 	vlayGuideTab->setMargin( 11 );
 
-	showConstellLines = new QCheckBox( i18n( "Constellation Lines" ), GuideTab );
+	showConstellLines = new QCheckBox( i18n( "Constellation lines" ), GuideTab );
 	showConstellLines->setFont( stdFont );
 	showConstellLines->setChecked( ksw->options()->drawConstellLines );
 
@@ -337,11 +337,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showMilkyWayFilled->setChecked( ksw->options()->fillMilkyWay );
   showMilkyWayFilled->setEnabled( showMilkyWay->isChecked() );
 
-	showGrid = new QCheckBox( i18n( "Coordinate Grid" ), GuideTab );
+	showGrid = new QCheckBox( i18n( "Coordinate grid" ), GuideTab );
 	showGrid->setFont( stdFont );
 	showGrid->setChecked( ksw->options()->drawGrid );
 
-	showEquator = new QCheckBox( i18n( "Celestial Equator" ), GuideTab );
+	showEquator = new QCheckBox( i18n( "Celestial equator" ), GuideTab );
 	showEquator->setFont( stdFont );
 	showEquator->setChecked( ksw->options()->drawEquator );
 
@@ -536,11 +536,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayAdvancedTab->setSpacing( 6 );
 	vlayAdvancedTab->setMargin( 11 );
 
-	useRefraction = new QCheckBox( i18n( "Correct for Atmospheric Refraction" ), AdvancedTab );
+	useRefraction = new QCheckBox( i18n( "Correct for atmospheric refraction" ), AdvancedTab );
 	useRefraction->setFont( stdFont );
 	useRefraction->setChecked( ksw->options()->useRefraction );
 
-	animateSlewing = new QCheckBox( i18n( "Use Animated Slewing" ), AdvancedTab );
+	animateSlewing = new QCheckBox( i18n( "Use animated slewing" ), AdvancedTab );
 	animateSlewing->setFont( stdFont );
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
@@ -549,7 +549,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
 	hsbLabel->setText( i18n( "also hide if Time Scale greater than: " ) );
 
-	hideObjects = new QCheckBox( i18n( "Hide Objects While Moving" ), AdvancedTab );
+	hideObjects = new QCheckBox( i18n( "Hide objects while moving" ), AdvancedTab );
 	hideObjects->setFont( stdFont );
 	hideObjects->setChecked( ksw->options()->hideOnSlew );
 
@@ -580,15 +580,15 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	hideMW->setFont( stdFont );
 	hideMW->setChecked( ksw->options()->hideMW );
 
-	hideCNames = new QCheckBox( i18n( "Constellation Names" ), HideBox );
+	hideCNames = new QCheckBox( i18n( "Constellation names" ), HideBox );
 	hideCNames->setFont( stdFont );
 	hideCNames->setChecked( ksw->options()->hideCNames );
 
-	hideCLines = new QCheckBox( i18n( "Constellation Lines" ), HideBox );
+	hideCLines = new QCheckBox( i18n( "Constellation lines" ), HideBox );
 	hideCLines->setFont( stdFont );
 	hideCLines->setChecked( ksw->options()->hideCLines );
 
-	hideGrid = new QCheckBox( i18n( "Coordinate Grid" ), HideBox );
+	hideGrid = new QCheckBox( i18n( "Coordinate grid" ), HideBox );
 	hideGrid->setFont( stdFont );
 	hideGrid->setChecked( ksw->options()->hideGrid );
 
