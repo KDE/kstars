@@ -184,8 +184,8 @@ to make the script executable:
 <parameter>trackmoon.kstars</parameter>
 </userinput>.  The script can then be executed at any time by typing
 <userinput><command>./trackmoon.kstars</command></userinput> in the 
-directory which contains the script.  Note that the script will only
-work if an instance of KStars is already running.  You can use the 
+folder which contains the script.  Note that the script will only
+work if an instance of &kstars; is already running.  You can use the 
 <command>dcopstart</command> command in a script to launch a new instance 
 &kstars;.
 </para>

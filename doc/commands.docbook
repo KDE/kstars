@@ -697,7 +697,7 @@ the web browser or the image viewer.  You can use this to add links to
 files on your local disk, so this feature could be used to attach
 observing logs or other custom information to objects in &kstars;.
 Your custom links are automatically loaded whenever &kstars; starts up,
-and they are stored in the directory <filename
+and they are stored in the folder <filename
 class="directory">~/.kde/share/apps/kstars/</filename>, in files
 <filename>myimage_url.dat</filename> and
 <filename>myinfo_url.dat</filename>.  If you build an extensive list
