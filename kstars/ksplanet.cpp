@@ -25,6 +25,16 @@
 
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
+KSPlanet::OrbitDataColl::OrbitDataColl() {
+// avoid memory leaks
+	for (int i=0; i<6; i++) {
+		Lon[i].setAutoDelete(true);
+		Lat[i].setAutoDelete(true);
+		Dst[i].setAutoDelete(true);
+	}
+}
+
+
 KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {};
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname, 

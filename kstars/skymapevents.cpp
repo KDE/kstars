@@ -921,6 +921,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
 
 	QList<QPoint> points;
+	points.setAutoDelete(true);
 	int ptsCount;
 	int mwmax = pixelScale[ ksw->data()->ZoomLevel ]/100;
 	int guidemax = pixelScale[ ksw->data()->ZoomLevel ]/10;
@@ -1028,18 +1029,18 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
     //next, the meridians
 		for ( double RA=0.; RA<24.; RA += 2. ) {
 			bool newlyVisible = false;
-			SkyPoint *sp = new SkyPoint( RA, -90. );
-			if ( ksw->options()->useAltAz ) sp->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
-			QPoint o = getXY( sp, ksw->options()->useAltAz, ksw->options()->useRefraction );
+			SkyPoint *sp1 = new SkyPoint( RA, -90. );
+			if ( ksw->options()->useAltAz ) sp1->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+			QPoint o = getXY( sp1, ksw->options()->useAltAz, ksw->options()->useRefraction );
 			psky.moveTo( o.x(), o.y() );
 
 			double dDec = 1.;
 			for ( double Dec=-89.; Dec<=90.; Dec+=dDec ) {
-				sp->set( RA, Dec );
-				if ( ksw->options()->useAltAz ) sp->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+				sp1->set( RA, Dec );
+				if ( ksw->options()->useAltAz ) sp1->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
-				if ( checkVisibility( sp, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
-					o = getXY( sp, ksw->options()->useAltAz, ksw->options()->useRefraction );
+				if ( checkVisibility( sp1, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+					o = getXY( sp1, ksw->options()->useAltAz, ksw->options()->useRefraction );
   	  	
 					int dx = psky.pos().x() - o.x();
 					int dy = psky.pos().y() - o.y();
@@ -1055,6 +1056,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					}
 				}
 			}
+			delete sp1;  // avoid memory leak
 		}
 	}
 

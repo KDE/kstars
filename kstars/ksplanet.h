@@ -80,6 +80,8 @@ protected:
 	typedef QVector<OrbitData> OBArray[6];
 	class OrbitDataColl {
 		public:
+			OrbitDataColl();
+
 			OBArray Lon;
 			OBArray Lat;
 			OBArray Dst;
