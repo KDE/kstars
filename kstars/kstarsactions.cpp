@@ -32,6 +32,7 @@
 #include "infoboxes.h"
 #include "ksutils.h"
 #include "elts.h"
+#include "wutdialog.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -84,6 +85,10 @@ void KStars::slotElTs() {
 	eltsDialog->show();
 }
 
+void KStars::slotWUT() {
+	WUTDialog dialog(this);
+	dialog.exec();
+}
 
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);

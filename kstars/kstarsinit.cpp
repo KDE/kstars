@@ -204,6 +204,9 @@ void KStars::initActions() {
 	new KAction(i18n( "Elevation vs. Time"), KAccel::stringToKey ( "Ctrl+E"),
 			                           this, SLOT( slotElTs() ), actionCollection(), "elevation_vs_time");
 
+	new KAction(i18n( "What's up tonight"), 0,
+			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
+
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,
 			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );

@@ -299,7 +299,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 
 		void slotElTs();
-    
+
+		/**
+		 * action slot: open What's up tonight dialog
+		 */
+    void slotWUT();
 
 		/**
 			*action slot: open dialog for setting the view options
