@@ -20,8 +20,13 @@
 #include "skyobject.h"
 #include "ksplanetbase.h"
 #include "kspopupmenu.h"
-#include "indidevice.h"
+
 #include "indimenu.h"
+#include "devicemanager.h"
+#include "indidevice.h"
+#include "indigroup.h"
+#include "indiproperty.h"
+
 
 #include <qlabel.h>
 
@@ -123,81 +128,66 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 
 bool KSPopupMenu::addINDI(void)
 {
+  
   INDIMenu *indiMenu = ksw->getINDIMenu();
+  DeviceManager *mgr;
+  INDI_D *dev;
+  INDI_G *grp;
   INDI_P *prop;
-  bool grouped = false;
+  INDI_E *element;
   int id=0;
 
-  if (indiMenu->mgr.size() == 0)
+  if (indiMenu->mgr.count() == 0)
    return false;
 
-  for (uint i=0; i < indiMenu->mgr.size(); i++)
+  for (mgr = indiMenu->mgr.first(); mgr != NULL; mgr = indiMenu->mgr.next())
   {
-    for (uint j=0; j < indiMenu->mgr[i]->indi_dev.size(); j++)
+    for (dev = mgr->indi_dev.first(), id = 0; dev != NULL; dev = mgr->indi_dev.next())
     {
-        if (!indiMenu->mgr[i]->indi_dev[j]->INDIStdSupport)
+        if (!dev->INDIStdSupport)
 	 continue;
 
-	id = 0;
 	KPopupMenu *menuDevice = new KPopupMenu();
-	insertItem(QString(indiMenu->mgr[i]->indi_dev[j]->label), menuDevice);
+	
+	insertItem(dev->label, menuDevice);
 
-        for (uint l=0; l < indiMenu->mgr[i]->indi_dev[j]->gl.size(); l++)
+        for (grp = dev->gl.first(); grp != NULL; grp = dev->gl.next())
 	{
-	   for (uint k=0; k < indiMenu->mgr[i]->indi_dev[j]->gl[l]->pl.size(); k++)
+	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
 	   {
-	     prop = indiMenu->mgr[i]->indi_dev[j]->gl[l]->pl[k];
+	     // Only std are allowed to show
+	     if (prop->stdID == -1) continue;
+	     // Only switches are shown
+ 	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO) continue;
+	   
+	     menuDevice->insertSeparator();
 
-	     if (!prop->isINDIStd)
-	      continue;
+	     prop->assosiatedPopup = menuDevice;
 
-	   if (grouped && (prop->guitype == PG_BUTTONS || prop->guitype == PG_RADIO))
-	   {
-	    menuDevice->insertSeparator();
-	    grouped = false;
-	   }
-
-	   grouped = true;
-	   prop->parentPopup = menuDevice;
-
-	     if (prop->guitype == PG_BUTTONS)
-  	     {
-                for (uint g=0; g < prop->labels.size(); g++)
+	     for (element = prop->el.first(); element != NULL; element = prop->el.next(), id++)
+             {
+		menuDevice->insertItem (element->label, id);
+	 	if (element->state == PS_ON)
 		{
-			menuDevice->insertItem ( QString(prop->labels[g]->label), id);
-
-	 	if ( prop->labels[g]->state == PS_ON)
-		{
-		        // Slew, Track, Sync are not checked
-			if ((prop->labels[g]->name != "Slew") &&
-			    (prop->labels[g]->name != "Track") &&
-			    (prop->labels[g]->name != "Sync"))
-		  	menuDevice->setItemChecked(id, true);
+		        // Slew, Track, Sync are never checked in the skymap
+			if ((element->name != "SLEW") && (element->name != "TRACK") &&
+			    (element->name != "SYNC"))
+		  		menuDevice->setItemChecked(id, true);
 			else
-			menuDevice->setItemChecked(id, false);
+				menuDevice->setItemChecked(id, false);
 		}
 	 	else
 	        	menuDevice->setItemChecked(id, false);
-
-		//menuDevice->connectItem(id, prop, SLOT(newSwitch(g)));
-		id++;
-
-	        }
+	     }
 
 	     QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
-
-	     }
+	    
 	    } // end property
-
 	  } // end group
-
-
-   } // end device
- } // end device manager
-
+       } // end device
+    } // end device manager
 
  return true;
-
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,

@@ -32,15 +32,20 @@
 extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
 extern ITextVectorProperty Time;
-extern char mydev[];
+extern INumberVectorProperty SDTime;
 
-static IText   VersionT[] ={{ "Version Date", "", ""} ,
-			   { "Version Time", "", ""} ,
-			   { "Version Number", "", ""} ,
-			   { "Full Version", "", ""} ,
-			   { "Product Name", "", ""}};
+static IText   VersionT[] ={{ "Date", ""} ,
+			   { "Time", ""} ,
+			   { "Number", ""} ,
+			   { "Full", ""} ,
+			   { "Name", ""}};
 
 static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT)};
+
+void changeLX200AutostarDeviceName(char *newName)
+{
+  strcpy(VersionInfo.device, newName);
+}
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
@@ -54,12 +59,12 @@ LX200Autostar::LX200Autostar() : LX200Generic()
 void LX200Autostar::ISGetProperties (const char *dev)
 {
 
-if (dev && strcmp (mydev, dev))
+if (dev && strcmp (thisDevice, dev))
     return;
 
     LX200Generic::ISGetProperties(dev);
 
-    IDDefText (&VersionInfo);
+    IDDefText (&VersionInfo, NULL);
 
 }
 
@@ -75,7 +80,7 @@ void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[],
 	IText *tp;
 
 	// ignore if not ours //
-	if (strcmp (dev, mydev))
+	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
@@ -127,6 +132,10 @@ void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[],
 
 		// update JD
                 JD = UTtoJD(&utm);
+		
+		// update Siderial time
+		if (getSDTime(&SDTime.np[0].value) > 0)
+		  IDSetNumber(&SDTime, NULL);
 
 		IDLog("New JD is %f\n", (float) JD);
 
@@ -174,16 +183,16 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
    // process parent first
    LX200Generic::getBasicData();
 
-   VersionInfo.t[0].text = new char[64];
-   getVersionDate(VersionInfo.t[0].text);
-   VersionInfo.t[1].text = new char[64];
-   getVersionTime(VersionInfo.t[1].text);
-   VersionInfo.t[2].text = new char[64];
-   getVersionNumber(VersionInfo.t[2].text);
-   VersionInfo.t[3].text = new char[128];
-   getFullVersion(VersionInfo.t[3].text);
-   VersionInfo.t[4].text = new char[128];
-   getProductName(VersionInfo.t[4].text);
+   VersionInfo.tp[0].text = new char[64];
+   getVersionDate(VersionInfo.tp[0].text);
+   VersionInfo.tp[1].text = new char[64];
+   getVersionTime(VersionInfo.tp[1].text);
+   VersionInfo.tp[2].text = new char[64];
+   getVersionNumber(VersionInfo.tp[2].text);
+   VersionInfo.tp[3].text = new char[128];
+   getFullVersion(VersionInfo.tp[3].text);
+   VersionInfo.tp[4].text = new char[128];
+   getProductName(VersionInfo.tp[4].text);
 
    IDSetText(&VersionInfo, NULL);
 

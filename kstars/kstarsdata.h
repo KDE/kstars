@@ -56,6 +56,7 @@
 #include "detaildialog.h"
 #include "jupitermoons.h"
 #include "indidriver.h"
+#include "indistd.h"
 #include "telescopewizardprocess.h"
 
 #define NHIPFILES 127
@@ -107,6 +108,7 @@ public:
 	friend class ViewOpsDialog;
 	friend class INDIDriver;
 	friend class INDI_P;
+	friend class INDIStdProperty;
 	friend class PlanetViewer;
 	friend class JMoonTool;
 	friend class telescopeWizardProcess;

@@ -38,6 +38,8 @@ class LX200GPS : public LX200_16
 
 };
 
+void changeLX200GPSDeviceName(char *newName);
+
 #endif
 
 
