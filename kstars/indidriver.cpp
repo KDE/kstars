@@ -732,7 +732,7 @@ void INDIDriver::saveHosts()
  if ( !file.open( IO_WriteOnly))
  {
   QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
- KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+ KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
   return;
  }
 

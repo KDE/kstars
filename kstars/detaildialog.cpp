@@ -323,7 +323,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	Dist->setAlignment( AlignRight );
 	Dist->setFont( boldFont );
 
-	if ( useSize ) { SizeLabel = new QLabel( i18n( "Angular Size:" ), this ); }
+	if ( useSize ) { SizeLabel = new QLabel( i18n( "Angular size:" ), this ); }
 	AngSize = new QLabel( size, this );
 	AngSize->setAlignment( AlignRight );
 	AngSize->setFont( boldFont );
@@ -364,7 +364,7 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget 
 
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
-	HALabel = new QLabel( i18n( "Hour Angle:" ), this );
+	HALabel = new QLabel( i18n( "Hour angle:" ), this );
 	
 	RA  = new QLabel( o->ra()->toHMSString(), this );
 	Dec = new QLabel( o->dec()->toDMSString(), this );

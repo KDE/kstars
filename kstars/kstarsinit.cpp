@@ -52,7 +52,7 @@ void KStars::initActions() {
 			this, SLOT( newWindow() ), actionCollection(), "new_window");
 	new KAction(i18n("&Close Window"), "fileclose", KShortcut( "Ctrl+W"  ),
 			this, SLOT( closeWindow() ), actionCollection(), "close_window");
-	new KAction( i18n( "&Download data..." ), "lknewstuff", KShortcut( "Ctrl+D" ),
+	new KAction( i18n( "&Download Data..." ), "lknewstuff", KShortcut( "Ctrl+D" ),
 			this, SLOT( slotDownload() ), actionCollection(), "get_data" );
 	new KAction( i18n( "Open FITS..."), "fileopen", KShortcut( "Ctrl+O"), this, SLOT( slotOpenFITS()), actionCollection(), "open_file");
 	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KShortcut( "Ctrl+I" ),
@@ -65,7 +65,7 @@ void KStars::initActions() {
 //Time Menu:
 	new KAction( i18n( "Set Time to &Now" ), KShortcut( "Ctrl+E"  ),
 		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
-	new KAction( i18n( "set clock to a new time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
+	new KAction( i18n( "set Clock to New Time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
 		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),

@@ -186,7 +186,7 @@ void LCGenerator::createGUI()
     LCGeneratorDialogLayout->addLayout( ButtonHLayout );
     
     
-    StarInfoBox->setTitle( i18n( "Star Info:" ) );
+    StarInfoBox->setTitle( i18n( "Star info:" ) );
     desigLabel->setText( i18n( "Designation:" ) );
     nameLabel->setText( i18n( "Or name:" ) );
     startLabel->setText( i18n( "Start date:" ) );
