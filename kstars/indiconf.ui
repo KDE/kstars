@@ -100,7 +100,7 @@
                         <cstring>telescopeLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>Telescope Port:</string>
+                        <string>Telescope port:</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">

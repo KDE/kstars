@@ -12,9 +12,6 @@
             <height>95</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>ArgSetFocusTimeoutINDI</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>

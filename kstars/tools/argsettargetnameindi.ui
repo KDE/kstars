@@ -12,9 +12,6 @@
             <height>104</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>ArgSetTargetNameINDI</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
