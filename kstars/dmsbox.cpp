@@ -98,6 +98,9 @@ void dmsBox::setDegType( bool t ) {
 		QWhatsThis::add( this, i18n( "Enter an angle value in hours.  The angle can be expressed as a simple integer (\"12\") or floating-point (\"12.333\") value, or as space- or colon-delimited values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", \"12:20\", \"12 20.0\", etc.)." ) );
 	}
 
+	clear();
+	unsetPalette();
+	EmptyFlag = false;
 	setEmptyText();
 }
 
