@@ -335,7 +335,8 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf){
 	delete num;
 }
 
-void SkyPoint::Equatorial1950ToGalactic(void) {
+void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
+	
 	double a = 192.25;
 	dms b, c;
 	double sinb, cosb, sina_RA, cosa_RA, sinDEC, cosDEC, tanDEC;
@@ -354,7 +355,7 @@ void SkyPoint::Equatorial1950ToGalactic(void) {
 	galLat.setRadians( asin(sinDEC*sinb+cosDEC*cosb*cosa_RA) );
 }
 
-void SkyPoint::GalacticToEquatorial1950(void) {
+void SkyPoint::GalacticToEquatorial1950(const dms* galLong, const dms* galLat) {
 
 	double a = 123.0;
 	dms b, c, galLong_a;
@@ -362,12 +363,12 @@ void SkyPoint::GalacticToEquatorial1950(void) {
 
 	c.setD(12.25);
 	b.setD(27.4);
-	tangLat = tan( galLat.radians() );
+	tangLat = tan( galLat->radians() );
 
 
-	galLat.SinCos(singLat,cosgLat);
+	galLat->SinCos(singLat,cosgLat);
 
-	dms( galLong.Degrees()-a ).SinCos(singLong_a,cosgLong_a);
+	dms( galLong->Degrees()-a ).SinCos(singLong_a,cosgLong_a);
 	b.SinCos(sinb,cosb);
 
 	RA.setRadians(c.radians() + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );

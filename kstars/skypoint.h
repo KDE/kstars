@@ -165,24 +165,24 @@ public:
 /**Sets Galactic Longitude.
 	*@param glo Galactic Longitude.
 	*/
-	void setGalLong( dms glo ) { galLong.set( glo ); }
+//	void setGalLong( dms glo ) { galLong.set( glo ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param glo Galactic Longitude, expressed as a double.
 	*/
-	void setGalLong( double glo ) { galLong.setD( glo ); }
+//	void setGalLong( double glo ) { galLong.setD( glo ); }
 
 /**Sets Galactic Longitude.
 	*@param gla Galactic Longitude.
 	*/
-	void setGalLat( dms gla ) { galLat.set( gla ); }
+//	void setGalLat( dms gla ) { galLat.set( gla ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param gla Galactic Longitude, expressed as a double.
 	*/
-	void setGalLat( double gla ) { galLat.setD( gla ); }
+//	void setGalLat( double gla ) { galLat.setD( gla ); }
 
 ////
 //// 2. Returning coordinates.
@@ -214,11 +214,11 @@ public:
 
 /**@return a pointer to the current galactic latitude.
 	*/
-	const dms* gLat() const { return &galLat; }
+//	const dms* gLat() const { return &galLat; }
 
 /**@return a pointer to the current galactic longitude.
 	*/
-	const dms* gLong() const { return &galLong; }
+//	const dms* gLong() const { return &galLong; }
 
 ////
 //// 3. Coordinate conversions.
@@ -267,13 +267,13 @@ public:
 	* epoch 1950. RA and Dec are, therefore assumed to be B1950
 	* coordinates.
 	*/
-	void Equatorial1950ToGalactic(void);
+	void Equatorial1950ToGalactic(dms &galLong, dms &galLat);
 
 /** Computes equatorial coordinates referred to 1950 from galactic ones referred to
 	* epoch B1950. RA and Dec are, therefore assumed to be B1950
 	* coordinates.
 	*/
-	void GalacticToEquatorial1950(void);
+	void GalacticToEquatorial1950(const dms* galLong, const dms* galLat);
 
 ////
 //// 4. Coordinate update/corrections.
@@ -405,8 +405,6 @@ private:
 	dms RA0, Dec0; //catalog coordinates
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
-	dms galLat, galLong; // Galactic coordinates
-//	dms EcLong, EcLat; // Ecliptic longitude and ecliptic Latitude
 };
 
 #endif

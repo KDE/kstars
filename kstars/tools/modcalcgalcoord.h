@@ -18,8 +18,8 @@
 #ifndef MODCALCGALCOORD_H
 #define MODCALCGALCOORD_H
 
-#include "modcalcgalcoorddlg.h"
 #include "dms.h"
+#include "modcalcgalcoorddlg.h"
 
 /**
   * Class which implements the KStars calculator module to compute

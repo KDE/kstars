@@ -17,9 +17,9 @@
 
 #include "dms.h"
 #include "dmsbox.h"
+#include "skypoint.h"
 #include "modcalcgalcoord.h"
 #include "modcalcgalcoord.moc"
-#include "skypoint.h"
 #include "kstarsdatetime.h"
 
 #include <qradiobutton.h>
@@ -103,9 +103,7 @@ void modCalcGalCoord::GalToEqu(void) {
 
 	SkyPoint sp = SkyPoint();
 
-	sp.setGalLong(galLong);
-	sp.setGalLat(galLat);
-	sp.GalacticToEquatorial1950();
+	sp.GalacticToEquatorial1950(&galLong, &galLat);
 	sp.set(*sp.ra(), *sp.dec() );
 
 	KStarsDateTime dt;
@@ -126,16 +124,16 @@ void modCalcGalCoord::EquToGal(void) {
 	long double jd0 = dt.djd();
 	sp.precessFromAnyEpoch(jd0,B1950);
 
-	sp.Equatorial1950ToGalactic();
-	galLong.set( *sp.gLong() );
-	galLat.set( *sp.gLat() );
+	sp.Equatorial1950ToGalactic(galLong, galLat);
 
 }
 
 void modCalcGalCoord::galCheck() {
 
 	galLatCheckBatch->setChecked(false);
+	galLatBoxBatch->setEnabled(false);
 	galLongCheckBatch->setChecked(false);
+	galLongBoxBatch->setEnabled(false);
 	galInputCoords = FALSE;
 
 }
@@ -175,12 +173,12 @@ void modCalcGalCoord::slotEpochCheckedBatch(){
 
 	epochCheckBatch->setChecked(false);
 
-//	if ( epochCheckBatch->isChecked() ) {
-//		epochBoxBatch->setEnabled( false );
-//		galCheck();
-//	} else {
-//		epochBoxBatch->setEnabled( true );
-//	}
+	if ( epochCheckBatch->isChecked() ) {
+		epochBoxBatch->setEnabled( false );
+		galCheck();
+	} else {
+		epochBoxBatch->setEnabled( true );
+	}
 }
 
 void modCalcGalCoord::slotGalLatCheckedBatch(){
@@ -264,6 +262,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 	SkyPoint sp;
 	dms raB, decB, galLatB, galLongB;
 	double epoch0B;
+	KStarsDateTime dt;
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -308,10 +307,8 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 					ostream << galLatB.toDMSString() << space;
 
 			sp = SkyPoint ();
-			sp.setGalLong(galLongB);
-			sp.setGalLat(galLatB);
-			sp.GalacticToEquatorial1950();
-			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+			sp.GalacticToEquatorial1950(&galLongB, &galLatB);
+			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << epoch0B << endl;
 		// Input coords. are equatorial coordinates:
 
 		} else {
@@ -359,8 +356,11 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 					ostream << epoch0B << space;
 
 			sp = SkyPoint (raB, decB);
-			sp.Equatorial1950ToGalactic();
-			ostream << sp.gLong()->toDMSString() << space << sp.gLat()->toDMSString() << endl;
+			dt.setFromEpoch( epoch0B );
+			long double jdf = dt.djd();
+			sp.precessFromAnyEpoch(B1950,jdf);
+			sp.Equatorial1950ToGalactic(galLongB, galLatB);
+			ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << endl;
 
 		}
 
