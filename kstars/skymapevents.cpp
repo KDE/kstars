@@ -394,8 +394,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		beginRulerPoint = getXY( previousClickedPoint(), data->options->useAltAz, data->options->useRefraction);
 
 		endRulerPoint =  QPoint(e->x(), e->y());
-		update();
-		return;
 	}
 		
 	
