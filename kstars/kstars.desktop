@@ -1,9 +1,9 @@
 # KDE Config File
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Exec=kstars -caption "%c" %i %m  
 Icon=kstars
-MiniIcon=kstars
 DocPath=kstars/index.html
 Comment=Desktop Planetarium
 Comment[af]=Werkskerm Planetarium
@@ -72,6 +72,8 @@ Name[ta]=கேஸ்டார்ஸ்
 Name[ven]=Vhadivhalea vha K
 Name[xx]=xxKStarsxx
 GenericName=Desktop Planetarium
+GenericName[af]=Werkskerm Planetarium
+GenericName[ar]=نموذج النظام الشمسي لسطح المكتب
 GenericName[bg]=Планетариум за работния плот
 GenericName[bs]=Desktop planetarijum
 GenericName[ca]=Planetari per a l'escriptori
