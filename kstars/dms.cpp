@@ -103,14 +103,14 @@ dms dms::operator- (dms angle)
 //---------------------------------------------------------------------------
 
 void dms::SinCos( double &sina, double &cosa ) {
-	sina = sin( radians() );
-	cosa = cos( radians() );
+	register double rad = radians();
+	sina = sin( rad );
+	cosa = cos( rad );
 }
 //---------------------------------------------------------------------------
 
 double dms::radians( void ) {
-  double Rad = Degrees()*PI()/180.0;
-  return Rad;
+	return (D*PI()/180.0);
 }
 //---------------------------------------------------------------------------
 
@@ -121,8 +121,8 @@ void dms::setRadians( double Rad ) {
 
 dms dms::reduce( void ) const {
 	double a = D;
-  while (a<0.0) {a += 360.0;}
-  while (a>=360.0) {a -= 360.0;}
+	while (a<0.0) {a += 360.0;}
+	while (a>=360.0) {a -= 360.0;}
 	return dms( a );
 }
 
