@@ -193,13 +193,6 @@ public:
 	*/
 	void clearPoints() { pList.clear(); }
 
-/**@short Draw the PlotObject on a QPainter.
-	*@param p the target QPainter.
-	*@param pbound rectangle defining the plot boundary in pixel coordinates
-	*@param dbound d-rectangle defining the plot boundary in data coordinates
-	*/
-	void draw( QPainter &p, QRect pbound, DRect dbound );
-
 private:
 	QPtrList<DPoint> pList;
 	unsigned int Size, Type, Parameter;

@@ -30,7 +30,6 @@ PlotWidget::PlotWidget( double x1, double x2, double y1, double y2, QWidget *par
 
 	setLimits( x1, x2, y1, y2 );
 	setSecondaryLimits( 0.0, 0.0, 0.0, 0.0 );
-	initTickmarks();
 
 	//Set dXS, XS2, dYS, YS2
 	XS2 = width() - XS1;
@@ -42,6 +41,8 @@ PlotWidget::PlotWidget( double x1, double x2, double y1, double y2, QWidget *par
 	setBGColor( QColor( "black" ) );
 	setFGColor( QColor( "white" ) );
 	setGridColor( QColor( "grey" ) );
+
+	ObjectList.setAutoDelete( TRUE );
 }
 
 void PlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
@@ -51,8 +52,9 @@ void PlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
 	else { YA1=y1; YA2=y2; }
 
 	dXA=XA2-XA1; dYA=YA2-YA1;
-
 	DataRect = DRect( XA1, YA1, dXA, dYA );
+
+	updateTickmarks();
 }
 
 void PlotWidget::setSecondaryLimits( double x1, double x2, double y1, double y2 ) {
@@ -62,19 +64,30 @@ void PlotWidget::setSecondaryLimits( double x1, double x2, double y1, double y2 
 	else { YB1=y1; YB2=y2; }
 
 	dXB=XB2-XB1; dYB=YB2-YB1;
+
+	updateTickmarks();
 }
 
-void PlotWidget::initTickmarks() {
+void PlotWidget::updateTickmarks() {
 	// Determine the number and spacing of tickmarks for the current plot limits.
 	// dX and dY are the interval covered by the limits in X and Y.
-	// We then factor this number by a power of ten: dX = tX * 10^[powX], such that tX
-	// is between 3 and 30.  The goal is to have int(tX) equal to the number of major tickmarks, each spaced
-	// by some distance dtX.  So we set dtX=10^[powX] at first.  Then, if tX is too big (greater than 5),
-	// we divide tX and multiply dtX by the same integer factor (2,4,5) until we get 3 <= tX <= 5.
-	// (and the same for tY, of course)
+	// We then factor this number by a power of ten: dX = tX * 10^[powX], such
+	// that tX is between 3 and 30.  The goal is to have int(tX) equal to the
+	// number of major tickmarks, each spaced by some distance dtX.
+	// So we set dtX=10^[powX] at first.  Then, if tX is too big (greater
+	// than 5), we divide tX and multiply dtX by the same integer factor
+	// (2,4,5) until we get 3 <= tX <= 5 (and the same for tY, of course).
 
-	if ( x1()==x2() ) { kdWarning() << "X range invalid! " << x1() << " to " << x2() << endl; XA1=0.0; XA2=1.0; return; }
-	if ( y1()==y2() ) { kdWarning() << "Y range invalid! " << y1() << " to " << y2() << endl; YA1=0.0; YA2=1.0; return; }
+	if ( x1()==x2() ) {
+		kdWarning() << "X range invalid! " << x1() << " to " << x2() << endl;
+		XA1=0.0; XA2=1.0;
+		return;
+	}
+	if ( y1()==y2() ) {
+		kdWarning() << "Y range invalid! " << y1() << " to " << y2() << endl;
+		YA1=0.0; YA2=1.0;
+		return;
+	}
 
 	int ntry(1);
 	if ( dXB > 0.0 ) ntry=2; //secondary limits are defined
@@ -100,11 +113,12 @@ void PlotWidget::initTickmarks() {
 		dtY = pow( 10.0, powY );
 		tX = dX/dtX;
 		tY = dY/dtY;
-		if ( tX < 3.0 ) { tX *= 10.0; dtX /= 10.0; } //don't use powX/powY after here, may be invalid...
+		if ( tX < 3.0 ) { tX *= 10.0; dtX /= 10.0; } //don't use powX/powY after here
 		if ( tY < 3.0 ) { tY *= 10.0; dtY /= 10.0; }
 		//tX and tY are now between 3 and 30.
 
-		//make sure tX and tY are between 3 and 5; set nX (number of big ticks) and mX (distance btwn ticks)
+		//make sure tX and tY are between 3 and 5;
+		//set nX (number of big ticks) and mX (distance btwn ticks)
 		if ( tX < 6.0 ) { //accept current values
 			mX = dtX;
 			nmajX = int(tX);
@@ -187,6 +201,8 @@ void PlotWidget::drawObjects( QPainter *p ) {
 		switch ( po->type() ) {
 			case PlotObject::POINTS :
 			{
+				p->setBrush( QColor( po->color() ) );
+
 				for ( DPoint *dp = po->points()->first(); dp; dp = po->points()->next() ) {
 					QPoint q = dp->qpoint( PixRect, DataRect );
 					int x1 = q.x() - po->size()/2;
@@ -199,6 +215,8 @@ void PlotWidget::drawObjects( QPainter *p ) {
 						default: p->drawPoint( q );
 					}
 				}
+
+				p->setBrush( Qt::NoBrush );
 				break;
 			}
 
@@ -225,6 +243,17 @@ void PlotWidget::drawObjects( QPainter *p ) {
 double PlotWidget::dmod( double a, double b ) { return ( b * ( ( a / b ) - int( a / b ) ) ); }
 
 void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool showTickLabels, bool showGrid ) {
+	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
+	p->setPen( bgColor() );
+	p->setBrush( bgColor() );
+	//left padding
+	p->drawRect( -XS1, -YS1, XS1, height() );
+	//right padding
+	p->drawRect( dXS, -YS1, XS1, height() );
+	//top padding
+	p->drawRect( 0, -YS1, dXS, YS1 );
+	//bottom padding
+	p->drawRect( 0, dYS, dXS, YS1 );
 
 	if ( showGrid ) {
 		//Grid lines are placed at locations of primary axes' major tickmarks
@@ -247,6 +276,8 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 	}
 
 	p->setPen( fgColor() );
+	p->setBrush( Qt::NoBrush );
+
 	if ( showAxes ) p->drawRect( PixRect ); //box outline
 
 	if ( showTickMarks ) {
@@ -254,7 +285,7 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 		double dminX = dXtick1/nminX1;
 		double dminY = dYtick1/nminY1;
 
-		bool secondaryLimits( false);
+		bool secondaryLimits( false );
 		if ( dXB > 0.0 ) secondaryLimits = true;
 
 		//--- Draw primary X tickmarks on bottom axis---//

@@ -49,7 +49,7 @@ public:
 
 /**@short Determine the placement of major and minor tickmarks, based on the current Limit settings
 	*/
-	void initTickmarks();
+	void updateTickmarks();
 	void setLimits( double xa1, double xa2, double ya1, double ya2 );
 	void setSecondaryLimits( double xb1, double xb2, double yb1, double yb2 );
 
@@ -84,11 +84,12 @@ private:
 
 	double dmod( double a, double b );
 
-	int nmajX1, nmajY1, nminX1, nminY1;
-	int nmajX2, nmajY2, nminX2, nminY2;
+	int XS1, XS2, YS1, YS2;
 	double dXtick1, dYtick1, dXtick2, dYtick2;
+	int nmajX1, nmajX2, nminX1, nminX2;
+	int nmajY1, nmajY2, nminY1, nminY2;
 
-	int dXS, XS1, XS2, dYS, YS1, YS2;
+	int dXS, dYS;
 	double dXA, XA1, XA2, dYA, YA1, YA2;
 	double dXB, XB1, XB2, dYB, YB1, YB2;
 	QRect PixRect;

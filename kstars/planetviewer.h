@@ -32,8 +32,16 @@ public:
 	PlanetViewer(QWidget *parent = 0, const char *name = 0);
 	~PlanetViewer();
 
+public slots:
+	void slotZoomIn();
+	void slotZoomOut();
+
+protected:
+	virtual void paintEvent( QPaintEvent *e );
+	virtual void keyPressEvent( QKeyEvent *e );
+
 private:
-	void paintEvent( QPaintEvent *e );
+	void initPlotObjects();
 	PlotWidget *pw;
 };
 
