@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>600</width>
-            <height>480</height>
+            <width>208</width>
+            <height>117</height>
         </rect>
     </property>
     <property name="caption">
@@ -107,32 +107,6 @@
         </widget>
     </widget>
 </widget>
-<connections>
-    <connection>
-        <sender>editRA</sender>
-        <signal>textChanged(const QString&amp;)</signal>
-        <receiver>FocusDialogDlg</receiver>
-        <slot>checkLineEdits()</slot>
-    </connection>
-    <connection>
-        <sender>editDec</sender>
-        <signal>textRotation(KCompletionBase::KeyBindingType)</signal>
-        <receiver>FocusDialogDlg</receiver>
-        <slot>checkLineEdits()</slot>
-    </connection>
-    <connection>
-        <sender>azBox</sender>
-        <signal>textChanged(const QString&amp;)</signal>
-        <receiver>FocusDialogDlg</receiver>
-        <slot>checkLineEdits()</slot>
-    </connection>
-    <connection>
-        <sender>altBox</sender>
-        <signal>textChanged(const QString&amp;)</signal>
-        <receiver>FocusDialogDlg</receiver>
-        <slot>checkLineEdits()</slot>
-    </connection>
-</connections>
 <slots>
     <slot>checkLineEdits()</slot>
 </slots>
