@@ -185,7 +185,7 @@ void KStars::initActions() {
 
 
 //Help Menu:
-	new KAction( i18n( "Tip of the Day..." ), "idea", 0,
+	new KAction( i18n( "Tip of the Day" ), "idea", 0,
 			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
 
 //Handbook toolBar item:
