@@ -872,20 +872,10 @@ QString DetailDialog::parseADVData(QString link)
   if ( (index = link.find("KSDEC")) != -1)
   {
     link.remove(index, 5);
-    if (selectedObject->dec()->degree() < 0)
-    {
-       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
+       subLink = QString().sprintf("%+03d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->arcmin(), selectedObject->dec()->arcsec());
        subLink = subLink.insert(3, "%20");
        subLink = subLink.insert(8, "%20");
-    }
-    else
-    {
-       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
-       subLink = subLink.insert(0, "%2B");
-       subLink = subLink.insert(5, "%20");
-       subLink = subLink.insert(10, "%20");
-    }
-
+    
     link = link.insert(index, subLink);
   }
 
