@@ -286,7 +286,7 @@ void LocationDialog::addCity( void ) {
 			unsigned int i;
 			for ( i=0; i < p->GetData()->geoList.count(); ++i ) {
 				if ( p->GetData()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
-					double TZ = double(int(lng.getD()/-15.0)); //estimate time zone
+					double TZ = double(int(lng.getD()/15.0)); //estimate time zone
 					p->GetData()->geoList.insert( i, new GeoLocation( lng.getD(), lat.getD(), NewCityName->text(), NewProvinceName->text(), NewCountryName->text(), TZ ) );
 					break;
 				}

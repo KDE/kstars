@@ -24,12 +24,12 @@ ldadd=-lkio -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Jason Harris
 configure_args=--with-qt-dir=/usr/lib/qt2 --prefix=/usr
 email=kstars@30doradus.org
 kdevprj_version=1.3
-lfv_open_groups=Translations
+lfv_open_groups=
 make_options=\s-j1
 makefiles=Makefile.am,kstars/Makefile.am,kstars/data/Makefile.am
 modifyMakefiles=true
@@ -118,15 +118,9 @@ install_location=$$(kde_datadir)/kstars/Cities.dat
 type=DATA
 
 [kstars/data/Makefile.am]
-files=kstars/data/Cities.dat,kstars/data/clines.dat,kstars/data/cnames.dat,kstars/data/ngc2000.dat,kstars/data/sao.dat,kstars/data/hi16-app-kstars.png,kstars/data/hi32-app-kstars.png,kstars/data/hi48-app-kstars.png,kstars/data/lo16-app-kstars.png,kstars/data/lo32-app-kstars.png,kstars/data/lo48-app-kstars.png,kstars/data/geomap.png,kstars/data/mercury.L0.vsop,kstars/data/mercury.L1.vsop,kstars/data/mercury.L2.vsop,kstars/data/mercury.L3.vsop,kstars/data/mercury.L4.vsop,kstars/data/mercury.L5.vsop,kstars/data/mercury.B0.vsop,kstars/data/mercury.B1.vsop,kstars/data/mercury.B2.vsop,kstars/data/mercury.B3.vsop,kstars/data/mercury.B4.vsop,kstars/data/mercury.B5.vsop,kstars/data/mercury.R0.vsop,kstars/data/mercury.R1.vsop,kstars/data/mercury.R2.vsop,kstars/data/mercury.R3.vsop,kstars/data/mercury.R4.vsop,kstars/data/mercury.R5.vsop,kstars/data/venus.L0.vsop,kstars/data/venus.L1.vsop,kstars/data/venus.L2.vsop,kstars/data/venus.L3.vsop,kstars/data/venus.L4.vsop,kstars/data/venus.L5.vsop,kstars/data/venus.B0.vsop,kstars/data/venus.B1.vsop,kstars/data/venus.B2.vsop,kstars/data/venus.B3.vsop,kstars/data/venus.B4.vsop,kstars/data/venus.B5.vsop,kstars/data/venus.R0.vsop,kstars/data/venus.R1.vsop,kstars/data/venus.R2.vsop,kstars/data/venus.R3.vsop,kstars/data/venus.R4.vsop,kstars/data/venus.R5.vsop,kstars/data/earth.L0.vsop,kstars/data/earth.L1.vsop,kstars/data/earth.L2.vsop,kstars/data/earth.L3.vsop,kstars/data/earth.L4.vsop,kstars/data/earth.L5.vsop,kstars/data/earth.B0.vsop,kstars/data/earth.B1.vsop,kstars/data/earth.B2.vsop,kstars/data/earth.B3.vsop,kstars/data/earth.B4.vsop,kstars/data/earth.R0.vsop,kstars/data/earth.R1.vsop,kstars/data/earth.R2.vsop,kstars/data/earth.R3.vsop,kstars/data/earth.R4.vsop,kstars/data/earth.R5.vsop,kstars/data/mars.L0.vsop,kstars/data/mars.L1.vsop,kstars/data/mars.L2.vsop,kstars/data/mars.L3.vsop,kstars/data/mars.L4.vsop,kstars/data/mars.L5.vsop,kstars/data/mars.B0.vsop,kstars/data/mars.B1.vsop,kstars/data/mars.B2.vsop,kstars/data/mars.B3.vsop,kstars/data/mars.B4.vsop,kstars/data/mars.B5.vsop,kstars/data/mars.R0.vsop,kstars/data/mars.R1.vsop,kstars/data/mars.R2.vsop,kstars/data/mars.R3.vsop,kstars/data/mars.R4.vsop,kstars/data/mars.R5.vsop,kstars/data/jupiter.L0.vsop,kstars/data/jupiter.L1.vsop,kstars/data/jupiter.L2.vsop,kstars/data/jupiter.L3.vsop,kstars/data/jupiter.L4.vsop,kstars/data/jupiter.L5.vsop,kstars/data/jupiter.B0.vsop,kstars/data/jupiter.B1.vsop,kstars/data/jupiter.B2.vsop,kstars/data/jupiter.B3.vsop,kstars/data/jupiter.B4.vsop,kstars/data/jupiter.B5.vsop,kstars/data/jupiter.R0.vsop,kstars/data/jupiter.R1.vsop,kstars/data/jupiter.R2.vsop,kstars/data/jupiter.R3.vsop,kstars/data/jupiter.R4.vsop,kstars/data/jupiter.R5.vsop,kstars/data/saturn.L0.vsop,kstars/data/saturn.L1.vsop,kstars/data/saturn.L2.vsop,kstars/data/saturn.L3.vsop,kstars/data/saturn.L4.vsop,kstars/data/saturn.L5.vsop,kstars/data/saturn.B0.vsop,kstars/data/saturn.B1.vsop,kstars/data/saturn.B2.vsop,kstars/data/saturn.B3.vsop,kstars/data/saturn.B4.vsop,kstars/data/saturn.B5.vsop,kstars/data/saturn.R0.vsop,kstars/data/saturn.R1.vsop,kstars/data/saturn.R2.vsop,kstars/data/saturn.R3.vsop,kstars/data/saturn.R4.vsop,kstars/data/saturn.R5.vsop,kstars/data/uranus.L0.vsop,kstars/data/uranus.L1.vsop,kstars/data/uranus.L2.vsop,kstars/data/uranus.L3.vsop,kstars/data/uranus.L4.vsop,kstars/data/uranus.L5.vsop,kstars/data/uranus.B0.vsop,kstars/data/uranus.B1.vsop,kstars/data/uranus.B2.vsop,kstars/data/uranus.B3.vsop,kstars/data/uranus.B4.vsop,kstars/data/uranus.R0.vsop,kstars/data/uranus.R1.vsop,kstars/data/uranus.R2.vsop,kstars/data/uranus.R3.vsop,kstars/data/uranus.R4.vsop,kstars/data/neptune.L0.vsop,kstars/data/neptune.L1.vsop,kstars/data/neptune.L2.vsop,kstars/data/neptune.L3.vsop,kstars/data/neptune.L4.vsop,kstars/data/neptune.L5.vsop,kstars/data/neptune.B0.vsop,kstars/data/neptune.B1.vsop,kstars/data/neptune.B2.vsop,kstars/data/neptune.B3.vsop,kstars/data/neptune.B4.vsop,kstars/data/neptune.B5.vsop,kstars/data/neptune.R0.vsop,kstars/data/neptune.R1.vsop,kstars/data/neptune.R2.vsop,kstars/data/neptune.R3.vsop,kstars/data/neptune.R4.vsop,kstars/data/jupiter.png,kstars/data/mars.png,kstars/data/mercury.png,kstars/data/neptune.png,kstars/data/pluto.png,kstars/data/saturn.png,kstars/data/sun.png,kstars/data/uranus.png,kstars/data/venus.png,kstars/data/kstars.png,kstars/data/earth.png,kstars/data/moon0.png,kstars/data/moon1.png,kstars/data/moon2.png,kstars/data/moon3.png,kstars/data/moon4.png,kstars/data/moon5.png,kstars/data/moon6.png,kstars/data/moon7.png,kstars/data/moon8.png,kstars/data/moon9.png,kstars/data/moon10.png,kstars/data/moon11.png,kstars/data/moon12.png,kstars/data/moon13.png,kstars/data/moon14.png,kstars/data/moon15.png,kstars/data/moon16.png,kstars/data/moon17.png,kstars/data/moon18.png,kstars/data/moon19.png,kstars/data/moon20.png,kstars/data/moon21.png,kstars/data/moon22.png,kstars/data/moon23.png,kstars/data/moonB.dat,kstars/data/moonLR.dat,kstars/data/fr_cnames.dat,kstars/data/image_url.dat,kstars/data/info_url.dat,kstars/data/m1.png,kstars/data/m10.png,kstars/data/m100.png,kstars/data/m101.png,kstars/data/m102.png,kstars/data/m103.png,kstars/data/m104.png,kstars/data/m105.png,kstars/data/m106.png,kstars/data/m107.png,kstars/data/m108.png,kstars/data/m109.png,kstars/data/m11.png,kstars/data/m110.png,kstars/data/m12.png,kstars/data/m13.png,kstars/data/m14.png,kstars/data/m15.png,kstars/data/m16.png,kstars/data/m17.png,kstars/data/m19.png,kstars/data/m2.png,kstars/data/m20.png,kstars/data/m22.png,kstars/data/m27.png,kstars/data/m28.png,kstars/data/m3.png,kstars/data/m30.png,kstars/data/m31.png,kstars/data/m32.png,kstars/data/m33.png,kstars/data/m4.png,kstars/data/m42.png,kstars/data/m45.png,kstars/data/m49.png,kstars/data/m5.png,kstars/data/m50.png,kstars/data/m51.png,kstars/data/m53.png,kstars/data/m54.png,kstars/data/m55.png,kstars/data/m56.png,kstars/data/m57.png,kstars/data/m58.png,kstars/data/m59.png,kstars/data/m6.png,kstars/data/m60.png,kstars/data/m61.png,kstars/data/m62.png,kstars/data/m63.png,kstars/data/m64.png,kstars/data/m65.png,kstars/data/m66.png,kstars/data/m67.png,kstars/data/m68.png,kstars/data/m69.png,kstars/data/m70.png,kstars/data/m71.png,kstars/data/m72.png,kstars/data/m73.png,kstars/data/m74.png,kstars/data/m75.png,kstars/data/m76.png,kstars/data/m77.png,kstars/data/m78.png,kstars/data/m79.png,kstars/data/m8.png,kstars/data/m80.png,kstars/data/m81.png,kstars/data/m82.png,kstars/data/m83.png,kstars/data/m84.png,kstars/data/m85.png,kstars/data/m86.png,kstars/data/m87.png,kstars/data/m88.png,kstars/data/m89.png,kstars/data/m9.png,kstars/data/m90.png,kstars/data/m91.png,kstars/data/m92.png,kstars/data/m93.png,kstars/data/m94.png,kstars/data/m95.png,kstars/data/m96.png,kstars/data/m97.png,kstars/data/m98.png,kstars/data/m99.png,kstars/data/pluto.freq,kstars/data/pluto.x,kstars/data/pluto.y,kstars/data/pluto.z,kstars/data/mw01.dat,kstars/data/mw02.dat,kstars/data/mw03.dat,kstars/data/mw04.dat,kstars/data/mw05.dat,kstars/data/mw06.dat,kstars/data/mw07.dat,kstars/data/mw08.dat,kstars/data/mw09.dat,kstars/data/mw10.dat,kstars/data/mw11.dat,kstars/data/chart.colors,kstars/data/default.colors,kstars/data/night.colors,kstars/data/astroinfo.html,kstars/data/cpoles.html,kstars/data/csphere.html,kstars/data/ecliptic.html,kstars/data/equinox.html,kstars/data/geocoords.html,kstars/data/greatcircle.html,kstars/data/julian.html,kstars/data/meridian.html,kstars/data/precession.html,kstars/data/retrograde.html,kstars/data/sidereal.html,kstars/data/skycoords.html,kstars/data/ut.html,kstars/data/zenith.html,kstars/data/horizon.html,kstars/data/hourangle.html,kstars/data/leapyear.html,kstars/data/template.html,kstars/data/timezones.html
+files=kstars/data/Cities.dat,kstars/data/clines.dat,kstars/data/cnames.dat,kstars/data/ngc2000.dat,kstars/data/sao.dat,kstars/data/hi16-app-kstars.png,kstars/data/hi32-app-kstars.png,kstars/data/hi48-app-kstars.png,kstars/data/lo16-app-kstars.png,kstars/data/lo32-app-kstars.png,kstars/data/lo48-app-kstars.png,kstars/data/geomap.png,kstars/data/mercury.L0.vsop,kstars/data/mercury.L1.vsop,kstars/data/mercury.L2.vsop,kstars/data/mercury.L3.vsop,kstars/data/mercury.L4.vsop,kstars/data/mercury.L5.vsop,kstars/data/mercury.B0.vsop,kstars/data/mercury.B1.vsop,kstars/data/mercury.B2.vsop,kstars/data/mercury.B3.vsop,kstars/data/mercury.B4.vsop,kstars/data/mercury.B5.vsop,kstars/data/mercury.R0.vsop,kstars/data/mercury.R1.vsop,kstars/data/mercury.R2.vsop,kstars/data/mercury.R3.vsop,kstars/data/mercury.R4.vsop,kstars/data/mercury.R5.vsop,kstars/data/venus.L0.vsop,kstars/data/venus.L1.vsop,kstars/data/venus.L2.vsop,kstars/data/venus.L3.vsop,kstars/data/venus.L4.vsop,kstars/data/venus.L5.vsop,kstars/data/venus.B0.vsop,kstars/data/venus.B1.vsop,kstars/data/venus.B2.vsop,kstars/data/venus.B3.vsop,kstars/data/venus.B4.vsop,kstars/data/venus.B5.vsop,kstars/data/venus.R0.vsop,kstars/data/venus.R1.vsop,kstars/data/venus.R2.vsop,kstars/data/venus.R3.vsop,kstars/data/venus.R4.vsop,kstars/data/venus.R5.vsop,kstars/data/earth.L0.vsop,kstars/data/earth.L1.vsop,kstars/data/earth.L2.vsop,kstars/data/earth.L3.vsop,kstars/data/earth.L4.vsop,kstars/data/earth.L5.vsop,kstars/data/earth.B0.vsop,kstars/data/earth.B1.vsop,kstars/data/earth.B2.vsop,kstars/data/earth.B3.vsop,kstars/data/earth.B4.vsop,kstars/data/earth.R0.vsop,kstars/data/earth.R1.vsop,kstars/data/earth.R2.vsop,kstars/data/earth.R3.vsop,kstars/data/earth.R4.vsop,kstars/data/earth.R5.vsop,kstars/data/mars.L0.vsop,kstars/data/mars.L1.vsop,kstars/data/mars.L2.vsop,kstars/data/mars.L3.vsop,kstars/data/mars.L4.vsop,kstars/data/mars.L5.vsop,kstars/data/mars.B0.vsop,kstars/data/mars.B1.vsop,kstars/data/mars.B2.vsop,kstars/data/mars.B3.vsop,kstars/data/mars.B4.vsop,kstars/data/mars.B5.vsop,kstars/data/mars.R0.vsop,kstars/data/mars.R1.vsop,kstars/data/mars.R2.vsop,kstars/data/mars.R3.vsop,kstars/data/mars.R4.vsop,kstars/data/mars.R5.vsop,kstars/data/jupiter.L0.vsop,kstars/data/jupiter.L1.vsop,kstars/data/jupiter.L2.vsop,kstars/data/jupiter.L3.vsop,kstars/data/jupiter.L4.vsop,kstars/data/jupiter.L5.vsop,kstars/data/jupiter.B0.vsop,kstars/data/jupiter.B1.vsop,kstars/data/jupiter.B2.vsop,kstars/data/jupiter.B3.vsop,kstars/data/jupiter.B4.vsop,kstars/data/jupiter.B5.vsop,kstars/data/jupiter.R0.vsop,kstars/data/jupiter.R1.vsop,kstars/data/jupiter.R2.vsop,kstars/data/jupiter.R3.vsop,kstars/data/jupiter.R4.vsop,kstars/data/jupiter.R5.vsop,kstars/data/saturn.L0.vsop,kstars/data/saturn.L1.vsop,kstars/data/saturn.L2.vsop,kstars/data/saturn.L3.vsop,kstars/data/saturn.L4.vsop,kstars/data/saturn.L5.vsop,kstars/data/saturn.B0.vsop,kstars/data/saturn.B1.vsop,kstars/data/saturn.B2.vsop,kstars/data/saturn.B3.vsop,kstars/data/saturn.B4.vsop,kstars/data/saturn.B5.vsop,kstars/data/saturn.R0.vsop,kstars/data/saturn.R1.vsop,kstars/data/saturn.R2.vsop,kstars/data/saturn.R3.vsop,kstars/data/saturn.R4.vsop,kstars/data/saturn.R5.vsop,kstars/data/uranus.L0.vsop,kstars/data/uranus.L1.vsop,kstars/data/uranus.L2.vsop,kstars/data/uranus.L3.vsop,kstars/data/uranus.L4.vsop,kstars/data/uranus.L5.vsop,kstars/data/uranus.B0.vsop,kstars/data/uranus.B1.vsop,kstars/data/uranus.B2.vsop,kstars/data/uranus.B3.vsop,kstars/data/uranus.B4.vsop,kstars/data/uranus.R0.vsop,kstars/data/uranus.R1.vsop,kstars/data/uranus.R2.vsop,kstars/data/uranus.R3.vsop,kstars/data/uranus.R4.vsop,kstars/data/neptune.L0.vsop,kstars/data/neptune.L1.vsop,kstars/data/neptune.L2.vsop,kstars/data/neptune.L3.vsop,kstars/data/neptune.L4.vsop,kstars/data/neptune.L5.vsop,kstars/data/neptune.B0.vsop,kstars/data/neptune.B1.vsop,kstars/data/neptune.B2.vsop,kstars/data/neptune.B3.vsop,kstars/data/neptune.B4.vsop,kstars/data/neptune.B5.vsop,kstars/data/neptune.R0.vsop,kstars/data/neptune.R1.vsop,kstars/data/neptune.R2.vsop,kstars/data/neptune.R3.vsop,kstars/data/neptune.R4.vsop,kstars/data/jupiter.png,kstars/data/mars.png,kstars/data/mercury.png,kstars/data/neptune.png,kstars/data/pluto.png,kstars/data/saturn.png,kstars/data/sun.png,kstars/data/uranus.png,kstars/data/venus.png,kstars/data/kstars.png,kstars/data/earth.png,kstars/data/moon0.png,kstars/data/moon1.png,kstars/data/moon2.png,kstars/data/moon3.png,kstars/data/moon4.png,kstars/data/moon5.png,kstars/data/moon6.png,kstars/data/moon7.png,kstars/data/moon8.png,kstars/data/moon9.png,kstars/data/moon10.png,kstars/data/moon11.png,kstars/data/moon12.png,kstars/data/moon13.png,kstars/data/moon14.png,kstars/data/moon15.png,kstars/data/moon16.png,kstars/data/moon17.png,kstars/data/moon18.png,kstars/data/moon19.png,kstars/data/moon20.png,kstars/data/moon21.png,kstars/data/moon22.png,kstars/data/moon23.png,kstars/data/moonB.dat,kstars/data/moonLR.dat,kstars/data/fr_cnames.dat,kstars/data/image_url.dat,kstars/data/info_url.dat,kstars/data/m1.png,kstars/data/m10.png,kstars/data/m100.png,kstars/data/m101.png,kstars/data/m102.png,kstars/data/m103.png,kstars/data/m104.png,kstars/data/m105.png,kstars/data/m106.png,kstars/data/m107.png,kstars/data/m108.png,kstars/data/m109.png,kstars/data/m11.png,kstars/data/m110.png,kstars/data/m12.png,kstars/data/m13.png,kstars/data/m14.png,kstars/data/m15.png,kstars/data/m16.png,kstars/data/m17.png,kstars/data/m19.png,kstars/data/m2.png,kstars/data/m20.png,kstars/data/m22.png,kstars/data/m27.png,kstars/data/m28.png,kstars/data/m3.png,kstars/data/m30.png,kstars/data/m31.png,kstars/data/m32.png,kstars/data/m33.png,kstars/data/m4.png,kstars/data/m42.png,kstars/data/m45.png,kstars/data/m49.png,kstars/data/m5.png,kstars/data/m50.png,kstars/data/m51.png,kstars/data/m53.png,kstars/data/m54.png,kstars/data/m55.png,kstars/data/m56.png,kstars/data/m57.png,kstars/data/m58.png,kstars/data/m59.png,kstars/data/m6.png,kstars/data/m60.png,kstars/data/m61.png,kstars/data/m62.png,kstars/data/m63.png,kstars/data/m64.png,kstars/data/m65.png,kstars/data/m66.png,kstars/data/m67.png,kstars/data/m68.png,kstars/data/m69.png,kstars/data/m70.png,kstars/data/m71.png,kstars/data/m72.png,kstars/data/m73.png,kstars/data/m74.png,kstars/data/m75.png,kstars/data/m76.png,kstars/data/m77.png,kstars/data/m78.png,kstars/data/m79.png,kstars/data/m8.png,kstars/data/m80.png,kstars/data/m81.png,kstars/data/m82.png,kstars/data/m83.png,kstars/data/m84.png,kstars/data/m85.png,kstars/data/m86.png,kstars/data/m87.png,kstars/data/m88.png,kstars/data/m89.png,kstars/data/m9.png,kstars/data/m90.png,kstars/data/m91.png,kstars/data/m92.png,kstars/data/m93.png,kstars/data/m94.png,kstars/data/m95.png,kstars/data/m96.png,kstars/data/m97.png,kstars/data/m98.png,kstars/data/m99.png,kstars/data/pluto.freq,kstars/data/pluto.x,kstars/data/pluto.y,kstars/data/pluto.z,kstars/data/mw01.dat,kstars/data/mw02.dat,kstars/data/mw03.dat,kstars/data/mw04.dat,kstars/data/mw05.dat,kstars/data/mw06.dat,kstars/data/mw07.dat,kstars/data/mw08.dat,kstars/data/mw09.dat,kstars/data/mw10.dat,kstars/data/mw11.dat,kstars/data/chart.colors,kstars/data/default.colors,kstars/data/night.colors
 sub_dirs=
 type=normal
-
-[kstars/data/astroinfo.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/astroinfo.html
-type=DATA
 
 [kstars/data/chart.colors]
 dist=true
@@ -144,18 +138,6 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/cnames.dat
-type=DATA
-
-[kstars/data/cpoles.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/cpoles.html
-type=DATA
-
-[kstars/data/csphere.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/csphere.html
 type=DATA
 
 [kstars/data/default.colors]
@@ -272,40 +254,16 @@ install=true
 install_location=$$(kde_datadir)/kstars/earth.png
 type=DATA
 
-[kstars/data/ecliptic.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/ecliptic.html
-type=DATA
-
-[kstars/data/equinox.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/equinox.html
-type=DATA
-
 [kstars/data/fr_cnames.dat]
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/fr_cnames.dat
 type=DATA
 
-[kstars/data/geocoords.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/geocoords.html
-type=DATA
-
 [kstars/data/geomap.png]
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/geomap.png
-type=DATA
-
-[kstars/data/greatcircle.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/greatcircle.html
 type=DATA
 
 [kstars/data/hi16-app-kstars.png]
@@ -326,18 +284,6 @@ install=true
 install_location=$$(kde_icondir)/hicolor/48x48/apps/kstars.png
 type=DATA
 
-[kstars/data/horizon.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/horizon.html
-type=DATA
-
-[kstars/data/hourangle.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/hourangle.html
-type=DATA
-
 [kstars/data/image_url.dat]
 dist=true
 install=true
@@ -348,12 +294,6 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/info_url.dat
-type=DATA
-
-[kstars/data/julian.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/julian.html
 type=DATA
 
 [kstars/data/jupiter.B0.vsop]
@@ -474,12 +414,6 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/kstars.png
-type=DATA
-
-[kstars/data/leapyear.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/leapyear.html
 type=DATA
 
 [kstars/data/lo16-app-kstars.png]
@@ -1256,12 +1190,6 @@ install=true
 install_location=$$(kde_datadir)/kstars/mercury.png
 type=DATA
 
-[kstars/data/meridian.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/meridian.html
-type=DATA
-
 [kstars/data/moon0.png]
 dist=true
 install=true
@@ -1634,18 +1562,6 @@ install=true
 install_location=$$(kde_datadir)/kstars/pluto.z
 type=DATA
 
-[kstars/data/precession.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/precession.html
-type=DATA
-
-[kstars/data/retrograde.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/retrograde.html
-type=DATA
-
 [kstars/data/sao.dat]
 dist=true
 install=true
@@ -1766,34 +1682,10 @@ install=true
 install_location=$$(kde_datadir)/kstars/saturn.png
 type=DATA
 
-[kstars/data/sidereal.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/sidereal.html
-type=DATA
-
-[kstars/data/skycoords.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/skycoords.html
-type=DATA
-
 [kstars/data/sun.png]
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/sun.png
-type=DATA
-
-[kstars/data/template.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/template.html
-type=DATA
-
-[kstars/data/timezones.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/timezone.html
 type=DATA
 
 [kstars/data/uranus.B0.vsop]
@@ -1896,12 +1788,6 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/uranus.png
-type=DATA
-
-[kstars/data/ut.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/ut.html
 type=DATA
 
 [kstars/data/venus.B0.vsop]
@@ -2016,12 +1902,6 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_datadir)/kstars/venus.png
-type=DATA
-
-[kstars/data/zenith.html]
-dist=true
-install=true
-install_location=$$(kde_datadir)/kstars/zenith.html
 type=DATA
 
 [kstars/dms.cpp]
@@ -2323,4 +2203,3 @@ dist=true
 install=false
 install_location=
 type=HEADER
-

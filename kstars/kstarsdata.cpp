@@ -513,9 +513,9 @@ bool KStarsData::processCity( QString line ) {
 			if ( lngsgn == 'W' ) lng *= -1.0;
 
 			// find time zone. Use value from Cities.dat if available.
-			// otherwise use the old approximation: int(lng/-15.0);
+			// otherwise use the old approximation: int(lng/15.0);
 			if ( field[11].isEmpty() || ('x' == field[11].at(0)) ) {
-				TZ = int(lng/-15.0);
+				TZ = int(lng/15.0);
 			} else {
 				bool doubleCheck = true;
 				TZ = field[11].toDouble( &doubleCheck);

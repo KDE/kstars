@@ -59,14 +59,17 @@ class FindDialog : public KDialogBase  {
 	*Destructor (empty).
 	*/
 	~FindDialog();
+
+/**
+  *Return the currently-selected item in the list
+  */
+	SkyObjectNameListItem * currentItem() { return currentitem; }
+	
+	private:
 /**
 	*Initialize QList of Objects for the QListBox.  Loop through each
 	*catalog, and add each named object to the List.
 	*/
-
-	SkyObjectNameListItem * currentItem() { return currentitem; }
-	
-	private:
 		void initObjectList( void );
 		QVBoxLayout *vlay;
 		QHBoxLayout *hlay;
@@ -79,6 +82,9 @@ class FindDialog : public KDialogBase  {
 	private:
 		SkyObjectNameListItem *currentitem;
 		
+/**
+  *Automatically select the first item in the list
+  */
 		void setListItemEnabled();
 	
 public slots:

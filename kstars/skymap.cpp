@@ -317,88 +317,94 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			ksw->mZoomOut();
 			break;
 
+//In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
 			focus.setAlt( 15.0 ); focus.setAz( 0.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			slewing = true;
 			break;
 
 		case Key_E: //center on east horizon
 			focus.setAlt( 15.0 ); focus.setAz( 90.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			slewing = true;
 			break;
 
 		case Key_S: //center on south horizon
 			focus.setAlt( 15.0 ); focus.setAz( 180.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			slewing = true;
 			break;
 
 		case Key_W: //center on west horizon
 			focus.setAlt( 15.0 ); focus.setAz( 270.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			slewing = true;
 			break;
 
 		case Key_Z: //center on Zenith
 			focus.setAlt( 90.0 ); focus.setAz( 180.0 );
 			focus.AltAzToRADec( LSTh, ksw->geo->lat() );
+			slewing = true;
 			break;
 
 		case Key_0: //center on Sun
 			clickedObject = ksw->GetData()->Sun;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_1: //center on Mercury
 			clickedObject = ksw->GetData()->Mercury;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_2: //center on Venus
 			clickedObject = ksw->GetData()->Venus;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_3: //center on Moon
 			clickedObject = ksw->GetData()->Moon;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_4: //center on Mars
 			clickedObject = ksw->GetData()->Mars;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_5: //center on Jupiter
 			clickedObject = ksw->GetData()->Jupiter;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_6: //center on Saturn
 			clickedObject = ksw->GetData()->Saturn;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_7: //center on Uranus
 			clickedObject = ksw->GetData()->Uranus;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_8: //center on Neptune
 			clickedObject = ksw->GetData()->Neptune;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+			clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 
 		case Key_9: //center on Pluto
 			clickedObject = ksw->GetData()->Pluto;
-      clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
+     clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 			slotCenter();
 			break;
 

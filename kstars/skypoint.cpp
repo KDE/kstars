@@ -60,8 +60,14 @@ void SkyPoint::AltAzToRADec( dms LSTh, dms lat ) {
 	cosDec = cos( DecRad );
 	Dec.setRadians( DecRad );
 	
-	HARad = acos( ( sinAlt - sinlat*sinDec )/( coslat*cosDec ) );
+//Under certain circumstances, x can be very slightly less than -1.0000, leading to a crash
+//on acos(x).  Here's a workaround.
+	double x = ( sinAlt - sinlat*sinDec )/( coslat*cosDec );
+	if ( x < -1.0 && (x+1.0)>-0.000001 ) HARad = PI();
+	else HARad = acos( x );
+
 	if ( sinAz > 0.0 ) HARad = 2.0*PI() - HARad; // resolve acos() ambiguity	
+
 	RA.setRadians( LSTh.radians() - HARad );
 	RA.setD( RA.reduce().getD() );  // 0 <= RA < 24
 }
