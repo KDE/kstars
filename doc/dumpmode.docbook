@@ -12,7 +12,7 @@ desired image dimensions:
 
 <cmdsynopsis>
 <command>kstars</command>
-<arg choice='plain'>--dump</arg>
+<arg choice="plain">--dump</arg>
 <arg>--filename <replaceable>kstars.png</replaceable></arg>
 <arg>--height <replaceable>640</replaceable></arg>
 <arg>--width <replaceable>480</replaceable></arg>
