@@ -27,7 +27,7 @@
 
 #include "kstars.h"
 
-KStarsData::KStarsData() {
+KStarsData::KStarsData() : reloadingInProgress ( false ) {
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
 /*
@@ -273,6 +273,7 @@ bool KStarsData::readStarData( void ) {
 			if (mag < 7.0) starCount2 = starList.count();
 			if (mag < 7.5) starCount3 = starList.count();
   		}	// enf of while
+		lastFileIndex = file.at();	// stores current file index - needed by reloading
 		file.close();
     	return true;
 	} else {
@@ -658,24 +659,37 @@ long double KStarsData::getJD( QDateTime t ) {
 }
 
 void KStarsData::setMagnitude( float newMagnitude ) {
-//	qDebug( "KStarsData::setMagnitude()" );
 /*
 	* Only reload data if not loaded yet.
 	*/
 	if ( newMagnitude > maxSetMagnitude )
-		appendNewStarData( newMagnitude );
+		reloadStarData( newMagnitude );
 
 // change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar( newMagnitude );
 }
 
-bool KStarsData::appendNewStarData( float newMag ) {
-//	qDebug( "KStarsData::appendNewStarData()" );
+bool KStarsData::reloadStarData( float newMag ) {
+/*
+	* If reloading allready works break at this point. If not it cause
+	* a loading of stars more than 5 times. It's needed due to reloading
+	* in background.
+	*/
+	if ( reloadingInProgress ) return false;
+/*
+	* Set true to avoid more than one access of this function. Every enquiry
+	* will rejected if this variable is true.
+	*/
+	reloadingInProgress = true;
+		
 	QFile file;
 	if ( openDataFile( file, "sao.dat" ) ) {
+		if ( !file.at( lastFileIndex ) ) qDebug( "Warning: Setting of file index failed" );	// set index to last index in file
+		
 		QTextStream stream( &file );
 
 		float mag;	// magnitude of current star read in file
+		int i = 0;
 		
 		while ( !stream.eof() ) {
 			QString line, name, SpType;
@@ -688,51 +702,61 @@ bool KStarsData::appendNewStarData( float newMag ) {
 			
 			if ( mag > newMag ) break;	// break reading file if magnitude is higher than needed
 							
-			if ( mag > maxSetMagnitude ) {	// just add higher magnitudes
-				
-				name = "star";
-				rah = line.mid( 0, 2 ).toInt();
-				ram = line.mid( 2, 2 ).toInt();
-				ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+			name = "star";
+			rah = line.mid( 0, 2 ).toInt();
+			ram = line.mid( 2, 2 ).toInt();
+			ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
-				sgn = line.at( 17 );
-				dd = line.mid( 18, 2 ).toInt();
-				dm = line.mid( 20, 2 ).toInt();
-				ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+			sgn = line.at( 17 );
+			dd = line.mid( 18, 2 ).toInt();
+			dm = line.mid( 20, 2 ).toInt();
+			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
-				SpType = line.mid( 37, 2 );
-				name = line.mid( 40, 20 ).stripWhiteSpace();
-				if ( name.isEmpty() ) name = "star";
+			SpType = line.mid( 37, 2 );
+			name = line.mid( 40, 20 ).stripWhiteSpace();
+			if ( name.isEmpty() ) name = "star";
 
-				dms r;
-				r.setH( rah, ram, ras );
-				dms d( dd, dm,  ds );
-	
-				if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
-				
-				StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
-		  		starList.append( o );
+			dms r;
+			r.setH( rah, ram, ras );
+			dms d( dd, dm,  ds );
+
+			if ( sgn == "-" ) d.setD( -1.0*d.getD() );
 			
-				if ( o->name != "star" ) {		// just add to name list if a name is given
-					objList->append( o );
-					ObjNames->append (new SkyObjectName (o->name, objList->last()));
+			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
+  			starList.append( o );
+			
+			if ( o->name != "star" ) {		// just add to name list if a name is given
+				objList->append( o );
+				ObjNames->append (new SkyObjectName (o->name, objList->last()));
 //					starList.last()->setSkyObjectName( ObjNames->last() );
-				}
-				// recompute coordinates if AltAz is used
-//				if ( options->useAltAz ) o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
-				o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
-				}
+			}
+			// recompute coordinates if AltAz is used
+			o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
 			
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
 			if (mag < 7.5) starCount3 = starList.count();
 			
+/*
+	* If new magnitude is bigger than 6.0 check every 5000 stars the process loop.
+	* So it loads data in background.
+	*/
+			if ( ++i >= 5000 ) {
+				i = 0;
+				if ( newMag > 6.0 ) kapp->processEvents();
+			}
+  		
   		}	// enf of while
-			maxSetMagnitude = mag;	// store new set magnitude to compare in KStarsData::setMagnitude()		
+		maxSetMagnitude = mag;	// store new set magnitude to compare in KStarsData::setMagnitude()		
+		lastFileIndex = file.at();	// stores last file index
 		file.close();
+// Set false to unlock the function.
+    	reloadingInProgress = false;
     	return true;
 	} else {
+// Set false to unlock the function.
+    	reloadingInProgress = false;
 		return false;
 	}
 

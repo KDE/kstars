@@ -66,8 +66,6 @@ public:
 	long double getJD( QDateTime t);
 	void setMagnitude( float newMagnitude );
 	
-	bool appendNewStarData( float newMag );
-	
 	QList<GeoLocation> geoList;
 	QList<SkyObject> *objList;
 	QList<StarObject> starList;
@@ -111,12 +109,27 @@ public:
 	void saveOptions();
 	void restoreOptions();
 
+	private:
 /*
 	* Store the highest magnitude level at the current session and compare with current used
 	* magnitude. If current magnitude is equal to maxSetMagnitude reload data on next increment
 	* of magnitude level.
 	*/	
 	float maxSetMagnitude;
+/*
+	* Store the last position in star data file. Needed by reloading star data.
+	*/
+	int lastFileIndex;
+/*
+	* Function to load new star data.
+	*/
+	bool reloadStarData( float newMag );
+/*
+	* Needed to lock reloadStarData() because asynchronous loading of data
+	* will cause problems sometimes if it is not locked. Especially if magnitude
+	* level will changed while loading data.
+	*/
+	bool reloadingInProgress;
 };
 
 
