@@ -950,8 +950,8 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		pa.SinCos( spa, cpa );
 		cpa = fabs(cpa); spa = fabs(spa);
 		
-		//int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * (cpa + spa) );
-		int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
+		int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 * (cpa + spa) );
+		//int size = int( p->angSize() * scale * dms::PI * pixelScale[ ksw->options()->ZoomLevel ]/10800.0 );
 		if ( size < sizemin ) size = sizemin;
                                                //Only draw planet image if:
 		if ( ksw->options()->drawPlanetImage &&    //user wants them,
