@@ -35,7 +35,7 @@
 #include <unistd.h>
 
 #ifdef __linux__
-  #ifndef arm
+  #if !defined(arm) && !defined(__hppa__)
   #include <sys/io.h>
   #endif /* !arm */
 #elif defined(QNX)
@@ -55,7 +55,7 @@
 #error Please define a platform in the Makefile
 #endif
 
-#ifdef arm
+#if defined(arm) || defined(__hppa__)
 static char ports_temp;
 
 #ifdef inb
@@ -74,7 +74,7 @@ static char ports_temp;
   ports_temp = data; \
   write(devport, &ports_temp, 1);
 
-#endif /* arm */
+#endif /* arm, hppa */
 
 class port_t {
 public:
@@ -114,7 +114,7 @@ private:
 #ifdef FREEBSD
   FILE *devio;
 #endif
-#if defined(LINUX) && defined(arm)
+#if defined(__linux__) && (defined(arm) || defined(__hppa__))
   int devport;
 #endif
 };
