@@ -15,6 +15,7 @@ some more advanced aspects of astronomy and the night sky.
 <listitem><para><link linkend="tool-scriptbuilder">Script  Builder</link></para></listitem>
 <listitem><para><link linkend="tool-solarsys">Solar System Viewer</link></para></listitem>
 <listitem><para><link linkend="tool-jmoons">Jupiter Moons Tool</link></para></listitem>
+<listitem><para><link linkend="tool-observinglist">Observing List Tool</link></para></listitem>
 </itemizedlist>
 
 &tool-details;
@@ -25,5 +26,6 @@ some more advanced aspects of astronomy and the night sky.
 &tool-scriptbuilder;
 &tool-solarsys;
 &tool-jmoons;
+&tool-observinglist;
 
 </chapter>

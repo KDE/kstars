@@ -90,7 +90,7 @@ installed.
 <secondary>Basics</secondary></indexterm>
 Now that we have the time and location set, let us have a look around.
 You can pan the display using the arrow keys.  If you hold down the
-&Shift; key before panning, the scrolling speed is doubled.  The
+&Shift; key before panning, the scrolling speed is increased.  The
 display can also be panned by clicking and dragging with the mouse.
 Note that while the display is scrolling, not all objects are
 displayed.  This is done to cut down on the <acronym>CPU</acronym> load
@@ -202,15 +202,12 @@ set times.  If the rise and set times say "circumpolar", it means that
 the object is always above the horizon for the present location.
 </para>
 <para>
-The middle section contains items for performing actions on the object,
-such as <guimenuitem>Center and Track</guimenuitem>,
-<guimenuitem>Angular Distance To...</guimenuitem> (which enters the
-Angular Distance Mode, allowing you to measure the angle between objects
-in the sky), <guimenuitem>Details...</guimenuitem> (which opens the
-object's <link linkend="tool-details">Object Details window</link>),
-<guimenuitem>Attach Label</guimenuitem>, and
-<guimenuitem>Add/Remove Trail</guimenuitem> (only available for Solar
-System bodies).
+The middle section contains items for performing actions on the 
+object, such as <guimenuitem>Center and Track</guimenuitem>,  
+<guimenuitem>Details...</guimenuitem>, and 
+<guimenuitem>Attach Label</guimenuitem>.  See the <link 
+linkend="popup-menu">popup menu description</link> for a full list 
+and description of each action.
 </para>
 <para>
 <indexterm><primary>Objects in the Sky</primary>
@@ -268,9 +265,13 @@ not see anything except the ground (you can make the ground invisible
 in the <guilabel>Display Options</guilabel> window, or by pressing the
 <guiicon>Ground</guiicon> button in the View toolbar).
 </para>
-<para>
+</sect2>
+
+<sect2 id="centertrack">
+<title>Centering and Tracking</title>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Tracking</secondary></indexterm>
+<para>
 &kstars; will automatically begin tracking on an object whenever one
 is centered in the display, either by using the <guilabel>Find
 Object</guilabel> window, by double-clicking on it, or by
@@ -292,6 +293,71 @@ across the sky.  You will likely need to change the clock's timestep
 to a large value (such as <quote>1 day</quote>) to see the trail.
 </para>
 </note>
+</sect2>
+
+<sect2 id="objectactions">
+<title>Keyboard Actions</title>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Keyboard Actions</secondary></indexterm>
+<para>
+
+When you click on an object in the map, it becomes the
+<firstterm>selected object</firstterm>, and its name is identified in
+the statusbar.  There are a number of quick key commands available
+which act on the selected object:
+
+<variablelist>
+<varlistentry>
+<term><keycap>C</keycap></term>
+<listitem>
+<para>Center and Track on the selected object</para>
+</listitem>
+</varlistenty>
+
+<varlistentry>
+<term><keycap>D</keycap></term>
+<listitem>
+<para>Show the <link linkend="tool-details">Details window</link> 
+for the selected object</para>
+</listitem>
+</varlistenty>
+
+<varlistentry>
+<term><keycap>L</keycap></term>
+<listitem>
+<para>Toggle a visible name label on the selected object</para>
+</listitem>
+</varlistenty>
+
+<varlistentry>
+<term><keycap>O</keycap></term>
+<listitem>
+<para>Add the selected object to the 
+<link linkend="tool-observinglist">Observing List</link></para>
+</listitem>
+</varlistenty>
+
+<varlistentry>
+<term><keycap>T</keycap></term>
+<listitem>
+<para>Toggle a visible curve on the sky, showing the path of the 
+object across the sky (only applicable to Solar System bodies)
+</para>
+</listitem>
+</varlistenty>
+
+</variablelist>
+</para>
+
+<note>
+<para>
+By holding down the <keycap>Alt</keycap> key, you can perform 
+these actions on the centered object, rather than the selected 
+object.
+</para>
+</note>
+</sect2> <!--object actions-->
+</sect1> <!--objects in the sky-->
 
 <para>
 This concludes the tour of &kstars;, although we have only scratched
@@ -299,12 +365,10 @@ the surface of the available features.  &kstars; includes many useful
 <link linkend="tools">astronomy tools</link>, it can directly
 <link linkend="indi">control your telescope</link>, and it offers a
 wide variety of <link linkend="config">configuration and
-customization</link> options.  In addition, this Handbook includes the
+customization options</link>.  In addition, this Handbook includes the
 <link linkend="astroinfo">AstroInfo Project</link>, a series of short,
 interlinked articles explaining some of the celestial and astrophysical
 concepts behind &kstars;.
 </para>
 
-</sect2>
-</sect1>
 </chapter>

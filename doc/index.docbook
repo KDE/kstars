@@ -61,6 +61,7 @@
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
+  <!ENTITY tool-observinglist SYSTEM "observinglist.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
@@ -191,11 +192,11 @@ the <link linkend="ai-ecliptic">ecliptic</link>.
 However, &kstars; is more than a simple night-sky simulator.  The
 display provides a compelling interface to a number of tools with
 which you can learn more about astronomy and the night sky.  There is
-a customized <link linkend="popup-menu">popup menu</link> attached to
-each displayed object, which displays object-specific information and
-actions.  Hundreds of objects provide links in their popup menus to
-informative webpages and beautiful images taken by the Hubble Space
-Telescope and other observatories.
+a context-sensitive <link linkend="popup-menu">popup menu</link> 
+attached to each displayed object, which displays object-specific 
+information and actions.  Hundreds of objects provide links in their 
+popup menus to informative webpages and beautiful images taken by the 
+Hubble Space Telescope and other observatories.
 </para><para>
 From an object's popup menu, you can open its <link
 linkend="tool-details">Detailed Information Window</link>, where
@@ -223,7 +224,9 @@ plot curves representing the Altitude as a function of time for any
 group of objects.  If that is too much detail, we also provide a
 <link linkend="tool-whatsup">What's Up Tonight?</link> tool that
 summarizes the objects that you will be able to see from your location
-on any given night.
+on any given night.  You can add your favorite objects to the <link
+linkend="tool-observinglist">Observing List</link> tool, which 
+provides convenient access to common actions for a list of objects.
 </para>
 <para>
 &kstars; also provides a <link linkend="tool-solarsys">Solar System
@@ -244,15 +247,19 @@ a powerful "demo engine" for classroom use or general illustration of
 astronomical topics.
 </para>
 <para>
-You can even control telescopes with &kstars;, using the elegant and
-powerful <link linkend="indi">INDI</link> hardware interface.  &kstars;
-supports several popular telescopes including Meade's LX200 family and
-Celestron GPS.  Several popular CCD cameras, webcams, and computerized
-focusers are also supported.  Simple slew/track commands are integrated
-directly into the main window's popup menu, and the INDI Control Panel
-provides full access to all of your telescope's functions.  INDI's
-Client/Server architecture allows for seamless control of any number of
-<link linkend="indi-kstars-setup">local</link> or <link
+However, &kstars; is not just for students.  You can control telescopes 
+and cameras with &kstars;, using the elegant and powerful <link 
+linkend="indi">INDI</link> protocol.  &kstars; supports several popular 
+telescopes including Meade's LX200 family and Celestron GPS.  Several 
+popular CCD cameras, webcams, and computerized focusers are also supported.  
+Simple slew/track commands are integrated directly into the main window's 
+popup menu, and the INDI Control Panel provides full access to all of 
+your telescope's functions.  Many of these actions can also be scripted 
+through KDE's DCOP mechanism (our own <link 
+linkend="tool-scriptbuilder">Script Builder</link> tool provides a simple 
+point-and-click interfae for these scripts).  INDI's Client/Server 
+architecture allows for seamless control of any number of <link 
+linkend="indi-kstars-setup">local</link> or <link 
 linkend="indi-remote-control">remote</link> telescopes using a single
 &kstars; session.
 </para>

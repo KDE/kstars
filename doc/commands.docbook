@@ -854,18 +854,6 @@ Point (straight up)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="findobjects">Find Object window</link>,
-for specifying a sky object on which to center</para></listitem>
-</varlistentry>
-
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
-</term>
-<listitem><para>Open the <guilabel>Set Manual Focus</guilabel> tool,
-for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
-</varlistentry>
-
-<varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></term>
 <listitem><para>Toggle tracking mode</para></listitem>
 </varlistentry>
@@ -883,11 +871,14 @@ for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
 </varlistentry>
 
 </variablelist>
-
 </sect2>
 
 <sect2 id="menu-keys">
 <title>Menu Shortcuts</title>
+<indexterm><primary>Commands</primary>
+<secondary>Menu</secondary>
+<tertiary>Keyboard Shortcuts</tertiary>
+</indexterm>
 
 <variablelist>
 <varlistentry>
@@ -959,48 +950,116 @@ for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
 </variablelist>
 </sect2>
 
-<sect2 id="tools-keys">
-<title>Opening Tools</title>
+
+<sect2 id="nav-keys">
+<title>Actions for the Selected Object</title>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Keyboard Actions</secondary></indexterm>
 
 <variablelist>
 <varlistentry>
+<term><keycap>C</keycap></term>
+<listitem><para>Center and Track on the selected object</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>D</keycap></term>
+<listitem><para>Open the Details window for the selected object</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>L</keycap></term>
+<listitem><para>Toggle a name label for the selected object</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>O</keycap></term>
+<listitem><para>Add the selected object to the observing list</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>T</keycap></term>
+<listitem><para>Toggle a trail on the selected object solar system bodies only)</para></listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="tools-keys">
+<title>Tools Shortcuts</title>
+
+<variablelist>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="findobjects">Find Object window</link>,
+for specifying a sky object on which to center</para></listitem>
+</varlistentry>
+
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
+</term>
+<listitem><para>Open the <guilabel>Set Manual Focus</guilabel> tool,
+for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>[</keycap> / <keycap>]</keycap></term>
+<listitem><para>Start/End an Angular Distance measurement at the current mouse 
+cursor position.  The angular distance between start and end points is displayed 
+in the statusbar.</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="setgeo">Set Geographic Location</link> window</para></listitem>
+<listitem><para>Open the <link linkend="setgeo">Set Geographic Location</link> 
+window</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-calculator">AstroCalculator</link> </para></listitem>
+<listitem><para>Open the <link linkend="tool-calculator">AstroCalculator</link> 
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-aavso">AAVSO Lightcurve Generator</link></para></listitem>
+<listitem><para>Open the <link linkend="tool-aavso">AAVSO Lightcurve Generator</link>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-altvstime">Altitude vs. Time</link> tool</para></listitem>
+<listitem><para>Open the <link linkend="tool-altvstime">Altitude vs. Time</link> 
+tool</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-whatsup">What's Up Tonight?</link> tool </para></listitem>
+<listitem><para>Open the <link linkend="tool-whatsup">What's Up Tonight?</link> 
+tool</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-scriptbuilder">Script Builder</link> tool</para></listitem>
+<listitem><para>Open the <link linkend="tool-scriptbuilder">Script Builder</link> 
+tool</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>Y</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-solarsys">Solar System Viewer</link> </para></listitem>
+<listitem><para>Open the <link linkend="tool-solarsys">Solar System Viewer</link> 
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-jmoons">Jupiter Moons</link> tool</para></listitem>
+<listitem><para>Open the <link linkend="tool-jmoons">Jupiter Moons</link> 
+tool</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-observinglist">Observing List</link> 
+tool</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -1077,10 +1136,19 @@ drag vertically.
 	mouse button is released, the display is zoomed in to match the
 	field-of-view to the bounds of the rectangle.
 	</para></listitem></varlistentry>
+
 	<varlistentry><term>Dragging an Info Box</term>
 	<listitem><para>The Info Box is repositioned in the map.  Info
 	Boxes will <quote>stick</quote> to window edges, so that they
 	remain on the edge when the window is resized.
+	</para></listitem></varlistentry>
+	</variablelist>
+
+	<varlistentry><term><keycap>Ctrl</keycap>-Dragging</term>
+	<listitem><para>If you hold down the <keycap>Ctrl</keycap> key 
+	before dragging, a Zoom box is drawn on the map.  When you release 
+	the moiuse button, the display is zoomed so that the region 
+	defined by the box fills the display.
 	</para></listitem></varlistentry>
 	</variablelist>
 </para></listitem>
