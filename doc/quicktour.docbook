@@ -156,7 +156,7 @@ far from it.
 <para>
 &kstars; displays thousands of objects: stars, planets, clusters,
 nebulae and galaxies.  You can identify any object by clicking on it
-(its name appears in the statusbar at the bottom of the window.  You
+(its name appears in the statusbar at the bottom of the window).  You
 can get more information about an object by right-clicking on it.  A
 popup menu will appear, showing its name(s), object type, and links to
 images and information from the internet.
