@@ -7,7 +7,7 @@ You can use &kstars; to generate an image of the sky
 without actually launching the <acronym>GUI</acronym>
 portion of the program.  To use this feature, start
 &kstars; from a command prompt using arguments to
-sepcify the filename for the image, as well as the 
+specify the filename for the image, as well as the 
 desired image dimensions:
 
 <cmdsynopsis>

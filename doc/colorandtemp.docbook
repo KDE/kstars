@@ -23,7 +23,7 @@ But if we look carefully, we can notice a range of colors: blue,
 white, red, and even gold. In the winter constellation of Orion, a
 beautiful contrast is seen between the red Betelgeuse at Orion's
 "armpit" and the blue Bellatrix at the shoulder. What causes stars to
-exhibit different color remained a mystery until two centuries ago,
+exhibit different colors remained a mystery until two centuries ago,
 when Physicists gained enough understanding of the nature of light and
 the properties of matter at immensely high temperatures.
 </para>
@@ -77,7 +77,7 @@ light to be absorbed.  Because these absorption lines are not uniformly
 distributed over the spectrum, they can skew the position of
 the spectral peak.
 Moreover, obtaining a usable spectrum of a star
-is a time-intensive process and is prohibitly inefficient for large
+is a time-intensive process and is prohibitively inefficient for large
 samples of stars.
 </para>
 
@@ -90,7 +90,7 @@ of light to pass through while rejecting all others. A widely used
 photometric system is called the <firstterm>Johnson UBV
 system</firstterm>.  It employs three bandpass filters: U
 ("Ultra-violet"), B ("Blue"), and V ("Visible"); each occupying different regions of the
-electromagnatic spectrum.
+electromagnetic spectrum.
 </para>
 
 <para>
@@ -101,15 +101,15 @@ filters individually. This procedure gives three apparent
 brightnesses or <link linkend="ai-flux">fluxes</link> (amount of
 energy per cm^2 per second) designated by Fu, Fb, and Fv. The ratio of
 fluxes Fu/Fb and Fb/Fv is a quantitative measure of the star's
-"color", and these ratios can be used to establish a tempreture scale
+"color", and these ratios can be used to establish a temperature scale
 for stars.  Generally speaking, the larger the Fu/Fb and Fb/Fv ratios
-of a star, the hotter is its surface temperature.
+of a star, the hotter its surface temperature.
 </para>
 
 <para>
 For example, the star Bellatrix in Orion has Fb/Fv = 1.22, indicating
 that it is brighter through the B filter than through the V filter.
-furthermore, its Fu/Fb ratio is 2.22, so it is brighest through the U
+furthermore, its Fu/Fb ratio is 2.22, so it is brightest through the U
 filter.  This indicates that the star must be very hot indeed, since
 the position of its spectral peak must be somewhere in the range of
 the U filter, or at an even shorter wavelength.  The surface
@@ -155,7 +155,7 @@ than the cooler and redder stars.
 
 <para>
 An Astronomer can then use the color indices for a star, after
-correcting for reddening and interstellar extinction, to obtain an accurate tempreture of that star.
+correcting for reddening and interstellar extinction, to obtain an accurate temperature of that star.
 The relationship between B-V and temperature is illustrated in Figure
 2.
 </para>
@@ -170,6 +170,6 @@ The relationship between B-V and temperature is illustrated in Figure
 </para>
 
 <para>
-The Sun with surface tempreture of 5,800 K has a B-V index of 0.62.
+The Sun with surface temperature of 5,800 K has a B-V index of 0.62.
 </para>
 </sect1>

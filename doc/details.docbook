@@ -14,7 +14,7 @@ The Object Details Window
     <imagedata fileref="detaildialog.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Obejct Details Window</phrase>
+    <phrase>Object Details Window</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -91,7 +91,7 @@ both options together.
 <listitem><para>NASA/IPAC Extragalactic Database (NED).  NED provides
 encapsulated data and bibliographic links about
 extragalactic objects.  You should only use NED if your target is
-extragalactic; i.e., if it is itself a galaxy.
+extragalactic; &ie; if it is itself a galaxy.
 </para></listitem>
 <listitem><para>Set of Identifications, Measurements, and Bibliography
 for Astronomical Data (SIMBAD).  SIMBAD is similar to NED, except it

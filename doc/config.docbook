@@ -31,7 +31,7 @@ in the map.
 <para>
 <indexterm><primary>Geographic Location Tool</primary>
 <secondary>Filtering</secondary></indexterm>
-It isn't practical to scroll through the full list of 2500 locations,
+It is not practical to scroll through the full list of 2500 locations,
 looking for a specific city. To make searches easier, the list can be
 filtered by entering text in the boxes below the map. For example, in
 the screenshot, the text <quote>Ba</quote> appears in the
@@ -233,9 +233,9 @@ of the atmosphere.  Because the atmosphere is a spherical shell, light from
 outer space is <quote>bent</quote> as it passes through the atmosphere to
 our telescopes or eyes on the Earth's surface.  The effect is largest for
 objects near the horizon, and actually changes the predicted rise or set
-times of objects by a few minutes!  In fact, when you <quote>see</quote> a
+times of objects by a few minutes.  In fact, when you <quote>see</quote> a
 sunset, the Sun's actual position is already well below the horizon;
-atmospheric refraction makes it seem as if the Sun is still in the sky!
+atmospheric refraction makes it seem as if the Sun is still in the sky.
 Note that atmospheric refraction is never applied if you are using
 <guilabel>Equatorial coordinates</guilabel>.
 </para><para>

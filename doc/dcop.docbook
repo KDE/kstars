@@ -218,7 +218,7 @@ and reset the zoom level to its default setting.
 <para>
 We hope you enjoy the scripting abilities of KStars.  If you create an
 interesting script, please email it to
-<email>kstars@30doradus.org</email>; we'd like to see what you've done,
+<email>kstars@30doradus.org</email>; we would like to see what you have done,
 and may post some scripts on our webpage.  Also, if you have any
 ideas for how to improve scripting (or any part of &kstars;), let us
 know at <email>kstars-devel@lists.sourceforge.net</email> or submit a
