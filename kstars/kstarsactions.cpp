@@ -90,17 +90,25 @@ void KStars::slotGeoLocator() {
 
 			// call changeTime to reset DST change times
 			// However, adjust local time to keep UT the same.
-			// save current UT
-			QDateTime utime = data()->UTime;
-			// create new LT (DST isn't initalized yet)
-			QDateTime ltime = utime.addSecs( int( 3600 * newLocation->TZ()) );
-			// reset time with new LT and check DST status
-			changeTime( ltime.date(), ltime.time() );
-			// set old UT
-			clock->setUTC( utime );
+			// create new LT without DST offset
+			QDateTime ltime = data()->UTime.addSecs( int( 3600 * newLocation->TZ0()) );
+
+			// reset timezonerule to compute next dst change
+			newLocation->tzrule()->reset_with_ltime( ltime, newLocation->TZ0(), data()->isTimeRunningForward() );
+
+			// reset next dst change time
+			data()->setNextDSTChange( KSUtils::UTtoJulian( newLocation->tzrule()->nextDSTChange() ) );
+
 			// reset local sideral time
 			setLSTh( clock->UTC() );
-			// recalculate new times
+			
+			//Make sure Numbers, Moon, planets, and sky objects are updated immediately
+			data()->LastNumUpdate = -1000000.0;
+			data()->LastMoonUpdate = -1000000.0;
+			data()->LastPlanetUpdate = -1000000.0;
+			data()->LastSkyUpdate = -1000000.0;
+
+			// recalculate new times and objects
 			updateTime();
 		}
 	}
