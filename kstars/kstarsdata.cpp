@@ -789,7 +789,9 @@ bool KStarsData::readDeepSkyData( void ) {
 				QChar sgn, iflag;
 
 				line = fileReader.readLine();
-
+				//Ignore comment lines
+				while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
+				
 				iflag = line.at( 0 ); //check for NGC/IC catalog flag
 				if ( iflag == 'I' ) cat = "IC";
 				else if ( iflag == 'N' ) cat = "NGC";
@@ -869,6 +871,11 @@ bool KStarsData::readDeepSkyData( void ) {
 					else name = longname;
 				}
 
+				//DEBUG
+				if ( name == "M 0" ) {
+					kdDebug() << "M 0: " << line << endl;
+				}
+				
 				// create new deepskyobject
 				DeepSkyObject *o = 0;
 				if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR

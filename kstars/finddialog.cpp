@@ -113,10 +113,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	QString searchFor = SearchBox->text().lower();
 		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
-				// show only visible objects
-				if (name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
-					new SkyObjectNameListItem ( SearchList, name );
-				}
+				new SkyObjectNameListItem ( SearchList, name );
 /*				if ( i++ >= 5000 ) {              //Every 5000 name insertions,
 					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
 					i = 0;
