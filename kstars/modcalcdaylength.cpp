@@ -63,53 +63,51 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	Clear->setFixedHeight(25);
 	Clear->setMaximumWidth(100);
 //
-// Geo coords
+// Geo coords and Date
 
-	QHBox * geoBox = new QHBox(InputBox);
+	QGridLayout * D0Lay = new QGridLayout( 1, 3);
 
-	QHBox * l0Box = new QHBox(geoBox);
-	l0Box->setMaximumWidth(150);
-
-	QLabel * longLabel = new QLabel(l0Box);
+	QLabel * longLabel = new QLabel(InputBox);
 	longLabel->setText( i18n( "Geographical Longitude","Longitude:") );
-	longBox = new dmsBox(l0Box,"LongBox");
+	longBox = new dmsBox(InputBox,"LongBox");
 
-	QHBox * l1Box = new QHBox(geoBox);
-	l1Box->setMaximumWidth(150);
-
-	QLabel * latLabel = new QLabel(l1Box);
+	QLabel * latLabel = new QLabel(InputBox);
 	latLabel->setText( i18n( "Geographical Latitude","Latitude:") );
-	latBox = new dmsBox(l1Box,"LatBox");
+	latBox = new dmsBox(InputBox,"LatBox");
 
-// Date
-
-	QHBox * dateBox = new QHBox(InputBox);
-	dateBox->setMaximumWidth(120);
-
-	QLabel * dateLabel = new QLabel(dateBox);
+	QLabel * dateLabel = new QLabel(InputBox);
 	dateLabel->setText( i18n( "Date:") );
-	datBox = new timeBox(dateBox,"dateBox",FALSE);
+	datBox = new timeBox(InputBox,"dateBox",FALSE);
 
 	showCurrentDate();
  	initGeo();
 	showLongLat();
+
+	D0Lay->addWidget(longLabel,0,0);
+	D0Lay->addWidget(longBox,0,1);
+
+	D0Lay->addWidget(latLabel,0,2);
+	D0Lay->addWidget(latBox,0,3);
+
+	D0Lay->addWidget(dateLabel,1,0);
+	D0Lay->addWidget(datBox,1,1);
+
+	D0Lay->setMargin(14);
+	D0Lay->setSpacing(4);
 
 	buttonBox->setMargin(10);
 	
 	D00Lay->setMargin(14);
 	D00Lay->setSpacing(4);
 	D00Lay->addWidget(buttonBox);
-	D00Lay->addWidget(geoBox);
-	D00Lay->addWidget(dateBox);
+	D00Lay->addLayout(D0Lay);
 
 // Results
 
 	QGroupBox * resultsBox = new QGroupBox (rightBox);
 	resultsBox->setTitle( i18n("Positions and Times") );
 
-	QVBoxLayout * D0Lay = new QVBoxLayout( resultsBox );
-
-	QGridLayout * DGLay = new QGridLayout(3, 4);
+	QGridLayout * DGLay = new QGridLayout(resultsBox, 4, 4);
 	
 	QLabel * riseTimeLabel = new QLabel(resultsBox);
 	riseTimeLabel->setText(i18n("Sunrise:"));
@@ -135,6 +133,9 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	azSetLabel->setText(i18n("Azimuth:"));
 	azSetBox = new dmsBox(resultsBox,"azSetBox");
 
+	QLabel * dayLLabel = new QLabel(resultsBox);
+	dayLLabel->setText(i18n("Day length:"));
+	dayLBox = new timeBox(resultsBox,"daylBox");
 	
 	DGLay->addWidget(riseTimeLabel,0,0);
 	DGLay->addWidget(riseTimeBox,0,1);
@@ -154,34 +155,13 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	DGLay->addWidget(azSetLabel,2,2);
 	DGLay->addWidget(azSetBox,2,3);
 
+	DGLay->addWidget(dayLLabel,3,0);
+	DGLay->addWidget(dayLBox,3,1);
+
 	DGLay->setMargin(14);
 	DGLay->setSpacing(4);
  	
-	QHBoxLayout * dLBox = new QHBoxLayout(resultsBox);
-//	dLBox->setMaximumWidth(200);
-
-	QLabel * dayLLabel = new QLabel(resultsBox);
-	dayLLabel->setText(i18n("Day length:"));
-	dayLBox = new timeBox(resultsBox,"daylBox");
-	QSpacerItem * rightLBoxSpacer = new QSpacerItem(20,20);
-	QSpacerItem * leftLBoxSpacer = new QSpacerItem(20,20);
-
-	dLBox->addItem(rightLBoxSpacer);
-	dLBox->addWidget(dayLLabel);
-	dLBox->addWidget(dayLBox);
-	dLBox->addItem(leftLBoxSpacer);
-
-	D0Lay->setMargin(14);
-	D0Lay->setSpacing(4);
-
-	D0Lay->addLayout(DGLay);
-	D0Lay->addLayout(dLBox);
-//	D0Lay->additem(rightLBoxSpacer);
-//	D0Lay->additem(leftLBoxSpacer);
-
-//  D0Lay->activate();
-
-	QSpacerItem * downSpacer = new QSpacerItem(400,90);
+	QSpacerItem * downSpacer = new QSpacerItem(400,70);
 
 	rightBoxLayout->addWidget(InputBox);
 	rightBoxLayout->addWidget(resultsBox);
@@ -189,8 +169,6 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
-	//rightBox->setMargin(14);
-	//rightBox->setSpacing(7);
 	rightBox->show();
 //
 // slots
