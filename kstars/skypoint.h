@@ -161,6 +161,28 @@ public:
 	*/
 	void setAz( double az ) { Az.setD( az ); }
 
+/**Sets Galactic Longitude.
+	*@param glo Galactic Longitude.
+	*/
+	void setGalLong( dms glo ) { galLong.set( glo ); }
+
+/**Overloaded member function, provided for convenience.
+	*It behaves essentially like the above function.
+	*@param glo Galactic Longitude, expressed as a double.
+	*/
+	void setGalLong( double glo ) { galLong.setD( glo ); }
+
+/**Sets Galactic Longitude.
+	*@param gla Galactic Longitude.
+	*/
+	void setGalLat( dms gla ) { galLat.set( gla ); }
+
+/**Overloaded member function, provided for convenience.
+	*It behaves essentially like the above function.
+	*@param gla Galactic Longitude, expressed as a double.
+	*/
+	void setGalLat( double gla ) { galLat.setD( gla ); }
+
 /**@return a pointer to the catalog Right Ascension.
 	*/
 	const dms* ra0() const { return &RA0; };
@@ -184,6 +206,14 @@ public:
 /**@return a pointer to the current Altitude.
 	*/
 	const dms* alt() const { return &Alt; }
+
+/**@return a pointer to the current galactic latitude.
+	*/
+	const dms* gLat() const { return &galLat; }
+
+/**@return a pointer to the current galactic longitude.
+	*/
+	const dms* gLong() const { return &galLong; }
 
 /**Determine the (Altitude, Azimuth) coordinates of the
 	*SkyPoint from its (RA, Dec) coordinates, given the local
@@ -252,6 +282,18 @@ public:
 	*/
 	void precessFromAnyEpoch(long double jd0, long double jdf);
 
+/** Computes galactic coordinates from equatorial coordinates referred to
+	* epoch 1950. RA and Dec are, therefore assumed to be B1950
+	* coordinates.
+	*/
+	void Equatorial1950ToGalactic(void);
+
+/** Computes equatorial coordinates referred to 1950 from galactic ones referred to
+	* epoch B1950. RA and Dec are, therefore assumed to be B1950
+	* coordinates.
+	*/
+	void GalacticToEquatorial1950(void);
+
 protected:
 /**Precess this SkyPoint's catalog coordinates to the epoch described by the
 	*given KSNumbers object.
@@ -264,6 +306,7 @@ private:
 	dms RA0, Dec0; //catalog coordinates
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
+	dms galLat, galLong; // Galactic coordinates
 };
 
 #endif

@@ -318,3 +318,45 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf){
 
 	delete num;
 }
+
+void SkyPoint::Equatorial1950ToGalactic(void) {
+	double a = 192.25;
+	double c = 5.288347634;
+	dms b;
+	double sinb, cosb, sina_RA, cosa_RA, sinDEC, cosDEC, tanDEC;
+
+	b.setD(27.4);
+	tanDEC = tan( Dec.radians() );
+
+	b.SinCos(sinb,cosb);
+	dms( a - RA.Degrees() ).SinCos(sina_RA,cosa_RA);
+	Dec.SinCos(sinDEC,cosDEC);
+
+	galLong.setRadians( c - atan2( sina_RA, cosa_RA*sinb-tanDEC*cosb) );
+	galLong = galLong.reduce();
+
+	galLat.setRadians( asin(sinDEC*sinb+cosDEC*cosb*cosa_RA) );
+}
+
+void SkyPoint::GalacticToEquatorial1950(void) {
+
+	double a = 123.0;
+	double c = 0.213802833;
+	dms b, galLong_a;
+	double sinb, cosb, singLat, cosgLat, tangLat, singLong_a, cosgLong_a;
+
+	b.setD(27.4);
+	tangLat = tan( galLat.radians() );
+
+
+	galLat.SinCos(singLat,cosgLat);
+
+	dms( galLong.Degrees()-a ).SinCos(singLong_a,cosgLong_a);
+	b.SinCos(sinb,cosb);
+
+	RA.setRadians(c + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
+	RA = RA.reduce();
+//	raHourCoord = dms( raCoord.Hours() );
+
+	Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
+}
