@@ -19,14 +19,12 @@
 #include "modcalcprec.h"
 #include "dms.h"
 #include "dmsbox.h"
-#include "timebox.h"
 #include "skyobject.h"
 #include "ksutils.h"
 #include "kssun.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "ksnumbers.h"
-#include "timebox.h"
 
 #include <qwidget.h>
 #include <qlabel.h>
