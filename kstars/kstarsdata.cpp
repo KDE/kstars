@@ -1101,7 +1101,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		PC->findPosition(&num);
 
 		//Add a point to the planet trail if the centered object is a planet.
-		if ( skymap->foundObject()->name() == QString("Moon") || 
+		if ( skymap->foundObject() == Moon || 
 				PC->isPlanet( skymap->foundObject() ) ) {
 			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
 			
@@ -1109,7 +1109,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			while ( PlanetTrail.count() > 500 ) 
 				PlanetTrail.removeFirst();
 		}
-		
+
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
 			Ecliptic.clear();
