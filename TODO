@@ -1,8 +1,11 @@
-KStars 0.8 To-Do list:
+KStars 0.9 To-Do list:
 [Nov 2001]
 
-See the KStars Homepage (kstars.sourceforge.net) for the most
-up-to-date to-do list.
+
+This list is currently out-of-date.  We will be updating it shortly after 
+the KDE 3 feature freeze, because we will be publishing many improvements 
+made during the freeze at that time.  See the KStars Homepage 
+(kstars.sourceforge.net) for the most up-to-date to-do list.
 
 + Bug Fixes
   - Southern Constellations need Lines:

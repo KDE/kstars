@@ -288,6 +288,8 @@ class KStars : public KMainWindow
 		KStarsData* kstarsData; // does not need to be public, we have provided an accessor method
 		GeoLocation *Location;
 		int idSpinBox;
+
+		bool useDefaultOptions;
 };
 
 #endif

@@ -283,7 +283,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Up :
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt().Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
-				if ( focus()->alt().Degrees() > 90.0 ) focus()->setAlt( 89.99 );
+				if ( focus()->alt().Degrees() >= 90.0 ) focus()->setAlt( 89.9999 );
 				focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec().Degrees() + step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
@@ -297,7 +297,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_Down:
 			if ( ksw->options()->useAltAz ) {
 				focus()->setAlt( focus()->alt().Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
-				if ( focus()->alt().Degrees() < -90.0 ) focus()->setAlt( -90.0 );
+				if ( focus()->alt().Degrees() <= -90.0 ) focus()->setAlt( -89.9999 );
 				focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec().Degrees() - step * pixelScale[0]/pixelScale[ ksw->data()->ZoomLevel ] );
@@ -320,31 +320,31 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 //In the following cases, we set slewing=true in order to disengage tracking
 		case Key_N: //center on north horizon
-			focus()->setAlt( 15.0 ); focus()->setAz( 0.0 );
+			focus()->setAlt( 15.0001 ); focus()->setAz( 0.0001 );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			slewing = true;
 			break;
 
 		case Key_E: //center on east horizon
-			focus()->setAlt( 15.0 ); focus()->setAz( 90.0 );
+			focus()->setAlt( 15.0001 ); focus()->setAz( 90.0001 );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			slewing = true;
 			break;
 
 		case Key_S: //center on south horizon
-			focus()->setAlt( 15.0 ); focus()->setAz( 180.0 );
+			focus()->setAlt( 15.0001 ); focus()->setAz( 180.0 );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			slewing = true;
 			break;
 
 		case Key_W: //center on west horizon
-			focus()->setAlt( 15.0 ); focus()->setAz( 270.0 );
+			focus()->setAlt( 15.0001 ); focus()->setAz( 270.0 );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			slewing = true;
 			break;
 
 		case Key_Z: //center on Zenith
-			focus()->setAlt( 90.0 ); focus()->setAz( 180.0 );
+			focus()->setAlt( 89.99995 ); focus()->setAz( 180.0 );
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 			slewing = true;
 			break;
@@ -460,8 +460,9 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
 			focus()->setAlt( focus()->alt().Degrees() - dAlt.Degrees() );
 
-			if ( focus()->alt().Degrees() >90.0 ) focus()->setAlt( 90.0 );
-			if ( focus()->alt().Degrees() <-90.0 ) focus()->setAlt( -90.0 );
+			if ( focus()->alt().Degrees() >= 90.0 ) focus()->setAlt( 89.9999 );
+			if ( focus()->alt().Degrees() <= -90.0 ) focus()->setAlt( -89.9999 );
+
 			focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 		} else {
 			dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
@@ -1361,66 +1362,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		}
   }
 
-	//Draw Stars
-	if ( ksw->options()->drawBSC ) {
-
-		if ( ksw->data()->ZoomLevel < 6 ) {
-			psky.setFont( smallFont );
-		} else {
-			psky.setFont( stdFont );
-		}
-
-		float maglim;
-		float maglim0 = ksw->options()->magLimitDrawStar;
-		float zoomlim = 7.0 + float( ksw->data()->ZoomLevel )/4.0;
-
-		if ( maglim0 < zoomlim ) maglim = maglim0;
-		else maglim = zoomlim;
-
-	  //Only draw bright stars if slewing
-		if ( slewing && maglim > 6.0 ) maglim = 6.0;
-	
-	for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
-		// break loop if maglim is reached
-		if ( curStar->mag() > maglim ) break;
-		
-		if ( checkVisibility( curStar->pos(), FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
-			QPoint o = getXY( curStar->pos(), ksw->options()->useAltAz );
-
-			// draw star if currently on screen
-			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-				// but only if the star is bright enough.
-					float mag = curStar->mag();
-					float sizeFactor = 2.0;
-					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
-					if (size>23) size=23;
-
-					if ( size > 0 ) {
-						psky.setPen( QColor( ksw->options()->colorSky ) );
-						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, curStar->color() );
-						// now that we have drawn the star, we can display some extra info
-						if ( !slewing && (curStar->mag() <= ksw->options()->magLimitDrawStarInfo )
-								&& (ksw->options()->drawStarName || ksw->options()->drawStarMagnitude ) ) {
-							// collect info text
-							QString sTmp = "";
-							if ( ksw->options()->drawStarName ) {
-								if (curStar->name() != "star") sTmp = curStar->name() + " ";	// see line below
-//								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
-							}
-							if ( ksw->options()->drawStarMagnitude ) {
-								sTmp += QString().sprintf("%.1f", curStar->mag() );
-							}
-							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( ksw->data()->ZoomLevel - 6));
-						
-							psky.setPen( QColor( ksw->options()->colorSName ) );
-							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
-  	  	  	 			}
-					}
-				}
-			}
-		}
-	}
-	
   //Draw IC Objects
   if ( !slewing && ksw->options()->drawIC ) {
 		psky.setBrush( NoBrush );
@@ -1507,6 +1448,213 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		}
   }
 
+	//Draw Stars
+	if ( ksw->options()->drawBSC ) {
+
+		if ( ksw->data()->ZoomLevel < 6 ) {
+			psky.setFont( smallFont );
+		} else {
+			psky.setFont( stdFont );
+		}
+
+		float maglim;
+		float maglim0 = ksw->options()->magLimitDrawStar;
+		float zoomlim = 7.0 + float( ksw->data()->ZoomLevel )/4.0;
+
+		if ( maglim0 < zoomlim ) maglim = maglim0;
+		else maglim = zoomlim;
+
+	  //Only draw bright stars if slewing
+		if ( slewing && maglim > 6.0 ) maglim = 6.0;
+	
+		for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
+			// break loop if maglim is reached
+			if ( curStar->mag() > maglim ) break;
+		
+			if ( checkVisibility( curStar->pos(), FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+				QPoint o = getXY( curStar->pos(), ksw->options()->useAltAz );
+
+				// draw star if currently on screen
+				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+					// but only if the star is bright enough.
+					float mag = curStar->mag();
+					float sizeFactor = 2.0;
+					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
+					if (size>23) size=23;
+
+					if ( size > 0 ) {
+						psky.setPen( QColor( ksw->options()->colorSky ) );
+						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, curStar->color() );
+						// now that we have drawn the star, we can display some extra info
+						if ( !slewing && (curStar->mag() <= ksw->options()->magLimitDrawStarInfo )
+								&& (ksw->options()->drawStarName || ksw->options()->drawStarMagnitude ) ) {
+							// collect info text
+							QString sTmp = "";
+							if ( ksw->options()->drawStarName ) {
+								if (curStar->name() != "star") sTmp = curStar->name() + " ";	// see line below
+//								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
+							}
+							if ( ksw->options()->drawStarMagnitude ) {
+								sTmp += QString().sprintf("%.1f", curStar->mag() );
+							}
+							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( ksw->data()->ZoomLevel - 6));
+						
+							psky.setPen( QColor( ksw->options()->colorSName ) );
+							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	//Draw Pluto
+  if ( ksw->options()->drawPluto ) {
+		psky.setPen( QColor( "gray" ) );
+		psky.setBrush( QColor( "gray" ) );
+		QPoint o = getXY( ksw->data()->Pluto->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Pluto->image()->isNull() ) {
+				ScaledImage = ksw->data()->Pluto->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Neptune
+  if ( ksw->options()->drawNeptune ) {
+		psky.setPen( QColor( "SkyBlue" ) );
+		psky.setBrush( QColor( "SkyBlue" ) );
+		QPoint o = getXY( ksw->data()->Neptune->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Neptune->image()->isNull() ) {
+				ScaledImage = ksw->data()->Neptune->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Uranus
+  if ( ksw->options()->drawUranus ) {
+		psky.setPen( QColor( "LightSeaGreen" ) );
+		psky.setBrush( QColor( "LightSeaGreen" ) );
+		QPoint o = getXY( ksw->data()->Uranus->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Uranus->image()->isNull() ) {
+				ScaledImage = ksw->data()->Uranus->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Saturn
+  if ( ksw->options()->drawSaturn ) {
+		psky.setPen( QColor( "LightYellow2" ) );
+		psky.setBrush( QColor( "LightYellow2" ) );
+		QPoint o = getXY( ksw->data()->Saturn->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Saturn->image()->isNull() ) {
+				size *= 2;  //resize for image (because of rings)
+				int x1 = o.x() - size/2;
+				int y1 = o.y() - size/2;
+				ScaledImage = ksw->data()->Saturn->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Jupiter
+  if ( ksw->options()->drawJupiter ) {
+		psky.setPen( QColor( "Goldenrod" ) );
+		psky.setBrush( QColor( "Goldenrod" ) );
+		QPoint o = getXY( ksw->data()->Jupiter->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Jupiter->image()->isNull() ) {
+				ScaledImage = ksw->data()->Jupiter->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Mars
+  if ( ksw->options()->drawMars ) {
+		psky.setPen( QColor( "Red" ) );
+		psky.setBrush( QColor( "Red" ) );
+		QPoint o = getXY( ksw->data()->Mars->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Mars->image()->isNull() ) {
+				ScaledImage = ksw->data()->Mars->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Venus
+  if ( ksw->options()->drawVenus ) {
+		psky.setPen( QColor( "LightGreen" ) );
+		psky.setBrush( QColor( "LightGreen" ) );
+		QPoint o = getXY( ksw->data()->Venus->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Venus->image()->isNull() ) {
+				ScaledImage = ksw->data()->Venus->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
+	//Draw Mercury
+  if ( ksw->options()->drawMercury ) {
+		psky.setPen( QColor( "SlateBlue1" ) );
+		psky.setBrush( QColor( "SlateBlue1" ) );
+		QPoint o = getXY( ksw->data()->Mercury->pos(), ksw->options()->useAltAz );
+		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
+			int x1 = o.x() - size/2;
+			int y1 = o.y() - size/2;
+			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Mercury->image()->isNull() ) {
+				ScaledImage = ksw->data()->Mercury->image()->smoothScale( size, size );
+				psky.drawImage( x1, y1, ScaledImage );
+			} else {
+				psky.drawEllipse( x1, y1, size, size );
+			}
+		}
+	}
+
 	//Draw Sun
   if ( ksw->options()->drawSun ) {
 		psky.setPen( QColor( "Yellow" ) );
@@ -1536,153 +1684,6 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			int y1 = o.y() - size/2;
 			if ( !ksw->data()->Moon->image()->isNull() ) {
 				ScaledImage = ksw->data()->Moon->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Mercury
-  if ( ksw->options()->drawMercury ) {
-		psky.setPen( QColor( "SlateBlue1" ) );
-		psky.setBrush( QColor( "SlateBlue1" ) );
-		QPoint o = getXY( ksw->data()->Mercury->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Mercury->image()->isNull() ) {
-				ScaledImage = ksw->data()->Mercury->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Venus
-  if ( ksw->options()->drawVenus ) {
-		psky.setPen( QColor( "LightGreen" ) );
-		psky.setBrush( QColor( "LightGreen" ) );
-		QPoint o = getXY( ksw->data()->Venus->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Venus->image()->isNull() ) {
-				ScaledImage = ksw->data()->Venus->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Mars
-  if ( ksw->options()->drawMars ) {
-		psky.setPen( QColor( "Red" ) );
-		psky.setBrush( QColor( "Red" ) );
-		QPoint o = getXY( ksw->data()->Mars->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Mars->image()->isNull() ) {
-				ScaledImage = ksw->data()->Mars->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Jupiter
-  if ( ksw->options()->drawJupiter ) {
-		psky.setPen( QColor( "Goldenrod" ) );
-		psky.setBrush( QColor( "Goldenrod" ) );
-		QPoint o = getXY( ksw->data()->Jupiter->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Jupiter->image()->isNull() ) {
-				ScaledImage = ksw->data()->Jupiter->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Saturn
-  if ( ksw->options()->drawSaturn ) {
-		psky.setPen( QColor( "LightYellow2" ) );
-		psky.setBrush( QColor( "LightYellow2" ) );
-		QPoint o = getXY( ksw->data()->Saturn->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Saturn->image()->isNull() ) {
-				size *= 2;  //resize for image (because of rings)
-				int x1 = o.x() - size/2;
-				int y1 = o.y() - size/2;
-				ScaledImage = ksw->data()->Saturn->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Uranus
-  if ( ksw->options()->drawUranus ) {
-		psky.setPen( QColor( "LightSeaGreen" ) );
-		psky.setBrush( QColor( "LightSeaGreen" ) );
-		QPoint o = getXY( ksw->data()->Uranus->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Uranus->image()->isNull() ) {
-				ScaledImage = ksw->data()->Uranus->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Neptune
-  if ( ksw->options()->drawNeptune ) {
-		psky.setPen( QColor( "SkyBlue" ) );
-		psky.setBrush( QColor( "SkyBlue" ) );
-		QPoint o = getXY( ksw->data()->Neptune->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Neptune->image()->isNull() ) {
-				ScaledImage = ksw->data()->Neptune->image()->smoothScale( size, size );
-				psky.drawImage( x1, y1, ScaledImage );
-			} else {
-				psky.drawEllipse( x1, y1, size, size );
-			}
-		}
-	}
-
-	//Draw Pluto
-  if ( ksw->options()->drawPluto ) {
-		psky.setPen( QColor( "gray" ) );
-		psky.setBrush( QColor( "gray" ) );
-		QPoint o = getXY( ksw->data()->Pluto->pos(), ksw->options()->useAltAz );
-		if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-			int size = 4*pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0];
-			int x1 = o.x() - size/2;
-			int y1 = o.y() - size/2;
-			if ( ksw->data()->ZoomLevel > 2 && !ksw->data()->Pluto->image()->isNull() ) {
-				ScaledImage = ksw->data()->Pluto->image()->smoothScale( size, size );
 				psky.drawImage( x1, y1, ScaledImage );
 			} else {
 				psky.drawEllipse( x1, y1, size, size );
@@ -1978,8 +1979,8 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz ) {
 
 	double k = sqrt( 2.0/( 1 + c ) );
 
-	p.setX( int( 0.5*width()  - pixelScale[ ksw->data()->ZoomLevel ]*k*cosY*sindX ) );
-	p.setY( int( 0.5*height() - pixelScale[ ksw->data()->ZoomLevel ]*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
+	p.setX( int( 0.5 + 0.5*width()  - pixelScale[ ksw->data()->ZoomLevel ]*k*cosY*sindX ) );
+	p.setY( int( 0.5 + 0.5*height() - pixelScale[ ksw->data()->ZoomLevel ]*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
 
 	return p;
 }
@@ -2094,7 +2095,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPole
 	} else {
 		dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
 	}
-	if ( dY > FOV ) return false;
+	if ( dY > 1.2*FOV ) return false;
 	if ( isPoleVisible ) return true;
 
 	if ( useAltAz ) {
@@ -2218,7 +2219,7 @@ void SkyMap::addLink( void ) {
 void SkyMap::setRiseSetLabels( void ) {
 	QTime rtime = clickedObject()->riseTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString rt, rt2;
-	if ( rtime.isValid() ) {
+	if ( !rtime.isNull() ) {
 		int min = rtime.minute();
 		if ( rtime.second() >=30 ) ++min;
 		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
@@ -2231,7 +2232,7 @@ void SkyMap::setRiseSetLabels( void ) {
 
 	QTime stime = clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString st, st2;
-	if ( stime.isValid() ) {
+	if ( !stime.isNull() ) {
 		int min = stime.minute();
 		if ( stime.second() >=30 ) ++min;
 		st2.sprintf( "%02d:%02d", stime.hour(), min );

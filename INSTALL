@@ -10,6 +10,9 @@ Basic Installation
 *** then autoconf is the problem.  Try downgrading to Autoconf 2.13 or so.
 
 
+==---> KStars should work with any KDE version >= 2.0 (including KDE3).  
+       The install instructions are the same for all KDE versions.
+
 ==---> Don't forget to specify the install directory on the configure
        command line: `./configure --prefix=$KDEDIR'. If KDEDIR is not
        defined, then substitute the top-level directory of your KDE
@@ -32,6 +35,9 @@ Basic Installation
        Make sure you match the versions of the KDE and QT packages to your 
        current installation, and try to find the RPM that was made specifically
        for your distribution.
+
+       If you are installing a pre-compiled version of KStars (e.g., an RPM), 
+       you don't need these packages.
 
        If you find a dependency other than those listed here, please let us 
        know!  (email to kstars@30doradus.org)

@@ -29,6 +29,9 @@ GeoLocation::GeoLocation( const GeoLocation &g ) {
 	Province  = g.Province;
 	Country   = g.Country;
 	TimeZone  = g.TimeZone;
+
+	if ( Latitude.Degrees() ==  90.0 ) Latitude.setD(  89.9999 );
+	if ( Latitude.Degrees() == -90.0 ) Latitude.setD( -89.9999 );
 }
 
 GeoLocation::GeoLocation( GeoLocation *g ) {
@@ -38,6 +41,9 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 	Province  = g->Province;
 	Country   = g->Country;
 	TimeZone  = g->TimeZone;
+
+	if ( Latitude.Degrees() ==  90.0 ) Latitude.setD(  89.9999 );
+	if ( Latitude.Degrees() == -90.0 ) Latitude.setD( -89.9999 );
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
@@ -48,6 +54,9 @@ GeoLocation::GeoLocation( dms lng, dms lat,
 	Province = province;
 	Country = country;
 	TimeZone = tz;
+
+	if ( Latitude.Degrees() ==  90.0 ) Latitude.setD(  89.9999 );
+	if ( Latitude.Degrees() == -90.0 ) Latitude.setD( -89.9999 );
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
@@ -58,6 +67,9 @@ GeoLocation::GeoLocation( double lng, double lat,
 	Province = province;
 	Country = country;
 	TimeZone = tz;
+
+	if ( Latitude.Degrees() ==  90.0 ) Latitude.setD(  89.9999 );
+	if ( Latitude.Degrees() == -90.0 ) Latitude.setD( -89.9999 );
 }
 
 void GeoLocation::reset( GeoLocation *g ) {
@@ -67,4 +79,7 @@ void GeoLocation::reset( GeoLocation *g ) {
 	Province  = g->province();
 	Country   = g->country();
 	TimeZone  = g->TZ();
+
+	if ( Latitude.Degrees() ==  90.0 ) Latitude.setD(  89.9999 );
+	if ( Latitude.Degrees() == -90.0 ) Latitude.setD( -89.9999 );
 }

@@ -837,6 +837,10 @@ bool ViewOpsDialog::setColors( QString filename ) {
 
 void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->drawBSC = showBSC->isChecked();
+  magSpinBoxDrawStars->setEnabled( showBSC->isChecked() );
+  magSpinBoxDrawStarInfo->setEnabled( showBSC->isChecked() );
+	showStarNames->setEnabled( showBSC->isChecked() );
+	showStarMagnitude->setEnabled( showBSC->isChecked() );
 	ksw->options()->drawMessier = showMessier->isChecked();
 	ksw->options()->drawMessImages = showMessImages->isChecked();
 	ksw->options()->drawNGC = showNGC->isChecked();

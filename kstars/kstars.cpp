@@ -243,11 +243,18 @@ KStars::KStars( KStarsData* kstarsData )
 
 //Try updateTime() and updateEpoch() here to initialize CurrentDate and CurrentEpoch...
 	data()->CurrentEpoch = 0.0; //guarantee that updateTime() calls updateEpoch()
-	updateTime();
 
+	updateTime();
 	initAltAz();
 
-	SkyPoint newPoint( options()->focusRA, options()->focusDec );
+	SkyPoint newPoint;
+	if ( useDefaultOptions ) {
+		newPoint.setAz( options()->focusRA );
+		newPoint.setAlt( options()->focusDec + 0.0001 );
+		newPoint.HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+	} else {
+		newPoint.set( (double)options()->focusRA, (double)options()->focusDec );
+	}
 
 //Set focus of Skymap.
 //if user was tracking last time, track on same object now.
@@ -494,6 +501,9 @@ void KStars::mSetTimeToNow() {
 
 void KStars::initOptions()
 {
+	if ( kapp->config()->hasGroup( "Location" ) ) useDefaultOptions = false;
+	else useDefaultOptions = true;
+
 	// Get initial Location from config()
 	kapp->config()->setGroup( "Location" );
 	options()->CityName = kapp->config()->readEntry( "City", "Greenwich" );
@@ -639,6 +649,9 @@ void KStars::initLocation() {
 	}
 // With KDE 3 this needs explicite set (why?)
 	((KStars*) kapp)->setLocation( Location );
+
+	if ( geo()->lat().Degrees()==  90.0 ) geo()->lat().setD(  89.9999 );
+	if ( geo()->lat().Degrees()== -90.0 ) geo()->lat().setD( -89.9999 );
 }
 
 void KStars::initAltAz()
@@ -845,6 +858,7 @@ void KStars::mViewOps() {
 	if ( viewopsdialog.exec() != QDialog::Accepted ) {
 		// cancelled
 		data()->restoreOptions();
+		skymap->Update();
 	}
 }
 
@@ -1334,6 +1348,10 @@ void KStars::closeEvent (QCloseEvent *e)
 void KStars::changeTimeStep( void ) {
 	data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
 	data()->SkyJD_Mark = data()->getJD( data()->LTime );
+
+	//return input focus to skymap
+	skymap->QWidget::setFocus();
+
 }
 
 #include "kstars.moc"

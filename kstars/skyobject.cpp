@@ -69,7 +69,7 @@ SkyObject::SkyObject( int t, double r, double d, double m, QString n,
 QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
 	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
 	if ( r < -1.0 || r > 1.0 )
-		return QTime( 25, 0, 0 );  //this object does not rise or set; return an invalid time
+		return QTime( 0, 0, 0 );  //this object does not rise or set; return an invalid time
 		
 	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
 	dms LST;
@@ -92,13 +92,16 @@ QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
 	//convert UT to LT;
 	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
 
+	//If LT is 00:00:00.0, add a second (because 0 is a signal that the object is circumpolar)
+	if ( LT.hour()==0 && LT.minute()==0 && LT.second()==0 ) LT.setHSec( 1 );
+
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
 
 QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
 	if ( r < -1.0 || r > 1.0 )
-		return QTime( 25, 0, 0 );  //this object does not rise or set; return an invalid time
+		return QTime( 0, 0, 0 );  //this object does not rise or set; return an invalid time
 		
 	double H = acos( r )*180./acos(-1.0);
 	dms LST;
@@ -122,5 +125,9 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 
 	//convert UT to LT;
 	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
+
+	//If LT is 00:00:00.0, add a second (because 0 is a signal that the object is circumpolar)
+	if ( LT.hour()==0 && LT.minute()==0 && LT.second()==0 ) LT.setHSec( 1 );
+
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
