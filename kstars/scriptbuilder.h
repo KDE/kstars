@@ -60,13 +60,15 @@ public:
 	void writeScript( QTextStream &ostream );
 	bool parseFunction( QStringList &fn );
 
+protected:
+	void closeEvent( QCloseEvent *e );
+
 public slots:
 	virtual void slotAddFunction();
 	virtual void slotMoveFunctionUp();
 	virtual void slotMoveFunctionDown();
 	virtual void slotArgWidget();
 	virtual void slotShowDoc();
-	virtual void slotMaybeClose();
 	
 	virtual void slotNew();
 	virtual void slotOpen();

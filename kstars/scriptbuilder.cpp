@@ -19,6 +19,8 @@
 #include <kpushbutton.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <kicontheme.h>
+#include <kiconloader.h>
 #include <klistbox.h>
 #include <klistview.h>
 #include <ktextedit.h>
@@ -73,6 +75,17 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	for ( ScriptFunction *sf = FunctionList.first(); sf; sf = FunctionList.next() ) 
 		FuncListBox->insertItem( sf->prototype() );
 
+	//Add icons to Push Buttons
+	KIconLoader *icons = KGlobal::iconLoader();
+	NewButton->setPixmap( icons->loadIcon( "filenew", KIcon::Toolbar ) );
+	OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
+	SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
+	SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
+	CopyButton->setPixmap( icons->loadIcon( "reload", KIcon::Toolbar ) );
+	AddButton->setPixmap( icons->loadIcon( "back", KIcon::Toolbar ) );
+	RemoveButton->setPixmap( icons->loadIcon( "forward", KIcon::Toolbar ) );
+	UpButton->setPixmap( icons->loadIcon( "up", KIcon::Toolbar ) );
+	DownButton->setPixmap( icons->loadIcon( "down", KIcon::Toolbar ) );
 	
 	//Prepare the widget stack
 	argBlank = new QWidget( ArgStack );
@@ -132,6 +145,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	
 	//disbale some buttons
 	CopyButton->setEnabled( false );
+	AddButton->setEnabled( false );
 	RemoveButton->setEnabled( false );
 	UpButton->setEnabled( false );
 	DownButton->setEnabled( false );
@@ -350,15 +364,10 @@ void ScriptBuilder::slotOpen() {
 			readScript( istream );
 			
 			f.close();
-		} else {
+		} else if ( ! currentFileURL.url().isEmpty() ) {
 			QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
 			KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
 			currentFileURL = "";
-		}
-	
-		if ( ScriptListBox->count() >= 1 ) {
-			CopyButton->setEnabled( true );
-			RemoveButton->setEnabled( true );
 		}
 	}
 }
@@ -539,7 +548,7 @@ void ScriptBuilder::slotCopyFunction() {
 		ScriptList.at(Pos)->setArg(i, ScriptList.at( Pos-1 )->argVal(i) );
 	
 	ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
-	ScriptListBox->setCurrentItem( Pos );
+	ScriptListBox->setSelected( Pos, true );
 }
 
 void ScriptBuilder::slotRemoveFunction() {
@@ -553,7 +562,7 @@ void ScriptBuilder::slotRemoveFunction() {
 		CopyButton->setEnabled( false );
 		RemoveButton->setEnabled( false );
 	} else {
-		ScriptListBox->setCurrentItem(Pos);
+		ScriptListBox->setSelected( Pos, true );
 	}
 }
 
@@ -565,12 +574,7 @@ void ScriptBuilder::slotAddFunction() {
 		
 		ScriptList.insert( Pos, new ScriptFunction( FunctionList.at( FuncListBox->currentItem() ) ) );
 		ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
-		ScriptListBox->setCurrentItem( Pos );
-		
-		if ( ScriptListBox->count() >= 1 ) {
-			CopyButton->setEnabled( true );
-			RemoveButton->setEnabled( true );
-		}
+		ScriptListBox->setSelected( Pos, true );
 	}
 }
 
@@ -586,7 +590,7 @@ void ScriptBuilder::slotMoveFunctionUp() {
 		
 		ScriptListBox->removeItem( n );
 		ScriptListBox->insertItem( t, n-1 );
-		ScriptListBox->setCurrentItem( n-1 );
+		ScriptListBox->setSelected( n-1, true );
 	}
 }
 
@@ -603,22 +607,35 @@ void ScriptBuilder::slotMoveFunctionDown() {
 		
 		ScriptListBox->removeItem( n );
 		ScriptListBox->insertItem( t, n+1 );
-		ScriptListBox->setCurrentItem( n+1 );
+		ScriptListBox->setSelected( n+1, true );
 	}
 }
 
 void ScriptBuilder::slotArgWidget() {
-	//First, check if up/down buttons should be disabled
-	if ( ScriptListBox->count() <= 1 ) {
+	//First, setEnabled on buttons that act on the selected script function
+	if ( ScriptListBox->currentItem() == -1 ) { //no selection
+		CopyButton->setEnabled( false );
+		RemoveButton->setEnabled( false );
 		UpButton->setEnabled( false );
 		DownButton->setEnabled( false );
-	} else if ( ScriptListBox->currentItem() == 0 ) {
+	} else if ( ScriptListBox->count() == 1 ) { //only one item, so disable up/down buttons
+		CopyButton->setEnabled( true );
+		RemoveButton->setEnabled( true );
+		UpButton->setEnabled( false );
+		DownButton->setEnabled( false );
+	} else if ( ScriptListBox->currentItem() == 0 ) { //first item selected
+		CopyButton->setEnabled( true );
+		RemoveButton->setEnabled( true );
 		UpButton->setEnabled( false );
 		DownButton->setEnabled( true );
-	} else if ( ScriptListBox->currentItem() == ScriptListBox->count()-1 ) {
+	} else if ( ScriptListBox->currentItem() == ScriptListBox->count()-1 ) { //last item selected
+		CopyButton->setEnabled( true );
+		RemoveButton->setEnabled( true );
 		UpButton->setEnabled( true );
 		DownButton->setEnabled( false );
-	} else {
+	} else { //other item selected
+		CopyButton->setEnabled( true );
+		RemoveButton->setEnabled( true );
 		UpButton->setEnabled( true );
 		DownButton->setEnabled( true );
 	}
@@ -750,18 +767,21 @@ void ScriptBuilder::slotArgWidget() {
 void ScriptBuilder::slotShowDoc() {
 	int n = FuncListBox->currentItem();
 	
-	if ( n >= 0 && n < FunctionList.count() )
+	if ( n >= 0 && n < FunctionList.count() ) {
+		AddButton->setEnabled( true );
 		FuncDoc->setText( FunctionList.at( n )->description() );
-	else 
+	} else {
+		AddButton->setEnabled( false );
 		kdWarning() << i18n( "Function index out of bounds." ) << endl;
+	}
 }
 
-void ScriptBuilder::slotMaybeClose() {
+void ScriptBuilder::closeEvent( QCloseEvent *e ) {
 	//warn user if there are unsaved changes before closing.
 	saveWarning();
 	
 	//if user selects 'Save' or 'Discard', UnsavedChanges is set false
-	if ( !UnsavedChanges ) close(); 
+	if ( !UnsavedChanges ) e->accept(); 
 }
 
 //Slots for Arg Widgets
