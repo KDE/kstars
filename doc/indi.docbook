@@ -435,8 +435,7 @@ exactly as described in the <link linkend="indi-kstars-setup">local/server</link
 
 <sect2 id="indi-commandline">
 <title>Running an INDI server from the command line</title>
-<para>While &kstars; allows you to easily deploy an INDI server; you can
-lunch an INDI server from the command line.
+<para>While &kstars; allows you to easily deploy an INDI server; you can launch an INDI server from the command line.
 </para>
 
 <para>
