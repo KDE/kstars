@@ -259,7 +259,7 @@ public:
 	*/
 	const QString toDMSString(const bool forceSign = false) const;
 
-/**@return a nicely-formatted string representation of the angle 
+/**@return a nicely-formatted string representation of the angle
 	*in hours, minutes, and seconds.
 	*/
 	const QString toHMSString() const;
@@ -268,15 +268,33 @@ public:
 	*as long as dms.h is included.
 	*/
 	static const double PI;
-	
-/**DegToRad is a const static member equal to the number of radians in 
+
+/**DegToRad is a const static member equal to the number of radians in
 	*one degree (dms::PI/180.0).
 	*/
 	static const double DegToRad;
 
+	/** Static function to create a DMS object from a QString; it is public so that it can
+	be used anywhere. S similar function is present in other Q classes as QTime, QDate
+	@param string.
+	@param bool. If TRUE string represents degrees, if FALSE represents hours
+	@returns a dms object from the formatted string
+	//There are several ways to specify the RA and Dec:
+	//(we always assume RA is in hours or h,m,s and Dec is in degrees or d,m,s)
+	//1. Integer numbers  ( 5;  -33 )
+	//2. Floating-point numbers  ( 5.0; -33.0 )
+	//3. colon-delimited integers ( 5:0:0; -33:0:0 )
+	//4. colon-delimited with float seconds ( 5:0:0.0; -33:0:0.0 )
+	//5. colon-delimited with float minutes ( 5:0.0; -33:0.0 )
+	//6. space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 -33 0.0 )
+	//7. space-delimited, with unit labels ( 5h 0m 0s, -33d 0m 0s )
+	**/
+
+	static dms fromString(QString & s, bool deg);
+
 private:
 	double D;
-	
+
 	mutable double Radians;
 	mutable double Sin, Cos;
 	mutable bool scDirty, rDirty;

@@ -22,6 +22,7 @@
 
 #include "skypoint.h"
 #include "dms.h"
+#include <qregexp.h>
 
 //DMS_SPEED
 void dms::setD( const double &x ) {
@@ -174,6 +175,99 @@ const QString dms::toHMSString() const {
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
+static dms dms::fromString(QString & st, bool deg) {
+	int d = 0, m = 0;
+	double s = 0.0;
+	dms dmsAng;
+	bool valueFound = false, badEntry = false , checkValue = false;
+
+	QString entry = st.stripWhiteSpace();
+
+	//Try simplest cases: integer or double representation
+
+	d = entry.toInt( &checkValue );
+	if ( checkValue ) {
+		if (deg) dmsAng.setD( d, 0, 0 );
+		else dmsAng.setH( d, 0, 0 );
+		valueFound = true;
+		return dmsAng;
+	} else {
+		double x = entry.toDouble( &checkValue );
+		if ( checkValue ) {
+			if ( deg ) dmsAng.setD( x );
+			else dmsAng.setH( x );
+			valueFound = true;
+			return dmsAng;
+		}
+	}
+
+	//no success yet...try assuming multiple fields
+
+	if ( !valueFound ) {
+		QStringList fields;
+
+		//check for colon-delimiters or space-delimiters
+		if ( entry.contains(':') )
+			fields = QStringList::split( ':', entry );
+		else fields = QStringList::split( " ", entry );
+
+		// If two fields we will add a third one, and then parse with
+		// the 3-field code block. If field[1] is a double, convert
+		// it to integer arcmin, and convert the remainder to arcsec
+
+		if ( fields.count() == 2 ) {
+			double mx = fields[1].toDouble( &checkValue );
+			if ( checkValue ) {
+				fields[1] = QString("%1").arg( int(mx) );
+				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+			} else {
+				fields.append( QString( "0" ) );
+			}
+		}
+
+		// Three fields space-delimited ( h/d m s );
+		// ignore all after 3rd field
+
+		if ( fields.count() >= 3 ) {
+			fields[0].replace( QRegExp("h"), "" );
+			fields[0].replace( QRegExp("d"), "" );
+			fields[1].replace( QRegExp("m"), "" );
+			fields[2].replace( QRegExp("s"), "" );
+
+			//See if first two fields parse as integers.
+			//
+			d = fields[0].toInt( &checkValue );
+			if ( !checkValue ) badEntry = true;
+			m = fields[1].toInt( &checkValue );
+			if ( !checkValue ) badEntry = true;
+			s = fields[2].toDouble( &checkValue );
+			if ( !checkValue ) badEntry = true;
+		}
+
+		if ( !badEntry ) {
+			valueFound = true;
+			double D = (double)abs(d) + (double)m/60.
+					+ (double)s/3600.;
+			if ( d <0 ) {D = -1.0*D;}
+
+			if (deg) {
+				return	dms( D );
+			} else {
+				dms h;
+				h.setH (D);
+				return	h;
+			}
+		}
+	}
+
+//	 if ( !valueFound )
+//		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could Not Set Value" ) );
+
+
+	return dmsAng;
+
+}
+
 // M_PI is defined in math.h
-const double dms::PI = M_PI; 
+const double dms::PI = M_PI;
 const double dms::DegToRad = PI/180.0;
