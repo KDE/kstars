@@ -992,7 +992,7 @@ performed on the centered object instead.</para>
 
 <varlistentry>
 <term><keycap>T</keycap></term>
-<listitem><para>Toggle a trail on the selected object solar system bodies only)</para></listitem>
+<listitem><para>Toggle a trail on the selected object (solar system bodies only)</para></listitem>
 </varlistentry>
 
 </variablelist>

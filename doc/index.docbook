@@ -257,7 +257,7 @@ popup menu, and the INDI Control Panel provides full access to all of
 your telescope's functions.  Many of these actions can also be scripted 
 through KDE's DCOP mechanism (our own <link 
 linkend="tool-scriptbuilder">Script Builder</link> tool provides a simple 
-point-and-click interfae for these scripts).  INDI's Client/Server 
+point-and-click interface for these scripts).  INDI's Client/Server 
 architecture allows for seamless control of any number of <link 
 linkend="indi-kstars-setup">local</link> or <link 
 linkend="indi-remote-control">remote</link> telescopes using a single
