@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include "modcalcprec.h"
 #include "modcalcprec.moc"
 #include "dms.h"
@@ -47,7 +46,7 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QWidget(paren
 	InputBox->setTitle( i18n("Original Coordinates") );
 	
 	QHBox * buttonBox = new QHBox(InputBox);
-	
+
 	QPushButton * Compute = new QPushButton( i18n( "Compute" ), buttonBox);
 	QPushButton * Clear = new QPushButton( i18n( "Clear" ), buttonBox );
 	
@@ -112,7 +111,7 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QWidget(paren
 
 	epochfBox->setMargin(6);
 	epochfBox->setSpacing(6);
-	
+
 	D1Lay->setMargin(14);
 	D1Lay->addWidget(rafdecfBox);
 
@@ -167,7 +166,7 @@ double modCalcPrec::setCurrentEpoch () {
 }
 
 double modCalcPrec::getEpoch (QString eName) {
-	
+
 	double epoch = eName.toDouble();
 
 	return epoch;
@@ -187,7 +186,7 @@ void modCalcPrec::slotClearCoords (void) {
 void modCalcPrec::slotComputeCoords (void) {
 
 	SkyPoint sp;
-	
+
 	sp = getEquCoords();
 	double epoch0 = getEpoch( epoch0Name->text() );
 	double epochf = getEpoch( epochfName->text() );
@@ -200,7 +199,7 @@ void modCalcPrec::showEquCoords ( SkyPoint sp ) {
 
 	rafBox->show( sp.ra() );
 	decfBox->show( sp.dec() );
-	
+
 }
 
 double modCalcPrec::JdtoEpoch (long double jd) {
@@ -223,11 +222,119 @@ long double modCalcPrec::epochToJd (double epoch) {
 
 }
 
-SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) {
+SkyPoint modCalcPrec::B1950ToJ2000 (dms RA0, dms Dec0) {
 
 	double cosRA0, sinRA0, cosDec0, sinDec0;
 	dms RA, Dec;
-        double v[3], s[3]; 
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	// Eterms due to aberration
+	SkyPoint sPoint = SkyPoint (RA0, Dec0);
+	sPoint.addEterms();
+	sPoint.ra().SinCos( sinRA0, cosRA0 );
+	sPoint.dec().SinCos( sinDec0, cosDec0 );
+
+	// Precession from B1950 to J1984
+	s[0] = cosRA0*cosDec0;
+	s[1] = sinRA0*cosDec0;
+	s[2] = sinDec0;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2b( 0, i )*s[0] + num->p2b( 1, i )*s[1] +
+		num->p2b( 2, i )*s[2];
+	}
+
+	// RA zero-point correction at 1984 day 1, 0h.
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	RA.setH( RA.Hours() + 0.06390/3600. );
+	RA.SinCos( sinRA0, cosRA0 );
+	Dec.SinCos( sinDec0, cosDec0 );
+
+	s[0] = cosRA0*cosDec0;
+	s[1] = sinRA0*cosDec0;
+	s[2] = sinDec0;
+
+	// Precession from 1984 to J2000.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1( 0, i )*s[0] +
+		num->p1( 1, i )*s[1] +
+		num->p1( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	delete num;
+
+	sPoint.setRA(RA);
+	sPoint.setDec(Dec);
+	return sPoint;
+
+}
+SkyPoint modCalcPrec::J2000ToB1950 (dms RA0, dms Dec0) {
+	double cosRA0, sinRA0, cosDec0, sinDec0;
+	dms RA, Dec;
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	RA0.SinCos(sinRA0,cosRA0);
+	Dec0.SinCos(sinDec0,cosDec0);
+
+	s[0] = cosRA0*cosDec0;
+	s[1] = sinRA0*cosDec0;
+	s[2] = sinDec0;
+
+	// Precession from 1984 to J2000.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2( 0, i )*s[0] +
+		num->p2( 1, i )*s[1] +
+		num->p2( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// RA zero-point correction at 1984 day 1, 0h.
+
+	RA.setH( RA.Hours() - 0.06390/3600. );
+	RA.SinCos( sinRA0, cosRA0 );
+	Dec.SinCos( sinDec0, cosDec0 );
+
+	// Precession from B1950 to J1984
+
+	s[0] = cosRA0*cosDec0;
+	s[1] = sinRA0*cosDec0;
+	s[2] = sinDec0;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1b( 0, i )*s[0] + num->p1b( 1, i )*s[1] +
+		num->p1b( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// Eterms due to aberration
+	SkyPoint sPoint = SkyPoint (RA, Dec);
+	sPoint.subtractEterms();
+
+	delete num;
+
+	return sPoint;
+
+}
+
+SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) {
+	double cosRA0, sinRA0, cosDec0, sinDec0;
+	dms RA, Dec;
+        double v[3], s[3];
 
 	long double jd0 = epochToJd ( epoch0 );
 	long double jdf = epochToJd ( epochf );
@@ -235,62 +342,90 @@ SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) 
 	RA0.SinCos( sinRA0, cosRA0 );
 	Dec0.SinCos( sinDec0, cosDec0 );
 
-	//Need to first precess to J2000.0 coords
+	if ( jd0 == B1950) {
+		SkyPoint sp = SkyPoint(RA0, Dec0);
+		sp.B1950ToJ2000();
+		RA0.setD( sp.ra().Degrees() );
+		Dec0.setD( sp.dec().Degrees() );
+		jd0 = J2000;
+	}
 
-	if ( jd0 != J2000 ) {
-	
-	//v is a column vector representing input coordinates.
+	if (jd0 !=jdf) {
+		// The original coordinate is referred to the FK5 system and
+		// is NOT J2000.
+		if ( jd0 != J2000 ) {
 
-		KSNumbers *num = new KSNumbers (jd0);
+		//v is a column vector representing input coordinates.
 
-		v[0] = cosRA0*cosDec0; 
-		v[1] = sinRA0*cosDec0;
-		v[2] = sinDec0;
+			KSNumbers *num = new KSNumbers (jd0);
 
-	//s is the product of P1 and v; s represents the
-	//coordinates precessed to J2000
-		for ( unsigned int i=0; i<3; ++i ) {
-			s[i] = num->p1( 0, i )*v[0] + num->p1( 1, i )*v[1] + 
-				num->p1( 2, i )*v[2];
-		}
-		delete num;
+			v[0] = cosRA0*cosDec0;
+			v[1] = sinRA0*cosDec0;
+			v[2] = sinDec0;
 
-	} else {
+			//Need to first precess to J2000.0 coords
+			//s is the product of P1 and v; s represents the
+			//coordinates precessed to J2000
+			for ( unsigned int i=0; i<3; ++i ) {
+				s[i] = num->p1( 0, i )*v[0] +
+					num->p1( 1, i )*v[1] +
+					num->p1( 2, i )*v[2];
+			}
+			delete num;
 
 		//Input coords already in J2000, set s accordingly.
-		s[0] = cosRA0*cosDec0;
-		s[1] = sinRA0*cosDec0;
-		s[2] = sinDec0; 
+		} else {
+
+			s[0] = cosRA0*cosDec0;
+			s[1] = sinRA0*cosDec0;
+			s[2] = sinDec0;
+		}
+
+		if ( jdf == B1950) {
+
+			RA.setRadians( atan2( s[1],s[0] ) );
+			Dec.setRadians( asin( s[2] ) );
+			SkyPoint sp = SkyPoint(RA, Dec);
+			sp.J2000ToB1950();
+
+			return sp;
+		}
+
+		KSNumbers *num = new KSNumbers (jdf);
+
+		//Multiply P2 and s to get v, the vector representing i
+		//the new coords.
+
+		for ( unsigned int i=0; i<3; ++i ) {
+			v[i] = num->p2( 0, i )*s[0] +
+			num->p2( 1, i )*s[1] +
+			num->p2( 2, i )*s[2];
+		}
+
+		delete num;
+
+		//Extract RA, Dec from the vector:
+
+		//	RA.setRadians( atan( v[1]/v[0] ) );
+		RA.setRadians( atan2( v[1],v[0] ) );
+		Dec.setRadians( asin( v[2] ) );
+
+		//resolve ambiguity of atan()
+
+		//	if ( v[0] < 0.0 ) {
+		//		RA.setD( RA.Degrees() + 180.0 );
+		//	} else if( v[1] < 0.0 ) {
+		//		RA.setD( RA.Degrees() + 360.0 );
+		//	}
+
+		if (RA.Degrees() < 0.0 )
+			RA.setD( RA.Degrees() + 360.0 );
+
+		SkyPoint sPoint = SkyPoint (RA, Dec);
+		return sPoint;
+	} else {
+		SkyPoint sPoint = SkyPoint (RA0, Dec0);
+		return sPoint;
 	}
-      
-	KSNumbers *num = new KSNumbers (jdf);
-      
-	//Multiply P2 and s to get v, the vector representing the new coords.
 
-	for ( unsigned int i=0; i<3; ++i ) {
-		v[i] = num->p2( 0, i )*s[0] + num->p2( 1, i )*s[1] + 
-		num->p2( 2, i )*s[2];
-	}
-	delete num;
-
-	//Extract RA, Dec from the vector:
-
-//	RA.setRadians( atan( v[1]/v[0] ) );
-	RA.setRadians( atan2( v[1],v[0] ) );
-	Dec.setRadians( asin( v[2] ) );
-	
-	//resolve ambiguity of atan()
-
-//	if ( v[0] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 180.0 );
-//	} else if( v[1] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 360.0 );
-//	}
-
-	if (RA.Degrees() < 0.0 )
-		RA.setD( RA.Degrees() + 360.0 );
-
-	SkyPoint sPoint = SkyPoint (RA, Dec);
-
-	return sPoint;
 }

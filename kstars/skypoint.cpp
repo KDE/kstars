@@ -213,12 +213,143 @@ void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets ) {
 
 	//Correct the catalog coordinates for the time-dependent effects
 	//of precession, nutation and aberration
-	
+
 	precess(num);
 
 	nutate(num);
 
 	aberrate(num);
 
-	
+}
+
+void SkyPoint::B1950ToJ2000(void) {
+	double cosRA, sinRA, cosDec, sinDec;
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	// Eterms due to aberration
+	addEterms();
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	// Precession from B1950 to J1984
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2b( 0, i )*s[0] + num->p2b( 1, i )*s[1] +
+		num->p2b( 2, i )*s[2];
+	}
+
+	// RA zero-point correction at 1984 day 1, 0h.
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	RA.setH( RA.Hours() + 0.06390/3600. );
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+
+	// Precession from 1984 to J2000.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1( 0, i )*s[0] +
+		num->p1( 1, i )*s[1] +
+		num->p1( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	delete num;
+}
+
+void SkyPoint::J2000ToB1950(void) {
+	double cosRA, sinRA, cosDec, sinDec;
+	double cosRA0, sinRA0, cosDec0, sinDec0;
+        double v[3], s[3];
+
+	// 1984 January 1 0h
+	KSNumbers *num = new KSNumbers (2445700.5);
+
+	RA0.SinCos( sinRA0, cosRA0 );
+	Dec0.SinCos( sinDec0, cosDec0 );
+
+	s[0] = cosRA0*cosDec0;
+	s[1] = sinRA0*cosDec0;
+	s[2] = sinDec0;
+
+	// Precession from J2000 to 1984 day, 0h.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2( 0, i )*s[0] +
+		num->p2( 1, i )*s[1] +
+		num->p2( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// RA zero-point correction at 1984 day 1, 0h.
+
+	RA.setH( RA.Hours() - 0.06390/3600. );
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	// Precession from B1950 to J1984
+
+	s[0] = cosRA*cosDec;
+	s[1] = sinRA*cosDec;
+	s[2] = sinDec;
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p1b( 0, i )*s[0] + num->p1b( 1, i )*s[1] +
+		num->p1b( 2, i )*s[2];
+	}
+
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	// Eterms due to aberration
+	subtractEterms();
+
+	delete num;
+}
+
+SkyPoint SkyPoint::Eterms(void) {
+
+	double sd, cd, sinEterm, cosEterm;
+	dms raTemp, raDelta, decDelta;
+
+	Dec.SinCos(sd,cd);
+	raTemp.setH( RA.Hours() + 11.25);
+	raTemp.SinCos(sinEterm,cosEterm);
+
+	raDelta.setH( 0.0227*sinEterm/(3600.*cd) );
+	decDelta.setD( 0.341*cosEterm*sd/3600. + 0.029*cd/3600. );
+
+	SkyPoint spDelta = SkyPoint (raDelta, decDelta);
+
+	return spDelta;
+}
+
+void SkyPoint::addEterms(void) {
+
+	SkyPoint spd = Eterms();
+
+	RA.setD( RA.Degrees() + spd.ra().Degrees() );
+	Dec.setD( Dec.Degrees() + spd.dec().Degrees() );
+
+}
+
+void SkyPoint::subtractEterms(void) {
+
+	SkyPoint spd = Eterms();
+
+	RA.setD( RA.Degrees() - spd.ra().Degrees() );
+	Dec.setD( Dec.Degrees() - spd.dec().Degrees() );
 }

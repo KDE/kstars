@@ -48,6 +48,8 @@ public:
 	double JdtoEpoch (long double jd);
 	long double epochToJd (double epoch);
 	SkyPoint precess (dms ra0, dms dec0, double e0, double ef);
+	SkyPoint B1950ToJ2000 (dms RA0, dms Dec0);
+	SkyPoint J2000ToB1950 (dms RA0, dms Dec0);
 
 public slots:
 	void slotClearCoords (void);

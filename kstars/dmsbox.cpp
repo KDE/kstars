@@ -27,7 +27,6 @@
 #include <qhbox.h>
 #include <qlineedit.h>
 #include <qstring.h>
-#include <qregexp.h>
 #include <qwidget.h>
 #include <qregexp.h>
 

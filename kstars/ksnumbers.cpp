@@ -30,6 +30,9 @@ void KSNumbers::updateValues( long double jd ) {
 
 	//Julian Centuries since J2000.0
 	T = ( jd - J2000 ) / 36525.;
+	
+	//Julian Centuries since B1950.0
+	TB = ( jd - 2433282.4235 ) / 36524.2199;
 
 	// Julian Millenia since J2000.0
 	jm = T / 10.0;
@@ -115,4 +118,39 @@ void KSNumbers::updateValues( long double jd ) {
 	P2[0][2] = CX*SY;
 	P2[1][2] = -1.0*SX*SY;
 	P2[2][2] = CY;
+
+	// eqnCorr.setD ( (0.0775 + 0.0850 * TB)/3600. );
+
+	//Compute Precession Matrices from B1950 to 1984 using Newcomb formulae
+
+	XB.setD( 0.217697 );
+	YB.setD( 0.189274 );
+	ZB.setD( 0.217722 );
+
+	XB.SinCos( SXB, CXB );
+	YB.SinCos( SYB, CYB );
+	ZB.SinCos( SZB, CZB );
+
+//P1B is used to precess from 1984 to B1950:
+
+	P1B[0][0] = CXB*CYB*CZB - SXB*SZB;
+	P1B[1][0] = CXB*CYB*SZB + SXB*CZB;
+	P1B[2][0] = CXB*SYB;
+	P1B[0][1] = -1.0*SXB*CYB*CZB - CXB*SZB;
+	P1B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+	P1B[2][1] = -1.0*SXB*SYB;
+	P1B[0][2] = -1.0*SYB*CZB;
+	P1B[1][2] = -1.0*SYB*SZB;
+	P1B[2][2] = CYB;
+
+//P2 is used to precess from B1950 to 1984 (it is the transpose of P1)
+	P2B[0][0] = CXB*CYB*CZB - SXB*SZB;
+	P2B[1][0] = -1.0*SXB*CYB*CZB - CXB*SZB;
+	P2B[2][0] = -1.0*SYB*CZB;
+	P2B[0][1] = CXB*CYB*SZB + SXB*CZB;
+	P2B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+	P2B[2][1] = -1.0*SYB*SZB;
+	P2B[0][2] = CXB*SYB;
+	P2B[1][2] = -1.0*SXB*SYB;
+	P2B[2][2] = CYB;
 }
