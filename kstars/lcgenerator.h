@@ -27,6 +27,8 @@
 
 #include <qvariant.h>
 #include <kdialogbase.h>
+#include <qfile.h>
+#include <kio/job.h>
 
 class QVBoxLayout; 
 class QHBoxLayout; 
@@ -110,21 +112,17 @@ public:
     QLabel* TextLabel9;
     QLabel* TextLabel10;
 
-    // Image Configuation Box
-    QGroupBox* ImageConfBox;
-    QLineEdit* ImageWidthIn;
-    QLineEdit* ImageHeightIn;
-    QButtonGroup* GridGroup;
-    QRadioButton* GridOffRad;
-    QRadioButton* GridOnRad;
-    QLabel* TextLabel15;
     QPushButton* CloseButton;
     QPushButton* GetCurveButton;
-    QLabel* TextLabel11;
-    QLabel* TextLabel12;
-    QLabel* TextLabel13;
-    QLabel* TextLabel14;
-
+    QPushButton* UpdateListButton;
+    
+    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
+    
+    QFile *file;
+    
+    /**Make sure all events have been processed before closing the dialog */
+    void closeEvent (QCloseEvent *ev);
+    
     public slots:
     /** Checks if a star name or designation exists in the database, verifies date format, and connects to server if no errors occur  */
     void VerifyData();
@@ -132,6 +130,12 @@ public:
     void updateNameList(int index);
     /** Selects a designation based on the star name */
     void updateDesigList(int index);
+    /** Connects to AAVSO database server and downloads a fresh list of Variable stars.*/
+    void updateStarList();
+    /** Reload file and update lists after download */
+    void downloadReady(KIO::Job *);
+    
+    
     
 
 };

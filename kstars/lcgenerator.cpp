@@ -19,6 +19,7 @@
 #include <qlineedit.h>
 #include <qradiobutton.h>
 
+#include <kio/netaccess.h>
 #include <kmessagebox.h>
 
 #include "lcgenerator.h"
@@ -34,11 +35,16 @@ LCGenerator::LCGenerator( QWidget* parent)
 
   ksw = (KStars*) parent;
   createGUI();
+  
+  downloadJob = 0;
+  
+  file = new QFile();
 }
 
 LCGenerator::~LCGenerator()
 {
-    // no need to delete child widgets, Qt does it all for us
+   delete file;
+   delete downloadJob;
 }
 
 void LCGenerator::createGUI()
@@ -46,13 +52,13 @@ void LCGenerator::createGUI()
 
     QWidget *page = new QWidget(this);
     setMainWidget(page);
-    page->setMinimumSize( QSize( 455, 370 ) );
-    setMaximumSize( QSize( 455, 370 ) );
+    page->setMinimumSize( QSize( 455, 285 ) );
+    setMaximumSize( QSize( 455, 285 ) );
     page->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, sizePolicy().hasHeightForWidth() ) );
 
     
     StarInfoBox = new QGroupBox( page, "StarInfoBox" );
-    StarInfoBox->setGeometry( QRect( 5, 10, 245, 245 ) );
+    StarInfoBox->setGeometry( QRect( 5, 5, 245, 245 ) );
     StarInfoBox->setTitle( i18n( "Star Info" ) );
 
     TextLabel1 = new QLabel( StarInfoBox, "TextLabel1" );
@@ -110,7 +116,7 @@ void LCGenerator::createGUI()
     EndDateIn->setText( i18n( "default" ) );
 
     DataSelectBox = new QGroupBox( page, "DataSelectBox" );
-    DataSelectBox->setGeometry( QRect( 255, 10, 195, 245 ) );
+    DataSelectBox->setGeometry( QRect( 255, 5, 195, 245 ) );
     DataSelectBox->setTitle( i18n( "Data Selection" ) );
 
     CCDVCheck = new QCheckBox( DataSelectBox, "CCDVCheck" );
@@ -158,70 +164,20 @@ void LCGenerator::createGUI()
     TextLabel10->setGeometry( QRect( 155, 205, 34, 21 ) );
     TextLabel10->setText( i18n( "days" ) );
 
-    ImageConfBox = new QGroupBox( this, "ImageConfBox" );
-    ImageConfBox->setGeometry( QRect( 15, 270, 445, 80 ) );
-    ImageConfBox->setTitle( i18n( "Image Configuration" ) );
-
-    TextLabel11 = new QLabel( ImageConfBox, "TextLabel11" );
-    TextLabel11->setGeometry( QRect( 5, 30, 45, 16 ) );
-    TextLabel11->setText( i18n( "Width:" ) );
-
-    TextLabel12 = new QLabel( ImageConfBox, "TextLabel12" );
-    TextLabel12->setGeometry( QRect( 10, 54, 85, 16 ) );
-    QFont TextLabel12_font(  TextLabel12->font() );
-    TextLabel12_font.setPointSize( 9 );
-    TextLabel12->setFont( TextLabel12_font );
-    TextLabel12->setText( i18n( "100-2000 pixels" ) );
-
-    TextLabel13 = new QLabel( ImageConfBox, "TextLabel13" );
-    TextLabel13->setGeometry( QRect( 135, 30, 45, 16 ) );
-    TextLabel13->setText( i18n( "Height:" ) );
-
-    TextLabel14 = new QLabel( ImageConfBox, "TextLabel14" );
-    TextLabel14->setGeometry( QRect( 135, 54, 85, 16 ) );
-    QFont TextLabel14_font(  TextLabel14->font() );
-    TextLabel14_font.setPointSize( 9 );
-    TextLabel14->setFont( TextLabel14_font );
-    TextLabel14->setText( i18n( "100-1500 pixels" ) );
-
-    ImageWidthIn = new QLineEdit( ImageConfBox, "ImageWidthIn" );
-    ImageWidthIn->setGeometry( QRect( 55, 25, 65, 26 ) );
-    ImageWidthIn->setText("450");
-
-    ImageHeightIn = new QLineEdit( ImageConfBox, "ImageHeightIn" );
-    ImageHeightIn->setGeometry( QRect( 185, 25, 65, 26 ) );
-    ImageHeightIn->setText("375");
-
-    GridGroup = new QButtonGroup( ImageConfBox, "GridGroup" );
-    GridGroup->setGeometry( QRect( 300, 15, 66, 55 ) );
-    GridGroup->setFrameShape( QButtonGroup::NoFrame );
-    GridGroup->setFrameShadow( QButtonGroup::Plain );
-    GridGroup->setTitle( QString::null );
-
-    GridOffRad = new QRadioButton( GridGroup, "GridOffRad" );
-    //GridOffRad->setGeometry( QRect( 9, 9, 55, 16 ) );
-    GridOffRad->setGeometry( QRect( 9, 9, 105, 16 ) );
-    GridOffRad->setText( i18n( "Off" ) );
-    GridOffRad->setChecked( TRUE );
-
-    GridOnRad = new QRadioButton( GridGroup, "GridOnRad" );
-    GridOnRad->setGeometry( QRect( 9, 29, 105, 16 ) );
-    GridOnRad->setText( i18n( "On" ) );
-
-    TextLabel15 = new QLabel( ImageConfBox, "TextLabel15" );
-    TextLabel15->setGeometry( QRect( 265, 30, 35, 21 ) );
-    TextLabel15->setText( i18n( "Grid:" ) );
-
-     
     // Buttons
     CloseButton = new QPushButton(page, "CloseButton" );
-    CloseButton->setGeometry( QRect( 356, 345, 95, 21 ) );
+    CloseButton->setGeometry( QRect( 356, 260, 95, 27 ) );
     CloseButton->setText( i18n( "Close" ) );
 
     GetCurveButton = new QPushButton( page, "GetCurveButton" );
-    GetCurveButton->setGeometry( QRect( 5, 345, 155, 21 ) );
+    GetCurveButton->setGeometry( QRect( 5, 260, 120, 27 ) );
     GetCurveButton->setText( i18n( "Retrieve Curve" ) );
     GetCurveButton->setDefault( TRUE );
+    
+    UpdateListButton = new QPushButton( page, "UpdateListButton" );
+    UpdateListButton->setGeometry( QRect( 130, 260, 120, 27 ) );
+    UpdateListButton->setText( i18n( "Update list" ) );
+    
     
     // tab order
     setTabOrder( DesignationIn, NameIn );
@@ -235,16 +191,12 @@ void LCGenerator::createGUI()
     setTabOrder( CCDVCheck, CCDRCheck );
     setTabOrder( CCDRCheck, CCDICheck );
     setTabOrder( CCDICheck, AverageDayIn );
-    setTabOrder( AverageDayIn, ImageWidthIn );
-    setTabOrder( ImageWidthIn, ImageHeightIn );
-    setTabOrder( ImageHeightIn, GridOffRad );
-    setTabOrder( GridOffRad, GridOnRad );
-    setTabOrder( GridOnRad, GetCurveButton );
     setTabOrder( GetCurveButton, CloseButton );
         
     // Signals/Slots
     QObject::connect(CloseButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(GetCurveButton, SIGNAL(clicked()), this, SLOT(VerifyData()));
+    QObject::connect(UpdateListButton, SIGNAL(clicked()), this, SLOT(updateStarList()));
     QObject::connect(DesignationIn, SIGNAL(highlighted(int)), this, SLOT(updateNameList(int)));
     QObject::connect(NameIn, SIGNAL(highlighted(int)), this, SLOT(updateDesigList(int)));
       
@@ -275,28 +227,24 @@ void LCGenerator::VerifyData()
         return;
     }
 
-    // Check for image width, height
-    if (ImageWidthIn->text().toInt() < 100 || ImageWidthIn->text().toInt() > 2000)
-    {
-        KMessageBox::error(this, i18n("Image Width must be in the range of 100 to 2000 pixels."));
-        return;
-    }
-
-   if (ImageHeightIn->text().toInt() < 150 || ImageHeightIn->text().toInt() > 1500)
-   {
-       KMessageBox::error(this, i18n("Image Height must be in the range  of 100 to 1500 pixels."));
-       return;
-   }
-
    // Check that we have an integer for average number of days, if data field empty, then make it 'default'
    if (!AverageDays.isEmpty())
    {
         AverageDays.toInt(&AverageDaysOK);
         if (!AverageDaysOK)
         {
-            KMessageBox::error(this, i18n("Average days must be an integer."));
+            KMessageBox::error(this, i18n("Average days must be a positive integer."));
             return;
          }
+	 else
+	 {
+	  if (AverageDays.toInt() < 0)
+	  {
+	  	KMessageBox::error(this, i18n("Average days must be a positive integer."));
+            	return;
+	  }
+	 }
+	  
    }
    else AverageDays = QString("default");
 
@@ -401,11 +349,30 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
 {
 
         QString buf(Hostprefix);
+	QString Yes("yes");
+	QString No("no");
+	
+	//FainterCheck;
+	//CCDVCheck;
+        //CCDICheck;
+	//CCDRCheck;
+        //CCDBCheck;
+        //VisualCheck;
+        //DiscrepantCheck;
+    
 
         buf.append("?"+FinalStartDate);
         buf.append("?"+FinalEndDate);
         buf.append("?"+FinalDesignation);
         buf.append("?"+AverageDay);
+	buf.append("?"+ (FainterCheck->isOn() ? Yes : No));
+	buf.append("?"+ (CCDVCheck->isOn() ? Yes : No));
+	buf.append("?"+ (CCDICheck->isOn() ? Yes : No));
+	buf.append("?"+ (CCDRCheck->isOn() ? Yes : No));
+	buf.append("?"+ (CCDBCheck->isOn() ? Yes : No));
+	buf.append("?"+ (VisualCheck->isOn() ? Yes : No));
+	buf.append("?"+ (DiscrepantCheck->isOn() ? Yes : No));
+	
 
         KURL url(buf);
         // parent of imageview is KStars
@@ -427,6 +394,62 @@ void LCGenerator::updateNameList(int index)
     NameIn->setSelected(index, true);
     NameIn->centerCurrentItem();
     
+}
+
+void LCGenerator::updateStarList()
+{
+	file->setName( locateLocal( "appdata", "valaav.txt" ) );
+	
+	KURL AAVSOFile("http://www.aavso.org/valaav.txt");
+	KURL saveFile (file->name());
+	
+	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
+	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+}
+
+void LCGenerator::downloadReady(KIO::Job * job)
+{
+
+downloadJob = 0;
+
+	if ( job->error() )
+	{
+		job->showErrorDialog();
+		closeEvent (0);
+		return;		// exit this function
+	}
+
+	file->close(); // to get the newest informations of the file and not any informations from opening of the file
+
+	if ( file->exists() )
+	{
+		ksw->data()->readVARData();
+		
+		DesignationIn->clear();
+                NameIn->clear();
+		
+		// Fill stars designations
+                for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
+                DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
+
+                // Fill star names
+                for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
+                NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
+		
+                KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully"));
+
+		
+		return;
+	}
+	closeEvent (0);
+
+}
+
+void LCGenerator::closeEvent (QCloseEvent *ev)
+{
+	if (ev)	// not if closeEvent (0) is called, because segfault
+		ev->accept();	// parent-widgets should not get this event, so it will be filtered
+	//this->~LCGenerator();	// destroy the object, so the object can only allocated with operator new, not as a global/local variable
 }
 
 #include "lcgenerator.moc"
