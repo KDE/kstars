@@ -172,7 +172,7 @@ devices:</para>
 KStars can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
 
 <orderedlist>
-<listitem><para>Local: The local mode the most common and is used to control local device (i.e. a device attached to your machine).</para></listitem>
+<listitem><para>Local: The local mode the most common and is used to control local device (&ie; a device attached to your machine).</para></listitem>
 <listitem><para>Server: The server mode establishes an INDI server for a particular device and waits for connections from remote clients. You cannot operate server devices, you can only start and shut them down.</para></listitem>
 <listitem><para>Client: The client mode is used to connect to remote INDI servers running INDI devices. You can control remote devices seamlessly like local devices.</para></listitem>
 </orderedlist>
@@ -210,7 +210,7 @@ for remote control. Connect the RS232 jack in your telescope to your
 computer's <hardware>Serial/USB</hardware> port. Traditionally, the RS232
 connects to the serial port of your computer, but since many new laptops
 abandoned the serial port in favor of <hardware>USB/FireWire</hardware>
-ports, you might need to obtain a Serial to USB adapter to use with new
+ports, you might need to obtain a Serial to USB adaptor to use with new
 laptops.</para>
 
 <para>After connecting your telescope to the Serial/USB port, turn your
@@ -309,7 +309,7 @@ blocks or groupings.
 </listitem>
 <listitem>
 <para>
-<guilabel>Log viewers</guilabel>: Devices report their status and acknowledge commands by sending INDI messages. Each device has its own log view, and all devices share one generic log viewer. A device usually send messages to its device driver only, but a device is permitted to send a generic message when appropriate.
+<guilabel>Log viewers</guilabel>: Devices report their status and acknowledge commands by sending INDI messages. Each device has its own log view, and all devices share one generic log viewer. A device usually sends messages to its device driver only, but a device is permitted to send a generic message when appropriate.
 </para>
 </listitem>
 </itemizedlist>
@@ -348,16 +348,16 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 </para>
 </note>
 
-<para>That's it! Your telescope is ready to explore the heavens!</para>
+<para>That is it: your telescope is ready to explore the heavens.</para>
 
 <warning>
 <title>WARNING</title>
-<para>Never use the telescope to look at the sun. Looking at the sun might cause an irreversible damage to your eyes and as well as your equipment</para>
+<para>Never use the telescope to look at the sun. Looking at the sun might cause irreversible damage to your eyes and as well as your equipment.</para>
 </warning>
 </sect1>
 
 <sect1 id="indi-other-setup">
-<title>CCD and Video Capture Setup</title>
+<title>CCD and Video-Capture Setup</title>
 <indexterm><primary>CCD Video Control</primary>
 <secondary>Setup</secondary>
 </indexterm>
@@ -492,7 +492,7 @@ control:</para>
 <guimenuitem>Connect</guimenuitem> or <guimenuitem>Disconnect</guimenuitem>.
 If a connection is established, you can control the telescope from the
 <guilabel>Sky map</guilabel> or <guilabel>INDI Control Panel</guilabel>
-exactly as described in the <link linkend="indi-kstars-setup">local/server</link> section. It's as easy at that!
+exactly as described in the <link linkend="indi-kstars-setup">local/server</link> section. It is as easy at that.
 </para>
 
 <sect2 id="indi-commandline">
@@ -564,7 +564,7 @@ Do you plan to support more devices?
 <answer>
 <para>
 Yes. We plan to support major CCD cameras and focusers and extend support
-for more telescopes. If you'd like INDI to support a particular device,
+for more telescopes. If you would like INDI to support a particular device,
 please send an email to <email>indi-devel@lists.sourceforge.net</email>
 </para>
 </answer>
@@ -572,14 +572,14 @@ please send an email to <email>indi-devel@lists.sourceforge.net</email>
 
 <qandaentry>
 <question>
-<para>I don't have a serial port, how can I connect to the telescope?</para>
+<para>I do not have a serial port, how can I connect to the telescope?</para>
 </question>
 <answer>
 <para>Many modern laptops do not have a serial port. You will need a
-Serial To USB adapter that is supported under Linux. For example,
-<trademark>Keyspan</trademark>'s USA-19QW Serial to USB adapter is well
+Serial To USB adaptor that is supported under Linux. For example,
+<trademark>Keyspan</trademark>'s USA-19QW Serial to USB adaptor is well
 supported under Linux and had been tested with &kstars;. You need to refer
-to your adapter's documentation to find which ports they provide (e.g.
+to your adaptor's documentation to find which ports they provide (e.g.
 <constant>/dev/ttyUSB0 .... /dev/ttyUSB9</constant>).
 </para>
 </answer>
@@ -597,7 +597,7 @@ telescope is not connected to the serial/USB port. What can I do?
 
    <orderedlist>
    <listitem>
-<para>Check that you have both reading and writing permisstion for the port you're trying to connect to.</para>
+<para>Check that you have both reading and writing permission for the port you are trying to connect to.</para>
    </listitem>
    <listitem>
 <para>Check the connection cable, make sure it is in good condition and test it with other applications.</para>
@@ -617,7 +617,7 @@ telescope is not connected to the serial/USB port. What can I do?
 
 <qandaentry>
 <question>
-<para>&kstars; reports that the telescope is online and ready, but I can't find the telescope's crosshair, where is it?</para>
+<para>&kstars; reports that the telescope is online and ready, but I cannott find the telescope's crosshair, where is it?</para>
 </question>
 <answer>
 <para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target.</para>

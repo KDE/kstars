@@ -20,7 +20,7 @@ The Jupiter Moons Tool
 
 <para>
 This tool displays the positions of Jupiter's four largest
-moons (Io, Eurpoa, Ganymede and Callisto) relative to Jupiter, 
+moons (Io, Europa, Ganymede, and Callisto) relative to Jupiter, 
 as a function of time.  Time is plotted vertically; the units are days
 and <quote>time=0.0</quote> corresponds to the current simulation time.  
 The horizontal axis displays the angular offset from Jupiter's position, 

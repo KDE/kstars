@@ -11,7 +11,7 @@
 <para>
 <firstterm>Precession</firstterm> is the gradual change in the direction of the
 Earth's spin axis. The spin axis traces a cone, completing a full circuit in
-26,000 years. If you've ever spun a top or a dreidel, the
+26,000 years. If you have ever spun a top or a dreidel, the
 <quote>wobbling</quote> rotation of the top as it spins is precession.
 </para><para>
 Because the direction of the Earth's spin axis changes, so does the location of
@@ -48,7 +48,7 @@ this, but this date is sufficient for our purposes).  Notice that the sky
 display is now centered at a point between the constellations Cygnus and
 Cepheus.  Verify that this is actually the pole by slewing left and right: the
 sky rotates about this point; in the year 8000, the North celestial pole will no
-longer be near Polaris!
+longer be near Polaris.
 </para>
 </tip>
 </sect1>

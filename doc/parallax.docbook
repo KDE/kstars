@@ -29,7 +29,7 @@
  it<footnote><para>The ancient Greek astronomers knew about parallax;
  because they could not observe an annual parallax in the positions of
  stars, they concluded that the Earth could not be in motion around
- the Sun.  What they didn't realize was that the stars are millions of
+ the Sun.  What they did not realize was that the stars are millions of
  times further away than the Sun, so the parallax effect is impossible
  to see with the unaided eye.</para></footnote>.
  </para>
@@ -48,7 +48,7 @@ larger
  the distance from the Earth to the Sun, or about 150 million
  kilometers).  This sounds like a really long distance, but even the
  nearest star to the Sun (alpha Centauri) is about 40
- <emphasis>trillion</emphasis> kilometers away!  Therefore, the annual
+ <emphasis>trillion</emphasis> kilometers away.  Therefore, the annual
  parallax is very small, typically smaller than one
  <firstterm>arcsecond</firstterm>, which is only 1/3600 of one degree.
  A convenient distance unit for nearby stars is the

@@ -67,7 +67,7 @@ A Sample Lightcurve
 
 <para>
 Please not these light curves should <emphasis>NEVER</emphasis> be used 
-in research, papers, presentations, publications, etc. They are only 
+in research, papers, presentations, publications, &etc;. They are only 
 meant to be used as a source of info for &kstars;. They have not been 
 validated and passed the <abbrev>AAVSO</abbrev>'s strict quality control 
 measures. We will be glad to give you good raw data simply by requesting 
@@ -122,7 +122,7 @@ standard deviation of error.</para></listitem>
 These are observations reported using a <abbrev>CCD</abbrev> with a 
 Johnson <abbrev>V</abbrev> filter.  <abbrev>CCDV</abbrev> observations 
 tend to be more accurate than visual (but not 
-always!).</para></listitem>
+always).</para></listitem>
 
 <listitem><para><firstterm>CCDB</firstterm>: 
 <abbrev>CCD</abbrev> observations with a Johnson <abbrev>B</abbrev> 

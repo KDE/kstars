@@ -8,7 +8,7 @@ many of its important features.
 
 <screenshot>
 <screeninfo>
-Here's a screenshot of the &kstars; main window:
+Here is a screenshot of the &kstars; main window:
 </screeninfo>
 <mediaobject>
   <imageobject>
@@ -27,7 +27,7 @@ the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
 colors</link> and relative brightnesses.  M 42, the Orion Nebula, is
 visible on the right side of the screen, just above the horizon.  If
-you look closely, you can also see the Sun and the planet Merury in the
+you look closely, you can also see the Sun and the planet Mercury in the
 upper left.  In three corners of the sky display, there are on-screen text
 labels displaying data on the current time (<quote>LT: 06:44:58 20 June
 2004</quote>), the current Geographic Location (<quote>Tucson, Arizona,
@@ -84,11 +84,11 @@ installed.
 </sect1>
 
 <sect1 id="lookaround">
-<title>Have a Look Around!</title>
+<title>Have a Look Around</title>
 <para>
 <indexterm><primary>Navigation Controls</primary>
 <secondary>Basics</secondary></indexterm>
-Now that we have the time and location set, let's have a look around.
+Now that we have the time and location set, let us have a look around.
 You can pan the display using the arrow keys.  If you hold down the
 &Shift; key before panning, the scrolling speed is doubled.  The
 display can also be panned by clicking and dragging with the mouse.
@@ -137,7 +137,7 @@ lower zoom settings.</para>
 
 <para>
 Zoom out until you can see a green curve; this represents your local
-<link linkend="ai-horizon">horizon</link>.  If you haven't adjusted
+<link linkend="ai-horizon">horizon</link>.  If you have not adjusted
 the default &kstars; configuration, the display will be solid green
 below the horizon, representing the solid ground of the Earth.  There
 is also a white curve, which represents the <link

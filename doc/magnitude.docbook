@@ -29,7 +29,7 @@ logarithmic scaling:
 </para><para>
 m = m_0 - 2.5 log (F / F_0)
 </para><para>
-If you don't understand the math, this just says that the magnitude
+If you do not understand the math, this just says that the magnitude
 of a given star (m) is different from that of some standard star (m_0)
 by 2.5 times the logarithm of their flux ratio.  The 2.5 *log factor
 means that if the flux ratio is 100, the difference in magnitudes is 5
@@ -48,7 +48,7 @@ Vega.
 </para><para>
 It is difficult to understand stars using just the apparent magnitudes.
 Imagine two stars in the sky with the same apparent magnitude, so they
-appear to be equally bright.  You can't know just by looking if the
+appear to be equally bright.  You cannot know just by looking if the
 two have the same <emphasis>intrinsic</emphasis> brightness; it is
 possible that one star is intrinsically brighter, but further away.
 If we knew the distances to the stars (see the <link
@@ -69,7 +69,7 @@ photometers.  With telescopes, we can see objects much fainter than
 Hipparchus could see with his unaided eyes, so the magnitude scale has
 been extended beyond 6th magnitude.  In fact, the Hubble Space Telescope
 can image stars nearly as faint as 30th magnitude, which is one
-<emphasis>trillion</emphasis> times fainter than Vega!
+<emphasis>trillion</emphasis> times fainter than Vega.
 </para><para>
 A final note: the magnitude is usually measured through a color filter
 of some kind, and these magnitudes are denoted by a subscript
