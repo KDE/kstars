@@ -82,8 +82,9 @@
 #include "libkdeedu/extdate/extdatewidget.h"
 
 ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
- : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent, name ), UnsavedChanges(false), currentFileURL(),
-		currentDir( QDir::homeDirPath() ), currentScriptName(), currentAuthor() {
+ : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent, name ), 
+		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homeDirPath() ), 
+		currentScriptName(), currentAuthor() {
 
 	QFrame *page = plainPage();
 

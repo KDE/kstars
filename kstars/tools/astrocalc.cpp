@@ -39,9 +39,11 @@
 //#include <kapplication.h> ...already defined in astrocalc.h
 
 AstroCalc::AstroCalc( QWidget* parent ) :
-	KDialogBase( parent, "starscalculator", true,
-	i18n("Calculator"), Close ) {
-
+	KDialogBase( parent, "starscalculator", true, i18n("Calculator"), Close ),
+	JDFrame(0), GeodCoordFrame(0), GalFrame(0), SidFrame(0), PrecFrame(0),
+	AppFrame(0), DayFrame(0), AzelFrame(0), PlanetsFrame(0), EquinoxFrame(0),
+	EclFrame(0), AngDistFrame(0)
+{
 	split = new QSplitter ( this );
 	setMainWidget(split);
 

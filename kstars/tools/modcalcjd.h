@@ -60,9 +60,6 @@ private:
 	void showJd(long double jd);
 	/** Shows the modified Julian Day in the Box */
 	void showMjd(long double mjd);
-	
-	QVBox *rightBox;
-	
 };
 
 #endif
