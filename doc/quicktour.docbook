@@ -211,7 +211,7 @@ is also a white curve, which represents the <link
 linkend="ai-cequator">celestial equator</link>, and a tan curve, which 
 represents the <link linkend="ai-ecliptic">Ecliptic</link>, the path 
 that the Sun appears to follow across the sky over the course of a 
-year.  The Sun isalways found somewhere along the Ecliptic, and the 
+year.  The Sun is always found somewhere along the Ecliptic, and the 
 planets are never far from it.
 </para>
 </sect1>
@@ -265,7 +265,7 @@ menu</link>.
 </para>
 
 <para> 
-The top section contains information labels, which are not selectable.  
+The top section contains information labels (which are not selectable).  
 The top one to three labels display the object's name(s) and object 
 type.  The next three labels show the object's rise, transit, and 
 set times.
