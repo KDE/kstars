@@ -36,14 +36,19 @@
 class QLabel;
 class KSPopupMenu;
 class KStars;
+class InfoBoxes;
 
-/**Class for the sky display, derived from QWidget.  This widget is just a canvas
-	*on which the sky is painted.  It's the main widget for KStars.  The widget also
-	*handles user interaction (both mouse and keyboard).
+/**This is the canvas on which the sky is painted.  It's the main widget for KStars.
+	*Contains SkyPoint members for the map's Focus (current central position), Destination
+	*(requested central position), MousePoint (position of mouse cursor), and 
+	*ClickedPoint (position of last mouse click).  Also contains the InfoBoxes for on-screen
+	*data display.
+	*  
+	*SkyMap handles most user interaction events (both mouse and keyboard).
 	*
-	*@short Canvas widget for displaying the sky bitmap; also handles user input.
+	*@short Canvas widget for displaying the sky bitmap; also handles user interaction events.
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class SkyMap : public QWidget  {
@@ -58,6 +63,11 @@ public:
 	*Destructor (empty)
 	*/
 	~SkyMap();
+
+/**
+	*@returns pointer to InfoBoxes object.
+	*/
+		InfoBoxes* infoBoxes() { return IBoxes; }
 
 /**@returns a pointer to the central focus point of the sky map
 	*/
@@ -388,40 +398,40 @@ private:
 	*corners of the sky map at the lowest zoom level are the invalid points).  */
 	bool unusablePoint (double dx, double dy);
 
-	KStars *ksw;
-	QString sURL;
-	KSPopupMenu *pmenu;
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
-	
-	QPixmap *sky;
-
-	SkyPoint  Focus, OldFocus, ClickedPoint, MousePoint, Destination;
-	SkyObject *ClickedObject, *FoundObject;
-
-	StarPixmap *starpix;	// the pixmap of the stars
-	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
 	bool slewing, clockSlewing;
+	bool computeSkymap;	// if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
+	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
 	int pixelScale[NZOOM];
+	int scrollCount;
 	double Range[NZOOM];
 	double RefractCorr1[184], RefractCorr2[184];
 	double y0;
-	int scrollCount;
-	bool computeSkymap;	// if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
-//DEBUG
-	bool dumpHorizon;
-//END_DEBUG
+	
+	//data for checkVisibility
+	bool isPoleVisible;
+	int guidemax;
+	float FOV;
+	float guideFOV;
+	double Xmax, Ymax;
+	double guideXmax;
+	
+	KStars *ksw;
+	QString sURL;
+	KSPopupMenu *pmenu;
+	QPixmap *sky;
+	InfoBoxes   *IBoxes;
+	SkyPoint  Focus, OldFocus, ClickedPoint, MousePoint, Destination;
+	SkyObject *ClickedObject, *FoundObject;
+	StarPixmap *starpix;	// the pixmap of the stars
 
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
-	// computed in paintEvent() to save time in draw-functions
-	int guidemax;
-	float FOV;
-	double Xmax, Ymax;
-	bool isPoleVisible;
-	float guideFOV;
-	double guideXmax;
+//DEBUG
+	bool dumpHorizon;
+//END_DEBUG
 };
 
 #endif

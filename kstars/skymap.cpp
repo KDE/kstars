@@ -41,7 +41,7 @@
 #include <qmemarray.h>
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
- : QWidget (parent,name), ClickedObject(0), FoundObject(0),  computeSkymap (true)
+ : QWidget (parent,name), IBoxes(0), ClickedObject(0), FoundObject(0),  computeSkymap (true)
 {
 	ksw = (KStars*) parent->parent();
 
@@ -81,12 +81,35 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	slewing = false;
 	clockSlewing = false;
 
-	sky = new QPixmap();
-	pmenu = new KSPopupMenu( ksw );
-
 	ClickedObject = NULL;
 	FoundObject = NULL;
 
+	sky = new QPixmap();
+	pmenu = new KSPopupMenu( ksw );
+	IBoxes = new InfoBoxes( ksw->options()->windowWidth, ksw->options()->windowHeight,
+			ksw->options()->posTimeBox, ksw->options()->shadeTimeBox,
+			ksw->options()->posGeoBox, ksw->options()->shadeGeoBox,
+			ksw->options()->posFocusBox, ksw->options()->shadeFocusBox,
+			ksw->options()->colorScheme()->colorNamed( "BoxTextColor" ),
+			ksw->options()->colorScheme()->colorNamed( "BoxGrabColor" ),
+			ksw->options()->colorScheme()->colorNamed( "BoxBGColor" ) );
+
+	IBoxes->showTimeBox( ksw->options()->showTimeBox );
+	IBoxes->showFocusBox( ksw->options()->showFocusBox );
+	IBoxes->showGeoBox( ksw->options()->showGeoBox );
+	IBoxes->timeBox()->setAnchorFlag( ksw->options()->stickyTimeBox );
+	IBoxes->geoBox()->setAnchorFlag( ksw->options()->stickyGeoBox );
+	IBoxes->focusBox()->setAnchorFlag( ksw->options()->stickyFocusBox );
+	
+	IBoxes->geoChanged( ksw->geo() );
+
+	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), ksw, SLOT( saveTimeBoxShaded(bool) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), ksw, SLOT( saveGeoBoxShaded(bool) ) );
+	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), ksw, SLOT( saveFocusBoxShaded(bool) ) );
+	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), ksw, SLOT( saveTimeBoxPos(QPoint) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), ksw, SLOT( saveGeoBoxPos(QPoint) ) );
+	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), ksw, SLOT( saveFocusBoxPos(QPoint) ) );
+	
 	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
 	//Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
@@ -100,12 +123,13 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
-	delete starpix;
-	delete pts;
-	delete sp;
-	delete sky;
-	delete pmenu;
-
+	if ( starpix ) delete starpix;
+	if ( pts ) delete pts;
+	if ( sp ) delete sp;
+	if ( sky ) delete sky;
+	if ( pmenu ) delete pmenu;
+	if ( IBoxes ) delete IBoxes;
+	
 //delete any remaining object Image pointers
 	for ( SkyObject *obj = ksw->data()->deepSkyListMessier.first(); obj; obj = ksw->data()->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
@@ -425,9 +449,9 @@ void SkyMap::slewFocus( void ) {
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 		
 		if ( foundObject() )
-			ksw->infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+			infoBoxes()->focusObjChanged( foundObject()->translatedName() );
 		
-		ksw->infoBoxes()->focusCoordChanged( ksw->map()->focus() );
+		infoBoxes()->focusCoordChanged( ksw->map()->focus() );
 		
 		ksw->setHourAngle();
 		slewing = false;

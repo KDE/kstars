@@ -39,7 +39,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 		
 		// avoid phantom positions of infoboxes
 		if ( isVisible() || width() == ksw->width() || height() == ksw->height() ) {
-			ksw->infoBoxes()->resize( width(), height() );
+			infoBoxes()->resize( width(), height() );
 		}
 }
 
@@ -341,7 +341,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	//Are we dragging an infoBox?
-	if ( ksw->infoBoxes()->dragBox( e ) ) {
+	if ( infoBoxes()->dragBox( e ) ) {
 		update();
 		return;
 	}
@@ -434,7 +434,7 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
-	if ( ksw->infoBoxes()->unGrabBox() ) {
+	if ( infoBoxes()->unGrabBox() ) {
 		update();
 		return;
 	}
@@ -457,7 +457,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
 //did we Grab an infoBox?
-	if ( e->button() == LeftButton && ksw->infoBoxes()->grabBox( e ) ) {
+	if ( e->button() == LeftButton && infoBoxes()->grabBox( e ) ) {
 		update();
 		return;
 	}
@@ -766,7 +766,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	//Was the event inside an infoBox?  If so, shade the box.
 	if ( e->button() == LeftButton ) {
-		if ( ksw->infoBoxes()->shadeBox( e ) ) {
+		if ( infoBoxes()->shadeBox( e ) ) {
 			update();
 			return;
 		}

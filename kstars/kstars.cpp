@@ -33,7 +33,7 @@
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
-	skymap(0), clock(0), findDialog(0), IBoxes(0), centralWidget(0),
+	skymap(0), clock(0), findDialog(0), centralWidget(0),
 	AAVSODialog(0), DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
@@ -84,7 +84,6 @@ KStars::~KStars()
 
 	clearCachedFindDialog();
 
-	if (IBoxes) delete IBoxes;
 	if (skymap) delete skymap;
 	delete pd;
 	if (clock) delete clock;
@@ -174,22 +173,11 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 		return so;
 
 	//Stars
-	//REVERTED...remove comments after 1/1/2003
-	//ARRAY:
 	for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
 		if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
 	}
-	//for ( unsigned int i=0; i < data()->StarCount; ++i ) {
-	//	StarObject *o = &(data()->starArray[i]);
-	//	if ( name == o->name() ) return o;
-	//}
-	
-	//Deep-sky catalogs
-/*
-	for ( unsigned int i=0; i<data()->deepSkyList.count(); ++i ) {
-		if ( name==data()->deepSkyList.at(i)->name() ) return data()->deepSkyList.at(i);
-	}
-*/
+
+	//Deep sky objects
 	for ( unsigned int i=0; i<data()->deepSkyListMessier.count(); ++i ) {
 		if ( name==data()->deepSkyListMessier.at(i)->name() ) return data()->deepSkyListMessier.at(i);
 	}

@@ -446,36 +446,8 @@ void KStars::privatedata::buildGUI() {
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
 
-   //set AAVSO modeless dialog pointer to 0
-   ks->AAVSODialog = 0;
-
-	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight,
-			ks->options()->posTimeBox, ks->options()->shadeTimeBox,
-			ks->options()->posGeoBox, ks->options()->shadeGeoBox,
-			ks->options()->posFocusBox, ks->options()->shadeFocusBox,
-			ks->options()->colorScheme()->colorNamed( "BoxTextColor" ),
-			ks->options()->colorScheme()->colorNamed( "BoxGrabColor" ),
-			ks->options()->colorScheme()->colorNamed( "BoxBGColor" ) );
-
-	ks->infoBoxes()->showTimeBox( ks->options()->showTimeBox );
-	ks->infoBoxes()->showFocusBox( ks->options()->showFocusBox );
-	ks->infoBoxes()->showGeoBox( ks->options()->showGeoBox );
-	
-	ks->infoBoxes()->timeBox()->setAnchorFlag( ks->options()->stickyTimeBox );
-	ks->infoBoxes()->geoBox()->setAnchorFlag( ks->options()->stickyGeoBox );
-	ks->infoBoxes()->focusBox()->setAnchorFlag( ks->options()->stickyFocusBox );
-	
-	ks->infoBoxes()->geoChanged( ks->geo() );
-
-	connect( ks->infoBoxes()->timeBox(),  SIGNAL( shaded(bool) ), ks, SLOT( saveTimeBoxShaded(bool) ) );
-	connect( ks->infoBoxes()->geoBox(),   SIGNAL( shaded(bool) ), ks, SLOT( saveGeoBoxShaded(bool) ) );
-	connect( ks->infoBoxes()->focusBox(), SIGNAL( shaded(bool) ), ks, SLOT( saveFocusBoxShaded(bool) ) );
-	connect( ks->infoBoxes()->timeBox(),  SIGNAL( moved(QPoint) ), ks, SLOT( saveTimeBoxPos(QPoint) ) );
-	connect( ks->infoBoxes()->geoBox(),   SIGNAL( moved(QPoint) ), ks, SLOT( saveGeoBoxPos(QPoint) ) );
-	connect( ks->infoBoxes()->focusBox(), SIGNAL( moved(QPoint) ), ks, SLOT( saveFocusBoxPos(QPoint) ) );
-	
-	ks->initStatusBar();
-	ks->initActions();
+	//set AAVSO modeless dialog pointer to 0
+	ks->AAVSODialog = 0;
 
 	ks->skymap = new SkyMap( ks->centralWidget );
 	// update skymap if KStarsData send update signal
@@ -483,6 +455,9 @@ void KStars::privatedata::buildGUI() {
 
 	// get focus of keyboard and mouse actions (for example zoom in with +)
 	ks->map()->QWidget::setFocus();
+
+	ks->initStatusBar();
+	ks->initActions();
 
 	// create the layout of the central widget
 	ks->topLayout = new QVBoxLayout( ks->centralWidget );

@@ -64,7 +64,6 @@ class LocationDialog;
 class FindDialog;
 class ViewOpsDialog;
 class SimClock;
-class InfoPanel;
 class InfoBoxes;
 class AstroCalc;
 
@@ -79,11 +78,11 @@ class AstroCalc;
 /**
 	*kstars is the base class for the KStars project.  It is derived from KMainWindow.
 	*In addition to the GUI elements, the class contains the program clock,
-	*KStarsData, KStarsOptions, SkyMap, and InfoPanel child objects.
+	*KStarsData, KStarsOptions, and SkyMap objects.
 	*It also contains functions for the DCOP interface.
 	*@short KStars base class
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class KStars : public KMainWindow, virtual public KStarsInterface
@@ -134,9 +133,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*@returns pointer to InfoBoxes object.
 			*/
-		InfoBoxes* infoBoxes() { return IBoxes; }
+		InfoBoxes* infoBoxes() { return map()->infoBoxes(); }
 
-		/**Display object name and coordinates in the KStars infoPanel
+		/**Display object name and coordinates in the FocusBox
 			*/
 		void showFocusCoords();
 
@@ -356,7 +355,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*uses the name of the sender to identify the item to change.  */
 		void slotViewToolBar();
 
-		/**Meta-slot to handle toggling display of GUI elements (toolbars and infopanel)
+		/**Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
 			*uses name of the sender action to identify the widget to hide/show.  */
 		void slotShowGUIItem( bool );
 
@@ -411,8 +410,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		SimClock *clock;
 
 		FindDialog *findDialog;
-		InfoPanel   *infoPanel;
-		InfoBoxes   *IBoxes;
 		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
 
