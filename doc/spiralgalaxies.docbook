@@ -73,7 +73,7 @@ star's mass.
 <para>
 There are many fine examples of spiral galaxies to be found in
 &kstars;, and many have beautiful images available in their
-<link linkend="popupmenu">popup menu</link>.  You can find them
+<link linkend="popup-menu">popup menu</link>.  You can find them
 by using the <link linkend="findobjects">Find Object</link> window.
 Here is a list of some spiral galaxies with nice images available:
 <itemizedlist>

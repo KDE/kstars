@@ -21,156 +21,66 @@ Here's a screenshot of the &kstars; main window:
 </screenshot>
 
 <para>
-In the above screenshot, you can see the sky display centered on
-Betelgeuse, the brightest star in the constellation Orion.  Orion
-has just risen above the eastern horizon horizon.
+The above screenshot shows a typical view of the KStars program.  You
+can see the sky display centered on Betelgeuse, the brightest star in
+the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
-colors</link> and relative brightnesses.  The brightest stars have
-their names labeled (&eg;, Betelgeuse).  M 42, the Orion Nebula, is
-visible to the right of Orion's <quote>belt</quote> stars, just
-above the horizon.  If you look closely, you can also see the planet
-Saturn in the upper left.  In three corners of the Sky
-display, there are on-screen text labels displaying data on the current
-time (<quote>LT: 12:29:51 03/23/03</quote>), the current Geographic
-Location (<quote>Baltimore, Maryland, USA</quote>), and the current
-object in the center of the display (<quote>Focused on: Betelgeuse
-(alpha Orionis)</quote>).  Above the sky display, there are two
-toolbars.  The main toolbar contains shortcuts for
+colors</link> and relative brightnesses.  M 42, the Orion Nebula, is
+visible on the right side of the screen, just above the horizon.  If
+you look closely, you can also see the Sun and the planet Merury in the
+upper left.  In three corners of the sky display, there are on-screen text
+labels displaying data on the current time (<quote>LT: 06:44:58 20 June
+2004</quote>), the current Geographic Location (<quote>Tucson, Arizona,
+USA</quote>), and the current object in the center of the display
+(<quote>Focused on: Betelgeuse (alpha Orionis)</quote>).  Above the sky
+display, there are two toolbars.  The main toolbar contains shortcuts for
 <link linkend="kstars-menus">menu functions</link>, as well as a
 time-step widget which controls how fast the simulation clock runs.
 The view toolbar contains buttons that toggle the display of different
 kinds of objects in the sky.  At the bottom of the window, there is a
 status bar which displays the name of any object you click on, and the
-<link linkend="ai-skycoords">sky coordinates</link> (Right Ascension
-and Declination) of the mouse cursor.
+<link linkend="ai-skycoords">sky coordinates</link> (both
+Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor.
 </para>
 
-<sect1 id="geolocation">
-<title>Where am I?</title>
+<sect1 id="startwizard">
+<title>The Setup Wizard</title>
 <para>
-<indexterm><primary>Geographic Location Tool</primary></indexterm>
-The first thing to do is to set the geographic location.  By default,
-&kstars; assumes you are in Greenwich, UK (home of the Royal Observatory,
-where <link linkend="ai-geocoords">longitude</link>=0 is defined).  Since
-you are probably somewhere else, you'll want to change this.
-</para>
-<para>
-Open the <guilabel>Set Geographic Location</guilabel> window by selecting
-<guimenuitem>Set Geographic Location...</guimenuitem> from the
-<guimenu>Settings</guimenu> menu, or by pressing the
-<guiicon>Globe</guiicon> icon in the toolbar, or by typing
-<keycombo action="simul">&Ctrl;<keycap>g</keycap></keycombo>.
+<indexterm><primary>Setup Wizard</primary></indexterm>
+The first time you run KStars, you will be presented with a Setup Wizard,
+which allows you to easily set your geographic location and download some
+extra data files.  You can press the <guilabel>Finish</guilabel> button
+at any time to exit the Setup Wizard.
 </para>
 
 <para>
-Here is a screenshot of the <guilabel>Set Geographic Location</guilabel>
-window:
-<screenshot>
-<screeninfo>Changing the Geographic Location</screeninfo>
-<mediaobject>
-  <imageobject>
-    <imagedata fileref="geolocator.png" format="PNG"/>
-  </imageobject>
-  <textobject>
-    <phrase>Set Location Window</phrase>
-  </textobject>
-</mediaobject>
-</screenshot>
+The first page of the Setup Wizard allows you to choose the starting
+geographic location, by selecting from the list of the 2500+ known
+locations on the right side of the window.  The list of locations can be
+filtered to match the text you enter in the <guilabel>City</guilabel>,
+<guilabel>Province</guilabel>, and <guilabel>Country</guilabel> edit
+boxes.  If your desired location is not present in the list, you can
+select a nearby city instead for now.  Later on, you can add your
+precise location manually using the <link linkend="setgeo">Set Geographic
+Location tool</link>.  Once you have selected a starting location, press
+the <guilabel>Next</guilabel> button.
 </para>
 
 <para>
-There is a list of over 2500 predefined cities available to choose from.
-You set your location by highlighting a city from this list.  Each
-city is represented in the world map as a small dot, and when a city
-is highlighted in the list, a red crosshairs appears on its location
-in the map.
+The second page of the Setup Wizard allows you to download extra data
+that are not included with the standard distribution of &kstars;.
+Simply press the <guilabel>Download Extra Data</guilabel> button to open
+the <guilabel>Get New Stuff</guilabel> tool.  When you are all done,
+press the <guilabel>Finish</guilabel> button in the Setup Wizard to
+start exploring &kstars;.
 </para>
 
+<note>
 <para>
-<indexterm><primary>Geographic Location Tool</primary><secondary>Filtering</secondary></indexterm>
-It isn't practical to scroll through the full list of 2500 locations,
-looking for a specific city. To make searches easier, the list can be
-filtered by entering text in the boxes below the map. For example, in
-the screenshot, the text <quote>Ba</quote> appears in the
-<guilabel>City Filter</guilabel> box, while <quote>M</quote> has been
-entered in the <guilabel>Province Filter</guilabel> box, and
-<quote>USA</quote> is in the <guilabel>Country Filter</guilabel>
-box. Note that all of the cities displayed in the list have city,
-province, and country names that begin with the entered filter
-strings, and that the message below the filter boxes indicates that 7
-cities are matched by the filters.  Also notice that the dots
-representing these seven cities in the map have been colored white,
-while the unmatched cities remain gray.
-</para><para>
-The list can also be filtered by location in the map.  Clicking anywhere
-in the world map will show only those cities within two degrees of the
-clicked location.  At this time, you can search by name, or by location,
-but not both at once.  In other words, when you click on the map, the
-name filters are ignored, and vice versa.
-</para><para>
-<indexterm><primary>Geographic Location Tool</primary><secondary>Custom locations</secondary></indexterm>
-The <link linkend="ai-geocoords">longitude, latitude</link> and
-<link linkend="ai-timezones">time zone</link> information for the
-currently-selected location are displayed in the boxes at the bottom of
-the window.  If you feel that any of these values are inaccurate, you
-can modify them and press the <guibutton>Add to List</guibutton> button
-to record your custom version of the location.  You can also define a
-completely new location by pressing the
-<guibutton>Clear Fields</guibutton> button, and entering the data for
-the new location.  Note that all fields except the optional
-<guilabel>State/Province</guilabel> must be filled before the new
-location can be added to the list.  &kstars; will automatically load
-your custom locations for all future sessions.  Please note, at this
-point, the only way to remove a custom location is to remove the
-appropriate line from the file
-<filename>~/.kde/share/apps/kstars/mycities.dat</filename>.
-</para><para>
-If you add custom locations (or modify existing ones), please send us
-your <filename>mycities.dat</filename> file so that we can add your
-locations to the master list.
+The Download Extra Data tool is only available if you have KDE 3.3.x
+installed.
 </para>
-</sect1>
-
-<sect1 id="settime">
-<title>What Time Is It?</title>
-<para>
-<indexterm><primary>Date and Time</primary>
-<secondary>Synching with system clock</secondary></indexterm>
-The next thing you may want to do is change the time and/or date.
-When &kstars; starts up, the time is set to your computer's system
-clock, and the &kstars; clock is running to keep up with the real time.
-If you want to stop the clock, select <guimenuitem>Stop
-Clock</guimenuitem> from the <guimenu>Time</guimenu> menu, or simply
-click on the <guiicon>Pause</guiicon> icon in the toolbar.  You can
-make the clock run slower or faster than normal, or even make it run
-backward, using the time-step spinbox in the toolbar.  This spinbox
-has two sets of up/down buttons.  The first one will step through all
-83 available time steps, one by one.  The second one will skip to the
-next higher (or lower) unit of time, which allows you to make large
-timestep changes more quickly.
-</para>
-<para>
-<indexterm><primary>Date and Time</primary>
-<secondary>Setting</secondary></indexterm>
-You can change to any time or date by selecting <guimenuitem>Set
-Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
-pressing the <guiicon>time</guiicon> icon in the toolbar.  The
-<guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker
-widget, coupled with three spinboxes for setting the hours, minutes and
-seconds.  If you ever need to reset the clock back to the current time,
-just select <guimenuitem>Set Time to Now</guimenuitem> from the
-<guimenu>Time</guimenu> menu.</para>
-
-<note><para>
-<indexterm><primary>Date and Time</primary>
-<secondary>Limitations of QDate class</secondary></indexterm>
-The current version of &kstars; cannot
-accept dates before October 1, 1752, nor dates after the year 8000.
-These are limitations of the &Qt; Date/Time class.  We plan to implement
-our own date/time class in a future version, which will allow for more
-remote dates.
-</para></note>
-
+</note>
 </sect1>
 
 <sect1 id="lookaround">
@@ -186,7 +96,7 @@ Note that while the display is scrolling, not all objects are
 displayed.  This is done to cut down on the <acronym>CPU</acronym> load
 of recomputing object positions, which makes the scrolling smoother
 (you can configure what gets hidden while scrolling in the <link
-linkend="config">Display Options</link> window).
+linkend="config">Configure &kstars;</link> window).
 
 There are seven ways to change the magnification (or
 <firstterm>Zoom level</firstterm>) of the display:</para>
@@ -197,7 +107,7 @@ There are seven ways to change the magnification (or
 	<keycap>-</keycap> keys</para>
 </listitem>
 <listitem>
-	<para>Press the zoom in/out buttons in the toolbar</para>
+	<para>Press the Zoom In/Zoom Out buttons in the toolbar</para>
 </listitem>
 <listitem>
 	<para>Select
@@ -242,25 +152,20 @@ planets are never far from it.
 <sect1 id="skyobjects">
 <title>Objects in the Sky</title>
 <para>
-<indexterm><primary>Objects in the Sky</primary><secondary>Overview</secondary></indexterm>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Overview</secondary></indexterm>
 &kstars; displays thousands of celestial objects: stars, planets,
-comets, asteroids, clusters, nebulae and galaxies.  By default, stars
-are drawn as white circles with a colored border that simulates the
-star's real color.  Planets are drawn as colored dots at low zoom
-levels, but as an actual image of the planet as you zoom in.  Deep-sky
-objects (clusters, nebulae and galaxies) are drawn with symbols
-color-coded to indicate the catalog to which they belong (Messier, NGC
-or IC).  Most Messier objects are drawn as real images on the map at
-higher zoom levels.  Deep-sky objects with extra image or information
-links available are drawn with a special color (red by default).
-Clicking on an object will identify it in the status bar.  Double
-clicking will recenter the display on the object and begin tracking
-the object (so that it will remain centered as time passes).
-<mousebutton>Right</mousebutton> clicking an object opens a popup menu
-with more options.
+comets, asteroids, clusters, nebulae and galaxies.  You can interact
+with displayed objects to perform actions on them or obtain more
+information about them.  Clicking on an object will identify it in the
+status bar, and simply hovering the mouse cursor on an object will label
+it temporarily in the map.  Double-clicking will recenter the display on
+the object and begin tracking it (so that it will remain centered as
+time passes).  <mousebutton>Right</mousebutton> clicking an object opens
+the object's popup menu, which provides more options.
 </para>
 
-<sect2 id="popupmenu">
+<sect2 id="popupquick">
 <title>The Popup Menu</title>
 <indexterm><primary>Popup Menu</primary><secondary>Example</secondary></indexterm>
 
@@ -283,9 +188,9 @@ menu, for the Orion Nebula:
 
 <para>
 The appearance of the popup menu depends somewhat on the kind of
-object you <mousebutton>right</mousebutton> click on, but the basic
+object you <mousebutton>right</mousebutton>-click on, but the basic
 structure is listed below.  You can get
-<link linkend="popupmenu">more detailed information about the popup
+<link linkend="popup-menu">more detailed information about the popup
 menu</link>.
 </para>
 
@@ -293,19 +198,24 @@ menu</link>.
 The top section contains information labels (which are not selectable).
 The top one to three labels display the object's name(s) and object
 type.  The next three labels show the object's rise, transit, and
-set times.
+set times.  If the rise and set times say "circumpolar", it means that
+the object is always above the horizon for the present location.
 </para>
 <para>
 The middle section contains items for performing actions on the object,
 such as <guimenuitem>Center and Track</guimenuitem>,
-<guimenuitem>Details...</guimenuitem> (which opens the object's
-<link linkend="tool-details">Detailed Information Dialog</link>),
-<guimenuitem>Add Label</guimenuitem>, and
-<guimenuitem>Add/Remove Trail</guimenuitem> (only for Solar System
-bodies).
+<guimenuitem>Angular Distance To...</guimenuitem> (which enters the
+Angular Distance Mode, allowing you to measure the angle between objects
+in the sky), <guimenuitem>Details...</guimenuitem> (which opens the
+object's <link linkend="tool-details">Object Details window</link>),
+<guimenuitem>Attach Label</guimenuitem>, and
+<guimenuitem>Add/Remove Trail</guimenuitem> (only available for Solar
+System bodies).
 </para>
 <para>
-<indexterm><primary>Objects in the Sky</primary><secondary>Internet Links</secondary><seealso>Popup Menu</seealso></indexterm>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Internet Links</secondary>
+<seealso>Popup Menu</seealso></indexterm>
 The bottom section contains links to images and/or informative webpages
 about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
@@ -317,13 +227,14 @@ item.
 <sect2 id="findobjects">
 <title>Finding Objects</title>
 <indexterm><primary>Find Object Tool</primary></indexterm>
-<indexterm><primary>Objects in the Sky</primary><secondary>Finding by Name</secondary></indexterm>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Finding by Name</secondary></indexterm>
 <para>
 You can search for named objects using the <guilabel>Find
-Object</guilabel> window, which can be opened by clicking on the
+Object</guilabel> tool, which can be opened by clicking on the
 <guiicon>search</guiicon> icon in the toolbar, by selecting
 <guimenuitem>Find Object...</guimenuitem> from the
-<guimenu>Focus</guimenu> menu, or by pressing
+<guimenu>Pointing</guimenu> menu, or by pressing
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>.
 The <guilabel>Find Object</guilabel> window is shown below:
 
@@ -350,16 +261,16 @@ at the top of the window; the list will then only contain names
 which start with that string.  To filter by type, select a type
 from the combo box at the bottom of the window.
 </para><para>
-Highlight the desired object in the list, and press
-<guibutton>Ok</guibutton>.  The display will center on the object.
-Note that if the object is below the horizon, the program will warn
-you that you may not see anything except the ground (you can make
-the ground invisible in the <guilabel>Display Options</guilabel>
-window, or by pressing the <guiicon>Ground</guiicon> button in
-the View toolbar).
+To center the display on an object, highlight the desired object in
+the list, and press <guibutton>Ok</guibutton>.  Note that if the
+object is below the horizon, the program will warn you that you may
+not see anything except the ground (you can make the ground invisible
+in the <guilabel>Display Options</guilabel> window, or by pressing the
+<guiicon>Ground</guiicon> button in the View toolbar).
 </para>
 <para>
-<indexterm><primary>Objects in the Sky</primary><secondary>Tracking</secondary></indexterm>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Tracking</secondary></indexterm>
 &kstars; will automatically begin tracking on an object whenever one
 is centered in the display, either by using the <guilabel>Find
 Object</guilabel> window, by double-clicking on it, or by
@@ -367,113 +278,33 @@ selecting <guimenuitem>Center and Track</guimenuitem> from its
 <mousebutton>right</mousebutton>-click popup menu.  You can disengage
 tracking by panning the display, pressing the <guiicon>Lock</guiicon>
 icon in the Main toolbar, or selecting <guimenuitem>Track
-Object</guimenuitem> from the <guimenu>Focus</guimenu> menu.
+Object</guimenuitem> from the <guimenu>Pointing</guimenu> menu.
+</para>
+
+<note>
+<para>
+<indexterm><primary>Orbit Trails</primary>
+<secondary>Attached to centered object</secondary>
+</indexterm>
+When tracking on a Solar System body, &kstars; will automatically
+attach an <quote>orbit trail</quote>, showing the path of the body
+across the sky.  You will likely need to change the clock's timestep
+to a large value (such as <quote>1 day</quote>) to see the trail.
+</para>
+</note>
+
+<para>
+This concludes the tour of &kstars;, although we have only scratched
+the surface of the available features.  &kstars; includes many useful
+<link linkend="tools">astronomy tools</link>, it can directly
+<link linkend="indi">control your telescope</link>, and it offers a
+wide variety of <link linkend="config">configuration and
+customization</link> options.  In addition, this Handbook includes the
+<link linkend="astroinfo">AstroInfo Project</link>, a series of short,
+interlinked articles explaining some of the celestial and astrophysical
+concepts behind &kstars;.
 </para>
 
 </sect2>
-</sect1>
-
-<sect1 id="customize">
-<title>Customizing the Display</title>
-
-<para>
-There are several ways to modify the display to your liking.</para>
-<itemizedlist>
-<listitem><para>
-<indexterm><primary>Color Schemes</primary><secondary>Selecting</secondary></indexterm>
-Select a different color scheme in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Color Schemes</guimenuitem></menuchoice>
-menu.  There are four predefined color schemes, and you can define your own in the
-<link linkend="config"><guilabel>View Options</guilabel></link> window.
-</para></listitem>
-<listitem><para>
-<indexterm><primary>Toolbars</primary><secondary>Customizing</secondary></indexterm>
-Toggle whether the Toolbars are drawn in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars</guimenuitem></menuchoice>
-menu.  Like most KDE toolbars, they can also be dragged around and
-anchored on any window edge, or even detached from the window completely.
-</para></listitem>
-<listitem><para>
-<indexterm><primary>Info Boxes</primary><secondary>Customizing</secondary></indexterm>
-<indexterm><primary>Info Boxes</primary><secondary>Shading</secondary></indexterm>
-Toggle whether the Info Boxes are drawn in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Info Boxes</guimenuitem></menuchoice>
-menu.  In addition, you can manipulate the three Info Boxes with the
-mouse.  Each box has additional lines of data that are hidden by default.
-You can toggle whether these additional lines are visible by double-clicking
-a box to <quote>shade</quote> it.  Also, you can reposition a box by
-dragging it with the mouse.  When a box hits a window edge, it will
-<quote>stick</quote> to the edge when the window is resized.
-</para></listitem>
-<listitem>
-<para>
-<indexterm><primary>Field-of-View Symbols</primary><secondary>Description</secondary></indexterm>
-Choose an <quote>FOV Symbol</quote> using the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>FOV Symbols</guimenuitem></menuchoice>
-menu.  <firstterm>FOV</firstterm> is an acronym for <quote>field-of-view</quote>.
-An FOV symbol is drawn at the center of the window to indicate where the display
-is pointing.  Different symbols have different angular sizes; you can use a symbol to show
-what the view through a particular telescope would look like.  For example, if you choose
-the <quote>7x35 Binoculars</quote> FOV symbol, then a circle is drawn on the display that is
-9.2 degrees in diameter; this is the field-of-view for 7x35 binoculars.
-</para>
-<para>
-<indexterm><primary>Field-of-View Symbols</primary><secondary>Customizing</secondary></indexterm>
-You can define your own FOV symbols (or modify the existing symbols) using the
-<guimenuitem>Edit FOV Symbols...</guimenuitem> menu item, which launches the FOV Editor:
-</para>
-<screenshot>
-<screeninfo>Field-of-View Symbols Editor</screeninfo>
-<mediaobject>
-  <imageobject>
-    <imagedata fileref="fovdialog.png" format="PNG"/>
-  </imageobject>
-  <textobject>
-    <phrase>FOV Symbol Editor</phrase>
-  </textobject>
-</mediaobject>
-</screenshot>
-
-<para>
-The list of defined FOV symbols is displayed on the left.  On the right are buttons for
-adding a new symbol, editing the highlighted symbol's properties, and removing the
-highlighted symbol from the list.  Note that you can even modify or remove the four
-predefined symbols (if you remove all symbols, the four defaults will be restored the
-next time you start &kstars;).  Below these three buttons is a graphical preview display
-showing the highlighted symbol from the list.  When the <guibutton>New...</guibutton> or
-<guibutton>Edit...</guibutton> button is pressed, the <guilabel>New FOV Symbol</guilabel>
-window is opened:
-</para>
-
-<screenshot>
-<screeninfo>New Field-of-View Symbol</screeninfo>
-<mediaobject>
-  <imageobject>
-    <imagedata fileref="newfov.png" format="PNG"/>
-  </imageobject>
-  <textobject>
-    <phrase>New FOV Symbol</phrase>
-  </textobject>
-</mediaobject>
-</screenshot>
-
-<para>
-<indexterm><primary>Field-of-View Symbols</primary><secondary>Defining New</secondary></indexterm>
-This window lets you modify the four properties that define a FOV symbol: name, size,
-shape, and color.  The angular size for the symbol can either be entered directly in the
-<guilabel>Field of View</guilabel> edit box, or you can use the Eyepiece/Camera Tabs to
-calculate the field-of-view angle, given parameters of your telescope/eyepiece or
-telescope/camera setup.  The four available shapes are: Circle, Square, Crosshairs, and
-Bullseye.  Once you have specified all four parameters, press <guibutton>Ok</guibutton>,
-and the symbol will appear in the list of defined symbols.  It will also be available
-from the <guimenu>Settings</guimenu> | <guisubmenu>FOV</guisubmenu> menu.
-</para>
-</listitem>
-</itemizedlist>
-
-<para>In addition to these options in the Settings menu, there are a large number of
-customization options available in the <guilabel>View Options</guilabel> window, which is
-covered in detail in the next chapter.</para>
-
 </sect1>
 </chapter>

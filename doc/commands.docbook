@@ -5,7 +5,7 @@
 <title>Menu Commands</title>
 <indexterm><primary>Commands</primary><secondary>Menu</secondary></indexterm>
 
-<sect2>
+<sect2 id="filemenu">
 <title><guimenu>File</guimenu> Menu</title>
 
 <variablelist>
@@ -30,6 +30,30 @@
 <guimenuitem>Close Window</guimenuitem>
 </menuchoice></term>
 <listitem><para>Close &kstars; window
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Download Data...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <guilabel>Download Extra Data</guilabel> tool
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Open FITS...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a FITS image in the FITS Editor tool
 </para></listitem>
 </varlistentry>
 
@@ -85,7 +109,7 @@ PostScript/PDF file)
 
 </sect2>
 
-<sect2>
+<sect2 id="timemenu">
 <title><guimenu>Time</guimenu> Menu</title>
 
 <variablelist>
@@ -122,8 +146,8 @@ PostScript/PDF file)
 
 </sect2>
 
-<sect2>
-<title><guimenu>Focus</guimenu> Menu</title>
+<sect2 id="pointmenu">
+<title><guimenu>Pointing</guimenu> Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -131,11 +155,12 @@ PostScript/PDF file)
 <shortcut>
 <keycap>Z</keycap>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>Zenith</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center at the <link linkend="ai-zenith">Zenith</link>
-point (straight up)</para></listitem>
+<listitem><para>Center the display at the
+<link linkend="ai-zenith">Zenith</link> point (straight up)
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -143,10 +168,10 @@ point (straight up)</para></listitem>
 <shortcut>
 <keycap>N</keycap>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>North</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the North point on the
+<listitem><para>Center the display above the North point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -155,10 +180,10 @@ horizon</para></listitem>
 <shortcut>
 <keycap>E</keycap>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>East</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the East point on the
+<listitem><para>Center the display above the East point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -167,10 +192,10 @@ horizon</para></listitem>
 <shortcut>
 <keycap>S</keycap>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>South</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the South point on the
+<listitem><para>Center the display above the South point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -179,11 +204,24 @@ horizon</para></listitem>
 <shortcut>
 <keycap>W</keycap>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>West</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the West point on the
+<listitem><para>Center the display above the West point on the
 horizon</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
+</shortcut>
+<guimenu>Pointing</guimenu>
+<guimenuitem>Set Focus Manually...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Center the display on specific
+<link linkend="ai-skycoords">sky coordinates</link>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -191,7 +229,7 @@ horizon</para></listitem>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
-<guimenu>Focus</guimenu>
+<guimenu>Pointing</guimenu>
 <guimenuitem>Find Object</guimenuitem>
 </menuchoice></term>
 <listitem><para>Locate an object by name using the
@@ -203,30 +241,18 @@ horizon</para></listitem>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
 </shortcut>
-<guimenu>Focus</guimenu>
-<guimenuitem>Track Object</guimenuitem>
+<guimenu>Pointing</guimenu>
+<guimenuitem>Engage/Stop Tracking</guimenuitem>
 </menuchoice></term>
 <listitem><para>Toggle tracking on/off.  While tracking,
 the display will remain centered on the current position or
 object.</para></listitem>
 </varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
-</shortcut>
-<guimenu>Focus</guimenu>
-<guimenuitem>Set Focus Manually...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Opens a dialog in which you can enter specific RA/Dec
-coordinates to center on.</para></listitem>
-</varlistentry>
 </variablelist>
 
 </sect2>
 
-<sect2>
+<sect2 id="viewmenu">
 <title><guimenu>View</guimenu> Menu</title>
 
 <variablelist>
@@ -277,6 +303,17 @@ coordinates to center on.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Full Screen Mode</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle full-screen mode</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
 <keycap>Space</keycap>
 </shortcut>
 <guimenu>View</guimenu>
@@ -290,128 +327,57 @@ coordinates to center on.</para></listitem>
 </variablelist>
 </sect2>
 
-<sect2>
-<title><guimenu>Settings</guimenu> Menu</title>
+<sect2 id="devicemenu">
+<title><guimenu>Devices</guimenu> Menu</title>
 
 <variablelist>
+
 <varlistentry>
 <term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Info Boxes</guisubmenu>
-<guimenuitem>Show Info Boxes</guimenuitem>
+<guimenu>Devices</guimenu>
+<guimenuitem>Telescope Wizard...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of all three Info Boxes
-on/off</para></listitem>
+<listitem><para>Opens the <guilabel>Telescope Wizard</guilabel>, which
+provides a step-by-step guide to help you connect to your telescope and
+control it with &kstars;.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Info Boxes</guisubmenu>
-<guimenuitem>Show Time</guimenuitem>
+<guimenu>Devices</guimenu>
+<guimenuitem>Capture Image Sequence...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Time Info Box
-on/off</para></listitem>
+<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Info Boxes</guisubmenu>
-<guimenuitem>Show Focus</guimenuitem>
+<guimenu>Devices</guimenu>
+<guimenuitem>Device Manager</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Focus Info Box
-on/off</para></listitem>
+<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Info Boxes</guisubmenu>
-<guimenuitem>Show Location</guimenuitem>
+<guimenu>Devices</guimenu>
+<guimenuitem>INDI Control Panel</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Location Info Box
-on/off</para></listitem>
+<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Toolbars</guisubmenu>
-<guimenuitem>Show Main Toolbar</guimenuitem>
+<guimenu>Devices</guimenu>
+<guimenuitem>Configure INDI</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Main Toolbar
-on/off</para></listitem>
+<listitem><para>Opens up a dialog to configure INDI-related features such as automatic device updates.</para></listitem>
 </varlistentry>
 
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Toolbars</guisubmenu>
-<guimenuitem>Show View Toolbar</guimenuitem>
-</menuchoice></term>
-<listitem><para>Toggle display of the View Toolbar
-on/off</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Color Schemes</guisubmenu>
-</menuchoice></term>
-<listitem><para>
-This submenu contains all of the defined color schemes, including your
-custom schemes.  Selecting an item sets the scheme automatically.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>FOV Symbols</guisubmenu>
-</menuchoice></term>
-<listitem><para>
-This submenu lists the available field-of-view (FOV) Symbols.
-The FOV Symbol is drawn at the center of the display.  You
-may choose from the list of predefined symbols (No symbol,
-7x35 Binoculars, One degree, or HST WFPC2), or you may define
-your own symbols (or modify existing symbols) using the
-<guimenuitem>Edit FOV symbols...</guimenuitem> item.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
-</shortcut>
-<guimenu>Settings</guimenu>
-<guimenuitem>Set Geographic Location...</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>
-Select a new <link linkend="geolocation">geographic
-location</link>
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
-</shortcut>
-<guimenu>Settings</guimenu>
-<guimenuitem>Configure &kstars;...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Modify <link linkend="config">view
-options</link></para></listitem>
-</varlistentry>
 </variablelist>
-
 </sect2>
 
-<sect2>
+<sect2 id="toolmenu">
 <title><guimenu>Tools</guimenu> Menu</title>
 
 <variablelist>
@@ -537,49 +503,156 @@ moons as a function of time.
 </variablelist>
 </sect2>
 
-<sect2>
-<title><guimenu>Devices</guimenu> Menu</title>
+<sect2 id="settingmenu">
+<title><guimenu>Settings</guimenu> Menu</title>
 
 <variablelist>
-
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Telescope Wizard</guimenuitem>
+<guimenu>Settings</guimenu>
+<guisubmenu>Info Boxes</guisubmenu>
+<guimenuitem>Hide/Show Info Boxes</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up the Telescope Setup Wizard, which provides a
-step by step guide to help you connect to your telescope and control it
-from &kstars;.</para></listitem>
+<listitem><para>Toggle display of all three Info Boxes
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Device Manager</guimenuitem>
+<guimenu>Settings</guimenu>
+<guisubmenu>Info Boxes</guisubmenu>
+<guimenuitem>Hide/Show Time</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
+<listitem><para>Toggle display of the Time Info Box
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>INDI Control Panel</guimenuitem>
+<guimenu>Settings</guimenu>
+<guisubmenu>Info Boxes</guisubmenu>
+<guimenuitem>Hide/Show Focus</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+<listitem><para>Toggle display of the Focus Info Box
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Configure INDI</guimenuitem>
+<guimenu>Settings</guimenu>
+<guisubmenu>Info Boxes</guisubmenu>
+<guimenuitem>Hide/Show Location</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up a dialog to configure INDI-related features such as automatic device updates.</para></listitem>
+<listitem><para>Toggle display of the Location Info Box
+</para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Hide/Show Main Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the Main Toolbar
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Hide/Show View Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the View Toolbar
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Statusbar</guisubmenu>
+<guimenuitem>Hide/Show Statusbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the Statusbar
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Statusbar</guisubmenu>
+<guimenuitem>Hide/Show Az/Alt field</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the mouse cursor's horizontal
+coordinates in the statusbar
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Statusbar</guisubmenu>
+<guimenuitem>Hide/Show RA/Dec field</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the mouse cursor's horizontal
+coordinates in the statusbar
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Color Schemes</guisubmenu>
+</menuchoice></term>
+<listitem><para>
+This submenu contains all of the defined color schemes, including your
+custom schemes.  Select any item to set that color scheme.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>FOV Symbols</guisubmenu>
+</menuchoice></term>
+<listitem><para>
+This submenu lists the available field-of-view (FOV) Symbols.
+The FOV Symbol is drawn at the center of the display.  You
+may choose from the list of predefined symbols (No symbol,
+7x35 Binoculars, One degree, or HST WFPC2), or you may define
+your own symbols (or modify existing symbols) using the
+<guimenuitem>Edit FOV symbols...</guimenuitem> item.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
+</shortcut>
+<guimenu>Settings</guimenu>
+<guimenuitem>Set Geographic Location...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Select a new <link linkend="setgeo">geographic
+location</link>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure &kstars;...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Modify <link linkend="config">configuration
+options</link></para></listitem>
+</varlistentry>
 </variablelist>
 </sect2>
 
-<sect2>
+<sect2 id="helpmenu">
 <title><guimenu>Help</guimenu> Menu</title>
 
 &help.menu.documentation;
@@ -592,9 +665,9 @@ from &kstars;.</para></listitem>
 
 <para>
 The <mousebutton>right</mousebutton> click popup menu is
-context-sensitive, meaning it is different depending on what kind of
+context-sensitive, meaning its content varies depending on what kind of
 object you click on.  We list all possible popup menu items here, with
-the object type [in brackets].</para>
+the relevant object type [in brackets].</para>
 
 <variablelist>
 <varlistentry>
@@ -609,7 +682,8 @@ is also shown here.
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-Rise/Set/Transit times are shown on the next three lines.
+Rise, Transit, and Set times for the object on the current simulation
+date are shown on the next three lines.
 </para></listitem>
 </varlistentry>
 
@@ -622,62 +696,53 @@ on this location, and engage tracking.  Equivalent to double-clicking.
 </varlistentry>
 
 <varlistentry>
-<term>[All except Solar System]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Show 1st/2nd Gen DSS Image</guimenuitem>:
-The Digitized Sky Survey is an incredible resource: a photographic
-atlas of the entire sky.  Through the miracle of the internet, you can
-download a photograph of any patch of sky.  &kstars; provides one-click
-access to this database.  There are two generations of the Survey; the
-second generation is not yet complete, so you may get an error when
-requesting a <quote>2nd Gen DSS</quote> image.  Note that the image
-files are large, and may not be very esthetic.  If other images are
-available for your object, you should try them first.
+<guimenuitem>Angular Distance To...</guimenuitem>: Enter "angular distance
+mode".  In this mode, a dotted line is drawn from the first target object
+to the current mouse position.  When you invoke the popup menu of a second
+object, this item will read <guilabel>Compute Angular Distance</guilabel>.
+Selecting this item will display the angular distance between the two
+objects in the statusbar.  You can press the <keycap>Esc</keycap> key to
+exit angular distance mode without measuring an angle.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>[Messier, Solar System]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Show SEDS Information
-Page</guimenuitem>: The Students For the Exploration and Development
-of Space have a <ulink url="http://www.seds.org">wonderful
-website</ulink>, which includes very extensive information on the
-Solar System and on Messier objects.  &kstars; provides links to these
-pages in the popup menu.
+<guimenuitem>Details</guimenuitem>: Open the
+<link linkend="tool-details">Object Details window</link> for this object.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>[Messier]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Show SEDS Image</guimenuitem>: The main image
-of this Messier object from the SEDS.org information page.
+<guimenuitem>Attach Label</guimenuitem>: Attach a permanent name label
+to the object.  If the object already has a label attached, this item
+will read <guilabel>Remove Label</guilabel>.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>[Some Deep-Sky objects]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Show HST Image</guimenuitem>:
-Astronomers using the Hubble Space Telescope periodically publish
-beautiful images from the HST as press releases.  Some of these are pretty
-famous, and have become cultural icons.  You can access them all through
-&kstars;.
+<guimenuitem>Show ... Image</guimenuitem>: download an image of the
+object from the internet, and display it in the Image Viewer tool.
+The "..." text is replaced by a short description of the image's
+source.  An object may have multiple image links available in its
+popup menu.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>[Some Deep-Sky objects]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Show KPNO AOP
-Image</guimenuitem>: The Kitt Peak National Observatory in Arizona has
-a public outreach program called the <ulink
-url="http://www.noao.edu/outreach/nop/advanced/advanced.html">Advanced
-Observing Program</ulink>, which allows anyone to <quote>rent</quote>
-a 16-inch telescope located on Kitt Peak for a night.  This program
-has been producing some of the finest amateur astronomy images ever
-taken, and we include over 100 of them in our database of links.
+<guimenuitem>... Page</guimenuitem>: Display a webpage about the object
+in your default web browser.  The "..." text is replaced by a short
+description of the page.  An object may have multiple web links available
+in its popup menu.
 </para></listitem>
 </varlistentry>
 
@@ -713,8 +778,13 @@ include them in the next version of &kstars;!
 
 <sect1 id="kstars-keys">
 <title>Keyboard Commands</title>
-<indexterm><primary>Commands</primary><secondary>Keyboard</secondary></indexterm>
-<indexterm><primary>Navigation Controls</primary><secondary>Keyboard</secondary></indexterm>
+<indexterm><primary>Commands</primary>
+<secondary>Keyboard</secondary></indexterm>
+
+<sect2 id="nav-keys">
+<title>Navigation Keys</title>
+<indexterm><primary>Navigation Controls</primary>
+<secondary>Keyboard</secondary></indexterm>
 
 <variablelist>
 <varlistentry><term>Arrow Keys</term>
@@ -723,11 +793,24 @@ Use the arrow keys to pan the display.  Holding down the &Shift;
 key doubles the scrolling speed.
 </para></listitem></varlistentry>
 
-<varlistentry><term><keycap>+</keycap> / <keycap>-</keycap></term>
-<listitem><para>Zoom In/Out</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>+</keycap> / <keycap>-</keycap></term>
+<listitem><para>Zoom In/Out</para></listitem>
+</varlistentry>
 
-<varlistentry><term>0&ndash;9</term>
-<listitem><para>Center Display on a Solar System object.
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></term>
+<listitem><para>Restore the default Zoom setting</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></term>
+<listitem><para>Zoom to specified field-of-view angle</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>0&ndash;9</term>
+<listitem><para>Center Display on a major Solar System body:
 <itemizedlist>
 <listitem><para>0: Sun</para></listitem>
 <listitem><para>1: Mercury</para></listitem>
@@ -740,35 +823,127 @@ key doubles the scrolling speed.
 <listitem><para>8: Neptune</para></listitem>
 <listitem><para>9: Pluto</para></listitem>
 </itemizedlist>
-</para></listitem></varlistentry>
+</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>Z</keycap></term>
-<listitem><para>Center on the <link linkend="ai-zenith">Zenith</link>
-Point (straight up).</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>Z</keycap></term>
+<listitem><para>Center the display at the <link linkend="ai-zenith">Zenith</link>
+Point (straight up)</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>N</keycap></term>
-<listitem><para>Center above North horizon.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>N</keycap></term>
+<listitem><para>Center the display above the North point on the  horizon</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>E</keycap></term>
-<listitem><para>Center above East horizon.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>E</keycap></term>
+<listitem><para>Center the display above the East point on the  horizon</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>S</keycap></term>
-<listitem><para>Center above South horizon.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>S</keycap></term>
+<listitem><para>Center the display above the South point on the horizon</para>
+</listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>W</keycap></term>
-<listitem><para>Center above West horizon.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>W</keycap></term>
+<listitem><para>Center the display above the West point on the  horizon</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycap>F1</keycap></term>
-<listitem><para>Open the &kstars; Handbook.</para></listitem></varlistentry>
-
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
-</term>
-<listitem><para>Open Find Object Window.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="findobjects">Find Object window</link>,
+for specifying a sky object on which to center</para></listitem>
+</varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </term>
-<listitem><para>Specify RA/Dec coordinates to center
-on.</para></listitem></varlistentry>
+<listitem><para>Open the <guilabel>Set Manual Focus</guilabel> tool,
+for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></term>
+<listitem><para>Toggle tracking mode</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>&lt;</keycap></term>
+<listitem><para>Advance the simulation clock backwards by one time step</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>&gt;</keycap></term>
+<listitem><para>Advance the simulation clock forwards by one time step</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-keys">
+<title>Menu Shortcuts</title>
+
+<variablelist>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></term>
+<listitem><para>Open a new &kstars; window</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo></term>
+<listitem><para>Close a &kstars; window</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo></term>
+<listitem><para>Download extra data</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></term>
+<listitem><para>Open a FITS image in the FITS Editor</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo></term>
+<listitem><para>Export sky image to a file</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></term>
+<listitem><para>Run a &kstars; DCOP script</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo></term>
+<listitem><para>Print the current sky map</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo></term>
+<listitem><para>Quit &kstars;</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo></term>
+<listitem><para>Sync the simulation clock with the current system time</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></term>
+<listitem><para>Set the simulation clock to a specified Time and Date</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo></term>
+<listitem><para>Toggle full-screen mode</para></listitem>
+</varlistentry>
 
 <varlistentry><term><keycap>Space</keycap></term>
 <listitem><para>Toggle between the
@@ -777,81 +952,88 @@ on.</para></listitem></varlistentry>
 <link linkend="ai-skycoords">Coordinate Systems</link>
 </para></listitem></varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
-</term>
-<listitem><para>Open Set Geographic Location window.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycap>F1</keycap></term>
+<listitem><para>Open the &kstars; Handbook</para></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
-</term>
-<listitem><para>Open the <link linkend="config">Display Options window</link></para></listitem></varlistentry>
+<sect2 id="tools-keys">
+<title>Opening Tools</title>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo>
-</term>
-<listitem><para>Set time to the CPU clock.</para></listitem></varlistentry>
+<variablelist>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="setgeo">Set Geographic Location</link> window</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
-</term>
-<listitem><para>Open Set Time window.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-calculator">AstroCalculator</link> </para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
-</term>
-<listitem><para>Toggle tracking.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-aavso">AAVSO Lightcurve Generator</link></para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
-</term>
-<listitem><para>Open the astro calculator.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-altvstime">Altitude vs. Time</link> tool</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
-</term>
-<listitem><para>Open the altitude vs. time tool.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-whatsup">What's Up Tonight?</link> tool </para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
-</term>
-<listitem><para>Open the variable-star lightcurve tool.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-scriptbuilder">Script Builder</link> tool</para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
-</term>
-<listitem><para>Open the what's up tonight tool</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>Y</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-solarsys">Solar System Viewer</link> </para></listitem>
+</varlistentry>
 
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
-</term>
-<listitem><para>Open another &kstars; window.</para></listitem></varlistentry>
-
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
-</term>
-<listitem><para>Close a &kstars; window.</para></listitem></varlistentry>
-
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
-</term>
-<listitem><para>Print the current sky map.</para></listitem></varlistentry>
-
-<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
-</term>
-<listitem><para>Quit &kstars;.</para></listitem></varlistentry>
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo></term>
+<listitem><para>Open the <link linkend="tool-jmoons">Jupiter Moons</link> tool</para></listitem>
+</varlistentry>
 
 </variablelist>
-
+</sect2>
 </sect1>
 
 <sect1 id="kstars-mouse">
 <title>Mouse Commands</title>
-<indexterm><primary>Commands</primary><secondary>Mouse</secondary></indexterm>
-<indexterm><primary>Navigation Controls</primary><secondary>Mouse</secondary></indexterm>
+<indexterm><primary>Commands</primary>
+<secondary>Mouse</secondary></indexterm>
+<indexterm><primary>Navigation Controls</primary>
+<secondary>Mouse</secondary></indexterm>
 
 <variablelist>
 <varlistentry><term>Moving the mouse</term>
 <listitem><para>
-The Equatorial (RA, Dec) coordinates of the mouse cursor are updated
-in the status bar.
+The sky coordinates (RA/Dec and Az/Alt) of the mouse cursor are updated
+in the status bar
 </para></listitem>
 </varlistentry>
 
-<varlistentry><term>Clicking</term>
+<varlistentry><term>"Hovering" the mouse</term>
+<listitem><para>
+A temporary name label is attached to the object nearest to the mouse cursor.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term>Left-clicking</term>
 <listitem>
 <para>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Identifying</secondary></indexterm>
-Identify the object nearest the mouse cursor in the
+The object nearest the mouse click is identified in the
 status bar.
 </para></listitem>
 </varlistentry>
@@ -861,9 +1043,9 @@ status bar.
 <para>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Centering</secondary></indexterm>
-Center and track on the clicked location or object
-nearest the mouse cursor.  Double-clicking on an Info Box will
-<quote>shade</quote> it to reveal/hide extra information.
+Center and track on the location or object
+nearest the mouse click.  Double-clicking on an Info Box will
+<quote>shade</quote> it to show/hide extra information.
 </para></listitem>
 </varlistentry>
 
@@ -872,14 +1054,15 @@ nearest the mouse cursor.  Double-clicking on an Info Box will
 <para>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Invoking Popup Menu for</secondary></indexterm>
-Open the popup menu for the location or object nearest
-the mouse cursor.
+Open the <link linkend="popup-menu">popup menu</link> for the
+location or object nearest the mouse cursor.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Scrolling the mouse wheel</term>
-<listitem><para>Zoom the display in or out.  If you don't have a
-mouse wheel, you can hold the middle mouse button and drag vertically.
+<listitem><para>Zoom the display in or out.  If you don't
+have a mouse wheel, you can hold the middle mouse button and
+drag vertically.
 </para></listitem>
 </varlistentry>
 

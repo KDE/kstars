@@ -11,13 +11,13 @@ The &kstars; Team:
 <itemizedlist>
 <listitem><para>Jason Harris <email>kstars@30doradus.org</email></para>
 </listitem>
-<listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
-</listitem>
-<listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
+<listitem><para>Jasem Mutlaq <email>mutlaqja@ku.edu</email></para>
 </listitem>
 <listitem><para>Pablo de Vicente <email>pvicentea@wanadoo.es</email></para>
 </listitem>
-<listitem><para>Jasem Mutlaq <email>mutlaqja@ku.edu</email></para>
+<listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
+</listitem>
+<listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
 </listitem>
 <listitem><para>Mark Hollomon <email>mhh@mindspring.com</email></para>
 </listitem>
@@ -52,10 +52,10 @@ Meeus</para></listitem>
 
 <para> Special thanks: To the &kde; and &Qt; developers for providing
 the world with a peerless set of free <acronym>API</acronym>
-libraries.  To the <application>KDevelop</application> team, for their 
-excellent <acronym>IDE</acronym>, which made developing &kstars; so 
-much easier and more fun.  To everyone on the 
-<application>KDevelop</application> message board, the &kde; 
+libraries.  To the <application>KDevelop</application> team, for their
+excellent <acronym>IDE</acronym>, which made developing &kstars; so
+much easier and more fun.  To everyone on the
+<application>KDevelop</application> message board, the &kde;
 mailing lists, and on irc.kde.org, for answering our frequent
 questions.  Thank you to Anne-Marie Mahfouf, for inviting &kstars; to
 join the &kde;-Edu module.  Finally, thanks to everyone who has
