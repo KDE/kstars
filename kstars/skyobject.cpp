@@ -20,6 +20,7 @@
 #include "skyobject.h"
 #include "ksutils.h"
 #include "dms.h"
+#include "geolocation.h"
 
 SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	Type = 0;
@@ -34,6 +35,12 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	LongName = "";
 	Catalog = "";
 	Image = 0;
+	ra1 = dms(0.);
+	ra2 = dms(0.);
+	ra3 = dms(0.);
+	dec1 = dms(0.);
+	dec2 = dms(0.);
+	dec3 = dms(0.);
 }
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
@@ -53,6 +60,12 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	InfoList = o.InfoList;
 	InfoTitle = o.InfoTitle;
 	Image = o.image();
+	ra1 = o.ra1;
+	ra2 = o.ra2;
+	ra3 = o.ra3;
+	dec1 = o.dec1;
+	dec2 = o.dec2;
+	dec3 = o.dec3;
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, double m,
@@ -70,6 +83,12 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	LongName = lname;
 	Catalog = cat;
 	Image = 0;
+	ra1 = dms(0.);
+	ra2 = dms(0.);
+	ra3 = dms(0.);
+	dec1 = dms(0.);
+	dec2 = dms(0.);
+	dec3 = dms(0.);
 }
 
 SkyObject::SkyObject( int t, double r, double d, double m,
@@ -148,6 +167,50 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
 
+QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
+
+	if ( checkCircumpolar(geo->lat() ) )
+		return QTime( 25, 0, 0 );
+
+	double UT = transitUTTime (jd, geo->lng(), geo->lat());
+
+	dms LT = dms( UT + 15.0*geo->TZ() ).reduce();
+
+	return QTime( LT.hour(), LT.minute(), LT.second() );
+}
+
+double SkyObject::transitUTTime( long double jd, dms gLng, dms gLat ) {
+
+	setThreeCoords (jd);
+	dms h0 = elevationCorrection();
+//  No need for transitTime, but necessary for riseTime and setTime.
+//	double H = approxHourAngle( h0, gLat );
+	dms ts0 = gstAtCeroUT(jd);
+
+	double m0 = ra2.Degrees()+ gLng.Degrees() - ts0.Degrees();
+
+	m0 = m0 / 360. ;
+	reduceToOne(m0);
+	double ts_0 = ts0.Degrees() + 360.985647 * m0;
+	double ram = Interpolate ( ra1.Degrees(), ra2.Degrees(), ra3.Degrees(), m0);
+	double HourAngle = ts_0 - gLng.Degrees() - ram;
+	reduceTo180(HourAngle);
+
+	double UT = (m0 - HourAngle/360.) * 24.;
+
+	return UT;
+}
+
+dms SkyObject::transitAltitude(GeoLocation *geo) {
+
+	double delta = asin ( sin (geo->lat().radians()) * 
+				sin ( dec().radians() ) +
+				cos (geo->lat().radians()) * 
+				cos (dec().radians() ) );
+
+	return dms(delta);
+}
+
 float SkyObject::e( void ) const {
 	if ( MajorAxis==0.0 || MinorAxis==0.0 ) return 1.0; //assume circular
 	return MinorAxis / MajorAxis;
@@ -165,6 +228,62 @@ QImage* SkyObject::readImage( void ) {
 	}
 
 	return Image;
+}
+
+dms SkyObject::gstAtCeroUT (long double jd) {
+
+	long double jd0 = KSUtils::JdAtZeroUT (jd) ;
+	long double s = jd0 - 2451545.0;
+	double t = s/36525.0;
+	dms T0;
+	T0.setH (6.697374558 + 2400.051336*t + 0.000025862*t*t + 
+			0.000000002*t*t*t);
+
+	return T0;
+}
+
+double SkyObject::approxHourAngle (dms h0, dms gLat) {
+
+	double sh0 = sin ( h0.radians() );
+	double r = (sh0 - sin( gLat.radians() ) * sin(dec2.radians() ))
+		 / (cos( gLat.radians() ) * cos( dec2.radians() ) );
+
+	double H = acos( r )*180./acos(-1.0);
+
+	return H;
+}
+
+void SkyObject::setThreeCoords (long double jd) {
+
+	// We save the original state of the object
+
+	KSNumbers *num = new KSNumbers(jd);
+
+	long double jd2 = KSUtils::JdAtZeroUT(jd);
+
+
+	KSNumbers *num1 = new KSNumbers(jd2-1);
+	updateCoords(num1);
+	dms ra1 = ra();
+	dms dec1 = dec();
+	delete num1;
+
+	KSNumbers *num2 = new KSNumbers(jd2);
+	updateCoords(num2);
+	dms ra2 = ra();
+	dms dec2 = dec();
+	delete num2;
+
+	KSNumbers *num3 = new KSNumbers(jd2+1);
+	updateCoords(num3);
+	dms ra3 = ra();
+	dms dec3 = dec();
+	delete num3;
+
+	// we leave the object in its original state
+	
+	updateCoords(num);
+	delete num;
 }
 
 double SkyObject::Interpolate (double y1, double y2, double y3, double n) {
@@ -192,8 +311,8 @@ double SkyObject::reduceTo180(double H) {
 	return H;
 }
 
-bool SkyObject::checkCircumpolar(GeoLocation *geo) {
-	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
+bool SkyObject::checkCircumpolar(dms gLat) {
+	double r = -1.0 * tan( gLat.radians() ) * tan( dec().radians() );
 	if ( r < -1.0 || r > 1.0 )
 		return true;
 	else

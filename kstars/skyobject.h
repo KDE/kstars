@@ -175,6 +175,13 @@ public:
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
+	QTime transitTime( long double jd, GeoLocation *geo );
+	double transitUTTime( long double jd, dms gLng, dms gLat );
+	void setThreeCoords (long double jd);
+	double approxHourAngle (dms h0, dms gLng);
+	dms gstAtCeroUT (long double jd);
+	dms transitAltitude(GeoLocation *geo);
+
 	/**
 	 * Interpolates the value of a function y=f(n+x2)
 	 * given the values of the function at three points:
@@ -215,7 +222,7 @@ public:
 	 *
 	 *@returns boolean
 	 */
-	bool checkCircumpolar(GeoLocation *g);
+	bool checkCircumpolar(dms gLng);
 
 	/**
 	 * Corrects for the geometric altitude of the center of the body at the
@@ -242,6 +249,10 @@ private:
 	QString LongName;
 	QString Catalog;
 	QImage *Image;
+	
+	// Auxiliary variables
+	
+	dms ra1, dec1, ra2, dec2, ra3, dec3;
 };
 
 #endif
