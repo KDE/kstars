@@ -1147,6 +1147,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 
 		//Add left-edge and right-edge points based on interpolating the first/last onscreen points
 		//to the nearest offscreen points.
+
 		if ( options->useAltAz && points.count() > 0 ) {
      //Interpolate from first sorted onscreen point to x=-100,
      //using OutLeft to determine the slope
@@ -1475,8 +1476,8 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	QPaintDeviceMetrics pdm( p.device() );
 
 	//scale image such that it fills 90% of the x or y dimension on the paint device
-	double xscale = pdm.width() / width();
-	double yscale = pdm.height() / height();
+	double xscale = double(pdm.width()) / double(width());
+	double yscale = double(pdm.height()) / double(height());
 	double scale = (xscale < yscale) ? xscale : yscale;
 
 	int pdWidth = int( scale * width() );
