@@ -220,7 +220,7 @@ have the very latest data points.
 You can plan an observing session using our <link
 linkend="tool-altvstime">Altitude vs. Time</link> tool, which will
 plot curves representing the Altitude as a function of time for any
-group of objects.  If that's too much detail, we also provide a
+group of objects.  If that is too much detail, we also provide a
 <link linkend="tool-whatsup">What's Up Tonight?</link> tool that
 summarizes the objects that you will be able to see from your location
 on any given night.
