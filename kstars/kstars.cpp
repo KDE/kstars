@@ -143,8 +143,8 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 
 	Data->updateTime( clock, geo(), Map, automaticDSTchange );
 
-	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, Data->LST, Data->CurrentDate) )
-	        Map->update();
+//	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, Data->LST, Data->CurrentDate) )
+//	        Map->update();
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
