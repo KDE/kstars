@@ -246,7 +246,7 @@ void AstroCalc::genSolarText(void)
 
 void AstroCalc::delRightPanel(void)
 {
-	if (rightPanel <= 3)
+	if (rightPanel <= CoordText)
 		delete splashScreen;
 	else if (rightPanel == JD)
 		delete JDFrame;
