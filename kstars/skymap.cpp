@@ -36,7 +36,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include <stream.h>
+#include <iostream.h>
 #include <unistd.h>
 
 #include "kstars.h"
