@@ -33,6 +33,7 @@
 #include <kdatewidget.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <kstdguiitem.h>
 
 #include <qcheckbox.h>
 #include <qdatetimeedit.h>
@@ -494,7 +495,7 @@ void ScriptBuilder::saveWarning() {
 	if ( UnsavedChanges ) {
 		QString caption = i18n( "Save Changes to Script?" );
 		QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
-		QString ybut = i18n( "&Save" );
+		QString ybut = KStdGuiItem::save().text();
 		QString nbut = i18n( "&Discard" );
 		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
 		if ( ans == KMessageBox::Yes ) {
