@@ -119,6 +119,8 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentS
 	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
 	D2Lay->addItem(downSpacer);
 	
+	rightBox->setMaximumWidth(550);
+	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
 	rightBox->setSpacing(7);
 	rightBox->show();

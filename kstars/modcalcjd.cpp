@@ -157,7 +157,7 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 	D0Lay->addWidget(datetimeBox);
 	D0Lay->addWidget(Now,0);
 
-	rightBox->setMaximumWidth(450);
+	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
 	rightBox->setSpacing(6);

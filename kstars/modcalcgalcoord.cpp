@@ -143,7 +143,7 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox
 	D0Lay->addWidget(radecBox);
 //	D0Lay->addWidget(epochBox,0);
 
-	rightBox->setMaximumWidth(450);
+	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
 	rightBox->setSpacing(7);

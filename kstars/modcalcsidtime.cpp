@@ -147,8 +147,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(p
 	
 	StLay->addWidget ( St0Box );
 
-//	rightBox->setMaximumWidth(450);
-//	rightBox->setMinimumWidth(400);
+	rightBox->setMaximumWidth(550);
+	rightBox->setMinimumWidth(400);
 
 	showCurrentTimeAndLong();
 

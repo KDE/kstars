@@ -34,21 +34,6 @@
 #include <klocale.h>
 #include <kmenubar.h>
 
-
-//AstroCalc::AstroCalc(QWidget *parent) : KMainWindow( parent)
-//{
-//	setCaption("Astronomical calculator");
-
-//	QPopupMenu *filemenu = new QPopupMenu;
-//	filemenu->insertItem( i18n("&Quit"), kapp, SLOT(quit()) );
-
-//	QString about = i18n("KStars Calculator\n\n"
-//	"(C) 2002 The KStars developers\n");
-
-//	QPopupMenu *helpmenu = helpMenu(about);
-//	KMenuBar * menu = menuBar();menu->insertItem( i18n("&File"), filemenu);
-//	menu->insertSeparator();
-//	menu->insertItem( i18n("&Help"), helpmenu);
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true,
 	i18n("KStars Calculator"), Ok | Close | Cancel ) {
@@ -58,6 +43,10 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	navigationPanel = new QListView (split,"NavigationPanel");
 	splashScreen = new QTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
+	
+	splashScreen->setMaximumWidth(550);
+	splashScreen->setMinimumWidth(400);
+
 	rightPanel = GenText;
 
 	navigationPanel->addColumn("Section");
@@ -128,6 +117,8 @@ void AstroCalc::genTimeText(void)
 
 	delRightPanel();
 	splashScreen = new QTextView ("","",split);
+	splashScreen->setMaximumWidth(550);
+	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
 		
 	splashScreen->setText(i18n("<QT>"
@@ -150,6 +141,8 @@ void AstroCalc::genCoordText(void)
 {
 	delRightPanel();
 	splashScreen = new QTextView ("","",split);
+	splashScreen->setMaximumWidth(550);
+	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
 	
 	splashScreen->setText(i18n("<QT>"
@@ -178,6 +171,8 @@ void AstroCalc::genGeodText(void)
 {
 	delRightPanel();
 	splashScreen = new QTextView ("","",split);
+	splashScreen->setMaximumWidth(550);
+	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
 	
 	splashScreen->setText(i18n("<QT>"

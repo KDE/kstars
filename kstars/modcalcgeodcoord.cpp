@@ -171,7 +171,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 		
 // slots
 
-	rightBox->setMaximumWidth(450);
+	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
 	rightBox->setSpacing(7);
