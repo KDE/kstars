@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcGeodCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>548</width>
-            <height>439</height>
+            <height>442</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,6 +22,9 @@
         <widget class="QTabWidget">
             <property name="name">
                 <cstring>tabWidget</cstring>
+            </property>
+            <property name="focusPolicy">
+                <enum>StrongFocus</enum>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -262,6 +265,9 @@
                                                 <height>0</height>
                                             </size>
                                         </property>
+                                        <property name="focusPolicy">
+                                            <enum>StrongFocus</enum>
+                                        </property>
                                     </widget>
                                     <widget class="dmsBox" row="1" column="1" rowspan="1" colspan="2">
                                         <property name="name">
@@ -272,6 +278,9 @@
                                                 <width>70</width>
                                                 <height>0</height>
                                             </size>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <enum>StrongFocus</enum>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="1" column="0">
@@ -393,6 +402,9 @@
                                 <property name="enabled">
                                     <bool>false</bool>
                                 </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
+                                </property>
                             </widget>
                             <widget class="dmsBox" row="1" column="1">
                                 <property name="name">
@@ -400,6 +412,9 @@
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
+                                </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
@@ -735,13 +750,36 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>spheRadio</tabstop>
+    <tabstop>tabWidget</tabstop>
     <tabstop>cartRadio</tabstop>
+    <tabstop>spheRadio</tabstop>
+    <tabstop>ellipsoidBox</tabstop>
+    <tabstop>Compute</tabstop>
+    <tabstop>Clear</tabstop>
     <tabstop>xGeoName</tabstop>
     <tabstop>yGeoName</tabstop>
     <tabstop>zGeoName</tabstop>
-    <tabstop>ellipsoidBox</tabstop>
+    <tabstop>lonGeoBox</tabstop>
+    <tabstop>latGeoBox</tabstop>
     <tabstop>altGeoBox</tabstop>
+    <tabstop>longCheckBatch</tabstop>
+    <tabstop>longBoxBatch</tabstop>
+    <tabstop>latCheckBatch</tabstop>
+    <tabstop>latBoxBatch</tabstop>
+    <tabstop>elevCheckBatch</tabstop>
+    <tabstop>elevBoxBatch</tabstop>
+    <tabstop>xCheckBatch</tabstop>
+    <tabstop>xBoxBatch</tabstop>
+    <tabstop>yCheckBatch</tabstop>
+    <tabstop>yBoxBatch</tabstop>
+    <tabstop>zCheckBatch</tabstop>
+    <tabstop>zBoxBatch</tabstop>
+    <tabstop>inputRadioBatch</tabstop>
+    <tabstop>InputButtonBatch</tabstop>
+    <tabstop>InputLineEditBatch</tabstop>
+    <tabstop>OutButtonBatch</tabstop>
+    <tabstop>OutputLineEditBatch</tabstop>
+    <tabstop>runButtonBatch</tabstop>
 </tabstops>
 <slots>
     <slot>slotComputeGeoCoords()</slot>
@@ -758,6 +796,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kcombobox.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>

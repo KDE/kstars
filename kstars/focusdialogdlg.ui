@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>FocusDialogDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>208</width>
-            <height>149</height>
+            <height>146</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>FocusDialogDlg</string>
     </property>
     <vbox>
         <property name="name">
@@ -43,6 +46,9 @@
                         <property name="name">
                             <cstring>raBox</cstring>
                         </property>
+                        <property name="focusPolicy">
+                            <enum>StrongFocus</enum>
+                        </property>
                         <property name="toolTip" stdset="0">
                             <string>Enter new Right Ascension</string>
                         </property>
@@ -50,6 +56,9 @@
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>decBox</cstring>
+                        </property>
+                        <property name="focusPolicy">
+                            <enum>StrongFocus</enum>
                         </property>
                         <property name="toolTip" stdset="0">
                             <string>Enter new Declination</string>
@@ -115,6 +124,9 @@
                         <property name="name">
                             <cstring>azBox</cstring>
                         </property>
+                        <property name="focusPolicy">
+                            <enum>StrongFocus</enum>
+                        </property>
                         <property name="toolTip" stdset="0">
                             <string>Enter new Azimuth</string>
                         </property>
@@ -156,6 +168,9 @@
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>altBox</cstring>
+                        </property>
+                        <property name="focusPolicy">
+                            <enum>StrongFocus</enum>
                         </property>
                         <property name="toolTip" stdset="0">
                             <string>Enter new Altitude</string>

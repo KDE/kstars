@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>INDIHostConf</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>437</width>
-            <height>175</height>
+            <height>178</height>
         </rect>
     </property>
     <property name="caption">
@@ -189,6 +189,7 @@
     </connection>
 </connections>
 <tabstops>
+    <tabstop>nameIN</tabstop>
     <tabstop>hostname</tabstop>
     <tabstop>portnumber</tabstop>
     <tabstop>buttonOk</tabstop>

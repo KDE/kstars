@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>OpsCatalog</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>394</width>
-            <height>499</height>
+            <height>472</height>
         </rect>
     </property>
     <property name="caption">
@@ -58,6 +58,9 @@ many stars are drawn.</string>
                             <property name="name">
                                 <cstring>magSpinBoxDrawStars</cstring>
                             </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
+                            </property>
                             <property name="toolTip" stdset="0">
                                 <string>The faint limit when zoomed in</string>
                             </property>
@@ -98,6 +101,9 @@ unaided human eye can see.</string>
                         <widget class="MagnitudeSpinBox" row="1" column="1">
                             <property name="name">
                                 <cstring>magSpinBoxDrawStarZoomOut</cstring>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>The faint limit when zoomed out</string>
@@ -192,6 +198,9 @@ unaided human eye can see.</string>
                         <widget class="MagnitudeSpinBox">
                             <property name="name">
                                 <cstring>magSpinBoxDrawStarInfo</cstring>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Sets the faintest &lt;b&gt;magnitude&lt;/b&gt; for which name and 
@@ -432,6 +441,9 @@ catalogs with this button.</string>
                             <property name="name">
                                 <cstring>magSpinBoxDrawDeepSky</cstring>
                             </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
+                            </property>
                             <property name="toolTip" stdset="0">
                                 <string>The faint limit when zoomed in</string>
                             </property>
@@ -472,6 +484,9 @@ unaided human eye can see.</string>
                         <widget class="MagnitudeSpinBox" row="1" column="1">
                             <property name="name">
                                 <cstring>magSpinBoxDrawDeepSkyZoomOut</cstring>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>The faint limit when zoomed out</string>

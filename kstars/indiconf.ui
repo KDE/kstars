@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>INDIConf</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>646</width>
-            <height>167</height>
+            <width>417</width>
+            <height>170</height>
         </rect>
     </property>
     <property name="caption">
@@ -192,5 +192,13 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>timeCheck</tabstop>
+    <tabstop>GeoCheck</tabstop>
+    <tabstop>crosshairCheck</tabstop>
+    <tabstop>messagesCheck</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

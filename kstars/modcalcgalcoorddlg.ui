@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcGalCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>577</width>
-            <height>440</height>
+            <width>484</width>
+            <height>443</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,6 +22,9 @@
         <widget class="QTabWidget">
             <property name="name">
                 <cstring>tabWidget8</cstring>
+            </property>
+            <property name="focusPolicy">
+                <enum>StrongFocus</enum>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -231,6 +234,9 @@
                                                 <height>0</height>
                                             </size>
                                         </property>
+                                        <property name="focusPolicy">
+                                            <enum>StrongFocus</enum>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
                                         <property name="name">
@@ -257,6 +263,9 @@
                                                 <width>0</width>
                                                 <height>0</height>
                                             </size>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <enum>StrongFocus</enum>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="2" column="0">
@@ -358,6 +367,9 @@
                                                         <height>0</height>
                                                     </size>
                                                 </property>
+                                                <property name="focusPolicy">
+                                                    <enum>StrongFocus</enum>
+                                                </property>
                                             </widget>
                                             <widget class="dmsBox" row="1" column="1">
                                                 <property name="name">
@@ -376,6 +388,9 @@
                                                         <width>0</width>
                                                         <height>0</height>
                                                     </size>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <enum>StrongFocus</enum>
                                                 </property>
                                             </widget>
                                         </grid>
@@ -467,6 +482,9 @@
                                 <property name="enabled">
                                     <bool>false</bool>
                                 </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
+                                </property>
                             </widget>
                             <widget class="dmsBox" row="1" column="1">
                                 <property name="name">
@@ -474,6 +492,9 @@
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
+                                </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
@@ -561,6 +582,9 @@
                                 <property name="enabled">
                                     <bool>false</bool>
                                 </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
+                                </property>
                             </widget>
                             <widget class="dmsBox" row="0" column="3">
                                 <property name="name">
@@ -568,6 +592,9 @@
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
+                                </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
                                 </property>
                             </widget>
                         </grid>
@@ -813,6 +840,33 @@
         <slot>slotRunBatch()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>tabWidget8</tabstop>
+    <tabstop>equRadio</tabstop>
+    <tabstop>Compute</tabstop>
+    <tabstop>Clear</tabstop>
+    <tabstop>raBox</tabstop>
+    <tabstop>decBox</tabstop>
+    <tabstop>epochName</tabstop>
+    <tabstop>lgBox</tabstop>
+    <tabstop>bgBox</tabstop>
+    <tabstop>raCheckBatch</tabstop>
+    <tabstop>raBoxBatch</tabstop>
+    <tabstop>decCheckBatch</tabstop>
+    <tabstop>decBoxBatch</tabstop>
+    <tabstop>epochCheckBatch</tabstop>
+    <tabstop>epochBoxBatch</tabstop>
+    <tabstop>galLongCheckBatch</tabstop>
+    <tabstop>galLongBoxBatch</tabstop>
+    <tabstop>galLatCheckBatch</tabstop>
+    <tabstop>galLatBoxBatch</tabstop>
+    <tabstop>inputRadioBatch</tabstop>
+    <tabstop>InputButtonBatch</tabstop>
+    <tabstop>InputLineEditBatch</tabstop>
+    <tabstop>OutputLineEditBatch</tabstop>
+    <tabstop>OutButtonBatch</tabstop>
+    <tabstop>runButtonBatch</tabstop>
+</tabstops>
 <slots>
     <slot>slotComputeCoords()</slot>
     <slot>slotClearCoords()</slot>

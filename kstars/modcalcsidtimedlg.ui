@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcSidTimeDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>464</width>
-            <height>439</height>
+            <height>442</height>
         </rect>
     </property>
     <property name="caption">
@@ -100,6 +100,9 @@
                         <widget class="dmsBox" row="1" column="2">
                             <property name="name">
                                 <cstring>longBox</cstring>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
                             </property>
                         </widget>
                     </grid>

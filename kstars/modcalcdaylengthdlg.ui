@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcDayLengthDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>464</width>
-            <height>439</height>
+            <height>442</height>
         </rect>
     </property>
     <property name="caption">
@@ -62,6 +62,9 @@
                                     <height>16</height>
                                 </size>
                             </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
+                            </property>
                         </widget>
                         <widget class="QLabel" row="0" column="0">
                             <property name="name">
@@ -80,6 +83,9 @@
                                     <width>0</width>
                                     <height>16</height>
                                 </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
                             </property>
                         </widget>
                     </grid>
@@ -247,6 +253,9 @@
                                     <height>20</height>
                                 </size>
                             </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
+                            </property>
                         </widget>
                         <widget class="QLabel" row="0" column="0">
                             <property name="name">
@@ -273,6 +282,9 @@
                                     <width>70</width>
                                     <height>20</height>
                                 </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
                             </property>
                         </widget>
                         <widget class="QLabel" row="1" column="0">
@@ -309,6 +321,9 @@
                                     <height>20</height>
                                 </size>
                             </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
+                            </property>
                         </widget>
                         <widget class="timeBox" row="0" column="1">
                             <property name="name">
@@ -327,6 +342,9 @@
                                     <width>70</width>
                                     <height>20</height>
                                 </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
                             </property>
                         </widget>
                         <widget class="QLabel" row="2" column="0">
@@ -392,6 +410,9 @@
                                             <verstretch>0</verstretch>
                                         </sizepolicy>
                                     </property>
+                                    <property name="focusPolicy">
+                                        <enum>NoFocus</enum>
+                                    </property>
                                 </widget>
                                 <widget class="dmsBox" row="2" column="1">
                                     <property name="name">
@@ -405,6 +426,9 @@
                                             <verstretch>0</verstretch>
                                         </sizepolicy>
                                     </property>
+                                    <property name="focusPolicy">
+                                        <enum>NoFocus</enum>
+                                    </property>
                                 </widget>
                                 <widget class="dmsBox" row="0" column="1">
                                     <property name="name">
@@ -417,6 +441,9 @@
                                             <horstretch>0</horstretch>
                                             <verstretch>0</verstretch>
                                         </sizepolicy>
+                                    </property>
+                                    <property name="focusPolicy">
+                                        <enum>NoFocus</enum>
                                     </property>
                                 </widget>
                                 <widget class="QLabel" row="1" column="0">
@@ -533,6 +560,20 @@
         <slot>slotComputePosTime()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>longBox</tabstop>
+    <tabstop>latBox</tabstop>
+    <tabstop>datBox</tabstop>
+    <tabstop>Compute</tabstop>
+    <tabstop>Clear</tabstop>
+    <tabstop>dayLBox</tabstop>
+    <tabstop>transitTimeBox</tabstop>
+    <tabstop>setTimeBox</tabstop>
+    <tabstop>riseTimeBox</tabstop>
+    <tabstop>elTransitBox</tabstop>
+    <tabstop>azSetBox</tabstop>
+    <tabstop>azRiseBox</tabstop>
+</tabstops>
 <slots>
     <slot>slotComputePosTime()</slot>
     <slot>slotClearCoords()</slot>

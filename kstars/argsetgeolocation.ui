@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>ArgSetGeoLocation</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>316</width>
-            <height>205</height>
+            <height>208</height>
         </rect>
     </property>
     <property name="caption">
@@ -185,6 +185,12 @@
 </widget>
 <customwidgets>
 </customwidgets>
+<tabstops>
+    <tabstop>CityName</tabstop>
+    <tabstop>ProvinceName</tabstop>
+    <tabstop>CountryName</tabstop>
+    <tabstop>FindCityButton</tabstop>
+</tabstops>
 <slots>
     <slot>slotFindCity()</slot>
 </slots>
