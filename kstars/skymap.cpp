@@ -1289,7 +1289,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	//Draw Constellation Lines
 	if ( ksw->GetOptions()->drawConstellLines ) {
 		psky.setPen( QColor( ksw->GetOptions()->colorCLine ) );
-		int iLast = 0;
+		int iLast = -1;
 
 		for ( unsigned int i=0; i < ksw->GetData()->clineList.count(); ++i ) {
 			QPoint o = getXY( ksw->GetData()->clineList.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );

@@ -1,26 +1,18 @@
-KStars 0.7 To-Do list:
-[Oct 2001]
+KStars 0.8 To-Do list:
+[Nov 2001]
 
 See the KStars Homepage (kstars.sourceforge.net) for the most
 up-to-date to-do list.
 
 + Bug Fixes
-  - Phantom Constellation Line:
-    A constellation line is incorrectly drawn from (RA, Dec)=0.0, 0.0
-    to a point off the screen to the upper left, whenever this point
-    is near the center of the display.
-
-  - Small gap in Horizon:
-    There is a very small gap in the Horizon line when in
-    Altitude/Azimuth coordinates.  The gap is not visible if the
-    "opaque ground" view option is checked.
-
-  - Small gaps in Milky Way contour:
-		Similar gaps are seen in some parts of the Milky Way countour.
-
   - Southern Constellations need Lines:
     Many constellations near the south celestial pole do not have
     constellation lines.
+
+  - There seems to be a problem with the lunar phases.  For example, 
+    KStars shows that Mare Tranquilitis was dark on July 20, 1969, when 
+    Apollo 11 landed there!  oops.  "Modern" phases seem to be correct, 
+    however.
 
 + GUI Improvements
   - Customizable info panel:
@@ -42,23 +34,85 @@ up-to-date to-do list.
     Planets and Messier objects are currently shown much larger than
     actual size.
 
+  - Realistic position angles for pixmapped objects.  Show objects with the 
+    correct orientation
+
+  - Additional toolbar for Display options: one-click access to toggling 
+    the display of catalogs and guides.
+
 + Add Functionality
   - Add minor planets and comets
   - Allow ephemerides of planetary bodies to be updated from online
     sources (e.g., JPL)
-  - Add more star names
   - Add contour lines tracing the Magellanic Clouds
   - Include Position Angle information for Galaxies
-  - Ability to add new URLs to popup menu for any location
   - Ability to add text annotation to popup menu for any location
   - Add realistic sky-lighting effects?
-  - Add more catalogs?  (too many objects may slow KStars down, but
-    we can do tricks like ignoring objects that are outside the
-    viewable area...boy, that would be nice, can't figure out how
-    to do it quckly though)
+  - Add more catalogs?  
   - Improve accuracy of positions.  Correct for aberration, atmospheric
     refraction, and the figure of the Earth.
+  - Ability to print charts
+  - Animated slew to new positions, instead of just "popping" there
+    instantly.  This will be useful for the scripting functionality
+    (see below)
+  - Interpolate planet positions.  Planet positions require a long 
+    calculation, but they change pretty slowly and along paths that
+    don't usually have sharp curves.  Thus, we can save a lot of time 
+    by calculating their true positions at wide intervals, and simply 
+    interpolating between these values for all times in between.  This 
+    will allow us to add...
+  - Wider variety of timesteps.  Include a spinbox for time units
+    (seconds, minutes, hours, days, years) as well as values.
++ Long-term wishlist:
+  - KStars: The Screensaver!  
+    A "lite" version of KStars to be used as a screensaver. A few
+    thousand stars plus the planets would not use much CPU. Could also
+    optionally run in an accelerated-time mode in which the sky could
+    be seen to  rotate with respect to the horizon. Plus, you'd see
+    the Sun, moon and  planets drifting by, with the moon's phases
+    changing. Sounds pretty neat! Unfortunately, I have no screensaver
+    experience, and am having too much fun right now on regular KStars
+    to think much about this part. Someday, I'll do it (unless you
+    want to! :)  
+
+  - KStars: The Scripting Language!
+    This idea's been bouncing around my head for a while. It would be 
+    really great to be able to write a "script" for KStars to
+    follow. For example, you could write a script that starts out in
+    Orion, slews to the Moon, zooms in, starts tracking the moon,
+    accelerates time, and watches the lunar phases change over a
+    complete cycle. This would be especially useful for classroom demo
+    use; seeing the sky "in action" is a great way to explain basic
+    astronomy topics like lunar phases, retrograde motion, even the
+    relationships between time, longitude, and the location of stars
+    in the sky. We could also include the ability for the script to
+    "draw" arrows, circles, and labels on the display while it's
+    running.
+
+  - Sky Notes
+    A popup menu option to "annotate" the selectd object or
+    location. A window pops up with a multi-line edit widget in which
+    the user can enter text related to the object or location. Could
+    be an observing log, more detailed information about the object,
+    poetry, anything at all. Annotated objects would be tagged with
+    some kind of small image (like a pushpin, for example). People
+    could even exchange their sets of notes, and if they turn out to
+    be really useful, we could build a comprehensive list of them and
+    distribute it with KStars. Which brings us to...  
+
+  - AstroInfo
+    These last two items could be integrated into a comprehensive,
+    interactive astronomy encyclopedia. It would be similar to other
+    open online encyclopedias (everything2, wikipedia, GNUpedia): 
+    user-contributed articles, and hyperlinks to other articles or to 
+    websites. The difference would be that it could also "link" to
+    KStars, and perhaps spawn a script that illustrates the article's
+    topic. There are already some AstroInfo articles on the KStars
+    webpage. I'll be including the first iteration of it in KStars
+    soon (it will probably start out as just a menu item or button
+    that spawns konqueror open to an index of articles). 
 
 + Ever-present needs
   - Translations
-  - Improve Documentation
+  - Improve documentation
+  - More AstroInfo articles

@@ -128,7 +128,7 @@ KStars::KStars( KStarsData* kstarsData )
   //Set font for infoPanel widgets; for now just use default font.
 	QFont ipFont = LTLabel->font();
 	//Uncomment to set smaller font for infoPanel
-	ipFont.setPointSize( ipFont.pointSize() - 2 );
+	//ipFont.setPointSize( ipFont.pointSize() - 2 );
   //Uncomment for fixed-width font
 	//ipFont.setFixedPitch( true );
 
@@ -479,6 +479,10 @@ void KStars::initToolBar() {
 	idSpinBox = 0;
 	toolBar()->insertWidget( idSpinBox, 6, TimeStep );
 	toolBar()->insertWidget( 1, 40, Blank );
+	toolBar()->setStretchableWidget( Blank );
+	actInfo->plug( toolBar() );
+	actHandbook = new KAction( i18n( "&Handbook" ), BarIcon( "contents" ), 0, this, SLOT( appHelpActivated() ), actionCollection() );
+	actHandbook->plug( toolBar() );
 }
 
 void KStars::initStatusBar() {
@@ -840,6 +844,8 @@ void KStars::mTrack() {
 	if ( GetOptions()->isTracking ) {
 		GetOptions()->isTracking = false;
 		actTrack->setIconSet( BarIcon( "unlock" ) );
+		skymap->clickedObject = NULL;
+		skymap->foundObject = NULL;//no longer tracking foundObject
 	} else {
 		GetOptions()->isTracking = true;
 		actTrack->setIconSet( BarIcon( "lock" ) );

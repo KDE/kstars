@@ -81,7 +81,7 @@ class KStars : public KMainWindow
     QString CurrentPosition;
 		GeoLocation *geo;
 		
-		KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo;
+		KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo, *actHandbook;
 		KAction *actTimeSet, *actTimeNow, *actTimeRun, *actLocation, *actViewOps;
 
 		void initMenuBar();
@@ -95,13 +95,12 @@ class KStars : public KMainWindow
 	public slots:
 		void mZoomIn();
 		void mZoomOut();
-	
+
 	protected slots:
 /*
 	If closeEvent is called, downloads must be checked. If there are any downloads, the closeEvent
 	will be ignored.
 */
-	protected slots:
 		void closeEvent (QCloseEvent *e);
 
 	private slots:

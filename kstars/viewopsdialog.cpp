@@ -411,7 +411,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	StarColorMode = new QComboBox( LeftBox );
 	QLabel *ColorModeLabel = new QLabel( StarColorMode, i18n( "Star Color &Mode" ), LeftBox );
 	ColorModeLabel->setAlignment ( AlignRight | AlignVCenter );
-	StarColorMode->insertItem( i18n( "Color by temperature" ) );
+	StarColorMode->insertItem( i18n( "Real Colors" ) );
 	StarColorMode->insertItem( i18n( "Solid Red" ) );
 	StarColorMode->insertItem( i18n( "Solid Black" ) );
 	StarColorMode->insertItem( i18n( "Solid White" ) );
