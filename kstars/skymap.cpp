@@ -40,6 +40,7 @@
 #include "ksutils.h"
 #include "skymap.h"
 #include "imageviewer.h"
+#include "infoboxes.h"
 #include "addlinkdialog.h"
 
 #if (QT_VERSION < 300)
@@ -295,7 +296,8 @@ void SkyMap::slotCenter( void ) {
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
+		if ( KMessageBox::warningYesNo( ksw, message, caption,
+				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;
@@ -338,17 +340,25 @@ void SkyMap::slotCenter( void ) {
 void SkyMap::slotDSS( void ) {
 	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+	dms ra(0.0), dec(0.0);
 	QString RAString, DecString;
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra().hour(),
-																								 clickedPoint()->ra().minute(),
-																								 clickedPoint()->ra().second() );
+	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+	if ( clickedObject() ) {
+		ra.setH( clickedObject()->ra0().Hours() );
+		dec.setD( clickedObject()->dec0().Degrees() );
+	} else {
+		ra.setH( clickedPoint()->ra().Hours() );
+		dec.setD( clickedPoint()->dec().Degrees() );
+	}
+	
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+	
 	decsgn = '+';
-	if (clickedPoint()->dec().Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec().degree() );
-	int dm = abs( clickedPoint()->dec().getArcMin() );
-	int ds = abs( clickedPoint()->dec().getArcSec() );
-
+	if ( dec.Degrees() < 0.0 ) decsgn = '-';
+	int dd = abs( dec.degree() );
+	int dm = abs( dec.getArcMin() );
+	int ds = abs( dec.getArcSec() );
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
 	//concat all the segments into the kview command line:
@@ -360,15 +370,25 @@ void SkyMap::slotDSS2( void ) {
 	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=2r" );
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
 	QString RAString, DecString;
+	dms ra(0.0), dec(0.0);
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra().hour(),
-																								 clickedPoint()->ra().minute(),
-																								 clickedPoint()->ra().second() );
+
+	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+	if ( clickedObject() ) {
+		ra.setH( clickedObject()->ra0().Hours() );
+		dec.setD( clickedObject()->dec0().Degrees() );
+	} else {
+		ra.setH( clickedPoint()->ra().Hours() );
+		dec.setD( clickedPoint()->dec().Degrees() );
+	}
+	
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+	
 	decsgn = '+';
-	if (clickedPoint()->dec().Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec().degree() );
-	int dm = abs( clickedPoint()->dec().getArcMin() );
-	int ds = abs( clickedPoint()->dec().getArcSec() );
+	if ( dec.Degrees() < 0.0 ) decsgn = '-';
+	int dd = abs( dec.degree() );
+	int dm = abs( dec.getArcMin() );
+	int ds = abs( dec.getArcSec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -521,6 +541,9 @@ void SkyMap::slewFocus( void ) {
 		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+                if ( foundObject() )
+                       ksw->infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+
 		ksw->setHourAngle();
 		slewing = false;
 
