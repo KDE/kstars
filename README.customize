@@ -61,7 +61,7 @@ The types are:
 The SpType is a short string for the spectral type.  For example, "B5" or "G2"
 The coordinates should be given as floating-point values, in the J2000.0 epoch.
 The name can be anything you wish.  If the name is more than one word, it
-must be enclodes in quotation marks.
+must be enclosed in quotation marks.
 
 Once you have constructed a custom data file, open the Configuration window
 to the Catalogs tab, and press the "Add Custom Catalog" button.  A popup

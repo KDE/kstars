@@ -17,16 +17,8 @@ KStars 0.9 To-Do list:
       very useful.  However, it would probably be faster to copy the 
       data for the new window in RAM instead of reloading it from disk...
 
-  - Moving to the Zenith resets the Azimuth to 90 degrees
-
 + GUI Improvements
-  - Ability to customize colors of info panel. 
   - Field-of-view indicator.
-  - Detailed information popup window:
-    Show detailed information for an object (depending on its type):
-    Rise/set/transit times, object type (for messier/NGC/IC),
-    distance/mass/radius/satellites (for planets), spectral type (for
-    stars), etc.
 
   - "What's up tonight?" window:
     Popup dialog listing "interesting" objects that are visible in the
@@ -44,7 +36,7 @@ KStars 0.9 To-Do list:
   - Add planetary moons (esp. Jupiter)
   - Allow ephemerides of planetary bodies to be updated from online
     sources (e.g., JPL)
-  - Add contour lines tracing the Magellanic Clouds
+  - Add contour lines tracing the Magellanic Clouds and other nebulae
   - Ability to add text annotation to popup menu for any location
   - Add realistic sky-lighting effects?
   - Add more catalogs?  
