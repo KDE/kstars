@@ -364,9 +364,6 @@ public:
 /**@short Call keyPressEvent, as if the key given as an argument had been pressed. */
 	void invokeKey( int key );
 
-/**@short Apply the color scheme described by the file given as an argument. */
-	bool setColors( QString filename );
-
 /**@return true if the angular distance measuring mode is on 
 	*/
 	bool isAngleMode() const {return angularDistanceMode;}

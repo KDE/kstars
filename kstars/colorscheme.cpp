@@ -34,7 +34,7 @@ ColorScheme::ColorScheme() : FileName() {
 	//In addition, we define default RGB strings for each item.
 	//To add another color to the Palette, just add an entry for KeyName,
 	//Name and Default here.
-
+	
 	KeyName.append( "SkyColor" );
 	Name.append( i18n( "Sky" ) );
 	Default.append( "#002" );
@@ -105,6 +105,11 @@ ColorScheme::ColorScheme() : FileName() {
 	Name.append( i18n( "Angular Distance Ruler" ) );
 	Default.append( "#FFF" );
 
+	//Set the default colors in the Palette.
+	for( uint i=0; i<KeyName.count(); ++i ) {
+		setColor( KeyName[i], Default[i] );
+	}
+	
 	//Default values for integer variables:
 	StarColorMode = 0;
 	StarColorIntensity = 4;
@@ -135,7 +140,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 
 QString ColorScheme::colorNamed( const QString &name ) const {
 	//QString color( Palette[ name ] );
-	if ( Palette[ name ].isEmpty() ) {
+	if ( ! hasColorNamed( name ) ) {
 		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
 		//color = "#FFFFFF"; //set to white if no color found
 		return "#FFFFFF";

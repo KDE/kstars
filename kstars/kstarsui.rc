@@ -6,6 +6,8 @@
 		<Action name="new_window" />
 		<Action name="close_window" />
 		<Separator />
+		<Action name="get_data" />
+		<Separator />
 		<Action name="open_file" />
 		<Action name="export_image" />
 		<Action name="run_script" />

@@ -164,11 +164,23 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC popupMessage( int x, int y, const QString message );
 
 	/**DCOP interface function.  Draw a line on the sky. */
-		ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 );
+		ASYNC drawLine( int x1, int y1, int x2, int y2, int speed );
 
 	/**DCOP interface function.  Set the geographic location. */
 		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
 
+	/**DCOP interface function.  Set a color. */
+		ASYNC setColor( const QString colorName, const QString value );
+
+	/**DCOP interface function.  Load a color scheme. */
+		ASYNC loadColorScheme( const QString name );
+
+	/**DCOP interface function.  Export the sky image to a file. */
+		ASYNC exportImage( const QString filename );
+
+	/**DCOP interface function.  Print the sky image. */
+		ASYNC printImage( bool usePrintDialog, bool useChartColors );
+		
 	public slots:
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.
@@ -234,8 +246,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 		 * action slot: open KStars setup wizard
 		 */
-
 		void slotWizard();
+
+		/**
+		 * action slot: open KNewStuff window to download extra data.
+		 */
+		void slotDownload();
 
 		/**
 		 * action slot: open KStars calculator to compute astronomical

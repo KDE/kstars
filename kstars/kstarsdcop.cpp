@@ -17,7 +17,14 @@
 
 //KStars DCOP functions
 
+#include <qdir.h>
+
+#include <kio/netaccess.h>
+#include <kmessagebox.h>
+#include <kprinter.h>
 #include <kshortcut.h>
+#include <ktempfile.h>
+#include <kurl.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -277,3 +284,118 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 
 	map()->forceUpdate();
 }
+
+void KStars::setColor( const QString name, const QString value ) {
+	ColorScheme *cs = data()->colorScheme();
+	if ( cs->hasColorNamed( name ) ) {
+		cs->setColor( name, value );
+		map()->forceUpdate();
+	}
+}
+
+void KStars::loadColorScheme( const QString name ) {
+	//Try assuming arg was the filename
+	bool ok = data()->colorScheme()->load( name );
+
+	//If that didn't work, try assuming it was the color scheme namespace
+	//convert it to the filename exactly as ColorScheme::save() does
+	if ( ! ok ) {
+		QString filename = name.lower().stripWhiteSpace();
+		if ( !filename.isEmpty() ) {
+			for( unsigned int i=0; i<filename.length(); ++i)
+				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
+			
+			filename = filename.append( ".colors" );
+			ok = data()->colorScheme()->load( filename );
+		}
+		
+		if ( ! ok ) kdDebug() << i18n( "Unable to load color scheme named %1.  Also tried %2." ).arg( name ).arg( filename ); 
+	}
+	
+	if ( ok ) map()->forceUpdate();
+}
+
+void KStars::exportImage( const QString url ) {
+	//If the filename string contains no "/" separators, assume the 
+	//user wanted to place a file in their home directory.
+	KURL fileURL;
+	if ( ! url.contains( "/" ) ) fileURL = QDir::homeDirPath() + "/" + url;
+	else fileURL = url;
+
+	KTempFile tmpfile;
+	QString fname;
+	tmpfile.setAutoDelete(true);
+	QPixmap skyimage( map()->width(), map()->height() );
+
+	if ( fileURL.isValid() ) {
+		if ( fileURL.isLocalFile() ) {
+			fname = fileURL.path();
+		} else {
+			fname = tmpfile.name();
+		}
+
+		//Determine desired image format from filename extension
+		QString ext = fname.mid( fname.findRev(".")+1 );
+		const char* format = "PNG";
+		if ( ext.lower() == "png" ) { format = "PNG"; }
+		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
+		else if ( ext.lower() == "gif" ) { format = "GIF"; }
+		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
+		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
+		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
+
+		map()->exportSkyImage( &skyimage );
+		kapp->processEvents(10000);
+
+		if ( ! skyimage.save( fname, format ) ) kdDebug() << i18n( "Error: Unable to save image: %1 " ).arg( fname ) << endl;
+		else kdDebug() << i18n( "Image saved to file: %1" ).arg( fname ) << endl;
+
+		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
+			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
+				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+			}
+		}
+	}
+}
+
+void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
+	KPrinter printer( true, QPrinter::HighResolution );
+	printer.setFullPage( false );
+	
+	//Set up the printer (either with the Print Dialog, 
+	//or using the default settings)
+	bool ok( false );
+	if ( usePrintDialog )
+		ok = printer.setup( this, i18n("Print Sky") );
+	else 
+		ok = printer.autoConfigure();
+	
+	if( ok ) {
+		kapp->setOverrideCursor( waitCursor );
+
+		//Save current colorscheme and switch to Star Chart colors
+		//(if requested)
+		ColorScheme cs;
+		if ( useChartColors ) {
+			cs.copy( * data()->colorScheme() );
+			loadColorScheme( "chart.colors" );
+		}
+
+		map()->setMapGeometry();
+		map()->exportSkyImage( &printer );
+
+		//Restore old color scheme if necessary
+		//(if printing was aborted, the colorscheme is still restored)
+		if ( useChartColors ) {
+			data()->colorScheme()->copy( cs );
+			
+			// restore colormode in skymap
+			map()->setStarColorMode( cs.starColorMode() );
+			map()->forceUpdate();
+		}
+		
+		kapp->restoreOverrideCursor();
+	}
+}
+

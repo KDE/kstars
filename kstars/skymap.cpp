@@ -1268,16 +1268,4 @@ void SkyMap::addLink( void ) {
 	}
 }
 
-bool SkyMap::setColors( QString filename ) {
-	if ( data->colorScheme()->load( filename ) ) {
-		if ( starColorMode() != data->colorScheme()->starColorMode() )
-			setStarColorMode( data->colorScheme()->starColorMode() );
-
-		forceUpdate();
-		return true;
-	} else {
-		return false;
-	}
-}
-
 #include "skymap.moc"

@@ -52,6 +52,10 @@ class ColorScheme {
 		*/
 		~ColorScheme();
 
+	/**@return true if the Palette contains the given key name
+		*/
+		bool hasColorNamed( const QString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
+		
 	/**Retrieve a color by name.  
 		*@name the key name of the color to be retrieved.
 		*@return the requested color, or "#FFFFFF" (white) if color name not found. 

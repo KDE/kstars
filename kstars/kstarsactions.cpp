@@ -25,7 +25,6 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <kprinter.h>
 #include <ktempfile.h>
 #include <ktip.h>
 #include <kstandarddirs.h>
@@ -61,6 +60,7 @@
 #include "focusdialog.h"
 #include "fovdialog.h"
 #include "kswizard.h"
+#include "ksnewstuff.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
@@ -148,6 +148,12 @@ void KStars::slotWizard() {
 		data()->setSnapNextFocus();
 		updateTime();
 	}
+}
+
+void KStars::slotDownload() {
+//	KNS::DownloadDialog::open("kstars/data");
+	KSNewStuff kns( this );
+	kns.download();
 }
 
 void KStars::slotLCGenerator() {
@@ -373,41 +379,8 @@ void KStars::slotOpenFITS()
 
 void KStars::slotExportImage() {
 	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
-	KTempFile tmpfile;
-	QString fname;
-	tmpfile.setAutoDelete(true);
-	QPixmap skyimage( map()->width(), map()->height() );
-
-	if ( fileURL.isValid() ) {
-		if ( fileURL.isLocalFile() ) {
-			fname = fileURL.path();
-		} else {
-			fname = tmpfile.name();
-		}
-
-		//Determine desired image format from filename extension
-		QString ext = fname.mid( fname.findRev(".")+1 );
-		const char* format = "PNG";
-		if ( ext.lower() == "png" ) { format = "PNG"; }
-		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
-		else if ( ext.lower() == "gif" ) { format = "GIF"; }
-		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
-		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
-		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
-
-		map()->exportSkyImage( &skyimage );
-		kapp->processEvents(10000);
-
-		if ( ! skyimage.save( fname, format ) ) kdWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
-		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
-
-		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
-			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
-				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-			}
-		}
-	}
+	
+	exportImage( fileURL.url() );
 }
 
 void KStars::slotRunScript() {
@@ -515,45 +488,22 @@ void KStars::slotRunScript() {
 
 void KStars::slotPrint() {
 	bool switchColors(false);
-	// save current colorscheme using copy constructor
-	ColorScheme cs( * data()->colorScheme() );
 
-	KPrinter printer( true, QPrinter::HighResolution );
-
-//Suggest Chart color scheme
-	if ( cs.colorNamed( "SkyColor" ) != "#FFFFFF" ) {
-		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing?" );
+	//Suggest Chart color scheme
+	if ( data()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
+		QString message = i18n( "You can save printer ink by using the \"Star Chart\" "
+				"color scheme, which uses a white background. Would you like to "
+				"temporarily switch to the Star Chart color scheme for printing?" );
 
 		int answer;
 		answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
 			KStdGuiItem::yes(), KStdGuiItem::no(), "askAgainPrintColors" );
 
 		if ( answer == KMessageBox::Cancel ) return;
-
-		if ( answer == KMessageBox::Yes ) {
-			switchColors = true;
-			map()->setColors( "chart.colors" );
-		//	map()->forceUpdate( true );
-		}
+		if ( answer == KMessageBox::Yes ) switchColors = true;
 	}
 
-	printer.setFullPage( false );
-	if( printer.setup( this, i18n("Print Sky") ) ) {
-		kapp->setOverrideCursor( waitCursor );
-
-		map()->setMapGeometry();
-		map()->exportSkyImage( &printer );
-		kapp->restoreOverrideCursor();
-	}
-
-	// restore old color scheme if necessary
-	// if printing will aborted the colorscheme will restored too
-	if ( switchColors ) {
-		data()->colorScheme()->copy( cs );
-		// restore colormode in skymap
-		map()->setStarColorMode( cs.starColorMode() );
-		map()->forceUpdate();
-	}
+	printImage( true, switchColors );
 }
 
 //Set Time to CPU clock
@@ -733,7 +683,7 @@ void KStars::slotCoordSys() {
 void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
-	map()->setColors( filename );
+	loadColorScheme( filename );
 
 	//set the application colors for the Night Vision scheme
 	if ( Options::darkAppColors() == false && QString( sender()->name() ) == "cs_night" ) {

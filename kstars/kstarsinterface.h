@@ -137,7 +137,7 @@ class KStarsInterface : virtual public DCOPObject
 			*@param speed how fast the line should be drawn from the starting point to the 
 			*ending point.  A speed of 0 will draw the entire line instantly.
 			*/
-		virtual ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 ) = 0;
+		virtual ASYNC drawLine( int x1, int y1, int x2, int y2, int speed ) = 0;
 		
 		/**Set the Geographic location according to the given city name.
 			*@param city the name of the city
@@ -145,6 +145,28 @@ class KStarsInterface : virtual public DCOPObject
 			*@param country the name of the country
 			*/
 		virtual ASYNC setGeoLocation( const QString city, const QString province, const QString country ) = 0;
+		
+		/**Adjust one of the color settings.
+			*@param colorName The name of the color to change (see one of the *.colors files, or colorscheme.cpp)
+			*@param value The new color setting
+			*/
+		virtual ASYNC setColor( const QString colorName, const QString value ) = 0;
+		
+		/**Load a color scheme
+			*@param name The name of the color scheme to be loaded
+			*/
+		virtual ASYNC loadColorScheme( const QString name ) = 0;
+		
+		/**Export an image of the current sky to a file on disk.
+			*@param filename The filename for the exported image (the image type 
+			*will be determined from the fileame extension; if this is not possible, 
+			*it will save the image as a PNG)
+			*/
+		virtual ASYNC exportImage( const QString filename ) = 0;
+		
+		/**Print the current sky map.  Options to show the Print Dialog and to use Star Chart colors.
+			*/
+		virtual ASYNC printImage( bool usePrintDialog, bool useChartColors ) = 0;
 };
 
 #endif
