@@ -329,7 +329,7 @@ dms SkyObject::gstAtCeroUT (long double jd) {
 
 double SkyObject::approxHourAngle (dms h0, dms gLat, dms dec) {
 
-	double sh0 = - sin ( h0.radians() );
+	double sh0 = sin ( h0.radians() );
 	double r = (sh0 - sin( gLat.radians() ) * sin(dec.radians() ))
 		 / (cos( gLat.radians() ) * cos( dec.radians() ) );
 
@@ -347,12 +347,32 @@ bool SkyObject::checkCircumpolar(dms gLat) {
 }
 
 dms SkyObject::elevationCorrection(void) {
+
+	/** The atmospheric refraction at the horizon shifts altitude by
+	* - 34 arcmin = 0.5667 degrees. This value changes if the observer
+	* is above the horizon, or if the weather conditions change much.
+	*
+	* For the sun we have to add half the angular sie of the body, since
+	* the sunset is the time the upper limb of the sun disappears below
+	* the horizon, and dawn, when the upper part of the limb appears
+	* over the horizon. The angular size of the sun = angular size of the
+	* moon = 31' 59''.
+	*
+	* So for the sun the correction is = -34 - 16 = 50 arcmin = -0.8333
+	*
+	* This same correction should be applied to the moon however parallax
+	* is important here. Meeus states that the correction should be
+	* 0.7275 P - 34 arcmin, where P is the moon's horizontal parallax.
+	* He proposes a mean value of 0.125 degrees if no great accuracy
+	* is needed.
+	*/ 
+	
 	if ( name() == "Sun"  )
-		return dms(0.5667);
+		return dms(-0.8333);
 	else if ( name() == "Moon" )
 		return dms(0.125); // a rough approximation
 	else
-		return dms(0.8333);
+		return dms(-0.5667);
 }
 
 long double SkyObject::newJDfromJDandUT(long double jd, dms UT) {
