@@ -1,7 +1,6 @@
-<chapter id="aavso-lightcurves">
+<sect1 id="tool-aavso">
 
-<chapterinfo>
-
+<sect1info>
 <author>
 <firstname>Aaron</firstname>
 <surname>Price</surname>
@@ -9,11 +8,11 @@
 <email>aavso@aavso.org</email>
 </address></affiliation>
 </author>
-</chapterinfo>
+</sect1info>
 
 <title>AAVSO Light Curves</title>
 
-<sect1 id="aavso-intro">
+<sect2 id="aavso-intro">
 <title>Introduction</title>
 <para>
 &kstars; can display light curves for variable stars from the observing 
@@ -36,9 +35,9 @@ it at <ulink url="http://www.aavso.org/adata/onlinedata/">http://www.aavso.org/a
 Specific questions about the data in the light curves can be sent to 
 <email>aavso@aavso.org</email>. 
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="aavso-about">
+<sect2 id="aavso-about">
 <title>About Variable Stars</title>
 <para>
 <firstterm>Variable stars</firstterm> are stars that change in 
@@ -49,9 +48,9 @@ will behave in the future. Astronomers also use this data to model
 astrophysical processes in the star. This important to help us 
 understand how stars work.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="aavso-data">
+<sect2 id="aavso-data">
 <title>The Data</title>
 
 <para>
@@ -109,9 +108,9 @@ be expanded further back in time in the future.</para></listitem>
 
 </itemizedlist>
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="aavso-update">
+<sect2 id="aavso-update">
 <title>Updating your local copy of Variable Stars</title>
 <para>
 The <abbrev>AAVSO</abbrev> publishes the 
@@ -124,6 +123,12 @@ on the <guibutton>Update List</guibutton> button in the
 connect to the <abbrev>AAVSO</abbrev> database and download the 
 latest list.
 </para>
+<note>
+<para>
+The customized data stream provided by the AAVSO was implemented for 
+&kstars; by Aaron Price.  Thank you, Aaron!
+</para>
+</note>
+</sect2>
 </sect1>
-</chapter>
 
