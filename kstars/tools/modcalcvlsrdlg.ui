@@ -980,19 +980,19 @@
                             <cstring>kTextBrowser1</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;p&gt; The Local Standard of Rest (LSR) is the centroid of motion of the local group of stars in the neighbourhood of the sun. There are several coordinates for the solar apex. Here we use the radioastronomical position:&lt;/p&gt;
+                            <string>&lt;p&gt; The Local Standard of Rest (LSR) is the centroid of motion of the local group of stars in the neighborhood of the Sun. There are several coordinates for the solar apex. Here we use the radioastronomical position:&lt;/p&gt;
 &lt;li&gt;Ra= 18:03:50.2 (J2000)&lt;/li&gt;
 &lt;li&gt;Dec = 30:0:16.8 (J2000)&lt;/li&gt;
-&lt;p&gt;The sun moves away from this place with a velocity of 20.0 km/s.&lt;/p&gt;
-&lt;p&gt;Astronomical sources move relative to the Sun and their velocity can be decomposed in radial velocity, and velocity on the plane of the sky, also know as proper motion. The radial velocity is usually obtained by analyzing their spectral emission and the frequency shift of the lines due to Doppler effect. Observational astronomers usually refer the radial to the LSR.&lt;/p&gt;
-&lt;p&gt;This calculator module allows to obtain the radial velocity of the source referred to the center of the sun (helocentric velocity), referred to the center of the Earth (geocentric velocity) and to the observer site (topocentric velocity) from the LSR radial velocity&lt;/p&gt;
+&lt;p&gt;The Sun moves away from this location with a velocity of 20.0 km/s.&lt;/p&gt;
+&lt;p&gt;Astronomical sources move relative to the Sun and their velocity can be decomposed in radial velocity, and velocity on the plane of the sky; also know as proper motion. The radial velocity is usually obtained by analyzing their spectral emission and the frequency shift of the lines due to Doppler effect. Observational astronomers usually refer the radial to the LSR.&lt;/p&gt;
+&lt;p&gt;This calculator module allows you to obtain the radial velocity of the source referred to the center of the sun (heliocentric velocity), referred to the center of the Earth (geocentric velocity) and to the observer site (topocentric velocity) from the LSR radial velocity&lt;/p&gt;
 &lt;li&gt;The heliocentric velocity (V&lt;sub&gt;hel&lt;/sub&gt;) is computed by obtaining the scalar product of the radial velocity of the source referred to the LSR (V&lt;sub&gt;lsr&lt;/sub&gt;) with the velocity of the Sun referred to the LSR (V&lt;sub&gt;sun&lt;/sub&gt;:
 &lt;img src="vlsr1.png"&gt;
 &lt;/li&gt;
 &lt;li&gt;The geocentric velocity (V&lt;sub&gt;geo&lt;/sub&gt;) is obtained from the heliocentric velocity, the velocity of the Earth (V&lt;sub&gt;E&lt;/sub&gt;) and its position for a given date and time:
 &lt;img src="vlsr2.png"&gt;
 &lt;/li&gt;
-&lt;li&gt;The topocentric velocity is obtained from the  geocentric velocity, the position on the Earth, and the date and time at which we desire to know the radial velocity of the source.&lt;/li&gt;</string>
+&lt;li&gt;The topocentric velocity is obtained from the geocentric velocity, the position on the Earth, and the date and time at which we want to determine the radial velocity of the source.&lt;/li&gt;</string>
                         </property>
                     </widget>
                 </hbox>
