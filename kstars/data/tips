@@ -17,7 +17,7 @@ or the "globe" Toolbar button.
 <p>...that you can Track on an object, so it will always be centered
 in the display?<br>
 Use Ctrl+T, the "Focus|Track Object" menu item, or the "lock"
-Toolbar button.  You can also simply center the object by
+Toolbar button. You can also simply center the object by
 double-clicking on it or selecting "Center and Track" from the
 popup menu.
 </html>
@@ -86,7 +86,7 @@ and use the "Zoom In" and "Zoom Out" items in the "View" menu.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that you can set the Focus point manually?  Press Ctrl+M, or
+<p>...that you can set the Focus point manually? Press Ctrl+M, or
 use the "Focus|Set Focus Manually..." menu item, and enter the desired
 coordinates in the popup window.
 </html>
@@ -94,7 +94,7 @@ coordinates in the popup window.
 <tip category="KStars|Navigation">
 <html>
 <p>...that you can switch between Equatorial and Horizontal coordinate
-systems?  Use the "View|Coordinates" menu item, or the buttons
+systems? Use the "View|Coordinates" menu item, or the buttons
 in the KStars Configuration window.
 </html>
 </tip>
@@ -107,14 +107,14 @@ button.
 </tip>
 <tip category="KStars|Time">
 <html>
-<p>...that you can use Ctrl+E or the "Time|Set Time to Now" to synch
+<p>...that you can use Ctrl+E or the "Time|Set Time to Now" to synchronize
 the simulation clock with your CPU clock?
 </html>
 </tip>
 <tip category="KStars|Time">
 <html>
 <p>The Spin Box in the Toolbar allows you to adjust the time step
-used by the KStars clock.  Setting it to "1.0 sec" provides "real time".
+used by the KStars clock. Setting it to "1.0 sec" provides "real time".
 Negative values make time run backwards!
 </html>
 </tip>
@@ -139,7 +139,7 @@ while hotter stars are blue.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can add your own custom Object catalogs?  Select
+<p>...that you can add your own custom Object catalogs? Select
 "Add Catalog" from the Catalogs tab in the KStars Configuration window.
 See the Handbook for instructions on formatting your catalog file.
 </html>
@@ -147,7 +147,7 @@ See the Handbook for instructions on formatting your catalog file.
 <tip category="KStars|Customize">
 <html>
 <p>...that you can add your own custom image/information URLs to
-any object?  Select "Add Link..." from the popup menu.
+any object? Select "Add Link..." from the popup menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
@@ -165,7 +165,7 @@ Select your preferences in the "Settings|Infopanel" menu.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can hide the Toolbars?  Select your preferences
+<p>...that you can hide the Toolbars? Select your preferences
 in the "Settings|Toolbars" menu.
 </html>
 </tip>
@@ -177,31 +177,31 @@ the scheme from the "Settings|Color Schemes" menu.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can define your own Geographic Locations?  Fill in the
+<p>...that you can define your own Geographic Locations? Fill in the
 required fields in the "Change Location" Dialog and then press the
-"Add to List" button.  Your Locations will be available in all
+"Add to List" button. Your Locations will be available in all
 future sessions.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can define your own Color Schemes?  Adjust the colors
+<p>...that you can define your own Color Schemes? Adjust the colors
 in the Configuration Window's "Colors" Tab, and then press the "Save
-Current Colors" button.  Your Color Scheme will appear in the list in
+Current Colors" button. Your Color Scheme will appear in the list in
 all future sessions.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
 <p>The Advanced tab of the KStars Configuration window allows you to fine-tune
-the behavior of KStars.  You can specify whether to correct for atmospheric
-refraction, and whether to use animated slewing.  You can also specify which
+the behavior of KStars. You can specify whether to correct for atmospheric
+refraction, and whether to use animated slewing. You can also specify which
 objects are hidden while the display is in motion.
 </html>
 </tip>
 <tip category="KStars|Trivia">
 <html>
-<p>Kstars displays 40,000 stars, 13,000 deep-sky objects, 88 constellations,
+<p>KStars displays 40,000 stars, 13,000 deep-sky objects, 88 constellations,
 8 planets, the Sun, the Moon, and the Milky Way.
 </html>
 </tip>
