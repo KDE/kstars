@@ -1,16 +1,15 @@
 <chapter id="indi">
 <title>Telescope Control with <acronym>INDI</acronym></title>
 
-<para>KStars provides an interface to configure and control telescopes via
+<para>KStars provides an interface to configure and control astronomical instruments via
 the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
 
-<para>The <acronym>INDI</acronym> protocol is <emphasis>not</emphasis>
-restricted to telescopes but extends to a variety of astronomical devices
+<para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments
 such as CCD cameras and focusers. Currently, KStars supports the following
 devices:</para>
 
 <table id="device-table" pgwide="1" frame="all">
-<title>Supported devices</title>
+<title>Supported Telescopes</title>
 <tgroup cols="3" colsep="1" rowsep="1">
 <thead>
 <row>
@@ -45,12 +44,72 @@ devices:</para>
 <entry>Celestron GPS</entry>
 <entry>0.1</entry>
 </row>
+<row>
+<entry>Astro-Physics AP</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Astro-Electronic FS-2</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Losmandy Gemini</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Mel Bartels Controllers</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
 </tbody>
 </tgroup>
 </table>
 
+<table id="focuser-table" pgwide="1" frame="all">
+<title>Supported Focusers</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>Focuser</entry>
+<entry>Device driver</entry>
+<entry>Version</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Meade LX200GPS Microfocuser</entry>
+<entry>LX200 GPS</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Meade 1206 Primary Mirror Focuser</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>JMI NGF Series</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>JMI MOTOFOCUS</entry>
+<entry>LX200 Generic</entry>
+<entry>0.1</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<note>
+<title>Focuser connection</title>
+<para>The focusers must be connected to the focuser port in the LX200 GPS, Autostar, or Classic telescopes <emphasis>only</emphasis>.</para>
+</note>
+
 <para>
-KStars can control local and remote devices seemingly via the <link linkend="what-is-indi">INDI</link> server/client architecture. The local/server setup is used to control a local device (i.e. a device attached to your machine) and it is also used to establish a server that remote clients can connect to. A remote/client setup is used to connect a client to remote hosts running an INDI server.</para>
+KStars can control local and remote devices seemlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. The local/server setup is used to control a local device (i.e. a device attached to your machine) and it is also used to establish a server that remote clients can connect to. A remote/client setup is used to connect a client to remote hosts running an INDI server.</para>
 
 <para>Controlling your telescope with KStars requires few simple steps. It
 is <emphasis>vital</emphasis> to complete each step before moving to the
@@ -101,17 +160,11 @@ date by selecting <guimenuitem>Set Time...</guimenuitem> from the <guimenu>Time<
 pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker widget, coupled with three spinboxes for setting the hours, minutes and seconds. If you ever need to reset the clock back to the current time, just select <guimenuitem>Set Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
 </listitem>
 <listitem>
-<para>Determine your telescope model and the associated device driver from
-the <link linkend="device-table">supported devices</link> table.</para>
-</listitem>
-<listitem>
 <para>Click on the <guimenu>Devices</guimenu> menu and select the
 <guimenuitem>Device Manager</guimenuitem>.</para>
 </listitem>
 <listitem>
-<para>Under the <guilabel>Device</guilabel> column, select the device
-associated with your telescope (e.g. select LX200 Autostar if you have an
-LX-90 telescope).</para>
+<para>Under the <guilabel>Device</guilabel> column, select your telescope model.</para>
 </listitem>
 <listitem>
 <para> <mousebutton>Right</mousebutton>-click on the device and select
