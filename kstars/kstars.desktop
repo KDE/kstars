@@ -1,5 +1,6 @@
 # KDE Config File
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Exec=kstars -caption "%c" %i %m  
 Icon=kstars.png
