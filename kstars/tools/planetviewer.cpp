@@ -61,7 +61,8 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
 	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
 	pName[8] = "Pluto";   pColor[8] = "gray";
-
+	setCenterPlanet("");
+	
 	PCat.initialize();
 	ut = ((KStars*)parent)->data()->ut();
 	KSNumbers num( ut.djd() );
@@ -87,9 +88,6 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
 	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
 	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
-	
-	//start with clock paused
-//	tmr.start( 100 );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -134,9 +132,6 @@ void PlanetViewer::updatePlanets() {
 	//Check each planet to see if it needs to be updated
 	for ( unsigned int i=0; i<9; ++i ) {
 		if ( abs( int(ut.date().jd()) - LastUpdate[i] ) > UpdateInterval[i] ) {
-			//DEBUG
-			kdDebug() << "Updating " << pName[i] << endl;
-			
 			KSPlanetBase *p = PCat.findByName( pName[i] );
 			
 			//Call findPosition w/o Earth pointer to skip geocentric coords calculation
@@ -150,6 +145,15 @@ void PlanetViewer::updatePlanets() {
 			planet[i]->point(0)->setY( p->rsun()*s );
 			planetLabel[i]->point(0)->setX( p->rsun()*c );
 			planetLabel[i]->point(0)->setY( p->rsun()*s );
+			
+			if ( centerPlanet() == pName[i] ) {
+				double xc = (pw->map->x2() + pw->map->x())*0.5;
+				double yc = (pw->map->y2() + pw->map->y())*0.5;
+				double dx = planet[i]->point(0)->x() - xc;
+				double dy = planet[i]->point(0)->y() - yc;
+				pw->map->setLimits( pw->map->x() + dx, pw->map->x2() + dx, 
+						pw->map->y() + dy, pw->map->y2() + dy );
+			}
 			
 			LastUpdate[i] = int(ut.date().jd());
 			changed = true;
@@ -227,11 +231,12 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 	}
 }
 
-PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char *name ) :
-			KStarsPlotWidget( x1, x2, y1, y2, parent, name ), 
+PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par, const char *name ) :
+			KStarsPlotWidget( x1, x2, y1, y2, par, name ), 
 			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( QWidget::StrongFocus );
 	setMouseTracking (true);
+	pv = (PlanetViewer*)topLevelWidget();
 }
 
 PVPlotWidget::PVPlotWidget( QWidget *parent, const char *name ) :
@@ -239,6 +244,7 @@ PVPlotWidget::PVPlotWidget( QWidget *parent, const char *name ) :
 			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( QWidget::StrongFocus );
 	setMouseTracking (true);
+	pv = (PlanetViewer*)topLevelWidget();
 }
 
 PVPlotWidget::~ PVPlotWidget() {}
@@ -255,6 +261,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Key_Left:
 			if ( xc - xstep > -AUMAX ) {
 				setLimits( x() - xstep, x2() - xstep, y(), y2() );
+				pv->setCenterPlanet("");
 				update();
 			}
 			break;
@@ -262,6 +269,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Key_Right:
 			if ( xc + xstep < AUMAX ) { 
 				setLimits( x() + xstep, x2() + xstep, y(), y2() );
+				pv->setCenterPlanet("");
 				update();
 			}
 			break;
@@ -269,6 +277,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Key_Down:
 			if ( yc - ystep > -AUMAX ) {
 				setLimits( x(), x2(), y() - ystep, y2() - ystep );
+				pv->setCenterPlanet("");
 				update();
 			}
 			break;
@@ -276,6 +285,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Key_Up:
 			if ( yc + ystep < AUMAX ) {
 				setLimits( x(), x2(), y() + ystep, y2() + ystep );
+				pv->setCenterPlanet("");
 				update();
 			}
 			break;
@@ -292,6 +302,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Key_0: //Sun
 			setLimits( -dx, dx, -dy, dy );
+			pv->setCenterPlanet( "Sun" );
 			update();
 			break;
 		
@@ -299,6 +310,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(10)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Mercury" );
 			update();
 			break;
 		}
@@ -307,6 +319,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(12)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Venus" );
 			update();
 			break;
 		}
@@ -315,6 +328,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(14)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Earth" );
 			update();
 			break;
 		}
@@ -323,6 +337,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(16)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Mars" );
 			update();
 			break;
 		}
@@ -331,6 +346,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(18)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Jupiter" );
 			update();
 			break;
 		}
@@ -339,6 +355,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(20)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Saturn" );
 			update();
 			break;
 		}
@@ -347,6 +364,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(22)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Uranus" );
 			update();
 			break;
 		}
@@ -355,6 +373,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(24)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Neptune" );
 			update();
 			break;
 		}
@@ -363,6 +382,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		{
 			DPoint *p = object(26)->point(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
+			pv->setCenterPlanet( "Pluto" );
 			update();
 			break;
 		}
@@ -418,6 +438,17 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
 		setLimits( xc - 0.5*dataWidth(), xc + 0.5*dataWidth(), 
 				yc - 0.5*dataHeight(), yc + 0.5*dataHeight() );
 		update();
+	}
+
+	pv->setCenterPlanet( "" );
+	for ( unsigned int i=0; i<9; ++i ) {
+		double dx = ( pv->planetObject(i)->point(0)->x() - xc )/xscale;
+		if ( dx < 4.0 ) {
+			double dy = ( pv->planetObject(i)->point(0)->y() - yc )/yscale;
+			if ( sqrt( dx*dx + dy*dy ) < 4.0 ) {
+				pv->setCenterPlanet( pv->planetName(i) );
+			}
+		}
 	}
 }
 
