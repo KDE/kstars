@@ -27,7 +27,6 @@
 #include <qwidget.h>
 
 #include "kstarsinterface.h"
-#include "ksnewstuff.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -38,6 +37,7 @@ class KKey;
 class KToolBar;
 
 class dms;
+class KSNewStuff;
 class KStarsData;
 class KStarsSplash;
 class SkyMap;

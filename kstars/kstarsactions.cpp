@@ -73,7 +73,7 @@
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
-//#include "ksnewstuff.h"
+#include "ksnewstuff.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
