@@ -560,10 +560,12 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		setDestination( &newcenter );
 		setOldFocus( &newcenter );
 		ksw->zoom( Options::zoomFactor() * factor );
-
+		
+		setDefaultMouseCursor();
 		ZoomRect = QRect(); //invalidate ZoomRect
 		forceUpdate();
 	} else {
+		setDefaultMouseCursor();
 		ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
 	}
 
@@ -596,6 +598,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 	if ( (e->state() & ControlButton) && (e->button() == LeftButton) ) {
 		ZoomRect.moveCenter( e->pos() );
+		setZoomMouseCursor();
 		update(); //refresh without redrawing skymap
 		return;
 	}

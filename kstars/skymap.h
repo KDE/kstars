@@ -894,6 +894,10 @@ private:
 	*/
 	void setDefaultMouseCursor();
 
+/**@short Sets the shape of the mouse cursor to a magnifying glass.  
+	*/
+	void setZoomMouseCursor();
+
 /**Check if the current point on screen is a valid point on the sky. This is needed
 	*to avoid a crash of the program if the user clicks on a point outside the sky (the
 	*corners of the sky map at the lowest zoom level are the invalid points).  

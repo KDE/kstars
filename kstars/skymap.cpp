@@ -1190,9 +1190,44 @@ bool SkyMap::unusablePoint (double dx, double dy)
 		return false;
 }
 
+void SkyMap::setZoomMouseCursor()
+{
+	mouseMoveCursor = false;	// no mousemove cursor
+	
+	QPainter p;
+	QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
+// the center of the pixmap
+	int mx = cursorPix.	width() / 2;
+	int my = cursorPix.	height() / 2;
+
+	cursorPix.fill (white);  // white background
+	p.begin (&cursorPix);
+	p.setPen (QPen (black, 2));	// black lines
+
+	p.drawEllipse( mx - 7, my - 7, 14, 14 );
+	p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
+	p.end();
+
+// create a mask to make parts of the pixmap invisible
+	QBitmap mask (32, 32);
+	mask.fill (color0);	// all is invisible
+
+	p.begin (&mask);
+// paint over the parts which should be visible
+	p.setPen (QPen (color1, 3));
+	p.drawEllipse( mx - 7, my - 7, 14, 14 );
+	p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
+	p.end();
+	
+	cursorPix.setMask (mask);	// set the mask
+	QCursor cursor (cursorPix);
+	setCursor (cursor);
+}
+
 void SkyMap::setDefaultMouseCursor()
 {
 	mouseMoveCursor = false;	// no mousemove cursor
+	
 	QPainter p;
 	QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
 // the center of the pixmap
