@@ -381,7 +381,6 @@ void INDIDriver::IDevice::restart()
   proc = NULL;
 
 }
-<<<<<<< indidriver.cpp
 
 void INDIDriver::processHostStatus(int id)
 {
