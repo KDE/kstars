@@ -1,25 +1,20 @@
-KStars 1.0.x To-Do list:
-[updated April 2003]
+## KStars TODO list:  updated August 2003
+## Brackets indicate a developer who has expressed interest in this item.
+## Contact that developer before working on the item to avoid collisions.
+## announce interest in working on these on kstars-devel@lists.sourceforge.net
+## suggest new items at http://bugs.kde.org
 
 + Bug Fixes
-  - Audit object catalogs; verify/improve accuracy of data.
+  - Replace SAO star catalog with Hipparcos/Tycho catalog [Harris]
+
+  - Create UI files for dialogs:  Details[Harris], ...
+
+  - Separate "planets" from "comets/asteroids" in control of hidden objects
+    in Advanced Tab of Options window.
 
 + GUI Improvements
-  - What's Up Tonight Window: add option to show only evening/morning
-    also add an option to show only abjects brighter than some limit.
-
-  - AAVSO Lightcurve generator: better integration with KStars; for example,  
-    option to download lightcurve should appear in popup menu of variable 
-    stars.
-
-  - Generalized plot widget to be used for various tools (Alt vs Time, Solar
-    System Viewer, Jupiter moons, etc)
-
-  - Solar system viewer (a.k.a. "orrery", a rather unfortunate word)
-
-  - Tool to plot positions of Jupiter's moons as a function of time.
-
-  - Add "What's this" functionality (perhaps tied to AstroInfo).
+  - dmsBoxes could have slightly different backround or text color, to 
+    indicate that they are not normal edit boxes (?).
 
   - Should night vision mode change desktop colors? (bug 43595)
 
@@ -29,48 +24,67 @@ KStars 1.0.x To-Do list:
 
   - Add alternative projection schemes
 
+  - Add contour lines tracing the Magellanic Clouds and nebulae
+
+  - Zoom-dependent faint limit should apply to non-stellar objects as well.
+
++ Tools/Dialogs
+  - What's Up Tonight Window: add option to show only evening/morning
+    also add an option to show only abjects brighter than some limit.
+
+  - Manual Focus window: ability to specify epoch [Harris]
+
+  - Finish Solar system viewer (add labels to planets) [Harris]
+
+  - Add airmass to Details dialog [Harris]
+
+  - Add distance from Earth/Sun to Planet's Details window.
+
 + Add Functionality
-  - Add moons for planets other than Jupiter
+  - Add command-line option(s) to dump the sky image to a file without launching 
+    the GUI (useful for using KStars as dynamic background generator, and possibly 
+    as the basis for a screensaver/"live" desktop mode) [Harris; in progress]
 
-  - Indicate on the map whether stars are multiple or variable.
+  - Add transparent-overlay to skymap that can be updated at a different rate than
+    the underlying sky image (i.e., more rapidly).  Already sort-of use this for 
+    the infoboxes.  Also useful for other on-screen effects like the target symbols,
+    automatic, transient object IDs, display of cursor's coords right next to cursor, 
+    etc. [Harris]
 
-  - Allow ephemerides of planetary bodies to be updated from online
-    sources (e.g., JPL)
+  - Add "What's this" functionality (perhaps tied to AstroInfo). 
+
+  - Indicate on the map whether stars are multiple or variable [Harris]
+    (part of change to Tycho star catalog)
 
   - Ability to measure angular distance between objects (from the 
     popup menu, perhaps).
 
-  - Add contour lines tracing the Magellanic Clouds and other nebulae
+  - Finish DCOP functions [Harris]
 
-  - Add realistic sky-lighting effects?
+  - Ability to construct spreadsheet-like observing lists. [Mutlaq?]
 
-  - Add more catalogs?  
-
-  - Finish DCOP functions
-
-  - Ability to construct spreadsheet-like observing lists.
-
-  - add command-line option to dump the sky image to a file without launching GUI
-    (useful for using KStars as dynamic background generator, and possibly as the 
-    basis for a screensaver)
-
-+ Long-term wishlist:
++ Long-term/wishlist:
   - KStars: The Screensaver!  
     A "lite" version of KStars to be used as a screensaver. A few
     thousand stars plus the planets would not use much CPU. Could also
     optionally run in an accelerated-time mode in which the sky could
-    be seen to  rotate with respect to the horizon. Plus, you'd see
-    the Sun, moon and  planets drifting by, with the moon's phases
-    changing. Sounds pretty neat! Unfortunately, I have no screensaver
-    experience, and am having too much fun right now on regular KStars
-    to think much about this part. Someday, I'll do it (unless you
-    want to! :)  
+    be seen to  rotate with respect to the horizon.      want to! :)  
 
-  - OpenGL rendering of the sky
+  - OpenGL rendering of the sky; realistic sky-lighting effects.
+
+  - Add moons for planets other than Jupiter (long-term)
+
+  - Allow ephemerides of planetary bodies to be updated from online
+    sources (e.g., JPL)
+
+  - Implement our own Date/Time class that allows for very remote dates
 
 + Ever-present needs
   - Translations
+
   - Improve documentation
+
   - More AstroInfo articles
+
   - More internet links
 
