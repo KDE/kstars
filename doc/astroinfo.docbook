@@ -13,6 +13,7 @@ The articles sometimes also contain exercises that you can perform with
 &contents;     <!--AstroInfo: Table of Contents-->
 
 &skycoords;    <!--AstroInfo: Celestial Coordinate Systems-->
+&cequator;     <!--AstroInfo: Celestial Equator-->
 &cpoles;       <!--AstroInfo: Celestial Poles-->
 &csphere;      <!--AstroInfo: Celestial Sphere-->
 &ecliptic;     <!--AstroInfo: The Ecliptic-->
@@ -39,6 +40,7 @@ The articles sometimes also contain exercises that you can perform with
 &retrograde;   <!--AstroInfo: Retrograde Motion-->
 
 &ellipgal;     <!--Elliptical Galaxies-->
+&spiralgal;    <!--Spiral Galaxies-->
 &magnitude;    <!--AstroInfo: The Magnitude Scale-->
 &stars;        <!--AstroInfo: Stars: An Introductory FAQ-->
 &colorandtemp; <!--AstroInfo: Star Colors and Temperatures-->

@@ -136,7 +136,7 @@ clock, and the &kstars; clock is running to keep up with the real time.
 If you want to stop the clock, select <guimenuitem>Stop 
 Clock</guimenuitem> from the <guimenu>Time</guimenu> menu, or simply 
 click on the <guiicon>Pause</guiicon> icon in the toolbar.  You can 
-make the clock run slower or faster than normal, or even mak it run 
+make the clock run slower or faster than normal, or even make it run 
 backward, using the time-step spinbox in the toolbar.  This spinbox 
 has two sets of up/down buttons.  The first one will step through all 
 83 available time steps, one by one.  The second one will skip to the 
@@ -207,13 +207,12 @@ Zoom out until you can see a green curve; this represents your local
 <link linkend="ai-horizon">horizon</link>.  If you haven't adjusted 
 the default &kstars; configuration, the display will be solid green 
 below the horizon, representing the solid ground of the Earth.  There 
-is also a white curve, which represents the celestial equator 
-(an imaginary line which divides the sky into northern and southern 
-hemispheres).  There is also a tan curve, which represents the 
-<link linkend="ai-ecliptic">Ecliptic</link>, the path that the Sun 
-appears to follow across the sky over the course of a year.  The Sun 
-isalways found somewhere along the Ecliptic, and the planets are never
-far from it.
+is also a white curve, which represents the <link 
+linkend="ai-cequator">celestial equator</link>, and a tan curve, which 
+represents the <link linkend="ai-ecliptic">Ecliptic</link>, the path 
+that the Sun appears to follow across the sky over the course of a 
+year.  The Sun isalways found somewhere along the Ecliptic, and the 
+planets are never far from it.
 </para>
 </sect1>
 
@@ -262,7 +261,7 @@ The appearance of the popup menu depends somewhat on the kind of
 object you <mousebutton>right</mousebutton> click on, but the basic
 structure is listed below.  You can get 
 <link linkend="popup-menu">more detailed information about the popup 
-menu</link>
+menu</link>.
 </para>
 
 <para> 
@@ -274,10 +273,11 @@ set times.
 <para>
 The middle section contains items for performing actions on the object, 
 such as <guimenuitem>Center and Track</guimenuitem>, 
-<guimenuitem>Details...</guimenuitem> (which opens a window with more 
-detailed information about the object), <guimenuitem>Add 
-Label</guimenuitem>, and <guimenuitem>Add/Remove Trail</guimenuitem> 
-(Solar System only).
+<guimenuitem>Details...</guimenuitem> (which opens the object's 
+<link linkend="tool-details">Detailed Information Dialog</link>), 
+<guimenuitem>Add Label</guimenuitem>, and 
+<guimenuitem>Add/Remove Trail</guimenuitem> (only for Solar System 
+bodies).
 </para>
 <para>
 The bottom section contains links to images and/or informative webpages 

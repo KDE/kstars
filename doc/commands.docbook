@@ -109,8 +109,8 @@ PostScript/PDF file)
 <guimenu>Focus</guimenu>
 <guimenuitem>Zenith</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center at the Zenith point 
-(straight up)</para></listitem>
+<listitem><para>Center at the <link linkend="ai-zenith">Zenith</link> 
+point (straight up)</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -169,7 +169,8 @@ horizon</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>Find Object</guimenuitem>
 </menuchoice></term>
-<listitem><para>Locate an object by name</para></listitem>
+<listitem><para>Locate an object by name using the 
+<link linkend="findobjects">Find Object Window</link></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -242,8 +243,10 @@ coordinates to center on.</para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Horizontal/Equatorial Coordinates</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle between the Horizontal and Equatorial Coordinate 
-Systems</para></listitem>
+<listitem><para>Toggle between the 
+<link linkend="horizontal">Horizontal</link> and 
+<link linkend="equatorial">Equatorial</link> 
+<link linkend="ai-skycoords">Coordinate Systems</link></para></listitem>
 </varlistentry>
 </variablelist>
 </sect2>
@@ -370,6 +373,9 @@ options</link></para></listitem>
 <variablelist>
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Calculator...</guimenuitem>
 </menuchoice></term>
@@ -384,6 +390,9 @@ provides full access to many of the mathematical functions used by
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>AAVSO Light Curves...</guimenuitem>
 </menuchoice></term>
@@ -398,6 +407,9 @@ star from the American Association of Variable Star Observers.
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Altitude vs. Time...</guimenuitem>
 </menuchoice></term>
@@ -413,6 +425,9 @@ sessions.
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>What's Up Tonight...</guimenuitem>
 </menuchoice></term>
@@ -585,8 +600,8 @@ key doubles the scrolling speed.
 </para></listitem></varlistentry>
 
 <varlistentry><term><keycap>Z</keycap></term>
-<listitem><para>Center on the Zenith Point (straight
- up).</para></listitem></varlistentry>
+<listitem><para>Center on the <link linkend="ai-zenith">Zenith</link> 
+Point (straight up).</para></listitem></varlistentry>
 
 <varlistentry><term><keycap>N</keycap></term>
 <listitem><para>Center above North horizon.</para></listitem></varlistentry>
@@ -639,6 +654,10 @@ on.</para></listitem></varlistentry>
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
 </term>
 <listitem><para>Open the variable-star lightcurve tool.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+</term>
+<listitem><para>Open the what's up tonight tool</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </term>

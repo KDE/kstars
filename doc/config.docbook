@@ -60,8 +60,8 @@ of the planet trail fades into the background sky color.
 <para>
 The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects 
 are displayed (&ie;, constellation lines, constellation names, the 
-Milky Way contour, the celestial equator, 
-<link linkend="ai-ecliptic">the ecliptic</link>, <link 
+Milky Way contour, the <link linkend="ai-cequator">celestial 
+equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link 
 linkend="ai-horizon">the horizon line</link>, and the opaque ground).  
 You can also choose whether you would like to see Latin constellation 
 names, <acronym>IAU</acronym>-standard three-letter abbreviations, or 

@@ -1,4 +1,4 @@
-<chapter id="ai-dcop">
+<chapter id="dcop">
 <title>Scripting KStars: The DCOP Interface</title>
 <para>
 One of the goals of &kstars; is to provide the ability to playback 

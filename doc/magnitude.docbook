@@ -56,9 +56,9 @@ magnitude is defined as the apparent magnitude the star would have if
 observed from a distance of 10 parsecs (1 parsec is 3.26 light-years,
 or 3.1 x 10^18 cm).  The absolute magnitude (M) can be determined
 from the apparent magnitude (m) and the distance in parsecs (d)
-using the formula (note that M=m when d=10):
+using the formula:
 </para><para>
-M = m + 5 - 5 * log  d
+M = m + 5 - 5 * log(d)   (note that M=m when d=10).
 </para><para>
 The modern magnitude scale is no longer based on the
 human eye; it is based on photographic plates and photoelectric
