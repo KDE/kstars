@@ -51,12 +51,12 @@ eltsCanvas::~eltsCanvas(){
 
 void eltsCanvas::initVars(void) {
 
-	xnticks = 24, ynticks = 9;
-	xmticks = 6, ymticks = 5;
+	xnticks = 24, ynticks = 18;
+	xmticks = 6, ymticks = 6;
 
-	// xmin, xmax = Minimum and maximum X values = 0 24x60 (mnutes)
-	// ymin, ymax = Minimum and maximum Y values = 0 90x60  (arcmin)
-	xmin = 0, xmax = 1440, ymin = 0, ymax = 5400;
+	// xmin, xmax = Minimum and maximum X values = 360   24x60/4   (4 minutes/pix)
+	// ymin, ymax = Minimum and maximum Y values = 180            (1 degree/pix)
+	xmin = 0, xmax = 360, ymin = 0, ymax = 180;
 
 	xwidth = xmax-xmin;
 	ywidth = ymax-ymin;
@@ -66,11 +66,11 @@ void eltsCanvas::initVars(void) {
 	xticksep = (int)(xwidth/xnticks);
 	xmticksep = (int)(xwidth/xmticks);
 	yticksep = (int)(ywidth/ynticks);
-	ymticksep = 20*60;
+	ymticksep = (int)(ywidth/ymticks);
 
-	yticksize =   ywidth/200;
-	xticksize =   xwidth/20;
-	xmticksize =  xwidth /10;
+	yticksize =   ywidth/50;
+	xticksize =   xwidth/50;
+	xmticksize =  xwidth /20;
 }
 
 void eltsCanvas::paintEvent( QPaintEvent * ) {
@@ -79,6 +79,7 @@ void eltsCanvas::paintEvent( QPaintEvent * ) {
 	QPainter paint;
 	paint.begin(this);
 	paint.setPen( white );
+	paint.setFont( el->font() );
 	drawGrid( &paint );
 	paint.setPen( red );
 	if (el->newsource)
@@ -101,71 +102,61 @@ int eltsCanvas::UtMinutes(void) {
 void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 
 	int lst_minutes = UtMinutes();
-
-	pcanvas->setWindow(-100,-100,1600,1600);
-	// pcanvas->setWindow(xmin-xwidth/10,ymin-ywidth/10,
-	//		  xwidth*1.1,ywidth*1.1);
-	pcanvas->translate(0,1350);
-	pcanvas->scale(1,-0.25);
-	//pcanvas->drawRect(0,0,1440,5400);
-	pcanvas->drawRect(xmin,ymin,xwidth,ywidth);
-
+	pcanvas->translate(40, 40);
+	
 	int xt = 0, ix = 1;
 	int yt = 0, iy = 1;
 	
-	// Lower X minor ticks:
+	//Ground indicator
+	pcanvas->setPen( "#002200" );
+	pcanvas->fillRect( xmin, ymin+ywidth/2, xmax, ywidth/2, QBrush( "#002200" ) );
+	
+	// X grid and labels
+	for (ix=1;ix<xmticks;ix++) {
+		xt = xmin+xmticksep*ix;
+		pcanvas->setPen( "#555555" );
+		pcanvas->drawLine(xt,ymin, xt,ymax);
+		
+		int h = int(xt/15);
+		QString s;
+		if ( h<10 ) {
+			s = QString("0%1:00").arg(h);
+		} else {
+			s = QString("%1:00").arg(h);
+		}
+		
+		pcanvas->setPen( "white" );
+		pcanvas->drawText(xt-2*xticksize-2, ymax+xmticksize, s);
+	}
+
+	// Y grid and labels:
+	for (iy=1;iy<ymticks;iy++) {
+		yt = ymin+ymticksep*iy;
+		pcanvas->setPen( "#555555" );
+		pcanvas->drawLine(xmin,yt, xmax,yt);
+		pcanvas->setPen( "white" );
+		int d = int(ymax - yt)-90;
+		int dx = 3*xticksize;
+		if ( d == 0 ) dx = 2*xticksize;
+		if ( d <  0 ) dx = 4*xticksize;
+		pcanvas->drawText(xmin-dx, yt+xticksize, QString("%1").arg(d) );
+	}
+
+	// X minor ticks:
 	for (ix=1;ix<xnticks;ix++) {
 		xt = xmin+xticksep*ix;
 		pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
+		pcanvas->drawLine(xt,ymax, xt,ymax-xticksize);
 	}
 	
-	// Major ticks and labels
-	for (ix=1;ix<xmticks;ix++) {
-		xt = xmin+xmticksep*ix;
-		pcanvas->drawLine(xt,ymin, xt,ymax);
-		pcanvas->drawText(xt,ymin+xmticksize,"60");
-		pcanvas->drawText(xt,ymin+xmticksize,QString("%1").arg( int(xt/60)));
-	}
-
-	// Upper X ticks and labels:
-	// Minor ticks
-
-	for (int i = 0; i<2 ; i++) {
-		pcanvas->save();
-		pcanvas->translate(i*1440-lst_minutes, 0);
-		for (ix=1;ix<xnticks;ix++) {
-			xt = xmin+xticksep*ix;
-//			if( xt > xmin && xt < xmax )
-				pcanvas->drawLine(xt,ymax, xt,ymax-xticksize);
-		}
-		
-		// Major ticks and labels
-
-		for (ix=0;ix<xmticks;ix++) {
-			xt = xmin+xmticksep*ix;
-//			if( xt > xmin && xt < xmax ) {
-				pcanvas->drawLine(xt,ymax, xt,ymax-xmticksize);
-				pcanvas->drawText(xt,ymax+ xmticksize,
-						QString("%1").arg( int(xt/60)));
-//			}
-		}
-
-		pcanvas->restore();
-	}
-
-	// Right Y ticks and labels:
+	// Y minor ticks:
 	for (iy=1;iy<ynticks;iy++) {
 		yt = ymin+yticksep*iy;
 		pcanvas->drawLine(xmin,yt, xmin+yticksize,yt);
+		pcanvas->drawLine(xmax,yt, xmax-yticksize,yt);
 	}
 
-	// Right Y grid and labels:
-	for (iy=1;iy<ymticks;iy++) {
-		yt = ymin+ymticksep*iy;
-		pcanvas->drawLine(xmin,yt, xmax,yt);
-		pcanvas->drawText(xmin-xmticksize,yt, QString("%1").arg( int(yt/60)));
-	}
-
+	pcanvas->drawRect(xmin,ymin,xwidth+1,ywidth+1); //need +1 to avoid tick sticking out beyond box
 }
 
 dms eltsCanvas::DateTimetoLST (QDateTime date, int ut, dms longitude)
@@ -216,13 +207,14 @@ void eltsCanvas::drawSource(QPainter * pcanvas) {
 	for (int i=1;i<=24*4;i++) {
 		utm = i*15;
 		elevation = getEl(utm);
-		if(elevationPrev >= 0 && elevation >= 0) 
-			pcanvas->drawLine(utmPrev,elevationPrev, utm,elevation);		else if (elevationPrev <0 && elevation > 0) 
-			pcanvas->drawLine(Interpol(utmPrev,utm,
-				elevationPrev,elevation),0,utm,elevation);
-		else if (elevationPrev >0 && elevation < 0)
-			pcanvas->drawLine(utmPrev,elevationPrev,
-				Interpol(utmPrev,utm,elevationPrev,elevation),0);
+		//if(elevationPrev >= 0 && elevation >= 0) 
+			pcanvas->drawLine(utmPrev/4,(5400-elevationPrev)/60, utm/4,(5400-elevation)/60);
+		//else if (elevationPrev <0 && elevation > 0) 
+		//	pcanvas->drawLine(Interpol(utmPrev,utm,
+		//		elevationPrev,elevation)/4,0,utm/4,(5400-elevation)/60);
+		//else if (elevationPrev >0 && elevation < 0)
+		//	pcanvas->drawLine(utmPrev/4,(5400-elevationPrev)/60,
+		//		Interpol(utmPrev,utm,elevationPrev,elevation)/4,0);
 		utmPrev=utm;
 		elevationPrev=elevation;
 	}

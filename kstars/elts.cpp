@@ -34,75 +34,88 @@
 #include <qpixmap.h>
 #include "ksutils.h"
 #include "kstars.h"
+#include "finddialog.h"
+#include "locationdialog.h"
+#include "geolocation.h"
 
-
-elts::elts( QWidget* parent)  : KDialogBase( parent, "elts", false, i18n("Elevation vs. Time"), Close)
+elts::elts( QWidget* parent)  : 
+	KDialogBase( KDialogBase::Plain, i18n( "Elevation vs. Time" ), Close, Close, parent ) 
 {
 
 	ks = (KStars*) parent;
 
-	QWidget *page = new QWidget( this );
+	QFrame *page = plainPage();
+	
 	setMainWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-	eltsTotalBox = new QGroupBox( this, "eltsBox" );
-	eltsTotalBox->setMinimumWidth( 580 );
-	eltsTotalBox->setMinimumHeight( 510 );
-	eltsTotalBox->setTitle( i18n( "Elevation vs. Time" ) );
+//	eltsTotalBox = new QGroupBox( this, "eltsBox" );
+//	eltsTotalBox->setMinimumWidth( 580 );
+//	eltsTotalBox->setMinimumHeight( 510 );
+//	eltsTotalBox->setTitle( i18n( "Elevation vs. Time" ) );
+//
+//	eltsTotalBoxLayout = new QVBoxLayout( eltsTotalBox );
+//	eltsTotalBoxLayout->setSpacing( 6 );
+//	eltsTotalBoxLayout->setMargin( 11 );
 
-	eltsTotalBoxLayout = new QVBoxLayout( eltsTotalBox );
-	eltsTotalBoxLayout->setSpacing( 6 );
-	eltsTotalBoxLayout->setMargin( 11 );
+	eltsView = new eltsCanvas( page );
 
-	eltsView = new eltsCanvas( eltsTotalBox);
-	eltsView->setFixedSize( 560, 360 );
+	// each pixel 4 minutes x 30 arcmin 
+	// Total size is X: 24x60 = 1440; 1440/4 = 360 + 2*40 (padding) = 440
+	//            is Y: 180 + 2*40 (padding) = 260
+	eltsView->setFixedSize( 440, 260 );
 
-	// each pixel 3 minutes x 0.25 deg = 3 minutes (time) x 15 arc minutes
-	// Total size is X: 24x60 = 1440; 1440/ 3 = 480
-	//            is Y: 90x60 = 5400; 5400/15 = 360
-
-	ctlTabs = new QTabWidget( eltsTotalBox, "DisplayTabs" );
-	ctlTabs->move( 10, 24 );
-	ctlTabs->setMinimumSize( 560, 110 );
+	ctlTabs = new QTabWidget( page, "DisplayTabs" );
+//	ctlTabs->move( 10, 24 );
+//	ctlTabs->setMinimumSize( 560, 110 );
 
 
 	/** Tab for adding individual sources and clearing the plot */
 	/** 1st Tab **/
 
 	sourceTab = new QWidget( ctlTabs );
-	sourceLayout = new QVBoxLayout( sourceTab, 0, 6);
+	sourceLayout = new QVBoxLayout( sourceTab, 0, 6 );
 
-	coordLayout = new QHBoxLayout( 0, 2, 9);
+	nameLayout = new QHBoxLayout( 0, 2, 9 );
+	coordLayout = new QHBoxLayout( 0, 2, 9 );
 
 	nameLabel = new QLabel( sourceTab );
 	nameLabel->setText( i18n( "Name:" ) );
-	coordLayout->addWidget( nameLabel );
-
+	
 	nameBox = new QLineEdit( sourceTab);
-	coordLayout->addWidget( nameBox );
+	
+	browseButton = new QPushButton( sourceTab );
+	browseButton->setText( i18n( "Browse" ) );
+	
+	nameLayout->addWidget( nameLabel );
+	nameLayout->addWidget( nameBox );
+	nameLayout->addSpacing( 12 );
+	nameLayout->addWidget( browseButton );
+	
 
 	raLabel = new QLabel( sourceTab );
-	raLabel->setText( i18n( "Ra:" ) );
-	coordLayout->addWidget( raLabel );
-
+	raLabel->setText( i18n( "RA:" ) );
+	
 	raBox = new dmsBox( sourceTab , "raBox", FALSE);
-	coordLayout->addWidget( raBox );
 
 	decLabel = new QLabel( sourceTab );
 	decLabel->setText( i18n( "Dec:" ) );
-	coordLayout->addWidget( decLabel );
 
 	decBox = new dmsBox( sourceTab );
-	coordLayout->addWidget( decBox );
 
 	epochLabel = new QLabel( sourceTab );
 	epochLabel->setText( i18n( "Epoch:" ) );
-	coordLayout->addWidget( epochLabel );
 
 	epochName = new QLineEdit( sourceTab );
 	epochName->setMaximumSize( QSize( 60, 32767 ) );
-	coordLayout->addWidget( epochName );
 
+	coordLayout->addWidget( raLabel );
+	coordLayout->addWidget( raBox );
+	coordLayout->addWidget( decLabel );
+	coordLayout->addWidget( decBox );
+	coordLayout->addWidget( epochLabel );
+	coordLayout->addWidget( epochName );
+	
 	/** Buttons Layout */
 
 	clearAddLayout = new QHBoxLayout( 0, 0, 6);
@@ -111,19 +124,20 @@ elts::elts( QWidget* parent)  : KDialogBase( parent, "elts", false, i18n("Elevat
 	clearButton->setMinimumSize( QSize( 80, 0 ) );
 	clearButton->setText( i18n( "Clear all" ) );
 
-	QSpacerItem* spacer = new QSpacerItem( 330, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	QSpacerItem* spacer = new QSpacerItem( 10, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
 	addButton = new QPushButton( sourceTab );
 	addButton->setMinimumSize( QSize( 80, 0 ) );
 	addButton->setText( i18n( "Add" ) );
 
-	clearAddLayout->addWidget( clearButton );
 	clearAddLayout->addItem( spacer );
+	clearAddLayout->addWidget( clearButton );
 	clearAddLayout->addWidget( addButton );
 
 	/** Closing all layouts for Tab source*/
 
-	sourceLayout->addSpacing( 10 );
+//	sourceLayout->addSpacing( 10 );
+	sourceLayout->addLayout( nameLayout );
 	sourceLayout->addLayout( coordLayout );
 	sourceLayout->addLayout( clearAddLayout );
 
@@ -161,12 +175,17 @@ elts::elts( QWidget* parent)  : KDialogBase( parent, "elts", false, i18n("Elevat
 	/* Layout for the button part */
 
 	updateLayout = new QHBoxLayout( 0, 0, 6); 
-	QSpacerItem* spacer_2 = new QSpacerItem( 441, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	updateLayout->addItem( spacer_2 );
+	QSpacerItem* spacer_2 = new QSpacerItem( 10, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
-	updateButton = new QPushButton( dateTab);
-	updateButton->setMinimumSize( QSize( 80, 0 ) );
+	cityButton = new QPushButton( dateTab );
+	cityButton->setText( i18n( "Choose City..." ) );
+	
+	updateButton = new QPushButton( dateTab );
+//	updateButton->setMinimumSize( QSize( 80, 0 ) );
 	updateButton->setText( i18n( "Update" ) );
+	
+	updateLayout->addItem( spacer_2 );
+	updateLayout->addWidget( cityButton );
 	updateLayout->addWidget( updateButton );
 	
 	/** Closing layouts the date/location tab */
@@ -174,20 +193,22 @@ elts::elts( QWidget* parent)  : KDialogBase( parent, "elts", false, i18n("Elevat
 	dateLocationLayout->addLayout( longLatLayout );
 	dateLocationLayout->addLayout( updateLayout );
 
-	ctlTabs->insertTab( dateTab, i18n( "Date & Location" ) );
+	ctlTabs->insertTab( dateTab, i18n( "Date && Location" ) );
 
-	eltsTotalBoxLayout->addSpacing( 10 );
-	eltsTotalBoxLayout->addWidget( eltsView );
-	eltsTotalBoxLayout->addWidget( ctlTabs );
+//	eltsTotalBoxLayout->addSpacing( 10 );
+	topLayout->addWidget( eltsView );
+	topLayout->addWidget( ctlTabs );
 
 	showCurrentDate();
 	//initGeo();
 	showLongLat();
 //	initVars();
 
-	connect( updateButton, SIGNAL(clicked() ), this, SLOT( slotUpdateDateLoc() ) ) ;
-	connect( clearButton, SIGNAL(clicked() ), this, SLOT( slotClear() ) ) ;
-	connect( addButton, SIGNAL(clicked() ), this, SLOT( slotAddSource() ) ) ;
+	connect( browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
+	connect( cityButton, SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
+	connect( updateButton, SIGNAL(clicked() ), this, SLOT( slotUpdateDateLoc() ) );
+	connect( clearButton, SIGNAL(clicked() ), this, SLOT( slotClear() ) );
+	connect( addButton, SIGNAL(clicked() ), this, SLOT( slotAddSource() ) );
 }
 
 
@@ -199,10 +220,10 @@ elts::~elts()
     // no need to delete child widgets, Qt does it all for us
 }
 
-QSize elts::sizeHint() const
-{
-	  return QSize(580,560);
-}
+//QSize elts::sizeHint() const
+//{
+//	  return QSize(580,560);
+//}
 
 void elts::slotAddSource(void) {
 	
@@ -219,6 +240,28 @@ void elts::slotClear(void) {
 
 void elts::slotUpdateDateLoc(void) {
 	eltsView->repaint();
+}
+
+void elts::slotBrowseObject(void) {
+	FindDialog fd(ks);
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *obj = fd.currentItem()->objName()->skyObject();
+		raBox->showInHours( obj->ra() );
+		decBox->showInDegrees( obj->dec() );
+		nameBox->setText( obj->translatedName() );
+	} 
+}
+
+void elts::slotChooseCity(void) {
+	LocationDialog ld(ks);
+	if ( ld.exec() == QDialog::Accepted ) {
+		int ii = ld.getCityIndex();
+		if ( ii >= 0 ) {
+			GeoLocation *geo = ks->data()->geoList.at(ii);
+			latBox->showInDegrees( geo->lat() );
+			longBox->showInDegrees( geo->lng() );
+		}
+	}
 }
 
 SkyPoint elts::getEquCoords (void)

@@ -58,6 +58,7 @@ class KStandardDirs;
 class FileSource;
 class StarDataSink;
 class QDataPump;
+class elts;
 
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
@@ -81,8 +82,8 @@ public:
 	friend class FileSource;
 	friend class StarDataSink;
 	friend class LCGenerator;
-   friend class DetailDialog;
-   
+	friend class DetailDialog;
+	friend class elts;   
 	
 	/**Constructor. */
 	KStarsData( KStars *ks );

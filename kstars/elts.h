@@ -62,7 +62,7 @@ public:
 	void initGeo(void);
 	void showLongLat(void);
 //	int UtMinutes(void);
-	QSize sizeHint() const;
+//	QSize sizeHint() const;
 	SkyPoint appCoords();
 	long double computeJdFromCalendar (void);
 	double getEpoch (QString eName);
@@ -75,6 +75,8 @@ public slots:
 	void slotUpdateDateLoc(void);
 	void slotClear(void);
 	void slotAddSource(void);
+	void slotBrowseObject(void);
+	void slotChooseCity(void);
 
 private:	
 	// xnticks, ynticks = number of minor ticks of X and Y axis
@@ -100,12 +102,12 @@ private:
 	QLineEdit *nameBox, *epochName;
 	QDateEdit *dateBox;
 	dmsBox *latBox, *longBox, *raBox, *decBox;
-	QPushButton *clearButton, *addButton, *updateButton;
+	QPushButton *browseButton, *cityButton, *clearButton, *addButton, *updateButton;
 	eltsCanvas *eltsView;
 //	QWidget *eltsView;
 
 	QVBoxLayout *sourceLayout, *dateLocationLayout, *eltsTotalBoxLayout;
-	QHBoxLayout *coordLayout, *clearAddLayout, *longLatLayout, 
+	QHBoxLayout *nameLayout, *coordLayout, *clearAddLayout, *longLatLayout, 
 		*updateLayout;
 	GeoLocation *geoPlace;
 	KStars *ks;
