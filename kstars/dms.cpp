@@ -24,26 +24,26 @@
 #include "dms.h"
 
 //DMS_SPEED
-void dms::setD( double x ) {
+void dms::setD( const double &x ) {
 	D = x;
 	scDirty = true;
 	rDirty = true;
 }
 
 //DMS_SPEED
-void dms::setD(int d, int m, int s, int ms) {
+void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
 	D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
 	if (d<0) {D = -1.0*D;}
 	scDirty = true;
 	rDirty = true;
 }
 
-void dms::setH( double x ) {
+void dms::setH( const double &x ) {
   setD( x*15.0 );
 }
 
 //DMS_SPEED
-void dms::setH(int h, int m, int s, int ms) {
+void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
   D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
   if (h<0) {D = -1.0*D;}
 	scDirty = true;
@@ -51,14 +51,12 @@ void dms::setH(int h, int m, int s, int ms) {
 }
 
 //DMS_SPEED
-void dms::setRadians( double Rad ) {
+void dms::setRadians( const double &Rad ) {
 	setD( Rad/DegToRad );
 	Radians = Rad;
-	rDirty = false;
-	scDirty = true;
 }
 
-int dms::arcmin( void ) const {
+const int dms::arcmin( void ) const {
 	int am = int( 60.0*( fabs(D) - abs( degree() ) ) );
 	if ( D<0.0 && D>-1.0 ) { //angle less than zero, but greater than -1.0
 		am = -1*am; //make minute negative
@@ -66,7 +64,7 @@ int dms::arcmin( void ) const {
 	return am;
 }
 
-int dms::arcsec( void ) const {
+const int dms::arcsec( void ) const {
 	int as = int( 60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) );
 	//If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
 	if ( degree()==0 && arcmin()==0 && D<0.0 ) {
@@ -75,7 +73,7 @@ int dms::arcsec( void ) const {
 	return as;
 }
 
-int dms::marcsec( void ) const {
+const int dms::marcsec( void ) const {
 	int as = int( 1000.0*(60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) - abs( arcsec() ) ) );
 	//If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
 	if ( degree()==0 && arcmin()==0 && arcsec()== 0 && D<0.0 ) {
@@ -84,7 +82,7 @@ int dms::marcsec( void ) const {
 	return as;
 }
 
-int dms::minute( void ) const {
+const int dms::minute( void ) const {
 	int hm = int( 60.0*( fabs( Hours() ) - abs( hour() ) ) );
 	if ( Hours()<0.0 && Hours()>-1.0 ) { //angle less than zero, but greater than -1.0
 		hm = -1*hm; //make minute negative
@@ -92,7 +90,7 @@ int dms::minute( void ) const {
 	return hm;
 }
 
-int dms::second( void ) const {
+const int dms::second( void ) const {
 	int hs = int( 60.0*( 60.0*( fabs( Hours() ) - abs( hour() ) ) - abs( minute() ) ) );
 	if ( hour()==0 && minute()==0 && Hours()<0.0 ) {
 		hs = -1*hs;
@@ -100,7 +98,7 @@ int dms::second( void ) const {
 	return hs;
 }
 
-int dms::msecond( void ) const {
+const int dms::msecond( void ) const {
 	int hs = int( 1000.0*(60.0*( 60.0*( fabs( Hours() ) - abs( hour() ) ) - abs( minute() ) ) - abs( second() ) ) );
 	if ( hour()==0 && minute()==0 && second()==0 && Hours()<0.0 ) {
 		hs = -1*hs;
@@ -138,7 +136,7 @@ void dms::SinCos( double &sina, double &cosa ) const {
 }
 
 //SPEED_DMS
-double dms::radians( void ) const {
+const double& dms::radians( void ) const {
 	if ( rDirty ) {
 		Radians = D*DegToRad;
 		rDirty = false;
@@ -147,14 +145,14 @@ double dms::radians( void ) const {
 	return Radians;
 }
 
-dms dms::reduce( void ) const {
+const dms dms::reduce( void ) const {
 	double a = D;
 	while (a<0.0) {a += 360.0;}
 	while (a>=360.0) {a -= 360.0;}
 	return dms( a );
 }
 
-QString dms::toDMSString(bool forceSign) const {
+const QString dms::toDMSString(bool forceSign) const {
 	QString dummy;
 	char pm(' ');
 	int dd = abs(degree());
@@ -171,7 +169,7 @@ QString dms::toDMSString(bool forceSign) const {
 	return dummy.sprintf(format.local8Bit(), pm, dd, 176, dm, ds);
 }
 
-QString dms::toHMSString() const {
+const QString dms::toHMSString() const {
 	QString dummy;
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }

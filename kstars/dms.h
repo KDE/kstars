@@ -50,14 +50,14 @@ public:
 	*@param s arcsecond portion of angle (int).  Defaults to zero.
 	*@param ms arcsecond portion of angle (int).  Defaults to zero.
 	*/
-	dms( int d=0, int m=0, int s=0, int ms=0 ) { setD( d, m, s, ms ); }
+	dms( const int &d=0, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
 
 /**
 	*Alternate constructor.  Sets the floating-point angle to the
 	*argument, in degrees (simply calls setD( x ))
 	*@param x angle expressed as a floating-point number (in degrees)
 	*/
-  dms( double x ) { setD( x ); }
+  dms( const double &x ) { setD( x ); }
 
 /**
 	*Destructor (empty).
@@ -67,79 +67,79 @@ public:
 /**
 	*@returns integer degrees portion of the angle
 	*/
-  int degree() const { return int( D ); }
+  const int degree() const { return int( D ) ; }
 
 /**
 	*@returns integer arcminutes portion of the angle
 	*/
-  int arcmin() const;
+  const int arcmin() const;
 
 /**
 	*@returns integer arcseconds portion of the angle
 	*/
-  int arcsec() const;
+  const int arcsec() const;
 
   /**
 	*@returns integer milliarcseconds portion of the angle
 	*/
-	int marcsec() const;
+	const int marcsec() const;
 
 /**
 	*@returns angle in degrees expressed as a double.
 	*/
-	double Degrees() const { return D; }
+	const double& Degrees() const { return D; }
 
 /**
 	*@returns integer hours portion of the angle
 	*/
-	int hour() const { return int( this->reduce().Degrees()/15.0 ); }
+	const int hour() const { return int( reduce().Degrees()/15.0 ); }
 
 /**
 	*@returns integer minutes portion of the angle
 	*/
-	int minute() const;
+	const int minute() const;
 
 /**
 	*@returns integer seconds portion of the angle
 	*/
-	int second() const;
+	const int second() const;
 
 /**
 	*@returns integer milliseconds portion of the angle
 	*/
-	int msecond() const;
+	const int msecond() const;
 
 /**
 	*@returns angle in hours expressed as a double.
 	*/
-	double Hours() const { return this->reduce().Degrees()/15.0; }
+	const double Hours() const { return reduce().Degrees()/15.0; }
 
 /**
 	*Sets integer degrees portion of angle, leaving the ArcMin and
 	*ArcSec values intact.
 	*@param d new integer degrees value
 	*/
-  void setDeg( int d ) { setD( d, arcmin(), arcsec() ); }
+  void setDeg( const int &d ) { setD( d, arcmin(), arcsec() ); }
 
 /**
 	*Sets integer arcminutes portion of angle, leaving the Degrees
 	*and ArcSec values intact.
 	*@param m new integer arcminutes value
 	*/
-  void setArcMin( int m ) { setD( degree(), m, arcsec() ); }
+  void setArcMin( const int &m ) { setD( degree(), m, arcsec() ); }
 
 /**
 	*Sets integer arcseconds portion of angle, leaving the Degrees
 	*and ArcMin values intact.
 	*@param s new integer arcseconds value
 	*/
-  void setArcSec( int s ) { setD( degree(), arcmin(), s ); }
+  void setArcSec( const int &s ) { setD( degree(), arcmin(), s ); }
 
 /**
 	*Sets floating-point value of angle, in degrees.
 	*@param x new angle (double)
 	*/
-  void setD( double x );
+  void setD( const double &x );
 
 /**
 	*Sets floating-point value of angle.
@@ -150,35 +150,35 @@ public:
 	*@param s integer arcseconds portion of angle
 	*@param ms integer arcseconds portion of angle
 	*/
-	void setD( int d, int m, int s, int ms=0 );
+	void setD( const int &d, const int &m, const int &s, const int &ms=0 );
 
 /**
 	*Sets integer hours portion of angle, leaving the Minutes and
 	*Seconds values intact.
 	*@param h new integer hours value
 	*/
-	void setHour( int h ) { setH( h, minute(), second() ); }
+	void setHour( const int &h ) { setH( h, minute(), second() ); }
 
 /**
 	*Sets integer minutes portion of angle, leaving the Hours and
 	*Seconds values intact.
 	*@param m new integer minutes value
 	*/
-	void setHMin( int m ) { setH( hour(), m, second() ); }
+	void setHMin( const int &m ) { setH( hour(), m, second() ); }
 
 /**
 	*Sets integer seconds portion of angle, leaving the Hours and
 	*Minutes values intact.
 	*@param s new integer seconds value
 	*/
-	void setHSec( int s ) { setH( hour(), minute(), s ); }
+	void setHSec( const int &s ) { setH( hour(), minute(), s ); }
 
 /**
 	*converts argument from hours to degrees, then
 	*sets floating-point value of angle, in degrees.
 	*@param x new angle, in hours (double)
 	*/
-	void setH( double x );
+	void setH( const double &x );
 
 /**
 	*Sets floating-point value of angle, first converting hours to degrees.
@@ -187,20 +187,20 @@ public:
 	*@param s integer seconds portion of angle
 	*@param ms integer milliseconds portion of angle
 	*/
-	void setH( int h, int m, int s, int ms=0 );
+	void setH( const int &h, const int &m, const int &s, const int &ms=0 );
 
 /**
 	*Copy value of another dms angle
 	*@param d set angle according to this dms object
 	*/
-  void set( dms &d ) { setD( d.Degrees() ); }
+  void set( const dms &d ) { setD( d.Degrees() ); }
 
 /**
 	*Copy value of another dms angle.  Differs from above function only
 	*in argument type
 	*@param d set angle according to this double value
 	*/
-  void set( double &d ) { setD( d ); }
+  void set( const double &d ) { setD( d ); }
 
 /**
 	*Addition operator.  Add two dms objects.
@@ -240,36 +240,36 @@ public:
 	void SinCos( double &s, double &c ) const;
 
 	//DMS_SPEED
-	double sin( void ) const { return Sin; }
-	double cos( void ) const { return Cos; }
+	const double& sin( void ) const { return Sin; }
+	const double& cos( void ) const { return Cos; }
 
 /**
 	*Express the angle in radians
 	*@returns the angle in radians (double)
 	*/
 	//DMS_SPEED
-	double radians( void ) const;
+	const double& radians( void ) const;
 
 /**
 	*Set angle according to the argument, which is in radians
 	*@param a angle in radians
 	*/
-	void setRadians( double a );
+	void setRadians( const double &a );
 
 /**
 	*return a version the angle that is between 0 and 360 degrees.
 	*/
-	dms reduce( void ) const;
+	const dms reduce( void ) const;
 
 /**
  * convert to a D:M:S string representation
  */
-	QString toDMSString(bool forceSign = false) const;
+	const QString toDMSString(const bool forceSign = false) const;
 
 /**
  * convert to a H:M:S string representation
  */
-	QString toHMSString() const;
+	const QString toHMSString() const;
 
 /**	
  * PI is a const static member; it's public so that it can be used anywhere,
