@@ -298,9 +298,9 @@ void LocationDialog::changeCity( void ) {
 	KStars *p = (KStars *)parent();
 	GeoLocation c = p->data()->geoList.at(newCity);
 //	kdWarning() << "TimeZoneRule: " << p->data()->geoList.at(newCity)->tzrule() << endl;
-	NewCityName->setText( c.name() );
-	NewProvinceName->setText( c.province() );
-	NewCountryName->setText( c.country() );
+	NewCityName->setText( c.translatedName() );
+	NewProvinceName->setText( c.translatedProvince() );
+	NewCountryName->setText( c.translatedCountry() );
 	NewLong->showInDegrees( c.lng() );
 	NewLat->showInDegrees( c.lat() );
 	TZBox->setCurrentItem( int( c.TZ0() ) + 12 );
