@@ -72,7 +72,7 @@ class SkyObjectNameListItem : public QListBoxText  {
 	/**Constructor.  Pass useLatinConstellationNames to determine if name() or translatedName()
 		*should be used for constellations.
 		*/
-		SkyObjectNameListItem (QListBox *parent, SkyObjectName *name, bool useLatinConstellNames = true);
+		SkyObjectNameListItem (QListBox *parent, SkyObjectName *name, bool useLocalConstellNames = true);
 
 	/**Destructor (empty)*/
 		~SkyObjectNameListItem() {}

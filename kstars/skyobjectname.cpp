@@ -24,15 +24,19 @@ SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
 {
 }
 
-SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj, bool useLatinConstellNames )
+SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj, bool useLocalConstellNames )
 	: QListBoxText ( parent ), object ( obj )
 {
-	if ( useLatinConstellNames && obj->skyObject()->type()==-1) //type=-1 == constellation
-		setText ( obj->text() );
-	else
-		//can't use translatedText(), because we need the i18n() comment string...
-//		setText ( obj->translatedText() );
-		setText( i18n( "Constellation name (optional)", obj->text().local8Bit().data() ) );
+	if ( obj->skyObject()->type()==-1 ) { //constellation
+		if ( useLocalConstellNames ) {
+			//can't use translatedText(), because we need the i18n() comment string...
+			setText( i18n( "Constellation name (optional)", obj->text().local8Bit().data() ) );
+		} else {
+			setText ( obj->text() );
+		}
+	} else {  //all non-constellation objects
+		setText ( obj->translatedText() );
+	}
 }
 
 
