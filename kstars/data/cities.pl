@@ -58,7 +58,7 @@ sub calcTZ {
 	if ( $TZ eq "" ) {
 		if ( $country eq "USA" ) { $TZ = $us_timezone{$province}; }
 		if ( $country eq "Canada" ) { $TZ = $ca_timezone{$province}; }
-
+		if ( $country eq "Australia" ) { $TZ = $au_timezone{$province}; }
 		if ( $TZ eq "" ) {
 			$TZ = "x";
 	  }
