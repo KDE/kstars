@@ -693,7 +693,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
 			bool found = false;
 
-			//first iteration for positioning the "Ecliptic" label:
+			//first iteration for positioning the "Horizon" label:
 			//flag the onscreen equator point with the largest x value
 			//we don't draw the label while slewing, or if the opaque ground is drawn
 			if ( ! slewing && ( ! Options::showGround() || ! Options::useAltAz() )
@@ -738,22 +738,29 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//to the nearest offscreen points.
 
 		if ( Options::useAltAz() && points.count() > 0 ) {
-			//Interpolate from first sorted onscreen point to x=-100,
-			//using OutLeft to determine the slope
-			int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
-			int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
-			int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
-			QPoint *LeftEdge = new QPoint( -100, yp );
-			points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
-
-			//Interpolate from the last sorted onscreen point to ()+100,
-			//using OutRight to determine the slope.
-			xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
-			xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
-			yp = xx*OutRight.y() + (1-xx)*points.at( points.count() - 1 )->y(); //interpolated right-edge y value
-			QPoint *RightEdge = new QPoint( Width+100, yp );
-			points.append( RightEdge );
-
+			//If the edge of the visible sky circle is onscreen, then we should 
+			//interpolate the first and last horizon points to the edge of the circle.
+			//Otherwise, interpolate to the screen edge.
+			double dx = 0.5*double(Width)/Options::zoomFactor(); //center-to-edge ang in radians
+			double r0 = 2.0*sin(0.25*dms::PI);
+			
+			if ( dx < r0 ) { //edge of visible sky circle is not visible
+				//Interpolate from first sorted onscreen point to x=-100,
+				//using OutLeft to determine the slope
+				int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
+				int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
+				int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
+				QPoint *LeftEdge = new QPoint( -100, yp );
+				points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
+	
+				//Interpolate from the last sorted onscreen point to ()+100,
+				//using OutRight to determine the slope.
+				xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
+				xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
+				yp = xx*OutRight.y() + (1-xx)*points.at( points.count() - 1 )->y(); //interpolated right-edge y value
+				QPoint *RightEdge = new QPoint( Width+100, yp );
+				points.append( RightEdge );
+			}
 		//If there are no horizon points, then either the horizon doesn't pass through the screen
 		//or we're at high zoom, and horizon points lie on either side of the screen.
 		} else if ( Options::useAltAz() && OutLeft.y() !=0 && OutRight.y() !=0 &&
@@ -793,20 +800,58 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				}
 			}
 
-  	 //connect the last segment back to the beginning
+			//connect the last segment back to the beginning
 			if ( abs( points.at(0)->x() - psky.pos().x() ) < maxdist && abs( points.at(0)->y() - psky.pos().y() ) < maxdist )
 				psky.lineTo( points.at(0)->x(), points.at(0)->y() );
 
-//		Finish the Ground polygon by adding a square bottom edge, offscreen
+			//Finish the Ground polygon.  If sky edge is visible, the 
+			//bottom edge follows the sky circle.  Otherwise, we just 
+			//add a square bottom edge, offscreen
 			if ( Options::useAltAz() ) {
 				if ( Options::showGround() ) {
 					ptsCount = points.count();
-					pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
-					pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
-
+					
+					//center-to-edge ang in radians
+					double dx = 0.5*double(Width)/Options::zoomFactor(); 
+					double r0 = 2.0*sin(0.25*dms::PI);
+					
+//					//Second QPointsArray for blocking the region outside the sky circle
+//					QPointArray bpts( 100 ); //need 90 points along sky circle, plus 4 to complete polygon
+//					uint bpCount(0);
+					
+					if ( dx > r0 ) { //sky edge is visible
+						for ( double t=360.; t >= 180.; t-=2. ) {  //add points along edge of circle
+							dms a( t );
+							double sa(0.), ca(0.);
+							a.SinCos( sa, ca );
+							int xx = Width/2 + int(r0*Options::zoomFactor()*ca);
+							int yy = Height/2 - int(r0*Options::zoomFactor()*sa);
+							
+							pts->setPoint( ptsCount++, xx, yy );
+//							bpts.setPoint( bpCount++, xx, yy );
+						}
+						
+//						//complete the background polygon, then draw it with SkyColor
+//						bpts.setPoint( bpCount++,        -100, Height/2     );
+//						bpts.setPoint( bpCount++,        -100, Height + 100 );
+//						bpts.setPoint( bpCount++, Width + 100, Height + 100 );
+//						bpts.setPoint( bpCount++, Width + 100, Height/2     );
+//						psky.setPen( QColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.setBrush( QColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.drawPolygon( bpts, false, 0, bpCount );
+//						//Reset colors for Horizon polygon
+//						psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+//						psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+					
+					} else {
+						pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
+						pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
+					}
+						
+					//Draw the Horizon polygon
 					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
 
-//  remove all items in points list
+					//remove all items in points list
 					for ( register unsigned int i=0; i<points.count(); ++i ) {
 						points.remove(i);
 					}
