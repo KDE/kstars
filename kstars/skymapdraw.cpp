@@ -1102,23 +1102,29 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 //END_DUMP_HORIZON
 
 //		Finish the Ground polygon by adding a square bottom edge, offscreen
-			if ( options->useAltAz && options->drawGround ) {
-				ptsCount = points.count();
-				pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
-				pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
+			if ( options->useAltAz ) { 
+				if ( options->drawGround ) {
+					ptsCount = points.count();
+					pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
+					pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
 
-				psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
+					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
 
 //  remove all items in points list
-				for ( register unsigned int i=0; i<points.count(); ++i ) {
-					points.remove(i);
+					for ( register unsigned int i=0; i<points.count(); ++i ) {
+						points.remove(i);
+					}
 				}
-
+				
 //	Draw compass heading labels along horizon
 				SkyPoint *c = new SkyPoint;
 				QPoint cpoint;
-				psky.setPen( QColor ( options->colorScheme()->colorNamed( "CompassColor" ) ) );
 				psky.setFont( stdFont );
+
+				if ( options->drawGround ) 
+					psky.setPen( QColor ( options->colorScheme()->colorNamed( "CompassColor" ) ) );
+				else
+					psky.setPen( QColor ( options->colorScheme()->colorNamed( "HorzColor" ) ) );
 
 		//North
 				c->setAz( 359.99 );
