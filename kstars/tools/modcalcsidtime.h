@@ -43,8 +43,8 @@ public:
 	modCalcSidTime(QWidget *p, const char *n);
 	~modCalcSidTime();
 
-	dms computeUTtoST (QTime u, QDate d, dms l);
-	QTime computeSTtoUT (dms s, QDate d, dms l);
+	QTime computeUTtoST (QTime u, QDate d, dms l);
+	QTime computeSTtoUT (QTime s, QDate d, dms l);
 
 public slots:	
 	
@@ -55,20 +55,33 @@ public slots:
 	/** No descriptions */
 	void slotComputeTime();
 
+	void slotUtChecked();
+	void slotDateChecked();
+	void slotStChecked();
+	void slotLongChecked();
+	void slotInputFile();
+	void slotOutputFile();
+	void slotRunBatch();
+	void processLines( QTextStream &istream );
+
 private:
 
 	void showUT ( QTime ut );
-	void showST ( dms st );
+	void showST ( QTime st );
 
 	/* Fills the UT, Date boxes with the current time 
 	 * and date and the longitude box with the current Geo location 
 	 */
 	void showCurrentTimeAndLong (void);
 
+	void modCalcSidTime::sidNoCheck();
+	void modCalcSidTime::utNoCheck();
+
 	QTime getUT (void);
-	dms   getST (void);
+	QTime getST (void);
 	QDate getDate (void);
 	dms getLongitude (void);
+	bool stInputTime;
 	
 };
 

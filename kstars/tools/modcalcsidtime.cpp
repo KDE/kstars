@@ -24,6 +24,11 @@
 #include <qdatetimeedit.h>
 #include <qradiobutton.h>
 #include <qdatetime.h>
+#include <qcheckbox.h>
+#include <qstring.h>
+#include <qtextstream.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
@@ -46,16 +51,20 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	longBox->show( ks->geo()->lng() );
 }
 
-dms modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
+QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
 {
 	QDateTime utdt = QDateTime( dt, ut);
-	return KSUtils::UTtoLST( utdt, &longitude);
+	dms st = KSUtils::UTtoLST( utdt, &longitude);
+	QTime dst( st.hour(), st.minute(), st.second() );
+	return dst;
 }
 
-QTime modCalcSidTime::computeSTtoUT (dms st, QDate dt, dms longitude)
+QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 {
 	QDateTime dtt = QDateTime( dt, QTime());
-	return KSUtils::LSTtoUT( st, dtt, &longitude);
+	dms dst;
+	dst.setH(st.hour(), st.minute(), st.second());
+	return KSUtils::LSTtoUT( dst, dtt, &longitude);
 }
 
 void modCalcSidTime::showUT( QTime dt )
@@ -63,7 +72,7 @@ void modCalcSidTime::showUT( QTime dt )
 	UtBox->setTime( dt );
 }
 
-void modCalcSidTime::showST( dms st )
+void modCalcSidTime::showST( QTime st )
 {
 	QTime dt( st.hour(), st.minute(), st.second() );
 	StBox->setTime( dt );
@@ -76,10 +85,11 @@ QTime modCalcSidTime::getUT( void )
 	return dt;
 }
 
-dms modCalcSidTime::getST( void ) 
+QTime modCalcSidTime::getST( void ) 
 {
-	QTime dt = StBox->time();
-	dms st; st.setH( dt.hour(), dt.minute(), dt.second() );
+	QTime st = StBox->time();
+//	dms st; 
+//	st.setH( dt.hour(), dt.minute(), dt.second() );
 	return st;
 }
 
@@ -105,8 +115,7 @@ void modCalcSidTime::slotClearFields(){
 }
 
 void modCalcSidTime::slotComputeTime(){
-	QTime ut;
-	dms st;
+	QTime ut, st;
 
 	QDate dt = getDate();
 	dms longitude = getLongitude();
@@ -121,4 +130,209 @@ void modCalcSidTime::slotComputeTime(){
 		showUT( ut );
 	}
 
+}
+
+void modCalcSidTime::slotUtChecked(){
+
+	if ( utCheckBatch->isChecked() )
+		utBoxBatch->setEnabled( false );
+	else 
+		utBoxBatch->setEnabled( true );
+}
+
+void modCalcSidTime::slotDateChecked(){
+
+	if ( dateCheckBatch->isChecked() )
+		dateBoxBatch->setEnabled( false );
+	else 
+		dateBoxBatch->setEnabled( true );
+}
+
+void modCalcSidTime::slotStChecked(){
+
+	if ( stCheckBatch->isChecked() )
+		stBoxBatch->setEnabled( false );
+	else 
+		stBoxBatch->setEnabled( true );
+}
+
+void modCalcSidTime::slotLongChecked(){
+
+	if ( longCheckBatch->isChecked() )
+		longBoxBatch->setEnabled( false );
+	else
+		longBoxBatch->setEnabled( true );
+}
+
+void modCalcSidTime::sidNoCheck() {
+
+	stBoxBatch->setEnabled(false);
+	stInputTime = FALSE;
+
+}
+
+void modCalcSidTime::utNoCheck() {
+
+	utBoxBatch->setEnabled(false);
+	stInputTime = TRUE;
+}
+
+void modCalcSidTime::slotInputFile() {
+	QString inputFileName;
+	inputFileName = KFileDialog::getOpenFileName( );
+	InputLineEditBatch->setText( inputFileName );
+}
+
+void modCalcSidTime::slotOutputFile() {
+	QString outputFileName;
+	outputFileName = KFileDialog::getSaveFileName( );
+	OutputLineEditBatch->setText( outputFileName );
+}
+
+
+void modCalcSidTime::slotRunBatch() {
+
+	QString inputFileName;
+
+	inputFileName = InputLineEditBatch->text();
+
+	// We open the input file and read its content
+
+	if ( QFile::exists(inputFileName) ) {
+		QFile f( inputFileName );
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1"
+			).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			inputFileName = "";
+			return;
+		}
+
+//		processLines(&f);
+		QTextStream istream(&f);
+		processLines(istream);
+//		readFile( istream );
+		f.close();
+	} else  {
+		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+		inputFileName = "";
+		InputLineEditBatch->setText( inputFileName );
+		return;
+	}
+}
+
+void modCalcSidTime::processLines( QTextStream &istream ) {
+
+	// we open the output file
+
+//	QTextStream istream(&fIn);
+	QString outputFileName;
+	outputFileName = OutputLineEditBatch->text();
+	QFile fOut( outputFileName );
+	fOut.open(IO_WriteOnly);
+	QTextStream ostream(&fOut);
+
+	QString line;
+	QString space = " ";
+	int i = 0;
+	long double jd0, jdf;
+	dms longB, LST;
+	double epoch0B;
+	QTime utB, stB;
+	QDate dtB;
+
+	while ( ! istream.eof() ) {
+		line = istream.readLine();
+		line.stripWhiteSpace();
+
+		//Go through the line, looking for parameters
+
+		QStringList fields = QStringList::split( " ", line );
+
+		i = 0;
+		
+		// Read Longitude and write in ostream if corresponds
+		
+		if (longCheckBatch->isChecked() ) {
+			longB = dms::fromString( fields[i],TRUE);
+			i++;
+		} else
+			longB = longBoxBatch->createDms(TRUE);
+		
+		if ( allRadioBatch->isChecked() )
+			ostream << longB.toDMSString() << space;
+		else
+			if (longCheckBatch->isChecked() )
+				ostream << longB.toDMSString() << space;
+		
+		// Read date and write in ostream if corresponds
+		
+		if(dateCheckBatch->isChecked() ) {
+			 dtB = QDate::fromString( fields[i] );
+			 i++;
+		} else
+			dtB = dateBoxBatch->date();
+		if ( allRadioBatch->isChecked() )
+			ostream << dtB.toString().append(space);
+		else
+			if(dateCheckBatch->isChecked() )
+			 	ostream << dtB.toString().append(space);
+
+		
+		// We make the first calculations
+		
+		jdf = KSUtils::UTtoJD( QDateTime(dtB,utB) );
+		jd0 = KSUtils::epochToJd ( epoch0B );
+
+		LST = KSUtils::UTtoLST( QDateTime(dtB,utB), &longB );
+		
+		// Universal Time is the input time.
+
+		if (!stInputTime) {
+
+		// Read Ut and write in ostream if corresponds
+		
+			if(utCheckBatch->isChecked() ) {
+				utB = QTime::fromString( fields[i] );
+				i++;
+			} else
+				utB = utBoxBatch->time();
+		
+			if ( allRadioBatch->isChecked() )
+				ostream << utB.toString() << space;
+			else
+				if(utCheckBatch->isChecked() )
+					ostream << utB.toString() << space;
+			
+
+			stB = computeUTtoST( utB, dtB, longB );
+			ostream << stB.toString()  << endl;
+
+		// Input coords are horizontal coordinates
+		
+		} else {
+
+			if(stCheckBatch->isChecked() ) {
+				stB = QTime::fromString( fields[i] );
+				i++;
+			} else
+				stB = stBoxBatch->time();
+		
+			if ( allRadioBatch->isChecked() )
+				ostream << stB.toString() << space;
+			else
+				if(stCheckBatch->isChecked() )
+					ostream << stB.toString() << space;
+			
+
+			utB = computeSTtoUT( stB, dtB, longB );
+			ostream << utB.toString()  << endl;
+
+		}
+
+	}
+
+
+	fOut.close();
 }
