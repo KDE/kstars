@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+//needed in slotSave() for chmod() syscall
+#include <sys/stat.h>
+
 #include <kdebug.h>
 #include <kpushbutton.h>
 #include <klocale.h>
@@ -405,6 +408,9 @@ void ScriptBuilder::slotSave() {
 		QTextStream ostream(&f);
 		writeScript( ostream );
 		f.close();
+		
+		//set rwx for owner, rx for group, rx for other
+		chmod( fname.ascii(), 755 ); 
 		
 		setUnsavedChanges( false );
 		
