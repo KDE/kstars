@@ -885,11 +885,9 @@ void SkyMap::slewFocus( void ) {
 
 				slewing = true;
 				//since we are slewing, fade out the transient label
-				if ( transientObject() && ! TransientTimer.isActive() ) {
-					//DEBUG
-					kdDebug() << "transientObject: " << transientObject()->name() << endl;
+				if ( transientObject() && ! TransientTimer.isActive() ) 
 					fadeTransientLabel();
-				}
+				
 				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
 
