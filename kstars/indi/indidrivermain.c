@@ -40,9 +40,7 @@
 
 #include "lilxml.h"
 #include "eventloop.h"
-#include "indiapi.h"
-#include "indicom.h"
-/*#include "astro.h"*/
+#include "indidevapi.h"
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
@@ -97,21 +95,31 @@ main (int ac, char *av[])
 
 /* tell client to create a text vector property */
 void
-IDDefText (const ITextVectorProperty *t)
+IDDefText (const ITextVectorProperty *tvp, const char *fmt, ...)
 {
 	int i;
 
 	printf ("<defTextVector\n");
-	printf ("  device='%s'\n", t->device);
-	printf ("  name='%s'\n", t->name);
-	printf ("  label='%s'\n", t->label);
-	printf ("  grouptag='%s'\n", t->grouptag ? t->grouptag : "");
-	printf ("  perm='%s'\n", permStr(t->p));
-	printf ("  timeout='%g'\n", t->timeout);
-	printf ("  state='%s'>\n", pstateStr(t->s));
+	printf ("  device='%s'\n", tvp->device);
+	printf ("  name='%s'\n", tvp->name);
+	printf ("  label='%s'\n", tvp->label);
+	printf ("  group='%s'\n", tvp->group);
+	printf ("  state='%s'\n", pstateStr(tvp->s));
+	printf ("  perm='%s'\n", permStr(tvp->p));
+	printf ("  timeout='%g'\n", tvp->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
-	for (i = 0; i < t->nt; i++) {
-	    IText *tp = &t->t[i];
+	for (i = 0; i < tvp->ntp; i++) {
+	    IText *tp = &tvp->tp[i];
 	    printf ("  <defText\n");
 	    printf ("    name='%s'\n", tp->name);
 	    printf ("    label='%s'>\n", tp->label);
@@ -121,12 +129,11 @@ IDDefText (const ITextVectorProperty *t)
 
 	printf ("</defTextVector>\n");
 	fflush (stdout);
-
 }
 
 /* tell client to create a new numeric vector property */
 void
-IDDefNumber (const INumberVectorProperty *n)
+IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 {
 	int i;
 
@@ -134,13 +141,23 @@ IDDefNumber (const INumberVectorProperty *n)
 	printf ("  device='%s'\n", n->device);
 	printf ("  name='%s'\n", n->name);
 	printf ("  label='%s'\n", n->label);
-	printf ("  grouptag='%s'\n", n->grouptag ? n->grouptag : "");
+	printf ("  group='%s'\n", n->group);
+	printf ("  state='%s'\n", pstateStr(n->s));
 	printf ("  perm='%s'\n", permStr(n->p));
 	printf ("  timeout='%g'\n", n->timeout);
-	printf ("  state='%s'>\n", pstateStr(n->s));
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
-	for (i = 0; i < n->nn; i++) {
-	    INumber *np = &n->n[i];
+	for (i = 0; i < n->nnp; i++) {
+	    INumber *np = &n->np[i];
 	    printf ("  <defNumber\n");
 	    printf ("    name='%s'\n", np->name);
 	    printf ("    label='%s'\n", np->label);
@@ -158,7 +175,7 @@ IDDefNumber (const INumberVectorProperty *n)
 
 /* tell client to create a new switch vector property */
 void
-IDDefSwitch (const ISwitchVectorProperty *s)
+IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
 {
 	int i;
 
@@ -166,14 +183,24 @@ IDDefSwitch (const ISwitchVectorProperty *s)
 	printf ("  device='%s'\n", s->device);
 	printf ("  name='%s'\n", s->name);
 	printf ("  label='%s'\n", s->label);
-	printf ("  grouptag='%s'\n", s->grouptag ? s->grouptag : "");
+	printf ("  group='%s'\n", s->group);
+	printf ("  state='%s'\n", pstateStr(s->s));
 	printf ("  perm='%s'\n", permStr(s->p));
 	printf ("  rule='%s'\n", ruleStr (s->r));
 	printf ("  timeout='%g'\n", s->timeout);
-	printf ("  state='%s'>\n", pstateStr(s->s));
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
-	for (i = 0; i < s->nsw; i++) {
-	    ISwitch *sp = &s->sw[i];
+	for (i = 0; i < s->nsp; i++) {
+	    ISwitch *sp = &s->sp[i];
 	    printf ("  <defSwitch\n");
 	    printf ("    name='%s'\n", sp->name);
 	    printf ("    label='%s'>\n", sp->label);
@@ -187,19 +214,29 @@ IDDefSwitch (const ISwitchVectorProperty *s)
 
 /* tell client to create a new lights vector property */
 void
-IDDefLight (const ILightVectorProperty *l)
+IDDefLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 {
 	int i;
 
 	printf ("<defLightVector\n");
-	printf ("  device='%s'\n", l->device);
-	printf ("  name='%s'\n", l->name);
-	printf ("  label='%s'\n", l->label);
-	printf ("  grouptag='%s'\n", l->grouptag ? l->grouptag : "");
-	printf ("  state='%s'>\n", pstateStr(l->s));
+	printf ("  device='%s'\n", lvp->device);
+	printf ("  name='%s'\n", lvp->name);
+	printf ("  label='%s'\n", lvp->label);
+	printf ("  group='%s'\n", lvp->group);
+	printf ("  state='%s'\n", pstateStr(lvp->s));
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
-	for (i = 0; i < l->nl; i++) {
-	    ILight *lp = &l->l[i];
+	for (i = 0; i < lvp->nlp; i++) {
+	    ILight *lp = &lvp->lp[i];
 	    printf ("  <defLight\n");
 	    printf ("    name='%s'\n", lp->name);
 	    printf ("    label='%s'>\n", lp->label);
@@ -213,31 +250,31 @@ IDDefLight (const ILightVectorProperty *l)
 
 /* tell client to update an existing text vector property */
 void
-IDSetText (const ITextVectorProperty *t, const char *msg, ...)
+IDSetText (const ITextVectorProperty *tvp, const char *fmt, ...)
 {
 	int i;
 
 	printf ("<setTextVector\n");
-	printf ("  device='%s'\n", t->device);
-	printf ("  name='%s'\n", t->name);
-	printf ("  timeout='%g'\n", t->timeout);
-	printf ("  state='%s'>\n", pstateStr(t->s));
-
-	for (i = 0; i < t->nt; i++) {
-	    IText *tp = &t->t[i];
-	    printf ("  <setText\n");
-	    printf ("    name='%s'>\n", tp->name);
-	    printf ("      %s\n", tp->text ? tp->text : "");
-	    printf ("  </setText>\n");
-	}
-
-	if (msg) {
+	printf ("  device='%s'\n", tvp->device);
+	printf ("  name='%s'\n", tvp->name);
+	printf ("  state='%s'\n", pstateStr(tvp->s));
+	printf ("  timeout='%g'\n", tvp->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf ("  <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("  </msg>\n");
+	}
+	printf (">\n");
+
+	for (i = 0; i < tvp->ntp; i++) {
+	    IText *tp = &tvp->tp[i];
+	    printf ("  <oneText name='%s'>\n", tp->name);
+	    printf ("      %s\n", tp->text ? tp->text : "");
+	    printf ("  </oneText>\n");
 	}
 
 	printf ("</setTextVector>\n");
@@ -246,31 +283,39 @@ IDSetText (const ITextVectorProperty *t, const char *msg, ...)
 
 /* tell client to update an existing numeric vector property */
 void
-IDSetNumber (const INumberVectorProperty *n, const char *msg, ...)
+IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 {
 	int i;
+	static int lmin=0, lmax=0;
 
 	printf ("<setNumberVector\n");
-	printf ("  device='%s'\n", n->device);
-	printf ("  name='%s'\n", n->name);
-	printf ("  timeout='%g'\n", n->timeout);
-	printf ("  state='%s'>\n", pstateStr(n->s));
-
-	for (i = 0; i < n->nn; i++) {
-	    INumber *np = &n->n[i];
-	    printf ("  <setNumber\n");
-	    printf ("    name='%s'>\n", np->name);
-	    printf ("      %g\n", np->value);
-	    printf ("  </setNumber>\n");
-	}
-
-	if (msg) {
+	printf ("  device='%s'\n", nvp->device);
+	printf ("  name='%s'\n", nvp->name);
+	printf ("  state='%s'\n", pstateStr(nvp->s));
+	printf ("  timeout='%g'\n", nvp->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf ("  <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("  </msg>\n");
+	}
+	printf (">\n");
+
+	for (i = 0; i < nvp->nnp; i++) {
+	    INumber *np = &nvp->np[i];
+	    printf ("  <oneNumber name='%s'\n", np->name);
+	    if (lmin != np->min) {
+	    printf ("    min='%g'\n", np->min);
+	    lmin = np->min; }
+	    if (lmax != np->max) {
+	    printf ("    max='%g'\n", np->max);
+	    lmax = np->max; }
+	    printf(">\n");
+	    printf ("      %g\n", np->value);
+	    printf ("  </oneNumber>\n");
 	}
 
 	printf ("</setNumberVector>\n");
@@ -279,31 +324,31 @@ IDSetNumber (const INumberVectorProperty *n, const char *msg, ...)
 
 /* tell client to update an existing switch vector property */
 void
-IDSetSwitch (const ISwitchVectorProperty *s, const char *msg, ...)
+IDSetSwitch (const ISwitchVectorProperty *svp, const char *fmt, ...)
 {
 	int i;
 
 	printf ("<setSwitchVector\n");
-	printf ("  device='%s'\n", s->device);
-	printf ("  name='%s'\n", s->name);
-	printf ("  timeout='%g'\n", s->timeout);
-	printf ("  state='%s'>\n", pstateStr(s->s));
-
-	for (i = 0; i < s->nsw; i++) {
-	    ISwitch *sp = &s->sw[i];
-	    printf ("  <setSwitch\n");
-	    printf ("    name='%s'>\n", sp->name);
-	    printf ("      %s\n", sstateStr(sp->s));
-	    printf ("  </setSwitch>\n");
-	}
-
-	if (msg) {
+	printf ("  device='%s'\n", svp->device);
+	printf ("  name='%s'\n", svp->name);
+	printf ("  state='%s'\n", pstateStr(svp->s));
+	printf ("  timeout='%g'\n", svp->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf ("  <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("  </msg>\n");
+	}
+	printf (">\n");
+
+	for (i = 0; i < svp->nsp; i++) {
+	    ISwitch *sp = &svp->sp[i];
+	    printf ("  <oneSwitch name='%s'>\n", sp->name);
+	    printf ("      %s\n", sstateStr(sp->s));
+	    printf ("  </oneSwitch>\n");
 	}
 
 	printf ("</setSwitchVector>\n");
@@ -312,30 +357,30 @@ IDSetSwitch (const ISwitchVectorProperty *s, const char *msg, ...)
 
 /* tell client to update an existing lights vector property */
 void
-IDSetLight (const ILightVectorProperty *l, const char *msg, ...)
+IDSetLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 {
 	int i;
 
 	printf ("<setLightVector\n");
-	printf ("  device='%s'\n", l->device);
-	printf ("  name='%s'\n", l->name);
-	printf ("  state='%s'>\n", pstateStr(l->s));
-
-	for (i = 0; i < l->nl; i++) {
-	    ILight *lp = &l->l[i];
-	    printf ("  <setLight\n");
-	    printf ("    name='%s'\n", lp->name);
-	    printf ("      %s\n", pstateStr(lp->s));
-	    printf ("  </setLight>\n");
-	}
-
-	if (msg) {
+	printf ("  device='%s'\n", lvp->device);
+	printf ("  name='%s'\n", lvp->name);
+	printf ("  state='%s'\n", pstateStr(lvp->s));
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf ("  <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("  </msg>\n");
+	}
+	printf (">\n");
+
+	for (i = 0; i < lvp->nlp; i++) {
+	    ILight *lp = &lvp->lp[i];
+	    printf ("  <oneLight name='%s'>\n", lp->name);
+	    printf ("      %s\n", pstateStr(lp->s));
+	    printf ("  </oneLight>\n");
 	}
 
 	printf ("</setLightVector>\n");
@@ -344,23 +389,21 @@ IDSetLight (const ILightVectorProperty *l, const char *msg, ...)
 
 /* send client a message for a specific device or at large if !dev */
 void
-IDMessage (const char *dev, const char *msg, ...)
+IDMessage (const char *dev, const char *fmt, ...)
 {
-	printf ("<message");
+	printf ("<message\n");
 	if (dev)
-	    printf (" device='%s'", dev);
-	printf (">\n");
-
-	if (msg) {
+	    printf (" device='%s'\n", dev);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf ("  <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("  </msg>\n");
 	}
-
-	printf ("</message>");
+	printf ("/>\n");
 	fflush (stdout);
 }
 
@@ -368,34 +411,34 @@ IDMessage (const char *dev, const char *msg, ...)
  * entire device if !name
  */
 void
-IDDelete (const char *dev, const char *name, const char *msg, ...)
+IDDelete (const char *dev, const char *name, const char *fmt, ...)
 {
-	printf ("<delProperty device='%s'", dev);
+	printf ("<delProperty\n  device='%s'\n", dev);
 	if (name)
-	    printf (" name='%s'", name);
-	printf (">\n");
-
-	if (msg) {
+	    printf (" name='%s'\n", name);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
 	    va_list ap;
-	    printf (" <msg time='%s'>", timestamp());
-	    va_start (ap, msg);
-	    vprintf (msg, ap);
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
 	    va_end (ap);
-	    printf ("</msg>\n");
 	}
-
-	printf ("</delProperty>");
+	printf ("/>\n");
 	fflush (stdout);
 }
 
-/* log message locally. Has nothing to do with any Clients. */
+/* log message locally.
+ * this has nothing to do with XML or any Clients.
+ */
 void
-IDLog (const char *msg, ...)
+IDLog (const char *fmt, ...)
 {
 	va_list ap;
 	fprintf (stderr, "%s ", timestamp());
-	va_start (ap, msg);
-	vfprintf (stderr, msg, ap);
+	va_start (ap, fmt);
+	vfprintf (stderr, fmt, ap);
 	va_end (ap);
 }
 
@@ -437,48 +480,131 @@ IERmWorkProc (int workprocid)
 	rmWorkProc (workprocid);
 }
 
-/* utility functions to find a member of a vector, or NULL if not found */
-
+/* find a member of an IText vector, else NULL */
 IText *
-IUFindText  (const ITextVectorProperty *tp, const char *name)
+IUFindText  (const ITextVectorProperty *tvp, const char *name)
 {
 	int i;
 
-	for (i = 0; i < tp->nt; i++)
-	    if (strcmp (tp->t[i].name, name) == 0)
-		return (&tp->t[i]);
-	fprintf (stderr, "No IText '%s' in %s.%s\n", name, tp->device,tp->name);
+	for (i = 0; i < tvp->ntp; i++)
+	    if (strcmp (tvp->tp[i].name, name) == 0)
+		return (&tvp->tp[i]);
+	fprintf (stderr, "No IText '%s' in %s.%s\n",name,tvp->device,tvp->name);
 	return (NULL);
 }
 
+/* find a member of an INumber vector, else NULL */
 INumber *
-IUFindNumber(const INumberVectorProperty *np, const char *name)
+IUFindNumber(const INumberVectorProperty *nvp, const char *name)
 {
 	int i;
 
-	for (i = 0; i < np->nn; i++)
-	    if (strcmp (np->n[i].name, name) == 0)
-		return (&np->n[i]);
-	fprintf (stderr, "No INumber '%s' in %s.%s\n",name,np->device,np->name);
+	for (i = 0; i < nvp->nnp; i++)
+	    if (strcmp (nvp->np[i].name, name) == 0)
+		return (&nvp->np[i]);
+	fprintf(stderr,"No INumber '%s' in %s.%s\n",name,nvp->device,nvp->name);
 	return (NULL);
 }
 
+/* find a member of an ISwitch vector, else NULL */
 ISwitch *
-IUFindSwitch(const ISwitchVectorProperty *sp, const char *name)
+IUFindSwitch(const ISwitchVectorProperty *svp, const char *name)
 {
 	int i;
 
-	for (i = 0; i < sp->nsw; i++)
-	    if (strcmp (sp->sw[i].name, name) == 0)
-		return (&sp->sw[i]);
-	fprintf (stderr, "No ISwitch '%s' in %s.%s\n",name,sp->device,sp->name);
+	for (i = 0; i < svp->nsp; i++)
+	    if (strcmp (svp->sp[i].name, name) == 0)
+		return (&svp->sp[i]);
+	fprintf(stderr,"No ISwitch '%s' in %s.%s\n",name,svp->device,svp->name);
 	return (NULL);
 }
 
-/* save a copy of newtext in tp->text.
- * N.B. this assumes tp->text is initially NULL and we are only ones to ever
- *   modify it.
+/* find an ON member of an ISwitch vector, else NULL.
+ * N.B. user must make sense of result with ISRule in mind.
  */
+ISwitch *
+IUFindOnSwitch(const ISwitchVectorProperty *svp)
+{
+	int i;
+
+	for (i = 0; i < svp->nsp; i++)
+	    if (svp->sp[i].s == ISS_ON)
+		return (&svp->sp[i]);
+	fprintf(stderr, "No ISwitch On in %s.%s\n", svp->device, svp->name);
+	return (NULL);
+}
+
+/* Set all switches to off */
+void 
+IUResetSwitches(const ISwitchVectorProperty *svp)
+{
+  int i;
+  
+  for (i = 0; i < svp->nsp; i++)
+    svp->sp[i].s = ISS_OFF;
+}
+
+/* Update property switches in accord with states and names. */
+int 
+IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
+{
+ int i=0;
+ 
+ ISwitch *sp;
+ 
+ for (i = 0; i < n ; i++)
+ {
+   sp = IUFindSwitch(svp, names[i]);
+	 
+   if (!sp)
+   {
+              svp->s = IPS_IDLE;
+	      IDSetSwitch(svp, "Error: %s is not a member of %s property.", names[i], svp->name);
+	      return -1;
+   }
+	 
+   sp->s = states[i]; 
+ }
+ 
+ return 0;
+
+}
+
+/* Update property numbers in accord with values and names */
+int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n)
+{
+  int i=0;
+  
+  INumber *np;
+  
+  for (i = 0; i < n; i++)
+  {
+    np = IUFindNumber(nvp, names[i]);
+    if (!np)
+    {
+    	nvp->s = IPS_IDLE;
+	IDSetNumber(nvp, "Error: %s is not a member of %s property.", names[i], nvp->name);
+	return -1;
+    }
+    
+    if (values[i] < np->min || values[i] > np->max)
+    {
+       nvp->s = IPS_IDLE;
+       IDSetNumber(nvp, "Error: Invalid range. Valid range is from %g to %g", np->min, np->max);
+       return -1;
+    }
+      
+    np->value = values[i];
+    
+  }
+
+  return 0;
+
+}
+
+
+
+/* save malloced copy of newtext in tp->text, reusing if not first time */
 void
 IUSaveText (IText *tp, const char *newtext)
 {
@@ -489,7 +615,6 @@ IUSaveText (IText *tp, const char *newtext)
 	/* copy in fresh string */
 	tp->text = strcpy (realloc (tp->text, strlen(newtext)+1), newtext);
 }
-
 
 /* print usage message and exit (1) */
 static void
@@ -535,7 +660,6 @@ clientMsgCB (int fd, void *arg)
 	    } else if (msg[0])
 		fprintf (stderr, "%s XML error: %s\n", me, msg);
 	}
-
 }
 
 /* crack the given INDI XML element and call driver's IS* entry points as they
@@ -546,15 +670,15 @@ clientMsgCB (int fd, void *arg)
 static int
 dispatch (XMLEle *root, char msg[])
 {
-	int i, n;
+	XMLEle *ep;
+	int n;
 
 	if (verbose)
 	    prXMLEle (stderr, root, 0);
 
-
 	/* check tag in surmised decreasing order of likelyhood */
 
-	if (!strcmp (root->tag, "newNumberVector")) {
+	if (!strcmp (tagXMLEle(root), "newNumberVector")) {
 	    static double *doubles;
 	    static char **names;
 	    static int maxn;
@@ -565,26 +689,24 @@ dispatch (XMLEle *root, char msg[])
 		return (-1);
 
 	    /* pull out each name/value pair */
-	    for (n = i = 0; i < root->nel; i++) {
-		XMLEle *ep = root->el[i];
-		if (strcmp (ep->tag, "newNumber") == 0) {
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneNumber") == 0) {
 		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
+printf ("%s\n", valuXMLAtt(na));
 			if (n >= maxn) {
 			    int newsz = (maxn += 2)*sizeof(double);
 			    doubles = doubles ? (double*)realloc(doubles,newsz)
-			                     : (double *) malloc (newsz);
+			                      : (double*)malloc (newsz);
 			    newsz = maxn*sizeof(char *);
 			    names = names ? (char **) realloc (names, newsz)
 			                  : (char **) malloc (newsz);
 			}
-			if (f_scansexa (ep->pcdata, &doubles[n]) < 0)
-			    IDMessage (dev,"%s: Bad format %s",name,ep->pcdata);
+			if (f_scansexa (pcdataXMLEle(ep), &doubles[n]) < 0)
+			    IDMessage (dev,"%s: Bad format %s", name,
+							    pcdataXMLEle(ep));
 			else
-			{
-			    IDLog("Receving a number %g for property %s\n", doubles[n], na->valu);
-			    names[n++] = na->valu;
-			}
+			    names[n++] = valuXMLAtt(na);
 		    }
 		}
 	    }
@@ -597,20 +719,20 @@ dispatch (XMLEle *root, char msg[])
 	    return (0);
 	}
 
-	if (!strcmp (root->tag, "newSwitchVector")) {
+	if (!strcmp (tagXMLEle(root), "newSwitchVector")) {
 	    static ISState *states;
 	    static char **names;
 	    static int maxn;
 	    char *dev, *name;
+	    XMLEle *ep;
 
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
 
 	    /* pull out each name/state pair */
-	    for (n = i = 0; i < root->nel; i++) {
-		XMLEle *ep = root->el[i];
-		if (strcmp (ep->tag, "newSwitch") == 0) {
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneSwitch") == 0) {
 		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
 			if (n >= maxn) {
@@ -621,17 +743,17 @@ dispatch (XMLEle *root, char msg[])
 			    names = names ? (char **) realloc (names, newsz)
 			                  : (char **) malloc (newsz);
 			}
-			if (strcmp (ep->pcdata,"On") == 0) {
+			if (strcmp (pcdataXMLEle(ep),"On") == 0) {
 			    states[n] = ISS_ON;
-			    names[n] = na->valu;
+			    names[n] = valuXMLAtt(na);
 			    n++;
-			} else if (strcmp (ep->pcdata,"Off") == 0) {
+			} else if (strcmp (pcdataXMLEle(ep),"Off") == 0) {
 			    states[n] = ISS_OFF;
-			    names[n] = na->valu;
+			    names[n] = valuXMLAtt(na);
 			    n++;
 			} else 
 			    IDMessage (dev, "%s: must be On or Off: %s", name,
-								    ep->pcdata);
+							    pcdataXMLEle(ep));
 		    }
 		}
 	    }
@@ -644,21 +766,19 @@ dispatch (XMLEle *root, char msg[])
 	    return (0);
 	}
 
-	if (!strcmp (root->tag, "newTextVector")) {
+	if (!strcmp (tagXMLEle(root), "newTextVector")) {
 	    static char **texts;
 	    static char **names;
 	    static int maxn;
 	    char *dev, *name;
-
 
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
 
 	    /* pull out each name/text pair */
-	    for (n = i = 0; i < root->nel; i++) {
-		XMLEle *ep = root->el[i];
-		if (strcmp (ep->tag, "newText") == 0) {
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneText") == 0) {
 		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
 			if (n >= maxn) {
@@ -669,8 +789,8 @@ dispatch (XMLEle *root, char msg[])
 			    names = names ? (char **) realloc (names, newsz)
 			                  : (char **) malloc (newsz);
 			}
-			texts[n] = ep->pcdata;
-			names[n] = na->valu;
+			texts[n] = pcdataXMLEle(ep);
+			names[n] = valuXMLAtt(na);
 			n++;
 		    }
 		}
@@ -681,11 +801,10 @@ dispatch (XMLEle *root, char msg[])
 		ISNewText (dev, name, texts, names, n);
 	    else
 		IDMessage (dev, "%s: set with no valid members", name);
-
 	    return (0);
 	}
 
-	if (!strcmp (root->tag, "getProperties")) {
+	if (!strcmp (tagXMLEle(root), "getProperties")) {
 	    XMLAtt *ap;
 	    double v;
 
@@ -695,7 +814,7 @@ dispatch (XMLEle *root, char msg[])
 		fprintf (stderr, "%s: getProperties missing version\n", me);
 		exit(1);
 	    }
-	    v = atof (ap->valu);
+	    v = atof (valuXMLAtt(ap));
 	    if (v > INDIV) {
 		fprintf (stderr, "%s: client version %g > %g\n", me, v, INDIV);
 		exit(1);
@@ -703,11 +822,11 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* ok */
 	    ap = findXMLAtt (root, "device");
-	    ISGetProperties (ap ? ap->valu : NULL);
+	    ISGetProperties (ap ? valuXMLAtt(ap) : NULL);
 	    return (0);
 	}
 
-	sprintf (msg, "Unknown command: %s", root->tag);
+	sprintf (msg, "Unknown command: %s", tagXMLEle(root));
 	return(1);
 }
 
@@ -721,17 +840,17 @@ crackDN (XMLEle *root, char **dev, char **name, char msg[])
 
 	ap = findXMLAtt (root, "device");
 	if (!ap) {
-	    sprintf (msg, "%s requires 'device' attribute", root->tag);
+	    sprintf (msg, "%s requires 'device' attribute", tagXMLEle(root));
 	    return (-1);
 	}
-	*dev = ap->valu;
+	*dev = valuXMLAtt(ap);
 
 	ap = findXMLAtt (root, "name");
 	if (!ap) {
-	    sprintf (msg, "%s requires 'name' attribute", root->tag);
+	    sprintf (msg, "%s requires 'name' attribute", tagXMLEle(root));
 	    return (-1);
 	}
-	*name = ap->valu;
+	*name = valuXMLAtt(ap);
 
 	return (0);
 }
@@ -770,6 +889,7 @@ ruleStr (ISRule r)
 {
 	switch (r) {
 	case ISR_1OFMANY: return ("OneOfMany");
+	case ISR_ATMOST1: return ("AtMostOne");
 	case ISR_NOFMANY: return ("AnyOfMany");
 	default:
 	    fprintf (stderr, "Impossible ISRule %d\n", r);
@@ -805,28 +925,5 @@ timestamp()
 	return (ts);
 }
 
-/* fill buf with properly formatted INumber string. return length */
-int
-INumFormat (char *buf, INumber *ip)
-{
-        int w, f, s, l;
-
-        if (sscanf (ip->format, "%%%d.%dm", &w, &f) == 2) {
-            /* INDI sexi format */
-            switch (f) {
-            case 9:  s = 360000; break;
-            case 8:  s = 36000;  break;
-            case 6:  s = 3600;   break;
-            case 5:  s = 600;    break;
-            default: s = 60;     break;
-            }
-            l = fs_sexa (buf, ip->value, w-f, s);
-        } else {
-            /* normal printf format */
-            l = sprintf (buf, ip->format, ip->value);
-        }
-        return (l);
-}
-
 /* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};
+static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name$"};

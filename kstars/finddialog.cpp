@@ -43,18 +43,18 @@ FindDialog::FindDialog( QWidget* parent )
 	filterType = new QComboBox( page, "filterType" );
 	filterType->setEditable( false );
 	filterType->insertItem( i18n ("Any") );
-	filterType->insertItem( i18n ("Constellations") );
 	filterType->insertItem( i18n ("Stars") );
-	filterType->insertItem( i18n ("Double Stars") );
-	filterType->insertItem( i18n ("Planets") );
+	//	filterType->insertItem( i18n ("Double Stars") );
+	filterType->insertItem( i18n ("Solar System") );
 	filterType->insertItem( i18n ("Open Clusters") );
 	filterType->insertItem( i18n ("Glob. Clusters") );
 	filterType->insertItem( i18n ("Gas. Nebulae") );
 	filterType->insertItem( i18n ("Plan. Nebulae") );
-	filterType->insertItem( i18n ("SN Remnants") );
+	//	filterType->insertItem( i18n ("SN Remnants") );
 	filterType->insertItem( i18n ("Galaxies") );
 	filterType->insertItem( i18n ("Comets") );
 	filterType->insertItem( i18n ("Asteroids") );
+	filterType->insertItem( i18n ("Constellations") );
 
 	SearchList = new QListBox( page, "SearchList" );
 	SearchList->setMinimumWidth( 256 );
@@ -137,10 +137,11 @@ void FindDialog::filterByType() {
 	ObjNames.setLanguage( p->options()->useLatinConstellNames );
 
 	for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
-		if ( name->skyObject()->type() + 2 == Filter ) {
+	        //Special case: match SkyObject Type 0 with Filter==1 (stars)
+		if ( name->skyObject()->type() == Filter || (name->skyObject()->type() == 0 && Filter == 1 ) ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
-				// show only visible objects
-				if (name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
+				// for stars, don't show the ones below the faint limit
+				if (Filter!=1 || name->skyObject()->mag() <= p->options()->currentMagLimitDrawStar()) {
 					new SkyObjectNameListItem ( SearchList, name );
 				}
 			}
@@ -167,9 +168,13 @@ void FindDialog::updateSelection (QListBoxItem *it) {
 }
 
 void FindDialog::setFilter( int f ) {
-	// check if filter was changed or if filter is still the same
-	if ( Filter != f ) {
-		Filter = f;
+        // Translate the Listbox index to the correct SkyObject Type ID 
+        int f2( f ); // in most cases, they are the same number
+	if ( f >= 7 ) f2 = f + 1; //need to skip unused "Supernova Remnant" Type at position 7
+	
+        // check if filter was changed or if filter is still the same
+	if ( Filter != f2 ) {
+		Filter = f2;
 		if ( Filter == 0 ) {  // any type will shown
 		// delete old connections and create new connections
 			disconnect( SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterByType() ) );

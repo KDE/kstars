@@ -330,7 +330,7 @@ while ( (c = (char) file.getch()) != -1)
 
        INDIHostsInfo *VInfo = new INDIHostsInfo;
 
-       VInfo->name = QString(ap->valu);
+       VInfo->name = QString(valuXMLAtt(ap));
 
       // Get host name
       ap = findXMLAtt(root, "hostname");
@@ -340,7 +340,7 @@ while ( (c = (char) file.getch()) != -1)
 	return false;
       }
 
-    VInfo->hostname = QString(ap->valu);
+    VInfo->hostname = QString(valuXMLAtt(ap));
 
     ap = findXMLAtt(root, "port");
 
@@ -349,7 +349,7 @@ while ( (c = (char) file.getch()) != -1)
       return false;
     }
 
-    VInfo->portnumber = QString(ap->valu);
+    VInfo->portnumber = QString(valuXMLAtt(ap));
 
     VInfo->isConnected = false;
     VInfo->mgrID = -1;

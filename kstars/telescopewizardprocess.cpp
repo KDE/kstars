@@ -29,6 +29,8 @@
 
 #include "indimenu.h"
 #include "indidriver.h"
+#include "indielement.h"
+#include "indiproperty.h"
 #include "indidevice.h"
 
 #define TIMEOUT_THRESHHOLD	20
@@ -75,8 +77,12 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
 
 
    for (unsigned int i=0; i < indidriver->devices.size(); i++)
-   		telescopeCombo->insertItem(indidriver->devices[i]->label);
+              if (indidriver->devices[i]->deviceType == KSTARS_TELESCOPE)
+   		    telescopeCombo->insertItem(indidriver->devices[i]->label);
 
+   if (!ksw->options()->indiPortName.isEmpty())
+     portList << ksw->options()->indiPortName;
+     
    portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
             << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";// << "/dev/ttyUSB4";
 
@@ -219,7 +225,7 @@ int telescopeWizardProcess::establishLink()
 
 	if (!indidriver || !indimenu)
 	  return (0);
-
+	  
 	QListViewItem *driverItem = NULL;
 
 	if (!indidriver->isDeviceRunning(telescopeCombo->currentText()))
@@ -228,7 +234,7 @@ int telescopeWizardProcess::establishLink()
 
 		indimenu->setCustomLabel(telescopeCombo->currentText());
 		currentDevice = indimenu->currentLabel;
-		indimenu->currentLabel = "";
+		//indimenu->currentLabel = "";
 
 		if (driverItem)
 		{
@@ -245,7 +251,7 @@ int telescopeWizardProcess::establishLink()
 	 return (3);
 
 	newDeviceTimer->start(1500);
-
+	
 	if (portIn->text().isEmpty())
 	 return (1);
         else
@@ -256,12 +262,11 @@ int telescopeWizardProcess::establishLink()
 void telescopeWizardProcess::processPort()
 {
      INDI_P * pp;
-
+     INDI_E * lp;
 
      if (!indidriver || !indimenu)
        return;
-
-
+     
      timeOutCount++;
 
      if (timeOutCount >= TIMEOUT_THRESHHOLD)
@@ -273,44 +278,29 @@ void telescopeWizardProcess::processPort()
        return;
      }
 
-
     indiDev = indimenu->findDeviceByLabel(currentDevice);
-
-    if (!indiDev)
-      return;
+    if (!indiDev) return;
 
      // port empty, start autoscan
      if (portIn->text().isEmpty())
      {
        newDeviceTimer->stop();
        linkRejected = false;
-       connect(indiDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()));
-       connect(indiDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()));
+       connect(indiDev->stdDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()));
+       connect(indiDev->stdDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()));
        scanPorts();
        return;
      }
 
-     pp = indiDev->findProp(QString("Ports"));
+     pp = indiDev->findProp("DEVICE_PORT");
+     if (!pp) return;
+     lp = pp->findElement("PORT");
+     if (!lp) return;
 
-     if (!pp)
-       return;
-
-
-     if (pp->perm == PP_RW)
-     {
-            	pp->table_w->setText(0, 1, portIn->text());
-		//pp->newText();
-     }
-	    else if (pp->perm == PP_WO)
-     {
-		pp->table_w->setText(0, 0, portIn->text());
-		//pp->newText();
-     }
-
-     pp = indiDev->findProp(QString("CONNECTION"));
-
-     if (!pp)
-      return;
+     lp->write_w->setText(portIn->text());
+     
+     pp = indiDev->findProp("CONNECTION");
+     if (!pp) return;
 
      newDeviceTimer->stop();
 
@@ -328,7 +318,9 @@ void telescopeWizardProcess::processPort()
 
 void telescopeWizardProcess::scanPorts()
 {
-
+     INDI_P * pp;
+     INDI_E *lp;
+     
      if (!indiDev || !indidriver || !indimenu || linkRejected)
       return;
 
@@ -345,34 +337,20 @@ void telescopeWizardProcess::scanPorts()
       return;
      }
 
-     INDI_P * pp;
-
      if (indiDev->msgST_w)
      	indiDev->msgST_w->clear();
 
-     pp = indiDev->findProp(QString("Ports"));
-
-     if (!pp)
-       return;
-
-    if (pp->perm == PP_RW)
-    	{
-		pp->table_w->setText(0, 1, portList[currentPort]);
-		pp->newText();
-	}
-	    else if (pp->perm == PP_WO)
-	{
-		pp->table_w->setText(0, 0, portList[currentPort]);
-		pp->newText();
-     	}
-
-     pp = indiDev->findProp(QString("CONNECTION"));
-
-     if (!pp)
-      return;
+     pp = indiDev->findProp("DEVICE_PORT");
+     if (!pp) return;
+     lp = pp->findElement("PORT");
+     
+     lp->write_w->setText(portList[currentPort]);
+     pp->newText();
+	
+     pp = indiDev->findProp("CONNECTION");
+     if (!pp) return;
 
      pp->newSwitch(0);
-
 
 }
 

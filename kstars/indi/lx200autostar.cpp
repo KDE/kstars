@@ -32,15 +32,23 @@
 extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
 extern ITextVectorProperty Time;
-extern char mydev[];
+extern INumberVectorProperty SDTime;
+extern INumberVectorProperty eqNum;
+extern ISwitchVectorProperty ParkSP;
+extern ISwitchVectorProperty PowerSP;
 
-static IText   VersionT[] ={{ "Version Date", "", ""} ,
-			   { "Version Time", "", ""} ,
-			   { "Version Number", "", ""} ,
-			   { "Full Version", "", ""} ,
-			   { "Product Name", "", ""}};
+static IText   VersionT[] ={{ "Date", ""} ,
+			   { "Time", ""} ,
+			   { "Number", ""} ,
+			   { "Full", ""} ,
+			   { "Name", ""}};
 
 static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT)};
+
+void changeLX200AutostarDeviceName(char *newName)
+{
+  strcpy(VersionInfo.device, newName);
+}
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
@@ -54,95 +62,23 @@ LX200Autostar::LX200Autostar() : LX200Generic()
 void LX200Autostar::ISGetProperties (const char *dev)
 {
 
-if (dev && strcmp (mydev, dev))
+if (dev && strcmp (thisDevice, dev))
     return;
 
     LX200Generic::ISGetProperties(dev);
 
-    IDDefText (&VersionInfo);
+    IDDefText (&VersionInfo, NULL);
 
 }
 
 void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-
-        double UTCOffset;
-	struct tm *ltp = new tm;
-	struct tm utm;
-	time_t ltime;
-	time (&ltime);
-	localtime_r (&ltime, ltp);
-	IText *tp;
-
-	// ignore if not ours //
-	if (strcmp (dev, mydev))
+        // ignore if not ours //
+	if (strcmp (dev, thisDevice))
 	    return;
 
 	// suppress warning
 	n=n;
-
-       // Override LX200 Generic
-       if (!strcmp (name, Time.name))
-       {
-	  if (checkPower(&Time))
-	   return;
-
-	   IDLog("*** We are in the AUTOSTAR time update ***\n");
-
-	  if (extractISOTime(texts[0], &utm) < 0)
-	  {
-	    Time.s = IPS_IDLE;
-	    IDSetText(&Time , "Time invalid");
-	    return;
-	  }
-	        utm.tm_mon   += 1;
-		ltp->tm_mon  += 1;
-		utm.tm_year  += 1900;
-		ltp->tm_year += 1900;
-
-	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
-
-		IDLog("The initial UTC offset is %g\n", UTCOffset);
-
-		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset += 24;
-
-		if (ltp->tm_isdst > 0)
-		{
-		  UTCOffset++;
-		  IDLog("Correcting for DST, new UTC is %g\n", UTCOffset);
-		}
-
-		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		setUTCOffset(UTCOffset);
-	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-
-		tp = IUFindText(&Time, names[0]);
-		if (!tp)
-		 return;
-		tp->text = new char[strlen(texts[0]+1)];
-	        strcpy(tp->text, texts[0]);
-		Time.s = IPS_OK;
-
-		// update JD
-                JD = UTtoJD(&utm);
-
-		IDLog("New JD is %f\n", (float) JD);
-
-		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
-		    (localTM->tm_year == ltp->tm_year))
-		{
-		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %g", texts[0], UTCOffset*-1);
-		  return;
-		}
-
-		localTM = ltp;
-		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
- 		IDSetText(&Time , "Date changed, updating planetary data...");
-
-		return;
-	}
 
   LX200Generic::ISNewText (dev, name, texts, names, n);
 
@@ -156,6 +92,34 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 
  void LX200Autostar::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
  {
+ 
+   if (!strcmp(name, ParkSP.name))
+   {
+	  if (checkPower(&ParkSP))
+	    return;
+           
+	   ParkSP.s = IPS_IDLE;
+	   
+   	  if (eqNum.s == IPS_BUSY)
+	  {
+	     abortSlew();
+
+	     // sleep for 200 mseconds
+	     usleep(200000);
+	  }
+
+	  slewToPark();
+
+	  ParkSP.s = IPS_OK;
+	  eqNum.s = IPS_IDLE;
+	  PowerSP.s   = IPS_IDLE;
+	  PowerSP.sp[0].s = ISS_OFF;
+	  PowerSP.sp[1].s = ISS_ON;
+	  IDSetNumber(&eqNum, NULL);
+	  IDSetSwitch(&ParkSP, "The telescope is slewing to park position. Turn off the telescope after park is complete. Disconnecting...");
+	  IDSetSwitch(&PowerSP, NULL);
+	  return;
+    }
 
    LX200Generic::ISNewSwitch (dev, name, states, names,  n);
 
@@ -174,16 +138,16 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
    // process parent first
    LX200Generic::getBasicData();
 
-   VersionInfo.t[0].text = new char[64];
-   getVersionDate(VersionInfo.t[0].text);
-   VersionInfo.t[1].text = new char[64];
-   getVersionTime(VersionInfo.t[1].text);
-   VersionInfo.t[2].text = new char[64];
-   getVersionNumber(VersionInfo.t[2].text);
-   VersionInfo.t[3].text = new char[128];
-   getFullVersion(VersionInfo.t[3].text);
-   VersionInfo.t[4].text = new char[128];
-   getProductName(VersionInfo.t[4].text);
+   VersionInfo.tp[0].text = new char[64];
+   getVersionDate(VersionInfo.tp[0].text);
+   VersionInfo.tp[1].text = new char[64];
+   getVersionTime(VersionInfo.tp[1].text);
+   VersionInfo.tp[2].text = new char[64];
+   getVersionNumber(VersionInfo.tp[2].text);
+   VersionInfo.tp[3].text = new char[128];
+   getFullVersion(VersionInfo.tp[3].text);
+   VersionInfo.tp[4].text = new char[128];
+   getProductName(VersionInfo.tp[4].text);
 
    IDSetText(&VersionInfo, NULL);
 

@@ -36,6 +36,10 @@
 const char * Direction[] = { "North", "West", "East", "South", "All"};
 const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
 
+/* make it compile on solaris */
+#define M_PI 3.14159265358979323846264338327950288419716939937510582097494459
+
+
 /******** Prototypes ***********/
 double DegToRad( double num );
 double RadToDeg( double num );
@@ -262,6 +266,27 @@ void SinCos( double Degrees, double *sina, double *cosa )
   		*sina = Sin;
 		*cosa = Cos;
 }
+
+double calculateDec(double latitude, double SDTime)
+{
+  if (SDTime > 12) SDTime -= 12;
+  
+  return RadToDeg ( atan ( (cos (DegToRad (latitude)) / sin (DegToRad (latitude))) * cos (DegToRad (SDTime))) );
+
+}
+
+double calculateRA(double SDTime)
+{
+  double ra;
+  
+  ra = SDTime + 12;
+  
+  if (ra < 24)
+    return ra;
+  else
+    return (ra - 24);
+}
+
 
 void nutate(double *RA, double *Dec)
 {
@@ -572,9 +597,10 @@ void getSexComponents(double value, int *d, int *m, int *s)
 int
 numberFormat (char *buf, const char *format, double value)
 {
-        int w, f, s, l;
+        int w, f, s;
+        char m;
 
-        if (sscanf (format, "%%%d.%dm", &w, &f) == 2) {
+        if (sscanf (format, "%%%d.%d%c", &w, &f, &m) == 3 && m == 'm') {
             /* INDI sexi format */
             switch (f) {
             case 9:  s = 360000; break;
@@ -583,12 +609,26 @@ numberFormat (char *buf, const char *format, double value)
             case 5:  s = 600;    break;
             default: s = 60;     break;
             }
-            l = fs_sexa (buf, value, w-f, s);
+            return (fs_sexa (buf, value, w-f, s));
         } else {
             /* normal printf format */
-            l = sprintf (buf, format, value);
+            return (sprintf (buf, format, value));
         }
-        return (l);
 }
 
+double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC)
+{
 
+	double dalpha = DegToRad(fromRA) - DegToRad(toRA);
+	double ddelta = DegToRad(fromDEC) - DegToRad(toDEC);
+
+	double sa = sin(dalpha/2.);
+	double sd = sin(ddelta/2.);
+	
+	double hava = sa*sa;
+	double havd = sd*sd;
+
+	double aux = havd + cos (DegToRad(fromDEC)) * cos(DegToRad(toDEC)) * hava;
+	
+	return (RadToDeg ( 2 * fabs(asin( sqrt(aux) ))));
+}

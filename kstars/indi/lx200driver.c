@@ -32,65 +32,130 @@
 #include "indicom.h"
 #include "lx200driver.h"
 
-/* LX200 definitions */
+#define LX200_TIMEOUT	5		/* FD timeout in seconds */
+
 int fd;
 int read_ret, write_ret;
 
-int LX200readOut(int timeout);
+/**************************************************************************
+ Basic I/O
+**************************************************************************/
 int openPort(const char *portID);
-int portReadT(char *buf, int nbytes, int timeout);
+int portRead(char *buf, int nbytes, int timeout);
 int portWrite(const char * buf);
-int portRead(char *buf, int nbytes);
-int Connect(const char* device);
-int testTelescope(void);
-void Disconnect(void);
-char ACK(void);
-void checkLX200Format(void);
-double getCommand(const char *cmd);
-double getTrackFreq(void);
-int getCommandStr(char *data, const char* cmd);
-int getTimeFormat(void);
-int getCalenderDate(char *date);
-int getUTCOffset(void);
-int getSiteName(char *siteName, int siteNum);
-int getSiteLatitude(int *dd, int *mm);
-int getSiteLongitude(int *ddd, int *mm);
-int getNumberOfBars(void);
-int getHomeSearchStatus(void);
-double getOTATemp(void);
-int setCommand(double data, const char *cmd);
-void setCommandInt(int data, const char *cmd);
-int setCommandXYZ( int x, int y, int z, const char *cmd);
-int setStandardProcedure(char * writeData);
-void setSlewMode(int slewMode);
-void setAlignmentMode(unsigned int alignMode);
-int setObjectRA(double ra);
-int setObjectDEC(double dec);
-int setCalenderDate(int dd, int mm, int yy);
-int setUTCOffset(double hours);
-int setTrackFreq(double trackF);
-int setSiteLongitude(double Long);
-int setSiteLatitude(double Lat);
-int setObjAz(double az);
-int setObjAlt(double alt);
-int setSiteName(char * siteName, int siteNum);
-void setFocuserMotion(int motionType);
-void setFocuserSpeedMode (int speedMode);
-int setMaxSlewRate(int slewRate);
-int Slew(void);
-void Sync(char *matchedObject);
-void abortSlew(void);
-void MoveTo(int direction);
-void HaltMovement(int direction);
-void selectSite(int siteNum);
-void selectCatalogObject(int catalog, int NNNN);
-void selectTrackingMode(int trackMode);
-int selectSubCatalog(int catalog, int subCatalog);
-int setMinElevationLimit(int min);
-int setMaxElevationLimit(int max);
-int getMaxElevationLimit(void);
-int getMinElevationLimit(void);
+int LX200readOut(int timeout);
 
+int Connect(const char* device);
+void Disconnect();
+
+/**************************************************************************
+ Diagnostics
+ **************************************************************************/
+char ACK();
+int testTelescope();
+
+/**************************************************************************
+ Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
+ **************************************************************************/
+ 
+/* Get Double from Sexagisemal */
+int getCommandSexa(double *value, const char *cmd);
+/* Get String */
+int getCommandString(char *data, const char* cmd);
+/* Get Int */
+int getCommandInt(int *value, const char* cmd);
+/* Get tracking frequency */
+int getTrackFreq(double * value);
+/* Get site Latitude */
+int getSiteLatitude(int *dd, int *mm);
+/* Get site Longitude */
+int getSiteLongitude(int *ddd, int *mm);
+/* Get Calender data */
+int getCalenderDate(char *date);
+/* Get site Name */
+int getSiteName(char *siteName, int siteNum);
+/* Get Number of Bars */
+int getNumberOfBars(int *value);
+/* Get Home Search Status */
+int getHomeSearchStatus(int *status);
+/* Get OTA Temperature */
+int getOTATemp(double * value);
+/* Get time format: 12 or 24 */
+int getTimeFormat(int *format);
+
+
+/**************************************************************************
+ Set Commands
+ **************************************************************************/
+
+/* Set Int */
+int setCommandInt(int data, const char *cmd);
+/* Set Sexigesimal */
+int setCommandXYZ( int x, int y, int z, const char *cmd);
+/* Common routine for Set commands */
+int setStandardProcedure(char * writeData);
+/* Set Slew Mode */
+int setSlewMode(int slewMode);
+/* Set Alignment mode */
+int setAlignmentMode(unsigned int alignMode);
+/* Set Object RA */
+int setObjectRA(double ra);
+/* set Object DEC */
+int setObjectDEC(double dec);
+/* Set Calender date */
+int setCalenderDate(int dd, int mm, int yy);
+/* Set UTC offset */
+int setUTCOffset(double hours);
+/* Set Track Freq */
+int setTrackFreq(double trackF);
+/* Set current site longitude */
+int setSiteLongitude(double Long);
+/* Set current site latitude */
+int setSiteLatitude(double Lat);
+/* Set Object Azimuth */
+int setObjAz(double az);
+/* Set Object Altitude */
+int setObjAlt(double alt);
+/* Set site name */
+int setSiteName(char * siteName, int siteNum);
+/* Set maximum slew rate */
+int setMaxSlewRate(int slewRate);
+/* Set focuser motion */
+int setFocuserMotion(int motionType);
+/* Set focuser speed mode */
+int setFocuserSpeedMode (int speedMode);
+/* Set minimum elevation limit */
+int setMinElevationLimit(int min);
+/* Set maximum elevation limit */
+int setMaxElevationLimit(int max);
+
+/**************************************************************************
+ Motion Commands
+ **************************************************************************/
+/* Slew to the selected coordinates */
+int Slew();
+/* Synchronize to the selected coordinates and return the matching object if any */
+int Sync(char *matchedObject);
+/* Abort slew in all axes */
+int abortSlew();
+/* Move into one direction, two valid directions can be stacked */
+int MoveTo(int direction);
+/* Half movement in a particular direction */
+int HaltMovement(int direction);
+/* Select the tracking mode */
+int selectTrackingMode(int trackMode);
+
+/**************************************************************************
+ Other Commands
+ **************************************************************************/
+ /* Ensures LX200 RA/DEC format is long */
+int checkLX200Format();
+/* Select a site from the LX200 controller */
+int selectSite(int siteNum);
+/* Select a catalog object */
+int selectCatalogObject(int catalog, int NNNN);
+/* Select a sub catalog */
+int selectSubCatalog(int catalog, int subCatalog);
 
 /**********************************************************************
 * BASIC
@@ -98,7 +163,8 @@ int getMinElevationLimit(void);
 
 int Connect(const char *device)
 {
- fprintf(stderr, "connecting to device %s\n", device);
+ fprintf(stderr, "Connecting to device %s\n", device);
+ 
  if (openPort(device) < 0)
   return -1;
  else
@@ -107,20 +173,27 @@ int Connect(const char *device)
 
 void Disconnect()
 {
-
+fprintf(stderr, "Disconnected.\n");
 close(fd);
-
 }
 
 int testTelescope()
-{
+{  
+  int i=0;
   char ack[1] = { (char) 0x06 };
   char MountAlign[64];
-  fprintf(stderr, "In testing telescope\n");
+  fprintf(stderr, "Testing telescope's connection...\n");
 
-
-  write(fd, ack, 1);
-  return portRead(MountAlign, 1);
+  for (i=0; i < 2; i++)
+  {
+    write(fd, ack, 1);
+    read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);
+    if (read_ret == 1)
+     return 0;
+    usleep(50000);
+  }
+  
+  return -1;
 }
 
 /**********************************************************************
@@ -136,38 +209,47 @@ char ACK()
 
   if (write_ret < 0)
     return -1;
-
-  if ( !(read_ret = portRead(MountAlign, 1)))
-   return MountAlign[0];
+ 
+  read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);
+  
+  if (read_ret == 1)
+    return MountAlign[0];
   else
-   return -1;
+    return read_ret;
 
 }
 
-double getCommand(const char * cmd)
+int getCommandSexa(double *value, const char * cmd)
 {
   char tempString[16];
-  double value;
+  
+  tcflush(fd, TCIFLUSH);
 
-  portWrite(cmd);
-
-    read_ret = portRead(tempString, -1);
-    tempString[read_ret - 1] = '\0';
-
-  if (f_scansexa(tempString, &value))
-   return -1000;
- else
-   return value;
+  if (portWrite(cmd) < 0)
+   return -1;
+  
+  if ( (read_ret = portRead(tempString, -1, LX200_TIMEOUT)) < 1)
+     return read_ret;
+ 
+  tempString[read_ret - 1] = '\0';
+  
+  if (f_scansexa(tempString, value))
+   return -1;
+ 
+   return 0;
 }
 
-int getCommandStr(char *data, const char* cmd)
+int getCommandString(char *data, const char* cmd)
 {
     char * term;
-    portWrite(cmd);
+    
+    if (portWrite(cmd) < 0)
+      return -1;
 
-    read_ret = portRead(data, -1);
+    read_ret = portRead(data, -1, LX200_TIMEOUT);
+    
     if (read_ret < 1)
-     return -1;
+     return read_ret;
 
     term = strchr (data, '#');
     if (term)
@@ -182,13 +264,13 @@ int getCalenderDate(char *date)
 {
 
  int dd, mm, yy;
+ int err;
 
- if (getCommandStr(date, "#:GC#"))
-  return (-1);
+ if ( (err = getCommandString(date, "#:GC#")) )
+   return err;
 
  /* Meade format is MM/DD/YY */
-/* if (validateSex(date, &mm, &dd, &yy))
-  return (-1);*/
+
   read_ret = sscanf(date, "%d%*c%d%*c%d", &mm, &dd, &yy);
   if (read_ret < 3)
    return -1;
@@ -200,14 +282,19 @@ int getCalenderDate(char *date)
 
 }
 
-int getTimeFormat()
+int getTimeFormat(int *format)
 {
   char tempString[16];
   int tMode;
 
-  portWrite("#:Gc#");
+  if (portWrite("#:Gc#") < 0)
+    return -1;
 
-  read_ret = portRead(tempString, -1);
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  
+  if (read_ret < 1)
+   return read_ret;
+   
   tempString[read_ret-1] = '\0';
 
   read_ret = sscanf(tempString, "(%d)", &tMode);
@@ -215,11 +302,13 @@ int getTimeFormat()
   if (read_ret < 1)
    return -1;
   else
-  return tMode;
+   *format = tMode;
+   
+  return 0;
 
 }
 
-int getUTCOffset()
+/*int getUTCOffset()
 {
     char tempString[4];
     int offSet;
@@ -246,7 +335,7 @@ int getMaxElevationLimit()
 
     portWrite("#:Go#");
 
-    read_ret = portRead(tempString, -1);
+    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
     if (read_ret < 1)
      return -1;
 
@@ -266,7 +355,7 @@ int getMinElevationLimit()
 
     portWrite("#:Gh#");
 
-    read_ret = portRead(tempString, -1);
+    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
     if (read_ret < 1)
      return -1;
 
@@ -279,6 +368,7 @@ int getMinElevationLimit()
     return limit;
 
 }
+*/
 
 int getSiteName(char *siteName, int siteNum)
 {
@@ -287,24 +377,28 @@ int getSiteName(char *siteName, int siteNum)
   switch (siteNum)
   {
     case 1:
-     portWrite("#:GM#");
+     if (portWrite("#:GM#") < 0)
+      return -1;
      break;
     case 2:
-     portWrite("#:GN#");
+     if (portWrite("#:GN#") < 0)
+      return -1;
      break;
     case 3:
-     portWrite("#:GO#");
+     if (portWrite("#:GO#") < 0)
+       return -1;
      break;
     case 4:
-     portWrite("#:GP#");
+     if (portWrite("#:GP#") < 0)
+      return -1;
      break;
     default:
      return -1;
    }
 
-   read_ret = portRead(siteName, -1);
+   read_ret = portRead(siteName, -1, LX200_TIMEOUT);
    if (read_ret < 1)
-     return -1;
+     return read_ret;
 
    siteName[read_ret - 1] = '\0';
 
@@ -316,24 +410,27 @@ int getSiteName(char *siteName, int siteNum)
     if (term)
       strcpy(siteName, "unused site");
 
-
    fprintf(stderr, "Requested site name: %s\n", siteName);
 
     return 0;
-
 }
 
 int getSiteLatitude(int *dd, int *mm)
 {
   char tempString[16];
+  
+  if (portWrite("#:Gt#") < 0)
+    return -1;
 
-  portWrite("#:Gt#");
-
-  read_ret = portRead(tempString, -1);
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  
+   if (read_ret < 1) 
+   return read_ret;
+   
   tempString[read_ret -1] = '\0';
 
-  if (!sscanf (tempString, "%d%*c%d", dd, mm))
-   return -1000;
+  if (sscanf (tempString, "%d%*c%d", dd, mm) < 2)
+   return -1;
 
   fprintf(stderr, "Requested site latitude in String %s\n", tempString);
   fprintf(stderr, "Requested site latitude %d:%d\n", *dd, *mm);
@@ -345,13 +442,18 @@ int getSiteLongitude(int *ddd, int *mm)
 {
   char tempString[16];
 
-  portWrite("#:Gg#");
+  if (portWrite("#:Gg#") < 0)
+   return -1;
 
-  read_ret = portRead(tempString, -1);
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  
+  if (read_ret < 1)
+    return read_ret;
+    
   tempString[read_ret -1] = '\0';
 
-  if (!sscanf (tempString, "%d%*c%d", ddd, mm))
-   return -1000;
+  if (sscanf (tempString, "%d%*c%d", ddd, mm) < 2)
+   return -1;
 
   fprintf(stderr, "Requested site longitude in String %s\n", tempString);
   fprintf(stderr, "Requested site longitude %d:%d\n", *ddd, *mm);
@@ -359,69 +461,92 @@ int getSiteLongitude(int *ddd, int *mm)
   return 0;
 }
 
-double getTrackFreq()
+int getTrackFreq(double *value)
 {
-    float Freq = 0;
+    float Freq;
     char tempString[16];
-    portWrite("#:GT#");
+    
+    if (portWrite("#:GT#") < 0)
+      return -1;
 
-    read_ret = portRead(tempString, -1);
+    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+    
     if (read_ret < 1)
-     return -1;
+     return read_ret;
 
     tempString[read_ret] = '\0';
-    sscanf(tempString, "%f#", &Freq);
-
-    return (double) Freq;
+    
+    if (sscanf(tempString, "%f#", &Freq) < 1)
+     return -1;
+   
+    *value = (double) Freq;
+    
+    return 0;
 }
 
-int getNumberOfBars()
+int getNumberOfBars(int *value)
 {
    char tempString[128];
 
-   portWrite("#:D#");
+   if (portWrite("#:D#") < 0)
+     return -1;
 
-   read_ret = portRead(tempString, -1);
+   read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+   
+   if (read_ret < 0)
+    return read_ret;
 
-   return (read_ret - 1);
-
+   *value = read_ret -1;
+   
+   return 0;
 }
 
-int getHomeSearchStatus()
+int getHomeSearchStatus(int *status)
 {
   char tempString[16];
 
-  portWrite("#:h?#");
+  if (portWrite("#:h?#") < 0)
+   return -1;
 
-  portRead(tempString, 1);
+  read_ret = portRead(tempString, 1, LX200_TIMEOUT);
+  
+  if (read_ret < 1)
+   return read_ret;
+   
   tempString[1] = '\0';
 
   if (tempString[0] == '0')
-    return 0;
+    *status = 0;
   else if (tempString[0] == '1')
-    return 1;
+    *status = 1;
   else if (tempString[0] == '2')
-    return 2;
-  else
-    return -1;
+    *status = 1;
+  
+  return 0;
 }
 
-double getOTATemp()
+int getOTATemp(double *value)
 {
 
   char tempString[16];
   float temp;
-  portWrite("#:fT#");
+  
+  if (portWrite("#:fT#") < 0)
+   return -1;
 
-  read_ret = portRead(tempString, -1);
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  
   if (read_ret < 1)
-   return READ_ERROR;
+   return read_ret;
+   
   tempString[read_ret - 1] = '\0';
 
-  if (!sscanf(tempString, "%f", &temp))
-   return READ_ERROR;
+  if (sscanf(tempString, "%f", &temp) < 1)
+   return -1;
+   
+   *value = (double) temp;
 
-  return (double) temp;
+  return 0;
 
 }
 
@@ -432,29 +557,36 @@ double getOTATemp()
 int setStandardProcedure(char * data)
 {
  char boolRet[2];
- portWrite(data);
- read_ret = portRead(boolRet, 1);
+ 
+ if (portWrite(data) < 0)
+  return -1;
+ 
+ read_ret = portRead(boolRet, 1, LX200_TIMEOUT);
+ 
+ if (read_ret < 1)
+   return read_ret;
 
-   if (boolRet[0] == '0')
-   {
-     fprintf(stderr, "Failure\n");
+ if (boolRet[0] == '0')
+ {
+     fprintf(stderr, "%s Failed.\n", data);
      return -1;
-   }
+ }
 
-   fprintf(stderr, "Success\n");
-   return 0;
+ fprintf(stderr, "%s Successful\n", data);
+ return 0;
 
 
 }
 
-void setCommandInt(int data, const char *cmd)
+int setCommandInt(int data, const char *cmd)
 {
 
   char tempString[16];
 
   sprintf(tempString, "%s%d#", cmd, data);
 
-  portWrite(tempString);
+  if (portWrite(tempString) < 0)
+    return -1;
 
 }
 
@@ -492,7 +624,6 @@ int setMaxSlewRate(int slewRate)
 }
 
 
-
 int setObjectRA(double ra)
 {
 
@@ -501,7 +632,8 @@ int setObjectRA(double ra)
 
  getSexComponents(ra, &h, &m, &s);
 
- sprintf(tempString, "#:Sr %02d:%02d:%02d#", (int) h, (int) m, (int) s);
+ sprintf(tempString, "#:Sr %02d:%02d:%02d#", h, m, s);
+ IDLog("Set Object RA String %s\n", tempString);
   return (setStandardProcedure(tempString));
 }
 
@@ -515,10 +647,12 @@ int setObjectDEC(double dec)
 
   /* case with negative zero */
   if (!d && dec < 0)
-   sprintf(tempString, "#:Sd -%02d:%02d:%02d#", (int) d, (int) m, (int) s);
+   sprintf(tempString, "#:Sd -%02d:%02d:%02d#", d, m, s);
   else
-  sprintf(tempString, "#:Sd %+03d:%02d:%02d#", (int) d, (int) m, (int) s);
+  sprintf(tempString, "#:Sd %+03d:%02d:%02d#", d, m, s);
 
+  IDLog("Set Object DEC String %s\n", tempString);
+  
    return (setStandardProcedure(tempString));
 
 }
@@ -532,23 +666,27 @@ int setCommandXYZ(int x, int y, int z, const char *cmd)
   return (setStandardProcedure(tempString));
 }
 
-void setAlignmentMode(unsigned int alignMode)
+int setAlignmentMode(unsigned int alignMode)
 {
-  fprintf(stderr , "In set alignment mode\n");
+  fprintf(stderr , "Set alignment mode %d\n", alignMode);
 
   switch (alignMode)
    {
      case LX200_ALIGN_POLAR:
-      portWrite("#:AP#");
+      if (portWrite("#:AP#") < 0)
+        return -1;
       break;
      case LX200_ALIGN_ALTAZ:
-      portWrite("#:AA#");
+      if (portWrite("#:AA#") < 0)
+        return -1;
       break;
      case LX200_ALIGN_LAND:
-       portWrite("#:AL#");
+       if (portWrite("#:AL#") < 0)
+        return -1;
        break;
    }
-
+   
+   return 0;
 }
 
 int setCalenderDate(int dd, int mm, int yy)
@@ -556,29 +694,28 @@ int setCalenderDate(int dd, int mm, int yy)
    char tempString[32];
    char dumpPlanetaryUpdateString[64];
    char boolRet[2];
-   int result = 0;
    yy = yy % 100;
 
    sprintf(tempString, "#:SC %02d/%02d/%02d#", mm, dd, yy);
 
-   portWrite(tempString);
+   if (portWrite(tempString) < 0)
+    return -1;
 
-   portRead(boolRet, 1);
+   read_ret = portRead(boolRet, 1, LX200_TIMEOUT);
+   
+   if (read_ret < 1)
+    return read_ret;
+    
    boolRet[1] = '\0';
 
    if (boolRet[0] == '0')
-    result = -1;
-   else
-   {
-    result = 0;
+     return -1;
+     
+    /* Read dumped data */
+    portRead(dumpPlanetaryUpdateString, -1, LX200_TIMEOUT);
+    portRead(dumpPlanetaryUpdateString, -1, 5);
 
-    portRead(dumpPlanetaryUpdateString, -1);
-
-    portReadT(dumpPlanetaryUpdateString, -1, 5);
-
-   }
-
-   return result;
+   return 0;
 }
 
 int setUTCOffset(double hours)
@@ -670,59 +807,73 @@ int setSiteName(char * siteName, int siteNum)
    return (setStandardProcedure(tempString));
 }
 
-void setSlewMode(int slewMode)
+int setSlewMode(int slewMode)
 {
 
   switch (slewMode)
   {
     case LX200_SLEW_MAX:
-     portWrite("#:RS#");
+     if (portWrite("#:RS#") < 0)
+      return -1;
      break;
     case LX200_SLEW_FIND:
-     portWrite("#:RM#");
+     if (portWrite("#:RM#") < 0)
+      return -1;
      break;
     case LX200_SLEW_CENTER:
-     portWrite("#:RC#");
+     if (portWrite("#:RC#") < 0)
+      return -1;
      break;
     case LX200_SLEW_GUIDE:
-     portWrite("#:RG#");
+     if (portWrite("#:RG#") < 0)
+      return -1;
      break;
     default:
      break;
    }
+   
+   return 0;
 
 }
 
-void setFocuserMotion(int motionType)
+int setFocuserMotion(int motionType)
 {
 
   switch (motionType)
   {
     case LX200_FOCUSIN:
-    portWrite("#:F+#");
+    if (portWrite("#:F+#") < 0)
+      return -1;
       break;
     case LX200_FOCUSOUT:
-     portWrite("#:F-#");
+     if (portWrite("#:F-#") < 0)
+       return -1;
      break;
   }
 
+  return 0;
 }
 
-void setFocuserSpeedMode (int speedMode)
+int setFocuserSpeedMode (int speedMode)
 {
 
  switch (speedMode)
  {
     case LX200_HALTFOCUS:
-     portWrite("#:FQ#");
+     if (portWrite("#:FQ#") < 0)
+      return -1;
      break;
     case LX200_FOCUSFAST:
-     portWrite("#:FF#");
+     if (portWrite("#:FF#") < 0)
+      return -1;
      break;
     case LX200_FOCUSSLOW:
-      portWrite("#:FS#");
+      if (portWrite("#:FS#") < 0)
+       return -1;
       break;
  }
+ 
+ return 0;
 
 }
 
@@ -745,27 +896,31 @@ int Slew()
     char slewNum[2];
     char errorMsg[128];
 
-    portWrite("#:MS#");
+    if (portWrite("#:MS#") < 0)
+      return -1;
 
-    portRead(slewNum, 1);
+    read_ret = portRead(slewNum, 1, LX200_TIMEOUT);
+    
+    if (read_ret < 1)
+      return read_ret;
+      
     slewNum[1] = '\0';
 
     if (slewNum[0] == '0')
      return 0;
-    else if (slewNum[0] == '1')
-    {
-      portRead(errorMsg, -1);
+   
+   read_ret = portRead(errorMsg, -1, LX200_TIMEOUT);
+   
+   if (read_ret < 1)
+    return read_ret;
+    
+    if  (slewNum[0] == '1')
       return 1;
-    }
-    else
-    {
-     portRead(errorMsg, -1);
-     return 2;
-    }
+    else return 2;
 
 }
 
-void MoveTo(int direction)
+int MoveTo(int direction)
 {
 
   switch (direction)
@@ -788,73 +943,99 @@ void MoveTo(int direction)
 
 }
 
-void HaltMovement(int direction)
+int HaltMovement(int direction)
 {
 
 switch (direction)
   {
     case LX200_NORTH:
-     portWrite("#:Qn#");
+     if (portWrite("#:Qn#") < 0)
+      return -1;
      break;
     case LX200_WEST:
-     portWrite("#:Qw#");
+     if (portWrite("#:Qw#") < 0)
+      return -1;
      break;
     case LX200_EAST:
-     portWrite("#:Qe#");
+     if (portWrite("#:Qe#") < 0)
+      return -1;
      break;
     case LX200_SOUTH:
-     portWrite("#:Qs#");
+     if (portWrite("#:Qs#") < 0)
+       return -1;
     break;
     case LX200_ALL:
-     portWrite("#:Q#");
+     if (portWrite("#:Q#") < 0)
+       return -1;
      break;
     default:
+     return -1;
     break;
   }
+  
+  return 0;
 
 }
 
-void abortSlew()
+int abortSlew()
 {
 
- portWrite("#:Q#");
+ if (portWrite("#:Q#") < 0)
+  return -1;
 
 }
 
-void Sync(char *matchedObject)
+int Sync(char *matchedObject)
 {
   portWrite("#:CM#");
 
-  read_ret = portRead(matchedObject, -1);
+  read_ret = portRead(matchedObject, -1, LX200_TIMEOUT);
+  
+  if (read_ret < 1)
+   return read_ret;
+   
   matchedObject[read_ret-1] = '\0';
+  
+  /* Sleep 10ms before flushing. This solves some issues with LX200 compatible devices. */
+  usleep(10000);
+  
+  tcflush(fd, TCIFLUSH);
 }
 
-void selectSite(int siteNum)
+int selectSite(int siteNum)
 {
 
   switch (siteNum)
   {
     case 1:
-      portWrite("#:W1#");
+      if (portWrite("#:W1#") < 0)
+       return -1;
       break;
     case 2:
-      portWrite("#:W2#");
+      if (portWrite("#:W2#") < 0)
+       return -1;
       break;
     case 3:
-      portWrite("#:W3#");
+      if (portWrite("#:W3#") < 0)
+       return -1;
       break;
     case 4:
-      portWrite("#:W4#");
+      if (portWrite("#:W4#") < 0)
+       return -1;
       break;
     default:
+    return -1;
     break;
   }
+  
+  return 0;
 
 }
 
-void selectCatalogObject(int catalog, int NNNN)
+int selectCatalogObject(int catalog, int NNNN)
 {
  char tempString[16];
+ 
  switch (catalog)
  {
    case LX200_STAR_C:
@@ -867,10 +1048,11 @@ void selectCatalogObject(int catalog, int NNNN)
     sprintf(tempString, "#:LM%d#", NNNN);
     break;
    default:
-    return;
+    return -1;
   }
 
-  portWrite(tempString);
+  if (portWrite(tempString) < 0)
+   return -1;
 
 }
 
@@ -894,39 +1076,52 @@ int selectSubCatalog(int catalog, int subCatalog)
    return (setStandardProcedure(tempString));
 }
 
-void checkLX200Format()
+int checkLX200Format()
 {
 
   char tempString[16];
 
-    portWrite("#:GR#");
+  if (portWrite("#:GR#") < 0)
+   return -1;
 
-    read_ret = portRead(tempString, -1);
-    tempString[read_ret - 1] = '\0';
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  
+  if (read_ret < 1)
+   return read_ret;
+   
+  tempString[read_ret - 1] = '\0';
 
-    /* Short */
-    if (tempString[5] == '.')
-     portWrite("#:U#");
-
+  /* Short */
+  if (tempString[5] == '.')
+     if (portWrite("#:U#") < 0)
+      return -1;
+  
+  return 0;
 }
 
-void selectTrackingMode(int trackMode)
+int  selectTrackingMode(int trackMode)
 {
 
    switch (trackMode)
    {
     case LX200_TRACK_DEFAULT:
-     portWrite("#:TQ#");
+     if (portWrite("#:TQ#") < 0)
+       return -1;
      break;
     case LX200_TRACK_LUNAR:
-     portWrite("#:TL#");
+     if (portWrite("#:TL#") < 0)
+       return -1;
      break;
    case LX200_TRACK_MANUAL:
-     portWrite("#:TM#");
+     if (portWrite("#:TM#") < 0)
+      return -1;
      break;
    default:
+    return -1;
     break;
    }
+   
+   return 0;
 
 }
 
@@ -938,10 +1133,8 @@ int openPort(const char *portID)
 {
   struct termios ttyOptions;
 
-  fd = open(portID, O_RDWR);
-
-  if (fd == -1)
-     return OPENPORT_ERROR;
+  if ( (fd = open(portID, O_RDWR)) == -1)
+    return -1;
 
   memset(&ttyOptions, 0, sizeof(ttyOptions));
   tcgetattr(fd, &ttyOptions);
@@ -981,117 +1174,73 @@ int openPort(const char *portID)
 
 int portWrite(const char * buf)
 {
-  int nbytes = strlen(buf);
-
-  int bytesWritten = 0;
+  int nbytes, totalBytesWritten;
+  int bytesWritten = 0;   
+   
+  nbytes = totalBytesWritten = strlen(buf);
 
   while (nbytes > 0)
   {
+    
     bytesWritten = write(fd, buf, nbytes);
 
     if (bytesWritten < 0)
-     return WRITE_ERROR;
-
+     return -1;
 
     buf += bytesWritten;
     nbytes -= bytesWritten;
   }
 
-  /* if return is 0 then everything is written, otherwise, some bytes were not written */
-  return (nbytes);
+  /* Returns the # of bytes written */
+  return (totalBytesWritten);
 }
 
-int portReadT(char *buf, int nbytes, int timeout)
+int portRead(char *buf, int nbytes, int timeout)
 {
 
 int bytesRead = 0;
+int totalBytesRead = 0;
+int err;
 
+  /* Loop until encountring the '#' char */
   if (nbytes == -1)
   {
-     int totalBytes = 0;
      for (;;)
      {
-         if (LX200readOut(timeout))
-	  return READOUT_ERROR;
+         if ( (err = LX200readOut(timeout)) )
+	   return err;
 
          bytesRead = read(fd, buf, 1);
 
          if (bytesRead < 0 )
-            return READ_ERROR;
+            return -1;
 
         if (bytesRead)
-          totalBytes++;
+          totalBytesRead++;
 
         if (*buf == '#')
-	   return totalBytes;
+	   return totalBytesRead;
 
         buf += bytesRead;
      }
   }
-
+  
   while (nbytes > 0)
   {
-     if (LX200readOut(timeout))
-      return READOUT_ERROR;
+     if ( (err = LX200readOut(timeout)) )
+      return err;
 
      bytesRead = read(fd, buf, nbytes);
 
      if (bytesRead < 0 )
-      return bytesRead;
+      return -1;
 
      buf += bytesRead;
+     totalBytesRead++;
      nbytes -= bytesRead;
   }
 
-  return (nbytes);
-}
-
-int portRead(char *buf, int nbytes)
-{
-  int bytesRead = 0;
-
-  /* if nbytes is -1 then read till encountering terminating # */
-  if (nbytes == -1)
-  {
-     int totalBytes = 0;
-     for (;;)
-     {
-         if (LX200readOut(2))
-	  return READOUT_ERROR;
-
-         bytesRead = read(fd, buf, 1);
-
-         if (bytesRead < 0 )
-            return READ_ERROR;
-
-        if (bytesRead)
-          totalBytes++;
-
-        if (*buf == '#')
-	{
-	   return totalBytes;
-	}
-
-        buf += bytesRead;
-     }
-  }
-
-  /* Read nbytes */
-  while (nbytes > 0)
-  {
-     if (LX200readOut(2))
-      return READOUT_ERROR;
-
-     bytesRead = read(fd, buf, nbytes);
-
-     if (bytesRead < 0 )
-      return bytesRead;
-
-     buf += bytesRead;
-     nbytes -= bytesRead;
-  }
-
-  return (nbytes);
+  return totalBytesRead;
 }
 
 int LX200readOut(int timeout)
@@ -1110,12 +1259,15 @@ int LX200readOut(int timeout)
   /* Wait till we have a change in the fd status */
   retval = select (fd+1, &readout, NULL, NULL, &tv);
 
+  /* Return 0 on successful fd change */
   if (retval > 0)
    return 0;
-  else
-   return
-   	READOUT_ERROR;
-
-
+  /* Return -1 due to an error */
+  else if (retval == -1)
+   return retval;
+  /* Return -2 if time expires before anything interesting happens */
+  else 
+    return -2;
+  
 }
 
