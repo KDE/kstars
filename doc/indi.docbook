@@ -205,7 +205,7 @@ popup menu that allows you to control the properties of the device. You can
 issue commands like <command>Slew, Sync,</command> and
 <command>Track</command> directly from the sky map.
 </para>
-<para>Here is a screenshot of the popup menu with an active LX200 Autostar
+<para>Here is a screenshot of the popup menu with an active LX200 Classic
 device:</para>
 <screenshot>
 <screeninfo>Controlling devices from sky map</screeninfo>
@@ -310,8 +310,8 @@ Vega, and the telescope's crosshair should now be centered around Vega.
 </warning>
 </sect1>
 
-<sect1 id="indi-advanced-control">
-<title>Advanced INDI Control</title>
+<sect1 id="indi-concepts">
+<title>INDI Concepts</title>
 
 <para>
 The INDI control panel offers many device properties not accessible from the
