@@ -283,22 +283,8 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		calcEcliptic(num->julianMillenia(), ep);
 	}
 
-	//Determine position angle of planet (assuming that it is aligned with
-	//the Ecliptic, which is only roughly correct).
-	//Displace a point along +Ecliptic Latitude by 1 degree
-	SkyPoint test;
-	dms newELat( ecLat()->Degrees() + 1.0 );
-	test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
-	double dx = test.ra()->Degrees() - ra()->Degrees();
-	double dy = dec()->Degrees() - test.dec()->Degrees();
-	double pa;
-	if ( dy ) {
-		pa = atan( dx/dy )*180.0/dms::PI;
-	} else {
-		pa = 90.0;
-		if ( dx > 0 ) pa = -90.0;
-	}
-	setPA( pa );
+	//determine the position angle
+	findPA( num );
 
 	//Add point to Planet Trail
 	if ( hasTrail() ) {

@@ -229,6 +229,11 @@ protected:
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
 	};
 
+	/**Determine the position angle of the planet for a given date 
+		*(used internally by findPosition() )
+		*/
+	void findPA( const KSNumbers *num );
+	
 	EclipticPosition ep;
 	QPtrList<SkyPoint> Trail;
 
