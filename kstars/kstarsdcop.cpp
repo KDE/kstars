@@ -443,8 +443,9 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 		if ( useChartColors ) {
 			data()->colorScheme()->copy( cs );
 			
-			// restore colormode in skymap
+			// restore colormode and colorintensity in skymap
 			map()->setStarColorMode( cs.starColorMode() );
+			map()->setStarColorIntensity( cs.starColorIntensity() );
 			map()->forceUpdate();
 		}
 		

@@ -53,6 +53,9 @@
 #include "skyobject.h"
 #include "skyobjectname.h"
 #include "ksplanetbase.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
+#include "ksmoon.h"
 #include "simclock.h"
 #include "infoboxes.h"
 #include "toggleaction.h"
@@ -334,6 +337,7 @@ void KStars::slotViewOps() {
 
 void KStars::slotApplySettings() {
 	Options::writeConfig();
+	data()->setFullTimeUpdate();
 	map()->forceUpdate();
 }
 
@@ -588,6 +592,9 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( NULL );
 	} else {
 		map()->setClickedPoint( map()->focus() );
+		map()->setClickedObject( NULL );
+		map()->setFocusObject( NULL );//no longer tracking focusObject
+		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
@@ -836,6 +843,36 @@ void KStars::slotFullScreen()
   else {
     topLevelWidget()->showFullScreen();
     }
+}
+
+void KStars::slotClearAllTrails() {
+	//Exclude object with temporary trail
+	SkyObject *exOb( NULL );
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
+		exOb = map()->focusObject();
+	}
+	
+	//Major bodies
+	if ( !( exOb && exOb->name() == "Moon" ) )    data()->Moon->clearTrail();
+	if ( !( exOb && exOb->name() == "Sun" ) )     data()->PCat->findByName("Sun")->clearTrail();
+	if ( !( exOb && exOb->name() == "Mercury" ) ) data()->PCat->findByName("Mercury")->clearTrail();
+	if ( !( exOb && exOb->name() == "Venus" ) )   data()->PCat->findByName("Venus")->clearTrail();
+	if ( !( exOb && exOb->name() == "Mars" ) )    data()->PCat->findByName("Mars")->clearTrail();
+	if ( !( exOb && exOb->name() == "Jupiter" ) ) data()->PCat->findByName("Jupiter")->clearTrail();
+	if ( !( exOb && exOb->name() == "Saturn" ) )  data()->PCat->findByName("Saturn")->clearTrail();
+	if ( !( exOb && exOb->name() == "Uranus" ) )  data()->PCat->findByName("Uranus")->clearTrail();
+	if ( !( exOb && exOb->name() == "Neptune" ) ) data()->PCat->findByName("Neptune")->clearTrail();
+	if ( !( exOb && exOb->name() == "Pluto" ) )   data()->PCat->findByName("Pluto")->clearTrail();
+	
+	//Asteroids
+	for ( KSAsteroid *ast = data()->asteroidList.first(); ast; ast = data()->asteroidList.next() ) 
+		if ( !( exOb && exOb->name() == ast->name() ) ) ast->clearTrail();
+
+	//Comets
+	for ( KSComet *com = data()->cometList.first(); com; com = data()->cometList.next() ) 
+		if ( !( exOb && exOb->name() == com->name() ) ) com->clearTrail();
+
+	map()->forceUpdate();
 }
 
 //toggle display of GUI Items on/off

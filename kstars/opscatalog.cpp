@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qlistview.h> //QCheckListItem
+#include <qcheckbox.h>
+#include <qlabel.h>
 
 #include "opscatalog.h"
 #include "Options.h"
@@ -43,8 +45,16 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	showMessier = new QCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
 	showMessier->setOn( Options::showMessier() );
 
+	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
+	kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
+	kcfg_MagLimitDrawStar->setMinValue( Options::magLimitDrawStarZoomOut() );
+	kcfg_MagLimitDrawStarZoomOut->setMaxValue( Options::magLimitDrawStar() );
+	
 	kcfg_MagLimitDrawDeepSky->setMaxValue( 16.0 );
 	kcfg_MagLimitDrawDeepSkyZoomOut->setMaxValue( 16.0 );
+	
+	//disable star-related widgets if not showing stars
+	if ( ! kcfg_ShowStars->isChecked() ) slotStarWidgets(false);
 	
 	//Add custom catalogs, if necessary
 	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) { //loop over custom catalogs
@@ -57,13 +67,11 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
 
-	// draw star magnitude box
 	connect( kcfg_MagLimitDrawStar, SIGNAL( valueChanged(double) ),
 		SLOT( slotSetDrawStarMagnitude(double) ) );
-	
-	// draw star zoom out magnitude box
 	connect( kcfg_MagLimitDrawStarZoomOut, SIGNAL( valueChanged(double) ),
 		SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
+	connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
 }
 
 //empty destructor
@@ -142,13 +150,29 @@ void OpsCatalog::slotRemoveCatalog() {
 }
 
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
+	kcfg_MagLimitDrawStarZoomOut->setMaxValue( newValue );
 	ksw->data()->setMagnitude( newValue );
 }
 
 void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
-	Options::setMagLimitDrawStarZoomOut(newValue);
+	kcfg_MagLimitDrawStar->setMinValue( newValue );
+	Options::setMagLimitDrawStarZoomOut( newValue );
 	// force redraw
 	ksw->map()->forceUpdate();
+}
+
+void OpsCatalog::slotStarWidgets(bool on) {
+	textLabelMagStars->setEnabled(on);
+	textLabelMagStarsZoomOut->setEnabled(on);
+	textLabelMagStarInfo->setEnabled(on);
+	textLabelMag1->setEnabled(on);
+	textLabelMag2->setEnabled(on);
+	textLabelMag3->setEnabled(on);
+	kcfg_MagLimitDrawStar->setEnabled(on);
+	kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
+	kcfg_MagLimitDrawStarInfo->setEnabled(on);
+	kcfg_ShowStarNames->setEnabled(on);
+	kcfg_ShowStarMagnitudes->setEnabled(on);
 }
 
 #include "opscatalog.moc"
