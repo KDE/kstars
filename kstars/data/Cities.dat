@@ -72,7 +72,7 @@ Amchitka                         : Alaska                : USA                  
 American Falls                   : Idaho                 : USA                   : 42 : 45 :  0 : N : 112 : 52 : 58 : W : -7.0 : US
 Ames                             : Iowa                  : USA                   : 42 :  1 : 54 : N :  93 : 37 :  0 : W : -6.0 : US
 Amherst                          : Ohio                  : USA                   : 41 : 23 : 51 : N :  82 : 13 : 10 : W : -5.0 : US
-Amherst Obs.                     : Massachusettes        : USA                   : 42 : 23 :  5 : N :  72 : 20 : 44 : W : -5.0 : US
+Amherst Obs.                     : Massachusetts         : USA                   : 42 : 23 :  5 : N :  72 : 20 : 44 : W : -5.0 : US
 Amilcar Cabral                   :                       : Cape Verde            : 16 : 45 :  0 : N :  22 : 56 : 59 : W :  1.0 : --
 Amman                            :                       : Jordan                : 31 : 56 : 59 : N :  35 : 57 :  0 : E :  2.0 : JD
 Amsterdam                        :                       : Netherlands           : 52 : 21 :  0 : N :   4 : 51 : 59 : E :  1.0 : EU
@@ -1013,7 +1013,7 @@ Harrison                         : Arkansas              : USA                  
 Harrisonburg                     : Virginia              : USA                   : 38 : 30 :  0 : N :  78 : 49 : 58 : W : -5.0 : US
 Hartford                         : Connecticut           : USA                   : 41 : 46 : 12 : N :  72 : 40 : 49 : W : -5.0 : US
 Hartrao                          :                       : South Africa          : 23 : 54 :  0 : S :  27 : 42 :  0 : E :  2.0 : --
-Harvard Obs.                     : Massachusettes        : USA                   : 42 : 22 :  1 : N :  71 :  7 : 14 : W : -5.0 : US
+Harvard Obs.                     : Massachusetts         : USA                   : 42 : 22 :  1 : N :  71 :  7 : 14 : W : -5.0 : US
 Harvey                           : North Dakota          : USA                   : 47 : 46 :  1 : N :  99 : 55 :  1 : W : -6.0 : US
 Hassi Messaoud                   :                       : Algeria               : 31 : 40 :  0 : N :   6 : 09 :  0 : E :   1.0 : --
 Hastings                         : Nebraska              : USA                   : 40 : 35 : 24 : N :  98 : 23 : 12 : W : -6.0 : US
@@ -1026,7 +1026,7 @@ Havana                           :                       : Cuba                 
 Havre                            : Montana               : USA                   : 48 : 32 : 59 : N : 109 : 41 :  6 : W : -7.0 : US
 Hawthorne                        : California            : USA                   : 33 : 55 :  0 : N : 118 : 21 :  7 : W : -8.0 : US
 Hawthorne                        : Nevada                : USA                   : 38 : 32 : 59 : N : 118 : 39 :  0 : W : -8.0 : US
-Haystack Obs.                    : Massachusettes        : USA                   : 42 : 37 :  4 : N :  71 : 29 : 15 : W : -5.0 : US
+Haystack Obs.                    : Massachusetts         : USA                   : 42 : 37 :  4 : N :  71 : 29 : 15 : W : -5.0 : US
 Hayward                          : California            : USA                   : 37 : 39 : 53 : N : 122 :  4 : 37 : W : -8.0 : US
 Hazard                           : Kentucky              : USA                   : 37 : 13 :  1 : N :  83 : 10 :  1 : W : -5.0 : US
 Heidelberg                       :                       : Germany               : 49 : 23 :  9 : N :   8 : 43 : 14 : E :  1.0 : EU
@@ -1823,7 +1823,7 @@ Nykoebing Falster                : Falster               : Denmark              
 Nürnberg                         :                       : Germany               : 49 : 27 :  0 : N :  11 :  5 : 56 : E : 1.0  : EU
 Oak Park                         : Illinois              : USA                   : 41 : 53 : 59 : N :  87 : 46 : 59 : W : -6.0 : US
 Oak Ridge                        : Tennessee             : USA                   : 36 :  0 : 42 : N :  84 : 16 :  0 : W : -6.0 : US
-Oak Ridge Obs.                   : Massachusettes        : USA                   : 42 : 30 :  3 : N :  71 : 33 : 29 : W : -5.0 : US
+Oak Ridge Obs.                   : Massachusetts         : USA                   : 42 : 30 :  3 : N :  71 : 33 : 29 : W : -5.0 : US
 Oakfield                         : Maine                 : USA                   : 46 :  7 : 58 : N :  68 : 10 :  1 : W : -5.0 : US
 Oakland                          : California            : USA                   : 37 : 48 :  2 : N : 122 : 15 : 54 : W : -8.0 : US
 Oakley                           : Kansas                : USA                   : 39 :  7 : 58 : N : 100 : 49 :  1 : W : -6.0 : US
