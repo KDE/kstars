@@ -388,13 +388,6 @@
                                 <height>0</height>
                             </size>
                         </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>239</red>
-                                <green>239</green>
-                                <blue>239</blue>
-                            </color>
-                        </property>
                         <property name="title">
                             <string>Select Fields in Input File</string>
                         </property>

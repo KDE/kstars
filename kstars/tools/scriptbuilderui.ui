@@ -541,13 +541,6 @@
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
-                            <property name="paletteBackgroundColor">
-                                <color>
-                                    <red>238</red>
-                                    <green>238</green>
-                                    <blue>238</blue>
-                                </color>
-                            </property>
                             <property name="text">
                                 <string></string>
                             </property>
