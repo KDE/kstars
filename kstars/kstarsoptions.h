@@ -162,6 +162,7 @@ class KStarsOptions {
 		bool showInfoBoxes;
 		bool showTimeBox, showFocusBox, showGeoBox;
 		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;
+		int stickyTimeBox, stickyGeoBox, stickyFocusBox;
 		QPoint posTimeBox, posFocusBox, posGeoBox;
 		int targetSymbol;
 		

@@ -355,6 +355,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void saveTimeBoxShaded( bool s );
 		void saveGeoBoxShaded( bool s );
 		void saveFocusBoxShaded( bool s );
+		void saveTimeBoxSticky( int s );
+		void saveGeoBoxSticky( int s );
+		void saveFocusBoxSticky( int s );
 		void saveTimeBoxPos( QPoint p );
 		void saveGeoBoxPos( QPoint p );
 		void saveFocusBoxPos( QPoint p );

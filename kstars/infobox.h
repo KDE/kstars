@@ -91,21 +91,31 @@ public:
 	QString text2() const { return Text2; }
 	QString text3() const { return Text3; }
 	QRect rect() const;
-	bool anchorRight() const { return AnchorRight; }
-	bool anchorBottom() const { return AnchorBottom; }
-	void setAnchorRight( const bool ar ) { AnchorRight = ar; }
-	void setAnchorBottom( const bool ab ) { AnchorBottom = ab; }
+	bool anchorRight() const { return ( AnchorFlag & AnchorRight ); }
+	bool anchorBottom() const { return ( AnchorFlag & AnchorBottom ); }
+	void setAnchorRight( const bool ar );
+	void setAnchorBottom( const bool ab );
+	int  anchorFlag() const { return AnchorFlag; }
+	void setAnchorFlag( const int af ) { AnchorFlag = af; }
+
+	enum AnchorType { 
+		AnchorNone   = 0x0000,
+		AnchorRight  = 0x0001,
+		AnchorBottom = 0x0002,
+		AnchorBoth   = AnchorRight | AnchorBottom
+	};
 
 signals:
 	void moved( QPoint p );
 	void shaded( bool s );
 
 private:
-	bool Shaded, Visible, AnchorRight, AnchorBottom;
+	bool Shaded, Visible;
 	//TextWidth, TextHeight are the text dimensions when box is unshaded;
 	//TextWidth1, TextHeight1 are the text dimensions when the box is shaded.
 	int FullTextWidth, FullTextHeight;
 	int ShadedTextWidth, ShadedTextHeight;
+	int AnchorFlag;
 	QPoint Pos;
 	QSize Size;
 	QString Text1, Text2, Text3;

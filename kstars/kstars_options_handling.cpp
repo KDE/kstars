@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "kstars.h"
+#include "infoboxes.h"
 
 #include <kconfig.h>
 
@@ -75,12 +76,17 @@ void KStars::loadOptions()
 	options()->shadeTimeBox  = conf->readBoolEntry( "ShadeTimeBox", true );
 	options()->shadeFocusBox = conf->readBoolEntry( "ShadeFocusBox", true );
 	options()->shadeGeoBox   = conf->readBoolEntry( "ShadeGeoBox", true );
+	options()->stickyTimeBox  = conf->readNumEntry( "StickyTimeBox", true );
+	options()->stickyFocusBox = conf->readNumEntry( "StickyFocusBox", true );
+	options()->stickyGeoBox   = conf->readNumEntry( "StickyGeoBox", true );
+	
 	QPoint p(0,0);
 	options()->posTimeBox    = conf->readPointEntry( "PositionTimeBox", &p );
 	p.setX(600);  // (600,0)
 	options()->posFocusBox   = conf->readPointEntry( "PositionFocusBox", &p );
 	p.setX(0); p.setY(600);  // (0,600)
 	options()->posGeoBox     = conf->readPointEntry( "PositionGeoBox", &p );
+	
 	options()->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 	conf->setGroup( "View" );
@@ -181,6 +187,11 @@ void KStars::saveOptions() {
 		conf->writeEntry( cshow, options()->drawCatalog[i] );
 	}
 
+	
+	saveTimeBoxSticky( infoBoxes()->timeBox()->anchorFlag() );
+	saveGeoBoxSticky( infoBoxes()->geoBox()->anchorFlag() );
+	saveFocusBoxSticky( infoBoxes()->focusBox()->anchorFlag() );
+	
 	conf->setGroup( "GUI" );
 	conf->writeEntry( "ShowInfoBoxes", options()->showInfoBoxes );
 	conf->writeEntry( "ShowTimeBox", options()->showTimeBox );
@@ -189,6 +200,9 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShadeTimeBox", options()->shadeTimeBox );
 	conf->writeEntry( "ShadeFocusBox", options()->shadeFocusBox );
 	conf->writeEntry( "ShadeGeoBox", options()->shadeGeoBox );
+	conf->writeEntry( "StickyTimeBox", options()->stickyTimeBox );
+	conf->writeEntry( "StickyFocusBox", options()->stickyFocusBox );
+	conf->writeEntry( "StickyGeoBox", options()->stickyGeoBox );
 	conf->writeEntry( "PositionTimeBox", options()->posTimeBox );
 	conf->writeEntry( "PositionFocusBox", options()->posFocusBox );
 	conf->writeEntry( "PositionGeoBox", options()->posGeoBox );
@@ -272,6 +286,18 @@ void KStars::saveGeoBoxShaded( bool s ) {
 
 void KStars::saveFocusBoxShaded( bool s ) {
 	options()->shadeFocusBox = s;
+}
+
+void KStars::saveTimeBoxSticky( int s ) {
+	options()->stickyTimeBox = s;
+}
+
+void KStars::saveGeoBoxSticky( int s ) {
+	options()->stickyGeoBox = s;
+}
+
+void KStars::saveFocusBoxSticky( int s ) {
+	options()->stickyFocusBox = s;
 }
 
 void KStars::saveTimeBoxPos( QPoint p ) {

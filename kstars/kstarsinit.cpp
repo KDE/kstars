@@ -445,6 +445,11 @@ void KStars::privatedata::buildGUI() {
 	ks->infoBoxes()->showTimeBox( ks->options()->showTimeBox );
 	ks->infoBoxes()->showFocusBox( ks->options()->showFocusBox );
 	ks->infoBoxes()->showGeoBox( ks->options()->showGeoBox );
+	
+	ks->infoBoxes()->timeBox()->setAnchorFlag( ks->options()->stickyTimeBox );
+	ks->infoBoxes()->geoBox()->setAnchorFlag( ks->options()->stickyGeoBox );
+	ks->infoBoxes()->focusBox()->setAnchorFlag( ks->options()->stickyFocusBox );
+	
 	ks->infoBoxes()->geoChanged( ks->geo() );
 
 	connect( ks->infoBoxes()->timeBox(),  SIGNAL( shaded(bool) ), ks, SLOT( saveTimeBoxShaded(bool) ) );

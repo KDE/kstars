@@ -24,16 +24,15 @@ InfoBox::InfoBox(){
 	setText2( "" );
 	setText3( "" );
 	move( 0, 0 );
-	Shaded = false;
 //Initialize text dimension variables to 0
 	FullTextWidth  = 0;
 	FullTextHeight = 0;
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
 
-	AnchorRight = false;
-	AnchorBottom = false;
+	AnchorFlag = AnchorNone;
 	Visible = true;
+	Shaded = false;
 }
 
 InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 ) {
@@ -48,8 +47,7 @@ InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 )
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
 
-	AnchorRight = false;
-	AnchorBottom = false;
+	AnchorFlag = AnchorNone;
 	Visible = true;
 }
 
@@ -65,12 +63,21 @@ InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
 	ShadedTextWidth  = 0;
 	ShadedTextHeight = 0;
 
-	AnchorRight = false;
-	AnchorBottom = false;
+	AnchorFlag = AnchorNone;
 	Visible = true;
 }
 
 InfoBox::~InfoBox(){
+}
+
+void InfoBox::setAnchorRight( const bool ar ) {
+	if ( ar ) setAnchorFlag( anchorFlag() | AnchorRight  );
+	else      setAnchorFlag( anchorFlag() & ~AnchorRight );
+}
+
+void InfoBox::setAnchorBottom( const bool ab ) {
+	if ( ab ) setAnchorFlag( anchorFlag() | AnchorBottom  );
+	else      setAnchorFlag( anchorFlag() & ~AnchorBottom );
 }
 
 bool InfoBox::toggleShade() {

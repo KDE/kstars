@@ -116,8 +116,6 @@ void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
 			}
 			FocusBox->draw( p, BGColor, fillBG );
 		}
-		
-		checkBorders();
 	}
 }
 
@@ -320,8 +318,8 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		return true;
 
 	//Set Anchor flags based on new position
-	if ( target->rect().right() >= width()-2 ) target->setAnchorRight(true);
-	else target->setAnchorRight(false);
+	if ( target->rect().right() >= width()-2 ) target->setAnchorRight( true );
+	else target->setAnchorRight( false ); 
 	if ( target->rect().bottom() >= height()-2 ) target->setAnchorBottom(true);
 	else target->setAnchorBottom(false);
 
@@ -395,26 +393,23 @@ bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 
 void InfoBoxes::checkBorders(bool resetToDefault) {
 	if (resetToDefault) {
-		GeoBox->setAnchorRight(false);
-		TimeBox->setAnchorRight(false);
-		FocusBox->setAnchorRight(false);
-		GeoBox->setAnchorBottom(false);
-		TimeBox->setAnchorBottom(false);
-		FocusBox->setAnchorBottom(false);
+		TimeBox->setAnchorFlag( InfoBox::AnchorNone );
+		GeoBox->setAnchorFlag( InfoBox::AnchorNone );
+		FocusBox->setAnchorFlag( InfoBox::AnchorNone );
 	}
 	
-	if ( GeoBox->rect().right() >= Width-2 ) GeoBox->setAnchorRight(true);
-	if ( TimeBox->rect().right() >= Width-2 ) TimeBox->setAnchorRight(true);
-	if ( FocusBox->rect().right() >= Width-2 ) FocusBox->setAnchorRight(true);
-	if ( GeoBox->rect().bottom() >= Height-2 ) GeoBox->setAnchorBottom(true);
-	if ( TimeBox->rect().bottom() >= Height-2 ) TimeBox->setAnchorBottom(true);
-	if ( FocusBox->rect().bottom() >= Height-2 ) FocusBox->setAnchorBottom(true);
-	
-	if ( GeoBox->anchorRight() ) GeoBox->move( Width, GeoBox->y() );
-	if ( TimeBox->anchorRight() ) TimeBox->move( Width, TimeBox->y() );
-	if ( FocusBox->anchorRight() ) FocusBox->move( Width, FocusBox->y() );
-	if ( GeoBox->anchorBottom() ) GeoBox->move( GeoBox->x(), Height );
-	if ( TimeBox->anchorBottom() ) TimeBox->move( TimeBox->x(), Height );
+	if ( GeoBox->rect().right()    >= Width-2  ) GeoBox->setAnchorRight( true );
+	if ( TimeBox->rect().right()   >= Width-2  ) TimeBox->setAnchorRight( true );
+	if ( FocusBox->rect().right()  >= Width-2  ) FocusBox->setAnchorRight( true );
+	if ( GeoBox->rect().bottom()   >= Height-2 ) GeoBox->setAnchorBottom( true );
+	if ( TimeBox->rect().bottom()  >= Height-2 ) TimeBox->setAnchorBottom( true );
+	if ( FocusBox->rect().bottom() >= Height-2 ) FocusBox->setAnchorBottom( true );
+
+	if ( GeoBox->anchorRight()    ) GeoBox->move( Width, GeoBox->y() );
+	if ( TimeBox->anchorRight()   ) TimeBox->move( Width, TimeBox->y() );
+	if ( FocusBox->anchorRight()  ) FocusBox->move( Width, FocusBox->y() );
+	if ( GeoBox->anchorBottom()   ) GeoBox->move( GeoBox->x(), Height );
+	if ( TimeBox->anchorBottom()  ) TimeBox->move( TimeBox->x(), Height );
 	if ( FocusBox->anchorBottom() ) FocusBox->move( FocusBox->x(), Height );
 }
 
