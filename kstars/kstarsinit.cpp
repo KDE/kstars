@@ -256,8 +256,11 @@ void KStars::initActions() {
 		actionCollection(), "startwizard" );
 
 //Tools Menu:
-	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
-			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+        new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
+                    this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+
+        new KAction(i18n( "Observing List..."), KShortcut( "Ctrl+L"),
+                    this, SLOT( slotObsList() ), actionCollection(), "obslist");
 
 	// enable action only if file was loaded and processed successfully.
 	if (!data()->VariableStarsList.isEmpty())

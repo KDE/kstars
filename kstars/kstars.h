@@ -27,6 +27,7 @@
 #include <qwidget.h>
 
 #include "kstarsinterface.h"
+#include "observinglist.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -96,6 +97,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**@return pointer to SkyMap object which is the sky display widget.
 		*/
 		SkyMap* map();
+
+        ObservingList* observingList();
 
 	/**@return pointer to GeoLocation object which is the current geographic location.
 		*/
@@ -371,6 +374,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
+  /** Toggle display of the observing list */
+		void slotObsList();
+
 		/**Meta-slot to handle display toggles for all of the viewtoolbar buttons.
 			*uses the name of the sender to identify the item to change.  */
 		void slotViewToolBar();
@@ -408,6 +414,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		TimeStepBox *TimeStep;
 
 		ToggleAction *actCoordSys;
+		ToggleAction *actObsList;
 		KActionMenu *colorActionMenu, *fovActionMenu;
 		
 		KDialogBase *AAVSODialog;
@@ -426,6 +433,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		class privatedata;
 		friend class privatedata;
 		privatedata *pd;
+        ObservingList *obsList;
 };
 
 class KStars::privatedata {

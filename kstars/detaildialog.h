@@ -25,11 +25,16 @@
 
 #include "skyobject.h"
 
-class DetailDialogUI;
-class AddLinkDialog;
 class GeoLocation;
+class QLabel;
+class QHBoxLayout;
+class QVBoxLayout;
+class QFrame;
+class QLineEdit;
 class QString;
 class QStringList;
+class QTextEdit;
+class QListView;
 class KStars;
 class KStarsDateTime;
 
@@ -100,18 +105,14 @@ public slots:
 	*/
 	void removeLinkDialog();
 
-/**@short Open the web browser to the selected online astronomy database, 
+/**Open the web browser to the selected online astronomy database, 
 	*with a query to the object of this Detail Dialog.
 	*/
 	void viewADVData();
 
-/**@short Save the User's text in the Log Tab to the userlog.dat file.
+/**Save the User's text in the Log Tab to the userlog.dat file.
 	*/
 	void saveLogData();
-	
-/**@short Center the details object in the sky map.
-	*/
-	void slotCenter();
 
 private:
 
@@ -122,40 +123,28 @@ private:
 	bool readUserFile(int type);
 
 /**Parse the QStringList containing the User's URLs.
-	*@param type 0=Info URLs; 1=Image URLs
-	*@param originalDesc the original link title
+	*@param type 0=Image URLs; 1=Info URLs
 	*/
-	bool removeExistingEntry( int type, const QString &originalDesc );
+	bool verifyUserData(int type);
 
 /**Build the General Tab for the current object.
 	*/
-	void initGeneralTab( const KStarsDateTime &ut, GeoLocation *geo );
+	void createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo );
 
 /**Build the Links Tab, populating the image and info lists with the 
 	*known URLs for the current Object.
 	*/
-	void initLinksTab();
+	void createLinksTab();
 
 /**Build the Advanced Tab
 	*/
-	void initAdvancedTab();
+	void createAdvancedTab();
 
 /**Build the Log Tab
 	*/
-	void initLogTab();
+	void createLogTab();
 
-/**@short initialize the "name box" portion of the General tab
-	*/
-	void initNameBox();
-	
-/**@short initialize the "coordinate box" portion of the General tab
-	*/
-	void initCoordBox( double epoch, dms *LST );
-	
-/**@short initialize the "rise/transit/set box" portion of the General tab
-	*/
-	void initRiseSetBox( const KStarsDateTime &ut, GeoLocation *geo );
-	
+
 /**Populate the TreeView of known astronomical databases in the Advanced Tab
 	*/
 	void populateADVTree(QListViewItem *parent);
@@ -169,17 +158,109 @@ private:
 	*/
 	QString parseADVData(QString link);
 	
-	DetailDialogUI *dd;
+
 	SkyObject *selectedObject;
 	KStars* ksw;
 
+	// General Tab
+	QVBoxLayout *vlay;
+
+	// Links Tab
+	QFrame *linksTab;
+	QGroupBox *infoBox, *imagesBox;
+	QVBoxLayout *infoLayout, *imagesLayout, *topLayout;
+	KListBox *infoList, *imagesList; 
+
+	QPushButton *view, *addLink, *editLink, *removeLink;
+	QSpacerItem *buttonSpacer;
+	QHBoxLayout *buttonLayout;
+
 	// Edit Link Dialog
-	AddLinkDialog *ald;
+	QHBoxLayout *editLinkLayout;
+	QLabel *editLinkURL;
+	QLineEdit *editLinkField;
 	QFile file;
+	int currentItemIndex;
+	QString currentItemURL, currentItemTitle;
 	QStringList dataList;
 
 	// Advanced Tab
+	QFrame *advancedTab;
+	KListView *ADVTree;
+	QPushButton *viewTreeItem;
+	QLabel *treeLabel;
+	QVBoxLayout *treeLayout;
+	QSpacerItem *ADVbuttonSpacer;
+	QHBoxLayout *ADVbuttonLayout;
+
 	QPtrListIterator<ADVTreeData> * treeIt;
+
+	// Log Tab
+	QFrame *logTab;
+	QTextEdit *userLog;
+	QPushButton *saveLog;
+	QVBoxLayout *logLayout;
+	QSpacerItem *LOGbuttonSpacer;
+	QHBoxLayout *LOGbuttonLayout;
+
+	class NameBox : public QGroupBox {
+	public:
+	/**Constructor
+		*/
+		NameBox( QString pname, QString oname, QString typelabel, QString type,
+			QString mag, QString distStr, QString size, 
+			QWidget *parent, const char *name=0, bool useSize=true );
+	
+	/**Destructor (empty)
+		*/
+		~NameBox() {}
+	private:
+		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;
+		QLabel  *DistLabel, *Dist, *SizeLabel, *AngSize;
+		QVBoxLayout *vlay;
+		QHBoxLayout *hlayType, *hlayMag, *hlayDist, *hlaySize;
+		QGridLayout *glay;
+	};
+
+	class CoordBox : public QGroupBox {
+	public:
+	/**Constructor
+		*/
+		CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent, const char *name=0 );
+	
+	/**Destructor (empty)
+		*/
+		~CoordBox() {}
+	private:
+		QLabel *RALabel, *DecLabel, *HALabel, *RA, *Dec, *HA;
+		QLabel *AzLabel, *AltLabel, *AirMassLabel, *Az, *Alt, *AirMass;
+
+		QVBoxLayout *vlayMain;
+		QGridLayout *glayCoords;
+	};
+
+	class RiseSetBox : public QGroupBox {
+	public:
+	/**Constructor
+		*/
+		RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent, const char *name=0 );
+	
+	/**Destructor (empty)
+		*/
+		~RiseSetBox() {}
+	private:
+		QLabel *RTime, *TTime, *STime;
+		QLabel *RTimeLabel, *TTimeLabel, *STimeLabel;
+		QLabel *RAz, *TAlt, *SAz;
+		QLabel *RAzLabel, *TAltLabel, *SAzLabel;
+		QGridLayout *glay;
+		QVBoxLayout *vlay;
+	};
+
+	NameBox *Names;
+	CoordBox *Coords;
+	RiseSetBox *RiseSet;
+
 };
 
 #endif

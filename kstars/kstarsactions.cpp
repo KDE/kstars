@@ -831,6 +831,10 @@ void KStars::slotFOVEdit() {
 	}
 }
 
+void KStars::slotObsList() {
+  obsList->show();
+}
+
 //Help Menu
 void KStars::slotTipOfDay() {
 	KTipDialog::showTip("kstars/tips", true);

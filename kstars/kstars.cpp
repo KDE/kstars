@@ -35,6 +35,7 @@
 #include "finddialog.h"
 #include "ksutils.h"
 #include "infoboxes.h"
+#include "observinglist.h"
 #include "imagesequence.h"
 
 // to remove warnings
@@ -90,6 +91,8 @@ KStars::KStars( bool doSplash ) :
 	#else
 	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
 	#endif
+
+    obsList = new ObservingList( this, this );
 }
 
 KStars::KStars( KStarsData* kd )
@@ -102,6 +105,8 @@ KStars::KStars( KStarsData* kd )
 	pd->buildGUI();
 
 	kd->clock()->start();
+
+    obsList = new ObservingList( this, this );
 
 	show();
 }
@@ -207,4 +212,7 @@ void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
 
 dms* KStars::LST() { return data()->LST; }
 
+ObservingList* KStars::observingList() { return obsList; }
+
 #include "kstars.moc"
+

@@ -304,6 +304,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 		}
 	}
 
+	//JH: need to check whether object is in observing list
+	insertItem( i18n("Add to List"), ksw->observingList(), SLOT( slotAddObject() ) );
+
 	if ( showTrail && obj && obj->isSolarSystem() ) {
 		if ( addTrail ) {
 			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );

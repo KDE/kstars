@@ -243,7 +243,11 @@ public:
 /**@short Given the Image title from a URL file, try to convert it to an image credit string.
 	*/
 	QString messageFromTitle( const QString &imageTitle );
-	
+
+/**@short Save new user log text
+  */
+	void saveUserLog( const QString &newLog );
+
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
 	QString userLog;
