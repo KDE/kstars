@@ -822,13 +822,15 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 
 		SkyPoint *p = ksp->trail()->first();
 		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
-		bool firstPoint(false);
+		QPoint cur( o );
+		
+		bool doDrawLine(false);
 		int i = 0;
 		int n = ksp->trail()->count();
 
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 			psky.moveTo(o.x(), o.y());
-			firstPoint = true;
+			doDrawLine = true;
 		}
 
 		psky.setPen( QPen( tcolor1, 1 ) );
@@ -846,11 +848,15 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 			o = getXY( p, options->useAltAz, options->useRefraction, scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 
-				if ( firstPoint ) {
+				//Want to disable line-drawing if this point and the last are both outside bounds of display.
+				if ( ! rect().contains( o ) && ! rect().contains( cur ) ) doDrawLine = false;
+				cur = o;
+
+				if ( doDrawLine ) {
 					psky.lineTo( o.x(), o.y() );
 				} else {
 					psky.moveTo( o.x(), o.y() );
-					firstPoint = true;
+					doDrawLine = true;
 				}
 			}
 		}
@@ -865,88 +871,35 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 	int Height = int( scale * height() );
 
 	if (drawPlanets == true) {
-		//Draw Sun
-		if ( options->drawSun ) {
-			drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
+		//Draw all trails first so they never appear "in front of" solar system bodies
+		//draw Trail
+		if ( options->drawSun && data->PCat->findByName("Sun")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Sun"), scale );
+		if ( options->drawMercury && data->PCat->findByName("Mercury")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mercury"), scale );
+		if ( options->drawVenus && data->PCat->findByName("Venus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Venus"), scale );
+		if ( options->drawMoon && data->Moon->hasTrail() ) drawPlanetTrail( psky, data->Moon, scale );
+		if ( options->drawMars && data->PCat->findByName("Mars")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mars"), scale );
+		if ( options->drawJupiter && data->PCat->findByName("Jupiter")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Jupiter"), scale );
+		if ( options->drawSaturn && data->PCat->findByName("Saturn")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Saturn"), scale );
+		if ( options->drawUranus && data->PCat->findByName("Uranus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Uranus"), scale );
+		if ( options->drawNeptune && data->PCat->findByName("Neptune")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Neptune"), scale );
+		if ( options->drawPluto && data->PCat->findByName("Pluto")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Pluto"), scale );
+		if ( options->drawAsteroids ) {
+			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+				if ( ast->mag() > data->options->magLimitAsteroid ) break;
+				if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
+			}
 		}
-
-		//Draw Moon
-		if ( options->drawMoon ) {
-			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
-		}
-
-		//Draw Mercury
-		if ( options->drawMercury ) {
-			drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Venus
-		if ( options->drawVenus ) {
-			drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Mars
-		if ( options->drawMars ) {
-			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Jupiter
-		if ( options->drawJupiter ) {
-			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
-
-			//Draw Jovian moons
-			psky.setPen( QPen( QColor( "white" ) ) );
-			if ( zoomFactor() > 10.*MINZOOM ) {
-				QFont pfont = psky.font();
-				QFont moonFont = psky.font();
-				moonFont.setPointSize( pfont.pointSize() - 2 );
-				psky.setFont( moonFont );
-
-				for ( unsigned int i=0; i<4; ++i ) {
-					QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
-
-						//Draw Moon name labels if at high zoom
-						if ( options->drawPlanetName && zoomFactor() > 50.*MINZOOM ) {
-							int offset = int(3*scale);
-							psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
-						}
-					}
-				}
-
-				//reset font
-				psky.setFont( pfont );
+		if ( options->drawComets ) {
+			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
 			}
 		}
 
-		//Draw Saturn
-		if ( options->drawSaturn ) {
-			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
-		}
-
-		//Draw Uranus
-		if ( options->drawUranus && drawPlanets ) {
-			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Neptune
-		if ( options->drawNeptune ) {
-			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Pluto
-		if ( options->drawPluto ) {
-			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
-		}
-
+		//Now draw the actual solar system bodies.  Draw furthest to closest.
 		//Draw Asteroids
 		if ( options->drawAsteroids ) {
 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 				if ( ast->mag() > data->options->magLimitAsteroid ) break;
-
-				//draw Trail
-				if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
 
 				psky.setPen( QPen( QColor( "gray" ) ) );
 				psky.setBrush( QBrush( QColor( "gray" ) ) );
@@ -971,10 +924,6 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		//Draw Comets
 		if ( options->drawComets ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-
-				//draw Trail
-				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
-
 				psky.setPen( QPen( QColor( "cyan4" ) ) );
 				psky.setBrush( QBrush( QColor( "cyan4" ) ) );
 				QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
@@ -994,6 +943,111 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				}
 			}
 		}
+		
+		//Draw Pluto
+		if ( options->drawPluto ) {
+			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
+		}
+
+		//Draw Neptune
+		if ( options->drawNeptune ) {
+			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
+		}
+
+		//Draw Uranus
+		if ( options->drawUranus && drawPlanets ) {
+			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
+		}
+
+		//Draw Saturn
+		if ( options->drawSaturn ) {
+			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
+		}
+
+		//Draw Jupiter and its moons.
+		//Draw all moons first, then Jupiter, then redraw moons that are in front of Jupiter.
+		if ( options->drawJupiter ) {
+			//Draw Jovian moons
+			psky.setPen( QPen( QColor( "white" ) ) );
+			if ( zoomFactor() > 10.*MINZOOM ) {
+				for ( unsigned int i=0; i<4; ++i ) {
+					QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
+					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+					}
+				}
+			}
+			
+			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
+			
+			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
+			psky.setPen( QPen( QColor( "white" ) ) );
+			if ( zoomFactor() > 10.*MINZOOM ) {
+				QFont pfont = psky.font();
+				QFont moonFont = psky.font();
+				moonFont.setPointSize( pfont.pointSize() - 2 );
+				psky.setFont( moonFont );
+
+				for ( unsigned int i=0; i<4; ++i ) {
+					QPoint o = getXY( data->jmoons->pos(i), options->useAltAz, options->useRefraction, scale );
+					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+						if ( data->jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
+							psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+
+						//Draw Moon name labels if at high zoom
+						if ( options->drawPlanetName && zoomFactor() > 50.*MINZOOM ) {
+							int offset = int(3*scale);
+							psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
+						}
+					}
+				}
+
+				//reset font
+				psky.setFont( pfont );
+			}
+		}
+
+		//Draw Mars
+		if ( options->drawMars ) {
+			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
+		}
+
+		//For the inner planets, we need to determine the distance-order
+		//because the order can change with time 
+		double rv = data->PCat->findByName("Venus")->rearth();
+		double rm = data->PCat->findByName("Mercury")->rearth();
+		double rs = data->PCat->findByName("Sun")->rearth();
+		unsigned int iv(0), im(0), is(0);
+		if ( rm > rs ) im++;
+		if ( rm > rv ) im++;
+		if ( rv > rs ) iv++;
+		if ( rv > rm ) iv++;
+		if ( rs > rm ) is++;
+		if ( rs > rv ) is++;
+		
+		for ( unsigned int i=0; i<3; i++ ) {
+			if ( i==is ) {
+				//Draw Sun
+				if ( options->drawSun ) {
+					drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
+				}
+			} else if ( i==im ) {
+				//Draw Mercury
+				if ( options->drawMercury ) {
+					drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
+				}
+			} else if ( i==iv ) {
+				//Draw Venus
+				if ( options->drawVenus ) {
+					drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
+				}
+			}
+		}
+
+		//Draw Moon
+		if ( options->drawMoon ) {
+			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
+		}
 	}
 }
 
@@ -1002,9 +1056,6 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
-
-	//draw Trail
-	if ( p->hasTrail() ) drawPlanetTrail( psky, p, scale );
 
 	int sizemin = 4;
 	if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
