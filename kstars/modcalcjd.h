@@ -21,6 +21,7 @@
 #include <qvbox.h>
 
 #include <kapplication.h>
+#include "modcalcjddlg.h"
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
@@ -33,13 +34,9 @@
 
 class QWidget;
 class VBox;
-class QLineEdit;
-class QRadioButton;
 class QDateTime;
-class QTimeEdit;
-class QDateEdit;
 
-class modCalcJD : public QVBox
+class modCalcJD : public modCalcJdDlg
 {
 Q_OBJECT
 public:
@@ -66,10 +63,7 @@ private:
 	void showMjd(long double mjd);
 	
 	QVBox *rightBox;
-	QLineEdit *JdName, *MjdName, *DayName, *MonthName, *YearName;
-	QRadioButton *JdRadio, *MjdRadio, *DateRadio;
-	QTimeEdit *timBox;
-	QDateEdit *datBox;
+	
 };
 
 #endif
