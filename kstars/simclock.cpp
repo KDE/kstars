@@ -105,8 +105,12 @@ void SimClock::setManualMode( bool on ) {
 
 void SimClock::manualTick( bool force ) {
 	if ( force || (ManualMode && ManualActive) ) {
-		setUTC( UTC().addSecs( int( Scale ) ) );
-		julian += Scale / ( 24.*3600. );
+		int dDays = int( Scale / 86400. );
+		int dSecs = int( Scale - dDays*86400. );
+		ExtDateTime newUT( UTC().addDays( dDays ) );
+		newUT = newUT.addSecs( dSecs );
+		setUTC( newUT );
+		julian += Scale/86400.;
 	} else if ( ! ManualMode ) tick();
 }
 
@@ -164,18 +168,21 @@ void SimClock::start() {
 }
 
 void SimClock::setUTC(const ExtDateTime &newtime) {
-	utc = newtime;
-	utcvalid = true;
-	julian = KSUtils::UTtoJD(utc);
-	if (tmr.isActive()) {
-		julianmark = julian;
-		sysmark.start();
-		lastelapsed = 0;
+	if ( newtime.isValid() ) {
+		utc = newtime;
+		julian = KSUtils::UTtoJD(utc);
+		if (tmr.isActive()) {
+			julianmark = julian;
+			sysmark.start();
+			lastelapsed = 0;
+		}
+		
+		kdDebug() << i18n( "Setting clock UTC = " ) << utc.toString() <<
+			i18n( " julian day = " ) << QString("%1").arg( julian, 10, 'f', 2) << endl;
+		emit timeChanged();
+	} else {
+		kdDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;
 	}
-	kdDebug() << i18n( "Setting clock UTC = " ) << utc.toString() <<
-		i18n( " julian day = " ) << QString("%1").arg( julian, 10, 'f', 2) << endl;
-	emit timeChanged();
-
 }
 
 void SimClock::setScale(float s) {
