@@ -117,7 +117,6 @@
 	<Separator />
 	<Action name="find_object" />
 	<Action name="geolocation" />
-	<Action name="configure" />
 	<Action name="time_dialog" />
 	<Separator />
 	<Action name="timer_control" />
