@@ -1,0 +1,34 @@
+KStars Revision History
+
+0.1 (Altair): first public release
+
+0.2 (Betelgeuse): added global coverage to city database
+
+0.3 (Castor): added Messier objects, constellation lines, image downloads,
+drag sky w/ mouse.
+
+0.4 (Deneb): Added customizable display options, including color palette.
+Implemented Alt/Az Coordinate system. Added optional opaque
+horizon. Expanded star catalog. Deep-sky objects symbols indicate object type,
+and color indicates catalog. Added NGC/IC catalog. Added links to HST press
+release images. Added Find-by-name function. Updated documentation.
+
+0.5 (Enif): Added Sun and all planets except Pluto.  Reorganized view 
+options dialog.  Added Splash Screen, with loading messages.
+
+0.6 (Fomalhaut): Added the moon, with phases.  Reorganized the InfoPanel 
+widget (and painted it black).  The sky map now stretches when the window 
+is resized.  Improved startup speed and vastly improved speed of the 
+"Find Object" function.
+
+0.7 (Gemini): Added realistic star colors.  Added ability to provide custom 
+image and information links.  Most Messier objects now shown as inline images 
+directly on the sky map.  Expanded number of internet links.  Added Pluto.
+Added Milky Way countour.  Added spectral type of stars to popup menu.
+Automated object tracking when an object is centered.  Display name and
+coordinates of centered object in the infoPanel.  Fixed "extra layout" error
+messages.  Improved efficiency of KSPlanet::findPosition().  Initial startup
+parameters make more sense.  If focus point is below horizon when KStars
+restarts, a warning message is triggered.  Also, if it is shut down while
+tracking an object, it will still be tracking when restarted.  Choose latin or
+localized constellation names.  Various bug fixes and minor improvements.

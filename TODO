@@ -1,0 +1,64 @@
+KStars 0.7 To-Do list:
+[Oct 2001]
+
+See the KStars Homepage (kstars.sourceforge.net) for the most
+up-to-date to-do list.
+
++ Bug Fixes
+  - Phantom Constellation Line:
+    A constellation line is incorrectly drawn from (RA, Dec)=0.0, 0.0
+    to a point off the screen to the upper left, whenever this point
+    is near the center of the display.
+
+  - Small gap in Horizon:
+    There is a very small gap in the Horizon line when in
+    Altitude/Azimuth coordinates.  The gap is not visible if the
+    "opaque ground" view option is checked.
+
+  - Small gaps in Milky Way contour:
+		Similar gaps are seen in some parts of the Milky Way countour.
+
+  - Southern Constellations need Lines:
+    Many constellations near the south celestial pole do not have
+    constellation lines.
+
++ GUI Improvements
+  - Customizable info panel:
+    Some users may prefer a smaller infopanel with less information,
+    or even no panel at all.  This should be configurable.
+
+  - Detailed information popup window:
+    Show detailed information for an object (depending on its type):
+    Rise/set/transit times, object type (for messier/NGC/IC),
+    distance/mass/radius/satellites (for planets), spectral type (for
+    stars), etc.
+
+  - "What's up tonight?" window:
+    Popup dialog listing "interesting" objects that are visible in the
+    sky, for the current date and location. Option to show this
+    window whenever KStars starts, or even whenever the date changes.
+
+  - Realistic angular sizes for pixmapped objects:
+    Planets and Messier objects are currently shown much larger than
+    actual size.
+
++ Add Functionality
+  - Add minor planets and comets
+  - Allow ephemerides of planetary bodies to be updated from online
+    sources (e.g., JPL)
+  - Add more star names
+  - Add contour lines tracing the Magellanic Clouds
+  - Include Position Angle information for Galaxies
+  - Ability to add new URLs to popup menu for any location
+  - Ability to add text annotation to popup menu for any location
+  - Add realistic sky-lighting effects?
+  - Add more catalogs?  (too many objects may slow KStars down, but
+    we can do tricks like ignoring objects that are outside the
+    viewable area...boy, that would be nice, can't figure out how
+    to do it quckly though)
+  - Improve accuracy of positions.  Correct for aberration, atmospheric
+    refraction, and the figure of the Earth.
+
++ Ever-present needs
+  - Translations
+  - Improve Documentation
