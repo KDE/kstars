@@ -60,6 +60,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	QFont bFont = dd->PrimaryName->font();
 	bFont.setWeight( QFont::Bold );
 	dd->PrimaryName->setFont( bFont );
+	dd->Constellation->setFont( bFont );
 	dd->Type->setFont( bFont );
 	dd->Mag->setFont( bFont );
 	dd->Dist->setFont( bFont );
@@ -172,11 +173,13 @@ void DetailDialog::initNameBox() {
 	DeepSkyObject *dso = NULL;
 	KSPlanetBase *ps = NULL;
 
-	QString pname( "" ), oname( "" );
+	QString pname( "" ), oname( "" ), cname( i18n("Unknown") );
 	QString typeStr( "" ), distStr("--"), angStr("--"), magStr("--");
 	QString typeLabelStr( "" ), sizeLabelStr( "" ), magLabelStr( "" );
 
 	pname = selectedObject->translatedName();
+	
+	cname = selectedObject->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
 	
 	//typeStr is taken from the Object's type, except for the Sun 
 	//(the Sun's typeStr is altered below)
@@ -286,6 +289,7 @@ void DetailDialog::initNameBox() {
 	//Now, populate the Name Box widgets
 	dd->PrimaryName->setText( pname );
 	dd->OtherNames->setText( oname );
+	dd->Constellation->setText( cname );
 	dd->Type->setText( typeStr );
 	dd->Mag->setText( magStr );
 	dd->Dist->setText( distStr );

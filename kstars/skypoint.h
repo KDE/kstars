@@ -19,6 +19,7 @@
 #define SKYPOINT_H
 
 #include <qstring.h>
+#include <qptrlist.h>
 
 #include "dms.h"
 
@@ -42,6 +43,8 @@
 	*/
 
 class KSNumbers;
+class CSegment;
+class SkyObject;
 
 class SkyPoint {
 public:
@@ -392,6 +395,11 @@ public:
 
 //// To Be Moved from SkyObject....
 
+////
+//// 6. Constellation Identification
+//// =====================================
+
+	QString constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const;
 
 protected:
 /**Precess this SkyPoint's catalog coordinates to the epoch described by the

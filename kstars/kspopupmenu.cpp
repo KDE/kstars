@@ -230,6 +230,12 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 		insertItem( pmType );
 	}
 
+	QString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
+	pmConstellation = new QLabel( c, this );
+	pmConstellation->setAlignment( AlignCenter );
+	pmConstellation->setPalette( pal );
+	insertItem( pmConstellation );
+	
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
 		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), this );

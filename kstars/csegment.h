@@ -50,6 +50,16 @@ public:
 		*/
 	void addPoint( double ra, double dec );
 	
+	/**@return the name of one of the constellations
+		*that borders this boundary segment.
+		*/
+	QString name1() const { return Name1; }
+	
+	/**@return the name of one of the constellations
+		*that borders this boundary segment.
+		*/
+	QString name2() const { return Name2; }
+	
 	/**Set the names of the bounding constellations.  Use the IAU
 		*three-letter abbreviations.
 		*@p n1 IAU name of one bounding constellation

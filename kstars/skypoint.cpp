@@ -19,8 +19,10 @@
 #include <klocale.h>
 
 #include "skypoint.h"
+#include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"
+#include "csegment.h"
 
 void SkyPoint::set( const dms& r, const dms& d ) {
 	RA0.set( r );
@@ -530,4 +532,74 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 	angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 	
 	return angDist;
+}
+
+QString SkyPoint::constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const {
+	double hiDec =  90.;
+	double loDec = -90.;
+	QString nhi1( i18n("Unknown") ), nhi2( i18n("Unknown") );
+	QString nlo1( i18n("Unknown") ), nlo2( i18n("Unknown") );
+	
+	//Loop through list of constellation segments, identify the two segments 
+	//which are directly above and directly below this point.
+	for ( CSegment *seg = seglist.first(); seg; seg = seglist.next() ) {
+		SkyPoint *p1 = seg->firstNode();
+		for ( SkyPoint *p2 = seg->nextNode(); p2; p2 = seg->nextNode() ) {
+			double p1dec = p1->dec()->Degrees();
+			double p2dec = p2->dec()->Degrees();
+			double p1ra = p1->ra()->Degrees();
+			double p2ra = p2->ra()->Degrees();
+			if ( p1ra > 330. && p2ra < 30. ) p1ra -= 360.0; //wrap RA coordinate, if necessary
+			if ( p2ra > 330. && p1ra < 30. ) p2ra -= 360.0; //wrap RA coordinate, if necessary
+			
+			double d1 = p1ra - ra()->Degrees();
+			double d2 = p2ra - ra()->Degrees();
+			
+			if ( p1dec < hiDec && p2dec < hiDec && p1dec > loDec && p2dec > loDec 
+					&& d1*d2 < 0.0 ) { //the segment might be a new upper or lower boundary
+				if ( d1 < 0.0 ) d1 *= -1.0; //want positive lengths
+				if ( d2 < 0.0 ) d2 *= -1.0; //want positive lengths
+				
+				//Find Dec along this segment at RA of the point.
+				double f1 = d1/(d1+d2); 
+				double sdec = (1.0-f1)*p1dec + f1*p2dec;
+				
+				if ( sdec > dec()->Degrees() && sdec < hiDec ) { //New upper boundary segment
+					hiDec = sdec;
+					nhi1 = seg->name1();
+					nhi2 = seg->name2();
+				}
+				if ( sdec < dec()->Degrees() && sdec > loDec ) { //New lower boundary segment
+					loDec = sdec;
+					nlo1 = seg->name1();
+					nlo2 = seg->name2();
+				}
+			}
+			
+			p1 = p2; 
+		}
+	}
+	
+//	//DEBUG
+//	kdDebug() << nlo1 << " " << nlo2 << " , " << nhi1 << " " << nhi2 << endl;
+	
+	//Ok, it should be the case that one of the nhi names equals one of the nlo names.
+	//This is the constellation we are in.
+	QString abbrev( "" );
+	if ( nhi1 == nlo1 || nhi1 == nlo2 ) abbrev = nhi1;
+	else if ( nhi2 == nlo1 || nhi2 == nlo2 ) abbrev = nhi2;
+	else return i18n("Unknown");
+
+	for ( SkyObject *o = cnames.first(); o; o = cnames.next() ) {
+		if ( abbrev.lower() == o->name2().lower() ) {
+			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
+			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
+			int i = r.find(" ");
+			i++;
+			if ( i>0 ) r = r.left(i) + r.mid(i,1).upper() + r.mid(i+1); //capitalize 2nd word
+			return r;
+		}
+	}
+
+	return i18n("Unknown");
 }

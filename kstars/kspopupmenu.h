@@ -148,7 +148,7 @@ public:
 
 private:
 	KStars *ksw;
-	QLabel *pmTitle, *pmTitle2, *pmType;
+	QLabel *pmTitle, *pmTitle2, *pmType, *pmConstellation;
 	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
 
 };

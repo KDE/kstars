@@ -38,188 +38,221 @@
                         <property name="title">
                             <string>Object Data</string>
                         </property>
-                        <vbox>
+                        <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QLayoutWidget">
+                            <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>layout12</cstring>
+                                    <cstring>PrimaryName</cstring>
                                 </property>
-                                <grid>
+                                <property name="text">
+                                    <string>&lt;b&gt;Primary Name&lt;/b&gt;</string>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget" row="3" column="0">
+                                <property name="name">
+                                    <cstring>layout11</cstring>
+                                </property>
+                                <hbox>
                                     <property name="name">
                                         <cstring>unnamed</cstring>
                                     </property>
-                                    <widget class="QLabel" row="0" column="0">
+                                    <widget class="KPushButton">
                                         <property name="name">
-                                            <cstring>PrimaryName</cstring>
+                                            <cstring>CenterButton</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>&lt;b&gt;Primary Name&lt;/b&gt;</string>
+                                            <string>Center Object</string>
                                         </property>
                                     </widget>
-                                    <widget class="QLayoutWidget" row="3" column="0">
+                                    <spacer>
                                         <property name="name">
-                                            <cstring>layout11</cstring>
+                                            <cstring>spacer2</cstring>
                                         </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KPushButton">
-                                                <property name="name">
-                                                    <cstring>CenterButton</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Center Object</string>
-                                                </property>
-                                            </widget>
-                                            <spacer>
-                                                <property name="name">
-                                                    <cstring>spacer2</cstring>
-                                                </property>
-                                                <property name="orientation">
-                                                    <enum>Horizontal</enum>
-                                                </property>
-                                                <property name="sizeType">
-                                                    <enum>Expanding</enum>
-                                                </property>
-                                                <property name="sizeHint">
-                                                    <size>
-                                                        <width>40</width>
-                                                        <height>20</height>
-                                                    </size>
-                                                </property>
-                                            </spacer>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget" row="1" column="1">
-                                        <property name="name">
-                                            <cstring>layout2</cstring>
+                                        <property name="orientation">
+                                            <enum>Horizontal</enum>
                                         </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>MagLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Magnitude:</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>Mag</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>&lt;b&gt;value&lt;/b&gt;</string>
-                                                </property>
-                                                <property name="alignment">
-                                                    <set>WordBreak|AlignVCenter|AlignRight</set>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget" row="3" column="1">
-                                        <property name="name">
-                                            <cstring>layout4</cstring>
+                                        <property name="sizeType">
+                                            <enum>Expanding</enum>
                                         </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>SizeLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Size:</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>AngSize</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>&lt;b&gt;value&lt;/b&gt;</string>
-                                                </property>
-                                                <property name="alignment">
-                                                    <set>WordBreak|AlignVCenter|AlignRight</set>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget" row="2" column="1">
-                                        <property name="name">
-                                            <cstring>layout3</cstring>
+                                        <property name="sizeHint">
+                                            <size>
+                                                <width>40</width>
+                                                <height>20</height>
+                                            </size>
                                         </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>DistLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Distance:</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>Dist</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>&lt;b&gt;value&lt;/b&gt;</string>
-                                                </property>
-                                                <property name="alignment">
-                                                    <set>WordBreak|AlignVCenter|AlignRight</set>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget" row="0" column="1">
-                                        <property name="name">
-                                            <cstring>layout1</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>TypeLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Type:</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>Type</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>&lt;b&gt;value&lt;/b&gt;</string>
-                                                </property>
-                                                <property name="alignment">
-                                                    <set>WordBreak|AlignVCenter|AlignRight</set>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLabel" row="1" column="0">
-                                        <property name="name">
-                                            <cstring>OtherNames</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Other names</string>
-                                        </property>
-                                    </widget>
-                                </grid>
+                                    </spacer>
+                                </hbox>
                             </widget>
-                        </vbox>
+                            <widget class="QLayoutWidget" row="1" column="1">
+                                <property name="name">
+                                    <cstring>layout2</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>MagLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Magnitude:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>Mag</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;b&gt;value&lt;/b&gt;</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>WordBreak|AlignVCenter|AlignRight</set>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QLayoutWidget" row="3" column="1">
+                                <property name="name">
+                                    <cstring>layout4</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>SizeLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Size:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>AngSize</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;b&gt;value&lt;/b&gt;</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>WordBreak|AlignVCenter|AlignRight</set>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QLayoutWidget" row="2" column="1">
+                                <property name="name">
+                                    <cstring>layout3</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>DistLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Distance:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>Dist</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;b&gt;value&lt;/b&gt;</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>WordBreak|AlignVCenter|AlignRight</set>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QLayoutWidget" row="0" column="1">
+                                <property name="name">
+                                    <cstring>layout1</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>TypeLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Type:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>Type</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;b&gt;value&lt;/b&gt;</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>WordBreak|AlignVCenter|AlignRight</set>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QLayoutWidget" row="2" column="0">
+                                <property name="name">
+                                    <cstring>layout25</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>ConstellationLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Constellation:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>Constellation</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;b&gt;value&lt;/b&gt;</string>
+                                        </property>
+                                    </widget>
+                                    <spacer>
+                                        <property name="name">
+                                            <cstring>spacer7_2</cstring>
+                                        </property>
+                                        <property name="orientation">
+                                            <enum>Horizontal</enum>
+                                        </property>
+                                        <property name="sizeType">
+                                            <enum>Expanding</enum>
+                                        </property>
+                                        <property name="sizeHint">
+                                            <size>
+                                                <width>40</width>
+                                                <height>20</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </hbox>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>OtherNames</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Other names</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                     <widget class="QGroupBox">
                         <property name="name">
