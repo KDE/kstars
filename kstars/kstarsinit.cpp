@@ -304,7 +304,7 @@ void KStars::initActions() {
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	QString s = "00:00:00,   +00:00:00";
+	QString s = "00h 00m 00s,   +00d 00\'00\"";
 
 	statusBar()->insertItem( s, 1, 1, true );
 	statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
