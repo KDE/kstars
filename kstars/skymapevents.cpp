@@ -45,10 +45,11 @@ void SkyMap::resizeEvent( QResizeEvent * )
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
+	bool stopTracking( false );
 	float step = 2.0;
 	if ( e->state() & ShiftButton ) step = 4.0;
 
-	//If the resume key was pressed, we process it here
+	//If the DCOP resume key was pressed, we process it here
 	if ( ! ksw->data()->resumeKey.isNull() && e->key() == ksw->data()->resumeKey.keyCodeQt() ) {
 		//kdDebug() << "resumeKey pressed; resuming DCOP." << endl;
 		ksw->resumeDCOP();
@@ -65,7 +66,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
-//			setDestination( focus() );
+			stopTracking = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -79,6 +80,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
+			stopTracking = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -94,6 +96,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
+			stopTracking = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -109,6 +112,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 			}
 
+			stopTracking = true;
 			slewing = true;
 			++scrollCount;
 			break;
@@ -311,7 +315,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	while ( dHA < 0.0 ) dHA += 24.0;
 	ksw->data()->HourAngle->setH( dHA );
 
-	if ( slewing ) {
+	if ( stopTracking ) {
 		if ( ksw->options()->isTracking ) {
 			ksw->slotTrack();  //toggle tracking off
 		}
