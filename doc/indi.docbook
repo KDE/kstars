@@ -617,7 +617,7 @@ telescope is not connected to the serial/USB port. What can I do?
 
 <qandaentry>
 <question>
-<para>&kstars; reports that the telescope is online and ready, but I cannott find the telescope's crosshair, where is it?</para>
+<para>&kstars; reports that the telescope is online and ready, but I cannot find the telescope's crosshair, where is it?</para>
 </question>
 <answer>
 <para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target.</para>
