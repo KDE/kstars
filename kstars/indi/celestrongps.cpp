@@ -550,6 +550,7 @@ void CelestronGPS::ISPoll()
 
        double dx, dy;
        double currentRA, currentDEC;
+       int status;
 
 
 	switch (OnCoordSetSw.s)
@@ -585,10 +586,16 @@ void CelestronGPS::ISPoll()
 	    eqNum.n[0].value = currentRA;
 	    eqNum.n[1].value = currentDEC;
 
-	    // Wait until acknowledged or within 3.6', change as desired.
-	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
-	    {
+	    status = CheckCoords(targetRA, targetDEC);
 
+	    // Wait until acknowledged or within 3.6', change as desired.
+	    switch (status)
+	    {
+	    case 0:		/* goto in progress */
+		IDSetNumber (&eqNum, NULL);
+		break;
+	    case 1:		/* goto complete within tolerance */
+	    case 2:		/* goto complete but outside tolerance */
 		currentRA = targetRA;
 		currentDEC = targetDEC;
 
@@ -625,10 +632,8 @@ void CelestronGPS::ISPoll()
 
 		 IDSetNumber (&eqNum, NULL);
 		 //IDSetNumber (&DEC, NULL);
-
-	    } else
-		IDSetNumber (&eqNum, NULL);
-
+		break;
+	    }   
 	    break;
 
 	case IPS_OK:
