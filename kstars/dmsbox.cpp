@@ -136,15 +136,16 @@ dms dmsBox::createDms ( bool deg, bool *ok )
 			fields[0].replace( QRegExp("d"), "" );
 			fields[1].replace( QRegExp("m"), "" );
 			fields[2].replace( QRegExp("s"), "" );
+		
+			//See if first two fields parse as integers.
+			//
+			d = fields[0].toInt( &checkValue );
+			if ( !checkValue ) badEntry = true;
+			m = fields[1].toInt( &checkValue );
+			if ( !checkValue ) badEntry = true;
+			s = fields[2].toDouble( &checkValue );
+			if ( !checkValue ) badEntry = true;
 		}
-		//See if first two fields parse as integers.
-		//
-		d = fields[0].toInt( &checkValue );
-		if ( !checkValue ) badEntry = true;
-		m = fields[1].toInt( &checkValue );
-		if ( !checkValue ) badEntry = true;
-		s = fields[2].toDouble( &checkValue );
-		if ( !checkValue ) badEntry = true;
 
 		if ( !badEntry ) {
 			valueFound = true;

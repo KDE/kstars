@@ -326,14 +326,16 @@ void LocationDialog::addCity( void ) {
 	}
 
 	bool latOk(false), lngOk(false);
-	dms lat = NewLat->createDms( &latOk );
-	dms lng = NewLong->createDms( &lngOk );
+	dms lat = NewLat->createDms( true, &latOk );
+	dms lng = NewLong->createDms( true, &lngOk );
 
-	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ||
-		! latOk || ! lngOk ) {
-
+	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ) {
 		QString message = i18n( "All fields (except Province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
+		return;
+	} else if ( ! latOk || ! lngOk ) {
+		QString message = i18n( "Could not parse coordinates." );
+		KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
 		return;
 	} else {
 		if ( !nameModified ) {
