@@ -139,18 +139,21 @@ bool TimeDialog::event( QEvent* ev )
     return ret;
 }
 
-void TimeDialog::setNow( void ) {
-	dPicker->setDate( QDate::currentDate() );
-
+void TimeDialog::setNow( void )
+{
   QTime t;
 
   if (UTCNow)
   {
     QDateTime dt( ksw->clock()->UTC() );
+    dPicker->setDate( dt.date() );
     t = dt.time();
   }
   else
+  {
+  dPicker->setDate( QDate::currentDate() );
   t = QTime::currentTime();
+  }
 
   HourBox->setValue( t.hour() );
   MinuteBox->setValue( t.minute() );
