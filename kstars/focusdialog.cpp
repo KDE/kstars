@@ -44,6 +44,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 	QLabel *DecLabel = new QLabel( i18n( "the new Declination", "new Dec:" ), page );
 
 	editRA  = new KLineEdit( "", page );
+	editRA->setFocus();
 	editDec = new KLineEdit( "", page );
 
 	hlayRA->addWidget( RALabel );

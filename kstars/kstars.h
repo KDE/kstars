@@ -63,7 +63,6 @@
 class TimeDialog;
 class LocationDialog;
 class FindDialog;
-class FocusDialog;
 class ViewOpsDialog;
 class SimClock;
 class InfoPanel;
@@ -307,7 +306,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void setLSTh( QDateTime UTC );
 
 		FindDialog *findDialog;
-		FocusDialog *focusDialog;
 
 		bool useDefaultOptions, DialogIsObsolete;
 };

@@ -322,12 +322,13 @@ private:
 	KStarsOptions* options;
 	KStarsOptions* oldOptions;
 
+	KStars *kstars;
+
 	QTimer *initTimer;
 	bool inited;
 	int initCounter;
 	void initError(QString fn, bool required);
 
-	KStars *kstars;
 /**
 	*Reloading of star data asynchronous:
 	*QDataPump connects FileSource and StarDataSink and starts data transmission.

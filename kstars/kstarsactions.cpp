@@ -236,14 +236,10 @@ void KStars::slotTrack() {
 }
 
 void KStars::slotManualFocus() {
-	if ( !focusDialog ) {	  // create new dialog if no dialog is existing
-		focusDialog = new FocusDialog( this );
-	}
-
-	if ( !focusDialog ) kdWarning() << i18n( "KStars::slotFocus() - error creating dialog" ) << endl;
+	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	
-	if ( focusDialog->exec() == QDialog::Accepted ) {
-		skymap->setClickedPoint( focusDialog->point() );
+	if ( focusDialog.exec() == QDialog::Accepted ) {
+		skymap->setClickedPoint( focusDialog.point() );
 		skymap->slotCenter();
 	}
 }
