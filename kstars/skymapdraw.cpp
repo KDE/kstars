@@ -80,7 +80,7 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 void SkyMap::drawTransientLabel( QPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );
-		
+
 		QFont stdFont( p.font() );
 		QFont smallFont( stdFont );
 		smallFont.setPointSize( stdFont.pointSize() - 2 );
@@ -112,7 +112,7 @@ void SkyMap::drawBoxes( QPainter &p ) {
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky) {
-  
+
 	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
 		INDI_P *portConnect;
@@ -198,7 +198,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 			}
 		}
 	}
-	
+
 }
 
 void SkyMap::drawMilkyWay( QPainter& psky, double scale )
@@ -211,7 +211,7 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 	int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) ); 
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) );
 	psky.setBrush( QBrush( QColor( data->colorScheme()->colorNamed( "MWColor" ) ) ) );
 	bool offscreen, lastoffscreen=false;
 
@@ -369,7 +369,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	//index of point near the left or top/bottom edge
 	uint index1(0), index2(0);
 	int xSmall(width() + 100); //ridiculous initial value
-	
+
 	//start loop at second item
 	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
 		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
@@ -384,7 +384,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 					index1 = data->Equator.at();
 				}
 			}
-			
+
 			//When drawing on the printer, the psky.pos() point does NOT get updated
 			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
 			int dx = cur.x() - o.x();
@@ -414,32 +414,32 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	} else {
 		psky.moveTo( o1.x(), o1.y() );
 	}
-	
+
 	if ( ! slewing && xSmall < width() ) {
 		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
-		//If the zoom level is below 1000, simply adopt this point as the anchor for the 
-		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+		//If the zoom level is below 1000, simply adopt this point as the anchor for the
+		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
 		//point at which the Equator goes offscreen, and anchor from that point.
 		p = data->Equator.at(index1);
-		double ra0(0.0);  //the RA of our anchor point (the Dec is known to be 0.0 
+		double ra0(0.0);  //the RA of our anchor point (the Dec is known to be 0.0
 											//since it's the Equator)
-		
+
 		if ( Options::zoomFactor() < 1000. ) {
 			ra0 = p->ra()->Hours();
-		
+
 		} else {
 			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
 			//offscreen.  Determine the exact point at which this happens.
 			index2 = index1 + 1;
 			if ( index2 >= data->Equator.count() ) index2 -= data->Equator.count();
 			SkyPoint *p2 = data->Equator.at(index2);
-			
+
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
-			
+
 			double x1, x2;
 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
-			if ( o2.x() < 0 ) { 
+			if ( o2.x() < 0 ) {
 				x1 = double(o.x())/double(o.x()-o2.x());
 				x2 = -1.0*double(o2.x())/double(o.x()-o2.x());
 			} else if ( o2.y() < 0 ) {
@@ -452,31 +452,31 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 				x1 = 0.0;
 				x2 = 1.0;
 			}
-			
+
 			//ra0 is the exact RA at which the Equator intersects a screen edge
 			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
 		}
-		
-		//LabelPoint is the top left corner of the text label.  It is 
-		//offset from the anchor point by -1.5 degree (0.1 hour) in RA 
-		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are 
+
+		//LabelPoint is the top left corner of the text label.  It is
+		//offset from the anchor point by -1.5 degree (0.1 hour) in RA
+		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are
 		//independent of zoom.
 		SkyPoint LabelPoint( ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
-		if ( Options::useAltAz() ) 
+		if ( Options::useAltAz() )
 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		
-		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.  
-		//We use this point to determine the rotation angle for the text (which 
+
+		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.
+		//We use this point to determine the rotation angle for the text (which
 		//we want to be parallel to the line joining LabelPoint and p2)
 		SkyPoint p2 = LabelPoint;
 		p2.setRA( p2.ra()->Hours() - 200./Options::zoomFactor() );
-		if ( Options::useAltAz() ) 
+		if ( Options::useAltAz() )
 			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		
+
 		//o and o2 are the screen coordinates of LabelPoint and p2.
 		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
 		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
-		
+
 		double sx = double( o.x() - o2.x() );
 		double sy = double( o.y() - o2.y() );
 		double angle;
@@ -486,7 +486,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 			angle = 90.0;
 			if ( sy < 0 ) angle = -90.0;
 		}
-		
+
 		//Finally, draw the "Equator" label at the determined location and angle
 		psky.save();
 		psky.translate( o.x(), o.y() );
@@ -502,7 +502,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	int Height = int( scale * height() );
 
 	//Draw Ecliptic (currently can't be hidden on slew)
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); 
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) );
 
 	SkyPoint *p = data->Ecliptic.first();
 	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
@@ -515,7 +515,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	//index of point near the right or top/bottom edge
 	uint index1(0), index2(0);
 	int xBig(-100); //ridiculous initial value
-	
+
 	bool newlyVisible = false;
 	//Start loop at second item
 	for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
@@ -531,7 +531,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 					index1 = data->Ecliptic.at();
 				}
 			}
-			
+
 			//When drawing on the printer, the psky.pos() point does NOT get updated
 			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
 			int dx = cur.x() - o.x();
@@ -564,13 +564,13 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 
 	if ( ! slewing && xBig > 0 ) {
 		//Draw the "Ecliptic" label.  We have flagged the rightmost onscreen Ecliptic point.
-		//If the zoom level is below 1000, simply adopt this point as the anchor for the 
-		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+		//If the zoom level is below 1000, simply adopt this point as the anchor for the
+		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
 		//point at which the Ecliptic goes offscreen, and anchor from that point.
 		p = data->Ecliptic.at(index1);
-		double ra0(0.0);  //the ra of our anchor point 
-		double dec0(0.0); //the dec of our anchor point 
-		
+		double ra0(0.0);  //the ra of our anchor point
+		double dec0(0.0); //the dec of our anchor point
+
 		if ( Options::zoomFactor() < 1000. ) {
 			ra0 = p->ra()->Hours();
 			dec0 = p->dec()->Degrees();
@@ -580,13 +580,13 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 			if ( index1 == 0 ) index2 = 0;
 			else index2 = index1 - 1;
 			SkyPoint *p2 = data->Ecliptic.at(index2);
-			
+
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
-			
+
 			double x1, x2;
 			//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
-			if ( o2.x() > width() ) { 
+			if ( o2.x() > width() ) {
 				x1 = double(width()-o.x())/double(o2.x()-o.x());
 				x2 = double(o2.x()-width())/double(o2.x()-o.x());
 			} else if ( o2.y() < 0 ) {
@@ -599,28 +599,28 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 				x1 = 0.0;
 				x2 = 1.0;
 			}
-			
+
 			//ra0 is the exact RA at which the Ecliptic intersects a screen edge
 			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
 			//dec0 is the exact Dec at which the Ecliptic intersects a screen edge
 			dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
 		}
-		
+
 		KSNumbers num( data->ut().djd() );
 		dms ecLong, ecLat;
-		
-		//LabelPoint is offset from the anchor point by +2.0 degree ecl. Long 
-		//and -0.4 degree in ecl. Lat, scaled by 2000./zoomFactor so that they are 
+
+		//LabelPoint is offset from the anchor point by +2.0 degree ecl. Long
+		//and -0.4 degree in ecl. Lat, scaled by 2000./zoomFactor so that they are
 		//independent of zoom.
 		SkyPoint LabelPoint(ra0, dec0);
 		LabelPoint.findEcliptic( num.obliquity(), ecLong, ecLat );
 		ecLong.setD( ecLong.Degrees() + 4000./Options::zoomFactor() );
 		ecLat.setD( ecLat.Degrees() - 800./Options::zoomFactor() );
 		LabelPoint.setFromEcliptic( num.obliquity(), &ecLong, &ecLat );
-		if ( Options::useAltAz() ) 
+		if ( Options::useAltAz() )
 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		
-		//p2 is a SkyPoint offset from LabelPoint by -1.0 degrees of ecliptic longitude.  
+
+		//p2 is a SkyPoint offset from LabelPoint by -1.0 degrees of ecliptic longitude.
 		//we use p2 to determine the onscreen rotation angle for the ecliptic label,
 		//which we want to be parallel to the line between LabelPoint and p2.
 		SkyPoint p2(ra0, dec0);
@@ -628,13 +628,13 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 		ecLong.setD( ecLong.Degrees() + 2000./Options::zoomFactor() );
 		ecLat.setD( ecLat.Degrees() - 800./Options::zoomFactor() );
 		p2.setFromEcliptic( num.obliquity(), &ecLong, &ecLat );
-		if ( Options::useAltAz() ) 
+		if ( Options::useAltAz() )
 			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		
+
 		//o and o2 are the screen positions of LabelPoint and p2.
 		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
 		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
-		
+
 		double sx = double( o.x() - o2.x() );
 		double sy = double( o.y() - o2.y() );
 		double angle;
@@ -644,7 +644,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 			angle = 90.0;
 			if ( sy < 0 ) angle = -90.0;
 		}
-		
+
 		//Finally, draw the "Ecliptic" label at the determined location and angle
 		psky.save();
 		psky.translate( o.x(), o.y() );
@@ -676,7 +676,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//index of point near the right or top/bottom edge
 		uint index1(0), index2(0);
 		int xBig(-100); //ridiculous initial value
-		
+
 		for ( SkyPoint *p = data->Horizon.first(); p; p = data->Horizon.next() ) {
 			o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
 			bool found = false;
@@ -684,14 +684,14 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			//first iteration for positioning the "Ecliptic" label:
 			//flag the onscreen equator point with the largest x value
 			//we don't draw the label while slewing, or if the opaque ground is drawn
-			if ( ! slewing && ( ! Options::showGround() || ! Options::useAltAz() ) 
+			if ( ! slewing && ( ! Options::showGround() || ! Options::useAltAz() )
 						&& o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
 				if ( o.x() > xBig ) {
 					xBig = o.x();
 					index1 = data->Horizon.at();
 				}
 			}
-			
+
 			//Use the QPtrList of points to pre-sort visible horizon points
 			if ( o.x() > -100 && o.x() < Width + 100 && o.y() > -100 && o.y() < Height + 100 ) {
 				if ( Options::useAltAz() ) {
@@ -893,16 +893,16 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				delete c;
 			}
 		}
-		
+
 		if ( ! slewing && (! Options::showGround() || ! Options::useAltAz() ) && xBig > 0 ) {
 			//Draw the "Horizon" label.  We have flagged the rightmost onscreen Horizon point.
-			//If the zoom level is below 1000, simply adopt this point as the anchor for the 
-			//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+			//If the zoom level is below 1000, simply adopt this point as the anchor for the
+			//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
 			//point at which the Horizon goes offscreen, and anchor from that point.
 			SkyPoint *p = data->Horizon.at(index1);
-			double ra0(0.0);  //the ra of our anchor point 
-			double dec0(0.0); //the dec of our anchor point 
-			
+			double ra0(0.0);  //the ra of our anchor point
+			double dec0(0.0); //the dec of our anchor point
+
 			if ( Options::zoomFactor() < 1000. ) {
 				ra0 = p->ra()->Hours();
 				dec0 = p->dec()->Degrees();
@@ -912,13 +912,13 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				index2 = index1 + 1;
 				if ( data->Horizon.count() &&  index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
 				SkyPoint *p2 = data->Horizon.at(index2);
-				
+
 				QPoint o1 = getXY( p, Options::useAltAz(), false, scale );
 				QPoint o2 = getXY( p2, Options::useAltAz(), false, scale );
 
 				double x1, x2;
 				//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
-				if ( o2.x() > width() ) { 
+				if ( o2.x() > width() ) {
 					x1 = double(width()-o1.x())/double(o2.x()-o1.x());
 					x2 = double(o2.x()-width())/double(o2.x()-o1.x());
 				} else if ( o2.y() < 0 ) {
@@ -931,15 +931,15 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 					x1 = 0.0;
 					x2 = 1.0;
 				}
-				
+
 				//ra0 is the exact RA at which the Horizon intersects a screen edge
 				ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
 				//dec0 is the exact Dec at which the Horizon intersects a screen edge
 				dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
 			}
-			
-			//LabelPoint is offset from the anchor point by -2.0 degrees in azimuth 
-			//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are 
+
+			//LabelPoint is offset from the anchor point by -2.0 degrees in azimuth
+			//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
 			//independent of zoom.
 			SkyPoint LabelPoint(ra0, dec0);
 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -948,26 +948,26 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			LabelPoint.HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
 			if ( o.x() > width() || o.x() < 0 ) {
-				//the LabelPoint is offscreen.  Either we are in the Southern hemisphere, 
-				//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees 
+				//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
+				//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
 			LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
 				LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
 				LabelPoint.HorizontalToEquatorial( data->LST, data->geo()->lat() );
 				o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
 			}
-			
+
 			//p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
-			//2000./zoomFactor).  We use p2 to determine the rotation angle for the 
+			//2000./zoomFactor).  We use p2 to determine the rotation angle for the
 			//Horizon label, which we want to be parallel to the line between LabelPoint and p2.
 			SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
 			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
 			p2.HorizontalToEquatorial( data->LST, data->geo()->lat() );
-			
+
 			//o and o2 are the screen positions of LabelPoint and p2
 			o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
 			o2 = getXY( &p2, Options::useAltAz(), false, scale );
-			
+
 			double sx = double( o.x() - o2.x() );
 			double sy = double( o.y() - o2.y() );
 			double angle;
@@ -977,7 +977,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				angle = 90.0;
 				if ( sy < 0 ) angle = -90.0;
 			}
-			
+
 			//Finally, draw the "Equator" label at the determined location and angle
 			psky.save();
 			psky.translate( o.x(), o.y() );
@@ -1019,7 +1019,7 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) ); 
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
 
 	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
 		bool started( false );
@@ -1029,14 +1029,14 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 			psky.moveTo( o.x(), o.y() );
 			started = true;
 		}
-		
+
 		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			
+
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 				if ( started ) {
 					psky.lineTo( o.x(), o.y() );
-				} else { 
+				} else {
 					psky.moveTo( o.x(), o.y() );
 					started = true;
 				}
@@ -1094,13 +1094,6 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 		if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawStar() - Options::magLimitDrawStarZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 		float sizeFactor = 6.0 + (lgz - lgmin);
 
-		//Need a pen color for the multiple star and variable star indicators
-		switch( Options::starColorMode() ) {
-			case 1 : psky.setPen( Qt::red ); break;
-			case 2 : psky.setPen( Qt::black ); break;
-			default: psky.setPen( Qt::white ); break;
-		}
-
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
@@ -1110,16 +1103,13 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
-					int size = int( sizeFactor*( maglim - curStar->mag())/maglim ) + 1;
+					int size = int( scale * ( sizeFactor*( maglim - curStar->mag())/maglim ) + 1 );
 
 					if ( size > 0 ) {
 						QChar c = curStar->color();
-						QImage tmp = starpix->getPixmap( &c, size )->convertToImage();
-						if ( scale != 1.0 ) tmp = tmp.smoothScale( int(scale*tmp.width()), int(scale*tmp.height()) );
-						QPixmap spixmap( tmp );
-						//QPixmap *spixmap = starpix->getPixmap( &c, size );
-						curStar->draw( psky, sky, &spixmap, o.x(), o.y(), true, scale );
-						
+						QPixmap *spixmap = starpix->getPixmap( &c, size );
+						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+
 						// now that we have drawn the star, we can display some extra info
 						if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
 								&& ( Options::showStarNames() || Options::showStarMagnitudes() ) ) {
@@ -1141,14 +1131,14 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 	if ( drawObject || drawImage ) {  //don't do anything if nothing is to be drawn!
 		int Width = int( scale * width() );
 		int Height = int( scale * height() );
-	
+
 		// Set color once
 		psky.setPen( color );
 		psky.setBrush( NoBrush );
 		QColor colorHST  = data->colorScheme()->colorNamed( "HSTColor" );
-		
+
 		double maglim = Options::magLimitDrawDeepSky();
-		
+
 		//FIXME
 		//disabling faint limits until the NGC/IC catalog has reasonable mags
 		//adjust maglimit for ZoomLevel
@@ -1156,8 +1146,8 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		//double lgmax = log10(MAXZOOM);
 		//double lgz = log10(Options::zoomFactor());
 		//if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-		//else 
-			maglim = 40.0; //show all deep-sky objects 
+		//else
+			maglim = 40.0; //show all deep-sky objects
 
 		for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
@@ -1168,12 +1158,12 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
 						double PositionAngle = 90. + findPA( obj, o.x(), o.y(), scale );
-						
+
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
 							obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), scale );
 						}
-						
+
 						//Draw Symbol
 						if ( drawObject ) {
 							//change color if extra images are available
@@ -1187,13 +1177,9 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 								psky.setPen( colorHST );
 								bColorChanged = true;
 							}
-	
-							//DEBUG
-							if ( obj->name() == "M 31" )
-							  qDebug( "M 31 PA: %f  %f", PositionAngle, obj->pa() );
 
 							obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), scale );
-	
+
 							// revert temporary color change
 							if ( bColorChanged ) {
 								psky.setPen( color );
@@ -1405,7 +1391,7 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 		SkyPoint *p = ksp->trail()->first();
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 		QPoint cur( o );
-		
+
 		bool doDrawLine(false);
 		int i = 0;
 		int n = ksp->trail()->count();
@@ -1480,19 +1466,19 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( Options::showAsteroids() ) {
 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 				if ( ast->mag() > Options::magLimitAsteroid() ) break;
-				
+
 				if ( checkVisibility( ast, fov(), XRange ) ) {
 					psky.setPen( QPen( QColor( "gray" ) ) );
 					psky.setBrush( QBrush( QColor( "gray" ) ) );
 					QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
-	
+
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						int size = int( ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
 						if ( size < 1 ) size = 1;
 						int x1 = o.x() - size/2;
 						int y1 = o.y() - size/2;
 						psky.drawEllipse( x1, y1, size, size );
-	
+
 						//draw Name
 						if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
 							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
@@ -1510,14 +1496,14 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 					psky.setPen( QPen( QColor( "cyan4" ) ) );
 					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
 					QPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
-	
+
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						int size = int( com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
 						if ( size < 1 ) size = 1;
 						int x1 = o.x() - size/2;
 						int y1 = o.y() - size/2;
 						psky.drawEllipse( x1, y1, size, size );
-	
+
 						//draw Name
 						if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
 							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
@@ -1527,7 +1513,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				}
 			}
 		}
-		
+
 		//Draw Pluto
 		if ( Options::showPluto() ) {
 			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
@@ -1561,9 +1547,9 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 					}
 				}
 			}
-			
+
 			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
-			
+
 			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
 			psky.setPen( QPen( QColor( "white" ) ) );
 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
@@ -1597,7 +1583,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		}
 
 		//For the inner planets, we need to determine the distance-order
-		//because the order can change with time 
+		//because the order can change with time
 		double rv = data->PCat->findByName("Venus")->rearth();
 		double rm = data->PCat->findByName("Mercury")->rearth();
 		double rs = data->PCat->findByName("Sun")->rearth();
@@ -1608,7 +1594,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( rv > rm ) iv++;
 		if ( rs > rm ) is++;
 		if ( rs > rv ) is++;
-		
+
 		for ( unsigned int i=0; i<3; i++ ) {
 			if ( i==is ) {
 				//Draw Sun
@@ -1641,26 +1627,26 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 	if ( checkVisibility( p, fov(), XRange ) ) {
 		int Width = int( scale * width() );
 		int Height = int( scale * height() );
-	
+
 		int sizemin = 4;
 		if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
 		sizemin = int( sizemin * scale );
-	
+
 		psky.setPen( c );
 		psky.setBrush( c );
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-	
+
 		//Is planet onscreen?
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
 			if ( size < sizemin ) size = sizemin;
-			
+
 			//Draw planet image if:
 			if ( Options::showPlanetImages() &&  //user wants them,
 					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
 					!p->image()->isNull() &&  //image loaded ok,
 					size < Width ) {  //and size isn't too big.
-				
+
 				//Image size must be modified to account for possibility that rotated image's
 				//size is bigger than original image size.  The rotated image is a square
 				//superscribed on the original image.  The superscribed square is larger than
@@ -1671,27 +1657,27 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 				dms pa( findPA( p, o.x(), o.y(), scale ) );
 				double spa, cpa;
 				pa.SinCos( spa, cpa );
-				cpa = fabs(cpa); 
+				cpa = fabs(cpa);
 				spa = fabs(spa);
 				size = int( size * (cpa + spa) );
-				
-				//Because Saturn has rings, we inflate its image size by a factor 2.5 
+
+				//Because Saturn has rings, we inflate its image size by a factor 2.5
 				if ( p->name() == "Saturn" ) size = int(2.5*size);
 
 				if (resize_mult != 1) {
 					size *= resize_mult;
 				}
-	
+
 				p->scaleRotateImage( size, pa.Degrees() );
 				int x1 = o.x() - p->image()->width()/2;
 				int y1 = o.y() - p->image()->height()/2;
 				psky.drawImage( x1, y1, *(p->image()));
-	
+
 			} else {                                   //Otherwise, draw a simple circle.
-	
+
 				psky.drawEllipse( o.x()-size/2, o.y()-size/2, size, size );
 			}
-	
+
 			//draw Name
 			if ( Options::showPlanetNames() ) {
 				psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
@@ -1739,7 +1725,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 
 	if ( drawMW ) drawMilkyWay( p, scale );
 	if ( drawGrid ) drawCoordinateGrid( p, scale );
-	
+
 	if ( drawCBounds ) drawConstellationBoundaries( p, scale );
 	if ( drawCLines ) drawConstellationLines( p, scale );
 	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
