@@ -727,6 +727,12 @@
         <receiver>modCalcGeodCoordDlg</receiver>
         <slot>slotRunBatch()</slot>
     </connection>
+    <connection>
+        <sender>elevCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGeodCoordDlg</receiver>
+        <slot>slotElevCheckedBatch()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>spheRadio</tabstop>
