@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
 <class>modCalcDayLengthDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>464</width>
-            <height>442</height>
+            <width>578</width>
+            <height>395</height>
         </rect>
     </property>
     <property name="caption">
@@ -58,7 +58,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>0</width>
+                                    <width>100</width>
                                     <height>16</height>
                                 </size>
                             </property>
@@ -80,7 +80,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>0</width>
+                                    <width>100</width>
                                     <height>16</height>
                                 </size>
                             </property>
@@ -126,6 +126,12 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>100</width>
+                            <height>0</height>
+                        </size>
                     </property>
                 </widget>
                 <spacer>
@@ -257,7 +263,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>70</width>
+                                    <width>90</width>
                                     <height>20</height>
                                 </size>
                             </property>
@@ -287,7 +293,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>70</width>
+                                    <width>90</width>
                                     <height>20</height>
                                 </size>
                             </property>
@@ -325,7 +331,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>70</width>
+                                    <width>90</width>
                                     <height>20</height>
                                 </size>
                             </property>
@@ -347,7 +353,7 @@
                             </property>
                             <property name="minimumSize">
                                 <size>
-                                    <width>70</width>
+                                    <width>90</width>
                                     <height>20</height>
                                 </size>
                             </property>
@@ -373,124 +379,149 @@
                         <enum>Horizontal</enum>
                     </property>
                     <property name="sizeType">
-                        <enum>Preferred</enum>
+                        <enum>Expanding</enum>
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>40</width>
+                            <width>20</width>
                             <height>20</height>
                         </size>
                     </property>
                 </spacer>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout12</cstring>
+                        <cstring>layout20</cstring>
                     </property>
-                    <vbox>
+                    <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLayoutWidget">
+                        <widget class="QLabel" row="0" column="0">
                             <property name="name">
-                                <cstring>layout11</cstring>
+                                <cstring>azRiseLabel</cstring>
                             </property>
-                            <grid>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLabel" row="2" column="0">
-                                    <property name="name">
-                                        <cstring>azSetLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Sunset azimuth:</string>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="1" column="1">
-                                    <property name="name">
-                                        <cstring>elTransitBox</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>5</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="focusPolicy">
-                                        <enum>NoFocus</enum>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="2" column="1">
-                                    <property name="name">
-                                        <cstring>azSetBox</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>5</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="focusPolicy">
-                                        <enum>NoFocus</enum>
-                                    </property>
-                                </widget>
-                                <widget class="dmsBox" row="0" column="1">
-                                    <property name="name">
-                                        <cstring>azRiseBox</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>5</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="focusPolicy">
-                                        <enum>NoFocus</enum>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="1" column="0">
-                                    <property name="name">
-                                        <cstring>elTransitLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Altitude at noon:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="0" column="0">
-                                    <property name="name">
-                                        <cstring>azRiseLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Sunrise azimuth:</string>
-                                    </property>
-                                </widget>
-                            </grid>
+                            <property name="text">
+                                <string>Sunrise azimuth:</string>
+                            </property>
                         </widget>
-                        <spacer>
+                        <widget class="QLabel" row="2" column="0">
                             <property name="name">
-                                <cstring>spacer14</cstring>
+                                <cstring>azSetLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Sunset azimuth:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>azRiseBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>elTransitLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Altitude at noon:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="2" column="1">
+                            <property name="name">
+                                <cstring>azSetBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>elTransitBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>NoFocus</enum>
+                            </property>
+                        </widget>
+                        <spacer row="3" column="0">
+                            <property name="name">
+                                <cstring>spacer26</cstring>
                             </property>
                             <property name="orientation">
-                                <enum>Vertical</enum>
+                                <enum>Horizontal</enum>
                             </property>
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>20</width>
-                                    <height>16</height>
+                                    <width>40</width>
+                                    <height>20</height>
                                 </size>
                             </property>
                         </spacer>
-                    </vbox>
+                    </grid>
                 </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer27</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
             </hbox>
         </widget>
         <spacer>
@@ -567,7 +598,7 @@
         <data format="PNG" length="1110">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000041d49444154789c8d95c18b1c4514c67fbb29e5b54ea05b26da1d36b08d09a6c508138cb8c13d647141163de49043bca9f1628eb9294810f24f88c15b728b07617358888785d980427290b4a8d00b19a8821da8228cf42316ac87eed9247ac95c9aeaeef9eaabdffb5ebf85f178ccfcf7f5b79fec07a7280a08a008f25ceb7c29e5da573716e65a0be3f198ef6f5ededff9b9e1b34faf90882092a1ea21428b9220ffbf46054055b19386ba6970ae6665b5e0d2c5eb0b066067bbe1f21757c88f5504eff0c192189081303a5582b16854fccce2fe041f00cdd0a8103b874556405476b62d972ec2c2b90ff3fd8df5cb946549d80b34aea15ccaa94625450e2d0e558b460b7371a734b5e027251a155545678ab62d7eea90b4c504078908c107acb354cb251b1f8f08b1c18631aabbb4d18211404804f22545863561d2f060fb34aa8a18d0086204e72c46a32292e1a796f278c1da7a859d8da9a737506db04d0a24103d8949480b214d3bbee952a05c1d536f9d2684160c744f048311543d459eb1b65ee1754cedae13a64abd5d6127053c9d0281f22d4f75c6a2118a5c09272d7ab740638bf4ef2dd2174032d0d8d04c6fe19c32bedd8bc65e342aa3f785e2784bfd6bc1bd9db24b05505616a4edd67d5a8c1801a03a9962754c504bf34b8986acfb9be91cac7d54315a15541b36b134f74bd2dc53940115a5381e087bc25c6f71be831a8baa234cc1ee3eeb74ed83116beb2b8849d108a3730e8ce27e2bfb82419a7b407ac7c222fd0e6280a8078ce64e47ef54ac9d5be9aaae0162e0de568a44a18d3df90845d919c4f01463406340a44f40efb43a99b371618488e2670d1a2d7ee6f1d3be39342104e937ed85fb86599c33e9ee0be9a004946259d8b858909880d59aa00daa0d3280b5f39e34074c4b3a5434029a76a9e9f5cc0163b5c80024158a1cfc4cb1d3061d5834066cb0a403c008599a70f6bc27b8d03106ea3ae91987278c5b143b015547224ab5e24185cd9b81665273e7b6e7cecd82ddbf8098002de94049737bc09828cf3036f31c3735c8b0e98eb704672f348c7f7c93cd1fb2ae905119ff54e0dff3542b0e9dd983dcea2cc5eea6cf303e74ec687af5c41b6fa38f5e203c7ec8e1238ef85831a214afef21060ea781ec68247b65c6916353cc8b73d1ae79354606af2a930709aa118da1636c274dd7e3774b884a79aa6b5711a538d33cf9c01c1c9b83bc6a1f55c91ccb23b05b1deb43a7decdaffefd2862f61366aa8449c69e33642f012f2bb208fa98eeda1f3346f076c8eeef19475e9be115423364f78f84105a8643d34d90cfbfdcd8cf872589a45dc7f54cf3134a36f4e495c23f9da8db15bccb708d4014f2ca512cb5d4f7c13e84300d5cff6eb39b202bab053bdb9674f0648609427d0f8402ddeac30f4fcd3ced3efc3b422d406c09b340bedc1571e1bfc3d44dc281634c5fe5e758e7395cfbe6d6c130fd17d92372d2cb00c6470000000049454e44ae426082</data>
     </image>
     <image name="image1">
-        <data format="PNG" length="1125">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000042c49444154789cb5954f6c14551cc73fefcd7476b65bdaae4bb78bb5502a14d404e4801c88182d1c4c2c693da847400f9c24c68b878684238660e2b1e01f12c19493012ef2478c814412d354a46017a8a564bb6da5bbedccee767776e63d0ffb073751d483bfe49799974c3eeffb7ebf37df9fd05a530b2184040cc0042420aaf9a4d0d554800f045a6b256ae0e1e1e1d6bebebe838ee31c48a7d39b5cd7fd075e251cc7617272f2ded8d8d819cff33e0316819259537aead4a9839d5dd6d1784f91f55b0a94830242088404d304292bef68a89f520802a598fecddaa04f1a876f5c250c7c0a64cdeac686e33807e23d45e6b297c8b877f1831542614550b6599835c83c2a81b6786a75134faf2f1169f12997350881d9021d0903e06de0745d3160a6d3e94dbd5b0a64dcbb94b5831d0e3375ab892b1772dcf9790528543f8dd0d367b36768153b5e31503a0f1aecb004580b44ffac58baae8b1714f0833c7638cc8dab303a320f4822ab4c7a37c69196203de3319d5ce1c4d13c733331dedc67a129a154fd128401ab0616d55a130ac3d42d93d1913940d13fd0c9ee0183685c60da01c5421bd72f7a8c8efccef9afd374267ad93d642365be0636a0d28ec7600941d9e6f23917f0e97f23ce5bef35d19ec863da0ed9059b2be70bec196c66dfa10ec0e49b338f7017258651bf95021035c595429bb0903248fe52a2b5b595dd7b4d945cc2340cdca536be389ee3f67886c5798f773fe8e0dac508c989659277a2180da4ca4ff07821058b8b251445d63d6b13ed1098a6417e39cac85197dbe31962ab9bd9f1f22a226d45366f6d0620fdb08c900d281af6110284b20085b414861d905d88f2e52739ee8cbb8022143259d3dd84691730aa2d52da441a8de0c6958068870022a41e9629ad3473fd3b8fdbe319dadb9b4924da994d2d716c7896fbe35152f78b48245d6b2da4507faf582be8eaf159b721cc837b05ae7debb1f79d08cb8b515edad942a22bc4b1c33eb3d34b1c797f06af90a72d16e2f96d9a74aa11dca8586b222d01af0fb60070f6c402d72f15d97f28c6f6d7027a5f5ce6c3233dc4e2ede496b278be4fff608cee8d3e1add806aeca51094cbb06397c1ecc328e746537c7e3ccdb5cb1136bf60635882d4d41c6ec6836ab37efa214f72208ed9f4d7cdd38ee310280542e38b1c43fb6de26b3672e1ec3cc99bcb246f66a938a3241ab3e91f7c861fbf77710b1e5e49915bae974203ba0e9e9c9cbc373d6d6d305a040a89c2a77f50b27d5782bbbf7acccf28349235dd16cf6dd374f7295e1de8a45c02d37499182b01cc0201a085d61a2144d8b2ac8fb6ed340e77240c4261890e04c250185262546d534a032154b59e0ad394e41c98182bf268ce6721ed9f064e0253356f6da2e24c1f030f783c15fe6da680af8021602bd051532ca9b8521488559f61aa86c29343578fbf0264a94c906c7d3409214c20043457a116ff6de6795578012889ff6b98fe016ea0ce1c203e47720000000049454e44ae426082</data>
+        <data format="PNG" length="1002">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003b149444154789cad945f4c5b551cc73fe7dc4b7b4bcba0762d45c43114323599ee6192609c51d883892ce083f1718b3ebb185f8dc91e972cf39d2d2a2f1af664b6f1e0fe3863a0718969700eb0c52142da0242a1bd6d696f7bcff101585203ceb8fd9ece39f99dcff9fe7edf939f88c562ec465f5f9fe609442c161362173c3e3eae7b7a7ac8e7f36432196cdbfe4f907c3e4f2291201e8fe338cec3737357e9e8e828aded1e229d650e1f2d51754b082110124c13a4dc5ea341eb9dc284c0558a853f3ce8cb0677ef500fde7d39d2596679e326597b8e9abb85d7a770ab16ab6983ec5a05b487a70e36f0f4e10afe408d6a558310980108478dba4a1e8233990c5d474b64ed39aa3a8fe5f3317fbf81dbd70bccfeb205947632fd74f6589c1c6ea2f70d03a58ba0c1f2c9bdc1b66de3b8256a6e11cbe7e3ee1d181b590124fe2693aeee08d223c82c3a2c24b7b874bec8f26288774f7bd054504aef0dde6e99c0eb83f9fb266323cb80a27fb0958141836044605a2ee5523393371cc646fee2da37195aa35d0c0c5b4859ac03d7e91712dcaac5adab3650a3ff9d08ef7dd8404bb48869e5d958b5b87dadc4c9a1464e9f0d0326df7ebd86bd2e310cb1bf62d384d59441f2d70a070e1c60e09489929b988681bdd9cc97170bcc4c65595f71f8e0e3301337fc24a7732467831875a47f289652b0be5e4151e6d07316c1b0c0340d8ab92023e76d66a6b2840e36d2fb7a13fee632475e6edc367ea98a90fb98b7dd6310ca0328a44761582e1bab41befabcc0ec940d28bc5e93b68e064cab84e1d9beaeb48934eac1f53b01c1b000fca496aa54b61a99fcde61662a4b4b4b23d1680be9d426173e4df3602a48ea411989a4fd590f52a8fd156b05ed9d350e3defe3cfdf4b4c7ce770ea7d3fb9f520afbe1620daeee5c26735d20b9b9cfb6811a754a439e4e5c5639a4caa1e5caf586bfc0197b78702005cb9b4cae4cd3267ce8638fe964bd72b393e39d74928d242617303a756a37f284447770dcdbffc6384a05a85de1306e9a52057c7527c7131c3c42d3f475eb2303c82d4fc3276d6811db37efeb148723082d9b08f79f97c1e5729109a9a28307cc622d2d6cdf52b2b24efe548dedb00142009862cfa879ee1a71f6cec928353511472fbf4389148b0b0e0c108081412458dfe21c9f11351e67e7358595468246d1d1e5e38a6e9e851bc39d84ab502a669331dafec0d8ec7e3e8cb06e1a881d727d1ae40180a434a8c9db129a54126ad48a7358c2b4c5352c8c374bcccdab2bb37d8719cba79fab8211f9df218e0582c261e95f8bfc04f1a1e8bc5c4dfe0a19017a725d8c60000000049454e44ae426082</data>
     </image>
     <image name="image2">
         <data format="PNG" length="824">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000002ff49444154789cb59531681c4714863f992dde820cb370815b50600f54e8ca0ba43970712a8fb838438a3895634813d238a5ab80e314ae4d0a812060a4226017c27221c8a9da6b8c4fe0e00d28b0571cec82043b85611f78c12966efa4bb8bc085f29a6567df7cef9f7fdeccaec571cc2cbaddee47ae21e2385e5b9b815f1ebcfcd8de6a63ad25cb338af7c52741acb5a4a729a3d723a82ec6bd99d267bf3f23fc1c4cab2442d14a915986e792fdfa59569766573049417784f1b12e8267954dab24b78714450a28beaf941f847c2a14e70a0841035a2d45d641eb027213c210c69756320767794684d6508bef0befde1a860796e4c402333542b4256c0f0cdd1e50b97191458be6e0e27d81563a87c643d8fb2d7793d685d696413cc8a6cae46f65f7d79c7c62b87b4f2e15fd0fb0d302be0fefde4a0d557a5f35e90f84e0334014d590f855c9de4ecee17e4eb319d1ff3a00ec02f8c67299f283307c61e7d06fbf1782d082588a33e1cf1705fd81cf773f3601e1f9bec59e2f4b5c7ef5209f0ac95f16630cfd818067c103b586dd274a726229cee0fe8380d191cb4d1267d3d58aa1de7d258ceae5d7d0a78fdd269a86f0c52d414c49bbe3762c9b686de41560d7a72e41c4795a6486a78f95e4c4151481d686efbe7b3398ac58b1a23868b8c474aaa8068c8e714a8dd06c1af2a9e5d1c38c641c909dba6e08237f19b358a7ac5cf3479bc2e41f257e55d2ffc6a73833746f09e186cfa387904f2cbffc90a2aa9886d0e99464d3c5965b512cebd01f1800f67672e2a392fb0f023a3d883a053ffddcc2340dd65ab452b6074dc2cd15c1cbceb863daed413e353cdfcfd97d92333a12da6d0181ec3443cf753ef3cdd092de0e116ff1a02cdc157338ca9d7b8269461cfee1ba2139b9286e1a427f10110f2d561555b076d18a39383d4d99a4c0cd0b787f20747b214962c8266e3cdcf0e97c59126ec2f6edd089f40a92f115e0d1eb11ba238461dd6a15f32b53666de841965bb203575a3cc15a48c64a965fe57105e3635db8fa96dcffc431172b5d715d7103dc3fea7f015f373c8ee3b57f0135105a0ffe02a8010000000049454e44ae426082</data>
