@@ -454,7 +454,7 @@ bool KStarsData::processCity( QString line ) {
 			}
 
 			if ( i<10 ) {
-				kdDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
+				kdDebug()<< i18n( "Cities.dat: Ran out of fields. Line was:" ) <<endl;
 				kdDebug()<< totalLine.local8Bit() <<endl;
 				return false;   
 			}
@@ -469,51 +469,51 @@ bool KStarsData::processCity( QString line ) {
 
 			latD = field[3].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[3] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			latM = field[4].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[4] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			latS = field[5].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[5] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			QChar ctemp = field[6].at(0);
 			latsgn = ctemp;
 			if (latsgn != 'N' && latsgn != 'S') {
-				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			lngD = field[7].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[7] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			lngM = field[8].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[8] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			lngS = field[9].toInt( &intCheck );
 			if ( !intCheck ) {
-				kdDebug() << field[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << field[9] << i18n( "\nCities.dat: Bad integer. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
 			ctemp = field[10].at(0);
 			lngsgn = ctemp;
 			if (lngsgn != 'E' && lngsgn != 'W') {
-				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine << endl;
+				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign. Line was:\n" ) << totalLine << endl;
 				return false;
 			}
 
@@ -531,7 +531,7 @@ bool KStarsData::processCity( QString line ) {
 				bool doubleCheck = true;
 				TZ = field[11].toDouble( &doubleCheck);
 				if ( !doubleCheck ) {
-					kdDebug() << field[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine << endl;
+					kdDebug() << field[11] << i18n( "\nCities.dat: Bad time zone. Line was:\n" ) << totalLine << endl;
 					return false;
 				}
 			}

@@ -88,7 +88,7 @@ void AddLinkDialog::checkURL( void ) {
 	if (url.isValid()) {   //Is the string a valid URL?
 		kapp->invokeBrowser( url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
-		QString message = i18n( "The URL is not valid.  Would you like me to open a browser window\nto the Google search engine?" );
+		QString message = i18n( "The URL is not valid. Would you like me to open a browser window\nto the Google search engine?" );
 		QString caption = i18n( "Invalid URL" );
 		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::Yes ) {
 			kapp->invokeBrowser( "http://www.google.com" );
