@@ -442,9 +442,9 @@ void AltVsTime::slotUpdateDateLoc(void) {
 void AltVsTime::slotChooseCity(void) {
 	LocationDialog ld(ks);
 	if ( ld.exec() == QDialog::Accepted ) {
-		int ii = ld.getCityIndex();
-		if ( ii >= 0 ) {
-			geo = ks->data()->geoList.at(ii);
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geo = newGeo;
 			avtUI->latBox->showInDegrees( geo->lat() );
 			avtUI->longBox->showInDegrees( geo->lng() );
 		}

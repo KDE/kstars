@@ -1743,20 +1743,19 @@ void ScriptBuilder::slotFindCity() {
 	LocationDialog ld( ks );
 
 	if ( ld.exec() == QDialog::Accepted ) {
-		int ii = ld.getCityIndex();
-		if ( ii >= 0 ) {
+		if ( ld.selectedCity() ) {
 			// set new location names
-			argSetGeoLocation->CityName->setText( ld.selectedCity() );
-			argSetGeoLocation->ProvinceName->setText( ld.selectedProvince() );
-			argSetGeoLocation->CountryName->setText( ld.selectedCountry() );
+			argSetGeoLocation->CityName->setText( ld.selectedCityName() );
+			argSetGeoLocation->ProvinceName->setText( ld.selectedProvinceName() );
+			argSetGeoLocation->CountryName->setText( ld.selectedCountryName() );
 
 			ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
 			if ( sf->name() == "setGeoLocation" ) {
 				setUnsavedChanges( true );
 
-				sf->setArg( 0, ld.selectedCity() );
-				sf->setArg( 1, ld.selectedProvince() );
-				sf->setArg( 2, ld.selectedCountry() );
+				sf->setArg( 0, ld.selectedCityName() );
+				sf->setArg( 1, ld.selectedProvinceName() );
+				sf->setArg( 2, ld.selectedCountryName() );
 			} else {
 				kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 			}

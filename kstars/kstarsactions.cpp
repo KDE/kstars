@@ -269,10 +269,9 @@ void KStars::slotINDIConf() {
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);
 	if ( locationdialog.exec() == QDialog::Accepted ) {
-		int ii = locationdialog.getCityIndex();
-		if ( ii >= 0 ) {
+		GeoLocation *newLocation = locationdialog.selectedCity();
+		if ( newLocation ) {
 			// set new location in options
-			GeoLocation *newLocation = data()->geoList.at(ii);
 			data()->setLocation( *newLocation );
 
 			// reset infoboxes

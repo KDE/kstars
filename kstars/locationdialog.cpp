@@ -179,8 +179,6 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CoordLay->activate();
 	RootLay->activate();
 
-  GeoID.resize(10000);
-
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
 	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
@@ -208,6 +206,8 @@ LocationDialog::LocationDialog( QWidget* parent )
 	ProvinceFilter->setTrapReturnKey(true);
 	CountryFilter->setTrapReturnKey(true);
 
+	filteredCityList.setAutoDelete( false );
+	
 	initCityList();
 	resize (640, 480);
 }
@@ -219,14 +219,8 @@ void LocationDialog::initCityList( void ) {
 	KStars *p = (KStars *)parent();
 	for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next())
 	{
-		QString s;
-		if ( loc->province().isEmpty() ) {
-			s = loc->translatedName() + ", " + loc->translatedCountry();
-		} else {
-			s = loc->translatedName() + ", " + loc->translatedProvince() + ", " + loc->translatedCountry();
-		}
-		GeoBox->insertItem( s );
-		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
+		GeoBox->insertItem( loc->fullName() );
+		filteredCityList.append( loc );
 
 		//If TZ is not even integer value, add it to listbox
 		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
@@ -239,31 +233,28 @@ void LocationDialog::initCityList( void ) {
 		}
 	}
 
-	//Sort the list of Cities alphabetically
+	//Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
 	GeoBox->sort();
 	
 	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
-	bool cityFound(false);
-	if ( GeoBox->firstItem() ) {
-		// attempt to set the current location
-		for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next()) {
-			if ( loc->name() == p->geo()->name() &&
-						loc->province().stripWhiteSpace() == p->geo()->province().stripWhiteSpace() &&
-						loc->country() == p->geo()->country() ) {
-				cityFound = true;
+	// attempt to highlight the current kstars location in the GeoBox
+	GeoBox->setCurrentItem( 0 );
+	if ( GeoBox->count() ) {
+		for ( uint i=0; i<GeoBox->count(); i++ ) {
+			if ( GeoBox->item(i)->text() == p->geo()->fullName() ) {
+				GeoBox->setCurrentItem( i );
 				break;
 			}
 		}
-
-		if ( cityFound ) GeoBox->setCurrentItem( p->data()->geoList.at() );
-		else GeoBox->setCurrentItem( GeoBox->firstItem() );
 	}
 }
 
 void LocationDialog::filterCity( void ) {
 	KStars *p = (KStars *)parent();
 	GeoBox->clear();
+	filteredCityList.clear();
+	
 	nameModified = false;
 	dataModified = false;
 	AddCityButton->setEnabled( false );
@@ -278,19 +269,15 @@ void LocationDialog::filterCity( void ) {
 		if ( sc.lower().startsWith( CityFilter->text().lower() ) &&
 				sp.lower().startsWith( ProvinceFilter->text().lower() ) &&
 				ss.lower().startsWith( CountryFilter->text().lower() ) ) {
-			sc.append( ", " );
-			if ( !sp.isEmpty() ) {
-				sc.append( sp );
-				sc.append( ", " );
-			}
-			sc.append( ss );
 
-			GeoBox->insertItem( sc );
-			GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
+			GeoBox->insertItem( loc->fullName() );
+			filteredCityList.append( loc );
 		}
 	}
 
-	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
+	GeoBox->sort();
+	
+	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria", GeoBox->count()) );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
@@ -300,37 +287,40 @@ void LocationDialog::filterCity( void ) {
 
 void LocationDialog::changeCity( void ) {
 	//when the selected city changes, set newCity, and redraw map
-	//Also, fill the fields at the bottom of the window with the selected city's data.
-	newCity = GeoID[GeoBox->currentItem()];
-	MapView->repaint();
-
-	KStars *p = (KStars *)parent();
-	GeoLocation c = p->data()->geoList.at(newCity);
-//	kdWarning() << "TimeZoneRule: " << p->data()->geoList.at(newCity)->tzrule() << endl;
-	NewCityName->setText( c.translatedName() );
-	NewProvinceName->setText( c.translatedProvince() );
-	NewCountryName->setText( c.translatedCountry() );
-	NewLong->showInDegrees( c.lng() );
-	NewLat->showInDegrees( c.lat() );
-	TZBox->setCurrentText( QString("%1").arg( c.TZ0(), 0, 'f', 2 ) );
-
-//Pick the City's rule from the rulebook
-	for ( int i=0; i<TZRuleBox->count(); ++i ) {
-		if ( p->data()->Rulebook[ TZRuleBox->text(i) ].equals( c.tzrule() ) ) {
-			TZRuleBox->setCurrentItem( i );
-			break;
+	SelectedCity = 0L;
+	if ( GeoBox->currentItem() >= 0 ) {
+		for (GeoLocation *loc = filteredCityList.first(); loc; loc = filteredCityList.next()) {
+			if ( loc->fullName() == GeoBox->currentText() ) {
+				SelectedCity = loc;
+				break;
+			}
 		}
 	}
+	
+	MapView->repaint();
 
+	//Fill the fields at the bottom of the window with the selected city's data.
+	if ( SelectedCity ) {
+		KStars *p = (KStars *)parent();
+		NewCityName->setText( SelectedCity->translatedName() );
+		NewProvinceName->setText( SelectedCity->translatedProvince() );
+		NewCountryName->setText( SelectedCity->translatedCountry() );
+		NewLong->showInDegrees( SelectedCity->lng() );
+		NewLat->showInDegrees( SelectedCity->lat() );
+		TZBox->setCurrentText( QString("%1").arg( SelectedCity->TZ0(), 0, 'f', 2 ) );
+		
+		//Pick the City's rule from the rulebook
+		for ( int i=0; i<TZRuleBox->count(); ++i ) {
+			if ( p->data()->Rulebook[ TZRuleBox->text(i) ].equals( SelectedCity->tzrule() ) ) {
+				TZRuleBox->setCurrentItem( i );
+				break;
+			}
+		}
+	}
+	
 	nameModified = false;
 	dataModified = false;
 	AddCityButton->setEnabled( false );
-}
-
-int LocationDialog::getCityIndex( void ) {
-	int i = GeoBox->currentItem();
-	if (i >= 0) { return GeoID[i]; }
-	else { return i; }
 }
 
 void LocationDialog::addCity( void ) {
@@ -395,21 +385,26 @@ void LocationDialog::addCity( void ) {
 			stream << entry;
 			file.close();
 
-			//Add city to geoList and GeoBox
-			//insert the new city into geoList alphabetically by city name
-			unsigned int i;
-			for ( i=0; i < p->data()->geoList.count(); ++i ) {
-				if ( p->data()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
-					p->data()->geoList.insert( i, new GeoLocation( lng.Degrees(), lat.Degrees(),
-							NewCityName->text(), NewProvinceName->text(), NewCountryName->text(),
-							TZ, &p->data()->Rulebook[ TZrule ] ) );
-					break;
+			//Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
+			GeoLocation *g = new GeoLocation( lng.Degrees(), lat.Degrees(),
+														NewCityName->text(), NewProvinceName->text(), NewCountryName->text(),
+														TZ, &p->data()->Rulebook[ TZrule ] );
+			p->data()->geoList.append( g );
+			
+			//(possibly) insert new city into GeoBox by running filterCity()
+			filterCity();
+			
+			//Attempt to highlight new city in list
+			GeoBox->setCurrentItem( 0 );
+			if ( GeoBox->count() ) {
+				for ( uint i=0; i<GeoBox->count(); i++ ) {
+					if ( GeoBox->item(i)->text() == g->fullName() ) {
+						GeoBox->setCurrentItem( i );
+						break;
+					}
 				}
-      }
-
-			GeoBox->clear();
-			initCityList();
-			GeoBox->setCurrentItem( i );
+			}
+		
 		}
 	}
 
@@ -422,22 +417,17 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 
 	//find all cities within 3 degrees of (lng, lat); list them in GeoBox
 	GeoBox->clear();
-	for ( unsigned int i=0; i<ks->data()->geoList.count(); ++i ) {
-		if ( ( abs(	lng - int( ks->data()->geoList.at(i)->lng()->Degrees() ) ) < 3 ) &&
-				 ( abs( lat - int( ks->data()->geoList.at(i)->lat()->Degrees() ) ) < 3 ) ) {
-	    QString sc( ks->data()->geoList.at(i)->translatedName() );
-			sc.append( ", " );
-			if ( !ks->data()->geoList.at(i)->province().isEmpty() ) {
-	      sc.append( ks->data()->geoList.at(i)->translatedProvince() );
-	      sc.append( ", " );
-			}
-      sc.append( ks->data()->geoList.at(i)->translatedCountry() );
-
-      GeoBox->insertItem( sc );
-      GeoID[GeoBox->count() - 1] = i;
+	filteredCityList.clear();
+	for (GeoLocation *loc = ks->data()->geoList.first(); loc; loc = ks->data()->geoList.next()) {
+		if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
+				 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
+			
+			GeoBox->insertItem( loc->fullName() );
+			filteredCityList.append( loc );
 		}
 	}
 
+	GeoBox->sort();
 	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
@@ -537,12 +527,6 @@ void LocationDialog::slotOk( void ) {
 
 	if ( bOkToClose ) accept();
 }
-
-QString LocationDialog::selectedCity() { return NewCityName->text(); }
-
-QString LocationDialog::selectedProvince() { return NewProvinceName->text(); }
-
-QString LocationDialog::selectedCountry() { return NewCountryName->text(); }
 
 bool LocationDialog::addCityEnabled() { return AddCityButton->isEnabled(); }
 

@@ -81,9 +81,9 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 	//Draw cities
 	QPoint o;
 
-	for ( unsigned int i=0; i < ks->data()->geoList.count(); ++i ) {
-		o.setX( int( ks->data()->geoList.at(i)->lng()->Degrees() + origin.x() ) );
-		o.setY( height() - int( ks->data()->geoList.at(i)->lat()->Degrees() + origin.y() ) );
+	for ( GeoLocation *g=ks->data()->geoList.first(); g; g = ks->data()->geoList.next() ) {
+		o.setX( int( g->lng()->Degrees() + origin.x() ) );
+		o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
 		if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 			pcanvas.drawPoint( o.x(), o.y() );
@@ -92,12 +92,11 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
   //redraw the cities that appear in the filtered list, with a white pen
 	//If the list has not been filtered, skip the redraw.
-	if ( ld->GeoBox->count() < ks->data()->geoList.count() ) {
+	if ( ld->filteredList()->count() ) {
 		pcanvas.setPen( white );
-		for ( unsigned int i=0; i < ld->GeoBox->count(); ++i ) {
-			int index = ld->cityIDAt( i );
-			o.setX( int( ks->data()->geoList.at(index)->lng()->Degrees() + origin.x() ) );
-			o.setY( height() - int( ks->data()->geoList.at(index)->lat()->Degrees() + origin.y() ) );
+		for ( GeoLocation *g=ld->filteredList()->first(); g; g = ld->filteredList()->next() ) {
+			o.setX( int( g->lng()->Degrees() + origin.x() ) );
+			o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				pcanvas.drawPoint( o.x(), o.y() );
@@ -105,9 +104,10 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 		}
 	}
 
-	if (ld->getCityIndex() >= 0 && ld->getCityIndex() < int(ks->data()->geoList.count())) {
-		o.setX( int( ks->data()->geoList.at(ld->getCityIndex())->lng()->Degrees() + origin.x() ) );
-		o.setY( height() - int( ks->data()->geoList.at(ld->getCityIndex())->lat()->Degrees() + origin.y() ) );
+	GeoLocation *g = ld->selectedCity();
+	if ( g ) {
+		o.setX( int( g->lng()->Degrees() + origin.x() ) );
+		o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
 		pcanvas.setPen( red );
 		pcanvas.setBrush( red );

@@ -414,16 +414,14 @@ void WUTDialog::slotChangeDate() {
 void WUTDialog::slotChangeLocation() {
 	LocationDialog ld( kstars );
 	if ( ld.exec() == QDialog::Accepted ) {
-		if ( ld.getCityIndex() >= 0 ) {
-			geo = kstars->data()->geoList.at( ld.getCityIndex() );
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geo = newGeo;
 			UT0 = geo->LTtoUT( T0 );
 			TomorrowUT = geo->LTtoUT( Tomorrow );
 			EveningUT = geo->LTtoUT( Evening );
 			
-			QString sGeo = geo->translatedName();
-			if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
-			sGeo += ", " + geo->translatedCountry();
-			WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
+			WUT->LocationLabel->setText( i18n( "at %1" ).arg( geo->fullName() ) );
 			
 			int i = WUT->CategoryListBox->currentItem();
 			init();

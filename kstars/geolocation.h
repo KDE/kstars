@@ -133,8 +133,12 @@ public:
 	*/
 	QString country() const { return Country; }
 /**@return translated Country name
-	*/
+ */
 	QString translatedCountry() const { return i18n("Country name (optional, but should be translated)", Country.utf8().data()); }
+
+/**@return comma-separated city, province, country names (each localized)
+ */
+	QString fullName() const;
 
 /**@return time zone without DST correction
 	*/

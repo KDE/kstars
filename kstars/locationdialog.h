@@ -41,7 +41,7 @@
 	*@version 1.0
 	*/
 #include <kdialogbase.h>
-#include <qmemarray.h>
+#include "geolocation.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -77,45 +77,35 @@ public:
 	*/
   void initCityList( void );
 
-/**
-	*Retrieve ID number of the highlighted City in the QListBox.
-	*Because the list can be filtered, the city's position in the List
-	*cannot be used to directly identify the city in the database.
-	*So, we maintain an integer QMemArray that contains the database ID of each
-	*city in the list.  This function uses the List position of the highlighted
-	*city to select the corresponding database ID.
-	*@returns the position of the highlighted city in the List of cities.
+/**@return pointer to the highlighted city in the List.
 	*/
-  int getCityIndex( void );
-
+	GeoLocation* selectedCity() const { return SelectedCity; }
+	
+/**@return pointer to the List of filtered city pointers.
+ */
+	QPtrList<GeoLocation>* filteredList() { return &filteredCityList; }
+	
 /**@short Show only cities within 3 degrees of point specified by arguments
 	*@param longitude the longitude of the search point (int)
 	*@param latitude the latitude of the search point (int)
 	*/
 	void findCitiesNear( int longitude, int latitude );
 
-/**@param i the index of GeoID to examine
-	*@returns the GeoID of the city at position i
+/**@return the city name of the selected location.
 	*/
-	int cityIDAt( int i ) { return GeoID[i]; }
+	QString selectedCityName( void ) const { return SelectedCity->translatedName(); }
 
-/**@returns the name of the selected city.
+/**@return the province name of the selected location.
 	*/
-	QString selectedCity( void );
+	QString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
 
-/**@returns the name of the selected city.
+/**@return the country name of the selected location.
 	*/
-	QString selectedProvince( void );
+	QString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
 
-/**@returns the name of the selected city.
-	*/
-	QString selectedCountry( void );
-
-/**@returns true if the AddCityBUtton is enabled
+/**@return true if the AddCityBUtton is enabled
 	*/
 	bool addCityEnabled();
-
-  QListBox *GeoBox;
 
 public slots:
 /**
@@ -149,8 +139,7 @@ private:
 	*Make sure Longitude and Latitude values are valid.
 	*/
 	bool checkLongLat( void );
-
-	int newCity;
+	
 	bool dataModified, nameModified, bCityAdded;
 	QGridLayout *glay, *glay2;
 	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
@@ -166,8 +155,10 @@ private:
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-	QMemArray<int> GeoID;
+	QListBox *GeoBox;
 
+	GeoLocation *SelectedCity;
+	QPtrList<GeoLocation> filteredCityList;
 };
 
 #endif

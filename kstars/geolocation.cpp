@@ -97,6 +97,17 @@ GeoLocation::GeoLocation( double x, double y, double z, QString name, QString pr
 	cartToGeod();
 }
 
+QString GeoLocation::fullName() const {
+	QString s;
+	if ( province().isEmpty() ) {
+		s = translatedName() + ", " + translatedCountry();
+	} else {
+		s = translatedName() + ", " + translatedProvince() + ", " + translatedCountry();
+	}
+	
+	return s;
+}
+
 void GeoLocation::reset( GeoLocation *g ) {
 	indexEllipsoid = g->ellipsoid();
 	setEllipsoid ( indexEllipsoid );
