@@ -94,6 +94,7 @@ public:
 	friend class FindDialog;
 	friend class KStars;
 	friend class LocationDialog;
+	friend class FOVDialog;
 	friend class MapCanvas;
 	friend class SkyMap;
 	friend class FileSource;

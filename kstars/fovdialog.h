@@ -36,7 +36,11 @@ class FOVDialog : public KDialogBase
 public:
 	FOVDialog( QWidget *parent=0 );
 	~FOVDialog();
+	unsigned int currentItem() const { return fov->FOVListBox->currentItem(); }
 	QPtrList<FOV> FOVList;
+
+protected:
+	void paintEvent( QPaintEvent * );
 
 private slots:
 	void slotNewFOV();
@@ -66,6 +70,9 @@ public:
 public slots:
 	void slotUpdateFOV();
 	void slotComputeFOV();
+
+protected:
+	void paintEvent( QPaintEvent * );
 
 private:
 	FOV f;

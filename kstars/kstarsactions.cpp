@@ -654,6 +654,11 @@ void KStars::slotTargetSymbol() {
 	data()->fovSymbol.setSize( options()->FOVSize );
 	data()->fovSymbol.setShape( options()->FOVShape );
 	data()->fovSymbol.setColor( options()->FOVColor );
+
+//Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
+//	//set ZoomLevel to match the FOV symbol
+//	zoom( (double)(map()->width()) * 60.0 / ( 2.0 * dms::DegToRad * data()->fovSymbol.size() ) );
+
 	map()->forceUpdate();
 }
 
@@ -695,6 +700,17 @@ void KStars::slotFOVEdit() {
 
 		fovActionMenu->popupMenu()->insertSeparator();
 		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+
+		//set FOV to whatever was highlighted in FOV dialog
+		options()->setTargetSymbol( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
+		data()->fovSymbol.setName( options()->FOVName );
+		data()->fovSymbol.setSize( options()->FOVSize );
+		data()->fovSymbol.setShape( options()->FOVShape );
+		data()->fovSymbol.setColor( options()->FOVColor );
+
+//Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
+//		//set ZoomLevel to match the FOV symbol
+//		zoom( (double)(map()->width()) * 60.0 / ( 2.0 * dms::DegToRad * data()->fovSymbol.size() ) );
 	}
 }
 

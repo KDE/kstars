@@ -169,7 +169,7 @@ class KStarsOptions {
 		QPoint posTimeBox, posFocusBox, posGeoBox;
 		int FOVShape;
 		float FOVSize;
-		QString FOVColor;
+		QString FOVName, FOVColor;
 
 		//Custom Catalogs
 		unsigned int CatalogCount;

@@ -65,6 +65,8 @@ void FOVDialog::initList() {
 	f.setName( locateLocal( "appdata", "fov.dat" ) );
 
 	if ( f.open( IO_ReadOnly ) ) {
+		QListBoxItem *item = 0;
+
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
 			fields = QStringList::split( ":", stream.readLine() );
@@ -85,30 +87,44 @@ void FOVDialog::initList() {
 				FOV *newfov = new FOV( nm, sz, sh, cl );
 				fov->FOVListBox->insertItem( nm );
 				FOVList.append( newfov );
+
+				//Tag item if its name matches the current fov symbol in the main window
+				if ( nm == ks->data()->fovSymbol.name() ) item = fov->FOVListBox->item( fov->FOVListBox->count()-1 );
 			}
 		}
+
+		f.close();
+
+		//preset the listbox selection to the current setting in the main window
+		fov->FOVListBox->setSelected( item, true );
+		slotSelect( item );
 	}
 }
 
 void FOVDialog::slotSelect(QListBoxItem *item) {
-	FOV *f = FOVList.at( item->listBox()->currentItem() );
-
 	if ( item == 0 ) { //no item selected
 		fov->RemoveButton->setEnabled( false );
 		fov->EditButton->setEnabled( false );
 	} else {
 		fov->RemoveButton->setEnabled( true );
 		fov->EditButton->setEnabled( true );
+	}
 
-		//Draw the selected target symbol in the pixmap.
-		if ( f->size() > 0.0 ) {
-			QPainter p;
-			p.begin( fov->ViewBox );
-			p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
-			f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
-			p.drawText( 0, 0, QString( "%1 arcmin" ).arg( (double)(f->size()), 0, 'g', 3 ) );
-			p.end();
-		}
+	//paint dialog with selected FOV symbol
+	update();
+}
+
+void FOVDialog::paintEvent( QPaintEvent * ) {
+	FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
+
+	//Draw the selected target symbol in the pixmap.
+	if ( f->size() > 0.0 ) {
+		QPainter p;
+		p.begin( fov->ViewBox );
+		p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
+		f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
+		p.drawText( 0, 0, QString( "%1 arcmin" ).arg( (double)(f->size()), 0, 'g', 3 ) );
+		p.end();
 	}
 }
 
@@ -162,14 +178,14 @@ NewFOV::NewFOV( QWidget *parent )
 	ui = new NewFOVUI( page );
 	vlay->addWidget( ui );
 
-	enableButtonOK( false );
-
 	connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->FOVEdit, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
 	connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+
+	slotUpdateFOV();
 }
 
 void NewFOV::slotUpdateFOV() {
@@ -180,15 +196,21 @@ void NewFOV::slotUpdateFOV() {
 	f.setShape( ui->ShapeBox->currentItem() );
 	f.setColor( ui->ColorButton->color().name() );
 
+	if ( ! f.name().isEmpty() && sizeOk )
+		enableButtonOK( true );
+	else
+		enableButtonOK( false );
+
+	update();
+}
+
+void NewFOV::paintEvent( QPaintEvent * ) {
 	QPainter p;
 	p.begin( ui->ViewBox );
 	p.fillRect( ui->ViewBox->contentsRect(), QColor( "black" ) );
 	f.draw( p, (float)( 0.3*ui->ViewBox->contentsRect().width() ) );
 	p.drawText( 0, 0, QString( "%1 arcmin" ).arg( f.size(), 0, 'g', 3 ) );
 	p.end();
-
-	if ( ! f.name().isEmpty() && sizeOk )
-		enableButtonOK( true );
 }
 
 void NewFOV::slotComputeFOV() {

@@ -2030,6 +2030,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				//parse double value
 				double dVal = fn[2].toDouble( &dOk );
 
+				if ( fn[1] == "FOVName"                ) { options->FOVName         = fn[2]; cmdCount++; }
 				if ( fn[1] == "FOVSize"         && dOk ) { options->FOVSize         = (float)dVal; cmdCount++; }
 				if ( fn[1] == "FOVShape"        && nOk ) { options->FOVShape        = nVal; cmdCount++; }
 				if ( fn[1] == "FOVColor"               ) { options->FOVColor        = fn[2]; cmdCount++; }

@@ -100,6 +100,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	focusObject = o.focusObject;
 	focusRA     = o.focusRA;
 	focusDec    = o.focusDec;
+	FOVName     = o.FOVName;
 	FOVSize     = o.FOVSize;
 	FOVShape    = o.FOVShape;
 	FOVColor    = o.FOVColor;
@@ -209,6 +210,7 @@ void KStarsOptions::setDefaultOptions() {
 	posGeoBox   = QPoint( 0, 600 );
 	focusRA  = 0.0;
 	focusDec = 0.0;
+	FOVName = "No FOV";
 	FOVSize = 0.0;
 	FOVShape = 0;
 	FOVColor = "#FFFFFF";
@@ -268,6 +270,7 @@ bool KStarsOptions::setTargetSymbol( QString name ) {
 							if ( ok ) {
 								cl = fields[3];
 
+								FOVName = nm;
 								FOVSize = sz;
 								FOVShape = sh;
 								FOVColor = cl;

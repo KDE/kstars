@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>NewFOVUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>421</width>
-            <height>413</height>
+            <height>415</height>
         </rect>
     </property>
     <property name="caption">
@@ -30,6 +30,12 @@
                 <widget class="QLabel">
                     <property name="name">
                         <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>NoFrame</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Plain</enum>
                     </property>
                     <property name="text">
                         <string>&lt;b&gt;Name:&lt;/b&gt;</string>
@@ -479,6 +485,13 @@
                                     <property name="text">
                                         <string></string>
                                     </property>
+                                    <property name="color">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel" row="1" column="0">
                                     <property name="name">
@@ -578,18 +591,17 @@
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
-    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

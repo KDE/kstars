@@ -331,6 +331,7 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsSkymap, "FadePlanetTrails", i18n( "Planet trails fade to sky color? (otherwise color is constant)" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "UseAltAz" );
 	argChangeViewOption->OptionName->insertItem( "ZoomFactor" );
+	argChangeViewOption->OptionName->insertItem( "FOVName" );
 	argChangeViewOption->OptionName->insertItem( "FOVSize" );
 	argChangeViewOption->OptionName->insertItem( "FOVShape" );
 	argChangeViewOption->OptionName->insertItem( "FOVColor" );

@@ -185,6 +185,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "ShowViewToolBar" && bOk ) options()->showViewToolBar = bVal;
 
 	//[View]
+	if ( op == "FOVName"                ) options()->FOVName         = val;
 	if ( op == "FOVSize"         && dOk ) options()->FOVSize         = (float)dVal;
 	if ( op == "FOVShape"        && nOk ) options()->FOVShape        = nVal;
 	if ( op == "FOVColor"               ) options()->FOVColor         = val;

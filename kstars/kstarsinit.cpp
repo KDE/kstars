@@ -415,6 +415,7 @@ void KStars::datainitFinished(bool worked) {
 	data()->clock()->start();
 
 //Initialize FOV symbol from options
+	data()->fovSymbol.setName( options()->FOVName );
 	data()->fovSymbol.setSize( options()->FOVSize );
 	data()->fovSymbol.setShape( options()->FOVShape );
 	data()->fovSymbol.setColor( options()->FOVColor );

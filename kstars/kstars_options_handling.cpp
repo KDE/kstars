@@ -97,6 +97,7 @@ void KStarsData::loadOptions()
 	options->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 	conf->setGroup( "View" );
 	options->colorScheme()->loadFromConfig( conf );
+	options->FOVName        = conf->readEntry( "FOVName", "No FOV" );
 	options->FOVSize        = conf->readDoubleNumEntry( "FOVSize", 0.0 );
 	options->FOVShape       = conf->readNumEntry( "FOVShape", 0 );
 	options->FOVColor       = conf->readEntry( "FOVColor", "#FFFFFF" );
@@ -243,6 +244,7 @@ void KStarsData::saveOptions(KStars *ks) {
 
 	conf->setGroup( "View" );
 	options->colorScheme()->saveToConfig( conf );
+	conf->writeEntry( "FOVName", options->FOVName );
 	conf->writeEntry( "FOVSize", options->FOVSize );
 	conf->writeEntry( "FOVShape", options->FOVShape );
 	conf->writeEntry( "FOVColor", options->FOVColor );
