@@ -40,6 +40,7 @@
 #include "indiconf.h"
 #include "indidriver.h"
 #include "scriptbuilder.h"
+#include "planetviewer.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -78,13 +79,13 @@ void KStars::slotViewToolBar() {
 void KStars::slotCalculator() {
 	AstroCalc astrocalc (this);
 	astrocalc.exec();
- }
+}
 
 void KStars::slotLCGenerator() {
 	if (AAVSODialog == NULL)
-        AAVSODialog = new LCGenerator(this);
-        
-  AAVSODialog->show();
+		AAVSODialog = new LCGenerator(this);
+
+	AAVSODialog->show();
 }
 
 void KStars::slotElTs() {
@@ -97,23 +98,25 @@ void KStars::slotWUT() {
 	dialog.exec();
 }
 
-void KStars::slotINDIDriver() {
-     if (indidriver == NULL)
-        indidriver = new INDIDriver(this);
-
-        indidriver->show();
-
-
-}
-
-void KStars::slotINDIPanel() {
-
-   indimenu->updateStatus();
-}
-
 void KStars::slotScriptBuilder() {
 	ScriptBuilder sb(this);
 	sb.exec();
+}
+
+void KStars::slotSolarSystem() {
+	PlanetViewer pv(this);
+	pv.exec();
+}
+
+void KStars::slotINDIDriver() {
+	if (indidriver == NULL)
+		indidriver = new INDIDriver(this);
+
+	indidriver->show();
+}
+
+void KStars::slotINDIPanel() {
+	indimenu->updateStatus();
 }
 
 void KStars::slotGeoLocator() {
@@ -198,13 +201,13 @@ void KStars::slotFind() {
 	}
 
 	if ( !findDialog ) kdWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
-	
+
 	if ( findDialog->exec() == QDialog::Accepted && findDialog->currentItem() ) {
 		map()->setClickedObject( findDialog->currentItem()->objName()->skyObject() );
 		map()->setClickedPoint( map()->clickedObject() );
 		map()->slotCenter();
 	}
-	
+
 	// check if data has changed while dialog was open
 	if ( DialogIsObsolete ) clearCachedFindDialog();
 }
@@ -224,43 +227,43 @@ void KStars::closeWindow() {
 
 void KStars::slotRunScript() {
 	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
-	
+
 	if ( fileURL.isValid() && fileURL.isLocalFile() ) {
 		//Remove the leading 'file:', which confuses QFile :(
 		QString fname = fileURL.url().mid(5);
 		QFile f( fname );
-		
+
 		if ( !f.open( IO_ReadOnly) ) {
 			QString message = i18n( "Could not open file %1" ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
-		} 
-		
-		// Before we run the script, make sure that it's safe.  Each line must either begin with "#" 
+		}
+
+		// Before we run the script, make sure that it's safe.  Each line must either begin with "#"
 		// or begin with "dcop $KSTARS".  Otherwise, the line must be equal to one of the following:
 		// "KSTARS=`dcopfind -a 'kstars*'`";  "MAIN=KStarsInterface";  or "CLOCK=clock#1"
 		QTextStream istream(&f);
 		QString line;
 		bool fileOK( true );
-		
+
 		while (  ! istream.eof() ) {
 			line = istream.readLine();
-			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS" 
-					&& line.stripWhiteSpace() != "KSTARS=`dcopfind -a 'kstars*'`" 
+			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
+					&& line.stripWhiteSpace() != "KSTARS=`dcopfind -a 'kstars*'`"
 					&& line.stripWhiteSpace() != "MAIN=KStarsInterface"
 					&& line.stripWhiteSpace() != "CLOCK=clock#1" ) {
 				fileOK = false;
 				break;
 			}
 		}
-		
+
 		if ( ! fileOK ) {
 			KMessageBox::sorry( 0, i18n( "The selected file appears to be an invalid KStars script." ),
-					i18n( "Script Validation Failed!" ) ); 
+					i18n( "Script Validation Failed!" ) );
 		} else {
 			//DEBUG
 			kdDebug() << "running script: " << fname << endl;
-			
+
 			//file is OK, run it!
 			KProcess p;
 			p << fname;
@@ -275,7 +278,7 @@ void KStars::slotPrint() {
 	ColorScheme cs( * options()->colorScheme() );
 
 	KPrinter printer( true, QPrinter::HighResolution );
-	
+
 //Suggest Chart color scheme
 	if ( options()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
 		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing?" );
@@ -296,46 +299,46 @@ void KStars::slotPrint() {
 		kapp->setOverrideCursor( waitCursor );
 
 		QPainter p;
-		
+
 		//shortcuts to inform wheter to draw different objects
 		bool drawPlanets( options()->drawPlanets );
 		bool drawMW( options()->drawMilkyWay );
 		bool drawCNames( options()->drawConstellNames );
 		bool drawCLines( options()->drawConstellLines );
 		bool drawGrid( options()->drawGrid );
-		
+
 		p.begin( &printer );
 		QPaintDeviceMetrics pdm( p.device() );
-		
+
 		//scale image such that it fills 90% of the x or y dimension on the paint device
 		double xscale = pdm.width() / map()->width();
 		double yscale = pdm.height() / map()->height();
 		double scale = (xscale < yscale) ? xscale : yscale;
-		
+
 		int pdWidth = int( scale * map()->width() );
 		int pdHeight = int( scale * map()->height() );
 		int x1 = int( 0.5*(pdm.width()  - pdWidth) );
 		int y1 = int( 0.5*(pdm.height()  - pdHeight) );
-		
+
 		p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
 		p.setClipping( true );
-		
+
 		//Fil background with sky color
 		p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( options()->colorScheme()->colorNamed( "SkyColor" ) ) );
-		
+
 		p.translate( x1, y1 );
-		
+
 		QFont stdFont = p.font();
 		QFont smallFont = p.font();
 		smallFont.setPointSize( stdFont.pointSize() - 2 );
-		
+
 		if ( drawMW ) map()->drawMilkyWay( p, scale );
 		if ( drawGrid ) map()->drawCoordinateGrid( p, scale );
 		if ( options()->drawEquator ) map()->drawEquator( p, scale );
 		if ( options()->drawEcliptic ) map()->drawEcliptic( p, scale );
 		if ( drawCLines ) map()->drawConstellationLines( p, scale );
 		if ( drawCNames ) map()->drawConstellationNames( p, stdFont, scale );
-		
+
 		// stars and planets use the same font size
 		if ( options()->ZoomLevel < 6 ) {
 			p.setFont( smallFont );
@@ -343,14 +346,14 @@ void KStars::slotPrint() {
 			p.setFont( stdFont );
 		}
 		map()->drawStars( p, scale );
-		
+
 		map()->drawDeepSkyObjects( p, scale );
 		map()->drawSolarSystem( p, drawPlanets, scale );
 		map()->drawAttachedLabels( p, scale );
 		map()->drawHorizon( p, stdFont, scale );
-		
+
 		p.end();
-		
+
 		kapp->restoreOverrideCursor();
 	}
 
@@ -402,11 +405,11 @@ void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-		if ( data()->isSolarSystem( map()->focusObject() ) && data()->temporaryTrail ) { 
+		if ( data()->isSolarSystem( map()->focusObject() ) && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
 			data()->temporaryTrail = false;
 		}
-			
+
 		map()->setClickedObject( NULL );
 		map()->setFocusObject( NULL );//no longer tracking focusObject
 	} else {
@@ -414,13 +417,13 @@ void KStars::slotTrack() {
 		options()->isTracking = true;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
-	
+
 	map()->forceUpdate();
 }
 
 void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
-	
+
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
 		if ( options()->useAltAz && options()->useRefraction ) {
@@ -459,7 +462,7 @@ void KStars::slotZoomOut() {
 void KStars::slotDefaultZoom() {
 	options()->ZoomLevel = DEFAULTZOOMLEVEL;
 	map()->forceUpdate();
-	
+
 	if ( options()->ZoomLevel > MINZOOMLEVEL )
 		actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( options()->ZoomLevel < MAXZOOMLEVEL )
@@ -486,7 +489,7 @@ void KStars::slotColorScheme() {
 
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
-	options()->setTargetSymbol( symbolName ); 
+	options()->setTargetSymbol( symbolName );
 	map()->forceUpdate();
 }
 

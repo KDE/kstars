@@ -163,21 +163,21 @@ void KStars::initActions() {
 	}
 
 	//Add Target Symbol actions
-	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0, 
+	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0,
 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_none" );
-	
-	new KAction( i18n( "use a circle target symbol", "Circle" ), 0, 
+
+	new KAction( i18n( "use a circle target symbol", "Circle" ), 0,
 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_circle" );
-	
-	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0, 
+
+	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0,
 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_crosshairs" );
-	
-	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0, 
+
+	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0,
 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_bullseye" );
-	
-	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0, 
+
+	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0,
 			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_rectangle" );
-	
+
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
 	QFile tempFile;
@@ -199,24 +199,25 @@ void KStars::initActions() {
 	new KAction(i18n( "Calculator..."), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
-   // enable action only if file was loaded and processed successfully.   
-   if (!data()->VariableStarsList.isEmpty())
-   new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
-			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
+	// enable action only if file was loaded and processed successfully.
+	if (!data()->VariableStarsList.isEmpty())
+		new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
+						this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
 	new KAction(i18n( "Altitude vs. Time..."), KAccel::stringToKey ( "Ctrl+A"),
-			                           this, SLOT( slotElTs() ), actionCollection(), "altitude_vs_time");
-
+						this, SLOT( slotElTs() ), actionCollection(), "altitude_vs_time");
 	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
-			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
+						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
+	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
+						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
+	new KAction(i18n( "Solar System..."), KAccel::stringToKey("Ctrl+Y"),
+						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
 
 // devices Menu
 	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "DEVICE_MANAGER");
 	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "INDI_Control_Panel");
 
 
-	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
-			                           this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
 
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,
@@ -364,13 +365,13 @@ void KStars::initGuides(KSNumbers *num)
 		double HARad;
 		dms dec, HA, RA, Az;
 		Az = dms(*(point->ra()));
-		
+
 		Az.SinCos( sinAz, cosAz );
 		geo()->lat()->SinCos( sinlat, coslat );
-		
+
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
-		
+
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
@@ -409,21 +410,21 @@ void KStars::datainitFinished(bool worked) {
 	show();
 
 //Check whether initial position is below the horizon.
-//We used to just call slotCenter() in buildGUI() which performs this check.  
-//However, on some systems, if the messagebox is shown before show() is called, 
+//We used to just call slotCenter() in buildGUI() which performs this check.
+//However, on some systems, if the messagebox is shown before show() is called,
 //the program exits.  It does not crash (at least there are no error messages),
 //it simply exits.  Very strange.
 	if ( options()->useAltAz && options()->drawGround &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Initial Position is Below Horizon" );
 		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
-		if ( KMessageBox::warningYesNo( this, message, caption, 
+		if ( KMessageBox::warningYesNo( this, message, caption,
 				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
 			map()->setClickedObject( NULL );
 			map()->setFocusObject( NULL );
 			options()->isTracking = false;
 			options()->setSnapNextFocus(true);
-			
+
 			SkyPoint DefaultFocus;
 			DefaultFocus.setAz( 180.0 );
 			DefaultFocus.setAlt( 45.0 );
@@ -433,13 +434,13 @@ void KStars::datainitFinished(bool worked) {
 	}
 
 	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
-	if ( map()->focusObject() && data()->isSolarSystem( map()->focusObject() ) 
-			&& options()->useAutoTrail ) { 
+	if ( map()->focusObject() && data()->isSolarSystem( map()->focusObject() )
+			&& options()->useAutoTrail ) {
 		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;
 	}
 
-// just show dialog if option is set (don't force it)	
+// just show dialog if option is set (don't force it)
 	KTipDialog::showTip( "kstars/tips" );
 }
 
@@ -548,9 +549,9 @@ void KStars::privatedata::buildGUI() {
 		ks->map()->setClickedPoint( &newPoint );
 //		ks->map()->slotCenter();
 	}
-	
+
 	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
-	
+
 	ks->map()->setDestination( ks->map()->clickedPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
@@ -558,7 +559,7 @@ void KStars::privatedata::buildGUI() {
 
 	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
 	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
-	
+
 	ks->setHourAngle();
 
 	ks->map()->setOldFocus( ks->map()->focus() );
@@ -568,7 +569,7 @@ void KStars::privatedata::buildGUI() {
 	// check zoom in/out buttons
 	if ( ks->options()->ZoomLevel == MAXZOOMLEVEL ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
 	if ( ks->options()->ZoomLevel == 0  ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
-	
+
 	kapp->dcopClient()->resume();
 
 }

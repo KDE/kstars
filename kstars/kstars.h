@@ -90,7 +90,7 @@ class INDIDriver;
 class KStars : public KMainWindow, virtual public KStarsInterface
 {
 
-  Q_OBJECT 
+  Q_OBJECT
   public:
 	/**Constructor.
 		*@param kstarsData the KStars Data object
@@ -155,7 +155,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param name Object name to find
 		*@returns pointer to SkyObject matching this name
 		*/
-		SkyObject* getObjectNamed( QString name );	
+		SkyObject* getObjectNamed( QString name );
 
 	/**Set the KStarsData::HourAngle according to the current LST and focus->ra
 		*/
@@ -163,7 +163,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**DCOP interface function.  Set focus to given Ra/Dec coordinates */
 		ASYNC setRaDec( double ra, double dec );
-		
+
 	/**DCOP interface function.  Set focus to given Alt/Az coordinates. */
 		ASYNC setAltAz(double alt, double az);
 
@@ -185,22 +185,22 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**DCOP interface function.  Pause for t seconds. */
 		ASYNC waitFor( double t );
-		
+
 	/**DCOP interface function.  Pause until Key k is pressed. */
 		ASYNC waitForKey( const QString k );
-		
+
 	/**DCOP interface function.  Toggle tracking. */
 		ASYNC setTracking( bool track );
-		
+
 	/**DCOP interface function.  modify option. */
 		ASYNC changeViewOption( const QString option, const QString value );
-	
+
 	/**DCOP interface function.  Show text message in a popup window. */
 		ASYNC popupMessage( int x, int y, const QString message );
-		
+
 	/**DCOP interface function.  Draw a line on the sky. */
 		ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 );
-	
+
 	/**DCOP interface function.  Set the geographic location. */
 		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
 
@@ -224,7 +224,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**
 			*action slot: Toggle whether kstars is tracking current position
-			*/	
+			*/
 		void slotTrack();
 
 	/**
@@ -253,12 +253,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**
 			*action slot: open dialog for finding a named object
-			*/	
+			*/
 		void slotFind();
 
 		/**
 			*action slot: open dialog for selecting a new geographic location
-			*/	
+			*/
 		void slotGeoLocator();
 
 		/**
@@ -285,24 +285,29 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 		 void slotWUT();
 
+		/**
+		 * action slot: open ScriptBuilder dialog
+		 */
+		void slotScriptBuilder();
+
+		/**
+		 * action slot: open Solar system viewer
+		 */
+		void slotSolarSystem();
+
 		 /**
 		 * action slot: open INDI driver panel
 		 */
-    		void slotINDIDriver();
+		void slotINDIDriver();
 
 		 /**
 		 * action slot: open INDI control panel
 		 */
-    		void slotINDIPanel();
-
-		/**
-		 * action slot: open ScriptBuilder dialog
-		 */
-    		void slotScriptBuilder();
+		void slotINDIPanel();
 
 		/**
 			*action slot: open dialog for setting the view options
-			*/	
+			*/
 		void slotViewOps();
 
 		/** finish setting up after the kstarsData has finished
@@ -317,7 +322,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Action slot to select a DCOP script and run it.*/
 		void slotRunScript();
-		
+
 		/**Action slot to print skymap. */
 		void slotPrint();
 
@@ -338,7 +343,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Select the Target symbol (a.k.a. field-of-view indicator) */
 		void slotTargetSymbol();
-		
+
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
@@ -402,7 +407,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
 
-    
+
 		int idSpinBox;
 		bool DialogIsObsolete;
 
