@@ -1,0 +1,78 @@
+KStars keeps track of thousands of comets and asteroids.  
+It uses orbital data published by NASA's Jet Propulsion 
+Laboratory (JPL); these data are known as "orbital elements".
+Because these small bodies are easily perturbed as they 
+wander about the solar system, their orbital elements must 
+be updated regularly.  Updating the elements will also add 
+any recently-discovered bodies.
+
+
+How to update the orbital elements of comets and asteroids:
+
+-=( 1 )=-  The Easy Way.
+
+Start KStars, then open the "Get New Stuff" Tool by selecting 
+"Download Data..." from the File menu, or by pressing Ctrl+D.
+
+If a new "ephemerides" package is available, select it and press 
+the Install button.  Voila!
+
+
+-=( 2 )=-  Doing it Manually.
+
+It is possible that the ephemerides package is not completely 
+up-to-date.  Fortunately, it's relatively simple to update the 
+files manually whenever you want.  
+
+::NOTE:: If you find that the ephemerides package is woefully 
+outdated, and you follow this manual-install procedure, PLEASE
+send your final comets.dat and asteroids.dat files to 
+kstars-devel@kde.org!  Now is your chance to be a KStars Hero!
+
+
+Step 1: The JPL Webpage
+
+Point your browser to the following URL:
+http://ssd.jpl.nasa.gov/sb_elem.html
+
+
+Step 2: The Comets
+
+Under "ASCII Files", click on the "Comets" link, and save 
+this file as ~/.kde/share/apps/kstars/comets.dat (or as 
+$KDEDIR/share/apps/kstars/comets.dat for a system-wide install).
+
+
+Step 3: The Asteroids
+
+Under "ASCII Files", click on the "Numbered Asteroids" link, 
+and save this file in a working directory as "asteroids.full.dat".
+
+This file contains about 100,000 asteroids, far more than we 
+want to deal with in KStars.  I ship KStars with 2000 asteroids; 
+you may feel free to keep as many as you want (but be aware that 
+larger numbers will require more RAM and will use the CPU more).
+
+So, how do we pick which of the 100,000 asteroids to keep?  I 
+think the most sensible option is to sort the list from biggest 
+to smallest, and then just keep the 2000 largest (or however 
+many you are keeping).  However, there isn't a "size" column to 
+sort by!  Ah, but there *is* an "absolute magnitude" column 
+(column 10).  Absolute magnitude is a measure of the asteroid's 
+intrinsic brightness, which is a good indicator of its size.  
+Smaller numbers are brighter, so sorting the file such that the 
+magnitudes increase means that the biggest asteroids are at the 
+top of the list.
+
+Use the "sort" command to sort, and the "head" command to cut 
+out the first 2000 lines, like this:
+
+  % sort -n -k 10 asteroids.full.dat | head -n 2000 > asteroids.dat
+
+  [[ WARNING: There is (at least) one asteroid with spaces in its 
+  name ("van de Hulst"), which messes up the columns for that object. 
+  You may want to rename this object before sorting.]]
+
+FInally, copy "asteroids.dat" to ~/.kde/share/apps/kstars/ (for 
+single-user install) or $KDEDIR/share/apps/kstars/ (for system
+install).
