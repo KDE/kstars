@@ -62,6 +62,7 @@ void SkyMap::drawBoxes( QPainter &p ) {
 void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
+		INDI_P *portConnect;
 		INDI_L *lp;
 		INDIMenu *devMenu = ksw->getINDIMenu();
 		KStarsOptions* options = ksw->options();
@@ -81,6 +82,14 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 				// make sure the dev is on first
 				if (devMenu->mgr[i]->indi_dev[j]->isOn())
 				{
+				        portConnect = devMenu->mgr[i]->indi_dev[j]->findProp(QString("CONNECTION"));
+					
+					if (!portConnect)
+					 return;
+					
+					 if (portConnect->state == PS_BUSY)
+					  return;
+					
 					eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
 
 					//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
