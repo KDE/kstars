@@ -25,6 +25,7 @@
 #include <ktip.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kdeversion.h>
 
 #include "Options.h"
 #include "kstars.h"
@@ -124,7 +125,9 @@ void KStars::initActions() {
 	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide &Info Boxes"));
+#endif
 	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -132,21 +135,27 @@ void KStars::initActions() {
 
 	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide &Time Box"));
+#endif
 	a->setChecked( Options::showTimeBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide &Focus Box"));
+#endif
 	a->setChecked( Options::showFocusBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide &Location Box"));
+#endif
 	a->setChecked( Options::showGeoBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -154,30 +163,40 @@ void KStars::initActions() {
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			0, 0, 0, actionCollection(), "show_mainToolBar");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide Main Toolbar"));
+#endif
 	a->setChecked( Options::showMainToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide View Toolbar"));
+#endif
 	a->setChecked( Options::showViewToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide Statusbar"));
+#endif
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	a->setChecked( Options::showStatusBar() );
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
 			0, 0, 0, actionCollection(), "show_sbAzAlt");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide Az/Alt Field"));
+#endif
 	a->setChecked( Options::showAltAzField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
 			0, 0, 0, actionCollection(), "show_sbRADec");
+#if KDE_IS_VERSION( 3, 2, 90 )
 	a->setCheckedState(i18n("Hide RA/Dec Field"));
+#endif
 	a->setChecked( Options::showRADecField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
