@@ -122,19 +122,19 @@ public:
 	QString name() const { return Name; }
 /**@return translated City name
 	*/
-	QString translatedName() const { return i18n("City name (optional, probably does not need a translation)", Name.local8Bit().data()); }
+	QString translatedName() const { return i18n("City name (optional, probably does not need a translation)", Name.utf8().data()); }
 /**@return untranslated Province name
 	*/
 	QString province() const { return Province; }
 /**@return translated Province name
 	*/
-	QString translatedProvince() const { return i18n("Region/state name (optional, rarely needs a translation)", Province.local8Bit().data()); }
+	QString translatedProvince() const { return i18n("Region/state name (optional, rarely needs a translation)", Province.utf8().data()); }
 /**@return untranslated Country name
 	*/
 	QString country() const { return Country; }
 /**@return translated Country name
 	*/
-	QString translatedCountry() const { return i18n("Country name (optional, but should be translated)", Country.local8Bit().data()); }
+	QString translatedCountry() const { return i18n("Country name (optional, but should be translated)", Country.utf8().data()); }
 
 /**@return time zone without DST correction
 	*/

@@ -22,7 +22,8 @@
 
 KSFileReader::KSFileReader(QFile& file) {
 	// read the whole file at once. This works well at least for the smaller files.
-	QString sAll( file.readAll() );
+	QByteArray data = file.readAll();
+	QString sAll = QString::fromUtf8( data.data(), data.size() );
 	// split into list of lines
 	lines = QStringList::split( "\n", sAll );
 	// how many lines did we get?
