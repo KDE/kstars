@@ -160,19 +160,19 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_0: //center on Sun
-			setClickedObject( data->PC->findByName("Sun") );
+			setClickedObject( data->PCat->findByName("Sun") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_1: //center on Mercury
-			setClickedObject( data->PC->findByName("Mercury") );
+			setClickedObject( data->PCat->findByName("Mercury") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_2: //center on Venus
-			setClickedObject( data->PC->findByName("Venus") );
+			setClickedObject( data->PCat->findByName("Venus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
@@ -184,37 +184,37 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_4: //center on Mars
-			setClickedObject( data->PC->findByName("Mars") );
+			setClickedObject( data->PCat->findByName("Mars") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_5: //center on Jupiter
-			setClickedObject( data->PC->findByName("Jupiter") );
+			setClickedObject( data->PCat->findByName("Jupiter") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_6: //center on Saturn
-			setClickedObject( data->PC->findByName("Saturn") );
+			setClickedObject( data->PCat->findByName("Saturn") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_7: //center on Uranus
-			setClickedObject( data->PC->findByName("Uranus") );
+			setClickedObject( data->PCat->findByName("Uranus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_8: //center on Neptune
-			setClickedObject( data->PC->findByName("Neptune") );
+			setClickedObject( data->PCat->findByName("Neptune") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_9: //center on Pluto
-			setClickedObject( data->PC->findByName("Pluto") );
+			setClickedObject( data->PCat->findByName("Pluto") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
@@ -586,7 +586,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		SkyObject *solarminobj = NULL;
 
 		if ( data->options->drawPlanets )
-			solarminobj = data->PC->findClosest(clickedPoint(), r);
+			solarminobj = data->PCat->findClosest(clickedPoint(), r);
 
 		if ( r < r0 ) {
 			rsolar_min = r;

@@ -25,8 +25,8 @@
 
 
 KSAsteroid::KSAsteroid( KStarsData *_kd, QString s, QString imfile,
-		long double _JD, double _a, double _e, dms _i, dms _w, dms _N, dms _M, double _H )
- : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_N) {
+		long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
+ : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
 
 	setType( 10 ); //Asteroid
 	setMag( H );

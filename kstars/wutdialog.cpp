@@ -113,7 +113,7 @@ void WUTDialog::init() {
 	}
 	
 	// sun almanac information
-	SkyObject *o = (SkyObject*) kstars->data()->PC->planetSun();
+	SkyObject *o = (SkyObject*) kstars->data()->PCat->planetSun();
 	sunRiseTomorrow = o->riseSetTime( JDTomorrow, geo, true );
 	sunSetToday = o->riseSetTime( JDToday, geo, false );
 	sunRiseToday = o->riseSetTime( JDToday, geo, true );

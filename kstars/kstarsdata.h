@@ -373,7 +373,7 @@ public:
 
 	KLocale *getLocale() { return locale; };
 
-	KSPlanet *earth() { return PC->earth(); }
+	KSPlanet *earth() { return PCat->earth(); }
 
 	/**Find object by name.
 		*@param name Object name to find
@@ -578,7 +578,7 @@ private:
 	QString TypeName[NTYPENAME];
 	KKey resumeKey;
 
-	PlanetCatalog *PC;
+	PlanetCatalog *PCat;
 	KSMoon *Moon;
 	JupiterMoons *jmoons;
 

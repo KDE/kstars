@@ -25,8 +25,8 @@
 
 
 KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
-		long double _JD, double _q, double _e, dms _i, dms _w, dms _N, double Tp )
- : KSPlanetBase(_kd, _s, imfile), kd(_kd), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
+		long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp )
+ : KSPlanetBase(_kd, _s, imfile), kd(_kd), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_Node) {
 
 	setType( 9 ); //Comet
 

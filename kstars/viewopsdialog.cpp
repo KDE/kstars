@@ -797,16 +797,16 @@ void ViewOpsDialog::changeAutoTrail( void ) {
 
 void ViewOpsDialog::clearPlanetTrails( void ) {
 	//remove each solar system body's trail
-	ksw->data()->PC->findByName("Sun")->clearTrail();
-	ksw->data()->PC->findByName("Mercury")->clearTrail();
-	ksw->data()->PC->findByName("Venus")->clearTrail();
+	ksw->data()->PCat->findByName("Sun")->clearTrail();
+	ksw->data()->PCat->findByName("Mercury")->clearTrail();
+	ksw->data()->PCat->findByName("Venus")->clearTrail();
 	ksw->data()->Moon->clearTrail();
-	ksw->data()->PC->findByName("Mars")->clearTrail();
-	ksw->data()->PC->findByName("Jupiter")->clearTrail();
-	ksw->data()->PC->findByName("Saturn")->clearTrail();
-	ksw->data()->PC->findByName("Uranus")->clearTrail();
-	ksw->data()->PC->findByName("Neptune")->clearTrail();
-	ksw->data()->PC->findByName("Pluto")->clearTrail();
+	ksw->data()->PCat->findByName("Mars")->clearTrail();
+	ksw->data()->PCat->findByName("Jupiter")->clearTrail();
+	ksw->data()->PCat->findByName("Saturn")->clearTrail();
+	ksw->data()->PCat->findByName("Uranus")->clearTrail();
+	ksw->data()->PCat->findByName("Neptune")->clearTrail();
+	ksw->data()->PCat->findByName("Pluto")->clearTrail();
 
 	for ( KSPlanetBase *ksp = ksw->data()->asteroidList.first(); ksp; ksp = ksw->data()->asteroidList.next() )
 		ksp->clearTrail();

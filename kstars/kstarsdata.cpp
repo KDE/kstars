@@ -64,7 +64,7 @@ KStarsData::KStarsData() {
 	HourAngle = new dms();
 
 	//Instantiate planet catalog
-	PC = new PlanetCatalog(this);
+	PCat = new PlanetCatalog(this);
 
 	//initialize FOV symbol
 	fovSymbol = FOV();
@@ -140,7 +140,7 @@ KStarsData::~KStarsData() {
 	delete locale;
 	delete LST;
 	delete HourAngle;
-	delete PC;
+	delete PCat;
 	delete jmoons;
 	delete initTimer;
 }
@@ -1500,8 +1500,8 @@ void KStarsData::slotInitialize() {
 		case 7: //Initialize the Planets//
 
 			emit progressText( i18n("Creating Planets" ) );
-			if (PC->initialize())
-				PC->addObject( ObjNames );
+			if (PCat->initialize())
+				PCat->addObject( ObjNames );
 
 			jmoons = new JupiterMoons();
 			break;
@@ -1651,7 +1651,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
 		LastPlanetUpdate = CurrentDate;
 
-		if ( options->drawPlanets ) PC->findPosition( &num, geo->lat(), LST );
+		if ( options->drawPlanets ) PCat->findPosition( &num, geo->lat(), LST );
 
 		//Asteroids
 		if ( options->drawPlanets && options->drawAsteroids )
@@ -1681,12 +1681,12 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		LastMoonUpdate = CurrentDate;
 		if ( options->drawMoon ) {
 			Moon->findPosition( &num, geo->lat(), LST );
-			Moon->findPhase( PC->planetSun() );
+			Moon->findPhase( PCat->planetSun() );
 		}
 
 		//for now, update positions of Jupiter's moons here also
 		if ( options->drawPlanets && options->drawJupiter )
-			jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
+			jmoons->findPosition( &num, (const KSPlanet*)PCat->findByName("Jupiter"), PCat->planetSun() );
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
@@ -1697,7 +1697,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//Recompute Alt, Az coords for all objects
 		//Planets
 		//This updates trails as well
-		PC->EquatorialToHorizontal( LST, geo->lat() );
+		PCat->EquatorialToHorizontal( LST, geo->lat() );
 
 		jmoons->EquatorialToHorizontal( LST, geo->lat() );
 		if ( options->drawMoon ) {
@@ -1872,7 +1872,7 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
 	if ( name== Moon->name() ) return Moon;
 
-	SkyObject *so = PC->findByName(name);
+	SkyObject *so = PCat->findByName(name);
 
 	if (so != 0)
 		return so;

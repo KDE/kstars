@@ -85,8 +85,8 @@ void JMoonTool::initPlotObjects() {
 	KPlotObject *orbit[4];
 	KPlotObject *jpath;
 	long double jd0 = ksw->data()->clock()->JD();
-	KSSun *sun = (KSSun*)ksw->data()->PC->findByName( "Sun" );
-	KSPlanet *jup = (KSPlanet*)ksw->data()->PC->findByName( "Jupiter" );
+	KSSun *ksun = (KSSun*)ksw->data()->PCat->findByName( "Sun" );
+	KSPlanet *jup = (KSPlanet*)ksw->data()->PCat->findByName( "Jupiter" );
 	JupiterMoons jm;
 	
 	if ( pw->objectCount() ) pw->clearObjectList();
@@ -102,7 +102,7 @@ void JMoonTool::initPlotObjects() {
 	
 	for ( double t=pw->y(); t<=pw->y2(); t+=dy ) {
 		KSNumbers num( jd0 + t/24.0 );
-		jm.findPosition( &num, jup, sun );
+		jm.findPosition( &num, jup, ksun );
 		
 		for ( unsigned int i=0; i<4; ++i ) 
 			orbit[i]->addPoint( new DPoint( jm.x(i), t ) );

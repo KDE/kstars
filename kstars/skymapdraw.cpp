@@ -879,7 +879,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 	if (drawPlanets == true) {
 		//Draw Sun
 		if ( options->drawSun ) {
-			drawPlanet(psky, data->PC->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
 		}
 
 		//Draw Moon
@@ -889,22 +889,22 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 		//Draw Mercury
 		if ( options->drawMercury ) {
-			drawPlanet(psky, data->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Venus
 		if ( options->drawVenus ) {
-			drawPlanet(psky, data->PC->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Mars
 		if ( options->drawMars ) {
-			drawPlanet(psky, data->PC->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Jupiter
 		if ( options->drawJupiter ) {
-			drawPlanet(psky, data->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
 
 			//Draw Jovian moons
 			psky.setPen( QPen( QColor( "white" ) ) );
@@ -934,22 +934,22 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 		//Draw Saturn
 		if ( options->drawSaturn ) {
-			drawPlanet(psky, data->PC->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
+			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
 		}
 
 		//Draw Uranus
 		if ( options->drawUranus && drawPlanets ) {
-			drawPlanet(psky, data->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Neptune
 		if ( options->drawNeptune ) {
-			drawPlanet(psky, data->PC->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Pluto
 		if ( options->drawPluto ) {
-			drawPlanet(psky, data->PC->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
 		}
 
 		//Draw Asteroids

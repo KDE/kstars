@@ -75,8 +75,8 @@ void PlanetViewer::initPlotObjects() {
 	}
 
 	//**Planets**//
-	PlanetCatalog *PC = ((KStars*)parent())->data()->PC;
-	KPlotObject *sun;
+	PlanetCatalog *PCat = ((KStars*)parent())->data()->PCat;
+	KPlotObject *ksun;
 	KPlotObject *planet[9];
 	KPlotObject *planetLabel[9];
 	dms elong[9];
@@ -92,12 +92,12 @@ void PlanetViewer::initPlotObjects() {
 	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
 	pName[8] = "Pluto";   pColor[8] = "gray";
 
-	sun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
-	sun->addPoint( new DPoint( 0.0, 0.0 ) );
-	pw->addObject( sun );
+	ksun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
+	ksun->addPoint( new DPoint( 0.0, 0.0 ) );
+	pw->addObject( ksun );
 	
 	for ( unsigned int i=0; i<9; ++i ) {
-		elong[i] = dms( PC->findByName( pName[i] )->ecLong()->Degrees() );
+		elong[i] = dms( PCat->findByName( pName[i] )->ecLong()->Degrees() );
 		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
 		planetLabel[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::LABEL );
 		double s, c;
