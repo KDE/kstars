@@ -23,10 +23,10 @@
 #include "kstars.h"
 
 #include <qptrlist.h>
- 
+
 FindDialog::FindDialog( QWidget* parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ) {
-	
+
 	QFrame *page = plainPage();
 
 //Create Layout managers
@@ -35,11 +35,11 @@ FindDialog::FindDialog( QWidget* parent )
 
 //Create Widgets
 	SearchBox = new QLineEdit( page, "SearchBox" );
-	
+
 	filterTypeLabel = new QLabel( page, "filterTypeLabel" );
 	filterTypeLabel->setAlignment( AlignRight );
 	filterTypeLabel->setText( i18n( "Filter by type: " ) );
-	
+
 	filterType = new QComboBox( page, "filterType" );
 	filterType->setEditable( false );
 	filterType->insertItem( i18n ("Any") );
@@ -65,12 +65,12 @@ FindDialog::FindDialog( QWidget* parent )
 //Pack Widgets into layout manager
 	hlay->addWidget( filterTypeLabel, 0, 0 );
 	hlay->addWidget( filterType, 0, 0 );
-	
+
 	vlay->addWidget( SearchBox, 0, 0 );
 	vlay->addSpacing( 12 );
 	vlay->addWidget( SearchList, 0, 0 );
 	vlay->addLayout( hlay, 0 );
-	
+
 	vlay->activate();
 
 // no item currently set
@@ -78,13 +78,14 @@ FindDialog::FindDialog( QWidget* parent )
 
 // no filters set
 	Filter = 0;
-	
+
 //Connect signals to slots
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
 	connect (SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
+        connect( SearchList, SIGNAL( doubleClicked ( QListBoxItem *  ) ), SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
 	QTimer::singleShot(0, this, SLOT( init() ));
@@ -102,14 +103,14 @@ void FindDialog::init() {
 
 void FindDialog::filter() {  //Filter the list of names with the string in the SearchBox
 	KStars *p = (KStars *)parent();
-	
+
 	int i=0;
 	SearchList->clear();
 
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
 	ObjNames.setLanguage( p->options()->useLatinConstellNames );
-	
+
 	QString searchFor = SearchBox->text().lower();
 		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
@@ -127,10 +128,10 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 void FindDialog::filterByType() {
 	KStars *p = (KStars *)parent();
 
-	int i = 0;	
+	int i = 0;
 	SearchList->clear();	// QListBox
 	QString searchFor = SearchBox->text().lower();  // search string
-	
+
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
 	ObjNames.setLanguage( p->options()->useLatinConstellNames );
