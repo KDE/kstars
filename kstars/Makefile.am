@@ -8,6 +8,8 @@ SUBDIRS = data indi
 
 EXTRA_DIST = kstars.desktop kstarsui.rc
 
+# needed for sincos() GNU extension to math.h
+KDE_CXXFLAGS = -D_GNU_SOURCE
 
 xdg_apps_DATA = kstars.desktop
 
