@@ -223,9 +223,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	pmTitle = new QLabel( s1, this );
 	pmTitle->setAlignment( AlignCenter );
 	QPalette pal( pmTitle->palette() );
-	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "White" ) );
-	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "Black" ) );
-	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "Black" ) );
+	pal.setColor( QPalette::Normal, QColorGroup::Background, pal.color( QPalette::Normal, QColorGroup::Base ) );
+	pal.setColor( QPalette::Normal, QColorGroup::Foreground, pal.color( QPalette::Normal, QColorGroup::Text ) );
 	pmTitle->setPalette( pal );
 	insertItem( pmTitle );
 
