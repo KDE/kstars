@@ -18,12 +18,13 @@
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
 
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 #include "timebox.h"
+#else
+#include <qdatetimeedit.h>
 #endif
 
 #include "ksutils.h"
-#include <qdatetimeedit.h>
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>
@@ -40,7 +41,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 
-#include <kapplication.h>
+//#include <kapplication.h> ...already included in modcalcjd.h
 
 modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
 	
@@ -138,7 +139,7 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal time","UT:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	timBox = new timeBox(d0Box,"timeBox");
 #else
 	timBox = new QTimeEdit(d0Box,"timeBox");
@@ -149,7 +150,7 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Universal time","Date:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox = new timeBox(d1Box,"dateBox",FALSE);
 #else
 	datBox = new QDateEdit(d1Box,"dateBox");
@@ -230,7 +231,7 @@ void modCalcJD::computeFromJd (void)
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoDateTime( julianDay );
 
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->showDate( dt.date() );
 	timBox->showTime( dt.time() );
 #else
@@ -247,7 +248,7 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->clearFields();
 	timBox->clearFields();
 #else
@@ -260,7 +261,7 @@ void modCalcJD::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->showDate( dt.date() );
 	timBox->showTime( dt.time() );
 #else
@@ -271,7 +272,7 @@ void modCalcJD::showCurrentTime (void)
 
 QDateTime modCalcJD::getQDateTime (void)
 {
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	QDateTime dt ( datBox->createDate() , timBox->createTime() );
 #else
 	QDateTime dt ( datBox->date() , timBox->time() );

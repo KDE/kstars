@@ -19,7 +19,12 @@
 #define MODCALCDAYLENGTH_H
 
 #include <qvbox.h>
+
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 /** Module to compute the equatorial coordinates for a given date and time 
  * from a given epoch or equinox
@@ -80,7 +85,7 @@ private:
 	dmsBox *azSetBox, *azRiseBox, *elTransitBox, *longBox, *latBox;
 	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
 //	QTimeEdit *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	timeBox *datBox;
 #else
 	QDateEdit *datBox;

@@ -36,8 +36,11 @@
 #include <qdatetimeedit.h>
 #include <klocale.h>
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
-
+#endif
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
@@ -105,7 +108,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * dateLabel = new QLabel(d0Box);
 	dateLabel->setText( i18n( "Date:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox = new timeBox(d0Box,"dateBox",FALSE);
 #else
 	datBox = new QDateEdit(d0Box,"dateBox");
@@ -124,7 +127,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 	
 	QLabel * UtLabel = new QLabel( Ut0Box);
 	UtLabel->setText( i18n("Universal Time","UT:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	UtBox = new timeBox( Ut0Box, "UtBox" );
 #else
 	UtBox = new QTimeEdit( Ut0Box, "UtBox" );
@@ -145,7 +148,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 	
 	QLabel * StLabel = new QLabel( St0Box );
 	StLabel->setText( i18n("Sidereal Time","ST:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	StBox = new timeBox( St0Box, "StBox" );
 #else
 	StBox = new QTimeEdit( St0Box, "StBox" );
@@ -203,7 +206,7 @@ modCalcSidTime::~modCalcSidTime(void) {
 void modCalcSidTime::showCurrentTimeAndLong (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->showDate( dt.date() );
 #else
 	datBox->setDate( dt.date() );
@@ -246,7 +249,7 @@ void modCalcSidTime::showUT ( QTime dt )
 
 void modCalcSidTime::showST ( QTime dt )
 {
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	StBox->showTime( dt );
 #else
 	StBox->setTime( dt );
@@ -256,7 +259,7 @@ void modCalcSidTime::showST ( QTime dt )
 QTime modCalcSidTime::getUT (void) 
 {
 	QTime dt;
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	dt = UtBox->createTime();
 #else
 	dt = UtBox->time();
@@ -267,7 +270,7 @@ QTime modCalcSidTime::getUT (void)
 QTime modCalcSidTime::getST (void) 
 {
 	QTime dt;
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	dt = StBox->createTime();
 #else
 	dt = StBox->time();
@@ -278,7 +281,7 @@ QTime modCalcSidTime::getST (void)
 QDate modCalcSidTime::getDate (void) 
 {
 	QDate dt;
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	dt = datBox->createDate();
 #else
 	dt = datBox->date();
@@ -294,7 +297,7 @@ dms modCalcSidTime::getLongitude (void)
 }
 
 void modCalcSidTime::slotClearFields(){
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	UtBox->clearFields();
 	StBox->clearFields();
 #else

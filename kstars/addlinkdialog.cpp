@@ -29,7 +29,11 @@
 #include "skymap.h"
 #include "addlinkdialog.h"
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 AddLinkDialog::AddLinkDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {

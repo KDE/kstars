@@ -25,7 +25,11 @@
 #include <qwidget.h>
 #include <kdialogbase.h>
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 #include "dms.h"
 #include "geolocation.h"

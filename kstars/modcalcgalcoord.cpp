@@ -33,8 +33,8 @@
 #include <klocale.h>
 
 #include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapplication.h>
+#if (QT_VERSION < 300)
+#include <kapp.h>
 #else
 #include <kapplication.h>
 #endif

@@ -38,7 +38,11 @@
 //#include <kstdguiitem.h>
 //#include <kactivelabel.h>
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 #include "kstarsmessagebox.h"
 

@@ -34,7 +34,11 @@
 #include <qcombobox.h>
 #include <klocale.h>
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
 	

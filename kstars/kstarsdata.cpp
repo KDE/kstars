@@ -31,11 +31,12 @@
 
 #include <qasyncio.h>
 
-#include <kapplication.h>
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 #define FLUSH flushX
+#include <kapp.h>
 #else 
 #define FLUSH flush
+#include <kapplication.h>
 #endif
 
 KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), inited(false),

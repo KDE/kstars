@@ -37,7 +37,7 @@
 #include <klocale.h>
 #include <kmenubar.h>
 
-#include <kapplication.h>
+//#include <kapplication.h> ...already defined in astrocalc.h
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true,

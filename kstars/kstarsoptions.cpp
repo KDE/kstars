@@ -18,7 +18,11 @@
 #include "kstarsoptions.h"
 #include <kconfig.h>
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
+#endif
 
 KStarsOptions::KStarsOptions(bool loadDefaults) {
 	if ( loadDefaults ) setDefaultOptions();

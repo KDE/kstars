@@ -37,11 +37,12 @@
 #include <qwidget.h>
 #include <qpoint.h>
 
-#include <kapplication.h>
-#if (KDE_VERSION < 300)
+#if (QT_VERSION < 300)
+#include <kapp.h>
 #include <kstddirs.h>
 #include <qlist.h>
 #else
+#include <kapplication.h>
 #include <kstandarddirs.h>
 #include <qptrlist.h>
 #endif

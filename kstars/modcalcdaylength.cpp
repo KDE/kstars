@@ -40,7 +40,7 @@
 #include <qdatetimeedit.h>
 #include <klocale.h>
 
-#include <kapplication.h>
+//#include <kapplication.h> ...already included in modcalcdaylength.h
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
@@ -79,7 +79,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	QLabel * dateLabel = new QLabel(InputBox);
 	dateLabel->setText( i18n( "Date:") );
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox = new timeBox(InputBox,"dateBox",FALSE);
 #else
 	datBox = new QDateEdit(QDate::currentDate(), InputBox, "dateBox");
@@ -197,7 +197,7 @@ void modCalcDayLength::showCurrentDate (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->showDate( dt.date() );
 #else
 	datBox->setDate( dt.date() );
@@ -228,7 +228,7 @@ void modCalcDayLength::getGeoLocation (void)
 
 QDateTime modCalcDayLength::getQDateTime (void)
 {
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	QDateTime dt ( datBox->createDate() , QTime(8,0,0) );
 #else
 	QDateTime dt ( datBox->date() , QTime(8,0,0) );
@@ -253,7 +253,7 @@ void modCalcDayLength::slotClearCoords(){
 	elTransitBox->clearFields();
 
 	// reset to current date
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
 	datBox->showDate(QDate::currentDate());
 #else
 	datBox->setDate(QDate::currentDate());

@@ -42,8 +42,10 @@
 #include "imageviewer.h"
 #include "addlinkdialog.h"
 
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
 #include <kapplication.h>
-#if (KDE_VERSION >= 300)
 #include <qmemarray.h>
 #endif
 

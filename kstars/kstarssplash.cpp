@@ -27,10 +27,11 @@
 #include "ksutils.h"
 #include "kstarssplash.h"
 
-#include <kapplication.h>
-#if (KDE_VERSION <= 299)
+#if (QT_VERSION < 300)
+#include <kapp.h>
 #define FLUSH flushX
 #else
+#include <kapplication.h>
 #define FLUSH flush
 #endif
 
