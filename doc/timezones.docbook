@@ -31,14 +31,14 @@ political considerations.
 </para><para>
 Note that because the Local Time always increases by an hour when moving between
 Zones to the East, by the time you move through all 24 Time Zones, you are a
-full day ahead of where you started!  We deal with this paradox by defining the
+full day ahead of where you started.  We deal with this paradox by defining the
 <firstterm>International Date Line</firstterm>, which is a Time Zone boundary in
 the Pacific Ocean, between Asia and North America.  Points just to the East of
 this line are 24 hours behind the points just to the West of the line.  This
 leads to some interesting phenomena.  A direct flight from Australia to
-California arrives before it departs!  Also, the islands of Fiji straddle the
+California arrives before it departs.  Also, the islands of Fiji straddle the
 International Date Line, so if you have a bad day on the West side of Fiji, you
 can go over to the East side of Fiji and have a chance to live the same day all
-over again!
+over again.
 </para>
 </sect1>

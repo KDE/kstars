@@ -14,7 +14,7 @@ to create a classroom demo to illustrate an astronomical concept.
 </para>
 <para>
 The problem with DCOP scripts is, writing them is a bit like
-programming, and can seem a daunting task to those who don't have
+programming, and can seem a daunting task to those who do not have
 programming experience.  The Script Builder Tool provides a
 <abbrev>GUI</abbrev> point-and-click interface for constructing
 KStars DCOP scripts, making it very easy to create complex scripts.
@@ -89,7 +89,7 @@ In order to illustrate using the Script Builder, we present a small
 tutorial example where we make a script that tracks the Moon while
 the clock runs at an accelerated rate.
 </para><para>
-If we're going to track the Moon, we'll need to point the display
+If we are going to track the Moon, we will need to point the display
 at it first.  The <firstterm>lookToward</firstterm> function
 is used to do this.  Highlight this function in the Function Browser,
 and note the documentation displayed in the panel below the Browser.
@@ -120,11 +120,11 @@ on the Moon.  Add the <firstterm>waitFor</firstterm> function to the
 script, and use the Function Arguments panel to specify that it should
 wait for 20 seconds before continuing.
 </para><para>
-To finish up, let's reset the clock's timestep to the normal value
+To finish up, let us reset the clock's timestep to the normal value
 of 1 second.  Add another instance of setClockScale, and set its value
 to 1 sec.
 </para><para>
-Actually, we aren't quite done yet.  We should probably make sure that
+Actually, we are not quite done yet.  We should probably make sure that
 the display is using Equatorial coordinates before the script tracks
 the Moon with an accelerated time step.  Otherwise, if the display is
 using Horizontal coordinates, it will rotate very quickly through
@@ -162,7 +162,7 @@ for a name, and your name as the author, and press
 File dialog.  Specify a filename for the script and press
 <guibutton>OK</guibutton> to save the script.  Note that if your
 filename does not end with <quote>.kstars</quote>, this suffix
-will be automatically attached.  If you're curious, you can examine the
+will be automatically attached.  If you are curious, you can examine the
 script file with any text editor.
 </para><para>
 Now that we have a completed script, we can run it in a couple of ways.

@@ -22,7 +22,7 @@ Earth. Smaller units of Solar Time are just divisions of a Day:
 <listitem><para>1/60 Minute = 1 Second</para></listitem>
 </itemizedlist>
 </para><para>
-However, there is a problem with Solar Time.  The Earth doesn't actually
+However, there is a problem with Solar Time.  The Earth does not actually
 spin around 360 degrees in one Solar Day.  The Earth is in orbit around the
 Sun, and over the course of one day, it moves about one Degree along its
 orbit (360 degrees/365.25 Days for a full orbit = about one Degree per

@@ -52,7 +52,7 @@ linkend="ai-precession">precession</link>.  Also, if <link
 linkend="ai-hourangle">Hour Angle</link> is used in place of Right
 Ascension, then the Equatorial system is fixed to the Earth, not to the
 stars.</para></footnote>, so it appears to rotate across the sky with the stars,
-but of course it's really the Earth rotating under the fixed sky.
+but of course it is really the Earth rotating under the fixed sky.
 </para><para>
 The <firstterm>latitudinal</firstterm> (latitude-like) angle of the Equatorial
 system is called <firstterm>Declination</firstterm> (Dec for short).  It
@@ -125,7 +125,7 @@ in the Equatorial system, the zeropoint of the Ecliptic Longitude is the <link
 linkend="ai-equinox">Vernal Equinox</link>.
 </para><para>
 What do you think such a coordinate system would be useful for?  If you
-guessed charting solar system objects, you're right!  Each of the
+guessed charting solar system objects, you are right!  Each of the
 planets (except Pluto) orbits the Sun in roughly the same plane, so they always
 appear to be somewhere near the Ecliptic (&ie;, they always have small ecliptic
 latitudes).
