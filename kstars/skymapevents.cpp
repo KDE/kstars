@@ -46,8 +46,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
 	bool stopTracking( false );
-	float step = 2.0;
-	if ( e->state() & ShiftButton ) step = 4.0;
+	float step = 1.0;
+	if ( e->state() & ShiftButton ) step = 2.0;
 
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
