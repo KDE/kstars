@@ -480,23 +480,23 @@ void SkyMap::updateFocus() {
 	if ( data->options->isTracking && focusObject() != NULL ) {
 		if ( data->options->useAltAz ) {
 			//Tracking any object in Alt/Az mode requires focus updates
-			setDestinationAltAz(
+			setFocusAltAz(
 					refract( focusObject()->alt(), true ).Degrees(),
 					focusObject()->az()->Degrees() );
-			destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
-			setFocus( destination() );
+			focus()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+			setDestination( focus() );
 		} else {
 			//Tracking in equatorial coords
-			setDestination( focusObject() );
-			setFocus( destination() );
+			setFocus( focusObject() );
 			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			setDestination( focus() );
 		}
 	} else if ( data->options->isTracking && focusPoint() != NULL ) {
 		if ( data->options->useAltAz ) {
 			//Tracking on empty sky in Alt/Az mode
-			setDestination( focusPoint() );
-			destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
-			setFocus( destination() );
+			setFocus( focusPoint() );
+			focus()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+			setDestination( focus() );
 		}
 	} else if ( ! isSlewing() ) {
 		//Not tracking and not slewing, let sky drift by

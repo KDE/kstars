@@ -248,6 +248,13 @@ void KStars::slotSetTime() {
 		if ( options()->useAltAz ) {
 			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
+
+		//If focusObject has a Planet Trail, clear it and start anew.
+		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+		     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
+		  ((KSPlanetBase*)map()->focusObject())->clearTrail();
+		  ((KSPlanetBase*)map()->focusObject())->addToTrail();
+		}
 	}
 }
 
@@ -530,6 +537,17 @@ void KStars::slotPrint() {
 void KStars::slotSetTimeToNow() {
 	QDateTime now = QDateTime::currentDateTime();
 	data()->changeTime( now.date(), now.time() );
+
+	if ( options()->useAltAz ) {
+		map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+	}
+
+	//If focusObject has a Planet Trail, clear it and start anew.
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+	     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
+	  ((KSPlanetBase*)map()->focusObject())->clearTrail();
+	  ((KSPlanetBase*)map()->focusObject())->addToTrail();
+	}
 }
 
 void KStars::slotToggleTimer() {
