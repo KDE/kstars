@@ -46,7 +46,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CoordBox = new QGroupBox( page, "CoordBox" );
 	CityBox->setTitle( i18n( "Choose City" ) );
 	CoordBox->setTitle( i18n( "Choose/Modify Coordinates" ) );
-	
+
 //Create Layout managers
 	RootLay = new QVBoxLayout( page, 4, 4 ); //root mgr for dialog
 	CityLay = new QVBoxLayout( CityBox, 6, 4 ); //root mgr for CityBox
@@ -120,18 +120,18 @@ LocationDialog::LocationDialog( QWidget* parent )
 	ShowTZRules = new QPushButton( i18n( "Explain DST Rules" ), CoordBox, "ShowDSTRules" );
 
 	AddCityButton = new QPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
-	
+
 //Pack the widgets into the layouts
 	RootLay->addWidget( CityBox, 0, 0 );
 	RootLay->addWidget( CoordBox, 0, 0 );
-	
+
 	CityLay->addSpacing( 14 );
 	CityLay->addLayout( hlay, 0 );
-	
+
 	hlay->addLayout( vlay, 0 );
 	hlay->addSpacing( 12 );
 	hlay->addWidget( GeoBox, 0, 0 );
-	
+
 	vlay->addWidget( MapView, 0, 0 );
 	vlay->addLayout( glay, 0 );
 	vlay->addWidget( CountLabel, 0, 0 );
@@ -144,11 +144,11 @@ LocationDialog::LocationDialog( QWidget* parent )
 	glay->addWidget( CountryFilter, 2, 1 );
 
 	hlay->activate();
-	
+
 	CoordLay->addSpacing( 14 );
 	CoordLay->addLayout( glay2, 0 );
 	CoordLay->addLayout( hlay3, 0 );
-	
+
 	glay2->addWidget( NewCityLabel, 0, 0 );
 	glay2->addWidget( NewProvinceLabel, 1, 0 );
 	glay2->addWidget( NewCountryLabel, 2, 0 );
@@ -175,10 +175,10 @@ LocationDialog::LocationDialog( QWidget* parent )
 
 	hlay3->addStretch();
 	hlay3->addWidget( AddCityButton, 0 );
-	
+
 	CoordLay->activate();
 	RootLay->activate();
-	
+
   GeoID.resize(10000);
 
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
@@ -207,7 +207,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CityFilter->setTrapReturnKey(true);
 	ProvinceFilter->setTrapReturnKey(true);
 	CountryFilter->setTrapReturnKey(true);
-	
+
 	initCityList();
 	resize (640, 480);
 }
@@ -228,7 +228,7 @@ void LocationDialog::initCityList( void ) {
 		GeoBox->insertItem( s );
 		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
 
-		//If TZ is not even integer value, add it to listbox 
+		//If TZ is not even integer value, add it to listbox
 		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
 			for ( unsigned int i=0; i<((unsigned int) TZBox->count()); ++i ) {
 				if ( TZBox->text( i ).toDouble() > loc->TZ0() ) {
@@ -239,14 +239,8 @@ void LocationDialog::initCityList( void ) {
 		}
 	}
 
-	QString scount;
-	if (GeoBox->count()==1)
-		scount = i18n( "One city matches search criteria" );
-	else
-		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
+	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
-	CountLabel->setText( scount );
-	
 	bool cityFound(false);
 	if ( GeoBox->firstItem() ) {
 		// attempt to set the current location
@@ -293,13 +287,7 @@ void LocationDialog::filterCity( void ) {
 		}
 	}
 
-	QString scount;
-	if (GeoBox->count()==1)
-		scount = i18n( "One city matches search criteria" );
-	else
-		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
-
-	CountLabel->setText( scount );
+	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
@@ -345,7 +333,7 @@ int LocationDialog::getCityIndex( void ) {
 void LocationDialog::addCity( void ) {
 	KStars *p = (KStars *)parent();
 	bCityAdded = false;
-	
+
 	if ( !nameModified && !dataModified ) {
 		QString message = i18n( "This City already exists in the database." );
 		KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
@@ -361,8 +349,8 @@ void LocationDialog::addCity( void ) {
 		QString message = i18n( "All fields (except province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 		return;
-	
-	//FIXME after strings freeze lifts, separate TZ check from lat/long check 
+
+	//FIXME after strings freeze lifts, separate TZ check from lat/long check
 	} else if ( ! latOk || ! lngOk || ! tzOk ) {
 		QString message = i18n( "Could not parse coordinates." );
 		KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
@@ -420,7 +408,7 @@ void LocationDialog::addCity( void ) {
 			initCityList();
 			GeoBox->setCurrentItem( i );
 		}
-	}     
+	}
 
 	bCityAdded = true;
 	return;
@@ -447,13 +435,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 		}
 	}
 
-	QString scount;
-	if (GeoBox->count()==1)
-		scount = i18n( "One city matches search criteria" );
-	else
-		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
-
-	CountLabel->setText( scount );
+	CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria",GeoBox->count()) );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
@@ -463,13 +445,13 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 
 bool LocationDialog::checkLongLat( void ) {
 	if ( NewLong->text().isEmpty() || NewLat->text().isEmpty() ) return false;
-	
+
 	bool ok(false);
 	double lng = NewLong->createDms(true, &ok).Degrees();
 	if ( ! ok ) return false;
 	double lat = NewLat->createDms(true, &ok).Degrees();
 	if ( ! ok ) return false;
-	 
+
 	if ( lng < -180.0 || lng > 180.0 ) return false;
 	if ( lat <  -90.0 || lat >  90.0 ) return false;
 
