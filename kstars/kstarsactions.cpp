@@ -171,11 +171,8 @@ void KStars::closeWindow() {
 }
 
 void KStars::slotPrint() {
-	int currSColorMode;
-	QString currSky, currMess, currNGC, currIC, currHST, currSName, currPName;
-	QString currCName, currCLine, currMW, currEq, currEcl, currHorz, currGrid;
 	bool switchColors(false);
-
+	ColorScheme cs( * options()->colorScheme() );
 #if (KDE_VERSION <= 222)
 	KPrinter printer( true );
 #else
@@ -183,7 +180,7 @@ void KStars::slotPrint() {
 #endif
 
 //Suggest Chart color scheme
-	if ( options()->colorSky != "#FFFFFF" ) {
+	if ( options()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
 		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing? (Your current color settings will be restored when printing is finished.)" );
 
 //KDE3 version of the messagebox allows us to include a "Don't ask again" checkbox...
@@ -197,24 +194,7 @@ void KStars::slotPrint() {
 
 		if ( answer == KMessageBox::Yes ) {
 			//First, store current colors
-			//I should implement a ColorScheme class...
 			switchColors = true;
-			currSColorMode = options()->starColorMode;
-			currSky = options()->colorSky;
-			currMess = options()->colorMess;
-			currNGC = options()->colorNGC;
-			currIC = options()->colorIC;
-			currHST = options()->colorHST;
-			currSName = options()->colorSName;
-			currPName = options()->colorPName;
-			currCName = options()->colorCName;
-			currCLine = options()->colorCLine;
-			currMW = options()->colorMW;
-			currEq = options()->colorEq;
-			currEcl = options()->colorEcl;
-			currHorz = options()->colorHorz;
-			currGrid = options()->colorGrid;
-
 			map()->setColors( "chart.colors" );
 			map()->UpdateNow();
 		}
@@ -255,22 +235,7 @@ void KStars::slotPrint() {
 		delete p;
 
 		if ( switchColors ) {
-			options()->starColorMode = currSColorMode;
-			options()->colorSky = currSky;
-			options()->colorMess = currMess;
-			options()->colorNGC = currNGC;
-			options()->colorIC = currIC;
-			options()->colorHST = currHST;
-			options()->colorSName = currSName;
-			options()->colorPName = currPName;
-			options()->colorCName = currCName;
-			options()->colorCLine = currCLine;
-			options()->colorMW = currMW;
-			options()->colorEq = currEq;
-			options()->colorEcl = currEcl;
-			options()->colorHorz = currHorz;
-			options()->colorGrid = currGrid;
-
+			options()->colorScheme()->copy( cs );
 			map()->UpdateNow();
 		}
 
@@ -371,6 +336,7 @@ void KStars::slotCoordSys() {
 }
 
 void KStars::slotColorScheme() {
+	//use mid(3) to exclude the leading "cs_" prefix from the action name
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
 	map()->setColors( filename );
 }

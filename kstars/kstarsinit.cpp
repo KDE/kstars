@@ -150,6 +150,7 @@ void KStars::initActions() {
 		while ( !stream.eof() ) {
 			line = stream.readLine();
 			schemeName = line.left( line.find( ':' ) );
+			//I call it filename here, but it's used as the name of the action!
 			filename = "cs_" + line.mid( line.find( ':' ) +1, line.find( '.' ) - line.find( ':' ) - 1 );
 			colorActionMenu->insert( new KAction( i18n( schemeName.local8Bit() ), 0,
 					this, SLOT( slotColorScheme() ), actionCollection(), filename.local8Bit() ) );

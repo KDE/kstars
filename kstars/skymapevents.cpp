@@ -899,7 +899,7 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			int offset( int( 0.5*size ) );
 			if ( offset < sizemin ) offset = sizemin;
 
-			psky.setPen( QColor( ksw->options()->colorPName ) );
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
 			psky.drawText( o.x()+offset, o.y()+offset, p->translatedName() );
 		}
 	}
@@ -946,7 +946,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	bool drawGrid( ksw->options()->drawGrid && !(checkSlewing && ksw->options()->hideGrid) );
 
 	psky.begin( sky );
-	psky.fillRect( 0, 0, width(), height(), QBrush( ksw->options()->colorSky ) );
+	psky.fillRect( 0, 0, width(), height(), QBrush( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
 
 	QFont stdFont = psky.font();
 	QFont smallFont = psky.font();
@@ -964,8 +964,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 			
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( drawMW ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorMW ) ) );
-		psky.setBrush( QBrush( QColor( ksw->options()->colorMW ) ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ) ) );
+		psky.setBrush( QBrush( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ) ) );
 		bool offscreen, lastoffscreen=false;
 
 		for ( register unsigned int j=0; j<11; ++j ) {
@@ -1014,7 +1014,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw coordinate grid
 	if ( drawGrid ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorGrid ), 0, DotLine ) ); //change to colorGrid
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "GridColor" ) ), 0, DotLine ) ); //change to colorGrid
 
 		//First, the parallels
 		for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
@@ -1094,7 +1094,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Equator (currently can't be hidden on slew)
 	if ( ksw->options()->drawEquator ) {
-		psky.setPen( QPen( QColor( ksw->options()->colorEq ), 0, SolidLine ) );
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EqColor" ) ), 0, SolidLine ) );
 
 		SkyPoint *p = ksw->data()->Equator.first();
 		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
@@ -1138,7 +1138,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Ecliptic (currently can't be hidden on slew)
 	if ( ksw->options()->drawEcliptic ) {
-		psky.setPen( QColor( ksw->options()->colorEcl ) );
+		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) ) );
 
 		SkyPoint *p = ksw->data()->Ecliptic.first();
 		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
@@ -1181,7 +1181,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Constellation Lines
 	if ( drawCLines ) {
-		psky.setPen( QColor( ksw->options()->colorCLine ) );
+		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ) );
 		int iLast = -1;
 
 		for ( SkyPoint *p = ksw->data()->clineList.first(); p; p = ksw->data()->clineList.next() ) {
@@ -1192,7 +1192,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 				if ( ksw->data()->clineModeList.at(ksw->data()->clineList.at())->latin1()=='M' ) {
 					psky.moveTo( o.x(), o.y() );
 				} else if ( ksw->data()->clineModeList.at(ksw->data()->clineList.at())->latin1()=='D' ) {
-					if ( ksw->data()->clineList.at()== (uint)(iLast+1) ) {
+					if ( ksw->data()->clineList.at()== (int)(iLast+1) ) {
 						psky.lineTo( o.x(), o.y() );
 					} else {
 						psky.moveTo( o.x(), o.y() );
@@ -1207,7 +1207,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	//Don't draw names if slewing
 	if ( drawCNames ) {
 		psky.setFont( stdFont );
-		psky.setPen( QColor( ksw->options()->colorCName ) );
+		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = ksw->data()->cnameList.first(); p; p = ksw->data()->cnameList.next() ) {
 			if ( checkVisibility( p, FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
 				QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
@@ -1262,7 +1262,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 					if (size>23) size=23;
 
 					if ( size > 0 ) {
-						psky.setPen( QColor( ksw->options()->colorSky ) );
+						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
 						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, 1.0, 0, curStar->color() );
 
 						// now that we have drawn the star, we can display some extra info
@@ -1279,7 +1279,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 							}
 							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( ksw->data()->ZoomLevel - 6));
 						
-							psky.setPen( QColor( ksw->options()->colorSName ) );
+							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "SNameColor" ) ) );
 							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
 						}
 					}
@@ -1294,22 +1294,22 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		bool drawImage = false;
 		if ( obj->catalog() == "M" && drawMess ) {
 			psky.setBrush( NoBrush );
-			psky.setPen( QColor( ksw->options()->colorMess ) );
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "MessColor" ) ) );
 			drawObject = true;
 			drawImage = ksw->options()->drawMessImages;
 		} else if ( obj->catalog() == "NGC" && drawNGC ) {
 			psky.setBrush( NoBrush );
-			psky.setPen( QColor( ksw->options()->colorNGC ) );
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "NGCColor" ) ) );
 			drawObject = true;
 			drawImage = ksw->options()->drawMessImages;
 		} else if ( obj->catalog() == "IC" && drawIC ) {
 			psky.setBrush( NoBrush );
-			psky.setPen( QColor( ksw->options()->colorIC ) );
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "ICColor" ) ) );
 			drawObject = true;
 			drawImage = ksw->options()->drawMessImages;
 		} else if ( obj->catalog().isEmpty() && drawOther ) {
 			psky.setBrush( NoBrush );
-			psky.setPen( QColor( ksw->options()->colorNGC ) ); //Use NGC color for now...
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "NGCColor" ) ) ); //Use NGC color for now...
 			drawObject = true;
 			drawImage = ksw->options()->drawMessImages;
 		}
@@ -1347,9 +1347,9 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 						if (type==0) type = 1; //use catalog star draw fcn
 						//change color if extra images are available
 						if ( obj->catalog() == "M" && obj->ImageList.count() > 1 )
-							psky.setPen( QColor( ksw->options()->colorHST ) );
+							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
 						else if ( obj->catalog() != "M" && obj->ImageList.count() )
-							psky.setPen( QColor( ksw->options()->colorHST ) );
+							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
 
 						int Size = int( obj->a()*PI()*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
 
@@ -1373,7 +1373,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		if ( ksw->options()->drawCatalog[i] ) {
 
 			psky.setBrush( NoBrush );
-			psky.setPen( QColor( ksw->options()->colorNGC ) );
+			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "NGCColor" ) ) );
 
 			QList<SkyObject> cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[i] ];
 
@@ -1481,8 +1481,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	if (ksw->options()->drawHorizon || ksw->options()->drawGround) {
 		QPoint OutLeft(0,0), OutRight(0,0);
 
-		psky.setPen( QColor ( ksw->options()->colorHorz ) );
-		psky.setBrush( QColor ( ksw->options()->colorHorz ) );
+		psky.setPen( QColor ( ksw->options()->colorScheme()->colorNamed( "HorzColor" ) ) );
+		psky.setBrush( QColor ( ksw->options()->colorScheme()->colorNamed( "HorzColor" ) ) );
 		ptsCount = 0;
 
 		int maxdist = pixelScale[ ksw->data()->ZoomLevel ]/4;
@@ -1618,7 +1618,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 //	Draw compass heading labels along horizon
 				SkyPoint *c = new SkyPoint;
 				QPoint cpoint;
-				psky.setPen( QColor ( ksw->options()->colorSky ) );
+				psky.setPen( QColor ( ksw->options()->colorScheme()->colorNamed( "CompassColor" ) ) );
 				psky.setFont( stdFont );
 
 		//North

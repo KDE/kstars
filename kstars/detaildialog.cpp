@@ -48,24 +48,24 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 		pname = s->translatedName();
 		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
 		Names = new NameBox( pname, s->gname(),
-				i18n( "Spectral Type:" ), s->sptype(),
+				i18n( "   Spectral Type:" ), s->sptype(),
 				QString("%1").arg( s->mag() ), page );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
 		//Want to add distance from Earth, Mass, angular size.
 		//Perhaps: list of moons
-		Names = new NameBox( o->translatedName(), "", i18n( "Object Type:" ),
+		Names = new NameBox( o->translatedName(), "", i18n( "   Object Type:" ),
 				o->typeName(), "--", page );
 		break;
 	default: //deep-sky objects
 		if ( ! o->longname().isEmpty() ) {
 			pname = o->longname();
-			oname = o->name();
+			oname = o->name() + ", ";
 		} else {
 			pname = o->name();
 		}
-		if ( ! o->name2().isEmpty() ) oname += ", " + o->name2();
+		if ( ! o->name2().isEmpty() ) oname += o->name2();
 		if ( o->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( o->ugc() );
 		if ( o->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( o->pgc() );
 
@@ -96,8 +96,9 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	Type->setAlignment( AlignRight );
 	QFont boldFont = Type->font();
 	boldFont.setWeight( QFont::Bold );
+	PrimaryName->setFont( boldFont );
 	Type->setFont( boldFont );
-	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
+	MagLabel = new QLabel( i18n( "   Magnitude:" ), this );
 	Mag = new QLabel( mag, this );
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
@@ -105,7 +106,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 //Layout
 	hlayType = new QHBoxLayout( 2 );
 	hlayMag  = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 2 );
+	glay     = new QGridLayout( 2, 2, 2 );
 	vlay     = new QVBoxLayout( this, 12 );
 
 	hlayType->addWidget( TypeLabel );
@@ -132,8 +133,8 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra().hour(), o->ra().minute(), o->ra().second() ), this );
 	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec().degree(), 176, o->dec().getArcMin(), o->dec().getArcSec() ), this );
 
-	AzLabel = new QLabel( i18n( "Azimuth: " ), this );
-	AltLabel = new QLabel( i18n( "Altitude: " ), this );
+	AzLabel = new QLabel( i18n( "   Azimuth: " ), this );
+	AltLabel = new QLabel( i18n( "   Altitude: " ), this );
 	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az().degree(), 176, o->az().getArcMin(), o->az().getArcSec() ), this );
 	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt().degree(), 176, o->alt().getArcMin(), o->alt().getArcSec() ), this );
 
@@ -149,7 +150,7 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	Alt->setAlignment( AlignRight );
 
 //Layouts
-	glayCoords = new QGridLayout( 4, 2 );
+	glayCoords = new QGridLayout( 4, 2, 2 );
 	vlayMain = new QVBoxLayout( this, 12 );
 
 	glayCoords->addWidget( RALabel, 0, 0 );
@@ -184,16 +185,34 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	RTimeLabel = new QLabel( i18n( "Rise Time: " ), this );
 	TTimeLabel = new QLabel( i18n( "Transit Time: " ), this );
 	STimeLabel = new QLabel( i18n( "Set Time: " ), this );
-	RAzLabel = new QLabel( i18n( "Azimuth at Rise: " ), this );
-	TAltLabel = new QLabel( i18n( "Altitude at Transit: " ), this );
-	SAzLabel = new QLabel( i18n( "Azimuth at Set: " ), this );
+	RAzLabel = new QLabel( i18n( "   Azimuth at Rise: " ), this );
+	TAltLabel = new QLabel( i18n( "   Altitude at Transit: " ), this );
+	SAzLabel = new QLabel( i18n( "   Azimuth at Set: " ), this );
 
-	RTime = new QLabel( QString().sprintf( "%02d:%02d:%02d", rt.hour(), rt.minute(), rt.second() ), this );
-	TTime = new QLabel( QString().sprintf( "%02d:%02d:%02d", tt.hour(), tt.minute(), tt.second() ), this );
-	STime = new QLabel( QString().sprintf( "%02d:%02d:%02d", st.hour(), st.minute(), st.second() ), this );
-	RAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", raz.degree(), 176, raz.getArcMin(), raz.getArcSec() ), this );
+	if ( rt.isValid() ) {
+		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );
+		STime = new QLabel( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ), this );
+		RAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", raz.degree(), 176, raz.getArcMin(), raz.getArcSec() ), this );
+		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.getArcMin(), saz.getArcSec() ), this );
+	} else {
+		QString rs, ss;
+		if ( o->alt().Degrees() > 0.0 ) {
+			rs = i18n( "Circumpolar" );
+			ss = i18n( "Circumpolar" );
+		} else {
+			rs = i18n( "Never rises" );
+			ss = i18n( "Never rises" );
+		}
+
+		RTime = new QLabel( rs, this );
+		STime = new QLabel( ss, this );
+		RAz = new QLabel( i18n( "Not Applicalble", "N/A" ), this );
+		SAz = new QLabel( i18n( "Not Applicalble", "N/A" ), this );
+	}
+
+	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );
 	TAlt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", talt.degree(), 176, talt.getArcMin(), talt.getArcSec() ), this );
-	SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.getArcMin(), saz.getArcSec() ), this );
+
 
 	QFont boldFont = RTime->font();
 	boldFont.setWeight( QFont::Bold );
@@ -212,7 +231,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 //Layout
 	vlay = new QVBoxLayout( this, 12 );
-	glay = new QGridLayout( 4, 3 ); //nrows, ncols
+	glay = new QGridLayout( 4, 3, 2 ); //nrows, ncols, spacing
 	glay->addWidget( RTimeLabel, 0, 0 );
 	glay->addWidget( TTimeLabel, 1, 0 );
 	glay->addWidget( STimeLabel, 2, 0 );

@@ -73,6 +73,8 @@ void KStars::loadOptions()
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 
 	conf->setGroup( "View" );
+	options()->colorScheme()->loadFromConfig( conf );
+/*
 	options()->colorSky 		= conf->readEntry( "SkyColor", "#002" );
 //	options()->colorStar 	= conf->readEntry( "StarColor", "#FFF" );
 	options()->colorMW 		= conf->readEntry( "MWColor", "#123" );
@@ -88,6 +90,10 @@ void KStars::loadOptions()
 	options()->colorPName 	= conf->readEntry( "PNameColor", "#A77" );
 	options()->colorSName 	= conf->readEntry( "SNameColor", "#7AA" );
 	options()->colorHST 		= conf->readEntry( "HSTColor", "#A00" );
+	options()->starColorMode = conf->readNumEntry( "StarColorMode", 0 );
+	options()->starColorIntensity = conf->readNumEntry ("StarColorsIntensity", 4);
+*/
+
 	options()->drawSAO			= conf->readBoolEntry( "ShowSAO", true );
 	options()->drawMessier	= conf->readBoolEntry( "ShowMess", true );
 	options()->drawMessImages = conf->readBoolEntry( "ShowMessImages", true );
@@ -131,8 +137,6 @@ void KStars::loadOptions()
 	options()->drawStarMagnitude = conf->readBoolEntry( "drawStarMagnitude", false );
 	options()->windowWidth = conf->readNumEntry( "windowWidth", 600 );
 	options()->windowHeight = conf->readNumEntry( "windowHeight", 600 );
-	options()->starColorMode = conf->readNumEntry( "StarColorMode", 0 );
-	options()->starColorIntensity = conf->readNumEntry ("StarColorsIntensity", 4);
 	options()->useRefraction = conf->readBoolEntry( "UseRefraction", true );
 	options()->useAnimatedSlewing = conf->readBoolEntry( "AnimateSlewing", true );
 	options()->hideOnSlew = conf->readBoolEntry( "HideOnSlew", true );
@@ -175,22 +179,7 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowViewToolBar", options()->showViewToolBar );
 
 	conf->setGroup( "View" );
-	conf->writeEntry( "SkyColor", 	options()->colorSky );
-	conf->writeEntry( "MWColor", 		options()->colorMW );
-	conf->writeEntry( "EqColor", 		options()->colorEq );
-	conf->writeEntry( "EclColor", 		options()->colorEcl );
-	conf->writeEntry( "HorzColor", 	options()->colorHorz );
-	conf->writeEntry( "GridColor", 	options()->colorGrid );
-	conf->writeEntry( "MessColor", 	options()->colorMess );
-	conf->writeEntry( "NGCColor", 	options()->colorNGC );
-	conf->writeEntry( "ICColor", 		options()->colorIC );
-	conf->writeEntry( "CLineColor", options()->colorCLine );
-	conf->writeEntry( "CNameColor", options()->colorCName );
-	conf->writeEntry( "PNameColor", options()->colorPName );
-	conf->writeEntry( "SNameColor", options()->colorSName );
-	conf->writeEntry( "HSTColor", 	options()->colorHST );
-	conf->writeEntry( "StarColorMode", options()->starColorMode );
-	conf->writeEntry( "StarColorsIntensity", options()->starColorIntensity );
+	options()->colorScheme()->saveToConfig( conf );
 	conf->writeEntry( "ShowSAO", 		options()->drawSAO );
 	conf->writeEntry( "ShowMess", 	options()->drawMessier );
 	conf->writeEntry( "ShowMessImages", 	options()->drawMessImages );

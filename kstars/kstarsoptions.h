@@ -22,6 +22,7 @@
 #include <qstring.h>
 #include <qvaluelist.h>
 #include <qstringlist.h>
+#include "colorscheme.h"
 
 /**KStarsOptions manages all of the user-configurable options available in KStars.
 	*@short KStars options.
@@ -51,6 +52,10 @@ public:
 
 	void setMagLimitDrawStar( float newMagnitude );	
 	
+	/**@returns pointer to the ColorScheme object
+		*/
+	ColorScheme *colorScheme() { return &CScheme; }
+
 	// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
   // (false=equatorial coordinate system)
 	bool useAltAz;
@@ -130,6 +135,8 @@ public:
 	float magLimitDrawStarInfo;
 
 	//the colors of things
+	ColorScheme CScheme;
+/*
 	QString colorSky;   //Sky background
 	QString colorMess;  //Messier catalog
 	QString colorNGC;   //NGC catalog
@@ -148,6 +155,7 @@ public:
 	int starColorMode;  // 0 = temperature colors; 1 = all red; 2 = all black; 3 = all white
 	// intensity of star colors
 	int starColorIntensity;
+*/
 	
 	//Where are we?
 	QString CityName, ProvinceName, CountryName;

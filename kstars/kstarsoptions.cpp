@@ -100,24 +100,9 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	drawPlanetName       = o.drawPlanetName;
 	drawPlanetImage      = o.drawPlanetImage;
 	drawStarMagnitude		 = o.drawStarMagnitude;
-	starColorMode        = o.starColorMode;
-	starColorIntensity   = o.starColorIntensity;
 
 	// color options
-	colorSky		= o.colorSky;
-	colorMess   = o.colorMess;
-	colorNGC    = o.colorNGC;
-	colorIC     = o.colorIC;
- 	colorHST    = o.colorHST;
-	colorMW			=	o.colorMW;
-	colorEq			=	o.colorEq;
-	colorEcl    = o.colorEcl;
-	colorHorz		= o.colorHorz;
-	colorGrid   = o.colorGrid;
-	colorCLine  = o.colorCLine;
-	colorCName  = o.colorCName;
-	colorPName  = o.colorPName;
-	colorSName  = o.colorSName;
+	CScheme.copy( *o.colorScheme() );
 
 	// location, location, location
 	CityName = o.CityName;
@@ -201,31 +186,6 @@ void KStarsOptions::setDefaultOptions() {
 	drawPlanetName= true;
 	drawPlanetImage= true;
 	drawStarMagnitude= true;
-	starColorMode = 0;
-	starColorIntensity = 4;
-/*
- 	colorSky()
-	colorMess()
-	colorNGC()
-	colorIC()
-	colorHST()
-	colorMW()
-	colorEq()
-	colorEcl()
-	colorHorz()
-	colorGrid()
-	colorCLine()
-	colorCName()
-	colorPName()
-	colorSName()
-	CityName()
-	ProvinceName()
-	CountryName()
-	CatalogCount(0)
-	CatalogName()
-	CatalogFile()
-	drawCatalog()
-*/
 }
 
 void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {

@@ -18,6 +18,7 @@
 
 #include <stdlib.h>
 #include <qstring.h>
+
 #include "skypoint.h"
 #include "dms.h"
 
@@ -127,14 +128,20 @@ dms dms::reduce( void ) const {
 
 QString dms::toDMSString(bool forceSign) const {
 	QString dummy;
+	char pm(' ');
+	int dd = abs(degree());
 	int dm = abs(getArcMin());
 	int ds = abs(getArcSec());
 
-	if (forceSign) {
-		return dummy.sprintf("%+03d%c %02d\' %02d\"", degree(), 176, dm, ds);
-	} else {
-		return dummy.sprintf("%03d%c %02d\' %02d\"", degree(), 176, dm, ds);
-	}
+	if ( Degrees() < 0.0 ) pm = '-';
+	else if (forceSign && Degrees() > 0.0 ) pm = '+';
+
+	QString format( "%c%3d%c %02d\' %02d\"" );
+	if ( dd < 100 ) format = "%c%2d%c %02d\' %02d\"";
+	if ( dd < 10  ) format = "%c%1d%c %02d\' %02d\"";
+
+//	return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
+	return dummy.sprintf(format.latin1(), pm, dd, 176, dm, ds);
 }
 
 QString dms::toHMSString() const {

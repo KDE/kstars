@@ -403,64 +403,14 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	ColorPalette = new QListBox( LeftBox );
   ColorPalette->setSelectionMode( QListBox::Single );
 
-	SkyColor = new QPixmap( 30, 20 );
-	SkyColor->fill( QColor( ksw->options()->colorSky ) );
-	ColorPalette->insertItem( *SkyColor, i18n( "Sky" ) );
-
-	MessColor = new QPixmap( 30, 20 );
-	MessColor->fill( QColor( ksw->options()->colorMess ) );
-	ColorPalette->insertItem( *MessColor, i18n( "Messier Object" ) );
-
-	NGCColor = new QPixmap( 30, 20 );
-	NGCColor->fill( QColor( ksw->options()->colorNGC ) );
-	ColorPalette->insertItem( *NGCColor, i18n( "New General Catalog object", "NGC Object" ) );
-
-	ICColor = new QPixmap( 30, 20 );
-	ICColor->fill( QColor( ksw->options()->colorIC ) );
-	ColorPalette->insertItem( *ICColor, i18n( "Index Catalog object", "IC Object" ) );
-
-	LinksColor = new QPixmap( 30, 20 );
-	LinksColor->fill( QColor( ksw->options()->colorHST ) );
-	ColorPalette->insertItem( *LinksColor, i18n( "Object with extra attached URLs", "Object w/ Links" ) );
-
-	SNameColor = new QPixmap( 30, 20 );
-	SNameColor->fill( QColor( ksw->options()->colorSName ) );
-	ColorPalette->insertItem( *SNameColor, i18n( "Star Name" ) );
-
-	PNameColor = new QPixmap( 30, 20 );
-	PNameColor->fill( QColor( ksw->options()->colorPName ) );
-	ColorPalette->insertItem( *PNameColor, i18n( "Planet Name" ) );
-
-	CNameColor = new QPixmap( 30, 20 );
-	CNameColor->fill( QColor( ksw->options()->colorCName ) );
-	ColorPalette->insertItem( *CNameColor, i18n( "Contstellation Name", "Constell. Name" ) );
-
-	CLineColor = new QPixmap( 30, 20 );
-	CLineColor->fill( QColor( ksw->options()->colorCLine ) );
-	ColorPalette->insertItem( *CLineColor, i18n( "Constellation Line", "Constell. Line" ) );
-
-	MWColor = new QPixmap( 30, 20 );
-	MWColor->fill( QColor( ksw->options()->colorMW ) );
-	ColorPalette->insertItem( *MWColor, i18n( "refers to the band of stars in the sky due to the Galactic plane", "Milky Way" ) );
-
-	EqColor = new QPixmap( 30, 20 );
-	EqColor->fill( QColor( ksw->options()->colorEq ) );
-	ColorPalette->insertItem( *EqColor, i18n( "Equator" ) );
-
-	EclColor = new QPixmap( 30, 20 );
-	EclColor->fill( QColor( ksw->options()->colorEcl ) );
-	ColorPalette->insertItem( *EclColor, i18n( "Ecliptic" ) );
-
-	HorzColor = new QPixmap( 30, 20 );
-	HorzColor->fill( QColor( ksw->options()->colorHorz ) );
-	ColorPalette->insertItem( *HorzColor, i18n( "Horizon" ) );
-
-	GridColor = new QPixmap( 30, 20 );
-	GridColor->fill( QColor( ksw->options()->colorGrid ) );
-	ColorPalette->insertItem( *GridColor, i18n( "Coordinate Grid" ) );
+	for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
+		QPixmap col( 30, 20 );
+		col.fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
+		ColorPalette->insertItem( col, ksw->options()->colorScheme()->nameAt( i ) );
+	}
 
   // the spinbox for colorintensity of stars
-	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->options()->starColorIntensity, 10, LeftBox);
+	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->options()->colorScheme()->starColorIntensity(), 10, LeftBox);
 	QLabel *IntensityLabel = new QLabel (IntensityBox, i18n ( "scale for the color saturation of stars", "Star Color &Intensity" ), LeftBox);
 	IntensityLabel->setAlignment ( AlignRight | AlignVCenter );
 
@@ -728,10 +678,6 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 }
 
 ViewOpsDialog::~ViewOpsDialog(){
-	delete SkyColor;  delete MessColor;  delete NGCColor;  delete ICColor;
-	delete LinksColor;  delete SNameColor;  delete CLineColor;  delete CNameColor;
-	delete EqColor;  delete EclColor;  delete HorzColor;  delete GridColor;
-	delete MWColor;
 }
 
 void ViewOpsDialog::changeMagDrawStars( int newValue )
@@ -763,98 +709,24 @@ void ViewOpsDialog::changeMagDrawInfo( int newValue )
 }
 
 void ViewOpsDialog::newColor( QListBoxItem *item ) {
-	QPixmap *temp = new QPixmap( 30, 20 );
+	QPixmap temp( 30, 20 );
 	QColor newColor;
-	if ( item->text() == i18n( "color of sky", "Sky" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorSky ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorSky = newColor.name();
-			temp->fill( QColor( ksw->options()->colorSky ) );
-		}
-  } else if ( item->text() == i18n( "Messier Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorMess ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorMess = newColor.name();
-			temp->fill( QColor( ksw->options()->colorMess ) );
-		}
-  } else if ( item->text() == i18n( "NGC Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorNGC ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorNGC = newColor.name();
-			temp->fill( QColor( ksw->options()->colorNGC ) );
-		}
-  } else if ( item->text() == i18n( "IC Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorIC ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorIC = newColor.name();
-			temp->fill( QColor( ksw->options()->colorIC ) );
-		}
-  } else if ( item->text() == i18n( "Object with extra attached URLs", "Object w/ Links" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorHST ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorHST = newColor.name();
-			temp->fill( QColor( ksw->options()->colorHST ) );
-		}
-  } else if ( item->text() == i18n( "Milky Way" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorMW ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorMW = newColor.name();
-			temp->fill( QColor( ksw->options()->colorMW ) );
-		}
-  } else if ( item->text() == i18n( "Equator" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorEq ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorEq = newColor.name();
-			temp->fill( QColor( ksw->options()->colorEq ) );
-		}
-  } else if ( item->text() == i18n( "Ecliptic" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorEcl ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorEcl = newColor.name();
-			temp->fill( QColor( ksw->options()->colorEcl ) );
-		}
-  } else if ( item->text() == i18n( "Horizon" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorHorz ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorHorz = newColor.name();
-			temp->fill( QColor( ksw->options()->colorHorz ) );
-		}
-  } else if ( item->text() == i18n( "Coordinate Grid" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorGrid ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorGrid = newColor.name();
-			temp->fill( QColor( ksw->options()->colorGrid ) );
-		}
-  } else if ( item->text() == i18n( "Star Name" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorSName ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorSName = newColor.name();
-			temp->fill( QColor( ksw->options()->colorSName ) );
-		}
-  } else if ( item->text() == i18n( "Planet Name" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorPName ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorPName = newColor.name();
-			temp->fill( QColor( ksw->options()->colorPName ) );
-		}
-  } else if ( item->text() == i18n( "constellation line", "Constell. Line" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorCLine ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorCLine = newColor.name();
-			temp->fill( QColor( ksw->options()->colorCLine ) );
-		}
-  } else if ( item->text() == i18n( "constellation name", "Constell. Name" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->options()->colorCName ) );
-		if ( newColor.isValid() ) {
-			ksw->options()->colorCName = newColor.name();
-			temp->fill( QColor( ksw->options()->colorCName ) );
+	unsigned int i;
+
+	for ( i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
+		if ( item->text() == ksw->options()->colorScheme()->nameAt( i ) ) {
+			newColor = QColorDialog::getColor( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
+			break;
 		}
 	}
 
-	if ( newColor.isValid() )
-		ColorPalette->changeItem( *temp, item->text(), ColorPalette->index( item ) );
+	//newColor will only be valid if the above if statement was found to be true during one of the for loop iterations
+	if ( newColor.isValid() ) {
+		temp.fill( newColor );
+		ColorPalette->changeItem( temp, item->text(), ColorPalette->index( item ) );
+		ksw->options()->colorScheme()->setColor( ksw->options()->colorScheme()->keyAt( i ), newColor.name() );
+	}
 
-	delete temp;
 	ksw->map()->Update();
 }
 
@@ -862,13 +734,13 @@ void ViewOpsDialog::slotPreset( int index ) {
 	QStringList::Iterator it = PresetFileList.at( index );
 	bool result = setColors( *it );
 	if (!result) {
-		QString message = i18n( "The specified color scheme file could not be found, or it was corrupted." );
+		QString message = i18n( "The specified color scheme file (%1) could not be found, or it was corrupted." ).arg( QString(*it) );
 		KMessageBox::sorry( 0, message, i18n( "Could not set Color Scheme" ) );
 	}
 }
 
 void ViewOpsDialog::slotAddPreset( void ) {
-	QFile file;
+//	QFile file;
 
 //KDE3-only version (incompatible w/KDE2 because of different arguments)
 //	bool okPressed = false;
@@ -880,49 +752,12 @@ void ViewOpsDialog::slotAddPreset( void ) {
 	int result = schemeDlg.exec();
 	if ( result ) {
 		QString filename = schemeDlg.text().lower().stripWhiteSpace();
+
 		if ( !filename.isEmpty() ) {
-			for( unsigned int i=0; i<filename.length(); ++i)
-				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
-
-			filename = filename.append( ".colors" );
-			file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
-
-			if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
-			} else {
-				QTextStream stream( &file );
-				stream << ksw->options()->starColorMode << endl;
-				stream << ksw->options()->colorSky << " :colorSky" << endl;
-				stream << ksw->options()->colorMess << " :colorMess" << endl;
-				stream << ksw->options()->colorNGC << " :colorNGC" << endl;
-				stream << ksw->options()->colorIC << " :colorIC" << endl;
-				stream << ksw->options()->colorHST << " :colorHST" << endl;
-				stream << ksw->options()->colorSName << " :colorSName" << endl;
-				stream << ksw->options()->colorPName << " :colorPName" << endl;
-				stream << ksw->options()->colorCName << " :colorCName" << endl;
-				stream << ksw->options()->colorCLine << " :colorCLine" << endl;
-				stream << ksw->options()->colorMW << " :colorMW" << endl;
-				stream << ksw->options()->colorEq << " :colorEq" << endl;
-				stream << ksw->options()->colorEcl << " :colorEcl" << endl;
-				stream << ksw->options()->colorHorz << " :colorHorz" << endl;
-				stream << ksw->options()->colorGrid << " :colorGrid" << endl;
-				file.close();
+			if ( ksw->options()->colorScheme()->save( schemeDlg.text() ) ) {
+				PresetBox->insertItem( schemeDlg.text() );
+				PresetFileList.append( filename + ".colors" );
 			}
-
-			file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
-
-			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-				KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
-			} else {
-				QTextStream stream( &file );
-				stream << schemeDlg.text() << ":" << filename << endl;
-				file.close();
-			}
-
-			PresetBox->insertItem( schemeDlg.text() );
-			PresetFileList.append( filename );
 		}
 	}
 }
@@ -934,8 +769,15 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove entry from the ListBox and from the QStringList holding filenames.
+	//We don't want another color scheme to be selected, so first
+	//temporarily disconnect the "highlighted" signal.
+	disconnect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+
 	PresetFileList.remove( PresetFileList.at( PresetBox->currentItem() ) );
 	PresetBox->removeItem( PresetBox->currentItem() );
+
+	//Reconnect the "highlighted" signal
+	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
 
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
@@ -948,9 +790,6 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 
 		while ( !stream.eof() ) {
 			QString line = stream.readLine();
-//DEBUG
-			kdWarning() << line << endl;
-//END_DEBUG
 			if ( line.left( line.find(':') ) != name ) slist.append( line );
 			else removed = true;
 		}
@@ -979,192 +818,22 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 
 bool ViewOpsDialog::setColors( QString filename ) {
 	QPixmap *temp = new QPixmap( 30, 20 );
-	QFile file;
-	int i=0;
-	bool colonLineFound = false;
 
-	if ( !KSUtils::openDataFile( file, filename ) ) {
-		return false;
-	} else {
-		//Is the colorscheme file stored in the user directory?
-		//If so, enable the RemovePreset button.
-		QFile test;
-		test.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
-		if ( test.exists() ) RemovePreset->setEnabled( true );
-		else RemovePreset->setEnabled( false );
-	}
+	QFile test;
+	test.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
+	if ( test.exists() ) RemovePreset->setEnabled( true );
+	else RemovePreset->setEnabled( false );
+	test.close();
 
-	QTextStream stream( &file );
-	QString line;
-
-	//first line is the star-color mode
-  line = stream.readLine();
-	int newmode = line.left(1).toInt();
-	ksw->options()->starColorMode = newmode;
-	if ( ksw->map()->starColorMode() != newmode )
-		ksw->map()->setStarColorMode( newmode );
-	StarColorMode->setCurrentItem( newmode );
-
-//More flexible method for reading in color values.  Any order is acceptable, and
-//missing entries are ignored.
-	while ( !stream.eof() ) {
-		line = stream.readLine();
-
-		if ( line.contains(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
-     colonLineFound = true;
-
-			if ( i > 0 ) return false; //we read at least one line without a colon...file is corrupted.
-
-			if ( line.mid( line.find(':')+1 ).contains( "colorSky" ) ) {
-				ksw->options()->colorSky = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorSky ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(0)->text(), 0 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorMess" ) ) {
-				ksw->options()->colorMess = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorMess ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(1)->text(), 1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorNGC" ) ) {
-				ksw->options()->colorNGC = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorNGC ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(2)->text(), 2 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorIC" ) ) {
-				ksw->options()->colorIC = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorIC ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(3)->text(), 3 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorHST" ) ) {
-				ksw->options()->colorHST = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorHST ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(4)->text(), 4 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorSName" ) ) {
-				ksw->options()->colorSName = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorSName ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(5)->text(), 5 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorPName" ) ) {
-				ksw->options()->colorPName = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorPName ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(6)->text(), 6 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorCName" ) ) {
-				ksw->options()->colorCName = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorCName ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(7)->text(), 7 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorCLine" ) ) {
-				ksw->options()->colorCLine = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorCLine ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(8)->text(), 8 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorMW" ) ) {
-				ksw->options()->colorMW = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorMW ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(9)->text(), 9 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorEq" ) ) {
-				ksw->options()->colorEq = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorEq ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(10)->text(), 10 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorEcl" ) ) {
-				ksw->options()->colorEcl = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorEcl ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(11)->text(), 11 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorHorz" ) ) {
-				ksw->options()->colorHorz = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorHorz ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(12)->text(), 12 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorGrid" ) ) {
-				ksw->options()->colorGrid = line.left( line.find(':')-1 );
-				temp->fill( QColor( ksw->options()->colorGrid ) );
-				ColorPalette->changeItem( *temp, ColorPalette->item(13)->text(), 13 );
-			}
-
-		} else { // no ':' seen in the line, so we must assume the old format
-
-			if ( colonLineFound ) return false; //a previous line had a colon, this line doesn't.  File is corrupted.
-
-			switch (i) {
-				case 0: //sky
-					ksw->options()->colorSky = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorSky ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 1: //Messier objects
-					ksw->options()->colorMess = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorMess ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 2:
-					ksw->options()->colorNGC = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorNGC ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 3:
-					ksw->options()->colorIC = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorIC ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 4:
-					ksw->options()->colorHST = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorHST ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 5:
-					ksw->options()->colorSName = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorSName ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 6:
-					ksw->options()->colorPName = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorPName ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 7:
-					ksw->options()->colorCName = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorCName ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 8:
-					ksw->options()->colorCLine = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorCLine ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 9:
-					ksw->options()->colorMW = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorMW ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 10:
-					ksw->options()->colorEq = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorEq ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 11:
-					ksw->options()->colorEcl = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorEcl ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 12:
-					ksw->options()->colorHorz = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorHorz ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-				case 13:
-					ksw->options()->colorGrid = line.left( 7 );
-					temp->fill( QColor( ksw->options()->colorGrid ) );
-					ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
-					i++;
-					break;
-			}
+	if ( ksw->options()->colorScheme()->load( filename ) ) {
+		for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
+			temp->fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
+			ColorPalette->changeItem( *temp, ksw->options()->colorScheme()->nameAt( i ), i );
 		}
+	} else {
+		return false;
 	}
+
 	ksw->map()->Update();
 	return true;
 }
@@ -1290,13 +959,14 @@ void ViewOpsDialog::changeCoordSys( void ) {
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
 	ksw->map()->setStarColorIntensity( newValue );
-	ksw->options()->starColorIntensity = ksw->map()->starColorIntensity();
+//	ksw->options()->starColorIntensity = ksw->map()->starColorIntensity();
+	ksw->options()->colorScheme()->setStarColorIntensity( newValue );
 	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
 	ksw->map()->setStarColorMode( newValue );
-	ksw->options()->starColorMode = ksw->map()->starColorMode();
+	ksw->options()->colorScheme()->setStarColorMode( newValue );
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
 	ksw->map()->Update();

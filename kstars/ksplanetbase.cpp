@@ -32,9 +32,9 @@ KSPlanetBase::KSPlanetBase( QString s, QString image_file )
 			Image0.load( imFile.name() );
 			Image = Image0.convertDepth( 32 );
 			Image0 = Image;
-			PositionAngle = 0.0;
 		}
 	}
+	PositionAngle = 0.0;
 }
 
 void KSPlanetBase::EquatorialToEcliptic( dms Obliquity ) {

@@ -71,7 +71,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	if ( ksw->data()->ZoomLevel == 0  ) ksw->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	// load the pixmaps of stars
-	starpix = new StarPixmap (ksw->options()->starColorMode, ksw->options()->starColorIntensity);
+	starpix = new StarPixmap( ksw->options()->colorScheme()->starColorMode(), ksw->options()->colorScheme()->starColorIntensity() );
 
   //initialize pixelScale array, will be indexed by ZoomLevel
 	for ( unsigned int i=0; i<NZOOM; ++i ) {
@@ -79,7 +79,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 		Range[i] = 75.0*256.0/pixelScale[i];
 	}
 
-	setBackgroundColor( QColor( ksw->options()->colorSky ) );
+	setBackgroundColor( QColor( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
 	setBackgroundMode( QWidget::NoBackground );
 	setFocusPolicy( QWidget::StrongFocus );
 	setMinimumSize( 380, 250 );
@@ -511,7 +511,7 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.drawEllipse( x1, yb, psize, psize );
 			psky.drawEllipse( x2, ya, psize, psize );
 			psky.drawEllipse( x2, yb, psize, psize );
-			psky.setBrush( QColor( ksw->options()->colorSky ) );
+			psky.setBrush( QColor( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
 			break;
 		case 4: //Globular Cluster
 			if (size<2) size = 2;
@@ -923,11 +923,6 @@ void SkyMap::setRiseSetLabels( void ) {
 //		tt = i18n( "Transit Time: " ) + tt2 +
 //			i18n(", Altitude: ") + tt3 ;
 		tt = i18n( "Transit Time: " ) + tt2;
-
-	} else if ( clickedObject()->alt().Degrees() > 0 ) {
-		tt = i18n( "No Transit Time: Circumpolar" );
-	} else {
-		tt = i18n( "No Transit Time: Never rises" );
 	}
 
 	pmRiseTime->setText( rt );
@@ -940,88 +935,9 @@ int SkyMap::getPixelScale( void ) {
 }
 
 bool SkyMap::setColors( QString filename ) {
-//	QPixmap *temp = new QPixmap( 30, 20 );
-	QFile file;
-	int i=0;
-	bool colonLineFound = false;
-
-	if ( !KSUtils::openDataFile( file, filename ) ) {
-		file.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
-		if ( !file.open( IO_ReadOnly ) ) {
-			return false;
-    }
-	}
-
-	QTextStream stream( &file );
-	QString line;
-
-	//first line is the star-color mode
-  line = stream.readLine();
-	int newmode = line.left(1).toInt();
-	ksw->options()->starColorMode = newmode;
-	if ( starColorMode() != newmode )
-		setStarColorMode( newmode );
-
-//More flexible method for reading in color values.  Any order is acceptable, and
-//missing entries are ignored.
-	while ( !stream.eof() ) {
-		line = stream.readLine();
-
-		if ( line.contains(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
-     colonLineFound = true;
-
-			if ( i > 0 ) return false; //we read at least one line without a colon...file is corrupted.
-
-			if ( line.mid( line.find(':')+1 ).contains( "colorSky" ) ) {
-				ksw->options()->colorSky = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorMess" ) ) {
-				ksw->options()->colorMess = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorNGC" ) ) {
-				ksw->options()->colorNGC = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorIC" ) ) {
-				ksw->options()->colorIC = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorHST" ) ) {
-				ksw->options()->colorHST = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorSName" ) ) {
-				ksw->options()->colorSName = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorPName" ) ) {
-				ksw->options()->colorPName = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorCName" ) ) {
-				ksw->options()->colorCName = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorCLine" ) ) {
-				ksw->options()->colorCLine = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorMW" ) ) {
-				ksw->options()->colorMW = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorEq" ) ) {
-				ksw->options()->colorEq = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorEcl" ) ) {
-				ksw->options()->colorEcl = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorHorz" ) ) {
-				ksw->options()->colorHorz = line.left( line.find(':')-1 );
-			} else if ( line.mid( line.find(':')+1 ).contains( "colorGrid" ) ) {
-				ksw->options()->colorGrid = line.left( line.find(':')-1 );
-			}
-
-		} else { // no ':' seen in the line, so we must assume the old format
-
-			if ( colonLineFound ) return false; //a previous line had a colon, this line doesn't.  File is corrupted.
-
-			ksw->options()->colorSky = line.left( 7 );
-			ksw->options()->colorMess = line.left( 7 );
-			ksw->options()->colorNGC = line.left( 7 );
-			ksw->options()->colorIC = line.left( 7 );
-			ksw->options()->colorHST = line.left( 7 );
-			ksw->options()->colorSName = line.left( 7 );
-			ksw->options()->colorPName = line.left( 7 );
-			ksw->options()->colorCName = line.left( 7 );
-			ksw->options()->colorCLine = line.left( 7 );
-			ksw->options()->colorMW = line.left( 7 );
-			ksw->options()->colorEq = line.left( 7 );
-			ksw->options()->colorEcl = line.left( 7 );
-			ksw->options()->colorHorz = line.left( 7 );
-			ksw->options()->colorGrid = line.left( 7 );
-		}
-	}
+	ksw->options()->colorScheme()->load( filename );
+	if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
+		setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
 
 	Update();
 	return true;
