@@ -249,11 +249,20 @@ void allocBuffers() {
    colorBuffer = new unsigned char[window_.width * window_.height * 4];
 }
 
-void checkSize(int & x, int & y) {
+void checkSize(int & x, int & y)
+{
    if (x>=capability_.maxwidth && y >= capability_.maxheight) {
       x=capability_.maxwidth;
       y=capability_.maxheight;
-   } else if (x<=capability_.minwidth || y <=capability_.minheight ) {
+   } else if (x>=352 && y >=288) {
+      x=352;y=288;
+   } else if (x>=320 && y >= 240) {
+      x=320;y=240;
+   } else if (x>=176 && y >=144) {
+      x=176;y=144;
+   } else if (x>=160 && y >=120 ) {
+      x=160;y=120;
+   } else {
       x=capability_.minwidth;
       y=capability_.minheight;
    }

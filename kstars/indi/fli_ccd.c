@@ -1003,7 +1003,7 @@ void uploadFile(char * filename)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%d' compsize='%d' />", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
    

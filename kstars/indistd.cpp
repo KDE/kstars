@@ -69,6 +69,8 @@
    
    downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
    downloadDialog->cancel();
+   
+   parser = newLilXML();
  }
  
  INDIStdDevice::~INDIStdDevice()
@@ -153,14 +155,16 @@ void INDIStdDevice::streamReceived()
 {
 
    char msg[1024];
-   char frameSize[FRAME_ILEN];
-   int n=0, r, fieldIndex=0;
+   char c;
+   int n=0, r=0;
    unsigned int newCompressSize, newFrameSize, fullFrameSize, nr=0;
+   XMLEle *root;
+   XMLAtt *field;
    
    /* #1 Read first the frame size in bytes. Read the header up to 1KB, if NIL is not found, terminate */
    for (int i=0; i < FRAME_ILEN; i+=n)
    {
-     n = read (streamFD, frameSize + i, 1);
+     n = read (streamFD, &c, 1);
      if (n <= 0)
 	   {
 	    	if (n < 0)
@@ -175,44 +179,56 @@ void INDIStdDevice::streamReceived()
             return;
 	   }
 	   
-    // Check filed delimiters
-    if (frameSize[i] == ',')
-    {
-      frameSize[i] = '\0';
-      
-      /* A. Check for data type */
-      if (fieldIndex == 0)
+      root = readXMLEle (parser, (int) c, msg);
+      if (root)
       {
-      	if (!strcmp(frameSize, "VIDEO"))
-       		dataType = DATA_STREAM;
-      	else if (!strcmp(frameSize, "FITS"))
-      		dataType = DATA_FITS;
-      	else   
-      	{ 
-      		dataType = DATA_OTHER;
-		dataExt  = QString(frameSize);
-      	}
-      }
-      /* B. Check for full uncompressed frame size */
-      else if (fieldIndex == 1)
-      {
-       fullFrameSize = atoi(frameSize);
+        /* Make sure it's the data tag */
+	if (strcmp("Data", tagXMLEle(root)))
+	{ 
+	  kdDebug() << "Error: Unknown frame header " << tagXMLEle(root) << endl;
+	  return;
+	}
+	
+	field = findXMLAtt(root, "type");
+	if (!field)
+	{
+	 kdDebug() << "Error: type attribute not found" << endl;
+	 return;
+	}
+	
+	if (!strcmp(valuXMLAtt(field), "VIDEO"))
+		dataType = DATA_STREAM;
+	else if (!strcmp(valuXMLAtt(field), "FITS"))
+		dataType = DATA_FITS;
+	else
+	{
+		dataType = DATA_OTHER;
+		dataExt  = QString(valuXMLAtt(field));
+	}
+	
+	field = findXMLAtt(root, "size");
+	if (!field)
+	{
+	 kdDebug() << "Error: size attribute not found" << endl;
+	 return;
+	}	
+	
+       fullFrameSize = atoi(valuXMLAtt(field));
        if (fullFrameSize != totalBytes)
        {
          totalBytes = fullFrameSize;
 	 allocateStreamBuffer();
 	 if (streamBuffer == NULL) return;
        }
-      }
-    
-      fieldIndex++;
-      i = n = 0;
-    }
-    /* C. Check for compressed frame size */
-    else if (frameSize[i] == '\n')
-    {
-       frameSize[i] = '\0';
-       newCompressSize = atoi(frameSize);
+       
+       field = findXMLAtt(root, "compsize");
+       if (!field)
+       {
+	 kdDebug() << "Error: compsize attribute not found" << endl;
+	 return;
+       }
+       
+       newCompressSize = atoi(valuXMLAtt(field));
        if (newCompressSize != totalCompressedBytes)
        {
          totalCompressedBytes = newCompressSize;
@@ -226,15 +242,20 @@ void INDIStdDevice::streamReceived()
 	 downloadDialog->setMinimumWidth(300);
 	 downloadDialog->show();
        }
-       fieldIndex = 2;
+       
        break;
-    }
+       
+     }
+     else if (msg[0])
+     {
+     	kdDebug() << msg << endl;
+	return;
+     }
+       
    }
    
-   // Make sure we read all the necessary fields
    n = 0;
-   if (fieldIndex != 2) return;
-      
+   
     /* #2 Read actual frame */    
     for (nr = 0; nr < totalCompressedBytes; nr+=n)
     {

@@ -240,7 +240,7 @@ void INDI_P::newSwitch(int id)
    case PG_BUTTONS:
       for (unsigned int i=0; i < el.count(); i++)
       {
-          if (i == id) continue;
+          if (i == (unsigned int) id) continue;
 	  
      	  el.at(i)->push_w->setDown(false);
        	  buttonFont = el.at(i)->push_w->font();
@@ -261,6 +261,9 @@ void INDI_P::newSwitch(int id)
    	lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
    	lp->check_w->setChecked(lp->state == PS_ON);
    break;
+   
+   default:
+    break;
 
   }
 
@@ -332,6 +335,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	XMLEle *text;
 	XMLAtt *ap;
         QString textName, textLabel ;
+	errmsg=errmsg;
 	
         for (text = nextXMLEle (root, 1); text != NULL; text = nextXMLEle (root, 0))
 	{
@@ -393,11 +397,12 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 {
   	char format[32];
-	double min, max, step;
+	double min=0, max=0, step=0;
 	XMLEle *number;
 	XMLAtt *ap;
 	INDI_E *lp;
 	QString numberName, numberLabel;
+	errmsg=errmsg;
 	
 	for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
 	{

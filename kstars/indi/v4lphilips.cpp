@@ -1249,7 +1249,8 @@ void updateStream(void *p)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "VIDEO,%d,%d\n", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='VIDEO' size='%d' compsize='%d' />", totalBytes, compressedBytes);
+   //snprintf(frameSize, FRAME_ILEN, "VIDEO,%d,%d\n", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
 
@@ -1341,7 +1342,8 @@ void uploadFile(char * filename)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
+   //snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%d' compsize='%d' />", totalBytes, compressedBytes);
    frameLen = strlen(frameSize); 
    r = 0;
    

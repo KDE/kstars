@@ -13,6 +13,7 @@
  #define INDISTD_H
  
  #include <qobject.h>
+ #include <indi/lilxml.h>
  
  class INDI_E;
  class INDI_P;
@@ -22,7 +23,7 @@
  class StreamWG;
  class QSocketNotifier;
  class KProgressDialog;
-
+ 
  
  /* This class implmements standard properties on the device level*/
  class INDIStdDevice : public QObject
@@ -72,6 +73,7 @@
    unsigned char	*compressedBuffer;
    QSocketNotifier 	*sNotifier;
    QString		dataExt;
+   LilXML		*parser;
    
    public slots:
    void streamReceived();
