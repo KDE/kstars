@@ -44,6 +44,7 @@ class modCalcPrec;
 class modCalcApCoord;
 class modCalcDayLength;
 class modCalcAzel;
+class modCalcEquinox;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -78,6 +79,9 @@ Q_OBJECT
 
 		/**Generate frame for Day Length functions. */
 		void genDayFrame(void);
+
+		/**Generates the frame for the Equinox and Solstice functions */
+		void genEquinoxFrame(void);
 
 		/**Generate frame for geodetic coordinates frame. */
 		void genGeodCoordFrame(void);
@@ -115,7 +119,7 @@ Q_OBJECT
 		QVBox *vbox, *rightBox;
 		QString previousElection;
 
-		enum typeOfPanel {GenText, TimeText, GeoText, CoordText, JD, SidTime, DayLength, GeoCoord, Galactic, Precessor, Apparent, Azel};
+		enum typeOfPanel {GenText, TimeText, GeoText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel};
 		typeOfPanel rightPanel;
 
 		modCalcJD *JDFrame;
@@ -126,6 +130,7 @@ Q_OBJECT
 		modCalcApCoord *AppFrame;
 		modCalcDayLength *DayFrame;
 		modCalcAzel *AzelFrame;
+		modCalcEquinox *EquinoxFrame;
 };
 
 #endif

@@ -28,6 +28,7 @@
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
 #include "modcalcazel.h"
+#include "modcalcequinox.h"
 
 #include <qlistview.h>
 #include <qtextview.h>
@@ -65,7 +66,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	QListViewItem * stItem = new QListViewItem(timeItem,i18n("Sidereal Time"));
 	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day Duration"));
-//	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day Duration"));
+	QListViewItem * equinoxItem = new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
 //	dayItem->setPixmap(0,sunsetIcon);
 
 	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate Converters"));
@@ -116,6 +117,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genGeodCoordFrame();
 	if(!(election.compare(i18n("Day Duration"))))
 		genDayFrame();
+	if(!(election.compare(i18n("Equinoxes & Solstices"))))
+		genEquinoxFrame();
 
 		previousElection = election;
 
@@ -139,6 +142,9 @@ void AstroCalc::genTimeText(void)
 														 "</LI><LI>"
 														 "<B>Day duration:</B> Sunrise, Sunset and noon time and "
 														 "positions for those events"
+														 "</LI></LI>"
+														"<B>Equinoxes & Solstices:</B> Equinoxes, Solstices and duration of the "
+														"seasons"
 														 "</LI></UL>"
 														 "</QT>"));
 	
@@ -205,6 +211,8 @@ void AstroCalc::delRightPanel(void)
 		delete SidFrame;
 	else if (rightPanel == DayLength)
 		delete DayFrame;
+	else if (rightPanel == Equinox)
+		delete EquinoxFrame;
 	else if (rightPanel == GeoCoord)
 		delete GeodCoordFrame;
 	else if (rightPanel == Galactic)
@@ -239,6 +247,12 @@ void AstroCalc::genDayFrame(void)
 	rightPanel = DayLength;
 }
 
+void AstroCalc::genEquinoxFrame(void)
+{
+	delRightPanel();
+	EquinoxFrame = new modCalcEquinox(split,"Equinox");
+	rightPanel = Equinox;
+}
 
 void AstroCalc::genGeodCoordFrame(void)
 {
