@@ -36,6 +36,7 @@ public:
 /**Initialize the popup menus. Adds name and type labels, and possibly
 	*Rise/Set/Transit labels, Center/Track item, and Show Details item.
 	*@short initialize the right-click popup menu
+	*@param obj pointer to the skyobject which the menu describes
 	*@param name1 The primary object name
 	*@param name2 The (optional) secondary object name
 	*@param type a string identifying the object type
@@ -45,19 +46,19 @@ public:
 	*@param showTrail if true, the add/remove planet trail item is added
 	*@param addTrail if true, the add/remove planet trail item reads "Add Trail"
 	*/
-	void initPopupMenu( QString name1, QString name2, QString type,
-		bool showRiseSet=true, bool showCenterTrack=true, 
+	void initPopupMenu( SkyObject *obj, QString name1, QString name2, QString type,
+		bool showRiseSet=true, bool showCenterTrack=true,
 		bool showDetails=true, bool showTrail=false, bool addTrail=false );
 
-	void addLinksToMenu( bool showDSS=true, bool allowCustom=true );
+	void addLinksToMenu( SkyObject *obj, bool showDSS=true, bool allowCustom=true );
 	void createStarMenu( StarObject *star );
-	void createSkyObjectMenu( SkyObject *obj );
+	void createDeepSkyObjectMenu( SkyObject *obj );
 	void createCustomObjectMenu( SkyObject *obj );
 	void createPlanetMenu( SkyObject *p );
 	void createEmptyMenu( void );
-	void setRiseSetLabels( void );
+	void setRiseSetLabels( SkyObject *obj );
 	bool addINDI(void);
-	
+
 private:
 	KStars *ksw;
 

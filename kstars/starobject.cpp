@@ -21,19 +21,23 @@
 #include <qstring.h>
 #include <kdebug.h>
 
-StarObject::StarObject() : SkyObject(), SpType(""), soName( 0 )
-{
-}
-
 StarObject::StarObject( StarObject &o )
 	: SkyObject (o)
 {
 	SpType = o.SpType;
-	soName = o.soName;
+//SONAME: deprecated (?) JH
+//	soName = o.soName;
+	PM_RA = o.pmRA();
+	PM_Dec = o.pmDec();
+	Parallax = o.parallax();
+	Multiplicity = o.isMultiple();
+	Variability = o.isVariable();
 }
 
-StarObject::StarObject( dms r, dms d, double m, QString n, QString n2, QString sptype )
-	: SkyObject (0, r, d, m, n, n2, ""), SpType(sptype), soName( 0 )
+StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sptype,
+		double pmra, double pmdec, double par, bool mult, bool var )
+	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
 	QString lname = "";
 	if ( n.length() && n != i18n("star") ) {
@@ -47,8 +51,10 @@ StarObject::StarObject( dms r, dms d, double m, QString n, QString n2, QString s
 	setLongName( lname );
 }
 
-StarObject::StarObject( double r, double d, double m, QString n, QString n2, QString sptype )
-	: SkyObject (0, r, d, m, n, n2, ""), SpType(sptype), soName( 0 )
+StarObject::StarObject( double r, double d, float m, QString n, QString n2, QString sptype,
+		double pmra, double pmdec, double par, bool mult, bool var )
+	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
 	QString lname = "";
 	if ( n.length() && n != i18n("star") ) {
@@ -60,12 +66,6 @@ StarObject::StarObject( double r, double d, double m, QString n, QString n2, QSt
 		lname = n2;
 
 	setLongName( lname );
-}
-
-StarObject::StarObject( int t, dms r, dms d, double m, QString n, QString n2, QString lname, QString cat,
-						double a, double b, int pa, int pgc, int ugc, QString sptype )
-: SkyObject(t, r, d, m, n, n2, lname, cat, a, b, pa, pgc, ugc), SpType(sptype)
-{
 }
 
 QString StarObject::sptype( void ) {

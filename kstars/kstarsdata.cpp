@@ -25,6 +25,7 @@
 #include "kstarsdata.h"
 #include "kstarsmessagebox.h"
 #include "skymap.h"
+#include "deepskyobject.h"
 #include "filesource.h"
 #include "stardatasink.h"
 #include "ksfilereader.h"
@@ -74,10 +75,10 @@ KStarsData::KStarsData() {
 
 	//separate lists for each deep-sky catalog.  The objects are duplicates of
 	//deepSkyList, so do not delete them twice!
-  deepSkyListMessier.setAutoDelete( FALSE );
-  deepSkyListNGC.setAutoDelete( FALSE );
-  deepSkyListIC.setAutoDelete( FALSE );
-  deepSkyListOther.setAutoDelete( FALSE );
+	deepSkyListMessier.setAutoDelete( FALSE );
+	deepSkyListNGC.setAutoDelete( FALSE );
+	deepSkyListIC.setAutoDelete( FALSE );
+	deepSkyListOther.setAutoDelete( FALSE );
 
 	//ObjLabelList does not construct new objects, so no autoDelete needed
 	ObjLabelList.setAutoDelete( FALSE );
@@ -110,6 +111,7 @@ KStarsData::KStarsData() {
 	TypeName[8] = i18n( "galaxy" );
 	TypeName[9] = i18n( "comet" );
 	TypeName[10] = i18n( "asteroid" );
+	TypeName[11] = i18n( "constellation" );
 
 	// at startup times run forward
 	setTimeDirection( 0.0 );
@@ -121,11 +123,11 @@ KStarsData::~KStarsData() {
 	objects--;
 	checkDataPumpAction();
 
-  	delete oldOptions;
-        oldOptions = 0;
+	delete oldOptions;
+	oldOptions = 0;
 
-        delete options;
-        options = 0;
+	delete options;
+	options = 0;
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
@@ -137,7 +139,7 @@ KStarsData::~KStarsData() {
 	delete HourAngle;
 	delete PC;
 	delete jmoons;
-        delete initTimer;
+	delete initTimer;
 }
 
 bool KStarsData::readMWData( void ) {
@@ -356,25 +358,25 @@ bool KStarsData::readCLineData( void ) {
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-	  	QString line, name;
-		  int rah, ram, ras, dd, dm, ds;
-		  QChar sgn;
+		while ( !stream.eof() ) {
+			QString line, name;
+			int rah, ram, ras, dd, dm, ds;
+			QChar sgn;
 			QChar *mode;
 
-		  line = stream.readLine();
+			line = stream.readLine();
 
-		  rah = line.mid( 0, 2 ).toInt();
-	  	ram = line.mid( 2, 2 ).toInt();
-		  ras = line.mid( 4, 2 ).toInt();
+			rah = line.mid( 0, 2 ).toInt();
+			ram = line.mid( 2, 2 ).toInt();
+			ras = line.mid( 4, 2 ).toInt();
 
-		  sgn = line.at( 6 );
-	  	dd = line.mid( 7, 2 ).toInt();
-		  dm = line.mid( 9, 2 ).toInt();
-		  ds = line.mid( 11, 2 ).toInt();
-	    mode = new QChar( line.at( 13 ) );
-		  dms r; r.setH( rah, ram, ras );
-	  	dms d( dd, dm,  ds );
+			sgn = line.at( 6 );
+			dd = line.mid( 7, 2 ).toInt();
+			dm = line.mid( 9, 2 ).toInt();
+			ds = line.mid( 11, 2 ).toInt();
+			mode = new QChar( line.at( 13 ) );
+			dms r; r.setH( rah, ram, ras );
+			dms d( dd, dm,  ds );
 
 		  if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
@@ -395,36 +397,36 @@ bool KStarsData::readCNameData( void ) {
 	cnameFile = "cnames.dat";
 
 	if ( KSUtils::openDataFile( file, cnameFile ) ) {
-	  QTextStream stream( &file );
+		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-	  	QString line, name, abbrev;
-		  int rah, ram, ras, dd, dm, ds;
-		  QChar sgn;
+		while ( !stream.eof() ) {
+			QString line, name, abbrev;
+			int rah, ram, ras, dd, dm, ds;
+			QChar sgn;
 
-	  	line = stream.readLine();
+			line = stream.readLine();
 
-		  rah = line.mid( 0, 2 ).toInt();
-		  ram = line.mid( 2, 2 ).toInt();
-	  	ras = line.mid( 4, 2 ).toInt();
+			rah = line.mid( 0, 2 ).toInt();
+			ram = line.mid( 2, 2 ).toInt();
+			ras = line.mid( 4, 2 ).toInt();
 
-		  sgn = line.at( 6 );
-		  dd = line.mid( 7, 2 ).toInt();
-	  	dm = line.mid( 9, 2 ).toInt();
-		  ds = line.mid( 11, 2 ).toInt();
+			sgn = line.at( 6 );
+			dd = line.mid( 7, 2 ).toInt();
+			dm = line.mid( 9, 2 ).toInt();
+			ds = line.mid( 11, 2 ).toInt();
 
 			abbrev = line.mid( 13, 3 );
-		  name  = line.mid( 17 ).stripWhiteSpace();
+			name  = line.mid( 17 ).stripWhiteSpace();
 
-		  dms r; r.setH( rah, ram, ras );
-		  dms d( dd, dm,  ds );
+			dms r; r.setH( rah, ram, ras );
+			dms d( dd, dm,  ds );
 
-	  	if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
-		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name, abbrev, "" );
+			SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
 			cnameList.append( o );
 			ObjNames.append( o );
-	  }
+		}
 		file.close();
 
 		return true;
@@ -520,7 +522,7 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 	//parse multiplicity
 	mult = line->mid( 59, 1 ).toInt();
 
-	//parse variablility
+	//parse variablility...currently not using dmag or var
 	var = false; dmag = 0.0; vper = 0.0;
 	if ( line->at( 62 ) == '.' ) {
 		var = true;
@@ -550,13 +552,7 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 
 	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
 
-	StarObject *o = new StarObject(r, d, mag, name, gname, SpType);
-	o->setMultiple( mult );
-	o->setVariable( var );
-	o->setVRange( dmag );
-	o->setVPeriod( vper );
-	o->setProperMotion( pmra, pmdec );
-	o->setParallax( plx );
+	StarObject *o = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
 
 	starList.append(o);
 
@@ -566,7 +562,7 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 	}
 }
 
-/***Old SAO catalog code
+/***Old SAO catalog code...Ok to remove
 bool KStarsData::openSAOFile(int i) {
 	if (saoFileReader != 0) delete saoFileReader;
 	QFile file;
@@ -833,16 +829,10 @@ bool KStarsData::readDeepSkyData( void ) {
 					else name = longname;
 				}
 
-				// create new starobject or skyobject
-				// type 0 and 1 are starobjects
-				// all other are skyobjects
-				SkyObject *o = 0;
-				if (type < 2) {
-					if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
-					o = new StarObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
-				} else {
-					o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
-				}
+				// create new deepskyobject
+				DeepSkyObject *o = 0;
+				if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
+				o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 
 				// keep object in deep sky objects' list
 				deepSkyList.append( o );
@@ -859,7 +849,7 @@ bool KStarsData::readDeepSkyData( void ) {
 				}
 
 				// list of object names
-				ObjNames.append( o );
+				ObjNames.append( (SkyObject*)o );
 
 				//Add longname to objList, unless longname is the same as name
 				if ( !o->longname().isEmpty() && o->name() != o->longname() && o->name() != i18n( "star" ) ) {
@@ -978,13 +968,13 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 	return true;
 }
 
-bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList, bool showerrs ) {
+bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objList, bool showerrs ) {
 	bool checkValue;
 	bool badLine(false);
 	int countValidLines(0);
 	int countLine(0);
 
-	int iType(0);
+	unsigned char iType(0);
 	double RA(0.0), Dec(0.0), mag(0.0);
 	QString name(""); QString lname(""); QString spType("");
 
@@ -1001,7 +991,7 @@ bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList,
 			QString sub, msg;
 			QString line = stream.readLine();
 			++countLine;
-			iType = -1; //initialize to invalid values
+			iType = SkyObject::TYPE_UNKNOWN; //initialize to invalid values
 			RA = 0.0; Dec = 0.0; mag = 0.0;
 			name = ""; lname = ""; spType = "";
 
@@ -1015,7 +1005,7 @@ bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList,
 					iType = (*fields.at(0)).toInt( &checkValue );
 					if ( !checkValue ) {
 						badLine = true;
-						iType = -1;
+						iType = SkyObject::TYPE_UNKNOWN;
 						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
 							i18n( ": field 1 is not an integer." ) );
 					}
@@ -1063,7 +1053,7 @@ bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList,
 					if ( iType==0 || iType==1 ) Mark = 5;
 
 					//First, check for name:
-					if ( fields.count() > Mark && (*fields.at(Mark)).left(1)=="\"" ) {
+					if ( fields.count() > Mark && (*fields.at(Mark)).left(1)=="" ) {
 						//The name is (probably) more than one word...
 						name = (*fields.at(Mark)).mid(1, (*fields.at(Mark)).length()); //remove leading quote mark
 						if (name.right(1)=="\"") { //name was one word in quotes...
@@ -1081,17 +1071,18 @@ bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList,
 						name = (*fields.at(Mark));
 					}
 
-					if ( Mark==5 ) { //Stars...
-						if ( name == "" ) name = i18n( "star" );
-
-						StarObject *o = new StarObject( RA, Dec, mag, name, "", spType );
-						objList.append( o );
-					} else if ( iType > 2 && iType <= 8 ) { //Deep-sky objects...
+//Not handling custom star catalogs yet...
+//					if ( Mark==5 ) { //Stars...
+//						if ( name == "" ) name = i18n( "star" );
+//
+//						StarObject *o = new StarObject( RA, Dec, mag, name, "", spType );
+//						objList.append( o );
+//					} else if ( iType > 2 && iType <= 8 ) { //Deep-sky objects...
 						if ( name == "" ) name = i18n( "unnamed object" );
 
-						SkyObject *o = new SkyObject( iType, RA, Dec, mag, name, "", "" );
+						DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, name, "", "" );
 						objList.append( o );
-					}
+//					}
 				}
 			}
 		}
@@ -1375,7 +1366,7 @@ void KStarsData::sendClearCache() {
 	emit clearCache();
 }
 
-void KStarsData::addCatalog( QString name, QPtrList<SkyObject> oList ) {
+void KStarsData::addCatalog( QString name, QPtrList<DeepSkyObject> oList ) {
 	CustomCatalogs[ name ] = oList;
 	CustomCatalogs[ name ].setAutoDelete( TRUE );
 }
@@ -1453,11 +1444,11 @@ void KStarsData::slotInitialize() {
 				initError( "Cities.dat", true );
 			break;
 
-		case 2: //Load SAO stellar database//
+		case 2: //Load stellar database//
 
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
-				initError( "saoN.dat", true );
+				initError( "hipN.dat", true );
 			if (!readVARData())
 				initError( "valaav.dat", false);
 			if (!readADVTreeData())
@@ -1730,49 +1721,34 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Deep-sky objects. Keep lists separated for performance reasons
-    if ( options->drawMessier || options->drawMessImages ) {
-  		for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
-				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LST, geo->lat() );
-      }
-    }
-    if ( options->drawNGC ) {
-  		for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
-				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LST, geo->lat() );
-      }
-    }
-    if ( options->drawIC ) {
-  		for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
-				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LST, geo->lat() );
-      }
-    }
-    if ( options->drawOther ) {
-  		for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
-				if (needNewCoords) o->updateCoords( &num );
-				o->EquatorialToHorizontal( LST, geo->lat() );
-      }
-    }
-    /* old code was
-		for ( SkyObject *o = deepSkyList.first(); o; o = deepSkyList.next() ) {
-			bool update = false;
-			if ( o->catalog()=="M" &&
-					( options->drawMessier || options->drawMessImages ) ) update = true;
-			else if ( o->catalog()== "NGC" && options->drawNGC ) update = true;
-			else if ( o->catalog()== "IC" && options->drawIC ) update = true;
-			else if ( options->drawOther ) update = true;
-
-			if ( update ) {
+		if ( options->drawMessier || options->drawMessImages ) {
+			for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
 				if (needNewCoords) o->updateCoords( &num );
 				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-    */
+		if ( options->drawNGC ) {
+			for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LST, geo->lat() );
+			}
+		}
+		if ( options->drawIC ) {
+			for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LST, geo->lat() );
+			}
+		}
+		if ( options->drawOther ) {
+			for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
+				if (needNewCoords) o->updateCoords( &num );
+				o->EquatorialToHorizontal( LST, geo->lat() );
+			}
+		}
 
 		//Custom Catalogs
 		for ( unsigned int j=0; j<options->CatalogCount; ++j ) {
-			QPtrList<SkyObject> cat = CustomCatalogs[ options->CatalogName[j] ];
+			QPtrList<DeepSkyObject> cat = CustomCatalogs[ options->CatalogName[j] ];
 			if ( options->drawCatalog[j] ) {
 				for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );

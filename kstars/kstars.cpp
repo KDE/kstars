@@ -36,7 +36,7 @@
 #include "indidriver.h"
 
 KStars::KStars( bool doSplash ) :
-	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
+	KMainWindow(), DCOPObject("KStarsInterface"),
 	skymap(0), findDialog(0), centralWidget(0),
 	AAVSODialog(0), DialogIsObsolete(false)
 {

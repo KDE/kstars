@@ -129,16 +129,16 @@ SkyMap::~SkyMap() {
 	if ( IBoxes ) delete IBoxes;
 
 //delete any remaining object Image pointers
-	for ( SkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
+	for ( DeepSkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = data->deepSkyListNGC.first(); obj; obj = data->deepSkyListNGC.next() ) {
+	for ( DeepSkyObject *obj = data->deepSkyListNGC.first(); obj; obj = data->deepSkyListNGC.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = data->deepSkyListIC.first(); obj; obj = data->deepSkyListIC.next() ) {
+	for ( DeepSkyObject *obj = data->deepSkyListIC.first(); obj; obj = data->deepSkyListIC.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
-	for ( SkyObject *obj = data->deepSkyListOther.first(); obj; obj = data->deepSkyListOther.next() ) {
+	for ( DeepSkyObject *obj = data->deepSkyListOther.first(); obj; obj = data->deepSkyListOther.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
 }
@@ -611,10 +611,7 @@ void SkyMap::invokeKey( int key ) {
 	delete e;
 }
 
-int SkyMap::findPA( SkyObject *o, int x, int y ) {
-//	//no need for position angle for stars or open clusters
-//	if ( o->type() == 0 || o->type() == 1 || o->type() == 3 ) return 0;
-
+int SkyMap::findPA( DeepSkyObject *o, int x, int y ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/zoomFactor radians (so distance is always 100 pixels)
 	//this is 5730/zoomFactor degrees

@@ -74,6 +74,10 @@ public:
 	*/
 	virtual ~SkyPoint();
 
+////
+//// 1.  Setting Coordinates
+//// =======================
+
 /**Sets RA, Dec and RA0, Dec0 according to arguments.
 	*Does not set Altitude or Azimuth.
 	*@param r Right Ascension
@@ -183,6 +187,10 @@ public:
 	*/
 	void setGalLat( double gla ) { galLat.setD( gla ); }
 
+////
+//// 2. Returning coordinates.
+//// =========================
+
 /**@return a pointer to the catalog Right Ascension.
 	*/
 	const dms* ra0() const { return &RA0; };
@@ -215,6 +223,10 @@ public:
 	*/
 	const dms* gLong() const { return &galLong; }
 
+////
+//// 3. Coordinate conversions.
+//// ==========================
+
 /**Determine the (Altitude, Azimuth) coordinates of the
 	*SkyPoint from its (RA, Dec) coordinates, given the local
 	*sidereal time and the observer's latitude.
@@ -243,6 +255,22 @@ public:
 	*/
 	void setFromEcliptic( const dms *Obliquity, const dms *EcLong, const dms *EcLat );
 
+/** Computes galactic coordinates from equatorial coordinates referred to
+	* epoch 1950. RA and Dec are, therefore assumed to be B1950
+	* coordinates.
+	*/
+	void Equatorial1950ToGalactic(void);
+
+/** Computes equatorial coordinates referred to 1950 from galactic ones referred to
+	* epoch B1950. RA and Dec are, therefore assumed to be B1950
+	* coordinates.
+	*/
+	void GalacticToEquatorial1950(void);
+
+////
+//// 4. Coordinate update/corrections.
+//// =================================
+
 /**Determine the current coordinates (RA, Dec) from the catalog
 	*coordinates (RA0, Dec0), accounting for both precession and nutation.
 	*@param num pointer to KSNumbers object containing current values of
@@ -252,6 +280,15 @@ public:
 	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
 	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+
+/**Computes the apparent coordinates for this SkyPoint for any epoch,
+	*accounting for the effects of precession, nutation, and aberration.
+	*Similar to updateCoords(), but the starting epoch need not be
+	*J2000, and the target epoch need not be the present time.
+	*@param jd0 Julian Day which identifies the original epoch
+	*@param jdf Julian Day which identifies the final epoch
+	*/
+	void apparentCoord(long double jd0, long double jdf);
 
 /**Determine the effects of nutation for this SkyPoint.
 	*@param num pointer to KSNumbers object containing current values of
@@ -265,15 +302,6 @@ public:
 	*/
 	void aberrate(const KSNumbers *num);
 
-/**Computes the apparent coordinates for this SkyPoint for any epoch,
-	*accounting for the effects of precession, nutation, and aberration.
-	*Similar to updateCoords(), but the starting epoch need not be
-	*J2000, and the target epoch need not be the present time.
-	*@param jd0 Julian Day which identifies the original epoch
-	*@param jdf Julian Day which identifies the final epoch
-	*/
-	void apparentCoord(long double jd0, long double jdf);
-
 /**General case of precession. It precess from an original epoch to a
 	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent
 	*the coordinates for the original epoch and not for J2000, as usual.
@@ -282,17 +310,12 @@ public:
 	*/
 	void precessFromAnyEpoch(long double jd0, long double jdf);
 
-/** Computes galactic coordinates from equatorial coordinates referred to
-	* epoch 1950. RA and Dec are, therefore assumed to be B1950
-	* coordinates.
-	*/
-	void Equatorial1950ToGalactic(void);
+////
+//// 5. Calculating Rise/Set/Transit data.
+//// =====================================
 
-/** Computes equatorial coordinates referred to 1950 from galactic ones referred to
-	* epoch B1950. RA and Dec are, therefore assumed to be B1950
-	* coordinates.
-	*/
-	void GalacticToEquatorial1950(void);
+//// To Be Moved from SkyObject....
+
 
 protected:
 /**Precess this SkyPoint's catalog coordinates to the epoch described by the

@@ -256,7 +256,7 @@ public:
 	void drawConstellationNames( QPainter& psky, QFont& stdFont, double scale = 1.0 );
 	void drawStars( QPainter& psky, double scale = 1.0 );
 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
-	void drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
+	void drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
 	void drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
 	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
 	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );
@@ -398,13 +398,13 @@ private:
 	*/
 	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0, double scale = 1.0 );
 
-/**Determine the on-screen position angle of the SkyObject.  This is the sum
+/**Determine the on-screen position angle of a DeepSkyObject.  This is the sum
 	*of the object's sky position angle (w.r.t. North), and the position angle
 	*of "North" at the position of the object.  The latter is determined by
 	*constructing a test point with the same RA but a slightly increased Dec
 	*as the Object, and calculating the angle of a line connecing the object to
 	*its test point. */
-	int findPA( SkyObject *o, int x, int y );
+	int findPA( DeepSkyObject *o, int x, int y );
 
 /**Draw a planet.  This is an image if the planet image is loaded, the zoomlevel
 	*is high enough (but not so high that the image fills the screen), and the

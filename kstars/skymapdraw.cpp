@@ -381,16 +381,15 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	bool hideFaintStars( checkSlewing && options->hideStars );
 
 	if ( options->drawSAO ) {
+		float maglim = options->magLimitDrawStar;
+
 		//adjust maglimit for ZoomLevel
 		double lgmin = log10(MINZOOM);
 		double lgmax = log10(MAXZOOM);
 		double lgz = log10(zoomFactor());
-
-		double maglim = options->magLimitDrawStar;
-		if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawStar - options->magLimitDrawStarZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-//		if ( options->magLimitDrawStar < maglim ) maglim = options->magLimitDrawStar;
-
-		float sizeFactor = 6.0 + (lgz - lgmin);
+		if ( lgz < 0.75*lgmax ) {
+			maglim -= 2.0*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+		}
 
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
@@ -401,7 +400,8 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
-					int size = int( sizeFactor*( maglim - curStar->mag())/maglim ) + 1;
+					float sizeFactor = 1.0 + 1.9*( lgz - lgmin )/(lgmax - lgmin);
+					int size = int( sizeFactor*( maglim - curStar->mag()) ) + 1;
 
 					if ( size > 0 ) {
 						psky.setPen( QColor( options->colorScheme()->colorNamed( "SkyColor" ) ) );
@@ -423,7 +423,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	}
 }
 
-void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, QColor& color,
+void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
 			bool drawObject, bool drawImage, double scale )
 {
 	KStarsOptions* options = data->options;
@@ -438,7 +438,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, Q
 	QColor colorHST  = options->colorScheme()->colorNamed( "HSTColor" );
 
 	//Draw Deep-Sky Objects
-	for ( SkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
+	for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 
 		if ( drawObject || drawImage ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
@@ -568,9 +568,9 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 			psky.setBrush( NoBrush );
 			psky.setPen( QColor( options->colorScheme()->colorNamed( "NGCColor" ) ) );
 
-			QPtrList<SkyObject> cat = data->CustomCatalogs[ options->CatalogName[i] ];
+			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ options->CatalogName[i] ];
 
-			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
+			for ( DeepSkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
 				if ( checkVisibility( obj, fov(), XRange ) ) {
 					QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
@@ -638,10 +638,10 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 			if ( obj->name() == "Pluto" && ! data->options->drawPluto ) return;
 		}
 		if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
-			if ( obj->isCatalogM() && ! drawMessier ) return;
-			if ( obj->isCatalogNGC() && ! drawNGC ) return;
-			if ( obj->isCatalogIC() && ! drawIC ) return;
-			if ( obj->isCatalogNone() && ! drawOther ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) return;
 		}
 		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
@@ -687,7 +687,7 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	//Other
 	} else {
 		//Calculate object size in pixels
-		float majorAxis = obj->a();
+		float majorAxis = ((DeepSkyObject*)obj)->a();
 		if ( majorAxis == 0.0 && obj->type() == 1 ) majorAxis = 1.0; //catalog stars
 		size = int( majorAxis * scale * dms::PI * zoomFactor()/10800.0 );
 	}
@@ -1542,7 +1542,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 }
 
 void SkyMap::setMapGeometry() {
-	guidemax = zoomFactor()/10;
+	guidemax = int(zoomFactor()/10.0);
 
 	isPoleVisible = false;
 	if ( data->options->useAltAz ) {

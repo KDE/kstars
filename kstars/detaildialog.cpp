@@ -26,6 +26,7 @@
 #include "skymap.h"
 #include "skyobject.h"
 #include "starobject.h"
+#include "deepskyobject.h"
 #include "kstars.h"
 
 #include "detaildialog.h"
@@ -184,8 +185,8 @@ void DetailDialog::createLinksTab()
 
 void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 {
-   currentItemTitle = new QString();
-   currentItemURL = new QString();
+	currentItemTitle = new QString();
+	currentItemURL = new QString();
 
 	QFrame *generalTab= addPage(i18n("General"));
 
@@ -196,6 +197,8 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 	RiseSet = new RiseSetBox( selectedObject, lt, geo, generalTab );
 
 	StarObject *s;
+	DeepSkyObject *dso;
+
 	QString pname, oname;
 //arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
@@ -222,18 +225,20 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		}
 		break;
 	default: //deep-sky objects
-		if ( ! selectedObject->longname().isEmpty() ) {
-			pname = selectedObject->longname();
-			oname = selectedObject->name();
+		dso = (DeepSkyObject *)selectedObject;
+
+		if ( ! dso->longname().isEmpty() ) {
+			pname = dso->longname();
+			oname = dso->name();
 		} else {
-			pname = selectedObject->name();
+			pname = dso->name();
 		}
-		if ( ! selectedObject->name2().isEmpty() ) oname += ", " + selectedObject->name2();
-		if ( selectedObject->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( selectedObject->ugc() );
-		if ( selectedObject->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( selectedObject->pgc() );
+		if ( ! dso->name2().isEmpty() ) oname += ", " + dso->name2();
+		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
+		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				selectedObject->typeName(), QString("%1").arg(selectedObject->mag()), generalTab );
+				dso->typeName(), QString("%1").arg( dso->mag() ), generalTab );
 		break;
 	}
 

@@ -31,22 +31,24 @@
 
 #include <iostream>
 
+#include "dms.h"
 #include "geolocation.h"
+#include "skypoint.h"
 #include "skyobject.h"
 #include "starobject.h"
-#include "kstarsoptions.h"
+#include "deepskyobject.h"
+#include "skyobjectname.h"
 #include "ksplanet.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
 #include "kspluto.h"
 #include "kssun.h"
 #include "ksmoon.h"
-#include "skypoint.h"
-#include "skyobjectname.h"
-#include "dms.h"
+#include "planetcatalog.h"
+
+#include "kstarsoptions.h"
 #include "simclock.h"
 #include "skymap.h"
-#include "planetcatalog.h"
 #include "objectnamelist.h"
 #include "timezonerule.h"
 #include "lcgenerator.h"
@@ -313,7 +315,7 @@ public:
 		*@param olist the list of skyobjects, returned as a reference through this variable
 		*@bool showerrs if true, notify user of unparsed lines.
 		*/
-	bool readCustomData( QString filename, QPtrList<SkyObject> &olist, bool showerrs );
+	bool readCustomData( QString filename, QPtrList<DeepSkyObject> &olist, bool showerrs );
 
 	/**@short reset the faint limit for the stellar database
 		*@param newMagnitude the new faint limit.
@@ -328,7 +330,7 @@ public:
 		*This function simply appends the QPtrList as an entry in the
 		*CustomCatalogs QMap, with the name string used as the key.
 		*/
-	void addCatalog( QString name, QPtrList<SkyObject> );
+	void addCatalog( QString name, QPtrList<DeepSkyObject> );
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
@@ -530,15 +532,15 @@ private:
 	unsigned int StarCount;
 
   /** List of all deep sky objects */
-	QPtrList<SkyObject> deepSkyList;
+	QPtrList<DeepSkyObject> deepSkyList;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<SkyObject> deepSkyListMessier;
+	QPtrList<DeepSkyObject> deepSkyListMessier;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<SkyObject> deepSkyListNGC;
+	QPtrList<DeepSkyObject> deepSkyListNGC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<SkyObject> deepSkyListIC;
+	QPtrList<DeepSkyObject> deepSkyListIC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<SkyObject> deepSkyListOther;
+	QPtrList<DeepSkyObject> deepSkyListOther;
 
 	QPtrList<KSAsteroid> asteroidList;
 	QPtrList<KSComet> cometList;
@@ -558,7 +560,7 @@ private:
 	QPtrList<INDIHostsInfo> INDIHostsList;
 	ObjectNameList ObjNames;
 
-	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;
+	QMap<QString, QPtrList<DeepSkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
 	SimClock *Clock;

@@ -25,7 +25,7 @@
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
-#include "skyobject.h"
+#include "deepskyobject.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
@@ -56,7 +56,7 @@ public:
 
 /**@returns QPtrList of SkyObjects as parsed from the custom catalog file.
 	*/
-	QPtrList<SkyObject> objectList() { return objList; }
+	QPtrList<DeepSkyObject> objectList() { return objList; }
 private slots:
 /**Fill the "catalog filename" KLineEdit according to selection from
 	*a OpenFile dialog.
@@ -83,7 +83,7 @@ private:
 	QHBoxLayout *hlay;
 	KLineEdit *catName;
     KURLRequester *catFileName;
-	QPtrList<SkyObject> objList;
+	QPtrList<DeepSkyObject> objList;
 
 };
 

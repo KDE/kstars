@@ -24,92 +24,48 @@
 #include "dms.h"
 #include "geolocation.h"
 
-SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
-	Type = 0;
-	Magnitude = 0.0;
-	MajorAxis = 1.0;
-	MinorAxis = 0.0;
-	PositionAngle = 0;
-	UGC = 0;
-	PGC = 0;
-	Name = i18n("unnamed object");
-	Name2 = "";
-	LongName = Name;
-	Catalog = "";
-  calcCatalogFlags(); // optimize string handling
-	Image = 0;
-
-}
-
-SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
-	Type = o.type();
+SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
+	setType( o.type() );
 	Magnitude = o.mag();
-	MajorAxis = o.a();
-	MinorAxis = o.b();
-	PositionAngle = o.pa();
-	UGC = o.ugc();
-	PGC = o.pgc();
 	Name = o.name();
 	Name2 = o.name2();
-	Catalog = o.catalog();
-  calcCatalogFlags(); // optimize string handling
+	LongName = o.longname();
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
 	InfoList = o.InfoList;
 	InfoTitle = o.InfoTitle;
-	Image = o.image();
-
 	setLongName(o.longname());
 }
 
-SkyObject::SkyObject( int t, dms r, dms d, double m,
-						QString n, QString n2, QString lname, QString cat,
-						double a, double b, int pa, int pgc, int ugc ) : SkyPoint( r, d) {
-	Type = t;
+SkyObject::SkyObject( int t, dms r, dms d, float m,
+						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+	setType( t );
 	Magnitude = m;
-	MajorAxis = a;
-	MinorAxis = b;
-	PositionAngle = pa;
-	PGC = pgc;
-	UGC = ugc;
 	Name = n;
 	Name2 = n2;
-	Catalog = cat;
-  calcCatalogFlags(); // optimize string handling
-	Image = 0;
-
-	setLongName(lname);
+	setLongName( lname );
 }
 
-SkyObject::SkyObject( int t, double r, double d, double m,
-						QString n, QString n2, QString lname, QString cat,
-						double a, double b, int pa, int pgc, int ugc ) : SkyPoint( r, d) {
-	Type = t;
+SkyObject::SkyObject( int t, double r, double d, float m,
+						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+	setType( t );
 	Magnitude = m;
-	MajorAxis = a;
-	MinorAxis = b;
-	PositionAngle = pa;
-	PGC = pgc;
-	UGC = ugc;
 	Name = n;
 	Name2 = n2;
-	Catalog = cat;
-  calcCatalogFlags(); // optimize string handling
-	Image = 0;
-
-	setLongName(lname);
+	setLongName( lname );
 }
 
 void SkyObject::setLongName( const QString &longname ) {
-	if ( longname.isEmpty() )
+	if ( longname.isEmpty() ) {
 		if ( Name.length() )
 			LongName = Name;
 		else if ( Name2.length() )
 			LongName = Name2;
 		else
 			LongName = i18n( "unnamed object" );
-	else
+	} else {
 		LongName = longname;
+	}
 }
 
 QTime SkyObject::riseSetTime( long double jd, const GeoLocation *geo, bool rst ) {
@@ -329,25 +285,6 @@ bool SkyObject::checkCircumpolar( const dms *gLat ) {
 		return false;
 }
 
-float SkyObject::e( void ) const {
-	if ( MajorAxis==0.0 || MinorAxis==0.0 ) return 1.0; //assume circular
-	return MinorAxis / MajorAxis;
-}
-
-QImage* SkyObject::readImage( void ) {
-	QFile file;
-	if ( Image==0 ) { //Image not currently set; try to load it from disk.
-		QString fname = Name.lower().replace( QRegExp(" "), "" ) + ".png";
-
-		if ( KSUtils::openDataFile( file, fname ) ) {
-			file.close();
-			Image = new QImage( file.name(), "PNG" );
-		}
-	}
-
-	return Image;
-}
-
 QString SkyObject::typeName( void ) const {
         if ( Type==0 ) return i18n( "Star" );
 	else if ( Type==1 ) return i18n( "Catalog Star" );
@@ -361,12 +298,4 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==9 ) return i18n( "Comet" );
 	else if ( Type==10 ) return i18n( "Asteroid" );
 	else return i18n( "Unknown Type" );
-}
-
-// optimizate string handling
-void SkyObject::calcCatalogFlags() {
-  bIsCatalogIC   = (Catalog == "IC" );
-  bIsCatalogM    = (Catalog == "M" );
-  bIsCatalogNGC  = (Catalog == "NGC" );
-  bIsCatalogNone = (Catalog.isEmpty() );
 }

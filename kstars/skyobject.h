@@ -41,34 +41,20 @@
 
 class SkyObject : public SkyPoint {
 public:
-/**Default Constructor.  Sets all coordinates to zero.  Sets type to
-	*0 (star), magnitude to 0.0, name to "unnamed", all other strings
-	*are made empty.
-	*/
-	SkyObject();
-
 /**Constructor.  Set SkyObject data according to arguments.
 	*@param t Type of object
 	*@param r catalog Right Ascension
 	*@param d catalog Declination
 	*@param m magnitude (brightness)
-	*@param a major axis (arcminutes)
-	*@param b minor axis (arcminutes)
-	*@param pa position angle (degrees)
-	*@param pgc PGC catalog number
-	*@param ugc UGC catalog number
 	*@param n Primary name
 	*@param n2 Secondary name
-	*@param lname Long name (common name)
 	*/
-  SkyObject( int t, dms r, dms d, double m,
-						QString n="unnamed", QString n2="", QString lname="", QString cat="",
-						double a=0.0, double b=0.0,
-						int pa=0, int pgc=0, int ugc=0 );
+	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
+						float m=0.0, QString n=i18n("unnamed"), QString n2="", QString lname="" );
 
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
-	*above function only in argument types.
+	*above function only in data type of RA and Dec.
 	*@param t Type of object
 	*@param r catalog Right Ascension
 	*@param d catalog Declination
@@ -77,10 +63,8 @@ public:
 	*@param n2 Secondary name
 	*@param lname Long name (common name)
 	*/
-	SkyObject( int t, double r, double d, double m,
-						QString n="unnamed", QString n2="", QString lname="", QString cat="",
-						double a=0.0, double b=0.0,
-						int pa=0, int pgc=0, int ugc=0 );
+	SkyObject( int t, double r, double d, float m=0.0,
+						QString n=i18n("unnamed"), QString n2="", QString lname="" );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -97,7 +81,7 @@ public:
 	*/
 	enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
 		GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8, COMET=9,
-		ASTEROID=10, UNKNOWN};
+		ASTEROID=10, CONSTELLATION=11, TYPE_UNKNOWN };
 
 /**@return object's primary name.
 	*/
@@ -105,7 +89,7 @@ public:
 
 /**@return object's primary name, translated to local language.
 	*/
-	QString translatedName() const { return i18n(Name.local8Bit().data());}
+	QString translatedName() const { return i18n( Name.utf8() );}
 
 /**Set the object's primary name.
 	*@param name the object's primary name
@@ -130,25 +114,16 @@ public:
 	*/
 	void setLongName( const QString &longname="" );
 
-/**@return a QString identifying the object's primary catalog.
-	*@warning this is only used for deep-sky objects.  Possible values are:
-	*- "M" for Messier catalog
-	*- "NGC" for NGC catalog
-	*- "IC" for IC catalog
-	*- empty string is presumed to be an object in a custom catalog
-	*/
-	QString catalog( void ) const { return Catalog; }
-
 /**@return object's type identifier (int)
 	*@see enum TYPE
 	*/
-	int type( void ) const { return Type; }
+	int type( void ) const { return (int)Type; }
 
 /**Set the object's type identifier to the argument.
 	*@param t the object's type identifier (e.g., "SkyObject::PLANETARY_NEBULA")
 	*@see enum TYPE
 	*/
-	void setType( int t ) { Type = t; }
+	void setType( int t ) { Type = (unsigned char)t; }
 
 /**@return a string describing object's type.
 	*/
@@ -163,48 +138,11 @@ public:
 	*/
 	void setMag( float m ) { Magnitude = m; }
 
-/**@return the object's major axis length, in arcminutes.
+/**@return true if the object is a solar system body.
 	*/
-	float a( void ) const { return MajorAxis; }
+	bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
 
-/**@return the object's minor axis length, in arcminutes.
-	*/
-	float b( void ) const { return MinorAxis; }
-
-/**@return the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
-	*if the object's MinorAxis=0.0.
-	*/
-	float e( void ) const;
-
-/**@return the object's position angle, meausred clockwise from North.
-	*/
-	int pa( void ) const { return PositionAngle; }
-
-/**@return the object's UGC catalog number.  This is only valid for some
-	*deep-sky objects, and will return 0 in other cases.
-	*/
-	int ugc( void ) const { return UGC; }
-
-/**@return the object's PGC catalog number.  This is only valid for some
-	*deep-sky objects, and will return 0 in other cases.
-	*/
-	int pgc( void ) const { return PGC; }
-
-/**Read in this object's image from disk, unless it already exists in memory.
-	*@returns pointer to newly-created image.
-	*/
-	QImage *readImage();
-
-/**@return pointer to the object's inline image.  If it is currently
-	*a null pointer, it loads the image from disk.
-	*/
-	QImage *image() const { return Image; }
-
-/**delete the Image pointer, and set it to 0.
-	*/
-	void deleteImage() { delete Image; Image = 0; }
-
-/**Determine the rise or set time of an object.  Because solar system
+/**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.
 	*We compute the rise/set time for the object's current position, then
 	*compute the object's position at that time.  Finally, we recompute then
@@ -267,26 +205,6 @@ public:
 	*@return true if circumpolar
 	*/
 	bool checkCircumpolar( const dms *gLng );
-
-/**@return true if the object is in the Messier catalog
-	*/
-	bool isCatalogM()    { return bIsCatalogM; }
-
-/**@return true if the object is in the NGC catalog
-	*/
-	bool isCatalogNGC()  { return bIsCatalogNGC; }
-
-/**@return true if the object is in the IC catalog
-	*/
-	bool isCatalogIC()   { return bIsCatalogIC; }
-
-/**@return true if the object is not in a catalog
-	*/
-	bool isCatalogNone() { return bIsCatalogNone; }
-
-/**@return true if the object is a solar system body.
-	*/
-	bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
 
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
@@ -361,25 +279,9 @@ private:
 	*/
 	SkyPoint getNewCoords(long double jd, long double jd0, const GeoLocation *geo=0);
 
-/**Set the object's catalog flags based on the value of its Catalog QString member.
-	*/
-	void calcCatalogFlags();
-
-
-	int Type, PositionAngle;
-	int UGC, PGC;
-	float MajorAxis, MinorAxis, Magnitude;
-	QString Name;
-	QString Name2;
-	QString LongName;
-	QString Catalog;
-	QImage *Image;
-
-	// optimize string handling: precalculate boolean flags
-	bool bIsCatalogM;
-	bool bIsCatalogNGC;
-	bool bIsCatalogIC;
-	bool bIsCatalogNone;
+	unsigned char Type;
+	float Magnitude;
+	QString Name, Name2, LongName;
 };
 
 #endif

@@ -585,7 +585,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int iic_min = -1;
 		int iother_min = -1;
 
-		for ( SkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
+		for ( DeepSkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
 			bool checkObject = false;
 			if ( o->isCatalogM() &&
 					( data->options->drawMessier || data->options->drawMessImages ) ) checkObject = true;
@@ -625,7 +625,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 		for ( register unsigned int j=0; j<data->options->CatalogCount; ++j ) {
 			if ( data->options->drawCatalog[j] ) {
-				QPtrList<SkyObject> cat = data->CustomCatalogs[ data->options->CatalogName[j] ];
+				QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ data->options->CatalogName[j] ];
 
 				for ( register unsigned int i=0; i<cat.count(); ++i ) {
 					//test RA and dec to see if this object is roughly nearby
@@ -696,7 +696,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		if ( icat >= 0 && rmin < r0 ) { //was any object found within r0?
-			QPtrList<SkyObject> cat;
+			QPtrList<DeepSkyObject> cat;
 
 			switch (icat) {
 				case 0: //star
@@ -716,7 +716,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					setClickedPoint( clickedObject());
 
 					if (e->button() == RightButton ) {
-						pmenu->createSkyObjectMenu( clickedObject() );
+						pmenu->createDeepSkyObjectMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;

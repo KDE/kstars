@@ -36,7 +36,7 @@ KSPopupMenu::~KSPopupMenu()
 }
 
 void KSPopupMenu::createEmptyMenu( void ) {
-	initPopupMenu( i18n("Empty sky"), QString::null, QString::null, false, true, false );
+	initPopupMenu( 0, i18n( "Empty sky" ), QString::null, QString::null, false, true, false );
 
 	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
 	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
@@ -44,27 +44,25 @@ void KSPopupMenu::createEmptyMenu( void ) {
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
 	//Add name, rise/set time, center/track, and detail-window items
-	initPopupMenu(star->longname(), i18n( "Spectral type: %1" ).arg(star->sptype()),
+	initPopupMenu( star, star->longname(), i18n( "Spectral type: %1" ).arg(star->sptype()),
 		i18n( "star" ) );
 
 //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
 	if ( star->name() != i18n("star") ) {
-		addLinksToMenu();
+		addLinksToMenu( star );
 	} else {
 		insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
 		insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
 	}
 }
 
-void KSPopupMenu::createSkyObjectMenu( SkyObject *obj ) {
+void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 	QString TypeName = ksw->data()->TypeName[ obj->type() ];
 	QString secondName = obj->name2();
 	if ( obj->longname() != obj->name() ) secondName = obj->longname();
 
-	initPopupMenu(obj->translatedName(), i18n( secondName.local8Bit() ),
-		TypeName );
-
-	addLinksToMenu();
+	initPopupMenu( obj, obj->translatedName(), i18n( secondName.local8Bit() ), TypeName );
+	addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
@@ -72,28 +70,27 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 	QString secondName = obj->name2();
 	if ( obj->longname() != obj->name() ) secondName = obj->longname();
 
-	initPopupMenu(obj->translatedName(), i18n( secondName.local8Bit() ),
-		TypeName );
+	initPopupMenu( obj, obj->translatedName(), i18n( secondName.local8Bit() ), TypeName );
 
-	addLinksToMenu( true, false ); //don't allow user to add more links (temporary)
+	addLinksToMenu( obj, true, false ); //don't allow user to add more links (temporary)
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 	bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
-	initPopupMenu( p->translatedName(), "", i18n("Solar System"), true, true, true, true, addTrail );
-	addLinksToMenu(false); //don't offer DSS images for planets
+	initPopupMenu( p, p->translatedName(), "", i18n("Solar System"), true, true, true, true, addTrail );
+	addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::addLinksToMenu( bool showDSS, bool allowCustom ) {
+void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom ) {
 	QString sURL;
 	QStringList::Iterator itList;
 	QStringList::Iterator itTitle;
 
-	itList  = ksw->map()->clickedObject()->ImageList.begin();
-	itTitle = ksw->map()->clickedObject()->ImageTitle.begin();
+	itList  = obj->ImageList.begin();
+	itTitle = obj->ImageTitle.begin();
 
 	int id = 100;
-	for ( ; itList != ksw->map()->clickedObject()->ImageList.end(); ++itList ) {
+	for ( ; itList != obj->ImageList.end(); ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
 		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotImage( int ) ), 0, id++ );
@@ -105,13 +102,13 @@ void KSPopupMenu::addLinksToMenu( bool showDSS, bool allowCustom ) {
 	  insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
 	  insertSeparator();
 	}
-	else if ( ksw->map()->clickedObject()->ImageList.count() ) insertSeparator();
+	else if ( obj->ImageList.count() ) insertSeparator();
 
-	itList  = ksw->map()->clickedObject()->InfoList.begin();
-	itTitle = ksw->map()->clickedObject()->InfoTitle.begin();
+	itList  = obj->InfoList.begin();
+	itTitle = obj->InfoTitle.begin();
 
 	id = 200;
-	for ( ; itList != ksw->map()->clickedObject()->InfoList.end(); ++itList ) {
+	for ( ; itList != obj->InfoList.end(); ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
 		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotInfo( int ) ), 0, id++ );
@@ -203,7 +200,7 @@ bool KSPopupMenu::addINDI(void)
 
 }
 
-void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
 	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail ) {
 	clear();
 
@@ -256,7 +253,7 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 		insertItem( pmTransitTime );
 		insertItem( pmSetTime );
 
-		setRiseSetLabels();
+		setRiseSetLabels( obj );
 	}
 
 	//Insert item for centering on object
@@ -272,7 +269,7 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 
 	//Insert "Add/Remove Label" item
 	if ( showLabel ) {
-		if ( ksw->map()->isObjectLabeled( ksw->map()->clickedObject() ) ) {
+		if ( ksw->map()->isObjectLabeled( obj ) ) {
 			insertItem( i18n( "Remove Label" ), ksw->map(), SLOT( slotRemoveObjectLabel() ) );
 		} else {
 			insertItem( i18n( "Attach Label" ), ksw->map(), SLOT( slotAddObjectLabel() ) );
@@ -290,13 +287,13 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 	insertSeparator();
 
 	if (addINDI())
-  	  insertSeparator();
+		insertSeparator();
 }
 
-void KSPopupMenu::setRiseSetLabels( void ) {
+void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	QString rt, rt2, rt3;
-	QTime rtime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
-	dms rAz = ksw->map()->clickedObject()->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
+	QTime rtime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
+	dms rAz = obj->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
 
 	if ( rtime.isValid() ) {
 		int hour = rtime.hour();
@@ -314,15 +311,15 @@ void KSPopupMenu::setRiseSetLabels( void ) {
 //			i18n(", Azimuth: ") + rt3;
 		rt = i18n( "Rise time: %1" ).arg( rt2 );
 
-	} else if ( ksw->map()->clickedObject()->alt()->Degrees() > 0 ) {
+	} else if ( obj->alt()->Degrees() > 0 ) {
 		rt = i18n( "No rise time: Circumpolar" );
 	} else {
 		rt = i18n( "No rise time: Never rises" );
 	}
 
-	QTime stime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), false );
+	QTime stime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), false );
 	QString st, st2, st3;
-	dms sAz = ksw->map()->clickedObject()->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
+	dms sAz = obj->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {
 		int hour = stime.hour();
 		int min = stime.minute();
@@ -337,15 +334,15 @@ void KSPopupMenu::setRiseSetLabels( void ) {
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.arcmin() );
 		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( st2 );
 
-	} else if ( ksw->map()->clickedObject()->alt()->Degrees() > 0 ) {
+	} else if ( obj->alt()->Degrees() > 0 ) {
 		st = i18n( "No set time: Circumpolar" );
 	} else {
 		st = i18n( "No set time: Never rises" );
 	}
 
-	QTime ttime = ksw->map()->clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
+	QTime ttime = obj->transitTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString tt, tt2, tt3;
-	dms trAlt = ksw->map()->clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
+	dms trAlt = obj->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
 
 	if ( ttime.isValid() ) {
 		int hour = ttime.hour();
