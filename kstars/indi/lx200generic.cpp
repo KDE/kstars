@@ -88,7 +88,7 @@ INumberVectorProperty eqNum = {
 };
 
 /* Fundamental group */
-static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS)};
+ISwitchVectorProperty PowerSP		= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS)};
 static IText PortT[]			= {{"PORT", "Port", "/dev/ttyS0"}};
 static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
 
@@ -105,7 +105,7 @@ static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set"
 
 static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS)};
 
-static ISwitchVectorProperty	ParkSP = {mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ParkS, NARRAY(ParkS) };
+ISwitchVectorProperty	ParkSP = {mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ParkS, NARRAY(ParkS) };
 
 static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS)};
 
@@ -145,7 +145,7 @@ static ITextVectorProperty SiteName = { mydev, "Site Name", "", SITE_GROUP, IP_R
 
 void changeLX200GenericDeviceName(char * newName)
 {
-  strcpy(PowerSw.device , newName);
+  strcpy(PowerSP.device , newName);
   strcpy(Port.device , newName);
   strcpy(AlignmentSw.device, newName);
 
@@ -313,7 +313,7 @@ void LX200Generic::ISGetProperties(const char *dev)
 
   // COMM_GROUP
   IDDefText   (&Port, NULL);
-  IDDefSwitch (&PowerSw, NULL);
+  IDDefSwitch (&PowerSP, NULL);
   IDDefSwitch (&AlignmentSw, NULL);
 
   // BASIC_GROUP
@@ -716,10 +716,10 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 
 	// FIRST Switch ALWAYS for power
-	if (!strcmp (name, PowerSw.name))
+	if (!strcmp (name, PowerSP.name))
 	{
-	 IUResetSwitches(&PowerSw);
-	 IUUpdateSwitches(&PowerSw, states, names, n);
+	 IUResetSwitches(&PowerSP);
+	 IUUpdateSwitches(&PowerSP, states, names, n);
    	 powerTelescope();
 	 return;
 	}
@@ -745,13 +745,13 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
            
 	   ParkSP.s = IPS_IDLE;
 	   
+
 	   if ( (err = getSDTime(&STime[0].value)) < 0)
 	   {
   	  	handleError(&ParkSP, err, "Get siderial time");
 	  	return;
 	   }
 	   
-	   /* Polar */
 	   if (AlignmentS[0].s == ISS_ON)
 	   {
 	     targetRA  = STime[0].value;
@@ -759,7 +759,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	     setObjectRA(targetRA);
 	     setObjectDEC(targetDEC);
 	   }
-	   /* AltAz */
+	   
 	   else if (AlignmentS[1].s == ISS_ON)
 	   {
 	     targetRA  = calculateRA(STime[0].value);
@@ -772,11 +772,12 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   }
 	   else
 	   {
-	     IDSetSwitch(&ParkSP, "You can only park the telescope in Polar or AltAz modes");
+	     IDSetSwitch(&ParkSP, "You can only park the telescope in Polar or AltAz modes.");
 	     return;
 	   }
 	   
 	   IDSetNumber(&SDTime, NULL);
+	   
 	   currentSet = LX200_PARK;
 	   handleCoordSet();
 	}
@@ -1084,8 +1085,8 @@ void LX200Generic::handleError(ISwitchVectorProperty *svp, int err, const char *
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
       PowerS[1].s = ISS_ON;
-      PowerSw.s = IPS_BUSY;
-      IDSetSwitch(&PowerSw, "Telescope is not responding to commands, will retry in 10 seconds.");
+      PowerSP.s = IPS_BUSY;
+      IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetSwitch(svp, NULL);
       IEAddTimer(10000, retryConnection, NULL);
@@ -1117,8 +1118,8 @@ void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
       PowerS[1].s = ISS_ON;
-      PowerSw.s = IPS_BUSY;
-      IDSetSwitch(&PowerSw, "Telescope is not responding to commands, will retry in 10 seconds.");
+      PowerSP.s = IPS_BUSY;
+      IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetNumber(nvp, NULL);
       IEAddTimer(10000, retryConnection, NULL);
@@ -1150,8 +1151,8 @@ void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *ms
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
       PowerS[1].s = ISS_ON;
-      PowerSw.s = IPS_BUSY;
-      IDSetSwitch(&PowerSw, "Telescope is not responding to commands, will retry in 10 seconds.");
+      PowerSP.s = IPS_BUSY;
+      IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetText(tvp, NULL);
       IEAddTimer(10000, retryConnection, NULL);
@@ -1182,7 +1183,7 @@ void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *ms
 
 bool LX200Generic::isTelescopeOn(void)
 {
-  return (PowerSw.sp[0].s == ISS_ON);
+  return (PowerSP.sp[0].s == ISS_ON);
 }
 
 static void retryConnection(void * p)
@@ -1191,16 +1192,16 @@ static void retryConnection(void * p)
   
   if (testTelescope())
   {
-    PowerSw.s = IPS_IDLE;
-    IDSetSwitch(&PowerSw, "The connection to the telescope is lost.");
+    PowerSP.s = IPS_IDLE;
+    IDSetSwitch(&PowerSP, "The connection to the telescope is lost.");
     return;
   }
   
   PowerS[0].s = ISS_ON;
   PowerS[1].s = ISS_OFF;
-  PowerSw.s = IPS_OK;
+  PowerSP.s = IPS_OK;
    
-  IDSetSwitch(&PowerSw, "The connection to the telescope has been resumed.");
+  IDSetSwitch(&PowerSP, "The connection to the telescope has been resumed.");
 
 }
 
@@ -1527,14 +1528,15 @@ int LX200Generic::handleCoordSet()
 
 	  if ((err = Slew()))
 	  {
-	    slewError(err);
-	    return (-1);
+	    	slewError(err);
+	    	return (-1);
 	  }
-
+		
 	  ParkSP.s = IPS_BUSY;
 	  eqNum.s = IPS_BUSY;
-	  IDSetSwitch(&ParkSP, "Attempting to park the telescope...");
 	  IDSetNumber(&eqNum, NULL);
+	  IDSetSwitch(&ParkSP, "The telescope is slewing to park position. Turn off the telescope after park is complete.");
+	  
 	  break;
 	  
    }
@@ -1555,7 +1557,7 @@ int LX200Generic::getOnSwitch(ISwitchVectorProperty *sp)
 
 int LX200Generic::checkPower(ISwitchVectorProperty *sp)
 {
-  if (PowerSw.s != IPS_OK)
+  if (PowerSP.s != IPS_OK)
   {
     IDMessage (thisDevice, "Cannot change a property while the telescope is offline.");
     sp->s = IPS_IDLE;
@@ -1569,7 +1571,7 @@ int LX200Generic::checkPower(ISwitchVectorProperty *sp)
 int LX200Generic::checkPower(INumberVectorProperty *np)
 {
 
-  if (PowerSw.s != IPS_OK)
+  if (PowerSP.s != IPS_OK)
   {
     IDMessage (thisDevice, "Cannot change a property while the telescope is offline.");
     np->s = IPS_IDLE;
@@ -1584,7 +1586,7 @@ int LX200Generic::checkPower(INumberVectorProperty *np)
 int LX200Generic::checkPower(ITextVectorProperty *tp)
 {
 
-  if (PowerSw.s != IPS_OK)
+  if (PowerSP.s != IPS_OK)
   {
     IDMessage (thisDevice, "Cannot change a property while the telescope is offline.");
     tp->s = IPS_IDLE;
@@ -1598,7 +1600,7 @@ int LX200Generic::checkPower(ITextVectorProperty *tp)
 
 void LX200Generic::powerTelescope()
 {
-     switch (PowerSw.sp[0].s)
+     switch (PowerSP.sp[0].s)
      {
       case ISS_ON:
 
@@ -1606,28 +1608,28 @@ void LX200Generic::powerTelescope()
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSw, "Error connecting to port %s\n", Port.tp[0].text);
+	   IDSetSwitch (&PowerSP, "Error connecting to port %s\n", Port.tp[0].text);
 	   return;
 	 }
 	 if (testTelescope())
 	 {   
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSw, "Error connecting to Telescope. Telescope is offline.");
+	   IDSetSwitch (&PowerSP, "Error connecting to Telescope. Telescope is offline.");
 	   return;
 	 }
 
         IDLog("telescope test successfful\n");
-	PowerSw.s = IPS_OK;
-	IDSetSwitch (&PowerSw, "Telescope is online. Retrieving basic data...");
+	PowerSP.s = IPS_OK;
+	IDSetSwitch (&PowerSP, "Telescope is online. Retrieving basic data...");
 	getBasicData();
 	break;
 
      case ISS_OFF:
          PowerS[0].s = ISS_OFF;
 	 PowerS[1].s = ISS_ON;
-         PowerSw.s = IPS_IDLE;
-         IDSetSwitch (&PowerSw, "Telescope is offline.");
+         PowerSP.s = IPS_IDLE;
+         IDSetSwitch (&PowerSP, "Telescope is offline.");
 	 IDLog("Telescope is offline.");
 	 Disconnect();
 	 break;
@@ -1656,7 +1658,7 @@ void LX200Generic::slewError(int slewCode)
 void LX200Generic::getAlignment()
 {
 
-   if (PowerSw.s != IPS_OK)
+   if (PowerSP.s != IPS_OK)
     return;
 
    char align = ACK();
