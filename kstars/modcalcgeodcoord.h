@@ -57,6 +57,8 @@ class modCalcGeodCoord : public QVBox  {
 
 	private:
 
+		void showLongLat(void);
+
 		QRadioButton *cartRadio, *spheRadio;
 		QVBox *vbox, *rightBox;
 		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;

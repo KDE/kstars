@@ -19,6 +19,8 @@
 #include "dms.h"
 #include "dmsbox.h"
 #include "geolocation.h"
+#include "kstars.h"
+
 #include <qwidget.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
@@ -158,6 +160,8 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 // GeoLocation object
 	
 	geoPlace = new GeoLocation();
+
+	showLongLat();
 		
 // slots
 
@@ -175,6 +179,15 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 
 modCalcGeodCoord::~modCalcGeodCoord(){
 	delete rightBox;
+}
+
+void modCalcGeodCoord::showLongLat(void)
+{
+
+	KStars *ks = (KStars*)kapp->mainWidget();
+	lonGeoBox->show( ks->geo()->lng() );
+	latGeoBox->show( ks->geo()->lat() );
+	altGeoName->setText( QString("0.0") );
 }
 
 void modCalcGeodCoord::setEllipsoid(int index) {
