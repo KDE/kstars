@@ -19,18 +19,20 @@
 #define FOCUSDIALOG_H
 
 #include <kdialogbase.h>
+#include "focusdialogdlg.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
 class KLineEdit;
 class SkyPoint;
+class FocusDialogDlg;
 
 /**@Short Dialog to provide a way to set the focus coordinates manually.
   *@author Jason Harris
 	*@version 0.9
   */
 
-class FocusDialog : public KDialogBase  {
+class FocusDialog : public KDialogBase {
 	Q_OBJECT
 public:
 	/**Constructor. */
@@ -42,6 +44,8 @@ public:
 	/**@returns pointer to the SkyPoint described by the entered RA, Dec */
 	SkyPoint* point() const { return Point; }
 
+	/**@returns suggested size of focus window. */
+	QSize sizeHint() const;
 public slots:
 	/**If text has been entered in both KLineEdits, enable the Ok button. */
 	void checkLineEdits();
@@ -60,6 +64,7 @@ private:
 	QHBoxLayout *hlayRA, *hlayDec;
 	KLineEdit *editRA, *editDec;
 	SkyPoint *Point;
+	FocusDialogDlg *fdlg;
 };
 
 #endif

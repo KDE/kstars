@@ -18,6 +18,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <qvbox.h>
 
 #include <kdebug.h>
 #include <klineedit.h>
@@ -33,6 +34,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 
 	Point = 0; //initialize pointer to null
 
+	/**
 	QFrame *page = plainPage();
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlayRA = new QHBoxLayout();
@@ -55,6 +57,17 @@ FocusDialog::FocusDialog( QWidget *parent )
 
 	connect( editRA, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( editDec, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	**/
+
+	fdlg = new FocusDialogDlg(this);
+	setMainWidget(fdlg);
+	this->show();
+
+	connect( fdlg->editRA, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	connect( fdlg->editDec, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+//	connect( fdlg->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+//	connect( fdlg->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
 
 	enableButtonOK( false ); //disable until both lineedits are filled
@@ -73,7 +86,7 @@ void FocusDialog::slotOk() {
 }
 
 void FocusDialog::checkLineEdits() {
-	if ( editRA->text().length() > 0 && editDec->text().length() > 0 )
+	if ( fdlg->editRA->text().length() > 0 && fdlg->editDec->text().length() > 0 )
 		enableButtonOK( true );
 	else
 		enableButtonOK( false );
@@ -103,8 +116,8 @@ void FocusDialog::validatePoint( void ) {
 	for ( unsigned int i=0; i<2; ++i ) { //loop twice for RA and Dec
 		valueFound[i] = false;
 
-		if ( i==0 ) entry = editRA->text().stripWhiteSpace();
-		else entry = editDec->text().stripWhiteSpace();
+		if ( i==0 ) entry = fdlg->editRA->text().stripWhiteSpace();
+		else entry = fdlg->editDec->text().stripWhiteSpace();
 
 		//Try simplest cases: integer or double representation
 		d = entry.toInt( &checkValue );
@@ -184,8 +197,8 @@ void FocusDialog::validatePoint( void ) {
 		if ( RA.Degrees() < 0.0 || RA.Degrees() > 360.0 ) {
 			if ( KMessageBox::warningYesNo( 0,
 						warnRAMess, i18n( "RA Out-of-Bounds" ) )==KMessageBox::No ) {
-				editRA->clear();
-				editRA->setFocus();
+				fdlg->editRA->clear();
+				fdlg->editRA->setFocus();
 				return;
 			}
 		}
@@ -194,7 +207,7 @@ void FocusDialog::validatePoint( void ) {
 			KMessageBox::sorry( 0,
 					warnDecMess, i18n( "Dec Out-of-Bounds" ) );
 			editDec->clear();
-			if ( ! editRA->text().isEmpty() ) editDec->setFocus();
+			if ( ! fdlg->editRA->text().isEmpty() ) fdlg->editDec->setFocus();
 			return;
 		}
 
@@ -202,6 +215,11 @@ void FocusDialog::validatePoint( void ) {
 		emit QDialog::accept();
 		close();
 	}
+}
+
+QSize FocusDialog::sizeHint() const
+{
+  return QSize(240,170);
 }
 
 #include "focusdialog.moc"
