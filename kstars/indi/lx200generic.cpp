@@ -31,6 +31,34 @@
 #include "lx200gps.h"
 #include "lx200classic.h"
 
+/*
+** Return the timezone offset in hours (as a double, so fractional
+** hours are possible, for instance in Newfoundland). Also sets
+** daylight on non-Linux systems to record whether DST is in effect.
+*/
+
+#ifndef __Linux__
+static int daylight = 0;
+#endif
+
+static inline double timezoneOffset()
+{
+/* 
+** In Linux, there's a timezone variable that holds the timezone offset;
+** Otherwise, we need to make a little detour. The directions of the offset
+** are different: CET is -3600 in Linux and +3600 elsewhere.
+*/
+#ifdef __Linux__
+  return timezone / (60 * 60);
+#else
+  time_t now;
+  struct tm *tm;
+  now = time(NULL);
+  tm = localtime(&now);
+  daylight = tm->tm_isdst;
+  return -(tm->tm_gmtoff) / (60 * 60);
+#endif
+}
 
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
@@ -423,7 +451,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		else UTCOffset = ltp->tm_hour - utm.tm_hour + 24;*/
 		tzset();
 		
-		UTCOffset = timezone / (60 * 60);
+		UTCOffset = timezoneOffset();
 		
 		IDLog("local time is %02d:%02d:%02d\nUTCOffset: %g\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec, UTCOffset);
 		
@@ -1804,7 +1832,7 @@ void LX200Generic::updateTime()
   
   tzset();
   
-  UTCOffset = timezone / (60 * 60);
+  UTCOffset = timezoneOffset();
   IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
   
 	
