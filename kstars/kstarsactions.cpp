@@ -759,8 +759,13 @@ void KStars::slotColorScheme() {
 
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
-	Options::setFOVName( symbolName );
-	data()->fovSymbol.setName( symbolName );
+	FOV f( symbolName ); //read data from fov.dat
+	
+	Options::setFOVName( f.name() );
+	Options::setFOVSize( f.size() );
+	Options::setFOVShape( f.shape() );
+	Options::setFOVColor( f.color() );
+	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );
 	data()->fovSymbol.setShape( Options::fOVShape() );
 	data()->fovSymbol.setColor( Options::fOVColor().name() );

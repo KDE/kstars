@@ -16,14 +16,60 @@
  ***************************************************************************/
 
 #include <qpainter.h>
+#include <qfile.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "fov.h"
 
 //------------FOV-----------------//
 FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Size( sz ), Shape( sh ), Color( col )
 {}
+
+FOV::FOV() : Name( i18n( "No FOV" ) ), Size( 0.0 ), Shape( 0 ), Color( "#FFFFFF" )
+{}
+
+FOV::FOV( QString sname ) {
+	QFile f;
+	f.setName( locateLocal( "appdata", "fov.dat" ) );
+	
+	int sh;
+	float sz;
+
+	if ( f.open( IO_ReadOnly ) ) {
+		QTextStream stream( &f );
+		while ( !stream.eof() ) {
+			QStringList fields = QStringList::split( ":", stream.readLine() );
+			bool ok( false );
+
+			if ( fields.count() == 4 ) {
+				if ( fields[0] == sname ) {
+					sz = (float)(fields[1].toDouble( &ok ));
+					if ( ok ) {
+						sh = fields[2].toInt( &ok );
+						if ( ok ) {
+							Name = fields[0];
+							Size = sz;
+							Shape = sh;
+							Color = fields[3]; 
+							
+							return;
+						}
+					}
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	//If we get here, then the symbol could not be assigned
+	Name = i18n( "No FOV" );
+	Size = 0.0;
+	Shape = 0;
+	Color = "#FFFFFF";
+}
 
 void FOV::draw( QPainter &p, float pixelsize ) {
 	p.setPen( QColor( color() ) );
