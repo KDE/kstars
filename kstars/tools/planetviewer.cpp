@@ -207,7 +207,7 @@ void PlanetViewer::initPlotObjects() {
 	
 	for ( unsigned int i=0; i<9; ++i ) {
 		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
-		planetLabel[i] = new KPlotObject( i18n(pName[i].ascii()), pColor[i], KPlotObject::LABEL );
+		planetLabel[i] = new KPlotObject( i18n(pName[i].local8Bit()), pColor[i], KPlotObject::LABEL );
 		
 		double s, c;
 		KSPlanetBase *p = PCat.findByName( pName[i] );

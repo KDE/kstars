@@ -62,6 +62,7 @@ private:
 	KStarsDateTime ut;
 	PlanetCatalog PCat;
 	double scale;
+	double cosInclination;
 	bool isClockRunning;
 	QTimer tmr;
 	int UpdateInterval[9], LastUpdate[9];

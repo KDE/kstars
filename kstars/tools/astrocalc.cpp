@@ -27,10 +27,10 @@
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
 #include "modcalcazel.h"
-#include "modcalcequinox.h"
 #include "modcalcplanets.h"
 #include "modcalceclipticcoords.h"
 #include "modcalcangdist.h"
+#include "modcalcequinox.h"
 
 #include <klocale.h>
 #include <qlistview.h>

@@ -26,7 +26,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout8</cstring>
+                <cstring>layout2</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -61,6 +61,36 @@
                 </widget>
                 <spacer>
                     <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>21</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Inclination:</string>
+                    </property>
+                </widget>
+                <widget class="QSpinBox">
+                    <property name="name">
+                        <cstring>inclinationSpinBox</cstring>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
                         <cstring>spacer1</cstring>
                     </property>
                     <property name="orientation">
@@ -71,7 +101,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>310</width>
+                            <width>130</width>
                             <height>20</height>
                         </size>
                     </property>
@@ -146,6 +176,7 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>pvplotwidget.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>timestepbox.h</includehint>
     <includehint>extdateedit.h</includehint>
 </includehints>
