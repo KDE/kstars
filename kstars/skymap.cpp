@@ -411,12 +411,7 @@ void SkyMap::slewFocus( void ) {
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
 		//Also, now that the focus has re-centered, engage tracking.
-		if ( ksw->options()->useAltAz ) {
-			focus()->setAlt( destination()->alt() );
-			focus()->setAz( destination()->az() );
-		} else {
-			setFocus( destination() );
-		}
+		setFocus( destination() );
 
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
