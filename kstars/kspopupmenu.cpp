@@ -43,7 +43,7 @@ KSPopupMenu::~KSPopupMenu()
 }
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
-	initPopupMenu( nullObj, i18n( "Empty sky" ), QString::null, QString::null, true, true, false );
+	initPopupMenu( nullObj, i18n( "Empty sky" ), QString::null, QString::null, true, true, false, false, false, true, false );
 
 	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
 	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
@@ -212,9 +212,10 @@ bool KSPopupMenu::addINDI(void)
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
-	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, bool showAngularDistance ) {
+		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, 
+		bool showAngularDistance, bool showObsList ) {
+	
 	clear();
-
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
 
 	bool showLabel( true );
@@ -303,9 +304,13 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 		}
 	}
 
-	//JH: need to check whether object is in observing list
-	insertItem( i18n("Add to List"), ksw->observingList(), SLOT( slotAddObject() ) );
-
+	if ( showObsList && obj ) {
+		if ( ksw->observingList()->contains( obj ) )
+			insertItem( i18n("Remove from List"), ksw->observingList(), SLOT( slotRemoveObject() ) );
+		else 
+			insertItem( i18n("Add to List"), ksw->observingList(), SLOT( slotAddObject() ) );
+	}
+	
 	if ( showTrail && obj && obj->isSolarSystem() ) {
 		if ( addTrail ) {
 			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );

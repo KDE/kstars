@@ -92,48 +92,56 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 			obj->typeName() );
 }
 
+void ObservingList::slotRemoveObject( SkyObject *o ) {
+	if ( !o ) 
+		o = ks->map()->clickedObject();
+	
+	obsList.remove(o);
+	if ( o == LogObject ) 
+		saveCurrentUserLog();
+		
+	//Remove entry from table
+	bool objectFound = false;
+	QListViewItemIterator it( ui->table );
+	while ( it.current() ) {
+		QListViewItem *item = it.current();
+			
+			//If the object is named "star" then match coordinates instead of name
+		if ( o->translatedName() == i18n( "star" ) ) {
+			if ( item->text(1) == o->ra()->toHMSString() 
+							&& item->text(2) == o->dec()->toDMSString() ) {
+					//DEBUG
+				kdDebug() << "removing anonymous star from list." << endl;
+				kdDebug() << item->text(1) << "::" << o->ra()->toHMSString() << endl;
+					
+				delete item;
+				objectFound = true;
+				break;
+							}
+		} else if ( item->text( 0 ) == o->translatedName() ) {
+				//DEBUG
+			kdDebug() << "removing " << o->translatedName() << " from list." << endl;
+				
+			delete item;
+			objectFound = true;
+			break;
+		}
+		++it;
+	}
+
+	if ( ! objectFound ) {
+		kdDebug() << i18n( "Can't remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
+	}
+}
+
 void ObservingList::slotRemoveObjects() {
 	if ( SelectedObjects.count() == 0) return;
 	
 	for ( SkyObject *o = SelectedObjects.first(); o; o = SelectedObjects.next() ) {
 		//DEBUG
 		kdDebug() << o->translatedName() << endl;
-		obsList.remove(o);
-		if ( o == LogObject ) 
-			saveCurrentUserLog();
 		
-		//Remove entry from table
-		bool objectFound = false;
-		QListViewItemIterator it( ui->table );
-		while ( it.current() ) {
-			QListViewItem *item = it.current();
-			
-			//If the object is named "star" then match coordinates instead of name
-			if ( o->translatedName() == i18n( "star" ) ) {
-				if ( item->text(1) == o->ra()->toHMSString() 
-					&& item->text(2) == o->dec()->toDMSString() ) {
-					//DEBUG
-					kdDebug() << "removing anonymous star from list." << endl;
-					kdDebug() << item->text(1) << "::" << o->ra()->toHMSString() << endl;
-					
-					delete item;
-					objectFound = true;
-					break;
-				}
-			} else if ( item->text( 0 ) == o->translatedName() ) {
-				//DEBUG
-				kdDebug() << "removing " << o->translatedName() << " from list." << endl;
-				
-				delete item;
-				objectFound = true;
-				break;
-			}
-			++it;
-		}
-
-		if ( ! objectFound ) {
-			kdDebug() << i18n( "Can't remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
-		}
+		slotRemoveObject( o );
 	} //end for-loop over SelectedObjects
 
 	slotNewSelection();

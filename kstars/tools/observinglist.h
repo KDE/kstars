@@ -78,9 +78,16 @@ public slots:
 	*/
 	void slotAddObject( SkyObject *o=NULL );
  
-/**@short Remove selected skyobjects from the observing list.
+/**@short Remove skyobjects which are highlighted in the 
+	*observing list tool from the observing list.
 	*/
-	void slotRemoveObjects();
+							void slotRemoveObjects();
+
+/**@short Remove skyobject from the observing list.
+	*@p o pointer to the SkyObject to be removed.
+	*Use SkyMap::clickedObject() if o is NULL (default)
+	*/
+	void slotRemoveObject( SkyObject *o=NULL );
 
 /**@short center the selected object in the display
 	*/
