@@ -40,24 +40,31 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     KDialogBase(KDialogBase::Plain, i18n( "Brightness/Contrast" ), Ok|Cancel, Ok, parent )
 {
     
+  float pixdiff, datadiff;
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
   displayImage = viewer->image->displayImage;
   width  = displayImage->width();
   height = displayImage->height();
   
+  datadiff = 255;
+  pixdiff  = viewer->stats.max - viewer->stats.min;
+  offs = - (viewer->stats.min * datadiff / pixdiff);
+  scale = datadiff / pixdiff;
   
   ConBriDlg = new ConBriForm(this);
   if (!ConBriDlg) return;
   
-  localImgBuffer = (unsigned char *) malloc (width * height * sizeof(unsigned char));
+  //localImgBuffer = (unsigned char *) malloc (width * height * sizeof(unsigned char));
+  localImgBuffer = (float *) malloc (width * height * sizeof(float));
   if (!localImgBuffer)
   {
     kdDebug() << "Not enough memory for local image buffer" << endl;
     return;
   }
-  for (int i=0; i < height; i++)
-   memcpy(localImgBuffer + i * width, displayImage->scanLine(i), width);
+  //for (int i=0; i < height; i++)
+   //memcpy(localImgBuffer + i * width, displayImage->scanLine(i), width);
+   memcpy(localImgBuffer, viewer->imgBuffer, width * height * 4);
   
   setMainWidget(ConBriDlg);
   this->show();
@@ -69,7 +76,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
 
 ContrastBrightnessDlg::~ContrastBrightnessDlg()
 {
-  free (localImgBuffer);
+  //free (localImgBuffer);
 }
 
 void ContrastBrightnessDlg::range(int min, int max, int & num)
@@ -78,68 +85,36 @@ void ContrastBrightnessDlg::range(int min, int max, int & num)
    else if (num > max) num = max;
 }
 
+void ContrastBrightnessDlg::range(float min, float max, float & num)
+{
+   if (num < min) num = min;
+   else if (num > max) num = max;
+}
+
+
 void ContrastBrightnessDlg::setContrast(int contrastValue)
 {
-  int val=0;
+  int val = 0, index=0;
+  int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
   QColor myCol;
   //unsigned char * data = viewer->image->templateImage->bits();
   contrast = contrastValue;
-  
-   // Apply Contrast and brightness
-   for (int i=0; i < height; i++)
-           for (int j=0; j < width; j++)
-	   {
-		val  = localImgBuffer[ i * width + j];
-		if (contrast)
-		{
-			if (val < 128)
-			{
-		  		val -= contrast;
-		 		range(0, 127, val);
-		        }
-		        else
-		        {
-		                val += contrast;
-		                range(128, 255, val);
-		        }
-	        }
-		if (brightness)
-		{
-			myCol.setRgb(val,val,val);
-                	if ( brightness < 0 )
-                		myCol = myCol.dark(100+(128-brightness));
-                	else
-                		myCol = myCol.light(100+(brightness));
-			val   = myCol.red();
-		}
-
-		displayImage->setPixel(j, i, val);
-	   }
-
-  viewer->image->zoomToCurrent();
-			  
-}
-
-void ContrastBrightnessDlg::setBrightness(int brightnessValue)
-{
-  int val = 0;
-  if (!viewer) return;
-  QColor myCol;
-  //unsigned char * data = viewer->image->templateImage->bits();
-  brightness = brightnessValue;
 
   // Apply Contrast and brightness
-  for (int i=0; i < height; i++)
+  for (int i=0 ; i < height ; i++)
            for (int j=0; j < width; j++)
 	   {
-		val  = localImgBuffer[ i * width + j];
+	        index = i * width + j;
+		val  = (int) (viewer->imgBuffer[index] * scale + offs);
+		range(0, 255, val);
+		
 		if (contrast)
 		{
 			if (val < 128)
 			{
 		  		val -= contrast;
-		                range(0, 127, val);
+				range(0, 127, val);
 		        }
 		        else
 		       {
@@ -154,13 +129,103 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
                 		myCol = myCol.dark(100+(128-brightness));
                 	else
                 		myCol = myCol.light(100+(brightness));
+			
 			val   = myCol.red();
 		}
 		 
-
-		displayImage->setPixel(j, i, val);
+		localImgBuffer[index] = (val - offs) / scale;
+		
+		
 	   }
   
+  for (int i=0; i < height * width; i++)
+  {
+    if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
+    else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];
+  }
+  
+  float pixdiff_b  = max - min;
+  float offs_b     = - (min * 255 / pixdiff_b);
+  float scale_b    = 255 / pixdiff_b;
+  
+  for (int i=0; i < height; i++)
+  	for (int j=0; j < width; j++)
+	{
+	        index = i * width + j;
+		val = (int) (localImgBuffer[index] * scale_b + offs_b);
+		range(0, 255, val);
+  		displayImage->setPixel(j, height - i - 1, val);
+	}
+   
+  viewer->image->zoomToCurrent();
+			  
+}
+
+void ContrastBrightnessDlg::setBrightness(int brightnessValue)
+{
+  int val = 0, index=0;
+  int min = (int) viewer->imgBuffer[0], max = 0;
+  if (!viewer) return;
+  QColor myCol;
+  //unsigned char * data = viewer->image->templateImage->bits();
+  brightness = brightnessValue;
+
+  // Apply Contrast and brightness
+  for (int i=0 ; i < height ; i++)
+           for (int j=0; j < width; j++)
+	   {
+	        index = i * width + j;
+		val  = (int) (viewer->imgBuffer[index] * scale + offs);
+		range(0, 255, val);
+		
+		if (contrast)
+		{
+			if (val < 128)
+			{
+		  		val -= contrast;
+				range(0, 127, val);
+		        }
+		        else
+		       {
+		                val += contrast;
+		                range(128, 255, val);
+		       }
+		 }
+		if (brightness)
+		{
+			myCol.setRgb(val,val,val);
+                	if ( brightness < 0 )
+                		myCol = myCol.dark(100+(128-brightness));
+                	else
+                		myCol = myCol.light(100+(brightness));
+			
+			val   = myCol.red();
+		}
+		 
+		localImgBuffer[index] = (val - offs) / scale;
+		
+		
+	   }
+  
+  for (int i=0; i < height * width; i++)
+  {
+    if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
+    else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];
+  }
+  
+  float pixdiff_b  = max - min;
+  float offs_b     = - (min * 255 / pixdiff_b);
+  float scale_b    = 255 / pixdiff_b;
+  
+  for (int i=0; i < height; i++)
+  	for (int j=0; j < width; j++)
+	{
+	        index = i * width + j;
+		val = (int) (localImgBuffer[index] * scale_b + offs_b);
+		range(0, 255, val);
+  		displayImage->setPixel(j, height - i - 1, val);
+	}
+   
   viewer->image->zoomToCurrent();
  
 }

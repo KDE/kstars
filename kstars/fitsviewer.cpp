@@ -66,10 +66,9 @@ extern int fits_ieee32_motorola;
 extern int fits_ieee64_intel;
 extern int fits_ieee64_motorola;
 
-#define FITS_GETBITPIX16(p,val) val = ((p[1] << 8) | (p[0]))
-//#define FITS_GETBITPIX16(p,val) val = ((p[0] << 8) | (p[1]))
+#define FITS_GETBITPIX16(p,val) val = ((p[0] << 8) | (p[1]))
 #define FITS_GETBITPIX32(p,val) val = \
-          ((p[3] << 24) | (p[2] << 16) | (p[1] << 8) | p[0])
+          ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3])
 	  
 #define FITS_GETBITPIXM32(p,val) \
  { if (fits_ieee32_intel) {unsigned char uc[4]; \
@@ -269,7 +268,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
   register FITS_BITPIX32  pixval_32  =0;
   register FITS_BITPIXM32 pixval_m32 =0;
   register FITS_BITPIXM64 pixval_m64 =0;
-  
+  int totalCount;
   int width, height, bpp, bitpix;
  
  fp = fopen (filename, "rb");
@@ -300,6 +299,8 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
   width  = hdulist->naxisn[0]; 
   height = hdulist->naxisn[1];
   
+  totalCount = width * height;
+  
   bpp    = hdulist->bpp;
   bitpix = hdulist->bitpix;
   
@@ -321,24 +322,24 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
   switch (bitpix)
   {
    case 8:
-    for (int i=0; i < width * height; i++)
+    for (int i=0; i < totalCount; i++)
       buffer[i] = tempData[i];
     break;
     
    case 16:
-    for (int i=0; i < height * width ; i++)
+    for (int i=0; i < totalCount ; i++)
     {
        FITS_GETBITPIX16(tempData, pixval_16);
-       buffer[i] = ntohs(pixval_16);
+       buffer[i] = pixval_16;//ntohs(pixval_16);
        tempData+=2;
      }
      break;
       
    case 32:
-   for (int i=0; i < width * height ; i++)
+   for (int i=0; i < totalCount ; i++)
     {
     FITS_GETBITPIX32(tempData, pixval_32);
-    pixval_32 = ntohl(pixval_32);
+    //pixval_32 = ntohl(pixval_32);
     if (isnan(pixval_32)) pixval_32 = 0;
     buffer[i] = pixval_32;
     tempData+=4;
@@ -346,7 +347,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
     break;
     
    case -32:
-   for (int i=0; i < width * height ; i++)
+   for (int i=0; i < totalCount ; i++)
     {
     if (fits_nan_32 (tempData))
      pixval_m32 = 0;
@@ -358,7 +359,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
     break;
     
     case -64:
-    for (int i=0; i < width * height ; i++)
+    for (int i=0; i < totalCount ; i++)
     {
     if (fits_nan_64 (tempData))
      pixval_m64 = 0;
@@ -528,9 +529,18 @@ void FITSViewer::fileSave()
   FITS_FILE *ifp;
   QString recordList;
   KURL backupCurrent = currentURL;
-  int index=0;
+  QString bitpixRec;
+  FITS_BITPIX16  pixval_16  =0;
+  FITS_BITPIX32  pixval_32  =0;
+  FITS_BITPIXM32 pixval_m32 =0;
+  FITS_BITPIXM64 pixval_m64 =0;
+  unsigned char *transData;
+  int index=0, i=0, transCount = 0, totalCount= image->width * image->height;
   
   QString currentDir = Options::fitsSaveDirectory();
+  
+  //kdDebug() << "We doing stats BEFORE we save!! " << endl;
+  //calculateStats();
   
   // If no changes made, return.
   if (Dirty == 0 && !currentURL.isEmpty())
@@ -561,6 +571,13 @@ void FITSViewer::fileSave()
 
   if ( currentURL.isValid() )
   {
+        transData = (unsigned char *) malloc (sizeof(unsigned char) * totalCount * image->bpp);
+	if (transData == NULL)
+	{
+  		KMessageBox::error(0, i18n("Error: Low memory. Saving is aborted."));
+		return;
+  	}
+  
   	ifp = fits_open (currentURL.path().ascii(), "w");
         if (ifp == NULL)
         {
@@ -570,36 +587,119 @@ void FITSViewer::fileSave()
     	
 	setbuf(ifp->fp, NULL);
 	
-	for (unsigned int i=0; i < record.count(); i++)
+	bitpixRec.sprintf("BITPIX  =                    %d /Modified by KStars                               ", image->bitpix);
+	bitpixRec.truncate(80);
+	
+	for (unsigned int j=0; j < record.count(); j++)
 	{
-	  recordList = record[i];
+	  recordList = record[j];
 	  
 	  if ( (index = recordList.find("BITPIX")) != -1)
-	  	recordList.replace(index, FITS_CARD_SIZE, "BITPIX  =                    8 /Modified by KStars                              ");
+	  	recordList.replace(index, FITS_CARD_SIZE, bitpixRec);
 	
 	  fwrite(recordList.ascii(), 1, FITS_RECORD_SIZE, ifp->fp);
         }
 	
-	/*if (record.last() != QString("END"))
+	switch (image->bitpix)
 	{
-		fputs("END", ifp->fp);
-		k =  3;
-	
-	        while (k++ < FITS_RECORD_SIZE)
-          	putc (' ', ifp->fp);
-	}*/
-	
-	for (int i= image->height - 1; i >= 0; i--)
+	   case 8:
+		for (i= image->height - 1; i >= 0; i--)
 		fwrite(image->displayImage->scanLine(i), 1, image->width, ifp->fp);
+		break;
+		
+		
+	   case 16:
+    		for (i= 0, transCount = 0 ; i < totalCount ; i++, transCount += 2)
+    		{
+       			pixval_16 = (unsigned short) imgBuffer[i];
+			transData[transCount]   = ((unsigned char*) &pixval_16)[1];
+			transData[transCount+1] = ((unsigned char*) &pixval_16)[0];
+		}
+		// Now we need to write all uchars to file. We have 2 bytes per pixel
+		transCount = 0;
+		totalCount *= 2;
+		
+		for (i=0, transCount = 0; i < totalCount; i += transCount)
+		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
+       			
+     		break;
+      
+   	  case 32:
+	        for (i=0, transCount = 0 ; i < totalCount ; i++, transCount += 4)
+    		{
+       			pixval_32 = (unsigned int) imgBuffer[i];
+			/*transData[transCount]   = (pixval_32 & 0xFF000000) >> 24;
+			transData[transCount+1] = (pixval_32 & 0x00FF0000) >> 16;
+			transData[transCount+2] = (pixval_32 & 0x0000FF00) >> 8;
+			transData[transCount+3] = (pixval_32 & 0x000000FF); */
+		
+			transData[transCount]       = ((unsigned char*) &pixval_32)[3];
+			transData[transCount+1]     = ((unsigned char*) &pixval_32)[2];
+			transData[transCount+2]     = ((unsigned char*) &pixval_32)[1];
+			transData[transCount+3]     = ((unsigned char*) &pixval_32)[0];
+		}
+		
+		// Now we need to write all uchars to file. We have 4 bytes per pixel
+		transCount = 0;
+		totalCount *= 4;
+		
+		for (i=0, transCount = 0; i < totalCount; i += transCount)
+		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
+    		break;
+    
+   	case -32:
+		for (i=0, transCount = 0 ; i < totalCount ; i++, transCount += 4)
+    		{
+       			pixval_m32 = imgBuffer[i];
+			transData[transCount]       = ((unsigned char*) &pixval_m32)[3];
+			transData[transCount+1]     = ((unsigned char*) &pixval_m32)[2];
+			transData[transCount+2]     = ((unsigned char*) &pixval_m32)[1];
+			transData[transCount+3]     = ((unsigned char*) &pixval_m32)[0];
+			
+		}
+		
+		// Now we need to write all uchars to file. We have 4 bytes per pixel
+		transCount = 0;
+		totalCount *= 4;
+		
+		for (i=0, transCount = 0; i < totalCount; i += transCount)
+		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
+   		
+    		break;
+    
+    	case -64:
+    		for (i=0, transCount = 0 ; i < totalCount ; i++, transCount += 8)
+    		{
+       			pixval_m64 = imgBuffer[i];
+			transData[transCount]   = 0;
+			transData[transCount+1] = 0;
+			transData[transCount+2] = 0;
+			transData[transCount+3] = 0;
+			transData[transCount+4] = ((unsigned char*) &pixval_m32)[3];
+			transData[transCount+5] = ((unsigned char*) &pixval_m32)[2];
+			transData[transCount+6] = ((unsigned char*) &pixval_m32)[1];
+			transData[transCount+7] = ((unsigned char*) &pixval_m32)[0];
+			
+		}
+		
+		// Now we need to write all uchars to file. We have 4 bytes per pixel
+		transCount = 0;
+		totalCount *= 8;
+		
+		for (i=0, transCount = 0; i < totalCount; i += transCount)
+		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
+	        break;	
+	}
 		
 	fits_close(ifp);
 	
 	statusBar()->changeItem(i18n("File saved."), 3);
 	
+	free(transData);
 	Dirty = 0;
 	history->clear();
 	fitsRestore();
-	updateImgBuffer();
+	//updateImgBuffer();
   }
   else
   {
@@ -707,6 +807,8 @@ void FITSViewer::BrightContrastDlg()
   }
   else
   {
+    memcpy(imgBuffer , conbriDlg.localImgBuffer, stats.width * stats.height * 4);
+    free(conbriDlg.localImgBuffer);
     fitsChange();
     image->update();
     cbc = new FITSChangeCommand(this, CONTRAST_BRIGHTNESS, image->displayImage, image->templateImage);
@@ -786,6 +888,8 @@ void FITSViewer::fitsChange()
 void FITSViewer::fitsStatistics()
 {
   statForm stat(this);
+  
+  calculateStats();
   
   stat.widthOUT->setText(QString("%1").arg(stats.width));
   stat.heightOUT->setText(QString("%1").arg(stats.height));

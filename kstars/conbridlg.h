@@ -35,6 +35,11 @@ class ContrastBrightnessDlg : public KDialogBase {
    
   QSize sizeHint() const;
   void range(int min, int max, int & num);
+  void range(float min, float max, float & num);
+  
+  float *localImgBuffer;
+  float offs;
+  float scale;
   
   private:
   int contrast;
@@ -43,7 +48,8 @@ class ContrastBrightnessDlg : public KDialogBase {
   int width;
   FITSViewer *viewer;
   ConBriForm *ConBriDlg;
-  unsigned char *localImgBuffer;
+  //unsigned char *localImgBuffer;
+  
   QImage *displayImage;
   
   public slots:
