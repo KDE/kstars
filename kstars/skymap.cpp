@@ -143,8 +143,13 @@ void SkyMap::initPopupMenu( void ) {
 	pmSetTime->setAlignment( AlignCenter );
 	pmSetTime->setPalette( pal );
 	pmSetTime->setFont( rsFont );
+	pmTransitTime = new QLabel( i18n( "Transit Time: 00:00" ), pmenu );
+	pmTransitTime->setAlignment( AlignCenter );
+	pmTransitTime->setPalette( pal );
+	pmTransitTime->setFont( rsFont );
 	pmenu->insertSeparator();
 	pmenu->insertItem( pmRiseTime );
+	pmenu->insertItem( pmTransitTime );
 	pmenu->insertItem( pmSetTime );
 	pmenu->insertSeparator();
 	pmenu->insertItem( i18n( "Center and track" ), this, SLOT( slotCenter() ) );
@@ -871,8 +876,22 @@ void SkyMap::setRiseSetLabels( void ) {
 		st = i18n( "No Set Time: Never rises" );
 	}
 
+	QTime ttime = clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
+	QString tt, tt2;
+	if ( ttime.isValid() ) {
+		int min = ttime.minute();
+		if ( ttime.second() >=30 ) ++min;
+		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
+		tt = i18n( "Transit Time: " ) + tt2;
+	} else if ( clickedObject()->alt().Degrees() > 0 ) {
+		tt = i18n( "No transit Time: Circumpolar" );
+	} else {
+		tt = i18n( "No transit Time: Never rises" );
+	}
+
 	pmRiseTime->setText( rt );
 	pmSetTime->setText( st );
+	pmTransitTime->setText( tt ) ;
 }
 
 int SkyMap::getPixelScale( void ) {
