@@ -54,9 +54,10 @@ void SkyMap::resizeEvent( QResizeEvent * )
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
 	bool arrowKeyPressed( false );
+	bool shiftPressed( false );
 	float step = 1.0;
-	if ( e->state() & ShiftButton ) step = 10.0;
-
+	if ( e->state() & ShiftButton ) { step = 10.0; shiftPressed = true; }
+	
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
 		//kdDebug() << "resumeKey pressed; resuming DCOP." << endl;
@@ -256,8 +257,42 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			update();
 			break;
 
+		case Key_D: //Details window for Clicked/Centered object
+			if ( shiftPressed ) setClickedObject( focusObject() );
+			if ( clickedObject() ) slotDetail();
+			break;
+
+		case Key_P: //Show Popup menu for Clicked/Centered object
+			if ( shiftPressed ) setClickedObject( focusObject() );
+			if ( clickedObject() ) 
+				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+			break;
+
+		case Key_L: //Toggle User label on Clicked/Centered object
+			if ( shiftPressed ) setClickedObject( focusObject() );
+			if ( clickedObject() ) {
+				if ( isObjectLabeled( clickedObject() ) )
+					slotRemoveObjectLabel();
+				else 
+					slotAddObjectLabel();
+			}
+			break;
+
+		case Key_T: //Toggle planet trail on Clicked/Centered object (if solsys) 
+			if ( shiftPressed ) setClickedObject( focusObject() );
+			if ( clickedObject() && clickedObject()->isSolarSystem() ) {
+				if ( ((KSPlanetBase*)clickedObject())->hasTrail() )
+					slotRemovePlanetTrail();
+				else 
+					slotAddPlanetTrail();
+			}
+			break;
+
+
+
 //TIMING
-		case Key_T: //loop through all objects, get Sin, Cos, Rad
+/*
+		case Key_G: //loop through all cities
 		{
 
       QFile file;
@@ -271,7 +306,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
       }
 
-/*
 			QTime t1;
 			t1.start();
       for (int i=0;i<10;i++) {
@@ -328,9 +362,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       }
 			kdDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
 
-*/
 			break;
 		}
+*/
 
 //END_TIMING
 	}
