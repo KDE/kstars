@@ -51,8 +51,7 @@ public:
 	*@param n2 Secondary name
 	*/
 	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
-						float m=0.0, QString n=i18n("unnamed"), QString n2="", QString lname="" );
-
+						float m=0.0, QString n="", QString n2="", QString lname="" );
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in data type of RA and Dec.
@@ -65,7 +64,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t, double r, double d, float m=0.0,
-						QString n=i18n("unnamed"), QString n2="", QString lname="" );
+						QString n="", QString n2="", QString Tlname="" );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -86,37 +85,37 @@ public:
 
 /**@return object's primary name.
 	*/
-	QString name( void ) const { return Name; }
+	virtual QString name( void ) const { return hasName() ? *Name : unnamedString;}
 
 /**@return object's primary name, translated to local language.
 	*/
-	QString translatedName() const { return i18n( Name.utf8() );}
+	QString translatedName() const { return i18n( name().utf8() );}
 
 /**Set the object's primary name.
 	*@param name the object's primary name
 	*/
-	void setName( const QString &name ) { Name = name; }
+	void setName( const QString &name );
 
 /**@return object's secondary name
 	*/
-	QString name2( void ) const { return Name2; }
+	QString name2( void ) const { return hasName2() ? *Name2 : emptyString; }
 
 /**@return object's secondary name, translated to local language.
 	*/
-	QString translatedName2() const { return i18n( Name2.utf8() );}
+	QString translatedName2() const { return i18n( name2().utf8() );}
 
 /**Set the object's secondary name.
 	*@param the object's secondary name.
 	*/
-	void setName2( const QString &name2="" ) { Name2 = name2; }
+	void setName2( const QString &name2="" );
 
 /**@return object's common (long) name
 	*/
-	QString longname( void ) const { return LongName; }
+	virtual QString longname( void ) const { return hasLongName() ? *LongName : unnamedObjectString; }
 
 /**@return object's common (long) name, translated to local language.
 	*/
-	QString translatedLongName() const { return i18n( LongName.utf8() );}
+	QString translatedLongName() const { return i18n( longname().utf8() );}
 
 /**Set the object's long name.
 	*@param the object's long name.
@@ -230,6 +229,12 @@ public:
 	*/
 	SkyPoint recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo=0 );
 
+	const bool hasName() const { return Name != 0; }
+	
+	const bool hasName2() const { return Name2 != 0; }
+	
+	const bool hasLongName() const { return LongName != 0; }
+	
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
 	QString userLog;
@@ -290,7 +295,16 @@ private:
 
 	unsigned char Type;
 	float Magnitude;
-	QString Name, Name2, LongName;
+
+protected:
+
+	QString *Name, *Name2, *LongName;
+
+	// store often used name strings in static variables
+	static QString emptyString;
+	static QString unnamedString;
+	static QString unnamedObjectString;
+	static QString starString;
 };
 
 #endif

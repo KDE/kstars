@@ -59,7 +59,7 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, QString n="star",
+	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, QString n="",
 				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 /**
@@ -77,7 +77,7 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( double r, double d, float m=0.0, QString n="star",
+	StarObject( double r, double d, float m=0.0, QString n="",
 				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 
@@ -86,6 +86,15 @@ class StarObject : public SkyObject {
 	*/
 	~StarObject() {}
 
+/**
+	*If star is unnamed return "star" otherwise return the name
+	*/
+	virtual QString name( void ) const { return hasName() ? *Name : starString;}
+
+/**
+	*If star is unnamed return "star" otherwise return the longname
+	*/
+	virtual QString longname( void ) const { return hasLongName() ? *LongName : starString; }
 /**
 	*Returns first character of Spectral Type string, which is used to
 	*select the temperature-color of the star.

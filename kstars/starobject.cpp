@@ -41,21 +41,19 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
-	QString lname = "";
-	if ( n.length() && n != "star" ) {
-		if ( n2.length() )
-			lname = n + " (" + gname() + ")";
-		else
-			lname = n;
-	} else if ( n2.length() )
+	QString lname;
+	if ( hasName() ) {
+		lname = n;
+		if ( hasName2() ) lname += " (" + gname() + ")";
+	} else if ( hasName2() )
 		lname = gname();
 
 	//If genetive name exists, but no primary name, set primary name = genetive name.
-	if ( n2.length() && n == "star" ) {
+	if ( hasName2() && !hasName() ) {
 		setName( gname() );
 	}
 
-	setLongName( lname );
+	setLongName(lname);
 }
 
 StarObject::StarObject( double r, double d, float m, QString n, QString n2, QString sptype,
@@ -63,16 +61,14 @@ StarObject::StarObject( double r, double d, float m, QString n, QString n2, QStr
 	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
-	QString lname = "";
-	if ( n.length() && n != i18n("star") ) {
-		if ( n2.length() )
-			lname = n + " (" + gname() + ")";
-		else
-			lname = n;
-	} else if ( n2.length() )
+	QString lname;
+	if ( hasName() ) {
+		lname = n;
+		if ( hasName2() )lname += n + " (" + gname() + ")";
+	} else if ( hasName2() )
 		lname = gname();
 
-	setLongName( lname );
+	setLongName(lname);
 }
 
 void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {

@@ -678,12 +678,8 @@ void KStarsData::processStar( QString *line, bool reloadMode ) {
 	name = i18n("star name", name.local8Bit().data());
 
 	bool starIsUnnamed( false );
-	if (name.isEmpty() ) {
-		name = "star";
-		
-		if ( gname.isEmpty() ) { //both names are empty
-			starIsUnnamed = true;
-		}
+	if (name.isEmpty() && gname.isEmpty()) { //both names are empty
+		starIsUnnamed = true;
 	}
 	
 	dms r;
@@ -917,7 +913,7 @@ bool KStarsData::readDeepSkyData( void ) {
 				ObjNames.append( (SkyObject*)o );
 
 				//Add longname to objList, unless longname is the same as name
-				if ( !o->longname().isEmpty() && o->name() != o->longname() && o->name() != i18n( "star" ) ) {
+				if ( !o->longname().isEmpty() && o->name() != o->longname() && o->hasName() ) {
 					ObjNames.append( o, true );  // append with longname
 				}
 			} //end while-filereader
@@ -1214,7 +1210,6 @@ bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objL
 
 //Not handling custom star catalogs yet...
 //					if ( Mark==5 ) { //Stars...
-//						if ( name == "" ) name = i18n( "star" );
 //
 //						StarObject *o = new StarObject( RA, Dec, mag, name, "", spType );
 //						objList.append( o );

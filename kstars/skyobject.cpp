@@ -27,47 +27,58 @@
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 
+QString SkyObject::emptyString = QString("");
+QString SkyObject::unnamedString = QString(i18n("unnamed"));
+QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
+QString SkyObject::starString = QString("star");
+
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
 	Magnitude = o.mag();
-	Name = o.name();
-	Name2 = o.name2();
-	LongName = o.longname();
+	setName(o.name());
+	setName2(o.name2());
+	setLongName(o.longname());
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
 	InfoList = o.InfoList;
 	InfoTitle = o.InfoTitle;
-	setLongName(o.longname());
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, float m,
 						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
-	Name = n;
-	Name2 = n2;
-	setLongName( lname );
+	Name = 0;
+	setName(n);
+	Name2 = 0;
+	setName2(n2);
+	LongName = 0;
+	setLongName(lname);
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
 						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
-	Name = n;
-	Name2 = n2;
-	setLongName( lname );
+	Name = 0;
+	setName(n);
+	Name2 = 0;
+	setName2(n2);
+	LongName = 0;
+	setLongName(lname);
 }
 
 void SkyObject::setLongName( const QString &longname ) {
+	delete LongName;
 	if ( longname.isEmpty() ) {
-		if ( translatedName().length() )
-			LongName = translatedName();
-		else if ( Name2.length() )
-			LongName = Name2;
+		if ( hasName() )
+			LongName = new QString(translatedName());
+		else if ( hasName2() )
+			LongName = new QString(*Name2);
 		else
-			LongName = i18n( "unnamed object" );
+			LongName = 0;
 	} else {
-		LongName = longname;
+		LongName = new QString(longname);
 	}
 }
 
@@ -278,4 +289,20 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==9 ) return i18n( "Comet" );
 	else if ( Type==10 ) return i18n( "Asteroid" );
 	else return i18n( "Unknown Type" );
+}
+void SkyObject::setName( const QString &name ) {
+//	if (name == "star" ) kdDebug() << "name == star" << endl;
+	delete Name;
+	if (!name.isEmpty())
+		Name = new QString(name);
+	else
+		{ Name = 0; /*kdDebug() << "name saved" << endl;*/ }
+}
+
+void SkyObject::setName2( const QString &name2 ) {
+	delete Name2;
+	if (!name2.isEmpty())
+		Name2 = new QString(name2);
+	else
+		{ Name2 = 0; /*kdDebug() << "name2 saved" << endl;*/ }
 }
