@@ -92,7 +92,7 @@ KStars::KStars( KStarsData* kstarsData )
 	topLayout->addWidget( skymap );
 
 	//time settings that we couldn't do in KStarsSplash:
-	GetData()->UTime = GetData()->now.addSecs( geo->TZ()*3600 );
+	GetData()->UTime = GetData()->now.addSecs( int(geo->TZ()*3600) );
 	GetData()->LST   = UTtoLST( GetData()->UTime, geo->lng() );
 	GetData()->CurrentDate = getJD( GetData()->UTime );
 	GetData()->LastSkyUpdate = GetData()->CurrentDate;
@@ -501,7 +501,7 @@ void KStars::mSetTimeToNow() {
 	GetData()->LTime.setDate( QDate::currentDate() );
 	GetData()->UTime.setTime( GetData()->LTime.time() );
 	GetData()->UTime.setDate( GetData()->LTime.date() );
-	GetData()->UTime = GetData()->UTime.addSecs( geo->TZ()*3600 );
+	GetData()->UTime = GetData()->UTime.addSecs( int( geo->TZ()*3600) );
 
 	GetData()->then = QDateTime::currentDateTime();
 	updateTime();
@@ -777,7 +777,7 @@ void KStars::mSetTime() {
 		GetData()->LTime.setDate( newDate );
 		GetData()->UTime.setTime( newTime );
 		GetData()->UTime.setDate( newDate );
-		GetData()->UTime = GetData()->UTime.addSecs( geo->TZ()*3600 );
+		GetData()->UTime = GetData()->UTime.addSecs( int(geo->TZ()*3600) );
 
 		GetData()->then = QDateTime::currentDateTime();
 		updateTime();
@@ -908,7 +908,7 @@ void KStars::mGeoLocator() {
  			// Adjust Local time for new time zone
 	 		GetData()->LTime.setDate( GetData()->UTime.date() );
  			GetData()->LTime.setTime( GetData()->UTime.time() );
- 			GetData()->LTime = GetData()->LTime.addSecs( geo->TZ()*-3600 );
+ 			GetData()->LTime = GetData()->LTime.addSecs( int(geo->TZ()*-3600) );
 
 			GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
 			skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );

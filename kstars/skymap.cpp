@@ -807,6 +807,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							pmenu->popup( QCursor::pos() );
 
 							break;
+						default: // avoid compiler warnings about not cases not handled
+							// all other events will be ignored
+							break;
 					}
 					break;
 				case 0: //star
