@@ -113,11 +113,11 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	z = dms(316.5182 - 0.00000208*t).radians();
 	
 	//Mean anomalies of Jupiter and Saturn
-	Gj = dms(30.23756 + 0.0830925701*t + G*180./dms::PI).radians();
+	Gj = dms(30.23756 + 0.0830925701*t + G/dms::DegToRad).radians();
 	Gs = dms(31.97853 + 0.0334597339*t).radians();
 	
 	//Longitude of perihelion of Jupiter
-	Pj = dms(13.46).radians();
+	Pj = dms(13.469942).radians();
 
 	//***Periodic terms in the longitudes of the satellites
 	S1 = 0.47259 * sin( 2.*( l1 - l2) ) 
@@ -280,7 +280,13 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 			- 0.00019 * sin( 2.*l4 - p4 +Gj )
 			- 0.00018 * sin( l4 - p4 + Gj )
 			- 0.00016 * sin( l4 + p3 - 2.*Pj - 2.*Gj );
-			 
+	
+	//Convert Longitude Sums to Radians:
+	S1 *= dms::DegToRad;
+	S2 *= dms::DegToRad;
+	S3 *= dms::DegToRad;
+	S4 *= dms::DegToRad;
+	
 	L1 = l1 + S1;
 	L2 = l2 + S2;
 	L3 = l3 + S3;
@@ -386,12 +392,12 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 			+ 0.0000048 * cos( 2.*( l4 - w4 ) ) );
 			
 	
-	t = ( num->julianDay() - 2433282.423 ) / 36525.0;
-	
-	//Inclination of Jupiter's rotational axis
+	//Inclination of Jupiter's rotational axis since 1900.0
+	t = ( num->julianDay() - 2415020.50 ) / 36525.0;
 	I = dms( 3.120262 +0.0006*t ).radians();
 	
 	//Precession since B1950:
+	t = ( num->julianDay() - 2433282.423 ) / 36525.0;
 	P = dms( 1.3966626*t +0.0003088*t*t ).radians();
 	
 	L1 += P;
