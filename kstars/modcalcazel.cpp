@@ -151,7 +151,7 @@ long double modCalcAzel::epochToJd (double epoch)
 dms modCalcAzel::DateTimetoLST (QDateTime utdt, dms longitude)
 {
 
-	QTime lst = KSUtils::UTtoLST( utdt, longitude);
+	QTime lst = KSUtils::UTtoLST( utdt, &longitude);
 	dms LSTh = QTimeToDMS (lst);
 	
 	return LSTh;
@@ -193,7 +193,7 @@ void modCalcAzel::slotComputeCoords()
 	sp = getEquCoords();
 
 	sp.apparentCoord(jd0, jd);
-	sp.EquatorialToHorizontal( LSTh, getLatitude() );
+	sp.EquatorialToHorizontal( &LSTh, &(dms(getLatitude())) );
 	showHorCoords( sp );
 
 }

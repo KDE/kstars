@@ -349,16 +349,16 @@ void KStars::initGuides(KSNumbers *num)
 		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
 		double HARad;
 		dms dec, HA, RA, Az;
-		Az = point->ra();
+		Az = dms(*(point->ra()));
 		Az.SinCos( sinAz, cosAz );
-		geo()->lat().SinCos( sinlat, coslat );
+		geo()->lat()->SinCos( sinlat, coslat );
 
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
-		RA = data()->LSTh.Degrees() - HA.Degrees();
+		RA = LSTh()->Degrees() - HA.Degrees();
 
 		SkyPoint *o = new SkyPoint( RA, dec );
 		o->setAlt( 0.0 );
@@ -368,7 +368,7 @@ void KStars::initGuides(KSNumbers *num)
 
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num->obliquity(), point->ra(), dms( 0.0 ) );
+		o->setFromEcliptic( num->obliquity(), point->ra(), &dms( 0.0 ) );
 		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 		data()->Ecliptic.append( o );
 	}
@@ -527,8 +527,8 @@ void KStars::privatedata::buildGUI() {
 	ks->setHourAngle();
 
 	ks->map()->setOldFocus( ks->map()->focus() );
-	ks->map()->oldfocus()->setAz( ks->map()->focus()->az() );
-	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt() );
+	ks->map()->oldfocus()->setAz( ks->map()->focus()->az()->Degrees() );
+	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
 
 	kapp->dcopClient()->resume();
 

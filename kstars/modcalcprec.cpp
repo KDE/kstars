@@ -203,10 +203,8 @@ void modCalcPrec::slotComputeCoords (void) {
 }
 
 void modCalcPrec::showEquCoords ( SkyPoint sp ) {
-
 	rafBox->show( sp.ra() );
 	decfBox->show( sp.dec() );
-	
 }
 
 double modCalcPrec::JdtoEpoch (long double jd) {

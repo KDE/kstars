@@ -224,7 +224,7 @@ QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
 	QTime lst;
 
 	QDateTime utdt = QDateTime( dt, ut);
-	lst = KSUtils::UTtoLST( utdt, longitude);
+	lst = KSUtils::UTtoLST( utdt, &longitude);
 	return lst;
 }
 
@@ -233,7 +233,7 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 	QTime ut;
 
 	QDateTime dtst = QDateTime( dt, st);
-	ut = KSUtils::LSTtoUT( dtst, longitude);
+	ut = KSUtils::LSTtoUT( dtst, &longitude);
 	return ut;
 }
 

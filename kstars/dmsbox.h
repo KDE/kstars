@@ -50,21 +50,24 @@ public:
 
 	~dmsBox();
 
-	void showInHours(dms t);
 	/**
 	* Fills the QLineEdit fields of the dmsbox object from a dms object
 	* showing hours, minutes and seconds.
 	*@p t dms object from which to fill the entry fields
 	*/
-	void showInDegrees(dms t);
+	void showInHours(dms t);
+	void showInHours(const dms *t);
 
 	/**
 	* Fills the QLineEdit fields of the dmsbox object from a dms object
 	* showing degrees, arcminutes and arcseconds.
 	*@p t dms object from which to fill the entry fields
 	*/
+	void showInDegrees(dms t);
+	void showInDegrees(const dms *t);
 
 	void show(dms t);
+	void show(const dms *t);
 
 	/**
 	*@p s Fills the degrees entry field with string s

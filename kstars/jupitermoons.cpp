@@ -24,7 +24,7 @@ JupiterMoons::JupiterMoons(){
 JupiterMoons::~JupiterMoons(){
 }
 
-void JupiterMoons::EquatorialToHorizontal( dms LST, dms lat ) {
+void JupiterMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 	for ( int i=0; i<4; ++i ) 
 		Pos[i].EquatorialToHorizontal( LST, lat );
 }
@@ -56,11 +56,11 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	double A5[5], B5[5], C5[5];
 	double A6[5], B6[5], C6[5];
 	
-	Jupiter->ecLong().SinCos( sinJL, cosJL );
-	Jupiter->ecLat().SinCos( sinJB, cosJB );
+	Jupiter->ecLong()->SinCos( sinJL, cosJL );
+	Jupiter->ecLat()->SinCos( sinJB, cosJB );
 	
-	Sun->ecLong().SinCos( sinSL, cosSL );
-	Sun->ecLat().SinCos( sinSB, cosSB );
+	Sun->ecLong()->SinCos( sinSL, cosSL );
+	Sun->ecLat()->SinCos( sinSB, cosSB );
 	
 	//Geocentric Rectangular coordinates of Jupiter:
 	Xj = Jupiter->rsun() * cosJB *cosJL + Sun->rsun() * cosSL;
@@ -74,15 +74,6 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	LAMBDA = atan(Yj/Xj);
 	if (Xj < 0) LAMBDA += dms::PI; //resolve atan ambiguity
 	ALPHA = atan( Zj/sqrt( Xj*Xj + Yj*Yj ) );
-	
-	/* DEBUG
-	kdDebug() << Jupiter->ecLong().toDMSString() << ", " << Jupiter->ecLat().toDMSString() << endl;
-	kdDebug() << "Jupiter: " << Jupiter->rsun() << endl;
-	kdDebug() << "Sun: " << Sun->rsun() << endl;
-	kdDebug() << "Xj: " << Xj << "  Yj: " << Yj << "  Zj: " << Zj << endl;
-	kdDebug() << "LAMBDA: " << LAMBDA << endl;
-	kdDebug() << "ALPHA: " << ALPHA << endl;
-	*/
 	
 	//days since 10 Aug 1976 0h (minus light-travel delay)
 	t = num->julianDay() - 2443000.5 - tdelay;
@@ -474,8 +465,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 		Y[i] = A6[i] * sin( D ) + C6[i] * cos( D );
 		Z[i] = B6[i];
 		
-		Pos[i].setRA( Jupiter->ra().Hours() + 0.011*( X[i] * cos( pa ) - Y[i] * sin( pa ) )/15.0 );
-		Pos[i].setDec( Jupiter->dec().Degrees() + 0.011*( X[i] * sin( pa ) + Y[i] * cos( pa ) ) );
+		Pos[i].setRA( Jupiter->ra()->Hours() + 0.011*( X[i] * cos( pa ) - Y[i] * sin( pa ) )/15.0 );
+		Pos[i].setDec( Jupiter->dec()->Degrees() + 0.011*( X[i] * sin( pa ) + Y[i] * cos( pa ) ) );
 		
 		if ( Z[i] < 0.0 ) InFront[i] = true;
 		else InFront[i] = false;

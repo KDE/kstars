@@ -35,7 +35,7 @@ public:
 	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sun );
 	SkyPoint* pos( int id ) { return &Pos[id]; }
 	bool inFront( int id ) { return InFront[id]; }
-	void EquatorialToHorizontal( dms LSTh, dms lat );
+	void EquatorialToHorizontal( const dms *LSTh, const dms *lat );
 private:
 	SkyPoint Pos[4];
 	bool InFront[4];

@@ -233,8 +233,8 @@ void KStars::saveOptions() {
 		conf->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );
 	}
 	conf->writeEntry( "UseAltAz", 	options()->useAltAz );
-	conf->writeEntry( "FocusRA", map()->focus()->ra().Hours() );
-	conf->writeEntry( "FocusDec", map()->focus()->dec().Degrees() );
+	conf->writeEntry( "FocusRA", map()->focus()->ra()->Hours() );
+	conf->writeEntry( "FocusDec", map()->focus()->dec()->Degrees() );
 	conf->writeEntry( "SlewTimeScale", options()->slewTimeScale );
 	conf->writeEntry( "ZoomLevel", data()->ZoomLevel );
 	conf->writeEntry( "windowWidth", width() );

@@ -142,7 +142,7 @@ void KStars::slotViewOps() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
-//	kdDebug() << "before Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "before Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
 	
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		QTime newTime( timedialog.selectedTime() );
@@ -154,7 +154,7 @@ void KStars::slotSetTime() {
 			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
 		}
 
-//	kdDebug() << "after Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "after Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
 
 	}
 }

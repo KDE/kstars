@@ -235,13 +235,13 @@ public:
 	*@param s Sine of the angle
 	*@param c Cosine of the angle
 	*/
-	void SinCos(double &s, double &c);
+	void SinCos(double &s, double &c) const;
 
 /**
 	*Express the angle in radians
 	*@returns the angle in radians (double)
 	*/
-	double radians( void );
+	double radians( void ) const;
 
 /**
 	*Set angle according to the argument, which is in radians

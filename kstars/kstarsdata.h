@@ -440,7 +440,7 @@ private:
 	QDateTime LTime, UTime;
 	QTime LST;
 	bool TimeRunsForward;
-	dms LSTh, HourAngle;
+	dms *LSTh, *HourAngle;
 	int ZoomLevel;
 	KLocale *locale;
 

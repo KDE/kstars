@@ -25,15 +25,15 @@
 SkyPoint::~SkyPoint(){
 }
 
-void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
+void SkyPoint::EquatorialToHorizontal( const dms *LSTh, const dms *lat ) {
 	double AltRad, AzRad;
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
   double sinAlt, cosAlt;
 
-	dms HourAngle = LSTh.Degrees() - RA.Degrees();
+	dms HourAngle = LSTh->Degrees() - ra()->Degrees();
 
-	lat.SinCos( sinlat, coslat );
-	dec().SinCos( sindec, cosdec );
+	lat->SinCos( sinlat, coslat );
+	dec()->SinCos( sindec, cosdec );
 	HourAngle.SinCos( sinHA, cosHA );
 
 	sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
@@ -47,13 +47,13 @@ void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
 	Alt.setRadians( AltRad );
 }
 
-void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
+void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {
 	double HARad, DecRad;
 	double sinlat, coslat, sinAlt, cosAlt, sinAz, cosAz;
   double sinDec, cosDec;
 
-	lat.SinCos( sinlat, coslat );
-	Alt.SinCos( sinAlt, cosAlt );
+	lat->SinCos( sinlat, coslat );
+	alt()->SinCos( sinAlt, cosAlt );
 	Az.SinCos( sinAz,  cosAz );
 
 	sinDec = sinAlt*sinlat + cosAlt*coslat*cosAz;
@@ -78,14 +78,14 @@ void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
 
 	if ( sinAz > 0.0 ) HARad = 2.0*dms::PI - HARad; // resolve acos() ambiguity	
 
-	RA.setRadians( LSTh.radians() - HARad );
+	RA.setRadians( LSTh->radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
 void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
 	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
-	ra().SinCos( sinRA, cosRA );
-	dec().SinCos( sinDec, cosDec );
+	ra()->SinCos( sinRA, cosRA );
+	dec()->SinCos( sinDec, cosDec );
 	Obliquity.SinCos( sinOb, cosOb );
 
 	tanDec = sinDec/cosDec;
@@ -99,10 +99,10 @@ void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( dms Obliquity, dms EcLong, dms EcLat ) {
+void SkyPoint::setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcLat ) {
 	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
-	EcLong.SinCos( sinLong, cosLong );
-	EcLat.SinCos( sinLat, cosLat );
+	EcLong->SinCos( sinLong, cosLong );
+	EcLat->SinCos( sinLat, cosLat );
 	Obliquity.SinCos( sinObliq, cosObliq );
 	
 	double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
@@ -175,7 +175,8 @@ void SkyPoint::nutate(const KSNumbers *num) {
 		findEcliptic( num->obliquity(), EcLong, EcLat );
 		
 		//Add dEcLong to the Ecliptic Longitude
-		setFromEcliptic( num->obliquity(), dms( EcLong.Degrees() + num->dEcLong() ), EcLat );
+		dms newLong( EcLong.Degrees() + num->dEcLong() );
+		setFromEcliptic( num->obliquity(), &newLong, &EcLat );
 	}
 }
 

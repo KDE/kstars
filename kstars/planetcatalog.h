@@ -73,7 +73,7 @@ class PlanetCatalog : public QObject {
 		KSPlanet *earth() { return Earth; };
 
 	/**Compute the present Horizontal coordinates of all planets. */
-		void EquatorialToHorizontal( const dms LST, const dms lat );
+		void EquatorialToHorizontal( dms *LST, const dms *lat );
 
 	/**@returns true if the SkyObject argument is a planet. */
 		bool isPlanet(SkyObject *so) const;

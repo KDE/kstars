@@ -224,8 +224,8 @@ GeoLocation* KStarsOptions::Location() {
 
 void KStarsOptions::setLocation(const GeoLocation& l) {
 	GeoLocation l2( l );
-	if ( l2.lat().Degrees() >= 90.0 ) l2.setLat( 89.99 );
-	if ( l2.lat().Degrees() <= -90.0 ) l2.setLat( -89.99 );
+	if ( l2.lat()->Degrees() >= 90.0 ) l2.setLat( 89.99 );
+	if ( l2.lat()->Degrees() <= -90.0 ) l2.setLat( -89.99 );
 	
 	location = l2;
 }
@@ -263,10 +263,10 @@ QString KStarsOptions::provinceName() {
 }
 
 double KStarsOptions::longitude() {
-	return location.lng().Degrees();
+	return location.lng()->Degrees();
 }
 
 double KStarsOptions::latitude() {
-	return location.lat().Degrees();
+	return location.lat()->Degrees();
 }
 

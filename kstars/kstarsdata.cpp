@@ -49,7 +49,9 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
-
+	LSTh = new dms();
+	HourAngle = new dms();
+	
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
 
@@ -104,8 +106,9 @@ KStarsData::~KStarsData() {
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
-
-	delete PC;
+	if (LSTh) delete LSTh;
+	if (HourAngle) delete HourAngle;
+	if (PC) delete PC;
 }
 
 bool KStarsData::readMWData( void ) {
@@ -1238,7 +1241,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	}
 
 	LST = KSUtils::UTtoLST( UTime, geo->lng() );
-	LSTh.setH( LST.hour(), LST.minute(), LST.second() );
+	LSTh->setH( LST.hour(), LST.minute(), LST.second() );
 
 	// Update positions of objects, if necessary
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
@@ -1261,7 +1264,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			Ecliptic.clear();
 			for ( unsigned int i=0; i<Equator.count(); ++i ) {
 				SkyPoint *o = new SkyPoint( 0.0, 0.0 );
-				o->setFromEcliptic( num.obliquity(), Equator.at(i)->ra(), dms( 0.0 ) );
+				dms temp(0.0);
+				o->setFromEcliptic( num.obliquity(), Equator.at(i)->ra(), &temp );
 				Ecliptic.append( o );
 			}
 		}
@@ -1382,7 +1386,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				//Tracking any object in Alt/Az mode requires focus updates
 				skymap->setDestinationAltAz(
 						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(),
-						skymap->foundObject()->az().Degrees() );
+						skymap->foundObject()->az()->Degrees() );
 				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 
@@ -1403,7 +1407,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			}
 		} else if ( ! skymap->isSlewing() ) {
 			//Not tracking and not slewing, let sky drift by
-			skymap->focus()->setRA( LSTh.Hours() - HourAngle.Hours() );
+			skymap->focus()->setRA( LSTh->Hours() - HourAngle->Hours() );
 			skymap->setDestination( skymap->focus() );
 			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
 			skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );

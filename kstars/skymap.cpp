@@ -287,10 +287,10 @@ void SkyMap::setGeometry( const QRect &r ) {
 void SkyMap::slotCenter( void ) {
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
-	clickedPoint()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+	clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
-			focus()->alt().Degrees() > -1.0 && clickedPoint()->alt().Degrees() < -1.0 ) {
+			focus()->alt()->Degrees() > -1.0 && clickedPoint()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 
@@ -312,22 +312,22 @@ void SkyMap::slotCenter( void ) {
 
 //update the destination to the selected coordinates
 	if ( ksw->options()->useAltAz ) { //correct for atmospheric refraction if using horizontal coords
-		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az().Degrees() );
+		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az()->Degrees() );
 	} else {
 		setDestination( clickedPoint() );
-		destination()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+		destination()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 	}
 
 	//display coordinates in statusBar
 	QString sRA, sDec, s;
 	char dsgn = '+';
 
-	if ( clickedPoint()->dec().Degrees() < 0 ) dsgn = '-';
-	int dd = abs( clickedPoint()->dec().degree() );
-	int dm = abs( clickedPoint()->dec().getArcMin() );
-	int ds = abs( clickedPoint()->dec().getArcSec() );
+	if ( clickedPoint()->dec()->Degrees() < 0 ) dsgn = '-';
+	int dd = abs( clickedPoint()->dec()->degree() );
+	int dm = abs( clickedPoint()->dec()->getArcMin() );
+	int ds = abs( clickedPoint()->dec()->getArcSec() );
 
-	sRA = sRA.sprintf( "%02d:%02d:%02d", clickedPoint()->ra().hour(), clickedPoint()->ra().minute(), clickedPoint()->ra().second() );
+	sRA = sRA.sprintf( "%02d:%02d:%02d", clickedPoint()->ra()->hour(), clickedPoint()->ra()->minute(), clickedPoint()->ra()->second() );
 	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
 	s = sRA + ",  " + sDec;
 	ksw->statusBar()->changeItem( s, 1 );
@@ -341,14 +341,14 @@ void SkyMap::slotDSS( void ) {
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
 	QString RAString, DecString;
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra().hour(),
-																								 clickedPoint()->ra().minute(),
-																								 clickedPoint()->ra().second() );
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra()->hour(),
+																								 clickedPoint()->ra()->minute(),
+																								 clickedPoint()->ra()->second() );
 	decsgn = '+';
-	if (clickedPoint()->dec().Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec().degree() );
-	int dm = abs( clickedPoint()->dec().getArcMin() );
-	int ds = abs( clickedPoint()->dec().getArcSec() );
+	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
+	int dd = abs( clickedPoint()->dec()->degree() );
+	int dm = abs( clickedPoint()->dec()->getArcMin() );
+	int ds = abs( clickedPoint()->dec()->getArcSec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -362,14 +362,14 @@ void SkyMap::slotDSS2( void ) {
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
 	QString RAString, DecString;
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra().hour(),
-																								 clickedPoint()->ra().minute(),
-																								 clickedPoint()->ra().second() );
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra()->hour(),
+																								 clickedPoint()->ra()->minute(),
+																								 clickedPoint()->ra()->second() );
 	decsgn = '+';
-	if (clickedPoint()->dec().Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec().degree() );
-	int dm = abs( clickedPoint()->dec().getArcMin() );
-	int ds = abs( clickedPoint()->dec().getArcSec() );
+	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
+	int dd = abs( clickedPoint()->dec()->degree() );
+	int dm = abs( clickedPoint()->dec()->getArcMin() );
+	int ds = abs( clickedPoint()->dec()->getArcSec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -428,30 +428,30 @@ void SkyMap::slotClockSlewing() {
 void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAlt(alt);
 	focus()->setAz(az);
-	focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+	focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 	slewing = false;
 
 	oldfocus()->set( focus()->ra(), focus()->dec() );
-	oldfocus()->setAz( focus()->az() );
-	oldfocus()->setAlt( focus()->alt() );
+	oldfocus()->setAz( focus()->az()->Degrees() );
+	oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-	double dHA = ksw->data()->LSTh.Hours() - focus()->ra().Hours();
+	double dHA = ksw->LSTh()->Hours() - focus()->ra()->Hours();
 	while ( dHA < 0.0 ) dHA += 24.0;
-	ksw->data()->HourAngle.setH( dHA );
+	ksw->data()->HourAngle->setH( dHA );
 
 	Update(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
 void SkyMap::setDestination( SkyPoint *p ) {
 	Destination.set( p->ra(), p->dec() );
-	destination()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+	destination()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 	emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz(double alt, double az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
-	destination()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+	destination()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 	emit destinationChanged();
 }
 
@@ -469,11 +469,11 @@ void SkyMap::slewFocus( void ) {
 			!( ksw->getClock()->isManualMode() && ksw->getClock()->isActive() );
 		if ( goSlew  ) {
 			if ( ksw->options()->useAltAz ) {
-				dX = destination()->az().Degrees() - focus()->az().Degrees();
-				dY = destination()->alt().Degrees() - focus()->alt().Degrees();
+				dX = destination()->az()->Degrees() - focus()->az()->Degrees();
+				dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 			} else {
-				dX = destination()->ra().Degrees() - focus()->ra().Degrees();
-				dY = destination()->dec().Degrees() - focus()->dec().Degrees();
+				dX = destination()->ra()->Degrees() - focus()->ra()->Degrees();
+				dY = destination()->dec()->Degrees() - focus()->dec()->Degrees();
 			}
 
 			//switch directions to go the short way around the celestial sphere, if necessary.
@@ -487,14 +487,14 @@ void SkyMap::slewFocus( void ) {
 				fY = dY / r;
 		
 				if ( ksw->options()->useAltAz ) {
-					focus()->setAlt( focus()->alt().Degrees() + fY*step );
-					focus()->setAz( focus()->az().Degrees() + fX*step );
-					focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
+					focus()->setAlt( focus()->alt()->Degrees() + fY*step );
+					focus()->setAz( focus()->az()->Degrees() + fX*step );
+					focus()->HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
 				} else {
 					fX = fX/15.; //convert RA degrees to hours
-					newFocus.set( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
+					newFocus.set( focus()->ra()->Hours() + fX*step, focus()->dec()->Degrees() + fY*step );
 					setFocus( &newFocus );
-					focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+					focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 				}
 	
 				slewing = true;
@@ -502,11 +502,11 @@ void SkyMap::slewFocus( void ) {
 				kapp->processEvents(10); //keep up with other stuff
 	
 				if ( ksw->options()->useAltAz ) {
-					dX = destination()->az().Degrees() - focus()->az().Degrees();
-					dY = destination()->alt().Degrees() - focus()->alt().Degrees();
+					dX = destination()->az()->Degrees() - focus()->az()->Degrees();
+					dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
 				} else {
-					dX = destination()->ra().Degrees() - focus()->ra().Degrees();
-					dY = destination()->dec().Degrees() - focus()->dec().Degrees();
+					dX = destination()->ra()->Degrees() - focus()->ra()->Degrees();
+					dY = destination()->dec()->Degrees() - focus()->dec()->Degrees();
 				}
 		
 				//switch directions to go the short way around the celestial sphere, if necessary.
@@ -521,7 +521,7 @@ void SkyMap::slewFocus( void ) {
 		//set focus=destination.
 		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
-		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 		ksw->setHourAngle();
 		slewing = false;
 
@@ -546,9 +546,9 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 	//Find position angle of North using a test point displaced to the north
 	//displace by 100/pixelScale radians (so distance is always 100 pixels)
 	//this is 5730/pixelScale degrees
-	double newDec = o->dec().Degrees() + 5730.0/pixelScale[ ksw->data()->ZoomLevel ];
+	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ ksw->data()->ZoomLevel ];
 	if ( newDec > 90.0 ) newDec = 90.0;
-	SkyPoint test( o->ra().Hours(), newDec );
+	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 	QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction );
 	double dx = double( x - t.x() );  //backwards to get counterclockwise angle
@@ -686,11 +686,10 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
 	if ( Horiz ) {
-		X0 = focus()->az();
-
-		X = o->az();
+		X0 = focus()->az()->Degrees();
+		X = o->az()->Degrees();
 		if ( doRefraction ) Y = refract( o->alt(), true ); //account for atmospheric refraction
-		else Y = o->alt();
+		else Y = o->alt()->Degrees();
 
 		if ( X0.Degrees() > 270.0 && X.Degrees() < 90.0 ) {
 			dX.setD( 360.0 + X0.Degrees() - X.Degrees() );
@@ -698,16 +697,16 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 			dX.setD( X0.Degrees() - X.Degrees() );
 		}
 
-		focus()->alt().SinCos( sinY0, cosY0 );
+		focus()->alt()->SinCos( sinY0, cosY0 );
 
   } else {
-		if (focus()->ra().Hours() > 18.0 && o->ra().Hours() < 6.0) {
-			dX.setD( o->ra().Degrees() + 360.0 - focus()->ra().Degrees() );
+		if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
+			dX.setD( o->ra()->Degrees() + 360.0 - focus()->ra()->Degrees() );
 		} else {
-			dX.setD( o->ra().Degrees() - focus()->ra().Degrees() );
+			dX.setD( o->ra()->Degrees() - focus()->ra()->Degrees() );
 	  }
-    Y = o->dec();
-		focus()->dec().SinCos( sinY0, cosY0 );
+    Y = o->dec()->Degrees();
+		focus()->dec()->SinCos( sinY0, cosY0 );
   }
 
 	//Convert dX, Y coords to screen pixel coords.
@@ -731,7 +730,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 }
 //---------------------------------------------------------------------------
 
-SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms lat, bool doRefract ) {
+SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms *LSTh, const dms *lat, bool doRefract ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel
 	//coordinates in the SkyMap with the center of the map as the origin.
 
@@ -743,7 +742,7 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 	dms centerAngle;
 	centerAngle.setRadians( 2.0*asin(0.5*r) );
 
-	focus()->dec().SinCos( sinDec0, cosDec0 );
+	focus()->dec()->SinCos( sinDec0, cosDec0 );
 	centerAngle.SinCos( sinc, cosc );
 
 	if ( useAltAz ) {
@@ -752,8 +751,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 		double A;
 		double sinAlt, cosAlt, sinAlt0, cosAlt0, sinAz, cosAz;
 //		double HA0 = LSTh - focus.ra();
-		az0 = focus()->az();
-		alt0 = focus()->alt();
+		az0 = focus()->az()->Degrees();
+		alt0 = focus()->alt()->Degrees();
 		alt0.SinCos( sinAlt0, cosAlt0 );
 
 		dx = -dx; //Flip East-west (Az goes in opposite direction of RA)
@@ -767,14 +766,14 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		dms deltaAz;
 		deltaAz.setRadians( A );
-		az = focus()->az().Degrees() + deltaAz.Degrees();
+		az = focus()->az()->Degrees() + deltaAz.Degrees();
 		alt.setRadians( asin( cosc*sinAlt0 + ( dy*sinc*cosAlt0 )/r ) );
 
-		if ( doRefract ) alt.setD( refract( alt, false ).Degrees() );  //find true altitude from apparent altitude
+		if ( doRefract ) alt.setD( refract( &alt, false ).Degrees() );  //find true altitude from apparent altitude
 
 		az.SinCos( sinAz, cosAz );
 		alt.SinCos( sinAlt, cosAlt );
-		lat.SinCos( sinlat, coslat );
+		lat->SinCos( sinlat, coslat );
 
 		Dec.setRadians( asin( sinAlt*sinlat + cosAlt*coslat*cosAz ) );
 		Dec.SinCos( sinDec, cosDec );
@@ -782,8 +781,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 		HA.setRadians( acos( ( sinAlt - sinlat*sinDec )/( coslat*cosDec ) ) );
 		if ( sinAz > 0.0 ) HA.setH( 24.0 - HA.Hours() );
 
-		result.setRA( LSTh.Hours() - HA.Hours() );
-		result.setRA( result.ra().reduce() );
+		result.setRA( LSTh->Hours() - HA.Hours() );
+		result.setRA( result.ra()->reduce() );
 		result.setDec( Dec.Degrees() );
 
 		return result;
@@ -801,24 +800,24 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 		deltaRA.setRadians( RARad );
 		Dec.setRadians( asin( cosc*sinDec0 + (dy*sinc*cosDec0)/r ) );
 
-		result.setRA( focus()->ra().Hours() + deltaRA.Hours() );
-		result.setRA( result.ra().reduce() );
+		result.setRA( focus()->ra()->Hours() + deltaRA.Hours() );
+		result.setRA( result.ra()->reduce() );
 		result.setDec( Dec.Degrees() );
 
 		return result;
 	}
 }
 
-dms SkyMap::refract( dms alt, bool findApparent ) {
-	int index = int( ( alt.Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
+dms SkyMap::refract( const dms *alt, bool findApparent ) {
+	int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
 	dms result;
 
-	if ( alt.Degrees() <= -2.000 ) return alt;
+	if ( alt->Degrees() <= -2.000 ) return dms( alt->Degrees() );
 
 	if ( findApparent ) {
-		result.setD( alt.Degrees() + RefractCorr1[index] );
+		result.setD( alt->Degrees() + RefractCorr1[index] );
 	} else {
-		result.setD( alt.Degrees() + RefractCorr2[index] );
+		result.setD( alt->Degrees() + RefractCorr2[index] );
 	}	
 
 	return result;
@@ -853,22 +852,22 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPole
 
 //Skip objects below the horizon if the ground is drawn.
 //commented out because ground disappears if it fills the view
-//	if ( useAltAz && drawGround && p->alt().Degrees() < -2.0 ) return false;
+//	if ( useAltAz && drawGround && p->alt()->Degrees() < -2.0 ) return false;
 
 	if ( useAltAz ) {
-		dY = fabs( p->alt().Degrees() - focus()->alt().Degrees() );
+		dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
 	} else {
-		dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
+		dY = fabs( p->dec()->Degrees() - focus()->dec()->Degrees() );
 	}
 	if ( dY > FOV ) return false;
 	if ( isPoleVisible ) return true;
 
 	if ( useAltAz ) {
-		dX = fabs( p->az().Degrees() - focus()->az().Degrees() );
-		XMax = 1.2*FOV/cos( focus()->alt().radians() );
+		dX = fabs( p->az()->Degrees() - focus()->az()->Degrees() );
+		XMax = 1.2*FOV/cos( focus()->alt()->radians() );
 	} else {
-		dX = fabs( p->ra().Degrees() - focus()->ra().Degrees() );
-		XMax = 1.2*FOV/cos( focus()->dec().radians() );
+		dX = fabs( p->ra()->Degrees() - focus()->ra()->Degrees() );
+		XMax = 1.2*FOV/cos( focus()->dec()->radians() );
 	}
 	if ( dX > 180.0 ) dX = 360.0 - dX; // take shorter distance around sky
 
@@ -1003,7 +1002,7 @@ void SkyMap::setRiseSetLabels( void ) {
 //			i18n(", Azimuth: ") + rt3;
 		rt = i18n( "Rise time: %1" ).arg( rt2 );
 
-	} else if ( clickedObject()->alt().Degrees() > 0 ) {
+	} else if ( clickedObject()->alt()->Degrees() > 0 ) {
 		rt = i18n( "No rise time: Circumpolar" );
 	} else {
 		rt = i18n( "No rise time: Never rises" );
@@ -1026,13 +1025,13 @@ void SkyMap::setRiseSetLabels( void ) {
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
 		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( st2 );
 
-	} else if ( clickedObject()->alt().Degrees() > 0 ) {
+	} else if ( clickedObject()->alt()->Degrees() > 0 ) {
 		st = i18n( "No set time: Circumpolar" );
 	} else {
 		st = i18n( "No set time: Never rises" );
 	}
 
-	//QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
+	//QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->LSTh() );
 	QTime ttime = clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString tt, tt2, tt3;
 	dms trAlt = clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );

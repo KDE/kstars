@@ -83,12 +83,12 @@ public:
 	/**
 	 *@returns Ecliptic Longitude coordinate
 	 */
-	dms ecLong( void ) const { return ep.longitude; };
+	const dms* ecLong( void ) const { return &ep.longitude; };
 
 	/**
 	 *@returns Ecliptic Latitude coordinate
 	 */
-	dms ecLat( void ) const { return ep.latitude; };
+	const dms* ecLat( void ) const { return &ep.latitude; };
 
 	/**
 	 *Set Ecliptic Longitude according to argument.

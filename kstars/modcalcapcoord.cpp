@@ -224,10 +224,8 @@ double modCalcApCoord::getEpoch (QString eName) {
 }
 
 void modCalcApCoord::showEquCoords ( SkyPoint sp ) {
-
 	rafBox->show( sp.ra() );
 	decfBox->show( sp.dec() );
-	
 }
 
 long double modCalcApCoord::epochToJd (double epoch) {

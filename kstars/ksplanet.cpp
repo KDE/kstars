@@ -226,8 +226,8 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		EclipticPosition trialpos;
 
 		double jm = num->julianMillenia();
-		Earth->ecLong().SinCos( sinL0, cosL0 );
-		Earth->ecLat().SinCos( sinB0, cosB0 );
+		Earth->ecLong()->SinCos( sinL0, cosL0 );
+		Earth->ecLat()->SinCos( sinB0, cosB0 );
 		double eX = Earth->rsun()*cosB0*cosL0;
 		double eY = Earth->rsun()*cosB0*sinL0;
 		double eZ = Earth->rsun()*sinB0;

@@ -79,11 +79,11 @@ public:
 /**
 	*@returns longitude
 	*/	
-	dms lng() const { return Longitude; }
+	const dms* lng() const { return &Longitude; }
 /**
 	*@returns latitude
 	*/
-	dms lat() const { return Latitude; }
+	const dms* lat() const { return &Latitude; }
 /**
 	*@returns height
 	*/

@@ -42,7 +42,7 @@ void KSPlanetBase::EquatorialToEcliptic( dms Obliquity ) {
 }
 	
 void KSPlanetBase::EclipticToEquatorial( dms Obliquity ) {
-	setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
+	setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){

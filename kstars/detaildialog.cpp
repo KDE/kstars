@@ -308,13 +308,13 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
-	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra().hour(), o->ra().minute(), o->ra().second() ), this );
-	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec().degree(), 176, o->dec().getArcMin(), o->dec().getArcSec() ), this );
+	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra()->hour(), o->ra()->minute(), o->ra()->second() ), this );
+	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec()->degree(), 176, o->dec()->getArcMin(), o->dec()->getArcSec() ), this );
 
 	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
 	AltLabel = new QLabel( i18n( "Altitude:" ), this );
-	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az().degree(), 176, o->az().getArcMin(), o->az().getArcSec() ), this );
-	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt().degree(), 176, o->alt().getArcMin(), o->alt().getArcSec() ), this );
+	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az()->degree(), 176, o->az()->getArcMin(), o->az()->getArcSec() ), this );
+	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt()->degree(), 176, o->alt()->getArcMin(), o->alt()->getArcSec() ), this );
 
 	QFont boldFont = RA->font();
 	boldFont.setWeight( QFont::Bold );
@@ -376,7 +376,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.getArcMin(), saz.getArcSec() ), this );
 	} else {
 		QString rs, ss;
-		if ( o->alt().Degrees() > 0.0 ) {
+		if ( o->alt()->Degrees() > 0.0 ) {
 			rs = i18n( "Circumpolar" );
 			ss = i18n( "Circumpolar" );
 		} else {
@@ -879,7 +879,7 @@ QString DetailDialog::parseADVData(QString link)
   if ( (index = link.find("KSRA")) != -1)
   {
     link.remove(index, 4);
-    subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra().hour(), selectedObject->ra().minute(), selectedObject->ra().second());
+    subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra()->hour(), selectedObject->ra()->minute(), selectedObject->ra()->second());
     subLink = subLink.insert(2, "%20");
     subLink = subLink.insert(7, "%20");
 
@@ -888,15 +888,15 @@ QString DetailDialog::parseADVData(QString link)
   if ( (index = link.find("KSDEC")) != -1)
   {
     link.remove(index, 5);
-    if (selectedObject->dec().degree() < 0)
+    if (selectedObject->dec()->degree() < 0)
     {
-       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec().degree(), selectedObject->dec().minute(), selectedObject->dec().second());
+       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
        subLink = subLink.insert(3, "%20");
        subLink = subLink.insert(8, "%20");
     }
     else
     {
-       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec().degree(), selectedObject->dec().minute(), selectedObject->dec().second());
+       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
        subLink = subLink.insert(0, "%2B");
        subLink = subLink.insert(5, "%20");
        subLink = subLink.insert(10, "%20");

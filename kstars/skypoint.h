@@ -55,7 +55,9 @@ public:
 	*@param d Declination
 	*/	
 
-  SkyPoint( dms r, dms d ) { set( r, d ); }
+	SkyPoint( dms r, dms d ) { set( r, d ); }
+	SkyPoint( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
+
 /**
 	*Sets RA, Dec and RA0, Dec0 according to arguments.
 	*Does not set Altitude or Azimuth.  Differs from default constructor
@@ -63,7 +65,7 @@ public:
 	*@param r Right Ascension, expressed as a double	
 	*@param d Declination, expressed as a double
 	*/	
-  SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+	SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
 
 /**
 	*Empty destructor.
@@ -76,7 +78,8 @@ public:
 	*@param r Right Ascension	
 	*@param d Declination
 	*/
-  void set( dms r, dms d ) { RA0.set( r ); Dec0.set( d ); RA.set( r ); Dec.set( d ); }
+	void set( dms r, dms d ) { RA0.set( r ); Dec0.set( d ); RA.set( r ); Dec.set( d ); }
+	void set( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
 
 /**
 	*Sets RA, Dec and RA0, Dec0 according to arguments.  Does not set
@@ -84,59 +87,59 @@ public:
 	*@param r Right Ascension, expressed as a double	
 	*@param d Declination, expressed as a double
 	*/
-  void set( double r, double d ) { RA0.setH( r ); Dec0.setD( d ); RA.setH( r ); Dec.setD( d ); }
+	void set( double r, double d ) { RA0.setH( r ); Dec0.setD( d ); RA.setH( r ); Dec.setD( d ); }
 
 /**
 	*Sets RA0, the catalog Right Ascension.
 	*@param r Right Ascension.
 	*/
-  void setRA0( dms r ) { RA0.set( r ); }
+	void setRA0( dms r ) { RA0.set( r ); }
 
 /**
 	*Sets RA0, the catalog Right Ascension.  Differs from above function
 	*only in argument type.
 	*@param r Right Ascension, expressed as a double.
 	*/
-  void setRA0( double r ) { RA0.setH( r ); }
+	void setRA0( double r ) { RA0.setH( r ); }
 
 /**
 	*Sets Dec0, the catalog Declination.
 	*@param d Declination.
 	*/
-  void setDec0( dms d ) { Dec0.set( d ); }
+	void setDec0( dms d ) { Dec0.set( d ); }
 
 /**
 	*Sets Dec0, the catalog Declination.  Differs from above function only
 	*in argument type.
 	*@param d Declination, expressed as a double.
 	*/
-  void setDec0( double d ) { Dec0.setD( d ); }
+	void setDec0( double d ) { Dec0.setD( d ); }
 
 /**
 	*Sets RA, the current Right Ascension.
 	*@param r Right Ascension.
 	*/
-  void setRA( dms r ) { RA.set( r ); }
+	void setRA( dms r ) { RA.set( r ); }
 
 /**
 	*Sets RA, the current Right Ascension.  Differs from above function only
 	*in argument type
 	*@param r Right Ascension, expressed as a double.
 	*/
-  void setRA( double r ) { RA.setH( r ); }
+	void setRA( double r ) { RA.setH( r ); }
 
 /**
 	*Sets Dec, the current Declination
 	*@param d Declination.
 	*/
-  void setDec( dms d ) { Dec.set( d ); }
+	void setDec( dms d ) { Dec.set( d ); }
 
 /**
 	*Sets Dec, the current Declination.  Differs from above function only
 	*in argument type
 	*@param d Declination, expressed as a double.
 	*/
-  void setDec( double d ) { Dec.setD( d ); }
+	void setDec( double d ) { Dec.setD( d ); }
 
 /**
 	*Sets Alt, the Altitude.
@@ -166,37 +169,37 @@ public:
 	*Returns the catalog Right Ascension.
 	*@returns RA0, the catalog Right Ascension.	
 	*/
-	dms ra0() const { return RA0; };
+	const dms* ra0() const { return &RA0; };
 
 /**
 	*Returns the catalog Declination.
 	*@returns Dec0, the catalog Declination.	
 	*/
-  dms dec0() const { return Dec0; };
+	const dms* dec0() const { return &Dec0; };
 
 /**
 	*Returns the apparent Right Ascension.
 	*@returns RA, the current Right Ascension.	
 	*/
-	dms ra() const { return RA; }
+	const dms* ra() const { return &RA; }
 
 /**
 	*Returns the apparent Declination.
 	*@returns Dec, the current Declination.	
 	*/
-  dms dec() const { return Dec; }
+	const dms* dec() const { return &Dec; }
 
 /**
 	*Returns the apparent Azimuth.
 	*@returns Az, the current Azimuth.	
 	*/
-	dms az() const { return Az; }
+	const dms* az() const { return &Az; }
 
 /**
 	*Returns the apparent Altitude.
 	*@returns Alt, the current Altitude.	
 	*/
-	dms alt() const { return Alt; }
+	const dms* alt() const { return &Alt; }
 
 /**
 	*Determines the (Altitude, Azimuth) coordinates of the
@@ -205,7 +208,7 @@ public:
 	*@param LST the local sidereal time
 	*@param lat the observer's latitude
 	*/
-	void EquatorialToHorizontal( dms LST, dms lat );
+	void EquatorialToHorizontal( const dms* LST, const dms* lat );
 
 /**
 	*Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
@@ -218,7 +221,7 @@ public:
 	*SkyPoint, given Ecliptic (Long, Lat) coordinates, and
 	*the Julian Date.
 	*/
-	void setFromEcliptic( dms Obliquity, dms EcLong, dms EcLat );
+	void setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcLat );
 
 /**
 	*Determines the (RA, Dec) coordinates of the
@@ -227,7 +230,7 @@ public:
 	*@param LST the local sidereal time
 	*@param lat the observer's latitude
 	*/
-	void HorizontalToEquatorial( dms LSTh, dms lat );
+	void HorizontalToEquatorial( const dms* LSTh, const dms* lat );
 
 /**
 	*Determine the current coordinates (RA, Dec) from the catalog
@@ -243,17 +246,17 @@ public:
 /**Determine the effects of aberration for this SkyPoint*/
 	void aberrate(const KSNumbers *num);
 	
-/**	Computes the apparent coordinates for this SkyPoint. The difference 
-  	*with function updateCoords is that original coordinates might 
-  	* not be J2000, and final coordinates might not be the present time.
-  	*@param jd0 Julian Day which identifies the original epoch
-  	*@param jdf Julian Day which identifies the final epoch
+/**Computes the apparent coordinates for this SkyPoint. The difference 
+	*with function updateCoords is that original coordinates might 
+	* not be J2000, and final coordinates might not be the present time.
+	*@param jd0 Julian Day which identifies the original epoch
+	*@param jdf Julian Day which identifies the final epoch
 	*/
-  void apparentCoord(long double jd0, long double jdf);
+	void apparentCoord(long double jd0, long double jdf);
 
-/** 	General case of precession. It precess from an original epoch to a 
- 	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent 
- 	*the coordinates for the original epoch and not for J2000, as usual.
+/**General case of precession. It precess from an original epoch to a 
+	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent 
+	*the coordinates for the original epoch and not for J2000, as usual.
 	*@param jd0 Julian Day which identifies the original epoch
 	*@param jdf Julian Day which identifies the final epoch
 	*/

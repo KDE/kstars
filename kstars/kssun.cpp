@@ -67,7 +67,7 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 
 		setEcLong( trialpos.longitude.Degrees() + 180.0 );
-		setEcLong( ecLong().reduce().Degrees() );
+		setEcLong( ecLong()->reduce().Degrees() );
 		setEcLat( -1.0*trialpos.latitude.Degrees() );
 
 	} else {
@@ -124,7 +124,7 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		ep.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
 		setEcLong( EarthLong.Degrees() + 180.0 );
-		setEcLong( ecLong().reduce().Degrees() );
+		setEcLong( ecLong()->reduce().Degrees() );
 		setEcLat( -1.0*EarthLat.Degrees() );
 
 		/*

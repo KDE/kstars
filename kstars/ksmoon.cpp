@@ -173,32 +173,36 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 	return true;
 }
 
-void KSMoon::findPosition( KSNumbers *num, dms lat, dms LST ) {
+void KSMoon::findPosition( KSNumbers *num, const dms *lat, const dms *LST ) {
 	findPosition(num);
 	localizeCoords( lat, LST );
 }
 
-void KSMoon::localizeCoords( dms lat, dms LST ) {
+void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {
 	//convert geocentric coordinates to local apparent coordinates (topocentric coordinates)
 	dms HA, HA2; //Hour Angle, before and after correction
 	double rsinp, rcosp, u, sinHA, cosHA, sinDec, cosDec, D;
- double cosHA2;
-	u = atan( 0.996647*tan( lat.radians() ) );
+	double cosHA2;
+	
+	u = atan( 0.996647*tan( lat->radians() ) );
 	rsinp = 0.996647*sin( u );
 	rcosp = cos( u );
-	HA.setD( LST.Degrees() - ra().Degrees() );
+	HA.setD( LST->Degrees() - ra()->Degrees() );
 	HA.SinCos( sinHA, cosHA );
-	dec().SinCos( sinDec, cosDec );
+	dec()->SinCos( sinDec, cosDec );
 	D = atan( ( rcosp*sinHA )/( Rearth*cosDec/6378.14 - rcosp*cosHA ) );
-	ra().setRadians( ra().radians() - D );
+	dms temp;
+	temp.setRadians( ra()->radians() - D );
+	setRA( temp );
 
-	HA2.setD( LST.Degrees() - ra().Degrees() );
+	HA2.setD( LST->Degrees() - ra()->Degrees() );
 	cosHA2 = cos( HA2.radians() );
-	dec().setRadians( atan( cosHA2*( Rearth*sinDec/6378.14 - rsinp )/( Rearth*cosDec*cosHA/6378.14 - rcosp ) ) );
+	temp.setRadians( atan( cosHA2*( Rearth*sinDec/6378.14 - rsinp )/( Rearth*cosDec*cosHA/6378.14 - rcosp ) ) );
+	setDec( temp );
 }
 
 void KSMoon::findPhase( const KSSun *Sun ) {
-	Phase.setD( ecLong().Degrees() - Sun->ecLong().Degrees() );
+	Phase.setD( ecLong()->Degrees() - Sun->ecLong()->Degrees() );
 	Phase.setD( Phase.reduce().Degrees() );
 //	int iPhase = 24 - int( Phase.Hours()+0.5 );
 	int iPhase = int( Phase.Hours()+0.5 );

@@ -172,9 +172,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		SimClock* getClock( void ) { return clock; }
 
-	/**@returns the local sidereal time.
+	/**@returns pointer to the local sidereal time.
 		*/
-		dms LSTh();
+		dms* LSTh() { return data()->LSTh; }
 
 	/**@returns the timestep scale of the simulation clock.
 		*/
@@ -316,7 +316,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Re-assign the input focus to the SkyMap widget.
 			*/
-		void mapGetsFocus();
+		void mapGetsFocus() { map()->QWidget::setFocus(); }
 
 		void saveTimeBoxShaded( bool s );
 		void saveGeoBoxShaded( bool s );

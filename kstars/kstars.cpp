@@ -160,7 +160,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	//displayed in the infobox to update every second.
 	if ( !options()->isTracking && Data->LST > oldLST ) { 
 		int nSec = oldLST.secsTo( Data->LST );
-		Map->focus()->setRA( Map->focus()->ra().Hours() + double( nSec )/3600. );
+		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
 		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( Data->LSTh, geo()->lat() );
 		showFocusCoords();
 	}
@@ -281,18 +281,14 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 //class where they _really_ belong, we'll do the forwarding.
 //
 void KStars::setHourAngle() {
-	data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
+	data()->HourAngle->setH( LSTh()->Hours() - map()->focus()->ra()->Hours() );
 }
 
 void KStars::setLSTh( QDateTime UTC ) {
 	data()->LST = KSUtils::UTtoLST( UTC, geo()->lng() );
-	data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
+	LSTh()->setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 }
 
-dms KStars::LSTh() { return data()->LSTh; }
-
-KStarsData* KStars::data() { return pd->kstarsData; }
-
-void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
+KStarsData* KStars::data( void ) { return pd->kstarsData; }
 
 #include "kstars.moc"

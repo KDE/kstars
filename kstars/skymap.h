@@ -221,7 +221,7 @@ public slots:
 	*@param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.  Otherwise, vice versa.
 	*@returns the corrected altitude.
 	*/
-	dms refract( dms alt, bool findApparent );
+	dms refract( const dms *alt, bool findApparent );
 
 /**Step the Focus point toward the Destination point.  If the Focus is within 1 step of the
 	*destination, snap directly to the destination.
@@ -337,7 +337,7 @@ private:
 	*@param LSTh Local sidereal time.
 	*@param lat current geographic laitude
 	*/	
-	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms LST, dms lat, bool doRefraction=true );
+	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
 /**Large switch-controlled statement to draw objects on the SkyMap
 	*according to their type and catalog.  This is going to be changed

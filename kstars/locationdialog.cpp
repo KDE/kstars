@@ -420,8 +420,8 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 	//find all cities within 3 degrees of (lng, lat); list them in GeoBox
 	GeoBox->clear();
 	for ( unsigned int i=0; i<ks->data()->geoList.count(); ++i ) {
-		if ( ( abs(	lng - int( ks->data()->geoList.at(i)->lng().Degrees() ) ) < 3 ) &&
-				 ( abs( lat - int( ks->data()->geoList.at(i)->lat().Degrees() ) ) < 3 ) ) {
+		if ( ( abs(	lng - int( ks->data()->geoList.at(i)->lng()->Degrees() ) ) < 3 ) &&
+				 ( abs( lat - int( ks->data()->geoList.at(i)->lat()->Degrees() ) ) < 3 ) ) {
 	    QString sc( ks->data()->geoList.at(i)->translatedName() );
 			sc.append( ", " );
 			if ( !ks->data()->geoList.at(i)->province().isEmpty() ) {
