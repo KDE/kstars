@@ -268,7 +268,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 			ostream << decB.toDMSString() << space;
 		else
 			if(decCheckBatch->isChecked() )
-				ostream << decB.toHMSString() << space;
+				ostream << decB.toDMSString() << space;
 
 		// Read Epoch and write in ostream if corresponds
 
@@ -293,10 +293,10 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 			epochfB = getEpoch( targetEpochBoxBatch->text() );
 
 		if ( allRadioBatch->isChecked() )
-			ostream << epochfB;
+			ostream << epochfB << space;
 		else
 			if(targetEpochCheckBatch->isChecked() )
-				ostream << epochfB;
+				ostream << epochfB << space;
 
 
 		jd0 = epochToJd ( epoch0B );
@@ -304,7 +304,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 		sp = SkyPoint (raB, decB);
 		sp.precessFromAnyEpoch(jd0, jdf);
 
-		ostream << sp.ra()->toHMSString() << sp.dec()->toDMSString() << endl;
+		ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
 	}
 
 
