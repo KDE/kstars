@@ -303,6 +303,7 @@ void AltVsTime::slotClear(void) {
 	avtUI->nameBox->clear();
 	avtUI->raBox->clear();
 	avtUI->decBox->clear();
+        avtUI->epochName->clear();
 	View->clearObjectList();
 	View->repaint();
 }
