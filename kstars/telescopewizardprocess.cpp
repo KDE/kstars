@@ -22,6 +22,7 @@
 #include <kmessagebox.h>
 #include <kprogress.h>
 
+#include "Options.h"
 #include "kstars.h"
 #include "telescopewizardprocess.h"
 #include "timedialog.h"

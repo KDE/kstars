@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "Options.h"
 #include "kstars.h"
 
 #include "opsadvanced.h"

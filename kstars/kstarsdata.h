@@ -48,7 +48,6 @@
 #include "ksmoon.h"
 #include "planetcatalog.h"
 
-#include "Options.h"
 #include "colorscheme.h"
 #include "simclock.h"
 #include "skymap.h"
@@ -56,9 +55,7 @@
 #include "timezonerule.h"
 #include "detaildialog.h"
 #include "jupitermoons.h"
-#include "indidriver.h"
 #include "indistd.h"
-#include "telescopewizardprocess.h"
 #include "fitsviewer.h"
 #include "tools/lcgenerator.h"
 
@@ -78,8 +75,11 @@ class KStandardDirs;
 class FileSource;
 class StarDataSink;
 class QDataPump;
-class elts;
+class Options;
 class KSFileReader;
+class INDIDriver;
+class INDIHostsInfo;
+class telescopeWizardProcess;
 
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
@@ -453,12 +453,12 @@ public slots:
 		*/
 	void setTimeDirection( float scale );
 
-	void saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
-	void saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
-	void saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
-	void saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
-	void saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
-	void saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
+	void saveTimeBoxShaded( bool b );
+	void saveGeoBoxShaded( bool b );
+	void saveFocusBoxShaded( bool b );
+	void saveTimeBoxPos( QPoint p );
+	void saveGeoBoxPos( QPoint p );
+	void saveFocusBoxPos( QPoint p );
 
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is

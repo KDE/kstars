@@ -27,11 +27,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "detaildialog.h"
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "imageviewer.h"
 #include "infoboxes.h"
+#include "detaildialog.h"
 #include "addlinkdialog.h"
 #include "kspopupmenu.h"
 #include "skymap.h"

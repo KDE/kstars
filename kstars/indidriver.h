@@ -26,7 +26,6 @@
 
 class KStars;
 
-
 class KListView;
 class KPopupMenu;
 class KProcess;

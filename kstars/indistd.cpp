@@ -9,6 +9,7 @@
     2004-01-18: This class handles INDI Standard properties.
  */
  
+ #include "Options.h"
  #include "indielement.h"
  #include "indiproperty.h"
  #include "indigroup.h"

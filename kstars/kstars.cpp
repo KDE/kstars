@@ -26,9 +26,10 @@
 #include <kdebug.h>
 #include <qpalette.h>
 
-#include "finddialog.h"
+#include "Options.h"
 #include "kstars.h"
 #include "simclock.h"
+#include "finddialog.h"
 #include "ksutils.h"
 #include "infoboxes.h"
 

@@ -23,10 +23,10 @@
 
 #include <kmessagebox.h>
 
-//#include "infopanel.h"
-#include "infoboxes.h"
+#include "Options.h"
 #include "kstars.h"
 #include "ksutils.h"
+#include "infoboxes.h"
 #include "toggleaction.h"
 #include "indimenu.h"
 

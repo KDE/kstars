@@ -19,6 +19,7 @@
 
 #include <math.h> //log10()
 
+#include "Options.h"
 #include "skymap.h"
 #include "kstars.h"
 #include "infoboxes.h"

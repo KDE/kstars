@@ -22,6 +22,7 @@
 #include <kdebug.h>
 
 #include "kstars.h"
+#include "Options.h"
 
 #define KSTARS_VERSION "1.0"
 

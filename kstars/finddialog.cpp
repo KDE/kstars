@@ -21,6 +21,7 @@
 
 #include "finddialog.h"
 #include "kstars.h"
+#include "Options.h"
 
 #include <qptrlist.h>
 

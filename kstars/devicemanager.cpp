@@ -11,6 +11,7 @@
    
  */
  
+#include "Options.h"
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indiproperty.h"

@@ -22,6 +22,7 @@
 #include <qdir.h>
 #include <qfile.h>
 
+#include "Options.h"
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -29,6 +30,7 @@
 #include "filesource.h"
 #include "stardatasink.h"
 #include "ksfilereader.h"
+#include "indidriver.h"
 #include "indi/lilxml.h"
 
 #include <kapplication.h>
@@ -2258,5 +2260,12 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 	if ( cmdCount ) return true;
 	return false;
 }
+
+void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
+void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
+void KStarsData::saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
+void KStarsData::saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
+void KStarsData::saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
+void KStarsData::saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
 
 #include "kstarsdata.moc"

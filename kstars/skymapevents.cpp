@@ -25,10 +25,11 @@
 #include <stdlib.h>
 #include <math.h> //using fabs()
 
-#include "infoboxes.h"
+#include "Options.h"
 #include "kstars.h"
 #include "skymap.h"
 #include "ksutils.h"
+#include "infoboxes.h"
 #include "ksfilereader.h"
 #include "kspopupmenu.h"
 
