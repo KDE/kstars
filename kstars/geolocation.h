@@ -50,11 +50,11 @@ public:
 	*Constructor using dms objects to specify longitude and latitude.
 	*/
 	
-	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", int TZ=0 );
+	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0 );
 /**
 	*Constructor using doubles to specify longitude and latitude.
 	*/
-	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", int TZ=0 );
+	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0 );
 /**
 	*Destructor (empty)
 	*/
@@ -97,7 +97,7 @@ public:
 /**
 	*Return time zone
 	*/
-	int   TZ() const { return TimeZone; }
+	double TZ() const { return TimeZone; }
 
 /**
 	*Set longitude according to argument.
@@ -132,7 +132,7 @@ public:
 /**
 	*Sets Time Zone according to argument.
 	*/
-	void setTZ( int tz ) { TimeZone = tz; }
+	void setTZ( double tz ) { TimeZone = tz; }
 /**
 	*Set location data to that of the GeoLocation pointed to by argument.
 	*Similar to copy constructor.
@@ -142,7 +142,7 @@ public:
 private:
 	dms Longitude, Latitude;
 	QString Name, Province, Country;
-	int TimeZone;
+	double TimeZone;
 };
 
 #endif

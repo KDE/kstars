@@ -57,6 +57,7 @@ public:
 		*/
 	static bool openDataFile( QFile &file, QString filename );
 	bool readCityData( void );
+	bool processCity( QString line );
 	bool readStarData( void );
 	bool readNGCData( void );
 	bool readCLineData( void );

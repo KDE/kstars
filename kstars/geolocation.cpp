@@ -41,7 +41,7 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				QString name, QString province, QString country, int tz ) {
+				QString name, QString province, QString country, double tz ) {
 	Longitude = lng;
 	Latitude = lat;
 	Name = name;
@@ -51,7 +51,7 @@ GeoLocation::GeoLocation( dms lng, dms lat,
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-				QString name, QString province, QString country, int tz ) {
+				QString name, QString province, QString country, double tz ) {
 	Longitude.set( lng );
 	Latitude.set( lat );
 	Name = name;

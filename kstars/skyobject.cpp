@@ -90,7 +90,7 @@ QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
 	UT = UT.reduce();
 
 	//convert UT to LT;
-	dms LT = dms( UT.getD() - 15.0*double( geo->TZ() ) ).reduce();
+	dms LT = dms( UT.getD() - 15.0*geo->TZ() ).reduce();
 
 	return QTime( LT.getHour(), LT.getHMin(), LT.getHSec() );
 }
@@ -121,6 +121,6 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
   UT = UT.reduce();
 
 	//convert UT to LT;
-	dms LT = dms( UT.getD() - 15.0*double( geo->TZ() ) ).reduce();
+	dms LT = dms( UT.getD() - 15.0*geo->TZ() ).reduce();
 	return QTime( LT.getHour(), LT.getHMin(), LT.getHSec() );
 }

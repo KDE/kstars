@@ -270,7 +270,7 @@ void LocationDialog::addCity( void ) {
 			char ltsgn = 'N'; if ( lat.getDeg()<0 ) ltsgn = 'S';
 			char lgsgn = 'E'; if ( lng.getDeg()<0 ) lgsgn = 'W';
 
-			entry = entry.sprintf( "%s :%s :%s :%2d:%2d:%2d:%c:%3d:%2d:%2d:%c\n",
+			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : x\n",
 						name.local8Bit().data(), province.local8Bit().data(), country.local8Bit().data(),
 						abs(lat.getDeg()), lat.getArcMin(), lat.getArcSec(), ltsgn,
 						abs(lng.getDeg()), lng.getArcMin(), lat.getArcSec(), lgsgn );
@@ -284,7 +284,7 @@ void LocationDialog::addCity( void ) {
 			unsigned int i;
 			for ( i=0; i < p->GetData()->geoList.count(); ++i ) {
 				if ( p->GetData()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
-					int TZ = int(lng.getD()/-15.0); //estimate time zone
+					double TZ = double(int(lng.getD()/-15.0)); //estimate time zone
 					p->GetData()->geoList.insert( i, new GeoLocation( lng.getD(), lat.getD(), NewCityName->text(), NewProvinceName->text(), NewCountryName->text(), TZ ) );
 					break;
 				}
