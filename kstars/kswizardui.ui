@@ -465,7 +465,7 @@ Longitude/Latitude boxes.</string>
                                         <property name="text">
                                             <string>KStars can control most popular computerized telescope 
 mounts, as well as some focusers and CCD cameras.  It 
-can also control telescopes remotely over the internet.</string>
+can also control telescopes remotely over the Internet.</string>
                                         </property>
                                     </widget>
                                     <spacer>
