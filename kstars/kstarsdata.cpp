@@ -59,7 +59,7 @@ KStarsData::KStarsData( KStars *ks ) {
 	ADVtreeList.setAutoDelete(true);
 
 	geoList.setAutoDelete( TRUE );
-	
+
 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
   // Keep separated lists per deep space object type, to speed up drawing the sky map
   // only the complete list will delete the objects, when kstardata gets deleted.
@@ -73,14 +73,14 @@ KStarsData::KStarsData( KStars *ks ) {
 
 	cometList.setAutoDelete( TRUE );
 	asteroidList.setAutoDelete( TRUE );
-	
+
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
-	
+
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
     VariableStarsList.setAutoDelete(TRUE);
 
@@ -97,17 +97,17 @@ KStarsData::KStarsData( KStars *ks ) {
 	TypeName[8] = i18n( "galaxy" );
 	TypeName[9] = i18n( "comet" );
 	TypeName[10] = i18n( "asteroid" );
-	
+
 	// at startup times run forward
 	setTimeDirection( 0.0 );
-	
+
 	temporaryTrail = false;
 }
 
 KStarsData::~KStarsData() {
 	objects--;
 	checkDataPumpAction();
-	
+
 	if ( 0 != oldOptions ) {
   	delete oldOptions;
 		oldOptions = 0;
@@ -194,7 +194,7 @@ bool KStarsData::readADVTreeData(void)
       Interface = Line.mid(13);
       continue;
     }
-      
+
     else
     {
       Name = Line.mid(0, Line.find(":"));
@@ -210,10 +210,10 @@ bool KStarsData::readADVTreeData(void)
          Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
 
        }
-      
+
       Type = 2;
     }
-      
+
     ADVTreeData *ADVData = new ADVTreeData;
 
     ADVData->Name = Name;
@@ -233,7 +233,7 @@ bool KStarsData::readVARData(void)
   QString varFile("valaav.txt");
   QFile localeFile;
   QFile file;
-  
+
   file.setName( locateLocal( "appdata", varFile ) );
 		if ( !file.open( IO_ReadOnly ) )
 		{
@@ -242,7 +242,7 @@ bool KStarsData::readVARData(void)
 			{
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", varFile ) );
-				
+
 				if (localeFile.open(IO_WriteOnly))
 				{
 				    QTextStream readStream(&file);
@@ -255,10 +255,10 @@ bool KStarsData::readVARData(void)
 			else
 			 return false;
 		}
-		
+
 
    QTextStream stream(&file);
-   
+
   stream.readLine();
 
   while  (!stream.atEnd())
@@ -444,6 +444,9 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
 	}
 
+	// HEV: look up star name in internationalization filesource
+	name = i18n("star name", name.local8Bit().data());
+
 	bool starIsUnnamed = false;
 	if (name.isEmpty()) {
 		name = "star";
@@ -473,17 +476,17 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 
 bool KStarsData::readAsteroidData( void ) {
 	QFile file;
-	
+
 	if ( KSUtils::openDataFile( file, "asteroids.dat" ) ) {
 		KSFileReader fileReader( file );
-		
+
 		while( fileReader.hasMoreLines() ) {
 			QString line, name;
 			int mJD;
 			double a, e, dble_i, dble_w, dble_N, dble_M, H;
 			long double JD;
 			KSAsteroid *ast = 0;
-			
+
 			line = fileReader.readLine();
 			name = line.mid( 6, 17 ).stripWhiteSpace();
 			mJD  = line.mid( 24, 5 ).toInt();
@@ -494,15 +497,15 @@ bool KStarsData::readAsteroidData( void ) {
 			dble_N = line.mid( 72, 9 ).toDouble();
 			dble_M = line.mid( 82, 11 ).toDouble();
 			H = line.mid( 94, 5 ).toDouble();
-			
+
 			JD = double( mJD ) + 2400000.5;
-			
+
 			ast = new KSAsteroid( kstars, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngSize( 0.001 );
 			asteroidList.append( ast );
 			ObjNames.append( ast );
 		}
-		
+
 		if ( asteroidList.count() ) return true;
 	}
 
@@ -511,17 +514,17 @@ bool KStarsData::readAsteroidData( void ) {
 
 bool KStarsData::readCometData( void ) {
 	QFile file;
-	
+
 	if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
 		KSFileReader fileReader( file );
-		
+
 		while( fileReader.hasMoreLines() ) {
 			QString line, name;
 			int mJD;
 			double q, e, dble_i, dble_w, dble_N, Tp;
 			long double JD;
 			KSComet *com = 0;
-			
+
 			line = fileReader.readLine();
 			name = line.mid( 3, 35 ).stripWhiteSpace();
 			mJD  = line.mid( 38, 5 ).toInt();
@@ -531,19 +534,19 @@ bool KStarsData::readCometData( void ) {
 			dble_w = line.mid( 76, 9 ).toDouble();
 			dble_N = line.mid( 86, 9 ).toDouble();
 			Tp = line.mid( 96, 14 ).toDouble();
-			
+
 			JD = double( mJD ) + 2400000.5;
-			
+
 			com = new KSComet( kstars, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
 			com->setAngSize( 0.001 );
-			
+
 			cometList.append( com );
 			ObjNames.append( com );
 		}
-		
+
 		if ( cometList.count() ) return true;
 	}
-	
+
 	return false;
 }
 
@@ -551,12 +554,12 @@ bool KStarsData::readCometData( void ) {
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readDeepSkyData( void ) {
 	QFile file;
-	
+
 	for ( unsigned int i=0; i<NNGCFILES; ++i ) {
 		QString snum, fname;
 		snum = QString().sprintf( "%02d", i+1 );
 		fname = "ngcic" + snum + ".dat";
-		
+
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			KSFileReader fileReader( file ); // close file is included
 			while ( fileReader.hasMoreLines() ) {
@@ -633,7 +636,7 @@ bool KStarsData::readDeepSkyData( void ) {
 					if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );
 					else name = longname;
 				}
-			
+
 				// create new starobject or skyobject
 				// type 0 and 1 are starobjects
 				// all other are skyobjects
@@ -671,7 +674,7 @@ bool KStarsData::readDeepSkyData( void ) {
 			return false;
 		}
 	} //end for-loop through files
-	
+
 	return true;
 }
 
@@ -1126,7 +1129,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 // loaded, it can force a reload
 	if ( newMagnitude > maxSetMagnitude || forceReload ) {
 		maxSetMagnitude = newMagnitude;  // store new highest magnitude level
-		
+
 		if (reloadingData() == false) {  // if not allready reloading data
 			source = new FileSource(this, newMagnitude);
 			loader = new StarDataSink(this);
@@ -1209,7 +1212,7 @@ void KStarsData::initError(QString s, bool required = false) {
 				"\n\t~/.kde/share/apps/kstars/%1" ).arg(s);
 		caption = i18n( "Non-Critical File Not Found: %1" ).arg(s);
 	}
-	
+
 	KMessageBox::information( 0, message, caption );
 
 	if (required) {
@@ -1300,7 +1303,7 @@ void KStarsData::slotInitialize() {
 			emit progressText( i18n("Creating Planets" ) );
 			if (PC->initialize())
 				PC->addObject( ObjNames );
-			
+
 			jmoons = new JupiterMoons();
 			break;
 
@@ -1311,7 +1314,7 @@ void KStarsData::slotInitialize() {
 				initError( "asteroids.dat", false );
 			if ( !readCometData() )
 				initError( "comets.dat", false );
-			
+
 			break;
 
 		case 10: //Initialize the Moon//
@@ -1392,7 +1395,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	KSNumbers num(CurrentDate);
 
 	bool needNewCoords = false;
-	if ( fabs( CurrentDate - LastNumUpdate ) > 1.0 ) { 
+	if ( fabs( CurrentDate - LastNumUpdate ) > 1.0 ) {
 		//update time-dependent variables once per day
 		needNewCoords = true;
 		LastNumUpdate = CurrentDate;
@@ -1408,28 +1411,28 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		if ( options->drawPlanets ) PC->findPosition(&num);
 
 		//Asteroids
-		if ( options->drawPlanets && options->drawAsteroids ) 
-			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) 
+		if ( options->drawPlanets && options->drawAsteroids )
+			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
 				ast->findPosition( &num, earth() );
 
 		//Comets
-		if ( options->drawPlanets && options->drawComets ) 
-			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) 
+		if ( options->drawPlanets && options->drawComets )
+			for ( KSComet *com = cometList.first(); com; com = cometList.next() )
 				com->findPosition( &num, earth() );
 
 //		//Add a point to the planet trail if the centered object is a solar system body.
 //		if ( isSolarSystem( skymap->foundObject() ) ) {
 //			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
-//			
+//
 //			//Allow no more than 200 points in the trail
-//			while ( PlanetTrail.count() > 400 ) 
+//			while ( PlanetTrail.count() > 400 )
 //				PlanetTrail.removeFirst();
 //		}
 
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
 			Ecliptic.clear();
-			
+
 			dms temp(0.0);
 			for ( unsigned int i=0; i<Equator.count(); ++i ) {
 				SkyPoint *o = new SkyPoint( 0.0, 0.0 );
@@ -1446,7 +1449,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			Moon->findPosition( &num, geo->lat(), LSTh );
 			Moon->findPhase( PC->planetSun() );
 		}
-	
+
 		//for now, update positions of Jupiter's moons here also
 		if ( options->drawPlanets && options->drawJupiter )
 			jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
@@ -1461,17 +1464,17 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		//Planets
 		//This updates trails as well
 		PC->EquatorialToHorizontal( LSTh, geo->lat() );
-		
+
 		jmoons->EquatorialToHorizontal( LSTh, geo->lat() );
 		if ( options->drawMoon ) {
 			Moon->EquatorialToHorizontal( LSTh, geo->lat() );
 			if ( Moon->hasTrail() ) Moon->updateTrail( LSTh, geo->lat() );
 		}
-		
+
 //		//Planet Trails
-//		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() ) 
+//		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() )
 //			p->EquatorialToHorizontal( LSTh, geo->lat() );
-		
+
 		//Asteroids
 		if ( options->drawAsteroids ) {
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) {
@@ -1479,7 +1482,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				if ( ast->hasTrail() ) ast->updateTrail( LSTh, geo->lat() );
 			}
 		}
-		
+
 		//Comets
 		if ( options->drawComets ) {
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) {
@@ -1487,7 +1490,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				if ( com->hasTrail() ) com->updateTrail( LSTh, geo->lat() );
 			}
 		}
-		
+
 		//Stars
 		if ( options->drawSAO ) {
 			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
@@ -1658,7 +1661,7 @@ void KStarsData::setFullTimeUpdate() {
 
 bool KStarsData::isSolarSystem( SkyObject *o ) {
 	if ( !o ) return false;
-	return ( o->type() == 2 || o->type() == 9 || o->type() == 10 ); 
+	return ( o->type() == 2 || o->type() == 9 || o->type() == 10 );
 }
 
 #include "kstarsdata.moc"
