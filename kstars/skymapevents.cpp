@@ -252,6 +252,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Period: //advance one step forward in time
+		case Key_Greater:
 			if ( data->clock()->isActive() ) data->clock()->stop();
 			data->clock()->manualTick( true );
 			update();
