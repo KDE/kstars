@@ -125,6 +125,8 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
 	ksw->data()->INDIHostsList.at(i)->isConnected = false;
         affectedItem->setPixmap(0, disconnected);
+	connectHostB->setEnabled(true);
+        disconnectHostB->setEnabled(false);
 	break;
      }
  }

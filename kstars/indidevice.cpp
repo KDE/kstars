@@ -350,6 +350,7 @@ void INDI_P::convertSwitch(int id)
 	   if (lp->state == PS_OFF)
 	   	newSwitch(switchIndex);
 	   prop->newText();
+	   break;
 
 	 case PP_WO:
 	  prop->table_w->setText( RARowIndex, 0, QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
@@ -363,9 +364,9 @@ void INDI_P::convertSwitch(int id)
         }
 	return;
    }
-   else if ((lp->name == "Abort Slew/Track"))
+   else if ((lp->name == "Abort"))
    {
-         kdDebug() << "Stopping timer " << endl;
+         fprintf(stderr, "Stopping timer.\n");
 	 pg->dp->devTimer->stop();
 	 if (lp->state == PS_OFF)
 	 	newSwitch(switchIndex);

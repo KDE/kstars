@@ -190,8 +190,8 @@ int CelestronGPS::handleCoordSet()
 	  {
 	     StopNSEW();
 
-	     // sleep for 100 mseconds
-	     usleep(100000);
+	     // sleep for 500 mseconds
+	     usleep(500000);
 	  }
 
 	  if ((i = SlewToCoords(targetRA, targetDEC)))
