@@ -25,6 +25,8 @@
 #include <qfile.h>
 #include <qvaluelist.h>
 #include <qcstring.h>
+#include <qradiobutton.h>
+#include <qtextedit.h>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -60,6 +62,8 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
     KIconLoader *icons = KGlobal::iconLoader();
     runningPix = icons->loadIcon( "exec", KIcon::Small);
     stopPix    = icons->loadIcon( "button_cancel", KIcon::Small);
+    localMode  = icons->loadIcon( "network_local", KIcon::Small);
+    serverMode = icons->loadIcon( "network", KIcon::Small);
 
     LocalpopMenu = new KPopupMenu(localListView);
     LocalpopMenu->insertItem( runningPix, i18n("Run Service") , 0);
@@ -184,6 +188,12 @@ void INDIDriver::updateLocalButtons()
      {
 	runServiceB->setEnabled(devices[i]->state == 0);
 	stopServiceB->setEnabled(devices[i]->state == 1);
+	
+	serverLogText->clear();
+	
+	for ( QStringList::Iterator it = devices[i]->serverBuffer.begin(); it != devices[i]->serverBuffer.end(); ++it )
+	   serverLogText->insert(*it);
+	
 	break;
      }
 
@@ -218,39 +228,46 @@ void INDIDriver::processDeviceStatus(int id)
    for (uint i=0; i < devices.size(); i++)
      if (localListView->selectedItem()->text(0) == devices[i]->label)
      {
-	devices[i]->state = id == 0 ? 1 : 0;
+	devices[i]->state = (id == 0) ? 1 : 0;
 	if (devices[i]->state)
 	{
 
 	  ksw->getINDIMenu()->setCustomLabel(devices[i]->label);
 	  devices[i]->label = ksw->getINDIMenu()->currentLabel;
 
+	  devices[i]->serverBuffer.clear();
+	  
 	  if (!runDevice(devices[i]))
 	  {
 	   devices[i]->restart();
 	   return;
 	  }
 
-	  //Allow time for the INDI server to listen
-	  usleep(50000);
-
-	  if (!ksw->getINDIMenu()->processServer())
+	  if (devices[i]->mode == IDevice::M_LOCAL)
 	  {
-	   devices[i]->restart();
-	   return;
+	       //Allow time for the INDI server to listen
+	  	usleep(50000);
+
+	  	if (!ksw->getINDIMenu()->processServer())
+	  	{
+	   		devices[i]->restart();
+	   		return;
+	  	}
 	  }
 
 	  localListView->selectedItem()->setPixmap(1, runningPix);
-
-	  localListView->selectedItem()->setText(3, QString("%1").arg(devices[i]->indiPort));
+	  localListView->selectedItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
 	  runServiceB->setEnabled(false);
 	  stopServiceB->setEnabled(true);
 	  return;
 	}
-
-	  ksw->getINDIMenu()->processServer();
+	
+	  if (devices[i]->mode == IDevice::M_LOCAL)
+	  	ksw->getINDIMenu()->processServer();
+		
 	  localListView->selectedItem()->setPixmap(1, stopPix);
-	  localListView->selectedItem()->setText(3, QString(""));
+	  localListView->selectedItem()->setPixmap(2, NULL);
+	  localListView->selectedItem()->setText(4, QString(""));
 	  runServiceB->setEnabled(true);
 	  stopServiceB->setEnabled(false);
 	  devices[i]->restart();
@@ -308,7 +325,7 @@ void INDIDriver::processHostStatus(int id)
     }
 }
 
-bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
+bool INDIDriver::runDevice(IDevice *dev)
 {
   dev->indiPort = getINDIPort();
 
@@ -322,33 +339,24 @@ bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
   
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
+  
+  // Check Mode
+  dev->mode = localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
+  
+  if (dev->mode == IDevice::M_LOCAL)
+    localListView->selectedItem()->setPixmap(2, localMode);
+  else
+    localListView->selectedItem()->setPixmap(2, serverMode);
 
-  //connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)), this, SLOT(processstd(KProcess *, char*, int)));
+  connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)),  dev, SLOT(processstd(KProcess *, char*, int)));
 
-  //dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
-  dev->proc->start();
+  dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
+  //dev->proc->start();
   
   return (dev->proc->isRunning());
 }
 
-void INDIDriver::processstd(KProcess *proc, char* buffer, int buflen)
-{
-  //fprintf(stderr, "Receving the following error from child \n\n %s\n", buffer);
-
-  /*typedef QValueList<QCString> strlist;
-
-  strlist list(proc->args());
-
-  strlist::iterator it;
-
-  for (it = list.begin(); it != list.end(); ++it)
-  {
-    QString thing((*it));
-    fprintf(stderr, "%s ", thing.ascii());
-  }*/
-}
-
-void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
+void INDIDriver::removeDevice(IDevice *dev)
 {
 
   for (unsigned int i=0 ; i < devices.size(); i++)
@@ -447,7 +455,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   XMLAtt *ap;
   XMLEle *ep;
   QString groupName;
-  int groupType;
+  int groupType = KSTARS_TELESCOPE;
 
   // Get device grouping name
   ap = findXMLAtt(root, "group");
@@ -543,12 +551,13 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
 
   device->setText(0, QString(label));
   device->setPixmap(1, stopPix);
-  device->setText(2, QString(version));
+  device->setText(3, QString(version));
 
   lastDevice = device;
 
   dv = new IDevice(QString(label), QString(driver), QString(exec), QString(version));
   dv->deviceType = groupType;
+  connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalButtons()));
   
   devices.push_back(dv);
 
@@ -561,49 +570,12 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
   return true;
 }
 
-INDIDriver::IDevice::IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion)
-{
-  label = inLabel;;
-  driver = inDriver;;
-  exec = inExec;
-  version = inVersion;
-
-  // Initially off
-  state = 0;
-
-  // No port initially
-  indiPort = -1;
-
-  // not yet managed by DeviceManager
-  managed = false;
-
-  mgrID = -1;
-
-  proc = NULL;
-
-}
-
-INDIDriver::~INDIDriver()
-{
-
-  for (uint i=0; i < devices.size(); i++)
-   delete (devices[i]);
-
-}
-
-INDIDriver::IDevice::~IDevice()
-{
-  if (proc)
-      proc->kill();
-
-}
-
 int INDIDriver::activeDriverCount()
 {
   int count = 0;
 
   for (uint i=0; i < devices.size(); i++)
-    if (devices[i]->state)
+    if (devices[i]->state && devices[i]->mode == IDevice::M_LOCAL)
       count++;
 
   for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
@@ -614,23 +586,6 @@ int INDIDriver::activeDriverCount()
   return count;
 
 }
-
-void INDIDriver::IDevice::restart()
-{
-
-  mgrID = -1;
-
-  state = 0;
-
-  indiPort = -1;
-
-  if (proc)
-  	proc->kill();
-
-  proc = NULL;
-
-}
-
 
 void INDIDriver::addINDIHost()
 {
@@ -779,6 +734,66 @@ void INDIDriver::saveHosts()
  }
 
   file.close();
+
+}
+
+INDIDriver::~INDIDriver()
+{
+
+  for (uint i=0; i < devices.size(); i++)
+   delete (devices[i]);
+
+}
+
+IDevice::IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion)
+{
+  label = inLabel;;
+  driver = inDriver;;
+  exec = inExec;
+  version = inVersion;
+
+  // Initially off
+  state = 0;
+
+  // No port initially
+  indiPort = -1;
+
+  // not yet managed by DeviceManager
+  managed = false;
+
+  mgrID = -1;
+
+  proc = NULL;
+
+}
+
+void IDevice::processstd(KProcess *proc, char* buffer, int buflen)
+{
+  serverBuffer.append(buffer);
+  emit newServerInput();
+}
+
+
+IDevice::~IDevice()
+{
+  if (proc)
+      proc->kill();
+
+}
+
+void IDevice::restart()
+{
+
+  mgrID = -1;
+
+  state = 0;
+
+  indiPort = -1;
+
+  if (proc)
+  	proc->kill();
+
+  proc = NULL;
 
 }
 

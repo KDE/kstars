@@ -17,6 +17,7 @@
 #ifndef INDIDRIVER_H
 #define INDIDRIVER_H
 
+#include <qstringlist.h>
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
@@ -39,7 +40,38 @@ struct INDIHostsInfo
   int mgrID;
 };
 
+class IDevice : public QObject
+{
+     Q_OBJECT
+     
+     public:
+        IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion);
+	~IDevice();
 
+      enum ServeMODE { M_LOCAL, M_SERVER };
+      QString label;
+      QString driver;
+      QString exec;
+      QString version;
+      QStringList serverBuffer;
+      int state;
+      int mode;
+      int indiPort;
+      bool managed;
+      int mgrID;
+      int deviceType;
+      KProcess *proc;
+
+      void restart();
+      
+      public slots:
+      void processstd(KProcess *proc, char* buffer, int buflen);
+      
+      signals:
+      void newServerInput();
+      
+};
+    
 class INDIDriver : public devManager
 {
 
@@ -65,34 +97,16 @@ class INDIDriver : public devManager
     QPixmap connected;
     QPixmap disconnected;
     QPixmap establishConnection;
+    QPixmap localMode;
+    QPixmap serverMode;
 
     KPopupMenu *ClientpopMenu;
     KPopupMenu *LocalpopMenu;
 
     int lastPort;
 
-    class IDevice
-    {
-     public:
-        IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion);
-	~IDevice();
-
-      QString label;
-      QString driver;
-      QString exec;
-      QString version;
-      int state;
-      int indiPort;
-      bool managed;
-      int mgrID;
-      int deviceType;
-      KProcess *proc;
-
-      void restart();
-    };
-
-    bool runDevice(INDIDriver::IDevice *dev);
-    void removeDevice(INDIDriver::IDevice *dev);
+    bool runDevice(IDevice *dev);
+    void removeDevice(IDevice *dev);
     void removeDevice(QString deviceLabel);
     int getINDIPort();
     int activeDriverCount();
@@ -114,7 +128,6 @@ public slots:
     void modifyINDIHost();
     void removeINDIHost();
     void shutdownHost(int mgrID);
-    void processstd(KProcess *proc, char* buffer, int buflen);
     void updateLocalButtons();
     void updateClientButtons();
     void activateRunService();

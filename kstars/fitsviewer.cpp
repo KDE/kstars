@@ -138,13 +138,13 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     else
     	new KAction( i18n("Image Reduction"), "blend", KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
 	
-    if (KSUtils::openDataFile( tempFile, "bricon.png" ) )
+    /*if (KSUtils::openDataFile( tempFile, "bricon.png" ) )
     {
     	new KAction( i18n("Brightness/Contrast"), tempFile.name(), KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
 	tempFile.close();
     }
-    else
-       	new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
+    else*/
+       	new KAction( i18n("Brightness/Contrast"), "contrast+", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
 	
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {

@@ -16,6 +16,7 @@
 #include <qtimer.h>
 #include <qtable.h>
 #include <qtextedit.h>
+#include <qradiobutton.h>
 
 #include <klistview.h>
 #include <klineedit.h>
@@ -143,12 +144,14 @@ progressScan = new KProgressDialog(this, "autoscan", i18n("Autoscan"), i18n("Ple
    progressScan->setAllowCancel(true);
    progressScan->setAutoClose(true);
    progressScan->setAutoReset(true);
-   progressScan->progressBar()->setRange(0, portList.count());
+   progressScan->progressBar()->setTotalSteps(portList.count());
    progressScan->progressBar()->setValue(0);
    progressScan->show();
     }
     else if (linkResult == 2)
       KMessageBox::queuedMessageBox(0, KMessageBox::Information, i18n("Please wait while KStars tries to connect to your telescope..."));
+    else if (linkResult == -1)
+      KMessageBox::error(0, i18n("Error. Unable to locate telescope drivers."));
      break;
   default:
      break;
@@ -227,24 +230,25 @@ int telescopeWizardProcess::establishLink()
 	  return (0);
 	  
 	QListViewItem *driverItem = NULL;
+	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
+	if (driverItem == NULL) return -1;
 
-	if (!indidriver->isDeviceRunning(telescopeCombo->currentText()))
+	// If device is already running, we need to shut it down first
+	if (indidriver->isDeviceRunning(telescopeCombo->currentText()))
 	{
-        	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
-
-		indimenu->setCustomLabel(telescopeCombo->currentText());
-		currentDevice = indimenu->currentLabel;
-
-		if (driverItem)
-		{
-
-	 		indidriver->localListView->setSelected(driverItem, true);
-	 		indidriver->processDeviceStatus(0);
-		}
+		indidriver->localListView->setSelected(driverItem, true);
+		indidriver->processDeviceStatus(1);
 	}
-	else
-		currentDevice = telescopeCombo->currentText();
-
+	   
+	// Set custome label for device
+	indimenu->setCustomLabel(telescopeCombo->currentText());
+	currentDevice = indimenu->currentLabel;
+	// Select it
+	indidriver->localListView->setSelected(driverItem, true);
+	// Make sure we start is locally
+	indidriver->localR->setChecked(true);
+	// Run it
+	indidriver->processDeviceStatus(0);
 
 	if (!indidriver->isDeviceRunning(telescopeCombo->currentText()))
 	 return (3);

@@ -118,7 +118,7 @@ DeviceManager *dev;
     for (unsigned int i=0; i < drivers->devices.size(); i++)
     {
       // Devices ready to run but not yet managed
-      if (drivers->devices[i]->state && drivers->devices[i]->managed == false)
+      if (drivers->devices[i]->state && drivers->devices[i]->managed == false && drivers->devices[i]->mode == IDevice::M_LOCAL)
       {
         dev = new DeviceManager(this, mgrCounter);
     	if  (dev->indiConnect("localhost", QString("%1").arg(drivers->devices[i]->indiPort)))
@@ -136,7 +136,7 @@ DeviceManager *dev;
 	}
       }
       // Devices running and they need to be shutdown
-      else if (!drivers->devices[i]->state && drivers->devices[i]->managed == true)
+      else if (!drivers->devices[i]->state && drivers->devices[i]->managed == true && drivers->devices[i]->mode == IDevice::M_LOCAL)
       {
            drivers->devices[i]->managed = false;
            removeDeviceMgr(drivers->devices[i]->mgrID);

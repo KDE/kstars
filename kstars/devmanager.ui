@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>devManager</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>471</width>
-            <height>387</height>
+            <width>504</width>
+            <height>475</height>
         </rect>
     </property>
     <property name="caption">
@@ -62,6 +62,17 @@
                         </column>
                         <column>
                             <property name="text">
+                                <string>Mode</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <column>
+                            <property name="text">
                                 <string>Version</string>
                             </property>
                             <property name="clickable">
@@ -85,6 +96,85 @@
                         <property name="name">
                             <cstring>localListView</cstring>
                         </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>7</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>0</width>
+                                <height>125</height>
+                            </size>
+                        </property>
+                    </widget>
+                    <widget class="QGroupBox">
+                        <property name="name">
+                            <cstring>serverLogGroup</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Server Log</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QTextEdit" row="0" column="0">
+                                <property name="name">
+                                    <cstring>serverLogText</cstring>
+                                </property>
+                                <property name="minimumSize">
+                                    <size>
+                                        <width>0</width>
+                                        <height>90</height>
+                                    </size>
+                                </property>
+                                <property name="text">
+                                    <string></string>
+                                </property>
+                                <property name="wordWrap">
+                                    <enum>WidgetWidth</enum>
+                                </property>
+                                <property name="readOnly">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QButtonGroup">
+                        <property name="name">
+                            <cstring>indiModeGroup</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Mode</string>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>localR</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Local</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>serverR</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Server</string>
+                                </property>
+                            </widget>
+                        </hbox>
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
@@ -139,16 +229,16 @@
             </widget>
             <widget class="QWidget">
                 <property name="name">
-                    <cstring>tab</cstring>
+                    <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
                     <string>Client</string>
                 </attribute>
-                <grid>
+                <hbox>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="KListView" row="0" column="0">
+                    <widget class="KListView">
                         <column>
                             <property name="text">
                                 <string>Status</string>
@@ -186,9 +276,9 @@
                             <cstring>clientListView</cstring>
                         </property>
                     </widget>
-                    <widget class="QLayoutWidget" row="0" column="1">
+                    <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout5</cstring>
+                            <cstring>layout5_2</cstring>
                         </property>
                         <vbox>
                             <property name="name">
@@ -196,7 +286,7 @@
                             </property>
                             <widget class="QGroupBox">
                                 <property name="name">
-                                    <cstring>groupBox1</cstring>
+                                    <cstring>groupBox1_2</cstring>
                                 </property>
                                 <property name="title">
                                     <string>Hosts</string>
@@ -233,7 +323,7 @@
                             </widget>
                             <widget class="QGroupBox">
                                 <property name="name">
-                                    <cstring>groupBox2</cstring>
+                                    <cstring>groupBox2_2</cstring>
                                 </property>
                                 <property name="title">
                                     <string>Connection</string>
@@ -268,7 +358,7 @@
                             </widget>
                             <spacer>
                                 <property name="name">
-                                    <cstring>spacer3</cstring>
+                                    <cstring>spacer3_2</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Vertical</enum>
@@ -285,7 +375,7 @@
                             </spacer>
                         </vbox>
                     </widget>
-                </grid>
+                </hbox>
             </widget>
         </widget>
         <widget class="QLayoutWidget">
@@ -342,8 +432,6 @@
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>okB</sender>
