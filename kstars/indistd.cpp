@@ -298,8 +298,7 @@ void INDIStdDevice::streamReceived()
     newFrameSize = totalBytes;
     
     //r = lzo1x_decompress(compressedBuffer,totalCompressedBytes, streamBuffer , &newFrameSize,NULL);
-    // FIXME use INDI 1.3 instead with zlib
-    //r = uncompress(streamBuffer, &newFrameSize, compressedBuffer, (uLong) totalCompressedBytes);
+    r = uncompress(streamBuffer, &newFrameSize, compressedBuffer, (uLong) totalCompressedBytes);
     
     //kdDebug() << "Finished decompress with r = " << r << endl;
     
