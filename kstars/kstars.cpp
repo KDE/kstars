@@ -335,10 +335,15 @@ void KStars::drawLine( int x1, int y1, int x2, int y2, int speed ) {
 //DCOP function 
 void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	//Set the geographic location
+	bool cityFound( false );
+	
 	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
 		if ( loc->translatedName() == city &&
 					loc->translatedProvince() == province &&
 					loc->translatedCountry() == country ) {
+			
+			cityFound = true;
+			
 			options()->setLocation( *loc );
 			
 			//notify on-screen GeoBox
@@ -368,6 +373,15 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			//no need to keep looking, we're done.
 			break;
 		}
+	}
+
+	if ( !cityFound ) {
+		if ( province.isEmpty() ) 
+			kdDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+					<< country << i18n( " not found in database." ) << endl;
+		else 
+			kdDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+					<< province << ", " << country << i18n( " not found in database." ) << endl;
 	}
 }
 
