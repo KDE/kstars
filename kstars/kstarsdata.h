@@ -421,7 +421,7 @@ private slots:
 	void slotInitialize();
 
 /**
-	*Checks if data transmission is allready running or not.
+	*Checks if data transmission is already running or not.
 	*/
 	void checkDataPumpAction();
 

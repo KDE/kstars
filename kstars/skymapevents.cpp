@@ -444,7 +444,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	}
 
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
-	if (mouseButtonDown) { //false if double-clicked, becuase it's unset there.
+	if (mouseButtonDown) { //false if double-clicked, because it's unset there.
 		mouseButtonDown = false;
 		if ( slewing ) {
 			setDestination( focus() );

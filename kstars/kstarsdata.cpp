@@ -1188,7 +1188,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 	if ( newMagnitude > maxSetMagnitude || forceReload ) {
 		maxSetMagnitude = newMagnitude;  // store new highest magnitude level
 
-		if (reloadingData() == false) {  // if not allready reloading data
+		if (reloadingData() == false) {  // if not already reloading data
 			source = new FileSource(this, newMagnitude);
 			loader = new StarDataSink(this);
 			connect(loader, SIGNAL(done()), this, SLOT(checkDataPumpAction()));

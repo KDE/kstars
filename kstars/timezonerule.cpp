@@ -378,7 +378,7 @@ void TimeZoneRule::reset_with_ltime( QDateTime &ltime, const double TZoffset, co
 			// current time is the revert time
 			kdDebug() << "Current time = Reverttime" << endl;
 
-			// we don't kneed to change the local time, because local time allways exists, but
+			// we don't kneed to change the local time, because local time always exists, but
 			// some times exists twice, so we have to reset DST status
 			if ( automaticDSTchange ) {
 				// revert DST status
