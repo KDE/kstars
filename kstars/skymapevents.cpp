@@ -438,6 +438,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 	//determine RA, Dec of mouse pointer
 	setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
+	mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 
 	if ( midMouseButtonDown ) { //zoom according to y-offset
@@ -506,11 +507,18 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		forceUpdate();  // must be new computed
 	} else {
 
-		QString sRA, sDec, s;
-		sRA = mousePoint()->ra()->toHMSString();
-		sDec = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
-		s = sRA + ",  " + sDec;
-		if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
+		if ( ksw ) {
+			QString sX, sY, s;
+			sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
+			sY = mousePoint()->alt()->toDMSString(true); //true = force +/- symbol
+			s = sX + ",  " + sY;
+			ksw->statusBar()->changeItem( s, 1 );
+			
+			sX = mousePoint()->ra()->toHMSString();
+			sY = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
+			s = sX + ",  " + sY;
+			ksw->statusBar()->changeItem( s, 2 );
+		}
 	}
 }
 

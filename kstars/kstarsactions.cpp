@@ -28,6 +28,7 @@
 #include <ktip.h>
 #include <kfiledialog.h>
 #include <kpopupmenu.h>
+#include <kstatusbar.h>
 #include <kprocess.h>
 #include <qpaintdevicemetrics.h>
 #include <qradiobutton.h>
@@ -853,6 +854,46 @@ void KStars::slotShowGUIItem( bool show ) {
 		options()->showViewToolBar = show;
 		if ( show ) toolBar( "viewToolBar" )->show();
 		else toolBar( "viewToolBar" )->hide();
+	}
+
+	if ( sender()->name() == QString( "show_statusBar" ) ) {
+		options()->showStatusBar = show;
+		if ( show ) statusBar()->show();
+		else  statusBar()->hide();
+	}
+
+	if ( sender()->name() == QString( "show_sbAzAlt" ) ) {
+		options()->showAzAltField = show;
+		if ( show ) {
+			//To preserve the order (AzAlt before RADec), we have to remove 
+			//the RADec field and then add both back.
+			if ( options()->showRADecField ) statusBar()->removeItem( 2 );
+			
+			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+			statusBar()->insertFixedItem( s, 1, true );
+			statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
+			statusBar()->changeItem( "", 1 );
+
+			if ( options()->showRADecField ) {
+				statusBar()->insertFixedItem( s, 2, true );
+				statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+				statusBar()->changeItem( "", 2 );
+			}
+		} else {
+			statusBar()->removeItem( 1 );
+		}
+	}
+	
+	if ( sender()->name() == QString( "show_sbRADec" ) ) {
+		options()->showRADecField = show;
+		if ( show ) {
+			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+			statusBar()->insertFixedItem( s, 2, true );
+			statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+			statusBar()->changeItem( "", 2 );
+		} else {
+			statusBar()->removeItem( 2 );
+		}
 	}
 
 //InfoBoxes: we only change options here; these are also connected to slots in

@@ -166,6 +166,7 @@ class KStarsOptions {
 
 		//GUI options
 		bool showMainToolBar, showViewToolBar;
+		bool showStatusBar, showAzAltField, showRADecField;
 		bool showInfoBoxes;
 		bool showTimeBox, showFocusBox, showGeoBox;
 		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;

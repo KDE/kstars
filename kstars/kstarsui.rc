@@ -77,15 +77,14 @@
 			<Action name="show_mainToolBar" />
 			<Action name="show_viewToolBar" />
 		</Menu>
+		<Menu name="statusbar"><text>&amp;Statusbar</text>
+			<Action name="show_statusBar" />
+			<Separator />
+			<Action name="show_sbAzAlt" />
+			<Action name="show_sbRADec" />
+		</Menu>
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
-<!--		<Menu name="target"><text>Target &amp;Symbol</text>
-			<Action name="target_symbol_none" />
-			<Action name="target_symbol_circle" />
-			<Action name="target_symbol_crosshairs" />
-			<Action name="target_symbol_bullseye" />
-			<Action name="target_symbol_rectangle" />
-		</Menu>//-->
 		<Separator />
 		<Action name="geolocation" />
 		<Separator />

@@ -95,6 +95,10 @@ void KStarsData::loadOptions()
 
 	options->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
+	options->showStatusBar   = conf->readBoolEntry( "ShowStatusBar",   true );
+	options->showRADecField  = conf->readBoolEntry( "ShowRADecField",  true );
+	options->showAzAltField  = conf->readBoolEntry( "ShowAzAltField",  true );
+
 	conf->setGroup( "View" );
 	options->colorScheme()->loadFromConfig( conf );
 	options->FOVName        = conf->readEntry( "FOVName", "No FOV" );
@@ -245,6 +249,9 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "PositionGeoBox", options->posGeoBox );
 	conf->writeEntry( "ShowMainToolBar", options->showMainToolBar );
 	conf->writeEntry( "ShowViewToolBar", options->showViewToolBar );
+	conf->writeEntry( "ShowStatusBar",   options->showStatusBar );
+	conf->writeEntry( "ShowAzAltField",  options->showAzAltField );
+	conf->writeEntry( "ShowRADecField",  options->showRADecField );
 
 	conf->setGroup( "View" );
 	options->colorScheme()->saveToConfig( conf );

@@ -44,7 +44,7 @@ void KStars::initActions() {
 			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
 	new KAction( i18n( "&Run Script..." ), "launch", KShortcut( "Ctrl+R" ),
 			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
-  KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
+	KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
 	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
 
 //Time Menu:
@@ -143,6 +143,20 @@ void KStars::initActions() {
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
 	a->setChecked( options()->showViewToolBar );
+	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+
+//Statusbar view options
+	a = new KToggleAction(i18n( "Show Statusbar" ),
+			0, 0, 0, actionCollection(), "show_statusBar");
+	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	a->setChecked( options()->showStatusBar );
+	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
+			0, 0, 0, actionCollection(), "show_sbAzAlt");
+	a->setChecked( options()->showAzAltField );
+	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
+			0, 0, 0, actionCollection(), "show_sbRADec");
+	a->setChecked( options()->showRADecField );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
@@ -408,11 +422,22 @@ void KStars::initFOV() {
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	QString s = "00h 00m 00s,   +00d 00\' 00\"";
-
-	statusBar()->insertItem( s, 1, 1, true );
-	statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
-	statusBar()->setItemFixed( 1, -1 );
+	
+	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+	
+	if ( options()->showAzAltField ) {
+		statusBar()->insertFixedItem( s, 1, true );
+		statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
+		statusBar()->changeItem( "", 1 );
+	}
+	
+	if ( options()->showRADecField ) {
+		statusBar()->insertFixedItem( s, 2, true );
+		statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+		statusBar()->changeItem( "", 2 );
+	}
+	
+	if ( ! options()->showStatusBar ) statusBar()->hide();
 }
 
 void KStars::datainitFinished(bool worked) {

@@ -90,6 +90,9 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	isTracking     = o.isTracking;
 	showMainToolBar = o.showMainToolBar;
 	showViewToolBar = o.showViewToolBar;
+	showStatusBar   = o.showStatusBar;
+	showAzAltField  = o.showAzAltField;
+	showRADecField  = o.showRADecField;
 	showInfoBoxes   = o.showInfoBoxes;
 	showTimeBox     = o.showTimeBox;
 	showFocusBox    = o.showFocusBox;
@@ -205,6 +208,9 @@ void KStarsOptions::setDefaultOptions() {
 	isTracking = false;
 	showMainToolBar = true;
 	showViewToolBar = true;
+	showStatusBar   = true;
+	showAzAltField  = true;
+	showRADecField  = true;
 	showInfoBoxes   = true;
 	showTimeBox     = true;
 	showFocusBox    = true;
