@@ -576,7 +576,7 @@ void getSexComponents(double value, int *d, int *m, int *s)
 
   *d = (int) fabs(value);
   *m = (int) ((fabs(value) - *d) * 60.0);
-  *s = (int) round(((fabs(value) - *d) * 60.0 - *m) *60.0);
+  *s = (int) rint(((fabs(value) - *d) * 60.0 - *m) *60.0);
 
   if (value < 0)
    *d *= -1;
