@@ -64,5 +64,6 @@
 long unix_bulkwrite(flidev_t dev, void *buf, long *wlen);
 long unix_bulkread(flidev_t dev, void *buf, long *rlen);
 long unix_usbio(flidev_t dev, void *buf, long *wlen, long *rlen);
+long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io);
 
 #endif /* _LIBFLI_USB_H_ */

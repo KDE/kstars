@@ -68,8 +68,6 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io);
-
 static long unix_fli_list_parport(flidomain_t domain, char ***names);
 static long unix_fli_list_usb(flidomain_t domain, char ***names);
 static long unix_fli_list_serial(flidomain_t domain, char ***names);
@@ -409,7 +407,7 @@ static long unix_fli_list_glob(char *pattern, flidomain_t domain,
     return -ENOMEM;
   }
 
-  for (i = 0; i < g.gl_pathc; i++)
+  for (i = 0; i < (int) g.gl_pathc; i++)
   {
     flidev_t dev;
 

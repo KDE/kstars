@@ -52,6 +52,46 @@
 #include "libfli-sys.h"
 #include "libfli-usb.h"
 
+long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
+{
+  usb_device_descriptor usb_desc;
+  int r;
+  
+  if ((r = read(io->fd, &usb_desc, sizeof(usb_device_descriptor))) !=
+      sizeof(usb_device_descriptor))
+  {
+    debug(FLIDEBUG_FAIL, "linux_usbverifydescriptor(): Could not read descriptor.");
+    return -EIO;
+  }
+  else
+  {
+    debug(FLIDEBUG_INFO, "USB device descriptor:");
+    if(usb_desc.idVendor != 0x0f18)
+    {
+      debug(FLIDEBUG_FAIL, "linux_usbverifydescriptor(): Not a FLI device!");
+      return -ENODEV;
+    }
+    
+    switch(DEVICE->domain)
+    {
+     case FLIDOMAIN_USB:
+      if(usb_desc.idProduct != 0x0002)
+      {
+	return -ENODEV;
+      }
+      break;
+      
+     default:
+      return -EINVAL;
+      break;
+    }
+        
+    DEVICE->devinfo.fwrev = usb_desc.bcdDevice;
+  }
+    
+  return 0;
+}
+
 long bsd_bulkwrite(flidev_t dev, void *buf, long *wlen)
 {
   fli_unixio_t *io;
