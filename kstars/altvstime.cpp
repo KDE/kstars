@@ -217,11 +217,11 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		}
 		View->addObject( po );
 
-		avtUI->PlotList->insertItem( o->name() );
+		avtUI->PlotList->insertItem( o->translatedName() );
 		avtUI->PlotList->setCurrentItem( avtUI->PlotList->count() - 1 );
 		avtUI->raBox->showInHours(o->ra() );
 		avtUI->decBox->showInDegrees(o->dec() );
-		avtUI->nameBox->setText(o->name() );
+		avtUI->nameBox->setText(o->translatedName() );
 
 		//Set epochName to epoch shown in date tab
 		avtUI->epochName->setText( QString().setNum( QDateToEpoch( avtUI->dateBox->date() ) ) );
