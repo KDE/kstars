@@ -179,7 +179,7 @@ void WUTDialog::init() {
 	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );
 	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1" ).arg( sSet ) );
 	oMoon->findPhase( oSun ); 
-	WUT->MoonIllumLabel->setText( i18n( "Moon's Illumination fraction", "Moon illum.: %1%" ).arg(
+	WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
 			int(100.0*oMoon->illum() ) ) );
 
 	//Restore Sun's and Moon's coordinates, and recompute Moon's original Phase

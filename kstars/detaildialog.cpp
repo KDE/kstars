@@ -38,6 +38,7 @@
 #include "starobject.h"
 #include "deepskyobject.h"
 #include "ksplanetbase.h"
+#include "ksmoon.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), 
@@ -206,10 +207,10 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	StarObject *s;
 	DeepSkyObject *dso;
 	KSPlanetBase *ps;
-
-	QString pname, oname, distStr, angStr;
+	
+	QString pname, oname, distStr, angStr, illumStr;
 	QString sflags( "" );
-
+	
 //arguments to NameBox depend on type of object
 	switch ( selectedObject->type() ) {
 	case 0: //stars
@@ -268,6 +269,15 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
 					i18n("star"), "--", distStr, angStr, generalTab );
+		
+		//the Moon displays illumination fraction instead of magnitude
+		} else if ( selectedObject->name() == "Moon" ) {
+			//special string that will signal NameBox to use label "Illumination" instead of "Magnitude"
+			//I can't seem to recats selectedObject as a KSMoon, so I'll just grab the pointer from KStarsData
+			illumStr = QString("i%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) );
+			Names = new NameBox( selectedObject->translatedName(), ((KSMoon *)selectedObject)->phaseName(), i18n( "Object type:" ),
+					selectedObject->typeName(), illumStr, distStr, angStr, generalTab );
+		
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
 					selectedObject->typeName(), "--", distStr, angStr, generalTab );
@@ -327,10 +337,16 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	Type->setFont( boldFont );
 	
 	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
-	if ( mag == "99.9" ) 
-		Mag = new QLabel( "--", this );
-	else 
-		Mag = new QLabel( mag, this );
+	if ( mag.startsWith( "i" ) ) {
+		MagLabel->setText( i18n( "Illumination:" ) );
+		mag = mag.mid(1);
+	} 
+	
+	Mag = new QLabel( mag, this );
+	if ( mag == "99.9" ) {
+		Mag->setText( "--" );
+	}
+	
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
 

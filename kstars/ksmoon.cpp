@@ -194,3 +194,24 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 
 	}
 }
+
+QString KSMoon::phaseName() const {
+	double f = illum();
+	double p = phase().Degrees();
+	
+	//First, handle the major phases
+	if ( f > 0.99 ) return i18n( "moon phase, 100% illuminated", "Full moon" );
+	if ( f < 0.01 ) return i18n( "moon phase, 0% illuminated", "New moon" );
+	if ( fabs( f - 0.50 ) < 0.01 ) {
+		if ( p < 180.0 ) return i18n( "moon phase, half-illuminated and growing", "First quarter" );
+		else return i18n( "moon phase, half-illuminated and shrinking", "Third quarter" );
+	}
+
+	//Next, handle the more general cases
+	if ( p < 90.0 ) return i18n( "moon phase between new moon and 1st quarter", "Waxing crescent" );
+	else if ( p < 180.0 ) return i18n( "moon phase between 1st quarter and full moon", "Waxing gibbous" );
+	else if ( p < 270.0 ) return i18n( "moon phase between full moon and 3rd quarter", "Waning gibbous" );
+	else if ( p < 360.0 ) return i18n( "moon phase between 3rd quarter and new moon", "Waning crescent" );
+
+	else return i18n( "unknown" );
+}

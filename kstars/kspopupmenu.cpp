@@ -21,6 +21,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "starobject.h"
+#include "ksmoon.h"
 #include "skyobject.h"
 #include "ksplanetbase.h"
 #include "skymap.h"
@@ -83,7 +84,11 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 	bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
-	initPopupMenu( p, p->translatedName(), "", i18n("Solar System"), true, true, true, true, addTrail );
+	QString oname = "";
+	if ( p->name() == "Moon" ) {
+		oname = ((KSMoon *)p)->phaseName();
+	}
+	initPopupMenu( p, p->translatedName(), oname, i18n("Solar System"), true, true, true, true, addTrail );
 	addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
