@@ -787,7 +787,7 @@ IDevice::IDevice(QString inLabel, QString inDriver, QString inExec, QString inVe
 
 }
 
-void IDevice::processstd(KProcess *proc, char* buffer, int buflen)
+void IDevice::processstd(KProcess */*proc*/, char* buffer, int /*buflen*/)
 {
   serverBuffer.append(buffer);
   emit newServerInput();

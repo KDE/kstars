@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
 	//start up normally
 	//DEBUG
 	kdDebug() << "creating KStars object..." << endl;
-	KStars *kstars = new KStars( true );
+	/*KStars *kstars = */new KStars( true );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 

@@ -15,7 +15,7 @@
 #include "skymap.h"
 
 KSNewStuff::KSNewStuff( QWidget *parent ) :
-  KNewStuff( "kstars", parent ), QObject()
+  QObject(), KNewStuff( "kstars", parent )
 {
 	ks = (KStars*)parent;
 	kdw = new KDirWatch( this );

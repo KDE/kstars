@@ -108,11 +108,11 @@ void KStars::setTracking( bool track ) {
 	if ( track != Options::isTracking() ) slotTrack();
 }
 
-void KStars::popupMessage( int x, int y, QString message ){
+void KStars::popupMessage( int /*x*/, int /*y*/, QString /*message*/ ){
 	//Show a small popup window at (x,y) with a text message
 }
 
-void KStars::drawLine( int x1, int y1, int x2, int y2, int speed ) {
+void KStars::drawLine( int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*speed*/ ) {
 	//Draw a line on the skymap display
 }
 

@@ -26,8 +26,8 @@ int SimClock::idgen = 1;
 int SimClock::TimerInterval = 100; //msec
 
 SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
-		QObject(parent),
 		DCOPObject("clock#" + QCString().setNum(idgen++)),
+		QObject(parent),
 		tmr(this)
 {
 	if (! when.isValid() ) tmr.stop();
@@ -42,9 +42,9 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 }
 
 SimClock::SimClock (const SimClock &old) :
+		DCOPObject("clock#" + QCString().setNum(idgen++)),
 		QObject(old.parent()),
 		SimClockInterface(),
-		DCOPObject("clock#" + QCString().setNum(idgen++)),
 		tmr(this)
 {
 	UTC = old.UTC;

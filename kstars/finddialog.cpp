@@ -206,7 +206,7 @@ void FindDialog::slotOk() {
 void FindDialog::keyPressEvent( QKeyEvent *e ) {
 	switch( e->key() ) {
 		case Key_Down :
-			if ( SearchList->currentItem() < SearchList->count() - 1 )
+			if ( SearchList->currentItem() < ((int) SearchList->count()) - 1 )
 				SearchList->setCurrentItem( SearchList->currentItem() + 1 );
 			break;
 			

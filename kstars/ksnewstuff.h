@@ -18,7 +18,7 @@ class KSNewStuff : public QObject, public KNewStuff
 		bool install( const QString &fileName );
 
 // not yet...
-		bool createUploadFile( const QString &fileName ) {
+		bool createUploadFile( const QString & /*fileName*/ ) {
 			kdDebug() << i18n( "Uploading data is not possible yet!" );
 			return false;
 		}

@@ -230,7 +230,7 @@ void LocationDialog::initCityList( void ) {
 
 		//If TZ is not even integer value, add it to listbox 
 		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
-			for ( unsigned int i=0; i<TZBox->count(); ++i ) {
+			for ( unsigned int i=0; i<((unsigned int) TZBox->count()); ++i ) {
 				if ( TZBox->text( i ).toDouble() > loc->TZ0() ) {
 					TZBox->insertItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ), i-1 );
 					break;

@@ -37,9 +37,9 @@ ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *pare
 // JH: easier to just disable its mobility
 	toolBar()->setMovingEnabled( false );
 
-	KAction *action = new KAction (i18n ("Close Window"), "fileclose", KAccel::stringToKey( "Ctrl+Q" ), this, SLOT (close()), actionCollection());
+	KAction *action = new KAction (i18n ("Close Window"), "fileclose", CTRL+Key_Q, this, SLOT (close()), actionCollection());
 	action->plug (toolBar());
-	action = new KAction (i18n ("Save Image"), "filesave", KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
+	action = new KAction (i18n ("Save Image"), "filesave", CTRL+Key_S, this, SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
 
 	statusBar()->insertItem( capText, 0, 1, true );
@@ -70,12 +70,12 @@ ImageViewer::~ImageViewer() {
 	}
 }
 
-void ImageViewer::paintEvent (QPaintEvent *ev)
+void ImageViewer::paintEvent (QPaintEvent */*ev*/)
 {
 	bitBlt (this, 0, toolBar()->height() + 1, &pix);
 }
 
-void ImageViewer::resizeEvent (QResizeEvent *ev)
+void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
 {
 	if ( !downloadJob )  // only if image is loaded
 		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
@@ -218,7 +218,7 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KURL &url) {
 // synchronous Access to prevent segfaults
-	if (!KIO::NetAccess::copy (KURL (file->name()), url))
+	if (!KIO::NetAccess::copy (KURL (file->name()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.");
 		KMessageBox::error (this, text.arg (url.prettyURL() ));
