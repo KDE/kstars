@@ -41,7 +41,7 @@
 #include <qmemarray.h>
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
- : QWidget (parent,name), IBoxes(0), ClickedObject(0), FoundObject(0),  computeSkymap (true)
+ : QWidget (parent,name), computeSkymap (true), IBoxes(0), ClickedObject(0), FoundObject(0)
 {
 	ksw = (KStars*) parent->parent();
 
@@ -155,6 +155,32 @@ void SkyMap::setGeometry( const QRect &r ) {
 	sky->resize( r.width(), r.height() );
 }
 
+
+void SkyMap::showFocusCoords( void ) {
+	//display object info in infoBoxes
+	QString oname;
+
+	oname = i18n( "nothing" );
+	if ( foundObject() != NULL && ksw->options()->isTracking ) {
+		oname = foundObject()->translatedName();
+		//add genetive name for stars
+	  if ( foundObject()->type()==0 && foundObject()->name2().length() )
+			oname += " (" + foundObject()->name2() + ")";
+	}
+
+	infoBoxes()->focusObjChanged(oname);
+	
+	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) {
+		SkyPoint corrFocus( *(focus()) );
+		corrFocus.setAlt( refract( focus()->alt(), false ) );
+		corrFocus.HorizontalToEquatorial( ksw->LSTh(), ksw->geo()->lat() );
+		infoBoxes()->focusCoordChanged( &corrFocus );
+	} else {
+		infoBoxes()->focusCoordChanged( focus() );
+	}
+}
+
+//Slots
 void SkyMap::slotCenter( void ) {
 	clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
@@ -217,7 +243,7 @@ void SkyMap::slotCenter( void ) {
 	s = sRA + ",  " + sDec;
 	ksw->statusBar()->changeItem( s, 1 );
 
-	ksw->showFocusCoords(); //update infoPanel
+	showFocusCoords(); //update FocusBox
 //	Update();	// must be new computed
 }
 

@@ -135,10 +135,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		InfoBoxes* infoBoxes() { return map()->infoBoxes(); }
 
-		/**Display object name and coordinates in the FocusBox
-			*/
-		void showFocusCoords();
-
 		/**
 			*Load KStars options.
 			*/

@@ -69,6 +69,10 @@ public:
 	*/
 		InfoBoxes* infoBoxes() { return IBoxes; }
 
+/**Display object name and coordinates in the FocusBox
+	*/
+		void showFocusCoords();
+
 /**@returns a pointer to the central focus point of the sky map
 	*/
 	SkyPoint* focus() { return &Focus; }

@@ -333,7 +333,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 		case Key_Down :
 			slewing = false;
 			scrollCount = 0;
-			ksw->showFocusCoords();
+			showFocusCoords();
 			Update();	// Need a full update to draw faint objects that are not drawn while slewing.
 			break;
 	}
@@ -403,7 +403,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		++scrollCount;
 		if ( scrollCount > 4 ) {
-			ksw->showFocusCoords();
+			showFocusCoords();
 			scrollCount = 0;
 		}
 

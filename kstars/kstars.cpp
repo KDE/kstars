@@ -150,7 +150,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 		int nSec = oldLST.secsTo( Data->LST );
 		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
 		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( Data->LSTh, geo()->lat() );
-		showFocusCoords();
+		Map->showFocusCoords();
 	}
 
 	//If time is accelerated beyond slewTimescale, then the clock's timer is stopped,
@@ -200,29 +200,6 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 	return NULL;
 }
 
-void KStars::showFocusCoords( void ) {
-	//display object info in infoBoxes
-	QString oname;
-
-	oname = i18n( "nothing" );
-	if ( map()->foundObject() != NULL && options()->isTracking ) {
-		oname = map()->foundObject()->translatedName();
-		//add genetive name for stars
-	  if ( map()->foundObject()->type()==0 && map()->foundObject()->name2().length() )
-			oname += " (" + map()->foundObject()->name2() + ")";
-	}
-
-	infoBoxes()->focusObjChanged(oname);
-	
-	if ( options()->useAltAz && options()->useRefraction ) {
-		SkyPoint corrFocus( *(map()->focus()) );
-		corrFocus.setAlt( map()->refract( map()->focus()->alt(), false ) );
-		corrFocus.HorizontalToEquatorial( LSTh(), geo()->lat() );
-		infoBoxes()->focusCoordChanged( &corrFocus );
-	} else {
-		infoBoxes()->focusCoordChanged( map()->focus() );
-	}
-}
 
 QString KStars::getDateString( QDate date ) {
 	QString dummy;
