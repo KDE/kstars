@@ -144,6 +144,11 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox
 	D0Lay->addWidget(radecBox);
 //	D0Lay->addWidget(epochBox,0);
 
+	QSpacerItem * downSpacer = new QSpacerItem(400,500);
+	QVBox * noBox = new QVBox (rightBox);
+	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
+	D2Lay->addItem(downSpacer);
+
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
