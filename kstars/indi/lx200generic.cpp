@@ -44,7 +44,7 @@ int MaxReticleFlashRate = 3;
 extern char* me;
 
 #define COMM_GROUP	"Communication"
-#define BASIC_GROUP	"Basic Data"
+#define BASIC_GROUP	"Main Control"
 #define MOVE_GROUP	"Movement Control"
 #define DATETIME_GROUP	"Date/Time"
 #define SITE_GROUP	"Site Management"
@@ -1293,7 +1293,12 @@ void LX200Generic::ISPoll()
 		}
 
 	    } else
+	    {
+	        apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+		eqNum.np[0].value = currentRA;
+		eqNum.np[1].value = currentDEC;
 		IDSetNumber (&eqNum, NULL);
+	    }
 	    break;
 
 	case IPS_OK:
@@ -1312,6 +1317,9 @@ void LX200Generic::ISPoll()
 		eqNum.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
+		apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+		eqNum.np[0].value = currentRA;
+		eqNum.np[1].value = currentDEC;
 		IDSetNumber (&eqNum, NULL);
 
 	}

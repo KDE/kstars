@@ -286,6 +286,7 @@ void
 IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 {
 	int i;
+	static int lmin=0, lmax=0;
 
 	printf ("<setNumberVector\n");
 	printf ("  device='%s'\n", nvp->device);
@@ -305,7 +306,14 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 
 	for (i = 0; i < nvp->nnp; i++) {
 	    INumber *np = &nvp->np[i];
-	    printf ("  <oneNumber name='%s'>\n", np->name);
+	    printf ("  <oneNumber name='%s'\n", np->name);
+	    if (lmin != np->min) {
+	    printf ("    min='%g'\n", np->min);
+	    lmin = np->min; }
+	    if (lmax != np->max) {
+	    printf ("    max='%g'\n", np->max);
+	    lmax = np->max; }
+	    printf(">\n");
 	    printf ("      %g\n", np->value);
 	    printf ("  </oneNumber>\n");
 	}
@@ -561,6 +569,39 @@ IUUpdateSwitches(const ISwitchVectorProperty *svp, ISState *states, char *names[
  return 0;
 
 }
+
+/* Update property numbers in accord with values and names */
+int IUUpdateNumbers(const INumberVectorProperty *nvp, double values[], char *names[], int n)
+{
+  int i=0;
+  
+  INumber *np;
+  
+  for (i = 0; i < n; i++)
+  {
+    np = IUFindNumber(nvp, names[i]);
+    if (!np)
+    {
+    	nvp->s = IPS_IDLE;
+	IDSetNumber(nvp, "Error: %s is not a member of %s property.", names[i], nvp->name);
+	return -1;
+    }
+    
+    if (values[i] < np->min || values[i] > np->max)
+    {
+       nvp->s = IPS_IDLE;
+       IDSetNumber(nvp, "Error: Invalid range. Valid range is from %g to %g", np->min, np->max);
+       return -1;
+    }
+      
+    np->value = values[i];
+    
+  }
+
+  return 0;
+
+}
+
 
 
 /* save malloced copy of newtext in tp->text, reusing if not first time */

@@ -45,7 +45,7 @@ CelestronGPS *telescope = NULL;
 extern char* me;
 
 #define COMM_GROUP	"Communication"
-#define BASIC_GROUP	"Basic Data"
+#define BASIC_GROUP	"Main Control"
 #define MOVE_GROUP	"Movement Control"
 
 static void ISPoll(void *);
