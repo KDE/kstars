@@ -26,11 +26,11 @@
 static const char *description =
 	I18N_NOOP("Desktop Planetarium");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
-	
-	
+
+
 static KCmdLineOptions options[] =
 {
-  { 0, 0, 0 }
+   KCmdLineLastOption
   // INSERT YOUR COMMANDLINE OPTIONS HERE
 };
 
