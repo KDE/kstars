@@ -21,7 +21,7 @@ appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
 
 install-exec-hook:
-	$(mkinstalldirs) $(DESTDIR)/bin
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	rm -f $(DESTDIR)$(bindir)/lx200classic
 	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200classic
 	rm -f $(DESTDIR)$(bindir)/lx200autostar
