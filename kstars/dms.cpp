@@ -117,13 +117,19 @@ void dms::SinCos( double &sina, double &cosa ) const {
 		*/
 
 	if ( scDirty ) {
-		#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
+                #ifdef __GLIBC__
+                #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
 		//GNU version
 		sincos( radians(), &Sin, &Cos );
+                #else 
+		//For older GLIBC versions
+	        Sin = ::sin( radians() );
+		Cos = ::cos( radians() );
+		#endif
 		#else
 		//ANSI-compliant version
-		Sin = sin( radians() );
-		Cos = cos( radians() );
+		Sin = ::sin( radians() );
+		Cos = ::cos( radians() );
 		#endif
 		scDirty = false;
 	}
