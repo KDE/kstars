@@ -98,6 +98,45 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
+void SkyPoint::EquatorialToEcliptic( const KSNumbers *num ) {
+
+	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
+	ra()->SinCos( sinRA, cosRA );
+	dec()->SinCos( sinDec, cosDec );
+	num->obliquity()->SinCos( sinOb, cosOb );
+
+	tanDec = sinDec/cosDec;
+	double y = sinRA*cosOb + tanDec*sinOb;
+	double ELongRad = atan( y/cosRA );
+
+	//resolve ambiguity of atan:
+	if ( cosRA < 0 ) ELongRad += dms::PI;
+	if ( cosRA > 0 && y < 0 ) ELongRad += 2.0*dms::PI;
+
+	EcLong.setRadians( ELongRad );
+	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
+
+}
+
+void SkyPoint::EclipticToEquatorial( const KSNumbers *num ) {
+
+	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
+	eclLong()->SinCos( sinLong, cosLong );
+	eclLat()->SinCos( sinLat, cosLat );
+	num->obliquity()->SinCos( sinObliq, cosObliq );
+
+	double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
+	double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
+	double RARad =  atan( y / cosLong );
+
+	//resolve ambiguity of atan:
+	if ( cosLong < 0 ) RARad += dms::PI;
+	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
+
+	RA.setRadians( RARad );
+	Dec.setRadians( asin(sinDec) );
+}
+
 void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
 	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
 	ra()->SinCos( sinRA, cosRA );

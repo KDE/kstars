@@ -29,6 +29,7 @@
 #include "modcalcazel.h"
 #include "modcalcequinox.h"
 #include "modcalcplanets.h"
+#include "modcalceclipticcoords.h"
 
 #include <klocale.h>
 #include <qlistview.h>
@@ -76,6 +77,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
 	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent Coordinates"));
 	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
+	QListViewItem * eclItem = new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
 
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
@@ -116,6 +118,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genAppFrame();
 	if(!(election.compare(i18n("Horizontal Coordinates"))))
 		genAzelFrame();
+	if(!(election.compare(i18n("Ecliptic Coordinates"))))
+		genEclFrame();
 	if(!(election.compare(i18n("Earth Coordinates"))))
 		genGeodText();
 	if(!(election.compare(i18n("Geodetic Coordinates"))))
@@ -247,6 +251,8 @@ void AstroCalc::delRightPanel(void)
 		delete GeodCoordFrame;
 	else if (rightPanel == Galactic)
 		delete GalFrame;
+	else if (rightPanel == Ecliptic)
+		delete EclFrame;
 	else if (rightPanel == Precessor)
 		delete PrecFrame;
 	else if (rightPanel == Apparent)
@@ -292,11 +298,19 @@ void AstroCalc::genGeodCoordFrame(void)
 	GeodCoordFrame = new modCalcGeodCoord(split,"GeoCoord");
 	rightPanel = GeoCoord;
 }
+
 void AstroCalc::genGalFrame(void)
 {
 	delRightPanel();
 	GalFrame = new modCalcGalCoord(split,"Galactic");
 	rightPanel = Galactic;
+}
+
+void AstroCalc::genEclFrame(void)
+{
+	delRightPanel();
+	EclFrame = new modCalcEclCoords(split,"Ecliptic");
+	rightPanel = Ecliptic;
 }
 
 void AstroCalc::genPrecFrame(void)

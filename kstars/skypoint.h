@@ -184,6 +184,28 @@ public:
 	*/
 	void setGalLat( double gla ) { galLat.setD( gla ); }
 
+	/**@short Set Ecliptic Longitude according to argument.
+	*@param elong Ecliptic Longitude
+	*/
+	void setEclLong( dms elong ) { EcLong = elong; }
+
+	/**@short Set Ecliptic Longitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elong Ecliptic Longitude
+	*/
+	void setEclLong( double elong ) { EcLong.setD( elong ); }
+
+	/**@short Set Ecliptic Latitude according to argument.
+	*@param elat Ecliptic Latitude
+	*/
+	void setEclLat( dms elat ) { EcLat = elat; }
+
+	/** @short Set Ecliptic Latitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elat Ecliptic Latitude
+	*/
+	void setEclLat( double elat ) { EcLat.setD( elat ); }
+
 ////
 //// 2. Returning coordinates.
 //// =========================
@@ -220,6 +242,15 @@ public:
 	*/
 	const dms* gLong() const { return &galLong; }
 
+	/**@return pointer to Ecliptic Longitude coordinate
+	*/
+	const dms* eclLong( void ) const { return &EcLong; };
+
+	/**
+	*@return pointer to Ecliptic Latitude coordinate
+	*/
+	const dms* eclLat( void ) const { return &EcLat; };
+
 ////
 //// 3. Coordinate conversions.
 //// ==========================
@@ -239,6 +270,17 @@ public:
 	*@param lat pointer to the geographic latitude
 	*/
 	void HorizontalToEquatorial( const dms* LST, const dms* lat );
+
+	/**@short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
+	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
+	*/
+	void EquatorialToEcliptic( const KSNumbers *num );
+
+	/**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
+	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
+	*/
+
+	void EclipticToEquatorial( const KSNumbers *num );
 
 /**Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
 	*The ecliptic coordinates are returned as reference arguments (since
@@ -395,6 +437,7 @@ private:
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
 	dms galLat, galLong; // Galactic coordinates
+	dms EcLong, EcLat; // Ecliptic longitude and ecliptic Latitude
 };
 
 #endif
