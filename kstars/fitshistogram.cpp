@@ -262,7 +262,7 @@ QString histCommand::name() const
    break;
  }
  
- return i18n("Uknown");
+ return i18n("Unknown");
 
 }
 
