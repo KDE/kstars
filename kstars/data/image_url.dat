@@ -1,120 +1,138 @@
-IC 349:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/36/content/0036.jpg
-IC 418:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/28/content/0028.jpg
-IC 434:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/12/content/0112w.jpg
-IC 2163:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/41/content/9941w.jpg
-IC 2944:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/01/content/0201w.jpg
-IC 4406:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/14/prc/0214w.jpg
-M 1:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/24/prc/0224a.jpg
-M 4:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/M4WD.gif
-M 8:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/m8wide.jpg
-M 15:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/25/content/0025.jpg
-M 15:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/M15GC.jpg
-M 16:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/M16Full.gif
-M 17:Show HST Image (2002):http://imgsrc.stsci.edu/op/pubinfo/pr/2002/11/prc/0211cw.jpg
+# File: image_url.dat
+# version 1.0;  last update:  09 March 2004
+# by Jason Harris
+# No copyright claimed, this is merely a list of "facts"
+#
+#Data file for KStars, specifying object-specific Image URLs.
+#For Webpage URLs, see info_url.dat.
+#
+#Line format is:  Object_Name:Label_String:URL
+#The Object_Name needs to match an object's *primary* name!
+#
+#You should not need to modify this file; 
+#you can manage these links from within KStars.
+#Please report broken links to kstars@30doradus.org !
+#
+# HST Images:
+IC 349:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/36/images/a/formats/web_print.jpg
+IC 418:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/28/images/a/formats/web_print.jpg
+IC 434:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/12/images/a/formats/web_print.jpg
+IC 2163:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/41/images/a/formats/web_print.jpg
+IC 2944:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/01/images/a/formats/web_print.jpg
+IC 4406:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/14/images/a/formats/web_print.jpg
+M 1:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/24/images/a/formats/large_web.jpg
+M 4:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/10/images/a/formats/web_print.jpg
+M 8:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/38/images/b/formats/web_print.jpg
+M 15:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/25/images/a/formats/web_print.jpg
+M 15:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/25/images/a/formats/web_print.jpg
+M 16:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/44/images/a/formats/web_print.jpg
+M 17:Show HST Image (2002):http://imgsrc.hubblesite.org/hu/db/2002/11/images/a/formats/web_print.jpg
 M 17:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/13/images/a/formats/web_print.jpg
-M 20:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/42/content/9942w.jpg
-M 22:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/20/content/0120w.jpg
+M 20:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/42/images/a/formats/web_print.jpg
+M 22:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/20/images/a/formats/web_print.jpg
 M 27:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/06/images/a/formats/web_print.jpg
 M 31:Show HST Image (stars in M 31):http://imgsrc.hubblesite.org/hu/db/2003/15/images/a/formats/web_print.jpg
-M 32:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/40/content/9940w.jpg
-M 42:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/OrionMos.jpg
-M 51:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/10/content/0110w.jpg
-M 57:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/01/content/9901w.jpg
-M 64:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910e.jpg
-M 80:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/26/content/9926w.jpg
-M 82:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/08/content/0108a1w.jpg
-M 87:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/20/content/0020w.jpg
-M 100:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/M100Color.gif
-NGC 253:Show HST Image (1995):http://imgsrc.stsci.edu/op/pubinfo/gif/NGC253.gif
-NGC 253:Show HST Image (1998):http://imgsrc.stsci.edu/op/pubinfo/pr/1998/42/content/9842w.jpg
-NGC 604:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/NGC604.jpg
-NGC 891:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910c.jpg
+M 32:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/40/images/a/formats/web_print.jpg
+M 42:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/45/images/a/formats/web_print.jpg
+M 51:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/10/images/a/formats/web_print.jpg
+M 57:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/01/images/a/formats/web_print.jpg
+M 64:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
+M 80:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/26/images/a/formats/web_print.jpg
+M 82:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/08/images/b/formats/web_print.jpg
+M 87:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/20/images/a/formats/web_print.jpg
+M 100:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1994/49/images/c/formats/web_print.jpg
+NGC 253:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/10/images/a/formats/web_print.jpg
+NGC 253:Show HST Image (1998):http://imgsrc.hubblesite.org/hu/db/1998/42/images/a/formats/web_print.jpg
+NGC 604:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/30/images/b/formats/web_print.jpg
+NGC 891:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
 NGC 1275:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/14/images/a/formats/web_print.jpg
-NGC 1316:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/06/content/9906w.jpg
-NGC 1365:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/34/content/9934aw.jpg
-NGC 1409:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/02/content/0102w.jpg
-NGC 1410:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/02/content/0102w.jpg
-NGC 1512:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/16/content/0116w.jpg
+NGC 1316:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/06/images/a/formats/web_print.jpg
+NGC 1365:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/34/images/b/formats/web_print.jpg
+NGC 1409:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/02/images/a/formats/web_print.jpg
+NGC 1410:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/02/images/a/formats/web_print.jpg
+NGC 1512:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/16/images/a/formats/web_print.jpg
 NGC 1705:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/07/images/a/formats/web_print.jpg
-NGC 1748:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/11/content/0111w.jpg
-NGC 1808:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/98/12/content/9812w.jpg
-NGC 1818:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/16/content/9816w.jpg
-NGC 1850:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/25/content/0125w.jpg
-NGC 1850:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/NGC1850.jpg
-NGC 1999:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2000/10/content/0010w.jpg
-NGC 2080:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/34/content/0134w.jpg
-NGC 2207:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/41/content/9941w.jpg
-NGC 2261:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/36/content/9936x.jpg
-NGC 2264:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2002/11/prc/0211bw.jpg
-NGC 2346:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/ngc2346.jpg
-NGC 2346:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/37/content/9937x.jpg
-NGC 2363:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/ngc2363.jpg
-NGC 2392:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2000/07/content/0007w.jpg
-NGC 2440:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/38/content/9938x.jpg
+NGC 1748:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/11/images/a/formats/web_print.jpg
+NGC 1808:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/12/images/c/formats/full_jpg.jpg
+NGC 1818:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/16/images/a/formats/web_print.jpg
+NGC 1850:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/25/images/a/formats/web_print.jpg
+NGC 1850:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/25/images/a/formats/web_print.jpg
+NGC 1999:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/10/images/a/formats/web_print.jpg
+NGC 2080:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/34/images/a/formats/web_print.jpg
+NGC 2207:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/41/images/a/formats/web_print.jpg
+NGC 2261:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/c/formats/web_print.jpg
+NGC 2264:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/11/images/a/formats/web_print.jpg
+NGC 2346:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/d/formats/web_print.jpg
+NGC 2363:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/31/images/a/formats/web_print.jpg
+NGC 2392:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/07/images/a/formats/web_print.jpg
+NGC 2440:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/e/formats/web_print.jpg
 NGC 2736:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/16/images/a/formats/web_print.jpg
-NGC 2787:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/07/prc/0207w.jpg
-NGC 2903:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910f.jpg
-NGC 3079:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/28/content/0128w.jpg
-NGC 3132:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/39/content/9839w.jpg
-NGC 3310:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/26/content/0126w.jpg
-NGC 3314:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/14/content/0014.jpg
+NGC 2787:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/07/images/a/formats/web_print.jpg
+NGC 2903:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
+NGC 3079:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/28/images/a/formats/web_print.jpg
+NGC 3132:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/39/images/a/formats/web_print.jpg
+NGC 3310:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/26/images/a/formats/web_print.jpg
+NGC 3314:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/14/images/a/formats/web_print.jpg
 NGC 3370:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/24/images/a/formats/web_print.jpg
-NGC 3372:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2000/06/content/0006w.jpg
-NGC 3593:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910b.jpg
-NGC 3603:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/20/content/9920w.jpg
-NGC 3918:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/11/content/9811b4.jpg
-NGC 4013:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/07/content/0107w.jpg
-NGC 4038:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/97/34/images/9734a1s.jpg
-NGC 4039:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/97/34/images/9734a1s.jpg
-NGC 4214:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2000/01/content/0001w.jpg
-NGC 4261:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/NGC4261C.jpg
-NGC 4314:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/21/content/9821w.jpg
-NGC 4319:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/23/prc/0223w.jpg
-NGC 4414:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/25/content/9925w.jpg
-NGC 4438:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/21/content/0021w.jpg
-NGC 4603:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/1999/19/content/9919w.jpg
-NGC 4622:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2002/03/content/0203w.jpg
-NGC 4650:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/16/content/9916w.jpg
-NGC 4676:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2002/11/prc/0211dw.jpg
-NGC 4881:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/NGC4881.gif
-NGC 5128:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/14/content/9814aw.jpg
-NGC 5139:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/33/content/0133w.jpg
-NGC 5653:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910a.jpg
+NGC 3372:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/06/images/a/formats/web_print.jpg
+NGC 3593:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
+NGC 3603:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/20/images/a/formats/web_print.jpg
+NGC 3918:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/i/formats/full_jpg.jpg
+NGC 4013:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/07/images/a/formats/web_print.jpg
+NGC 4038:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/34/images/d/formats/full_jpg.jpg
+NGC 4039:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/34/images/d/formats/full_jpg.jpg
+NGC 4214:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/01/images/a/formats/web_print.jpg
+NGC 4261:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1992/27/images/b/formats/large_web.jpg
+NGC 4314:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/21/images/a/formats/web_print.jpg
+NGC 4319:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/23/images/a/formats/web_print.jpg
+NGC 4414:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/25/images/a/formats/web_print.jpg
+NGC 4438:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/21/images/a/formats/web_print.jpg
+NGC 4603:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/19/images/a/formats/web_print.jpg
+NGC 4622:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/03/images/a/formats/web_print.jpg
+NGC 4650:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/16/images/a/formats/web_print.jpg
+NGC 4676:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/11/images/a/formats/web_print.jpg
+NGC 4881:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/07/images/a/formats/web_print.jpg
+NGC 5128:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/14/images/a/formats/web_print.jpg
+NGC 5139:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/33/images/a/formats/web_print.jpg
+NGC 5653:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
 NGC 6027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/22/images/a/formats/web_print.jpg
-NGC 6210:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/36/content/9836w.jpg
-NGC 6251:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/9728a1.jpg
+NGC 6210:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/36/images/a/formats/web_print.jpg
+NGC 6251:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/28/images/a/formats/web_print.jpg
 NGC 6369:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/25/images/a/formats/web_print.jpg
 NGC 6397:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/21/images/a/formats/web_print.jpg
-NGC 6543:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/NGC6543a.gif
-NGC 6745:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/34/content/0034.jpg
-NGC 6751:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/12/content/0012w.jpg
-NGC 6782:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/37/content/0137w.jpg
-NGC 6818:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/11/content/9811b3.jpg
-NGC 6822:Show HST Image (Hubble V):http://imgsrc.stsci.edu/op/pubinfo/PR/2001/39/content/0139w.jpg
-NGC 6822:Show HST Image (Hubble X):http://imgsrc.stsci.edu/op/pubinfo/PR/2001/01/content/0101w.jpg
-NGC 6888:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2000/23/content/0023w.jpg
-NGC 6946:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1999/10/content/9910d.jpg
-NGC 6960:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/gif/CygnusLoop.gif
-NGC 7027:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/NGC7027.jpg
-NGC 7027:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/11/content/9811a1.jpg
-NGC 7052:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/22/content/9822w.jpg
+NGC 6543:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/01/images/a/formats/web_print.jpg
+NGC 6745:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/34/images/a/formats/web_print.jpg
+NGC 6751:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/12/images/a/formats/web_print.jpg
+NGC 6782:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/37/images/a/formats/web_print.jpg
+NGC 6818:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/h/formats/full_jpg.jpg
+NGC 6822:Show HST Image (Hubble V):http://imgsrc.hubblesite.org/hu/db/2001/39/images/a/formats/web_print.jpg
+NGC 6822:Show HST Image (Hubble X):http://imgsrc.hubblesite.org/hu/db/2001/01/images/a/formats/web_print.jpg
+NGC 6888:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/23/images/a/formats/web_print.jpg
+NGC 6946:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
+NGC 6960:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/11/images/a/formats/web_print.jpg
+NGC 7027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/05/images/a/formats/web_print.jpg
+NGC 7027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/d/formats/full_jpg.jpg
+NGC 7052:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/22/images/a/formats/web_print.jpg
 NGC 7293:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/11/images/a/formats/large_web.jpg
-NGC 7293:Show HST Image (detail):http://imgsrc.stsci.edu/op/pubinfo/jpeg/HelixF.jpg
-NGC 7317:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/22/content/0122w.jpg
-NGC 7635:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/28/content/9831w.jpg
-NGC 7635:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/2000/04/content/0004w.jpg
-NGC 7742:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/28/content/9828w.jpg
-Mars:Show HST Image (2001):http://imgsrc.stsci.edu/op/pubinfo/PR/2001/24/content/0124w.jpg
+NGC 7293:Show HST Image (detail):http://imgsrc.hubblesite.org/hu/db/2003/11/images/b/formats/web_print.jpg
+NGC 7317:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/22/images/a/formats/web_print.jpg
+NGC 7635:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/28/images/a/formats/web_print.jpg
+NGC 7635:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/04/images/a/formats/web_print.jpg
+NGC 7742:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/28/images/a/formats/web_print.jpg
+Mars:Show HST Image (2001):http://imgsrc.hubblesite.org/hu/db/2001/24/images/a/formats/web_print.jpg
 Mars:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/22/images/f/formats/web_print.jpg
-Mars:Global Dust Storm (HST):http://imgsrc.stsci.edu/op/pubinfo/PR/2001/31/content/0131w.jpg
-Jupiter:Jupiter and Io (HST):http://imgsrc.stsci.edu/op/pubinfo/pr/1999/13/content/9913w.jpg
-Jupiter:Galilean Satellites (HST):http://imgsrc.stsci.edu/op/pubinfo/jpeg/GalSat.jpg
-Jupiter:Comet Impact Scars (HST):http://imgsrc.stsci.edu/op/pubinfo/gif/Gevol4.gif
-Saturn:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/PR/2001/15/content/0115w.jpg
-Uranus:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/pr/1998/35/content/9835a.jpg
+Mars:Global Dust Storm (HST):http://imgsrc.hubblesite.org/hu/db/2001/31/images/a/formats/web_print.jpg
+Jupiter:Jupiter and Io (HST):http://imgsrc.hubblesite.org/hu/db/1999/13/images/a/formats/web_print.jpg
+Jupiter:Galilean Satellites (HST):http://imgsrc.hubblesite.org/hu/db/1995/35/images/a/formats/web_print.jpg
+Jupiter:Comet Impact Scars (HST):http://imgsrc.hubblesite.org/hu/db/1995/15/images/a/formats/web_print.jpg
+Saturn:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/15/images/a/formats/web_print.jpg
+Saturn:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/23/images/a/formats/web_print.jpg
+Uranus:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/35/images/a/formats/web_print.jpg
 Uranus:Show HST (Rings and Moons):http://imgsrc.hubblesite.org/hu/db/2003/29/images/a/formats/web_print.jpg
 Neptune:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/17/images/a/formats/web_print.jpg
-Pluto:Show HST Image:http://imgsrc.stsci.edu/op/pubinfo/jpeg/Pluto4.jpg
+Pluto:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/09/images/a/formats/web_print.jpg
+#
+# SEDS Images:
 M 1:Show SEDS Image:http://www.seds.org/messier/Jpg/m1.jpg
 M 2:Show SEDS Image:http://www.seds.org/messier/Jpg/m2.jpg
 M 3:Show SEDS Image:http://www.seds.org/messier/Jpg/m3.jpg
@@ -225,6 +243,8 @@ M 107:Show SEDS Image:http://www.seds.org/messier/Jpg/m107.jpg
 M 108:Show SEDS Image:http://www.seds.org/messier/Jpg/m108.jpg
 M 109:Show SEDS Image:http://www.seds.org/messier/Jpg/m109.jpg
 M 110:Show SEDS Image:http://www.seds.org/messier/Jpg/m110.jpg
+#
+# KPNO AOP Images:
 IC 10:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic10block.jpg
 IC 289:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic289ehrhorn.jpg
 IC 342:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/ic342block.jpg
@@ -512,6 +532,8 @@ Mars:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/mars080303bl
 Jupiter:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/jupmoon4.gif
 Saturn:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/saturndonnelly.jpg
 Uranus:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/uranussawit.jpg
+#
+# NOAO Images:
 Pluto:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/03024b.jpg
 IC 434:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/horseheady.jpg
 IC 4182:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/ic4182na.jpg
@@ -628,6 +650,8 @@ NGC 6992:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/veilea.jpg
 NGC 7129:Show NOAO Image:http://www.noao.edu/image_gallery/images/d4/n7129a.jpg
 NGC 7317:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/sq2a.jpg
 NGC 7635:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/bubblea.jpg
+#
+# Misc. Solar System Images:
 Sun:Show Sun Image:http://www.solarviews.com/browse/sun/sun.jpg
 Sun:Total Eclipse Image:http://umbra.nascom.nasa.gov/eclipse/images/freds_excellent_eclipse_img.jpg
 Mercury:Show NASA Mosaic:http://nssdc.gsfc.nasa.gov/image/planetary/mercury/mercuryglobe2.jpg
@@ -639,6 +663,8 @@ Mars:Show Pathfinder Lander Image:http://mpfwww.jpl.nasa.gov/MPF/ops/81696_full.
 Jupiter:Show Voyager 1 Image:http://pds.jpl.nasa.gov/planets/images/browse/jupiter/jupiter.jpg
 Saturn:Show Collage of Saturn and moons:http://nssdc.gsfc.nasa.gov/image/planetary/saturn/saturn_family.jpg
 Uranus:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-31a-02-preview.jpg
+#
+# VLT Images:
 IC 434:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-02a-02-normal.jpg
 M 17:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-24a-00-preview.jpg
 M 27:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-38a-98-preview.jpg
