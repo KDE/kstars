@@ -199,12 +199,8 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 	int dSec = int( -3600.*HourAngle.Hours() );
 
 	//dt0 is the first guess at the transit time.
-	KStarsDateTime dt0( dt.date(), dt.time().addSecs( dSec ) );
+	KStarsDateTime dt0 = dt.addSecs( dSec );
 
-	//DEBUG
-	kdDebug() << "Hour Angle: " << HourAngle.toHMSString() << endl;
-	kdDebug() << "transit time (guess): " << dt0.toString() << endl;
-	
 	//recompute object's position at UT0 and then find
 	//transit time of this refined position
 	SkyPoint sp = recomputeCoords( dt0, geo );
@@ -213,7 +209,7 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 	HourAngle = dms ( LST.Degrees() - ram->Degrees() );
 	dSec = int( -3600.*HourAngle.Hours() );
 
-	return dt0.time().addSecs( dSec );
+	return dt.addSecs( dSec ).time();
 }
 
 QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) {
