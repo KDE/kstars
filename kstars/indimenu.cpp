@@ -201,9 +201,9 @@ INDI_D * INDIMenu::findDeviceByLabel(QString label)
   for (unsigned int i=0; i < mgr.count(); i++)
   {
       for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
-        if (mgr.at(i)->indi_dev.at(j)->label == label)
+          if (mgr.at(i)->indi_dev.at(j)->label == label)
        		return mgr.at(i)->indi_dev.at(j);
- }
+  }
   
   return NULL;
 }

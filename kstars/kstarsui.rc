@@ -17,7 +17,7 @@
 		<Action name="quit"/>
 	</Menu>
 
-	<Menu name="time" noMerge="1"><text>&amp;Time</text>
+	<Menu name="time" noMerge="1"><text>T&amp;ime</text>
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />

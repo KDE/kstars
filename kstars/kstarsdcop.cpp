@@ -467,7 +467,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 	}
 }
 
-void KStars::startINDI (QString driverName, bool useLocal)
+void KStars::startINDI (QString deviceName, bool useLocal)
 {
 
   establishINDI();
@@ -479,22 +479,22 @@ void KStars::startINDI (QString driverName, bool useLocal)
   }
 	  
 	QListViewItem *driverItem = NULL;
-	driverItem = indidriver->localListView->findItem(driverName, 0);
+	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{
-	   kdDebug() << "Driver " << driverName << " not found!" << endl;
+	   kdDebug() << "Device " << deviceName << " not found!" << endl;
 	   return;
 	}
 
 	// If device is already running, we need to shut it down first
-	if (indidriver->isDeviceRunning(driverName))
+	if (indidriver->isDeviceRunning(deviceName))
 	{
 		indidriver->localListView->setSelected(driverItem, true);
 		indidriver->processDeviceStatus(1);
 	}
 	   
 	// Set custome label for device
-	indimenu->setCustomLabel(driverName);
+	indimenu->setCustomLabel(deviceName);
 	// Select it
 	indidriver->localListView->setSelected(driverItem, true);
 	
@@ -509,7 +509,7 @@ void KStars::startINDI (QString driverName, bool useLocal)
 
 }
 
-void KStars::shutdownINDI (QString driverName)
+void KStars::shutdownINDI (QString deviceName)
 {
   if (!indidriver || !indimenu)
   {
@@ -518,10 +518,10 @@ void KStars::shutdownINDI (QString driverName)
   }
 	  
 	QListViewItem *driverItem = NULL;
-	driverItem = indidriver->localListView->findItem(driverName, 0);
+	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{
-	   kdDebug() << "Driver " << driverName << " not found!" << endl;
+	   kdDebug() << "Device " << deviceName << " not found!" << endl;
 	   return;
 	}
 
@@ -530,7 +530,7 @@ void KStars::shutdownINDI (QString driverName)
 }
 
 
-void KStars::switchINDI(QString driverName, bool turnOn)
+void KStars::switchINDI(QString deviceName, bool turnOn)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -541,10 +541,12 @@ void KStars::switchINDI(QString driverName, bool turnOn)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -562,7 +564,7 @@ void KStars::switchINDI(QString driverName, bool turnOn)
 }
 
 	
-void KStars::setINDIPort(QString driverName, QString port)
+void KStars::setINDIPort(QString deviceName, QString port)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -574,10 +576,12 @@ void KStars::setINDIPort(QString driverName, QString port)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -596,7 +600,7 @@ void KStars::setINDIPort(QString driverName, QString port)
 }
 
 	
-void KStars::setINDITarget(QString driverName, double RA, double DEC)
+void KStars::setINDITargetCoord(QString deviceName, double RA, double DEC)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -608,10 +612,12 @@ void KStars::setINDITarget(QString driverName, double RA, double DEC)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+     dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -635,7 +641,7 @@ void KStars::setINDITarget(QString driverName, double RA, double DEC)
 }
 
 	
-void KStars::setINDITarget(QString driverName, QString objectName)
+void KStars::setINDITargetName(QString deviceName, QString objectName)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -650,10 +656,12 @@ void KStars::setINDITarget(QString driverName, QString objectName)
   SkyObject *target = data()->objectNamed( objectName );
   if (!target) return;
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -677,7 +685,7 @@ void KStars::setINDITarget(QString driverName, QString objectName)
 }
 
 	
-void KStars::setINDIAction(QString driverName, QString action)
+void KStars::setINDIAction(QString deviceName, QString action)
 {
   INDI_D *dev;
   INDI_E *el;
@@ -688,10 +696,12 @@ void KStars::setINDIAction(QString driverName, QString action)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -703,7 +713,7 @@ void KStars::setINDIAction(QString driverName, QString action)
 }
 
 	
-void KStars::waitForINDIAction(QString driverName, QString action)
+void KStars::waitForINDIAction(QString deviceName, QString action)
 {
 
   INDI_D *dev;
@@ -716,10 +726,12 @@ void KStars::waitForINDIAction(QString driverName, QString action)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -740,7 +752,7 @@ void KStars::waitForINDIAction(QString driverName, QString action)
 }
 
 	
-void KStars::setINDIFocusSpeed(QString driverName, QString action)
+void KStars::setINDIFocusSpeed(QString deviceName, QString action)
 {
   if (!indidriver || !indimenu)
   {
@@ -748,28 +760,28 @@ void KStars::setINDIFocusSpeed(QString driverName, QString action)
     return;
   }
 
-  setINDIAction(driverName, action);
+  setINDIAction(deviceName, action);
 
 }
 
 	
-void KStars::startINDIFocus(QString driverName, int focusDir)
+void KStars::startINDIFocus(QString deviceName, int focusDir)
 {
   if (!indidriver || !indimenu)
   {
-    kdDebug() << "setINDIFocusSpeed: establishINDI() failed." << endl;
+    kdDebug() << "setINDIFocusSpeed: establishINDI() failed!" << endl;
     return;
   }
 
   if (focusDir == 0)
-    setINDIAction(driverName, "FOCUS_IN");
+    setINDIAction(deviceName, "FOCUS_IN");
   else if (focusDir == 1)
-    setINDIAction(driverName, "FOCUS_OUT");
+    setINDIAction(deviceName, "FOCUS_OUT");
 
 }
 
 	
-void KStars::setINDIGeoLocation(QString driverName, double longitude, double latitude)
+void KStars::setINDIGeoLocation(QString deviceName, double longitude, double latitude)
 {
   
   INDI_D *dev;
@@ -782,10 +794,12 @@ void KStars::setINDIGeoLocation(QString driverName, double longitude, double lat
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -809,7 +823,7 @@ void KStars::setINDIGeoLocation(QString driverName, double longitude, double lat
 }
 
 	
-void KStars::setINDIFocusTimeout(QString driverName, int timeout)
+void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -821,10 +835,12 @@ void KStars::setINDIFocusTimeout(QString driverName, int timeout)
     return;
   }
 
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -845,7 +861,7 @@ void KStars::setINDIFocusTimeout(QString driverName, int timeout)
 }
 
 	
-void KStars::startINDIExposure(QString driverName, int timeout)
+void KStars::startINDIExposure(QString deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -857,10 +873,12 @@ void KStars::startINDIExposure(QString driverName, int timeout)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -880,7 +898,7 @@ void KStars::startINDIExposure(QString driverName, int timeout)
   
 }
 		
-void KStars::setINDIUTC(QString driverName, QString UTCDateTime)
+void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -892,10 +910,12 @@ void KStars::setINDIUTC(QString driverName, QString UTCDateTime)
     return;
   }
   
-  dev = indimenu->findDevice(driverName);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
   if (!dev)
   {
-    kdDebug() << "Driver " << driverName << " not found." << endl;
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
     return;
   }
   
@@ -912,4 +932,49 @@ void KStars::setINDIUTC(QString driverName, QString UTCDateTime)
 
 }
 
+void KStars::setINDIScopeAction(QString deviceName, QString action)
+{
+  setINDIAction(deviceName, action);
+}
+		
+void KStars::setINDIFrameType(QString deviceName, QString type)
+{
+  setINDIAction(deviceName, type);
+}
 
+void KStars::setINDICCDTemp(QString deviceName, int temp)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDICCDTemp: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
+  if (!dev)
+  {
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
+    return;
+  }
+  
+  prop = dev->findProp("CCD_TEMPERATURE");
+  if (!prop) return;
+  
+  el   = prop->findElement("TEMPERATURE");
+  if (!el) return;
+  
+  if (el->write_w)
+    el->write_w->setText(QString("%1").arg(temp));
+  else if (el->spin_w)
+    el->spin_w->setValue(temp);
+  
+  
+  prop->newText();
+  
+}

@@ -105,9 +105,6 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 	if (strcmp (dev, thisDevice))
 	    return;
 
-	// suppress warning
-	n=n;
-
      LX200_16::ISNewText (dev, name, texts, names, n);
 }
 
@@ -281,8 +278,17 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       return;
       
       IUResetSwitches(&OTAUpdateSw);
-      getOTATemp(&OTATemp.np[0].value);
-      IDSetNumber(&OTATemp, NULL);
+      
+      if (getOTATemp(&OTATemp.np[0].value) < 0)
+      {
+	OTATemp.s = IPS_ALERT;
+	IDSetNumber(&OTATemp, "Error: OTA temperature read timed out.");
+      }
+      else
+      {
+	OTATemp.s = IPS_OK;
+	IDSetNumber(&OTATemp, NULL);
+      }
       
       return;
    }
@@ -303,11 +309,20 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
  
  void updateTemp(void * /*p*/)
  {
- 
+   
    if (telescope->isTelescopeOn())
    {
-   	getOTATemp(&OTATemp.np[0].value);
+     if (getOTATemp(&OTATemp.np[0].value) < 0)
+     {
+       OTATemp.s = IPS_ALERT;
+       IDSetNumber(&OTATemp, "Error: OTA temperature read timed out.");
+       return;
+     }
+     else
+     {
+        OTATemp.s = IPS_OK; 
    	IDSetNumber(&OTATemp, NULL);
+     }
    } 
  
    IEAddTimer(900000, updateTemp, NULL);
@@ -317,8 +332,8 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
  void LX200GPS::getBasicData()
  {
 
-   getOTATemp(&OTATemp.np[0].value);
-   IDSetNumber(&OTATemp, NULL);
+   //getOTATemp(&OTATemp.np[0].value);
+   //IDSetNumber(&OTATemp, NULL);
    
    // process parent
    LX200_16::getBasicData();

@@ -37,6 +37,7 @@
 ** daylight on non-Linux systems to record whether DST is in effect.
 */
 
+
 #ifndef __linux__
 static int daylight = 0;
 #endif
@@ -102,8 +103,7 @@ static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West",
 
 static ISwitch	FocusSpeedS[]	 = { {"FOCUS_HALT", "Halt", ISS_ON, 0, 0}, { "FOCUS_FAST", "Fast", ISS_OFF, 0, 0}, {"FOCUS_MEDIUM", "Medium", ISS_OFF, 0, 0}, {"FOCUS_SLOW", "Slow", ISS_OFF, 0, 0}};
 static ISwitch  FocusMotionS[]	 = { {"FOCUS_IN", "Focus in", ISS_OFF, 0, 0}, {"FOCUS_OUT", "Focus out", ISS_OFF, 0, 0}};
-static INumber  FocusTimerN[]    = { {"TIMEOUT", "Timeout (s)", "%10.6m", 0., 60., 1., 0., 0, 0, 0 }};
-
+static INumber  FocusTimerN[]    = { {"TIMEOUT", "Timeout (s)", "%10.6m", 0., 120., 1., 0., 0, 0, 0 }};
 
 static INumberVectorProperty FocusTimerNP = { mydev, "FOCUS_TIMEOUT", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), 0, 0};
 
@@ -144,9 +144,9 @@ static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MO
 static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), 0, 0};
 
 // Focus Control
-static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "Speed", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS), 0, 0};
+static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS), 0, 0};
 
-static ISwitchVectorProperty	FocusMotionSw = {mydev, "Motion", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), 0, 0};
+static ISwitchVectorProperty	FocusMotionSw = {mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), 0, 0};
 
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", 0, 0, 0, 0}};

@@ -199,10 +199,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC setINDIPort(QString driverName, QString port);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC. */
-		ASYNC setINDITarget(QString driverName, double RA, double DEC);
+		ASYNC setINDITargetCoord(QString driverName, double RA, double DEC);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC. */
-		ASYNC setINDITarget(QString driverName, QString objectName);
+		ASYNC setINDITargetName(QString driverName, QString objectName);
 	
 	/**DCOP interface function.  Set INDI target by name lookup. */
 		ASYNC setINDIAction(QString driverName, QString action);
@@ -227,6 +227,15 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		
 	/**DCOP interface function.  Set INDI UTC date and time. */
 		ASYNC setINDIUTC(QString driverName, QString UTCDateTime);
+	
+	/**DCOP interface function. Set INDI Telescope action. */
+		ASYNC setINDIScopeAction(QString deviceName, QString action);
+		
+	/**DCOP interface function. Set CCD camera frame type. */
+		ASYNC setINDIFrameType(QString deviceName, QString type);
+		
+	/**DCOP interface function. Set CCD target temperature. */
+		ASYNC setINDICCDTemp(QString deviceName, int temp);
 		
 	public slots:
 		/**
