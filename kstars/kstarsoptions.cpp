@@ -20,9 +20,11 @@
 
 #include <kapplication.h>
 
-KStarsOptions::KStarsOptions(bool loadDefaults)
-{
+KStarsOptions::KStarsOptions(bool loadDefaults) {
 	if ( loadDefaults ) setDefaultOptions();
+}
+
+KStarsOptions::~KStarsOptions() {
 }
 
 KStarsOptions::KStarsOptions(KStarsOptions& o) {
@@ -100,9 +102,9 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	CScheme.copy( *o.colorScheme() );
 
 	// location, location, location
-	CityName = o.CityName;
-	ProvinceName = o.ProvinceName;
-	CountryName = o.CountryName;
+	setCityName( o.cityName() );
+	setProvinceName( o.provinceName() );
+	setCountryName( o.countryName() );
 
 	//Custom catalogs
 	CatalogCount = o.CatalogCount;
@@ -185,5 +187,53 @@ void KStarsOptions::setDefaultOptions() {
 
 void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {
 	magLimitDrawStar = newMagnitude;
+}
+
+GeoLocation* KStarsOptions::Location() {
+	return &location;
+}
+
+void KStarsOptions::setLocation(const GeoLocation& l) {
+	location = l;
+}
+
+void KStarsOptions::setCityName(const QString& city) {
+	location.setName( city );
+}
+
+void KStarsOptions::setCountryName(const QString& country) {
+	location.setCountry( country );
+}
+
+void KStarsOptions::setProvinceName(const QString& prov) {
+	location.setProvince( prov );
+}
+
+void KStarsOptions::setLongitude(const double l) {
+	location.setLat(l);
+}
+
+void KStarsOptions::setLatitude(const double l) {
+	location.setLong(l);
+}
+
+QString KStarsOptions::cityName() {
+   return location.name();
+}
+
+QString KStarsOptions::countryName() {
+	return location.country();
+}
+
+QString KStarsOptions::provinceName() {
+	return location.province();
+}
+
+double KStarsOptions::longitude() {
+	return location.lng().Degrees();
+}
+
+double KStarsOptions::latitude() {
+	return location.lat().Degrees();
 }
 

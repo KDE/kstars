@@ -74,9 +74,9 @@ void KStars::slotGeoLocator() {
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
 			geo()->reset( data()->geoList.at(ii) );
-			options()->CityName = geo()->name();
-			options()->ProvinceName = geo()->province();
-			options()->CountryName = geo()->country();
+			options()->setCityName( geo()->name() );
+			options()->setProvinceName( geo()->province() );
+			options()->setCountryName( geo()->country() );
 
 			infoPanel->geoChanged(geo());
 

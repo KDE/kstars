@@ -309,30 +309,30 @@ void KStars::initLocation() {
   //(old config files set both province and country to "StateName")
   //this can produce the wrong city, if more than one matches these criteria...
 		if ( oldConfig ) {
-			if ( (GeoData->name().lower() == options()->CityName.lower()) &&
-					( (GeoData->province().lower() == options()->ProvinceName.lower()) ||
-					(GeoData->country().lower() == options()->CountryName.lower()) ) )
+			if ( (GeoData->name().lower() == options()->cityName().lower()) &&
+					( (GeoData->province().lower() == options()->provinceName().lower()) ||
+					(GeoData->country().lower() == options()->countryName().lower()) ) )
 			{
 				bFound = TRUE;
-				if ( GeoData->province().lower() != options()->ProvinceName.lower() )
-					options()->ProvinceName = GeoData->province();
-				if ( GeoData->country().lower() != options()->CountryName.lower() )
-					options()->CountryName = GeoData->country();
+				if ( GeoData->province().lower() != options()->provinceName().lower() )
+					options()->setProvinceName( GeoData->province() );
+				if ( GeoData->country().lower() != options()->countryName().lower() )
+					options()->setCountryName( GeoData->country() );
 				break ;
 			}
 		} else {
 	//Otherwise, require all three fields (City, Province, and Country) to match
-			if ( options()->ProvinceName.stripWhiteSpace().length() ) {
-				if ( (GeoData->name().lower() == options()->CityName.lower()) &&
-						(GeoData->province().lower() == options()->ProvinceName.lower()) &&
-						(GeoData->country().lower() == options()->CountryName.lower()) )
+			if ( options()->provinceName().stripWhiteSpace().length() ) {
+				if ( (GeoData->name().lower() == options()->cityName().lower()) &&
+						(GeoData->province().lower() == options()->provinceName().lower()) &&
+						(GeoData->country().lower() == options()->countryName().lower()) )
 				{
 					bFound = TRUE;
 					break ;
 				}
 			} else {
-				if ( (GeoData->name().lower() == options()->CityName.lower()) &&
-						(GeoData->country().lower() == options()->CountryName.lower()) )
+				if ( (GeoData->name().lower() == options()->cityName().lower()) &&
+						(GeoData->country().lower() == options()->countryName().lower()) )
 				{
 					bFound = TRUE;
 					break ;
@@ -343,14 +343,14 @@ void KStars::initLocation() {
 	}
 
 	if ( !bFound ) { // set city, province and country to default values
-		options()->CityName = "Greenwich";
-		options()->ProvinceName = "";
-		options()->CountryName = "United Kingdom";
+		options()->setCityName( "Greenwich" );
+		options()->setProvinceName( "" );
+		options()->setCountryName( "United Kingdom" );
 		for (GeoData = data()->geoList.first(); GeoData; GeoData = data()->geoList.next())
 		{
-			if ( (GeoData->name().lower() == options()->CityName.lower()) &&
-					(GeoData->province().lower() == options()->ProvinceName.lower()) &&
-					(GeoData->country().lower() == options()->CountryName.lower()) )
+			if ( (GeoData->name().lower() == options()->cityName().lower()) &&
+					(GeoData->province().lower() == options()->provinceName().lower()) &&
+					(GeoData->country().lower() == options()->countryName().lower()) )
 			{
 				bFound = TRUE;
 				break ;
@@ -359,11 +359,10 @@ void KStars::initLocation() {
 	}
 
 	if (bFound) {
-		Location = new GeoLocation (GeoData);
+		options()->setLocation( GeoData );
 	} else { //couldn't set geographic location, so set the "null" location.
 		QString message = i18n( "Could not set geographic location!" );
 		KMessageBox::sorry( 0, message, i18n( "No Location Set" ) );
-		Location = new GeoLocation();
 	}
 }
 
