@@ -42,7 +42,7 @@ XMLAtt * findAtt (XMLEle *ep, const char *name, char errmsg[])
 	if (ap)
 	    return (ap);
 	if (errmsg)
-	    sprintf (errmsg, "INDI: <%s> missing attribute '%s'", tagXMLEle(ep),name);
+	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> missing attribute '%.64s'", tagXMLEle(ep),name);
 	return NULL;
 }
 
@@ -55,7 +55,7 @@ XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
 	if (cp)
 	    return (cp);
 	if (errmsg)
-	    sprintf (errmsg, "INDI: <%s %s %s> missing child '%s'", tagXMLEle(ep),
+	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s %.64s %.64s> missing child '%.64s'", tagXMLEle(ep),
 						pp->pg->dp->name.ascii(), pp->name.ascii(), child);
 	return (NULL);
 }

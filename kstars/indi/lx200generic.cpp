@@ -620,13 +620,13 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 		setSiteLatitude(newLat);
 		geoNum.np[0].value = newLat;
 		geoNum.np[1].value = newLong;
-		sprintf (msg, "Site location updated to Lat %s - Long %s", l, L);
+		snprintf (msg, sizeof(msg), "Site location updated to Lat %.32s - Long %.32s", l, L);
 	    } else
 	    {
 		geoNum.s = IPS_IDLE;
-		sprintf (msg, "Lat or Long missing or invalid");
+		strcpy(msg, "Lat or Long missing or invalid");
 	    }
-	    IDSetNumber (&geoNum, msg);
+	    IDSetNumber (&geoNum, "%s", msg);
 	    return;
 	}
 

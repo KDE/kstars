@@ -224,8 +224,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 	  }
 	  
 	  FanStatusSw.s = IPS_OK;
-	  strcpy(msg, index == 0 ? "Fan is ON" : "Fan is OFF");
-	  IDSetSwitch (&FanStatusSw, msg);
+	  IDSetSwitch (&FanStatusSw, index == 0 ? "Fan is ON" : "Fan is OFF");
 	  return;
    }
 
@@ -240,7 +239,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  HomeSearchSw.s = IPS_BUSY;
-	  IDSetSwitch (&HomeSearchSw, msg);
+	  IDSetSwitch (&HomeSearchSw, index == 0 ? "Seek Home and Save" : "Seek Home and Set");
 	  return;
    }
 
@@ -255,8 +254,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 
 	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
 	  FieldDeRotatorSw.s = IPS_OK;
-	  strcpy(msg, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
-	  IDSetSwitch (&FieldDeRotatorSw, msg);
+	  IDSetSwitch (&FieldDeRotatorSw, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
 	  return;
    }
 

@@ -38,6 +38,7 @@
 
 #define J2000 2451545.0
 #define TRACKING_THRESHOLD	0.05		/* 3' for tracking */
+#define ERRMSG_SIZE 1024
 
 extern const char * Direction[];
 extern const char * SolarSystem[];
