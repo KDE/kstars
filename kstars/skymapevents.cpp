@@ -668,7 +668,11 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 
 void SkyMap::paintEvent( QPaintEvent * )
 {
-// if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
+	//If computeSkymap is false, then we just refresh the window using the stored sky pixmap 
+	//and draw the "overlays" on top.  This lets us update the overlay information rapidly
+	//without needing to recompute the entire skymap.
+	//use update() to trigger this "short" paint event; to force a full "recompute" 
+	//of the skymap, use forceUpdate().
 	if (!computeSkymap)
 	{
 		QPixmap *sky2 = new QPixmap( *sky );
@@ -678,18 +682,16 @@ void SkyMap::paintEvent( QPaintEvent * )
 		return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
-// if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
 	QPainter psky;
-
 	setMapGeometry();
 
-//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
-//the hideOnSlew option (which is true if slewing should hide objects),
-//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
+	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
+	//the hideOnSlew option (which is true if slewing should hide objects),
+	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& Options::hideOnSlew() );
 
-//shortcuts to inform wheter to draw different objects
+	//shortcuts to inform wheter to draw different objects
 	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );

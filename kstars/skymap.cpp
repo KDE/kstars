@@ -112,7 +112,7 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	//Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
 	//the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
 	for ( unsigned int index = 0; index <184; ++index ) {
-		double alt = -1.75 + index*0.5;  //start at -0.75 degrees to get midpoint value for each interval.
+		double alt = -1.75 + index*0.5;  //start at -1.75 degrees to get midpoint value for each interval.
 
 		RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
 		RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
@@ -831,7 +831,7 @@ void SkyMap::updateFocus() {
 			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			setDestination( focus() );
 		}
-	} else if ( ! isSlewing() ) {
+	} else if ( ! slewing ) {
 		//Not tracking and not slewing, let sky drift by
 		if ( Options::useAltAz() ) {
 			focus()->setAlt( destination()->alt()->Degrees() );
@@ -1142,8 +1142,11 @@ void SkyMap::forceUpdate( bool now )
 	else update();
 }
 
-float SkyMap::fov( void ) {
-	return 32.*width()/Options::zoomFactor();
+float SkyMap::fov( bool useWidth ) {
+	if ( useWidth ) 
+		return 28.65*width()/Options::zoomFactor();
+	else
+		return 28.65*height()/Options::zoomFactor();
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
@@ -1163,13 +1166,10 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 	if ( dY > FOV ) return false;
 	if ( isPoleVisible ) return true;
 
-	//XMax is now computed once in SkyMap::paintEvent()
 	if ( useAltAz ) {
 		dX = fabs( p->az()->Degrees() - focus()->az()->Degrees() );
-		//XMax = 1.2*FOV/cos( focus()->alt()->radians() );
 	} else {
 		dX = fabs( p->ra()->Degrees() - focus()->ra()->Degrees() );
-		//XMax = 1.2*FOV/cos( focus()->dec()->radians() );
 	}
 	if ( dX > 180.0 ) dX = 360.0 - dX; // take shorter distance around sky
 

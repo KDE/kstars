@@ -22,7 +22,9 @@
 
 #include "dms.h"
 
-/**There are several time-dependent values used in position calculations,
+/**@class KSNumbers
+	*
+	*There are several time-dependent values used in position calculations,
 	*that are not specific to an object.  This class provides
 	*storage for these values, and methods for calculating them for a given date.
 	*The numbers include solar data like the true/mean solar anomalies
@@ -31,9 +33,9 @@
 	*constant of aberration, the obliquity of the Ecliptic, the effects of
 	*Nutation (delta Obliquity and delta Ecliptic longitude),
 	*the Julian Day/Century/Millenium, and arrays for computing the precession.
-	*@short Numbers used in a variety of position calculations.
+	*@short Store several time-dependent astronomical quantities.
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class KSNumbers {
@@ -43,63 +45,65 @@ public:
 	/**Destructor (empty). */
 	~KSNumbers();
 
-	/**@returns the current Obliquity (the angle of inclination between
+	/**@return the current Obliquity (the angle of inclination between
 		*the celestial equator and the ecliptic)
 		*/
 	const dms* obliquity() const { return &Obliquity; }
 
-	/**@returns the constant of aberration (20.49 arcsec). */
+	/**@return the constant of aberration (20.49 arcsec). */
 	dms constAberr() const { return K; }
 
-	/**@returns the mean solar anomaly. */
+	/**@return the mean solar anomaly. */
 	dms sunMeanAnomaly() const { return M; }
 
-	/**@returns the mean solar longitude. */
+	/**@return the mean solar longitude. */
 	dms sunMeanLongitude() const { return L; }
 
-	/**@returns the true solar anomaly. */
+	/**@return the true solar anomaly. */
 	dms sunTrueAnomaly() const { return M0; }
 
-	/**@returns the true solar longitude. */
+	/**@return the true solar longitude. */
 	dms sunTrueLongitude() const { return L0; }
 
-	/**@returns the longitude of the Earth's perihelion point. */
+	/**@return the longitude of the Earth's perihelion point. */
 	dms earthPerihelionLongitude() const { return P; }
 
-	/**@returns eccentricity of Earth's orbit.*/
+	/**@return eccentricity of Earth's orbit.*/
 	double earthEccentricity() const { return e; }
 
-	/**@returns the change in obliquity due to the nutation of 
+	/**@return the change in obliquity due to the nutation of 
 	 * Earth's orbit. Value is in degrees */
 	double dObliq() const { return deltaObliquity; }
 
-	/**@returns the change in Ecliptic Longitude due to nutation.
+	/**@return the change in Ecliptic Longitude due to nutation.
 	 * Value is in degrees. */
 	double dEcLong() const { return deltaEcLong; }
 
-	/**@returns Julian centuries since J2000*/
+	/**@return Julian centuries since J2000*/
 	double julianCenturies() const { return T; }
 
-	/**@returns Julian Day*/
+	/**@return Julian Day*/
 	long double julianDay() const { return days; }
 
-	/**@returns Julian Millenia since J2000*/
+	/**@return Julian Millenia since J2000*/
 	double julianMillenia() const { return jm; }
 
-	/**@returns element of P1 precession array at position [i1][i2] */
+	/**@return element of P1 precession array at position [i1][i2] */
 	double p1( int i1, int i2 ) const { return P1[i1][i2]; }
 
-	/**@returns element of P2 precession array at position [i1][i2] */
+	/**@return element of P2 precession array at position [i1][i2] */
 	double p2( int i1, int i2 ) const { return P2[i1][i2]; }
 
-	/**@returns element of P1B precession array at position [i1][i2] */
+	/**@return element of P1B precession array at position [i1][i2] */
 	double p1b( int i1, int i2 ) const { return P1B[i1][i2]; }
 
-	/**@returns element of P2B precession array at position [i1][i2] */
+	/**@return element of P2B precession array at position [i1][i2] */
 	double p2b( int i1, int i2 ) const { return P2B[i1][i2]; }
 
 
-	/**@short update all values for the date given as an argument. */
+	/**@short update all values for the date given as an argument. 
+		*@param jd the Julian date for which to compute values
+		*/
 	void updateValues( long double jd );
 
 private:
