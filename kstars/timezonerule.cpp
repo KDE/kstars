@@ -336,7 +336,7 @@ void TimeZoneRule::reset_with_ltime( const QDateTime ltime, const double TZoffse
 	} else {
 		// current time was not start time
 		// so check if current time is revert time and deactivate DST if necessary
-		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * -3600) ) );
+		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
 		if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
 			kdDebug() << "Current time = Reverttime: deactivate DST" << endl;
 			setDST( false );
