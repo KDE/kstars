@@ -69,7 +69,7 @@ void dmsBox::show(dms d)
 		showInHours(d);
 }
 
-dms dmsBox::createDms ( bool *ok )
+dms dmsBox::createDms ( bool deg, bool *ok )
 {
 //	QString entry;
 	int d = 0, m = 0;

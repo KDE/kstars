@@ -74,7 +74,7 @@ public:
 	*/
 	void setDMS(QString s) { setText(s); }
 
-/**Parse the text in the dmsBox as an angle.  The text may be an integer
+	/**Parse the text in the dmsBox as an angle.  The text may be an integer
 	*or double value, or it may be a triplet of integer values (separated by spaces
 	*or colons) representing deg/hrs, min, sec.  It is also possible to have two
 	*fields.  In this case, if the second field is a double, it is converted
@@ -82,7 +82,7 @@ public:
 	*@param ok set to true if a dms object was succedssfully created.
 	*@returns a dms object constructed from the fields of the dmsbox
 	*/
-	dms createDms(bool *ok=0);
+	dms createDms(bool deg=TRUE, bool *ok=0);
 
 	/**
 	* returns a boolean indicating if object contains degrees or hours
