@@ -38,7 +38,7 @@ project_type=normal_kde2
 sgml_file=
 short_info=A Desktop Planetarium for KDE
 sub_dir=kstars/
-version=0.7
+version=0.8
 version_control=None
 workspace=1
 
