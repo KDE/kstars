@@ -52,14 +52,13 @@ void timeBox::showTime (QTime t)
 void timeBox::showDate (QDate t)
 {
 	setEntry( KGlobal::locale()->formatDate( t, true ) );
-//	setEntry( t.toString("dd.MM.yyyy") );
 
 }
 
 QTime timeBox::createTime ( bool *ok )
 {
 //	QString entry;
-	int h = 0, m = 0;
+	int h = 0, m = 0, is = 0;
 	double s = 0.0;
 	QTime qt;
 	bool valueFound = false, badEntry = false , checkValue = false;
@@ -83,7 +82,7 @@ QTime timeBox::createTime ( bool *ok )
 		double x = entry.toDouble( &checkValue );
 		if ( checkValue ) {
 			int seconds = int(x * 3600);
-			qt = QTime(0, 0, 0);
+			QTime qt(0,0,0);
 			qt.addSecs(seconds);
 			valueFound = true;
 			if ( ok != NULL ) *ok = true;
@@ -134,13 +133,11 @@ QTime timeBox::createTime ( bool *ok )
 
 		if ( !badEntry ) {
 			valueFound = true;
-			int H = int((double)abs(h) + (double)m/60. 
-					+ (double)s/3600. );
+			is = (int)s;
 
 			if ( ok != NULL ) *ok = true;
 
-			qt = QTime(0, 0, 0);
-			qt.addSecs(H);
+			QTime qt(h,m,s);
 			return qt;
 
 		} else {
