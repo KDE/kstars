@@ -971,7 +971,7 @@ performed on the centered object instead.</para>
 <listitem><para>Center and Track on the selected object</para></listitem>
 </varlistentry>
 -->
-
+<variablelist>
 <varlistentry>
 <term><keycap>D</keycap></term>
 <listitem><para>Open the Details window for the selected object</para></listitem>
