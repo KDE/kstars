@@ -889,9 +889,9 @@ void SkyMap::setRiseSetLabels( void ) {
 		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
 		tt = i18n( "Transit Time: " ) + tt2;
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
-		tt = i18n( "No transit Time: Circumpolar" );
+		tt = i18n( "No Transit Time: Circumpolar" );
 	} else {
-		tt = i18n( "No transit Time: Never rises" );
+		tt = i18n( "No Transit Time: Never rises" );
 	}
 
 	pmRiseTime->setText( rt );

@@ -488,7 +488,7 @@ void LocationDialog::showTZRules( void ) {
 	lines.append( i18n( "IQ: Apr 1 (03:00) / Oct. 1 (00:00)" ) );
 	lines.append( i18n( "IR: Mar 21 (00:00) / Sep. 22 (00:00)" ) );
 	lines.append( i18n( "JD: Last Thu in Mar. (00:00) / Last Thu in Sep. (00:00)" ) );
-	lines.append( i18n( "LB: Last Sun in Mar. (00:00) / Lasy Sun in Oct. (00:00)" ) );
+	lines.append( i18n( "LB: Last Sun in Mar. (00:00) / Last Sun in Oct. (00:00)" ) );
 	lines.append( i18n( "MX:  1st Sun in May  (02:00) / Last Sun in Sep. (02:00)" ) );
 	lines.append( i18n( "NB:  1st Sun in Sep. (02:00) /  1st Sun in Apr. (02:00)" ) );
 	lines.append( i18n( "NZ:  1st Sun in Oct. (02:00) /  3rd Sun in Mar. (02:00)" ) );
@@ -501,7 +501,7 @@ void LocationDialog::showTZRules( void ) {
 	lines.append( i18n( "US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)" ) );
 	lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
-	QString message = i18n( "Daylight Savings Time Rules" );
+	QString message = i18n( "Daylight Saving Time Rules" );
 	KStarsMessageBox::badCatalog( 0, message, lines, message );
 }
 
