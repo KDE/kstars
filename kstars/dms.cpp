@@ -57,7 +57,7 @@ void dms::setRadians( const double &Rad ) {
 bool dms::setFromString( const QString &str, bool isDeg ) {
 	int d(0), m(0);
 	double s(0.0);
-	bool checkValue( false ), badEntry( false );
+	bool checkValue( false ), badEntry( false ), negative( false );
 	QString entry = str.stripWhiteSpace();
 
 	//remove any instances of unit characters.
@@ -136,19 +136,24 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	//we can ignore anything after 3rd field
 	if ( fields.count() >= 3 ) {
 		//See if first two fields parse as integers, and third field as a double
+		
 		d = fields[0].toInt( &checkValue );
 		if ( !checkValue ) badEntry = true;
 		m = fields[1].toInt( &checkValue );
 		if ( !checkValue ) badEntry = true;
 		s = fields[2].toDouble( &checkValue );
 		if ( !checkValue ) badEntry = true;
+		
+		//Special case: If first field is "-0", store the negative sign.  
+		//(otherwise it gets dropped)
+		if ( fields[0].at(0) == '-' && d == 0 ) negative = true;
 	}
 
 	if ( !badEntry ) {
 		double D = (double)abs(d) + (double)abs(m)/60.
 				+ (double)fabs(s)/3600.;
 
-		if ( d<0 || m < 0 || s<0 ) { D = -1.0*D;}
+		if ( negative || d<0 || m < 0 || s<0 ) { D = -1.0*D;}
 
 		if (isDeg) {
 			setD( D );
