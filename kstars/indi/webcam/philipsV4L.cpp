@@ -199,8 +199,12 @@ void checkPhilipsSize(int & x, int & y)
 bool setPhilipsSize(int x, int y) 
 {
 
+   int oldX, oldY;
    char msg[ERRMSG_SIZ];
    checkPhilipsSize(x,y);
+   
+   oldX = window_.width;
+   oldY = window_.height;
    
    window_.width=x;
    window_.height=y;
@@ -209,6 +213,8 @@ bool setPhilipsSize(int x, int y)
    {
        snprintf(msg, ERRMSG_SIZ, "ioctl(VIDIOCSWIN) %s", strerror(errno));
        cerr << msg << endl;
+       window_.width=oldX;
+       window_.height=oldY;
        return false;
    }
    ioctl (device_, VIDIOCGWIN, &window_);

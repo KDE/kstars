@@ -68,16 +68,16 @@ static ISwitch SlewModeS[]       = {{"Max", "", ISS_ON, 0, 0}, {"Find", "", ISS_
 static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0, 0 }, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0 , 0}};
 static ISwitch TrackModeS[]      = {{ "Default", "", ISS_ON, 0, 0} , { "Lunar", "", ISS_OFF, 0, 0}, {"Manual", "", ISS_OFF, 0, 0}};
 static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0 }};
-static ISwitch ParkS[]		 = { {"Park", "", ISS_OFF, 0, 0} };
+static ISwitch ParkS[]		 = { {"PARK", "Park", ISS_OFF, 0, 0} };
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON, 0, 0}, { "Fast", "", ISS_OFF, 0, 0}, {"Medium", "", ISS_OFF, 0, 0}, {"Slow", "", ISS_OFF, 0, 0}};
-static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF, 0, 0}, {"Focus out", "", ISS_OFF, 0, 0}};
-static INumber  FocusTimerN[]    = { {"Timeout (s)", "", "%10.6m", 0., 60., 1., 0., 0, 0, 0 }};
+static ISwitch	FocusSpeedS[]	 = { {"FOCUS_HALT", "Halt", ISS_ON, 0, 0}, { "FOCUS_FAST", "Fast", ISS_OFF, 0, 0}, {"FOCUS_MEDIUM", "Medium", ISS_OFF, 0, 0}, {"FOCUS_SLOW", "Slow", ISS_OFF, 0, 0}};
+static ISwitch  FocusMotionS[]	 = { {"FOCUS_IN", "Focus in", ISS_OFF, 0, 0}, {"FOCUS_OUT", "Focus out", ISS_OFF, 0, 0}};
+static INumber  FocusTimerN[]    = { {"TIMEOUT", "Timeout (s)", "%10.6m", 0., 60., 1., 0., 0, 0, 0 }};
 
 
-static INumberVectorProperty FocusTimerNP = { mydev, "Focus Timer", "", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), 0, 0};
+static INumberVectorProperty FocusTimerNP = { mydev, "FOCUS_TIMEOUT", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), 0, 0};
 
 /* equatorial position */
 INumber eq[] = {
@@ -284,6 +284,7 @@ LX200Generic::LX200Generic()
    currentRA      = 0;
    currentDEC     = 0;
    currentSet     = 0;
+   UTCOffset      = 0;
    lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    localTM = new tm;
@@ -351,7 +352,6 @@ void LX200Generic::ISGetProperties(const char *dev)
 
 void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-	double UTCOffset, dayDiff;
 	int err;
 	struct tm *ltp = new tm;
 	struct tm utm;
@@ -402,7 +402,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
        {
 	  if (checkPower(&Time))
 	   return;
-
+	  
 	  if (extractISOTime(texts[0], &utm) < 0)
 	  {
 	    Time.s = IPS_IDLE;
@@ -415,14 +415,17 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		ltp->tm_year += 1900;
 
 	        
-                dayDiff = utm.tm_mday - ltp->tm_mday;
+                /*dayDiff = utm.tm_mday - ltp->tm_mday;
 		if (dayDiff == 0)
 		   UTCOffset = (ltp->tm_hour - utm.tm_hour);  
 		else if (dayDiff > 0)
 		   UTCOffset = ltp->tm_hour - utm.tm_hour - 24;
-		else UTCOffset = ltp->tm_hour - utm.tm_hour + 24;
+		else UTCOffset = ltp->tm_hour - utm.tm_hour + 24;*/
+		tzset();
 		
-		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		UTCOffset = timezone / (60 * 60);
+		
+		IDLog("local time is %02d:%02d:%02d\nUTCOffset: %g\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec, UTCOffset);
 		
 		getSDTime(&STime[0].value);
 		IDSetNumber(&SDTime, NULL);
@@ -461,10 +464,21 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 
 		localTM = ltp;
 		
-		if ( ( err = setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year) < 0) )
-	  	{
-		  handleError(&Time, err, "Setting local date.");
-		  return;
+		if (!strcmp(dev, "LX200 GPS"))
+		{
+			if ( ( err = setCalenderDate(utm.tm_mday, utm.tm_mon, utm.tm_year) < 0) )
+	  		{
+		  		handleError(&Time, err, "Setting UTC date.");
+		  		return;
+			}
+		}
+		else
+		{
+			if ( ( err = setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year) < 0) )
+	  		{
+		  		handleError(&Time, err, "Setting local date.");
+		  		return;
+			}
 		}
 		
  		IDSetText(&Time , "Date changed, updating planetary data...");
@@ -816,7 +830,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    else
 	    {
 	        IUResetSwitches(&MovementSw);
-	        abortSlewSw.s = IPS_IDLE;
+	        abortSlewSw.s = IPS_OK;
 	        IDSetSwitch(&abortSlewSw, NULL);
 	    }
 
@@ -1394,7 +1408,7 @@ void LX200Generic::ISPoll()
          
 	      
 	      FocusMotionSw.s = IPS_IDLE;
-	      FocusTimerNP.s  = IPS_IDLE;
+	      FocusTimerNP.s  = IPS_OK;
 	      FocusSpeedSw.s  = IPS_OK;
 	      
               IUResetSwitches(&FocusMotionSw);
@@ -1421,7 +1435,6 @@ void LX200Generic::ISPoll()
 void LX200Generic::getBasicData()
 {
 
-  int dd, mm;
   int err;
   struct tm *timep;
   time_t ut;
@@ -1429,7 +1442,7 @@ void LX200Generic::getBasicData()
   timep = gmtime (&ut);
   strftime (Time.tp[0].text, sizeof(Time.tp[0].text), "%Y-%m-%dT%H:%M:%S", timep);
 
-  IDLog("time is %s\n", Time.tp[0].text);
+  IDLog("PC UTC time is %s\n", Time.tp[0].text);
 
   getAlignment();
   
@@ -1451,45 +1464,7 @@ void LX200Generic::getBasicData()
   eqNum.np[0].value = targetRA;
   eqNum.np[1].value = targetDEC;
   
-  IDSetNumber (&eqNum, NULL);
-
-  if ( (err = getSDTime(&STime[0].value)) < 0)
-    IDMessage(thisDevice, "Failed to retrieve siderial time from device.");
-  else
-    IDSetNumber (&SDTime, NULL);
-    
-     
-  if ( (err = selectSite(currentSiteNum)) < 0)
-    IDMessage(thisDevice, "Failed to select a site from device.");
-  else
-   IDSetSwitch (&SitesSw, NULL);
-
-  
-  if ( (err = getSiteLatitude(&dd, &mm)) < 0)
-    IDMessage(thisDevice, "Failed to get site latitude from device.");
-  else
-  {
-    if (dd > 0)
-    	geoNum.np[0].value = dd + mm/60.0;
-    else
-        geoNum.np[0].value = dd - mm/60.0;
-  
-      IDLog("Autostar Latitude: %d:%d\n", dd, mm);
-      IDLog("INDI Latitude: %g\n", geoNum.np[0].value);
-  }
-  
-  if ( (err = getSiteLongitude(&dd, &mm)) < 0)
-    IDMessage(thisDevice, "Failed to get site longitude from device.");
-  else
-  {
-    if (dd > 0) geoNum.np[1].value = 360.0 - (dd + mm/60.0);
-    else geoNum.np[1].value = (dd - mm/60.0) * -1.0;
-    
-    IDLog("Autostar Longitude: %d:%d\n", dd, mm);
-    IDLog("INDI Longitude: %g\n", geoNum.np[1].value);
-  }
-
-  IDSetNumber (&geoNum, NULL);
+  IDSetNumber (&eqNum, NULL);  
   
   SiteNameT[0].text = new char[64];
   
@@ -1502,9 +1477,10 @@ void LX200Generic::getBasicData()
      IDMessage(thisDevice, "Failed to get tracking frequency from device.");
   else
      IDSetNumber (&TrackingFreq, NULL);
-  
-  IDSetText   (&Time, NULL);
-  
+     
+     
+  updateLocation();
+  updateTime();
   
 }
 
@@ -1539,7 +1515,8 @@ int LX200Generic::handleCoordSet()
 	  eqNum.s = IPS_BUSY;
 	  fs_sexa(RAStr, targetRA, 2, 3600);
 	  fs_sexa(DecStr, targetDEC, 2, 3600);
-	  IDSetNumber(&eqNum, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&eqNum, "Slewing to JNow RA %s - DEC %s", RAStr, DecStr);
+	  IDLog("Slewing to JNow RA %s - DEC %s\n", RAStr, DecStr);
 	  break;
 
      // Track
@@ -1571,7 +1548,8 @@ int LX200Generic::handleCoordSet()
 		fs_sexa(RAStr, targetRA, 2, 3600);
 	        fs_sexa(DecStr, targetDEC, 2, 3600);
 		eqNum.s = IPS_BUSY;
-		IDSetNumber(&eqNum, "Slewing to J2000 RA %s - DEC %s", RAStr, DecStr);
+		IDSetNumber(&eqNum, "Slewing to JNow RA %s - DEC %s", RAStr, DecStr);
+		IDLog("Slewing to JNow RA %s - DEC %s\n", RAStr, DecStr);
 	  }
 	  else
 	  {
@@ -1715,6 +1693,7 @@ void LX200Generic::powerTelescope()
 	{
 	  PowerSP.s = IPS_OK;
 	  IDSetSwitch (&PowerSP, "Simulated telescope is online.");
+	  updateTime();
 	  return;
 	}
 	
@@ -1756,7 +1735,6 @@ void LX200Generic::slewError(int slewCode)
 {
     OnCoordSetSw.s = IPS_IDLE;
     ParkSP.s = IPS_IDLE;
-    
     IDSetSwitch(&ParkSP, NULL);
 
     if (slewCode == 1)
@@ -1811,18 +1789,36 @@ void LX200Generic::enableSimulation(bool enable)
      IDLog("Simulation is disabled.\n");
 }
 
-void LX200Generic::updateTimeAndLocation()
+void LX200Generic::updateTime()
 {
 
   char cdate[32];
   double ctime;
-  int h, m, s, dd = 0, mm = 0;
-  int day, month, year, result, err;
+  int h, m, s;
+  int day, month, year, result;
+  
+  tzset();
+  
+  UTCOffset = timezone / (60 * 60);
+  IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
+  
+	
+  if (simulation)
+  {
+    sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", 1979, 6, 25, 3, 30, 30);
+    IDLog("Telescope ISO date and time: %s\n", UTC[0].text);
+    IDSetText(&Time, NULL);
+    return;
+  }
   
   getLocalTime24(&ctime);
   getSexComponents(ctime, &h, &m, &s);
   
-  getSDTime(&STime[0].value);
+  if ( (result = getSDTime(&STime[0].value)) < 0)
+    IDMessage(thisDevice, "Failed to retrieve siderial time from device.");
+  
+  IDLog("Telescope SD Time is: %g\n", STime[0].value);
+  
   getCalenderDate(cdate);
   
   result = sscanf(cdate, "%d/%d/%d", &month, &day, &year);
@@ -1830,12 +1826,25 @@ void LX200Generic::updateTimeAndLocation()
   
   year += 2000;
   
+  IDLog("day: %d - month %d - year: %d - len(cdate): %d\n", day, month, year, strlen(cdate));
+  
   /* Format it into ISO 8601 */
   sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", year, month, day, h, m, s);
   
   IDLog("Telescope ISO date and time: %s\n", UTC[0].text);
-  
-  if ( (err = getSiteLatitude(&dd, &mm)) < 0)
+
+  // Let's send everything to the client
+  IDSetText(&Time, NULL);
+  IDSetNumber(&SDTime, NULL);
+
+}
+
+void LX200Generic::updateLocation()
+{
+
+ int dd = 0, mm = 0, err = 0;
+ 
+ if ( (err = getSiteLatitude(&dd, &mm)) < 0)
     IDMessage(thisDevice, "Failed to get site latitude from device.");
   else
   {
@@ -1858,12 +1867,9 @@ void LX200Generic::updateTimeAndLocation()
     IDLog("Autostar Longitude: %d:%d\n", dd, mm);
     IDLog("INDI Longitude: %g\n", geoNum.np[1].value);
   }
-
   
-  // Let's send everything to the client
-  IDSetText(&Time, NULL);
-  IDSetNumber(&SDTime, NULL);
   IDSetNumber (&geoNum, NULL);
 
 }
+
 

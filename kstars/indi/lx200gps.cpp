@@ -68,6 +68,7 @@ void changeLX200GPSDeviceName(const char *newName)
  strcpy(AzRaBackSlashSw.device, newName );
  strcpy(OTATemp.device, newName );
  strcpy(OTAUpdateSw.device, newName);
+ 
 }
 
 LX200GPS::LX200GPS() : LX200_16()
@@ -96,7 +97,6 @@ IDDefSwitch (&AzRaBackSlashSw, NULL);
 IDDefNumber (&OTATemp, NULL);
 IDDefSwitch (&OTAUpdateSw, NULL);
 
-
 }
 
 void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
@@ -113,6 +113,7 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 
 void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
+        
     LX200_16::ISNewNumber (dev, name, values, names, n);
 
  }
@@ -166,7 +167,8 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       {
 	   gpsRestart();
 	   strcpy(msg, "GPS system is restarting...");
-	   updateTimeAndLocation();
+	   updateTime();
+	   updateLocation();
       }
 
 	GPSStatusSw.s = IPS_OK;
@@ -186,7 +188,8 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
      if (updateGPS_System())
      {
      	IDSetSwitch(&GPSUpdateSw, "GPS system update successful.");
-	updateTimeAndLocation();
+	updateTime();
+	updateLocation();
      }
      else
      {
@@ -314,10 +317,10 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
  void LX200GPS::getBasicData()
  {
 
-   // process parent first
-   LX200_16::getBasicData();
-
    getOTATemp(&OTATemp.np[0].value);
    IDSetNumber(&OTATemp, NULL);
+   
+   // process parent
+   LX200_16::getBasicData();
  }
 

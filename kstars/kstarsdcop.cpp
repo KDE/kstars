@@ -18,6 +18,8 @@
 //KStars DCOP functions
 
 #include <qdir.h>
+#include <qlistview.h>
+#include <qradiobutton.h>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -25,6 +27,10 @@
 #include <kshortcut.h>
 #include <ktempfile.h>
 #include <kurl.h>
+#include <klistview.h>
+#include <kpushbutton.h>
+#include <klineedit.h>
+#include <knuminput.h> 
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -33,6 +39,14 @@
 #include "infoboxes.h"
 #include "simclock.h"
 #include "Options.h"
+
+// INDI includes
+#include "indidriver.h"
+#include "indimenu.h"
+#include "indielement.h"
+#include "indidevice.h"
+#include "indiproperty.h"
+#include "devicemanager.h"
 
 void KStars::setRaDec( double ra, double dec ) {
 	map()->setDestination( new SkyPoint( ra, dec ) );
@@ -452,4 +466,442 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 		kapp->restoreOverrideCursor();
 	}
 }
+
+void KStars::startINDI (QString driverName, bool useLocal)
+{
+
+  establishINDI();
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "establishINDI() failed." << endl;
+    return;
+  }
+	  
+	QListViewItem *driverItem = NULL;
+	driverItem = indidriver->localListView->findItem(driverName, 0);
+	if (driverItem == NULL)
+	{
+	   kdDebug() << "Driver " << driverName << " not found!" << endl;
+	   return;
+	}
+
+	// If device is already running, we need to shut it down first
+	if (indidriver->isDeviceRunning(driverName))
+	{
+		indidriver->localListView->setSelected(driverItem, true);
+		indidriver->processDeviceStatus(1);
+	}
+	   
+	// Set custome label for device
+	indimenu->setCustomLabel(driverName);
+	// Select it
+	indidriver->localListView->setSelected(driverItem, true);
+	
+	// Start it either locally or as series
+	if (useLocal)
+		indidriver->localR->setChecked(true);
+	else
+		indidriver->serverR->setChecked(true);
+	
+	// Run it
+	indidriver->processDeviceStatus(0);
+
+}
+
+void KStars::shutdownINDI (QString driverName)
+{
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "establishINDI() failed." << endl;
+    return;
+  }
+	  
+	QListViewItem *driverItem = NULL;
+	driverItem = indidriver->localListView->findItem(driverName, 0);
+	if (driverItem == NULL)
+	{
+	   kdDebug() << "Driver " << driverName << " not found!" << endl;
+	   return;
+	}
+
+	indidriver->processDeviceStatus(1);
+
+}
+
+
+void KStars::switchINDI(QString driverName, bool turnOn)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "switchINDI: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  if (turnOn && dev->isOn() || (!turnOn && !dev->isOn()))
+   return;
+   
+  prop = dev->findProp("CONNECTION");
+  if (!prop) return;
+  
+  if (turnOn)
+    prop->newSwitch(0);
+  else
+    prop->newSwitch(1);
+  
+}
+
+	
+void KStars::setINDIPort(QString driverName, QString port)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+   if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIPort: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("DEVICE_PORT");
+  if (!prop) return;
+  
+  el   = prop->findElement("PORT");
+  
+  if (!el->write_w)
+   return;
+   
+  el->write_w->setText(port);
+  
+  prop->newText();
+
+}
+
+	
+void KStars::setINDITarget(QString driverName, double RA, double DEC)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDITarget: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("EQUATORIAL_EOD_COORD");
+  if (!prop) return;
+  
+  el   = prop->findElement("RA");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(RA));
+  
+  el  = prop->findElement("DEC");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(DEC));
+  
+  prop->newText();
+  
+}
+
+	
+void KStars::setINDITarget(QString driverName, QString objectName)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDITarget: establishINDI() failed." << endl;
+    return;
+  }
+
+  SkyObject *target = data()->objectNamed( objectName );
+  if (!target) return;
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("EQUATORIAL_EOD_COORD");
+  if (!prop) return;
+  
+  el   = prop->findElement("RA");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(target->ra()->Hours()));
+  
+  el  = prop->findElement("DEC");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(target->dec()->Degrees()));
+  
+  prop->newText();
+
+}
+
+	
+void KStars::setINDIAction(QString driverName, QString action)
+{
+  INDI_D *dev;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIAction: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  el = dev->findElem(action);
+  if (!el) return;
+  
+  el->pp->activateSwitch(action);
+  
+}
+
+	
+void KStars::waitForINDIAction(QString driverName, QString action)
+{
+
+  INDI_D *dev;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "waitForINDIAction: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  el = dev->findElem(action);
+  if (!el) return;
+  
+  kapp->dcopClient()->suspend();
+  
+  QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+  
+}
+
+	
+void KStars::setINDIFocusSpeed(QString driverName, QString action)
+{
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIFocusSpeed: establishINDI() failed." << endl;
+    return;
+  }
+
+  setINDIAction(driverName, action);
+
+}
+
+	
+void KStars::startINDIFocus(QString driverName, int focusDir)
+{
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIFocusSpeed: establishINDI() failed." << endl;
+    return;
+  }
+
+  if (focusDir == 0)
+    setINDIAction(driverName, "FOCUS_IN");
+  else if (focusDir == 1)
+    setINDIAction(driverName, "FOCUS_OUT");
+
+}
+
+	
+void KStars::setINDIGeoLocation(QString driverName, double longitude, double latitude)
+{
+  
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIGeoLocation: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("GEOGRAPHICAL_COORD");
+  if (!prop) return;
+  
+  el   = prop->findElement("LONG");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(longitude));
+  
+  el  = prop->findElement("LAT");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(latitude));
+  
+  prop->newText();
+
+}
+
+	
+void KStars::setINDIFocusTimeout(QString driverName, int timeout)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "startINDIFocus: establishINDI() failed." << endl;
+    return;
+  }
+
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("FOCUS_TIMEOUT");
+  if (!prop)
+   return;
+  
+  el   = prop->findElement("TIMEOUT");
+  if (!el) return;
+  
+  if (el->write_w)
+    el->write_w->setText(QString("%1").arg(timeout));
+  else if (el->spin_w)
+    el->spin_w->setValue(timeout);
+  
+  prop->newText();
+
+}
+
+	
+void KStars::startINDIExposure(QString driverName, int timeout)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "startINDIExposure: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("EXPOSE_DURATION");
+  if (!prop) return;
+  
+  el   = prop->findElement("EXPOSE_S");
+  if (!el) return;
+  
+  if (el->write_w)
+    el->write_w->setText(QString("%1").arg(timeout));
+  else if (el->spin_w)
+    el->spin_w->setValue(timeout);
+  
+  
+  prop->newText();
+  
+}
+		
+void KStars::setINDIUTC(QString driverName, QString UTCDateTime)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "startINDIUTC: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(driverName);
+  if (!dev)
+  {
+    kdDebug() << "Driver " << driverName << " not found." << endl;
+    return;
+  }
+  
+  prop = dev->findProp("TIME");
+  if (!prop) return;
+  
+  el   = prop->findElement("UTC");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(UTCDateTime);
+  
+  prop->newText();
+
+}
+
 

@@ -87,10 +87,16 @@ class INDI_P : public QObject
    /* Setup the 'set' button in the property */
     void setupSetButton(QString caption);
     
+   /* Turn a switch on */
+    void activateSwitch(QString name);
+    
     public slots:
     void newText();
     void newSwitch(int id);
     void convertSwitch(int id);
+    
+    signals:
+    void okState();
     
 };
 

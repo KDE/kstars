@@ -186,6 +186,48 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Print the sky image. */
 		ASYNC printImage( bool usePrintDialog, bool useChartColors );
 		
+	/**DCOP interface function.  Establish an INDI driver. */
+	        ASYNC startINDI (QString driverName, bool useLocal);
+		
+	/**DCOP interface function. Shutdown an INDI driver. */
+	        ASYNC shutdownINDI (QString driverName);
+		
+	/**DCOP interface function.  Turn INDI driver on/off. */
+		ASYNC switchINDI(QString driverName, bool turnOn);
+	
+	/**DCOP interface function.  Set INDI connection port. */
+		ASYNC setINDIPort(QString driverName, QString port);
+	
+	/**DCOP interface function.  Set INDI target RA/DEC. */
+		ASYNC setINDITarget(QString driverName, double RA, double DEC);
+	
+	/**DCOP interface function.  Set INDI target RA/DEC. */
+		ASYNC setINDITarget(QString driverName, QString objectName);
+	
+	/**DCOP interface function.  Set INDI target by name lookup. */
+		ASYNC setINDIAction(QString driverName, QString action);
+	
+	/**DCOP interface function.  Set INDI target by name lookup. */
+		ASYNC waitForINDIAction(QString driverName, QString action);
+	
+	/**DCOP interface function.  Set INDI focus speed. */
+		ASYNC setINDIFocusSpeed(QString driverName, QString action);
+	
+	/**DCOP interface function.  Set INDI focus direction and focus. */
+		ASYNC startINDIFocus(QString driverName, int focusDir);
+	
+	/**DCOP interface function.  Set INDI geographical information. */
+		ASYNC setINDIGeoLocation(QString driverName, double longitude, double latitude);
+	
+	/**DCOP interface function.  Sets focus operation timeout. */
+		ASYNC setINDIFocusTimeout(QString driverName, int timeout);
+	
+	/**DCOP interface function.  Start camera exposure with a timeout. */
+		ASYNC startINDIExposure(QString driverName, int timeout);
+		
+	/**DCOP interface function.  Set INDI UTC date and time. */
+		ASYNC setINDIUTC(QString driverName, QString UTCDateTime);
+		
 	public slots:
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.

@@ -115,6 +115,7 @@ class INDI_D : public KDialogBase
    * Find
    ******************************************************************/
    INDI_P *   findProp    (QString name);
+   INDI_E *   findElem    (QString name);
    INDI_G *   findGroup   (QString grouptag, int create, char errmsg[]);
    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, char errmsg[]);
 

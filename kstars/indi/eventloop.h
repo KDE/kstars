@@ -18,6 +18,9 @@
 
 #endif
 
+#ifndef EVENT_LOOP_H
+#define EVENT_LOOP_H
+
 /** \file eventloop.h
     \brief Public interface to INDI's eventloop mechanism.
     \author Elwood C. Downey
@@ -104,6 +107,4 @@ extern void rmTimer (int tid);
 }
 #endif
 
-/* For RCS Only -- Do Not Edit
- * @(#) $RCSfile$ $Date$ $Revision$ $Name:  $
- */
+#endif

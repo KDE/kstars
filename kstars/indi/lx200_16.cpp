@@ -385,8 +385,6 @@ void LX200_16::handleAltAzSlew()
 
  void LX200_16::getBasicData()
  {
-   // process parent first
-   LX200Autostar::getBasicData();
 
    getLX200Az(&targetAz);
    getLX200Alt(&targetAlt);
@@ -395,5 +393,7 @@ void LX200_16::handleAltAzSlew()
    horNum.np[1].value = targetAz;
 
    IDSetNumber (&horNum, NULL);
+   
+   LX200Autostar::getBasicData();
 
  }

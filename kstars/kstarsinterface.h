@@ -169,6 +169,108 @@ class KStarsInterface : virtual public DCOPObject
 		/**Print the current sky map.  Options to show the Print Dialog and to use Star Chart colors.
 			*/
 		virtual ASYNC printImage( bool usePrintDialog, bool useChartColors ) = 0;
+		
+		/**Establish the driver for an INDI-compatible device
+		 *@param driverName The INDI driver name
+		 *@param useLocal If true, starts the driver in local mode. Otherwise, in server mode.
+		*/
+		
+		virtual ASYNC startINDI (QString driverName, bool useLocal) = 0;
+		
+		/**Shotdown a driver
+		 *@param driverName The INDI driver name
+		*/
+		
+		virtual ASYNC shutdownINDI (QString driverName) = 0;
+		
+		/**Turn the INDI driver on/off
+		 *@param driverName The INDI driver name
+		 *@param turnOn If true, the driver is switched on, otherwise it is switches off.
+		*/
+		
+		virtual ASYNC switchINDI(QString driverName, bool turnOn) = 0;
+		
+		/**Set INDI connection port
+		 *@param driverName The INDI driver name
+		 *@param port The connection port (e.g. /dev/ttyS0)
+		*/
+		
+		virtual ASYNC setINDIPort(QString driverName, QString port) = 0;
+		
+		/**Set telescope target coordinates
+		 *@param driverName The INDI driver name
+		 *@param RA Target's right ascension in JNOW
+		 *@param DEC Target's declination in JNOW
+		*/
+		
+		virtual ASYNC setINDITarget(QString driverName, double RA, double DEC) = 0;
+		
+		/**Set telescope target
+		 *@param driverName The INDI driver name
+		 *@param objectName Object's name as found in KStars
+		*/
+		
+		virtual ASYNC setINDITarget(QString driverName, QString objectName) = 0;
+		
+		/**Set INDI Telescope action. This action is performed when a change of target
+		  * coords occur.
+		 *@param driverName The INDI driver name
+		 *@param action The action is either Slew, Track, or Sync
+		*/
+		
+		virtual ASYNC setINDIAction(QString driverName, QString action) = 0;
+		
+		/** Wait for action to complete (state changed to OK or IDLE)
+		 *@param driverName The INDI driver name
+		 *@param action The action. Supported actions are: Track, Sync, Slew, Abort, Park
+		 *                Expose Timer, Focus Timer.
+		*/
+		
+		virtual ASYNC waitForINDIAction(QString driverName, QString action) = 0;
+		
+		/** Set Focus Speed
+		 *@param driverName The INDI driver name
+		 *@param speed Focus speed: Halt, Fast, Medium, and Slow
+		*/
+		
+		virtual ASYNC setINDIFocusSpeed(QString driverName, QString action) = 0;
+		
+		/** Start INDI focus operation in the selected direction
+		 *@param driverName The INDI driver name
+		 *@param focusDir Focus direction. If 0, focus in, if 1 focus out
+		*/
+		
+		virtual ASYNC startINDIFocus(QString driverName, int focusDir) = 0;
+		
+		/** Set INDI geographical location
+		 *@param driverName The INDI driver name
+		 *@param longitude Longitude expressed in double. E of N
+		 *@param latitude Latitude expressed in double.
+		*/
+		
+	        virtual ASYNC setINDIGeoLocation(QString driverName, double longitude, double latitude) = 0;
+		
+		/** Set INDI focus timeout
+		 *@param driverName The INDI driver name
+		 *@param timeout Number of seconds to perform focusing.
+		*/
+		
+		virtual ASYNC setINDIFocusTimeout(QString driverName, int timeout) = 0;
+		
+		/** Start camera exposure
+		 *@param driverName The INDI driver name
+		 *@param timeout Number of seconds to perform exposure.
+		*/
+		
+		virtual ASYNC startINDIExposure(QString driverName, int timeout) = 0;
+		
+		/** Start INDI UTC date and time in ISO 8601 format
+		 *@param driverName The INDI driver name
+		 *@param UTCDateTime UTC date and time in ISO 8601 format.
+		*/
+		
+		virtual ASYNC setINDIUTC(QString driverName, QString UTCDateTime) = 0;
+		
 };
 
 #endif

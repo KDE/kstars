@@ -35,10 +35,11 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#include <zlib.h>
+
 #include "webcam/QCamV4L.h"
 #include "webcam/philipsV4L.h"
 #include "webcam/pwc-ioctl.h"
-#include "lzo/minilzo.h"
 #include "indidevapi.h"
 #include "indicom.h"
 #include "fitsrw.h"
@@ -82,10 +83,6 @@ extern int errno;
 #define PIPEBUFSIZ	8192
 #define FRAME_ILEN	64
 
-#define HEAP_ALLOC(var,size) \
-	lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
-
-static HEAP_ALLOC(wrkmem,LZO1X_1_MEM_COMPRESS);
 
 typedef struct {
 int  width;
@@ -223,9 +220,6 @@ void ISInit()
  
  INDIClients = NULL;
  nclients    = 0;
- 
- if (lzo_init() != LZO_E_OK)
-   IDLog("lzo_init() failed !!!\n");
       
  isInit = 1;
 
@@ -1218,15 +1212,16 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  return (hdulist);
 }
 
-void updateStream(void *p)
+void updateStream(void * /*p*/)
 {
    int width  = getWidth();
    int height = getHeight();
-   unsigned int totalBytes, compressedBytes = 0;
+   uLongf compressedBytes = 0;
+   uLong totalBytes;
    unsigned char *targetFrame;
    char frameSize[FRAME_ILEN];
    int nr=0, n=0,r, frameLen;
-   p=p;
+   
    if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
    //IDLog("entering update Stream\n");
    
@@ -1240,17 +1235,18 @@ void updateStream(void *p)
    
    /* Compress frame */
    V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
-   r = lzo1x_1_compress(targetFrame,totalBytes,V4LFrame->compressedFrame,&compressedBytes,wrkmem);
-   if (r != LZO_E_OK)
-      //IDLog("compressed %lu bytes into %lu bytes\n", (long) totalBytes, (long) compressedBytes);
-   //else
+   
+   compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
+   
+   r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
+   if (r != Z_OK)
    {
  	/* this should NEVER happen */
  	IDLog("internal error - compression failed: %d\n", r);
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "<Data type='VIDEO' size='%d' compsize='%d' />", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='VIDEO' size='%ld' compsize='%ld' />", totalBytes, compressedBytes);
    //snprintf(frameSize, FRAME_ILEN, "VIDEO,%d,%d\n", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
@@ -1302,7 +1298,9 @@ void uploadFile(char * filename)
    char frameSize[FRAME_ILEN];
    unsigned char *fitsData;
    int n=0, i=0, r=0;
-   unsigned int totalBytes, compressedBytes = 0, frameLen =0 , nr = 0;
+   unsigned int frameLen =0 , nr = 0;
+   uLongf compressedBytes = 0;
+   uLong totalBytes;
    struct stat stat_p; 
  
    if ( -1 ==  stat (filename, &stat_p))
@@ -1333,18 +1331,20 @@ void uploadFile(char * filename)
    
    /* #2 Compress it */
    V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
-   r = lzo1x_1_compress(fitsData, totalBytes, V4LFrame->compressedFrame, &compressedBytes, wrkmem);
-   if (r != LZO_E_OK)
-      //IDLog("compressed %lu bytes into %lu bytes\n", (long) totalBytes, (long) compressedBytes);
-   //else
+   
+     compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
+     
+     
+   r = compress2(V4LFrame->compressedFrame, &compressedBytes, fitsData, totalBytes, VIDEO_COMPRESSION_LEVEL);
+   if (r != Z_OK)
    {
  	/* this should NEVER happen */
  	IDLog("internal error - compression failed: %d\n", r);
 	return;
    }
-   
+  
    //snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
-   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%d' compsize='%d' />", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%ld' compsize='%ld' />", totalBytes, compressedBytes);
    frameLen = strlen(frameSize); 
    r = 0;
    

@@ -13,7 +13,7 @@
  #define INDISTD_H
  
  #include <qobject.h>
-  #include <indi/lilxml.h>
+ #include <indi/lilxml.h>
  #include <kfileitem.h>
  
  class INDI_E;

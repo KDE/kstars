@@ -18,6 +18,9 @@
 
 #endif
 
+#ifndef INDI_DEVAPI_H
+#define INDI_DEVAPI_H
+
 /** \file indidevapi.h
     \brief Interface to the reference INDI C API device implementation on the Device Driver side.
     \author Elwood C. Downey
@@ -347,6 +350,4 @@ extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
 }
 #endif
 
-/* For RCS Only -- Do Not Edit
- * @(#) $RCSfile$ $Date$ $Revision$ $Name:  $
- */
+#endif

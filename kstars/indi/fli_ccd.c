@@ -34,6 +34,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <zlib.h>
 
 #include "fli/libfli.h"
 #include "lzo/minilzo.h"
@@ -95,11 +96,6 @@ extern int errno;
 #define FRAME_ILEN	64
 
 #define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
-
-#define HEAP_ALLOC(var,size) \
-	lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
-
-static HEAP_ALLOC(wrkmem,LZO1X_1_MEM_COMPRESS);
 
 enum FLIFrames { LIGHT_FRAME = 0, BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
 
@@ -291,28 +287,9 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, PortSP.name))
 	{
    	  PortSP.s = IPS_IDLE; 
+	  IUResetSwitches(&PortSP);
 	  IUUpdateSwitches(&PortSP, states, names, n);
 	  portSwitchIndex = getOnSwitch(&PortSP);
-	  
-	  if (portSwitchIndex == -1)
-	  {
-	    IDSetSwitch(&PortSP, "Unknown error. All switches are off.");
-	    IDLog("Unknown error. All switches are off.");
-	    return;
-	  }
-	  
-	  for (i=0 ; i < n ; i++)
-	  {
-	    sp = IUFindSwitch(&PortSP, names[i]);
-	    
-	    if (!sp)
-	    {
-	      IDSetSwitch(&PortSP, "Unknown error. %s is not a member of %s property.", names[0], name);
-	      return;
-	    }
-	    
-	    sp->s = states[i];
-	  }
 	  
 	  PortSP.s = IPS_OK; 
 	  IDSetSwitch(&PortSP, NULL);
@@ -322,6 +299,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, PowerSP.name))
 	{
+	  IUResetSwitches(&PowerSP);
 	  IUUpdateSwitches(&PowerSP, states, names, n);
    	  connectCCD();
 	  return;
@@ -957,7 +935,9 @@ void uploadFile(char * filename)
    char frameSize[FRAME_ILEN];
    unsigned char *fitsData, *compressedData;
    int n=0,r=0;
-   unsigned int i =0, j = 0, totalBytes, compressedBytes = 0, nr = 0, frameLen;
+   unsigned int i =0, j = 0, nr = 0, frameLen;
+   uLongf compressedBytes=0;
+   uLong  totalBytes;
    struct stat stat_p; 
  
    if ( -1 ==  stat (filename, &stat_p))
@@ -993,18 +973,17 @@ void uploadFile(char * filename)
      }
    }
    
-   /* #2 Compress it */
-   r = lzo1x_1_compress(fitsData, totalBytes, compressedData, &compressedBytes, wrkmem);
-   if (r != LZO_E_OK)
-      /*IDLog("compressed %lu bytes into %lu bytes\n", (long) totalBytes, (long) compressedBytes);
-   else*/
+   compressedBytes = sizeof(char) * totalBytes + totalBytes / 64 + 16 + 3;
+     
+   r = compress2(compressedData, &compressedBytes, fitsData, totalBytes, 9);
+   if (r != Z_OK)
    {
  	/* this should NEVER happen */
  	IDLog("internal error - compression failed: %d\n", r);
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%d' compsize='%d' />", totalBytes, compressedBytes);
+   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%ld' compsize='%ld' />", totalBytes, compressedBytes);
    frameLen = strlen(frameSize);
    r = 0;
    
@@ -1231,8 +1210,11 @@ int getOnSwitch(ISwitchVectorProperty *sp)
 {
   int i=0;
  for (i=0; i < sp->nsp ; i++)
+ {
+   /*IDLog("Switch %s is %s\n", sp->sp[i].name, sp->sp[i].s == ISS_ON ? "On" : "Off");*/
      if (sp->sp[i].s == ISS_ON)
       return i;
+ }
 
  return -1;
 }
@@ -1301,6 +1283,7 @@ void connectCCD()
   switch (PowerS[0].s)
   {
     case ISS_ON:
+      IDLog("Current portSwitch is %d\n", portSwitchIndex);
       IDLog("Attempting to find the camera in domain %ld\n", Domains[portSwitchIndex]);
       if (findcam(Domains[portSwitchIndex]))
       {

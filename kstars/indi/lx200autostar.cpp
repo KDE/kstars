@@ -135,9 +135,6 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
  void LX200Autostar::getBasicData()
  {
 
-   // process parent first
-   LX200Generic::getBasicData();
-
    VersionInfo.tp[0].text = new char[64];
    getVersionDate(VersionInfo.tp[0].text);
    VersionInfo.tp[1].text = new char[64];
@@ -150,6 +147,8 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
    getProductName(VersionInfo.tp[4].text);
 
    IDSetText(&VersionInfo, NULL);
-
+   
+   // process parent
+   LX200Generic::getBasicData();
 
  }

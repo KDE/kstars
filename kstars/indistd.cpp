@@ -25,14 +25,14 @@
  #include "timedialog.h"
  #include "streamwg.h"
  #include "fitsviewer.h"
- #include "indi/lzo/minilzo.h"
  
  #include <sys/socket.h>
  #include <netinet/in.h>
  #include <arpa/inet.h>
  #include <netdb.h>
  #include <ctype.h>
-
+ #include <zlib.h>
+ 
  #include <qtimer.h>
  #include <qlabel.h>
  #include <qfont.h>
@@ -50,6 +50,7 @@
  #include <kurl.h>
  #include <kdirlister.h>
  #include <kaction.h>
+ 
   
  #define STD_BUFFER_SIZ		1024000
  #define FRAME_ILEN		1024
@@ -124,10 +125,7 @@ void INDIStdDevice::establishDataChannel(QString host, int port)
 		streamFD = -1;
 		return;
 	}
-
-	if (lzo_init() != LZO_E_OK)
-           kdDebug() << "lzo_init() failed !!!" << endl;
-	   
+   
 	// callback notified
 	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
         QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
@@ -144,7 +142,7 @@ void INDIStdDevice::allocateCompressedBuffer()
   if (compressedBuffer == NULL)
    kdDebug() << "Low memory! Failed to initialize compressed buffer." << endl;
   
-}
+} 
 
 void INDIStdDevice::allocateStreamBuffer()
 {
@@ -163,10 +161,12 @@ void INDIStdDevice::allocateStreamBuffer()
 void INDIStdDevice::streamReceived()
 {
 
+  
    char msg[1024];
    char c;
    int n=0, r=0;
-   unsigned int newCompressSize, newFrameSize, fullFrameSize, nr=0;
+   unsigned int newCompressSize, fullFrameSize, nr=0;
+   uLongf newFrameSize;
    XMLEle *root;
    XMLAtt *field;
    
@@ -295,11 +295,15 @@ void INDIStdDevice::streamReceived()
     
     downloadDialog->cancel();
     
-    r = lzo1x_decompress(compressedBuffer,totalCompressedBytes, streamBuffer , &newFrameSize,NULL);
+    newFrameSize = totalBytes;
+    
+    //r = lzo1x_decompress(compressedBuffer,totalCompressedBytes, streamBuffer , &newFrameSize,NULL);
+    r = uncompress(streamBuffer, &newFrameSize, compressedBuffer, (uLong) totalCompressedBytes);
     
     //kdDebug() << "Finished decompress with r = " << r << endl;
     
-    if (r != LZO_E_OK)
+    //if (r != LZO_E_OK)
+    if (r != Z_OK)
       //kdDebug() << "decompressed " << totalCompressedBytes << " bytes back into " << newFrameSize << " bytes" << endl;
      //else
      {
@@ -315,7 +319,7 @@ void INDIStdDevice::streamReceived()
 	
 	streamWindow->show();
 	
-	streamWindow->streamFrame->newFrame(streamBuffer, totalBytes, streamWindow->streamWidth, streamWindow->streamHeight);
+	streamWindow->streamFrame->newFrame( (unsigned char *) streamBuffer, totalBytes, streamWindow->streamWidth, streamWindow->streamHeight);
      }
      else if (dataType == DATA_FITS || dataType == DATA_OTHER)
      {
@@ -384,7 +388,7 @@ void INDIStdDevice::streamReceived()
        if (fitsTempFile == NULL) return;
        
        for (nr=0; nr < (int) newFrameSize; nr += n)
-           n = fwrite(streamBuffer + nr, 1, newFrameSize - nr, fitsTempFile);
+           n = fwrite( ((unsigned char *) streamBuffer) + nr, 1, newFrameSize - nr, fitsTempFile);
        
        fclose(fitsTempFile);
        
@@ -410,7 +414,6 @@ void INDIStdDevice::streamReceived()
     }
     
    // kdDebug() << "We're done from streamReceived" << endl;
-       
 
 }
 
@@ -418,6 +421,10 @@ void INDIStdDevice::streamReceived()
  {
    INDI_E *el;
    int wd, ht;
+   int d, m, y, min, sec, hour;
+   ExtDate indiDate;
+   QTime indiTime;
+   KStarsDateTime indiDateTime;
    
   switch (pp->stdID)
   {
@@ -431,6 +438,19 @@ void INDIStdDevice::streamReceived()
     case TIME:
       if ( Options::indiAutoTime() )
        handleDevCounter();
+       
+       // Update KStars time once we receive update from INDI
+       el = pp->findElement("UTC");
+       if (!el) return;
+       
+       sscanf(el->text.ascii(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
+       indiDate.setYMD(y, m, d);
+       indiTime.setHMS(hour, min, sec);
+       indiDateTime.setDate(indiDate);
+       indiDateTime.setTime(indiTime);
+       
+       ksw->data()->changeDateTime(indiDateTime);
+       ksw->data()->syncLST();
        
       break;
       
@@ -1121,6 +1141,7 @@ void INDIStdProperty::newTime()
 					.arg(newTime.minute()).arg(newTime.second()));
 	        pp->newText();
 	}
+	else return;
 	
    SDProp  = pp->pg->dp->findProp("SDTIME");
    if (!SDProp) return;

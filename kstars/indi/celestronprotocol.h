@@ -9,6 +9,8 @@
 */
 
 
+#ifndef CELESTRON_PROTOCOL_H
+#define CELESTRON_PROTOCOL_H
 
 /* These are user defined quantities that set the limits over which it */
 /* is safe to operate the telescope.  */
@@ -48,11 +50,11 @@
 #define	GUIDE		3
 
 #if REVERSE_NS > 0
-#define	NORTH		0
-#define	SOUTH		3
-#else
 #define	NORTH		3
 #define	SOUTH		0
+#else
+#define	NORTH		0
+#define	SOUTH		3
 #endif
 
 #define	EAST		2
@@ -114,7 +116,7 @@ int  SyncToCoords(double newRA, double newDec);
 int  CheckCoords(double desRA, double desDec);
 
 void StopNSEW(void);
-int  SetSlewRate(int slewRate);
+int  SetSlewRate(void);
 
 int  SyncLST(double newTime);
 int  SyncLocalTime();
@@ -126,5 +128,7 @@ void Fan(int fan);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 

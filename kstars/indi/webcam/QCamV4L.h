@@ -29,6 +29,8 @@ int connectCam(const char * devpath, char *errmsg);
 void disconnectCam();
 char * getDeviceName();
 
+#define VIDEO_COMPRESSION_LEVEL		4
+
 /* Image settings */
 int  getBrightness();
 int  getContrast();

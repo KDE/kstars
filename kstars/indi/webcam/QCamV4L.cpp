@@ -290,15 +290,22 @@ void getMaxMinSize(int & xmax, int & ymax, int & xmin, int & ymin)
 
 bool setSize(int x, int y) {
 
+   int oldX, oldY;
    checkSize(x,y);
+   
+   oldX = window_.width;
+   oldY = window_.height;
    
    window_.width=x;
    window_.height=y;
 
    cerr << "New size is x=" << window_.width << " " << "y=" << window_.height <<endl;
    
-   if (ioctl (device_, VIDIOCSWIN, &window_)) {
+   if (ioctl (device_, VIDIOCSWIN, &window_))
+   {
        cerr << "ioctl(VIDIOCSWIN)" << endl;
+       window_.width=oldX;
+       window_.height=oldY;
        return false;
    }
    ioctl (device_, VIDIOCGWIN, &window_);

@@ -61,7 +61,7 @@ int  SyncToCoords(double newRA, double newDec);
 int  CheckCoords(double desRA, double desDec);
 
 void StopNSEW(void);
-int  SetSlewRate(int slewRate);
+int  SetSlewRate(void);
 
 int  SyncLST(double newTime);
 int  SyncLocalTime(void);
@@ -415,7 +415,7 @@ int SyncToCoords(double newRA, double newDec)
 int SlewToCoords(double newRA, double newDec)
 {
   int countRA,countDec;
-  char r0,r1,r2,r3,d0,d1,d2,d3,d4;
+  char r0,r1,r2,r3,d0,d1,d2,d3;
   double degs, hrs;
   char outputStr[32], inputStr[2048];
 
@@ -619,13 +619,14 @@ int CheckCoords(double desRA, double desDec)
 
 void SetLimits(double limitLower, double limitHigher)
 {
+  limitLower = limitHigher;
   fprintf(stderr,"NexStar does not support software limits.\n");
 }
 
 
 /* Set slew speed limited by MAXSLEWRATE */
 
-int SetSlewRate(int slewRate)
+int SetSlewRate(void)
 {
   fprintf(stderr,"NexStar does not support remote setting of slew rate.\n");
   return 0;
@@ -662,6 +663,7 @@ void StopNSEW(void)
 
 void Reticle(int reticle)
 {
+  reticle = reticle;
   fprintf(stderr,"NexStar does not support remote setting of reticle.\n");
 }
 
@@ -670,6 +672,7 @@ void Reticle(int reticle)
 
 void Focus(int focus)
 {
+  focus = focus;
   fprintf(stderr,"NexStar does not support remote setting of focus.\n");
 }
 
@@ -680,6 +683,7 @@ void Focus(int focus)
 void Derotator(int rotate)
 
 {
+  rotate = rotate;
   fprintf(stderr,"NexStar does not support an image derotator.\n");
 }
 
@@ -689,6 +693,7 @@ void Derotator(int rotate)
 void Fan(int fan)
 
 {
+  fan = fan;
   fprintf(stderr,"NexStar does not have a fan.\n");
 }
 
@@ -698,7 +703,8 @@ void Fan(int fan)
 /* Reset the telescope sidereal time */
 
 int  SyncLST(double newTime)
-{		
+{	
+  newTime = newTime;	
   fprintf(stderr,"NexStar does not support remote setting of sidereal time.\n");
   return -1;
 }

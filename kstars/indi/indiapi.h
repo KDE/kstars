@@ -18,6 +18,9 @@
 
 #endif
 
+#ifndef INDI_API_H
+#define INDI_API_H
+
 /** \mainpage Instrument Neutral Distributed Interface INDI
     \section Introduction
     
@@ -302,3 +305,5 @@ typedef struct _ILightVectorProperty {
 /** \brief Handy macro to find the number of elements in array a[]. Must be used with actual array, not pointer.
 */
 #define NARRAY(a)       (sizeof(a)/sizeof(a[0]))
+
+#endif

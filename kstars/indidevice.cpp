@@ -801,4 +801,24 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	return (0);
 }
 
+INDI_E * INDI_D::findElem(QString name)
+{
+  INDI_G *grp;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  for (grp = gl.first(); grp != NULL; grp = gl.next())
+	{
+	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
+	   {
+	     el = prop->findElement(name);
+	     if (el != NULL) return el;
+	   }
+	 }
+	 
+  return NULL;
+
+}
+
+
 #include "indidevice.moc"

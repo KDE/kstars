@@ -107,16 +107,18 @@ INDI_E * INDI_P::findElement(QString elementName)
 void INDI_P::drawLt(PState lstate)
 {
 
+  
         /* set state light */
 	switch (lstate)
 	{
 	  case PS_IDLE:
 	  light->setColor(Qt::gray);
-	  
 	  break;
 
 	  case PS_OK:
 	  light->setColor(Qt::green);
+	  emit okState();
+	  disconnect( this, SIGNAL(okState()), 0, 0 );
 	  break;
 
 	  case PS_BUSY:
@@ -131,6 +133,7 @@ void INDI_P::drawLt(PState lstate)
 	  break;
 
 	}
+	
 }
 
 void INDI_P::newText()
@@ -723,5 +726,22 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 
 	return (0);
 }
+
+void INDI_P::activateSwitch(QString name)
+{
+  int iCounter = 0;
+  INDI_E *element;
+  
+  for (element = el.first(); element != NULL; element = el.next())
+  {
+     if (element->name == name && element->push_w)
+       newSwitch(iCounter);
+     
+     iCounter++;
+  }
+  
+}
+
+
 
 #include "indiproperty.moc"

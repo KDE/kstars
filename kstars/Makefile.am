@@ -5,7 +5,7 @@ kstars_SOURCES = Options.kcfgc kspluto.cpp addcatdialog.cpp addlinkdialog.cpp co
 kde_kcfg_DATA = kstars.kcfg
 kde_conf_DATA = kstarsrc
 
-kstars_LDADD = indi/liblilxml.a indi/libindicom.a indi/lzo/libminilzo.la tools/libkstarstools.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la $(top_builddir)/libkdeedu/extdate/libextdate.la -lkdeprint -lknewstuff -lm
+kstars_LDADD = indi/liblilxml.a indi/libindicom.a tools/libkstarstools.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la $(top_builddir)/libkdeedu/extdate/libextdate.la -lkdeprint -lknewstuff -lm -lz
 
 SUBDIRS = indi tools . data icons 
 
