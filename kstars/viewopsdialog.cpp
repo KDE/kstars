@@ -386,10 +386,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	RightBox = new QGroupBox( ColorTab, "RightBox" );
 	RightBox->setTitle( i18n( "list of defined color schemes", "Preset Color Schemes" ) );
 
-  hlayColorTab = new QHBoxLayout( ColorTab );
+	hlayColorTab = new QHBoxLayout( ColorTab );
 	vlayLeftBox = new QVBoxLayout( LeftBox );
-  hlayLeftBox = new QHBoxLayout( 4 );
-  hlayLeftBox2 = new QHBoxLayout( 4 );
+	hlayLeftBox = new QHBoxLayout( 4 );
+	hlayLeftBox2 = new QHBoxLayout( 4 );
 	vlayRightBox = new QVBoxLayout( RightBox );
 
 	hlayColorTab->setSpacing( 4 );
@@ -400,7 +400,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayRightBox->setMargin( 12 );
 
 	ColorPalette = new QListBox( LeftBox );
-  ColorPalette->setSelectionMode( QListBox::Single );
+	ColorPalette->setSelectionMode( QListBox::Single );
 
 	for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
 		QPixmap col( 30, 20 );
@@ -941,6 +941,11 @@ void ViewOpsDialog::updateDisplay( void ) {
 	hideCNames->setEnabled( hideObjects->isChecked() );
 	hideCLines->setEnabled( hideObjects->isChecked() );
 	hideGrid->setEnabled( hideObjects->isChecked() );
+
+	// update time for all objects because they might be not initialized
+	// it's needed when using horizontal coordinates
+	ksw->data()->setFullTimeUpdate();
+	ksw->updateTime();
 
 	ksw->map()->Update();
 }
