@@ -290,6 +290,7 @@ LX200Generic::LX200Generic()
    currentSubCatalog = 0;
    trackingMode = LX200_TRACK_DEFAULT;
 
+   fault     = false;
    targetRA  = 0;
    targetDEC = 0;
    currentRA = 0;
@@ -467,6 +468,12 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		}
 
 		localTM = ltp;
+		
+		if ( ( err = setCalenderDate(ltp->tm_day, ltp->tm_month, ltp->tm_year) < 0) )
+	  	{
+		  handleError(&Time, err, "Setting local time");
+		  return;
+		}
 		
 		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
 	  	{
@@ -728,7 +735,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	//IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
 	//IDLog("SolarSw name is %s\n", SolarSw.name);
 
-	//IDLog("The device name is %s\n", dev);
+	IDLog("The device name is %s\n", dev);
 	// ignore if not ours //
 	if (strcmp (thisDevice, dev))
 	    return;
@@ -746,6 +753,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   return;
 
 	  lastSet = getOnSwitch(states, n);
+	  OnCoordSetSw.s = IPS_OK;
+	  IDSetSwitch(&OnCoordSetSw, NULL);
 	  /*handleCoordSet();*/
 	}
 	
@@ -783,7 +792,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   }
 	   else
 	   {
-	     IDSetSwitch(&ParkSP, "You can only park the telescope in Polar or AltAz modes.");
+	     IDSetSwitch(&ParkSP, "You can only park the telescope in Polar or AltAz modes");
 	     return;
 	   }
 	   
@@ -809,7 +818,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		abortSlewSw.sp[0].s = ISS_OFF;
 		OnCoordSetSw.s = IPS_IDLE;
 		eqNum.s = IPS_IDLE;
-		IDSetSwitch(&abortSlewSw, "Slew aborted.");
+		IDSetSwitch(&abortSlewSw, "Slew aborted");
 		IDSetSwitch(&OnCoordSetSw, NULL);
 		IDSetNumber(&eqNum, NULL);
 
@@ -826,7 +835,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		MovementSw.s = IPS_IDLE;
 		IUResetSwitches(&MovementSw);
 		eqNum.s = IPS_IDLE;
-		IDSetSwitch(&abortSlewSw, "Slew aborted.");
+		IDSetSwitch(&abortSlewSw, "Slew aborted");
 		IDSetSwitch(&MovementSw, NULL);
 		IDSetNumber(&eqNum, NULL);
 	    }
@@ -1088,11 +1097,13 @@ void LX200Generic::handleError(ISwitchVectorProperty *svp, int err, const char *
       if (err == -2)
       {
        svp->s = IPS_ALERT;
-       IDSetSwitch(svp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetSwitch(svp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
       else
     /* Changing property failed, user should retry. */
        IDSetSwitch( svp , "%s failed.", msg);
+       
+       fault = true;
 }
 
 void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *msg)
@@ -1119,11 +1130,13 @@ void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *
       if (err == -2)
       {
        nvp->s = IPS_ALERT;
-       IDSetNumber(nvp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetNumber(nvp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
       else
     /* Changing property failed, user should retry. */
        IDSetNumber( nvp , "%s failed.", msg);
+       
+       fault = true;
 }
 
 void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *msg)
@@ -1150,13 +1163,23 @@ void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *ms
       if (err == -2)
       {
        tvp->s = IPS_ALERT;
-       IDSetText(tvp, "Device timed out. Current device may be busy or does not support %s.", msg);
+       IDSetText(tvp, "Device timed out. Current device may be busy or does not support %s. Will retry again.", msg);
       }
        
       else
     /* Changing property failed, user should retry. */
        IDSetText( tvp , "%s failed.", msg);
+       
+       fault = true;
 }
+
+ void LX200Generic::correctFault()
+ {
+ 
+   fault = false;
+   IDMessage(thisDevice, "Telescope is online.");
+   
+ }
 
 bool LX200Generic::isTelescopeOn(void)
 {
@@ -1193,13 +1216,6 @@ void LX200Generic::ISPoll()
 	switch (eqNum.s)
 	{
 	case IPS_IDLE:
-	/*if ( (err = getLX200RA(&currentRA)) < 0 || (err = getLX200DEC(&currentDEC)) < 0)
-	  {
-	    handleError(&eqNum, err, "Getting RA/DEC");
-	    return;
-	  }
-	*/
-	
 	getLX200RA(&currentRA);
 	getLX200DEC(&currentDEC);
 	
@@ -1286,6 +1302,9 @@ void LX200Generic::ISPoll()
 	  handleError(&eqNum, err, "Getting RA/DEC");
 	  return;
 	}
+	
+	if (fault)
+	  correctFault();
 
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
@@ -1346,7 +1365,7 @@ void LX200Generic::getBasicData()
      IDMessage(thisDevice, "Failed to retrieve time format from device.");
   else
   {
-    timeFormat = timeFormat == 24 ? LX200_24 : LX200_AM;
+    timeFormat == 24 ? LX200_24 : LX200_AM;
     // We always do 24 hours
     if (timeFormat != LX200_24)
       toggleTimeFormat();

@@ -53,6 +53,7 @@ class LX200Generic
  int handleCoordSet();
  int getOnSwitch(ISState * states, int n);
  void setCurrectDeviceName(const char * devName);
+ void correctFault();
  
 
  protected:
@@ -69,6 +70,7 @@ class LX200Generic
   double targetDEC;
   double lastRA;
   double lastDEC;
+  bool   fault;
 
   struct tm *localTM;
   
