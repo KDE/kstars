@@ -358,7 +358,7 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 	else ksw->slotZoomOut();
 }
 
-void SkyMap::mouseReleaseEvent( QMouseEvent *e ) {
+void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, becuase it's unset there.
 		mouseButtonDown = false;
@@ -405,7 +405,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int istar_min = -1;
 
 		if ( ksw->options()->drawSAO ) { //Can only click on a star if it's being drawn!
-			for ( unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
+			for ( register unsigned int i=0; i<ksw->data()->starList.count(); ++i ) {
 				//test RA and dec to see if this star is roughly nearby
 				SkyObject *test = (SkyObject *)ksw->data()->starList.at(i);
 				double dRA = test->ra().Hours() - clickedPoint()->ra().Hours();
@@ -492,11 +492,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int icust_min = -1;
 		int icust_cat = -1;
 
-		for ( unsigned int j=0; j<ksw->options()->CatalogCount; ++j ) {
+		for ( register unsigned int j=0; j<ksw->options()->CatalogCount; ++j ) {
 			if ( ksw->options()->drawCatalog[j] ) {
 				QList<SkyObject> cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[j] ];
 
-				for ( unsigned int i=0; i<cat.count(); ++i ) {
+				for ( register unsigned int i=0; i<cat.count(); ++i ) {
 					//test RA and dec to see if this object is roughly nearby
 					SkyObject *test = (SkyObject *)cat.at(i);
 					double dRA = test->ra().Hours()-clickedPoint()->ra().Hours();
@@ -905,7 +905,7 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 	}
 }
 		
-void SkyMap::paintEvent( QPaintEvent *e ) {
+void SkyMap::paintEvent( QPaintEvent * ) {
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
 	if (!computeSkymap)
 	{
@@ -919,7 +919,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 	float FOV = fov();
 	float Ymax;
-  bool isPoleVisible = false;
+	bool isPoleVisible = false;
 	if ( ksw->options()->useAltAz ) {
 		Ymax = fabs( focus()->alt().Degrees() ) + FOV;
 	} else {
@@ -968,7 +968,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		psky.setBrush( QBrush( QColor( ksw->options()->colorMW ) ) );
 		bool offscreen, lastoffscreen=false;
 
-		for ( unsigned int j=0; j<11; ++j ) {
+		for ( register unsigned int j=0; j<11; ++j ) {
 			if ( ksw->options()->fillMilkyWay ) {
 				ptsCount = 0;
 				bool partVisible = false;
@@ -993,7 +993,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 				psky.moveTo( o.x(), o.y() );
   	
-				for ( unsigned int i=1; i<ksw->data()->MilkyWay[j].count(); ++i ) {
+				for ( register unsigned int i=1; i<ksw->data()->MilkyWay[j].count(); ++i ) {
 					o = getXY( ksw->data()->MilkyWay[j].at(i), ksw->options()->useAltAz, ksw->options()->useRefraction );
 					if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
 					else offscreen = false;
@@ -1017,7 +1017,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		psky.setPen( QPen( QColor( ksw->options()->colorGrid ), 0, DotLine ) ); //change to colorGrid
 
 		//First, the parallels
-		for ( double Dec=-80.; Dec<=80.; Dec += 20. ) {
+		for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
 			bool newlyVisible = false;
 			sp->set( 0.0, Dec );
 			if ( ksw->options()->useAltAz ) sp->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
@@ -1026,7 +1026,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			psky.moveTo( o.x(), o.y() );
 
 			double dRA = 1./15.; //180 points along full circle of RA
-			for ( double RA=dRA; RA<24.; RA+=dRA ) {
+			for ( register double RA=dRA; RA<24.; RA+=dRA ) {
 				sp->set( RA, Dec );
 				if ( ksw->options()->useAltAz ) sp->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
@@ -1059,7 +1059,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 		}
 
     //next, the meridians
-		for ( double RA=0.; RA<24.; RA += 2. ) {
+		for ( register double RA=0.; RA<24.; RA += 2. ) {
 			bool newlyVisible = false;
 			SkyPoint *sp1 = new SkyPoint( RA, -90. );
 			if ( ksw->options()->useAltAz ) sp1->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
@@ -1067,7 +1067,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			psky.moveTo( o.x(), o.y() );
 
 			double dDec = 1.;
-			for ( double Dec=-89.; Dec<=90.; Dec+=dDec ) {
+			for ( register double Dec=-89.; Dec<=90.; Dec+=dDec ) {
 				sp1->set( RA, Dec );
 				if ( ksw->options()->useAltAz ) sp1->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 
@@ -1369,7 +1369,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	}
 
 	//Draw Custom Catalogs
-	for ( unsigned int i=0; i<ksw->options()->CatalogCount; ++i ) { //loop over custom catalogs
+	for ( register unsigned int i=0; i<ksw->options()->CatalogCount; ++i ) { //loop over custom catalogs
 		if ( ksw->options()->drawCatalog[i] ) {
 
 			psky.setBrush( NoBrush );
@@ -1496,7 +1496,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 //			if ( o->x() > -1*maxdist && o->x() < width() + maxdist ) {
 			if ( o->x() > -100 && o->x() < width() + 100 && o->y() > -100 && o->y() < height() + 100 ) {
 				if ( ksw->options()->useAltAz ) {
-					unsigned int j;
+					register unsigned int j;
 					for ( j=0; j<points.count(); ++j ) {
 						if ( o->x() < points.at(j)->x() ) {
 							found = true;
@@ -1567,7 +1567,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 			pts->setPoint( 0, points.at(0)->x(), points.at(0)->y() );
 			if ( ksw->options()->drawHorizon ) psky.moveTo( points.at(0)->x(), points.at(0)->y() );
 
-			for ( unsigned int i=1; i<points.count(); ++i ) {
+			for ( register unsigned int i=1; i<points.count(); ++i ) {
 				pts->setPoint( i, points.at(i)->x(), points.at(i)->y() );
 
 				if ( ksw->options()->drawHorizon ) {
@@ -1591,7 +1591,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				QFile dumpFile( "horizon.xy" );
 				if ( !dumpFile.exists() && dumpFile.open( IO_WriteOnly ) ) {
 					QTextStream t( &dumpFile );
-					for ( uint i=0; i < points.count(); ++i ) {
+					for ( register uint i=0; i < points.count(); ++i ) {
 						t << points.at(i)->x() << " " << points.at(i)->y() << endl;
 					}
 					dumpFile.close();
@@ -1611,7 +1611,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
 
 //  remove all items in points list
-				for ( unsigned int i=0; i<points.count(); ++i ) {
+				for ( register unsigned int i=0; i<points.count(); ++i ) {
 					points.remove(i);
 				}
 
