@@ -19,7 +19,7 @@
 #define _KSTARSPLOTWIDGET_H_
 
 #include <qwidget.h>
-#include "../../libkdeedu/kdeeduplot/kplotwidget.h"
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 
 #define BIGTICKSIZE 10
 #define SMALLTICKSIZE 4
