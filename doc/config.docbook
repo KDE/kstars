@@ -1,4 +1,4 @@
-x<chapter id="config">
+<chapter id="config">
 <title>Configuring &kstars;</title>
 <para>
 &kstars; has many configuration options, which you can access by opening
@@ -47,7 +47,7 @@ and whether name labels should be attached to the Planets.
 The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects are 
 displayed (&ie;, constellation lines, constellation names, Milky Way contour, 
 celestial equator, ecliptic, horizon line, and opaque ground).  You can also 
-choose whether yuo would like to see Latin constellation names, standard 
+choose whether you would like to see Latin constellation names, standard 
 three-letter abbreviations, or names using your local language.
 </para><para>
 The <guilabel>Colors</guilabel> tab allows you to set the color scheme, and to 
@@ -69,7 +69,7 @@ protect your dark-adapted vision.  Additionally, you can save the current color
 settings as a custom scheme by clicking the <guibutton>Save Current
 Colors</guibutton> button.  It will prompt you for a name for the new scheme,
 and then your scheme will appear in the list in all future &kstars; sessions.
-To remove a custom scheme, simply highlight it in th elist, and press the
+To remove a custom scheme, simply highlight it in the list, and press the
 <guibutton>Remove Color Scheme</guibutton> button.
 </para>
 </chapter>

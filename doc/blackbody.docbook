@@ -76,7 +76,7 @@ following equation:
 </para>
 
 <para>
-lamba(max} * T = 0.29 cm K
+lamdba(max} * T = 0.29 cm K
 </para>
 
 <para>
@@ -92,7 +92,7 @@ higher-temperature object.
 <para>
 For example, the sun has an average temperature of 5800 K with a
 wavelength of maximum emission equal to 
-lamba(max) = 0.29 cm / 5800 = 500 nm. This wavelengths falls in the
+lambda(max) = 0.29 cm / 5800 = 500 nm. This wavelengths falls in the
 green region of the visible light spectrum, but the sun's continuum
 radiates photons both longer and shorter than lambda(max) and the
 human eyes perceives the sun's color as white.
