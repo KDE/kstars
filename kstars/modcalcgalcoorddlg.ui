@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcGalCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -519,7 +519,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>If checked value will be read from input file. If not, value will be read from adjacent box</string>
+                                    <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="0">
@@ -531,6 +531,9 @@
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="2" column="0">
@@ -546,6 +549,9 @@
                                 <property name="checked">
                                     <bool>false</bool>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
+                                </property>
                             </widget>
                             <widget class="QCheckBox" row="0" column="2">
                                 <property name="name">
@@ -560,6 +566,9 @@
                                 <property name="checked">
                                     <bool>false</bool>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
+                                </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="2">
                                 <property name="name">
@@ -573,6 +582,9 @@
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
                                 </property>
                             </widget>
                             <widget class="dmsBox" row="1" column="3">
@@ -650,7 +662,7 @@
                                     <string>Input File...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>Archivo con los datos de entrada</string>
+                                    <string>File with the input data</string>
                                 </property>
                             </widget>
                             <widget class="QLineEdit" row="0" column="1">
@@ -669,6 +681,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Output File...</string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>File for the output data</string>
                                 </property>
                             </widget>
                         </grid>
@@ -881,8 +896,6 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -893,6 +906,5 @@
     <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

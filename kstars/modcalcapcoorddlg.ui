@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcApCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -546,7 +546,7 @@
                                     <string>Input File...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>Archivo con los datos de entrada</string>
+                                    <string>File with the input data</string>
                                 </property>
                             </widget>
                             <widget class="QLineEdit" row="0" column="1">
@@ -565,6 +565,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Output File...</string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>File for the outut data</string>
                                 </property>
                             </widget>
                         </grid>
@@ -788,13 +791,10 @@
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>
