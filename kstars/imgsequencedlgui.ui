@@ -133,7 +133,7 @@
                                         <string>Count:</string>
                                     </property>
                                     <property name="toolTip" stdset="0">
-                                        <string>Number of image to capture</string>
+                                        <string>Number of images to capture</string>
                                     </property>
                                     <property name="whatsThis" stdset="0">
                                         <string></string>
