@@ -1,5 +1,5 @@
 /***************************************************************************
-                          elts.h  -  description
+                          altvstime.h  -  description
                              -------------------
     begin                : Mon Dec 23 2002
     copyright            : (C) 2002 by Pablo de Vicente
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ELTS_H
-#define ELTS_H
+#ifndef ALTVSTIME_H
+#define ALTVSTIME_H
 
 #include <qlayout.h>
 #include <qptrlist.h>
@@ -60,13 +60,13 @@ protected:
 	void paintEvent( QPaintEvent *e );
 };
 
-class elts : public KDialogBase
+class AltVsTime : public KDialogBase
 {
 	Q_OBJECT
 
 public:
-	elts( QWidget* parent = 0);
-	~elts();
+	AltVsTime( QWidget* parent = 0);
+	~AltVsTime();
 
 //	void paintEvent(QPaintEvent *);
 //	void drawGrid( QPainter *);
@@ -117,7 +117,7 @@ private:
 //	int xticksep, xmticksep, yticksep, ymticksep;
 //	int yticksize, xticksize, xmticksize;
 
-	QGroupBox *eltsTotalBox;
+	QGroupBox *AVTTotalBox;
 	QLabel *PixmapLabel1, *dateLabel, *epochLabel, *nameLabel,
 		*raLabel, *decLabel, *latLabel, *longLabel;
 	QTabWidget *ctlTabs;
@@ -129,7 +129,7 @@ private:
 	AVTPlotWidget *View;
 	KListBox *PlotList;
 
-	QVBoxLayout *topLayout, *dateLocationLayout, *eltsTotalBoxLayout,
+	QVBoxLayout *topLayout, *dateLocationLayout, *AVTTotalBoxLayout,
 		*sourceLeftLayout, *sourceMidLayout;
 	QHBoxLayout *sourceLayout, *nameLayout, *coordLayout,
 		*clearAddLayout, *longLatLayout, *updateLayout;
@@ -142,4 +142,4 @@ private:
 	bool dirtyFlag;
 };
 
-#endif // ELTS_H
+#endif // ALTVSTIME_H

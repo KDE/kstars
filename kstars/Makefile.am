@@ -2,14 +2,42 @@ bin_PROGRAMS = kstars
 
 ## INCLUDES were found outside kdevelop specific part
 
-kstars_SOURCES = focusdialogdlg.ui modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui modcalcapcoorddlg.ui modcalcgeoddlg.ui kstarsdcop.cpp skymapdraw.cpp kspopupmenu.cpp modcalcprecdlg.ui modcalcsidtimedlg.ui modcalcjddlg.ui kscomet.cpp ksasteroid.cpp ksfilereader.cpp elts.cpp modcalcazel.cpp modcalcazeldlg.ui jupitermoons.cpp lcgenerator.cpp modcalcdaylength.cpp infoboxes.cpp infobox.cpp colorscheme.cpp detaildialog.cpp timeunitbox.cpp timestepbox.cpp modcalcapcoord.cpp timezonerule.cpp kstars_options_handling.cpp focusdialog.cpp skymapevents.cpp kstarsmessagebox.cpp addcatdialog.cpp kstarsinit.cpp kstarsactions.cpp objectnamelist.cpp planetcatalog.cpp stardatasink.cpp filesource.cpp modcalcgeodcoord.cpp modcalcsidtime.cpp modcalcgalcoord.cpp modcalcprec.cpp modcalcjd.cpp astrocalc.cpp timebox.cpp dmsbox.cpp ksplanetbase.cpp ksnumbers.cpp ksutils.cpp simclock.cpp toggleaction.cpp addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp wutdialog.cpp scriptbuilderui.ui scriptbuilder.cpp scriptfunction.cpp argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argwaitfor.ui argwaitforkey.ui argtimescale.ui scriptnamedialog.ui optionstreeview.ui indimenu.cpp indidevice.cpp indidriver.cpp indiconf.ui indihostconf.ui devmanager.ui planetviewer.cpp jmoontool.cpp kstarsplotwidget.cpp opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui
-kstars_LDADD = indi/liblilxml.a indi/libindicom.a ../../libkdeedu/kdeeduplot/libkdeeduplot.la -lkdeprint -lm
+kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp astrocalc.cpp \
+colorscheme.cpp detaildialog.cpp dmsbox.cpp dms.cpp altvstime.cpp \
+filesource.cpp finddialog.cpp focusdialog.cpp geolocation.cpp \
+imageviewer.cpp indidevice.cpp indidriver.cpp indimenu.cpp \
+infobox.cpp infoboxes.cpp jmoontool.cpp jupitermoons.cpp \
+ksasteroid.cpp kscomet.cpp ksfilereader.cpp ksmoon.cpp ksnumbers.cpp \
+ksplanetbase.cpp ksplanet.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp \
+kstarsactions.cpp kstars.cpp kstarsdata.cpp kstarsdcop.cpp \
+kstarsinit.cpp kstarsmessagebox.cpp kstarsoptions.cpp \
+kstars_options_handling.cpp kstarsplotwidget.cpp \
+kstarssplash.cpp ksutils.cpp lcgenerator.cpp locationdialog.cpp \
+magnitudespinbox.cpp main.cpp mapcanvas.cpp modcalcapcoord.cpp \
+modcalcazel.cpp modcalcdaylength.cpp modcalcgalcoord.cpp \
+modcalcgeodcoord.cpp modcalcjd.cpp modcalcprec.cpp modcalcsidtime.cpp \
+objectnamelist.cpp planetcatalog.cpp planetviewer.cpp scriptbuilder.cpp \
+scriptfunction.cpp simclock.cpp skymap.cpp skymapdraw.cpp \
+skymapevents.cpp skyobject.cpp skyobjectname.cpp skypoint.cpp \
+stardatasink.cpp starobject.cpp starpixmap.cpp timebox.cpp \
+timedialog.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp \
+timezonerule.cpp toggleaction.cpp viewopsdialog.cpp wutdialog.cpp \
+argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui \
+argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui \
+argtimescale.ui argwaitforkey.ui argwaitfor.ui devmanager.ui \
+focusdialogdlg.ui indiconf.ui indihostconf.ui modcalcapcoorddlg.ui \
+modcalcazeldlg.ui modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui \
+modcalcgeoddlg.ui modcalcjddlg.ui modcalcprecdlg.ui \
+modcalcsidtimedlg.ui opsadvanced.ui opscatalog.ui opscolors.ui \
+opsguides.ui opssolarsystem.ui optionstreeview.ui scriptbuilderui.ui \
+scriptnamedialog.ui kstarsinterface.skel simclockinterface.skel
+
+kstars_LDADD = indi/liblilxml.a indi/libindicom.a -lkdeeduplot -lkdeprint -lm
 
 SUBDIRS = data indi
 
-EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h addlinkdialog.cpp addlinkdialog.h toggleaction.h toggleaction.cpp simclock.h simclock.cpp ksutils.h ksutils.cpp ksnumbers.cpp ksnumbers.h kstarsui.rc ksplanetbase.cpp ksplanetbase.h dmsbox.cpp dmsbox.h timebox.cpp timebox.h astrocalc.cpp astrocalc.h modcalcjd.cpp modcalcjd.h modcalcprec.cpp modcalcprec.h modcalcgalcoord.cpp modcalcgalcoord.h modcalcsidtime.cpp modcalcsidtime.h modcalcgeodcoord.cpp modcalcgeodcoord.h filesource.cpp filesource.h stardatasink.cpp stardatasink.h planetcatalog.h planetcatalog.cpp objectnamelist.cpp objectnamelist.h kstarsactions.cpp kstarsinit.cpp addcatdialog.cpp addcatdialog.h kstarsmessagebox.cpp kstarsmessagebox.h skymapevents.cpp focusdialog.cpp focusdialog.h kstars_options_handling.cpp timezonerule.cpp timezonerule.h modcalcapcoord.cpp modcalcapcoord.h timestepbox.cpp timestepbox.h timeunitbox.cpp timeunitbox.h detaildialog.cpp detaildialog.h colorscheme.cpp colorscheme.h infobox.cpp infoboxes.cpp infoboxes.h infobox.h modcalcdaylength.cpp modcalcdaylength.h lcgenerator.h lcgenerator.cpp jupitermoons.cpp jupitermoons.h modcalcazeldlg.ui modcalcazel.cpp modcalcazel.h elts.cpp elts.h eltscanvas.cpp eltscanvas.h KSFileReader.h ksfilereader.cpp ksfilereader.h ksasteroid.cpp ksasteroid.h kscomet.cpp kscomet.h modcalcjddlg.ui modcalcsidtimedlg.ui modcalcprecdlg.ui kspopupmenu.cpp kspopupmenu.h skymapdraw.cpp kstarsdcop.cpp modcalcgeoddlg.ui wutdialog.h modcalcapcoorddlg.ui modcalcgalcoorddlg.ui modcalcdaylengthdlg.ui focusdialogdlg.ui plotobject.h plotwidget.h planetviewer.h
+EXTRA_DIST = kstars.desktop kstarsui.rc 
 
-####### kdevelop will overwrite this part!!! (end)############
 
 mydatadir = $(kde_appsdir)/Edutainment/Science/
 mydata_DATA = kstars.desktop
@@ -17,22 +45,6 @@ mydata_DATA = kstars.desktop
 rcdir = $(kde_datadir)/kstars/
 rc_DATA = kstarsui.rc
 
-# this 10 paths are KDE specific. Use them:
-# kde_htmldir       Where your docs should go to. (contains lang subdirs)
-# kde_appsdir       Where your application file (.kdelnk) should go to.
-# kde_icondir       Where your icon should go to.
-# kde_minidir       Where your mini icon should go to.
-# kde_datadir       Where you install application data. (Use a subdir)
-# kde_locale        Where translation files should go to.(contains lang subdirs)
-# kde_cgidir        Where cgi-bin executables should go to.
-# kde_confdir       Where config files should go to.
-# kde_mimedir       Where mimetypes should go to.
-# kde_toolbardir    Where general toolbar icons should go to.
-# kde_wallpaperdir  Where general wallpapers should go to.
-
-# (HE 03/09/2002) kdevelop does not know how to treat these. So we help it by adding these files
-# outside the area in Makefile.am that is under kdevelop's control
-kstars_SOURCES += kstarsinterface.skel simclockinterface.skel
 include_HEADERS = kstarsinterface.h simclockinterface.h
 
 # set the include path for X, qt and KDE

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          elts.cpp  -  description
+                          altvstime.cpp  -  description
                              -------------------
     begin                : wed nov 17 08:05:11 CET 2002
     copyright            : (C) 2002-2003 by Pablo de Vicente
@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "elts.h"
+#include "altvstime.h"
 #include "dms.h"
 #include "skypoint.h"
 #include "skyobject.h"
@@ -39,7 +39,7 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 
-elts::elts( QWidget* parent)  :
+AltVsTime::AltVsTime( QWidget* parent)  :
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
 {
 	ks = (KStars*) parent;
@@ -188,7 +188,6 @@ elts::elts( QWidget* parent)  :
 
 	ctlTabs->insertTab( dateTab, i18n( "Date && Location" ) );
 
-//	eltsTotalBoxLayout->addSpacing( 10 );
 	topLayout->addWidget( View );
 	topLayout->addWidget( ctlTabs );
 
@@ -217,7 +216,6 @@ elts::elts( QWidget* parent)  :
 	connect( clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 	connect( latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-//	connect( PlotList, SIGNAL( highlighted(int) ), eltsView, SLOT( update() ) );
 	connect( PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
 
 	pList.setAutoDelete(FALSE);
@@ -236,17 +234,17 @@ elts::elts( QWidget* parent)  :
 /*
  *  Destroys the object and frees any allocated resources
  */
-elts::~elts()
+AltVsTime::~AltVsTime()
 {
     // no need to delete child widgets, Qt does it all for us
 }
 
-//QSize elts::sizeHint() const
+//QSize AltVsTime::sizeHint() const
 //{
 //	  return QSize(580,560);
 //}
 
-void elts::slotAddSource(void) {
+void AltVsTime::slotAddSource(void) {
 	bool objFound( false );
 
 	//First, attempt to find the object name in the list of known objects
@@ -312,7 +310,7 @@ void elts::slotAddSource(void) {
 }
 
 //Use find dialog to choose an object
-void elts::slotBrowseObject(void) {
+void AltVsTime::slotBrowseObject(void) {
 	FindDialog fd(ks);
 	if ( fd.exec() == QDialog::Accepted ) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
@@ -322,7 +320,7 @@ void elts::slotBrowseObject(void) {
 	View->repaint();
 }
 
-void elts::processObject( SkyObject *o, bool forceAdd ) {
+void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	//We need earth for findPosition.  Store KSNumbers for simulation date/time
 	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
@@ -402,7 +400,7 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 	delete num;
 }
 
-double elts::findAltitude( SkyPoint *p, double hour ) {
+double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 	int dDay = DayOffset;
 	if ( hour < 0.0 ) {
 		dDay--;
@@ -424,7 +422,7 @@ double elts::findAltitude( SkyPoint *p, double hour ) {
 	return p->alt()->Degrees();
 }
 
-void elts::slotHighlight(void) {
+void AltVsTime::slotHighlight(void) {
 	int iPlotList = PlotList->currentItem();
 
 	//highlight the curve of the selected object
@@ -454,7 +452,7 @@ void elts::slotHighlight(void) {
 }
 
 //move input focus to the next logical widget
-void elts::slotAdvanceFocus(void) {
+void AltVsTime::slotAdvanceFocus(void) {
 	if ( sender()->name() == QString( "namebox" ) ) addButton->setFocus();
 	if ( sender()->name() == QString( "rabox" ) ) decBox->setFocus();
 	if ( sender()->name() == QString( "decbox" ) ) addButton->setFocus();
@@ -462,7 +460,7 @@ void elts::slotAdvanceFocus(void) {
 	if ( sender()->name() == QString( "latbox" ) ) updateButton->setFocus();
 }
 
-void elts::slotClear(void) {
+void AltVsTime::slotClear(void) {
 	if ( pList.count() ) pList.clear();
 	if ( deleteList.count() ) deleteList.clear();
 	PlotList->clear();
@@ -476,7 +474,7 @@ void elts::slotClear(void) {
 //	dirtyFlag = false;
 }
 
-void elts::slotClearBoxes(void) {
+void AltVsTime::slotClearBoxes(void) {
 	//clear the name, ra, and dec fields
 	// This still does not work. I will have a look later.
 
@@ -492,7 +490,7 @@ void elts::slotClearBoxes(void) {
 //	}
 }
 
-void elts::slotUpdateDateLoc(void) {
+void AltVsTime::slotUpdateDateLoc(void) {
 	//reprocess objects to update their coordinates.
 	//Again find each object in the list of known objects, and update
 	//coords if the object is a solar system body
@@ -551,7 +549,7 @@ void elts::slotUpdateDateLoc(void) {
 	View->repaint();
 }
 
-void elts::slotChooseCity(void) {
+void AltVsTime::slotChooseCity(void) {
 	LocationDialog ld(ks);
 	if ( ld.exec() == QDialog::Accepted ) {
 		int ii = ld.getCityIndex();
@@ -563,7 +561,7 @@ void elts::slotChooseCity(void) {
 	}
 }
 
-void elts::setLSTLimits(void) {
+void AltVsTime::setLSTLimits(void) {
 	QDateTime lt( getQDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
 	QDateTime ut = lt.addSecs( int( -3600.0*getTZ() ) );
 
@@ -572,48 +570,48 @@ void elts::setLSTLimits(void) {
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
 
-void elts::showCurrentDate (void)
+void AltVsTime::showCurrentDate (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 	dateBox->setDate( dt.date() );
 }
 
-QDateTime elts::getQDate (void)
+QDateTime AltVsTime::getQDate (void)
 {
 	QDateTime dt ( dateBox->date(),QTime(0,0,0) );
 	return dt;
 }
 
-dms elts::getLongitude (void)
+dms AltVsTime::getLongitude (void)
 {
 	dms longitude;
 	longitude = longBox->createDms();
 	return longitude;
 }
 
-dms elts::getLatitude (void)
+dms AltVsTime::getLatitude (void)
 {
 	dms latitude;
 	latitude = latBox->createDms();
 	return latitude;
 }
 
-double elts::getTZ( void ) {
+double AltVsTime::getTZ( void ) {
 	return geoPlace->TZ();
 }
 
-void elts::initGeo(void)
+void AltVsTime::initGeo(void)
 {
 	geoPlace = new GeoLocation( ks->geo() );
 }
 
-void elts::showLongLat(void)
+void AltVsTime::showLongLat(void)
 {
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );
 }
 
-long double elts::computeJdFromCalendar (void)
+long double AltVsTime::computeJdFromCalendar (void)
 {
 	long double julianDay;
 
@@ -622,12 +620,12 @@ long double elts::computeJdFromCalendar (void)
 	return julianDay;
 }
 
-double elts::QDateToEpoch( const QDate &d )
+double AltVsTime::QDateToEpoch( const QDate &d )
 {
 	return double(d.year()) + double(d.dayOfYear())/double(d.daysInYear());
 }
 
-double elts::getEpoch (QString eName)
+double AltVsTime::getEpoch (QString eName)
 {
 	//If Epoch field not a double, assume J2000
 	bool ok(false);
@@ -641,7 +639,7 @@ double elts::getEpoch (QString eName)
 	return epoch;
 }
 
-long double elts::epochToJd (double epoch)
+long double AltVsTime::epochToJd (double epoch)
 {
 
 	double yearsTo2000 = 2000.0 - epoch;
@@ -705,4 +703,4 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 	bitBlt( this, 0, 0, buffer );
 }
 
-#include "elts.moc"
+#include "altvstime.moc"
