@@ -32,19 +32,18 @@
 class KStarsOptions
 {
 public:
-	/**Constructor. Set default values to all options.
+	/**Constructor. Set default values to all options if param is true.
 		*/
-	KStarsOptions();
+	KStarsOptions(bool loadDefaults = true);
 
 	/**Destructor (empty)*/
   virtual ~KStarsOptions() {};
 
-	/**Copy options values from another KStarsOptions object.  If you add options
+	/**Copy constructor
+		Copy options values from another KStarsOptions object.  If you add options
 		*to KStars, make **SURE** to include them here!
-		*@short copy options from another KStarsOptions object
-		*@param dataSource the input KStarsOptions object.
 		*/
-	void copy( KStarsOptions* dataSource );
+	KStarsOptions( KStarsOptions& o );
 
 	/**Currently only used in this constructor, but later it may be used for a option wizard.
 		*/

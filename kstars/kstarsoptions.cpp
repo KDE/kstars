@@ -25,119 +25,114 @@
 #include <kapplication.h>
 #endif
 
-KStarsOptions::KStarsOptions()
+KStarsOptions::KStarsOptions(bool loadDefaults)
 {
-	setDefaultOptions();
+	if ( loadDefaults ) setDefaultOptions();
 }
 
-void KStarsOptions::copy( KStarsOptions* dataSource )
-{
-	if ( 0 == dataSource ) {
-		// this should not happen
-  	return;
-	}
+KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	// handle ALL members here !!!
 	// coordinate system
-	useAltAz     = dataSource->useAltAz;
+	useAltAz     = o.useAltAz;
 
 	// draw options
-	drawSAO      = dataSource->drawSAO;
-	drawMessier  = dataSource->drawMessier;
-	drawMessImages  = dataSource->drawMessImages;
-	drawNGC      = dataSource->drawNGC;
-	drawIC       = dataSource->drawIC;
-	drawOther    = dataSource->drawOther;
-	drawConstellLines = dataSource->drawConstellLines;
-	drawConstellNames = dataSource->drawConstellNames;
-	useLatinConstellNames = dataSource->useLatinConstellNames;
-	useLocalConstellNames = dataSource->useLocalConstellNames;
-	useAbbrevConstellNames = dataSource->useAbbrevConstellNames;
-	drawMilkyWay  = dataSource->drawMilkyWay;
-	fillMilkyWay  = dataSource->fillMilkyWay;
-	drawGrid     = dataSource->drawEquator;
-	drawEquator  = dataSource->drawEquator;
- 	drawHorizon  = dataSource->drawHorizon;
-	drawGround   = dataSource->drawGround;
-	drawEcliptic = dataSource->drawEcliptic;
-	drawSun      = dataSource->drawSun;
-	drawMoon     = dataSource->drawMoon;
-	drawMercury     = dataSource->drawMercury;
-	drawVenus     = dataSource->drawVenus;
-	drawMars     = dataSource->drawMars;
-	drawJupiter     = dataSource->drawJupiter;
-	drawSaturn     = dataSource->drawSaturn;
-	drawUranus     = dataSource->drawUranus;
-	drawNeptune     = dataSource->drawNeptune;
-	drawPluto     = dataSource->drawPluto;
-	drawPlanets     = dataSource->drawPlanets;
-	drawDeepSky     = dataSource->drawDeepSky;
-	useRefraction = dataSource->useRefraction;
-	useAnimatedSlewing = dataSource->useAnimatedSlewing;
-	hideOnSlew    = dataSource->hideOnSlew;
-	hideStars    = dataSource->hideStars;
-	hidePlanets    = dataSource->hidePlanets;
-	hideMess     = dataSource->hideMess;
-	hideNGC      = dataSource->hideNGC;
-	hideIC       = dataSource->hideIC;
-	hideOther    = dataSource->hideOther;
-	hideMW       = dataSource->hideMW;
-	hideCNames   = dataSource->hideCNames;
-	hideCLines   = dataSource->hideCLines;
-	hideGrid     = dataSource->hideGrid;
-	isTracking     = dataSource->isTracking;
-	showInfoPanel = dataSource->showInfoPanel;
-	showIPTime    = dataSource->showIPTime;
-	showIPFocus   = dataSource->showIPFocus;
-	showIPGeo     = dataSource->showIPGeo;
-	showMainToolBar = dataSource->showMainToolBar;
-	showViewToolBar = dataSource->showViewToolBar;
-	focusObject    = dataSource->focusObject;
-	focusRA     = dataSource->focusRA;
-	focusDec    = dataSource->focusDec;
-	slewTimeScale  = dataSource->slewTimeScale;
-	windowWidth    = dataSource->windowWidth;
-	windowHeight   = dataSource->windowHeight;
+	drawSAO      = o.drawSAO;
+	drawMessier  = o.drawMessier;
+	drawMessImages  = o.drawMessImages;
+	drawNGC      = o.drawNGC;
+	drawIC       = o.drawIC;
+	drawOther    = o.drawOther;
+	drawConstellLines = o.drawConstellLines;
+	drawConstellNames = o.drawConstellNames;
+	useLatinConstellNames = o.useLatinConstellNames;
+	useLocalConstellNames = o.useLocalConstellNames;
+	useAbbrevConstellNames = o.useAbbrevConstellNames;
+	drawMilkyWay  = o.drawMilkyWay;
+	fillMilkyWay  = o.fillMilkyWay;
+	drawGrid     = o.drawEquator;
+	drawEquator  = o.drawEquator;
+ 	drawHorizon  = o.drawHorizon;
+	drawGround   = o.drawGround;
+	drawEcliptic = o.drawEcliptic;
+	drawSun      = o.drawSun;
+	drawMoon     = o.drawMoon;
+	drawMercury     = o.drawMercury;
+	drawVenus     = o.drawVenus;
+	drawMars     = o.drawMars;
+	drawJupiter     = o.drawJupiter;
+	drawSaturn     = o.drawSaturn;
+	drawUranus     = o.drawUranus;
+	drawNeptune     = o.drawNeptune;
+	drawPluto     = o.drawPluto;
+	drawPlanets     = o.drawPlanets;
+	drawDeepSky     = o.drawDeepSky;
+	useRefraction = o.useRefraction;
+	useAnimatedSlewing = o.useAnimatedSlewing;
+	hideOnSlew    = o.hideOnSlew;
+	hideStars    = o.hideStars;
+	hidePlanets    = o.hidePlanets;
+	hideMess     = o.hideMess;
+	hideNGC      = o.hideNGC;
+	hideIC       = o.hideIC;
+	hideOther    = o.hideOther;
+	hideMW       = o.hideMW;
+	hideCNames   = o.hideCNames;
+	hideCLines   = o.hideCLines;
+	hideGrid     = o.hideGrid;
+	isTracking     = o.isTracking;
+	showInfoPanel = o.showInfoPanel;
+	showIPTime    = o.showIPTime;
+	showIPFocus   = o.showIPFocus;
+	showIPGeo     = o.showIPGeo;
+	showMainToolBar = o.showMainToolBar;
+	showViewToolBar = o.showViewToolBar;
+	focusObject    = o.focusObject;
+	focusRA     = o.focusRA;
+	focusDec    = o.focusDec;
+	slewTimeScale  = o.slewTimeScale;
+	windowWidth    = o.windowWidth;
+	windowHeight   = o.windowHeight;
 	// magnitude limits and other star options
-  magLimitDrawStar     = dataSource->magLimitDrawStar;
-	magLimitDrawStarInfo = dataSource->magLimitDrawStarInfo;
-	magLimitHideStar     = dataSource->magLimitHideStar;
-	drawStarName         = dataSource->drawStarName;
-	drawPlanetName       = dataSource->drawPlanetName;
-	drawPlanetImage      = dataSource->drawPlanetImage;
-	drawStarMagnitude		 = dataSource->drawStarMagnitude;
-	starColorMode        = dataSource->starColorMode;
-	starColorIntensity   = dataSource->starColorIntensity;
+	magLimitDrawStar     = o.magLimitDrawStar;
+	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
+	magLimitHideStar     = o.magLimitHideStar;
+	drawStarName         = o.drawStarName;
+	drawPlanetName       = o.drawPlanetName;
+	drawPlanetImage      = o.drawPlanetImage;
+	drawStarMagnitude		 = o.drawStarMagnitude;
+	starColorMode        = o.starColorMode;
+	starColorIntensity   = o.starColorIntensity;
 
 	// color options
-	colorSky		= dataSource->colorSky;
-	colorMess   = dataSource->colorMess;
-	colorNGC    = dataSource->colorNGC;
-	colorIC     = dataSource->colorIC;
- 	colorHST    = dataSource->colorHST;
-	colorMW			=	dataSource->colorMW;
-	colorEq			=	dataSource->colorEq;
-	colorEcl    = dataSource->colorEcl;
-	colorHorz		= dataSource->colorHorz;
-	colorGrid   = dataSource->colorGrid;
-	colorCLine  = dataSource->colorCLine;
-	colorCName  = dataSource->colorCName;
-	colorPName  = dataSource->colorPName;
-	colorSName  = dataSource->colorSName;
+	colorSky		= o.colorSky;
+	colorMess   = o.colorMess;
+	colorNGC    = o.colorNGC;
+	colorIC     = o.colorIC;
+ 	colorHST    = o.colorHST;
+	colorMW			=	o.colorMW;
+	colorEq			=	o.colorEq;
+	colorEcl    = o.colorEcl;
+	colorHorz		= o.colorHorz;
+	colorGrid   = o.colorGrid;
+	colorCLine  = o.colorCLine;
+	colorCName  = o.colorCName;
+	colorPName  = o.colorPName;
+	colorSName  = o.colorSName;
 
 	// location, location, location
-	CityName = dataSource->CityName;
-	ProvinceName = dataSource->ProvinceName;
-	CountryName = dataSource->CountryName;
+	CityName = o.CityName;
+	ProvinceName = o.ProvinceName;
+	CountryName = o.CountryName;
 
 	//Custom catalogs
-	CatalogCount = dataSource->CatalogCount;
+	CatalogCount = o.CatalogCount;
 	CatalogFile.clear();
 	CatalogName.clear();
 	drawCatalog.clear();
 	for ( unsigned int i=0; i<CatalogCount; ++i ) {
-		CatalogFile.append( dataSource->CatalogFile[i] );
-		CatalogName.append( dataSource->CatalogName[i] );
-		drawCatalog.append( dataSource->drawCatalog[i] );
+		CatalogFile.append( o.CatalogFile[i] );
+		CatalogName.append( o.CatalogName[i] );
+		drawCatalog.append( o.drawCatalog[i] );
 	}
 }
 

@@ -762,9 +762,9 @@ bool KStarsData::readCityData( void ) {
 void KStarsData::saveOptions()
 {
 	if ( 0 == oldOptions) {
-		oldOptions = new KStarsOptions();
+		oldOptions = new KStarsOptions(false);
 	}
-	oldOptions->copy( options );
+	*oldOptions = *options;
 }
 
 void KStarsData::restoreOptions()
@@ -773,7 +773,9 @@ void KStarsData::restoreOptions()
 		// this should not happen
 		return;
 	}
-	options->copy( oldOptions );
+	*options = *oldOptions;
+	delete oldOptions;
+	oldOptions = 0;
 }
 
 void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
