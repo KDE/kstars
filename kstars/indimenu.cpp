@@ -1,6 +1,6 @@
 /*  INDI frontend for KStars
-    Copyright (C) 2003 Elwood C. Downey
-    		       Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+    		       Elwood C. Downey
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -198,12 +198,12 @@ void INDIMenu::removeDeviceMgr(int mgrID)
 {
  char errmsg[1024];
 
- for (uint i=0; i < mgr.size(); i++)
+ for (unsigned int i=0; i < mgr.size(); i++)
   {
        if (mgrID == mgr[i]->mgrID)
        {
 
-      for (uint j=0; j < mgr[i]->indi_dev.size(); j++)
+      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
          mgr[i]->removeDevice(mgr[i]->indi_dev[j]->name, errmsg);
        delete mgr[i];
        mgr.erase(mgr.begin() + i);
@@ -241,6 +241,48 @@ XMLEle * INDIMenu::findEle (XMLEle *ep, INDI_P *pp, const char *child, char errm
 	return (NULL);
 }
 
+INDI_D * INDIMenu::findDevice(QString deviceName)
+{
 
+  for (unsigned int i=0; i < mgr.size(); i++)
+  {
+      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+        if (QString(mgr[i]->indi_dev[j]->name) == deviceName)
+       		return mgr[i]->indi_dev[j];
+ }
+
+  return NULL;
+
+}
+
+INDI_D * INDIMenu::findDeviceByLabel(char *label)
+{
+  for (unsigned int i=0; i < mgr.size(); i++)
+  {
+      for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+        if (!strcmp(mgr[i]->indi_dev[j]->label, label))
+       		return mgr[i]->indi_dev[j];
+ }
+
+  return NULL;
+}
+
+
+void INDIMenu::getCustomLabel(const char *deviceName, char *new_label)
+{
+
+ int nset=0;
+
+for (unsigned int i=0; i < mgr.size(); i++)
+   for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+         if (strstr(mgr[i]->indi_dev[j]->label, deviceName))
+	 	nset++;
+
+if (nset)
+ sprintf(new_label, "%s %d", deviceName, nset + 1);
+else
+ strcpy (new_label, deviceName);
+
+}
 
 #include "indimenu.moc"

@@ -1,4 +1,8 @@
 <devGroup group="Telescopes">
+	<device name="LX200 Generic">
+		<Exec>lx200generic</Exec>
+		<Version>0.5</Version>
+	</device>
 	<device name="LX200 Classic">
 		<Exec>lx200classic</Exec>
 		<Version>0.2</Version>

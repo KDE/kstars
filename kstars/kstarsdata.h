@@ -53,6 +53,7 @@
 #include "detaildialog.h"
 #include "jupitermoons.h"
 #include "indidriver.h"
+#include "telescopewizardprocess.h"
 
 #define NSAOFILES 40
 #define NMWFILES  11
@@ -104,6 +105,7 @@ public:
 	friend class INDI_P;
 	friend class PlanetViewer;
 	friend class JMoonTool;
+	friend class telescopeWizardProcess;
 
 	/**Constructor. */
 	KStarsData();

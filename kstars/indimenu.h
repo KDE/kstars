@@ -76,15 +76,17 @@ class INDIMenu : public KDialogBase
    void updateStatus();
    bool removeDevice(char *devName);
    void removeDeviceMgr(int mgrID);
-   int mgrCounter;
+   void getCustomLabel(const char *deviceName, char *new_label);
 
+   int mgrCounter;
    bool processServer();
    int processClient(QString hostname, QString portnumber);
+   INDI_D * findDevice(QString deviceName);
+   INDI_D * findDeviceByLabel(char *label);
 
    signals:
 
    void driverDisconnected(int mgrID);
-
 
 };
 

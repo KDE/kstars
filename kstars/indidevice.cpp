@@ -579,15 +579,17 @@ int INDI_G::removeProperty(INDI_P *pp)
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName)
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName, char *inLabel)
 {
-  name = new char[64];
+  name = new char[128];
+  label = new char[128];
   strcpy(name, inName);
+  strcpy(label, inLabel);
   parent = menuParent;
   parentMgr = parentManager;
 
- tabContainer  = new QFrame( parent->deviceContainer, name);
- parent->deviceContainer->addTab (tabContainer, i18n(name));
+ tabContainer  = new QFrame( parent->deviceContainer, label);
+ parent->deviceContainer->addTab (tabContainer, i18n(label));
 
  curGroup = NULL;
  biggestLabel = 0;
@@ -2558,12 +2560,19 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 {
 	INDI_D *dp;
 	XMLAtt *ap;
+	char *label;
 
 	/* allocate new INDI_D on indi_dev */
 	ap = parent->findAtt (dep, "device", errmsg);
 	if (!ap)
 	    return NULL;
-	dp = new INDI_D(parent, this, ap->valu);
+
+	label = new char[ strlen(ap->valu) + 16];
+
+	parent->getCustomLabel(ap->valu, label);
+
+	//fprintf(stderr, "\n\n\n ***************** Adding a device %s with label %s *************** \n\n\n", ap->valu, label);
+	dp = new INDI_D(parent, this, ap->valu, label);
 
 	 indi_dev.push_back(dp);
 
@@ -2592,6 +2601,8 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	/* not found, create if ok */
 	if (create)
 		return (addDevice (root, errmsg));
+
+
 	sprintf (errmsg, "INDI: <%s> no such device %s", root->tag, dn);
 	return NULL;
 }

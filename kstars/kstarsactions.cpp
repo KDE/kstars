@@ -50,6 +50,7 @@
 #include "indiconf.h"
 #include "planetviewer.h"
 #include "jmoontool.h"
+#include "telescopewizardprocess.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -120,6 +121,12 @@ void KStars::slotSolarSystem() {
 void KStars::slotJMoonTool() {
 	JMoonTool jmt(this);
 	jmt.exec();
+}
+
+void KStars::slotTelescopeWizard()
+{
+  telescopeWizardProcess twiz(this);
+  twiz.exec();
 }
 
 void KStars::slotINDIPanel() {
@@ -683,5 +690,14 @@ void KStars::addColorMenuItem( QString name, QString actionName ) {
 void KStars::removeColorMenuItem( QString actionName ) {
 	kdDebug() << "removing " << actionName << endl;
 	colorActionMenu->remove( actionCollection()->action( actionName.local8Bit() ) );
+}
+
+void KStars::establishINDI()
+{
+	if (indimenu == NULL)
+	  indimenu = new INDIMenu(this);
+
+	if (indidriver == NULL)
+	  indidriver = new INDIDriver(this);
 }
 

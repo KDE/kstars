@@ -143,7 +143,7 @@ bool KSPopupMenu::addINDI(void)
 
 	id = 0;
 	KPopupMenu *menuDevice = new KPopupMenu();
-	insertItem(QString(indiMenu->mgr[i]->indi_dev[j]->name), menuDevice);
+	insertItem(QString(indiMenu->mgr[i]->indi_dev[j]->label), menuDevice);
 
         for (uint l=0; l < indiMenu->mgr[i]->indi_dev[j]->gl.size(); l++)
 	{

@@ -172,10 +172,11 @@ class INDI_D : public QObject
 {
  Q_OBJECT
   public:
-   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, char *inName);
+   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, char *inName, char *inLabel);
    ~INDI_D();
 
     char 	*name;			/* malloced name */
+    char	*label;
     QFrame	*tabContainer;
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     QScrollView *sv;

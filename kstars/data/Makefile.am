@@ -51,6 +51,6 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   m63.png m64.png m65.png m66.png m67.png m68.png m69.png m70.png m71.png m72.png m73.png m74.png m75.png m76.png\
 		   m77.png m78.png m79.png m8.png m80.png m81.png m82.png m83.png m84.png m85.png m86.png m87.png m88.png m89.png \
 		   m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png \
-		   opscatalog.png opssolarsystem.png opsguides.png opscolors.png opsadvanced.png \
+		   opscatalog.png opssolarsystem.png opsguides.png opscolors.png opsadvanced.png wizardside.png \
 		   chart.colors default.colors moonless-night.colors night.colors \
 		   tips TZrules.dat valaav.txt advinterface.dat 

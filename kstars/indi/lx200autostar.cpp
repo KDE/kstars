@@ -33,22 +33,19 @@ extern int MaxReticleFlashRate;
 extern ITextVectorProperty Time;
 extern char mydev[];
 
-static IText   VersionT[] ={{ "Version Date", "", 0} ,
-			   { "Version Time", "", 0} ,
-			   { "Version Number", "", 0} ,
-			   { "Full Version", "", 0} ,
-			   { "Product Name", "", 0}};
+static IText   VersionT[] ={{ "Version Date", "", ""} ,
+			   { "Version Time", "", ""} ,
+			   { "Version Number", "", ""} ,
+			   { "Full Version", "", ""} ,
+			   { "Product Name", "", ""}};
 
 static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT)};
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
 
-  VersionInfo.t[0].text	= new char[32];
-  VersionInfo.t[1].text	= new char[32];
-  VersionInfo.t[2].text	= new char[32];
-  VersionInfo.t[3].text	= new char[64];
-  VersionInfo.t[4].text	= new char[64];
+  //for (int i=0; i  < 5; i++)
+     //strcpy(VersionInfo.t[i].text, "");
 
 }
 
@@ -165,10 +162,15 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
    // process parent first
    LX200Generic::getBasicData();
 
+   VersionInfo.t[0].text = new char[64];
    getVersionDate(VersionInfo.t[0].text);
+   VersionInfo.t[1].text = new char[64];
    getVersionTime(VersionInfo.t[1].text);
+   VersionInfo.t[2].text = new char[64];
    getVersionNumber(VersionInfo.t[2].text);
+   VersionInfo.t[3].text = new char[128];
    getFullVersion(VersionInfo.t[3].text);
+   VersionInfo.t[4].text = new char[128];
    getProductName(VersionInfo.t[4].text);
 
    IDSetText(&VersionInfo, NULL);

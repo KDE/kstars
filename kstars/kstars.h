@@ -130,6 +130,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		INDIMenu* getINDIMenu(void) { return indimenu; }
 
+	/** Establish the INDI system. No GUI
+		*/
+		void establishINDI();
+
 	/**Add an item to the color-scheme action manu
 		*@param name The name to use in the menu
 		*@param actionName The internal name for the action (derived from filename)
@@ -208,7 +212,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotTrack();
 
 	/**
-		*Delete FindDialog because ObjNames list has changed in KStarsData due to
+		*action slot: open dialog for selecting a new geographic location
+		*/
+		void slotGeoLocator();
+
+		/* Delete FindDialog because ObjNames list has changed in KStarsData due to
 		*reloading star data. So list in FindDialog must be new filled with current data.
 		*/
 		void clearCachedFindDialog();
@@ -235,11 +243,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*action slot: open dialog for finding a named object
 			*/
 		void slotFind();
-
-		/**
-			*action slot: open dialog for selecting a new geographic location
-			*/
-		void slotGeoLocator();
 
 		/**
 		 * action slot: open KStars calculator to compute astronomical
@@ -279,6 +282,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 * action slot: open Jupiter Moons tool
 		 */
 		void slotJMoonTool();
+
+		/**
+		 * action slot: open Telescope wizard
+		 */
+		void slotTelescopeWizard();
 
 		 /**
 		 * action slot: open INDI driver panel
