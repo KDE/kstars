@@ -88,6 +88,15 @@ void KStarsSplash::paintEvent( QPaintEvent *e ) {
 	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
 }
 	
+//JH: Under KDE3, there is a weird problem with the textCurrentStatus QLabel: it was
+//only being updated on every other repaint event!  I added debug messages to make sure the
+//paint events were happening.  They were, but only half of them displayed the updated
+//text in the Label.  I don't know why this is happening, but as a workaround, I changed
+//the case labels in slotLoadDataFile() so that only even-numbered loadStatus values trigger
+//an action.  odd-numbered values do nothing.  (I also had to move the "loadStatus++" command
+//outside the switch statement).  With this change, all status messages are now displayed.
+//It's a kludge, but it works :/
+
 void KStarsSplash::slotLoadDataFile()
 {
 	QFile imFile;
@@ -95,61 +104,55 @@ void KStarsSplash::slotLoadDataFile()
 	
 	switch (loadStatus)
 	{
-	case 0:
+	case 2:
 		if ( !kstarsData->readCityData( ) ) {
 			qtimer->stop();
 			KludgeError( "Cities.dat" );
 			reject();
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading star data" ) ); // next load, show text now
 		break;
-	case 1:
+	case 4:
 		if ( !kstarsData->readStarData( ) ) {
 			qtimer->stop();
 			KludgeError( "sao.dat" );
 			reject();
 		}
 	  textCurrentStatus->setText( i18n("Loading NGC data" ) ); // next load, show text now
-		loadStatus++;
 		break;
-	case 2:
+	case 6:
 		if ( !kstarsData->readNGCData( ) ) {
 			qtimer->stop();
 			KludgeError( "ngc2000.dat" );
 			reject();
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading constellations" ) ); // next load, show text now
 		break;
-	case 3:
+	case 8:
 		if ( !kstarsData->readCLineData( ) ) {
 			qtimer->stop();
 			KludgeError( "clines.dat" );
 			reject();
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading constellations names" ) ); // next load, show text now
 		break;
-	case 4:
+	case 10:
 		if ( !kstarsData->readCNameData( ) ) {
 			qtimer->stop();
 			KludgeError( kstarsData->cnameFile );
 			reject();
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading Milky Way" ) ); // next load, show text now
 		break;
-	case 5:
+	case 12:
 		if ( !kstarsData->readMWData( ) ) {
 			qtimer->stop();
 			KludgeError( "mw*.dat" );
 			reject();
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Starting Clock" ) ); // next load, show text now
 		break;
-	case 6:
+	case 14:
 		//start the clock
 		//"now" and "then" always refer to current system clock.	
 		//LTime and UTime represent the current simulation time.
@@ -163,12 +166,10 @@ void KStarsSplash::slotLoadDataFile()
 		kstarsData->CurrentDate = kstarsData->getJD( kstarsData->UTime );
 		kstarsData->LastPlanetUpdate = kstarsData->CurrentDate;
 		kstarsData->LastMoonUpdate   = kstarsData->CurrentDate;
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Sun" ) ); // next load, show text now
 		break;
-	case 7:
+	case 16:
 		kstarsData->Sun = new KSSun( kstarsData->CurrentDate );
-//		ImageName = kstarsData->Sun->name.lower() + ".png";
 		ImageName = "sun.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -177,31 +178,27 @@ void KStarsSplash::slotLoadDataFile()
 
 		kstarsData->objList->append( kstarsData->Sun );
 		kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Sun->name, kstarsData->objList->current()));
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Moon" ) ); // next load, show text now
 		break;
-	case 8:
+	case 18:
 		kstarsData->Moon = new KSMoon( kstarsData->CurrentDate );
 		kstarsData->Moon->findPhase( kstarsData->Sun );
 		kstarsData->objList->append( kstarsData->Moon );
 		kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Moon->name, kstarsData->objList->current()));
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Earth" ) ); // next load, show text now
 		break;
-	case 9:
+	case 20:
 		//Earth is only needed for calculating Geocentric coordinates of planets;
 		//it is not displayed in the skymap, so there is no image, and we
 		//don't add it to objList/ObjNames
 		kstarsData->Earth = new KSPlanet( I18N_NOOP( "Earth" ) );
 		kstarsData->Earth->findPosition( kstarsData->CurrentDate );
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n( "Creating Mercury" ) ); // next load, show text now
 		break;
-	case 10:		
+	case 22:		
 		kstarsData->Mercury = new KSPlanet( I18N_NOOP( "Mercury" ) );
-//		ImageName = kstarsData->Mercury->name.lower() + ".png";
 		ImageName = "mercury.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -213,12 +210,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Mercury->name, kstarsData->objList->current()));
 		}
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n( "Creating Venus" ) ); // next load, show text now
 		break;
-	case 11:
+	case 24:
 		kstarsData->Venus = new KSPlanet( I18N_NOOP( "Venus" ) );
-//		ImageName = kstarsData->Venus->name.lower() + ".png";
 		ImageName = "venus.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -230,12 +225,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Venus->name, kstarsData->objList->last()));
 		}
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Mars" ) ); // next load, show text now
 		break;
-	case 12:
+	case 26:
 		kstarsData->Mars = new KSPlanet( I18N_NOOP( "Mars" ) );
-//		ImageName = kstarsData->Mars->name.lower() + ".png";
 		ImageName = "mars.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -247,12 +240,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Mars->name, kstarsData->objList->last()));
 		}
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Jupiter" ) ); // next load, show text now
 		break;
-	case 13:
+	case 28:
 		kstarsData->Jupiter = new KSPlanet( I18N_NOOP( "Jupiter" ) );
-//		ImageName = kstarsData->Jupiter->name.lower() + ".png";
 		ImageName = "jupiter.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -264,12 +255,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Jupiter->name, kstarsData->objList->last()));
     }
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Saturn" ) ); // next load, show text now
 		break;
-	case 14:	
+	case 30:	
 		kstarsData->Saturn = new KSPlanet( I18N_NOOP( "Saturn" ) );
-//		ImageName = kstarsData->Saturn->name.lower() + ".png";
 		ImageName = "saturn.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -281,12 +270,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Saturn->name, kstarsData->objList->last()));
     }
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Uranus" ) ); // next load, show text now
 		break;
-	case 15:
+	case 32:
 		kstarsData->Uranus = new KSPlanet( I18N_NOOP( "Uranus" ) );
-//		ImageName = kstarsData->Uranus->name.lower() + ".png";
 		ImageName = "uranus.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -298,12 +285,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Uranus->name, kstarsData->objList->last()));
     }
 
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Neptune" ) ); // next load, show text now
 		break;
-	case 16:			
+	case 34:			
 		kstarsData->Neptune = new KSPlanet( I18N_NOOP( "Neptune" ) );
-//		ImageName = kstarsData->Neptune->name.lower() + ".png";
 		ImageName = "neptune.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -314,12 +299,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->objList->append( kstarsData->Neptune );
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Neptune->name, kstarsData->objList->last()));
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Creating Pluto" ) ); // next load, show text now
 		break;
-	case 17:			
+	case 36:			
 		kstarsData->Pluto = new KSPluto();
-//		ImageName = kstarsData->Pluto->name.lower() + ".png";
 		ImageName = "pluto.png";
 		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
@@ -330,11 +313,10 @@ void KStarsSplash::slotLoadDataFile()
 			kstarsData->objList->append( kstarsData->Pluto );
 			kstarsData->ObjNames->append( new SkyObjectName (kstarsData->Pluto->name, kstarsData->objList->last()));
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading Image URLs" ) ); // next load, show text now
 		break;
 
-	case 18:
+	case 38:
 		if ( !kstarsData->readURLData( "image_url.dat", 0 ) ) {
 			qtimer->stop();
 			KludgeError( "image_url.dat", false );
@@ -343,10 +325,9 @@ void KStarsSplash::slotLoadDataFile()
 		if ( !kstarsData->readURLData( "myimage_url.dat", 0 ) ) {
 		//Don't do anything if the local file is not found.
 		}
-		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading Information URLs" ) ); // next load, show text now
 		break;
-	case 19:
+	case 40:
 		if ( !kstarsData->readURLData( "info_url.dat", 1 ) ) {
 			qtimer->stop();
 			KludgeError( "info_url.dat", false );
@@ -363,6 +344,9 @@ void KStarsSplash::slotLoadDataFile()
 		accept();		
 		break;	
 	}
+
+	loadStatus++;
+	repaint();
 }
 
 void KStarsSplash::KludgeError( QString s, bool required ) {

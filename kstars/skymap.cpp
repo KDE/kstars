@@ -1849,6 +1849,9 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, QChar
 
 	switch (type) {
 		case 0: //star
+			//This line should only execute for KDE 3...the starpix images look bad for size==2.
+			if ( QT_VERSION >=300 && size==2 ) size = 1;
+
 			star = starpix->getPixmap (&color, size);
 			bitBlt ((QPaintDevice *) sky, x1-star->width()/2, y1-star->height()/2, star);
 			break;

@@ -395,6 +395,7 @@ void KStars::initMenuBar() {
 //	p = new QPopupMenu;
 	p = new KPopupMenu;
 	actTimeNow = new KAction( i18n( "Set Time to &Now" ), 0, this, SLOT( mSetTimeToNow() ), actionCollection() );
+	actTimeNow->setAccel( KAccel::stringToKey( "Ctrl+N"  ) );
 	actTimeSet = new KAction( i18n( "&Set Time..." ), BarIcon( "clock" ), 0, this, SLOT( mSetTime() ), actionCollection() );
 	actTimeSet->setAccel( KAccel::stringToKey( "Ctrl+S"  ) );
 	actTimeRun = new KAction( i18n( "Stop &Clock" ), BarIcon( "player_pause" ), 0, this, SLOT( mToggleTimer() ), actionCollection() );
