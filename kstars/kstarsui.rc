@@ -5,13 +5,18 @@
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="new_window" />
 		<Action name="close_window" />
+		<Separator />
+		<Action name="run_script" />
+		<Separator />
 		<Action name="print" />
+		<Separator />
 		<Action name="quit"/>
 	</Menu>
 
 	<Menu name="time" noMerge="1"><text>&amp;Time</text>
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
+		<Separator />
 		<Action name="timer_control" />
 	</Menu>
 
@@ -21,15 +26,18 @@
 		<Action name="east" />
 		<Action name="south" />
 		<Action name="west" />
+		<Separator />
+		<Action name="manual_focus" />
+		<Separator />
 		<Action name="find_object" />
 		<Action name="track_object" />
-		<Action name="manual_focus" />
 	</Menu>
 
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="zoom_in" />
 		<Action name="zoom_out" />
 		<Action name="zoom_default" />
+		<Separator />
 		<Action name="coordsys" />
 	</Menu>
 
@@ -53,6 +61,7 @@
 			<Action name="target_symbol_bullseye" />
 			<Action name="target_symbol_rectangle" />
 		</Menu>
+		<Separator />
 		<Action name="geolocation" />
 		<Separator />
 		<Action name="configure" />

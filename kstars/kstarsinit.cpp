@@ -33,10 +33,12 @@
 
 void KStars::initActions() {
 //File Menu:
-	new KAction(i18n("New Window"), "window_new", KAccel::stringToKey( "Ctrl+N"  ),
+	new KAction(i18n("&New Window"), "window_new", KAccel::stringToKey( "Ctrl+N"  ),
 			this, SLOT( newWindow() ), actionCollection(), "new_window");
-	new KAction(i18n("Close Window"), KAccel::stringToKey( "Ctrl+W"  ),
+	new KAction(i18n("&Close Window"), "fileclose", KAccel::stringToKey( "Ctrl+W"  ),
 			this, SLOT( closeWindow() ), actionCollection(), "close_window");
+	new KAction( i18n( "&Run Script..." ), "launch", KAccel::stringToKey( "Ctrl+R" ),
+			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
   KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
 	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
 
@@ -129,7 +131,7 @@ void KStars::initActions() {
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
-	colorActionMenu = new KActionMenu( i18n( "&Color Schemes" ), actionCollection(), "colorschemes" );
+	colorActionMenu = new KActionMenu( i18n( "C&olor Schemes" ), actionCollection(), "colorschemes" );
 	addColorMenuItem( i18n( "&Default" ), "cs_default" );
 	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
 	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );

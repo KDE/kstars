@@ -325,6 +325,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Close KStars window. */
 		void closeWindow();
 
+		/**Action slot to select a DCOP script and run it.*/
+		void slotRunScript();
+		
 		/**Action slot to print skymap. */
 		void slotPrint();
 

@@ -19,6 +19,8 @@
 #include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktip.h>
+#include <kfiledialog.h>
+#include <kprocess.h>
 #include <qpaintdevicemetrics.h>
 
 #include "kstars.h"
@@ -159,8 +161,6 @@ void KStars::slotViewOps() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
-//	kdDebug() << "before Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
-	
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		QTime newTime( timedialog.selectedTime() );
 		QDate newDate( timedialog.selectedDate() );
@@ -202,6 +202,53 @@ void KStars::closeWindow() {
 	// since QT 3.1 close() just emits lastWindowClosed if the window is not hidden
 	show();
 	close();
+}
+
+void KStars::slotRunScript() {
+	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+	
+	if ( fileURL.isValid() && fileURL.isLocalFile() ) {
+		//Remove the leading 'file:', which confuses QFile :(
+		QString fname = fileURL.url().mid(5);
+		QFile f( fname );
+		
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+			return;
+		} 
+		
+		// Before we run the script, make sure that it's safe.  Each line must either begin with "#" 
+		// or begin with "dcop $KSTARS".  Otherwise, the line must be equal to one of the following:
+		// "KSTARS=`dcopfind -a 'kstars*'`";  "MAIN=KStarsInterface";  or "CLOCK=clock#1"
+		QTextStream istream(&f);
+		QString line;
+		bool fileOK( true );
+		
+		while (  ! istream.eof() ) {
+			line = istream.readLine();
+			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS" 
+					&& line.stripWhiteSpace() != "KSTARS=`dcopfind -a 'kstars*'`" 
+					&& line.stripWhiteSpace() != "MAIN=KStarsInterface"
+					&& line.stripWhiteSpace() != "CLOCK=clock#1" ) {
+				fileOK = false;
+				break;
+			}
+		}
+		
+		if ( ! fileOK ) {
+			KMessageBox::sorry( 0, i18n( "The selected file appears to be an invalid KStars script." ),
+					i18n( "Script Validation Failed!" ) ); 
+		} else {
+			//DEBUG
+			kdDebug() << "running script: " << fname << endl;
+			
+			//file is OK, run it!
+			KProcess p;
+			p << fname;
+			p.start( KProcess::DontCare );
+		}
+	}
 }
 
 void KStars::slotPrint() {
