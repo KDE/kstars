@@ -548,10 +548,10 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		double lgz = log10(zoomFactor());
 		double maglim = options->magLimitDrawDeepSky;
 		if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawDeepSky - options->magLimitDrawDeepSkyZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax 
+		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
 		float mag = obj->mag();
 		if ( mag == 0.0 || mag > 90.0 ) mag = 14.0;
-		
+
 		if ( ( drawObject || drawImage ) && mag < (float)maglim ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
@@ -563,18 +563,22 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 						QFile file;
 
 						//readImage reads image from disk, or returns pointer to existing image.
+						//cancel drawing the image if it is larger than 0.75*width()
 						QImage *image=obj->readImage();
 						if ( image ) {
 							int w = int( obj->a() * scale * dms::PI * zoomFactor()/10800.0 );
-							int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
-							int dx = int( 0.5*w );
-							int dy = int( 0.5*h );
-							ScaledImage = image->smoothScale( w, h );
-							psky.save();
-							psky.translate( o.x(), o.y() );
-							psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
-							psky.drawImage( -dx, -dy, ScaledImage );
-							psky.restore();
+
+							if ( w < 0.75*width() ) {
+								int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
+								int dx = int( 0.5*w );
+								int dy = int( 0.5*h );
+								ScaledImage = image->smoothScale( w, h );
+								psky.save();
+								psky.translate( o.x(), o.y() );
+								psky.rotate( double( PositionAngle ) );  //rotate the coordinate system
+								psky.drawImage( -dx, -dy, ScaledImage );
+								psky.restore();
+							}
 						}
 					}
 

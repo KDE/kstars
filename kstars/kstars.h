@@ -205,6 +205,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotZoomOut();
 
 		void slotDefaultZoom();
+		void slotSetZoom();
 
 	/**
 		*action slot: Toggle whether kstars is tracking current position

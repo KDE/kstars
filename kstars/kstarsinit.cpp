@@ -86,6 +86,8 @@ void KStars::initActions() {
 	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
 	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KAccel::stringToKey( "Ctrl+Z" ),
 		this, SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
+	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KAccel::stringToKey( "Ctrl+Shift+Z" ),
+		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 	if ( options()->useAltAz ) actCoordSys->turnOff();

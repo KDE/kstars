@@ -20,6 +20,7 @@
 
 #include <kaccel.h>
 #include <kiconloader.h>
+#include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
@@ -627,6 +628,37 @@ void KStars::slotDefaultZoom() {
 		actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( options()->ZoomFactor < MAXZOOM )
 		actionCollection()->action("zoom_in")->setEnabled (true);
+}
+
+void KStars::slotSetZoom() {
+	bool ok( false );
+	double currentAngle = map()->width() / ( options()->ZoomFactor * dms::DegToRad );
+	double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
+	double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
+
+	double angSize = KInputDialog::getDouble( i18n( "The user should enter an angle for the field-of-view of the display",
+			"Enter desired field-of-view angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
+			currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
+
+	if ( ok ) {
+		options()->ZoomFactor = map()->width() / ( angSize * dms::DegToRad );
+
+		if ( options()->ZoomFactor <= MINZOOM ) {
+			options()->ZoomFactor = MINZOOM;
+			actionCollection()->action("zoom_out")->setEnabled( false );
+		} else {
+			actionCollection()->action("zoom_out")->setEnabled( true );
+		}
+
+		if ( options()->ZoomFactor >= MAXZOOM ) {
+			options()->ZoomFactor = MAXZOOM;
+			actionCollection()->action("zoom_in")->setEnabled( false );
+		} else {
+			actionCollection()->action("zoom_in")->setEnabled( true );
+		}
+
+		map()->forceUpdate();
+	}
 }
 
 void KStars::slotCoordSys() {
