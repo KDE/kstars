@@ -969,7 +969,7 @@ double SkyMap::findPA( SkyObject *o, int x, int y, double scale ) {
 
 	//DEBUG
 	if ( o->name() == "M 31" ) 
-	  qDebug( "M 31: dx: %f  dy: %f  north: %f   o->pa(): %f", dx, dy, north, o->pa() );
+	  kdDebug() << "M 31: dx: " << dx <<  " dy: " << dy <<  " north: " << north <<   " o->pa(): " <<  o->pa() << endl;
 
 	return ( north + o->pa() );
 }
