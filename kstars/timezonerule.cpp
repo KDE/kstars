@@ -229,23 +229,26 @@ void TimeZoneRule::nextDSTChange_LTime( const QDateTime date ) {
 
 	if ( deltaTZ() ) {
 		// Next change is reverting back to standard time.
-		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
-		result = QDateTime( QDate( date.date().year(), RevertMonth, findRevertDay( result ) ), RevertTime );
 
-		// It's possible that the revert date occurs in the next calendar year.
-		// this is the case if RevertMonth is less than the date's month.
-		// if ( RevertMonth < date.date().month() ) result = result.addYears(1); 
-		if ( RevertMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day()), RevertTime);
-	} else 
+		//y is the year for the next DST Revert date.  It's either the current year, or
+		//the next year if the current month is already past RevertMonth
+		int y = date.date().year();
+		if ( RevertMonth < date.date().month() ) ++y;
+
+		result = QDateTime( QDate( y, RevertMonth, 1 ), RevertTime );
+		result = QDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
+
+	} else
 	if ( StartMonth ) {
 		// Next change is starting DST.
-		result = QDateTime( QDate( date.date().year(), StartMonth, 1 ), StartTime );
-		result = QDateTime( QDate( date.date().year(), StartMonth, findStartDay( result ) ), StartTime );
 
-		// It's possible that the start date occurs in the next calendar year.
-		// this is the case if StartMonth is less than the date's month.
-		// if ( StartMonth < date.date().month() ) result = result.addYears(1);
-		if ( StartMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day() ), StartTime);
+		//y is the year for the next DST Start date.  It's either the current year, or
+		//the next year if the current month is already past StartMonth
+		int y = date.date().year();
+		if ( StartMonth < date.date().month() ) ++y;
+
+		result = QDateTime( QDate( y, StartMonth, 1 ), StartTime );
+		result = QDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
 	}
 
 	kdDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
@@ -261,22 +264,25 @@ void TimeZoneRule::previousDSTChange_LTime( const QDateTime date ) {
 
 	if ( deltaTZ() ) {
 		// Last change was starting DST.
-		result = QDateTime( QDate( date.date().year(), StartMonth, 1 ), StartTime );
-		result = QDateTime( QDate( date.date().year(), StartMonth, findStartDay( result ) ), StartTime );
 
-		// It's possible that the start date occured in the previous calendar year.
-		// this is the case if StartMonth is greater than the date's month.
-		// if ( StartMonth > date.date().month() ) result = result.addYears(-1);
-		if ( StartMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day()), StartTime);
+		//y is the year for the previous DST Start date.  It's either the current year, or
+		//the previous year if the current month is earlier than StartMonth
+		int y = date.date().year();
+		if ( StartMonth > date.date().month() ) --y;
+
+		result = QDateTime( QDate( y, StartMonth, 1 ), StartTime );
+		result = QDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
+
 	} else if ( StartMonth ) {
 		//Last change was reverting to standard time.
-		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
-		result = QDateTime( QDate( date.date().year(), RevertMonth, findRevertDay( result ) ), RevertTime );
 
-		// It's possible that the revert date occurred in the previous calendar year.
-		// this is the case if RevertMonth is greater than the date's month.
-		// if ( RevertMonth > date.date().month() ) result = result.addYears(-1);
-		if ( RevertMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day() ), RevertTime);
+		//y is the year for the previous DST Start date.  It's either the current year, or
+		//the previous year if the current month is earlier than StartMonth
+		int y = date.date().year();
+		if ( RevertMonth > date.date().month() ) --y;
+
+		result = QDateTime( QDate( y, RevertMonth, 1 ), RevertTime );
+		result = QDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
 	}
 
 	kdDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
@@ -330,7 +336,7 @@ void TimeZoneRule::reset_with_ltime( const QDateTime ltime, const double TZoffse
 	} else {
 		// current time was not start time
 		// so check if current time is revert time and deactivate DST if necessary
-		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
+		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * -3600) ) );
 		if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
 			kdDebug() << "Current time = Reverttime: deactivate DST" << endl;
 			setDST( false );
