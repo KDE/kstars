@@ -227,10 +227,24 @@ void KStars::slotPrint() {
 		QPainter *p = new QPainter( &printer );
 		QPaintDeviceMetrics pdm( p->device() );
 
-		//Fit map image to page if it's larger than the page.
 		QImage img( map()->skyPixmap().convertToImage() );
+
+		//Fit map image to page if it's larger than the page.
+#if (KDE_VERSION <= 222)
+		int wfactor = img.width()/pdm.width();
+		int hfactor = img.height()/pdm.height();
+
+		if ( wfactor > 1.0 || hfactor > 1.0 ) { //need to scale down the image
+			if ( wfactor >= hfactor )
+				img = img.smoothScale( int( img.width()/wfactor ), int( img.height()/wfactor ) );
+			else
+				img = img.smoothScale( int( img.width()/hfactor ), int( img.height()/hfactor ) );
+		}
+
+#else
 		if ( img.width() > pdm.width() || img.height() > pdm.height() )
 			img = img.smoothScale( pdm.width(), pdm.height(), QImage::ScaleMin );
+#endif //KDE_VERSION
 
 		//Make sure image is centered on the page
 		QPoint pt( (pdm.width() - img.width())/2, (pdm.height() - img.height())/2 );

@@ -9,13 +9,13 @@ SUBDIRS = data
 EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h addlinkdialog.cpp addlinkdialog.h infopanel.cpp infopanel.h toggleaction.h toggleaction.cpp simclock.h simclock.cpp ksutils.h ksutils.cpp ksnumbers.cpp ksnumbers.h kstarsui.rc ksplanetbase.cpp ksplanetbase.h dmsbox.cpp dmsbox.h timebox.cpp timebox.h astrocalc.cpp astrocalc.h modcalcjd.cpp modcalcjd.h modcalcprec.cpp modcalcprec.h modcalcgalcoord.cpp modcalcgalcoord.h modcalcsidtime.cpp modcalcsidtime.h modcalcgeodcoord.cpp modcalcgeodcoord.h filesource.cpp filesource.h stardatasink.cpp stardatasink.h planetcatalog.h planetcatalog.cpp objectnamelist.cpp objectnamelist.h kstarsactions.cpp kstarsinit.cpp addcatdialog.cpp addcatdialog.h kstarsmessagebox.cpp kstarsmessagebox.h skymapevents.cpp focusdialog.cpp focusdialog.h kstars_options_handling.cpp timezonerule.cpp timezonerule.h modcalcapcoord.cpp modcalcapcoord.h timestepbox.cpp timestepbox.h timeunitbox.cpp timeunitbox.h 
 
 install-data-local:
-	$(mkinstalldirs) $(kde_appsdir)/Applications/
-	$(INSTALL_DATA) $(srcdir)/kstars.desktop $(kde_appsdir)/Applications/kstars.desktop
+	$(mkinstalldirs) $(kde_appsdir)/Edutainment/
+	$(INSTALL_DATA) $(srcdir)/kstars.desktop $(kde_appsdir)/Edutainment/kstars.desktop
 	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/kstarsui.rc $(kde_datadir)/kstars/kstarsui.rc
 
 uninstall-local:
-	-rm -f $(kde_appsdir)/Applications/kstars.desktop
+	-rm -f $(kde_appsdir)/Edutainment/kstars.desktop
 	-rm -f $(kde_datadir)/kstars/kstarsui.rc
 
 ####### kdevelop will overwrite this part!!! (end)############
