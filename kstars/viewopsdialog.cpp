@@ -123,11 +123,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	textLabelMagStarInfo->setText( i18n( "for stars brighter than" ) );
 	textLabelMagStarInfo->setFont( stdFont );
 
-	showStarNames = new QCheckBox( i18n( "show name" ), StarsBox );
+	showStarNames = new QCheckBox( i18n( "Show name" ), StarsBox );
 	showStarNames->setFont( stdFont );
 	showStarNames->setChecked( ksw->options()->drawStarName );
 
-	showStarMagnitude = new QCheckBox( i18n( "show magnitude" ), StarsBox );
+	showStarMagnitude = new QCheckBox( i18n( "Show magnitude" ), StarsBox );
 	showStarMagnitude->setFont( stdFont );
 	showStarMagnitude->setChecked( ksw->options()->drawStarMagnitude );
 
@@ -259,10 +259,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showPluto->setFont( stdFont );
 	showPluto->setChecked( ksw->options()->drawPluto );
 
-	showAll = new QPushButton( i18n( "Show all planets", "Show All" ), PlanetTab, "show_all_planets" );
+	showAll = new QPushButton( i18n( "Show All Planets", "Show All" ), PlanetTab, "show_all_planets" );
 	showAll->setFont( stdFont );
 
-	showNone = new QPushButton( i18n( "Hide all planets", "Show None" ), PlanetTab, "show_none_planets" );
+	showNone = new QPushButton( i18n( "Hide All Planets", "Show None" ), PlanetTab, "show_none_planets" );
 	showNone->setFont( stdFont );
 
 	QSpacerItem *smallSpacerLeft  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
@@ -313,7 +313,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showConstellLines->setFont( stdFont );
 	showConstellLines->setChecked( ksw->options()->drawConstellLines );
 
-	showConstellNames = new QCheckBox( i18n( "Constellation Names" ), GuideTab );
+	showConstellNames = new QCheckBox( i18n( "Constellation names" ), GuideTab );
 	showConstellNames->setFont( stdFont );
 	showConstellNames->setChecked( ksw->options()->drawConstellNames );
 	ConstellOptions = new QButtonGroup( 1, Qt::Vertical, i18n( "Constellation Name Options" ), GuideTab );

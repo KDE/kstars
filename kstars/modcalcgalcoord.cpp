@@ -84,7 +84,7 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox
 	// Input for galactic coords
 
 	QGroupBox * galBox = new QGroupBox (rightBox);
-	galBox->setTitle( i18n("Galactic coordinates"));
+	galBox->setTitle( i18n("Galactic Coordinates"));
 	
 	QLabel * lgLabel = new QLabel( galBox );
 	lgLabel->setText( "l:" );
@@ -117,7 +117,7 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox
 // Input for Equatorial coords.
 
 	QGroupBox * equBox = new QGroupBox (rightBox);
-	equBox->setTitle( i18n("Equatorial coordinates"));
+	equBox->setTitle( i18n("Equatorial Coordinates"));
 	
 	QVBoxLayout * D0Lay = new QVBoxLayout( equBox );
 	QHBox * radecBox = new QHBox(equBox);

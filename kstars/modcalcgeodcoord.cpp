@@ -88,7 +88,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 	// Input for XYZ
 
 	QGroupBox * cartBox = new QGroupBox (rightBox);
-	cartBox->setTitle( i18n("Cartesian coordinates"));
+	cartBox->setTitle( i18n("Cartesian Coordinates"));
 	
 	QLabel * XLabel = new QLabel( cartBox );
 	XLabel->setText( i18n(" X coordinate in meters","X (m):") );
@@ -132,7 +132,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 // Input for Spherical coords.
 
 	QGroupBox * spheBox = new QGroupBox (rightBox);
-	spheBox->setTitle( i18n("Geographic coordinates"));
+	spheBox->setTitle( i18n("Geographic Coordinates"));
 	
 	QVBoxLayout * D0Lay = new QVBoxLayout( spheBox );
 	QHBox * lonlatBox = new QHBox(spheBox,"datetimeBox");
