@@ -103,8 +103,6 @@
 </MenuBar>
 
 <ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
-	<Action name="quit" />
-	<Separator />
 	<Action name="zoom_in" />
 	<Action name="zoom_out" />
 	<Action name="zoom_default" />
@@ -114,8 +112,6 @@
 	<Action name="geolocation" />
 	<Action name="configure" />
 	<Action name="time_dialog" />
-	<Separator />
-	<Action name="handbook" />
 	<Separator />
 	<Action name="timer_control" />
 	<Separator />
