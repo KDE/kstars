@@ -26,7 +26,6 @@
 #include <qframe.h>
 #include <qstring.h>
 #include <qbuttongroup.h>
-#include <qradiobutton.h>
 #include <qpushbutton.h>
 
 #include "skymap.h"
@@ -38,6 +37,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 	SkyMap *map = (SkyMap *)parent;
 	QFrame *page = plainPage();
 
+//Create widgets and layout managers
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlayTitle = new QHBoxLayout();
 	hlayURL = new QHBoxLayout();
@@ -51,7 +51,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 
 	QLabel *titleLabel = new QLabel( page, "TitleLabel" );
 	titleLabel->setText( i18n( "Menu Text: " ) );
-	TitleEntry = new KLineEdit( i18n( "Show image of " ) + map->clickedObject->name, page );
+	TitleEntry = new KLineEdit( i18n( "Show image of " ) + map->clickedObject()->name(), page );
 
 	QLabel *URLLabel = new QLabel( page, "URLLabel" );
 	URLLabel->setText( i18n( "URL: " ) );
@@ -78,30 +78,16 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 	vlay->addItem( vspacer );
 	vlay->activate();
 
+//connect signals to slots
 	connect( BrowserButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
 	connect( TypeGroup, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultTitle( int ) ) );
 }
 
-AddLinkDialog::~AddLinkDialog(){
-}
-
-QString AddLinkDialog::title( void ) {
-	return TitleEntry->text();
-}
-
-QString AddLinkDialog::url( void ) {
-	return URLEntry->text();
-}
-
-bool AddLinkDialog::isImageLink( void ) {
-	return ImageRadio->isChecked();
-}
-
 void AddLinkDialog::checkURL( void ) {
 	KURL url ( URLEntry->text() );
-	if (url.isValid()) {
-		kapp->invokeBrowser( url.url() );
-	} else {
+	if (url.isValid()) {   //Is the string a valid URL?
+		kapp->invokeBrowser( url.url() );   //If so, launch the browser to see if it's the correct document
+	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
 		QString message = i18n( "The URL is not valid.  Would you like me to open a browser window\nto the Google search engine?" );
 		QString caption = i18n( "Invalid URL" );
 		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::Yes ) {
@@ -113,12 +99,15 @@ void AddLinkDialog::checkURL( void ) {
 void AddLinkDialog::changeDefaultTitle( int id ) {
 	SkyMap *map = (SkyMap *)parent();
 
+//If the user hasn't changed the default title text, but the link type (image/webpage)
+//has been toggled, update the default title text
 	if ( id==1 && TitleEntry->text().startsWith( i18n( "Show image of " ) ) ) {
-		TitleEntry->setText( i18n( "Show webpage about " ) + map->clickedObject->name );
+		TitleEntry->setText( i18n( "Show webpage about " ) + map->clickedObject()->name() );
 	}
 
 	if ( id==0 && TitleEntry->text().startsWith( i18n( "Show webpage about " ) ) ) {
-		TitleEntry->setText( i18n( "Show image of " ) + map->clickedObject->name );
+		TitleEntry->setText( i18n( "Show image of " ) + map->clickedObject()->name() );
 	}
 }
+
 #include "addlinkdialog.moc"

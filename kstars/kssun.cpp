@@ -34,9 +34,6 @@ KSSun::KSSun( long double Epoch ) : KSPlanet( I18N_NOOP( "Sun" ) ) {
 	findPosition( Epoch );
 }
 
-KSSun::~KSSun(){
-}
-
 bool KSSun::findPosition( long double jd ) {
 	QString fname, snum, line;
 	QFile f;
@@ -72,7 +69,7 @@ bool KSSun::findPosition( long double jd ) {
 	if (nCount==0) return false; //no longitude data found!
 
   EarthLong.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-	EarthLong.setD( EarthLong.reduce().getD() );
+	EarthLong.setD( EarthLong.reduce().Degrees() );
 	  	
 	//Ecliptic Latitude
 	nCount = 0;
@@ -97,9 +94,9 @@ bool KSSun::findPosition( long double jd ) {
 
   EarthLat.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
 
-	EcLong.setD( EarthLong.getD() + 180.0 );
-	EcLong.setD( EcLong.reduce().getD() );
-	EcLat.setD( -1.0*EarthLat.getD() );
+	setEcLong( EarthLong.Degrees() + 180.0 );
+	setEcLong( ecLong().reduce().Degrees() );
+	setEcLat( -1.0*EarthLat.Degrees() );
 
 	//Compute Heliocentric Distance
 	nCount = 0;
@@ -123,7 +120,7 @@ bool KSSun::findPosition( long double jd ) {
 	if (nCount==0) return false; //no distance data found!
 
 	//Well, for the Sun, Rsun is the geocentric distance, not the heliocentric! :)
-  Rsun = sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T;
+  setRsun( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
 
 	//Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
 	EclipticToEquatorial( jd );

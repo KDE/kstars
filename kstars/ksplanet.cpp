@@ -29,7 +29,7 @@ KSPlanet::KSPlanet( QString s, QImage im )
  : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ) {
 	EcLong.setD( 0.0 );
 	EcLat.setD( 0.0 );
-	image = im;
+	Image = im;
 
 /*************
 	//yuck.  I need the untranslated name to generate data filenames
@@ -62,7 +62,7 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 //		fname = EnglishName.lower() + ".L" + snum + ".vsop";
-		fname = name.lower() + ".L" + snum + ".vsop";
+		fname = name().lower() + ".L" + snum + ".vsop";
 
 		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
@@ -80,7 +80,7 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 	if ( nCount==0 ) return false; //No longitude data found!
 
   EcLong.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-	EcLong.setD( EcLong.reduce().getD() );
+	EcLong.setD( EcLong.reduce().Degrees() );
 	  	
 	nCount = 0;
 	//Compute Ecliptic Latitude
@@ -88,7 +88,7 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 //		fname = EnglishName.lower() + ".B" + snum + ".vsop";
-		fname = name.lower() + ".B" + snum + ".vsop";
+		fname = name().lower() + ".B" + snum + ".vsop";
 		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
@@ -112,7 +112,7 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 //		fname = EnglishName.lower() + ".R" + snum + ".vsop";
-		fname = name.lower() + ".R" + snum + ".vsop";
+		fname = name().lower() + ".R" + snum + ".vsop";
 		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
@@ -141,15 +141,12 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 		z = Rsun*sinB - Earth->Rsun*sinB0;
 	
 		EcLong.setRadians( atan( y/x ) );
-		if (x<0) EcLong.setD( EcLong.getD() + 180.0 ); //resolve atan ambiguity
+		if (x<0) EcLong.setD( EcLong.Degrees() + 180.0 ); //resolve atan ambiguity
 		EcLat.setRadians( atan( z/( sqrt( x*x + y*y ) ) ) );
 	  EclipticToEquatorial( jd );
 	}
 
 	return true;
-}
-
-KSPlanet::~KSPlanet(){
 }
 
 void KSPlanet::EquatorialToEcliptic( long double jd ) {
@@ -160,8 +157,8 @@ void KSPlanet::EquatorialToEcliptic( long double jd ) {
 	Obliquity.setD( 23.439292 - DeltaObliq/3600.0 );
 
 	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
-  pos()->getRA().SinCos( sinRA, cosRA );
-	pos()->getDec().SinCos( sinDec, cosDec );
+  pos()->ra().SinCos( sinRA, cosRA );
+	pos()->dec().SinCos( sinDec, cosDec );
 	Obliquity.SinCos( sinOb, cosOb );
 
 	tanDec = sinDec/cosDec;
@@ -183,7 +180,7 @@ void KSPlanet::EclipticToEquatorial( long double jd ) {
 	double dEclong, dObliq;
 	nutate( jd, dEclong, dObliq );
 	Obliquity.setD( 23.439292 - DeltaObliq/3600.0 + dObliq/3600.0 );
-	EcLong.setD( EcLong.getD() + dEclong );
+	EcLong.setD( EcLong.Degrees() + dEclong );
 	
 	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
 	EcLong.SinCos( sinLong, cosLong );
@@ -225,7 +222,7 @@ void KSPlanet::nutate( long double JD, double &dEcLong, double &dObliq ) {
 	
 	T = ( JD - J2000 )/36525.0; //centuries since J2000.0
   O.setD( 125.04452 - 1934.136261*T + 0.0020708*T*T + T*T*T/450000.0 ); //ecl. long. of Moon's ascending node
-	O2.setD( 2.0*O.getD() );
+	O2.setD( 2.0*O.Degrees() );
 	L2.setD( 2.0*( 280.4665 + 36000.7698*T ) ); //twice mean ecl. long. of Sun
 	M2.setD( 2.0*( 218.3165 + 481267.8813*T ) );//twice mean ecl. long. of Moon
 		

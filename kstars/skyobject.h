@@ -28,12 +28,11 @@
 
 /**
 	*Provides all necessary information about an object in the sky:
-	*its coordinates, name, long name, type, magnitude, and an
-	*optional image URL.  A future version may provide a QStringList of
-	*URLs.
+	*its coordinates, name(s), type, magnitude, and QStringLists of
+	*URLs for images and webpages regarding the object.
 	*@short Information about an object in the sky
   *@author Jason Harris
-	*@version 0.4
+	*@version 0.9
   */
 
 class SkyObject {
@@ -44,11 +43,13 @@ public:
 	*are made empty.
 	*/
 	SkyObject();
+
 /**
 	*Copy constructor.
 	*@param o SkyObject from which to copy data
 	*/
   SkyObject( SkyObject &o );
+
 /**
 	*Constructor.  Set SkyObject data according to arguments.
 	*@param t Type of object
@@ -61,6 +62,7 @@ public:
 	*/
   SkyObject( int t, dms r, dms d, double m, QString n="unnamed",
   					 QString n2="", QString lname="" );	
+
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in argument type.
@@ -78,49 +80,97 @@ public:
 	*Destructor (empty)
 	*/
 	~SkyObject() {};
+
 /**
 	*Returns a pointer to the SkyPoint object containing this object's position information
 	*/
 	SkyPoint* pos( void ) { return &Position; }
+
 /**
 	*Shortcut for retrieving current Right Ascension
 	*/
-	dms getRA( void ) { return pos()->getRA(); }
+	dms ra( void ) { return pos()->ra(); }
+
 /**
 	*Shortcut for retrieving current Declination
 	*/
-  dms getDec( void ) { return pos()->getDec(); }
+  dms dec( void ) { return pos()->dec(); }
+
+/**
+	*Shortcut for setting Right Ascension
+	*/
+	void setRA( double r ) { pos()->setRA( r ); }
+
+/**
+	*Shortcut for setting Declination
+	*/
+  void setDec( double d ) { pos()->setDec( d ); }
+
+/**
+	*Shortcut for setting Right Ascension
+	*/
+	void setRA( dms r ) { pos()->setRA( r ); }
+
+/**
+	*Shortcut for setting Declination
+	*/
+  void setDec( dms d ) { pos()->setDec( d ); }
+
 /**
 	*Shortcut for retrieving Azimuth
 	*/
-	dms getAz( void ) { return pos()->getAz(); }
+	dms az( void ) { return pos()->az(); }
+
 /**
 	*Shortcut for retrieving Altitude
 	*/
-	dms getAlt( void ) { return pos()->getAlt(); }
-/**
-	*Return translated name
+	dms alt( void ) { return pos()->alt(); }
+
+/**@returns object's primary name
 	*/
-	QString translatedName() { return i18n(name.local8Bit().data());}
+  QString name( void ) const { return Name; }
+
+/**@returns translated primary name
+	*/
+	QString translatedName() const { return i18n(Name.local8Bit().data());}
+
+/**@returns object's secondary name
+	*/
+  QString name2( void ) const { return Name2; }
+
+/**@returns object's common (long) name
+	*/
+  QString longname( void ) const { return LongName; }
+
+/**@returns object's type identifier
+	*/
+	int type( void ) const { return Type; }
+
+/**@returns object's magnitude
+	*/
+	float mag( void ) const { return Magnitude; }
+
 /**
   *Return the local time that the object will rise
   *@param jd  current Julian date
   *@param geo current geographic location
   */
 	QTime riseTime( long double jd, GeoLocation *geo );
+
 /**
   *Return the local time that the object will set
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
-  int type;
-  float mag;
-  QString name;
-  QString name2;
-  QString longname;
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
+
 private:
+	int Type;
+	float Magnitude;
+	QString Name;
+	QString Name2;
+	QString LongName;
 	SkyPoint Position;
 };
 

@@ -25,25 +25,28 @@
 
 class SkyObjectName;
 
-/**
-  *@author Thomas Kabelmann
+/**StarObject is a subclass of SkyObject.  It adds the Spectral type of the star as a QString.
+	*For stars, the primary name (n) is the latin name (e.g., "Betelgeuse").  The
+	*secondary name (n2) is the genetive name (e.g., "alpha Orionis").
+	*@short subclass of SkyObject specialized for stars.
+	*@author Thomas Kabelmann
+	*@version 0.9
   */
 
-// StarObject is a subclass of SkyObject and has implemented the color of the star stored in QChar
-// n is the latin name of the stars (e.g., Betelgeuse)
-// n2 is the genetive name (e.g., alpha Orionis)
 class StarObject : public SkyObject {
 	public:
 
 /**
-  *Default constructor.  Call default SkyObject constructor, and set soName=""
+  *Default constructor.  Call default SkyObject constructor, and set Name=""
   *and SpType=0
   */
 		StarObject();
+
 /**
   *Copy constructor
   */
 		StarObject(StarObject & o);
+
 /**
   *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
   *spectral type.
@@ -71,7 +74,7 @@ class StarObject : public SkyObject {
 /**
   *Empty destructor.
   */
-		~StarObject();
+		~StarObject() {}
 /**
   *Returns first character of Spectral Type string, which is used to
   *select the temperature-color of the star.
@@ -87,20 +90,16 @@ class StarObject : public SkyObject {
   *Returns the genetive name of the star.
   *@returns genetive name of the star
   */
-		QString gname( void ) { return name2; }
+		QString gname( void ) { return name2(); }
 /**
   *Returns the greek letter portion of the star's genetive name.
   *Returns empty string if star has no genetive name defined.
   *@returns greek letter portion of genetive name
   */
 		QString greekLetter( void );		
-
-//		void setSkyObjectName( SkyObjectName *n ) { soName = n; }
-//		SkyObjectName *skyObjectName() { return soName; }
 		
 	private:
 		QString SpType;
-		
 		SkyObjectName *soName;
 };
 

@@ -20,8 +20,6 @@
 #include <kmessagebox.h>
 #include <qtextstream.h>
 
-#include "dms.h"
-#include "skypoint.h"
 #include "kstarsdata.h"
 #include <klocale.h>
 
@@ -53,6 +51,19 @@ KStarsData::KStarsData() : reloadingInProgress ( false ) {
 	cnameList.setAutoDelete( TRUE );
 	Equator.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
+
+  //Initialize object type strings
+	//(type==-1 is a constellation)
+	TypeName[0] = i18n( "star" );
+	TypeName[1] = i18n( "star" );
+	TypeName[2] = i18n( "planet" );
+	TypeName[3] = i18n( "open cluster" );
+	TypeName[4] = i18n( "globular cluster" );
+	TypeName[5] = i18n( "gaseous nebula" );
+	TypeName[6] = i18n( "planetary nebula" );
+	TypeName[7] = i18n( "supernova remnant" );
+	TypeName[8] = i18n( "galaxy" );
+	TypeName[9] = i18n( "Users should never see this", "UNUSED_TYPE" );
 }
 
 KStarsData::~KStarsData() {
@@ -164,9 +175,9 @@ bool KStarsData::readCLineData( void ) {
 		  dms r; r.setH( rah, ram, ras );
 	  	dms d( dd, dm,  ds );
 
-		  if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+		  if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
-		  SkyPoint *o = new SkyPoint( r.getH(), d.getD() );
+		  SkyPoint *o = new SkyPoint( r.Hours(), d.Degrees() );
 		  clineList.append( o );
 			clineModeList.append( mode );
   	}
@@ -208,12 +219,12 @@ bool KStarsData::readCNameData( void ) {
 		  dms r; r.setH( rah, ram, ras );
 		  dms d( dd, dm,  ds );
 
-	  	if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+	  	if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
 		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name, abbrev, "" );
 	  	cnameList.append( o );
 			objList->append( o );
-	  	ObjNames->append (new SkyObjectName (o->name, objList->last()));
+	  	ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 	  }
 		file.close();
 
@@ -262,14 +273,14 @@ bool KStarsData::readStarData( void ) {
 			r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );
 
-			if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
 			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
 	  		starList.append( o );
 
-			if ( o->name != "star" ) {		// just add to name list if a name is given
+			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
-				ObjNames->append (new SkyObjectName (o->name, objList->last()));
+				ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 //				starList.last()->setSkyObjectName( ObjNames->last() );	// set pointer to ObjNames
 			}
 
@@ -326,7 +337,7 @@ bool KStarsData::readNGCData( void ) {
 	  	dms r; r.setH( rah, ram, ras );
 		  dms d( dd, dm, 0 );
 
-		  if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+		  if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
 			QString snum;
 			if (cat_id=="I") {
@@ -351,23 +362,23 @@ bool KStarsData::readNGCData( void ) {
 
 	  	SkyObject *o = new SkyObject( type, r, d, mag, name, name2, longname );
 
-	  	if ( !o->longname.isEmpty() ) {
+	  	if ( !o->longname().isEmpty() ) {
 	  		objList->append( o );
-  			ObjNames->append (new SkyObjectName (o->longname, objList->last()));
+  			ObjNames->append (new SkyObjectName (o->longname(), objList->last()));
 	  	}
 
 		  if (cat_id=="M") {
 	  		messList.append( o );
 				objList->append( o );
-	  		ObjNames->append (new SkyObjectName (o->name, objList->last()));
+	  		ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 		  } else if ( cat_id=="N" ) {
 			  ngcList.append( o );
 				objList->append( o );
-	  		ObjNames->append (new SkyObjectName (o->name, objList->last()));
+	  		ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 			} else if ( cat_id=="I" ) {
 				icList.append( o );
 				objList->append( o );
-	  		ObjNames->append (new SkyObjectName (o->name, objList->last()));
+	  		ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 			}
 	  }
 		file.close();
@@ -401,7 +412,7 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 
 			for ( unsigned int i=0; i<objList->count(); ++i ) {
 				SkyObject *o = objList->at(i);
-				if ( o->name == name ) {
+				if ( o->name() == name ) {
 					if ( type==0 ) { //image URL
         		o->ImageList.append( url );
 						o->ImageTitle.append( title );
@@ -620,6 +631,49 @@ long double KStarsData::getJD( QDateTime t ) {
   return jd;
 }
 
+//void KStarsData::getDateTime( long double jd, QDate &date, QTime &time ) {
+QDateTime KStarsData::getDateTime( long double jd ) {
+	int A, B, C, D, E, G, day, month, year, hour, minute, second, msec;
+	long double H, M, S;
+
+	//Add 0.5 to place day boundary at midnight instead of noon:
+	jd = jd + 0.5;
+	int jday = int( jd );
+	long double dayfrac = jd - jday;
+
+	if ( jday > 2299160 ) { //JD of Gregorian Calendar start
+		A = int( ( jday - 1867216.25 ) / 36524.25 );
+		B = jday + 1 + A - int( A/4 );
+	} else {
+		B = jday;
+	}
+
+	C = B + 1524;
+	D = int( ( C - 122.1 )/365.25 );
+	E = int( 365.25*D );
+	G = int( ( C - E ) / 30.6001 );
+
+	day = C - E - int( 30.6001*G );
+	
+	if ( G < 13 ) month = G - 1;
+	else month = G - 13;
+
+	if ( month > 2 ) year = D - 4716;
+	else year = D - 4715;
+
+	H = dayfrac*24.0;
+	hour = int( H );
+	M = ( H - hour )*60.0;
+	minute = int( M );
+	S = ( M - minute )*60.0;
+	second = int( S );
+	msec = int( ( S - second )*1000.0 );
+
+	return QDateTime( QDate( year, month, day ), QTime( hour, minute, second, msec ) );
+//	date = QDate( year, month, day );
+//	time = QTime( hour, minute, second, msec );
+}
+
 void KStarsData::setMagnitude( float newMagnitude ) {
 /*
 	* Only reload data if not loaded yet.
@@ -688,18 +742,18 @@ bool KStarsData::reloadStarData( float newMag ) {
 			r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );
 
-			if ( sgn == "-" ) d.setD( -1.0*d.getD() );
+			if ( sgn == "-" ) d.setD( -1.0*d.Degrees() );
 			
 			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
 			starList.append( o );
 
-			if ( o->name != "star" ) {		// just add to name list if a name is given
+			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
-				ObjNames->append (new SkyObjectName (o->name, objList->last()));
+				ObjNames->append (new SkyObjectName (o->name(), objList->last()));
 //					starList.last()->setSkyObjectName( ObjNames->last() );
 			}
 			// recompute coordinates if AltAz is used
-			o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
+			o->pos()->EquatorialToHorizontal( LSTh, ( ( KStars *) kapp )->geo()->lat() );
 
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();

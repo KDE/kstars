@@ -29,9 +29,6 @@ StarPixmap::StarPixmap (int starColorMode, int starColorIntensity)
 	loadPixmaps (starColorMode, starColorIntensity);
 }
 
-StarPixmap::~StarPixmap(){
-}
-
 QPixmap* StarPixmap::getPixmap (QChar *color, int size) {
 	int c (0);
 //	the colors from blue to red	+, O, B, A, F, G, K, M, N, P
@@ -95,7 +92,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	else if ( colorMode==2 ) //star chart colors (fill black, no temperature colors)
 		pix.fill (Qt::black);
 	else
-		pix.fill (Qt::white);	// default colors
+		pix.fill (Qt::white);	// default (white)
 		
 	for (int color = 0; color < 10; color ++) {
 		int ic = color;

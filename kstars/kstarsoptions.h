@@ -21,13 +21,27 @@
 
 #include <qstring.h>
 
+/**KStarsOptions manages all of the user-configurable options available in KStars.
+	*@short KStars options.
+	*@author Heiko Evermann	
+	*@version 0.9
+	*/
+
 class KStarsOptions
 {
 public:
+	/**Constructor. Set default values to all options.
+		*/
 	KStarsOptions();
-  virtual ~KStarsOptions();
 
-	// Remember to copy all members in the Copy method !!!
+	/**Destructor (empty)*/
+  virtual ~KStarsOptions() {};
+
+	/**Copy options values from another KStarsOptions object.  If you add options
+		*to KStars, make **SURE** to include them here!
+		*@short copy options from another KStarsOptions object
+		*@param dataSource the input KStarsOptions object.
+		*/
 	void copy( KStarsOptions* dataSource );
 
 	// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
@@ -74,14 +88,15 @@ public:
 	bool drawUranus;
 	bool drawNeptune;
 	bool drawPluto;
+	bool drawStarName;
+	bool drawStarMagnitude;	
+
 	bool isTracking;
 	QString focusObject;
 	float focusRA, focusDec;	
 	int windowWidth, windowHeight;
 	float magLimitDrawStar;
 	float magLimitDrawStarInfo;
-	bool  drawStarName;
-	bool  drawStarMagnitude;	
 
 	//the colors of things
 	QString colorSky;   //Sky background
@@ -99,12 +114,11 @@ public:
 	QString	colorSName; //star names
 
 	int starColorMode;  // 0 = temperature colors; 1 = all red; 2 = all black; 3 = all white
-	// intensity of stars
+	// intensity of star colors
 	int starColorIntensity;
 	
 	//Where are we?
-	QString CityName;
-	QString ProvinceName, CountryName;
+	QString CityName, ProvinceName, CountryName;
 };
 
 

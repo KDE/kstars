@@ -24,19 +24,13 @@ SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
 {
 }
 
-SkyObjectName::~SkyObjectName(){
-}
-
 SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj, bool useLatinConstellNames )
 	: QListBoxText ( parent ), object ( obj )
 {
-	if ( useLatinConstellNames )
+	if ( useLatinConstellNames && obj->skyObject()->type()==-1) //type=-1 == constellation
 		setText ( obj->text() );
 	else
 		setText ( obj->translatedText() );
 }
 
-
-SkyObjectNameListItem::~SkyObjectNameListItem() {
-}
 

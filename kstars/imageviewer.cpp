@@ -45,9 +45,6 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 // JH: easier to just disable its mobility
 	toolBar()->enableMoving( false );
 
-//JH: don't need a new KToolbar...KMainWindow has one automatically at toolBar()
-//	KToolBar *toolbar = new KToolBar (this, "toolbar");
-//	new KToolBar (this, "toolbar");
 	KAction *action = new KAction (i18n ("Close Window"), BarIcon( "fileclose" ), KAccel::stringToKey( "Ctrl+Q" ), this, SLOT (close()), actionCollection());
 	action->plug (toolBar());
 	action = new KAction (i18n ("Save Image"), BarIcon( "filesave" ), KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
@@ -60,8 +57,6 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 }
 
 ImageViewer::~ImageViewer(){
-//	qDebug ("destructor");
-// remove the tempfile
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
             kdDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
@@ -95,7 +90,7 @@ void ImageViewer::closeEvent (QCloseEvent *ev)
 
 void ImageViewer::keyPressEvent (QKeyEvent *ev)
 {
-	ev->accept();
+	ev->accept();  //make sure key press events are captured.
 	switch (ev->key())
 	{
 		case Key_Control : ctrl = true; break;

@@ -20,7 +20,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qptrlist.h>
+//#include <qptrlist.h>
 #include <qlistbox.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
@@ -78,6 +78,7 @@ FindDialog::FindDialog( QWidget* parent )
 
 	currentitem = 0;
 	
+//Connect signals to slots
 	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
@@ -85,7 +86,8 @@ FindDialog::FindDialog( QWidget* parent )
 	connect (SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
 	
 	
-	startTimer (0);		// reads the list after showing of Dialog-Window
+	startTimer (0);		// we use this timer to make sure initObjectList is called only after
+                   // the dialog is created and shown.
 }
 
 FindDialog::~FindDialog() {
@@ -94,7 +96,7 @@ FindDialog::~FindDialog() {
 
 void FindDialog::timerEvent (QTimerEvent *)
 {
-	killTimers();
+	killTimers(); //make sure timer fires only one time.
 	initObjectList();
 
 }
@@ -105,24 +107,23 @@ void FindDialog::initObjectList( void ) {
 	//Initialize filteredList to be the full objList
 	filteredList = new QList < SkyObject >;
 
-	//Fill the SearchBox with the full list of strings
+	//Fill the SearchBox with the full list of object name strings
 	SearchBox->clear();
-	
 	SearchList->sort (false);		// the Items will be faster inserted
 	int i = 0;
 	
-	for (SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next()) {
-		new SkyObjectNameListItem ( SearchList, data, p->GetOptions()->useLatinConstellNames );
-		if (i++ >= 5000) {
-			kapp->processEvents (50);		// check Events of KApplication (on fast Machines not needed)
+	for (SkyObjectName *name = p->data()->ObjNames->first(); name; name = p->data()->ObjNames->next()) {
+		new SkyObjectNameListItem ( SearchList, name, p->options()->useLatinConstellNames );
+		if (i++ >= 5000) {            // Every 5000 name insertions,
+			kapp->processEvents (50);		// spend 50 msec processing KApplication events
 			i = 0;
 		}
 	}
-	SearchList->sort (true);	// sort alphabeticly
-	setListItemEnabled();
+	SearchList->sort (true);	// sort alphabetically, once all names have been added
+	setListItemEnabled();  // Automatically highlight first item
 }
 
-void FindDialog::filter() {
+void FindDialog::filter() {  //Filter the list of names with the string in the SearchBox
   KStars *p = (KStars *)parent();
 	
 	int i=0;
@@ -133,28 +134,28 @@ void FindDialog::filter() {
 	//with the text in the SearchBox to the filteredList.
 	//Similarly, add objNames items to SearchList.
 	QString searchFor = SearchBox->text().lower();
-	if ( p->GetOptions()->useLatinConstellNames ) {	// check if latin names are used
-		for ( SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next() ) {
-			if ( data->text().lower().startsWith( searchFor ) ) {
-				new SkyObjectNameListItem ( SearchList, data, true ); // p->GetOptions()->useLatinConstellNames );
-				if (i++ >= 5000) {
-					kapp->processEvents ( 50 );		// check Events of KApplication (on fast Machines not needed)
+	if ( p->options()->useLatinConstellNames ) {	// check if latin names are used
+		for ( SkyObjectName *name = p->data()->ObjNames->first(); name; name = p->data()->ObjNames->next() ) {
+			if ( name->text().lower().startsWith( searchFor ) ) {
+				new SkyObjectNameListItem ( SearchList, name, true ); // p->options()->useLatinConstellNames );
+				if (i++ >= 5000) {              //Every 5000 name insertions,
+					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
 					i = 0;
 				}
 			}
-			setListItemEnabled();
+			setListItemEnabled(); // Automatically highlight first item
 		}
 	}
 	else {	// if localized names are used
-		for ( SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next() ) {
-			if ( data->translatedText().lower().startsWith( searchFor ) ) {
-				new SkyObjectNameListItem ( SearchList, data, false ); // p->GetOptions()->useLatinConstellNames );
-				if (i++ >= 5000) {
-					kapp->processEvents ( 50 );		// check Events of KApplication (on fast Machines not needed)
+		for ( SkyObjectName *name = p->data()->ObjNames->first(); name; name = p->data()->ObjNames->next() ) {
+			if ( name->translatedText().lower().startsWith( searchFor ) ) {
+				new SkyObjectNameListItem ( SearchList, name, false ); // p->options()->useLatinConstellNames );
+				if (i++ >= 5000) {             //Every 5000 name insertions,
+					kapp->processEvents ( 50 );  //spend 50 msec processing KApplication events
 					i = 0;
 				}
 			}
-		setListItemEnabled();
+		setListItemEnabled(); // Automatically highlight first item
 		}		
 	}
 }
@@ -169,42 +170,41 @@ void FindDialog::filterByType( int iType ) {
 	//Construct filteredList; select by object type
 	switch ( iType ) {
 		case 0: //Any
-			for (SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next()) {
-				new SkyObjectNameListItem ( SearchList, data, p->GetOptions()->useLatinConstellNames );
-				if (i++ >= 5000) {
-					kapp->processEvents (50);		// check Events of KApplication (on fast Machines not needed)
+			for (SkyObjectName *name = p->data()->ObjNames->first(); name; name = p->data()->ObjNames->next()) {
+				new SkyObjectNameListItem ( SearchList, name, p->options()->useLatinConstellNames );
+				if (i++ >= 5000) {           //Every 5000 name insertions,
+					kapp->processEvents (50);  //spend 50 msec processing KApplication events
 					i = 0;
 				}
 			}
 			SearchList->sort (true);
-			setListItemEnabled();
+			setListItemEnabled();    // Automatically highlight first item
 			break;
 		
 		default: //All others, filter according to objType
-			for (SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next()) {
-				if (data->skyObject()->type + 2 == iType) {
-					new SkyObjectNameListItem ( SearchList, data, p->GetOptions()->useLatinConstellNames );
+			for (SkyObjectName *name = p->data()->ObjNames->first(); name; name = p->data()->ObjNames->next()) {
+				if (name->skyObject()->type() + 2 == iType) {
+					new SkyObjectNameListItem ( SearchList, name, p->options()->useLatinConstellNames );
 				}
-				if (i++ >= 5000) {
-					kapp->processEvents (50);		// check Events of KApplication (on fast Machines not needed)
+				if (i++ >= 5000) {            //Every 5000 name insertions,
+					kapp->processEvents (50);   //spend 50 msec processing KApplication events
 					i = 0;
 				}
 			}
 			SearchList->sort (true);
-			setListItemEnabled();
+			setListItemEnabled();    // Automatically highlight first item
 			break;
 	}
 }
 
-void FindDialog::setListItemEnabled()
-{
+void FindDialog::setListItemEnabled() {
 	SearchList->setSelected (0, true);
 	if (!SearchList->isSelected (0))
 		updateSelection (0);
 }
 
-void FindDialog::updateSelection (QListBoxItem *it)
-{
+void FindDialog::updateSelection (QListBoxItem *it) {
 	currentitem = (SkyObjectNameListItem *) it;
 }
+
 #include "finddialog.moc"

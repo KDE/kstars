@@ -70,10 +70,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	CoordsGroup = new QButtonGroup( 1, Qt::Vertical, i18n( "Coordinate system" ), DisplayBox );
 
 	EquatRadio = new QRadioButton( i18n( "Equatorial" ), CoordsGroup );
-	EquatRadio->setChecked( !ksw->GetOptions()->useAltAz );
+	EquatRadio->setChecked( !ksw->options()->useAltAz );
 
 	AltAzRadio = new QRadioButton( i18n( "Horizontal" ), CoordsGroup );
-	AltAzRadio->setChecked( ksw->GetOptions()->useAltAz );
+	AltAzRadio->setChecked( ksw->options()->useAltAz );
 
 	DisplayBoxLayout->addSpacing( 10 );
 	DisplayBoxLayout->addWidget( DisplayTabs );
@@ -89,13 +89,13 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	QFont stdFont(  showBSC->font() );
 
 	showBSC->setFont( stdFont );
-	showBSC->setChecked( ksw->GetOptions()->drawBSC );
+	showBSC->setChecked( ksw->options()->drawBSC );
 
 	// Spin box : show stars brighter than magnitude limit
-	int intMagLimitDrawStars = int ( 10.0 * ksw->GetOptions()->magLimitDrawStar );
+	int intMagLimitDrawStars = int ( 10.0 * ksw->options()->magLimitDrawStar );
 
 // faintLimit doesn't work with reloading star data
-//	int faintLimit = int( 10.*ksw->GetData()->starList.at(ksw->GetData()->starList.count()-1)->mag );
+//	int faintLimit = int( 10.*ksw->data()->starList.at(ksw->data()->starList.count()-1)->mag );
 //	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, faintLimit, StarsTab );
 	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 79, StarsTab );	// max mag = 7.9
 	magSpinBoxDrawStars->setFont( stdFont );
@@ -106,7 +106,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	textLabelMagStars->setFont( stdFont );
 
 	// Spin box : show stars names for stars brighter than magnitude limit
-	int intMagLimitDrawStarInfo = 10*((int)(ksw->GetOptions()->magLimitDrawStarInfo));
+	int intMagLimitDrawStarInfo = 10*((int)(ksw->options()->magLimitDrawStarInfo));
 	//	float magLimitDrawStarName;
 	magSpinBoxDrawStarInfo = new MagnitudeSpinBox( 0, 90, StarsTab );
 	magSpinBoxDrawStarInfo->setFont( stdFont );
@@ -118,11 +118,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	showStarNames = new QCheckBox( i18n( "show name" ), StarsTab );
 	showStarNames->setFont( stdFont );
-	showStarNames->setChecked( ksw->GetOptions()->drawStarName );
+	showStarNames->setChecked( ksw->options()->drawStarName );
 
 	showStarMagnitude = new QCheckBox( i18n( "show magnitude" ), StarsTab );
 	showStarMagnitude->setFont( stdFont );
-	showStarMagnitude->setChecked( ksw->GetOptions()->drawStarMagnitude );
+	showStarMagnitude->setChecked( ksw->options()->drawStarMagnitude );
 
 	// MagnitudeSpinBox* magSpinBoxDrawStarNames;
 	QSpacerItem *spacerStarsTab = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
@@ -148,19 +148,19 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	showMessier = new QCheckBox( i18n( "Messier Objects (symbols)" ), CatalogTab );
 	showMessier->setFont( stdFont );
-	showMessier->setChecked( ksw->GetOptions()->drawMessier );
+	showMessier->setChecked( ksw->options()->drawMessier );
 
 	showMessImages = new QCheckBox( i18n( "Messier Objects (images)" ), CatalogTab );
 	showMessImages->setFont( stdFont );
-	showMessImages->setChecked( ksw->GetOptions()->drawMessImages );
+	showMessImages->setChecked( ksw->options()->drawMessImages );
 
 	showNGC = new QCheckBox( i18n( "NGC Catalog" ), CatalogTab );
 	showNGC->setFont( stdFont );
-	showNGC->setChecked( ksw->GetOptions()->drawNGC );
+	showNGC->setChecked( ksw->options()->drawNGC );
 
 	showIC = new QCheckBox( i18n( "IC Catalog" ), CatalogTab );
 	showIC->setFont( stdFont );
-	showIC->setChecked( ksw->GetOptions()->drawIC );
+	showIC->setChecked( ksw->options()->drawIC );
 
 	QSpacerItem *spacerCatTab = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 
@@ -180,52 +180,52 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	showConstellLines = new QCheckBox( i18n( "Constellation Lines" ), GuideTab );
 	showConstellLines->setFont( stdFont );
-	showConstellLines->setChecked( ksw->GetOptions()->drawConstellLines );
+	showConstellLines->setChecked( ksw->options()->drawConstellLines );
 
 	showConstellNames = new QCheckBox( i18n( "Constellation Names" ), GuideTab );
 	showConstellNames->setFont( stdFont );
-	showConstellNames->setChecked( ksw->GetOptions()->drawConstellNames );
+	showConstellNames->setChecked( ksw->options()->drawConstellNames );
 	ConstellOptions = new QButtonGroup( 1, Qt::Horizontal, i18n( "Constellation Name Options" ), GuideTab );
 	useLatinConstellNames = new QRadioButton( i18n( "Latin" ), ConstellOptions );
 	useLatinConstellNames->setFont ( stdFont );
-	useLatinConstellNames->setChecked( ksw->GetOptions()->useLatinConstellNames );
+	useLatinConstellNames->setChecked( ksw->options()->useLatinConstellNames );
   useLocalConstellNames = new QRadioButton( i18n( "Localized" ), ConstellOptions );
 	useLocalConstellNames->setFont ( stdFont );
-	useLocalConstellNames->setChecked( ksw->GetOptions()->useLocalConstellNames );
+	useLocalConstellNames->setChecked( ksw->options()->useLocalConstellNames );
   useAbbrevConstellNames = new QRadioButton( i18n( "Abbreviated" ), ConstellOptions );
 	useAbbrevConstellNames->setFont ( stdFont );
-	useAbbrevConstellNames->setChecked( ksw->GetOptions()->useAbbrevConstellNames );
+	useAbbrevConstellNames->setChecked( ksw->options()->useAbbrevConstellNames );
 	ConstellOptions->setEnabled( showConstellNames->isChecked() );
 
 	showMilkyWay = new QCheckBox( i18n( "Milky Way" ), GuideTab );
 	showMilkyWay->setFont( stdFont );
-	showMilkyWay->setChecked( ksw->GetOptions()->drawMilkyWay );
+	showMilkyWay->setChecked( ksw->options()->drawMilkyWay );
 
 	showMilkyWayFilled = new QCheckBox( i18n( "Fill Milky Way" ), GuideTab );
 	showMilkyWayFilled->setFont( stdFont );
-	showMilkyWayFilled->setChecked( ksw->GetOptions()->fillMilkyWay );
+	showMilkyWayFilled->setChecked( ksw->options()->fillMilkyWay );
   showMilkyWayFilled->setEnabled( showMilkyWay->isChecked() );
 
 	showGrid = new QCheckBox( i18n( "Coordinate Grid" ), GuideTab );
 	showGrid->setFont( stdFont );
-	showGrid->setChecked( ksw->GetOptions()->drawGrid );
+	showGrid->setChecked( ksw->options()->drawGrid );
 
 	showEquator = new QCheckBox( i18n( "Celestial Equator" ), GuideTab );
 	showEquator->setFont( stdFont );
-	showEquator->setChecked( ksw->GetOptions()->drawEquator );
+	showEquator->setChecked( ksw->options()->drawEquator );
 
 	showEcliptic = new QCheckBox( i18n( "Ecliptic" ), GuideTab );
 	showEcliptic->setFont( stdFont );
-	showEcliptic->setChecked( ksw->GetOptions()->drawEcliptic );
+	showEcliptic->setChecked( ksw->options()->drawEcliptic );
 
 	showHorizon = new QCheckBox( i18n( "Horizon (line)" ), GuideTab );
 	showHorizon->setFont( stdFont );
-	showHorizon->setChecked( ksw->GetOptions()->drawHorizon );
+	showHorizon->setChecked( ksw->options()->drawHorizon );
 
 	showGround = new QCheckBox( i18n( "Opaque Ground" ), GuideTab );
 	showGround->setFont( stdFont );
-	showGround->setChecked( ksw->GetOptions()->drawGround );
-	if ( !ksw->GetOptions()->useAltAz ) showGround->setEnabled( false );
+	showGround->setChecked( ksw->options()->drawGround );
+	if ( !ksw->options()->useAltAz ) showGround->setEnabled( false );
 
 	QSpacerItem *spacerGuideTab = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *smallspacer = new QSpacerItem( 20, 12, QSizePolicy::Minimum, QSizePolicy::Minimum );
@@ -256,44 +256,44 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	showSun = new QCheckBox( i18n( "The Sun" ), PlanetTab );
 	showSun->setFont( stdFont );
-	showSun->setChecked( ksw->GetOptions()->drawSun );
+	showSun->setChecked( ksw->options()->drawSun );
 
 	showMoon = new QCheckBox( i18n( "The Moon" ), PlanetTab );
   showMoon->setFont( stdFont );
-  showMoon->setChecked( ksw->GetOptions()->drawMoon );
-  showMoon->setChecked( ksw->GetOptions()->drawMoon );
+  showMoon->setChecked( ksw->options()->drawMoon );
+  showMoon->setChecked( ksw->options()->drawMoon );
 
 	showMercury = new QCheckBox( i18n( "Mercury" ), PlanetTab );
 	showMercury->setFont( stdFont );
-	showMercury->setChecked( ksw->GetOptions()->drawMercury );
+	showMercury->setChecked( ksw->options()->drawMercury );
 
 	showVenus = new QCheckBox( i18n( "Venus" ), PlanetTab );
 	showVenus->setFont( stdFont );
-	showVenus->setChecked( ksw->GetOptions()->drawVenus );
+	showVenus->setChecked( ksw->options()->drawVenus );
 
 	showMars = new QCheckBox( i18n( "Mars" ), PlanetTab );
 	showMars->setFont( stdFont );
-	showMars->setChecked( ksw->GetOptions()->drawMars );
+	showMars->setChecked( ksw->options()->drawMars );
 
 	showJupiter = new QCheckBox( i18n( "Jupiter" ), PlanetTab );
 	showJupiter->setFont( stdFont );
-	showJupiter->setChecked( ksw->GetOptions()->drawJupiter );
+	showJupiter->setChecked( ksw->options()->drawJupiter );
 
 	showSaturn = new QCheckBox( i18n( "Saturn" ), PlanetTab );
 	showSaturn->setFont( stdFont );
-	showSaturn->setChecked( ksw->GetOptions()->drawSaturn );
+	showSaturn->setChecked( ksw->options()->drawSaturn );
 
 	showUranus = new QCheckBox( i18n( "Uranus" ), PlanetTab );
 	showUranus->setFont( stdFont );
-	showUranus->setChecked( ksw->GetOptions()->drawUranus );
+	showUranus->setChecked( ksw->options()->drawUranus );
 
 	showNeptune = new QCheckBox( i18n( "Neptune" ), PlanetTab );
 	showNeptune->setFont( stdFont );
-	showNeptune->setChecked( ksw->GetOptions()->drawNeptune );
+	showNeptune->setChecked( ksw->options()->drawNeptune );
 
 	showPluto = new QCheckBox( i18n( "Pluto" ), PlanetTab );
 	showPluto->setFont( stdFont );
-	showPluto->setChecked( ksw->GetOptions()->drawPluto );
+	showPluto->setChecked( ksw->options()->drawPluto );
 
 	showAll = new QPushButton( i18n( "Show All" ), PlanetTab );
 	showAll->setFont( stdFont );
@@ -351,59 +351,59 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
   ColorPalette->setSelectionMode( QListBox::Single );
 
 	SkyColor = new QPixmap( 30, 20 );
-	SkyColor->fill( QColor( ksw->GetOptions()->colorSky ) );
+	SkyColor->fill( QColor( ksw->options()->colorSky ) );
 	ColorPalette->insertItem( *SkyColor, i18n( "Sky" ) );
 
 	MessColor = new QPixmap( 30, 20 );
-	MessColor->fill( QColor( ksw->GetOptions()->colorMess ) );
+	MessColor->fill( QColor( ksw->options()->colorMess ) );
 	ColorPalette->insertItem( *MessColor, i18n( "Messier Object" ) );
 
 	NGCColor = new QPixmap( 30, 20 );
-	NGCColor->fill( QColor( ksw->GetOptions()->colorNGC ) );
+	NGCColor->fill( QColor( ksw->options()->colorNGC ) );
 	ColorPalette->insertItem( *NGCColor, i18n( "NGC Object" ) );
 
 	ICColor = new QPixmap( 30, 20 );
-	ICColor->fill( QColor( ksw->GetOptions()->colorIC ) );
+	ICColor->fill( QColor( ksw->options()->colorIC ) );
 	ColorPalette->insertItem( *ICColor, i18n( "IC Object" ) );
 
 	LinksColor = new QPixmap( 30, 20 );
-	LinksColor->fill( QColor( ksw->GetOptions()->colorHST ) );
+	LinksColor->fill( QColor( ksw->options()->colorHST ) );
 	ColorPalette->insertItem( *LinksColor, i18n( "Object w/ Links" ) );
 
 	SNameColor = new QPixmap( 30, 20 );
-	SNameColor->fill( QColor( ksw->GetOptions()->colorSName ) );
+	SNameColor->fill( QColor( ksw->options()->colorSName ) );
 	ColorPalette->insertItem( *SNameColor, i18n( "Star Name" ) );
 
 	CNameColor = new QPixmap( 30, 20 );
-	CNameColor->fill( QColor( ksw->GetOptions()->colorCName ) );
+	CNameColor->fill( QColor( ksw->options()->colorCName ) );
 	ColorPalette->insertItem( *CNameColor, i18n( "Constell. Name" ) );
 
 	CLineColor = new QPixmap( 30, 20 );
-	CLineColor->fill( QColor( ksw->GetOptions()->colorCLine ) );
+	CLineColor->fill( QColor( ksw->options()->colorCLine ) );
 	ColorPalette->insertItem( *CLineColor, i18n( "Constell. Line" ) );
 
 	MWColor = new QPixmap( 30, 20 );
-	MWColor->fill( QColor( ksw->GetOptions()->colorMW ) );
+	MWColor->fill( QColor( ksw->options()->colorMW ) );
 	ColorPalette->insertItem( *MWColor, i18n( "Milky Way" ) );
 
 	EqColor = new QPixmap( 30, 20 );
-	EqColor->fill( QColor( ksw->GetOptions()->colorEq ) );
+	EqColor->fill( QColor( ksw->options()->colorEq ) );
 	ColorPalette->insertItem( *EqColor, i18n( "Equator" ) );
 
 	EclColor = new QPixmap( 30, 20 );
-	EclColor->fill( QColor( ksw->GetOptions()->colorEcl ) );
+	EclColor->fill( QColor( ksw->options()->colorEcl ) );
 	ColorPalette->insertItem( *EclColor, i18n( "Ecliptic" ) );
 
 	HorzColor = new QPixmap( 30, 20 );
-	HorzColor->fill( QColor( ksw->GetOptions()->colorHorz ) );
+	HorzColor->fill( QColor( ksw->options()->colorHorz ) );
 	ColorPalette->insertItem( *HorzColor, i18n( "Horizon" ) );
 
 	GridColor = new QPixmap( 30, 20 );
-	GridColor->fill( QColor( ksw->GetOptions()->colorGrid ) );
+	GridColor->fill( QColor( ksw->options()->colorGrid ) );
 	ColorPalette->insertItem( *GridColor, i18n( "Coordinate Grid" ) );
 
 // the spinbox for colorintensity of stars
-	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->GetOptions()->starColorIntensity, 10, LeftBox);
+	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->options()->starColorIntensity, 10, LeftBox);
 	QLabel *IntensityLabel = new QLabel (IntensityBox, i18n ("Star Color &Intensity"), LeftBox);
 	IntensityLabel->setAlignment ( AlignRight | AlignVCenter );
 
@@ -527,7 +527,7 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 {
 	float fNewValue = ( newValue * 1.0) / 10.0;
 
-	ksw->GetData()->setMagnitude( fNewValue );
+	ksw->data()->setMagnitude( fNewValue );
 
 	// force redraw
 	ksw->skymap->Update();
@@ -537,7 +537,7 @@ void ViewOpsDialog::changeMagDrawInfo( int newValue )
 {
     kdDebug()<<"magnitude limit draw star info "<<newValue<<endl;
 	float fNewValue = ( newValue * 1.0) / 10.0;
-	ksw->GetOptions()->magLimitDrawStarInfo = fNewValue;
+	ksw->options()->magLimitDrawStarInfo = fNewValue;
 	// force redraw
 	ksw->skymap->Update();
 }
@@ -546,82 +546,82 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 	QPixmap *temp = new QPixmap( 30, 20 );
   QColor newColor;
 	if ( item->text() == i18n( "Sky" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorSky ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorSky ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorSky = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorSky ) );
+			ksw->options()->colorSky = newColor.name();
+			temp->fill( QColor( ksw->options()->colorSky ) );
 		}
   } else if ( item->text() == i18n( "Messier Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorMess ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorMess ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorMess = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorMess ) );
+			ksw->options()->colorMess = newColor.name();
+			temp->fill( QColor( ksw->options()->colorMess ) );
 		}
   } else if ( item->text() == i18n( "NGC Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorNGC ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorNGC ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorNGC = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorNGC ) );
+			ksw->options()->colorNGC = newColor.name();
+			temp->fill( QColor( ksw->options()->colorNGC ) );
 		}
   } else if ( item->text() == i18n( "IC Object" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorIC ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorIC ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorIC = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorIC ) );
+			ksw->options()->colorIC = newColor.name();
+			temp->fill( QColor( ksw->options()->colorIC ) );
 		}
   } else if ( item->text() == i18n( "Object w/ Links" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorHST ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorHST ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorHST = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorHST ) );
+			ksw->options()->colorHST = newColor.name();
+			temp->fill( QColor( ksw->options()->colorHST ) );
 		}
   } else if ( item->text() == i18n( "Milky Way" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorMW ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorMW ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorMW = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorMW ) );
+			ksw->options()->colorMW = newColor.name();
+			temp->fill( QColor( ksw->options()->colorMW ) );
 		}
   } else if ( item->text() == i18n( "Equator" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorEq ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorEq ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorEq = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorEq ) );
+			ksw->options()->colorEq = newColor.name();
+			temp->fill( QColor( ksw->options()->colorEq ) );
 		}
   } else if ( item->text() == i18n( "Ecliptic" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorEcl ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorEcl ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorEcl = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorEcl ) );
+			ksw->options()->colorEcl = newColor.name();
+			temp->fill( QColor( ksw->options()->colorEcl ) );
 		}
   } else if ( item->text() == i18n( "Horizon" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorHorz ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorHorz ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorHorz = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorHorz ) );
+			ksw->options()->colorHorz = newColor.name();
+			temp->fill( QColor( ksw->options()->colorHorz ) );
 		}
   } else if ( item->text() == i18n( "Coordinate Grid" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorGrid ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorGrid ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorGrid = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorGrid ) );
+			ksw->options()->colorGrid = newColor.name();
+			temp->fill( QColor( ksw->options()->colorGrid ) );
 		}
   } else if ( item->text() == i18n( "Star Name" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorSName ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorSName ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorSName = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorSName ) );
+			ksw->options()->colorSName = newColor.name();
+			temp->fill( QColor( ksw->options()->colorSName ) );
 		}
   } else if ( item->text() == i18n( "Constell. Line" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorCLine ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorCLine ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorCLine = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorCLine ) );
+			ksw->options()->colorCLine = newColor.name();
+			temp->fill( QColor( ksw->options()->colorCLine ) );
 		}
   } else if ( item->text() == i18n( "Constell. Name" ) ) {
-		newColor = QColorDialog::getColor( QColor( ksw->GetOptions()->colorCName ) );
+		newColor = QColorDialog::getColor( QColor( ksw->options()->colorCName ) );
 		if ( newColor.isValid() ) {
-			ksw->GetOptions()->colorCName = newColor.name();
-			temp->fill( QColor( ksw->GetOptions()->colorCName ) );
+			ksw->options()->colorCName = newColor.name();
+			temp->fill( QColor( ksw->options()->colorCName ) );
 		}
 	}
 
@@ -684,20 +684,20 @@ void ViewOpsDialog::slotAddPreset( void ) {
 			KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
 		} else {
 			QTextStream stream( &file );
-			stream << ksw->GetOptions()->starColorMode << endl;
-			stream << ksw->GetOptions()->colorSky << endl;
-			stream << ksw->GetOptions()->colorMess << endl;
-			stream << ksw->GetOptions()->colorNGC << endl;
-			stream << ksw->GetOptions()->colorIC << endl;
-			stream << ksw->GetOptions()->colorHST << endl;
-			stream << ksw->GetOptions()->colorSName << endl;
-			stream << ksw->GetOptions()->colorCName << endl;
-			stream << ksw->GetOptions()->colorCLine << endl;
-			stream << ksw->GetOptions()->colorMW << endl;
-			stream << ksw->GetOptions()->colorEq << endl;
-			stream << ksw->GetOptions()->colorEcl << endl;
-			stream << ksw->GetOptions()->colorHorz << endl;
-			stream << ksw->GetOptions()->colorGrid << endl;
+			stream << ksw->options()->starColorMode << endl;
+			stream << ksw->options()->colorSky << endl;
+			stream << ksw->options()->colorMess << endl;
+			stream << ksw->options()->colorNGC << endl;
+			stream << ksw->options()->colorIC << endl;
+			stream << ksw->options()->colorHST << endl;
+			stream << ksw->options()->colorSName << endl;
+			stream << ksw->options()->colorCName << endl;
+			stream << ksw->options()->colorCLine << endl;
+			stream << ksw->options()->colorMW << endl;
+			stream << ksw->options()->colorEq << endl;
+			stream << ksw->options()->colorEcl << endl;
+			stream << ksw->options()->colorHorz << endl;
+			stream << ksw->options()->colorGrid << endl;
 			file.close();
 		}
 
@@ -735,99 +735,99 @@ bool ViewOpsDialog::setColors( QString filename ) {
 	//first line is the star-color mode
   line = stream.readLine();
 	int newmode = line.left(1).toInt();
-	ksw->GetOptions()->starColorMode = newmode;
-	if ( ksw->skymap->starpix->mode() != newmode )
-		ksw->skymap->starpix->setColorMode( newmode );
+	ksw->options()->starColorMode = newmode;
+	if ( ksw->skymap->starColorMode() != newmode )
+		ksw->skymap->setStarColorMode( newmode );
 	StarColorMode->setCurrentItem( newmode );
 
 	//sky
   line = stream.readLine();
-	ksw->GetOptions()->colorSky = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorSky ) );
+	ksw->options()->colorSky = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorSky ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Messier
   line = stream.readLine();
-	ksw->GetOptions()->colorMess = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorMess ) );
+	ksw->options()->colorMess = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorMess ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //NGC
   line = stream.readLine();
-	ksw->GetOptions()->colorNGC = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorNGC ) );
+	ksw->options()->colorNGC = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorNGC ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //IC
   line = stream.readLine();
-	ksw->GetOptions()->colorIC = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorIC ) );
+	ksw->options()->colorIC = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorIC ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Links
   line = stream.readLine();
-	ksw->GetOptions()->colorHST = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorHST ) );
+	ksw->options()->colorHST = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorHST ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Star Names
   line = stream.readLine();
-	ksw->GetOptions()->colorSName = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorSName ) );
+	ksw->options()->colorSName = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorSName ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Constell Names
   line = stream.readLine();
-	ksw->GetOptions()->colorCName = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorCName ) );
+	ksw->options()->colorCName = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorCName ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Constell Lines
   line = stream.readLine();
-	ksw->GetOptions()->colorCLine = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorCLine ) );
+	ksw->options()->colorCLine = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorCLine ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Milky Way
   line = stream.readLine();
-	ksw->GetOptions()->colorMW = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorMW ) );
+	ksw->options()->colorMW = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorMW ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Equator
   line = stream.readLine();
-	ksw->GetOptions()->colorEq = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorEq ) );
+	ksw->options()->colorEq = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorEq ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Ecliptic
   line = stream.readLine();
-	ksw->GetOptions()->colorEcl = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorEcl ) );
+	ksw->options()->colorEcl = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorEcl ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Horizon
   line = stream.readLine();
-	ksw->GetOptions()->colorHorz = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorHorz ) );
+	ksw->options()->colorHorz = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorHorz ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
 	i++;
 
   //Coordinate Grid
   line = stream.readLine();
-	ksw->GetOptions()->colorGrid = line.left( 7 );
-	temp->fill( QColor( ksw->GetOptions()->colorGrid ) );
+	ksw->options()->colorGrid = line.left( 7 );
+	temp->fill( QColor( ksw->options()->colorGrid ) );
 	ColorPalette->changeItem( *temp, ColorPalette->item(i)->text(), i );
   i++;
 
@@ -836,61 +836,61 @@ bool ViewOpsDialog::setColors( QString filename ) {
 }
 
 void ViewOpsDialog::updateDisplay( void ) {
-	ksw->GetOptions()->drawBSC = showBSC->isChecked();
-	ksw->GetOptions()->drawMessier = showMessier->isChecked();
-	ksw->GetOptions()->drawMessImages = showMessImages->isChecked();
-	ksw->GetOptions()->drawNGC = showNGC->isChecked();
-	ksw->GetOptions()->drawIC = showIC->isChecked();
-	ksw->GetOptions()->drawSun = showSun->isChecked();
-	ksw->GetOptions()->drawMoon = showMoon->isChecked();
-	ksw->GetOptions()->drawMercury = showMercury->isChecked();
-	ksw->GetOptions()->drawVenus = showVenus->isChecked();
-	ksw->GetOptions()->drawMars = showMars->isChecked();
-	ksw->GetOptions()->drawJupiter = showJupiter->isChecked();
-	ksw->GetOptions()->drawSaturn = showSaturn->isChecked();
-	ksw->GetOptions()->drawUranus = showUranus->isChecked();
-	ksw->GetOptions()->drawNeptune = showNeptune->isChecked();
-	ksw->GetOptions()->drawPluto = showPluto->isChecked();
-	ksw->GetOptions()->drawConstellLines = showConstellLines->isChecked();
-	ksw->GetOptions()->drawConstellNames = showConstellNames->isChecked();
-	ksw->GetOptions()->useLatinConstellNames = useLatinConstellNames->isChecked();
-	ksw->GetOptions()->useLocalConstellNames = useLocalConstellNames->isChecked();
-	ksw->GetOptions()->useAbbrevConstellNames = useAbbrevConstellNames->isChecked();
+	ksw->options()->drawBSC = showBSC->isChecked();
+	ksw->options()->drawMessier = showMessier->isChecked();
+	ksw->options()->drawMessImages = showMessImages->isChecked();
+	ksw->options()->drawNGC = showNGC->isChecked();
+	ksw->options()->drawIC = showIC->isChecked();
+	ksw->options()->drawSun = showSun->isChecked();
+	ksw->options()->drawMoon = showMoon->isChecked();
+	ksw->options()->drawMercury = showMercury->isChecked();
+	ksw->options()->drawVenus = showVenus->isChecked();
+	ksw->options()->drawMars = showMars->isChecked();
+	ksw->options()->drawJupiter = showJupiter->isChecked();
+	ksw->options()->drawSaturn = showSaturn->isChecked();
+	ksw->options()->drawUranus = showUranus->isChecked();
+	ksw->options()->drawNeptune = showNeptune->isChecked();
+	ksw->options()->drawPluto = showPluto->isChecked();
+	ksw->options()->drawConstellLines = showConstellLines->isChecked();
+	ksw->options()->drawConstellNames = showConstellNames->isChecked();
+	ksw->options()->useLatinConstellNames = useLatinConstellNames->isChecked();
+	ksw->options()->useLocalConstellNames = useLocalConstellNames->isChecked();
+	ksw->options()->useAbbrevConstellNames = useAbbrevConstellNames->isChecked();
 	ConstellOptions->setEnabled( showConstellNames->isChecked() );
-	ksw->GetOptions()->drawMilkyWay = showMilkyWay->isChecked();
-	ksw->GetOptions()->fillMilkyWay = showMilkyWayFilled->isChecked();
+	ksw->options()->drawMilkyWay = showMilkyWay->isChecked();
+	ksw->options()->fillMilkyWay = showMilkyWayFilled->isChecked();
 	showMilkyWayFilled->setEnabled( showMilkyWay->isChecked() );
-	ksw->GetOptions()->drawGrid = showGrid->isChecked();
-	ksw->GetOptions()->drawEquator = showEquator->isChecked();
-	ksw->GetOptions()->drawEcliptic = showEcliptic->isChecked();
-	ksw->GetOptions()->drawHorizon = showHorizon->isChecked();
-	ksw->GetOptions()->drawGround = showGround->isChecked();
-	ksw->GetOptions()->drawStarName 		 = showStarNames->isChecked();
-	ksw->GetOptions()->drawStarMagnitude = showStarMagnitude->isChecked();
+	ksw->options()->drawGrid = showGrid->isChecked();
+	ksw->options()->drawEquator = showEquator->isChecked();
+	ksw->options()->drawEcliptic = showEcliptic->isChecked();
+	ksw->options()->drawHorizon = showHorizon->isChecked();
+	ksw->options()->drawGround = showGround->isChecked();
+	ksw->options()->drawStarName 		 = showStarNames->isChecked();
+	ksw->options()->drawStarMagnitude = showStarMagnitude->isChecked();
 
 	ksw->skymap->Update();
 }
 
 void ViewOpsDialog::changeCoordSys( void ) {
-	ksw->GetOptions()->useAltAz = AltAzRadio->isChecked();
+	ksw->options()->useAltAz = AltAzRadio->isChecked();
 	showGround->setEnabled( AltAzRadio->isChecked() );
 
 	if ( EquatRadio->isChecked() ) {
 		showGround->setChecked( false );
 	}
-	ksw->GetOptions()->drawGround = showGround->isChecked();
+	ksw->options()->drawGround = showGround->isChecked();
 	ksw->skymap->Update();
 }
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
-	ksw->skymap->starpix->setIntensity (newValue);
-	ksw->GetOptions()->starColorIntensity = ksw->skymap->starpix->intensity();
+	ksw->skymap->setStarColorIntensity( newValue );
+	ksw->options()->starColorIntensity = ksw->skymap->starColorIntensity();
 	ksw->skymap->Update();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
-	ksw->skymap->starpix->setColorMode( newValue );
-	ksw->GetOptions()->starColorMode = ksw->skymap->starpix->mode();
+	ksw->skymap->setStarColorMode( newValue );
+	ksw->options()->starColorMode = ksw->skymap->starColorMode();
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
 	ksw->skymap->Update();

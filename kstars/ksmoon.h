@@ -22,22 +22,26 @@
 #include "dms.h"
 
 /**
-	*A subclass of SkyObject that provides additional information
+	*A subclass of SkyObject that provides information
 	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
 	*findPosition() function.  Also, there is a method findPhase(), which returns
 	*the lunar phase as a floating-point number between 0.0 and 1.0.
 	*@short Provides necessary information about the Moon.
   *@author Jason Harris
-	*@version 0.6
+	*@version 0.9
   */
 
 class KSMoon : public KSPlanet  {
 public: 
 	/**
 		*Default constructor.  Set name="Moon", calculate position for the given date.
+		*@param Epoch the initial date for which to calculate the position
 		*/
 	KSMoon( long double Epoch );
-	~KSMoon();
+
+	/**Destructor (empty). */
+	~KSMoon() {}
+
 	/**
     *Reimplemented from KSPlanet, this function employs unique algorithms for
     *estimating the lunar coordinates.  Finding the position of the moon is
@@ -47,19 +51,27 @@ public:
     *interaction is complex and nonlinear.  As a result, the positions as
     *calculated by findPosition() are only accurate to about 10 arcseconds
 		*(10 times less precise than the planets' positions!)
+		*@short moon-specific coordinate finder
 		*@param Epoch current Julian Date
 		*/
 	void findPosition( long double Epoch );
 
 	/**
-	  *Calls findPosition( Epoch ), then localizeCoords( lat, LST ).
+	  *@short Calls findPosition( Epoch ), then localizeCoords( lat, LST ).
+		*@param Epoch current Julian Date
+		*@param lat The geographic latitude
+		*@param LST The local sidereal time
 		*/
 	void findPosition( long double Epoch, dms lat, dms LST );
+
 	/**
 		*Convert geocentric coordinates to local (topographic) coordinates,
-		*by correcting for the effect of parallax.
+		*by correcting for the effect of parallax (a.k.a "figure of the Earth").
+		*@param lat The geographic latitude
+		*@param LST The local sidereal time
 		*/
 	void localizeCoords( dms lat, dms LST );
+
 	/**
 		*Determine the phase angle of the moon, and assign the appropriate
 		*moon image
@@ -67,6 +79,17 @@ public:
 		*/
 	void findPhase( KSSun *Sun );
 
+	/**
+		*@returns the moon's current distance from the Earth
+		*/
+	double distance( void ) { return Rearth; }
+
+	/**
+		*@returns the moon's current phase angle, as a dms angle
+		*/
+	dms phase( void ) { return Phase; }
+	
+private:
 	double Rearth; //Distance from Earth, in km.
 	dms Phase;
 };

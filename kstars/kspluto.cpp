@@ -24,9 +24,6 @@
 KSPluto::KSPluto() : KSPlanet( I18N_NOOP( "Pluto" ) ) {
 }
 
-KSPluto::~KSPluto(){
-}
-
 bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 	QString fname, snum, line;
 	QFile f;
@@ -132,9 +129,9 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 	X /= 10000000000.0; Y /= 10000000000.0; Z /= 10000000000.0;
 
 	//L0, B0 are Sun's Ecliptic coords (L0 = Learth + 180; B0 = -Bearth)
-	L0.setD( Earth->EcLong.getD() + 180.0 );
-	L0.setD( L0.reduce().getD() );
-	B0.setD( -1.0*Earth->EcLat.getD() );
+	L0.setD( Earth->ecLong().Degrees() + 180.0 );
+	L0.setD( L0.reduce().Degrees() );
+	B0.setD( -1.0*Earth->ecLat().Degrees() );
 
 	L0.SinCos( sinL0, cosL0 );
 	B0.SinCos( sinB0, cosB0 );
@@ -147,20 +144,20 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 	Obliquity.setD( 23.439292 - DeltaObliq/3600.0 );
 	Obliquity.SinCos( sinOb, cosOb );
 
-	X0 = Earth->Rsun*cosB0*cosL0;
-	Y0 = Earth->Rsun*( cosB0*sinL0*cosOb - sinB0*sinOb );
-	Z0 = Earth->Rsun*( cosB0*sinL0*sinOb + sinB0*cosOb );
+	X0 = Earth->rsun()*cosB0*cosL0;
+	Y0 = Earth->rsun()*( cosB0*sinL0*cosOb - sinB0*sinOb );
+	Z0 = Earth->rsun()*( cosB0*sinL0*sinOb + sinB0*cosOb );
 
 	//transform to geocentric rectangular coordinates by adding Sun's values
 	X = X + X0; Y = Y + Y0; Z = Z + Z0;
 
   //Use Meeus's Eq. 32.10 to find Rsun, RA and Dec:
-	Rsun = sqrt( X*X + Y*Y + Z*Z );
+	setRsun( sqrt( X*X + Y*Y + Z*Z ) );
 	RARad = atan( Y / X );
 	if ( X<0 ) RARad += PI();
 	if ( X>0 && Y<0 ) RARad += 2.0*PI();
 	dms newRA; newRA.setRadians( RARad );
-	dms newDec; newDec.setRadians( asin( Z/Rsun ) );
+	dms newDec; newDec.setRadians( asin( Z/rsun() ) );
 	pos()->setRA( newRA );
 	pos()->setDec( newDec ); 	
 

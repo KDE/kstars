@@ -32,9 +32,6 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
 	setValue(3);
 }
 
-TimeSpinBox::~TimeSpinBox(){
-}
-
 QString TimeSpinBox::mapValueToText( int index ) {
 	return QString("%1").arg(TimeSpinBox::Values[index]);
 	

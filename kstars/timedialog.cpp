@@ -17,7 +17,6 @@
 
 
 #include <klocale.h>
-#include <qdatetime.h>
 #include <qframe.h>
 #include "timedialog.h"
 
@@ -88,11 +87,7 @@ TimeDialog::TimeDialog( QDateTime now, QWidget* parent )
 
 }
 
-TimeDialog::~TimeDialog(){
-}
-
-/*
- *  Main event handler. Reimplemented to handle application
+/*  Main event handler. Reimplemented to handle application
  *  font changes
  */
 bool TimeDialog::event( QEvent* ev )
@@ -156,4 +151,20 @@ void TimeDialog::SecondPrefix( int value ) {
 	SecondBox->setPrefix( "" );
 	if ( value < 10 ) SecondBox->setPrefix( "0" );
 }
+
+QTime TimeDialog::selectedTime( void ) {
+	QTime t( HourBox->value(), MinuteBox->value(), SecondBox->value() );
+	return t;
+}
+
+QDate TimeDialog::selectedDate( void ) {
+	QDate d( dPicker->getDate() );
+	return d;
+}
+
+QDateTime TimeDialog::selectedDateTime( void ) {
+	QDateTime dt( selectedDate(), selectedTime() );
+	return dt;
+}
+
 #include "timedialog.moc"

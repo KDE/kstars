@@ -38,19 +38,19 @@ class KStars;
 
 /**Class for the sky display, derived from QWidget.  This widget is just a canvas
 	*on which the sky is painted.  It's the main widget for KStars.  The widget also
-	* handles user interaction (both mouse and keyboard).
+	*handles user interaction (both mouse and keyboard).
 	*
 	*@short Canvas widget for displaying the sky bitmap; also handles user input.
-  *@author Jason Harris
-	*@version 0.4
-  */
+	*@author Jason Harris
+	*@version 0.9
+	*/
 
 class SkyMap : public QWidget  {
    Q_OBJECT
 public:
 /**
 	*Constructor.  Read stored settings from KConfig object (focus position,
-	*zoom level, sky color.  Run initPopupMenus().
+	*zoom level, sky color, etc.).  Run initPopupMenus().
 	*/
 	SkyMap(QWidget *parent=0, const char *name=0);
 /**
@@ -58,21 +58,103 @@ public:
 	*/
 	~SkyMap();
 
-	QPixmap *sky;
-	SkyPoint  focus, oldfocus, clickedPoint, MousePoint;
-	SkyObject *clickedObject, *foundObject;
-	dms LSTh, HourAngle;
-	int pixelScale[13], ZoomLevel;
-	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
-	bool slewing;
-	double Range[13];
-	StarPixmap *starpix;	// the pixmap of the star
+/**@returns a pointer to the central focus point of the sky map
+	*/
+	SkyPoint* focus() { return &Focus; }
 
-	int runningDownloads() { return downloads; }	// needed for quit the application correctly if a download is running
-/*
- *Display object name and coordinates in the KStars infoPanel
- */
-	void showFocusCoords( void );
+/**@short sets the central focus point of the sky map
+	*@param f a pointer to the SkyPoint the map should be centered on
+	*/
+	void setFocus( SkyPoint *f ) { Focus.set( f->ra(), f->dec() ); }
+
+/**To check how much the focus point has changed, we store the previous
+	*focus point.  This function retrieves the SkyPOint of the previous focus.
+	*@returns a pointer to the previous central focus point of the sky map
+	*/
+	SkyPoint* oldfocus() { return &OldFocus; }
+
+/**@short sets the previous central focus point of the sky map
+	*@param f a pointer to the SkyPoint the map was centered on
+	*/
+	void setOldFocus( SkyPoint *f ) { OldFocus.set( f->ra(), f->dec() ); }
+
+/**When the user clicks on a point in the sky map, the sky coordinates of the mouse
+	*cursor are stored in the private member ClickedPoint.  This function retrieves
+	*a pointer to ClickedPoint.
+	*@returns a pointer to ClickedPoint, the sky coordinates where the user clicked.
+	*/
+	SkyPoint* clickedPoint() { return &ClickedPoint; }
+
+/**Sets the ClickedPoint to the skypoint given as an argument.
+	*@param f pointer to the new ClickedPoint.
+	*/
+	void setClickedPoint( SkyPoint *f ) { ClickedPoint.set( f->ra(), f->dec() ); }
+
+/**When the user moves the mouse in the sky map, the sky coordinates of the mouse
+	*cursor are continually passed to the private member MousePoint.  This function retrieves
+	*a pointer to MousePoint.
+	*@returns a pointer to MousePoint, the current sky coordinates of the mouse cursor.
+	*/
+	SkyPoint* mousePoint() { return &MousePoint; }
+
+/**Sets the MousePoint to the skypoint given as an argument.
+	*Note that in this function, the argument is a SkyPoint, not a pointer to a SkyPoint.
+	*@param f the new MousePoint.
+	*/
+	void setMousePoint( SkyPoint f ) { MousePoint.set( f.ra(), f.dec() ); }
+
+/**If the user clicks on the sky map near an object, a pointer to the object is stored in
+	*the private member ClickedObject.  This function returns the ClickedObject pointer.
+	*@returns a pointer to the object clicked on by the user.
+	*/
+	SkyObject* clickedObject( void ) const { return ClickedObject; }
+
+/**Sets the ClickedObject pointer to the argument.
+	*@param o the SkyObject pointer to be assigned to ClickedObject
+	*/
+	void setClickedObject( SkyObject *o ) { ClickedObject = o; }
+
+/**If the user centers the sky map on an object (by double-clicking or using the
+	*Find Object dialog), a pointer to the "focused" object is stored in
+	*the private member FoundObject.  This function returns the FoundObject pointer.
+	*@returns a pointer to the object centered on by the user.
+	*/
+	SkyObject* foundObject( void ) const { return FoundObject; }
+
+/**Sets the FoundObject pointer to the argument.
+	*@param o the SkyObject pointer to be assigned to FoundObject
+	*/
+	void setFoundObject( SkyObject *o ) { FoundObject = o; }
+
+/**@returns the current setting of the starpix color mode (real colors, solid red, solid
+	*white or solid black)
+	*/
+	int starColorMode( void ) const { return starpix->mode(); }
+
+/**sets the starpix color mode (real colors, solid red, solid
+	*white or solid black)
+	*/
+	void setStarColorMode( int mode ) { starpix->setColorMode( mode ); }
+
+/**@returns the current setting of the starpix color intensity
+	*/
+	int starColorIntensity( void ) const { return starpix->intensity(); }
+
+/**sets the starpix color intensity value
+	*/
+	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
+
+/**pixelScale is referenced one time outside of skymap.  This is the access method
+	*for this external reference.
+	*@returns current value of pixelScale
+	*/
+	int getPixelScale( void );
+
+/**@returns status of downloads
+	*/
+	int runningDownloads( void ) const { return downloads; }	// needed for quit the application correctly if a download is running
+
+	int pixelScale[13];
 
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
@@ -82,11 +164,10 @@ public slots:
 	void setUpDownloads();
 	void setDownDownloads();
 
-/**
-	*If the skymap only needs to be repainted but not new computed use update(). This is always needed if another
-	*widget like a dialog or another application is painting over the widget. New computing of skymap needs a lot of
-	*time and the stars will be shown on the old position, so update() function saves a lot of cpu usage. So use Update()
-	*to compute explicite the constellations.
+/**Recalculates the positions of objects in the sky, and then repaints the sky map.
+	*If the positions don't need to be recalculated, use update() instead of Update().
+	*This saves a lot of CPU time.  Note that update() is called automatically when the widget
+	*window is brought to the front from behind another window.
 	*/	
 	void Update();
 
@@ -95,11 +176,11 @@ public slots:
 	*/
 	void slotCenter( void );
 /**
-	*Popup menu function: Display 1st-Genration DSS image with ImageViewer.
+	*Popup menu function: Display 1st-Generation DSS image with ImageViewer.
 	*/
 	void slotDSS( void );
 /**
-	*Popup menu function: Display 2nd-Genration DSS image with ImageViewer.
+	*Popup menu function: Display 2nd-Generation DSS image with ImageViewer.
 	*/
 	void slotDSS2( void );
 /**
@@ -111,7 +192,7 @@ public slots:
 	*/
 	void slotImage( int id );
 /**
-	* Add a custom Image or Information URL.
+	*Popup menu function: Add a custom Image or Information URL.
 	*/
 	void addLink( void );
 	
@@ -157,10 +238,9 @@ protected:
 	*/
 	virtual void resizeEvent( QResizeEvent * );
 	
-/*
-	*Set the shape of mouse cursor to a cross with 4 arrows.
-	*/
 private slots:
+/**Set the shape of mouse cursor to a cross with 4 arrows.
+	*/
 	void setMouseMoveCursor();
 	
 private:
@@ -168,6 +248,7 @@ private:
 	*Initialize the popup menus
 	*/
 	void initPopupMenu( void );
+
 /**
 	*Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.  If Horiz==true, use the SkyPoint's
@@ -175,12 +256,10 @@ private:
 	*@returns QPoint containing pixel x, y coordinates of SkyPoint.
 	*@param o SkyPoint to calculate x, y for.
 	*@param Horiz if true, use Alt/Az coordinates.
-	*@param LSTh pointer to Local Sidereal Time, needed to compute Alt/Az coords
-	*@param lat pointer to observer's latitude, needed to compute Alt/Az coords
 	*/
-	QPoint getXY( SkyPoint *o, bool Horiz, dms LSTh, dms lat );
-/**
-	*Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
+	QPoint getXY( SkyPoint *o, bool Horiz );
+
+/**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*pixel coordinates measured from the center of the SkyMap bitmap.
 	*@param dx horizontal pixel offset from center of SkyMap.
 	*@param dy vertical pixel offset from center of SkyMap.
@@ -189,26 +268,29 @@ private:
 	*@param lat current geographic latitude
 	*/	
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms LST, dms lat );
-/**
-	*Large switch-controlled statement to draw objects on the SkyMap
+
+/**Large switch-controlled statement to draw objects on the SkyMap
 	*according to their type and catalog.  This is going to be changed
 	*So that each SkyObject has its own draw() function, which will be
 	*called from SkyMap's paintEvent().	
 	*color is only needed by Stars.
 	*/
 	void drawSymbol( QPainter &p, int type, int x, int y, int size, QChar color=0 );
+
 /**
 	*Determine if the skypoint p might be visible in the current display window
 	*/
 	bool checkVisibility( SkyPoint *p, float fov, bool useAltAz, bool isPoleVisible );
+
 /**
 	*Sets the shape of the default mouse cursor to a cross.
 	*/
 	void setDefaultMouseCursor();
+
 /**
-	*Check the correctness of the current point on screen. This is needed to avoid a crash
-	*of the program if a doubleclick or mousemove in empty space is happend. Empty space
-	*is the space out of sky area.
+	*Check if the current point on screen is a valid point on the sky. This is needed
+  *to avoid a crash of the program if the user clicks on a point outside the sky (the
+	*corners of the sky map at the lowest zoom level are the invalid points).
 	*/
 	bool unusablePoint (double dx, double dy);
 /**
@@ -225,6 +307,15 @@ private:
 	bool mouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
 	
+	QPixmap *sky;
+
+	SkyPoint  Focus, OldFocus, ClickedPoint, MousePoint;
+	SkyObject *ClickedObject, *FoundObject;
+
+	StarPixmap *starpix;	// the pixmap of the stars
+	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
+	bool slewing;
+	double Range[13];
 	int downloads;		// the current downloads of images
 	bool computeSkymap;	// if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
 

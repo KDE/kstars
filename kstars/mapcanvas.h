@@ -28,12 +28,12 @@
 
 /**
 	*Used in LocationDialog for displaying a bitmap of the Earth.
-	*In addition, cities in the database are drawn as white dots.
+	*In addition, cities in the database are drawn as grey or white dots.
 	*Also, the widget processes mouse clicks, to trim the list of
 	*cities to those near the mouse click.
 	*@short Widget used in the LocationDialog for displaying the world map.
   *@author Jason Harris
-  *@version 0.4
+  *@version 0.9
   */
 
 class MapCanvas : public QWidget  {
@@ -50,9 +50,6 @@ public:
 	*/
 	~MapCanvas();
 	
-	QPixmap *Canvas, *bgImage;		
-	QString BGColor;
-	QPoint origin;
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
   virtual void setGeometry( const QRect &r );
@@ -60,6 +57,11 @@ public slots:
 protected:
 	virtual void paintEvent( QPaintEvent *e );
 	virtual void mousePressEvent( QMouseEvent *e );
+
+private:
+	QPixmap *Canvas, *bgImage;		
+	QString BGColor;
+	QPoint origin;
 };
 
 #endif

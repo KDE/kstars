@@ -26,7 +26,7 @@
 	*Child class of KSPlanet; encapsulates information about the Sun.
 	*@short Provides necessary information about the Sun.
   *@author Jason Harris
-  *@version 0.4
+  *@version 0.9
   */
 
 class KSSun : public KSPlanet  {
@@ -36,16 +36,19 @@ public:
 	*Sets Ecliptic coordinates appropriate for J2000.
 	*/
 	KSSun();
+
 /**
 	*Constructor.  Defines constants needed by findPosition().
 	*Sets Ecliptic coordinates according to Epoch given as the argument.
 	*@param Epoch current Julian Date
 	*/
 	KSSun( long double Epoch );
+
 /**
 	*Destructor (empty)
 	*/
-	~KSSun();
+	~KSSun() {}
+
 /**
 	*Determine RA, Dec coordinates for the Epoch given in the argument.
 	*@param Epoch current Julian Date

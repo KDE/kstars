@@ -17,10 +17,11 @@
 
 #ifndef DMS_H
 #define DMS_H
-#define J2000 2451545.0
 
 #include <math.h>
 
+#define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
+                       //defined here because this file is included in every other class.
 class SkyPoint;
 
 /**
@@ -34,7 +35,7 @@ class SkyPoint;
 	*
 	*@short An angle, stored as degrees, but expressible in many ways
   *@author Jason Harris
-	*@version 0.4
+	*@version 0.9
   */
 
 class dms {
@@ -58,62 +59,75 @@ public:
 /**
 	*Destructor (empty).
 	*/
-	~dms() {};
+	~dms() {}
+
 /**
 	*@returns integer degrees portion of the angle
 	*/
-  int getDeg() const { return int( D ); }
+  int degree() const { return int( D ); }
+
 /**
 	*@returns integer arcminutes portion of the angle
 	*/
   int getArcMin() const;
+
 /**
 	*@returns integer arcseconds portion of the angle
 	*/
   int getArcSec() const;
+
 /**
 	*@returns angle in degrees expressed as a double.
 	*/
-  double getD() const { return D; }
+  double Degrees() const { return D; }
+
 /**
 	*@returns integer hours portion of the angle
 	*/
-  int getHour() const { return int( this->reduce().getD()/15.0 ); }
+  int hour() const { return int( this->reduce().Degrees()/15.0 ); }
+
 /**
 	*@returns integer minutes portion of the angle
 	*/
-  int getHMin() const;
+  int minute() const;
+
 /**
 	*@returns integer seconds portion of the angle
 	*/
-  int getHSec() const;
+  int second() const;
+
 /**
 	*@returns angle in hours expressed as a double.
 	*/
-  double getH() const { return this->reduce().getD()/15.0; }
+  double Hours() const { return this->reduce().Degrees()/15.0; }
+
 /**
 	*Sets integer degrees portion of angle, leaving the ArcMin and
 	*ArcSec values intact.
 	*@param d new integer degrees value
 	*/
   void setDeg( int d ) { setD( d, getArcMin(), getArcSec() ); }
+
 /**
 	*Sets integer arcminutes portion of angle, leaving the Degrees
 	*and ArcSec values intact.
 	*@param m new integer arcminutes value
 	*/
-  void setArcMin( int m ) { setD( getDeg(), m, getArcSec() ); }
+  void setArcMin( int m ) { setD( degree(), m, getArcSec() ); }
+
 /**
 	*Sets integer arcseconds portion of angle, leaving the Degrees
 	*and ArcMin values intact.
 	*@param s new integer arcseconds value
 	*/
-  void setArcSec( int s ) { setD( getDeg(), getArcMin(), s ); }
+  void setArcSec( int s ) { setD( degree(), getArcMin(), s ); }
+
 /**
 	*Sets floating-point value of angle, in degrees.
 	*@param x new angle (double)
 	*/
   void setD( double x );
+
 /**
 	*Sets floating-point value of angle.
 	*fabs(D) = fabs(d) + (m + (s/60))/60);
@@ -123,30 +137,35 @@ public:
 	*@param s integer arcseconds portion of angle
 	*/
   void setD( int d, int m, int s );
+
 /**
 	*Sets integer hours portion of angle, leaving the Minutes and
 	*Seconds values intact.
 	*@param h new integer hours value
 	*/
-  void setHour( int h ) { setH( h, getHMin(), getHSec() ); }
+  void setHour( int h ) { setH( h, minute(), second() ); }
+
 /**
 	*Sets integer minutes portion of angle, leaving the Hours and
 	*Seconds values intact.
 	*@param m new integer minutes value
 	*/
-  void setHMin( int m ) { setH( getHour(), m, getHSec() ); }
+  void setHMin( int m ) { setH( hour(), m, second() ); }
+
 /**
 	*Sets integer seconds portion of angle, leaving the Hours and
 	*Minutes values intact.
 	*@param s new integer seconds value
 	*/
-  void setHSec( int s ) { setH( getHour(), getHMin(), s ); }
+  void setHSec( int s ) { setH( hour(), minute(), s ); }
+
 /**
 	*converts argument from hours to degrees, then
 	*sets floating-point value of angle, in degrees.
 	*@param x new angle, in hours (double)
 	*/
   void setH( double x );
+
 /**
 	*Sets floating-point value of angle, first converting hours to degrees.
 	*@param h integer hours portion of angle
@@ -154,17 +173,20 @@ public:
 	*@param s integer seconds portion of angle
 	*/
   void setH( int h, int m, int s );
+
 /**
 	*Copy value of another dms angle
 	*@param d set angle according to this dms object
 	*/
-  void set( dms &d ) { setD( d.getD() ); }
+  void set( dms &d ) { setD( d.Degrees() ); }
+
 /**
 	*Copy value of another dms angle.  Differs from above function only
 	*in argument type
 	*@param d set angle according to this double value
 	*/
   void set( double &d ) { setD( d ); }
+
 /**
 	*Addition operator.  Add two dms objects.
 	*@param d add to current angle
@@ -191,6 +213,7 @@ public:
 	*@returns dms object, same value as argument.
 	*/
 //  dms operator= ( const double &d ) { return (dms( d )); }
+
 /**
 	*Compute Sine and Cosine of angle.  SinCos is a bit faster
 	*than calling sin() and cos() separately.  The values are returned
@@ -199,16 +222,19 @@ public:
 	*@param c Cosine of the angle
 	*/
 	void SinCos(double &s, double &c);
+
 /**
 	*Express the angle in radians
 	*@returns the angle in radians (double)
 	*/
 	double radians( void );
+
 /**
 	*Set angle according to the argument, which is in radians
 	*@param a angle in radians
 	*/
 	void setRadians( double a );
+
 /**
 	*return a version the angle that is between 0 and 360 degrees.
 	*/
@@ -219,5 +245,5 @@ private:
   double D;
 };
 
-double PI();
+double PI( void );
 #endif

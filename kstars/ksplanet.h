@@ -30,7 +30,7 @@
 	*KSPlanet.
 	*@short Provides necessary information about objects in the solar system.
   *@author Jason Harris
-  *@version 0.4
+  *@version 0.9
   */
 
 class KSPlanet : public SkyObject {
@@ -40,46 +40,56 @@ public:
 	*a null image.
 	*/
 	KSPlanet();
+
 /**
 	*Constructor.  Calls SkyObject constructor with type=2 (planet),
 	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
 	*@param s Name of planet
+	*@param im the planet's image
 	*/
 	KSPlanet( QString s, QImage im=NULL );
+
 /**
 	*Destructor (empty)
 	*/
-	~KSPlanet();
+	~KSPlanet() {}
+
 /**
-	*Returns Ecliptic Longitude coordinate
+	*@returns Ecliptic Longitude coordinate
 	*/
-	dms getEcLong( void ) { return EcLong; }
+	dms ecLong( void ) const { return EcLong; }
+
 /**
-	*Returns Ecliptic Latitude coordinate
+	*@returns Ecliptic Latitude coordinate
 	*/
-	dms getEcLat( void ) { return EcLat; }
+	dms ecLat( void ) const { return EcLat; }
+
 /**
 	*Set Ecliptic Longitude according to argument.
 	*@param elong Ecliptic Longitude
 	*/	
 	void setEcLong( dms elong ) { EcLong = elong; }
+
 /**
 	*Set Ecliptic Longitude according to argument.
 	*Differs from above function only in argument type.
 	*@param elong Ecliptic Longitude
 	*/	
 	void setEcLong( double elong ) { EcLong.setD( elong ); }
+
 /**
 	*Set Ecliptic Latitude according to argument.
 	*@param elat Ecliptic Latitude
 	*/	
 	void setEcLat( dms elat ) { EcLat = elat; }
+
 /**
 	*Set Ecliptic Latitude according to argument.
 	*Differs from above function only in argument type.
 	*@param elat Ecliptic Latitude
 	*/	
 	void setEcLat( double elat ) { EcLat.setD( elat ); }
+
 /**
 	*Given the current Julian date (Epoch), calculate the RA, Dec
 	*coordinates of the Planet.
@@ -88,24 +98,43 @@ public:
 	*@returns true if position was successfully calculated.
 	*/
 	bool findPosition( long double Epoch, KSPlanet *Earth=NULL );
+
 /**
 	*Convert Ecliptic logitude/latitude to Right Ascension/Declination,
 	*given the current Julian date (Epoch).	
 	*@param Epoch current Julain Date
 	*/
 	void EclipticToEquatorial( long double Epoch );
+
 /**
 	*Convert Right Ascension/Declination to Ecliptic logitude/latitude,
 	*given the current Julian date (Epoch).	
 	*@param Epoch current Julain Date
 	*/
 	void EquatorialToEcliptic( long double Epoch );
+
 /**
 	*Determine effects of nutation on Ecliptic longitude and the obliquity
 	*/
 	void nutate( long double Epoch, double &delong, double &dobliq );
 
-	QImage image;
+/**
+	*@returns pointer to image of planet
+	*/
+	QImage* image( void ) { return &Image; }
+
+/**
+	*@returns distance from Sun
+	*/
+	double rsun( void ) { return Rsun; }
+
+/**
+	*@short Set the solar distance
+	*/
+	void setRsun( double r ) { Rsun = r; }
+
+private:
+	QImage Image;
 	dms EcLong, EcLat;
 	double Rsun;
 };

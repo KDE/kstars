@@ -22,21 +22,16 @@
 #define KSTARS_I18N_H
 
 
-/**This is a dummy class whose sole purpose is to provide strings for 
-  *translators.  The program reads these strings from data files, but 
-  *that does not allow the strings to be included in the translation
-  *template.  This file will make sure the strings are included.
-  *
-  *This really is a dummy class, it is not linked by the program.
-  *
-	*Redundant?  Yes.  Kludgy, too.  We could simply get rid of the data 
-  *files and define these strings here.  However, the place names database
-	*(Cities.dat) is quite large, and contains many numerical fields in 
-  *addition to name strings.  It is much easier to manage this information
-  *in an external data file.
+/**This is a dummy class whose sole purpose is to provide strings for translators
+  *These strings are read from data files, but they must be present in a source file
+  *or they won't be included in the template translation file.  It is redundant to define
+  *these strings twice; perhaps we should just get rid of the data files and define the
+  *strings here.  However, the place names database (Cities.dat) is quite large, and
+  *contains many fields in addition to name strings.  It is much easier to manage this
+  *information in a data file.
   *@author Jason Harris
   *@short dummy class for storing translatable strings from the data files.
-  *@version 0.9
+  *@version 0.8
   */
 
 class KStars_i18n {

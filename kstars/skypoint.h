@@ -38,9 +38,10 @@
 	*The true coordinates (RA, Dec) at any other epoch can be found
 	*from the catalog coordinates using precess() and nutate().
 	*
-	*@short Similar to QPoint, but holds sky coordinates (RA, Dec)
+	*@short Stores dms coordinates for a point in the sky, and functions for
+	*converting between coordinate systems.
   *@author Jason Harris
-  *@version 0.4
+  *@version 0.9
   */
 
 class SkyPoint {
@@ -51,6 +52,7 @@ public:
 	*@param r Right Ascension
 	*@param d Declination
 	*/	
+
   SkyPoint( dms r, dms d ) { set( r, d ); }
 /**
 	*Sets RA, Dec and RA0, Dec0 according to arguments.
@@ -60,10 +62,12 @@ public:
 	*@param d Declination, expressed as a double
 	*/	
   SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+
 /**
 	*Empty destructor.
 	*/	
 	~SkyPoint();
+
 /**
 	*Sets RA, Dec and RA0, Dec0 according to arguments.
 	*Does not set Altitude or Azimuth.
@@ -71,6 +75,7 @@ public:
 	*@param d Declination
 	*/
   void set( dms r, dms d ) { RA0.set( r ); Dec0.set( d ); RA.set( r ); Dec.set( d ); }
+
 /**
 	*Sets RA, Dec and RA0, Dec0 according to arguments.  Does not set
 	*Altitude or Azimuth.  Differs from above function only in argument type.
@@ -78,6 +83,7 @@ public:
 	*@param d Declination, expressed as a double
 	*/
   void set( double r, double d ) { RA0.setH( r ); Dec0.setD( d ); RA.setH( r ); Dec.setD( d ); }
+
 /**
 	*Sets RA0, the catalog Right Ascension.
 	*@param r Right Ascension.
@@ -146,32 +152,32 @@ public:
 	*Returns the catalog Right Ascension.
 	*@returns RA0, the catalog Right Ascension.	
 	*/
-	dms getRA0() { return RA0; }
+	dms ra0() { return RA0; }
 /**
 	*Returns the catalog Declination.
 	*@returns Dec0, the catalog Declination.	
 	*/
-  dms getDec0() { return Dec0; }
+  dms dec0() { return Dec0; }
 /**
 	*Returns the current Right Ascension.
 	*@returns RA, the current Right Ascension.	
 	*/
-	dms getRA() { return RA; }
+	dms ra() { return RA; }
 /**
 	*Returns the current Declination.
 	*@returns Dec, the current Declination.	
 	*/
-  dms getDec() { return Dec; }
+  dms dec() { return Dec; }
 /**
 	*Returns the current Azimuth.
 	*@returns Az, the current Azimuth.	
 	*/
-	dms getAz() { return Az; }
+	dms az() { return Az; }
 /**
 	*Returns the current Altitude.
 	*@returns Alt, the current Altitude.	
 	*/
-	dms getAlt() { return Alt; }
+	dms alt() { return Alt; }
 /**
 	*Determines the (Altitude, Azimuth) coordinates of the
 	*SkyPoint from its (RA, Dec) coordinates, given the local
@@ -179,7 +185,7 @@ public:
 	*@param LST the local sidereal time
 	*@param lat the observer's latitude
 	*/
-	void RADecToAltAz( dms LST, dms lat );
+	void EquatorialToHorizontal( dms LST, dms lat );
 /**
 	*Sets the (RA, Dec) coordinates of the
 	*SkyPoint, given Ecliptic (Long, Lat) coordinates, and
@@ -193,7 +199,8 @@ public:
 	*@param LST the local sidereal time
 	*@param lat the observer's latitude
 	*/
-	void AltAzToRADec( dms LSTh, dms lat );
+	void HorizontalToEquatorial( dms LSTh, dms lat );
+
 /**
 	*Determine the current coordinates (RA, Dec) from the catalog
 	*coordinates (RA0, Dec0), accounting for both precession and nutation.
@@ -203,6 +210,7 @@ public:
 	*@param dEcLong The change in Ecliptic longitude caused by nutation.
 	*/
 	void updateCoords( long double NewEpoch, dms Obliquity, double dObliq, double dEcLong );
+
 /**
 	*Precess the catalog coordinates to the current Julian Date (Epoch).
 	*@param NewEpoch Julian date to use as current Epoch.

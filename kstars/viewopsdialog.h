@@ -47,7 +47,7 @@ class KStars;
 	*including color schemes, display toggles, and coordinate system.
 	*@short User configuration dialog.
   *@author Jason Harris
-	*@version 0.4
+	*@version 0.9
   */
 
 class ViewOpsDialog : public KDialogBase  {
@@ -59,7 +59,7 @@ public:
 	*/
 	ViewOpsDialog( QWidget *parent = 0 );
 /**
-	*Destructor (empty).
+	*Destructor. Delete color objects.
 	*/
 	~ViewOpsDialog();
 
@@ -145,35 +145,44 @@ private slots:
 	*Choose a new palette Color for the selected item with a QColorDialog.
 	*/
 	void newColor( QListBoxItem* );
+
 /**
 	*Load one of the predefined color schemes.  Just calls setColors with the
   *filename selected from the PresetFileList.
 	*/
 	void slotPreset( int i );
+
 /**
 	*Save the current color scheme as a custom preset.
 	*/
 	void slotAddPreset( void );
+
 /**
 	*Select the color scheme stored in filename.
 	*/
 	bool setColors( QString filename );
+
 /**
 	*Select the default preset color scheme.
 	*/
+
 	void defaultColors( void );
 /**
 	*Select the "Night Vision" preset color scheme/
 	*/
+
 	void redColors( void );
+
 /**
 	*Select the chart preset color scheme.
 	*/
 	void chartColors( void );
+
 /**
 	*Sync the KStars display with a newly-changed option.
 	*/
 	void updateDisplay( void );
+
 /**
 	*Switch between Equatorial (RA, Dec) and Horizontal (Az, Alt)
 	*coordinate systems.
@@ -194,14 +203,17 @@ private slots:
 	* Set the intensity of starcolors.
 	*/
 	void changeStarColorIntensity ( int newValue );
+
 /**
 	* Set the star color mode.
 	*/
 	void changeStarColorMode( int newMode );
+
 /**
 	* Mark all planets for display.
 	*/
 	void markPlanets( void );
+
 /**
 	* Unmark all planets, so they won't be displayed.
 	*/

@@ -177,16 +177,16 @@ LocationDialog::~LocationDialog(){
 
 void LocationDialog::initCityList( void ) {
 	KStars *p = (KStars *)parent();
-	for (GeoLocation *data = p->GetData()->geoList.first(); data; data = p->GetData()->geoList.next())
+	for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next())
 	{
 		QString s;
-		if ( data->province().isEmpty() ) {
-			s = data->translatedName() + ", " + data->translatedCountry();
+		if ( loc->province().isEmpty() ) {
+			s = loc->translatedName() + ", " + loc->translatedCountry();
 		} else {
-			s = data->translatedName() + ", " + data->translatedProvince() + ", " + data->translatedCountry();
+			s = loc->translatedName() + ", " + loc->translatedProvince() + ", " + loc->translatedCountry();
 		}
 		GeoBox->insertItem( s );
-		GeoID[GeoBox->count() - 1] = p->GetData()->geoList.at();
+		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
 	}
 	QString scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
 	CountLabel->setText( scount );
@@ -199,12 +199,12 @@ void LocationDialog::filterCity( void ) {
 	KStars *p = (KStars *)parent();
 	GeoBox->clear();
 	
-	for (GeoLocation *data = p->GetData()->geoList.first(); data; data = p->GetData()->geoList.next()) {
-		QString sc( data->translatedName() );
-		QString ss( data->translatedCountry() );
+	for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next()) {
+		QString sc( loc->translatedName() );
+		QString ss( loc->translatedCountry() );
 		QString sp = "";
-		if ( !data->province().isEmpty() )
-			sp = data->translatedProvince();
+		if ( !loc->province().isEmpty() )
+			sp = loc->translatedProvince();
 
 		if ( sc.lower().startsWith( CityFilter->text().lower() ) &&
 				sp.lower().startsWith( ProvinceFilter->text().lower() ) &&
@@ -217,7 +217,7 @@ void LocationDialog::filterCity( void ) {
 			sc.append( ss );
 
 			GeoBox->insertItem( sc );
-			GeoID[GeoBox->count() - 1] = p->GetData()->geoList.at();
+			GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
 		}
 	}
 
@@ -269,13 +269,13 @@ void LocationDialog::addCity( void ) {
 		} else {
 			dms lat = dms( NewLat->text().toDouble() );
 			dms lng = dms( NewLong->text().toDouble() );
-			char ltsgn = 'N'; if ( lat.getDeg()<0 ) ltsgn = 'S';
-			char lgsgn = 'E'; if ( lng.getDeg()<0 ) lgsgn = 'W';
+			char ltsgn = 'N'; if ( lat.degree()<0 ) ltsgn = 'S';
+			char lgsgn = 'E'; if ( lng.degree()<0 ) lgsgn = 'W';
 
 			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : x\n",
 						name.local8Bit().data(), province.local8Bit().data(), country.local8Bit().data(),
-						abs(lat.getDeg()), lat.getArcMin(), lat.getArcSec(), ltsgn,
-						abs(lng.getDeg()), lng.getArcMin(), lat.getArcSec(), lgsgn );
+						abs(lat.degree()), lat.getArcMin(), lat.getArcSec(), ltsgn,
+						abs(lng.degree()), lng.getArcMin(), lat.getArcSec(), lgsgn );
 
 			QTextStream stream( &file );
 			stream << entry;
@@ -284,10 +284,10 @@ void LocationDialog::addCity( void ) {
 			//Add city to geoList and GeoBox
 			//insert the new city into geoList alphabetically by city name
 			unsigned int i;
-			for ( i=0; i < p->GetData()->geoList.count(); ++i ) {
-				if ( p->GetData()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
-					double TZ = double(int(lng.getD()/15.0)); //estimate time zone
-					p->GetData()->geoList.insert( i, new GeoLocation( lng.getD(), lat.getD(), NewCityName->text(), NewProvinceName->text(), NewCountryName->text(), TZ ) );
+			for ( i=0; i < p->data()->geoList.count(); ++i ) {
+				if ( p->data()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
+					double TZ = double(int(lng.Degrees()/15.0)); //estimate time zone
+					p->data()->geoList.insert( i, new GeoLocation( lng.Degrees(), lat.Degrees(), NewCityName->text(), NewProvinceName->text(), NewCountryName->text(), TZ ) );
 					break;
 				}
       }
@@ -303,6 +303,36 @@ void LocationDialog::addCity( void ) {
 	NewCityName->clear();
 	NewProvinceName->clear();
 	NewCountryName->clear();
+}
+
+void LocationDialog::findCitiesNear( int lng, int lat ) {
+	KStars *ks = (KStars *)parent();
+
+	//find all cities within 3 degrees of (lng, lat); list them in GeoBox
+	GeoBox->clear();
+	for ( unsigned int i=0; i<ks->data()->geoList.count(); ++i ) {
+		if ( ( abs(	lng - int( ks->data()->geoList.at(i)->lng().Degrees() ) ) < 3 ) &&
+				 ( abs( lat - int( ks->data()->geoList.at(i)->lat().Degrees() ) ) < 3 ) ) {
+	    QString sc( ks->data()->geoList.at(i)->translatedName() );
+			sc.append( ", " );
+			if ( !ks->data()->geoList.at(i)->province().isEmpty() ) {
+	      sc.append( ks->data()->geoList.at(i)->translatedProvince() );
+	      sc.append( ", " );
+			}
+      sc.append( ks->data()->geoList.at(i)->translatedCountry() );
+
+      GeoBox->insertItem( sc );
+      GeoID[GeoBox->count() - 1] = i;
+		}
+	}
+
+	QString scount = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
+	CountLabel->setText( scount );
+
+	if ( GeoBox->firstItem() )		// set first item in list as selected
+		GeoBox->setCurrentItem( GeoBox->firstItem() );
+
+	repaint();
 }
 
 void LocationDialog::checkLong( void ) {

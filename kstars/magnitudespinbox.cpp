@@ -23,6 +23,7 @@ MagnitudeSpinBox::MagnitudeSpinBox( int minValue, int maxValue, QWidget * parent
 	// otherwise a decimal point cannot be entered. One could also try a float validator,
 	// but that was too difficult tonight.
 	setValidator(0);
+
 	// another simplification: Only accept values >=0. That means that negative magnitudes cannot be entered.
 	// That should not matter too much as the number of stars with a magnitude < 0 (i.e. brighter that ma 0.0)
 	// is very limited.

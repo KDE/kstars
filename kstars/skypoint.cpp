@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-//All functions except destructor are defined inline in the header (skypoint.h)
+#include <kdebug.h>
 
 #include "dms.h"
 #include "kstars.h"
@@ -24,15 +24,15 @@
 SkyPoint::~SkyPoint(){
 }
 
-void SkyPoint::RADecToAltAz( dms LSTh, dms lat ) {
+void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
 	double AltRad, AzRad;
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
   double sinAlt, cosAlt;
 
-	dms HourAngle = LSTh.getD() - RA.getD();
+	dms HourAngle = LSTh.Degrees() - RA.Degrees();
 
 	lat.SinCos( sinlat, coslat );
-	getDec().SinCos( sindec, cosdec );
+	dec().SinCos( sindec, cosdec );
 	HourAngle.SinCos( sinHA, cosHA );
 
 	sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
@@ -46,7 +46,7 @@ void SkyPoint::RADecToAltAz( dms LSTh, dms lat ) {
 	Alt.setRadians( AltRad );
 }
 
-void SkyPoint::AltAzToRADec( dms LSTh, dms lat ) {
+void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
 	double HARad, DecRad;
 	double sinlat, coslat, sinAlt, cosAlt, sinAz, cosAz;
   double sinDec, cosDec;
@@ -60,16 +60,25 @@ void SkyPoint::AltAzToRADec( dms LSTh, dms lat ) {
 	cosDec = cos( DecRad );
 	Dec.setRadians( DecRad );
 	
-//Under certain circumstances, x can be very slightly less than -1.0000, leading to a crash
-//on acos(x).  Here's a workaround.
 	double x = ( sinAlt - sinlat*sinDec )/( coslat*cosDec );
-	if ( x < -1.0 && (x+1.0)>-0.000001 ) HARad = PI();
-	else HARad = acos( x );
+
+//Under certain circumstances, x can be very slightly less than -1.0000, or slightly
+//greater than 1.0000, leading to a crash on acos(x).  However, the value isn't
+//*really* out of range; it's a kind of roundoff error.
+	if ( x < -1.0 && x > -1.000001 ) HARad = PI();
+	else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
+	else if ( x < -1.0 ) {
+		kdWarning() << i18n( "Coordinate out of range!" );
+		HARad = PI();
+	} else if ( x > 1.0 ) {
+		kdWarning() << i18n( "Coordinate out of range!" );
+		HARad = 0.0;
+	} else HARad = acos( x );
 
 	if ( sinAz > 0.0 ) HARad = 2.0*PI() - HARad; // resolve acos() ambiguity	
 
 	RA.setRadians( LSTh.radians() - HARad );
-	RA.setD( RA.reduce().getD() );  // 0 <= RA < 24
+	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
 void SkyPoint::setEcliptic( double ELong, double ELat, long double jd ) {
@@ -111,7 +120,7 @@ void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq,
 	precess( NewEpoch, J2000 );
 	
 	//nutation
-	if ( fabs( Dec.getD() ) < 80.0 ) { //approximate method
+	if ( fabs( Dec.Degrees() ) < 80.0 ) { //approximate method
 		Obliquity.SinCos( sinOb, cosOb );
 		RA.SinCos( sinRA, cosRA );
 		Dec.SinCos( sinDec, cosDec );
@@ -120,8 +129,8 @@ void SkyPoint::updateCoords( long double NewEpoch, dms Obliquity, double dObliq,
 		dRA1.setD( dEcLong*( cosOb + sinOb*sinRA*tanDec ) - dObliq*cosRA*tanDec );
 		dDec1.setD( dEcLong*( sinOb*cosRA ) + dObliq*sinRA );
 		
-		RA = RA.getD() + dRA1.getD();
-		Dec = Dec.getD() + dDec1.getD();
+		RA = RA.Degrees() + dRA1.Degrees();
+		Dec = Dec.Degrees() + dDec1.Degrees();
 	} else { //exact method, not yet implemented
 	}
 	
@@ -217,9 +226,9 @@ void SkyPoint::precess( long double JD, long double JD0 ) {
 	
 	//resolve ambiguity of atan()
 	if ( v[0] < 0.0 ) {
-		RA.setD( RA.getD() + 180.0 );
+		RA.setD( RA.Degrees() + 180.0 );
 	} else if( v[1] < 0.0 ) {
-		RA.setD( RA.getD() + 360.0 );
+		RA.setD( RA.Degrees() + 360.0 );
 	}
 }
 

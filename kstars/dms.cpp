@@ -40,7 +40,7 @@ void dms::setH(int h, int m, int s) {
 }
 
 int dms::getArcMin( void ) const {
-	int am = int( 60.0*( fabs(D) - abs( getDeg() ) ) );
+	int am = int( 60.0*( fabs(D) - abs( degree() ) ) );
 	if ( D<0.0 && D>-1.0 ) { //angle less than zero, but greater than -1.0
 		am = -1*am; //make minute negative
 	}
@@ -48,25 +48,25 @@ int dms::getArcMin( void ) const {
 }
 
 int dms::getArcSec( void ) const {
-	int as = int( 60.0*( 60.0*( fabs(D) - abs( getDeg() ) ) - abs( getArcMin() ) ) );
+	int as = int( 60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( getArcMin() ) ) );
 	//If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
-	if ( getDeg()==0 && getArcMin()==0 && D<0.0 ) {
+	if ( degree()==0 && getArcMin()==0 && D<0.0 ) {
 		as = -1*as;
 	}
 	return as;
 }
 
-int dms::getHMin( void ) const {
-	int hm = int( 60.0*( fabs( getH() ) - abs( getHour() ) ) );
-	if ( getH()<0.0 && getH()>-1.0 ) { //angle less than zero, but greater than -1.0
+int dms::minute( void ) const {
+	int hm = int( 60.0*( fabs( Hours() ) - abs( hour() ) ) );
+	if ( Hours()<0.0 && Hours()>-1.0 ) { //angle less than zero, but greater than -1.0
 		hm = -1*hm; //make minute negative
 	}
 	return hm;
 }
 
-int dms::getHSec( void ) const {
-	int hs = int( 60.0*( 60.0*( fabs( getH() ) - abs( getHour() ) ) - abs( getHMin() ) ) );
-	if ( getHour()==0 && getHMin()==0 && getH()<0.0 ) {
+int dms::second( void ) const {
+	int hs = int( 60.0*( 60.0*( fabs( Hours() ) - abs( hour() ) ) - abs( minute() ) ) );
+	if ( hour()==0 && minute()==0 && Hours()<0.0 ) {
 		hs = -1*hs;
 	}
 	return hs;
@@ -74,12 +74,12 @@ int dms::getHSec( void ) const {
 
 /*
 dms dms::operator+ (dms angle) {
-	return getD() + angle.getD();
+	return Degrees() + angle.Degrees();
 }
 
 dms dms::operator- (dms angle)
 {
-	return getD() - angle.getD();
+	return Degrees() - angle.Degrees();
 }
 */
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ void dms::SinCos(double &sina, double &cosa) {
 //---------------------------------------------------------------------------
 
 double dms::radians( void ) {
-  double Rad = getD()*PI()/180.0;
+  double Rad = Degrees()*PI()/180.0;
   return Rad;
 }
 //---------------------------------------------------------------------------
@@ -109,9 +109,4 @@ dms dms::reduce( void ) const {
 }
 //---------------------------------------------------------------------------
 
-double PI() {
-  double PI = acos(-1.0);
-  return PI;
-}
-//---------------------------------------------------------------------------
-
+double PI( void ) { return acos(-1.0); }

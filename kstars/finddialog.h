@@ -43,7 +43,7 @@ class QStringList;
 	*
 	*@short Find Object Dialog
   *@author Jason Harris
-  *@version 0.4
+  *@version 0.9
   */
 
 class FindDialog : public KDialogBase  {
@@ -56,14 +56,14 @@ class FindDialog : public KDialogBase  {
 	*/
 	FindDialog( QWidget* parent = 0 );
 /**
-	*Destructor (empty).
+	*Destructor
 	*/
 	~FindDialog();
 
 /**
   *Return the currently-selected item in the list
   */
-	SkyObjectNameListItem * currentItem() { return currentitem; }
+	SkyObjectNameListItem * currentItem() const { return currentitem; }
 	
 	private:
 /**
@@ -71,6 +71,7 @@ class FindDialog : public KDialogBase  {
 	*catalog, and add each named object to the List.
 	*/
 		void initObjectList( void );
+
 		QVBoxLayout *vlay;
 		QHBoxLayout *hlay;
 		QListBox *SearchList;
@@ -93,16 +94,24 @@ public slots:
 	*so that only objects which start with the filter text are shown.
 	*/	
 	void filter();
+
 /**
 	*When the selection of the QComboBox is changed, filter the List of
 	*objects so that only objects of the selected Type are shown.
+	*@param i the type to filter with
 	*/
 	void filterByType( int i );
 	
 	protected:
+/**
+	*This is only needed so that the list gets initialized only after the constructor is finished
+	*/
 		void timerEvent (QTimerEvent *);
 	
 	private slots:
+/**
+	*Set the selected item in the list to the item specified.
+	*/
 		void updateSelection (QListBoxItem *);
 	
 };

@@ -24,10 +24,10 @@
 	*A subclass of KSPlanet that provides a custom findPosition() function
 	*needed for the unique orbit of Pluto.  The Pluto ephemeris gives its
 	*Heliocentric coordinates in rectangular (X,Y,Z), which must be converted
-	*to (R, Longitude, Latitude)
+	*to (R, Ecl. Longitude, Ecl. Latitude)
 	*@short Provides necessary information about Pluto.
   *@author Jason Harris
-  *@version 0.7
+  *@version 0.9
   */
 
 class KSPluto : public KSPlanet  {
@@ -37,12 +37,15 @@ public:
 	*a null image.
 	*/
 	KSPluto();
-	~KSPluto();
+
+/**Destructor (empty). */
+	~KSPluto() {}
+
 /**
 	*A custom findPosition() function needed for the unique orbit of Pluto.
 	*Pluto coordinates are first solved in heliocentric rectangular (X, Y, Z)
 	*coordinates, which are then converted to heliocentric spherical
-	*(R, Longitude, Latitude) coordinates, and finally translated to geocentric
+	*(R, EcLong, EcLat) coordinates, and finally translated to geocentric
 	*(RA, Dec) coordinates.
 	*/
 	bool findPosition( long double Epoch, KSPlanet *Earth );

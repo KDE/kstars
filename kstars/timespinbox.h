@@ -28,14 +28,24 @@
   *values like MagnitudeSpinBox, but it only takes certain specific values:
   *0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 50, 100
   *@author Jason Harris
+	*@version 0.9
   */
 
 class TimeSpinBox : public QSpinBox  {
-public: 
+public:
+	/**Constructor*/
 	TimeSpinBox( QWidget *parent, const char *name=0 );
-	~TimeSpinBox();
+
+	/**Destructor (empty)*/
+	~TimeSpinBox() {}
+
+	/**Overloaded function to set displayed string based on the value of the internal counter
+		*@param value the spinbox value to be translated to a displayed string
+		*@returns the string to display for the value given as an argument
+		*/
 	virtual QString mapValueToText( int value );
 
+private:
 	float Values[10];
 };
 

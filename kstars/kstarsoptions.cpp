@@ -83,11 +83,6 @@ KStarsOptions::KStarsOptions()
 	magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );
 }
 
-KStarsOptions::~KStarsOptions()
-{
-
-}
-
 void KStarsOptions::copy( KStarsOptions* dataSource )
 {
 	if ( 0 == dataSource ) {

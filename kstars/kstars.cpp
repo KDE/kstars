@@ -37,6 +37,7 @@
 #include <kpopupmenu.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stream.h>
 #include <kdebug.h>
 
@@ -57,18 +58,6 @@ KStars::KStars( KStarsData* kstarsData )
 
 	this->kstarsData = kstarsData;
 
-  //Initialize object type strings
-	TypeName[0] = i18n( "star" );
-	TypeName[1] = i18n( "star" );
-	TypeName[2] = i18n( "planet" );
-	TypeName[3] = i18n( "open cluster" );
-	TypeName[4] = i18n( "globular cluster" );
-	TypeName[5] = i18n( "gaseous nebula" );
-	TypeName[6] = i18n( "planetary nebula" );
-	TypeName[7] = i18n( "supernova remnant" );
-	TypeName[8] = i18n( "galaxy" );
-	TypeName[9] = i18n( "Users should never see this", "UNUSED_TYPE" );
-
 	//resize( 640, 600 );
 	initMenuBar();
 	initToolBar();
@@ -76,34 +65,30 @@ KStars::KStars( KStarsData* kstarsData )
 	initOptions();
 	initLocation();
 
-	tmr = new QTimer( this );
-	tmr->start( TIMER_INTERVAL, FALSE );
-	QObject::connect( tmr, SIGNAL( timeout() ), this, SLOT( updateTime() ) );
-
 // create the widgets
 	QWidget *centralWidget = new QWidget( this );
 	setCentralWidget( centralWidget );
 	infoPanel = new QFrame( centralWidget );
 	skymap = new SkyMap( centralWidget );
-	skymap->setFocus();		// get focus of keyboard and mouse actions (for example zoom in with +)
+	skymap->QWidget::setFocus();		// get focus of keyboard and mouse actions (for example zoom in with +)
+	skymap->setMinimumSize( 380, 250 );
+	skymap->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
+
 
 // create the layout of the central widget
 	QVBoxLayout *topLayout = new QVBoxLayout( centralWidget );
 	topLayout->addWidget( infoPanel );
 	topLayout->addWidget( skymap );
 
-	//time settings that we couldn't do in KStarsSplash:
-	GetData()->UTime = GetData()->now.addSecs( int(geo->TZ()*-3600) );
-	GetData()->LST   = UTtoLST( GetData()->UTime, geo->lng() );
-	GetData()->CurrentDate = getJD( GetData()->UTime );
-	GetData()->LastSkyUpdate = GetData()->CurrentDate;
-	updateEpoch( GetData()->CurrentDate );
+/*	//time settings that we couldn't do in KStarsSplash:
+	data()->UTime = data()->now.addSecs( int(geo()->TZ()*-3600) );
+	data()->LST   = UTtoLST( data()->UTime, geo()->lng() );
+	data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 
-	skymap->setMinimumSize( 380, 250 );
-	skymap->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
-	skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
-
-	initStars();
+	data()->CurrentDate = data()->getJD( data()->UTime );
+	data()->LastSkyUpdate = data()->CurrentDate;
+	updateEpoch( data()->CurrentDate );
+*/
 
 	//Create the infoPanel, which displays time/date/location data
 	infoPanel->setFrameShape( QFrame::Panel );
@@ -141,8 +126,8 @@ KStars::KStars( KStarsData* kstarsData )
 	LT->setFixedSize( LT->sizeHint() ); //otherwise, placement of other labels not static
 
 //not using locale.formatTime() because I couldn't find a way to control whether "pm" is displayed...
-	LT->setText( GetData()->LTime.time().toString() );
-	UT = new QLabel( GetData()->UTime.time().toString(), infoPanel );
+	LT->setText( data()->LTime.time().toString() );
+	UT = new QLabel( data()->UTime.time().toString(), infoPanel );
 	ST = new QLabel( "00:00:00", infoPanel );
 	LT->setPalette( pal );
 	UT->setPalette( pal );
@@ -151,9 +136,9 @@ KStars::KStars( KStarsData* kstarsData )
 	UT->setFont( ipFont );
 	ST->setFont( ipFont );
 
-	LTDate = new QLabel( GetData()->locale->formatDate( GetData()->LTime.date(), true ), infoPanel );
-	UTDate = new QLabel( GetData()->locale->formatDate( GetData()->UTime.date(), true ), infoPanel );
-	JD = new QLabel( "JD: " + QString("%1").arg(GetData()->CurrentEpoch, 10, 'f', 2), infoPanel );
+	LTDate = new QLabel( data()->locale->formatDate( data()->LTime.date(), true ), infoPanel );
+	UTDate = new QLabel( data()->locale->formatDate( data()->UTime.date(), true ), infoPanel );
+	JD = new QLabel( "JD: " + QString("%1").arg(data()->CurrentEpoch, 10, 'f', 2), infoPanel );
 	LTDate->setPalette( pal );
 	UTDate->setPalette( pal );
 	JD->setPalette( pal );
@@ -180,16 +165,16 @@ KStars::KStars( KStarsData* kstarsData )
 	FocusAlt->setFont( ipFont );
 
 	PlaceName = new QLabel( i18n("nowhere"), infoPanel );
-	if ( geo->province().isEmpty() ) {
-		PlaceName->setText( geo->translatedName() + ", " + geo->translatedCountry() );
+	if ( geo()->province().isEmpty() ) {
+		PlaceName->setText( geo()->translatedName() + ", " + geo()->translatedCountry() );
 	} else {
-		PlaceName->setText( geo->translatedName() + ", " + geo->translatedProvince() + ",  " + geo->translatedCountry() );
+		PlaceName->setText( geo()->translatedName() + ", " + geo()->translatedProvince() + ",  " + geo()->translatedCountry() );
 	}
 	LongLabel = new QLabel( i18n( "Longitude", "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Latitude", "Lat:  " ), infoPanel );
-	Long = new QLabel( QString::number( geo->lng().getD(), 'f', 3 ), infoPanel );
+	Long = new QLabel( QString::number( geo()->lng().Degrees(), 'f', 3 ), infoPanel );
 	Long->setAlignment( AlignRight );
-	Lat = new QLabel( QString::number( geo->lat().getD(), 'f', 3 ), infoPanel );
+	Lat = new QLabel( QString::number( geo()->lat().Degrees(), 'f', 3 ), infoPanel );
 	Lat->setAlignment( AlignRight );
 	PlaceName->setPalette( pal );
 	LongLabel->setPalette( pal );
@@ -247,111 +232,131 @@ KStars::KStars( KStarsData* kstarsData )
 	coolay->addWidget( Lat, 1, 2 );
 
 	infoPanel->setFixedHeight( infoPanel->sizeHint().height() );	// use sizeHint() to get accurate size
-	resize( GetOptions()->windowWidth, GetOptions()->windowHeight );
+	resize( options()->windowWidth, options()->windowHeight );
+
+	//Start the clock; intitialize time to system clock
+	data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
+	data()->SkyJD_Mark = data()->SysJD_Mark;
+	
+	tmr = new QTimer( this );
+	tmr->start( TIMER_INTERVAL, FALSE );
+	QObject::connect( tmr, SIGNAL( timeout() ), this, SLOT( updateTime() ) );
+
+//Try updateTime() and updateEpoch() here to initialize CurrentDate and CurrentEpoch...
+	data()->CurrentEpoch = 0.0; //guarantee that updateTime() calls updateEpoch()
+	updateTime();
+
+	initAltAz();
+
+	SkyPoint newPoint( options()->focusRA, options()->focusDec );
 
 //Set focus of Skymap.
 //if user was tracking last time, track on same object now.
-	if ( GetOptions()->isTracking ) {
-    //Set default position in case focus object is below horizon
-		focus.setAz( 180.0 );
-		focus.setAlt( 45.0 );
-		focus.AltAzToRADec( skymap->LSTh, geo->lat() );
+	if ( options()->isTracking ) {
 
-		if ( (GetOptions()->focusObject== i18n( "star" ) ) ||
-		     (GetOptions()->focusObject== i18n( "nothing" ) ) ) {
-			skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
+    //Set default position in case focus object is below horizon
+		SkyPoint DefaultFocus;
+		DefaultFocus.setAz( 180.0 );
+		DefaultFocus.setAlt( 45.0 );
+		DefaultFocus.HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		skymap->setFocus( &DefaultFocus );
+
+		if ( (options()->focusObject== i18n( "star" ) ) ||
+		     (options()->focusObject== i18n( "nothing" ) ) ) {
+			skymap->setClickedPoint( &newPoint );
 		} else {
-			skymap->clickedObject = getObjectNamed( GetOptions()->focusObject );
-			if ( skymap->clickedObject ) {
-				skymap->clickedPoint.set( skymap->clickedObject->getRA(), skymap->clickedObject->getDec() );
+			skymap->setClickedObject( getObjectNamed( options()->focusObject ) );
+			if ( skymap->clickedObject() ) {
+				skymap->setClickedPoint( skymap->clickedObject()->pos() );
 			} else {
-				skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
+				skymap->setClickedPoint( &newPoint );
 			}
 		}
 	} else {
-		skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
+		skymap->setClickedPoint( &newPoint );
 	}
 
 	skymap->slotCenter();
 
-	skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
-	skymap->oldfocus.set( skymap->focus.getRA(), skymap->focus.getDec() );
-	skymap->oldfocus.setAz( skymap->focus.getAz() );
-	skymap->oldfocus.setAlt( skymap->focus.getAlt() );
+	data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
+
+	skymap->setOldFocus( skymap->focus() );
+	skymap->oldfocus()->setAz( skymap->focus()->az() );
+	skymap->oldfocus()->setAlt( skymap->focus()->alt() );
 }
 
 KStars::~KStars()
 {
 	//Sync the config file
 	kapp->config()->setGroup( "Location" );
-	kapp->config()->writeEntry( "City", GetOptions()->CityName );
-	kapp->config()->writeEntry( "Province", GetOptions()->ProvinceName );
-	kapp->config()->writeEntry( "Country", GetOptions()->CountryName );
+	kapp->config()->writeEntry( "City", options()->CityName );
+	kapp->config()->writeEntry( "Province", options()->ProvinceName );
+	kapp->config()->writeEntry( "Country", options()->CountryName );
 	kapp->config()->setGroup( "View" );
-	kapp->config()->writeEntry( "SkyColor", 	GetOptions()->colorSky );
-	kapp->config()->writeEntry( "MWColor", 		GetOptions()->colorMW );
-	kapp->config()->writeEntry( "EqColor", 		GetOptions()->colorEq );
-	kapp->config()->writeEntry( "EclColor", 		GetOptions()->colorEcl );
-	kapp->config()->writeEntry( "HorzColor", 	GetOptions()->colorHorz );
-	kapp->config()->writeEntry( "GridColor", 	GetOptions()->colorGrid );
-	kapp->config()->writeEntry( "MessColor", 	GetOptions()->colorMess );
-	kapp->config()->writeEntry( "NGCColor", 	GetOptions()->colorNGC );
-	kapp->config()->writeEntry( "ICColor", 		GetOptions()->colorIC );
-	kapp->config()->writeEntry( "CLineColor", GetOptions()->colorCLine );
-	kapp->config()->writeEntry( "CNameColor", GetOptions()->colorCName );
-	kapp->config()->writeEntry( "SNameColor", GetOptions()->colorSName );
-	kapp->config()->writeEntry( "HSTColor", 	GetOptions()->colorHST );
-	kapp->config()->writeEntry( "StarColorMode", GetOptions()->starColorMode );
-	kapp->config()->writeEntry( "StarColorsIntensity", GetOptions()->starColorIntensity );
-	kapp->config()->writeEntry( "ShowBSC", 		GetOptions()->drawBSC );
-	kapp->config()->writeEntry( "ShowMess", 	GetOptions()->drawMessier );
-	kapp->config()->writeEntry( "ShowMessImages", 	GetOptions()->drawMessImages );
-	kapp->config()->writeEntry( "ShowNGC", 		GetOptions()->drawNGC );
-	kapp->config()->writeEntry( "ShowIC", 		GetOptions()->drawIC );
-	kapp->config()->writeEntry( "ShowCLines", GetOptions()->drawConstellLines );
-	kapp->config()->writeEntry( "ShowCNames", GetOptions()->drawConstellNames );
-	kapp->config()->writeEntry( "UseLatinConstellationNames", GetOptions()->useLatinConstellNames );
-	kapp->config()->writeEntry( "UseLocalConstellationNames", GetOptions()->useLocalConstellNames );
-	kapp->config()->writeEntry( "UseAbbrevConstellationNames", GetOptions()->useAbbrevConstellNames );
-	kapp->config()->writeEntry( "ShowMilkyWay", GetOptions()->drawMilkyWay );
-	kapp->config()->writeEntry( "ShowGrid", GetOptions()->drawGrid );
-	kapp->config()->writeEntry( "ShowEquator", GetOptions()->drawEquator );
-	kapp->config()->writeEntry( "ShowEcliptic", GetOptions()->drawEcliptic );
-	kapp->config()->writeEntry( "ShowHorizon", GetOptions()->drawHorizon );
-	kapp->config()->writeEntry( "ShowGround", GetOptions()->drawGround );
-	kapp->config()->writeEntry( "ShowSun", 		GetOptions()->drawSun );
-	kapp->config()->writeEntry( "ShowMoon", 	GetOptions()->drawMoon );
-	kapp->config()->writeEntry( "ShowMercury", 	GetOptions()->drawMercury );
-	kapp->config()->writeEntry( "ShowVenus", 	GetOptions()->drawVenus );
-	kapp->config()->writeEntry( "ShowMars", 	GetOptions()->drawMars );
-	kapp->config()->writeEntry( "ShowJupiter", 	GetOptions()->drawJupiter );
-	kapp->config()->writeEntry( "ShowSaturn", 	GetOptions()->drawSaturn );
-	kapp->config()->writeEntry( "ShowUranus", 	GetOptions()->drawUranus );
-	kapp->config()->writeEntry( "ShowNeptune", 	GetOptions()->drawNeptune );
-	kapp->config()->writeEntry( "ShowPluto", 	GetOptions()->drawPluto );
-	kapp->config()->writeEntry( "IsTracking", 	GetOptions()->isTracking );
-	if ( skymap->foundObject != NULL ) {
-		kapp->config()->writeEntry( "FocusObject",  skymap->foundObject->name );
+	kapp->config()->writeEntry( "SkyColor", 	options()->colorSky );
+	kapp->config()->writeEntry( "MWColor", 		options()->colorMW );
+	kapp->config()->writeEntry( "EqColor", 		options()->colorEq );
+	kapp->config()->writeEntry( "EclColor", 		options()->colorEcl );
+	kapp->config()->writeEntry( "HorzColor", 	options()->colorHorz );
+	kapp->config()->writeEntry( "GridColor", 	options()->colorGrid );
+	kapp->config()->writeEntry( "MessColor", 	options()->colorMess );
+	kapp->config()->writeEntry( "NGCColor", 	options()->colorNGC );
+	kapp->config()->writeEntry( "ICColor", 		options()->colorIC );
+	kapp->config()->writeEntry( "CLineColor", options()->colorCLine );
+	kapp->config()->writeEntry( "CNameColor", options()->colorCName );
+	kapp->config()->writeEntry( "SNameColor", options()->colorSName );
+	kapp->config()->writeEntry( "HSTColor", 	options()->colorHST );
+	kapp->config()->writeEntry( "StarColorMode", options()->starColorMode );
+	kapp->config()->writeEntry( "StarColorsIntensity", options()->starColorIntensity );
+	kapp->config()->writeEntry( "ShowBSC", 		options()->drawBSC );
+	kapp->config()->writeEntry( "ShowMess", 	options()->drawMessier );
+	kapp->config()->writeEntry( "ShowMessImages", 	options()->drawMessImages );
+	kapp->config()->writeEntry( "ShowNGC", 		options()->drawNGC );
+	kapp->config()->writeEntry( "ShowIC", 		options()->drawIC );
+	kapp->config()->writeEntry( "ShowCLines", options()->drawConstellLines );
+	kapp->config()->writeEntry( "ShowCNames", options()->drawConstellNames );
+	kapp->config()->writeEntry( "UseLatinConstellationNames", options()->useLatinConstellNames );
+	kapp->config()->writeEntry( "UseLocalConstellationNames", options()->useLocalConstellNames );
+	kapp->config()->writeEntry( "UseAbbrevConstellationNames", options()->useAbbrevConstellNames );
+	kapp->config()->writeEntry( "ShowMilkyWay", options()->drawMilkyWay );
+	kapp->config()->writeEntry( "ShowGrid", options()->drawGrid );
+	kapp->config()->writeEntry( "ShowEquator", options()->drawEquator );
+	kapp->config()->writeEntry( "ShowEcliptic", options()->drawEcliptic );
+	kapp->config()->writeEntry( "ShowHorizon", options()->drawHorizon );
+	kapp->config()->writeEntry( "ShowGround", options()->drawGround );
+	kapp->config()->writeEntry( "ShowSun", 		options()->drawSun );
+	kapp->config()->writeEntry( "ShowMoon", 	options()->drawMoon );
+	kapp->config()->writeEntry( "ShowMercury", 	options()->drawMercury );
+	kapp->config()->writeEntry( "ShowVenus", 	options()->drawVenus );
+	kapp->config()->writeEntry( "ShowMars", 	options()->drawMars );
+	kapp->config()->writeEntry( "ShowJupiter", 	options()->drawJupiter );
+	kapp->config()->writeEntry( "ShowSaturn", 	options()->drawSaturn );
+	kapp->config()->writeEntry( "ShowUranus", 	options()->drawUranus );
+	kapp->config()->writeEntry( "ShowNeptune", 	options()->drawNeptune );
+	kapp->config()->writeEntry( "ShowPluto", 	options()->drawPluto );
+	kapp->config()->writeEntry( "IsTracking", 	options()->isTracking );
+	if ( skymap->foundObject() != NULL ) {
+		kapp->config()->writeEntry( "FocusObject",  skymap->foundObject()->name() );
 	} else {
 		kapp->config()->writeEntry( "FocusObject", i18n( "nothing" ) );
 	}
-	kapp->config()->writeEntry( "UseAltAz", 	GetOptions()->useAltAz );
-	kapp->config()->writeEntry( "FocusRA", skymap->focus.getRA().getH() );
-	kapp->config()->writeEntry( "FocusDec", skymap->focus.getDec().getD() );
-	kapp->config()->writeEntry( "ZoomLevel", skymap->ZoomLevel );
+	kapp->config()->writeEntry( "UseAltAz", 	options()->useAltAz );
+	kapp->config()->writeEntry( "FocusRA", skymap->focus()->ra().Hours() );
+	kapp->config()->writeEntry( "FocusDec", skymap->focus()->dec().Degrees() );
+	kapp->config()->writeEntry( "ZoomLevel", data()->ZoomLevel );
 	kapp->config()->writeEntry( "windowWidth", width() );
 	kapp->config()->writeEntry( "windowHeight", height() );
-	kapp->config()->writeEntry( "magLimitDrawStar", 	 GetOptions()->magLimitDrawStar );
-	kapp->config()->writeEntry( "magLimitDrawStarInfo",GetOptions()->magLimitDrawStarInfo );
-	kapp->config()->writeEntry( "drawStarName", 			 GetOptions()->drawStarName );
-	kapp->config()->writeEntry( "drawStarMagnitude",   GetOptions()->drawStarMagnitude );
+	kapp->config()->writeEntry( "magLimitDrawStar", 	 options()->magLimitDrawStar );
+	kapp->config()->writeEntry( "magLimitDrawStarInfo",options()->magLimitDrawStarInfo );
+	kapp->config()->writeEntry( "drawStarName", 			 options()->drawStarName );
+	kapp->config()->writeEntry( "drawStarMagnitude",   options()->drawStarMagnitude );
 	kapp->config()->sync();
 
 	// remove data object
 	delete kstarsData;
 	//kstarsData = 0;
 
-	delete geo;
+	delete Location;
 	delete LT;
 	delete UT;
 	delete ST;
@@ -367,17 +372,6 @@ KStars::~KStars()
 
 	delete skymap;
 }
-
-KStarsData* KStars::GetData()
-{
-	return kstarsData;
-}
-
-KStarsOptions* KStars::GetOptions()
-{
-	return kstarsData->options;
-}
-
 
 void KStars::initMenuBar() {
 	KPopupMenu *p;
@@ -461,6 +455,8 @@ void KStars::initToolBar() {
 
 	TimeStep = new TimeSpinBox( toolBar() );
 	QToolTip::add( TimeStep, i18n( "Time Step (seconds)" ) );
+	connect( TimeStep, SIGNAL( valueChanged( int ) ), this, SLOT( changeTimeStep() ) );
+
 	QWidget *Blank = new QWidget( toolBar() );
 
 	idSpinBox = 0;
@@ -475,9 +471,7 @@ void KStars::initToolBar() {
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	CurrentRA = "00:00:00";
-	CurrentDec = "  +00:00:00";
-	QString s = CurrentRA + ",  " + CurrentDec;
+	QString s = "00:00:00,   +00:00:00";
 
 	statusBar()->insertItem( s, 1, 1, true );
 	statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
@@ -486,13 +480,16 @@ void KStars::initStatusBar() {
 
 /** Menu Slot Functions **/
 void KStars::mSetTimeToNow() {
-	GetData()->LTime.setTime( QTime::currentTime() );
-	GetData()->LTime.setDate( QDate::currentDate() );
-	GetData()->UTime.setTime( GetData()->LTime.time() );
-	GetData()->UTime.setDate( GetData()->LTime.date() );
-	GetData()->UTime = GetData()->UTime.addSecs( int( geo->TZ()*-3600) );
+	data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
+	data()->SkyJD_Mark = data()->SysJD_Mark;
 
-	GetData()->then = QDateTime::currentDateTime();
+//	data()->LTime.setTime( QTime::currentTime() );
+//	data()->LTime.setDate( QDate::currentDate() );
+//	data()->UTime.setTime( data()->LTime.time() );
+//	data()->UTime.setDate( data()->LTime.date() );
+//	data()->UTime = data()->UTime.addSecs( int( geo()->TZ()*-3600) );
+
+//	data()->then = QDateTime::currentDateTime();
 	updateTime();
 }
 
@@ -500,70 +497,70 @@ void KStars::initOptions()
 {
 	// Get initial Location from config()
 	kapp->config()->setGroup( "Location" );
-	GetOptions()->CityName = kapp->config()->readEntry( "City", "Greenwich" );
+	options()->CityName = kapp->config()->readEntry( "City", "Greenwich" );
 
 	if ( kapp->config()->readEntry( "State", "" ).length() ) { //old version of config file
-		GetOptions()->ProvinceName = kapp->config()->readEntry( "State", "" );
-		GetOptions()->CountryName = kapp->config()->readEntry( "State", "United Kingdom" );
+		options()->ProvinceName = kapp->config()->readEntry( "State", "" );
+		options()->CountryName = kapp->config()->readEntry( "State", "United Kingdom" );
 	} else {
-		GetOptions()->ProvinceName = kapp->config()->readEntry( "Province", "" );
-		GetOptions()->CountryName = kapp->config()->readEntry( "Country", "United Kingdom" );
+		options()->ProvinceName = kapp->config()->readEntry( "Province", "" );
+		options()->CountryName = kapp->config()->readEntry( "Country", "United Kingdom" );
 	}
 
 	kapp->config()->setGroup( "View" );
-	GetOptions()->colorSky 		= kapp->config()->readEntry( "SkyColor", "#002" );
-//	GetOptions()->colorStar 	= kapp->config()->readEntry( "StarColor", "#FFF" );
-	GetOptions()->colorMW 		= kapp->config()->readEntry( "MWColor", "#123" );
-	GetOptions()->colorEq 		= kapp->config()->readEntry( "EqColor", "#FFF" );
-	GetOptions()->colorEcl		= kapp->config()->readEntry( "EclColor", "#663" );
-	GetOptions()->colorHorz 	= kapp->config()->readEntry( "HorzColor", "#5A3" );
-	GetOptions()->colorGrid 	= kapp->config()->readEntry( "GridColor", "#456" );
-	GetOptions()->colorMess 	= kapp->config()->readEntry( "MessColor", "#0F0" );
-	GetOptions()->colorNGC 		= kapp->config()->readEntry( "NGCColor", "#066" );
-	GetOptions()->colorIC 		= kapp->config()->readEntry( "ICColor", "#439" );
-	GetOptions()->colorCLine 	= kapp->config()->readEntry( "CLineColor", "#555" );
-	GetOptions()->colorCName 	= kapp->config()->readEntry( "CNameColor", "#AA7" );
-	GetOptions()->colorSName 	= kapp->config()->readEntry( "SNameColor", "#7AA" );
-	GetOptions()->colorHST 		= kapp->config()->readEntry( "HSTColor", "#A00" );
-	GetOptions()->drawBSC 		= kapp->config()->readBoolEntry( "ShowBSC", true );
-	GetOptions()->drawMessier = kapp->config()->readBoolEntry( "ShowMess", true );
-	GetOptions()->drawMessImages = kapp->config()->readBoolEntry( "ShowMessImages", true );
-	GetOptions()->drawNGC 		= kapp->config()->readBoolEntry( "ShowNGC", true );
-	GetOptions()->drawIC 			= kapp->config()->readBoolEntry( "ShowIC", true );
-	GetOptions()->drawConstellLines = kapp->config()->readBoolEntry( "ShowCLines", true );
-	GetOptions()->drawConstellNames = kapp->config()->readBoolEntry( "ShowCNames", true );
-	GetOptions()->useLatinConstellNames = kapp->config()->readBoolEntry( "UseLatinConstellationNames", true );
-	GetOptions()->useLocalConstellNames = kapp->config()->readBoolEntry( "UseLocalConstellationNames", false );
-	GetOptions()->useAbbrevConstellNames = kapp->config()->readBoolEntry( "UseAbbrevConstellationNames", false );
-	GetOptions()->drawMilkyWay = kapp->config()->readBoolEntry( "ShowMilkyWay", true );
-	GetOptions()->drawGrid = kapp->config()->readBoolEntry( "ShowGrid", true );
-	GetOptions()->drawEquator = kapp->config()->readBoolEntry( "ShowEquator", true );
-	GetOptions()->drawEcliptic = kapp->config()->readBoolEntry( "ShowEcliptic", true );
-	GetOptions()->drawHorizon = kapp->config()->readBoolEntry( "ShowHorizon", true );
-	GetOptions()->drawGround = kapp->config()->readBoolEntry( "ShowGround", true );
-	GetOptions()->drawSun = kapp->config()->readBoolEntry( "ShowSun", true );
-	GetOptions()->drawMoon = kapp->config()->readBoolEntry( "ShowMoon", true );
-	GetOptions()->drawMercury = kapp->config()->readBoolEntry( "ShowMercury", true );
-	GetOptions()->drawVenus = kapp->config()->readBoolEntry( "ShowVenus", true );
-	GetOptions()->drawMars = kapp->config()->readBoolEntry( "ShowMars", true );
-	GetOptions()->drawJupiter = kapp->config()->readBoolEntry( "ShowJupiter", true );
-	GetOptions()->drawSaturn = kapp->config()->readBoolEntry( "ShowSaturn", true );
-	GetOptions()->drawUranus = kapp->config()->readBoolEntry( "ShowUranus", true );
-	GetOptions()->drawNeptune = kapp->config()->readBoolEntry( "ShowNeptune", true );
-	GetOptions()->drawPluto = kapp->config()->readBoolEntry( "ShowPluto", true );
-	GetOptions()->useAltAz = kapp->config()->readBoolEntry( "UseAltAz", true );
-	GetOptions()->isTracking = kapp->config()->readBoolEntry( "IsTracking", false );
-	GetOptions()->focusObject = kapp->config()->readEntry( "FocusObject", "nothing" );
-	GetOptions()->focusDec = kapp->config()->readDoubleNumEntry( "FocusDec", 45.0 );
-	GetOptions()->focusRA = kapp->config()->readDoubleNumEntry( "FocusRA", 180.0 );
-//	GetOptions()->magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );		// readed in KStarsOptions()
-	GetOptions()->magLimitDrawStarInfo = kapp->config()->readDoubleNumEntry( "magLimitDrawStarInfo", 2.0 );
-	GetOptions()->drawStarName = kapp->config()->readBoolEntry( "drawStarName", false );
-	GetOptions()->drawStarMagnitude = kapp->config()->readBoolEntry( "drawStarMagnitude", false );
-	GetOptions()->windowWidth = kapp->config()->readNumEntry( "windowWidth", 600 );
-	GetOptions()->windowHeight = kapp->config()->readNumEntry( "windowHeight", 600 );
-	GetOptions()->starColorMode = kapp->config()->readNumEntry( "StarColorMode", 0 );
-	GetOptions()->starColorIntensity = kapp->config()->readNumEntry ("StarColorsIntensity", 4);
+	options()->colorSky 		= kapp->config()->readEntry( "SkyColor", "#002" );
+//	options()->colorStar 	= kapp->config()->readEntry( "StarColor", "#FFF" );
+	options()->colorMW 		= kapp->config()->readEntry( "MWColor", "#123" );
+	options()->colorEq 		= kapp->config()->readEntry( "EqColor", "#FFF" );
+	options()->colorEcl		= kapp->config()->readEntry( "EclColor", "#663" );
+	options()->colorHorz 	= kapp->config()->readEntry( "HorzColor", "#5A3" );
+	options()->colorGrid 	= kapp->config()->readEntry( "GridColor", "#456" );
+	options()->colorMess 	= kapp->config()->readEntry( "MessColor", "#0F0" );
+	options()->colorNGC 		= kapp->config()->readEntry( "NGCColor", "#066" );
+	options()->colorIC 		= kapp->config()->readEntry( "ICColor", "#439" );
+	options()->colorCLine 	= kapp->config()->readEntry( "CLineColor", "#555" );
+	options()->colorCName 	= kapp->config()->readEntry( "CNameColor", "#AA7" );
+	options()->colorSName 	= kapp->config()->readEntry( "SNameColor", "#7AA" );
+	options()->colorHST 		= kapp->config()->readEntry( "HSTColor", "#A00" );
+	options()->drawBSC 		= kapp->config()->readBoolEntry( "ShowBSC", true );
+	options()->drawMessier = kapp->config()->readBoolEntry( "ShowMess", true );
+	options()->drawMessImages = kapp->config()->readBoolEntry( "ShowMessImages", true );
+	options()->drawNGC 		= kapp->config()->readBoolEntry( "ShowNGC", true );
+	options()->drawIC 			= kapp->config()->readBoolEntry( "ShowIC", true );
+	options()->drawConstellLines = kapp->config()->readBoolEntry( "ShowCLines", true );
+	options()->drawConstellNames = kapp->config()->readBoolEntry( "ShowCNames", true );
+	options()->useLatinConstellNames = kapp->config()->readBoolEntry( "UseLatinConstellationNames", true );
+	options()->useLocalConstellNames = kapp->config()->readBoolEntry( "UseLocalConstellationNames", false );
+	options()->useAbbrevConstellNames = kapp->config()->readBoolEntry( "UseAbbrevConstellationNames", false );
+	options()->drawMilkyWay = kapp->config()->readBoolEntry( "ShowMilkyWay", true );
+	options()->drawGrid = kapp->config()->readBoolEntry( "ShowGrid", true );
+	options()->drawEquator = kapp->config()->readBoolEntry( "ShowEquator", true );
+	options()->drawEcliptic = kapp->config()->readBoolEntry( "ShowEcliptic", true );
+	options()->drawHorizon = kapp->config()->readBoolEntry( "ShowHorizon", true );
+	options()->drawGround = kapp->config()->readBoolEntry( "ShowGround", true );
+	options()->drawSun = kapp->config()->readBoolEntry( "ShowSun", true );
+	options()->drawMoon = kapp->config()->readBoolEntry( "ShowMoon", true );
+	options()->drawMercury = kapp->config()->readBoolEntry( "ShowMercury", true );
+	options()->drawVenus = kapp->config()->readBoolEntry( "ShowVenus", true );
+	options()->drawMars = kapp->config()->readBoolEntry( "ShowMars", true );
+	options()->drawJupiter = kapp->config()->readBoolEntry( "ShowJupiter", true );
+	options()->drawSaturn = kapp->config()->readBoolEntry( "ShowSaturn", true );
+	options()->drawUranus = kapp->config()->readBoolEntry( "ShowUranus", true );
+	options()->drawNeptune = kapp->config()->readBoolEntry( "ShowNeptune", true );
+	options()->drawPluto = kapp->config()->readBoolEntry( "ShowPluto", true );
+	options()->useAltAz = kapp->config()->readBoolEntry( "UseAltAz", true );
+	options()->isTracking = kapp->config()->readBoolEntry( "IsTracking", false );
+	options()->focusObject = kapp->config()->readEntry( "FocusObject", "nothing" );
+	options()->focusDec = kapp->config()->readDoubleNumEntry( "FocusDec", 45.0 );
+	options()->focusRA = kapp->config()->readDoubleNumEntry( "FocusRA", 180.0 );
+//	options()->magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );		// readed in KStarsOptions()
+	options()->magLimitDrawStarInfo = kapp->config()->readDoubleNumEntry( "magLimitDrawStarInfo", 2.0 );
+	options()->drawStarName = kapp->config()->readBoolEntry( "drawStarName", false );
+	options()->drawStarMagnitude = kapp->config()->readBoolEntry( "drawStarMagnitude", false );
+	options()->windowWidth = kapp->config()->readNumEntry( "windowWidth", 600 );
+	options()->windowHeight = kapp->config()->readNumEntry( "windowHeight", 600 );
+	options()->starColorMode = kapp->config()->readNumEntry( "StarColorMode", 0 );
+	options()->starColorIntensity = kapp->config()->readNumEntry ("StarColorsIntensity", 4);
 }
 
 void KStars::initLocation() {
@@ -577,7 +574,7 @@ void KStars::initLocation() {
     kapp->config()->writeEntry( "State", "" ); //ignore this key from now on...
 	}
 
-	for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
+	for (GeoData = data()->geoList.first(); GeoData; GeoData = data()->geoList.next())
 	{
 
 	//If the config file is old (has a State key) match a city if the city name
@@ -585,30 +582,30 @@ void KStars::initLocation() {
   //(old config files set both province and country to "StateName")
   //this can produce the wrong city, if more than one matches these criteria...
 		if ( oldConfig ) {
-			if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
-					( (GeoData->province().lower() == GetOptions()->ProvinceName.lower()) ||
-					(GeoData->country().lower() == GetOptions()->CountryName.lower()) ) )
+			if ( (GeoData->name().lower() == options()->CityName.lower()) &&
+					( (GeoData->province().lower() == options()->ProvinceName.lower()) ||
+					(GeoData->country().lower() == options()->CountryName.lower()) ) )
 			{
 				bFound = TRUE;
-				if ( GeoData->province().lower() != GetOptions()->ProvinceName.lower() )
-					GetOptions()->ProvinceName = GeoData->province();
-				if ( GeoData->country().lower() != GetOptions()->CountryName.lower() )
-					GetOptions()->CountryName = GeoData->country();
+				if ( GeoData->province().lower() != options()->ProvinceName.lower() )
+					options()->ProvinceName = GeoData->province();
+				if ( GeoData->country().lower() != options()->CountryName.lower() )
+					options()->CountryName = GeoData->country();
 				break ;
 			}
 		} else {
 	//Otherwise, require all three fields (City, Province, and Country) to match
-			if ( GetOptions()->ProvinceName.stripWhiteSpace().length() ) {
-				if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
-						(GeoData->province().lower() == GetOptions()->ProvinceName.lower()) &&
-						(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
+			if ( options()->ProvinceName.stripWhiteSpace().length() ) {
+				if ( (GeoData->name().lower() == options()->CityName.lower()) &&
+						(GeoData->province().lower() == options()->ProvinceName.lower()) &&
+						(GeoData->country().lower() == options()->CountryName.lower()) )
 				{
 					bFound = TRUE;
 					break ;
 				}
 			} else {
-				if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
-						(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
+				if ( (GeoData->name().lower() == options()->CityName.lower()) &&
+						(GeoData->country().lower() == options()->CountryName.lower()) )
 				{
 					bFound = TRUE;
 					break ;
@@ -619,14 +616,14 @@ void KStars::initLocation() {
 	}
 
 	if ( !bFound ) { // set city, province and country to default values
-		GetOptions()->CityName = "Greenwich";
-		GetOptions()->ProvinceName = "";
-		GetOptions()->CountryName = "United Kingdom";
-		for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
+		options()->CityName = "Greenwich";
+		options()->ProvinceName = "";
+		options()->CountryName = "United Kingdom";
+		for (GeoData = data()->geoList.first(); GeoData; GeoData = data()->geoList.next())
 		{
-			if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
-					(GeoData->province().lower() == GetOptions()->ProvinceName.lower()) &&
-					(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
+			if ( (GeoData->name().lower() == options()->CityName.lower()) &&
+					(GeoData->province().lower() == options()->ProvinceName.lower()) &&
+					(GeoData->country().lower() == options()->CountryName.lower()) )
 			{
 				bFound = TRUE;
 				break ;
@@ -635,147 +632,139 @@ void KStars::initLocation() {
 	}
 
 	if (bFound) {
-		geo = new GeoLocation (GeoData);
+		Location = new GeoLocation (GeoData);
 	} else { //couldn't set geographic location, so set the "null" location.
 		QString message = i18n( "Could not set geographic location!" );
 		KMessageBox::sorry( 0, message, i18n( "No location set" ) );
-		geo = new GeoLocation();
+		Location = new GeoLocation();
 	}
 }
 
-void KStars::initStars()
+void KStars::initAltAz()
 {
 	// Recompute Alt, Az coords for all objects. This was not possible
 	// within loading the KStarsData object. Do it now.
 	// Solar System
-	GetData()->Sun->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Mercury->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Venus->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Mars->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Jupiter->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Saturn->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Uranus->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Neptune->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-	GetData()->Pluto->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	data()->Sun->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Mercury->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Venus->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Mars->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Jupiter->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Saturn->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Uranus->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Neptune->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+	data()->Pluto->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 
 	// Stars
-	for (SkyObject *data = GetData()->starList.first(); data; data = GetData()->starList.next()) {
-		data->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyObject *obj = data()->starList.first(); obj; obj = data()->starList.next()) {
+		obj->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// Messier
-	for (SkyObject *data = GetData()->messList.first(); data; data = GetData()->messList.next()) {
-		data->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyObject *obj = data()->messList.first(); obj; obj = data()->messList.next()) {
+		obj->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// NGC
-	for (SkyObject *data = GetData()->ngcList.first(); data; data = GetData()->ngcList.next()) {
-		data->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyObject *obj = data()->ngcList.first(); obj; obj = data()->ngcList.next()) {
+		obj->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// IC
-	for (SkyObject *data = GetData()->icList.first(); data; data = GetData()->icList.next()) {
-		data->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyObject *obj = data()->icList.first(); obj; obj = data()->icList.next()) {
+		obj->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// Milky Way
 	for ( unsigned int j=0; j<11; ++j ) {
-		for (SkyPoint *data = GetData()->MilkyWay[j].first(); data; data = GetData()->MilkyWay[j].next()) {
-			data->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-			data->RADecToAltAz( skymap->LSTh, geo->lat() );
+		for (SkyPoint *obj = data()->MilkyWay[j].first(); obj; obj = data()->MilkyWay[j].next()) {
+			obj->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+			obj->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 		}
 	}
 
 	// CLines
-	for (SkyPoint *data = GetData()->clineList.first(); data; data = GetData()->clineList.next()) {
-		data->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyPoint *obj = data()->clineList.first(); obj; obj = data()->clineList.next()) {
+		obj->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// CNames
-	for (SkyObject *data = GetData()->cnameList.first(); data; data = GetData()->cnameList.next()) {
-		data->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for (SkyObject *obj = data()->cnameList.first(); obj; obj = data()->cnameList.next()) {
+		obj->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+		obj->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	}
 
 	// Define the Celestial Equator
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Equator.append( o );
+		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Equator.append( o );
 	}
 
   // Define the horizon.
   // Use the celestial Equator as a convenient starting point, but instead of RA and Dec,
   // interpret the coordinates as azimuth and altitude, and then convert to RA, dec.
   // The horizon will be redefined whenever the positions of sky objects are updated.
-	for (SkyPoint *data = GetData()->Equator.first(); data; data = GetData()->Equator.next()) {
+	for (SkyPoint *point = data()->Equator.first(); point; point = data()->Equator.next()) {
 		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
 		double HARad;
 		dms dec, HA, RA, Az;
-		Az = data->getRA();
+		Az = point->ra();
 		Az.SinCos( sinAz, cosAz );
-		geo->lat().SinCos( sinlat, coslat );
+		geo()->lat().SinCos( sinlat, coslat );
 
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
    		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*PI() - HARad; }
 		HA.setRadians( HARad );
-		RA = skymap->LSTh.getD() - HA.getD();
+		RA = data()->LSTh.Degrees() - HA.Degrees();
 
 		SkyPoint *o = new SkyPoint( RA, dec );
 		o->setAlt( 0.0 );
 		o->setAz( Az );
 
-		GetData()->Horizon.append( o );
+		data()->Horizon.append( o );
 
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		double ELong, ELat;
-		ELong = data->getRA().getD();
+		ELong = point->ra().Degrees();
 		ELat = 0.0;
 		o = new SkyPoint( 0.0, 0.0 );
-		o->setEcliptic( ELong, ELat, GetData()->CurrentDate );
-		o->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Ecliptic.append( o );
+		o->setEcliptic( ELong, ELat, data()->CurrentDate );
+		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Ecliptic.append( o );
 	}
 }
 
 void KStars::mSetTime() {
-
-	TimeDialog timedialog ( GetData()->LTime, this );
+	TimeDialog timedialog ( data()->LTime, this );
 
 	if ( timedialog.exec() == QDialog::Accepted ) {
+
 		if (tmr->isActive() ) {
 			tmr->stop();
-	    actTimeRun->setIconSet( BarIcon( "1rightarrow" ) );
+			actTimeRun->setIconSet( BarIcon( "1rightarrow" ) );
 			actTimeRun->setText( i18n( "Start &Clock" ) );
 			actTimeRun->setToolTip( i18n( "Start Clock" ) );
 		}
 
-		QTime newTime( timedialog.HourBox->value(),
-					   timedialog.MinuteBox->value(),
-					   timedialog.SecondBox->value() );
+		QTime newTime( timedialog.selectedTime() );
+		QDate newDate( timedialog.selectedDate() );
 
-		QDate newDate( timedialog.dPicker->getDate() );
-
-		GetData()->LTime.setTime( newTime );
-		GetData()->LTime.setDate( newDate );
-		GetData()->UTime.setTime( newTime );
-		GetData()->UTime.setDate( newDate );
-		GetData()->UTime = GetData()->UTime.addSecs( int(geo->TZ()*-3600) );
-		GetData()->CurrentDate = getJD( GetData()->UTime );
-
+		data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
+		data()->SkyJD_Mark = data()->getJD( QDateTime( newDate, newTime ) );
+		
 		//Make sure Moon, planets, and sky objects are updated immediately
-		GetData()->LastMoonUpdate = GetData()->CurrentDate - 1.0;
-		GetData()->LastPlanetUpdate = GetData()->CurrentDate - 1.0;
-		GetData()->LastSkyUpdate = GetData()->CurrentDate - 1.0;
+		data()->LastMoonUpdate = data()->CurrentDate - 1.0;
+		data()->LastPlanetUpdate = data()->CurrentDate - 1.0;
+		data()->LastSkyUpdate = data()->CurrentDate - 1.0;
 
-		GetData()->then = QDateTime::currentDateTime();
 		updateTime();
 	}
 }
@@ -787,7 +776,9 @@ void KStars::mToggleTimer() {
 		actTimeRun->setText( i18n( "Start &Clock" ) );
 		actTimeRun->setToolTip( i18n( "Start Clock" ) );
 	} else {
-		GetData()->then = QDateTime::currentDateTime();
+		data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
+		data()->SkyJD_Mark = data()->getJD( data()->LTime );
+
 		tmr->start( TIMER_INTERVAL, FALSE );
 		actTimeRun->setIconSet( BarIcon( "player_pause" ) );
 		actTimeRun->setText( i18n( "Stop &Clock" ) );
@@ -796,394 +787,375 @@ void KStars::mToggleTimer() {
 }
 
 void KStars::mZenith() {
-	skymap->focus.setAlt( 90.0 );
-	skymap->focus.AltAzToRADec( skymap->LSTh, geo->lat() );
-	skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
+	skymap->focus()->setAlt( 90.0 );
+	skymap->focus()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+	data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
 	skymap->Update();
 }
 
 void KStars::mZoomIn() {
 	actZoomOut->setEnabled (true);
-	if ( skymap->ZoomLevel < 12 ) {
-		++skymap->ZoomLevel;
-		//If zoomed in and using Alt-Az, update the Alt-Az coordinates
-		if ( GetOptions()->useAltAz && skymap->ZoomLevel > 10 ) {
-			oldfocus.set( oldfocus.getRA().getD(), oldfocus.getDec().getD()+5.0 );
-			updateTime();
-		}
+	if ( data()->ZoomLevel < MAXZOOMLEVEL ) {
+		++data()->ZoomLevel;
 		skymap->Update();
 	}
-	if (skymap->ZoomLevel == 12)
+	if ( data()->ZoomLevel == MAXZOOMLEVEL )
 		actZoomIn->setEnabled (false);
 }
 
 void KStars::mZoomOut() {
 	actZoomIn->setEnabled (true);
-	if ( skymap->ZoomLevel > 0 ) {
-		--skymap->ZoomLevel;
+	if ( data()->ZoomLevel > MINZOOMLEVEL ) {
+		--data()->ZoomLevel;
 		skymap->Update();
 	}
-	if (skymap->ZoomLevel == 0)
+	if ( data()->ZoomLevel == MINZOOMLEVEL )
 		actZoomOut->setEnabled (false);
 }
 
 void KStars::mFind() {
 	FindDialog finddialog (this);
 	if ( finddialog.exec() == QDialog::Accepted && finddialog.currentItem() ) {
-		skymap->clickedObject = finddialog.currentItem()->objName()->skyObject();
-		skymap->clickedPoint.set( skymap->clickedObject->getRA(), skymap->clickedObject->getDec() );
+		skymap->setClickedObject( finddialog.currentItem()->objName()->skyObject() );
+		skymap->setClickedPoint( skymap->clickedObject()->pos() );
 		skymap->slotCenter();
 	}
 }
 
 void KStars::mTrack() {
-	if ( GetOptions()->isTracking ) {
-		GetOptions()->isTracking = false;
+	if ( options()->isTracking ) {
+		options()->isTracking = false;
 		actTrack->setIconSet( BarIcon( "unlock" ) );
-		skymap->clickedObject = NULL;
-		skymap->foundObject = NULL;//no longer tracking foundObject
+		skymap->setClickedObject( NULL );
+		skymap->setFoundObject( NULL );//no longer tracking foundObject
 	} else {
-		GetOptions()->isTracking = true;
+		options()->isTracking = true;
 		actTrack->setIconSet( BarIcon( "lock" ) );
 	}
 }
 
 void KStars::mViewOps() {
 	// save options for cancel
-	GetData()->saveOptions();
+	data()->saveOptions();
 
 	ViewOpsDialog viewopsdialog (this);
 	// ask for the new options
 	if ( viewopsdialog.exec() != QDialog::Accepted ) {
 		// cancelled
-		GetData()->restoreOptions();
+		data()->restoreOptions();
 	}
-}
-
-void KStars::mAstroInfo() {
-	QFile file;
-	if ( KStarsData::openDataFile( file, "astroinfo.html" ) ) {
-		file.close();
-		kapp->invokeBrowser( file.name() );
-	} else {
-		QString message = "I could not find the AstroInfo table of contents (astroinfo.html).";
-		KMessageBox::sorry( 0, message, i18n( "Could not launch AstroInfo" ) );
-	}
-}
-
-void KStars::mReverseVideo() {
-/*
-	QString temp = GetOptions()->colorSky;
-	GetOptions()->SkyColor = StarColor;
-	GetOptions()->StarColor = temp;
-	skymap->update();
-*/
 }
 
 void KStars::mGeoLocator() {
 	LocationDialog locationdialog (this);
 	if ( locationdialog.exec() == QDialog::Accepted ) {
-		if ( !locationdialog.NewCityName->text().isEmpty() ) { //user closed the location dialog without adding their new city;
+		if ( !locationdialog.selectedCityName().isEmpty() ) { //user closed the location dialog without adding their new city;
 			locationdialog.addCity();                   //call addCity() for them!
 		}
 
 	 	int ii = locationdialog.getCityIndex();
  		if ( ii >= 0 ) {
- 			geo->reset( GetData()->geoList.at(ii) );
-			GetOptions()->CityName = geo->name();
-			GetOptions()->ProvinceName = geo->province();
-			GetOptions()->CountryName = geo->country();
-			if ( geo->province().isEmpty() )
-	 			PlaceName->setText( geo->translatedName() + ",  " + geo->translatedCountry() );
+ 			geo()->reset( data()->geoList.at(ii) );
+			options()->CityName = geo()->name();
+			options()->ProvinceName = geo()->province();
+			options()->CountryName = geo()->country();
+			if ( geo()->province().isEmpty() )
+	 			PlaceName->setText( geo()->translatedName() + ",  " + geo()->translatedCountry() );
 			else
-	 			PlaceName->setText( geo->translatedName() + ", " + geo->translatedProvince() + ",  " + geo->translatedCountry() );
+	 			PlaceName->setText( geo()->translatedName() + ", " + geo()->translatedProvince() + ",  " + geo()->translatedCountry() );
 
- 			Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
- 			Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
+ 			Long->setText( QString::number( geo()->lng().Degrees(), 'f', 3 ) );
+ 			Lat->setText( QString::number( geo()->lat().Degrees(), 'f', 3 ) );
 
  			// Adjust Local time for new time zone
-	 		GetData()->LTime.setDate( GetData()->UTime.date() );
- 			GetData()->LTime.setTime( GetData()->UTime.time() );
- 			GetData()->LTime = GetData()->LTime.addSecs( int(geo->TZ()*3600) );
+	 		data()->LTime.setDate( data()->UTime.date() );
+ 			data()->LTime.setTime( data()->UTime.time() );
+ 			data()->LTime = data()->LTime.addSecs( int(geo()->TZ()*3600) );
 
-			GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
-			skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
-			skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
+			data()->LST = UTtoLST( data()->UTime, geo()->lng() );
+			data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
+			data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
 
       //need to recompute Alt/Az coordinates of all objects, so
 			//adjust LastSkyUpdate to ensure computation.  Then
 			//explicitly call updateTime()
-			GetData()->LastSkyUpdate -= 1.0; // a full day, should be plenty
+			data()->LastSkyUpdate -= 1.0; // a full day, should be plenty
 			updateTime();
 	 	}
  	}
 }
 
 void KStars::updateTime( void ) {
-	GetData()->now = QDateTime::currentDateTime(); //update current time marker
+	data()->SysJD = data()->getJD( QDateTime::currentDateTime() );
+	data()->SysJD_Elapsed = data()->SysJD - data()->SysJD_Mark;
 
-	//advance clocks
-	long double nowJD = getJD( GetData()->now );
-	long double thenJD = getJD( GetData()->then );
-	long double dJD = nowJD - thenJD; //dJD is the number of days since "then"
-
+	//advance clock by factor*(time elapsed since system time last marked)
 	float factor = ((TimeSpinBox *)toolBar()->getWidget( idSpinBox ))->text().toFloat();
-	int dSeconds = int( dJD*24*3600*factor );
-	int dMSeconds = int( 1000*(dJD*24*3600*factor - dSeconds ) );
+	data()->LTime = data()->getDateTime( data()->SkyJD_Mark + factor*data()->SysJD_Elapsed );
+	data()->UTime = data()->LTime.addSecs( int( -3600*geo()->TZ() ) );
 
-	//Using QDateTime::addSecs() directly, instead of setTime()
-	//will automatically advance the date, when required
-	GetData()->LTime = GetData()->LTime.addSecs( dSeconds );
-	GetData()->UTime = GetData()->UTime.addSecs( dSeconds );
+	LT->setText( data()->LTime.time().toString() );
+	UT->setText( data()->UTime.time().toString() );
 
-	//...but there is no QDateTime::addMSecs(), so must use
-	//setTime().  So, the date won't advance if the clock rolls over
-	//with this step.  Add oldTime to check for date change
-	QTime oldLTime = GetData()->LTime.time();
-	QTime oldUTime = GetData()->UTime.time();
+	LTDate->setText( data()->locale->formatDate( data()->LTime.date(), true ) );
+	UTDate->setText( data()->locale->formatDate( data()->UTime.date(), true ) );
 
-	GetData()->LTime.setTime( GetData()->LTime.time().addMSecs( dMSeconds ) );
-	GetData()->UTime.setTime( GetData()->UTime.time().addMSecs( dMSeconds ) );
-
-	//The following checks assume that time is running forward
-	//Will need to change this if backward time is ever implemented
-	if ( GetData()->LTime.time().hour() < oldLTime.hour() ) {
-		GetData()->LTime = GetData()->LTime.addDays( 1 );
-	}
-
-	if ( GetData()->UTime.time().hour() < oldUTime.hour() ) {
-		GetData()->UTime = GetData()->UTime.addDays( 1 );
-	}
-
-	LT->setText( GetData()->LTime.time().toString() );
-	UT->setText( GetData()->UTime.time().toString() );
-	LTDate->setText( GetData()->locale->formatDate( GetData()->LTime.date(), true ) );
-	UTDate->setText( GetData()->locale->formatDate( GetData()->UTime.date(), true ) );
-
-	GetData()->CurrentDate = getJD( GetData()->UTime );
-	JD->setText( "JD: " + QString("%1").arg( GetData()->CurrentDate, 10, 'f', 2) );
+	data()->CurrentDate = data()->getJD( data()->UTime );
+	JD->setText( "JD: " + QString("%1").arg( data()->CurrentDate, 10, 'f', 2) );
 
 	bool isNewEpoch = false;
-	if ( fabs( GetData()->CurrentDate - GetData()->CurrentEpoch ) > 365.25 ) { //update epoch-dependent numbers annually
-		updateEpoch( GetData()->CurrentDate );
+	if ( fabs( data()->CurrentDate - data()->CurrentEpoch ) > 365.25 ) { //update epoch-dependent numbers annually
+		updateEpoch( data()->CurrentDate );
 		isNewEpoch = true;
 	}
 
-  GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
-	GetData()->then = GetData()->now; //update previous time marker
+  data()->LST = UTtoLST( data()->UTime, geo()->lng() );
 
 	QString dummy;
 	QString STString = dummy.sprintf( "%02d:%02d:%02d",
-			  GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
+			  data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 	ST->setText( STString );
 
-	skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
+	data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 
   // Update positions of objects, if necessary
   // Sun and Planet positions change rather slowly, so only update them twice daily
-  if ( fabs( GetData()->CurrentDate - GetData()->LastPlanetUpdate ) > 0.5 ) {
-  	GetData()->LastPlanetUpdate = GetData()->CurrentDate;
+  if ( fabs( data()->CurrentDate - data()->LastPlanetUpdate ) > 0.5 ) {
+  	data()->LastPlanetUpdate = data()->CurrentDate;
 
-		GetData()->Sun->findPosition( GetData()->CurrentDate );
-		GetData()->Earth->findPosition( GetData()->CurrentDate );
-		GetData()->Mercury->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Venus->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Mars->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Jupiter->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Saturn->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Uranus->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Neptune->findPosition( GetData()->CurrentDate, GetData()->Earth );
-		GetData()->Pluto->findPosition( GetData()->CurrentDate, GetData()->Earth );
+		data()->Sun->findPosition( data()->CurrentDate );
+		data()->Earth->findPosition( data()->CurrentDate );
+		data()->Mercury->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Venus->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Mars->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Jupiter->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Saturn->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Uranus->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Neptune->findPosition( data()->CurrentDate, data()->Earth );
+		data()->Pluto->findPosition( data()->CurrentDate, data()->Earth );
 
 		//Recompute the Ecliptic
-		GetData()->Ecliptic.clear();
-		for ( unsigned int i=0; i<GetData()->Equator.count(); ++i ) {
+		data()->Ecliptic.clear();
+		for ( unsigned int i=0; i<data()->Equator.count(); ++i ) {
 			double ELong, ELat;
-			ELong = GetData()->Equator.at(i)->getRA().getD();
+			ELong = data()->Equator.at(i)->ra().Degrees();
 			ELat = 0.0;
 			SkyPoint *o = new SkyPoint( 0.0, 0.0 );
-			o->setEcliptic( ELong, ELat, GetData()->CurrentDate );
-			GetData()->Ecliptic.append( o );
+			o->setEcliptic( ELong, ELat, data()->CurrentDate );
+			data()->Ecliptic.append( o );
 		}
 	}
 
 	// Moon moves ~30 arcmin/hr, so update its position every minute.
-	if ( fabs( GetData()->CurrentDate - GetData()->LastMoonUpdate ) > 0.00069444 ) {
-		GetData()->LastMoonUpdate = GetData()->CurrentDate;
-		GetData()->Moon->findPosition( GetData()->CurrentDate, geo->lat(), skymap->LSTh );
-		GetData()->Moon->findPhase( GetData()->Sun );
+	if ( fabs( data()->CurrentDate - data()->LastMoonUpdate ) > 0.00069444 ) {
+		data()->LastMoonUpdate = data()->CurrentDate;
+		data()->Moon->findPosition( data()->CurrentDate, geo()->lat(), data()->LSTh );
+		data()->Moon->findPhase( data()->Sun );
 	}
 
 
 	//update focus
-	if ( GetOptions()->isTracking ) {
+	if ( options()->isTracking ) {
 		//if tracking on a planet, update focus to keep up with changing position.
 		bool onPlanet = false;
-		if ( skymap->foundObject == GetData()->Sun ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Moon ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Mercury ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Venus ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Mars ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Jupiter ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Saturn ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Uranus ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Neptune ) onPlanet = true;
-		if ( skymap->foundObject == GetData()->Pluto ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Sun ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Moon ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Mercury ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Venus ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Mars ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Jupiter ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Saturn ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Uranus ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Neptune ) onPlanet = true;
+		if ( skymap->foundObject() == data()->Pluto ) onPlanet = true;
 
-		if ( onPlanet) skymap->focus.set( skymap->foundObject->pos()->getRA(), skymap->foundObject->pos()->getDec() );
+		if ( onPlanet) skymap->setFocus( skymap->foundObject()->pos() );
 
-		skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
-		skymap->focus.RADecToAltAz( skymap->LSTh, geo->lat() );
+		data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
+		skymap->focus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 	} else {
-		skymap->focus.setRA( skymap->LSTh.getH() - skymap->HourAngle.getH() );
-		skymap->focus.RADecToAltAz( skymap->LSTh, geo->lat() );
+		skymap->focus()->setRA( data()->LSTh.Hours() - data()->HourAngle.Hours() );
+		skymap->focus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
   }
-	skymap->showFocusCoords();
+
+	showFocusCoords();
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
-	if ( fabs( GetData()->CurrentDate - GetData()->LastSkyUpdate) > 0.25/skymap->pixelScale[skymap->ZoomLevel] ) {
-		GetData()->LastSkyUpdate = GetData()->CurrentDate;
+	if ( fabs( data()->CurrentDate - data()->LastSkyUpdate) > 0.25/skymap->getPixelScale() ) {
+		data()->LastSkyUpdate = data()->CurrentDate;
 
 		//Recompute Alt, Az coords for all objects
 		//Planets
-		GetData()->Sun->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Moon->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Mercury->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Venus->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Mars->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Jupiter->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Saturn->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Uranus->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Neptune->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
-		GetData()->Pluto->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		data()->Sun->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Moon->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Mercury->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Venus->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Mars->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Jupiter->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Saturn->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Uranus->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Neptune->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		data()->Pluto->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 
 		//Stars
-		if ( GetOptions()->drawBSC ) {
-			for ( unsigned int i=0; i<GetData()->starList.count(); ++i ) {
-				if (isNewEpoch) GetData()->starList.at(i)->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->starList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawBSC ) {
+			for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
+				if (isNewEpoch) data()->starList.at(i)->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->starList.at(i)->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//Messier
-		if ( GetOptions()->drawMessier || GetOptions()->drawMessImages ) {
-			for ( unsigned int i=0; i<GetData()->messList.count(); ++i ) {
-				if (isNewEpoch) GetData()->messList.at(i)->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->messList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawMessier || options()->drawMessImages ) {
+			for ( unsigned int i=0; i<data()->messList.count(); ++i ) {
+				if (isNewEpoch) data()->messList.at(i)->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->messList.at(i)->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//NGC
-		if ( GetOptions()->drawNGC ) {
-			for ( unsigned int i=0; i<GetData()->ngcList.count(); ++i ) {
-				if (isNewEpoch) GetData()->ngcList.at(i)->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->ngcList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawNGC ) {
+			for ( unsigned int i=0; i<data()->ngcList.count(); ++i ) {
+				if (isNewEpoch) data()->ngcList.at(i)->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->ngcList.at(i)->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//IC
-		if ( GetOptions()->drawIC ) {
-			for ( unsigned int i=0; i<GetData()->icList.count(); ++i ) {
-				if (isNewEpoch) GetData()->icList.at(i)->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->icList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawIC ) {
+			for ( unsigned int i=0; i<data()->icList.count(); ++i ) {
+				if (isNewEpoch) data()->icList.at(i)->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->icList.at(i)->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//Milky Way
-		if ( GetOptions()->drawMilkyWay ) {
+		if ( options()->drawMilkyWay ) {
 			for ( unsigned int j=0; j<11; ++j ) {
-				for ( unsigned int i=0; i<GetData()->MilkyWay[j].count(); ++i) {
-					if (isNewEpoch) GetData()->MilkyWay[j].at(i)->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-					GetData()->MilkyWay[j].at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+				for ( unsigned int i=0; i<data()->MilkyWay[j].count(); ++i) {
+					if (isNewEpoch) data()->MilkyWay[j].at(i)->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+					data()->MilkyWay[j].at(i)->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 				}
 			}
 		}
 
 		//CLines
-		if ( GetOptions()->drawConstellLines ) {
-			for ( unsigned int i=0; i<GetData()->clineList.count(); ++i) {
-				if (isNewEpoch) GetData()->clineList.at(i)->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->clineList.at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawConstellLines ) {
+			for ( unsigned int i=0; i<data()->clineList.count(); ++i) {
+				if (isNewEpoch) data()->clineList.at(i)->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->clineList.at(i)->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//CNames
-		if ( GetOptions()->drawConstellNames ) {
-			for ( unsigned int i=0; i<GetData()->cnameList.count(); ++i ) {
-				if (isNewEpoch) GetData()->cnameList.at(i)->pos()->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->cnameList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawConstellNames ) {
+			for ( unsigned int i=0; i<data()->cnameList.count(); ++i ) {
+				if (isNewEpoch) data()->cnameList.at(i)->pos()->updateCoords( data()->CurrentEpoch, data()->Obliquity, data()->dObliq, data()->dEcLong );
+				data()->cnameList.at(i)->pos()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//Celestial Equator
-		if ( GetOptions()->drawEquator ) {
-			for ( unsigned int i=0; i<GetData()->Equator.count(); ++i ) {
-				GetData()->Equator.at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawEquator ) {
+			for ( unsigned int i=0; i<data()->Equator.count(); ++i ) {
+				data()->Equator.at(i)->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//Ecliptic
-		if ( GetOptions()->drawEcliptic ) {
-			for ( unsigned int i=0; i<GetData()->Ecliptic.count(); ++i ) {
-				GetData()->Ecliptic.at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+		if ( options()->drawEcliptic ) {
+			for ( unsigned int i=0; i<data()->Ecliptic.count(); ++i ) {
+				data()->Ecliptic.at(i)->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 			}
 		}
 
 		//Horizon: differnet than the others; Alt & Az remain constant, RA, Dec must keep up
-		if ( GetOptions()->drawHorizon || GetOptions()->drawGround ) {
-			for ( unsigned int i=0; i<GetData()->Horizon.count(); ++i ) {
-				GetData()->Horizon.at(i)->AltAzToRADec( skymap->LSTh, geo->lat() );
+		if ( options()->drawHorizon || options()->drawGround ) {
+			for ( unsigned int i=0; i<data()->Horizon.count(); ++i ) {
+				data()->Horizon.at(i)->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
 			}
 		}
 
-		skymap->oldfocus.set( skymap->focus.getRA(), skymap->focus.getDec() );
-		skymap->oldfocus.RADecToAltAz( skymap->LSTh, geo->lat() );
-
+		skymap->setOldFocus( skymap->focus() );
+		skymap->oldfocus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 		skymap->Update();
 	}
-
 }
 
 SkyObject* KStars::getObjectNamed( QString name ) {
 	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
-	if ( name== GetData()->Sun->name ) return GetData()->Sun;
-	if ( name== GetData()->Moon->name ) return GetData()->Moon;
-	if ( name== GetData()->Mercury->name ) return GetData()->Mercury;
-	if ( name== GetData()->Venus->name ) return GetData()->Venus;
-	if ( name== GetData()->Mars->name ) return GetData()->Mars;
-	if ( name== GetData()->Jupiter->name ) return GetData()->Jupiter;
-	if ( name== GetData()->Saturn->name ) return GetData()->Saturn;
-	if ( name== GetData()->Uranus->name ) return GetData()->Uranus;
-	if ( name== GetData()->Neptune->name ) return GetData()->Neptune;
-	if ( name== GetData()->Pluto->name ) return GetData()->Pluto;
+	if ( name== data()->Sun->name() ) return data()->Sun;
+	if ( name== data()->Moon->name() ) return data()->Moon;
+	if ( name== data()->Mercury->name() ) return data()->Mercury;
+	if ( name== data()->Venus->name() ) return data()->Venus;
+	if ( name== data()->Mars->name() ) return data()->Mars;
+	if ( name== data()->Jupiter->name() ) return data()->Jupiter;
+	if ( name== data()->Saturn->name() ) return data()->Saturn;
+	if ( name== data()->Uranus->name() ) return data()->Uranus;
+	if ( name== data()->Neptune->name() ) return data()->Neptune;
+	if ( name== data()->Pluto->name() ) return data()->Pluto;
 
 	//Stars
-	for ( unsigned int i=0; i<GetData()->starList.count(); ++i ) {
-		if ( name==GetData()->starList.at(i)->name ) return GetData()->starList.at(i);
+	for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
+		if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
 	}
 
 	//Messier
-	for ( unsigned int i=0; i<GetData()->messList.count(); ++i ) {
-		if ( name==GetData()->messList.at(i)->name ) return GetData()->messList.at(i);
+	for ( unsigned int i=0; i<data()->messList.count(); ++i ) {
+		if ( name==data()->messList.at(i)->name() ) return data()->messList.at(i);
 	}
 
 	//NGC
-	for ( unsigned int i=0; i<GetData()->ngcList.count(); ++i ) {
-		if ( name==GetData()->ngcList.at(i)->name ) return GetData()->ngcList.at(i);
+	for ( unsigned int i=0; i<data()->ngcList.count(); ++i ) {
+		if ( name==data()->ngcList.at(i)->name() ) return data()->ngcList.at(i);
 	}
 
 	//IC
-	for ( unsigned int i=0; i<GetData()->icList.count(); ++i ) {
-		if ( name==GetData()->icList.at(i)->name ) return GetData()->icList.at(i);
+	for ( unsigned int i=0; i<data()->icList.count(); ++i ) {
+		if ( name==data()->icList.at(i)->name() ) return data()->icList.at(i);
 	}
 
 	//Constellations
-	for ( unsigned int i=0; i<GetData()->cnameList.count(); ++i ) {
-		if ( name==GetData()->cnameList.at(i)->name ) return GetData()->cnameList.at(i);
+	for ( unsigned int i=0; i<data()->cnameList.count(); ++i ) {
+		if ( name==data()->cnameList.at(i)->name() ) return data()->cnameList.at(i);
 	}
 
 	//should never get here
 	return NULL;
+}
+
+void KStars::showFocusCoords( void ) {
+	//display object info in infoPanel
+	QString s, oname;
+	char dsgn = '+', azsgn = '+', altsgn = '+';
+
+	oname = i18n( "nothing" );
+	if ( skymap->foundObject() != NULL && options()->isTracking ) {
+		oname = skymap->foundObject()->translatedName();
+		//add genetive name for stars
+	  if ( skymap->foundObject()->type()==0 && skymap->foundObject()->name2().length() )
+			oname += " (" + skymap->foundObject()->name2() + ")";
+	}
+
+	FocusObject->setText( i18n( "Focused on: " ) + oname );
+
+	if ( skymap->focus()->dec().Degrees() < 0 ) dsgn = '-';
+	int dd = abs( skymap->focus()->dec().degree() );
+	int dm = abs( skymap->focus()->dec().getArcMin() );
+	int ds = abs( skymap->focus()->dec().getArcSec() );
+	FocusRA->setText( i18n( "Right Ascension", "RA" ) + s.sprintf( ": %02d:%02d:%02d", skymap->focus()->ra().hour(), skymap->focus()->ra().minute(),  skymap->focus()->ra().second() ) );
+	FocusDec->setText( i18n( "Declination", "Dec" ) +  s.sprintf( ": %c%02d:%02d:%02d", dsgn, dd, dm, ds ) );
+
+	if ( skymap->focus()->alt().Degrees() < 0 ) altsgn = '-';
+	if ( skymap->focus()->az().Degrees() < 0 ) azsgn = '-';
+	int altd = abs( skymap->focus()->alt().degree() );
+	int altm = abs( skymap->focus()->alt().getArcMin() );
+	int alts = abs( skymap->focus()->alt().getArcSec() );
+	int azd = abs( skymap->focus()->az().degree() );
+	int azm = abs( skymap->focus()->az().getArcMin() );
+	int azs = abs( skymap->focus()->az().getArcSec() );
+	FocusAlt->setText( i18n( "Altitude", "Alt" ) + s.sprintf( ": %c%02d:%02d:%02d", altsgn, altd, altm, alts ) );
+	FocusAz->setText( i18n( "Azimuth", "Az" ) + s.sprintf( ": %c%02d:%02d:%02d", azsgn, azd, azm, azs ) );
 }
 
 QString KStars::getDateString( QDate date ) {
@@ -1193,6 +1165,7 @@ QString KStars::getDateString( QDate date ) {
   return dateString;
 }
 
+/*
 long double KStars::getJD( QDateTime t ) {
   int year = t.date().year();
   int month = t.date().month();
@@ -1210,8 +1183,8 @@ long double KStars::getJD( QDateTime t ) {
 	  m = month + 12;
   }
 
- /*  If the date is after 10/15/1582, then take Pope Gregory's modification
-	 to the Julian calendar into account */
+//  If the date is after 10/15/1582, then take Pope Gregory's modification
+//	 to the Julian calendar into account
 
 	 if (( year  >1582 ) ||
 		 ( year ==1582 && month  >9 ) ||
@@ -1236,15 +1209,16 @@ long double KStars::getJD( QDateTime t ) {
 
   return jd;
 }
+*/
 
 void KStars::updateEpoch( long double NewEpoch ) {
 	//Several quantities change slowly with time:
 	//Obliquity, Ecliptic Longitude,
 	//eccentricity of Earth's Orbit
 	//Earth's longitude of perihelion
-	GetData()->CurrentEpoch = NewEpoch;
-	GetData()->Obliquity = findObliquity( GetData()->CurrentEpoch );
-	nutate( GetData()->CurrentEpoch ); //find dEcLong and dObliq
+	data()->CurrentEpoch = NewEpoch;
+	data()->Obliquity = findObliquity( data()->CurrentEpoch );
+	nutate( data()->CurrentEpoch ); //find dEcLong and dObliq
 //	Obliquity += dObliq/3600.0;
 }
 
@@ -1278,7 +1252,7 @@ void KStars::nutate( long double JD ) {
 
 	T = ( JD - J2000 )/36525.0; //centuries since J2000.0
   O.setD( 125.04452 - 1934.136261*T + 0.0020708*T*T + T*T*T/450000.0 ); //ecl. long. of Moon's ascending node
-	O2.setD( 2.0*O.getD() );
+	O2.setD( 2.0*O.Degrees() );
 	L2.setD( 2.0*( 280.4665 + 36000.7698*T ) ); //twice mean ecl. long. of Sun
 	M2.setD( 2.0*( 218.3165 + 481267.8813*T ) );//twice mean ecl. long. of Moon
 
@@ -1287,8 +1261,8 @@ void KStars::nutate( long double JD ) {
 	L2.SinCos( sin2L, cos2L );
 	M2.SinCos( sin2M, cos2M );
 
-	GetData()->dEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
-	GetData()->dObliq = (   9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
+	data()->dEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
+	data()->dObliq = (   9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
 }
 
 QTime KStars::UTtoLST( QDateTime UT, dms longitude) {
@@ -1300,7 +1274,7 @@ QTime KStars::UTtoLST( QDateTime UT, dms longitude) {
 QTime KStars::UTtoGST( QDateTime UT ) {
   QDateTime t0 = UT;
   t0.setTime( QTime(0,0,0) );
-  long double jd0 = getJD( t0 );
+  long double jd0 = data()->getJD( t0 );
   long double s = jd0 - 2451545.0;
   double t = s/36525.0;
   double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t;
@@ -1329,7 +1303,7 @@ QTime KStars::UTtoGST( QDateTime UT ) {
 
 QTime KStars::GSTtoLST( QTime GST, dms longitude) {
   double lsth = double(GST.hour()) + (double(GST.minute()) +
-			   double(GST.second())/60.0)/60.0 + longitude.getD()/15.0;
+			   double(GST.second())/60.0)/60.0 + longitude.Degrees()/15.0;
 
   while (lsth < 0.0) lsth += 24.0;
   while (lsth >24.0) lsth -= 24.0;
@@ -1353,6 +1327,11 @@ void KStars::closeEvent (QCloseEvent *e)
 	}
 	else
 		e->ignore();
+}
+
+void KStars::changeTimeStep( void ) {
+	data()->SysJD_Mark = data()->getJD( QDateTime::currentDateTime() );
+	data()->SkyJD_Mark = data()->getJD( data()->LTime );
 }
 
 #include "kstars.moc"

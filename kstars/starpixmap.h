@@ -21,32 +21,57 @@
 #ifndef STARPIXMAP_H
 #define STARPIXMAP_H
 
-
-/**
-  *@author Thomas Kabelmann
-  */
-
-
 #include <qpixmap.h>
+
+/**Stores a two-dimensional array of star images, indexed by both size and color.
+	*Based on a star's spectral type, brightness, and the current zoom level, the appropriate
+	*image is selected from the array in the SkyMap::drawSymbol() function.
+	*A two-dimensional array of QPixmap star images
+	*@author Thomas Kabelmann
+	*@version 0.9
+	*/
 
 class StarPixmap {
 
 	public:
+	/**Constructor.  Build the array of images, based on a color mode and a colorintensity
+		*value.
+		*@param colorMode the color mode: 0 (real colors), 1 (solid red), 2 (solid black), or 3 (solid white).
+		*@param colorIntensity The thickness of the real-color circle drawn in mode 0 (it does nothing in the other color modes).
+		*/
 		StarPixmap (int colorMode=0, int colorIntensity = 4);
-		~StarPixmap();
+
+	/**Destructor (empty)*/
+		~StarPixmap() {}
 		
+	/**Retrieve the pixmap from the array indexed by color and size
+		*@param color the spectral type (one of O,B,A,F,G,K,M,N,P)
+		*@param s the size index
+		*/
 		QPixmap* getPixmap (QChar *color, int s);
 		
+	/**Change the Color mode.  Regenerate the star image array.
+		*@param newMode the new Color Mode to use.
+		*/
 		void setColorMode( int newMode );
+
+	/**Change the color Intensity.  Regenerate the star image array.
+		*@param newIntensity the new colorIntensity value.
+		*/
 		void setIntensity ( int newIntensity );
+
+	/**@returns the current color mode*/
 		int mode() { return colorMode; }
+	
+	/**@returns the current colorIntensity value*/
 		int intensity() { return colorIntensity; }
 		
 	private:
 		
 		QPixmap starPixmaps[10][24];	// the preloaded starpixmaps 10 colors/ 24 sizes
-		int size, zoomlevel, colorMode, colorIntensity;
+		int size, colorMode, colorIntensity;
 
+	/**Construct the array of star images*/
 		void loadPixmaps ( int colorMode = 0, int colorIntensity = 4 );
 };
 

@@ -15,21 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-/**
-	*Dialog for adjusting the Time and Date.  Contains a KDatePicker widget
-	*for selecting the date, and three QSpinBoxes for selecting the Hour,
-	*Minute and Second.  There is also a "Now" QPushbutton for selecting the
-	*Time and Date from the system clock.
-	*@short Dialog for adjusting the Time and Date.
-  *@author Jason Harris
-  *@version 0.4
-  */
-
 #ifndef TIMEDIALOG_H
 #define TIMEDIALOG_H
 
 #include <kdialogbase.h>
 #include <kdatepik.h>
+#include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -39,12 +30,14 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QComboBox;
-class QLabel;
-class QPushButton;
-class QSpinBox;
+/**Dialog for adjusting the Time and Date.  Contains a KDatePicker widget
+	*for selecting the date, and three QSpinBoxes for selecting the Hour,
+	*Minute and Second.  There is also a "Now" QPushbutton for selecting the
+	*Time and Date from the system clock.
+	*@short Dialog for adjusting the Time and Date.
+	*@author Jason Harris
+	*@version 0.9
+	*/
 
 
 class TimeDialog : public KDialogBase {
@@ -55,20 +48,23 @@ public:
 	*Connects	Signals and Slots.
 	*/
 	TimeDialog( QDateTime now, QWidget* parent = 0 );
+
 /**
 	*Destructor (empty)
 	*/
-	~TimeDialog();
+	~TimeDialog() {}
 
-	QHBoxLayout *hlay;
-	QVBoxLayout *vlay;
-	KDatePicker *dPicker;
-  QSpinBox* HourBox;
-  QLabel* TextLabel1;
-  QSpinBox* MinuteBox;
-  QLabel* TextLabel1_2;
-  QSpinBox* SecondBox;
-  QPushButton* NowButton;
+/**@returns a QTime object with the selected time
+	*/
+	QTime selectedTime( void );
+
+/**@returns a QDate object with the selected date
+	*/
+	QDate selectedDate( void );
+
+/**@returns a QDateTime object with the selected date and time
+	*/
+	QDateTime selectedDateTime( void );
 
 public slots:
 /**
@@ -78,6 +74,7 @@ public slots:
 	*to the system time.
 	*/
   void setNow( void );
+
 /**
 	*When the value of the HourBox QSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10.
@@ -87,11 +84,13 @@ public slots:
 	*widget sent the signal...
 	*/
 	void HourPrefix( int value );
+
 /**
 	*When the value of the MinuteBox QSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10. 	
 	*/
 	void MinutePrefix( int value );
+
 /**
 	*When the value of the SecondBox QSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10. 	
@@ -100,6 +99,17 @@ public slots:
 
 protected:
   bool event( QEvent* );
+
+private:
+	QHBoxLayout *hlay;
+	QVBoxLayout *vlay;
+	KDatePicker *dPicker;
+  QSpinBox* HourBox;
+  QLabel* TextLabel1;
+  QSpinBox* MinuteBox;
+  QLabel* TextLabel1_2;
+  QSpinBox* SecondBox;
+  QPushButton* NowButton;
 };
 
 #endif

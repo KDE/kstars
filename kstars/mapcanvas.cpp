@@ -32,7 +32,7 @@ MapCanvas::MapCanvas(QWidget *parent, const char *name ) : QWidget(parent,name) 
 	bgImage = new QPixmap();
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
 	KStars *ks = (KStars *)ld->parent();
-	QString bgFile = ks->GetData()->stdDirs->findResource( "data", "kstars/geomap.png" );
+	QString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
 	bgImage->load( bgFile, "PNG" );
 }
 
@@ -55,37 +55,12 @@ void MapCanvas::setGeometry( const QRect &r ) {
 
 void MapCanvas::mousePressEvent( QMouseEvent *e ) {
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
-  KStars *ks = (KStars *)ld->parent();
 
 	//Determine Lat/Long corresponding to event press
 	int lng = ( e->x() - origin.x() );
 	int lat  = ( origin.y() - e->y() );
 
-	//find all cities within 3 degrees of event; list them in GeoBox
-	ld->GeoBox->clear();
-	for ( unsigned int i=0; i<ks->GetData()->geoList.count(); ++i ) {
-		if ( ( abs(	lng - int( ks->GetData()->geoList.at(i)->lng().getD() ) ) < 3 ) &&
-				 ( abs( lat - int( ks->GetData()->geoList.at(i)->lat().getD() ) ) < 3 ) ) {
-	    QString sc( ks->GetData()->geoList.at(i)->translatedName() );
-			sc.append( ", " );
-			if ( !ks->GetData()->geoList.at(i)->province().isEmpty() ) {
-	      sc.append( ks->GetData()->geoList.at(i)->translatedProvince() );
-	      sc.append( ", " );
-			}
-      sc.append( ks->GetData()->geoList.at(i)->translatedCountry() );
-
-      ld->GeoBox->insertItem( sc );
-      ld->GeoID[ld->GeoBox->count() - 1] = i;
-		}
-	}
-
-	QString scount = i18n( "%1 cities match search criteria" ).arg(ld->GeoBox->count());
-	ld->CountLabel->setText( scount );
-
-	if ( ld->GeoBox->firstItem() )		// set first item in list as selected
-		ld->GeoBox->setCurrentItem( ld->GeoBox->firstItem() );
-
-	repaint();
+	ld->findCitiesNear( lng, lat );
 }
 
 void MapCanvas::paintEvent( QPaintEvent *e ) {
@@ -103,9 +78,9 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 	//Draw cities
 	QPoint o;
 
-	for ( unsigned int i=0; i < ks->GetData()->geoList.count(); ++i ) {
-		o.setX( int( ks->GetData()->geoList.at(i)->lng().getD() + origin.x() ) );
-		o.setY( height() - int( ks->GetData()->geoList.at(i)->lat().getD() + origin.y() ) );
+	for ( unsigned int i=0; i < ks->data()->geoList.count(); ++i ) {
+		o.setX( int( ks->data()->geoList.at(i)->lng().Degrees() + origin.x() ) );
+		o.setY( height() - int( ks->data()->geoList.at(i)->lat().Degrees() + origin.y() ) );
 
 		if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 			pcanvas.drawPoint( o.x(), o.y() );
@@ -114,12 +89,12 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 
   //redraw the cities that appear in the filtered list, with a white pen
 	//If the list has not been filtered, skip the redraw.
-	if ( ld->GeoBox->count() < ks->GetData()->geoList.count() ) {
+	if ( ld->GeoBox->count() < ks->data()->geoList.count() ) {
 		pcanvas.setPen( white );
 		for ( unsigned int i=0; i < ld->GeoBox->count(); ++i ) {
-			int index = ld->GeoID[i];
-			o.setX( int( ks->GetData()->geoList.at(index)->lng().getD() + origin.x() ) );
-			o.setY( height() - int( ks->GetData()->geoList.at(index)->lat().getD() + origin.y() ) );
+			int index = ld->cityIDAt( i );
+			o.setX( int( ks->data()->geoList.at(index)->lng().Degrees() + origin.x() ) );
+			o.setY( height() - int( ks->data()->geoList.at(index)->lat().Degrees() + origin.y() ) );
 
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				pcanvas.drawPoint( o.x(), o.y() );
@@ -127,9 +102,9 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 		}
 	}
 
-	if (ld->newCity <ks->GetData()->geoList.count()) {
-		o.setX( int( ks->GetData()->geoList.at(ld->newCity)->lng().getD() + origin.x() ) );
-		o.setY( height() - int( ks->GetData()->geoList.at(ld->newCity)->lat().getD() + origin.y() ) );
+	if (ld->getCityIndex() < ks->data()->geoList.count()) {
+		o.setX( int( ks->data()->geoList.at(ld->getCityIndex())->lng().Degrees() + origin.x() ) );
+		o.setY( height() - int( ks->data()->geoList.at(ld->getCityIndex())->lat().Degrees() + origin.y() ) );
 
 		pcanvas.setPen( red );
 		pcanvas.setBrush( red );

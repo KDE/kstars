@@ -28,9 +28,6 @@ KSMoon::KSMoon( long double Epoch )
 	findPosition( Epoch );
 }
 
-KSMoon::~KSMoon() {
-}
-
 void KSMoon::findPosition( long double Epoch ) {
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
@@ -132,8 +129,8 @@ void KSMoon::findPosition( long double Epoch ) {
 	sumB += ( -2235.0*sin( L ) + 382.0*sin( A3 ) + 175.0*sin( A1-F ) + 175.0*sin( A1+F ) + 127.0*sin( L-M1 ) - 115.0*sin( L+M1 ) );
 
 	//Geocentric coordinates
-	EcLong.setRadians( L + DegtoRad*sumL/1000000.0 );
-	EcLat.setRadians( DegtoRad*sumB/1000000.0 );
+	setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./PI() );  //convert radians to degrees
+	setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./PI() );
 	Rearth = 385000.56 + sumR/1000.0;
 
   EclipticToEquatorial( Epoch );
@@ -152,22 +149,22 @@ void KSMoon::localizeCoords( dms lat, dms LST ) {
 	u = atan( 0.996647*tan( lat.radians() ) );
 	rsinp = 0.996647*sin( u );
 	rcosp = cos( u );
-	HA.setD( LST.getD() - pos()->getRA().getD() );
+	HA.setD( LST.Degrees() - pos()->ra().Degrees() );
 	HA.SinCos( sinHA, cosHA );
-	pos()->getDec().SinCos( sinDec, cosDec );
+	pos()->dec().SinCos( sinDec, cosDec );
 	D = atan( ( rcosp*sinHA )/( Rearth*cosDec/6378.14 - rcosp*cosHA ) );
-	pos()->getRA().setRadians( pos()->getRA().radians() - D );
+	pos()->ra().setRadians( pos()->ra().radians() - D );
 
-	HA2.setD( LST.getD() - pos()->getRA().getD() );
+	HA2.setD( LST.Degrees() - pos()->ra().Degrees() );
 	cosHA2 = cos( HA2.radians() );
-	pos()->getDec().setRadians( atan( cosHA2*( Rearth*sinDec/6378.14 - rsinp )/( Rearth*cosDec*cosHA/6378.14 - rcosp ) ) );
+	pos()->dec().setRadians( atan( cosHA2*( Rearth*sinDec/6378.14 - rsinp )/( Rearth*cosDec*cosHA/6378.14 - rcosp ) ) );
 }
 
 void KSMoon::findPhase( KSSun *Sun ) {
-	Phase.setD( EcLong.getD() - Sun->EcLong.getD() );
-	Phase.setD( Phase.reduce().getD() );
-//	int iPhase = 24 - int( Phase.getH()+0.5 );
-	int iPhase = int( Phase.getH()+0.5 );
+	Phase.setD( ecLong().Degrees() - Sun->ecLong().Degrees() );
+	Phase.setD( Phase.reduce().Degrees() );
+//	int iPhase = 24 - int( Phase.Hours()+0.5 );
+	int iPhase = int( Phase.Hours()+0.5 );
 	if (iPhase==24) iPhase = 0;
 	QString sPhase;
 	sPhase = sPhase.sprintf( "%d", iPhase );
@@ -176,6 +173,6 @@ void KSMoon::findPhase( KSSun *Sun ) {
 	QFile imFile;
 	if ( KStarsData::openDataFile( imFile, imName ) ) {
 		imFile.close();
-		image.load( imFile.name() );
+		image()->load( imFile.name() );
 	}
 }

@@ -41,15 +41,10 @@ StarObject::StarObject( double r, double d, double m, QString n, QString n2, QSt
 {
 }
 
-StarObject::~StarObject()
-{
-// destructor is empty
-}
-
 QString StarObject::greekLetter( void ) {
 	QString letter = "";
-	if ( name2.find(" ") > 0 )
-		letter = name2.mid( 0, name2.find(" ") );
+	if ( name2().find(" ") > 0 )
+		letter = name2().mid( 0, name2().find(" ") );
 
 	return letter;
 }

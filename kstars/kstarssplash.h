@@ -27,14 +27,34 @@
 
 #include "kstarsdata.h"
 
+/**The KStars Splash Screen.  The splash screen shows the KStars logo and progress messages
+	*while data files are parsed and objects are initialized.
+	*@short the KStars Splash Screen.
+	*@author Heiko Evermann
+	*@version 0.9
+	*/
 class KStarsSplash : public KDialogBase
 {
 	Q_OBJECT
 public:
+	/**Constructor. Create widgets.  Load KStars logo.  Start load timer.
+		*/
 	KStarsSplash( KStarsData* kstarsData, QWidget *parent, const char* name, bool modal );
+
+	/**Show an error/warning message box if a data file could not be opened.  This must be done
+		*outside of the methods which actually read the files, or there is an infinite cascade
+		*of message boxes!
+		*@param s the name of the file that could not be opened.
+		*@param required if true, then the file that failed was critical to KStars; close the program on failure.
+		*/
 	void KludgeError( QString s, bool required=true );
 
 protected:
+	/**Paint event to redraw the widgets.  This only gets called when the timer fires.
+		*It should also repaint if another window was on top of the splash screen, but
+		*this may be difficult to implement (it may be that the program is too busy loading data
+		*to notice that a redraw is required).
+		*/
 	virtual void paintEvent( QPaintEvent *e );
 
 private:
@@ -45,6 +65,11 @@ private:
 	QTimer* qtimer;
   int     loadStatus;
 private slots:
+	/**A large switch statement that loads and initializes all KStars data in sequence.
+		*This slot gets called whenever the special load timer fires (the timer has a zero-interval,
+		*so it fires whenever all pending events have finished).  When a new load stage is
+		*started, the progress message in the Splash screen changes.
+		*/
 	void slotLoadDataFile();
 };
 
