@@ -238,8 +238,11 @@ void LocationDialog::filterCity( void ) {
 
 void LocationDialog::changeCity( void ) {
 	//when the selected city changes, set newCity, and redraw map
-	newCity = GeoID[GeoBox->currentItem()];		
+	newCity = GeoID[GeoBox->currentItem()];
 	MapView->repaint();
+
+//	KStars *p = (KStars *)parent();
+//	kdWarning() << "TimeZoneRule: " << p->data()->geoList.at(newCity)->tzrule() << endl;
 }
 
 int LocationDialog::getCityIndex( void ) {

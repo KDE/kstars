@@ -108,8 +108,16 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	data()->LastPlanetUpdate = -1000000.0;
 	data()->LastSkyUpdate = -1000000.0;
 
-	clock->setUTC(QDateTime(newDate, newTime).addSecs(int(-3600 * geo()->TZ()) ));
+//compute JD for the next DST adjustment
+	QDateTime changetime = geo()->tzrule()->nextDSTChange( QDateTime( newDate, newTime ) );
+	data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
 
+//compute JD for the previous DST adjustment (in case time is running backwards)
+	changetime = geo()->tzrule()->previousDSTChange( QDateTime( newDate, newTime ) );
+	data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+
+	geo()->tzrule()->setDST( geo()->tzrule()->isDSTActive( QDateTime( newDate, newTime ) ) );
+	clock->setUTC( QDateTime(newDate, newTime).addSecs(int(-3600 * geo()->TZ()) ) );
 }
 
 void KStars::clearCachedFindDialog() {

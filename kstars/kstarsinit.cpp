@@ -483,9 +483,20 @@ void KStars::privatedata::buildGUI() {
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
 
+	//Set DST, if necessary
+	ks->geo()->tzrule()->setDST( ks->geo()->tzrule()->isDSTActive( QDateTime::currentDateTime() ) );
+
 	//intitialize time to system clock
 	ks->clock->setUTC(QDateTime::currentDateTime().addSecs(int(-3600 * ks->geo()->TZ()) ));
 	ks->setLSTh( ks->clock->UTC() );
+
+//compute JD for the next DST adjustment
+	QDateTime changetime = ks->geo()->tzrule()->nextDSTChange( QDateTime::currentDateTime() );
+	ks->data()->setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * ks->geo()->TZ())) ) );
+
+//compute JD for the previous DST adjustment (in case time is running backwards)
+	changetime = ks->geo()->tzrule()->previousDSTChange( QDateTime::currentDateTime() );
+	ks->data()->setPrevDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * ks->geo()->TZ())) ) );
 
 	//Define the celestial equator, horizon and ecliptic
 	KSNumbers tempnum(ks->clock->JD());

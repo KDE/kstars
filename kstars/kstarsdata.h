@@ -43,6 +43,7 @@
 #include "skymap.h"
 #include "planetcatalog.h"
 #include "objectnamelist.h"
+#include "timezonerule.h"
 
 #if (KDE_VERSION > 222)
 #include <qptrlist.h>
@@ -88,6 +89,10 @@ public:
 		*@returns bool Returns true if at least one city read successfully.
 		*/
 	bool readCityData( void );
+
+	/**Read the data file that contains daylight savings time rules.
+		*/
+	bool readTimeZoneRulebook( void );
 
 	/**Parse one line from a locations database file.  The line contains 10 or 11 fields
 		*separated by colons (":").  The fields are:
@@ -236,6 +241,18 @@ public:
 	
 	void addCatalog( QString name, QList<SkyObject> );
 
+	/**Set the NextDSTChange member.
+		*Need this accessor because I could not make KStars::privatedata a friend
+		*class for some reason...:/
+		*/
+	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
+
+	/**Set the PrevDSTChange member.
+		*Need this accessor because I could not make KStars::privatedata a friend
+		*class for some reason...:/
+		*/
+	void setPrevDSTChange( long double jd ) { PrevDSTChange = jd; }
+
 	void saveOptions();
 	void restoreOptions();
 	KLocale *getLocale() { return locale; };
@@ -280,6 +297,7 @@ private:
 	ObjectNameList ObjNames;
 
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
+	QMap<QString, TimeZoneRule> Rulebook;
 
 	PlanetCatalog PC;
 
@@ -298,7 +316,8 @@ private:
 
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
-	
+	long double NextDSTChange, PrevDSTChange;
+
 	// options
 	KStarsOptions* options;
 	KStarsOptions* oldOptions;

@@ -79,7 +79,23 @@ void KStars::slotGeoLocator() {
 
 			infoPanel->geoChanged(geo());
 
-			// Adjust Local time for new time zone
+			// Adjust Local time for new time zone (but we aren't sure about DST yet)
+			data()->LTime.setDate( data()->UTime.date() );
+			data()->LTime.setTime( data()->UTime.time() );
+			data()->LTime = data()->LTime.addSecs( int(geo()->TZ()*3600) );
+
+//Set DST, if necessary
+			geo()->tzrule()->setDST( geo()->tzrule()->isDSTActive( data()->LTime ) );
+
+			//compute JD for the next DST adjustment
+			QDateTime changetime = geo()->tzrule()->nextDSTChange( data()->LTime );
+			data()->NextDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+
+			//compute JD for the previous DST adjustment
+			changetime = geo()->tzrule()->previousDSTChange( data()->LTime );
+			data()->PrevDSTChange = KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo()->TZ())) );
+
+			//Set local time again, this time using correct DST setting
 			data()->LTime.setDate( data()->UTime.date() );
 			data()->LTime.setTime( data()->UTime.time() );
 			data()->LTime = data()->LTime.addSecs( int(geo()->TZ()*3600) );

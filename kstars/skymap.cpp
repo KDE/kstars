@@ -165,7 +165,8 @@ void SkyMap::slotCenter( void ) {
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
 	clickedPoint()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
-	if ( ksw->options()->drawGround && focus()->alt().Degrees() > -1.0 && clickedPoint()->alt().Degrees() < -1.0 ) {
+	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
+			focus()->alt().Degrees() > -1.0 && clickedPoint()->alt().Degrees() < -1.0 ) {
 		QString caption = i18n( "Requested position below horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 

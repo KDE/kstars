@@ -559,111 +559,142 @@ bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bo
 
 
 bool KStarsData::processCity( QString line ) {
-			QString totalLine, field[12];
-			QString name, province, country;
-			bool intCheck = true, lastField = false;
-			char latsgn, lngsgn;
-			int lngD, lngM, lngS;
-	  	int latD, latM, latS;
-			double TZ;
-			float lng, lat;
+	QString totalLine;
+	QString name, province, country;
+	QStringList fields;
+	TimeZoneRule *TZrule;
+	bool intCheck = true, lastField = false;
+	char latsgn, lngsgn;
+	int lngD, lngM, lngS;
+	int latD, latM, latS;
+	double TZ;
+	float lng, lat;
 
-			totalLine = line;
-	
-			// separate fields
-			unsigned int i;
-			for ( i=0; i<12; ++i ) {
-				field[i] = line.mid( 0, line.find(':') ).stripWhiteSpace();
-				line = line.mid( line.find(':')+1 );
-				if (lastField) break; //ran out of fields
-				if (line.find(':')<0) lastField = true; //no more field delimiters
+	totalLine = line;
+
+	// separate fields
+	fields = QStringList::split( ":", line );
+
+	for ( unsigned int i=0; i< fields.count(); ++i )
+		fields[i] = fields[i].stripWhiteSpace();
+
+	if ( fields.count() < 11 ) {
+		kdDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
+		kdDebug()<< totalLine.local8Bit() <<endl;
+		return false;
+	} else if ( fields.count() < 12 ) {
+		// allow old format (without TZ) for mycities.dat
+		fields.append("");
+		fields.append("--");
+	} else if ( fields.count() < 13 ) {
+		// Set TZrule to "--"
+		fields.append("--");
+	}
+
+	name = fields[0];
+	province = fields[1];
+	country = fields[2];
+
+	latD = fields[3].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	latM = fields[4].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	latS = fields[5].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	QChar ctemp = fields[6].at(0);
+	latsgn = ctemp;
+	if (latsgn != 'N' && latsgn != 'S') {
+		kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	lngD = fields[7].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	lngM = fields[8].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	lngS = fields[9].toInt( &intCheck );
+	if ( !intCheck ) {
+		kdDebug() << fields[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	ctemp = fields[10].at(0);
+	lngsgn = ctemp;
+	if (lngsgn != 'E' && lngsgn != 'W') {
+		kdDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine << endl;
+		return false;
+	}
+
+	lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
+	lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
+
+	if ( latsgn == 'S' ) lat *= -1.0;
+	if ( lngsgn == 'W' ) lng *= -1.0;
+
+	// find time zone. Use value from Cities.dat if available.
+	// otherwise use the old approximation: int(lng/15.0);
+	if ( fields[11].isEmpty() || ('x' == fields[11].at(0)) ) {
+		TZ = int(lng/15.0);
+	} else {
+		bool doubleCheck = true;
+		TZ = fields[11].toDouble( &doubleCheck);
+		if ( !doubleCheck ) {
+			kdDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine << endl;
+			return false;
+		}
+	}
+
+	//last field is the TimeZone Rule ID.
+	TZrule = &( Rulebook[ fields[12] ] );
+
+	geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
+	return true;
+}
+
+bool KStarsData::readTimeZoneRulebook( void ) {
+	QFile file;
+	QString id;
+
+	if ( KSUtils::openDataFile( file, "TZrules.dat" ) ) {
+		QTextStream stream( &file );
+
+		while ( !stream.eof() ) {
+			QString line = stream.readLine().stripWhiteSpace();
+			if ( line.left(1) != "#" && line.length() ) { //ignore commented and blank lines
+				QStringList fields = QStringList::split( " ", line );
+				id = fields[0];
+				QTime stime = QTime( fields[3].left( fields[3].find(':')).toInt() ,
+								fields[3].mid( fields[3].find(':')+1, fields[3].length()).toInt() );
+				QTime rtime = QTime( fields[6].left( fields[6].find(':')).toInt(),
+								fields[6].mid( fields[6].find(':')+1, fields[6].length()).toInt() );
+
+				Rulebook[ id ] = TimeZoneRule( fields[1], fields[2], stime, fields[4], fields[5], rtime );
 			}
-
-			if ( i<10 ) {
-				kdDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
-				kdDebug()<< totalLine.local8Bit() <<endl;
-				return false;   
-			}
-			if ( i < 11  ) {	
-				// allow old format (without TZ) for mycities.dat
-				field[11] = QString("");
-			}
-
-			name  		= field[0];
-		  province 	= field[1];
-			country 	= field[2];
-
-			latD = field[3].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			latM = field[4].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			latS = field[5].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			QChar ctemp = field[6].at(0);
-			latsgn = ctemp;
-			if (latsgn != 'N' && latsgn != 'S') {
-				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			lngD = field[7].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			lngM = field[8].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			lngS = field[9].toInt( &intCheck );
-			if ( !intCheck ) {
-				kdDebug() << field[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-			ctemp = field[10].at(0);
-			lngsgn = ctemp;
-			if (lngsgn != 'E' && lngsgn != 'W') {
-				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine << endl;
-				return false;
-			}
-
-  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
-			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
-
-			if ( latsgn == 'S' ) lat *= -1.0;
-			if ( lngsgn == 'W' ) lng *= -1.0;
-
-			// find time zone. Use value from Cities.dat if available.
-			// otherwise use the old approximation: int(lng/15.0);
-			if ( field[11].isEmpty() || ('x' == field[11].at(0)) ) {
-				TZ = int(lng/15.0);
-			} else {
-				bool doubleCheck = true;
-				TZ = field[11].toDouble( &doubleCheck);
-				if ( !doubleCheck ) {
-					kdDebug() << field[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine << endl;
-					return false;
-				}
-			}
-
-			geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ ));		// appends city names to list
-			return true;
+		}
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool KStarsData::readCityData( void ) {
@@ -839,8 +870,11 @@ void KStarsData::slotInitialize() {
 			break;
 
 		case 1: //Load Cities//
-
 			emit progressText( i18n("Loading city data") );
+
+			if ( !readTimeZoneRulebook( ) )
+				initError( "TZrules.dat", true );
+
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
 			break;
@@ -945,8 +979,23 @@ void KStarsData::slotInitialize() {
 void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap ) {
 	UTime = clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
-
 	CurrentDate = clock->JD();
+
+	if ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) {
+		//compute JD for the next DST adjustment
+		QDateTime changetime = geo->tzrule()->nextDSTChange( LTime );
+		setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
+
+		//compute JD for the previous DST adjustment (in case time is running backwards)
+		changetime = geo->tzrule()->previousDSTChange( LTime );
+		setPrevDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
+
+		//turn DST on or off
+		geo->tzrule()->setDST( geo->tzrule()->isDSTActive( LTime ) );
+
+		//reset LTime, because TZoffset has changed
+		LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
+	}
 
 	KSNumbers num(CurrentDate);
 

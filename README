@@ -21,17 +21,16 @@ See COPYING for GPL license information.
 1.  Important URLs and files.
 -----------------------------
 
-The KStars homepage is: http://kstars.sourceforge.net/
+The KStars homepage is: http://edu.kde.org/kstars/
 
 You can obtain the latest version at:
 http://sourceforge.net/project/showfiles.php?group_id=22914
 
 There are instructions for obtaining the latest CVS build at:
-http://kstars.sourceforge.net/cvs.html
+http://edu.kde.org/kstars/cvs.html
 
 Installation instructions are in the file INSTALL.  At this time,
 installation is not quite standard, so please read the INSTALL file!
-(especially if you use Suse Linux 7.2)
 
 This is the file README.
 
@@ -41,7 +40,7 @@ This is the file README.
 
 The KStars handbook can be found in your $(KDEDIR)/share/doc/HTML/en/kstars/
 directory.  You can also easily access it from the Help menu, or by pressing
-the [F1] key, or by visiting http://kstars.sourceforge.net/handbook/
+the [F1] key, or by visiting http://edu.kde.org/kstars/handbook/
 
 
 3. Credits
@@ -86,9 +85,12 @@ B. Data Sources:
  and are used with his permission.  You can see more of his work at:
  http://www.astrosurf.com/cidadao/
 
- The inline images of M 17, M 31 and M 42 are from Jason Ware's collection.
+ The inline images of M 17 and M 42 are from Jason Ware's collection.
  You can see his entire collection (and purchase large-format prints) at:
  http://www.galaxyphoto.com
+
+ The inline image of M 31 is from a large photographic mosaic by Phil
+ Choi and Puragra Guhathakurta (see http://www.ucolick.org/~pchoi)
 
 C. Miscellany
 

@@ -24,6 +24,7 @@
 #include <qstring.h>
 #include <klocale.h>
 
+#include "timezonerule.h"
 #include "dms.h"
 
 /**
@@ -56,18 +57,18 @@ public:
 	*Constructor using dms objects to specify longitude, latitude and 
 	*height for a given ellipsoid.
 	*/
-	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, int iEllips=4, double hght=-10 );
+	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**
 	*Constructor using doubles to specify longitude, latitude and height.
 	*/
-	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, int iEllips=4, double hght=-10 );
+	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**
 	*Constructor using doubles to specify X, Y and Z referred to the center
 	*of the Earth.
 	*/
-	GeoLocation( double x, double y, double z, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, int iEllips=4 );
+	GeoLocation( double x, double y, double z, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
 
 
 /**
@@ -129,10 +130,16 @@ public:
 	*@returns translated Country name
 	*/
 	QString translatedCountry() const { return i18n(Country.local8Bit().data()); }
+
 /**
 	*@returns time zone
 	*/
-	double TZ() const { return TimeZone; }
+	double TZ() const { return TimeZone + TZrule->deltaTZ(); }
+
+/**
+	*@returns pointer to time zone rule object
+	*/
+	TimeZoneRule* tzrule() const { return TZrule; }
 
 /**
 	*Set longitude according to argument.
@@ -224,10 +231,15 @@ public:
 	void setTZ( double tz ) { TimeZone = tz; }
 
 /**
+	*Sets Time Zone according to argument.
+	*/
+	void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
+
+/**
 	*Set location data to that of the GeoLocation pointed to by argument.
 	*Similar to copy constructor.
 	*/
-	void reset( GeoLocation *g );		
+	void reset( GeoLocation *g );
 
 /**
 	* Converts from cartesian coordinates in meters to longitude, 
@@ -264,6 +276,7 @@ public:
 private:
 	dms Longitude, Latitude;
 	QString Name, Province, Country;
+	TimeZoneRule *TZrule;
 	double TimeZone, Height;
 	double axis, flattening;
 	long double PosCartX, PosCartY, PosCartZ;

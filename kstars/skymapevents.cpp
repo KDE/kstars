@@ -647,7 +647,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 						pmTitle->setText( clickedObject()->translatedName() );
 						if ( !clickedObject()->longname().isEmpty() ) {
 							pmTitle2->setText( i18n( clickedObject()->longname().local8Bit() ) );
-						} else {
+						} else if ( !clickedObject()->name2().isEmpty() ) {
 							pmTitle2->setText( i18n( clickedObject()->name2().local8Bit() ) );
 						}
 						pmType->setText( ksw->data()->TypeName[ clickedObject()->type() ] );

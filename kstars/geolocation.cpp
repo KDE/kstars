@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "geolocation.h"
 
 GeoLocation::GeoLocation(){
 	GeoLocation( 0.0, 0.0 );
+	TZrule = NULL;
 }
 
 GeoLocation::GeoLocation( const GeoLocation &g ) {
@@ -29,6 +29,7 @@ GeoLocation::GeoLocation( const GeoLocation &g ) {
 	Province  = g.Province;
 	Country   = g.Country;
 	TimeZone  = g.TimeZone;
+	TZrule    = g.TZrule;
 	Height    = g.Height;
 	indexEllipsoid = g.indexEllipsoid;
 	setEllipsoid ( indexEllipsoid );
@@ -42,6 +43,7 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 	Province  = g->Province;
 	Country   = g->Country;
 	TimeZone  = g->TimeZone;
+	TZrule    = g->TZrule;
 	Height    = g->Height;
 	indexEllipsoid = g->indexEllipsoid;
 	setEllipsoid ( indexEllipsoid );
@@ -49,13 +51,14 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				QString name, QString province, QString country, double tz, int iEllips, double hght ) {
+				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude = lng;
 	Latitude = lat;
 	Name = name;
 	Province = province;
 	Country = country;
 	TimeZone = tz;
+	TZrule = tzrule;
 	Height = hght;
 	indexEllipsoid = iEllips;
 	setEllipsoid ( indexEllipsoid );
@@ -63,21 +66,21 @@ GeoLocation::GeoLocation( dms lng, dms lat,
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-				QString name, QString province, QString country, double tz, int iEllips, double hght ) {
+				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude.set( lng );
 	Latitude.set( lat );
 	Name = name;
 	Province = province;
 	Country = country;
 	TimeZone = tz;
+	TZrule = tzrule;
 	Height = hght;
 	indexEllipsoid = iEllips;
 	setEllipsoid ( indexEllipsoid );
 	geodToCart();
 }
 
-GeoLocation::GeoLocation( double x, double y, double z, QString name, QString province, QString country, double TZ, int iEllips ) {
-
+GeoLocation::GeoLocation( double x, double y, double z, QString name, QString province, QString country, double TZ, TimeZoneRule *tzrule, int iEllips ) {
 	PosCartX = x;
 	PosCartY = y;
 	PosCartZ = z;
@@ -85,6 +88,7 @@ GeoLocation::GeoLocation( double x, double y, double z, QString name, QString pr
 	Province = province;
 	Country = country;
 	TimeZone = TZ;
+	TZrule = tzrule;
 	indexEllipsoid = iEllips;
 	setEllipsoid ( indexEllipsoid );
 	cartToGeod();
@@ -99,8 +103,10 @@ void GeoLocation::reset( GeoLocation *g ) {
 	Province  = g->province();
 	Country   = g->country();
 	TimeZone  = g->TZ();
+	TZrule    = g->tzrule();
 	Height    = g->height();
 }
+
 
 void GeoLocation::setEllipsoid(int index) {
 	static const double A[] = { 6378140.0, 6378137.0, 6378137.0, 6378137.0, 6378136.0 };

@@ -246,24 +246,21 @@ SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) 
 		v[1] = sinRA0*cosDec0;
 		v[2] = sinDec0;
 
-	//s is the product of P1 and v; s represents the 
+	//s is the product of P1 and v; s represents the
 	//coordinates precessed to J2000
 		for ( unsigned int i=0; i<3; ++i ) {
 			s[i] = num->p1( 0, i )*v[0] + num->p1( 1, i )*v[1] + 
 				num->p1( 2, i )*v[2];
 		}
-		delete &num;
+		delete num;
 
-	} else { 
+	} else {
 
-	//Input coords already in J2000, set s accordingly.
-
-
-
+		//Input coords already in J2000, set s accordingly.
 		s[0] = cosRA0*cosDec0;
 		s[1] = sinRA0*cosDec0;
 		s[2] = sinDec0; 
-       }
+	}
       
 	KSNumbers *num = new KSNumbers (jdf);
       
@@ -273,8 +270,9 @@ SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) 
 		v[i] = num->p2( 0, i )*s[0] + num->p2( 1, i )*s[1] + 
 		num->p2( 2, i )*s[2];
 	}
-	
-	//Extract RA, Dec from the vector:         
+	delete num;
+
+	//Extract RA, Dec from the vector:
 
 //	RA.setRadians( atan( v[1]/v[0] ) );
 	RA.setRadians( atan2( v[1],v[0] ) );
