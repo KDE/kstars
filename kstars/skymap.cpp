@@ -707,7 +707,7 @@ void SkyMap::slotDetail( void ) {
 		KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
 		return;
 	}
-	DetailDialog detail( clickedObject(), data->lt(), data->geo(), ksw );
+	DetailDialog detail( clickedObject(), data->ut(), data->geo(), ksw );
 	detail.exec();
 }
 

@@ -55,18 +55,25 @@ WUTDialog::WUTDialog(KStars *ks) :
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();
-	JDToday = kstars->data()->ut().djd();
-	//Today is the Local Date/Time
-	Today = kstars->data()->lt();
+	
+	T0 = kstars->data()->lt();
+	//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
+	if ( T0.time().hour() < 6 ) 
+		T0 = T0.addDays( -1 );
 
-	//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date`
-	if ( Today.time().hour() < 6 ) {
-		JDToday -= 1.0;
-		Today = Today.addDays( -1 );
-	}
-
-	JDTomorrow = JDToday + 1.0;
-
+	//Now, set time T0 to midnight (of the following day)
+	T0.setTime( QTime( 0, 0, 0 ) );
+	T0 = T0.addDays( 1 );
+	UT0 = geo->LTtoUT( T0 );
+	
+	//Set the Tomorrow date/time to Noon the following day
+	Tomorrow = T0.addSecs( 12*3600 );
+	TomorrowUT = geo->LTtoUT( Tomorrow );
+	
+	//Set the Evening date/time to 6:00 pm 
+	Evening = T0.addSecs( -6*3600 );
+	EveningUT = geo->LTtoUT( Evening );
+	
 	WUT = new WUTDialogUI( page );
 	vlay->addWidget( WUT );
 
@@ -74,7 +81,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
 	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Today.toString() ) );
+	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString() ) );
 
 	initCategories();
 
@@ -119,14 +126,14 @@ void WUTDialog::init() {
 
 	// sun almanac information
 	KSSun *oSun = (KSSun*) kstars->data()->PCat->planetSun();
-	sunRiseTomorrow = oSun->riseSetTime( JDTomorrow, geo, true );
-	sunSetToday = oSun->riseSetTime( JDToday, geo, false );
-	sunRiseToday = oSun->riseSetTime( JDToday, geo, true );
+	sunRiseTomorrow = oSun->riseSetTime( TomorrowUT, geo, true );
+	sunSetToday = oSun->riseSetTime( EveningUT, geo, false );
+	sunRiseToday = oSun->riseSetTime( EveningUT, geo, true );
 
 	//check to see if Sun is circumpolar
-	KSNumbers *num = new KSNumbers( JDToday );
+	KSNumbers *num = new KSNumbers( UT0.djd() );
 	KSNumbers *oldNum = new KSNumbers( kstars->data()->ut().djd() );
-	dms LST = geo->GSTtoLST( Today.gst() );
+	dms LST = geo->GSTtoLST( T0.gst() );
 	
 	oSun->updateCoords( num, true, geo->lat(), &LST );
 	if ( oSun->checkCircumpolar( geo->lat() ) ) {
@@ -156,10 +163,8 @@ void WUTDialog::init() {
 
 	// moon almanac information
 	KSMoon *oMoon = (KSMoon*) kstars->data()->Moon;
-	moonRise = oMoon->riseSetTime( JDToday, geo, true );
-	moonSet = oMoon->riseSetTime( JDToday, geo, false );
-	if ( moonSet < moonRise ) 
-		moonSet = oMoon->riseSetTime( JDTomorrow, geo, false );
+	moonRise = oMoon->riseSetTime( UT0, geo, true );
+	moonSet = oMoon->riseSetTime( UT0, geo, false );
 
 	//check to see if Moon is circumpolar
 	oMoon->updateCoords( num, true, geo->lat(), &LST );
@@ -267,20 +272,16 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
-	KStarsDateTime T1 = Today;
+	KStarsDateTime T1 = Evening;
 	T1.setTime( sunSetToday );
-	KStarsDateTime T2 = Today;
-	T2 = T2.addDays( 1 );
+	KStarsDateTime T2 = Tomorrow;
 	T2.setTime( sunRiseTomorrow );
 
 	//Check Evening/Morning only state:
 	if ( EveningFlag==0 ) { //Evening only
-		T1.setTime( sunSetToday );
-		T2.setTime( QTime( 0, 0, 0 ) ); //midnight
+		T2 = T0; //midnight
 	} else if ( EveningFlag==1 ) { //Morning only
-		T1 = T1.addDays( 1 );
-		T1.setTime( QTime( 0, 0, 0 ) ); //midnight
-		T2.setTime( sunRiseTomorrow );
+		T1 = T0; //midnight
 	}
 
 	for ( KStarsDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
@@ -325,18 +326,18 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 				sSet = i18n( "does not rise" );
 			}
 		} else {
-			tRise = o->riseSetTime( JDToday, geo, true );
-			tSet = o->riseSetTime( JDToday, geo, false );
-			if ( tSet < tRise ) 
-				tSet = o->riseSetTime( JDTomorrow, geo, false );
+			tRise = o->riseSetTime( T0, geo, true );
+			tSet = o->riseSetTime( T0, geo, false );
+//			if ( tSet < tRise ) 
+//				tSet = o->riseSetTime( JDTomorrow, geo, false );
 			
 			sRise = QString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
 			sSet = QString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
 		}
 
-		tTransit = o->transitTime( JDToday, geo );
-		if ( tTransit < tRise ) 
-			tTransit = o->transitTime( JDTomorrow, geo );
+		tTransit = o->transitTime( T0, geo );
+//		if ( tTransit < tRise ) 
+//			tTransit = o->transitTime( JDTomorrow, geo );
 		
 		sTransit = QString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
 
@@ -361,13 +362,27 @@ void WUTDialog::slotDetails() {
 }
 
 void WUTDialog::slotChangeDate() {
-	TimeDialog td( Today, this );
+	TimeDialog td( T0, this );
 	if ( td.exec() == QDialog::Accepted ) {
-		Today = td.selectedDateTime();
-		if ( Today.time().hour() < 6 ) Today = Today.addDays( -1 ); //assume user wants previous night.
-		JDToday = geo->LTtoUT( Today ).djd();
-		JDTomorrow = JDToday + 1.0;
-		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Today.toString() ) );
+		T0 = td.selectedDateTime();
+		//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
+		if ( T0.time().hour() < 6 ) 
+			T0 = T0.addDays( -1 );
+		
+		//Now, set time T0 to midnight (of the following day)
+		T0.setTime( QTime( 0, 0, 0 ) );
+		T0 = T0.addDays( 1 );
+		UT0 = geo->LTtoUT( T0 );
+		
+		//Set the Tomorrow date/time to Noon the following day
+		Tomorrow = T0.addSecs( 12*3600 );
+		TomorrowUT = geo->LTtoUT( Tomorrow );
+		
+		//Set the Evening date/time to 6:00 pm 
+		Evening = T0.addSecs( -6*3600 );
+		EveningUT = geo->LTtoUT( Evening );
+		
+		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString() ) );
 
 		int i = WUT->CategoryListBox->currentItem();
 		init();
@@ -380,11 +395,15 @@ void WUTDialog::slotChangeLocation() {
 	if ( ld.exec() == QDialog::Accepted ) {
 		if ( ld.getCityIndex() >= 0 ) {
 			geo = kstars->data()->geoList.at( ld.getCityIndex() );
+			UT0 = geo->LTtoUT( T0 );
+			TomorrowUT = geo->LTtoUT( Tomorrow );
+			EveningUT = geo->LTtoUT( Evening );
+			
 			QString sGeo = geo->translatedName();
 			if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 			sGeo += ", " + geo->translatedCountry();
 			WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-
+			
 			int i = WUT->CategoryListBox->currentItem();
 			init();
 			slotLoadList( i );

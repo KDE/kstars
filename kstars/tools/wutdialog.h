@@ -90,9 +90,8 @@ class WUTDialog : public KDialogBase  {
 		ObjectNameList *objectList;
 
 		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
+		KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
 
-		KStarsDateTime Today;
-		long double JDToday, JDTomorrow;
 		GeoLocation *geo;
 		int EveningFlag;
 		

@@ -169,7 +169,7 @@ public:
 	*rise/set time for the new coordinates.  Further iteration is not necessary,
 	*even for the most swiftly-moving object (the Moon).
 	*@return the local time that the object will rise
-	*@param jd  current Julian date
+	*@param dt current UT date/time
 	*@param geo current geographic location
 	*@param rst If TRUE, compute rise time. If FALSE, compute set time.
 	*/

@@ -93,17 +93,37 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 	if ( checkCircumpolar(geo->lat()) )
 		return QTime( 25, 0, 0 );
 
-	return geo->UTtoLT( KStarsDateTime( dt.date(), riseSetTimeUT( dt, geo, rst ) ) ).time();
+	//First of all, if the object is below the horizon at date/time dt, adjust the time 
+	//to bring it above the horizon
+	KStarsDateTime dt2 = dt;
+	SkyPoint p = recomputeCoords( dt, geo );
+	p.EquatorialToHorizontal( &(geo->GSTtoLST( dt.gst() )), geo->lat() );
+	if ( p.alt()->Degrees() < 0.0 ) {
+		if ( p.az()->Degrees() < 180.0 ) { //object has not risen yet
+			dt2 = dt.addSecs( 12.*3600. );
+		} else { //object has already set
+			dt2 = dt.addSecs( -12.*3600. );
+		}
+	}
+	
+	return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
 }
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
 	// First trial to calculate UT
 	QTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
-
+	
 	// We iterate once more using the calculated UT to compute again
 	// the ra and dec for that time and hence the rise/set time.
+	// Also, adjust the date by +/- 1 day, if necessary
 	KStarsDateTime dt0 = dt;
 	dt0.setTime( UT );
+	if ( riseT && dt0 > dt ) {
+		dt0 = dt0.addDays( -1 );
+	} else if ( ! riseT && dt0 < dt ) {
+		dt0 = dt0.addDays( 1 );
+	}
+	
 	SkyPoint sp = recomputeCoords( dt0, geo );
 	UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
 
