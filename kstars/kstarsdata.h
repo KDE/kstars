@@ -97,6 +97,7 @@ public:
 	//Friend classes can see the private data.
 	friend class FindDialog;
 	friend class KStars;
+	friend class KSWizard;
 	friend class LocationDialog;
 	friend class FOVDialog;
 	friend class MapCanvas;

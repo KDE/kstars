@@ -118,9 +118,39 @@ void KStars::slotCalculator() {
 
 void KStars::slotWizard() {
 	KSWizard wizard(this);
-	wizard.exec();
-	
-	//TODO: Add code here to deal with settings 
+	if ( wizard.exec() == QDialog::Accepted ) {
+		data()->setLocation( wizard.geo() );
+
+		// reset infoboxes
+		infoBoxes()->geoChanged( geo() );
+
+		// call changeTime to reset DST change times
+		// However, adjust local time to keep UT the same.
+		// create new LT without DST offset
+		QDateTime ltime = data()->UTime.addSecs( int( 3600 * geo()->TZ0()) );
+
+		// reset timezonerule to compute next dst change
+		geo()->tzrule()->reset_with_ltime( ltime, geo()->TZ0(), data()->isTimeRunningForward() );
+
+		// reset next dst change time
+		data()->setNextDSTChange( KSUtils::UTtoJD( geo()->tzrule()->nextDSTChange() ) );
+
+		// reset local sideral time
+		data()->setLST();
+
+		// Make sure Numbers, Moon, planets, and sky objects are updated immediately
+		data()->setFullTimeUpdate();
+
+		// If the sky is in Horizontal mode and not tracking, reset focus such that
+		// Alt/Az remain constant.
+		if ( ! Options::isTracking() && Options::useAltAz() ) {
+			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+		}
+
+		// recalculate new times and objects
+		data()->setSnapNextFocus();
+		updateTime();
+	}
 }
 
 void KStars::slotLCGenerator() {

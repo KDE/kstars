@@ -1,9 +1,9 @@
 /***************************************************************************
-                          kswizard.h  -  description
+                          opsadvanced.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed 28 Jan 2004
+    begin                : Sun 14 Mar 2004
     copyright            : (C) 2004 by Jason Harris
-    email                : kstars@30doradus.org
+    email                : jharris@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,39 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSWIZARD_H
-#define KSWIZARD_H
-
-#include <qmemarray.h>
-
-#include "kswizardui.h"
 #include "kstars.h"
-#include "geolocation.h"
 
-/**@short Setup Wizard for KStars
-	*@author Jason Harris
-	*@version 1.0
-	*/
+#include "opsadvanced.h"
+#include "timestepbox.h"
 
-class KSWizard : public KSWizardUI
+OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl ) 
+	: OpsAdvancedUI( p, name, fl ) 
 {
-Q_OBJECT
-public:
-	KSWizard( QWidget *parent=0, const char *name=0 );
-	~KSWizard();
-	GeoLocation* geo() const { return Geo; }
+	ksw = (KStars *)p;
 
-private slots:
-	void slotChangeCity();
-	void slotFilterCities();
-	void slotTelescopeSetup();
+	//Initialize the timestep value
+	SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );
 
-private:
-	void initGeoPage();
-	
-	KStars *ksw;
-	QMemArray<int> GeoID;
-	GeoLocation *Geo;
-};
+	connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
+}
 
-#endif
+OpsAdvanced::~OpsAdvanced() {}
+
+void OpsAdvanced::slotChangeTimeScale( float newScale ) {
+	Options::setSlewTimeScale( newScale );
+}
+
+#include "opsadvanced.moc"
