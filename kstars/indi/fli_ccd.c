@@ -27,36 +27,48 @@
 #include <unistd.h>
 #include <time.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 #include "fli/libfli.h"
 #include "fitsrw.h"
 #include "indidevapi.h"
 #include "indicom.h"
 
-void ISInit();
-int writeFITS(char *filename, char errmsg[]);
-int writeRAW (char *filename, char errmsg[]);
+void ISInit(void);
+void getBasicData(void);
+void ISPoll(void *);
+void handleExposure(void *);
+void connectCCD(void);
+int  writeFITS(char *filename, char errmsg[]);
+int  writeRAW (char *filename, char errmsg[]);
 int  findcam(flidomain_t domain);
 int  setImageArea(char errmsg[]);
 int  manageDefaults(char errmsg[]);
 int  grabImage();
-void ISPoll(void *);
-void handleExposure(void *);
-void connectCCD();
-int getOnSwitch(ISwitchVectorProperty *sp);
-double min();
-double max();
+int  findPort();
+int  checkPowerS(ISwitchVectorProperty *sp);
+int  checkPowerN(INumberVectorProperty *np);
+int  checkPowerT(ITextVectorProperty *tp);
+int  getOnSwitch(ISwitchVectorProperty *sp);
+int  isCCDConnected(void);
+double min(void);
+double max(void);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
 
 extern char* me;
+extern int errno;
 
 #define mydev           "FLI CCD"
 
 #define COMM_GROUP	"Communication"
 #define EXPOSE_GROUP	"Expose"
 #define IMAGE_GROUP	"Image Settings"
-#define OTHER_GROUP	"Other"
+#define DATA_GROUP    "Data Channel"
 
 #define MAX_CCD_TEMP	45		/* Max CCD temperature */
 #define MIN_CCD_TEMP	-55		/* Min CCD temperature */
@@ -64,12 +76,13 @@ extern char* me;
 #define MAX_Y_BIN	16.		/* Max Vertical binning */
 #define MAX_PIXELS	4096		/* Max number of pixels in one dimension */
 #define POLLMS		1000		/* Polling time (ms) */
-#define TEMP_THRESHOLD  .25		/* Differential temperature threshold (°C)*/
+#define TEMP_THRESHOLD  .25		/* Differential temperature threshold (C)*/
 #define NFLUSHES	1		/* Number of times a CCD array is flushed before an exposure */
 
 #define FILENAMESIZ	2048
 #define LIBVERSIZ 	1024
 #define PREFIXSIZ	64
+#define PIPEBUFSIZ	8192
 
 #define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
 
@@ -99,6 +112,17 @@ int  expose;
 unsigned short  *img;
 } img_t;
 
+typedef struct {
+ int rp;				/* Read pipe */
+ int wp;				/* Write pipe */
+ int streamReady;			/* Can we write to data stream? */
+} client_t;
+
+client_t *INDIClients;			/* INDI clients */
+static int DataPort;			/* Data Port */
+static int streamTimerID;		/* Stream ID */
+static int nclients;			/* # of clients using the binary stream */
+
 static flidev_t fli_dev;
 static cam_t *FLICam;
 static img_t *FLIImg;
@@ -120,10 +144,6 @@ static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_R
 /* Types of Frames */
 static ISwitch FrameTypeS[]		= { {"FRAME_LIGHT", "Light", ISS_ON}, {"FRAME_BIAS", "Bias", ISS_OFF}, {"FRAME_DARK", "Dark", ISS_OFF}, {"FRAME_FLAT", "Flat Field", ISS_OFF}};
 static ISwitchVectorProperty FrameTypeSP = { mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS)};
-
-/* Images Location */
-static IText ImageLocationT[]   	= {{"LOCATION", "Location"}};
-static ITextVectorProperty ImageLocationTP = { mydev, "FILE_LOCATION", "Images Location", IMAGE_GROUP, IP_WO, 0, IPS_IDLE, ImageLocationT, NARRAY(ImageLocationT)};
 
 /* Images Prefix */
 static IText ImagePrefixT[]      	= {{"PREFIX", "Prefix"}};
@@ -166,26 +186,25 @@ static INumber FrameN[]          	= {
  
  /* Temperature control */
  static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0.}};
- static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (°C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN)};
+ static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN)};
  
  /* Expose progress */
  static INumber ExposeProgressN[] = { {"Time left", "", "%.0f", 0., 0., 0., 0.} };
  static INumberVectorProperty ExposeProgressNP  = { mydev, "Expose Progress (s)", "", EXPOSE_GROUP, IP_RO, 0, IPS_IDLE, ExposeProgressN, NARRAY(ExposeProgressN)};
   
-/* Hardware revision */
-static INumber HWRevisionN[] 	= { { "Revision", "", "%.0f", 0., 0., 0., 0. }};
-static INumberVectorProperty HWRevisionNP = { mydev, "Hardware Revision", "", OTHER_GROUP, IP_RO, 0, IPS_IDLE, HWRevisionN, NARRAY(HWRevisionN)};
-
-/* Firmware revision */
-static INumber FWRevisionN[] 	= { { "Revision", "", "%.0f", 0., 0., 0., 0. }};
-static INumberVectorProperty FWRevisionNP = { mydev, "Firmware Revision", "", OTHER_GROUP, IP_RO, 0, IPS_IDLE, FWRevisionN, NARRAY(FWRevisionN)};
-
-/* Pixel size (µm) */
+ /* Pixel size (Âµm) */
 static INumber PixelSizeN[] 	= {
 	{ "Width", "", "%.0f", 0. , 0., 0., 0.},
 	{ "Height", "", "%.0f", 0. , 0., 0., 0.}};
-static INumberVectorProperty PixelSizeNP = { mydev, "Pixel Size (µm)", "", OTHER_GROUP, IP_RO, 0, IPS_IDLE, PixelSizeN, NARRAY(PixelSizeN)};
- 
+static INumberVectorProperty PixelSizeNP = { mydev, "Pixel Size (Âµm)", "", DATA_GROUP, IP_RO, 0, IPS_IDLE, PixelSizeN, NARRAY(PixelSizeN)};
+
+ /* Data channel */
+static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0.}};
+static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN)};
+
+/* Data type */
+static IText DataTypeT[]	= { "TYPE", "FILE" };
+static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT)};
 
 /* send client definitions of all properties */
 void ISInit()
@@ -207,7 +226,9 @@ void ISInit()
    return;
  }
  
- ImageLocationT[0].text = strcpy(malloc (sizeof (char) * (FILENAMESIZ - PREFIXSIZ)), "");
+/* ImageLocationT[0].text = strcpy(malloc (sizeof (char) * (FILENAMESIZ - PREFIXSIZ)), "");*/
+ 
+ DataTypeT[0].text      = strcpy(malloc (sizeof(char) * 32), "FILE");
  
  ImagePrefixT[0].text   = strcpy(malloc (sizeof (char) * PREFIXSIZ), "image_");
  
@@ -215,9 +236,12 @@ void ISInit()
  
  imageCount = 0;
  
+ streamTimerID = -1;
+ INDIClients = NULL;
+ nclients    = 0;
+ 
  isInit = 1;
  
-
 }
 
 void ISGetProperties (const char *dev)
@@ -233,42 +257,30 @@ void ISGetProperties (const char *dev)
   IDDefSwitch(&PortSP, NULL);
   
   /* Expose */
-  /*IDDefSwitch(&ExposeSP, NULL);
-  IDDefNumber(&ExposeProgressNP, NULL);*/
   IDDefSwitch(&FrameTypeSP, NULL);  
   IDDefNumber(&ExposeTimeNP, NULL);
-  
-  /*IDDefNumber(&NumberOfExpNP, NULL);
-  IDDefNumber(&DelayNP, NULL);*/
   IDDefNumber(&TemperatureNP, NULL);
   
   /* Image Group */
-  /* Note: We're going to handle looping from the client
-     level instead of the driver level 
-  IDDefText(&ImageLocationTP, NULL);
-  IDDefText(&ImagePrefixTP, NULL);
-  */
   IDDefSwitch(&ImageFormatSP, NULL);
   IDDefText(&FileNameTP, NULL);
   IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&BinningNP, NULL);
   
-  /* Other Group 
-  IDDefNumber(&HWRevisionNP, NULL);
-  IDDefNumber(&FWRevisionNP, NULL);
-  IDDefNumber(&PixelSizeNP, NULL);*/
+  /* Data Group */
+  IDDefNumber (&DataChannelNP, NULL);
+  IDDefText(&DataTypeTP, NULL);
   
-  /* Send the basic data to the new client if the previous client(s) are already connected. */		
+ /* Send the basic data to the new client if the previous client(s) are already connected. */		
   if (PowerSP.s == IPS_OK)
 	  getBasicData();
-	  
+  	
   IEAddTimer (POLLMS, ISPoll, NULL);
   
 }
   
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-        char errmsg[2048];
 	long err;
 	int i;
 	ISwitch *sp;
@@ -402,7 +414,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 	IText *tp;
-	int i;
 
 	ISInit();
  
@@ -412,40 +423,6 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 
 	/* suppress warning */
 	n=n;
-	
-	/* Image location */
-	if (!strcmp(ImageLocationTP.name, name))
-	{
-	  tp = IUFindText(&ImageLocationTP, names[0]);
-	  ImageLocationTP.s = IPS_IDLE;
-	  
-	  if (!tp)
-	  {
-	    IDSetText(&ImageLocationTP, "Error: %s is not a member of %s property.", names[0], name);
-	    return;
-	  }
-	  
-	  if ( strlen(texts[0]) > (FILENAMESIZ - PREFIXSIZ))
-	  {
-	    IDSetText(&ImageLocationTP, "Location is too long.");
-	    return;
-	  }
-	  
-	  strcpy(tp->text, texts[0]);
-  
-	  /* strip trailing / */
-	  for (i = strlen(tp->text) - 1 ; i > 0; i--)
-	  {
-	    if (tp->text[i] == '/')
-	      tp->text[i] = '\0';
-	    else break;
-	  }
-	  
-	  IDLog("Image Location is: %s\n", tp->text);
-	  ImageLocationTP.s = IPS_OK;
-	  IDSetText(&ImageLocationTP, NULL);
-	  return;
-	}
 	
 	if (!strcmp(name, FileNameTP.name))
 	{
@@ -622,8 +599,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
     FLICam->temperature = values[0];
     TemperatureNP.s = IPS_BUSY;
     
-    IDSetNumber(&TemperatureNP, "Setting CCD temperature to %+06.2f °C", values[0]);
-    IDLog("Setting CCD temperature to %+06.2f °C\n", values[0]);
+    IDSetNumber(&TemperatureNP, "Setting CCD temperature to %+06.2f C", values[0]);
+    IDLog("Setting CCD temperature to %+06.2f C\n", values[0]);
     return;
    }
    
@@ -944,8 +921,6 @@ int grabImage()
 {
   long err;
   int img_size,i;
-  static int globalImageCount = 0;
-  char filename[FILENAMESIZ];
   char errmsg[1024];
   
   img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
@@ -986,7 +961,7 @@ int grabImage()
 int writeRAW (char *filename, char errmsg[])
 {
 
-int fd, i, img_size;
+int fd, img_size;
 
 img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
 
@@ -1196,8 +1171,6 @@ void getBasicData()
   
   IDLog("The CCD Temperature is %f.\n", FLICam->temperature);
   
-  HWRevisionN[0].value = FLICam->HWRevision;				/* Hardware revision */
-  FWRevisionN[0].value = FLICam->FWRevision;				/* Software revision */
   PixelSizeN[0].value  = FLICam->x_pixel_size;				/* Pixel width (um) */
   PixelSizeN[1].value  = FLICam->y_pixel_size;				/* Pixel height (um) */
   TemperatureN[0].value = FLICam->temperature;				/* CCD chip temperatre (degrees C) */
@@ -1214,9 +1187,6 @@ void getBasicData()
   IDLog("The Camera Width is %d ---- %d\n", (int) FLICam->width, (int) FrameN[2].value);
   IDLog("The Camera Height is %d ---- %d\n", (int) FLICam->height, (int) FrameN[3].value);
   
-
-  IDSetNumber(&HWRevisionNP, NULL);
-  IDSetNumber(&FWRevisionNP, NULL);
   IDSetNumber(&PixelSizeNP, NULL);
   IDSetNumber(&TemperatureNP, NULL);
   IDSetNumber(&FrameNP, NULL);
