@@ -205,6 +205,7 @@ NewFOV::NewFOV( QWidget *parent )
 	connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
 	connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+	connect( ui->ComputeHPBW, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
 
 	slotUpdateFOV();
 }
@@ -244,6 +245,13 @@ void NewFOV::slotComputeFOV() {
 		ui->FOVEdit->setText( QString("%1").arg( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 0, 'f', 2 ) );
 	else if ( sender()->name() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
 		ui->FOVEdit->setText( QString("%1").arg( ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 0, 'f', 2 ) );
+	else if ( sender()->name() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
+		ui->FOVEdit->setText( QString("%1").arg( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 0, 'f', 2) );
+		// Beam width for an antenna is usually a circle on the sky.
+		ui->ShapeBox->setCurrentItem(1);
+		slotUpdateFOV();
+
+	}
 }
 
 unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentItem(); }
