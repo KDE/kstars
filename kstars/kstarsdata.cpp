@@ -34,7 +34,7 @@
 #if (QT_VERSION < 300)
 #define FLUSH flushX
 #include <kapp.h>
-#else 
+#else
 #define FLUSH flush
 #include <kapplication.h>
 #endif
@@ -48,7 +48,7 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	oldOptions = 0;
 
 	PC = new PlanetCatalog(ks);
-	
+
 	geoList.setAutoDelete( TRUE );
 	starList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );
@@ -72,14 +72,14 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	TypeName[7] = i18n( "supernova remnant" );
 	TypeName[8] = i18n( "galaxy" );
 	TypeName[9] = i18n( "Users should never see this", "UNUSED_TYPE" );
-	
+
 	// at startup times run forward
 	setTimeDirection( 0.0 );
 }
 
 KStarsData::~KStarsData() {
 	checkDataPumpAction();
-	
+
 	if ( 0 != oldOptions ) {
   	delete oldOptions;
 		oldOptions = 0;
@@ -97,32 +97,6 @@ KStarsData::~KStarsData() {
 	if (locale) delete locale;
 
 	delete PC;
-
-/*
-	QString s = QString( "geoList count: %1" ).arg( geoList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "starList count: %1" ).arg( starList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "deepSkyList count: %1" ).arg( deepSkyList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineList count: %1" ).arg( clineList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineModeList count: %1" ).arg( clineModeList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "cnameList count: %1" ).arg( cnameList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Equator count: %1" ).arg( Equator.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Ecliptic count: %1" ).arg( Ecliptic.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Horizon count: %1" ).arg( Horizon.count() );
-	qDebug( s.local8Bit() );
-
-	for ( unsigned int i=0; i<11; ++i ) {
-		s = QString( "MW[%1] count: %2" ).arg( i ).arg( MilkyWay[i].count() );
-		qDebug( s.local8Bit() );
-	}
-*/
 }
 
 bool KStarsData::readMWData( void ) {
@@ -242,56 +216,66 @@ bool KStarsData::readCNameData( void ) {
 
 bool KStarsData::readStarData( void ) {
 	QFile file;
-	if ( KSUtils::openDataFile( file, "sao.dat" ) ) {
+	if ( KSUtils::openDataFile( file, "hip.dat" ) ) {
 		QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
 			QString line, name, gname, SpType;
-			float mag;
+			double mag;
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
 
 			line = stream.readLine();
-
-			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
+			mag = line.mid( 46, 5 ).toDouble();	// star magnitude
 			if ( mag > options->magLimitDrawStar )
 				break;	// break reading file if magnitude is higher than needed
 			else
 				lastFileIndex = file.at();	// stores current file index - needed by reloading
-			
+
 			name = ""; gname = "";
 
+			//parse coordinates
 			rah = line.mid( 0, 2 ).toInt();
 			ram = line.mid( 2, 2 ).toInt();
-			ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+			ras = int(line.mid( 4, 5 ).toDouble());
 
-			sgn = line.at( 17 );
-			dd = line.mid( 18, 2 ).toInt();
-			dm = line.mid( 20, 2 ).toInt();
-			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
+			sgn = line.at(10);
+			dd = line.mid(11, 2).toInt();
+			dm = line.mid(13, 2).toInt();
+			ds = int(line.mid(15, 4).toDouble());
 
-			SpType = line.mid( 37, 2 );
-			name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
-			if ( name.contains( ':' ) ) { //genetive form exists
-				gname = name.mid( name.find(':')+1 );
+			//parse spectral type
+			SpType = line.mid(56, 2);
+
+			//parse name(s)
+			name = line.mid( 72 ).stripWhiteSpace(); //the rest of the line
+			if (name.contains( ':' )) { //genetive form exists
+				gname = name.mid( name.find(':')+1 ).stripWhiteSpace();
 				name = name.mid( 0, name.find(':') ).stripWhiteSpace();
 			}
-			if ( name.isEmpty() ) name = "star";
 
-			dms r;
-			r.setH( rah, ram, ras );
-			dms d( dd, dm,  ds );
-
-			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-				starList.append( o );
-
-			if ( o->name() != "star" ) {		// just add to name list if a name is given
-				ObjNames.append( o );
+			bool starIsUnnamed( false );
+			if (name.isEmpty()) {
+				name = "star";
+				starIsUnnamed = true;
 			}
 
-  		}	// end of while
+			dms r;
+			r.setH(rah, ram, ras);
+			dms d(dd, dm, ds);
+
+			if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
+
+			StarObject *o = new StarObject(r, d, mag, name, gname, SpType );
+			starList.append(o);
+
+			// add named stars to list
+			if (starIsUnnamed == false) {
+				ObjNames.append(o);
+			}
+
+		} // end of while
+
 		file.close();
 /*
 	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
@@ -383,7 +367,7 @@ bool KStarsData::readDeepSkyData( void ) {
 				if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );
 				else name = longname;
 			}
-			
+
 			// create new starobject or skyobject
 			// type 0 and 1 are starobjects
 			// all other are skyobjects
@@ -807,7 +791,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 	if ( newMagnitude > maxSetMagnitude || forceReload ) {
 
 		maxSetMagnitude = newMagnitude;  // store new highest magnitude level
-		
+
 		if ( !reloadingData() ) {  // if not allready reloading data
 			// create source object
 			source = new FileSource( this, "sao.dat" , newMagnitude );
@@ -823,7 +807,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 	}
 // change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar( newMagnitude );
-	
+
 }
 
 void KStarsData::checkDataPumpAction() {
@@ -900,7 +884,7 @@ void KStarsData::initError(QString s, bool required = false) {
 				"\n\t[KSTARS_SOURCE_DIR]/data/%1").arg(s);
 		caption = i18n( "Non-Critical File Not Found: %1" ).arg(s);
 	}
-	
+
 	KMessageBox::information( 0, message, caption );
 
 	if (required) {
@@ -943,7 +927,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
-				initError( "sao.dat", true );
+				initError( "hip.dat", true );
 			break;
 
 		case 3: //Load NGC 2000 database//
@@ -1061,7 +1045,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	KSNumbers num(CurrentDate);
 
 	bool needNewCoords = false;
-	if ( fabs( CurrentDate - LastNumUpdate ) > 1.0 ) { 
+	if ( fabs( CurrentDate - LastNumUpdate ) > 1.0 ) {
 		//update time-dependent variables once per day
 		needNewCoords = true;
 		LastNumUpdate = CurrentDate;
