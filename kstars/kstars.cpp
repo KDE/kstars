@@ -54,7 +54,7 @@ KStars::KStars( bool doSplash) :
 	//
 	kapp->dcopClient()->suspend();
 
-	pd->kstarsData = new KStarsData();
+	pd->kstarsData = new KStarsData(this);
 	QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
 				this, SLOT( datainitFinished(bool) ) );
 
@@ -86,109 +86,8 @@ KStars::KStars( KStarsData* kd )
 
 KStars::~KStars()
 {
+	saveOptions();
 	//Sync the config file
-	kapp->config()->setGroup( "Location" );
-	kapp->config()->writeEntry( "City", options()->CityName );
-	kapp->config()->writeEntry( "Province", options()->ProvinceName );
-	kapp->config()->writeEntry( "Country", options()->CountryName );
-
-	kapp->config()->setGroup( "Catalogs" );
-	kapp->config()->writeEntry( "CatalogCount", options()->CatalogCount );
-	for ( unsigned int i=0; i<options()->CatalogCount; ++i ) {
-		QString cname = QString( "CatalogName%1" ).arg( i );
-		QString cfile = QString( "CatalogFile%1" ).arg( i );
-		QString cshow = QString( "ShowCatalog%1" ).arg( i );
-		kapp->config()->writeEntry( cname, options()->CatalogName[i] );
-		kapp->config()->writeEntry( cfile, options()->CatalogFile[i] );
-		kapp->config()->writeEntry( cshow, options()->drawCatalog[i] );
-	}
-
-	kapp->config()->setGroup( "GUI" );
-	kapp->config()->writeEntry( "ShowInfoPanel", options()->showInfoPanel );
-	kapp->config()->writeEntry( "ShowIPTime", options()->showIPTime );
-	kapp->config()->writeEntry( "ShowIPFocus", options()->showIPFocus );
-	kapp->config()->writeEntry( "ShowIPGeo", options()->showIPGeo );
-	kapp->config()->writeEntry( "ShowMainToolBar", options()->showMainToolBar );
-	kapp->config()->writeEntry( "ShowViewToolBar", options()->showViewToolBar );
-
-	kapp->config()->setGroup( "View" );
-	kapp->config()->writeEntry( "SkyColor", 	options()->colorSky );
-	kapp->config()->writeEntry( "MWColor", 		options()->colorMW );
-	kapp->config()->writeEntry( "EqColor", 		options()->colorEq );
-	kapp->config()->writeEntry( "EclColor", 		options()->colorEcl );
-	kapp->config()->writeEntry( "HorzColor", 	options()->colorHorz );
-	kapp->config()->writeEntry( "GridColor", 	options()->colorGrid );
-	kapp->config()->writeEntry( "MessColor", 	options()->colorMess );
-	kapp->config()->writeEntry( "NGCColor", 	options()->colorNGC );
-	kapp->config()->writeEntry( "ICColor", 		options()->colorIC );
-	kapp->config()->writeEntry( "CLineColor", options()->colorCLine );
-	kapp->config()->writeEntry( "CNameColor", options()->colorCName );
-	kapp->config()->writeEntry( "PNameColor", options()->colorPName );
-	kapp->config()->writeEntry( "SNameColor", options()->colorSName );
-	kapp->config()->writeEntry( "HSTColor", 	options()->colorHST );
-	kapp->config()->writeEntry( "StarColorMode", options()->starColorMode );
-	kapp->config()->writeEntry( "StarColorsIntensity", options()->starColorIntensity );
-	kapp->config()->writeEntry( "ShowSAO", 		options()->drawSAO );
-	kapp->config()->writeEntry( "ShowMess", 	options()->drawMessier );
-	kapp->config()->writeEntry( "ShowMessImages", 	options()->drawMessImages );
-	kapp->config()->writeEntry( "ShowNGC", 		options()->drawNGC );
-	kapp->config()->writeEntry( "ShowIC", 		options()->drawIC );
-	kapp->config()->writeEntry( "ShowCLines", options()->drawConstellLines );
-	kapp->config()->writeEntry( "ShowCNames", options()->drawConstellNames );
-	kapp->config()->writeEntry( "UseLatinConstellationNames", options()->useLatinConstellNames );
-	kapp->config()->writeEntry( "UseLocalConstellationNames", options()->useLocalConstellNames );
-	kapp->config()->writeEntry( "UseAbbrevConstellationNames", options()->useAbbrevConstellNames );
-	kapp->config()->writeEntry( "ShowMilkyWay", options()->drawMilkyWay );
-	kapp->config()->writeEntry( "ShowGrid", options()->drawGrid );
-	kapp->config()->writeEntry( "ShowEquator", options()->drawEquator );
-	kapp->config()->writeEntry( "ShowEcliptic", options()->drawEcliptic );
-	kapp->config()->writeEntry( "ShowHorizon", options()->drawHorizon );
-	kapp->config()->writeEntry( "ShowGround", options()->drawGround );
-	kapp->config()->writeEntry( "ShowSun", 		options()->drawSun );
-	kapp->config()->writeEntry( "ShowMoon", 	options()->drawMoon );
-	kapp->config()->writeEntry( "ShowMercury", 	options()->drawMercury );
-	kapp->config()->writeEntry( "ShowVenus", 	options()->drawVenus );
-	kapp->config()->writeEntry( "ShowMars", 	options()->drawMars );
-	kapp->config()->writeEntry( "ShowJupiter", 	options()->drawJupiter );
-	kapp->config()->writeEntry( "ShowSaturn", 	options()->drawSaturn );
-	kapp->config()->writeEntry( "ShowUranus", 	options()->drawUranus );
-	kapp->config()->writeEntry( "ShowNeptune", 	options()->drawNeptune );
-	kapp->config()->writeEntry( "ShowPluto", 	options()->drawPluto );
-	kapp->config()->writeEntry( "ShowPlanets", 	options()->drawPlanets );
-	kapp->config()->writeEntry( "ShowDeepSky", 	options()->drawDeepSky );
-	kapp->config()->writeEntry( "IsTracking", 	options()->isTracking );
-	if ( skymap->foundObject() != NULL ) {
-		kapp->config()->writeEntry( "FocusObject",  skymap->foundObject()->name() );
-	} else {
-		kapp->config()->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );
-	}
-	kapp->config()->writeEntry( "UseAltAz", 	options()->useAltAz );
-	kapp->config()->writeEntry( "FocusRA", skymap->focus()->ra().Hours() );
-	kapp->config()->writeEntry( "FocusDec", skymap->focus()->dec().Degrees() );
-	kapp->config()->writeEntry( "SlewTimeScale", options()->slewTimeScale );
-	kapp->config()->writeEntry( "ZoomLevel", data()->ZoomLevel );
-	kapp->config()->writeEntry( "windowWidth", width() );
-	kapp->config()->writeEntry( "windowHeight", height() );
-	kapp->config()->writeEntry( "magLimitDrawStar", 	 options()->magLimitDrawStar );
-	kapp->config()->writeEntry( "magLimitDrawStarInfo",options()->magLimitDrawStarInfo );
-	kapp->config()->writeEntry( "magLimitHideStar",options()->magLimitHideStar );
-	kapp->config()->writeEntry( "drawStarName", options()->drawStarName );
-	kapp->config()->writeEntry( "drawPlanetName", options()->drawPlanetName );
-	kapp->config()->writeEntry( "drawPlanetImage", options()->drawPlanetImage );
-	kapp->config()->writeEntry( "drawStarMagnitude",   options()->drawStarMagnitude );
-	kapp->config()->writeEntry( "UseRefraction", options()->useRefraction );
-	kapp->config()->writeEntry( "AnimateSlewing", options()->useAnimatedSlewing );
-	kapp->config()->writeEntry( "HideOnSlew", options()->hideOnSlew );
-	kapp->config()->writeEntry( "HideStars", options()->hideStars );
-	kapp->config()->writeEntry( "HidePlanets", options()->hidePlanets );
-	kapp->config()->writeEntry( "HideMess", options()->hideMess );
-	kapp->config()->writeEntry( "HideNGC", options()->hideNGC );
-	kapp->config()->writeEntry( "HideIC", options()->hideIC );
-	kapp->config()->writeEntry( "HideMW", options()->hideMW );
-	kapp->config()->writeEntry( "HideCNames", options()->hideCNames );
-	kapp->config()->writeEntry( "HideCLines", options()->hideCLines );
-	kapp->config()->writeEntry( "HideGrid", options()->hideGrid );
-	kapp->config()->sync();
 
 //	colorActions.clear(); //dispose of colorActions...
 

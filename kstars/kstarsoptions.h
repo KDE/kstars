@@ -46,6 +46,12 @@ public:
 		*/
 	void copy( KStarsOptions* dataSource );
 
+	/**Currently only used in this constructor, but later it may be used for a option wizard.
+		*/
+	void setDefaultOptions();
+
+	void setMagLimitDrawStar( float newMagnitude );	
+	
 	// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
   // (false=equatorial coordinate system)
 	bool useAltAz;
@@ -60,8 +66,6 @@ public:
   //         in KStdAction how like an angel!
   //          in apprehension, how like a god!
 	//     (more hacked Hamlet :)
-
-	void setMagLimitDrawStar( float newMagnitude );	
 
 	//control drawing of various items in the skymap
 	bool drawSAO;

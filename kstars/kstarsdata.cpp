@@ -39,14 +39,10 @@
 #define FLUSH flush
 #endif
 
-KStarsData::KStarsData() : initTimer(0), inited(false),
+KStarsData::KStarsData( KStars *ks ) : kstars( ks ), initTimer(0), inited(false),
 	source( 0 ), loader( 0 ), pump( 0 ) {
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
-/*
-	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
-	*/
-	maxSetMagnitude = options->magLimitDrawStar;
 
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
@@ -262,8 +258,13 @@ bool KStarsData::readStarData( void ) {
 
   		}	// end of while
 		file.close();
+/*
+	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
+	*/
+		maxSetMagnitude = options->magLimitDrawStar;
     	return true;
 	} else {
+		maxSetMagnitude = 0;  // nothing loaded
 		return false;
 	}
 }
@@ -832,48 +833,54 @@ void KStarsData::slotInitialize() {
 
 	switch ( initCounter )
 	{
-		case 0: //Load Cities//
+		case 0: //Load Options//
+			emit progressText( i18n("Loading Options") );
+				kstars->loadOptions();
+			break;
+
+		case 1: //Load Cities//
 
 			emit progressText( i18n("Loading city data") );
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
+			break;
 
-		case 1: //Load SAO stellar database//
+		case 2: //Load SAO stellar database//
 
 			emit progressText(i18n("Loading star data" ) );
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
 			break;
 
-		case 2: //Load NGC 2000 database//
+		case 3: //Load NGC 2000 database//
 
 			emit progressText( i18n("Loading NGC/IC data" ) );
 			if ( !readDeepSkyData( ) )
 				initError( "ngcic.dat", true );
 			break;
 
-		case 3: //Load Constellation lines//
+		case 4: //Load Constellation lines//
 
 			emit progressText( i18n("Loading constellations" ) );
 			if ( !readCLineData( ) )
 				initError( "clines.dat", true );
 			break;
 
-		case 4: //Load Constellation names//
+		case 5: //Load Constellation names//
 
 			emit progressText( i18n("Loading constellation names" ) );
 			if ( !readCNameData( ) )
 				initError( cnameFile, true );
 			break;
 
-		case 5: //Load Milky Way//
+		case 6: //Load Milky Way//
 
 			emit progressText( i18n("Loading Milky Way" ) );
 			if ( !readMWData( ) )
 				initError( "mw*.dat", true );
 			break;
 
-		case 6: //Start the Clock//
+		case 7: //Start the Clock//
 
 			emit progressText( i18n("Starting Clock" ) );
 			//The Sky is updated more frequently than the moon, which is updated more frequently
@@ -887,14 +894,14 @@ void KStarsData::slotInitialize() {
 			LastNumUpdate = -1000000.0;
 			break;
 
-		case 7: //Initialize the Planets//
+		case 8: //Initialize the Planets//
 
 			emit progressText( i18n("Creating Planets" ) );
 			if (PC.initialize())
 				PC.addObject( ObjNames );
 			break;
 
-		case 8: //Initialize the Moon//
+		case 9: //Initialize the Moon//
 
 			emit progressText( i18n("Creating Moon" ) );
 			Moon = new KSMoon();
@@ -902,7 +909,7 @@ void KStarsData::slotInitialize() {
 			Moon->loadData();
 			break;
 
-		case 9: //Load Image URLs//
+		case 10: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
 			if ( !readURLData( "image_url.dat", 0 ) ) {
@@ -913,7 +920,7 @@ void KStarsData::slotInitialize() {
 			}
 			break;
 
-		case 10: //Load Information URLs//
+		case 11: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
 			if ( !readURLData( "info_url.dat", 1 ) ) {

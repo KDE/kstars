@@ -73,7 +73,7 @@ public:
 	friend class StarDataSink;
 	
 	/**Constructor. */
-	KStarsData();
+	KStarsData( KStars *ks );
 
 	/**Destructor.  Delete data objects. */
   virtual ~KStarsData();
@@ -305,6 +305,7 @@ private:
 	int initCounter;
 	void initError(QString fn, bool required);
 
+	KStars *kstars;
 /**
 	*Reloading of star data asynchronous:
 	*QDataPump connects FileSource and StarDataSink and starts data transmission.

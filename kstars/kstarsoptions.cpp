@@ -25,97 +25,8 @@
 #endif
 
 KStarsOptions::KStarsOptions()
-	:	useAltAz (true )
-	, drawSAO( true )
-	, drawMessier( true )
-	, drawMessImages( true )
-	, drawNGC( true )
-	, drawIC( true )
-	, drawOther( true )
-	, drawConstellLines( true )
-	, drawConstellNames( true )
-	, useLatinConstellNames ( true )
-	, useLocalConstellNames ( false )
-	, useAbbrevConstellNames ( false )
-	, drawMilkyWay( true )
-	, fillMilkyWay( true )
-	, drawGrid( true )
-	, drawEquator( true )
-	, drawHorizon( true )
-	, drawGround( true )
-	, drawEcliptic( true )
-	, drawSun( true )
-	, drawMoon( true )
-	, drawMercury( true )
-	, drawVenus( true )
-	, drawMars( true )
-	, drawJupiter( true )
-	, drawSaturn( true )
-	, drawUranus( true )
-	, drawNeptune( true )
-	, drawPluto( true )
-	, drawPlanets( true )
-	, drawDeepSky( true )
-	, useRefraction( true )
-	, useAnimatedSlewing( true )
-	, hideOnSlew( true )
-	, hideStars( true )
-	, hidePlanets( true )
-	, hideMess( true )
-	, hideNGC( true )
-	, hideIC( true )
-	, hideOther( true )
-	, hideMW( true )
-	, hideCNames( true )
-	, hideCLines( true )
-	, hideGrid( true )
-	, isTracking( false )
-	, showInfoPanel( true )
-	, showIPTime( true )
-	, showIPFocus( true )
-	, showIPGeo( true )
-	, showMainToolBar( true )
-	, showViewToolBar( true )
-	, focusObject()
-  , focusRA( 0.0 )
-  , focusDec( 0.0 )
-  , slewTimeScale( 20.0 )
-  , windowWidth( 600 )
-  , windowHeight( 600 )
-//  , magLimitDrawStar( 8.0 )		// read entry below
-  , magLimitDrawStarInfo( 3.0 )
-  , magLimitHideStar( 5.0 )
-  , drawStarName( true )
-  , drawPlanetName( true )
-  , drawPlanetImage( true )
-  , drawStarMagnitude( true )
-	, starColorMode( 0 )
-  , starColorIntensity( 4 )
- 	, colorSky()
-	, colorMess()
-	, colorNGC()
-	, colorIC()
-	, colorHST()
-	, colorMW()
-	, colorEq()
-	, colorEcl()
-	, colorHorz()
-	, colorGrid()
-	, colorCLine()
-	, colorCName()
-	, colorPName()
-	, colorSName()
-	, CityName()
-	, ProvinceName()
-	, CountryName()
-	, CatalogCount(0)
-	, CatalogName()
-	, CatalogFile()
-	, drawCatalog()
 {
-// read entry for loading not more stars than needed
-	kapp->config()->setGroup( "View" );
-	magLimitDrawStar = kapp->config()->readDoubleNumEntry( "magLimitDrawStar", 8.0 );
+	setDefaultOptions();
 }
 
 void KStarsOptions::copy( KStarsOptions* dataSource )
@@ -227,6 +138,98 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 		CatalogName.append( dataSource->CatalogName[i] );
 		drawCatalog.append( dataSource->drawCatalog[i] );
 	}
+}
+
+void KStarsOptions::setDefaultOptions() {
+	useAltAz = true;
+	drawSAO =true;
+	drawMessier = true;
+	drawMessImages = true;
+	drawNGC = true;
+	drawIC = true;
+	drawOther =true;
+	drawConstellLines = true;
+	drawConstellNames = true;
+	useLatinConstellNames = true;
+	useLocalConstellNames = false;
+	useAbbrevConstellNames = false;
+	drawMilkyWay = true;
+	fillMilkyWay = true;
+	drawGrid = true;
+	drawEquator = true;
+	drawHorizon = true;
+	drawGround = true;
+	drawEcliptic= true;
+	drawSun= true;
+	drawMoon= true;
+	drawMercury= true;
+	drawVenus= true;
+	drawMars= true;
+	drawJupiter= true;
+	drawSaturn= true;
+	drawUranus= true;
+	drawNeptune= true;
+	drawPluto= true;
+	drawPlanets= true;
+	drawDeepSky= true;
+	useRefraction= true;
+	useAnimatedSlewing= true;
+	hideOnSlew= true;
+	hideStars= true;
+	hidePlanets= true;
+	hideMess= true;
+	hideNGC= true;
+	hideIC= true;
+	hideOther= true;
+	hideMW= true;
+	hideCNames= true;
+	hideCLines= true;
+	hideGrid= true;
+	isTracking= false;
+	showInfoPanel= true;
+	showIPTime= true;
+	showIPFocus= true;
+	showIPGeo= true;
+	showMainToolBar= true;
+	showViewToolBar= true;
+//	focusObject()
+	focusRA = 0.0;
+	focusDec = 0.0;
+	slewTimeScale = 20.0;
+	windowWidth = 600;
+	windowHeight = 600;
+//  magLimitDrawStar = 8.0;		// read entry below
+	magLimitDrawStarInfo = 3.0;
+	magLimitHideStar = 5.0;
+	drawStarName= true;
+	drawPlanetName= true;
+	drawPlanetImage= true;
+	drawStarMagnitude= true;
+	starColorMode = 0;
+	starColorIntensity = 4;
+/*
+ 	colorSky()
+	colorMess()
+	colorNGC()
+	colorIC()
+	colorHST()
+	colorMW()
+	colorEq()
+	colorEcl()
+	colorHorz()
+	colorGrid()
+	colorCLine()
+	colorCName()
+	colorPName()
+	colorSName()
+	CityName()
+	ProvinceName()
+	CountryName()
+	CatalogCount(0)
+	CatalogName()
+	CatalogFile()
+	drawCatalog()
+*/
 }
 
 void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {

@@ -88,6 +88,7 @@ class AstroCalc;
 
 class KStars : public KMainWindow, virtual public KStarsInterface
 {
+
   Q_OBJECT 
   public:
     /**
@@ -133,6 +134,16 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Display object name and coordinates in the KStars infoPanel
 			*/
 		void showFocusCoords( void );
+
+		/**
+			*Load KStars options.
+			*/
+		void loadOptions();
+
+		/**
+			*Save KStars options.
+			*/
+		void saveOptions();
 
 		/**Find object by name.
 			*@param name Object name to find
@@ -254,11 +265,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Initialize Status bar.
 			*/
 		void initStatusBar();
-
-		/**
-			*Initialize KStars options.
-			*/
-		void initOptions();
 
 		/**
 			*Initialize Geographic location.

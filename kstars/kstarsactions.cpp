@@ -111,6 +111,8 @@ void KStars::slotViewOps() {
 		data()->restoreOptions();
 		skymap->Update();
 	}
+	else
+		saveOptions();
 }
 
 void KStars::slotSetTime() {
