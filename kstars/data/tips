@@ -1,13 +1,13 @@
 <tip category="KStars|General">
 <html>
-<p>You can locate objects in the sky by their name. 
+<p>You can locate objects in the sky by their name.
 Use Ctrl+F, the "Focus->Find Object" menu item, or the "Find"
 Toolbar button.
 </html>
 </tip>
 <tip category="KStars|General">
 <html>
-<p>To change your Geographic Location, 
+<p>To change your Geographic Location,
 use Ctrl+G, the "Settings->Set Geographic Location..." menu item,
 or the "globe" Toolbar button.
 </html>
@@ -23,7 +23,7 @@ object's popup menu.
 </html>
 <tip category="KStars|General">
 <html>
-<p>The KStars Handbook includes the AstroInfo Project, a series 
+<p>The KStars Handbook includes the AstroInfo Project, a series
 of informative articles about Astronomy.
 </html>
 </tip>
@@ -38,34 +38,34 @@ them altogether in the Settings->Info Boxes menu.
 </tip>
 <tip category="KStars|General">
 <html>
-<p>KStars has a full-screen mode; you can toggle this mode using the 
+<p>KStars has a full-screen mode; you can toggle this mode using the
 "fullscreen" toolbar button, or by pressing Ctrl+Shift+F.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
 <p>The N,S,E,W keys will point the display at the North,
-South, East and West points on the Horizon.  The Z key will point the 
-display at the Zenith.  
+South, East and West points on the Horizon.  The Z key will point the
+display at the Zenith.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>The 0-9 keys will center the display on one of the major solar system 
-bodies.  0 centers on the Sun, 3 centers on the Moon; the rest are the eight 
+<p>The 0-9 keys will center the display on one of the major solar system
+bodies.  0 centers on the Sun, 3 centers on the Moon; the rest are the eight
 planets, in order of their distance from the Sun.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>Click and Drag with the mouse to slew the skymap to a new position on 
+<p>Click and Drag with the mouse to slew the skymap to a new position on
 the sky.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
 <p>Double-click with the mouse to center the display on the location
-of the mouse cursor.  If you double-click on an object, KStars will 
+of the mouse cursor.  If you double-click on an object, KStars will
 automatically begin tracking it.
 </html>
 </tip>
@@ -77,19 +77,19 @@ in both Equatorial and Horizontal coordinate systems.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>The display can be zoomed in or out by spinning your mouse's scroll wheel, 
+<p>The display can be zoomed in or out by spinning your mouse's scroll wheel,
 or by dragging the mouse up or down with the middle mouse button pressed.  You
-can also use the +/- keys, or the "Zoom In"/"Zoom Out" items in the toolbar and 
-in the View menu.  The Zoom Level can be set manually using the "Zoom to Angular 
-Size" item in the View menu (Shift+Ctrl+Z), and you can set it graphically by 
-holding down the Ctrl button while dragging the mouse to define a rectangle for 
+can also use the +/- keys, or the "Zoom In"/"Zoom Out" items in the toolbar and
+in the View menu.  The Zoom Level can be set manually using the "Zoom to Angular
+Size" item in the View menu (Shift+Ctrl+Z), and you can set it graphically by
+holding down the Ctrl button while dragging the mouse to define a rectangle for
 the new window boundaries.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
 <p>You can manually set the coordinates of the central Focus point.
-Press Ctrl+M, or use the "Focus->Set Focus Manually..." menu item, and enter 
+Press Ctrl+M, or use the "Focus->Set Focus Manually..." menu item, and enter
 the desired coordinates in the popup window.
 </html>
 </tip>
@@ -101,8 +101,8 @@ systems, use the "View->Coordinates" menu item, or press the spacebar.
 </tip>
 <tip category="KStars|Time">
 <html>
-<p>To set the Time and Date, type Ctrl+S, use the "Time->Set Time" menu item, 
-or press the "time" toolbar button.  Note that dates in KStars can be very 
+<p>To set the Time and Date, type Ctrl+S, use the "Time->Set Time" menu item,
+or press the "time" toolbar button.  Note that dates in KStars can be very
 remote; you can use any year between -50,000 and +50,000.
 </html>
 </tip>
@@ -134,13 +134,13 @@ time step by pressing the "&gt;" or "&lt;" keys.
 <tip category="KStars|Objects">
 <html>
 <p>When you click your mouse in the map, the object in the sky nearest
-the mouse cursor is identified in the status bar.  
+the mouse cursor is identified in the status bar.
 </html>
 </tip>
 <tip category="KStars|Objects">
 <html>
-When you hold the mouse cursor still for a moment, the nearest object 
-will be identified by a temporary name label that automatically fades 
+When you hold the mouse cursor still for a moment, the nearest object
+will be identified by a temporary name label that automatically fades
 out when you move the mouse again.
 </html>
 </tip>
@@ -164,61 +164,69 @@ A star's color depends on its temperature; cooler stars are red,
 while hotter stars are blue.
 </html>
 </tip>
+<tip category="KStars|Objects">
+<html>
+<p>If you want the very latest orbital information for asteroids and
+comets (including recently-discovered objects), check the "Download
+Data" tool ("File|Download Data" or Ctrl+D) frequently for updated
+ephemerides.
+</html>
+</tip>
 <tip category="KStars|Tools">
 <html>
 <p>You can directly access many of the calculations that
-KStars does behind-the-scenes.  Open the KStars Astrocalculator 
+KStars does behind-the-scenes.  Open the KStars Astrocalculator
 by pressing Ctrl+C or by selecting the "Tools->Calculator" menu item.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>The AAVSO Light Curve Generator tool connects to a server at the 
-American Association of Variable Star Observers, and constructs a 
-lightcurve for any of the 6000+ variable stars that they monitor 
+<p>The AAVSO Light Curve Generator tool connects to a server at the
+American Association of Variable Star Observers, and constructs a
+lightcurve for any of the 6000+ variable stars that they monitor
 on a daily basis.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>The Altitude vs. Time tool will plot altitude curves for any group 
-of objects that you select.  This is a great tool for planning 
+<p>The Altitude vs. Time tool will plot altitude curves for any group
+of objects that you select.  This is a great tool for planning
 observing sessions.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>With the What's Up Tonight? tool, you can tell at a glance what 
+<p>With the What's Up Tonight? tool, you can tell at a glance what
 objects will be visible from your location on a given night.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>The ScriptBuilder tool allows you to construct complex DCOP 
-scripts using a simple GUI.  The scripts can be played back later 
+<p>The ScriptBuilder tool allows you to construct complex DCOP
+scripts using a simple GUI.  The scripts can be played back later
 from the command line, or from within KStars.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>The Solar System Viewer tool shows an overhead view of the solar 
-system, showing the positions of the major planets for the current 
+<p>The Solar System Viewer tool shows an overhead view of the solar
+system, showing the positions of the major planets for the current
 simulation date.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
 <p>The Jupiter Moons tool shows the relative positions of Jupiter's
-four largest moons (Io, Europa, Ganymede and Callisto), as seen from 
+four largest moons (Io, Europa, Ganymede and Callisto), as seen from
 Earth, and as a function of time.
 </html>
 </tip>
 <tip category="KStars|Tools">
 <html>
-<p>You can export the sky image to a file using the "Save Sky Image" 
-item in the File menu, or by pressing Ctrl+I.  In addition, you can 
+<p>You can export the sky image to a file using the "Save Sky Image"
+item in the File menu, or by pressing Ctrl+I.  In addition, you can
 run KStars from a command prompt with the "--dump" argument to save a
-sky image to disk without even opening the program window.  This can 
+sky image to disk without even opening the program window.  This can
 be used to generate dynamic wallpaper for your KDE desktop.
 </html>
 </tip>
@@ -244,7 +252,7 @@ menu item.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>The on-screen Info Boxes can be hidden or shown using the 
+<p>The on-screen Info Boxes can be hidden or shown using the
 "Settings->Info Boxes" menu.
 </html>
 </tip>
@@ -255,7 +263,7 @@ menu item.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>You can hide either the Ra/Dec or Az/Alt coordinate fields in the statusbar, 
+<p>You can hide either the Ra/Dec or Az/Alt coordinate fields in the statusbar,
 or hide the stausbar completely, using the Settings|Statusbar menu.
 </html>
 </tip>
@@ -283,8 +291,8 @@ all future sessions.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>You can construct your own field-of-view (FOV) symbols, using the 
-FOV Editor under the Tools menu.  You can set the angular size, the 
+<p>You can construct your own field-of-view (FOV) symbols, using the
+FOV Editor under the Tools menu.  You can set the angular size, the
 shape, and the color of your new symbols.
 </html>
 </tip>
@@ -299,7 +307,7 @@ objects are hidden while the display is in motion.
 <tip category="KStars|Trivia">
 <html>
 <p>KStars displays 126,000 stars, 13,000 deep-sky objects, 88 constellations,
-all planets, the Sun, the Moon, thousands of comets and asteroids, and the 
+all planets, the Sun, the Moon, thousands of comets and asteroids, and the
 Milky Way.
 </html>
 </tip>
@@ -336,8 +344,8 @@ orbit around the Milky Way.
 </tip>
 <tip category="KStars|Trivia">
 <html>
-<p>The Messier Catalog is a list of 110 of the brightest non-stellar objects 
-in the sky.  It includes such famous objects as the Orion Nebula (M 42), the 
+<p>The Messier Catalog is a list of 110 of the brightest non-stellar objects
+in the sky.  It includes such famous objects as the Orion Nebula (M 42), the
 Andromeda Galaxy (M 31), and the Pleiades (M 45).
 </html>
 </tip>
