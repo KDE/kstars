@@ -433,14 +433,12 @@ void DetailDialog::unselectImagesList()
 void DetailDialog::viewLink()
 {
      QString URL;
-
-     if (infoList->currentItem() == -1 || imagesList->currentItem() == -1)
-       return;
-
-    if (infoList->isSelected(infoList->currentItem()) && (!selectedObject->InfoList.isEmpty()))
+ 
+    if (infoList->currentItem() != -1)
         URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
-    else if (imagesList->isSelected(imagesList->currentItem()) && !selectedObject->ImageList.isEmpty())
+    else if (imagesList->currentItem() != -1)
        URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
+       
   if (!URL.isEmpty())
        kapp->invokeBrowser(URL);
 

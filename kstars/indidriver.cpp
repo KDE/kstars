@@ -99,9 +99,17 @@ QObject::connect(LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceS
 
 QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
 
-   readXMLDriver();
+QObject::connect(connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
+QObject::connect(disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
 
-   resize( 500, 300);
+QObject::connect(runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
+QObject::connect(stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+
+QObject::connect(localListView, SIGNAL(selectionChanged()), this, SLOT(updateLocalButtons()));
+QObject::connect(clientListView, SIGNAL(selectionChanged()), this, SLOT(updateClientButtons()));
+
+readXMLDriver();
+resize( 500, 300);
 
 }
 
@@ -140,6 +148,57 @@ void INDIDriver::LocalprocessRightButton( QListViewItem *item, const QPoint &p, 
   	LocalpopMenu->popup(p);
 }
 
+void INDIDriver::activateRunService()
+{
+  processDeviceStatus(0);
+}
+
+void INDIDriver::activateStopService()
+{
+  processDeviceStatus(1);
+}
+
+void INDIDriver::activateHostConnection()
+{
+  processHostStatus(0);
+}
+
+void INDIDriver::activateHostDisconnection()
+{
+  processHostStatus(1);
+}
+    
+void INDIDriver::updateLocalButtons()
+{
+ 
+  for (uint i=0; i < devices.size(); i++)
+     if (localListView->selectedItem()->text(0) == devices[i]->label)
+     {
+	runServiceB->setEnabled(devices[i]->state == 0);
+	stopServiceB->setEnabled(devices[i]->state == 1);
+	break;
+     }
+
+}
+
+void INDIDriver::updateClientButtons()
+{
+INDIHostsInfo *hostInfo;
+
+for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   {
+     hostInfo = ksw->data()->INDIHostsList.at(i);
+     if (clientListView->currentItem()->text(1) == hostInfo->name && clientListView->currentItem()->text(2) == hostInfo->portnumber)
+     {
+       connectHostB->setEnabled(!hostInfo->isConnected);
+       disconnectHostB->setEnabled(hostInfo->isConnected);
+       break;
+     }
+    }
+   
+}
+
+    
 void INDIDriver::processDeviceStatus(int id)
 {
 
@@ -171,15 +230,68 @@ void INDIDriver::processDeviceStatus(int id)
 	  localListView->selectedItem()->setPixmap(1, runningPix);
 
 	  localListView->selectedItem()->setText(3, QString("%1").arg(devices[i]->indiPort));
+	  runServiceB->setEnabled(false);
+	  stopServiceB->setEnabled(true);
 	  return;
 	}
 
 	  ksw->getINDIMenu()->processServer();
 	  localListView->selectedItem()->setPixmap(1, stopPix);
 	  localListView->selectedItem()->setText(3, QString(""));
+	  runServiceB->setEnabled(true);
+	  stopServiceB->setEnabled(false);
 	  devices[i]->restart();
 	return;
      }
+}
+
+void INDIDriver::processHostStatus(int id)
+{
+   int mgrID;
+   bool toConnect = (id == 0);
+   QListViewItem *currentItem = clientListView->selectedItem();
+   INDIHostsInfo *hostInfo;
+
+   //kdDebug() << "The INDI host size is " << ksw->data()->INDIHostsList.count() << endl;
+   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     //kdDebug() << "The name is " << ksw->data()->INDIHostsList.at(i)->name << endl;
+
+
+   for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   {
+     hostInfo = ksw->data()->INDIHostsList.at(i);
+     if (currentItem->text(1) == hostInfo->name && currentItem->text(2) == hostInfo->portnumber)
+     {
+        // Nothing changed, return
+        if (hostInfo->isConnected == toConnect)
+	 return;
+
+	// connect to host
+	if (toConnect)
+	{
+	   // if connection successful
+          if ( (mgrID = ksw->getINDIMenu()->processClient(hostInfo->hostname, hostInfo->portnumber)) >= 0)
+	  {
+	    currentItem->setPixmap(0, connected);
+	    hostInfo->isConnected = true;
+	    hostInfo->mgrID = mgrID;
+	    connectHostB->setEnabled(false);
+	    disconnectHostB->setEnabled(true);
+	  }
+	}
+	else
+	{
+	  ksw->getINDIMenu()->removeDeviceMgr(hostInfo->mgrID);
+	  hostInfo->mgrID = mgrID = -1;
+	  hostInfo->isConnected = false;
+	  currentItem->setPixmap(0, disconnected);
+	  connectHostB->setEnabled(true);
+	  disconnectHostB->setEnabled(false);
+	}
+
+
+     }
+    }
 }
 
 bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
@@ -487,50 +599,6 @@ void INDIDriver::IDevice::restart()
 
 }
 
-void INDIDriver::processHostStatus(int id)
-{
-   int mgrID;
-   bool toConnect = (id == 0);
-   QListViewItem *currentItem = clientListView->selectedItem();
-   INDIHostsInfo *hostInfo;
-
-   //kdDebug() << "The INDI host size is " << ksw->data()->INDIHostsList.count() << endl;
-   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     //kdDebug() << "The name is " << ksw->data()->INDIHostsList.at(i)->name << endl;
-
-
-   for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-   {
-     hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (currentItem->text(1) == hostInfo->name && currentItem->text(2) == hostInfo->portnumber)
-     {
-        // Nothing changed, return
-        if (hostInfo->isConnected == toConnect)
-	 return;
-
-	// connect to host
-	if (toConnect)
-	{
-	   // if connection successful
-          if ( (mgrID = ksw->getINDIMenu()->processClient(hostInfo->hostname, hostInfo->portnumber)) >= 0)
-	  {
-	    currentItem->setPixmap(0, connected);
-	    hostInfo->isConnected = true;
-	    hostInfo->mgrID = mgrID;
-	  }
-	}
-	else
-	{
-	  ksw->getINDIMenu()->removeDeviceMgr(hostInfo->mgrID);
-	  hostInfo->mgrID = mgrID = -1;
-	  hostInfo->isConnected = false;
-	  currentItem->setPixmap(0, disconnected);
-	}
-
-
-     }
-    }
-}
 
 void INDIDriver::addINDIHost()
 {

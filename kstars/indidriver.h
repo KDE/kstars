@@ -115,6 +115,12 @@ public slots:
     void removeINDIHost();
     void shutdownHost(int mgrID);
     void processstd(KProcess *proc, char* buffer, int buflen);
+    void updateLocalButtons();
+    void updateClientButtons();
+    void activateRunService();
+    void activateStopService();
+    void activateHostConnection();
+    void activateHostDisconnection();
 };
 
 #endif
