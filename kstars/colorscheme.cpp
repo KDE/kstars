@@ -253,7 +253,7 @@ bool ColorScheme::save( const QString &name ) {
 			QTextStream stream( &file );
 			stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-			QStringList::Iterator it = KeyName.begin()
+			QStringList::Iterator it = KeyName.begin();
 			QStringList::Iterator it_end = KeyName.end();
 			for ( ; it != it_end; ++it )
 				stream << Palette[ (*it) ] << " :" << (*it) << endl;
@@ -283,7 +283,7 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin()
+	QStringList::Iterator it = KeyName.begin();
 	QStringList::Iterator it_end = KeyName.end();
 	for ( ; it != it_end; ++it )
 		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
@@ -293,7 +293,7 @@ void ColorScheme::loadFromConfig( KConfig *conf ) {
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin()
+	QStringList::Iterator it = KeyName.begin();
 	QStringList::Iterator it_end = KeyName.end();
 	for ( ; it != it_end; ++it )
 		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
