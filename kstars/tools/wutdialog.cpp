@@ -147,11 +147,16 @@ void WUTDialog::init() {
 			sDuration = "24:00";
 		}
 	} else {
-		sRise = sunRiseTomorrow.toString("hh:mm");
-		sSet = sunSetToday.toString("hh:mm");
+		//Round times to the nearest minute by adding 30 seconds to the time
+		sRise = sunRiseTomorrow.addSecs(30).toString("hh:mm");
+		sSet = sunSetToday.addSecs(30).toString("hh:mm");
 
-		float Dur = 24.0 + (float)sunRiseTomorrow.hour() + (float)sunRiseTomorrow.minute()/60.0 -
-				(float)sunSetToday.hour() - (float)sunSetToday.minute()/60.0;
+		float Dur = 24.0 + (float)sunRiseTomorrow.hour() 
+				+ (float)sunRiseTomorrow.minute()/60.0 
+				+ (float)sunRiseTomorrow.second()/3600.0 
+				- (float)sunSetToday.hour() 
+				- (float)sunSetToday.minute()/60.0
+				- (float)sunSetToday.second()/3600.0;
 		int hDur = int(Dur);
 		int mDur = int(60.0*(Dur - (float)hDur));
 		sDuration = QString().sprintf( "%02d:%02d", hDur, mDur );
@@ -177,8 +182,9 @@ void WUTDialog::init() {
 			sSet = i18n( "does not rise" );
 		}
 	} else {
-		sRise = moonRise.toString("hh:mm");
-		sSet = moonSet.toString("hh:mm");
+		//Round times to the nearest minute by adding 30 seconds to the time
+		sRise = moonRise.addSecs(30).toString("hh:mm");
+		sSet = moonSet.addSecs(30).toString("hh:mm");
 	}
 
 	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );

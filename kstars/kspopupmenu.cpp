@@ -307,20 +307,8 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	dms rAz = obj->riseSetTimeAz( ksw->data()->ut(), ksw->geo(), true );
 
 	if ( rtime.isValid() ) {
-		int hour = rtime.hour();
-		int min = rtime.minute();
-		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
-		if ( rtime.second() >=30 ) ++min;
-		// so correct minutes and hours if necessary
-		if ( min == 60 ) {
-			min = 0;
-			hour++;
-		}
-		rt2.sprintf( "%02d:%02d", hour, min );
-		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.arcmin() );
-//		rt = i18n( "Rise time: " ) + rt2 +
-//			i18n(", Azimuth: ") + rt3;
-		rt = i18n( "Rise time: %1" ).arg( rt2 );
+		//We can round to the nearest minute by simply adding 30 seconds to the time.
+		rt = i18n( "Rise time: %1" ).arg( rtime.addSecs(30).toString( "hh:mm" ) );
 
 	} else if ( obj->alt()->Degrees() > 0 ) {
 		rt = i18n( "No rise time: Circumpolar" );
@@ -328,30 +316,15 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		rt = i18n( "No rise time: Never rises" );
 	}
 
-	//If set time is before rise time, use tomorrow's set time.
 	KStarsDateTime dt = ksw->data()->ut();
 	QTime stime = obj->riseSetTime( dt, ksw->geo(), false );
-	if ( stime < rtime ) {
-		dt = dt.addDays( 1 );
-		stime = obj->riseSetTime( dt, ksw->geo(), false );
-	}
-	
+
 	QString st, st2, st3;
 	dms sAz = obj->riseSetTimeAz( dt,  ksw->geo(), false );
 	
 	if ( stime.isValid() ) {
-		int hour = stime.hour();
-		int min = stime.minute();
-		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
-		if ( stime.second() >=30 ) ++min;
-		// so correct minutes and hours if necessary
-		if ( min == 60 ) {
-			min = 0;
-			hour++;
-		}
-		st2.sprintf( "%02d:%02d", hour, min );
-		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.arcmin() );
-		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( st2 );
+		//We can round to the nearest minute by simply adding 30 seconds to the time.
+		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( stime.addSecs(30).toString( "hh:mm" ) );
 
 	} else if ( obj->alt()->Degrees() > 0 ) {
 		st = i18n( "No set time: Circumpolar" );
@@ -359,31 +332,15 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		st = i18n( "No set time: Never rises" );
 	}
 
-	//If transit time is before rise time, use tomorrow's transit time
 	QTime ttime = obj->transitTime( dt, ksw->geo() );
-	if ( ttime < rtime ) {
-		dt = dt.addDays( 1 );
-		ttime = obj->transitTime( dt, ksw->geo() );
-	}
-	
-	QString tt, tt2, tt3;
 	dms trAlt = obj->transitAltitude( dt, ksw->geo() );
+	QString tt, tt2, tt3;
 
 	if ( ttime.isValid() ) {
-		int hour = ttime.hour();
-		int min = ttime.minute();
-		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
-		if ( ttime.second() >=30 ) ++min;
-		// so correct minutes and hours if necessary
-		if ( min == 60 ) {
-			min = 0;
-			hour++;
-		}
-		tt2.sprintf( "%02d:%02d", hour, min );
-		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
-//		tt = i18n( "Transit time: " ) + tt2 +
-//			i18n(", Altitude: ") + tt3 ;
-		tt = i18n( "Transit time: %1" ).arg( tt2 );
+		//We can round to the nearest minute by simply adding 30 seconds to the time.
+		tt = i18n( "Transit time: %1" ).arg( ttime.addSecs(30).toString( "hh:mm" ) );
+	} else {
+		tt = "--:--";
 	}
 
 	pmRiseTime->setText( rt );
