@@ -1708,45 +1708,69 @@ GLuint SkyMap::createGLStarList() {
 		// break loop if maglim is reached
 		if ( curStar->mag() > data->options->magLimitDrawStar ) break;
 
-		//for now, only add named stars
+		// for now, only add named stars
 		if ( curStar->name() == i18n( "star" ) ) continue;
 
-		//draw a smaller inner white star
-		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
+		// get star position and size
 		float sX = curStar->x(),
 		      sY = curStar->y(),
 		      sZ = curStar->z(),
-		      size = 1 + sizeFactor*( maglim - curStar->mag())/maglim,
-		      mm = 0.05f * size,
-		      mM = 0.50f * size;
+		      size = 1 + sizeFactor*( maglim - curStar->mag())/maglim;
+		 
+		// origin to star versor
+		float nX = sX / RADIUS,
+		      nY = sY / RADIUS,
+		      nZ = sZ / RADIUS;
+		// latitudinal ortho versor (X-Y rot. and normalization)
+		float nXYProjModule = hypot( nX, nY );
+		if ( nXYProjModule == 0.0 ) continue;
+		float aX = nY / nXYProjModule,
+		      aY = -nX / nXYProjModule;
+		// longitudinal ortho versor (simplified dot product)
+		float bX = - nZ * aY,
+		      bY = nZ * aX,
+		      bZ = nX * aY - nY * aX;
+
+		//this will come next (will translate + scale take less cycles
+		//than the current implementation ??)
+//		glPushMatrix(); //can't do this after a glBegin( . );
+//		glTranslatef( sX, sY, sZ );
+//		glScalef( s, s, s );
+
+		//draw a smaller inner white star
+		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
+		float s = 0.02f * size;
 		glTexCoord2f( 0.0f, 0.0f );
-		glVertex3f( sX - mm, sY - mm, sZ );
+		glVertex3f( sX + s*( -aX - bX ), sY + s*( -aY - bY ), sZ + s*( -bZ ) );
 		glTexCoord2f( 0.0f, 1.0f );
-		glVertex3f( sX - mm, sY + mm, sZ );
+		glVertex3f( sX + s*( -aX + bX ), sY + s*( -aY + bY ), sZ + s*(  bZ ) );
 		glTexCoord2f( 1.0f, 1.0f );
-		glVertex3f( sX + mm, sY + mm, sZ );
+		glVertex3f( sX + s*(  aX + bX ), sY + s*(  aY + bY ), sZ + s*(  bZ ) );
 		glTexCoord2f( 1.0f, 0.0f );
-		glVertex3f( sX + mm, sY - mm, sZ );
+		glVertex3f( sX + s*(  aX - bX ), sY + s*(  aY - bY ), sZ + s*( -bZ ) );
 
 		//draw a larger outer colored star
 		switch( curStar->color() ) {
-			case 'O' : glColor4f( 0.0f, 0.0f, 1.0f, 0.06f ); break;
-			case 'B' : glColor4f( 0.0f, 0.784f, 1.0f, 0.06f ); break;
-			case 'A' : glColor4f( 0.0f, 1.0f, 1.0f, 0.06f ); break;
-			case 'F' : glColor4f( 0.784f, 1.0f, 0.39f, 0.06f ); break;
-			case 'G' : glColor4f( 1.0f, 1.0f, 0.0f, 0.06f ); break;
-			case 'K' : glColor4f( 1.0f, 0.39f, 0.0f, 0.06f ); break;
-			case 'M' : glColor4f( 1.0f, 0.0f, 0.0f, 0.06f ); break;
-			default : glColor4f( 1.0f, 1.0f, 1.0f, 0.06f );
+			case 'O' : glColor4f( 0.0f, 0.0f, 1.0f, 0.04f ); break;
+			case 'B' : glColor4f( 0.0f, 0.784f, 1.0f, 0.04f ); break;
+			case 'A' : glColor4f( 0.0f, 1.0f, 1.0f, 0.04f ); break;
+			case 'F' : glColor4f( 0.784f, 1.0f, 0.39f, 0.04f ); break;
+			case 'G' : glColor4f( 1.0f, 1.0f, 0.0f, 0.04f ); break;
+			case 'K' : glColor4f( 1.0f, 0.39f, 0.0f, 0.04f ); break;
+			case 'M' : glColor4f( 1.0f, 0.0f, 0.0f, 0.04f ); break;
+			default : glColor4f( 1.0f, 1.0f, 1.0f, 0.04f );
 		}
+		
+		s = 0.30f * size;
 		glTexCoord2f( 0.0f, 0.0f );
-		glVertex3f( sX - mM, sY - mM, sZ );
+		glVertex3f( sX + s*( -aX - bX ), sY + s*( -aY - bY ), sZ + s*( -bZ ) );
 		glTexCoord2f( 0.0f, 1.0f );
-		glVertex3f( sX - mM, sY + mM, sZ );
+		glVertex3f( sX + s*( -aX + bX ), sY + s*( -aY + bY ), sZ + s*(  bZ ) );
 		glTexCoord2f( 1.0f, 1.0f );
-		glVertex3f( sX + mM, sY + mM, sZ );
+		glVertex3f( sX + s*(  aX + bX ), sY + s*(  aY + bY ), sZ + s*(  bZ ) );
 		glTexCoord2f( 1.0f, 0.0f );
-		glVertex3f( sX + mM, sY - mM, sZ );
+		glVertex3f( sX + s*(  aX - bX ), sY + s*(  aY - bY ), sZ + s*( -bZ ) );
+//		glPopMatrix();
 	}
 	glEnd();
 
