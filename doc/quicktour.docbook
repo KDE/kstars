@@ -97,7 +97,7 @@ province, and country names that begin with the entered filter
 strings, and that the message below the filter boxes indicates that 7
 cities are matched by the filters.  Also notice that the dots
 representing these seven cities in the map have been colored white,
-while the unmatched cities remain grey.
+while the unmatched cities remain gray.
 </para><para>
 The list can also be filtered by location in the map.  Clicking anywhere 
 in the world map will show only those cities within two degrees of the 
