@@ -173,6 +173,7 @@ void SkyMap::slotCenter( void ) {
 		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
+			ksw->options()->isTracking = false;
 			return;
 		}
 	}

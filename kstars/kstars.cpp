@@ -43,28 +43,25 @@
 #include "ksutils.h"
 #include "infopanel.h"
 
-KStars::KStars( bool doSplash) :
+KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
 	findDialog( 0 ), DialogIsObsolete( false )
 {
 	pd = new privatedata(this);
 
-	//
 	// we're nowhere near ready to take dcop calls
-	//
 	kapp->dcopClient()->suspend();
 
-	pd->kstarsData = new KStarsData(this);
-	QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
+	if ( doSplash ) {
+		pd->kstarsData = new KStarsData(this);
+		QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
 				this, SLOT( datainitFinished(bool) ) );
 
-	if (doSplash) {
 		pd->splash = new KStarsSplash(0, "Splash");
 		QObject::connect(pd->kstarsData, SIGNAL( progressText(QString) ),
 				pd->splash, SLOT( setMessage(QString) ));
 		pd->splash->show();
 	}
-
 	pd->kstarsData->initialize();
 }
 
@@ -137,6 +134,7 @@ void KStars::clearCachedFindDialog() {
 
 void KStars::updateTime( void ) {
 	data()->updateTime(clock, geo(), skymap);
+
 	showFocusCoords();
 	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
 

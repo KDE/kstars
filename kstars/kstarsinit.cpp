@@ -420,16 +420,13 @@ void KStars::datainitFinished(bool worked) {
 	}
 
 	pd->buildGUI();
+
 	updateTime();
 
 	clock->start();
 	show();
 
-	QFile f;
-	if ( KSUtils::openDataFile( f, "tips" ) ) {
-		f.close();
-		KTipDialog::showTip( f.name() );
-	}
+	KTipDialog::showTip( "kstars/tips", true );
 }
 
 void KStars::privatedata::buildGUI() {
@@ -531,7 +528,7 @@ void KStars::privatedata::buildGUI() {
 	DefaultFocus.setAz( 180.0 );
 	DefaultFocus.setAlt( 45.0 );
 	DefaultFocus.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
-	ks->skymap->setFocus( &DefaultFocus );
+	ks->skymap->setDestination( &DefaultFocus );
 
 	//if user was tracking last time, track on same object now.
 	if ( ks->options()->isTracking ) {
@@ -539,10 +536,6 @@ void KStars::privatedata::buildGUI() {
 		     (ks->options()->focusObject== i18n( "nothing" ) ) ) {
 			ks->skymap->setClickedPoint( &newPoint );
 		} else {
-
-			//We need to call updateTime to get the Planet positions (in case we start out focused on a planet)
-			ks->data()->updateTime(ks->clock, ks->geo(), ks->skymap);
-
 			ks->skymap->setClickedObject( ks->getObjectNamed( ks->options()->focusObject ) );
 			if ( ks->skymap->clickedObject() ) {
 				ks->skymap->setClickedPoint( ks->skymap->clickedObject() );
@@ -552,12 +545,13 @@ void KStars::privatedata::buildGUI() {
 		}
 		ks->skymap->slotCenter();
 	} else {
-		ks->skymap->setFocus( &newPoint );
-		ks->skymap->setDestination( &newPoint );
-		ks->skymap->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
-		ks->skymap->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
-		
+		ks->skymap->setClickedPoint( &newPoint );
+		ks->skymap->slotCenter();
 	}
+
+	ks->skymap->setFocus( ks->skymap->destination() );
+	ks->skymap->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
+	ks->skymap->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 
 	ks->setHourAngle();
 
