@@ -236,31 +236,21 @@ void KStars::initActions() {
 	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
 	initFOV();
 
-	//use custom icon earth.png for the geoLocator icon.  If it is not installed
-  //for some reason, use standard icon gohome.png instead.
-	QFile tempFile;
-	if (KSUtils::openDataFile( tempFile, "earth.png" ) ) {
-		tmpAction = new KAction( i18n( "Set Geographic Location..." ),
-				tempFile.name(), KShortcut( "Ctrl+G"  ),
-				this, SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
-		tmpAction->setToolTip( i18n( "Geographic location" ) );
-		tempFile.close();
-	} else {
-		new KAction( i18n( "Location on Earth", "&Geographic..." ), "gohome", KShortcut( "Ctrl+G"  ),
-				this, SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
-	}
+	new KAction( i18n( "Location on Earth", "&Geographic..." ), 
+			"kstars_geo", KShortcut( "Ctrl+G"  ), this, 
+			SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
 
-	new KAction(i18n( "Startup Wizard..." ), 0, this, SLOT( slotWizard() ),
-		actionCollection(), "startwizard" );
+	new KAction(i18n( "Startup Wizard..." ), "wizard", KShortcut(), 
+			this, SLOT( slotWizard() ), actionCollection(), "startwizard" );
 
 //Tools Menu:
-        new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
-                    this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
+			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
-        new KAction(i18n( "Observing List..."), KShortcut( "Ctrl+L"),
-                    this, SLOT( slotObsList() ), actionCollection(), "obslist");
+	new KAction(i18n( "Observing List..."), KShortcut( "Ctrl+L"),
+			this, SLOT( slotObsList() ), actionCollection(), "obslist");
 
 	// enable action only if file was loaded and processed successfully.
 	if (!data()->VariableStarsList.isEmpty())
@@ -305,124 +295,52 @@ void KStars::initActions() {
 //
 
 //show_stars:
-	if (KSUtils::openDataFile( tempFile, "show_stars.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Stars" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
-		a->setChecked( Options::showStars() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Stars" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
-		a->setChecked( Options::showStars() );
-	}
+	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_show_stars", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
+	a->setChecked( Options::showStars() );
 
 //show_deepsky:
-	if (KSUtils::openDataFile( tempFile, "show_deepsky.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
-		a->setChecked( Options::showDeepSky() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
-		a->setChecked( Options::showDeepSky() );
-	}
+	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_show_deepsky", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
+	a->setChecked( Options::showDeepSky() );
 
 //show_planets:
-	if (KSUtils::openDataFile( tempFile, "show_planets.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Solar System" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
-		a->setChecked( Options::showPlanets() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Solar System" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
-		a->setChecked( Options::showPlanets() );
-	}
+	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_show_planets", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
+	a->setChecked( Options::showPlanets() );
 
 //show_clines:
-	if (KSUtils::openDataFile( tempFile, "show_clines.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
-		a->setChecked( Options::showCLines() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
-		a->setChecked( Options::showCLines() );
-	}
+	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_show_clines", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
+	a->setChecked( Options::showCLines() );
 
 //show_cnames:
-	if (KSUtils::openDataFile( tempFile, "show_cnames.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Names" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
-		a->setChecked( Options::showCNames() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
-		a->setChecked( Options::showCNames() );
-	}
+	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_show_cnames", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
+	a->setChecked( Options::showCNames() );
 
 //show_cbound:
-	if (KSUtils::openDataFile( tempFile, "show_cbound.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
-		a->setChecked( Options::showCBounds() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
-		a->setChecked( Options::showCBounds() );
-	}
+	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_show_cbound", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
+	a->setChecked( Options::showCBounds() );
 
 //show_mw:
-	if (KSUtils::openDataFile( tempFile, "show_mw.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Milky Way" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
-		a->setChecked( Options::showMilkyWay() );
-		tempFile.close();
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Milky Way" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
-		a->setChecked( Options::showMilkyWay() );
-	}
+	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_show_mw", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
+	a->setChecked( Options::showMilkyWay() );
 
 //show_grid:
-	if (KSUtils::openDataFile( tempFile, "show_grid.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Coordinate Grid" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
-		tempFile.close();
-		a->setChecked( Options::showGrid() );
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
-		a->setChecked( Options::showGrid() );
-	}
+	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_show_grid", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
+	a->setChecked( Options::showGrid() );
 
 //show_horizon:
-	if (KSUtils::openDataFile( tempFile, "show_horiz.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Ground" ),
-				tempFile.name(), 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
-		tempFile.close();
-		a->setChecked( Options::showGround() );
-	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Ground" ), "wizard", 0,
-				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
-		a->setChecked( Options::showGround() );
-	}
+	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_show_horizon", 
+		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
+	a->setChecked( Options::showGround() );
 	
-        if (Options::fitsSaveDirectory().isEmpty())
-            Options::setFitsSaveDirectory(QDir:: homeDirPath());
+	if (Options::fitsSaveDirectory().isEmpty())
+			Options::setFitsSaveDirectory(QDir:: homeDirPath());
 }
 
 void KStars::initFOV() {
