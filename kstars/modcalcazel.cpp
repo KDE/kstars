@@ -44,7 +44,7 @@ SkyPoint modCalcAzel::getEquCoords (void)
 {
 	dms raCoord, decCoord;
 
-	raCoord = raBox->createDms();
+	raCoord = raBox->createDms(FALSE);
 	decCoord = decBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
