@@ -91,26 +91,30 @@ class StarObject : public SkyObject {
 	*select the temperature-color of the star.
 	*@return first character of Spectral Type string
 	*/
-	QChar color( void ) { return SpType.at(0); }
+	QChar color( void ) const { return SpType.at(0); }
 
 /**
 	*Returns entire spectral type string
 	*@return Spectral Type string
 	*/
-	QString sptype( void );
+	QString sptype( void ) const;
 
 /**
 	*Returns the genetive name of the star.
 	*@return genetive name of the star
 	*/
-	QString gname( void ) { return name2(); }
+	QString gname( void ) const;
 
 /**
 	*Returns the greek letter portion of the star's genetive name.
 	*Returns empty string if star has no genetive name defined.
 	*@return greek letter portion of genetive name
 	*/
-	QString greekLetter( void );
+	QString greekLetter( void ) const;
+
+/**@return the genitive form of the star's constellation.
+	*/
+	QString constell( void ) const;
 
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).
