@@ -146,7 +146,7 @@ void FOVDialog::slotEditFOV() {
 
 	if (!f)
 	 return;
-	 
+
 	newfdlg.ui->FOVName->setText( f->name() );
 	newfdlg.ui->FOVEdit->setText( QString("%1").arg( f->size(), 0, 'g', 3 ) );
 	newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
@@ -163,10 +163,8 @@ void FOVDialog::slotEditFOV() {
 
 void FOVDialog::slotRemoveFOV() {
 	int i = fov->FOVListBox->currentItem();
-
 	FOVList.remove( i );
 	fov->FOVListBox->removeItem( i );
-
 	fov->FOVListBox->setCurrentItem( i );
 }
 
