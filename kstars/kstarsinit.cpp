@@ -209,6 +209,9 @@ void KStars::initActions() {
 	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
+// devices Menu
+	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "INDI_Control_Panel");
+
 	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
 			                           this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
 
@@ -448,6 +451,7 @@ void KStars::privatedata::buildGUI() {
 
 	//set AAVSO modeless dialog pointer to 0
 	ks->AAVSODialog = 0;
+	ks->indimenu = 0;
 
 	ks->skymap = new SkyMap( ks->centralWidget );
 	// update skymap if KStarsData send update signal

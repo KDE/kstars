@@ -35,6 +35,7 @@
 #include "ksutils.h"
 #include "elts.h"
 #include "wutdialog.h"
+#include "indimenu.h"
 #include "scriptbuilder.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -91,6 +92,13 @@ void KStars::slotElTs() {
 void KStars::slotWUT() {
 	WUTDialog dialog(this);
 	dialog.exec();
+}
+
+void KStars::slotINDIPanel() {
+    if (indimenu == NULL)
+        indimenu = new INDIMenu(this);
+
+   indimenu->show();
 }
 
 void KStars::slotScriptBuilder() {

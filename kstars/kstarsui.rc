@@ -75,6 +75,13 @@
 		<Action name="scriptbuilder" />
 	</Menu>
 
+	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
+	        <Action name="Select_Device" />
+		<Action name="INDI_Control_Panel" />
+		<Separator/>
+		<Action name="Configure_INDI" />
+	</Menu>
+
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
 		<Action name="help_tipofday"/>

@@ -66,6 +66,7 @@ class ViewOpsDialog;
 class SimClock;
 class InfoBoxes;
 class AstroCalc;
+class INDIMenu;
 
 //Define some global constants
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
@@ -298,12 +299,17 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 		 * action slot: open What's up tonight dialog
 		 */
-    void slotWUT();
+		 void slotWUT();
+
+		 /**
+		 * action slot: open INDI control panel
+		 */
+    		void slotINDIPanel();
 
 		/**
 		 * action slot: open ScriptBuilder dialog
 		 */
-    void slotScriptBuilder();
+    		void slotScriptBuilder();
 
 		/**
 			*action slot: open dialog for setting the view options
@@ -413,7 +419,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KActionMenu *colorActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
-       KDialogBase *AAVSODialog;
+       		KDialogBase *AAVSODialog;
+		INDIMenu *indimenu;
 
     
 		int idSpinBox;
