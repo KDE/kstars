@@ -1,0 +1,70 @@
+Control
+
+    INDI Server
+
+	Address        |              |	DNS or IP address of INDI server
+	Port           |              | tcp port of INDI server
+	[] Connect
+
+Observing Request
+
+    Administrative
+
+	[] Name        |              |
+	[] Email       |              |
+	[] Project     |              |
+	[] Priority    |              |  integer, smaller is better
+
+    Constraints
+
+      Sun:
+
+	[] Min sep     |              |  ° from target
+	[] Min down    |              |  ° below horizon
+
+      Moon:
+
+	[] Max phase   |              |  0..1 (new..full)
+	[] Min sep     |              |  ° from target
+	[] Min down    |              |  ° below horizon
+
+      Timing:
+
+	[] Phase                         portion of cyclic phenomenon
+	   start       |              |  phase reference, ISO 8601
+	   period      |              |  total period, days
+	   earliest    |              |  acceptable start window, 0..1
+	   latest      |              |  acceptable end window, 0..1
+	[] Earliest    |              |  Do not schedule before, ISO 8601
+	[] Latest      |              |  Do not schedule after, ISO 8601
+
+      Conditions:
+
+	[] Max airmass |              |  max acceptable airmass, 1..99
+
+    Repetitions
+
+	[] Count       |              |  number of total sets, 1..
+	[] Every       |              |  start interval, minutes
+	[] Min gap     |              |  repeat no sooner, minutes
+	[] Same night  |              |  require all on same night, Yes or No
+	[] Tolerance   |              |  acceptable start deviation, minutes
+
+    Create
+
+	Del  Device + Param   Target value   at  by      secs
+      ---------------------------------------------------------
+      | [] | Roof open      |         True | < > <x> t= |   0 |
+      | [] | Mount RA       |              | < > <x> t= |   0 |
+      | [] | Mount Dec      |              | < > <x> t= |   0 |
+      | [] | OTA Filter     |         Blue | < > <x> t= |   0 |
+      | [] | Camera temp    |          -40 | < > <x> t= | -10 |
+      | [] | Camera shutter |         Open | <x> < > t= |   0 |
+      | [] | Camera shutter |       Closed | <x> < > t= |  10 |
+      | [] | Camera shutter |         Open | <x> < > t= |  20 |
+      | [] | Camera shutter |       Closed | <x> < > t= |  60 |
+      ---------------------------------------------------------
+
+	[] Preview
+	[] Load        |              | load existing file name
+	[] Save        |              | save as file name

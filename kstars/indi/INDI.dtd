@@ -1,0 +1,128 @@
+<!ENTITY % propState "(Idle|Ok|Busy|Alert)" >
+<!ENTITY % propType "(textField|numericField|oneOfMany|anyOfMany|lights)" >
+<!ENTITY % propValue "(text|number|switch+|light+)" >
+<!ENTITY % switchState "(Off|On)" >
+<!ENTITY % lightState "(Idle|Ok|Busy|Alert)" >
+<!ENTITY % labelValue "(#PCDATA)" >
+<!ENTITY % textValue "(#PCDATA)" >
+<!ENTITY % numberValue "(#PCDATA)" >
+<!ENTITY % message "(#PCDATA)" >
+
+
+<!ENTITY % clientCmds "(getProperties|setValue|getCurValue|getTarValue|message)" >
+<!ELEMENT INDICTest ((%clientCmds;)*) >
+
+<!ELEMENT getProperties EMPTY>
+<!ATTLIST getProperties
+    version CDATA #REQUIRED
+>
+
+<!ELEMENT setValue (%propValue;) >
+<!ATTLIST setValue
+    device CDATA #REQUIRED
+    name CDATA #REQUIRED
+>
+
+<!ELEMENT getCurValue EMPTY>
+<!ATTLIST getCurValue
+    device CDATA #IMPLIED
+    name CDATA #IMPLIED
+>
+
+<!ELEMENT getTarValue EMPTY>
+<!ATTLIST getTarValue
+    device CDATA #IMPLIED
+    name CDATA #IMPLIED
+>
+
+<!ELEMENT message (msg*) >
+
+
+<!ENTITY % serverCmds "(defProperty|curValue|tarValue|delProperty|message)" >
+<!ELEMENT INDISTest ((%serverCmds;)*) >
+
+<!ELEMENT defProperty (%propType;, initCurValue?, initTarValue?, msg*) >
+<!ATTLIST defProperty
+    device CDATA #REQUIRED
+    name CDATA #REQUIRED
+    timeout CDATA "0"
+    state %lightState; #REQUIRED
+> 
+
+<!ELEMENT initCurValue (%propValue;) >
+<!ELEMENT initTarValue (%propValue;) >
+
+<!ELEMENT textField EMPTY >
+<!ATTLIST textField
+    perm (ro|wo|rw) #REQUIRED
+    prompt CDATA #REQUIRED	
+>
+
+<!ELEMENT numericField (min?, max?, step?) >
+<!ATTLIST numericField
+    perm (ro|wo|rw) #REQUIRED
+    prompt CDATA #REQUIRED
+>
+<!ELEMENT min %numberValue; >
+<!ELEMENT max %numberValue; >
+<!ELEMENT step %numberValue; >
+
+<!ELEMENT oneOfMany EMPTY>
+<!ATTLIST oneOfMany
+    perm (ro|wo) #REQUIRED	
+    prompt CDATA #REQUIRED
+>
+
+<!ELEMENT anyOfMany EMPTY>
+<!ATTLIST anyOfMany
+    perm (ro|wo) #REQUIRED
+    prompt CDATA #REQUIRED
+>
+
+<!ELEMENT lights EMPTY>
+<!ATTLIST lights
+    prompt CDATA #REQUIRED
+>
+
+<!ELEMENT text %textValue; >
+
+<!ELEMENT number %numberValue; >
+
+<!ELEMENT switch %labelValue; >
+<!ATTLIST switch
+    state %switchState; #REQUIRED
+>
+
+<!ELEMENT light %labelValue; >
+<!ATTLIST light
+    state %lightState; #REQUIRED
+>
+
+<!ELEMENT msg %message; >
+<!ATTLIST msg
+    time CDATA #IMPLIED
+>
+
+<!ELEMENT curValue (%propValue;, msg*) >
+<!ATTLIST curValue
+    device CDATA #REQUIRED		
+    name CDATA #REQUIRED	
+    timeout CDATA #IMPLIED
+    state %lightState; #REQUIRED
+> 
+
+
+<!ELEMENT tarValue (%propValue;, msg*) >
+<!ATTLIST tarValue
+    device CDATA #REQUIRED	
+    name CDATA #REQUIRED
+    timeout CDATA #IMPLIED
+    state %lightState; #REQUIRED
+> 
+
+<!ELEMENT delProperty (msg*) >
+<!ATTLIST delProperty
+    device CDATA #REQUIRED
+    name CDATA #IMPLIED
+>
+

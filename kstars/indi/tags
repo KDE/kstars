@@ -1,0 +1,91 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/darren@hiebert.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.0.1	//
+BUFSZ	indiserver.c	22;"	d	file:
+ClInfo	indiserver.c	/^} ClInfo;$/;"	t	file:
+DvrInfo	indiserver.c	/^} DvrInfo;$/;"	t	file:
+ICDefLights	indimain.c	/^ICDefLights (ILights *l, char *prompt)$/;"	f
+ICDefNumber	indimain.c	/^ICDefNumber (INumber *n, char *prompt, IPerm p, INRange *r)$/;"	f
+ICDefSwitches	indimain.c	/^ICDefSwitches (ISwitches *s, char *prompt, IPerm p, IRule r)$/;"	f
+ICDefText	indimain.c	/^ICDefText (IText *t, char *prompt, IPerm p)$/;"	f
+ICDelete	indimain.c	/^ICDelete (char *dev, char *name, char *msg, ...)$/;"	f
+ICLog	indimain.c	/^ICLog (char *msg, ...)$/;"	f
+ICMessage	indimain.c	/^ICMessage (char *dev, char *msg, ...)$/;"	f
+ICPollMe	indimain.c	/^ICPollMe (int ms)$/;"	f
+ICSetLights	indimain.c	/^ICSetLights (ILights *l, char *msg, ...)$/;"	f
+ICSetNumber	indimain.c	/^ICSetNumber (INumber *n, char *msg, ...)$/;"	f
+ICSetSwitch	indimain.c	/^ICSetSwitch (ISwitches *s, char *msg, ...)$/;"	f
+ICSetText	indimain.c	/^ICSetText (IText *t, char *msg, ...)$/;"	f
+INDIPORT	indiserver.c	21;"	d	file:
+ISGetProperties	mount.c	/^ISGetProperties (char *dev)$/;"	f
+ISInit	mount.c	/^ISInit()$/;"	f
+ISNewNumber	mount.c	/^ISNewNumber (INumber *n)$/;"	f
+ISNewSwitch	mount.c	/^ISNewSwitch (ISwitches *s)$/;"	f
+ISNewText	mount.c	/^ISNewText (IText *t)$/;"	f
+ISPoll	mount.c	/^ISPoll ()$/;"	f
+MAXRS	indiserver.c	23;"	d	file:
+POLLMS	mount.c	22;"	d	file:
+SLEWRATE	mount.c	21;"	d	file:
+active	indiserver.c	/^    int active;				\/* 1 when this record is in use *\/$/;"	m	struct:	file:
+clientMsg	indiserver.c	/^clientMsg (int cli)$/;"	f	file:
+clinfo	indiserver.c	/^static ClInfo *clinfo;			\/* malloced array of clients *\/$/;"	v	file:
+clixml	indimain.c	/^static LilXML *clixml;			\/* XML parser context *\/$/;"	v	file:
+closeClient	indiserver.c	/^closeClient (int i)$/;"	f	file:
+crackDN	indimain.c	/^crackDN (XMLEle *root, char **dev, char **name, char msg[])$/;"	f	file:
+curentDec	mount.c	/^static double curentDec;	\/* current simulated Dec, rads *\/$/;"	v	file:
+curentRA	mount.c	/^static double curentRA;		\/* current simulated RA, rads *\/$/;"	v	file:
+decNum	mount.c	/^static INumber decNum = {mydev, "Dec", "  0:00:00  ", ILS_IDLE, PI\/SLEWRATE};;$/;"	v	file:
+devpoll	indimain.c	/^static int devpoll;			\/* ms to poll, none if 0 *\/$/;"	v	file:
+dispatch	indimain.c	/^dispatch (XMLEle *root, char msg[])$/;"	f	file:
+driverMsg	indiserver.c	/^driverMsg (int i)$/;"	f	file:
+driverRun	indimain.c	/^driverRun(void)$/;"	f	file:
+dvrinfo	indiserver.c	/^static DvrInfo *dvrinfo;		\/* malloced array of drivers *\/$/;"	v	file:
+indiListen	indiserver.c	/^indiListen ()$/;"	f	file:
+indiRun	indiserver.c	/^indiRun(void)$/;"	f	file:
+lsocket	indiserver.c	/^static int lsocket;			\/* listen socket *\/$/;"	v	file:
+lstateStr	indimain.c	/^lstateStr (ILState s)$/;"	f	file:
+main	indimain.c	/^main (int ac, char *av[])$/;"	f
+main	indiserver.c	/^main (int ac, char *av[])$/;"	f
+maxrs	indiserver.c	/^static int maxrs = MAXRS;		\/* max times to restart dieing driver *\/$/;"	v	file:
+me	indimain.c	/^static char *me;			\/* a.out name *\/$/;"	v	file:
+me	indiserver.c	/^static char *me;			\/* our name *\/$/;"	v	file:
+mydev	mount.c	/^static char mydev[] = "Mount";	\/* Device name we call ourselves *\/$/;"	v	file:
+name	indiserver.c	/^    char *name;				\/* process name *\/$/;"	m	struct:	file:
+nclinfo	indiserver.c	/^static int nclinfo;			\/* n total (not n active) *\/$/;"	v	file:
+ndvrinfo	indiserver.c	/^static int ndvrinfo;			\/* n total *\/$/;"	v	file:
+newClSocket	indiserver.c	/^newClSocket ()$/;"	f	file:
+newClient	indiserver.c	/^newClient()$/;"	f	file:
+noSigPipe	indiserver.c	/^noSigPipe()$/;"	f	file:
+noZombies	indiserver.c	/^noZombies()$/;"	f	file:
+permStr	indimain.c	/^permStr (IPerm p)$/;"	f	file:
+pid	indiserver.c	/^    int pid;				\/* process id *\/$/;"	m	struct:	file:
+port	indiserver.c	/^static int port = INDIPORT;		\/* public INDI port *\/$/;"	v	file:
+powS	mount.c	/^static ISwitch powS[] = {{"On", ISS_OFF}, {"Off", ISS_ON}};$/;"	v	file:
+powSw	mount.c	/^static ISwitches powSw = {mydev, "Power", powS, NARRAY(powS), ILS_IDLE, 0};$/;"	v	file:
+power	mount.c	/^static int power;		\/* power button *\/$/;"	v	file:
+raNum	mount.c	/^static INumber raNum = {mydev, "RA", "  0:00:00.0", ILS_IDLE, 2*PI\/SLEWRATE};$/;"	v	file:
+rcsid	indimain.c	/^static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};$/;"	v	file:
+rcsid	indiserver.c	/^static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};$/;"	v	file:
+rcsid	mount.c	/^static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};$/;"	v	file:
+restartDvr	indiserver.c	/^restartDvr (int i)$/;"	f	file:
+restarts	indiserver.c	/^    int restarts;			\/* times process has been restarted *\/$/;"	m	struct:	file:
+rfd	indiserver.c	/^    int wfd, rfd;			\/* write and read pipe fd *\/$/;"	m	struct:	file:
+ruleStr	indimain.c	/^ruleStr (IRule r)$/;"	f	file:
+s	indiserver.c	/^    int s;				\/* private socket *\/$/;"	m	struct:	file:
+sendDec	mount.c	/^sendDec (char *msg)$/;"	f	file:
+sendPow	mount.c	/^sendPow ()$/;"	f	file:
+sendRA	mount.c	/^sendRA (char *msg)$/;"	f	file:
+spermStr	indimain.c	/^spermStr (ISPerm p)$/;"	f	file:
+sstateStr	indimain.c	/^sstateStr (ISState s)$/;"	f	file:
+startDvr	indiserver.c	/^startDvr (char *name)$/;"	f	file:
+targetDec	mount.c	/^static double targetDec;	\/* target Dec, when application *\/$/;"	v	file:
+targetRA	mount.c	/^static double targetRA;		\/* target RA, when applicable *\/$/;"	v	file:
+timestamp	indimain.c	/^timestamp()$/;"	f	file:
+usage	indimain.c	/^usage(void)$/;"	f	file:
+usage	indiserver.c	/^usage(void)$/;"	f	file:
+verbose	indimain.c	/^static int verbose;			\/* chatty *\/$/;"	v	file:
+verbose	indiserver.c	/^static int verbose;			\/* more chatty *\/$/;"	v	file:
+wfd	indiserver.c	/^    int wfd, rfd;			\/* write and read pipe fd *\/$/;"	m	struct:	file:
