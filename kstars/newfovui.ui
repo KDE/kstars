@@ -788,6 +788,11 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
                                             <string>Bullseye</string>
                                         </property>
                                     </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Solid circle</string>
+                                        </property>
+                                    </item>
                                     <property name="name">
                                         <cstring>ShapeBox</cstring>
                                     </property>

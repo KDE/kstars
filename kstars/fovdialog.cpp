@@ -248,7 +248,7 @@ void NewFOV::slotComputeFOV() {
 	else if ( sender()->name() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
 		ui->FOVEdit->setText( QString("%1").arg( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 0, 'f', 2) );
 		// Beam width for an antenna is usually a circle on the sky.
-		ui->ShapeBox->setCurrentItem(1);
+		ui->ShapeBox->setCurrentItem(4);
 		slotUpdateFOV();
 
 	}

@@ -126,6 +126,13 @@ void FOV::draw( QPainter &p, float pixelsize ) {
 
 			break;
 		}
+		case 4: { // Solid Circle
+			int s = int( pixelsize );
+			p.setBrush( QColor (color()) );
+			p.drawEllipse( (w - s)/2, (h - s)/2, s, s );
+			p.setBrush(Qt::NoBrush);
+			break;
+		}
 	}
 }
 
