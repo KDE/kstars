@@ -117,12 +117,12 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/sao39.dat $(kde_datadir)/kstars/sao39.dat
 	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/sao40.dat $(kde_datadir)/kstars/sao40.dat
-	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
-	$(INSTALL_DATA) $(srcdir)/cr16-app-kstars.png $(kde_icondir)/hicolor/16x16/apps/kstars.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
-	$(INSTALL_DATA) $(srcdir)/cr32-app-kstars.png $(kde_icondir)/hicolor/32x32/apps/kstars.png  
-	$(mkinstalldirs) $(kde_icondir)/hicolor/48x48/apps/
-	$(INSTALL_DATA) $(srcdir)/cr48-app-kstars.png $(kde_icondir)/hicolor/48x48/apps/kstars.png
+	$(mkinstalldirs) $(kde_icondir)/crystalsvg/16x16/apps/
+	$(INSTALL_DATA) $(srcdir)/cr16-app-kstars.png $(kde_icondir)/crystalsvg/16x16/apps/kstars.png
+	$(mkinstalldirs) $(kde_icondir)/crystalsvg/32x32/apps/
+	$(INSTALL_DATA) $(srcdir)/cr32-app-kstars.png $(kde_icondir)/crystalsvg/32x32/apps/kstars.png  
+	$(mkinstalldirs) $(kde_icondir)/crystalsvg/48x48/apps/
+	$(INSTALL_DATA) $(srcdir)/cr48-app-kstars.png $(kde_icondir)/crystalsvg/48x48/apps/kstars.png
 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
 	$(INSTALL_DATA) $(srcdir)/lo16-app-kstars.png $(kde_icondir)/locolor/16x16/apps/kstars.png 
 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
@@ -787,9 +787,9 @@ uninstall-local:
 	-rm -f $(kde_datadir)/kstars/sao38.dat
 	-rm -f $(kde_datadir)/kstars/sao39.dat
 	-rm -f $(kde_datadir)/kstars/sao40.dat
-	-rm -f $(kde_icondir)/hicolor/16x16/apps/kstars.png
-	-rm -f $(kde_icondir)/hicolor/32x32/apps/kstars.png  
-	-rm -f $(kde_icondir)/hicolor/48x48/apps/kstars.png
+	-rm -f $(kde_icondir)/crystalsvg/16x16/apps/kstars.png
+	-rm -f $(kde_icondir)/crystalsvg/32x32/apps/kstars.png  
+	-rm -f $(kde_icondir)/crystalsvg/48x48/apps/kstars.png
 	-rm -f $(kde_icondir)/locolor/16x16/apps/kstars.png 
 	-rm -f $(kde_icondir)/locolor/32x32/apps/kstars.png 
 	-rm -f $(kde_icondir)/locolor/48x48/apps/kstars.png 

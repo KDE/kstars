@@ -356,7 +356,7 @@ bool KStarsData::openSAOFile(int i) {
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readStarData( void ) {
 	bool ready = false;
-	for (unsigned int i=1; i<41; ++i) {
+	for (unsigned int i=1; i<NSAOFILES+1; ++i) {
 		if (openSAOFile(i) == true) {
 			while (saoFileReader->hasMoreLines()) {
 				QString line;
@@ -376,7 +376,6 @@ bool KStarsData::readStarData( void ) {
 
 		} else { //one of the star files could not be read.
 			//maxSetMagnitude = starList.last()->mag();  // faintest star loaded (assumes stars are read in order of decreasing brightness)
-			
 			//For now, we return false if any star file had problems.  May want to start up anyway if at least one file is read.
 			return false;
 		}
