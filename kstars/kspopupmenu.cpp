@@ -162,22 +162,32 @@ bool KSPopupMenu::addINDI(void)
 	{
 	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
 	   {
-	     // Only std are allowed to show. Movement is somewhat problematic due to an issue with the LX200 telescopes (the telescope
-	     // does not update RA/DEC while moving N/W/E/S) so it's better off the skymap. It's avaiable in the INDI control panel nonetheless.
+	     /* Only std are allowed to show. Movement is somewhat problematic due to an issue with the LX200 telescopes (the telescope does not update RA/DEC while moving N/W/E/S) so it's better off the skymap. It's avaiable in the INDI control panel nonetheless.
+	     EXPOSE_DURATION is an INumber property, but it's so common that it's better to include in the context menu */
+	     
 	     if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
 	     // Only switches are shown
- 	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO) continue;
+ 	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO && prop->stdID !=EXPOSE_DURATION) continue;
 	   
 	     menuDevice->insertSeparator();
 
 	     prop->assosiatedPopup = menuDevice;
-
+	     
+	     if (prop->stdID == EXPOSE_DURATION)
+	     {
+	       menuDevice->insertItem (prop->label, id);
+	       menuDevice->setItemChecked(id, false);
+	       kdDebug() << "Expose ID: " << id << endl;
+	       id++;
+	     }
+	     else
+	     {
 	     for (element = prop->el.first(); element != NULL; element = prop->el.next(), id++)
              {
 		menuDevice->insertItem (element->label, id);
 	 	if (element->state == PS_ON)
 		{
-		        // Slew, Track, Sync are never checked in the skymap
+		        // Slew, Track, Sync, Exppse are never checked in the skymap
 			if ((element->name != "SLEW") && (element->name != "TRACK") &&
 			    (element->name != "SYNC"))
 		  		menuDevice->setItemChecked(id, true);
@@ -186,6 +196,9 @@ bool KSPopupMenu::addINDI(void)
 		}
 	 	else
 	        	menuDevice->setItemChecked(id, false);
+			
+		kdDebug() << element->name << " ID is " << id << endl;
+	     }
 	     }
 
 	     QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>INDIConf</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>544</width>
-            <height>358</height>
+            <height>413</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,63 +22,106 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>Layout1</cstring>
+                <cstring>generalGroup</cstring>
             </property>
-            <hbox>
+            <property name="title">
+                <string>General</string>
+            </property>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <spacer>
+                <widget class="QLabel">
                     <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>buttonOk</cstring>
+                        <cstring>fitsLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;OK</string>
+                        <string>Default FITS directory:</string>
                     </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout4</cstring>
                     </property>
-                    <property name="default">
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="KLineEdit">
+                            <property name="name">
+                                <cstring>fitsDIR_IN</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>selectDirB</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>28</width>
+                                    <height>28</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>28</width>
+                                    <height>28</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>fitsAutoDisplayCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Automatic display of FITS upon capture</string>
+                    </property>
+                    <property name="checked">
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QLabel">
                     <property name="name">
-                        <cstring>buttonCancel</cstring>
+                        <cstring>telescopeLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Cancel</string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
+                        <string>Telescope Port:</string>
                     </property>
                 </widget>
-            </hbox>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>telPort_IN</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>videoLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Video port:</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>vidPort_IN</cstring>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <widget class="QGroupBox" row="1" column="1">
             <property name="name">
@@ -170,95 +213,63 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>generalGroup</cstring>
+                <cstring>Layout1</cstring>
             </property>
-            <property name="title">
-                <string>General</string>
-            </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
                     <property name="name">
-                        <cstring>fitsLabel</cstring>
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
                     </property>
                     <property name="text">
-                        <string>Default FITS directory:</string>
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QLayoutWidget">
+                <widget class="QPushButton">
                     <property name="name">
-                        <cstring>layout4</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="KLineEdit">
-                            <property name="name">
-                                <cstring>fitsDIR_IN</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>selectDirB</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>0</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>28</width>
-                                    <height>28</height>
-                                </size>
-                            </property>
-                            <property name="maximumSize">
-                                <size>
-                                    <width>28</width>
-                                    <height>28</height>
-                                </size>
-                            </property>
-                            <property name="text">
-                                <string></string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>telescopeLabel</cstring>
+                        <cstring>buttonCancel</cstring>
                     </property>
                     <property name="text">
-                        <string>Telescope Port:</string>
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>telPort_IN</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>videoLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Video port:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>vidPort_IN</cstring>
-                    </property>
-                </widget>
-            </vbox>
+            </hbox>
         </widget>
     </grid>
 </widget>
@@ -285,4 +296,10 @@
     <tabstop>buttonCancel</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

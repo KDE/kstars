@@ -869,6 +869,10 @@ int setFocuserSpeedMode (int speedMode)
      if (portWrite("#:FF#") < 0)
       return -1;
      break;
+    case LX200_FOCUSMEDIUM:
+     if (portWrite("#:F3#") < 0)
+      return -1;
+      break;
     case LX200_FOCUSSLOW:
       if (portWrite("#:FS#") < 0)
        return -1;

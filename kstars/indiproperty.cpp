@@ -197,6 +197,14 @@ void INDI_P::convertSwitch(int id)
  if (assosiatedPopup == NULL)
   return;
 
+  kdDebug() << "Name: " << name << " ID: " << id << endl;
+ /* Special case is EXPOSE_DURATION, not a switch */
+ if (stdID == EXPOSE_DURATION && assosiatedPopup->text(id) == label)
+ {
+   newText();
+   return;
+ }
+   
  lp = findElement(assosiatedPopup->text(id));
  
  if (!lp)

@@ -231,6 +231,13 @@ double UTtoJD(struct tm *utm);
     \param m a pointer to a double to store the minutes field.
     \param s a pointer to a double to store the seconds field.
 */
+
+/** \brief Converts Julian Date to Greenwich Sidereal Time.
+    \param jd The Julian date 
+    \return GMST in degrees
+*/
+double JDtoGMST( double jd );
+
 void getSexComponents(double value, int *d, int *m, int *s);
 
 /** \brief Fill buffer with properly formatted INumber string.

@@ -438,6 +438,23 @@ double UTtoJD(struct tm *utm)
   return jd;
 }
 
+double JDtoGMST( double jd )
+{
+	double Gmst;
+
+	/* Julian Centuries since J2000.0 */
+	T = ( jd - J2000 ) / 36525.;
+
+	/* Greewich Mean Sidereal Time */
+
+	Gmst = 280.46061837 
+		+ 360.98564736629*(jd-J2000) 
+		+ 0.000387933*T*T 
+		- T*T*T/38710000.0;
+
+	return Gmst;
+}
+
 int extractISOTime(char *timestr, struct tm *utm)
 {
 

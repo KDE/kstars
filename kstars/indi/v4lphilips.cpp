@@ -940,7 +940,8 @@ int writeFITS(char * filename, char errmsg[])
  ExposeTimeNP.s = IPS_OK;
  /*IDSetSwitch(&ExposeSP, "FITS image written to %s", filename);
  IDLog("FITS image written to '%s'\n", filename);*/
- IDSetNumber(&ExposeTimeNP, "Loading FITS image...");
+ //IDSetNumber(&ExposeTimeNP, "Loading FITS image...");
+ IDSetNumber(&ExposeTimeNP, NULL);
  IDLog("Loading FITS image...\n");
  
  uploadFile(filename);

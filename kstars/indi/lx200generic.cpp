@@ -72,8 +72,12 @@ static ISwitch ParkS[]		 = { {"Park", "", ISS_OFF, 0, 0} };
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON, 0, 0}, { "Fast", "", ISS_OFF, 0, 0}, {"Slow", "", ISS_OFF, 0, 0}};
+static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON, 0, 0}, { "Fast", "", ISS_OFF, 0, 0}, {"Medium", "", ISS_OFF, 0, 0}, {"Slow", "", ISS_OFF, 0, 0}};
 static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF, 0, 0}, {"Focus out", "", ISS_OFF, 0, 0}};
+static INumber  FocusTimerN[]    = { {"Timeout (s)", "", "%10.6m", 0., 60., 1., 0., 0, 0, 0 }};
+
+
+static INumberVectorProperty FocusTimerNP = { mydev, "Focus Timer", "", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), 0, 0};
 
 /* equatorial position */
 INumber eq[] = {
@@ -93,11 +97,6 @@ static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, 
 
 /* Basic data group */
 static ISwitchVectorProperty AlignmentSw	= { mydev, "Alignment", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AlignmentS, NARRAY(AlignmentS), 0, 0};
-
-static INumber altLimit[] = {
-       {"minAlt", "min Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0},
-       {"maxAlt", "max Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0}};
-static INumberVectorProperty elevationLimit = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit), 0, 0};
 
 /* Movement group */
 static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), 0, 0};
@@ -148,7 +147,6 @@ void changeLX200GenericDeviceName(const char * newName)
   strcpy(AlignmentSw.device, newName);
 
   // BASIC_GROUP
-  strcpy(elevationLimit.device , newName );
   strcpy(eqNum.device, newName);
   strcpy(OnCoordSetSw.device , newName );
   strcpy(abortSlewSw.device , newName );
@@ -163,6 +161,7 @@ void changeLX200GenericDeviceName(const char * newName)
   // FOCUS_GROUP
   strcpy(FocusSpeedSw.device , newName );
   strcpy(FocusMotionSw.device , newName );
+  strcpy(FocusTimerNP.device, newName);
 
   // DATETIME_GROUP
   strcpy(Time.device , newName );
@@ -194,7 +193,6 @@ void ISInit()
   return;
 
  isInit = 1;
-
  
   PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
   UTC[0].text   = strcpy(new char[32], "YYYY-MM-DDTHH:MM:SS");
@@ -275,7 +273,6 @@ LX200Generic::LX200Generic()
    time_t t;
    time (&t);
    utp = gmtime (&t);
-
    
    currentSiteNum = 1;
    trackingMode   = LX200_TRACK_DEFAULT;
@@ -299,6 +296,7 @@ LX200Generic::LX200Generic()
    
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
+   
 }
 
 void LX200Generic::setCurrentDeviceName(const char * devName)
@@ -319,7 +317,6 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefSwitch (&AlignmentSw, NULL);
 
   // BASIC_GROUP
-  IDDefNumber (&elevationLimit, NULL);
   IDDefNumber (&eqNum, NULL);
   IDDefSwitch (&OnCoordSetSw, NULL);
   IDDefSwitch (&abortSlewSw, NULL);
@@ -334,6 +331,7 @@ void LX200Generic::ISGetProperties(const char *dev)
   // FOCUS_GROUP
   IDDefSwitch(&FocusSpeedSw, NULL);
   IDDefSwitch(&FocusMotionSw, NULL);
+  IDDefNumber(&FocusTimerNP, NULL);
 
   // DATETIME_GROUP
   IDDefText   (&Time, NULL);
@@ -506,10 +504,21 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	  if (nset == 2)
 	  {
 	   /*eqNum.s = IPS_BUSY;*/
+	   char RAStr[32], DecStr[32];
 
-	   IDLog("We recevined J2000 RA %f - DEC %f\n", newRA, newDEC);;
+	   fs_sexa(RAStr, newRA, 2, 3600);
+	   fs_sexa(DecStr, newDEC, 2, 3600);
+	  
+	   IDLog("We received J2000 RA %f - DEC %f\n", newRA, newDEC);
+	   IDLog("We received J2000 RA %s - DEC %s\n", RAStr, DecStr);
+	   
 	   apparentCoord( (double) J2000, JD, &newRA, &newDEC);
-	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);
+	   
+	   fs_sexa(RAStr, newRA, 2, 3600);
+	   fs_sexa(DecStr, newDEC, 2, 3600);
+	   
+	   IDLog("Processed to JNow RA %f - DEC %f\n", newRA, newDEC);
+	   IDLog("Processed to JNow RA %s - DEC %s\n", RAStr, DecStr);
 
 	   if ( (err = setObjectRA(newRA)) < 0 || ( err = setObjectDEC(newDEC)) < 0)
 	   {
@@ -660,48 +669,25 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	 
 	  return;
 	}
-
-	if (!strcmp (name, elevationLimit.name))
+	
+	if (!strcmp(name, FocusTimerNP.name))
 	{
-	    // new elevation limits
-	    double minAlt = 0, maxAlt = 0;
-	    int i, nset;
-
-	  if (checkPower(&elevationLimit))
+	  if (checkPower(&FocusTimerNP))
 	   return;
+	   
+	  // Don't update if busy
+	  if (FocusTimerNP.s == IPS_BUSY)
+	   return;
+	   
+	  IUUpdateNumbers(&FocusTimerNP, values, names, n);
+	  
+	  FocusTimerNP.s = IPS_OK;
+	  
+	  IDSetNumber(&FocusTimerNP, NULL);
+	  IDLog("Setting focus timer to %d\n", FocusTimerN[0].value);
+	  
+	  return;
 
-	    for (nset = i = 0; i < n; i++)
-	    {
-		INumber *altp = IUFindNumber (&elevationLimit, names[i]);
-		if (altp == &altLimit[0])
-		{
-		    minAlt = values[i];
-		    nset += minAlt >= -90.0 && minAlt <= 90.0;
-		} else if (altp == &altLimit[1])
-		{
-		    maxAlt = values[i];
-		    nset += maxAlt >= -90.0 && maxAlt <= 90.0;
-		}
-	    }
-	    if (nset == 2)
-	    {
-		//char l[32], L[32];
-		if ( ( err = setMinElevationLimit( (int) minAlt) < 0) )
-	 	{
-	         handleError(&elevationLimit, err, "Setting elevation limit");
-	 	}
-		setMaxElevationLimit( (int) maxAlt);
-		elevationLimit.np[0].value = minAlt;
-		elevationLimit.np[1].value = maxAlt;
-		elevationLimit.s = IPS_OK;
-		IDSetNumber (&elevationLimit, NULL);
-	    } else
-	    {
-		elevationLimit.s = IPS_IDLE;
-		IDSetNumber(&elevationLimit, "elevation limit missing or invalid");
-	    }
-
-	    return;
 	}
 
 }
@@ -880,7 +866,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	      return;
 	  }
 
-	  geoNum.np[0].value = dd + mm / 60.0;
+	  if (dd > 0) geoNum.np[0].value = dd + mm / 60.0;
+	  else geoNum.np[0].value = dd - mm / 60.0;
 	  
 	  if ( ( err = getSiteLongitude(&dd, &mm) < 0))
 	  {
@@ -888,7 +875,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		return;
 	  }
 	  
-	  geoNum.np[1].value = dd + mm / 60.0;
+	  if (dd > 0) geoNum.np[1].value = 360.0 - (dd + mm / 60.0);
+	  else geoNum.np[1].value = (dd - mm / 60.0) * -1.0;
 	  
 	  getSiteName( SiteName.tp[0].text, currentSiteNum);
 
@@ -912,11 +900,23 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   IUUpdateSwitches(&FocusSpeedSw, states, names, n);
 	   index = getOnSwitch(&FocusSpeedSw);
 	  
+	  
 	  if ( ( err = setFocuserSpeedMode(index) < 0) )
 	  {
 	        handleError(&FocusSpeedSw, err, "Setting focuser speed mode"); 
 		return;
 	  }
+	  
+	  /* disable timer and motion */
+	  if (index == 0)
+	  {
+	    IUResetSwitches(&FocusMotionSw);
+	    FocusMotionSw.s = IPS_IDLE;
+	    FocusTimerNP.s  = IPS_IDLE;
+	    IDSetSwitch(&FocusMotionSw, NULL);
+	    IDSetNumber(&FocusTimerNP, NULL);
+	  }
+	    
 	  
 	  FocusSpeedSw.s = IPS_OK;
 	  IDSetSwitch(&FocusSpeedSw, NULL);
@@ -930,8 +930,18 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   return;
 
 	  IUResetSwitches(&FocusMotionSw);
+	  
+	  // If speed is "halt"
+	  if (FocusSpeedS[0].s == ISS_ON)
+	  {
+	    FocusMotionSw.s = IPS_IDLE;
+	    IDSetSwitch(&FocusMotionSw, NULL);
+	    return;
+	  }
+	  
 	  IUUpdateSwitches(&FocusMotionSw, states, names, n);
 	  index = getOnSwitch(&FocusMotionSw);
+	  
 	  
 	  if ( ( err = setFocuserMotion(index) < 0) )
 	  {
@@ -939,7 +949,13 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
              return;
 	  }
 	  
-	  FocusMotionSw.s = IPS_OK;
+	  
+	  FocusMotionSw.s = IPS_BUSY;
+	  
+	  // with a timer 
+	  if (FocusTimerN[0].value > 0)  
+	     FocusTimerNP.s  = IPS_BUSY;
+	  
 	  IDSetSwitch(&FocusMotionSw, NULL);
 	  return;
 	}
@@ -1356,6 +1372,48 @@ void LX200Generic::ISPoll()
 	 case IPS_ALERT:
 	   break;
 	 }
+	 
+	 switch (FocusTimerNP.s)
+	 {
+	   case IPS_IDLE:
+	     break;
+	     
+	   case IPS_BUSY:
+	    FocusTimerN[0].value--;
+	    
+	    if (FocusTimerN[0].value == 0)
+	    {
+	      
+	      if ( ( err = setFocuserSpeedMode(0) < 0) )
+              {
+	        handleError(&FocusSpeedSw, err, "setting focuser speed mode");
+                IDLog("Error setting focuser speed mode\n");
+                return;
+	      } 
+         
+	      
+	      FocusMotionSw.s = IPS_IDLE;
+	      FocusTimerNP.s  = IPS_IDLE;
+	      FocusSpeedSw.s  = IPS_OK;
+	      
+              IUResetSwitches(&FocusMotionSw);
+	      IUResetSwitches(&FocusSpeedSw);
+	      FocusSpeedS[0].s = ISS_ON;
+	      
+	      IDSetSwitch(&FocusSpeedSw, NULL);
+	      IDSetSwitch(&FocusMotionSw, NULL);
+	    }
+	    
+	    IDSetNumber(&FocusTimerNP, NULL);
+	    break;
+	    
+	   case IPS_OK:
+	    break;
+	    
+	   case IPS_ALERT:
+	    break;
+	 }
+    
 
 }
 
@@ -1409,12 +1467,26 @@ void LX200Generic::getBasicData()
   if ( (err = getSiteLatitude(&dd, &mm)) < 0)
     IDMessage(thisDevice, "Failed to get site latitude from device.");
   else
-    geoNum.np[0].value = dd + mm/60.0;
+  {
+    if (dd > 0)
+    	geoNum.np[0].value = dd + mm/60.0;
+    else
+        geoNum.np[0].value = dd - mm/60.0;
+  
+      IDLog("Autostar Latitude: %d:%d\n", dd, mm);
+      IDLog("INDI Latitude: %g\n", geoNum.np[0].value);
+  }
   
   if ( (err = getSiteLongitude(&dd, &mm)) < 0)
     IDMessage(thisDevice, "Failed to get site longitude from device.");
   else
-    geoNum.np[1].value = dd + mm/60.0;
+  {
+    if (dd > 0) geoNum.np[1].value = 360.0 - (dd + mm/60.0);
+    else geoNum.np[1].value = (dd - mm/60.0) * -1.0;
+    
+    IDLog("Autostar Longitude: %d:%d\n", dd, mm);
+    IDLog("INDI Longitude: %g\n", geoNum.np[1].value);
+  }
 
   IDSetNumber (&geoNum, NULL);
   
@@ -1636,8 +1708,15 @@ void LX200Generic::powerTelescope()
 {
      switch (PowerSP.sp[0].s)
      {
-      case ISS_ON:
-
+      case ISS_ON:  
+	
+        if (simulation)
+	{
+	  PowerSP.s = IPS_OK;
+	  IDSetSwitch (&PowerSP, "Simulated telescope is online.");
+	  return;
+	}
+	
          if (Connect(Port.tp[0].text))
 	 {
 	   PowerS[0].s = ISS_OFF;
@@ -1730,3 +1809,60 @@ void LX200Generic::enableSimulation(bool enable)
    else
      IDLog("Simulation is disabled.\n");
 }
+
+void LX200Generic::updateTimeAndLocation()
+{
+
+  char cdate[32];
+  double ctime;
+  int h, m, s, dd = 0, mm = 0;
+  int day, month, year, result, err;
+  
+  getLocalTime24(&ctime);
+  getSexComponents(ctime, &h, &m, &s);
+  
+  getSDTime(&STime[0].value);
+  getCalenderDate(cdate);
+  
+  result = sscanf(cdate, "%d/%d/%d", &month, &day, &year);
+  if (result != 3) return;
+  
+  year += 2000;
+  
+  /* Format it into ISO 8601 */
+  sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", year, month, day, h, m, s);
+  
+  IDLog("Telescope ISO date and time: %s\n", UTC[0].text);
+  
+  if ( (err = getSiteLatitude(&dd, &mm)) < 0)
+    IDMessage(thisDevice, "Failed to get site latitude from device.");
+  else
+  {
+    if (dd > 0)
+    	geoNum.np[0].value = dd + mm/60.0;
+    else
+        geoNum.np[0].value = dd - mm/60.0;
+  
+      IDLog("Autostar Latitude: %d:%d\n", dd, mm);
+      IDLog("INDI Latitude: %g\n", geoNum.np[0].value);
+  }
+  
+  if ( (err = getSiteLongitude(&dd, &mm)) < 0)
+    IDMessage(thisDevice, "Failed to get site longitude from device.");
+  else
+  {
+    if (dd > 0) geoNum.np[1].value = 360.0 - (dd + mm/60.0);
+    else geoNum.np[1].value = (dd - mm/60.0) * -1.0;
+    
+    IDLog("Autostar Longitude: %d:%d\n", dd, mm);
+    IDLog("INDI Longitude: %g\n", geoNum.np[1].value);
+  }
+
+  
+  // Let's send everything to the client
+  IDSetText(&Time, NULL);
+  IDSetNumber(&SDTime, NULL);
+  IDSetNumber (&geoNum, NULL);
+
+}
+

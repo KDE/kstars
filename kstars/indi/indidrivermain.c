@@ -53,9 +53,19 @@ const  char *ruleStr(ISRule r);
 const  char *permStr(IPerm p);
 static char *timestamp (void);
 
+static int nroCheck;			/* # of elements in roCheck */
 static int verbose;			/* chatty */
 char *me;				/* a.out name */
 static LilXML *clixml;			/* XML parser context */
+
+/* insure RO properties are never modified. RO Sanity Check */
+typedef struct
+{
+  char propName[MAXINDINAME];
+  IPerm perm;
+} ROSC;
+
+static ROSC *roCheck;
 
 int
 main (int ac, char *av[])
@@ -83,6 +93,9 @@ main (int ac, char *av[])
 	/* init */
 	clixml =  newLilXML();
 	addCallback (0, clientMsgCB, NULL);
+	
+	nroCheck = 0;
+	roCheck = NULL;
 
 	/* service client */
 	eventLoop();
@@ -99,6 +112,7 @@ void
 IDDefText (const ITextVectorProperty *tvp, const char *fmt, ...)
 {
 	int i;
+	ROSC *SC;
 
 	printf ("<defTextVector\n");
 	printf ("  device='%s'\n", tvp->device);
@@ -129,6 +143,15 @@ IDDefText (const ITextVectorProperty *tvp, const char *fmt, ...)
 	}
 
 	printf ("</defTextVector>\n");
+	
+	/* Add this property to insure proper sanity check */
+	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  : (ROSC *) malloc  ( sizeof(ROSC));
+	SC      = &roCheck[nroCheck++];
+	
+	strcpy(SC->propName, tvp->name);
+	SC->perm = tvp->p;
+	
 	fflush (stdout);
 }
 
@@ -137,6 +160,7 @@ void
 IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 {
 	int i;
+	ROSC *SC;
 
 	printf ("<defNumberVector\n");
 	printf ("  device='%s'\n", n->device);
@@ -171,6 +195,15 @@ IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 	}
 
 	printf ("</defNumberVector>\n");
+	
+	/* Add this property to insure proper sanity check */
+	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  : (ROSC *) malloc  ( sizeof(ROSC));
+	SC      = &roCheck[nroCheck++];
+	
+	strcpy(SC->propName, n->name);
+	SC->perm = n->p;
+	
 	fflush (stdout);
 }
 
@@ -179,6 +212,7 @@ void
 IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
 {
 	int i;
+	ROSC *SC;
 
 	printf ("<defSwitchVector\n");
 	printf ("  device='%s'\n", s->device);
@@ -210,6 +244,15 @@ IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
 	}
 
 	printf ("</defSwitchVector>\n");
+	
+	/* Add this property to insure proper sanity check */
+	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  : (ROSC *) malloc  ( sizeof(ROSC));
+	SC      = &roCheck[nroCheck++];
+	
+	strcpy(SC->propName, s->name);
+	SC->perm = s->p;
+	
 	fflush (stdout);
 }
 
@@ -674,6 +717,7 @@ dispatch (XMLEle *root, char msg[])
 {
 	XMLEle *ep;
 	int n;
+	int i;
 
 	if (verbose)
 	    prXMLEle (stderr, root, 0);
@@ -711,6 +755,16 @@ printf ("%s\n", valuXMLAtt(na));
 			    names[n++] = valuXMLAtt(na);
 		    }
 		}
+	    }
+	    
+	    /* insure property is not RO */
+	    for (i=0; i < nroCheck; i++)
+	    {
+	      if (!strcmp(roCheck[i].propName, name))
+	      {
+	       if (roCheck[i].perm == IP_RO)
+	         return -1;
+	      }
 	    }
 
 	    /* invoke driver if something to do, but not an error if not */
@@ -760,6 +814,16 @@ printf ("%s\n", valuXMLAtt(na));
 		}
 	    }
 
+	    /* insure property is not RO */
+	    for (i=0; i < nroCheck; i++)
+	    {
+	      if (!strcmp(roCheck[i].propName, name))
+	      {
+	       if (roCheck[i].perm == IP_RO)
+	         return -1;
+	      }
+	    }
+	    
 	    /* invoke driver if something to do, but not an error if not */
 	    if (n > 0)
 		ISNewSwitch (dev, name, states, names, n);
@@ -796,6 +860,16 @@ printf ("%s\n", valuXMLAtt(na));
 			n++;
 		    }
 		}
+	    }
+	    
+	    /* insure property is not RO */
+	    for (i=0; i < nroCheck; i++)
+	    {
+	      if (!strcmp(roCheck[i].propName, name))
+	      {
+	       if (roCheck[i].perm == IP_RO)
+	         return -1;
+	      }
 	    }
 
 	    /* invoke driver if something to do, but not an error if not */

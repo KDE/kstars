@@ -55,6 +55,7 @@ class LX200Generic
  void setCurrentDeviceName(const char * devName);
  void correctFault();
  void enableSimulation(bool enable);
+ void updateTimeAndLocation();
  
 
  protected:

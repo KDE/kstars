@@ -52,6 +52,11 @@ static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GRO
 static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9., 0, 0 ,0}};
 static INumberVectorProperty MaxSlewRate = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew), 0, 0};
 
+static INumber altLimit[] = {
+       {"minAlt", "min Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0},
+       {"maxAlt", "max Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0}};
+static INumberVectorProperty elevationLimit = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit), 0, 0};
+
 void changeLX200ClassicDeviceName(const char *newName)
 {
  strcpy(ObjectInfo.device, newName);
@@ -60,6 +65,7 @@ void changeLX200ClassicDeviceName(const char *newName)
  strcpy(DeepSkyCatalogSw.device, newName);
  strcpy(ObjectNo.device, newName);
  strcpy(MaxSlewRate.device , newName );
+ strcpy(elevationLimit.device , newName );
 }
 
 LX200Classic::LX200Classic() : LX200Generic()
@@ -81,6 +87,7 @@ if (dev && strcmp (thisDevice, dev))
 
   LX200Generic::ISGetProperties(dev);
 
+  IDDefNumber (&elevationLimit, NULL);
   IDDefText   (&ObjectInfo, NULL);
   IDDefSwitch (&SolarSw, NULL);
   IDDefSwitch (&StarCatalogSw, NULL);
@@ -151,6 +158,48 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 
 
 
+    if (!strcmp (name, elevationLimit.name))
+	{
+	    // new elevation limits
+	    double minAlt = 0, maxAlt = 0;
+	    int i, nset;
+
+	  if (checkPower(&elevationLimit))
+	   return;
+
+	    for (nset = i = 0; i < n; i++)
+	    {
+		INumber *altp = IUFindNumber (&elevationLimit, names[i]);
+		if (altp == &altLimit[0])
+		{
+		    minAlt = values[i];
+		    nset += minAlt >= -90.0 && minAlt <= 90.0;
+		} else if (altp == &altLimit[1])
+		{
+		    maxAlt = values[i];
+		    nset += maxAlt >= -90.0 && maxAlt <= 90.0;
+		}
+	    }
+	    if (nset == 2)
+	    {
+		//char l[32], L[32];
+		if ( ( err = setMinElevationLimit( (int) minAlt) < 0) )
+	 	{
+	         handleError(&elevationLimit, err, "Setting elevation limit");
+	 	}
+		setMaxElevationLimit( (int) maxAlt);
+		elevationLimit.np[0].value = minAlt;
+		elevationLimit.np[1].value = maxAlt;
+		elevationLimit.s = IPS_OK;
+		IDSetNumber (&elevationLimit, NULL);
+	    } else
+	    {
+		elevationLimit.s = IPS_IDLE;
+		IDSetNumber(&elevationLimit, "elevation limit missing or invalid");
+	    }
+
+	    return;
+	}
 
     LX200Generic::ISNewNumber (dev, name, values, names, n);
 }

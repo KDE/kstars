@@ -245,7 +245,7 @@ void INDIStdDevice::streamReceived()
 	 if (compressedBuffer == NULL) return;
        }
        
-       if ((dataType == DATA_FITS || dataType == DATA_OTHER) && !batchMode)
+       if ((dataType == DATA_FITS || dataType == DATA_OTHER) && !batchMode && Options::indiFITSDisplay())
        {
          downloadDialog->progressBar()->setTotalSteps(totalCompressedBytes);
 	 downloadDialog->setMinimumWidth(300);
@@ -327,7 +327,7 @@ void INDIStdDevice::streamReceived()
        //streamWindow->enableStream(false);
        streamWindow->close();
         
-	if (dataType == DATA_FITS && !batchMode)
+	if (dataType == DATA_FITS && !batchMode && Options::indiFITSDisplay())
         {
 	  strcpy(filename, "/tmp/fitsXXXXXX");
 	  if ((fd = mkstemp(filename)) < 0)
@@ -351,18 +351,23 @@ void INDIStdDevice::streamReceived()
 	  strncpy(filename, currentDir.ascii(), currentDir.length());
 	  filename[currentDir.length()] = '\0';
 	  
-	  if (batchMode && dataType == DATA_FITS)
+	  if (dataType == DATA_FITS)
 	  {
 	    char tempFileStr[256];
 	    strncpy(tempFileStr, filename, 256);
 	    
-	    if (ISOMode)
+	    if ( batchMode && !ISOMode)
+	      snprintf(filename, 256, "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
+	    else if (!batchMode && !Options::indiFITSDisplay())
+	    {
+	      strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+	      snprintf(filename, 256, "%s/file_%s.fits", tempFileStr, ts);
+	    }
+	    else
 	    {
 	     strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
 	     snprintf(filename, 256, "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
 	    }
-	    else
-	     snprintf(filename, 256, "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
 	     
 	     seqCount++;
 	  }
@@ -389,7 +394,7 @@ void INDIStdDevice::streamReceived()
          ksw->statusBar()->changeItem( i18n("Data file saved to %1").arg(filename), 0);
          return;
        }
-       else if (dataType == DATA_FITS && batchMode)
+       else if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
        {
          ksw->statusBar()->changeItem( i18n("FITS file saved to %1").arg(filename), 0);
 	 emit FITSReceived(dp->label);
@@ -424,6 +429,7 @@ void INDIStdDevice::streamReceived()
     case TIME:
       if ( Options::indiAutoTime() )
        handleDevCounter();
+       
       break;
       
     case SDTIME:
@@ -989,7 +995,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	        	return true;
 
         kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
-	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString();
+	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString() << endl;
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
@@ -998,12 +1004,20 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
        else
          sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
-         sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
+         sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
            // Use J2000 coordinate as required by INDI
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
 	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
+	kdDebug() <<  "\n******** The point AFTER it was precessed ********" << endl;
+	kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
+	
+	
+	//sp.apparentCoord((long double) J2000,  ksw->data()->ut().djd());
+	//kdDebug() <<  "\n******** The point AFTER it was precessed AGAIN to JNOW ********" << endl;
+	//kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
+	
            pp->newSwitch(switchIndex);
 	   prop->newText();
 	

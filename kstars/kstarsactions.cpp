@@ -239,6 +239,7 @@ void KStars::slotINDIConf() {
    indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
    indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
    indiconf.messagesCheck->setChecked ( Options::indiMessages() );
+   indiconf.fitsAutoDisplayCheck->setChecked( Options::indiFITSDisplay() );
    indiconf.telPort_IN->setText ( Options::indiTelescopePort());
    indiconf.vidPort_IN->setText ( Options::indiVideoPort());
 
@@ -256,6 +257,7 @@ void KStars::slotINDIConf() {
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
      Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
      Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
+     Options::setIndiFITSDisplay (indiconf.fitsAutoDisplayCheck->isChecked());
      Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
      Options::setIndiVideoPort( indiconf.vidPort_IN->text());
      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
