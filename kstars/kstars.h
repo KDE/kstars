@@ -224,6 +224,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		void resumeDCOP( void ) { kapp->dcopClient()->resume(); }
 
+		void slotClearAllTrails();
+
 	private slots:
 		/**
 			*action slot: synch kstars clock to system time
