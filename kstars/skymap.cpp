@@ -861,12 +861,16 @@ void SkyMap::addLink( void ) {
 
 void SkyMap::setRiseSetLabels( void ) {
 	QTime rtime = clickedObject()->riseTime( ksw->data()->CurrentDate, ksw->geo() );
-	QString rt, rt2;
+	QString rt, rt2, rt3;
+	dms rAz = clickedObject()->riseSetTimeAz( ksw->geo()->lat(), true );
 	if ( rtime.isValid() ) {
 		int min = rtime.minute();
 		if ( rtime.second() >=30 ) ++min;
 		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
-		rt = i18n( "Rise Time: " ) + rt2;
+		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
+		rt = i18n( "Rise Time: " ) + rt2 + 
+			i18n(", Azimuth: ") + rt3;
+
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		rt = i18n( "No Rise Time: Circumpolar" );
 	} else {
@@ -874,12 +878,15 @@ void SkyMap::setRiseSetLabels( void ) {
 	}
 
 	QTime stime = clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
-	QString st, st2;
+	QString st, st2, st3;
+	dms sAz = clickedObject()->riseSetTimeAz( ksw->geo()->lat(), false );
 	if ( stime.isValid() ) {
 		int min = stime.minute();
 		if ( stime.second() >=30 ) ++min;
 		st2.sprintf( "%02d:%02d", stime.hour(), min );
-		st = i18n( "Set Time: " ) + st2;
+		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
+		st = i18n( "Set Time: " ) + st2 + 
+			i18n(", Azimuth: ") + st3;
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		st = i18n( "No Set Time: Circumpolar" );
 	} else {
@@ -887,12 +894,15 @@ void SkyMap::setRiseSetLabels( void ) {
 	}
 
 	QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
-	QString tt, tt2;
+	QString tt, tt2, tt3;
+	dms trAlt = clickedObject()->transitAltitude( ksw->geo() );
 	if ( ttime.isValid() ) {
 		int min = ttime.minute();
 		if ( ttime.second() >=30 ) ++min;
 		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
-		tt = i18n( "Transit Time: " ) + tt2;
+		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
+		tt = i18n( "Transit Time: " ) + tt2 + 
+			i18n(", Altitude: ") + tt3 ;
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		tt = i18n( "No Transit Time: Circumpolar" );
 	} else {
