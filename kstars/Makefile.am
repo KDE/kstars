@@ -4,7 +4,7 @@ kstars_SOURCES = kspluto.cpp addcatdialog.cpp addlinkdialog.cpp astrocalc.cpp co
 
 kstars_LDADD = indi/liblilxml.a indi/libindicom.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la -lkdeprint -lm
 
-SUBDIRS = data indi
+SUBDIRS = data indi icons
 
 EXTRA_DIST = kstars.desktop kstarsui.rc
 
