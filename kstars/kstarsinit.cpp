@@ -420,6 +420,12 @@ void KStars::datainitFinished(bool worked) {
 		}
 	}
 
+	//If there is a foundObject() and it is a SS body, add a temporary Trail to it.
+	if ( map()->foundObject() && data()->isSolarSystem( map()->foundObject() ) ) { 
+		((KSPlanetBase*)map()->foundObject())->addToTrail();
+		data()->temporaryTrail = true;
+	}
+
 // just show dialog if option is set (don't force it)	
 	KTipDialog::showTip( "kstars/tips" );
 }

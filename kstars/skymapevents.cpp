@@ -313,15 +313,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 	if ( slewing ) {
 		if ( ksw->options()->isTracking ) {
-			setClickedObject( NULL );
-			setFoundObject( NULL );//no longer tracking foundObject
-			ksw->options()->isTracking = false;
-			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+			ksw->slotTrack();  //toggle tracking off
 		}
 
 		if ( scrollCount > 10 ) {
-//			ksw->showFocusCoords();
 			setDestination( focus() );
 			scrollCount = 0;
 		}
@@ -378,13 +373,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!mouseMoveCursor) setMouseMoveCursor();
 		if (!slewing) {
 			slewing = true;
-			ksw->options()->isTracking = false; //break tracking on slew
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-			setClickedObject( NULL );
-			setFoundObject( NULL );//no longer tracking foundObject
-			
-			//Clear the planet trail list
-			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
+			if ( ksw->options()->isTracking ) ksw->slotTrack(); //toggle tracking off
 		}
 
 		//Update focus such that the sky coords at mouse cursor remain approximately constant
@@ -859,7 +848,6 @@ void SkyMap::paintEvent( QPaintEvent * )
 	//drawing to screen, so leave scale parameter at its default value of 1.0
 	drawStars( psky );
 	drawDeepSkyObjects( psky );
-	drawPlanetTrail( psky );
 	drawSolarSystem( psky, drawPlanets );
 	drawAttachedLabels( psky );
 	drawHorizon( psky, stdFont );

@@ -112,7 +112,7 @@ private:
 	QCheckBox *showSaturn, *showUranus, *showNeptune, *showPluto;
 	QCheckBox *showPlanetNames, *showPlanetImages;
 	QCheckBox *showAsteroids, *showComets, *showAsteroidNames, *showCometNames;
-	QCheckBox *useRefraction, *animateSlewing, *hideObjects;
+	QCheckBox *useRefraction, *animateSlewing, *fadePlanetTrails, *hideObjects;
 	QCheckBox *hideStars, *hidePlanets, *hideMess, *hideNGC, *hideIC;
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 

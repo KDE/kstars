@@ -25,6 +25,7 @@
 
 #include "skyobject.h"
 #include "starobject.h"
+#include "ksplanetbase.h"
 #include "ksplanet.h"
 #include "dms.h"
 #include "skypoint.h"
@@ -204,7 +205,7 @@ public:
 	void drawStars( QPainter& psky, double scale = 1.0 );
 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
 	void drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
-	void drawPlanetTrail( QPainter& psky, double scale = 1.0 );
+	void drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
 	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
 	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );
 	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
@@ -264,6 +265,9 @@ public slots:
 
 	void slotAddObjectLabel( void );
 	void slotRemoveObjectLabel( void );
+	
+	void slotAddPlanetTrail( void );
+	void slotRemovePlanetTrail( void );
 
 /**Popup menu function: Add a custom Image or Information URL. */
 	void addLink( void );

@@ -36,6 +36,7 @@ KSPlanetBase::KSPlanetBase( KStars *ks, QString s, QString image_file )
 	}
 	PositionAngle = 0.0;
 	ImageAngle = 0.0;
+	Trail.setAutoDelete( TRUE );
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -51,6 +52,11 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
 		kstars->data()->earth()->findPosition( num );
 		findPosition( num, kstars->data()->earth() );
 	}
+}
+
+void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {
+	for ( SkyPoint *sp = Trail.first(); sp; sp = Trail.next() ) 
+		sp->EquatorialToHorizontal( LST, lat );
 }
 
 void KSPlanetBase::rotateImage( double imAngle ) {

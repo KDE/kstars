@@ -35,6 +35,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	useLatinConstellNames  = o.useLatinConstellNames;
 	useLocalConstellNames  = o.useLocalConstellNames;
 	useAbbrevConstellNames = o.useAbbrevConstellNames;
+	fadePlanetTrails       = o.fadePlanetTrails;
 	drawSAO         = o.drawSAO;
 	drawMessier     = o.drawMessier;
 	drawMessImages  = o.drawMessImages;
@@ -138,6 +139,7 @@ void KStarsOptions::setDefaultOptions() {
 	useLatinConstellNames  = true;
 	useLocalConstellNames  = false;
 	useAbbrevConstellNames = false;
+	fadePlanetTrails       = true;
 	drawSAO        = true;
 	drawMessier    = true;
 	drawMessImages = true;

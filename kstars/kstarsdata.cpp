@@ -80,7 +80,7 @@ KStarsData::KStarsData( KStars *ks ) {
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
-	PlanetTrail.setAutoDelete( TRUE );
+	
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
     VariableStarsList.setAutoDelete(TRUE);
 
@@ -100,6 +100,8 @@ KStarsData::KStarsData( KStars *ks ) {
 	
 	// at startup times run forward
 	setTimeDirection( 0.0 );
+	
+	temporaryTrail = false;
 }
 
 KStarsData::~KStarsData() {
@@ -1393,14 +1395,14 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) 
 				com->findPosition( &num, earth() );
 
-		//Add a point to the planet trail if the centered object is a solar system body.
-		if ( isSolarSystem( skymap->foundObject() ) ) {
-			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
-			
-			//Allow no more than 200 points in the trail
-			while ( PlanetTrail.count() > 200 ) 
-				PlanetTrail.removeFirst();
-		}
+//		//Add a point to the planet trail if the centered object is a solar system body.
+//		if ( isSolarSystem( skymap->foundObject() ) ) {
+//			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
+//			
+//			//Allow no more than 200 points in the trail
+//			while ( PlanetTrail.count() > 400 ) 
+//				PlanetTrail.removeFirst();
+//		}
 
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
@@ -1435,26 +1437,34 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		//Recompute Alt, Az coords for all objects
 		//Planets
+		//This updates trails as well
 		PC->EquatorialToHorizontal( LSTh, geo->lat() );
+		
 		jmoons->EquatorialToHorizontal( LSTh, geo->lat() );
-		if ( options->drawMoon ) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
-
-		//Planet Trails
-		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() ) 
-			p->EquatorialToHorizontal( LSTh, geo->lat() );
+		if ( options->drawMoon ) {
+			Moon->EquatorialToHorizontal( LSTh, geo->lat() );
+			if ( Moon->hasTrail() ) Moon->updateTrail( LSTh, geo->lat() );
+		}
+		
+//		//Planet Trails
+//		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() ) 
+//			p->EquatorialToHorizontal( LSTh, geo->lat() );
 		
 		//Asteroids
-		//if ( options->drawAsteroids ) {
+		if ( options->drawAsteroids ) {
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) {
-					ast->EquatorialToHorizontal( LSTh, geo->lat() );
+				ast->EquatorialToHorizontal( LSTh, geo->lat() );
+				if ( ast->hasTrail() ) ast->updateTrail( LSTh, geo->lat() );
 			}
-		//}
+		}
 		
 		//Comets
-		//if ( options->drawComets ) {
-			for ( KSComet *com = cometList.first(); com; com = cometList.next() )
-					com->EquatorialToHorizontal( LSTh, geo->lat() );
-		//}
+		if ( options->drawComets ) {
+			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) {
+				com->EquatorialToHorizontal( LSTh, geo->lat() );
+				if ( com->hasTrail() ) com->updateTrail( LSTh, geo->lat() );
+			}
+		}
 		
 		//Stars
 		if ( options->drawSAO ) {

@@ -150,6 +150,7 @@ class KStarsOptions {
 		//Advanced Display Options (JH: 20 Feb 2002)
 		bool useRefraction;
 		bool useAnimatedSlewing;
+		bool fadePlanetTrails;
 		bool hideOnSlew;
 		bool hideStars, hidePlanets, hideMess, hideNGC, hideIC, hideOther;
 		bool hideMW, hideCNames, hideCLines, hideGrid;

@@ -33,8 +33,6 @@ bool KSSun::loadData() {
 }
 
 bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-
-
 	if (Earth) {
 		//
 		// For the precision we need, the earth's orbit is circular.
@@ -121,15 +119,7 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		setEcLong( EarthLong.Degrees() + 180.0 );
 		setEcLong( ecLong()->reduce().Degrees() );
 		setEcLat( -1.0*EarthLat.Degrees() );
-
-		/*
-		kdDebug() << name() << " : " << ec.long.Degrees() << ", " << 
-			ep.lat.Degrees() << " (e) " <<
-			EarthLong.Degrees() << ", " << EarthLat.Degrees() << endl;
-			*/
-
 	}
-		
 
 	//Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
 	EclipticToEquatorial( num->obliquity() );
@@ -138,5 +128,10 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	aberrate(num);
 
-	return true;	
+	if ( hasTrail() ) {
+		Trail.append( new SkyPoint( ra(), dec() ) );
+		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
+	}
+
+	return true;
 }

@@ -20,6 +20,7 @@
 #define KSPLANETBASE_H
 
 #include <qstring.h>
+#include <qptrlist.h>
 #include <qimage.h>
 #include <qwmatrix.h>
 
@@ -28,6 +29,8 @@
 #include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"
+
+#define MAXTRAIL 400  //maximum number of points in a planet trail
 
 /**Class that encapsulates the ecliptic position of a planet.
 	*This includes not only the Ecliptic longitude and latitude, but also the
@@ -185,6 +188,31 @@ public:
 		*/
 		void setAngSize( double a ) { AngularSize = a; }
 
+	/**@returns whether the planet has a trail
+		*/
+		bool hasTrail() const { return ( Trail.count() > 0 ); }
+		 
+	/**@returns a reference to the planet's trail
+		*/
+		QPtrList<SkyPoint>* trail() { return &Trail; } 
+		
+	/**@short adds a point to the planet's trail
+		*@param sp a pointer to the SkyPoint to add (will be AutoDeleted)
+		*/
+		void addToTrail() { Trail.append( new SkyPoint( ra(), dec() ) ); }
+		
+	/**@short removes the oldest point from the trail
+		*/
+		void clipTrail() { Trail.removeFirst(); }
+		
+	/**@short clear the Trail
+		*/
+		void clearTrail() { Trail.clear(); }
+		
+	/**@short update Horizontal coords of the trail
+		*/
+		void updateTrail( dms *LST, const dms *lat );
+
 	/**
 		*If pa argument is more than 5 degrees different than current internal
 		*PositionAngle, then update the internal PA and rotate the Planet image.
@@ -202,6 +230,7 @@ protected:
 	};
 
 	EclipticPosition ep;
+	QPtrList<SkyPoint> Trail;
 
 private:
 	QImage Image0, Image;

@@ -223,7 +223,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	
 	/**DCOP interface function.  Set the geographic location. */
 		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
-		
+
 	public slots:
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.
@@ -241,6 +241,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotZoomOut();
 
 		void slotDefaultZoom();
+
+		/**
+			*action slot: Toggle whether kstars is tracking current position
+			*/	
+		void slotTrack();
 
 	/**
  		*Delete FindDialog because ObjNames list has changed in KStarsData due to
@@ -270,11 +275,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*action slot: open dialog for finding a named object
 			*/	
 		void slotFind();
-
-		/**
-			*action slot: Toggle whether kstars is tracking current position
-			*/	
-		void slotTrack();
 
 		/**
 			*action slot: open dialog for selecting a new geographic location

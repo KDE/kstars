@@ -295,7 +295,6 @@ void KStars::slotPrint() {
 		map()->drawStars( p, scale );
 		
 		map()->drawDeepSkyObjects( p, scale );
-		map()->drawPlanetTrail( p, scale );
 		map()->drawSolarSystem( p, drawPlanets, scale );
 		map()->drawAttachedLabels( p, scale );
 		map()->drawHorizon( p, stdFont, scale );
@@ -353,14 +352,20 @@ void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+		if ( data()->isSolarSystem( map()->foundObject() ) && data()->temporaryTrail ) { 
+			((KSPlanetBase*)map()->foundObject())->clearTrail();
+			data()->temporaryTrail = false;
+		}
+			
 		map()->setClickedObject( NULL );
 		map()->setFoundObject( NULL );//no longer tracking foundObject
-		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
 	} else {
 		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
+	
+	map()->Update();
 }
 
 void KStars::slotManualFocus() {
@@ -368,11 +373,12 @@ void KStars::slotManualFocus() {
 	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		map()->setClickedPoint( focusDialog.point() );
-		map()->setClickedObject( NULL );
-		map()->setFoundObject( NULL ); //make sure no longer tracking
-		options()->isTracking = false;
-		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
-		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+		if ( options()->isTracking ) slotTrack();
+//		map()->setClickedObject( NULL );
+//		map()->setFoundObject( NULL ); //make sure no longer tracking
+//		options()->isTracking = false;
+//		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
+//		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 
 		map()->slotCenter();
 	}

@@ -116,6 +116,11 @@ bool KSAsteroid::findPosition( const KSNumbers *num, const KSPlanetBase *Earth )
 	nutate( num );
 	aberrate( num );
 
+	if ( hasTrail() ) {
+		Trail.append( new SkyPoint( ra(), dec() ) );
+		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
+	}
+
 	return true;
 }
 

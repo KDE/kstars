@@ -464,7 +464,6 @@ private:
 	QList<SkyPoint> Horizon;
 	QList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
-	QList<SkyPoint> PlanetTrail;
 	ObjectNameList ObjNames;
 	
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
@@ -476,7 +475,8 @@ private:
 
 	QDateTime LTime, UTime;
 	QTime LST;
-	bool TimeRunsForward;
+	bool TimeRunsForward, temporaryTrail;
+
 	dms *LSTh, *HourAngle;
 	KLocale *locale;
 

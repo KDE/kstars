@@ -18,6 +18,7 @@
 #include "kstars.h"
 #include "starobject.h"
 #include "skyobject.h"
+#include "ksplanetbase.h"
 #include "kspopupmenu.h"
 
 #include <qlabel.h>
@@ -76,7 +77,8 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
-	initPopupMenu( p->translatedName(), "", i18n("Solar System") );
+	bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
+	initPopupMenu( p->translatedName(), "", i18n("Solar System"), true, true, true, true, addTrail );
 	addLinksToMenu(false); //don't offer DSS images for planets
 }
 
@@ -121,7 +123,7 @@ void KSPopupMenu::addLinksToMenu( bool showDSS, bool allowCustom ) {
 }
 
 void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
-	bool showRiseSet, bool showCenterTrack, bool showDetails ) {
+	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail ) {
 	clear();
 
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
@@ -196,6 +198,14 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 		}
 	}
 	
+	if ( showTrail ) {
+		if ( addTrail ) {
+			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );
+		} else {
+			insertItem( i18n( "Remove Trail" ), ksw->map(), SLOT( slotRemovePlanetTrail() ) );
+		}
+	}
+
 	insertSeparator();
 }
 

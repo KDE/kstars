@@ -116,6 +116,7 @@ void PlanetCatalog::findPosition( const KSNumbers *num) {
 void PlanetCatalog::EquatorialToHorizontal( dms *LST, const dms *lat ) {
 	for (KSPlanetBase * ksp = planets.first(); ksp != 0; ksp = planets.next()) {
 		ksp->EquatorialToHorizontal( LST, lat);
+		if ( ksp->hasTrail() ) ksp->updateTrail( LST, lat );
 	}
 }
 

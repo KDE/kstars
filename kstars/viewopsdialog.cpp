@@ -547,6 +547,10 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setFont( stdFont );
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
+	fadePlanetTrails = new QCheckBox( i18n( "Planet trails fade to background color" ), AdvancedTab );
+	fadePlanetTrails->setFont( stdFont );
+	fadePlanetTrails->setChecked( ksw->options()->fadePlanetTrails );
+
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
 	hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
@@ -637,6 +641,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	vlayAdvancedTab->addWidget( useRefraction );
 	vlayAdvancedTab->addWidget( animateSlewing );
+	vlayAdvancedTab->addWidget( fadePlanetTrails );
 	vlayAdvancedTab->addSpacing( 20 );
 	vlayAdvancedTab->addWidget( hideObjects );
 	vlayAdvancedTab->addLayout( hlayAdvHideTimeScale );
@@ -718,6 +723,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 //Advanced Tab
 	connect( useRefraction, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( animateSlewing, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( fadePlanetTrails, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hideSpinBox, SIGNAL( scaleChanged( float ) ), this, SLOT( changeSlewTimeScale( float ) ) );
 	connect( hideObjects, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( hideStars, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -1000,6 +1006,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	//Advanced Tab
 	ksw->options()->useRefraction = useRefraction->isChecked();
 	ksw->options()->useAnimatedSlewing = animateSlewing->isChecked();
+	ksw->options()->fadePlanetTrails = fadePlanetTrails->isChecked();
 	ksw->options()->hideOnSlew = hideObjects->isChecked();
 	ksw->options()->hideStars = hideStars->isChecked();
 	ksw->options()->hidePlanets = hidePlanets->isChecked();

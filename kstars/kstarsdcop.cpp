@@ -222,11 +222,12 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "HideCLines"  && bOk ) options()->hideCLines  = bVal;
 	if ( op == "HideGrid"    && bOk ) options()->hideGrid    = bVal;
 	
-	if ( op == "UseAltAz"        && bOk ) options()->useAltAz           = bVal;
-	if ( op == "UseRefraction"   && bOk ) options()->useRefraction      = bVal;
-	if ( op == "AnimateSlewing"  && bOk ) options()->useAnimatedSlewing = bVal;
-	if ( op == "SlewTimeScale"   && dOk ) options()->slewTimeScale      = dVal;
-	if ( op == "ZoomLevel"       && nOk ) options()->ZoomLevel          = nVal;
+	if ( op == "UseAltAz"         && bOk ) options()->useAltAz           = bVal;
+	if ( op == "UseRefraction"    && bOk ) options()->useRefraction      = bVal;
+	if ( op == "AnimateSlewing"   && bOk ) options()->useAnimatedSlewing = bVal;
+	if ( op == "FadePlanetTrails" && bOk ) options()->fadePlanetTrails   = bVal;
+	if ( op == "SlewTimeScale"    && dOk ) options()->slewTimeScale      = dVal;
+	if ( op == "ZoomLevel"        && nOk ) options()->ZoomLevel          = nVal;
 	if ( op == "magLimitDrawStar"     && dOk ) options()->magLimitDrawStar     = dVal;
 	if ( op == "magLimitDrawStarInfo" && dOk ) options()->magLimitDrawStarInfo = dVal;
 	if ( op == "magLimitHideStar"     && dOk ) options()->magLimitHideStar     = dVal;

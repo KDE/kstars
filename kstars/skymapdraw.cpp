@@ -709,23 +709,23 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	psky.drawText( x+offset, y+offset, obj->name() );
 }
 
-void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
+void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 {
-	KStarsData* data = ksw->data();
-	KStarsOptions* options = ksw->options();
+	if ( ksp->hasTrail() ) {
+		KStarsData* data = ksw->data();
+		KStarsOptions* options = ksw->options();
 
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
+		int Width = int( scale * width() );
+		int Height = int( scale * height() );
 	
-	if ( data->PlanetTrail.count() ) {
 		QColor tcolor1 = QColor( options->colorScheme()->colorNamed( "PlanetTrailColor" ) );
 		QColor tcolor2 = QColor( options->colorScheme()->colorNamed( "SkyColor" ) );
 		
-		SkyPoint *p = data->PlanetTrail.first();
+		SkyPoint *p = ksp->trail()->first();
 		QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
 		bool firstPoint(false);
 		int i = 0;
-		int n = data->PlanetTrail.count();
+		int n = ksp->trail()->count();
 		
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 			psky.moveTo(o.x(), o.y());
@@ -733,9 +733,8 @@ void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
 		}
 		
 		psky.setPen( tcolor1 );
-		for ( p = data->PlanetTrail.next(); p; p = data->PlanetTrail.next() ) {
-//FADE_TRAIL
-//			if ( options->fadePlanetTrails ) {
+		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
+			if ( options->fadePlanetTrails ) {
 				//Define interpolated color
 				QColor tcolor = QColor( 
 							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
@@ -743,22 +742,21 @@ void SkyMap::drawPlanetTrail( QPainter& psky, double scale )
 							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
 				psky.setPen( tcolor );
 				++i;
-//			}
+			}
 
 			o = getXY( p, options->useAltAz, options->useRefraction, scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-					
-					if ( firstPoint ) {
-						psky.lineTo( o.x(), o.y() );
-					} else {
-						psky.moveTo( o.x(), o.y() );
-						firstPoint = true;
-					}
+				
+				if ( firstPoint ) {
+					psky.lineTo( o.x(), o.y() );
+				} else {
+					psky.moveTo( o.x(), o.y() );
+					firstPoint = true;
+				}
 			}
 		}
 	}
 }
-
 
 void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 {
@@ -848,6 +846,9 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 			if ( ast->mag() > ksw->options()->magLimitAsteroid ) break;
 			
+			//draw Trail
+			if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
+			
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
 			QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
@@ -871,6 +872,10 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 	//Draw Comets
 	if ( options->drawComets && drawPlanets ) {
 		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+			
+			//draw Trail
+			if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
+			
 			psky.setPen( QPen( QColor( "cyan4" ) ) );
 			psky.setBrush( QBrush( QColor( "cyan4" ) ) );
 			//if ( options->ZoomLevel > 3 ) {
@@ -899,6 +904,9 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 	
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
+	
+	//draw Trail
+	if ( p->hasTrail() ) drawPlanetTrail( psky, p, scale );
 	
 	int sizemin = 4;
 	if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;

@@ -178,6 +178,11 @@ void KSMoon::findPosition( KSNumbers *num, const dms *lat, const dms *LST ) {
 	findPosition(num);
 	localizeCoords( lat, LST );
 	EquatorialToEcliptic( num->obliquity() );
+	
+	if ( hasTrail() ) {
+		Trail.append( new SkyPoint( ra(), dec() ) );
+		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
+	}
 }
 
 void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {

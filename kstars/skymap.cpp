@@ -133,6 +133,12 @@ void SkyMap::setGeometry( const QRect &r ) {
 void SkyMap::slotCenter( void ) {
 	clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
+	//clear the planet trail of foundObject, if it was temporary
+	if ( ksw->data()->isSolarSystem( foundObject() ) && ksw->data()->temporaryTrail ) {
+		((KSPlanetBase*)foundObject())->clearTrail();
+		ksw->data()->temporaryTrail = false;
+	}
+ 
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
@@ -145,20 +151,23 @@ void SkyMap::slotCenter( void ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;
-			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
 
 			return;
 		}
 	}
 	
-	//clear the planet trail
-	if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
-	 
 //set FoundObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFoundObject( ClickedObject );
 	ksw->options()->isTracking = true;
 	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+
+	//If foundObject is a SS body and doesn't already have a trail, set the temporaryTrail
+	if ( foundObject() && ksw->data()->isSolarSystem( foundObject() ) 
+			&& ! ((KSPlanetBase*)foundObject())->hasTrail() ) { 
+		((KSPlanetBase*)foundObject())->addToTrail();
+		ksw->data()->temporaryTrail = true;
+	}
 
 //update the destination to the selected coordinates
 	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
@@ -267,6 +276,22 @@ void SkyMap::slotRemoveObjectLabel( void ) {
 void SkyMap::slotAddObjectLabel( void ) {
 	ksw->data()->ObjLabelList.append( clickedObject() );
 	Update();
+}
+
+void SkyMap::slotRemovePlanetTrail( void ) {
+	//probably don't need this if-statement, but just to be sure...
+	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
+		((KSPlanetBase*)clickedObject())->clearTrail();
+		Update();
+	}
+}
+
+void SkyMap::slotAddPlanetTrail( void ) {
+	//probably don't need this if-statement, but just to be sure...
+	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
+		((KSPlanetBase*)clickedObject())->addToTrail();
+		Update();
+	}
 }
 
 void SkyMap::slotDetail( void ) {
@@ -394,12 +419,12 @@ void SkyMap::slewFocus( void ) {
 
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
-		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 		ksw->setHourAngle();
 		slewing = false;
 
+		//Turn off snapNextFocus, we only want it to happen once
 		if ( ksw->options()->snapNextFocus() ) {
 			ksw->options()->setSnapNextFocus(false);
 		}
