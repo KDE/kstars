@@ -24,6 +24,7 @@
 
 #include <kpushbutton.h>
 #include <klistbox.h>
+#include <kprogress.h>
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <klocale.h>
@@ -68,6 +69,13 @@ ThumbnailPicker::~ThumbnailPicker()
 
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
+	//Number of images to be loaded:
+	int nImages = Object->ImageList.count();
+	if ( nImages ) {
+		ui->SearchProgress->setTotalSteps( nImages );
+		ui->SearchLabel->setText( i18n( "Loading images..." ) );
+	}
+
 	//First add images from object's ImageList
 	QStringList::Iterator itList  = Object->ImageList.begin();
 	QStringList::Iterator itListEnd = Object->ImageList.end();
@@ -86,7 +94,15 @@ void ThumbnailPicker::slotFillList() {
 }
 
 void ThumbnailPicker::downloadReady(KIO::Job *job) {
-	//No need to delete the job, it is automatically deleted !
+	//Note: no need to delete the job, it is automatically deleted !
+
+	//Update Progressbar
+	ui->SearchProgress->advance(1);
+	if ( ui->SearchProgress->progress() == ui->SearchProgress->totalSteps() ) {
+		ui->SearchProgress->hide();
+		ui->SearchLabel->setText( i18n( "Search results:" ) );
+	}
+
 	//If there was a problem, just return silently without adding image to list.
 	if ( job->error() ) {
 //		job->showErrorDialog();
