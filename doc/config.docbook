@@ -3,7 +3,7 @@
 <para>
 &kstars; has many configuration options, which you can access by opening
 the <guilabel>Display Options</guilabel> window, either with the
-<guiicon>wrench</guiicon> toolbar icon, or selecting <guimenuitem>Configure
+<guiicon>configure</guiicon> toolbar icon, or selecting <guimenuitem>Configure
 &kstars;...</guimenuitem> from the <guimenu>Settings</guimenu> menu.  The
 window is depicted below:
 
@@ -11,7 +11,7 @@ window is depicted below:
 <screeninfo>Display Options Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="screen3.png" format="PNG"/>
+    <imagedata fileref="viewops.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Display Options Window</phrase>
@@ -21,55 +21,78 @@ window is depicted below:
 </para>
 
 <para>
-The <guilabel>Display Options</guilabel> window is divided into five tabs:
+The <guilabel>Display Options</guilabel> window is divided into five 
+tabs:
 <guilabel>Catalogs</guilabel>, <guilabel>Guides</guilabel>, 
 <guilabel>Solar System</guilabel>, <guilabel>Colors</guilabel>, and 
-<guilabel>Advanced</guilabel>.  Below the tabs, you can choose between 
-Equatorial and Horizontal coordinate systems.  Note that changes you make 
-in this window are reflected immediately in the map, but that the changes 
-are not committed until you press the <guibutton>Ok</guibutton> button.
-</para><para>
-In the <guilabel>Catalogs</guilabel> tab, you determine which object catalogs 
-are displayed in the map.  The SAO star catalog also allows you to set the 
-<quote>faint limit</quote> for stars, and the magnitude (brightness) limit for displaying
-the names and/or magnitudes of stars.  Below the stars section, there is a box
-containing a list of checkboxes for the available deep-sky object catalogs. 
-You can add your own custom object catalogs by pressing the <guibutton>Add 
-Custom Catalog</guibutton> button, which will open a <guilabel>File 
-Dialog</guilabel>, so that you can point it to your catalog data file.  For 
-detailed instructions on preparing a catalog data file, see the 
-<filename>README.customize</filename> file that ships with &kstars;.
-</para><para>
-In the <guilabel>Solar System</guilabel> tab, you can specify whether the Sun, 
-Moon and Planets are displayed, whether these objects are drawn as circles 
-or images, and whether name labels should be attached to the Planets.  
-</para><para>
-The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects are 
-displayed (&ie;, constellation lines, constellation names, Milky Way contour, 
-celestial equator, ecliptic, horizon line, and opaque ground).  You can also 
-choose whether you would like to see Latin constellation names, <acronym>IAU</acronym>-standard 
-three-letter abbreviations, or names using your local language.
-</para><para>
-The <guilabel>Colors</guilabel> tab allows you to set the color scheme, and to 
-define custom color schemes.  The tab is split into two panels:
+<guilabel>Advanced</guilabel>.  
+Below the tabs, you can choose between Equatorial and Horizontal 
+<link linkend="ai-skycoords">coordinate systems</link>.  Note that 
+changes you make in this window are reflected immediately in the map, 
+but that the changes are not committed until you press the 
+<guibutton>Ok</guibutton> button.
+</para>
+<para>
+In the <guilabel>Catalogs</guilabel> tab, you determine which object 
+catalogs are displayed in the map.  The SAO star catalog also allows 
+you to set the <quote>faint <link linkend="ai-magnitude">magnitude</link> 
+limit</quote> for stars, and the 
+<link linkend="ai-magnitude">magnitude</link> limit for displaying the 
+names and/or magnitudes of stars.  Below the stars section, there is a 
+box containing a list of checkboxes for the available deep-sky object 
+catalogs.  You can add your own custom object catalogs by pressing the 
+<guibutton>Add Custom Catalog</guibutton> button, which will open a 
+<guilabel>File Dialog</guilabel>, so that you can point it to your 
+catalog data file.  For detailed instructions on preparing a catalog 
+data file, see the <filename>README.customize</filename> file that 
+ships with &kstars;.
+</para>
+<para>
+In the <guilabel>Solar System</guilabel> tab, you can specify whether 
+the Sun, Moon, planets, comets and asteroids are displayed, and 
+whether the major bodies are drawn as circles or actual images.  You
+can also toggle whether solar system bodies have name labels attached,
+and control how many of the comets and asteroids get name labels.  
+There is an option to automatically attach a temporary trail whenever 
+a solar system body is tracked, and another to toggle whether the color 
+of the planet trail fades into the background sky color.
+</para>
+<para>
+The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects 
+are displayed (&ie;, constellation lines, constellation names, the 
+Milky Way contour, the celestial equator, 
+<link linkend="ai-ecliptic">the ecliptic</link>, <link 
+linkend="ai-horizon">the horizon line</link>, and the opaque ground).  
+You can also choose whether you would like to see Latin constellation 
+names, <acronym>IAU</acronym>-standard three-letter abbreviations, or 
+constellation names using your local language.
+</para>
+<para>
+The <guilabel>Colors</guilabel> tab allows you to set the color scheme, 
+and to define custom color schemes.  The tab is split into two panels:
 </para><para>
 The left panel shows a list of all display items with adjustable
-colors.  Click on any item to bring up a color selection window to adjust the
-color.  Below the list is the <guilabel>Star Color Mode</guilabel> selection
-box.  By default, &kstars; draws stars with a realistic color tint according to
-the spectral type of the star.  However, you may also choose to draw the stars
-as solid white, black or red circles.  If you are using the realistic star
-colors, you can choose the saturation level of the star colors with the
-<guilabel>Star Color Intensity</guilabel> spinbox.
-</para><para>
-The right panel lists the defined color schemes.  There are three predefined
-schemes: the Default scheme, a Star Chart scheme with black stars on a white
-background, and Night Vision, which uses only shades of red in order to
-protect your dark-adapted vision.  Additionally, you can save the current color
-settings as a custom scheme by clicking the <guibutton>Save Current
-Colors</guibutton> button.  It will prompt you for a name for the new scheme,
-and then your scheme will appear in the list in all future &kstars; sessions.
-To remove a custom scheme, simply highlight it in the list, and press the
-<guibutton>Remove Color Scheme</guibutton> button.
+colors.  Click on any item to bring up a color selection window to 
+adjust the color.  Below the list is the <guilabel>Star Color 
+Mode</guilabel> selection box.  By default, &kstars; draws stars with 
+a <link linkend="ai-colorandtemp">realistic color</link> tint according 
+to the spectral type of the star.  However, you may also choose to draw 
+the stars as solid white, black or red circles.  If you are using the 
+realistic star colors, you can set the saturation level of the star 
+colors with the <guilabel>Star Color Intensity</guilabel> spinbox.
+</para>
+<para>
+The right panel lists the defined color schemes.  There are four 
+predefined schemes: the <guilabel>Default</guilabel> scheme, 
+<guilabel>Star Chart</guilabel>, which uses black stars on a white 
+background, <guilabel>Night Vision</guilabel>, which uses only shades 
+of red in order to protect dark-adapted vision, and <guilabel>Moonless 
+Night</guilabel>, a more realistic, dark theme.  Additionally, 
+you can save the current color settings as a custom scheme by clicking 
+the <guibutton>Save Current Colors</guibutton> button.  It will prompt 
+you for a name for the new scheme, and then your scheme will appear in 
+the list in all future &kstars; sessions.  To remove a custom scheme, 
+simply highlight it in the list, and press the <guibutton>Remove Color 
+Scheme</guibutton> button.
 </para>
 </chapter>

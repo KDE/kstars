@@ -15,14 +15,15 @@
 The <guiicon>&kstars; Icon</guiicon> is a sextant, a handheld telescope which
 was used by navigators on sailing ships back when the stars were important for
 navigation. By carefully reckoning the positions of the stars, the navigator
-could get an accurate estimate of the ship's current longitude and latitude.
+could get an accurate estimate of the ship's current <link 
+linkend="ai-geocoords">longitude and latitude</link>.
 </para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para>What do the different symbols for Deep-sky objects mean?</para>
+<para>What do the different symbols for deep-sky objects mean?</para>
 </question>
 <answer>
 <para>
@@ -30,9 +31,9 @@ The symbol indicates the object type:
 <itemizedlist>
 <listitem><para>dotted circle: Open Cluster</para></listitem>
 <listitem><para>cross-in-circle: Globular Cluster</para></listitem>
-<listitem><para>Box: Gaseous Nebula</para></listitem>
-<listitem><para>Diamond: Supernova Remnant</para></listitem>
-<listitem><para>Circle with outer lines: Planetary Nebula</para></listitem>
+<listitem><para>box: Gaseous Nebula</para></listitem>
+<listitem><para>diamond: Supernova Remnant</para></listitem>
+<listitem><para>circle with outer lines: Planetary Nebula</para></listitem>
 <listitem><para>ellipse: Galaxy</para></listitem>
 </itemizedlist>
 </para>
@@ -45,10 +46,11 @@ The symbol indicates the object type:
 </question>
 <answer>
 <para>
-Mostly, the different colors indicate which catalog the object belongs
-with (Messier, NGC or IC).  However, some objects have a different color
-(the default is red).  This indicates that there are extra images available
-in the <mousebutton>right</mousebutton> click popup menu.
+Generally, the different colors indicate to which catalog the object 
+belongs (Messier, NGC or IC).  However, some objects have a different 
+color which indicates that there are extra images available in the 
+<link linkend="popup-menu">popup menu</link> (the default 
+<quote>extras</quote> color is red).
 </para>
 </answer>
 </qandaentry>
@@ -115,45 +117,36 @@ learn more about the astronomy behind the program?</para>
 </question>
 <answer>
 <para>
-We have started the AstroInfo project to address this
-problem.  AstroInfo is the beginning of an interactive encyclopedia of
-astronomy for which &kstars; will be the user interface and demo
-engine.  Right now, it's just a collection of Docbook pages on various
-astronomy-related topics, with a particular focus on the terms that
-&kstars; uses.  These articles are presented elsewhere in this document.
-AstroInfo is supposed to be a community effort, like GNUpedia or 
-Everything2.  If you'd like to contribute to AstroInfo, 
-please join our mailing list: kstars-info@lists.sourceforge.net.
+The &kstars; Handbook includes the <link linkend="astroinfo">AstroInfo 
+Project</link>; a series of short, hyperlinked articles about 
+astronomical topics that can be explored and illustrated with &kstars;.
+AstroInfo is a community effort, like GNUpedia or Everything2.  If 
+you'd like to contribute to AstroInfo, please join our mailing list: 
+<email>kstars-info@lists.sourceforge.net</email>.
 </para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para>How accurate is &kstars;?</para>
+<para>How accurate/precise is &kstars;?</para>
 </question>
 <answer>
 <para>
-&kstars; is pretty accurate, but it is not (yet) as accurate as it can
+&kstars; is pretty accurate, but it is not (yet) as precise as it can
 possibly be.  The problem with high-precision calculations is that
 you start having to deal with a large number of complicating factors.
 If you aren't a professional astronomer, you'll probably never have a
-problem with its accuracy.  There are two occasions where it may be
-noticeable:  eclipses, and rise/set times.  As discussed below, the
-position of the Moon is extremely hard to predict with high precision,
-so you probably cannot use &kstars; to predict eclipses at this time.
-</para><para>
-Here is a list of some of the factors we have not yet corrected for:
+problem with its accuracy or precision.  There are two occasions where 
+it may be noticeable:  eclipses, and rise/set times.  As discussed 
+below, the position of the Moon is extremely hard to predict with high 
+precision, so you probably cannot use &kstars; to predict eclipses at 
+this time.
+</para>
+<para>
+Here is a list of some of the complicating factors which limit the 
+program's precision:
 <itemizedlist>
-<listitem><para>
-The positions of the planets are not corrected for the <quote>Figure
-of the Earth</quote>.  The planets are shown as they would be seen
-from the center of the Earth.  Since the Earth is about 6000 km in
-radius, the direction to a planet (and especially to the moon, which
-is very nearby) will be slightly different from different places on
-Earth.  We plan to make this correction in a future version of
-&kstars;.
-</para></listitem>
 <listitem>
 <para>
 Planet positions are only accurate for dates within 4000 years
@@ -168,23 +161,32 @@ tidal effects also induce precessional wobbling.  In fact, recent
 analysis suggests that the planets' orbits may not even be stable in
 the long term (i.e., millions or billions of years).  As a rule of
 thumb, you can expect the position of a planet to be accurate to a few
-arcseconds (modulo figure-of-earth errors) between the dates -2000 
-and 6000.
+arcseconds between the dates -2000 and 6000.
 </para><para>
-The moon and Pluto are exceptions
-to this.  Pluto's position is perhaps 10 times less accurate, although
-its position for dates near the present epoch are good to an
-arcsecond.  The moon's position is probably the least accurate.  This
-is because its motion is quite perturbed by the Earth, and because it 
-is so close, even minute effects that would be indetectable in more
-distant bodies are easily apparent in the moon.
+Pluto is the exception to this; its position is perhaps ten times less 
+precise than the positions of the other planets.  Still, for dates 
+near the present epoch, its position can be trusted to about an 
+arcsecond.
+</para><para>
+The moon's position is the most difficult to predict to high precision.
+This is because its motion is quite perturbed by the Earth.  Also, 
+since it is so nearby, even minute effects that would be indetectable 
+in more distant bodies are easily apparent in the moon.  
+</para><para>
+The objects with the worst long-term precision in the program are the 
+comets and asteroids.  We use a very simplistic orbital model for the 
+minor planets that does not include third-body perturbations.  
+Therefore, their positions can only be trusted for dates near the 
+present epoch.  Even for the present epoch, one can expect positional 
+errors among the minor planets of order 10 arcseconds or more.
 </para><para>
 The discussion of very remote dates is currently somewhat moot because
 the QDate class we use for storing dates does not allow dates prior to
 October 1752 (when the currently-standard Gregorian calendar was
-adopted).  However, you can enter future dates up to around 8000 AD.
-We'd like to implement our own date class that allows for more remote
-dates in the past.
+adopted; see the article on <link linkend="ai-leapyear">Leap 
+Years</link>).  However, you can enter future dates up to around 8000 
+AD.  We'd like to implement our own date class that allows for more 
+remote dates in the past.
 </para>
 </listitem>
 </itemizedlist>
@@ -200,13 +202,16 @@ dates in the past.
 <para>
 Yes, definitely!  Introduce yourself on our mailing list:
 <email>kstars-devel@lists.sourceforge.net</email>.  If you want to
-help with the coding, you may want to look over the <ulink
-url="http://kstars.sourceforge.net/kstars-todo.html">To-Do list</ulink> on the
-webpage for some ideas of what's needed, and talk to current developers about
-what we're working on.
+help with the coding, download the latest <ulink 
+url="http://edu.kde.org/kstars/cvs.html">CVS</ulink> version of the 
+code and dive right in.  There are several README files in the 
+distribution that explain some of the code's subsystems.  If you
+need ideas of what to work on, see the TODO file.  You can submit 
+patches to kstars-devel, and feel free to post any questions you 
+have about the code there as well.  
 </para><para>
 If you aren't into coding, we can still use your help with i18n, docs,
-AstroInfo articles, bug reports, and feature requests.
+AstroInfo articles, URL links, bug reports, and feature requests.
 </para>
 </answer>
 </qandaentry>

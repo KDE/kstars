@@ -65,7 +65,7 @@ bluer colors (see Figure 1).
 <imageobject>
 <imagedata fileref="blackbody.png" format="PNG"/>
 </imageobject>
-<caption><phrase>Figure 1</phrase></caption>
+<caption><para><phrase>Figure 1</phrase></para></caption>
 </mediaobject>
 </para>
 
@@ -81,9 +81,11 @@ following equation:
 </para>
 
 <para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="lambda_max.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 
 <para>
@@ -100,12 +102,14 @@ higher-temperature object.
 For example, the sun has an average temperature of 5800 K with a
 wavelength of maximum emission equal to
 
-<para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="lambda_ex.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 
+<para>
 This wavelengths falls in the
 green region of the visible light spectrum, but the sun's continuum
 radiates photons both longer and shorter than lambda(max) and the
@@ -118,9 +122,11 @@ the luminosity, L, of a black body is proportional to the 4th power of its tempe
 </para>
 
 <para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="luminosity.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 
 <para>
@@ -137,21 +143,22 @@ spherical star with radius R, then the luminosity of such a star is
 </para>
 
 <para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="luminosity_ex.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 
 <para>
 where R is the star radius in cm, and the alpha is the
 Stephan-Boltzman constant, which has the value:
 
-<para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="alpha.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 
-
-</para>
 </sect1>

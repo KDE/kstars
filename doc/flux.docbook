@@ -35,18 +35,19 @@ balloon increased causing the dots to <emphasis>spread away</emphasis> from each
 <imageobject>
 <imagedata fileref="flux.png" format="PNG"/>
 </imageobject>
-<caption><phrase>Figure 1</phrase></caption>
+<caption><para><phrase>Figure 1</phrase></para></caption>
 </mediaobject>
 </para>
 
 <para>
 The flux is inversely proportional to distance by a simple r^2 relation. Therefore, if the distance is doubled, we receive 1/2^2 or 1/4th of the original flux. 
 From a fundamental standpoint, the flux is the <link linkend="ai-luminosity">luminosity</link> per unit area:
-<para>
+
+<mediaobject>
 <imageobject>
 <imagedata fileref="flux1.png" format="PNG"/>
 </imageobject>
-</para>
+</mediaobject>
 </para>
 
 <para>
@@ -57,8 +58,10 @@ passing through one square centimeter from the sun at a distance of one AU (1.49
 </para>
 
 <para>
+<mediaobject>
 <imageobject>
 <imagedata fileref="flux2.png" format="PNG"/>
 </imageobject>
+</mediaobject>
 </para>
 </sect1>

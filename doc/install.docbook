@@ -4,23 +4,28 @@
 <sect1 id="getting-kstars">
 <title>How to obtain &kstars;</title>
 <para>
-&kstars; is distributed with KDE as part of the kdeedu "Edutainment" module.
-</para><para>
-We also occasionally make an independent release.  These independent releases 
-will be available as a gzipped tar archive from the following website:
+&kstars; is distributed with &kde; as part of the kdeedu "Edutainment" 
+module.
+</para>
+<para>
+We also occasionally make an independent release.  These independent 
+releases will be available as a gzipped tar archive from the following 
+website:
 <ulink
  url="http://prdownloads.sourceforge.net/kstars/">http://prdownloads.sourceforge.net/kstars/</ulink>.
-</para><para>
+</para>
+<para>
 Independent releases are announced through the 
-<email>kstars-announce@lists.sourceforge.net</email> mailing list.  Releases
-are also posted to <ulink url="http://edu.kde.org/kstars">the &kstars; home 
-page</ulink>, <ulink url="http://apps.kde.com/uk/0/info/id/1050">apps.kde.com</ulink>, and
+<email>kstars-announce@lists.sourceforge.net</email> mailing list.  
+Releases are also posted to <ulink url="http://edu.kde.org/kstars">the 
+&kstars; home page</ulink>, 
+<ulink url="http://apps.kde.com/uk/0/info/id/1050">apps.kde.com</ulink>, and
 <ulink url="http://freshmeat.net/projects/kstars">freshmeat.net</ulink>.
-</para><para>
-Finally, &kstars; has been packaged by many Linux/BSD distributions in the past
-(including Redhat, Suse, Debian, Mandrake, and FreeBSD), although this was 
-before we became part of the kdeedu module.  It remains to be seen if these 
-distros will still package independent releases of &kstars; separately.
+</para>
+<para>
+&kstars; is been packaged by many Linux/BSD distributions, including Redhat, Suse,
+and Mandrake.  Some distributions package &kstars; as a separate application, some 
+just provide a kdeedu package, which includes &kstars;.  
 </para><para>
 If you would like the latest CVS development version of &kstars;, please
 follow <ulink url="http://edu.kde.org/kstars/cvs.html">these instructions</ulink>.
@@ -30,40 +35,35 @@ follow <ulink url="http://edu.kde.org/kstars/cvs.html">these instructions</ulink
 <sect1 id="requirements">
 <title>Requirements</title>
 <para>
-In order to successfully run &kstars;, you need
-&kde; >=2.1 and &Qt;>=2.2.4.  It has been reported not to run under &kde; 
-2.0.
-</para><para>
-Note that, beginning with version 0.9, there are separate tarballs for 
-each release, depending on whether you use KDE 2.x or KDE 3.x.  The code 
-is identical in each version (we were careful to maintain backward 
-compatibility); the only difference is in the configure/make scripts.
-</para><para>
+In order to successfully run &kstars;, you need &kde; >=3.0 and 
+&Qt;>=3.0.  As of version 1.0, we no longer support &kde; 2.x.
+</para>
+<para>
 To compile &kstars;, you will also have to have the following packages
 installed:
 <itemizedlist>
 <listitem><para>kdelibs-devel</para></listitem>
 <listitem><para>libqt-headers (a.k.a. qt-devel)</para></listitem>
 <listitem><para>zlib-devel</para></listitem>
-<listitem><para>autoconf (2.1 for &kde; 2; 2.5 for &kde; 3)</para></listitem>
+<listitem><para>autoconf (>=2.5)</para></listitem>
 </itemizedlist></para>
 
-<para> On
-my system, &kstars; uses about 50 MB of system memory with the default
-settings.  Most of this usage is due to the loaded object databases,
-especially the 40,000-member stars database.  You can dramatically
-reduce the memory footprint by reducing the faint limit for stars in
-the Configuration Window. If &kstars; is idling, it uses very little
-CPU; but it will use as much as you've got when panning or zooming.
+<para> 
+On my system, &kstars; uses about 50 MB of system memory with the 
+default settings.  Most of this usage is due to the loaded object 
+databases, especially the 40,000-member stars database.  You can 
+dramatically reduce the memory footprint by reducing the faint limit 
+for stars in the Configuration Window. If &kstars; is idling, it uses 
+very little <acronym>CPU</acronym>; but it will use as much as you've 
+got when panning or zooming.
 </para> </sect1>
 
 <sect1 id="compilation">
 <title>Compilation and Installation</title>
 
 <para>
-In order to compile and install &kstars; on your system, type the following in
- the
-base directory of the unpacked &kstars; distribution:
+In order to compile and install &kstars; on your system, type the 
+following in the base directory of the unpacked &kstars; distribution:
 <screen width="40">
 <prompt>%</prompt> <userinput>./configure --prefix=$KDEDIR</userinput>
 <prompt>%</prompt> <userinput>make</userinput>
@@ -73,8 +73,7 @@ base directory of the unpacked &kstars; distribution:
 Please don't forget the prefix argument to configure.  If your <envar>KDEDIR</envar>
 variable isn't set, set prefix to whatever directory &kde; is installed in.  It's
 usually either <filename class="directory">/usr</filename>,
-<filename class="directory">/opt/kde</filename>,
-<filename class="directory">/opt/kde2</filename>, or 
+<filename class="directory">/opt/kde</filename>, or
 <filename class="directory">/opt/kde3</filename>.  
 Also, make sure you do the
 last step as <systemitem class="username">root</systemitem>. 
@@ -89,12 +88,13 @@ please report them to the &kstars; mailing list
 <sect1 id="configuration">
 <title>Configuration</title>
 <para>
-At this point, there are no special configuration options or
-requirements.  If &kstars; complains that there are missing data
-files, become root and manually copy all files in <filename
-class="directory">kstars/data/</filename> to
+At this point, there are no special configuration options or 
+requirements.  If &kstars; complains that there are missing data files, 
+become <systemitem class="username">root</systemitem> and manually copy 
+all files in <filename class="directory">kstars/data/</filename> to
 <filename class="directory">$(KDEDIR)/apps/kstars/</filename> (If you
-don't have <systemitem class="username">root</systemitem> privileges, copy them to
+don't have <systemitem class="username">root</systemitem> privileges, 
+copy them to 
 <filename class="directory">~/.kde/share/apps/kstars/.</filename>)
 </para>
 </sect1>

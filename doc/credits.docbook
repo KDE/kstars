@@ -3,12 +3,14 @@
 
 <para>&kstars;</para>
 <para>
-Program copyright 2001-2002 Jason Harris <email>kstars@30doradus.org</email>
+Program copyright 2001-2003 The &kstars; Team <email>kstars@30doradus.org</email>
 </para>
 
 <para>
-Contributors:
+The &kstars; Team:
 <itemizedlist>
+<listitem><para>Jason Harris <email>kstars@30doradus.org</email></para>
+</listitem>
 <listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
 </listitem>
 <listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
@@ -32,34 +34,9 @@ Data Sources:
 url="http://adc.gsfc.nasa.gov">NASA Astronomical Data Center</ulink></para>
 </listitem>
 <listitem>
-<para>Image and Information links provided by:</para>
-  <itemizedlist>
-  <listitem>
-  <para><ulink url="http://www.seds.org">SEDS.org</ulink></para>
-  </listitem>
-  <listitem>
-  <para><ulink url="http://oposite.stsci.edu/pubinfo/pr.html">HST Press
-  releases</ulink></para>
-  </listitem>
-  <listitem>
-  <para><ulink url="http://www.noao.edu/outreach/aop/">KPNO
-  Advanced Observing Program</ulink></para>
-  </listitem>
-  <listitem>
-  <para><ulink url="http://archive.stsci.edu/cgi-bin/dss_form">the
-  Digitized Sky Survey</ulink></para>
-  </listitem>
-  </itemizedlist>
-</listitem>
-<listitem>
-<para>Lunar images copyright 1999-2001 by <ulink
-url="http://www.astrosurf.com/cidadao">Antonio Cidadao</ulink> (used
-with permission)</para>
-</listitem>
-<listitem>
-<para>Inline images of M 17 and M 42 were adapted from images
-copyright 2000 by <ulink url="http://www.galaxyphoto.com">Jason
-Ware</ulink> (used with permission).</para>
+<para>Detailed credit information for all of the images used in the program
+is presented in the file README.images
+</para>
 </listitem>
 </itemizedlist>
 </para>
@@ -75,17 +52,18 @@ Meeus</para></listitem>
 
 <para> Special thanks: To the &kde; and &Qt; developers for providing
 the world with a peerless set of free <acronym>API</acronym>
-libraries.  To the <application>KDevelop</application> team, for their excellent
-<acronym>IDE</acronym>, which made developing &kstars; so much easier
-and more fun.  To everyone on the <application>KDevelop</application> message board, the &kde; 
-mailing lists, and on irc.kde.org, for answering my frequent
+libraries.  To the <application>KDevelop</application> team, for their 
+excellent <acronym>IDE</acronym>, which made developing &kstars; so 
+much easier and more fun.  To everyone on the 
+<application>KDevelop</application> message board, the &kde; 
+mailing lists, and on irc.kde.org, for answering our frequent
 questions.  Thank you to Anne-Marie Mahfouf, for inviting &kstars; to
 join the &kde;-Edu module.  Finally, thanks to everyone who has
 submitted bug reports and other feedback.  Thank you, everyone.
 </para>
 
 <para>
-Documentation copyright 2001-2002 Jason Harris 
+Documentation copyright 2001-2003 Jason Harris and the KStars Team
 <email>kstars@30doradus.org</email>
 </para>
 

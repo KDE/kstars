@@ -16,7 +16,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>New Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open another &kstars; window (warning: unstable!)</action>
+<listitem><para><action>Open another &kstars; window</action>
 </para></listitem>
 </varlistentry>
 
@@ -28,7 +28,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Close Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Close &kstars; window (warning: unstable!)</action>
+<listitem><para><action>Close &kstars; window</action>
 </para></listitem>
 </varlistentry>
 
@@ -83,7 +83,7 @@ PostScript/PDF file)</action>
 <guimenu>Time</guimenu>
 <guimenuitem>Set Time...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Choose time and date</action></para></listitem>
+<listitem><para><action>Set time and date</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -228,6 +228,17 @@ coordinates to center on.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Default Zoom</guimenuitem>
+</menuchoice></term>
+<listitem><para>Restore the default Zoom setting</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <guimenu>View</guimenu>
 <guimenuitem>Horizontal/Equatorial Coordinates</guimenuitem>
 </menuchoice></term>
@@ -306,9 +317,23 @@ on/off</para></listitem>
 <guimenu>Settings</guimenu>
 <guisubmenu>Color Schemes</guisubmenu>
 </menuchoice></term>
-<listitem><para>This submenu contains all of the defined color schemes, 
-including your custom schemes.  Selecting an item sets the scheme 
-automatically.</para></listitem>
+<listitem><para>
+This submenu contains all of the defined color schemes, including your 
+custom schemes.  Selecting an item sets the scheme automatically.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Target Symbol</guisubmenu>
+</menuchoice></term>
+<listitem><para>
+This submenu lists the available <firstterm>Target Symbols</firstterm>.  
+The Target Symbol is drawn at the central <quote>focus</quote> position 
+of the sky map.  You may choose from the following symbols: No symbol, 
+Circle, Crosshairs, Bullsyeye, Rectangle.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -319,8 +344,12 @@ automatically.</para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Set Geographic Location...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Select a new geographic
- location</action></para></listitem>
+<listitem>
+<para>
+<action>Select a new <link linkend="geolocation">geographic 
+location</link></action>
+</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -328,7 +357,8 @@ automatically.</para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Modify view options</action></para></listitem>
+<listitem><para><action>Modify <link linkend="config">view 
+options</link></action></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -343,10 +373,58 @@ automatically.</para></listitem>
 <guimenu>Tools</guimenu>
 <guimenuitem>Calculator...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Opens the AstroCalculator window, giving you full
-access to many of the mathematical functions used by 
-&kstars;.</action></para></listitem>
+<listitem>
+<para>
+<action>Opens the <guilabel>Astrocalculator</guilabel> Tool, which 
+provides full access to many of the mathematical functions used by 
+&kstars;.</action>
+</para>
+</listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>AAVSO Light Curves...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+<action>Opens the <guilabel>AAVSO Light Curve Generator</guilabel> 
+Tool, which allows you to download a light curve for any variable 
+star from the American Association of Variable Star Observers.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Altitude vs. Time...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+<action>Opens the <guilabel>Altitude vs. Time</guilabel> Tool, which
+can plot curves representing the altitude of any object as a 
+function of time.  This is useful for planning observing 
+sessions.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>What's Up Tonight...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+<action>Opens the <guilabel>What's Up Tonight</guilabel> Tool, 
+which presents a summary of the objects which are observable 
+from your location on a given date.</action>
+</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
@@ -357,7 +435,7 @@ access to many of the mathematical functions used by
 
 </sect2>
 
-<sect2>
+<sect2 id="popup-menu">
 <title>Popup Menu</title>
 
 <para>The <mousebutton>right</mousebutton> click popup menu is
@@ -453,13 +531,22 @@ taken, and we include over 100 of them in our database of links.
 <varlistentry>
 <term>[All Named Objects]</term>
 <listitem><para>
-<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own custom
-links to the popup menu of any object.  It opens a small window in which you
-enter the <abbrev>URL</abbrev> of the link, and the text you want to appear in
-the popup menu.  There is also a pair of radio buttons which allow you to
-specify whether the <abbrev>URL</abbrev> is an image or an 
-<abbrev>HTML</abbrev> document, so &kstars; knows whether to launch the 
-web browser or the image viewer.
+<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own 
+custom links to the popup menu of any object.  It opens a small window 
+in which you enter the &URL; of the link, and the text you want to 
+appear in the popup menu.  There is also a pair of radio buttons which 
+allow you to specify whether the &URL; is an image or an 
+<acronym>HTML</acronym> document, so &kstars; knows whether to launch 
+the web browser or the image viewer.  You can use this to add links to 
+files on your local disk, so this feature could be used to attach 
+observing logs or other custom information to objects in &kstars;.  
+Your custom links are automatically loaded whenever &kstars; starts up, 
+and they are stored in the directory <filename 
+class="directory">~/.kde/share/apps/kstars/</filename>, in files
+<filename>myimage_url.dat</filename> and
+<filename>myinfo_url.dat</filename>.  If you build an extensive list
+of custom links, consider submitting them to us, we would like to
+include them in the next version of &kstars;!
 </para>
 </listitem>
 </varlistentry>
@@ -543,17 +630,23 @@ on.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
 </term>
-<listitem><para>Access the AstroCalculator.</para></listitem></varlistentry>
+<listitem><para>Open the astro calculator.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
+</term>
+<listitem><para>Open the altitude vs. time tool.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</term>
+<listitem><para>Open the variable-star lightcurve tool.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </term>
-<listitem><para>Open another &kstars; window (warning: not yet 
-stable).</para></listitem></varlistentry>
+<listitem><para>Open another &kstars; window.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
 </term>
-<listitem><para>Close a &kstars; window (warning: not yet 
-stable).</para></listitem></varlistentry>
+<listitem><para>Close a &kstars; window.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
 </term>
@@ -570,17 +663,19 @@ stable).</para></listitem></varlistentry>
 <sect1 id="kstars-mouse">
 <title>Mouse Commands</title>
 <para>
-The current RA, Dec coordinates of the mouse cursor is always
-displayed in the status bar.  Clicking the Mouse anywhere will
+The current RA, Dec coordinates of the mouse cursor are always
+displayed in the status bar.  Clicking the mouse anywhere will
 identify the nearest object in the status bar.  Double-clicking will
 center and track on the clicked location or object.  Click and drag
-to pan the display.  <mousebutton>Right</mousebutton> click to bring up 
-the popup menu with detailed options for the clicked object. Holding the 
-middle mouse button and moving the mouse vertically will change the 
-zoom level (you can also use the mouse scroll wheel, if you have one). 
+to pan the display.  <mousebutton>Right</mousebutton> click to open 
+the <link linkend="popup-menu">popup menu</link> with detailed options 
+for the clicked object. Holding the middle mouse button and moving the 
+mouse vertically will change the zoom level (you can also use the mouse 
+scroll wheel, if you have one). 
 </para><para>
 You can also move the Info Boxes by dragging them with the mouse, and 
-"shade" the Info Boxes by double-clicking on them.
+"shade" an Info Box to show more or less information, by double-clicking 
+on it.
 </para>
 </sect1>
 </chapter>
