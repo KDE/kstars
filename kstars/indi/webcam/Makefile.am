@@ -3,7 +3,7 @@ if LINUX
 endif
 
 if BSD
-   libwebcam_bsd = libwebcam_null.la
+   libwebcam_bsd = libwebcam_bsd.la
 endif
 
 if NULL
@@ -13,6 +13,7 @@ endif
 noinst_LTLIBRARIES = libwebcam.la $(libwebcam_linux) $(libwebcam_bsd) $(libwebcam_null)
 
 libwebcam_linux_la_SOURCES = PPort.cpp port.cpp vcvt_c.c QCamV4L.cpp philipsV4L.cpp ccvt_mmx_old.S
+libwebcam_bsd_la_SOURCES = dummy.cpp
 libwebcam_null_la_SOURCES = dummy.cpp
 
 libwebcam_la_SOURCES = empty_file.cpp
