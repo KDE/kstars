@@ -28,7 +28,7 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name ) : QSpinBox(parent,n
 	setMaxValue( NUNITS-1 );
 	setLineStep( 1 );
 	setWrapping( false );
-	setValue( 0 ); //Start out with seconds units
+	setValue( 1 ); // Start out with seconds units
 
 	UnitStep[0] = 0;
 	UnitStep[1] = 4;

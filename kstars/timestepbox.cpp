@@ -41,10 +41,10 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	connect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );
 	connect( timeBox, SIGNAL( valueChanged( int ) ), this, SLOT( syncUnits( int ) ) );
 	connect( timeBox, SIGNAL( scaleChanged( float ) ), this, SIGNAL( scaleChanged( float ) ) );
+
 }
 
 void TimeStepBox::changeUnits( void ) {
-//	timeBox->setValue( value >= 0 ?  UnitStep[ value ] : -1*UnitStep[ abs(value) ] );
 	timeBox->setValue( unitBox->unitValue() );
 }
 

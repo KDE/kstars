@@ -31,11 +31,12 @@ TimeZoneRule::TimeZoneRule() {
 	StartTime = QTime();
 	RevertTime = QTime();
 	HourOffset = 0.0;
+	dTZ = 0.0;
 }
 
-TimeZoneRule::TimeZoneRule( QString smonth, QString sday, QTime stime,
-			QString rmonth, QString rday, QTime rtime, double dh ) {
-
+TimeZoneRule::TimeZoneRule( const QString smonth, const QString sday, const QTime stime,
+			const QString rmonth, const QString rday, const QTime rtime, const double dh ) {
+	dTZ = 0.0;
 	if ( smonth != "0" ) {
 		StartMonth = initMonth( smonth );
 		RevertMonth = initMonth( rmonth );
@@ -83,7 +84,7 @@ void TimeZoneRule::setDST( bool activate ) {
 	}
 }
 
-int TimeZoneRule::initMonth( QString mn ) {
+int TimeZoneRule::initMonth( const QString mn ) {
 //Check whether the argument is a three-letter English month code.
 	QString ml = mn.lower();
 	if ( ml == "jan" ) return 1;
@@ -103,7 +104,7 @@ int TimeZoneRule::initMonth( QString mn ) {
 	return false;
 }
 
-bool TimeZoneRule::initDay( QString dy, int &Day, int &Week ) {
+bool TimeZoneRule::initDay( const QString dy, int &Day, int &Week ) {
 //Three possible ways to express a day.
 //1. simple integer; the calendar date...set Week=0 to indicate that Date is not the day of the week
 	bool ok;
@@ -143,22 +144,22 @@ bool TimeZoneRule::initDay( QString dy, int &Day, int &Week ) {
 	return false;
 }
 
-int TimeZoneRule::findStartDay( QDateTime d ) {
-//Determine the calendar date of StartDay for the month and year of the given date.
+int TimeZoneRule::findStartDay( const QDateTime d ) {
+	// Determine the calendar date of StartDay for the month and year of the given date.
 	QDate test;
 
-//TimeZoneRule is empty, return -1
+	// TimeZoneRule is empty, return -1
 	if ( isEmptyRule() ) return -1;
 
-//If StartWeek=0, just return the integer.
+	// If StartWeek=0, just return the integer.
 	if ( StartWeek==0 ) return StartDay;
 
-//Since StartWeek was not zero, StartDay is the day of the week, not the calendar date
-	else if ( StartWeek==5 ) { //count back from end of month until StartDay is found.
+	// Since StartWeek was not zero, StartDay is the day of the week, not the calendar date
+	else if ( StartWeek==5 ) { // count back from end of month until StartDay is found.
 		for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
 					test.day() > 21; test = test.addDays( -1 ) )
 			if ( test.dayOfWeek() == StartDay ) break;
-	} else { //Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
+	} else { // Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
 		for ( test = QDate( d.date().year(), d.date().month(), (StartWeek-1)*7 + 1 );
 					test.day() < 7*StartWeek; test = test.addDays( 1 ) )
 			if ( test.dayOfWeek() == StartDay ) break;
@@ -166,17 +167,17 @@ int TimeZoneRule::findStartDay( QDateTime d ) {
 	return test.day();
 }
 
-int TimeZoneRule::findRevertDay( QDateTime d ) {
-//Determine the calendar date of RevertDay for the month and year of the given date.
+int TimeZoneRule::findRevertDay( const QDateTime d ) {
+	// Determine the calendar date of RevertDay for the month and year of the given date.
 	QDate test;
 
-//TimeZoneRule is empty, return -1
+	// TimeZoneRule is empty, return -1
 	if ( isEmptyRule() ) return -1;
 
-//If RevertWeek=0, just return the integer.
+	// If RevertWeek=0, just return the integer.
 	if ( RevertWeek==0 ) return RevertDay;
 
-//Since RevertWeek was not zero, RevertDay is the day of the week, not the calendar date
+	// Since RevertWeek was not zero, RevertDay is the day of the week, not the calendar date
 	else if ( RevertWeek==5 ) { //count back from end of month until RevertDay is found.
 		for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
 					test.day() > 21; test = test.addDays( -1 ) )
@@ -189,101 +190,150 @@ int TimeZoneRule::findRevertDay( QDateTime d ) {
 	return test.day();
 }
 
-bool TimeZoneRule::isDSTActive( QDateTime date ) {
-//The empty rule always returns false
+bool TimeZoneRule::isDSTActive( const QDateTime date ) {
+	// The empty rule always returns false
 	if ( HourOffset == 0.0 ) return false;
 
-//First, check whether the month is outside the DST interval.  Note that
-//the interval chack is different if StartMonth > RevertMonth (indicating that
-//the DST interval includes the end of the year).
+	// First, check whether the month is outside the DST interval.  Note that
+	// the interval check is different if StartMonth > RevertMonth (indicating that
+	// the DST interval includes the end of the year).
 	int month = date.date().month();
 	if ( StartMonth < RevertMonth )
 		if ( month < StartMonth || month > RevertMonth ) return false;
 	else
 		if ( month < StartMonth && month > RevertMonth ) return false;
 
-//OK, if the month is equal to StartMonth or Revert Month, we have more
-//detailed checking to do...
+	// OK, if the month is equal to StartMonth or Revert Month, we have more
+	// detailed checking to do...
 	int day = date.date().day();
-
-//Subtlety: we need to know if DST is presently in use.  Imagine the time is
-//30 minutes before RevertTime...it's ambiguous whether we are actually approaching
-//RevertTime, or whether we've reverted already, and are re-living the hour...
-	QTime rtime = RevertTime;
-	if ( !deltaTZ() ) rtime = RevertTime.addSecs( int( -1*3600 ) );
 
 	if ( month == StartMonth ) {
 		int sday = findStartDay( date );
 		if ( day < sday ) return false;
-		else if ( day==sday && date.time() < StartTime ) return false;
+		if ( day==sday && date.time() < StartTime ) return false;
 	} else if ( month == RevertMonth ) {
 		int rday = findRevertDay( date );
 		if ( day > rday ) return false;
-		else if ( day==rday && date.time() > rtime ) return false;
+		if ( day==rday && date.time() > RevertTime ) return false;
 	}
 
-	//passed all tests, so we must be in DST.
+	// passed all tests, so we must be in DST.
 	return true;
 }
 
-QDateTime TimeZoneRule::nextDSTChange( QDateTime date ) {
+QDateTime TimeZoneRule::nextDSTChange( const QDateTime date ) {
 	QDateTime result;
 
-//return a very remote date if the rule is the empty rule.
+	// return a very remote date if the rule is the empty rule.
 	if ( isEmptyRule() ) return QDateTime( QDate( 8000, 1, 1 ), QTime() );
 
-	if ( isDSTActive( date ) ) {
-		//Next change is reverting back to standard time.
+	if ( deltaTZ() ) {
+		// Next change is reverting back to standard time.
 		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
 		result = QDateTime( QDate( date.date().year(), RevertMonth, findRevertDay( result ) ), RevertTime );
 
-		//It's possible that the revert date occurs in the next calendar year.
-		//this is the case if RevertMonth is less than the date's month.
-		//if ( RevertMonth < date.date().month() ) result = result.addYears(1); 
+		// It's possible that the revert date occurs in the next calendar year.
+		// this is the case if RevertMonth is less than the date's month.
+		// if ( RevertMonth < date.date().month() ) result = result.addYears(1); 
 		if ( RevertMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day()), RevertTime);
-	} else if ( StartMonth ) {
-		//Next change is starting DST.
+	} else 
+	if ( StartMonth ) {
+		// Next change is starting DST.
 		result = QDateTime( QDate( date.date().year(), StartMonth, 1 ), StartTime );
 		result = QDateTime( QDate( date.date().year(), StartMonth, findStartDay( result ) ), StartTime );
 
-		//It's possible that the start date occurs in the next calendar year.
-		//this is the case if StartMonth is less than the date's month.
-	//	if ( StartMonth < date.date().month() ) result = result.addYears(1);
+		// It's possible that the start date occurs in the next calendar year.
+		// this is the case if StartMonth is less than the date's month.
+		// if ( StartMonth < date.date().month() ) result = result.addYears(1);
 		if ( StartMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day() ), StartTime);
 	}
 
-	kdDebug() << i18n( "Next Daylight Savings Time change: " ) << result.toString() << endl;
+	kdDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString() << endl;
 	return result;
 }
 
-QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
+
+QDateTime TimeZoneRule::previousDSTChange( const QDateTime date ) {
 	QDateTime result;
 
-	//return a very remote date if the rule is the empty rule
+	// return a very remote date if the rule is the empty rule
 	if ( isEmptyRule() ) return QDateTime( QDate( 1783, 1, 1 ), QTime() );
 
-	if ( isDSTActive( date ) ) {
-		//Last change was starting DST.
+	if ( deltaTZ() ) {
+		// Last change was starting DST.
 		result = QDateTime( QDate( date.date().year(), StartMonth, 1 ), StartTime );
 		result = QDateTime( QDate( date.date().year(), StartMonth, findStartDay( result ) ), StartTime );
 
-		//It's possible that the start date occured in the previous calendar year.
-		//this is the case if StartMonth is greater than the date's month.
-	//	if ( StartMonth > date.date().month() ) result = result.addYears(-1);
+		// It's possible that the start date occured in the previous calendar year.
+		// this is the case if StartMonth is greater than the date's month.
+		// if ( StartMonth > date.date().month() ) result = result.addYears(-1);
 		if ( StartMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day()), StartTime);
 	} else if ( StartMonth ) {
 		//Last change was reverting to standard time.
 		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
 		result = QDateTime( QDate( date.date().year(), RevertMonth, findRevertDay( result ) ), RevertTime );
 
-		//It's possible that the revert date occurred in the previous calendar year.
-		//this is the case if RevertMonth is greater than the date's month.
-		//if ( RevertMonth > date.date().month() ) result = result.addYears(-1);
+		// It's possible that the revert date occurred in the previous calendar year.
+		// this is the case if RevertMonth is greater than the date's month.
+		// if ( RevertMonth > date.date().month() ) result = result.addYears(-1);
 		if ( RevertMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day() ), RevertTime);
 	}
 
-	kdDebug() << i18n( "Previous Daylight Savings Time change: " ) << result.toString() << endl;
+	kdDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString() << endl;
 	return result;
+}
+
+QDateTime TimeZoneRule::nextDSTChange_LTime( const QDateTime local_date, const double TZoffset ) {
+/**calculate next dst change time without timezone offset, to avoid wrong calculation
+	example: on dst change revert day
+	change time (UTC) is 01:00, local time is 01:30, timezone offset is +1 hour
+	without correction the function thinks that dst is inactive (but it's active) and calculate the next dst change
+	after current (not happend) dst change
+*/
+	QDateTime next_dst_change = nextDSTChange( local_date.addSecs( int(TZoffset * -3600) ) );
+	
+	// add timezone offset to UTC change time (now it's local time without DST offset)
+	next_dst_change = next_dst_change.addSecs( int(TZoffset * 3600) );
+
+	// if next dst change is a revert, so the revert time is in daylight saving time
+	if ( next_dst_change.date().month() == RevertMonth )
+		next_dst_change = next_dst_change.addSecs( int(HourOffset * 3600) );
+	
+	kdDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << next_dst_change.toString() << endl;
+	return next_dst_change;
+}
+
+QDateTime TimeZoneRule::previousDSTChange_LTime( const QDateTime local_date, const double TZoffset ) {
+
+	// it's similar to TimeZoneRule::nextDSTChange(QDateTime, double)
+	QDateTime prev_dst_change = previousDSTChange( local_date.addSecs( int(TZoffset * -3600) ) );
+
+	// add timezone offset to UTC change time (now it's local time without DST offset)
+	prev_dst_change = prev_dst_change.addSecs( int(TZoffset * 3600) );
+
+	// if prev dst change is a revert change, so the revert time is in daylight saving time
+	if ( prev_dst_change.date().month() == RevertMonth )
+		prev_dst_change = prev_dst_change.addSecs( int(HourOffset * 3600) );
+	
+	kdDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << prev_dst_change.toString() << endl;
+	return prev_dst_change;
+}
+
+void TimeZoneRule::reset_with_ltime( const QDateTime ltime, const double TZoffset, const bool time_runs_forward ) {
+	QDateTime utime = ltime.addSecs( int(TZoffset * -3600) );
+	// check if dst is active and save status
+	setDST( isDSTActive(utime) );
+	/**If dst is active, the universal time is incorrect by the hour offset, but this doesn't affect
+		the calculation of next and previous dst change times. Store calculated dates/times.*/
+	if (time_runs_forward)
+		next_change = nextDSTChange( utime );
+	else
+		next_change = previousDSTChange( utime );
+}
+
+void TimeZoneRule::reset_with_utc( const QDateTime utime, const bool time_runs_forward ) {
+	// just use ltime function with 0.0 timezone offset
+	reset_with_ltime( utime, 0.0, time_runs_forward );
 }
 
 bool TimeZoneRule::equals( TimeZoneRule *r ) {
