@@ -2,8 +2,8 @@
 <title>A Quick Tour of &kstars;</title>
 
 <para>
-This chapter introduces the most useful features of &kstars;, in the
-form of a guided tour.
+This chapter presents a guided tour of &kstars;, introducing
+many of its important features.
 </para>
 
 <screenshot>
@@ -156,8 +156,9 @@ just select <guimenuitem>Set Time to Now</guimenuitem> from the
 <note><para>
 The current version of &kstars; cannot 
 accept dates before October 1, 1752, nor dates after the year 8000.  
-These are limitations of the &Qt; Date/Time class.  We may implement 
-our own date/time class in a future version.
+These are limitations of the &Qt; Date/Time class.  We plan to implement 
+our own date/time class in a future version, which will allow for more 
+remote dates.
 </para></note>
 
 </sect1>
@@ -175,7 +176,7 @@ of recomputing object positions, which makes the scrolling smoother
 (you can configure what gets hidden while scrolling in the <link 
 linkend="config">Display Options</link> window).  
 
-There are five ways to change the magnification (or 
+There are seven ways to change the magnification (or 
 <firstterm>Zoom level</firstterm>) of the display:</para>
 
 <orderedlist>
@@ -189,13 +190,23 @@ There are five ways to change the magnification (or
 <listitem>
 	<para>Select 
 	<guimenuitem>Zoom In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem> 
-	in the <guimenu>View</guimenu> menu</para>
+	from the <guimenu>View</guimenu> menu</para>
+</listitem>
+<listitem>
+	<para>Select <guimenuitem>Zoom to Angular Size...</guimenuitem> from 
+	the <guimenu>View</guimenu> menu.  This allows you to specify the 
+	the field-of-view angle for the display, in degrees.</para>
 </listitem>
 <listitem>
 	<para>Use the scroll wheel on your mouse</para>
 </listitem>
 <listitem>
 	<para>Drag the mouse up and down with the &MMB; pressed.</para>
+</listitem>
+<listitem>
+	<para>Hold down &Ctrl; while dragging the mouse.  This 
+	will allow you to define a rectangle in the map.  When you release the mouse 
+	button, the display will zoom to match the rectangle.</para>
 </listitem>
 </orderedlist>
 
@@ -314,22 +325,27 @@ The <guilabel>Find Object</guilabel> window is shown below:
 
 <para>
 The window contains a list of all the named objects that &kstars; is 
-aware of.  Many objects are listed only by 
-their catalog name (for example, NGC 3077), but some are also listed 
-by a common name as well (for example, Whirlpool Galaxy).  You can 
-filter the list by name, or by object type.  Highlight the desired 
-object in the list, and press <guibutton>Ok</guibutton>.  The display 
-will center on the object and begin tracking it.  Note that if the 
-object is below the horizon, the program will warn you that you may 
-not see anything except the ground (you can make the ground 
-invisible in the <guilabel>Display Options</guilabel> window, or by 
-pressing the <guiicon>Ground</guiicon> button in the View toolbar).
+aware of.  Many of the objects only have a numeric catalog name (for 
+example, NGC 3077), but some objects have a common name as well (for 
+example, Whirlpool Galaxy).  You can filter the list by name and 
+by object type.  To filter by name, enter a string in the edit box 
+at the top of the window; the list will then only contain names 
+which start with that string.  To filter by type, select a type 
+from the combo box at the bottom of the window.  
+</para><para>
+Highlight the desired object in the list, and press 
+<guibutton>Ok</guibutton>.  The display will center on the object.  
+Note that if the object is below the horizon, the program will warn 
+you that you may not see anything except the ground (you can make 
+the ground invisible in the <guilabel>Display Options</guilabel> 
+window, or by pressing the <guiicon>Ground</guiicon> button in 
+the View toolbar).
 </para>
 <para> 
-Object Tracking is automatically engaged whenever an object is
-centered in the display, either by using the <guilabel>Find
-Object</guilabel> window, by double-clicking on an object, or by
-selecting <guimenuitem>Center and Track</guimenuitem> from the
+&kstars; will automatically begin tracking on an object whenever one 
+is centered in the display, either by using the <guilabel>Find
+Object</guilabel> window, by double-clicking on it, or by
+selecting <guimenuitem>Center and Track</guimenuitem> from its
 <mousebutton>right</mousebutton>-click popup menu.  You can disengage
 tracking by panning the display, pressing the <guiicon>Lock</guiicon>
 icon in the Main toolbar, or selecting <guimenuitem>Track
@@ -342,26 +358,47 @@ Object</guimenuitem> from the <guimenu>Focus</guimenu> menu.
 <sect1 id="customize"> 
 <title>Customizing the Display</title> 
 
-<para> There are several ways to modify the display to your liking.
-First of all, you can select a different color scheme in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Color
-Schemes</guimenuitem></menuchoice> menu.  There are three predefined
-color schemes, and you can define your own in the <link 
-linkend="config"><guilabel>View Options</guilabel></link> window.  You 
-can hide the Toolbars in the 
+<para> There are several ways to modify the display to your liking.</para>
+<itemizedlist>
+<listitem><para>
+Select a different color scheme in the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Color Schemes</guimenuitem></menuchoice> 
+menu.  There are four predefined color schemes, and you can define your own in the 
+<link linkend="config"><guilabel>View Options</guilabel></link> window.
+</para></listitem>
+<listitem><para>
+Toggle whether the Toolbars are drawn in the 
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars</guimenuitem></menuchoice>
-menu, and hide the Info Boxes in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Info
-Boxes</guimenuitem></menuchoice> menu.  In addition, you can
-manipulate the three Info Boxes with the mouse.  Each box has 
-additional lines of data that are hidden by default.  You can toggle 
-whether these additional lines are visible by double-clicking a box to
-<quote>shade</quote> it.  Also, you can reposition a box by dragging
-it with the mouse.  When a box hits a window edge, it will
-<quote>stick</quote> to the edge when the window is resized.</para>
+menu.  Like most KDE toolbars, they can also be dragged around and 
+anchored on any window edge, or even detached from the window completely.
+</para></listitem>
+<listitem><para>
+Toggle whether the Info Boxes are drawn in the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Info Boxes</guimenuitem></menuchoice> 
+menu.  In addition, you can manipulate the three Info Boxes with the 
+mouse.  Each box has additional lines of data that are hidden by default.  
+You can toggle whether these additional lines are visible by double-clicking 
+a box to <quote>shade</quote> it.  Also, you can reposition a box by 
+dragging it with the mouse.  When a box hits a window edge, it will
+<quote>stick</quote> to the edge when the window is resized.
+</para></listitem>
+<listitem><para>
+Choose an <quote>FOV Symbol</quote> using the 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>FOV Symbols</guimenuitem></menuchoice> 
+menu.  <firstterm>FOV</firstterm> is an acronym for <quote>field-of-view</quote>.  
+An FOV symbol is drawn at the center of the window to indicate where the display
+is pointing.  Different symbols have different angular sizes; you can use a symbol to show
+what the view through a particular telescope would look like.  For example, if you choose
+the <quote>7x35 Binoculars</quote> FOV symbol, then a circle is drawn on the display that is 
+9.2 degrees in diameter; this is the field-of-view for 7x35 binoculars.  You can define your 
+own FOV symbols (or modify the existing symbols) using the 
+<guimenuitem>Edit FOV Symbols...</guimenuitem> menu item.
+</para></listitem>
+</itemizedlist>
 
-<para>The remaining customizations are covered in the next chapter.</para>
-
+<para>In addition to these options in the Settings menu, there are a large number of 
+customization options available in the <guilabel>View Options</guilabel> window, which is 
+covered in detail in the next chapter.</para>
 
 </sect1>
 </chapter>

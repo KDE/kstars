@@ -35,6 +35,30 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
+<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Save Sky Image...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Create image on disk from current display
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Run Script...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Run the specified KStars script
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
 <keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
@@ -240,6 +264,17 @@ coordinates to center on.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom to Angular Size...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Zoom to specified field-of-view angle</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <guimenu>View</guimenu>
 <guimenuitem>Horizontal/Equatorial Coordinates</guimenuitem>
 </menuchoice></term>
@@ -329,13 +364,15 @@ custom schemes.  Selecting an item sets the scheme automatically.
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Target Symbol</guisubmenu>
+<guisubmenu>FOV Symbols</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu lists the available <firstterm>Target Symbols</firstterm>.  
-The Target Symbol is drawn at the central <quote>focus</quote> position 
-of the sky map.  You may choose from the following symbols: No symbol, 
-Circle, Crosshairs, Bullsyeye, Rectangle.
+This submenu lists the available field-of-view (FOV) Symbols.  
+The FOV Symbol is drawn at the center of the display.  You 
+may choose from the list of predefined symbols (No symbol, 
+7x35 Binoculars, One degree, or HST WFPC2), or you may define 
+your own symbols (or modify existing symbols) using the 
+<guimenuitem>Edit FOV symbols...</guimenuitem> item.
 </para></listitem>
 </varlistentry>
 
@@ -436,6 +473,56 @@ sessions.
 Opens the <guilabel>What's Up Tonight</guilabel> Tool, 
 which presents a summary of the objects which are observable 
 from your location on a given date.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Script Builder...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Script Builder</guilabel> Tool, 
+which provides a GUI interface for building &kstars; DCOP scripts.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Y</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Solar System...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Solar System Viewer</guilabel>, 
+which displays an overhead view of the solar system on the 
+current simulation date.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Jupiter's Moons...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Jupiter Moons Tool</guilabel>, 
+which displays the positions of Jupiter's four brightest 
+moons as a function of time.
 </para>
 </listitem>
 </varlistentry>
@@ -721,20 +808,60 @@ on.</para></listitem></varlistentry>
 
 <sect1 id="kstars-mouse">
 <title>Mouse Commands</title>
-<para>
-The current RA, Dec coordinates of the mouse cursor are always
-displayed in the status bar.  Clicking the mouse anywhere will
-identify the nearest object in the status bar.  Double-clicking will
-center and track on the clicked location or object.  Click and drag
-to pan the display.  <mousebutton>Right</mousebutton> click to open 
-the <link linkend="popup-menu">popup menu</link> with detailed options 
-for the clicked object. Holding the middle mouse button and moving the 
-mouse vertically will change the zoom level (you can also use the mouse 
-scroll wheel, if you have one). 
-</para><para>
-You can also move the Info Boxes by dragging them with the mouse, and 
-"shade" an Info Box to show more or less information, by double-clicking 
-on it.
-</para>
+
+<variablelist>
+<varlistentry><term>Moving the mouse</term>
+<listitem><para>
+The Equatorial (RA, Dec) coordinates of the mouse cursor are updated
+in the status bar.  
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term>Clicking</term>
+<listitem><para>Identify the object nearest the mouse cursor in the 
+status bar.
+</para></listitem>
+</varlistentry>
+ 
+<varlistentry><term>Double-clicking</term>
+<listitem><para>Center and track on the clicked location or object
+nearest the mouse cursor.  Double-clicking on an Info Box will 
+<quote>shade</quote> it to reveal/hide extra information.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term>Right-clicking</term>
+<listitem><para>Open the popup menu for the location or object nearest
+the mouse cursor.  
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term>Scrolling the mouse wheel</term>
+<listitem><para>Zoom the display in or out.  If you don't have a 
+mouse wheel, you can hold the middle mouse button and drag vertically.
+</para></listitem>
+</varlistentry>
+
+<varlistentry><term>Click-and-dragging</term>
+<listitem><para>
+	<variablelist>
+	<varlistentry><term>Dragging the sky map</term>
+	<listitem><para>Pan the display, following the drag motion.  
+	</para></listitem></varlistentry>
+	<varlistentry><term>&Ctrl;+dragging the sky map</term>
+	<listitem><para>Define a rectangle in the map.  When the 
+	mouse button is released, the display is zoomed in to match the
+	field-of-view to the bounds of the rectangle.  
+	</para></listitem></varlistentry>
+	<varlistentry><term>Dragging an Info Box</term>
+	<listitem><para>The Info Box is repositioned in the map.  Info
+	Boxes will <quote>stick</quote> to window edges, so that they 
+	remain on the edge when the window is resized.
+	</para></listitem></varlistentry>
+	</variablelist>
+</para></listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 </chapter>

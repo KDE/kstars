@@ -43,20 +43,26 @@ To compile &kstars;, you will also have to have the following packages
 installed:
 <itemizedlist>
 <listitem><para>kdelibs-devel</para></listitem>
-<listitem><para>libqt-headers (a.k.a. qt-devel)</para></listitem>
+<listitem><para>qt-devel</para></listitem>
 <listitem><para>zlib-devel</para></listitem>
+<listitem><para>fam-devel</para></listitem>
+<listitem><para>png-devel</para></listitem>
+<listitem><para>jpeg-devel</para></listitem>
 <listitem><para>autoconf (>=2.5)</para></listitem>
 </itemizedlist></para>
 
 <para> 
-On my system, &kstars; uses about 50 MB of system memory with the 
+On my system, &kstars; uses about 60 MB of system memory with the 
 default settings.  Most of this usage is due to the loaded object 
 databases, especially the 40,000-member stars database.  You can 
 dramatically reduce the memory footprint by reducing the faint limit 
-for stars in the Configuration Window. If &kstars; is idling, it uses 
-very little <acronym>CPU</acronym>; but it will use as much as you've 
-got when panning or zooming.
-</para> </sect1>
+for stars in the Configuration Window.  Of course, if you have memory 
+to spare, you can increase the faint limit to display up to 126,000 
+stars.  If &kstars; is idling, it uses very little 
+<acronym>CPU</acronym>; but it will use as much as you've got when 
+panning or zooming.
+</para> 
+</sect1>
 
 <sect1 id="compilation">
 <title>Compilation and Installation</title>
