@@ -21,7 +21,7 @@
 		<Action name="timer_control" />
 	</Menu>
 
-	<Menu name="focus" noMerge="1"><text>F&amp;ocus</text>
+	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
 		<Action name="zenith" />
 		<Action name="north" />
 		<Action name="east" />
