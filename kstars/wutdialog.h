@@ -22,52 +22,60 @@
 #include <kdialogbase.h>
 #include <qdatetime.h>
 
+#define NCATEGORY 8
+
 class KStars;
 class ObjectNameList;
 class GeoLocation;
 class SkyObject;
 class SkyObjectName;
-
+class WUTDialogUI;
 class QFrame;
-class QGroupBox;
-class QVBoxLayout;
-class QTabBar;
-class QFrame;
-class KListBox;
-class KPushButton;
 
-/**
-	* What's up tonight dialog is a window which lists all skyobjects that will
-	* be visible next night after sunrise.
-  *@author Thomas Kabelmann
-  */
+/**@class WUTDialog
+	*What's up tonight dialog is a window which lists all skyobjects that will
+	*be visible during the next night.
+	*@author Thomas Kabelmann
+	*@version 1.0
+	*/
 
 class WUTDialog : public KDialogBase  {
-
 	Q_OBJECT
 
 	public:
 
 		WUTDialog(KStars *ks);
-
 		~WUTDialog();
 
 	private slots:
 
 		/** Load list for selected object type. */
-		void loadList(int);
+		void slotLoadList(int);
 
 		/** initialize the object lists */
 		void init();
 
 		/** update the time labels for selected object */
-		void updateTimes(QListBoxItem *item);
+		void slotDisplayObject(QListBoxItem *item);
 
+		void slotEveningMorning( int index );
+
+		void slotChangeDate();
+		void slotChangeLocation();
 		/** open the detail dialog */
 		void slotDetails();
 
 	private:
 
+		KStars *kstars;
+		WUTDialogUI *WUT;
+		
+		/** Init All connections, used in constructor */
+		void makeConnections();
+		
+		/** Init catgory list, used in constructor */
+		void initCategories();
+		
 		/** Check visibility of object
 			* @returns true if visible
 			*/
@@ -76,65 +84,21 @@ class WUTDialog : public KDialogBase  {
 		/** split the objects in several lists */
 		void splitObjectList();
 
-		/** The layouts */
-		void createLayout();
-
-		/** The sun box */
-		void createSunBox();
-
-		/** The moon box */
-		void createMoonBox();
-
-		/** The tab widget */
-		void createTabWidget();
-
-		/** All connections */
-		void makeConnections();
-
 		/** Append object to the correct list. */
 		void appendToList(SkyObjectName *o);
-
-		QFrame *page;
-
-		QVBoxLayout *vlay;
-
-		QGroupBox *sunBox;
-
-		QGroupBox *moonBox;
-
-		// the time labels for sun
-		QLabel *sunRiseTimeLabel, *sunSetTimeLabel;
-
-		// the time labels for moon
-		QLabel *moonRiseTimeLabel, *moonSetTimeLabel;
-
-		// tab widget
-		QTabBar *tabBar;
-
-		// tab widget
-		QFrame *frame;
-
-		// listbox in tabwidget
-		KListBox *objectListBox;
-
-		// time labels in tabwidget
-		QLabel *setTimeLabel, *riseTimeLabel;
-
-		// information button in tabwidget
-		KPushButton *detailsButton;
-
-		KStars *kstars;
 
 		ObjectNameList *objectList;
 
 		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 
-		long double today, tomorrow;
+		QDateTime Today;
+		long double JDToday, JDTomorrow;
 		GeoLocation *geo;
-
+		int EveningFlag;
+		
 		struct List {
-			QPtrList <SkyObjectName> visibleList[5];
-			bool initialized[5];
+			QPtrList <SkyObjectName> visibleList[NCATEGORY];
+			bool initialized[NCATEGORY];
 		} lists;
 
 };

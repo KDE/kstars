@@ -49,14 +49,16 @@ public:
 		*/
 	void findPhase( const KSSun *Sun );
 
-	/**
-		*@returns the moon's current phase angle, as a dms angle
+	/**@return the moon's current phase angle, as a dms angle
 		*/
 	dms phase( void ) { return Phase; }
 
-	/**
-	 * reimplemented from KSPlanetBase
-	 */
+	/**@return the illuminated fraction of the Moon as seen from Earth
+		*/
+	double illum( void ) { return 0.5*(1.0 - cos( phase().radians() ) ); }
+	
+	/** reimplemented from KSPlanetBase
+		*/
 	virtual bool loadData();
 
 protected:
