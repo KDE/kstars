@@ -18,7 +18,7 @@
 #ifndef SKYMAP_H
 #define SKYMAP_H
 
-#include <qwidget.h>
+#include <qgl.h>
 #include <qpainter.h>
 #include <qpaintdevice.h>
 #include <qpoint.h>
@@ -52,7 +52,7 @@ class KStars;
 	*@version 1.0
 	*/
 
-class SkyMap : public QWidget  {
+class SkyMap : public QGLWidget  {
    Q_OBJECT
 public:
 /**
@@ -310,6 +310,27 @@ public:
 	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
 	void drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale );
 
+//OPENGL: had to duplicate and keep old versions for KStars::slotPrint() and exportSkyImage()
+	void initializeGL();
+	void resizeGL( int w, int h );
+	void computeGLProjection();
+	GLuint createGLStarList();
+	GLuint createGLCLineList();
+	void drawGLMilkyWay();
+	void drawGLCoordinateGrid();
+	void drawGLEquator();
+	void drawGLEcliptic();
+	void drawGLConstellationLines();
+	void drawGLConstellationNames( QFont& stdFont);
+	void drawGLStars();
+	void drawGLDeepSkyObjects();
+	void drawGLDeepSkyCatalog( QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage);
+	void drawGLPlanetTrail( KSPlanetBase *ksp);
+	void drawGLSolarSystem( bool drawPlanets);
+	void drawGLHorizon( QFont& stdFont);
+	void drawGLAttachedLabels();
+	void drawGLNameLabel( SkyObject *obj, int x, int y, double scale );
+
 	void setMapGeometry( void );
 	void exportSkyImage( const QPaintDevice *pd );
 
@@ -395,7 +416,9 @@ signals:
 
 protected:
 /**Draw the Sky, and all objects in it. */
-	virtual void paintEvent( QPaintEvent *e );
+//	virtual void paintEvent( QPaintEvent *e );
+//OPENGL
+	void paintGL();
 
 /**Detect keystrokes: arrow keys, and +/- keys. */
 	virtual void keyPressEvent( QKeyEvent *e );
@@ -425,9 +448,10 @@ protected:
 /**Zoom in and out with the mouse wheel. */
 	virtual void wheelEvent( QWheelEvent *e );
 
-/**If the skymap will be resized, the sky must be new computed. So this function calls explicite new computing of
-	*the skymap. */
-	virtual void resizeEvent( QResizeEvent * );
+//OPENGL: deprecate
+///**If the skymap will be resized, the sky must be new computed. So this function calls explicite new computing of
+//	*the skymap. */
+//	virtual void resizeEvent( QResizeEvent * );
 
 private slots:
 	void slotTransientTimeout();
@@ -556,6 +580,10 @@ private:
 	QTimer TransientTimer;
 	QColor TransientColor;
 	unsigned int nHoverTicks, MaxHoverTicks, TransientTimeout;
+
+	//OPENGL members
+	GLuint GLStarList, GLCLineList, OldHeight;
+	GLfloat xRot, yRot, zRot, scale, FieldOfView, AspectRatio;
 
 //DEBUG
 	bool dumpHorizon;

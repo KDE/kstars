@@ -32,17 +32,19 @@
 #include "ksfilereader.h"
 #include "kspopupmenu.h"
 
-void SkyMap::resizeEvent( QResizeEvent * )
-{
-	computeSkymap = true; // skymap must be new computed
-	if ( testWState(WState_AutoMask) ) updateMask();
-
-	// avoid phantom positions of infoboxes
-	if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
-		infoBoxes()->resize( width(), height() );
-	}
-	sky->resize( width(), height() );
-}
+//OPENGL: deprecate.  If this is not commented out, then resizeGL() doesn't fire.
+//So if I need to have resizeEvent(), it should explicitly call resizeGL().
+//void SkyMap::resizeEvent( QResizeEvent * )
+//{
+//	computeSkymap = true; // skymap must be new computed
+//	if ( testWState(WState_AutoMask) ) updateMask();
+//
+//	// avoid phantom positions of infoboxes
+//	if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
+//		infoBoxes()->resize( width(), height() );
+//	}
+//	sky->resize( width(), height() );
+//}
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
@@ -59,6 +61,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 	switch ( e->key() ) {
 		case Key_Left :
+			//OPENGL TODO: the focus position needs to be connected to xRot, yRot, zRot.
+			zRot += 0.5;
+			
 			if ( data->options->useAltAz ) {
 				focus()->setAz( focus()->az()->Degrees() - step * MINZOOM/zoomFactor() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
@@ -73,6 +78,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Right :
+			//OPENGL TODO: the focus position needs to be connected to xRot, yRot, zRot.
+			zRot -= 0.5;
+			
 			if ( data->options->useAltAz ) {
 				focus()->setAz( focus()->az()->Degrees() + step * MINZOOM/zoomFactor() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
@@ -87,6 +95,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Up :
+			//OPENGL TODO: the focus position needs to be connected to xRot, yRot, zRot.
+			if ( xRot > 0.0f ) xRot -= 0.5;
+			
 			if ( data->options->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/zoomFactor() );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
@@ -103,6 +114,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_Down:
+			//OPENGL TODO: the focus position needs to be connected to xRot, yRot, zRot.
+			if ( xRot < 180.0f ) xRot += 0.5;
+			
 			if ( data->options->useAltAz ) {
 				focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/zoomFactor() );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
@@ -120,11 +134,19 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Plus:   //Zoom in
 		case Key_Equal:
+			//OPENGL TODO do we still need slotZoomIn() ?
+			if ( FieldOfView > 5.0 ) FieldOfView /= 1.02;
+			computeGLProjection();
+			
 			if ( ksw ) ksw->slotZoomIn();
 			break;
 
 		case Key_Minus:  //Zoom out
 		case Key_Underscore:
+			//OPENGL TODO do we still need slotZoomOut() ?
+			if ( FieldOfView < 120.0 ) FieldOfView *= 1.02;
+			computeGLProjection();
+			
 			if ( ksw ) ksw->slotZoomOut();
 			break;
 
@@ -665,24 +687,37 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	}
 }
 
-void SkyMap::paintEvent( QPaintEvent * )
+//OPENGL
+//void SkyMap::paintEvent( QPaintEvent * )
+void SkyMap::paintGL()
 {
 	KStarsOptions* options = data->options;
 
+//OPENGL: deprecte
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
-	if (!computeSkymap)
-	{
-		QPixmap *sky2 = new QPixmap( *sky );
-		drawOverlays( sky2 );
-		bitBlt( this, 0, 0, sky2 );
-		delete sky2;
-		return ; // exit because the pixmap is repainted and that's all what we want
-	}
+//	if (!computeSkymap)
+//	{
+//		QPixmap *sky2 = new QPixmap( *sky );
+//		drawOverlays( sky2 );
+//		bitBlt( this, 0, 0, sky2 );
+//		delete sky2;
+//		return ; // exit because the pixmap is repainted and that's all what we want
+//	}
+//
+//// if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
+//	QPainter psky;
+//
+//	setMapGeometry();
 
-// if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
-	QPainter psky;
-
-	setMapGeometry();
+//OPENGL: initialize
+	glClear( GL_COLOR_BUFFER_BIT );     //clear the window
+	glLoadIdentity();
+	
+	//Move origin 10 units into the screen.
+	glTranslatef( 0.0f, 0.0f, -10.0f );
+	glRotatef( xRot, 1.0, 0.0, 0.0 );
+	glRotatef( yRot, 0.0, 1.0, 0.0 );
+	glRotatef( zRot, 0.0, 0.0, 1.0 );
 
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
@@ -698,43 +733,44 @@ void SkyMap::paintEvent( QPaintEvent * )
 	bool drawCBounds( options->drawConstellBounds &&!(checkSlewing && options->hideCBounds) );
 	bool drawGrid( options->drawGrid && !(checkSlewing && options->hideGrid) );
 
-	psky.begin( sky );
-	psky.fillRect( 0, 0, width(), height(), QBrush( options->colorScheme()->colorNamed( "SkyColor" ) ) );
+//OPENGL: deprecate
+//	psky.begin( sky );
+//	psky.fillRect( 0, 0, width(), height(), QBrush( options->colorScheme()->colorNamed( "SkyColor" ) ) );
 
-	QFont stdFont = psky.font();
-	QFont smallFont = psky.font();
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
+//OPENGL FIXME:  how to handle fonts?
+//	QFont stdFont = font();
+//	QFont smallFont = font();
+//	smallFont.setPointSize( stdFont.pointSize() - 2 );
+//
+//	// stars and planets use the same font size
+//	if ( zoomFactor() < 10.*MINZOOM ) {
+//		psky.setFont( smallFont );
+//	} else {
+//	psky.	setFont( stdFont );
+//	}
 
-	if ( drawMW ) drawMilkyWay( psky );
-	if ( drawGrid ) drawCoordinateGrid( psky );
-	if ( data->options->drawEquator ) drawEquator( psky );
-	if ( options->drawEcliptic ) drawEcliptic( psky );
-	
-	if ( drawCBounds ) drawConstellationBoundaries( psky );
-	if ( drawCLines ) drawConstellationLines( psky );
-	if ( drawCNames ) drawConstellationNames( psky, stdFont );
+	//OPENGL FIXME: Uncomment as functions are implemented
+//	if ( drawMW ) drawGLMilkyWay();
+	if ( drawGrid ) drawGLCoordinateGrid();
+//	if ( data->options->drawEquator ) drawGLEquator();
+//	if ( options->drawEcliptic ) drawGLEcliptic();
+	if ( drawCLines ) drawGLConstellationLines();
+//	if ( drawCNames ) drawGLConstellationNames( stdFont );
+	if ( options->drawSAO ) drawGLStars();
 
-	// stars and planets use the same font size
-	if ( zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
+//	drawGLDeepSkyObjects();
+//	drawGLSolarSystem( drawPlanets );
+//	drawGLAttachedLabels();
+//	drawGLHorizon( stdFont );
 
-	//drawing to screen, so leave scale parameter at its default value of 1.0
-	drawStars( psky );
-	drawDeepSkyObjects( psky );
-	drawSolarSystem( psky, drawPlanets );
-	drawAttachedLabels( psky );
-	drawHorizon( psky, stdFont );
-
-	//Finish up
-	psky.end();
-
-	QPixmap *sky2 = new QPixmap( *sky );
-	drawOverlays( sky2 );
-	bitBlt( this, 0, 0, sky2 );
-	delete sky2;
+//OPENGL: deprecate
+//	//Finish up
+//	psky.end();
+//
+//	QPixmap *sky2 = new QPixmap( *sky );
+//	drawOverlays( sky2 );
+//	bitBlt( this, 0, 0, sky2 );
+//	delete sky2;
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }

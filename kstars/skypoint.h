@@ -26,6 +26,8 @@
 #include "ksnumbers.h"
 #include "dms.h"
 
+//(arbitrary) radius of celestial sphere for computing X/Y/Z
+#define RADIUS 10.0
 
 /**@class SkyPoint
 	*@short Stores dms coordinates for a point in the sky, and functions
@@ -187,6 +189,12 @@ public:
 	*/
 	void setGalLat( double gla ) { galLat.setD( gla ); }
 
+//XYZ
+/**Redetermine X,Y,Z coords based on current RA/Dec
+	*This should be done whenever the RA/Dec coordinates are changed.
+	*/
+	void setXYZ();
+
 ////
 //// 2. Returning coordinates.
 //// =========================
@@ -222,6 +230,19 @@ public:
 /**@return a pointer to the current galactic longitude.
 	*/
 	const dms* gLong() const { return &galLong; }
+
+//XYZ
+/**@return Cartesian X coordinates
+	*/
+	const double x() const { return X; }
+
+/**@return Cartesian Y coordinates
+	*/
+	const double y() const { return Y; }
+
+/**@return Cartesian Z coordinates
+	*/
+	const double z() const { return Z; }
 
 ////
 //// 3. Coordinate conversions.
@@ -398,6 +419,9 @@ private:
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
 	dms galLat, galLong; // Galactic coordinates
+
+	//XYZ
+	double X, Y, Z;
 };
 
 #endif

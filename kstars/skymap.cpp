@@ -40,7 +40,7 @@
 #include <qmemarray.h>
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
- : QWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0), TransientObject(0)
+ : QGLWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0)
 {
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;
@@ -116,6 +116,53 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 		RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
 		RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
 	}
+
+	//OPENGL
+	yRot = zRot = 0.0f;
+	xRot = 45.0f;
+
+	scale = 10.0f;
+	FieldOfView = 45.0f;
+	AspectRatio = 1.0f;
+
+	OldHeight = data->options->windowHeight;
+	GLStarList = 0;
+
+	resizeGL( data->options->windowWidth, data->options->windowHeight );
+}
+
+//OPENGL
+void SkyMap::initializeGL() {
+	qglClearColor( black ); 		// Let OpenGL clear to black
+	GLStarList = createGLStarList();		// Generate an OpenGL display list for stars
+	GLCLineList = createGLCLineList();		//generate an OpenGL display list for constellation lines
+	glShadeModel( GL_FLAT );
+}
+
+//OPENGL
+void SkyMap::resizeGL( int w, int h ) {
+	//adjust FieldOfView to match new window size (so window doesn't "drag" map with it)
+	FieldOfView *= (GLfloat)h/(GLfloat)OldHeight;
+	OldHeight = h;
+//	kdDebug() << "FieldOfView: " << FieldOfView << endl;
+
+	glViewport( 0, 0, (GLint)w, (GLint)h );
+	AspectRatio = (GLfloat)w/(GLfloat)h;
+	computeGLProjection();
+}
+
+//OPENGL
+void SkyMap::computeGLProjection() {
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	
+	//Set clipping volume.  The front/back depth values are set such that only the back half
+	//of the celestial sphere will be drawn.
+	gluPerspective( FieldOfView, AspectRatio, 10.0f, 20.0f ); 
+	
+	//reset for modelview mode
+	glMatrixMode( GL_MODELVIEW );
+	glLoadIdentity();
 }
 
 SkyMap::~SkyMap() {

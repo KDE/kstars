@@ -32,6 +32,8 @@
 #include <qpaintdevicemetrics.h>
 #include <stdlib.h> // abs
 
+#include <GL/glut.h>
+
 void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ksw ) { //only if we are drawing in the GUI window
 		QPainter p;
@@ -1634,6 +1636,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	p.end();
 }
 
+
 void SkyMap::setMapGeometry() {
 	guidemax = int(zoomFactor()/10.0);
 
@@ -1652,3 +1655,146 @@ void SkyMap::setMapGeometry() {
 	guideXRange = XRange;
 	if ( zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
 }
+
+
+//*************************************
+//*** OPENGL: The GL draw functions ***
+//*************************************
+
+GLuint SkyMap::createGLStarList() {
+	GLuint list;
+	list = glGenLists( 1 );
+	glNewList( list, GL_COMPILE );
+	qglColor( white );
+	glPointSize( 2.0f );
+	glBegin( GL_POINTS );
+	for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
+		// break loop if maglim is reached
+		if ( curStar->mag() > data->options->magLimitDrawStar ) break;
+
+		//for now, only add named stars:
+		if ( curStar->name() != i18n( "star" ) ) {
+			//DEBUG
+			kdDebug() << curStar->name() << " : " << curStar->x() << ", " << curStar->y() << ", " << curStar->z() << endl;
+
+			glVertex3f( curStar->x(), curStar->y(), curStar->z() );
+		}
+	}
+
+	glEnd();
+	glEndList();
+
+	return list;
+}
+
+GLuint SkyMap::createGLCLineList() {
+	GLuint list;
+	list = glGenLists( 1 );
+	glNewList( list, GL_COMPILE );
+	qglColor( QColor( data->options->colorScheme()->colorNamed( "CLineColor" ) ) );
+	
+	//this is a bit convoluted.  We need to begin a strip on the first node,
+	//and end the previous strip and begin a nw one on subsequent nodes with "M" flags.
+	//when the new Constellation data file is ready, this function will be much simpler. 
+	SkyPoint *p = data->clineList.first();
+	glBegin( GL_LINE_STRIP );
+	glVertex3f( p->x(), p->y(), p->z() );
+	
+	for ( p = data->clineList.next(); p; p = data->clineList.next() ) {
+		if ( data->clineModeList.at(data->clineList.at())->latin1()=='D' ) {
+			glVertex3f( p->x(), p->y(), p->z() );
+		} else if ( data->clineModeList.at(data->clineList.at())->latin1()=='M' ) {
+			glEnd(); //finished with previous strip
+			glBegin( GL_LINE_STRIP ); //begin next strip
+			glVertex3f( p->x(), p->y(), p->z() );
+		}
+	}
+
+	//finish the last strip
+	glEnd();
+	glEndList();
+	
+	return list;
+}
+
+void SkyMap::drawGLCoordinateGrid() {
+	qglColor( QColor( data->options->colorScheme()->colorNamed( "GridColor" ) ) );
+	glutWireSphere( 10.0f, 24, 18 );
+}
+
+void SkyMap::drawGLStars() { glCallList( GLStarList ); }
+
+void SkyMap::drawGLConstellationLines() { glCallList( GLCLineList ); }
+
+void SkyMap::drawGLMilkyWay() {
+  //Eventually use lists to preload XYZ data?
+  //This is really complicated...OpenGL draws primitives
+  //(triangles or quads), each of which must be planar
+  //so it isn't easy to draw this complex polygon projected
+  //on the surface of a sphere.  Have to think about this,
+  //disabling for now.
+  /*
+	KStarsOptions* options = data->options;
+
+	int ptsCount = 0;
+	int thick(1);
+	if ( ! options->fillMilkyWay ) thick=3;
+
+	qglColor( QColor( options->colorScheme()->colorNamed( "MWColor" ) ) );
+
+	for ( register unsigned int j=0; j<11; ++j ) {
+		if ( options->fillMilkyWay ) {
+			ptsCount = 0;
+			bool partVisible = false;
+
+			QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction );
+			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
+			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+
+			for ( SkyPoint *p = data->MilkyWay[j].first(); p; p = data->MilkyWay[j].next() ) {
+				o = getXY( p, options->useAltAz, options->useRefraction, scale );
+				if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
+				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+			}
+
+			if ( ptsCount && partVisible ) {
+				psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
+			}
+		} else {
+			QPoint o = getXY( data->MilkyWay[j].at(0), options->useAltAz, options->useRefraction, scale );
+			if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
+			else offscreen = false;
+
+			psky.moveTo( o.x(), o.y() );
+
+			for ( register unsigned int i=1; i<data->MilkyWay[j].count(); ++i ) {
+				o = getXY( data->MilkyWay[j].at(i), options->useAltAz, options->useRefraction, scale );
+				if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
+				else offscreen = false;
+
+				//don't draw a line if the last point's getXY was (-10000000, -10000000)
+				int dx = abs(o.x()-psky.pos().x());
+				int dy = abs(o.y()-psky.pos().y());
+				if ( (!lastoffscreen && !offscreen) && (dx<mwmax && dy<mwmax) ) {
+					psky.lineTo( o.x(), o.y() );
+				} else {
+					psky.moveTo( o.x(), o.y() );
+				}
+				lastoffscreen = offscreen;
+			}
+		}
+	}
+  */
+}
+
+void SkyMap::drawGLEquator() {}
+void SkyMap::drawGLEcliptic() {}
+void SkyMap::drawGLConstellationNames( QFont& stdFont) {}
+void SkyMap::drawGLDeepSkyObjects() {}
+void SkyMap::drawGLDeepSkyCatalog( QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage) {}
+void SkyMap::drawGLPlanetTrail( KSPlanetBase *ksp) {}
+void SkyMap::drawGLSolarSystem( bool drawPlanets) {}
+void SkyMap::drawGLHorizon( QFont& stdFont) {}
+void SkyMap::drawGLAttachedLabels() {}
+void SkyMap::drawGLNameLabel( SkyObject *obj, int x, int y, double scale ) {}
+

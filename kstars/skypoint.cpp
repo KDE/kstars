@@ -26,6 +26,9 @@ void SkyPoint::set( dms r, dms d ) {
 	Dec0.set( d );
 	RA.set( r );
 	Dec.set( d );
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::set( double r, double d ) {
@@ -33,6 +36,9 @@ void SkyPoint::set( double r, double d ) {
 	Dec0.setD( d );
 	RA.setH( r );
 	Dec.setD( d );
+
+	//XYZ
+	setXYZ();
 }
 
 SkyPoint::~SkyPoint(){
@@ -95,6 +101,9 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 
 	RA.setRadians( LST->radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
@@ -135,6 +144,9 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const d
 	//newDec.setRadians( asin( sinDec ) );
 	RA.setRadians( RARad );
 	Dec.setRadians( asin(sinDec) );
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::precess( const KSNumbers *num) {
@@ -165,6 +177,9 @@ void SkyPoint::precess( const KSNumbers *num) {
 	} else if( v[1] < 0.0 ) {
 		RA.setD( RA.Degrees() + 360.0 );
 	}
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::nutate(const KSNumbers *num) {
@@ -194,6 +209,9 @@ void SkyPoint::nutate(const KSNumbers *num) {
 		dms newLong( EcLong.Degrees() + num->dEcLong() );
 		setFromEcliptic( num->obliquity(), &newLong, &EcLat );
 	}
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::aberrate(const KSNumbers *num) {
@@ -223,6 +241,9 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 
 	RA.setD( RA.Degrees() + dRA2.Degrees() );
 	Dec.setD( Dec.Degrees() + dDec2.Degrees() );
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ) {
@@ -236,6 +257,9 @@ void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat
 
 	if ( lat || LST )
 		kdWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects!" ) << endl;
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
@@ -319,6 +343,8 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 		return;
 	} 
 
+	//XYZ
+	setXYZ();
 }
 
 /** No descriptions */
@@ -332,6 +358,9 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf){
 	aberrate(num);
 
 	delete num;
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::Equatorial1950ToGalactic(void) {
@@ -374,6 +403,9 @@ void SkyPoint::GalacticToEquatorial1950(void) {
 //	raHourCoord = dms( raCoord.Hours() );
 
 	Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::B1950ToJ2000(void) {
@@ -422,6 +454,9 @@ void SkyPoint::B1950ToJ2000(void) {
 	Dec.setRadians( asin( v[2] ) );
 
 	delete num;
+
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::J2000ToB1950(void) {
@@ -473,6 +508,9 @@ void SkyPoint::J2000ToB1950(void) {
 	subtractEterms();
 
 	delete num;
+
+	//XYZ
+	setXYZ();
 }
 
 SkyPoint SkyPoint::Eterms(void) {
@@ -499,6 +537,8 @@ void SkyPoint::addEterms(void) {
 	RA.setD( RA.Degrees() + spd.ra()->Degrees() );
 	Dec.setD( Dec.Degrees() + spd.dec()->Degrees() );
 
+	//XYZ
+	setXYZ();
 }
 
 void SkyPoint::subtractEterms(void) {
@@ -507,6 +547,9 @@ void SkyPoint::subtractEterms(void) {
 
 	RA.setD( RA.Degrees() - spd.ra()->Degrees() );
 	Dec.setD( Dec.Degrees() - spd.dec()->Degrees() );
+
+	//XYZ
+	setXYZ();
 }
 
 dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
@@ -527,4 +570,27 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 	angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 	
 	return angDist;
+}
+
+//XYZ
+/**Determine X, Y, Z coordinates from current RA/Dec coordinates.  Assume a celestial sphere
+	*with (arbitrary) radius given by the RADIUS #define'd in skypoint.h (1.0).  RA=0, Dec=0 
+	*corresponds to (X,Y,Z)=(1,0,0); RA=6h, Dec=0 corresponds to (0,1,0). 
+	*/
+void SkyPoint::setXYZ() {
+	double rcos(0.0), rsin(0.0), dcos(0.0), dsin(0.0);
+	dms r( 360.0 - RA.Degrees() );
+	dms d( 90.0 - Dec.Degrees() );
+	r.SinCos( rsin, rcos );
+	d.SinCos( dsin, dcos );
+	
+	//note that dcos and dsin are reversed from the usual spherical coords, 
+	//because normal spherical coords use 90-dec for the vertical angle.
+	//RA is set to (360-RA) before computing X and Y because RA 
+	//increases to the East, which is right-to-left.
+	//Dec is set to (90-Dec) because the standard vertical angle in spherical 
+	//coordinates is the complement angle of astronomical declination.
+	X = RADIUS * rcos * dsin;
+	Y = RADIUS * rsin * dsin;
+	Z = RADIUS * dcos * -1.0;
 }
