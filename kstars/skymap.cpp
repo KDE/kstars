@@ -474,8 +474,9 @@ void SkyMap::slotTransientTimeout( void ) {
 		TransientTimer.stop();
 	} else { 
 		TransientColor.setRgb( newRed, newGreen, newBlue );
-		update();
 	}
+
+	update();
 }
 
 void SkyMap::slotCenter( void ) {

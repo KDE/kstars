@@ -247,6 +247,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	adv->useRefraction->setChecked( ksw->options()->useRefraction );
 	adv->animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 	adv->autoLabel->setChecked( ksw->options()->useAutoLabel );
+	adv->hoverLabel->setChecked( ksw->options()->useHoverLabel );
 
 	adv->hideObjects->setChecked( ksw->options()->hideOnSlew );
 	adv->hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
@@ -344,6 +345,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( adv->useRefraction, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->animateSlewing, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->autoLabel, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( adv->hoverLabel, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->hideSpinBox, SIGNAL( scaleChanged( float ) ), this, SLOT( changeSlewTimeScale( float ) ) );
 	connect( adv->hideObjects, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->hideStars, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
@@ -651,6 +653,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->useRefraction = adv->useRefraction->isChecked();
 	ksw->options()->useAnimatedSlewing = adv->animateSlewing->isChecked();
 	ksw->options()->useAutoLabel = adv->autoLabel->isChecked();
+	ksw->options()->useHoverLabel = adv->hoverLabel->isChecked();
 	ksw->options()->hideOnSlew = adv->hideObjects->isChecked();
 	ksw->options()->hideStars = adv->hideStars->isChecked();
 	ksw->options()->hidePlanets = adv->hidePlanets->isChecked();

@@ -65,6 +65,15 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 void SkyMap::drawTransientLabel( QPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );
+		
+		QFont stdFont( p.font() );
+		QFont smallFont( stdFont );
+		smallFont.setPointSize( stdFont.pointSize() - 2 );
+		if ( zoomFactor() < 10.*MINZOOM ) {
+			p.setFont( smallFont );
+		} else {
+			p.setFont( stdFont );
+		}
 
 		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
 			QPoint o = getXY( transientObject(), data->options->useAltAz, data->options->useRefraction, 1.0 );
@@ -72,6 +81,9 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
 			}
 		}
+
+		//reset font
+		p.setFont( stdFont );
 	}
 }
 

@@ -332,6 +332,7 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseAutoLabel", i18n( "Automatically attach name label to centered object?" ), i18n( "bool" ) );
+	new QListViewItem( opsSkymap, "UseHoverLabel", i18n( "Attach temporary name label when hovering mouse on an object?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "UseAutoTrail", i18n( "Automatically add trail to centered solar system body?" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "FadePlanetTrails", i18n( "Planet trails fade to sky color? (otherwise color is constant)" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "UseAltAz" );
@@ -342,6 +343,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "FOVColor" );
 	argChangeViewOption->OptionName->insertItem( "UseRefraction" );
 	argChangeViewOption->OptionName->insertItem( "UseAutoLabel" );
+	argChangeViewOption->OptionName->insertItem( "UseHoverLabel" );
 	argChangeViewOption->OptionName->insertItem( "UseAutoTrail" );
 	argChangeViewOption->OptionName->insertItem( "AnimateSlewing" );
 	argChangeViewOption->OptionName->insertItem( "FadePlanetTrails" );

@@ -154,6 +154,7 @@ class KStarsOptions {
 		bool useRefraction;
 		bool useAnimatedSlewing;
 		bool useAutoLabel;
+		bool useHoverLabel;
 		bool useAutoTrail;
 		bool fadePlanetTrails;
 		bool hideOnSlew;
