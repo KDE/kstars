@@ -465,6 +465,7 @@ void LocationDialog::clearFields( void ) {
 	nameModified = true;
 	dataModified = false;
 	AddCityButton->setEnabled( false );
+	NewCityName->setFocus();
 }
 
 void LocationDialog::showTZRules( void ) {
