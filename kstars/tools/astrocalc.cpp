@@ -2,8 +2,8 @@
                           astrocalc.cpp  -  description
                              -------------------
     begin                : wed dec 19 16:20:11 CET 2002
-    copyright            : (C) 2001-2002 by Pablo de Vicente
-    email                : vicente@oan.es
+    copyright            : (C) 2001-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -31,12 +31,12 @@
 #include "modcalceclipticcoords.h"
 #include "modcalcangdist.h"
 #include "modcalcequinox.h"
+#include "modcalcvlsr.h"
 
 #include <klocale.h>
 #include <qlistview.h>
 #include <qtextview.h>
 
-//#include <kapplication.h> ...already defined in astrocalc.h
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true, i18n("Calculator"), Close ),
@@ -70,18 +70,19 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * jdItem = new QListViewItem(timeItem,i18n("Julian Day"));
 	jdItem->setPixmap(0,jdIcon);
 
-	/*QListViewItem * stItem = */new QListViewItem(timeItem,i18n("Sidereal Time"));
-	/*QListViewItem * dayItem = */new QListViewItem(timeItem,i18n("Day Duration"));
-	/*QListViewItem * equinoxItem = */new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
+	new QListViewItem(timeItem,i18n("Sidereal Time"));
+	new QListViewItem(timeItem,i18n("Day Duration"));
+	new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
 //	dayItem->setPixmap(0,sunsetIcon);
 
 	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate Converters"));
-	/*QListViewItem * galItem = */new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
-	/*QListViewItem * precItem = */new QListViewItem(coordItem,i18n("Precession"));
-	/*QListViewItem * appItem = */new QListViewItem(coordItem,i18n("Apparent Coordinates"));
-	/*QListViewItem * azelItem = */new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
-	/*QListViewItem * eclItem = */new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
-	/*QListViewItem * angItem = */new QListViewItem(coordItem,i18n("Angular Distance"));
+	new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
+	new QListViewItem(coordItem,i18n("Precession"));
+	new QListViewItem(coordItem,i18n("Apparent Coordinates"));
+	new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
+	new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
+	new QListViewItem(coordItem,i18n("Angular Distance"));
+	new QListViewItem(coordItem,i18n("LSR Velocity"));
 
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
@@ -138,6 +139,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genPlanetsFrame();
 	if(!(election.compare(i18n("Angular Distance"))))
 		genAngDistFrame();
+	if(!(election.compare(i18n("LSR Velocity"))))
+		genVlsrFrame();
 
 		previousElection = election;
 
@@ -197,6 +200,9 @@ void AstroCalc::genCoordText(void)
 														 "</LI><LI>"
 														 "<B>Angular Distance:</B> Computation of angular distance between "
 														 "two objects whose positions are given in equatorial coordinates"
+														 "</LI><LI>"
+														 "<B>LRS Velocity:</B> Computation of the heliocentric, geocentric "
+														 "and topocentric radial velocity of a source from its LSR velocity"
 														 "</LI></UL>"
 														 "</QT>"));
 
@@ -272,6 +278,8 @@ void AstroCalc::delRightPanel(void)
 		delete PlanetsFrame;
 	else if (rightPanel == AngDist)
 		delete AngDistFrame;
+	else if (rightPanel == Vlsr)
+		delete VlsrFrame;
 
 }
 
@@ -357,6 +365,13 @@ void AstroCalc::genAngDistFrame(void)
 	delRightPanel();
 	AngDistFrame = new modCalcAngDist(split,"AngDist");
 	rightPanel = AngDist;
+}
+
+void AstroCalc::genVlsrFrame(void)
+{
+	delRightPanel();
+	VlsrFrame = new modCalcVlsr(split,"Vlsr");
+	rightPanel = Vlsr;
 }
 
 QSize AstroCalc::sizeHint() const

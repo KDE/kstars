@@ -47,6 +47,7 @@ class modCalcEquinox;
 class modCalcPlanets;
 class modCalcEclCoords;
 class modCalcAngDist;
+class modCalcVlsr;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -111,6 +112,9 @@ Q_OBJECT
 		
 		/**Generate frame for angular distances frame. */
 		void genAngDistFrame(void);
+
+		/**Generate frame for Vlsr frame. */
+		void genVlsrFrame(void);
 		
 		/**remove whatever frame is loaded in the right panel. */
 		void delRightPanel(void);
@@ -133,7 +137,7 @@ Q_OBJECT
 		QVBox *vbox, *rightBox;
 		QString previousElection;
 
-		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist};
+		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist, Vlsr};
 		typeOfPanel rightPanel;
 
 		modCalcJD *JDFrame;
@@ -148,6 +152,7 @@ Q_OBJECT
 		modCalcEquinox *EquinoxFrame;
 		modCalcEclCoords *EclFrame;
 		modCalcAngDist *AngDistFrame;
+		modCalcVlsr *VlsrFrame;
 };
 
 #endif

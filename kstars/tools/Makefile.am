@@ -17,7 +17,7 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 	argsetportindi.ui argsettargetcoordindi.ui argsettargetnameindi.ui argsetactionindi.ui \
 	argsetfocusspeedindi.ui argstartfocusindi.ui argsetfocustimeoutindi.ui argsetgeolocationindi.ui \
 	argstartexposureindi.ui argsetutcindi.ui argsetframetypeindi.ui argsetscopeactionindi.ui \
-	argsetccdtempindi.ui
+	argsetccdtempindi.ui modcalcvlsrdlg.ui modcalcvlsr.cpp
 
 INCLUDES= -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 
