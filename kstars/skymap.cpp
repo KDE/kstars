@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 
 #include <kconfig.h>
 #include <kiconloader.h>
@@ -98,7 +100,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	IBoxes->timeBox()->setAnchorFlag( ksw->options()->stickyTimeBox );
 	IBoxes->geoBox()->setAnchorFlag( ksw->options()->stickyGeoBox );
 	IBoxes->focusBox()->setAnchorFlag( ksw->options()->stickyFocusBox );
-	
+
 	IBoxes->geoChanged( ksw->geo() );
 
 	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveTimeBoxShaded(bool) ) );
@@ -107,7 +109,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveTimeBoxPos(QPoint) ) );
 	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveGeoBoxPos(QPoint) ) );
 	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveFocusBoxPos(QPoint) ) );
-	
+
 	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
 	//Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
@@ -127,7 +129,7 @@ SkyMap::~SkyMap() {
 	if ( sky ) delete sky;
 	if ( pmenu ) delete pmenu;
 	if ( IBoxes ) delete IBoxes;
-	
+
 //delete any remaining object Image pointers
 	for ( SkyObject *obj = ksw->data()->deepSkyListMessier.first(); obj; obj = ksw->data()->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
@@ -167,7 +169,7 @@ void SkyMap::showFocusCoords( void ) {
 	}
 
 	infoBoxes()->focusObjChanged(oname);
-	
+
 	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) {
 		SkyPoint corrFocus( *(focus()) );
 		corrFocus.setAlt( refract( focus()->alt(), false ) );
@@ -187,7 +189,7 @@ void SkyMap::slotCenter( void ) {
 		((KSPlanetBase*)focusObject())->clearTrail();
 		ksw->data()->temporaryTrail = false;
 	}
- 
+
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
@@ -204,7 +206,7 @@ void SkyMap::slotCenter( void ) {
 			return;
 		}
 	}
-	
+
 //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFocusObject( ClickedObject );
@@ -212,9 +214,9 @@ void SkyMap::slotCenter( void ) {
 	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
-	if ( focusObject() && ksw->data()->isSolarSystem( focusObject() ) 
-			&& ksw->options()->useAutoTrail  
-			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) { 
+	if ( focusObject() && ksw->data()->isSolarSystem( focusObject() )
+			&& ksw->options()->useAutoTrail
+			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
 		((KSPlanetBase*)focusObject())->addToTrail();
 		ksw->data()->temporaryTrail = true;
 	}
@@ -248,17 +250,35 @@ void SkyMap::slotCenter( void ) {
 void SkyMap::slotDSS( void ) {
 	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+	dms ra(0.0), dec(0.0);
 	QString RAString, DecString;
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra()->hour(),
-																								 clickedPoint()->ra()->minute(),
-																								 clickedPoint()->ra()->second() );
-	decsgn = '+';
-	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->arcmin() );
-	int ds = abs( clickedPoint()->dec()->arcsec() );
 
+	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+	//if we clicked on empty sky, we need to precess to J2000.
+	if ( clickedObject() ) {
+		ra.setH( clickedObject()->ra0()->Hours() );
+		dec.setD( clickedObject()->dec0()->Degrees() );
+	} else {
+		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
+		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
+		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
+		clickedPoint()->precessFromAnyEpoch( ksw->data()->CurrentDate, J2000 );
+		ra.setH( clickedPoint()->ra()->Hours() );
+		dec.setD( clickedPoint()->dec()->Degrees() );
+
+		//restore coords from present epoch
+		clickedPoint()->setRA( clickedPoint()->ra0()->Hours() );
+		clickedPoint()->setDec( clickedPoint()->dec0()->Degrees() );
+	}
+
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+
+	decsgn = '+';
+	if ( dec.Degrees() < 0.0 ) decsgn = '-';
+	int dd = abs( dec.degree() );
+	int dm = abs( dec.arcmin() );
+	int ds = abs( dec.arcsec() );
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
 	//concat all the segments into the kview command line:
@@ -269,16 +289,35 @@ void SkyMap::slotDSS( void ) {
 void SkyMap::slotDSS2( void ) {
 	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=2r" );
 	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+	dms ra(0.0), dec(0.0);
 	QString RAString, DecString;
 	char decsgn;
-	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", clickedPoint()->ra()->hour(),
-																								 clickedPoint()->ra()->minute(),
-																								 clickedPoint()->ra()->second() );
+
+	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+	//if we clicked on empty sky, we need to precess to J2000.
+	if ( clickedObject() ) {
+		ra.setH( clickedObject()->ra0()->Hours() );
+		dec.setD( clickedObject()->dec0()->Degrees() );
+	} else {
+		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
+		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
+		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
+		clickedPoint()->precessFromAnyEpoch( ksw->data()->CurrentDate, J2000 );
+		ra.setH( clickedPoint()->ra()->Hours() );
+		dec.setD( clickedPoint()->dec()->Degrees() );
+
+		//restore coords from present epoch
+		clickedPoint()->setRA( clickedPoint()->ra0()->Hours() );
+		clickedPoint()->setDec( clickedPoint()->dec0()->Degrees() );
+	}
+
+	RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+
 	decsgn = '+';
-	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
-	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->arcmin() );
-	int ds = abs( clickedPoint()->dec()->arcsec() );
+	if ( dec.Degrees() < 0.0 ) decsgn = '-';
+	int dd = abs( dec.degree() );
+	int dm = abs( dec.arcmin() );
+	int ds = abs( dec.arcsec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -307,7 +346,7 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
 	for ( SkyObject *o = ksw->data()->ObjLabelList.first(); o; o = ksw->data()->ObjLabelList.next() ) {
 		if ( o == object ) return true;
 	}
-	
+
 	return false;
 }
 
@@ -319,7 +358,7 @@ void SkyMap::slotRemoveObjectLabel( void ) {
 			break;
 		}
 	}
-	
+
 	forceUpdate();
 }
 
@@ -414,13 +453,10 @@ void SkyMap::updateFocus() {
 					focusObject()->az()->Degrees() );
 			destination()->HorizontalToEquatorial( ksw->LST(), ksw->geo()->lat() );
 			setFocus( destination() );
-
-		} else if ( ksw->data()->isSolarSystem( focusObject() ) ) {
-			//Tracking on solar system body requires focus updates in both coord systems
+		} else {
+			//Tracking in equatorial coords
 			setDestination( focusObject() );
 			setFocus( destination() );
-		
-		} else { //tracking non-solar system object in equatorial; update alt/az
 			focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 		}
 	} else if ( ksw->options()->isTracking ) {
@@ -479,7 +515,7 @@ void SkyMap::slewFocus( void ) {
 			while ( r > step ) {
 				fX = dX / r;
 				fY = dY / r;
-		
+
 				if ( ksw->options()->useAltAz ) {
 					focus()->setAlt( focus()->alt()->Degrees() + fY*step );
 					focus()->setAz( focus()->az()->Degrees() + fX*step );
@@ -490,11 +526,11 @@ void SkyMap::slewFocus( void ) {
 					setFocus( &newFocus );
 					focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 				}
-	
+
 				slewing = true;
 				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
-	
+
 				if ( ksw->options()->useAltAz ) {
 					dX = destination()->az()->Degrees() - focus()->az()->Degrees();
 					dY = destination()->alt()->Degrees() - focus()->alt()->Degrees();
@@ -502,11 +538,11 @@ void SkyMap::slewFocus( void ) {
 					dX = destination()->ra()->Degrees() - focus()->ra()->Degrees();
 					dY = destination()->dec()->Degrees() - focus()->dec()->Degrees();
 				}
-		
+
 				//switch directions to go the short way around the celestial sphere, if necessary.
 				if ( dX < -180.0 ) dX = 360.0 + dX;
 				else if ( dX > 180.0 ) dX = -360.0 + dX;
-		
+
 				r = sqrt( dX*dX + dY*dY );
 			}
 		}
@@ -515,12 +551,12 @@ void SkyMap::slewFocus( void ) {
 		//set focus=destination.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
-		
+
 		if ( focusObject() )
 			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
-		
+
 		infoBoxes()->focusCoordChanged( ksw->map()->focus() );
-		
+
 		ksw->setHourAngle();
 		slewing = false;
 
@@ -567,7 +603,7 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 
 QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
 	QPoint p;
-	
+
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
@@ -575,7 +611,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	int Height = int( height() * scale );
 
 	double pscale = pixelScale[ ksw->options()->ZoomLevel ] * scale;
-	
+
 	if ( Horiz ) {
 		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
 		else Y = o->alt()->radians();
@@ -587,7 +623,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 		}
 
 		focus()->alt()->SinCos( sinY0, cosY0 );
-		
+
   } else {
 		if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
 			dX = 2*dms::PI + o->ra()->radians() - focus()->ra()->radians();
@@ -599,7 +635,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
   }
 
 	//Convert dX, Y coords to screen pixel coords.
-	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
+	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
 	//GNU version
 	sincos( dX, &sindX, &cosdX );
 	sincos( Y, &sinY, &cosY );
@@ -610,7 +646,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	sinY  = sin(Y);
 	cosY  = cos(Y);
 	#endif
-	
+
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
@@ -716,7 +752,7 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 		result.setD( alt->Degrees() + RefractCorr1[index] );
 	} else {
 		result.setD( alt->Degrees() + RefractCorr2[index] );
-	}	
+	}
 
 	return result;
 }
@@ -844,7 +880,7 @@ void SkyMap::addLink( void ) {
 			file.setName( locateLocal( "appdata", "myimage_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );		
+				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
 			} else {
@@ -883,7 +919,7 @@ bool SkyMap::setColors( QString filename ) {
   if ( ksw->options()->colorScheme()->load( filename ) ) {
     if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
       setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
-    
+
     forceUpdate();
     return true;
   } else {
