@@ -44,9 +44,9 @@ AddLinkDialog::AddLinkDialog( QWidget *parent )
 }
 
 void AddLinkDialog::checkURL( void ) {
-	KURL url ( url() );
-	if (url.isValid()) {   //Is the string a valid URL?
-		kapp->invokeBrowser( url.url() );   //If so, launch the browser to see if it's the correct document
+	KURL _url ( url() );
+	if ( _url.isValid() ) {   //Is the string a valid URL?
+		kapp->invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
 		QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
 		QString caption = i18n( "Invalid URL" );
