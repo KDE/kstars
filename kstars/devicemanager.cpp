@@ -375,24 +375,22 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	XMLAtt *message;
 	XMLAtt *timestamp;
 
-	/* determine whether device or generic message
-	   
-	   FIXME: The policy now is that generic messages get posted in all windows but with
-	   different color and/or font as to get attention. Make this configurable. Also make it 
-	   configurable to automatically save all INDI logs.
-	 */
-	/*if (dp)*/
-	    txt_w = dp->msgST_w;
-	/*else
-	    txt_w = parent->msgST_w;*/
+        if (dp == NULL)
+	{
+	  kdDebug() << "Warning: dp is null." << endl;
+	  return;
+	}
+	
+	txt_w = dp->msgST_w;
 
 	/* prefix our timestamp if not with msg */
 	timestamp = findXMLAtt (msg, "timestamp");
+	
 	if (timestamp)
-            txt_w->insert(QString(valuXMLAtt(timestamp)) + QString(" "));
+	   txt_w->insert(QString(valuXMLAtt(timestamp)) + QString(" "));
 	else
 	   txt_w->insert( KStarsDateTime::currentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
-
+	
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");
 	

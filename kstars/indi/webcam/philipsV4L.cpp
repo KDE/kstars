@@ -81,7 +81,7 @@ extern int  timerCallBackID;
 int connectPhilips(const char * devpath,int preferedPalette)
 {
    //options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
-   options_= (haveBrightness|haveContrast|haveColor);
+   options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
    struct pwc_probe probe;
    bool IsPhilips = false;
    char errmsg[1024];
@@ -130,27 +130,19 @@ int connectPhilips(const char * devpath,int preferedPalette)
 	 
   if (IsPhilips)
       cerr << "Philips webcam type " << type_ << " detected" << endl;
-  // TODO enable this line again, we want to reject non-philips cameras
   else return -1;
     
-   //cerr << "In connect Cam with device " << devpath << endl;
-   
-   
-   
-#if 1
    cerr << "initial size w:" << window_.width << " -- h: " << window_.height << endl;
-#endif
-   //notifier_=NULL;
-   //timer_=NULL;
-   if (options_&ioUseSelect) {
+   
+   if (options_&ioUseSelect)
+   {
       selectCallBackID = addCallback(device_, updatePhilipsFrame, NULL);
        cerr << "Using select() to wait new frames." << endl;
-   } else {
-      //timer_=new QTimer(this);
+   }
+   else
+   {
       usingTimer = true;
       timerCallBackID = addTimer(1000/frameRate_, callPhilipsFrame, NULL);
-      //connect(timer_,SIGNAL(timeout()),this,SLOT(updateFrame()));
-      //timer_->start(1000/frameRate_) ; // value 0 => called every time event loop is empty
       cerr << "Using timer to wait new frames.\n";
    }
    mmap_buffer_=NULL;

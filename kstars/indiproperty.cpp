@@ -377,7 +377,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	 // INDI STD, but we use our own controls
 	 if (name == "TIME")
 	 {
-	        setupSetButton("Set Time...");
+	        setupSetButton("Time");
 	     	QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
 	 }
 	 else

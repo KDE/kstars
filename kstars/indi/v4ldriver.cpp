@@ -595,7 +595,11 @@ int checkPowerS(ISwitchVectorProperty *sp)
 {
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->label);
+    if (!strcmp(sp->label, ""))
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->name);
+    else
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->label);
+    
     sp->s = IPS_IDLE;
     IDSetSwitch(sp, NULL);
     return -1;
@@ -609,7 +613,11 @@ int checkPowerN(INumberVectorProperty *np)
    
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
+    if (!strcmp(np->label, ""))
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->name);
+    else
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
+	
     np->s = IPS_IDLE;
     IDSetNumber(np, NULL);
     return -1;
@@ -623,7 +631,11 @@ int checkPowerT(ITextVectorProperty *tp)
 
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
+    if (!strcmp(tp->label, ""))
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->name);
+    else
+        IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
+	
     tp->s = IPS_IDLE;
     IDSetText(tp, NULL);
     return -1;

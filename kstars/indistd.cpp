@@ -83,6 +83,7 @@
 void INDIStdDevice::establishDataChannel(QString host, int port)
 {
         QString errMsg;
+	int conResult = -1;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
 	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
@@ -98,11 +99,17 @@ void INDIStdDevice::establishDataChannel(QString host, int port)
 	 return;
 	}
 
-	if ( ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
+	for (int i=0; i < 3; i++)
 	{
-	  KMessageBox::error(0, errMsg);
-	  streamFD = -1;
-	  return;
+		if ( (conResult = ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin))) == 0)
+		  break;
+	}
+	
+	if (conResult == -1)
+	{
+		KMessageBox::error(0, errMsg);
+		streamFD = -1;
+		return;
 	}
 
 	if (lzo_init() != LZO_E_OK)

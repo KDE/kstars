@@ -115,89 +115,11 @@ if (dev && strcmp (thisDevice, dev))
 void LX200_16::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 
-        double UTCOffset;
-	struct tm *ltp = new tm;
-	struct tm utm;
-	time_t ltime;
-	time (&ltime);
-	localtime_r (&ltime, ltp);
-	IText *tp;
-	int err;
-
 	// ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
 
-	// suppress warning
-	n=n;
-
-	if (!strcmp (name, Time.name))
-       {
-	  if (checkPower(&Time))
-	   return;
-
-	  if (extractISOTime(texts[0], &utm) < 0)
-	  {
-	    Time.s = IPS_IDLE;
-	    IDSetText(&Time , "Time invalid");
-	    return;
-	  }
-	        utm.tm_mon   += 1;
-		ltp->tm_mon  += 1;
-		utm.tm_year  += 1900;
-		ltp->tm_year += 1900;
-
-	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
-
-		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset += 24;
-
-		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-		
-		if ( ( err = setUTCOffset(UTCOffset) < 0) )
-	  	{
-	        Time.s = IPS_IDLE;
-	        IDSetText( &Time , "Setting UTC Offset failed.");
-		return;
-	  	}
-		
-		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
-	  	{
-	          handleError(&Time, err, "Setting local time");
-        	  return;
-	  	}
-
-		tp = IUFindText(&Time, names[0]);
-		if (!tp)
-		 return;
-		tp->text = new char[strlen(texts[0])+1];
-	        strcpy(tp->text, texts[0]);
-		Time.s = IPS_OK;
-
-		// update JD
-                JD = UTtoJD(&utm);
-
-		IDLog("New JD is %f\n", (float) JD);
-
-		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
-		    (localTM->tm_year == ltp->tm_year))
-		{
-		  IDSetText(&Time , "Time updated to %s", texts[0]);
-		  return;
-		}
-
-		localTM = ltp;
-		
-		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
-	  	{
-		  handleError(&Time, err, "Setting local time");
-		  return;
-		}
-		
- 		IDSetText(&Time , "Date changed, updating planetary data...");
-	}
-
-   LX200Autostar::ISNewText (dev, name, texts, names,  n);
+        LX200Autostar::ISNewText (dev, name, texts, names,  n);
 
 }
 
@@ -206,9 +128,6 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
   double newAlt=0, newAz=0;
   char altStr[64], azStr[64];
   int err;
-
-
-  LX200Autostar::ISNewNumber (dev, name, values, names, n);
 
   // ignore if not ours //
   if (strcmp (dev, thisDevice))
@@ -253,23 +172,20 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 
 	       IDSetNumber (&horNum, "Attempting to slew to Alt %s - Az %s", altStr, azStr);
 	       handleAltAzSlew();
-	    }
-	    else
-	    {
-	        horNum.s = IPS_ALERT;
-		IDSetNumber (&horNum, "Error setting coordinates.");
-            }
-
-	    return;
-
-	   } // end nset
-	   else
-	   {
+	  }
+	  else
+	  {
 		horNum.s = IPS_IDLE;
 		IDSetNumber(&horNum, "Altitude or Azimuth missing or invalid");
-	   }
-
+	  }
+	
+	  return;  
     }
+
+    LX200Autostar::ISNewNumber (dev, name, values, names, n);
+}
+    
+
 
 
 void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
@@ -280,9 +196,6 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 
   if (strcmp (dev, thisDevice))
     return;
-
-   // process parent
-   LX200Autostar::ISNewSwitch (dev, name, states, names, n);
 
    if (!strcmp(name, FanStatusSw.name))
    {
@@ -347,6 +260,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 	  return;
    }
 
+    LX200Autostar::ISNewSwitch (dev, name, states, names, n);
 
 }
 

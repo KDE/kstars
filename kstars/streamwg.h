@@ -85,7 +85,5 @@
      void paintEvent(QPaintEvent *ev);
      
 };
- 
- #endif
 
- 
+#endif

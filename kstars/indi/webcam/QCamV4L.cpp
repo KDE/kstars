@@ -473,6 +473,9 @@ void disconnectCam()
    delete VBuf;
    tmpBuffer_ = YBuf = UBuf = VBuf = NULL;
    
+   if (selectCallBackID != -1)
+     rmCallback(selectCallBackID);
+     
    if (usingTimer && timerCallBackID != -1)
      rmTimer(timerCallBackID);
      

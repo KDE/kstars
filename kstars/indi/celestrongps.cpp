@@ -535,7 +535,11 @@ int CelestronGPS::checkPower(ISwitchVectorProperty *sp)
 {
   if (PowerSw.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", sp->label);
+    if (!strcmp(sp->label, ""))
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", sp->name);
+    else
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", sp->label);
+       
     sp->s = IPS_IDLE;
     IDSetSwitch(sp, NULL);
     return -1;
@@ -548,7 +552,11 @@ int CelestronGPS::checkPower(INumberVectorProperty *np)
 {
   if (PowerSw.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", np->label);
+    if (!strcmp(np->label, ""))
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", np->name);
+    else
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", np->label);
+       
     np->s = IPS_IDLE;
     IDSetNumber(np, NULL);
     return -1;
@@ -561,7 +569,11 @@ int CelestronGPS::checkPower(ITextVectorProperty *tp)
 
   if (PowerSw.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", tp->label);
+    if (!strcmp(tp->label, ""))
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", tp->name);
+    else
+       IDMessage (mydev, "Cannot change property %s while the telescope is offline.", tp->label);
+       
     tp->s = IPS_IDLE;
     IDSetText(tp, NULL);
     return -1;

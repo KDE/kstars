@@ -52,7 +52,7 @@ class LX200Generic
  void getAlignment();
  int handleCoordSet();
  int getOnSwitch(ISwitchVectorProperty *sp);
- void setCurrectDeviceName(const char * devName);
+ void setCurrentDeviceName(const char * devName);
  void correctFault();
  
 

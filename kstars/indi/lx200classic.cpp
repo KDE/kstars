@@ -30,7 +30,7 @@ extern INumberVectorProperty eqNum;
 extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
-#define BASIC_GROUP	"Basic Data"
+#define BASIC_GROUP	"Main Control"
 #define LIBRARY_GROUP	"Library"
 #define MOVE_GROUP	"Movement Control"
 
@@ -160,9 +160,7 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 
       int index=0;
       
-      IDLog("The device name is %s\n", dev);
-      
-      // ignore if not ours //
+       // ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
       

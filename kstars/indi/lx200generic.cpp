@@ -206,7 +206,7 @@ void ISInit()
      changeAllDeviceNames("LX200 Classic");
      // 2. device = sub_class
      telescope = new LX200Classic();
-     telescope->setCurrectDeviceName("LX200 Classic");
+     telescope->setCurrentDeviceName("LX200 Classic");
 
      MaxReticleFlashRate = 3;
   }
@@ -218,7 +218,7 @@ void ISInit()
      changeAllDeviceNames("LX200 GPS");
      // 2. device = sub_class
      telescope = new LX200GPS();
-     telescope->setCurrectDeviceName("LX200 GPS");
+     telescope->setCurrentDeviceName("LX200 GPS");
 
      MaxReticleFlashRate = 9;
   }
@@ -230,7 +230,7 @@ void ISInit()
     changeAllDeviceNames("LX200 16");
     // 2. device = sub_class
    telescope = new LX200_16();
-   telescope->setCurrectDeviceName("LX200 16");
+   telescope->setCurrentDeviceName("LX200 16");
 
    MaxReticleFlashRate = 3;
  }
@@ -242,7 +242,7 @@ void ISInit()
    changeAllDeviceNames("LX200 Autostar");
    // 2. device = sub_class
    telescope = new LX200Autostar();
-   telescope->setCurrectDeviceName("LX200 Autostar");
+   telescope->setCurrentDeviceName("LX200 Autostar");
 
    MaxReticleFlashRate = 9;
  }
@@ -250,7 +250,7 @@ void ISInit()
  else
  {
   telescope = new LX200Generic();
-  telescope->setCurrectDeviceName("LX200 Generic");
+  telescope->setCurrentDeviceName("LX200 Generic");
  }
 
 }
@@ -300,7 +300,7 @@ LX200Generic::LX200Generic()
    IDLog("initilizaing from generic LX200 device...\n");
 }
 
-void LX200Generic::setCurrectDeviceName(const char * devName)
+void LX200Generic::setCurrentDeviceName(const char * devName)
 {
   strcpy(thisDevice, devName);
 
@@ -1569,7 +1569,11 @@ int LX200Generic::checkPower(ISwitchVectorProperty *sp)
 {
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", sp->label);
+    if (!strcmp(sp->label, ""))
+    	IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", sp->name);
+    else
+        IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", sp->label);
+	
     sp->s = IPS_IDLE;
     IDSetSwitch(sp, NULL);
     return -1;
@@ -1583,7 +1587,12 @@ int LX200Generic::checkPower(INumberVectorProperty *np)
 
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", np->label);
+    
+    if (!strcmp(np->label, ""))
+    	IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", np->name);
+    else
+        IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", np->label);
+	
     np->s = IPS_IDLE;
     IDSetNumber(np, NULL);
     return -1;
@@ -1598,7 +1607,11 @@ int LX200Generic::checkPower(ITextVectorProperty *tp)
 
   if (PowerSP.s != IPS_OK)
   {
-    IDMessage (mydev, "Cannot change property %s while the telescope is offline.", tp->label);
+    if (!strcmp(tp->label, ""))
+    	IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", tp->name);
+    else
+        IDMessage (thisDevice, "Cannot change property %s while the telescope is offline.", tp->label);
+	
     tp->s = IPS_IDLE;
     IDSetText(tp, NULL);
     return -1;
