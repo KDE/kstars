@@ -58,15 +58,11 @@ QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() {
-	starFileReader = 0;
-	Moon = 0;
-	jmoons = 0;
-	initTimer = 0L;
+KStarsData::KStarsData() : stdDirs(0), locale(0), initTimer(0), 
+		starFileReader(0), source(0), loader(0), pump(0),
+		LST(0), HourAngle(0), PCat(0), Moon(0), jmoons(0)
+{
 	startupComplete = false;
-	source = 0;
-	loader = 0;
-	pump = 0;
 	objects++;
 
 	//standard directories and locale objects
@@ -79,13 +75,10 @@ KStarsData::KStarsData() {
 	if ( QFile( fname ).exists() ) useDefaultOptions = false;
 	else useDefaultOptions = true;
 
-	//Instantiate the SimClock object
-	Clock = new SimClock();
-
-	//Sidereal Time and Hour Angle objects
+	//Instantiate LST and HourAngle
 	LST = new dms();
 	HourAngle = new dms();
-
+	
 	//Instantiate planet catalog
 	PCat = new PlanetCatalog(this);
 
@@ -156,11 +149,8 @@ KStarsData::~KStarsData() {
 	// all lists are set to AutoDelete = true
 
 	delete stdDirs;
-	delete Clock;
 	delete Moon;
 	delete locale;
-	delete LST;
-	delete HourAngle;
 	delete PCat;
 	delete jmoons;
 	delete initTimer;
@@ -1817,7 +1807,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
 	//If Clock is in Manual Mode, always update. (?)
-	if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || Clock->isManualMode() ) {
+	if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || clock()->isManualMode() ) {
 		LastSkyUpdate = ut();
 
 		//Recompute Alt, Az coords for all objects
@@ -1952,7 +1942,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//Update focus
 		skymap->updateFocus();
 
-		if ( Clock->isManualMode() )
+		if ( clock()->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
 		else skymap->forceUpdate();
 	}

@@ -401,23 +401,26 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		SkyMap *skymap;
 
-		FindDialog *findDialog;
+		QWidget *centralWidget;
+		QVBoxLayout *topLayout;
+
 		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
 
 		ToggleAction *actCoordSys;
 		KActionMenu *colorActionMenu, *fovActionMenu;
-		QWidget *centralWidget;
-		QVBoxLayout *topLayout;
-
+		
 		KDialogBase *AAVSODialog;
+		FindDialog *findDialog;
+		KSNewStuff *kns;
+		
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
-		imagesequence *indiseq;		/* We need imgsequence here because it runs in batch mode */
-		KSNewStuff *kns;
+		imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
 
 		int idSpinBox;
 		bool DialogIsObsolete;
+		
 		QPalette OriginalPalette, DarkPalette;
 
 		class privatedata;

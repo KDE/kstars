@@ -42,8 +42,11 @@
 
 KStars::KStars( bool doSplash ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
-	skymap(0), findDialog(0), centralWidget(0),
-	AAVSODialog(0), kns(0), DialogIsObsolete(false)
+	centralWidget(0), skymap(0), viewToolBar(0), TimeStep(0), topLayout(0),
+	actCoordSys(0), colorActionMenu(0), fovActionMenu(0),
+	findDialog(0), AAVSODialog(0), kns(0), 
+	indimenu(0), indidriver(0), indiseq(0),
+	DialogIsObsolete(false)
 {
 	pd = new privatedata(this);
 
@@ -126,13 +129,15 @@ KStars::~KStars()
 	delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
-
+	delete indiseq;
+	
 	skymap = 0;
 	pd = 0;
 	centralWidget = 0;
 	AAVSODialog = 0;
 	indimenu = 0;
 	indidriver = 0;
+	indiseq = 0;
 }
 
 KStars::privatedata::~privatedata() {

@@ -28,7 +28,9 @@
 
 InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 		QPoint gp, bool gshade, QPoint fp, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) {
+		QColor colorText, QColor colorGrab, QColor colorBG ) :
+		GeoBox(0), TimeBox(0), FocusBox(0)
+{
 
 	int tx = tp.x();
 	int ty = tp.y();

@@ -89,9 +89,9 @@ public:
 	DeepSkyObject( DeepSkyObject &o );
 
 /**
-	*Destructor (empty)
+	*Destructor 
 	*/
-	~DeepSkyObject() {};
+	~DeepSkyObject() { if ( Image ) { deleteImage(); } }
 
 /**@enum CATALOG
 	*The catalog ID of the DeepSkyObject.

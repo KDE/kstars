@@ -51,19 +51,18 @@
 #include "starobject.h"
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
- : QWidget (parent,name), computeSkymap(true), data(d), IBoxes(0), 
-		ClickedObject(0), FocusObject(0), TransientObject(0)
+ : QWidget (parent,name), computeSkymap(true), 
+		ksw(0), data(d), pmenu(0), sky(0), IBoxes(0), starpix(0),
+		ClickedObject(0), FocusObject(0), TransientObject(0),
+		pts(0), sp(0)
 {
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;
+	
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
 
 	ZoomRect = QRect();
-
-//DEBUG
-	dumpHorizon = false;
-//END_DEBUG
 
 	setDefaultMouseCursor();	// set the cross cursor
 
@@ -137,7 +136,8 @@ SkyMap::~SkyMap() {
 	delete pmenu;
 	delete IBoxes;
 
-//delete any remaining object Image pointers
+//Deprecated...DeepSkyObject dtor now handles this itself.
+/*//delete any remaining object Image pointers
 	for ( DeepSkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
 		if ( obj->image() ) obj->deleteImage();
   }
@@ -149,7 +149,7 @@ SkyMap::~SkyMap() {
   }
 	for ( DeepSkyObject *obj = data->deepSkyListOther.first(); obj; obj = data->deepSkyListOther.next() ) {
 		if ( obj->image() ) obj->deleteImage();
-  }
+  }*/
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {

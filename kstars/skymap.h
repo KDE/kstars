@@ -920,13 +920,14 @@ private:
 	double XRange, Ymax;
 	double guideXRange;
 
+	QString sURL;
+	
 	KStars *ksw;
 	KStarsData *data;
-	QString sURL;
 	KSPopupMenu *pmenu;
 	QPixmap *sky;
-	InfoBoxes   *IBoxes;
-	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint, HoverPoint;
+	InfoBoxes  *IBoxes;
+	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
 	SkyObject *ClickedObject, *FocusObject, *TransientObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
@@ -940,10 +941,6 @@ private:
 	QTimer TransientTimer, HoverTimer;
 	QColor TransientColor;
 	unsigned int TransientTimeout;
-
-//DEBUG
-	bool dumpHorizon;
-//END_DEBUG
 };
 
 #endif

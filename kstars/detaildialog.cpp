@@ -41,15 +41,10 @@
 #include "ksmoon.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), 
-		Close, Close, parent, name ) {
-
-	selectedObject = o;
-	ksw = (KStars*) parent;
-
-//	//DEBUG
-//	kdDebug() << "Details for: " << selectedObject->name() << endl;
-
+		QWidget *parent, const char *name ) : 
+		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
+		selectedObject(o), ksw((KStars*)parent)
+{
 	createGeneralTab( ut, geo );
 	createLinksTab();
 	createAdvancedTab();

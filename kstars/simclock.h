@@ -46,7 +46,7 @@ class SimClock : public QObject, public SimClockInterface {
 		SimClock(const SimClock &old);
 
 	/**@return const reference to the current simulation Universal Time. */
-		const KStarsDateTime& utc();
+		const KStarsDateTime& utc() const { return UTC; }
 
 	/**Whether the clock is active or not is a bit complicated by the
 		*introduction of "manual mode".  In manual mode, SimClock's internal timer

@@ -256,16 +256,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			update();
 			break;
 
-//DUMP_HORIZON
-/*
-		case Key_X: //Spit out coords of horizon polygon
-			dumpHorizon = true;
-			break;
-*/
-//END_DUMP_HORIZON
-
 //TIMING
-
 		case Key_T: //loop through all objects, get Sin, Cos, Rad
 		{
 

@@ -438,7 +438,7 @@ public:
 	
 	/**@return reference to the current simulation universal time
 		*/
-	const KStarsDateTime& ut() const { return Clock->utc(); }
+	const KStarsDateTime& ut() const { return Clock.utc(); }
 	
 	/**Sync the LST with the simulation clock.
 		*/
@@ -457,7 +457,7 @@ public:
 	
 	/**@return pointer to the simulation Clock object
 		*/
-	SimClock *clock() { return Clock; }
+	SimClock *clock() { return &Clock; }
 	
 	/**@return pointer to the local sidereal time: a dms object
 		*/
@@ -636,8 +636,6 @@ private:
 /*	bool openSAOFile(int i);*/
 	bool openStarFile(int i);
 
-	KSFileReader *starFileReader;
-
 	static QPtrList<GeoLocation> geoList;
 	QPtrList<SkyObject> objList;
 
@@ -680,7 +678,7 @@ private:
 	static QMap<QString, TimeZoneRule> Rulebook;
 
 	GeoLocation Geo;
-	SimClock *Clock;
+	SimClock Clock;
 	ColorScheme CScheme;
 
 	KStarsDateTime LTime;
@@ -700,13 +698,13 @@ private:
 	KSMoon *Moon;
 	JupiterMoons *jmoons;
 
+	KSFileReader *starFileReader;
+
 	FOV fovSymbol;
 
 	double Obliquity, dObliq, dEcLong;
 	KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
 	KStarsDateTime NextDSTChange;
-
-	KStars *kstars; //pointer to the parent widget
 
 	QTimer *initTimer;
 	int initCounter;

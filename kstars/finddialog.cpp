@@ -33,9 +33,11 @@
 #include "objectnamelist.h"
 
 
-FindDialog::FindDialog( QWidget* parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ) {
-
+FindDialog::FindDialog( QWidget* parent ) :
+		KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ),
+		vlay(0), hlay(0), SearchList(0), SearchBox(0), filterTypeLabel(0), filterType(0),
+		currentitem(0)
+{
 	QFrame *page = plainPage();
 
 //Create Layout managers

@@ -110,10 +110,6 @@ void SimClock::manualTick( bool force ) {
 	} else if ( ! ManualMode ) tick();
 }
 
-const KStarsDateTime& SimClock::utc() {
-	return UTC;
-}
-
 bool SimClock::isActive() {
 	if ( ManualMode ) return ManualActive;
 	else return tmr.isActive();
