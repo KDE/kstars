@@ -1,18 +1,23 @@
 INCLUDES = 
 METASOURCES = AUTO
-noinst_LIBRARIES =  libfli.a
 
 if LINUX
-  linux_para = libfli-parport.c
-  linux_usb  = libfli-usb-sys-linux.c
+libfli_linux   = libfli_linux.la
 endif
 
 if BSD
-  bsd_usb    = libfli-usb-sys-bsd.c
+libfli_bsd     = libfli_bsd.la
 endif
 
 if NULL
-  null_usb   = libfli-usb-sys-null.c
+libfli_null    = libfli_null.la
 endif
 
-libfli_a_SOURCES =  libfli.c libfli-camera.c libfli-camera-parport.c libfli-camera-usb.c libfli-filter-focuser.c libfli-mem.c libfli-serial.c libfli-sys.c libfli-usb.c libfli-debug.c $(linux_para) $(linux_usb) $(bsd_usb) $(null_usb)
+noinst_LTLIBRARIES =  libfli.la $(libfli_linux) $(libfli_bsd) $(libfli_null)
+
+libfli_linux_la_SOURCES = libfli-parport.c libfli-usb-sys-linux.c
+libfli_bsd_la_SOURCES = libfli-usb-sys-bsd.c
+libfli_null_la_SOURCES = libfli-usb-sys-null.c
+
+libfli_la_SOURCES = libfli.c libfli-camera.c libfli-camera-parport.c libfli-camera-usb.c libfli-filter-focuser.c libfli-mem.c libfli-serial.c libfli-sys.c libfli-usb.c libfli-debug.c
+libfli_la_LIBADD  = $(libfli_linux) $(libfli_bsd) $(libfli_null)

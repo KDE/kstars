@@ -1,18 +1,22 @@
-noinst_LIBRARIES =  libwebcam.a
-
 if LINUX
-   INDI_COMPILE = PPort.cpp port.cpp vcvt_c.c QCamV4L.cpp ccvt_mmx_old.S
-   INDI_FLAGS   = -DLINUX
+   libwebcam_linux = libwebcam_linux.la
 endif
 
 if BSD
-   INDI_COMPILE = dummy.cpp
+   libwebcam_bsd = libwebcam_null.la
 endif
 
 if NULL
-   INDI_COMPILE = dummy.cpp
+   libwebcam_null = libwebcam_null.la
 endif
 
-libwebcam_a_SOURCES = $(INDI_COMPILE)
+noinst_LTLIBRARIES = libwebcam.la $(libwebcam_linux) $(libwebcam_bsd) $(libwebcam_null)
 
-AM_CXXFLAGS = $(INDI_FLAGS)
+libwebcam_linux_la_SOURCES = PPort.cpp port.cpp vcvt_c.c QCamV4L.cpp ccvt_mmx_old.S
+libwebcam_null_la_SOURCES = dummy.cpp
+
+libwebcam_la_SOURCES = empty_file.cpp
+libwebcam_la_LIBADD = $(libwebcam_linux) $(libwebcam_bsd) $(libwebcam_null)
+
+empty_file.cpp:
+	echo > empty_file.cpp

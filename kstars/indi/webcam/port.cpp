@@ -37,7 +37,7 @@
 #include <sys/stat.h>
 #endif /* LOCKING */
 
-#if defined(LINUX)
+#ifdef __linux__
   #if defined(arm)
   #include <fcntl.h>
   #else

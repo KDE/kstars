@@ -15,10 +15,10 @@ celestrongps_SOURCES =  indidrivermain.c eventloop.c celestronprotocol.c celestr
 celestrongps_LDADD = liblilxml.a libindicom.a
 
 fliccd_SOURCES =  eventloop.c fli_ccd.c indidrivermain.c
-fliccd_LDADD = fli/libfli.a libindicom.a liblilxml.a -lm
+fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
 
 v4ldriver_SOURCES = eventloop.c indidrivermain.c v4ldriver.cpp
-v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.a
+v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml

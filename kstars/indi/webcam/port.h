@@ -34,7 +34,7 @@
 
 #include <unistd.h>
 
-#ifdef LINUX
+#ifdef __linux__
   #ifndef arm
   #include <sys/io.h>
   #endif /* !arm */
