@@ -560,7 +560,7 @@ void CelestronGPS::ISPoll()
 	currentRA = GetRA();
 	currentDEC = GetDec();
 
-        if ( fabs (currentRA - lastRA) > RA_THRESHOLD || fabs (currentDEC - lastDEC) > DEC_THRESHOLD)
+        if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
 	        eqNum.n[0].value = currentRA;
 		eqNum.n[1].value = currentDEC;
@@ -586,7 +586,7 @@ void CelestronGPS::ISPoll()
 	    eqNum.n[1].value = currentDEC;
 
 	    // Wait until acknowledged or within 3.6', change as desired.
-	    if (fabs(dx) <= 0.009 && fabs(dy) <= 0.05)
+	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
 	    {
 
 		currentRA = targetRA;
