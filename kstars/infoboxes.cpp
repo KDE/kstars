@@ -30,10 +30,10 @@ InfoBoxes::InfoBoxes( int w, int h ) {
 	TimeBox  = new InfoBox( 0, 0, "", "", "" );
 	FocusBox = new InfoBox( 0, 0, "", "", "" );
 
-	TimeBox->move( width(), 0 );
-	GeoBox->move( 0, height() );
-	TimeBox->setAnchorRight( true );
-	GeoBox->setAnchorBottom( true );
+	// set default positions
+	FocusBox->move( 0, 0 );
+	TimeBox->move( w, 0 );
+	GeoBox->move( 0, h );
 	resize( w, h );
 }
 
