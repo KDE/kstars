@@ -500,6 +500,11 @@ void KStars::privatedata::buildGUI() {
 	// 2nd parameter must be false, or plugActionList won't work!
 	ks->createGUI("kstarsui.rc", false);
 
+	//Do not show text on the view toolbar buttons
+	//FIXME: after strings freeze, remove this and make the 
+	//text of each button shorter
+	ks->toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
+
 	//Initialize show/hide state of toolbars.
 	//These were in initActions, but they must appear after createGUI...
 	if ( !ks->options()->showMainToolBar ) ks->toolBar( "mainToolBar" )->hide();
