@@ -48,6 +48,7 @@ int  writeFITS(char *filename, char errmsg[]);
 int  writeRAW (char *filename, char errmsg[]);
 int  findcam(flidomain_t domain);
 int  setImageArea(char errmsg[]);
+void getBasicData();
 int  manageDefaults(char errmsg[]);
 int  grabImage();
 int  findPort();
@@ -134,77 +135,77 @@ long int Domains[] = { FLIDOMAIN_USB, FLIDOMAIN_SERIAL, FLIDOMAIN_PARALLEL_PORT,
 /*INDI controls */
 
 /* Connect/Disconnect */
-static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONNECT", "Disconnect", ISS_ON}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS)};
+static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), 0, 0};
 
 /* Types of Ports */
-static ISwitch PortS[]           	= {{"USB", "", ISS_ON}, {"Serial", "", ISS_OFF}, {"Parallel", "", ISS_OFF}, {"INet", "", ISS_OFF}};
-static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PortS, NARRAY(PortS)};
+static ISwitch PortS[]           	= {{"USB", "", ISS_ON, 0, 0}, {"Serial", "", ISS_OFF, 0, 0}, {"Parallel", "", ISS_OFF, 0, 0}, {"INet", "", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PortS, NARRAY(PortS), 0, 0};
 
 /* Types of Frames */
-static ISwitch FrameTypeS[]		= { {"FRAME_LIGHT", "Light", ISS_ON}, {"FRAME_BIAS", "Bias", ISS_OFF}, {"FRAME_DARK", "Dark", ISS_OFF}, {"FRAME_FLAT", "Flat Field", ISS_OFF}};
-static ISwitchVectorProperty FrameTypeSP = { mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS)};
+static ISwitch FrameTypeS[]		= { {"FRAME_LIGHT", "Light", ISS_ON, 0, 0}, {"FRAME_BIAS", "Bias", ISS_OFF, 0, 0}, {"FRAME_DARK", "Dark", ISS_OFF, 0, 0}, {"FRAME_FLAT", "Flat Field", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty FrameTypeSP = { mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS), 0, 0};
 
 /* Images Prefix */
-static IText ImagePrefixT[]      	= {{"PREFIX", "Prefix"}};
-static ITextVectorProperty ImagePrefixTP= { mydev, "FILE_PREFIX", "Images Prefix", IMAGE_GROUP, IP_WO, 0, IPS_IDLE, ImagePrefixT, NARRAY(ImagePrefixT)};
+static IText ImagePrefixT[]      	= {{"PREFIX", "Prefix", 0, 0, 0, 0}};
+static ITextVectorProperty ImagePrefixTP= { mydev, "FILE_PREFIX", "Images Prefix", IMAGE_GROUP, IP_WO, 0, IPS_IDLE, ImagePrefixT, NARRAY(ImagePrefixT), 0, 0};
 
 /* Images Type */
-static ISwitch ImageFormatS[]		= {{ "FITS", "", ISS_ON}, { "RAW", "", ISS_OFF }};
-static ISwitchVectorProperty ImageFormatSP= { mydev, "IMAGE_FORMAT", "Image Format", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageFormatS, NARRAY(ImageFormatS)};
+static ISwitch ImageFormatS[]		= {{ "FITS", "", ISS_ON, 0, 0}, { "RAW", "", ISS_OFF, 0, 0 }};
+static ISwitchVectorProperty ImageFormatSP= { mydev, "IMAGE_FORMAT", "Image Format", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageFormatS, NARRAY(ImageFormatS), 0, 0};
 
 /* File Name */
-static IText FileNameT[]		= {{ "FILE", "File" }};
-static ITextVectorProperty FileNameTP	= { mydev, "FILE_NAME", "File name", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, FileNameT, NARRAY(FileNameT)};
+static IText FileNameT[]		= {{ "FILE", "File", 0, 0, 0, 0}};
+static ITextVectorProperty FileNameTP	= { mydev, "FILE_NAME", "File name", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, FileNameT, NARRAY(FileNameT), 0, 0};
 
 /* Frame coordinates. Full frame is default */
 static INumber FrameN[]          	= {
- { "X", "", "%.0f", 0.,     MAX_PIXELS, 1., 0.},
- { "Y", "", "%.0f", 0.,     MAX_PIXELS, 1., 0.},
- { "Width", "", "%.0f", 0., MAX_PIXELS, 1., 0.},
- { "Height", "", "%.0f",0., MAX_PIXELS, 1., 0.}};
- static INumberVectorProperty FrameNP = { mydev, "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, FrameN, NARRAY(FrameN)};
+ { "X", "", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "Y", "", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "Width", "", "%.0f", 0., MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "Height", "", "%.0f",0., MAX_PIXELS, 1., 0., 0, 0, 0}};
+ static INumberVectorProperty FrameNP = { mydev, "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, FrameN, NARRAY(FrameN), 0, 0};
  
  /* Binning */ 
  static INumber BinningN[]       = {
- { "HOR_BIN", "X", "%0.f", 1., MAX_X_BIN, 1., 1.},
- { "VER_BIN", "Y", "%0.f", 1., MAX_Y_BIN, 1., 1.}};
- static INumberVectorProperty BinningNP = { mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN)};
+ { "HOR_BIN", "X", "%0.f", 1., MAX_X_BIN, 1., 1., 0, 0, 0},
+ { "VER_BIN", "Y", "%0.f", 1., MAX_Y_BIN, 1., 1., 0, 0, 0}};
+ static INumberVectorProperty BinningNP = { mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), 0, 0};
  
  /* Exposure time */
-  static INumber ExposeTimeN[]    = {{ "EXPOSE_TIME_S", "Duration (s)", "%5.2f", 0., 59., .5, 1.}};
-  static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN)};
+  static INumber ExposeTimeN[]    = {{ "EXPOSE_TIME_S", "Duration (s)", "%5.2f", 0., 59., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), 0, 0};
  
  /* Number of Exposures */
  static INumber NumberOfExpN[]    = {
-  { "EXPOSURE_COUNT", "Count", "%.0f", 1. , 0., 0., 1.}};
-  static INumberVectorProperty NumberOfExpNP  = { mydev, "NUMBER_OF_EXPOSURES", "# of Exposures", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, NumberOfExpN, NARRAY(NumberOfExpN)};
+  { "EXPOSURE_COUNT", "Count", "%.0f", 1. , 0., 0., 1., 0, 0, 0}};
+  static INumberVectorProperty NumberOfExpNP  = { mydev, "NUMBER_OF_EXPOSURES", "# of Exposures", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, NumberOfExpN, NARRAY(NumberOfExpN), 0, 0};
   
  /* Delay between exposures */
- static INumber DelayN[]	  = { {"EXPOSURE_DELAY", "Delay", "%0.f", 0., 0., 0., 0.} };
- static INumberVectorProperty DelayNP = { mydev, "DELAY_BETWEEN_EXPOSURES", "Delay (s)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, DelayN, NARRAY(DelayN)};
+ static INumber DelayN[]	  = { {"EXPOSURE_DELAY", "Delay", "%0.f", 0., 0., 0., 0., 0, 0, 0} };
+ static INumberVectorProperty DelayNP = { mydev, "DELAY_BETWEEN_EXPOSURES", "Delay (s)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, DelayN, NARRAY(DelayN), 0, 0};
  
  /* Temperature control */
- static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0.}};
- static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN)};
+ static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
+ static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN), 0, 0};
  
  /* Expose progress */
- static INumber ExposeProgressN[] = { {"Time left", "", "%.0f", 0., 0., 0., 0.} };
- static INumberVectorProperty ExposeProgressNP  = { mydev, "Expose Progress (s)", "", EXPOSE_GROUP, IP_RO, 0, IPS_IDLE, ExposeProgressN, NARRAY(ExposeProgressN)};
+ static INumber ExposeProgressN[] = { {"Time left", "", "%.0f", 0., 0., 0., 0., 0, 0, 0} };
+ static INumberVectorProperty ExposeProgressNP  = { mydev, "Expose Progress (s)", "", EXPOSE_GROUP, IP_RO, 0, IPS_IDLE, ExposeProgressN, NARRAY(ExposeProgressN), 0, 0};
   
  /* Pixel size (µm) */
 static INumber PixelSizeN[] 	= {
-	{ "Width", "", "%.0f", 0. , 0., 0., 0.},
-	{ "Height", "", "%.0f", 0. , 0., 0., 0.}};
-static INumberVectorProperty PixelSizeNP = { mydev, "Pixel Size (µm)", "", DATA_GROUP, IP_RO, 0, IPS_IDLE, PixelSizeN, NARRAY(PixelSizeN)};
+	{ "Width", "", "%.0f", 0. , 0., 0., 0., 0, 0, 0},
+	{ "Height", "", "%.0f", 0. , 0., 0., 0., 0, 0, 0}};
+static INumberVectorProperty PixelSizeNP = { mydev, "Pixel Size (µm)", "", DATA_GROUP, IP_RO, 0, IPS_IDLE, PixelSizeN, NARRAY(PixelSizeN), 0, 0};
 
  /* Data channel */
-static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0.}};
-static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN)};
+static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0., 0, 0, 0}};
+static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
 
 /* Data type */
-static IText DataTypeT[]	= { "TYPE", "FILE" };
-static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT)};
+static IText DataTypeT[]	= { "TYPE", "FILE", 0, 0, 0, 0 };
+static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT), 0, 0};
 
 /* send client definitions of all properties */
 void ISInit()
