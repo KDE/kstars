@@ -258,6 +258,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			update();
 			break;
 
+			//FIXME: Uncomment after feature thaw!
+//		case Key_C: //Center clicked object object
+//			if ( clickedObject() ) slotCenter();
+//			break;
+
 		case Key_D: //Details window for Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) slotDetail();
