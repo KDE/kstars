@@ -145,6 +145,18 @@
             <property name="name">
                 <cstring>table</cstring>
             </property>
+            <property name="selectionMode" stdset="0">
+                <enum>Extended</enum>
+            </property>
+            <property name="allColumnsShowFocus">
+                <bool>true</bool>
+            </property>
+            <property name="showSortIndicator">
+                <bool>true</bool>
+            </property>
+            <property name="resizeMode">
+                <enum>AllColumns</enum>
+            </property>
         </widget>
         <widget class="QLabel">
             <property name="name">
