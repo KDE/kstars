@@ -127,6 +127,10 @@ void FOVDialog::slotEditFOV() {
 	NewFOV newfdlg( this );
 	//Preload current values
 	FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
+
+	if (!f)
+	 return;
+	 
 	newfdlg.ui->FOVName->setText( f->name() );
 	newfdlg.ui->FOVEdit->setText( QString("%1").arg( f->size(), 0, 'g', 3 ) );
 	newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );

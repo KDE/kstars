@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>NewFOVUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>370</width>
-            <height>439</height>
+            <width>421</width>
+            <height>413</height>
         </rect>
     </property>
     <property name="caption">
@@ -46,6 +46,9 @@
             <property name="name">
                 <cstring>tabWidget2</cstring>
             </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
             <widget class="QWidget">
                 <property name="name">
                     <cstring>tab</cstring>
@@ -53,182 +56,186 @@
                 <attribute name="title">
                     <string>Eyepiece</string>
                 </attribute>
-                <widget class="QLabel">
+                <vbox>
                     <property name="name">
-                        <cstring>textLabel5</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>11</y>
-                            <width>161</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>Telescope focal length:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel6_2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>273</x>
-                            <y>11</y>
-                            <width>59</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>&lt;i&gt;mm&lt;/i&gt;</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel7_2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>44</y>
-                            <width>161</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>Eyepiece focal length:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel8_2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>77</y>
-                            <width>161</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>Eyepiece FOV:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel6_2_2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>273</x>
-                            <y>44</y>
-                            <width>59</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>&lt;i&gt;mm&lt;/i&gt;</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer12</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>161</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>113</y>
-                            <width>161</width>
-                            <height>20</height>
-                        </rect>
-                    </property>
-                </spacer>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel6_2_2_2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>273</x>
-                            <y>77</y>
-                            <width>60</width>
-                            <height>22</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>&lt;i&gt;arcmin&lt;/i&gt;</string>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>TLength1</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>178</x>
-                            <y>11</y>
-                            <width>89</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>EyeLength</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>178</x>
-                            <y>44</y>
-                            <width>89</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>EyeFOV</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>178</x>
-                            <y>77</y>
-                            <width>89</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                </widget>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>ComputeEyeFOV</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>178</x>
-                            <y>110</y>
-                            <width>154</width>
-                            <height>27</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>Compute FOV</string>
-                    </property>
-                </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout16</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout11</cstring>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel5</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Telescope focal length:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel7_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Eyepiece focal length:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel8_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Eyepiece FOV:</string>
+                                        </property>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout15</cstring>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout12</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="KDoubleNumInput">
+                                                <property name="name">
+                                                    <cstring>TLength1</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>textLabel6_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout13</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="KDoubleNumInput">
+                                                <property name="name">
+                                                    <cstring>EyeLength</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>textLabel6_2_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout14</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="KDoubleNumInput">
+                                                <property name="name">
+                                                    <cstring>EyeFOV</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>textLabel6_2_2_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>&lt;i&gt;arcmin&lt;/i&gt;</string>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <spacer>
+                        <property name="name">
+                            <cstring>spacer8</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>21</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout14</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer12</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>152</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KPushButton">
+                                <property name="name">
+                                    <cstring>ComputeEyeFOV</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Compute FOV</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                </vbox>
             </widget>
             <widget class="QWidget">
                 <property name="name">
@@ -241,55 +248,32 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="KDoubleNumInput" row="1" column="1">
+                    <widget class="KPushButton" row="2" column="1">
                         <property name="name">
-                            <cstring>ChipSize</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="2">
-                        <property name="name">
-                            <cstring>textLabel6_2_3</cstring>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>60</width>
-                                <height>0</height>
-                            </size>
+                            <cstring>ComputeCameraFOV</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;i&gt;mm&lt;/i&gt;</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="1" column="2">
-                        <property name="name">
-                            <cstring>textLabel6_2_3_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&lt;i&gt;mm&lt;/i&gt;</string>
-                        </property>
-                    </widget>
-                    <widget class="KDoubleNumInput" row="0" column="1">
-                        <property name="name">
-                            <cstring>TLength2</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>textLabel5_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Telescope focal length:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="1" column="0">
-                        <property name="name">
-                            <cstring>textLabel9</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Chip/Film size:</string>
+                            <string>Compute FOV</string>
                         </property>
                     </widget>
                     <spacer row="2" column="0">
+                        <property name="name">
+                            <cstring>spacer13</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>180</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <spacer row="1" column="0">
                         <property name="name">
                             <cstring>spacer14</cstring>
                         </property>
@@ -302,11 +286,11 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>20</height>
+                                <height>22</height>
                             </size>
                         </property>
                     </spacer>
-                    <spacer row="2" column="1">
+                    <spacer row="1" column="1">
                         <property name="name">
                             <cstring>spacer15</cstring>
                         </property>
@@ -319,35 +303,108 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>16</height>
+                                <height>22</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="KPushButton" row="3" column="1" rowspan="1" colspan="2">
+                    <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>ComputeCameraFOV</cstring>
+                            <cstring>layout26</cstring>
                         </property>
-                        <property name="text">
-                            <string>Compute FOV</string>
-                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout25</cstring>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel5_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Telescope focal length:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel9</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Chip/Film size:</string>
+                                        </property>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout24</cstring>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout15</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="KDoubleNumInput">
+                                                <property name="name">
+                                                    <cstring>TLength2</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>textLabel6_2_3</cstring>
+                                                </property>
+                                                <property name="minimumSize">
+                                                    <size>
+                                                        <width>60</width>
+                                                        <height>0</height>
+                                                    </size>
+                                                </property>
+                                                <property name="text">
+                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout16</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="KDoubleNumInput">
+                                                <property name="name">
+                                                    <cstring>ChipSize</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>textLabel6_2_3_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                        </hbox>
                     </widget>
-                    <spacer row="3" column="0">
-                        <property name="name">
-                            <cstring>spacer13</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Horizontal</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>150</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
                 </grid>
             </widget>
         </widget>
@@ -466,23 +523,6 @@
                                 </widget>
                             </grid>
                         </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>16</height>
-                                </size>
-                            </property>
-                        </spacer>
                     </vbox>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -532,40 +572,24 @@
                                 <enum>Raised</enum>
                             </property>
                         </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer10</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
                     </vbox>
                 </widget>
             </hbox>
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>
