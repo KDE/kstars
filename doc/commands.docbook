@@ -1060,7 +1060,7 @@ location or object nearest the mouse cursor.
 </varlistentry>
 
 <varlistentry><term>Scrolling the mouse wheel</term>
-<listitem><para>Zoom the display in or out.  If you don't
+<listitem><para>Zoom the display in or out.  If you do not
 have a mouse wheel, you can hold the middle mouse button and
 drag vertically.
 </para></listitem>

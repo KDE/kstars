@@ -75,13 +75,13 @@ and Korea.  If you can contribute to this effort, please let us know.
 
 <qandaentry>
 <question>
-<para>Why can't I display the ground when using Equatorial Coordinates</para>
+<para>Why can I not display the ground when using Equatorial Coordinates</para>
 </question>
 <answer>
 <para>
 The short answer is, this is a temporary limitation.  There is a
 problem when constructing the filled polygon that represents the ground
-when in Equatorial mode.  However, it doesn't make too much sense to draw
+when in Equatorial mode.  However, it does not make too much sense to draw
 the ground in equatorial coordinates, which is why this fix has been given
 a low priority.
 </para>
@@ -111,7 +111,7 @@ and you can also configure which objects get hidden.
 
 <qandaentry>
 <question>
-<para>I don't understand all the terms used in &kstars;.  Where can I
+<para>I do not understand all the terms used in &kstars;.  Where can I
 learn more about the astronomy behind the program?</para>
 </question>
 <answer>
@@ -135,7 +135,7 @@ you'd like to contribute to AstroInfo, please join our mailing list:
 &kstars; is pretty accurate, but it is not (yet) as precise as it can
 possibly be.  The problem with high-precision calculations is that
 you start having to deal with a large number of complicating factors.
-If you aren't a professional astronomer, you'll probably never have a
+If you are not a professional astronomer, you will probably never have a
 problem with its accuracy or precision.
 </para>
 <para>
@@ -147,8 +147,8 @@ program's precision:
 Planet positions are only accurate for dates within 4000 years
 or so of the current epoch.  The planet positions are predicted using
 a Fourier-like analysis of their orbits, as observed over the past few
-centuries.  We learned in school that planets follow simple elliptical
-orbits around the Sun, but this isn't strictly true.  It would be true
+centuries.  We learnt in school that planets follow simple elliptical
+orbits around the Sun, but this is not strictly true.  It would be true
 only if there was only one planet in the Solar system, and if the Sun
 and the planet were both point masses.  As it is, the planets are
 constantly tugging on each other, perturbing the orbits slightly, and
@@ -221,7 +221,7 @@ need ideas of what to work on, see the TODO file.  You can submit
 patches to kstars-devel, and feel free to post any questions you
 have about the code there as well.
 </para><para>
-If you aren't into coding, we can still use your help with i18n, docs,
+If you are not into coding, we can still use your help with i18n, docs,
 AstroInfo articles, URL links, bug reports, and feature requests.
 </para>
 </answer>
