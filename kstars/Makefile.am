@@ -70,6 +70,6 @@ stringsfile:
 #	sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/[A-B]//' | sed 's/\([A-Z].*\)/i18n("\1");/' | sed 's/\ "/"/' >>"kstars_i18n.cpp";
 	echo "#endif" >>kstars_i18n.cpp;
 
-messages: 
+messages: stringsfile rc.cpp
 	$(XGETTEXT) *.cpp *.h -o $(podir)/kstars.pot;
 
