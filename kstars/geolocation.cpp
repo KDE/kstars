@@ -26,7 +26,8 @@ GeoLocation::GeoLocation( const GeoLocation &g ) {
 	Longitude = g.Longitude;
 	Latitude  = g.Latitude;
 	Name      = g.Name;
-	State     = g.State;
+	Province  = g.Province;
+	Country   = g.Country;
 	TimeZone  = g.TimeZone;
 }
 
@@ -34,25 +35,28 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 	Longitude = g->Longitude;
 	Latitude  = g->Latitude;
 	Name      = g->Name;
-	State     = g->State;
+	Province  = g->Province;
+	Country   = g->Country;
 	TimeZone  = g->TimeZone;
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				QString name, QString state, int tz ) {
+				QString name, QString province, QString country, int tz ) {
 	Longitude = lng;
 	Latitude = lat;
 	Name = name;
-	State = state;
+	Province = province;
+	Country = country;
 	TimeZone = tz;
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-				QString name, QString state, int tz ) {
+				QString name, QString province, QString country, int tz ) {
 	Longitude.set( lng );
 	Latitude.set( lat );
 	Name = name;
-	State = state;
+	Province = province;
+	Country = country;
 	TimeZone = tz;
 }
 
@@ -60,6 +64,7 @@ void GeoLocation::reset( GeoLocation *g ) {
 	Longitude = g->lng();
 	Latitude  = g->lat();
 	Name      = g->name();
-	State     = g->state();
+	Province  = g->province();
+	Country   = g->country();
 	TimeZone  = g->TZ();
 }

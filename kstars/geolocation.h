@@ -50,11 +50,11 @@ public:
 	*Constructor using dms objects to specify longitude and latitude.
 	*/
 	
-	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString state="Nowhere", int TZ=0 );
+	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", int TZ=0 );
 /**
 	*Constructor using doubles to specify longitude and latitude.
 	*/
-	GeoLocation( double lng, double lat, QString name="Nowhere", QString state="Nowhere", int TZ=0 );
+	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", int TZ=0 );
 /**
 	*Destructor (empty)
 	*/
@@ -78,13 +78,22 @@ public:
 	*/
 	QString translatedName() const { return i18n(Name.utf8().data()); }
 /**
+	*Return untranslated Province name
+	*/
+	QString province() const { return Province; }
+
+/**
+	*Return translated City name
+	*/
+	QString translatedProvince() const { return i18n(Province.utf8().data()); }
+/**
 	*Return untranslated State/Country name
 	*/
-	QString state() const { return State; }
+	QString country() const { return Country; }
 /**
 	*Return translated State/Country name
 	*/
-	QString translatedState() const { return i18n(State.utf8().data()); }
+	QString translatedCountry() const { return i18n(Country.utf8().data()); }
 /**
 	*Return time zone
 	*/
@@ -113,9 +122,13 @@ public:
 	*/
 	void setName( const QString &n ) { Name = n; }
 /**
+	*Set City name according to argument.
+	*/
+	void setProvince( const QString &n ) { Province = n; }
+/**
 	*Set State/Country name according to argument.
 	*/
-	void setState( const QString &s ) { State = s; }
+	void setCountry( const QString &s ) { Country = s; }
 /**
 	*Sets Time Zone according to argument.
 	*/
@@ -128,8 +141,7 @@ public:
 
 private:
 	dms Longitude, Latitude;
-	QString Name;
-	QString State;
+	QString Name, Province, Country;
 	int TimeZone;
 };
 

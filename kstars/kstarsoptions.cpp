@@ -75,7 +75,8 @@ KStarsOptions::KStarsOptions()
 	, colorCName()
 	, colorSName()
 	,	CityName()
-  , StateName()
+  , ProvinceName()
+	,	CountryName()
 {
 // read entry for loading not more stars than needed
 	kapp->config()->setGroup( "View" );
@@ -155,5 +156,6 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 
 	// location, location, location
   CityName = dataSource->CityName;
-	StateName = dataSource->StateName;
+	ProvinceName = dataSource->ProvinceName;
+  CountryName = dataSource->CountryName;
 }

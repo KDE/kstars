@@ -27,7 +27,7 @@
 	*with cities overlaid, with a handler for mouse clicks), a QListBox
 	*containing the names of cities in the database, and two QLineEdit
 	*widgets, which allow the user to filter the List by the name of the
-	*City, and the name of the State/Country.  In addition, the List
+	*City, Province, and Country.  In addition, the List
 	*can be filtered by location by clicking anywhere in the MapCanvas.
 	*Doing so will display cities within 2 degrees of the clicked position.
 	*
@@ -75,15 +75,15 @@ public:
 	QHBoxLayout *hlay, *hlay2;
 	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
 	QGroupBox *CityBox, *CoordBox;
-  QLabel* TextLabel1_2;
-  QLabel* TextLabel1;
-  QLabel* TextLabel2;
-	QLabel *NewCityLabel, *NewStateLabel, *LongLabel, *LatLabel;
-	QLineEdit *NewCityName, *NewStateName, *NewLong, *NewLat;
-  QLineEdit* CityFilter;
-  QLineEdit* StateFilter;
-  QListBox* GeoBox;
+  QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
+	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
+	QLabel *LongLabel, *LatLabel, *CountLabel;
+	QLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
+	QLineEdit *NewLong, *NewLat;
+  QLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
+  QListBox *GeoBox;
 	QPushButton *AddCityButton;
+	QWidget *Empty;
 	MapCanvas *MapView;
   QArray<int> GeoID;
 
@@ -131,9 +131,6 @@ public slots:
 	*Make sure a valid Latitude value was entered.
 	*/
 	void checkLat( void );
-		
-protected:
-  bool event( QEvent* );
 
 };
 

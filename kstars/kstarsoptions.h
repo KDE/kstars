@@ -102,7 +102,7 @@ public:
 	
 	//Where are we?
 	QString CityName;
-	QString StateName;
+	QString ProvinceName, CountryName;
 };
 
 

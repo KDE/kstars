@@ -417,34 +417,74 @@ bool KStarsData::readCityData( void ) {
 	if ( openDataFile( file, "Cities.dat" ) ) {
 		QTextStream stream( &file );
 
-  		while ( !stream.eof() ) {
-			QString line, name, state;
+  	while ( !stream.eof() ) {
+			QString line, field[11];
+			QString name, province, country;
+			bool abort=false;
+			bool intCheck = true, lastField = false;
 			char latsgn, lngsgn;
 			int lngD, lngM, lngS;
-	  		int latD, latM, latS;
+	  	int latD, latM, latS;
 			int TZ;
 			float lng, lat;
 
 			line = stream.readLine();
 
-			name  = line.left( 32 );
-	  		state = line.mid( 31, 17 );
-			latD = line.mid( 49, 2 ).toInt();
-			latM = line.mid( 52, 2 ).toInt();
-	  		latS = line.mid( 55, 2 ).toInt();
-			latsgn = line.at( 58 ).latin1();
-			lngD = line.mid( 60, 3 ).toInt();
-	  		lngM = line.mid( 64, 2 ).toInt();
-			lngS = line.mid( 67, 2 ).toInt();
-			lngsgn = line.at( 70 ).latin1();
+			unsigned int i;
+			for ( i=0; i<11; ++i ) {
+				field[i] = line.mid( 0, line.find(':') ).stripWhiteSpace();
+				line = line.mid( line.find(':')+1 );
+				if (lastField) break; //ran out of fields
+				if (line.find(':')<0) lastField = true; //no more field delimiters
+			}
 
+			if ( i<9 ) {
+				qDebug( i18n( "Ran out of fields!" ).local8Bit() );
+				abort = true;
+			}
+
+			int index = 0;
+			name  = field[index++];
+		  if ( i==10 ) province = field[index++];
+			else province = QString::null;
+
+			country = field[index++];
+
+			latD = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			latM = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			latS = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			QChar ctemp = field[index++].at(0);
+			latsgn = ctemp;
+			if (latsgn != 'N' && latsgn != 'S') {
+				qDebug( i18n( "Invalid latitude sign" ).local8Bit() );
+				abort = true;
+			}
+
+			lngD = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			lngM = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			lngS = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			ctemp = field[index++].at(0);
+			lngsgn = ctemp;
+			if (lngsgn != 'E' && lngsgn != 'W') {
+				qDebug( "%c", lngsgn );
+				qDebug( i18n( "Invalid longitude sign" ).local8Bit() );
+				abort = true;
+			}
+
+			if ( !abort ) {
 	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
-			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
+				lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
   	
-			if ( latsgn == 'S' ) lat *= -1.0;
-			if ( lngsgn == 'W' ) lng *= -1.0;
+				if ( latsgn == 'S' ) lat *= -1.0;
+				if ( lngsgn == 'W' ) lng *= -1.0;
   	
-			TZ = int(lng/-15.0);
+				TZ = int(lng/-15.0);
 
 //Strip off white space, and capitalize words properly
 			name = name.stripWhiteSpace();
@@ -455,16 +495,10 @@ bool KStarsData::readCityData( void ) {
 				}
 			}
 
-			state = state.stripWhiteSpace();
-			state = state.left(1).upper() + state.mid(1).lower();
-			if ( state.contains( ' ' ) ) {
-				for ( unsigned int i=1; i<state.length(); ++i ) {
-					if ( state.at(i) == ' ' ) state.replace( i+1, 1, state.at(i+1).upper() );
-				}
+				geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ ));		// appends city names to list
+				if ( !citiesFound ) citiesFound = true; //found at least one city
 			}
 
-			geoList.append ( new GeoLocation( lng, lat, name, state, TZ ));		// appends city names to list
-			if ( !citiesFound ) citiesFound = true; //found at least one city
 		}	// while ( !stream.eof() )
 		file.close();
 	}	// if ( openDataFile() )
@@ -474,61 +508,77 @@ bool KStarsData::readCityData( void ) {
 	if ( file.open( IO_ReadOnly ) ) {
 		QTextStream stream( &file );
 
-  		while ( !stream.eof() ) {
-	  		QString line, name, state;
+  	while ( !stream.eof() ) {
+			QString line, field[11];
+			QString name, province, country;
+			bool abort=false; bool intCheck = true;
 			char latsgn, lngsgn;
 			int lngD, lngM, lngS;
-	  		int latD, latM, latS;
+	  	int latD, latM, latS;
 			int TZ;
 			float lng, lat;
 
 			line = stream.readLine();
 
-			name  = line.left( 32 );
-	  		state = line.mid( 31, 17 );
-			latD = line.mid( 49, 2 ).toInt();
-			latM = line.mid( 52, 2 ).toInt();
-	  		latS = line.mid( 55, 2 ).toInt();
-			latsgn = line.at( 58 ).latin1();
-			lngD = line.mid( 60, 3 ).toInt();
-	  		lngM = line.mid( 64, 2 ).toInt();
-			lngS = line.mid( 67, 2 ).toInt();
-			lngsgn = line.at( 70 ).latin1();
+			unsigned int i;
+			for ( i=0; i<11; ++i ) {
+				field[0] = line.mid( 0, line.find(':') ).stripWhiteSpace();
+				line = line.mid( line.find(':')+1 );
+				if (line==QString::null) break; //ran out of fields
+			}
 
+			if ( i<9 ) {
+				qDebug( i18n( "Ran out of fields!" ).local8Bit() );
+				abort = true;
+			}
+
+			int index = 0;
+			name  = field[index++];
+		  if ( i==11 ) province = field[index++];
+			else province = QString::null;
+
+			country = field[index++];
+
+			latD = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			latM = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			latS = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			QChar ctemp = field[index++].at(0);
+			latsgn = ctemp;
+			if (latsgn != 'N' && latsgn != 'S') {
+				qDebug( i18n( "Invalid latitude sign" ).local8Bit() );
+				abort = true;
+			}
+
+			lngD = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			lngM = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			lngS = field[index++].toInt( &intCheck );
+			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			ctemp = field[index++].at(0);
+			lngsgn = ctemp;
+			if (lngsgn != 'E' && lngsgn != 'W') {
+				qDebug( i18n( "Invalid longitude sign" ).local8Bit() );
+				abort = true;
+			}
+
+			if ( !abort ) {
 	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
-			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
+				lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
   	
-			if ( latsgn == 'S' ) lat *= -1.0;
-			if ( lngsgn == 'W' ) lng *= -1.0;
+				if ( latsgn == 'S' ) lat *= -1.0;
+				if ( lngsgn == 'W' ) lng *= -1.0;
   	
-		 	TZ = int(lng/-15.0);
+				TZ = int(lng/-15.0);
 
-//Strip off white space, and capitalize words properly
-			name = name.stripWhiteSpace();
-			name = name.left(1).upper() + name.mid(1).lower();
-			if ( name.contains( ' ' ) ) {
-				for ( unsigned int i=1; i<name.length(); ++i ) {
-					if ( name.at(i) == ' ' ) name.replace( i+1, 1, name.at(i+1).upper() );
-				}
+
+				geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ ));		// appends city names to list
+				if ( !citiesFound ) citiesFound = true; //found at least one city
 			}
 
-			state = state.stripWhiteSpace();
-			state = state.left(1).upper() + state.mid(1).lower();
-			if ( state.contains( ' ' ) ) {
-				for ( unsigned int i=1; i<state.length(); ++i ) {
-					if ( state.at(i) == ' ' ) state.replace( i+1, 1, state.at(i+1).upper() );
-				}
-			}
-			//insert the custom city alphabetically into geoList
-			for ( unsigned int i=0; i < geoList.count(); ++i ) {
-				if ( geoList.at(i)->name().lower() > name.lower() ) {
-					int TZ = int(lng/-15.0); //estimate time zone
-					geoList.insert( i, new GeoLocation( lng, lat, name, state, TZ ) );
-					break;
-				}
-			}
-
-			if ( !citiesFound ) citiesFound = true; //found at least one city
 		}	// while ( !stream.eof() )
 		file.close();
 	}	// if ( fileopen() )

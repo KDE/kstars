@@ -169,7 +169,12 @@ KStars::KStars( KStarsData* kstarsData )
 	FocusRADec->setFont( ipFont );
 	FocusAltAz->setFont( ipFont );
 
-	PlaceName = new QLabel( geo->translatedName() + ",  " + geo->translatedState(), infoPanel );
+	PlaceName = new QLabel( i18n("nowhere"), infoPanel );
+	if ( geo->province().isEmpty() ) {
+		PlaceName->setText( geo->translatedName() + ", " + geo->translatedCountry() );
+	} else {
+		PlaceName->setText( geo->translatedName() + ", " + geo->translatedProvince() + ",  " + geo->translatedCountry() );
+	}
 	LongLabel = new QLabel( i18n( "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Lat:  " ), infoPanel );
 	Long = new QLabel( QString::number( geo->lng().getD(), 'f', 3 ), infoPanel );
@@ -282,7 +287,8 @@ KStars::~KStars()
 	//Sync the config file
 	kapp->config()->setGroup( "Location" );
 	kapp->config()->writeEntry( "City", GetOptions()->CityName );
-	kapp->config()->writeEntry( "State", GetOptions()->StateName );
+	kapp->config()->writeEntry( "Province", GetOptions()->ProvinceName );
+	kapp->config()->writeEntry( "Country", GetOptions()->CountryName );
 	kapp->config()->setGroup( "View" );
 	kapp->config()->writeEntry( "SkyColor", 	GetOptions()->colorSky );
 	kapp->config()->writeEntry( "MWColor", 		GetOptions()->colorMW );
@@ -500,8 +506,16 @@ void KStars::initOptions()
 {
 	// Get initial Location from config()
 	kapp->config()->setGroup( "Location" );
-	GetOptions()->CityName = kapp->config()->readEntry( "City", "Baltimore" );
-	GetOptions()->StateName = kapp->config()->readEntry( "State", "Maryland" );
+	GetOptions()->CityName = kapp->config()->readEntry( "City", "Greenwich" );
+
+	if ( kapp->config()->readEntry( "State", "" ).length() ) { //old version of config file
+		GetOptions()->ProvinceName = kapp->config()->readEntry( "State", "" );
+		GetOptions()->CountryName = kapp->config()->readEntry( "State", "United Kingdom" );
+	} else {
+		GetOptions()->ProvinceName = kapp->config()->readEntry( "Province", "" );
+		GetOptions()->CountryName = kapp->config()->readEntry( "Country", "United Kingdom" );
+	}
+
 	kapp->config()->setGroup( "View" );
 	GetOptions()->colorSky 		= kapp->config()->readEntry( "SkyColor", "#002" );
 //	GetOptions()->colorStar 	= kapp->config()->readEntry( "StarColor", "#FFF" );
@@ -560,23 +574,69 @@ void KStars::initOptions()
 
 void KStars::initLocation() {
 	//Initialize geographic location
-	bool bFound = FALSE;
+	bool bFound = false; bool oldConfig = false;
 	GeoLocation *GeoData;
+
+	kapp->config()->setGroup( "Location" );
+	if ( !kapp->config()->readEntry( "State", "" ).stripWhiteSpace().isEmpty() ) {
+		oldConfig = true;
+    kapp->config()->writeEntry( "State", "" ); //ignore this key from now on...
+	}
+
+	qDebug( GetOptions()->CityName.local8Bit() );
+	qDebug( GetOptions()->ProvinceName.local8Bit() );
+	qDebug( GetOptions()->CountryName.local8Bit() );
+
 	for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 	{
-		if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) && (GeoData->state().lower() == GetOptions()->StateName.lower()) )
-		{
-			bFound = TRUE;
-			break ;
+
+	//If the config file is old (has a State key) match a city if the city name
+  //AND EITHER the province name OR the country name match
+  //(old config files set both province and country to "StateName")
+  //this can produce the wrong city, if more than one matches these criteria...
+		if ( oldConfig ) {
+			if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
+					( (GeoData->province().lower() == GetOptions()->ProvinceName.lower()) ||
+					(GeoData->country().lower() == GetOptions()->CountryName.lower()) ) )
+			{
+				bFound = TRUE;
+				if ( GeoData->province().lower() != GetOptions()->ProvinceName.lower() )
+					GetOptions()->ProvinceName = GeoData->province();
+				if ( GeoData->country().lower() != GetOptions()->CountryName.lower() )
+					GetOptions()->CountryName = GeoData->country();
+				break ;
+			}
+		} else {
+	//Otherwise, require all three fields (City, Province, and Country) to match
+			if ( GetOptions()->ProvinceName.stripWhiteSpace().length() ) {
+				if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
+						(GeoData->province().lower() == GetOptions()->ProvinceName.lower()) &&
+						(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
+				{
+					bFound = TRUE;
+					break ;
+				}
+			} else {
+				if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
+						(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
+				{
+					bFound = TRUE;
+					break ;
+				}
+
+			}
 		}
 	}
 
-	if ( !bFound ) { // set city and state to default values
+	if ( !bFound ) { // set city, province and country to default values
 		GetOptions()->CityName = "Greenwich";
-		GetOptions()->StateName = "United Kingdom";
+		GetOptions()->ProvinceName = "";
+		GetOptions()->CountryName = "United Kingdom";
 		for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 		{
-			if ( (GeoData->name() == GetOptions()->CityName) && (GeoData->state() == GetOptions()->StateName) )
+			if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) &&
+					(GeoData->province().lower() == GetOptions()->ProvinceName.lower()) &&
+					(GeoData->country().lower() == GetOptions()->CountryName.lower()) )
 			{
 				bFound = TRUE;
 				break ;
@@ -832,8 +892,13 @@ void KStars::mGeoLocator() {
  		if ( ii >= 0 ) {
  			geo->reset( GetData()->geoList.at(ii) );
 			GetOptions()->CityName = geo->name();
-			GetOptions()->StateName = geo->state();
- 			PlaceName->setText( geo->translatedName()+ ",  " + geo->translatedState() );
+			GetOptions()->ProvinceName = geo->province();
+			GetOptions()->CountryName = geo->country();
+			if ( geo->province().isEmpty() )
+	 			PlaceName->setText( geo->translatedName() + ",  " + geo->translatedCountry() );
+			else
+	 			PlaceName->setText( geo->translatedName() + ", " + geo->translatedProvince() + ",  " + geo->translatedCountry() );
+
  			Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
  			Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
 

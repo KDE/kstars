@@ -66,10 +66,14 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
 	for ( unsigned int i=0; i<ks->GetData()->geoList.count(); ++i ) {
 		if ( ( abs(	lng - int( ks->GetData()->geoList.at(i)->lng().getD() ) ) < 3 ) &&
 				 ( abs( lat - int( ks->GetData()->geoList.at(i)->lat().getD() ) ) < 3 ) ) {
-	    QString sc( ks->GetData()->geoList.at(i)->name() );
-  	  QString ss( ks->GetData()->geoList.at(i)->state() );
-      sc.append( "  " );
-      sc.append( ss );
+	    QString sc( ks->GetData()->geoList.at(i)->translatedName() );
+			sc.append( ", " );
+			if ( !ks->GetData()->geoList.at(i)->province().isEmpty() ) {
+	      sc.append( ks->GetData()->geoList.at(i)->translatedProvince() );
+	      sc.append( ", " );
+			}
+      sc.append( ks->GetData()->geoList.at(i)->translatedCountry() );
+
       ld->GeoBox->insertItem( sc );
       ld->GeoID[ld->GeoBox->count() - 1] = i;
 		}

@@ -170,7 +170,7 @@ void ImageViewer::showImage()
 	fileIsImage = true;	// we loaded the file and know now, that it is an image
 
 	int w = kapp->desktop()->width();	// screen width
-	int h = kapp->desktop()->height();	// screen height
+	int h = 0.9*kapp->desktop()->height();	// 90% of screen height (accounts for taskbar)
 	if (image.width() <= w && image.height() <= h)
 		resize ( image.width(), image.height() + toolBar()->height());	// the 32 pixel are the space of the toolbar
 
@@ -190,25 +190,6 @@ void ImageViewer::showImage()
 			resize ( w, int( image.height()*fx ) );
 	}
 
-/********************** old code **********************
-	if (image.width() <= 800 && image.height() <= 600)
-		resize ( image.width(), image.height() + toolBar()->height());
-
-	//If the image is larger than 800 in x and/or 600 in y, shrink it to fit the screen
-  //while preserving the original aspect ratio
-	else if (image.width() <= 800) //only the height is too large
-		resize ( int( image.width()*(600)/image.height() ), 600 );
-	else if (image.height() <= 600) //only the width is too large
-		resize ( 800, int( image.height()*800/image.width() ) );
-	else { //uh-oh...both width and height are too large.  which needs to be shrunk least?
-		float fx = float(800)/float(image.width());
-		float fy = float(600)/float(image.height());
-    if (fx > fy) //width needs to be shrunk less, so shrink to fit in height
-			resize ( int( image.width()*fy ), 600 );
-		else //vice versa
-			resize ( 800, int( image.height()*fx ) );
-	}
-**********************************************************/
 	show();	// hide is default
 // pix will be initialized in resizeEvent(), which will automatically called first time
 }
