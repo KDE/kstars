@@ -1,22 +1,23 @@
-bin_PROGRAMS = indiserver lx200generic lx200autostar lx200_16 lx200gps wx
-indiserver_LDFLAGS = -L.
-indiserver_SOURCES = indiserver.c
-lx200generic_LDFLAGS = -L.
-lx200generic_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
-lx200autostar_LDFLAGS = -L.
-lx200autostar_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
-lx200_16_LDFLAGS = -L.
-lx200_16_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
-lx200gps_LDFLAGS = -L.
-lx200gps_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
 
-liblilxml_a_SOURCES = lilxml.c lilxml.h
-noinst_LIBRARIES = liblilxml.a
-indiserver_LDADD = -llilxml
-lx200gps_LDADD = -llilxml
-lx200_16_LDADD = -llilxml
-lx200autostar_LDADD = -llilxml
-lx200generic_LDADD = -llilxml
-wx_LDFLAGS = -L.
-wx_SOURCES =  indiapi.h indimain.c wx.c
-wx_LDADD = -llilxml
+bin_PROGRAMS = indiserver lx200generic lx200autostar lx200_16 lx200gps wx
+
+indiserver_SOURCES = indiserver.c
+indiserver_LDADD = liblilxml.la
+
+lx200generic_SOURCES =  indimain.c lx200_16.cpp lx200autostar.cpp lx200driver.c lx200generic.cpp lx200GPS.cpp
+lx200generic_LDADD = liblilxml.la
+
+lx200autostar_SOURCES =  indimain.c lx200_16.cpp lx200autostar.cpp lx200driver.c lx200generic.cpp lx200GPS.cpp
+lx200autostar_LDADD = liblilxml.la
+
+lx200_16_SOURCES = indimain.c lx200_16.cpp lx200autostar.cpp lx200driver.c lx200generic.cpp lx200GPS.cpp
+lx200_16_LDADD = liblilxml.la
+
+lx200gps_SOURCES = indimain.c lx200_16.cpp lx200autostar.cpp lx200driver.c lx200generic.cpp lx200GPS.cpp
+lx200gps_LDADD = liblilxml.la
+
+liblilxml_la_SOURCES = lilxml.c
+noinst_LIBRARIES = liblilxml.la
+
+wx_SOURCES =  indimain.c wx.c
+wx_LDADD = liblilxml.la
