@@ -902,7 +902,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
 //		rt = i18n( "Rise time: " ) + rt2 +
 //			i18n(", Azimuth: ") + rt3;
-		rt = i18n( "Rise time: " ) + rt2;
+		rt = i18n( "Rise time: %1" ).arg( rt2 );
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		rt = i18n( "No rise time: Circumpolar" );
@@ -927,7 +927,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
 //		st = i18n( "Set time: " ) + st2 +
 //			i18n(", Azimuth: ") + st3;
-		st = i18n( "Set time: " ) + st2;
+		st = i18n( "Set time: %1" ).arg( st2 );
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		st = i18n( "No set time: Circumpolar" );
@@ -954,7 +954,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
 //		tt = i18n( "Transit time: " ) + tt2 +
 //			i18n(", Altitude: ") + tt3 ;
-		tt = i18n( "Transit time: " ) + tt2;
+		tt = i18n( "Transit time: %1 " ).arg( tt2 );
 	}
 
 	pmRiseTime->setText( rt );
