@@ -51,6 +51,8 @@ private slots:
 	void slotPreset( int i );
 	void slotAddPreset();
 	void slotRemovePreset();
+	void slotStarColorMode( int );
+	void slotStarColorIntensity( int );
 
 private:
 	bool setColors( QString filename );
