@@ -51,24 +51,6 @@ static ISwitches AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", AzRaBackSlas
 static IText OTATemp			= { mydev, "OTA Temperature",  NULL, ILS_IDLE};
 
 
-#ifdef LX200_GPS
-void
-ISInit()
-{
-	fprintf(stderr , "initilizaing from LX200 GPS device...\n");
-
-	// Two important steps always performed when adding a sub-device
-
-	// 1. mydev = device_name
-	strcpy(mydev, "LX200GPS");
-	// 2. device = sub_class
-	telescope = new LX200GPS();
-
-	// and 9 again
-	MaxReticleFlashRate = 9;
-
-}
-#endif
 
 LX200GPS::LX200GPS() : LX200_16()
 {

@@ -230,7 +230,7 @@ delXMLEle (XMLEle *ep)
  * return NULL if not found.
  */
 XMLAtt *
-findXMLAtt (XMLEle *ep, char *name)
+findXMLAtt (XMLEle *ep, const char *name)
 {
 	int i;
 
@@ -244,7 +244,7 @@ findXMLAtt (XMLEle *ep, char *name)
  * return NULL if not found.
  */
 XMLEle *
-findXMLEle (XMLEle *ep, char *tag)
+findXMLEle (XMLEle *ep, const char *tag)
 {
 	int i;
 

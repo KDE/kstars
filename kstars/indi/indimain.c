@@ -50,7 +50,7 @@ static char *spermStr(ISPerm p);
 static char *timestamp (void);
 
 static int verbose;			/* chatty */
-static char *me;			/* a.out name */
+char *me;			/* a.out name */
 static LilXML *clixml;			/* XML parser context */
 static int devpoll;			/* ms to poll, none if 0 */
 
@@ -101,7 +101,7 @@ ICDefText (IText *t, char *prompt, IPerm p)
 {
 	printf ("<defText device='%s' name='%s'", t->dev, t->name);
 	printf (" perm='%s' state='%s'", permStr(p), lstateStr(t->s));
-	printf (" timeout='%g'>\n", t->tout);
+	printf (" timeout='%g'", t->tout);
 	printf (" grouptag='%s'>\n", t->grouptag ? t->grouptag : "");
 	printf (" <prompt>%s</prompt>\n", prompt);
 	printf (" <text>%s</text>\n", t->text);
@@ -115,7 +115,7 @@ ICDefNumber (INumber *n, char *prompt, IPerm p, INRange *r)
 {
 	printf ("<defNumber device='%s' name='%s'", n->dev, n->name);
 	printf (" perm='%s' state='%s'", permStr(p), lstateStr(n->s));
-	printf (" timeout='%g'>\n", n->tout);
+	printf (" timeout='%g'", n->tout);
 	printf (" grouptag='%s'>\n", n->grouptag ? n->grouptag : "");
 	if (r) {
 	    printf (" <range>\n");
@@ -141,7 +141,7 @@ ICDefSwitches (ISwitches *s, char *prompt, IPerm p, IRule r)
 
 	printf ("<defSwitches device='%s' name='%s'", s->dev, s->name);
 	printf (" perm='%s' state='%s'", spermStr(p), lstateStr(s->s));
-	printf (" rule='%s' timeout='%g'>\n", ruleStr(r), s->tout);
+	printf (" rule='%s' timeout='%g'", ruleStr(r), s->tout);
 	printf (" grouptag='%s'>\n", s->grouptag ? s->grouptag : "");
 	printf (" <prompt>%s</prompt>\n", prompt);
 	for (i = 0; i < s->nsw; i++)
@@ -158,7 +158,8 @@ ICDefLights (ILights *l, char *prompt)
 	int i;
 
 	printf ("<defLights device='%s' name='%s'", l->dev, l->name);
-	printf (" state='%s'>\n", lstateStr(l->s));
+	printf (" state='%s'", lstateStr(l->s));
+	printf (" grouptag='%s'>\n", l->grouptag ? l->grouptag : "");
 	printf (" <prompt>%s</prompt>\n", prompt);
 	for (i = 0; i < l->nl; i++)
 	    printf (" <light state='%s'>%s</light>\n", lstateStr(l->l[i].s),

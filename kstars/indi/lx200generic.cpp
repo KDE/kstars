@@ -26,30 +26,78 @@
 #include <unistd.h>
 
 #include "lx200driver.h"
-#include "lx200generic.h"
+#include "lx200GPS.h"
 
-/***** IMPORTANT: Each sub device must has its own ISInit function wrappen in LX200_DEVICENAME structure
+/***** IMPORTANT: Each sub device must has its own ISInit function wrapped in LX200_DEVICENAME structure
 ****** The make file then must have -DLX200_DEVICENAME option for that specfic sub device*/
- 
+
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
-char mydev[] = "LX200Generic";	/* Device name we call ourselves */
+char mydev[] = "LX200 Generic";	/* Device name we call ourselves */
+extern char* me;
 
+#define COMM_GROUP	"Communication"
+#define BASIC_GROUP	"Basic Data"
+#define MOVE_GROUP	"Movement Control"
+#define DATETIME_GROUP	"Date/Time"
+#define SITE_GROUP	"Site Managment"
+#define LIBRARY_GROUP	"Library"
 
-#ifdef LX200_GENERIC
-void ISInit() {telescope = new LX200Generic();}
-#endif
+void ISInit()
+{
+
+  if (!strcmp(me, "lx200gps") || !strcmp(me, "./lx200gps"))
+  {
+     fprintf(stderr , "initilizaing from LX200 GPS device...\n");
+     // 1. mydev = device_name
+     strcpy(mydev, "LX200 GPS");
+     // 2. device = sub_class
+     telescope = new LX200GPS();
+    // and 9 again
+   MaxReticleFlashRate = 9;
+  }
+  else if (!strcmp(me, "lx200_16") || !strcmp(me, "./lx200_16"))
+  {
+
+    fprintf(stderr , "initilizaing from LX200 16 device...\n");
+    // Two important steps always performed when adding a sub-device
+    // 1. mydev = device_name
+    strcpy(mydev, "LX200 16");
+    // 2. device = sub_class
+   telescope = new LX200_16();
+
+   // Back to 3 again for class 16"
+   MaxReticleFlashRate = 3;
+ }
+ else if (!strcmp(me, "lx200autostar") || !strcmp(me, "./lx200autostar"))
+ {
+   fprintf(stderr , "initilizaing from autostar device...\n");
+
+   // Two important steps always performed when adding a sub-device
+   // 1. mydev = device_name
+   strcpy(mydev, "LX200 Autostar");
+   // 2. device = sub_class
+   telescope = new LX200Autostar();
+   // Misc. device-specific settings
+   MaxReticleFlashRate = 9;
+ }
+ // be nice and give them a generic device
+ else
+   telescope = new LX200Generic();
+
+}
+
 
 /*INDI controls */
-static INRange FreqRange         = { INR_MIN|INR_MAX|INR_STEP , 50.0, 80.0, 1};
+static INRange FreqRange         = { INR_MIN|INR_MAX|INR_STEP , 50.0, 80.0, 0.1};
 static INRange RDutyCycle	 = { INR_MIN|INR_MAX|INR_STEP , 0, MaxReticleDutyCycle, 1};
 static INRange RFlashRate	 = { INR_MIN|INR_MAX|INR_STEP , 0, MaxReticleFlashRate, 1};
 
 static ISwitch PowerS[]          = {{"ON" , ISS_OFF},{"OFF", ISS_ON}};
-static ISwitch PortTypeS[]       = {{"Serial", ISS_ON}, {"USB-To-Serial", ISS_OFF}};
+static ISwitch PortTypeS[]       = {{"Serial", ISS_ON}, {"USB", ISS_OFF}};
 static ISwitch SerialS[]         = {{"ttyS0", ISS_ON}, {"ttyS1", ISS_OFF}, {"ttyS2", ISS_OFF}, {"ttyS3", ISS_OFF}};
 static ISwitch USBPortS[]        = {{"ttyUSB0" , ISS_ON}, {"ttyUSB1", ISS_OFF}, {"ttyUSB2", ISS_OFF}, {"ttyUSB3", ISS_OFF}};
-static ISwitch AlignmentS []     = {{"Polar", ISS_ON}, {"AltAz", ISS_OFF}, {"Land", ISS_OFF},};
+static ISwitch AlignmentS []     = {{"Polar", ISS_ON}, {"AltAz", ISS_OFF}, {"Land", ISS_OFF}};
 static ISwitch SitesS[]          = {{"Site 1", ISS_ON}, {"Site 2", ISS_OFF},  {"Site 3", ISS_OFF},  {"Site 4", ISS_OFF}};
 static ISwitch SlewModeS[]       = {{"Max", ISS_ON}, {"Find", ISS_OFF}, {"Centering", ISS_OFF}, {"Guide", ISS_OFF}};
 static ISwitch SlewS[]           = {{ "Slew", ISS_OFF }};
@@ -65,40 +113,53 @@ static ISwitch SolarS[]          = {{"Mercury", ISS_ON}, {"Venus", ISS_OFF}, {"M
 				    {"Uranus", ISS_OFF}, {"Neptune", ISS_OFF}, {"Pluto", ISS_OFF}};
 static ISwitch TimeFormatS[]     = {{"24", ISS_OFF}, {"AM", ISS_OFF}, {"PM", ISS_OFF}};
 
-static ISwitches SlewModeSw      = { mydev, "Slew rate", SlewModeS, NARRAY(SlewModeS), ILS_IDLE, 0};
-static ISwitches AlignmentSw     = { mydev, "Alignment", AlignmentS, NARRAY(AlignmentS), ILS_IDLE, 0 };
-static ISwitches PortTypeSw   	 = { mydev, "Port Type", PortTypeS, NARRAY(PortTypeS), ILS_IDLE, 0 };
-static ISwitches SerialSw        = { mydev, "Serial Ports", SerialS, NARRAY(SerialS), ILS_IDLE, 0};
-static ISwitches USBPortSw       = { mydev, "USB-To-Serial Ports", USBPortS, NARRAY(USBPortS), ILS_IDLE, 0};
-static ISwitches PowerSw	 = { mydev, "Power" , PowerS, NARRAY(PowerS), ILS_IDLE, 0 };
-static ISwitches SlewSw          = { mydev, "Slew", SlewS, NARRAY(SlewS), ILS_IDLE, 0};
-static ISwitches TrackSw         = { mydev, "Track", TrackS, NARRAY(TrackS), ILS_IDLE, 0};
-static ISwitches TrackModeSw     = { mydev, "Tracking Mode", TrackModeS, NARRAY(TrackModeS), ILS_IDLE, 0};
-static ISwitches abortSlewSw     = { mydev, "Abort Slew/Track", abortSlewS, NARRAY(abortSlewS), ILS_IDLE, 0};
-static ISwitches SyncSw          = { mydev, "Sync", SyncS, NARRAY(SlewS), ILS_IDLE, 0};
-static ISwitches SitesSw         = { mydev, "Sites", SitesS, NARRAY(SitesS), ILS_IDLE, 0};
-static ISwitches MovementSw      = { mydev, "Move toward", MovementS, NARRAY(MovementS), ILS_IDLE, 0};
-static ISwitches haltMoveSw      = { mydev, "Halt movement", haltMoveS, NARRAY(haltMoveS), ILS_IDLE, 0};
-static ISwitches StarCatalogSw   = { mydev, "Star Catalogs", StarCatalogS, NARRAY(StarCatalogS), ILS_IDLE, 0};
-static ISwitches DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), ILS_IDLE, 0};
-static ISwitches SolarSw         = { mydev, "Solar System", SolarS, NARRAY(SolarS), ILS_IDLE, 0};
-static ISwitches TimeFormatSw    = { mydev, "Time Format", TimeFormatS, NARRAY(TimeFormatS), ILS_IDLE, 0};
+/* Fundamental group */
+static ISwitches PowerSw	 = { mydev, "Power" , PowerS, NARRAY(PowerS), ILS_IDLE, 0, COMM_GROUP };
+static ISwitches PortTypeSw   	 = { mydev, "Port Type", PortTypeS, NARRAY(PortTypeS), ILS_IDLE, 0, COMM_GROUP };
+static ISwitches SerialSw        = { mydev, "Serial Ports", SerialS, NARRAY(SerialS), ILS_IDLE, 0, COMM_GROUP};
+static ISwitches USBPortSw       = { mydev, "USB-To-Serial Ports", USBPortS, NARRAY(USBPortS), ILS_IDLE, 0, COMM_GROUP};
 
-static INumber Object_RA         = { mydev, "RA", NULL, ILS_IDLE};
-static INumber Object_DEC        = { mydev, "DEC", NULL, ILS_IDLE};
-static INumber LX200_RA          = { mydev, "LX200RA", NULL, ILS_IDLE};
-static INumber LX200_DEC         = { mydev, "LX200DEC", NULL, ILS_IDLE};
-static INumber UTCOffset         = { mydev, "UTC Offset", NULL, ILS_IDLE};
-static IText   CalenderDate      = { mydev, "Calender Date", NULL, ILS_IDLE};
-static INumber LocalTime         = { mydev, "Local Time", NULL, ILS_IDLE};
-static INumber SDTime            = { mydev, "Sidereal Time", NULL, ILS_IDLE};
-static INumber ObjectNo          = { mydev, "Object Number", NULL, ILS_IDLE};
+/* Basic data group */
+static ISwitches AlignmentSw     = { mydev, "Alignment", AlignmentS, NARRAY(AlignmentS), ILS_IDLE, 0, BASIC_GROUP };
+static INumber Object_RA         = { mydev, "RA", NULL, ILS_IDLE, 0 ,BASIC_GROUP};
+static INumber Object_DEC        = { mydev, "DEC", NULL, ILS_IDLE, 0, BASIC_GROUP};
+static INumber LX200_RA          = { mydev, "LX200RA", NULL, ILS_IDLE, 0 , BASIC_GROUP};
+static INumber LX200_DEC         = { mydev, "LX200DEC", NULL, ILS_IDLE, 0 , BASIC_GROUP};
+static IText   ObjectInfo        = { mydev, "Object Info", NULL, ILS_IDLE, 0 , BASIC_GROUP};
 
-static INumber SiteLong	         = { mydev, "Site Longitude", NULL, ILS_IDLE};
-static INumber SiteLat	         = { mydev, "Site Latitude", NULL, ILS_IDLE};
-static IText   SiteName          = { mydev, "Site Name", NULL, ILS_IDLE};
-static IText   ObjectInfo        = { mydev, "Object Info", NULL, ILS_IDLE};
-static INumber TrackingFreq      = { mydev, "Tracking Freq.", NULL, ILS_IDLE};
+/* Movement group */
+static ISwitches SyncSw          = { mydev, "Sync", SyncS, NARRAY(SlewS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches SlewSw          = { mydev, "Slew", SlewS, NARRAY(SlewS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches TrackSw         = { mydev, "Track", TrackS, NARRAY(TrackS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches SlewModeSw      = { mydev, "Slew rate", SlewModeS, NARRAY(SlewModeS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches TrackModeSw     = { mydev, "Tracking Mode", TrackModeS, NARRAY(TrackModeS), ILS_IDLE, 0, MOVE_GROUP};
+static INumber TrackingFreq      = { mydev, "Tracking Freq.", NULL, ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches abortSlewSw     = { mydev, "Abort Slew/Track", abortSlewS, NARRAY(abortSlewS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches MovementSw      = { mydev, "Move toward", MovementS, NARRAY(MovementS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches haltMoveSw      = { mydev, "Halt movement", haltMoveS, NARRAY(haltMoveS), ILS_IDLE, 0, MOVE_GROUP};
+
+
+/* Data & Time */
+static ISwitches TimeFormatSw    = { mydev, "Time Format", TimeFormatS, NARRAY(TimeFormatS), ILS_IDLE, 0, DATETIME_GROUP};
+static INumber LocalTime         = { mydev, "Local Time", NULL, ILS_IDLE, 0 , DATETIME_GROUP};
+static INumber SDTime            = { mydev, "Sidereal Time", NULL, ILS_IDLE, 0, DATETIME_GROUP};
+static INumber UTCOffset         = { mydev, "UTC Offset", NULL, ILS_IDLE, 0, DATETIME_GROUP};
+static IText   CalenderDate      = { mydev, "Calender Date", NULL, ILS_IDLE, 0, DATETIME_GROUP};
+
+/* Site managment */
+static ISwitches SitesSw         = { mydev, "Sites", SitesS, NARRAY(SitesS), ILS_IDLE, 0, SITE_GROUP};
+static IText   SiteName          = { mydev, "Site Name", NULL, ILS_IDLE, 0, SITE_GROUP};
+static INumber SiteLong	         = { mydev, "Site Longitude", NULL, ILS_IDLE, 0, SITE_GROUP};
+static INumber SiteLat	         = { mydev, "Site Latitude", NULL, ILS_IDLE, 0, SITE_GROUP};
+
+/* Library group */
+static ISwitches StarCatalogSw   = { mydev, "Star Catalogs", StarCatalogS, NARRAY(StarCatalogS), ILS_IDLE, 0, LIBRARY_GROUP};
+static ISwitches DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), ILS_IDLE, 0,  LIBRARY_GROUP};
+static ISwitches SolarSw         = { mydev, "Solar System", SolarS, NARRAY(SolarS), ILS_IDLE, 0, LIBRARY_GROUP};
+static INumber ObjectNo          = { mydev, "Object Number", NULL, ILS_IDLE, 0, LIBRARY_GROUP};
+
+
+
 
 /* send client definitions of all properties */
 void ISGetProperties (char *dev) {telescope->ISGetProperties(dev);}
@@ -120,9 +181,9 @@ LX200Generic::LX200Generic()
    LX200_RA.nstr     = strcpy (new char[12] , " 00:00:00");
    LX200_DEC.nstr    = strcpy (new char[12] , " 00:00:00");
    UTCOffset.nstr    = strcpy (new char[4]  , "00");
-   LocalTime.nstr    = strcpy (new char[9]  , "HH:MM:SS");
-   SDTime.nstr       = strcpy (new char[9]  , "HH:MM:SS");
-   CalenderDate.text = strcpy (new char[9]  , "MM/DD/YY");
+   LocalTime.nstr    = strcpy (new char[16]  , "HH:MM:SS");
+   SDTime.nstr       = strcpy (new char[16]  , "HH:MM:SS");
+   CalenderDate.text = strcpy (new char[16]  , "MM/DD/YY");
    SiteLong.nstr     = strcpy (new char[9]  , "DDD:MM");
    SiteLat.nstr      = strcpy (new char[9]  , "DD:MM");
    ObjectNo.nstr     = strcpy (new char[5]  , "NNNN");
@@ -145,6 +206,9 @@ LX200Generic::LX200Generic()
 
 }
 
+ILight sLight[] = { {"Power", ILS_ALERT}, {"Aleins", ILS_OK}, {"Whatever", ILS_BUSY},
+{"Whatever", ILS_BUSY}};
+ILights allLights = { mydev, "Stuff about lights", sLight, NARRAY(sLight), ILS_IDLE, 0};
 
 void LX200Generic::ISGetProperties(char *dev)
 {
@@ -158,11 +222,9 @@ void LX200Generic::ISGetProperties(char *dev)
   ICDefSwitches (&USBPortSw, "USB-To-Serial Ports", ISP_W, IR_1OFMANY);
 
   ICDefSwitches (&AlignmentSw, "Alignment", ISP_W, IR_1OFMANY);
-
   ICDefNumber (&Object_RA, "Object RA", IP_RW, NULL);
   ICDefNumber (&Object_DEC, "Object DEC", IP_RW, NULL);
   ICDefText   (&ObjectInfo, "Object Info", IP_RO);
-
   ICDefNumber (&LX200_RA, "LX200 RA", IP_RO, NULL);
   ICDefNumber (&LX200_DEC, "LX200 DEC", IP_RO, NULL);
 
@@ -173,10 +235,8 @@ void LX200Generic::ISGetProperties(char *dev)
   ICDefSwitches (&TrackModeSw, "Tracking Mode", ISP_W, IR_1OFMANY);
   ICDefNumber   (&TrackingFreq, "Tracking Freq.", IP_RW, &FreqRange);
   ICDefSwitches (&abortSlewSw, "Abort", ISP_W, IR_1OFMANY);
-
   ICDefSwitches (&MovementSw, "Move toward", ISP_W, IR_1OFMANY);
   ICDefSwitches (&haltMoveSw, "Halt movement", ISP_W, IR_1OFMANY);
-
 
   ICDefSwitches(&TimeFormatSw, "Time Format", ISP_W, IR_1OFMANY);
   ICDefNumber(&LocalTime, "Local Time (HH:MM:SS)", IP_RW, NULL);
@@ -194,7 +254,8 @@ void LX200Generic::ISGetProperties(char *dev)
   ICDefSwitches (&SolarSw, "Solar System", ISP_W, IR_1OFMANY);
   ICDefNumber   (&ObjectNo, "Object Number", IP_RW, NULL);
 
-
+  //TODO this is really a test message only
+  ICMessage(NULL, "KTelescope components registered successfully");
 
 }
 
@@ -391,13 +452,16 @@ void LX200Generic::ISNewNumber (INumber *n)
 	  fprintf(stderr, "time is %02d:%02d:%02d\n", h, m, s);
 	  setLocalTime(h, m, s);
 	  LocalTime.s = ILS_OK;
-	  strcpy(LocalTime.nstr , n->nstr);
+
 	  if (timeFormat == LX200_24)
-	  	ICSetNumber(&LocalTime , "Time updated to %02d:%02d:%02d", h, m, s);
-	  else if (timeFormat == LX200_AM)
-		ICSetNumber(&LocalTime , "Time updated to %02d:%02d:%02d AM", h, m, s);
+	         sprintf(LocalTime.nstr, "%02d:%02d:%02d", h, m , s);
+  	  else if (timeFormat == LX200_AM)
+		 sprintf(LocalTime.nstr, "%02d:%02d:%02d AM", h, m, s);
 	  else
-	 	ICSetNumber(&LocalTime , "Time updated to %02d:%02d:%02d PM", h, m, s);
+	       sprintf(LocalTime.nstr , "%02d:%02d:%02d PM", h, m, s);
+
+	  ICSetNumber(&LocalTime , "Time updated to %s", LocalTime.nstr);
+
 
 	  return;
         }
@@ -550,6 +614,8 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	int i, index[16];
 	char syncString[64];
 	int dd, mm;
+	int h, m, sec;
+	static int nOfMovements = 0;
 
 	// ignore if not ours //
 	if (strcmp (s->dev, mydev))
@@ -558,7 +624,7 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	// FIRST Switch ALWAYS for power
 	if (!strcmp (s->name, PowerSw.name))
 	{
-	 powerTelescope(s);
+   	 powerTelescope(s);
 	 return;
 	}
 
@@ -707,10 +773,9 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	}
 	  
 	// Alignment
-	fprintf(stderr , "Before validating\n");
+
 	if (!validateSwitch(s, &AlignmentSw, NARRAY(AlignmentS), index, 1))
 	{
-	  fprintf(stderr , "After validating\n");
 	  setAlignmentMode(index[0]);
 	  AlignmentSw.s = ILS_OK;
           ICSetSwitch (&AlignmentSw, NULL);
@@ -754,19 +819,35 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	{
 	  MoveTo(index[0]);
 	  MovementSw.s = ILS_BUSY;
+	  nOfMovements++;
 	  ICSetSwitch(&MovementSw, "Moving %s...", LX200Direction[index[0]]);
+	  //fprintf(stderr, "Moving %s...", LX200Direction[index[0]]);
 	  return;
 	}
 
 	if (!validateSwitch(s, &haltMoveSw, NARRAY(haltMoveS), index, 1))
 	{
-	  fprintf(stderr, "in Halt Movement\n");
 	  if (MovementSw.s == ILS_BUSY)
 	  {
+	     //fprintf(stderr, "Halting movement in this direction %s\n",  LX200Direction[index[0]]);
+	     //fprintf(stderr, "current number of movements
 	  	HaltMovement(index[0]);
-	  	haltMoveSw.s = ILS_IDLE;
-	  	MovementSw.s = ILS_IDLE;
-	  	ICSetSwitch(&haltMoveSw, "Moving toward %s aborted", LX200Direction[index[0]]);
+		nOfMovements--;
+
+		if (nOfMovements <= 0)
+		{
+	  	  MovementSw.s = ILS_IDLE;
+		  nOfMovements = 0;
+		}
+
+
+		MovementSw.sw[0].s = ISS_OFF;
+		MovementSw.sw[1].s = ISS_OFF;
+		MovementSw.sw[2].s = ISS_OFF;
+		MovementSw.sw[3].s = ISS_OFF;
+                haltMoveSw.s = ILS_IDLE;
+
+		ICSetSwitch(&haltMoveSw, "Moving toward %s aborted", LX200Direction[index[0]]);
 	  	ICSetSwitch(&MovementSw, NULL);
 	  }
 	  else
@@ -823,7 +904,7 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	
 	if (!validateSwitch(s, &SolarSw, NARRAY(SolarS), index, 1))
 	{
-	  selectSubCatalog ( LX200_STAR_C, LX200_STAR);
+          selectSubCatalog ( LX200_STAR_C, LX200_STAR);
 	  selectCatalogObject( LX200_STAR_C, index[0] + 901);
 
 	  formatHMS ( (targetRA = getObjectRA()), Object_RA.nstr);
@@ -881,7 +962,14 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	  timeFormat = index[0];
 
 	  TimeFormatSw.s = ILS_OK;
-	  ICSetSwitch(&TimeFormatSw, NULL);
+
+	if (timeFormat == LX200_24)
+	 ICSetSwitch(&TimeFormatSw, "Time format changed to 24 hours. Telescope time is not updated until a new time is set");
+	else if (timeFormat == LX200_AM)
+	    ICSetSwitch(&TimeFormatSw, "Time format changed to AM.  Telescope time is not updated until a new time is set");
+	else
+	  ICSetSwitch(&TimeFormatSw, "Time format changed to PM.  Telescope time is not updated until a new time is set");
+
 	  return;
 	}
 }
@@ -940,7 +1028,7 @@ void LX200Generic::ISPoll()
 		ICSetSwitch (&SlewSw, "Slew is complete");
 	    } else
 	    {
-		ICMessage ("Slew in progress...", NULL);
+		ICMessage (mydev, "Slew in progress...");
 		ICSetNumber (&LX200_RA, NULL);
 		ICSetNumber (&LX200_DEC, NULL);
 	    }
@@ -959,16 +1047,16 @@ void LX200Generic::ISPoll()
 	     break;
 
 	case ILS_BUSY:
-	  
-	    fprintf(stderr , "Getting LX200 RA, DEC...\n");
+
+	    /*fprintf(stderr , "Getting LX200 RA, DEC...\n");*/
 	    currentRA = getLX200RA();
 	    currentDEC = getLX200DEC();
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
-	    
+
 	    formatHMS(currentRA, LX200_RA.nstr);
 	    formatDMS(currentDEC, LX200_DEC.nstr);
-	    
+
 	    if (dx < 0) dx *= -1;
 	    if (dy < 0) dy *= -1;
 
@@ -987,7 +1075,7 @@ void LX200Generic::ISPoll()
 		ICSetSwitch (&TrackSw, "Slew is complete. Tracking...");
 	    } else
 	    {
-		ICMessage ("Slew in progress...", NULL);
+		ICMessage (mydev, "Slew in progress...");
 		ICSetNumber (&LX200_RA, NULL);
 		ICSetNumber (&LX200_DEC, NULL);
 	    }
@@ -999,10 +1087,10 @@ void LX200Generic::ISPoll()
 	    currentDEC = getLX200DEC();
 	    dx = currentRA - oldLX200RA;
 	    dy = currentDEC - oldLX200DEC;
-	    
+
 	    if (dx < 0) dx *= -1;
 	    if (dy < 0) dy *= -1;
-	    
+
 	    if (dx >= 0.5)
 	    {
 	      formatHMS(currentRA, LX200_RA.nstr);
@@ -1015,14 +1103,14 @@ void LX200Generic::ISPoll()
 	      oldLX200DEC = currentDEC;
 	      ICSetNumber (&LX200_DEC, NULL);
 	    }
-	    
+
 	    break;
 
 	case ILS_ALERT:
 	    break;
 	}
-	
-	
+
+
 
 	switch (MovementSw.s)
 	{
@@ -1250,6 +1338,10 @@ void LX200Generic::getAlignment()
      ICSetSwitch (&AlignmentSw, "Retrieving alignment failed.");
      return;
    }
+
+   AlignmentS[0].s = ISS_OFF;
+   AlignmentS[1].s = ISS_OFF;
+   AlignmentS[2].s = ISS_OFF;
 
     switch (align)
     {

@@ -126,6 +126,7 @@ typedef struct {			/* Light property descriptor */
     int nl;				/* number in array l */
     ILState s;				/* property state */
     double tout;			/* max time to change, secs */
+    char *grouptag;			/* * group Propertiess within one Dev */
 } ILights;
 
 
@@ -178,7 +179,7 @@ extern void ICSetNumber (INumber *n, char *msg, ...);
 
 extern void ICSetSwitch (ISwitches *s, char *msg, ...);
 
-extern void ICSetLight (ILights *l, char *msg, ...);
+extern void ICSetLights (ILights *l, char *msg, ...);
 
 
 

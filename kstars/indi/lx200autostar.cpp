@@ -36,25 +36,6 @@ static IText   VersionNumber     = { mydev, "Version Number", NULL, ILS_IDLE};
 static IText   FullVersion	 = { mydev, "Full Version", NULL, ILS_IDLE};
 static IText   ProductName       = { mydev, "Product Name", NULL, ILS_IDLE};
 
-#ifdef LX200_AUTOSTAR
-void
-ISInit()
-{
-	fprintf(stderr , "initilizaing from autostar device...\n");
-
-	// Two important steps always performed when adding a sub-device
-
-	// 1. mydev = device_name
-	strcpy(mydev, "LX200Autostar");
-	// 2. device = sub_class
-	telescope = new LX200Autostar();
-
-	// Misc. device-specific settings
-	MaxReticleFlashRate = 9;
-}
-
-#endif
-
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
 

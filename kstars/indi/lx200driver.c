@@ -41,13 +41,12 @@ const char* alignModes[] = { "Polar", "AltAz", "Land"};
 const char * LX200Direction[] = { "North", "West", "East", "South", "All"};
 const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
 
-///////////////////////////////////////////////////////////////////////
-////////////////////////// BASIC //////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
+/**********************************************************************
+* BASIC
+**********************************************************************/
 
 int Connect(const char *device)
 {
- //fprintf(stderr, "in connect\n");
  fprintf(stderr, "connecting to device %s\n", device);
  if (openPort(device) < 0)
   return -1;
@@ -66,42 +65,42 @@ int testTelescope()
 {
   char ack[1] = { (char) 0x06 };
   char MountAlign[2];
-  
+
   write(fd, ack, 1);
   return portRead(MountAlign, 1);
 }
 
-///////////////////////////////////////////////////////////////////////
-////////////////////////// GET ////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
+/**********************************************************************
+* GET
+**********************************************************************/
 
 char ACK()
 {
   char ack[1] = { (char) 0x06 };
   char MountAlign[2];
-  
+
   write_ret = write(fd, ack, 1);
 
   if (write_ret < 0)
     return -1;
-    
+
   if ( !(read_ret = portRead(MountAlign, 1)))
    return MountAlign[0];
   else
    return -1;
-    
+
 }
 
 double getCommand(char * cmd)
 {
   char tempString[16];
   double value;
-        
+
   portWrite(cmd);
 
     read_ret = portRead(tempString, -1);
     tempString[read_ret - 1] = '\0';
-    
+
   if (validateFormat(tempString, &value))
    return -100;
  else
@@ -117,14 +116,14 @@ int getTimeFormat()
 
   read_ret = portRead(tempString, -1);
   tempString[read_ret-1] = '\0';
-  
+
   read_ret = sscanf(tempString, "(%d)", &tMode);
-  
+
   if (read_ret < 1)
    return -1;
-  else 
+  else
   return tMode;
-  
+
 }
 
 int getCommandStr(char *data, char* cmd)
@@ -135,11 +134,11 @@ int getCommandStr(char *data, char* cmd)
     read_ret = portRead(data, -1);
     if (read_ret < 1)
      return -1;
-     
+
     term = strchr (data, '#');
     if (term)
       *term = '\0';
-    
+
     fprintf(stderr, "Request data: %s\n", data);
 
     return 0;
@@ -159,7 +158,7 @@ int getUCTOffset()
     tempString[3] = '\0';
 
     sscanf(tempString, "%d", &offSet);
-    
+
     fprintf(stderr, "UTC Offset: %d\n", offSet);
 
     return offSet;
@@ -168,7 +167,7 @@ int getUCTOffset()
 int getSiteName(char *siteName, int siteNum)
 {
   char * term;
-  
+
   switch (siteNum)
   {
     case 1:
@@ -186,55 +185,55 @@ int getSiteName(char *siteName, int siteNum)
     default:
      return -1;
    }
-   
-   read_ret = portRead(siteName, -1);  
+
+   read_ret = portRead(siteName, -1);
    if (read_ret < 1)
      return -1;
-   
+
    siteName[read_ret - 1] = '\0';
    term = strchr (siteName, ' ');
     if (term)
       *term = '\0';
-    
+
    fprintf(stderr, "Requested site name: %s   -- strlen %d\n", siteName, strlen(siteName));
 
     return 0;
-   
+
 }
 
 int getSiteLatitude(int *dd, int *mm)
 {
   char tempString[16];
-  
+
   portWrite("#:Gt#");
-  
+
   read_ret = portRead(tempString, -1);
   tempString[read_ret -1] = '\0';
-  
+
   if (!sscanf (tempString, "%d%*c%d", dd, mm))
    return -1000;
-  
+
   fprintf(stderr, "Requested site latitude in String %s\n", tempString);
   fprintf(stderr, "Requested site latitude %d:%d\n", *dd, *mm);
-  
+
   return 0;
 }
 
 int getSiteLongitude(int *ddd, int *mm)
 {
   char tempString[16];
-  
+
   portWrite("#:Gg#");
-  
+
   read_ret = portRead(tempString, -1);
   tempString[read_ret -1] = '\0';
-  
+
   if (!sscanf (tempString, "%d%*c%d", ddd, mm))
    return -1000;
-  
+
   fprintf(stderr, "Requested site longitude in String %s\n", tempString);
   fprintf(stderr, "Requested site longitude %d:%d\n", *ddd, *mm);
-  
+
   return 0;
 }
 
@@ -304,25 +303,25 @@ double getOTATemp()
 
 }
 
-///////////////////////////////////////////////////////////////////////
-////////////////////////// SET ////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
+/**********************************************************************
+* SET
+**********************************************************************/
 
 int setStandardProcedure(char * data)
 {
  char boolRet[2];
  portWrite(data);
  read_ret = portRead(boolRet, 1);
- 
+
    if (boolRet[0] == '0')
    {
      fprintf(stderr, "\nFailure\n");
      return -1;
    }
-    
+
    fprintf(stderr, "\nSuccess\n");
    return 0;
-   
+
 
 }
 
@@ -371,14 +370,14 @@ int setCommandXYZ(int x, int y, int z, char *cmd)
   char tempString[16];
 
   sprintf(tempString, "%s %02d:%02d:%02d#", cmd, x, y, z);
-  
+
   return (setStandardProcedure(tempString));
 }
 
 void setAlignmentMode(unsigned int alignMode)
 {
   fprintf(stderr , "In set alignment mode\n");
-  
+
   switch (alignMode)
    {
      case LX200_ALIGN_POLAR:
@@ -400,9 +399,9 @@ int setCalenderDate(int dd, int mm, int yy)
    char dumpPlanetaryUpdateString[64];
    char boolRet[2];
    int result = 0;
-   
+
    sprintf(tempString, "#:SC %02d/%02d/%02d#", mm, dd, yy);
-   
+
    portWrite(tempString);
 
    portRead(boolRet, 1);
@@ -413,15 +412,13 @@ int setCalenderDate(int dd, int mm, int yy)
    else
    {
     result = 0;
-    
+
     portRead(dumpPlanetaryUpdateString, -1);
-    //dumpPlanetaryUpdateString[bytesRead - 1] = '\0';
-    
+
     portReadT(dumpPlanetaryUpdateString, -1, 5);
-    //dumpPlanetaryUpdateString[bytesRead - 1] = '\0';
-    
+
    }
-   
+
    return result;
 }
 
@@ -510,20 +507,20 @@ void setSlewMode(int slewMode)
      break;
     case LX200_SLEW_FIND:
      portWrite("#:RM#");
-     break;     
+     break;
     case LX200_SLEW_CENTER:
      portWrite("#:RC#");
-     break;     
+     break;
     case LX200_SLEW_GUIDE:
      portWrite("#:RG#");
-     break;     
+     break;
     default:
      break;
    }
 
 }
 
-// ask about what this actually *accomplish* before writing it to INDI
+/* ask about what this actually *accomplish* before writing it to INDI*/
 void setFocuserMotion(int motionType)
 {
 
@@ -567,9 +564,9 @@ int setTrackFreq(double trackF)
 
 }
 
-//////////////////////////////////////////////////////////
-////////////////////// MISC ///////////////////////////////
-//////////////////////////////////////////////////////////
+/**********************************************************************
+* Misc
+*********************************************************************/
 
 int Slew()
 {
@@ -593,7 +590,7 @@ int Slew()
      portRead(errorMsg, -1);
      return 2;
     }
-      
+
 }
 
 void MoveTo(int direction)
@@ -661,7 +658,7 @@ void Sync(char *matchedObject)
 }
 
 void selectSite(int siteNum)
-{ 
+{
 
   switch (siteNum)
   {
@@ -680,7 +677,7 @@ void selectSite(int siteNum)
     default:
     break;
   }
-    
+
 }
 
 void selectCatalogObject(int catalog, int NNNN)
@@ -700,9 +697,9 @@ void selectCatalogObject(int catalog, int NNNN)
    default:
     return;
   }
-  
+
   portWrite(tempString);
-  
+
 }
 
 int selectSubCatalog(int catalog, int subCatalog)
@@ -721,22 +718,21 @@ int selectSubCatalog(int catalog, int subCatalog)
     default:
      return 0;
   }
-  
+
    return (setStandardProcedure(tempString));
 }
-      
+
 void checkLX200Format()
 {
 
   char tempString[16];
-// make sure LX200 always use LONG
 
     portWrite("#:GR#");
 
     read_ret = portRead(tempString, -1);
     tempString[read_ret - 1] = '\0';
-    
-    // Short
+
+    /* Short */
     if (tempString[5] == '.')
      portWrite("#:U#");
 
@@ -755,18 +751,16 @@ int validateFormat(char * str, double * result)
   negative = strchr (localstr, '-');
   if (negative)
   	*negative = ' ';
-  
+
   ret = sscanf(localstr, "%f%*c%f%*c%f", &h, &m, &s);
   if (ret < 1)
    return -1;
-   
+
   *result = (double) (h + m / 60.0 + s / 3600.0);
-  
+
   if (negative)
   *result *= -1;
-  
-  //fprintf(stderr , "string is %s ---- result is %f\n", str, (float) *result);
-  
+
   return (0);
 
 }
@@ -797,20 +791,20 @@ void formatDMS(double number, char * str)
   sprintf(str, "%+03d:%02d:%02d", d, m, s);
 }
 
-int extractDate(char *date, int *dd, int *mm, int *yy)
+int extractDate(char *inDate, int *dd, int *mm, int *yy)
 {
  char buf[8];
  int dates[3];
  unsigned int i,j;
  int slashCount = 0;
- 
- fprintf(stderr, "date %s\n", date);
- fprintf(stderr, "length %d\n", strlen(date));
- 
- 
- for (i =0, j=0; i <= strlen(date); i++)
+
+ fprintf(stderr, "date %s\n", inDate);
+ fprintf(stderr, "length %d\n", strlen(inDate));
+
+
+ for (i =0, j=0; i <= strlen(inDate); i++)
  {
-   if (i == strlen(date) || date[i] == '/' || date[i] == '-')
+   if (i == strlen(inDate) || inDate[i] == '/' || inDate[i] == '-')
    {
      slashCount++;
 
@@ -819,11 +813,11 @@ int extractDate(char *date, int *dd, int *mm, int *yy)
       return -1;
       fprintf(stderr, "error: too many fields\n");
      }
-     
-      // +3 digits field, get only last two 
+
+      /* +3 digits field, get only last two */
      if (j > 2)
      {
-       // if it it not the years field, return an error
+       /* if it it not the years field, return an error */
        if (slashCount <= 2)
        {
    	 return -1;
@@ -834,104 +828,104 @@ int extractDate(char *date, int *dd, int *mm, int *yy)
      switch (j)
      {
       case 1:
-      buf[1] = '\0';  
+      buf[1] = '\0';
       break;
-      
+
       case 2:
       buf[2] = '\0';
       break;
-      
+
       case 3:
        fprintf(stderr, "error: field has 3 digits\n");
        return -1;
-       
+
       case 4:
       buf[0] = buf[2];
       buf[1] = buf[3];
       buf[2] = '\0';
       break;
-      
+
       default:
        return -1;
      }
-       
+
      dates[slashCount-1] = atoi(buf);
      j=0;
    }
-   
-   else 
-     buf[j++] = date[i];
+
+   else
+     buf[j++] = inDate[i];
  }
- 
+
  *mm = dates[0];
  *dd = dates[1];
  *yy = dates[2];
- 
+
  if (*mm < 1 || *mm > 12 || *dd < 1 || *yy < 0)
  {
   fprintf(stderr, "date range error\n");
   return -1;
  }
- 
+
  return 0;
-  
+
 }
 
-int extractTime(char *time, int *h, int *m, int *s)
+int extractTime(char *inTime, int *h, int *m, int *s)
 {
  char buf[8];
  int times[3];
  unsigned int i,j;
  int colonCount = 0;
- 
- fprintf(stderr, "time %s\n", time);
- fprintf(stderr, "length %d\n", strlen(time));
- 
- 
- for (i =0, j=0; i <= strlen(time); i++)
+
+ fprintf(stderr, "time %s\n", inTime);
+ fprintf(stderr, "length %d\n", strlen(inTime));
+
+
+ for (i =0, j=0; i <= strlen(inTime); i++)
  {
-   if (i == strlen(time) || time[i] == ':')
+   if (i == strlen(inTime) || inTime[i] == ':')
    {
      colonCount++;
-     
+
      if (colonCount > 3)
      {
       return -1;
       fprintf(stderr, "error: too many fields\n");
      }
-     
+
      switch (j)
      {
       case 1:
-      buf[1] = '\0';  
+      buf[1] = '\0';
       break;
-      
+
       case 2:
       buf[2] = '\0';
       break;
-      
+
      default:
        return -1;
      }
-       
+
      times[colonCount-1] = atoi(buf);
      j=0;
    }
-   
-   else 
-     buf[j++] = time[i];
+
+   else
+     buf[j++] = inTime[i];
  }
- 
+
  *h = times[0];
  *m = times[1];
  *s = times[2];
- 
+
  if (*h < 0 || *h > 24 || *m < 0 || *m > 60 || *s < 0 || *s > 60)
  {
   fprintf(stderr, "time range error\n");
   return -1;
  }
- 
+
  return 0;
 
 }
@@ -955,10 +949,11 @@ void selectTrackingMode(int trackMode)
    }
 
 }
-//////////////////////////////////////////////////////////
-////////////////////// COMM ///////////////////////////////
-//////////////////////////////////////////////////////////
-                 
+
+/**********************************************************************
+* Comm
+**********************************************************************/
+
 int openPort(const char *portID)
 {
   struct termios ttyOptions;
@@ -971,35 +966,35 @@ int openPort(const char *portID)
   memset(&ttyOptions, 0, sizeof(ttyOptions));
   tcgetattr(fd, &ttyOptions);
 
-   // Control options
-   // charecter size
+   /* Control options
+    charecter size */
    ttyOptions.c_cflag &= ~CSIZE;
-   // 8 bit, enable read
+   /* 8 bit, enable read */
    ttyOptions.c_cflag |= CREAD | CLOCAL | CS8;
-   // no parity
+   /* no parity */
    ttyOptions.c_cflag &= ~PARENB;
 
-   // set baud rate
+   /* set baud rate */
    ttyOptions.c_ispeed = B9600;
    ttyOptions.c_ospeed = B9600;
 
-  // set input/output flags
+  /* set input/output flags */
   ttyOptions.c_iflag = IGNBRK;
-  // no software flow control
+  /* no software flow control */
   ttyOptions.c_iflag &= ~(IXON|IXOFF|IXANY);
 
-  // Read at least one byte
+  /* Read at least one byte */
   ttyOptions.c_cc[VMIN] = 1;
   ttyOptions.c_cc[VTIME] = 5;
 
-  // Misc.
+  /* Misc. */
   ttyOptions.c_lflag = 0;
   ttyOptions.c_oflag = 0;
 
-  // set attributes
+  /* set attributes */
   tcsetattr(fd, TCSANOW, &ttyOptions);
 
-  // flush the channel
+  /* flush the channel */
   tcflush(fd, TCIOFLUSH);
   return (fd);
 }
@@ -1007,9 +1002,6 @@ int openPort(const char *portID)
 int portWrite(const char * buf)
 {
   int nbytes = strlen(buf);
-
-  //std::cout << "\nReceving: " << buf << std::endl;
-  //std::cout << "Of size : " << nbytes << std::endl;
 
   int bytesWritten = 0;
 
@@ -1025,17 +1017,16 @@ int portWrite(const char * buf)
     nbytes -= bytesWritten;
   }
 
-  // if return is 0 then everything is written, otherwise, some bytes were not written
+  /* if return is 0 then everything is written, otherwise, some bytes were not written */
   return (nbytes);
 }
 
-// I hate C !!!!
+/* I hate C !!!! */
 int portReadT(char *buf, int nbytes, int timeout)
 {
 
 int bytesRead = 0;
-  
-  // if nbytes is -1 then read till encountering terminating #
+
   if (nbytes == -1)
   {
      int totalBytes = 0;
@@ -1059,7 +1050,6 @@ int bytesRead = 0;
      }
   }
 
-  // Read nbytes
   while (nbytes > 0)
   {
      if (LX200readOut(timeout))
@@ -1081,7 +1071,7 @@ int portRead(char *buf, int nbytes)
 {
   int bytesRead = 0;
   
-  // if nbytes is -1 then read till encountering terminating #
+  /* if nbytes is -1 then read till encountering terminating # */
   if (nbytes == -1)
   {
      int totalBytes = 0;
@@ -1105,7 +1095,7 @@ int portRead(char *buf, int nbytes)
      }
   }
 
-  // Read nbytes
+  /* Read nbytes */
   while (nbytes > 0)
   {
      if (LX200readOut(2))
@@ -1132,11 +1122,11 @@ int LX200readOut(int timeout)
   FD_ZERO(&readout);
   FD_SET(fd, &readout);
 
-  // wait for 'timeout' seconds
+  /* wait for 'timeout' seconds */
   tv.tv_sec = timeout;
   tv.tv_usec = 0;
 
-  // Wait till we have a change in the fd status
+  /* Wait till we have a change in the fd status */
   retval = select (fd+1, &readout, NULL, NULL, &tv);
 
   if (retval > 0)

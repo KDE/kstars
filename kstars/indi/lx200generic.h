@@ -29,7 +29,7 @@ class LX200Generic
 {
  public:
  LX200Generic();
- ~LX200Generic() {}
+ virtual ~LX200Generic() {}
 
  virtual void ISGetProperties (char *dev);
  virtual void ISNewText (IText *t);

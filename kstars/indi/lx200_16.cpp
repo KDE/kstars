@@ -53,7 +53,7 @@ extern int MaxReticleFlashRate;
 
 
 static ISwitch FanStatusS[]		= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
-static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set"}};
+static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set", ISS_ON}};
 static ISwitch FieldDeRotatorS[]	= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
 static ISwitch SlewAltAzS[]		= { {"Slew to Object Az/Alt", ISS_OFF}};
 
@@ -65,27 +65,6 @@ static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NA
 static INumber ObjectAlt		= { mydev, "Object Altitude", NULL, ILS_IDLE};
 static INumber ObjectAz			= { mydev, "Object Azimuth", NULL, ILS_IDLE};
 
-
-
-
-#ifdef LX200_SIXTEEN
-void
-ISInit()
-{
-	fprintf(stderr , "initilizaing from LX200 16 device...\n");
-
-	// Two important steps always performed when adding a sub-device
-	// 1. mydev = device_name
-	strcpy(mydev, "LX200 16");
-	// 2. device = sub_class
-	telescope = new LX200_16();
-
-	// Back to 3 again for class 16"
-	MaxReticleFlashRate = 3;
-
-}
-
-#endif
 
 LX200_16::LX200_16() : LX200Autostar()
 {

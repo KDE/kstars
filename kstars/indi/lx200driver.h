@@ -57,7 +57,7 @@ extern const char* USBPort[];
 #define MaxReticleDutyCycle		15
 #define MaxFocuserSpeed			4
 
-// GET formatted coordinates/time, returns double
+/* GET formatted coordinates/time, returns double */
 #define getLX200RA()			getCommand("#:GR#")
 #define getLX200DEC()			getCommand("#:GD#")
 #define getObjectRA()			getCommand("#:Gr#")
@@ -66,7 +66,7 @@ extern const char* USBPort[];
 #define getLocalTime24()		getCommand("#:GL#")
 #define getSDTime()			getCommand("#:GS#")
 
-// Get String, pass x as string
+/* Get String, pass x as string */
 #define getCalenderDate(x)		getCommandStr(x, "#:GC#")
 #define getObjectInfo(x)		getCommandStr(x, "#:LI#")
 #define getVersionDate(x)		getCommandStr(x, "#:GVD#")
@@ -76,17 +76,17 @@ extern const char* USBPort[];
 #define getProductName(x)		getCommandStr(x, "#:GVP#")
 #define turnGPS_StreamOn		getCommandStr(x, "#:gps#")
 
-// Generic set, x is a double to set
+/* Generic set, x is a double to set */
 #define setObjectRA(x)			setCommand(x, "#:Sr")
 
-// Generic set, x is an integer
+/* Generic set, x is an integer */
 #define setReticleDutyFlashCycle(x)	setCommandInt(x, "#:BD")
 #define setReticleFlashRate(x)		setCommandInt(x, "#:B")
 #define setFocuserSpeed(x)		setCommandInt(x, "#:F")
 #define setSlewSpeed(x)			setCommandInt(x, "#:Sw")
 
 
-// Set X:Y:Z
+/* Set X:Y:Z */
 #define setLocalTime(x,y,z)		setCommandXYZ(x,y,z, "#:SL")
 #define setSDTime(x,y,z)		setCommandXYZ(x,y,z, "#:SS")
 
@@ -140,7 +140,7 @@ void Disconnect();
 
 char ACK();
    
-// Get commands
+/* Get commands */
 void checkLX200Format();
 double getCommand(char *cmd);
 double getTrackFreq();
@@ -156,11 +156,11 @@ int getNumberOfBars();
 int getHomeSearchStatus();
 
 
-// GPS
+/* GPS */
 double getOTATemp();
 
 
-// Set Commands
+/* Set Commands */
 int setCommand(double data, char *cmd);
 void setCommandInt(int data, char *cmd);
 
@@ -184,7 +184,7 @@ int setSiteName(char * siteName, int siteNum);
 void setFocuserMotion(int motionType);
 void setFocuserSpeedMode (int speedMode);
 
-// Other
+/* Other */
 int Slew();
 void Sync(char *matchedObject);
 void abortSlew();
@@ -194,8 +194,8 @@ void selectSite(int siteNum);
 void selectCatalogObject(int catalog, int NNNN);
 void selectTrackingMode(int trackMode);
 int selectSubCatalog(int catalog, int subCatalog);
-int extractDate(char *date, int *dd, int *mm, int *yy);
-int extractTime(char *time, int *h, int *m, int *s);
+int extractDate(char *inDate, int *dd, int *mm, int *yy);
+int extractTime(char *inTime, int *h, int *m, int *s);
 
 
 #ifdef __cplusplus

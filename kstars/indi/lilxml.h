@@ -63,6 +63,11 @@ typedef struct _LilXML LilXML;
 
 	delLilXML (lp);
  */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern LilXML *newLilXML(void);
 extern void delLilXML (LilXML *lp);
 extern XMLEle *readXMLEle (LilXML *l, int c, char errmsg[]);
@@ -70,8 +75,12 @@ extern void delXMLEle (XMLEle *e);
 extern void prXMLEle (FILE *fp, XMLEle *e, int level);
 
 /* search functions */
-extern XMLAtt *findXMLAtt (XMLEle *e, char *name);
-extern XMLEle *findXMLEle (XMLEle *e, char *tag);
+extern XMLAtt *findXMLAtt (XMLEle *e, const char *name);
+extern XMLEle *findXMLEle (XMLEle *e, const char *tag);
+
+#ifdef __cplusplus
+}
+#endif
 
 /* For RCS Only -- Do Not Edit
  * @(#) $RCSfile$ $Date$ $Revision$ $Name:  $
