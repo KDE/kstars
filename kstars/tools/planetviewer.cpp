@@ -45,6 +45,8 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	
 	pw->timeStep->tsbox()->setMinValue( 21 );
 	pw->timeStep->tsbox()->setValue( 21 );
+	pw->inclinationSpinBox->setValue(0);
+	setInclination(0);
 	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 	pw->dateBox->setDate( ExtDate::currentDate() );
 	
@@ -86,6 +88,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 
 	connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
 	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
+	connect( pw->inclinationSpinBox, SIGNAL( valueChanged(int) ), SLOT( setInclination(int) ) );
 	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
 	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
 }
@@ -104,6 +107,12 @@ void PlanetViewer::tick() {
 
 void PlanetViewer::setTimeScale(float f) {
 	scale = f/86400.; //convert seconds to days
+}
+
+void PlanetViewer::setInclination(int incl) {
+	dms inclination = dms(incl);
+	double sinInclination;
+	inclination.SinCos(sinInclination,cosInclination);
 }
 
 void PlanetViewer::slotRunClock() {
@@ -142,7 +151,7 @@ void PlanetViewer::updatePlanets() {
 			double s, c;
 			p->helEcLong()->SinCos( s, c );
 			planet[i]->point(0)->setX( p->rsun()*c );
-			planet[i]->point(0)->setY( p->rsun()*s );
+			planet[i]->point(0)->setY( p->rsun()*s*cosInclination );
 			planetLabel[i]->point(0)->setX( p->rsun()*c );
 			planetLabel[i]->point(0)->setY( p->rsun()*s );
 			
@@ -198,7 +207,7 @@ void PlanetViewer::initPlotObjects() {
 			double x, y, z;
 			while ( !orbitStream.eof() ) {
 				orbitStream >> x >> y >> z;
-				orbit[i]->addPoint( new DPoint( x, y ) );
+				orbit[i]->addPoint( new DPoint( x, y*cosInclination ) );
 			}
 		}
 		
@@ -207,14 +216,14 @@ void PlanetViewer::initPlotObjects() {
 	
 	for ( unsigned int i=0; i<9; ++i ) {
 		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
-		planetLabel[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::LABEL );
+		planetLabel[i] = new KPlotObject( i18n(pName[i].ascii()), pColor[i], KPlotObject::LABEL );
 		
 		double s, c;
 		KSPlanetBase *p = PCat.findByName( pName[i] );
 		p->helEcLong()->SinCos( s, c );
 		
-		planet[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
-		planetLabel[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s ) );
+		planet[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s*cosInclination ) );
+		planetLabel[i]->addPoint( new DPoint( p->rsun()*c, p->rsun()*s*cosInclination ) );
 		pw->map->addObject( planet[i] );
 		pw->map->addObject( planetLabel[i] );
 	}
