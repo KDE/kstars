@@ -35,6 +35,7 @@
 #include <qtimer.h>
 #include <qdir.h>
 #include <qwidget.h>
+#include <qpoint.h>
 
 #include <kapplication.h>
 #if (KDE_VERSION < 300)
@@ -149,6 +150,15 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Save KStars options.
 			*/
 		void saveOptions();
+
+		/**
+			*Add an item to the color-scheme action manu
+			*@param name The name to use in the menu
+			*@param actionName The internal name for the action (derived from filename)
+			*/
+		void addColorMenuItem( QString name, QString actionName );
+
+		void removeColorMenuItem( QString actionName );
 
 	/**Find object by name.
 		*@param name Object name to find
@@ -295,6 +305,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Re-assign the input focus to the SkyMap widget.
 			*/
 		void mapGetsFocus();
+
+		void saveTimeBoxShaded( bool s );
+		void saveGeoBoxShaded( bool s );
+		void saveFocusBoxShaded( bool s );
+		void saveTimeBoxPos( QPoint p );
+		void saveGeoBoxPos( QPoint p );
+		void saveFocusBoxPos( QPoint p );
 
 	private:
 		/**

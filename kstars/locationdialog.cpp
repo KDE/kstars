@@ -47,7 +47,7 @@
 #endif
 
 LocationDialog::LocationDialog( QWidget* parent )
-    : KDialogBase( KDialogBase::Plain, i18n( "Set Location" ), Ok|Cancel, Ok, parent ) {
+    : KDialogBase( KDialogBase::Plain, i18n( "Set Geographic Location" ), Ok|Cancel, Ok, parent ) {
 
 	KStars *p = (KStars *)parent;
 
@@ -230,7 +230,13 @@ void LocationDialog::initCityList( void ) {
 		GeoBox->insertItem( s );
 		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
 	}
-	QString scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
+
+	QString scount;
+	if (GeoBox->count()==1)
+		scount = i18n( "One city matches search criteria" );
+	else
+		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
+
 	CountLabel->setText( scount );
 	
 	bool cityFound(false);
@@ -279,7 +285,12 @@ void LocationDialog::filterCity( void ) {
 		}
 	}
 
-	QString scount = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
+	QString scount;
+	if (GeoBox->count()==1)
+		scount = i18n( "One city matches search criteria" );
+	else
+		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
+
 	CountLabel->setText( scount );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
@@ -424,7 +435,12 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 		}
 	}
 
-	QString scount = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
+	QString scount;
+	if (GeoBox->count()==1)
+		scount = i18n( "One city matches search criteria" );
+	else
+		scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
+
 	CountLabel->setText( scount );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected

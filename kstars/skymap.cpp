@@ -242,7 +242,7 @@ void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
 		QFont rsFont = pmRiseTime->font();
 		rsFont.setPointSize( rsFont.pointSize() - 2 );
 		pmRiseTime->setFont( rsFont );
-		pmSetTime = new QLabel( i18n( "Set time: 00:00" ), pmenu );
+		pmSetTime = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", pmenu );
 		pmSetTime->setAlignment( AlignCenter );
 		pmSetTime->setPalette( pal );
 		pmSetTime->setFont( rsFont );
@@ -302,7 +302,9 @@ void SkyMap::slotCenter( void ) {
 
 //set FoundObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
-  setFoundObject( ClickedObject );
+	setFoundObject( ClickedObject );
+	ksw->options()->isTracking = true;
+	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 //update the destination to the selected coordinates
 	if ( ksw->options()->useAltAz ) { //correct for atmospheric refraction if using horizontal coords
@@ -424,6 +426,7 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAz(az);
 	focus()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
 	slewing = false;
+
 	oldfocus()->set( focus()->ra(), focus()->dec() );
 	oldfocus()->setAz( focus()->az() );
 	oldfocus()->setAlt( focus()->alt() );
@@ -431,16 +434,6 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 	double dHA = ksw->data()->LSTh.Hours() - focus()->ra().Hours();
 	while ( dHA < 0.0 ) dHA += 24.0;
 	ksw->data()->HourAngle.setH( dHA );
-
-	if ( slewing ) {
-		if ( ksw->options()->isTracking ) {
-			setClickedObject( NULL );
-			setFoundObject( NULL );//no longer tracking foundObject
-			ksw->options()->isTracking = false;
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-		}
-		ksw->showFocusCoords();
-	}
 
 	Update(); //need a total update, or slewing with the arrow keys doesn't work.
 }
@@ -530,18 +523,6 @@ void SkyMap::slewFocus( void ) {
 
 		if ( ksw->options()->snapNextFocus() ) {
 			ksw->options()->setSnapNextFocus(false);
-		}
-
-		if ( foundObject() != NULL ) { //set tracking to true
-			// avoid flicker and paint only one time the icon
-			if (ksw->options()->isTracking == false)
-				ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
-			ksw->options()->isTracking = true;
-		} else {
-			// avoid flicker and paint only one time the icon
-			if (ksw->options()->isTracking == true)
-				ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-			ksw->options()->isTracking = false;
 		}
 
 		Update();
@@ -1037,9 +1018,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		}
 		st2.sprintf( "%02d:%02d", hour, min );
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
-//		st = i18n( "Set time: " ) + st2 +
-//			i18n(", Azimuth: ") + st3;
-		st = i18n( "Set time: %1" ).arg( st2 );
+		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( st2 );
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		st = i18n( "No set time: Circumpolar" );

@@ -18,6 +18,7 @@
 #ifndef INFOBOX_H
 #define INFOBOX_H
 
+#include <qobject.h>
 #include <qpainter.h>
 #include <qpoint.h>
 #include <qrect.h>
@@ -29,7 +30,8 @@
   *@author Jason Harris
   */
 
-class InfoBox {
+class InfoBox : public QObject {
+	Q_OBJECT
 public:
 	/**default constructor.  Creates an infobox with empty text string
 		*and default geometry
@@ -37,8 +39,8 @@ public:
 	InfoBox();
 	/**general constructor.  Specify The text string, x,y position and size.
 		*/
-	InfoBox( int x, int y, QString t1="", QString t2="", QString t3="" );
-	InfoBox( QPoint p, QString t1="", QString t2="", QString t3="" );
+	InfoBox( int x, int y, bool shade, QString t1="", QString t2="", QString t3="" );
+	InfoBox( QPoint p, bool shade, QString t1="", QString t2="", QString t3="" );
 
 	/**Destructor (empty)*/
 	~InfoBox();
@@ -46,10 +48,10 @@ public:
 	/**Draw the InfoBox on the specified QPainter*/
 	void draw( QPainter &p, QColor BGColor, bool fillBG );
 
-	void toggleShade();
+	bool toggleShade();
 
 	/**Reset the x,y position.  Check the anchors*/
-	void move( int x, int y ) { Pos.setX( x ); Pos.setY( y ); }
+	void move( int x, int y ) { Pos.setX( x ); Pos.setY( y ); emit moved( QPoint(x,y) ); }
 	void move( QPoint p ) { move( p.x(), p.y() ); }
 
 	/**Reset the width and height*/
@@ -93,6 +95,10 @@ public:
 	bool anchorBottom() const { return AnchorBottom; }
 	void setAnchorRight( const bool ar ) { AnchorRight = ar; }
 	void setAnchorBottom( const bool ab ) { AnchorBottom = ab; }
+
+signals:
+	void moved( QPoint p );
+	void shaded( bool s );
 
 private:
 	bool Shaded, Visible, AnchorRight, AnchorBottom;

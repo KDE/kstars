@@ -23,7 +23,7 @@ InfoBox::InfoBox(){
 	setText1( "" );
 	setText2( "" );
 	setText3( "" );
-	move( 10, 10 );
+	move( 0, 0 );
 	Shaded = false;
 //Initialize text dimension variables to 0
 	FullTextWidth  = 0;
@@ -35,12 +35,12 @@ InfoBox::InfoBox(){
 	AnchorBottom = false;
 }
 
-InfoBox::InfoBox( int x, int y, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
 	move( x, y );
-	Shaded = false;
+	Shaded = shade;
 //Initialize text dimension variables to 0
 	FullTextWidth  = 0;
 	FullTextHeight = 0;
@@ -51,12 +51,12 @@ InfoBox::InfoBox( int x, int y, QString t1, QString t2, QString t3 ) {
 	AnchorBottom = false;
 }
 
-InfoBox::InfoBox( QPoint pt, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
 	move( pt );
-	Shaded = false;
+	Shaded = shade;
 //Initialize text dimension variables to 0
 	FullTextWidth  = 0;
 	FullTextHeight = 0;
@@ -70,9 +70,12 @@ InfoBox::InfoBox( QPoint pt, QString t1, QString t2, QString t3 ) {
 InfoBox::~InfoBox(){
 }
 
-void InfoBox::toggleShade() {
+bool InfoBox::toggleShade() {
 	Shaded = !Shaded;
 	updateSize();
+
+	emit shaded( Shaded );
+	return Shaded;
 }
 
 void InfoBox::updateSize() {
@@ -152,3 +155,5 @@ void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 QRect InfoBox::rect() const {
 	return QRect( pos(), size() );
 }
+
+#include "infobox.moc"

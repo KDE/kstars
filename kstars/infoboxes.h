@@ -22,6 +22,8 @@
 #include <qcolor.h>
 #include <qdatetime.h>
 #include <qevent.h>
+#include <qpoint.h>
+#include <kdebug.h>
 
 #include "geolocation.h"
 #include "skypoint.h"
@@ -34,8 +36,27 @@
 class InfoBoxes : public QObject {
 Q_OBJECT
 public:
-	InfoBoxes( int w, int h );
+	InfoBoxes( int w, int h,
+			int tx=0, int ty=0, bool tshade=false,
+			int gx=0, int gy=600, bool gshade=false,
+			int fx=600, int fy=0, bool fshade=false,
+			QColor colorText=QColor("white"),
+			QColor colorGrab=QColor("red"),
+			QColor colorBG=QColor("black") );
+
+	InfoBoxes( int w, int h,
+			QPoint tp, bool tshade,
+			QPoint gp, bool gshade,
+			QPoint fp, bool fshade,
+			QColor colorText=QColor("white"),
+			QColor colorGrab=QColor("red"),
+			QColor colorBG=QColor("black") );
+
 	~InfoBoxes();
+
+	InfoBox *timeBox()  { return TimeBox; }
+	InfoBox *geoBox()   { return GeoBox; }
+	InfoBox *focusBox() { return FocusBox; }
 
 	/**Resets the width and height parameters.  These usually reflect the size
 		*of the Skymap widget (Skymap::resizeEvent() calls this function).
@@ -62,6 +83,7 @@ public:
 	bool shadeBox( QMouseEvent *e );
 	bool fixCollisions( InfoBox *target );
 	bool isVisible() { return Visible; }
+
 public slots:
 	void setVisible( bool t ) { Visible = t; }
 	void showTimeBox( bool t ) { TimeBox->setVisible( t ); }
@@ -87,7 +109,7 @@ private:
 	int Width, Height;
 	int GrabbedBox;
 	bool Visible;
-	QColor boxColor, grabColor;
+	QColor boxColor, grabColor, bgColor;
 	QPoint GrabPos;
 	InfoBox *GeoBox, *FocusBox, *TimeBox;
 };

@@ -88,13 +88,13 @@ ColorScheme::ColorScheme(){
 	Name.append( i18n( "Coordinate Grid" ) );
 	Default.append( "#456" );
 	KeyName.append( "BoxTextColor" );
-	Name.append( i18n( "Infobox Text Color" ) );
+	Name.append( i18n( "Info Box Text" ) );
 	Default.append( "#FFF" );
 	KeyName.append( "BoxGrabColor" );
-	Name.append( i18n( "Infobox Grabbed Color" ) );
+	Name.append( i18n( "Info Box Selected" ) );
 	Default.append( "#F00" );
 	KeyName.append( "BoxBGColor" );
-	Name.append( i18n( "Infobox Background Color" ) );
+	Name.append( i18n( "Info Box Background" ) );
 	Default.append( "#000" );
 	
 	//Default values for integer variables:

@@ -21,7 +21,7 @@
 #include "timedialog.h"
 
 TimeDialog::TimeDialog( QDateTime now, QWidget* parent )
-    : KDialogBase( KDialogBase::Plain, i18n( "Set Time" ), Ok|Cancel, Ok, parent )
+    : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
 	QFrame *page = plainPage();
 

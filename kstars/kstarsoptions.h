@@ -20,6 +20,7 @@
 #define KSTARSOPTIONS_H
 
 #include <qstring.h>
+#include <qpoint.h>
 #include <qvaluelist.h>
 #include <qstringlist.h>
 
@@ -151,9 +152,11 @@ class KStarsOptions {
 		bool snapToFocus;
 
 		//GUI options
+		bool showMainToolBar, showViewToolBar;
 		bool showInfoBoxes;
 		bool showTimeBox, showFocusBox, showGeoBox;
-		bool showMainToolBar, showViewToolBar;
+		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;
+		QPoint posTimeBox, posFocusBox, posGeoBox;
 
 		//Custom Catalogs
 		unsigned int CatalogCount;

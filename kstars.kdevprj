@@ -82,14 +82,6 @@ install=false
 install_location=
 type=DATA
 
-[Workspace_1]
-browser_file=file:/usr/lib/qt2/doc/html/qlist.html
-cpp_file=/root/develop/kstars_5/kstars/kstars/kstars.cpp
-header_file=/root/develop/kstars_5/kstars/kstars/skyobject.h
-openfiles=Untitled.cpp,Untitled.h,/root/develop/kstars_5/kstars/kstars/kstars.h,/root/develop/kstars_5/kstars/kstars/bak/skymap.cpp,/root/develop/kstars_5/kstars/kstars/kstarsdata.h,/root/develop/kstars_5/kstars/kstars/kstarsdata.cpp,/root/develop/kstars_5/kstars/kstars/kstars.cpp,/root/develop/kstars_5/kstars/kstars/skymap.cpp,/root/develop/kstars_5/kstars/kstars/mapcanvas.cpp,/root/develop/kstars_5/kstars/kstars/skyobject.h,/root/develop/kstars_5/kstars/kstars/skypoint.cpp
-show_outputview=false
-show_treeview=false
-
 [kstars.kdevprj]
 dist=true
 install=false

@@ -385,3 +385,14 @@ void KStars::slotShowGUIItem( bool show ) {
 	if ( sender()->name() == QString( "show_focus_box" ) )
 		options()->showFocusBox = show;
 }
+
+void KStars::addColorMenuItem( QString name, QString actionName ) {
+	colorActionMenu->insert( new KAction( name, 0,
+			this, SLOT( slotColorScheme() ), actionCollection(), actionName.local8Bit() ) );
+}
+
+void KStars::removeColorMenuItem( QString actionName ) {
+	kdDebug() << "removing " << actionName << endl;
+	colorActionMenu->remove( actionCollection()->action( actionName.local8Bit() ) );
+}
+

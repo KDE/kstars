@@ -184,10 +184,10 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );
 	TTimeLabel = new QLabel( i18n( "Transit time:" ), this );
-	STimeLabel = new QLabel( i18n( "Set time:" ), this );
-	RAzLabel = new QLabel( i18n( "Azimuth at rise:" ), this );
-	TAltLabel = new QLabel( i18n( "Altitude at transit:" ), this );
-	SAzLabel = new QLabel( i18n( "Azimuth at set:" ), this );
+	STimeLabel = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ), this );
+	RAzLabel = new QLabel( i18n( "azimuth of object as it rises above horizon", "Azimuth at rise:" ), this );
+	TAltLabel = new QLabel( i18n( "altitude of object as it transits the meridian", "Altitude at transit:" ), this );
+	SAzLabel = new QLabel( i18n( "azimuth angle of object as it sets below horizon", "Azimuth at set:" ), this );
 
 	if ( rt.isValid() ) {
 		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );

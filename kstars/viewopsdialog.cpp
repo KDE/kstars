@@ -756,6 +756,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 			if ( ksw->options()->colorScheme()->save( schemeDlg.text() ) ) {
 				PresetBox->insertItem( schemeDlg.text() );
 				PresetFileList.append( filename + ".colors" );
+				ksw->addColorMenuItem( schemeDlg.text(), "cs_" + filename.local8Bit() );
 			}
 		}
 	}
@@ -778,6 +779,9 @@ void ViewOpsDialog::slotRemovePreset( void ) {
 	//Reconnect the "highlighted" signal
 	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
 
+	//Remove action from color-schemes menu
+	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).local8Bit() );
+	
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
 		KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );

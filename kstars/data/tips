@@ -35,6 +35,15 @@ Open the KStars Astrocalculator by pressing Ctrl+C or by selecting
 the "Tools|Calculator" menu item.
 </html>
 </tip>
+<tip category="KStars|General">
+<html>
+<p>There are three on-screen "Info Boxes" which show data related to the
+time/date, your geographic location, and the current central position on the
+sky (the focus).  You can drag these boxes with the mouse, and "shade" them
+by double-clicking them to show more (or less) information.  You can hide
+them altogether in the Settings|Info Boxes menu.
+</html>
+</tip>
 <tip category="KStars|Navigation">
 <html>
 <p>...that the Z key will point the display at the Zenith?

@@ -19,21 +19,53 @@
 #include <kdebug.h>
 #include "infoboxes.h"
 
-InfoBoxes::InfoBoxes( int w, int h ) {
-	boxColor = QColor( "white" );
-	grabColor = QColor( "red" );
+InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
+		QPoint gp, bool gshade, QPoint fp, bool fshade,
+		QColor colorText, QColor colorGrab, QColor colorBG ) {
+
+	int tx = tp.x();
+	int ty = tp.y();
+	int gx = gp.x();
+	int gy = gp.y();
+	int fx = fp.x();
+	int fy = fp.y();
+
+	boxColor = colorText;
+	grabColor = colorGrab;
+	bgColor = colorBG;
 	GrabbedBox = 0;
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;
 
-	GeoBox   = new InfoBox( 0, 0, "", "" );
-	TimeBox  = new InfoBox( 0, 0, "", "", "" );
-	FocusBox = new InfoBox( 0, 0, "", "", "" );
+//Create infoboxes
+	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
+	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
+	FocusBox = new InfoBox( fx, fy, fshade, "", "", "" );
 
-	// set default positions
-	FocusBox->move( 0, 0 );
-	TimeBox->move( w, 0 );
-	GeoBox->move( 0, h );
+	fixCollisions( TimeBox );
+	fixCollisions( FocusBox );
+
+	resize( w, h );
+}
+
+InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
+		int gx, int gy, bool gshade, int fx, int fy, bool fshade,
+		QColor colorText, QColor colorGrab, QColor colorBG ) {
+	boxColor = colorText;
+	grabColor = colorGrab;
+	bgColor = colorBG;
+	GrabbedBox = 0;
+	GrabPos = QPoint( 0, 0 );
+	Visible = true;
+
+//Create infoboxes
+	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
+	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
+	FocusBox = new InfoBox( fx, fy, fshade, "", "", "" );
+
+	fixCollisions( TimeBox );
+	fixCollisions( FocusBox );
+
 	resize( w, h );
 }
 

@@ -72,86 +72,73 @@ void KStars::loadOptions()
 	options()->showTimeBox   = conf->readBoolEntry( "ShowTimeBox", true );
 	options()->showFocusBox  = conf->readBoolEntry( "ShowFocusBox", true );
 	options()->showGeoBox    = conf->readBoolEntry( "ShowGeoBox", true );
+	options()->shadeTimeBox  = conf->readBoolEntry( "ShadeTimeBox", false );
+	options()->shadeFocusBox = conf->readBoolEntry( "ShadeFocusBox", false );
+	options()->shadeGeoBox   = conf->readBoolEntry( "ShadeGeoBox", false );
+	options()->posTimeBox    = conf->readPointEntry( "PositionTimeBox", new QPoint(0,0) );
+	options()->posFocusBox   = conf->readPointEntry( "PositionFocusBox", new QPoint(600,0) );
+	options()->posGeoBox     = conf->readPointEntry( "PositionGeoBox", new QPoint(0,600) );
 	options()->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 
 	conf->setGroup( "View" );
 	options()->colorScheme()->loadFromConfig( conf );
-/*
-	options()->colorSky 		= conf->readEntry( "SkyColor", "#002" );
-//	options()->colorStar 	= conf->readEntry( "StarColor", "#FFF" );
-	options()->colorMW 		= conf->readEntry( "MWColor", "#123" );
-	options()->colorEq 		= conf->readEntry( "EqColor", "#FFF" );
-	options()->colorEcl		= conf->readEntry( "EclColor", "#663" );
-	options()->colorHorz 	= conf->readEntry( "HorzColor", "#5A3" );
-	options()->colorGrid 	= conf->readEntry( "GridColor", "#456" );
-	options()->colorMess 	= conf->readEntry( "MessColor", "#0F0" );
-	options()->colorNGC 		= conf->readEntry( "NGCColor", "#066" );
-	options()->colorIC 		= conf->readEntry( "ICColor", "#439" );
-	options()->colorCLine 	= conf->readEntry( "CLineColor", "#555" );
-	options()->colorCName 	= conf->readEntry( "CNameColor", "#AA7" );
-	options()->colorPName 	= conf->readEntry( "PNameColor", "#A77" );
-	options()->colorSName 	= conf->readEntry( "SNameColor", "#7AA" );
-	options()->colorHST 		= conf->readEntry( "HSTColor", "#A00" );
-	options()->starColorMode = conf->readNumEntry( "StarColorMode", 0 );
-	options()->starColorIntensity = conf->readNumEntry ("StarColorsIntensity", 4);
-*/
 
-	options()->drawSAO			= conf->readBoolEntry( "ShowSAO", true );
-	options()->drawMessier	= conf->readBoolEntry( "ShowMess", true );
+	options()->drawSAO        = conf->readBoolEntry( "ShowSAO", true );
+	options()->drawMessier    = conf->readBoolEntry( "ShowMess", true );
 	options()->drawMessImages = conf->readBoolEntry( "ShowMessImages", true );
-	options()->drawNGC			= conf->readBoolEntry( "ShowNGC", true );
-	options()->drawIC 			= conf->readBoolEntry( "ShowIC", true );
+	options()->drawNGC        = conf->readBoolEntry( "ShowNGC", true );
+	options()->drawIC         = conf->readBoolEntry( "ShowIC", true );
 	options()->drawConstellLines = conf->readBoolEntry( "ShowCLines", true );
 	options()->drawConstellNames = conf->readBoolEntry( "ShowCNames", true );
-	options()->useLatinConstellNames = conf->readBoolEntry( "UseLatinConstellationNames", true );
-	options()->useLocalConstellNames = conf->readBoolEntry( "UseLocalConstellationNames", false );
+	options()->useLatinConstellNames  = conf->readBoolEntry( "UseLatinConstellationNames", true );
+	options()->useLocalConstellNames  = conf->readBoolEntry( "UseLocalConstellationNames", false );
 	options()->useAbbrevConstellNames = conf->readBoolEntry( "UseAbbrevConstellationNames", false );
 	options()->drawMilkyWay = conf->readBoolEntry( "ShowMilkyWay", true );
-	options()->drawGrid = conf->readBoolEntry( "ShowGrid", true );
-	options()->drawEquator = conf->readBoolEntry( "ShowEquator", true );
+	options()->drawGrid     = conf->readBoolEntry( "ShowGrid", true );
+	options()->drawEquator  = conf->readBoolEntry( "ShowEquator", true );
 	options()->drawEcliptic = conf->readBoolEntry( "ShowEcliptic", true );
-	options()->drawHorizon = conf->readBoolEntry( "ShowHorizon", true );
-	options()->drawGround = conf->readBoolEntry( "ShowGround", true );
-	options()->drawSun = conf->readBoolEntry( "ShowSun", true );
-	options()->drawMoon = conf->readBoolEntry( "ShowMoon", true );
+	options()->drawHorizon  = conf->readBoolEntry( "ShowHorizon", true );
+	options()->drawGround   = conf->readBoolEntry( "ShowGround", true );
+	options()->drawSun     = conf->readBoolEntry( "ShowSun", true );
+	options()->drawMoon    = conf->readBoolEntry( "ShowMoon", true );
 	options()->drawMercury = conf->readBoolEntry( "ShowMercury", true );
-	options()->drawVenus = conf->readBoolEntry( "ShowVenus", true );
-	options()->drawMars = conf->readBoolEntry( "ShowMars", true );
+	options()->drawVenus   = conf->readBoolEntry( "ShowVenus", true );
+	options()->drawMars    = conf->readBoolEntry( "ShowMars", true );
 	options()->drawJupiter = conf->readBoolEntry( "ShowJupiter", true );
-	options()->drawSaturn = conf->readBoolEntry( "ShowSaturn", true );
-	options()->drawUranus = conf->readBoolEntry( "ShowUranus", true );
+	options()->drawSaturn  = conf->readBoolEntry( "ShowSaturn", true );
+	options()->drawUranus  = conf->readBoolEntry( "ShowUranus", true );
 	options()->drawNeptune = conf->readBoolEntry( "ShowNeptune", true );
-	options()->drawPluto = conf->readBoolEntry( "ShowPluto", true );
+	options()->drawPluto   = conf->readBoolEntry( "ShowPluto", true );
 	options()->drawPlanets = conf->readBoolEntry( "ShowPlanets", true );
 	options()->drawDeepSky = conf->readBoolEntry( "ShowDeepSky", true );
-	options()->useAltAz = conf->readBoolEntry( "UseAltAz", true );
+	options()->useAltAz   = conf->readBoolEntry( "UseAltAz", true );
 	options()->isTracking = conf->readBoolEntry( "IsTracking", false );
 	options()->focusObject = conf->readEntry( "FocusObject", "nothing" );
 	options()->focusDec = conf->readDoubleNumEntry( "FocusDec", 45.0 );
-	options()->focusRA = conf->readDoubleNumEntry( "FocusRA", 180.0 );
+	options()->focusRA  = conf->readDoubleNumEntry( "FocusRA", 180.0 );
 	options()->slewTimeScale = conf->readDoubleNumEntry( "SlewTimeScale", 60.0 );
 	options()->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 7.0 );
 	options()->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options()->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );
-	options()->drawStarName = conf->readBoolEntry( "drawStarName", false );
-	options()->drawPlanetName = conf->readBoolEntry( "drawPlanetName", true );
-	options()->drawPlanetImage = conf->readBoolEntry( "drawPlanetImage", true );
+	options()->drawStarName      = conf->readBoolEntry( "drawStarName", false );
+	options()->drawPlanetName    = conf->readBoolEntry( "drawPlanetName", true );
+	options()->drawPlanetImage   = conf->readBoolEntry( "drawPlanetImage", true );
 	options()->drawStarMagnitude = conf->readBoolEntry( "drawStarMagnitude", false );
-	options()->windowWidth = conf->readNumEntry( "windowWidth", 600 );
+	options()->windowWidth  = conf->readNumEntry( "windowWidth", 600 );
 	options()->windowHeight = conf->readNumEntry( "windowHeight", 600 );
 	options()->useRefraction = conf->readBoolEntry( "UseRefraction", true );
 	options()->useAnimatedSlewing = conf->readBoolEntry( "AnimateSlewing", true );
-	options()->hideOnSlew = conf->readBoolEntry( "HideOnSlew", true );
-	options()->hideStars = conf->readBoolEntry( "HideStars", true );
+	options()->hideOnSlew  = conf->readBoolEntry( "HideOnSlew", true );
+	options()->hideStars   = conf->readBoolEntry( "HideStars", true );
 	options()->hidePlanets = conf->readBoolEntry( "HidePlanets", false );
-	options()->hideMess = conf->readBoolEntry( "HideMess", false );
-	options()->hideNGC = conf->readBoolEntry( "HideNGC", true );
-	options()->hideIC = conf->readBoolEntry( "HideIC", true );
-	options()->hideMW = conf->readBoolEntry( "HideMW", true );
-	options()->hideCNames = conf->readBoolEntry( "HideCNames", false );
-	options()->hideCLines = conf->readBoolEntry( "HideCLines", false );
-	options()->hideGrid = conf->readBoolEntry( "HideGrid", true );
+	options()->hideMess    = conf->readBoolEntry( "HideMess", false );
+	options()->hideNGC     = conf->readBoolEntry( "HideNGC", true );
+	options()->hideIC      = conf->readBoolEntry( "HideIC", true );
+	options()->hideMW      = conf->readBoolEntry( "HideMW", true );
+	options()->hideCNames  = conf->readBoolEntry( "HideCNames", false );
+	options()->hideCLines  = conf->readBoolEntry( "HideCLines", false );
+	options()->hideGrid    = conf->readBoolEntry( "HideGrid", true );
 }
 
 void KStars::saveOptions() {
@@ -195,6 +182,12 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowTimeBox", options()->showTimeBox );
 	conf->writeEntry( "ShowFocusBox", options()->showFocusBox );
 	conf->writeEntry( "ShowGeoBox", options()->showGeoBox );
+	conf->writeEntry( "ShadeTimeBox", options()->shadeTimeBox );
+	conf->writeEntry( "ShadeFocusBox", options()->shadeFocusBox );
+	conf->writeEntry( "ShadeGeoBox", options()->shadeGeoBox );
+	conf->writeEntry( "PositionTimeBox", options()->posTimeBox );
+	conf->writeEntry( "PositionFocusBox", options()->posFocusBox );
+	conf->writeEntry( "PositionGeoBox", options()->posGeoBox );
 	conf->writeEntry( "ShowMainToolBar", options()->showMainToolBar );
 	conf->writeEntry( "ShowViewToolBar", options()->showViewToolBar );
 
@@ -261,5 +254,29 @@ void KStars::saveOptions() {
 	conf->writeEntry( "HideCLines", options()->hideCLines );
 	conf->writeEntry( "HideGrid", options()->hideGrid );
 	conf->sync();
+}
+
+void KStars::saveTimeBoxShaded( bool s ) {
+	options()->shadeTimeBox = s;
+}
+
+void KStars::saveGeoBoxShaded( bool s ) {
+	options()->shadeGeoBox = s;
+}
+
+void KStars::saveFocusBoxShaded( bool s ) {
+	options()->shadeFocusBox = s;
+}
+
+void KStars::saveTimeBoxPos( QPoint p ) {
+	options()->posTimeBox = p;
+}
+
+void KStars::saveGeoBoxPos( QPoint p ) {
+	options()->posGeoBox = p;
+}
+
+void KStars::saveFocusBoxPos( QPoint p ) {
+	options()->posFocusBox = p;
 }
 

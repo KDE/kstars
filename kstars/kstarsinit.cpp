@@ -47,7 +47,7 @@ void KStars::initActions() {
 //Time Menu:
 	new KAction( i18n( "Set Time to &Now" ), KAccel::stringToKey( "Ctrl+E"  ),
 		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
-	new KAction( i18n( "&Set Time..." ), "clock", KAccel::stringToKey( "Ctrl+S"  ),
+	new KAction( i18n( "set clock to a new time", "&Set Time..." ), "clock", KAccel::stringToKey( "Ctrl+S"  ),
 		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),
@@ -95,7 +95,7 @@ void KStars::initActions() {
 	// the activated signal instead of the toggled signal. This seems like a bug
 	// to me, but ...
 	//
-	//Info Panel option actions
+	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
 	a->setChecked( options()->showInfoBoxes );
@@ -108,21 +108,18 @@ void KStars::initActions() {
 	a->setChecked( options()->showTimeBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoBoxes()->showTimeBox( options()->showTimeBox );
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show Focus"),
 			0, 0, 0, actionCollection(), "show_focus_box");
 	a->setChecked( options()->showFocusBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoBoxes()->showFocusBox( options()->showFocusBox );
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show Location"),
 			0, 0, 0, actionCollection(), "show_location_box");
 	a->setChecked( options()->showGeoBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoBoxes()->showGeoBox( options()->showGeoBox );
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
@@ -137,9 +134,13 @@ void KStars::initActions() {
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
 	colorActionMenu = new KActionMenu( i18n( "&Color Schemes" ), actionCollection(), "colorschemes" );
-	colorActionMenu->insert( new KAction( i18n( "&Default" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_default" ) );
-	colorActionMenu->insert( new KAction( i18n( "&Star Chart" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_chart" ) );
-	colorActionMenu->insert( new KAction( i18n( "&Night Vision" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_night" ) );
+	addColorMenuItem( i18n( "&Default" ), "cs_default" );
+	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
+	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );
+
+//	colorActionMenu->insert( new KAction( i18n( "&Default" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_default" ) );
+//	colorActionMenu->insert( new KAction( i18n( "&Star Chart" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_chart" ) );
+//	colorActionMenu->insert( new KAction( i18n( "&Night Vision" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_night" ) );
 
 //Add any user-defined color schemes:
 	QFile file;
@@ -153,12 +154,13 @@ void KStars::initActions() {
 			schemeName = line.left( line.find( ':' ) );
 			//I call it filename here, but it's used as the name of the action!
 			filename = "cs_" + line.mid( line.find( ':' ) +1, line.find( '.' ) - line.find( ':' ) - 1 );
-			colorActionMenu->insert( new KAction( i18n( schemeName.local8Bit() ), 0,
-					this, SLOT( slotColorScheme() ), actionCollection(), filename.local8Bit() ) );
+			addColorMenuItem( i18n( schemeName.local8Bit() ), filename.local8Bit() );
+
+//			colorActionMenu->insert( new KAction( i18n( schemeName.local8Bit() ), 0,
+//					this, SLOT( slotColorScheme() ), actionCollection(), filename.local8Bit() ) );
 		}
 		file.close();
 	}
-
 
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
@@ -366,8 +368,27 @@ void KStars::privatedata::buildGUI() {
 	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
-	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight );
 
+	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight,
+			ks->options()->posTimeBox, ks->options()->shadeTimeBox,
+			ks->options()->posGeoBox, ks->options()->shadeGeoBox,
+			ks->options()->posFocusBox, ks->options()->shadeFocusBox,
+			ks->options()->colorScheme()->colorNamed( "BoxTextColor" ),
+			ks->options()->colorScheme()->colorNamed( "BoxGrabColor" ),
+			ks->options()->colorScheme()->colorNamed( "BoxBGColor" ) );
+
+	ks->infoBoxes()->showTimeBox( ks->options()->showTimeBox );
+	ks->infoBoxes()->showFocusBox( ks->options()->showFocusBox );
+	ks->infoBoxes()->showGeoBox( ks->options()->showGeoBox );
+	ks->infoBoxes()->geoChanged(ks->geo());
+
+	connect( ks->infoBoxes()->timeBox(),  SIGNAL( shaded(bool) ), ks, SLOT( saveTimeBoxShaded(bool) ) );
+	connect( ks->infoBoxes()->geoBox(),   SIGNAL( shaded(bool) ), ks, SLOT( saveGeoBoxShaded(bool) ) );
+	connect( ks->infoBoxes()->focusBox(), SIGNAL( shaded(bool) ), ks, SLOT( saveFocusBoxShaded(bool) ) );
+	connect( ks->infoBoxes()->timeBox(),  SIGNAL( moved(QPoint) ), ks, SLOT( saveTimeBoxPos(QPoint) ) );
+	connect( ks->infoBoxes()->geoBox(),   SIGNAL( moved(QPoint) ), ks, SLOT( saveGeoBoxPos(QPoint) ) );
+	connect( ks->infoBoxes()->focusBox(), SIGNAL( moved(QPoint) ), ks, SLOT( saveFocusBoxPos(QPoint) ) );
+	
 	ks->initStatusBar();
 	ks->initActions();
 
@@ -381,8 +402,6 @@ void KStars::privatedata::buildGUI() {
 	// create the layout of the central widget
 	ks->topLayout = new QVBoxLayout( ks->centralWidget );
 	ks->topLayout->addWidget( ks->skymap );
-
-	ks->infoBoxes()->geoChanged(ks->geo());
 
 	// 2nd parameter must be false, or plugActionList won't work!
 	ks->createGUI("kstarsui.rc", false);
