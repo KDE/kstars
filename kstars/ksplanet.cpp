@@ -239,8 +239,16 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
 		double eY = Earth->rsun()*cosB0*sinL0;
 		double eZ = Earth->rsun()*sinB0;
 
+		bool once=true;
 		while (fabs(dst - olddst) > .001) {
 			calcEcliptic(jm, trialpos);
+			
+			// We store the heliocentric ecliptic coordinates the first time they are computed.
+			if(once){
+				helEcPos = trialpos;
+				once=false;
+			}
+			
 			olddst = dst;
 
 			trialpos.longitude.SinCos( sinL, cosL );
@@ -273,6 +281,7 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
 	} else {
 
 		calcEcliptic(num->julianMillenia(), ep);
+		helEcPos = ep;
 	}
 
 	//determine the position angle
