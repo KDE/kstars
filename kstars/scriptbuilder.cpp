@@ -268,7 +268,7 @@ void ScriptBuilder::initViewOptions() {
 	
 	opsHide = new QListViewItem( otv->OptionsList, i18n( "Hide Items" ) );
 	new QListViewItem( opsHide, "HideOnSlew", i18n( "Toggle whether objects hidden while slewing display" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "SlewTimeScale", i18n( "Timestep threshhold (in seconds) for hiding objects" ), i18n( "double" ) );
+	new QListViewItem( opsHide, "SlewTimeScale", i18n( "Timestep threshold (in seconds) for hiding objects" ), i18n( "double" ) );
 	new QListViewItem( opsHide, "HideStars", i18n( "Hide faint stars while slewing?" ), i18n( "bool" ) );
 	new QListViewItem( opsHide, "HidePlanets", i18n( "Hide solar system bodies while slewing?" ), i18n( "bool" ) );
 	new QListViewItem( opsHide, "HideMess", i18n( "Hide Messier objects while slewing?" ), i18n( "bool" ) );

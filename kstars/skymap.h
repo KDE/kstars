@@ -286,7 +286,7 @@ public slots:
 /**Popup menu function: Add a custom Image or Information URL. */
 	void addLink( void );
 
-/**Checks whether the timestep exceeds a threshhold value.  If so, sets
+/**Checks whether the timestep exceeds a threshold value.  If so, sets
 	*ClockSlewing=true and sets the SimClock to ManualMode. */
 	void slotClockSlewing();
 

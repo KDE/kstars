@@ -141,7 +141,7 @@ static IText Time                = { mydev, "TIME", NULL, ILS_IDLE, 0 , DATETIME
 static INumber SDTime            = { mydev, "Sidereal Time", NULL, ILS_IDLE, 0, DATETIME_GROUP};
 //static INumber UTCOffset         = { mydev, "UTC", NULL, ILS_IDLE, 0, DATETIME_GROUP};
 
-/* Site managment */
+/* Site management */
 static ISwitches SitesSw         = { mydev, "Sites", SitesS, NARRAY(SitesS), ILS_IDLE, 0, SITE_GROUP};
 static IText   SiteName          = { mydev, "Site Name", NULL, ILS_IDLE, 0, SITE_GROUP};
 static INumber SiteLong	         = { mydev, "LONG", NULL, ILS_IDLE, 0, SITE_GROUP};

@@ -99,7 +99,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**Constructor.
 		*@param doSplash should the splash panel be displayed during
-		*intialization.
+		*initialization.
 		*/
 		KStars( bool doSplash );
 

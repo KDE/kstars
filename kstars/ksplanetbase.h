@@ -113,7 +113,7 @@ public:
 	void setEcLat( double elat ) { ep.latitude.setD( elat ); }
 
 /**@short Load the planet's orbital data from disk.
-	*@return true if data succesfully loaded
+	*@return true if data successfully loaded
 	*/
 	virtual bool loadData() = 0;
 
