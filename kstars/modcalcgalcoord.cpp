@@ -99,44 +99,22 @@ void modCalcGalCoord::showGalCoords(void) {
 
 void modCalcGalCoord::GalToEqu(void) {
 
-	double a = 123.0;
-	double c = 0.213802833;
-	dms b, galLong_a;
-	double sinb, cosb, singLat, cosgLat, tangLat, singLong_a, cosgLong_a;
+	SkyPoint sp = SkyPoint();
 
-	b.setD(27.4);
-	tangLat = tan( galLat.radians() );
-
-
-	galLat.SinCos(singLat,cosgLat);
-
-	dms( galLong.Degrees()-a ).SinCos(singLong_a,cosgLong_a);
-	b.SinCos(sinb,cosb);
-
-	raCoord.setRadians(c + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
-	raCoord = raCoord.reduce();
-//	raHourCoord = dms( raCoord.Hours() );
-
-	decCoord.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
+	sp.setGalLong(galLong);
+	sp.setGalLat(galLat);
+	sp.GalacticToEquatorial1950();
+	raCoord.set( *sp.ra() );
+	decCoord.set( *sp.dec() );
 }
 
 void modCalcGalCoord::EquToGal(void) {
-	double a = 192.25;
-	double c = 5.288347634;
-	dms b;
-	double sinb, cosb, sina_RA, cosa_RA, sinDEC, cosDEC, tanDEC;
 
-	b.setD(27.4);
-	tanDEC = tan( decCoord.radians() );
+	SkyPoint sp = SkyPoint (raCoord, decCoord);
 
-	b.SinCos(sinb,cosb);
-	dms( a - raCoord.Degrees() ).SinCos(sina_RA,cosa_RA);
-	decCoord.SinCos(sinDEC,cosDEC);
-
-	galLong.setRadians( c - atan2( sina_RA, cosa_RA*sinb-tanDEC*cosb) );
-	galLong = galLong.reduce();
-
-	galLat.setRadians( asin(sinDEC*sinb+cosDEC*cosb*cosa_RA) );
+	sp.Equatorial1950ToGalactic();
+	galLong.set( *sp.gLong() );
+	galLat.set( *sp.gLat() );
 
 }
 
@@ -203,7 +181,7 @@ void modCalcGalCoord::slotGalLatCheckedBatch(){
 
 void modCalcGalCoord::slotGalLongCheckedBatch(){
 
-	if ( decCheckBatch->isChecked() ) {
+	if ( galLongCheckBatch->isChecked() ) {
 		galLongBoxBatch->setEnabled( false );
 		equCheck();
 	} else {
