@@ -40,7 +40,7 @@
   <listitem><para>No support for WCS (World Coordinate System).</para></listitem>
 </itemizedlist>
 
-<para>The following is a brief description of tool's functional units:</para>
+<para>The following is a brief description of the tool's functional units:</para>
 <itemizedlist>
   <listitem><para>Brightness/Contrast: Adjusts brightness and contrast. The function can be CPU and memory intensive for very large FITS.</para></listitem>
   <listitem><para>Histogram: Displays one-channel FITS histogram. The user can rescale the image by optionally defining an upper and lower limit for the cutoff region. The rescaling operation (linear, logarithmic, or square-root) may then be applied to the region enclosed by the upper and lower limits.</para></listitem>
@@ -50,9 +50,9 @@
     <listitem><para>Flat Field Frames</para></listitem>
     <listitem><para>Dark Flat Field Frames</para></listitem>
   </orderedlist>
-  <para>The user can stack up multiple frames in each category to increase the signal-to-noise ratio. Two combination methods are provided: mean or median. The two methods produce similar results most of the time, but the median method insures that the data is not skewed due to random cosmic ray hits.</para>
+  <para>The user can stack up multiple frames in each category to increase the signal-to-noise ratio. Two combination methods are provided: mean and median. The two methods produce similar results most of the time, but the median method insures that the data is not skewed due to random cosmic ray hits.</para>
   </listitem>
-  <listitem><para>Statistics: Provides simple statistics for minimum and maximum pixel values and the their location. FITS depth, dimension, mean, and standard deviation.</para></listitem>
+  <listitem><para>Statistics: Provides simple statistics for minimum and maximum pixel values and the their respective locations. FITS depth, dimension, mean, and standard deviation.</para></listitem>
   <listitem><para>FITS header: Displays FITS header information.</para></listitem>
 </itemizedlist>
 </sect1>
