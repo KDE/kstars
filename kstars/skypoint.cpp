@@ -81,11 +81,11 @@ void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
-void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
+void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
 	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
 	ra()->SinCos( sinRA, cosRA );
 	dec()->SinCos( sinDec, cosDec );
-	Obliquity.SinCos( sinOb, cosOb );
+	Obliquity->SinCos( sinOb, cosOb );
 
 	tanDec = sinDec/cosDec;
 	double y = sinRA*cosOb + tanDec*sinOb;
@@ -98,11 +98,11 @@ void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcLat ) {
+void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const dms *EcLat ) {
 	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
 	EcLong->SinCos( sinLong, cosLong );
 	EcLat->SinCos( sinLat, cosLat );
-	Obliquity.SinCos( sinObliq, cosObliq );
+	Obliquity->SinCos( sinObliq, cosObliq );
 	
 	double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
 	
@@ -113,11 +113,12 @@ void SkyPoint::setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcL
 	if ( cosLong < 0 ) RARad += dms::PI;
 	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
 	
-	dms newRA, newDec;
-	newRA.setRadians( RARad );
-	newDec.setRadians( asin( sinDec ) );
-	setRA( newRA );
-	setDec( newDec );
+	//DMS_SPEED
+	//dms newRA, newDec;
+	//newRA.setRadians( RARad );
+	//newDec.setRadians( asin( sinDec ) );
+	RA.setRadians( RARad );
+	Dec.setRadians( asin(sinDec) );
 }
 
 void SkyPoint::precess( const KSNumbers *num) {
@@ -158,7 +159,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
 	RA.SinCos( sinRA, cosRA );
 	Dec.SinCos( sinDec, cosDec );
 
-	num->obliquity().SinCos( sinOb, cosOb );
+	num->obliquity()->SinCos( sinOb, cosOb );
 
 	//Step 2: Nutation
 	if ( fabs( Dec.Degrees() ) < 80.0 ) { //approximate method
@@ -190,7 +191,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 	RA.SinCos( sinRA, cosRA );
 	Dec.SinCos( sinDec, cosDec );
 
-	num->obliquity().SinCos( sinOb, cosOb );
+	num->obliquity()->SinCos( sinOb, cosOb );
 	double tanOb = sinOb/cosOb;
 
 	num->sunTrueLongitude().SinCos( sinL, cosL );

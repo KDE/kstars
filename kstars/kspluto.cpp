@@ -218,8 +218,10 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double dst = 0;
 
 	double jd = num->julianDay();
+	
 	Earth->ecLong()->SinCos( sinL0, cosL0 );
 	Earth->ecLat()->SinCos( sinB0, cosB0 );
+	
 	double eX = Earth->rsun()*cosB0*cosL0;
 	double eY = Earth->rsun()*cosB0*sinL0;
 	double eZ = Earth->rsun()*sinB0;
@@ -255,10 +257,10 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	L0.SinCos( sinL0, cosL0 );
 	B0.SinCos( sinB0, cosB0 );
-
+	
 	double cosOb, sinOb;
-	num->obliquity().SinCos( sinOb, cosOb );
-
+	num->obliquity()->SinCos( sinOb, cosOb );
+	
 	X0 = Earth->rsun()*cosB0*cosL0;
 	Y0 = Earth->rsun()*( cosB0*sinL0*cosOb - sinB0*sinOb );
 	Z0 = Earth->rsun()*( cosB0*sinL0*sinOb + sinB0*cosOb );

@@ -214,14 +214,14 @@ public:
 	*Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
 	*The ecliptic coordinates are returned as reference arguments
 	*/
-	void findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat );
+	void findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat );
 
 /**
 	*Sets the (RA, Dec) coordinates of the
 	*SkyPoint, given Ecliptic (Long, Lat) coordinates, and
 	*the Julian Date.
 	*/
-	void setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcLat );
+	void setFromEcliptic( const dms *Obliquity, const dms *EcLong, const dms *EcLat );
 
 /**
 	*Determines the (RA, Dec) coordinates of the

@@ -181,7 +181,7 @@ public:
 /**
 	*Determine if the skypoint p might be visible in the current display window
 	*/
-	bool checkVisibility( SkyPoint *p, float fov, bool useAltAz, bool isPoleVisible, bool drawGround=false );
+	bool checkVisibility( SkyPoint *p, float fov, double XMax, bool useAltAz, bool isPoleVisible, bool drawGround=false );
 
 /**call keyPressEvent, as if the key given as an argument had been pressed. */
 	void invokeKey( int key );

@@ -223,6 +223,7 @@ void modCalcGalCoord::GalToEqu(void) {
 
 
 	galLat.SinCos(singLat,cosgLat);
+	
 	dms( galLong.Degrees()-a ).SinCos(singLong_a,cosgLong_a);
 	b.SinCos(sinb,cosb);
 	
@@ -245,7 +246,7 @@ void modCalcGalCoord::EquToGal(void) {
 	b.SinCos(sinb,cosb);
 	dms( a - raCoord.Degrees() ).SinCos(sina_RA,cosa_RA);
 	decCoord.SinCos(sinDEC,cosDEC);
-
+	
 	galLong.setRadians( c - atan2( sina_RA, cosa_RA*sinb-tanDEC*cosb) );
 	galLong = galLong.reduce();
 

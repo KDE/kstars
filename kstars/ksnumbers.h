@@ -44,7 +44,7 @@ public:
 	/**@returns the current Obliquity (the angle of inclination between
 		*the celestial equator and the ecliptic)
 		*/
-	dms obliquity() const { return Obliquity; }
+	const dms* obliquity() const { return &Obliquity; }
 
 	/**@returns the constant of aberration (20.49 arcsec). */
 	dms constAberr() const { return K; }

@@ -37,11 +37,11 @@ KSPlanetBase::KSPlanetBase( KStars *ks, QString s, QString image_file )
 	PositionAngle = 0.0;
 }
 
-void KSPlanetBase::EquatorialToEcliptic( dms Obliquity ) {
+void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
 	findEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 	
-void KSPlanetBase::EclipticToEquatorial( dms Obliquity ) {
+void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
 	setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 

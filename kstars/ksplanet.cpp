@@ -224,8 +224,10 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		EclipticPosition trialpos;
 
 		double jm = num->julianMillenia();
+		
 		Earth->ecLong()->SinCos( sinL0, cosL0 );
 		Earth->ecLat()->SinCos( sinB0, cosB0 );
+		
 		double eX = Earth->rsun()*cosB0*cosL0;
 		double eY = Earth->rsun()*cosB0*sinL0;
 		double eZ = Earth->rsun()*sinB0;
@@ -233,8 +235,10 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		while (fabs(dst - olddst) > .001) {
 			calcEcliptic(jm, trialpos);
 			olddst = dst;
+			
 			trialpos.longitude.SinCos( sinL, cosL );
 			trialpos.latitude.SinCos( sinB, cosB );
+			
 			x = trialpos.radius*cosB*cosL - eX;
 			y = trialpos.radius*cosB*sinL - eY;
 			z = trialpos.radius*sinB - eZ;

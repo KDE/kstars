@@ -188,6 +188,7 @@ void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {
 	HA.setD( LST->Degrees() - ra()->Degrees() );
 	HA.SinCos( sinHA, cosHA );
 	dec()->SinCos( sinDec, cosDec );
+	
 	D = atan( ( rcosp*sinHA )/( Rearth*cosDec/6378.14 - rcosp*cosHA ) );
 	dms temp;
 	temp.setRadians( ra()->radians() - D );

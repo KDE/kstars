@@ -204,12 +204,46 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			slotCenter();
 			break;
 
-//DEBUG
+//DUMP_HORIZON
+/*
 		case Key_X: //Spit out coords of horizon polygon
 			dumpHorizon = true;
 			break;
-//END_DEBUG
+*/
+//END_DUMP_HORIZON
 
+//TIMING
+/*
+		case Key_T: //loop through all objects, get Sin, Cos, Rad
+		{
+//			double r, s, c;
+			QTime t;
+			t.start();
+			for ( StarObject *star = ksw->data()->starList.first(); star; star = ksw->data()->starList.next() ) {
+//				r = star->ra()->radians();
+//				r = star->dec()->radians();
+//				star->ra()->SinCos( s, c );
+//				star->dec()->SinCos( s, c );
+				checkVisibility( star, 1.0, 1.2, ksw->options()->useAltAz, false );
+//				getXY( star, ksw->options()->useAltAz, ksw->options()->useRefraction );
+//					star->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			}
+			for ( SkyObject *o = ksw->data()->deepSkyList.first(); o; o = ksw->data()->deepSkyList.next() ) {
+//				r = o->ra()->radians();
+//				r = o->dec()->radians();
+//				o->ra()->SinCos( s, c );
+//				o->dec()->SinCos( s, c );
+				checkVisibility( o, 1.0, 1.2, ksw->options()->useAltAz, false );
+//				getXY( o, ksw->options()->useAltAz, ksw->options()->useRefraction );
+//					o->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			}
+			
+			kdDebug() << "time taken (msec): " << t.elapsed() << endl;
+			
+			break;
+		}
+*/
+//END_TIMING
 	}
 
 	setOldFocus( focus() );
@@ -773,7 +807,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	QImage ScaledImage;
 
 	float FOV = fov();
-	float Ymax;
+	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( ksw->options()->useAltAz ) {
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
@@ -782,6 +816,9 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
+	//moved here from checkVisibility()
+	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
+	
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
@@ -816,7 +853,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
-	if ( ksw->data()->ZoomLevel > 4 ) guideFOV *= 2.0;
+	double guideXmax = Xmax;
+	if ( ksw->data()->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( drawMW ) {
@@ -886,7 +924,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 				sp->set( RA, Dec );
 				if ( ksw->options()->useAltAz ) sp->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
-				if ( checkVisibility( sp, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp, guideFOV, guideXmax, ksw->options()->useAltAz, isPoleVisible ) ) {
 					o = getXY( sp, ksw->options()->useAltAz, ksw->options()->useRefraction );
   	
 					int dx = psky.pos().x() - o.x();
@@ -927,7 +965,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 				sp1->set( RA, Dec );
 				if ( ksw->options()->useAltAz ) sp1->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
-				if ( checkVisibility( sp1, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp1, guideFOV, guideXmax, ksw->options()->useAltAz, isPoleVisible ) ) {
 					o = getXY( sp1, ksw->options()->useAltAz, ksw->options()->useRefraction );
   	  	
 					int dx = psky.pos().x() - o.x();
@@ -961,7 +999,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 		//start loop at second item
 		for ( p = ksw->data()->Equator.next(); p; p = ksw->data()->Equator.next() ) {
-			if ( checkVisibility( p, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( p, guideFOV, guideXmax, ksw->options()->useAltAz, isPoleVisible ) ) {
 				o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 				int dx = psky.pos().x() - o.x();
@@ -1005,7 +1043,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		bool newlyVisible = false;
 		//Start loop at second item
 		for ( p = ksw->data()->Ecliptic.next(); p; p = ksw->data()->Ecliptic.next() ) {
-			if ( checkVisibility( p, guideFOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( p, guideFOV, guideXmax, ksw->options()->useAltAz, isPoleVisible ) ) {
 				o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 				int dx = psky.pos().x() - o.x();
@@ -1065,7 +1103,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		psky.setFont( stdFont );
 		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = ksw->data()->cnameList.first(); p; p = ksw->data()->cnameList.next() ) {
-			if ( checkVisibility( p, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( p, FOV, Xmax, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 				QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 					if ( ksw->options()->useLatinConstellNames ) {
@@ -1113,7 +1151,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
-			if ( checkVisibility( curStar, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( curStar, FOV, Xmax, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 				QPoint o = getXY( curStar, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 				// draw star if currently on screen
@@ -1177,7 +1215,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
 
 		if ( drawObject || drawImage ) {
-			if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( obj, FOV, Xmax, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 				QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -1243,7 +1281,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
+				if ( checkVisibility( obj, FOV, Xmax, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
 					QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
@@ -1378,7 +1416,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
   //Maybe I'll do a tooltip window instead.
 /*
 	if ( labelClickedObject && clickedObject() ) {
-		if ( checkVisibility( clickedObject(), FOV, ksw->options()->useAltAz, isPoleVisible ) ) {
+		if ( checkVisibility( clickedObject(), FOV, Xmax, ksw->options()->useAltAz, isPoleVisible ) ) {
 			QPoint o = getXY( clickedObject(), ksw->options()->useAltAz, ksw->options()->useRefraction );
 			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				int dx(20), dy(20);
@@ -1504,7 +1542,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 			if ( abs( points.at(0)->x() - psky.pos().x() ) < maxdist && abs( points.at(0)->y() - psky.pos().y() ) < maxdist )
 				psky.lineTo( points.at(0)->x(), points.at(0)->y() );
 
-//DEBUG
+//DUMP_HORIZON
+/*
 			if (dumpHorizon) {
 				//First, make sure output file doesn't exist yet (so this only happens once)
 				QFile dumpFile( "horizon.xy" );
@@ -1518,8 +1557,8 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 				dumpHorizon = false;
 			}
-//END_DEBUG
-
+*/
+//END_DUMP_HORIZON
 
 //		Finish the Ground polygon by adding a square bottom edge, offscreen
 			if ( ksw->options()->useAltAz && ksw->options()->drawGround ) {

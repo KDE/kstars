@@ -415,10 +415,12 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	PresetBox->insertItem( i18n( "use default color scheme", "Default Colors" ) );
 	PresetBox->insertItem( i18n( "use 'star chart' color scheme", "Star Chart" ) );
 	PresetBox->insertItem( i18n( "use 'night vision' color scheme", "Night Vision" ) );
+	PresetBox->insertItem( i18n( "use 'moonless night' color scheme", "Moonless Night" ) );
 
 	PresetFileList.append( "default.colors" );
 	PresetFileList.append( "chart.colors" );
 	PresetFileList.append( "night.colors" );
+	PresetFileList.append( "moonless-night.colors" );
 
 	QFile file;
 	QString line, schemeName, filename;

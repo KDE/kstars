@@ -46,9 +46,9 @@ dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QLineEdit(parent,na
 void dmsBox::showInDegrees (const dms *d) { showInDegrees( dms( *d ) ); }
 void dmsBox::showInDegrees (dms d)
 {
-	double seconds = d.getArcSec() + d.getmArcSec()/1000.;
+	double seconds = d.arcsec() + d.marcsec()/1000.;
 
-	setDMS ( QString("%1 %2 %3").arg(d.degree(),2).arg(d.getArcMin(),2).arg(seconds,6,'f',2) );
+	setDMS ( QString("%1 %2 %3").arg(d.degree(),2).arg(d.arcmin(),2).arg(seconds,6,'f',2) );
 }
 
 void dmsBox::showInHours (const dms *d) { showInHours( dms( *d ) ); }

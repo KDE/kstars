@@ -133,13 +133,13 @@ public:
 	 *Convert Ecliptic logitude/latitude to Right Ascension/Declination.
 	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	 */
-	void EclipticToEquatorial( dms Obliquity );
+	void EclipticToEquatorial( const dms *Obliquity );
 
 	/**
 	 *Convert Right Ascension/Declination to Ecliptic logitude/latitude.
 	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	 */
-	void EquatorialToEcliptic( dms Obliquity );
+	void EquatorialToEcliptic( const dms *Obliquity );
 
 	/**
 	 *@returns pointer to image of planet

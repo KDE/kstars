@@ -369,8 +369,8 @@ void LocationDialog::addCity( void ) {
 
 			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : %5.1f : %2s\n",
 						name.local8Bit().data(), province.local8Bit().data(), country.local8Bit().data(),
-						abs(lat.degree()), lat.getArcMin(), lat.getArcSec(), ltsgn,
-						abs(lng.degree()), lng.getArcMin(), lat.getArcSec(), lgsgn,
+						abs(lat.degree()), lat.arcmin(), lat.arcsec(), ltsgn,
+						abs(lng.degree()), lng.arcmin(), lat.arcsec(), lgsgn,
 						TZ, TZrule.local8Bit().data() );
 
 			QTextStream stream( &file );

@@ -293,12 +293,12 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra()->hour(), o->ra()->minute(), o->ra()->second() ), this );
-	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec()->degree(), 176, o->dec()->getArcMin(), o->dec()->getArcSec() ), this );
+	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec()->degree(), 176, o->dec()->arcmin(), o->dec()->arcsec() ), this );
 
 	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
 	AltLabel = new QLabel( i18n( "Altitude:" ), this );
-	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az()->degree(), 176, o->az()->getArcMin(), o->az()->getArcSec() ), this );
-	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt()->degree(), 176, o->alt()->getArcMin(), o->alt()->getArcSec() ), this );
+	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az()->degree(), 176, o->az()->arcmin(), o->az()->arcsec() ), this );
+	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt()->degree(), 176, o->alt()->arcmin(), o->alt()->arcsec() ), this );
 
 	QFont boldFont = RA->font();
 	boldFont.setWeight( QFont::Bold );
@@ -356,8 +356,8 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	if ( rt.isValid() ) {
 		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );
 		STime = new QLabel( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ), this );
-		RAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", raz.degree(), 176, raz.getArcMin(), raz.getArcSec() ), this );
-		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.getArcMin(), saz.getArcSec() ), this );
+		RAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", raz.degree(), 176, raz.arcmin(), raz.arcsec() ), this );
+		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.arcmin(), saz.arcsec() ), this );
 	} else {
 		QString rs, ss;
 		if ( o->alt()->Degrees() > 0.0 ) {
@@ -375,7 +375,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	}
 
 	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );
-	TAlt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", talt.degree(), 176, talt.getArcMin(), talt.getArcSec() ), this );
+	TAlt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", talt.degree(), 176, talt.arcmin(), talt.arcsec() ), this );
 
 
 	QFont boldFont = RTime->font();

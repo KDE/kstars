@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#define _GNU_SOURCE
+
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -311,8 +313,8 @@ void SkyMap::slotCenter( void ) {
 
 	if ( clickedPoint()->dec()->Degrees() < 0 ) dsgn = '-';
 	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->getArcMin() );
-	int ds = abs( clickedPoint()->dec()->getArcSec() );
+	int dm = abs( clickedPoint()->dec()->arcmin() );
+	int ds = abs( clickedPoint()->dec()->arcsec() );
 
 	sRA = sRA.sprintf( "%02d:%02d:%02d", clickedPoint()->ra()->hour(), clickedPoint()->ra()->minute(), clickedPoint()->ra()->second() );
 	sDec = sDec.sprintf( "%c%02d:%02d:%02d", dsgn, dd, dm, ds );
@@ -334,8 +336,8 @@ void SkyMap::slotDSS( void ) {
 	decsgn = '+';
 	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
 	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->getArcMin() );
-	int ds = abs( clickedPoint()->dec()->getArcSec() );
+	int dm = abs( clickedPoint()->dec()->arcmin() );
+	int ds = abs( clickedPoint()->dec()->arcsec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -355,8 +357,8 @@ void SkyMap::slotDSS2( void ) {
 	decsgn = '+';
 	if (clickedPoint()->dec()->Degrees() < 0.0) decsgn = '-';
 	int dd = abs( clickedPoint()->dec()->degree() );
-	int dm = abs( clickedPoint()->dec()->getArcMin() );
-	int ds = abs( clickedPoint()->dec()->getArcSec() );
+	int dm = abs( clickedPoint()->dec()->arcmin() );
+	int ds = abs( clickedPoint()->dec()->arcsec() );
 
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
@@ -669,37 +671,62 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 
 QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 	QPoint p;
-	dms X, Y, X0, dX;
+	
+	//SPEED_DMS
+	//dms X, Y, X0, dX;
+	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
 	if ( Horiz ) {
-		X0 = focus()->az()->Degrees();
-		X = o->az()->Degrees();
-		if ( doRefraction ) Y = refract( o->alt(), true ); //account for atmospheric refraction
-		else Y = o->alt()->Degrees();
+		//SPEED_DMS
+		//X0 = focus()->az()->Degrees();
+		//X = o->az()->Degrees();
+		//if ( doRefraction ) Y = refract( o->alt(), true ).Degrees(); //account for atmospheric refraction
+		//else Y = o->alt()->Degrees();
+		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
+		else Y = o->alt()->radians();
 
-		if ( X0.Degrees() > 270.0 && X.Degrees() < 90.0 ) {
-			dX.setD( 360.0 + X0.Degrees() - X.Degrees() );
+		//SPEED_DMS
+		//if ( X0.Degrees() > 270.0 && X.Degrees() < 90.0 ) {
+		if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
+			//SPEED_DMS
+			//dX.setD( 360.0 + X0.Degrees() - X.Degrees() );
+			dX = 2*dms::PI + focus()->az()->radians() - o->az()->radians();
 		} else {
-			dX.setD( X0.Degrees() - X.Degrees() );
+			//SPEED_DMS
+			//dX.setD( X0.Degrees() - X.Degrees() );
+			dX = focus()->az()->radians() - o->az()->radians();
 		}
 
 		focus()->alt()->SinCos( sinY0, cosY0 );
-
+		
   } else {
 		if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
-			dX.setD( o->ra()->Degrees() + 360.0 - focus()->ra()->Degrees() );
+			//dX.setD( o->ra()->Degrees() + 360.0 - focus()->ra()->Degrees() );
+			dX = 2*dms::PI + o->ra()->radians() - focus()->ra()->radians();
 		} else {
-			dX.setD( o->ra()->Degrees() - focus()->ra()->Degrees() );
-	  }
-    Y = o->dec()->Degrees();
+			//dX.setD( o->ra()->Degrees() - focus()->ra()->Degrees() );
+			dX = o->ra()->radians() - focus()->ra()->radians();
+		}
+    Y = o->dec()->radians();
 		focus()->dec()->SinCos( sinY0, cosY0 );
   }
 
 	//Convert dX, Y coords to screen pixel coords.
-	dX.SinCos( sindX, cosdX );
-	Y.SinCos( sinY, cosY );
-
+	//SPEED_DMS
+	//dX.SinCos( sindX, cosdX );
+	//Y.SinCos( sinY, cosY );
+	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
+	//GNU version
+	sincos( dX, &sindX, &cosdX );
+	sincos( Y, &sinY, &cosY );
+	#else
+	sindX = sin(dX);
+	cosdX = cos(dX);
+	sinY  = sin(Y);
+	cosY  = cos(Y);
+	#endif
+	
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
@@ -834,8 +861,8 @@ float SkyMap::fov( void ) {
 	return Range[ ksw->data()->ZoomLevel ]*width()/600.;
 }
 
-bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPoleVisible, bool drawGround ) {
-	double dX, dY, XMax;
+bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax, bool useAltAz, bool isPoleVisible, bool drawGround ) {
+	double dX, dY;
 
 //Skip objects below the horizon if the ground is drawn.
 //commented out because ground disappears if it fills the view
@@ -849,12 +876,13 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPole
 	if ( dY > FOV ) return false;
 	if ( isPoleVisible ) return true;
 
+	//XMax is now computed once in SkyMap::paintEvent()
 	if ( useAltAz ) {
 		dX = fabs( p->az()->Degrees() - focus()->az()->Degrees() );
-		XMax = 1.2*FOV/cos( focus()->alt()->radians() );
+		//XMax = 1.2*FOV/cos( focus()->alt()->radians() );
 	} else {
 		dX = fabs( p->ra()->Degrees() - focus()->ra()->Degrees() );
-		XMax = 1.2*FOV/cos( focus()->dec()->radians() );
+		//XMax = 1.2*FOV/cos( focus()->dec()->radians() );
 	}
 	if ( dX > 180.0 ) dX = 360.0 - dX; // take shorter distance around sky
 
@@ -984,7 +1012,7 @@ void SkyMap::setRiseSetLabels( void ) {
 			hour++;
 		}
 		rt2.sprintf( "%02d:%02d", hour, min );
-		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
+		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.arcmin() );
 //		rt = i18n( "Rise time: " ) + rt2 +
 //			i18n(", Azimuth: ") + rt3;
 		rt = i18n( "Rise time: %1" ).arg( rt2 );
@@ -1009,7 +1037,7 @@ void SkyMap::setRiseSetLabels( void ) {
 			hour++;
 		}
 		st2.sprintf( "%02d:%02d", hour, min );
-		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
+		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.arcmin() );
 		st = i18n( "the time at which an object falls below the horizon", "Set time: %1" ).arg( st2 );
 
 	} else if ( clickedObject()->alt()->Degrees() > 0 ) {

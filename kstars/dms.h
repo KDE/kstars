@@ -20,6 +20,7 @@
 
 #include <math.h>
 #include <qstring.h>
+#include <kdebug.h>
 
 #define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
                        //defined here because this file is included in every other class.
@@ -71,37 +72,37 @@ public:
 /**
 	*@returns integer arcminutes portion of the angle
 	*/
-  int getArcMin() const;
+  int arcmin() const;
 
 /**
 	*@returns integer arcseconds portion of the angle
 	*/
-  int getArcSec() const;
+  int arcsec() const;
 
   /**
 	*@returns integer milliarcseconds portion of the angle
 	*/
-	int getmArcSec() const;
+	int marcsec() const;
 
 /**
 	*@returns angle in degrees expressed as a double.
 	*/
-  double Degrees() const { return D; }
+	double Degrees() const { return D; }
 
 /**
 	*@returns integer hours portion of the angle
 	*/
-  int hour() const { return int( this->reduce().Degrees()/15.0 ); }
+	int hour() const { return int( this->reduce().Degrees()/15.0 ); }
 
 /**
 	*@returns integer minutes portion of the angle
 	*/
-  int minute() const;
+	int minute() const;
 
 /**
 	*@returns integer seconds portion of the angle
 	*/
-  int second() const;
+	int second() const;
 
 /**
 	*@returns integer milliseconds portion of the angle
@@ -111,28 +112,28 @@ public:
 /**
 	*@returns angle in hours expressed as a double.
 	*/
-  double Hours() const { return this->reduce().Degrees()/15.0; }
+	double Hours() const { return this->reduce().Degrees()/15.0; }
 
 /**
 	*Sets integer degrees portion of angle, leaving the ArcMin and
 	*ArcSec values intact.
 	*@param d new integer degrees value
 	*/
-  void setDeg( int d ) { setD( d, getArcMin(), getArcSec() ); }
+  void setDeg( int d ) { setD( d, arcmin(), arcsec() ); }
 
 /**
 	*Sets integer arcminutes portion of angle, leaving the Degrees
 	*and ArcSec values intact.
 	*@param m new integer arcminutes value
 	*/
-  void setArcMin( int m ) { setD( degree(), m, getArcSec() ); }
+  void setArcMin( int m ) { setD( degree(), m, arcsec() ); }
 
 /**
 	*Sets integer arcseconds portion of angle, leaving the Degrees
 	*and ArcMin values intact.
 	*@param s new integer arcseconds value
 	*/
-  void setArcSec( int s ) { setD( degree(), getArcMin(), s ); }
+  void setArcSec( int s ) { setD( degree(), arcmin(), s ); }
 
 /**
 	*Sets floating-point value of angle, in degrees.
@@ -156,28 +157,28 @@ public:
 	*Seconds values intact.
 	*@param h new integer hours value
 	*/
-  void setHour( int h ) { setH( h, minute(), second() ); }
+	void setHour( int h ) { setH( h, minute(), second() ); }
 
 /**
 	*Sets integer minutes portion of angle, leaving the Hours and
 	*Seconds values intact.
 	*@param m new integer minutes value
 	*/
-  void setHMin( int m ) { setH( hour(), m, second() ); }
+	void setHMin( int m ) { setH( hour(), m, second() ); }
 
 /**
 	*Sets integer seconds portion of angle, leaving the Hours and
 	*Minutes values intact.
 	*@param s new integer seconds value
 	*/
-  void setHSec( int s ) { setH( hour(), minute(), s ); }
+	void setHSec( int s ) { setH( hour(), minute(), s ); }
 
 /**
 	*converts argument from hours to degrees, then
 	*sets floating-point value of angle, in degrees.
 	*@param x new angle, in hours (double)
 	*/
-  void setH( double x );
+	void setH( double x );
 
 /**
 	*Sets floating-point value of angle, first converting hours to degrees.
@@ -235,12 +236,18 @@ public:
 	*@param s Sine of the angle
 	*@param c Cosine of the angle
 	*/
-	void SinCos(double &s, double &c) const;
+	//DMS_SPEED
+	void SinCos( double &s, double &c ) const;
+
+	//DMS_SPEED
+	double sin( void ) const { return Sin; }
+	double cos( void ) const { return Cos; }
 
 /**
 	*Express the angle in radians
 	*@returns the angle in radians (double)
 	*/
+	//DMS_SPEED
 	double radians( void ) const;
 
 /**
@@ -269,11 +276,16 @@ public:
  * as long as dms.h is included.
  */
 	static const double PI;
+	static const double DegToRad;
 
 private:
-  int Deg, Min, Sec;
-  double D;
+	int Deg, Min, Sec;
+	double D;
+	
+	//DMS_SPEED
+	mutable double Radians;
+	mutable double Sin, Cos;
+	mutable bool scDirty, rDirty;
 };
 
-//double PI( void );
 #endif

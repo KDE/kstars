@@ -23,25 +23,42 @@
 #include "skypoint.h"
 #include "dms.h"
 
+//DMS_SPEED
 void dms::setD( double x ) {
-  D = x;
+	D = x;
+	scDirty = true;
+	rDirty = true;
 }
 
+//DMS_SPEED
 void dms::setD(int d, int m, int s, int ms) {
-  D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
-  if (d<0) {D = -1.0*D;}
+	D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
+	if (d<0) {D = -1.0*D;}
+	scDirty = true;
+	rDirty = true;
 }
 
 void dms::setH( double x ) {
-  D = x*15.0;
+  setD( x*15.0 );
 }
 
+//DMS_SPEED
 void dms::setH(int h, int m, int s, int ms) {
   D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
   if (h<0) {D = -1.0*D;}
+	scDirty = true;
+	rDirty = true;
 }
 
-int dms::getArcMin( void ) const {
+//DMS_SPEED
+void dms::setRadians( double Rad ) {
+	setD( Rad/DegToRad );
+	Radians = Rad;
+	rDirty = false;
+	scDirty = true;
+}
+
+int dms::arcmin( void ) const {
 	int am = int( 60.0*( fabs(D) - abs( degree() ) ) );
 	if ( D<0.0 && D>-1.0 ) { //angle less than zero, but greater than -1.0
 		am = -1*am; //make minute negative
@@ -49,19 +66,19 @@ int dms::getArcMin( void ) const {
 	return am;
 }
 
-int dms::getArcSec( void ) const {
-	int as = int( 60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( getArcMin() ) ) );
+int dms::arcsec( void ) const {
+	int as = int( 60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) );
 	//If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
-	if ( degree()==0 && getArcMin()==0 && D<0.0 ) {
+	if ( degree()==0 && arcmin()==0 && D<0.0 ) {
 		as = -1*as;
 	}
 	return as;
 }
 
-int dms::getmArcSec( void ) const {
-	int as = int( 1000.0*(60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( getArcMin() ) ) - abs( getArcSec() ) ) );
+int dms::marcsec( void ) const {
+	int as = int( 1000.0*(60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) - abs( arcsec() ) ) );
 	//If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
-	if ( degree()==0 && getArcMin()==0 && getArcSec()== 0 && D<0.0 ) {
+	if ( degree()==0 && arcmin()==0 && arcsec()== 0 && D<0.0 ) {
 		as = -1*as;
 	}
 	return as;
@@ -91,46 +108,38 @@ int dms::msecond( void ) const {
 	return hs;
 }
 
-/*
-dms dms::operator+ (dms angle) {
-	return Degrees() + angle.Degrees();
-}
-
-dms dms::operator- (dms angle)
-{
-	return Degrees() - angle.Degrees();
-}
-*/
-//---------------------------------------------------------------------------
-
+//SPEED_DMS
 void dms::SinCos( double &sina, double &cosa ) const {
-  /**We have two versions of this function.  One is ANSI standard, but 
-   *slower.  The other is faster, but is GNU only.
-   *Using the __GLIBC_ and __GLIBC_MINOR_ constants to determine if the
-   * GNU extension sincos() is defined.
-   */
+	/**We have two versions of this function.  One is ANSI standard, but 
+		*slower.  The other is faster, but is GNU only.
+		*Using the __GLIBC_ and __GLIBC_MINOR_ constants to determine if the
+		* GNU extension sincos() is defined.
+		*/
 
-  #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
-  //GNU version
-  sincos( radians(), &sina, &cosa );
-  #else
-  //ANSI-compliant version
-  register double rad = radians();
-  sina = sin( rad );
-  cosa = cos( rad );
-  #endif
+	if ( scDirty ) {
+		#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
+		//GNU version
+		sincos( radians(), &Sin, &Cos );
+		#else
+		//ANSI-compliant version
+		Sin = sin( radians() );
+		Cos = cos( radians() );
+		#endif
+		scDirty = false;
+	}
+	sina = Sin;
+	cosa = Cos;
 }
-//---------------------------------------------------------------------------
 
+//SPEED_DMS
 double dms::radians( void ) const {
-	return (D*PI/180.0);
+	if ( rDirty ) {
+		Radians = D*DegToRad;
+		rDirty = false;
+	}
+	
+	return Radians;
 }
-//---------------------------------------------------------------------------
-
-void dms::setRadians( double Rad ) {
-  setD( Rad*180.0/PI );
-}
-//---------------------------------------------------------------------------
 
 dms dms::reduce( void ) const {
 	double a = D;
@@ -143,8 +152,8 @@ QString dms::toDMSString(bool forceSign) const {
 	QString dummy;
 	char pm(' ');
 	int dd = abs(degree());
-	int dm = abs(getArcMin());
-	int ds = abs(getArcSec());
+	int dm = abs(arcmin());
+	int ds = abs(arcsec());
 
 	if ( Degrees() < 0.0 ) pm = '-';
 	else if (forceSign && Degrees() > 0.0 ) pm = '+';
@@ -153,20 +162,14 @@ QString dms::toDMSString(bool forceSign) const {
 	if ( dd < 100 ) format = "%c%2d%c %02d\' %02d\"";
 	if ( dd < 10  ) format = "%c%1d%c %02d\' %02d\"";
 
-//	return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
 	return dummy.sprintf(format.local8Bit(), pm, dd, 176, dm, ds);
 }
 
 QString dms::toHMSString() const {
 	QString dummy;
-
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
-	
-
-//---------------------------------------------------------------------------
-
-// const double dms::PI = acos(-1.0); 
 // M_PI is defined in math.h
 const double dms::PI = M_PI; 
+const double dms::DegToRad = PI/180.0;

@@ -1266,9 +1266,10 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
 			Ecliptic.clear();
+			
+			dms temp(0.0);
 			for ( unsigned int i=0; i<Equator.count(); ++i ) {
 				SkyPoint *o = new SkyPoint( 0.0, 0.0 );
-				dms temp(0.0);
 				o->setFromEcliptic( num.obliquity(), Equator.at(i)->ra(), &temp );
 				Ecliptic.append( o );
 			}

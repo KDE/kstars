@@ -157,9 +157,10 @@ void GeoLocation::geodToCart (void) {
 	double sinLong, cosLong, sinLat, cosLat;
 
 	e2 = 2*flattening-flattening*flattening;
+	
 	Longitude.SinCos(sinLong,cosLong);
 	Latitude.SinCos(sinLat,cosLat);
-
+	
 	xn = axis/( sqrt(1-e2*sinLat*sinLat) );
 	PosCartX = (xn+Height)*cosLat*cosLong;
 	PosCartY = (xn+Height)*cosLat*sinLong;

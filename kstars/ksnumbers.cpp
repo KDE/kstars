@@ -76,12 +76,12 @@ void KSNumbers::updateValues( long double jd ) {
 	O2.setD( 2.0*O.Degrees() );
 	L2.setD( 2.0*L.Degrees() ); //twice mean ecl. long. of Sun
 	M2.setD( 2.0*LM.Degrees() );  //twice mean ecl. long. of Moon
-		
+	
 	O.SinCos( sinO, cosO );
 	O2.SinCos( sin2O, cos2O );
 	L2.SinCos( sin2L, cos2L );
 	M2.SinCos( sin2M, cos2M );
-
+	
 	deltaEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
 	deltaObliquity = ( 9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
 
@@ -93,7 +93,7 @@ void KSNumbers::updateValues( long double jd ) {
 	XP.SinCos( SX, CX );
 	YP.SinCos( SY, CY );
 	ZP.SinCos( SZ, CZ );
-
+	
 //P1 is used to precess from any epoch to J2000
 	P1[0][0] = CX*CY*CZ - SX*SZ;
 	P1[1][0] = CX*CY*SZ + SX*CZ;

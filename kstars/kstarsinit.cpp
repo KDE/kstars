@@ -132,6 +132,7 @@ void KStars::initActions() {
 	addColorMenuItem( i18n( "&Default" ), "cs_default" );
 	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
 	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );
+	addColorMenuItem( i18n( "&Moonless Night" ), "cs_moonless-night" );
 
 //	colorActionMenu->insert( new KAction( i18n( "&Default" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_default" ) );
 //	colorActionMenu->insert( new KAction( i18n( "&Star Chart" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_chart" ) );
@@ -340,16 +341,27 @@ void KStars::initGuides(KSNumbers *num)
   // Use the celestial Equator as a convenient starting point, but instead of RA and Dec,
   // interpret the coordinates as azimuth and altitude, and then convert to RA, dec.
   // The horizon will be redefined whenever the positions of sky objects are updated.
+	dms temp( 0.0 );
 	for (SkyPoint *point = data()->Equator.first(); point; point = data()->Equator.next()) {
 		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
 		double HARad;
 		dms dec, HA, RA, Az;
 		Az = dms(*(point->ra()));
-		Az.SinCos( sinAz, cosAz );
-		geo()->lat()->SinCos( sinlat, coslat );
-
+		
+		//SPEED_DMS
+		//Az.SinCos( sinAz, cosAz );
+		//geo()->lat()->SinCos( sinlat, coslat );
+		sinAz = Az.sin();
+		cosAz = Az.cos();
+		sinlat = geo()->lat()->sin();
+		coslat = geo()->lat()->cos();
+		
 		dec.setRadians( asin( coslat*cosAz ) );
-		dec.SinCos( sindec, cosdec );
+		//SPEED_DMS
+		//dec.SinCos( sindec, cosdec );
+		sindec = dec.sin();
+		cosdec = dec.cos();
+		
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
@@ -363,7 +375,7 @@ void KStars::initGuides(KSNumbers *num)
 
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num->obliquity(), point->ra(), &dms( 0.0 ) );
+		o->setFromEcliptic( num->obliquity(), point->ra(), &temp );
 		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 		data()->Ecliptic.append( o );
 	}

@@ -1,0 +1,20 @@
+0:4
+#000000 :SkyColor
+#008f00 :MessColor
+#066 :NGCColor
+#382a7d :ICColor
+#930000 :HSTColor
+#577d7d :SNameColor
+#ac9800 :PNameColor
+#718488 :CNameColor
+#3d3d3d :CLineColor
+#0d1115 :MWColor
+#909090 :EqColor
+#613d12 :EclColor
+#091f14 :HorzColor
+#909055 :CompassColor
+#456 :GridColor
+#d2dbef :BoxTextColor
+#900000 :BoxGrabColor
+#000 :BoxBGColor
+#DD0000 :TargetColor
