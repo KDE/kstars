@@ -272,14 +272,13 @@ private:
 	long double newJDfromJDandUT(long double jd, QTime UT);
 
 /**This function is only used internally, to calculate rise/set times.
-	*@return the coordinates of the selected object for the time given by jd0
-	*@param jd  Julian day for which the coordinates of the object are given.
-	*           This parameter is necessary to return the selected object to
-	*           its original position.
+	*The coordinates for the object on date "jd" are computed and returned,
+	*but the object's internal coordinates are not permanently modified.
+	*@return the coordinates of the selected object for the time given by jd
 	*@param jd0 Julian day for which the coords will be recomputed.
 	*@param geo pointer to geographic location (used for solar system only)
 	*/
-	SkyPoint getNewCoords(long double jd, long double jd0, const GeoLocation *geo=0);
+	SkyPoint computeCoordsForJD( long double jd, const GeoLocation *geo=0 );
 
 	unsigned char Type;
 	float Magnitude;

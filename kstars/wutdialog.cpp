@@ -19,6 +19,7 @@
 
 #include "kstars.h"
 #include "ksutils.h"
+#include "ksnumbers.h"
 #include "objectnamelist.h"
 #include "detaildialog.h"
 #include "locationdialog.h"
@@ -148,7 +149,7 @@ void WUTDialog::init() {
 	o = (SkyObject*) kstars->data()->Moon;
 	moonRise = o->riseSetTime( JDToday, geo, true );
 	moonSet = o->riseSetTime( JDToday, geo, false );
-	if ( moonSet < moonRise )
+	if ( moonSet < moonRise ) 
 		moonSet = o->riseSetTime( JDTomorrow, geo, false );
 
 	//check to see if Moon is circumpolar
@@ -308,16 +309,17 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 		} else {
 			tRise = o->riseSetTime( JDToday, geo, true );
 			tSet = o->riseSetTime( JDToday, geo, false );
-			if ( tSet < tRise )
+			if ( tSet < tRise ) 
 				tSet = o->riseSetTime( JDTomorrow, geo, false );
-
+			
 			sRise = QString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
 			sSet = QString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
 		}
 
 		tTransit = o->transitTime( JDToday, geo );
-		if ( tTransit < tRise )
+		if ( tTransit < tRise ) 
 			tTransit = o->transitTime( JDTomorrow, geo );
+		
 		sTransit = QString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
 
 		WUT->DetailButton->setEnabled( true );

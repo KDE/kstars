@@ -317,7 +317,11 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		rt = i18n( "No rise time: Never rises" );
 	}
 
+	//If set time is before rise time, use tomorrow's set time.
 	QTime stime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), false );
+	if ( stime < rtime ) 
+		stime = obj->riseSetTime( ksw->data()->CurrentDate+1.0, ksw->geo(), false );
+
 	QString st, st2, st3;
 	dms sAz = obj->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {
@@ -340,7 +344,11 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		st = i18n( "No set time: Never rises" );
 	}
 
+	//If transit time is before rise time, use tomorrow's transit time
 	QTime ttime = obj->transitTime( ksw->data()->CurrentDate, ksw->geo() );
+	if ( ttime < rtime ) 
+		ttime = obj->transitTime( ksw->data()->CurrentDate+1.0, ksw->geo() );
+
 	QString tt, tt2, tt3;
 	dms trAlt = obj->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
 

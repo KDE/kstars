@@ -349,12 +349,23 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	QDateTime ut = lt.addSecs( int( -3600*geo->TZ() ) );
 	long double jd = KSUtils::UTtoJD( ut );
 	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
-	QTime st = o->riseSetTime( jd, geo, false ); //false = use set time
-	QTime tt = o->transitTime( jd, geo );
-
 	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time
-	dms saz = o->riseSetTimeAz(jd, geo, false ); //false = use set time
+	
+	//If transit time is before rise time, use transit time for tomorrow
+	QTime tt = o->transitTime( jd, geo );
 	dms talt = o->transitAltitude( jd, geo );
+	if ( tt < rt ) {
+		tt = o->transitTime( jd+1.0, geo );
+		talt = o->transitAltitude( jd+1.0, geo );
+	}
+
+	//If set time is before rise time, use set time for tomorrow
+	QTime st = o->riseSetTime( jd, geo, false ); //false = use set time
+	dms saz = o->riseSetTimeAz(jd, geo, false ); //false = use set time
+	if ( st < rt ) {
+		st = o->riseSetTime( jd+1.0, geo, false ); //false = use set time
+		saz = o->riseSetTimeAz(jd+1.0, geo, false ); //false = use set time
+	}
 
 	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );
 	TTimeLabel = new QLabel( i18n( "Transit time:" ), this );

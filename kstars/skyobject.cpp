@@ -89,7 +89,7 @@ QTime SkyObject::riseSetTimeUT( long double jd, const GeoLocation *geo, bool ris
 	// the ra and dec for that time and hence the rise/set time.
 
 	long double jd0 = newJDfromJDandUT( jd, UT );
-	SkyPoint sp = getNewCoords( jd, jd0, geo );
+	SkyPoint sp = computeCoordsForJD( jd0, geo );
 
 	UT = auxRiseSetTimeUT(jd0, geo, sp.ra(), sp.dec(), riseT);
 
@@ -97,7 +97,7 @@ QTime SkyObject::riseSetTimeUT( long double jd, const GeoLocation *geo, bool ris
 	// aprox. 1.5 arcmin the coordinates).
 	
 	jd0 = newJDfromJDandUT( jd0, UT );
-	sp = getNewCoords( jd, jd0, geo );
+	sp = computeCoordsForJD( jd0, geo );
 
 	UT = auxRiseSetTimeUT(jd0, geo, sp.ra(), sp.dec(), riseT);
 
@@ -154,7 +154,7 @@ dms SkyObject::riseSetTimeAz(long double jd, const GeoLocation *geo, bool riseT)
 
 	QTime UT = riseSetTimeUT( jd, geo, riseT );
 	long double jd0 = newJDfromJDandUT( jd, UT );
-	SkyPoint sp = getNewCoords( jd, jd0, geo );
+	SkyPoint sp = computeCoordsForJD( jd0, geo );
 	const dms *ram = sp.ra0();
 	const dms *decm = sp.dec0();
 
@@ -192,7 +192,7 @@ QTime SkyObject::transitTimeUT(long double jd, const GeoLocation *geo ) {
 
 	//recompute object's position at UT0 and then find
 	//transit time of this refined position
-	SkyPoint sp = getNewCoords(jd, jd0, geo );
+	SkyPoint sp = computeCoordsForJD( jd0, geo );
 	const dms *ram = sp.ra0();
 
 	HourAngle = dms ( LST.Degrees() - ram->Degrees() );
@@ -209,7 +209,7 @@ QTime SkyObject::transitTime( long double jd, const GeoLocation *geo ) {
 dms SkyObject::transitAltitude( long double jd, const GeoLocation *geo ) {
 	QTime UT = transitTimeUT( jd, geo );
 	long double jd0 = newJDfromJDandUT(jd, UT);
-	SkyPoint sp = getNewCoords( jd, jd0, geo );
+	SkyPoint sp = computeCoordsForJD( jd0, geo );
 	const dms *decm = sp.dec0();
 
 	dms delta;
@@ -267,29 +267,25 @@ long double SkyObject::newJDfromJDandUT(long double jd, QTime UT) {
 	return KSUtils::UTtoJD( dt );
 }
 
-SkyPoint SkyObject::getNewCoords(long double jd, long double jd0, const GeoLocation *geo ) {
-	// compute coords for new time jd0
-	KSNumbers *num0 = new KSNumbers(jd0);
+SkyPoint SkyObject::computeCoordsForJD(long double jd, const GeoLocation *geo ) {
+	//store current position
+	SkyPoint original( ra(), dec() );
+
+	// compute coords for new time jd
+	KSNumbers num(jd);
 	if ( isSolarSystem() && geo ) {
 //		KSPlanetBase *ksp = ksp(,);
-		dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( jd0 ), geo->lng() );
-		updateCoords( num0, true, geo->lat(), &LST );
-	} else {
-		updateCoords(num0);
-	}
-	delete num0;
-
-	SkyPoint sp = SkyPoint(ra(), dec());
-
-	// restore coords to original time jd
-	KSNumbers *num = new KSNumbers(jd);
-	if ( isSolarSystem() && geo ) {
 		dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( jd ), geo->lng() );
-		updateCoords( num, true, geo->lat(), &LST );
+		updateCoords( &num, true, geo->lat(), &LST );
 	} else {
-		updateCoords(num);
+		updateCoords( &num );
 	}
-	delete num;
+
+	//the coordinates for the date jd:
+	SkyPoint sp = SkyPoint( ra(), dec() );
+
+	// restore original coords
+	set( original.ra(), original.dec() );
 
 	return sp;
 }
