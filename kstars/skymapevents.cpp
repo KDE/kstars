@@ -341,13 +341,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	} else {
 
 		QString sRA, sDec, s;
-		int dd,dm,ds;
-		char dsgn = '+';
-		if ( mousePoint()->dec()->Degrees() < 0.0 ) dsgn = '-';
-		dd = abs( mousePoint()->dec()->degree() );
-		dm = abs( mousePoint()->dec()->getArcMin() );
-		ds = abs( mousePoint()->dec()->getArcSec() );
-
 		sRA = mousePoint()->ra()->toHMSString();
 		sDec = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
 		s = sRA + ",  " + sDec;
