@@ -2,8 +2,10 @@
                           skypoint.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Feb 11 2001
-    copyright            : (C) 2001 by Jason Harris
+    copyright            : (C) 2001-2005 by Jason Harris
     email                : jharris@30doradus.org
+    copyright            : (C) 2004-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -602,4 +604,65 @@ QString SkyPoint::constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject
 	}
 
 	return i18n("Unknown");
+}
+
+double SkyPoint::vHeliocentric(double vlsr, double epoch) {
+
+	dms asun,dsun;
+	double ca, sa, cd, sd, vsun;
+	double cosRA, sinRA, cosDec, sinDec;
+	
+	/* Sun apex (where the sun goes) coordinates */
+
+	if(epoch==1950.) {
+		asun.setD(270.4796);	/* Right ascention: 18h 1m 55.1s 1950. */
+		dsun.setD(30.00118);	/* Declination: 30^o 0' 4.2'' 1950. */
+		vsun=20.;		/* km/s */
+	}
+	else if(epoch==2000.)	{
+		asun.setD(270.9592);	/* Right ascention: 18h 3m 50.2s 2000. */
+		dsun.setD(30.00467);	/* Declination: 30^o 0' 16.8'' 2000. */
+		vsun=20.;		/* en km/s */
+	}
+	asun.SinCos(sa,ca);
+	dsun.SinCos(sd,cd);
+		
+	RA0.SinCos( sinRA, cosRA );
+	Dec0.SinCos( sinDec, cosDec );
+
+	/* Computation is done performing the scalar product of a unitary vector 
+	in the direction of the source with the vector velocity of Sun, both being in the
+	LSR reference system:
+	Vlsr	= Vhel + Vsun.u_radial => 
+	Vlsr 	= Vhel + vsun(cos D cos A,cos D sen A,sen D).(cos d cos a,cos d sen a,sen d)
+	Vhel 	= Vlsr - Vsun.u_radial
+	*/
+
+	vsun = vsun *(cd*cosDec*(cosRA*ca + sa*sinRA) + sd*sinDec);
+
+	return (vlsr - vsun);
+}
+
+double SkyPoint::vGeocentric(double vlsr, double epoch, KSNumbers *num)
+{
+  
+	double sinRA, sinDec, cosRA, cosDec, vREarth;
+
+	/* u_radial = unitary vector in the direction of the source
+		Vlsr 	= Vhel + Vsun.u_radial
+			= Vgeo + VEarth.u_radial + Vsun.u_radial  => 
+			
+		Vgeo 	= (Vlsr -Vsun.u_radial) - VEarth.u_radial
+			=  Vhel - VEarth.u_radial
+			=  Vhel - (vx, vy, vz).(cos d cos a,cos d sen a,sen d)
+	*/
+
+	RA.SinCos( sinRA, cosRA );
+	Dec.SinCos( sinDec, cosDec );
+
+	vREarth = num->vEarth(0) * cosDec * cosRA + 
+		num->vEarth(1) * cosDec * sinDec +
+		num->vEarth(2) * sinDec;
+		
+	return (vHeliocentric(vlsr, epoch)-vREarth);
 }

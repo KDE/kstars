@@ -2,8 +2,10 @@
                           skypoint.h  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Feb 11 2001
-    copyright            : (C) 2001 by Jason Harris
+    copyright            : (C) 2001-2005 by Jason Harris
     email                : jharris@30doradus.org
+    copyright            : (C) 2004-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -400,6 +402,28 @@ public:
 //// =====================================
 
 	QString constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const;
+
+	/* Computes the radial velocity of a source referred to the solar system barycenter 
+	 * from the radial velocity referred to the
+	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
+	 * source the VLSR and the epoch for the source coordinates.
+	 *
+	 * @param vlsr radial velocity of the source referred to the LSR in km/s
+	 * @param epoch to which the source coordinates refer to.
+	 */
+	double vHeliocentric(double vlsr, double epoch);
+
+	/* Computes the radial velocity of a source referred to the center of the earth 
+	 * from the radial velocity referred to the
+	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
+	 * source the VLSR and the epoch for the source coordinates.
+	 *
+	 * @param vlsr radial velocity of the source referred to the LSR in km/s
+	 * @param epoch to which the source coordinates refer to.
+	 * @param pointer to a KSNumbers object. We need it to know the velocity components
+	 *        of the Earth for a given date and time.
+	 */
+	double vGeocentric(double vlsr, double epoch, KSNumbers *num);
 
 protected:
 /**Precess this SkyPoint's catalog coordinates to the epoch described by the
