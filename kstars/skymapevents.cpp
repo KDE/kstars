@@ -74,7 +74,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 			}
 
-//			setDestination( focus() );
 			slewing = true;
 			++scrollCount;
 			break;
@@ -90,7 +89,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 			}
 
-//			setDestination( focus() );
 			slewing = true;
 			++scrollCount;
 			break;
@@ -106,7 +104,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 				focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
 			}
 
-//			setDestination( focus() );
 			slewing = true;
 			++scrollCount;
 			break;
@@ -125,45 +122,30 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_N: //center on north horizon
 			setClickedObject( NULL );
 			setFoundObject( NULL );
-//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 0.0 );
-//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-//			slotCenter();
 			setDestinationAltAz( 15.0, 0.0 );
 			break;
 
 		case Key_E: //center on east horizon
 			setClickedObject( NULL );
 			setFoundObject( NULL );
-//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 90.0 );
-//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-//			slotCenter();
 			setDestinationAltAz( 15.0, 90.0 );
 			break;
 
 		case Key_S: //center on south horizon
 			setClickedObject( NULL );
 			setFoundObject( NULL );
-//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 180.0 );
-//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-//			slotCenter();
 			setDestinationAltAz( 15.0, 180.0 );
 			break;
 
 		case Key_W: //center on west horizon
 			setClickedObject( NULL );
 			setFoundObject( NULL );
-//			clickedPoint()->setAlt( 15.0 ); clickedPoint()->setAz( 270.0 );
-//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-//			slotCenter();
 			setDestinationAltAz( 15.0, 270.0 );
 			break;
 
 		case Key_Z: //center on Zenith
 			setClickedObject( NULL );
 			setFoundObject( NULL );
-//			clickedPoint()->setAlt( 90.0 ); clickedPoint()->setAz( focus()->az() );
-//			clickedPoint()->HorizontalToEquatorial( ksw->data()->LSTh, ksw->geo()->lat() );
-//			slotCenter();
 			setDestinationAltAz( 90.0, focus()->az().Degrees() );
 			break;
 
@@ -544,12 +526,6 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			}
 		}
 
-//REMOVE CLEAN-UP
-//		initPopupMenu();
-//		QStringList::Iterator itList;
-//		QStringList::Iterator itTitle;
-//		QString s;
-
 		int jmin(-1);
 		int icat(-1);
 		setClickedObject( NULL );
@@ -838,12 +814,6 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	float guideFOV = fov();
 	if ( ksw->data()->ZoomLevel > 4 ) guideFOV *= 2.0;
 
-//	//DEBUG
-//	if ( ksw->options()->isTracking && checkSlewing ) {
-//		kdDebug() << "clickedObject RA: " << clickedObject()->ra().toHMSString() << endl;
-//		kdDebug() << "focus RA: " << focus()->ra().toHMSString() << endl;
-//	}
-
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( drawMW ) {
 		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "MWColor" ) ), 1, SolidLine ) ); //change to colorGrid
@@ -1064,7 +1034,6 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	//Draw Constellation Lines
 	if ( drawCLines ) {
 		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
-//		psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "CLineColor" ) ) );
 		int iLast = -1;
 
 		for ( SkyPoint *p = ksw->data()->clineList.first(); p; p = ksw->data()->clineList.next() ) {
@@ -1157,7 +1126,6 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 							QString sTmp = "";
 							if ( ksw->options()->drawStarName ) {
 								if (curStar->name() != "star") sTmp = curStar->name() + " ";	// see line below
-//								if ( curStar->skyObjectName() ) sTmp = curStar->name + " ";
 							}
 							if ( ksw->options()->drawStarMagnitude ) {
 								sTmp += QString().sprintf("%.1f", curStar->mag() );
@@ -1228,8 +1196,6 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 					//Draw Symbol
 					if ( drawObject ) {
-//						int type = obj->type();
-//						if (type==0) type = 1; //use catalog star draw fcn
 						//change color if extra images are available
 						if ( obj->catalog() == "M" && obj->ImageList.count() > 1 )
 							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "HSTColor" ) ) );
@@ -1247,15 +1213,10 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 						// use star draw function
 						drawSymbol( psky, obj->type(), o.x(), o.y(), Size, obj->e(), PositionAngle );
-// this use the catalog star draw function (remove at clean up)
-//						drawSymbol( psky, type, o.x(), o.y(), Size, obj->e(), PositionAngle );
 					}
 				}
 			} else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
 				if ( obj->image() ) {
-//Uncomment to test whether objects get deleted properly when moving offscreen
-//(as of 25/03/2002 it works :)
-//					kdWarning() << obj->name() << endl;
 					obj->deleteImage();
 				}
 			}
@@ -1603,17 +1564,33 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	}  //endif drawing horizon
 
 	//Draw a Field-of-View indicator
-	//Draw this last so it is never "behind" other things.
-	psky.setPen( QPen( QColor( "white" ) ) );
-	psky.setBrush( NoBrush );
-	int size = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
-	psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
-	
+	//if ( ksw->options()->drawFOV )
+		drawFOV( psky, 0 ); //drawFOV( psky, ksw->options()->FOVstyle );
+
+	//Finish up 
 	psky.end();
+	
 	QPixmap *sky2 = new QPixmap( *sky );
 	drawBoxes( sky2 );
 	bitBlt( this, 0, 0, sky2 );
 	delete sky2;
+	
 	computeSkymap = false;	// use Update() to compute new skymap else old pixmap will be shown
+}
+
+void SkyMap::drawFOV( QPainter &psky, int style ) {
+	//Draw this last so it is never "behind" other things.
+//	psky.setPen( QPen( QColor( ksw->options()->colorscheme()->colorNamed("FOVColor" ) ) ) );
+	psky.setPen( QPen( QColor( "white" ) ) );
+	psky.setBrush( NoBrush );
+	int pxperdegree = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
+	
+	switch ( style ) {
+		default: { //case 0, simple circle, one degree in diameter.
+			int size = pxperdegree;
+			psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
+			break;
+		}
+	}
 }
 

@@ -104,7 +104,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	// Spin box : show stars brighter than magnitude limit
 	int intMagLimitDrawStars = int ( 10.0 * ksw->options()->magLimitDrawStar );
-	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 79, StarsBox );	// max mag = 7.9
+	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 129, StarsBox );	// max mag = 12.9
 	magSpinBoxDrawStars->setFont( stdFont );
 	magSpinBoxDrawStars->setValue( intMagLimitDrawStars );
 

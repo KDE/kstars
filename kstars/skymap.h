@@ -361,8 +361,21 @@ private:
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, int sizemin,
 			double mult, int zoommin, int resize_mult = 1);
 
+/**Draw the InfoBoxes on the pixmap passed as an argument (this should be 
+	*the skymap's pixmap).
+	*/
 	void drawBoxes( QPixmap *pm );
 
+/**Draw the Field-of-View indicator.
+	*@param psky The QPainter to draw on (this should be skymap's QPainter).
+	*@param style The kind of FOV indicator to draw:
+	*0: 1-degree circle
+	*1: crosshairs 
+	*2: bullseye (2, 1, 0.5 degrees)
+	*3: rectangle (user-defined width, height)
+	*/
+	void drawFOV( QPainter &psky, int style );
+	
 /**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 

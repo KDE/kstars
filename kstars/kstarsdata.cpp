@@ -93,32 +93,6 @@ KStarsData::~KStarsData() {
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
-
-/*
-	QString s = QString( "geoList count: %1" ).arg( geoList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "starList count: %1" ).arg( starList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "deepSkyList count: %1" ).arg( deepSkyList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineList count: %1" ).arg( clineList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineModeList count: %1" ).arg( clineModeList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "cnameList count: %1" ).arg( cnameList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Equator count: %1" ).arg( Equator.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Ecliptic count: %1" ).arg( Ecliptic.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Horizon count: %1" ).arg( Horizon.count() );
-	qDebug( s.local8Bit() );
-
-	for ( unsigned int i=0; i<11; ++i ) {
-		s = QString( "MW[%1] count: %2" ).arg( i ).arg( MilkyWay[i].count() );
-		qDebug( s.local8Bit() );
-	}
-*/
 }
 
 bool KStarsData::readMWData( void ) {
@@ -289,6 +263,7 @@ bool KStarsData::readStarData( void ) {
 
   		}	// end of while
 		file.close();
+
 /*
 	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
 	*/
