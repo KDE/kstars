@@ -22,8 +22,8 @@ appdata_DATA = kstars.png geomap.png show_clines.png show_cnames.png show_deepsk
 		   hip113.dat hip114.dat hip115.dat hip116.dat hip117.dat hip118.dat hip119.dat \
 		   hip120.dat hip121.dat hip122.dat hip123.dat hip124.dat hip125.dat hip126.dat \
 		   hip127.dat \
-		   ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat ngcic06.dat \
-		   ngcic07.dat ngcic08.dat ngcic09.dat ngcic10.dat ngcic11.dat ngcic12.dat ngcic13.dat \
+		   ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat ngcic06.dat ngcic07.dat \
+		   ngcic08.dat ngcic09.dat ngcic10.dat ngcic11.dat ngcic12.dat ngcic13.dat ngcic14.dat \
 		   mw01.dat mw02.dat mw03.dat mw04.dat mw05.dat mw06.dat mw07.dat mw08.dat mw09.dat mw10.dat mw11.dat \
 		   Cities.dat clines.dat cnames.dat image_url.dat info_url.dat \
 		   mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop mercury.L4.vsop mercury.L5.vsop \
