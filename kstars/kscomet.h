@@ -25,13 +25,13 @@
 
 #include "ksplanetbase.h"
 
-/** KSComet is a subclass of KSPlanetBase that implements comets.  
- *  The orbital elements are stored as private member variables, and 
- *  it provides methods to compute the ecliptic coordinates for any 
+/** KSComet is a subclass of KSPlanetBase that implements comets.
+ *  The orbital elements are stored as private member variables, and
+ *  it provides methods to compute the ecliptic coordinates for any
  *  time from the orbital elements.
- *  
+ *
  *  The orbital elements are:
- *  
+ *
  *  JD    Epoch of element values
  *  q     perihelion distance (AU)
  *  e     eccentricity of orbit
@@ -54,26 +54,27 @@ class KSComet : public KSPlanetBase
 	public:
 		KSComet( KStarsData *kd, QString s, QString image_file,
 			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
-		
+
 		virtual ~KSComet() {}
-		
+
 		virtual bool loadData();
 
 
-/**
-	*Calculate the RA, Dec coordinates of the Comet.
-	*@param num time-dependent values for the desired date
-	*@param Earth planet Earth (needed to calculate geocentric coords)
-	*@returns true if position was successfully calculated.
-	*/
-		virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
-	
+	protected:
+	/**
+		*Calculate the geocentric RA, Dec coordinates of the Comet.
+		*@param num time-dependent values for the desired date
+		*@param Earth planet Earth (needed to calculate geocentric coords)
+		*@returns true if position was successfully calculated.
+		*/
+		virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+
 	private:
 		KStarsData *kd;
 		long double JD, JDp;
 		double q, e, a, P;
 		dms i, w, N;
-		
+
 };
 
 #endif

@@ -22,7 +22,7 @@
 
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Image(0), data(kd) {
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd) {
 
 	 if (! image_file.isEmpty()) {
 		QFile imFile;
@@ -42,20 +42,102 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
 	findEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
-	
+
 void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
 	setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
+void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ){
 	if ( includePlanets ) {
-		data->earth()->findPosition( num );
-		findPosition( num, data->earth() );
+		data->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
+
+		if ( lat && LST ) {
+			findPosition( num, lat, LST, data->earth() );
+			if ( hasTrail() ) Trail.removeLast();
+		} else {
+			findGeocentricPosition( num, data->earth() );
+		}
 	}
 }
 
+void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
+	findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
+
+	if ( lat && LST )
+		localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
+
+	setRearth( Earth );
+
+	if ( hasTrail() ) {
+		Trail.append( new SkyPoint( ra(), dec() ) );
+		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
+	}
+}
+
+void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST ) {
+	//convert geocentric coordinates to local apparent coordinates (topocentric coordinates)
+	dms HA, HA2; //Hour Angle, before and after correction
+	double rsinp, rcosp, u, sinHA, cosHA, sinDec, cosDec, D;
+	double cosHA2;
+	double r = Rearth * AU_KM; //distance from Earth, in km
+	u = atan( 0.996647*tan( lat->radians() ) );
+	rsinp = 0.996647*sin( u );
+	rcosp = cos( u );
+	HA.setD( LST->Degrees() - ra()->Degrees() );
+	HA.SinCos( sinHA, cosHA );
+	dec()->SinCos( sinDec, cosDec );
+
+	D = atan( ( rcosp*sinHA )/( r*cosDec/6378.14 - rcosp*cosHA ) );
+	dms temp;
+	temp.setRadians( ra()->radians() - D );
+	setRA( temp );
+
+	HA2.setD( LST->Degrees() - ra()->Degrees() );
+	cosHA2 = cos( HA2.radians() );
+	temp.setRadians( atan( cosHA2*( r*sinDec/6378.14 - rsinp )/( r*cosDec*cosHA/6378.14 - rcosp ) ) );
+	setDec( temp );
+
+	EquatorialToEcliptic( num->obliquity() );
+}
+
+void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
+	double sinL, sinB, sinL0, sinB0;
+	double cosL, cosB, cosL0, cosB0;
+	double x,y,z;
+
+	//The Moon's Rearth is set in its findGeocentricPosition()...
+	if ( name() == "Moon" ) {
+		return;
+	}
+
+	if ( name() == "Earth" ) {
+		Rearth = 0.0;
+		return;
+	}
+
+	if ( ! Earth && name() != "Moon" ) {
+		kdDebug() << i18n( "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" ) << name() << ")" << endl;
+		Rearth = 1.0;
+		return;
+	}
+
+	Earth->ecLong()->SinCos( sinL0, cosL0 );
+	Earth->ecLat()->SinCos( sinB0, cosB0 );
+	double eX = Earth->rsun()*cosB0*cosL0;
+	double eY = Earth->rsun()*cosB0*sinL0;
+	double eZ = Earth->rsun()*sinB0;
+
+	ecLong()->SinCos( sinL, cosL );
+	ecLat()->SinCos( sinB, cosB );
+	x = rsun()*cosB*cosL - eX;
+	y = rsun()*cosB*sinL - eY;
+	z = rsun()*sinB - eZ;
+
+	Rearth = sqrt(x*x + y*y + z*z);
+}
+
 void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {
-	for ( SkyPoint *sp = Trail.first(); sp; sp = Trail.next() ) 
+	for ( SkyPoint *sp = Trail.first(); sp; sp = Trail.next() )
 		sp->EquatorialToHorizontal( LST, lat );
 }
 

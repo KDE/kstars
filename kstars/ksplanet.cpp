@@ -38,7 +38,7 @@ KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {
 	dict.setAutoDelete(true);
 }
 
-bool KSPlanet::OrbitDataManager::readOrbitData(QString fname, 
+bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 		QPtrVector<KSPlanet::OrbitData> *vector) {
 	QString line;
 	QFile f;
@@ -53,7 +53,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 			QTextIStream instream( &line );
 			instream >> A >> B >> C;
 			DData.append(new OrbitData(A, B, C));
-				
+
 		}
 /* old code
 		QTextStream stream( &f );
@@ -62,7 +62,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 			QTextIStream instream( &line );
 			instream >> A >> B >> C;
 			DData.append(new OrbitData(A, B, C));
-				
+
 		}
 		f.close();
 */
@@ -103,9 +103,9 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 
 	if ( nCount==0 ){ //No longitude data found!
 		delete ret;
-		return 0; 
+		return 0;
 	}
-	
+
 	//Ecliptic Latitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
@@ -136,7 +136,7 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 
 	dict.insert(n, ret);
 
-	
+
 //	kdDebug() << k_funcinfo << " successful load" << endl;
 
 	return ret;
@@ -178,7 +178,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 		for (uint j = 0; j < odc->Lon[i].size(); ++j) {
 			sum[i] += odc->Lon[i][j]->A * cos( odc->Lon[i][j]->B + odc->Lon[i][j]->C*Tau );
 			/*
-			kdDebug() << "sum[" << i <<"] =" << sum[i] << 
+			kdDebug() << "sum[" << i <<"] =" << sum[i] <<
 				" A = " << odc->Lon[i][j]->A << " B = " << odc->Lon[i][j]->B <<
 				" C = " << odc->Lon[i][j]->C << endl;
 				*/
@@ -189,7 +189,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 
 	epret.longitude.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5] );
 	epret.longitude.setD( epret.longitude.reduce().Degrees() );
-	  	
+
 	//Compute Ecliptic Latitude
 	for (uint i=0; i<6; ++i) {
 		sum[i] = 0.0;
@@ -201,7 +201,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 
 
 	epret.latitude.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5] );
-  	
+
 	//Compute Heliocentric Distance
 	for (uint i=0; i<6; ++i) {
 		sum[i] = 0.0;
@@ -214,13 +214,13 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	epret.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
 	/*
-	kdDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " << 
+	kdDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
 		epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
 	*/
 
 }
 
-bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	if ( Earth != NULL ) {
 		double sinL, sinL0, sinB, sinB0;
@@ -233,10 +233,10 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		EclipticPosition trialpos;
 
 		double jm = num->julianMillenia();
-		
+
 		Earth->ecLong()->SinCos( sinL0, cosL0 );
 		Earth->ecLat()->SinCos( sinB0, cosB0 );
-		
+
 		double eX = Earth->rsun()*cosB0*cosL0;
 		double eY = Earth->rsun()*cosB0*sinL0;
 		double eZ = Earth->rsun()*sinB0;
@@ -244,23 +244,18 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		while (fabs(dst - olddst) > .001) {
 			calcEcliptic(jm, trialpos);
 			olddst = dst;
-			
+
 			trialpos.longitude.SinCos( sinL, cosL );
 			trialpos.latitude.SinCos( sinB, cosB );
-			
+
 			x = trialpos.radius*cosB*cosL - eX;
 			y = trialpos.radius*cosB*sinL - eY;
 			z = trialpos.radius*sinB - eZ;
 
+			//distance from Earth
 			dst = sqrt(x*x + y*y + z*z);
 
 			double delay = (.0057755183 * dst) / 365250.0;
-
-			/*
-			kdDebug() << name() << " : Lat = " << trialpos->latitude.toDMSString() << " Long = " << 
-				trialpos->longitude.toDMSString() << " rsun = " << trialpos->radius << 
-				" dst = " << dst << " olddst = " << olddst << " delay = " << delay << endl;
-				*/
 
 			jm = num->julianMillenia() - delay;
 
@@ -270,7 +265,8 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		if (x<0) ep.longitude.setD( ep.longitude.Degrees() + 180.0 ); //resolve atan ambiguity
 		ep.latitude.setRadians( atan( z/( sqrt( x*x + y*y ) ) ) );
 		setRsun( trialpos.radius );
-		
+		setRearth( dst );
+
 		EclipticToEquatorial( num->obliquity() );
 
 		nutate(num);
@@ -284,11 +280,5 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	//determine the position angle
 	findPA( num );
 
-	//Add point to Planet Trail
-	if ( hasTrail() ) {
-		Trail.append( new SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
-	}
-	
 	return true;
 }

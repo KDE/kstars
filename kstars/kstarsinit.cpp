@@ -394,7 +394,7 @@ void KStars::datainitFinished(bool worked) {
 	}
 
 	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
-	if ( map()->focusObject() && data()->isSolarSystem( map()->focusObject() )
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
 			&& options()->useAutoTrail ) {
 		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;

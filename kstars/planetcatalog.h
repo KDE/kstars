@@ -58,9 +58,12 @@ class PlanetCatalog : public QObject {
 	/**Add pointers to the planetary objects to the ObjNames list. */
 		void addObject( ObjectNameList &ObjNames ) const;
 
-	/**Determine the coordinates for all of the planets, given a KSNumbers object
-		*appropriate for the desired DateTime. */
-		void findPosition( const KSNumbers *num);
+	/**Determine the coordinates for all of the planets
+		*@param num pointer to a ksnumbers object for the target date/time
+		*@param lat pointer to the geographic latitude
+		*@param LST pointer to the local sidereal time
+		*/
+		void findPosition( const KSNumbers *num, const dms *lat, const dms *LST );
 
 	/**@returns pointer to the Sun. */
 		const KSSun *planetSun() const { return Sun; };

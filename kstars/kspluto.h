@@ -42,19 +42,18 @@ public:
 /**Destructor */
 	virtual ~KSPluto();
 
-/**
-	*A custom findPosition() function needed for the unique orbit of Pluto.
-	*Pluto coordinates are first solved in heliocentric rectangular (X, Y, Z)
-	*coordinates, which are then converted to heliocentric spherical
-	*(R, EcLong, EcLat) coordinates, and finally translated to geocentric
-	*(RA, Dec) coordinates.
-	*/
-	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
-
 	virtual bool loadData();
 
 protected:
 	virtual bool loadData(QString n);
+
+/**A custom findPosition() function needed for the unique orbit of Pluto.
+	*Pluto's coordinates are first solved in heliocentric rectangular (X, Y, Z)
+	*coordinates, which are then converted to heliocentric spherical
+	*(R, EcLong, EcLat) coordinates, and finally translated to geocentric
+	*(RA, Dec) coordinates.
+	*/
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 private:
 	class XYZData {

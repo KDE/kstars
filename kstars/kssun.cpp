@@ -32,33 +32,24 @@ bool KSSun::loadData() {
 	return (odm.loadData("earth") != 0);
 }
 
-bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	if (Earth) {
 		//
 		// For the precision we need, the earth's orbit is circular.
 		// So don't bother to iterate like KSPlanet does. Just subtract
 		// The current delay and recompute (once).
-		// 
+		//
 		double delay = (.0057755183 * Earth->rsun()) / 365250.0;
-		
+
 		//
 		// MHH 2002-02-04 I don't like this. But it avoids code duplication.
 		// Maybe we can find a better way.
 		//
 		const KSPlanet *pEarth = dynamic_cast<const KSPlanet *>(Earth);
-		/* FIXME: if you use pEarth at some point again, make sure you 
+		/* FIXME: if you use pEarth at some point again, make sure you
 			check for 0L after the dynamic_cast! */
 		EclipticPosition trialpos;
 		pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
-
-		/*
-		kdDebug() << name() << " : ELat = " << pEarth->ecLat().toDMSString() << " ELong = " << 
-			pEarth->ecLong().toDMSString() << " rsun = " << pEarth->rsun() << endl;
-		kdDebug() << name() << " : Lat = " << trialpos.latitude.toDMSString() << " Long = " << 
-			trialpos.longitude.toDMSString() << " rsun = " << trialpos.radius << 
-			" delay = " << delay << endl;
-			*/
-
 
 		setEcLong( trialpos.longitude.Degrees() + 180.0 );
 		setEcLong( ecLong()->reduce().Degrees() );
@@ -76,7 +67,7 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 			Tpow[i] = Tpow[i-1] * T;
 		}
 			//First, find heliocentric coordinates
-	
+
 		if (!(odc =  odm.loadData("earth"))) return false;
 
 		//Ecliptic Longitude
@@ -89,10 +80,10 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 			//kdDebug() << name() << " : sum[" << i << "] = " << sum[i] <<endl;
 		}
 
-		EarthLong.setRadians( sum[0] + sum[1] + sum[2] + 
+		EarthLong.setRadians( sum[0] + sum[1] + sum[2] +
 				sum[3] + sum[4] + sum[5] );
 		EarthLong.setD( EarthLong.reduce().Degrees() );
-	  	
+
 		//Compute Ecliptic Latitude
 		for (int i=0; i<6; ++i) {
 			sum[i] = 0.0;
@@ -103,9 +94,9 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		}
 
 
-		EarthLat.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + 
+		EarthLat.setRadians( sum[0] + sum[1] + sum[2] + sum[3] +
 				sum[4] + sum[5] );
-  	
+
 		//Compute Heliocentric Distance
 		for (int i=0; i<6; ++i) {
 			sum[i] = 0.0;
@@ -130,11 +121,6 @@ bool KSSun::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	//Determine the position angle
 	findPA( num );
-	
-	if ( hasTrail() ) {
-		Trail.append( new SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
-	}
 
 	return true;
 }

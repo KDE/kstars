@@ -180,10 +180,10 @@ void SkyMap::showFocusCoords( void ) {
 
 //Slots
 void SkyMap::slotCenter( void ) {
-	clickedPoint()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-	//clear the planet trail of focusObject, if it was temporary
-	if ( data->isSolarSystem( focusObject() ) && data->temporaryTrail ) {
+	//clear the planet trail of old focusObject, if it was temporary
+	if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
 		((KSPlanetBase*)focusObject())->clearTrail();
 		data->temporaryTrail = false;
 	}
@@ -212,7 +212,7 @@ void SkyMap::slotCenter( void ) {
 	if ( ksw ) ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
-	if ( focusObject() && data->isSolarSystem( focusObject() )
+	if ( focusObject() && focusObject()->isSolarSystem()
 			&& data->options->useAutoTrail
 			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
 		((KSPlanetBase*)focusObject())->addToTrail();
@@ -367,7 +367,7 @@ void SkyMap::slotAddObjectLabel( void ) {
 
 void SkyMap::slotRemovePlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
-	if ( data->isSolarSystem( clickedObject() ) ) {
+	if ( clickedObject() && clickedObject()->isSolarSystem() ) {
 		((KSPlanetBase*)clickedObject())->clearTrail();
 		forceUpdate();
 	}
@@ -375,7 +375,7 @@ void SkyMap::slotRemovePlanetTrail( void ) {
 
 void SkyMap::slotAddPlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
-	if ( data->isSolarSystem( clickedObject() ) ) {
+	if ( clickedObject() && clickedObject()->isSolarSystem() ) {
 		((KSPlanetBase*)clickedObject())->addToTrail();
 		forceUpdate();
 	}

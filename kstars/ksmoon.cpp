@@ -24,7 +24,7 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ) ) { 
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ) ) {
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
 }
@@ -72,7 +72,7 @@ bool KSMoon::loadData() {
 	return true;
 }
 
-bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
+bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
 	QString fname, snum, line;
@@ -163,52 +163,15 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 	//Geocentric coordinates
 	setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./dms::PI );  //convert radians to degrees
 	setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./dms::PI );
-	Rearth = 385000.56 + sumR/1000.0;
+	Rearth = ( 385000.56 + sumR/1000.0 )/AU_KM; //distance from Earth, in AU
 
 
 	EclipticToEquatorial( num->obliquity() );
 
-	//Determine position angle 
+	//Determine position angle
 	findPA( num );
 
-//NEW_EARTH
-//	if ( newEarth ) { delete Earth; Earth = 0; } //yikes!  it was mostly harmless, anyway...
 	return true;
-}
-
-void KSMoon::findPosition( KSNumbers *num, const dms *lat, const dms *LST ) {
-	findPosition(num);
-	localizeCoords( lat, LST );
-	EquatorialToEcliptic( num->obliquity() );
-	
-	if ( hasTrail() ) {
-		Trail.append( new SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
-	}
-}
-
-void KSMoon::localizeCoords( const dms *lat, const dms *LST ) {
-	//convert geocentric coordinates to local apparent coordinates (topocentric coordinates)
-	dms HA, HA2; //Hour Angle, before and after correction
-	double rsinp, rcosp, u, sinHA, cosHA, sinDec, cosDec, D;
-	double cosHA2;
-	
-	u = atan( 0.996647*tan( lat->radians() ) );
-	rsinp = 0.996647*sin( u );
-	rcosp = cos( u );
-	HA.setD( LST->Degrees() - ra()->Degrees() );
-	HA.SinCos( sinHA, cosHA );
-	dec()->SinCos( sinDec, cosDec );
-	
-	D = atan( ( rcosp*sinHA )/( Rearth*cosDec/6378.14 - rcosp*cosHA ) );
-	dms temp;
-	temp.setRadians( ra()->radians() - D );
-	setRA( temp );
-
-	HA2.setD( LST->Degrees() - ra()->Degrees() );
-	cosHA2 = cos( HA2.radians() );
-	temp.setRadians( atan( cosHA2*( Rearth*sinDec/6378.14 - rsinp )/( Rearth*cosDec*cosHA/6378.14 - rcosp ) ) );
-	setDec( temp );
 }
 
 void KSMoon::findPhase( const KSSun *Sun ) {
@@ -225,6 +188,6 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 		imFile.close();
 		image0()->load( imFile.name() );
 		image()->load( imFile.name() );
-		
+
 	}
 }

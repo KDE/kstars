@@ -51,13 +51,13 @@ bool PlanetCatalog::initialize() {
 		ksp->setAngSize( 0.0017 );
 		planets.append(ksp);
 	}
-	
+
 	ksp = new KSPlanet( kd, I18N_NOOP( "Mercury" ), "mercury.png");
 	if (ksp->loadData()) {
 		ksp->setAngSize( 0.137 );
 		planets.append(ksp);
 	}
-	
+
 	ksp = new KSPlanet( kd, I18N_NOOP( "Venus" ), "venus.png");
 	if (ksp->loadData()) {
 		ksp->setAngSize( 0.56 );
@@ -69,19 +69,19 @@ bool PlanetCatalog::initialize() {
 		ksp->setAngSize( 0.178 );
 		planets.append(ksp);
 	}
-	
+
 	ksp = new KSPlanet( kd, I18N_NOOP( "Jupiter" ), "jupiter.png");
 	if (ksp->loadData()) {
 		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
 	}
-	
+
 	ksp = new KSPlanet( kd, I18N_NOOP( "Saturn" ), "saturn.png");
 	if (ksp->loadData()) {
 		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
 	}
-	
+
 	ksp = new KSPlanet( kd, I18N_NOOP( "Uranus" ), "uranus.png");
 	if (ksp->loadData()) {
 		ksp->setAngSize( 0.06 );
@@ -105,10 +105,10 @@ void PlanetCatalog::addObject( ObjectNameList &ObjNames ) const {
 	}
 }
 
-void PlanetCatalog::findPosition( const KSNumbers *num) {
+void PlanetCatalog::findPosition( const KSNumbers *num, const dms *lat, const dms *LST ) {
 	Earth->findPosition(num);
 	for (KSPlanetBase * ksp = planets.first(); ksp != 0; ksp = planets.next()) {
-		ksp->findPosition(num, Earth);
+		ksp->findPosition(num, lat, LST, Earth);
 	}
 
 }

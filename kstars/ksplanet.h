@@ -32,7 +32,7 @@
 	*KSPlanet.
 	*
 	*KSPlanet contains subclasses to manage the computations of a planet's position.
-	*The position is computed as a series of sinusoidal sums, similar to a Fourier 
+	*The position is computed as a series of sinusoidal sums, similar to a Fourier
 	*transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
 	*for details.
 	*@short Provides necessary information about objects in the solar system.
@@ -43,7 +43,7 @@
 class KStarsData;
 
 class KSPlanet : public KSPlanetBase {
-public: 
+public:
 
 /**
 	*Constructor.  Calls SkyObject constructor with type=2 (planet),
@@ -57,15 +57,6 @@ public:
 	*Destructor (empty)
 	*/
 	virtual ~KSPlanet() {}
-
-
-/**
-	*Calculate the RA, Dec coordinates of the Planet.
-	*@param num time-dependent values for the desired date
-	*@param Earth planet Earth (needed to calculate geocentric coords)
-	*@returns true if position was successfully calculated.
-	*/
-	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 /**
 	*@short Preload the data used by findPosition.
@@ -83,7 +74,15 @@ public:
 protected:
 
 	bool data_loaded;
-	
+
+/**
+	*Calculate the geocentric RA, Dec coordinates of the Planet.
+	*@param num time-dependent values for the desired date
+	*@param Earth planet Earth (needed to calculate geocentric coords)
+	*@returns true if position was successfully calculated.
+	*/
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+
 /**OrbitData contains doubles A,B,C which represent a single term in a planet's
 	*positional expansion sums (each sum-term is A*COS(B+C*T)).
 	*@author Mark Hollomon
@@ -97,10 +96,10 @@ protected:
 	};
 
 	typedef QPtrVector<OrbitData> OBArray[6];
-	
+
 /**OrbitDataColl contains three groups of six QPtrVectors.  Each QPtrVector is a
-	*list of OrbitData objects, representing a single sum used in computing 
-	*the planet's position.  A set of six of these vectors comprises the large 
+	*list of OrbitData objects, representing a single sum used in computing
+	*the planet's position.  A set of six of these vectors comprises the large
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
 	*@author Mark Hollomon
 	*@version 0.9
@@ -116,7 +115,7 @@ protected:
 
 
 /**OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
-	*indexed by the planets' names.  It also loads the positional data of each planet 
+	*indexed by the planets' names.  It also loads the positional data of each planet
 	*from disk.
 	*@author Mark Hollomon
 	*@version 0.9

@@ -545,7 +545,7 @@ void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-		if ( data()->isSolarSystem( map()->focusObject() ) && data()->temporaryTrail ) {
+		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
 			data()->temporaryTrail = false;
 		}

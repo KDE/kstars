@@ -28,7 +28,7 @@
 
 
 /**@class SkyPoint
-	*@short Stores dms coordinates for a point in the sky, and functions 
+	*@short Stores dms coordinates for a point in the sky, and functions
 	*for converting between coordinate systems.
 	*@author Jason Harris
 	*@version 1.0
@@ -39,7 +39,7 @@
 	*Provides set/get functions for each coordinate angle, and functions
 	*to convert between the Equatorial and Horizon coordinate systems.
 	*
-	*Because the coordinate values change slowly over time (due to 
+	*Because the coordinate values change slowly over time (due to
 	*precession, nutation), the "catalog coordinates" are stored
 	*(RA0, Dec0), which were the true coordinates on Jan 1, 2000.
 	*The true coordinates (RA, Dec) at any other epoch can be found
@@ -47,14 +47,14 @@
 	*/
 
 class SkyPoint {
-public: 
+public:
 /**Default constructor: Sets RA, Dec and RA0, Dec0 according
 	*to arguments.  Does not set Altitude or Azimuth.
 	*@param r Right Ascension
 	*@param d Declination
 	*/
 	SkyPoint( dms r, dms d ) { set( r, d ); }
-	
+
 /**Alternate constructor using pointer arguments, for convenience.
 	*It behaves essentially like the default constructor.
 	*@param r Right Ascension pointer
@@ -66,12 +66,12 @@ public:
 	*It behaves essentially like the default constructor.
 	*@param r Right Ascension, expressed as a double
 	*@param d Declination, expressed as a double
-	*/	
+	*/
 	SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
 
 /**
 	*Empty destructor.
-	*/	
+	*/
 	virtual ~SkyPoint();
 
 /**Sets RA, Dec and RA0, Dec0 according to arguments.
@@ -80,7 +80,7 @@ public:
 	*@param d Declination
 	*/
 	void set( dms r, dms d );
-	
+
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param r Right Ascension
@@ -181,7 +181,7 @@ public:
 	*/
 	const dms* az() const { return &Az; }
 
-/**@return a pointer to the current Altitude.	
+/**@return a pointer to the current Altitude.
 	*/
 	const dms* alt() const { return &Alt; }
 
@@ -202,7 +202,7 @@ public:
 	void HorizontalToEquatorial( const dms* LST, const dms* lat );
 
 /**Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
-	*The ecliptic coordinates are returned as reference arguments (since 
+	*The ecliptic coordinates are returned as reference arguments (since
 	*they are not stored internally)
 	*/
 	void findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat );
@@ -215,36 +215,37 @@ public:
 
 /**Determine the current coordinates (RA, Dec) from the catalog
 	*coordinates (RA0, Dec0), accounting for both precession and nutation.
-	*@param num pointer to KSNumbers object containing current values of 
+	*@param num pointer to KSNumbers object containing current values of
 	*time-dependent variables.
-	*@param includePlanets does nothing in this implementation.  
-	*See KSPlanetBase::updateCoords().
+	*@param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
+	*@param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
+	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
 	*/
-	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
+	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
 /**Determine the effects of nutation for this SkyPoint.
-	*@param num pointer to KSNumbers object containing current values of 
+	*@param num pointer to KSNumbers object containing current values of
 	*time-dependent variables.
 	*/
 	void nutate(const KSNumbers *num);
 
 /**Determine the effects of aberration for this SkyPoint.
-	*@param num pointer to KSNumbers object containing current values of 
+	*@param num pointer to KSNumbers object containing current values of
 	*time-dependent variables.
 	*/
 	void aberrate(const KSNumbers *num);
-	
-/**Computes the apparent coordinates for this SkyPoint for any epoch, 
-	*accounting for the effects of precession, nutation, and aberration. 
-	*Similar to updateCoords(), but the starting epoch need not be  
+
+/**Computes the apparent coordinates for this SkyPoint for any epoch,
+	*accounting for the effects of precession, nutation, and aberration.
+	*Similar to updateCoords(), but the starting epoch need not be
 	*J2000, and the target epoch need not be the present time.
 	*@param jd0 Julian Day which identifies the original epoch
 	*@param jdf Julian Day which identifies the final epoch
 	*/
 	void apparentCoord(long double jd0, long double jdf);
 
-/**General case of precession. It precess from an original epoch to a 
-	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent 
+/**General case of precession. It precess from an original epoch to a
+	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent
 	*the coordinates for the original epoch and not for J2000, as usual.
 	*@param jd0 Julian Day which identifies the original epoch
 	*@param jdf Julian Day which identifies the final epoch
@@ -252,12 +253,12 @@ public:
 	void precessFromAnyEpoch(long double jd0, long double jdf);
 
 protected:
-/**Precess this SkyPoint's catalog coordinates to the epoch described by the 
+/**Precess this SkyPoint's catalog coordinates to the epoch described by the
 	*given KSNumbers object.
-	*@param num pointer to a KSNumbers object describing the target epoch. 
+	*@param num pointer to a KSNumbers object describing the target epoch.
 	*/
 	void precess(const KSNumbers *num);
-	
+
 
 private:
 	dms RA0, Dec0; //catalog coordinates

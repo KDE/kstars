@@ -64,6 +64,7 @@
 #define MAXZOOM 1000000.
 #define DEFAULTZOOM 2000.
 #define DZOOM 1.10
+#define AU_KM 1.49605e8  //km in one AU
 
 class KStandardDirs;
 class FileSource;
@@ -357,8 +358,6 @@ public:
 		*2 calculations of daylight saving change time.
 		*/
 	bool isTimeRunningForward() { return TimeRunsForward; }
-
-	bool isSolarSystem( SkyObject *obj );
 
 	KLocale *getLocale() { return locale; };
 

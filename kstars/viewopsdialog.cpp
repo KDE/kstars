@@ -741,7 +741,7 @@ void ViewOpsDialog::changeSlewTimeScale( float f ) {
 }
 
 void ViewOpsDialog::changeAutoTrail( void ) {
-	if ( ksw->data()->isSolarSystem( ksw->map()->focusObject() ) ) {
+	if ( ksw->map()->focusObject() && ksw->map()->focusObject()->isSolarSystem() ) {
 		if ( ss->autoTrail->isChecked() ) {
 			//add the temporary trail
 			((KSPlanetBase*)ksw->map()->focusObject())->addToTrail();

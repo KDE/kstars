@@ -33,7 +33,7 @@
 
 class KStarsData;
 class KSMoon : public KSPlanetBase  {
-public: 
+public:
 	/**
 		*Default constructor.  Set name="Moon".
 		*/
@@ -43,46 +43,11 @@ public:
 	~KSMoon();
 
 	/**
-    *Reimplemented from KSPlanet, this function employs unique algorithms for
-    *estimating the lunar coordinates.  Finding the position of the moon is
-    *much more difficult than the other planets.  For one thing, the Moon is
-    *a lot closer, so we can detect smaller deviations in its orbit.  Also,
-    *the Earth has a significant effect on the Moon's orbit, and their
-    *interaction is complex and nonlinear.  As a result, the positions as
-    *calculated by findPosition() are only accurate to about 10 arcseconds
-		*(10 times less precise than the planets' positions!)
-		*@short moon-specific coordinate finder
-		*@param jd current Julian Date
-		*/
-	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth = 0);
-
-	/**
-	  *@short Calls findPosition( Epoch ), then localizeCoords( lat, LST ).
-		*@param jd current Julian Date
-		*@param lat The geographic latitude
-		*@param LST The local sidereal time
-		*/
-	void findPosition( KSNumbers *num, const dms *lat, const dms *LST );
-
-	/**
-		*Convert geocentric coordinates to local (topographic) coordinates,
-		*by correcting for the effect of parallax (a.k.a "figure of the Earth").
-		*@param lat The geographic latitude
-		*@param LST The local sidereal time
-		*/
-	void localizeCoords( const dms *lat, const dms *LST );
-
-	/**
 		*Determine the phase angle of the moon, and assign the appropriate
 		*moon image
 		*@param Sun The current Sun object.
 		*/
 	void findPhase( const KSSun *Sun );
-
-	/**
-		*@returns the moon's current distance from the Earth
-		*/
-	double distance( void ) { return Rearth; }
 
 	/**
 		*@returns the moon's current phase angle, as a dms angle
@@ -95,9 +60,21 @@ public:
 	virtual bool loadData();
 
 protected:
+	/**Reimplemented from KSPlanetBase, this function employs unique algorithms for
+		*estimating the lunar coordinates.  Finding the position of the moon is
+		*much more difficult than the other planets.  For one thing, the Moon is
+		*a lot closer, so we can detect smaller deviations in its orbit.  Also,
+		*the Earth has a significant effect on the Moon's orbit, and their
+		*interaction is complex and nonlinear.  As a result, the positions as
+		*calculated by findPosition() are only accurate to about 10 arcseconds
+		*(10 times less precise than the planets' positions!)
+		*@short moon-specific coordinate finder
+		*@param num KSNumbers pointer for the target date/time
+		*@param Earth pointer to the Earth (not used for the Moon)
+		*/
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth = 0 );
 
 private:
-	double Rearth; //Distance from Earth, in km.
 	dms Phase;
 	static bool data_loaded;
 
@@ -115,7 +92,7 @@ private:
 			int nf;
 			double Li;
 			double Ri;
-			
+
 			MoonLRData( int pnd, int pnm, int pnm1, int pnf, double pLi, double pRi ):
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {};
 	};
@@ -135,7 +112,7 @@ private:
 			int nm1;
 			int nf;
 			double Bi;
-			
+
 			MoonBData( int pnd, int pnm, int pnm1, int pnf, double pBi ):
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {};
 	};

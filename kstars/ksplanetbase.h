@@ -67,7 +67,7 @@ class EclipticPosition {
 
 class KStarsData;
 class KSPlanetBase : public SkyObject {
-public: 
+public:
 
 /**Constructor.  Calls SkyObject constructor with type=2 (planet),
 	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
@@ -117,15 +117,6 @@ public:
 	*/
 	virtual bool loadData() = 0;
 
-/**@short find the object's current equatorial coordinates (RA and Dec)
-	*Given the current KSNumbers object (time-dependent), calculate and set 
-	*the RA, Dec coordinates of the Planet.
-	*@param num pointer to current KSNumbers object
-	*@param Earth pointer to planet Earth (needed to calculate geocentric coords)
-	*@return true if position was successfully calculated.
-	*/
-	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
-
 /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
 	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	*/
@@ -153,11 +144,36 @@ public:
 	*/
 	void setRsun( double r ) { ep.radius = r; };
 
+/**@return distance from Earth, in Astronomical Units (1 AU is Earth-Sun distance)
+	*/
+	double rearth() const { return Rearth; }
+
+/**@short Set the distance from Earth, in AU.
+	*@param r the new earth-distance in AU
+	*/
+	void setRearth( double r ) { Rearth = r; }
+
+/**@short compute and set the distance from Earth, in AU.
+	*@param Earth pointer to the Earth from which to calculate the distance.
+	*/
+	void setRearth( const KSPlanetBase *Earth );
+
 /**Update position of the planet (reimplemented from SkyPoint)
 	*@param num current KSNumbers object
 	*@param includePlanets this function does nothing if includePlanets=false
+	*@param lat pointer to the geographic latitude; if NULL< we skip localizeCoords()
+	*@param LST pointer to the local sidereal time; if NULL< we skip localizeCoords()
 	*/
-	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
+	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+
+/**
+	*@short Find position, including correction for Figure-of-the-Earth.
+	*@param num KSNumbers pointer for the target date/time
+	*@param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
+	*@param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
+	*@param Earth pointer to the Earth (not used for the Moon)
+	*/
+	void findPosition( const KSNumbers *num, const dms *lat=0, const dms *LST=0, const KSPlanetBase *Earth = 0 );
 
 /**@return the Planet's position angle.
 	*/
@@ -171,7 +187,7 @@ public:
 /**@return the Planet's angular size, in arcminutes
 	*/
 		double angSize() const { return AngularSize; }
-		
+
 /**@short Set the Planet's angular size in arcminutes
 	*@param a the new angular size
 	*/
@@ -180,24 +196,24 @@ public:
 /**@return whether the planet has a trail
 	*/
 		bool hasTrail() const { return ( Trail.count() > 0 ); }
-		 
+
 /**@return a reference to the planet's trail
 	*/
-		QPtrList<SkyPoint>* trail() { return &Trail; } 
-		
+		QPtrList<SkyPoint>* trail() { return &Trail; }
+
 /**@short adds a point to the planet's trail
 	*@param sp a pointer to the SkyPoint to add (will be AutoDeleted)
 	*/
 		void addToTrail() { Trail.append( new SkyPoint( ra(), dec() ) ); }
-		
+
 /**@short removes the oldest point from the trail
 	*/
 		void clipTrail() { Trail.removeFirst(); }
-		
+
 /**@short clear the Trail
 	*/
 		void clearTrail() { Trail.clear(); }
-		
+
 /**@short update Horizontal coords of the trail
 	*/
 		void updateTrail( dms *LST, const dms *lat );
@@ -214,19 +230,40 @@ public:
 	void scaleRotateImage( int scale, double imageAngle );
 
 protected:
-	virtual bool loadData(QString n) { 
+	virtual bool loadData(QString n) {
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
 	};
 
-/**Determine the position angle of the planet for a given date 
+/**@short find the object's current geocentric equatorial coordinates (RA and Dec)
+	*This function is pure virtual; it must be overloaded by subclasses.
+	*This function is private; it is called by the public function findPosition()
+	*which also includes the figure-of-the-earth correction, localizeCoords().
+	*@param num pointer to current KSNumbers object
+	*@param Earth pointer to planet Earth (needed to calculate geocentric coords)
+	*@return true if position was successfully calculated.
+	*/
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
+
+/**Determine the position angle of the planet for a given date
 	*(used internally by findPosition() )
 	*/
 	void findPA( const KSNumbers *num );
-	
+
 	EclipticPosition ep;
 	QPtrList<SkyPoint> Trail;
+	double  Rearth;
 
 private:
+/**@short correct the position for the fact that the location is not at the center of the Earth,
+	*but a position on its surface.  This causes a small parallactic shift in a solar system
+	*body's apparent position.  The effect is most significant for the Moon.
+	*This function is private, and should only be called from the public findPosition() function.
+	*@param num pointer to a ksnumbers object for the target date/time
+	*@param lat pointer to the geographic latitude of the location.
+	*@param LST pointer to the local sidereal time.
+	*/
+	void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
+
 	QImage Image0, Image;
 	double PositionAngle, ImageAngle, AngularSize;
 	KStarsData *data;

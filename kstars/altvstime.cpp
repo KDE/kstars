@@ -328,11 +328,11 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	KSPlanet *Earth = ks->data()->earth();
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
-	if ( ks->data()->isSolarSystem( o ) ) {
+	if ( o && o->isSolarSystem() ) {
 		oldNum = new KSNumbers( ks->data()->clock()->JD() );
-		Earth->findPosition( num );
+		o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
 
-		if ( o->type() == 2 && o->name() == "Moon" ) {
+/*		if ( o->type() == 2 && o->name() == "Moon" ) {
 			((KSMoon*)o)->findPosition(num, Earth);
 		} else if ( o->type() == 2 ) {
 			((KSPlanet*)o)->findPosition(num, Earth);
@@ -343,7 +343,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 			((KSAsteroid*)o)->findPosition(num, Earth);
 		} else {
 			kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
-		}
+		}*/
 	}
 
 	//precess coords to target epoch
@@ -383,20 +383,16 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		decBox->showInDegrees(o->dec() );
 		nameBox->setText(o->name() );
 
-		//CLEAR_FIELDS
-//		dirtyFlag = true;
-
 		//Set epochName to epoch shown in date tab
 		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
-	//restore original Earth position
-	if ( ks->data()->isSolarSystem( o ) ) {
-		Earth->findPosition( oldNum );
+	//restore original position
+	if ( o->isSolarSystem() ) {
+		o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
 		delete oldNum;
 	}
-
 	delete num;
 }
 
@@ -495,6 +491,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	//Again find each object in the list of known objects, and update
 	//coords if the object is a solar system body
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
+	KSNumbers *oldNum = 0;
 	KSPlanet *Earth = ks->data()->earth();
 
 	for ( unsigned int i = 0; i < PlotList->count(); ++i ) {
@@ -508,10 +505,11 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				SkyObject *o = name->skyObject();
 
 				//If the object is in the solar system, recompute its position for the given date
-				if ( ks->data()->isSolarSystem( o ) ) {
-					Earth->findPosition( num );
+				if ( o->isSolarSystem() ) {
+					oldNum = new KSNumbers( ks->data()->clock()->JD() );
+					o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
 
-					if ( o->type() == 2 && o->name() == "Moon" ) {
+/*					if ( o->type() == 2 && o->name() == "Moon" ) {
 						((KSMoon*)o)->findPosition(num, Earth);
 					} else if ( o->type() == 2 ) {
 						((KSPlanet*)o)->findPosition(num, Earth);
@@ -521,7 +519,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 						((KSAsteroid*)o)->findPosition(num, Earth);
 					} else {
 						kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
-					}
+					}*/
 				}
 
 				//precess coords to target epoch
@@ -536,6 +534,13 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				}
 				View->replaceObject( i, po );
 
+				//restore original position
+				if ( o->isSolarSystem() ) {
+					o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
+					delete oldNum;
+					oldNum = 0;
+				}
+
 				objFound = true;
 				break;
 			}
@@ -547,6 +552,8 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
 	setLSTLimits();
 	View->repaint();
+
+	delete num;
 }
 
 void AltVsTime::slotChooseCity(void) {

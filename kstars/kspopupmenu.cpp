@@ -211,7 +211,7 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 
 	bool showLabel( true );
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
-	
+
 	pmTitle = new QLabel( s1, this );
 	pmTitle->setAlignment( AlignCenter );
 	QPalette pal( pmTitle->palette() );
@@ -278,7 +278,7 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 			insertItem( i18n( "Attach Label" ), ksw->map(), SLOT( slotAddObjectLabel() ) );
 		}
 	}
-	
+
 	if ( showTrail ) {
 		if ( addTrail ) {
 			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );
@@ -291,13 +291,13 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 
 	if (addINDI())
   	  insertSeparator();
-
 }
 
 void KSPopupMenu::setRiseSetLabels( void ) {
-	QTime rtime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
 	QString rt, rt2, rt3;
+	QTime rtime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
 	dms rAz = ksw->map()->clickedObject()->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
+
 	if ( rtime.isValid() ) {
 		int hour = rtime.hour();
 		int min = rtime.minute();

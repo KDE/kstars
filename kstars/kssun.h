@@ -48,11 +48,12 @@ public:
 	 */
 	virtual bool loadData();
 
+protected:
 /**
-	*Determine RA, Dec coordinates for the Epoch given in the argument.
+	*Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
 	*@param Epoch current Julian Date
 	*/
-	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );	
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 };
 
 #endif

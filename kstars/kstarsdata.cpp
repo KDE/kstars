@@ -1511,26 +1511,17 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
 		LastPlanetUpdate = CurrentDate;
 
-		if ( options->drawPlanets ) PC->findPosition(&num);
+		if ( options->drawPlanets ) PC->findPosition( &num, geo->lat(), LST );
 
 		//Asteroids
 		if ( options->drawPlanets && options->drawAsteroids )
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
-				ast->findPosition( &num, earth() );
+				ast->findPosition( &num, geo->lat(), LST, earth() );
 
 		//Comets
 		if ( options->drawPlanets && options->drawComets )
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() )
-				com->findPosition( &num, earth() );
-
-//		//Add a point to the planet trail if the centered object is a solar system body.
-//		if ( isSolarSystem( skymap->focusObject() ) ) {
-//			PlanetTrail.append( new SkyPoint(skymap->focusObject()->ra(), skymap->focusObject()->dec()) );
-//
-//			//Allow no more than 200 points in the trail
-//			while ( PlanetTrail.count() > 400 )
-//				PlanetTrail.removeFirst();
-//		}
+				com->findPosition( &num, geo->lat(), LST, earth() );
 
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
@@ -1750,11 +1741,6 @@ void KStarsData::changeTime( QDate newDate, QTime newTime ) {
 
 	//set local sideral time
 	setLST();
-}
-
-bool KStarsData::isSolarSystem( SkyObject *o ) {
-	if ( !o ) return false;
-	return ( o->type() == 2 || o->type() == 9 || o->type() == 10 );
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {

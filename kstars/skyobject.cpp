@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+//DEBUG
+#include <kglobal.h>
+
 #include <qregexp.h>
 #include "skyobject.h"
 #include "ksutils.h"
@@ -35,7 +38,7 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	Catalog = "";
   calcCatalogFlags(); // optimize string handling
 	Image = 0;
-	
+
 }
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
@@ -110,50 +113,47 @@ void SkyObject::setLongName( const QString &longname ) {
 }
 
 QTime SkyObject::riseSetTime( long double jd, const GeoLocation *geo, bool rst ) {
-
 	//this object does not rise or set; return an invalid time
 	if ( checkCircumpolar(geo->lat()) )
-		return QTime( 25, 0, 0 );  
+		return QTime( 25, 0, 0 );
 
-	QTime UT = riseSetTimeUT( jd, geo->lng(), geo->lat(), rst ); 
-	
+	QTime UT = riseSetTimeUT( jd, geo, rst );
+
 	//convert UT to LT;
 	return UT.addSecs( int( 3600.0*geo->TZ() ) );
 }
 
-QTime SkyObject::riseSetTimeUT( long double jd, const dms *gLng, const dms *gLat, bool riseT) {
+QTime SkyObject::riseSetTimeUT( long double jd, const GeoLocation *geo, bool riseT) {
+	QTime UT = auxRiseSetTimeUT(jd, geo, ra(), dec(), riseT);
 
-	QTime UT = auxRiseSetTimeUT(jd, gLng, gLat, ra(), dec(), riseT); 
-	// We iterate once more using the calculated UT to compute again 
+	// We iterate once more using the calculated UT to compute again
 	// the ra and dec and hence the rise time.
-	
 	long double jd0 = newJDfromJDandUT( jd, UT );
+	SkyPoint sp = getNewCoords( jd, jd0, geo );
 
-	SkyPoint sp = getNewCoords(jd, jd0);
 	const dms *ram = sp.ra0();
 	const dms *decm = sp.dec0();
-	
-	UT = auxRiseSetTimeUT(jd0, gLng, gLat, ram, decm, riseT); 
 
+	UT = auxRiseSetTimeUT(jd0, geo, ram, decm, riseT);
 	return UT;
 }
 
-dms SkyObject::riseSetTimeLST( long double jd, const dms *gLng, const dms *gLat, bool riseT) {
-	QTime UT = riseSetTimeUT(jd, gLng, gLat, riseT);
+dms SkyObject::riseSetTimeLST( long double jd, const GeoLocation *geo, bool riseT) {
+	QTime UT = riseSetTimeUT(jd, geo, riseT);
 	QDateTime utTime = KSUtils::JDtoUT( jd );
 	utTime.setTime( UT );
-	return KSUtils::UTtoLST( utTime, gLng ); 
+	return KSUtils::UTtoLST( utTime, geo->lng() );
 }
 
-QTime SkyObject::auxRiseSetTimeUT( long double jd, const dms *gLng, const dms *gLat, 
+QTime SkyObject::auxRiseSetTimeUT( long double jd, const GeoLocation *geo,
 			const dms *righta, const dms *decl, bool riseT) {
 
 	// if riseT = true => rise Time, else setTime
-	
-	dms LST = auxRiseSetTimeLST(gLat, righta, decl, riseT ); 
+
+	dms LST = auxRiseSetTimeLST(geo->lat(), righta, decl, riseT );
 
 	//convert LST to Greenwich ST
-	dms GST = dms( LST.Degrees() - gLng->Degrees() ).reduce();
+	dms GST = dms( LST.Degrees() - geo->lng()->Degrees() ).reduce();
 
 	//convert GST to UT
 	double T = ( jd - J2000 )/36525.0;
@@ -165,8 +165,8 @@ QTime SkyObject::auxRiseSetTimeUT( long double jd, const dms *gLng, const dms *g
 
 	UTh.setH( 0.9972695663 * dT.Hours() );
 	UTh = UTh.reduce();
-	
-	
+
+
 	return QTime( UTh.hour(), UTh.minute(), UTh.second() );
 }
 
@@ -176,12 +176,12 @@ dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms 
 //	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
 	dms h0 = elevationCorrection();
 	double H = approxHourAngle (&h0, gLat, decl);
-	
+
 	dms LST;
-	
+
 	// rise Time or setTime
 
-	if (riseT) 
+	if (riseT)
 		LST.setH( 24.0 + righta->Hours() - H/15.0 );
 	else
 		LST.setH( righta->Hours() + H/15.0 );
@@ -199,9 +199,9 @@ dms SkyObject::riseSetTimeAz(long double jd, const GeoLocation *geo, bool riseT)
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
 	double sinAlt, cosAlt;
 
-	QTime UT = riseSetTimeUT( jd, geo->lng(), geo->lat(), riseT );
-	long double jd0 = newJDfromJDandUT(jd, UT);
-	SkyPoint sp = getNewCoords(jd,jd0);
+	QTime UT = riseSetTimeUT( jd, geo, riseT );
+	long double jd0 = newJDfromJDandUT( jd, UT );
+	SkyPoint sp = getNewCoords( jd, jd0, geo );
 	const dms *ram = sp.ra0();
 	const dms *decm = sp.dec0();
 
@@ -224,22 +224,22 @@ dms SkyObject::riseSetTimeAz(long double jd, const GeoLocation *geo, bool riseT)
 	return Azimuth;
 }
 
-QTime SkyObject::transitTimeUT(long double jd, const dms *gLng ) {
+QTime SkyObject::transitTimeUT(long double jd, const GeoLocation *geo ) {
 
 	QDateTime utDateTime = KSUtils::JDtoUT( jd );
-	dms LST = KSUtils::UTtoLST( utDateTime, gLng );
-	
+	dms LST = KSUtils::UTtoLST( utDateTime, geo->lng() );
+
 	//dSec is the number of seconds until the object transits.
 	dms HourAngle = dms ( LST.Degrees() - ra()->Degrees() );
 	int dSec = int( -3600.*HourAngle.Hours() );
-	
-	//UT0 is the first guess at the transit time.  
+
+	//UT0 is the first guess at the transit time.
 	QTime UT0 = utDateTime.time().addSecs( dSec );
 	long double jd0 = newJDfromJDandUT(jd, UT0);
 
-	//recompute object's position at UT0 and then find 
+	//recompute object's position at UT0 and then find
 	//transit time of this refined position
-	SkyPoint sp = getNewCoords(jd, jd0);
+	SkyPoint sp = getNewCoords(jd, jd0, geo );
 	const dms *ram = sp.ra0();
 
 	HourAngle = dms ( LST.Degrees() - ram->Degrees() );
@@ -249,39 +249,24 @@ QTime SkyObject::transitTimeUT(long double jd, const dms *gLng ) {
 }
 
 QTime SkyObject::transitTime( long double jd, const GeoLocation *geo ) {
-	QTime UT = transitTimeUT(jd, geo->lng() );
+	QTime UT = transitTimeUT(jd, geo );
 	return UT.addSecs( int( 3600.*geo->TZ() ) );
 }
 
-dms SkyObject::transitAltitude(long double jd, const GeoLocation *geo) {
-	QTime UT = transitTimeUT(jd, geo->lng());
+dms SkyObject::transitAltitude( long double jd, const GeoLocation *geo ) {
+	QTime UT = transitTimeUT( jd, geo );
 	long double jd0 = newJDfromJDandUT(jd, UT);
-	SkyPoint sp = getNewCoords(jd,jd0);
+	SkyPoint sp = getNewCoords( jd, jd0, geo );
 	const dms *decm = sp.dec0();
-	
+
 	dms delta;
-	delta.setRadians( asin ( sin (geo->lat()->radians()) * 
+	delta.setRadians( asin ( sin (geo->lat()->radians()) *
 				sin ( decm->radians() ) +
-				cos (geo->lat()->radians()) * 
+				cos (geo->lat()->radians()) *
 				cos (decm->radians() ) ) );
 
 	return delta;
 }
-
-//This function is no longer used
-/*
-dms SkyObject::gstAtZeroUT (long double jd) {
-
-	long double jd0 = KSUtils::JDatZeroUT (jd) ;
-	long double s = jd0 - 2451545.0;
-	double t = s/36525.0;
-	dms T0;
-	T0.setH (6.697374558 + 2400.051336*t + 0.000025862*t*t + 
-			0.000000002*t*t*t);
-
-	return T0;
-}
-*/
 
 double SkyObject::approxHourAngle ( const dms *h0, const dms *gLat, const dms *dec ) {
 
@@ -309,19 +294,28 @@ long double SkyObject::newJDfromJDandUT(long double jd, QTime UT) {
 	return KSUtils::UTtoJD( dt );
 }
 
-SkyPoint SkyObject::getNewCoords(long double jd, long double jd0) {
+SkyPoint SkyObject::getNewCoords(long double jd, long double jd0, const GeoLocation *geo ) {
+	// compute coords for new time jd0
+	KSNumbers *num0 = new KSNumbers(jd0);
+	if ( isSolarSystem() && geo ) {
+		dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( jd0 ), geo->lng() );
+		updateCoords( num0, true, geo->lat(), &LST );
+	} else {
+		updateCoords(num0);
+	}
+	delete num0;
 
-	// we save the original state of the object
-	KSNumbers *num = new KSNumbers(jd);
-
-	KSNumbers *num1 = new KSNumbers(jd0);
-	updateCoords(num1);
 	const dms *ram = ra();
 	const dms *decm = dec();
-	delete num1;
 
-	// we leave the object in its original state
-	updateCoords(num);
+	// restore coords to original time jd
+	KSNumbers *num = new KSNumbers(jd);
+	if ( isSolarSystem() && geo ) {
+		dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( jd ), geo->lng() );
+		updateCoords( num, true, geo->lat(), &LST );
+	} else {
+		updateCoords(num);
+	}
 	delete num;
 
 	return SkyPoint(ram, decm);
@@ -376,4 +370,3 @@ void SkyObject::calcCatalogFlags() {
   bIsCatalogNGC  = (Catalog == "NGC" );
   bIsCatalogNone = (Catalog.isEmpty() );
 }
-

@@ -72,7 +72,7 @@ bool KSPluto::loadData(QString fn) {
 	xdata = new XYZData[DATAARRAYSIZE];
 	ydata = new XYZData[DATAARRAYSIZE];
 	zdata = new XYZData[DATAARRAYSIZE];
-  
+
 	//read in the periodic frequencies
 	int n = 0;
 	if ( KSUtils::openDataFile( f, fn.lower() + ".freq" ) ) {
@@ -206,15 +206,7 @@ KSPluto::XYZpos KSPluto::calcRectCoords(double jd)  {
 	return XYZpos(X,Y,Z);
 }
 
-bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-//NEW_EARTH
-//	bool newEarth( false );
-//	if ( Earth == NULL ) {
-//		newEarth = true;
-//		Earth = new KSPlanet( ks, "Earth" );
-//		Earth->findPosition( num );
-//	}
-	
+bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double X0, Y0, Z0, RARad;
 	dms L0, B0; //geocentric ecliptic coords of Sun
 	dms EarthLong, EarthLat; //heliocentric ecliptic coords of Earth
@@ -226,10 +218,10 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double dst = 0;
 
 	double jd = num->julianDay();
-	
+
 	Earth->ecLong()->SinCos( sinL0, cosL0 );
 	Earth->ecLat()->SinCos( sinB0, cosB0 );
-	
+
 	double eX = Earth->rsun()*cosB0*cosL0;
 	double eY = Earth->rsun()*cosB0*sinL0;
 	double eZ = Earth->rsun()*sinB0;
@@ -262,10 +254,10 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	L0.SinCos( sinL0, cosL0 );
 	B0.SinCos( sinB0, cosB0 );
-	
+
 	double cosOb, sinOb;
 	num->obliquity()->SinCos( sinOb, cosOb );
-	
+
 	X0 = Earth->rsun()*cosB0*cosL0;
 	Y0 = Earth->rsun()*( cosB0*sinL0*cosOb - sinB0*sinOb );
 	Z0 = Earth->rsun()*( cosB0*sinL0*sinOb + sinB0*cosOb );
@@ -281,7 +273,7 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	dms newRA; newRA.setRadians( RARad );
 	dms newDec; newDec.setRadians( asin( pos.Z/rsun() ) );
 	setRA( newRA );
-	setDec( newDec ); 	
+	setDec( newDec );
 
 	//compute Ecliptic coordinates
 	EquatorialToEcliptic( num->obliquity() );
@@ -289,11 +281,5 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	//determine the position angle
 	findPA( num );
 
-	if ( hasTrail() ) {
-		Trail.append( new SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
-	}
-
-//	if ( newEarth ) { delete Earth; Earth = 0; }
 	return true;
 }
