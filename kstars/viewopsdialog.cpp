@@ -422,7 +422,7 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 void ViewOpsDialog::changeMagDrawInfo( int newValue )
 {
 	KStars *ksw = (KStars *)parent();
-	debug( "magnitude limit draw star info %d", newValue );
+	qDebug( "magnitude limit draw star info %d", newValue );
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	ksw->GetOptions()->magLimitDrawStarInfo = fNewValue;
 	// force redraw
@@ -647,3 +647,4 @@ void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
 	ksw->GetOptions()->starColorIntensity = ksw->skymap->starpix->Intensity();
 	ksw->skymap->Update();
 }
+#include "viewopsdialog.moc"

@@ -156,3 +156,4 @@ void TimeDialog::SecondPrefix( int value ) {
 	SecondBox->setPrefix( "" );
 	if ( value < 10 ) SecondBox->setPrefix( "0" );
 }
+#include "timedialog.moc"

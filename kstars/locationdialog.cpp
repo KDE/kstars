@@ -185,15 +185,12 @@ void LocationDialog::initCityList( void ) {
 	KStars *p = (KStars *)parent();
 	for (GeoLocation *data = p->GetData()->geoList.first(); data; data = p->GetData()->geoList.next())
 	{
-		QString s ( i18n( data->name() ) );
-    	s.append( "  " );
-   		s.append( i18n( data->state() ) );
-   		GeoBox->insertItem( s );
-    	GeoID[GeoBox->count() - 1] = p->GetData()->geoList.at();
+		QString s ( data->translatedName() + " " + data->translatedState());
+		GeoBox->insertItem( s );
+		GeoID[GeoBox->count() - 1] = p->GetData()->geoList.at();
 	}
 
-	QString countLabel;
-	countLabel.sprintf( i18n( "%d cities match search criteria" ), GeoBox->count() );
+	QString countLabel = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
 	TextLabel2->setText( countLabel );
 	
 	if ( GeoBox->firstItem() )		// set first item in list as selected
@@ -205,8 +202,8 @@ void LocationDialog::filterCity( void ) {
 	GeoBox->clear();
 	
 	for ( unsigned int i=0; i< p->GetData()->geoList.count(); ++i ) {
-		QString sc( i18n( p->GetData()->geoList.at(i)->name() ) );
-		QString ss( i18n( p->GetData()->geoList.at(i)->state() ) );
+		QString sc( p->GetData()->geoList.at(i)->translatedName() );
+		QString ss( p->GetData()->geoList.at(i)->translatedState() );
 
 		if ( sc.lower().startsWith( CityFilter->text().lower() ) && ss.lower().startsWith( StateFilter->text().lower() ) ) {
 			sc.append( "  " );
@@ -216,8 +213,7 @@ void LocationDialog::filterCity( void ) {
 		}
 	}
 
-	QString countLabel;
-	countLabel.sprintf( i18n( "%d cities match search criteria" ), GeoBox->count() );
+	QString countLabel = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
 	TextLabel2->setText( countLabel );
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
@@ -246,3 +242,4 @@ void LocationDialog::addCity( void ) {
 		//check for user's city database.  If it doesn't exist, create it.
 	}
 }
+#include "locationdialog.moc"

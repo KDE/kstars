@@ -20,6 +20,7 @@
 
 #include <qstring.h>
 #include <klistbox.h>
+#include <klocale.h>
 
 #include "skyobject.h"
 
@@ -30,10 +31,11 @@
 class SkyObjectName {
 	
 	public:
-		SkyObjectName (const char *str = 0, SkyObject *obj = 0);
+		SkyObjectName (const QString &str = QString::null, SkyObject *obj = 0);
 		~SkyObjectName();
 
 		QString text() { return Text; }
+		QString translatedText() { return i18n( Text.utf8().data()); }
 		SkyObject *skyObject() { return skyobject; }
 		
 	private:

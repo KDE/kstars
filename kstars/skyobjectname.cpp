@@ -19,8 +19,8 @@
 
 #include <klocale.h>
 
-SkyObjectName::SkyObjectName( const char *str, SkyObject *obj )
-	: skyobject ( obj ), Text ( (const char *) str )
+SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
+	: skyobject ( obj ), Text ( str )
 {
 //	qDebug (Text);
 }
@@ -34,7 +34,7 @@ SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *
 	if ( useLatinConstellNames )
 		setText ( obj->text() );
 	else
-		setText ( i18n( obj->text() ) );
+		setText ( obj->translatedText() );
 }
 
 

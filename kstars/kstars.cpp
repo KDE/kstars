@@ -145,7 +145,7 @@ KStars::KStars( KStarsData* kstarsData )
 	FocusRADec->setPalette( pal );
 	FocusAltAz->setPalette( pal );
 
-	PlaceName = new QLabel( i18n( geo->name() ) + ",  " + i18n( geo->state() ), infoPanel );
+	PlaceName = new QLabel( geo->translatedName() + ",  " + geo->translatedState(), infoPanel );
 	LongLabel = new QLabel( i18n( "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Lat:  " ), infoPanel );
 	Long = new QLabel( QString::number( geo->lng().getD(), 'f', 3 ), infoPanel );
@@ -216,8 +216,8 @@ KStars::KStars( KStarsData* kstarsData )
 //Set focus of Skymap.
 //if user was tracking last time, track on same object now.
 	if ( GetOptions()->isTracking ) {
-		if ( GetOptions()->focusObject== i18n( "star" ) ||
-				 GetOptions()->focusObject==i18n( "nothing" ) ) {
+		if ( (GetOptions()->focusObject== "star" ) ||
+		     (GetOptions()->focusObject== "nothing" ) ) {
 			skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
 			skymap->slotCenter();
 			GetOptions()->isTracking = true;
@@ -532,7 +532,7 @@ void KStars::initLocation() {
 	GeoLocation *GeoData;
 	for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 	{
-		if ( GeoData->name().lower() == GetOptions()->CityName.lower() && GeoData->state().lower() == GetOptions()->StateName.lower() )
+		if ( (GeoData->name().lower() == GetOptions()->CityName.lower()) && (GeoData->state().lower() == GetOptions()->StateName.lower()) )
 		{
 			bFound = TRUE;
 			break ;
@@ -544,7 +544,7 @@ void KStars::initLocation() {
 		GetOptions()->StateName = "United Kingdom";
 		for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 		{
-			if ( GeoData->name() == GetOptions()->CityName && GeoData->state() == GetOptions()->StateName )
+			if ( (GeoData->name() == GetOptions()->CityName) && (GeoData->state() == GetOptions()->StateName) )
 			{
 				bFound = TRUE;
 				break ;
@@ -798,7 +798,7 @@ void KStars::mGeoLocator() {
  				geo->reset( GetData()->geoList.at(ii) );
 				GetOptions()->CityName = geo->name();
 				GetOptions()->StateName = geo->state();
- 				PlaceName->setText( i18n( geo->name() ) + ",  " + i18n( geo->state() ) );
+ 				PlaceName->setText( geo->translatedName()+ ",  " + geo->translatedState() );
  				Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
  				Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
 
@@ -820,11 +820,11 @@ void KStars::mGeoLocator() {
  		} else {
  			geo->setLong( locationdialog.NewLong->text().toFloat() );
  			geo->setLat( locationdialog.NewLat->text().toFloat() );
- 			geo->setName( locationdialog.NewCityName->text().latin1() );
- 			geo->setState( locationdialog.NewStateName->text().latin1() );
+ 			geo->setName( locationdialog.NewCityName->text() );
+ 			geo->setState( locationdialog.NewStateName->text() );
  			Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
  			Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
- 			PlaceName->setText( i18n( geo->name() ) + ",  " + i18n( geo->state() ) );
+ 			PlaceName->setText( geo->translatedName() + ",  " + geo->translatedState() );
  		
 	 		locationdialog.NewLong->setText( "" );
 	 		locationdialog.NewLat->setText( "" );
@@ -908,8 +908,8 @@ void KStars::updateTime( void ) {
 		
 		GetData()->Sun->findPosition( GetData()->CurrentDate );
 		GetData()->Earth->findPosition( GetData()->CurrentDate );
-		QString s;
-		debug( s.sprintf( "%f %f", GetData()->Earth->EcLong.getD(), GetData()->Earth->EcLat.getD() ) );
+
+		qDebug( "%f %f", GetData()->Earth->EcLong.getD(), GetData()->Earth->EcLat.getD() );
 
 		GetData()->Mercury->findPosition( GetData()->CurrentDate, GetData()->Earth );
 		GetData()->Venus->findPosition( GetData()->CurrentDate, GetData()->Earth );
@@ -1060,7 +1060,7 @@ void KStars::updateTime( void ) {
 }
 
 SkyObject* KStars::getObjectNamed( QString name ) {
-	if ( name== i18n( "star" ) || name== i18n( "nothing" ) || name=="" ) return NULL;
+	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
 	if ( name== GetData()->Sun->name ) return GetData()->Sun;
 	if ( name== GetData()->Moon->name ) return GetData()->Moon;
 	if ( name== GetData()->Mercury->name ) return GetData()->Mercury;
@@ -1263,3 +1263,4 @@ void KStars::closeEvent (QCloseEvent *e)
 		e->ignore();
 }
 
+#include "kstars.moc"

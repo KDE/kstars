@@ -20,6 +20,7 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
+#include <klocale.h>
 #include "skypoint.h"
 #include "dms.h"
 
@@ -95,6 +96,10 @@ public:
 	*Shortcut for retrieving Altitude
 	*/
 	dms getAlt( void ) { return pos()->getAlt(); }
+/**
+	*Return translated name
+	*/
+	QString translatedName() { return i18n(name.utf8().data());}
 
   int type;
   float mag;

@@ -397,3 +397,4 @@ void KStarsSplash::KludgeError( QString s, bool required ) {
 	
 	KMessageBox::information( 0, message, caption );
 }
+#include "kstarssplash.moc"

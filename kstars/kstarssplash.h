@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef KSTARSSPLASH_H_
+#define KSTARSSPLASH_H_
+
 #include <qlabel.h>
 #include <qlcdnumber.h>
 #include <qpushbutton.h>
@@ -44,3 +47,5 @@ private:
 private slots:
 	void slotLoadDataFile();
 };
+
+#endif

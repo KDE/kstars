@@ -63,9 +63,9 @@ ImageViewer::~ImageViewer(){
 // remove the tempfile
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
-		qDebug ("remove of " + file->name() + " failed");
+		qDebug ("remove of %s failed", file->name().local8Bit().data());
 		file->setName (file->name() + ".part");		// set new suffix to filename
-		qDebug ("try to remove " + file->name());
+		qDebug ("try to remove %s", file->name().local8Bit().data());
 		if (file->remove())
 			qDebug ("file removed");
 		else
@@ -219,10 +219,10 @@ void ImageViewer::saveFileToDisc()
 	if (!newURL.isEmpty())
 	{
 		QFile f (newURL.directory() + "/" +  newURL.filename());
-		qDebug (f.name());
+		qDebug ("Saving to %s", f.name().local8Bit().data());
 		if (f.exists())
 		{
-			qDebug ("Warning! Remove existing file " + f.name());
+			qDebug ("Warning! Remove existing file %s", f.name().local8Bit().data());
 			f.remove();
 		}
 		saveFile (newURL);
@@ -243,3 +243,4 @@ void ImageViewer::close()
 {
 	closeEvent (0);
 }
+#include "imageviewer.moc"

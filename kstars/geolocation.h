@@ -22,6 +22,7 @@
 #define GEOLOCATION_H
 
 #include <qstring.h>
+#include <klocale.h>
 
 #include "dms.h"
 
@@ -30,9 +31,9 @@
 	*location on Earth: City Name, State/Country Name, Longitude,
 	*Latitude, and Time Zone.
 	*@short Relevant data about an observing location on Earth.
-  *@author Jason Harris
+	*@author Jason Harris
 	*@version 0.4
-  */
+	*/
 
 class GeoLocation {
 public: 
@@ -62,26 +63,32 @@ public:
 /**
 	*Returns longitude
 	*/	
-	dms lng() { return Longitude; }
+	dms lng() const { return Longitude; }
 /**
 	*Returns latitude
 	*/
-	dms lat()  { return Latitude; }
+	dms lat() const { return Latitude; }
 /**
-	*Return City name as a C char array
+	*Return untranslated City name
 	*/
-//	const char *name() { return Name.latin1(); }
-	const QString name() { return Name; }
+	QString name() const { return Name; }
+
 /**
-	*Return State/Country name as a C char array
+	*Return translated City name
 	*/
-//	const char *state() { return State.latin1(); }
-//	QString state() { return QString( State.latin1() ); }
-	const QString state() { return State; }
+	QString translatedName() const { return i18n(Name.utf8().data()); }
+/**
+	*Return untranslated State/Country name
+	*/
+	QString state() const { return State; }
+/**
+	*Return translated State/Country name
+	*/
+	QString translatedState() const { return i18n(State.utf8().data()); }
 /**
 	*Return time zone
 	*/
-	int   TZ()    { return TimeZone; }
+	int   TZ() const { return TimeZone; }
 
 /**
 	*Set longitude according to argument.
@@ -104,11 +111,11 @@ public:
 /**
 	*Set City name according to argument.
 	*/
-	void setName( QString n ) { Name = n; }
+	void setName( const QString &n ) { Name = n; }
 /**
 	*Set State/Country name according to argument.
 	*/
-	void setState( QString s ) { State = s; }
+	void setState( const QString &s ) { State = s; }
 /**
 	*Sets Time Zone according to argument.
 	*/

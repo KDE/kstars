@@ -132,9 +132,10 @@ void FindDialog::filter() {
 	//Loop through the full objList.  Add those objects which start
 	//with the text in the SearchBox to the filteredList.
 	//Similarly, add objNames items to SearchList.
+	QString searchFor = SearchBox->text().lower();
 	if ( p->GetOptions()->useLatinConstellNames ) {	// check if latin names are used
 		for ( SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next() ) {
-			if ( data->text().lower().startsWith( SearchBox->text().lower() ) ) {
+			if ( data->text().lower().startsWith( searchFor ) ) {
 				new SkyObjectNameListItem ( SearchList, data, true ); // p->GetOptions()->useLatinConstellNames );
 				if (i++ >= 5000) {
 					kapp->processEvents ( 50 );		// check Events of KApplication (on fast Machines not needed)
@@ -146,7 +147,7 @@ void FindDialog::filter() {
 	}
 	else {	// if localized names are used
 		for ( SkyObjectName *data = p->GetData()->ObjNames->first(); data; data = p->GetData()->ObjNames->next() ) {
-			if ( i18n( data->text() ).lower().startsWith( SearchBox->text().lower() ) ) {
+			if ( data->translatedText().lower().startsWith( searchFor ) ) {
 				new SkyObjectNameListItem ( SearchList, data, false ); // p->GetOptions()->useLatinConstellNames );
 				if (i++ >= 5000) {
 					kapp->processEvents ( 50 );		// check Events of KApplication (on fast Machines not needed)
@@ -206,3 +207,4 @@ void FindDialog::updateSelection (QListBoxItem *it)
 {
 	currentitem = (SkyObjectNameListItem *) it;
 }
+#include "finddialog.moc"

@@ -122,3 +122,4 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 	pcanvas.end();
 	bitBlt( this, 0, 0, Canvas );
 }
+#include "mapcanvas.moc"

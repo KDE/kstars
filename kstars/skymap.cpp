@@ -186,10 +186,10 @@ void SkyMap::slotDSS2( void ) {
 
 void SkyMap::slotInfo( int id ) {
 	QStringList::Iterator it = clickedObject->InfoList.at(id-200);
-  QString sURL = (*it);
+	QString sURL = (*it);
 	KURL url ( sURL );
 	if (!url.isEmpty())
-		system( "konqueror " + sURL + " &" );
+		kapp->invokeBrowser(sURL);
 }
 
 void SkyMap::slotImage( int id ) {
@@ -639,10 +639,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( i18n( clickedObject->name ), 0 );
+							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( i18n( clickedObject->name ) );
+							pmTitle->setText( clickedObject->translatedName() );
 							pmTitle2->setText( QString::null );
 							pmType->setText( i18n( "Solar System" ) );
 
@@ -654,7 +654,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->ImageList.end(); ++itList ) {
 								sURL = QString(*itList);
 								QString t = QString(*itTitle);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotImage( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 							}
 			
 							if ( clickedObject->ImageList.count() ) pmenu->insertSeparator();
@@ -666,7 +666,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->InfoList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotInfo( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -682,12 +682,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( i18n( clickedObject->name ), 0 );
+							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( i18n( clickedObject->name ) );
-							pmTitle2->setText( i18n( "Spectral Type: " ) + starobj->sptype() );
-							if ( clickedObject->name != i18n( "star" ) ) {
+							pmTitle->setText( clickedObject->translatedName() );
+							pmTitle2->setText( i18n( "Spectral Type: %1" ).arg(starobj->sptype()) );
+							if ( clickedObject->name != "star" ) {
 								pmType->setText( i18n( "star" ) );
 							} else {
 								pmType->setText( QString::null );
@@ -707,14 +707,14 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( i18n( clickedObject->name ), 0 );
+							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( i18n( clickedObject->name ) );
+							pmTitle->setText( clickedObject->translatedName() );
 							if ( !clickedObject->longname.isEmpty() ) {
-								pmTitle2->setText( i18n( clickedObject->longname ) );
+								pmTitle2->setText( i18n( clickedObject->longname.latin1() ) );
 							} else if ( !clickedObject->name2.isEmpty() ) {
-								pmTitle2->setText( i18n( clickedObject->name2 ) );
+								pmTitle2->setText( i18n( clickedObject->name2.latin1() ) );
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
 
@@ -726,7 +726,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->ImageList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotImage( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 								++itTitle;
 							}
 
@@ -741,7 +741,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->InfoList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotInfo( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -757,14 +757,14 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( i18n( clickedObject->name ), 0 );
+							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( i18n( clickedObject->name ) );
+							pmTitle->setText( clickedObject->translatedName() );
 							if ( !clickedObject->longname.isEmpty() ) {
-								pmTitle2->setText( i18n( clickedObject->longname ) );
+								pmTitle2->setText( i18n( clickedObject->longname.latin1() ) );
 							} else if ( !clickedObject->name2.isEmpty() ) {
-								pmTitle2->setText( i18n( clickedObject->name2 ) );
+								pmTitle2->setText( i18n( clickedObject->name2.latin1() ) );
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
 
@@ -776,7 +776,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->ImageList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotImage( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -791,7 +791,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->InfoList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotInfo( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -807,14 +807,14 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( i18n( clickedObject->name ), 0 );
+							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( i18n( clickedObject->name ) );
+							pmTitle->setText( clickedObject->translatedName() );
 							if ( !clickedObject->longname.isEmpty() ) {
-								pmTitle2->setText( i18n( clickedObject->longname ) );
+								pmTitle2->setText( i18n( clickedObject->longname.latin1() ) );
 							} else {
-								pmTitle2->setText( i18n( clickedObject->name2 ) );
+								pmTitle2->setText( i18n( clickedObject->name2.latin1() ) );
 							}
 							pmType->setText( ksw->TypeName[clickedObject->type] );
 
@@ -826,7 +826,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->ImageList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( slotImage( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotImage( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -841,7 +841,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 							for ( ; itList != clickedObject->InfoList.end(); ++itList ) {
 								QString t = QString(*itTitle);
 								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t ), this, SLOT( showImage( int ) ), 0, id++ );
+								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( showImage( int ) ), 0, id++ );
 								++itTitle;
 							}
 			
@@ -1085,7 +1085,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 					if ( ksw->GetOptions()->useLatinConstellNames )
 						psky.drawText( o.x()-dx, o.y(), ksw->GetData()->cnameList.at(i)->name );	// latin constellation names
 					else
-						psky.drawText( o.x()-dx, o.y(), i18n( ksw->GetData()->cnameList.at(i)->name ) ); // localized constellation names
+						psky.drawText( o.x()-dx, o.y(), ksw->GetData()->cnameList.at(i)->translatedName() ); // localized constellation names
 				}
 			}
 		}
@@ -1913,7 +1913,7 @@ void SkyMap::showFocusCoords( void ) {
 	char dsgn = '+', azsgn = '+', altsgn = '+';
 
 	oname = i18n( "nothing" );
-	if ( foundObject != NULL && ksw->GetOptions()->isTracking ) oname = i18n( foundObject->name );
+	if ( foundObject != NULL && ksw->GetOptions()->isTracking ) oname = foundObject->translatedName();
 	ksw->FocusObject->setText( i18n( "Focused on: " ) + oname );
 
 	if ( focus.getDec().getD() < 0 ) dsgn = '-';
@@ -1936,3 +1936,4 @@ void SkyMap::showFocusCoords( void ) {
 					altsgn, altd, altm, alts,
 					azsgn, azd, azm, azs ) );
 }
+#include "skymap.moc"
