@@ -82,7 +82,17 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
 	}
 
-	findMagnitude(num);
+	if ( isMajorPlanet() )
+		findMagnitude(num);
+}
+
+bool KSPlanetBase::isMajorPlanet() const {
+	if ( name() == "Mercury" || name() == "Venus" || name() == "Mars" ||
+				name() == "Jupiter" || name() == "Saturn" || name() == "Uranus" ||
+				name() == "Neptune" || name() == "Pluto" )
+		return true;
+	
+	return false;
 }
 
 void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST ) {

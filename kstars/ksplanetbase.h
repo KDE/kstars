@@ -236,9 +236,13 @@ public:
 	*/
 	void setPhysicalSize( double size ) { PhysicalSize = size; }
 
+/**@return true if the KSPlanet is one of the eight major planets
+ */
+	bool isMajorPlanet() const;
+
 /**@return whether the planet has a trail
-	*/
-		bool hasTrail() const { return ( Trail.count() > 0 ); }
+ */
+	bool hasTrail() const { return ( Trail.count() > 0 ); }
 
 /**@return a reference to the planet's trail
 	*/
