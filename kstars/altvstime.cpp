@@ -14,26 +14,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <klineedit.h>
+#include <klistbox.h>
+#include <kpushbutton.h>
+#include <qdatetimeedit.h>
+
 #include "altvstime.h"
 #include "dms.h"
 #include "skypoint.h"
 #include "skyobject.h"
 #include "geolocation.h"
 #include "ksnumbers.h"
-
-#include <klineedit.h>
-#include <klistbox.h>
-#include <qvariant.h>
 #include "dmsbox.h"
-#include <qdatetimeedit.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qtabwidget.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qimage.h>
-#include <qpixmap.h>
 #include "ksutils.h"
 #include "kstars.h"
 #include "finddialog.h"
@@ -49,147 +41,22 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	setMainWidget(page);
 	topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page, "avtView" );
-	View->setFixedSize( 500, 400 );
+	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
+	View->setMinimumSize( 400, 400 );
+	View->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding );
 	View->setXAxisType( KStarsPlotWidget::TIME );
 	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
 	View->setXAxisLabel( i18n( "Local Time" ) );
 	View->setXAxisLabel2( i18n( "Local Sidereal Time" ) );
 	View->setYAxisLabel( i18n( "the angle of an object above (or below) the horizon", "Altitude" ) );
-	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 
-	/** Tab for adding individual sources and clearing the plot */
-	/** 1st Tab **/
-
-	sourceTab        = new QWidget( ctlTabs );
-	sourceLayout     = new QHBoxLayout( sourceTab, 0, 6 );
-	sourceLeftLayout = new QVBoxLayout( 0, 2, 9 );
-	sourceMidLayout  = new QVBoxLayout( 0, 2, 9 );
-	nameLayout     = new QHBoxLayout( 0, 2, 9 );
-	coordLayout    = new QHBoxLayout( 0, 2, 9 );
-	clearAddLayout = new QHBoxLayout( 0, 2, 9 );
-
-	//labels for sourceLeftLayout
-	nameLabel = new QLabel( sourceTab, "namebox" );
-	nameLabel->setText( i18n( "Name:" ) );
-	raLabel = new QLabel( sourceTab );
-	raLabel->setText( i18n( "RA:" ) );
-	epochLabel = new QLabel( sourceTab );
-	epochLabel->setText( i18n( "Epoch:" ) );
-
-	sourceLeftLayout->addWidget( nameLabel );
-	sourceLeftLayout->addWidget( raLabel );
-	sourceLeftLayout->addWidget( epochLabel );
-
-	//widgets for nameLayout
-	nameBox = new KLineEdit( sourceTab );
-	browseButton = new QPushButton( sourceTab );
-	browseButton->setText( i18n( "Browse" ) );
-
-	nameLayout->addWidget( nameBox );
-//	nameLayout->addSpacing( 12 );
-	nameLayout->addWidget( browseButton );
-
-	//widgets for coordLayout
-	raBox = new dmsBox( sourceTab , "rabox", FALSE);
-	decLabel = new QLabel( sourceTab );
-	decLabel->setText( i18n( "Dec:" ) );
-	decBox = new dmsBox( sourceTab, "decbox" );
-
-	coordLayout->addWidget( raBox );
-	coordLayout->addSpacing( 12 );
-	coordLayout->addWidget( decLabel );
-	coordLayout->addWidget( decBox );
-
-	//widgets for clearAddLayout
-	epochName = new KLineEdit( sourceTab, "epochname" );
-	epochName->setMaximumSize( QSize( 80, 32767 ) );
-	clearFieldsButton = new QPushButton( sourceTab );
-	clearFieldsButton->setMinimumSize( QSize( 80, 0 ) );
-	clearFieldsButton->setText( i18n( "Clear Fields" ) );
-	addButton = new QPushButton( sourceTab );
-	addButton->setMinimumSize( QSize( 60, 0 ) );
-	addButton->setText( i18n( "Plot" ) );
-	clearButton = new QPushButton( sourceTab );
-	clearButton->setMinimumSize( QSize( 80, 0 ) );
-	clearButton->setText( i18n( "Clear List" ) );
-
-	clearAddLayout->addWidget( epochName );
-	clearAddLayout->addItem( new QSpacerItem( 6, 0, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
-	clearAddLayout->addWidget( clearFieldsButton );
-	clearAddLayout->addWidget( addButton );
-	clearAddLayout->addWidget( clearButton );
-
-	PlotList = new KListBox( sourceTab );
-	PlotList->setVScrollBarMode( QScrollView::AlwaysOn );
-
-	//populate sourceMidLayout
-	sourceMidLayout->addLayout( nameLayout );
-	sourceMidLayout->addLayout( coordLayout );
-	sourceMidLayout->addLayout( clearAddLayout );
-
-	//populate sourceLayout
-	sourceLayout->addLayout( sourceLeftLayout );
-	sourceLayout->addLayout( sourceMidLayout );
-	sourceLayout->addWidget( PlotList );
-
-	ctlTabs->insertTab( sourceTab, i18n( "Sources" ) );
-
-	/** Tab for Date and Location */
-	/** 2nd Tab */
-
-	dateTab = new QWidget( ctlTabs );
-	dateLocationLayout = new QVBoxLayout( dateTab, 0, 6, "dateLocationLayout");
-
-	longLatLayout = new QHBoxLayout( 0, 2, 9, "longLatLayout");
-
-	dateLabel = new QLabel( dateTab );
-	dateLabel->setText( i18n( "Date:" ) );
-	longLatLayout->addWidget( dateLabel );
-
-	dateBox = new QDateEdit( dateTab, "datebox" );
-	longLatLayout->addWidget( dateBox );
-
-	latLabel = new QLabel( dateTab );
-	latLabel->setText( i18n( "Lat.:" ) );
-	longLatLayout->addWidget( latLabel );
-
-	latBox = new dmsBox( dateTab, "latbox" );
-	longLatLayout->addWidget( latBox );
-
-	longLabel = new QLabel( dateTab );
-	longLabel->setText( i18n( "Long.:" ) );
-	longLatLayout->addWidget( longLabel );
-
-	longBox = new dmsBox( dateTab, "longbox" );
-	longLatLayout->addWidget( longBox );
-
-	/* Layout for the button part */
-
-	updateLayout = new QHBoxLayout( 0, 0, 6);
-	QSpacerItem* spacer_2 = new QSpacerItem( 10, 0, QSizePolicy::Expanding, QSizePolicy::Minimum );
-
-	cityButton = new QPushButton( dateTab );
-	cityButton->setText( i18n( "Choose City..." ) );
-
-	updateButton = new QPushButton( dateTab );
-//	updateButton->setMinimumSize( QSize( 80, 0 ) );
-	updateButton->setText( i18n( "Update" ) );
-
-	updateLayout->addItem( spacer_2 );
-	updateLayout->addWidget( cityButton );
-	updateLayout->addWidget( updateButton );
-
-	/** Closing layouts the date/location tab */
-
-	dateLocationLayout->addLayout( longLatLayout );
-	dateLocationLayout->addLayout( updateLayout );
-
-	ctlTabs->insertTab( dateTab, i18n( "Date && Location" ) );
+	avtUI = new AltVsTimeUI( page );
+	avtUI->raBox->setDegType( false );
+	avtUI->decBox->setDegType( true );
 
 	topLayout->addWidget( View );
-	topLayout->addWidget( ctlTabs );
+	topLayout->addWidget( avtUI );
 
 	DayOffset = 0;
 	showCurrentDate();
@@ -201,58 +68,42 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	setLSTLimits();
 	View->updateTickmarks();
 
-	connect( browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
-	connect( cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
-	connect( updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
-	connect( clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
-	connect( addButton,   SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
-	connect( nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	connect( raBox,   SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	connect( decBox,  SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	//CLEAR_FIELDS
-//	connect( nameBox, SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
-//	connect( raBox,   SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
-//	connect( decBox,  SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
-	connect( clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
-	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
+	connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
+	connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
+	connect( avtUI->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
+	connect( avtUI->clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
+	connect( avtUI->addButton,   SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
+	connect( avtUI->nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	connect( avtUI->raBox,   SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	connect( avtUI->decBox,  SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	connect( avtUI->clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
+	connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( avtUI->PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
 
 	pList.setAutoDelete(FALSE);
 	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
 
 	//ther edit boxes should not pass on the return key!
-	nameBox->setTrapReturnKey( true );
-	raBox->setTrapReturnKey( true );
-	decBox->setTrapReturnKey( true );
+	avtUI->nameBox->setTrapReturnKey( true );
+	avtUI->raBox->setTrapReturnKey( true );
+	avtUI->decBox->setTrapReturnKey( true );
 
 	setMouseTracking( true );
-
-	//CLEAR_FIELDS
-//	dirtyFlag = false;
 }
 
-
-/*
- *  Destroys the object and frees any allocated resources
- */
 AltVsTime::~AltVsTime()
 {
     // no need to delete child widgets, Qt does it all for us
 }
 
-//QSize AltVsTime::sizeHint() const
-//{
-//	  return QSize(580,560);
-//}
-
 void AltVsTime::slotAddSource(void) {
 	bool objFound( false );
 
 	//First, attempt to find the object name in the list of known objects
-	if ( ! nameBox->text().isEmpty() ) {
+	if ( ! avtUI->nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
-		QString text = nameBox->text().lower();
+		QString text = avtUI->nameBox->text().lower();
 
 		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == text ) {
@@ -265,16 +116,16 @@ void AltVsTime::slotAddSource(void) {
 			}
 		}
 
-		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
+		if ( !objFound ) kdDebug() << "No object named " << avtUI->nameBox->text() << " found." << endl;
 	}
 
 	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject
 	//with these parameters
-	if ( !objFound && ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+	if ( !objFound && ! avtUI->nameBox->text().isEmpty() && ! avtUI->raBox->text().isEmpty() && ! avtUI->decBox->text().isEmpty() ) {
 		bool ok( true );
 		dms newRA( 0.0 ), newDec( 0.0 );
-		newRA = raBox->createDms( false, &ok );
-		if ( ok ) newDec = decBox->createDms( true, &ok );
+		newRA = avtUI->raBox->createDms( false, &ok );
+		if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
 
 		//make sure the coords do not already exist from another object
 		bool found(false);
@@ -291,21 +142,21 @@ void AltVsTime::slotAddSource(void) {
 		}
 
 		if ( ok ) {
-			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, nameBox->text() );
+			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
 			deleteList.append( obj ); //this object will be deleted when window is destroyed
 			processObject( obj );
 		}
 
 	//If the Ra and Dec boxes are filled, but the name field is empty,
 	//move input focus to nameBox`
-	} else if ( nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
-		nameBox->QWidget::setFocus();
+	} else if ( avtUI->nameBox->text().isEmpty() && ! avtUI->raBox->text().isEmpty() && ! avtUI->decBox->text().isEmpty() ) {
+		avtUI->nameBox->QWidget::setFocus();
 
 	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
-	} else if (  raBox->text().isEmpty() ) {
-		raBox->QWidget::setFocus();
-	} else if ( decBox->text().isEmpty() ) {
-		decBox->QWidget::setFocus();
+	} else if ( avtUI->raBox->text().isEmpty() ) {
+		avtUI->raBox->QWidget::setFocus();
+	} else if ( avtUI->decBox->text().isEmpty() ) {
+		avtUI->decBox->QWidget::setFocus();
 	}
 
 	View->repaint(false);
@@ -327,25 +178,12 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
-	KSPlanet *Earth = ks->data()->earth();
+//	KSPlanet *Earth = ks->data()->earth();
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( o && o->isSolarSystem() ) {
 		oldNum = new KSNumbers( ks->data()->clock()->JD() );
 		o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
-
-/*		if ( o->type() == 2 && o->name() == "Moon" ) {
-			((KSMoon*)o)->findPosition(num, Earth);
-		} else if ( o->type() == 2 ) {
-			((KSPlanet*)o)->findPosition(num, Earth);
-		} else if ( o->type() == 9 ) {
-			((KSComet*)o)->findPosition(num, Earth);
-		} else if ( o->type() == 10 ) {
-			kdDebug() << "Asteroid findPosition().  Name = " << o->name() << endl;
-			((KSAsteroid*)o)->findPosition(num, Earth);
-		} else {
-			kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
-		}*/
 	}
 
 	//precess coords to target epoch
@@ -364,7 +202,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		pList.append( (SkyPoint*)o );
 
 		//make sure existing curves are thin and red
-		for ( int i=0; i<View->objectCount(); ++i ) {
+		for ( int i=0; i < View->objectCount(); ++i ) {
 			KPlotObject *obj = View->object( i );
 			if ( obj->size() == 2 ) {
 				obj->setColor( "red" );
@@ -379,14 +217,14 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		}
 		View->addObject( po );
 
-		PlotList->insertItem( o->name() );
-		PlotList->setCurrentItem( PlotList->count() - 1 );
-		raBox->showInHours(o->ra() );
-		decBox->showInDegrees(o->dec() );
-		nameBox->setText(o->name() );
+		avtUI->PlotList->insertItem( o->name() );
+		avtUI->PlotList->setCurrentItem( avtUI->PlotList->count() - 1 );
+		avtUI->raBox->showInHours(o->ra() );
+		avtUI->decBox->showInDegrees(o->dec() );
+		avtUI->nameBox->setText(o->name() );
 
 		//Set epochName to epoch shown in date tab
-		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+		avtUI->epochName->setText( QString().setNum( QDateToEpoch( avtUI->dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
@@ -421,7 +259,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 }
 
 void AltVsTime::slotHighlight(void) {
-	int iPlotList = PlotList->currentItem();
+	int iPlotList = avtUI->PlotList->currentItem();
 
 	//highlight the curve of the selected object
 	for ( int i=0; i<View->objectCount(); ++i ) {
@@ -441,9 +279,9 @@ void AltVsTime::slotHighlight(void) {
 	int index = 0;
 	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
 		if ( index == iPlotList ) {
-			raBox->showInHours(p->ra() );
-			decBox->showInDegrees(p->dec() );
-			nameBox->setText(PlotList->currentText() );
+			avtUI->raBox->showInHours(p->ra() );
+			avtUI->decBox->showInDegrees(p->dec() );
+			avtUI->nameBox->setText(avtUI->PlotList->currentText() );
 		}
 		++index;
 	}
@@ -451,41 +289,30 @@ void AltVsTime::slotHighlight(void) {
 
 //move input focus to the next logical widget
 void AltVsTime::slotAdvanceFocus(void) {
-	if ( sender()->name() == QString( "namebox" ) ) addButton->setFocus();
-	if ( sender()->name() == QString( "rabox" ) ) decBox->setFocus();
-	if ( sender()->name() == QString( "decbox" ) ) addButton->setFocus();
-	if ( sender()->name() == QString( "longbox" ) ) latBox->setFocus();
-	if ( sender()->name() == QString( "latbox" ) ) updateButton->setFocus();
+	if ( sender()->name() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->name() == QString( "raBox" ) ) avtUI->decBox->setFocus();
+	if ( sender()->name() == QString( "decbox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->name() == QString( "longBox" ) ) avtUI->latBox->setFocus();
+	if ( sender()->name() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
 }
 
 void AltVsTime::slotClear(void) {
 	if ( pList.count() ) pList.clear();
 	if ( deleteList.count() ) deleteList.clear();
-	PlotList->clear();
-	nameBox->clear();
-	raBox->clear();
-	decBox->clear();
+	avtUI->PlotList->clear();
+	avtUI->nameBox->clear();
+	avtUI->raBox->clear();
+	avtUI->decBox->clear();
 	View->clearObjectList();
 	View->repaint();
-
-	//CLEAR_FIELDS
-//	dirtyFlag = false;
 }
 
 void AltVsTime::slotClearBoxes(void) {
-	//clear the name, ra, and dec fields
-	// This still does not work. I will have a look later.
+	avtUI->nameBox->clear();
+	avtUI->raBox->clear() ;
+	avtUI->decBox->clear();
+	avtUI->epochName->setText( QString().setNum( QDateToEpoch( avtUI->dateBox->date() ) ) );
 
-	//CLEAR_FIELDS Two next lines
-//	if ( dirtyFlag ) {
-//		dirtyFlag = false;
-		nameBox->clear();
-		raBox->clear() ;
-		decBox->clear();
-		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
-
-	//CLER_FIELDS
-//	}
 }
 
 void AltVsTime::slotUpdateDateLoc(void) {
@@ -494,10 +321,10 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	//coords if the object is a solar system body
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
-	KSPlanet *Earth = ks->data()->earth();
+//	KSPlanet *Earth = ks->data()->earth();
 
-	for ( unsigned int i = 0; i < PlotList->count(); ++i ) {
-		QString oName = PlotList->text( i ).lower();
+	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
+		QString oName = avtUI->PlotList->text( i ).lower();
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		bool objFound(false);
 
@@ -510,18 +337,6 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				if ( o->isSolarSystem() ) {
 					oldNum = new KSNumbers( ks->data()->clock()->JD() );
 					o->updateCoords( num, true, ks->data()->geo()->lat(), ks->LST() );
-
-/*					if ( o->type() == 2 && o->name() == "Moon" ) {
-						((KSMoon*)o)->findPosition(num, Earth);
-					} else if ( o->type() == 2 ) {
-						((KSPlanet*)o)->findPosition(num, Earth);
-					} else if ( o->type() == 9 ) {
-						((KSComet*)o)->findPosition(num, Earth);
-					} else if ( o->type() == 10 ) {
-						((KSAsteroid*)o)->findPosition(num, Earth);
-					} else {
-						kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
-					}*/
 				}
 
 				//precess coords to target epoch
@@ -564,10 +379,14 @@ void AltVsTime::slotChooseCity(void) {
 		int ii = ld.getCityIndex();
 		if ( ii >= 0 ) {
 			GeoLocation *geo = ks->data()->geoList.at(ii);
-			latBox->showInDegrees( geo->lat() );
-			longBox->showInDegrees( geo->lng() );
+			avtUI->latBox->showInDegrees( geo->lat() );
+			avtUI->longBox->showInDegrees( geo->lng() );
 		}
 	}
+}
+
+int AltVsTime::currentPlotListItem() const {
+	return avtUI->PlotList->currentItem();
 }
 
 void AltVsTime::setLSTLimits(void) {
@@ -582,27 +401,23 @@ void AltVsTime::setLSTLimits(void) {
 void AltVsTime::showCurrentDate (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
-	dateBox->setDate( dt.date() );
+	avtUI->dateBox->setDate( dt.date() );
 }
 
 QDateTime AltVsTime::getQDate (void)
 {
-	QDateTime dt ( dateBox->date(),QTime(0,0,0) );
+	QDateTime dt ( avtUI->dateBox->date(),QTime(0,0,0) );
 	return dt;
 }
 
 dms AltVsTime::getLongitude (void)
 {
-	dms longitude;
-	longitude = longBox->createDms();
-	return longitude;
+	return avtUI->longBox->createDms();
 }
 
 dms AltVsTime::getLatitude (void)
 {
-	dms latitude;
-	latitude = latBox->createDms();
-	return latitude;
+	return avtUI->latBox->createDms();
 }
 
 double AltVsTime::getTZ( void ) {
@@ -616,17 +431,13 @@ void AltVsTime::initGeo(void)
 
 void AltVsTime::showLongLat(void)
 {
-	longBox->show( ks->geo()->lng() );
-	latBox->show( ks->geo()->lat() );
+	avtUI->longBox->show( ks->geo()->lng() );
+	avtUI->latBox->show( ks->geo()->lat() );
 }
 
 long double AltVsTime::computeJdFromCalendar (void)
 {
-	long double julianDay;
-
-	julianDay = KSUtils::UTtoJD( getQDate() );
-
-	return julianDay;
+	return KSUtils::UTtoJD( getQDate() );
 }
 
 double AltVsTime::QDateToEpoch( const QDate &d )
@@ -677,17 +488,17 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	QRect checkRect( leftPadding(), topPadding(), PixRect.width(), PixRect.height() );
 	int Xcursor = e->x();
 	int Ycursor = e->y();
-	
+
 	if ( ! checkRect.contains( e->x(), e->y() ) ) {
 		if ( e->x() < checkRect.left() )   Xcursor = checkRect.left();
 		if ( e->x() > checkRect.right() )  Xcursor = checkRect.right();
 		if ( e->y() < checkRect.top() )    Ycursor = checkRect.top();
 		if ( e->y() > checkRect.bottom() ) Ycursor = checkRect.bottom();
 	}
-	
+
 	Xcursor -= leftPadding();
 	Ycursor -= topPadding();
-	
+
 	QPixmap buffer2( *buffer );
 	QPainter p;
 	p.begin( &buffer2 );

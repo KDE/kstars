@@ -27,11 +27,15 @@
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : KLineEdit(parent,name) {
 	setMaxLength(14);
 	setMaximumWidth(160);
-	deg = dg;
+	setDegType( dg );
+}
+
+void dmsBox::setDegType( bool t ) {
+	deg = t;
 
 	if ( deg )
 		QWhatsThis::add( this, i18n( "Enter an angle value in degrees.  The angle can be expressed as a simple integer (\"45\") or floating-point (\"45.333\") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds (\"45:20\", \"45:20:00\", \"45:20\", \"45 20.0\", etc.)." ) );
-	else 
+	else
 		QWhatsThis::add( this, i18n( "Enter an angle value in hours.  The angle can be expressed as a simple integer (\"12\") or floating-point (\"12.333\") value, or as space- or colon-delimited values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", \"12:20\", \"12 20.0\", etc.)." ) );
 }
 

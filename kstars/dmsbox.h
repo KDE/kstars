@@ -37,7 +37,7 @@ class dms;
   */
 
 class dmsBox : public KLineEdit  {
-public: 
+public:
 	/**
 	 * Constructor for the dmsBox object.
 	 * @p parent is the parent QWidget
@@ -84,10 +84,14 @@ public:
 	*/
 	dms createDms(bool deg=TRUE, bool *ok=0);
 
-	/**
-	* returns a boolean indicating if object contains degrees or hours
+/*@return a boolean indicating if object contains degrees or hours
 	**/
-	bool degType(void) {return deg;}
+	bool degType(void) const {return deg;}
+
+/**@short set the dmsBox to Degrees or Hours
+	*@param t if true, the box expects angle values in degrees; otherwise it expects values in hours
+	*/
+	void setDegType( bool t );
 
 	/**
 	* Clears the entries of the object
