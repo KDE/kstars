@@ -2209,7 +2209,7 @@ type=SOURCE
 [kstars/kstars.desktop]
 dist=true
 install=true
-install_location=$$(kde_appsdir)/Applications/kstars.desktop
+install_location=$$(kde_appsdir)/Edutainment/Science/kstars.desktop
 type=DATA
 
 [kstars/kstars.h]
