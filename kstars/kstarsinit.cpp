@@ -295,47 +295,47 @@ void KStars::initActions() {
 //
 
 //show_stars:
-	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_show_stars", 
+	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
 	a->setChecked( Options::showStars() );
 
 //show_deepsky:
-	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_show_deepsky", 
+	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
 	a->setChecked( Options::showDeepSky() );
 
 //show_planets:
-	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_show_planets", 
+	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
 	a->setChecked( Options::showPlanets() );
 
 //show_clines:
-	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_show_clines", 
+	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
 	a->setChecked( Options::showCLines() );
 
 //show_cnames:
-	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_show_cnames", 
+	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
 	a->setChecked( Options::showCNames() );
 
 //show_cbound:
-	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_show_cbound", 
+	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
 	a->setChecked( Options::showCBounds() );
 
 //show_mw:
-	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_show_mw", 
+	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
 	a->setChecked( Options::showMilkyWay() );
 
 //show_grid:
-	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_show_grid", 
+	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
 	a->setChecked( Options::showGrid() );
 
 //show_horizon:
-	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_show_horizon", 
+	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 	a->setChecked( Options::showGround() );
 	
