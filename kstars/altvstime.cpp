@@ -329,7 +329,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( ks->data()->isSolarSystem( o ) ) {
-		oldNum = new KSNumbers( ks->clock()->JD() );
+		oldNum = new KSNumbers( ks->data()->clock()->JD() );
 		Earth->findPosition( num );
 
 		if ( o->type() == 2 && o->name() == "Moon" ) {

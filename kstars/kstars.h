@@ -46,7 +46,6 @@
 #include "geolocation.h"
 #include "ksnumbers.h"
 #include "kssun.h"
-#include "simclock.h"
 #include "skyobject.h"
 #include "skypoint.h"
 #include "timestepbox.h"
@@ -68,12 +67,6 @@ class InfoBoxes;
 class AstroCalc;
 class INDIMenu;
 class INDIDriver;
-
-//Define some global constants
-#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
-#define NMILKYWAY 11  //number of Milky Way segments
-
-#define TIMER_INTERVAL 10
 
 /**
 	*kstars is the base class for the KStars project.  It is derived from KMainWindow.
@@ -108,10 +101,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**@returns pointer to KStarsData object which contains application data.
 		*/
 		KStarsData* data();
-
-	/**@returns pointer to the simulation clock.
-		*/
-		SimClock* clock( void ) { return data()->clock; }
 
 	/**@returns pointer to the local sidereal time.
 		*/
@@ -148,16 +137,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void addColorMenuItem( QString name, QString actionName );
 
 		void removeColorMenuItem( QString actionName );
-
-	/**Find object by name.
-		*@param name Object name to find
-		*@returns pointer to SkyObject matching this name
-		*/
-		SkyObject* getObjectNamed( QString name );
-
-	/**Set the KStarsData::HourAngle according to the current LST and focus->ra
-		*/
-		void setHourAngle();
 
 	/**DCOP interface function.  Set focus to given Ra/Dec coordinates */
 		ASYNC setRaDec( double ra, double dec );
@@ -220,15 +199,15 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		void slotDefaultZoom();
 
-		/**
-			*action slot: Toggle whether kstars is tracking current position
-			*/
+	/**
+		*action slot: Toggle whether kstars is tracking current position
+		*/
 		void slotTrack();
 
 	/**
- 		*Delete FindDialog because ObjNames list has changed in KStarsData due to
-   	*reloading star data. So list in FindDialog must be new filled with current data.
-   	*/
+		*Delete FindDialog because ObjNames list has changed in KStarsData due to
+		*reloading star data. So list in FindDialog must be new filled with current data.
+		*/
 		void clearCachedFindDialog();
 
 		void resumeDCOP( void ) { kapp->dcopClient()->resume(); }
@@ -306,12 +285,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 /**
 		 * action slot: open INDI control panel
 		 */
-    		void slotINDIPanel();
+		void slotINDIPanel();
 
 		/**
 		 * action slot: open INDI configuration dialog
 		 */
-    		void slotINDIConf();
+		void slotINDIConf();
 
 		/**
 			*action slot: open dialog for setting the view options
@@ -377,28 +356,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Initialize Status bar.
 			*/
 		void initStatusBar();
-
-		/**
-			*Initialize celestial equator, horizon and ecliptic.
-			*/
-		void initGuides(KSNumbers *num);
-
-		/**format a date string
-			*@param d QDate to format as a string
-			*@returns formatted date string for the given date
-			*/
-		QString getDateString( QDate d );
-
-		/**change the current simulation time to the time and date specified as the arguments.
-			*Specified date and time is always local time.
-			*@param newDate the date to set.
-			*@param newTIme the time to set.
-			*/
-		void changeTime(QDate newDate, QTime newTime );
-
-		/**Set the KStarsData::LST member from the current UTC.
-		*/
-		void setLST( QDateTime UTC );
 
 		SkyMap *skymap;
 

@@ -53,10 +53,10 @@ void KStars::initActions() {
 				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
-	QObject::connect(clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
-	QObject::connect(clock(), SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
+	QObject::connect(data()->clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
+	QObject::connect(data()->clock(), SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
 //UpdateTime() if clock is stopped (so hidden objects get drawn)
-	QObject::connect(clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
+	QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
 //Focus Menu:
 	new KAction(i18n( "&Zenith" ), KAccel::stringToKey( "Z" ),
@@ -349,51 +349,6 @@ void KStars::initStatusBar() {
 	statusBar()->setItemFixed( 1, -1 );
 }
 
-void KStars::initGuides(KSNumbers *num)
-{
-	// Define the Celestial Equator
-	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
-		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->EquatorialToHorizontal( LST(), geo()->lat() );
-		data()->Equator.append( o );
-	}
-
-  // Define the horizon.
-  // Use the celestial Equator as a convenient starting point, but instead of RA and Dec,
-  // interpret the coordinates as azimuth and altitude, and then convert to RA, dec.
-  // The horizon will be redefined whenever the positions of sky objects are updated.
-	dms temp( 0.0 );
-	for (SkyPoint *point = data()->Equator.first(); point; point = data()->Equator.next()) {
-		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
-		double HARad;
-		dms dec, HA, RA, Az;
-		Az = dms(*(point->ra()));
-
-		Az.SinCos( sinAz, cosAz );
-		geo()->lat()->SinCos( sinlat, coslat );
-
-		dec.setRadians( asin( coslat*cosAz ) );
-		dec.SinCos( sindec, cosdec );
-
-		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
-		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
-		HA.setRadians( HARad );
-		RA = LST()->Degrees() - HA.Degrees();
-
-		SkyPoint *o = new SkyPoint( RA, dec );
-		o->setAlt( 0.0 );
-		o->setAz( Az );
-
-		data()->Horizon.append( o );
-
-		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
-		o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num->obliquity(), point->ra(), &temp );
-		o->EquatorialToHorizontal( LST(), geo()->lat() );
-		data()->Ecliptic.append( o );
-	}
-}
-
 void KStars::datainitFinished(bool worked) {
 	if (!worked) {
 		kapp->quit();
@@ -408,7 +363,7 @@ void KStars::datainitFinished(bool worked) {
 	pd->buildGUI();
 	data()->setFullTimeUpdate();
 	updateTime();
-	clock()->start();
+	data()->clock()->start();
 
 	show();
 
@@ -489,9 +444,9 @@ void KStars::privatedata::buildGUI() {
 //Changing the timestep needs to propagate to the clock, check if slew mode should be
 //(dis)engaged, and return input focus to the skymap.
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data(), SLOT( setTimeDirection( float ) ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock(), SLOT( setScale( float )) );
+	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data()->clock(), SLOT( setScale( float )) );
 //	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
-	connect( ks->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
+	connect( ks->data()->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
@@ -500,12 +455,12 @@ void KStars::privatedata::buildGUI() {
 	ks->slotSetTimeToNow();
 
 	//Define the celestial equator, horizon and ecliptic
-	KSNumbers tempnum(ks->clock()->JD());
-	ks->initGuides(&tempnum);
+	KSNumbers tempnum(ks->data()->clock()->JD());
+	ks->data()->initGuides(&tempnum);
 
 	//Connect the clock.
-	QObject::connect( ks->clock(), SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
-	QObject::connect( ks->clock(), SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
+	QObject::connect( ks->data()->clock(), SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
+	QObject::connect( ks->data()->clock(), SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
 
 	// Connect cache function
 	QObject::connect( kstarsData, SIGNAL( clearCache() ), ks, SLOT( clearCachedFindDialog() ) );
@@ -522,7 +477,7 @@ void KStars::privatedata::buildGUI() {
 //need to set focusObject before updateTime, otherwise tracking is set to false
 	if ( (ks->options()->focusObject != i18n( "star" ) ) &&
 		     (ks->options()->focusObject != i18n( "nothing" ) ) )
-			ks->map()->setFocusObject( ks->getObjectNamed( ks->options()->focusObject ) );
+			ks->map()->setFocusObject( ks->data()->objectNamed( ks->options()->focusObject ) );
 
 	ks->updateTime();
 
@@ -540,7 +495,7 @@ void KStars::privatedata::buildGUI() {
 		     (ks->options()->focusObject== i18n( "nothing" ) ) ) {
 			ks->map()->setClickedPoint( &newPoint );
 		} else {
-			ks->map()->setClickedObject( ks->getObjectNamed( ks->options()->focusObject ) );
+			ks->map()->setClickedObject( ks->data()->objectNamed( ks->options()->focusObject ) );
 			if ( ks->map()->clickedObject() ) {
 				ks->map()->setClickedPoint( ks->map()->clickedObject() );
 			} else {
@@ -563,7 +518,7 @@ void KStars::privatedata::buildGUI() {
 	ks->infoBoxes()->focusObjChanged( ks->options()->focusObject );
 	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
 
-	ks->setHourAngle();
+	ks->data()->setHourAngle( ks->LST()->Hours() - ks->map()->focus()->ra()->Hours() );
 
 	ks->map()->setOldFocus( ks->map()->focus() );
 	ks->map()->oldfocus()->setAz( ks->map()->focus()->az()->Degrees() );

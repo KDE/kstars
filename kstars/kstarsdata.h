@@ -58,6 +58,7 @@
 #define NMWFILES  11
 #define NNGCFILES 13
 #define NTYPENAME 11
+#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
 #define MINZOOM 500.
 #define MAXZOOM 1000000.
@@ -327,6 +328,11 @@ public:
 	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
 
 	/**
+		*return pointer to KStars options.
+		*/
+	KStarsOptions *getOptions() const { return options; }
+
+	/**
 		*Load KStars options.
 		*/
 	void loadOptions();
@@ -358,6 +364,12 @@ public:
 
 	KSPlanet *earth() { return PC->earth(); }
 
+	/**Find object by name.
+		*@param name Object name to find
+		*@returns pointer to SkyObject matching this name
+		*/
+	SkyObject* objectNamed( const QString &name );
+
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
 		*know when we need to do it again (see KStars::updateTime()).
@@ -366,7 +378,34 @@ public:
 		*/
 	void setFullTimeUpdate();
 
+	/**change the current simulation time to the time and date specified as the arguments.
+		*Specified date and time is always local time.
+		*@param newDate the date to set.
+		*@param newTIme the time to set.
+		*/
+	void changeTime(QDate newDate, QTime newTime );
+
+	/**Set the LST from the simulation clock's UTC value.
+		*/
+	void setLST();
+	/**Set the LST from the UTC specified as an argument.
+		*@param UTC the Universal time from which to set the LST.
+		*/
+	void setLST( QDateTime UTC );
+
+	void setHourAngle( double ha ) { HourAngle->setH( ha ); }
+	
+	//Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 	GeoLocation *geo() { return options->Location(); }
+	SimClock *clock() { return Clock; }
+	dms *lst() { return LST; }
+
+	bool executeScript( const QString &name, SkyMap *map );
+	
+	/**
+		*Initialize celestial equator, horizon and ecliptic.
+		*/
+	void initGuides( KSNumbers *num );
 
 	bool useDefaultOptions, startupComplete;
 
@@ -513,7 +552,7 @@ private:
 	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
-	SimClock *clock;
+	SimClock *Clock;
 	QDateTime LTime, UTime;
 	bool TimeRunsForward, temporaryTrail;
 

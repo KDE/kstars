@@ -52,7 +52,7 @@ KStarsData::KStarsData() {
 	locale = new KLocale( "kstars" );
 
 	//Instantiate the SimClock object
-	clock = new SimClock();
+	Clock = new SimClock();
 
 	//Instantiate KStarsOptions object
 	options = new KStarsOptions();
@@ -130,7 +130,7 @@ KStarsData::~KStarsData() {
 	// all lists are set to AutoDelete = true
 
 	delete stdDirs;
-	delete clock;
+	delete Clock;
 	delete Moon;
 	delete locale;
 	delete LST;
@@ -1422,6 +1422,51 @@ void KStarsData::slotInitialize() {
 	initCounter++;
 }
 
+void KStarsData::initGuides(KSNumbers *num)
+{
+	// Define the Celestial Equator
+	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
+		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
+		o->EquatorialToHorizontal( LST, geo()->lat() );
+		Equator.append( o );
+	}
+
+  // Define the horizon.
+  // Use the celestial Equator as a convenient starting point, but instead of RA and Dec,
+  // interpret the coordinates as azimuth and altitude, and then convert to RA, dec.
+  // The horizon will be redefined whenever the positions of sky objects are updated.
+	dms temp( 0.0 );
+	for (SkyPoint *point = Equator.first(); point; point = Equator.next()) {
+		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
+		double HARad;
+		dms dec, HA, RA, Az;
+		Az = dms(*(point->ra()));
+
+		Az.SinCos( sinAz, cosAz );
+		geo()->lat()->SinCos( sinlat, coslat );
+
+		dec.setRadians( asin( coslat*cosAz ) );
+		dec.SinCos( sindec, cosdec );
+
+		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
+		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
+		HA.setRadians( HARad );
+		RA = LST->Degrees() - HA.Degrees();
+
+		SkyPoint *o = new SkyPoint( RA, dec );
+		o->setAlt( 0.0 );
+		o->setAz( Az );
+
+		Horizon.append( o );
+
+		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
+		o = new SkyPoint( 0.0, 0.0 );
+		o->setFromEcliptic( num->obliquity(), point->ra(), &temp );
+		o->EquatorialToHorizontal( LST, geo()->lat() );
+		Ecliptic.append( o );
+	}
+}
+
 void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange) {
 	// reset tzrules data with local time, timezone offset and time direction (forward or backward)
 	// force a DST change with option true for 3. parameter
@@ -1434,10 +1479,10 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
 	// sync times with clock
-	UTime = clock->UTC();
+	UTime = Clock->UTC();
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
-	CurrentDate = clock->JD();
-	LST->set( KSUtils::UTtoLST( UTime, geo->lng() ) );
+	CurrentDate = Clock->JD();
+	setLST();
 
 	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 	//the DST change date/time.
@@ -1514,8 +1559,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
-	//If clock is in Manual Mode, always update. (?)
-	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/options->ZoomFactor || clock->isManualMode() ) {
+	//If Clock is in Manual Mode, always update. (?)
+	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/options->ZoomFactor || Clock->isManualMode() ) {
 		LastSkyUpdate = CurrentDate;
 
 		//Recompute Alt, Az coords for all objects
@@ -1660,7 +1705,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//Update focus
 		skymap->updateFocus();
 
-		if (clock->isManualMode() )
+		if ( Clock->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
 		else skymap->forceUpdate();
 	}
@@ -1677,9 +1722,147 @@ void KStarsData::setFullTimeUpdate() {
 			LastNumUpdate = -1000000.0;
 }
 
+void KStarsData::setLST() {
+	setLST( Clock->UTC() );
+}
+
+void KStarsData::setLST( QDateTime UTC ) {
+	LST->set( KSUtils::UTtoLST( UTC, geo()->lng() ) );
+}
+
+void KStarsData::changeTime( QDate newDate, QTime newTime ) {
+	QDateTime new_time(newDate, newTime);
+
+	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
+	setFullTimeUpdate();
+
+	// reset tzrules data with newlocal time and time direction (forward or backward)
+	geo()->tzrule()->reset_with_ltime(new_time, geo()->TZ0(), isTimeRunningForward() );
+
+	// reset next dst change time
+	setNextDSTChange( KSUtils::UTtoJD( geo()->tzrule()->nextDSTChange() ) );
+
+	//Turn off animated slews for the next time step.
+	options->setSnapNextFocus();
+
+	//Set the clock
+	clock()->setUTC( new_time.addSecs( int(-3600 * geo()->TZ()) ) );
+
+	//set local sideral time
+	setLST();
+}
+
 bool KStarsData::isSolarSystem( SkyObject *o ) {
 	if ( !o ) return false;
 	return ( o->type() == 2 || o->type() == 9 || o->type() == 10 );
+}
+
+SkyObject* KStarsData::objectNamed( const QString &name ) {
+	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
+	if ( name== Moon->name() ) return Moon;
+
+	SkyObject *so = PC->findByName(name);
+
+	if (so != 0)
+		return so;
+
+	//Stars
+	for ( unsigned int i=0; i<starList.count(); ++i ) {
+		if ( name==starList.at(i)->name() ) return starList.at(i);
+	}
+
+	//Deep sky objects
+	for ( unsigned int i=0; i<deepSkyListMessier.count(); ++i ) {
+		if ( name==deepSkyListMessier.at(i)->name() ) return deepSkyListMessier.at(i);
+	}
+	for ( unsigned int i=0; i<deepSkyListNGC.count(); ++i ) {
+		if ( name==deepSkyListNGC.at(i)->name() ) return deepSkyListNGC.at(i);
+	}
+	for ( unsigned int i=0; i<deepSkyListIC.count(); ++i ) {
+		if ( name==deepSkyListIC.at(i)->name() ) return deepSkyListIC.at(i);
+	}
+	for ( unsigned int i=0; i<deepSkyListOther.count(); ++i ) {
+		if ( name==deepSkyListOther.at(i)->name() ) return deepSkyListOther.at(i);
+	}
+
+	//Constellations
+	for ( unsigned int i=0; i<cnameList.count(); ++i ) {
+		if ( name==cnameList.at(i)->name() ) return cnameList.at(i);
+	}
+
+	//reach here only if argument is not matched
+	return NULL;
+}
+
+//"pseudo-execute" a shell script, ignoring all interactive aspects.  Just use 
+//the portions of the script that change the state of the program.  This is only 
+//used for image-dump mode, where the GUI is not running.  So, some things (such as
+//waitForKey() don't make sense and should be ignored.
+//also, even functions that do make sense in this context have aspects that should 
+//be modified or ignored.  For example, we don't need to call slotCenter() on recentering
+//commands, just setDestination().  (sltoCenter() does additional things that we dont need).
+bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
+	KURL url( scriptname );
+	
+	if ( url.isValid() ) {
+		if ( url.isLocalFile() ) {
+			//Remove the leading 'file:', which confuses QFile 
+			QString fname = url.url().mid(5);
+			QFile f( fname );
+			if ( !f.open( IO_ReadOnly) ) {
+				kdDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
+				return false;
+			}
+			
+			QTextStream istream(&f);
+			while ( ! istream.eof() ) {
+				QString line = istream.readLine();
+				
+				//found a dcop line
+				if ( line.left(4) == "dcop" ) {
+					line = line.mid( 20 );  //strip away leading characters
+					QStringList fn = QStringList::split( " ", line );
+					
+					if ( fn[0] == "lookTowards" ) {
+						double az(-1.0);
+						QString arg = fn[1].lower();
+						if ( arg == "n"  || arg == "north" )     az =   0.0;
+						if ( arg == "ne" || arg == "northeast" ) az =  45.0;
+						if ( arg == "e"  || arg == "east" )      az =  90.0;
+						if ( arg == "se" || arg == "southeast" ) az = 135.0;
+						if ( arg == "s"  || arg == "south" )     az = 180.0;
+						if ( arg == "sw" || arg == "southwest" ) az = 225.0;
+						if ( arg == "w"  || arg == "west" )      az = 270.0;
+						if ( arg == "nw" || arg == "northwest" ) az = 335.0;
+						if ( az >= 0.0 ) { map->setDestinationAltAz( 15.0, az ); break; }
+						
+						if ( arg == "z" || arg == "zenith" ) {
+							map->setDestinationAltAz( 90.0, map->focus()->az()->Degrees() );
+							break;
+						}
+						
+						SkyObject *target = objectNamed( arg );
+						if ( target ) { map->setDestination( target ); break; }
+						
+					} else if ( fn[0] == "setRaDec" ) {
+					} else if ( fn[0] == "setAltAz" ) {
+					} else if ( fn[0] == "zoomIn" ) {
+					} else if ( fn[0] == "zoomOut" ) {
+					} else if ( fn[0] == "defaultZoom" ) {
+					} else if ( fn[0] == "setLocalTime" ) {
+					} else if ( fn[0] == "changeViewOption" ) {
+					} else if ( fn[0] == "setGeoLocation" ) {
+					}
+				}
+			}  //end while
+		} else {
+			kdDebug() << i18n( "Cannot access remote scripts yet." ) << endl;
+			return false;
+		}
+	} else {
+		kdDebug() << i18n( "Script name is malformed." ) << endl;
+		return false;
+	}
 }
 
 #include "kstarsdata.moc"

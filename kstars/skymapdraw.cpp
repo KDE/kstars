@@ -23,6 +23,7 @@
 #include "indimenu.h"
 #include "indidevice.h"
 
+#include <qpaintdevicemetrics.h>
 #include <stdlib.h> // abs
 
 void SkyMap::drawBoxes( QPixmap *pm ) {
@@ -121,7 +122,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 				sp->set( RA, Dec );
 				if ( options->useAltAz ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-				if ( checkVisibility( sp, guideFOV, guideXmax ) ) {
+				if ( checkVisibility( sp, guideFOV, guideXRange ) ) {
 					o = getXY( sp, options->useAltAz, options->useRefraction, scale );
 
 					//When drawing on the printer, the psky.pos() point does NOT get updated
@@ -167,7 +168,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 				sp1->set( RA, Dec );
 				if ( options->useAltAz ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-				if ( checkVisibility( sp1, guideFOV, guideXmax ) ) {
+				if ( checkVisibility( sp1, guideFOV, guideXRange ) ) {
 					o = getXY( sp1, options->useAltAz, options->useRefraction, scale );
 
 					//When drawing on the printer, the psky.pos() point does NOT get updated
@@ -196,7 +197,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 void SkyMap::drawEquator( QPainter& psky, double scale )
 {
 	KStarsOptions* options = data->options;
-
+	
 	//Draw Equator (currently can't be hidden on slew)
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
@@ -211,7 +212,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 
 		//start loop at second item
 		for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXmax ) ) {
+			if ( checkVisibility( p, guideFOV, guideXRange ) ) {
 				o = getXY( p, options->useAltAz, options->useRefraction, scale );
 
 				//When drawing on the printer, the psky.pos() point does NOT get updated
@@ -267,7 +268,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 		bool newlyVisible = false;
 		//Start loop at second item
 		for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXmax ) ) {
+			if ( checkVisibility( p, guideFOV, guideXRange ) ) {
 				o = getXY( p, options->useAltAz, options->useRefraction, scale );
 
 				//When drawing on the printer, the psky.pos() point does NOT get updated
@@ -345,7 +346,7 @@ void SkyMap::drawConstellationNames( QPainter& psky, QFont& stdFont, double scal
 		psky.setFont( stdFont );
 		psky.setPen( QColor( options->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
-			if ( checkVisibility( p, FOV, Xmax ) ) {
+			if ( checkVisibility( p, fov(), XRange ) ) {
 				QPoint o = getXY( p, options->useAltAz, options->useRefraction, scale );
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 					if ( options->useLatinConstellNames ) {
@@ -371,7 +372,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
@@ -387,16 +388,16 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 		if ( maglim0 < zoomlim ) maglim = maglim0;
 		else maglim = zoomlim;
 
-	  //Only draw bright stars if slewing
+		//Only draw bright stars if slewing
 		if ( hideFaintStars && maglim > options->magLimitHideStar ) maglim = options->magLimitHideStar;
 
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
-			if ( checkVisibility( curStar, FOV, Xmax ) ) {
+			if ( checkVisibility( curStar, fov(), XRange ) ) {
 				QPoint o = getXY( curStar, options->useAltAz, options->useRefraction, scale );
-
+				
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 					// but only if the star is bright enough.
@@ -406,6 +407,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 					if (size>23) size=23;
 
 					if ( size > 0 ) {
+						
 						psky.setPen( QColor( options->colorScheme()->colorNamed( "SkyColor" ) ) );
 						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, 1.0, 0, curStar->color(), scale );
 
@@ -443,7 +445,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, Q
 	for ( SkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 
 		if ( drawObject || drawImage ) {
-			if ( checkVisibility( obj, FOV, Xmax ) ) {
+			if ( checkVisibility( obj, fov(), XRange ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -520,7 +522,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 
 	QImage ScaledImage;
 
-	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
@@ -574,7 +576,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, FOV, Xmax ) ) {
+				if ( checkVisibility( obj, fov(), XRange ) ) {
 					QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
 
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
@@ -607,7 +609,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 
 	psky.setPen( data->options->colorScheme()->colorNamed( "UserLabelColor" ) );
 
-	bool checkSlewing = ( slewing || ( clockSlewing && data->clock->isActive() ) ) && data->options->hideOnSlew;
+	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && data->options->hideOnSlew;
 	bool drawPlanets( data->options->drawPlanets && !(checkSlewing && data->options->hidePlanets) );
 	bool drawComets( drawPlanets && data->options->drawComets );
 	bool drawAsteroids( drawPlanets && data->options->drawAsteroids );
@@ -648,7 +650,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
 
-		if ( checkVisibility( obj, FOV, Xmax ) ) {
+		if ( checkVisibility( obj, fov(), XRange ) ) {
 			QPoint o = getXY( obj, data->options->useAltAz, data->options->useRefraction, scale );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 				drawNameLabel( psky, obj, o.x(), o.y(), scale );
@@ -1249,7 +1251,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	 //kdDebug() << "the KStars DEC is " << decDMS->toDMSString() << "\n****************" << endl;
 
 	 SkyPoint sp( raDMS, decDMS);
-	 sp.apparentCoord( (double) J2000, data->clock->JD());
+	 sp.apparentCoord( (double) J2000, data->clock()->JD());
 	 sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
          QPoint P = getXY( &sp, options->useAltAz, options->useRefraction );
 
@@ -1471,4 +1473,81 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			}
 			break;
 	}
+}
+
+void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
+	QPainter p;
+	
+	//shortcuts to inform wheter to draw different objects
+	bool drawPlanets( data->options->drawPlanets );
+	bool drawMW( data->options->drawMilkyWay );
+	bool drawCNames( data->options->drawConstellNames );
+	bool drawCLines( data->options->drawConstellLines );
+	bool drawGrid( data->options->drawGrid );
+
+	p.begin( pd );
+	QPaintDeviceMetrics pdm( p.device() );
+
+	//scale image such that it fills 90% of the x or y dimension on the paint device
+	double xscale = pdm.width() / width();
+	double yscale = pdm.height() / height();
+	double scale = (xscale < yscale) ? xscale : yscale;
+
+	int pdWidth = int( scale * width() );
+	int pdHeight = int( scale * height() );
+	int x1 = int( 0.5*(pdm.width()  - pdWidth) );
+	int y1 = int( 0.5*(pdm.height()  - pdHeight) );
+
+	p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
+	p.setClipping( true );
+
+	//Fil background with sky color
+	p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( data->options->colorScheme()->colorNamed( "SkyColor" ) ) );
+
+	if ( x1 || y1 ) p.translate( x1, y1 );
+
+	QFont stdFont = p.font();
+	QFont smallFont = p.font();
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+
+	if ( drawMW ) drawMilkyWay( p, scale );
+	if ( drawGrid ) drawCoordinateGrid( p, scale );
+	if ( data->options->drawEquator ) drawEquator( p, scale );
+	if ( data->options->drawEcliptic ) drawEcliptic( p, scale );
+	if ( drawCLines ) drawConstellationLines( p, scale );
+	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
+
+	// stars and planets use the same font size
+	if ( data->options->ZoomFactor < 10.*MINZOOM ) {
+		p.setFont( smallFont );
+	} else {
+		p.setFont( stdFont );
+	}
+	
+	drawStars( p, scale );
+	drawDeepSkyObjects( p, scale );
+	drawSolarSystem( p, drawPlanets, scale );
+	drawAttachedLabels( p, scale );
+	drawHorizon( p, stdFont, scale );
+
+	p.end();
+}
+
+void SkyMap::setMapGeometry() {
+	guidemax = zoomFactor()/10;
+	
+	isPoleVisible = false;
+	if ( data->options->useAltAz ) {
+		XRange = 1.2*fov()/cos( focus()->alt()->radians() );
+		Ymax = fabs( focus()->alt()->Degrees() ) + fov();
+	} else {
+		XRange = 1.2*fov()/cos( focus()->dec()->radians() );
+		Ymax = fabs( focus()->dec()->Degrees() ) + fov();
+	}
+	if ( Ymax >= 90. ) isPoleVisible = true;
+
+	//at high zoom, double FOV for guide lines so they don't disappear.
+	guideFOV = fov();
+	guideXRange = XRange;
+	if ( zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
 }

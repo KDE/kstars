@@ -2068,7 +2068,7 @@ void INDI_P::convertSwitch(int id)
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
-       pg->dp->parent->ksw->map()->clickedPoint()->apparentCoord( pg->dp->parent->ksw->clock()->JD() , (long double) J2000);
+       pg->dp->parent->ksw->map()->clickedPoint()->apparentCoord( pg->dp->parent->ksw->data()->clock()->JD() , (long double) J2000);
 
        // Use J2000 coordinate as required by INDI
        prop->u.text.write_w->setText( QString("%1:%2:%3").arg(pg->dp->parent->ksw->map()->clickedPoint()->ra()->hour())
@@ -2101,8 +2101,8 @@ void INDI_P::convertSwitch(int id)
 void INDI_P::updateTime()
 {
 
-  QTime newTime( pg->dp->parent->ksw->clock()->UTC().time());
-  QDate newDate( pg->dp->parent->ksw->clock()->UTC().date());
+  QTime newTime( pg->dp->parent->ksw->data()->clock()->UTC().time());
+  QDate newDate( pg->dp->parent->ksw->data()->clock()->UTC().date());
 
   u.text.write_w->setText(QString("%1-%2-%3T%4:%5:%6")
 					.arg(newDate.year()).arg(newDate.month())

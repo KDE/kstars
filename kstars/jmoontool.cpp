@@ -84,7 +84,7 @@ JMoonTool::~JMoonTool()
 void JMoonTool::initPlotObjects() {
 	KPlotObject *orbit[4];
 	KPlotObject *jpath;
-	long double jd0 = ksw->clock()->JD();
+	long double jd0 = ksw->data()->clock()->JD();
 	KSSun *sun = (KSSun*)ksw->data()->PC->findByName( "Sun" );
 	KSPlanet *jup = (KSPlanet*)ksw->data()->PC->findByName( "Jupiter" );
 	JupiterMoons jm;

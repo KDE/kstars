@@ -176,7 +176,7 @@ void KStars::slotGeoLocator() {
 			data()->setNextDSTChange( KSUtils::UTtoJD( newLocation->tzrule()->nextDSTChange() ) );
 
 			// reset local sideral time
-			setLST( clock()->UTC() );
+			data()->setLST();
 
 			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
@@ -216,10 +216,7 @@ void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
 	if ( timedialog.exec() == QDialog::Accepted ) {
-		QTime newTime( timedialog.selectedTime() );
-		QDate newDate( timedialog.selectedDate() );
-
-		changeTime(newDate, newTime);
+		data()->changeTime( timedialog.selectedDate(), timedialog.selectedTime() );
 
 		if ( options()->useAltAz ) {
 			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
@@ -331,6 +328,10 @@ void KStars::slotPrint() {
 	if( printer.setup( this, i18n("Print Sky") ) ) {
 		kapp->setOverrideCursor( waitCursor );
 
+		map()->setMapGeometry();
+		map()->exportSkyImage( &printer );
+
+/*
 		QPainter p;
 
 		//shortcuts to inform wheter to draw different objects
@@ -386,6 +387,7 @@ void KStars::slotPrint() {
 		map()->drawHorizon( p, stdFont, scale );
 
 		p.end();
+*/
 
 		kapp->restoreOverrideCursor();
 	}
@@ -403,18 +405,18 @@ void KStars::slotPrint() {
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
 	QDateTime now = QDateTime::currentDateTime();
-	changeTime( now.date(), now.time() );
+	data()->changeTime( now.date(), now.time() );
 }
 
 void KStars::slotToggleTimer() {
-	if ( clock()->isActive() ) {
-		clock()->stop();
+	if ( data()->clock()->isActive() ) {
+		data()->clock()->stop();
 		updateTime();
 	} else {
-		if ( fabs( clock()->scale() ) > options()->slewTimeScale )
-			clock()->setManualMode( true );
-		clock()->start();
-		if ( clock()->isManualMode() ) map()->forceUpdate();
+		if ( fabs( data()->clock()->scale() ) > options()->slewTimeScale )
+			data()->clock()->setManualMode( true );
+		data()->clock()->start();
+		if ( data()->clock()->isManualMode() ) map()->forceUpdate();
 	}
 }
 

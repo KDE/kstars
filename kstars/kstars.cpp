@@ -74,7 +74,7 @@ KStars::KStars( KStarsData* kd )
 	pd->kstarsData = kd;
 	pd->buildGUI();
 
-	clock()->start();
+	kd->clock()->start();
 
 	show();
 }
@@ -91,31 +91,6 @@ KStars::~KStars()
 	if (AAVSODialog) delete AAVSODialog;
 	if (indimenu) delete indimenu;
 	if (indidriver) delete indidriver;
-}
-
-void KStars::changeTime( QDate newDate, QTime newTime ) {
-	QDateTime new_time(newDate, newTime);
-
-	GeoLocation *Geo = geo();
-	KStarsData *Data = data();
-
-	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
-	Data->setFullTimeUpdate();
-
-	// reset tzrules data with newlocal time and time direction (forward or backward)
-	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
-
-	// reset next dst change time
-	Data->setNextDSTChange( KSUtils::UTtoJD( Geo->tzrule()->nextDSTChange() ) );
-
-	//Turn off animated slews for the next time step.
-	options()->setSnapNextFocus();
-
-	//Set the clock
-	clock()->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
-
-	// reset local sideral time
-	setLST( clock()->UTC() );
 }
 
 void KStars::clearCachedFindDialog() {
@@ -159,67 +134,9 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	//step exactly equal to the timeScale setting.
 	//Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
 	//the skymap has been completely updated.
-	if ( Data->clock->isManualMode() && Data->clock->isActive() ) {
-		QTimer::singleShot( 0, Data->clock, SLOT( manualTick() ) );
+	if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
+		QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
 	}
-}
-
-SkyObject* KStars::getObjectNamed( QString name ) {
-	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
-	if ( name== data()->Moon->name() ) return data()->Moon;
-
-	SkyObject *so = data()->PC->findByName(name);
-
-	if (so != 0)
-		return so;
-
-	//Stars
-	for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
-		if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
-	}
-
-	//Deep sky objects
-	for ( unsigned int i=0; i<data()->deepSkyListMessier.count(); ++i ) {
-		if ( name==data()->deepSkyListMessier.at(i)->name() ) return data()->deepSkyListMessier.at(i);
-	}
-	for ( unsigned int i=0; i<data()->deepSkyListNGC.count(); ++i ) {
-		if ( name==data()->deepSkyListNGC.at(i)->name() ) return data()->deepSkyListNGC.at(i);
-	}
-	for ( unsigned int i=0; i<data()->deepSkyListIC.count(); ++i ) {
-		if ( name==data()->deepSkyListIC.at(i)->name() ) return data()->deepSkyListIC.at(i);
-	}
-	for ( unsigned int i=0; i<data()->deepSkyListOther.count(); ++i ) {
-		if ( name==data()->deepSkyListOther.at(i)->name() ) return data()->deepSkyListOther.at(i);
-	}
-
-	//Constellations
-	for ( unsigned int i=0; i<data()->cnameList.count(); ++i ) {
-		if ( name==data()->cnameList.at(i)->name() ) return data()->cnameList.at(i);
-	}
-
-	//reach here only if argument is not matched
-	return NULL;
-}
-
-
-QString KStars::getDateString( QDate date ) {
-	QString dummy;
-	QString dateString = dummy.sprintf( "%02d / %02d / %04d",
-			date.month(), date.day(), date.year() );
-	return dateString;
-}
-
-
-//
-//This is bogus, but until all the data members of KStarsData migrate to the
-//class where they _really_ belong, we'll do the forwarding.
-//
-void KStars::setHourAngle() {
-	data()->HourAngle->setH( LST()->Hours() - map()->focus()->ra()->Hours() );
-}
-
-void KStars::setLST( QDateTime UTC ) {
-	LST()->set( KSUtils::UTtoLST( UTC, geo()->lng() ) );
 }
 
 KStarsData* KStars::data( void ) { return pd->kstarsData; }

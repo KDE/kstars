@@ -20,6 +20,7 @@
 
 #include <qwidget.h>
 #include <qpainter.h>
+#include <qpaintdevice.h>
 #include <qpoint.h>
 #include <qpixmap.h>
 
@@ -223,6 +224,9 @@ public:
 	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
 	void drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale );
 
+	void setMapGeometry( void );
+	void exportSkyImage( const QPaintDevice *pd );
+
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
 	virtual void setGeometry( const QRect &r );
@@ -414,10 +418,9 @@ private:
 	//data for checkVisibility
 	bool isPoleVisible;
 	int guidemax;
-	float FOV;
 	float guideFOV;
-	double Xmax, Ymax;
-	double guideXmax;
+	double XRange, Ymax;
+	double guideXRange;
 
 	KStars *ksw;
 	KStarsData *data;

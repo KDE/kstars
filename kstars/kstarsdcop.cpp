@@ -60,7 +60,7 @@ void KStars::lookTowards ( const QString direction ) {
 		map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
 		map()->slotCenter();
 	} else {
-		SkyObject *target = getObjectNamed( direction );
+		SkyObject *target = data()->objectNamed( direction );
 		if ( target != NULL ) {
 			map()->setClickedObject( target );
 			map()->setClickedPoint( target );
@@ -70,7 +70,7 @@ void KStars::lookTowards ( const QString direction ) {
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-	changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
+	data()->changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
 }
 
 void KStars::waitFor( double t ) {
@@ -121,7 +121,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
 
 			//reset LST
-			setLST( clock()->UTC() );
+			data()->setLST( data()->clock()->UTC() );
 
 			//make sure planets, etc. are updated immediately
 			data()->setFullTimeUpdate();

@@ -393,10 +393,10 @@ void SkyMap::slotDetail( void ) {
 
 void SkyMap::slotClockSlewing() {
 //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-	if ( fabs( data->clock->scale() ) > data->options->slewTimeScale ) {
+	if ( fabs( data->clock()->scale() ) > data->options->slewTimeScale ) {
 		if ( ! clockSlewing ) {
 			clockSlewing = true;
-			data->clock->setManualMode( true );
+			data->clock()->setManualMode( true );
 
 			// don't change automatically the DST status
 			if ( ksw ) ksw->updateTime( false );
@@ -404,7 +404,7 @@ void SkyMap::slotClockSlewing() {
 	} else {
 		if ( clockSlewing ) {
 			clockSlewing = false;
-			data->clock->setManualMode( false );
+			data->clock()->setManualMode( false );
 
 			// don't change automatically the DST status
 			if ( ksw ) ksw->updateTime( false );
@@ -494,7 +494,7 @@ void SkyMap::slewFocus( void ) {
 	if ( !mouseButtonDown ) {
 		bool goSlew = ( data->options->useAnimatedSlewing &&
 			! data->options->snapNextFocus() ) &&
-			!( data->clock->isManualMode() && data->clock->isActive() );
+			!( data->clock()->isManualMode() && data->clock()->isActive() );
 		if ( goSlew  ) {
 			if ( data->options->useAltAz ) {
 				dX = destination()->az()->Degrees() - focus()->az()->Degrees();
@@ -740,7 +740,6 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms *LST, con
 }
 
 dms SkyMap::refract( const dms *alt, bool findApparent ) {
-
 	if ( alt->Degrees() <= -2.000 ) return dms( alt->Degrees() );
 
 	int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
@@ -912,6 +911,7 @@ void SkyMap::addLink( void ) {
 double SkyMap::zoomFactor() const {
 	return data->options->ZoomFactor;
 }
+
 bool SkyMap::setColors( QString filename ) {
 	if ( data->options->colorScheme()->load( filename ) ) {
 		if ( starColorMode() != data->options->colorScheme()->starColorMode() )

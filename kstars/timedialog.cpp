@@ -145,7 +145,7 @@ void TimeDialog::setNow( void )
 
   if (UTCNow)
   {
-    QDateTime dt( ksw->clock()->UTC() );
+    QDateTime dt( ksw->data()->clock()->UTC() );
     dPicker->setDate( dt.date() );
     t = dt.time();
   }

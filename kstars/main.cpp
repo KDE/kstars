@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	KApplication a;
 	
 	if ( args->isSet( "dump" ) ) {
-		kdDebug() << "Dumping sky image" << endl;
+		kdDebug() << i18n( "Dumping sky image" ) << endl;
 		
 		//parse filename and image format
 		const char* format = "PNG";
@@ -87,21 +87,29 @@ int main(int argc, char *argv[])
 		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
 		dat->initialize();
 		while (!dat->startupComplete) { kapp->processEvents(50); }
+		
+		//reset clock now that we have a location:
+		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( -3600 * dat->geo()->TZ() ) );
+		
+		KSNumbers num( dat->clock()->JD() );
+		dat->initGuides(&num);
+		
 		SkyMap *map = new SkyMap( dat );
 		map->resize( w, h );
-		
+		QPixmap sky( w, h );
 		dat->setFullTimeUpdate();
 		dat->updateTime(dat->geo(), map );
 		
-		//A debug message in forceUpdate() gets printed 
-		map->forceUpdate(true);
+		map->setDestination( new SkyPoint( dat->getOptions()->focusRA, dat->getOptions()->focusDec ) );
+		map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
+		map->setFocus( map->destination() );
+		map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
+		map->setMapGeometry();
+		map->exportSkyImage( &sky );
+		kapp->processEvents(100000);
 		
-		/**if the following line is uncommented, the program just waits forever;  
-		 **we never see the debug statement at the top of SkyMap::paintEvent()...*/
-		//while ( map->skyPixmap().isNull() ) { kapp->processEvents(100); }
-		
-		if ( map->skyPixmap().isNull() ) kdWarning() << "pixmap is NULL!" << endl;
-		if ( ! map->skyPixmap().save( fname, format ) ) kdWarning() << "Unable to save image." << endl;
+//		if ( map->skyPixmap().isNull() ) kdWarning() << "pixmap is NULL!" << endl;
+		if ( ! sky.save( fname, format ) ) kdWarning() << "Unable to save image." << endl;
 		else kdDebug() << "Saved to file: " << fname << endl;
 
 		delete map;

@@ -34,13 +34,14 @@
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
-		computeSkymap = true; // skymap must be new computed
-		if ( testWState(WState_AutoMask) ) updateMask();
+	computeSkymap = true; // skymap must be new computed
+	if ( testWState(WState_AutoMask) ) updateMask();
 
-		// avoid phantom positions of infoboxes
-		if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
-			infoBoxes()->resize( width(), height() );
-		}
+	// avoid phantom positions of infoboxes
+	if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
+		infoBoxes()->resize( width(), height() );
+	}
+	sky->resize( width(), height() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
@@ -800,27 +801,12 @@ void SkyMap::paintEvent( QPaintEvent * )
 // if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
 	QPainter psky;
 
-	guidemax = zoomFactor()/10;
-	FOV = fov();
-	isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	guideFOV = fov();
-	guideXmax = Xmax;
-	if ( zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXmax *= 2.0; }
+	setMapGeometry();
 
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
-	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock->isActive() ) )
+	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& options->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
