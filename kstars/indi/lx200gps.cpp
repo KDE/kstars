@@ -98,14 +98,13 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 	// suppress warning
 	n=n;
 
-       // Override LX200 Classic 16"
+       // Override LX200 Generic
        if (!strcmp (name, Time.name))
        {
 	  if (checkPower(&Time))
 	   return;
 
-	 int autostarUTC;
-	 int UTCDiff;
+	   IDLog("*** We are in the AUTOSTAR time update ***\n");
 
 	  if (extractISOTime(texts[0], &utm) < 0)
 	  {
@@ -118,27 +117,20 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 		utm.tm_year  += 1900;
 		ltp->tm_year += 1900;
 
-	  	UTCOffset = (ltp->tm_hour - utm.tm_hour);
+	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
+
+		IDLog("The initial UTC offset is %g\n", UTCOffset);
 
 		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset -= 24;
+			 UTCOffset += 24;
+
+		if (ltp->tm_isdst > 0)
+		{
+		  UTCOffset--;
+		  IDLog("Correcting for DST, new UTC is %d\n", UTCOffset);
+		}
 
 		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
-		setUTCOffset(UTCOffset);
-
-		// wait for autostar a bit and then read what UTC it sets
-		// The autostar UTC is affected by Day Light Saving option which
-		// we cannot inquire directly.
-		usleep(100000);
-
-		autostarUTC = getUTCOffset();
-		UTCDiff = (int) UTCOffset - autostarUTC;
-
-		// The UTC we send the autostar already accounts for day light savings
-		// assuming the machine time is correct. If autostar incoperates day light savings
-		// we need to reverse that process
-		if (UTCDiff)
-		  setUTCOffset(UTCOffset - UTCDiff);
 
 	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 
@@ -157,7 +149,7 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
 		    (localTM->tm_year == ltp->tm_year))
 		{
-		  IDSetText(&Time , "Time updated to %s", texts[0]);
+		  IDSetText(&Time , "Time updated to %s. Current Autostar UTC is %d", texts[0], UTCOffset);
 		  return;
 		}
 
@@ -169,7 +161,6 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 	}
 
      LX200_16::ISNewText (dev, name, texts, names, n);
-
 }
 
 void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
