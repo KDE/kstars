@@ -51,6 +51,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		QPainter p;
 		p.begin( pm );
 
+		infoBoxes()->focusCoordChanged( focus() );
 		drawBoxes( p );
 
 		//draw FOV symbol
