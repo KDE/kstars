@@ -138,6 +138,11 @@ public:
 	QImage* image( void ) { return &Image; };
 
 	/**
+	 *@returns pointer to unrotated image of planet
+	 */
+	QImage* image0( void ) { return &Image0; };
+
+	/**
 	 *@returns distance from Sun
 	 */
 	double rsun( void ) const { return ep.radius; };
@@ -152,6 +157,20 @@ public:
 	 */
 	virtual void updateCoords( KSNumbers *num );
 
+	/**Return the Planet's position angle.
+		*/
+		double pa() const { return PositionAngle; }
+
+	/**Set the Planet's position angle.
+		*/
+		void setPA( double p ) { PositionAngle = p; }
+
+	/**
+		*If pa argument is more than 5 degrees different than current internal
+		*PositionAngle, then update the internal PA and rotate the Planet image.
+		*/
+	void updatePA( double pa );
+
 protected:
 	virtual bool loadData(QString n) { 
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
@@ -160,8 +179,8 @@ protected:
 	EclipticPosition ep;
 
 private:
-	QImage Image;
-
+	QImage Image0, Image;
+	double PositionAngle;
 
 };
 

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <klocale.h>
+
 #include <qtextstream.h>
 #include "ksutils.h"
 #include "kssun.h"
@@ -204,6 +205,10 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 	QFile imFile;
 	if ( KSUtils::openDataFile( imFile, imName ) ) {
 		imFile.close();
+		image0()->load( imFile.name() );
 		image()->load( imFile.name() );
+		double p = pa();
+		setPA( 0.0 );
+		updatePA( p );
 	}
 }

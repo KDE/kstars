@@ -839,7 +839,9 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 	psky.setBrush( c );
 	QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
 	if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
-		int size = int( mult * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] );
+//Image size must be modified to account for possibility that rotated image's
+//size is bigger than original image size.
+		int size = int( mult * pixelScale[ ksw->data()->ZoomLevel ]/pixelScale[0] * p->image()->width()/p->image0()->width() );
 		if ( size < sizemin ) size = sizemin;
 		int x1 = o.x() - size/2;
 		int y1 = o.y() - size/2;
@@ -860,13 +862,16 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 			//the Ecliptic, which is only roughly correct).
 			//Displace a point along +Ecliptic Latitude by 100/pixelScale radians
 			//(so distance is always 100 pixels) this is 5730/pixelScale degrees
-      SkyPoint *test = new SkyPoint();
+      SkyPoint test;
 			KSNumbers num( ksw->data()->CurrentDate );
-//			dms newELat( p->ecLat().Degrees() + 5730./pixelScale[ ksw->data()->ZoomLevel ] );
-			dms newELat( p->ecLat().Degrees() + 20.*5730./pixelScale[ ksw->data()->ZoomLevel ] );
-			test->setFromEcliptic( num.obliquity(), p->ecLong(), newELat );
-			if ( ksw->options()->useAltAz ) test->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
-			QPoint t = getXY( test, ksw->options()->useAltAz, ksw->options()->useRefraction );
+
+			dms newELat( p->ecLat().Degrees() + 5730./pixelScale[ ksw->data()->ZoomLevel ] );
+			if ( ksw->data()->ZoomLevel > 8 )
+				newELat.setD( p->ecLat().Degrees() + 20.*5730./pixelScale[ ksw->data()->ZoomLevel ] );
+
+			test.setFromEcliptic( num.obliquity(), p->ecLong(), newELat );
+			if ( ksw->options()->useAltAz ) test.EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			QPoint t = getXY( &test, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
 			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
 			double dy = double( t.y() - o.y() );
@@ -878,12 +883,10 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 				if ( dx > 0 ) pa = -90.0;
 			}
 
-			psky.translate( o.x(), o.y() );
-			psky.rotate( pa );
-			psky.drawImage( -size/2, -size/2,  p->image()->smoothScale( size, size ));
-			psky.resetXForm();
+			//rotate Planet image, if necessary
+			p->updatePA( pa );
 
-			delete test;
+			psky.drawImage( x1, y1,  p->image()->smoothScale( size, size ));
 
 		} else { //Otherwise, draw a simple circle.
 

@@ -101,8 +101,8 @@ dms dms::operator- (dms angle)
 */
 //---------------------------------------------------------------------------
 
-void dms::SinCos(double &sina, double &cosa) {
-  sina = sin( radians() );
+void dms::SinCos( double &sina, double &cosa ) {
+	sina = sin( radians() );
 	cosa = cos( radians() );
 }
 //---------------------------------------------------------------------------

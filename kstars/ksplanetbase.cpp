@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <math.h>
+#include <qwmatrix.h>
 #include "ksutils.h"
 #include "ksplanetbase.h"
 
@@ -28,7 +29,9 @@ KSPlanetBase::KSPlanetBase( QString s, QString image_file )
 
 		if ( KSUtils::openDataFile( imFile, image_file ) ) {
 			imFile.close();
-			Image.load( imFile.name() );
+			Image0.load( imFile.name() );
+			Image = Image0;
+			PositionAngle = 0.0;
 		}
 	}
 }
@@ -42,4 +45,16 @@ void KSPlanetBase::EclipticToEquatorial( dms Obliquity ) {
 }
 
 void KSPlanetBase::updateCoords( KSNumbers *num ) {
+}
+
+void KSPlanetBase::updatePA( double p ) {
+//Update PositionAngle and rotate Image if the new position angle (p) is
+//more than 5 degrees from the stored PositionAngle.
+	if ( fabs( p - PositionAngle ) > 5.0 ) {
+		PositionAngle = p;
+
+		QWMatrix m;
+		m.rotate( PositionAngle );
+		Image = Image0.xForm( m );
+	}
 }

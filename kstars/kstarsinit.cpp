@@ -420,7 +420,6 @@ void KStars::datainitFinished(bool worked) {
 	}
 
 	pd->buildGUI();
-
 	updateTime();
 
 	clock->start();
