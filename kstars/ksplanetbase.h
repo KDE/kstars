@@ -92,27 +92,58 @@ public:
 	*/
 	const dms* ecLat( void ) const { return &ep.latitude; };
 
-/**@short Set Ecliptic Longitude according to argument.
+/**@short Set Ecliptic Geocentric Longitude according to argument.
 	*@param elong Ecliptic Longitude
 	*/
 	void setEcLong( dms elong ) { ep.longitude = elong; }
 
-/**@short Set Ecliptic Longitude according to argument.
+/**@short Set Ecliptic Geocentric Longitude according to argument.
 	*Differs from above function only in argument type.
 	*@param elong Ecliptic Longitude
 	*/
 	void setEcLong( double elong ) { ep.longitude.setD( elong ); }
 
-/**@short Set Ecliptic Latitude according to argument.
+/**@short Set Ecliptic Geocentric Latitude according to argument.
 	*@param elat Ecliptic Latitude
 	*/
 	void setEcLat( dms elat ) { ep.latitude = elat; }
 
-/**@short Set Ecliptic Latitude according to argument.
+/**@short Set Ecliptic Geocentric Latitude according to argument.
 	*Differs from above function only in argument type.
 	*@param elat Ecliptic Latitude
 	*/
 	void setEcLat( double elat ) { ep.latitude.setD( elat ); }
+	
+	/**@return pointer to Ecliptic Heliocentric Longitude coordinate
+	*/
+	const dms* helEcLong( void ) const { return &helEcPos.longitude; };
+
+/**
+	*@return pointer to Ecliptic Heliocentric Latitude coordinate
+	*/
+	const dms* helEcLat( void ) const { return &helEcPos.latitude; };
+
+/**@short Set Ecliptic Heliocentric Longitude according to argument.
+	*@param elong Ecliptic Longitude
+	*/
+	void setHelEcLong( dms elong ) { helEcPos.longitude = elong; }
+
+/**@short Set Ecliptic Heliocentric Longitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elong Ecliptic Longitude
+	*/
+	void setHelEcLong( double elong ) { helEcPos.longitude.setD( elong ); }
+
+/**@short Set Ecliptic Heliocentric Latitude according to argument.
+	*@param elat Ecliptic Latitude
+	*/
+	void setHelEcLat( dms elat ) { helEcPos.latitude = elat; }
+
+/**@short Set Ecliptic Heliocentric Latitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elat Ecliptic Latitude
+	*/
+	void setHelEcLat( double elat ) { helEcPos.latitude.setD( elat ); }
 
 /**@short Load the planet's orbital data from disk.
 	*@return true if data successfully loaded
@@ -258,7 +289,12 @@ protected:
 	*/
 	void findPA( const KSNumbers *num );
 
+	// Geocentric ecliptic position, but distance to the Sun
 	EclipticPosition ep;
+
+	// Heliocentric ecliptic position referred to the equinox of the epoch 
+	// as obtained from VSOP.
+	EclipticPosition helEcPos;
 	QPtrList<SkyPoint> Trail;
 	double  Rearth;
 
