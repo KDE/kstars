@@ -25,6 +25,7 @@
  
  class ConBriForm;
  class FITSViewer;
+
   
 class ContrastBrightnessDlg : public KDialogBase {
 	Q_OBJECT

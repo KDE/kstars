@@ -1,0 +1,180 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>statForm</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>statForm</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>261</width>
+            <height>241</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Statistics</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="6" column="0">
+            <property name="name">
+                <cstring>stdDevLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Std. dev:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="2" column="1">
+            <property name="name">
+                <cstring>bitpixOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>maxLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Max:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="5" column="1">
+            <property name="name">
+                <cstring>meanOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="2">
+            <property name="name">
+                <cstring>atMinLabel</cstring>
+            </property>
+            <property name="text">
+                <string>@</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>bitPixLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Bitpix:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="4" column="1">
+            <property name="name">
+                <cstring>minOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>heightLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Height:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="0" column="1">
+            <property name="name">
+                <cstring>widthOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0">
+            <property name="name">
+                <cstring>meanLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Mean:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="1" column="1">
+            <property name="name">
+                <cstring>heightOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="2">
+            <property name="name">
+                <cstring>atMaxLabel</cstring>
+            </property>
+            <property name="text">
+                <string>@</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>widthLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Width:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="3" column="3">
+            <property name="name">
+                <cstring>atMaxOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="3" column="1">
+            <property name="name">
+                <cstring>maxOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="4" column="3">
+            <property name="name">
+                <cstring>atMinOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>minLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Min:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="6" column="1">
+            <property name="name">
+                <cstring>stddevOUT</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<tabstops>
+    <tabstop>widthOUT</tabstop>
+    <tabstop>heightOUT</tabstop>
+    <tabstop>bitpixOUT</tabstop>
+    <tabstop>maxOUT</tabstop>
+    <tabstop>atMaxOUT</tabstop>
+    <tabstop>minOUT</tabstop>
+    <tabstop>atMinOUT</tabstop>
+    <tabstop>meanOUT</tabstop>
+    <tabstop>stddevOUT</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

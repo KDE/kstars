@@ -40,7 +40,7 @@
     
     private:
     int histArray[BARS]; 
-    int binSize;
+    double binSize;
 
     FITSViewer * viewer;
     QPixmap *histogram;
@@ -60,7 +60,7 @@
  class histCommand : public KCommand
 {
   public:
-        histCommand(QWidget * parent, int newType, QImage *newIMG, QImage *oldIMG, unsigned int * old_buffer);
+        histCommand(QWidget * parent, int newType, QImage *newIMG, QImage *oldIMG);
 	~histCommand();
             
         void execute();
@@ -69,7 +69,6 @@
 
     protected:
         int type;
-	unsigned int *oldBuffer;
         FITSViewer *viewer;
         QImage *newImage;
 	QImage *oldImage;
@@ -78,4 +77,5 @@
  
  #endif
  
- 
+
+  

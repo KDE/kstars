@@ -1,7 +1,7 @@
 /***************************************************************************
-                          imagereductiondlg.h  -  Image reduction utility
-                          -------------------
-    begin                : Tue Feb 24 2004
+                          fitsfilter.h  -   FITS Filters
+                          ----------------
+    begin                : Wed Mar 10th 2004
     copyright            : (C) 2004 by Jasem Mutlaq
     email                : mutlaqja@ikarustech.com
  ***************************************************************************/
@@ -13,31 +13,45 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *  									   *
  ***************************************************************************/
-
- #ifndef IMAGEREDUCTIONDLG_H
- #define IMAGEREDUCTIONDLG_H
-
- #include "imagereductionui.h"
-
- class ImageReductionDlg : public imageReductionUI
+ 
+ #ifndef FITSFILTER_H
+ #define FITSFILTER_H
+ 
+ #include <qstringlist.h>
+ #include <kdialogbase.h>
+ 
+ class FITSViewer;
+ class FilterUI;
+ 
+ class FITSFilter : public KDialogBase
  {
-   Q_OBJECT
-
-    public:
-     ImageReductionDlg(QWidget * parent, const char * name = 0);
-     ~ImageReductionDlg();
-
-
+    Q_OBJECT
+    
+      public:
+        FITSFilter(QWidget * parent = 0, const char * name =0);
+	~FITSFilter();
+	
+      private:
+         FITSViewer *viewer;
+	 FilterUI   *filterWidget;
+	 
+	 QStringList  filterBrowser;
+	 QStringList  filterBuffer;
+	 
      public slots:
-     void addDarkFile();
-     void addFlatFile();
-     void removeDarkFile();
-     void removeFlatFile();
-     void detailsDarkFile();
-     void detailsFlatFile();
-
+     void slotAddFilter();
+     void slotMoveFilterUp();
+     void slotMoveFilterDown();
+     void slotCopyFilter();
+     void slotRemoveFilter();
+	 
 };
+
+
+
+
 
 #endif
 

@@ -65,8 +65,8 @@
 void FITSHistogram::updateBoxes()
 {
 
-   minOUT->setText(QString("%1").arg(minSlider->value() * binSize));
-   maxOUT->setText(QString("%1").arg(maxSlider->value() * binSize));
+   minOUT->setText(QString("%1").arg( (int) (minSlider->value() * binSize)));
+   maxOUT->setText(QString("%1").arg( (int) (maxSlider->value() * binSize)));
 
    update();
 
@@ -87,8 +87,10 @@ void FITSHistogram::applyScale()
     max  = swap;
   }
   
-  min *= binSize;
-  max *= binSize;
+  min  = min * binSize + viewer->stats.min;
+  max  = max * binSize + viewer->stats.min;
+  
+  kdDebug() << "min " << min << " -- max " << max << endl;
   
   // Auto
   if (autoR->isOn())
@@ -127,23 +129,23 @@ void FITSHistogram::constructHistogram(unsigned int * buffer)
   int maxHeight = 0;
   int height    = histFrame->height(); 
   int id;
-  binSize = (int) ( ((double) viewer->stats.max - viewer->stats.min) / ( (double) BARS));
+  binSize = ( ((double) viewer->stats.max - viewer->stats.min) / ( (double) BARS));
   
   for (int i=0; i < BARS; i++)
     histArray[i] = 0;
     
   for (int i=0; i < viewer->stats.width * viewer->stats.height; i++)
   {
-     id = (buffer[i] - viewer->stats.min) / binSize;
+     id = (int) ((buffer[i] - viewer->stats.min) / binSize);
      if (id >= BARS) id = BARS - 1;
      histArray[id]++;
   }
  
  maxHeight = findMax() / height;
  histogram = new QPixmap(500, 150, 1);
- histogram->fill(Qt::white);
+ histogram->fill(Qt::black);
  QPainter p(histogram);
- QPen pen( black, 1);
+ QPen pen( white, 1);
  p.setPen(pen);
  for (int i=0; i < BARS; i++)
      p.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
@@ -196,7 +198,7 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
    return;
   
   //kdDebug() << "X= " << x << " -- Y= " << y << endl;
-  intensityOUT->setText(QString("%1").arg(x * binSize));
+  intensityOUT->setText(QString("%1").arg( (int) (x * binSize)));
   frequencyOUT->setText(QString("%1").arg(histArray[x]));
 
 }
@@ -212,7 +214,7 @@ int FITSHistogram::findMax()
   return max;
 }
 
-histCommand::histCommand(QWidget * parent, int newType, QImage* newIMG, QImage *oldIMG, unsigned int * old_buffer)
+histCommand::histCommand(QWidget * parent, int newType, QImage* newIMG, QImage *oldIMG)
 {
   viewer    = (FITSViewer *) parent;
   type      = newType;
@@ -220,7 +222,6 @@ histCommand::histCommand(QWidget * parent, int newType, QImage* newIMG, QImage *
   oldImage  = new QImage();
   *newImage = newIMG->copy();
   *oldImage = oldIMG->copy();
-  oldBuffer = old_buffer;
 }
 
 histCommand::~histCommand() {}
@@ -233,7 +234,6 @@ void histCommand::execute()
 
 void histCommand::unexecute()
 {
-  viewer->imgBuffer           = oldBuffer;
   viewer->image->displayImage = oldImage;
   viewer->image->zoomToCurrent();
 }

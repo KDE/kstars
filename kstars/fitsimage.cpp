@@ -36,6 +36,8 @@
 #include <qfile.h>
 #include <qvbox.h>
 #include <qcursor.h>
+#include <qpixmap.h>
+#include <qframe.h>
 
 #include <math.h>
 #include <unistd.h>
@@ -68,7 +70,7 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, 
   reducedImgBuffer = NULL;
   displayImage     = NULL;
   
-  imgFrame = new QFrame(viewport());
+  imgFrame = new FITSFrame(this, viewport());
   addChild(imgFrame);
   
   currentZoom = 0.0;
@@ -86,14 +88,15 @@ FITSImage::~FITSImage()
 void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
 {
   //kdDebug() << "in draw contents " << endl;
-  bitBlt(imgFrame, 0, 0, &qpix);
+  //imgFrame->update();
+  
 }
 
 /**Bitblt the image onto the viewer widget */
 void FITSImage::paintEvent (QPaintEvent *ev)
 {
-// kdDebug() << "in paint event " << endl;
- bitBlt(imgFrame, 0, 0, &qpix);
+ //kdDebug() << "in paint event " << endl;
+ //bitBlt(imgFrame, 0, 0, &qpix);
 }
 
 /* Resize event */
@@ -200,19 +203,20 @@ void FITSImage::destroyTemplateImage()
   delete (templateImage);
 }
 
+void FITSImage::updateReducedBuffer()
+{
+
+  for (int i=0; i < height; i++)
+      for (int j=0; j < width; j++)
+        reducedImgBuffer[i * width + j] = qRed(displayImage->pixel(j, i));
+
+}
 
 void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
 {
   
-  int val;
+  int val, bufferVal;
   double coeff;
- 
-  // Very inefficient, find a better way, like a tree or some sort.
-  for (int i=0; i < width * height ; i++)
-  {
-    if (viewer->imgBuffer[i] < min) viewer->imgBuffer[i] = min;
-    else if (viewer->imgBuffer[i] > max) viewer->imgBuffer[i] = max; 
-  }
  
   switch (type)
   {
@@ -221,9 +225,13 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
     for (int i=0; i < width; i++)
       for (int j=0; j < height; j++)
       {
-	      val = (int) (255. * ((double) (viewer->imgBuffer[i * 530 + j] - min) / (double) (max - min)));
-      	      displayImage->setPixel(j, 530 - i - 1, qRgb(val, val, val));
+              bufferVal = viewer->imgBuffer[i * width + j];
+	      if (bufferVal < min) bufferVal = min;
+	      else if (bufferVal > max) bufferVal = max;
+	      val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
+      	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
       }
+      updateReducedBuffer();
      break;
      
     case FITSLog:
@@ -232,9 +240,13 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-	      val = (int) (coeff * log(1 + viewer->imgBuffer[i * width + j]));
+              bufferVal = viewer->imgBuffer[i * width + j];
+	      if (bufferVal < min) bufferVal = min;
+	      else if (bufferVal > max) bufferVal = max;
+	      val = (int) (coeff * log(1 + bufferVal));
       	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
       }
+      updateReducedBuffer();
       break;
       
     case FITSExp:
@@ -243,9 +255,13 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-	      val = (int) (coeff * exp(viewer->imgBuffer[i * width + j]));
+              bufferVal = viewer->imgBuffer[i * width + j];
+	      if (bufferVal < min) bufferVal = min;
+	      else if (bufferVal > max) bufferVal = max;
+	      val = (int) (coeff * exp(bufferVal));
       	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
       }
+      updateReducedBuffer();
       break;
     
     case FITSSqrt:
@@ -254,9 +270,13 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-	      val = (int) (coeff * sqrt(viewer->imgBuffer[i * width + j]));
+              bufferVal = viewer->imgBuffer[i * width + j];
+	      if (bufferVal < min) bufferVal = min;
+	      else if (bufferVal > max) bufferVal = max;
+	      val = (int) (coeff * sqrt(bufferVal));
       	      displayImage->setPixel(j, height - i - 1, qRgb(val, val, val));
       }
+      updateReducedBuffer();
       break;
     
      
@@ -264,8 +284,9 @@ void FITSImage::rescale(FITSImage::scaleType type, int min, int max)
      break;
   }
   
-  convertImageToPixmap();
-  update();
+  //convertImageToPixmap();
+  //update();
+  zoomToCurrent();
 }
 
 
@@ -273,7 +294,7 @@ int FITSImage::loadFits (const char *filename)
 {
  FILE *fp;
  FITS_FILE *ifp;
- FITS_HDU_LIST *hdulist;
+ //FITS_HDU_LIST *hdulist;
  FITS_PIX_TRANSFORM trans;
  register unsigned char *dest; 
  unsigned char *data;
@@ -412,12 +433,12 @@ void FITSImage::zoomToCurrent()
  	qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
         //imgFrame->resize( (int) width, (int) height);
         viewportResizeEvent (NULL);
-	update();
+	imgFrame->update();
  }
  else
  {
    qpix = kpix.convertToPixmap ( *displayImage );
-   update();
+   imgFrame->update();
   }
  
 }
@@ -474,6 +495,20 @@ void FITSImage::fitsZoomDefault()
   
   update();
   viewportResizeEvent (NULL);
+
+}
+
+FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name)
+{
+  image = img;
+}
+
+FITSFrame::~FITSFrame() {}
+
+void FITSFrame::paintEvent(QPaintEvent * e)
+{
+
+ bitBlt(this, 0, 0, &(image->qpix));
 
 }
 

@@ -1,0 +1,188 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>fitsHeaderDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>fitsHeaderDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>511</width>
+            <height>247</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>FITS Header</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KListView" row="0" column="0" rowspan="1" colspan="5">
+            <column>
+                <property name="text">
+                    <string>Card</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Value</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Comment</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>headerView</cstring>
+            </property>
+            <property name="resizeMode">
+                <enum>NoColumn</enum>
+            </property>
+            <property name="fullWidth">
+                <bool>true</bool>
+            </property>
+            <property name="itemsRenameable">
+                <bool>false</bool>
+            </property>
+            <property name="dropVisualizerWidth">
+                <number>4</number>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="1" column="0">
+            <property name="name">
+                <cstring>addB</cstring>
+            </property>
+            <property name="text">
+                <string>Add...</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <spacer row="2" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>Horizontal Spacing2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>300</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="2" column="4">
+            <property name="name">
+                <cstring>closeB</cstring>
+            </property>
+            <property name="text">
+                <string>Close</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <spacer row="1" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Horizontal Spacing2_2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>140</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="1" column="1">
+            <property name="name">
+                <cstring>removeB_2</cstring>
+            </property>
+            <property name="text">
+                <string>Edit...</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="1" column="2">
+            <property name="name">
+                <cstring>removeB</cstring>
+            </property>
+            <property name="text">
+                <string>Remove</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>closeB</sender>
+        <signal>clicked()</signal>
+        <receiver>fitsHeaderDialog</receiver>
+        <slot>close()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

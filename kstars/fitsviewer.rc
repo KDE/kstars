@@ -34,6 +34,8 @@
 	<Action name="image_reduce" />
 	<Action name="image_brightness_contrast" />
 	<Action name="image_filters" />
-	<Action name="image_histogram">
+	<Action name="image_histogram" />
+	<Action name="image_stats" />
+	<Action name="fits_editor" />
 </ToolBar>
 </kpartgui>

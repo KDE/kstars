@@ -70,8 +70,10 @@ class FITSViewer : public KMainWindow  {
 	void fitsCOPY();
 	void fitsUndo();
 	void fitsRedo();
+	void fitsStatistics();
+	void fitsHeader();
+	void fitsFilter();
 	void imageReduction();
-	void imageFilters();	
 	void imageHistogram();
 	void BrightContrastDlg();
 	
@@ -81,8 +83,8 @@ class FITSViewer : public KMainWindow  {
 	void show_fits_errors();
 
 	double average();
-	double min();
-	double max();
+	double min(int & minIndex);
+	double max(int & maxIndex);
 	double stddev();
 
 	FITSImage *image;					/* FITS image object */
@@ -94,6 +96,7 @@ class FITSViewer : public KMainWindow  {
 	/* stats struct to hold statisical data about the FITS data */
 	struct {
 		double min, max;
+		int minAt, maxAt;
 		double average;
 		double stddev;
 		int bitpix, width, height;

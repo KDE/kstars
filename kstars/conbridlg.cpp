@@ -21,6 +21,7 @@
  #include <kdebug.h>
  
  #include <qslider.h>
+ #include <qdatetime.h>
  #include <knuminput.h>
  
  #include <stdlib.h>
@@ -29,6 +30,8 @@
  #include "conbridlg.h"
  #include "fitsviewer.h"
  #include "fitsimage.h"
+ 
+ #define REFRESH 500
  
 //TODO find a better and faster way to implement this, this operation can be memory and CPU intensive.
 
@@ -97,18 +100,16 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
   }
   
   contrast = contrastValue;
+  
   viewer->image->zoomToCurrent();
-  //viewer->image->convertImageToPixmap();
-  //viewer->image->update();
-  //viewer->paintEvent(NULL);
-				  
+			  
 }
 
 void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 {
   int val = 0;
   if (!viewer) return;
-  
+    
   // #1 Apply Contrast
   for (int i=0; i < height; i++)
            for (int j=0; j < width; j++)
@@ -137,10 +138,9 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
   }
   
   brightness = brightnessValue;
+  
   viewer->image->zoomToCurrent();
-  //viewer->image->update();
-  //viewer->paintEvent(NULL);
-
+ 
 }
 
 QSize ContrastBrightnessDlg::sizeHint() const

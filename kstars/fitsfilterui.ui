@@ -1,0 +1,315 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>FilterUI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>FilterUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>372</width>
+            <height>485</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Filters</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QSplitter">
+            <property name="name">
+                <cstring>splitter1</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>currentGroup</cstring>
+                </property>
+                <property name="frameShape">
+                    <enum>GroupBoxPanel</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Sunken</enum>
+                </property>
+                <property name="title">
+                    <string>Current Filters</string>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout6</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KListBox">
+                                <property name="name">
+                                    <cstring>currentListBox</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>7</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>1</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="currentItem">
+                                    <number>-1</number>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string></string>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout5</cstring>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="KPushButton">
+                                        <property name="name">
+                                            <cstring>AddButton</cstring>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>Add Filter</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string></string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KPushButton">
+                                        <property name="name">
+                                            <cstring>RemoveButton</cstring>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>Remove Filter</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string></string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KPushButton">
+                                        <property name="name">
+                                            <cstring>CopyButton</cstring>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>Copy Filter</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string></string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KPushButton">
+                                        <property name="name">
+                                            <cstring>UpButton</cstring>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>Move Up</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string></string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KPushButton">
+                                        <property name="name">
+                                            <cstring>DownButton</cstring>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>32</width>
+                                                <height>32</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>Move Down</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string></string>
+                                        </property>
+                                    </widget>
+                                    <spacer>
+                                        <property name="name">
+                                            <cstring>spacer1_2</cstring>
+                                        </property>
+                                        <property name="orientation">
+                                            <enum>Vertical</enum>
+                                        </property>
+                                        <property name="sizeType">
+                                            <enum>Expanding</enum>
+                                        </property>
+                                        <property name="sizeHint">
+                                            <size>
+                                                <width>20</width>
+                                                <height>118</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </vbox>
+                            </widget>
+                        </hbox>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>browserGroup</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>5</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="frameShape">
+                    <enum>GroupBoxPanel</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Sunken</enum>
+                </property>
+                <property name="title">
+                    <string>Filter Browser</string>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QSplitter">
+                        <property name="name">
+                            <cstring>splitter3</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <widget class="KListBox">
+                            <property name="name">
+                                <cstring>browserListBox</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>7</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>2</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="currentItem">
+                                <number>-1</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string></string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string></string>
+                            </property>
+                        </widget>
+                    </widget>
+                </vbox>
+            </widget>
+        </widget>
+    </vbox>
+</widget>
+<slots>
+    <slot>slotAddFunction()</slot>
+    <slot>slotMoveFunctionUp()</slot>
+    <slot>slotMoveFunctionDown()</slot>
+    <slot>slotShowDoc()</slot>
+    <slot>slotArgWidget()</slot>
+    <slot>slotNew()</slot>
+    <slot>slotOpen()</slot>
+    <slot>slotSave()</slot>
+    <slot>slotSaveAs()</slot>
+    <slot>slotCopyFunction()</slot>
+    <slot>slotRemoveFunction()</slot>
+    <slot>slotRunScript()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="4"/>
+</UI>

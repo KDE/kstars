@@ -33,6 +33,8 @@
 #include <kprogress.h>
 #include <kstatusbar.h>
 #include <kcommand.h>
+#include <klineedit.h>
+#include <klistview.h>
 
 #include <qfile.h>
 #include <qvbox.h>
@@ -51,7 +53,10 @@
 #include "fitsprocess.h"
 #include "fitshistogram.h"
 #include "conbridlg.h"
+#include "statform.h"
 #include "imagereductiondlg.h"
+#include "fitsheaderdialog.h"
+#include "fitsfilter.h"
 #include "ksutils.h"
 
 #define FITS_GETBITPIX16(p,val) val = ((p[1] << 8) | (p[0]))
@@ -80,7 +85,7 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
 
     new KAction( i18n("Image Reduction"), "blend", KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
     new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
-    new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( imageFilters()), actionCollection(), "image_filters");
+    new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( fitsFilter()), actionCollection(), "image_filters");
     new KAction ( i18n("Histogram"), "wizard", KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
        
     KStdAction::save(this, SLOT(fileSave()), actionCollection());
@@ -91,6 +96,8 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     KStdAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+D" ),
 		image, SLOT(fitsZoomDefault()), actionCollection(), "zoom_default" );
+    new KAction( i18n( "Statistics"), "math_matrix.png", 0, this, SLOT(fitsStatistics()), actionCollection(), "image_stats");
+    new KAction( i18n( "FITS Header"), "frame_spreadsheet.png", 0, this, SLOT(fitsHeader()), actionCollection(), "fits_editor");
     
    /* Create GUI */  
    createGUI("fitsviewer.rc");
@@ -111,61 +118,6 @@ FITSViewer::~FITSViewer()
 {
    free(imgBuffer);
 }
-
-/*
-int FITSViewer::loadImage(unsigned int * buffer, bool displayImage)
-{
- int image_ID;
- char filename[currentURL.path().length()];
- FILE *fp;
- FITS_FILE *ifp;
- FITS_HDU_LIST *hdu;
-
- strcpy(filename, currentURL.path().ascii());
- 
- fp = fopen (filename, "rb");
- if (!fp)
- {
-   KMessageBox::error(0, i18n("Can't open file for reading"));
-   return (-1);
- }
- fclose (fp);
-
- ifp = fits_open (filename, "r");
- if (ifp == NULL)
- {
-   KMessageBox::error(0, i18n("Error during open of FITS file"));
-   return (-1);
- }
- if (ifp->n_pic <= 0)
- {
-   KMessageBox::error(0, i18n("FITS file keeps no displayable images"));
-   fits_close (ifp);
-   return (-1);
- }
-
- image_ID = loadData (ifp, buffer);
- if (image_ID == -1)
- {
-  show_fits_errors ();
-  fits_close (ifp);
-  return -1;
- }
-   
- if (displayImage)
- image_ID = image->loadFits (ifp);
- if (image_ID == -1)
- {
-  show_fits_errors ();
-  fits_close (ifp);
-  return -1;
- }
-  
- fits_close (ifp);
- return (0);
-
-}
-*/
 
 void FITSViewer::show_fits_errors()
 {
@@ -262,8 +214,8 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
 void FITSViewer::calculateStats()
 {
   kdDebug() << "Calculating statistics..." << endl;
-  stats.min 	= min();
-  stats.max 	= max();
+  stats.min 	= min(stats.minAt);
+  stats.max 	= max(stats.maxAt);
   stats.average = average();
   stats.stddev  = stddev();
   stats.bitpix  = image->bitpix;
@@ -272,10 +224,11 @@ void FITSViewer::calculateStats()
   
   kdDebug() << "Min: " << stats.min << " - Max: " << stats.max << endl;
   kdDebug() << "Average: " << stats.average << " - stddev: " << stats.stddev << endl;
+  kdDebug() << "Width: " << stats.width << " - Height " << stats.height << " - bitpix " << stats.bitpix << endl;
 
 }
 
-double FITSViewer::min()
+double FITSViewer::min(int & minIndex)
 {
   if (!imgBuffer) return -1;
   int width   = image->currentRect.width();
@@ -287,14 +240,18 @@ double FITSViewer::min()
     for (int j= image->currentRect.x(); j < width; j++)
     {
        index = (i * width) + j;
-       if (imgBuffer[index] < lmin) lmin = imgBuffer[index];
+       if (imgBuffer[index] < lmin)
+       {
+         minIndex = index;
+         lmin = imgBuffer[index];
+       }
        
     }
     
     return lmin;
 }
 
-double FITSViewer::max()
+double FITSViewer::max(int & maxIndex)
 {
   if (!imgBuffer) return -1;
   int width   = image->currentRect.width();
@@ -306,7 +263,11 @@ double FITSViewer::max()
     for (int j= image->currentRect.x(); j < width; j++)
     {
        index = (i * width) + j;
-       if ( imgBuffer[index] > lmax) lmax = imgBuffer[index];
+       if ( imgBuffer[index] > lmax)
+       {
+        maxIndex = index;
+        lmax = imgBuffer[index];
+       }
     }
     
     return lmax;
@@ -352,7 +313,6 @@ double FITSViewer::stddev()
 void FITSViewer::keyPressEvent (QKeyEvent *ev)
 {
         //QImage Tempimage = imageList.at(undo+1)->copy();
-	int val;
 	
 	ev->accept();  //make sure key press events are captured.
 	switch (ev->key())
@@ -419,7 +379,7 @@ void FITSViewer::imageReduction()
     
     FITSProcess reduc(this, darkFiles, flatFiles, darkCombineMode, flatCombineMode);
     calculateStats();
-    image->rescale(FITSImage::FITSLinear, stats.min, stats.max);
+    image->rescale(FITSImage::FITSLinear, (int) stats.min, (int) stats.max);
        
   }
   
@@ -454,18 +414,9 @@ void FITSViewer::BrightContrastDlg()
     
 }
 
-void FITSViewer::imageFilters()
-{
-
-
-}
-
 void FITSViewer::imageHistogram()
 {
 
-  unsigned int *backupBuffer = (unsigned int *) malloc(stats.width * stats.height * sizeof(unsigned int));
-  memcpy(backupBuffer, imgBuffer, stats.width * stats.height);
-  
   histCommand *histC;
   image->saveTemplateImage();
   FITSHistogram hist(this);
@@ -478,8 +429,8 @@ void FITSViewer::imageHistogram()
   else
   {
     //image->update();
-    //histC = new histCommand(this, hist.type, image->displayImage, image->templateImage, backupBuffer);
-    //history->addCommand(histC, false);
+    histC = new histCommand(this, hist.type, image->displayImage, image->templateImage);
+    history->addCommand(histC, false);
 
   }
   
@@ -511,6 +462,87 @@ void FITSViewer::fitsRedo()
 
 }
 
+void FITSViewer::fitsStatistics()
+{
+  statForm stat(this);// = new statForm(this, 0, Qt::WDestructiveClose);
+  
+  stat.widthOUT->setText(QString("%1").arg(stats.width));
+  stat.heightOUT->setText(QString("%1").arg(stats.height));
+  stat.bitpixOUT->setText(QString("%1").arg(stats.bitpix));
+  stat.maxOUT->setText(QString("%1").arg(stats.max));
+  stat.minOUT->setText(QString("%1").arg(stats.min));
+  stat.atMaxOUT->setText(QString("%1").arg(stats.maxAt));
+  stat.atMinOUT->setText(QString("%1").arg(stats.minAt));
+  stat.meanOUT->setText(QString("%1").arg(stats.average));
+  stat.stddevOUT->setText(QString("%1").arg(stats.stddev));
+  
+  stat.exec();
 
+}
+
+void FITSViewer::fitsHeader()
+{
+   QStringList cards;
+   QString record;
+   QString property;
+   int equal, slash;
+
+   fitsHeaderDialog header(this);
+   header.headerView->setSorting(-1);
+   
+   record = QString((char *) image->hdulist->header_record_list->data);
+   
+   for (int i=0; i < FITS_RECORD_SIZE / FITS_CARD_SIZE; i++)
+   {
+     property = record.left(FITS_CARD_SIZE);
+     
+     equal = property.find('=');
+     cards << property.left(equal);
+     slash = property.find("'");
+     if (slash != -1)
+       slash = property.find("'", slash + 1) + 1;
+     else
+       slash = property.find('/') - 1;
+       
+     cards << property.mid(equal + 2, slash - (equal + 2));
+     cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1));
+     
+     record.remove(0, FITS_CARD_SIZE);
+   }
+   
+   //kdDebug() << "Testing " << cards[0] << " -- " << cards[1] << " -- " << cards[2] << endl;
+   //kdDebug() << "Testing " << cards[3] << " -- " << cards[4] << " -- " << cards[5] << endl;
+   
+   for (int i= cards.count() - 3; i >=0 ; i-=3)
+       new QListViewItem( header.headerView, cards[i], cards[i+1], cards[i+2]);
+   
+      
+  /* if (image->hdulist->used.datamax)
+    new QListViewItem( header.headerView, "DATAMAX", QString("%1").arg(image->hdulist->datamax));
+   if (image->hdulist->used.datamin)
+    new QListViewItem( header.headerView, "DATAMIN", QString("%1").arg(image->hdulist->datamin));
+   if (image->hdulist->used.bzero)
+    new QListViewItem( header.headerView, "BZERO", QString("%1").arg(image->hdulist->bzero));
+      if (image->hdulist->used.bscale)
+    new QListViewItem( header.headerView, "BSCALE", QString("%1").arg(image->hdulist->bscale));
+    
+   new QListViewItem( header.headerView, "NAXIS2", QString("%1").arg(image->hdulist->naxisn[1]));
+   new QListViewItem( header.headerView, "NAXIS1", QString("%1").arg(image->hdulist->naxisn[0]));
+   new QListViewItem( header.headerView, "NAXIS", QString("%1").arg(image->hdulist->naxis)); 
+   new QListViewItem( header.headerView, "BITPIX", QString("%1").arg(image->hdulist->bitpix));
+   new QListViewItem( header.headerView, "SIMPLE", image->hdulist->used.simple ? "T" : "F");*/
+   
+   header.exec();
+
+}
+
+
+void FITSViewer::fitsFilter()
+{
+
+  FITSFilter filter(this);
+  filter.exec();
+
+}
 
 #include "fitsviewer.moc"

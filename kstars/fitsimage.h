@@ -40,6 +40,7 @@
 class KCommandHistory;
 class QScrollView;
 class FITSViewer;
+class FITSFrame;
 
 class FITSImage : public QScrollView  {
 	Q_OBJECT
@@ -51,6 +52,7 @@ class FITSImage : public QScrollView  {
 	friend class FITSViewer;
 	friend class FITSHistogram;
 	friend class histCommand;
+	friend class FITSFrame;
 	
 	FITSImage(QWidget * parent, const char * name = 0);
 	~FITSImage();
@@ -68,7 +70,7 @@ class FITSImage : public QScrollView  {
 	
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
-	QFrame  *imgFrame;					/* Frame holding the image */
+	FITSFrame  *imgFrame;					/* Frame holding the image */
 	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
 	QImage  *templateImage;					/* backup image for currentImage */
 	QPixmap qpix; 						/* Pixmap for drawing */
@@ -80,12 +82,14 @@ class FITSImage : public QScrollView  {
 	const double zoomFactor;				/* Image zoom factor */
 	double currentZoom;					/* Current Zoom level */
 	unsigned char *reducedImgBuffer;			/* scaled image buffer (0-255) range */
+	FITS_HDU_LIST *hdulist;
 	
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
 	void rescale(scaleType type, int min, int max);		/* rescale image from main image buffer */
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
+	void updateReducedBuffer();				/* Updates the reduced buffer */
 	
 	protected:
 	void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );
@@ -96,6 +100,22 @@ class FITSImage : public QScrollView  {
 	void fitsZoomIn();
 	void fitsZoomOut();
 	void fitsZoomDefault();
+};
+
+class FITSFrame : public QFrame
+{
+  Q_OBJECT
+  
+    public:
+      FITSFrame(FITSImage * img, QWidget * parent = 0, const char * name = 0);
+      ~FITSFrame();
+    
+    private:
+      FITSImage *image;
+      
+    protected:
+      void paintEvent( QPaintEvent * e);
+      
 };
 
 #endif
