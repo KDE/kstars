@@ -35,7 +35,7 @@
 #include <unistd.h>
 
 #ifdef __linux__
-  #if !defined(arm) && !defined(__hppa__)
+  #if !defined(arm) && !defined(__hppa__) && !defined(__sparc__) && !defined(__ppc__) && !defined(__powerpc__)
   #include <sys/io.h>
   #endif /* !arm */
 #elif defined(QNX)
@@ -55,7 +55,7 @@
 #error Please define a platform in the Makefile
 #endif
 
-#if defined(arm) || defined(__hppa__)
+#if defined(arm) || defined(__hppa__) || defined(__sparc__) || defined(__ppc__) || defined(__powerpc__)
 static char ports_temp;
 
 #ifdef inb
@@ -114,7 +114,7 @@ private:
 #ifdef FREEBSD
   FILE *devio;
 #endif
-#if defined(__linux__) && (defined(arm) || defined(__hppa__))
+#if defined(__linux__) && (defined(arm) || defined(__hppa__) || defined(__sparc__) || defined(__ppc__) || defined(__powerpc__))
   int devport;
 #endif
 };
