@@ -18,22 +18,19 @@
 #ifndef ADDLINKDIALOG_H
 #define ADDLINKDIALOG_H
 
-#include <qradiobutton.h>
 #include <kdialogbase.h>
 #include <klineedit.h>
+#include <qradiobutton.h>
 
+#include "addlinkdialogui.h"
+
+class QLayout;
 class QString;
-class QHBoxLayout;
-class QVBoxLayout;
-class QGridLayout;
-class QPushButton;
-class QButtonGroup;
-
 class SkyMap;
 
 /**@class Simple dialog for adding a custom URL to a popup menu.
   *@author Jason Harris
-	*@version 1.0
+  *@version 1.0
   */
 
 class AddLinkDialog : public KDialogBase  {
@@ -46,13 +43,23 @@ public:
 	~AddLinkDialog() {}
 
 /**@return QString of the entered URL */
-	QString url() const { return URLEntry->text(); }
+	QString url() const { return ald->URLBox->text(); }
 
+/**@short Set the URL text
+	*@param s the new URL text
+	*/
+	void setURL( const QString &s ) { ald->URLBox->setText( s ); }
+	
 /**@return QString of the entered menu entry text */
-	QString title() const { return TitleEntry->text(); }
+	QString desc() const { return ald->DescBox->text(); }
 
+/**@short Set the Description text
+	*@param s the new description text
+	*/
+	void setDesc( const QString &s ) { ald->DescBox->setText( s ); }
+	
 /**@return TRUE if user declared the link is an image */
-	bool isImageLink() const { return ImageRadio->isChecked(); }
+	bool isImageLink() const { return ald->ImageRadio->isChecked(); }
 
 private slots:
 /**Open the entered URL in the web browser 
@@ -64,17 +71,11 @@ private slots:
 		*that if the user has changed the menu text, this function does nothing.
 		*@param id 0=show image string; 1=show webpage string.
 		*/
-	void changeDefaultTitle( int id );
+	void changeDefaultDescription( int id );
 
 private:
 	QVBoxLayout *vlay;
-	QGridLayout *glay;
-	QHBoxLayout *hlayBrowse;
-	KLineEdit *URLEntry, *TitleEntry;
-	QPushButton *BrowserButton;
-	QButtonGroup *TypeGroup;
-	QRadioButton *ImageRadio;
-	QRadioButton *InfoRadio;
+	AddLinkDialogUI *ald;
 };
 
 #endif

@@ -1291,7 +1291,7 @@ void SkyMap::addLink( void ) {
 		if ( adialog.isImageLink() ) {
 			//Add link to object's ImageList, and descriptive text to its ImageTitle list
 			clickedObject()->ImageList.append( adialog.url() );
-			clickedObject()->ImageTitle.append( adialog.title() );
+			clickedObject()->ImageTitle.append( adialog.desc() );
 
 			//Also, update the user's custom image links database
 			//check for user's image-links database.  If it doesn't exist, create it.
@@ -1302,15 +1302,15 @@ void SkyMap::addLink( void ) {
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
 			} else {
-				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();
+				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
 				QTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
-              emit linkAdded();
-      }
+				emit linkAdded();
+			}
 		} else {
 			clickedObject()->InfoList.append( adialog.url() );
-			clickedObject()->InfoTitle.append( adialog.title() );
+			clickedObject()->InfoTitle.append( adialog.desc() );
 
 			//check for user's image-links database.  If it doesn't exist, create it.
 			file.setName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
@@ -1319,12 +1319,12 @@ void SkyMap::addLink( void ) {
 				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {
-				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();
+				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
 				QTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
-              emit linkAdded();
-      }
+				emit linkAdded();
+			}
 		}
 	}
 }

@@ -16,9 +16,11 @@
  ***************************************************************************/
 
 #include "wutdialog.h"
+#include "wutdialogui.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "skymap.h"
 #include "ksnumbers.h"
 #include "skyobjectname.h"
 #include "objectnamelist.h"
@@ -26,7 +28,6 @@
 #include "detaildialog.h"
 #include "locationdialog.h"
 #include "timedialog.h"
-#include "wutdialogui.h"
 #include "kssun.h"
 #include "ksmoon.h"
 
@@ -96,6 +97,7 @@ WUTDialog::~WUTDialog(){
 void WUTDialog::makeConnections() {
 	connect( WUT->DateButton, SIGNAL( clicked() ), SLOT( slotChangeDate() ) );
 	connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
+	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
 	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
 	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListBoxItem*) ),
@@ -353,6 +355,19 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 	WUT->ObjectRiseLabel->setText( i18n( "Rises at: %1" ).arg( sRise ) );
 	WUT->ObjectTransitLabel->setText( i18n( "Transits at: %1" ).arg( sTransit ) );
 	WUT->ObjectSetLabel->setText( i18n( "Sets at: %1" ).arg( sSet ) );
+}
+
+void WUTDialog::slotCenter() {
+	SkyObject *o = 0;
+	// get selected item
+	if (WUT->ObjectListBox->selectedItem() != 0) {
+		o = ((SkyObjectNameListItem*)WUT->ObjectListBox->selectedItem())->objName()->skyObject();
+	}
+	if (o != 0) {
+		kstars->map()->setFocusPoint( o );
+		kstars->map()->setFocusObject( o );
+		kstars->map()->setDestination( kstars->map()->focusPoint() );
+	}
 }
 
 void WUTDialog::slotDetails() {

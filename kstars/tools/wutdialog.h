@@ -44,47 +44,74 @@ class WUTDialog : public KDialogBase  {
 
 	public:
 
+		/**@short Constructor*/
 		WUTDialog(KStars *ks);
+		/**@short Destructor*/
 		~WUTDialog();
 
 	private slots:
 
-		/** Load list for selected object type. */
-		void slotLoadList(int);
+		/**@short Load the list of visible objects for selected object type.
+			*@p type the object-type classification number
+			*@see the SkyObject TYPE enum
+			*/
+		void slotLoadList(int type);
 
-		/** initialize the object lists */
+		/**@short Determine which objects are visible, and store them in
+			*an array of lists, classified by object type 
+			*/
 		void init();
 
-		/** update the time labels for selected object */
+		/**@short display the rise/transit/set times for selected object 
+			*/
 		void slotDisplayObject(QListBoxItem *item);
 
+		/**@short Apply user's choice of what part of the night should 
+			*be examined:
+			*@li 0: Evening only (sunset to midnight)
+			*@li 1: Morning only (midnight to sunrise)
+			*@li 2: All night (sunset to sunrise)
+			*/
 		void slotEveningMorning( int index );
 
+		/**@short Adjust the date for the WUT tool
+			*@note this does NOT affect the date of the sky map 
+			*/
 		void slotChangeDate();
+		
+		/**@short Adjust the geographic location for the WUT tool
+			*@note this does NOT affect the geographic location for the sky map
+			*/
 		void slotChangeLocation();
-		/** open the detail dialog */
+		
+		/**@short open the detail dialog for the current object
+			*/
 		void slotDetails();
 
+		/**@short center the display on the current object
+			*/
+		void slotCenter();
 	private:
 
 		KStars *kstars;
 		WUTDialogUI *WUT;
 		
-		/** Init All connections, used in constructor */
+		/**@short Initialize all SIGNAL/SLOT connections, used in constructor */
 		void makeConnections();
 		
-		/** Init catgory list, used in constructor */
+		/**@short Initialize catgory list, used in constructor */
 		void initCategories();
 		
-		/** Check visibility of object
-			* @returns true if visible
+		/**@short Check visibility of object
+			*@p oname the name of the object to check
+			*@return true if visible
 			*/
 		bool checkVisibility(SkyObjectName *oname);
 
-		/** split the objects in several lists */
+		/**@short split the objects in object-type categories */
 		void splitObjectList();
 
-		/** Append object to the correct list. */
+		/**@short Append object to the correct object-type list. */
 		void appendToList(SkyObjectName *o);
 
 		ObjectNameList *objectList;

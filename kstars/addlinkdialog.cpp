@@ -17,13 +17,10 @@
 
 #include <kapplication.h>
 #include <kurl.h>
-#include <klocale.h>
 #include <kmessagebox.h>
-
-#include <qlayout.h>
-#include <qlabel.h>
+#include <kpushbutton.h>
 #include <qbuttongroup.h>
-#include <qpushbutton.h>
+#include <qlayout.h>
 
 #include "addlinkdialog.h"
 #include "skymap.h"
@@ -32,63 +29,22 @@
 AddLinkDialog::AddLinkDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {
 
-	SkyMap *map = (SkyMap *)parent;
 	QFrame *page = plainPage();
+	setMainWidget(page);
 
-//Create widgets and layout managers
-	vlay = new QVBoxLayout( page, 2, 2 );
-	//	hlayTitle = new QHBoxLayout();
-	//	hlayURL = new QHBoxLayout();
-	glay = new QGridLayout( page, 2, 2 );
-	hlayBrowse = new QHBoxLayout();
+	vlay = new QVBoxLayout( page, 0, spacingHint() );
+	ald = new AddLinkDialogUI(page);
 
-	TypeGroup = new QButtonGroup( 1, Qt::Vertical, i18n( "Resource Type" ), page );
-	ImageRadio = new QRadioButton( i18n( "Image" ), TypeGroup );
-	ImageRadio->setChecked( true );
-	InfoRadio = new QRadioButton( i18n( "Information" ), TypeGroup );
-	InfoRadio->setChecked( false );
-
-	QLabel *titleLabel = new QLabel( page, "TitleLabel" );
-	titleLabel->setAlignment( AlignRight );
-	titleLabel->setText( i18n( "Menu text:" ) );
-	TitleEntry = new KLineEdit( i18n( "Show image of " ) + map->clickedObject()->name(), page );
-
-	QLabel *URLLabel = new QLabel( page, "URLLabel" );
-	URLLabel->setAlignment( AlignRight );
-	URLLabel->setText( i18n( "URL:" ) );
-	URLEntry = new KLineEdit( "http://", page );
-	URLEntry->setMinimumWidth( 250 );
-
-	BrowserButton = new QPushButton( i18n( "Check URL" ), page );
-
-	QSpacerItem *spacer = new QSpacerItem( 10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	QSpacerItem *vspacer = new QSpacerItem( 10, 25, QSizePolicy::Minimum, QSizePolicy::Expanding );
-
-	//pack widgets into layout managers
-	//	hlayTitle->addWidget( titleLabel );
-	//	hlayTitle->addWidget( TitleEntry );
-	//	hlayURL->addWidget( URLLabel );
-	//	hlayURL->addWidget( URLEntry );
-	glay->addWidget( titleLabel, 0, 0 );
-	glay->addWidget( TitleEntry, 0, 1 );
-	glay->addWidget( URLLabel, 1, 0 );
-	glay->addWidget( URLEntry, 1, 1 );
-	hlayBrowse->addItem( spacer );
-	hlayBrowse->addWidget( BrowserButton );
-
-	vlay->addWidget( TypeGroup );
-	vlay->addLayout( glay );
-	vlay->addLayout( hlayBrowse );
-	vlay->addItem( vspacer );
+	vlay->addWidget( ald );
 	vlay->activate();
 
-//connect signals to slots
-	connect( BrowserButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
-	connect( TypeGroup, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultTitle( int ) ) );
+	//connect signals to slots
+	connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
+	connect( ald->TypeBox, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultDescription( int ) ) );
 }
 
 void AddLinkDialog::checkURL( void ) {
-	KURL url ( URLEntry->text() );
+	KURL url ( url() );
 	if (url.isValid()) {   //Is the string a valid URL?
 		kapp->invokeBrowser( url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
@@ -100,17 +56,17 @@ void AddLinkDialog::checkURL( void ) {
 	}
 }
 
-void AddLinkDialog::changeDefaultTitle( int id ) {
+void AddLinkDialog::changeDefaultDescription( int id ) {
 	SkyMap *map = (SkyMap *)parent();
 
-//If the user hasn't changed the default title text, but the link type (image/webpage)
-//has been toggled, update the default title text
-	if ( id==1 && TitleEntry->text().startsWith( i18n( "Show image of " ) ) ) {
-		TitleEntry->setText( i18n( "Show webpage about " ) + map->clickedObject()->name() );
+//If the user hasn't changed the default desc text, but the link type (image/webpage)
+//has been toggled, update the default desc text
+	if ( id==1 && desc().startsWith( i18n( "Show image of " ) ) ) {
+		ald->DescBox->setText( i18n( "Show webpage about " ) + map->clickedObject()->name() );
 	}
 
-	if ( id==0 && TitleEntry->text().startsWith( i18n( "Show webpage about " ) ) ) {
-		TitleEntry->setText( i18n( "Show image of " ) + map->clickedObject()->name() );
+	if ( id==0 && desc().startsWith( i18n( "Show webpage about " ) ) ) {
+		ald->DescBox->setText( i18n( "Show image of " ) + map->clickedObject()->name() );
 	}
 }
 

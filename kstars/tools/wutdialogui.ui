@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>525</width>
-            <height>501</height>
+            <width>541</width>
+            <height>547</height>
         </rect>
     </property>
     <property name="caption">
@@ -65,7 +65,7 @@
                                         <enum>Plain</enum>
                                     </property>
                                     <property name="text">
-                                        <string>at Baltimore, MD, USA</string>
+                                        <string>at LOCATION</string>
                                     </property>
                                 </widget>
                                 <spacer row="0" column="1">
@@ -118,7 +118,7 @@
                                         </font>
                                     </property>
                                     <property name="text">
-                                        <string>The night of 07/08 Aug 2003</string>
+                                        <string>The night of DATE</string>
                                     </property>
                                 </widget>
                             </grid>
@@ -479,6 +479,20 @@
                                 </size>
                             </property>
                         </spacer>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>CenterButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Center Object</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Center this object in the sky display</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Center the sky display on this object, and begin tracking it.  Equivalent to the "Center and Track" item in the popup menu.</string>
+                            </property>
+                        </widget>
                         <widget class="KPushButton">
                             <property name="name">
                                 <cstring>DetailButton</cstring>
