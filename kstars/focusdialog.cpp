@@ -20,6 +20,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+#include <qstring.h>
+
+#include "kstars.h"
 #include "dms.h"
 #include "skypoint.h"
 #include "dmsbox.h"
@@ -30,9 +33,10 @@ FocusDialog::FocusDialog( QWidget *parent )
 
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
-	
+
 	fdlg = new FocusDialogDlg(this);
 	setMainWidget(fdlg);
+//	setOriginalEpoch();
 	this->show();
 
 	connect( fdlg->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
@@ -63,14 +67,20 @@ void FocusDialog::validatePoint( void ) {
 	bool raOk(false), decOk(false), azOk(false), altOk(false);
 	dms ra( fdlg->raBox->createDms( false, &raOk ) ); //false means expressed in hours
 	dms dec( fdlg->decBox->createDms( true, &decOk ) );
-	
-	if ( raOk && decOk ) { 
+
+	KStars *ks = (KStars*) parent();
+
+	if ( raOk && decOk ) {
 		Point = new SkyPoint( ra, dec );
+		double epoch0 = getEpoch( fdlg->epochName->text() );
+		long double jd0 = epochToJd ( epoch0 );
+		Point->apparentCoord(jd0, ks->data()->currentDate() );
+
 		emit QDialog::accept();
 	} else {
 		dms az(  fdlg->azBox->createDms( true, &azOk ) );
 		dms alt( fdlg->altBox->createDms( true, &altOk ) );
-	
+
 		if ( azOk && altOk ) {
 			Point = new SkyPoint();
 			Point->setAz( az );
@@ -79,13 +89,43 @@ void FocusDialog::validatePoint( void ) {
 			emit QDialog::accept();
 		}
 	}
-	
+
 	close();
 }
 
+
+double FocusDialog::getEpoch (QString eName) {
+
+	double epoch = eName.toDouble();
+
+	return epoch;
+}
+
+void FocusDialog::setOriginalEpoch (void) {
+
+	double epoch = 2000.0;
+	QString eName = QString("%1").arg(epoch,7,'f',2);
+	fdlg->epochName->setText(eName);
+}
+
+long double FocusDialog::epochToJd (double epoch) {
+
+	double yearsTo2000 = 2000.0 - epoch;
+
+	if (epoch == 1950.0) {
+		return 2433282.4235;
+	} else if ( epoch == 2000.0 ) {
+		return J2000;
+	} else {
+		return ( J2000 - yearsTo2000 * 365.2425 );
+	}
+
+}
+
+
 QSize FocusDialog::sizeHint() const
 {
-  return QSize(240,170);
+  return QSize(240,210);
 }
 
 void FocusDialog::activateAzAltPage() {

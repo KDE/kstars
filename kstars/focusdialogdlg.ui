@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>208</width>
-            <height>117</height>
+            <height>149</height>
         </rect>
     </property>
     <property name="caption">
@@ -42,14 +42,6 @@
                             <string>new RA:</string>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="1" column="0">
-                        <property name="name">
-                            <cstring>decLabel</cstring>
-                        </property>
-                        <property name="text">
-                            <string>new Dec:</string>
-                        </property>
-                    </widget>
                     <widget class="dmsBox" row="0" column="1">
                         <property name="name">
                             <cstring>raBox</cstring>
@@ -58,6 +50,27 @@
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>decBox</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>decLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>new Dec:</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>epochLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Epoch:</string>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="2" column="1">
+                        <property name="name">
+                            <cstring>epochName</cstring>
                         </property>
                     </widget>
                 </grid>
@@ -94,6 +107,40 @@
                             <cstring>azBox</cstring>
                         </property>
                     </widget>
+                    <spacer row="2" column="0">
+                        <property name="name">
+                            <cstring>spacer1</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <spacer row="2" column="1">
+                        <property name="name">
+                            <cstring>spacer2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
                     <widget class="dmsBox" row="1" column="1">
                         <property name="name">
                             <cstring>altBox</cstring>
