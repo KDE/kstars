@@ -37,6 +37,16 @@ public:
 
 enum { Ok = 1, Cancel = 2, Yes = 3, No = 4, Continue = 5 };
 
+/**static function to create a "bad catalog" message box.  This box contains a listbox to display 
+	*the list of unparsed catalog lines, and only one button to close the window.  It is nearly
+	*identical to KMessageBox::warningContinueCancelList(), except it does not have two buttons.
+	*@param parent The parent widget
+	*@param text The message to display above the list box.
+	*@param strList The list of strings to add to the listbox
+	*@param caption The window title string
+	*@param dontAskAgainName The config name for the "don't ask again" state.  Leave blank if you
+	*don't want the "don't ask again" checkbox to appear.
+	*/
 static int badCatalog(QWidget *parent,
                          const QString &text,
                          const QStringList &strlist,

@@ -311,11 +311,35 @@ private:
 	void initPopupMenu( QString name1, QString name2, QString type,
 		bool showRiseSet=true, bool showCenterTrack=true, bool showDetails=true );
 
+/**Completes the popup menu by adding Image and Information links as menu items.
+	*@param showDSS show DSS Image links?  These links are inappropriate for planets, so 
+	*this should be false for planets' menus.
+	*@param allowCustom If true, add the "Add link..." menu item
+	*/
 	void addLinksToMenu( bool showDSS=true, bool allowCustom=true );
+	
+/**Call initPopupMenu() and addLinksToMenu() with parameters set for a star object
+	*@param star a pointer to the StarObject to which the menu is attached.
+	*/
 	void createStarMenu( StarObject *star );
+	
+	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a general sky object
+	*@param obj a pointer to the SkyObject to which the menu is attached.
+	*/
 	void createSkyObjectMenu( SkyObject *obj );
+	
+	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a custom sky object
+	*@param obj a pointer to the SkyObject to which the menu is attached.
+	*/
 	void createCustomObjectMenu( SkyObject *obj );
+	
+	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a planet
+	*@param p a pointer to the SkyObject of the planet to which the menu is attached.
+	*/
 	void createPlanetMenu( SkyObject *p );
+	
+	/**Call initPopupMenu() and addLinksToMenu() with parameters set for empty sky.
+	*/
 	void createEmptyMenu( void );
 	
 /**Given the coordinates of the SkyPoint argument, determine the

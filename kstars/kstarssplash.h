@@ -58,6 +58,8 @@ class KStarsSplash : public KDialogBase
 		*/
 		virtual void paintEvent( QPaintEvent *e );
 
+	/**Prepare to close the KStarsSplash, used when the user clicks the close button to quit program.
+		*/
 		void closeEvent( QCloseEvent *e );
 
 		signals:

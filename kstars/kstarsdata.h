@@ -51,6 +51,11 @@
 #include <qptrlist.h>
 #endif
 
+class KStandardDirs;
+class FileSource;
+class StarDataSink;
+class QDataPump;
+
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
 	*images and information pages.
@@ -59,11 +64,6 @@
 	*@author Heiko Evermann
 	*@version 0.9
 	*/
-
-class KStandardDirs;
-class FileSource;
-class StarDataSink;
-class QDataPump;
 
 class KStarsData : public QObject
 {
@@ -88,7 +88,7 @@ public:
 		*locations file "mycities.dat", but don't require it.  Each line in the file
 		*provides the information required to create one GeoLocation object.
 		*@short Fill list of geographic locations from file(s)
-		*@returns bool Returns true if at least one city read successfully.
+		*@returns true if at least one city read successfully.
 		*/
 	bool readCityData( void );
 
@@ -231,6 +231,12 @@ public:
 		*/
 	bool readURLData( QString url, int type=0 );
 
+	/**Read in custom object catalog.  Object data is read from a file, and parsed into a 
+		*QList of SkyObjects which is returned by reference through the 2nd argument.
+		*@param filename The custom catalog data file
+		*@param olist the list of skyobjects, returned as a reference through this variable
+		*@bool showerrs if true, notify user of unparsed lines.
+		*/
 	bool readCustomData( QString filename, QList<SkyObject> &olist, bool showerrs );
 
 	/**@short reset the faint limit for the stellar database

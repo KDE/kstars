@@ -30,26 +30,35 @@ class QHBoxLayout;
 class QVBoxLayout;
 
 /**DetailDialog is a window showing detailed information for a selected object.
-	*Also shows a piece of the skymap centered on the object.
-	*The kind of information displayed depends upon the object type:
-	*
-	*Stars: Long name, Genetive name, Spectral Type, Magnitude,
-  *@author Jason Harris
+	*Currently, the DetailDialog shows information regarding the object's names,
+	*type, magnitude, coordinates and rise/transit/set events.
+	*@short Show a dialog with detailed information about an object.
+	*@author Jason Harris
+	*@version 0.9
   */
 
 class DetailDialog : public KDialogBase  {
    Q_OBJECT
 public: 
+/**Constructor.*/
 	DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+
+/**Destructor (empty)*/
 	~DetailDialog() {}
 private:
 
+/**NameBox is an internal class that encapsulates the object's name, type, 
+	*and magnitude information.
+	*/
 	class NameBox : public QGroupBox {
 	public:
-		/**Constructor for stars */
+	/**Constructor*/
 		NameBox( QString pname, QString oname, QString typelabel, QString type,
 			QString mag, QWidget *parent, const char *name=0 );
+
+	/**Destructor (empty)*/
 		~NameBox() {}
+	
 	private:
 		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;
 		QLabel *SizeLabel, *Size;
@@ -58,10 +67,16 @@ private:
 		QGridLayout *glay;
 	};
 
+/**CoordBox is an internbal class that encapsulates the object's coordinate data.
+	*/
 	class CoordBox : public QGroupBox {
 	public:
+	/**Constructor*/
 		CoordBox( SkyObject *o, QDateTime lt, QWidget *parent, const char *name=0 );
+
+	/**Destructor (empty)*/
 		~CoordBox() {}
+	
 	private:
 		QLabel *RALabel, *DecLabel, *RA, *Dec;
 		QLabel *AzLabel, *AltLabel, *Az, *Alt;
@@ -70,9 +85,15 @@ private:
 		QGridLayout *glayCoords;
 	};
 
+/**RiseSetBox is an internal class that encapsulates data regarding the object's 
+	*rise/transit/set events.
+	*/
 	class RiseSetBox : public QGroupBox {
 	public:
+	/**Constructor*/
 		RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent, const char *name=0 );
+
+	/**Destructor (empty)*/
 		~RiseSetBox() {}
 	private:
 		QLabel *RTime, *TTime, *STime;

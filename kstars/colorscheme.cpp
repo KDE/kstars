@@ -141,8 +141,15 @@ QString ColorScheme::colorNamed( QString name ) const {
 
 QString ColorScheme::colorAt( int i ) const {
 	SL_it it = KeyName.at(i);
-	return Palette[ QString(*it) ];
+	QString color( Palette[ QString(*it) ] );
+	if ( color.isEmpty() ) {
+		kdWarning() << i18n( "No color at index %1 found in color scheme." ).arg( i ) << endl;
+		color = "#FFFFFF"; //set to white if no color found
+	}
+
+	return color;
 }
+
 
 QString ColorScheme::nameAt( int i ) const {
 	SL_it it = Name.at(i);

@@ -145,11 +145,29 @@ public slots:
 	*/
 	void checkLat( void );
 
+/**Clear all city data fields in preparation of adding a custom location.
+	*/
 	void clearFields( void );
+	
+/**Display a window summarizing the Daylight Savings Time Rules.
+	*/
 	void showTZRules( void );
+	
+/**If any of the name fields (city/province/country) change, check to see that none of them
+	*are empty.  If none are empty, enable AddCity button.
+	*/
 	void nameChanged( void );
+	
+/**If any of the data fields (long/lat/tz/rule) change, check to see that none of them
+	*are empty.  If none are empty, enable AddCity button.
+	*/
 	void dataChanged( void );
+	
 //	void prepareToAccept( void );
+	
+/**Check to see if the AddCity button is enabled.  If so, call "addCity()" for the user.
+	*In any case, call accept().
+	*/
 	void slotOk();
 
 private:
@@ -169,7 +187,7 @@ private:
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-  QArray<int> GeoID;
+	QArray<int> GeoID;
 
 };
 

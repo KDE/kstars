@@ -68,9 +68,9 @@ public:
 public slots:
 
 
-  /** No descriptions */
+  /** Perform the calculation. */
   void slotComputeCoords();
-  /** No descriptions */
+  /** Clear all coordinate fields. */
   void slotClearCoords();
 
 private:

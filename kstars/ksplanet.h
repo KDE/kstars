@@ -28,12 +28,17 @@
 /**
 	*A subclass of SkyObject that provides additional information
 	*needed for solar system objects.  KSPlanet may be used
-	*directly for all planets except Pluto.  The Sun are subclassed from
+	*directly for all planets except Pluto.  The Sun is subclassed from
 	*KSPlanet.
+	*
+	*KSPlanet contains subclasses to manage the computations of a planet's position.
+	*The position is computed as a series of sinusoidal sums, similar to a Fourier 
+	*transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
+	*for details.
 	*@short Provides necessary information about objects in the solar system.
-  *@author Jason Harris
-  *@version 0.9
-  */
+	*@author Jason Harris
+	*@version 0.9
+	*/
 
 class KSPlanet : public KSPlanetBase {
 public: 
@@ -68,12 +73,20 @@ public:
 /**Calculate the ecliptic longitude and latitude of the planet for
 	*the given date (expressed in Julian Millenia since J2000).  A reference
 	*to the ecliptic coordinates is returned as the second object.
+	*@param jm Julian Millenia (=jd/1000)
+	*@param ret The ecliptic coordinates are returned by reference through this argument.
 	*/
 	virtual void calcEcliptic(double jm, EclipticPosition &ret) const;
 
 protected:
 
 	bool data_loaded;
+	
+/**OrbitData contains doubles A,B,C which represent a single term in a planet's
+	*positional expansion sums (each sum-term is A*COS(B+C*T)).
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
 	class OrbitData  {
 		public:
 			double A, B, C;
@@ -82,6 +95,14 @@ protected:
 	};
 
 	typedef QVector<OrbitData> OBArray[6];
+	
+/**OrbitDataColl contains three groups of six QVectors.  Each QVector is a
+	*list of OrbitData objects, representing a single sum used in computing 
+	*the planet's position.  A set of six of these vectors comprises the large 
+	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
 	class OrbitDataColl {
 		public:
 			OrbitDataColl();
@@ -92,6 +113,12 @@ protected:
 	};
 
 
+/**OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
+	*indexed by the planets' names.  It also loads the positional data of each planet 
+	*from disk.
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
 	class OrbitDataManager {
 		public:
 			OrbitDataManager();

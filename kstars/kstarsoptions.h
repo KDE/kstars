@@ -35,59 +35,97 @@
 
 class KStarsOptions {
 	public:
-		/**Constructor. Set default values to all options if param is true.
+		/**Constructor. 
+			*@param loadDefaults if true, set default values to all options.
 			*/
 		KStarsOptions(bool loadDefaults = true);
 
 		/**Destructor (empty)*/
 	  ~KStarsOptions();
 
-		/**Copy constructor
-		Copy options values from another KStarsOptions object.  If you add options
-		*to KStars, make **SURE** to include them here!
-		*/
+		/**Copy constructor.
+			*Copy options values from another KStarsOptions object.  If you add options
+			*to KStars, make **SURE** to include them here!
+			*@param o the KStarsOptions objects to copy
+			*/
 		KStarsOptions( KStarsOptions& o );
 
-		/**Currently only used in this constructor, but later it may be used for a option wizard.
+		/**Set all options to their factory-default values.
+			*Currently only used in this constructor, but later it may be used for a option wizard.
 			*/
 		void setDefaultOptions();
 
+		/**Set the faintest-magnitude-star-drawn value.
+			*@param newMagnitude the new limiting magnitude for stars.
+			*/
 		void setMagLimitDrawStar( float newMagnitude );	
 	
 		/**@returns pointer to the ColorScheme object
 			*/
 		ColorScheme *colorScheme() { return &CScheme; }
 
-		/**Set new Location.
+		/**Set new Geographic Location.  This actually only sets the longitude and latitude from the 
+			*given location; there are separate functions for setting the names. (why is it done this way?)
+			*@param l the new GeoLocation to set.
 			*/
 		void setLocation(const GeoLocation& l);
 
+		/**@returns the current Geographic Location as a pointer to a GeoLocation object.
+			*/
 		GeoLocation* Location();
 
-		/**CityName, CountryName and ProvinceName are stored in GeoLoaction object.
+		/**Modify the current GeoLocation to have the given City name.
+			*@param city The new City name.
 			*/
-
 		void setCityName(const QString& city);
 
+		/**Modify the current GeoLocation to have the given Country name.
+			*@param country The new Country name.
+			*/
 		void setCountryName(const QString& country);
 
+		/**Modify the current GeoLocation to have the given Province name.
+			*@param prov The new Province name.
+			*/
 		void setProvinceName(const QString& prov);
 
+		/**Modify the current GeoLocation's Longitude.
+			*@param l The new Longitude
+			*/
 		void setLongitude(const double l);
 
+		/**Modify the current GeoLocation's Latitude.
+			*@param l The new Latitude
+			*/
 		void setLatitude(const double l);
 
+		/**@returns the current GeoLocation's city name.
+			*/
 		QString cityName();
 
+		/**@returns the current GeoLocation's country name.
+			*/
 		QString countryName();
 
+		/**@returns the current GeoLocation's province name.
+			*/
 		QString provinceName();
 
+		/**@returns the current GeoLocation's longitude as a double.
+			*/
 		double longitude();
 
+		/**@returns the current GeoLocation's latitude as a double.
+			*/
 		double latitude();
 
+		/**@returns snapToFocus setting (should this be in kstarsoptions?)
+			*/
 		bool snapNextFocus() const { return snapToFocus; }
+		
+		/**Set the snapToFocus variable.  If true, then the next focus change will not use 
+			*animated slewing. (should this be in kstarsoptions?)
+			*/
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
@@ -175,26 +213,6 @@ class KStarsOptions {
 
 		//the colors of things
 		ColorScheme CScheme;
-		/*
-		QString colorSky;   //Sky background
-		QString colorMess;  //Messier catalog
-		QString colorNGC;   //NGC catalog
-		QString colorIC;    //IC catalog
- 		QString colorHST;   //object w/ HST image
-		QString colorMW;    //milky way contour
-		QString colorEq;    //celestial equator
-		QString colorEcl;   //ecliptic
-		QString colorHorz;  //horizon
-		QString colorGrid;  //coordinate grid
-		QString colorCLine; //constellation lines
-		QString colorCName; //constellation names
-		QString colorSName; //star names
-		QString colorPName; //planet names
-
-		int starColorMode;  // 0 = temperature colors; 1 = all red; 2 = all black; 3 = all white
-		// intensity of star colors
-		int starColorIntensity;
-		*/
 
 		private:
 			GeoLocation location;  // store all location data here
