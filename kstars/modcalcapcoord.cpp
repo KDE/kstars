@@ -35,12 +35,7 @@
 #include <qdatetime.h>
 #include <klocale.h>
 
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
 

@@ -22,12 +22,7 @@
 #include "dms.h"
 #include "kstars.h"
 
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 StarDataSink::StarDataSink( KStarsData *parent, const char *name )
 	: QObject( parent, name ), ksData( parent ), lastMagnitude( 0.0 ), magLevel( 0 ),

@@ -31,12 +31,10 @@
 
 #include <qasyncio.h>
 
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapp.h>
+#include <kapplication.h>
+#if (KDE_VERSION <= 299)
 #define FLUSH flushX
 #else 
-#include <kapplication.h>
 #define FLUSH flush
 #endif
 

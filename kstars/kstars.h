@@ -36,13 +36,11 @@
 #include <qdir.h>
 #include <qwidget.h>
 
-#include <qglobal.h>
-#if (QT_VERSION < 300)
-#include <kapp.h>
+#include <kapplication.h>
+#if (KDE_VERSION < 300)
 #include <kstddirs.h>
 #include <qlist.h>
 #else
-#include <kapplication.h>
 #include <kstandarddirs.h>
 #include <qptrlist.h>
 #endif

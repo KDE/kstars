@@ -34,7 +34,7 @@
 
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
-#include <kapp.h>
+#include <kapplication.h>
 #else
 #include <kapplication.h>
 #endif

@@ -32,12 +32,7 @@
 #include <qdatetime.h>
 #include <klocale.h>
 
-#include <qglobal.h>
-#if (QT_VERSION <= 299)
-#include <kapp.h>
-#else
 #include <kapplication.h>
-#endif
 
 modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
 
