@@ -955,8 +955,8 @@ int openPort(const char *portID)
    ttyOptions.c_cflag &= ~PARENB;
 
    /* set baud rate */
-   ttyOptions.c_ispeed = B9600;
-   ttyOptions.c_ospeed = B9600;
+   cfsetispeed(&ttyOptions, B9600);
+   cfsetospeed(&ttyOptions, B9600);
 
   /* set input/output flags */
   ttyOptions.c_iflag = IGNBRK;

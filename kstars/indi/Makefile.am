@@ -6,7 +6,7 @@ libindicom_a_SOURCES = indicom.c
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
 indiserver_SOURCES = indiserver.c
-indiserver_LDADD = liblilxml.a
+indiserver_LDADD = liblilxml.a $(LIBSOCKET)
 
 lx200generic_SOURCES = indidrivermain.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a

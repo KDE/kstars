@@ -2331,7 +2331,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 
 
-	bzero(&pin, sizeof(pin));
+	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
 	pin.sin_addr.s_addr 	= ((struct in_addr *) (serverHostName->h_addr))->s_addr;
 	pin.sin_port 		= htons(port.toInt());
