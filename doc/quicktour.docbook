@@ -25,15 +25,14 @@ The above screenshot shows a typical view of the KStars program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
 the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
-colors</link> and relative brightnesses.  M 42, the Orion Nebula, is
-visible on the right side of the screen, just above the horizon.  If
-you look closely, you can also see the Sun and the planet Mercury in the
-upper left.  In three corners of the sky display, there are on-screen text
-labels displaying data on the current time (<quote>LT: 06:44:58 20 June
-2004</quote>), the current Geographic Location (<quote>Tucson, Arizona,
-USA</quote>), and the current object in the center of the display
-(<quote>Focused on: Betelgeuse (alpha Orionis)</quote>).  Above the sky
-display, there are two toolbars.  The main toolbar contains shortcuts for
+colors</link> and relative brightnesses.  If you look closely, you can 
+also see the Moon near the left edge of the window.  In three corners 
+of the sky display, there are on-screen text labels displaying data on 
+the current time (<quote>LT: 16:41:39 22 Jan 2005</quote>), the current 
+Geographic Location (<quote>Tucson, Arizona, USA</quote>), and the 
+current object in the center of the display (<quote>Focused on: Betelgeuse 
+(alpha Orionis)</quote>).  Above the sky display, there are two toolbars.  
+The main toolbar contains shortcuts for
 <link linkend="kstars-menus">menu functions</link>, as well as a
 time-step widget which controls how fast the simulation clock runs.
 The view toolbar contains buttons that toggle the display of different

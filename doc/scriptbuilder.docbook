@@ -176,7 +176,7 @@ Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
 <sect2 id="sb-indi">
   <title>Device Automation with INDI</title>
   <para>
-    Device schedualing and automation is supported for all <link linkend="what-is-indi">INDI</link>-compliant devices. You can coordinate any number of devices to perform complex operations using &kstars; <link linkend="sb-intro">Script Builder</link>. This can be accomplished by using &kstars; INDI DCOP interface, which provides different classes of functions to suit your tasks. The INDI DCOP functions can be decomposed into four different classes. The following is a review of the functions and their arguments as supported in KStars. It it highly recommened to read the <link linkend="indi-concepts">INDI Concepts</link> section as we will employ key INDI concepts throughout this tutorial.</para>
+    Device scheduling and automation is supported for all <link linkend="what-is-indi">INDI</link>-compliant devices. You can coordinate any number of devices to perform complex operations using &kstars; <link linkend="sb-intro">Script Builder</link>. This can be accomplished by using &kstars; INDI DCOP interface, which provides different classes of functions to suit your tasks. The INDI DCOP functions can be decomposed into four different classes. The following is a review of the functions and their arguments as supported in KStars. It it highly recommened to read the <link linkend="indi-concepts">INDI Concepts</link> section as we will employ key INDI concepts throughout this tutorial.</para>
   <orderedlist>
     <listitem><para>Generic Device Functions: Functions to establish/shutdown devices..etc.</para>
       <itemizedlist>

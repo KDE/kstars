@@ -56,7 +56,8 @@ linkend="ai-horizon">horizon</link>) as a function of time.  When
 a curve passes from the lower half to the upper half, the object has
 risen; when it falls back to the lower half, it has set.  For example,
 in the screenshot, the minor planet <firstterm>Quaoar</firstterm> is
-rising at around 15:30 local time, and is setting at about 00:30.
+setting at around 15:00 local time, and is rising at about 04:00 local 
+time.
 </para>
 <para>
 The Altitude of an object depends on both where you are on Earth, and
