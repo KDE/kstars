@@ -1247,6 +1247,7 @@ static void retryConnection(void * p)
 void LX200Generic::ISPoll()
 {
         double dx, dy;
+	/*static int okCounter = 3;*/
 	int err=0;
 	
 	if (!isTelescopeOn())
@@ -1281,15 +1282,17 @@ void LX200Generic::ISPoll()
 	    // Wait until acknowledged or within threshold
 	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
 	    {
+	      /* Don't set current to target. This might leave residual cumulative error 
 		currentRA = targetRA;
 		currentDEC = targetDEC;
-		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
-		eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
-		IUResetSwitches(&OnCoordSetSw);
-		OnCoordSetSw.s = IPS_OK;
-		eqNum.s = IPS_OK;
-		IDSetNumber (&eqNum, NULL);
+	      */
+		
+	       eqNum.np[0].value = lastRA  = currentRA;
+	       eqNum.np[1].value = lastDEC = currentDEC;
+	       IUResetSwitches(&OnCoordSetSw);
+	       OnCoordSetSw.s = IPS_OK;
+	       eqNum.s = IPS_OK;
+	       IDSetNumber (&eqNum, NULL);
 
 		switch (currentSet)
 		{
@@ -1333,7 +1336,6 @@ void LX200Generic::ISPoll()
 
 	    } else
 	    {
-	        /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 		eqNum.np[0].value = currentRA;
 		eqNum.np[1].value = currentDEC;
 		IDSetNumber (&eqNum, NULL);
@@ -1341,6 +1343,13 @@ void LX200Generic::ISPoll()
 	    break;
 
 	case IPS_OK:
+	  
+	  /*if (--okCounter >= 0)
+	    break;
+	  
+	// Activate again in 3 seconds
+	  okCounter = 3;*/
+	  
 	if ( (err = getLX200RA(&currentRA)) < 0 || (err = getLX200DEC(&currentDEC)) < 0)
 	{
 	  handleError(&eqNum, err, "Getting RA/DEC");
@@ -1349,18 +1358,12 @@ void LX200Generic::ISPoll()
 	
 	if (fault)
 	  correctFault();
-
-        if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
+	
+	if ( (currentRA != lastRA) || (currentDEC != lastDEC))
 	{
-		eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
-		lastRA  = currentRA;
-		lastDEC = currentDEC;
-		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
-		eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
+	  	eqNum.np[0].value = lastRA  = currentRA;
+		eqNum.np[1].value = lastDEC = currentDEC;
 		IDSetNumber (&eqNum, NULL);
-
 	}
         break;
 
