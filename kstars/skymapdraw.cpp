@@ -1641,30 +1641,34 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		psky.setBrush( c );
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 	
+		//Is planet onscreen?
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-			//Image size must be modified to account for possibility that rotated image's
-			//size is bigger than original image size.  The rotated image is a square
-			//superscribed on the original image.  The superscribed square is larger than
-			//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
-			//which the two squares are rotated (in our case, equal to the position angle +
-			//the north angle, reduced between 0 and 90 degrees).
-			//The proof is left as an exercise to the student :)
-			dms pa( findPA( (SkyObject *)p, o.x(), o.y() ) );
-			double spa, cpa;
-			pa.SinCos( spa, cpa );
-			cpa = fabs(cpa); spa = fabs(spa);
-			
-			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 * (cpa + spa) );
-			//Because Saturn has rings, we inflate its size by a factor 2.5 
-			if ( p->name() == "Saturn" ) size = int(2.5*size);
-			
+			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
 			if ( size < sizemin ) size = sizemin;
-																								//Only draw planet image if:
-			if ( Options::showPlanetImages() &&     //user wants them,
-					int(Options::zoomFactor()) >= int(zoommin) &&   //zoomed in enough,
-					!p->image()->isNull() &&               //image loaded ok,
-					size < Width ) {                       //and size isn't too big.
-	
+			
+			//Draw planet image if:
+			if ( Options::showPlanetImages() &&  //user wants them,
+					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
+					!p->image()->isNull() &&  //image loaded ok,
+					size < Width ) {  //and size isn't too big.
+				
+				//Image size must be modified to account for possibility that rotated image's
+				//size is bigger than original image size.  The rotated image is a square
+				//superscribed on the original image.  The superscribed square is larger than
+				//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+				//which the two squares are rotated (in our case, equal to the position angle +
+				//the north angle, reduced between 0 and 90 degrees).
+				//The proof is left as an exercise to the student :)
+				dms pa( findPA( (SkyObject *)p, o.x(), o.y() ) );
+				double spa, cpa;
+				pa.SinCos( spa, cpa );
+				cpa = fabs(cpa); 
+				spa = fabs(spa);
+				size = int( size * (cpa + spa) );
+				
+				//Because Saturn has rings, we inflate its image size by a factor 2.5 
+				if ( p->name() == "Saturn" ) size = int(2.5*size);
+				
 				if (resize_mult != 1) {
 					size *= resize_mult;
 				}
