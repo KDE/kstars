@@ -24,6 +24,18 @@ ObjectNameList::ObjectNameList()
 {
 	language = latin;
 	mode = allLists;
+
+// this is needed to avoid memory leaks, but enable this code will
+// crash kstars at closing window
+// TK: I reviewed the code but I don't know why it is crashing :(
+/**********************************
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 27; j++) {
+			list[i][j].setAutoDelete(true);
+		}
+	}
+***********************************/
+
 }
 
 ObjectNameList::~ObjectNameList(){
