@@ -55,7 +55,7 @@ From a fundamental standpoint, the flux is the <link linkend="ai-luminosity">lum
 
 <para>
 where (4 * PI * R^2) is the surface area of a sphere (or a balloon!) with a radius R.
-Flux is measured in Watts/m^2/s or as commonly used by astronomers: Ergs/cm^2/s.
+Flux is measured in Watts/m^2 or as commonly used by astronomers: Ergs/cm^2/s.
 For example, the luminosity of the sun is L = 3.90 * 10^26 W. That is, in one second the sun radiates 3.90 * 10^26 joules of energy into space. Thus, the flux we receive
 passing through one square centimeter from the sun at a distance of one AU (1.496 * 10^13 cm) is:
 </para>
