@@ -29,13 +29,14 @@
   *@version 0.9
   */
 
+class KStars;
 class KSSun : public KSPlanet  {
 public:
 /**
 	*Default constructor.  Defines constants needed by findPosition().
 	*Sets Ecliptic coordinates appropriate for J2000.
 	*/
-	KSSun(QString fn = "");
+	KSSun(KStars *ks, QString fn = "");
 
 /**
 	*Destructor (empty)

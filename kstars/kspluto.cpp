@@ -23,6 +23,7 @@
 
 #include "ksutils.h"
 #include "kspluto.h"
+#include "kstars.h"
 
 int KSPluto::DATAARRAYSIZE = 106;
 bool KSPluto::data_loaded = false;
@@ -30,29 +31,33 @@ double *KSPluto::freq = 0;
 KSPluto::XYZData *KSPluto::xdata = 0;
 KSPluto::XYZData *KSPluto::ydata = 0;
 KSPluto::XYZData *KSPluto::zdata = 0;
+int KSPluto::objects = 0;
 
-
-KSPluto::KSPluto(QString fn) : KSPlanetBase( I18N_NOOP( "Pluto" ), fn ) {
+KSPluto::KSPluto(KStars *ks, QString fn) : KSPlanetBase( ks, I18N_NOOP( "Pluto" ), fn ) {
+	objects++;
 }
 
 KSPluto::~KSPluto() {
-	if (freq) {
-		delete [] freq;
-		freq = 0;
+	objects--;
+	// delete arrays if all other objects are closed
+	if (!objects) {
+		if (freq) {
+			delete [] freq;
+			freq = 0;
+		}
+		if (xdata) {
+			delete [] xdata;
+			xdata = 0;
+		}
+		if (ydata) {
+			delete [] ydata;
+			ydata = 0;
+		}
+		if (zdata) {
+			delete [] zdata;
+			zdata = 0;
+		}
 	}
-	if (xdata) {
-		delete [] xdata;
-		xdata = 0;
-	}
-	if (ydata) {
-		delete [] ydata;
-		ydata = 0;
-	}
-	if (zdata) {
-		delete [] zdata;
-		zdata = 0;
-	}
-
 }
 
 bool KSPluto::loadData() {

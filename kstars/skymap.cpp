@@ -32,7 +32,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include <iostream.h>
+//#include <iostream.h>
 #include <unistd.h>
 
 #include "detaildialog.h"
@@ -52,7 +52,8 @@
 SkyMap::SkyMap(QWidget *parent, const char *name )
  : QWidget (parent,name), ClickedObject(0), FoundObject(0),  computeSkymap (true)
 {
-	ksw = (KStars*) kapp->mainWidget();
+//	ksw = (KStars*) kapp->mainWidget();
+	ksw = (KStars*) parent->parent();
 
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid

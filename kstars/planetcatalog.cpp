@@ -19,9 +19,9 @@
 #include "planetcatalog.h"
 #include "kssun.h"
 #include "kspluto.h"
+#include "kstars.h"
 
-
-PlanetCatalog::PlanetCatalog() : Earth(0), Sun(0) {
+PlanetCatalog::PlanetCatalog(KStars *ks) : Earth(0), Sun(0), kstars(ks) {
 	planets.setAutoDelete(true);
 }
 
@@ -38,43 +38,43 @@ PlanetCatalog::~PlanetCatalog() {
 bool PlanetCatalog::initialize() {
 	KSPlanetBase *ksp;
 
-	Earth = new KSPlanet( I18N_NOOP( "Earth" ) );
+	Earth = new KSPlanet( kstars, I18N_NOOP( "Earth" ) );
 	if (!Earth->loadData())
 		return false;
 
-	Sun = new KSSun("sun.png");
+	Sun = new KSSun( kstars, "sun.png");
 	if (Sun->loadData())
 		planets.append(Sun);
 
-	ksp = new KSPluto("pluto.png");
+	ksp = new KSPluto( kstars, "pluto.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Mercury" ), "mercury.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Mercury" ), "mercury.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Venus" ), "venus.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Venus" ), "venus.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Mars" ), "mars.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Mars" ), "mars.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Jupiter" ), "jupiter.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Jupiter" ), "jupiter.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Saturn" ), "saturn.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Saturn" ), "saturn.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Uranus" ), "uranus.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Uranus" ), "uranus.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 
-	ksp = new KSPlanet(I18N_NOOP( "Neptune" ), "neptune.png");
+	ksp = new KSPlanet( kstars, I18N_NOOP( "Neptune" ), "neptune.png");
 	if (ksp->loadData())
 		planets.append(ksp);
 

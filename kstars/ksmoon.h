@@ -31,12 +31,13 @@
 	*@version 0.9
   */
 
+class KStars;
 class KSMoon : public KSPlanetBase  {
 public: 
 	/**
 		*Default constructor.  Set name="Moon".
 		*/
-	KSMoon();
+	KSMoon(KStars *ks);
 
 	/**Destructor (empty). */
 	~KSMoon();

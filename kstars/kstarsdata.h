@@ -277,7 +277,7 @@ public:
 
 	KLocale *getLocale() { return locale; };
 
-	KSPlanet *earth() { return PC.earth(); }
+	KSPlanet *earth() { return PC->earth(); }
 
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
@@ -390,7 +390,7 @@ private:
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
 	QMap<QString, TimeZoneRule> Rulebook;
 
-	PlanetCatalog PC;
+	PlanetCatalog *PC;
 
 	QString cnameFile;
 	KStandardDirs *stdDirs;

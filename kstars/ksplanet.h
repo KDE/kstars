@@ -40,6 +40,8 @@
 	*@version 0.9
 	*/
 
+class KStars;
+
 class KSPlanet : public KSPlanetBase {
 public: 
 
@@ -49,7 +51,7 @@ public:
 	*@param s Name of planet
 	*@param im the planet's image
 	*/
-	KSPlanet( QString s="unnamed", QString image_file="" );
+	KSPlanet( KStars *ks, QString s="unnamed", QString image_file="" );
 
 /**
 	*Destructor (empty)

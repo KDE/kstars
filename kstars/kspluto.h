@@ -30,13 +30,14 @@
 	*@version 0.9
 	*/
 
+class KStars;
 class KSPluto : public KSPlanetBase  {
 public:
 /**
 	*Default constructor.  Calls KSPlanetBase constructor with name="Pluto" and
 	*a null image.
 	*/
-	KSPluto(QString fn="");
+	KSPluto(KStars *ks, QString fn="");
 
 /**Destructor */
 	virtual ~KSPluto();
@@ -78,6 +79,7 @@ private:
 	};
 
 	XYZpos calcRectCoords(double jc);
+	static int objects; // count number of open objects
 };
 
 #endif

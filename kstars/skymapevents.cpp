@@ -168,19 +168,19 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_0: //center on Sun
-			setClickedObject( ksw->data()->PC.findByName("Sun") );
+			setClickedObject( ksw->data()->PC->findByName("Sun") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_1: //center on Mercury
-			setClickedObject( ksw->data()->PC.findByName("Mercury") );
+			setClickedObject( ksw->data()->PC->findByName("Mercury") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_2: //center on Venus
-			setClickedObject( ksw->data()->PC.findByName("Venus") );
+			setClickedObject( ksw->data()->PC->findByName("Venus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
@@ -192,37 +192,37 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		case Key_4: //center on Mars
-			setClickedObject( ksw->data()->PC.findByName("Mars") );
+			setClickedObject( ksw->data()->PC->findByName("Mars") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_5: //center on Jupiter
-			setClickedObject( ksw->data()->PC.findByName("Jupiter") );
+			setClickedObject( ksw->data()->PC->findByName("Jupiter") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_6: //center on Saturn
-			setClickedObject( ksw->data()->PC.findByName("Saturn") );
+			setClickedObject( ksw->data()->PC->findByName("Saturn") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_7: //center on Uranus
-			setClickedObject( ksw->data()->PC.findByName("Uranus") );
+			setClickedObject( ksw->data()->PC->findByName("Uranus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_8: //center on Neptune
-			setClickedObject( ksw->data()->PC.findByName("Neptune") );
+			setClickedObject( ksw->data()->PC->findByName("Neptune") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
 		case Key_9: //center on Pluto
-			setClickedObject( ksw->data()->PC.findByName("Pluto") );
+			setClickedObject( ksw->data()->PC->findByName("Pluto") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
@@ -456,7 +456,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 //Next, find the nearest solar system body within r0
 		double r = 0.0;
 		double rsolar_min = r0;
-		SkyObject *solarminobj = ksw->data()->PC.findClosest(clickedPoint(), r);
+		SkyObject *solarminobj = ksw->data()->PC->findClosest(clickedPoint(), r);
 
 		if ( r < r0 ) {
 			rsolar_min = r;
@@ -1299,7 +1299,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Sun
 	if ( ksw->options()->drawSun && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
 	}
 
 	//Draw Moon
@@ -1309,42 +1309,42 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 	//Draw Mercury
 	if ( ksw->options()->drawMercury && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Mercury"), QColor( "SlateBlue1" ), 4, 0.04, 4 );
 	}
 
 	//Draw Venus
 	if ( ksw->options()->drawVenus && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Venus"), QColor( "LightGreen" ), 4, 0.05, 2 );
 	}
 
 	//Draw Mars
 	if ( ksw->options()->drawMars && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Mars"), QColor( "Red" ), 4, 0.00555, 2 );
 	}
 
 	//Draw Jupiter
 	if ( ksw->options()->drawJupiter && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Jupiter"), QColor( "Goldenrod" ), 4, 0.05, 2 );
 	}
 
 	//Draw Saturn
 	if ( ksw->options()->drawSaturn && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Saturn"), QColor( "LightYellow2" ), 4, 0.05, 2, 2 );
 	}
 
 	//Draw Uranus
 	if ( ksw->options()->drawUranus && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Uranus"), QColor( "LightSeaGreen" ), 4, 0.007, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Uranus"), QColor( "LightSeaGreen" ), 4, 0.007, 2 );
 	}
 
 	//Draw Neptune
 	if ( ksw->options()->drawNeptune && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Neptune"), QColor( "SkyBlue" ), 4, 0.0035, 2 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Neptune"), QColor( "SkyBlue" ), 4, 0.0035, 2 );
 	}
 
 	//Draw Pluto
 	if ( ksw->options()->drawPluto && drawPlanets ) {
-	  	drawPlanet(psky, ksw->data()->PC.findByName("Pluto"), QColor( "gray" ), 4, 0.001, 4 );
+	  	drawPlanet(psky, ksw->data()->PC->findByName("Pluto"), QColor( "gray" ), 4, 0.001, 4 );
 	}
 
 	//Label the clicked Object...commenting out for now

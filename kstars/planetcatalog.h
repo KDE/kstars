@@ -44,13 +44,14 @@
 #include <qlist.h>
 #endif
 
+class KStars;
 
 class PlanetCatalog : public QObject {
 	Q_OBJECT
 
 	public:
 	/**Constructor. */
-		PlanetCatalog();
+		PlanetCatalog(KStars *ks);
 
 	/**Destructor. Delete the Earth object (all others auto-deleted by QList)*/
 		~PlanetCatalog();
@@ -87,6 +88,7 @@ class PlanetCatalog : public QObject {
 		QList<KSPlanetBase> planets;
 		KSPlanet *Earth;
 		KSSun *Sun;
+		KStars *kstars;
 };
 
 #endif

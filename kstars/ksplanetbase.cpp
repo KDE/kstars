@@ -21,8 +21,8 @@
 #include "ksplanetbase.h"
 
 
-KSPlanetBase::KSPlanetBase( QString s, QString image_file )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Image(0) {
+KSPlanetBase::KSPlanetBase( KStars *ks, QString s, QString image_file )
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Image(0), kstars(ks) {
 
 	 if (! image_file.isEmpty()) {
 		QFile imFile;
@@ -47,9 +47,9 @@ void KSPlanetBase::EclipticToEquatorial( dms Obliquity ) {
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
 	if ( includePlanets ) {
-		KStars *ks = (KStars *)kapp->mainWidget();
-		ks->data()->earth()->findPosition( num );
-		findPosition( num, ks->data()->earth() );
+//		KStars *ks = (KStars *)kapp->mainWidget();
+		kstars->data()->earth()->findPosition( num );
+		findPosition( num, kstars->data()->earth() );
 	}
 }
 

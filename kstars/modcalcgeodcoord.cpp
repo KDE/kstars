@@ -191,7 +191,8 @@ modCalcGeodCoord::~modCalcGeodCoord(){
 void modCalcGeodCoord::showLongLat(void)
 {
 
-	KStars *ks = (KStars*)kapp->mainWidget();
+//	KStars *ks = (KStars*)kapp->mainWidget();
+	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	lonGeoBox->show( ks->geo()->lng() );
 	latGeoBox->show( ks->geo()->lat() );
 	altGeoName->setText( QString("0.0") );
