@@ -329,7 +329,11 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	else return false;
 }
 
-void InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian) {
+bool InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian) {
+	QString ot1 = TimeBox->text1();
+	QString ot2 = TimeBox->text2();
+	QString ot3 = TimeBox->text3();
+	
 	TimeBox->setText1( i18n( "Local Time", "LT: " ) + lt.time().toString()
 		+ "   " + KGlobal::locale()->formatDate( lt.date(), true ) );	
 	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
@@ -339,9 +343,17 @@ void InfoBoxes::timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double j
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
 		i18n( "Julian Day", "JD: " ) +
 		KGlobal::locale()->formatNumber( julian, 2 ) );
+
+	if ( ot1 == TimeBox->text1() && ot2 == TimeBox->text2() &&
+			ot3 == TimeBox->text3() ) 
+		return false;
+	else return true;
 }
 
-void InfoBoxes::geoChanged(const GeoLocation *geo) {
+bool InfoBoxes::geoChanged(const GeoLocation *geo) {
+	QString ot1 = GeoBox->text1();
+	QString ot2 = GeoBox->text2();
+	
 	QString name = geo->translatedName() + ", ";
 	if ( ! geo->province().isEmpty() ) name += geo->translatedProvince() + ",  ";
 	name += geo->translatedCountry();
@@ -351,17 +363,32 @@ void InfoBoxes::geoChanged(const GeoLocation *geo) {
 		KGlobal::locale()->formatNumber( geo->lng().Degrees(),3) + "   " +
 		i18n( "Latitude", "Lat:" ) + " " +
 		KGlobal::locale()->formatNumber( geo->lat().Degrees(),3) );
+	
+	if ( ot1 == GeoBox->text1() && ot2 == GeoBox->text2() )
+		return false;
+	else return true;
 }
 
-void InfoBoxes::focusObjChanged( const QString &n ) {
+bool InfoBoxes::focusObjChanged( const QString &n ) {
+	QString ot1 = FocusBox->text1();
+	
 	FocusBox->setText1( i18n( "Focused on: " ) + n );
+	if ( ot1 == FocusBox->text1() ) return false;
+	else return true;
 }
 
-void InfoBoxes::focusCoordChanged(const SkyPoint *p) {
+bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
+	QString ot2 = FocusBox->text2();
+	QString ot3 = FocusBox->text3();
+	
 	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() +
 		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec().toDMSString(true) );
 	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true) +
 		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az().toDMSString(true) );
+
+	if ( ot2 == FocusBox->text2() && ot3 == FocusBox->text3() ) 
+		return false;
+	else return true;
 }
 
 void InfoBoxes::checkBorders(bool resetToDefault) {

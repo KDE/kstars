@@ -204,23 +204,27 @@ public slots:
 	*@param lt The Local Time date/time object
 	*@param lst The Sidereal Time object
 	*@param jd The Julian Date (long double)
+	*@returns true if values have changed
 	*/
-	void timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian);
+	bool timeChanged(QDateTime ut, QDateTime lt, QTime lst, long double julian);
 
 /**Update the GeoBox strings according to the argument.
 	*@param geo The Geographic Location (we get the name, longitude and latitude from this)
+	*@returns true if values have changed
 	*/
-	void geoChanged(const GeoLocation *geo);
+	bool geoChanged(const GeoLocation *geo);
 
 /**Update the FocusBox coordinates strings according to the argument.
 	*@param p the SkyPoint object from which we get the coordinates.
+	*@returns true if values have changed
 	*/
-	void focusCoordChanged(const SkyPoint *p);
+	bool focusCoordChanged(const SkyPoint *p);
 
 /**Update the FocusBox name string according to the argument.
 	*@param n The object name
+	*@returns true if values have changed
 	*/
-	void focusObjChanged(const QString &n);
+	bool focusObjChanged(const QString &n);
 
 /**Check if boxes are anchored with bottom or right border.
 	@param resetToDefault reset all borders of boxes to false before checking borders.
