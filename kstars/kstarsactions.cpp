@@ -327,11 +327,11 @@ void KStars::slotViewOps() {
 	OpsColors  *opcolors     = new OpsColors( this, "colors" );
 	OpsAdvanced *opadvanced  = new OpsAdvanced( this, "advanced" );
 
-	dialog->addPage( opcatalog,  i18n("Catalogs"), stdDirs.findResource( "data", "kstars/opscatalog.png" ) );
-	dialog->addPage( opsolsys,   i18n("Solar System"), stdDirs.findResource( "data", "kstars/opssolarsystem.png" ) );
-	dialog->addPage( opguides,   i18n("Guides"), stdDirs.findResource( "data", "kstars/opsguides.png" ) );
-	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) );
-	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) );
+	dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
+	dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
+	dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
+	dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+	dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
 
 	dialog->show();
 }
