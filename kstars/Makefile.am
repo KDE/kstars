@@ -6,9 +6,9 @@ bin_PROGRAMS = kstars
 kstars_SOURCES = modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui modcalcapcoorddlg.ui modcalcgeoddlg.ui kstarsdcop.cpp skymapdraw.cpp kspopupmenu.cpp modcalcprecdlg.ui modcalcsidtimedlg.ui modcalcjddlg.ui kscomet.cpp ksasteroid.cpp ksfilereader.cpp eltscanvas.cpp elts.cpp modcalcazel.cpp modcalcazeldlg.ui jupitermoons.cpp lcgenerator.cpp modcalcdaylength.cpp infoboxes.cpp infobox.cpp colorscheme.cpp detaildialog.cpp timeunitbox.cpp timestepbox.cpp modcalcapcoord.cpp timezonerule.cpp kstars_options_handling.cpp focusdialog.cpp skymapevents.cpp kstarsmessagebox.cpp addcatdialog.cpp kstarsinit.cpp kstarsactions.cpp objectnamelist.cpp planetcatalog.cpp stardatasink.cpp filesource.cpp modcalcgeodcoord.cpp modcalcsidtime.cpp modcalcgalcoord.cpp modcalcprec.cpp modcalcjd.cpp astrocalc.cpp timebox.cpp dmsbox.cpp ksplanetbase.cpp ksnumbers.cpp ksutils.cpp simclock.cpp toggleaction.cpp addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp wutdialog.cpp scriptbuilderui.ui scriptbuilder.h scriptbuilder.cpp scriptfunction.h scriptfunction.cpp argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argwaitfor.ui argwaitforkey.ui argtimescale.ui scriptnamedialog.ui optionstreeview.ui
 kstars_LDADD   = -lkio -lkdeprint -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
-SUBDIRS = data indi 
+SUBDIRS = data indi
 
-EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h addlinkdialog.cpp addlinkdialog.h toggleaction.h toggleaction.cpp simclock.h simclock.cpp ksutils.h ksutils.cpp ksnumbers.cpp ksnumbers.h kstarsui.rc ksplanetbase.cpp ksplanetbase.h dmsbox.cpp dmsbox.h timebox.cpp timebox.h astrocalc.cpp astrocalc.h modcalcjd.cpp modcalcjd.h modcalcprec.cpp modcalcprec.h modcalcgalcoord.cpp modcalcgalcoord.h modcalcsidtime.cpp modcalcsidtime.h modcalcgeodcoord.cpp modcalcgeodcoord.h filesource.cpp filesource.h stardatasink.cpp stardatasink.h planetcatalog.h planetcatalog.cpp objectnamelist.cpp objectnamelist.h kstarsactions.cpp kstarsinit.cpp addcatdialog.cpp addcatdialog.h kstarsmessagebox.cpp kstarsmessagebox.h skymapevents.cpp focusdialog.cpp focusdialog.h kstars_options_handling.cpp timezonerule.cpp timezonerule.h modcalcapcoord.cpp modcalcapcoord.h timestepbox.cpp timestepbox.h timeunitbox.cpp timeunitbox.h detaildialog.cpp detaildialog.h colorscheme.cpp colorscheme.h infobox.cpp infoboxes.cpp infoboxes.h infobox.h modcalcdaylength.cpp modcalcdaylength.h lcgenerator.h lcgenerator.cpp jupitermoons.cpp jupitermoons.h modcalcazeldlg.ui modcalcazel.cpp modcalcazel.h elts.cpp elts.h eltscanvas.cpp eltscanvas.h KSFileReader.h ksfilereader.cpp ksfilereader.h ksasteroid.cpp ksasteroid.h kscomet.cpp kscomet.h modcalcjddlg.ui modcalcsidtimedlg.ui modcalcprecdlg.ui kspopupmenu.cpp kspopupmenu.h skymapdraw.cpp kstarsdcop.cpp modcalcgeoddlg.ui wutdialog.h modcalcapcoorddlg.ui modcalcgalcoorddlg.ui modcalcdaylengthdlg.ui 
+EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h addlinkdialog.cpp addlinkdialog.h toggleaction.h toggleaction.cpp simclock.h simclock.cpp ksutils.h ksutils.cpp ksnumbers.cpp ksnumbers.h kstarsui.rc ksplanetbase.cpp ksplanetbase.h dmsbox.cpp dmsbox.h timebox.cpp timebox.h astrocalc.cpp astrocalc.h modcalcjd.cpp modcalcjd.h modcalcprec.cpp modcalcprec.h modcalcgalcoord.cpp modcalcgalcoord.h modcalcsidtime.cpp modcalcsidtime.h modcalcgeodcoord.cpp modcalcgeodcoord.h filesource.cpp filesource.h stardatasink.cpp stardatasink.h planetcatalog.h planetcatalog.cpp objectnamelist.cpp objectnamelist.h kstarsactions.cpp kstarsinit.cpp addcatdialog.cpp addcatdialog.h kstarsmessagebox.cpp kstarsmessagebox.h skymapevents.cpp focusdialog.cpp focusdialog.h kstars_options_handling.cpp timezonerule.cpp timezonerule.h modcalcapcoord.cpp modcalcapcoord.h timestepbox.cpp timestepbox.h timeunitbox.cpp timeunitbox.h detaildialog.cpp detaildialog.h colorscheme.cpp colorscheme.h infobox.cpp infoboxes.cpp infoboxes.h infobox.h modcalcdaylength.cpp modcalcdaylength.h lcgenerator.h lcgenerator.cpp jupitermoons.cpp jupitermoons.h modcalcazeldlg.ui modcalcazel.cpp modcalcazel.h elts.cpp elts.h eltscanvas.cpp eltscanvas.h KSFileReader.h ksfilereader.cpp ksfilereader.h ksasteroid.cpp ksasteroid.h kscomet.cpp kscomet.h modcalcjddlg.ui modcalcsidtimedlg.ui modcalcprecdlg.ui kspopupmenu.cpp kspopupmenu.h skymapdraw.cpp kstarsdcop.cpp modcalcgeoddlg.ui wutdialog.h modcalcapcoorddlg.ui modcalcgalcoorddlg.ui modcalcdaylengthdlg.ui
 
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Edutainment/Science/
@@ -23,7 +23,7 @@ uninstall-local:
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:
 # kde_htmldir       Where your docs should go to. (contains lang subdirs)
-# kde_appsdir       Where your application file (.kdelnk) should go to. 
+# kde_appsdir       Where your application file (.kdelnk) should go to.
 # kde_icondir       Where your icon should go to.
 # kde_minidir       Where your mini icon should go to.
 # kde_datadir       Where you install application data. (Use a subdir)
@@ -44,7 +44,7 @@ INCLUDES= $(all_includes)
 
 METASOURCES = AUTO
 
-# the library search path. 
+# the library search path.
 kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 # Uncomment the following two lines if you add a ui.rc file for your application to make use of
@@ -56,7 +56,7 @@ kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 # messages: rc.cpp
 
-# instead of 
+# instead of
 
 # messages:
 
@@ -67,7 +67,7 @@ kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 # (HE 31/08/2002) treat cities, regions, countries separatedly
 stringsfile:
 	cd $(srcdir);
-	rm -f kstars_i18n.cpp; 
+	rm -f kstars_i18n.cpp;
 	rm -f cities.tmp;
 	rm -f regions.tmp;
 	rm -f countries.tmp;
@@ -95,6 +95,9 @@ stringsfile:
 	awk 'BEGIN {FS=":"}; {print "i18n(\"Image/info menu item (should be translated)\",\"" $$2 "\");"; }' < data/info_url.dat | \
 	sed 's/i18n(.*,"");//' >> "info_url.tmp";
 	sort info_url.tmp | uniq >> kstars_i18n.cpp;
+# star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
+	cat data/sao01.dat | perl -e 'while ( $$line=<STDIN> ) { $$starname = substr ($$line,40);    chop $$starname; if ( $$starname =~ /(.*)\:/ ) { $$starname = $$1 . " ";   }   if ( $$starname =~ /(.*\w)(\s+)/) { $$starname = $$1;	$$starnames{$$starname} = 1;   } } foreach $$star( sort keys %starnames) { printf "i18n(\"star name\",\"%s\");\n", $$star; }' >> kstars_i18n.cpp;
+# finish file
 	echo "#endif" >> kstars_i18n.cpp;
 # cleanup temporary files
 	rm -f cities.tmp;
