@@ -69,9 +69,9 @@ Declination is one of the coordinates in the Equatorial coordinate system; it me
                         <string>Right Ascension</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Enter the RIght Ascension coordinate to be focused on in the skymap.  You can express an angle value in several ways in this edit box.  As a simple integer ("12") or flaoting-point ("12.333") value, or as space- or colon-delimited values specifying hours, minutes and seconds ("12:20", "12:20:00", "12:20", "12 20.0", etc.).
+                        <string>Enter the Right Ascension coordinate to be focused on in the skymap.  You can express an angle value in several ways in this edit box.  As a simple integer ("12") or flaoting-point ("12.333") value, or as space- or colon-delimited values specifying hours, minutes and seconds ("12:20", "12:20:00", "12:20", "12 20.0", etc.).
 
-RIght Ascension is one of the coordinates in the Equatorial coordinate system.  It measures the angle around the celestial equator from the Vernal equinox, increasing to the East.  Right Ascension (RA) is almost always expressed in Hours instead of Degrees; the Celestial Equator is divided into 24 Hours, so 1 Hour of RA is equal to 360/24=15 Degrees.  See the AstroInfo article for more details,</string>
+Right Ascension is one of the coordinates in the Equatorial coordinate system.  It measures the angle around the celestial equator from the Vernal equinox, increasing to the East.  Right Ascension (RA) is almost always expressed in Hours instead of Degrees; the Celestial Equator is divided into 24 Hours, so 1 Hour of RA is equal to 360/24=15 Degrees.  See the AstroInfo article for more details,</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
