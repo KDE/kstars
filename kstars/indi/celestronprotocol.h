@@ -49,13 +49,13 @@
 
 #if REVERSE_NS > 0
 #define	NORTH		0
-#define	SOUTH		4
+#define	SOUTH		3
 #else
-#define	NORTH		4
+#define	NORTH		3
 #define	SOUTH		0
 #endif
 
-#define	EAST		3
+#define	EAST		2
 #define	WEST		1
 
 /* Slew speed defines */
