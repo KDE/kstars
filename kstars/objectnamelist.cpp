@@ -18,6 +18,7 @@
 #include "objectnamelist.h"
 
 #include <klocale.h>
+#include <kdebug.h>
 
 ObjectNameList::ObjectNameList()
 {
@@ -119,8 +120,20 @@ int ObjectNameList::getIndex( const QString &name ) {
 		QChar firstLetter = name[0];
 		if ( firstLetter ) {
 			if ( firstLetter.isLetter() ) {
-				const char letter = (char) firstLetter.lower();
+				const unsigned char letter = (unsigned char) firstLetter.lower();
 				index = letter % 96;  // a == 97 in ASCII code => 97 % 96 = 1
+			}
+
+			/**
+				*Avoid invalid index due to non ASCII letters like "ö" etc. Add your own letters to put them in
+				*the right list.
+				*/
+			if (index > 26) {
+				switch (index) {
+					case 54 : index = 15; break;  // ö == o
+					default : index = 0;						// all other letters
+				}
+				kdDebug() << k_funcinfo << "Object: " << name << " starts with non ASCII letter. Put it in list #" << index << endl;
 			}
 		}
 	}
