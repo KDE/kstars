@@ -34,6 +34,7 @@ class KStarsInterface : virtual public DCOPObject
 
 	k_dcop:
 		virtual ASYNC lookTowards( const QString direction ) = 0;
+		virtual ASYNC zoom( double f ) = 0;
 		virtual ASYNC zoomIn() = 0;
 		virtual ASYNC zoomOut() = 0;
 		virtual ASYNC defaultZoom() = 0;

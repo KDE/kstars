@@ -73,6 +73,7 @@ void KStars::zoom( double z ) {
 	if ( z > MAXZOOM ) z = MAXZOOM;
 	if ( z < MINZOOM ) z = MINZOOM;
 	options()->ZoomFactor = z;
+	map()->forceUpdate();
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {

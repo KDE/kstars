@@ -35,6 +35,9 @@
       <envvar value="1" name="WANT_AUTOCONF_2_5" />
       <envvar value="1" name="WANT_AUTOMAKE_1_6" />
     </makeenvvars>
+    <run>
+      <directoryradio>executable</directoryradio>
+    </run>
   </kdevautoproject>
   <kdevfileview>
     <groups>
@@ -47,7 +50,8 @@
     </groups>
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
-      <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <hidepatterns></hidepatterns>
+      <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
   <kdevdoctreeview>
@@ -66,13 +70,28 @@
   </kdevdebugger>
   <kdevcvs>
     <cvsoptions>-f</cvsoptions>
-    <commitoptions/>
-    <addoptions/>
-    <logoptions/>
+    <commitoptions></commitoptions>
+    <addoptions></addoptions>
+    <logoptions></logoptions>
     <updateoptions>-dP</updateoptions>
     <removeoptions>-f</removeoptions>
     <revertoptions>-C -d -P</revertoptions>
     <diffoptions>-u3 -p</diffoptions>
-    <rshoptions/>
+    <rshoptions></rshoptions>
   </kdevcvs>
+  <kdevcppsupport>
+    <codecompletion>
+      <includeGlobalFunctions>true</includeGlobalFunctions>
+      <includeTypes>true</includeTypes>
+      <includeEnums>true</includeEnums>
+      <includeTypedefs>false</includeTypedefs>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticArgumentsHint>true</automaticArgumentsHint>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <codeCompletionDelay>250</codeCompletionDelay>
+      <argumentsHintDelay>400</argumentsHintDelay>
+      <headerCompletionDelay>250</headerCompletionDelay>
+    </codecompletion>
+    <references/>
+  </kdevcppsupport>
 </kdevelop>
