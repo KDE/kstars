@@ -166,15 +166,10 @@ void SkyMap::setGeometry( const QRect &r ) {
 void SkyMap::showFocusCoords( void ) {
 	//display object info in infoBoxes
 	QString oname;
-
 	oname = i18n( "nothing" );
-	if ( focusObject() != NULL && Options::isTracking() ) {
-		oname = focusObject()->translatedName();
-		//add genetive name for stars
-	  if ( focusObject()->type()==0 && focusObject()->name2().length() )
-			oname += " (" + focusObject()->name2() + ")";
-	}
-
+	if ( focusObject() != NULL && Options::isTracking() ) 
+		oname = focusObject()->translatedLongName();
+	
 	infoBoxes()->focusObjChanged(oname);
 
 	if ( Options::useAltAz() && Options::useRefraction() ) {
@@ -529,7 +524,6 @@ void SkyMap::slotCenter( void ) {
 	if ( ksw ) ksw->statusBar()->changeItem( s, 1 );
 
 	showFocusCoords(); //update FocusBox
-//	forceUpdate();	// must be new computed
 }
 
 void SkyMap::slotDSS( void ) {
@@ -912,12 +906,13 @@ void SkyMap::slewFocus( void ) {
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-		if ( focusObject() )
-			infoBoxes()->focusObjChanged( focusObject()->translatedName() );
-		else
-			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
-
-		infoBoxes()->focusCoordChanged( focus() );
+//Deprecated...this is already done by showFocusCoords() call at end of slotFocus()
+// 		if ( focusObject() )
+// 			infoBoxes()->focusObjChanged( focusObject()->translatedLongName() );
+// 		else
+// 			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
+// 
+// 		infoBoxes()->focusCoordChanged( focus() );
 
 		data->HourAngle->setH( data->LST->Hours() - focus()->ra()->Hours() );
 		slewing = false;

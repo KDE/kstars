@@ -526,6 +526,8 @@ void KStars::datainitFinished(bool worked) {
 	//If this is the first startup, show the wizard
 	if ( Options::runStartupWizard() ) {
 		slotWizard();
+		//reset the clock to the system CPU
+		slotSetTimeToNow();
 	}
 
 	//Check whether initial position is below the horizon.
