@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>telescopeWizard</class>
 <widget class="QDialog">
     <property name="name">
@@ -144,7 +144,7 @@
                         <property name="text">
                             <string>Welcome to the &lt;b&gt;KStars Telescope Setup Wizard!&lt;/b&gt; 
 &lt;br&gt;&lt;br&gt;
-This Wizard will help you to connect your telescope and control it from KStars. You will be asked to verify some basic information.
+This Wizard will help you to connect to your telescope and control it from KStars. You will be asked to verify some basic information.
 &lt;br&gt;
 &lt;br&gt;You can get extended information on telescope support in KStars by pressing the &lt;tt&gt;help&lt;/tt&gt; button at any point during the Wizard.
 &lt;br&gt;&lt;br&gt;
@@ -281,7 +281,7 @@ Please select your telescope model from the list below. Click next after selecti
                             </sizepolicy>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;2. Setup your telescope&lt;/h3&gt;
+                            <string>&lt;h3&gt;2. Align your telescope&lt;/h3&gt;
 
 You need to align your telescope before you can control it properly from KStars. Please refer to your telescope manual for alignment instructions.
 &lt;br&gt;&lt;br&gt;
