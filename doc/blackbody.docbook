@@ -24,7 +24,7 @@ object would appear to be perfectly black.  Hence the term
 
 <para>
 All objects emit thermal radiation (as long as their temperature is
-above Absolute Zero, or -276.15 degrees Celsius), but no object is
+above Absolute Zero, or -273.15 degrees Celsius), but no object is
 really a perfect emitter; rather, they are better at
 emitting/absorbing some wavelengths of light than others.  These
 uneven efficiencies make it difficult to study the interaction of
