@@ -43,7 +43,6 @@ install-exec-hook:
 	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200_16
 	rm -f $(DESTDIR)$(bindir)/lx200gps
 	$(LN_S) lx200generic $(DESTDIR)$(bindir)/lx200gps
-	chmod +s $(DESTDIR)$(bindir)/fliccd
 
 uninstall-local:
 	rm $(DESTDIR)$(bindir)/lx200autostar $(DESTDIR)$(bindir)/lx200_16 $(DESTDIR)$(bindir)/lx200gps
