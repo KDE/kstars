@@ -22,7 +22,6 @@
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY csphere SYSTEM "csphere.docbook">
   <!ENTITY darkmatter SYSTEM "darkmatter.docbook">
-  <!ENTITY dcop SYSTEM "dcop.docbook">
   <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
   <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
   <!ENTITY equinox SYSTEM "equinox.docbook">
@@ -54,6 +53,9 @@
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
   <!ENTITY tool-whatsup SYSTEM "wut.docbook">
+  <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
+  <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
+  <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
@@ -224,20 +226,27 @@ learning about astronomy and the night sky.  To this end, the &kstars;
 Handbook includes the <link linkend="astroinfo">AstroInfo
 Project</link>, a series of short, hyperlinked articles on astronomical
 topics that can be explored with &kstars;.  In addition, &kstars;
-includes several <link linkend="dcop">DCOP functions</link> that enable
-complex behaviors to be scripted ahead of time, making &kstars; a powerful
-"demo engine" for classroom use or general illustration of astronomical
-topics.  At this point, the DCOP scripts must be constructed by hand,
-but in a future version, we will provide a GUI tool for editing
-behavioral scripts easily.
+includes DCOP functions that allow you to <link 
+linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars; 
+a powerful "demo engine" for classroom use or general illustration of 
+astronomical topics.  
 </para>
 <para>
-Furthermore, KStars allows you to control telescopes using &kstars; simple and powerful <link linkend="indi">INDI</link> interface. &kstars; supports several popular telescopes including Meade's LX200 family and Celestron GPS. Additional support for more astronomical devices such as CCD cameras and focusers is in development. You can track any object in KStars using simple slew/track commands; or you can configure and control the device features using the powerful INDI Control Panel. Furthermore, INDI's Client/Server architecture allows you to control local and remote astronomical devices seemingly.
+You can even control telescopes with &kstars;, using the elegant and 
+powerful <link linkend="indi">INDI</link> hardware interface.  &kstars; 
+supports several popular telescopes including Meade's LX200 family and 
+Celestron GPS. Additional support for more astronomical devices such as 
+CCD cameras and focusers is in development.  Simple slew/track commands 
+are integrated directly into the main window's popup menu, and the 
+INDI Control Panel provides full access to all of your telescope's 
+functions.  INDI's Client/Server architecture allows for seamless 
+control of any number of local or remote telescopes using a single 
+&kstars; session.
 </para>
 <para>
 We are very interested in your feedback; please report bugs or
 feature requests to the &kstars; development mailing list:
-<email>kstars-devel@lists.sourceforge.net</email>. You can also use
+<email>kstars-devel@kde.org</email>. You can also use
 the automated bug reporting tool, accessible from the Help menu.
 </para>
 </chapter>
@@ -246,8 +255,7 @@ the automated bug reporting tool, accessible from the Help menu.
 &config;      <!--Configuring KStars-->
 &commands;    <!--Command Reference-->
 &astroinfo;   <!--AstroInfo Articles-->
-&tools;       <!--The AASVO Lightcurve Tool-->
-&dcop;        <!--The DCOP Interface-->
+&tools;       <!--KStars Tools-->
 &indi;	      <!-- INDI-->
 &faq;         <!--Questions and Answers-->
 &credits;     <!--Credits and License-->

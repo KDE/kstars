@@ -87,7 +87,7 @@ last step as <systemitem class="username">root</systemitem>.
 &kstars; uses <command>autoconf</command> and <command>automake</command>, 
 so you should not have trouble compiling it. Should you run into problems 
 please report them to the &kstars; mailing list 
-<email>kstars-devel@lists.sourceforge.net</email>.
+<email>kstars-devel@kde.org</email>.
 </para>
 </sect1>
 

@@ -64,7 +64,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Print...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Send the current sky map to the printer (or to a 
+<listitem><para>Send the current sky map to the printer (or to a
 PostScript/PDF file)
 </para></listitem>
 </varlistentry>
@@ -133,7 +133,7 @@ PostScript/PDF file)
 <guimenu>Focus</guimenu>
 <guimenuitem>Zenith</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center at the <link linkend="ai-zenith">Zenith</link> 
+<listitem><para>Center at the <link linkend="ai-zenith">Zenith</link>
 point (straight up)</para></listitem>
 </varlistentry>
 
@@ -145,7 +145,7 @@ point (straight up)</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>North</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the North point on the 
+<listitem><para>Center above the North point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -157,7 +157,7 @@ horizon</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>East</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the East point on the 
+<listitem><para>Center above the East point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -169,7 +169,7 @@ horizon</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>South</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the South point on the 
+<listitem><para>Center above the South point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -181,7 +181,7 @@ horizon</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>West</guimenuitem>
 </menuchoice></term>
-<listitem><para>Center above the West point on the 
+<listitem><para>Center above the West point on the
 horizon</para></listitem>
 </varlistentry>
 
@@ -193,7 +193,7 @@ horizon</para></listitem>
 <guimenu>Focus</guimenu>
 <guimenuitem>Find Object</guimenuitem>
 </menuchoice></term>
-<listitem><para>Locate an object by name using the 
+<listitem><para>Locate an object by name using the
 <link linkend="findobjects">Find Object Window</link></para></listitem>
 </varlistentry>
 
@@ -206,7 +206,7 @@ horizon</para></listitem>
 <guimenuitem>Track Object</guimenuitem>
 </menuchoice></term>
 <listitem><para>Toggle tracking on/off.  While tracking,
-the display will remain centered on the current position or 
+the display will remain centered on the current position or
 object.</para></listitem>
 </varlistentry>
 
@@ -356,7 +356,7 @@ on/off</para></listitem>
 <guisubmenu>Color Schemes</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu contains all of the defined color schemes, including your 
+This submenu contains all of the defined color schemes, including your
 custom schemes.  Selecting an item sets the scheme automatically.
 </para></listitem>
 </varlistentry>
@@ -367,11 +367,11 @@ custom schemes.  Selecting an item sets the scheme automatically.
 <guisubmenu>FOV Symbols</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu lists the available field-of-view (FOV) Symbols.  
-The FOV Symbol is drawn at the center of the display.  You 
-may choose from the list of predefined symbols (No symbol, 
-7x35 Binoculars, One degree, or HST WFPC2), or you may define 
-your own symbols (or modify existing symbols) using the 
+This submenu lists the available field-of-view (FOV) Symbols.
+The FOV Symbol is drawn at the center of the display.  You
+may choose from the list of predefined symbols (No symbol,
+7x35 Binoculars, One degree, or HST WFPC2), or you may define
+your own symbols (or modify existing symbols) using the
 <guimenuitem>Edit FOV symbols...</guimenuitem> item.
 </para></listitem>
 </varlistentry>
@@ -386,7 +386,7 @@ your own symbols (or modify existing symbols) using the
 </menuchoice></term>
 <listitem>
 <para>
-Select a new <link linkend="geolocation">geographic 
+Select a new <link linkend="geolocation">geographic
 location</link>
 </para>
 </listitem>
@@ -397,7 +397,7 @@ location</link>
 <guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Modify <link linkend="config">view 
+<listitem><para>Modify <link linkend="config">view
 options</link></para></listitem>
 </varlistentry>
 </variablelist>
@@ -418,8 +418,8 @@ options</link></para></listitem>
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Astrocalculator</guilabel> Tool, which 
-provides full access to many of the mathematical functions used by 
+Opens the <link linkend="tool-calculator">AstroCalculator</link> Tool,
+which provides full access to many of the mathematical functions used by
 &kstars;.
 </para>
 </listitem>
@@ -435,8 +435,8 @@ provides full access to many of the mathematical functions used by
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>AAVSO Light Curve Generator</guilabel> 
-Tool, which allows you to download a light curve for any variable 
+Opens the <link linkend="tool-aavso">AAVSO Light Curve Generator</link>
+Tool, which allows you to download a light curve for any variable
 star from the American Association of Variable Star Observers.
 </para>
 </listitem>
@@ -452,9 +452,9 @@ star from the American Association of Variable Star Observers.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Altitude vs. Time</guilabel> Tool, which
-can plot curves representing the altitude of any object as a 
-function of time.  This is useful for planning observing 
+Opens the <link linkend="tool-altvstime">Altitude vs. Time</link> Tool, which
+can plot curves representing the altitude of any object as a
+function of time.  This is useful for planning observing
 sessions.
 </para>
 </listitem>
@@ -470,8 +470,8 @@ sessions.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>What's Up Tonight</guilabel> Tool, 
-which presents a summary of the objects which are observable 
+Opens the <link linkend="tool-whatsup">What's Up Tonight</link> Tool,
+which presents a summary of the objects which are observable
 from your location on a given date.
 </para>
 </listitem>
@@ -487,7 +487,7 @@ from your location on a given date.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Script Builder</guilabel> Tool, 
+Opens the <link linkend="tool-scriptbuilder">Script Builder</link> Tool,
 which provides a GUI interface for building &kstars; DCOP scripts.
 </para>
 </listitem>
@@ -503,8 +503,8 @@ which provides a GUI interface for building &kstars; DCOP scripts.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Solar System Viewer</guilabel>, 
-which displays an overhead view of the solar system on the 
+Opens the <link linkend="tool-solarsys">Solar System Viewer</link>,
+which displays an overhead view of the solar system on the
 current simulation date.
 </para>
 </listitem>
@@ -520,8 +520,8 @@ current simulation date.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Jupiter Moons Tool</guilabel>, 
-which displays the positions of Jupiter's four brightest 
+Opens the <link linkend="tool-jmoons">Jupiter Moons Tool</link>,
+which displays the positions of Jupiter's four brightest
 moons as a function of time.
 </para>
 </listitem>
@@ -540,7 +540,9 @@ moons as a function of time.
 <guimenu>Devices</guimenu>
 <guimenuitem>Telescope Wizard</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up the telescope setup wizard, which provides a step by step guide to help you connect to your telescope and control it from &kstars;.</para></listitem>
+<listitem><para>Opens up the Telescope Setup Wizard, which provides a
+step by step guide to help you connect to your telescope and control it
+from &kstars;.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -598,7 +600,7 @@ is also shown here.
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-Rise/Set/Transit times are shown on the next three lines. 
+Rise/Set/Transit times are shown on the next three lines.
 </para></listitem>
 </varlistentry>
 
@@ -673,17 +675,17 @@ taken, and we include over 100 of them in our database of links.
 <varlistentry>
 <term>[All Named Objects]</term>
 <listitem><para>
-<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own 
-custom links to the popup menu of any object.  It opens a small window 
-in which you enter the &URL; of the link, and the text you want to 
-appear in the popup menu.  There is also a pair of radio buttons which 
-allow you to specify whether the &URL; is an image or an 
-<acronym>HTML</acronym> document, so &kstars; knows whether to launch 
-the web browser or the image viewer.  You can use this to add links to 
-files on your local disk, so this feature could be used to attach 
-observing logs or other custom information to objects in &kstars;.  
-Your custom links are automatically loaded whenever &kstars; starts up, 
-and they are stored in the directory <filename 
+<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own
+custom links to the popup menu of any object.  It opens a small window
+in which you enter the &URL; of the link, and the text you want to
+appear in the popup menu.  There is also a pair of radio buttons which
+allow you to specify whether the &URL; is an image or an
+<acronym>HTML</acronym> document, so &kstars; knows whether to launch
+the web browser or the image viewer.  You can use this to add links to
+files on your local disk, so this feature could be used to attach
+observing logs or other custom information to objects in &kstars;.
+Your custom links are automatically loaded whenever &kstars; starts up,
+and they are stored in the directory <filename
 class="directory">~/.kde/share/apps/kstars/</filename>, in files
 <filename>myimage_url.dat</filename> and
 <filename>myinfo_url.dat</filename>.  If you build an extensive list
@@ -727,7 +729,7 @@ key doubles the scrolling speed.
 </para></listitem></varlistentry>
 
 <varlistentry><term><keycap>Z</keycap></term>
-<listitem><para>Center on the <link linkend="ai-zenith">Zenith</link> 
+<listitem><para>Center on the <link linkend="ai-zenith">Zenith</link>
 Point (straight up).</para></listitem></varlistentry>
 
 <varlistentry><term><keycap>N</keycap></term>
@@ -751,7 +753,7 @@ Point (straight up).</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </term>
-<listitem><para>Specify RA/Dec coordinates to center 
+<listitem><para>Specify RA/Dec coordinates to center
 on.</para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
@@ -813,31 +815,31 @@ on.</para></listitem></varlistentry>
 <varlistentry><term>Moving the mouse</term>
 <listitem><para>
 The Equatorial (RA, Dec) coordinates of the mouse cursor are updated
-in the status bar.  
+in the status bar.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Clicking</term>
-<listitem><para>Identify the object nearest the mouse cursor in the 
+<listitem><para>Identify the object nearest the mouse cursor in the
 status bar.
 </para></listitem>
 </varlistentry>
- 
+
 <varlistentry><term>Double-clicking</term>
 <listitem><para>Center and track on the clicked location or object
-nearest the mouse cursor.  Double-clicking on an Info Box will 
+nearest the mouse cursor.  Double-clicking on an Info Box will
 <quote>shade</quote> it to reveal/hide extra information.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Right-clicking</term>
 <listitem><para>Open the popup menu for the location or object nearest
-the mouse cursor.  
+the mouse cursor.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Scrolling the mouse wheel</term>
-<listitem><para>Zoom the display in or out.  If you don't have a 
+<listitem><para>Zoom the display in or out.  If you don't have a
 mouse wheel, you can hold the middle mouse button and drag vertically.
 </para></listitem>
 </varlistentry>
@@ -846,16 +848,16 @@ mouse wheel, you can hold the middle mouse button and drag vertically.
 <listitem><para>
 	<variablelist>
 	<varlistentry><term>Dragging the sky map</term>
-	<listitem><para>Pan the display, following the drag motion.  
+	<listitem><para>Pan the display, following the drag motion.
 	</para></listitem></varlistentry>
 	<varlistentry><term>&Ctrl;+dragging the sky map</term>
-	<listitem><para>Define a rectangle in the map.  When the 
+	<listitem><para>Define a rectangle in the map.  When the
 	mouse button is released, the display is zoomed in to match the
-	field-of-view to the bounds of the rectangle.  
+	field-of-view to the bounds of the rectangle.
 	</para></listitem></varlistentry>
 	<varlistentry><term>Dragging an Info Box</term>
 	<listitem><para>The Info Box is repositioned in the map.  Info
-	Boxes will <quote>stick</quote> to window edges, so that they 
+	Boxes will <quote>stick</quote> to window edges, so that they
 	remain on the edge when the window is resized.
 	</para></listitem></varlistentry>
 	</variablelist>
