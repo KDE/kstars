@@ -99,8 +99,8 @@ public slots:
 	void SecondPrefix( int value );
 
 protected:
-   bool event( QEvent* );
-	void keyPressEvent( QKeyEvent* );
+	bool event( QEvent* );
+	void keyReleaseEvent( QKeyEvent* );
 
 private:
   KStars *ksw;

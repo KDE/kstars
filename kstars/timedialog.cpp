@@ -99,7 +99,9 @@ TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
 }
 
 //Add handler for Escape key to close window
-void TimeDialog::keyPressEvent( QKeyEvent *kev ) {
+//Use keyReleaseEvent because keyPressEvents are already consumed
+//by the KDatePicker.
+void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 	switch( kev->key() ) {
 		case Key_Escape:
 		{
