@@ -734,7 +734,7 @@ void ViewOpsDialog::slotPreset( int index ) {
 	QStringList::Iterator it = PresetFileList.at( index );
 	bool result = setColors( *it );
 	if (!result) {
-		QString message = i18n( "The specified color scheme file (%1) could not be found, or it was corrupted." ).arg( QString(*it) );
+		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( QString(*it) );
 		KMessageBox::sorry( 0, message, i18n( "Could not set Color Scheme" ) );
 	}
 }
