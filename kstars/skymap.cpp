@@ -849,6 +849,9 @@ void SkyMap::updateFocus() {
 		}
 	}
 
+	//Update the Hour Angle
+	data->setHourAngle( data->LST->Hours() - focus()->ra()->Hours() );
+
 	setOldFocus( focus() );
 	oldfocus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 }
