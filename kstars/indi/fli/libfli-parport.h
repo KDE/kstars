@@ -53,7 +53,10 @@
 #define unix_parportio NULL
 
 #else
-#error "Unknown system"
+
+#define unix_parportio NULL
+#warning "Unknown system"
+
 #endif
 
 long unix_parportio_linux(flidev_t dev, void *buf, long *wlen, long *rlen);

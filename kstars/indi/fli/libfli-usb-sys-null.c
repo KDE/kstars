@@ -41,32 +41,27 @@
 
 */
 
-#ifndef _LIBFLI_USB_H_
-#define _LIBFLI_USB_H_
+#include <sys/types.h>
+#include <sys/ioctl.h>
 
-#define FLI_CMD_ENDPOINT 2
+#include <unistd.h>
+#include <errno.h>
 
-#if defined(__linux__)
+#include "libfli-libfli.h"
+#include "libfli-sys.h"
+#include "libfli-usb.h"
 
-#define unix_bulkwrite linux_bulkwrite
-#define unix_bulkread linux_bulkread
+long null_bulkwrite(flidev_t dev, void *buf, long *wlen)
+{
+  return -errno;
+}
 
-#elif defined(__FreeBSD__) || defined(__NetBSD__)
+long null_bulkread(flidev_t dev, void *buf, long *rlen)
+{
+  return -errno;
+}
 
-#define unix_bulkwrite bsd_bulkwrite
-#define unix_bulkread bsd_bulkread
-
-#else
-
-#define unix_bulkwrite null_bulkwrite
-#define unix_bulkread null_bulkread
-
-#warning "using null I/O operations!"
-
-#endif
-
-long unix_bulkwrite(flidev_t dev, void *buf, long *wlen);
-long unix_bulkread(flidev_t dev, void *buf, long *rlen);
-long unix_usbio(flidev_t dev, void *buf, long *wlen, long *rlen);
-
-#endif /* _LIBFLI_USB_H_ */
+long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
+{
+  return -errno;
+}

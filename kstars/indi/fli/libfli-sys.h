@@ -59,6 +59,7 @@
 #define SERIAL_GLOB "/dev/ttyS[0-9]*"
 
 #elif defined(__FreeBSD__)
+// FIXME - this does not actually work on OSX
 
 #define __SYSNAME__ "FreeBSD"
 #define __LIBFLI_MINOR__ 1
@@ -79,7 +80,15 @@
 #define SERIAL_GLOB "/dev/dty0*"
 
 #else
-#error "Unknown system"
+
+#define __SYSNAME__ "Unknown"
+#define __LIBFLI_MINOR__ 1
+#define USB_READ_SIZ_MAX 0
+#define USB_GLOB ""
+#define SERIAL_GLOB ""
+
+#warning "Unknown system"
+
 #endif
 
 typedef struct {
