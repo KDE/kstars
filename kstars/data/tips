@@ -14,7 +14,7 @@ or the "globe" Toolbar button.
 </tip>
 <tip category="KStars|General">
 <html>
-<p>...that you can Track on an object, so it will always be centered
+<p>...that you can Track an object, so it will always be centered
 in the display?<br>
 Use Ctrl+T, the "Focus|Track Object" menu item, or the "lock"
 Toolbar button. You can also simply center the object by
@@ -60,7 +60,7 @@ of the mouse cursor.
 <tip category="KStars|Navigation">
 <html>
 <p>When you click your mouse in the map, the object in the sky nearest
-the mouse cursor is identified in the Status Bar.
+the mouse cursor is identified in the status bar.
 </html>
 </tip>
 <tip category="KStars|Navigation">
@@ -79,7 +79,7 @@ coordinates of the mouse cursor.
 <tip category="KStars|Navigation">
 <html>
 <p>...that there are 5 different ways to zoom the display in and out?
-You can use the Mouse's scroll wheel, drag the mouse vertically while pressing
+You can use the mouse's scroll wheel, drag the mouse vertically while pressing
 the middle button, use the +/- keys, use the zoom buttons on the toolbar,
 and use the "Zoom In" and "Zoom Out" items in the "View" menu.
 </html>

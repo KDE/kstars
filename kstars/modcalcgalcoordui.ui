@@ -30,7 +30,7 @@
                 <cstring>ButtonGroup1</cstring>
             </property>
             <property name="title">
-                <string>InputSelection</string>
+                <string>Input Selection</string>
             </property>
             <widget class="KPushButton">
                 <property name="name">

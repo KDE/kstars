@@ -172,7 +172,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Day lengt:</string>
+                    <string>Day length:</string>
                 </property>
             </widget>
             <widget class="KLineEdit">
@@ -346,7 +346,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Azimut:</string>
+                    <string>Azimuth:</string>
                 </property>
             </widget>
             <widget class="KLineEdit">

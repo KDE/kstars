@@ -77,7 +77,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Modifed Julian Day</string>
+                    <string>Modified Julian Day</string>
                 </property>
             </widget>
             <widget class="QRadioButton">

@@ -1060,7 +1060,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
 //		tt = i18n( "Transit time: " ) + tt2 +
 //			i18n(", Altitude: ") + tt3 ;
-		tt = i18n( "Transit time: %1 " ).arg( tt2 );
+		tt = i18n( "Transit time: %1" ).arg( tt2 );
 	}
 
 	pmRiseTime->setText( rt );
