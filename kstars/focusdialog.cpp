@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qtabwidget.h>
+#include <qlayout.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -37,10 +38,13 @@ FocusDialog::FocusDialog( QWidget *parent )
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
-	fdlg = new FocusDialogDlg(this);
-	setMainWidget(fdlg);
-	this->show();
-        fdlg->epochName->setValidator( new KDoubleValidator( fdlg->epochName ) );
+	QFrame *page = plainPage();
+	setMainWidget(page);
+	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	fdlg = new FocusDialogDlg(page);
+	fdlg->epochName->setValidator( new KDoubleValidator( fdlg->epochName ) );
+	vlay->addWidget( fdlg );
+	
 	connect( fdlg->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fdlg->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fdlg->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );

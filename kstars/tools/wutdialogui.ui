@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>WUTDialogUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>510</width>
-            <height>450</height>
+            <width>525</width>
+            <height>501</height>
         </rect>
     </property>
     <property name="caption">
@@ -361,197 +361,168 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout28</cstring>
+                <cstring>layout10</cstring>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget">
+                <spacer row="0" column="2">
                     <property name="name">
-                        <cstring>layout7</cstring>
+                        <cstring>spacer9</cstring>
                     </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>textLabel15</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&lt;font size="-1"&gt;&lt;b&gt;Choose a category:&lt;/b&gt;&lt;/font&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="KListBox" row="1" column="0">
-                            <property name="name">
-                                <cstring>CategoryListBox</cstring>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>100</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>List of object categories</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Select an item in the Categories list to display objects in that category which are above the horizon on the selected date.</string>
-                            </property>
-                        </widget>
-                        <widget class="KListBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>ObjectListBox</cstring>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>150</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>List of objects above horizon tonight</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Objects listed here are above the horizon on the selected date, and have the object type which is highlighted in the "Choose a Category" list.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="1">
-                            <property name="name">
-                                <cstring>textLabel16</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&lt;font size="-1"&gt;&lt;b&gt;Matching objects:&lt;/b&gt;&lt;/font&gt;</string>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget class="QLayoutWidget">
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>164</width>
+                            <height>12</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLabel" row="0" column="0">
                     <property name="name">
-                        <cstring>layout27</cstring>
+                        <cstring>textLabel15</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&lt;font size="-1"&gt;&lt;b&gt;Choose a category:&lt;/b&gt;&lt;/font&gt;</string>
+                    </property>
+                </widget>
+                <widget class="KListBox" row="1" column="1">
+                    <property name="name">
+                        <cstring>ObjectListBox</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>150</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>List of objects above horizon tonight</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Objects listed here are above the horizon on the selected date, and have the object type which is highlighted in the "Choose a Category" list.</string>
+                    </property>
+                </widget>
+                <widget class="QGroupBox" row="1" column="2">
+                    <property name="name">
+                        <cstring>ObjectBox</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Object Name</string>
                     </property>
                     <vbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>ObjectRiseLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Rises at:  22:12</string>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignVCenter</set>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Displays the time at which the highlighted object rises above the horizon on the selected date.</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>ObjectTransitLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Transits at:  03:45</string>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignVCenter</set>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Displays the time at which the highlighted object transits across the local meridian on the selected date.</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>ObjectSetLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Sets at:  08:22</string>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignVCenter</set>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Displays the time at which the highlighted object sets below the horizon on the selected date.</string>
+                            </property>
+                        </widget>
                         <spacer>
                             <property name="name">
-                                <cstring>spacer9</cstring>
+                                <cstring>spacer7</cstring>
                             </property>
                             <property name="orientation">
-                                <enum>Horizontal</enum>
+                                <enum>Vertical</enum>
                             </property>
                             <property name="sizeType">
-                                <enum>Expanding</enum>
+                                <enum>Fixed</enum>
                             </property>
                             <property name="sizeHint">
                                 <size>
-                                    <width>80</width>
-                                    <height>10</height>
+                                    <width>20</width>
+                                    <height>40</height>
                                 </size>
                             </property>
                         </spacer>
-                        <widget class="QGroupBox">
+                        <widget class="KPushButton">
                             <property name="name">
-                                <cstring>ObjectBox</cstring>
+                                <cstring>DetailButton</cstring>
                             </property>
-                            <property name="title">
-                                <string>Object Name</string>
+                            <property name="text">
+                                <string>Object Details...</string>
                             </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>ObjectRiseLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Rises at:  22:12</string>
-                                    </property>
-                                    <property name="alignment">
-                                        <set>AlignVCenter</set>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Displays the time at which the highlighted object rises above the horizon on the selected date.</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>ObjectTransitLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Transits at:  03:45</string>
-                                    </property>
-                                    <property name="alignment">
-                                        <set>AlignVCenter</set>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Displays the time at which the highlighted object transits across the local meridian on the selected date.</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>ObjectSetLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Sets at:  08:22</string>
-                                    </property>
-                                    <property name="alignment">
-                                        <set>AlignVCenter</set>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Displays the time at which the highlighted object sets below the horizon on the selected date.</string>
-                                    </property>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer2</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Vertical</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>20</width>
-                                            <height>60</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>DetailButton</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Object Details...</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Open the Object Details window</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Open the Details window for the highlighted object.</string>
-                                    </property>
-                                </widget>
-                            </vbox>
+                            <property name="toolTip" stdset="0">
+                                <string>Open the Object Details window</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Open the Details window for the highlighted object.</string>
+                            </property>
                         </widget>
                     </vbox>
                 </widget>
-            </hbox>
+                <widget class="KListBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>CategoryListBox</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>100</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>List of object categories</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select an item in the Categories list to display objects in that category which are above the horizon on the selected date.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="1">
+                    <property name="name">
+                        <cstring>textLabel16</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&lt;font size="-1"&gt;&lt;b&gt;Matching objects:&lt;/b&gt;&lt;/font&gt;</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
-    <includehint>klistbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
 </UI>

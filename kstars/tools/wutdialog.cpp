@@ -48,7 +48,10 @@ WUTDialog::WUTDialog(KStars *ks) :
 	kstars(ks), EveningFlag(0) {
 
 	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	setMainWidget(page);
+	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	WUT = new WUTDialogUI( page );
+	vlay->addWidget( WUT );
 
 	objectList = &(ks->data()->ObjNames);
 //	objectList->setLanguage( Options::useLatinConstellNames() );
@@ -74,9 +77,6 @@ WUTDialog::WUTDialog(KStars *ks) :
 	Evening = T0.addSecs( -6*3600 );
 	EveningUT = geo->LTtoUT( Evening );
 	
-	WUT = new WUTDialogUI( page );
-	vlay->addWidget( WUT );
-
 	QString sGeo = geo->translatedName();
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
