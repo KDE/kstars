@@ -1,7 +1,22 @@
+bin_PROGRAMS = indiserver lx200generic lx200autostar lx200_16 lx200gps wx
+indiserver_LDFLAGS = -L.
+indiserver_SOURCES = indiserver.c
+lx200generic_LDFLAGS = -L.
+lx200generic_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
+lx200autostar_LDFLAGS = -L.
+lx200autostar_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
+lx200_16_LDFLAGS = -L.
+lx200_16_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
+lx200gps_LDFLAGS = -L.
+lx200gps_SOURCES =  indimain.c lx200_16.cpp lx200_16.h lx200autostar.cpp lx200autostar.h lx200driver.c lx200driver.h lx200generic.cpp lx200generic.h lx200GPS.cpp lx200GPS.h
 
-# whats their use? they're not installed!
-#bin_PROGRAMS = lx200generic lx200autostar lx200_16 lx200gps indiserver
-
+liblilxml_a_SOURCES = lilxml.c lilxml.h
 noinst_LIBRARIES = liblilxml.a
-
-liblilxml_a_SOURCES = lilxml.c
+indiserver_LDADD = -llilxml
+lx200gps_LDADD = -llilxml
+lx200_16_LDADD = -llilxml
+lx200autostar_LDADD = -llilxml
+lx200generic_LDADD = -llilxml
+wx_LDFLAGS = -L.
+wx_SOURCES =  indiapi.h indimain.c wx.c
+wx_LDADD = -llilxml
