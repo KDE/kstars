@@ -61,11 +61,11 @@ DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 	default: //deep-sky objects
 		if ( ! o->longname().isEmpty() ) {
 			pname = o->longname();
-			oname = o->name() + ", ";
+			oname = o->name();
 		} else {
 			pname = o->name();
 		}
-		if ( ! o->name2().isEmpty() ) oname += o->name2();
+		if ( ! o->name2().isEmpty() ) oname += ", " + o->name2();
 		if ( o->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( o->ugc() );
 		if ( o->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( o->pgc() );
 
@@ -87,7 +87,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
 		QWidget *parent, const char *name )
 		: QGroupBox( i18n( "General" ), parent, name ) {
-
+	
 	PrimaryName = new QLabel( pname, this );
 	OtherNames = new QLabel( oname, this );
 
@@ -106,7 +106,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 //Layout
 	hlayType = new QHBoxLayout( 2 );
 	hlayMag  = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 2, 2 );
+	glay     = new QGridLayout( 2, 2, 10 );
 	vlay     = new QVBoxLayout( this, 12 );
 
 	hlayType->addWidget( TypeLabel );
@@ -118,7 +118,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	glay->addWidget( OtherNames, 1, 0);
 	glay->addLayout( hlayType, 0, 1 );
 	glay->addLayout( hlayMag, 1, 1 );
-	vlay->addSpacing( 20 );
+	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
 
@@ -150,18 +150,20 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	Alt->setAlignment( AlignRight );
 
 //Layouts
-	glayCoords = new QGridLayout( 4, 2, 2 );
+	glayCoords = new QGridLayout( 5, 2, 10 );
 	vlayMain = new QVBoxLayout( this, 12 );
 
 	glayCoords->addWidget( RALabel, 0, 0 );
 	glayCoords->addWidget( DecLabel, 1, 0 );
 	glayCoords->addWidget( RA, 0, 1 );
 	glayCoords->addWidget( Dec, 1, 1 );
-	glayCoords->addWidget( AzLabel, 0, 2 );
-	glayCoords->addWidget( AltLabel, 1, 2 );
-	glayCoords->addWidget( Az, 0, 3 );
-	glayCoords->addWidget( Alt, 1, 3 );
-	vlayMain->addSpacing( 20 );
+	glayCoords->addItem( new QSpacerItem(20,2), 0, 2 );
+	glayCoords->addItem( new QSpacerItem(20,2), 1, 2 );
+	glayCoords->addWidget( AzLabel, 0, 3 );
+	glayCoords->addWidget( AltLabel, 1, 3 );
+	glayCoords->addWidget( Az, 0, 4 );
+	glayCoords->addWidget( Alt, 1, 4 );
+	vlayMain->addSpacing( 10 );
 	vlayMain->addLayout( glayCoords );
 }
 
@@ -231,20 +233,23 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 //Layout
 	vlay = new QVBoxLayout( this, 12 );
-	glay = new QGridLayout( 4, 3, 2 ); //nrows, ncols, spacing
+	glay = new QGridLayout( 5, 3, 10 ); //ncols, nrows, spacing
 	glay->addWidget( RTimeLabel, 0, 0 );
 	glay->addWidget( TTimeLabel, 1, 0 );
 	glay->addWidget( STimeLabel, 2, 0 );
 	glay->addWidget( RTime, 0, 1 );
 	glay->addWidget( TTime, 1, 1 );
 	glay->addWidget( STime, 2, 1 );
-	glay->addWidget( RAzLabel, 0, 2 );
-	glay->addWidget( TAltLabel, 1, 2 );
-	glay->addWidget( SAzLabel, 2, 2 );
-	glay->addWidget( RAz, 0, 3 );
-	glay->addWidget( TAlt, 1, 3 );
-	glay->addWidget( SAz, 2, 3 );
-	vlay->addSpacing( 20 );
+	glay->addItem( new QSpacerItem(20,2), 0, 2 );
+	glay->addItem( new QSpacerItem(20,2), 1, 2 );
+	glay->addItem( new QSpacerItem(20,2), 2, 2 );
+	glay->addWidget( RAzLabel, 0, 3 );
+	glay->addWidget( TAltLabel, 1, 3 );
+	glay->addWidget( SAzLabel, 2, 3 );
+	glay->addWidget( RAz, 0, 4 );
+	glay->addWidget( TAlt, 1, 4 );
+	glay->addWidget( SAz, 2, 4 );
+	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
 
