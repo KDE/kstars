@@ -72,7 +72,7 @@ static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON}, { "Fast", "", ISS_OFF },
 static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF}, {"Focus out", "", ISS_OFF}};
 
 /* equatorial position */
-static INumber eq[] = {
+INumber eq[] = {
     {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0.},
     {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.},
 };
