@@ -14,21 +14,21 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
  #ifndef IMAGEREDUCTIONDLG_H
  #define IMAGEREDUCTIONDLG_H
-  
+
  #include "imagereductionui.h"
- 
+
  class ImageReductionDlg : public imageReductionUI
  {
    Q_OBJECT
-   
+
     public:
      ImageReductionDlg(QWidget * parent, const char * name = 0);
      ~ImageReductionDlg();
 
-     
+
      public slots:
      void addDarkFile();
      void addFlatFile();
@@ -36,9 +36,8 @@
      void removeFlatFile();
      void detailsDarkFile();
      void detailsFlatFile();
-     
+
 };
- 
- 
- #endif
- 
+
+
+#endif

@@ -175,3 +175,5 @@ void conbriCommand::unexecute()
 
 }
 
+
+#include "conbridlg.moc"

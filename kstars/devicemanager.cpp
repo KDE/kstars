@@ -459,3 +459,5 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 
 }
 
+
+#include "devicemanager.moc"

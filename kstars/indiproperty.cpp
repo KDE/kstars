@@ -700,3 +700,5 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 
 	return (0);
 }
+
+#include "indiproperty.moc"

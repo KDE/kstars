@@ -519,3 +519,5 @@ void INDIStdProperty::newTime()
    timeEle->write_w->setText(ksw->LST()->toHMSString());
    SDProp->newText();
 }
+
+#include "indistd.moc"

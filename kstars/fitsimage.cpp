@@ -478,3 +478,5 @@ void FITSImage::fitsZoomDefault()
 }
 
 
+
+#include "fitsimage.moc"

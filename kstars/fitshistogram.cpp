@@ -269,3 +269,5 @@ QString histCommand::name() const
 
 
  
+
+#include "fitshistogram.moc"

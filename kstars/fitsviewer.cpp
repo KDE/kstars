@@ -512,3 +512,5 @@ void FITSViewer::fitsRedo()
 }
 
 
+
+#include "fitsviewer.moc"
