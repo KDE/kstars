@@ -78,9 +78,13 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
 
 	connect( ColorPalette, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( newColor( QListBoxItem* ) ) );
+	connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
+	connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
 	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
 	connect( AddPreset, SIGNAL( clicked() ), this, SLOT( slotAddPreset() ) );
 	connect( RemovePreset, SIGNAL( clicked() ), this, SLOT( slotRemovePreset() ) );
+
+	RemovePreset->setEnabled( false );
 }
 
 //empty destructor
@@ -130,8 +134,14 @@ bool OpsColors::setColors( QString filename ) {
 	test.close();
 
 	ksw->loadColorScheme( filename );
+	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
+	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
+
 	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
 		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
+
+	if ( ksw->map()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
+		ksw->map()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
 		temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
@@ -151,8 +161,10 @@ void OpsColors::slotAddPreset() {
 	if ( okPressed && ! schemename.isEmpty() ) {
 		if ( ksw->data()->colorScheme()->save( schemename ) ) {
 			PresetBox->insertItem( schemename );
-			PresetFileList.append( ksw->data()->colorScheme()->fileName() );
-			ksw->addColorMenuItem( schemename, "cs_" + ksw->data()->colorScheme()->fileName().utf8() );
+			PresetBox->setCurrentItem( PresetBox->findItem( schemename ) );
+			QString fname = ksw->data()->colorScheme()->fileName();
+			PresetFileList.append( fname );
+			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.find(".colors"))).utf8() );
 		}
 	}
 }
@@ -163,17 +175,6 @@ void OpsColors::slotRemovePreset() {
 	QFile cdatFile;
 	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
-	//Remove entry from the ListBox and from the QStringList holding filenames.
-	//We don't want another color scheme to be selected, so first
-	//temporarily disconnect the "highlighted" signal.
-	disconnect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
-
-	PresetFileList.remove( PresetFileList.at( PresetBox->currentItem() ) );
-	PresetBox->removeItem( PresetBox->currentItem() );
-
-	//Reconnect the "highlighted" signal
-	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
-
 	//Remove action from color-schemes menu
 	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).utf8() );
 
@@ -181,6 +182,17 @@ void OpsColors::slotRemovePreset() {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 	} else {
+		//Remove entry from the ListBox and from the QStringList holding filenames.
+		//We don't want another color scheme to be selected, so first
+		//temporarily disconnect the "highlighted" signal.
+		disconnect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+		PresetBox->removeItem( PresetBox->currentItem() );
+		PresetBox->setCurrentItem( -1 );
+		RemovePreset->setEnabled( false );
+		
+		//Reconnect the "highlighted" signal
+		connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+
 		//Read the contents of colors.dat into a QStringList, except for the entry to be removed.
 		QTextStream stream( &cdatFile );
 		QStringList slist;
@@ -212,6 +224,20 @@ void OpsColors::slotRemovePreset() {
 		}
 		cdatFile.close();
 	}
+}
+
+void OpsColors::slotStarColorMode( int i ) {
+	ksw->data()->colorScheme()->setStarColorMode( i );
+	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
+		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
+
+}
+
+void OpsColors::slotStarColorIntensity( int i ) {
+	ksw->data()->colorScheme()->setStarColorIntensity( i );
+	if ( ksw->map()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
+		ksw->map()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
+
 }
 
 #include "opscolors.moc"
