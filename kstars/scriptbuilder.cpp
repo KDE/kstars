@@ -318,7 +318,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "HideCLines" );
 	argChangeViewOption->OptionName->insertItem( "HideGrid" );
 
-	opsSkymap = new QListViewItem( otv->OptionsList, i18n( "Skymap options" ) );
+	opsSkymap = new QListViewItem( otv->OptionsList, i18n( "Skymap Options" ) );
 	new QListViewItem( opsSkymap, "UseAltAz", i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)" ), i18n( "bool" ) );
 	new QListViewItem( opsSkymap, "ZoomFactor", i18n( "Set the Zoom Factor" ), i18n( "double" ) );
 	new QListViewItem( opsSkymap, "Target Symbol", i18n( "Select Target symbol (0=none, 1=circle, 2=crosshairs, 3=bullseye, 4=rectangle)" ), i18n( "int" ) );

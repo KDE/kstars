@@ -527,7 +527,7 @@ void INDIDriver::processHostStatus(int id)
 void INDIDriver::addINDIHost()
 {
   INDIHostConf hostConf(this);
-  hostConf.setCaption(i18n("Add host"));
+  hostConf.setCaption(i18n("Add Host"));
 
   if (hostConf.exec() == QDialog::Accepted)
   {
@@ -562,7 +562,7 @@ void INDIDriver::modifyINDIHost()
 {
 
   INDIHostConf hostConf(this);
-  hostConf.setCaption(i18n("Modify host"));
+  hostConf.setCaption(i18n("Modify Host"));
 
   QListViewItem *currentItem = clientListView->currentItem();
 
