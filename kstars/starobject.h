@@ -58,7 +58,7 @@ class StarObject : public SkyObject {
   *@param SpType Spectral Type
   */
 		StarObject( dms r, dms d, double m, QString n="unnamed",
-  					 		QString n2="", QString SpType="" );
+  					 		QString n2="", QString sptype="" );
 /**
   *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
   *spectral type.  Differs from above function only in argument type.
@@ -70,7 +70,13 @@ class StarObject : public SkyObject {
   *@param SpType Spectral Type
   */
 		StarObject( double r, double d, double m, QString n="unnamed",
-  					 		QString n2="", QString SpType="" );
+  					 		QString n2="", QString sptype="" );
+          
+		StarObject( int t, dms r, dms d, double m,
+						QString n="unnamed", QString n2="", QString lname="", QString cat="",
+						double a=0.0, double b=0.0,
+						int pa=0, int pgc=0, int ugc=0, QString sptype="" );
+
 /**
   *Empty destructor.
   */
@@ -85,7 +91,8 @@ class StarObject : public SkyObject {
   *Returns entire spectral type string
   *@returns SpType string
   */
-		QString sptype( void ) { return SpType; }
+//		QString sptype( void ) { return SpType; }
+		QString sptype( void );
 /**
   *Returns the genetive name of the star.
   *@returns genetive name of the star
