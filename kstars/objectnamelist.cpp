@@ -143,7 +143,7 @@ int ObjectNameList::getIndex( const QString &name ) {
 				*/
 			if (index > 26) {
 				switch (index) {
-					case 41 : index = 5;					// é = e
+					case 41 : index = 5; break;	// é = e
 					case 54 : index = 15; break;	// ö = o
 					default : index = 0;						// all other letters
 				}
