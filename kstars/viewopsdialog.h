@@ -41,7 +41,7 @@ class QListView;
 class QCheckListItem;
 class QPixmap;
 class MagnitudeSpinBox;
-class TimeSpinBox;
+class TimeStepBox;
 class KIntSpinBox;
 class KStars;
 
@@ -114,7 +114,7 @@ private:
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 
 	MagnitudeSpinBox *magSpinBoxHideStars;
-	TimeSpinBox *hideSpinBox;
+	TimeStepBox *hideSpinBox;
 
 	QListView *CatalogList;
 	QListBox *ColorPalette, *PresetBox;

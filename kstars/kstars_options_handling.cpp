@@ -121,7 +121,7 @@ void KStars::loadOptions()
 	options()->focusObject = conf->readEntry( "FocusObject", "nothing" );
 	options()->focusDec = conf->readDoubleNumEntry( "FocusDec", 45.0 );
 	options()->focusRA = conf->readDoubleNumEntry( "FocusRA", 180.0 );
-	options()->slewTimeScale = conf->readDoubleNumEntry( "SlewTimeScale", 20.0 );
+	options()->slewTimeScale = conf->readDoubleNumEntry( "SlewTimeScale", 60.0 );
 	options()->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 7.0 );
 	options()->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options()->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );

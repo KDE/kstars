@@ -856,7 +856,34 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 				y1 = o.y() - size/2;
 			}
 
-			psky.drawImage( x1, y1,  p->image()->smoothScale( size, size ));
+			//Determine position angle of planet (assuming that it is aligned with
+			//the Ecliptic, which is only roughly correct).
+			//Displace a point along +Ecliptic Latitude by 100/pixelScale radians
+			//(so distance is always 100 pixels) this is 5730/pixelScale degrees
+      SkyPoint *test = new SkyPoint();
+			KSNumbers num( ksw->data()->CurrentDate );
+//			dms newELat( p->ecLat().Degrees() + 5730./pixelScale[ ksw->data()->ZoomLevel ] );
+			dms newELat( p->ecLat().Degrees() + 20.*5730./pixelScale[ ksw->data()->ZoomLevel ] );
+			test->setFromEcliptic( num.obliquity(), p->ecLong(), newELat );
+			if ( ksw->options()->useAltAz ) test->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
+			QPoint t = getXY( test, ksw->options()->useAltAz, ksw->options()->useRefraction );
+
+			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
+			double dy = double( t.y() - o.y() );
+			double pa;
+			if ( dy ) {
+				pa = atan( dx/dy )*180.0/PI();
+			} else {
+				pa = 90.0;
+				if ( dx > 0 ) pa = -90.0;
+			}
+
+			psky.translate( o.x(), o.y() );
+			psky.rotate( pa );
+			psky.drawImage( -size/2, -size/2,  p->image()->smoothScale( size, size ));
+			psky.resetXForm();
+
+			delete test;
 
 		} else { //Otherwise, draw a simple circle.
 
@@ -898,8 +925,10 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
-//and a check of the current timescale (if the time rate is fast enough, it automatically mimics slewing)
-	bool checkSlewing = ( slewing || ksw->clockScale() >= fabs( ksw->options()->slewTimeScale ) && ksw->options()->hideOnSlew );
+//and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
+
+	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
+				&& ksw->options()->hideOnSlew );
 
 //shortcuts to inform wheter to draw different objects
 	bool hideFaintStars( checkSlewing && ksw->options()->hideStars );
@@ -1234,7 +1263,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, 1.0, 0, curStar->color() );
 
 						// now that we have drawn the star, we can display some extra info
-						if ( !slewing && (curStar->mag() <= ksw->options()->magLimitDrawStarInfo )
+						if ( !checkSlewing && (curStar->mag() <= ksw->options()->magLimitDrawStarInfo )
 								&& (ksw->options()->drawStarName || ksw->options()->drawStarMagnitude ) ) {
 							// collect info text
 							QString sTmp = "";

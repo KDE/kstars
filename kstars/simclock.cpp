@@ -36,7 +36,8 @@ SimClock::SimClock(QObject *parent, const QDateTime &when) :
 	setUTC(when);
 	julianmark = julian;
 	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
-	
+	ManualMode = false;
+	ManualActive = false;
 }
 
 SimClock::SimClock (const SimClock &old) :
@@ -48,27 +49,64 @@ SimClock::SimClock (const SimClock &old) :
 	julian = old.julian;
 	utcvalid = false;
 	Scale = old.Scale;
+	ManualMode = old.ManualMode;
+	ManualActive = old.ManualActive;
 }
 
 void SimClock::tick() {
+	if ( ! ManualMode ) { //only tick if ManualMode is false
+		long mselapsed = sysmark.elapsed();
+		if (mselapsed < lastelapsed) {
+			//
+			// The clock has been running more than 24 hours "real" time.
+			// Reset our julian base by scale number of days.
+			//
+			julianmark += 1.0 * Scale;
+		}
+		lastelapsed = mselapsed;
+		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
+		
+		julian = julianmark + (scaledsec / (24 * 3600));
 
-	long mselapsed = sysmark.elapsed();
-	if (mselapsed < lastelapsed) {
-		//
-		// The clock has been running more than 24 hours "real" time.
-		// Reset our julian base by scale number of days.
-		//
-		julianmark += 1.0 * Scale;
-	}
-	lastelapsed = mselapsed;
-	long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
-	
-	julian = julianmark + (scaledsec / (24 * 3600));
 //	kdDebug() << "tick() : julianmark = " << QString("%1").arg( julianmark, 10, 'f', 2) <<
-//		" julian = " << QString("%1").arg( julian, 10, 'f', 2) << 
-//		" mselapsed = " << mselapsed << " scale = " << scale << endl;
-	utcvalid = false;
-	emit timeAdvanced();
+//		" julian = " << QString("%1").arg( julian, 10, 'f', 2) <<
+//		" mselapsed = " << mselapsed << " scale = " << Scale << endl;
+		utcvalid = false;
+		emit timeAdvanced();
+	}
+}
+
+void SimClock::setManualMode( bool on ) {
+	if ( on ) {
+		//Turn on manual ticking.  If the timer was active, stop the timer and
+		//set ManualActive=true.  Otherwise, set ManualActive=false.
+		//Then set ManualMode=true.
+		if ( tmr.isActive() ) {
+			tmr.stop();
+			ManualActive = true;
+		} else {
+			ManualActive = false;
+		}
+		ManualMode = true;
+	} else {
+		//Turn off manual ticking.  If the Manual clock was active, start the timer.
+		//Then set ManualMode=false.
+		if ( isActive() ) {
+			sysmark.start();
+			julianmark = julian;
+			lastelapsed = 0;
+			tmr.start(TimerInterval);
+		}
+		ManualMode = false;
+	}
+}
+
+void SimClock::manualTick() {
+	if ( ManualMode && ManualActive ) {
+
+		setUTC( UTC().addSecs( int( Scale ) ) );
+		julian += Scale / ( 24.*3600. );
+	} else if ( ! ManualMode ) tick();
 }
 
 long double SimClock::JD() {
@@ -85,14 +123,20 @@ QDateTime SimClock::UTC() {
 }
 
 bool SimClock::isActive() {
-	return tmr.isActive();
+	if ( ManualMode ) return ManualActive;
+	else return tmr.isActive();
 }
 
 
 
 // The SimClockInterface
 void SimClock::stop() {
-	if (tmr.isActive()) {
+	if ( ManualMode && ManualActive ) {
+		ManualActive = false;
+		emit clockStopped();
+	}
+
+	if (!ManualMode && tmr.isActive()) {
 		kdDebug() << i18n( "Stopping the timer" ) << endl;
 		tmr.stop();
 		emit clockStopped();
@@ -100,7 +144,17 @@ void SimClock::stop() {
 }
 
 void SimClock::start() {
-	if (! tmr.isActive()) {
+	if ( ManualMode && !ManualActive ) {
+		ManualActive = true;
+		sysmark.start();
+		julianmark = julian;
+		lastelapsed = 0;
+		emit clockStarted();
+		//emit timeChanged() in order to restart calls to updateTime()
+		emit timeChanged();
+	}
+
+	if (! ManualMode && ! tmr.isActive()) {
 		kdDebug() << i18n( "Starting the timer" ) << endl;
 		sysmark.start();
 		julianmark = julian;

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          timespinbox.cpp  -  K Desktop Planetarium
+                          timespinbox.cpp  -  description
                              -------------------
-    begin                : Tue Sep 4 2001
-    copyright            : (C) 2001 by Jason Harris
+    begin                : Sun Mar 31 2002
+    copyright            : (C) 2002 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -15,66 +15,166 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
+//Time steps:
+//0-9:   0 sec, 0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 30 sec
+//10-14: 1 minute, 2, 5, 10, 15, 30 min
+//15-19: 1 hour, 2, 4, 6, 12 hours
+//20-23: 1 day, 2, 3, 5 days
+//24-26: 1 week, 2, 3 weeks
+//27-32: 1 month, 2, 3, 4, 6, 9 months
+//33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
 
 #include <qlineedit.h>
-
 #include <kdebug.h>
 #include <klocale.h>
+#include <stdlib.h>
+#include <math.h>
 
 #include "timespinbox.h"
 
 TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
-  : QSpinBox ( -10000, 10000, 10 /* step */, parent, name ),
-	floatValue(1.0)
+	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
-
-	setValidator(0);
-	setSuffix( i18n( "abbreviation for seconds of time", " sec" ) );
+	setMinimumWidth( 80 );
+	setValidator( 0 );
 	setButtonSymbols( QSpinBox::PlusMinus );
-	editor()->setReadOnly( false );
+	editor()->setReadOnly( true );
+	setValue( 4 ); //1 second (real time)
 
-	setValue(10);
+	TimeScale[0] = 0.0;
+	TimeScale[1] = 0.1;
+	TimeScale[2] = 0.25;
+	TimeScale[3] = 0.5;
+	TimeScale[4] = 1.0;
+	TimeScale[5] = 2.0;
+	TimeScale[6] = 5.0;
+	TimeScale[7] = 10.0;
+	TimeScale[8] = 20.0;
+	TimeScale[9] = 30.0;
+	TimeScale[10] = 60.0;
+	TimeScale[11] = 120.0;
+	TimeScale[12] = 300.0;
+	TimeScale[13] = 600.0;
+	TimeScale[14] = 900.0;
+	TimeScale[15] = 1800.0;
+	TimeScale[16] = 3600.0;
+	TimeScale[17] = 7200.0;
+	TimeScale[18] = 10800.0;
+	TimeScale[19] = 21600.0;
+	TimeScale[20] = 43200.0;
+	TimeScale[21] = 86400.0;
+	TimeScale[22] = 172800.0;
+	TimeScale[23] = 259200.0;
+	TimeScale[24] = 432000.0;
+	TimeScale[25] = 604800.0;
+	TimeScale[26] = 1209600.0;
+	TimeScale[27] = 1814400.0;
+//Months aren't a simple measurement of time; I'll just use fractions of a year
+	TimeScale[28] = 31556909.0/12.0;
+	TimeScale[29] = 31556909.0/6.0;
+	TimeScale[30] = 0.25*31556909.0;
+	TimeScale[31] = 31556909.0/3.0;
+	TimeScale[32] = 0.5*31556909.0;
+	TimeScale[33] = 0.75*31556909.0;
+	TimeScale[34] = 31556909.0;
+	TimeScale[35] = 2.0*31556909.0;
+	TimeScale[36] = 3.0*31556909.0;
+	TimeScale[37] = 5.0*31556909.0;
+	TimeScale[38] = 10.0*31556909.0;
+	TimeScale[39] = 25.0*31556909.0;
+	TimeScale[40] = 50.0*31556909.0;
+	TimeScale[41] = 100.0*31556909.0;
 
-	connect(this,  SIGNAL( valueChanged( int ) ), this, SLOT( setStepSize(int) ));
-	connect(this,  SIGNAL( valueChanged( int ) ), this, SLOT( reportChange(int) ));
+	TimeString.append( "0 " + i18n( "seconds", "sec" ));
+	TimeString.append( "0.1 " + i18n( "seconds", "sec" ));
+	TimeString.append( "0.25 " + i18n( "seconds", "sec" ));
+	TimeString.append( "0.5 " + i18n( "seconds", "sec" ));
+	TimeString.append( "1 " + i18n( "second", "sec" ));
+	TimeString.append( "2 " + i18n( "seconds", "sec" ));
+	TimeString.append( "5 " + i18n( "seconds", "sec" ));
+	TimeString.append( "10 " + i18n( "seconds", "sec" ));
+	TimeString.append( "20 " + i18n( "seconds", "sec" ));
+	TimeString.append( "30 " + i18n( "seconds", "sec" ));
+	TimeString.append( "1 " + i18n( "minute", "min" ));
+	TimeString.append( "2 " + i18n( "minutes", "min" ));
+	TimeString.append( "5 " + i18n( "minutes", "min" ));
+	TimeString.append( "10 " + i18n( "minutes", "min" ));
+	TimeString.append( "15 " + i18n( "minutes", "min" ));
+	TimeString.append( "30 " + i18n( "minutes", "min" ));
+	TimeString.append( "1 " + i18n( "hour" ));
+	TimeString.append( "2 " + i18n( "hours", "hrs" ));
+	TimeString.append( "3 " + i18n( "hours", "hrs" ));
+	TimeString.append( "6 " + i18n( "hours", "hrs" ));
+	TimeString.append( "12 " + i18n( "hours", "hrs" ));
+	TimeString.append( "1 " + i18n( "day" ));
+	TimeString.append( "2 " + i18n( "days" ));
+	TimeString.append( "3 " + i18n( "days" ));
+	TimeString.append( "5 " + i18n( "days" ));
+	TimeString.append( "1 " + i18n( "week" ));
+	TimeString.append( "2 " + i18n( "weeks", "wks" ));
+	TimeString.append( "3 " + i18n( "weeks", "wks" ));
+	TimeString.append( "1 " + i18n( "month" ));
+	TimeString.append( "2 " + i18n( "months", "mos" ));
+	TimeString.append( "3 " + i18n( "months", "mos" ));
+	TimeString.append( "4 " + i18n( "months", "mos" ));
+	TimeString.append( "6 " + i18n( "months", "mos" ));
+	TimeString.append( "9 " + i18n( "months", "mos" ));
+	TimeString.append( "1 " + i18n( "year" ));
+	TimeString.append( "2 " + i18n( "years", "yrs" ));
+	TimeString.append( "3 " + i18n( "years", "yrs" ));
+	TimeString.append( "5 " + i18n( "years", "yrs" ));
+	TimeString.append( "10 " + i18n( "years", "yrs" ));
+	TimeString.append( "25 " + i18n( "years", "yrs" ));
+	TimeString.append( "50 " + i18n( "years", "yrs" ));
+	TimeString.append( "100 " + i18n( "years", "yrs" ));
+
+	connect( this, SIGNAL( valueChanged( int ) ), this, SLOT( reportChange() ) );
+	updateDisplay();
 }
 
-void TimeSpinBox::setStepSize(int x) {
-	int ss = 1;
-	x = abs(x)/10;
-	while (x) {
-		x /= 10;
-		ss *= 10;
+int TimeSpinBox::mapTextToValue( bool *ok ) {
+	*ok = true;
+	for ( unsigned int i=0; i<42; ++i ) {
+		if ( text() == TimeString[i] ) { return i; }
+		if ( text().mid(1,text().length()) == TimeString[i] ) { return -1*i; }
 	}
-	if (ss == x) ss /= 10;
 
-	setLineStep(ss);
+	*ok = false;
+	return 0;
 }
 
 QString TimeSpinBox::mapValueToText( int value ) {
-	return QString("%1.%2").arg(value/10).arg(value%10);
+	QString neg("-"), result;
+	int posval( abs( value ) );
+
+	result = TimeString[ posval ];
+
+	if ( value<0 ) { result = "-" + result; }
+	return result;
 }
 
-int TimeSpinBox::mapTextToValue( bool* ok ) {
-	*ok = true;
-	return int(text().toFloat()*10);
-}
-
-void TimeSpinBox::reportChange( int x) {
-	float newval = float(x) / 10.0;
-	if (newval != floatValue) {
-		floatValue =  newval;
-		kdDebug() << "reporting change to value = " << floatValue << endl;
-		emit scaleChanged(floatValue);
+void TimeSpinBox::changeScale( float x ) {
+	//Pick the closest value
+	int imin;
+	float dx, dxlast, dxmin(10000000000.0);
+	for ( unsigned int i=0; i<42; ++i ) {
+		dx = fabs( TimeScale[i] - fabs(x) );
+		if ( dx < dxmin ) { imin = i; dxmin = dx; }
+		if ( dx > dxlast ) break; //we have passed the minimum dx
+		dxlast = dx;
 	}
+
+	if ( x < 0.0 ) imin *= -1;
+	setValue( imin );
 }
 
-void TimeSpinBox::changeScale(float x) {
-	if (x != floatValue) {
-		int i = int(x * 10);
-		setValue(i);
-	}
+float TimeSpinBox::timeScale( void ) {
+	return value() > 0 ? TimeScale[ value() ] : -1.*TimeScale[ abs(value()) ];
+}
+
+void TimeSpinBox::reportChange() {
+	kdDebug() << i18n( "Reporting new timestep value: " ) << timeScale() << endl;
+	emit scaleChanged( timeScale() );
 }
 
 #include "timespinbox.moc"

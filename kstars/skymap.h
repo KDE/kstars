@@ -200,6 +200,13 @@ public slots:
 	*/	
 	void Update();
 
+/**Identical to Update(), except calls repaint() instead of update() in order
+	*to have the paintEvent executed immediately (update() simply adds the call to
+	*event queue, so if many calls to Update() are made, some will be dropped.
+	*UpdateNow() avoids this, forcing each paintEvent to execute.
+	*/
+	void UpdateNow();
+
 /**
 	*Estimate the effect of atmospheric refraction.  Refraction only affects the
 	*altitude of objects beyond the atmosphere (so it shouldn't be used for the horizon).
@@ -243,6 +250,8 @@ public slots:
 	*Popup menu function: Add a custom Image or Information URL.
 	*/
 	void addLink( void );
+
+	void slotClockSlewing();
 
 signals:
 	void destinationChanged();
@@ -371,7 +380,7 @@ private:
 
 	StarPixmap *starpix;	// the pixmap of the stars
 	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
-	bool slewing;
+	bool slewing, clockSlewing;
 	int pixelScale[NZOOM];
 	double Range[NZOOM];
 	double RefractCorr1[184], RefractCorr2[184];

@@ -195,7 +195,7 @@ void KStarsOptions::setDefaultOptions() {
 //	focusObject()
 	focusRA = 0.0;
 	focusDec = 0.0;
-	slewTimeScale = 20.0;
+	slewTimeScale = 60.0;
 	windowWidth = 600;
 	windowHeight = 600;
 //  magLimitDrawStar = 8.0;		// read entry below

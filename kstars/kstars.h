@@ -42,7 +42,7 @@
 #include "kssun.h"
 #include "skyobject.h"
 #include "skypoint.h"
-#include "timespinbox.h"
+#include "timestepbox.h"
 
 #include "kstarsdata.h"
 #include "kstarsoptions.h"
@@ -168,6 +168,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
  		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
 	public slots:
+		/**
+			*Update time-dependent data and (possibly) repaint the sky map.
+			*/
+		void updateTime( void );
 
 		/**
 			*Zoom in
@@ -186,11 +190,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void clearCachedFindDialog();
 
 	private slots:
-		/**
-			*Update time-dependent data and (possibly) repaint the sky map.
-			*/
-		void updateTime( void );
-
 		/**
 			*action slot: synch kstars clock to system time
 			*/
@@ -294,7 +293,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		InfoPanel   *infoPanel;
 		KToolBar *viewToolBar;
 		SimClock *clock;
-		TimeSpinBox *TimeStep;
+		TimeStepBox *TimeStep;
 		GeoLocation *Location;
 		ToggleAction *actCoordSys;
 		int idSpinBox;

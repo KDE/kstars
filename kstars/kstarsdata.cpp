@@ -987,7 +987,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 
 //Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 //the DST change date/time.
-	if ( geo->tzrule()->isEmptyRule() && ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) ) {
+	if ( !geo->tzrule()->isEmptyRule() && ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) ) {
 		//compute JD for the next DST adjustment
 		QDateTime changetime = geo->tzrule()->nextDSTChange( LTime );
 		setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
@@ -1042,7 +1042,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
-	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/skymap->getPixelScale() ) {
+	//If clock is in Manual Mode, always update. (?)
+	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/skymap->getPixelScale() || clock->isManualMode() ) {
 		LastSkyUpdate = CurrentDate;
 
 		//Recompute Alt, Az coords for all objects
@@ -1172,7 +1173,10 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 
 		skymap->setOldFocus( skymap->focus() );
 		skymap->oldfocus()->EquatorialToHorizontal( LSTh, geo->lat() );
-		skymap->Update();
+
+		if (clock->isManualMode() )
+			QTimer::singleShot( 0, skymap, SLOT( UpdateNow() ) );
+		else skymap->Update();
 	}
 }
 

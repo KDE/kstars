@@ -137,10 +137,18 @@ void KStars::clearCachedFindDialog() {
 
 void KStars::updateTime( void ) {
 	data()->updateTime(clock, geo(), skymap);
-
 	showFocusCoords();
-
 	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
+
+	//If time is accelerated beyond slewTimescale, then the clock's timer is stopped,
+	//so that it can be ticked manually after each update, in order to make each time
+	//step exactly equal to the timeScale setting.
+	//Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
+	//the skymap has been completely updated.
+
+	if ( clock->isManualMode() && clock->isActive() ) {
+		QTimer::singleShot( 0, clock, SLOT( manualTick() ) );
+	}
 }
 
 SkyObject* KStars::getObjectNamed( QString name ) {

@@ -44,7 +44,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "magnitudespinbox.h"
-#include "timespinbox.h"
+#include "timestepbox.h"
 #include "addcatdialog.h"
 #include "viewopsdialog.h"
 
@@ -544,8 +544,8 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setFont( stdFont );
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
-	hideSpinBox = new TimeSpinBox( AdvancedTab, "HideSpinBox" );
-	hideSpinBox->changeScale( ksw->options()->slewTimeScale );
+	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
+	hideSpinBox->tsbox()->changeScale( ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
 	hsbLabel->setText( i18n( "also hide if Time Scale greater than: " ) );
 
@@ -1388,7 +1388,7 @@ void ViewOpsDialog::selectCatalog() {
 void ViewOpsDialog::changeSlewTimeScale( float f ) {
 	if ( f < 0.0 ) {
 		f = 0.0;
-		hideSpinBox->changeScale( 0.0 );
+		hideSpinBox->tsbox()->changeScale( 0.0 );
 	}
 	ksw->options()->slewTimeScale = f;
 }

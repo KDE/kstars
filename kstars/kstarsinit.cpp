@@ -53,8 +53,10 @@ void KStars::initActions() {
 				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
-	QObject::connect(clock, SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
 	QObject::connect(clock, SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
+	QObject::connect(clock, SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
+//UpdateTime() if clock is stopped (so hidden objects get drawn)
+	QObject::connect(clock, SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
 //Focus Menu:
 	new KAction(i18n( "&Zenith" ), KAccel::stringToKey( "Z" ),
@@ -471,11 +473,16 @@ void KStars::privatedata::buildGUI() {
 	if ( !ks->options()->showMainToolBar ) ks->toolBar( "mainToolBar" )->hide();
 	if ( !ks->options()->showViewToolBar ) ks->toolBar( "viewToolBar" )->hide();
 
-	ks->TimeStep = new TimeSpinBox( ks->toolBar() );
-	QToolTip::add( ks->TimeStep, i18n( "Time Step (seconds)" ) );
+	ks->TimeStep = new TimeStepBox( ks->toolBar() );
+//Tooltip is now part of TimeStepBox class definition
+//	QToolTip::add( ks->TimeStep, i18n( "Time Step (seconds)" ) );
+
+//Changing the timestep needs to propagate to the clock, check if slew mode should be
+//(dis)engaged, and return input focus to the skymap.
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock, SLOT( setScale( float )) );
+	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
-	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep, SLOT( changeScale( float )) );
+	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep->tsbox(), SLOT( changeScale( float )) );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 9 );
 	ks->Blank = new QWidget( ks->toolBar() );
 	ks->toolBar()->insertWidget( 1, 40, ks->Blank, 10);

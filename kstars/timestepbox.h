@@ -1,7 +1,7 @@
 /***************************************************************************
-                          timespinbox.h  -  description
+                          timestepbox.h  -  description
                              -------------------
-    begin                : Sun Mar 31 2002
+    begin                : Sat Apr 13 2002
     copyright            : (C) 2002 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
@@ -15,41 +15,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMESPINBOX_H
-#define TIMESPINBOX_H
+#ifndef TIMESTEPBOX_H
+#define TIMESTEPBOX_H
 
-#include <qspinbox.h>
-#include <qstringlist.h>
+#include <qframe.h>
+#include <qlayout.h>
+#include "timespinbox.h"
+
+#define NUNITS 8
 
 /**
   *@author Jason Harris
-	*Custom spinbox to handle selection of timestep values with variable units.
   */
 
-class TimeSpinBox : public QSpinBox  {
+class TimeStepBox : public QFrame  {
 Q_OBJECT
 public:
-	TimeSpinBox( QWidget *parent, const char* name=0 );
-	~TimeSpinBox() {};
-
-	virtual QString mapValueToText( int value );
-	virtual int mapTextToValue( bool *ok);
-
-	float timeScale();
-//	virtual int mapTextToValue( bool *ok);
-
+	TimeStepBox( QWidget *parent=0, const char* name=0 );
+	~TimeStepBox() {}
+	TimeSpinBox* tsbox() const { return timeBox; }
+	QSpinBox* unitbox() const { return unitBox; }
 signals:
-	void scaleChanged( float s );
-
-public slots:
-	void changeScale( float s );
-
-protected slots:
-	void reportChange();
-
+	void scaleChanged( float );
+private slots:
+	void changeUnits( int );
+	void syncUnits( int );
 private:
-	float TimeScale[42];
-	QStringList TimeString;
+	int UnitStep[NUNITS];
+	QHBoxLayout *hlay;
+	TimeSpinBox *timeBox;
+	QSpinBox *unitBox;
 };
 
 #endif

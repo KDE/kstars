@@ -274,6 +274,25 @@ void SkyMap::slotImage( int id ) {
 		new ImageViewer (&url, this);
 }
 
+void SkyMap::slotClockSlewing() {
+//If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
+	if ( fabs( ksw->getClock()->scale() ) > ksw->options()->slewTimeScale ) {
+		if ( ! clockSlewing ) {
+			clockSlewing = true;
+			ksw->getClock()->setManualMode( true );
+
+			ksw->updateTime();
+		}
+	} else {
+		if ( clockSlewing ) {
+			clockSlewing = false;
+			ksw->getClock()->setManualMode( false );
+
+			ksw->updateTime();
+		}
+	}
+}
+
 void SkyMap::setFocusAltAz(double alt, double az) {
 	focus()->setAlt(alt);
 	focus()->setAz(az);
@@ -319,8 +338,9 @@ void SkyMap::slewFocus( void ) {
 	SkyPoint newFocus;
 
 //Don't slew if the mouse button is pressed
+//Also, no animated slews if the Manual Clock is active
 	if ( !mouseButtonDown ) {
-		if ( ksw->options()->useAnimatedSlewing ) {
+		if ( ksw->options()->useAnimatedSlewing && !( ksw->getClock()->isManualMode() && ksw->getClock()->isActive() ) ) {
 			if ( ksw->options()->useAltAz ) {
 				dX = destination()->az().Degrees() - focus()->az().Degrees();
 				dY = destination()->alt().Degrees() - focus()->alt().Degrees();
@@ -539,20 +559,20 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 		else Y = o->alt();
 
 		if ( X0.Degrees() > 270.0 && X.Degrees() < 90.0 ) {
-			dX = 360.0 + X0.Degrees() - X.Degrees();
+			dX.setD( 360.0 + X0.Degrees() - X.Degrees() );
 		} else {
-			dX = X0.Degrees() - X.Degrees();
+			dX.setD( X0.Degrees() - X.Degrees() );
 		}
 
 		focus()->alt().SinCos( sinY0, cosY0 );
 
   } else {
 		if (focus()->ra().Hours() > 18.0 && o->ra().Hours() < 6.0) {
-			dX = o->ra().Degrees() + 360.0 - focus()->ra().Degrees();
+			dX.setD( o->ra().Degrees() + 360.0 - focus()->ra().Degrees() );
 		} else {
-			dX = o->ra().Degrees() - focus()->ra().Degrees();
+			dX.setD( o->ra().Degrees() - focus()->ra().Degrees() );
 	  }
-    Y = o->dec().Degrees();
+    Y = o->dec();
 		focus()->dec().SinCos( sinY0, cosY0 );
   }
 
@@ -679,6 +699,16 @@ void SkyMap::Update()
 	computeSkymap = true;
 	update();
 }
+
+//Identical to Update(), except calls repaint() instead of update(), so
+//paintEvent gets executed immediately instead of just adding it to the event
+//queue.
+void SkyMap::UpdateNow()
+{
+	computeSkymap = true;
+	repaint();
+}
+
 
 float SkyMap::fov( void ) {
 	return Range[ ksw->data()->ZoomLevel ]*width()/600.;

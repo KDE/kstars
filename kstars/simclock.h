@@ -33,6 +33,9 @@ class SimClock : public QObject, public SimClockInterface {
 		bool isActive();
 		double scale() const { return Scale; }
 
+		bool isManualMode() const { return ManualMode; }
+		void setManualMode( bool on=true );
+
 		/**
 		 * implementation of SimClockInterface
 		 */
@@ -42,6 +45,9 @@ class SimClock : public QObject, public SimClockInterface {
 
 	public slots:
 		virtual ASYNC setScale(float s);
+		// respond to the QTimer::timeout signal
+		void tick();
+		void manualTick();
 
 	signals:
 		void timeChanged();
@@ -62,16 +68,12 @@ class SimClock : public QObject, public SimClockInterface {
 		QTime sysmark;
 		int lastelapsed;
 		bool utcvalid;
+		bool ManualMode, ManualActive;
 
 		// used to generate names for dcop interfaces
 		static int idgen;
 		// how often to update
 		static int TimerInterval;
-
-	private slots:
-		// respond to the QTimer::timeout signal
-		void tick();
-
 };
 
 #endif
