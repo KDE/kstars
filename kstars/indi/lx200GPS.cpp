@@ -49,7 +49,7 @@ static ISwitches SelenSyncSw		= { mydev, "Selenographic Sync", SelenSyncS, NARRA
 static ISwitches AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", AltDecBackSlashS, NARRAY(AltDecBackSlashS), ILS_IDLE, 0, GPSGroup};
 static ISwitches AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", AzRaBackSlashS, NARRAY(AzRaBackSlashS), ILS_IDLE, 0, GPSGroup};
 
-static IText OTATemp			= { mydev, "OTA Temperature",  NULL, ILS_IDLE, 0 , GPSGroup};
+static IText OTATemp			= { mydev, "OTA Temperature, degrees C",  NULL, ILS_IDLE, 0 , GPSGroup};
 
 
 

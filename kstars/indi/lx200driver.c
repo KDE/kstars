@@ -29,17 +29,67 @@
 #include <termios.h>
 #include <time.h>
 
+#include "indicom.h"
 #include "lx200driver.h"
 
 /* LX200 definitions */
 int fd;
 int read_ret, write_ret;
 
-const char* SerialUSBPort[] = { "/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS2", "/dev/ttyS3",
-                           "/dev/ttyUSB0", "/dev/ttyUSB1","/dev/ttyUSB2","/dev/ttyUSB3"};
-const char* alignModes[] = { "Polar", "AltAz", "Land"};
-const char * LX200Direction[] = { "North", "West", "East", "South", "All"};
-const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
+int LX200readOut(int timeout);
+int openPort(const char *portID);
+int portReadT(char *buf, int nbytes, int timeout);
+int portWrite(const char * buf);
+int portRead(char *buf, int nbytes);
+int Connect(const char* device);
+int testTelescope(void);
+void Disconnect(void);
+char ACK(void);
+void checkLX200Format(void);
+double getCommand(const char *cmd);
+double getTrackFreq(void);
+int getCommandStr(char *data, const char* cmd);
+int getTimeFormat(void);
+int getCalenderDate(char *date);
+int getUCTOffset(void);
+int getSiteName(char *siteName, int siteNum);
+int getSiteLatitude(int *dd, int *mm);
+int getSiteLongitude(int *ddd, int *mm);
+int getNumberOfBars(void);
+int getHomeSearchStatus(void);
+double getOTATemp(void);
+int setCommand(double data, const char *cmd);
+void setCommandInt(int data, const char *cmd);
+int setCommandXYZ( int x, int y, int z, const char *cmd);
+int setStandardProcedure(char * writeData);
+void setSlewMode(int slewMode);
+void setAlignmentMode(unsigned int alignMode);
+int setObjectRA(double h, double m, double s);
+int setObjectDEC(double d, double m, double s);
+int setCalenderDate(int dd, int mm, int yy);
+int setUTCOffset(int hours);
+int setTrackFreq(double trackF);
+int setSiteLongitude(int degrees, int minutes);
+int setSiteLatitude(int degrees, int minutes, int seconds);
+int setObjAz(int degrees, int minutes);
+int setObjAlt(int degrees, int minutes);
+int setSiteName(char * siteName, int siteNum);
+void setFocuserMotion(int motionType);
+void setFocuserSpeedMode (int speedMode);
+int Slew(void);
+void Sync(char *matchedObject);
+void abortSlew(void);
+void MoveTo(int direction);
+void HaltMovement(int direction);
+void selectSite(int siteNum);
+void selectCatalogObject(int catalog, int NNNN);
+void selectTrackingMode(int trackMode);
+int selectSubCatalog(int catalog, int subCatalog);
+int setMinElevationLimit(int min);
+int setMaxElevationLimit(int max);
+int getMaxElevationLimit(void);
+int getMinElevationLimit(void);
+
 
 /**********************************************************************
 * BASIC
@@ -183,6 +233,43 @@ int getUCTOffset()
     return offSet;
 }
 
+int getMaxElevationLimit()
+{
+    char tempString[16];
+    int limit;
+
+    portWrite("#:Go#");
+
+    read_ret = portRead(tempString, -1);
+    if (read_ret)
+     return -1;
+
+    tempString[read_ret-1] = '\0';
+
+    sscanf(tempString, "%d", &limit);
+
+    return limit;
+}
+
+int getMinElevationLimit()
+{
+    char tempString[16];
+    int limit;
+
+    portWrite("#:Gh#");
+
+    read_ret = portRead(tempString, -1);
+    if (read_ret)
+     return -1;
+
+    tempString[read_ret-1] = '\0';
+
+    sscanf(tempString, "%d", &limit);
+
+    return limit;
+
+}
+
 int getSiteName(char *siteName, int siteNum)
 {
   char * term;
@@ -214,7 +301,7 @@ int getSiteName(char *siteName, int siteNum)
     if (term)
       *term = '\0';
 
-   fprintf(stderr, "Requested site name: %s   -- strlen %d\n", siteName, strlen(siteName));
+   fprintf(stderr, "Requested site name: %s\n", siteName);
 
     return 0;
 
@@ -274,11 +361,9 @@ double getTrackFreq()
 
 int getNumberOfBars()
 {
-   char tempString[16];
+   char tempString[128];
 
    portWrite("#:D#");
-
-   fprintf(stderr, "************* Getting Number of Bars *************");
 
    read_ret = portRead(tempString, -1);
 
@@ -336,11 +421,11 @@ int setStandardProcedure(char * data)
 
    if (boolRet[0] == '0')
    {
-     fprintf(stderr, "\nFailure\n");
+     fprintf(stderr, "Failure\n");
      return -1;
    }
 
-   fprintf(stderr, "\nSuccess\n");
+   fprintf(stderr, "Success\n");
    return 0;
 
 
@@ -367,6 +452,26 @@ void setCommandInt(int data, const char *cmd)
   sprintf(tempString, "#:Sr %02d:%02d:%02d#", hours, minutes, seconds);
   return (setStandardProcedure(tempString));
 }*/
+
+int setMinElevationLimit(int min)
+{
+ char tempString[16];
+
+ sprintf(tempString, "#:Sh%02d#", min);
+
+ return (setStandardProcedure(tempString));
+}
+
+int setMaxElevationLimit(int max)
+{
+ char tempString[16];
+
+ sprintf(tempString, "#:So%02d#", max);
+
+ return (setStandardProcedure(tempString));
+
+}
+
 
 int setObjectRA(double h, double m, double s)
 {
@@ -474,18 +579,18 @@ int setUTCOffset(int hours)
 
 int setSiteLongitude(int degrees, int minutes)
 {
-   char tempString[16];
+   char tempString[32];
 
-   sprintf(tempString, "#:Sg %03d:%02d#", degrees, minutes);
+   sprintf(tempString, "#:Sg%03d:%02d#", degrees, minutes);
 
    return (setStandardProcedure(tempString));
 }
 
-int setSiteLatitude(int degrees, int minutes)
+int setSiteLatitude(int degrees, int minutes, int seconds)
 {
-   char tempString[16];
+   char tempString[32];
 
-   sprintf(tempString, "#:St %+02d:%02d#", degrees, minutes);
+   sprintf(tempString, "#:St%+03d:%02d:%02d#", degrees, minutes, seconds);
 
    return (setStandardProcedure(tempString));
 }
@@ -778,254 +883,6 @@ void checkLX200Format()
 
 }
 
-int validateSex(const char * str, float *x, float *y, float *z)
-{
-  int ret;
-
-  ret = sscanf(str, "%f%*c%f%*c%f", x, y, z);
-  if (ret < 1)
-   return -1;
-
-  if (ret == 1)
-  {
-   *y = 0;
-   *z = 0;
-  }
-  else if (ret == 2)
-   *z = 0;
-
-
-  return (0);
-
-}
-
-int getSex(const char *str, double * value)
-{
-  float x,y,z;
-
-  if (validateSex(str, &x, &y, &z))
-   return (-1);
-
-  if (x > 0)
-   *value = x + (y / 60.0) + (z / (3600.00));
-  else
-   *value = x - (y / 60.0) - (z / (3600.00));
-
-   return (0);
-}
-
-/* Mode 0   XX:YY:ZZ
-   Mode 1 +-XX:YY:ZZ
-   Mode 2   XX:YY
-   Mode 3 +-XX:YY
-   Mode 3   XX:YY.Z
-   Mode 4   XXX:YY */
-void formatSex(double number, char * str, int mode)
-{
-  int x;
-  double y, z;
-
-  x = (int) number;
-
-  y = ((number - x) * 60.00);
-
-  if (y < 0) y *= -1;
-
-  z = (y - (int) y) * 60.00;
-
-  if (z < 0) z *= -1;
-
-  switch (mode)
-  {
-    case XXYYZZ:
-      	sprintf(str, "%02d:%02d:%02.0f", x, (int) y, z);
-	break;
-    case SXXYYZZ:
-        sprintf(str, "%+03d:%02d:%02.0f", x, (int) y, z);
-	break;
-    case XXYY:
-        sprintf(str, "%02d:%02d", x, (int) y);
-	break;
-    case SXXYY:
-    sprintf(str, "%+03d:%02d", x, (int) y);
-	break;
-    case XXYYZ:
-        sprintf(str, "%02d:%02.1f", x, (float) y);
-	break;
-    case XXXYY:
-    	sprintf(str, "%03d:%02d", x, (int) y);
-	break;
-  }
-
-}
-
-int extractDate(char *inDate, int *dd, int *mm, int *yy)
-{
- char buf[8];
- int dates[3];
- unsigned int i,j;
- int slashCount = 0;
-
- fprintf(stderr, "date %s\n", inDate);
- fprintf(stderr, "length %d\n", strlen(inDate));
-
-
- for (i =0, j=0; i <= strlen(inDate); i++)
- {
-   if (i == strlen(inDate) || inDate[i] == '/' || inDate[i] == '-')
-   {
-     slashCount++;
-
-     if (slashCount > 3)
-     {
-      return -1;
-      fprintf(stderr, "error: too many fields\n");
-     }
-
-      /* +3 digits field, get only last two */
-     if (j > 2)
-     {
-       /* if it it not the years field, return an error */
-       if (slashCount > 1)
-       {
-   	 return -1;
-	 fprintf(stderr, "error: field has more than two digits\n");
-       }
-     }
-
-     switch (j)
-     {
-      case 1:
-      buf[1] = '\0';
-      break;
-
-      case 2:
-      buf[2] = '\0';
-      break;
-
-      case 3:
-       fprintf(stderr, "error: field has 3 digits\n");
-       return -1;
-
-      case 4:
-      buf[0] = buf[2];
-      buf[1] = buf[3];
-      buf[2] = '\0';
-      break;
-
-      default:
-       return -1;
-     }
-
-     dates[slashCount-1] = atoi(buf);
-     j=0;
-   }
-
-   else
-     buf[j++] = inDate[i];
- }
-
- *yy = dates[0];
- *mm = dates[1];
- *dd = dates[2];
-
- if (*mm < 1 || *mm > 12 || *dd < 1 || *yy < 0)
- {
-  fprintf(stderr, "date range error\n");
-  return -1;
- }
-
- return 0;
-
-}
-
-int extractTime(char *inTime, int *h, int *m, int *s)
-{
- char buf[8];
- int times[3];
- unsigned int i,j;
- int colonCount = 0;
-
- fprintf(stderr, "time %s\n", inTime);
- fprintf(stderr, "length %d\n", strlen(inTime));
-
-
- for (i =0, j=0; i <= strlen(inTime); i++)
- {
-   if (i == strlen(inTime) || inTime[i] == ':')
-   {
-     colonCount++;
-
-     if (colonCount > 3)
-     {
-      return -1;
-      fprintf(stderr, "error: too many fields\n");
-     }
-
-     switch (j)
-     {
-      case 1:
-      buf[1] = '\0';
-      break;
-
-      case 2:
-      buf[2] = '\0';
-      break;
-
-     default:
-     buf[j] = '\0';
-      break;
-
-     }
-
-     times[colonCount-1] = atoi(buf);
-     j=0;
-   }
-
-   else
-     buf[j++] = inTime[i];
- }
-
- *h = times[0];
- *m = times[1];
- *s = times[2];
-
- if (*h < 0 || *h > 24 || *m < 0 || *m > 60 || *s < 0 || *s > 60)
- {
-  fprintf(stderr, "time range error\n");
-  return -1;
- }
-
- return 0;
-
-}
-
-/* Seperates date form time fields in the ISO time format */
-int extractDateTime(char *datetime, char *inTime, char *date)
-{
- uint searchT;
-
- searchT = strcspn(datetime, "T");
-
- if (searchT == strlen(datetime))
-  return (-1);
-
- strncpy(date, datetime, searchT);
- date[searchT] = '\0';
-
- strcpy(inTime, datetime + searchT + 1);
- inTime[strlen(datetime)] = '\0';
-
- return (0);
-}
-
-/* Forms YYYY/MM/DDTHH:MM:SS */
-void formatDateTime(char *datetime, char *inTime, char *date)
-{
- sprintf(datetime, "%sT%s", date, inTime);
-}
-
-
 void selectTrackingMode(int trackMode)
 {
 
@@ -1184,11 +1041,8 @@ int portRead(char *buf, int nbytes)
         if (bytesRead)
           totalBytes++;
 
-        fprintf(stderr, "%d read so far\n", totalBytes);
-
         if (*buf == '#')
 	{
-	   fprintf(stderr, "********** # terminating found, returning\n");
 	   return totalBytes;
 	}
 	

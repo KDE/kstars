@@ -24,13 +24,14 @@
 #include <stdarg.h>
 #include <math.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "lx200driver.h"
 #include "lx200GPS.h"
 
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
-char mydev[] = "LX200 Generic";
+char mydev[] = "LX200 Classic";
 
 /* There is _one_ binary for all LX200 drivers, but each binary is renamed
 ** to its device name (i.e. lx200gps, lx200_16..etc). The main function will
@@ -64,7 +65,6 @@ void ISInit()
   {
 
     fprintf(stderr , "initilizaing from LX200 16 device...\n");
-    // Two important steps always performed when adding a sub-device
     // 1. mydev = device_name
     strcpy(mydev, "LX200 16");
     // 2. device = sub_class
@@ -77,7 +77,7 @@ void ISInit()
  {
    fprintf(stderr , "initilizaing from autostar device...\n");
 
-   // Two important steps always performed when adding a sub-device
+
    // 1. mydev = device_name
    strcpy(mydev, "LX200 Autostar");
    // 2. device = sub_class
@@ -97,12 +97,11 @@ static INRange FreqRange         = { INR_MIN|INR_MAX|INR_STEP , 50.0, 80.0, 0.1}
 //static INRange RDutyCycle	 = { INR_MIN|INR_MAX|INR_STEP , 0, MaxReticleDutyCycle, 1};
 static INRange RFlashRate	 = { INR_MIN|INR_MAX|INR_STEP , 0, MaxReticleFlashRate, 1};
 
-static ISwitch PowerS[]          = {{"ON" , ISS_OFF},{"OFF", ISS_ON}};
-static ISwitch PortS []         = {{"ttyS0", ISS_ON}, {"ttyS1", ISS_OFF}, {"ttyS2", ISS_OFF}, {"ttyS3", ISS_OFF} ,{"ttyUSB0" , ISS_OFF}, {"ttyUSB1", ISS_OFF}, {"ttyUSB2", ISS_OFF}, {"ttyUSB3", ISS_OFF}};
+static ISwitch PowerS[]          = {{"Power On" , ISS_OFF},{"Power Off", ISS_ON}};
 static ISwitch AlignmentS []     = {{"Polar", ISS_ON}, {"AltAz", ISS_OFF}, {"Land", ISS_OFF}};
 static ISwitch SitesS[]          = {{"Site 1", ISS_ON}, {"Site 2", ISS_OFF},  {"Site 3", ISS_OFF},  {"Site 4", ISS_OFF}};
 static ISwitch SlewModeS[]       = {{"Max", ISS_ON}, {"Find", ISS_OFF}, {"Centering", ISS_OFF}, {"Guide", ISS_OFF}};
-static ISwitch OnCoordSetS[]     = {{ "Slew", ISS_ON }, { "Track", ISS_OFF }, { "Sync", ISS_OFF }};
+static ISwitch OnCoordSetS[]     = {{"Idle", ISS_ON}, { "Slew", ISS_OFF }, { "Sync", ISS_OFF }};
 static ISwitch TrackModeS[]      = {{ "Default", ISS_ON} , { "Lunar", ISS_OFF}, {"Manual", ISS_OFF}};
 static ISwitch abortSlewS[]      = {{"Abort Slew/Track", ISS_OFF }};
 
@@ -111,43 +110,46 @@ static ISwitch haltMoveS[]       = {{"Northward", ISS_OFF}, {"Westward", ISS_OFF
 
 static ISwitch StarCatalogS[]    = {{"STAR", ISS_ON}, {"SAO", ISS_OFF}, {"GCVS", ISS_OFF}};
 static ISwitch DeepSkyCatalogS[] = {{"NGC", ISS_ON}, {"IC", ISS_OFF}, {"UGC", ISS_OFF}, {"Caldwell", ISS_OFF}, {"Arp", ISS_OFF}, {"Abell", ISS_OFF}, {"Messier", ISS_OFF}};
-static ISwitch SolarS[]          = {{"Mercury", ISS_OFF}, {"Venus", ISS_OFF}, {"Moon", ISS_OFF}, {"Mars", ISS_OFF}, {"Jupiter", ISS_OFF}, {"Saturn", ISS_OFF},
+static ISwitch SolarS[]          = { {"Select item...", ISS_ON}, {"Mercury", ISS_OFF}, {"Venus", ISS_OFF}, {"Moon", ISS_OFF}, {"Mars", ISS_OFF}, {"Jupiter", ISS_OFF}, {"Saturn", ISS_OFF},
 				    {"Uranus", ISS_OFF}, {"Neptune", ISS_OFF}, {"Pluto", ISS_OFF}};
 
 /* Fundamental group */
-static ISwitches PowerSw	 = { mydev, "Power" , PowerS, NARRAY(PowerS), ILS_IDLE, 0, COMM_GROUP };
-static ISwitches PortSw          = { mydev, "Ports" , PortS, NARRAY(PortS), ILS_IDLE, 0, COMM_GROUP};
+static ISwitches PowerSw	 = { mydev, "POWER" , PowerS, NARRAY(PowerS), ILS_IDLE, 0, COMM_GROUP };
+//static ISwitches PortSw          = { mydev, "Ports" , PortS, NARRAY(PortS), ILS_IDLE, 0, COMM_GROUP};
+static IText Port		 = { mydev, "Ports", NULL, ILS_IDLE, 0, COMM_GROUP};
 
 /* Basic data group */
 static ISwitches AlignmentSw     = { mydev, "Alignment", AlignmentS, NARRAY(AlignmentS), ILS_IDLE, 0, BASIC_GROUP };
 static INumber RA          = { mydev, "RA", NULL, ILS_IDLE, 0 , BASIC_GROUP};
 static INumber DEC         = { mydev, "DEC", NULL, ILS_IDLE, 0 , BASIC_GROUP};
+static INumber minAlt      = { mydev, "minAlt", NULL, ILS_IDLE, 0, BASIC_GROUP};
+static INumber maxAlt      = { mydev, "maxAlt", NULL, ILS_IDLE, 0, BASIC_GROUP};
 static IText   ObjectInfo        = { mydev, "Object Info", NULL, ILS_IDLE, 0 , BASIC_GROUP};
 
 /* Movement group */
-static ISwitches OnCoordSetSw    = { mydev, "OnCoordSet", OnCoordSetS, NARRAY(OnCoordSetS), ILS_IDLE, 0, BASIC_GROUP};
+static ISwitches OnCoordSetSw    = { mydev, "ONCOORDSET", OnCoordSetS, NARRAY(OnCoordSetS), ILS_IDLE, 0, BASIC_GROUP};
 static ISwitches SlewModeSw      = { mydev, "Slew rate", SlewModeS, NARRAY(SlewModeS), ILS_IDLE, 0, MOVE_GROUP};
 static ISwitches TrackModeSw     = { mydev, "Tracking Mode", TrackModeS, NARRAY(TrackModeS), ILS_IDLE, 0, MOVE_GROUP};
 static INumber TrackingFreq      = { mydev, "Tracking Frequency", NULL, ILS_IDLE, 0, MOVE_GROUP};
-static ISwitches abortSlewSw     = { mydev, "Abort Slew/Track", abortSlewS, NARRAY(abortSlewS), ILS_IDLE, 0, MOVE_GROUP};
+static ISwitches abortSlewSw     = { mydev, "ABORTSLEW", abortSlewS, NARRAY(abortSlewS), ILS_IDLE, 0, MOVE_GROUP};
 static ISwitches MovementSw      = { mydev, "Move toward", MovementS, NARRAY(MovementS), ILS_IDLE, 0, MOVE_GROUP};
 static ISwitches haltMoveSw      = { mydev, "Halt movement", haltMoveS, NARRAY(haltMoveS), ILS_IDLE, 0, MOVE_GROUP};
 
 /* Data & Time */
-static IText Time                = { mydev, "Time", NULL, ILS_IDLE, 0 , DATETIME_GROUP};
+static IText Time                = { mydev, "TIME", NULL, ILS_IDLE, 0 , DATETIME_GROUP};
 static INumber SDTime            = { mydev, "Sidereal Time", NULL, ILS_IDLE, 0, DATETIME_GROUP};
-static INumber UTCOffset         = { mydev, "UTC Offset", NULL, ILS_IDLE, 0, DATETIME_GROUP};
+//static INumber UTCOffset         = { mydev, "UTC", NULL, ILS_IDLE, 0, DATETIME_GROUP};
 
 /* Site managment */
 static ISwitches SitesSw         = { mydev, "Sites", SitesS, NARRAY(SitesS), ILS_IDLE, 0, SITE_GROUP};
 static IText   SiteName          = { mydev, "Site Name", NULL, ILS_IDLE, 0, SITE_GROUP};
-static INumber SiteLong	         = { mydev, "Long", NULL, ILS_IDLE, 0, SITE_GROUP};
-static INumber SiteLat	         = { mydev, "Lat", NULL, ILS_IDLE, 0, SITE_GROUP};
+static INumber SiteLong	         = { mydev, "LONG", NULL, ILS_IDLE, 0, SITE_GROUP};
+static INumber SiteLat	         = { mydev, "LAT", NULL, ILS_IDLE, 0, SITE_GROUP};
 
 /* Library group */
 static ISwitches StarCatalogSw   = { mydev, "Star Catalogs", StarCatalogS, NARRAY(StarCatalogS), ILS_IDLE, 0, LIBRARY_GROUP};
 static ISwitches DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), ILS_IDLE, 0,  LIBRARY_GROUP};
-static ISwitches SolarSw         = { mydev, "Solar System", SolarS, NARRAY(SolarS), ILS_IDLE, 0, LIBRARY_GROUP};
+static ISwitches SolarSw         = { mydev, "SOLARSYSTEM", SolarS, NARRAY(SolarS), ILS_IDLE, 0, LIBRARY_GROUP};
 static INumber ObjectNo          = { mydev, "Object Number", NULL, ILS_IDLE, 0, LIBRARY_GROUP};
 
 /* send client definitions of all properties */
@@ -166,13 +168,16 @@ LX200Generic::LX200Generic()
    ICPollMe (POLLMS);
    RA.nstr     = strcpy (new char[12] , " 00:00:00");
    DEC.nstr    = strcpy (new char[12] , " 00:00:00");
-   UTCOffset.nstr    = strcpy (new char[4]  , "00");
-   Time.text         = strcpy (new char[32]  , "YYYY-MM-DDTHH:MM:SS.SS");
-   SDTime.nstr       = strcpy (new char[16]  , "HH:MM:SS");
-   SiteLong.nstr     = strcpy (new char[9]  , "DDD:MM");
-   SiteLat.nstr      = strcpy (new char[9]  , "DD:MM");
-   ObjectNo.nstr     = strcpy (new char[5]  , "NNNN");
+//   UTCOffset.nstr    = strcpy (new char[4]  , "00");
+   Time.text         = strcpy (new char[32]  , "YYYY-MM-DDTHH:MM:SS");
+   SDTime.nstr       = strcpy (new char[16]  , "00:00:00");
+   SiteLong.nstr     = strcpy (new char[9]  , "00:00");
+   SiteLat.nstr      = strcpy (new char[9]  , "00:00");
+   minAlt.nstr       = strcpy (new char[9]  , "00");
+   maxAlt.nstr       = strcpy (new char[9]  , "90");
+   ObjectNo.nstr     = strcpy (new char[5]  , "0000");
    TrackingFreq.nstr = strcpy (new char[4]  , "00.0");
+   Port.text         = strcpy (new char[32] , "/dev/ttyS0");
    ObjectInfo.text   = new char[64];
    SiteName.text     = new char[16];
 
@@ -185,6 +190,7 @@ LX200Generic::LX200Generic()
    targetDEC = 0;
    portIndex = 0;
    lastSet   = 0;
+   lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    // Children call parent routines, this is the default
    fprintf(stderr , "initilizaing from generic LX200 device...\n");
@@ -198,11 +204,13 @@ void LX200Generic::ISGetProperties(const char *dev)
     return;
 
   ICDefSwitches (&PowerSw, "Power", ISP_W, IR_1OFMANY);
-  ICDefSwitches (&PortSw, "Port", ISP_W, IR_1OFMANY);
+  ICDefText     (&Port , "Port", IP_RW);
 
   ICDefSwitches (&AlignmentSw, "Alignment", ISP_W, IR_1OFMANY);
-  ICDefNumber (&RA, "RA", IP_RW, NULL);
-  ICDefNumber (&DEC, "DEC", IP_RW, NULL);
+  ICDefNumber (&minAlt, "Min Elevation Limit", IP_RW, NULL);
+  ICDefNumber (&maxAlt, "Max Elevation Limit", IP_RW, NULL);
+  ICDefNumber (&RA, "RA H:M:S", IP_RW, NULL);
+  ICDefNumber (&DEC, "DEC D:M:S", IP_RW, NULL);
   ICDefSwitches (&OnCoordSetSw, "On Set", ISP_W, IR_1OFMANY);
   ICDefText   (&ObjectInfo, "Object Info", IP_RO);
 
@@ -213,14 +221,14 @@ void LX200Generic::ISGetProperties(const char *dev)
   ICDefSwitches (&MovementSw, "Move toward", ISP_W, IR_1OFMANY);
   ICDefSwitches (&haltMoveSw, "Halt movement", ISP_W, IR_1OFMANY);
 
-  ICDefText(&Time, "Time", IP_RW);
-  ICDefNumber(&UTCOffset, "UTC Offset", IP_RW, NULL);
-  ICDefNumber(&SDTime, "Sidereal Time", IP_RW, NULL);
+  ICDefText(&Time, "UTC Y-M-DTH:M:S", IP_RW);
+  //ICDefNumber(&UTCOffset, "UTC Offset", IP_RW, NULL);
+  ICDefNumber(&SDTime, "Sidereal Time H:M:S", IP_RW, NULL);
 
   ICDefSwitches (&SitesSw, "Select site", ISP_W, IR_1OFMANY);
   ICDefText     (&SiteName, "Site name", IP_RW);
-  ICDefNumber   (&SiteLong, "Site Longitude", IP_RW, NULL);
-  ICDefNumber   (&SiteLat,  "Site Latitude", IP_RW, NULL);
+  ICDefNumber   (&SiteLong, "Site Longitude D:M:S +E", IP_RW, NULL);
+  ICDefNumber   (&SiteLat,  "Site Latitude  D:M:S +N", IP_RW, NULL);
 
   ICDefSwitches (&StarCatalogSw, "Star Catalogs", ISP_W, IR_1OFMANY);
   ICDefSwitches (&DeepSkyCatalogSw, "Deep Sky Catalogs", ISP_W, IR_1OFMANY);
@@ -236,13 +244,26 @@ void LX200Generic::ISNewText(IText *t)
 {
         int dd, mm, yy;
 	int h ,  m,  s;
+	int UTCOffset;
 	char localTime[64];
   	char localDate[64];
+	struct tm *ltp = new tm;
+	time_t ltime;
+	time (&ltime);
+	localtime_r (&ltime, ltp);
 
 
 	// ignore if not ours //
 	if (strcmp (t->dev, mydev))
 	    return;
+
+	if (!strcmp(t->name, Port.name) )
+	{
+	  Port.s = ILS_OK;
+	  strcpy(Port.text, t->text);
+	  ICSetText (&Port, NULL);
+	  return;
+	}
 
 	if ( !strcmp (t->name, SiteName.name) )
 	{
@@ -293,11 +314,20 @@ void LX200Generic::ISNewText(IText *t)
 	    		return;
 	  		}
 
-	  		fprintf(stderr, "time is %02d:%02d:%02d\n", h, m, s);
-	  		setLocalTime(h, m, s);
+
+			UTCOffset = (h - ltp->tm_hour);
+
+			extractDate(lastDate, &dd, &mm, &yy);
+			if (dd - ltp->tm_mday != 0)
+			 UTCOffset += 24;
+
+			fprintf(stderr, "UTCOffset is %d\n", UTCOffset);
+			fprintf(stderr, "time is %02d:%02d:%02d\n", ltp->tm_hour, m, s);
+			setUTCOffset(UTCOffset);
+	  		setLocalTime(ltp->tm_hour, m, s);
 		  	Time.s = ILS_OK;
 
-			sprintf(Time.text, "%02d:%02d:%02d", h, m , s);
+			strcpy(Time.text, t->text);
   	  		ICSetText(&Time , "Time updated to %s", Time.text);
 
 			strcpy(lastTime, localTime);
@@ -314,7 +344,16 @@ void LX200Generic::ISNewText(IText *t)
 	   		return;
 	  		}
 
-	  		setCalenderDate(dd, mm, yy);
+			// To make YYYY to YY
+			//sprintf(lastDate, "%d:%d:%d", tp->tm_year, tp->tm_mon, tp->tm_mday);
+			//fprintf(stderr, "The year is %d , month %d, day of month is %d\n",tp->tm_year, tp->tm_mon, tp->tm_mday);
+			strftime (lastDate, sizeof(lastDate), "%Y:%m:%d", ltp);
+			extractDate(lastDate, &dd, &mm, &yy);
+
+			//fprintf(stderr, "date writtin is %d:%d:%d\n", dd, mm, yy);
+
+			setCalenderDate(dd, mm, yy);
+ 			strcpy(Time.text, t->text);
 	  		Time.s = ILS_OK;
 	  		ICSetText(&Time , "Date changed, updating planetary data...");
 
@@ -336,8 +375,24 @@ int LX200Generic::handleCoordSet()
 
   switch (lastSet)
   {
-    // Slew
+
+    //idle
     case 0:
+    if (RA.s == ILS_BUSY)
+    {
+      RA.s = ILS_OK;
+      ICSetNumber(&RA, "RA coordinates stored.");
+    }
+    else if (DEC.s == ILS_BUSY)
+    {
+      DEC.s = ILS_OK;
+      ICSetNumber(&DEC, "Dec coordinates stored.");
+    }
+    return (0);
+    break;
+
+    // Slew
+    case 1:
 
 	  if (OnCoordSetSw.s == ILS_BUSY)
 	  {
@@ -355,16 +410,16 @@ int LX200Generic::handleCoordSet()
 
 	  formatSex(targetRA, RAbuffer, XXYYZZ);
 	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
-	  strcpy(RA.nstr, RAbuffer);
-	  strcpy(DEC.nstr, Decbuffer);
+	  //strcpy(RA.nstr, RAbuffer);
+	  //strcpy(DEC.nstr, Decbuffer);
 	  OnCoordSetSw.s = ILS_BUSY;
-	  ICSetNumber(&RA, NULL);
-	  ICSetNumber(&DEC, NULL);
+	  //ICSetNumber(&RA, NULL);
+	  //ICSetNumber(&DEC, NULL);
 	  ICSetSwitch(&OnCoordSetSw, "Slewing to RA %s - DEC %s", RAbuffer, Decbuffer);
 	  break;
 
    // Track
-   case 1:
+   case 2:
 
 	  if (OnCoordSetSw.s == ILS_BUSY)
 	  {
@@ -386,11 +441,19 @@ int LX200Generic::handleCoordSet()
 	  ICSetSwitch(&OnCoordSetSw, "Slewing to RA %s - DEC %s", RAbuffer, Decbuffer);
 	  break;
   // Sync
-  case 2:
+  case 3:
 
 	  OnCoordSetSw.s = ILS_OK;
 	  Sync(syncString);
 
+          formatSex(targetRA, RAbuffer, XXYYZZ);
+	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
+	  strcpy(RA.nstr, RAbuffer);
+	  strcpy(DEC.nstr, Decbuffer);
+          RA.s = ILS_OK;
+	  DEC.s = ILS_OK;
+	  ICSetNumber(&RA, NULL);
+	  ICSetNumber(&DEC, NULL);
 	  ICSetSwitch(&OnCoordSetSw, "Synchronization successful. %s", syncString);
 	  break;
    }
@@ -427,12 +490,15 @@ void LX200Generic::ISNewNumber (INumber *n)
 
 	   if (!setObjectRA( (int) h,(int) m, (int) s))
 	   {
-	       RA.s = ILS_OK;
+	       RA.s = ILS_BUSY;
 	       getSex(n->nstr, &targetRA);
 	       getObjectInfo(ObjectInfo.text);
 	       ICSetText   (&ObjectInfo, NULL);
+	       //strcpy(RA.nstr, n->nstr);
+	       //ICSetNumber(&RA, NULL);
 	       if (handleCoordSet())
 	       {
+	        strcpy(RA.nstr, n->nstr);
 	        RA.s = ILS_IDLE;
 	    	ICSetNumber(&RA, NULL);
 	       }
@@ -442,6 +508,7 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    }
 	    else
 	    {
+	        strcpy(RA.nstr, n->nstr);
 	        RA.s = ILS_ALERT;
 		ICSetNumber (&RA, "Error setting RA");
 		return;
@@ -468,12 +535,15 @@ void LX200Generic::ISNewNumber (INumber *n)
 
 	  if (!setObjectDEC((int) d, (int) m, (int) s))
 	    {
-	       DEC.s = ILS_OK;
+	       DEC.s = ILS_BUSY;
 	       getSex(n->nstr, &targetDEC);
 	       getObjectInfo(ObjectInfo.text);
 	       ICSetText   (&ObjectInfo, NULL);
+	       //strcpy(DEC.nstr, n->nstr);
+	       //ICSetNumber(&DEC, NULL);
 	       if (handleCoordSet())
 	       {
+	        strcpy(DEC.nstr, n->nstr);
 	        DEC.s = ILS_IDLE;
 	        ICSetNumber(&DEC, NULL);
 	       }
@@ -483,13 +553,14 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    }
 	    else
 	    {
+	        strcpy(DEC.nstr, n->nstr);
 	        DEC.s = ILS_ALERT;
 		ICSetNumber (&DEC, "Error setting DEC");
 		return;
             }
 	} // end DEC set
 
-	if ( !strcmp (n->name, UTCOffset.name))
+	/*if ( !strcmp (n->name, UTCOffset.name))
 	{
 	  if (checkPower())
 	  {
@@ -513,7 +584,7 @@ void LX200Generic::ISNewNumber (INumber *n)
 		ICSetNumber (&UTCOffset, "Error setting UTC Offset");
 		return;
             }
-	} // end UTC Offset
+	} // end UTC Offset*/
 
 	if ( !strcmp (n->name, SDTime.name) )
 	{
@@ -562,10 +633,17 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    return;
 	  }
 
+	  sprintf(SiteLong.nstr, "%f:%f:%f", h, m, s);
+	  double finalLong;
+	  getSex(SiteLong.nstr, &finalLong);
+
+	  formatSex( 360.0 - finalLong, SiteLong.nstr, XXXYY);
+	  validateSex(SiteLong.nstr, &h, &m, &s);
+
 	  setSiteLongitude((int) h, (int) m);
 	  SiteLong.s = ILS_OK;
 	  strcpy(SiteLong.nstr , n->nstr);
-	  ICSetNumber(&SiteLong , "Site longitude updated to %d:%d", (int) h, (int) m);
+	  ICSetNumber(&SiteLong , "Site longitude updated to %s", n->nstr);
 	  return;
         }
 
@@ -584,7 +662,7 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    ICSetNumber(&SiteLong , NULL);
 	    return;
 	  }
-	  if (m > 59 || m < 0 || d < -90 || d > 90)
+	  if (s > 60 || s < 0 || m > 59 || m < 0 || d < -90 || d > 90)
 	  {
  	    SiteLong.s = ILS_IDLE;
 	    ICSetNumber(&SiteLong , "Coordinates invalid");
@@ -592,10 +670,10 @@ void LX200Generic::ISNewNumber (INumber *n)
 	  }
 
 
-          setSiteLatitude( (int) d, (int) m);
+          setSiteLatitude( (int) d, (int) m, (int) s);
 	  SiteLat.s = ILS_OK;
 	  strcpy(SiteLat.nstr , n->nstr);
-	  ICSetNumber(&SiteLat , "Site latitude updated to %d:%d", (int) d, (int) m);
+	  ICSetNumber(&SiteLat , "Site latitude updated to %s", n->nstr);
 	  return;
         }
 
@@ -618,13 +696,16 @@ void LX200Generic::ISNewNumber (INumber *n)
           selectCatalogObject( currentCatalog, num);
 	  formatSex ( (targetRA = getObjectRA()), RA.nstr, XXYYZZ);
           formatSex ( (targetDEC = getObjectDEC()), DEC.nstr, SXXYYZZ);
-	  ObjectNo.s = ILS_OK;
-	  strcpy(ObjectNo.nstr , n->nstr);
 	  getObjectInfo(ObjectInfo.text);
+	  ObjectNo.s = RA.s = DEC.s = ILS_OK;
 	  ICSetNumber(&ObjectNo , "Object updated");
+	  strcpy(ObjectNo.nstr , n->nstr);
 	  ICSetNumber(&RA, NULL);
 	  ICSetNumber(&DEC, NULL);
 	  ICSetText  (&ObjectInfo, NULL);
+
+	  handleCoordSet();
+
 	  return;
         }
 
@@ -667,7 +748,72 @@ void LX200Generic::ISNewNumber (INumber *n)
 	  return;
 	}
 
+	if ( !strcmp (n->name, minAlt.name) )
+	{
 
+	 if (checkPower())
+	  {
+	    minAlt.s = ILS_IDLE;
+	    ICSetNumber(&minAlt, NULL);
+	    return;
+	  }
+
+	  sscanf(n->nstr, "%d", &num);
+
+	  if (num > 90 || num < 0)
+	  {
+ 	    minAlt.s = ILS_IDLE;
+	    ICSetNumber(&minAlt , "Limit invalid (0 to 90 degrees)");
+	    return;
+	  }
+
+	  fprintf(stderr, "Trying to set minimum elevation limit to %d", num);
+
+	  if (setMinElevationLimit(num))
+	  {
+	    minAlt.s = ILS_IDLE;
+	    ICSetNumber(&minAlt, "Error setting minimum elevation limit");
+	    return;
+	  }
+
+	  strcpy(minAlt.nstr, n->nstr);
+	  minAlt.s = ILS_OK;
+	  ICSetNumber(&minAlt, NULL);
+	}
+
+
+	if ( !strcmp (n->name, maxAlt.name) )
+	{
+
+	 if (checkPower())
+	  {
+	    maxAlt.s = ILS_IDLE;
+	    ICSetNumber(&maxAlt, NULL);
+	    return;
+	  }
+
+	  sscanf(n->nstr, "%d", &num);
+
+	  if (num > 90 || num < 0)
+	  {
+ 	    maxAlt.s = ILS_IDLE;
+	    ICSetNumber(&maxAlt , "Limit invalid (0 to 90 degrees)");
+	    return;
+	  }
+
+	  fprintf(stderr, "Trying to set maximum elevation limit to %d", num);
+
+	  if (setMaxElevationLimit(num))
+	  {
+	    maxAlt.s = ILS_IDLE;
+	    ICSetNumber(&maxAlt, "Error setting maximum elevation limit");
+	    return;
+	  }
+
+	  strcpy(maxAlt.nstr, n->nstr);
+	  maxAlt.s = ILS_OK;
+	  ICSetNumber(&maxAlt, NULL);
+	}
 }
 
 void LX200Generic::ISNewSwitch(ISwitches *s)
@@ -675,7 +821,7 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 
 	int index[16];
 	int dd, mm;
-	static int nOfMovements = 0;
+	//static int nOfMovements = 0;
 
 	// ignore if not ours //
 	if (strcmp (s->dev, mydev))
@@ -688,19 +834,12 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	 return;
 	}
 
-        if (!validateSwitch(s, &PortSw, NARRAY(PortS), index, 0))
-	{
-	  portIndex = index[0];
-	  PortSw.s = ILS_OK;
-	  ICSetSwitch (&PortSw, NULL);
-	  return;
-	}
-
 	if (!validateSwitch(s, &OnCoordSetSw, NARRAY(OnCoordSetS), index, 0))
 	{
 	  lastSet = index[0];
-	  OnCoordSetSw.s = ILS_OK;
-	  ICSetSwitch(&OnCoordSetSw, NULL);
+	  //OnCoordSetSw.s = ILS_OK;
+	  //ICSetSwitch(&OnCoordSetSw, NULL);
+	  handleCoordSet();
 	  return;
 	}
 
@@ -787,11 +926,18 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 
 	if (!validateSwitch(s, &MovementSw, NARRAY(MovementS), index,1))
 	{
+          if (lastMove[index[0]])
+	    return;
+
+	  lastMove[index[0]] = 1;
+
 	  MoveTo(index[0]);
+
+	  for (uint i=0; i < 4; i++)
+	    MovementSw.sw[i].s = lastMove[i] == 0 ? ISS_OFF : ISS_ON;
+
 	  MovementSw.s = ILS_BUSY;
-	  nOfMovements++;
-	  ICSetSwitch(&MovementSw, "Moving %s...", LX200Direction[index[0]]);
-	  //fprintf(stderr, "Moving %s...", LX200Direction[index[0]]);
+	  ICSetSwitch(&MovementSw, "Moving %s...", Direction[index[0]]);
 	  return;
 	}
 
@@ -799,28 +945,28 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	{
 	  if (MovementSw.s == ILS_BUSY)
 	  {
-	     //fprintf(stderr, "Halting movement in this direction %s\n",  LX200Direction[index[0]]);
-	     //fprintf(stderr, "current number of movements
 	  	HaltMovement(index[0]);
-		nOfMovements--;
+		lastMove[index[0]] = 0;
 
-		if (nOfMovements <= 0)
+		if (!lastMove[0] && !lastMove[1] && !lastMove[2] && !lastMove[3])
+		  MovementSw.s = ILS_IDLE;
+
+		for (uint i=0; i < 4; i++)
 		{
-	  	  MovementSw.s = ILS_IDLE;
-		  nOfMovements = 0;
+	    	   haltMoveSw.sw[i].s = ISS_OFF;
+		   MovementSw.sw[i].s = lastMove[i] == 0 ? ISS_OFF : ISS_ON;
 		}
 
-		MovementSw.sw[0].s = ISS_OFF;
-		MovementSw.sw[1].s = ISS_OFF;
-		MovementSw.sw[2].s = ISS_OFF;
-		MovementSw.sw[3].s = ISS_OFF;
+		RA.s = ILS_IDLE;
+		DEC.s = ILS_IDLE;
                 haltMoveSw.s = ILS_IDLE;
 
-		ICSetSwitch(&haltMoveSw, "Moving toward %s aborted", LX200Direction[index[0]]);
+		ICSetSwitch(&haltMoveSw, "Moving toward %s aborted", Direction[index[0]]);
 	  	ICSetSwitch(&MovementSw, NULL);
 	  }
 	  else
 	  {
+	        haltMoveSw.sw[index[0]].s = ISS_OFF;
 	     	haltMoveSw.s = ILS_IDLE;
 	        ICSetSwitch(&haltMoveSw, NULL);
 	  }
@@ -873,16 +1019,23 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 
 	if (!validateSwitch(s, &SolarSw, NARRAY(SolarS), index, 1))
 	{
-          selectSubCatalog ( LX200_STAR_C, LX200_STAR);
-	  selectCatalogObject( LX200_STAR_C, index[0] + 901);
+	  // We ignore the first option : "Select item"
+	  if (index[0] == 0)
+	  {
+	    SolarSw.s  = ILS_IDLE;
+	    ICSetSwitch(&SolarSw, NULL);
+	    return;
+	  }
 
-	  //formatHMS ( (targetRA = getObjectRA()), RA.nstr);
+          selectSubCatalog ( LX200_STAR_C, LX200_STAR);
+	  selectCatalogObject( LX200_STAR_C, index[0] + 900);
+
 	  formatSex( (targetRA = getObjectRA()), RA.nstr, XXYYZZ);
-          //formatDMS ( (targetDEC = getObjectDEC()), DEC.nstr);
-	  formatSex ( (targetDEC = getObjectDEC()), DEC.nstr, SXXYYZZ);
+          formatSex ( (targetDEC = getObjectDEC()), DEC.nstr, SXXYYZZ);
 
 	  ObjectNo.s = ILS_OK;
 	  SolarSw.s  = ILS_OK;
+	  RA.s = DEC.s = ILS_IDLE;
 
 	  //strcpy(ObjectNo.nstr , n->nstr);
 	  getObjectInfo(ObjectInfo.text);
@@ -894,6 +1047,9 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 
 	  if (currentCatalog == LX200_STAR_C || currentCatalog == LX200_DEEPSKY_C)
 	  	selectSubCatalog( currentCatalog, currentSubCatalog);
+
+	  handleCoordSet();
+
 	  return;
 	}
 
@@ -905,56 +1061,6 @@ void LX200Generic::ISNewSwitch(ISwitches *s)
 	  ICSetSwitch(&TrackModeSw, NULL);
 	  return;
 	}
-
-	/*if (!validateSwitch(s, &TimeFormatSw, NARRAY(TimeFormatS), index, 1))
-	{
-	  fprintf(stderr, "in Time FORMAT\n");
-          // we have 24 : AM : PM
-	  // we don't toggle format if user changes from AM to PM or vice vesra (both are 12 hour format)
-	  // we only change when there is a transition from 12 --> 24 or 24 ---> 12
-	  if (timeFormat != LX200_24)
-	  {
-
-	    if (index[0] == LX200_24)
-	    {
-	      fprintf(stderr, "CURRENT time format is 24\n");
-	      toggleTimeFormat();
-	    }
-
-	    fprintf(stderr, "Format did not change\n");
-	  }
-	  else
-	  {
-	      toggleTimeFormat();
-	      fprintf(stderr, "LAST Time format is 24, toggling to 12\n");
-	  }
-
-
-	  timeFormat = index[0];
-
-	  TimeFormatSw.s = ILS_OK;
-
-	if (timeFormat == LX200_24)
-	 ICSetSwitch(&TimeFormatSw, "Time format changed to 24 hours. Telescope time is not updated until a new time is set");
-	else if (timeFormat == LX200_AM)
-	    ICSetSwitch(&TimeFormatSw, "Time format changed to AM.  Telescope time is not updated until a new time is set");
-	else
-	  ICSetSwitch(&TimeFormatSw, "Time format changed to PM.  Telescope time is not updated until a new time is set");
-
-	  return;
-	}*/
-}
-
-void alterSwitches(int OnOff, ISwitches * s, int switchArraySize)
-{
-  // 0 Off
-  // 1 On
-
-  int i;
-  ISState switchSt = OnOff ? ISS_ON : ISS_OFF;
-
-  for (i = 0; i < switchArraySize; i++)
-    s->sw[i].s = switchSt;
 
 }
 
@@ -977,45 +1083,32 @@ void LX200Generic::ISPoll()
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
-	    //formatHMS(currentRA, RA.nstr);
 	    formatSex ( currentRA, RA.nstr, XXYYZZ);
-	    //formatDMS(currentDEC, DEC.nstr);
 	    formatSex (currentDEC, DEC.nstr, SXXYYZZ);
 
 	    if (dx < 0) dx *= -1;
 	    if (dy < 0) dy *= -1;
 	    fprintf(stderr, "targetRA is %f, currentRA is %f\n", (float) targetRA, (float) currentRA);
-	    fprintf(stderr, "targetDEC is %f, currentDEC is %f\n", (float) targetDEC, (float) currentDEC);
+	    fprintf(stderr, "targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
 
 
-	    //if (dx <= 0.5 && dy <= 0.5)
-
-	    // FIXME I should probably use getNumOfBars. Try to figure out why it crashes
-	    if (dx <= 0.001 && dy <= 0.001)
+	    if (getNumberOfBars() == 0 || (dx <= 0.001 && dy <= 0.001))
 	    {
-	        //SlewS[0].s = ISS_OFF;
-		if (lastSet == 0)
-			abortSlew();
 
 		OnCoordSetSw.s = ILS_OK;
-		currentRA = oldLX200RA = targetRA;
-		currentDEC = oldLX200DEC = targetDEC;
+		currentRA = targetRA;
+		currentDEC = targetDEC;
 
-		//formatHMS(targetRA, RA.nstr);
-		//formatDMS(targetDEC, DEC.nstr);
 		formatSex (targetRA, RA.nstr, XXYYZZ);
 		formatSex (targetDEC, DEC.nstr, SXXYYZZ);
 
+		RA.s = ILS_OK;
+		DEC.s = ILS_OK;
 		ICSetNumber (&RA, NULL);
 		ICSetNumber (&DEC, NULL);
-		if (lastSet == 0)
-			ICSetSwitch (&OnCoordSetSw, "Slew is complete");
-		else
-			ICSetSwitch (&OnCoordSetSw, "Slew is complete. Tracking...");
-
+		ICSetSwitch (&OnCoordSetSw, "Slew is complete");
 	    } else
 	    {
-		//ICMessage (mydev, "Slew in progress...");
 		ICSetNumber (&RA, NULL);
 		ICSetNumber (&DEC, NULL);
 	    }
@@ -1035,8 +1128,6 @@ void LX200Generic::ISPoll()
 	 case ILS_BUSY:
 	     currentRA = getLX200RA();
 	     currentDEC = getLX200DEC();
-	     //formatHMS(currentRA, RA.nstr);
-	     //formatDMS(currentDEC, DEC.nstr);
 	     formatSex(currentRA, RA.nstr, XXYYZZ);
 	     formatSex(currentDEC, DEC.nstr, SXXYYZZ);
 	     ICSetNumber (&RA, NULL);
@@ -1055,7 +1146,7 @@ int LX200Generic::checkPower()
 
   if (PowerSw.s != ILS_OK)
   {
-    ICMessage (mydev, "Cannot change a property while telescope is Off");
+    ICMessage (mydev, "Cannot change a property while the telescope is offline");
     return -1;
   }
 
@@ -1065,7 +1156,6 @@ int LX200Generic::checkPower()
 
 int LX200Generic::validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int driverArraySize, int index[], int validatePower)
 {
-//fprintf(stderr , "IN validate switch\n");
   int i, j;
 
   if (!strcmp (clientSw->name, driverSw->name))
@@ -1097,63 +1187,48 @@ int LX200Generic::validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int d
 
 void LX200Generic::getBasicData()
 {
-
   int dd, mm;
 
   checkLX200Format();
   getAlignment();
-
   timeFormat = getTimeFormat() == 24 ? LX200_24 : LX200_AM;
-
-  //if (timeFormat == LX200_24)
-  //{
-//    TimeFormatSw.s   = ILS_IDLE;
-    //TimeFormatS[0].s = ISS_ON;
-    //ICSetSwitch(&TimeFormatSw, NULL);
-  //}
 
   // We always do 24 hours
   if (timeFormat != LX200_24)
    toggleTimeFormat();
 
-  //formatHMS (getLX200RA(), RA.nstr);
   formatSex ( (targetRA = getLX200RA()), RA.nstr, XXYYZZ);
   formatSex ( (targetDEC = getLX200DEC()), DEC.nstr, SXXYYZZ);
   getObjectInfo(ObjectInfo.text);
 
-  ICSetNumber(&RA, NULL);
-  ICSetNumber(&DEC, NULL);
-  ICSetText  (&ObjectInfo, NULL);
+  sprintf(minAlt.nstr, "%02d", getMinElevationLimit());
+  sprintf(maxAlt.nstr, "%02d", getMaxElevationLimit());
 
   formatSex ( getLocalTime24(), lastTime, XXYYZZ);
   getCalenderDate(lastDate);
   formatDateTime(Time.text, lastTime, lastDate);
-
   formatSex (getSDTime(), SDTime.nstr, XXYYZZ);
-
-  sprintf(UTCOffset.nstr, "%d", getUCTOffset());
-
-  ICSetText(&Time, NULL);
-  ICSetNumber(&UTCOffset, NULL);
-  ICSetNumber(&SDTime, NULL);
-
 
   selectSite(currentSiteNum);
   getSiteLongitude(&dd, &mm);
   sprintf (SiteLong.nstr, "%03d:%02d", dd, mm);
   getSiteLatitude(&dd, &mm);
   sprintf (SiteLat.nstr, "%+03d:%02d", dd, mm);
-
   getSiteName( SiteName.text, currentSiteNum);
-
   sprintf(TrackingFreq.nstr, "%04.1f", (float) getTrackFreq());
 
+  ICSetNumber (&RA, NULL);
+  ICSetNumber (&DEC, NULL);
+  ICSetNumber (&minAlt, NULL);
+  ICSetNumber (&maxAlt, NULL);
+  ICSetNumber (&SDTime, NULL);
   ICSetNumber (&SiteLong, NULL);
   ICSetNumber (&SiteLat,  NULL);
+  ICSetNumber (&TrackingFreq, NULL);
+  ICSetText   (&ObjectInfo, NULL);
+  ICSetText   (&Time, NULL);
   ICSetText   (&SiteName, NULL);
   ICSetSwitch (&SitesSw, NULL);
-  ICSetNumber (&TrackingFreq, NULL);
-
 }
 
 void LX200Generic::powerTelescope(ISwitches* s)
@@ -1164,9 +1239,9 @@ void LX200Generic::powerTelescope(ISwitches* s)
         if (!strcmp (s->sw[0].name, PowerS[i].name))
 	{
 
-	    if (Connect(SerialUSBPort[portIndex]) < 0)
+	    if (Connect(Port.text) < 0)
 	    {
-	        ICSetSwitch (&PowerSw, "Error connecting to Telescope. Telescope is Off");
+	        ICSetSwitch (&PowerSw, "Error connecting to Telescope. Telescope is offline.");
 	        return;
 	    }
 
@@ -1183,7 +1258,7 @@ void LX200Generic::powerTelescope(ISwitches* s)
      {
         fprintf(stderr , "telescope test successffully\n");
 	PowerSw.s = ILS_OK;
-	ICSetSwitch (&PowerSw, "Telescope is On. Retrieving basic data...");
+	ICSetSwitch (&PowerSw, "Telescope is online. Retrieving basic data...");
 	getBasicData();
      }
      else
@@ -1195,27 +1270,18 @@ void LX200Generic::powerTelescope(ISwitches* s)
    	  PowerS[0].s = ISS_OFF;
 	  PowerS[1].s = ISS_ON;
 
-	  ICSetSwitch (&PowerSw, "Telescope is not connected to the serial port");
+	  ICSetSwitch (&PowerSw, "Telescope is not connected to the serial/usb port");
 	  fprintf(stderr , "telescope test failed\n");
 	  Disconnect();
 	}
         else
 	{
-	 ICSetSwitch (&PowerSw, "Telescope is off");
+	 ICSetSwitch (&PowerSw, "Telescope is offline.");
 	 Disconnect();
-	 cleanUP();
 	}
      }
 }
 
-
-// LX200 implementation //
-
-void LX200Generic::cleanUP()
-{
- //ConnectSw.s = ILS_IDLE;
- //ICSetSwitch (&ConnectSw , NULL);
-}
 
 void LX200Generic::slewError(int slewCode)
 {
@@ -1224,7 +1290,7 @@ void LX200Generic::slewError(int slewCode)
     if (slewCode == 1)
 	ICSetSwitch (&OnCoordSetSw, "Object below horizon");
     else
-	ICSetSwitch (&OnCoordSetSw, "Object below higher");
+	ICSetSwitch (&OnCoordSetSw, "Object below the minimum elevation limit");
 
 }
 

@@ -1,5 +1,5 @@
 /*
-    LX200 Generic
+    Celestron GPS
     Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
@@ -18,19 +18,19 @@
 
 */
 
-#ifndef LX200GENERIC_H
-#define LX200GENERIC_H
+#ifndef CELESTRONGPS_H
+#define CELESTRONGPS_H
 
 #include "indiapi.h"
 #include "indicom.h"
 
 #define	POLLMS		500		/* poll period, ms */
 
-class LX200Generic
+class CelestronGPS
 {
  public:
- LX200Generic();
- virtual ~LX200Generic() {}
+ CelestronGPS();
+ virtual ~CelestronGPS() {}
 
  virtual void ISGetProperties (const char *dev);
  virtual void ISNewText (IText *t);
@@ -43,29 +43,18 @@ class LX200Generic
  int validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int driverArraySize, int index[], int validatePower);
  void powerTelescope(ISwitches* s);
  void slewError(int slewCode);
- void getAlignment();
  int handleCoordSet();
 
  private:
-  int timeFormat;
-  int currentSiteNum;
-  int currentCatalog;
-  int currentSubCatalog;
-  int portIndex;
-  int trackingMode;
-  int lastSet;
 
-  double currentRA;
-  double currentDEC;
-  double targetRA;
-  double targetDEC;
-  int lastMove[4];
-
-  char lastDate [64];
-  char lastTime [64];
+ int lastSet;
+ double currentRA;
+ double currentDEC;
+ double targetRA;
+ double targetDEC;
+ int lastMove[4];
 
 };
 
-
-
 #endif
+

@@ -54,24 +54,24 @@ extern int MaxReticleFlashRate;
 
 
 static ISwitch FanStatusS[]		= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
-static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set", ISS_ON}};
+static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home and set", ISS_OFF}};
 static ISwitch FieldDeRotatorS[]	= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
 static ISwitch SlewAltAzS[]		= { {"Slew to Object Az/Alt", ISS_OFF}};
 
 static ISwitches FanStatusSw		= { mydev, "Fan", FanStatusS, NARRAY(FanStatusS), ILS_IDLE, 0, LX16Group };
-static ISwitches HomeSearchSw		= { mydev, "Home Search", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0, LX16Group};
+static ISwitches HomeSearchSw		= { mydev, "Park", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0, LX16Group};
 static ISwitches FieldDeRotatorSw	= { mydev, "Field De-rotator", FieldDeRotatorS, NARRAY(FieldDeRotatorS), ILS_IDLE, 0, LX16Group};
 static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
 
-static INumber ObjectAlt		= { mydev, "Object Altitude", NULL, ILS_IDLE, 0, LX16Group};
-static INumber ObjectAz			= { mydev, "Object Azimuth", NULL, ILS_IDLE, 0, LX16Group};
+static INumber ALT		        = { mydev, "Altitude D:M:S up", NULL, ILS_IDLE, 0, LX16Group};
+static INumber AZ			= { mydev, "Azimuth D:M:S E of N", NULL, ILS_IDLE, 0, LX16Group};
 
 
 LX200_16::LX200_16() : LX200Autostar()
 {
 
- ObjectAlt.nstr	= strcpy( new char[9], "DD:MM");
- ObjectAz.nstr	= strcpy( new char[9], "DDD:MM");
+ ALT.nstr	= strcpy( new char[9], "DD:MM");
+ AZ.nstr	= strcpy( new char[9], "DDD:MM");
 
 }
 
@@ -84,10 +84,8 @@ if (dev && strcmp (mydev, dev))
  // process parent first
   LX200Autostar::ISGetProperties(dev);
 
-  ICDefNumber (&ObjectAlt, "Object Alt", IP_RW, NULL);
-  ICDefNumber (&ObjectAz , "Object Az", IP_RW, NULL);
-
-  ICDefSwitches(&SlewAltAzSw, "Az/Alt Slew", ISP_W, IR_1OFMANY);
+  ICDefNumber (&ALT, "ALT", IP_RW, NULL);
+  ICDefNumber (&AZ , "AZ", IP_RW, NULL);
 
   ICDefSwitches (&FanStatusSw, "Fan", ISP_W, IR_1OFMANY);
   ICDefSwitches (&HomeSearchSw, "Home Search", ISP_W, IR_1OFMANY);
@@ -104,7 +102,7 @@ void LX200_16::ISNewText (IText *t)
 
 void LX200_16::ISNewNumber (INumber *n)
 {
-  int h,m;
+  float h,d,m,s;
 
   LX200Autostar::ISNewNumber(n);
 
@@ -112,49 +110,63 @@ void LX200_16::ISNewNumber (INumber *n)
   if (strcmp (n->dev, mydev))
     return;
 
-  if ( !strcmp (n->name, ObjectAz.name) )
+  if ( !strcmp (n->name, AZ.name) )
 	{
 	  if (checkPower())
 	  {
-	    ObjectAz.s = ILS_IDLE;
-	    ICSetNumber(&ObjectAz, NULL);
+	    AZ.s = ILS_IDLE;
+	    ICSetNumber(&AZ, NULL);
 	    return;
 	  }
 
-	  if (!sscanf(n->nstr, "%d:%d", &h, &m) || m > 59 || m < 0 || h < 0 || h > 360)
+	  if (validateSex(n->nstr, &h, &m,&s))
 	  {
-	    ObjectAz.s = ILS_IDLE;
-	    ICSetNumber(&ObjectAz , "Coordinates invalid");
+            AZ.s = ILS_IDLE;
+	    ICSetNumber(&AZ, NULL);
+	    return;
+	  }
+	  if (m > 59 || m < 0 || h < 0 || h > 360)
+	  {
+ 	    AZ.s = ILS_IDLE;
+	    ICSetNumber(&AZ , "Coordinates invalid");
 	    return;
 	  }
 
-          setObjAz(h, m);
-	  ObjectAz.s = ILS_OK;
-	  strcpy(ObjectAz.nstr , n->nstr);
-	  ICSetNumber(&ObjectAz , "Object Azimuth set to %d:%d", h, m);
+	  getSex(n->nstr, &targetAz);
+          setObjAz( (int) h, (int) m);
+	  AZ.s = ILS_OK;
+	  strcpy(AZ.nstr , n->nstr);
+	  handleAltAzSlew();
 	  return;
         }
 
-	if ( !strcmp (n->name, ObjectAlt.name) )
+	if ( !strcmp (n->name, ALT.name) )
 	{
 	  if (checkPower())
 	  {
-	    ObjectAlt.s = ILS_IDLE;
-	    ICSetNumber(&ObjectAlt, NULL);
+	    ALT.s = ILS_IDLE;
+	    ICSetNumber(&ALT, NULL);
 	    return;
 	  }
 
-	  if (!sscanf(n->nstr, "%d:%d", &h, &m) || m > 59 || m < 0 || h < -90 || h > 90)
+	  if (validateSex(n->nstr, &d, &m, &s))
 	  {
-	    ObjectAlt.s = ILS_IDLE;
-	    ICSetNumber(&ObjectAlt , "Coordinates invalid");
+            ALT.s = ILS_IDLE;
+	    ICSetNumber(&ALT , NULL);
+	    return;
+	  }
+	  if (s > 60 || s < 0 || m > 59 || m < 0 || d < -90 || d > 90)
+	  {
+ 	    ALT.s = ILS_IDLE;
+	    ICSetNumber(&ALT , "Coordinates invalid");
 	    return;
 	  }
 
-          setObjAlt(h, m);
-	  ObjectAlt.s = ILS_OK;
-	  strcpy(ObjectAlt.nstr , n->nstr);
-	  ICSetNumber(&ObjectAlt , "Object Altitude set to %d:%d", h, m);
+	  getSex(n->nstr, &targetAlt);
+          setObjAlt( (int) h, (int) m);
+	  ALT.s = ILS_OK;
+	  strcpy(ALT.nstr , n->nstr);
+	  handleAltAzSlew();
 	  return;
         }
 
@@ -162,7 +174,7 @@ void LX200_16::ISNewNumber (INumber *n)
 
 void LX200_16::ISNewSwitch (ISwitches *s)
 {
-   int index[16], i;
+   int index[16];
    char msg[32];
 
   if (strcmp (s->dev, mydev))
@@ -197,14 +209,12 @@ void LX200_16::ISNewSwitch (ISwitches *s)
 	  return;
    }
 
-   if (!validateSwitch(s, &SlewAltAzSw, NARRAY(SlewAltAzS), index, 1))
-   {
-     if (checkPower())
-	  {
-	    SlewAltAzSw.s = ILS_IDLE;
-	    ICSetSwitch(&SlewAltAzSw, NULL);
-	    return;
-	  }
+
+}
+
+void LX200_16::handleAltAzSlew()
+{
+        int i=0;
 
 	  if (SlewAltAzSw.s == ILS_BUSY)
 	  {
@@ -221,21 +231,17 @@ void LX200_16::ISNewSwitch (ISwitches *s)
 	    return;
 	  }
 
-	  // TODO
-	  // We need to convert Object's Alt/Az to RA/DEC because we can't get Object's
-	  // Alt/Az directly from the telescope. Without this, we can't update and check the
-	  // slew status
-	  SlewAltAzSw.s = ILS_OK;
-	  ICSetSwitch(&SlewAltAzSw, "Slewing to Az %s - Alt %s", ObjectAz.nstr, ObjectAlt.nstr);
-
+	  SlewAltAzSw.s = ILS_BUSY;
+	  ICSetNumber(&ALT , NULL);
+	  ICSetNumber(&AZ , NULL);
+	  ICSetSwitch(&SlewAltAzSw, "Slewing to Az %s - Alt %s", AZ.nstr, ALT.nstr);
 	  return;
-	}
-
 }
 
  void LX200_16::ISPoll ()
  {
    int searchResult;
+   double dx, dy;
    LX200Autostar::ISPoll();
 
    	switch (HomeSearchSw.s)
@@ -272,11 +278,68 @@ void LX200_16::ISNewSwitch (ISwitches *s)
 	  break;
 	}
 
+	switch (SlewAltAzSw.s)
+	{
+	case ILS_IDLE:
+	     break;
+
+	case ILS_BUSY:
+
+	    fprintf(stderr , "Getting LX200 RA, DEC...\n");
+	    currentAz = getLX200Az();
+	    currentAlt = getLX200Alt();
+	    dx = targetAz - currentAz;
+	    dy = targetAlt - currentAlt;
+
+	    formatSex ( currentAz, AZ.nstr, XXYYZZ);
+	    formatSex (currentAlt, ALT.nstr, SXXYYZZ);
+
+	    if (dx < 0) dx *= -1;
+	    if (dy < 0) dy *= -1;
+	    fprintf(stderr, "targetAz is %f, currentAz is %f\n", (float) targetAz, (float) currentAz);
+	    fprintf(stderr, "targetAlt is %f, currentAlt is %f\n****************************\n", (float) targetAlt, (float) currentAlt);
+
+
+	    if (dx <= 0.001 && dy <= 0.001)
+	    {
+
+		SlewAltAzSw.s = ILS_OK;
+		currentAz = targetAz;
+		currentAlt = targetAlt;
+
+		formatSex (targetAz, AZ.nstr, XXYYZZ);
+		formatSex (targetAlt, ALT.nstr, SXXYYZZ);
+
+		AZ.s = ILS_OK;
+		ALT.s = ILS_OK;
+		ICSetNumber (&AZ, NULL);
+		ICSetNumber (&ALT, NULL);
+		ICSetSwitch (&SlewAltAzSw, "Slew is complete");
+	    } else
+	    {
+		ICSetNumber (&AZ, NULL);
+		ICSetNumber (&ALT, NULL);
+	    }
+	    break;
+
+	case ILS_OK:
+	    break;
+
+	case ILS_ALERT:
+	    break;
+	}
+
  }
 
  void LX200_16::getBasicData()
  {
    // process parent first
    LX200Autostar::getBasicData();
+
+  formatSex ( (targetAz = getLX200Az()), AZ.nstr, XXXYY);
+  formatSex ( (targetAlt = getLX200Alt()), ALT.nstr, SXXYY);
+
+  ICSetNumber (&AZ, NULL);
+  ICSetNumber (&ALT, NULL);
 
  }

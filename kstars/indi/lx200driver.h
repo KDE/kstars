@@ -42,11 +42,6 @@ enum DeepSkyCatalog { LX200_NGC, LX200_IC, LX200_UGC, LX200_CALDWELL, LX200_ARP,
 
 enum TFreq { LX200_TRACK_DEFAULT, LX200_TRACK_LUNAR, LX200_TRACK_MANUAL};
 
-enum SexFormat { XXYYZZ = 0 , SXXYYZZ, XXYY, SXXYY, XXYYZ, XXXYY };
-extern const char * LX200Direction[];
-extern const char * SolarSystem[];
-extern const char* SerialUSBPort[];
-
 #define OPENPORT_ERROR			-1000		/* port open failed */
 #define READOUT_ERROR			-1001		/* timeout on fd */
 #define READ_ERROR			-1002		/* reading from fd failed */
@@ -63,6 +58,8 @@ extern const char* SerialUSBPort[];
 #define getLocalTime12()		getCommand("#:Ga#")
 #define getLocalTime24()		getCommand("#:GL#")
 #define getSDTime()			getCommand("#:GS#")
+#define getLX200Alt()			getCommand("#:GA#")
+#define getLX200Az()			getCommand("#:GZ#")
 
 /* Get String, pass x as string */
 #define getObjectInfo(x)		getCommandStr(x, "#:LI#")
@@ -71,14 +68,13 @@ extern const char* SerialUSBPort[];
 #define getFullVersion(x)		getCommandStr(x, "#:GVF#")
 #define getVersionNumber(x)		getCommandStr(x, "#:GVN#")
 #define getProductName(x)		getCommandStr(x, "#:GVP#")
-#define turnGPS_StreamOn		getCommandStr(x, "#:gps#")
+#define turnGPS_StreamOn()		getCommandStr(x, "#:gps#")
 
 /* Generic set, x is an integer */
 #define setReticleDutyFlashCycle(x)	setCommandInt(x, "#:BD")
 #define setReticleFlashRate(x)		setCommandInt(x, "#:B")
 #define setFocuserSpeed(x)		setCommandInt(x, "#:F")
 #define setSlewSpeed(x)			setCommandInt(x, "#:Sw")
-
 
 /* Set X:Y:Z */
 #define setLocalTime(x,y,z)		setCommandXYZ(x,y,z, "#:SL")
@@ -118,10 +114,6 @@ extern const char* SerialUSBPort[];
 extern "C" {
 #endif
 
-int validateSex(const char * str, float *x, float *y, float *z);
-void formatSex(double number, char * str, int mode);
-int getSex(const char *str, double * value);
-
 int LX200readOut(int timeout);
 int openPort(const char *portID);
 int portReadT(char *buf, int nbytes, int timeout);
@@ -133,7 +125,7 @@ int testTelescope();
 void Disconnect();
 
 char ACK();
-   
+
 /* Get commands */
 void checkLX200Format();
 double getCommand(const char *cmd);
@@ -149,7 +141,8 @@ int getSiteLatitude(int *dd, int *mm);
 int getSiteLongitude(int *ddd, int *mm);
 int getNumberOfBars();
 int getHomeSearchStatus();
-
+int getMaxElevationLimit();
+int getMinElevationLimit();
 
 /* GPS */
 double getOTATemp();
@@ -175,7 +168,7 @@ int setUTCOffset(int hours);
 int setTrackFreq(double trackF);
 
 int setSiteLongitude(int degrees, int minutes);
-int setSiteLatitude(int degrees, int minutes);
+int setSiteLatitude(int degrees, int minutes, int seconds);
 int setObjAz(int degrees, int minutes);
 int setObjAlt(int degrees, int minutes);
 
@@ -183,6 +176,9 @@ int setSiteName(char * siteName, int siteNum);
 
 void setFocuserMotion(int motionType);
 void setFocuserSpeedMode (int speedMode);
+int setMinElevationLimit(int min);
+int setMaxElevationLimit(int max);
+
 
 /* Other */
 int Slew();
@@ -194,11 +190,6 @@ void selectSite(int siteNum);
 void selectCatalogObject(int catalog, int NNNN);
 void selectTrackingMode(int trackMode);
 int selectSubCatalog(int catalog, int subCatalog);
-int extractDate(char *inDate, int *dd, int *mm, int *yy);
-int extractTime(char *inTime, int *h, int *m, int *s);
-int extractDateTime(char *datetime, char *inTime, char *date);
-void formatDateTime(char *datetime, char *inTime, char *date);
-
 
 #ifdef __cplusplus
 }

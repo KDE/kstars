@@ -1,5 +1,5 @@
 <devGroup group="Telescopes">
-	<device name="LX200 Generic">
+	<device name="LX200 Classic">
 		<Exec>lx200generic</Exec>
 		<Version>0.1</Version>
 	</device>
@@ -13,6 +13,10 @@
 	</device>
 	<device name="LX200 GPS">
 		<Exec>lx200gps</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device name="Celestron GPS">
+		<Exec>celestrongps</Exec>
 		<Version>0.1</Version>
 	</device>
 </devGroup>
