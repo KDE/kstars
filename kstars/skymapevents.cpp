@@ -55,7 +55,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	QString s;
 	bool arrowKeyPressed( false );
 	float step = 1.0;
-	if ( e->state() & ShiftButton ) step = 2.0;
+	if ( e->state() & ShiftButton ) step = 10.0;
 
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
@@ -67,7 +67,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	switch ( e->key() ) {
 		case Key_Left :
 			if ( Options::useAltAz() ) {
-				focus()->setAz( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() );
+				focus()->setAz( dms( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
 				focus()->setRA( focus()->ra()->Hours() + 0.05*step * MINZOOM/Options::zoomFactor() );
@@ -81,7 +81,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Right :
 			if ( Options::useAltAz() ) {
-				focus()->setAz( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() );
+				focus()->setAz( dms( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
 				focus()->setRA( focus()->ra()->Hours() - 0.05*step * MINZOOM/Options::zoomFactor() );
@@ -369,9 +369,10 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 			slewing = false;
 			scrollCount = 0;
 
-			setDestination( focus() );
-			if ( Options::useAltAz() )
-				destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			if ( Options::useAltAz() ) 
+				setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
+			else
+				setDestination( focus() );
 
 			showFocusCoords();
 			forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
@@ -482,8 +483,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
 			focus()->setAlt( focus()->alt()->Degrees() - dAlt.Degrees() );
 
-			if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 89.9999 );
-			if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -89.9999 );
+			if ( focus()->alt()->Degrees() >89.9999 ) focus()->setAlt( 89.9999 );
+			if ( focus()->alt()->Degrees() <-89.9999 ) focus()->setAlt( -89.9999 );
 			focus()->setAz( focus()->az()->reduce() );
 			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 		} else {

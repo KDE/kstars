@@ -600,16 +600,21 @@ void KStars::slotManualFocus() {
 	if ( Options::useAltAz() ) focusDialog.activateAzAltPage();
 
 	if ( focusDialog.exec() == QDialog::Accepted ) {
+		//If the requested position is very near the pole, we need to point first
+		//to an intermediate location just below the pole in order to get the longitudinal
+		//position (RA/Az) right.
+		double realAlt( focusDialog.point()->alt()->Degrees() );
+		double realDec( focusDialog.point()->dec()->Degrees() );
+		if ( Options::useAltAz() && realAlt > 89.0 ) {
+			focusDialog.point()->setAlt( 89.0 );
+		}
+		if ( ! Options::useAltAz() && realDec > 89.0 ) {
+			focusDialog.point()->setDec( 89.0 );
+		}
+
 		//Do we need to convert Az/Alt to RA/Dec?
 		if ( focusDialog.usedAltAz() )
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
-
-		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
-		if ( Options::useAltAz() && Options::useRefraction() ) {
-//			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
-//			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
-//			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
-		}
 
 		map()->setClickedPoint( focusDialog.point() );
 		if ( Options::isTracking() ) slotTrack();
@@ -619,9 +624,21 @@ void KStars::slotManualFocus() {
 		//The slew takes some time to complete, and this often causes the final focus point to be slightly 
 		//offset from the user's requested coordinates (because EquatorialToHorizontal() is called 
 		//throughout the process, which depends on the sidereal time).  So we now "polish" the final
-		//position by resetting the final focus to the focusDialog point:
-		data()->setSnapNextFocus();
-		map()->setDestinationAltAz( focusDialog.point()->alt()->Degrees(), focusDialog.point()->az()->Degrees() );
+		//position by resetting the final focus to the focusDialog point.
+		//
+		//Also, if the requested position was within 1 degree of the coordinate pole, this will 
+		//automatically correct the final pointing from the intermediate offset position to the final position
+		if ( Options::useAltAz() ) {
+			data()->setSnapNextFocus();
+			map()->setDestinationAltAz( focusDialog.point()->alt()->Degrees(), focusDialog.point()->az()->Degrees() );
+		} else {
+			data()->setSnapNextFocus();
+			map()->setDestination( focusDialog.point()->ra()->Hours(), focusDialog.point()->dec()->Degrees() );
+		}
+		
+		//Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
+		if ( Options::useAltAz() && realAlt > 89.0 ) map()->focus()->setAlt( realAlt );
+		if ( ! Options::useAltAz() && realDec > 89.0 ) map()->focus()->setDec( realAlt );
 		
 		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
 		if ( focusDialog.usedAltAz() ) map()->stopTracking();

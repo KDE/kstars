@@ -472,7 +472,8 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 
 void SkyMap::slotCenter( void ) {
 	setFocusPoint( clickedPoint() );
-	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+	if ( Options::useAltAz() ) 
+		focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 	//clear the planet trail of old focusObject, if it was temporary
 	if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
@@ -512,11 +513,11 @@ void SkyMap::slotCenter( void ) {
 	}
 
 	//update the destination to the selected coordinates
-//	if ( Options::useAltAz() && Options::useRefraction() ) { //correct for atmospheric refraction if using horizontal coords
-//		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
-//	} else {
+	if ( Options::useAltAz() ) { 
+		setDestinationAltAz( focusPoint()->alt()->Degrees(), focusPoint()->az()->Degrees() );
+	} else {
 		setDestination( focusPoint() );
-//	}
+	}
 
 	//display coordinates in statusBar
 	if ( ksw ) {
@@ -871,7 +872,7 @@ void SkyMap::slewFocus( void ) {
 
 				if ( Options::useAltAz() ) {
 					focus()->setAlt( focus()->alt()->Degrees() + fY*step );
-					focus()->setAz( focus()->az()->Degrees() + fX*step );
+					focus()->setAz( dms( focus()->az()->Degrees() + fX*step ).reduce() );
 					focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 				} else {
 					fX = fX/15.; //convert RA degrees to hours
@@ -906,17 +907,14 @@ void SkyMap::slewFocus( void ) {
 
 		//Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
 		//set focus=destination.
-		setFocus( destination() );
-		focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-//Deprecated...this is already done by showFocusCoords() call at end of slotFocus()
-// 		if ( focusObject() )
-// 			infoBoxes()->focusObjChanged( focusObject()->translatedLongName() );
-// 		else
-// 			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
-// 
-// 		infoBoxes()->focusCoordChanged( focus() );
-
+		if ( Options::useAltAz() ) {
+			setFocusAltAz( destination()->alt()->Degrees(), destination()->az()->Degrees() );
+			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+		} else {
+			setFocus( destination() );
+			focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		}
+		
 		data->HourAngle->setH( data->LST->Hours() - focus()->ra()->Hours() );
 		slewing = false;
 

@@ -54,13 +54,14 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 	AltRad = asin( sinAlt );
 	cosAlt = cos( AltRad );
 
-	AzRad = acos( ( sindec - sinlat*sinAlt )/( coslat*cosAlt ) );
+	double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
+	if ( arg <= -1.0 ) AzRad = dms::PI;
+	else AzRad = acos( arg );
+	
 	if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
 
-	//Do not reset Az if Alt > 89.5 or <-89.5
 	Alt.setRadians( AltRad );
-	if ( Alt.Degrees() < 89.5 && Alt.Degrees() > -89.5 )
-		Az.setRadians( AzRad );
+	Az.setRadians( AzRad );
 }
 
 void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
