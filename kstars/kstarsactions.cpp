@@ -322,7 +322,7 @@ void KStars::slotPrint() {
 	}
 
 	printer.setFullPage( false );
-	if( printer.setup( this ) ) {
+	if( printer.setup( this, i18n("Print sky") ) ) {
 		kapp->setOverrideCursor( waitCursor );
 
 		QPainter p;
