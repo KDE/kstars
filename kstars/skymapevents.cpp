@@ -222,7 +222,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	oldfocus()->setAlt( focus()->alt() );
 
 	double dHA = ksw->data()->LSTh.Hours() - focus()->ra().Hours();
-  while ( dHA < 0.0 ) dHA += 24.0;
+	while ( dHA < 0.0 ) dHA += 24.0;
 	ksw->data()->HourAngle.setH( dHA );
 
 	if ( slewing ) {
@@ -230,7 +230,8 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 			ksw->options()->isTracking = false;
-  	  ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
+			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
+			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		}
 
 		if ( scrollCount > 10 ) {
@@ -295,6 +296,9 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
+			
+			//Clear the planet trail list
+			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
 		}
 
 		//Update focus such that the sky coords at mouse cursor remain approximately constant
@@ -1258,6 +1262,35 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
 	}
 
+	//Draw Planet Trail
+	if ( ksw->data()->PlanetTrail.count() ) {
+		psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
+		SkyPoint *p = ksw->data()->PlanetTrail.first();
+		QPoint o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
+		bool firstPoint(false);
+
+		if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
+				 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
+			psky.moveTo(o.x(), o.y());
+			firstPoint = true;
+		}
+		
+		for ( p = ksw->data()->PlanetTrail.next(); p; p = ksw->data()->PlanetTrail.next() ) {
+			o = getXY( p, ksw->options()->useAltAz, ksw->options()->useRefraction );
+
+			if ( ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) &&
+					 ( o.x() >= -1000 && o.x() <= width()+1000 && o.y() >=-1000 && o.y() <=height()+1000 ) ) {
+					
+					if ( firstPoint ) {
+						psky.lineTo( o.x(), o.y() );
+					} else {
+						psky.moveTo( o.x(), o.y() );
+						firstPoint = true;
+					}
+			}
+		}
+	}
+
 	//Draw Sun
 	if ( ksw->options()->drawSun && drawPlanets ) {
 	  	drawPlanet(psky, ksw->data()->PC->findByName("Sun"), QColor( "Yellow" ), 8, 2.4, 3 );
@@ -1580,8 +1613,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 void SkyMap::drawTargetSymbol( QPainter &psky, int style ) {
 	//Draw this last so it is never "behind" other things.
-//	psky.setPen( QPen( QColor( ksw->options()->colorscheme()->colorNamed("FOVColor" ) ) ) );
-	psky.setPen( QPen( QColor( "white" ) ) );
+	psky.setPen( QPen( QColor( ksw->options()->colorScheme()->colorNamed("TargetColor" ) ) ) );
 	psky.setBrush( NoBrush );
 	int pxperdegree = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
 	

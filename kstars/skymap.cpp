@@ -298,6 +298,8 @@ void SkyMap::slotCenter( void ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;
+			if ( ksw->data()->PlanetTrail.count() ) ksw->data()->PlanetTrail.clear();
+
 			return;
 		}
 	}

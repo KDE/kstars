@@ -63,6 +63,7 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
+	PlanetTrail.setAutoDelete( TRUE );
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
     VariableStarsList.setAutoDelete(TRUE);
 
@@ -1099,6 +1100,16 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		PC->findPosition(&num);
 
+		//Add a point to the planet trail if the centered object is a planet.
+		if ( skymap->foundObject()->name() == QString("Moon") || 
+				PC->isPlanet( skymap->foundObject() ) ) {
+			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
+			
+			//Allow no more than 500 points in the trail
+			while ( PlanetTrail.count() > 500 ) 
+				PlanetTrail.removeFirst();
+		}
+		
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
 			Ecliptic.clear();

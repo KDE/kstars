@@ -141,7 +141,7 @@ void KStars::slotViewOps() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
-	kdDebug() << "before Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "before Alt: " << map()->focus()->alt().toDMSString(true) << endl;
 	
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		QTime newTime( timedialog.selectedTime() );
@@ -153,7 +153,7 @@ void KStars::slotSetTime() {
 			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
 		}
 
-		kdDebug() << "after Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "after Alt: " << map()->focus()->alt().toDMSString(true) << endl;
 
 	}
 }
@@ -304,6 +304,7 @@ void KStars::slotTrack() {
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		map()->setClickedObject( NULL );
 		map()->setFoundObject( NULL );//no longer tracking foundObject
+		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
 	} else {
 		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
@@ -319,6 +320,7 @@ void KStars::slotManualFocus() {
 		map()->setClickedObject( NULL );
 		map()->setFoundObject( NULL ); //make sure no longer tracking
 		options()->isTracking = false;
+		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 
 		map()->slotCenter();

@@ -102,6 +102,9 @@ ColorScheme::ColorScheme(){
 	KeyName.append( "BoxBGColor" );
 	Name.append( i18n( "Info Box Background" ) );
 	Default.append( "#000" );
+	KeyName.append( "TargetColor" );
+	Name.append( i18n( "Target Indicator" ) );
+	Default.append( "#AFA" );
 	
 	//Default values for integer variables:
 	StarColorMode = 0;

@@ -396,6 +396,7 @@ private:
 	QList<SkyPoint> Horizon;
 	QList<SkyPoint> MilkyWay[11];
 	QList<VariableStarInfo> VariableStarsList;
+	QList<SkyPoint> PlanetTrail;
 	ObjectNameList ObjNames;
 
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
