@@ -42,6 +42,22 @@ class ArgExportImage;
 class ArgPrintImage;
 class ArgSetColor;
 class ArgLoadColorScheme;
+class ArgStartINDI;
+class ArgShutdownINDI;
+class ArgSwitchINDI;
+class ArgSetPortINDI;
+class ArgSetTargetCoordINDI;
+class ArgSetTargetNameINDI;
+class ArgSetActionINDI;
+class ArgSetFocusSpeedINDI;
+class ArgStartFocusINDI;
+class ArgSetFocusTimeoutINDI;
+class ArgSetGeoLocationINDI;
+class ArgStartExposureINDI;
+class ArgSetUTCINDI;
+class ArgSetScopeActionINDI;
+class ArgSetFrameTypeINDI;
+class ArgSetCCDTempINDI;
 
 /**@class ScriptBuilder
 	*A GUI tool for building behavioral DCOP scripts for KStars.
@@ -105,6 +121,44 @@ public slots:
 	void slotLoadColorScheme(QListBoxItem*);
 	
 	void slotEnableScriptNameOK();
+	
+	void slotINDIWaitCheck(bool toggleState);
+	void slotINDIFindObject();
+	void slotINDIStartDeviceName();
+	void slotINDIStartDeviceMode();
+	void slotINDIShutdown();
+	void slotINDISwitchDeviceName();
+	void slotINDISwitchDeviceConnection();
+	void slotINDISetPortDeviceName();
+	void slotINDISetPortDevicePort();
+	void slotINDISetTargetCoordDeviceName();
+	void slotINDISetTargetCoordDeviceRA();
+	void slotINDISetTargetCoordDeviceDEC();
+	void slotINDISetTargetNameDeviceName();
+	void slotINDISetTargetNameObjectName();
+	void slotINDISetActionDeviceName();
+	void slotINDISetActionName();
+	void slotINDIWaitForActionDeviceName();
+	void slotINDIWaitForActionName();
+	void slotINDISetFocusSpeedDeviceName();
+	void slotINDISetFocusSpeed();
+	void slotINDIStartFocusDeviceName();
+	void slotINDIStartFocusDirection();
+	void slotINDISetFocusTimeoutDeviceName();
+	void slotINDISetFocusTimeout();
+	void slotINDISetGeoLocationDeviceName();
+	void slotINDISetGeoLocationDeviceLong();
+	void slotINDISetGeoLocationDeviceLat();
+	void slotINDIStartExposureDeviceName();
+	void slotINDIStartExposureTimeout();
+	void slotINDISetUTCDeviceName();
+	void slotINDISetUTC();
+	void slotINDISetScopeActionDeviceName();
+	void slotINDISetScopeAction();
+	void slotINDISetFrameTypeDeviceName();
+	void slotINDISetFrameType();
+	void slotINDISetCCDTempDeviceName();
+	void slotINDISetCCDTemp();
 
 private:
 	void initViewOptions();
@@ -112,7 +166,8 @@ private:
 	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
-	QPtrList<ScriptFunction> FunctionList;
+	QPtrList<ScriptFunction> KStarsFunctionList;
+	QPtrList<ScriptFunction> INDIFunctionList;
 	QPtrList<ScriptFunction> ScriptList;
 	QVBoxLayout *vlay;
 
@@ -132,6 +187,23 @@ private:
 	ArgPrintImage *argPrintImage;
 	ArgSetColor *argSetColor;
 	ArgLoadColorScheme *argLoadColorScheme;
+	ArgStartINDI *argStartINDI;
+	ArgShutdownINDI *argShutdownINDI;
+	ArgSwitchINDI *argSwitchINDI;
+	ArgSetPortINDI *argSetPortINDI;
+	ArgSetTargetCoordINDI *argSetTargetCoordINDI;
+	ArgSetTargetNameINDI *argSetTargetNameINDI;
+	ArgSetActionINDI *argSetActionINDI;
+	ArgSetActionINDI *argWaitForActionINDI;
+	ArgSetFocusSpeedINDI *argSetFocusSpeedINDI;
+	ArgStartFocusINDI *argStartFocusINDI;
+	ArgSetFocusTimeoutINDI *argSetFocusTimeoutINDI;
+	ArgSetGeoLocationINDI *argSetGeoLocationINDI;
+	ArgStartExposureINDI *argStartExposureINDI;
+	ArgSetUTCINDI *argSetUTCINDI;
+	ArgSetScopeActionINDI *argSetScopeActionINDI;
+	ArgSetFrameTypeINDI *argSetFrameTypeINDI;
+	ArgSetCCDTempINDI *argSetCCDTempINDI;
 	
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
@@ -142,6 +214,7 @@ private:
 	KURL currentFileURL;
 	QString currentDir;
 	QString currentScriptName, currentAuthor;
+	QString lastINDIDeviceName;
 };
 
 #endif

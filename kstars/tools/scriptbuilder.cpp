@@ -47,6 +47,8 @@
 #include <qptrlist.h>
 #include <qlayout.h>
 #include <qdatetimeedit.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
 
 #include "scriptfunction.h"
 #include "scriptbuilderui.h"
@@ -68,6 +70,22 @@
 #include "argprintimage.h"
 #include "argsetcolor.h"
 #include "argloadcolorscheme.h"
+#include "argstartindi.h"
+#include "argshutdownindi.h"
+#include "argswitchindi.h"
+#include "argsetportindi.h"
+#include "argsettargetcoordindi.h"
+#include "argsettargetnameindi.h"
+#include "argsetactionindi.h"
+#include "argsetfocusspeedindi.h"
+#include "argstartfocusindi.h"
+#include "argsetfocustimeoutindi.h"
+#include "argsetgeolocationindi.h"
+#include "argstartexposureindi.h"
+#include "argsetutcindi.h"
+#include "argsetscopeactionindi.h"
+#include "argsetframetypeindi.h"
+#include "argsetccdtempindi.h"
 
 #include "scriptbuilder.h"
 #include "kstars.h"
@@ -93,40 +111,121 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	sb = new ScriptBuilderUI( page );
 	vlay->addWidget( sb );
 
-	FunctionList.setAutoDelete( TRUE );
+	KStarsFunctionList.setAutoDelete( TRUE );
+	INDIFunctionList.setAutoDelete( TRUE);
 	ScriptList.setAutoDelete( TRUE );
 
 	//Initialize function templates and descriptions
-	FunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'" ),
+	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'" ),
 			false, "QString", "dir" ) );
-	FunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  %1 is expressed in Hours; %2 is expressed in Degrees" ),
+	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  %1 is expressed in Hours; %2 is expressed in Degrees" ),
 			false, "double", "ra", "double", "dec" ) );
-	FunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees" ),
+	KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees" ),
 			false, "double", "alt", "double", "az" ) );
-	FunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
-	FunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
-	FunctionList.append( new ScriptFunction( "defaultZoom", i18n( "Set the display Zoom Level to its default value." ), false ) );
-	FunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
-	FunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
+	KStarsFunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
+	KStarsFunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
+	KStarsFunctionList.append( new ScriptFunction( "defaultZoom", i18n( "Set the display Zoom Level to its default value." ), false ) );
+	KStarsFunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
+	KStarsFunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
 			false, "int", "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second" ) );
-	FunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds" ), false, "double", "sec" ) );
-	FunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the key %1 is pressed.  Only single-key strokes are possible; use 'space' for the spacebar" ),
+	KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds" ), false, "double", "sec" ) );
+	KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the key %1 is pressed.  Only single-key strokes are possible; use 'space' for the spacebar" ),
 			false, "QString", "key" ) );
-	FunctionList.append( new ScriptFunction( "setTracking", i18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
-	FunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2." ), false, "QString", "opName", "QString", "opValue" ) );
-	FunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by %1, %2 and %3." ),
+	KStarsFunctionList.append( new ScriptFunction( "setTracking", i18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
+	KStarsFunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2." ), false, "QString", "opName", "QString", "opValue" ) );
+	KStarsFunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by %1, %2 and %3." ),
 			false, "QString", "cityName", "QString", "provinceName", "QString", "countryName" ) );
-	FunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2." ), false, "QString", "colorName", "QString", "value" ) );
-	FunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme named %1." ), false, "QString", "name" ) );
-	FunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file %1, with width %2 and height %3." ), false, "QString", "fileName", "int", "width", "int", "height" ) );
-	FunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing." ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
-	FunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
-	FunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
-	FunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to %1.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
-
-	//Fill in the sb->FuncListBox KListBox
-	for ( ScriptFunction *sf = FunctionList.first(); sf; sf = FunctionList.next() )
-		sb->FuncListBox->insertItem( sf->prototype() );
+	KStarsFunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2." ), false, "QString", "colorName", "QString", "value" ) );
+	KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme named %1." ), false, "QString", "name" ) );
+	KStarsFunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file %1, with width %2 and height %3." ), false, "QString", "fileName", "int", "width", "int", "height" ) );
+	KStarsFunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing." ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
+	KStarsFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
+	KStarsFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
+	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to %1.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
+	
+	// INDI fuctions
+	ScriptFunction *tempINDIFunc = NULL;
+	
+	tempINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
+	INDIFunctionList.append ( tempINDIFunc );
+	
+	tempINDIFunc = new ScriptFunction( "shutdownINDI", i18n("Shutdown an INDI device."), false, "QString", "deviceName");
+	INDIFunctionList.append ( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "switchINDI", i18n("Connect or Disconnect an INDI device."), false, "QString", "deviceName", "bool", "turnOn");
+	tempINDIFunc->setINDIProperty("CONNECTION");
+	INDIFunctionList.append ( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "setINDIPort", i18n("Set INDI's device connection port."), false, "QString", "deviceName", "QString", "port");
+	tempINDIFunc->setINDIProperty("DEVICE_PORT");
+	INDIFunctionList.append ( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Avaiable actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "deviceName", "QString", "action");
+	tempINDIFunc->setINDIProperty("CHECK");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordiantes to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees" ), false, "QString", "deviceName", "double", "RA", "double", "DEC" );
+	tempINDIFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
+	INDIFunctionList.append ( tempINDIFunc );
+	
+	tempINDIFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "deviceName", "QString", "objectName");
+	tempINDIFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is E of N."), false, "QString", "deviceName", "double", "long", "double", "lat");
+	tempINDIFunc->setINDIProperty("GEOGRAPHIC_COORD");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ( "setINDIUTC", i18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "deviceName", "QString", "UTCDateTime");
+	tempINDIFunc->setINDIProperty("TIME");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "setINDIAction", i18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "deviceName", "QString", "actionName");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ("waitForINDIAction", i18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "deviceName", "QString", "actionName");
+	INDIFunctionList.append( tempINDIFunc );
+	
+	tempINDIFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed."), false, "QString", "deviceName", "QString", "speed");
+	tempINDIFunc->setINDIProperty("FOCUS_SPEED");
+	INDIFunctionList.append( tempINDIFunc );
+	
+	tempINDIFunc = new ScriptFunction ("startINDIFocus", i18n("Start moving the focuser in the direction Dir, and for the duration specified by setINDIFocusTimeout."), false, "QString", "deviceName", "QString", "Dir");
+	tempINDIFunc->setINDIProperty("FOCUS_MOTION");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timeout in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "QString", "deviceName", "int", "timeout");
+	tempINDIFunc->setINDIProperty("FOCUS_TIMEOUT");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "setINDICCDTemp", i18n("Set the target CCD chip temperature."), false, "QString", "deviceName", "int", "temp");
+	tempINDIFunc->setINDIProperty("CCD_TEMPERATURE");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction( "setINDIFrameType", i18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "deviceName", "QString", "type");
+	tempINDIFunc->setINDIProperty("FRAME_TYPE");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	tempINDIFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD expousre. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
+	tempINDIFunc->setINDIProperty("EXPOSE_DURATION");
+	INDIFunctionList.append( tempINDIFunc);
+	
+	
+	// Modified by JM
+	// We're using KListView instead of listbox to arrange the functions in two
+	// main categories: KStars and INDI.
+	
+	sb->FunctionListView->addColumn(i18n("Functions"));
+	sb->FunctionListView->setSorting(-1);
+	
+	QListViewItem *INDI_tree = new QListViewItem( sb->FunctionListView, "INDI");
+	QListViewItem *kstars_tree = new QListViewItem( sb->FunctionListView, "KStars");
+	
+	for ( ScriptFunction *sf = KStarsFunctionList.last(); sf; sf = KStarsFunctionList.prev() )
+	    new QListViewItem (kstars_tree, sf->prototype());
+	
+	for ( ScriptFunction *sf = INDIFunctionList.last(); sf; sf = INDIFunctionList.prev() )
+	  new QListViewItem (INDI_tree, sf->prototype());
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
@@ -158,6 +257,42 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argPrintImage = new ArgPrintImage( sb->ArgStack );
 	argSetColor = new ArgSetColor( sb->ArgStack );
 	argLoadColorScheme = new ArgLoadColorScheme( sb->ArgStack );
+	argStartINDI = new ArgStartINDI (sb->ArgStack);
+	argShutdownINDI = new ArgShutdownINDI (sb->ArgStack);
+	argSwitchINDI   = new ArgSwitchINDI (sb->ArgStack);
+	argSetPortINDI  = new ArgSetPortINDI (sb->ArgStack);
+	argSetTargetCoordINDI = new ArgSetTargetCoordINDI (sb->ArgStack);
+	argSetTargetNameINDI  = new ArgSetTargetNameINDI (sb->ArgStack);
+	argSetActionINDI      = new ArgSetActionINDI (sb->ArgStack);
+	argWaitForActionINDI  = new ArgSetActionINDI (sb->ArgStack);
+	argSetFocusSpeedINDI  = new ArgSetFocusSpeedINDI (sb->ArgStack);
+	argStartFocusINDI     = new ArgStartFocusINDI(sb->ArgStack);
+	argSetFocusTimeoutINDI = new ArgSetFocusTimeoutINDI( sb->ArgStack);
+	argSetGeoLocationINDI  = new ArgSetGeoLocationINDI( sb->ArgStack);
+	argStartExposureINDI   = new ArgStartExposureINDI( sb->ArgStack);
+	argSetUTCINDI          = new ArgSetUTCINDI( sb->ArgStack);
+	argSetScopeActionINDI  = new ArgSetScopeActionINDI( sb->ArgStack);
+	argSetFrameTypeINDI    = new ArgSetFrameTypeINDI (sb->ArgStack);
+	argSetCCDTempINDI      = new ArgSetCCDTempINDI(sb->ArgStack);
+	
+	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_HALT");
+	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_FAST");
+	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_MEDIUM");
+	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_SLOW");
+	
+	argStartFocusINDI->directionCombo->insertItem("FOCUS_IN");
+	argStartFocusINDI->directionCombo->insertItem("FOCUS_OUT");
+	
+	argSetScopeActionINDI->actionCombo->insertItem("SLEW");
+	argSetScopeActionINDI->actionCombo->insertItem("TRACK");
+	argSetScopeActionINDI->actionCombo->insertItem("SYNC");
+	argSetScopeActionINDI->actionCombo->insertItem("PARK");
+	argSetScopeActionINDI->actionCombo->insertItem("ABORT");
+	
+	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_LIGHT");
+	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_BIAS");
+	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_DARK");
+	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_FLAT");
 	
 	sb->ArgStack->addWidget( argBlank );
 	sb->ArgStack->addWidget( argLookToward );
@@ -176,6 +311,24 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	sb->ArgStack->addWidget( argSetColor );
 	sb->ArgStack->addWidget( argLoadColorScheme );
 	
+	sb->ArgStack->addWidget( argStartINDI);
+	sb->ArgStack->addWidget( argShutdownINDI);
+	sb->ArgStack->addWidget( argSwitchINDI);
+	sb->ArgStack->addWidget( argSetPortINDI);
+	sb->ArgStack->addWidget( argSetTargetCoordINDI);
+	sb->ArgStack->addWidget( argSetTargetNameINDI);
+	sb->ArgStack->addWidget( argSetActionINDI);
+	sb->ArgStack->addWidget( argWaitForActionINDI );
+	sb->ArgStack->addWidget( argSetFocusSpeedINDI );
+	sb->ArgStack->addWidget( argStartFocusINDI);
+	sb->ArgStack->addWidget( argSetFocusTimeoutINDI);
+	sb->ArgStack->addWidget( argSetGeoLocationINDI);
+	sb->ArgStack->addWidget( argStartExposureINDI);
+	sb->ArgStack->addWidget( argSetUTCINDI);
+	sb->ArgStack->addWidget( argSetScopeActionINDI);
+	sb->ArgStack->addWidget( argSetFrameTypeINDI);
+	sb->ArgStack->addWidget( argSetCCDTempINDI);
+	
 	sb->ArgStack->raiseWidget( 0 );
 
 	snd = new ScriptNameDialog( ks );
@@ -184,8 +337,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	initViewOptions();
 
 	//connect widgets in ScriptBuilderUI
-	connect( sb->FuncListBox, SIGNAL( doubleClicked(QListBoxItem*) ), this, SLOT( slotAddFunction() ) );
-	connect( sb->FuncListBox, SIGNAL( currentChanged(QListBoxItem*) ), this, SLOT( slotShowDoc() ) );
+	connect( sb->FunctionListView, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int )), this, SLOT( slotAddFunction() ) );
+	connect( sb->FunctionListView, SIGNAL( currentChanged(QListViewItem*) ), this, SLOT( slotShowDoc() ) );
 	connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
 	connect( sb->ScriptListBox, SIGNAL( currentChanged(QListBoxItem*) ), this, SLOT( slotArgWidget() ) );
 	connect( sb->DownButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionDown() ) );
@@ -229,7 +382,81 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
 	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( slotLoadColorScheme( QListBoxItem* ) ) );
 	connect( snd->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableScriptNameOK() ) );
-
+	
+	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
+	
+	// Connections for INDI's Arg widgets
+	
+	// INDI Start Device
+	connect (argStartINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartDeviceName()));
+	connect (argStartINDI->INDIMode, SIGNAL ( clicked( int)), this, SLOT (slotINDIStartDeviceMode())); 
+	
+	// INDI Shutdown Device
+	connect (argShutdownINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIShutdown()));
+	
+	// INDI Swtich Device
+	connect (argSwitchINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISwitchDeviceName()));
+	connect (argSwitchINDI->INDIConnection, SIGNAL ( clicked( int)), this, SLOT (slotINDISwitchDeviceConnection())); 
+	
+	// INDI Set Device Port
+	connect (argSetPortINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetPortDeviceName()));
+	connect (argSetPortINDI->devicePort, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetPortDevicePort()));
+	
+	// INDI Set Target Coord 
+	connect (argSetTargetCoordINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetCoordDeviceName()));
+	connect( argSetTargetCoordINDI->RaBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceRA() ) );
+	connect( argSetTargetCoordINDI->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceDEC() ) );
+	
+	// INDI Set Target Name
+	connect( argSetTargetNameINDI->FindButton, SIGNAL( clicked() ), this, SLOT( slotINDIFindObject() ) );
+	connect (argSetTargetNameINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameDeviceName()));
+	connect (argSetTargetNameINDI->objectName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameObjectName()));
+	
+	// INDI Set Action
+	connect (argSetActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetActionDeviceName()));
+	connect (argSetActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetActionName()));
+	
+	// INDI Wait For Action
+	connect (argWaitForActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIWaitForActionDeviceName()));
+	connect (argWaitForActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIWaitForActionName()));
+	
+	// INDI Set Focus Speed
+	connect (argSetFocusSpeedINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetFocusSpeedDeviceName()));
+	connect (argSetFocusSpeedINDI->speedCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetFocusSpeed()));
+	
+	// INDI Start Focus
+	connect (argStartFocusINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartFocusDeviceName()));
+	connect (argStartFocusINDI->directionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDIStartFocusDirection()));
+	
+	// INDI Set Focus Timeout
+	connect (argSetFocusTimeoutINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetFocusTimeoutDeviceName()));
+	connect (argSetFocusTimeoutINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusTimeout()));
+	
+	// INDI Set Geo Location
+	connect (argSetGeoLocationINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetGeoLocationDeviceName()));
+	connect( argSetGeoLocationINDI->longBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLong() ) );
+	connect( argSetGeoLocationINDI->latBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLat() ) );
+	
+	// INDI Start Exposure
+	connect (argStartExposureINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartExposureDeviceName()));
+	connect (argStartExposureINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDIStartExposureTimeout()));
+	
+	// INDI Set UTC
+	connect (argSetUTCINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTCDeviceName()));
+	connect (argSetUTCINDI->UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
+	
+	// INDI Set Scope Action
+	connect (argSetScopeActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetScopeActionDeviceName()));
+	connect (argSetScopeActionINDI->actionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetScopeAction()));
+	
+	// INDI Set Frame type
+	connect (argSetFrameTypeINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetFrameTypeDeviceName()));
+	connect (argSetFrameTypeINDI->typeCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetFrameType()));
+	
+	// INDI Set CCD Temp
+	connect (argSetCCDTempINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetCCDTempDeviceName()));
+	connect (argSetCCDTempINDI->temp, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetCCDTemp()));
+	
 	//disbale some buttons
 	sb->CopyButton->setEnabled( false );
 	sb->AddButton->setEnabled( false );
@@ -650,11 +877,31 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 	ostream << "MAIN=KStarsInterface" << endl;
 	ostream << "CLOCK=clock#1" << endl;
 
-	for ( ScriptFunction *sf = ScriptList.first(); sf; sf = ScriptList.next() ) {
+	for ( ScriptFunction *sf = ScriptList.first(); sf; sf = ScriptList.next() )
+	{
+	        if (!sf->valid()) continue;
 		if ( sf->isClockFunction() ) {
 			ostream << clockpre << sf->scriptLine() << endl;
 		} else {
 			ostream << mainpre  << sf->scriptLine() << endl;
+			if (sb->AppendINDIWait->isChecked() && !sf->INDIProperty().isEmpty())
+			{
+			  // Special case for telescope action, we need to know the parent property
+			  if (sf->INDIProperty() == "CHECK")
+			  {
+			    if (sf->argVal(1) == "SLEW" || sf->argVal(1) == "TRACK" || sf->argVal(1) == "SYNC")
+			      sf->setINDIProperty("ON_COORD_SET");
+			    else if (sf->argVal(1) == "ABORT")
+			      sf->setINDIProperty("ABORT_MOTION");
+			    else
+			      sf->setINDIProperty("PARK");
+			  }
+			  
+			  if ( sf->argVal(0).contains(" ")) 
+			    ostream << mainpre << "waitForINDIAction " << "\"" << sf->argVal(0) << "\" " << sf->INDIProperty() << endl;
+			  else
+			    ostream << mainpre << "waitForINDIAction " << sf->argVal(0) << " " << sf->INDIProperty() << endl;
+			}
 		}
 	}
 
@@ -688,7 +935,12 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 
 			//construct a stringlist that is fcn name and its arg name/value pairs
 			QStringList fn = QStringList::split( " ", line );
-			if ( parseFunction( fn ) ) sb->ScriptListBox->insertItem( ScriptList.current()->name() );
+			if ( parseFunction( fn ) )
+			{
+			  sb->ScriptListBox->insertItem( ScriptList.current()->name() );
+			  // Initially, any read script is valid!
+			  ScriptList.current()->setValid(true);
+			}
 			else kdWarning() << i18n( "Could not parse script.  Line was: %1" ).arg( line ) << endl;
 
 		} // end if left(4) == "dcop"
@@ -701,9 +953,50 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 	}
 }
 
-bool ScriptBuilder::parseFunction( QStringList &fn ) {
+bool ScriptBuilder::parseFunction( QStringList &fn )
+{
+        // clean up the string list first if needed
+        // We need to perform this in case we havea quoted string "NGC 3000" because this will counted
+        // as two arguments, and it should be counted as one.
+        bool foundQuote(false), quoteProcessed(false);
+	QString cur, arg;
+	QStringList::iterator it;
+	
+	for (it = fn.begin(); it != fn.end(); ++it)
+	{
+	  cur = (*it);
+	  
+	  if ( cur.startsWith("\""))
+	  {
+	    arg += cur.right(cur.length() - 1);
+	    arg += " ";
+	    foundQuote = true;
+	    quoteProcessed = true;
+	  }
+	  else if (cur.endsWith("\""))
+	  {
+	    arg += cur.left(cur.length() -1);
+	    arg += "'";
+	    foundQuote = false;
+	  }
+	  else if (foundQuote)
+	  {
+	    arg += cur;
+	    arg += " ";
+	  }
+	  else
+	  {
+	    arg += cur;
+	    arg += "'";
+	  }
+	}
+	    
+	if (quoteProcessed)
+	  fn = QStringList::split( "'", arg );
+	
 	//loop over known functions to find a name match
-	for ( ScriptFunction *sf = FunctionList.first(); sf; sf = FunctionList.next() ) {
+	for ( ScriptFunction *sf = KStarsFunctionList.first(); sf; sf = KStarsFunctionList.next() )
+	{
 		if ( fn[0] == sf->name() ) {
 
 			if ( fn[0] == "setGeoLocation" ) {
@@ -724,6 +1017,22 @@ bool ScriptBuilder::parseFunction( QStringList &fn ) {
 				ScriptList.current()->setArg( i, fn[i+1] );
 
 			return true;
+		}
+		
+		for ( ScriptFunction *sf = INDIFunctionList.first(); sf; sf = INDIFunctionList.next() )
+		{
+		  if ( fn[0] == sf->name() )
+		  {
+
+		    if ( fn.count() != sf->numArgs() + 1 ) return false;
+
+		    ScriptList.append( new ScriptFunction( sf ) );
+
+		    for ( unsigned int i=0; i<sf->numArgs(); ++i )
+		      ScriptList.current()->setArg( i, fn[i+1] );
+
+		    return true;
+		  }
 		}
 	}
 
@@ -770,15 +1079,34 @@ void ScriptBuilder::slotRemoveFunction() {
 }
 
 void ScriptBuilder::slotAddFunction() {
-	if ( sb->FuncListBox->currentItem() > -1 ) {
-		setUnsavedChanges( true );
+  
+        ScriptFunction *sc = NULL;
+	QListViewItem *currentItem = sb->FunctionListView->currentItem();
+	
+	if ( currentItem == NULL || currentItem->depth() == 0)
+	  return;
+	
+	for (sc = KStarsFunctionList.first(); sc; sc = KStarsFunctionList.next())
+	  if (sc->prototype() == currentItem->text(0))
+	    break;
+	
+	 if (sc == NULL)
+	 {
+	   for (sc = INDIFunctionList.first(); sc; sc = INDIFunctionList.next())
+	     if (sc->prototype() == currentItem->text(0))
+	       break;
+	   
+	 }
+	 
+	 if (sc == NULL) return;
+	  
+	  setUnsavedChanges( true );
 
-		int Pos = sb->ScriptListBox->currentItem() + 1;
+	  int Pos = sb->ScriptListBox->currentItem() + 1;
 
-		ScriptList.insert( Pos, new ScriptFunction( FunctionList.at( sb->FuncListBox->currentItem() ) ) );
-		sb->ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
-		sb->ScriptListBox->setSelected( Pos, true );
-	}
+	  ScriptList.insert( Pos, new ScriptFunction(sc) );
+	  sb->ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
+	  sb->ScriptListBox->setSelected( Pos, true );
 }
 
 void ScriptBuilder::slotMoveFunctionUp() {
@@ -869,15 +1197,15 @@ void ScriptBuilder::slotArgWidget() {
 			dms ra(0.0);
 
 			sb->ArgStack->raiseWidget( argSetRaDec );
-			argSetRaDec->RaBox->clear();
-			argSetRaDec->DecBox->clear();
 
 			ok = !sf->argVal(0).isEmpty();
 			if (ok) r = sf->argVal(0).toDouble(&ok);
+			else argSetRaDec->RaBox->clear();
 			if (ok) { ra.setH(r); argSetRaDec->RaBox->showInHours( ra ); }
 
 			ok = !sf->argVal(1).isEmpty();
 			if (ok) d = sf->argVal(1).toDouble(&ok);
+			else argSetRaDec->DecBox->clear();
 			if (ok) argSetRaDec->DecBox->showInDegrees( dms(d) );
 
 		} else if ( sf->name() == "setAltAz" ) {
@@ -885,12 +1213,12 @@ void ScriptBuilder::slotArgWidget() {
 			double x(0.0),y(0.0);
 
 			sb->ArgStack->raiseWidget( argSetAltAz );
-			argSetAltAz->AzBox->clear();
-			argSetAltAz->AltBox->clear();
 
 			ok = !sf->argVal(0).isEmpty();
 			if (ok) y = sf->argVal(0).toDouble(&ok);
+			else argSetAltAz->AzBox->clear();
 			if (ok) argSetAltAz->AltBox->showInDegrees( dms(y) );
+			else argSetAltAz->AltBox->clear();
 
 			ok = !sf->argVal(1).isEmpty();
 			x = sf->argVal(1).toDouble(&ok);
@@ -1010,19 +1338,404 @@ void ScriptBuilder::slotArgWidget() {
 			else argTimeScale->TimeScale->tsbox()->changeScale( 0.0 );
 
 		}
+		else if (sf->name() == "startINDI") {
+		  sb->ArgStack->raiseWidget( argStartINDI);
+		  
+		  argStartINDI->deviceName->setText(sf->argVal(0));
+		  if (sf->argVal(1) == "true")
+		    argStartINDI->LocalButton->setChecked(true);
+		  else if (! sf->argVal(1).isEmpty())
+		    argStartINDI->LocalButton->setChecked(false);
+		}
+		else if (sf->name() == "shutdownINDI") {
+		  sb->ArgStack->raiseWidget( argShutdownINDI);
+		  
+		  //if (sf->valid()) kdDebug() << "begin: shutdown is valid" << endl;
+		if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argShutdownINDI->deviceName->setText(sf->argVal(0));
+		    else if (argShutdownINDI->deviceName->text().isEmpty() || sf->argVal(0).isEmpty())
+		    argShutdownINDI->deviceName->setText(lastINDIDeviceName);
+		   else
+		     slotINDIShutdown();
+		  }
+		  else argShutdownINDI->deviceName->setText(sf->argVal(0));
+		  
+		  //if (sf->valid()) kdDebug() << "end: shutdown is valid" << endl;
+		}
+		else if (sf->name() == "switchINDI") {
+		  sb->ArgStack->raiseWidget( argSwitchINDI);
+		  
+		  if (sf->argVal(1) == "true" || sf->argVal(1).isEmpty())
+		    argSwitchINDI->OnButton->setChecked(true);
+		  else
+		    argSwitchINDI->OffButton->setChecked(true);
+		  
+		  argSwitchINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSwitchINDI->deviceName->setText(sf->argVal(0));
+		    else 
+		      argSwitchINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSwitchINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDIPort") {
+		  sb->ArgStack->raiseWidget( argSetPortINDI);
+		  
+		  argSetPortINDI->devicePort->setText(sf->argVal(1));
+		  
+		  argSetPortINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetPortINDI->deviceName->setText(sf->argVal(0));
+		    else 
+		      argSetPortINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetPortINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDITargetCoord") {
+		  bool ok(false);
+		  double r(0.0),d(0.0);
+		  dms ra(0.0);
+		  
+		  sb->ArgStack->raiseWidget( argSetTargetCoordINDI);
+		  
+		  ok = !sf->argVal(1).isEmpty();
+		  if (ok) r = sf->argVal(1).toDouble(&ok);
+		  else argSetTargetCoordINDI->RaBox->clear();
+		  if (ok) { ra.setH(r); argSetTargetCoordINDI->RaBox->showInHours( ra ); }
+
+		  ok = !sf->argVal(2).isEmpty();
+		  if (ok) d = sf->argVal(2).toDouble(&ok);
+		  else argSetTargetCoordINDI->DecBox->clear();
+		  if (ok) argSetTargetCoordINDI->DecBox->showInDegrees( dms(d) );
+		  
+		  argSetTargetCoordINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetTargetCoordINDI->deviceName->setText(sf->argVal(0));
+		    else 
+		      argSetTargetCoordINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetTargetCoordINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDITargetName") {
+		  sb->ArgStack->raiseWidget( argSetTargetNameINDI);
+		  
+		  argSetTargetNameINDI->objectName->setText(sf->argVal(1));
+		  
+		  argSetTargetNameINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetTargetNameINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argSetTargetNameINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetTargetNameINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDIAction") {
+		  sb->ArgStack->raiseWidget( argSetActionINDI);
+		  
+		  argSetActionINDI->actionName->setText(sf->argVal(1));
+		  
+		  argSetActionINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetActionINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argSetActionINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetActionINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "waitForINDIAction") {
+		  sb->ArgStack->raiseWidget( argWaitForActionINDI);
+		  
+		  argWaitForActionINDI->actionName->setText(sf->argVal(1));
+		  
+		  argWaitForActionINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argWaitForActionINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argWaitForActionINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argWaitForActionINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDIFocusSpeed") {
+		  sb->ArgStack->raiseWidget( argSetFocusSpeedINDI);
+		  bool itemSet(false);
+		  
+		  for (int i=0; i < argSetFocusSpeedINDI->speedCombo->count(); i++)
+		  {
+		    if (argSetFocusSpeedINDI->speedCombo->text(i) == sf->argVal(1))
+		    {
+		      argSetFocusSpeedINDI->speedCombo->setCurrentItem(i);
+		      itemSet = true;
+		      break;
+		    }
+		  }
+		  
+		  if (!itemSet) argSetFocusSpeedINDI->speedCombo->setCurrentItem(0);
+		  
+		  argSetFocusSpeedINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetFocusSpeedINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argSetFocusSpeedINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetFocusSpeedINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "startINDIFocus") {
+		  sb->ArgStack->raiseWidget( argStartFocusINDI);
+		  bool itemSet(false);
+		  
+		  for (int i=0; i < argStartFocusINDI->directionCombo->count(); i++)
+		  {
+		    if (argStartFocusINDI->directionCombo->text(i) == sf->argVal(1))
+		    {
+		      argStartFocusINDI->directionCombo->setCurrentItem(i);
+		      itemSet = true;
+		      break;
+		    }
+		  }
+		  
+		  if (!itemSet) argStartFocusINDI->directionCombo->setCurrentItem(0);
+		  
+		  argStartFocusINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argStartFocusINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argStartFocusINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argStartFocusINDI->deviceName->setText(sf->argVal(0));
+		  
+		}
+		else if (sf->name() == "setINDIFocusTimeout") {
+		  int t(0);
+		  bool ok(false);
+		  
+		  sb->ArgStack->raiseWidget( argSetFocusTimeoutINDI);
+		  
+		  t = sf->argVal(1).toInt(&ok);
+		  if (ok) argSetFocusTimeoutINDI->timeOut->setValue(t);
+		  else argSetFocusTimeoutINDI->timeOut->setValue(0);
+		  
+		  argSetFocusTimeoutINDI->deviceName->clear();
+		  
+		  if (sb->ReuseINDIDeviceName->isChecked())
+		  {
+		    if (!sf->argVal(0).isEmpty())
+		      argSetFocusTimeoutINDI->deviceName->setText(sf->argVal(0));
+		    else
+		      argSetFocusTimeoutINDI->deviceName->setText(lastINDIDeviceName);
+		  }
+		  else argSetFocusTimeoutINDI->deviceName->setText(sf->argVal(0));
+		     
+		  }
+		  else if (sf->name() == "setINDIGeoLocation") {
+		    bool ok(false);
+		    double lo(0.0),la(0.0);
+		  
+		    sb->ArgStack->raiseWidget( argSetGeoLocationINDI);
+		  
+		    ok = !sf->argVal(1).isEmpty();
+		    if (ok) lo = sf->argVal(1).toDouble(&ok);
+		    else argSetGeoLocationINDI->longBox->clear();
+		    if (ok) { argSetGeoLocationINDI->longBox->showInDegrees( dms(lo) ); }
+
+		    ok = !sf->argVal(2).isEmpty();
+		    if (ok) la = sf->argVal(2).toDouble(&ok);
+		    else argSetGeoLocationINDI->latBox->clear();
+		    if (ok) argSetGeoLocationINDI->latBox->showInDegrees( dms(la) );
+		    
+		    argSetGeoLocationINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetGeoLocationINDI->deviceName->setText(sf->argVal(0));
+		      else
+			argSetGeoLocationINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetGeoLocationINDI->deviceName->setText(sf->argVal(0));
+		    
+		  }
+		  else if (sf->name() == "startINDIExposure") {
+		    int t(0);
+		    bool ok(false);
+		  
+		    sb->ArgStack->raiseWidget( argStartExposureINDI);
+		  
+		    t = sf->argVal(1).toInt(&ok);
+		    if (ok) argStartExposureINDI->timeOut->setValue(t);
+		    else argStartExposureINDI->timeOut->setValue(0);
+		    
+		    argStartExposureINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argStartExposureINDI->deviceName->setText(sf->argVal(0));
+		      else
+			argStartExposureINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argStartExposureINDI->deviceName->setText(sf->argVal(0));
+		     
+		  }
+		  else if (sf->name() == "setINDIUTC") {
+		    sb->ArgStack->raiseWidget( argSetUTCINDI);
+		  
+		    argSetUTCINDI->UTC->setText(sf->argVal(1));
+		    
+		    argSetUTCINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetUTCINDI->deviceName->setText(sf->argVal(0));
+		      else 
+			argSetUTCINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetUTCINDI->deviceName->setText(sf->argVal(0));
+		  
+		  }
+		  else if (sf->name() == "setINDIScopeAction") {
+		    sb->ArgStack->raiseWidget( argSetScopeActionINDI);
+		    bool itemSet(false);
+		  
+		    for (int i=0; i < argSetScopeActionINDI->actionCombo->count(); i++)
+		    {
+		      if (argSetScopeActionINDI->actionCombo->text(i) == sf->argVal(1))
+		      {
+			argSetScopeActionINDI->actionCombo->setCurrentItem(i);
+			itemSet = true;
+			break;
+		      }
+		    }
+		  
+		    if (!itemSet) argSetScopeActionINDI->actionCombo->setCurrentItem(0);
+		  
+		    argSetScopeActionINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetScopeActionINDI->deviceName->setText(sf->argVal(0));
+		      else 
+			argSetScopeActionINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetScopeActionINDI->deviceName->setText(sf->argVal(0));
+		  
+		  }
+		  else if (sf->name() == "setINDIFrameType") {
+		    sb->ArgStack->raiseWidget( argSetFrameTypeINDI);
+		    bool itemSet(false);
+		  
+		    for (int i=0; i < argSetFrameTypeINDI->typeCombo->count(); i++)
+		    {
+		      if (argSetFrameTypeINDI->typeCombo->text(i) == sf->argVal(1))
+		      {
+			argSetFrameTypeINDI->typeCombo->setCurrentItem(i);
+			itemSet = true;
+			break;
+		      }
+		    }
+		  
+		    if (!itemSet) argSetFrameTypeINDI->typeCombo->setCurrentItem(0);
+		  
+		    argSetFrameTypeINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetFrameTypeINDI->deviceName->setText(sf->argVal(0));
+		      else
+			argSetFrameTypeINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetFrameTypeINDI->deviceName->setText(sf->argVal(0));
+		  
+		  }
+		  else if (sf->name() == "setINDICCDTemp") {
+		    int t(0);
+		    bool ok(false);
+		  
+		    sb->ArgStack->raiseWidget( argSetCCDTempINDI);
+		  
+		    t = sf->argVal(1).toInt(&ok);
+		    if (ok) argSetCCDTempINDI->temp->setValue(t);
+		    else argSetCCDTempINDI->temp->setValue(0);
+		  
+		    argSetCCDTempINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetCCDTempINDI->deviceName->setText(sf->argVal(0));
+		      else
+			argSetCCDTempINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetCCDTempINDI->deviceName->setText(sf->argVal(0));
+		     
+		  }
+		
+		  
 	}
 }
 
 void ScriptBuilder::slotShowDoc() {
-	int n = sb->FuncListBox->currentItem();
-
-	if ( n >= 0 && n < ((int) FunctionList.count()) ) {
-		sb->AddButton->setEnabled( true );
-		sb->FuncDoc->setText( FunctionList.at( n )->description() );
-	} else {
-		sb->AddButton->setEnabled( false );
-		kdWarning() << i18n( "Function index out of bounds." ) << endl;
-	}
+  ScriptFunction *sc = NULL;
+  QListViewItem *currentItem = sb->FunctionListView->currentItem();
+	
+  if ( currentItem == NULL || currentItem->depth() == 0)
+    return;
+	
+  for (sc = KStarsFunctionList.first(); sc; sc = KStarsFunctionList.next())
+    if (sc->prototype() == currentItem->text(0))
+      break;
+  
+  if (sc == NULL)
+  {
+  for (sc = INDIFunctionList.first(); sc; sc = INDIFunctionList.next())
+    if (sc->prototype() == currentItem->text(0))
+      break;
+  }
+	
+  if (sc == NULL)
+  {
+    sb->AddButton->setEnabled( false );
+    kdWarning() << i18n( "Function index out of bounds." ) << endl;
+    return;
+  }
+	  
+    sb->AddButton->setEnabled( true );
+    sb->FuncDoc->setText( sc->description() );
 }
 
 //Slots for Arg Widgets
@@ -1059,6 +1772,23 @@ void ScriptBuilder::slotFindObject() {
 
 		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->objName()->text() );
 	}
+}
+
+void ScriptBuilder::slotINDIFindObject() {
+  FindDialog fd( ks );
+
+  if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
+    setUnsavedChanges( true );
+
+    argSetTargetNameINDI->objectName->setText( fd.currentItem()->objName()->text() );
+  }
+}
+
+void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
+{
+  
+   setUnsavedChanges(true);  
+  
 }
 
 void ScriptBuilder::slotShowOptions() {
@@ -1455,4 +2185,905 @@ void ScriptBuilder::slotClose() {
 	}
 }
 
+void ScriptBuilder::slotINDIStartDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDI" )
+  {
+    setUnsavedChanges( true );
+    
+    lastINDIDeviceName = argStartINDI->deviceName->text();
+    
+    sf->setArg(0, lastINDIDeviceName);
+    sf->setArg(1, argStartINDI->LocalButton->isChecked() ? "true" : "false");
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDIStartDeviceMode()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDI" )
+  {
+    setUnsavedChanges( true );
+    
+    sf->setArg(1, argStartINDI->LocalButton->isChecked() ? "true" : "false");
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDIShutdown()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "shutdownINDI" )
+  {
+    if (argShutdownINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argShutdownINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argShutdownINDI->deviceName->text());
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "shutdownINDI" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISwitchDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "switchINDI" )
+  {
+    if (argSwitchINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSwitchINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSwitchINDI->deviceName->text());
+    sf->setArg(1, argSwitchINDI->OnButton->isChecked() ? "true" : "false");
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchdownINDI" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISwitchDeviceConnection()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "switchINDI" )
+  {
+    
+    if (sf->argVal(1) != (argSwitchINDI->OnButton->isChecked() ? "true" : "false"))
+    setUnsavedChanges( true );
+    
+    sf->setArg(1, argSwitchINDI->OnButton->isChecked() ? "true" : "false");
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchINDI" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetPortDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIPort" )
+  {
+    if (argSetPortINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetPortINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetPortINDI->deviceName->text());
+    if (! sf->argVal(1).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+    
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
+  }
+  
+  
+}
+
+void ScriptBuilder::slotINDISetPortDevicePort()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIPort" )
+  {
+    
+    if (argSetPortINDI->devicePort->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(1) != argSetPortINDI->devicePort->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetPortINDI->devicePort->text());
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetTargetCoordDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDITargetCoord" )
+  {
+    if (argSetTargetCoordINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetTargetCoordINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetTargetCoordINDI->deviceName->text());
+    if ((! sf->argVal(1).isEmpty()) && (! sf->argVal(2).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDITargetCoord" ) {
+		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+    if ( argSetTargetCoordINDI->RaBox->text().isEmpty() )
+    {
+      sf->setValid(false);
+      return;
+    }
+
+    bool ok(false);
+    dms ra = argSetTargetCoordINDI->RaBox->createDms(false, &ok);
+    if ( ok ) {
+      
+      if (sf->argVal(1) != QString( "%1" ).arg( ra.Hours() ))
+      	setUnsavedChanges( true );
+
+      sf->setArg( 1, QString( "%1" ).arg( ra.Hours() ) );
+      if ( ( ! sf->argVal(0).isEmpty() ) && ( ! sf->argVal(2).isEmpty() )) sf->setValid( true );
+      else sf->setValid(false);
+
+    } else {
+      sf->setArg( 1, "" );
+      sf->setValid( false );
+    }
+  } else {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDITargetCoord" ) {
+		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+    if ( argSetTargetCoordINDI->DecBox->text().isEmpty() )
+    {
+      sf->setValid(false);
+      return;
+    }
+
+    bool ok(false);
+    dms dec = argSetTargetCoordINDI->DecBox->createDms(true, &ok);
+    if ( ok ) {
+      
+      if (sf->argVal(2) != QString( "%1" ).arg( dec.Degrees() ))
+      	setUnsavedChanges( true );
+
+      sf->setArg( 2, QString( "%1" ).arg( dec.Degrees() ) );
+      if ( ( ! sf->argVal(0).isEmpty() ) && ( ! sf->argVal(1).isEmpty() )) sf->setValid( true );
+      else sf->setValid(false);
+      
+    } else {
+      sf->setArg( 2, "" );
+      sf->setValid( false );
+    }
+  } else {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetTargetNameDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDITargetName" )
+  {
+    if (argSetTargetNameINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetTargetNameINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetTargetNameINDI->deviceName->text());
+    if ((! sf->argVal(1).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetTargetNameObjectName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDITargetName" )
+  {
+    if (argSetTargetNameINDI->objectName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(1) != argSetTargetNameINDI->objectName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetTargetNameINDI->objectName->text());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetActionDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIAction" )
+  {
+    if (argSetActionINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetActionINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetActionINDI->deviceName->text());
+    if ((! sf->argVal(1).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
+  }
+  
+}
+	
+void ScriptBuilder::slotINDISetActionName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIAction" )
+  {
+    if (argSetActionINDI->actionName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(1) != argSetActionINDI->actionName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetActionINDI->actionName->text());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
+  }
+
+}
+
+void ScriptBuilder::slotINDIWaitForActionDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "waitForINDIAction" )
+  {
+    if (argWaitForActionINDI->deviceName->text().isEmpty())
+    {
+      return;
+      sf->setValid(false);
+    }
+    
+    if (sf->argVal(0) != argWaitForActionINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argWaitForActionINDI->deviceName->text());
+    if ((! sf->argVal(1).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
+  }
+  
+}
+	
+void ScriptBuilder::slotINDIWaitForActionName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "waitForINDIAction" )
+  {
+    if (argWaitForActionINDI->actionName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(1) != argWaitForActionINDI->actionName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argWaitForActionINDI->actionName->text());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFocusSpeedDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFocusSpeed" )
+  {
+    if (argSetFocusSpeedINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetFocusSpeedINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetFocusSpeedINDI->deviceName->text());
+    sf->setArg(1, argSetFocusSpeedINDI->speedCombo->currentText());
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFocusSpeed()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFocusSpeed" )
+  {
+    
+    if (sf->argVal(1) != argSetFocusSpeedINDI->speedCombo->currentText())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetFocusSpeedINDI->speedCombo->currentText());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDIStartFocusDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDIFocus" )
+  {
+    if (argStartFocusINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argStartFocusINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argStartFocusINDI->deviceName->text());
+    sf->setArg(1, argStartFocusINDI->directionCombo->currentText());
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "StartINDIFocus") << endl;
+  }
+  
+}
+
+
+void ScriptBuilder::slotINDIStartFocusDirection()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDIFocus" )
+  {
+    if (sf->argVal(1) != argStartFocusINDI->directionCombo->currentText())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argStartFocusINDI->directionCombo->currentText());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIFocus") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFocusTimeoutDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFocusTimeout" )
+  {
+    if (argSetFocusTimeoutINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetFocusTimeoutINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetFocusTimeoutINDI->deviceName->text());
+    sf->setArg(1, QString("%1").arg(argSetFocusTimeoutINDI->timeOut->value()));
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFocusTimeout()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFocusTimeout" )
+  {
+    if (sf->argVal(1).toInt() != argSetFocusTimeoutINDI->timeOut->value())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, QString("%1").arg(argSetFocusTimeoutINDI->timeOut->value()));
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetGeoLocationDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIGeoLocation" )
+  {
+    if (argSetGeoLocationINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetGeoLocationINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetGeoLocationINDI->deviceName->text());
+    if ((! sf->argVal(1).isEmpty()) && (! sf->argVal(2).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIGeoLocation" ) {
+		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+    if ( argSetGeoLocationINDI->longBox->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+
+    bool ok(false);
+    dms longitude = argSetGeoLocationINDI->longBox->createDms(true, &ok);
+    if ( ok ) {
+      
+      if (sf->argVal(1) != QString( "%1" ).arg( longitude.Degrees()))
+      	setUnsavedChanges( true );
+
+      sf->setArg( 1, QString( "%1" ).arg( longitude.Degrees() ) );
+      if ( ( ! sf->argVal(0).isEmpty() ) && ( ! sf->argVal(2).isEmpty() )) sf->setValid( true );
+      else sf->setValid(false);
+
+    } else {
+      sf->setArg( 1, "" );
+      sf->setValid( false );
+    }
+  } else {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIGeoLocation" ) {
+		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+    if ( argSetGeoLocationINDI->latBox->text().isEmpty() )
+    {
+      sf->setValid(false);
+      return;
+    }
+
+    bool ok(false);
+    dms latitude = argSetGeoLocationINDI->latBox->createDms(true, &ok);
+    if ( ok ) {
+      
+      if (sf->argVal(2) != QString( "%1" ).arg( latitude.Degrees()))
+      	setUnsavedChanges( true );
+
+      sf->setArg( 2, QString( "%1" ).arg( latitude.Degrees() ) );
+      if ( ( ! sf->argVal(0).isEmpty() ) && ( ! sf->argVal(1).isEmpty() )) sf->setValid( true );
+      else sf->setValid(false);
+      
+    } else {
+      sf->setArg( 2, "" );
+      sf->setValid( false );
+    }
+  } else {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDIStartExposureDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDIExposure" )
+  {
+    if (argStartExposureINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argStartExposureINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argStartExposureINDI->deviceName->text());
+    sf->setArg(1, QString("%1").arg(argStartExposureINDI->timeOut->value()));
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDIStartExposureTimeout()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "startINDIExposure" )
+  {
+    
+    if (sf->argVal(1).toInt() != argStartExposureINDI->timeOut->value())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, QString("%1").arg(argStartExposureINDI->timeOut->value()));
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetUTCDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIUTC" )
+  {
+    if (argSetUTCINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetUTCINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetUTCINDI->deviceName->text());
+    if (! sf->argVal(1).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
+  }
+  
+  
+}
+
+void ScriptBuilder::slotINDISetUTC()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIUTC" )
+  {
+    
+    if (argSetUTCINDI->UTC->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(1) != argSetUTCINDI->UTC->text())
+    setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetUTCINDI->UTC->text());
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetScopeActionDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIScopeAction" )
+  {
+    if (argSetScopeActionINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetScopeActionINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetScopeActionINDI->deviceName->text());
+    sf->setArg(1, argSetScopeActionINDI->actionCombo->currentText());
+    sf->setINDIProperty("CHECK");
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetScopeAction()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIScopeAction" )
+  {
+    
+    if (sf->argVal(1) != argSetScopeActionINDI->actionCombo->currentText())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetScopeActionINDI->actionCombo->currentText());
+    sf->setINDIProperty("CHECK");
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFrameTypeDeviceName()
+{
+  
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFrameType" )
+  {
+    if (argSetFrameTypeINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetFrameTypeINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetFrameTypeINDI->deviceName->text());
+    sf->setArg(1, argSetFrameTypeINDI->typeCombo->currentText());
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType" ) << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetFrameType()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFrameType" )
+  {
+    
+    if (sf->argVal(1) != argSetFrameTypeINDI->typeCombo->currentText())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, argSetFrameTypeINDI->typeCombo->currentText());
+    if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetCCDTempDeviceName()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDICCDTemp" )
+  {
+    if (argSetCCDTempINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetCCDTempINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetCCDTempINDI->deviceName->text());
+    sf->setArg(1, QString("%1").arg(argSetCCDTempINDI->temp->value()));
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
+  }
+  
+}
+
+void ScriptBuilder::slotINDISetCCDTemp()
+{
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDICCDTemp" )
+  {
+    
+    if (sf->argVal(1).toInt() != argSetCCDTempINDI->temp->value())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, QString("%1").arg(argSetCCDTempINDI->temp->value()));
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
+  }
+  
+}
+	
 #include "scriptbuilder.moc"

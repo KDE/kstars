@@ -22,7 +22,7 @@
 
 ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 		QString at1, QString an1, QString at2, QString an2, QString at3, QString an3,
-		QString at4, QString an4, QString at5, QString an5, QString at6, QString an6 ) {
+		QString at4, QString an4, QString at5, QString an5, QString at6, QString an6 ) : INDIProp("") {
 	Name = name;
 	ClockFunction = clockfcn;
 
@@ -146,6 +146,8 @@ ScriptFunction::ScriptFunction( ScriptFunction *sf )
 	Description = sf->description();
 	ClockFunction = sf->isClockFunction();
 	NumArgs = sf->numArgs();
+	INDIProp = sf->INDIProperty();
+	Valid = sf->valid();
 
 	for ( unsigned int i=0; i<6; i++ ) {
 		ArgType[i] = sf->argType(i);

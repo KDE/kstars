@@ -56,12 +56,16 @@ public:
 	unsigned int numArgs() const { return NumArgs; }
 
 	QString scriptLine() const;
+	
+	void    setINDIProperty(QString prop) { INDIProp = prop; }
+	QString INDIProperty() const { return INDIProp; }
 
 private:
 	QString Name, Description;
 	QString ArgType[6];
 	QString ArgName[6];
 	QString ArgVal[6];
+	QString INDIProp;
 	bool Valid, ClockFunction;
 	unsigned int NumArgs;
 };

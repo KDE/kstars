@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>ScriptBuilderUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,17 +9,17 @@
             <x>0</x>
             <y>0</y>
             <width>708</width>
-            <height>701</height>
+            <height>791</height>
         </rect>
     </property>
     <property name="caption">
         <string>Script Builder</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget">
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
                 <cstring>layout5</cstring>
             </property>
@@ -208,7 +208,7 @@
                 </spacer>
             </hbox>
         </widget>
-        <widget class="QSplitter">
+        <widget class="QSplitter" row="1" column="0">
             <property name="name">
                 <cstring>splitter1</cstring>
             </property>
@@ -477,7 +477,7 @@
             </widget>
             <widget class="QGroupBox">
                 <property name="name">
-                    <cstring>groupBox1</cstring>
+                    <cstring>FunctionBrowser</cstring>
                 </property>
                 <property name="sizePolicy">
                     <sizepolicy>
@@ -502,14 +502,14 @@
                     </property>
                     <widget class="QSplitter">
                         <property name="name">
-                            <cstring>splitter3</cstring>
+                            <cstring>splitter7</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
                         </property>
-                        <widget class="KListBox">
+                        <widget class="KListView">
                             <property name="name">
-                                <cstring>FuncListBox</cstring>
+                                <cstring>FunctionListView</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
@@ -519,14 +519,8 @@
                                     <verstretch>2</verstretch>
                                 </sizepolicy>
                             </property>
-                            <property name="currentItem">
-                                <number>-1</number>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>List of available functions</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>The Function Browser shows the list of functions available for constructing scripts.  Highlighting a function in the list will display some short documentation about the function in the box below.  A function must be highlighted in the browser in order to add it to the script with the "Add Function" button.  Alternatively, you can simply double-click on a function to add it to the script.</string>
+                            <property name="rootIsDecorated">
+                                <bool>true</bool>
                             </property>
                         </widget>
                         <widget class="KTextEdit">
@@ -558,7 +552,66 @@
                 </vbox>
             </widget>
         </widget>
-    </vbox>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>layout11</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout10</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>AppendINDIWait</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Append WaitForINDIAction after any INDI action</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>ReuseINDIDeviceName</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Reuse INDI device name</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer7</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>91</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </grid>
 </widget>
 <slots>
     <slot>slotAddFunction()</slot>
@@ -587,7 +640,7 @@
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
+    <includehint>klistview.h</includehint>
     <includehint>ktextedit.h</includehint>
 </includehints>
 </UI>
