@@ -73,7 +73,8 @@ void eltsCanvas::initVars(void) {
 
 	yticksize =   ywidth/50;
 	xticksize =   xwidth/50;
-	xmticksize =  xwidth /20;
+	xmticksize =  xwidth /25;
+	xMticksize =  xwidth /15;
 }
 
 void eltsCanvas::paintEvent( QPaintEvent * ) {
@@ -116,8 +117,11 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 		}
 		
 		pcanvas->setPen( "white" );
-		pcanvas->drawText(xt-2*xticksize-2, ymax+xmticksize, s);
+//		pcanvas->drawText(xt-2*xticksize-2, ymax+xmticksize, s);
+		pcanvas->drawText(xt-2*xticksize, ymax+xmticksize, s);
 	}
+	QString xLowLabel = i18n("Local Time");
+	pcanvas->drawText((xmax-xmin)/2-3*xticksize,ymax+xMticksize,xLowLabel);
 
 	// Y grid and labels:
 	for (iy=1;iy<ymticks;iy++) {
@@ -126,11 +130,18 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 		pcanvas->drawLine(xmin,yt, xmax,yt);
 		pcanvas->setPen( "white" );
 		int d = int((ymax - yt)/2)-90;
-		int dx = 4*xticksize;
-		if ( d == 0 ) dx = 2*xticksize;
-		if ( d <  0 ) dx = 4*xticksize;
-		pcanvas->drawText(xmin-dx, yt+xticksize, QString("%1").arg(d) );
+		int dx = 5*xticksize;
+//		int dx = 4*xticksize;
+//		if ( d == 0 ) dx = 2*xticksize;
+//		if ( d <  0 ) dx = 4*xticksize;
+//		pcanvas->drawText(xmin-dx, yt+xmticksize, QString("%1").arg(d) );
+		pcanvas->drawText(xmin-dx, yt+xticksize-5, QString("%1").arg(d,8) );
 	}
+	QString yLeftLabel = i18n("Altitude");
+	pcanvas->save();
+	pcanvas->rotate(-90);
+	pcanvas->drawText((ymin-ymax)/2-3*yticksize,xmin-xwidth/20,yLeftLabel);
+	pcanvas->restore();
 
 	// X minor ticks:
 	for (ix=1;ix<xnticks;ix++) {

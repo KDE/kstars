@@ -64,7 +64,7 @@ private:
 	// Value of the interval tick for x and y
 
 	int xticksep, xmticksep, yticksep, ymticksep;
-	int yticksize, xticksize, xmticksize;
+	int yticksize, xticksize, xmticksize, xMticksize;
 	KStars *ks;
 
 };
