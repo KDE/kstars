@@ -34,11 +34,31 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kstdguiitem.h>
+#include <kurl.h>
 
 #include <qcheckbox.h>
 #include <qdatetimeedit.h>
 #include <qwidgetstack.h>
+#include <qwidget.h>
+#include <qptrlist.h>
+#include <qlayout.h>
 
+#include "scriptfunction.h"
+#include "scriptbuilderui.h"
+#include "scriptnamedialog.h"
+#include "optionstreeview.h"
+
+#include "arglooktoward.h"
+#include "argsetradec.h"
+#include "argsetaltaz.h"
+#include "argsetlocaltime.h"
+#include "argwaitfor.h"
+#include "argwaitforkey.h"
+#include "argsettrack.h"
+#include "argchangeviewoption.h"
+#include "argsetgeolocation.h"
+#include "argtimescale.h"
+#include "argzoom.h"
 
 #include "kstars.h"
 #include "finddialog.h"

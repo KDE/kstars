@@ -49,7 +49,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 
 	objectList = &(ks->data()->ObjNames);
-	objectList->setLanguage( Options::useLatinConstellNames() );
+//	objectList->setLanguage( Options::useLatinConstellNames() );
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();

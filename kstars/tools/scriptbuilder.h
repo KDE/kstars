@@ -18,30 +18,27 @@
 #ifndef SCRIPTBUILDER_H
 #define SCRIPTBUILDER_H
 
-#include <qwidget.h>
-#include <qptrlist.h>
-#include <qlayout.h>
-#include <kurl.h>
-
-#include "scriptfunction.h"
-#include "scriptbuilderui.h"
-#include "scriptnamedialog.h"
-#include "optionstreeview.h"
-
-#include "arglooktoward.h"
-#include "argsetradec.h"
-#include "argsetaltaz.h"
-#include "argsetlocaltime.h"
-#include "argwaitfor.h"
-#include "argwaitforkey.h"
-#include "argsettrack.h"
-#include "argchangeviewoption.h"
-#include "argsetgeolocation.h"
-#include "argtimescale.h"
-#include "argzoom.h"
-
 class KStars;
 class QListViewItem;
+class QWidget;
+class QLayout;
+class KURL;
+class ScriptFunction;
+class ScriptBuilderUI;
+class ScriptNameDialog;
+class OptionsTreeView;
+class ArgLookToward;
+class ArgSetRaDec;
+class ArgSetAltAz;
+class ArgSetLocalTime;
+class ArgWaitFor;
+class ArgWaitForKey;
+class ArgSetTrack;
+class ArgChangeViewOption;
+class ArgSetGeoLocation;
+class ArgTimeScale;
+class ArgZoom;
+
 
 /**
  *
