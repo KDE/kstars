@@ -188,7 +188,7 @@ bool KSUtils::openDataFile( QFile &file, QString s ) {
 	stdDirs.addPrefix(".");
 	QString FileName= stdDirs.findResource( "data", "kstars/" + s );
 
-	if ( FileName != QString::null ) {
+	if ( !FileName.isNull() ) {
 		file.setName( FileName );
 		if ( !file.open( IO_ReadOnly ) ) {
 			result = false;
