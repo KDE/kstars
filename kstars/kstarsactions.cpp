@@ -229,9 +229,6 @@ void KStars::slotPrint() {
 
 		QImage img( map()->skyPixmap().convertToImage() );
 	
-	//	if ( img.width() > pdm.width() || img.height() > pdm.height() )
-	//		img = img.smoothScale( pdm.width(), pdm.height(), QImage::ScaleMin );
-
 		//Fit map image to page if it's larger than the page.
 #if (KDE_VERSION <= 222)
 		int wfactor = img.width()/pdm.width();
