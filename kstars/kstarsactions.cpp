@@ -249,6 +249,9 @@ void KStars::slotViewOps() {
 	KConfigDialog* dialog = new KConfigDialog( this, "settings", 
 					     Options::self() ); 
 
+	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( slotApplySettings() ) );
+	connect( dialog, SIGNAL( okClicked() ), this, SLOT( slotApplySettings() ) );
+
 	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" ); 
 	OpsGuides  *opguides     = new OpsGuides( this, "guides" ); 
 	OpsSolarSystem *opsolsys = new OpsSolarSystem( this, "solarsystem" ); 
@@ -261,15 +264,11 @@ void KStars::slotViewOps() {
 	dialog->addPage( opcolors,   i18n("Colors"), stdDirs.findResource( "data", "kstars/opscolors.png" ) ); 
 	dialog->addPage( opadvanced, i18n("Advanced"), stdDirs.findResource( "data", "kstars/opsadvanced.png" ) ); 
  
-	//User edited the configuration - update your local copies of the 
-	//configuration data 
-	//  connect( dialog, SIGNAL(settingsChanged()), 
-	//	   this, SLOT(updateConfiguration()) ); 
- 
-	if ( dialog->exec() == QDialog::Accepted ) {
-		Options::writeConfig();
-		map()->forceUpdate();
-	}
+}
+
+void KStars::slotApplySettings() {
+	Options::writeConfig();
+	map()->forceUpdate();
 }
 
 void KStars::slotSetTime() {

@@ -190,6 +190,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void updateTime( const bool automaticDSTchange = true );
 
 		/**
+			*Apply new settings and redraw skymap
+			*/
+		void slotApplySettings( void );
+
+		/**
 			*Zoom in
 			*/
 		void slotZoomIn();

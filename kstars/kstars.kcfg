@@ -144,7 +144,7 @@
 		</entry>
 		<entry name="Latitude" type="Double">
 			<label>Geographic Latitude, in degrees.</label>
-			<default>0.0</default>
+			<default>51.468</default>
 		</entry>
 		<entry name="Elevation" type="Double">
 			<label>Elevation above sea level of geographic location, in meters.</label>
@@ -186,11 +186,11 @@
 		</entry>
 		<entry name="FocusRA" type="Double">
 			<label>Right Ascension of focus position</label>
-			<default>0.0</default>
+			<default>180.0</default>
 		</entry>
 		<entry name="FocusDec" type="Double">
 			<label>Declination of focus position</label>
-			<default>0.0</default>
+			<default>45.0</default>
 		</entry>
 		<entry name="FocusObject" type="String">
 			<label>Name of focused object</label>

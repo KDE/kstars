@@ -20,6 +20,7 @@
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <qdir.h>
+#include <qfile.h>
 
 #include "ksutils.h"
 #include "kstarsdata.h"
@@ -50,6 +51,12 @@ KStarsData::KStarsData() {
 	//standard directories and locale objects
 	stdDirs = new KStandardDirs();
 	locale = new KLocale( "kstars" );
+
+	//Check to see if config file already exists.  If not, set 
+	//useDefaultOptions = true
+	QString fname = locateLocal( "config", "kstarsrc" );
+	if ( QFile( fname ).exists() ) useDefaultOptions = false;
+	else useDefaultOptions = true;
 
 	//Instantiate the SimClock object
 	Clock = new SimClock();

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>453</height>
+            <height>457</height>
         </rect>
     </property>
     <property name="caption">
@@ -112,7 +112,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>showMilkyWay</cstring>
+                <cstring>kcfg_ShowMilkyWay</cstring>
             </property>
             <property name="text">
                 <string>Milky Way</string>
