@@ -202,7 +202,7 @@ elts::elts( QWidget* parent)  :
 	topLayout->addWidget( ctlTabs );
 
 	showCurrentDate();
-	//initGeo();
+	initGeo();
 	showLongLat();
 //	initVars();
 
@@ -401,6 +401,10 @@ dms elts::getLatitude (void)
 	dms latitude;
 	latitude = latBox->createDms();
 	return latitude;
+}
+
+double elts::getTZ( void ) {
+	return geoPlace->TZ();
 }
 
 void elts::initGeo(void)

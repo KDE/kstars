@@ -62,6 +62,7 @@ public:
 	QDateTime getQDate (void);
 	dms getLongitude (void);
 	dms getLatitude (void);
+	double getTZ( void );
 	void initGeo(void);
 	void showLongLat(void);
 //	int UtMinutes(void);

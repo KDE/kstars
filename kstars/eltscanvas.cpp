@@ -202,27 +202,32 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 
 void eltsCanvas::drawCurves(QPainter * pcanvas) {
 	elts *el = (elts *)topLevelWidget();
+	int ltm = 0, ltmPrev = 0, tzm = 0;
 	int utm = 0, elevation = 0, utmPrev = 0, elevationPrev = 0;
 	
 	pcanvas->setPen( red );
 
+	tzm = int( el->getTZ()*60.0 );
+	
 	for ( SkyPoint *p = el->pList.first(); p; p = el->pList.next() ) {
-		utmPrev = 0;
+		ltmPrev = 0;
+		utmPrev = ltmPrev - tzm;
+		while ( utmPrev < 0 ) utmPrev += 24*60;
+		while ( utmPrev >=24*60 ) utmPrev -= 24*60;
+		
 		elevationPrev = getEl(p, utmPrev);
-		pcanvas->moveTo( utmPrev, elevationPrev );
+		pcanvas->moveTo( ltmPrev, elevationPrev );
 		
 		for (int i=1;i<=24*4;i++) {
-			utm = i*15;
-			elevation = getEl(p, utm);
-			//if(elevationPrev >= 0 && elevation >= 0) 
-				pcanvas->drawLine(utmPrev/DX,(5400-elevationPrev)/DY, utm/DX,(5400-elevation)/DY);
-			//else if (elevationPrev <0 && elevation > 0) 
-			//	pcanvas->drawLine(Interpol(utmPrev,utm,
-			//		elevationPrev,elevation)/4,0,utm/4,(5400-elevation)/60);
-			//else if (elevationPrev >0 && elevation < 0)
-			//	pcanvas->drawLine(utmPrev/4,(5400-elevationPrev)/60,
-			//		Interpol(utmPrev,utm,elevationPrev,elevation)/4,0);
-			utmPrev=utm;
+			ltm = i*15;
+			utm = ltm - tzm;
+			while ( utm < 0 ) utm += 24*60;
+			while ( utm >= 24*60 ) utm -= 24*60;
+			
+			elevation = getEl(p, utm );
+			pcanvas->drawLine(ltmPrev/DX,(5400-elevationPrev)/DY, ltm/DX,(5400-elevation)/DY);
+			ltmPrev = ltm;
+			utmPrev = utm;
 			elevationPrev=elevation;
 		}
 	}
@@ -240,8 +245,10 @@ int eltsCanvas::getEl (SkyPoint *sp, int ut) {
 	dms LSTh = DateTimetoLST (el->getQDate(), ut , el->getLongitude() );
 	sp->EquatorialToHorizontal( &LSTh, &lat );
 
-	int elm = sp->alt()->degree()*60 + sp->alt()->arcmin();
-	return elm;
+	int sgn = 1;
+	if ( sp->alt()->degree() < 0 ) sgn = -1;
+	int elm = sp->alt()->degree()*sgn*60 + sp->alt()->arcmin();
+	return elm*sgn;
 }
 
 int eltsCanvas::UtMinutes(void) {
