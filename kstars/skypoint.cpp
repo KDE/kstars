@@ -255,6 +255,8 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 	if ( jd0 == B1950) {
 		B1950ToJ2000();
 		jd0 = J2000;
+		RA.SinCos( sinRA, cosRA );
+		Dec.SinCos( sinDec, cosDec );
 	}
 
 	if (jd0 !=jdf) {
