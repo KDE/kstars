@@ -229,12 +229,14 @@ void KStars::slotPrint() {
 
 		delete p;
 
-		if ( switchColors ) {
-			options()->colorScheme()->copy( cs );
-			map()->UpdateNow();
-		}
-
 		kapp->restoreOverrideCursor();
+	}
+
+	// restore old color scheme if necessary
+	// if printing will aborted the colorscheme will restored too
+	if ( switchColors ) {
+		options()->colorScheme()->copy( cs );
+		map()->UpdateNow();
 	}
 }
 
