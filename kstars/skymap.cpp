@@ -939,7 +939,8 @@ void SkyMap::slewFocus( void ) {
 
 		//Start the HoverTimer. if the user leaves the mouse in place after a slew,
 		//we want to attach a label to the nearest object.
-		HoverTimer.start( HOVER_INTERVAL, true );
+		if ( Options::useHoverLabel() )
+			HoverTimer.start( HOVER_INTERVAL, true );
 		
 		forceUpdate();
 	}
