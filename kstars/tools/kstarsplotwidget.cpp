@@ -24,11 +24,15 @@
 
 #include "kstarsplotwidget.h"
 
+
+
 KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
  : KPlotWidget( x1, x2, y1, y2, parent, name ),
-   dXtick2(0.0), dYtick2(0.0), XScaleFactor(1.0), YScaleFactor(1.0),
+   dXtick2(0.0), dYtick2(0.0),
    nmajX2(0), nminX2(0), nmajY2(0), nminY2(0),
-   XAxisType(DOUBLE), YAxisType(DOUBLE), XAxisType_0(DOUBLE), YAxisType_0(DOUBLE) {
+   XAxisType(DOUBLE), YAxisType(DOUBLE), XAxisType_0(DOUBLE), YAxisType_0(DOUBLE),
+   XScaleFactor(1.0), YScaleFactor(1.0)  
+    {
 
 	setLimits( x1, x2, y1, y2 );
 	setSecondaryLimits( 0.0, 0.0, 0.0, 0.0 );

@@ -530,7 +530,7 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	bitBlt( this, 0, 0, &buffer2 );
 }
 
-void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
+void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	QPainter p;
 
 	p.begin( buffer );

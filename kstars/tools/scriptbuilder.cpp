@@ -486,7 +486,7 @@ void ScriptBuilder::slotOpen() {
 				fname = currentFileURL.path();
 			} else {
 				fname = tmpfile.name();
-				if ( ! KIO::NetAccess::download( currentFileURL, fname ) )
+				if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
 					KMessageBox::sorry( 0, i18n( "Could not download remote file." ), i18n( "Download Error" ) );
 			}
 
@@ -554,7 +554,7 @@ void ScriptBuilder::slotSave() {
 		chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
 		if ( tmpfile.name() == fname ) { //need to upload to remote location
-			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL ) ) {
+			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) ) {
 				QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
@@ -798,7 +798,7 @@ void ScriptBuilder::slotMoveFunctionUp() {
 
 void ScriptBuilder::slotMoveFunctionDown() {
 	if ( sb->ScriptListBox->currentItem() > -1 &&
-				sb->ScriptListBox->currentItem() < sb->ScriptListBox->count()-1 ) {
+				sb->ScriptListBox->currentItem() < ((int) sb->ScriptListBox->count())-1 ) {
 		setUnsavedChanges( true );
 
 		QString t = sb->ScriptListBox->currentText();
@@ -830,7 +830,7 @@ void ScriptBuilder::slotArgWidget() {
 		sb->RemoveButton->setEnabled( true );
 		sb->UpButton->setEnabled( false );
 		sb->DownButton->setEnabled( true );
-	} else if ( sb->ScriptListBox->currentItem() == sb->ScriptListBox->count()-1 ) { //last item selected
+	} else if ( sb->ScriptListBox->currentItem() == ((int) sb->ScriptListBox->count())-1 ) { //last item selected
 		sb->CopyButton->setEnabled( true );
 		sb->RemoveButton->setEnabled( true );
 		sb->UpButton->setEnabled( true );
@@ -852,7 +852,7 @@ void ScriptBuilder::slotArgWidget() {
 
 	//Display the function's arguments widget
 	if ( sb->ScriptListBox->currentItem() > -1 &&
-				sb->ScriptListBox->currentItem() < sb->ScriptListBox->count() ) {
+				sb->ScriptListBox->currentItem() < ((int) sb->ScriptListBox->count()) ) {
 		QString t = sb->ScriptListBox->currentText();
 		unsigned int n = sb->ScriptListBox->currentItem();
 		ScriptFunction *sf = ScriptList.at( n );
@@ -910,7 +910,7 @@ void ScriptBuilder::slotArgWidget() {
 		} else if ( sf->name() == "zoom" ) {
 			sb->ArgStack->raiseWidget( argZoom );
 			bool ok(false);
-			double z = sf->argVal(0).toDouble(&ok);
+			/*double z = */sf->argVal(0).toDouble(&ok);
 			if (ok) argZoom->ZoomBox->setText( sf->argVal(0) );
 			else argZoom->ZoomBox->setText( "2000." );
 
@@ -1015,7 +1015,7 @@ void ScriptBuilder::slotArgWidget() {
 void ScriptBuilder::slotShowDoc() {
 	int n = sb->FuncListBox->currentItem();
 
-	if ( n >= 0 && n < FunctionList.count() ) {
+	if ( n >= 0 && n < ((int) FunctionList.count()) ) {
 		sb->AddButton->setEnabled( true );
 		sb->FuncDoc->setText( FunctionList.at( n )->description() );
 	} else {
@@ -1432,7 +1432,7 @@ void ScriptBuilder::slotChangeColor() {
 	}
 }
 
-void ScriptBuilder::slotLoadColorScheme(QListBoxItem *i) {
+void ScriptBuilder::slotLoadColorScheme(QListBoxItem */*i*/) {
 	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
 
 	if ( sf->name() == "loadColorScheme" ) {

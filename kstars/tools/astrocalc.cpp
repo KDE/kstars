@@ -68,26 +68,26 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QListViewItem * jdItem = new QListViewItem(timeItem,i18n("Julian Day"));
 	jdItem->setPixmap(0,jdIcon);
 
-	QListViewItem * stItem = new QListViewItem(timeItem,i18n("Sidereal Time"));
-	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day Duration"));
-	QListViewItem * equinoxItem = new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
+	/*QListViewItem * stItem = */new QListViewItem(timeItem,i18n("Sidereal Time"));
+	/*QListViewItem * dayItem = */new QListViewItem(timeItem,i18n("Day Duration"));
+	/*QListViewItem * equinoxItem = */new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
 //	dayItem->setPixmap(0,sunsetIcon);
 
 	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate Converters"));
-	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
-	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
-	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent Coordinates"));
-	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
-	QListViewItem * eclItem = new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
-	QListViewItem * angItem = new QListViewItem(coordItem,i18n("Angular Distance"));
+	/*QListViewItem * galItem = */new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
+	/*QListViewItem * precItem = */new QListViewItem(coordItem,i18n("Precession"));
+	/*QListViewItem * appItem = */new QListViewItem(coordItem,i18n("Apparent Coordinates"));
+	/*QListViewItem * azelItem = */new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
+	/*QListViewItem * eclItem = */new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
+	/*QListViewItem * angItem = */new QListViewItem(coordItem,i18n("Angular Distance"));
 
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
-	QListViewItem * cartItem = new QListViewItem(geoItem,i18n("Geodetic Coordinates"));
+	/*QListViewItem * cartItem = */new QListViewItem(geoItem,i18n("Geodetic Coordinates"));
 
 	QListViewItem * solarItem = new QListViewItem(navigationPanel,i18n("Solar System"));
 	solarItem->setPixmap(0,solarIcon);
-	QListViewItem * planetsItem = new QListViewItem(solarItem,i18n("Planets Coordinates"));
+	/*QListViewItem * planetsItem = */new QListViewItem(solarItem,i18n("Planets Coordinates"));
 
 	connect(navigationPanel, SIGNAL(clicked(QListViewItem *)), this,
 		SLOT(slotItemSelection(QListViewItem *)));
