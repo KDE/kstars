@@ -43,7 +43,7 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentS
 	rightBox = new QVBox (parentSplit);
 
 	QGroupBox * InputBox = new QGroupBox (rightBox);
-	InputBox->setTitle( i18n("Input") );
+	InputBox->setTitle( i18n("Original Coordinates") );
 	
 	QHBox * buttonBox = new QHBox(InputBox);
 	
@@ -88,7 +88,7 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentS
 	//Output
 
 	QGroupBox * outputBox = new QGroupBox (rightBox);
-	outputBox->setTitle( i18n ("Result") );
+	outputBox->setTitle( i18n ("Precessed Coordinates") );
 
 	QVBoxLayout * D1Lay = new QVBoxLayout( outputBox);
 	QHBox * rafdecfBox = new QHBox(outputBox);
