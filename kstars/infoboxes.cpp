@@ -344,11 +344,17 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
 		+ "   " + lt.date().toString( "%d %b %Y" ) );
 	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
 		+ "   " + ut.date().toString( "%d %b %Y" ) );
+	
 	QString STString;
 	STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );
+	
+	//Don't use KLocale::formatNumber() for Julian Day because we don't want 
+	//thousands-place separators
+	QString JDString = QString::number( ut.djd(), 'f', 2 );
+	JDString.replace( ".", KGlobal::locale()->decimalSymbol() );
+	
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
-		i18n( "Julian Day", "JD: " ) +
-		KGlobal::locale()->formatNumber( ut.djd(), 2 ) );
+			i18n( "Julian Day", "JD: " ) + JDString );
 
 	if ( ot1 == TimeBox->text1() && ot2 == TimeBox->text2() &&
 			ot3 == TimeBox->text3() ) 

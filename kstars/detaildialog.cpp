@@ -306,14 +306,20 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 			pname = dso->translatedName();
 		}
 
-		if ( ! dso->name2().isEmpty() ) {
+		if ( ! dso->translatedName2().isEmpty() ) {
 			if ( oname.isEmpty() ) oname = dso->translatedName2();
 			else oname += ", " + dso->translatedName2();
 		}
 
-		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
-		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
-
+		if ( dso->ugc() != 0 ) {
+			if ( ! oname.isEmpty() ) oname += ", ";
+			oname += "UGC " + QString("%1").arg( dso->ugc() );
+		}
+		if ( dso->pgc() != 0 ) {
+			if ( ! oname.isEmpty() ) oname += ", ";
+			oname += "PGC " + QString("%1").arg( dso->pgc() );
+		}
+		
 		//Only show decimal place for small angular sizes
 		if ( dso->a() > 10.0 ) 
 			angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( int( dso->a() ) );
@@ -410,8 +416,14 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
-			RALabel = new QLabel( i18n( "RA (%1):" ).arg( KGlobal::locale()->formatNumber( epoch ) ), this );
-			DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( KGlobal::locale()->formatNumber( epoch ) ), this );
+			//Displaying the epoch as a string; don't use KLocale::formatNumber(), 
+			//because we don't want a thousands-place separator!
+			QString sEpoch = QString::number( epoch, 'f', 1 );
+			//Replace the decimal point with localized version
+			sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
+			
+			RALabel = new QLabel( i18n( "RA (%1):" ).arg( sEpoch ), this );
+			DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( sEpoch ), this );
 	HALabel = new QLabel( i18n( "Hour angle:" ), this );
 	
 	RA  = new QLabel( o->ra()->toHMSString(), this );
