@@ -22,7 +22,7 @@
 #include <kdebug.h>
 #include <qregexp.h>
 
-dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : KSLineEdit(parent,name) {
+dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : KLineEdit(parent,name) {
 
 	
 //	QHBox * dBox = new QHBox(parent,name);

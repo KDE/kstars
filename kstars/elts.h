@@ -43,7 +43,7 @@ class dmsBox;
 class eltsCanvas;
 class GeoLocation;
 class KStars;
-class KSLineEdit;
+class KLineEdit;
 class KListBox;
 
 class elts : public KDialogBase
@@ -106,7 +106,7 @@ private:
 		*raLabel, *decLabel, *latLabel, *longLabel;
 	QTabWidget *ctlTabs;
 	QWidget *sourceTab, *dateTab;
-	KSLineEdit *nameBox, *epochName;
+	KLineEdit *nameBox, *epochName;
 	QDateEdit *dateBox;
 	dmsBox *latBox, *longBox, *raBox, *decBox;
 	QPushButton *browseButton, *cityButton, *clearFieldsButton, *clearButton, *addButton, *updateButton;

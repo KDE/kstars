@@ -21,6 +21,7 @@
 #include "geolocation.h"
 #include "ksnumbers.h"
 
+#include <klineedit.h>
 #include <klistbox.h>
 #include <qvariant.h>
 #include <dmsbox.h>
@@ -39,7 +40,6 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 #include "geolocation.h"
-#include "kslineedit.h"
 
 elts::elts( QWidget* parent)  : 
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent ) 
@@ -86,7 +86,7 @@ elts::elts( QWidget* parent)  :
 	sourceLeftLayout->addWidget( epochLabel );
 	
 	//widgets for nameLayout
-	nameBox = new KSLineEdit( sourceTab );
+	nameBox = new KLineEdit( sourceTab );
 	browseButton = new QPushButton( sourceTab );
 	browseButton->setText( i18n( "Browse" ) );
 	
@@ -106,7 +106,7 @@ elts::elts( QWidget* parent)  :
 	coordLayout->addWidget( decBox );
 	
 	//widgets for clearAddLayout
-	epochName = new KSLineEdit( sourceTab, "epochname" );
+	epochName = new KLineEdit( sourceTab, "epochname" );
 	epochName->setMaximumSize( QSize( 80, 32767 ) );
 	clearFieldsButton = new QPushButton( sourceTab );
 	clearFieldsButton->setMinimumSize( QSize( 80, 0 ) );

@@ -21,7 +21,7 @@
 //#include <qhbox.h>
 #include <qlabel.h>
 #include <qstring.h>
-#include "kslineedit.h"
+#include <klineedit.h>
 #include "dms.h"
 
 
@@ -36,7 +36,7 @@ class dms;
 	*@version 0.9
   */
 
-class dmsBox : public KSLineEdit  {
+class dmsBox : public KLineEdit  {
 public: 
 	/**
 	 * Constructor for the dmsBox object.

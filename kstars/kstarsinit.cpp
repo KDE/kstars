@@ -193,7 +193,7 @@ void KStars::initActions() {
 
 
 //Tools Menu:
-	new KAction(i18n( "Calculator"), KAccel::stringToKey ( "Ctrl+C"),
+	new KAction(i18n( "Calculator..."), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
    // enable action only if file was loaded and processed successfully.   
@@ -201,10 +201,10 @@ void KStars::initActions() {
    new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
 			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
-	new KAction(i18n( "Altitude vs. Time"), KAccel::stringToKey ( "Ctrl+A"),
+	new KAction(i18n( "Altitude vs. Time..."), KAccel::stringToKey ( "Ctrl+A"),
 			                           this, SLOT( slotElTs() ), actionCollection(), "altitude_vs_time");
 
-	new KAction(i18n( "What's up tonight"), 0,
+	new KAction(i18n( "What's up tonight..."), 0,
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
 //Help Menu:
@@ -312,13 +312,13 @@ void KStars::initActions() {
 
 //show_horizon:
 	if (KSUtils::openDataFile( tempFile, "show_horiz.png" ) ) {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Horizon" ),
+		KToggleAction *a = new KToggleAction( i18n( "Toggle Ground" ),
 				tempFile.name(), 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 		tempFile.close();
 		a->setChecked( options()->drawGround );
 	} else {
-		KToggleAction *a = new KToggleAction( i18n( "Toggle Horizon" ), "wizard", 0,
+		KToggleAction *a = new KToggleAction( i18n( "Toggle Ground" ), "wizard", 0,
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 		a->setChecked( options()->drawGround );
 	}
