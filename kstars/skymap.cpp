@@ -426,14 +426,16 @@ void SkyMap::slotTransientLabel( void ) {
 	//Note that when the TransientObject pointer is not NULL, the next 
 	//mouseMoveEvent calls fadeTransientLabel(), which will fade out the 
 	//TransientLabel and then set TransientObject to NULL.
-	SkyObject *so = objectNearest( mousePoint() );
-	
-	if ( so ) {
-		setTransientObject( so );
+	if ( ! slewing ) {
+		SkyObject *so = objectNearest( mousePoint() );
 		
-		TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
-		if ( TransientTimer.isActive() ) TransientTimer.stop();
-		update();
+		if ( so ) {
+			setTransientObject( so );
+			
+			TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
+			if ( TransientTimer.isActive() ) TransientTimer.stop();
+			update();
+		}
 	}
 }
 
@@ -882,6 +884,12 @@ void SkyMap::slewFocus( void ) {
 				}
 
 				slewing = true;
+				//since we are slewing, fade out the transient label
+				if ( transientObject() && ! TransientTimer.isActive() ) {
+					//DEBUG
+					kdDebug() << "transientObject: " << transientObject()->name() << endl;
+					fadeTransientLabel();
+				}
 				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
 
@@ -921,6 +929,10 @@ void SkyMap::slewFocus( void ) {
 			data->setSnapNextFocus(false);
 		}
 
+		//Start the HoverTimer. if the user leaves the mouse in place after a slew,
+		//we want to attach a label to the nearest object.
+		HoverTimer.start( HOVER_INTERVAL, true );
+		
 		forceUpdate();
 	}
 }
