@@ -201,9 +201,13 @@ void modCalcGeodCoord::setEllipsoid(int index) {
 
 void modCalcGeodCoord::getCartGeoCoords (void)
 {
-	geoPlace->setXPos( xGeoName->text().toDouble()*1000. );
-	geoPlace->setYPos( yGeoName->text().toDouble()*1000. );
-	geoPlace->setZPos( zGeoName->text().toDouble()*1000. );
+
+	geoPlace->setXPos( KGlobal::locale()->readNumber(xGeoName->text())*1000. );
+	geoPlace->setYPos( KGlobal::locale()->readNumber(yGeoName->text())*1000. );
+	geoPlace->setZPos( KGlobal::locale()->readNumber(zGeoName->text())*1000. );
+	//geoPlace->setXPos( xGeoName->text().toDouble()*1000. );
+	//geoPlace->setYPos( yGeoName->text().toDouble()*1000. );
+	//geoPlace->setZPos( zGeoName->text().toDouble()*1000. );
 }
 
 void modCalcGeodCoord::getSphGeoCoords (void)
@@ -248,7 +252,11 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 
 void modCalcGeodCoord::showCartGeoCoords(void)
 {
-	xGeoName->setText(QString("%1").arg( geoPlace->xPos()/1000. ,11,'f',6));
-	yGeoName->setText(QString("%1").arg( geoPlace->yPos()/1000. ,11,'f',6));
-	zGeoName->setText(QString("%1").arg( geoPlace->zPos()/1000. ,11,'f',6));
+
+	xGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->xPos()/1000. ,6));
+	yGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->yPos()/1000. ,6));
+	zGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->zPos()/1000. ,6));
+//	xGeoName->setText(QString("%1").arg( geoPlace->xPos()/1000. ,11,'f',6));
+//	yGeoName->setText(QString("%1").arg( geoPlace->yPos()/1000. ,11,'f',6));
+//	zGeoName->setText(QString("%1").arg( geoPlace->zPos()/1000. ,11,'f',6));
 }
