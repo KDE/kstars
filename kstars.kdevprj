@@ -42,7 +42,7 @@ short_info=A Desktop Planetarium for KDE
 sub_dir=kstars/
 version=0.8
 version_control=None
-workspace=1
+workspace=0
 
 [INSTALL]
 dist=true

@@ -46,8 +46,9 @@ int main(int argc, char *argv[])
 	aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
 	aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
 	aboutData.addAuthor("Thomas Kabelmann", 0, "tk78@gmx.de", 0);
-	aboutData.addAuthor("Mark Hollomon", 0, "mhh@mindspring.com", 0);
 	aboutData.addAuthor("Pablo de Vicente", 0, "pvicentea@wanadoo.es", 0);
+	aboutData.addAuthor("Carsten Niehaus", 0, "cniehaus@gmx.de", 0);
+	aboutData.addAuthor("Mark Hollomon", 0, "mhh@mindspring.com", 0);
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

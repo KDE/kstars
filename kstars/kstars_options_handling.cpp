@@ -72,9 +72,9 @@ void KStars::loadOptions()
 	options()->showTimeBox   = conf->readBoolEntry( "ShowTimeBox", true );
 	options()->showFocusBox  = conf->readBoolEntry( "ShowFocusBox", true );
 	options()->showGeoBox    = conf->readBoolEntry( "ShowGeoBox", true );
-	options()->shadeTimeBox  = conf->readBoolEntry( "ShadeTimeBox", false );
-	options()->shadeFocusBox = conf->readBoolEntry( "ShadeFocusBox", false );
-	options()->shadeGeoBox   = conf->readBoolEntry( "ShadeGeoBox", false );
+	options()->shadeTimeBox  = conf->readBoolEntry( "ShadeTimeBox", true );
+	options()->shadeFocusBox = conf->readBoolEntry( "ShadeFocusBox", true );
+	options()->shadeGeoBox   = conf->readBoolEntry( "ShadeGeoBox", true );
 	options()->posTimeBox    = conf->readPointEntry( "PositionTimeBox", new QPoint(0,0) );
 	options()->posFocusBox   = conf->readPointEntry( "PositionFocusBox", new QPoint(600,0) );
 	options()->posGeoBox     = conf->readPointEntry( "PositionGeoBox", new QPoint(0,600) );

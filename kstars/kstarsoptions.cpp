@@ -176,9 +176,9 @@ void KStarsOptions::setDefaultOptions() {
 	showTimeBox= true;
 	showFocusBox= true;
 	showGeoBox= true;
-	shadeTimeBox= false;
-	shadeFocusBox= false;
-	shadeGeoBox= false;
+	shadeTimeBox= true;
+	shadeFocusBox= true;
+	shadeGeoBox= true;
 	posTimeBox = QPoint( 0, 0 );
 	posFocusBox = QPoint( 600, 0 );
 	posGeoBox = QPoint( 0, 600 );

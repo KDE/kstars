@@ -829,6 +829,9 @@ bool ViewOpsDialog::setColors( QString filename ) {
 	test.close();
 
 	if ( ksw->options()->colorScheme()->load( filename ) ) {
+	  if ( ksw->map()->starColorMode() != ksw->options()->colorScheme()->starColorMode() )
+	    ksw->map()->setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
+	  
 		for ( unsigned int i=0; i < ksw->options()->colorScheme()->numberOfColors(); ++i ) {
 			temp->fill( QColor( ksw->options()->colorScheme()->colorAt( i ) ) );
 			ColorPalette->changeItem( *temp, ksw->options()->colorScheme()->nameAt( i ), i );

@@ -1058,12 +1058,15 @@ int SkyMap::getPixelScale( void ) {
 }
 
 bool SkyMap::setColors( QString filename ) {
-	ksw->options()->colorScheme()->load( filename );
-	if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
-		setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
-
-	Update();
-	return true;
+  if ( ksw->options()->colorScheme()->load( filename ) ) {
+    if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
+      setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
+    
+    Update();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 #include "skymap.moc"
