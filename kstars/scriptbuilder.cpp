@@ -409,7 +409,7 @@ void ScriptBuilder::slotSave() {
 		f.close();
 		
 		//set rwx for owner, rx for group, rx for other
-		chmod( fname.ascii(), 755 ); 
+		chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 		
 		setUnsavedChanges( false );
 		
@@ -557,7 +557,7 @@ void ScriptBuilder::slotCopyFunction() {
 }
 
 void ScriptBuilder::slotRemoveFunction() {
-	if ( ! UnsavedChanges ) setUnsavedChanges( true );
+	setUnsavedChanges( true );
 	
 	int Pos = ScriptListBox->currentItem();
 	ScriptList.remove( Pos );
@@ -573,7 +573,7 @@ void ScriptBuilder::slotRemoveFunction() {
 
 void ScriptBuilder::slotAddFunction() {
 	if ( FuncListBox->currentItem() > -1 ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		int Pos = ScriptListBox->currentItem() + 1;
 		
@@ -585,7 +585,7 @@ void ScriptBuilder::slotAddFunction() {
 
 void ScriptBuilder::slotMoveFunctionUp() {
 	if ( ScriptListBox->currentItem() > 0 ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		QString t = ScriptListBox->currentText();
 		unsigned int n = ScriptListBox->currentItem();
@@ -602,7 +602,7 @@ void ScriptBuilder::slotMoveFunctionUp() {
 void ScriptBuilder::slotMoveFunctionDown() {
 	if ( ScriptListBox->currentItem() > -1 && 
 				ScriptListBox->currentItem() < ScriptListBox->count()-1 ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		QString t = ScriptListBox->currentText();
 		unsigned int n = ScriptListBox->currentItem();
@@ -803,7 +803,7 @@ void ScriptBuilder::slotFindCity() {
 			
 			ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 			if ( sf->name() == "setGeoLocation" ) {
-				if ( ! UnsavedChanges ) setUnsavedChanges( true );
+				setUnsavedChanges( true );
 				
 				sf->setArg( 0, ld.selectedCity() );
 				sf->setArg( 1, ld.selectedProvince() );
@@ -819,7 +819,7 @@ void ScriptBuilder::slotFindObject() {
 	FindDialog fd( ks );
 	
 	if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->objName()->translatedText() );
 	}
@@ -836,7 +836,7 @@ void ScriptBuilder::slotLookToward() {
 	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 	
 	if ( sf->name() == "lookTowards" ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		sf->setArg( 0, argLookToward->FocusEdit->currentText() );
 		sf->setValid(true);
@@ -855,7 +855,7 @@ void ScriptBuilder::slotRa() {
 		bool ok(false);
 		dms ra = argSetRaDec->RaBox->createDms(false, &ok);
 		if ( ok ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, QString( "%1" ).arg( ra.Hours() ) );
 			if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
@@ -879,7 +879,7 @@ void ScriptBuilder::slotDec() {
 		bool ok(false);
 		dms dec = argSetRaDec->DecBox->createDms(true, &ok); 
 		if ( ok ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 1, QString( "%1" ).arg( dec.Degrees() ) );
 			if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
@@ -903,7 +903,7 @@ void ScriptBuilder::slotAz() {
 		bool ok(false);
 		dms az = argSetAltAz->AzBox->createDms(true, &ok); 
 		if ( ok ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			sf->setArg( 1, QString( "%1" ).arg( az.Degrees() ) );
 			if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 		} else {
@@ -925,7 +925,7 @@ void ScriptBuilder::slotAlt() {
 		bool ok(false);
 		dms alt = argSetAltAz->AltBox->createDms(true, &ok);
 		if ( ok ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, QString( "%1" ).arg( alt.Degrees() ) );
 			if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
@@ -942,7 +942,7 @@ void ScriptBuilder::slotChangeDate() {
 	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 	
 	if ( sf->name() == "setLocalTime" ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		QDate date = argSetLocalTime->DateBox->date();
 		
@@ -959,7 +959,7 @@ void ScriptBuilder::slotChangeTime() {
 	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 	
 	if ( sf->name() == "setLocalTime" ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		QTime time = argSetLocalTime->TimeBox->time();
 		
@@ -980,7 +980,7 @@ void ScriptBuilder::slotWaitFor() {
 		int delay = argWaitFor->DelayBox->text().toInt( &ok );
 		
 		if ( ok ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, QString( "%1" ).arg( delay ) ); 
 			sf->setValid( true );
@@ -1001,7 +1001,7 @@ void ScriptBuilder::slotWaitForKey() {
 		//DCOP script can only use single keystrokes; make sure entry is either one character,
 		//or the word 'space'
 		if ( sKey.length() == 1 || sKey == "space" ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, sKey ); 
 			sf->setValid( true );
@@ -1017,7 +1017,7 @@ void ScriptBuilder::slotTracking() {
 	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 	
 	if ( sf->name() == "setTracking" ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		if ( argSetTracking->CheckTrack->isChecked() ) {
 			sf->setArg( 0, "true" );
@@ -1036,7 +1036,7 @@ void ScriptBuilder::slotViewOption() {
 	if ( sf->name() == "changeViewOption" ) {
 		if ( argChangeViewOption->OptionName->currentItem() >= 0 
 				&& argChangeViewOption->OptionValue->text().length() ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, argChangeViewOption->OptionName->currentText() );
 			sf->setArg( 1, argChangeViewOption->OptionValue->text() );
@@ -1056,7 +1056,7 @@ void ScriptBuilder::slotChangeCity() {
 		QString city =     argSetGeoLocation->CityName->text();
 		
 		if ( city.length() ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 0, city );
 			if ( sf->argVal(2).length() ) sf->setValid( true );
@@ -1076,7 +1076,7 @@ void ScriptBuilder::slotChangeProvince() {
 		QString province = argSetGeoLocation->ProvinceName->text();
 		
 		if ( province.length() ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 1, province );
 			if ( sf->argVal(0).length() && sf->argVal(2).length() ) sf->setValid( true );
@@ -1096,7 +1096,7 @@ void ScriptBuilder::slotChangeCountry() {
 		QString country =  argSetGeoLocation->CountryName->text();
 		
 		if ( country.length() ) {
-			if ( ! UnsavedChanges ) setUnsavedChanges( true );
+			setUnsavedChanges( true );
 			
 			sf->setArg( 2, country );
 			if ( sf->argVal(0).length() ) sf->setValid( true );
@@ -1113,7 +1113,7 @@ void ScriptBuilder::slotTimeScale() {
 	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
 	
 	if ( sf->name() == "setClockScale" ) {
-		if ( ! UnsavedChanges ) setUnsavedChanges( true );
+		setUnsavedChanges( true );
 		
 		sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
 		sf->setValid( true );
