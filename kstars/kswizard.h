@@ -21,6 +21,8 @@
 #include <qmemarray.h>
 #include "kswizardui.h"
 
+class GeoLocation;
+
 /**@class Setup Wizard for KStars
 	*The Setup Wizard will be automatically opened when KStars runs 
 	*for the first time.  It allows the user to set up some basic parameters:
@@ -53,6 +55,7 @@ private:
 	KStars *ksw;
 	QMemArray<int> GeoID;
 	GeoLocation *Geo;
+	QPtrList<GeoLocation> filteredCityList;
 };
 
 #endif
