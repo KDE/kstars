@@ -40,7 +40,7 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 	action = new KAction (i18n ("Save Image"), "filesave", KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
 
-	if (imageURL.isMalformed())		//check URL
+	if (!imageURL.isValid())		//check URL
             kdDebug()<<"URL is malformed"<<endl;
 	setCaption (imageURL.filename()); // the title of the window
 	loadImageFromURL();
@@ -118,7 +118,7 @@ void ImageViewer::loadImageFromURL()
 	file = tempfile.file();
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
 	KURL saveURL (file->name());
-	if (saveURL.isMalformed())
+	if (!saveURL.isValid())
             kdDebug()<<"tempfile-URL is malformed\n";
 
 	downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
