@@ -32,11 +32,10 @@
 
 #define MAXTRAIL 400  //maximum number of points in a planet trail
 
-/**Class that encapsulates the ecliptic position of a planet.
-	*This includes not only the Ecliptic longitude and latitude, but also the
-	*distance from the Sun.
+/**@class EclipticPosition
+	*@short The ecliptic position of a planet (Longitude, Latitude, and distance from Sun).
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 class EclipticPosition {
 	public:
@@ -57,181 +56,165 @@ class EclipticPosition {
 		};
 };
 
-/**
+/**@class KSPlanetBase
+	*@short Provides necessary information about objects in the solar system.
+	*@author Mark Hollomon
+	*@version 1.0
 	*A subclass of SkyObject that provides additional information
 	*needed for solar system objects. This is a base class for KSPlanet,
 	* KSPluto, KSSun and KSMoon.
-	*@short Provides necessary information about objects in the solar system.
-  *@author Mark Hollomon
-  *@version 0.9
-  */
+	*/
 
 class KStars;
 class KSPlanetBase : public SkyObject {
 public: 
 
-	/**
-	 *Constructor.  Calls SkyObject constructor with type=2 (planet),
-	 *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-	 *@param s Name of planet
-	 *@param im the planet's image
-	 */
+/**Constructor.  Calls SkyObject constructor with type=2 (planet),
+	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
+	*@param s Name of planet
+	*@param im the planet's image
+	*/
 	KSPlanetBase( KStars *ks, QString s = i18n("unnamed"), QString image_file="" );
 
-	/**
-	 *Destructor (empty)
-	 */
+/**
+	*Destructor (empty)
+	*/
 	virtual ~KSPlanetBase() {}
 
-	/**
-	 *@returns Ecliptic Longitude coordinate
-	 */
+/**@return pointer to Ecliptic Longitude coordinate
+	*/
 	const dms* ecLong( void ) const { return &ep.longitude; };
 
-	/**
-	 *@returns Ecliptic Latitude coordinate
-	 */
+/**
+	*@return pointer to Ecliptic Latitude coordinate
+	*/
 	const dms* ecLat( void ) const { return &ep.latitude; };
 
-	/**
-	 *Set Ecliptic Longitude according to argument.
-	 *@param elong Ecliptic Longitude
-	 */	
+/**@short Set Ecliptic Longitude according to argument.
+	*@param elong Ecliptic Longitude
+	*/
 	void setEcLong( dms elong ) { ep.longitude = elong; }
 
-	/**
-	 *Set Ecliptic Longitude according to argument.
- 	 *Differs from above function only in argument type.
-	 *@param elong Ecliptic Longitude
-	 */	
+/**@short Set Ecliptic Longitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elong Ecliptic Longitude
+	*/
 	void setEcLong( double elong ) { ep.longitude.setD( elong ); }
 
-	/**
-	 *Set Ecliptic Latitude according to argument.
-	 *@param elat Ecliptic Latitude
-	 */	
+/**@short Set Ecliptic Latitude according to argument.
+	*@param elat Ecliptic Latitude
+	*/
 	void setEcLat( dms elat ) { ep.latitude = elat; }
 
-	/**
-	 *Set Ecliptic Latitude according to argument.
-	 *Differs from above function only in argument type.
-	 *@param elat Ecliptic Latitude
-	 */	
+/**@short Set Ecliptic Latitude according to argument.
+	*Differs from above function only in argument type.
+	*@param elat Ecliptic Latitude
+	*/
 	void setEcLat( double elat ) { ep.latitude.setD( elat ); }
 
-	/**Load the position data from disk.
-	 */
+/**@short Load the planet's orbital data from disk.
+	*@return true if data succesfully loaded
+	*/
 	virtual bool loadData() = 0;
 
-	/**
-	 *Given the current KSNumbers object (time-dependent), calculate and set 
-	 *the RA, Dec coordinates of the Planet.
-	 *@param num current KSNumbers object
-	 *@param Earth planet Earth (needed to calculate geocentric coords)
-	 *@returns true if position was successfully calculated.
-	 */
+/**@short find the object's current equatorial coordinates (RA and Dec)
+	*Given the current KSNumbers object (time-dependent), calculate and set 
+	*the RA, Dec coordinates of the Planet.
+	*@param num pointer to current KSNumbers object
+	*@param Earth pointer to planet Earth (needed to calculate geocentric coords)
+	*@return true if position was successfully calculated.
+	*/
 	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
 
-	/**
-	 *Convert Ecliptic logitude/latitude to Right Ascension/Declination.
-	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
-	 */
+/**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
+	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
+	*/
 	void EclipticToEquatorial( const dms *Obliquity );
 
-	/**
-	 *Convert Right Ascension/Declination to Ecliptic logitude/latitude.
-	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
-	 */
+/**@short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
+	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
+	*/
 	void EquatorialToEcliptic( const dms *Obliquity );
 
-	/**
-	 *@returns pointer to image of planet
-	 */
+/**@return pointer to image of planet
+	*/
 	QImage* image( void ) { return &Image; };
 
-	/**
-	 *@returns pointer to unrotated image of planet
-	 */
+/**@return pointer to unrotated image of planet
+	*/
 	QImage* image0( void ) { return &Image0; };
 
-	/**
-	 *@returns distance from Sun
-	 */
+/**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance)
+	*/
 	double rsun( void ) const { return ep.radius; };
 
-	/**
-	 *@short Set the solar distance
-	 */
+/**@short Set the solar distance in AU.
+	*@param r the new solar distance in AU
+	*/
 	void setRsun( double r ) { ep.radius = r; };
 
-	/**Update position of the planet (reimplemented from SkyPoint)
-	 *@param num current KSNumbers object
-	 *@param includePlanets this function does nothing if includePlanets=false
-	 */
+/**Update position of the planet (reimplemented from SkyPoint)
+	*@param num current KSNumbers object
+	*@param includePlanets this function does nothing if includePlanets=false
+	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
 
-	/**@returns the Planet's position angle.
-		*/
+/**@return the Planet's position angle.
+	*/
 		double pa() const { return PositionAngle; }
 
-	/**Set the Planet's position angle.
-		*@param p the new position angle
-		*/
+/**@short Set the Planet's position angle.
+	*@param p the new position angle
+	*/
 		void setPA( double p ) { PositionAngle = p; }
 
-	/**@returns the Planet's angular size, in arcminutes
-		*/
+/**@return the Planet's angular size, in arcminutes
+	*/
 		double angSize() const { return AngularSize; }
 		
-	/**@short Set the Planet's angular size in arcminutes
-		*@param a the new angular size
-		*/
+/**@short Set the Planet's angular size in arcminutes
+	*@param a the new angular size
+	*/
 		void setAngSize( double a ) { AngularSize = a; }
 
-	/**@returns whether the planet has a trail
-		*/
+/**@return whether the planet has a trail
+	*/
 		bool hasTrail() const { return ( Trail.count() > 0 ); }
 		 
-	/**@returns a reference to the planet's trail
-		*/
+/**@return a reference to the planet's trail
+	*/
 		QPtrList<SkyPoint>* trail() { return &Trail; } 
 		
-	/**@short adds a point to the planet's trail
-		*@param sp a pointer to the SkyPoint to add (will be AutoDeleted)
-		*/
+/**@short adds a point to the planet's trail
+	*@param sp a pointer to the SkyPoint to add (will be AutoDeleted)
+	*/
 		void addToTrail() { Trail.append( new SkyPoint( ra(), dec() ) ); }
 		
-	/**@short removes the oldest point from the trail
-		*/
+/**@short removes the oldest point from the trail
+	*/
 		void clipTrail() { Trail.removeFirst(); }
 		
-	/**@short clear the Trail
-		*/
+/**@short clear the Trail
+	*/
 		void clearTrail() { Trail.clear(); }
 		
-	/**@short update Horizontal coords of the trail
-		*/
+/**@short update Horizontal coords of the trail
+	*/
 		void updateTrail( dms *LST, const dms *lat );
 
-	/**
-		*If pa argument is more than 5 degrees different than current internal
-		*PositionAngle, then update the internal PA and rotate the Planet image.
-		*@param pa the new position angle
-		*/
+/**@short rotate Planet image
+	*@param imageAngle the new angle of rotation for the image
+	*/
 	void rotateImage( double imageAngle );
-
-	/**Function coopied from Qt 3.0 QImage...this allows simple rotation of the planet images.
-		*/
-	QImage xFormImage( const QWMatrix &matrix ) const;
 
 protected:
 	virtual bool loadData(QString n) { 
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
 	};
 
-	/**Determine the position angle of the planet for a given date 
-		*(used internally by findPosition() )
-		*/
+/**Determine the position angle of the planet for a given date 
+	*(used internally by findPosition() )
+	*/
 	void findPA( const KSNumbers *num );
 	
 	EclipticPosition ep;
@@ -242,15 +225,5 @@ private:
 	double PositionAngle, ImageAngle, AngularSize;
 	KStars *kstars;
 };
-
-/**Helper function for xFormImage */
-#ifndef QT_NO_PIXMAP_TRANSFORMATION
-#  define QT_XFORM_TYPE_MSBFIRST 0
-#  define QT_XFORM_TYPE_LSBFIRST 1
-#  if defined(Q_WS_WIN)
-#    define QT_XFORM_TYPE_WINDOWSPIXMAP 2
-#  endif
-bool qt_xForm_helper( const QWMatrix&, int, int, int, uchar*, int, int, int, uchar*, int, int, int );
-#endif
 
 #endif

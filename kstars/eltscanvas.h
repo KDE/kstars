@@ -1,5 +1,5 @@
 /***************************************************************************
-                          eltscanvas.h  -  description
+                          eltscanvas.h  -  Widget for drawing altitude vs. time curves
                              -------------------
     begin                : mon dic 23 2002
     copyright            : (C) 2002 by Pablo de Vicente
@@ -28,27 +28,63 @@ class QPainter;
 class KStars;
 class SkyPoint;
 
-/**
-  *@author Pablo de Vicente
-  */
+/**@class eltsCanvas
+	*@short The widget for displaying Altitude vs. Time curves
+	*@author Pablo de Vicente
+	*@version 1.0
+	*eltsCanvas is the main display widget for the Altitude vs. Time tool.
+	*The main draw routines are drawGrid(), which draws the X and Y axes and labels,
+	*and drawCurves(), which draws the altitude curves of the objects stored in elts.
+	*
+	*This class will soon be generalized to a multipurpose plotting widget; all
+	*elts-specific code will be moved to elts.  We will use the generalized plot
+	*widget also in the Jupiter Moons plotter, and in the solar system viewer.
+	*/
 
 class eltsCanvas : public QWidget  {
 	Q_OBJECT
 public: 
+/**Constructor
+	*/
 	eltsCanvas(QWidget *parent=0, const char *name=0);
+	
+/**Destructor (empty)
+	*/
 	~eltsCanvas();
 
-	void drawAxis(void);
-	
 private:
+/**@short Initialize variables controlling the number and position of tickmarks.
+	*/
 	void initVars(void);
+	
+/**@Short draw the plot.
+	*/
 	void paintEvent( QPaintEvent * );
-	int UtMinutes(void);
+	
+/**@short draw the X and Y axes, with tickmarks and labels.  Also draw gridlines.
+	*@param pcanvas the QPainter on which to draw the axes and grid lines.
+	*/
 	void drawGrid( QPainter * pcanvas );
-	int getEl (SkyPoint *p, int ut);
+	
+/**@short draw the altitude curves of objects stored in elts.
+	*@param pcanvas the QPainter on which to draw the altitude curves.
+	*@warning the elts-specific stuff should be moved there; this will be a generic curve-drawing routine.
+	*/
 	void drawCurves(QPainter * pcanvas);
-	int Interpol(int x1,int x2,int y1,int y2);
+	
+/**@short determine the altitude of the given skypoint at the given time, expressed in arcminutes
+	*@param p the skypoint whose altitude is sought
+	*@param ut the Universal time for the altitude calculation (expressed in minutes)
+	*@warning this function should move to elts
+	*/
+	int getAlt(SkyPoint *p, int ut);
 
+/**@short determine the LST at UT=0h for the date stored in elts. 
+	*@return The LST at UT=0h, expressed in minutes since 00:00 LST
+	*@warning This function should move to elts 
+	*/
+	int LSTMinutes(void);
+	
 	// xnticks, ynticks = number of minor ticks of X and Y axis
 	// xmticks, ymticks = number of major ticks of X and Y axis
 	int xnticks, xmticks, ynticks, ymticks;

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          eltscanvas.cpp  -  description
+                          eltscanvas.cpp  -  Widget for drawing altitude vs. time curves
                              -------------------
     begin                : lun dic 23 2002
     copyright            : (C) 2002 by Pablo de Vicente
@@ -49,7 +49,6 @@ eltsCanvas::eltsCanvas(QWidget *parent, const char *name) : QWidget(parent,name)
 }
 
 eltsCanvas::~eltsCanvas(){
-
 }
 
 void eltsCanvas::initVars(void) {
@@ -91,7 +90,7 @@ void eltsCanvas::paintEvent( QPaintEvent * ) {
 
 void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 	
-	int lst_minutes = UtMinutes();
+	int lst_minutes = LSTMinutes();
 	pcanvas->setPen( white );
 	pcanvas->setFont( topLevelWidget()->font() );
 	pcanvas->translate(40, 40);
@@ -221,7 +220,7 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 		while ( utmPrev < 0 ) utmPrev += 24*60;
 		while ( utmPrev >=24*60 ) utmPrev -= 24*60;
 		
-		elevationPrev = getEl(p, utmPrev);
+		elevationPrev = getAlt(p, utmPrev);
 		pcanvas->moveTo( ltmPrev, elevationPrev );
 		
 		for (int i=1;i<=24*4;i++) {
@@ -230,7 +229,7 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 			while ( utm < 0 ) utm += 24*60;
 			while ( utm >= 24*60 ) utm -= 24*60;
 			
-			elevation = getEl(p, utm );
+			elevation = getAlt(p, utm );
 			pcanvas->drawLine(ltmPrev/DX,(5400-elevationPrev)/DY, ltm/DX,(5400-elevation)/DY);
 			ltmPrev = ltm;
 			utmPrev = utm;
@@ -239,8 +238,8 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 	}
 }
 
-//Returns elevation above horizon, in minutes of arc.
-int eltsCanvas::getEl (SkyPoint *sp, int utm) {
+//Returns Altitude above horizon, in minutes of arc.
+int eltsCanvas::getAlt(SkyPoint *sp, int utm) {
 	elts *el = (elts *)topLevelWidget();
 
 	dms lat = el->getLatitude();
@@ -256,7 +255,7 @@ int eltsCanvas::getEl (SkyPoint *sp, int utm) {
 	return elm*sgn;
 }
 
-int eltsCanvas::UtMinutes(void) {
+int eltsCanvas::LSTMinutes(void) {
 	elts *el = (elts *)topLevelWidget();
 	dms longit;
 
@@ -264,10 +263,6 @@ int eltsCanvas::UtMinutes(void) {
 
 	dms lst_at_ut0 = KSUtils::UTtoLST( el->getQDate(), &longit);
 	return lst_at_ut0.hour()*60 + lst_at_ut0.minute();
-}
-
-int eltsCanvas::Interpol(int x1,int x2,int y1,int y2) {
-	return (x1 - y1*(x2-x1)/(y2-y1));
 }
 
 #include "eltscanvas.moc"
