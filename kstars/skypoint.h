@@ -50,7 +50,7 @@ public:
 	*@param r Right Ascension
 	*@param d Declination
 	*/
-	SkyPoint( dms r, dms d ) { set( r, d ); }
+	SkyPoint( const dms& r, const dms& d ) { set( r, d ); }
 
 /**Alternate constructor using pointer arguments, for convenience.
 	*It behaves essentially like the default constructor.
@@ -80,14 +80,14 @@ public:
 	*@param r Right Ascension
 	*@param d Declination
 	*/
-	void set( dms r, dms d );
+	void set( const dms& r, const dms& d );
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param r Right Ascension
 	*@param d Declination
 	*/
-	void set( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
+	void set( const dms *r, const dms *d ) { set( *r, *d ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
