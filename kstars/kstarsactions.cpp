@@ -250,7 +250,7 @@ void KStars::slotSetTime() {
 		}
 
 		//If focusObject has a Planet Trail, clear it and start anew.
-		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
 		     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
 		  ((KSPlanetBase*)map()->focusObject())->clearTrail();
 		  ((KSPlanetBase*)map()->focusObject())->addToTrail();
@@ -290,7 +290,7 @@ void KStars::closeWindow() {
 }
 
 void KStars::slotExportImage() {
-	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpg image/gif image/pnm image/bmp" );
+	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 	KTempFile tmpfile;
 	QString fname;
 	tmpfile.setAutoDelete(true);
@@ -543,7 +543,7 @@ void KStars::slotSetTimeToNow() {
 	}
 
 	//If focusObject has a Planet Trail, clear it and start anew.
-	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && 
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
 	     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
 	  ((KSPlanetBase*)map()->focusObject())->clearTrail();
 	  ((KSPlanetBase*)map()->focusObject())->addToTrail();
@@ -621,7 +621,7 @@ void KStars::slotManualFocus() {
 		if ( options()->isTracking ) slotTrack();
 
 		map()->slotCenter();
-		
+
 		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
 		if ( focusDialog.usedAltAz() ) map()->stopTracking();
 	}
