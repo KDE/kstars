@@ -886,7 +886,7 @@ void SkyMap::setRiseSetLabels( void ) {
 		st = i18n( "No Set Time: Never rises" );
 	}
 
-	QTime ttime = clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
+	QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
 	QString tt, tt2;
 	if ( ttime.isValid() ) {
 		int min = ttime.minute();

@@ -152,16 +152,13 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
 
-QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
+//QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
 
-	if ( checkCircumpolar(geo->lat() ) )
-		return QTime( 25, 0, 0 );
+QTime SkyObject::transitTime( QDateTime currentTime, dms LST ) {
 
-	dms UT = transitUTTime (jd, geo->lng(), geo->lat());
-
-	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
-
-	return QTime( LT.hour(), LT.minute(), LT.second() );
+	dms HourAngle = dms ( LST.Degrees() - ra().Degrees() );
+	int dSec = int( -3600.*HourAngle.Hours() );
+	return currentTime.addSecs( dSec ).time();
 }
 
 dms SkyObject::transitUTTime( long double jd, dms gLng, dms gLat ) {

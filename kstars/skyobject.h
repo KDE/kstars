@@ -175,7 +175,7 @@ public:
   */
 	QTime setTime( long double jd, GeoLocation *geo );
 
-	QTime transitTime( long double jd, GeoLocation *geo );
+	QTime transitTime( QDateTime currentTime, dms LST );
 	dms transitUTTime( long double jd, dms gLng, dms gLat );
 	void setThreeCoords (long double jd);
 	double approxHourAngle (dms h0, dms gLng, dms d2);
