@@ -18,7 +18,7 @@
 #ifndef MODCALCPREC_H
 #define MODCALCPREC_H
 
-#include <qvbox.h>
+#include "modcalcprecdlg.h"
 
 /**
   * Class which implements the KStars calculator precession module. Precesses
@@ -26,19 +26,16 @@
   * that coordinates are in the FK5 system. For example the conversion between
   * B1950 and J2000 is not exact. 
   *
-  * Inherits QWidget
+  * Inherits modCalcPrecDlg
   *@author Pablo de Vicente
 	*@version 0.9
   */
 
-class QWidget;
-class QLineEdit;
 class QString;
 class dms;
-class dmsBox;
 class SkyPoint;
 
-class modCalcPrec : public QWidget  {
+class modCalcPrec : public modCalcPrecDlg  {
 
 Q_OBJECT
 public: 
@@ -60,11 +57,7 @@ private:
 	double getEpoch (QString eName);
 	void showEquCoords ( SkyPoint sp );
 
-	QWidget *rightBox;
-	QLineEdit *rafName, *decfName, *ra0Name, *dec0Name, *epoch0Name, 
-		*epochfName;
-	dmsBox *ra0Box, *dec0Box, *rafBox, *decfBox;
-	
+
 };
 
 #endif

@@ -17,121 +17,30 @@
 
 #include "modcalcprec.h"
 #include "modcalcprec.moc"
-#include "dms.h"
 #include "dmsbox.h"
-#include "skypoint.h"
 #include "ksutils.h"
-#include <qgroupbox.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <klocale.h>
+#include "skypoint.h"
+#include "dms.h"
 
+#include <klocale.h>
+#include <qdatetime.h>
+#include <klineedit.h>
 #include <kapplication.h>
 
-modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
+modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : modCalcPrecDlg(parentSplit,name) {
 
-	rightBox = new QWidget (parentSplit);
-	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
-
-	QGroupBox * InputBox = new QGroupBox (rightBox);
-	InputBox->setTitle( i18n("Original Coordinates") );
-	
-	QHBox * buttonBox = new QHBox(InputBox);
-	
-	QPushButton * Compute = new QPushButton( i18n( "Compute" ), buttonBox);
-	QPushButton * Clear = new QPushButton( i18n( "Clear" ), buttonBox );
-	
-	Compute->setFixedHeight(25);
-	Compute->setMaximumWidth(100);
-	
-	Clear->setFixedHeight(25);
-	Clear->setMaximumWidth(100);
-	
-	QVBoxLayout * D0Lay = new QVBoxLayout( InputBox);
-	QHBox * ra0dec0Box = new QHBox(InputBox);
-	
-	QLabel * ra0Label = new QLabel(ra0dec0Box,"raLabel");
-	ra0Label->setText(i18n("Right ascention","RA:"));
-	ra0Box = new dmsBox(ra0dec0Box,"raBox",FALSE);
-
-	QLabel * dec0Label = new QLabel(ra0dec0Box,"decLabel");
-	dec0Label->setText(i18n("Declination","DEC:"));
-	dec0Box = new dmsBox(ra0dec0Box,"decBox");
-	
-	QHBox * epoch0Box = new QHBox(ra0dec0Box);	
-	QLabel * epoch0Label = new QLabel( epoch0Box, "Epoch" );
-	epoch0Label->setText( i18n(" Epoch:") );
-	epoch0Name = new QLineEdit( epoch0Box );
-	epoch0Name->setMaximumWidth(70);
-
-	QString e0 = showCurrentEpoch();
-	epoch0Name->setText(e0);
-
-	epoch0Box->setMargin(6);
-	epoch0Box->setSpacing(6);
-	
-	buttonBox->setMargin(10);
-	D0Lay->setMargin(14);
-	D0Lay->setSpacing(4);
-	D0Lay->addWidget(buttonBox);
-	D0Lay->addWidget(ra0dec0Box);
-
-	//Output
-
-	QGroupBox * outputBox = new QGroupBox (rightBox);
-	outputBox->setTitle( i18n ("Precessed Coordinates") );
-
-	QVBoxLayout * D1Lay = new QVBoxLayout( outputBox);
-	QHBox * rafdecfBox = new QHBox(outputBox);
-	
-	QLabel * rafLabel = new QLabel(rafdecfBox,"raLabel");
-	rafLabel->setText(i18n("Right ascention","RA:"));
-	rafBox = new dmsBox(rafdecfBox,"raBox",FALSE);
-
-	QLabel * decfLabel = new QLabel(rafdecfBox,"decLabel");
-	decfLabel->setText(i18n("Declination","DEC:"));
-	decfBox = new dmsBox(rafdecfBox,"decBox");
-	
-	QHBox * epochfBox = new QHBox(rafdecfBox);	
-	QLabel * epochfLabel = new QLabel( epochfBox, "Epoch" );
-	epochfLabel->setText( i18n(" Epoch:") );
-	epochfName = new QLineEdit( epochfBox );
-	epochfName->setMaximumWidth(70);
-
-	epochfName->setText( "2000.0" );
-
-	epochfBox->setMargin(6);
-	epochfBox->setSpacing(6);
-	
-	D1Lay->setMargin(14);
-	D1Lay->addWidget(rafdecfBox);
-
-	QSpacerItem * downSpacer = new QSpacerItem(400,150);
-
-	rightBoxLayout->addWidget(InputBox);
-	rightBoxLayout->addWidget(outputBox);
-	rightBoxLayout->addItem(downSpacer);
-	
-	rightBox->setMaximumWidth(550);
-	rightBox->setMinimumWidth(400);
-	rightBox->show();
-//
-// slots
-
-
-	connect( Compute, SIGNAL(clicked() ), this, SLOT( slotComputeCoords() ) ) ;
-	connect( Clear, SIGNAL(clicked() ), this, SLOT( slotClearCoords() ) ) ;
+		this->show();
 	
 }
 
 modCalcPrec::~modCalcPrec(){
-	delete rightBox;
+	
 }
 
 SkyPoint modCalcPrec::getEquCoords (void) {
 	dms raCoord, decCoord;
 
-	raCoord = ra0Box->createDms();
+	raCoord = ra0Box->createDms(FALSE);
 	decCoord = dec0Box->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -193,7 +102,7 @@ void modCalcPrec::slotComputeCoords (void) {
 }
 
 void modCalcPrec::showEquCoords ( SkyPoint sp ) {
-	rafBox->show( sp.ra() );
+	rafBox->show( sp.ra(),FALSE );
 	decfBox->show( sp.dec() );
 }
 
