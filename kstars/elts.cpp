@@ -282,7 +282,7 @@ void elts::slotBrowseObject(void) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
 
 		processObject( o );
-//		slotAddSource();
+		slotAddSource();
 	} 
 }
 
@@ -324,15 +324,18 @@ void elts::processObject( SkyObject *o ) {
 	if ( found ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
 	else {
 		pList.append( (SkyPoint*)o );
+		raBox->showInHours(o->ra() );
+		decBox->showInDegrees(o->dec() );
+		nameBox->setText(o->translatedName() );
 		//Set epochName to epoch shown in date tab
-//		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
 	
 	//clear the name, ra, and dec fields
-	nameBox->clear();
-	raBox->clear() ;
-	decBox->clear();
+//	nameBox->clear();
+//	raBox->clear() ;
+//	decBox->clear();
 
 	//restore original Earth position
 	Earth->findPosition( oldNum );
