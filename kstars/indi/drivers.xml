@@ -5,27 +5,27 @@
 	</device>
 	<device label="LX200 Classic" driver="LX200 Classic">
 		<Exec>lx200classic</Exec>
-		<Version>0.2</Version>
+		<Version>0.5</Version>
 	</device>
 	<device label="LX200 GPS" driver="LX200 GPS">
 		<Exec>lx200gps</Exec>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 	</device>
 	<device label="LX200 16" driver="LX200 16">
 		<Exec>lx200_16</Exec>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 	</device>
 	<device label="LX90" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.2</Version>
+		<Version>0.5</Version>
 	</device>
 	<device label="ETX125" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.2</Version>
+		<Version>0.5</Version>
 	</device>
 	<device label="ETX90" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.2</Version>
+		<Version>0.5</Version>
 	</device>
 	<device label="Celestron GPS" driver="Celestron GPS">
 		<Exec>celestrongps</Exec>
