@@ -410,7 +410,7 @@ void KStars::initMenuBar() {
 	actFind->setText( i18n( "&Find Object..." ) );
 	actFind->setToolTip( i18n( "Find Object" ) );
 	actFind->plug( p );
-	actTrack = new KAction( i18n( "&Track Object" ), BarIcon( "unlock" ), 0, this, SLOT( mTrack() ), actionCollection() );
+	actTrack = new KAction( i18n( "&Track Object" ), BarIcon( "decrypted" ), 0, this, SLOT( mTrack() ), actionCollection() );
 	actTrack->setAccel( CTRL+Key_T );
 	actTrack->plug( p );
 	p->insertSeparator();
@@ -741,7 +741,7 @@ void KStars::initAltAz()
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
    		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
-		if ( sinAz > 0.0 ) { HARad = 2.0*PI() - HARad; }
+		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
 		RA = data()->LSTh.Degrees() - HA.Degrees();
 
@@ -846,12 +846,12 @@ void KStars::mFind() {
 void KStars::mTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
-		actTrack->setIconSet( BarIcon( "unlock" ) );
+		actTrack->setIconSet( BarIcon( "decrypted" ) );
 		skymap->setClickedObject( NULL );
 		skymap->setFoundObject( NULL );//no longer tracking foundObject
 	} else {
 		options()->isTracking = true;
-		actTrack->setIconSet( BarIcon( "lock" ) );
+		actTrack->setIconSet( BarIcon( "encrypted" ) );
 	}
 }
 

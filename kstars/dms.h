@@ -240,10 +240,15 @@ public:
 	*/
 	dms reduce( void ) const;
 	
+/**	
+ * PI is a const static member; it's public so that it can be used anywhere,
+ * as long as dms.h is included.
+ */
+	static const double PI;
+
 private:
   int Deg, Min, Sec;
   double D;
 };
 
-double PI( void );
 #endif
