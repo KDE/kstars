@@ -483,8 +483,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 			focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
 			focus()->setAlt( focus()->alt()->Degrees() - dAlt.Degrees() );
 
-			if ( focus()->alt()->Degrees() >89.9999 ) focus()->setAlt( 89.9999 );
-			if ( focus()->alt()->Degrees() <-89.9999 ) focus()->setAlt( -89.9999 );
+			if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 90.0 );
+			if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -90.0 );
 			focus()->setAz( focus()->az()->reduce() );
 			focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 		} else {
@@ -571,8 +571,12 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	if (mouseButtonDown) { //false if double-clicked, because it's unset there.
 		mouseButtonDown = false;
 		if ( slewing ) {
-			setDestination( focus() );
 			slewing = false;
+			
+			if ( Options::useAltAz() ) 
+				setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
+			else
+				setDestination( focus() );
 		}
 
 		setOldFocus( focus() );
