@@ -18,6 +18,7 @@
 #include "dms.h"
 #include "dmsbox.h"
 #include "modcalcgalcoord.h"
+#include "modcalcgalcoord.moc"
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>

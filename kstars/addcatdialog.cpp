@@ -30,6 +30,7 @@
 #include "skyobject.h"
 #include "starobject.h"
 #include "addcatdialog.h"
+#include "addcatdialog.moc"
 
 AddCatDialog::AddCatDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Catalog" ), Ok|Cancel, Ok, parent ) {

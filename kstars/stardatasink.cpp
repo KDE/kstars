@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "stardatasink.h"
+#include "stardatasink.moc"
 
 #include "kstarsdata.h"
 #include "dms.h"

@@ -20,6 +20,7 @@
 #include "dms.h"
 #include "ksutils.h"
 #include "modcalcsidtime.h"
+#include "modcalcsidtime.moc"
 #include "kstars.h"
 
 #include <qwidget.h>

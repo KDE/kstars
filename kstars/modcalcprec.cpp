@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "modcalcprec.h"
+#include "modcalcprec.moc"
 #include "dms.h"
 #include "dmsbox.h"
 #include "skypoint.h"

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "astrocalc.h"
+#include "astrocalc.moc"
 #include "dms.h"
 #include "dmsbox.h"
 #include "ksutils.h"

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "modcalcgeodcoord.h"
+#include "modcalcgeodcoord.moc"
 #include "dms.h"
 #include "dmsbox.h"
 #include "geolocation.h"

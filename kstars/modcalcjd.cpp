@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "modcalcjd.h"
+#include "modcalcjd.moc"
 #include "timebox.h"
 #include "ksutils.h"
 #include <qwidget.h>
