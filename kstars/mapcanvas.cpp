@@ -63,7 +63,7 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
 	ld->findCitiesNear( lng, lat );
 }
 
-void MapCanvas::paintEvent( QPaintEvent *e ) {
+void MapCanvas::paintEvent( QPaintEvent * ) {
 	QPainter pcanvas;
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
   KStars *ks = (KStars *)ld->parent();
