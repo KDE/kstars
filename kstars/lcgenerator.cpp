@@ -128,17 +128,17 @@ void LCGenerator::createGUI()
 
     CCDVCheck = new QCheckBox( DataSelectBox, "CCDVCheck" );
     CCDVCheck->setGeometry( QRect( 10, 125, 75, 16 ) );
-    CCDVCheck->setText( i18n( "CCDV" ) );
+    CCDVCheck->setText("CCDV");
     CCDVCheck->setChecked( TRUE );
 
     CCDRCheck = new QCheckBox( DataSelectBox, "CCDRCheck" );
     CCDRCheck->setGeometry( QRect( 10, 150, 75, 16 ) );
-    CCDRCheck->setText( i18n( "CCDR" ) );
+    CCDRCheck->setText("CCDR");
     CCDRCheck->setChecked( TRUE );
 
     CCDICheck = new QCheckBox( DataSelectBox, "CCDICheck" );
     CCDICheck->setGeometry( QRect( 10, 175, 75, 16 ) );
-    CCDICheck->setText( i18n( "CCDI" ) );
+    CCDICheck->setText("CCDI");
     CCDICheck->setChecked( TRUE );
 
     VisualCheck = new QCheckBox( DataSelectBox, "VisualCheck" );
@@ -157,7 +157,7 @@ void LCGenerator::createGUI()
 
     CCDBCheck = new QCheckBox( DataSelectBox, "CCDBCheck" );
     CCDBCheck->setGeometry( QRect( 10, 100, 75, 16 ) );
-    CCDBCheck->setText( i18n( "CCDB" ) );
+    CCDBCheck->setText("CCDB");
     CCDBCheck->setChecked( TRUE );
 
     TextLabel9 = new QLabel( DataSelectBox, "TextLabel9" );
@@ -199,11 +199,11 @@ void LCGenerator::createGUI()
 
     ImageWidthIn = new QLineEdit( ImageConfBox, "ImageWidthIn" );
     ImageWidthIn->setGeometry( QRect( 55, 25, 65, 26 ) );
-    ImageWidthIn->setText( i18n( "450" ) );
+    ImageWidthIn->setText("450");
 
     ImageHeightIn = new QLineEdit( ImageConfBox, "ImageHeightIn" );
     ImageHeightIn->setGeometry( QRect( 185, 25, 65, 26 ) );
-    ImageHeightIn->setText( i18n( "375" ) );
+    ImageHeightIn->setText("375");
 
     GridGroup = new QButtonGroup( ImageConfBox, "GridGroup" );
     GridGroup->setGeometry( QRect( 300, 15, 66, 55 ) );
