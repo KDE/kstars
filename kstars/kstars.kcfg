@@ -490,6 +490,11 @@
 			<default>60</default>
 			<whatsthis>The timescale above which slewing mode is forced on at all times.</whatsthis>
 		</entry>
+		<entry name="BoxBGMode" type="UInt">
+			<label>InfoBoxes Background fill mode</label>
+			<default>1</default>
+			<whatsthis>The background fill mode for the on-screen information boxes: 0="no BG"; 1="semi-transparent BG"; 2="opaque BG"</whatsthis>
+		</entry>
 		<entry name="StarColorMode" type="UInt">
 			<label>Mode for rendering stars</label>
 			<default>0</default>

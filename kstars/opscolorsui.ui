@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>OpsColorsUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>545</width>
-            <height>356</height>
+            <height>445</height>
         </rect>
     </property>
     <property name="caption">
@@ -40,6 +40,44 @@
                     <property name="whatsThis" stdset="0">
                         <string>The list of all customizable colors in the program.  Next to each item is a square showing the color it is currently set to.  Click on any item to change its color.</string>
                     </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout4</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>InfoBox BG Mode:</string>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox">
+                            <item>
+                                <property name="text">
+                                    <string>No Fill</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Transparent</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Opaque</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>kcfg_BoxBGMode</cstring>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">

@@ -46,7 +46,7 @@ public:
 	~InfoBox();
 
 	/**Draw the InfoBox on the specified QPainter*/
-	void draw( QPainter &p, QColor BGColor, bool fillBG );
+	void draw( QPainter &p, QColor BGColor, unsigned int BGMode );
 
 	bool toggleShade();
 

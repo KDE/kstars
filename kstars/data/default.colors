@@ -17,7 +17,7 @@
 #445566 :GridColor
 #FFFFFF :BoxTextColor
 #FF0000 :BoxGrabColor
-#000000 :BoxBGColor
+#223344 :BoxBGColor
 #88BB88 :TargetColor
 #FFFFFF :UserLabelColor
 #996633 :PlanetTrailColor

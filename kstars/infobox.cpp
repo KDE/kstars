@@ -119,7 +119,7 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 	}
 }
 
-void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
+void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int BGMode ) {
 	QRect r;
 	int w,h;
 
@@ -149,11 +149,8 @@ void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 	constrain( QRect( 0, 0, p.window().width(), p.window().height() ) );
 
 //Draw the box boundary and the text
-
-	if ( fillBG ) {
-		p.fillRect( x(), y(), width(), height(), QBrush( BGColor ) );
-		p.drawRect( x(), y(), width(), height() );
-	}
+	if ( BGMode==1 ) p.fillRect( x(), y(), width(), height(), QBrush( BGColor, Dense4Pattern ) );
+	if ( BGMode==2 ) p.fillRect( x(), y(), width(), height(), QBrush( BGColor ) );
 
 	p.drawText( x() + padx(), y() + ShadedTextHeight/2 + pady(), text1() );
 

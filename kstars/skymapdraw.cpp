@@ -92,7 +92,7 @@ void SkyMap::drawBoxes( QPainter &p ) {
 		ksw->infoBoxes()->drawBoxes( p,
 				data->colorScheme()->colorNamed( "BoxTextColor" ),
 				data->colorScheme()->colorNamed( "BoxGrabColor" ),
-				data->colorScheme()->colorNamed( "BoxBGColor" ), false );
+				data->colorScheme()->colorNamed( "BoxBGColor" ), Options::boxBGMode() );
 	}
 }
 
@@ -657,8 +657,9 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 
 			//first iteration for positioning the "Ecliptic" label:
 			//flag the onscreen equator point with the largest x value
-			//we don't draw the label while slewing
-			if ( ! slewing && o->x() > 0 && o->x() < width() && o->y() > 0 && o->y() < height() ) {
+			//we don't draw the label while slewing, or if the opaque ground is drawn
+			if ( ! slewing && ( ! Options::showGround() || ! Options::useAltAz() ) 
+						&& o->x() > 0 && o->x() < width() && o->y() > 0 && o->y() < height() ) {
 				if ( o->x() > xBig ) {
 					xBig = o->x();
 					index1 = data->Horizon.at();
@@ -869,7 +870,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			}
 		}
 		
-		if ( ! slewing && xBig > 0 ) {
+		if ( ! slewing && (! Options::showGround() || ! Options::useAltAz() ) && xBig > 0 ) {
 			//Draw the "Horizon" label.  We have flagged the rightmost onscreen Horizon point.
 			//If the zoom level is below 1000, simply adopt this point as the anchor for the 
 			//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
@@ -926,7 +927,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			//now we need the position angle between p and a Horizon point at index1+5
 			//to approximate the angle at the position of the label
 			index2 = index1 + 5;
-			if ( index2 > data->Horizon.count() ) index2 -= data->Horizon.count();
+			if ( index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
 			SkyPoint *p2 = data->Horizon.at(index2);
 			
 			QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
