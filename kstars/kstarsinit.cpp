@@ -563,6 +563,10 @@ void KStars::privatedata::buildGUI() {
 	ks->map()->oldfocus()->setAz( ks->map()->focus()->az()->Degrees() );
 	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
 
+	// check zoom in/out buttons
+	if ( ks->options()->ZoomLevel == MAXZOOMLEVEL ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
+	if ( ks->options()->ZoomLevel == 0  ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
+	
 	kapp->dcopClient()->resume();
 
 }

@@ -57,8 +57,6 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	ksw->options()->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
 	if ( ksw->options()->ZoomLevel > NZOOM-1 ) ksw->options()->ZoomLevel = NZOOM-1;
 	if ( ksw->options()->ZoomLevel < 0 )  ksw->options()->ZoomLevel = 0;
-	if ( ksw->options()->ZoomLevel == NZOOM-1 ) ksw->actionCollection()->action("zoom_in")->setEnabled( false );
-	if ( ksw->options()->ZoomLevel == 0  ) ksw->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	// load the pixmaps of stars
 	starpix = new StarPixmap( ksw->options()->colorScheme()->starColorMode(), ksw->options()->colorScheme()->starColorIntensity() );
