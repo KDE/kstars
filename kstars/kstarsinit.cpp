@@ -510,7 +510,7 @@ void KStars::privatedata::buildGUI() {
 	QObject::connect( kstarsData, SIGNAL( clearCache() ), ks, SLOT( clearCachedFindDialog() ) );
 
 	SkyPoint newPoint;
-	if ( ks->useDefaultOptions ) {
+	if ( ks->data()->useDefaultOptions ) {
 		newPoint.setAz( ks->options()->focusRA );
 		newPoint.setAlt( ks->options()->focusDec + 0.0001 );
 		newPoint.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );

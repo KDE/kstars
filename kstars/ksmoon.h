@@ -31,13 +31,13 @@
 	*@version 0.9
   */
 
-class KStars;
+class KStarsData;
 class KSMoon : public KSPlanetBase  {
 public: 
 	/**
 		*Default constructor.  Set name="Moon".
 		*/
-	KSMoon(KStars *ks);
+	KSMoon(KStarsData *kd);
 
 	/**Destructor (empty). */
 	~KSMoon();
@@ -97,7 +97,6 @@ public:
 protected:
 
 private:
-	KStars *ks;
 	double Rearth; //Distance from Earth, in km.
 	dms Phase;
 	static bool data_loaded;

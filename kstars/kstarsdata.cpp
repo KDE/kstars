@@ -18,11 +18,13 @@
 #include <qregexp.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kstandarddirs.h>
+#include <qdir.h>
 
-#include "kstars.h"
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "kstarsmessagebox.h"
+#include "skymap.h"
 #include "filesource.h"
 #include "stardatasink.h"
 #include "ksfilereader.h"
@@ -34,13 +36,12 @@ QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData( KStars *ks ) {
+KStarsData::KStarsData() {
 	saoFileReader = 0;
 	Moon = 0;
 	jmoons = 0;
-	kstars = ks;
 	initTimer = 0;
-	inited = false;
+	startupComplete = false;
 	source = 0;
 	loader = 0;
 	pump = 0;
@@ -54,7 +55,7 @@ KStarsData::KStarsData( KStars *ks ) {
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
 
-	PC = new PlanetCatalog(ks);
+	PC = new PlanetCatalog(this);
 
 	starList.setAutoDelete( TRUE );
 	ADVtreeList.setAutoDelete(true);
@@ -529,7 +530,8 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 
 	if (reloadedData == true) {
 		// recompute coordinates if AltAz is used
-		o->EquatorialToHorizontal( LST, kstars->geo()->lat() );
+		//REMOVE_KSTARS : can we do without this initial call to EquatorialToHorizontal() ?
+		//o->EquatorialToHorizontal( LST, kstars->geo()->lat() );
 	}
 
 }
@@ -560,7 +562,7 @@ bool KStarsData::readAsteroidData( void ) {
 
 			JD = double( mJD ) + 2400000.5;
 
-			ast = new KSAsteroid( kstars, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
+			ast = new KSAsteroid( this, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngSize( 0.001 );
 			asteroidList.append( ast );
 			ObjNames.append( ast );
@@ -597,7 +599,7 @@ bool KStarsData::readCometData( void ) {
 
 			JD = double( mJD ) + 2400000.5;
 
-			com = new KSComet( kstars, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
+			com = new KSComet( this, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
 			com->setAngSize( 0.001 );
 
 			cometList.append( com );
@@ -1164,7 +1166,7 @@ bool KStarsData::readCityData( void ) {
 }
 
 // Save and restore options
-void KStarsData::saveOptions()
+void KStarsData::backupOptions()
 {
 	if ( 0 == oldOptions) {
 		oldOptions = new KStarsOptions(false);
@@ -1245,7 +1247,7 @@ void KStarsData::addCatalog( QString name, QPtrList<SkyObject> oList ) {
 }
 
 void KStarsData::initialize() {
-	if (inited) return;
+	if (startupComplete) return;
 
 	initTimer = new QTimer;
 	QObject::connect(initTimer, SIGNAL(timeout()), this, SLOT( slotInitialize() ) );
@@ -1301,7 +1303,7 @@ void KStarsData::slotInitialize() {
 					initError( "TZrules.dat", true );
 			}
 
-				kstars->loadOptions();
+			loadOptions();
 
 			// read INDI hosts file, not required
 			readINDIHosts();
@@ -1383,7 +1385,7 @@ void KStarsData::slotInitialize() {
 		case 10: //Initialize the Moon//
 
 			emit progressText( i18n("Creating Moon" ) );
-			Moon = new KSMoon(kstars);
+			Moon = new KSMoon(this);
 			Moon->setAngSize( 31.5 );
 			ObjNames.append( Moon );
 			Moon->loadData();
@@ -1417,7 +1419,7 @@ void KStarsData::slotInitialize() {
 		default:
 			initTimer->stop();
 			delete initTimer;
-			inited = true;
+			startupComplete = true;
 			emit initFinished(true);
 			break;
 	} // switch ( initCounter )

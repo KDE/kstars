@@ -101,12 +101,12 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	
 	IBoxes->geoChanged( ksw->geo() );
 
-	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), ksw, SLOT( saveTimeBoxShaded(bool) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), ksw, SLOT( saveGeoBoxShaded(bool) ) );
-	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), ksw, SLOT( saveFocusBoxShaded(bool) ) );
-	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), ksw, SLOT( saveTimeBoxPos(QPoint) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), ksw, SLOT( saveGeoBoxPos(QPoint) ) );
-	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), ksw, SLOT( saveFocusBoxPos(QPoint) ) );
+	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveTimeBoxShaded(bool) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveGeoBoxShaded(bool) ) );
+	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), ksw->data(), SLOT( saveFocusBoxShaded(bool) ) );
+	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveTimeBoxPos(QPoint) ) );
+	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveGeoBoxPos(QPoint) ) );
+	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), ksw->data(), SLOT( saveFocusBoxPos(QPoint) ) );
 	
 	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 

@@ -30,7 +30,7 @@ KSPluto::XYZData *KSPluto::ydata = 0;
 KSPluto::XYZData *KSPluto::zdata = 0;
 int KSPluto::objects = 0;
 
-KSPluto::KSPluto(KStars *ks, QString fn) : KSPlanetBase( ks, I18N_NOOP( "Pluto" ), fn ) {
+KSPluto::KSPluto(KStarsData *kd, QString fn) : KSPlanetBase( kd, I18N_NOOP( "Pluto" ), fn ) {
 	objects++;
 }
 

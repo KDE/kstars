@@ -160,7 +160,7 @@ void KStars::slotGeoLocator() {
 
 void KStars::slotViewOps() {
 	// save options for cancel
-	data()->saveOptions();
+	data()->backupOptions();
 
 	ViewOpsDialog viewopsdialog (this);
 	// connect caching funktions
@@ -173,7 +173,7 @@ void KStars::slotViewOps() {
 		map()->forceUpdate();
 	}
 	else
-		saveOptions();
+		data()->saveOptions(this);
 }
 
 void KStars::slotSetTime() {

@@ -21,7 +21,6 @@
 #include "ksplanet.h"
 #include "ksfilereader.h"
 
-
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
 KSPlanet::OrbitDataColl::OrbitDataColl() {
@@ -147,14 +146,13 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 //========================================================================
 //
 
-KSPlanet::KSPlanet( KStars *ks, QString s, QString imfile )
- : KSPlanetBase(ks, s, imfile), data_loaded(false) {
+KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile )
+ : KSPlanetBase(kd, s, imfile), data_loaded(false) {
 }
 
 bool KSPlanet::loadData() {
 	return (odm.loadData(name()) != 0);
 }
-
 
 void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	double sum[6];

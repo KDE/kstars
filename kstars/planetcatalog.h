@@ -40,14 +40,14 @@
 #include <qglobal.h>
 #include <qptrlist.h>
 
-class KStars;
+class KStarsData;
 
 class PlanetCatalog : public QObject {
 	Q_OBJECT
 
 	public:
 	/**Constructor. */
-		PlanetCatalog(KStars *ks);
+		PlanetCatalog(KStarsData *dat);
 
 	/**Destructor. Delete the Earth object (all others auto-deleted by QPtrList)*/
 		~PlanetCatalog();
@@ -84,7 +84,7 @@ class PlanetCatalog : public QObject {
 		QPtrList<KSPlanetBase> planets;
 		KSPlanet *Earth;
 		KSSun *Sun;
-		KStars *kstars;
+		KStarsData *kd;
 };
 
 #endif

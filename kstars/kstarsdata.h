@@ -94,7 +94,7 @@ public:
 	friend class INDIDriver;
 
 	/**Constructor. */
-	KStarsData( KStars *ks );
+	KStarsData();
 
 	/**Destructor.  Delete data objects. */
   virtual ~KStarsData();
@@ -316,10 +316,21 @@ public:
 		*/
 	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
 
+	/**
+		*Load KStars options.
+		*/
+	void loadOptions();
+
+	/**
+		*Save KStars options.  Optional KStars parameter for saving 
+		*certain GUI options.
+		*/
+	void saveOptions(KStars *ks=0);
+
 	/**Make a backup copy of the KStarsOptions object.
 		*This is needed in case the user presses "cancel" after making changes in
 		*the ViewOpsDialog. */
-	void saveOptions();
+	void backupOptions();
 
 	/**Restore the KStarsOptions object from the backup copy.
 		*This is needed in case the user presses "cancel" after making changes in
@@ -345,7 +356,7 @@ public:
 		*/
 	void setFullTimeUpdate();
 
-
+	bool useDefaultOptions; 
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -387,6 +398,13 @@ public slots:
 		*/
 	void setTimeDirection( float scale );
 
+	void saveTimeBoxShaded( bool b ) { options->shadeTimeBox = b; }
+	void saveGeoBoxShaded( bool b ) { options->shadeGeoBox = b; }
+	void saveFocusBoxShaded( bool b ) { options->shadeFocusBox = b; }
+	void saveTimeBoxPos( QPoint p ) { options->posTimeBox = p; }
+	void saveGeoBoxPos( QPoint p ) { options->posGeoBox = p; }
+	void saveFocusBoxPos( QPoint p ) { options->posFocusBox = p; }
+	
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
 		*starting up.  It is connected to the timeout() signal of a timer
@@ -508,7 +526,7 @@ private:
 	KStars *kstars; //pointer to the parent widget
 
 	QTimer *initTimer;
-	bool inited;
+	bool startupComplete;
 	int initCounter;
 
 /**

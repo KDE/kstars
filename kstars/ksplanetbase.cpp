@@ -16,13 +16,13 @@
  ***************************************************************************/
 
 #include <math.h>
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksplanetbase.h"
 
 
-KSPlanetBase::KSPlanetBase( KStars *ks, QString s, QString image_file )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Image(0), kstars(ks) {
+KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Image(0), data(kd) {
 
 	 if (! image_file.isEmpty()) {
 		QFile imFile;
@@ -49,8 +49,8 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
 	if ( includePlanets ) {
-		kstars->data()->earth()->findPosition( num );
-		findPosition( num, kstars->data()->earth() );
+		data->earth()->findPosition( num );
+		findPosition( num, data->earth() );
 	}
 }
 

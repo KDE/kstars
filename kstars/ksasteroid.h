@@ -46,14 +46,14 @@
  *@version 0.9
  */
 
-class KStars;
+class KStarsData;
 class KSNumbers;
 class dms;
 
 class KSAsteroid : public KSPlanetBase
 {
 	public:
-		KSAsteroid( KStars *ks, QString s, QString image_file,
+		KSAsteroid( KStarsData *kd, QString s, QString image_file,
 			long double JD, double a, double e, dms i, dms w, dms N, dms M, double H );
 		
 		virtual ~KSAsteroid() {}
@@ -69,7 +69,7 @@ class KSAsteroid : public KSPlanetBase
 		virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 	
 	private:
-		KStars *ks;
+		KStarsData *kd;
 		long double JD;
 		double a, e, H, P;
 		dms i, w, M, N;

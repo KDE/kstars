@@ -45,14 +45,14 @@
  *@version 0.9
  */
 
-class KStars;
+class KStarsData;
 class KSNumbers;
 class dms;
 
 class KSComet : public KSPlanetBase
 {
 	public:
-		KSComet( KStars *ks, QString s, QString image_file,
+		KSComet( KStarsData *kd, QString s, QString image_file,
 			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
 		
 		virtual ~KSComet() {}
@@ -69,7 +69,7 @@ class KSComet : public KSPlanetBase
 		virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 	
 	private:
-		KStars *ks;
+		KStarsData *kd;
 		long double JD, JDp;
 		double q, e, a, P;
 		dms i, w, N;

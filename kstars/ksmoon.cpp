@@ -21,12 +21,10 @@
 #include "ksutils.h"
 #include "kssun.h"
 #include "ksmoon.h"
-#include "kstars.h"
+#include "kstarsdata.h"
 
-KSMoon::KSMoon(KStars *k)
- : KSPlanetBase( k, I18N_NOOP( "Moon" ) ) {
-	ks = k;
-	 
+KSMoon::KSMoon(KStarsData *kd)
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ) ) { 
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
 }
@@ -75,14 +73,6 @@ bool KSMoon::loadData() {
 }
 
 bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
-//NEW_EARTH
-//	bool newEarth( false );
-//	if ( Earth == NULL ) {
-//		newEarth = true;
-//		Earth = new KSPlanet( ks, "Earth" );
-//		Earth->findPosition( num );
-//	}
-	
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
 	QString fname, snum, line;

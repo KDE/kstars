@@ -46,7 +46,7 @@ KStars::KStars( bool doSplash ) :
 	kapp->dcopClient()->suspend();
 
 	if ( doSplash ) {
-		pd->kstarsData = new KStarsData(this);
+		pd->kstarsData = new KStarsData();
 		QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
 				this, SLOT( datainitFinished(bool) ) );
 
@@ -84,7 +84,7 @@ KStars::KStars( KStarsData* kd )
 
 KStars::~KStars()
 {
-	saveOptions();
+	data()->saveOptions(this);
 
 	clearCachedFindDialog();
 

@@ -30,14 +30,14 @@
 	*@version 0.9
 	*/
 
-class KStars;
+class KStarsData;
 class KSPluto : public KSPlanetBase  {
 public:
 /**
 	*Default constructor.  Calls KSPlanetBase constructor with name="Pluto" and
 	*a null image.
 	*/
-	KSPluto(KStars *ks, QString fn="");
+	KSPluto(KStarsData *kd, QString fn="");
 
 /**Destructor */
 	virtual ~KSPluto();

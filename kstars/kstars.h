@@ -138,16 +138,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		InfoBoxes* infoBoxes() { return map()->infoBoxes(); }
 
 		/**
-			*Load KStars options.
-			*/
-		void loadOptions();
-
-		/**
-			*Save KStars options.
-			*/
-		void saveOptions();
-
-		/**
 			*Add an item to the color-scheme action manu
 			*@param name The name to use in the menu
 			*@param actionName The internal name for the action (derived from filename)
@@ -379,16 +369,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void mapGetsFocus() { map()->QWidget::setFocus(); }
 
-		void saveTimeBoxShaded( bool s );
-		void saveGeoBoxShaded( bool s );
-		void saveFocusBoxShaded( bool s );
-		void saveTimeBoxSticky( int s );
-		void saveGeoBoxSticky( int s );
-		void saveFocusBoxSticky( int s );
-		void saveTimeBoxPos( QPoint p );
-		void saveGeoBoxPos( QPoint p );
-		void saveFocusBoxPos( QPoint p );
-
 	private:
 		/**
 			*Initialize Menu bar.
@@ -440,7 +420,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
     
 		int idSpinBox;
-		bool useDefaultOptions, DialogIsObsolete;
+		bool DialogIsObsolete;
 
 		class privatedata;
 		friend class privatedata;

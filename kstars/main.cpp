@@ -18,20 +18,25 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <dcopclient.h>
+#include <klocale.h>
+#include <kdebug.h>
 
 #include "kstars.h"
 
 #define KSTARS_VERSION "1.0"
 
+// INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 static const char *description =
 	I18N_NOOP("Desktop Planetarium");
-// INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
-
-
+	
+	
 static KCmdLineOptions options[] =
 {
-   KCmdLineLastOption
-  // INSERT YOUR COMMANDLINE OPTIONS HERE
+	{ "!dump", I18N_NOOP( "dump sky image to file" ), 0 },
+	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
+	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
+	{ "filename ", I18N_NOOP( "filename for sky image" ), 0 },
+	KCmdLineLastOption
 };
 
 int main(int argc, char *argv[])
@@ -49,11 +54,17 @@ int main(int argc, char *argv[])
 	aboutData.addAuthor("Mark Hollomon", 0, "mhh@mindspring.com", 0);
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-
+	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+	
+	if ( args->isSet( "dump" ) ) {
+		kdDebug() << "Dumping sky image" << endl;
+		kdDebug() << "Width: " << args->getOption( "width" ) << "  Height: " << args->getOption( "height" ) << endl;
+		return 1;
+	}
+	
+	//start up normally
 	KApplication a;
-
 	KStars *kstars = new KStars( true );
-
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 

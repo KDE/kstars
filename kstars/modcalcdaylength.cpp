@@ -119,7 +119,7 @@ void modCalcDayLength::slotComputePosTime()
 	getGeoLocation();
 
 	KSNumbers * num = new KSNumbers(jd0);
-	KSSun *Sun = new KSSun((KStars*) parent()->parent()->parent());
+	KSSun *Sun = new KSSun(((KStars*) parent()->parent()->parent())->data());
 	Sun->findPosition(num);
 
 	QTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );

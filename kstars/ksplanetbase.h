@@ -65,7 +65,7 @@ class EclipticPosition {
 	* KSPluto, KSSun and KSMoon.
 	*/
 
-class KStars;
+class KStarsData;
 class KSPlanetBase : public SkyObject {
 public: 
 
@@ -74,7 +74,7 @@ public:
 	*@param s Name of planet
 	*@param im the planet's image
 	*/
-	KSPlanetBase( KStars *ks, QString s = i18n("unnamed"), QString image_file="" );
+	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="" );
 
 /**
 	*Destructor (empty)
@@ -223,7 +223,7 @@ protected:
 private:
 	QImage Image0, Image;
 	double PositionAngle, ImageAngle, AngularSize;
-	KStars *kstars;
+	KStarsData *data;
 };
 
 #endif

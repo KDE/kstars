@@ -17,16 +17,16 @@
 
 #include <kdebug.h>
 
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "dms.h"
 #include "ksutils.h" 
 #include "kscomet.h"
 
 
-KSComet::KSComet( KStars *_ks, QString _s, QString imfile,
+KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
 		long double _JD, double _q, double _e, dms _i, dms _w, dms _N, double Tp )
- : KSPlanetBase(_ks, _s, imfile), ks(_ks), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
+ : KSPlanetBase(_kd, _s, imfile), kd(_kd), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
 	
 	setType( 9 ); //Comet
 	
@@ -57,14 +57,6 @@ KSComet::KSComet( KStars *_ks, QString _s, QString imfile,
 
 bool KSComet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double v(0.0), r(0.0);
-	
-//NEW_EARTH
-//	bool newEarth( false );
-//	if ( Earth == NULL ) {
-//		newEarth = true;
-//		Earth = new KSPlanet( ks, "Earth" );
-//		Earth->findPosition( num );
-//	}
 	
 	//Precess the longitude of the Ascending Node to the desired epoch:
 	dms n = dms( double(N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();

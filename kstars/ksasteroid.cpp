@@ -17,16 +17,16 @@
 
 #include <kdebug.h>
 
-#include "kstars.h"
-#include "ksnumbers.h"
 #include "dms.h"
+#include "ksnumbers.h"
 #include "ksutils.h" 
+#include "kstarsdata.h"
 #include "ksasteroid.h"
 
 
-KSAsteroid::KSAsteroid( KStars *_ks, QString s, QString imfile,
+KSAsteroid::KSAsteroid( KStarsData *_kd, QString s, QString imfile,
 		long double _JD, double _a, double _e, dms _i, dms _w, dms _N, dms _M, double _H )
- : KSPlanetBase(_ks, s, imfile), ks(_ks), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_N) {
+ : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_N) {
 	
 	setType( 10 ); //Asteroid
 	setMag( H );
@@ -35,14 +35,6 @@ KSAsteroid::KSAsteroid( KStars *_ks, QString s, QString imfile,
 }
 
 bool KSAsteroid::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-//NEW_EARTH
-//	bool newEarth( false );
-//	if ( Earth == NULL ) {
-//		newEarth = true;
-//		Earth = new KSPlanet( ks, "Earth" );
-//		Earth->findPosition( num );
-//	}
-	
 	//Precess the longitude of the Ascending Node to the desired epoch:
 	dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
 	
