@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -633,25 +634,34 @@ void SkyMap::slotInfo( int id ) {
 }
 
 void SkyMap::slotBeginAngularDistance(void) {
-	if ( clickedObject() ) {
-		angularDistanceMode = true;
-		setPreviousClickedPoint( clickedPoint() );
-	}
+	angularDistanceMode = true;
+	setPreviousClickedPoint( mousePoint() );
+//		cout << previousClickedPoint()->ra()->hour() << ":" <<
+//			previousClickedPoint()->ra()->minute() << ":" <<
+//			previousClickedPoint()->ra()->second() << endl ;
 
 }
 
 void SkyMap::slotEndAngularDistance(void) {
 	dms angularDistance;
-	if ( clickedObject() ) {
-		 if(angularDistanceMode) {
-			angularDistance = clickedObject()->angularDistanceTo( previousClickedPoint() );
-			ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + 
+	if(angularDistanceMode) {
+		if ( SkyObject *so = objectNearest( mousePoint() ) ) {
+			angularDistance = so->angularDistanceTo( previousClickedPoint() );
+			ksw->statusBar()->changeItem( i18n(so->longname().utf8()) + 
 					"     " +
 					i18n("Angular distance: " ) +
 					angularDistance.toDMSString(), 0 );
-			angularDistanceMode=false;
+		} else {
+			angularDistance = mousePoint()->angularDistanceTo( previousClickedPoint() );
+			ksw->statusBar()->changeItem( i18n("Angular distance: " ) +
+				angularDistance.toDMSString(), 0 );
 		}
+		angularDistanceMode=false;
 	}
+}
+
+void SkyMap::slotCancelAngularDistance(void) {
+	angularDistanceMode=false;
 }
 
 void SkyMap::slotImage( int id ) {

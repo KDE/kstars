@@ -50,8 +50,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 }
 
 void SkyMap::drawAngleRuler( QPainter &p ) {
-	//draw the manual zoom-box, if it exists
-	p.setPen( QPen( "white", 1, DotLine ) );
+	p.setPen( QPen( data->options->colorScheme()->colorNamed( "AngularRuler" ), 1, DotLine ) );
 	p.drawLine( beginRulerPoint, endRulerPoint );
 }
 

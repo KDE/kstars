@@ -371,8 +371,23 @@ public slots:
 /**Checks whether the timestep exceeds a threshold value.  If so, sets
 	*ClockSlewing=true and sets the SimClock to ManualMode. */
 	void slotClockSlewing();
+
+	/** Enables the angular distance measuring mode. It saves the first 
+	 * position of the ruler in a SkyPoint. It makes difference between
+	 * having clicked on the skymap and not having done so */
 	void slotBeginAngularDistance(void);
+
+	/** Computes the angular distance, prints the result in the status 
+	 * bar and disables the angular distance measuring mode
+	 * If the user has clicked on the map the status bar shows the 
+	 * name of the clicked object plus the angular distance. If 
+	 * the user did not clicked on the map, just pressed ], only 
+	 * the angular distance is printed */
 	void slotEndAngularDistance(void);
+
+	/** Disables the angular distance measuring mode. Nothing is printed
+	 * in the status bar */
+	void slotCancelAngularDistance(void);
 
 signals:
 	void destinationChanged();

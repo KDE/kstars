@@ -228,6 +228,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 			break;
 
+		case Key_Escape:        // Cancel angular distance measurement
+			if  (isAngleMode() ) {
+				slotCancelAngularDistance();
+			}
+			break;
+
 //DUMP_HORIZON
 /*
 		case Key_X: //Spit out coords of horizon polygon
@@ -361,13 +367,17 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 }
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
-	// Are we in angularDistanceMode: Then draw a line
+	// Are we in angularDistanceMode?: Then draw a line
 	
 	if ( isAngleMode() ) {
 
-//		KStarsOptions* options = ksw->options();
-//		beginRulerPoint = getXY( previousClickedPoint(), options->useAltAz, false);
-		beginRulerPoint = getXY( previousClickedPoint(), false, true);
+		// We put this instruction here so that the first point of the 
+		// ruler is recomputed when moving the mouse. The initial 
+		// point of the ruler may change if the time step is high.
+
+		if ( data->options->useAltAz ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+		beginRulerPoint = getXY( previousClickedPoint(), data->options->useAltAz, data->options->useRefraction);
+
 		endRulerPoint =  QPoint(e->x(), e->y());
 		update();
 		return;

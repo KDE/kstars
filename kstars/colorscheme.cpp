@@ -100,6 +100,9 @@ ColorScheme::ColorScheme() : FileName() {
 	KeyName.append( "PlanetTrailColor" );
 	Name.append( i18n( "Planet Trails" ) );
 	Default.append( "#963" );
+	KeyName.append( "AngularRuler" );
+	Name.append( i18n( "Angular Distance Ruler" ) );
+	Default.append( "#FFF" );
 
 	//Default values for integer variables:
 	StarColorMode = 0;
