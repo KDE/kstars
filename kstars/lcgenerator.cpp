@@ -14,10 +14,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qbuttongroup.h>
+
+#include <qvariant.h>
+#include <klineedit.h>
+#include <klistbox.h>
+#include <kpushbutton.h>
 #include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qradiobutton.h>
+#include <qgroupbox.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
+#include <qlayout.h>
+#include <qtooltip.h>
+#include <qwhatsthis.h>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -52,146 +60,154 @@ void LCGenerator::createGUI()
 
     QWidget *page = new QWidget(this);
     setMainWidget(page);
-    page->setMinimumSize( QSize( 455, 285 ) );
-    setMaximumSize( QSize( 455, 285 ) );
-    page->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, sizePolicy().hasHeightForWidth() ) );
-
     
+    LCGeneratorDialogLayout = new QVBoxLayout( page, 11, 6, "LCGeneratorDialogLayout"); 
+
+    SDLayout = new QHBoxLayout( 0, 0, 6, "SDLayout"); 
+
     StarInfoBox = new QGroupBox( page, "StarInfoBox" );
-    StarInfoBox->setGeometry( QRect( 5, 5, 245, 245 ) );
-    StarInfoBox->setTitle( i18n( "Star Info" ) );
+    StarInfoBox->setColumnLayout(0, Qt::Vertical );
+    StarInfoBox->layout()->setSpacing( 6 );
+    StarInfoBox->layout()->setMargin( 11 );
+    StarInfoBoxLayout = new QVBoxLayout( StarInfoBox->layout() );
+    StarInfoBoxLayout->setAlignment( Qt::AlignTop );
 
-    TextLabel1 = new QLabel( StarInfoBox, "TextLabel1" );
-    TextLabel1->setGeometry( QRect( 10, 32, 81, 26 ) );
-    TextLabel1->setText( i18n( "Designation:" ) );
+    DesignHLayout = new QHBoxLayout( 0, 0, 6, "DesignHLayout"); 
 
-    TextLabel3 = new QLabel( StarInfoBox, "TextLabel3" );
-    TextLabel3->setGeometry( QRect( 10, 93, 81, 26 ) );
-    TextLabel3->setText( i18n( "Or Name:" ) );
+    desigLabel = new QLabel( StarInfoBox, "desigLabel" );
+    desigLabel->setMinimumSize( QSize( 70, 0 ) );
+    DesignHLayout->addWidget( desigLabel );
 
-    TextLabel5 = new QLabel( StarInfoBox, "TextLabel5" );
-    TextLabel5->setGeometry( QRect( 10, 145, 81, 26 ) );
-    TextLabel5->setText( i18n( "Start Date:" ) );
-
-    TextLabel6 = new QLabel( StarInfoBox, "TextLabel6" );
-    TextLabel6->setGeometry( QRect( 10, 170, 107, 16 ) );
-    QFont TextLabel6_font(  TextLabel6->font() );
-    TextLabel6_font.setPointSize( 9 );
-    TextLabel6->setFont( TextLabel6_font );
-    TextLabel6->setText( i18n( "In JD or mm/dd/yyyy" ) );
-
-    TextLabel7 = new QLabel( StarInfoBox, "TextLabel7" );
-    TextLabel7->setGeometry( QRect( 10, 195, 81, 26 ) );
-    TextLabel7->setText( i18n( "End Date:" ) );
-
-    TextLabel8 = new QLabel( StarInfoBox, "TextLabel8" );
-    TextLabel8->setGeometry( QRect( 10, 220, 107, 16 ) );
-    QFont TextLabel8_font(  TextLabel8->font() );
-    TextLabel8_font.setPointSize( 9 );
-    TextLabel8->setFont( TextLabel8_font );
-    TextLabel8->setText( i18n( "In JD or mm/dd/yyyy" ) );
-
-    DesignationIn = new KListBox(StarInfoBox, "DesignationIn");
-    DesignationIn->setGeometry( QRect( 90, 20, 116, 50) );
-    DesignationIn->setAutoScrollBar(true);
-
+    DesignationIn = new KListBox( StarInfoBox, "DesignationIn" );
+    DesignHLayout->addWidget( DesignationIn );
+    StarInfoBoxLayout->addLayout( DesignHLayout );
+    
     // Fill stars designations
     for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
      DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
-    NameIn = new KListBox(StarInfoBox, "NameIn");
-    NameIn->setGeometry( QRect( 90, 80, 116, 50 ) );
-    NameIn->setAutoScrollBar(true);
+    NameHLayout = new QHBoxLayout( 0, 0, 6, "NameHLayout"); 
 
+    nameLabel = new QLabel( StarInfoBox, "nameLabel" );
+    nameLabel->setMinimumSize( QSize( 70, 0 ) );
+    NameHLayout->addWidget( nameLabel );
+
+    NameIn = new KListBox( StarInfoBox, "NameIn" );
+    NameHLayout->addWidget( NameIn );
+    StarInfoBoxLayout->addLayout( NameHLayout );
+    
     // Fill star names
     for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
      NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 
-    StartDateIn = new QLineEdit( StarInfoBox, "StartDateIn" );
-    StartDateIn->setGeometry( QRect( 90, 145, 116, 26 ) );
-    StartDateIn->setText( i18n( "default" ) );
+    StartHLayout = new QHBoxLayout( 0, 0, 6, "StartHLayout"); 
 
-    EndDateIn = new QLineEdit( StarInfoBox, "EndDateIn" );
-    EndDateIn->setGeometry( QRect( 90, 195, 116, 26 ) );
-    EndDateIn->setText( i18n( "default" ) );
+    startLabel = new QLabel( StarInfoBox, "startLabel" );
+    startLabel->setMinimumSize( QSize( 70, 0 ) );
+    StartHLayout->addWidget( startLabel );
+
+    StartDateIn = new KLineEdit( StarInfoBox, "StartDateIn" );
+    StartHLayout->addWidget( StartDateIn );
+    StarInfoBoxLayout->addLayout( StartHLayout );
+
+    EndHLayout = new QHBoxLayout( 0, 0, 6, "EndHLayout"); 
+
+    endLabel = new QLabel( StarInfoBox, "endLabel" );
+    endLabel->setMinimumSize( QSize( 70, 0 ) );
+    EndHLayout->addWidget( endLabel );
+
+    EndDateIn = new KLineEdit( StarInfoBox, "EndDateIn" );
+    EndHLayout->addWidget( EndDateIn );
+    StarInfoBoxLayout->addLayout( EndHLayout );
+    SDLayout->addWidget( StarInfoBox );
 
     DataSelectBox = new QGroupBox( page, "DataSelectBox" );
-    DataSelectBox->setGeometry( QRect( 255, 5, 195, 245 ) );
-    DataSelectBox->setTitle( i18n( "Data Selection" ) );
-
-    CCDVCheck = new QCheckBox( DataSelectBox, "CCDVCheck" );
-    CCDVCheck->setGeometry( QRect( 10, 125, 75, 16 ) );
-    CCDVCheck->setText("CCDV");
-    CCDVCheck->setChecked( TRUE );
-
-    CCDRCheck = new QCheckBox( DataSelectBox, "CCDRCheck" );
-    CCDRCheck->setGeometry( QRect( 10, 150, 75, 16 ) );
-    CCDRCheck->setText("CCDR");
-    CCDRCheck->setChecked( TRUE );
-
-    CCDICheck = new QCheckBox( DataSelectBox, "CCDICheck" );
-    CCDICheck->setGeometry( QRect( 10, 175, 75, 16 ) );
-    CCDICheck->setText("CCDI");
-    CCDICheck->setChecked( TRUE );
+    DataSelectBox->setColumnLayout(0, Qt::Vertical );
+    DataSelectBox->layout()->setSpacing( 6 );
+    DataSelectBox->layout()->setMargin( 11 );
+    DataSelectBoxLayout = new QVBoxLayout( DataSelectBox->layout() );
+    DataSelectBoxLayout->setAlignment( Qt::AlignTop );
 
     VisualCheck = new QCheckBox( DataSelectBox, "VisualCheck" );
-    VisualCheck->setGeometry( QRect( 10, 25, 75, 16 ) );
-    VisualCheck->setText( i18n( "Visual" ) );
     VisualCheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( VisualCheck );
 
     FainterCheck = new QCheckBox( DataSelectBox, "FainterCheck" );
-    FainterCheck->setGeometry( QRect( 10, 50, 115, 16 ) );
-    FainterCheck->setText( i18n( "Fainter Thans" ) );
     FainterCheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( FainterCheck );
 
     DiscrepantCheck = new QCheckBox( DataSelectBox, "DiscrepantCheck" );
-    DiscrepantCheck->setGeometry( QRect( 10, 75, 130, 16 ) );
-    DiscrepantCheck->setText( i18n( "Discrepant Data" ) );
+    DataSelectBoxLayout->addWidget( DiscrepantCheck );
 
     CCDBCheck = new QCheckBox( DataSelectBox, "CCDBCheck" );
-    CCDBCheck->setGeometry( QRect( 10, 100, 75, 16 ) );
-    CCDBCheck->setText("CCDB");
     CCDBCheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( CCDBCheck );
 
-    TextLabel9 = new QLabel( DataSelectBox, "TextLabel9" );
-    TextLabel9->setGeometry( QRect( 10, 205, 91, 21 ) );
-    TextLabel9->setText( i18n( "Plot Average:" ) );
+    CCDVCheck = new QCheckBox( DataSelectBox, "CCDVCheck" );
+    CCDVCheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( CCDVCheck );
 
-    AverageDayIn = new QLineEdit( DataSelectBox, "AverageDayIn" );
-    AverageDayIn->setGeometry( QRect( 100, 200, 46, 26 ) );
+    CCDRCheck = new QCheckBox( DataSelectBox, "CCDRCheck" );
+    CCDRCheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( CCDRCheck );
 
-    TextLabel10 = new QLabel( DataSelectBox, "TextLabel10" );
-    TextLabel10->setGeometry( QRect( 155, 205, 34, 21 ) );
-    TextLabel10->setText( i18n( "days" ) );
+    CCDICheck = new QCheckBox( DataSelectBox, "CCDICheck" );
+    CCDICheck->setChecked( TRUE );
+    DataSelectBoxLayout->addWidget( CCDICheck );
 
-    // Buttons
-    CloseButton = new QPushButton(page, "CloseButton" );
-    CloseButton->setGeometry( QRect( 356, 260, 95, 27 ) );
+    PlotHLayout = new QHBoxLayout( 0, 0, 6, "PlotHLayout"); 
+
+    plotLabel = new QLabel( DataSelectBox, "plotLabel" );
+    PlotHLayout->addWidget( plotLabel );
+
+    AverageDayIn = new KLineEdit( DataSelectBox, "AverageDayIn" );
+    PlotHLayout->addWidget( AverageDayIn );
+
+    daysLabel = new QLabel( DataSelectBox, "daysLabel" );
+    PlotHLayout->addWidget( daysLabel );
+    DataSelectBoxLayout->addLayout( PlotHLayout );
+    SDLayout->addWidget( DataSelectBox );
+    LCGeneratorDialogLayout->addLayout( SDLayout );
+
+    ButtonHLayout = new QHBoxLayout( 0, 0, 6, "ButtonHLayout"); 
+
+    GetCurveButton = new KPushButton( page, "GetCurveButton" );
+    ButtonHLayout->addWidget( GetCurveButton );
+
+    UpdateListButton = new KPushButton( page, "UpdateListButton" );
+    ButtonHLayout->addWidget( UpdateListButton );
+    QSpacerItem* spacer = new QSpacerItem( 128, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    ButtonHLayout->addItem( spacer );
+
+    CloseButton = new KPushButton( page, "closeButton" );
+    ButtonHLayout->addWidget( CloseButton );
+    LCGeneratorDialogLayout->addLayout( ButtonHLayout );
+    
+    
+    StarInfoBox->setTitle( i18n( "Star Info" ) );
+    desigLabel->setText( i18n( "Designation" ) );
+    nameLabel->setText( i18n( "Or Name" ) );
+    startLabel->setText( i18n( "Start Date" ) );
+    QWhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
+    endLabel->setText( i18n( "End Date" ) );
+    QWhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
+    StartDateIn->setText( i18n( "default" ) );
+    EndDateIn->setText( i18n( "default" ) );
+    DataSelectBox->setTitle( i18n( "Data Selection" ) );
+    VisualCheck->setText( i18n( "Visual" ) );
+    FainterCheck->setText( i18n( "Fainter Thans" ) );
+    DiscrepantCheck->setText( i18n( "Discrepant Data" ) );
+    CCDBCheck->setText( i18n( "CCDB" ) );
+    CCDVCheck->setText( i18n( "CCDV" ) );
+    CCDRCheck->setText( i18n( "CCDR" ) );
+    CCDICheck->setText( i18n( "CCDI" ) );
+    plotLabel->setText( i18n( "Plot average" ) );
+    daysLabel->setText( i18n( "days" ) );
+    GetCurveButton->setText( i18n( "Retrive Curve" ) );
+    UpdateListButton->setText( i18n( "Update List" ) );
     CloseButton->setText( i18n( "Close" ) );
-
-    GetCurveButton = new QPushButton( page, "GetCurveButton" );
-    GetCurveButton->setGeometry( QRect( 5, 260, 120, 27 ) );
-    GetCurveButton->setText( i18n( "Retrieve Curve" ) );
-    GetCurveButton->setDefault( TRUE );
     
-    UpdateListButton = new QPushButton( page, "UpdateListButton" );
-    UpdateListButton->setGeometry( QRect( 130, 260, 120, 27 ) );
-    UpdateListButton->setText( i18n( "Update list" ) );
-    
-    
-    // tab order
-    setTabOrder( DesignationIn, NameIn );
-    setTabOrder( NameIn, StartDateIn );
-    setTabOrder( StartDateIn, EndDateIn );
-    setTabOrder( EndDateIn, VisualCheck );
-    setTabOrder( VisualCheck, FainterCheck );
-    setTabOrder( FainterCheck, DiscrepantCheck );
-    setTabOrder( DiscrepantCheck, CCDBCheck );
-    setTabOrder( CCDBCheck, CCDVCheck );
-    setTabOrder( CCDVCheck, CCDRCheck );
-    setTabOrder( CCDRCheck, CCDICheck );
-    setTabOrder( CCDICheck, AverageDayIn );
-    setTabOrder( GetCurveButton, CloseButton );
+    resize( QSize(500, 360) );
         
     // Signals/Slots
     QObject::connect(CloseButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -216,9 +232,9 @@ void LCGenerator::VerifyData()
     FinalDesignation = DesignationIn->currentText();
 
     // set Julian day
-    if (!setJD(InitialStartDate, &FinalStartDate))
+    if (!setJD(InitialStartDate, &FinalStartDate, 0))
         return;
-    if (!setJD(InitialEndDate, &FinalEndDate))
+    if (!setJD(InitialEndDate, &FinalEndDate, 1))
         return;
 
     if (FinalEndDate.toInt() < FinalStartDate.toInt())
@@ -253,21 +269,25 @@ void LCGenerator::VerifyData()
   
 }
 
-bool LCGenerator::setJD(QString Date, QString *JD)
+bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
 {
     uint i=0;
     int TempJD=0;
     int slashCount =0;
     int slashRefrence[2];
 
-    const QString invalidFormatMsg(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curve for the last 300 days."));
     int dateFormat[3];
     bool isNumber;
+    
+    const QString invalidFormatStartJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves for the past 500 days."));
+    const QString invalidFormatENDJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves until today."));
+    QString invalidFormatMsg(JDType ? invalidFormatENDJD : invalidFormatStartJD);
+    
 
     // check for "default" date
-    if (Date == QString("default"))
+    if (Date == i18n("default"))
     {
-       *JD = Date;
+       *JD = "default";
        return true;
     }
 

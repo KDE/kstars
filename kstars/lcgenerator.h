@@ -30,19 +30,17 @@
 #include <qfile.h>
 #include <kio/job.h>
 
-class QVBoxLayout; 
-class QHBoxLayout; 
-class QGridLayout; 
-class QButtonGroup;
+class QVBoxLayout;
+class QHBoxLayout;
+class QGridLayout;
+class KLineEdit;
+class KListBox;
+class KPushButton;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
-class QLineEdit;
-class QPushButton;
-class QRadioButton;
-class QFrame;
+class QListBoxItem;
 
-class KListBox;
 class KStars;
 
 struct VariableStarInfo
@@ -67,9 +65,10 @@ public:
     /** Converts date Julian days, unless date is 'default'.
    *@param date The date to be converted
    *@param *JD pointer to a Julian Day string
+   *@param JDType start or end JD
    *@returns true if conversion is successful
    */
-    bool setJD(QString date, QString * JD);
+    bool setJD(QString date, QString * JD, int JDType);
 
    /** Parses star information and connects to the AAVSO server with the information embedded in the URL
    *@param FinalStartDate The start date in Julian days
@@ -84,37 +83,41 @@ public:
     const QString Hostprefix;
     const int JDCutOff;
     
-     // Star Info Box
     QGroupBox* StarInfoBox;
+    QLabel* desigLabel;
     KListBox* DesignationIn;
+    QLabel* nameLabel;
     KListBox* NameIn;
-    QLineEdit* StartDateIn;
-    QLineEdit* EndDateIn;
-    QLabel* TextLabel1;
-    QLabel* TextLabel2;
-    QLabel* TextLabel3;
-    QLabel* TextLabel4;
-    QLabel* TextLabel5;
-    QLabel* TextLabel6;
-    QLabel* TextLabel7;
-    QLabel* TextLabel8;
-
-    // Data Selection Box
+    QLabel* startLabel;
+    KLineEdit* StartDateIn;
+    QLabel* endLabel;
+    KLineEdit* EndDateIn;
     QGroupBox* DataSelectBox;
-    QCheckBox* CCDVCheck;
-    QCheckBox* CCDRCheck;
-    QCheckBox* CCDICheck;
     QCheckBox* VisualCheck;
     QCheckBox* FainterCheck;
     QCheckBox* DiscrepantCheck;
     QCheckBox* CCDBCheck;
-    QLineEdit* AverageDayIn;
-    QLabel* TextLabel9;
-    QLabel* TextLabel10;
+    QCheckBox* CCDVCheck;
+    QCheckBox* CCDRCheck;
+    QCheckBox* CCDICheck;
+    QLabel* plotLabel;
+    KLineEdit* AverageDayIn;
+    QLabel* daysLabel;
+    KPushButton* GetCurveButton;
+    KPushButton* UpdateListButton;
+    KPushButton* CloseButton;
 
-    QPushButton* CloseButton;
-    QPushButton* GetCurveButton;
-    QPushButton* UpdateListButton;
+    QVBoxLayout* LCGeneratorDialogLayout;
+    QHBoxLayout* SDLayout;
+    QVBoxLayout* StarInfoBoxLayout;
+    QHBoxLayout* DesignHLayout;
+    QHBoxLayout* NameHLayout;
+    QHBoxLayout* StartHLayout;
+    QHBoxLayout* EndHLayout;
+    QVBoxLayout* DataSelectBoxLayout;
+    QHBoxLayout* PlotHLayout;
+    QHBoxLayout* ButtonHLayout; 
+    
     
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     
