@@ -601,6 +601,11 @@
 	</group>
 
 	<group name="Colors">
+		<entry name="DarkAppColors" type="Bool">
+			<label>Use Dark colors for KStars windows?</label>
+			<default>false</default>
+			<whatsthis>If true, then the aplication window colors will be switched to a dark red theme, for better night vision.</whatsthis>
+		</entry>
 		<entry name="AngularRulerColor" type="Color">
 			<label>Color of angular distance ruler</label>
 			<default>#FFF</default>

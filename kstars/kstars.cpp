@@ -24,6 +24,7 @@
 #include <stdlib.h>
 //#include <iostream.h>
 #include <kdebug.h>
+#include <qpalette.h>
 
 #include "finddialog.h"
 #include "kstars.h"
@@ -64,7 +65,19 @@ KStars::KStars( bool doSplash ) :
 			Options::cityName(), Options::provinceName(), Options::countryName(), 
 			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
 
+	//set up Dark color scheme for application windows
+	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));
+	DarkPalette.setColor( QPalette::Normal, QColorGroup::Base, QColor( "black" ) );
+	DarkPalette.setColor( QPalette::Normal, QColorGroup::Text, QColor( "red2" ) );
+	DarkPalette.setColor( QPalette::Normal, QColorGroup::Highlight, QColor( "red2" ) );
+	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
+	
+	//set color scheme
+	OriginalPalette = QApplication::palette();
 	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
+	if ( Options::darkAppColors() ) {
+		QApplication::setPalette( DarkPalette, true );
+	}
 
 	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;

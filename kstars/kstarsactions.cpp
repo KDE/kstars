@@ -739,6 +739,24 @@ void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
 	map()->setColors( filename );
+
+	//set the application colors for the Night Vision scheme
+	if ( Options::darkAppColors() == false && QString( sender()->name() ) == "cs_night" ) {
+		//DEBUG
+		kdDebug() << i18n("Setting Dark window colors...") << endl;
+
+		Options::setDarkAppColors( true );
+		OriginalPalette = QApplication::palette();
+		QApplication::setPalette( DarkPalette, true );
+	}
+	
+	if ( Options::darkAppColors() && QString( sender()->name() ) != "cs_night" ) {
+		//DEBUG
+		kdDebug() << i18n("Restoring original window colors...") << endl;
+
+		Options::setDarkAppColors( false );
+		QApplication::setPalette( OriginalPalette, true );
+	}
 }
 
 void KStars::slotTargetSymbol() {

@@ -56,6 +56,7 @@
 #include "toggleaction.h"
 
 // forward declaration is enough. We only need pointers
+class QPalette;
 class KDialogBase;
 class KKey;
 class TimeDialog;
@@ -406,6 +407,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		int idSpinBox;
 		bool DialogIsObsolete;
+		QPalette OriginalPalette, DarkPalette;
 
 		class privatedata;
 		friend class privatedata;
