@@ -367,10 +367,20 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>Setup</secondary>
 </indexterm>
 
-<para>KStars supports Finger Lakes instruments CCDs and any Video4Linux compatible device. Philips webcam extended features are supported as well.</para>
+<para>KStars supports the following imaging devices:</para>
+<itemizedlist>
+  <listitem><para>Finger Lakes instruments CCDs</para></listitem>
+  <listitem><para>Apogee CCDs: Parallel, ISA, PCI, and USB modes are supported. You need to install <ulink url="http://indi.sf.net/apogee_kernel.tar.gz">Apogee kernel drivers</ulink> for your specific mode (for USB mode, you only need libusb).</para></listitem>
+  <listitem><para><ulink url="http://www.exploits.org/v4l/">Video4Linux</ulink> compatible devices. Philips webcam extended features are supported as well.</para></listitem>
+</itemizedlist>
+
 <para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
 
-<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be displayed in the KStars FITSViewer. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars FITSViewer. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
+
+<important>
+<para>The FLICCD driver requires root privilges in order to operate properly. Note that running the driver as root is considered a security risk</para>
+</important>
 </sect1>
 
 <sect1 id="indi-concepts">
