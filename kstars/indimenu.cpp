@@ -169,7 +169,6 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 
 void INDIMenu::removeDeviceMgr(int mgrID)
 {
- char errmsg[1024];
 
  for (unsigned int i=0; i < mgr.count(); i++)
  {

@@ -119,10 +119,8 @@ void FITSHistogram::applyScale()
   else if (logR->isOn())
     type = 2;
   // Exp
-  else if (expoR->isOn())
-    type = 3;
   else if (sqrtR->isOn())
-    type = 4;
+    type = 3;
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);
   viewer->history->addCommand(histC);
@@ -259,11 +257,12 @@ FITSHistogramCommand::~FITSHistogramCommand()
             
 void FITSHistogramCommand::execute()
 {
-  int val, bufferVal;
+  float val, bufferVal;
   double coeff;
   FITSImage *image = viewer->image;
   int width  = image->width;
   int height = image->height;
+  
   memcpy(buffer, viewer->imgBuffer,image->width * image->height * sizeof(float));
   *oldImage = image->displayImage->copy();
  
@@ -274,47 +273,42 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = (int) viewer->imgBuffer[i * width + j];
+              bufferVal = viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
-	      val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
-	      image->reducedImgBuffer[i * width + j] = val;
-      	      //displayImage->setPixel(j, height - i - 1, val);
+	      //val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
+	      //val = (int) (max * ((double) (bufferVal - min) / (double) (max - min)));
+	      //val = (int) (bufferVal - min) * (max - min) + min;
+	      //if (val < min) val = min;
+	      //else if (val > max) val = max;
+	      //image->reducedImgBuffer[i * width + j] = val;
+	      viewer->imgBuffer[i * width + j] = bufferVal;
+      	      
       }
      break;
      
     case FITSImage::FITSLog:
-    coeff = 255. / log(1 + max);
+    //coeff = 255. / log(1 + max);
+    coeff = max / log(1 + max);
     
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = (int) viewer->imgBuffer[i * width + j];
+              bufferVal = viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
-	      val = (int) (coeff * log(1 + bufferVal));
-	      image->reducedImgBuffer[i * width + j] = val;
+	      val = (coeff * log(1 + bufferVal));
+	      if (val < min) val = min;
+	      else if (val > max) val = max;
+	      viewer->imgBuffer[i * width + j] = val;
+	      //image->reducedImgBuffer[i * width + j] = val;
       	      //displayImage->setPixel(j, height - i - 1, val);
       }
       break;
       
-    case FITSImage::FITSExp:
-    coeff = 255. / exp(max);
-    
-    for (int i=0; i < height; i++)
-      for (int j=0; j < width; j++)
-      {
-              bufferVal = (int) viewer->imgBuffer[i * width + j];
-	      if (bufferVal < min) bufferVal = min;
-	      else if (bufferVal > max) bufferVal = max;
-	      val = (int) (coeff * exp(bufferVal));
-	      image->reducedImgBuffer[i * width + j] = val;
-      	      //displayImage->setPixel(j, height - i - 1, val);
-      }
-      break;
-    
     case FITSImage::FITSSqrt:
-    coeff = 255. / sqrt(max);
+    //coeff = 255. / sqrt(max);
+    coeff = max / sqrt(max);
     
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
@@ -323,7 +317,8 @@ void FITSHistogramCommand::execute()
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * sqrt(bufferVal));
-	      image->reducedImgBuffer[i * width + j] = val;
+	      //image->reducedImgBuffer[i * width + j] = val;
+	      viewer->imgBuffer[i * width + j] = val;
       	      //displayImage->setPixel(j, height - i - 1, val);
       }
       
@@ -334,34 +329,37 @@ void FITSHistogramCommand::execute()
      break;
   }
        
-   int lmin= image->reducedImgBuffer[0];
-  
-  for (int i=1; i < width * height; i++)
-    if ( image->reducedImgBuffer[i] < lmin) lmin = image->reducedImgBuffer[i];
+   //int lmin= image->reducedImgBuffer[0];
+   float lmin= viewer->imgBuffer[0];
+   float lmax= viewer->imgBuffer[0];
+   int totalPix = width * height;
+   
+   for (int i=1; i < totalPix; i++)
+    //if ( image->reducedImgBuffer[i] < lmin) lmin = image->reducedImgBuffer[i];
+    if ( viewer->imgBuffer[i] < lmin) lmin = viewer->imgBuffer[i];
+    else if (viewer->imgBuffer[i] > lmax) lmax = viewer->imgBuffer[i];
     
-  int lmax=0;
+   double datadiff = 255.;
+   double pixdiff = lmax - lmin;
+   double offs = -lmin * datadiff / pixdiff;
+   double scale = datadiff / pixdiff;
+   int tdata = 0;
   
-  for (int i=1; i < width * height; i++)
-    if ( image->reducedImgBuffer[i] > lmax) lmax = image->reducedImgBuffer[i];
-    
- double datadiff = 255.;
- double pixdiff = lmax - lmin;
- double offs = -lmin*datadiff/pixdiff;
- double scale = datadiff / pixdiff;
- int tdata =0;
- FITS_BITPIX8 bp8=0;
- 
+     
  for (int i=0; i < height; i++)
   for (int j=0; j < width; j++)
   {
-           bp8 = (FITS_BITPIX8) image->reducedImgBuffer[i * width + j];
-           tdata = (long)(bp8 * scale + offs);
+           //bp8 = (FITS_BITPIX8) image->reducedImgBuffer[i * width + j];
+	   //bp8 = (FITS_BITPIX8) 
+           tdata = (long) (viewer->imgBuffer[i * width + j] * scale + offs);
            if (tdata < 0) tdata = 0;
            else if (tdata > 255) tdata = 255;
 	   image->displayImage->setPixel(j, height - i - 1, tdata);
   }
-    
-  viewer->updateImgBuffer();
+  
+  viewer->calculateStats();
+  
+  //viewer->updateImgBuffer();
   if (histo != NULL)
   {
   	histo->constructHistogram(viewer->imgBuffer);
@@ -402,11 +400,8 @@ QString FITSHistogramCommand::name() const
     break;
   case 2:
     return i18n("Logarithmic Scale");
-    break;
+    break;  
   case 3:
-    return i18n("Exponential Scale");
-    break;
-  case 4:
     return i18n("Square Root Scale");
     break;
   default:

@@ -320,14 +320,6 @@
                         <string>Square Root</string>
                     </property>
                 </widget>
-                <widget class="QRadioButton">
-                    <property name="name">
-                        <cstring>expoR</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Exponential</string>
-                    </property>
-                </widget>
             </vbox>
         </widget>
     </grid>
@@ -341,4 +333,10 @@
     </connection>
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

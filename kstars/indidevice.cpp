@@ -284,9 +284,9 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
 	       ap = findXMLAtt (ep, "min");
-	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
 	       ap = findXMLAtt (ep, "max");
-	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
+	       if (ap) { max = (int) atof(valuXMLAtt(ap)); lp->setMax(max); }
 	     }
 	     break;
 
@@ -305,9 +305,9 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
  	        lp->write_w->setText(lp->text);
 		
 	       ap = findXMLAtt (ep, "min");
-	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
 	       ap = findXMLAtt (ep, "max");
-	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
+	       if (ap) { max = (int) atof(valuXMLAtt(ap)); lp->setMax(max); }
 	    }
 	    break;
 

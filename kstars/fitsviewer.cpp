@@ -162,7 +162,7 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     KStdAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+D" ),
 		image, SLOT(fitsZoomDefault()), actionCollection(), "zoom_default" );
-    new KAction( i18n( "Statistics"), "math_matrix.png", 0, this, SLOT(fitsStatistics()), actionCollection(), "image_stats");
+    new KAction( i18n( "Statistics"), "sum", 0, this, SLOT(fitsStatistics()), actionCollection(), "image_stats");
     new KAction( i18n( "FITS Header"), "frame_spreadsheet.png", 0, this, SLOT(fitsHeader()), actionCollection(), "fits_editor");
     
    /* Create GUI */  
@@ -628,11 +628,6 @@ void FITSViewer::fileSave()
 	        for (i=0, transCount = 0 ; i < totalCount ; i++, transCount += 4)
     		{
        			pixval_32 = (unsigned int) imgBuffer[i];
-			/*transData[transCount]   = (pixval_32 & 0xFF000000) >> 24;
-			transData[transCount+1] = (pixval_32 & 0x00FF0000) >> 16;
-			transData[transCount+2] = (pixval_32 & 0x0000FF00) >> 8;
-			transData[transCount+3] = (pixval_32 & 0x000000FF); */
-		
 			transData[transCount]       = ((unsigned char*) &pixval_32)[3];
 			transData[transCount+1]     = ((unsigned char*) &pixval_32)[2];
 			transData[transCount+2]     = ((unsigned char*) &pixval_32)[1];
@@ -916,7 +911,6 @@ void FITSViewer::fitsHeader()
    header.headerView->setSorting(-1);
    header.headerView->setColumnAlignment(1, Qt::AlignHCenter);
    
-   //fprintf(stderr, "%s", image->hdl->header_record_list->data);
    for (unsigned int i=0; i < record.count(); i++)
    {
      recordList = record[i];

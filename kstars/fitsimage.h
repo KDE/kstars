@@ -59,7 +59,7 @@ class FITSImage : public QScrollView  {
 	FITSImage(QWidget * parent, const char * name = 0);
 	~FITSImage();
 	
-	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSExp, FITSSqrt, FITSCustom };
+	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
 	
 	/**Bitblt the image onto the viewer widget */
 	/*void paintEvent (QPaintEvent *ev);*/
