@@ -39,6 +39,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : mod
 }
 
 modCalcDayLength::~modCalcDayLength(){
+    delete geoPlace;
 }
 
 void modCalcDayLength::showCurrentDate (void)

@@ -37,7 +37,7 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDl
 }
 
 modCalcAzel::~modCalcAzel(){
-
+    delete geoPlace;
 }
 
 SkyPoint modCalcAzel::getEquCoords (void)
@@ -168,10 +168,10 @@ void modCalcAzel::slotComputeCoords()
 	long double jd = computeJdFromCalendar();
 	double epoch0 = getEpoch( epochName->text() );
 	long double jd0 = epochToJd ( epoch0 );
-	
+
 	dms lgt = getLongitude();
 	dms LST = KSUtils::UTtoLST( getQDateTime(), &lgt );
-	
+
 	SkyPoint sp;
 	sp = getEquCoords();
 
