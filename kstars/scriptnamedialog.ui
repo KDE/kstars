@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>403</width>
-            <height>141</height>
+            <height>143</height>
         </rect>
     </property>
     <property name="caption">
@@ -100,13 +100,13 @@
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>CancelButton</cstring>
+                        <cstring>OKButton</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Cancel</string>
+                        <string>&amp;OK</string>
                     </property>
                     <property name="accel">
-                        <string></string>
+                        <string>Alt+O</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -114,16 +114,16 @@
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>OKButton</cstring>
+                        <cstring>CancelButton</cstring>
                     </property>
                     <property name="enabled">
                         <bool>false</bool>
                     </property>
                     <property name="text">
-                        <string>&amp;OK</string>
+                        <string>&amp;Cancel</string>
                     </property>
                     <property name="accel">
-                        <string></string>
+                        <string>Alt+C</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -143,13 +143,13 @@
 </customwidgets>
 <connections>
     <connection>
-        <sender>CancelButton</sender>
+        <sender>OKButton</sender>
         <signal>clicked()</signal>
         <receiver>ScriptNameDialog</receiver>
         <slot>reject()</slot>
     </connection>
     <connection>
-        <sender>OKButton</sender>
+        <sender>CancelButton</sender>
         <signal>clicked()</signal>
         <receiver>ScriptNameDialog</receiver>
         <slot>accept()</slot>

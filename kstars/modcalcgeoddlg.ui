@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcGeodCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>465</width>
-            <height>437</height>
+            <width>548</width>
+            <height>439</height>
         </rect>
     </property>
     <property name="caption">
@@ -159,7 +159,7 @@
                                     <cstring>Clear</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>clear</string>
+                                    <string>Clear</string>
                                 </property>
                             </widget>
                             <spacer>
@@ -758,7 +758,6 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kcombobox.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>

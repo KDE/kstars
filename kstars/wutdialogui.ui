@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>432</width>
-            <height>424</height>
+            <width>510</width>
+            <height>450</height>
         </rect>
     </property>
     <property name="caption">
@@ -153,7 +153,7 @@
                                         <cstring>textLabel14</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Show objects which are up </string>
+                                        <string>Show objects which are up:</string>
                                     </property>
                                 </widget>
                             </hbox>
@@ -199,17 +199,17 @@
                         <widget class="KComboBox">
                             <item>
                                 <property name="text">
-                                    <string>in the Evening</string>
+                                    <string>In the Evening</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>in the Morning</string>
+                                    <string>In the Morning</string>
                                 </property>
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>any time tonight</string>
+                                    <string>Any Time Tonight</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -380,7 +380,7 @@
                                 <cstring>textLabel15</cstring>
                             </property>
                             <property name="text">
-                                <string>&lt;font size="-1"&gt;&lt;b&gt;Choose a Category:&lt;/b&gt;&lt;/font&gt;</string>
+                                <string>&lt;font size="-1"&gt;&lt;b&gt;Choose a category:&lt;/b&gt;&lt;/font&gt;</string>
                             </property>
                         </widget>
                         <widget class="KListBox" row="1" column="0">
@@ -422,7 +422,7 @@
                                 <cstring>textLabel16</cstring>
                             </property>
                             <property name="text">
-                                <string>&lt;font size="-1"&gt;&lt;b&gt;Matching Objects:&lt;/b&gt;&lt;/font&gt;</string>
+                                <string>&lt;font size="-1"&gt;&lt;b&gt;Matching objects:&lt;/b&gt;&lt;/font&gt;</string>
                             </property>
                         </widget>
                     </grid>
@@ -550,7 +550,6 @@
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>kcombobox.h</includehint>
     <includehint>klistbox.h</includehint>
     <includehint>klistbox.h</includehint>
     <includehint>kpushbutton.h</includehint>

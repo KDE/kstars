@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcDayLengthDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>464</width>
-            <height>437</height>
+            <height>439</height>
         </rect>
     </property>
     <property name="caption">
@@ -30,7 +30,7 @@
                 <cstring>InputBox</cstring>
             </property>
             <property name="title">
-                <string>Location and Date</string>
+                <string>Location &amp;&amp; Date</string>
             </property>
             <hbox>
                 <property name="name">
@@ -215,7 +215,7 @@
                 <cstring>resultsBox</cstring>
             </property>
             <property name="title">
-                <string>Sunrise, Noon and Sunset Data</string>
+                <string>Sunrise, Noon &amp;&amp; Sunset Data</string>
             </property>
             <hbox>
                 <property name="name">
@@ -377,7 +377,7 @@
                                         <cstring>azSetLabel</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Sunset Azimuth:</string>
+                                        <string>Sunset azimuth:</string>
                                     </property>
                                 </widget>
                                 <widget class="dmsBox" row="1" column="1">
@@ -424,7 +424,7 @@
                                         <cstring>elTransitLabel</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Altitude at Noon:</string>
+                                        <string>Altitude at noon:</string>
                                     </property>
                                 </widget>
                                 <widget class="QLabel" row="0" column="0">
@@ -432,7 +432,7 @@
                                         <cstring>azRiseLabel</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Sunrise Azimuth:</string>
+                                        <string>Sunrise azimuth:</string>
                                     </property>
                                 </widget>
                             </grid>

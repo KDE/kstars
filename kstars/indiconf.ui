@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>INDIConf</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>492</width>
-            <height>165</height>
+            <width>646</width>
+            <height>167</height>
         </rect>
     </property>
     <property name="caption">
@@ -136,7 +136,7 @@
                 <cstring>autoGroup</cstring>
             </property>
             <property name="title">
-                <string>Automatic device updates</string>
+                <string>Automatic Device Updates</string>
             </property>
             <vbox>
                 <property name="name">
@@ -166,7 +166,7 @@
                                 <cstring>GeoCheck</cstring>
                             </property>
                             <property name="text">
-                                <string>Geographic Location</string>
+                                <string>Geographic location</string>
                             </property>
                             <property name="checked">
                                 <bool>true</bool>

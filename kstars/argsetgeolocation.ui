@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ArgSetGeoLocation</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>316</width>
-            <height>203</height>
+            <height>205</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>ArgSetGeoLocation</string>
     </property>
     <vbox>
         <property name="name">
@@ -45,7 +48,7 @@
                                         <cstring>textLabel1_2</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>&lt;font color="#00007f"&gt;province&lt;/font&gt;</string>
+                                        <string>Province:</string>
                                     </property>
                                 </widget>
                                 <widget class="KLineEdit" row="2" column="1">
@@ -64,7 +67,7 @@
                                         <cstring>textLabel1</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>&lt;font color="#00007f"&gt;city&lt;/font&gt;</string>
+                                        <string>City:</string>
                                     </property>
                                 </widget>
                                 <widget class="QLabel" row="2" column="0">
@@ -72,7 +75,7 @@
                                         <cstring>textLabel1_2_3</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>&lt;font color="#00007f"&gt;country&lt;/font&gt;</string>
+                                        <string>Country:</string>
                                     </property>
                                 </widget>
                                 <widget class="KLineEdit" row="0" column="1">
@@ -180,6 +183,8 @@
         </spacer>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <slots>
     <slot>slotFindCity()</slot>
 </slots>

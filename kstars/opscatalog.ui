@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>394</width>
-            <height>497</height>
+            <height>499</height>
         </rect>
     </property>
     <property name="caption">
@@ -35,7 +35,7 @@
                         <cstring>showSAO</cstring>
                     </property>
                     <property name="text">
-                        <string>Hipparcos Star Catalog</string>
+                        <string>Hipparcos star catalog</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Draw stars?</string>

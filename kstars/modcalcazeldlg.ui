@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcAzelDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>482</width>
-            <height>387</height>
+            <width>517</width>
+            <height>389</height>
         </rect>
     </property>
     <property name="caption">
@@ -27,7 +27,7 @@
                 <cstring>inputGroupBox</cstring>
             </property>
             <property name="title">
-                <string>Time and Location</string>
+                <string>Time &amp;&amp; Location</string>
             </property>
             <hbox>
                 <property name="name">
@@ -59,7 +59,7 @@
                                 <cstring>timLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Universal Time:</string>
+                                <string>Universal time:</string>
                             </property>
                         </widget>
                         <widget class="QDateEdit" row="1" column="1">
@@ -204,7 +204,7 @@
                                 <cstring>raLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Right Ascension:</string>
+                                <string>Right ascension:</string>
                             </property>
                         </widget>
                         <widget class="dmsBox" row="0" column="1">

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>421</width>
-            <height>418</height>
+            <width>483</width>
+            <height>434</height>
         </rect>
     </property>
     <property name="caption">
@@ -489,7 +489,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                         <cstring>textLabel6</cstring>
                     </property>
                     <property name="text">
-                        <string>Field of View (arcmin):</string>
+                        <string>Field of view (arcmin):</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">
@@ -683,12 +683,15 @@ Circle, Square, Crosshairs, Bullseye.</string>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
-    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

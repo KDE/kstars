@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>OpsColors</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,9 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>600</width>
-            <height>483</height>
+            <width>682</width>
+            <height>485</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>OpsColors</string>
     </property>
     <hbox>
         <property name="name">
@@ -52,6 +55,9 @@
                             </property>
                             <property name="text">
                                 <string>Star color &amp;mode:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>StarColorMode</cstring>
                             </property>
                         </widget>
                         <widget class="KComboBox">
@@ -253,5 +259,14 @@
         </widget>
     </hbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistbox.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>

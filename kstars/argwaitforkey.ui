@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ArgWaitForKey</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>288</width>
-            <height>122</height>
+            <height>124</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>ArgWaitForKey</string>
     </property>
     <vbox>
         <property name="name">
@@ -29,7 +32,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font color="#00007f"&gt;key&lt;/font&gt;</string>
+                        <string>Key:</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">
@@ -83,6 +86,8 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
         </spacer>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>

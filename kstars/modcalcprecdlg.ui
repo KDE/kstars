@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>modCalcPrecDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>478</width>
+            <width>548</width>
             <height>476</height>
         </rect>
     </property>
@@ -75,7 +75,7 @@
                                             <cstring>epoch0Label</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Input Epoch:</string>
+                                            <string>Input epoch:</string>
                                         </property>
                                     </widget>
                                     <widget class="dmsBox" row="1" column="1">
@@ -93,7 +93,7 @@
                                             <cstring>ra0Label</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Right Ascension:</string>
+                                            <string>Right ascension:</string>
                                         </property>
                                     </widget>
                                     <widget class="KLineEdit" row="3" column="1">
@@ -119,7 +119,7 @@
                                             <cstring>epochfLabel</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Target Epoch:</string>
+                                            <string>Target epoch:</string>
                                         </property>
                                     </widget>
                                 </grid>
@@ -278,7 +278,7 @@
                                             <cstring>rafLabel</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Right Ascension:</string>
+                                            <string>Right ascension:</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="1" column="0">
@@ -404,7 +404,7 @@
                                     <cstring>epochCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Input Epoch</string>
+                                    <string>Input epoch</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="3" column="0">
@@ -412,7 +412,7 @@
                                     <cstring>targetEpochCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Target Epoch</string>
+                                    <string>Target epoch</string>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
@@ -446,7 +446,7 @@
                                     <cstring>raCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Right Ascention</string>
+                                    <string>Right ascention</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -702,11 +702,14 @@
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>529</width>
-            <height>438</height>
+            <width>577</width>
+            <height>440</height>
         </rect>
     </property>
     <property name="caption">
@@ -237,7 +237,7 @@
                                             <cstring>raLabel</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Right Ascension:</string>
+                                            <string>Right ascension:</string>
                                         </property>
                                     </widget>
                                     <widget class="dmsBox" row="1" column="2">
@@ -492,7 +492,7 @@
                                     <cstring>raCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Right Ascention</string>
+                                    <string>Right ascention</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -827,6 +827,8 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -837,5 +839,6 @@
     <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

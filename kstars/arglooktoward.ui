@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ArgLookToward</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,9 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>283</width>
-            <height>64</height>
+            <width>311</width>
+            <height>69</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>ArgLookToward</string>
     </property>
     <vbox>
         <property name="name">
@@ -29,7 +32,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font color="#00007f"&gt;dir&lt;/font&gt;</string>
+                        <string>Dir:</string>
                     </property>
                 </widget>
                 <widget class="QComboBox">
@@ -153,6 +156,8 @@
         </spacer>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>

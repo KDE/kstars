@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ArgSetRaDec</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>284</width>
-            <height>91</height>
+            <height>93</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>ArgSetRaDec</string>
     </property>
     <vbox>
         <property name="name">
@@ -50,7 +53,7 @@ Declination is one of the coordinates in the Equatorial coordinate system; it me
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font color="#00007f"&gt;RA&lt;/font&gt;</string>
+                        <string>RA:</string>
                     </property>
                 </widget>
                 <widget class="dmsBox" row="0" column="1">
@@ -79,7 +82,7 @@ Right Ascension is one of the coordinates in the Equatorial coordinate system.  
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font color="#00007f"&gt;Dec&lt;/font&gt;</string>
+                        <string>Dec:</string>
                     </property>
                 </widget>
             </grid>

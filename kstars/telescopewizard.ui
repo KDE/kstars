@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>telescopeWizard</class>
 <widget class="QDialog">
     <property name="name">
@@ -7,7 +7,7 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>0</y>
+            <y>1</y>
             <width>609</width>
             <height>300</height>
         </rect>
@@ -58,7 +58,10 @@
                         <cstring>helpB</cstring>
                     </property>
                     <property name="text">
-                        <string>Help</string>
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+H</string>
                     </property>
                     <property name="autoDefault">
                         <bool>false</bool>
@@ -86,7 +89,10 @@
                         <cstring>backB</cstring>
                     </property>
                     <property name="text">
-                        <string>Back</string>
+                        <string>&amp;Back</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
                     </property>
                 </widget>
                 <widget class="QPushButton">
@@ -94,7 +100,10 @@
                         <cstring>nextB</cstring>
                     </property>
                     <property name="text">
-                        <string>Next</string>
+                        <string>&amp;Next</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -558,7 +567,7 @@ Enter the port number your telescope is connected to. If you only have one seria
                                     <cstring>portLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&lt;b&gt;Port&lt;/b&gt;</string>
+                                    <string>&lt;b&gt;Port:&lt;/b&gt;</string>
                                 </property>
                             </widget>
                             <widget class="KLineEdit">
@@ -615,6 +624,8 @@ Enter the port number your telescope is connected to. If you only have one seria
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="0"/>
 <includehints>
     <includehint>klineedit.h</includehint>
