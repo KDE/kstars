@@ -79,6 +79,8 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
 
+	FoundObject = NULL;
+	ClickedObject = NULL;
 }
 
 SkyMap::~SkyMap() {
