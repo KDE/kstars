@@ -159,12 +159,12 @@ void KStars::slotWizard() {
 	}
 }
 
-#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 void KStars::slotDownload() {
+#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 	if (!kns) kns = new KSNewStuff( this );
 	kns->download();
-}
 #endif //KDE >= 3.2.90
+}
 
 void KStars::slotLCGenerator() {
 	if (AAVSODialog == NULL)
