@@ -383,8 +383,8 @@ bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 	
 	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() +
 		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec()->toDMSString(true) );
-	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true) +
-		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az()->toDMSString(true) );
+	FocusBox->setText3( i18n( "Azimuth", "Az" ) + ": " + p->az()->toDMSString(true) + 
+		"  " + i18n( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true) );
 
 	if ( ot2 == FocusBox->text2() && ot3 == FocusBox->text3() ) 
 		return false;
