@@ -967,22 +967,24 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( options->drawAsteroids ) {
 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
 				if ( ast->mag() > data->options->magLimitAsteroid ) break;
-
-				psky.setPen( QPen( QColor( "gray" ) ) );
-				psky.setBrush( QBrush( QColor( "gray" ) ) );
-				QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
-
-				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-					int size = int( ast->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
-					if ( size < 1 ) size = 1;
-					int x1 = o.x() - size/2;
-					int y1 = o.y() - size/2;
-					psky.drawEllipse( x1, y1, size, size );
-
-					//draw Name
-					if ( data->options->drawAsteroidName && ast->mag() < data->options->magLimitAsteroidName ) {
-						psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
-						drawNameLabel( psky, ast, o.x(), o.y(), scale );
+				
+				if ( checkVisibility( ast, fov(), XRange ) ) {
+					psky.setPen( QPen( QColor( "gray" ) ) );
+					psky.setBrush( QBrush( QColor( "gray" ) ) );
+					QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
+	
+					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+						int size = int( ast->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
+						if ( size < 1 ) size = 1;
+						int x1 = o.x() - size/2;
+						int y1 = o.y() - size/2;
+						psky.drawEllipse( x1, y1, size, size );
+	
+						//draw Name
+						if ( data->options->drawAsteroidName && ast->mag() < data->options->magLimitAsteroidName ) {
+							psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
+							drawNameLabel( psky, ast, o.x(), o.y(), scale );
+						}
 					}
 				}
 			}
@@ -991,21 +993,23 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		//Draw Comets
 		if ( options->drawComets ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-				psky.setPen( QPen( QColor( "cyan4" ) ) );
-				psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-				QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
-
-				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-					int size = int( com->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
-					if ( size < 1 ) size = 1;
-					int x1 = o.x() - size/2;
-					int y1 = o.y() - size/2;
-					psky.drawEllipse( x1, y1, size, size );
-
-					//draw Name
-					if ( data->options->drawCometName && com->rsun() < data->options->maxRadCometName ) {
-						psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
-						drawNameLabel( psky, com, o.x(), o.y(), scale );
+				if ( checkVisibility( com, fov(), XRange ) ) {
+					psky.setPen( QPen( QColor( "cyan4" ) ) );
+					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
+					QPoint o = getXY( com, options->useAltAz, options->useRefraction, scale );
+	
+					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+						int size = int( com->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
+						if ( size < 1 ) size = 1;
+						int x1 = o.x() - size/2;
+						int y1 = o.y() - size/2;
+						psky.drawEllipse( x1, y1, size, size );
+	
+						//draw Name
+						if ( data->options->drawCometName && com->rsun() < data->options->maxRadCometName ) {
+							psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
+							drawNameLabel( psky, com, o.x(), o.y(), scale );
+						}
 					}
 				}
 			}
@@ -1121,73 +1125,75 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		double zoommin, int resize_mult, double scale ) {
 
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
-
-	int sizemin = 4;
-	if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
-	sizemin = int( sizemin * scale );
-
-	psky.setPen( c );
-	psky.setBrush( c );
-	QPoint o = getXY( p, data->options->useAltAz, data->options->useRefraction, scale );
-
-	if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-		//image angle is PA plus the North angle.
-		//Find North angle:
-		SkyPoint test;
-		test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
-		if ( data->options->useAltAz ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		QPoint t = getXY( &test, data->options->useAltAz, data->options->useRefraction, scale );
-		double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
-		double dy = double( t.y() - o.y() );
-		double north(0.0);
-		if ( dy ) {
-			north = atan( dx/dy )*180.0/dms::PI;
-		} else {
-			north = 90.0;
-			if ( dx > 0 ) north = -90.0;
-		}
-
-		//Image size must be modified to account for possibility that rotated image's
-		//size is bigger than original image size.  The rotated image is a square
-		//superscribed on the original image.  The superscribed square is larger than
-		//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
-		//which the two squares are rotated (in our case, equal to the position angle +
-		//the north angle, reduced between 0 and 90 degrees).
-		//The proof is left as an exercise to the student :)
-		dms pa( p->pa() + north );
-		double spa, cpa;
-		pa.SinCos( spa, cpa );
-		cpa = fabs(cpa); spa = fabs(spa);
-
-		int size = int( p->angSize() * scale * dms::PI * zoomFactor()/10800.0 * (cpa + spa) );
-		//int size = int( p->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
-		if ( size < sizemin ) size = sizemin;
-                                               //Only draw planet image if:
-		if ( data->options->drawPlanetImage &&     //user wants them,
-				int(zoomFactor()) >= int(zoommin) &&   //zoomed in enough,
-				!p->image()->isNull() &&               //image loaded ok,
-				size < Width ) {                       //and size isn't too big.
-
-			if (resize_mult != 1) {
-				size *= resize_mult;
+	if ( checkVisibility( p, fov(), XRange ) ) {
+		int Width = int( scale * width() );
+		int Height = int( scale * height() );
+	
+		int sizemin = 4;
+		if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
+		sizemin = int( sizemin * scale );
+	
+		psky.setPen( c );
+		psky.setBrush( c );
+		QPoint o = getXY( p, data->options->useAltAz, data->options->useRefraction, scale );
+	
+		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
+			//image angle is PA plus the North angle.
+			//Find North angle:
+			SkyPoint test;
+			test.set( p->ra()->Hours(), p->dec()->Degrees() + 1.0 );
+			if ( data->options->useAltAz ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			QPoint t = getXY( &test, data->options->useAltAz, data->options->useRefraction, scale );
+			double dx = double( o.x() - t.x() );  //backwards to get counterclockwise angle
+			double dy = double( t.y() - o.y() );
+			double north(0.0);
+			if ( dy ) {
+				north = atan( dx/dy )*180.0/dms::PI;
+			} else {
+				north = 90.0;
+				if ( dx > 0 ) north = -90.0;
 			}
-
-			p->scaleRotateImage( size, p->pa() + north );
-			int x1 = o.x() - p->image()->width()/2;
-			int y1 = o.y() - p->image()->height()/2;
-			psky.drawImage( x1, y1, *(p->image()));
-
-		} else {                                   //Otherwise, draw a simple circle.
-
-			psky.drawEllipse( o.x()-size/2, o.y()-size/2, size, size );
-		}
-
-		//draw Name
-		if ( data->options->drawPlanetName ) {
-			psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
-			drawNameLabel( psky, p, o.x(), o.y(), scale );
+	
+			//Image size must be modified to account for possibility that rotated image's
+			//size is bigger than original image size.  The rotated image is a square
+			//superscribed on the original image.  The superscribed square is larger than
+			//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+			//which the two squares are rotated (in our case, equal to the position angle +
+			//the north angle, reduced between 0 and 90 degrees).
+			//The proof is left as an exercise to the student :)
+			dms pa( p->pa() + north );
+			double spa, cpa;
+			pa.SinCos( spa, cpa );
+			cpa = fabs(cpa); spa = fabs(spa);
+	
+			int size = int( p->angSize() * scale * dms::PI * zoomFactor()/10800.0 * (cpa + spa) );
+			//int size = int( p->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
+			if ( size < sizemin ) size = sizemin;
+																								//Only draw planet image if:
+			if ( data->options->drawPlanetImage &&     //user wants them,
+					int(zoomFactor()) >= int(zoommin) &&   //zoomed in enough,
+					!p->image()->isNull() &&               //image loaded ok,
+					size < Width ) {                       //and size isn't too big.
+	
+				if (resize_mult != 1) {
+					size *= resize_mult;
+				}
+	
+				p->scaleRotateImage( size, p->pa() + north );
+				int x1 = o.x() - p->image()->width()/2;
+				int y1 = o.y() - p->image()->height()/2;
+				psky.drawImage( x1, y1, *(p->image()));
+	
+			} else {                                   //Otherwise, draw a simple circle.
+	
+				psky.drawEllipse( o.x()-size/2, o.y()-size/2, size, size );
+			}
+	
+			//draw Name
+			if ( data->options->drawPlanetName ) {
+				psky.setPen( QColor( data->options->colorScheme()->colorNamed( "PNameColor" ) ) );
+				drawNameLabel( psky, p, o.x(), o.y(), scale );
+			}
 		}
 	}
 }
