@@ -1,0 +1,82 @@
+KStars Revision History
+
+0.1 (Altair): first public release
+
+0.2 (Betelgeuse): added global coverage to city database
+
+0.3 (Castor): added Messier objects, constellation lines, image downloads,
+drag sky w/ mouse.
+
+0.4 (Deneb): Added customizable display options, including color palette.
+Implemented Alt/Az Coordinate system. Added optional opaque
+horizon. Expanded star catalog. Deep-sky objects symbols indicate object type,
+and color indicates catalog. Added NGC/IC catalog. Added links to HST press
+release images. Added Find-by-name function. Updated documentation.
+
+0.5 (Enif): Added Sun and all planets except Pluto.  Reorganized view 
+options dialog.  Added Splash Screen, with loading messages.
+
+0.6 (Fomalhaut): Added the moon, with phases.  Reorganized the InfoPanel 
+widget (and painted it black).  The sky map now stretches when the window 
+is resized.  Improved startup speed and vastly improved speed of the 
+"Find Object" function.
+
+0.7 (Gemini): Added realistic star colors.  Added ability to provide custom 
+image and information links.  Most Messier objects now shown as inline images 
+directly on the sky map.  Expanded number of internet links.  Added Pluto.
+Added Milky Way countour.  Added spectral type of stars to popup menu.
+Automated object tracking when an object is centered.  Display name and
+coordinates of centered object in the infoPanel.  Fixed "extra layout" error
+messages.  Improved efficiency of KSPlanet::findPosition().  Initial startup
+parameters make more sense.  If focus point is below horizon when KStars
+restarts, a warning message is triggered.  Also, if it is shut down while
+tracking an object, it will still be tracking when restarted.  Choose latin or
+localized constellation names.  Various bug fixes and minor improvements.
+
+0.8 (Hydra):  
+Sky display: Milky Way is now filled.  Added coordinate grid.  Reorganized 
+"colors" tab in options window.  Added options to show constellation names 
+in native language, or as official IAU abbreviations.  Popup menu now shows 
+Rise/Set times of the object.  Added "genetive" star names (e.g., 
+"alpha Orionis").  Added keyboard shortcuts to center on planets, and on 
+cardinal direction points along the horizon (N, S, E, W).
+	
+Customization: Ability to add custom geographic locations, custom URLs, 
+and custom color schemes.  Added "star chart" predefined color scheme.  
+
+Geographic locations: Added about 80 non-US cities to locations database.  
+Improved determination of a location's time zone.  Added optional "Province" 
+field to geolocation database.
+	
+Documentation: Updated Handbook.  Added AstroInfo articles to the Handbook. 
+Added toolbar button to launch handbook browser
+	
+Performance: Improved memory handling (unused objects are not loaded into 
+memory on startup).  Various bug fixes.
+
+0.9 (Indus):
+Display Features:
+- Configurable InfoPanel: can choose to show parts of infopanel, or hide it all.
+- Added planet name labels
+- Planet sizes much more realistic
+- Added many more zoom levels
+- KDE3 automatically alpha-blends the planet, Messier, and star bitmaps in the sky map.
+
+Other Features:
+- Added AstroCalc calculator dialog
+- Added wider range of timesteps
+- Time can now run backwards
+- Improved selection of object when mouse is clicked.  It now prefers brighter objects,
+  and it picks planets first, followed by Messier, NGC, IC, and stars.
+- Added DCOP interface, which will form the foundation of our scriptable behavior features.
+
+Calculation Accuracy:
+- More accurate Planet positions:  now properly include aberration, nutation, light travel time
+  delay.  Planet positions are calculated more often.
+- Atmospheric refraction: in Alt/Az mode, we include the effect of our atmosphere, which
+  bends light that passes through it, slightly altering the positions of objects in the sky.
+
+Code efficiency: major code overhauls to improve performance and memory usage, and to make
+greater use of C++'s OOP features.
+
+

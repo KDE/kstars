@@ -1,0 +1,15 @@
+2        StarColorMode
+#FFFFFF :colorSky	 
+#00FF00 :colorMess 
+#006666 :colorNGC	 
+#443399 :colorIC	 
+#AA0000 :colorHST	 
+#77AAAA :colorSName
+#660000 :colorPName
+#666633 :colorCName
+#5555AA :colorCLine
+#DDDDDD :colorMW	 
+#000000 :colorEq	 
+#999900 :colorEcl	 
+#55AA33 :colorHorz 
+#445566 :colorGrid 

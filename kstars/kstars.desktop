@@ -1,0 +1,13 @@
+# KDE Config File
+[Desktop Entry]
+Type=Application
+Exec=kstars -caption "%c" %i %m  
+Icon=kstars.png
+MiniIcon=kstars.png
+DocPath=kstars/index.html
+Comment=Desktop Planetarium
+Comment[de]=
+Terminal=0
+Name=KStars
+Name[de]=KStars
+X-DCOP-ServiceType=Multi

@@ -1,0 +1,238 @@
+<tip category="KStars|General">
+<html>
+<p>...that you can search for objects in the sky by their name?<br>
+Use Ctrl+F, the "Focus|Find Object" menu item, or the "Find"
+Toolbar button.
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
+<p>...that you can change your Geographic Location?<br>
+Use Ctrl+G, the "Settings|Set Geographic Location..." menu item,
+or the "globe" Toolbar button.
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
+<p>...that you can Track on an object, so it will always be centered
+in the display?<br>
+Use Ctrl+T, the "Focus|Track Object" menu item, or the "lock"
+Toolbar button.  You can also simply center the object by
+double-clicking on it or selecting "Center and Track" from the
+popup menu.
+</html>
+<tip category="KStars|General">
+<html>
+<p>...that the KStars Handbook includes a series of informative
+articles about Astronomy?
+</html>
+</tip>
+<tip category="KStars|General">
+<html>
+<p>...that you can directly access many of the calculations that
+KStars does behind-the-scenes?<br>
+Open the KStars Astrocalculator by pressing Ctrl+C or by selecting
+the "Tools|Calculator" menu item.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>...that the Z key will point the display at the Zenith?
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>...that the N,S,E,W keys will point the display at the North,
+South, East and West points on the Horizon?
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>Click and Drag with the mouse to slew the skymap to a new location.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>Double-click with the mouse to center the display on the location
+of the mouse cursor.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>When you click your mouse in the map, the object in the sky nearest
+the mouse cursor is identified in the Status Bar.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>Right-click with the mouse to open a popup menu of detailed options
+for a particular object, including links to images and information on
+the internet.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>The status bar always displays the current Right Ascension, Declination
+coordinates of the mouse cursor.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>...that there are 5 different ways to zoom the display in and out?
+You can use the Mouse's scroll wheel, drag the mouse vertically while pressing
+the middle button, use the +/- keys, use the zoom buttons on the toolbar,
+and use the "Zoom In" and "Zoom Out" items in the "View" menu.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>...that you can set the Focus point manually?  Press Ctrl+M, or
+use the "Focus|Set Focus Manually..." menu item, and enter the desired
+coordinates in the popup window.
+</html>
+</tip>
+<tip category="KStars|Navigation">
+<html>
+<p>...that you can switch between Equatorial and Horizontal coordinate
+systems?  Use the "View|Coordinates" menu item, or the buttons
+in the KStars Configuration window.
+</html>
+</tip>
+<tip category="KStars|Time">
+<html>
+<p>...that you can set the Time and Date? <br>
+Use Ctrl+S, the "Time|Set Time" menu item, or the "hourglass" toolbar
+button.
+</html>
+</tip>
+<tip category="KStars|Time">
+<html>
+<p>...that you can use Ctrl+N or the "Time|Set Time to Now" to synch
+the simulation clock with your CPU clock?
+</html>
+</tip>
+<tip category="KStars|Time">
+<html>
+<p>The Spin Box in the Toolbar allows you to adjust the time step
+used by the KStars clock.  Setting it to "1.0 sec" provides "real time".
+Negative values make time run backwards!
+</html>
+</tip>
+<tip category="KStars|Time">
+<html>
+<p>You can stop and start the clock with the "Play/Pause" button
+in the Toolbar, or with the "Time|Stop/Start Clock" menu item.
+</html>
+</tip>
+<tip category="KStars|Objects">
+<html>
+<p>The deep-sky objects with a special color (the default is Red)
+have extra URL links available in their popup menu.
+</html>
+</tip>
+<tip category="KStars|Objects">
+<html>
+<p>By default, stars in KStars are displayed with realistic colors.
+A star's color depends on its temperature; cooler stars are red,
+while hotter stars are blue.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can add your own custom Object catalogs?  Select
+"Add Catalog" from the Catalogs tab in the KStars Configuration window.
+See the Handbook for instructions on formatting your catalog file.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can add your own custom image/information URLs to
+any object?  Select "Add Link..." from the popup menu.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can adjust dozens of display options by clicking the
+"wrench" Toolbar button, or selecting the "Settings|Configure KStars..."
+menu item?
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can hide all or part of the Info Panel?
+Select your preferences in the "Settings|Infopanel" menu.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can hide the Toolbars?  Select your preferences
+in the "Settings|Toolbars" menu.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>You can easily switch between predefined color schemes by selecting
+the scheme from the "Settings|Color Schemes" menu.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can define your own Geographic Locations?  Fill in the
+required fields in the "Change Location" Dialog and then press the
+"Add to List" button.  Your Locations will be available in all
+future sessions.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>...that you can define your own Color Schemes?  Adjust the colors
+in the Configuration Window's "Colors" Tab, and then press the "Save
+Current Colors" button.  Your Color Scheme will appear in the list in
+all future sessions.
+</html>
+</tip>
+<tip category="KStars|Customize">
+<html>
+<p>The Advanced tab of the KStars Configuration window allows you to fine-tune
+the behavior of KStars.  You can specify whether to correct for atmospheric
+refraction, and whether to use animated slewing.  You can also specify which
+objects are hidden while the display is in motion.
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>Kstars displays 40,000 stars, 10,000 deep-sky objects, 88 constellations,
+8 planets, the Sun, the Moon, and the Milky Way.
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>The line in the sky that the Sun and all the Planets seem to follow
+is called the Ecliptic.
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>Object positions in KStars include the effects of precession, nutation,
+aberration, atmospheric refraction, and light travel time (for planets).
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>The nearest star to the Sun is Rigil Kentaurus (alpha Centauri).
+The brightest star in the sky is Sirius (alpha Canis Majoris).
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>The large group of galaxies between Leo, Virgo and Coma Berenices
+is called the Virgo Cluster of Galaxies.
+</html>
+</tip>
+<tip category="KStars|Trivia">
+<html>
+<p>The large group of clusters and nebulae near the south celestial pole
+are objects in the Large Magellanic Cloud, which is a dwarf galaxy in
+orbit around the Milky Way!
+</html>
+</tip>

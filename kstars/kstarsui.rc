@@ -1,0 +1,91 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+
+<kpartgui name="KStars" version="1">
+<MenuBar noMerge="1">
+	<Menu name="file" noMerge="1"><text>&amp;File</text>
+		<Action name="new_window" />
+		<Action name="close_window" />
+		<Action name="print" />
+		<Action name="quit"/>
+	</Menu>
+
+	<Menu name="time" noMerge="1"><text>&amp;Time</text>
+		<Action name="time_to_now" />
+		<Action name="time_dialog" />
+		<Action name="timer_control" />
+	</Menu>
+
+	<Menu name="focus" noMerge="1"><text>F&amp;ocus</text>
+		<Action name="zenith" />
+		<Action name="north" />
+		<Action name="east" />
+		<Action name="south" />
+		<Action name="west" />
+		<Action name="find_object" />
+		<Action name="track_object" />
+		<Action name="manual_focus" />
+	</Menu>
+
+	<Menu name="view" noMerge="1"><text>&amp;View</text>
+		<Action name="zoom_in" />
+		<Action name="zoom_out" />
+		<Action name="coordsys" />
+	</Menu>
+
+	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+		<Menu name="infopanel"><text>&amp;Infopanel</text>
+			<Action name="show_panel"/>
+			<Separator />
+			<Action name="show_time_panel" />
+			<Action name="show_focus_panel" />
+			<Action name="show_location_panel" />
+		</Menu>
+		<Menu name="toolbars"><text>&amp;Toolbars</text>
+			<Action name="show_mainToolBar" />
+			<Action name="show_viewToolBar" />
+		</Menu>
+		<Action name="colorschemes" /> <!--This is a KMenuAction-->
+		<Action name="geolocation" />
+		<Separator />
+		<Action name="configure" />
+	</Menu>
+
+	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+		<Action name="astrocalculator" />
+	</Menu>
+
+	<Menu name="help"><text>&amp;Help</text>
+		<Action name="help_contents"/>
+		<Action name="help_tipofday"/>
+		<Separator/>
+		<Action name="help_report_bug"/>
+		<Separator/>
+		<Action name="help_about_app"/>
+		<Action name="help_about_kde"/>
+	</Menu>
+</MenuBar>
+
+<ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
+	<Action name="quit" />
+	<Action name="zoom_in" />
+	<Action name="zoom_out" />
+	<Action name="find_object" />
+	<Action name="track_object" />
+	<Action name="geolocation" />
+	<Action name="configure" />
+	<Action name="time_dialog" />
+	<Action name="timer_control" />
+	<Action name="handbook" />
+</ToolBar>
+
+<ToolBar noMerge="1" name="viewToolBar"><text>View Toolbar</text>
+	<Action name="show_stars" />
+	<Action name="show_deepsky" />
+	<Action name="show_planets" />
+	<Action name="show_clines" />
+	<Action name="show_cnames" />
+	<Action name="show_mw" />
+	<Action name="show_grid" />
+	<Action name="show_horizon" />
+</ToolBar>
+</kpartgui>
