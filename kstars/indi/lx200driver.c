@@ -477,10 +477,14 @@ int getTrackFreq(double *value)
 
     tempString[read_ret] = '\0';
     
+    /*fprintf(stderr, "Telescope tracking freq str: %s\n", tempString);*/
+    
     if (sscanf(tempString, "%f#", &Freq) < 1)
      return -1;
    
     *value = (double) Freq;
+    
+    /*fprintf(stderr, "Tracking frequency value is %f\n", Freq);*/
     
     return 0;
 }
@@ -1115,14 +1119,17 @@ int  selectTrackingMode(int trackMode)
    switch (trackMode)
    {
     case LX200_TRACK_DEFAULT:
+      fprintf(stderr, "Setting tracking mode to sidereal.\n");
      if (portWrite("#:TQ#") < 0)
        return -1;
      break;
     case LX200_TRACK_LUNAR:
+      fprintf(stderr, "Setting tracking mode to LUNAR.\n");
      if (portWrite("#:TL#") < 0)
        return -1;
      break;
    case LX200_TRACK_MANUAL:
+     fprintf(stderr, "Setting tracking mode to CUSTOM.\n");
      if (portWrite("#:TM#") < 0)
       return -1;
      break;

@@ -330,7 +330,6 @@ void
 IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 {
 	int i;
-	static int lmin=0, lmax=0;
 
 	printf ("<setNumberVector\n");
 	printf ("  device='%s'\n", nvp->device);
@@ -351,12 +350,6 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 	for (i = 0; i < nvp->nnp; i++) {
 	    INumber *np = &nvp->np[i];
 	    printf ("  <oneNumber name='%s'\n", np->name);
-	    if (lmin != np->min) {
-	    printf ("    min='%g'\n", np->min);
-	    lmin = np->min; }
-	    if (lmax != np->max) {
-	    printf ("    max='%g'\n", np->max);
-	    lmax = np->max; }
 	    printf(">\n");
 	    printf ("      %g\n", np->value);
 	    printf ("  </oneNumber>\n");
@@ -364,6 +357,34 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 
 	printf ("</setNumberVector>\n");
 	fflush (stdout);
+}
+
+/* tell client to update min/max elements of an existing number vector property */
+void
+IUUpdateMinMax(INumberVectorProperty *nvp)
+{
+  int i;
+
+  printf ("<setNumberVector\n");
+  printf ("  device='%s'\n", nvp->device);
+  printf ("  name='%s'\n", nvp->name);
+  printf ("  state='%s'\n", pstateStr(nvp->s));
+  printf ("  timeout='%g'\n", nvp->timeout);
+  printf ("  timestamp='%s'\n", timestamp());
+  printf (">\n");
+
+  for (i = 0; i < nvp->nnp; i++) {
+    INumber *np = &nvp->np[i];
+    printf ("  <oneNumber name='%s'\n", np->name);
+    printf ("    min='%g'\n", np->min);
+    printf ("    max='%g'\n", np->max);
+    printf(">\n");
+    printf ("      %g\n", np->value);
+    printf ("  </oneNumber>\n");
+  }
+
+  printf ("</setNumberVector>\n");
+  fflush (stdout);
 }
 
 /* tell client to update an existing switch vector property */

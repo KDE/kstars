@@ -279,6 +279,11 @@ extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *n
 */
 extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
+/** \brief Function to update the min and max elements of a number in the client
+    \param tp pointer to an INumberVectorProperty.
+ */
+extern void IUUpdateMinMax(INumberVectorProperty *nvp);
+
 /** \brief Function to reliably save new text in a IText.
     \param tp pointer to an IText member.
     \param newtext the new text to be saved     
