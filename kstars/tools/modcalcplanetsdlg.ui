@@ -1,0 +1,1078 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>modCalcPlanetsDlg</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>modCalcPlanetsDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>639</width>
+            <height>583</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Solar System Bodies Coordinates</string>
+    </property>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>Interactive_Mode</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>10</y>
+                <width>627</width>
+                <height>559</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Interactive Mode</string>
+            </attribute>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Input Selection</string>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout13</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <spacer>
+                                    <property name="name">
+                                        <cstring>spacer21</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Horizontal</enum>
+                                    </property>
+                                    <property name="sizeType">
+                                        <enum>Expanding</enum>
+                                    </property>
+                                    <property name="sizeHint">
+                                        <size>
+                                            <width>101</width>
+                                            <height>21</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel1</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Solar System Body:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QComboBox">
+                                    <item>
+                                        <property name="text">
+                                            <string>Mercury</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Venus</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Earth</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Mars</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Jupiter</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Saturn</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Uranus</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Neptune</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Pluto</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Moon</string>
+                                        </property>
+                                    </item>
+                                    <item>
+                                        <property name="text">
+                                            <string>Sun</string>
+                                        </property>
+                                    </item>
+                                    <property name="name">
+                                        <cstring>planetComboBox</cstring>
+                                    </property>
+                                </widget>
+                                <spacer>
+                                    <property name="name">
+                                        <cstring>spacer22</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Horizontal</enum>
+                                    </property>
+                                    <property name="sizeType">
+                                        <enum>Expanding</enum>
+                                    </property>
+                                    <property name="sizeHint">
+                                        <size>
+                                            <width>151</width>
+                                            <height>21</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </hbox>
+                        </widget>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout14</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLayoutWidget">
+                                    <property name="name">
+                                        <cstring>layout20</cstring>
+                                    </property>
+                                    <grid>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <widget class="ExtDateEdit" row="1" column="1">
+                                            <property name="name">
+                                                <cstring>dateBox</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QTimeEdit" row="0" column="1">
+                                            <property name="name">
+                                                <cstring>timeBox</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel" row="0" column="0">
+                                            <property name="name">
+                                                <cstring>timLabel</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Universal time:</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel" row="1" column="0">
+                                            <property name="name">
+                                                <cstring>dateLabel</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Date:</string>
+                                            </property>
+                                        </widget>
+                                    </grid>
+                                </widget>
+                                <widget class="QLayoutWidget">
+                                    <property name="name">
+                                        <cstring>layout11</cstring>
+                                    </property>
+                                    <grid>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <widget class="QLabel" row="0" column="0">
+                                            <property name="name">
+                                                <cstring>longLabel</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Longitude:</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="dmsBox" row="0" column="1">
+                                            <property name="name">
+                                                <cstring>longBox</cstring>
+                                            </property>
+                                            <property name="focusPolicy">
+                                                <enum>StrongFocus</enum>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel" row="1" column="0">
+                                            <property name="name">
+                                                <cstring>latLabel</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Latitude:</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="dmsBox" row="1" column="1">
+                                            <property name="name">
+                                                <cstring>latBox</cstring>
+                                            </property>
+                                            <property name="focusPolicy">
+                                                <enum>StrongFocus</enum>
+                                            </property>
+                                        </widget>
+                                    </grid>
+                                </widget>
+                            </hbox>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Ecliptic Coordinates</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>textLabel4</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Heliocentric Long.:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="2">
+                            <property name="name">
+                                <cstring>textLabel7</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Geocentric Lat.:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="2">
+                            <property name="name">
+                                <cstring>textLabel6</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Geocentric Long.:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>textLabel5</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Heliocentric Lat.:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="0">
+                            <property name="name">
+                                <cstring>textLabel8</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Dist. to Sun (AU):</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="2" column="2">
+                            <property name="name">
+                                <cstring>textLabel8_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Dist. to Earth (AU):</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="2" column="1">
+                            <property name="name">
+                                <cstring>sunDistBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit" row="2" column="3">
+                            <property name="name">
+                                <cstring>earthDistBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>helLongBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>helLatBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="0" column="3">
+                            <property name="name">
+                                <cstring>geoLongBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="3">
+                            <property name="name">
+                                <cstring>geoLatBox</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox3</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Equatorial Coordinates</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel9</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Right Ascention:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>raBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel10</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Declination:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>decBox</cstring>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox4</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Topocentric Coordinates</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel11</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Azimuth:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>azBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel12</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Altitude:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>altBox</cstring>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout1</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer5</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>111</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>computeButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Compute</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer3</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>61</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>clearButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Clear</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer4</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>91</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer7</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>21</width>
+                            <height>61</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Batch Mode</string>
+            </attribute>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>InputBox_2_2</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="title">
+                        <string>Select Fields in Input File</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QTimeEdit" row="1" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>utBoxBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="2" column="4">
+                            <property name="name">
+                                <cstring>latBoxBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="2" column="0">
+                            <property name="name">
+                                <cstring>dateCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Date:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="ExtDateEdit" row="2" column="1" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>dateBoxBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="2" column="3">
+                            <property name="name">
+                                <cstring>latCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Latitude:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox" row="1" column="4">
+                            <property name="name">
+                                <cstring>longBoxBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                            <property name="focusPolicy">
+                                <enum>StrongFocus</enum>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="3">
+                            <property name="name">
+                                <cstring>longCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Longitude:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="0">
+                            <property name="name">
+                                <cstring>utCheckBatch</cstring>
+                            </property>
+                            <property name="autoMask">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>UT:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>planetCheckBatch</cstring>
+                            </property>
+                            <property name="autoMask">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>Solar System Body:</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QComboBox" row="0" column="2" rowspan="1" colspan="2">
+                            <item>
+                                <property name="text">
+                                    <string>Mercury</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Venus</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Earth</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Mars</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Jupiter</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Saturn</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Uranus</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Neptune</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Pluto</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Moon</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Sun</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>planetComboBoxBatch</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>InputBox_2_2_2</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="title">
+                        <string>Select Fields in Output File</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox" row="0" column="0">
+                            <property name="name">
+                                <cstring>helEclCheckBatch</cstring>
+                            </property>
+                            <property name="autoMask">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>Heliocentric Ecliptic Coordinates</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="0">
+                            <property name="name">
+                                <cstring>equGeoCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Equatorial Geocentric Coordinates</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="2">
+                            <property name="name">
+                                <cstring>topoCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Topocentric Coordinates</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="0" column="2">
+                            <property name="name">
+                                <cstring>geoEclCheckBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Geocentric Ecliptic Coordinates</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>buttonGroup4_2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Fields in Output File Plus Result</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>allRadioBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>All parameters</string>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>inputRadioBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Only parameters in input file</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox4_2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Files</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>InputButtonBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Input File...</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>File with the input data</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="0" column="1">
+                            <property name="name">
+                                <cstring>InputLineEditBatch</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit" row="1" column="1">
+                            <property name="name">
+                                <cstring>OutputLineEditBatch</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="1" column="0">
+                            <property name="name">
+                                <cstring>OutButtonBatch</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Output File...</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>File for the output data</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout14_2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer20</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>151</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="KPushButton">
+                            <property name="name">
+                                <cstring>runButtonBatch</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Run</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer19</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>131</width>
+                                    <height>21</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer16</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+    </widget>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>dmsBox</class>
+        <header location="global">dmsbox.h</header>
+        <sizehint>
+            <width>70</width>
+            <height>20</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+    </customwidget>
+    <customwidget>
+        <class>ExtDateEdit</class>
+        <header location="local">libkdeedu/extdate/extdatetimeedit.h</header>
+        <sizehint>
+            <width>70</width>
+            <height>20</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
+    </customwidget>
+</customwidgets>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="4350">789c6dd7594f23471007f0f7fd14d6d6db2aaaf58c3db647511eb831b7317794879ac30760cc61c010e5bba7dcf5af5688167664fdb66bbaababbb67cccf1f8dab93c3c68f9fdf5e16b298968d7222cf8d1fd5eb6cf6f1e75f7ffcfded7b9a3656ff9aad46fafdb76fdf078b46d9389a3fd42bf04841699e964933b830b79a7019dd0b96955b895b5a703bcd572e08eea576ff6570ae0eedd477b792103f854b8b2fc6d1163f77237e646e37113f89b6f8307e3bf1785a8b0eedbc696eb7ad9db7e01ee6476ee4ffe0c6fd158c7c69182cde4eec6e87fea50dfbf8176e6ba7d07f96669999cfa325ccaf862bcc97a36dbccf60f178cee11cde706761f16917ae30fe6b7488a7851bf14d7327417f676eb4f756eea41e2f57e6d83e83919f6cba117f04235fd9765b3b0fa36dfc398cf973edc67a6fb951ffe768ab6765ee26b8dff213ef5f4630e2b9e7463ea7ee8ee5ff60ee2618af8eb6fe3238437eb91bf1299cdbfacad3cadd5617f5a11738c7fe4adcb8ffd68d7aeec15e8fc3683b9f62ee2518ef33dafa3f75e3bc957086f86eb4d56f3db8e8e6dd56f01a5cc1bbe65e629673d8ebd18d0efdc9058cf9f2c08df9e630ce037db8719ec37c7a9a7fb708f10267b65e7cef46fb3e9ca3fd23dad6ef0cf67abe99f304f95ec3a8871cbb71be52d8d777e8b6fee412f6f958be3adf5ea817b561afe7d86ded7c67ce13c46fc37ede2766c17a17059cd9f38e466e8c3f8eb6fd700f0b9ef7095c37cd3d37de178f2be76dcf876fa343bd790267f012f67a77cc319f69b4ed872e2ca8e732daeabfe3c6fa9cc235f21f9b8bd4f2a5cd687bfedbfd659ee7ede017b842becf6eb44fa3cbd0df8559b0ffe808ceb0ff37e01afba3652e52cc87a26dbe276ecca7097790ff73b4cdef0616ac4fdf6df1c2d1d67ee8c6f80318eb4bd1180ff529513f0ecf7b694b62f5a002ceccb2662e523c2fb7605f9f0fd8fbbf75e3bc2dcd3e9ebcb9f17ce8c05e8f83685bcf701e44eb2db65e4fd1b65eebe62245be53b8c6f3ffdd8dfd3933fbf884761f5f0edcd88f951bf118bf44bde926dae24fe01ae7af76e3f9169e2f45bb143c0f5fdcf6fea23b18f773eac6f3e63ddac6db75e37df5e8c6fbae65aebcde6d37beaf84f528aa52f03c9dc3359ea79939c627d136deab1befaf75b883ef23e76e3ccfaea36d7dc2f795322b05ebfb0ad738af7db7ad371f99fd7e59b8b13f276e9cdf1318f5e54337e6d78cb67cf761ec170efba1acaa1afd9db92d3f3a36d729ea77efc6f33cbccf2beddfe6478fe6d85e45dbfd851bf1577007f5d877e3bc86f5a9ea3a2d6cffdfc1debe116df5db73a39e37b0e777191dda257c7fa83b6e8a2eaae00eeceb13d6b7d69f325b79b058fd32b170c1a55ebffaac2ccae2b9e6118f79c253bd6ef9ee3fd7587fef79c60f7acf3cc617fcc84ffcac6d8ffcc20b7ee5377ee7257ff027aff1bac66ff0269716cf5b1ab7cd3bbcabb17ddee37d3ee0433ee2633ee1019ff290cff89c2ff89229c48b66f1ac3d5df135df7093134eb9c56dcef4b3c35dee71ce393111dbfa8c784a4205955451cd1d1ad1982634a55bbad3f80eddd38c1ef882e66cf52ab5ff2b8d7ea4277aa6175ad06bb866f446efb4d4df0ffad4fed762ffb7b44e1b9cd2266dd142c75e5ddb3cd0bb3e347a477bd9d5f83ee245e3f7689f0ee830f67d44c77412ee186946033aa5e197fecfe85c7bf7be2fe892aee89a6ea84989f6bfa434f4eff9df52c509b5d0779b32ea684d13ea528f728d1e882ebfce37f6cf077422b4ea5b440ad14af1a15452ab473aee52c65ff39789b64fe955f44eb9937b5d858c5b32d377c0c32a7fee7ecd5fe61aff284ff22c2fb290577993775db1443fb53ef2219f5ff2bf93356d5b970dd9d41eb77820dbb223bbab155ed55ffab2f725ffb1eccb81aed6931cca116ab490633909d10339fd5ffdef795d869ae7923bc27226e772415d5986b51d683663b9d4fcfbb1ff190fe54aaec35aeaa577ee20f24673e94b531249a585fc2b69ebfe3ed7dae91f75ba964b5c03e9d344ba1add93bce0826c3f87f3b2a9fb6f18aeba10ba2f563f25eb1b563771a5d17531e2513c5fba538b3111cd690dd73c7ef6a95f4c8aa99de12fe77da4951de9ffffea730be7fd9fdfbffd0b690edc6c</data>
+    </image>
+    <image name="image1">
+        <data format="XPM.GZ" length="4462">789c9d97c76e24490e86effd1442f3d65870d2451a0ce6206f5adeb4cc620f8c34f2553225b5a4c1befb46927fe6a1d4c0ccac4287fa8a0c26834193f5dbb785b3fd9d856fbf7d799ec9ecba5ea8afe469e15bf3727ffffeeffffcf1e797af49b2d0ffc7d142f2f55f5fbe1ecc16ea85dde9a4ed81290045faa77ca49cf4ab67ba1e3953969173651ab9d4fdf1c8a27c3872ad7c3c72d3b32c2a67c3f3444636fbef23eb7e590267e68fcc4656395d8dacf6d938ef97eaef289781cddebdb2846fccff44b989ba58e3411f3dc75158e6df1d3889539517ca49bf54fe43398d1dec4f46567f685fd9c539f43fc025f80c1c3ce8d93f28e77185f8bf0c6cfae4c0b5f9c3c6e5c0542a4b5876fe13708df39d2bd7716372aa8c93c4e4723bb2f977aadc26ceec4bdb7310e6b0bfab9c2445ecd49f1370694cebca65d260ffa6711a41aef14d24e94cee6be3348e0ae5e9c8765f07ca3e8db17f0f9c825794eb3489351fe9bb7217e4969f29388bd51ee9fda5715a19730696b852fea95c6471647ca95cf64bcf43e0cef4657b647bfe6acf213d6bb32f9a9f5992b5a64f9a8f990b6cf9ecc15d6cf9acf6b2da55a8a75cb973dee4b2d1b38b5c05de02434e87e01aacfb351df5bebddea74b5c67f9c795711ea15e357e2ecde358fb87efc0a867df8cac728a074e62e527706afb59f3cf6583be5c28bb3c35f693812d1fbdc6dbe57966fec932d899ffa4f7e38adca17e34beaeca4b9c271a18f1d5fc739257b0d70d9c68be7bed7fcee7827ab91cd8e4740cf6b19d4ffb87ab07b9bf516e72d4a3ac821b9cef6e60d84f47367ded2fae1d9f7704f6163f79000ffde27660f387ed3c5dbf54dfeebb0bf6acbe6b706bfa5ef32f8f8b18f5bf0f463f20edb77956a4e68fbc80b3c4facd163847be6bfde72ec86dbeac82715fbc0286be683cf3bc081d44f7df80d344fb0b6b7de64581fb916765297263d6fccd9b7ee97e566e8b06cfdb1f59cf2bda2f8bbc2c11df0c5c41aefdb328ca22b1feb0012eedbce24736f91b18fb796d64eb87cb60817dcdafb07d906bfd14d22f659d8785ef97b2f6d7b2df6ef1d6fb2babaac6f92e8c25b27ecc1f239b7f3a5fca5a8678ea7c2d9bc0e6ef1238b3fca2c7814d5f4cbf9334b5f833384bed3c7a5f5514f4adbe2ec07962e7590457f06f6f649b977afe2a16f42f5e070bfc591e18f7a5f1a812a9e0df39d827da4fbd8c6ccfd7785569bf945f953371a9d5a3de67950bfa2d75c63eb2fb15bdcfaaf011e6c7263846bf8f4636f91618f3c7d3c0f047fb69550efab2074e12bd6fd27957553ec33c5b043bcc7f9d0795f818fdb501a3df8ae673e507ff69021eea37063bc45ffb73550736ff36c0a84f3e0317a86f8b5f139e6ffe1f821de6d9127898ff3be00a7c3ab2cd03e3d697560ff40016e47b3bb2e96bbd559d8f32bbff4b7065f193042c98873acf240af6adbf3c83c5f2954bb0c7bcd77c107d81d2fdebc63e33ff640aaecc9e1c8151df5c803dfaadc64b52dfa03ed64636ffb4ff4b2867f453ede7227586fcd3f9264ded91fffafe236d5da37fe83c91ceb7b9e5b7f6731ff92ed7f747d6fbf7e185cf58347e3e6932e47b3430fa893edf87d795c2fc3f003b67f5f902cec17abfde0dfa3c053b3c5ffb832fc2eb8fddcf233887fc195c801f46b6f3cdc02558fba72f7d2d1a7f7e321ee58fe0cad86bbff24dd3e2fe74fef836b0c6eb60d62fa6bf5e07b3419f853dd7dc70fb8bd5f1255fd90ed30f9f3c5ff30ddff21ddff384a7fcc08ffcc4cf61cdf8855ff9e79c7e1db4dff89d3f7891977899577895d7789d377893b7f83b6fcfe937bc13b477798ff7f9800ff928ac633ee11f7cca6761d7f99c7e1b3cb908da11c7413be1943376e153cc39175c72f549ff9e17c31744429e6a6aa8a58e2ee98aaee9866e7f617fc24b7417a4f734a1293dd0233dd133cd8285177aa5f9f3b63ca5377aa78f607b919668995682e62aadd17ab0b1419b9ff41f682b48bed336edd02eed05ed7d5ea3033a0cdf1ed1f127fd273ae123fa41a774a6b685cee982228a837e42e927fd47caf8985c38651eb40b2ac38e4a5842658a97fab33fd248cb87d2c9a55cc9b5dcc82d1fc99ddccb44a6f230af2f8ff224cf417f262ff22a3fe54ddee543166549966545567f617f4dd66523dc6b2c9bb225df655b7682f692ecca9eeccfe97772c09b722847722c27c1f3eb70f66bf9116c9fca999ccbc59cfe25bf4a143a5ef8992561324a78bd92522acf9ebc78efe7cf7b153276db37bef59dbff457fedadff85b7f27abfede4ffcd4cf9ff76faeff4fffefeff8c7f5fedfdfbffc0fa355c495</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>computeButton</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotComputePosition()</slot>
+    </connection>
+    <connection>
+        <sender>clearButton</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotClear()</slot>
+    </connection>
+    <connection>
+        <sender>runButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotRunBatch()</slot>
+    </connection>
+    <connection>
+        <sender>InputButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotInputFile()</slot>
+    </connection>
+    <connection>
+        <sender>OutButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotOutputFile()</slot>
+    </connection>
+    <connection>
+        <sender>utCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotUtCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>dateCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotDateCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>latCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotLatCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>longCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotLongCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>planetCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcPlanetsDlg</receiver>
+        <slot>slotPlanetsCheckedBatch()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>slotComputePosition()</slot>
+    <slot>slotClear()</slot>
+    <slot>slotInputFile()</slot>
+    <slot>slotOutputFile()</slot>
+    <slot>slotUtCheckedBatch()</slot>
+    <slot>slotDateCheckedBatch()</slot>
+    <slot>slotLongCheckedBatch()</slot>
+    <slot>slotLatCheckedBatch()</slot>
+    <slot>slotRunBatch()</slot>
+    <slot>slotPlanetsCheckedBatch()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>extdateedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>extdateedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>

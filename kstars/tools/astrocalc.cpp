@@ -21,7 +21,6 @@
 #include "dmsbox.h"
 #include "modcalcjd.h"
 #include "modcalcgeodcoord.h"
-#include "geolocation.h"
 #include "modcalcgalcoord.h"
 #include "modcalcsidtime.h"
 #include "modcalcprec.h"
@@ -29,7 +28,9 @@
 #include "modcalcdaylength.h"
 #include "modcalcazel.h"
 #include "modcalcequinox.h"
+#include "modcalcplanets.h"
 
+#include <klocale.h>
 #include <qlistview.h>
 #include <qtextview.h>
 
@@ -55,6 +56,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	QPixmap jdIcon = QPixmap ("jd.png");
 	QPixmap geodIcon = QPixmap ("geodetic.png");
+	QPixmap solarIcon = QPixmap ("geodetic.png");
 	QPixmap sunsetIcon = QPixmap ("sunset.png");
 	QPixmap timeIcon = QPixmap ("sunclock.png");
 
@@ -77,8 +79,11 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
-
 	QListViewItem * cartItem = new QListViewItem(geoItem,i18n("Geodetic Coordinates"));
+
+	QListViewItem * solarItem = new QListViewItem(navigationPanel,i18n("Solar System"));
+	solarItem->setPixmap(0,solarIcon);
+	QListViewItem * planetsItem = new QListViewItem(solarItem,i18n("Planets Coordinates"));
 
 	connect(navigationPanel, SIGNAL(clicked(QListViewItem *)), this,
 		SLOT(slotItemSelection(QListViewItem *)));
@@ -119,6 +124,10 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genDayFrame();
 	if(!(election.compare(i18n("Equinoxes & Solstices"))))
 		genEquinoxFrame();
+	if(!(election.compare(i18n("Solar System"))))
+		genSolarText();
+	if(!(election.compare(i18n("Planets Coordinates"))))
+		genPlanetsFrame();
 
 		previousElection = election;
 
@@ -201,6 +210,27 @@ void AstroCalc::genGeodText(void)
 	rightPanel=GeoText;
 }
 
+void AstroCalc::genSolarText(void)
+{
+	delRightPanel();
+	splashScreen = new QTextView ("","",split);
+	splashScreen->setMaximumWidth(550);
+	splashScreen->setMinimumWidth(400);
+	splashScreen->show();
+	
+	splashScreen->setText(i18n("<QT>"
+														 "Section with algorithms regarding information "
+														 "on solar system bodies coordinates and times"
+														 "<UL><LI>"
+														 "<B>Planets Coords:</B> Coordinates for the planets, moon and sun "
+														 " at a given time and from a given position on Earth "
+														 "</LI></UL>"
+														 "</QT>"));
+
+	rightPanel=SolarText;
+}
+
+
 void AstroCalc::delRightPanel(void)
 {
 	if (rightPanel <= 3)
@@ -223,6 +253,8 @@ void AstroCalc::delRightPanel(void)
 		delete AppFrame;
 	else if (rightPanel == Azel)
 		delete AzelFrame;
+	else if (rightPanel == Planets)
+		delete PlanetsFrame;
 
 }
 
@@ -286,6 +318,13 @@ void AstroCalc::genAzelFrame(void)
 	delRightPanel();
 	AzelFrame = new modCalcAzel(split,"Horizontal");
 	rightPanel = Azel;
+}
+
+void AstroCalc::genPlanetsFrame(void)
+{
+	delRightPanel();
+	PlanetsFrame = new modCalcPlanets(split,"Horizontal");
+	rightPanel = Planets;
 }
 
 QSize AstroCalc::sizeHint() const
