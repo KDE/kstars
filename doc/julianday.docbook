@@ -9,17 +9,17 @@
 <para>
 The Julian Calendar is a way of reckoning the current date by a simple count of
 the number of days that have passed since some remote, arbitrary date.  This
-number of days is called the <firstterm>Julian Day</firstterm> (or Julian Date),
+number of days is called the <firstterm>Julian Day</firstterm>,
 abbreviated as <abbrev>JD</abbrev>.  The starting point, <abbrev>JD=0</abbrev>,
 is January 1, 4713 BC (or -4712 January 1, since there was no year '0').  Julian
-Dates are very useful because they make it easy to determine the number of days
+Days are very useful because they make it easy to determine the number of days
 between two events by simply subtracting their Julian Day numbers.
 Such a calculation is difficult for the standard (Gregorian) calendar, because
 days are grouped into months, which can contain a variable number of days, and
 there is the added complication of <link linkend="ai-leapyear">Leap
 Years</link>.
 </para><para>
-Converting from the standard (Gregorian) calendar to Julian days and vice versa
+Converting from the standard (Gregorian) calendar to Julian Days and vice versa
 is best left to a special program written to do this, and there are many to be
 found on the web (and &kstars; does this too, of course!).  However, for those
 interested, here is a simple example of a Gregorian to Julian day converter:
@@ -34,7 +34,7 @@ where <abbrev>D</abbrev> is the day (1-31), <abbrev>M</abbrev> is the Month
 only works for dates between 1801 and 2099.  More remote dates require a more
 complicated transformation.
 </para><para>
-An example Julian Date is: <abbrev>JD</abbrev> 2440588, which corresponds to
+An example Julian Day is: <abbrev>JD</abbrev> 2440588, which corresponds to
 1 Jan, 1970.
 </para><para>
 Julian Days can also be used to tell time; the time of day is expressed as a
