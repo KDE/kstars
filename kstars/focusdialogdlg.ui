@@ -12,6 +12,9 @@
             <height>149</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>FocusDialogDlg</string>
+    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -68,6 +71,9 @@
                     <widget class="QLineEdit" row="2" column="1">
                         <property name="name">
                             <cstring>epochName</cstring>
+                        </property>
+                        <property name="text">
+                            <string>2000.0</string>
                         </property>
                     </widget>
                 </grid>
