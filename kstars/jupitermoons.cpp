@@ -1,5 +1,5 @@
 /***************************************************************************
-                          jupitermoons.cpPj  -  description
+                          jupitermoons.cpp  -  description
                              -------------------
     begin                : Fri Oct 18 2002
     copyright            : (C) 2002 by Jason Harris
