@@ -42,7 +42,7 @@
 #include "kslineedit.h"
 
 elts::elts( QWidget* parent)  : 
-	KDialogBase( KDialogBase::Plain, i18n( "Elevation vs. Time" ), Close, Close, parent ) 
+	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent ) 
 {
 
 	ks = (KStars*) parent;
@@ -215,7 +215,8 @@ elts::elts( QWidget* parent)  :
 	connect( clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 	connect( latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( PlotList, SIGNAL( highlighted(int) ), eltsView, SLOT( update() ) );
+//	connect( PlotList, SIGNAL( highlighted(int) ), eltsView, SLOT( update() ) );
+	connect( PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
 	
 	pList.setAutoDelete(FALSE);
 	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
@@ -344,13 +345,13 @@ void elts::processObject( SkyObject *o ) {
 		PlotList->setCurrentItem( PlotList->count() - 1 );
 		raBox->showInHours(o->ra() );
 		decBox->showInDegrees(o->dec() );
-		nameBox->setText(o->translatedName() );
+		nameBox->setText(o->name() );
 		
 		//CLEAR_FIELDS
 //		dirtyFlag = true;
 		
 		//Set epochName to epoch shown in date tab
-//		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
 	
@@ -362,6 +363,23 @@ void elts::processObject( SkyObject *o ) {
 	}
 	
 	delete num;
+}
+
+void elts::slotHighlight(void) {
+
+	eltsView->update();
+
+	int iPlotList = PlotList->currentItem();
+
+	int index = 0;
+	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+		if ( index == iPlotList ) {
+			raBox->showInHours(p->ra() );
+			decBox->showInDegrees(p->dec() );
+			nameBox->setText(PlotList->currentText() );
+		}
+		++index;
+	}
 }
 
 //move input focus to the next logical widget
@@ -390,7 +408,7 @@ void elts::slotClearBoxes(void) {
 	//clear the name, ra, and dec fields
 	// This still does not work. I will have a look later.
 	
-	//CLEAR_FIELDS
+	//CLEAR_FIELDS Two next lines
 //	if ( dirtyFlag ) {
 //		dirtyFlag = false;
 		nameBox->clear();

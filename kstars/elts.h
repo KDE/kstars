@@ -83,6 +83,7 @@ public slots:
 	void slotBrowseObject(void);
 	void slotChooseCity(void);
 	void slotAdvanceFocus(void);
+	void slotHighlight(void);
 
 private:	
 	// xnticks, ynticks = number of minor ticks of X and Y axis
