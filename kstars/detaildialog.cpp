@@ -123,6 +123,7 @@ void DetailDialog::createAdvancedTab()
   treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 
   connect(viewTreeItem, SIGNAL(clicked()), this, SLOT(viewADVData()));
+  connect(ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
 
   Populate(NULL);
 
@@ -510,14 +511,14 @@ void DetailDialog::editLinkDialog()
         type = 1;
         *currentItemTitle = infoList->currentText();
   }
-  else
+  else if ( (currentItemIndex = imagesList->currentItem()) != -1)
   {
-        currentItemIndex = imagesList->currentItem();
         defaultURL = *selectedObject->ImageList.at(currentItemIndex);
         editLinkField->setText(defaultURL);
         type = 0;
         *currentItemTitle = imagesList->currentText();
   }
+  else return;
 
   // If user presses cancel then return
   if (!editDialog.exec() == QDialog::Accepted)
@@ -837,9 +838,10 @@ void DetailDialog::forkTree(QListViewItem *parent)
 
 void  DetailDialog::viewADVData()
 {
-   QListViewItem *current = ADVTree->currentItem();
    QString link;
 
+   QListViewItem * current = ADVTree->currentItem();
+   
    if (!current)
      return;
 
@@ -848,7 +850,11 @@ void  DetailDialog::viewADVData()
    while (treeIt->current())
    {
      if (treeIt->current()->Name == current->text(0))
-       break;
+     {
+        if (treeIt->current()->Type == 2)
+          break;
+        else return;
+     }
 
        ++(*treeIt);
    }
@@ -882,15 +888,19 @@ QString DetailDialog::parseADVData(QString link)
   if ( (index = link.find("KSDEC")) != -1)
   {
     link.remove(index, 5);
-    subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec().degree(), selectedObject->dec().minute(), selectedObject->dec().second());
-
-    subLink = subLink.insert(2, "%20");
-    subLink = subLink.insert(7, "%20");
-
-    // add + via %2B convention if declination is positive
-    if (selectedObject->dec().degree() > 0)
+    if (selectedObject->dec().degree() < 0)
+    {
+       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec().degree(), selectedObject->dec().minute(), selectedObject->dec().second());
+       subLink = subLink.insert(3, "%20");
+       subLink = subLink.insert(8, "%20");
+    }
+    else
+    {
+       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec().degree(), selectedObject->dec().minute(), selectedObject->dec().second());
        subLink = subLink.insert(0, "%2B");
-
+       subLink = subLink.insert(5, "%20");
+       subLink = subLink.insert(10, "%20");
+    }
 
     link = link.insert(index, subLink);
   }
