@@ -1,14 +1,14 @@
 <tip category="KStars|General">
 <html>
 <p>...that you can search for objects in the sky by their name?<br>
-Use Ctrl+F, the "Focus|Find Object" menu item, or the "Find"
+Use Ctrl+F, the "Focus->Find Object" menu item, or the "Find"
 Toolbar button.
 </html>
 </tip>
 <tip category="KStars|General">
 <html>
 <p>...that you can change your Geographic Location?<br>
-Use Ctrl+G, the "Settings|Set Geographic Location..." menu item,
+Use Ctrl+G, the "Settings->Set Geographic Location..." menu item,
 or the "globe" Toolbar button.
 </html>
 </tip>
@@ -16,7 +16,7 @@ or the "globe" Toolbar button.
 <html>
 <p>...that you can Track an object, so it will always be centered
 in the display?<br>
-Use Ctrl+T, the "Focus|Track Object" menu item, or the "lock"
+Use Ctrl+T, the "Focus->Track Object" menu item, or the "lock"
 Toolbar button. You can also simply center the object by
 double-clicking on it or selecting "Center and Track" from the
 popup menu.
@@ -32,7 +32,7 @@ articles about Astronomy?
 <p>...that you can directly access many of the calculations that
 KStars does behind-the-scenes?<br>
 Open the KStars Astrocalculator by pressing Ctrl+C or by selecting
-the "Tools|Calculator" menu item.
+the "Tools->Calculator" menu item.
 </html>
 </tip>
 <tip category="KStars|General">
@@ -41,7 +41,7 @@ the "Tools|Calculator" menu item.
 time/date, your geographic location, and the current central position on the
 sky (the focus).  You can drag these boxes with the mouse, and "shade" them
 by double-clicking them to show more (or less) information.  You can hide
-them altogether in the Settings|Info Boxes menu.
+them altogether in the Settings->Info Boxes menu.
 </html>
 </tip>
 <tip category="KStars|Navigation">
@@ -96,27 +96,27 @@ and use the "Zoom In" and "Zoom Out" items in the "View" menu.
 <tip category="KStars|Navigation">
 <html>
 <p>...that you can set the Focus point manually? Press Ctrl+M, or
-use the "Focus|Set Focus Manually..." menu item, and enter the desired
+use the "Focus->Set Focus Manually..." menu item, and enter the desired
 coordinates in the popup window.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
 <p>...that you can switch between Equatorial and Horizontal coordinate
-systems? Use the "View|Coordinates" menu item, or the buttons
+systems? Use the "View->Coordinates" menu item, or the buttons
 in the KStars Configuration window.
 </html>
 </tip>
 <tip category="KStars|Time">
 <html>
 <p>...that you can set the Time and Date? <br>
-Use Ctrl+S, the "Time|Set Time" menu item, or the "hourglass" toolbar
+Use Ctrl+S, the "Time->Set Time" menu item, or the "hourglass" toolbar
 button.
 </html>
 </tip>
 <tip category="KStars|Time">
 <html>
-<p>...that you can use Ctrl+E or the "Time|Set Time to Now" to synchronize
+<p>...that you can use Ctrl+E or the "Time->Set Time to Now" to synchronize
 the simulation clock with your CPU clock?
 </html>
 </tip>
@@ -130,7 +130,7 @@ Negative values make time run backwards!
 <tip category="KStars|Time">
 <html>
 <p>You can stop and start the clock with the "Play/Pause" button
-in the Toolbar, or with the "Time|Stop/Start Clock" menu item.
+in the Toolbar, or with the "Time->Stop/Start Clock" menu item.
 </html>
 </tip>
 <tip category="KStars|Objects">
@@ -162,26 +162,26 @@ any object? Select "Add Link..." from the popup menu.
 <tip category="KStars|Customize">
 <html>
 <p>...that you can adjust dozens of display options by clicking the
-"wrench" Toolbar button, or selecting the "Settings|Configure KStars..."
+"wrench" Toolbar button, or selecting the "Settings->Configure KStars..."
 menu item?
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
 <p>...that you can hide all or part of the Info Panel?
-Select your preferences in the "Settings|Infopanel" menu.
+Select your preferences in the "Settings->Infopanel" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
 <p>...that you can hide the Toolbars? Select your preferences
-in the "Settings|Toolbars" menu.
+in the "Settings->Toolbars" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
 <p>You can easily switch between predefined color schemes by selecting
-the scheme from the "Settings|Color Schemes" menu.
+the scheme from the "Settings->Color Schemes" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
