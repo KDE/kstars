@@ -376,6 +376,8 @@ public:
 
 	dms angularDistanceTo( SkyPoint *sp);
 
+	bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
+
 ////
 //// 5. Calculating Rise/Set/Transit data.
 //// =====================================

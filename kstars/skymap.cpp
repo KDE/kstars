@@ -40,7 +40,7 @@
 #include <qmemarray.h>
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
- : QWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0)
+ : QWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0), TransientObject(0)
 {
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;
@@ -75,6 +75,13 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 
 	sky = new QPixmap();
 	pmenu = new KSPopupMenu( ksw );
+	
+	//Initialize Transient label stuff
+	TransientTimeout = 100; //fade label color every 0.2 sec
+	MaxHoverTicks = 5; //attach transient label after hover of 0.5 sec
+	nHoverTicks = 0;
+	connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
+
 	IBoxes = new InfoBoxes( data->options->windowWidth, data->options->windowHeight,
 			data->options->posTimeBox, data->options->shadeTimeBox,
 			data->options->posGeoBox, data->options->shadeGeoBox,
@@ -169,7 +176,308 @@ void SkyMap::showFocusCoords( void ) {
 	}
 }
 
+SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
+	double r0 = 200.0/zoomFactor();  //the maximum search radius
+	double rmin = r0;
+
+	//Search stars database for nearby object.
+	double rstar_min = r0;
+	double starmag_min = 20.0;      //absurd initial value
+	int istar_min = -1;
+
+	if ( data->options->drawSAO ) { //Can only click on a star if it's being drawn!
+
+		//test RA and dec to see if this star is roughly nearby
+
+		for ( register unsigned int i=0; i<data->starList.count(); ++i ) {
+			SkyObject *test = (SkyObject *)data->starList.at(i);
+
+			double dRA = test->ra()->Hours() - p->ra()->Hours();
+			double dDec = test->dec()->Degrees() - p->dec()->Degrees();
+			//determine angular distance between this object and mouse cursor
+			double f = 15.0*cos( test->dec()->radians() );
+			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+			if (r < r0 && test->mag() < starmag_min ) {
+				istar_min = i;
+				rstar_min = r;
+				starmag_min = test->mag();
+			}
+		}
+	}
+
+	//Next, find the nearest solar system body within r0
+	double r = 0.0;
+	double rsolar_min = r0;
+	SkyObject *solarminobj = NULL;
+
+	if ( data->options->drawPlanets )
+		solarminobj = data->PCat->findClosest( p, r );
+
+	if ( r < r0 ) {
+		rsolar_min = r;
+	} else {
+		solarminobj = NULL;
+	}
+
+	//Moon
+	if ( data->options->drawMoon ) {
+		double dRA = data->Moon->ra()->Hours() - p->ra()->Hours();
+		double dDec = data->Moon->dec()->Degrees() - p->dec()->Degrees();
+		double f = 15.0*cos( data->Moon->dec()->radians() );
+		r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+		if (r < rsolar_min) {
+			solarminobj= data->Moon;
+			rsolar_min = r;
+		}
+	}
+
+	//Asteroids
+	if ( data->options->drawAsteroids ) {
+		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+			//test RA and dec to see if this object is roughly nearby
+			double dRA = ast->ra()->Hours() - p->ra()->Hours();
+			double dDec = ast->dec()->Degrees() - p->dec()->Degrees();
+			double f = 15.0*cos( ast->dec()->radians() );
+			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+			if ( r < rsolar_min && ast->mag() < data->options->magLimitAsteroid ) {
+				solarminobj = ast;
+				rsolar_min = r;
+			}
+		}
+	}
+
+	//Comets
+	if ( data->options->drawComets ) {
+		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+			//test RA and dec to see if this object is roughly nearby
+			double dRA = com->ra()->Hours() - p->ra()->Hours();
+			double dDec = com->dec()->Degrees() - p->dec()->Degrees();
+			double f = 15.0*cos( com->dec()->radians() );
+			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+			if ( r < rsolar_min ) {
+				solarminobj = com;
+				rsolar_min = r;
+			}
+		}
+	}
+
+	//Next, search for nearest deep-sky object within r0
+	double rmess_min = r0;
+	double rngc_min = r0;
+	double ric_min = r0;
+	double rother_min = r0;
+	int imess_min = -1;
+	int ingc_min = -1;
+	int iic_min = -1;
+	int iother_min = -1;
+
+	for ( DeepSkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
+		bool checkObject = false;
+		if ( o->isCatalogM() &&
+				( data->options->drawMessier || data->options->drawMessImages ) ) checkObject = true;
+		if ( o->isCatalogNGC() && data->options->drawNGC ) checkObject = true;
+		if ( o->isCatalogIC() && data->options->drawIC ) checkObject = true;
+		if ( o->catalog().isEmpty() && data->options->drawOther ) checkObject = true;
+
+		if ( checkObject ) {
+			//test RA and dec to see if this object is roughly nearby
+			double dRA = o->ra()->Hours() - p->ra()->Hours();
+			double dDec = o->dec()->Degrees() - p->dec()->Degrees();
+			double f = 15.0*cos( o->dec()->radians() );
+			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+			if ( o->isCatalogM() && r < rmess_min) {
+				imess_min = data->deepSkyList.at();
+				rmess_min = r;
+			}
+			if ( o->isCatalogNGC() && r < rngc_min) {
+				ingc_min = data->deepSkyList.at();
+				rngc_min = r;
+			}
+			if ( o->isCatalogIC() && r < ric_min) {
+				iic_min = data->deepSkyList.at();
+				ric_min = r;
+			}
+			if ( o->catalog().isEmpty() && r < rother_min) {
+				iother_min = data->deepSkyList.at();
+				rother_min = r;
+			}
+		}
+	}
+
+	//Next, search for nearest object within r0 among the custom catalogs
+	double rcust_min = r0;
+	int icust_min = -1;
+	int icust_cat = -1;
+
+	for ( register unsigned int j=0; j<data->options->CatalogCount; ++j ) {
+		if ( data->options->drawCatalog[j] ) {
+			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ data->options->CatalogName[j] ];
+
+			for ( register unsigned int i=0; i<cat.count(); ++i ) {
+				//test RA and dec to see if this object is roughly nearby
+				SkyObject *test = (SkyObject *)cat.at(i);
+				double dRA = test->ra()->Hours()-p->ra()->Hours();
+				double dDec = test->dec()->Degrees()-p->dec()->Degrees();
+				double f = 15.0*cos( test->dec()->radians() );
+				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
+				if (r < rcust_min) {
+					icust_cat = j;
+					icust_min = i;
+					rcust_min = r;
+				}
+			}
+		}
+	}
+
+	int jmin(-1);
+	int icat(-1);
+
+	//Among the objects selected within r0, prioritize the selection by catalog:
+	//Planets, Messier, NGC, IC, stars
+	if ( istar_min >= 0 && rstar_min < r0 ) {
+		rmin = rstar_min;
+		icat = 0; //set catalog to star
+	}
+
+	//IC object overrides star, unless star is twice as close as IC object
+	if ( iic_min >= 0 && ric_min < r0 && rmin > 0.5*ric_min ) {
+		rmin = ric_min;
+		icat = 1; //set catalog to Deep Sky
+		jmin = iic_min;
+	}
+
+	//NGC object overrides previous selection, unless previous is twice as close
+	if ( ingc_min >= 0 && rngc_min < r0 && rmin > 0.5*rngc_min ) {
+		rmin = rngc_min;
+		icat = 1; //set catalog to Deep Sky
+		jmin = ingc_min;
+	}
+
+	//"other" object overrides previous selection, unless previous is twice as close
+	if ( iother_min >= 0 && rother_min < r0 && rmin > 0.5*rother_min ) {
+		rmin = rother_min;
+		icat = 1; //set catalog to Deep Sky
+		jmin = iother_min;
+	}
+
+	//Messier object overrides previous selection, unless previous is twice as close
+	if ( imess_min >= 0 && rmess_min < r0 && rmin > 0.5*rmess_min ) {
+		rmin = rmess_min;
+		icat = 1; //set catalog to Deep Sky
+		jmin = imess_min;
+	}
+
+	//Custom object overrides previous selection, unless previous is twice as close
+	if ( icust_min >= 0 && rcust_min < r0 && rmin > 0.5*rcust_min ) {
+		rmin = rcust_min;
+		icat = 2; //set catalog to Custom
+	}
+
+	//Solar system body overrides previous selection, unless previous selection is twice as close
+	if ( solarminobj != NULL && rmin > 0.5*rsolar_min ) {
+		rmin = rsolar_min;
+		icat = 3; //set catalog to solar system
+	}
+
+	QPtrList<DeepSkyObject> cat;
+
+	switch (icat) {
+		case 0: //star
+			return data->starList.at(istar_min);
+			break;
+
+		case 1: //Deep-Sky Objects
+			return data->deepSkyList.at(jmin);
+			break;
+
+		case 2: //Custom Catalog Object
+			cat = data->CustomCatalogs[ data->options->CatalogName[icust_cat] ];
+			return cat.at(icust_min);
+			break;
+
+		case 3: //solar system object
+			return solarminobj;
+			break;
+
+		default: //no object found
+			return NULL;
+			break;
+	}
+}
+
+void SkyMap::checkHoverPoint( void ) {
+	nHoverTicks++;
+	
+	//check for hover every MaxHoverTicks timesteps
+	//also, if we are hovering already, then this will be true 
+	//every timestep until we move the mouse
+	if ( nHoverTicks > MaxHoverTicks ) {
+		//have we hovered ?
+
+		if ( MousePoint.ra()->toHMSString() == HoverPoint.ra()->toHMSString() &&
+				MousePoint.dec()->toDMSString() == HoverPoint.dec()->toDMSString() ) {
+			
+			//we should only check for a new TransientObject if we aren't already hovering on one.
+			//Can't check transientObjec(), because it's possible that the old one is still fading.
+			//We instead check to see if TransientColor!=UserLabelColor, because this is only true when
+			//we are not hovering on an already-identified TransientObject
+			if ( TransientColor != data->options->colorScheme()->colorNamed( "UserLabelColor" ) ) {
+				SkyObject *so = objectNearest( mousePoint() );
+				
+				if ( so ) {
+					if ( so->name() == "star" ) { 
+						setTransientObject( NULL ); 
+						nHoverTicks = 0; 
+					} else {
+						setTransientObject( so );
+						
+						TransientColor = data->options->colorScheme()->colorNamed( "UserLabelColor" );
+						if ( TransientTimer.isActive() ) TransientTimer.stop();
+						update();
+					}
+				}
+			}
+			
+		//The MousePoint and HoverPoint are different; we didn't hover, or we stopped hovering.
+		} else {
+			//If we were just hovering on the TransientObject, start fading it.
+			if ( transientObject() && ! TransientTimer.isActive() ) {
+				fadeTransientLabel();
+			}
+			
+			//Try new HoverPoint, restart nHoverTicks counter
+			setHoverPoint( mousePoint() );
+			nHoverTicks = 0;
+		}
+	}
+}
+
+
 //Slots
+
+void SkyMap::slotTransientTimeout( void ) {
+	//to fade the labels, we will need to smoothly transition from UserLabelColor to SkyColor.
+	QColor c1 = data->options->colorScheme()->colorNamed( "UserLabelColor" );
+	QColor c2 = data->options->colorScheme()->colorNamed( "SkyColor" );
+	
+	int dRed =   ( c2.red()   - c1.red()   )/20;
+	int dGreen = ( c2.green() - c1.green() )/20;
+	int dBlue =  ( c2.blue()  - c1.blue()  )/20;
+	int newRed   = TransientColor.red()   + dRed;
+	int newGreen = TransientColor.green() + dGreen;
+	int newBlue  = TransientColor.blue()  + dBlue;
+	
+	//Check to see if we have arrived at the target color (SkyColor).
+	//If so, point TransientObject to NULL.
+	if ( abs(newRed-c2.red()) < abs(dRed) || abs(newGreen-c2.green()) < abs(dGreen) || abs(newBlue-c2.blue()) < abs(dBlue) ) {
+		setTransientObject( NULL );
+		TransientTimer.stop();
+	} else { 
+		TransientColor.setRgb( newRed, newGreen, newBlue );
+		update();
+	}
+}
+
 void SkyMap::slotCenter( void ) {
 	setFocusPoint( clickedPoint() );
 	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -809,9 +1117,19 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 
 
 // force a new calculation of the skymap (used instead of update(), which may skip the redraw)
-//if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
+// if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
+// also, determine new coordinates of mouse cursor.
 void SkyMap::forceUpdate( bool now )
 {
+	QPoint mp( mapFromGlobal( QCursor::pos() ) );
+	double dx = ( 0.5*width()  - mp.x() )/zoomFactor();
+	double dy = ( 0.5*height() - mp.y() )/zoomFactor();
+
+	if (! unusablePoint (dx, dy)) {
+		//determine RA, Dec of mouse pointer
+		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() ) );
+	}
+
 	computeSkymap = true;
 	if ( now ) repaint();
 	else update();

@@ -21,7 +21,10 @@
 #ifndef STAROBJECT_H
 #define STAROBJECT_H
 
+#include <qpoint.h>
+
 #include "skyobject.h"
+#include "kspopupmenu.h"
 
 class SkyObjectName;
 class QPainter;
@@ -191,6 +194,13 @@ class StarObject : public SkyObject {
 
 	//overloaded from SkyObject
 	void drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
+
+/**Show star object popup menu.  Overloaded from virtual 
+	*SkyObject::showPopupMenu()
+	*@param pmenu pointer to the KSPopupMenu object
+	*@param pos QPojnt holding the x,y coordinates for the menu
+	*/
+	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createStarMenu( this ); pmenu->popup( pos ); }
 
 private:
 	QString SpType;

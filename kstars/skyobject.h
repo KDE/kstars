@@ -23,12 +23,14 @@
 #include <qstringlist.h>
 #include <qdatetime.h>
 #include <qimage.h>
+#include <qpoint.h>
 
 #include <klocale.h>
 
 #include "skypoint.h"
 #include "dms.h"
 #include "geolocation.h"
+#include "kspopupmenu.h"
 
 /**@class SkyObject
 	*@short Information about an object in the sky.
@@ -141,6 +143,13 @@ public:
 /**@return true if the object is a solar system body.
 	*/
 	bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
+
+/**Show Type-specific popup menu.  This is a two-line function that needs to be 
+	*overloaded by each subclass of SkyObject, to make sure that the correct popupmenu 
+	*function gets called.  By overloading the function, we don't have to check the 
+	*object type when we need the menu.
+	*/
+	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
 
 /**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.

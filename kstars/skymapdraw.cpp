@@ -43,6 +43,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		ksw->data()->fovSymbol.draw( p, (float)(data->options->FOVSize*zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
 		drawZoomBox( p );
+		if ( transientObject() ) drawTransientLabel( p );
 		if (isAngleMode())
 			drawAngleRuler( p );
 	}
@@ -59,6 +60,19 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 	if ( ZoomRect.isValid() ) {
 		p.setPen( QPen( "white", 1, DotLine ) );
 		p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
+	}
+}
+
+void SkyMap::drawTransientLabel( QPainter &p ) {
+	if ( transientObject() ) {
+		p.setPen( TransientColor );
+
+		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
+			QPoint o = getXY( transientObject(), data->options->useAltAz, data->options->useRefraction, 1.0 );
+			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
+			}
+		}
 	}
 }
 

@@ -23,6 +23,7 @@
 #include <qpaintdevice.h>
 #include <qpoint.h>
 #include <qpixmap.h>
+#include <qtimer.h>
 
 #include "skyobject.h"
 #include "starobject.h"
@@ -193,6 +194,29 @@ public:
 	*/
 	void setMousePoint( SkyPoint f ) { MousePoint.set( f.ra(), f.dec() ); }
 
+	SkyPoint* hoverPoint() { return &HoverPoint; }
+	void setHoverPoint( SkyPoint *f ) { HoverPoint.set( f->ra(), f->dec() ); }
+
+	void fadeTransientLabel() { TransientTimer.start( TransientTimeout ); }
+
+	/**This function is called by KStarsData::updateTime(), so every 0.1 seconds of real time.
+		*First, check to see if MousePoint==HoverPoint.  If so, this indicates that the mouse 
+		*has not moved since HoverPoint was last set.  In this case, increment the counter
+		*nHoverTicks.  Then check if (nHoverTicks > MaxHoverTicks).  If so, then find the object
+		*nearest to HoverPoint and point TransientObject at that object.  if (MousePoint!=HoverPoint)
+		*then set HoverPoint=MousePoint and reset nHoverTicks=0 
+		*/
+	void checkHoverPoint();
+
+	/**Attempt to find an object near the SkyPoint argument.  There is a object-type preference 
+		*order for selecting among nearby objects:  objects of a less-preferred type will be selected 
+		*only if they are twice as close to the SkyPoint as the nearest object of the more-preferred 
+		*type.  The order (from most to least preferred) is:  Solar System, custom object, Messier, 
+		*NGC, IC, stars.  This code used to be in mousePressEvent(), but now we need it for 
+		*checkHoverPoint() as well.
+		*/
+	SkyObject* objectNearest( SkyPoint *p );
+
 /**If the user clicks on the sky map near an object, a pointer to the object is stored in
 	*the private member ClickedObject.  This function returns the ClickedObject pointer.
 	*@returns a pointer to the object clicked on by the user.
@@ -215,6 +239,11 @@ public:
 	*@param o the SkyObject pointer to be assigned to FocusObject
 	*/
 	void setFocusObject( SkyObject *o ) { FocusObject = o; }
+
+/**When the Mouse hovers near an object, it will be set as the TransientObject
+	*/
+	SkyObject* transientObject( void ) const { return TransientObject; }
+	void setTransientObject( SkyObject *o ) { TransientObject = o; }
 
 /**@returns the current setting of the starpix color mode (real colors, solid red, solid
 	*white or solid black)
@@ -386,6 +415,8 @@ protected:
 	virtual void resizeEvent( QResizeEvent * );
 
 private slots:
+	void slotTransientTimeout();
+
 /**Set the shape of mouse cursor to a cross with 4 arrows. */
 	void setMouseMoveCursor();
 
@@ -457,6 +488,7 @@ private:
 
 	void drawTelescopeSymbols(QPainter &psky);
 	void drawZoomBox( QPainter &psky);
+	void drawTransientLabel( QPainter &psky );
 	void SkyMap::drawAngleRuler( QPainter &psky );
 
 /**@short Sets the shape of the default mouse cursor to a cross.  */
@@ -495,8 +527,8 @@ private:
 	KSPopupMenu *pmenu;
 	QPixmap *sky;
 	InfoBoxes   *IBoxes;
-	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
-	SkyObject *ClickedObject, *FocusObject;
+	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint, HoverPoint;
+	SkyObject *ClickedObject, *FocusObject, *TransientObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
@@ -504,6 +536,12 @@ private:
 
 	QPoint beginRulerPoint, endRulerPoint;  // used in angle mode
 	QRect ZoomRect; //The manual-focus circle.
+
+	//data for transient object labels
+	QTimer TransientTimer;
+	QColor TransientColor;
+	unsigned int nHoverTicks, MaxHoverTicks, TransientTimeout;
+
 //DEBUG
 	bool dumpHorizon;
 	bool angularDistanceMode;

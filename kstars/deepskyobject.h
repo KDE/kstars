@@ -19,6 +19,7 @@
 #define DEEPSKYOBJECT_H
 
 #include <qpainter.h>
+#include <qpoint.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
@@ -29,6 +30,7 @@
 #include "skyobject.h"
 #include "dms.h"
 #include "geolocation.h"
+#include "kspopupmenu.h"
 
 /**@class DeepSkyObject
 	*@short Information about a "dep-sky" object; i.e., anything 
@@ -171,6 +173,13 @@ public:
 /**@return true if the object is not in a catalog
 	*/
 	bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
+
+/**Show Deep-sky object popup menu.  Overloaded from virtual 
+	*SkyObject::showPopupMenu()
+	*@param pmenu pointer to the KSPopupMenu object
+	*@param pos QPojnt holding the x,y coordinates for the menu
+	*/
+	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos ); }
 
 private:
 	unsigned char Catalog; 
