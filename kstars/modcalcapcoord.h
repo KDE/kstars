@@ -19,6 +19,7 @@
 #define MODCALCAPCOORD_H
 
 #include <qvbox.h>
+#include <kapplication.h>
 
 /** Module to compute the equatorial coordinates for a given date and time 
  * from a given epoch or equinox
@@ -34,7 +35,9 @@ class dms;
 class dmsBox;
 class SkyPoint;
 class QDateTime;
-//class timeBox;
+#if (KDE_VERSION <= 299)
+class timeBox;
+#endif
 class QTimeEdit;
 class QDateEdit;
 
@@ -86,9 +89,12 @@ private:
 	QWidget *rightBox;
 	QLineEdit *rafName, *decfName, *ra0Name, *dec0Name, *epoch0Name;
 	dmsBox *ra0Box, *dec0Box, *rafBox, *decfBox;
-//	timeBox *datBox, *timBox;
+#if (KDE_VERSION <= 299)
+	timeBox *datBox, *timBox;
+#else
 	QDateEdit *datBox;
 	QTimeEdit *timBox;
+#endif
 };
 
 #endif

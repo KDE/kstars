@@ -17,7 +17,11 @@
 
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
-//#include "timebox.h"
+
+#if (KDE_VERSION <= 299)
+#include "timebox.h"
+#endif
+
 #include "ksutils.h"
 #include <qdatetimeedit.h>
 #include <qwidget.h>
@@ -134,16 +138,22 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal time","UT:") );
-//	timBox = new timeBox(d0Box,"timeBox");
+#if (KDE_VERSION <= 299)
+	timBox = new timeBox(d0Box,"timeBox");
+#else
 	timBox = new QTimeEdit(d0Box,"timeBox");
+#endif
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Universal time","Date:") );
-//	datBox = new timeBox(d1Box,"dateBox",FALSE);
+#if (KDE_VERSION <= 299)
+	datBox = new timeBox(d1Box,"dateBox",FALSE);
+#else
 	datBox = new QDateEdit(d1Box,"dateBox");
+#endif
 
 	QPushButton *Now = new QPushButton( i18n( "Now" ), DateBox );
 	showCurrentTime();
@@ -220,10 +230,13 @@ void modCalcJD::computeFromJd (void)
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoDateTime( julianDay );
 
-//	datBox->showDate( dt.date() );
-//	timBox->showTime( dt.time() );
+#if (KDE_VERSION <= 299)
+	datBox->showDate( dt.date() );
+	timBox->showTime( dt.time() );
+#else
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
+#endif
 
 	modjulianDay = julianDay - 2400000.5;
 	showMjd(modjulianDay);
@@ -234,27 +247,35 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-//	datBox->clearFields();
-//	timBox->clearFields();
-	QDate date = QDate::currentDate();
-	datBox->setDate(date);
+#if (KDE_VERSION <= 299)
+	datBox->clearFields();
+	timBox->clearFields();
+#else
+	datBox->setDate(QDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
+#endif
 }
 
 void modCalcJD::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
-	
-//	datBox->showDate( dt.date() );
-//	timBox->showTime( dt.time() );
+
+#if (KDE_VERSION <= 299)
+	datBox->showDate( dt.date() );
+	timBox->showTime( dt.time() );
+#else
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
+#endif
 }
 
 QDateTime modCalcJD::getQDateTime (void)
 {
-//	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+#if (KDE_VERSION <= 299)
+	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+#else
 	QDateTime dt ( datBox->date() , timBox->time() );
+#endif
 
 	return dt;
 }

@@ -19,6 +19,7 @@
 #define MODCALCSIDTIME_H
 
 #include <qvbox.h>
+#include <kapplication.h>  // KDE_VERSION is defined here (KDE < 3.0)
 
 /**
   * Class which implements the KStars calculator module to compute Universal
@@ -77,9 +78,12 @@ private:
 	
 	QRadioButton *UtRadio, *StRadio;
 	QWidget *rightBox;
-//	timeBox *UtBox, *StBox, *datBox;
+#if (KDE_VERSION <= 299)
+	timeBox *UtBox, *StBox, *datBox;
+#else
 	QTimeEdit *UtBox, *StBox;
 	QDateEdit *datBox;
+#endif
 	dmsBox *longBox;
 
 };

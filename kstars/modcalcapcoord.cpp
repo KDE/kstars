@@ -22,7 +22,10 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
-//#include "timebox.h"
+
+#if (KDE_VERSION <= 299)
+#include "timebox.h"
+#endif
 
 #include <qwidget.h>
 #include <qlabel.h>
@@ -68,16 +71,22 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal Time","UT:") );
-//	timBox = new timeBox(d0Box,"timeBox");
+#if (KDE_VERSION <= 299)
+	timBox = new timeBox(d0Box,"timeBox");
+#else
 	timBox = new QTimeEdit(d0Box,"timeBox");
+#endif
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Date:") );
-//	datBox = new timeBox(d1Box,"dateBox",FALSE);
+#if (KDE_VERSION <= 299)
+	datBox = new timeBox(d1Box,"dateBox",FALSE);
+#else
 	datBox = new QDateEdit(d1Box,"dateBox");
+#endif
 
 	showCurrentTime();
 
@@ -176,17 +185,23 @@ void modCalcApCoord::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-//	datBox->showDate( dt.date() );
-//	timBox->showTime( dt.time() );
+#if (KDE_VERSION <= 299)
+	datBox->showDate( dt.date() );
+	timBox->showTime( dt.time() );
+#else
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
+#endif
 
 }
 
 QDateTime modCalcApCoord::getQDateTime (void)
 {
-//	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+#if (KDE_VERSION <= 299)
+	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+#else
 	QDateTime dt ( datBox->date() , timBox->time() );
+#endif
 
 	return dt;
 }
@@ -338,10 +353,13 @@ void modCalcApCoord::slotClearCoords(){
 	rafBox->clearFields();
 	decfBox->clearFields();
 	epoch0Name->setText("");
-//	datBox->clearFields();
-//	timBox->clearFields();
+#if (KDE_VERSION <= 299)
+	datBox->clearFields();
+	timBox->clearFields();
+#else
 	datBox->setDate(QDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
+#endif
 }
 
 void modCalcApCoord::slotComputeCoords(){

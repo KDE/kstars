@@ -19,6 +19,7 @@
 #define MODCALCJD_H
 
 #include <qvbox.h>
+#include <kapplication.h>
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
@@ -34,7 +35,9 @@ class VBox;
 class QLineEdit;
 class QRadioButton;
 class QDateTime;
-//class timeBox;
+#if (KDE_VERSION <= 299)
+class timeBox;
+#endif
 class QTimeEdit;
 class QDateEdit;
 
@@ -68,10 +71,13 @@ private:
 	QVBox *rightBox;
 	QLineEdit *JdName, *MjdName, *DayName, *MonthName, *YearName;
 	QRadioButton *JdRadio, *MjdRadio, *DateRadio;
-//	timeBox *timBox, *datBox;
+#if (KDE_VERSION <= 299)
+	timeBox *timBox, *datBox;
+#else
 	QTimeEdit *timBox;
 	QDateEdit *datBox;
-		
+#endif
+
 };
 
 #endif
