@@ -40,6 +40,7 @@
 #include "ksutils.h"
 #include "skymap.h"
 #include "imageviewer.h"
+#include "infoboxes.h"
 #include "addlinkdialog.h"
 
 #if (QT_VERSION < 300)
@@ -522,6 +523,9 @@ void SkyMap::slewFocus( void ) {
 		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+                if ( foundObject() )
+                       ksw->infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+
 		ksw->setHourAngle();
 		slewing = false;
 
