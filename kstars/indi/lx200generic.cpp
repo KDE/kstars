@@ -37,7 +37,7 @@
 ** daylight on non-Linux systems to record whether DST is in effect.
 */
 
-#ifndef __Linux__
+#ifndef __linux__
 static int daylight = 0;
 #endif
 
@@ -48,7 +48,7 @@ static inline double timezoneOffset()
 ** Otherwise, we need to make a little detour. The directions of the offset
 ** are different: CET is -3600 in Linux and +3600 elsewhere.
 */
-#ifdef __Linux__
+#ifdef __linux__
   return timezone / (60 * 60);
 #else
   time_t now;
