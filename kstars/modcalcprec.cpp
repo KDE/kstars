@@ -112,10 +112,8 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentS
 	D1Lay->addWidget(rafdecfBox);
 
 	QSpacerItem * downSpacer = new QSpacerItem(400,500);
-	QGroupBox * noBox = new QGroupBox (rightBox);
-	// QVBox * noBox = new QVBox (rightBox);
+	QVBox * noBox = new QVBox (rightBox);
 	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
-	//QVBoxLayout * D2Lay = new QVBoxLayout( rightBox);
 
 	D2Lay->addItem(downSpacer);
 	
