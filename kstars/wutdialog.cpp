@@ -39,40 +39,40 @@
 #include <qcursor.h>
 
 WUTDialog::WUTDialog(KStars *ks) :
-	KDialogBase (KDialogBase::Plain, i18n("What's up tonight"), Ok, Ok, (QWidget*)ks),
+	KDialogBase (KDialogBase::Plain, i18n("What's up tonight"), Close, Close, (QWidget*)ks),
 	kstars(ks), EveningFlag(0) {
-	
+
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	
+
 	objectList = &(ks->data()->ObjNames);
 	objectList->setLanguage( ks->options()->useLatinConstellNames );
-	
+
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();
 	JDToday = kstars->data()->CurrentDate;
 	//Today is the Local Date/Time
 	Today = KSUtils::JDtoUT( JDToday ).addSecs( int( 3600.*geo->TZ() ) );
-	
+
 	//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date`
 	if ( Today.time().hour() < 6 ) {
 		JDToday -= 1.0;
 		Today = Today.addDays( -1 );
 	}
-	
+
 	JDTomorrow = JDToday + 1.0;
-	
+
 	WUT = new WUTDialogUI( page );
 	vlay->addWidget( WUT );
-	
+
 	QString sGeo = geo->translatedName();
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
 	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
 	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date(), true ) ) );
-	
+
 	initCategories();
-	
+
 	makeConnections();
 
 	QTimer::singleShot(0, this, SLOT(init()));
@@ -86,7 +86,7 @@ void WUTDialog::makeConnections() {
 	connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
 	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListBoxItem*) ), 
+	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListBoxItem*) ),
 			SLOT( slotDisplayObject(QListBoxItem*) ) );
 	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
 }
@@ -105,19 +105,19 @@ void WUTDialog::initCategories() {
 
 void WUTDialog::init() {
 	QString sRise, sSet, sDuration;
-	
+
 	// reset all lists
 	for (int i=0; i<NCATEGORY; i++) {
 		lists.visibleList[i].clear();
 		lists.initialized[i] = false;
 	}
-	
+
 	// sun almanac information
 	SkyObject *o = (SkyObject*) kstars->data()->PCat->planetSun();
 	sunRiseTomorrow = o->riseSetTime( JDTomorrow, geo, true );
 	sunSetToday = o->riseSetTime( JDToday, geo, false );
 	sunRiseToday = o->riseSetTime( JDToday, geo, true );
-	
+
 	//check to see if Sun is circumpolar
 	if ( o->checkCircumpolar( geo->lat() ) ) {
 		if ( o->alt()->Degrees() > 0.0 ) {
@@ -132,25 +132,25 @@ void WUTDialog::init() {
 	} else {
 		sRise = sunRiseTomorrow.toString("hh:mm");
 		sSet = sunSetToday.toString("hh:mm");
-		
+
 		float Dur = 24.0 + (float)sunRiseTomorrow.hour() + (float)sunRiseTomorrow.minute()/60.0 -
 				(float)sunSetToday.hour() - (float)sunSetToday.minute()/60.0;
 		int hDur = int(Dur);
 		int mDur = int(60.0*(Dur - (float)hDur));
 		sDuration = QString().sprintf( "%02d:%02d", hDur, mDur );
 	}
-	
+
 	WUT->SunSetLabel->setText( i18n( "Sunset: %1" ).arg(sSet) );
 	WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" ).arg(sRise) );
 	WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours" ).arg( sDuration ) );
-	
+
 	// moon almanac information
 	o = (SkyObject*) kstars->data()->Moon;
 	moonRise = o->riseSetTime( JDToday, geo, true );
 	moonSet = o->riseSetTime( JDToday, geo, false );
-	if ( moonSet < moonRise ) 
+	if ( moonSet < moonRise )
 		moonSet = o->riseSetTime( JDTomorrow, geo, false );
-	
+
 	//check to see if Moon is circumpolar
 	if ( o->checkCircumpolar( geo->lat() ) ) {
 		if ( o->alt()->Degrees() > 0.0 ) {
@@ -164,12 +164,12 @@ void WUTDialog::init() {
 		sRise = moonRise.toString("hh:mm");
 		sSet = moonSet.toString("hh:mm");
 	}
-	
+
 	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );
 	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1" ).arg( sSet ) );
-	WUT->MoonIllumLabel->setText( i18n( "Moon's Illumination fraction", "Moon illum.: %1%" ).arg( 
+	WUT->MoonIllumLabel->setText( i18n( "Moon's Illumination fraction", "Moon illum.: %1%" ).arg(
 			int(100.0*kstars->data()->Moon->illum() ) ) );
-	
+
 	splitObjectList();
 	// load first list
 	slotLoadList(0);
@@ -235,7 +235,7 @@ void WUTDialog::slotLoadList(int i) {
 	}
 	setCursor(QCursor(Qt::ArrowCursor));
 	lists.initialized[i] = true;
-	
+
 	// highlight first item
 	if ( WUT->ObjectListBox->count() ) {
 		WUT->ObjectListBox->setSelected(0, true);
@@ -247,7 +247,7 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	bool visible( false );
 	double minAlt = 20.0; //minimum altitude for object to be considered 'visible'
 	SkyPoint sp = (SkyPoint)*(oname->skyObject()); //local copy of skyObject's position
-	
+
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
 	QDateTime T1 = Today;
 	T1.setTime( sunSetToday );
@@ -264,31 +264,31 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		T1.setTime( QTime( 0, 0, 0 ) ); //midnight
 		T2.setTime( sunRiseTomorrow );
 	}
-	
+
 	for ( QDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
 		//Need LST of the test time, expressed as a dms object.
 		QDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
 		dms LST = KSUtils::UTtoLST( ut, geo->lng() );
-		
+
 		//check altitude of object at this time.
 		sp.EquatorialToHorizontal( &LST, geo->lat() );
-		
+
 		if ( sp.alt()->Degrees() > minAlt ) {
 			visible = true;
 			break;
 		}
 	}
-	
+
 	return visible;
 }
 
 void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 	QTime tRise, tSet, tTransit;
 	QString sRise, sTransit, sSet;
-	
+
 	if ( item==0 ) { //no object selected
 		WUT->ObjectBox->setTitle( i18n( "No object selected" ) );
-		
+
 		sRise = "--:--";
 		sTransit = "--:--";
 		sSet = "--:--";
@@ -308,21 +308,21 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 		} else {
 			tRise = o->riseSetTime( JDToday, geo, true );
 			tSet = o->riseSetTime( JDToday, geo, false );
-			if ( tSet < tRise ) 
+			if ( tSet < tRise )
 				tSet = o->riseSetTime( JDTomorrow, geo, false );
 
 			sRise = QString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
 			sSet = QString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
 		}
-		
+
 		tTransit = o->transitTime( JDToday, geo );
 		if ( tTransit < tRise )
 			tTransit = o->transitTime( JDTomorrow, geo );
 		sTransit = QString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
-	
+
 		WUT->DetailButton->setEnabled( true );
 	}
-	
+
 	WUT->ObjectRiseLabel->setText( i18n( "Rises at: %1" ).arg( sRise ) );
 	WUT->ObjectTransitLabel->setText( i18n( "Transits at: %1" ).arg( sTransit ) );
 	WUT->ObjectSetLabel->setText( i18n( "Sets at: %1" ).arg( sSet ) );
@@ -348,7 +348,7 @@ void WUTDialog::slotChangeDate() {
 		JDToday = KSUtils::UTtoJD( Today.addSecs( int( -3600.*geo->TZ() ) ) );
 		JDTomorrow = JDToday + 1.0;
 		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( KGlobal::locale()->formatDate( Today.date(), true ) ) );
-		
+
 		int i = WUT->CategoryListBox->currentItem();
 		init();
 		slotLoadList( i );
@@ -364,7 +364,7 @@ void WUTDialog::slotChangeLocation() {
 			if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 			sGeo += ", " + geo->translatedCountry();
 			WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-			
+
 			int i = WUT->CategoryListBox->currentItem();
 			init();
 			slotLoadList( i );
