@@ -1057,7 +1057,7 @@ void ScriptBuilder::slotFindObject() {
 	if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
 		setUnsavedChanges( true );
 
-		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->objName()->translatedText() );
+		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->objName()->text() );
 	}
 }
 
