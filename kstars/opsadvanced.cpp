@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
-
-#include "opsadvanced.h"
 #include "timestepbox.h"
 
 OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl ) 

@@ -14,14 +14,23 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <qfile.h>
+
+#include <klocale.h>
 #include <knuminput.h>
 #include <kcombobox.h>
 #include <kpushbutton.h>
 #include <kcolordialog.h>
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
+#include <kstandarddirs.h>
 
 #include "opscolors.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "colorscheme.h"
 
 OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl ) 
 	: OpsColorsUI( p, name, fl ) 

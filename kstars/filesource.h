@@ -18,54 +18,49 @@
 #ifndef FILESOURCE_H
 #define FILESOURCE_H
 
-/**
-  *FileSource is an asynchronous class for reloading star data while running
-  *the program. It's basing on QDataSource class and implements the function
-  *for reading a file step by step and send these data to an QDataSink object.
-  *KStarsData uses this class for asynchronous io.
-  *@author Thomas Kabelmann
-	*@version 0.9
-  */
+/**@class FileSource
+	*FileSource is an asynchronous class for reloading star data while running
+	*the program. It's basing on QDataSource class and implements the function
+	*for reading a file step by step and send these data to an QDataSink object.
+	*KStarsData uses this class for asynchronous io.
+	*@author Thomas Kabelmann
+	*@version 1.0
+	*/
 
 #include <qasyncio.h>
-//#include <qtextstream.h>
 #include <qstring.h>
 
 class KStarsData;
-//class QFile;
 class KSFileReader;
 
 class FileSource : public QDataSource  {
 
 	public:
-	/**
-		*constructor needs an KStarsData object, a file name and the new magnitude
+	/**constructor needs an KStarsData object, a file name and the new magnitude
 		*/
 		FileSource( KStarsData *ksdata, float magnitude );
 
 	/** destructor */
 		~FileSource();
   	
-	/**
-		*send a value if ready for sending data
+	/**send a value indicating whether the object is ready to send data.
+		*@return 1 if data is ready to send; return -1 if the stream is finished.
 		*/
 		int readyToSend();
 
-	/**
-		*Is this object rewindable?
-		*Returs false, because it's not needed to rewind.
+	/**Is this object rewindable?
+		*@return false, because it's not needed to rewind.
 		*/
 		bool rewindable() { return false; }
 		
-	/**
-		*The function for sending data to an QDataSink object. Here will all data
-		*operations defined. Due to this function is virtual, we need a second int
+	/**The function for sending data to an QDataSink object. Here will all data
+		*operations defined. Because this function is virtual, we need a second int
 		*parameter, but we don't use it, so it's unnamed.
+		*@p sink pointer to the QDataSink object which will receive the data stream
 		*/
 		void sendTo( QDataSink *sink, int );
 
-	/**
-		*returns current magnitude to load
+	/**@return current magnitude to load (always returns maxMagnitude)
 		*/
 		float magnitude() { return maxMagnitude; }
 		
@@ -86,8 +81,7 @@ class FileSource : public QDataSource  {
 
 		KStarsData *data;
 
-	/**
-		*maxLines defines how many lines in data file should be read and
+	/**maxLines defines how many lines in data file should be read and
 		*send to QDataSink. This is only needed if a data block is longer
 		*than the max defined lines. I figured out this value of 500
 		*on a fast system, so if it is to high the value might be decreased.
@@ -100,8 +94,8 @@ class FileSource : public QDataSource  {
 		*will also defined with this value.
 		*/
 		#define maxLines 500
-	/**
-		*The loaded data will stored in a string array and a pointer to first
+	
+	/**The loaded data will stored in a string array and a pointer to first
 		*object in array will send to StarDataSink.
 		*/
 		QString stringArray[ maxLines ];

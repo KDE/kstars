@@ -19,15 +19,21 @@
 #define KSWIZARD_H
 
 #include <qmemarray.h>
-
 #include "kswizardui.h"
-#include "kstars.h"
-#include "geolocation.h"
 
-/**@short Setup Wizard for KStars
+/**@class Setup Wizard for KStars
+	*The Setup Wizard will be automatically opened when KStars runs 
+	*for the first time.  It allows the user to set up some basic parameters:
+	*@li Geographic Location
+	*@li Telescopes and other devices
+	*@li Download extra data files
+	*@li Set basic view options (?) 
 	*@author Jason Harris
 	*@version 1.0
 	*/
+
+class KStars;
+class GeoLocation;
 
 class KSWizard : public KSWizardUI
 {

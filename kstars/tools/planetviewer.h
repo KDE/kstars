@@ -37,7 +37,7 @@ public slots:
 	void slotZoomOut();
 
 protected:
-	virtual void paintEvent( QPaintEvent *e );
+	virtual void paintEvent( QPaintEvent* );
 	virtual void keyPressEvent( QKeyEvent *e );
 
 private:

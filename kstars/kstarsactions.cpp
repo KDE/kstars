@@ -19,6 +19,8 @@
 #include <sys/stat.h>
 
 #include <kdebug.h>
+#include <kaction.h>
+#include <klineedit.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -26,13 +28,13 @@
 #include <kprinter.h>
 #include <ktempfile.h>
 #include <ktip.h>
+#include <kstandarddirs.h>
 #include <kconfigdialog.h>
 #include <kfiledialog.h>
+#include <kinputdialog.h>
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
-#include <qpaintdevicemetrics.h>
-#include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qdir.h>
 
@@ -42,18 +44,23 @@
 #include "opscolors.h"
 #include "opsadvanced.h"
 
-#include <kinputdialog.h>
-
 #include "Options.h"
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "skyobject.h"
+#include "skyobjectname.h"
+#include "ksplanetbase.h"
+#include "simclock.h"
+#include "ksutils.h"
+#include "infoboxes.h"
+#include "toggleaction.h"
 #include "timedialog.h"
 #include "locationdialog.h"
 #include "finddialog.h"
 #include "focusdialog.h"
 #include "fovdialog.h"
 #include "kswizard.h"
-#include "infoboxes.h"
-#include "ksutils.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
@@ -61,8 +68,8 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
-#include "indimenu.h"
 #include "devmanager.h"
+#include "indimenu.h"
 #include "indidriver.h"
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"

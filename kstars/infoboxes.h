@@ -25,18 +25,23 @@
 #include <qpoint.h>
 #include <kdebug.h>
 
-#include "geolocation.h"
-#include "skypoint.h"
 #include "infobox.h"
 
-/**Infoboxes manages the three infobox objects which are drawn on the Skymap.
+/**@class InfoBoxes
+	*Infoboxes manages the three infobox objects which are drawn on the Skymap.
 	*Each Infobox is a member variable in Infoboxes.  Infoboxes handles user 
 	*interactions with the boxes, and makes sure they do not overlap each other or 
 	*move outside the bounds of the SkyMap.
 	*@short Infoboxes encapsulates and manages the three Infobox objects
 	*@author Jason Harris
-	*@version 0.9
-  */
+	*@version 1.0
+	*/
+
+class QPainter;
+class GeoLocation;
+class SkyPoint;
+class dms;
+class InfoBox;
 
 class InfoBoxes : public QObject {
 Q_OBJECT
@@ -90,11 +95,11 @@ public:
 /**Destructor (empty)*/
 	~InfoBoxes();
 
-/**@returns pointer to the Time infobox*/
+/**@return pointer to the Time infobox*/
 	InfoBox *timeBox()  { return TimeBox; }
-/**@returns pointer to the Geographic infobox*/
+/**@return pointer to the Geographic infobox*/
 	InfoBox *geoBox()   { return GeoBox; }
-/**@returns pointer to the Focus-object infobox*/
+/**@return pointer to the Focus-object infobox*/
 	InfoBox *focusBox() { return FocusBox; }
 
 /**Resets the width and height parameters.  These usually reflect the size
@@ -106,12 +111,12 @@ public:
 	*/
 	void resize( int w, int h );
 
-/**@returns the width of the region containing the infoboxes (usually the
+/**@return the width of the region containing the infoboxes (usually the
 	*width of the Skymap)
 	*/
 	int width() const { return Width; }
 
-/**@returns the height of the region containing the infoboxes (usually the
+/**@return the height of the region containing the infoboxes (usually the
 	*height of the Skymap)
 	*/
 	int height() const { return Height; }
@@ -132,14 +137,14 @@ public:
 	*Finally, set the internal variable GrabPos to record the relative position of the
 	*mouse cursor inside the box (we hold this position constant while dragging).
 	*@param e The mouse event to check (it's a mousePressEvent)
-	*@returns true if the mouse press occurred inside one of the infoboxes.
+	*@return true if the mouse press occurred inside one of the infoboxes.
 	*/
 	bool grabBox( QMouseEvent *e );
 	
 /**Set the internal variable GrabBox to 0, indicating that no box is currently 
 	*grabbed.  Also determine if any box should be anchored to an edge.  (This
 	*is called by SkyMap::mouseReleaseEvent() )
-	*@returns true if a box was grabbed in the first place; otherwise, return false.
+	*@return true if a box was grabbed in the first place; otherwise, return false.
 	*/
 	bool unGrabBox();
 	
@@ -148,7 +153,7 @@ public:
 	*Once the box has been moved, we call fixCollisions() to make sure the boxes don't
 	*overlap or exceed the SkyMap boundaries.
 	*@param e The mouse event which contains the new mouse cursor position
-	*@returns false if no box is grabbed; otherwise, moves the grabbed box and returns true.
+	*@return false if no box is grabbed; otherwise, moves the grabbed box and returns true.
 	*/
 	bool dragBox( QMouseEvent *e );
 	
@@ -156,7 +161,7 @@ public:
 	*After shading the box, call fixCollisions() on the other two boxes.
 	*(This is called by SkyMap::mouseDoubleClickEvent() )
 	*@param e the mouse event containing the position of the double-click.
-	*@returns false if the double-click was not inside any box; otherwise shade the
+	*@return false if the double-click was not inside any box; otherwise shade the
 	*target box and return true.
 	*/
 	bool shadeBox( QMouseEvent *e );
@@ -167,11 +172,11 @@ public:
 	*SkyMap boundary is reached).  The target box is then moved in the direction that 
 	*required the smallest displacement to remove the overlap.
 	*@param target the infobox which should be tested for collisions.
-	*@returns false if the box collisions could not be resolved; otherwise, returns true.
+	*@return false if the box collisions could not be resolved; otherwise, returns true.
 	*/
 	bool fixCollisions( InfoBox *target );
 	
-/**@returns true if the collection of infoboxes is visible (i.e., not hidden).
+/**@return true if the collection of infoboxes is visible (i.e., not hidden).
 	*/
 	bool isVisible() { return Visible; }
 
@@ -188,10 +193,12 @@ public slots:
 	*@param t The bool parameter to send
 	*/
 	void showTimeBox( bool t ) { TimeBox->setVisible( t ); }
+
 /**Call the GeoBox's setVisible() function.
 	*@param t The bool parameter to send
 	*/
 	void showGeoBox( bool t ) { GeoBox->setVisible( t ); }
+
 /**Call the FocusBox's setVisible() function.
 	*@param t The bool parameter to send
 	*/
@@ -204,31 +211,31 @@ public slots:
 	*@param lt The Local Time date/time object
 	*@param lst The Sidereal Time object
 	*@param jd The Julian Date (long double)
-	*@returns true if values have changed
+	*@return true if values have changed
 	*/
 	bool timeChanged(QDateTime ut, QDateTime lt, dms *lst, long double julian);
 
 /**Update the GeoBox strings according to the argument.
 	*@param geo The Geographic Location (we get the name, longitude and latitude from this)
-	*@returns true if values have changed
+	*@return true if values have changed
 	*/
 	bool geoChanged(const GeoLocation *geo);
 
 /**Update the FocusBox coordinates strings according to the argument.
 	*@param p the SkyPoint object from which we get the coordinates.
-	*@returns true if values have changed
+	*@return true if values have changed
 	*/
 	bool focusCoordChanged(const SkyPoint *p);
 
 /**Update the FocusBox name string according to the argument.
 	*@param n The object name
-	*@returns true if values have changed
+	*@return true if values have changed
 	*/
 	bool focusObjChanged(const QString &n);
 
 /**Check if boxes are anchored with bottom or right border.
 	@param resetToDefault reset all borders of boxes to false before checking borders.
-	*/	
+	*/
 	void checkBorders(bool resetToDefault=true);
 
 private:

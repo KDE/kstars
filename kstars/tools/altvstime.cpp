@@ -15,25 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdatetime.h>
+#include <qdatetimeedit.h>
+#include <qlayout.h>
+#include <qpainter.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
-#include <qdatetimeedit.h>
-#include <qptrlist.h>
-#include <qvariant.h>
 #include <kdialogbase.h>
 
 #include "altvstime.h"
 #include "altvstimeui.h"
 #include "dms.h"
+#include "dmsbox.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "skypoint.h"
 #include "skyobject.h"
-#include "geolocation.h"
+#include "skyobjectname.h"
 #include "ksnumbers.h"
-#include "dmsbox.h"
 #include "ksutils.h"
-#include "kstars.h"
+#include "objectnamelist.h"
+#include "simclock.h"
 #include "finddialog.h"
 #include "locationdialog.h"
 

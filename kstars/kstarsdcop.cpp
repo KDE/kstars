@@ -20,9 +20,13 @@
 #include <kshortcut.h>
 
 #include "kstars.h"
-#include "Options.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "skyobject.h"
 #include "ksutils.h"
 #include "infoboxes.h"
+#include "simclock.h"
+#include "Options.h"
 
 void KStars::setRaDec( double ra, double dec ) {
 	map()->setDestination( new SkyPoint( ra, dec ) );

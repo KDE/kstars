@@ -15,23 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #ifndef SKYPOINT_H
 #define SKYPOINT_H
 
 #include <qstring.h>
 
-#include "ksnumbers.h"
 #include "dms.h"
 
-
 /**@class SkyPoint
-	*@short Stores dms coordinates for a point in the sky, and functions
-	*for converting between coordinate systems.
-	*@author Jason Harris
-	*@version 1.0
 	*
 	*The sky coordinates of a point in the sky.  The
 	*coordinates are stored in both Equatorial (Right Ascension,
@@ -44,7 +35,13 @@
 	*(RA0, Dec0), which were the true coordinates on Jan 1, 2000.
 	*The true coordinates (RA, Dec) at any other epoch can be found
 	*from the catalog coordinates using updateCoords().
+	*@short Stores dms coordinates for a point in the sky.
+	*for converting between coordinate systems.
+	*@author Jason Harris
+	*@version 1.0
 	*/
+
+class KSNumbers;
 
 class SkyPoint {
 public:

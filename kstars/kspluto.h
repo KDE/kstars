@@ -20,7 +20,7 @@
 
 #include "ksplanetbase.h"
 
-/**
+/**@class KSPluto
 	*A subclass of KSPlanetBase that provides a custom findPosition() function
 	*needed for the unique orbit of Pluto.  The Pluto ephemeris gives its
 	*Heliocentric coordinates in rectangular (X,Y,Z), which must be converted
@@ -33,18 +33,23 @@
 class KStarsData;
 class KSPluto : public KSPlanetBase  {
 public:
-/**
-	*Default constructor.  Calls KSPlanetBase constructor with name="Pluto" and
-	*a null image.
+/**Constructor.  Calls KSPlanetBase constructor with name="Pluto".
+	*@p kd pointer to the KStarsData object
+	*@p fn filename of Pluto's image
 	*/
 	KSPluto(KStarsData *kd, QString fn="");
 
-/**Destructor */
+/**Destructor.  Delete some member data. */
 	virtual ~KSPluto();
 
+/**Read orbital data from disk.  Just calls loadData("Pluto").
+	*/
 	virtual bool loadData();
 
 protected:
+/**Read orbital data from disk.
+	*@param n name (should *always* be Pluto)
+	*/
 	virtual bool loadData(QString n);
 
 /**A custom findPosition() function needed for the unique orbit of Pluto.
@@ -59,6 +64,7 @@ private:
 	class XYZData {
 		public:
 			double ac, as;
+			/**Constructor*/
 			XYZData(double AC = 0.0, double AS = 0.0) : ac(AC), as(AS) {};
 	};
 	static int DATAARRAYSIZE;

@@ -22,17 +22,17 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qimage.h>
-#include <qwmatrix.h>
-#include <qpoint.h>
 
 #include <kdebug.h>
 
 #include "skyobject.h"
 #include "dms.h"
-#include "ksnumbers.h"
-#include "kspopupmenu.h"
 
 #define MAXTRAIL 400  //maximum number of points in a planet trail
+
+class QPoint;
+class KSNumbers;
+class KSPopupMenu;
 
 /**@class EclipticPosition
 	*@short The ecliptic position of a planet (Longitude, Latitude, and distance from Sun).
@@ -59,12 +59,12 @@ class EclipticPosition {
 };
 
 /**@class KSPlanetBase
-	*@short Provides necessary information about objects in the solar system.
-	*@author Mark Hollomon
-	*@version 1.0
 	*A subclass of SkyObject that provides additional information
 	*needed for solar system objects. This is a base class for KSPlanet,
 	* KSPluto, KSSun and KSMoon.
+	*@short Provides necessary information about objects in the solar system.
+	*@author Mark Hollomon
+	*@version 1.0
 	*/
 
 class KStarsData;

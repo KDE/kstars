@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "csegment.h"
+#include "skypoint.h"
 
 CSegment::CSegment() : Name1(), Name2() {
 	Nodes.setAutoDelete( true );

@@ -16,7 +16,10 @@
  ***************************************************************************/
 
 #include "objectnamelist.h"
+#include "skyobjectname.h"
+#include "skyobject.h"
 
+#include <qstring.h>
 #include <kdebug.h>
 
 ObjectNameList::ObjectNameList() {
@@ -144,13 +147,13 @@ int ObjectNameList::getIndex( const QString &name ) {
 			}
 
 			/**
-				*Avoid invalid index due to non ASCII letters like "ö" etc. Add your own letters to put them in
+				*Avoid invalid index due to non ASCII letters like "ï¿½ etc. Add your own letters to put them in
 				*the right list (due to %96 index can't never get smaller than 0).
 				*/
 			if (index > 26) {
 				switch (index) {
-					case 41 : index = 5; break;	// é = e
-					case 54 : index = 15; break;	// ö = o
+					case 41 : index = 5; break;	// ï¿½= e
+					case 54 : index = 15; break;	// ï¿½= o
 					default : index = 0;						// all other letters
 				}
 				kdDebug() << k_funcinfo << "Object: " << name << " starts with non ASCII letter. Put it in list #" << index << endl;

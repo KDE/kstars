@@ -21,17 +21,19 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-/**
+/**@class KSMoon
 	*A subclass of SkyObject that provides information
 	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
 	*findPosition() function.  Also, there is a method findPhase(), which returns
 	*the lunar phase as a floating-point number between 0.0 and 1.0.
 	*@short Provides necessary information about the Moon.
-  *@author Jason Harris
-	*@version 0.9
-  */
+	*@author Jason Harris
+	*@version 1.0
+	*/
 
 class KStarsData;
+class KSSun;
+
 class KSMoon : public KSPlanetBase  {
 public:
 	/**
@@ -72,19 +74,20 @@ protected:
 		*(10 times less precise than the planets' positions!)
 		*@short moon-specific coordinate finder
 		*@param num KSNumbers pointer for the target date/time
-		*@param Earth pointer to the Earth (not used for the Moon)
+		*@note we don't use the Earth pointer here
 		*/
-	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth = 0 );
+	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
 	dms Phase;
 	static bool data_loaded;
 
-/**Class to encapsulate the Longitude and radius terms of the sums
+/**@class MoonLRData
+	*Encapsulates the Longitude and radius terms of the sums
 	*used to compute the moon's position.
 	*@short Moon Longitude and radius data object
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 	class MoonLRData {
 		public:
@@ -101,11 +104,12 @@ private:
 
 	static QPtrList<MoonLRData> LRData;
 
-/**Class to encapsulate the Latitude terms of the sums
+/**@class MoonBData
+	*Encapsulates the Latitude terms of the sums
 	*used to compute the moon's position.
 	*@short Moon Latitude data object
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 	class MoonBData {
 		public:

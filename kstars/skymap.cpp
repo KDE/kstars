@@ -15,18 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
 #include <kmessagebox.h>
+#include <kaction.h>
+#include <kstandarddirs.h>
 
+#include <qmemarray.h>
+#include <qpointarray.h>
 #include <qcursor.h>
 #include <qbitmap.h>
+#include <qpainter.h>
 
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "skymap.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -35,13 +42,17 @@
 #include "detaildialog.h"
 #include "addlinkdialog.h"
 #include "kspopupmenu.h"
-#include "skymap.h"
-
-#include <kapplication.h>
-#include <qmemarray.h>
+#include "simclock.h"
+#include "skyobject.h"
+#include "deepskyobject.h"
+#include "ksmoon.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
+#include "starobject.h"
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
- : QWidget (parent,name), data(d), computeSkymap (true), IBoxes(0), ClickedObject(0), FocusObject(0), TransientObject(0)
+ : QWidget (parent,name), computeSkymap(true), data(d), IBoxes(0), 
+		ClickedObject(0), FocusObject(0), TransientObject(0)
 {
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;

@@ -27,12 +27,12 @@
 
 #include <qvariant.h>
 #include <kdialogbase.h>
-#include <qfile.h>
 #include <kio/job.h>
 
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QFile;
 class KLineEdit;
 class KListBox;
 class KPushButton;

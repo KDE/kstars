@@ -18,14 +18,8 @@
 #ifndef PLANETCATALOG_H
 #define PLANETCATALOG_H
 
-#include <qstring.h>
-#include "ksplanetbase.h"
-#include "ksplanet.h"
-#include "kssun.h"
-#include "skyobjectname.h"
-#include "objectnamelist.h"
-
-/**This class contains a QPtrList of the eight major planets, as well as pointers
+/**@class PlanetCatalog
+	*This class contains a QPtrList of the eight major planets, as well as pointers
 	*to objects representing the Earth and Sun.  Note that the Sun also exists
 	*in the QPtrList, the external pointer is just for convenience.
 	*There are methods to search
@@ -34,13 +28,23 @@
 	*SkyPoint.
 	*@short the collection of planet objects.
 	*@author Mark Hollomon
-	*@version 0.9
- */
+	*@version 1.0
+	*/
 
 #include <qglobal.h>
+#include <qobject.h>
 #include <qptrlist.h>
 
+class QString;
 class KStarsData;
+class KSNumbers;
+class KSPlanetBase;
+class KSPlanet;
+class KSSun;
+class SkyPoint;
+class SkyObject;
+class ObjectNameList;
+class dms;
 
 class PlanetCatalog : public QObject {
 	Q_OBJECT
@@ -55,7 +59,9 @@ class PlanetCatalog : public QObject {
 	/**Loads all planetary data from files on disk into the appropriate objects. */
 		bool initialize();
 
-	/**Add pointers to the planetary objects to the ObjNames list. */
+	/**Add pointers to the planetary objects to the ObjNames list. 
+		*@p ObjNames the list of all named objects to which we will add the planets.
+		*/
 		void addObject( ObjectNameList &ObjNames ) const;
 
 	/**Determine the coordinates for all of the planets
@@ -65,22 +71,34 @@ class PlanetCatalog : public QObject {
 		*/
 		void findPosition( const KSNumbers *num, const dms *lat, const dms *LST );
 
-	/**@returns pointer to the Sun. */
+	/**@return pointer to the Sun. */
 		const KSSun *planetSun() const { return Sun; };
 
-	/**@returns pointer to the Earth. (must not be const because we call findPosition on it in KSPlanetBase::updateCoords() )*/
+	/**@return pointer to the Earth. (must not be const because we call findPosition on it in KSPlanetBase::updateCoords() )*/
 		KSPlanet *earth() { return Earth; };
 
-	/**Compute the present Horizontal coordinates of all planets. */
+	/**Compute the present Horizontal coordinates of all planets. 
+		*@p LST pointer to the current local sidereal time
+		*@p lat pointer to the current geographic latitude
+		*/
 		void EquatorialToHorizontal( dms *LST, const dms *lat );
 
-	/**@returns true if the SkyObject argument is a planet. */
+	/**@return true if the SkyObject argument is a planet. 
+		*@p so pointer to the SkyObject to be tested
+		*/
 		bool isPlanet(SkyObject *so) const;
 
-	/**@returns a pointer to the KSPlanetBase of the planet named in the argument.*/
+	/**@return a pointer to the KSPlanetBase of the planet named in the argument.
+		*@p n the name of the planet to point to
+		*@note if no planet with this name is found, return the NULL pointer.
+		*/
 		KSPlanetBase *findByName( const QString n) const;
 
-	/**@returns a pointer to the planet closest to the given SkyPoint (within max. radius r) */
+	/**@return a pointer to the planet closest to the given SkyPoint 
+		*(within a maximum angular search radius) 
+		*@p p the Sky point to find a planet near
+		*@p r the maximum angular search radius
+		*/
 		SkyObject *findClosest(const SkyPoint *p, double &r) const;
 
 	private:

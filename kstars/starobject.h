@@ -15,22 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #ifndef STAROBJECT_H
 #define STAROBJECT_H
 
 #include <qpoint.h>
 
 #include "skyobject.h"
-#include "kspopupmenu.h"
 
-class SkyObjectName;
 class QPainter;
 class QString;
+class KSPopupMenu;
 
-/**StarObject is a subclass of SkyObject.  It adds the Spectral type, and flags
+/**@class StarObject 
+	*This is a subclass of SkyObject.  It adds the Spectral type, and flags
 	*for variability and multiplicity.
 	*For stars, the primary name (n) is the latin name (e.g., "Betelgeuse").  The
 	*secondary name (n2) is the genetive name (e.g., "alpha Orionis").
@@ -207,8 +204,6 @@ class StarObject : public SkyObject {
 private:
 	QString SpType;
 
-//SONAME: I think this is deprecated (JH)
-//	SkyObjectName *soName;
 	double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
 	bool Multiplicity, Variability;
 };

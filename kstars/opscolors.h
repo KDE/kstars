@@ -17,11 +17,26 @@
 #ifndef OPSCOLORS_H
 #define OPSCOLORS_H
 
-#include <qwidget.h>
 #include <qstringlist.h>
 
 #include "opscolorsui.h"
-#include "kstars.h"
+
+/**@class OpsColors
+	*The Colors page allows the user to adjust all of the colors used to 
+	*display the night sky.  The colors are presented as a list of 
+	*colored rectangles and a description of its assignment in the map.  
+	*Clicking on any color opens a KColorDialog for selecting a new color.
+	*
+	*The user can also load preset color schemes, or create new schemes 
+	*from the current set of colors.
+	*  
+	*@short The Colors page of the Options window.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+
+class QWidget;
+class KStars;
 
 class OpsColors : public OpsColorsUI
 {

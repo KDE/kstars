@@ -15,22 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qlayout.h>
 #include <qfile.h>
 #include <qframe.h>
-#include <qlayout.h>
 #include <qpainter.h>
 #include <qstringlist.h>
 
 #include <klocale.h>
+#include <kdebug.h>
+#include <kpushbutton.h>
 #include <kcolorbutton.h>
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kpushbutton.h>
 
 #include "fovdialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "fovdialogui.h"
+#include "newfovui.h"
+
 
 //---------FOVDialog---------------//
 FOVDialog::FOVDialog( QWidget *parent )
@@ -170,7 +176,7 @@ void FOVDialog::slotEditFOV() {
 }
 
 void FOVDialog::slotRemoveFOV() {
-	int i = fov->FOVListBox->currentItem();
+	uint i = fov->FOVListBox->currentItem();
 	FOVList.remove( i );
 	fov->FOVListBox->removeItem( i );
 	if ( i == fov->FOVListBox->count() ) i--; //last item was removed
@@ -239,5 +245,7 @@ void NewFOV::slotComputeFOV() {
 	else if ( sender()->name() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
 		ui->FOVEdit->setText( QString("%1").arg( ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 0, 'f', 2 ) );
 }
+
+unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentItem(); }
 
 #include "fovdialog.moc"

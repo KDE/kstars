@@ -23,9 +23,6 @@
 
 #include <kdialogbase.h>
 
-#include "skyobject.h"
-#include "skyobjectname.h"
-
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
@@ -34,42 +31,79 @@ class QLineEdit;
 class QComboBox;
 class QListBox;
 class QListBoxItem;
-class QStringList;
+//class QStringList;
+class SkyObjectNameListItem;
 
-/**
+/**@class FindDialog
 	*Dialog window for finding SkyObjects by name.  The dialog contains
 	*a QListBox showing the list of named objects, a QLineEdit for filtering
 	*the list by name, and a QCombobox for filtering the list by object type.
 	*
 	*@short Find Object Dialog
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class FindDialog : public KDialogBase  {
 Q_OBJECT
 
 public:
-/**
-	*Constructor. Creates all widgets and packs them in QLayouts.  Connects
+/**Constructor. Creates all widgets and packs them in QLayouts.  Connects
 	*Signals and Slots.  Runs initObjectList().
 	*/
 	FindDialog( QWidget* parent = 0 );
 
-/**
-	*Destructor
+/**Destructor
 	*/
 	~FindDialog();
 
-/**
-  *Return the currently-selected item in the list
-  */
+/**@return the currently-selected item from the listbox of named objects
+	*/
 	SkyObjectNameListItem * currentItem() const { return currentitem; }
 
+public slots:
+/**When Text is entered in the QLineEdit, filter the List of objects
+	*so that only objects which start with the filter text are shown.
+	*/
+	void filter();
+
+/**When the selection of the object type QComboBox is changed, filter 
+	*the List of objects so that only objects of the selected Type are shown.
+	*/
+	void filterByType();
+	
+/**Overloading the Standard KDialogBase slotOk() to show a "sorry" message 
+	*box if no object is selected when the user presses Ok.  The window is 
+	*not closed in this case.
+	*/
+	void slotOk();
+
+private slots:
+/**Init object list after opening dialog.
+	*/
+	void init();
+
+/**Set the selected item in the list to the item specified.
+	*/
+	void updateSelection (QListBoxItem *);
+
+/**Change current filter options.
+	*/
+	void setFilter( int f );
+
 protected:
+/**Process Keystrokes.  The Up and Down arrow keys are used to select the 
+	*Previous/Next item in the listbox of named objects.
+	*@param e The QKeyEvent pointer 
+	*/
 	void keyPressEvent( QKeyEvent *e );
 
 private:
+/**
+	*Automatically select the first item in the list
+	*/
+	void setListItemEnabled();
+	
 	QVBoxLayout *vlay;
 	QHBoxLayout *hlay;
 	QListBox *SearchList;
@@ -80,42 +114,6 @@ private:
 	SkyObjectNameListItem *currentitem;
 	
 	int Filter;
-/**
-	*Automatically select the first item in the list
-	*/
-	void setListItemEnabled();
-	
-public slots:
-/**
-	*When Text is entered in the QLineEdit, filter the List of objects
-	*so that only objects which start with the filter text are shown.
-	*/	
-	void filter();
-
-/**
-	*When the selection of the QComboBox is changed, filter the List of
-	*objects so that only objects of the selected Type are shown.
-	*@param i the type to filter with
-	*/
-	void filterByType();
-	
-	void slotOk();
-
-private slots:
-/**
-	Init object list after opening dialog.
-	*/
-		void init();
-
-/**
-	*Set the selected item in the list to the item specified.
-	*/
-		void updateSelection (QListBoxItem *);
-/**
-	*Change current filter options.
-	*/
-		void setFilter( int f );
-	
 };
 
 #endif

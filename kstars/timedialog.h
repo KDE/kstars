@@ -21,8 +21,6 @@
 #include <kdialogbase.h>
 #include <qdatetime.h>
 #include <qvariant.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
 
 class QHBoxLayout;
 class QVBoxLayout;
@@ -32,7 +30,8 @@ class QLabel;
 class QPushButton;
 class KStars;
 
-/**Dialog for adjusting the Time and Date.  Contains a KDatePicker widget
+/**@class TimeDialog 
+	*A class for adjusting the Time and Date.  Contains a KDatePicker widget
 	*for selecting the date, and three QSpinBoxes for selecting the Hour,
 	*Minute and Second.  There is also a "Now" QPushbutton for selecting the
 	*Time and Date from the system clock.

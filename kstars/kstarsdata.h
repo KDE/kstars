@@ -18,44 +18,20 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <qfile.h>
 #include <qmap.h>
 #include <qptrlist.h>
 #include <qstring.h>
-#include <qstringlist.h>
 #include <qdatetime.h>
-#include <qtimer.h>
 
-#include <klocale.h>
 #include <kshortcut.h>
 
 #include <iostream>
 
-#include "dms.h"
 #include "fov.h"
-#include "csegment.h"
 #include "geolocation.h"
-#include "skypoint.h"
-#include "skyobject.h"
-#include "starobject.h"
-#include "deepskyobject.h"
-#include "skyobjectname.h"
-#include "ksplanet.h"
-#include "ksasteroid.h"
-#include "kscomet.h"
-#include "kspluto.h"
-#include "kssun.h"
-#include "ksmoon.h"
-#include "planetcatalog.h"
-
 #include "colorscheme.h"
-#include "simclock.h"
-#include "skymap.h"
 #include "objectnamelist.h"
-#include "timezonerule.h"
-#include "detaildialog.h"
-#include "jupitermoons.h"
-#include "indistd.h"
+#include "planetcatalog.h"
 #include "tools/lcgenerator.h"
 
 #define NHIPFILES 127
@@ -70,23 +46,42 @@
 #define DZOOM 1.10
 #define AU_KM 1.49605e8  //km in one AU
 
+class QDataPump;
+class QFile;
+class QTimer;
+
 class KStandardDirs;
+
+class dms;
+class SkyMap;
+class SkyPoint;
+class SkyObject;
+class DeepSkyObject;
+class StarObject;
+class KSPlanet;
+class KSAsteroid;
+class KSComet;
+class KSMoon;
+class PlanetCatalog;
+class JupiterMoons;
+
+class SimClock;
+class TimeZoneRule;
 class FileSource;
 class StarDataSink;
-class QDataPump;
-class Options;
 class KSFileReader;
-class INDIDriver;
 class INDIHostsInfo;
-class telescopeWizardProcess;
+class ADVTreeData;
+class CSegment;
 
-/**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
+/**@class KStarsData
+	*KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
 	*images and information pages.
 	*
 	*@short KStars Data
 	*@author Heiko Evermann
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class KStarsData : public QObject
@@ -126,7 +121,8 @@ public:
 		*locations file "mycities.dat", but don't require it.  Each line in the file
 		*provides the information required to create one GeoLocation object.
 		*@short Fill list of geographic locations from file(s)
-		*@returns true if at least one city read successfully.
+		*@return true if at least one city read successfully.
+		*@see KStarsData::processCity()
 		*/
 	bool readCityData( void );
 
@@ -136,166 +132,214 @@ public:
 
 	/**Parse one line from a locations database file.  The line contains 10 or 11 fields
 		*separated by colons (":").  The fields are:
-		*City Name [string]
-		*Province Name (optional) [string]
-		*Country Name [string]
-		*Longitude degrees [int]
-		*Latitude arcminutes [int]
-		*Latitude arcseconds [int]
-		*Latitude sign [char; 'E' or 'W' ]
-		*Latitude degrees [int]
-		*Latitude arcminutes [int]
-		*Latitude arcseconds [int]
-		*Latitude sign [char; 'N' or 'S' ]
-		*Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
+		*@li City Name [string]
+		*@li Province Name (optional) [string]
+		*@li Country Name [string]
+		*@li Longitude degrees [int]
+		*@li Latitude arcminutes [int]
+		*@li Latitude arcseconds [int]
+		*@li Latitude sign [char; 'E' or 'W' ]
+		*@li Latitude degrees [int]
+		*@li Latitude arcminutes [int]
+		*@li Latitude arcseconds [int]
+		*@li Latitude sign [char; 'N' or 'S' ]
+		*@li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
+		*
 		*@short Parse one line from a geographic database
 		*@param line The line from the geographic database to be parsed
-		*@returns true if location successfully parsed; otherwise false.
+		*@return true if location successfully parsed; otherwise false.
+		*@see KStarsData::readCityData()
 		*/
 	bool processCity( QString& line );
 
 	/**Populate list of star objects from the stars database file.
 		*Each line in the file provides the information required to construct a
-		*SkyObject of type 'star'.  Each line is parsed according to the column
-		*position in the line:
-		*columns  field
-		*0-1      RA hours [int]
-		*2-3      RA minutes [int]
-		*4-8      RA seconds [float]
-		*10       Dec sign [char; '+' or '-']
-		*11-12    Dec degrees [int]
-		*13-14    Dec minutes [int]
-		*15-18    Dec seconds [float]
-		*20-28    dRA/dt (milli-arcsec/yr) [float]
-		*29-37    dDec/dt (milli-arcsec/yr) [float]
-		*38-44    Parallax (milli-arcsec) [float]
-		*46-50    Magnitude [float]
-		*51-55    B-V color index [float]
-		*56-57    Spectral type [string]
-		*59       Multiplicity flag (1=true, 0=false) [int]
-		*61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
-		*66-71    Variability period (days; blank if not variable) [float]
-		*72-      Name(s) [string].  This field may be blank.  The string is the common
-             name for the star (e.g., "Betelgeuse").  If there is a colon, then
-             everything after the colon is the genetive name for the star (e.g.,
-             "alpha Orionis").
+		*SkyObject of type 'star'.  
 		*@short read the stars database, constructing the list of SkyObjects that represent the stars.
-		*@returns true if the data file was successfully opened and read.
+		*@return true if the data file was successfully opened and read.
+		*@see KStarsData::processStar()
 		*/
 	bool readStarData( void );
 
+	/**Parse a line from a stars data file, constructing a StarObject from the data.
+		*The StarObject is added to the list of stars.
+		*
+		*Each line is parsed according to the column
+		*position in the line:
+		*@li 0-1      RA hours [int]
+		*@li 2-3      RA minutes [int]
+		*@li 4-8      RA seconds [float]
+		*@li 10       Dec sign [char; '+' or '-']
+		*@li 11-12    Dec degrees [int]
+		*@li 13-14    Dec minutes [int]
+		*@li 15-18    Dec seconds [float]
+		*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
+		*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
+		*@li 38-44    Parallax (milli-arcsec) [float]
+		*@li 46-50    Magnitude [float]
+		*@li 51-55    B-V color index [float]
+		*@li 56-57    Spectral type [string]
+		*@li 59       Multiplicity flag (1=true, 0=false) [int]
+		*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
+		*@li 66-71    Variability period (days; blank if not variable) [float]
+		*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
+		*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
+		*             everything after the colon is the genetive name for the star (e.g.,
+		*             "alpha Orionis").
+		*
+		*@param line pointer to the line of data to be processed as a StarObject
+		*@see KStarsData::readStarData()
+		*/
 	void processStar( QString *line );
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
-		*columns  field
-		*0        IC indicator [char]  If 'I' then IC object; if ' ' then NGC object
-		*1-4      Catalog number [int]  The NGC/IC catalog ID number
-		*6-8      Constellation code (IAU abbreviation)
-		*10-11    RA hours [int]
-		*13-14    RA minutes [int]
-		*16-19    RA seconds [float]
-		*21       Dec sign [char; '+' or '-']
-		*22-23    Dec degrees [int]
-		*25-26    Dec minutes [int]
-		*28-29    Dec seconds [int]
-		*31       Type ID [int]  Indicates object type; see TypeName array in kstars.cpp
-		*33-36    Type details [string] (not yet used)
-		*38-41    Magnitude [float] can be blank
-		*43-48    Major axis length, in arcmin [float] can be blank
-		*50-54    Minor axis length, in arcmin [float] can be blank
-		*56-58    Position angle, in degrees [int] can be blank
-		*60-62    Messier catalog number [int] can be blank
-		*64-69    PGC Catalog number [int] can be blank
-		*71-75    UGC Catalog number [int] can be blank
-		*77-END   Common name [string] can be blank
+		*@li 0        IC indicator [char]  If 'I' then IC object; if ' ' then NGC object
+		*@li 1-4      Catalog number [int]  The NGC/IC catalog ID number
+		*@li 6-8      Constellation code (IAU abbreviation)
+		*@li 10-11    RA hours [int]
+		*@li 13-14    RA minutes [int]
+		*@li 16-19    RA seconds [float]
+		*@li 21       Dec sign [char; '+' or '-']
+		*@li 22-23    Dec degrees [int]
+		*@li 25-26    Dec minutes [int]
+		*@li 28-29    Dec seconds [int]
+		*@li 31       Type ID [int]  Indicates object type; see TypeName array in kstars.cpp
+		*@li 33-36    Type details [string] (not yet used)
+		*@li 38-41    Magnitude [float] can be blank
+		*@li 43-48    Major axis length, in arcmin [float] can be blank
+		*@li 50-54    Minor axis length, in arcmin [float] can be blank
+		*@li 56-58    Position angle, in degrees [int] can be blank
+		*@li 60-62    Messier catalog number [int] can be blank
+		*@li 64-69    PGC Catalog number [int] can be blank
+		*@li 71-75    UGC Catalog number [int] can be blank
+		*@li 77-END   Common name [string] can be blank
 		*@short Read the ngcic.dat deep-sky database.
-		*@returns true if data file is successfully read.
+		*@return true if data file is successfully read.
 		*/
 	bool readDeepSkyData( void );
 
+	/**Populate the list of Asteroids from the data file.
+		*Each line in the data file is parsed as follows:
+		*@li 6-23 Name [string]
+		*@li 24-29 Modified Julian Day of orbital elements [int]
+		*@li 30-39 semi-major axis of orbit in AU [double]
+		*@li 41-51 eccentricity of orbit [double]
+		*@li 52-61 inclination angle of orbit in degrees [double]
+		*@li 62-71 argument of perihelion in degrees [double]
+		*@li 72-81 Longitude of the Ascending Node in degrees [double]
+		*@li 82-93 Mean Anomaly in degrees [double]
+		*@li 94-98 Magnitude [double]
+		*/
 	bool readAsteroidData( void );
+
+	/**Populate the list of Comets from the data file.
+		*Each line in the data file is parsed as follows:
+		*@li 3-37 Name [string]
+		*@li 38-42 Modified Julian Day of orbital elements [double]
+		*@li 44-54 Perihelion distance in AU [double]
+		*@li 55-65 Eccentricity of orbit [double]
+		*@li 66-75 inclination of orbit in degrees [double]
+		*@li 76-85 argument of perihelion in degrees [double]
+		*@li 86-95 longitude of the ascending node in degrees[double]
+		*@li 96-110 Period of orbit in years [double]
+		*/
 	bool readCometData( void );
 
 	/**Read in Constellation line data.  The constellations are represented as a list of
 		*SkyPoints and an associated list of chars that indicates whether to draw a line
 		*between points (i) and (i+1) or to simply move to point (i+1). The lines are parsed
 		*according to column position:
-		*columns  field
-		*0-1      RA hours [int]
-		*2-3      RA minutes [int]
-		*4-5      RA seconds [int]
-		*6        Dec sign [char; '+' or '-']
-		*7-9      Dec degrees [int]
-		*10-11    Dec minutes [int]
-		*12-13    Dec seconds [int]
-		*14       draw indicator [char; 'D' or 'M']  'D'==draw line;  'M'==just move
+		*@li 0-1      RA hours [int]
+		*@li 2-3      RA minutes [int]
+		*@li 4-5      RA seconds [int]
+		*@li 6        Dec sign [char; '+' or '-']
+		*@li 7-9      Dec degrees [int]
+		*@li 10-11    Dec minutes [int]
+		*@li 12-13    Dec seconds [int]
+		*@li 14       draw indicator [char; 'D' or 'M']  'D'==draw line;  'M'==just move
+		*
 		*@short Read in constellation line data.
-		*@returns true if data file was successfully read
+		*@return true if data file was successfully read
 		*/
 	bool readCLineData( void );
 
 	/**Read constellation names.  The coordinates are where the constellation name text
 		*will be centered.  The positions are imprecise, but that's okay since
 		*constellations are so large.  The lines are parsed according to column position:
-		*column  field
-		*0-1     RA hours [int]
-		*2-3     RA minutes [int]
-		*4-5     RA seconds [int]
-		*6       Dec sign [char; '+' or '-']
-		*7-8     Dec degrees [int]
-		*9-10    Dec minutes [int]
-		*11-12   Dec seconds [int]
-		*13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-		*17-     Constellation name [string]
+		*@li 0-1     RA hours [int]
+		*@li 2-3     RA minutes [int]
+		*@li 4-5     RA seconds [int]
+		*@li 6       Dec sign [char; '+' or '-']
+		*@li 7-8     Dec degrees [int]
+		*@li 9-10    Dec minutes [int]
+		*@li 11-12   Dec seconds [int]
+		*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
+		*@li 17-     Constellation name [string]
 		*@short Read in constellation name data.
-		*@returns true if data file was successfully read.
+		*@return TRUE if data file was successfully read.
 		*/
 	bool readCNameData( void );
 
+	/**Read constellation boundary data.  The boundary data is defined by a series of 
+		*RA,Dec coordinate pairs defining the "nodes" of the boundaries.  The nodes are 
+		*organized into "segments", such that each segment represents a continuous series 
+		*of boundary-line intervals that divide two particular constellations.
+		*
+		*The definition of a segment begins with an integer describing the number of Nodes
+		*in the segment.  This is followed by that number of RA,Dec pairs (RA in hours, 
+		*Dec in degrees).  Finally, there is an integer indicating the number of 
+		*constellations bordered by this segment (this number is always 2), followed by
+		*the IAU abbreviations of the two constellations.
+		*
+		*Since the definition of a segment can span multiple lines, we parse this file 
+		*word-by-word, rather than line-by-line as we do in other files.
+		*
+		*@short Read in the constellation boundary data.
+		*@return TRUE if the boundary data is successfully parsed.
+		*/
 	bool readCBoundData( void );
 
 	/**Read Milky Way data.  Coordinates for the Milky Way contour are divided into 11
 		*files, each representing a simple closed curve that can be drawn with
 		*drawPolygon().  The lines in each file are parsed according to column position:
-		*column  field
-		*0-7     RA [float]
-		*9-16    Dec [float]
+		*@li 0-7     RA [float]
+		*@li 9-16    Dec [float]
 		*@short read Milky Way contour data.
-		*@returns true if all MW files were successfully read
+		*@return true if all MW files were successfully read
 		*/
 	bool readMWData( void );
 
-    /**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
-        *0-8 AAVSO Star Designation
-        *10-20 Common star name
+	/**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
+		*@li 0-8 AAVSO Star Designation
+		*@li 10-20 Common star name
 		*@short read Variable Stars data.
-		*@returns true if data is successfully read.
+		*@return true if data is successfully read.
 		*/
-    bool readVARData(void);
+	bool readVARData(void);
 
-    //TODO JM: ADV tree should use XML instead
-    /**Read Advanced interface structure to be used later to construct the list view in
-       *the advanced tab in the Detail Dialog.
-       *KSLABEL designates a top-level parent label
-       *KSINTERFACE designates a common URL interface for several objects
-       *END designates the end of a sub tree structure
+	//TODO JM: ADV tree should use XML instead
+	/**Read Advanced interface structure to be used later to construct the list view in
+		*the advanced tab in the Detail Dialog.
+		*@li KSLABEL designates a top-level parent label
+		*@li KSINTERFACE designates a common URL interface for several objects
+		*@li END designates the end of a sub tree structure
 		*@short read Advanted interface structure.
-		*@returns true if data is successfully read.
+		*@return true if data is successfully read.
 		*/
-   bool readADVTreeData(void);
+	bool readADVTreeData(void);
 
-    /**Read INDI hosts from an XML file*/
-   bool readINDIHosts(void);
+	/**Read INDI hosts from an XML file*/
+	bool readINDIHosts(void);
 
-       //TODO JM: Use XML instead; The logger should have more features
-       // that allow users to enter details about their observation logs
-       // objects observed, eye pieces, telescope, conditions, mag..etc
-       /**Read user logs. The log file is formatted as following:
-       *KSLABEL designates the beginning of a log
-       *KSLogEnd designates the end of a log.
+	//TODO JM: Use XML instead; The logger should have more features
+	// that allow users to enter details about their observation logs
+	// objects observed, eye pieces, telescope, conditions, mag..etc
+	/**Read user logs. The log file is formatted as following:
+		*@li KSLABEL designates the beginning of a log
+		*@li KSLogEnd designates the end of a log.
 		*@short read user logs.
-		*@returns true if data is successfully read.
+		*@return true if data is successfully read.
 		*/
    bool readUserLog(void);
 
@@ -306,16 +350,20 @@ public:
 		*separated by colons (":").  Note that the last field is the URL, and as such it will
 		*generally contain a colon itself.  Only the first two colons encountered are treated
 		*as field separators.  The fields are:
-		*1. Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
-		*2. Menu text.  The string that should appear in the popup menu to activate the link.
-		*3. URL.
+		*@li Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
+		*@li Menu text.  The string that should appear in the popup menu to activate the link.
+		*@li URL.
 		*@short Read in image and information URLs.
-		*@returns true if data files were successfully read.
+		*@return true if data files were successfully read.
 		*/
 	bool readURLData( QString url, int type=0 );
 
-   // Used several times in the code, so why not
-   bool openURLFile(QString urlfile, QFile& file);
+	/**@short open a file containing URL links.
+		*@param urlfile string representation of the filename to open
+		*@param file reference to the QFile object which will be opened to this file.
+		*@return TRUE if file successfully opened. 
+		*/
+	bool openURLFile(QString urlfile, QFile& file);
 
 	/**Read in custom object catalog.  Object data is read from a file, and parsed into a
 		*QPtrList of SkyObjects which is returned by reference through the 2nd argument.
@@ -351,13 +399,17 @@ public:
 		*/
 	bool isTimeRunningForward() { return TimeRunsForward; }
 
+	/**@return pointer to the localization (KLocale) object
+		*/
 	KLocale *getLocale() { return locale; };
 
+	/**@return pointer to the Earth object
+		*/
 	KSPlanet *earth() { return PCat->earth(); }
 
-	/**Find object by name.
+	/**@short Find object by name.
 		*@param name Object name to find
-		*@returns pointer to SkyObject matching this name
+		*@return pointer to SkyObject matching this name
 		*/
 	SkyObject* objectNamed( const QString &name );
 
@@ -379,32 +431,73 @@ public:
 	/**Set the LST from the simulation clock's UTC value.
 		*/
 	void setLST();
+	
 	/**Set the LST from the UTC specified as an argument.
 		*@param UTC the Universal time from which to set the LST.
 		*/
 	void setLST( QDateTime UTC );
 
+	/**Set the HourAngle member variable according to the argument.
+		*@param ha The new HourAngle
+		*/
 	void setHourAngle( double ha ) { HourAngle->setH( ha ); }
 
 	//Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 
-	GeoLocation *geo() { return &Geo; }
-	void setLocation( const GeoLocation &l );
-	void setLocationFromOptions();
-
+	/**@return pointer to the ColorScheme object
+		*/
 	ColorScheme *colorScheme() { return &CScheme; }
 	
-	bool snapNextFocus() const { return snapToFocus; }
-	void setSnapNextFocus(bool b=true) { snapToFocus = b; }
-
+	/**@return pointer to the simulation Clock object
+		*/
 	SimClock *clock() { return Clock; }
+	
+	/**@return pointer to the local sidereal time: a dms object
+		*/
 	dms *lst() { return LST; }
+	
+	/**@return the current simulation Julian Day.
+		*/
 	long double currentDate() {return CurrentDate;}
 
+	/**@return pointer to the GeoLocation object*/
+	GeoLocation *geo() { return &Geo; }
+	
+	/**Set the GeoLocation according to the argument.
+		*@param l reference to the new GeoLocation
+		*/
+	void setLocation( const GeoLocation &l );
+	
+	/**Set the GeoLocation according to the values stored in the configuration file.
+		*/
+	void setLocationFromOptions();
+
+	/**@return whether the next Focus change will omit the slewing animation.
+		*/
+	bool snapNextFocus() const { return snapToFocus; }
+	
+	/**Disable or re-enable the slewing animation for the next Focus change.
+		*@note If the user has turned off all animated slewing, setSnapNextFocus(false)
+		*will *NOT* enable animation on the next slew.  A false argument would only
+		*be used if you have previously called setSnapNextFocus(true), but then decided 
+		*you didn't want that after all.  In other words, it's extremely unlikely you'd
+		*ever want to use setSnapNextFocus(false).
+		*@param b when TRUE (the default), the next Focus chnage will omit the slewing 
+		*animation. 
+		*/
+	void setSnapNextFocus(bool b=true) { snapToFocus = b; }
+
+	/**Execute a script.  This function actually duplicates the DCOP functionality 
+		*for those cases when invoking DCOP is not practical (i.e., when preparing 
+		*a sky image in command-line dump mode).
+		*@param name the filename of the script to "execute".
+		*@param map pointer to the SkyMap object.
+		*@return TRUE if the script was successfully parsed.
+		*/
 	bool executeScript( const QString &name, SkyMap *map );
 
-	/**
-		*Initialize celestial equator, horizon and ecliptic.
+	/**@short Initialize celestial equator, horizon and ecliptic.
+		*@param num pointer to a KSNumbers object to use.
 		*/
 	void initGuides( KSNumbers *num );
 
@@ -453,11 +546,34 @@ public slots:
 		*/
 	void setTimeDirection( float scale );
 
+	/**@short Save the shaded state of the Time infobox.
+		*@param b TRUE if the box is shaded
+		*/
 	void saveTimeBoxShaded( bool b );
+
+	/**@short Save the shaded state of the Geo infobox.
+		*@param b TRUE if the box is shaded
+		*/
 	void saveGeoBoxShaded( bool b );
+
+	/**@short Save the shaded state of the Focus infobox.
+		*@param b TRUE if the box is shaded
+		*/
 	void saveFocusBoxShaded( bool b );
+
+	/**@short Save the screen position of the Time infobox.
+		*@param p the position of the box
+		*/
 	void saveTimeBoxPos( QPoint p );
+
+	/**@short Save the screen position of the Time infobox.
+		*@param p the position of the box
+		*/
 	void saveGeoBoxPos( QPoint p );
+
+	/**@short Save the screen position of the Time infobox.
+		*@param p the position of the box
+		*/
 	void saveFocusBoxPos( QPoint p );
 
 private slots:
@@ -473,24 +589,28 @@ private slots:
 		*/
 	void slotInitialize();
 
-/**
-	*Checks if data transmission is already running or not.
+/**Checks if data transmission is already running or not.
 	*/
 	void checkDataPumpAction();
 
-/**
-	*Send update signal to refresh skymap.
+/**Send update signal to refresh skymap.
 	*/
 	void updateSkymap();
 
-/**
-	*Send clearCache signal.
+/**Send clearCache signal.
 	*/
 	void sendClearCache();
 
 private:
 
- 	void initError(QString fn, bool required);
+/**Display an Error messagebox if a data file could not be opened.  If the file
+	*was marked as "required", then abort the program when the messagebox is closed.
+	*Otherwise, continue loading the program.
+	*@param fn the name of the file which could not be opened.
+	*@param required if TRUE, then the error message is more severe, and the program 
+	*exits when the messagebox is closed.
+	*/
+	void initError(QString fn, bool required);
 
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().

@@ -16,12 +16,9 @@
  ***************************************************************************/
 
 #include "stardatasink.h"
-#include "stardatasink.moc"
 
 #include "dms.h"
-#include "kstars.h"
-
-#include <kapplication.h>
+#include "kstarsdata.h"
 
 StarDataSink::StarDataSink(KStarsData *parent, const char *name) : QObject(parent, name) {
 	ksData = parent;
@@ -60,3 +57,4 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 	if (receivedBlocks % 10 == 0) emit updateSkymap();
 }
 
+#include "stardatasink.moc"

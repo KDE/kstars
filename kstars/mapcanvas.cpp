@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #include <stdlib.h>
+#include <kstandarddirs.h>
+#include <qpainter.h>
+#include <qpixmap.h>
+
 #include "mapcanvas.h"
 #include "locationdialog.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 
 MapCanvas::MapCanvas(QWidget *parent, const char *name ) : QWidget(parent,name) {
 	BGColor = "#33A";

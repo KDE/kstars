@@ -17,8 +17,11 @@
 
 #include <math.h>
 #include <kdebug.h>
-#include "ksutils.h"
+#include <qfile.h>
+
 #include "ksplanet.h"
+#include "ksnumbers.h"
+#include "ksutils.h"
 #include "ksfilereader.h"
 
 KSPlanet::OrbitDataManager KSPlanet::odm;
@@ -92,7 +95,6 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 
 	ret = new OrbitDataColl;
 
-
 	//Ecliptic Longitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
@@ -141,10 +143,6 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 
 	return ret;
 }
-
-//
-//========================================================================
-//
 
 KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile )
  : KSPlanetBase(kd, s, imfile), data_loaded(false) {

@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "starobject.h"
+#include "kspopupmenu.h"
+#include "ksnumbers.h"
 
 #include <qpainter.h>
 #include <qstring.h>
@@ -73,7 +75,7 @@ StarObject::StarObject( double r, double d, float m, QString n, QString n2, QStr
 	setLongName( lname );
 }
 
-void StarObject::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ) {
+void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 	SkyPoint::updateCoords( num );
 	
 	//Correct for proper motion of stars.  Determine RA and Dec offsets.
@@ -82,12 +84,6 @@ void StarObject::updateCoords( KSNumbers *num, bool includePlanets, const dms *l
 	//KSNumbers::julianMillenia() to find the offsets in arcsec.
 	setRA( ra()->Hours() + pmRA()*num->julianMillenia() / 15. / cos( dec()->radians() )/3600. );
 	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
-	
-/*	//DEBUG
-	if ( name() == "Sirius" ) {
-		kdDebug() << "Sirius dRA: " << pmRA()*num->julianMillenia()/3600. 
-							<< "   dDec: " << pmDec()*num->julianMillenia()/3600. << endl;
-	}*/
 }
 
 QString StarObject::sptype( void ) const {

@@ -22,6 +22,7 @@
 #include <qsocketnotifier.h>
 #include <qtextedit.h>
 
+#include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>

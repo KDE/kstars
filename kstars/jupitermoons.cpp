@@ -16,7 +16,11 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+
 #include "jupitermoons.h"
+#include "ksnumbers.h"
+#include "ksplanet.h"
+#include "kssun.h"
 
 JupiterMoons::JupiterMoons(){
 	Name[0] = i18n( "Jupiter's moon Io", "Io" );
@@ -31,14 +35,14 @@ JupiterMoons::JupiterMoons(){
 	}
 }
 
+JupiterMoons::~JupiterMoons(){
+}
+
 int JupiterMoons::moonNamed( const QString &name ) const {
 	for ( int i=0; i<4; ++i ) {
 		if ( Name[i] == name ) return i;
 	}
 	return -1;
-}
-
-JupiterMoons::~JupiterMoons(){
 }
 
 void JupiterMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {

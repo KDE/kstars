@@ -18,9 +18,12 @@
 #include "wutdialog.h"
 
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
+#include "skyobjectname.h"
 #include "objectnamelist.h"
+#include "simclock.h"
 #include "detaildialog.h"
 #include "locationdialog.h"
 #include "timedialog.h"

@@ -14,21 +14,32 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <qlayout.h>
+#include <qfile.h>
 #include <dcopclient.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
-
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 #include "Options.h"
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "kstarssplash.h"
+#include "skymap.h"
+#include "skyobject.h"
+#include "ksplanetbase.h"
 #include "ksutils.h"
+#include "ksnumbers.h"
 #include "infoboxes.h"
 #include "toggleaction.h"
 #include "indimenu.h"
+#include "simclock.h"
+#include "timestepbox.h"
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h

@@ -18,26 +18,26 @@
 #ifndef SKYMAP_H
 #define SKYMAP_H
 
-#include <qwidget.h>
-#include <qpainter.h>
-#include <qpaintdevice.h>
-#include <qpoint.h>
-#include <qpixmap.h>
 #include <qtimer.h>
+#include <qwidget.h>
 
-#include "skyobject.h"
-#include "starobject.h"
-#include "ksplanetbase.h"
-#include "ksplanet.h"
-#include "dms.h"
 #include "skypoint.h"
 #include "starpixmap.h"
-#include "kstarsdata.h"
 
-class QLabel;
-class KSPopupMenu;
+class QPainter;
+class QPaintDevice;
+class QPoint;
+class QPointArray;
+class QPixmap;
+
+class dms;
 class InfoBoxes;
 class KStars;
+class KStarsData;
+class KSPlanetBase;
+class KSPopupMenu;
+class SkyObject;
+class DeepSkyObject;
 
 /**@class SkyMap
 	*

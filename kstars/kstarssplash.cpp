@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfile.h>
+#include <qlabel.h>
 #include <qlayout.h>
 #include <klocale.h>
 
-#include "ksutils.h"
-#include "kstarssplash.h"
-
 #include <kapplication.h>
+
+#include "kstarssplash.h"
+#include "ksutils.h"
 
 KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	: KDialogBase( KDialogBase::Plain, i18n( "Loading KStars..." ),
@@ -76,7 +78,7 @@ KStarsSplash::~KStarsSplash() {
 	delete splashImage;
 }
 
-void KStarsSplash::paintEvent( QPaintEvent *e ) {
+void KStarsSplash::paintEvent( QPaintEvent* ) {
 	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
 	label->repaint();  // standard text label
 	textCurrentStatus->repaint();  // status text label

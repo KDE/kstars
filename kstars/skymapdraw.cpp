@@ -17,21 +17,34 @@
 
 //This file contains drawing functions SkyMap class.
 
+#include <stdlib.h> // abs
 #include <math.h> //log10()
-
-#include "Options.h"
-#include "skymap.h"
-#include "kstars.h"
-#include "infoboxes.h"
-#include "indimenu.h"
-#include "devicemanager.h"
-#include "indiproperty.h"
-#include "indielement.h"
-#include "indidevice.h"
 #include <iostream>
 
 #include <qpaintdevicemetrics.h>
-#include <stdlib.h> // abs
+#include <qpainter.h>
+
+#include "skymap.h"
+#include "Options.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksnumbers.h"
+#include "skyobject.h"
+#include "deepskyobject.h"
+#include "starobject.h"
+#include "ksplanetbase.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
+#include "ksmoon.h"
+#include "jupitermoons.h"
+#include "infoboxes.h"
+#include "simclock.h"
+#include "csegment.h"
+#include "devicemanager.h"
+#include "indimenu.h"
+#include "indiproperty.h"
+#include "indielement.h"
+#include "indidevice.h"
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ksw ) { //only if we are drawing in the GUI window

@@ -22,6 +22,10 @@
 #include <kdebug.h>
 
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "simclock.h"
+#include "ksnumbers.h"
 #include "Options.h"
 
 #define KSTARS_VERSION "1.0"
@@ -99,7 +103,7 @@ int main(int argc, char *argv[])
 		dat->colorScheme()->loadFromConfig( kapp->config() );
 
 		//reset clock now that we have a location:
-		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( -3600 * dat->geo()->TZ() ) );
+		dat->clock()->setUTC( QDateTime::currentDateTime().addSecs( int( -3600 * dat->geo()->TZ() ) ) );
 
 		KSNumbers num( dat->clock()->JD() );
 		dat->initGuides(&num);

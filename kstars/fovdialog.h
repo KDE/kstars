@@ -20,23 +20,24 @@
 
 #include <qptrlist.h>
 #include <kdialogbase.h>
-
-#include "kstars.h"
-#include "fovdialogui.h"
 #include "fov.h"
-#include "newfovui.h"
 
 /**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
 	*@author Jason Harris
 	*@version 1.0
 	*/
+
+class KStars;
+class FOVDialogUI;
+class NewFOVUI;
+
 class FOVDialog : public KDialogBase
 {
 	Q_OBJECT
 public:
 	FOVDialog( QWidget *parent=0 );
 	~FOVDialog();
-	unsigned int currentItem() const { return fov->FOVListBox->currentItem(); }
+	unsigned int currentItem() const;
 	QPtrList<FOV> FOVList;
 
 protected:

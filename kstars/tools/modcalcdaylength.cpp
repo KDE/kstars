@@ -24,7 +24,8 @@
 #include "geolocation.h"
 #include "kstars.h"
 #include "timebox.h"
-
+#include "kssun.h"
+#include "ksnumbers.h"
 
 #include <kapplication.h> //...already included in modcalcdaylength.h
 #include <qdatetimeedit.h>

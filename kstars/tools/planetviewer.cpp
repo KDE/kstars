@@ -17,13 +17,16 @@
 #include <qlayout.h>
 #include <kdebug.h>
 #include <klocale.h>
+
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "ksplanetbase.h"
 #include "planetcatalog.h"
 #include "planetviewer.h"
 #include "dms.h"
 
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
- : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent )
+ : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name )
 {
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
@@ -42,7 +45,7 @@ PlanetViewer::~PlanetViewer()
 {
 }
 
-void PlanetViewer::paintEvent( QPaintEvent *e ) {
+void PlanetViewer::paintEvent( QPaintEvent* ) {
 	pw->update();
 }
 

@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-//DEBUG
-#include <kglobal.h>
+#include <iostream>
 
+#include <kglobal.h>
+#include <qpoint.h>
 #include <qregexp.h>
+
 #include "skyobject.h"
 #include "ksutils.h"
+#include "ksnumbers.h"
 #include "dms.h"
 #include "geolocation.h"
-#include <iostream>
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );

@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include <math.h>
+
 #include "kssun.h"
+#include "ksnumbers.h"
 
 KSSun::KSSun( KStarsData *kd, QString fn ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn ) {
 	/*

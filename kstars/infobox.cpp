@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <qpainter.h>
 
 #include "infobox.h"
 
@@ -169,7 +170,7 @@ void InfoBox::move( int x, int y ) {
 }
 
 void InfoBox::move( QPoint p ) {
-	move( p.x(), p.y() );
+	move( p.x(), p.y() ); emit moved( QPoint( p.x(), p.y() ) );
 }
 
 #include "infobox.moc"

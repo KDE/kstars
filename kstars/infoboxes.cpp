@@ -17,7 +17,13 @@
 
 #include <kglobal.h>
 #include <kdebug.h>
+//#include <qpen.h>
+#include <qpainter.h>
+
 #include "infoboxes.h"
+#include "dms.h"
+#include "geolocation.h"
+#include "skypoint.h"
 
 InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 		QPoint gp, bool gshade, QPoint fp, bool fshade,

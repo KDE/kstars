@@ -15,9 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qstring.h>
 
 #include "planetcatalog.h"
+#include "dms.h"
 #include "kstarsdata.h"
+#include "ksnumbers.h"
+#include "ksplanetbase.h"
+#include "ksplanet.h"
+#include "kssun.h"
+#include "kspluto.h"
+#include "skypoint.h"
+#include "skyobject.h"
+#include "objectnamelist.h"
 
 PlanetCatalog::PlanetCatalog(KStarsData *dat) : Earth(0), Sun(0), kd(dat) {
 	planets.setAutoDelete(true);

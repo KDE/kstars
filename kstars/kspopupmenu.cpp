@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qlabel.h>
+
+#include "kspopupmenu.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "starobject.h"
 #include "skyobject.h"
 #include "ksplanetbase.h"
-#include "kspopupmenu.h"
+#include "skymap.h"
 
 #include "indimenu.h"
 #include "devicemanager.h"
 #include "indidevice.h"
 #include "indigroup.h"
 #include "indiproperty.h"
-
-
-#include <qlabel.h>
 
 KSPopupMenu::KSPopupMenu( QWidget *parent, const char *name )
  : KPopupMenu( parent, name )

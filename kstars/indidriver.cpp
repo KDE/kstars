@@ -19,8 +19,10 @@
 #include "indihostconf.h"
 
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
 
+#include <qfile.h>
 #include <qvaluelist.h>
 #include <qcstring.h>
 
@@ -31,6 +33,7 @@
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
+#include <kstandarddirs.h>
 
 #include <kextsock.h>
 #include <unistd.h>

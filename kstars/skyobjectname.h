@@ -22,15 +22,16 @@
 #include <klistbox.h>
 #include <klocale.h>
 
-#include "skyobject.h"
-
-/**Convenience class which contains a SkyObject's name and a pointer to the SkyObject
+/**@class SkyObjectName
+	*Convenience class which contains a SkyObject's name and a pointer to the SkyObject
 	*itself.  This class is used to construct the List of named objects that may be
 	*located with the FindDialog.
 	*@short convenience class for indexing SkyObjects by name.
 	*@author Thomas Kabelmann
-	*@version 0.9
+	*@version 1.0
 	*/
+
+class SkyObject;
 
 class SkyObjectName {
 	
@@ -41,17 +42,21 @@ class SkyObjectName {
 	/**Destructor (empty)*/
 		~SkyObjectName() {}
 
-	/**@returns the name of the SkyObject*/
+	/**@return the name of the SkyObject*/
 		QString text() { return Text; }
 
-	/**@returns translated version of the SkyObject's name*/
+	/**@return translated version of the SkyObject's name*/
 		QString translatedText() { return i18n( Text.local8Bit().data()); }
 
-	/**@returns pointer to the SkyObject*/
+	/**@return pointer to the SkyObject*/
 		SkyObject *skyObject() { return skyobject; }
 
+	/**Comparison operator, needed for sorting.
+		*/
 		bool operator < (SkyObjectName &o) { return Text < o.Text; }
 
+	/**Equivalence operator, needed for sorting.
+		*/
 		bool operator == (SkyObjectName &o) { return Text == o.Text; }
 
 	private:

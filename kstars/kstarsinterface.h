@@ -2,8 +2,8 @@
                           kstarsinterface.h  -  K Desktop Planetarium
                              -------------------
     begin                : Thu Jan 3 2002
-    copyright            : (C) 2002 by Jason Harris
-    email                : kstars@30doradus.org
+    copyright            : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,9 +23,13 @@
 
 #include <dcopobject.h>
 
-/**
-  *@author Mark Hollomon
-  */
+/**@class KStarsInterface
+	*This class encapsulates the DCOP functions for KStars.
+	*@note Clock-related DCOP functions are in a separate class: SimClockInterface
+	*@note The function definitions are in the file kstarsdcop.cpp
+	*@author Mark Hollomon
+	*@version 1.0
+	*/
 
 
 class KStarsInterface : virtual public DCOPObject
@@ -33,20 +37,113 @@ class KStarsInterface : virtual public DCOPObject
 	K_DCOP
 
 	k_dcop:
+		/**Recenter the display at a new object or point in the sky.
+			*@param direction This is either the name of a SkyObject, or one 
+			*of the following to center on a compass point along the horizon 
+			*or at the zenith point:
+			*@li north, n
+			*@li northeast, ne 
+			*@li east, e
+			*@li southeast, se 
+			*@li south, s
+			*@li southwest, sw 
+			*@li west, w
+			*@li northwest, nw 
+			*@li zenith, z
+			*
+			*/
 		virtual ASYNC lookTowards( const QString direction ) = 0;
+		
+		/**Set the zoomFactor.  The zoomFactor is equal to the number of 
+			*pixels which subtend one radian of angle.
+			*@param f the new zoomFactor
+			*/
 		virtual ASYNC zoom( double f ) = 0;
+		
+		/**Increase the zoomFactor by 10%
+			*/
 		virtual ASYNC zoomIn() = 0;
+		
+		/**Decrease the zoomFactor by 10%
+			*/
 		virtual ASYNC zoomOut() = 0;
+		
+		/**Set the zoomFactor to its default value
+			*/
 		virtual ASYNC defaultZoom() = 0;
+		
+		/**Recenter the Display to the given RA,Dec position
+			*@param ra the new RA coordinate
+			*@param dec the new Dec coordinate
+			*/
 		virtual ASYNC setRaDec( double ra, double dec ) = 0;
+		
+		/**Recenter the Display to the given Alt,Az position
+			*@param alt the new Alt coordinate
+			*@param az the new Az coordinate
+			*/
 		virtual ASYNC setAltAz(double alt, double az) = 0;
+		
+		/**Reset the clock to the given time and date
+			*@param yr  the year
+			*@param mth the month
+			*@param day the day
+			*@param hr  the hour
+			*@param min the minute
+			*@param sec the second
+			*/
 		virtual ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec) = 0;
+		
+		/**Pause execution of the script for a given number of seconds
+			*@param t pause interval in seconds 
+			*/
 		virtual ASYNC waitFor( double t ) = 0;
+		
+		/**Pause execution of the script until a key is pressed
+			*@param k the key which will resume the script 
+			*/
 		virtual ASYNC waitForKey( const QString k ) = 0;
+		
+		/**Turn tracking mode on or off.  If tracking is on, then the coordinates at 
+			*the center of the screen remain fixed with time.  If tracking is off, then
+			*the sky "drifts" past the screen at the sidereal rate.
+			*@param track if TRUE, turn tracking on; otherwise turn it off.
+			*/
 		virtual ASYNC setTracking( bool track ) = 0;
+		
+		/**Reset a View option.  There are dozens of view options which can be adjusted 
+			*with this function.  See the ScriptBuilder tool for a hierarchical list, or
+			*see the kstarsrc config file.  Different options require different data types
+			*for their argument.  The value parameter will be recast from a QString to the 
+			*correct data type for the specified option.  If the value cannot be recast, 
+			*then the option will not be changed.
+			*@param option the name of the option to change
+			*@param value the new value for the option
+			*/
 		virtual ASYNC changeViewOption( const QString option, const QString value ) = 0;
+		
+		/**Show a message in a popup window (NOT YET IMPLEMENTED)
+			*@param x the X-coordinate of the window
+			*@param y the Y-coordinate of the window
+			*@param message the text to be displayed
+			*/
 		virtual ASYNC popupMessage( int x, int y, const QString message ) = 0;
+		
+		/**Draw a line on the sky map (NOT YET IMPLEMENTED)
+			*@param x1 the x-coordinate of the starting point of the line
+			*@param y1 the y-coordinate of the starting point of the line
+			*@param x2 the x-coordinate of the ending point of the line
+			*@param y2 the y-coordinate of the ending point of the line
+			*@param speed how fast the line should be drawn from the starting point to the 
+			*ending point.  A speed of 0 will draw the entire line instantly.
+			*/
 		virtual ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 ) = 0;
+		
+		/**Set the Geographic location according to the given city name.
+			*@param city the name of the city
+			*@param province the name of the province or US state
+			*@param country the name of the country
+			*/
 		virtual ASYNC setGeoLocation( const QString city, const QString province, const QString country ) = 0;
 };
 

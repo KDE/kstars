@@ -14,7 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-/**@short KStars utility functions
+/**@class KSUtils
+	*@short KStars utility functions
 	*@author Mark Hollomon
 	*@version 1.0
 	*This class contains static member functions to perform various time
@@ -28,10 +29,9 @@
 #ifndef KSTARS_KSUTILS_H_
 #define KSTARS_KSUTILS_H_
 
-#include <qfile.h>
-#include <qdatetime.h>
-
-#include "dms.h"
+class dms;
+class QFile;
+class QDateTime;
 
 class KSUtils {
 	public:
@@ -113,8 +113,7 @@ class KSUtils {
 		*/
 		static dms GSTat0hUT( const QDateTime &DT );
 
-	/**
-		*Attempt to open the data file named filename, using the QFile object "file".
+	/**Attempt to open the data file named filename, using the QFile object "file".
 		*First look in the standard KDE directories, then look in a local "data"
 		*subdirectory.  If the data file cannot be found or opened, display a warning
 		*messagebox.
@@ -126,14 +125,26 @@ class KSUtils {
 		*/
 		static bool openDataFile( QFile &file, const QString &filename );
 
+	/**Convert a Julian Day number to an Epoch number.  An epoch number is simply
+		*an expression of the date as a floating-point number, where the
+		*integer part is the year, and the fractional part is the date within the year.
+		*For example, June 1, 2004 would be "2004.5" (or similar).
+		*@param jd the Julian Day which is to be converted to an Epoch number
+		*@return the Epoch number
+		*/
 		static double JdToEpoch (long double jd);
 
+	/**Convert an epoch number to a Julian Day.
+		*@param epoch the Epoch number to convert.
+		*@return the Julian Day number
+		*/
 		static long double epochToJd (double epoch);
 
 	private:
-		//
-		// So you can't instantiate the class.
-		//
+	/**Constructor.  This class is just a collection of static functions, so 
+		*we have made the constructor private (so it is not possible to  
+		*instantiate a KSUtils object).
+		*/
 		KSUtils();
 };
 

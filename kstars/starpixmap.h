@@ -15,24 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #ifndef STARPIXMAP_H
 #define STARPIXMAP_H
 
 #include <qpixmap.h>
 
-/**Stores a two-dimensional array of star images, indexed by both size and color.
+/**@class StarPixmap
+	*Stores a two-dimensional array of star images, indexed by both size and color.
 	*Based on a star's spectral type, brightness, and the current zoom level, the appropriate
 	*image is selected from the array in the SkyMap::drawSymbol() function.
 	*A two-dimensional array of QPixmap star images
 	*@author Thomas Kabelmann
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class StarPixmap {
-
 	public:
 	/**Constructor.  Build the array of images, based on a color mode and a colorintensity
 		*value.
@@ -60,10 +57,10 @@ class StarPixmap {
 		*/
 		void setIntensity ( int newIntensity );
 
-	/**@returns the current color mode*/
+	/**@return the current color mode*/
 		int mode() const { return colorMode; }
 
-	/**@returns the current colorIntensity value*/
+	/**@return the current colorIntensity value*/
 		int intensity() const { return colorIntensity; }
 
 	private:

@@ -18,28 +18,27 @@
 #ifndef SKYOBJECT_H
 #define SKYOBJECT_H
 
-#include <qpainter.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
-#include <qimage.h>
-#include <qpoint.h>
 
 #include <klocale.h>
 
 #include "skypoint.h"
 #include "dms.h"
-#include "geolocation.h"
 #include "kspopupmenu.h"
 
 /**@class SkyObject
-	*@short Information about an object in the sky.
-	*@author Jason Harris
-	*@version 1.0
 	*Provides all necessary information about an object in the sky:
 	*its coordinates, name(s), type, magnitude, and QStringLists of
 	*URLs for images and webpages regarding the object.
-  */
+	*@short Information about an object in the sky.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+
+class QPoint;
+class GeoLocation;
 
 class SkyObject : public SkyPoint {
 public:

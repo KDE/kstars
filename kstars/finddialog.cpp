@@ -15,15 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kmessagebox.h>
-
+#include <qlayout.h>
 #include <qlineedit.h>
+#include <qlabel.h>
+#include <qcombobox.h>
+#include <qlistbox.h>
+#include <qtimer.h>
+
+#include <kmessagebox.h>
 
 #include "finddialog.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "Options.h"
+#include "skyobject.h"
+#include "skyobjectname.h"
+#include "objectnamelist.h"
 
-#include <qptrlist.h>
 
 FindDialog::FindDialog( QWidget* parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ) {

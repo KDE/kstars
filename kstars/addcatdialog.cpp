@@ -14,12 +14,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <qlayout.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 
 #include "kstars.h"
-#include "skyobject.h"
-#include "starobject.h"
+#include "kstarsdata.h"
+//#include "skyobject.h"
+//#include "starobject.h"
 #include "addcatdialog.h"
 
 AddCatDialog::AddCatDialog( QWidget *parent )

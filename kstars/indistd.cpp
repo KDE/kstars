@@ -9,23 +9,28 @@
     2004-01-18: This class handles INDI Standard properties.
  */
  
+ #include "indistd.h"
  #include "Options.h"
  #include "indielement.h"
  #include "indiproperty.h"
  #include "indigroup.h"
  #include "indidevice.h"
  #include "indidriver.h"
- #include "indistd.h"
  #include "kstars.h"
+ #include "kstarsdata.h"
+ #include "skymap.h"
+ #include "skyobject.h"
+ #include "simclock.h"
  #include "devicemanager.h"
  #include "timedialog.h"
  #include "streamwg.h"
  
  #include <qtimer.h>
  #include <qlabel.h>
- 
  #include <qfont.h>
  
+ #include <klocale.h>
+ #include <kdebug.h>
  #include <kpushbutton.h>
  #include <klineedit.h>
  #include <kstatusbar.h>

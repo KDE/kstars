@@ -25,14 +25,14 @@
 class QTime;
 class QDate;
 
-/**
-  * This class creates a QHBox with 3 QLineEdit Fields which will contain
-  * either Time (Hour, Minute, Second) or Date (Day, Month, Year).
-  *
-  * Inherits QHBox
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
+/**@class timeBox
+	* This class creates a QHBox with 3 QLineEdit Fields which will contain
+	* either Time (Hour, Minute, Second) or Date (Day, Month, Year).
+	*
+	* Inherits QHBox
+	*@author Pablo de Vicente
+	*@version 1.0
+	*/
 
 class timeBox : public QLineEdit  {
 public:

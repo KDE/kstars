@@ -26,14 +26,17 @@
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
+#include <qfile.h>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 #include "lcgenerator.h"
 #include "imageviewer.h"
 #include "ksutils.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 
 #include <kapplication.h>
 

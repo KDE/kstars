@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kurl.h>
+#include <klocale.h>
 #include <kmessagebox.h>
 
 #include <qlayout.h>
@@ -23,10 +25,9 @@
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
 
-#include "skymap.h"
 #include "addlinkdialog.h"
-
-#include <kapplication.h>
+#include "skymap.h"
+#include "skyobject.h"
 
 AddLinkDialog::AddLinkDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL" ), Ok|Cancel, Ok, parent ) {

@@ -34,9 +34,11 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kstdguiitem.h>
+#include <kstandarddirs.h>
 #include <kurl.h>
 
 #include <qcheckbox.h>
+#include <qspinbox.h>
 #include <qdatetimeedit.h>
 #include <qwidgetstack.h>
 #include <qwidget.h>
@@ -60,13 +62,16 @@
 #include "argtimescale.h"
 #include "argzoom.h"
 
+#include "scriptbuilder.h"
 #include "kstars.h"
+#include "dmsbox.h"
 #include "finddialog.h"
 #include "locationdialog.h"
-#include "scriptbuilder.h"
+#include "skyobjectname.h"
+#include "timestepbox.h"
 
 ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
- : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent ), UnsavedChanges(false), currentFileURL(),
+ : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent, name ), UnsavedChanges(false), currentFileURL(),
 		currentDir( QDir::homeDirPath() ), currentScriptName(), currentAuthor() {
 
 	QFrame *page = plainPage();

@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ksutils.h"
-#include "dmsbox.h"
-#include "modcalcsidtime.h"
-#include "modcalcsidtime.moc"
-#include "kstars.h"
-
 #include <qdatetimeedit.h>
 #include <qradiobutton.h>
 #include <qdatetime.h>
@@ -29,6 +23,14 @@
 #include <qtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+
+#include "ksutils.h"
+#include "dmsbox.h"
+#include "modcalcsidtime.h"
+#include "modcalcsidtime.moc"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "simclock.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 

@@ -16,29 +16,25 @@
  ***************************************************************************/
 
 
-#include <qtabwidget.h>
-#include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qlistview.h>
 #include <qspinbox.h>
 
+#include <kdebug.h>
+#include <klocale.h>
 #include <knuminput.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 #include <kcolordialog.h>
 #include <kcombobox.h>
 
+#include "viewopsdialog.h"
 #include "kstars.h"
 #include "magnitudespinbox.h"
 #include "timestepbox.h"
 #include "ksutils.h"
 #include "addcatdialog.h"
-
-#include "viewopsdialog.h"
-
-#include "viewopsdialog.moc"
 
 ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::IconList, i18n( "Display Options" ), Ok|Cancel, Ok, parent ) {
@@ -842,3 +838,5 @@ void ViewOpsDialog::clearPlanetTrails( void ) {
 
 	ksw->map()->forceUpdate();
 }
+
+#include "viewopsdialog.moc"

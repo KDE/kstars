@@ -17,11 +17,24 @@
 #ifndef OPSCATALOG_H
 #define OPSCATALOG_H
 
-#include <qwidget.h>
-#include <qlistview.h>
-
 #include "opscatalogui.h"
-#include "kstars.h"
+
+/**@class OpsCatalog
+	*The Catalog page for the Options window.  This page allows the user
+	*to modify display of the major object catalogs in KStars:
+	*@li Hipparcos/Tycho Star Catalog
+	*@li Messier Catalog
+	*@li NGC/IC Catalogs
+	*@li Any Custom catalogs added by the user.
+	*
+	*@short Catalog page of the Options window.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+
+class QWidget;
+class KStars;
+class QCheckListItem;
 
 class OpsCatalog : public OpsCatalogUI
 {

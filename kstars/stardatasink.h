@@ -19,20 +19,17 @@
 #define STARDATASINK_H
 
 
-/**
-  *StarDataSink receives data from an FileSource object and appends these data
-  *to a QList of star data. It's an asynchronous io class.
-  *@author Thomas Kabelmann
-	*@version 0.9
-  */
+/**@class StarDataSink
+	*StarDataSink receives data from an FileSource object and appends these data
+	*to a QList of star data. It's an asynchronous io class.
+	*@author Thomas Kabelmann
+	*@version 1.0
+	*/
 
 #include <qobject.h>
 #include <qasyncio.h>
 
-#include "starobject.h"
-
 #include <qglobal.h>
-#include <qptrlist.h>
 
 class KStarsData;
 

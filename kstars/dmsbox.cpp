@@ -16,12 +16,13 @@
  ***************************************************************************/
 
 #include <stdlib.h>
+
 #include "dmsbox.h"
-#include "dms.h"
 
 #include <kdebug.h>
 #include <klocale.h>
 #include <qregexp.h>
+#include <qstring.h>
 #include <qwhatsthis.h>
 
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : KLineEdit(parent,name) {

@@ -17,10 +17,12 @@
 
 #include <math.h>
 
+#include <qfile.h>
 #include <kdebug.h>
 
-#include "ksutils.h"
 #include "kspluto.h"
+#include "ksutils.h"
+#include "ksnumbers.h"
 
 int KSPluto::DATAARRAYSIZE = 106;
 bool KSPluto::data_loaded = false;

@@ -17,10 +17,21 @@
 #ifndef OPSADVANCED_H
 #define OPSADVANCED_H
 
-#include <qwidget.h>
-
 #include "opsadvancedui.h"
-#include "kstars.h"
+
+/**@class OpsAdvanced
+	*The Advanced Tab of the Options window.  In this Tab the user can configure
+	*advanced behaviors of the program, including:
+	*@li Whether some objects are hidden when the map is moving (and which objects)
+	*@li Whether positions are corrected for atmospheric refraction
+	*@li Whether a slewing animation is used to move the Focus position
+	*@li Whether centered objects are automatically labeled
+	*@li whether a "transient" label is attached when the mouse "hovers" at an object.
+	*@author Jason Harris
+	*@version 1.0
+	*/
+
+class KStars;
 
 class OpsAdvanced : public OpsAdvancedUI
 {

@@ -17,21 +17,27 @@
 
 //This file contains Event handlers for the SkyMap class.
 
+#include <stdlib.h>
+#include <math.h> //using fabs()
+
 #include <qcursor.h>
+#include <qpainter.h>
+#include <qfile.h>
 
 #include <kiconloader.h>
 #include <kstatusbar.h>
 #include <kshortcut.h> //KKey class
-#include <stdlib.h>
-#include <math.h> //using fabs()
 
+#include "skymap.h"
 #include "Options.h"
 #include "kstars.h"
-#include "skymap.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
+#include "simclock.h"
 #include "infoboxes.h"
 #include "ksfilereader.h"
 #include "kspopupmenu.h"
+#include "ksmoon.h"
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {

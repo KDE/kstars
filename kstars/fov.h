@@ -19,11 +19,14 @@
 #define FOV_H
 
 #include <qstring.h>
+#include <klocale.h>
 
 /**@class FOV A simple class encapulating a Field-of-View symbol
 	*@author Jason Harris
 	*@version 1.0
 	*/
+
+class QPainter;
 
 class FOV {
 	public:

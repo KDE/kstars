@@ -16,24 +16,43 @@
  ***************************************************************************/
 
 #include <qregexp.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <kstandarddirs.h>
 #include <qdir.h>
 #include <qfile.h>
 
-#include "Options.h"
-#include "ksutils.h"
+#include <kapplication.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <kstandarddirs.h>
+
 #include "kstarsdata.h"
+
+#include "Options.h"
+#include "dms.h"
 #include "skymap.h"
+#include "ksutils.h"
+#include "ksnumbers.h"
+#include "skypoint.h"
+#include "skyobject.h"
+#include "starobject.h"
 #include "deepskyobject.h"
+#include "skyobjectname.h"
+#include "ksplanet.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
+#include "ksmoon.h"
+#include "jupitermoons.h"
+
+#include "simclock.h"
+#include "timezonerule.h"
 #include "filesource.h"
 #include "stardatasink.h"
 #include "ksfilereader.h"
 #include "indidriver.h"
 #include "indi/lilxml.h"
-
-#include <kapplication.h>
+#include "indistd.h"
+#include "detaildialog.h"
+#include "csegment.h"
 
 QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
@@ -699,7 +718,7 @@ bool KStarsData::readAsteroidData( void ) {
 			line = fileReader.readLine();
 			name = line.mid( 6, 17 ).stripWhiteSpace();
 			mJD  = line.mid( 24, 5 ).toInt();
-			a    = line.mid( 31, 9 ).toDouble();
+			a    = line.mid( 30, 9 ).toDouble();
 			e    = line.mid( 41, 10 ).toDouble();
 			dble_i = line.mid( 52, 9 ).toDouble();
 			dble_w = line.mid( 62, 9 ).toDouble();

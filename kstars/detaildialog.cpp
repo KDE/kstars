@@ -2,8 +2,7 @@
                           detaildialog.cpp  -  description
                              -------------------
     begin                : Sun May 5 2002
-    copyright            : (C) 2002 by Jason Harris
-    				       Jasem Mutlaq
+    copyright            : (C) 2002 by Jason Harris and Jasem Mutlaq
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -18,22 +17,26 @@
 
 #include <qlineedit.h>
 #include <qtextedit.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
 #include <qstring.h>
+#include <qlayout.h>
 
+#include <kapplication.h>
+#include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <klistview.h>
 
+#include "detaildialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "geolocation.h"
 #include "ksutils.h"
 #include "skymap.h"
 #include "skyobject.h"
 #include "starobject.h"
 #include "deepskyobject.h"
-#include "kstars.h"
-
-#include "detaildialog.h"
-
-#include <kapplication.h>
+#include "ksplanetbase.h"
 
 
 DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
@@ -524,474 +527,438 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 void DetailDialog::unselectInfoList()
 {
-  infoList->setSelected(infoList->currentItem(), false);
+	infoList->setSelected(infoList->currentItem(), false);
 }
 
 void DetailDialog::unselectImagesList()
 {
-  imagesList->setSelected(imagesList->currentItem(), false);
-
-
+	imagesList->setSelected(imagesList->currentItem(), false);
 }
 
 void DetailDialog::viewLink()
 {
-     QString URL;
+	QString URL;
 
-    if (infoList->currentItem() != -1 && infoList->isSelected(infoList->currentItem()))
-        URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
-    else if (imagesList->currentItem() != -1)
-       URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
+	if (infoList->currentItem() != -1 && infoList->isSelected(infoList->currentItem()))
+		URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
+	else if (imagesList->currentItem() != -1)
+		URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
 
-  if (!URL.isEmpty())
-       kapp->invokeBrowser(URL);
-
+	if (!URL.isEmpty())
+		kapp->invokeBrowser(URL);
 }
 
 void DetailDialog::updateLists()
 {
-
-  infoList->clear();
-  imagesList->clear();
-
-  QStringList::Iterator itList = selectedObject->InfoList.begin();
-  QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-
-  for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
-         infoList->insertItem(QString(*itTitle));
-         itTitle++;
+	infoList->clear();
+	imagesList->clear();
+	
+	QStringList::Iterator itList = selectedObject->InfoList.begin();
+	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	
+	for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
+		infoList->insertItem(QString(*itTitle));
+		itTitle++;
 	}
 
-  infoList->setSelected(0, true);
-
+	infoList->setSelected(0, true);
 	itList  = selectedObject->ImageList.begin();
 	itTitle = selectedObject->ImageTitle.begin();
 
 	for ( ; itList != selectedObject->ImageList.end(); ++itList ) {
-         imagesList->insertItem(QString(*itTitle));
-         itTitle++;
+		imagesList->insertItem(QString(*itTitle));
+		itTitle++;
 	}
-
 }
 
 void DetailDialog::editLinkDialog()
 {
-  int type;
-  uint i;
-  QString defaultURL , entry;
-  QFile newFile;
+	int type;
+	uint i;
+	QString defaultURL , entry;
+	QFile newFile;
+	
+	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
+	QFrame *editFrame = editDialog.plainPage();
+	
+	editLinkURL = new QLabel(i18n("URL:"), editFrame);
+	editLinkField = new QLineEdit(editFrame, "lineedit");
+	editLinkField->setMinimumWidth(300);
+	editLinkField->home(false);
+	editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
+	editLinkLayout->addWidget(editLinkURL);
+	editLinkLayout->addWidget(editLinkField);
+	
+	currentItemIndex = infoList->currentItem();
+	
+	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+	{
+		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
+		editLinkField->setText(defaultURL);
+		type = 1;
+		currentItemTitle = infoList->currentText();
+	}
+	else if ( (currentItemIndex = imagesList->currentItem()) != -1)
+	{
+		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
+		editLinkField->setText(defaultURL);
+		type = 0;
+		currentItemTitle = imagesList->currentText();
+	}
+	else return;
 
-  KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
-  QFrame *editFrame = editDialog.plainPage();
+	// If user presses cancel then return
+	if (!editDialog.exec() == QDialog::Accepted)
+		return;
+	// if it wasn't edit, don't do anything
+	if (!editLinkField->edited())
+		return;
 
-  editLinkURL = new QLabel(i18n("URL:"), editFrame);
-  editLinkField = new QLineEdit(editFrame, "lineedit");
-  editLinkField->setMinimumWidth(300);
-  editLinkField->home(false);
-  editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
-  editLinkLayout->addWidget(editLinkURL);
-  editLinkLayout->addWidget(editLinkField);
+	// Save the URL of the current item
+	currentItemURL =  editLinkField->text();
+	entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
 
-  currentItemIndex = infoList->currentItem();
+	switch (type)
+	{
+		case 0:
+			if (!verifyUserData(type))
+				return;
+				break;
+		case 1:
+			if (!verifyUserData(type))
+				return;
+				break;
+	}
 
-  if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
-  {
-        defaultURL = *selectedObject->InfoList.at(currentItemIndex);
-        editLinkField->setText(defaultURL);
-        type = 1;
-        currentItemTitle = infoList->currentText();
-  }
-  else if ( (currentItemIndex = imagesList->currentItem()) != -1)
-  {
-        defaultURL = *selectedObject->ImageList.at(currentItemIndex);
-        editLinkField->setText(defaultURL);
-        type = 0;
-        currentItemTitle = imagesList->currentText();
-  }
-  else return;
+	// Open a new file with the same name and copy all data along with changes
+	newFile.setName(file.name());
+	newFile.open(IO_WriteOnly);
 
-  // If user presses cancel then return
-  if (!editDialog.exec() == QDialog::Accepted)
-        return;
-  // if it wasn't edit, don't do anything
-  if (!editLinkField->edited())
-        return;
+	QTextStream newStream(&newFile);
 
-  // Save the URL of the current item
-    currentItemURL =  editLinkField->text();
-    entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
+	for (i=0; i<dataList.count(); i++)
+	{
+		newStream << dataList[i] << endl;
+		continue;
+	}
 
-   switch (type)
-   {
-     case 0:
-       if (!verifyUserData(type))
-           return;
-       break;
-     case 1:
-       if (!verifyUserData(type))
-          return;
-       break;
-   }
+	if (type==0)
+	{
+		*selectedObject->ImageTitle.at(currentItemIndex) = currentItemTitle;
+		*selectedObject->ImageList.at(currentItemIndex) = currentItemURL;
+	}
+	else
+	{
+		*selectedObject->InfoTitle.at(currentItemIndex) = currentItemTitle;
+		*selectedObject->InfoList.at(currentItemIndex) = currentItemURL;
+	}
 
-   // Open a new file with the same name and copy all data along with changes
-   newFile.setName(file.name());
-   newFile.open(IO_WriteOnly);
+	newStream << entry << endl;
 
-   QTextStream newStream(&newFile);
-
-   for (i=0; i<dataList.count(); i++)
-   {
-        newStream << dataList[i] << endl;
-        continue;
-   }
-
-   if (type==0)
-   {
-       *selectedObject->ImageTitle.at(currentItemIndex) = currentItemTitle;
-       *selectedObject->ImageList.at(currentItemIndex) = currentItemURL;
-   }
-   else
-   {
-        *selectedObject->InfoTitle.at(currentItemIndex) = currentItemTitle;
-        *selectedObject->InfoList.at(currentItemIndex) = currentItemURL;
-   }
-
-   newStream << entry << endl;
-
-    newFile.close();
-    file.close();
-    updateLists();
+	newFile.close();
+	file.close();
+	updateLists();
 }
 
 void DetailDialog::removeLinkDialog()
 {
-  int type;
-  uint i;
-  QString defaultURL, entry;
-  QFile newFile;
+	int type;
+	uint i;
+	QString defaultURL, entry;
+	QFile newFile;
+	
+	currentItemIndex = infoList->currentItem();
+	
+	if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+	{
+		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
+		type = 1;
+		currentItemTitle = infoList->currentText();
+	}
+	else
+	{
+		currentItemIndex = imagesList->currentItem();
+		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
+		type = 0;
+		currentItemTitle = imagesList->currentText();
+	}
 
-   currentItemIndex = infoList->currentItem();
+	if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"))!=KMessageBox::Yes)
+		return;
 
-  if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
-  {
-        defaultURL = *selectedObject->InfoList.at(currentItemIndex);
-        type = 1;
-        currentItemTitle = infoList->currentText();
-  }
-  else
-  {
-        currentItemIndex = imagesList->currentItem();
-        defaultURL = *selectedObject->ImageList.at(currentItemIndex);
-        type = 0;
-        currentItemTitle = imagesList->currentText();
-  }
+	switch (type)
+	{
+		case 0:
+			if (!verifyUserData(type))
+				return;
+			selectedObject->ImageTitle.remove( selectedObject->ImageTitle.at(currentItemIndex));
+			selectedObject->ImageList.remove( selectedObject->ImageList.at(currentItemIndex));
+			break;
 
-  if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"))!=KMessageBox::Yes)
-   return;
+		case 1:
+			if (!verifyUserData(type))
+				return;
+			selectedObject->InfoTitle.remove(selectedObject->InfoTitle.at(currentItemIndex));
+			selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
+			break;
+	}
 
+	// Open a new file with the same name and copy all data along with changes
+	newFile.setName(file.name());
+	newFile.open(IO_WriteOnly);
 
-    switch (type)
-    {
-       case 0:
-        if (!verifyUserData(type))
-           return;
-        selectedObject->ImageTitle.remove( selectedObject->ImageTitle.at(currentItemIndex));
-        selectedObject->ImageList.remove( selectedObject->ImageList.at(currentItemIndex));
-        break;
+	QTextStream newStream(&newFile);
 
-        case 1:
-         if (!verifyUserData(type))
-          return;
-        selectedObject->InfoTitle.remove(selectedObject->InfoTitle.at(currentItemIndex));
-        selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
-        break;
-    }
+	for (i=0; i<dataList.count(); i++)
+		newStream << dataList[i] << endl;
 
-   // Open a new file with the same name and copy all data along with changes
-   newFile.setName(file.name());
-   newFile.open(IO_WriteOnly);
-
-   QTextStream newStream(&newFile);
-
-   for (i=0; i<dataList.count(); i++)
-          newStream << dataList[i] << endl;
-
-    newFile.close();
-    file.close();
-    updateLists();
+	newFile.close();
+	file.close();
+	updateLists();
 }
 
 bool DetailDialog::verifyUserData(int type)
 {
-  QString line, name, sub, title;
-  bool ObjectFound = false;
-  uint i;
-
-  switch (type)
-   {
-     case 0:
-        if (!readUserFile(type))
-          return false;
-        for (i=0; i<dataList.count(); i++)
-        {
-             line = dataList[i];
-             name = line.mid( 0, line.find(':') );
-             sub = line.mid( line.find(':')+1 );
-             title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == currentItemTitle)
-                {
-                  ObjectFound = true;
-                  dataList.remove(dataList.at(i));
-                  break;
-                }
-         }
-
-         break;
-     case 1:
-        if (!readUserFile(type))
-          return false;
-        for (i=0; i<dataList.count(); i++)
-        {
-             line = dataList[i];
-             name = line.mid( 0, line.find(':') );
-             sub = line.mid( line.find(':')+1 );
-             title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == currentItemTitle)
-                {
-                  ObjectFound = true;
-                  dataList.remove(dataList.at(i));
-                  break;
-                }
-         }
-	 break;
-
-    }
-
-   return ObjectFound;
-
+	QString line, name, sub, title;
+	bool ObjectFound = false;
+	uint i;
+	
+	switch (type)
+	{
+		case 0:
+			if (!readUserFile(type))
+				return false;
+			for (i=0; i<dataList.count(); i++)
+			{
+				line = dataList[i];
+				name = line.mid( 0, line.find(':') );
+				sub = line.mid( line.find(':')+1 );
+				title = sub.mid( 0, sub.find(':') );
+				if (name == selectedObject->name() && title == currentItemTitle)
+				{
+					ObjectFound = true;
+					dataList.remove(dataList.at(i));
+					break;
+				}
+			}
+			break;
+		case 1:
+			if (!readUserFile(type))
+				return false;
+			for (i=0; i<dataList.count(); i++)
+			{
+				line = dataList[i];
+				name = line.mid( 0, line.find(':') );
+				sub = line.mid( line.find(':')+1 );
+				title = sub.mid( 0, sub.find(':') );
+				if (name == selectedObject->name() && title == currentItemTitle)
+				{
+					ObjectFound = true;
+					dataList.remove(dataList.at(i));
+					break;
+				}
+			}
+			break;
+	}
+	return ObjectFound;
 }
 
 bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 {
+	switch (type)
+	{
+		case 0:
+			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
+			if ( !file.open( IO_ReadOnly) )
+			{
+				ksw->data()->initError("image_url.dat", false);
+				return false;
+			}
+			break;
 
-   switch (type)
-   {
-       case 0:
-             file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
-             if ( !file.open( IO_ReadOnly) )
-                {
-        	   ksw->data()->initError("image_url.dat", false);
-        	   return false;
-                }
-       break;
+		case 1:
+			file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
+			if ( !file.open( IO_ReadOnly) )
+			{
+				ksw->data()->initError("info_url.dat", false);
+				return false;
+			}
+			break;
+	}
 
-       case 1:
-            file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
-             if ( !file.open( IO_ReadOnly) )
-             {
-        	   ksw->data()->initError("info_url.dat", false);
-                   return false;
-             }
+	// Must reset file
+	file.reset();
+	QTextStream stream(&file);
 
-           break;
+	dataList.clear();
+	
+	// read all data into memory
+	while (!stream.eof())
+		dataList.append(stream.readLine());
 
-    }
-
-   // Must reset file
-   file.reset();
-   QTextStream stream(&file);
-
-  dataList.clear();
-  // read all data into memory
-   while (!stream.eof())
-     dataList.append(stream.readLine());
-
-   return true;
+	return true;
 }
 
 void DetailDialog::Populate(QListViewItem *parent)
 {
-  // list done
-  if (!treeIt->current())
-    return;
+	// list done
+	if (!treeIt->current())
+		return;
 
-  // if relative top level [KSLABEL]
-  if (treeIt->current()->Type == 0)
-    forkTree(parent);
+	// if relative top level [KSLABEL]
+	if (treeIt->current()->Type == 0)
+		forkTree(parent);
 
-  while (treeIt->current())
-  {
-       if (treeIt->current()->Type == 0)
-       {
-          forkTree(parent);
-          continue;
-       }
-       // if [END]
-       else if (treeIt->current()->Type == 1)
-          break;
+	while (treeIt->current())
+	{
+		if (treeIt->current()->Type == 0)
+		{
+			forkTree(parent);
+			continue;
+		}
+		else if (treeIt->current()->Type == 1)
+			break;
 
-       if (parent)
-           new QListViewItem(parent, treeIt->current()->Name);
-       else
-           new QListViewItem(ADVTree, treeIt->current()->Name);
+		if (parent)
+			new QListViewItem(parent, treeIt->current()->Name);
+		else
+			new QListViewItem(ADVTree, treeIt->current()->Name);
 
-
-       ++(*treeIt);
-    }
-
+		++(*treeIt);
+	}
 }
 
 void DetailDialog::forkTree(QListViewItem *parent)
 {
-  QListViewItem *current = 0;
+	QListViewItem *current = 0;
+	if (parent)
+		current = new QListViewItem(parent, treeIt->current()->Name);
+	else
+		current = new QListViewItem(ADVTree, treeIt->current()->Name);
 
-   if (parent)
-     current = new QListViewItem(parent, treeIt->current()->Name);
-   else
-     current = new QListViewItem(ADVTree, treeIt->current()->Name);
-
-  // we need to increment the iterator before and after populating the tree
-  ++(*treeIt);
-
-  Populate(current);
-
-  ++(*treeIt);
-
+	// we need to increment the iterator before and after populating the tree
+	++(*treeIt);
+	Populate(current);
+	++(*treeIt);
 }
 
 void  DetailDialog::viewADVData()
 {
-   QString link;
+	QString link;
+	QListViewItem * current = ADVTree->currentItem();
 
-   QListViewItem * current = ADVTree->currentItem();
+	if (!current)  return;
 
-   if (!current)
-     return;
+	treeIt->toFirst();
+	while (treeIt->current())
+	{
+		if (treeIt->current()->Name == current->text(0))
+		{
+			if (treeIt->current()->Type == 2)  break;
+			else return;
+		}
+		++(*treeIt);
+	}
 
-   treeIt->toFirst();
-
-   while (treeIt->current())
-   {
-     if (treeIt->current()->Name == current->text(0))
-     {
-        if (treeIt->current()->Type == 2)
-          break;
-        else return;
-     }
-
-       ++(*treeIt);
-   }
-
-   link = treeIt->current()->Link;
-   link = parseADVData(link);
-
-   kapp->invokeBrowser(link);
-
+	link = treeIt->current()->Link;
+	link = parseADVData(link);
+	kapp->invokeBrowser(link);
 }
 
 QString DetailDialog::parseADVData(QString link)
 {
-  QString subLink;
-  int index;
+	QString subLink;
+	int index;
+	
+	if ( (index = link.find("KSOBJ")) != -1)
+	{
+		link.remove(index, 5);
+		link = link.insert(index, selectedObject->name());
+	}
 
-  if ( (index = link.find("KSOBJ")) != -1)
-  {
-    link.remove(index, 5);
-    link = link.insert(index, selectedObject->name());
-  }
-  if ( (index = link.find("KSRA")) != -1)
-  {
-    link.remove(index, 4);
-    subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
-    subLink = subLink.insert(2, "%20");
-    subLink = subLink.insert(7, "%20");
+	if ( (index = link.find("KSRA")) != -1)
+	{
+		link.remove(index, 4);
+		subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
+		subLink = subLink.insert(2, "%20");
+		subLink = subLink.insert(7, "%20");
 
-    link = link.insert(index, subLink);
-  }
-  if ( (index = link.find("KSDEC")) != -1)
-  {
-    link.remove(index, 5);
-    if (selectedObject->dec()->degree() < 0)
-    {
-       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
-       subLink = subLink.insert(3, "%20");
-       subLink = subLink.insert(8, "%20");
-    }
-    else
-    {
-       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
-       subLink = subLink.insert(0, "%2B");
-       subLink = subLink.insert(5, "%20");
-       subLink = subLink.insert(10, "%20");
-    }
+		link = link.insert(index, subLink);
+	}
+	if ( (index = link.find("KSDEC")) != -1)
+	{
+		link.remove(index, 5);
+		if (selectedObject->dec()->degree() < 0)
+		{
+			subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink = subLink.insert(3, "%20");
+			subLink = subLink.insert(8, "%20");
+		}
+		else
+		{
+			subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink = subLink.insert(0, "%2B");
+			subLink = subLink.insert(5, "%20");
+			subLink = subLink.insert(10, "%20");
+		}
+		link = link.insert(index, subLink);
+	}
 
-    link = link.insert(index, subLink);
-  }
-
-  return link;
+	return link;
 }
 
 void DetailDialog::saveLogData()
 {
+	QFile file;
+	QString logs;
+	QString currentLog = userLog->text();
+	
+	if (currentLog == (i18n("Record here observation logs and/or data on ") + selectedObject->name()))
+		return;
 
- QFile file;
- QString logs;
- QString currentLog = userLog->text();
+	// A label to identiy a header
+	QString KSLabel ="[KSLABEL:" + selectedObject->name() + "]";
 
- if (currentLog == (i18n("Record here observation logs and/or data on ") + selectedObject->name()))
-  return;
+	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+	if ( file.open( IO_ReadOnly))
+	{
+		QTextStream instream(&file);
+		// read all data into memory
+		logs = instream.read();
+		file.close();
+	}
 
- // A label to identiy a header
- QString KSLabel ="[KSLABEL:" + selectedObject->name() + "]";
+	// delete old data
+	if (!selectedObject->userLog.isEmpty())
+	{
+		int startIndex, endIndex;
+		QString sub;
 
-  file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
-  if ( file.open( IO_ReadOnly))
-  {
-     QTextStream instream(&file);
-     // read all data into memory
-     logs = instream.read();
-     file.close();
-  }
+		startIndex = logs.find(KSLabel);
+		sub = logs.mid (startIndex);
+		endIndex = sub.find("[KSLogEnd]");
 
-  // delete old data
-  if (!selectedObject->userLog.isEmpty())
-  {
-    int startIndex, endIndex;
-    QString sub;
+		logs.remove(startIndex, endIndex + 11);
+	}
 
-    startIndex = logs.find(KSLabel);
-    sub = logs.mid (startIndex);
-    endIndex = sub.find("[KSLogEnd]");
+	selectedObject->userLog = currentLog;
+    
+	// append log to existing logs
+	if (!currentLog.isEmpty())
+		logs.append( KSLabel + "\n" + currentLog + "\n[KSLogEnd]\n");
 
-    logs.remove(startIndex, endIndex + 11);
+	if ( !file.open( IO_WriteOnly))
+	{
+		QString message = i18n( "user log file could not be opened.\nCurrent user log cannot be recorded for future sessions." );
+		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+		return;
+	}
 
-  }
+	QTextStream outstream(&file);
+	outstream << logs;
 
-    selectedObject->userLog = currentLog;
-
-     // append log to existing logs
-   if (!currentLog.isEmpty())
-     logs.append( KSLabel + "\n" + currentLog + "\n[KSLogEnd]\n");
-
-   if ( !file.open( IO_WriteOnly))
-    {
-      			QString message = i18n( "user log file could not be opened.\nCurrent user log cannot be recorded for future sessions." );
-              KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-      	       return;
-     }
-
-  QTextStream outstream(&file);
-
-  outstream << logs;
-
-  KMessageBox::information(0, i18n("The log was saved successfully."));
-
-  file.close();
-
+	KMessageBox::information(0, i18n("The log was saved successfully."));
+	file.close();
 }
-
-
-
-
 
 #include "detaildialog.moc"

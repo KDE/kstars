@@ -16,9 +16,17 @@
  ***************************************************************************/
 
 #include <math.h>
+
+#include <qfile.h>
+#include <qpoint.h>
+#include <qwmatrix.h>
+
+#include "ksplanetbase.h"
+#include "ksplanet.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "ksplanetbase.h"
+#include "ksnumbers.h"
+#include "kspopupmenu.h"
 
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )

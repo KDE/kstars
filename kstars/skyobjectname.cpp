@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "skyobjectname.h"
-
+#include "skyobject.h"
 
 SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
 	: skyobject ( obj ), Text ( str )

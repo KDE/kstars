@@ -18,7 +18,7 @@
 #ifndef LOCATIONDIALOG_H
 #define LOCATIONDIALOG_H
 
-/**
+/**@class LocationDialog
 	*Dialog for changing the geographic location of the observer.  The
 	*dialog is divided into two sections.
 	*
@@ -37,17 +37,10 @@
 	*location to the custom Cities database.  If the user selects "Add" without
 	*filling in all of the manual entry fields, an error message is displayed.
 	*@short Geographic Location dialog
-  *@author Jason Harris
-	*@version 0.9
-  */
+	*@author Jason Harris
+	*@version 1.0
+	*/
 #include <kdialogbase.h>
-#include <klineedit.h>
-#include <qpushbutton.h>
-
-#include "mapcanvas.h"
-#include "dmsbox.h"
-
-#include <qglobal.h>
 #include <qmemarray.h>
 
 class QVBoxLayout;
@@ -59,6 +52,9 @@ class QListBox;
 class QListBoxItem;
 class QPushButton;
 class QComboBox;
+class KLineEdit;
+class MapCanvas;
+class dmsBox;
 
 class LocationDialog : public KDialogBase {
 	Q_OBJECT
@@ -105,19 +101,19 @@ public:
 
 /**@returns the name of the selected city.
 	*/
-	QString selectedCity( void ) { return NewCityName->text(); }
+	QString selectedCity( void );
 
 /**@returns the name of the selected city.
 	*/
-	QString selectedProvince( void ) { return NewProvinceName->text(); }
+	QString selectedProvince( void );
 
 /**@returns the name of the selected city.
 	*/
-	QString selectedCountry( void ) { return NewCountryName->text(); }
+	QString selectedCountry( void );
 
 /**@returns true if the AddCityBUtton is enabled
 	*/
-	bool addCityEnabled() { return AddCityButton->isEnabled(); }
+	bool addCityEnabled();
 
   QListBox *GeoBox;
 
@@ -170,7 +166,7 @@ private:
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-        QMemArray<int> GeoID;
+	QMemArray<int> GeoID;
 
 };
 

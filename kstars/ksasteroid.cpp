@@ -17,12 +17,11 @@
 
 #include <kdebug.h>
 
+#include "ksasteroid.h"
 #include "dms.h"
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "kstarsdata.h"
-#include "ksasteroid.h"
-
 
 KSAsteroid::KSAsteroid( KStarsData *_kd, QString s, QString imfile,
 		long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )

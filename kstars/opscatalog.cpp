@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "Options.h"
-#include "kstars.h"
+#include <qlistview.h> //QCheckListItem
 
 #include "opscatalog.h"
+#include "Options.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
 #include "addcatdialog.h"
 
 OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl ) 

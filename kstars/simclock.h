@@ -24,12 +24,11 @@
 
 #include "simclockinterface.h"
 
-/*
- * @short kstars simulation clock
- * @author Mark Hollomon
- * @version 0.9
- */
-
+/**@class SimClock
+	*@short kstars simulation clock
+	*@author Mark Hollomon
+	*@version 1.0
+	*/
 
 class SimClock : public QObject, public SimClockInterface {
 	Q_OBJECT

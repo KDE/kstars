@@ -27,10 +27,11 @@ class KLineEdit;
 class SkyPoint;
 class FocusDialogDlg;
 
-/**@Short Dialog to provide a way to set the focus coordinates manually.
-  *@author Jason Harris
-	*@version 0.9
-  */
+/**@class FocusDialog 
+	*@short A small dialog for setting the focus coordinates manually.
+	*@author Jason Harris
+	*@version 1.0
+	*/
 
 class FocusDialog : public KDialogBase {
 	Q_OBJECT

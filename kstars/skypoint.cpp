@@ -18,8 +18,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "dms.h"
 #include "skypoint.h"
+#include "dms.h"
+#include "ksnumbers.h"
 
 void SkyPoint::set( dms r, dms d ) {
 	RA0.set( r );

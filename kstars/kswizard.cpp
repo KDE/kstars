@@ -22,6 +22,7 @@
 #include <klistbox.h>
 #include <kpushbutton.h>
 
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "geolocation.h"

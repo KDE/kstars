@@ -18,19 +18,17 @@
 #ifndef KSTARSSPLASH_H_
 #define KSTARSSPLASH_H_
 
-#include <qlabel.h>
-#include <qlcdnumber.h>
-#include <qpushbutton.h>
-#include <qscrollbar.h>
 #include <kdialogbase.h>
-#include <qtimer.h>
 
-/**The KStars Splash Screen.  The splash screen shows the KStars logo and progress messages
-	*while data files are parsed and objects are initialized.
+/**@class KStarsSplash
+	*The KStars Splash Screen.  The splash screen shows the KStars logo and 
+	*progress messages while data files are parsed and objects are initialized.
 	*@short the KStars Splash Screen.
 	*@author Heiko Evermann
-	*@version 0.9
+	*@version 1.0
 	*/
+
+class QLabel;
 
 class KStarsSplash : public KDialogBase
 {
@@ -41,8 +39,8 @@ class KStarsSplash : public KDialogBase
 		*/
 		KStarsSplash( QWidget *parent, const char* name );
 
-		/**Destructor
-			*/
+	/**Destructor
+		*/
 		~KStarsSplash();
 
 	public slots:
@@ -56,8 +54,11 @@ class KStarsSplash : public KDialogBase
 		*this may be difficult to implement (it may be that the program is too busy loading data
 		*to notice that a redraw is required).
 		*/
-		virtual void paintEvent( QPaintEvent *e );
+		virtual void paintEvent( QPaintEvent* );
 
+	/**If the user clicks on the "X" close-window button, then abort loading 
+		*as soon as possible and shut down the program.
+		*/
 		void closeEvent( QCloseEvent *e );
 
 		signals:

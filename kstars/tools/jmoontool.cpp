@@ -15,15 +15,23 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+#include <qlabel.h>
+
 #include <kdebug.h>
 #include <klocale.h>
-#include "kstars.h"
-#include "planetcatalog.h"
+
 #include "jmoontool.h"
+#include "jupitermoons.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksplanet.h"
+#include "simclock.h"
+#include "planetcatalog.h"
 #include "dms.h"
+#include "ksnumbers.h"
 
 JMoonTool::JMoonTool(QWidget *parent, const char *name)
- : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent )
+ : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent, name )
 {
 	ksw = (KStars*)parent;
 	

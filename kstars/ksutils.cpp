@@ -14,11 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-/*
- * @author Mark Hollomon mhh@mindpsring.com
- */
 
 #include <kstandarddirs.h>
+
+#include <qfile.h>
+#include <qdatetime.h>
 
 #include "dms.h"
 #include "ksutils.h"

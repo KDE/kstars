@@ -40,10 +40,11 @@ class ArgTimeScale;
 class ArgZoom;
 
 
-/**
- *
- * Jason Harris
- **/
+/**@class ScriptBuilder
+	*A GUI tool for building behavioral DCOP scripts for KStars.
+	*@author Jason Harris
+	*@version 1.0
+	*/
 class ScriptBuilder : public KDialogBase
 {
 Q_OBJECT

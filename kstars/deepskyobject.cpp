@@ -15,15 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-//DEBUG
 #include <kglobal.h>
 
+#include <qfile.h>
 #include <qregexp.h>
+#include <qpainter.h>
+#include <qimage.h>
+#include <qstring.h>
+
 #include "deepskyobject.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"
-#include "geolocation.h"
+#include "kspopupmenu.h"
 
 DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
 	: SkyObject( o ) {

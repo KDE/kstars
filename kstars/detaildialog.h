@@ -36,7 +36,6 @@ class QString;
 class QStringList;
 class QTextEdit;
 class QListView;
-//class QPtrListIterator;
 class KStars;
 
 struct ADVTreeData
@@ -47,40 +46,179 @@ struct ADVTreeData
 };
 
 
-/**DetailDialog is a window showing detailed information for a selected object.
-	*Also shows a piece of the skymap centered on the object.
-	*The kind of information displayed depends upon the object type:
+/**@class DetailDialog is a window showing detailed information for a selected object.
+	*The window is split into four Tabs: General, Links, Advanced and Log.
+	*The General Tab displays some type-specific data about the object, as well as its 
+	*present coordinates and Rise/Set/Transit times for the current date.  The Type-specific 
+	*data are:
+	*@li Stars: common name, genetive name, Spectral type, magnitude, distance
+	*@li Solar System: name, object type (planet/comet/asteroid), Distance, magnitude (TBD), 
+	*angular size (TBD)
+	*@li Deep Sky: Common name, other names, object type, magnitude, angular size 
 	*
-	*Stars: Long name, Genetive name, Spectral Type, Magnitude,
-   *In additional to the General tab, there is also a tab for editing/viewing links,
-   *a tab that provides advanced access to data, and a log tab.
-  *@author Jason Harris, Jasem Mutlaq
-  */
+	*The Links Tab allows the user to manage the list of Image and Information links 
+	*listed in the object's popup menu.  The Advanced Tab allows the user to query 
+	*a number of professional-grade online astronomical databases for data on the object.
+	*The Log tab allows the user to attach their own text notes about the object.
+	*@author Jason Harris, Jasem Mutlaq
+	*@version 1.0
+	*/
 
 class DetailDialog : public KDialogBase  {
    Q_OBJECT
 public: 
+/**Constructor
+	*/
 	DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+	
+/**Destructor (empty)
+	*/
 	~DetailDialog() {}
+
+public slots:
+/**@short View the selected image or info URL in the web browser.
+	*/
+	void viewLink();
+
+/**@short Unselect the currently selected item in the Images list
+	*@note used when an item is selected in the Info list
+	*/
+	void unselectImagesList();
+
+/**@short Unselect the currently selected item in the Info list
+	*@note used when an item is selected in the Images list
+	*/
+	void unselectInfoList();
+
+/**@short Rebuild the Image and Info URL lists for this object.  
+	*@note used when an item is added to either list.
+	*/
+	void updateLists();
+
+/**@short Open a dialog to edit a URL in either the Images or Info lists, 
+	*and update the user's *url.dat file.
+	*/
+	void editLinkDialog();
+
+/**@short remove a URL entry from either the Images or Info lists, and 
+	*update the user's *url.dat file.
+	*/
+	void removeLinkDialog();
+
+/**Open the web browser to the selected online astronomy database, 
+	*with a query to the object of this Detail Dialog.
+	*/
+	void viewADVData();
+
+/**Save the User's text in the Log Tab to the userlog.dat file.
+	*/
+	void saveLogData();
+
 private:
 
-    bool readUserFile(int type);
-    bool verifyUserData(int type);
-    void createGeneralTab(QDateTime lt, GeoLocation *geo);
-    void createLinksTab();
-    void createAdvancedTab();
-    void createLogTab();
+/**Read in the user's customized URL file (either images or info webpages),
+	*and store the file's lines in a QStringList.
+	*@param type 0=Image URLs; 1=Info URLs
+	*/
+	bool readUserFile(int type);
 
-    void Populate(QListViewItem *parent);
-    void forkTree(QListViewItem *parent);
-    QString parseADVData(QString link);
-    
+/**Parse the QStringList containing the User's URLs.
+	*@param type 0=Image URLs; 1=Info URLs
+	*/
+	bool verifyUserData(int type);
+
+/**Build the General Tab for the current object.
+	*@param lt The QDateTime to use for time-dependent data
+	*@param geo pointer to the Geographic location to use for 
+	*location-dependent data
+	*/
+	void createGeneralTab(QDateTime lt, GeoLocation *geo);
+
+/**Build the Links Tab, populating the image and info lists with the 
+	*known URLs for the current Object.
+	*/
+	void createLinksTab();
+
+/**Build the Advanced Tab
+	*/
+	void createAdvancedTab();
+
+/**Build the Log Tab
+	*/
+	void createLogTab();
+
+
+/**Populate the TreeView of known astronomical databases in the Advanced Tab
+	*/
+	void Populate(QListViewItem *parent);
+
+/**For the databases TreeView
+	*/
+	void forkTree(QListViewItem *parent);
+
+/**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
+	*This function parses advinterface.dat.
+	*/
+	QString parseADVData(QString link);
+	
+
+	SkyObject *selectedObject;
+	KStars* ksw;
+
+	// General Tab
+	QVBoxLayout *vlay;
+
+	// Links Tab
+	QFrame *linksTab;
+	QGroupBox *infoBox, *imagesBox;
+	QVBoxLayout *infoLayout, *imagesLayout, *topLayout;
+	KListBox *infoList, *imagesList; 
+
+	QPushButton *view, *addLink, *editLink, *removeLink;
+	QSpacerItem *buttonSpacer;
+	QHBoxLayout *buttonLayout;
+
+	// Edit Link Dialog
+	QHBoxLayout *editLinkLayout;
+	QLabel *editLinkURL;
+	QLineEdit *editLinkField;
+	QFile file;
+	int currentItemIndex;
+	QString currentItemURL, currentItemTitle;
+	QStringList dataList;
+
+	// Advanced Tab
+	QFrame *advancedTab;
+	KListView *ADVTree;
+	QPushButton *viewTreeItem;
+	QLabel *treeLabel;
+	QVBoxLayout *treeLayout;
+	QSpacerItem *ADVbuttonSpacer;
+	QHBoxLayout *ADVbuttonLayout;
+
+	QPtrListIterator<ADVTreeData> * treeIt;
+
+	// Log Tab
+	QFrame *logTab;
+	QTextEdit *userLog;
+	QPushButton *saveLog;
+	QVBoxLayout *logLayout;
+	QSpacerItem *LOGbuttonSpacer;
+	QHBoxLayout *LOGbuttonLayout;
+
+	long double jd;
+	QDateTime ut;
 
 	class NameBox : public QGroupBox {
 	public:
-		/**Constructor for stars */
+	/**Constructor
+		*/
 		NameBox( QString pname, QString oname, QString typelabel, QString type,
-			QString mag, QString distStr, QString size, QWidget *parent, const char *name=0, bool useSize=true );
+			QString mag, QString distStr, QString size, 
+			QWidget *parent, const char *name=0, bool useSize=true );
+	
+	/**Destructor (empty)
+		*/
 		~NameBox() {}
 	private:
 		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;
@@ -92,7 +230,12 @@ private:
 
 	class CoordBox : public QGroupBox {
 	public:
+	/**Constructor
+		*/
 		CoordBox( SkyObject *o, QDateTime lt, dms *LST, QWidget *parent, const char *name=0 );
+	
+	/**Destructor (empty)
+		*/
 		~CoordBox() {}
 	private:
 		QLabel *RALabel, *DecLabel, *HALabel, *RA, *Dec, *HA;
@@ -104,7 +247,12 @@ private:
 
 	class RiseSetBox : public QGroupBox {
 	public:
+	/**Constructor
+		*/
 		RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent, const char *name=0 );
+	
+	/**Destructor (empty)
+		*/
 		~RiseSetBox() {}
 	private:
 		QLabel *RTime, *TTime, *STime;
@@ -115,75 +263,9 @@ private:
 		QVBoxLayout *vlay;
 	};
 
-/*
-	class ProperMotionBox : public QGroupBox {
-		Q_OBJECT
-	public:
-		ProperMotionBox( QWidget *parent, const char *name=0 );
-		~ProperMotionBox() {}
-	private:
-		QLabel *deltaRA, *deltaDec;
-	};
-*/
-    SkyObject *selectedObject;
-    KStars* ksw;
-
-    // General Tab
-	QVBoxLayout *vlay;
-
-    // Links Tab
-    QFrame *linksTab;
-    QGroupBox *infoBox, *imagesBox;
-    QVBoxLayout *infoLayout, *imagesLayout, *topLayout;
-    KListBox *infoList, *imagesList; 
-
-   QPushButton *view, *addLink, *editLink, *removeLink;
-   QSpacerItem *buttonSpacer;
-   QHBoxLayout *buttonLayout;
-
-   // Edit Link Dialog
-   QHBoxLayout *editLinkLayout;
-   QLabel *editLinkURL;
-   QLineEdit *editLinkField;
-   QFile file;
-   int currentItemIndex;
-   QString currentItemURL, currentItemTitle;
-   QStringList dataList;
-
-   // Advanced Tab
-   QFrame *advancedTab;
-   KListView *ADVTree;
-   QPushButton *viewTreeItem;
-   QLabel *treeLabel;
-   QVBoxLayout *treeLayout;
-   QSpacerItem *ADVbuttonSpacer;
-   QHBoxLayout *ADVbuttonLayout;
-
-   QPtrListIterator<ADVTreeData> * treeIt;
-
-   // Log Tab
-   QFrame *logTab;
-   QTextEdit *userLog;
-   QPushButton *saveLog;
-   QVBoxLayout *logLayout;
-   QSpacerItem *LOGbuttonSpacer;
-   QHBoxLayout *LOGbuttonLayout;
-
-  	long double jd;
-	QDateTime ut;
 	NameBox *Names;
 	CoordBox *Coords;
 	RiseSetBox *RiseSet;
-
-  public slots:
-  void viewLink();
-  void unselectImagesList();
-  void unselectInfoList();
-  void updateLists();
-  void editLinkDialog();
-  void removeLinkDialog();
-  void viewADVData();
-  void saveLogData();
 
 };
 

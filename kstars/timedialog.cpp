@@ -17,15 +17,18 @@
 
 
 #include <klocale.h>
-#include "timedialog.h"
-#include "kstars.h"
 #include <kdatepik.h>
+
 #include <qdatetime.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <qlayout.h>
 
+#include "timedialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "simclock.h"
 
 TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )

@@ -16,28 +16,27 @@
  ***************************************************************************/
 
 #include <qstring.h>
-#include <qimage.h>
 #include <qptrvector.h>
 #include <qdict.h>
+
 #include "ksplanetbase.h"
 #include "dms.h"
 
 #ifndef KSPLANET_H
 #define KSPLANET_H
 
-/**
-	*A subclass of SkyObject that provides additional information
-	*needed for solar system objects.  KSPlanet may be used
-	*directly for all planets except Pluto.  The Sun is subclassed from
-	*KSPlanet.
+/**@class KSPlanet
+	*A subclass of KSPlanetBase for seven of the major planets in the solar system
+	*(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
+	*@note The Sun is subclassed from KSPlanet.
 	*
-	*KSPlanet contains subclasses to manage the computations of a planet's position.
+	*KSPlanet contains internal classes to manage the computations of a planet's position.
 	*The position is computed as a series of sinusoidal sums, similar to a Fourier
 	*transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
 	*for details.
 	*@short Provides necessary information about objects in the solar system.
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class KStarsData;
@@ -45,21 +44,17 @@ class KStarsData;
 class KSPlanet : public KSPlanetBase {
 public:
 
-/**
-	*Constructor.  Calls SkyObject constructor with type=2 (planet),
-	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
+/**Constructor.  
 	*@param s Name of planet
-	*@param im the planet's image
+	*@param image_file filename of the planet's image
 	*/
 	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="" );
 
-/**
-	*Destructor (empty)
+/**Destructor (empty)
 	*/
 	virtual ~KSPlanet() {}
 
-/**
-	*@short Preload the data used by findPosition.
+/**@short Preload the data used by findPosition.
 	*/
 	virtual bool loadData();
 
@@ -75,24 +70,31 @@ protected:
 
 	bool data_loaded;
 
-/**
-	*Calculate the geocentric RA, Dec coordinates of the Planet.
-	*@param num time-dependent values for the desired date
-	*@param Earth planet Earth (needed to calculate geocentric coords)
-	*@returns true if position was successfully calculated.
+/**Calculate the geocentric RA, Dec coordinates of the Planet.
+	*@note reimplemented from KSPlanetBase
+	*@param num pointer to object with time-dependent values for the desired date
+	*@param Earth pointer to the planet Earth (needed to calculate geocentric coords)
+	*@return true if position was successfully calculated.
 	*/
 	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
-/**OrbitData contains doubles A,B,C which represent a single term in a planet's
+/**@class OrbitData 
+	*This class contains doubles A,B,C which represent a single term in a planet's
 	*positional expansion sums (each sum-term is A*COS(B+C*T)).
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 	class OrbitData  {
 		public:
-			double A, B, C;
+			/**Constructor 
+				*@p a the A value
+				*@p b the B value
+				*@p c the C value
+				*/
 			OrbitData(double a, double b, double c) :
 				A(a), B(b), C(c) {};
+			
+			double A, B, C;
 	};
 
 	typedef QPtrVector<OrbitData> OBArray[6];
@@ -102,10 +104,11 @@ protected:
 	*the planet's position.  A set of six of these vectors comprises the large
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 	class OrbitDataColl {
 		public:
+			/**Constructor*/
 			OrbitDataColl();
 
 			OBArray Lon;
@@ -118,16 +121,31 @@ protected:
 	*indexed by the planets' names.  It also loads the positional data of each planet
 	*from disk.
 	*@author Mark Hollomon
-	*@version 0.9
+	*@version 1.0
 	*/
 	class OrbitDataManager {
 		public:
+			/**Constructor*/
 			OrbitDataManager();
 
+			/**Load orbital data for a planet from disk.
+				*The data is stored on disk in a series of files named 
+				*"name.[LBR][0...5].vsop", where "L"=Longitude data, "B"=Latitude data,
+				*and R=Radius data.
+				*@p n the name of the planet whose data is to be loaded from disk.
+				*@return pointer to the OrbitDataColl containing the planet's orbital data.
+				*/
 			OrbitDataColl *loadData(QString n);
 
 		private:
+			/**Read a single orbital data file from disk into an OrbitData vector.
+			*The data files are named "name.[LBR][0...5].vsop", where 
+			*"L"=Longitude data, "B"=Latitude data, and R=Radius data.
+			*@p fname the filename to be read.
+			*@p vector pointer to the OrbitData vector to be filled with these data.
+			*/
 			bool readOrbitData(QString fname, QPtrVector<KSPlanet::OrbitData> *vector);
+			
 			QDict<OrbitDataColl> dict;
 	};
 

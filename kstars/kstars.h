@@ -22,54 +22,39 @@
 #endif
 
 #include <dcopclient.h>
-#include <kmainwindow.h>
-#include <kmenubar.h>
-#include <kaction.h>
-#include <klocale.h>
-#include <ktoolbar.h>
-
-#include <qlayout.h>
-#include <qframe.h>
-#include <qfile.h>
-#include <qdatetime.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <qdir.h>
-#include <qwidget.h>
-#include <qpoint.h>
-
 #include <kapplication.h>
-#include <kstandarddirs.h>
-#include <qptrlist.h>
+#include <kmainwindow.h>
+#include <qwidget.h>
 
-#include "skymap.h"
-#include "geolocation.h"
-#include "ksnumbers.h"
-#include "kssun.h"
-#include "skyobject.h"
-#include "skypoint.h"
-#include "timestepbox.h"
-
-#include "kstarsdata.h"
 #include "kstarsinterface.h"
-#include "kstarssplash.h"
-#include "toggleaction.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
+class QVBoxLayout;
+class KActionMenu;
 class KDialogBase;
 class KKey;
-class TimeDialog;
-class LocationDialog;
+class KToolBar;
+
+class dms;
+class KStarsData;
+class KStarsSplash;
+class SkyMap;
+class GeoLocation;
 class FindDialog;
+class LocationDialog;
+class TimeDialog;
 class ViewOpsDialog;
 class InfoBoxes;
-class AstroCalc;
+class ToggleAction;
+class TimeStepBox;
+
+//class AstroCalc;
 class INDIMenu;
 class INDIDriver;
 
-/**
-	*kstars is the base class for the KStars project.  It is derived from KMainWindow.
+/**@class KStars
+	*This is the main window for KStars.  It is derived from KMainWindow.
 	*In addition to the GUI elements, the class contains the program clock,
 	*KStarsData, and SkyMap objects.
 	*It also contains functions for the DCOP interface.
@@ -98,25 +83,25 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		~KStars();
 
-	/**@returns pointer to KStarsData object which contains application data.
+	/**@return pointer to KStarsData object which contains application data.
 		*/
 		KStarsData* data();
 
-	/**@returns pointer to the local sidereal time.
+	/**@return pointer to the local sidereal time.
 		*/
-		dms* LST() { return data()->LST; }
+		dms* LST();
 
-	/**@returns pointer to SkyMap object which is the sky display widget.
+	/**@return pointer to SkyMap object which is the sky display widget.
 		*/
-		SkyMap* map() { return skymap; }
+		SkyMap* map();
 
-	/**@returns pointer to GeoLocation object which is the current geographic location.
+	/**@return pointer to GeoLocation object which is the current geographic location.
 		*/
-		GeoLocation* geo() { return data()->geo(); }
+		GeoLocation* geo();
 
-	/**@returns pointer to InfoBoxes object.
+	/**@return pointer to InfoBoxes object.
 		*/
-		InfoBoxes* infoBoxes() { return map()->infoBoxes(); }
+		InfoBoxes* infoBoxes();
 
 	/**@returns pointer to the INDI driver
 		*/
@@ -371,7 +356,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Re-assign the input focus to the SkyMap widget.
 			*/
-		void mapGetsFocus() { map()->QWidget::setFocus(); }
+		void mapGetsFocus();
 		
 		/**Toggle to and from full screen mode */
 		void slotFullScreen();
@@ -400,7 +385,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
 
-       		KDialogBase *AAVSODialog;
+		KDialogBase *AAVSODialog;
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
 
@@ -415,7 +400,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 };
 
 class KStars::privatedata {
-
 	public:
 		KStars *ks;
 		KStarsSplash *splash;
@@ -424,10 +408,7 @@ class KStars::privatedata {
 		privatedata(KStars *parent) : ks(parent), splash(0), kstarsData(0) {};
 		void buildGUI();
 
-		virtual ~privatedata() {
-			if (splash) delete splash;
-			if (kstarsData) delete kstarsData;
-		};
+		~privatedata();
 };
 
 #endif

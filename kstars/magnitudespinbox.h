@@ -18,8 +18,8 @@
  *                                                                         *
  ***************************************************************************/
 
-
-/**A special spinbox for entering magnitude values.
+/**@class MagnitudeSpinBox
+	*A special spinbox for entering magnitude values.
 	*This class now inherits KDoubleNumInput instead of QSpinBox
 	*@short a custom spinbox for magnitude (float) values.
 	*@author Heiko Evermann

@@ -18,13 +18,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 #include <kmessagebox.h>
-
-#include "kstars.h"
-#include "locationdialog.h"
-
 #include <kstandarddirs.h>
+#include <klineedit.h>
+
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qgroupbox.h>
+#include <qlabel.h>
+#include <qlistbox.h>
+#include <qcombobox.h>
+#include <qfile.h>
+
+#include "locationdialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "mapcanvas.h"
+#include "dmsbox.h"
 
 LocationDialog::LocationDialog( QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "Set Geographic Location" ), Ok|Cancel, Ok, parent ) {
@@ -541,5 +551,13 @@ void LocationDialog::slotOk( void ) {
 
 	if ( bOkToClose ) accept();
 }
+
+QString LocationDialog::selectedCity() { return NewCityName->text(); }
+
+QString LocationDialog::selectedProvince() { return NewProvinceName->text(); }
+
+QString LocationDialog::selectedCountry() { return NewCountryName->text(); }
+
+bool LocationDialog::addCityEnabled() { return AddCityButton->isEnabled(); }
 
 #include "locationdialog.moc"

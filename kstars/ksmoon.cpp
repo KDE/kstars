@@ -18,6 +18,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include <qfile.h>
+
+#include "ksnumbers.h"
 #include "ksutils.h"
 #include "kssun.h"
 #include "ksmoon.h"
@@ -72,7 +75,7 @@ bool KSMoon::loadData() {
 	return true;
 }
 
-bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
+bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* ) {
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
 	QString fname, snum, line;

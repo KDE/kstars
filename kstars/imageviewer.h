@@ -18,29 +18,29 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
 
-#include <qwidget.h>
-#include <qstring.h>
 #include <qimage.h>
 #include <qpixmap.h>
 
 #include <kpixmapio.h>
 #include <kio/job.h>
 #include <ktempfile.h>
-#include <kdialog.h>
 #include <kmainwindow.h>
 
-/**
-  *@short Image viewer widget for KStars
-  *@author Thomas Kabelmann
-  *@version 0.9
-
-  This image-viewer resizes automatically the picture. The output works with kio-slaves and not directly with the
-  QImage save-routines because normally the image-files are in GIF-format and QT does not save these files. For other
-  formats, like PNG, this is not so important because they can directly saved by QImage.
-
-  The download-slave works asynchron so the parent-widget can be used at this time. The save-slave works synchron,
-  but this is not important because the files are at this time local saved and this works not so long.
-*/
+/**@class ImageViewer
+	*@short Image viewer widget for KStars
+	*@author Thomas Kabelmann
+	*@version 0.9
+	*
+	*This image-viewer automatically resizes the picture. The output 
+	*works with kio-slaves and not directly with the QImage save-routines 
+	*because normally the image-files are in GIF-format and QT does not 
+	*save these files. For other formats, like PNG, this is not so important 
+	*because they can directly saved by QImage.
+	*
+	*The download-slave works asynchron so the parent-widget can be used at 
+	*this time. The save-slave works synchronously, but this is not important 
+	*because the files are at this time local saved and this works not so long.
+	*/
 
 class KURL;
 class QFile;
@@ -49,51 +49,53 @@ class ImageViewer : public KMainWindow  {
 	Q_OBJECT
 
 	public:
-/**Constructor. */
+	/**Constructor. */
 		ImageViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
 
-/**Destructor. If there is a partially downloaded image file, delete it.*/
+	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
 
 	protected:
-/**Bitblt the image onto the viewer widget */
+	/**Bitblt the image onto the viewer widget */
 		void paintEvent (QPaintEvent *ev);
 
-/**The window is resized when a file finishes downloading, before it is displayed.
-  *The resizeEvent converts the downloaded QImage to a QPixmap (JH: not sure why it's not done in showImage)
-  */
+	/**The window is resized when a file finishes downloading, before it is displayed.
+		*The resizeEvent converts the downloaded QImage to a QPixmap 
+		*@note (JH: not sure why this conversion is not done in showImage)
+		*/
 		void resizeEvent (QResizeEvent *ev);
 
-/**Make sure all events have been processed before closing the dialog */
+	/**Make sure all events have been processed before closing the dialog */
 		void closeEvent (QCloseEvent *ev);
 
-/**Keyboard shortcuts for saving files and closing the window
-  *(this should be deprecated; instead just assign KAccel to the close/save buttons)
-  */
+	/**Keyboard shortcuts for saving files and closing the window
+		*@note (this should be deprecated; instead just assign KAccel 
+		*to the close/save buttons)
+		*/
 		void keyPressEvent (QKeyEvent *ev);
 
-/**Unset the bool variables that indicate keys were pressed.
-	*(this should be deprecated; see above)
-	*/
+	/**Unset the bool variables that indicate keys were pressed.
+		*(this should be deprecated; see above)
+		*/
 		void keyReleaseEvent (QKeyEvent *ev);
 
 	private:
-/**Display the downloaded image.  Resize the window to fit the image,  If the image is
-  *larger than the screen, make the image as large as possible while preserving the
-  *original aspect ratio
-	*/
+	/**Display the downloaded image.  Resize the window to fit the image,  If the image is
+		*larger than the screen, make the image as large as possible while preserving the
+		*original aspect ratio
+		*/
 		void showImage( void );
 
-/**Download the image file pointed to by the URL string.
-	*/
+	/**Download the image file pointed to by the URL string.
+		*/
 		void loadImageFromURL( void );
 
-/**Save the downloaded image to a local file.
-	*/
+	/**Save the downloaded image to a local file.
+		*/
 		void saveFile (KURL &url);
 		
-/**Kill running download jobs, if close of window is forced.
-	*/
+	/**Kill running download jobs, if close of window is forced.
+		*/
 		void checkJob();
 
 		QImage image;
@@ -110,13 +112,13 @@ class ImageViewer : public KMainWindow  {
 		KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 		
 	private slots:
-/**Make sure download has finished, then make sure file exists, then display the image */
+	/**Make sure download has finished, then make sure file exists, then display the image */
 		void downloadReady (KIO::Job *);
 
-/**Saves. File. To. Disc. */
+	/**Saves. File. To. Disc. */
 		void saveFileToDisc( void );
 
-/**Close the window.*/
+	/**Close the window.*/
 		void close( void );
 };
 

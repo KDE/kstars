@@ -25,6 +25,7 @@
 #include <knumvalidator.h>
 
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "dms.h"
 #include "skypoint.h"
 #include "dmsbox.h"

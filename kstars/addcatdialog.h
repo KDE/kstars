@@ -19,7 +19,6 @@
 #define ADDCATDIALOG_H
 
 #include <qglobal.h>
-
 #include <qptrlist.h>
 
 #include <kdialogbase.h>

@@ -18,30 +18,26 @@
 #ifndef DEEPSKYOBJECT_H
 #define DEEPSKYOBJECT_H
 
-#include <qpainter.h>
 #include <qpoint.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qdatetime.h>
-#include <qimage.h>
-
-#include <klocale.h>
 
 #include "skyobject.h"
 #include "dms.h"
-#include "geolocation.h"
-#include "kspopupmenu.h"
 
 /**@class DeepSkyObject
-	*@short Information about a "dep-sky" object; i.e., anything 
-	*that's not a solar system body or a star.
-	*@author Jason Harris
-	*@version 1.0
 	*Provides all necessary information about a deep-sky object:
 	*data inherited from SkyObject (coordinates, type, magnitude, 
 	*2 names, and URLs) and data specific to DeepSkyObjects
 	*(common name, angular size, position angle, Image, catalog)
+	*@short Information about a "dep-sky" object; i.e., anything 
+	*that's not a solar system body or a star.
+	*@author Jason Harris
+	*@version 1.0
 	*/
+
+class QPainter;
+class QImage;
+class QString;
+class KSPopupMenu;
 
 class DeepSkyObject : public SkyObject {
 public:

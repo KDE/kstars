@@ -7,6 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <qfile.h>
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -22,9 +23,10 @@
 #include <kmessagebox.h>
 #include <kprogress.h>
 
+#include "telescopewizardprocess.h"
 #include "Options.h"
 #include "kstars.h"
-#include "telescopewizardprocess.h"
+#include "kstarsdata.h"
 #include "timedialog.h"
 #include "ksutils.h"
 
@@ -32,6 +34,7 @@
 #include "indidriver.h"
 #include "indielement.h"
 #include "indiproperty.h"
+#include "indistd.h"
 #include "indidevice.h"
 
 #define TIMEOUT_THRESHHOLD	20

@@ -20,7 +20,6 @@
 
 #include "kstarsplotwidget.h"
 
-class QPainter;
 class QDateTime;
 class QTime;
 class QVariant;

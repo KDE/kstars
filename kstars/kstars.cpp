@@ -28,6 +28,9 @@
 
 #include "Options.h"
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "kstarssplash.h"
+#include "skymap.h"
 #include "simclock.h"
 #include "finddialog.h"
 #include "ksutils.h"
@@ -116,12 +119,27 @@ KStars::~KStars()
 
 	clearCachedFindDialog();
 
-	if (skymap) delete skymap;
-	if (pd) delete pd;
-	if (centralWidget) delete centralWidget;
-	if (AAVSODialog) delete AAVSODialog;
-	if (indimenu) delete indimenu;
-	if (indidriver) delete indidriver;
+	delete skymap; 
+	delete pd;     
+	delete centralWidget; 
+	delete AAVSODialog;   
+	delete indimenu;   
+	delete indidriver; 
+
+	skymap = 0;
+	pd = 0;
+	centralWidget = 0;
+	AAVSODialog = 0;
+	indimenu = 0;
+	indidriver = 0;
+}
+
+KStars::privatedata::~privatedata() {
+	delete splash;
+	delete kstarsData;
+
+	splash = 0;
+	kstarsData = 0;
 }
 
 void KStars::clearCachedFindDialog() {
@@ -171,5 +189,15 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 }
 
 KStarsData* KStars::data( void ) { return pd->kstarsData; }
+
+SkyMap* KStars::map( void )  { return skymap; }
+
+InfoBoxes* KStars::infoBoxes( void )  { return map()->infoBoxes(); }
+
+GeoLocation* KStars::geo() { return data()->geo(); }
+
+void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
+
+dms* KStars::LST() { return data()->LST; }
 
 #include "kstars.moc"
