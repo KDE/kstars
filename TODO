@@ -71,18 +71,12 @@ KStars 0.9 To-Do list:
     want to! :)  
 
   - KStars: The Scripting Language!
-    This idea's been bouncing around my head for a while. It would be 
-    really great to be able to write a "script" for KStars to
-    follow. For example, you could write a script that starts out in
-    Orion, slews to the Moon, zooms in, starts tracking the moon,
-    accelerates time, and watches the lunar phases change over a
-    complete cycle. This would be especially useful for classroom demo
-    use; seeing the sky "in action" is a great way to explain basic
-    astronomy topics like lunar phases, retrograde motion, even the
-    relationships between time, longitude, and the location of stars
-    in the sky. We could also include the ability for the script to
-    "draw" arrows, circles, and labels on the display while it's
-    running.
+    This is already underway in the form of our DCOP interface.  We 
+    need to add more functions (tracking, focus-to-coordinates, wait 
+    for N seconds, and even things like opening small text windows and 
+    drawing lines and arrows), and provide an easy way to write scripts 
+    (such as recording manual actions, or providing a window with a 
+    listbox of all the functions).
 
   - Sky Notes
     A popup menu option to "annotate" the selected object or
