@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>ArgChangeViewOption</class>
 <widget class="QWidget">
     <property name="name">
@@ -27,6 +27,12 @@
                 <widget class="KComboBox" row="0" column="1">
                     <property name="name">
                         <cstring>OptionName</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>List of adjustable options</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select an option from this list to set its value.  You may also select the option using an organized Tree List using the "Browse Tree" button.</string>
                     </property>
                 </widget>
                 <spacer row="1" column="0">
@@ -61,10 +67,22 @@
                     <property name="text">
                         <string>Browse Tree</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Show Tree View of options</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Press this button to select a View Option from a Tree list, in which they are grouped by subject.  Also shown are a short description of each option, and the data type of the option's value (string, integer, float or boolean).</string>
+                    </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="1">
                     <property name="name">
                         <cstring>OptionValue</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>value for selected option</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the value for the selected view option here.  Make sure the value you enter matches the data type expected by the option.  For example, the "UseAltAz" option expects a boolean value, so you should enter "true", "false", "1", or "0".  If you are unsure what data type is expected, examine the Tree View of options using the "Browse Tree" button.</string>
                     </property>
                 </widget>
                 <spacer row="2" column="0" rowspan="1" colspan="2">
@@ -113,10 +131,10 @@
         </spacer>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

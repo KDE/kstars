@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>ScriptBuilderUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -57,6 +57,9 @@
                     <property name="toolTip" stdset="0">
                         <string>New Script</string>
                     </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Discards current script and starts a new one.  Will prompt to save any unsaved changes in the current script.</string>
+                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -87,6 +90,9 @@
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Open Script</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Opens an existing script.  Will prompt to save any unsaved changes in the current script.</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -119,6 +125,9 @@
                     <property name="toolTip" stdset="0">
                         <string>Save Script</string>
                     </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Save the current script.  If the script has not been saved before, this is equivalent to "Save As..."</string>
+                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -150,6 +159,9 @@
                     <property name="toolTip" stdset="0">
                         <string>Save Script As...</string>
                     </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Saves the script to a file, allowing you to first specify the filename and a name for the script.</string>
+                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -172,6 +184,9 @@
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Test Script</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Executes the script in the KStars main window.  You may want to reposition the Script Builder tool so that the Sky map is visible.  </string>
                     </property>
                 </widget>
                 <spacer>
@@ -246,6 +261,9 @@
                                 <property name="currentItem">
                                     <number>-1</number>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>This shows the list of commands present in the current working script.  Highlighting any command will present a widget where you can specify its arguments below.  Use the action buttons at right to copy, remove, or change the position of the selected command.  </string>
+                                </property>
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
@@ -277,6 +295,10 @@
                                         <property name="toolTip" stdset="0">
                                             <string>Add Function</string>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>If a function is highlighted in the "Function Browser" box, this button will add it to the current working script.  The new function is inserted directly after the highlighted function in the "Current Script" box.
+</string>
+                                        </property>
                                     </widget>
                                     <widget class="KPushButton">
                                         <property name="name">
@@ -299,6 +321,9 @@
                                         </property>
                                         <property name="toolTip" stdset="0">
                                             <string>Remove Function</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>If a function is highlighted in the "Current Script" box, this button will remove it from the script.</string>
                                         </property>
                                     </widget>
                                     <widget class="KPushButton">
@@ -323,6 +348,9 @@
                                         <property name="toolTip" stdset="0">
                                             <string>Copy Fucntion</string>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>If a function is highlighted in the "Current Script" box, this button will add a duplicate of the function.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KPushButton">
                                         <property name="name">
@@ -346,6 +374,9 @@
                                         <property name="toolTip" stdset="0">
                                             <string>Move Up</string>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>If a function is highlighted in the "Current Script" box, this button will move it up one position in the script.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KPushButton">
                                         <property name="name">
@@ -368,6 +399,9 @@
                                         </property>
                                         <property name="toolTip" stdset="0">
                                             <string>Move Down</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>If a function is highlighted in the "Current Script" box, this button will move it down one position in the script.</string>
                                         </property>
                                     </widget>
                                     <spacer>
@@ -488,6 +522,12 @@
                             <property name="currentItem">
                                 <number>-1</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>List of available functions</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>The Function Browser shows the list of functions available for constructing scripts.  Highlighting a function in the list will display some short documentation about the function in the box below.  A function must be highlighted in the browser in order to add it to the script with the "Add Function" button.  Alternatively, you can simply double-click on a function to add it to the script.</string>
+                            </property>
                         </widget>
                         <widget class="KTextEdit">
                             <property name="name">
@@ -503,9 +543,9 @@
                             </property>
                             <property name="paletteBackgroundColor">
                                 <color>
-                                    <red>234</red>
-                                    <green>233</green>
-                                    <blue>232</blue>
+                                    <red>238</red>
+                                    <green>238</green>
+                                    <blue>238</blue>
                                 </color>
                             </property>
                             <property name="text">
@@ -514,6 +554,12 @@
                             <property name="readOnly">
                                 <bool>true</bool>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Function Help</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If a function is highlighted in the Function Browser, this area will show some brief documentation about the function.</string>
+                            </property>
                         </widget>
                     </widget>
                 </vbox>
@@ -521,8 +567,6 @@
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <slots>
     <slot>slotAddFunction()</slot>
     <slot>slotMoveFunctionUp()</slot>
@@ -539,6 +583,18 @@
 </slots>
 <layoutdefaults spacing="6" margin="4"/>
 <includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistbox.h</includehint>
     <includehint>ktextedit.h</includehint>
 </includehints>
 </UI>

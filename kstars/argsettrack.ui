@@ -31,6 +31,14 @@
                     <property name="text">
                         <string>track</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Toggle Tracking on/off</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked, the sky will remain focused on its current position or object as time passes.  This is called "Tracking".  Note that tracking is automatically engaged whenever an object is centered at the focus point.  So, if you use "lookToward" with an object name, you do not need to engage tracking.  
+
+If unchecked, then Tracking will be forced off, even if an object has been centered,  As time passes, the sky will then appear to drift by (due to the rotation of the Earth).</string>
+                    </property>
                 </widget>
                 <spacer>
                     <property name="name">

@@ -36,6 +36,12 @@
                     <property name="name">
                         <cstring>DelayBox</cstring>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Pause delay in seconds</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the number of seconds that the script should pause before executing the remaining commands.</string>
+                    </property>
                 </widget>
                 <spacer>
                     <property name="name">

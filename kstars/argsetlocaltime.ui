@@ -20,6 +20,12 @@
             <property name="name">
                 <cstring>DateBox</cstring>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Date</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Set the Date.</string>
+            </property>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
@@ -49,6 +55,12 @@
                 <widget class="QTimeEdit">
                     <property name="name">
                         <cstring>TimeBox</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the Time</string>
                     </property>
                 </widget>
             </hbox>

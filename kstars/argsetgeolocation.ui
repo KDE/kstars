@@ -52,6 +52,12 @@
                                     <property name="name">
                                         <cstring>CountryName</cstring>
                                     </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Country name</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Enter the Country name for the desired location.  It might be easier to use the "Find City" location to choose your location from the list of predefined cities.</string>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel" row="0" column="0">
                                     <property name="name">
@@ -73,10 +79,22 @@
                                     <property name="name">
                                         <cstring>CityName</cstring>
                                     </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>City name</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Enter the City name for the desired location.  It might be easier to use the "Find City" location to choose your location from the list of predefined cities.</string>
+                                    </property>
                                 </widget>
                                 <widget class="KLineEdit" row="1" column="1">
                                     <property name="name">
                                         <cstring>ProvinceName</cstring>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Province name</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Enter the Province name for the desired location.  It might be easier to use the "Find City" location to choose your location from the list of predefined cities.</string>
                                     </property>
                                 </widget>
                             </grid>
@@ -112,6 +130,12 @@
                                     </property>
                                     <property name="text">
                                         <string>Find City</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Open the Set Location tool</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Press this button to open the Set Location dialog, which will allow you to choose a location from our list of over 2500 cities around the word.  Once a location has been selected, the City, Province and Country fields will be filled in.</string>
                                     </property>
                                 </widget>
                             </hbox>

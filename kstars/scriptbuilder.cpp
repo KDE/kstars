@@ -66,7 +66,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	FunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees" ),
 			false, "double", "alt", "double", "az" ) );
 	FunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
-	FunctionList.append( new ScriptFunction( "zoomOut", i18n( "Increase the display Zoom Level." ), false ) );
+	FunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
 	FunctionList.append( new ScriptFunction( "defaultZoom", i18n( "Set the display Zoom Level to its default value." ), false ) );
 	FunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
 	FunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),

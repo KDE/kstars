@@ -89,6 +89,12 @@
                     <property name="editable">
                         <bool>true</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Target object or direction</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select a direction or object to center on.  The combo box provides a list of known directions including cardinal compass points on the horizon, as well as the Zenith.  You may also enter the name of a known object here, or select an object from the list of known objects by pressing the "Object" button.</string>
+                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -101,6 +107,12 @@
                     </property>
                     <property name="text">
                         <string>Object</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Select object from a list</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the "dir" box at left.</string>
                     </property>
                 </widget>
                 <spacer>

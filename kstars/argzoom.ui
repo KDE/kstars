@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>ArgZoom</class>
 <widget class="QWidget">
     <property name="name">
@@ -35,6 +35,15 @@
                 <widget class="KLineEdit">
                     <property name="name">
                         <cstring>ZoomBox</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>New Zoom level</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the Zoom level for the display.  You can incrementally change this value using "ZoomIn" and "ZoomOut".  
+
+The Zoom level specifies the number of pixels which span one radian of arc.  Reasonable values should be between 300 and 10,000,000.
+</string>
                     </property>
                 </widget>
                 <spacer>
@@ -75,8 +84,6 @@
         </spacer>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
