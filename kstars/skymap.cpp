@@ -879,9 +879,16 @@ void SkyMap::setRiseSetLabels( void ) {
 	QString rt, rt2, rt3;
 	dms rAz = clickedObject()->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
 	if ( rtime.isValid() ) {
+		int hour = rtime.hour();
 		int min = rtime.minute();
+		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
 		if ( rtime.second() >=30 ) ++min;
-		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
+		// so correct minutes and hours if necessary
+		if ( min == 60 ) {
+			min = 0;
+			hour++;
+		}
+		rt2.sprintf( "%02d:%02d", hour, min );
 		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
 //		rt = i18n( "Rise time: " ) + rt2 +
 //			i18n(", Azimuth: ") + rt3;
@@ -897,9 +904,16 @@ void SkyMap::setRiseSetLabels( void ) {
 	QString st, st2, st3;
 	dms sAz = clickedObject()->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {
+		int hour = stime.hour();
 		int min = stime.minute();
+		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
 		if ( stime.second() >=30 ) ++min;
-		st2.sprintf( "%02d:%02d", stime.hour(), min );
+		// so correct minutes and hours if necessary
+		if ( min == 60 ) {
+			min = 0;
+			hour++;
+		}
+		st2.sprintf( "%02d:%02d", hour, min );
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
 //		st = i18n( "Set time: " ) + st2 +
 //			i18n(", Azimuth: ") + st3;
@@ -917,9 +931,16 @@ void SkyMap::setRiseSetLabels( void ) {
 	dms trAlt = clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
 
 	if ( ttime.isValid() ) {
+		int hour = ttime.hour();
 		int min = ttime.minute();
+		// if min == 59 minutes and seconds between 30 and 59 -> minutes will be 60 after correction
 		if ( ttime.second() >=30 ) ++min;
-		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
+		// so correct minutes and hours if necessary
+		if ( min == 60 ) {
+			min = 0;
+			hour++;
+		}
+		tt2.sprintf( "%02d:%02d", hour, min );
 		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
 //		tt = i18n( "Transit time: " ) + tt2 +
 //			i18n(", Altitude: ") + tt3 ;
