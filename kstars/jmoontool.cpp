@@ -68,7 +68,9 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	pw = new KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, page );
 	pw->setShowGrid( false );
 	pw->setYAxisType0( KStarsPlotWidget::TIME );
-	pw->setLimits( -35.0, 35.0, -240.0, 240.0 );
+	pw->setLimits( -12.0, 12.0, -240.0, 240.0 );
+	pw->setXAxisLabel( i18n( "offset from Jupiter (arcmin)" ) );
+	pw->setYAxisLabel( i18n( "time since now (days)" ) );
 	vlay->addLayout( glay );
 	vlay->addWidget( pw );
 	resize( 250, 500 );
@@ -104,8 +106,10 @@ void JMoonTool::initPlotObjects() {
 		KSNumbers num( jd0 + t/24.0 );
 		jm.findPosition( &num, jup, ksun );
 		
+		//jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
+		//multiply by 0.5*jup->angSize() to get arcminutes
 		for ( unsigned int i=0; i<4; ++i ) 
-			orbit[i]->addPoint( new DPoint( jm.x(i), t ) );
+			orbit[i]->addPoint( new DPoint( 0.5*jup->angSize()*jm.x(i), t ) );
 		
 		jpath->addPoint( new DPoint( 0.0, t ) );
 	}
@@ -158,6 +162,12 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			}
 			break;
 		}
+		case Key_Escape:
+		{
+			close();
+			break;
+		}
+		
 		default: { e->ignore(); break; }
 	}
 }
