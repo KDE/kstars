@@ -33,12 +33,10 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDl
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
-	
+	this->show();
 }
 
 modCalcAzel::~modCalcAzel(){
-
-
 
 }
 
