@@ -20,6 +20,22 @@
 #include <kdialogbase.h>
 #include "kstarsplotwidget.h"
 
+class PVPlotWidget : public KStarsPlotWidget
+{
+Q_OBJECT
+public:
+	PVPlotWidget( double x1, double x2, double y1, double y2, 
+			QWidget *parent=0, const char *name=0 );
+	~PVPlotWidget();
+
+public slots:
+	void slotZoomIn();
+	void slotZoomOut();
+
+protected:
+	virtual void keyPressEvent( QKeyEvent *e );
+};
+
 /**@class PlanetViewer
 	*@short Display an overhead view of the solar system
 	*@version 1.0
@@ -32,17 +48,15 @@ public:
 	PlanetViewer(QWidget *parent = 0, const char *name = 0);
 	~PlanetViewer();
 
-public slots:
-	void slotZoomIn();
-	void slotZoomOut();
-
 protected:
-	virtual void paintEvent( QPaintEvent* );
 	virtual void keyPressEvent( QKeyEvent *e );
+	virtual void paintEvent( QPaintEvent* );
+
+private slots:
+	void initPlotObjects();
 
 private:
-	void initPlotObjects();
-	KStarsPlotWidget *pw;
+	PVPlotWidget *pw;
 };
 
 #endif

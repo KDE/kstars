@@ -249,6 +249,17 @@ bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 
 	}
 
+	//Compute the heliocentric ecliptic coords
+	setRsun( sqrt( pos.X*pos.X + pos.Y*pos.Y + pos.Z*pos.Z ) );
+	L0.setRadians( atan( pos.Y / pos.X ) );
+	if ( pos.X < 0.0 ) L0.setD( L0.Degrees() + 180.0 );
+
+//	if ( pos.X > 0.0 && pos.Y < 0.0 ) L += 360.0;
+	setHelEcLong( L0 );
+	
+	B0.setRadians( asin( pos.Z / rsun() ) );
+	setHelEcLat( B0 );
+
 	//L0, B0 are Sun's Ecliptic coords (L0 = Learth + 180; B0 = -Bearth)
 	L0.setD( Earth->ecLong()->Degrees() + 180.0 );
 	L0.setD( L0.reduce().Degrees() );
@@ -267,8 +278,7 @@ bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 	//transform to geocentric rectangular coordinates by adding Sun's values
 	pos.X += X0; pos.Y += Y0; pos.Z += Z0;
 
-  //Use Meeus's Eq. 32.10 to find Rsun, RA and Dec:
-	setRsun( sqrt( pos.X*pos.X + pos.Y*pos.Y + pos.Z*pos.Z ) );
+	//Use Meeus's Eq. 32.10 to find Rsun, RA and Dec:
 	RARad = atan( pos.Y / pos.X );
 	if ( pos.X<0 ) RARad += dms::PI;
 	if ( pos.X>0 && pos.Y<0 ) RARad += 2.0*dms::PI;
