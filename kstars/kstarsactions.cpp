@@ -35,7 +35,7 @@
 #include "lcgenerator.h"
 #include "infoboxes.h"
 #include "ksutils.h"
-#include "elts.h"
+#include "altvstime.h"
 #include "wutdialog.h"
 #include "indimenu.h"
 #include "devmanager.h"
@@ -91,9 +91,9 @@ void KStars::slotLCGenerator() {
 	AAVSODialog->show();
 }
 
-void KStars::slotElTs() {
-	elts * eltsDialog = new elts(this);
-	eltsDialog->show();
+void KStars::slotAVT() {
+	AltVsTime * avt = new AltVsTime(this);
+	avt->show();
 }
 
 void KStars::slotWUT() {
@@ -177,7 +177,7 @@ void KStars::slotGeoLocator() {
 
 			// reset local sideral time
 			setLST( clock()->UTC() );
-			
+
 			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
 
@@ -373,7 +373,7 @@ void KStars::slotPrint() {
 		if ( drawCNames ) map()->drawConstellationNames( p, stdFont, scale );
 
 		// stars and planets use the same font size
-		if ( options()->ZoomLevel < 6 ) {
+		if ( options()->ZoomFactor < 10.*MINZOOM ) {
 			p.setFont( smallFont );
 		} else {
 			p.setFont( stdFont );
@@ -474,31 +474,31 @@ void KStars::slotManualFocus() {
 //View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( options()->ZoomLevel < MAXZOOMLEVEL ) {
-		++options()->ZoomLevel;
+	if ( options()->ZoomFactor < MAXZOOM ) {
+		options()->ZoomFactor *= DZOOM;
 		map()->forceUpdate();
 	}
-	if ( options()->ZoomLevel == MAXZOOMLEVEL )
+	if ( options()->ZoomFactor >= MAXZOOM )
 		actionCollection()->action("zoom_in")->setEnabled (false);
 }
 
 void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
-	if ( options()->ZoomLevel > MINZOOMLEVEL ) {
-		--options()->ZoomLevel;
+	if ( options()->ZoomFactor > MINZOOM ) {
+		options()->ZoomFactor /= DZOOM;
 		map()->forceUpdate();
 	}
-	if ( options()->ZoomLevel == MINZOOMLEVEL )
+	if ( options()->ZoomFactor <= MINZOOM )
 		actionCollection()->action("zoom_out")->setEnabled (false);
 }
 
 void KStars::slotDefaultZoom() {
-	options()->ZoomLevel = DEFAULTZOOMLEVEL;
+	options()->ZoomFactor = DEFAULTZOOM;
 	map()->forceUpdate();
 
-	if ( options()->ZoomLevel > MINZOOMLEVEL )
+	if ( options()->ZoomFactor > MINZOOM )
 		actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( options()->ZoomLevel < MAXZOOMLEVEL )
+	if ( options()->ZoomFactor < MAXZOOM )
 		actionCollection()->action("zoom_in")->setEnabled (true);
 }
 

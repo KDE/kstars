@@ -102,14 +102,14 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	focusDec    = o.focusDec;
 	targetSymbol = o.targetSymbol;
 	slewTimeScale  = o.slewTimeScale;
-	ZoomLevel      = o.ZoomLevel;
+	ZoomFactor     = o.ZoomFactor;
 	windowWidth    = o.windowWidth;
 	windowHeight   = o.windowHeight;
 	// magnitude limits and other star options
 	magLimitDrawStar     = o.magLimitDrawStar;
 	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
 	magLimitHideStar     = o.magLimitHideStar;
-	
+
 	magLimitAsteroid     = o.magLimitAsteroid;
 	magLimitAsteroidName = o.magLimitAsteroidName;
 	maxRadCometName      = o.maxRadCometName;
@@ -119,7 +119,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	indiAutoLat    = o.indiAutoLat;
 	indiCrosshairs = o.indiCrosshairs;
 	indiMessages   = o.indiMessages;
-	
+
 	// color options
 	CScheme.copy( *o.colorScheme() );
 
@@ -207,7 +207,7 @@ void KStarsOptions::setDefaultOptions() {
 	focusDec = 0.0;
 	targetSymbol = 0;
 	slewTimeScale = 60.0;
-	ZoomLevel    = DEFAULTZOOMLEVEL;
+	ZoomFactor   = DEFAULTZOOM;
 	windowWidth  = 600;
 	windowHeight = 600;
 	magLimitDrawStar = 8.0;
@@ -231,12 +231,12 @@ void KStarsOptions::setMagLimitDrawStar( float newMagnitude ) {
 
 bool KStarsOptions::setTargetSymbol( QString name ) {
 	targetSymbol = 0;
-	
+
 	if ( name == QString( "target_symbol_circle" ) ) targetSymbol = 1;
 	if ( name == QString( "target_symbol_crosshairs" ) ) targetSymbol = 2;
 	if ( name == QString( "target_symbol_bullseye" ) ) targetSymbol = 3;
 	if ( name == QString( "target_symbol_rectangle" ) ) targetSymbol = 4;
-	
+
 	if ( targetSymbol==0 ) return false;
 	return true;
 }
@@ -249,7 +249,7 @@ void KStarsOptions::setLocation(const GeoLocation& l) {
 	GeoLocation l2( l );
 	if ( l2.lat()->Degrees() >= 90.0 ) l2.setLat( 89.99 );
 	if ( l2.lat()->Degrees() <= -90.0 ) l2.setLat( -89.99 );
-	
+
 	location = l2;
 }
 

@@ -23,7 +23,7 @@
 void KStarsData::loadOptions()
 {
 	KConfig *conf = kapp->config();
-	//Check if kstarsrc exists.  If not, we are using default options 
+	//Check if kstarsrc exists.  If not, we are using default options
 	//(need to know for setting initial focus point).
 	//We used to use hasGroup() here, but I have reason to suspect that this
 	//this causes a crash on some systems (see bug #44869).  At Kevin
@@ -85,20 +85,20 @@ void KStarsData::loadOptions()
 	options->stickyTimeBox  = conf->readNumEntry( "StickyTimeBox", true );
 	options->stickyFocusBox = conf->readNumEntry( "StickyFocusBox", true );
 	options->stickyGeoBox   = conf->readNumEntry( "StickyGeoBox", true );
-	
+
 	QPoint p(0,0);
 	options->posTimeBox    = conf->readPointEntry( "PositionTimeBox", &p );
 	p.setX(600);  // (600,0)
 	options->posFocusBox   = conf->readPointEntry( "PositionFocusBox", &p );
 	p.setX(0); p.setY(600);  // (0,600)
 	options->posGeoBox     = conf->readPointEntry( "PositionGeoBox", &p );
-	
+
 	options->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 	conf->setGroup( "View" );
 	options->colorScheme()->loadFromConfig( conf );
 	options->targetSymbol   = conf->readNumEntry( "TargetSymbol", 0 );
-	
+
 	options->drawSAO        = conf->readBoolEntry( "ShowSAO", true );
 	options->drawMessier    = conf->readBoolEntry( "ShowMess", true );
 	options->drawMessImages = conf->readBoolEntry( "ShowMessImages", true );
@@ -148,7 +148,9 @@ void KStarsData::loadOptions()
 	options->drawPlanetName    = conf->readBoolEntry( "drawPlanetName", true );
 	options->drawPlanetImage   = conf->readBoolEntry( "drawPlanetImage", true );
 	options->drawStarMagnitude = conf->readBoolEntry( "drawStarMagnitude", false );
-	options->ZoomLevel    = conf->readNumEntry( "ZoomLevel", DEFAULTZOOMLEVEL );
+	options->ZoomFactor    = conf->readDoubleNumEntry( "ZoomFactor", DEFAULTZOOM );
+	if ( options->ZoomFactor > MAXZOOM ) options->ZoomFactor = MAXZOOM;
+	if ( options->ZoomFactor < MINZOOM ) options->ZoomFactor = MINZOOM;
 	options->windowWidth  = conf->readNumEntry( "windowWidth", 600 );
 	options->windowHeight = conf->readNumEntry( "windowHeight", 600 );
 	options->useRefraction = conf->readBoolEntry( "UseRefraction", true );
@@ -217,7 +219,7 @@ void KStarsData::saveOptions(KStars *ks) {
 		options->stickyGeoBox   = ks->map()->infoBoxes()->geoBox()->anchorFlag();
 		options->stickyFocusBox = ks->map()->infoBoxes()->focusBox()->anchorFlag();
 	}
-	
+
 	conf->setGroup( "GUI" );
 	conf->writeEntry( "ShowInfoBoxes", options->showInfoBoxes );
 	conf->writeEntry( "ShowTimeBox", options->showTimeBox );
@@ -238,7 +240,7 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->setGroup( "View" );
 	options->colorScheme()->saveToConfig( conf );
 	conf->writeEntry( "TargetSymbol", options->targetSymbol );
-	
+
 	conf->writeEntry( "ShowSAO", 		options->drawSAO );
 	conf->writeEntry( "ShowMess", 	options->drawMessier );
 	conf->writeEntry( "ShowMessImages", 	options->drawMessImages );
@@ -270,25 +272,25 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "ShowPlanets", 	options->drawPlanets );
 	conf->writeEntry( "ShowDeepSky", 	options->drawDeepSky );
 	conf->writeEntry( "IsTracking", 	options->isTracking );
-	
+
 	//Make sure ks and focusObject exist
 	if ( ks && ks->map()->focusObject() ) {
 		conf->writeEntry( "FocusObject",  ks->map()->focusObject()->name() );
 	} else {
 		conf->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );
 	}
-	
+
 	conf->writeEntry( "UseAltAz", options->useAltAz );
 	conf->writeEntry( "SlewTimeScale", options->slewTimeScale );
-	conf->writeEntry( "ZoomLevel", options->ZoomLevel );
-	
+	conf->writeEntry( "ZoomFactor", options->ZoomFactor );
+
 	if ( ks ) {
 		conf->writeEntry( "FocusRA", ks->map()->focus()->ra()->Hours() );
 		conf->writeEntry( "FocusDec", ks->map()->focus()->dec()->Degrees() );
 		conf->writeEntry( "windowWidth", ks->width() );
 		conf->writeEntry( "windowHeight", ks->height() );
 	}
-	
+
 	conf->writeEntry( "magLimitDrawStar", options->magLimitDrawStar );
 	conf->writeEntry( "magLimitDrawStarInfo",options->magLimitDrawStarInfo );
 	conf->writeEntry( "magLimitHideStar",options->magLimitHideStar );

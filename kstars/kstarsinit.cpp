@@ -205,7 +205,7 @@ void KStars::initActions() {
 						this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
 	new KAction(i18n( "Altitude vs. Time..."), KAccel::stringToKey ( "Ctrl+A"),
-						this, SLOT( slotElTs() ), actionCollection(), "altitude_vs_time");
+						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
 	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
 						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
@@ -409,7 +409,7 @@ void KStars::datainitFinished(bool worked) {
 	data()->setFullTimeUpdate();
 	updateTime();
 	clock()->start();
-	
+
 	show();
 
 //Check whether initial position is below the horizon.
@@ -570,8 +570,8 @@ void KStars::privatedata::buildGUI() {
 	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
 
 	// check zoom in/out buttons
-	if ( ks->options()->ZoomLevel == MAXZOOMLEVEL ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
-	if ( ks->options()->ZoomLevel == 0  ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
+	if ( ks->options()->ZoomFactor >= MAXZOOM ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
+	if ( ks->options()->ZoomFactor <= MINZOOM ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	kapp->dcopClient()->resume();
 

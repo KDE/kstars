@@ -59,6 +59,11 @@
 #define NNGCFILES 13
 #define NTYPENAME 11
 
+#define MINZOOM 500.
+#define MAXZOOM 1000000.
+#define DEFAULTZOOM 2000.
+#define DZOOM 1.10
+
 class KStandardDirs;
 class FileSource;
 class StarDataSink;
@@ -89,7 +94,7 @@ public:
 	friend class StarDataSink;
 	friend class LCGenerator;
 	friend class DetailDialog;
-	friend class elts;
+	friend class AltVsTime;
 	friend class KSPopupMenu;
 	friend class WUTDialog;
 	friend class ViewOpsDialog;
@@ -97,7 +102,7 @@ public:
 	friend class INDI_P;
 	friend class PlanetViewer;
 	friend class JMoonTool;
-	
+
 	/**Constructor. */
 	KStarsData();
 
@@ -362,7 +367,7 @@ public:
 	void setFullTimeUpdate();
 
 	GeoLocation *geo() { return options->Location(); }
-	
+
 	bool useDefaultOptions, startupComplete;
 
 signals:
@@ -391,7 +396,7 @@ public slots:
 
 	/**@short send a message to the console*/
 	void slotConsoleMessage( QString s ) { std::cout << s.utf8() << std::endl; }
-	
+
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
 		*Draw new Skymap.

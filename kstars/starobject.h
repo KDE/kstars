@@ -73,7 +73,7 @@ class StarObject : public SkyObject {
   */
 		StarObject( double r, double d, double m, QString n="unnamed",
   					 		QString n2="", QString sptype="--" );
-          
+
 /**
 	*Constructor.  Set SkyObject data according to arguments.
 	*@param t Type of object
@@ -121,11 +121,11 @@ class StarObject : public SkyObject {
   *Returns empty string if star has no genetive name defined.
   *@returns greek letter portion of genetive name
   */
-		QString greekLetter( void );		
-		
+		QString greekLetter( void );
+
 		//overloaded from SkyObject
-		void drawLabel( QPainter &psky, int x, int y, int zoom, bool drawName, bool drawMag, double scale );
-		
+		void drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
+
 	private:
 		QString SpType;
 		SkyObjectName *soName;

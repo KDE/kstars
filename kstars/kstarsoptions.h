@@ -29,7 +29,7 @@
 
 /**KStarsOptions manages all of the user-configurable options available in KStars.
 	*@short KStars options.
-	*@author Heiko Evermann	
+	*@author Heiko Evermann
 	*@version 0.9
 	*/
 
@@ -52,8 +52,8 @@ class KStarsOptions {
 			*/
 		void setDefaultOptions();
 
-		void setMagLimitDrawStar( float newMagnitude );	
-	
+		void setMagLimitDrawStar( float newMagnitude );
+
 		/**@returns pointer to the ColorScheme object
 			*/
 		ColorScheme *colorScheme() { return &CScheme; }
@@ -91,7 +91,7 @@ class KStarsOptions {
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 
 		bool setTargetSymbol( QString name );
-		
+
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
 		// (false=equatorial coordinate system)
 		bool useAltAz;
@@ -143,7 +143,7 @@ class KStarsOptions {
 		bool drawAsteroidName;
 		bool drawCometName;
 		bool drawPlanetImage;
-		bool drawStarMagnitude;	
+		bool drawStarMagnitude;
 		bool drawPlanets;  //Meta-option to control all planets with viewToolBar button
 		bool drawDeepSky;  //Meta-option to control all deep-sky objects with viewToolBar button
 
@@ -168,7 +168,7 @@ class KStarsOptions {
 		int stickyTimeBox, stickyGeoBox, stickyFocusBox;
 		QPoint posTimeBox, posFocusBox, posGeoBox;
 		int targetSymbol;
-		
+
 		//Custom Catalogs
 		unsigned int CatalogCount;
 		QValueList<bool> drawCatalog;
@@ -176,9 +176,10 @@ class KStarsOptions {
 
 		bool isTracking;
 		QString focusObject;
-		float focusRA, focusDec;	
+		float focusRA, focusDec;
 		float slewTimeScale;
-		int ZoomLevel, windowWidth, windowHeight;
+		int windowWidth, windowHeight;
+		double ZoomFactor;
 
 		float magLimitDrawStar;
 		float magLimitHideStar;

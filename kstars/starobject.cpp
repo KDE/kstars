@@ -80,7 +80,7 @@ QString StarObject::greekLetter( void ) {
 	return letter;
 }
 
-void StarObject::drawLabel( QPainter &psky, int x, int y, int zoom, bool drawName, bool drawMag, double scale ) {
+void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName("");
 	if ( drawName ) {
 		if ( name() != "star" ) sName = name() + " ";
@@ -89,9 +89,9 @@ void StarObject::drawLabel( QPainter &psky, int x, int y, int zoom, bool drawNam
 	if ( drawMag ) {
 		sName += QString().sprintf("%.1f", mag() );
 	}
-	
-	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.5*( zoom - 6)) ));
-	
+
+	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.1*( zoom/500. )) ));
+
 	psky.drawText( x+offset, y+offset, sName );
 }
 

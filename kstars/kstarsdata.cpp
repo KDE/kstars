@@ -1512,7 +1512,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
 	//If clock is in Manual Mode, always update. (?)
-	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/skymap->getPixelScale() || clock->isManualMode() ) {
+	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/options->ZoomFactor || clock->isManualMode() ) {
 		LastSkyUpdate = CurrentDate;
 
 		//Recompute Alt, Az coords for all objects

@@ -30,14 +30,12 @@
 #include "dms.h"
 #include "skypoint.h"
 #include "starpixmap.h"
-
-#define NZOOM 30
+#include "kstarsdata.h"
 
 class QLabel;
 class KSPopupMenu;
-class KStars;
-class KStarsData;
 class InfoBoxes;
+class KStars;
 
 /**This is the canvas on which the sky is painted.  It's the main widget for KStars.
 	*Contains SkyPoint members for the map's Focus (current central position), Destination
@@ -57,7 +55,7 @@ class SkyMap : public QWidget  {
 public:
 /**
 	*Constructor.  Read stored settings from KConfig object (focus position,
-	*zoom level, sky color, etc.).  Run initPopupMenus().
+	*zoom factor, sky color, etc.).  Run initPopupMenus().
 	*/
 	SkyMap( KStarsData *d, QWidget *parent=0, const char *name=0);
 
@@ -185,12 +183,6 @@ public:
 /**sets the starpix color intensity value
 	*/
 	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
-
-/**pixelScale is referenced one time outside of skymap.  This is the access method
-	*for this external reference.
-	*@returns current value of pixelScale
-	*/
-	int getPixelScale( void );
 
 /**@returns estimate of the display's angular field of view
 	*/
@@ -376,7 +368,7 @@ private:
 	*user has selected that planet images be shown.  If one of these conditions
 	*is false, then a simple circle is drawn instead.  */
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
-			int zoommin, int resize_mult = 1, double scale = 1.0 );
+			double zoommin, int resize_mult = 1, double scale = 1.0 );
 
 /**Draw the InfoBoxes on the pixmap passed as an argument (this should be
 	*the skymap's pixmap).
@@ -396,7 +388,7 @@ private:
 
 	void drawTelescopeSymbols(QPainter &psky);
 
-/**Sets the shape of the default mouse cursor to a cross.  */
+/**@short Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 
 /**Check if the current point on screen is a valid point on the sky. This is needed
@@ -404,14 +396,18 @@ private:
 	*corners of the sky map at the lowest zoom level are the invalid points).  */
 	bool unusablePoint (double dx, double dy);
 
+/**@short convenience function for getting the ZoomFactor from the options object
+	*The Zoom Factor is the pixel scale of the display (i.e., the number of pixels which subtend one radian)
+	*/
+	double zoomFactor() const;
+
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;		// true if mouseMoveEvent; needed by setMouseMoveCursor
 	bool slewing, clockSlewing;
 	bool computeSkymap;	// if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
 	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
-	int pixelScale[NZOOM];
 	int scrollCount;
-	double Range[NZOOM];
+	double Range;
 	double RefractCorr1[184], RefractCorr2[184];
 	double y0;
 

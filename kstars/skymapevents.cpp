@@ -36,7 +36,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 {
 		computeSkymap = true; // skymap must be new computed
 		if ( testWState(WState_AutoMask) ) updateMask();
-		
+
 		// avoid phantom positions of infoboxes
 		if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
 			infoBoxes()->resize( width(), height() );
@@ -55,14 +55,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		ksw->resumeDCOP();
 		return;
 	}
-	
+
 	switch ( e->key() ) {
 		case Key_Left :
 			if ( data->options->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setAz( focus()->az()->Degrees() - step * MINZOOM/zoomFactor() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() + 0.05*step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setRA( focus()->ra()->Hours() + 0.05*step * MINZOOM/zoomFactor() );
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
@@ -73,10 +73,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Right :
 			if ( data->options->useAltAz ) {
-				focus()->setAz( focus()->az()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setAz( focus()->az()->Degrees() + step * MINZOOM/zoomFactor() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setRA( focus()->ra()->Hours() - 0.05*step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setRA( focus()->ra()->Hours() - 0.05*step * MINZOOM/zoomFactor() );
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
 
@@ -87,11 +87,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Up :
 			if ( data->options->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/zoomFactor() );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() + step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() + step * MINZOOM/zoomFactor() );
 				if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
@@ -103,11 +103,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Key_Down:
 			if ( data->options->useAltAz ) {
-				focus()->setAlt( focus()->alt()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/zoomFactor() );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			} else {
-				focus()->setDec( focus()->dec()->Degrees() - step * pixelScale[0]/pixelScale[ data->options->ZoomLevel ] );
+				focus()->setDec( focus()->dec()->Degrees() - step * MINZOOM/zoomFactor() );
 				if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
 				focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			}
@@ -300,7 +300,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kdDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
 
 */
-			
+
 			break;
 		}
 
@@ -350,8 +350,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		return;
 	}
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/zoomFactor();
+	double dy = ( 0.5*height() - e->y() )/zoomFactor();
 	double dyPix = 0.5*height() - e->y();
 
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
@@ -450,7 +450,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 			setDestination( focus() );
 			slewing = false;
 		}
-		
+
 		setOldFocus( focus() );
 		forceUpdate();	// is needed because after moving the sky not all stars are shown
 	}
@@ -470,8 +470,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
+	double dx = ( 0.5*width()  - e->x() )/zoomFactor();
+	double dy = ( 0.5*height() - e->y() )/zoomFactor();
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	if ( !midMouseButtonDown && e->button() == MidButton ) {
@@ -486,11 +486,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz, 
+		setMousePoint( dXdYToRaDec( dx, dy, data->options->useAltAz,
 				data->LST, data->geo()->lat(), data->options->useRefraction ) );
 		setClickedPoint( mousePoint() );
 
-		double r0 = 200.0/pixelScale[ data->options->ZoomLevel ];  //the maximum search radius
+		double r0 = 200.0/zoomFactor();  //the maximum search radius
 		double rmin = r0;
 
 		//Search stars database for nearby object.
@@ -499,9 +499,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		int istar_min = -1;
 
 		if ( data->options->drawSAO ) { //Can only click on a star if it's being drawn!
-			
+
 			//test RA and dec to see if this star is roughly nearby
-			
+
 			for ( register unsigned int i=0; i<data->starList.count(); ++i ) {
 				SkyObject *test = (SkyObject *)data->starList.at(i);
 
@@ -522,7 +522,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		double r = 0.0;
 		double rsolar_min = r0;
 		SkyObject *solarminobj = NULL;
-		
+
 		if ( data->options->drawPlanets )
 			solarminobj = data->PC->findClosest(clickedPoint(), r);
 
@@ -558,7 +558,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				}
 			}
 		}
-		
+
 		//Comets
 		if ( data->options->drawComets ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
@@ -701,7 +701,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 0: //star
 					starobj = (StarObject *)data->starList.at(istar_min);
 					setClickedObject( (SkyObject *)data->starList.at(istar_min) );
-					
+
 					setClickedPoint( clickedObject() );
 
 					if ( e->button() == RightButton ) {
@@ -774,8 +774,8 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 			return;
 		}
 
-		double dx = ( 0.5*width()  - e->x() )/pixelScale[ data->options->ZoomLevel ];
-		double dy = ( 0.5*height() - e->y() )/pixelScale[ data->options->ZoomLevel ];
+		double dx = ( 0.5*width()  - e->x() )/zoomFactor();
+		double dy = ( 0.5*height() - e->y() )/zoomFactor();
 		if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 		if (mouseButtonDown ) mouseButtonDown = false;
@@ -800,7 +800,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
 	QPainter psky;
 
-	guidemax = pixelScale[ options->ZoomLevel ]/10;
+	guidemax = zoomFactor()/10;
 	FOV = fov();
 	isPoleVisible = false;
 	if ( options->useAltAz ) {
@@ -815,7 +815,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	guideFOV = fov();
 	guideXmax = Xmax;
-	if ( options->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
+	if ( zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
@@ -843,33 +843,33 @@ void SkyMap::paintEvent( QPaintEvent * )
 	if ( options->drawEcliptic ) drawEcliptic( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
 	if ( drawCNames ) drawConstellationNames( psky, stdFont );
-	
+
 	// stars and planets use the same font size
-	if ( data->options->ZoomLevel < 6 ) {
+	if ( zoomFactor() < 10.*MINZOOM ) {
 		psky.setFont( smallFont );
 	} else {
 		psky.setFont( stdFont );
 	}
-	
+
 	//drawing to screen, so leave scale parameter at its default value of 1.0
 	drawStars( psky );
 	drawDeepSkyObjects( psky );
 	drawSolarSystem( psky, drawPlanets );
 	drawAttachedLabels( psky );
 	drawHorizon( psky, stdFont );
-	
+
 	//Draw a Field-of-View indicator
 	drawTargetSymbol( psky, options->targetSymbol );
 	drawTelescopeSymbols(psky);
 
 	//Finish up
 	psky.end();
-	
+
 	QPixmap *sky2 = new QPixmap( *sky );
 	drawBoxes( sky2 );
 	bitBlt( this, 0, 0, sky2 );
 	delete sky2;
-	
+
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
 

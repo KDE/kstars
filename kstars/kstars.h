@@ -72,9 +72,7 @@ class INDIDriver;
 //Define some global constants
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 #define NMILKYWAY 11  //number of Milky Way segments
-#define MINZOOMLEVEL 0
-#define MAXZOOMLEVEL 26
-#define DEFAULTZOOMLEVEL 3
+
 #define TIMER_INTERVAL 10
 
 /**
@@ -278,7 +276,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		* action slot: open Elevation vs. Time tool
 		*/
 
-		void slotElTs();
+		void slotAVT();
 
 		/**
 		 * action slot: open What's up tonight dialog

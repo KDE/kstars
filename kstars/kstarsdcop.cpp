@@ -102,30 +102,30 @@ void KStars::drawLine( int x1, int y1, int x2, int y2, int speed ) {
 void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	//Set the geographic location
 	bool cityFound( false );
-	
+
 	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
 		if ( loc->translatedName() == city &&
 					( province.isEmpty() || loc->translatedProvince() == province ) &&
 					loc->translatedCountry() == country ) {
-			
+
 			cityFound = true;
-			
+
 			options()->setLocation( *loc );
-			
+
 			//notify on-screen GeoBox
 			infoBoxes()->geoChanged( loc );
-			
+
 			//configure time zone rule
 			QDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
 			loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
 			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
-			
+
 			//reset LST
 			setLST( clock()->UTC() );
-			
+
 			//make sure planets, etc. are updated immediately
 			data()->setFullTimeUpdate();
-			
+
 			// If the sky is in Horizontal mode and not tracking, reset focus such that
 			// Alt/Az remain constant.
 			if ( ! options()->isTracking && options()->useAltAz ) {
@@ -135,17 +135,17 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			// recalculate new times and objects
 			options()->setSnapNextFocus();
 			updateTime();
-			
+
 			//no need to keep looking, we're done.
 			break;
 		}
 	}
 
 	if ( !cityFound ) {
-		if ( province.isEmpty() ) 
+		if ( province.isEmpty() )
 			kdDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
 					<< country << i18n( " not found in database." ) << endl;
-		else 
+		else
 			kdDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
 					<< province << ", " << country << i18n( " not found in database." ) << endl;
 	}
@@ -153,20 +153,20 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 
 void KStars::changeViewOption( const QString op, const QString val ) {
 	bool bOk(false), nOk(false), dOk(false);
-	
+
 	//parse bool value
 	bool bVal(false);
 	if ( val.lower() == "true" ) { bOk = true; bVal = true; }
 	if ( val.lower() == "false" ) { bOk = true; bVal = false; }
 	if ( val == "1" ) { bOk = true; bVal = true; }
 	if ( val == "0" ) { bOk = true; bVal = false; }
-	
+
 	//parse int value
 	int nVal = val.toInt( &nOk );
-	
+
 	//parse double value
 	double dVal = val.toDouble( &dOk );
-	
+
 	//[GUI]
 	if ( op == "ShowInfoBoxes"   && bOk ) options()->showInfoBoxes   = bVal;
 	if ( op == "ShowTimeBox"     && bOk ) options()->showTimeBox     = bVal;
@@ -177,7 +177,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "ShadeFocusBox"   && bOk ) options()->shadeFocusBox   = bVal;
 	if ( op == "ShowMainToolBar" && bOk ) options()->showMainToolBar = bVal;
 	if ( op == "ShowViewToolBar" && bOk ) options()->showViewToolBar = bVal;
-	
+
 	//[View]
 	if ( op == "TargetSymbol"    && nOk ) options()->targetSymbol    = nVal;
 	if ( op == "ShowSAO"         && bOk ) options()->drawSAO         = bVal;
@@ -223,7 +223,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "HideCNames"  && bOk ) options()->hideCNames  = bVal;
 	if ( op == "HideCLines"  && bOk ) options()->hideCLines  = bVal;
 	if ( op == "HideGrid"    && bOk ) options()->hideGrid    = bVal;
-	
+
 	if ( op == "UseAltAz"         && bOk ) options()->useAltAz           = bVal;
 	if ( op == "UseRefraction"    && bOk ) options()->useRefraction      = bVal;
 	if ( op == "UseAutoLabel"     && bOk ) options()->useAutoLabel       = bVal;
@@ -231,30 +231,30 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "AnimateSlewing"   && bOk ) options()->useAnimatedSlewing = bVal;
 	if ( op == "FadePlanetTrails" && bOk ) options()->fadePlanetTrails   = bVal;
 	if ( op == "SlewTimeScale"    && dOk ) options()->slewTimeScale      = dVal;
-	if ( op == "ZoomLevel"        && nOk ) options()->ZoomLevel          = nVal;
+	if ( op == "ZoomFactor"       && dOk ) options()->ZoomFactor         = dVal;
 	if ( op == "magLimitDrawStar"     && dOk ) options()->magLimitDrawStar     = dVal;
 	if ( op == "magLimitDrawStarInfo" && dOk ) options()->magLimitDrawStarInfo = dVal;
 	if ( op == "magLimitHideStar"     && dOk ) options()->magLimitHideStar     = dVal;
 	if ( op == "magLimitAsteroid"     && dOk ) options()->magLimitAsteroid     = dVal;
 	if ( op == "magLimitAsteroidName" && dOk ) options()->magLimitAsteroidName = dVal;
 	if ( op == "maxRadCometName"      && dOk ) options()->maxRadCometName      = dVal;
-	
+
 	//these three are a "radio group"
-	if ( op == "UseLatinConstellationNames" && bOk ) { 
-		options()->useLatinConstellNames = true; 
+	if ( op == "UseLatinConstellationNames" && bOk ) {
+		options()->useLatinConstellNames = true;
 		options()->useLocalConstellNames = false;
 		options()->useAbbrevConstellNames = false;
 	}
-	if ( op == "UseLocalConstellationNames" && bOk ) { 
-		options()->useLatinConstellNames = false; 
+	if ( op == "UseLocalConstellationNames" && bOk ) {
+		options()->useLatinConstellNames = false;
 		options()->useLocalConstellNames = true;
 		options()->useAbbrevConstellNames = false;
 	}
-	if ( op == "UseAbbrevConstellationNames" && bOk ) { 
-		options()->useLatinConstellNames = false; 
+	if ( op == "UseAbbrevConstellationNames" && bOk ) {
+		options()->useLatinConstellNames = false;
 		options()->useLocalConstellNames = false;
 		options()->useAbbrevConstellNames = true;
 	}
-	
+
 	map()->forceUpdate();
-} 
+}

@@ -56,19 +56,16 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 //END_DEBUG
 
 	setDefaultMouseCursor();	// set the cross cursor
-	kapp->config()->setGroup( "View" );
-	data->options->ZoomLevel = kapp->config()->readNumEntry( "ZoomLevel", 3 );
-	if ( data->options->ZoomLevel > NZOOM-1 ) data->options->ZoomLevel = NZOOM-1;
-	if ( data->options->ZoomLevel < 0 )  data->options->ZoomLevel = 0;
+
+	//read ZoomFactor from config object
+	//JH: this has already been done by KStarsData::loadOptions()
+	//kapp->config()->setGroup( "View" );
+	//data->options->ZoomFactor = kapp->config()->readDoubleNumEntry( "ZoomFactor", MINZOOM );
+	//if ( zoomFactor() > MAXZOOM ) data->options->ZoomFactor = MAXZOOM;
+	//if ( zoomFactor() < MINZOOM ) data->options->ZoomFactor = MINZOOM;
 
 	// load the pixmaps of stars
 	starpix = new StarPixmap( data->options->colorScheme()->starColorMode(), data->options->colorScheme()->starColorIntensity() );
-
-  //initialize pixelScale array, will be indexed by ZoomLevel
-	for ( unsigned int i=0; i<NZOOM; ++i ) {
-		pixelScale[i] = int( 256.*pow(sqrt(2.0),i) );
-		Range[i] = 75.0*256.0/pixelScale[i];
-	}
 
 	setBackgroundColor( QColor( data->options->colorScheme()->colorNamed( "SkyColor" ) ) );
 	setBackgroundMode( QWidget::NoBackground );
@@ -581,9 +578,9 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 //	if ( o->type() == 0 || o->type() == 1 || o->type() == 3 ) return 0;
 
 	//Find position angle of North using a test point displaced to the north
-	//displace by 100/pixelScale radians (so distance is always 100 pixels)
-	//this is 5730/pixelScale degrees
-	double newDec = o->dec()->Degrees() + 5730.0/pixelScale[ data->options->ZoomLevel ];
+	//displace by 100/zoomFactor radians (so distance is always 100 pixels)
+	//this is 5730/zoomFactor degrees
+	double newDec = o->dec()->Degrees() + 5730.0/zoomFactor();
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( data->options->useAltAz ) test.EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
@@ -611,7 +608,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	int Width = int( width() * scale );
 	int Height = int( height() * scale );
 
-	double pscale = pixelScale[ data->options->ZoomLevel ] * scale;
+	double pscale = zoomFactor() * scale;
 
 	if ( Horiz ) {
 		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
@@ -771,7 +768,7 @@ void SkyMap::forceUpdate( bool now )
 }
 
 float SkyMap::fov( void ) {
-	return Range[ data->options->ZoomLevel ]*width()/600.;
+	return 32.*width()/zoomFactor();
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
@@ -912,20 +909,19 @@ void SkyMap::addLink( void ) {
 	}
 }
 
-int SkyMap::getPixelScale( void ) {
-	return pixelScale[ data->options->ZoomLevel ];
+double SkyMap::zoomFactor() const {
+	return data->options->ZoomFactor;
 }
-
 bool SkyMap::setColors( QString filename ) {
-  if ( data->options->colorScheme()->load( filename ) ) {
-    if ( starColorMode() != data->options->colorScheme()->starColorMode() )
-      setStarColorMode( data->options->colorScheme()->starColorMode() );
+	if ( data->options->colorScheme()->load( filename ) ) {
+		if ( starColorMode() != data->options->colorScheme()->starColorMode() )
+			setStarColorMode( data->options->colorScheme()->starColorMode() );
 
-    forceUpdate();
-    return true;
-  } else {
-    return false;
-  }
+		forceUpdate();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 #include "skymap.moc"
