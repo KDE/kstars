@@ -81,20 +81,27 @@ void KStars::slotGeoLocator() {
 
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
-			double oldTZ = geo()->TZ();
 			GeoLocation *newLocation = data()->geoList.at(ii);
 			// save location in options
 			options()->setLocation( *newLocation );
-			double newTZ = geo()->TZ();
 
 			// reset infoboxes
 			infoBoxes()->geoChanged( newLocation );
 
 			// call changeTime to reset DST change times
 			// However, adjust local time to keep UT the same.
-			data()->LTime.setTime( data()->LTime.time().addSecs( int( 3600.0*(newTZ-oldTZ) ) ) );
-
-			changeTime( data()->LTime.date(), data()->LTime.time() );
+			// save current UT
+			QDateTime utime = data()->UTime;
+			// create new LT (DST isn't initalized yet)
+			QDateTime ltime = utime.addSecs( int( 3600 * newLocation->TZ()) );
+			// reset time with new LT and check DST status
+			changeTime( ltime.date(), ltime.time() );
+			// set old UT
+			clock->setUTC( utime );
+			// reset local sideral time
+			setLSTh( clock->UTC() );
+			// recalculate new times
+			updateTime();
 		}
 	}
 }
