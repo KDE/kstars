@@ -88,10 +88,10 @@ void KStars::initActions() {
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
 	tmpAction->setToolTip( i18n( "Find object" ) );
-	
+
 	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
-	if ( Options::isTracking() ) { 
+	if ( Options::isTracking() ) {
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
@@ -110,7 +110,7 @@ void KStars::initActions() {
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 	if ( Options::useAltAz() ) actCoordSys->turnOff();
 	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
-	
+
 
 //Settings Menu:
 	//
@@ -122,6 +122,7 @@ void KStars::initActions() {
 	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
+	a->setCheckedState(i18n("Hide &Info Boxes"));
 	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -129,18 +130,21 @@ void KStars::initActions() {
 
 	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
+	a->setCheckedState(i18n("Hide &Time Box"));
 	a->setChecked( Options::showTimeBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
+	a->setCheckedState(i18n("Hide &Focus Box"));
 	a->setChecked( Options::showFocusBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
+	a->setCheckedState(i18n("Hide &Location Box"));
 	a->setChecked( Options::showGeoBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -148,25 +152,30 @@ void KStars::initActions() {
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			0, 0, 0, actionCollection(), "show_mainToolBar");
+	a->setCheckedState(i18n("Hide Main Toolbar"));
 	a->setChecked( Options::showMainToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
+	a->setCheckedState(i18n("Hide View Toolbar"));
 	a->setChecked( Options::showViewToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
+	a->setCheckedState(i18n("Hide Statusbar"));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	a->setChecked( Options::showStatusBar() );
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
 			0, 0, 0, actionCollection(), "show_sbAzAlt");
+	a->setCheckedState(i18n("Hide Az/Alt Field"));
 	a->setChecked( Options::showAltAzField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
 			0, 0, 0, actionCollection(), "show_sbRADec");
+	a->setCheckedState(i18n("Hide RA/Dec Field"));
 	a->setChecked( Options::showRADecField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
@@ -236,9 +245,9 @@ void KStars::initActions() {
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
 
-	new KAction(i18n( "Startup Wizard..." ), 0, this, SLOT( slotWizard() ), 
+	new KAction(i18n( "Startup Wizard..." ), 0, this, SLOT( slotWizard() ),
 		actionCollection(), "startwizard" );
- 
+
 //Tools Menu:
 	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
@@ -432,21 +441,21 @@ void KStars::initFOV() {
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	
+
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-	
+
 	if ( Options::showAltAzField() ) {
 		statusBar()->insertFixedItem( s, 1, true );
 		statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
 		statusBar()->changeItem( "", 1 );
 	}
-	
+
 	if ( Options::showRADecField() ) {
 		statusBar()->insertFixedItem( s, 2, true );
 		statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
 		statusBar()->changeItem( "", 2 );
 	}
-	
+
 	if ( ! Options::showStatusBar() ) statusBar()->hide();
 }
 
@@ -543,7 +552,7 @@ void KStars::privatedata::buildGUI() {
 	ks->createGUI("kstarsui.rc", false);
 
 	//Do not show text on the view toolbar buttons
-	//FIXME: after strings freeze, remove this and make the 
+	//FIXME: after strings freeze, remove this and make the
 	//text of each button shorter
 	ks->toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
 
