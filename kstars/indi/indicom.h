@@ -29,7 +29,7 @@
 #include <time.h>
 
 #define J2000 2451545.0
-#define TRACKING_THRESHOLD	0.083		/* 5' for tracking */
+#define TRACKING_THRESHOLD	0.05		/* 3' for tracking */
 
 extern const char * Direction[];
 extern const char * SolarSystem[];
@@ -71,6 +71,12 @@ double p1( int i1, int i2 );
 double p2( int i1, int i2 );
 /**@short update all values for the date given as an argument. */
 void updateAstroValues( double jd );
+/**@short calculates the declination on the celestial sphere at 0 degrees altitude given the siderial time and latitude. */
+double calculateDec(double latitude, double SDTime);
+/**@short calculates the right ascension on the celestial sphere at 0 degrees azimuth given the siderial time. */
+double calculateRA(double SDTime);
+/**@short calculates the angular distance between two points on the celestial sphere. The arguments are passed as degrees.*/
+double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC);
 
 void nutate(double *RA, double *Dec);
 void aberrate(double *RA, double *Dec);

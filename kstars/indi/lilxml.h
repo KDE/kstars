@@ -18,69 +18,91 @@
 
 #endif
 
+/* this is a little DOM-style library to handle parsing and processing an XML file.
+ * it only handles elements, attributes and pcdata content.
+ * <! ... > and <? ... > are silently ignored.
+ * pcdata is collected into one string, sans leading whitespace first line.
+ * see the end for example usage.
+ */
+
 #ifndef LILXML_H
 #define LILXML_H
-
-/* public representation of a (possibly nested) XML element */
-typedef struct {
-    char *name;			/* name */
-    char *valu;			/* value */
-    struct _xml_ele *ce;	/* containing element */
-} XMLAtt;
-
-typedef struct _xml_ele {
-    char *tag;			/* element tag */
-    struct _xml_ele *pe;	/* parent element, or NULL if root */
-    XMLAtt **at;		/* list of attributes */
-    int nat;			/* number of attributes */
-    struct _xml_ele **el;	/* list of child elements */
-    int nel;			/* number of child elements */
-    char *pcdata;		/* character data in this element */
-    int pcdatal;		/* handy length sans \0 (tends to be big) */
-} XMLEle;
-
-/* opaque parsing handle */
-typedef struct _LilXML LilXML;
-
-/* parsing functions.
- * canonical usage pattern:
-
-	LilXML *lp = newLilXML();
-	char errmsg[1024];
-	XMLEle *root;
-	int c;
-
-	while ((c = fgetc(stdin)) != EOF) {
-	    root = readXMLEle (lp, c, errmsg);
-	    if (root) {
-		fprintf (stderr, "::::::::::::: %s\n", root->tag);
-		prXMLEle (root, 0);
-		delXMLEle (root);
-	    } else if (errmsg[0]) {
-		fprintf (stderr, "Error: %s\n", errmsg);
-	    }
-	}
-
-	delLilXML (lp);
- */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* opaque handle types */
+typedef struct _xml_att XMLAtt;
+typedef struct _xml_ele XMLEle;
+typedef struct _LilXML LilXML;
+
+/* creation and destruction functions */
 extern LilXML *newLilXML(void);
 extern void delLilXML (LilXML *lp);
-extern XMLEle *readXMLEle (LilXML *l, int c, char errmsg[]);
 extern void delXMLEle (XMLEle *e);
-extern void prXMLEle (FILE *fp, XMLEle *e, int level);
+
+/* process an XML one char at a time */
+extern XMLEle *readXMLEle (LilXML *lp, int c, char errmsg[]);
 
 /* search functions */
 extern XMLAtt *findXMLAtt (XMLEle *e, const char *name);
 extern XMLEle *findXMLEle (XMLEle *e, const char *tag);
 
+/* iteration functions */
+extern XMLEle *nextXMLEle (XMLEle *ep, int first);
+extern XMLAtt *nextXMLAtt (XMLEle *ep, int first);
+
+/* tree functions */
+extern XMLEle *parentXMLEle (XMLEle *ep);
+extern XMLEle *parentXMLAtt (XMLAtt *ap);
+
+/* access functions */
+extern char *tagXMLEle (XMLEle *ep);
+extern char *pcdataXMLEle (XMLEle *ep);
+extern char *nameXMLAtt (XMLAtt *ap);
+extern char *valuXMLAtt (XMLAtt *ap);
+extern int pcdatalenXMLEle (XMLEle *ep);
+extern int nXMLEle (XMLEle *ep);
+extern int nXMLAtt (XMLEle *ep);
+
+/* convenience functions */
+extern char *findXMLAttValu (XMLEle *ep, char *name);
+extern XMLEle *readXMLFile (FILE *fp, LilXML *lp, char errmsg[]);
+extern void prXMLEle (FILE *fp, XMLEle *e, int level);
+
 #ifdef __cplusplus
 }
 #endif
+
+/* examples.
+
+        initialize a lil xml context and read an XML file in a root element
+
+	LilXML *lp = newLilXML();
+	char errmsg[1024];
+	XMLEle *root, *ep;
+	int c;
+
+	while ((c = fgetc(stdin)) != EOF) {
+	    root = readXMLEle (lp, c, errmsg);
+	    if (root)
+		break;
+	    if (errmsg[0])
+		error ("Error: %s\n", errmsg);
+	}
+ 
+        print the tag and pcdata content of each child element within the root
+
+        for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
+	    printf ("%s: %s\n", tagXMLEle(ep), pcdataXMLEle(ep));
+
+
+	finished with root element and with lil xml context
+
+	delXMLEle (root);
+	delLilXML (lp);
+ */
 
 /* For RCS Only -- Do Not Edit
  * @(#) $RCSfile$ $Date$ $Revision$ $Name:  $

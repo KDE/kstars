@@ -39,5 +39,7 @@ class LX200Autostar : public LX200Generic
 
 };
 
+void changeLX200AutostarDeviceName(char *newName);
+
 #endif
  

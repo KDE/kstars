@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// needed for sincos() in math.h
-#define _GNU_SOURCE
-
 #include <stdlib.h>
 
 #include "skypoint.h"

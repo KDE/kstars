@@ -21,7 +21,7 @@
 #ifndef CELESTRONGPS_H
 #define CELESTRONGPS_H
 
-#include "indiapi.h"
+#include "indidevapi.h"
 #include "indicom.h"
 
 #define	POLLMS		1000		/* poll period, ms */
@@ -42,11 +42,10 @@ class CelestronGPS
  int checkPower(INumberVectorProperty *np);
  int checkPower(ISwitchVectorProperty *sp);
  int checkPower(ITextVectorProperty *tp);
- void powerTelescope(ISState *s);
+ void powerTelescope();
  void slewError(int slewCode);
  int handleCoordSet();
- int getOnSwitch(ISState * states, int n);
- void resetSwitches(ISwitchVectorProperty *driverSw);
+ int getOnSwitch(ISwitchVectorProperty *sp);
 
  private:
   int timeFormat;
@@ -60,6 +59,7 @@ class CelestronGPS
   double lastDEC;
 
   int lastSet;
+  int currentSet;
   int lastMove[4];
 
 };

@@ -27,13 +27,14 @@
 
 extern LX200Generic *telescope;
 extern INumberVectorProperty eqNum;
+extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
-extern char mydev[];
 
 #define BASIC_GROUP	"Basic Data"
 #define LIBRARY_GROUP	"Library"
+#define MOVE_GROUP	"Movement Control"
 
-static IText   ObjectText[] = {{"objectText", "Info", ""}};
+static IText   ObjectText[] = {{"objectText", "Info"}};
 static ITextVectorProperty ObjectInfo = {mydev, "Object Info", "", BASIC_GROUP, IP_RO, 0, IPS_IDLE, ObjectText, NARRAY(ObjectText)};
 
 /* Library group */
@@ -48,10 +49,26 @@ static ISwitchVectorProperty SolarSw         = { mydev, "SOLAR_SYSTEM", "Solar S
 static INumber ObjectN[] = { "ObjectN", "Number", "%g", 1., 10000., 1., 0.};
 static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN) };
 
+static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9.}};
+static INumberVectorProperty MaxSlewRate = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew)};
+
+void changeLX200ClassicDeviceName(char *newName)
+{
+ strcpy(ObjectInfo.device, newName);
+ strcpy(SolarSw.device, newName);
+ strcpy(StarCatalogSw.device, newName);
+ strcpy(DeepSkyCatalogSw.device, newName);
+ strcpy(ObjectNo.device, newName);
+ strcpy(MaxSlewRate.device , newName );
+}
+
 LX200Classic::LX200Classic() : LX200Generic()
 {
-   ObjectInfo.t[0].text = new char[128];
-   strcpy(ObjectInfo.t[0].text, ""); 
+   ObjectInfo.tp[0].text = new char[128];
+   strcpy(ObjectInfo.tp[0].text, ""); 
+   
+   currentCatalog = LX200_STAR_C;
+   currentSubCatalog = 0;
 
 }
 
@@ -59,47 +76,80 @@ LX200Classic::LX200Classic() : LX200Generic()
 void LX200Classic::ISGetProperties (const char *dev)
 {
 
-if (dev && strcmp (mydev, dev))
+if (dev && strcmp (thisDevice, dev))
     return;
 
   LX200Generic::ISGetProperties(dev);
 
-  IDDefText   (&ObjectInfo);
-  IDDefSwitch (&SolarSw);
-  IDDefSwitch (&StarCatalogSw);
-  IDDefSwitch (&DeepSkyCatalogSw);
-  IDDefNumber (&ObjectNo);
+  IDDefText   (&ObjectInfo, NULL);
+  IDDefSwitch (&SolarSw, NULL);
+  IDDefSwitch (&StarCatalogSw, NULL);
+  IDDefSwitch (&DeepSkyCatalogSw, NULL);
+  IDDefNumber (&ObjectNo, NULL);
+  IDDefNumber (&MaxSlewRate, NULL);
 
 }
 
 void LX200Classic::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-  LX200Generic::ISNewText (dev, name, texts, names, n);
+    // ignore if not ours //
+	if (strcmp (dev, thisDevice))
+	    return;
 
+  LX200Generic::ISNewText (dev, name, texts, names, n);
 }
 
 
 void LX200Classic::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
+    int err=0;
+    
+    // ignore if not ours //
+	if (strcmp (dev, thisDevice))
+	    return;
+
     if ( !strcmp (name, ObjectNo.name) )
 	{
 	  if (checkPower(&ObjectNo))
 	    return;
 
 	  selectCatalogObject( currentCatalog, (int) values[0]);
-          getObjectInfo(ObjectText[0].text);
-	  eqNum.n[0].value = getLX200RA();
-	  eqNum.n[1].value = getLX200DEC();
+           
+	  getLX200RA(&eqNum.np[0].value);
+	  getLX200DEC(&eqNum.np[1].value);
 
 	  ObjectNo.s = eqNum.s = IPS_OK;
 	  IDSetNumber(&ObjectNo , "Object updated");
 	  IDSetNumber(&eqNum, NULL);
-	  IDSetText  (&ObjectInfo, NULL);
+	  
+	  if (getObjectInfo(ObjectText[0].text) < 0)
+	    IDMessage(thisDevice, "Getting object info failed.");
+	  else
+	    IDSetText  (&ObjectInfo, NULL);
 
 	  handleCoordSet();
 
 	  return;
         }
+	
+    if ( !strcmp (name, MaxSlewRate.name) )
+    {
+
+	 if (checkPower(&MaxSlewRate))
+	  return;
+
+	 if ( ( err = setMaxSlewRate( (int) values[0]) < 0) )
+	 {
+	        handleError(&MaxSlewRate, err, "Setting maximum slew rate");
+		return;
+	 }
+	  MaxSlewRate.s = IPS_OK;
+	  MaxSlewRate.np[0].value = values[0];
+	  IDSetNumber(&MaxSlewRate, NULL);
+	  return;
+    }
+
+
 
 
     LX200Generic::ISNewNumber (dev, name, values, names, n);
@@ -109,16 +159,22 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
  {
 
       int index=0;
-
+      
+      IDLog("The device name is %s\n", dev);
+      
+      // ignore if not ours //
+	if (strcmp (dev, thisDevice))
+	    return;
+      
         // Star Catalog
 	if (!strcmp (name, StarCatalogSw.name))
 	{
 	  if (checkPower(&StarCatalogSw))
 	   return;
 
-	 index = getOnSwitch(states, n);
-	 resetSwitches(&StarCatalogSw);
-	 StarCatalogSw.sw[index].s = ISS_ON;
+	 IUResetSwitches(&StarCatalogSw);
+	 IUUpdateSwitches(&StarCatalogSw, states, names, n);
+	 index = getOnSwitch(&StarCatalogSw);
 
 	 currentCatalog = LX200_STAR_C;
 
@@ -142,9 +198,9 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (checkPower(&DeepSkyCatalogSw))
 	   return;
 
-	index = getOnSwitch(states, n);
-	resetSwitches(&DeepSkyCatalogSw);
-	DeepSkyCatalogSw.sw[index].s = ISS_ON;
+	IUResetSwitches(&DeepSkyCatalogSw);
+	IUUpdateSwitches(&DeepSkyCatalogSw, states, names, n);
+	index = getOnSwitch(&DeepSkyCatalogSw);
 
 	  if (index == LX200_MESSIER_C)
 	  {
@@ -170,13 +226,16 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  return;
 	}
 
+	// Solar system
 	if (!strcmp (name, SolarSw.name))
 	{
 
 	  if (checkPower(&SolarSw))
 	   return;
 
-	index = getOnSwitch(states, n);
+	   IUResetSwitches(&SolarSw);
+	   IUUpdateSwitches(&SolarSw, states, names, n);
+	   index = getOnSwitch(&SolarSw);
 
 	  // We ignore the first option : "Select item"
 	  if (index == 0)
@@ -186,24 +245,21 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	    return;
 	  }
 
-          resetSwitches(&SolarSw);
-	  SolarSw.sw[index].s = ISS_ON;
-
           selectSubCatalog ( LX200_STAR_C, LX200_STAR);
 	  selectCatalogObject( LX200_STAR_C, index + 900);
 
 	  ObjectNo.s = IPS_OK;
 	  SolarSw.s  = IPS_OK;
 
-	  getObjectInfo(ObjectInfo.t[0].text);
-	  IDSetNumber(&ObjectNo , "Object updated");
+	  getObjectInfo(ObjectInfo.tp[0].text);
+	  IDSetNumber(&ObjectNo , "Object updated.");
 	  IDSetSwitch(&SolarSw, NULL);
 
 	  if (currentCatalog == LX200_STAR_C || currentCatalog == LX200_DEEPSKY_C)
 	  	selectSubCatalog( currentCatalog, currentSubCatalog);
 
-	  targetRA = getObjectRA();
-	  targetDEC = getObjectDEC();
+	  getObjectRA(&targetRA);
+	  getObjectDEC(&targetDEC);
 
 	  handleCoordSet();
 

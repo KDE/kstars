@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
-
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>

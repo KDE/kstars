@@ -18,11 +18,10 @@
 
 #endif
 
-/* little XML parser.
- * only handles elements, attributes and content.
+/* little DOM-style XML parser.
+ * only handles elements, attributes and pcdata content.
  * <! ... > and <? ... > are silently ignored.
- * all content is collected into one string, sans leading whitespace first line.
- * attribute name and valu and element tag and pcdata are always at least "".
+ * pcdata is collected into one string, sans leading whitespace first line.
  *
  * #define MAIN_TST to create standalone test program
  */
@@ -42,10 +41,11 @@ static void resetEndTag(LilXML *lp);
 static void addAttr(LilXML *lp);
 static void delAttr (XMLAtt *a);
 static int isTokenChar (int start, int c);
-static void growString (char **sp, char c);
-static void growPCData (XMLEle *ep, char c);
+static void growString (char **sp, int c);
+static void growPCData (XMLEle *ep, int c);
 static char *newString (void);
 static void *moremem (void *old, int n);
+static void freemem (void *m);
 
 typedef enum  {
     LOOK4START = 0,			/* looking for first element start */
@@ -60,7 +60,7 @@ typedef enum  {
     INCON,				/* reading content */
     LTINCON,				/* saw < in content */
     LOOK4CLOSETAG,			/* looking for closing tag after < */
-    INCLOSETAG,				/* reading closing tag */
+    INCLOSETAG				/* reading closing tag */
 } State;				/* parsing states */
 
 /* maintain state while parsing */
@@ -74,11 +74,32 @@ struct _LilXML {
     int skipping;			/* in comment or declaration */
 };
 
+/* internal representation of a (possibly nested) XML element */
+struct _xml_ele {
+    char *tag;			/* element tag */
+    struct _xml_ele *pe;	/* parent element, or NULL if root */
+    XMLAtt **at;		/* list of attributes */
+    int nat;			/* number of attributes */
+    int ait;			/* used to iterate over at[] */
+    struct _xml_ele **el;	/* list of child elements */
+    int nel;			/* number of child elements */
+    int eit;			/* used to iterate over el[] */
+    char *pcdata;		/* character data in this element */
+    int pcdatal;		/* handy length sans \0 (tends to be big) */
+};
+
+/* internal representation of an attribute */
+struct _xml_att {
+    char *name;			/* name */
+    char *valu;			/* value */
+    struct _xml_ele *ce;	/* containing element */
+};
+
 /* pass back a fresh handle for use with our other functions */
 LilXML *
 newLilXML ()
 {
-	LilXML *lp = (LilXML *) calloc (1, sizeof(LilXML));
+	LilXML *lp = (LilXML *) moremem (NULL, sizeof(LilXML));
 	initParser(lp);
 	return (lp);
 }
@@ -87,7 +108,35 @@ newLilXML ()
 void
 delLilXML (LilXML *lp)
 {
-	free (lp);
+	freemem (lp);
+}
+
+/* delete ep and all its children */
+void
+delXMLEle (XMLEle *ep)
+{
+	int i;
+
+	/* benign if NULL */
+	if (!ep)
+	    return;
+
+	/* delete all parts of ep */
+	freemem (ep->tag);
+	freemem (ep->pcdata);
+	if (ep->at) {
+	    for (i = 0; i < ep->nat; i++)
+		delAttr (ep->at[i]);
+	    freemem (ep->at);
+	}
+	if (ep->el) {
+	    for (i = 0; i < ep->nel; i++)
+		delXMLEle (ep->el[i]);
+	    freemem (ep->el);
+	}
+
+	/* delete ep itself */
+	freemem (ep);
 }
 
 /* process one more character of an XML file.
@@ -151,7 +200,7 @@ readXMLEle (LilXML *lp, int newc, char errmsg[])
 	if (s < 0) {
 	    initParser(lp);
 	    return (NULL);
-	} 
+	}
 
 	/* Ok! return ce and we start over.
 	 * N.B. up to caller to call delXMLEle with what we return.
@@ -160,6 +209,163 @@ readXMLEle (LilXML *lp, int newc, char errmsg[])
 	lp->ce = NULL;
 	initParser(lp);
 	return (root);
+}
+
+/* search ep for an attribute with given name.
+ * return NULL if not found.
+ */
+XMLAtt *
+findXMLAtt (XMLEle *ep, const char *name)
+{
+	int i;
+
+	for (i = 0; i < ep->nat; i++)
+	    if (!strcmp (ep->at[i]->name, name))
+		return (ep->at[i]);
+	return (NULL);
+}
+
+/* search ep for an element with given tag.
+ * return NULL if not found.
+ */
+XMLEle *
+findXMLEle (XMLEle *ep, const char *tag)
+{
+	int i;
+
+	for (i = 0; i < ep->nel; i++)
+	    if (!strcmp (ep->el[i]->tag, tag))
+		return (ep->el[i]);
+	return (NULL);
+}
+
+/* iterate over each child element of ep.
+ * call first time with first set to 1, then 0 from then on.
+ * returns NULL when no more or err
+ */
+XMLEle *
+nextXMLEle (XMLEle *ep, int init)
+{
+	int eit;
+	
+	if (init)
+	    ep->eit = 0;
+
+	eit = ep->eit++;
+	if (eit < 0 || eit >= ep->nel)
+	    return (NULL);
+	return (ep->el[eit]);
+}
+
+/* iterate over each attribute of ep.
+ * call first time with first set to 1, then 0 from then on.
+ * returns NULL when no more or err
+ */
+XMLAtt *
+nextXMLAtt (XMLEle *ep, int init)
+{
+	int ait;
+
+	if (init)
+	    ep->ait = 0;
+
+	ait = ep->ait++;
+	if (ait < 0 || ait >= ep->nat)
+	    return (NULL);
+	return (ep->at[ait]);
+}
+
+/* return parent of given XMLEle */
+XMLEle *
+parentXMLEle (XMLEle *ep)
+{
+	return (ep->pe);
+}
+
+/* return parent element of given XMLAtt */
+XMLEle *
+parentXMLAtt (XMLAtt *ap)
+{
+	return (ap->ce);
+}
+
+/* access functions */
+
+/* return the tag name of the given element */
+char *
+tagXMLEle (XMLEle *ep)
+{
+	return (ep->tag);
+}
+
+/* return the pcdata portion of the given element */
+char *
+pcdataXMLEle (XMLEle *ep)
+{
+	return (ep->pcdata);
+}
+
+/* return the number of characters in the pcdata portion of the given element */
+int 
+pcdatalenXMLEle (XMLEle *ep)
+{
+	return (ep->pcdatal);
+}
+
+/* return the nanme of the given attribute */
+char *
+nameXMLAtt (XMLAtt *ap)
+{
+	return (ap->name);
+}
+
+/* return the value of the given attribute */
+char *
+valuXMLAtt (XMLAtt *ap)
+{
+	return (ap->valu);
+}
+
+/* return the number of child elements of the given element */
+int
+nXMLEle (XMLEle *ep)
+{
+	return (ep->nel);
+}
+
+/* return the number of attributes in the given element */
+int
+nXMLAtt (XMLEle *ep)
+{
+	return (ep->nat);
+}
+
+
+/* search ep for an attribute with the given name and return its value.
+ * return "" if not found.
+ */
+char *
+findXMLAttValu (XMLEle *ep, char *name)
+{
+	XMLAtt *a = findXMLAtt (ep, name);
+	return (a ? a->valu : "");
+}
+
+/* handy wrapper to read one xml file.
+ * return root element else NULL with report in errmsg[]
+ */
+XMLEle *
+readXMLFile (FILE *fp, LilXML *lp, char errmsg[])
+{
+	int c;
+
+	while ((c = fgetc(fp)) != EOF) {
+	    XMLEle *root = readXMLEle (lp, c, errmsg);
+	    if (root || errmsg[0])
+		return (root);
+	}
+
+	return (NULL);
 }
 
 /* sample print ep to fp
@@ -196,62 +402,6 @@ prXMLEle (FILE *fp, XMLEle *ep, int level)
 	    fprintf (fp, "%*s</%s>\n", indent, "", ep->tag);
 	else
 	    fprintf (fp, "/>\n");
-}
-
-/* delete ep and all its children */
-void
-delXMLEle (XMLEle *ep)
-{
-	int i;
-
-	/* benign if NULL */
-	if (!ep)
-	    return;
-
-	/* delete all parts of ep */
-	free (ep->tag);
-	free (ep->pcdata);
-	if (ep->at) {
-	    for (i = 0; i < ep->nat; i++)
-		delAttr (ep->at[i]);
-	    free (ep->at);
-	}
-	if (ep->el) {
-	    for (i = 0; i < ep->nel; i++)
-		delXMLEle (ep->el[i]);
-	    free (ep->el);
-	}
-
-	/* delete ep itself */
-	free (ep);
-}
-
-/* search ep for an attribute with given name.
- * return NULL if not found.
- */
-XMLAtt *
-findXMLAtt (XMLEle *ep, const char *name)
-{
-	int i;
-
-	for (i = 0; i < ep->nat; i++)
-	    if (!strcmp (ep->at[i]->name, name))
-		return (ep->at[i]);
-	return (NULL);
-}
-
-/* search ep for an element with given tag.
- * return NULL if not found.
- */
-XMLEle *
-findXMLEle (XMLEle *ep, const char *tag)
-{
-	int i;
-
-	for (i = 0; i < ep->nel; i++)
-	    if (!strcmp (ep->el[i]->tag, tag))
-		return (ep->el[i]);
-	return (NULL);
 }
 
 
@@ -304,8 +454,8 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		growString (&lp->ce->at[lp->ce->nat-1]->name, c);
 		lp->cs = INATTRN;
 	    } else if (!isspace(c)) {
-		sprintf (errmsg, "Line %d: Bogus 1st attr name char: %c",lp->ln,
-									    c);
+		sprintf (errmsg, "Line %d: Bogus leading attr name char: %c",
+								    lp->ln, c);
 		return (-1);
 	    }
 	    break;
@@ -339,7 +489,8 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		growString (&lp->ce->at[lp->ce->nat-1]->valu, '\0');
 		lp->cs = INATTRV;
 	    } else if (!(isspace(c) || c == '=')) {
-		sprintf (errmsg, "Line %d: No attribute value", lp->ln);
+		sprintf (errmsg, "Line %d: No value for attribute %s", lp->ln,
+					    lp->ce->at[lp->ce->nat-1]->name);
 		return (-1);
 	    }
 	    break;
@@ -428,6 +579,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 static void
 initParser(LilXML *lp)
 {
+	memset (lp, 0, sizeof(*lp));
 	lp->cs = LOOK4START;
 	lp->ln = 1;
 	delXMLEle (lp->ce);
@@ -445,9 +597,10 @@ initParser(LilXML *lp)
 static void
 pushXMLEle(LilXML *lp)
 {
-	XMLEle *newe = (XMLEle *) calloc (1, sizeof(XMLEle));
+	XMLEle *newe = (XMLEle *) moremem (NULL, sizeof(XMLEle));
 	XMLEle *ce = lp->ce;
 
+	memset (newe, 0, sizeof(*newe));
 	newe->tag = newString();
 	newe->pcdata = newString();
 	newe->pe = ce;
@@ -474,9 +627,10 @@ popXMLEle(LilXML *lp)
 static void
 addAttr(LilXML *lp)
 {
-	XMLAtt *newa = (XMLAtt *) calloc (1, sizeof(XMLAtt));
+	XMLAtt *newa = (XMLAtt *) moremem (NULL, sizeof(XMLAtt));
 	XMLEle *ce = lp->ce;
 
+	memset (newa, 0, sizeof(*newa));
 	newa->name = newString();
 	newa->valu = newString();
 	newa->ce = ce;
@@ -492,10 +646,10 @@ delAttr (XMLAtt *a)
 	if (!a)
 	    return;
 	if (a->name)
-	    free (a->name);
+	    freemem (a->name);
 	if (a->valu)
-	    free (a->valu);
-	free(a);
+	    freemem (a->valu);
+	freemem(a);
 }
 
 /* delete endtag if appropriate */
@@ -503,7 +657,7 @@ static void
 resetEndTag(LilXML *lp)
 {
 	if (lp->endtag) {
-	    free (lp->endtag);
+	    freemem (lp->endtag);
 	    lp->endtag = 0;
 	}
 }
@@ -519,11 +673,11 @@ isTokenChar (int start, int c)
 
 /* grow the malloced string at *sp to append c */
 static void
-growString (char **sp, char c)
+growString (char **sp, int c)
 {
 	int l = *sp ? strlen(*sp) : 0;
 	*sp = (char *) moremem (*sp, l+2);	/* c + '\0' */
-	(*sp)[l++] = c;
+	(*sp)[l++] = (char)c;
 	(*sp)[l] = '\0';
 }
 
@@ -531,14 +685,14 @@ growString (char **sp, char c)
  * strlens and tiny increments in allocated mem
  */
 static void
-growPCData (XMLEle *ep, char c)
+growPCData (XMLEle *ep, int c)
 {
 	int l = ep->pcdatal++;
 	if ((l%32) == 0) {
 	    int nm = 32*(l/32+1) + 2;               /* c + '\0' */
-	    ep->pcdata = realloc (ep->pcdata, nm);
+	    ep->pcdata = (char *) moremem (ep->pcdata, nm);
 	}
-	ep->pcdata[l++] = c;
+	ep->pcdata[l++] = (char)c;
 	ep->pcdata[l] = '\0';
 }
 
@@ -548,7 +702,7 @@ newString()
 {
 	char *str;
 	
-	*(str = (char *)malloc(16)) = '\0';	/* expect more */
+	*(str = (char *)moremem(NULL, 16)) = '\0';	/* expect more */
 	return (str);
 }
 
@@ -558,6 +712,12 @@ moremem (void *old, int n)
 	return (old ? realloc (old, n) : malloc (n));
 }
 
+static void
+freemem (void *m)
+{
+	free (m);
+}
+
 #if defined(MAIN_TST)
 int
 main (int ac, char *av[])
@@ -565,17 +725,14 @@ main (int ac, char *av[])
 	LilXML *lp = newLilXML();
 	char errmsg[1024];
 	XMLEle *root;
-	int c;
 
-	while ((c = fgetc(stdin)) != EOF) {
-	    root = readXMLEle (lp, c, errmsg);
-	    if (root) {
-		fprintf (stderr, "::::::::::::: %s\n", root->tag);
-		prXMLEle (stdout, root, 0);
-		delXMLEle (root);
-	    } else if (errmsg[0]) {
-		fprintf (stderr, "Error: %s\n", errmsg);
-	    }
+	root = readXMLFile (stdin, lp, errmsg);
+	if (root) {
+	    fprintf (stderr, "::::::::::::: %s\n", tagXMLEle(root));
+	    prXMLEle (stdout, root, 0);
+	    delXMLEle (root);
+	} else if (errmsg[0]) {
+	    fprintf (stderr, "Error: %s\n", errmsg);
 	}
 
 	delLilXML (lp);
