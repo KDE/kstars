@@ -221,11 +221,11 @@ bool TimeZoneRule::isDSTActive( const QDateTime date ) {
 	return true;
 }
 
-QDateTime TimeZoneRule::nextDSTChange( const QDateTime date ) {
+void TimeZoneRule::nextDSTChange_LTime( const QDateTime date ) {
 	QDateTime result;
 
 	// return a very remote date if the rule is the empty rule.
-	if ( isEmptyRule() ) return QDateTime( QDate( 8000, 1, 1 ), QTime() );
+	if ( isEmptyRule() ) next_change_ltime = QDateTime( QDate( 8000, 1, 1 ), QTime() );
 
 	if ( deltaTZ() ) {
 		// Next change is reverting back to standard time.
@@ -248,16 +248,16 @@ QDateTime TimeZoneRule::nextDSTChange( const QDateTime date ) {
 		if ( StartMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day() ), StartTime);
 	}
 
-	kdDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString() << endl;
-	return result;
+	kdDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
+	next_change_ltime = result;
 }
 
 
-QDateTime TimeZoneRule::previousDSTChange( const QDateTime date ) {
+void TimeZoneRule::previousDSTChange_LTime( const QDateTime date ) {
 	QDateTime result;
 
 	// return a very remote date if the rule is the empty rule
-	if ( isEmptyRule() ) return QDateTime( QDate( 1783, 1, 1 ), QTime() );
+	if ( isEmptyRule() ) next_change_ltime = QDateTime( QDate( 1783, 1, 1 ), QTime() );
 
 	if ( deltaTZ() ) {
 		// Last change was starting DST.
@@ -279,61 +279,76 @@ QDateTime TimeZoneRule::previousDSTChange( const QDateTime date ) {
 		if ( RevertMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day() ), RevertTime);
 	}
 
+	kdDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
+	next_change_ltime = result;
+}
+
+/**Convert current local DST change time in universal time */
+void TimeZoneRule::nextDSTChange( const QDateTime local_date, const double TZoffset ) {
+	// just decrement timezone offset and hour offset
+	QDateTime result = local_date.addSecs( int( (TZoffset + deltaTZ()) * -3600) );
+
+	kdDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString() << endl;
+	next_change_utc = result;
+}
+
+/**Convert current local DST change time in universal time */
+void TimeZoneRule::previousDSTChange( const QDateTime local_date, const double TZoffset ) {
+	// just decrement timezone offset
+	QDateTime result = local_date.addSecs( int( TZoffset * -3600) );
+
+	// if prev DST change is a revert change, so the revert time is in daylight saving time
+	if ( result.date().month() == RevertMonth )
+		result = result.addSecs( int(HourOffset * -3600) );
+	
 	kdDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString() << endl;
-	return result;
-}
-
-QDateTime TimeZoneRule::nextDSTChange_LTime( const QDateTime local_date, const double TZoffset ) {
-/**calculate next dst change time without timezone offset, to avoid wrong calculation
-	example: on dst change revert day
-	change time (UTC) is 01:00, local time is 01:30, timezone offset is +1 hour
-	without correction the function thinks that dst is inactive (but it's active) and calculate the next dst change
-	after current (not happend) dst change
-*/
-	QDateTime next_dst_change = nextDSTChange( local_date.addSecs( int(TZoffset * -3600) ) );
-	
-	// add timezone offset to UTC change time (now it's local time without DST offset)
-	next_dst_change = next_dst_change.addSecs( int(TZoffset * 3600) );
-
-	// if next dst change is a revert, so the revert time is in daylight saving time
-	if ( next_dst_change.date().month() == RevertMonth )
-		next_dst_change = next_dst_change.addSecs( int(HourOffset * 3600) );
-	
-	kdDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << next_dst_change.toString() << endl;
-	return next_dst_change;
-}
-
-QDateTime TimeZoneRule::previousDSTChange_LTime( const QDateTime local_date, const double TZoffset ) {
-
-	// it's similar to TimeZoneRule::nextDSTChange(QDateTime, double)
-	QDateTime prev_dst_change = previousDSTChange( local_date.addSecs( int(TZoffset * -3600) ) );
-
-	// add timezone offset to UTC change time (now it's local time without DST offset)
-	prev_dst_change = prev_dst_change.addSecs( int(TZoffset * 3600) );
-
-	// if prev dst change is a revert change, so the revert time is in daylight saving time
-	if ( prev_dst_change.date().month() == RevertMonth )
-		prev_dst_change = prev_dst_change.addSecs( int(HourOffset * 3600) );
-	
-	kdDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << prev_dst_change.toString() << endl;
-	return prev_dst_change;
+	next_change_utc = result;
 }
 
 void TimeZoneRule::reset_with_ltime( const QDateTime ltime, const double TZoffset, const bool time_runs_forward ) {
-	QDateTime utime = ltime.addSecs( int(TZoffset * -3600) );
-	// check if dst is active and save status
-	setDST( isDSTActive(utime) );
-	/**If dst is active, the universal time is incorrect by the hour offset, but this doesn't affect
-		the calculation of next and previous dst change times. Store calculated dates/times.*/
-	if (time_runs_forward)
-		next_change = nextDSTChange( utime );
-	else
-		next_change = previousDSTChange( utime );
-}
 
-void TimeZoneRule::reset_with_utc( const QDateTime utime, const bool time_runs_forward ) {
-	// just use ltime function with 0.0 timezone offset
-	reset_with_ltime( utime, 0.0, time_runs_forward );
+	// check if current time is start time, this means if a DST change happend in last time
+	bool active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * -3600) ) );
+	bool active_normal = isDSTActive( ltime );
+
+	// store a valid local time
+	ValidLTime = ltime;
+
+	if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth ) {
+		// current time == start time -> set DST inactive
+		kdDebug() << "Current time = Starttime: invalid local time due to daylight saving time" << endl;
+		// set a correct local time because the current time doesn't exists
+		if ( time_runs_forward ) {
+			// activate DST if time runs forward
+			ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
+			setDST( true );
+		} else {
+			// deactivate DST if time runs backward and set back local time
+			ValidLTime = ltime.addSecs( int( HourOffset * - 3600) );
+			setDST( false );
+		}
+	} else {
+		// current time was not start time
+		// so check if current time is revert time and deactivate DST if necessary
+		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
+		if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
+			kdDebug() << "Current time = Reverttime: deactivate DST" << endl;
+			setDST( false );
+		}
+		else
+		// current time was not starttime or reverttime
+			setDST( active_normal );
+	}
+	
+	if (time_runs_forward) {
+		// get next DST change time in local time
+		nextDSTChange_LTime( ltime );
+		nextDSTChange( next_change_ltime, TZoffset );
+	} else {
+		// get previous DST change time in local time
+		previousDSTChange_LTime( ltime );
+		previousDSTChange( next_change_ltime, TZoffset );
+	}
 }
 
 bool TimeZoneRule::equals( TimeZoneRule *r ) {

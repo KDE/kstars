@@ -69,21 +69,6 @@ public:
 /**@returns true if the rule is the "empty" TZ rule. */
 	bool isEmptyRule( void ) { if ( HourOffset ) return false; else return true; }
 
-/**@returns the QDateTime of the moment when the next DST change will occur in universal time */
-	QDateTime nextDSTChange( const QDateTime date );
-
-/**@returns the QDateTime of the moment when the last DST change occurred in universal time
-	*We need this in case time is running backwards. */
-	QDateTime previousDSTChange( const QDateTime date );
-
-/**@returns the QDateTime in local time for current location and dst when the next DST change will occure
-	*This function may be used by information dialogs etc. It's not needed for internal calculations of right DST. */
-	QDateTime nextDSTChange_LTime( const QDateTime local_date, const double TZoffset );
-
-/**@returns the QDateTime of the moment when the last DST change occurred in local time
-	*This function may be used by information dialogs etc. It's not needed for internal calculations of right DST. */
-	QDateTime previousDSTChange_LTime( const QDateTime local_date, const double TZoffset );
-
 /**@Toggle DST on/off.  The "activate" argument should always be isDSTActive() */
 	void setDST( bool activate=true );
 
@@ -91,24 +76,43 @@ public:
 	*This is typically 0.0 if DST is inactive, and 1.0 if DST is active. */
 	double deltaTZ() const { return dTZ; }
 
-/**@Recalculate next dst change and if dst is active by a given local time with timezone offset and time direction.
+/**@Recalculate next dst change and if DST is active by a given local time with timezone offset and time direction.
 	*/
 	void reset_with_ltime( const QDateTime ltime, const double TZoffset, const bool time_runs_forward );
 
-/**@Recalculate next dst change and if dst is active by a given universal time and time direction.
-	*Uses internal reset_with_ltime.
+/**@Returns computed value for next DST change in universal time.
 	*/
-	void reset_with_utc( const QDateTime utime, const bool time_runs_forward );
+	QDateTime nextDSTChange() { return next_change_utc; }
 
-/**@Returns computed value for next DST change.
+/**@Returns computed value for next DST change in local time.
 	*/
-	QDateTime nextDSTChange() { return next_change; }
+	QDateTime nextDSTChange_LTime() { return next_change_ltime; }
+
+/**Returns a valid local time. Changed by reset_with_ltime.
+	*/
+	QDateTime validLTime() { return ValidLTime; }
 
 	bool equals( TimeZoneRule *r );
 
 	int StartMonth, RevertMonth;
 
 private:
+
+/**@returns the QDateTime of the moment when the next DST change will occur in local time
+	*This is useful because DST change times are saved in local times*/
+	void nextDSTChange_LTime( const QDateTime date );
+
+/**@returns the QDateTime of the moment when the last DST change occurred in local time
+	*This is useful because DST change times are saved in local times
+	*We need this in case time is running backwards. */
+	void previousDSTChange_LTime( const QDateTime date );
+
+/**@calculate the next DST change in universal time for current location */
+	void nextDSTChange( const QDateTime local_date, const double TZoffset );
+
+/**@calculate the previous DST change in universal time for current location */
+	void previousDSTChange( const QDateTime local_date, const double TZoffset );
+
 /**Interpret the string as a month of the year; return the month integer
 	*(1=jan; 12=dec) */
 	int initMonth( const QString m );
@@ -131,8 +135,15 @@ private:
 	int StartDay, RevertDay;
 	int StartWeek, RevertWeek;
 	QTime StartTime, RevertTime;
-	QDateTime next_change;
+	QDateTime next_change_utc, next_change_ltime;
 	double dTZ, HourOffset;
+	
+/**In some cases the input local time is invalid. For example the local time is 2:30 at start day,
+	*but DST change is at 02:00 to 03:00, so this time doesn't exists. reset_with_ltime checks,
+	*if time is valid and changes to a valid if necessary. This can just happen if somebody tries to set
+	*the time manually (like KStars::changeTime()) and should checked there for valid time.
+	*/
+	QDateTime ValidLTime;
 };
 
 #endif

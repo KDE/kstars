@@ -112,6 +112,9 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 
 	// reset tzrules data with newlocal time and time direction (forward or backward)
 	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
+	// Reset the local time to a valid local time. See TimeZoneRule for explanation.
+	new_time = Geo->tzrule()->validLTime();
+	
 	// reset next dst change time
 	Data->setNextDSTChange( KSUtils::UTtoJulian( Geo->tzrule()->nextDSTChange() ) );
 

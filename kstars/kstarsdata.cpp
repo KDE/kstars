@@ -1016,8 +1016,8 @@ void KStarsData::slotInitialize() {
 }
 
 void KStarsData::resetToNewDST(const GeoLocation *geo) {
-	// reset tzrules data with universal time and time direction (forward or backward)
-	geo->tzrule()->reset_with_utc( UTime, TimeRunsForward );
+	// reset tzrules data with local time, timezone offset and time direction (forward or backward)
+	geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward );
 	// reset next DST change time
 	setNextDSTChange( KSUtils::UTtoJulian( geo->tzrule()->nextDSTChange() ) );
 	//reset LTime, because TZoffset has changed
