@@ -648,7 +648,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			if ( e->button() == LeftButton ) {
 				//Display name in status bar
-				ksw->statusBar()->changeItem( clickedObject()->longname(), 0 );
+				ksw->statusBar()->changeItem( i18n(clickedObject()->longname().latin1()), 0 );
 
 				//show label in skymap
 //				labelClickedObject = true;
@@ -1108,14 +1108,16 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
   }
 
+	// stars and planets use the same font size
+	if ( ksw->data()->ZoomLevel < 6 ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
 	//Draw Stars
 	if ( ksw->options()->drawSAO ) {
 
-		if ( ksw->data()->ZoomLevel < 6 ) {
-			psky.setFont( smallFont );
-		} else {
-			psky.setFont( stdFont );
-		}
 		float maglim;
 		float maglim0 = ksw->options()->magLimitDrawStar;
 		float zoomlim = 7.0 + float( ksw->data()->ZoomLevel )/4.0;
@@ -1233,8 +1235,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 
 						int Size = int( obj->a()*dms::PI*pixelScale[ ksw->data()->ZoomLevel ]/10800.0 );
 
-						drawSymbol( psky, obj->type(),
-												o.x(), o.y(), Size, obj->e(), PositionAngle );
+						drawSymbol( psky, type, o.x(), o.y(), Size, obj->e(), PositionAngle );
 					}
 				}
 			} else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
