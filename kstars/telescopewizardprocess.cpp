@@ -33,7 +33,7 @@
 
 #define TIMEOUT_THRESHHOLD	20
 
-telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : telescopeWizard(parent, name)//, INTRO_P(0), MODEL_P(1), TELESCOPE_P(2), LOCAL_P(3), PORT_P(4)
+telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : telescopeWizard(parent, name), portLimit(9)
 {
    currentPort  = -1;
    timeOutCount = 0;
@@ -114,7 +114,7 @@ progressScan = new KProgressDialog(this, "autoscan", i18n("Autoscan"), i18n("Ple
    progressScan->setAllowCancel(true);
    progressScan->setAutoClose(true);
    progressScan->setAutoReset(true);
-   progressScan->progressBar()->setRange(0, 11);
+   progressScan->progressBar()->setRange(0, portLimit);
    progressScan->progressBar()->setValue(0);
    progressScan->show();
     }
@@ -318,7 +318,7 @@ void telescopeWizardProcess::scanPorts()
 
      //fprintf(stderr, "\n *** in scan ports, port is %d \n", currentPort);
 
-     if (currentPort > 9)
+     if (currentPort > portLimit)
      {
       Reset();
       KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));

@@ -45,6 +45,7 @@ private:
 	char *currentLabel;
 	int currentPort;
 	int timeOutCount;
+	const int portLimit;
 	bool INDIMessageBar;
 
 	int establishLink();
