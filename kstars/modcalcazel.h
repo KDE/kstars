@@ -42,13 +42,25 @@ public:
 	
 public slots:
 
-  /** No descriptions */
-  void slotComputeCoords();
-  /** No descriptions */
-  void slotClearCoords();
+	/** No descriptions */
+	void slotComputeCoords();
+	/** No descriptions */
+	void slotClearCoords();
+	void slotUtChecked();
+	void slotDateChecked();
+	void slotRaChecked();
+	void slotDecChecked();
+	void slotEpochChecked();
+	void slotLongChecked();
+	void slotLatChecked();
+	void slotAzChecked();
+	void slotElChecked();
+	void slotInputFile();
+	void slotOutputFile();
+	void slotRunBatch();
 
 private:
-  
+
 	/**@returns a SkyPoint constructed from the coordinates in the 
 	 * RA and Dec dmsBoxes. */
 	SkyPoint getEquCoords(void);
@@ -104,7 +116,12 @@ private:
 
 	void getGeoLocation (void);
 
+	void modCalcAzel::horNoCheck();
+	void modCalcAzel::equNoCheck();
+	void modCalcAzel::processLines( QTextStream &istream );
+  
 	GeoLocation *geoPlace;
+	bool horInputCoords;
 
 };
 
