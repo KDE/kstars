@@ -6,6 +6,9 @@
 </author>
 </sect1info>
 <title>Universal Time</title>
+<indexterm><primary>Universal Time</primary>
+<seealso>Time Zones</seealso>
+</indexterm>
 <para>
 The time on our clocks is essentially a measurement of the current position of
 the Sun in the sky, which is different for places at different Longitudes

@@ -3,6 +3,7 @@
 
 <sect1 id="kstars-menus">
 <title>Menu Commands</title>
+<indexterm><primary>Commands</primary><secondary>Menu</secondary></indexterm>
 
 <sect2>
 <title><guimenu>File</guimenu> Menu</title>
@@ -275,6 +276,9 @@ coordinates to center on.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycap>Space</keycap>
+</shortcut>
 <guimenu>View</guimenu>
 <guimenuitem>Horizontal/Equatorial Coordinates</guimenuitem>
 </menuchoice></term>
@@ -394,6 +398,9 @@ location</link>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
 <guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
@@ -581,8 +588,10 @@ from &kstars;.</para></listitem>
 
 <sect2 id="popup-menu">
 <title>Popup Menu</title>
+<indexterm><primary>Popup Menu</primary><secondary>Description</secondary></indexterm>
 
-<para>The <mousebutton>right</mousebutton> click popup menu is
+<para>
+The <mousebutton>right</mousebutton> click popup menu is
 context-sensitive, meaning it is different depending on what kind of
 object you click on.  We list all possible popup menu items here, with
 the object type [in brackets].</para>
@@ -675,6 +684,9 @@ taken, and we include over 100 of them in our database of links.
 <varlistentry>
 <term>[All Named Objects]</term>
 <listitem><para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Internet Links</secondary>
+<tertiary>Customizing</tertiary></indexterm>
 <guimenuitem>Add Link...</guimenuitem>: This allows you to add your own
 custom links to the popup menu of any object.  It opens a small window
 in which you enter the &URL; of the link, and the text you want to
@@ -701,6 +713,8 @@ include them in the next version of &kstars;!
 
 <sect1 id="kstars-keys">
 <title>Keyboard Commands</title>
+<indexterm><primary>Commands</primary><secondary>Keyboard</secondary></indexterm>
+<indexterm><primary>Navigation Controls</primary><secondary>Keyboard</secondary></indexterm>
 
 <variablelist>
 <varlistentry><term>Arrow Keys</term>
@@ -756,9 +770,20 @@ Point (straight up).</para></listitem></varlistentry>
 <listitem><para>Specify RA/Dec coordinates to center
 on.</para></listitem></varlistentry>
 
+<varlistentry><term><keycap>Space</keycap></term>
+<listitem><para>Toggle between the
+<link linkend="horizontal">Horizontal</link> and
+<link linkend="equatorial">Equatorial</link>
+<link linkend="ai-skycoords">Coordinate Systems</link>
+</para></listitem></varlistentry>
+
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </term>
 <listitem><para>Open Set Geographic Location window.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</term>
+<listitem><para>Open the <link linkend="config">Display Options window</link></para></listitem></varlistentry>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo>
 </term>
@@ -810,6 +835,8 @@ on.</para></listitem></varlistentry>
 
 <sect1 id="kstars-mouse">
 <title>Mouse Commands</title>
+<indexterm><primary>Commands</primary><secondary>Mouse</secondary></indexterm>
+<indexterm><primary>Navigation Controls</primary><secondary>Mouse</secondary></indexterm>
 
 <variablelist>
 <varlistentry><term>Moving the mouse</term>
@@ -820,20 +847,32 @@ in the status bar.
 </varlistentry>
 
 <varlistentry><term>Clicking</term>
-<listitem><para>Identify the object nearest the mouse cursor in the
+<listitem>
+<para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Identifying</secondary></indexterm>
+Identify the object nearest the mouse cursor in the
 status bar.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Double-clicking</term>
-<listitem><para>Center and track on the clicked location or object
+<listitem>
+<para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Centering</secondary></indexterm>
+Center and track on the clicked location or object
 nearest the mouse cursor.  Double-clicking on an Info Box will
 <quote>shade</quote> it to reveal/hide extra information.
 </para></listitem>
 </varlistentry>
 
 <varlistentry><term>Right-clicking</term>
-<listitem><para>Open the popup menu for the location or object nearest
+<listitem>
+<para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Invoking Popup Menu for</secondary></indexterm>
+Open the popup menu for the location or object nearest
 the mouse cursor.
 </para></listitem>
 </varlistentry>

@@ -6,6 +6,9 @@
 </author>
 </sect1info>
 <title>The Ecliptic</title>
+<indexterm><primary>Ecliptic</primary>
+<seealso>Ecliptic Coordinates</seealso>
+</indexterm>
 <para>
 The ecliptic is an imaginary <link linkend="ai-greatcircle">Great Circle</link>
 on the <link linkend="ai-csphere">Celestial Sphere</link> along which the Sun

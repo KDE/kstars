@@ -6,6 +6,9 @@
 </author>
 </sect1info>
 <title>Sidereal Time</title>
+<indexterm><primary>Sidereal Time</primary>
+<seealso>Hour Angle</seealso>
+</indexterm>
 <para>
 <firstterm>Sidereal Time</firstterm> literally means <quote>star time</quote>.
 The time we are used to using in our everyday lives is Solar Time.  The
@@ -57,11 +60,11 @@ linkend="ai-hourangle">Hour Angle</link>.
 <tip>
 <para>
 The Local Sidereal Time is displayed by &kstars; in the <guilabel>Time Info
-Box</guilabel>, with the label <quote>ST</quote> (you have to 
-<quote>unshade</quote> the box by double-clicking it in order to see the 
-sidereal time).  Note that the changing sidereal seconds are not synchronized 
-with the changing Local Time and Universal Time seconds. In fact, if you watch 
-the clocks for a while, you will notice that the Sidereal seconds really are 
+Box</guilabel>, with the label <quote>ST</quote> (you have to
+<quote>unshade</quote> the box by double-clicking it in order to see the
+sidereal time).  Note that the changing sidereal seconds are not synchronized
+with the changing Local Time and Universal Time seconds. In fact, if you watch
+the clocks for a while, you will notice that the Sidereal seconds really are
 slightly shorter than the LT and UT seconds.
 </para><para>
 Point to the <link linkend="ai-zenith">Zenith</link> (press <keycap>Z</keycap>

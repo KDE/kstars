@@ -1,10 +1,12 @@
 <chapter id="config">
 <title>Configuring &kstars;</title>
 <para>
+<indexterm><primary>Display Options Window</primary></indexterm>
 &kstars; has many configuration options, which you can access by opening
 the <guilabel>Display Options</guilabel> window, either with the
 <guiicon>configure</guiicon> toolbar icon, or selecting <guimenuitem>Configure
-&kstars;...</guimenuitem> from the <guimenu>Settings</guimenu> menu.  The
+&kstars;...</guimenuitem> from the <guimenu>Settings</guimenu> menu, or by 
+pressing <keycombo action="simul">&Ctrl;<keycap>o</keycap></keycombo>.  The
 window is depicted below:
 
 <screenshot>
@@ -26,13 +28,12 @@ tabs:
 <guilabel>Catalogs</guilabel>, <guilabel>Guides</guilabel>, 
 <guilabel>Solar System</guilabel>, <guilabel>Colors</guilabel>, and 
 <guilabel>Advanced</guilabel>.  
-Below the tabs, you can choose between Equatorial and Horizontal 
-<link linkend="ai-skycoords">coordinate systems</link>.  Note that 
-changes you make in this window are reflected immediately in the map, 
-but that the changes are not committed until you press the 
+Note that changes you make in this window are reflected immediately 
+in the map, but that the changes are not committed until you press the 
 <guibutton>Ok</guibutton> button.
 </para>
 <para>
+<indexterm><primary>Display Options Window</primary><secondary>Catalogs Tab</secondary></indexterm>
 In the <guilabel>Catalogs</guilabel> tab, you determine which object 
 catalogs are displayed in the map.  The SAO star catalog also allows 
 you to set the <quote>faint <link linkend="ai-magnitude">magnitude</link> 
@@ -48,6 +49,7 @@ data file, see the <filename>README.customize</filename> file that
 ships with &kstars;.
 </para>
 <para>
+<indexterm><primary>Display Options Window</primary><secondary>Solar System Tab</secondary></indexterm>
 In the <guilabel>Solar System</guilabel> tab, you can specify whether 
 the Sun, Moon, planets, comets and asteroids are displayed, and 
 whether the major bodies are drawn as circles or actual images.  You
@@ -58,6 +60,7 @@ a solar system body is tracked, and another to toggle whether the color
 of the planet trail fades into the background sky color.
 </para>
 <para>
+<indexterm><primary>Display Options Window</primary><secondary>Guides Tab</secondary></indexterm>
 The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects 
 are displayed (&ie;, constellation lines, constellation names, the 
 Milky Way contour, the <link linkend="ai-cequator">celestial 
@@ -68,6 +71,8 @@ names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
 constellation names using your local language.
 </para>
 <para>
+<indexterm><primary>Display Options Window</primary><secondary>Colors Tab</secondary></indexterm>
+<indexterm><primary>Color Schemes</primary><secondary>Customizing</secondary></indexterm>
 The <guilabel>Colors</guilabel> tab allows you to set the color scheme, 
 and to define custom color schemes.  The tab is split into two panels:
 </para><para>
@@ -95,9 +100,11 @@ the list in all future &kstars; sessions.  To remove a custom scheme,
 simply highlight it in the list, and press the <guibutton>Remove Color 
 Scheme</guibutton> button.
 </para><para>
+<indexterm><primary>Display Options Window</primary><secondary>Advanced Tab</secondary></indexterm>
 The <guilabel>Advanced</guilabel> Tab provides fine-grained control 
 over the more obscure behaviors of &kstars;.
 </para><para>
+<indexterm><primary>Atmospheric Refraction</primary></indexterm>
 The <guilabel>Correct for atmospheric refraction</guilabel> checkbox
 controls whether the positions of objects are corrected for the effects 
 of the atmosphere.  Because the atmosphere is a spherical shell, light from 
@@ -110,12 +117,14 @@ refraction makes it seem as if the Sun is still in the sky!  Note that
 atmospheric refraction is never applied if you are using 
 <guilabel>Equatorial coordinates</guilabel>.
 </para><para>
+<indexterm><primary>Animated Slewing</primary></indexterm>
 The <guilabel>Use animating slewing</guilabel> checkbox controls how the 
 display changes when a new focus position is selected in the map.  By 
 default, you will see the sky drift or <quote>slew</quote> to the new 
 position; if you uncheck this option, then the display will instead 
 <quote>snap</quote> immediately to the new focus position.
 </para><para>
+<indexterm><primary>Objects in the Sky</primary><secondary>Labeling</secondary><tertiary>Automatic</tertiary></indexterm>
 If the <guilabel>Attach label to centered object</guilabel> checkbox is 
 selected, then a name label will automatically be attached to an object 
 when it is being tracked by the program.  The label will be removed when 
@@ -123,6 +132,7 @@ the object is no longer being tracked.  Note that you can also manually
 attach a persistent name label to any object with its <link 
 linkend="popupmenu">popup menu</link>.
 </para><para>
+<indexterm><primary>Objects in the Sky</primary><secondary>Hiding</secondary></indexterm>
 There are three situations when &kstars; must redraw the sky display very 
 rapidly: when a new focus position is selected (and <guilabel>Use 
 animated slewing</guilabel> is checked), when the sky is dragged with the 

@@ -1,5 +1,8 @@
 <sect1 id="tool-calculator">
 <title>The Astrocalculator</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+</indexterm>
 
 <para>
 The &kstars; Astrocalculator provides several modules that 

@@ -7,11 +7,8 @@
 </sect1info>
 <title>Celestial Coordinate Systems</title>
 <para>
-<indexterm><primary>Celestial coordinate systems</primary>
-<seealso>Equatorial coordinate system</seealso>
-<seealso>Horizontal coordinate system</seealso>
-<seealso>Ecliptic coordinate system</seealso>
-<seealso>Galactic coordinate system</seealso></indexterm>
+<indexterm><primary>Celestial Coordinate Systems</primary>
+<secondary>Overview</secondary></indexterm>
 A basic requirement for studying the heavens is determining where in the
 sky things are.  To specify sky positions, astronomers have developed
 several <firstterm>coordinate systems</firstterm>.  Each uses a coordinate grid
@@ -27,8 +24,16 @@ its choice of fundamental plane.
 
 <sect2 id="equatorial">
 <title>The Equatorial Coordinate System</title>
+<indexterm><primary>Celestial Coordinate Systems</primary>
+<secondary>Equatorial Coordinates</secondary>
+<seealso>Celestial Equator</seealso>
+<seealso>Celestial Poles</seealso>
+<seealso>Geographic Coordinate System</seealso>
+</indexterm>
+<indexterm><primary>Right Ascension</primary><see>Equatorial Coordinates</see></indexterm>
+<indexterm><primary>Declination</primary><see>Equatorial Coordinates</see></indexterm>
+
 <para>
-<indexterm><primary>Equatorial coordinate system</primary></indexterm>
 The <firstterm>Equatorial coordinate system</firstterm> is probably the most
 widely used celestial coordinate system.  It is also the most closely related
 to the <link linkend="ai-geocoords">Geographic coordinate system</link>, because
@@ -66,8 +71,15 @@ one Hour of Right Ascension.
 
 <sect2 id="horizontal">
 <title>The Horizontal Coordinate System</title>
+
+<indexterm><primary>Celestial Coordinate Systems</primary>
+<secondary>Horizontal Coordinates</secondary>
+<seealso>Horizon</seealso>
+<seealso>Zenith</seealso>
+</indexterm>
+<indexterm><primary>Azimuth</primary><see>Horizontal Coordinates</see></indexterm>
+<indexterm><primary>Altitude</primary><see>Horizontal Coordinates</see></indexterm>
 <para>
-<indexterm><primary>Horizontal coordinate system</primary></indexterm>
 The Horizontal coordinate system uses the observer's local <link
 linkend="ai-horizon">horizon</link> as the Fundamental Plane.  This conveniently
 divides the sky into the upper hemisphere that you can see, and the lower
@@ -96,8 +108,12 @@ Rising (if its Azimuth is &lt; 180 degrees) or Setting (if its Azimuth is &gt;
 
 <sect2 id="ecliptic">
 <title>The Ecliptic Coordinate System</title>
+
+<indexterm><primary>Celestial Coordinate Systems</primary>
+<secondary>Ecliptic Coordinates</secondary>
+<seealso>Ecliptic</seealso>
+</indexterm>
 <para>
-<indexterm><primary>Ecliptic coordinate system</primary></indexterm>
 The Ecliptic coordinate system uses the <link
 linkend="ai-ecliptic">Ecliptic</link> for its Fundamental Plane.  The
 Ecliptic is the path that the Sun appears to follow across the sky over
@@ -118,8 +134,11 @@ latitudes).
 
 <sect2 id="galactic">
 <title>The Galactic Coordinate System</title>
+
+<indexterm><primary>Celestial Coordinate Systems</primary>
+<secondary>Galactic Coordinates</secondary>
+</indexterm>
 <para>
-<indexterm><primary>Galactic coordinate system</primary></indexterm>
 <indexterm><primary>Milky Way</primary></indexterm>
 The Galactic coordinate system uses the <firstterm>Milky Way</firstterm> as its
 Fundamental Plane.  The latitudinal angle is called the <firstterm>Galactic

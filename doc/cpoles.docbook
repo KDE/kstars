@@ -6,6 +6,9 @@
 </author>
 </sect1info>
 <title>The Celestial Poles</title>
+<indexterm><primary>Celestial Poles</primary>
+<seealso>Equatorial Coordinates</seealso>
+</indexterm>
 <para>
 The sky appears to drift overhead from east to west, completing a full circuit
 around the sky in 24 (<link linkend="ai-sidereal">Sidereal</link>) hours.  This

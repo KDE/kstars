@@ -1,5 +1,8 @@
 <chapter id="indi">
 <title>Telescope Control with <acronym>INDI</acronym></title>
+<indexterm><primary>Telescope Control</primary>
+<secondary>Overview</secondary>
+</indexterm>
 
 <para>KStars provides an interface to configure and control astronomical instruments via
 the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
@@ -122,6 +125,9 @@ next one.</para>
 
 <sect1 id="indi-telescope-setup">
 <title>Telescope Setup</title>
+<indexterm><primary>Telescope Control</primary>
+<secondary>Setup</secondary>
+</indexterm>
 <para>Most telescopes are equipped with <hardware>RS232</hardware> interface
 for remote control. Connect the RS232 jack in your telescope to your
 computer's <hardware>Serial/USB</hardware> port. Traditionally, the RS232
@@ -315,6 +321,9 @@ Vega, and the telescope's crosshair should now be centered around Vega.
 
 <sect1 id="indi-concepts">
 <title>INDI Concepts</title>
+<indexterm><primary>Telescope Control</primary>
+<secondary>Concepts</secondary>
+</indexterm>
 
 <para>
 The INDI control panel offers many device properties not accessible from the
@@ -400,6 +409,9 @@ Time: The standard time for all INDI-related communications is Universal Time UT
 
 <sect1 id="indi-remote-control">
 <title>Remote Device Control</title>
+<indexterm><primary>Telescope Control</primary>
+<secondary>Remote Devices</secondary>
+</indexterm>
 
 <para>KStars provides a simple yet powerful layer for remote device control.
 A detailed description of the layer is described in the INDI <ulink
@@ -481,6 +493,9 @@ following command:</para>
 
 <sect1 id="indi-faq">
 <title>INDI Frequently Asked Questions</title>
+<indexterm><primary>Telescope Control</primary>
+<secondary><acronym>FAQ</acronym></secondary>
+</indexterm>
 
 <qandaset defaultlabel="qanda">
 <qandaentry>

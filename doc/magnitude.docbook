@@ -5,8 +5,11 @@
 </author>
 </sect1info>
 <title>Magnitude Scale</title>
+<indexterm><primary>Magnitude Scale</primary>
+<seealso>Flux</seealso>
+<seealso>Star Colors and Temperatures</seealso>
+</indexterm>
 <para>
-</para><para>
 2500 years ago, the ancient Greek astronomer Hipparchus classified the
 brightnesses of visible stars in the sky on a scale from 1 to 6.  He
 called the very brightest stars in the sky <quote>first magnitude</quote>, and the

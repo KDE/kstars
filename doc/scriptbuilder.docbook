@@ -1,5 +1,8 @@
 <sect1 id="tool-scriptbuilder">
 <title>The Script Builder Tool</title>
+<indexterm><primary>Tools</primary>
+<secondary>Script Builder</secondary>
+</indexterm>
 
 <para>
 KDE applications can be controlled externally from another program, 

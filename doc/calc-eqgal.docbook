@@ -1,5 +1,9 @@
 <sect2 id="calc-eqgal">
 <title>Equatorial/Galactic Coordinates module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Equatorial/Galactic Coordinates module</tertiary>
+</indexterm>
 
 <screenshot>
 <screeninfo>

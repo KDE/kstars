@@ -1,5 +1,6 @@
 <chapter id="dumpmode">
 <title>Command-Line mode for Image Generation</title>
+<indexterm><primary>Image-dump Mode</primary></indexterm>
 
 <para>
 You can use &kstars; to generate an image of the sky 

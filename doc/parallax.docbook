@@ -5,6 +5,9 @@
 </author>
 </sect1info>
 <title>Parallax</title>
+<indexterm><primary>Parallax</primary></indexterm>
+<indexterm><primary>Astronomical Unit</primary><see>Parallax</see></indexterm>
+<indexterm><primary>Parsec</primary><see>Parallax</see></indexterm>
  <para>
  <firstterm>Parallax</firstterm> is the apparent change of an observed
  object's position caused by a shift in the observer's position. As an

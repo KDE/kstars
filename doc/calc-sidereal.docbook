@@ -1,5 +1,9 @@
 <sect2 id="calc-sidereal">
 <title>Sidereal Time module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Sidereal Time module</tertiary>
+</indexterm>
 
 <screenshot>
 <screeninfo>

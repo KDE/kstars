@@ -1,5 +1,9 @@
 <sect2 id="calc-geodetic">
 <title>Geodetic Coordinates module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Geodetic Coordinates module</tertiary>
+</indexterm>
 
 <screenshot>
 <screeninfo>

@@ -5,6 +5,7 @@
 </author>
 </sect1info>
 <title>Stars: An Introductory <acronym>FAQ</acronym></title>
+<indexterm><primary>Stars</primary></indexterm>
 
 <qandaset id="stars-faq">
 
@@ -13,7 +14,7 @@
 <para>What are the stars?</para>
 </question>
 <answer>
-<para><indexterm><primary>Stars</primary></indexterm>
+<para>
 <firstterm>Stars</firstterm> are gigantic, self-gravitating spheres
 of (mostly) Hydrogen gas.  Stars are also thermonuclear engines;
 nuclear fusion takes place deep in the cores of stars, where the

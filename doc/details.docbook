@@ -1,5 +1,7 @@
 <sect1 id="tool-details">
 <title>Detailed Information Dialog</title>
+<indexterm><primary>Tools</primary><secondary>Details Dialog</secondary></indexterm>
+<indexterm><primary>Objects in the Sky</primary><secondary>Details</secondary></indexterm>
 
 <screenshot>
 <screeninfo>
@@ -30,6 +32,9 @@ object type, and <link linkend="ai-magnitude">magnitude</link>
 coordinates, as well as its rise, set and transit times.
 </para>
 <para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Internet Links</secondary>
+<tertiary>Customizing</tertiary></indexterm>
 In the <guilabel>Links</guilabel> tab, you can manage the internet 
 links associated with this object.  The Image and Information links 
 associated with the object are listed.  These are the links that 

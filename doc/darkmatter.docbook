@@ -11,6 +11,8 @@
 </sect1info>
 
 <title>Dark Matter</title>
+<indexterm><primary>Dark Matter</primary>
+</indexterm>
 
 <para>
 Scientists are now quite comfortable with the idea that 90% of the
@@ -66,7 +68,7 @@ rotational curves of <firstterm>Spiral Galaxies</firstterm>.  Spiral Galaxies
 contain a large population of stars that orbit the Galactic center on
 nearly circular orbits, much like planets orbit a star.  Like
 planetary orbits, stars with larger galactic orbits are expected to
-have slower orbital speeds (this is just a statement of Kepler's 3rd Law).  
+have slower orbital speeds (this is just a statement of Kepler's 3rd Law).
 Actually, Kepler's 3rd Law only applies to stars near the perimeter of a Spiral
 Galaxy, because it assumes the mass enclosed by the orbit to be
 constant.
@@ -107,11 +109,11 @@ conclusively test one theory against the other.  </para>
 <para>
 You can see the galaxy clusters that Professor Zwicky studied to
 discover Dark Matter.  Use the &kstars; Find Object Window
-(<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>) to 
-center on <quote>M 87</quote> to find the Virgo Cluster, and on 
-<quote>NGC 4884</quote> to find the Coma Cluster.  You may have to 
-zoom in to see the galaxies.  Note that the Virgo Cluster appears to 
-be much larger on the sky.  In reality, Coma is the larger cluster; 
+(<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>) to
+center on <quote>M 87</quote> to find the Virgo Cluster, and on
+<quote>NGC 4884</quote> to find the Coma Cluster.  You may have to
+zoom in to see the galaxies.  Note that the Virgo Cluster appears to
+be much larger on the sky.  In reality, Coma is the larger cluster;
 it only appears smaller because it is further away.
 </para>
 </tip>

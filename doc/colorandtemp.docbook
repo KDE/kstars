@@ -11,7 +11,11 @@
 </author>
 </sect1info>
 
-<title>Stars Colors and Temperatures</title>
+<title>Star Colors and Temperatures</title>
+<indexterm><primary>Star Colors and Temperatures</primary>
+<seealso>Blackbody Radiation</seealso>
+<seealso>Magnitude Scale</seealso>
+</indexterm>
 
 <para>
 Stars appear to be exclusively white at first glance.

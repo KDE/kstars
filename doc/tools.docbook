@@ -1,6 +1,7 @@
 <chapter id="ai-tools">
 <title>KStars Tools</title>
 <para>
+<indexterm><primary>Tools</primary></indexterm>
 &kstars; comes with a number of tools that allow you to explore
 some more advanced aspects of astronomy and the night sky.
 </para>

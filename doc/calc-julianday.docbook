@@ -1,5 +1,9 @@
 <sect2 id="calc-julian">
 <title>Julian Day module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Julian Day module</tertiary>
+</indexterm>
 
 <screenshot>
 <screeninfo>

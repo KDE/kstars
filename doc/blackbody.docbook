@@ -12,24 +12,27 @@
 </sect1info>
 
 <title>Blackbody Radiation</title>
+<indexterm><primary>Blackbody Radiation</primary>
+<seealso>Star Colors and Temperatures</seealso>
+</indexterm>
 
 <para>
-A <firstterm>blackbody</firstterm> refers to an opaque object that 
-emits <firstterm>thermal radiation</firstterm>.  A perfect 
-blackbody is one that absorbs all incoming light and does not 
-reflect any.  At room temperature, such an object would 
+A <firstterm>blackbody</firstterm> refers to an opaque object that
+emits <firstterm>thermal radiation</firstterm>.  A perfect
+blackbody is one that absorbs all incoming light and does not
+reflect any.  At room temperature, such an object would
 appear to be perfectly black (hence the term
-<emphasis>blackbody</emphasis>).  However, if heated to a high 
-temperature, a blackbody will begin to glow with 
+<emphasis>blackbody</emphasis>).  However, if heated to a high
+temperature, a blackbody will begin to glow with
 <firstterm>thermal radiation</firstterm>.
 </para>
 
 <para>
-In fact, all objects emit thermal radiation (as long as their 
-temperature is above Absolute Zero, or -276.15 degrees Celsius), 
-but no object emits thermal radiation perfectly; rather, they are 
-better at emitting/absorbing some wavelengths of light than others.  
-These uneven efficiencies make it difficult to study the interaction 
+In fact, all objects emit thermal radiation (as long as their
+temperature is above Absolute Zero, or -276.15 degrees Celsius),
+but no object emits thermal radiation perfectly; rather, they are
+better at emitting/absorbing some wavelengths of light than others.
+These uneven efficiencies make it difficult to study the interaction
 of light, heat and matter using normal objects.
 </para>
 

@@ -48,6 +48,7 @@ and Declination) of the mouse cursor.
 <sect1 id="geolocation">
 <title>Where am I?</title>
 <para>
+<indexterm><primary>Geographic Location Tool</primary></indexterm>
 The first thing to do is to set the geographic location.  By default,
 &kstars; assumes you are in Greenwich, UK (home of the Royal Observatory,
 where <link linkend="ai-geocoords">longitude</link>=0 is defined).  Since
@@ -85,7 +86,9 @@ is highlighted in the list, a red crosshairs appears on its location
 in the map.
 </para>
 
-<para>It isn't practical to scroll through the full list of 2500 locations,
+<para>
+<indexterm><primary>Geographic Location Tool</primary><secondary>Filtering</secondary></indexterm>
+It isn't practical to scroll through the full list of 2500 locations,
 looking for a specific city. To make searches easier, the list can be
 filtered by entering text in the boxes below the map. For example, in
 the screenshot, the text <quote>Ba</quote> appears in the
@@ -105,6 +108,7 @@ clicked location.  At this time, you can search by name, or by location,
 but not both at once.  In other words, when you click on the map, the
 name filters are ignored, and vice versa.
 </para><para>
+<indexterm><primary>Geographic Location Tool</primary><secondary>Custom locations</secondary></indexterm>
 The <link linkend="ai-geocoords">longitude, latitude</link> and
 <link linkend="ai-timezones">time zone</link> information for the
 currently-selected location are displayed in the boxes at the bottom of
@@ -130,6 +134,8 @@ locations to the master list.
 <sect1 id="settime">
 <title>What Time Is It?</title>
 <para>
+<indexterm><primary>Date and Time</primary>
+<secondary>Synching with system clock</secondary></indexterm>
 The next thing you may want to do is change the time and/or date.
 When &kstars; starts up, the time is set to your computer's system
 clock, and the &kstars; clock is running to keep up with the real time.
@@ -144,6 +150,8 @@ next higher (or lower) unit of time, which allows you to make large
 timestep changes more quickly.
 </para>
 <para>
+<indexterm><primary>Date and Time</primary>
+<secondary>Setting</secondary></indexterm>
 You can change to any time or date by selecting <guimenuitem>Set
 Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
 pressing the <guiicon>time</guiicon> icon in the toolbar.  The
@@ -154,6 +162,8 @@ just select <guimenuitem>Set Time to Now</guimenuitem> from the
 <guimenu>Time</guimenu> menu.</para>
 
 <note><para>
+<indexterm><primary>Date and Time</primary>
+<secondary>Limitations of QDate class</secondary></indexterm>
 The current version of &kstars; cannot
 accept dates before October 1, 1752, nor dates after the year 8000.
 These are limitations of the &Qt; Date/Time class.  We plan to implement
@@ -166,6 +176,8 @@ remote dates.
 <sect1 id="lookaround">
 <title>Have a Look Around!</title>
 <para>
+<indexterm><primary>Navigation Controls</primary>
+<secondary>Basics</secondary></indexterm>
 Now that we have the time and location set, let's have a look around.
 You can pan the display using the arrow keys.  If you hold down the
 &Shift; key before panning, the scrolling speed is doubled.  The
@@ -230,6 +242,7 @@ planets are never far from it.
 <sect1 id="skyobjects">
 <title>Objects in the Sky</title>
 <para>
+<indexterm><primary>Objects in the Sky</primary><secondary>Overview</secondary></indexterm>
 &kstars; displays thousands of celestial objects: stars, planets,
 comets, asteroids, clusters, nebulae and galaxies.  By default, stars
 are drawn as white circles with a colored border that simulates the
@@ -249,6 +262,7 @@ with more options.
 
 <sect2 id="popupmenu">
 <title>The Popup Menu</title>
+<indexterm><primary>Popup Menu</primary><secondary>Example</secondary></indexterm>
 
 <para>
 Here is an example of the <mousebutton>right</mousebutton> click popup
@@ -291,6 +305,7 @@ such as <guimenuitem>Center and Track</guimenuitem>,
 bodies).
 </para>
 <para>
+<indexterm><primary>Objects in the Sky</primary><secondary>Internet Links</secondary><seealso>Popup Menu</seealso></indexterm>
 The bottom section contains links to images and/or informative webpages
 about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
@@ -301,6 +316,8 @@ item.
 
 <sect2 id="findobjects">
 <title>Finding Objects</title>
+<indexterm><primary>Find Object Tool</primary></indexterm>
+<indexterm><primary>Objects in the Sky</primary><secondary>Finding by Name</secondary></indexterm>
 <para>
 You can search for named objects using the <guilabel>Find
 Object</guilabel> window, which can be opened by clicking on the
@@ -342,6 +359,7 @@ window, or by pressing the <guiicon>Ground</guiicon> button in
 the View toolbar).
 </para>
 <para>
+<indexterm><primary>Objects in the Sky</primary><secondary>Tracking</secondary></indexterm>
 &kstars; will automatically begin tracking on an object whenever one
 is centered in the display, either by using the <guilabel>Find
 Object</guilabel> window, by double-clicking on it, or by
@@ -358,21 +376,26 @@ Object</guimenuitem> from the <guimenu>Focus</guimenu> menu.
 <sect1 id="customize">
 <title>Customizing the Display</title>
 
-<para> There are several ways to modify the display to your liking.</para>
+<para>
+There are several ways to modify the display to your liking.</para>
 <itemizedlist>
 <listitem><para>
+<indexterm><primary>Color Schemes</primary><secondary>Selecting</secondary></indexterm>
 Select a different color scheme in the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Color Schemes</guimenuitem></menuchoice>
 menu.  There are four predefined color schemes, and you can define your own in the
 <link linkend="config"><guilabel>View Options</guilabel></link> window.
 </para></listitem>
 <listitem><para>
+<indexterm><primary>Toolbars</primary><secondary>Customizing</secondary></indexterm>
 Toggle whether the Toolbars are drawn in the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars</guimenuitem></menuchoice>
 menu.  Like most KDE toolbars, they can also be dragged around and
 anchored on any window edge, or even detached from the window completely.
 </para></listitem>
 <listitem><para>
+<indexterm><primary>Info Boxes</primary><secondary>Customizing</secondary></indexterm>
+<indexterm><primary>Info Boxes</primary><secondary>Shading</secondary></indexterm>
 Toggle whether the Info Boxes are drawn in the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Info Boxes</guimenuitem></menuchoice>
 menu.  In addition, you can manipulate the three Info Boxes with the
@@ -384,6 +407,7 @@ dragging it with the mouse.  When a box hits a window edge, it will
 </para></listitem>
 <listitem>
 <para>
+<indexterm><primary>Field-of-View Symbols</primary><secondary>Description</secondary></indexterm>
 Choose an <quote>FOV Symbol</quote> using the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>FOV Symbols</guimenuitem></menuchoice>
 menu.  <firstterm>FOV</firstterm> is an acronym for <quote>field-of-view</quote>.
@@ -394,6 +418,7 @@ the <quote>7x35 Binoculars</quote> FOV symbol, then a circle is drawn on the dis
 9.2 degrees in diameter; this is the field-of-view for 7x35 binoculars.
 </para>
 <para>
+<indexterm><primary>Field-of-View Symbols</primary><secondary>Customizing</secondary></indexterm>
 You can define your own FOV symbols (or modify the existing symbols) using the
 <guimenuitem>Edit FOV Symbols...</guimenuitem> menu item, which launches the FOV Editor:
 </para>
@@ -433,6 +458,7 @@ window is opened:
 </screenshot>
 
 <para>
+<indexterm><primary>Field-of-View Symbols</primary><secondary>Defining New</secondary></indexterm>
 This window lets you modify the four properties that define a FOV symbol: name, size,
 shape, and color.  The angular size for the symbol can either be entered directly in the
 <guilabel>Field of View</guilabel> edit box, or you can use the Eyepiece/Camera Tabs to

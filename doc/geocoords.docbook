@@ -6,6 +6,9 @@
 </author>
 </sect1info>
 <title>Geographic Coordinates</title>
+<indexterm><primary>Geographic Coordinate System</primary></indexterm>
+<indexterm><primary>Longitude</primary><see>Geographic Coordinate System</see></indexterm>
+<indexterm><primary>Latitude</primary><see>Geographic Coordinate System</see></indexterm>
 <para>
 Locations on Earth can be specified using a spherical coordinate system.
 The geographic (<quote>earth-mapping</quote>) coordinate system is aligned

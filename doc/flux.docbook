@@ -12,6 +12,9 @@
 </sect1info>
 
 <title>Flux</title>
+<indexterm><primary>Flux</primary>
+<seealso>Luminosity</seealso>
+</indexterm>
 
 <para>
 The <firstterm>flux</firstterm> is the amount of energy that passes through a unit area each second.
@@ -23,8 +26,8 @@ above the earth atmosphere passing through a unit area each second. Therefore, t
 </para>
 
 <para>
-The flux measures the <emphasis>rate of flow</emphasis> of energy that passes through each cm^2 (or any unit area) of an object's surface each second. 
-The detected flux depends on the distance from the source that radiates the energy. This is because the energy has to spread over a volume of space before it reaches us. 
+The flux measures the <emphasis>rate of flow</emphasis> of energy that passes through each cm^2 (or any unit area) of an object's surface each second.
+The detected flux depends on the distance from the source that radiates the energy. This is because the energy has to spread over a volume of space before it reaches us.
 Let's assume that we have an imaginary balloon that encloses a star. Each dot on the balloon represents a unit of energy emitted from the star. Initially, the dots in an area
 of one cm^2 are in close proximity to each other and the flux (energy emitted per square centimeter per second) is high. After a distance d, the volume and surface area of the
 balloon increased causing the dots to <emphasis>spread away</emphasis> from each. Consequently, the number of dots (or energy) enclosed in one cm^2 has decreased as illustrated in Figure 1.
@@ -40,7 +43,7 @@ balloon increased causing the dots to <emphasis>spread away</emphasis> from each
 </para>
 
 <para>
-The flux is inversely proportional to distance by a simple r^2 relation. Therefore, if the distance is doubled, we receive 1/2^2 or 1/4th of the original flux. 
+The flux is inversely proportional to distance by a simple r^2 relation. Therefore, if the distance is doubled, we receive 1/2^2 or 1/4th of the original flux.
 From a fundamental standpoint, the flux is the <link linkend="ai-luminosity">luminosity</link> per unit area:
 
 <mediaobject>

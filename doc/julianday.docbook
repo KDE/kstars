@@ -6,6 +6,8 @@
 </author>
 </sect1info>
 <title>Julian Day</title>
+<indexterm><primary>Julian Day</primary>
+</indexterm>
 <para>
 The Julian Calendar is a way of reckoning the current date by a simple count of
 the number of days that have passed since some remote, arbitrary date.  This
@@ -20,7 +22,7 @@ there is the added complication of <link linkend="ai-leapyear">Leap
 Years</link>.
 </para><para>
 Converting from the standard (Gregorian) calendar to Julian Days and vice versa
-is best left to a special program written to do this, such as the &kstars; 
+is best left to a special program written to do this, such as the &kstars;
 <link linkend="tool-calculator">Astrocalculator</link>.  However, for those
 interested, here is a simple example of a Gregorian to Julian day converter:
 </para><para>

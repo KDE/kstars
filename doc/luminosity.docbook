@@ -12,6 +12,9 @@
 </sect1info>
 
 <title>Luminosity</title>
+<indexterm><primary>Luminosity</primary>
+<seealso>Flux</seealso>
+</indexterm>
 
 <para>
 <firstterm>Luminosity</firstterm> is the amount of energy emitted by a star each second.
@@ -21,8 +24,8 @@
 All stars radiate light over a broad range of frequencies in the electromagnetic spectrum from the low energy radio waves up to the highly energetic gamma rays. A star that emits predominately in the ultra-violet region of the spectrum produces a total amount of energy magnitudes larger than that produced in a star that emits principally in the infrared.
 Therefore, luminosity is a measure of energy emitted by a star over all wavelengths. The relationship between wavelength and energy was quantified by Einstein as
 E = h * v
-where v is the frequency, h is the Planck constant, and E is the photon energy in joules. 
-That is, shorter wavelengths (and thus higher frequencies) correspond to higher energies. 
+where v is the frequency, h is the Planck constant, and E is the photon energy in joules.
+That is, shorter wavelengths (and thus higher frequencies) correspond to higher energies.
 </para>
 
 <para>
@@ -30,13 +33,13 @@ For example, a wavelength of lambda = 10 meter lies in the radio region of the e
 
 f = c / lamba = 3 * 10^8 m/s / 10 = 30 MHz
 
-where c is the speed of light. 
-The energy of this photon is 
+where c is the speed of light.
+The energy of this photon is
 
 E = h * v = 6.625 * 10^-34 J s * 30 Mhz = 1.988 * 10^-26 joules.
 
 On the other hand, visible light has much shorter wavelengths and higher frequencies. A photon that has a wavelength of lamba = 5 * 10^-9 meters (A greenish photon) has an energy
-E = 3.975 * 10^-17 joules which is over a billion times higher than the energy of a radio photon. Similarly, a photon of red light (wavelength lamba = 700 nm) has less energy 
+E = 3.975 * 10^-17 joules which is over a billion times higher than the energy of a radio photon. Similarly, a photon of red light (wavelength lamba = 700 nm) has less energy
 than a photon of violet light (wavelength lamba = 400 nm).
 </para>
 
@@ -46,7 +49,7 @@ Similarly, an iron rod heated to 2000 degrees emits more energy than when it is 
 </para>
 
 <para>
-Luminosity is a very fundamental quantity in Astronomy and Astrophysics. Much of what is learned about celestial objects comes from analyzing their light. This is because the physical processes that occur inside stars gets recorded and transmitted by light. 
+Luminosity is a very fundamental quantity in Astronomy and Astrophysics. Much of what is learned about celestial objects comes from analyzing their light. This is because the physical processes that occur inside stars gets recorded and transmitted by light.
 Luminosity is measured in units of energy per second. Astronomers prefer to use Ergs, rather than Watts, when quantifying luminosity.
 </para>
 </sect1>
