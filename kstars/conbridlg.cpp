@@ -44,6 +44,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
   displayImage = viewer->image->displayImage;
+  tempImage    = new QImage(displayImage->copy());
   width  = displayImage->width();
   height = displayImage->height();
   
@@ -55,16 +56,14 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   ConBriDlg = new ConBriForm(this);
   if (!ConBriDlg) return;
   
-  //localImgBuffer = (unsigned char *) malloc (width * height * sizeof(unsigned char));
   localImgBuffer = (float *) malloc (width * height * sizeof(float));
   if (!localImgBuffer)
   {
     kdDebug() << "Not enough memory for local image buffer" << endl;
     return;
   }
-  //for (int i=0; i < height; i++)
-   //memcpy(localImgBuffer + i * width, displayImage->scanLine(i), width);
-   memcpy(localImgBuffer, viewer->imgBuffer, width * height * 4);
+  
+  memcpy(localImgBuffer, viewer->imgBuffer, width * height * sizeof(float));
   
   setMainWidget(ConBriDlg);
   this->show();
@@ -76,7 +75,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
 
 ContrastBrightnessDlg::~ContrastBrightnessDlg()
 {
-  //free (localImgBuffer);
+  delete (tempImage);
 }
 
 void ContrastBrightnessDlg::range(int min, int max, int & num)
@@ -92,22 +91,22 @@ void ContrastBrightnessDlg::range(float min, float max, float & num)
 }
 
 
+#include <math.h>
+
 void ContrastBrightnessDlg::setContrast(int contrastValue)
 {
-  int val = 0, index=0;
+  int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
   QColor myCol;
-  //unsigned char * data = viewer->image->templateImage->bits();
   contrast = contrastValue;
 
+ 
   // Apply Contrast and brightness
   for (int i=0 ; i < height ; i++)
            for (int j=0; j < width; j++)
 	   {
-	        index = i * width + j;
-		val  = (int) (viewer->imgBuffer[index] * scale + offs);
-		range(0, 255, val);
+		val  = (int) *(viewer->image->templateImage->scanLine(i) + j);
 		
 		if (contrast)
 		{
@@ -126,19 +125,22 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
 		{
 			myCol.setRgb(val,val,val);
                 	if ( brightness < 0 )
-                		myCol = myCol.dark(100+(128-brightness));
+                		val += brightness;
                 	else
-                		myCol = myCol.light(100+(brightness));
+			{      
+			        myCol = myCol.light(100+(brightness));
+				val   = myCol.red();
+			}
 			
-			val   = myCol.red();
+			range(0, 255, val);
 		}
 		 
-		localImgBuffer[index] = (val - offs) / scale;
-		
-		
+		localImgBuffer[(height - i - 1) * width + j] = (val - offs) / scale;
 	   }
+	   
+	   
   
-  for (int i=0; i < height * width; i++)
+  for (int i=0; i < totalPix; i++)
   {
     if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
     else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];
@@ -156,27 +158,23 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
 		range(0, 255, val);
   		displayImage->setPixel(j, height - i - 1, val);
 	}
-   
-  viewer->image->zoomToCurrent();
-			  
+  
+  viewer->image->zoomToCurrent();			  
 }
 
 void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 {
-  int val = 0, index=0;
+  int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
   QColor myCol;
-  //unsigned char * data = viewer->image->templateImage->bits();
   brightness = brightnessValue;
 
   // Apply Contrast and brightness
   for (int i=0 ; i < height ; i++)
            for (int j=0; j < width; j++)
 	   {
-	        index = i * width + j;
-		val  = (int) (viewer->imgBuffer[index] * scale + offs);
-		range(0, 255, val);
+		val  = (int) *(viewer->image->templateImage->scanLine(i) + j);
 		
 		if (contrast)
 		{
@@ -195,19 +193,22 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 		{
 			myCol.setRgb(val,val,val);
                 	if ( brightness < 0 )
-                		myCol = myCol.dark(100+(128-brightness));
+                		val += brightness;
                 	else
-                		myCol = myCol.light(100+(brightness));
+			{      
+			        myCol = myCol.light(100+(brightness));
+				val   = myCol.red();
+			}
 			
-			val   = myCol.red();
+			range(0, 255, val);
 		}
 		 
-		localImgBuffer[index] = (val - offs) / scale;
+		localImgBuffer[(height - i - 1) * width + j] = (val - offs) / scale;
 		
 		
 	   }
   
-  for (int i=0; i < height * width; i++)
+  for (int i=0; i < totalPix; i++)
   {
     if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
     else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];

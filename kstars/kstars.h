@@ -53,6 +53,7 @@ class TimeStepBox;
 //class AstroCalc;
 class INDIMenu;
 class INDIDriver;
+class imagesequence;
 
 /**@class KStars
 	*This is the main window for KStars.  It is derived from KMainWindow.
@@ -298,6 +299,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 		void slotTelescopeWizard();
 
+		/**
+		 * action slot: open Image Sequence dialog
+		 */
+		void slotImageSequence();
+		
 		 /**
 		 * action slot: open INDI driver panel
 		 */
@@ -405,6 +411,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KDialogBase *AAVSODialog;
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
+		imagesequence *indiseq;		/* We need imgsequence here because it runs in batch mode */
 		KSNewStuff *kns;
 
 		int idSpinBox;

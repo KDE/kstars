@@ -74,6 +74,7 @@
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
 #include "ksnewstuff.h"
+#include "imagesequence.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -190,6 +191,15 @@ void KStars::slotSolarSystem() {
 void KStars::slotJMoonTool() {
 	JMoonTool jmt(this);
 	jmt.exec();
+}
+
+void KStars::slotImageSequence()
+{
+  if (indiseq == NULL)
+    indiseq = new imagesequence(this);
+  
+  if (indiseq->updateStatus())
+    indiseq->show();
 }
 
 void KStars::slotTelescopeWizard()

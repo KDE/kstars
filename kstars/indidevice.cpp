@@ -114,6 +114,8 @@ INDI_D::~INDI_D()
    gl.clear();
    delete(deviceVBox);
    delete (stdDev);
+   deviceVBox = NULL;
+   stdDev     = NULL;
 }
 
 void INDI_D::registerProperty(INDI_P *pp)

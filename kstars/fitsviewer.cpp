@@ -740,7 +740,7 @@ void FITSViewer::imageReduction()
   
   image->saveTemplateImage();
   ImageReductionDlg irDialog(this);
-    
+     
   if (irDialog.exec() == QDialog::Accepted)
   {
     if (irDialog.darkListView->childCount() == 0 && 
@@ -753,7 +753,7 @@ void FITSViewer::imageReduction()
     darkCombineMode    = irDialog.darkAverageB->isChecked() ? 0 : 1;
     flatCombineMode    = irDialog.flatAverageB->isChecked() ? 0 : 1;
     darkflatCombineMode= irDialog.darkflatAverageB->isChecked() ? 0 : 1;
-    
+     
     file = irDialog.darkListView->firstChild();
     while (file)
     {

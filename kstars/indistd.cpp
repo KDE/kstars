@@ -47,30 +47,37 @@
  #include <kapplication.h>
  #include <kprogress.h>
  #include <kurl.h>
- 
+ #include <kdirlister.h>
+  
  #define STD_BUFFER_SIZ		1024000
  #define FRAME_ILEN		1024
  
  INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
  {
  
-   dp   = associatedDevice;
-   ksw  = kswPtr;
-   initDevCounter = 0;
-   totalCompressedBytes  = totalBytes = 0;
-   streamFD = -1;
-   streamBuffer     = (unsigned char *) malloc (sizeof(unsigned char) * 1);
-   compressedBuffer = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+   dp			= associatedDevice;
+   ksw  		= kswPtr;
+   initDevCounter	= 0;
+   seqCount		= 0;
+   totalCompressedBytes = totalBytes = 0;
+   streamFD 		= -1;
+   batchMode 		= false;
+   ISOMode   		= false;
+   streamBuffer     	= (unsigned char *) malloc (sizeof(unsigned char) * 1);
+   compressedBuffer 	= (unsigned char *) malloc (sizeof(unsigned char) * 1);
    
-   streamWindow   = new StreamWG(this, ksw);
-   currentObject  = NULL; 
-   devTimer = new QTimer(this);
-   QObject::connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
+   currentObject  	= NULL; 
+   streamWindow   	= new StreamWG(this, ksw);
+   devTimer 		= new QTimer(this);
+   seqLister		= new KDirLister();
+   
+   connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
+   connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
    downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
    downloadDialog->cancel();
    
-   parser = newLilXML();
+   parser		= newLilXML();
  }
  
  INDIStdDevice::~INDIStdDevice()
@@ -236,7 +243,7 @@ void INDIStdDevice::streamReceived()
 	 if (compressedBuffer == NULL) return;
        }
        
-       if (dataType == DATA_FITS || dataType == DATA_OTHER)
+       if ((dataType == DATA_FITS || dataType == DATA_OTHER) && !batchMode)
        {
          downloadDialog->progressBar()->setTotalSteps(totalCompressedBytes);
 	 downloadDialog->setMinimumWidth(300);
@@ -274,7 +281,7 @@ void INDIStdDevice::streamReceived()
             return;
 	   }
 	   
-	   if (dataType != DATA_STREAM)
+	   if (dataType != DATA_STREAM && !batchMode)
 	   {
 	       downloadDialog->progressBar()->setProgress(nr);
 	       kapp->eventLoop()->processEvents(QEventLoop::ExcludeSocketNotifiers);
@@ -282,6 +289,7 @@ void INDIStdDevice::streamReceived()
     }
     
      //kdDebug() << "We're done reading .... " << endl;
+    
     
     downloadDialog->cancel();
     
@@ -317,7 +325,7 @@ void INDIStdDevice::streamReceived()
        //streamWindow->enableStream(false);
        streamWindow->close();
         
-	if (dataType == DATA_FITS)
+	if (dataType == DATA_FITS && !batchMode)
         {
 	  strcpy(filename, "/tmp/fitsXXXXXX");
 	  if ((fd = mkstemp(filename)) < 0)
@@ -340,9 +348,28 @@ void INDIStdDevice::streamReceived()
 	  
 	  strncpy(filename, currentDir.ascii(), currentDir.length());
 	  filename[currentDir.length()] = '\0';
-          strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
-	  strncat(filename, ts, sizeof(ts));
-	  strncat(filename, dataExt.ascii(), 3);
+	  
+	  if (batchMode && dataType == DATA_FITS)
+	  {
+	    char tempFileStr[256];
+	    strncpy(tempFileStr, filename, 256);
+	    
+	    if (ISOMode)
+	    {
+	     strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+	     snprintf(filename, 256, "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
+	    }
+	    else
+	     snprintf(filename, 256, "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
+	     
+	     seqCount++;
+	  }
+	  else
+	  {
+	    strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
+	    strncat(filename, ts, sizeof(ts));
+	    strncat(filename, dataExt.ascii(), 3);
+	  }
         }
 	  
        fitsTempFile = fopen(filename, "w");
@@ -360,6 +387,12 @@ void INDIStdDevice::streamReceived()
          ksw->statusBar()->changeItem( i18n("Data file saved to %1").arg(filename), 0);
          return;
        }
+       else if (dataType == DATA_FITS && batchMode)
+       {
+         ksw->statusBar()->changeItem( i18n("FITS file saved to %1").arg(filename), 0);
+	 emit FITSReceived(dp->label);
+         return;
+       } 
        
        KURL fileURL(filename);
        
@@ -523,6 +556,59 @@ void INDIStdDevice::streamReceived()
     pp->newSwitch(1); 
    
 }
+ 
+ void INDIStdDevice::updateSequencePrefix(QString newPrefix)
+ {
+    seqPrefix = newPrefix;
+    
+    seqLister->setNameFilter(QString("%1_*.fits").arg(seqPrefix));
+    
+    seqCount = 0;
+    
+    if (ISOMode) return;
+    
+    seqLister->openURL(Options::fitsSaveDirectory());
+    
+    checkSeqBoundary(seqLister->items());
+ 
+ }
+ 
+ void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
+ {
+    int newFileIndex;
+    QString tempName;
+    char *tempPrefix = new char[64];
+    
+    // No need to check when in ISO mode
+    if (ISOMode)
+     return;
+     
+    for ( KFileItemListIterator it( items ) ; it.current() ; ++it )
+    {
+       tempName = it.current()->name();
+       
+       // find the prefix first
+       if (tempName.find(seqPrefix) == -1)
+         continue;
+	 
+       strncpy(tempPrefix, tempName.ascii(), 64);
+       tempPrefix[63] = '\0';
+       
+       char * t = tempPrefix;
+       
+       // skip chars
+       while (*t) { if (isdigit(*t)) break; t++; }
+       //tempPrefix = t;
+       
+       newFileIndex = strtol(t, NULL, 10);
+       
+        if (newFileIndex >= seqCount)
+	  seqCount = newFileIndex + 1;
+   }
+   
+   delete (tempPrefix);
+          
+ }
  
  void INDIStdDevice::updateTime()
 {

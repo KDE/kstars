@@ -13,7 +13,8 @@
  #define INDISTD_H
  
  #include <qobject.h>
- #include <indi/lilxml.h>
+  #include <indi/lilxml.h>
+ #include <kfileitem.h>
  
  class INDI_E;
  class INDI_P;
@@ -23,6 +24,7 @@
  class StreamWG;
  class QSocketNotifier;
  class KProgressDialog;
+ class KDirLister;
  
  
  /* This class implmements standard properties on the device level*/
@@ -64,6 +66,8 @@
    void updateTime();
     /* INDI STD: Updates device location */
    void updateLocation();
+   /* Update image prefix */
+   void updateSequencePrefix(QString newPrefix);
    
    int                  dataType;
    int 			initDevCounter;
@@ -75,13 +79,23 @@
    QString		dataExt;
    LilXML		*parser;
    
+   QString		seqPrefix;
+   int			seqCount;
+   bool			batchMode;
+   bool			ISOMode;
+   KDirLister           *seqLister;
+   
    public slots:
    void streamReceived();
    void timerDone();
    
+   protected slots:
+   void checkSeqBoundary(const KFileItemList & items);
+   
    signals:
    void linkRejected();
    void linkAccepted();
+   void FITSReceived(QString deviceLabel);
  
  };
  

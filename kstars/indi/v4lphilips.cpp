@@ -136,9 +136,9 @@ static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", C
 static INumber ShutterSpeedN[]		= {{"Speed", "", "%0.f", 0., 65535., 100., 0., 0, 0, 0}};
 static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), 0, 0};
 
-/* Exposure */
-  static ISwitch ExposeS[]    = {{ "FITS", "", ISS_OFF, 0, 0}};
-  static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS), 0, 0};
+/* Exposure time */
+static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 1., 1., .0, 1., 0, 0, 0}};
+static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), 0, 0};
 
 /* Image color */
 static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
@@ -244,7 +244,7 @@ void ISGetProperties (const char *dev)
   IDDefText(&camNameTP, NULL);
   IDDefSwitch(&StreamSP, NULL);
   IDDefNumber(&FrameRateNP, NULL);
-  IDDefSwitch(&ExposeSP, NULL);
+  IDDefNumber(&ExposeTimeNP, NULL);
   IDDefNumber(&ShutterSpeedNP, NULL);
   
   /* Image properties */
@@ -347,36 +347,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        return;
      }
      
-     /* Exposure */
-    if (!strcmp (ExposeSP.name, name))
-    {
-       
-       if (checkPowerS(&ExposeSP))
-         return;
-    
-	IUResetSwitches(&StreamSP);
-	//rmTimer(streamTimerID);
-	streamTimerID = -1;
-	StreamS[1].s  = ISS_ON;
-	StreamSP.s    = IPS_IDLE;
-	IDSetSwitch(&StreamSP, NULL);
-	
-        ExposeS[0].s = ISS_OFF;
-	
-	V4LFrame->expose = 1000;
-	V4LFrame->Y      = getY();
-	V4LFrame->U      = getU();
-	V4LFrame->V      = getV();
-	
-        if (grabImage() < 0)
-	{
-	 ExposeS[0].s = ISS_OFF;
-	 ExposeSP.s   = IPS_IDLE;
-	 IDSetSwitch(&ExposeSP, NULL);
-	}
-     return;
-    }
-    
     if (!strcmp (AntiFlickerSP.name, name))
     {
        if (checkPowerS(&AntiFlickerSP))
@@ -851,6 +821,34 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      IDSetNumber(&WhiteBalanceNP, NULL);
      return;
    }
+   
+   /* Exposure */
+    if (!strcmp (ExposeTimeNP.name, name))
+    {
+       
+       if (checkPowerN(&ExposeTimeNP))
+         return;
+    
+	streamTimerID = -1;
+	StreamS[0].s  = ISS_OFF;
+	StreamS[1].s  = ISS_ON;
+	StreamSP.s    = IPS_IDLE;
+	IDSetSwitch(&StreamSP, NULL);
+	
+	V4LFrame->expose = 1000;
+	V4LFrame->Y      = getY();
+	V4LFrame->U      = getU();
+	V4LFrame->V      = getV();
+	
+        if (grabImage() < 0)
+	{
+	 ExposeTimeNP.s   = IPS_IDLE;
+	 IDSetNumber(&ExposeTimeNP, NULL);
+	}
+	  
+	
+     return;
+    } 
   
   	
 }
@@ -938,10 +936,10 @@ int writeFITS(char * filename, char errmsg[])
  fits_close (ofp);      
  
   /* Success */
- ExposeSP.s = IPS_OK;
+ ExposeTimeNP.s = IPS_OK;
  /*IDSetSwitch(&ExposeSP, "FITS image written to %s", filename);
  IDLog("FITS image written to '%s'\n", filename);*/
- IDSetSwitch(&ExposeSP, "Loading FITS image...");
+ IDSetNumber(&ExposeTimeNP, "Loading FITS image...");
  IDLog("Loading FITS image...\n");
  
  uploadFile(filename);

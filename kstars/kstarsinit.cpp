@@ -292,6 +292,7 @@ void KStars::initActions() {
 
 // devices Menu
 	new KAction(i18n("Telescope Wizard..."), 0, this, SLOT(slotTelescopeWizard()), actionCollection(), "telescope_wizard");
+	new KAction(i18n("Capture Image Sequence..."), 0, this, SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
 	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");
 	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_control_panel");
 	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");
@@ -576,6 +577,9 @@ void KStars::privatedata::buildGUI() {
 
 	//INDI driver set to null
 	ks->indidriver = 0;
+	
+	//INDI img sequence, set to null
+	ks->indiseq = 0;
 
 	ks->skymap = new SkyMap( ks->data(), ks->centralWidget );
 	// update skymap if KStarsData send update signal

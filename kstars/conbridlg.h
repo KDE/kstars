@@ -51,6 +51,7 @@ class ContrastBrightnessDlg : public KDialogBase {
   //unsigned char *localImgBuffer;
   
   QImage *displayImage;
+  QImage *tempImage;
   
   public slots:
   void setContrast(int contrastValue);

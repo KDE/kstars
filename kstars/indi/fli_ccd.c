@@ -174,7 +174,7 @@ static INumber FrameN[]          	= {
  static INumberVectorProperty BinningNP = { mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), 0, 0};
  
  /* Exposure time */
-  static INumber ExposeTimeN[]    = {{ "EXPOSE_TIME_S", "Duration (s)", "%5.2f", 0., 59., .5, 1., 0, 0, 0}};
+  static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
   static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), 0, 0};
  
   /* Temperature control */
