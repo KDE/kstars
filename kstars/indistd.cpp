@@ -175,9 +175,9 @@ void INDIStdDevice::streamReceived()
      if (n <= 0)
 	   {
 	    	if (n < 0)
-			sprintf (msg, "INDI Data: input error.");
+			strncpy(msg, "INDI Data: input error.", 1024);
 	    	else
-			sprintf (msg, "INDI Data: agent closed connection.");
+			strncpy(msg, "INDI Data: agent closed connection.", 1024);
 
 	    sNotifier->disconnect();
 	    close(streamFD);
@@ -270,9 +270,9 @@ void INDIStdDevice::streamReceived()
 	   if (n <= 0)
 	   {
 	    	if (n < 0)
-			sprintf (msg, "INDI: input error.");
+			strncpy(msg, "INDI: input error.", 1024);
 	    	else
-			sprintf (msg, "INDI: agent closed connection.");
+			strncpy(msg, "INDI: agent closed connection.", 1024);
 
 	    sNotifier->disconnect();
 	    close(streamFD);
@@ -971,9 +971,8 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
        		if (stdDev->handleNonSidereal(ksw->map()->clickedObject()))
 	        	return true;
 
-        fprintf(stderr, "\n******** The point BEFORE it was precessed ********\n");
-	fprintf(stderr, "RA : %s - DEC : %s\n", ksw->map()->clickedPoint()->ra()->toHMSString().ascii(),
-	ksw->map()->clickedPoint()->dec()->toDMSString().ascii());
+        kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
+	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString();
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
@@ -996,7 +995,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    
    /* Handle Abort */
    case ABORT_MOTION:
-         fprintf(stderr, "Stopping timer.\n");
+         kdDebug() << "Stopping timer." << endl;
 	 stdDev->devTimer->stop();
  	 pp->newSwitch(switchIndex);
 	 return true;
