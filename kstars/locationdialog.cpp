@@ -226,6 +226,8 @@ void LocationDialog::filterCity( void ) {
 
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
+
+	MapView->repaint();
 }
 
 void LocationDialog::changeCity( void ) {

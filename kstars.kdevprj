@@ -31,11 +31,11 @@ email=kstars@30doradus.org
 kdevprj_version=1.3
 lfv_open_groups=Translations
 make_options=\s-j1
-makefiles=Makefile.am,kstars/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,kstars/data/Makefile.am
+makefiles=Makefile.am,kstars/Makefile.am,kstars/data/Makefile.am
 modifyMakefiles=true
 project_name=KStars
 project_type=normal_kde2
-sgml_file=/home/jharris/kstars/doc/en/index.docbook
+sgml_file=
 short_info=A Desktop Planetarium for KDE
 sub_dir=kstars/
 version=0.7
@@ -59,7 +59,7 @@ groups=Headers,Sources,User Interface,Translations,GNU,Others
 
 [Makefile.am]
 files=kstars.kdevprj,AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,kstars.lsm
-sub_dirs=kstars,po,doc
+sub_dirs=kstars
 type=normal
 
 [README]
@@ -81,39 +81,6 @@ header_file=/root/develop/kstars_5/kstars/kstars/skyobject.h
 openfiles=Untitled.cpp,Untitled.h,/root/develop/kstars_5/kstars/kstars/kstars.h,/root/develop/kstars_5/kstars/kstars/bak/skymap.cpp,/root/develop/kstars_5/kstars/kstars/kstarsdata.h,/root/develop/kstars_5/kstars/kstars/kstarsdata.cpp,/root/develop/kstars_5/kstars/kstars/kstars.cpp,/root/develop/kstars_5/kstars/kstars/skymap.cpp,/root/develop/kstars_5/kstars/kstars/mapcanvas.cpp,/root/develop/kstars_5/kstars/kstars/skyobject.h,/root/develop/kstars_5/kstars/kstars/skypoint.cpp
 show_outputview=false
 show_treeview=false
-
-[doc/Makefile.am]
-sub_dirs=en
-type=normal
-
-[doc/en/Makefile.am]
-files=doc/en/index.docbook,doc/en/screen1.png,doc/en/screen2.png,doc/en/screen3.png
-sub_dirs=
-type=normal
-
-[doc/en/index.docbook]
-dist=true
-install=false
-install_location=$$(kde_icondir)/locolor/16x16/apps/kstars.png
-type=DATA
-
-[doc/en/screen1.png]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[doc/en/screen2.png]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[doc/en/screen3.png]
-dist=true
-install=false
-install_location=
-type=DATA
 
 [kstars.kdevprj]
 dist=true
@@ -2357,19 +2324,3 @@ install=false
 install_location=
 type=HEADER
 
-[po/Makefile.am]
-files=po/de.po,po/fr.po
-sub_dirs=
-type=po
-
-[po/de.po]
-dist=false
-install=false
-install_location=
-type=PO
-
-[po/fr.po]
-dist=false
-install=false
-install_location=
-type=PO

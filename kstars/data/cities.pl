@@ -14,7 +14,7 @@ while ( $city = <CITIES> ) {
 	  $fields[$i] =~ s/\s+$//;
 	}
 #  printf("%d x ", $fieldcount );
-	$TZ = &calcTZ($fields[2]);
+	$TZ = &calcTZ($fields[2], $fields[1]);
 	if ( $fieldcount == 11 ) {
 		printf ( "%-32s :", $fields[0] ); # City
     printf ( " %-21s :", $fields[1] ); # Province
@@ -49,11 +49,19 @@ while ( $city = <CITIES> ) {
 
 sub calcTZ {
 	local($country);
+	local($province);
 	local($TZ);
 	$country=$_[0];
+	$province=$_[1];
+
 	$TZ = $timezone{$country};
 	if ( $TZ eq "" ) {
-		$TZ = "x";
+		if ( $country eq "USA" ) { $TZ = $us_timezone{$province}; }
+		if ( $country eq "Canada" ) { $TZ = $ca_timezone{$province}; }
+
+		if ( $TZ eq "" ) {
+			$TZ = "x";
+	  }
 	}
 	$TZ;
 }
@@ -211,4 +219,85 @@ sub initTZList{
 	$timezone{"Yemen"} = "3.0";
 	$timezone{"Zaire"} = "x";	# covers several TZs
 	$timezone{"Zambia"} = "2.0";
+
+#Province-specific TZ's
+# US States
+	$us_timezone{"Alabama"} = "-6.0";
+  $us_timezone{"Alaska "} = "-9.0";
+  $us_timezone{"Arizona "} = "-7.0"; #AZ does not use daylight savings time
+  $us_timezone{"Arkansas "} = "-6.0";
+  $us_timezone{"California "} = "-8.0";
+  $us_timezone{"Colorado "} = "-7.0";
+  $us_timezone{"Connecticut "} = "-5.0";
+  $us_timezone{"Delaware "} = "-5.0";
+  $us_timezone{"Florida "} = "-5.0"; #a small part of western FL is -6.0 (CST)
+  $us_timezone{"Georgia "} = "-5.0";
+  $us_timezone{"Hawaii "} = "-10.0";
+  $us_timezone{"Idaho "} = "x"; #northern ID is -8.0; southern ID is -7.0
+  $us_timezone{"Illinois "} = "-6.0";
+  $us_timezone{"Indiana "} = "-5.0"; #two corners of IN are in -6.0; the rest of IN does not use savings time
+  $us_timezone{"Iowa "} = "-6.0";
+  $us_timezone{"Kansas "} = "-6.0"; #4 counties in Western KS are -7.0
+  $us_timezone{"Kentucky "} = "x"; #half is -5.0, half is -6.0
+  $us_timezone{"Louisiana "} = "-6.0";
+  $us_timezone{"Maine "} = "-5.0";
+  $us_timezone{"Maryland "} = "-5.0";
+  $us_timezone{"Massachusetts "} = "-5.0";
+  $us_timezone{"Michigan "} = "-5.0";
+  $us_timezone{"Minnesota "} = "-6.0";
+  $us_timezone{"Mississippi "} = "-6.0";
+  $us_timezone{"Missouri "} = "-6.0";
+  $us_timezone{"Montana "} = "-7.0";
+  $us_timezone{"Nebraska "} = "x"; #eastern 2/3 is -6.0, the rest is -7.0
+  $us_timezone{"Nevada "} = "-8.0";
+  $us_timezone{"New Hampshire "} = "-5.0";
+  $us_timezone{"New Jersey "} = "-5.0";
+  $us_timezone{"New Mexico "} = "-7.0";
+  $us_timezone{"New York "} = "-5.0";
+  $us_timezone{"North Carolina "} = "-5.0";
+  $us_timezone{"North Dakota "} = "x"; #3/4 is -6.0, the rest is -7.0
+  $us_timezone{"Ohio "} = "-5.0";
+  $us_timezone{"Oklahoma "} = "-6.0";
+  $us_timezone{"Oregon "} = "-8.0"; #one county in Easter OR is -7.0
+  $us_timezone{"Pennsylvania "} = "-5.0";
+  $us_timezone{"Rhode Island "} = "-5.0";
+  $us_timezone{"South Carolina "} = "-5.0";
+  $us_timezone{"South Dakota "} = "x"; #1/2 is -6.0, the rest is -7.0
+  $us_timezone{"Tennessee "} = "x"; #2/3 is -6.0, the rest is -5.0
+  $us_timezone{"Texas "} = "-6.0"; #two westernmost counties are -7.0
+  $us_timezone{"Utah "} = "-7.0";
+  $us_timezone{"Vermont "} = "-5.0";
+  $us_timezone{"Virginia "} = "-5.0";
+  $us_timezone{"Washington "} = "-8.0";
+  $us_timezone{"West Virginia "} = "-5.0";
+  $us_timezone{"Wisconsin "} = "-6.0";
+  $us_timezone{"Wyoming "} = "-7.0";
+  $us_timezone{"DC "} = "-5.0";
+  $us_timezone{"Puerto Rico"} = "-5.0";
+
+#Canadian Provinces
+	$ca_timezone{"Alberta"} = "-7.0";
+  $ca_timezone{"British Columbia"} = "-8.0"; #Small parts of Eastern BC are -7.0
+	$ca_timezone{"Labrador"} = "-4.0";
+  $ca_timezone{"Manitoba"} = "-6.0"; 
+	$ca_timezone{"New Brunswick"} = "-4.0";
+	$ca_timezone{"Newfoundland"} = "-3.5"; 
+	$ca_timezone{"Northwest Territories"} = "-7.0";
+  $ca_timezone{"Nova Scotia"} = "-4.0";
+	$ca_timezone{"Nunavut"} = "x"; #spans 3 timezones!  -5, -6 and -7
+  $ca_timezone{"Ontario"} = "x"; #Eastern 2/3 is -5, the rest is -6
+	$ca_timezone{"Prince Edward Island"} = "-4.0";
+	$ca_timezone{"Quebec"} = "-5.0"; #small eastern section is -4
+	$ca_timezone{"Saskatchewan"} = "-6.0"; #does not use savings time.
+	$ca_timezone{"Yukon"} = "-8.0";
+
+#Australian Provinces
+	$au_timezone{"ACT"} = "+10.0";
+	$au_timezone{"New South Wales"} = "+10.0";
+  $au_timezone{"Northern Territory"} = "+9.0";
+	$au_timezone{"Queensland"} = "+10.0";
+	$au_timezone{"South Australia"} = "+9.0";
+	$au_timezone{"Tasmania"} = "+10.0";
+	$au_timezone{"Victoria"} = "+10.0";
+	$au_timezone{"Western Australia"} = "+8.0";
 }

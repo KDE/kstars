@@ -78,6 +78,14 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
       ld->GeoID[ld->GeoBox->count() - 1] = i;
 		}
 	}
+
+	QString scount = i18n( "%1 cities match search criteria" ).arg(ld->GeoBox->count());
+	ld->CountLabel->setText( scount );
+
+	if ( ld->GeoBox->firstItem() )		// set first item in list as selected
+		ld->GeoBox->setCurrentItem( ld->GeoBox->firstItem() );
+
+	repaint();
 }
 
 void MapCanvas::paintEvent( QPaintEvent *e ) {
@@ -89,8 +97,8 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 	pcanvas.begin( Canvas );
 //	pcanvas.fillRect( 0, 0, width(), height(), QBrush( QColor( BGColor ) ) );
 	pcanvas.drawPixmap( 0, 0, *bgImage );
-	pcanvas.setBrush( white );
-	pcanvas.setPen( white );
+//	pcanvas.setBrush( white );
+	pcanvas.setPen( QPen( QColor( "SlateGrey" ) ) );
 
 	//Draw cities
 	QPoint o;
@@ -101,6 +109,21 @@ void MapCanvas::paintEvent( QPaintEvent *e ) {
 
 		if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 			pcanvas.drawPoint( o.x(), o.y() );
+		}
+	}
+
+  //redraw the cities that appear in the filtered list, with a white pen
+	//If the list has not been filtered, skip the redraw.
+	if ( ld->GeoBox->count() < ks->GetData()->geoList.count() ) {
+		pcanvas.setPen( white );
+		for ( unsigned int i=0; i < ld->GeoBox->count(); ++i ) {
+			int index = ld->GeoID[i];
+			o.setX( int( ks->GetData()->geoList.at(index)->lng().getD() + origin.x() ) );
+			o.setY( height() - int( ks->GetData()->geoList.at(index)->lat().getD() + origin.y() ) );
+
+			if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+				pcanvas.drawPoint( o.x(), o.y() );
+			}
 		}
 	}
 
