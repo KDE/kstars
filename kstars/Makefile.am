@@ -24,7 +24,7 @@ timedialog.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp \
 timezonerule.cpp toggleaction.cpp viewopsdialog.cpp wutdialog.cpp \
 argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui \
 argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui \
-argtimescale.ui argwaitforkey.ui argwaitfor.ui devmanager.ui \
+argtimescale.ui argwaitforkey.ui argwaitfor.ui argzoom.ui devmanager.ui \
 focusdialogdlg.ui indiconf.ui indihostconf.ui modcalcapcoorddlg.ui \
 modcalcazeldlg.ui modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui \
 modcalcgeoddlg.ui modcalcjddlg.ui modcalcprecdlg.ui \
@@ -36,7 +36,7 @@ kstars_LDADD = indi/liblilxml.a indi/libindicom.a $(top_builddir)/libkdeedu/kdee
 
 SUBDIRS = data indi
 
-EXTRA_DIST = kstars.desktop kstarsui.rc 
+EXTRA_DIST = kstars.desktop kstarsui.rc
 
 
 mydatadir = $(kde_appsdir)/Edutainment/Science/
@@ -53,7 +53,7 @@ INCLUDES= $(all_includes)
 METASOURCES = AUTO
 
 # the library search path.
-kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH) 
+kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 # Uncomment the following two lines if you add a ui.rc file for your application to make use of
 # KDE

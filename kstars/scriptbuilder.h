@@ -38,12 +38,13 @@
 #include "argchangeviewoption.h"
 #include "argsetgeolocation.h"
 #include "argtimescale.h"
+#include "argzoom.h"
 
 class KStars;
 class QListViewItem;
 
 /**
- * 
+ *
  * Jason Harris
  **/
 class ScriptBuilder : public ScriptBuilderUI
@@ -69,15 +70,15 @@ public slots:
 	virtual void slotMoveFunctionDown();
 	virtual void slotArgWidget();
 	virtual void slotShowDoc();
-	
+
 	virtual void slotNew();
 	virtual void slotOpen();
 	virtual void slotSave();
 	virtual void slotSaveAs();
-	
+
 	virtual void slotCopyFunction();
 	virtual void slotRemoveFunction();
-	
+
 	void slotFindCity();
 	void slotFindObject();
 	void slotShowOptions();
@@ -96,17 +97,18 @@ public slots:
 	void slotChangeProvince();
 	void slotChangeCountry();
 	void slotTimeScale();
-	
+	void slotZoom();
+
 	void slotEnableScriptNameOK();
-	
+
 private:
 	void initViewOptions();
-	
+
 	KStars *ks; //parent needed for sub-dialogs
 	QPtrList<ScriptFunction> FunctionList;
 	QPtrList<ScriptFunction> ScriptList;
 	QVBoxLayout *vlay;
-	
+
 	QWidget *argBlank;
 	ArgLookToward *argLookToward;
 	ArgSetRaDec *argSetRaDec;
@@ -118,11 +120,13 @@ private:
 	ArgChangeViewOption *argChangeViewOption;
 	ArgSetGeoLocation *argSetGeoLocation;
 	ArgTimeScale *argTimeScale;
+	ArgZoom *argZoom;
+
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
-	
+
 	QListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
-	
+
 	bool UnsavedChanges;
 	KURL currentFileURL;
 	QString currentPath;

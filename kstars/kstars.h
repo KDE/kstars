@@ -157,6 +157,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Default Zoom. */
 		ASYNC defaultZoom(void) { slotDefaultZoom(); }
 
+	/**DCOP interface function.  Set ZoomLevel manually. */
+		ASYNC zoom(double);
+
 	/**DCOP interface function.  Set local time and date. */
 		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 

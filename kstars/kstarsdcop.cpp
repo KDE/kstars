@@ -69,6 +69,12 @@ void KStars::lookTowards ( const QString direction ) {
 	}
 }
 
+void KStars::zoom( double z ) {
+	if ( z > MAXZOOM ) z = MAXZOOM;
+	if ( z < MINZOOM ) z = MINZOOM;
+	options()->ZoomFactor = z;
+}
+
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 	data()->changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
 }

@@ -60,6 +60,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	FunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
 	FunctionList.append( new ScriptFunction( "zoomOut", i18n( "Increase the display Zoom Level." ), false ) );
 	FunctionList.append( new ScriptFunction( "defaultZoom", i18n( "Set the display Zoom Level to its default value." ), false ) );
+	FunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
 	FunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
 			false, "int", "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second" ) );
 	FunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds" ), false, "double", "sec" ) );
@@ -101,6 +102,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argChangeViewOption = new ArgChangeViewOption( ArgStack );
 	argSetGeoLocation = new ArgSetGeoLocation( ArgStack );
 	argTimeScale = new ArgTimeScale( ArgStack );
+	argZoom = new ArgZoom( ArgStack );
 
 	ArgStack->addWidget( argBlank );
 	ArgStack->addWidget( argLookToward );
@@ -113,6 +115,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	ArgStack->addWidget( argChangeViewOption );
 	ArgStack->addWidget( argSetGeoLocation );
 	ArgStack->addWidget( argTimeScale );
+	ArgStack->addWidget( argZoom );
 
 	ArgStack->raiseWidget( 0 );
 
@@ -142,6 +145,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	connect( argSetGeoLocation->ProvinceName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotChangeProvince() ) );
 	connect( argSetGeoLocation->CountryName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotChangeCountry() ) );
 	connect( argTimeScale->TimeScale, SIGNAL( scaleChanged(float) ), this, SLOT( slotTimeScale() ) );
+	connect( argZoom->ZoomBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotZoom() ) );
 
 	connect( snd->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableScriptNameOK() ) );
 
@@ -702,6 +706,13 @@ void ScriptBuilder::slotArgWidget() {
 			ArgStack->raiseWidget( argBlank );
 			//no Args
 
+		} else if ( sf->name() == "zoom" ) {
+			ArgStack->raiseWidget( argZoom );
+			bool ok(false);
+			double z = sf->argVal(0).toDouble(&ok);
+			if (ok) argZoom->ZoomBox->setText( sf->argVal(0) );
+			else argZoom->ZoomBox->setText( "2000." );
+
 		} else if ( sf->name() == "setLocalTime" ) {
 			ArgStack->raiseWidget( argSetLocalTime );
 			bool ok(false);
@@ -1117,6 +1128,23 @@ void ScriptBuilder::slotTimeScale() {
 
 		sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
 		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotZoom() {
+	ScriptFunction *sf = ScriptList.at( ScriptListBox->currentItem() );
+
+	if ( sf->name() == "zoom" ) {
+		setUnsavedChanges( true );
+
+		bool ok(false);
+		argZoom->ZoomBox->text().toDouble(&ok);
+		if ( ok ) {
+			sf->setArg( 0, argZoom->ZoomBox->text() );
+			sf->setValid( true );
+		}
 	} else {
 		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
 	}
