@@ -482,7 +482,7 @@ void KStars::privatedata::buildGUI() {
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->clock, SLOT( setScale( float )) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
-	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep->tsbox(), SLOT( changeScale( float )) );
+//	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep->tsbox(), SLOT( changeScale( float )) );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 14 );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
