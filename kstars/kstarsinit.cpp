@@ -38,6 +38,8 @@ void KStars::initActions() {
 			this, SLOT( newWindow() ), actionCollection(), "new_window");
 	new KAction(i18n("&Close Window"), "fileclose", KAccel::stringToKey( "Ctrl+W"  ),
 			this, SLOT( closeWindow() ), actionCollection(), "close_window");
+	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KAccel::stringToKey( "Ctrl+I" ),
+			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
 	new KAction( i18n( "&Run Script..." ), "launch", KAccel::stringToKey( "Ctrl+R" ),
 			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
   KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );

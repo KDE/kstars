@@ -310,6 +310,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Close KStars window. */
 		void closeWindow();
 
+		/**Action slot to save the sky image to a file.*/
+		void slotExportImage();
+
 		/**Action slot to select a DCOP script and run it.*/
 		void slotRunScript();
 

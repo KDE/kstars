@@ -70,7 +70,9 @@ int main(int argc, char *argv[])
 		if ( ext.lower() == "png" ) { format = "PNG"; }
 		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
-		else { kdDebug() << "Error: could not parse image format for filename: " << fname << endl; return 1; }
+		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
+		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
+		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG!" ).arg( fname ) << endl; }
 
 		//parse width and height
 		bool ok(false);
@@ -121,8 +123,8 @@ int main(int argc, char *argv[])
 		map->exportSkyImage( &sky );
 		kapp->processEvents(100000);
 
-		if ( ! sky.save( fname, format ) ) kdWarning() << "Unable to save image." << endl;
-		else kdDebug() << "Saved to file: " << fname << endl;
+		if ( ! sky.save( fname, format ) ) kdWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
+		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
 
 		delete map;
 		delete dat;

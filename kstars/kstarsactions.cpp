@@ -14,10 +14,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+//needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
+#include <sys/stat.h>
+
 #include <kaccel.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
+#include <ktempfile.h>
 #include <ktip.h>
 #include <kfiledialog.h>
 #include <kprocess.h>
@@ -255,13 +261,112 @@ void KStars::closeWindow() {
 	close();
 }
 
+void KStars::slotExportImage() {
+	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpg image/gif image/pnm image/bmp" );
+	KTempFile tmpfile;
+	QString fname;
+	tmpfile.setAutoDelete(true);
+	QPixmap skyimage( map()->width(), map()->height() );
+
+	if ( fileURL.isValid() ) {
+		if ( fileURL.isLocalFile() ) {
+			fname = fileURL.path();
+		} else {
+			fname = tmpfile.name();
+		}
+
+		//Determine desired image format from filename extension
+		QString ext = fname.mid( fname.findRev(".")+1 );
+		const char* format = "PNG";
+		if ( ext.lower() == "png" ) { format = "PNG"; }
+		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
+		else if ( ext.lower() == "gif" ) { format = "GIF"; }
+		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
+		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
+		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG!" ).arg( fname ) << endl; }
+
+		map()->exportSkyImage( &skyimage );
+		kapp->processEvents(10000);
+
+		if ( ! skyimage.save( fname, format ) ) kdWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
+		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
+
+		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
+			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL ) ) {
+				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+			}
+		}
+	}
+}
+
 void KStars::slotRunScript() {
 	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+	QFile f;
+	QString fname;
 
-	if ( fileURL.isValid() && fileURL.isLocalFile() ) {
-		//Remove the leading 'file:', which confuses QFile :(
-		QString fname = fileURL.url().mid(5);
-		QFile f( fname );
+	if ( fileURL.isValid() ) {
+		if ( ! fileURL.isLocalFile() ) {
+			//Warn the user about executing remote code.
+			QString message = i18n( "Warning!  You are about to execute a remote shell script on your machine. " );
+			message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script. " );
+			message += i18n( "To save the file without executing it, press Save. " );
+			message += i18n( "To cancel the download, press Cancel. " );
+
+			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really execute remote script?" ),
+					i18n( "&Continue" ), i18n( "&Save" ) );
+
+			if ( result == KMessageBox::Cancel ) return;
+			if ( result == KMessageBox::No ) { //save file
+				KURL saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+				KTempFile tmpfile;
+				tmpfile.setAutoDelete(true);
+
+				while ( ! saveURL.isValid() ) {
+					message = i18n( "Save location is invalid.  Try another location?" );
+					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid save location" ) ) == KMessageBox::No ) return;
+					saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+				}
+
+				if ( saveURL.isLocalFile() ) {
+					fname = saveURL.path();
+				} else {
+					fname = tmpfile.name();
+				}
+
+				if( KIO::NetAccess::download( fileURL, fname ) ) {
+					chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
+
+					if ( tmpfile.name() == fname ) { //upload to remote location
+						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL ) ) {
+							QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+						}
+					}
+				} else {
+					KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download error" ) );
+				}
+
+				return;
+			}
+		}
+
+		//Damn the torpedos and full speed ahead, we're executing the script!
+		KTempFile tmpfile;
+		tmpfile.setAutoDelete(true);
+
+		if ( ! fileURL.isLocalFile() ) {
+			fname = tmpfile.name();
+			if( KIO::NetAccess::download( fileURL, fname ) ) {
+				chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+				f.setName( fname );
+			}
+		} else {
+			f.setName( fileURL.path() );
+		}
+
+		//DEBUG
+		kdDebug() << "filename: " << f.name() << endl;
 
 		if ( !f.open( IO_ReadOnly) ) {
 			QString message = i18n( "Could not open file %1" ).arg( f.name() );
@@ -292,12 +397,14 @@ void KStars::slotRunScript() {
 					i18n( "Script Validation Failed!" ) );
 		} else {
 			//DEBUG
-			kdDebug() << "running script: " << fname << endl;
+			kdDebug() << "running script: " << f.name() << endl;
 
 			//file is OK, run it!
 			KProcess p;
-			p << fname;
+			p << f.name();
 			p.start( KProcess::DontCare );
+
+			while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
 		}
 	}
 }
