@@ -772,7 +772,7 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 
 void KStarsData::checkDataPumpAction() {
 	bool reloadMoreData = false;  // default is false, just if new datas are needed it will set to true
-	float sourceMag;
+	float sourceMag(0.0);  // init with 0.0 if source doesn't exist
 	if ( source ) {  // if source exists
 		sourceMag = source->magnitude();
 		if ( sourceMag < maxSetMagnitude ) reloadMoreData = true;
