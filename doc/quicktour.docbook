@@ -312,7 +312,7 @@ which act on the selected object:
 <listitem>
 <para>Center and Track on the selected object</para>
 </listitem>
-</varlistenty>
+</varlistentry>
 
 <varlistentry>
 <term><keycap>D</keycap></term>
@@ -320,14 +320,14 @@ which act on the selected object:
 <para>Show the <link linkend="tool-details">Details window</link> 
 for the selected object</para>
 </listitem>
-</varlistenty>
+</varlistentry>
 
 <varlistentry>
 <term><keycap>L</keycap></term>
 <listitem>
 <para>Toggle a visible name label on the selected object</para>
 </listitem>
-</varlistenty>
+</varlistentry>
 
 <varlistentry>
 <term><keycap>O</keycap></term>
@@ -335,7 +335,7 @@ for the selected object</para>
 <para>Add the selected object to the 
 <link linkend="tool-observinglist">Observing List</link></para>
 </listitem>
-</varlistenty>
+</varlistentry>
 
 <varlistentry>
 <term><keycap>T</keycap></term>
@@ -344,7 +344,7 @@ for the selected object</para>
 object across the sky (only applicable to Solar System bodies)
 </para>
 </listitem>
-</varlistenty>
+</varlistentry>
 
 </variablelist>
 </para>
@@ -359,6 +359,8 @@ object.
 </sect2> <!--object actions-->
 </sect1> <!--objects in the sky-->
 
+<sect1 id="endtour">
+<title>End of the Tour</title>
 <para>
 This concludes the tour of &kstars;, although we have only scratched
 the surface of the available features.  &kstars; includes many useful
@@ -370,5 +372,6 @@ customization options</link>.  In addition, this Handbook includes the
 interlinked articles explaining some of the celestial and astrophysical
 concepts behind &kstars;.
 </para>
+</sect1>
 
 </chapter>

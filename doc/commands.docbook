@@ -951,7 +951,7 @@ Point (straight up)</para></listitem>
 </sect2>
 
 
-<sect2 id="nav-keys">
+<sect2 id="object-actions">
 <title>Actions for the Selected Object</title>
 <indexterm><primary>Objects in the Sky</primary>
 <secondary>Keyboard Actions</secondary></indexterm>
@@ -1131,6 +1131,7 @@ drag vertically.
 	<varlistentry><term>Dragging the sky map</term>
 	<listitem><para>Pan the display, following the drag motion.
 	</para></listitem></varlistentry>
+
 	<varlistentry><term>&Ctrl;+dragging the sky map</term>
 	<listitem><para>Define a rectangle in the map.  When the
 	mouse button is released, the display is zoomed in to match the
@@ -1142,7 +1143,6 @@ drag vertically.
 	Boxes will <quote>stick</quote> to window edges, so that they
 	remain on the edge when the window is resized.
 	</para></listitem></varlistentry>
-	</variablelist>
 
 	<varlistentry><term><keycap>Ctrl</keycap>-Dragging</term>
 	<listitem><para>If you hold down the <keycap>Ctrl</keycap> key 
