@@ -1,0 +1,134 @@
+<sect1 id="ai-blackbody">
+<sect1info>
+
+<author>
+<firstname>Jasem</firstname>
+<surname>Mutlaq</surname>
+<affiliation><address>
+<email>mutlaqja@ku.edu</email>
+</address></affiliation>
+</author>
+</sect1info>
+
+<title>Blackbody Radiation</title>
+
+<para>
+A <firstterm>blackbody</firstterm> refers to an idealized concept of
+an object that emits <firstterm>thermal radiation</firstterm>
+perfectly.  Since emission of light and absorption of light are
+inverse processes, a perfect emitter of light would also need to be a
+perfect absorber of light.  Therefore, at room temperature, such an
+object would appear to be perfectly black.  Hence the term
+<emphasis>blackbody</emphasis>.
+</para>
+
+<para>
+All objects emit thermal radiation (as long as their temperature is
+above Absolute Zero, or -276.15 degrees Celsius), but no object is
+really a perfect emitter; rather, they are better at
+emitting/absorbing some wavelengths of light than others.  These
+uneven efficiencies make it difficult to study the interaction of
+light, heat and matter using normal objects.
+</para>
+
+<para>
+Fortunately, it is possible to construct a nearly-perfect blackbody.  
+Construct a box made of a thermally conductive material, such as
+metal.  The box should be completely closed on all sides, so that the
+inside forms a cavity that does not receive light from the
+surroundings.  Then, make a very small hole somewhere on the box.
+The light coming out of this hole will almost perfectly resemble the
+light from an ideal blackbody, for the temperature of the air inside
+the box.
+</para>
+
+<para>
+At the beginning of the 20th century, scientists Lord Rayleigh,
+Wilhelm Wein, and Max Planck (among others) studied the blackbody
+radiation using such a device.  After much work, Planck was able to
+perfectly describe the intenisty of light emitted by a blackbody as a
+function of wavelength.  Furthermore, he was able to describe how this
+spectrum would change as the temperature changed.  Planck's work on
+blackbody radiation is one of the areas of physics that led to the
+foundation of the wonderful science of Quantum Mechanics, but that is
+unfortunately beyond the scope of this article.
+</para>
+
+<para>
+What Planck and the others found was that as the temperature of a 
+blackbody increases, the total amount of light emitted per 
+second increases, and the wavelength of the spectrum's peak shifts to
+bluer colors (see Figure 1).
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="graph1.png" format="PNG"/>
+</imageobject>
+<textobject><phrase>Figure 1</phrase></textobject>
+<caption><para>The spectrum of three blackbodies at different temperatures.</para></caption>
+</mediaobject>
+
+<para>
+Wilhelm Wein quantified the relationship between blackbody
+temperature and the wavelength of the spectral peak with the 
+following equation:
+</para>
+
+<para>
+lamba(max} * T = 0.29 cm K
+</para>
+
+<para>
+where T is the temperature in Kelvin.  Wein's law (also known as
+Wein's displacement law) can be stated in words as "the
+wavelength of maximum emission from a blackbody is inversely
+proportional to its temperature".  This makes sense;
+shorter-wavelength (higher-frequency) light corresponds to
+higher-energy photons, which you would expect from a
+higher-temperature object.
+</para>
+
+<para>
+For example, the sun has an average temperature of 5800 K with a
+wavelength of maximum emission equal to 
+lamba(max) = 0.29 cm / 5800 = 500 nm. This wavelengths falls in the
+green region of the visible light spectrum, but the sun's continuum
+radiates photons both longer and shorter than lambda(max) and the
+human eyes perceives the sun's color as white.
+</para>
+
+<para>
+In 1879, Austrian physicist Stephan Josef Stefan showed that
+the <firstterm>luminosity</firstterm>, L, of
+a black body is proportional to the 4th power of its temperature T.
+</para>
+
+<para>
+L = A * alpha * T^4
+</para>
+
+<para>
+where A is the surface area, alpha is a constant of proportionality,
+and T is the temperature in Kelvin. That is, if we double the
+temperature (e.g. 1000 K to 2000 K) then the total energy radiated
+from a blackbody increase by a
+factor of 2^4 or 16.
+</para>
+
+<para>
+Five years later, Austrian physicist Ludwig Boltzman derived the same
+equation and is now known as he Stephan-Boltzman law. If we assume a
+spherical star with radius R, then the luminosity of such a star is
+</para>
+
+<para>
+L = 4*PI*R^2 * Alpha * T^4
+</para>
+
+<para>
+where R is the star radius in cm, and the alpha is the
+Stephan-Boltzman constant, which has the value: Alpha = 5.670 * 10^-5
+erg/s/cm^2/K^-4.
+</para>
+</sect1>

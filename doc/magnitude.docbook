@@ -45,7 +45,8 @@ Imagine two stars in the sky with the same apparent magnitude, so they
 appear to be equally bright.  You can't know just by looking if the
 two have the same <emphasis>intrinsic</emphasis> brightness; it is
 possible that one star is intrinsically brighter, but further away.
-If we know the distances to the stars, we can account for
+If we knew the distances to the stars (see the <link
+linkend="ai-parallax">parallax</link> article), we could account for
 their distances and assign <firstterm>Absolute magnitudes</firstterm>
 which would reflect their true, intrinsic brightness.  The absolute
 magnitude is defined as the apparent magnitude the star would have if

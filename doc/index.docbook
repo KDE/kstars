@@ -3,33 +3,40 @@
  "dtd/kdex.dtd" [
   <!ENTITY kappname "&kstars;">
   <!ENTITY package "kdeedu">
-  <!ENTITY quicktour SYSTEM "quicktour.docbook">
-  <!ENTITY config SYSTEM "config.docbook">
-  <!ENTITY commands SYSTEM "commands.docbook">
-  <!ENTITY faq SYSTEM "faq.docbook">
+
   <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
-  <!ENTITY credits SYSTEM "credits.docbook">
-  <!ENTITY install SYSTEM "install.docbook">
+  <!ENTITY blackbody SYSTEM "blackbody.docbook">
+  <!ENTITY colorandtemp SYSTEM "colorandtemp.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY config SYSTEM "config.docbook">
   <!ENTITY contents SYSTEM "ai-contents.docbook">
-  <!ENTITY skycoords SYSTEM "skycoords.docbook">
   <!ENTITY cpoles SYSTEM "cpoles.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY csphere SYSTEM "csphere.docbook">
+  <!ENTITY darkmatter SYSTEM "darkmatter.docbook">
   <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
+  <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
   <!ENTITY equinox SYSTEM "equinox.docbook">
+  <!ENTITY faq SYSTEM "faq.docbook">
   <!ENTITY geocoords SYSTEM "geocoords.docbook">
   <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
   <!ENTITY horizon SYSTEM "horizon.docbook">
   <!ENTITY hourangle SYSTEM "hourangle.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY julianday SYSTEM "julianday.docbook">
   <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY magnitude SYSTEM "magnitude.docbook">
   <!ENTITY meridian SYSTEM "meridian.docbook">
+  <!ENTITY parallax SYSTEM "parallax.docbook">
   <!ENTITY precession SYSTEM "precession.docbook">
+  <!ENTITY quicktour SYSTEM "quicktour.docbook">
   <!ENTITY retrograde SYSTEM "retrograde.docbook">
   <!ENTITY sidereal SYSTEM "sidereal.docbook">
+  <!ENTITY skycoords SYSTEM "skycoords.docbook">
+  <!ENTITY stars SYSTEM "stars.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
-  <!ENTITY magnitude SYSTEM "magnitude.docbook"> 
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>

@@ -11,6 +11,7 @@ The articles sometimes also contain exercises that you can perform with
 </para>
 
 &contents;     <!--AstroInfo: Table of Contents-->
+
 &skycoords;    <!--AstroInfo: Celestial Coordinate Systems-->
 &cpoles;       <!--AstroInfo: Celestial Poles-->
 &csphere;      <!--AstroInfo: Celestial Sphere-->
@@ -20,14 +21,24 @@ The articles sometimes also contain exercises that you can perform with
 &greatcircle;  <!--AstroInfo: Great Circles-->
 &horizon;      <!--AstroInfo: Horizon-->
 &hourangle;    <!--AstroInfo: Hour Angle-->
-&julianday;    <!--AstroInfo: Great Circles-->
-&leapyear;     <!--AstroInfo: Leap Year-->
 &meridian;     <!--AstroInfo: Local Meridian-->
 &precession;   <!--AstroInfo: Precession-->
-&retrograde;   <!--AstroInfo: Retrograde Motion-->
+&zenith;       <!--AstroInfo: The Zenith-->
+
+&julianday;    <!--AstroInfo: Julian Day-->
+&leapyear;     <!--AstroInfo: Leap Year-->
 &sidereal;     <!--AstroInfo: Sidereal Time-->
 &timezones;    <!--AstroInfo: Time zones-->
 &utime;        <!--AstroInfo: Universal Time-->
-&zenith;       <!--AstroInfo: The Zenith-->
+
+&blackbody;    <!--AstroInfo: Blackbody Radiation-->
+&darkmatter;   <!--AstroInfo: Dark Matter-->
+&parallax;     <!--AstroInfo: Parallax-->
+&retrograde;   <!--AstroInfo: Retrograde Motion-->
+
+&ellipgal;     <!--Elliptical Galaxies-->
 &magnitude;    <!--AstroInfo: The Magnitude Scale-->
+&stars;        <!--AstroInfo: Stars: An Introductory FAQ-->
+&colorandtemp; <!--AstroInfo: Star Colors and Temperatures-->
+
 </chapter>
