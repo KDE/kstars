@@ -127,7 +127,7 @@
 
 1. Simply type the name of a known object and press the "Plot" button (or press Enter).  The object's Altitude vs. Time curve will be added to the plot, and its coordinates will be displayed below.
 
-2. Type a name label for a custom object.  You will also need to specify the RA and Decc coordinates of the object, and then press the "Plot" button to add its curve to the plot.</string>
+2. Type a name label for a custom object.  You will also need to specify the RA and Dec coordinates of the object, and then press the "Plot" button to add its curve to the plot.</string>
                                 </property>
                             </widget>
                             <widget class="dmsBox" row="1" column="1">
