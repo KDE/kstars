@@ -1004,7 +1004,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 					localeFile.close();
 					file.reset();
 				} else {
-					kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
+					kdDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" ) << endl;
 				}
 				fileFound = true;
 			}
