@@ -84,10 +84,10 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 	if ( x < -1.0 && x > -1.000001 ) HARad = dms::PI;
 	else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
 	else if ( x < -1.0 ) {
-		kdWarning() << i18n( "Coordinate out of range!" );
+		kdWarning() << i18n( "Coordinate out of range." );
 		HARad = dms::PI;
 	} else if ( x > 1.0 ) {
-		kdWarning() << i18n( "Coordinate out of range!" );
+		kdWarning() << i18n( "Coordinate out of range." );
 		HARad = 0.0;
 	} else HARad = acos( x );
 
@@ -235,7 +235,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat
 	aberrate(num);
 
 	if ( lat || LST )
-		kdWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects!" ) << endl;
+		kdWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) << endl;
 }
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){

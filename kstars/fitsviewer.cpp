@@ -140,7 +140,7 @@ unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
  fp = fopen (filename, "rb");
  if (!fp)
  {
-   KMessageBox::error(0, i18n("Can't open file for reading"));
+   KMessageBox::error(0, i18n("Cannot open file for reading"));
    return (NULL);
  }
  fclose (fp);

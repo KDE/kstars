@@ -100,10 +100,10 @@
                 <string>Hide objects while moving</string>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Don't draw all objects while the map is moving?</string>
+                <string>Do not draw all objects while the map is moving?</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>When the map is in motion, smooth animation is compromised if the program has too many objects to draw on the map.  Check this item to temporarily hide some of the objects while the display is in motion.</string>
+                <string>When the map is in motion, smooth animation is compromised if the program has too many objects to draw on the map; check this item to temporarily hide some of the objects while the display is in motion.</string>
             </property>
         </widget>
         <widget class="QLayoutWidget">

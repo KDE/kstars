@@ -20,7 +20,7 @@
             <cstring>WelcomePage</cstring>
         </property>
         <attribute name="title">
-            <string>Welcome to KStars!</string>
+            <string>Welcome to KStars.</string>
         </attribute>
         <hbox>
             <property name="name">
@@ -61,7 +61,7 @@
                             <cstring>textLabel1</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;Welcome to the KStars Setup Wizard!&lt;/h3&gt;</string>
+                            <string>&lt;h3&gt;Welcome to the KStars Setup Wizard.&lt;/h3&gt;</string>
                         </property>
                     </widget>
                     <widget class="QLayoutWidget">
@@ -524,7 +524,7 @@ can also control telescopes remotely over the Internet.</string>
                                         <property name="text">
                                             <string>To set up your devices, press the &lt;b&gt;Telescope Setup 
 Wizard&lt;/b&gt; button below.  When you are finished, press &lt;b&gt;Next&lt;/b&gt;.  
-If you don't have any devices to set up, just press &lt;b&gt;Next&lt;/b&gt;.  
+If you do not have any devices to set up, just press &lt;b&gt;Next&lt;/b&gt;.  
 You can always set up devices later using the &lt;b&gt;Devices&lt;/b&gt; menu.</string>
                                         </property>
                                     </widget>

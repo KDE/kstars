@@ -137,8 +137,8 @@ the simulation clock with your CPU clock.
 <tip category="KStars|Time">
 <html>
 <p>The Spin Box in the Toolbar allows you to adjust the time step
-used by the KStars clock. Setting it to "1.0 sec" provides "real time".
-Negative values make time run backwards!
+used by the KStars clock; setting it to "1.0 sec" provides "real time".
+Note: negative values make time run backwards.
 </html>
 </tip>
 <tip category="KStars|Time">
@@ -256,7 +256,7 @@ is called the Virgo Cluster of Galaxies.
 <html>
 <p>The large group of clusters and nebulae near the south celestial pole
 are objects in the Large Magellanic Cloud, which is a dwarf galaxy in
-orbit around the Milky Way!
+orbit around the Milky Way.
 </html>
 </tip>
 <tip category="KStars|Trivia">

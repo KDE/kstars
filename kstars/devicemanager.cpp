@@ -92,7 +92,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 
 	if ( (serverFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
-	 KMessageBox::error(0, i18n("Can not create socket"));
+	 KMessageBox::error(0, i18n("Cannot create socket"));
 	 return false;
 	}
 
@@ -116,7 +116,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 
 	if (serverFP == NULL)
 	{
-	 KMessageBox::error(0, i18n("Can't read server file descriptor"));
+	 KMessageBox::error(0, i18n("Cannot read server file descriptor"));
 	 serverFD = -1;
 	 return false;
 	}

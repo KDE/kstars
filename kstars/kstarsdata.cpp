@@ -416,7 +416,7 @@ bool KStarsData::readCLineData( void ) {
 				}
 				
 				if ( ! starFound ) 
-					kdWarning() << i18n( "No star named %1 found!" ).arg(name) << endl;
+					kdWarning() << i18n( "No star named %1 found." ).arg(name) << endl;
 			}
 		}
 		file.close();

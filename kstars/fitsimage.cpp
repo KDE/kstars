@@ -305,7 +305,7 @@ int FITSImage::loadFits (const char *filename)
  fp = fopen (filename, "rb");
  if (!fp)
  {
-   KMessageBox::error(0, i18n("Can't open file for reading"));
+   KMessageBox::error(0, i18n("Cannot open file for reading"));
    return (-1);
  }
  fclose (fp);

@@ -387,7 +387,7 @@ void KStars::slotExportImage() {
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
 		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
 		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
-		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG!" ).arg( fname ) << endl; }
+		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
 
 		map()->exportSkyImage( &skyimage );
 		kapp->processEvents(10000);
@@ -412,10 +412,10 @@ void KStars::slotRunScript() {
 	if ( fileURL.isValid() ) {
 		if ( ! fileURL.isLocalFile() ) {
 			//Warn the user about executing remote code.
-			QString message = i18n( "Warning!  You are about to execute a remote shell script on your machine. " );
-			message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script. " );
-			message += i18n( "To save the file without executing it, press Save. " );
-			message += i18n( "To cancel the download, press Cancel. " );
+			QString message = i18n( "Warning:  You are about to execute a remote shell script on your machine. " );
+			message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
+			message += i18n( "to save the file without executing it, press Save; " );
+			message += i18n( "to cancel the download, press Cancel. " );
 
 			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
 					i18n( "&Continue" ), i18n( "&Save" ) );
@@ -495,7 +495,7 @@ void KStars::slotRunScript() {
 
 		if ( ! fileOK ) {
 			KMessageBox::sorry( 0, i18n( "The selected file appears to be an invalid KStars script." ),
-					i18n( "Script Validation Failed!" ) );
+					i18n( "Script Validation Failed." ) );
 		} else {
 			//file is OK, run it!
 			KProcess p;
@@ -787,7 +787,7 @@ void KStars::slotFOVEdit() {
 			initFOV();
 		} else {
 			if ( ! f.open( IO_WriteOnly ) ) {
-				kdDebug() << i18n( "Could not open fov.dat for writing!" ) << endl;
+				kdDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
 			} else {
 				QTextStream ostream(&f);
 
