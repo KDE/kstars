@@ -276,6 +276,9 @@ bool KStarsData::readVARData(void)
     QString Line;
 
     Line = stream.readLine();
+    
+    if (Line[0] == QChar('*'))
+     break;
 
     Designation = Line.mid(0,8).stripWhiteSpace();
     Name          = Line.mid(10,20).simplifyWhiteSpace();
