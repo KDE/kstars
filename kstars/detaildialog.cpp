@@ -35,7 +35,7 @@
 
 DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
 		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Ok, Ok, parent, name ) {
-      
+
     selectedObject = o;
     ksw = (KStars*) parent;
 
@@ -61,9 +61,9 @@ void DetailDialog::createLogTab()
       userLog->setText("Record here observation logs and/or data on " + selectedObject->name());
    else
       userLog->setText(selectedObject->userLog);
-      
+
    saveLog = new QPushButton(i18n("Save"), logTab, "Save");
-   
+
    LOGbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
    LOGbuttonLayout = new QHBoxLayout(5, "buttonlayout");
    LOGbuttonLayout->addWidget(saveLog);
@@ -87,11 +87,11 @@ void DetailDialog::createAdvancedTab()
   ADVTree = new KListView(advancedTab, "advancedtree");
   ADVTree->addColumn(i18n("Data"));
   ADVtreeRoot = new QListViewItem(ADVTree);
-  
+
   QFile ADVIcon;
   if (KSUtils::openDataFile(ADVIcon, "advdataicon.png"))
     ADVtreeRoot->setPixmap( 0, QPixmap (ADVIcon.name()));
-  
+
   viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
 
   ADVbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -100,7 +100,7 @@ void DetailDialog::createAdvancedTab()
   ADVbuttonLayout->addWidget(viewTreeItem);
   ADVbuttonLayout->addItem(ADVbuttonSpacer);
 
-  treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");  
+  treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");
   treeLayout->addWidget(ADVTree);
   treeLayout->addLayout(ADVbuttonLayout);
 
@@ -122,7 +122,7 @@ void DetailDialog::createLinksTab()
  // We don't create a link tab for an unnamed object
    if (selectedObject->name() == QString("star"))
        return;
-     
+
   linksTab = addPage(i18n("Links"));
 
   infoBox = new QGroupBox(i18n("Info Links"), linksTab, "linksgroup");
@@ -134,13 +134,13 @@ void DetailDialog::createLinksTab()
   imagesLayout = new QVBoxLayout(imagesBox, 20, 0, "imagesbox");
   imagesList = new KListBox(imagesBox, "links");
   imagesLayout->addWidget(imagesList);
-  
+
   view = new QPushButton(i18n("View"), linksTab, "view");
   addLink = new QPushButton(i18n("Add Link..."), linksTab, "addlink");
   editLink = new QPushButton(i18n("Edit Link..."), linksTab, "editlink");
   removeLink = new QPushButton(i18n("Remove Link"), linksTab, "removelink");
   buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
- 
+
   buttonLayout = new QHBoxLayout(5, "buttonlayout");
   buttonLayout->addWidget(view);
   buttonLayout->addWidget(addLink);
@@ -162,7 +162,7 @@ void DetailDialog::createLinksTab()
 	}
 
   infoList->setSelected(0, true);
-  
+
 	itList  = selectedObject->ImageList.begin();
 	itTitle = selectedObject->ImageTitle.begin();
 
@@ -173,7 +173,7 @@ void DetailDialog::createLinksTab()
 
   if (!infoList->count() && !imagesList->count())
      editLink->setDisabled(true);
-     
+
   // Signals/Slots
   connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
   connect(addLink, SIGNAL(clicked()), ksw->map(), SLOT(addLink()));
@@ -182,7 +182,7 @@ void DetailDialog::createLinksTab()
   connect(removeLink, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
   connect(infoList, SIGNAL(highlighted(int)), this, SLOT(unselectImagesList()));
   connect(imagesList, SIGNAL(highlighted(int)), this, SLOT(unselectInfoList()));
-  
+
 
 }
 
@@ -215,8 +215,15 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 	case 2: //planets
 		//Want to add distance from Earth, Mass, angular size.
 		//Perhaps: list of moons
-		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-				selectedObject->typeName(), "--", generalTab );
+
+		//the Sun should display type=star, not planet!
+		if ( selectedObject->name() == "Sun" ) {
+			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
+					i18n("star"), "--", generalTab );
+		} else {
+			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
+					selectedObject->typeName(), "--", generalTab );
+		}
 		break;
 	default: //deep-sky objects
 		if ( ! selectedObject->longname().isEmpty() ) {
@@ -247,7 +254,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
 		QWidget *parent, const char *name )
 		: QGroupBox( i18n( "General" ), parent, name ) {
-	
+
 	PrimaryName = new QLabel( pname, this );
 	OtherNames = new QLabel( oname, this );
 
@@ -483,7 +490,7 @@ void DetailDialog::editLinkDialog()
   editLinkLayout->addWidget(editLinkField);
 
   currentItemIndex = infoList->currentItem();
-  
+
   if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
   {
         defaultURL = *selectedObject->InfoList.at(currentItemIndex);
@@ -528,7 +535,7 @@ void DetailDialog::editLinkDialog()
    newFile.open(IO_WriteOnly);
 
    QTextStream newStream(&newFile);
-   
+
    for (i=0; i<dataList->count(); i++)
    {
       if (i != ObjectIndex)
@@ -549,7 +556,7 @@ void DetailDialog::editLinkDialog()
      }
 
      newStream << entry << endl;
- 
+
    }
 
     newFile.close();
@@ -565,10 +572,10 @@ void DetailDialog::removeLinkDialog()
   QFile newFile;
 
   if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the link?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
-   return; 
+   return;
 
    currentItemIndex = infoList->currentItem();
-    
+
   if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
   {
         defaultURL = *selectedObject->InfoList.at(currentItemIndex);
@@ -599,7 +606,7 @@ void DetailDialog::removeLinkDialog()
         selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
         break;
     }
-       
+
    // Open a new file with the same name and copy all data along with changes
    newFile.setName(file.name());
    newFile.open(IO_WriteOnly);
@@ -645,7 +652,7 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
          if (!ObjectFound)
            if (!readUserFile(0, 1))
               return false;
-              
+
         for (i=0; i<dataList->count(); i++)
         {
              line = *dataList->at(i);
@@ -659,7 +666,7 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
                   break;
                 }
          }
-         
+
         break;
      case 1:
         if (!readUserFile(1,0))
@@ -758,7 +765,7 @@ bool DetailDialog::readUserFile(int type, int sourceFileType)
    QTextStream stream(&file);
 
    dataList = new QStringList();
-   
+
   // read all data into memory
    while (!stream.eof())
      dataList->append(stream.readLine());
@@ -791,17 +798,17 @@ void DetailDialog::Populate(QListViewItem *parent)
            new QListViewItem(parent, treeIt->current()->Name);
        else
            new QListViewItem(ADVtreeRoot, treeIt->current()->Name);
-      
+
 
        ++(*treeIt);
     }
-    
+
 }
 
 void DetailDialog::forkTree(QListViewItem *parent)
 {
   QListViewItem *current = 0;
-  
+
    if (parent)
      current = new QListViewItem(parent, treeIt->current()->Name);
    else
@@ -821,7 +828,7 @@ void  DetailDialog::viewADVData()
    QString link;
 
    QListViewItem * current = ADVTree->currentItem();
-   
+
    if (!current)
      return;
 
@@ -843,9 +850,9 @@ void  DetailDialog::viewADVData()
    link = parseADVData(link);
 
    kapp->invokeBrowser(link);
-        
+
 }
-     
+
 QString DetailDialog::parseADVData(QString link)
 {
   QString subLink;
@@ -897,10 +904,10 @@ void DetailDialog::saveLogData()
 
  if (currentLog == ("Record here observation logs and/or data on " + selectedObject->name()))
   return;
-  
+
  // A label to identiy a header
  QString KSLabel ="[KSLABEL:" + selectedObject->name() + "]";
- 
+
   file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
   if ( file.open( IO_ReadOnly))
   {
@@ -915,7 +922,7 @@ void DetailDialog::saveLogData()
   {
     int startIndex, endIndex;
     QString sub;
-    
+
     startIndex = logs.find(KSLabel);
     sub = logs.mid (startIndex);
     endIndex = sub.find("[KSLogEnd]");
@@ -925,11 +932,11 @@ void DetailDialog::saveLogData()
   }
 
     selectedObject->userLog = currentLog;
-    
+
      // append log to existing logs
    if (!currentLog.isEmpty())
      logs.append( KSLabel + "\n" + currentLog + "\n[KSLogEnd]\n");
-     
+
    if ( !file.open( IO_WriteOnly))
     {
       			QString message = i18n( "user log file could not be opened.\nCurrent user log cannot be recorded for future sessions." );
@@ -938,13 +945,13 @@ void DetailDialog::saveLogData()
      }
 
   QTextStream outstream(&file);
-  
+
   outstream << logs;
 
   KMessageBox::information(0, i18n("The log was saved successfully."));
 
   file.close();
-  
+
 }
 
 
