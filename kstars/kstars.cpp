@@ -33,8 +33,6 @@
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <qlayout.h>
-#include <kstatusbar.h>
-#include <kpopupmenu.h>
 
 #include "timedialog.h"
 #include "locationdialog.h"
@@ -226,14 +224,13 @@ KStars::KStars( KStarsData* kstarsData )
 			actTrack->setIconSet( BarIcon( "lock" ) );
 		} else {
 			skymap->clickedObject = getObjectNamed( GetOptions()->focusObject );
-			skymap->clickedPoint.set( skymap->clickedObject->getRA(), skymap->clickedObject->getDec() );
+			if ( skymap->clickedObject ) {
+				skymap->clickedPoint.set( skymap->clickedObject->getRA(), skymap->clickedObject->getDec() );
+			} else {
+				skymap->clickedPoint.set( GetOptions()->focusRA, GetOptions()->focusDec );
+			}
 			skymap->slotCenter();
 		}
-//if user was in AltAz mode, start up at same alt/az coordinates
-	} else if ( GetOptions()->useAltAz ) {
-		skymap->focus.setAz( GetOptions()->focusRA );
-		skymap->focus.setAlt( GetOptions()->focusDec );
-		skymap->focus.AltAzToRADec( skymap->LSTh, geo->lat() );
 	} else {
 		skymap->focus.setRA( GetOptions()->focusRA );
 		skymap->focus.setDec( GetOptions()->focusDec );
@@ -267,11 +264,11 @@ KStars::~KStars()
 	kapp->config()->writeEntry( "State", GetOptions()->StateName );
 	kapp->config()->setGroup( "View" );
 	kapp->config()->writeEntry( "SkyColor", 	GetOptions()->colorSky );
-//	kapp->config()->writeEntry( "StarColor", 	GetOptions()->colorStar );
 	kapp->config()->writeEntry( "MWColor", 		GetOptions()->colorMW );
 	kapp->config()->writeEntry( "EqColor", 		GetOptions()->colorEq );
 	kapp->config()->writeEntry( "EclColor", 		GetOptions()->colorEcl );
 	kapp->config()->writeEntry( "HorzColor", 	GetOptions()->colorHorz );
+	kapp->config()->writeEntry( "GridColor", 	GetOptions()->colorGrid );
 	kapp->config()->writeEntry( "MessColor", 	GetOptions()->colorMess );
 	kapp->config()->writeEntry( "NGCColor", 	GetOptions()->colorNGC );
 	kapp->config()->writeEntry( "ICColor", 		GetOptions()->colorIC );
@@ -279,7 +276,7 @@ KStars::~KStars()
 	kapp->config()->writeEntry( "CNameColor", GetOptions()->colorCName );
 	kapp->config()->writeEntry( "SNameColor", GetOptions()->colorSName );
 	kapp->config()->writeEntry( "HSTColor", 	GetOptions()->colorHST );
-	kapp->config()->writeEntry( "UseNightColors", GetOptions()->useNightColors );
+	kapp->config()->writeEntry( "StarColorMode", GetOptions()->starColorMode );
 	kapp->config()->writeEntry( "StarColorsIntensity", GetOptions()->starColorIntensity );
 	kapp->config()->writeEntry( "ShowBSC", 		GetOptions()->drawBSC );
 	kapp->config()->writeEntry( "ShowMess", 	GetOptions()->drawMessier );
@@ -290,6 +287,7 @@ KStars::~KStars()
 	kapp->config()->writeEntry( "ShowCNames", GetOptions()->drawConstellNames );
 	kapp->config()->writeEntry( "UseLatinConstellationNames", GetOptions()->useLatinConstellNames );
 	kapp->config()->writeEntry( "ShowMilkyWay", GetOptions()->drawMilkyWay );
+	kapp->config()->writeEntry( "ShowGrid", GetOptions()->drawGrid );
 	kapp->config()->writeEntry( "ShowEquator", GetOptions()->drawEquator );
 	kapp->config()->writeEntry( "ShowEcliptic", GetOptions()->drawEcliptic );
 	kapp->config()->writeEntry( "ShowHorizon", GetOptions()->drawHorizon );
@@ -311,13 +309,8 @@ KStars::~KStars()
 		kapp->config()->writeEntry( "FocusObject", "nothing" );
 	}
 	kapp->config()->writeEntry( "UseAltAz", 	GetOptions()->useAltAz );
-	if ( GetOptions()->useAltAz ) {
-		kapp->config()->writeEntry( "FocusRA", skymap->focus.getAz().getD() );
-		kapp->config()->writeEntry( "FocusDec", skymap->focus.getAlt().getD() );
-	} else {
-		kapp->config()->writeEntry( "FocusRA", skymap->focus.getRA().getH() );
-		kapp->config()->writeEntry( "FocusDec", skymap->focus.getDec().getD() );
-	}
+	kapp->config()->writeEntry( "FocusRA", skymap->focus.getRA().getH() );
+	kapp->config()->writeEntry( "FocusDec", skymap->focus.getDec().getD() );
 	kapp->config()->writeEntry( "ZoomLevel", skymap->ZoomLevel );
 	kapp->config()->writeEntry( "windowWidth", width() );
 	kapp->config()->writeEntry( "windowHeight", height() );
@@ -393,7 +386,7 @@ void KStars::initMenuBar() {
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
 	QFile tempFile;
-	if (KStarsData::openDataFile( tempFile, "earth.png", false ) ) {
+	if (KStarsData::openDataFile( tempFile, "earth.png" ) ) {
 		actLocation = new KAction( i18n( "&Geographic..." ), QPixmap( tempFile.name() ), 0, this, SLOT( mGeoLocator() ), actionCollection() );
 		actLocation->setToolTip( i18n( "Geographic Location" ) );
 		tempFile.close();
@@ -478,10 +471,11 @@ void KStars::initOptions()
 	kapp->config()->setGroup( "View" );
 	GetOptions()->colorSky 		= kapp->config()->readEntry( "SkyColor", "#002" );
 //	GetOptions()->colorStar 	= kapp->config()->readEntry( "StarColor", "#FFF" );
-	GetOptions()->colorMW 		= kapp->config()->readEntry( "MWColor", "#345" );
+	GetOptions()->colorMW 		= kapp->config()->readEntry( "MWColor", "#123" );
 	GetOptions()->colorEq 		= kapp->config()->readEntry( "EqColor", "#FFF" );
 	GetOptions()->colorEcl		= kapp->config()->readEntry( "EclColor", "#663" );
 	GetOptions()->colorHorz 	= kapp->config()->readEntry( "HorzColor", "#5A3" );
+	GetOptions()->colorGrid 	= kapp->config()->readEntry( "GridColor", "#456" );
 	GetOptions()->colorMess 	= kapp->config()->readEntry( "MessColor", "#0F0" );
 	GetOptions()->colorNGC 		= kapp->config()->readEntry( "NGCColor", "#066" );
 	GetOptions()->colorIC 		= kapp->config()->readEntry( "ICColor", "#439" );
@@ -498,6 +492,7 @@ void KStars::initOptions()
 	GetOptions()->drawConstellNames = kapp->config()->readBoolEntry( "ShowCNames", true );
 	GetOptions()->useLatinConstellNames = kapp->config()->readBoolEntry( "UseLatinConstellationNames", true );
 	GetOptions()->drawMilkyWay = kapp->config()->readBoolEntry( "ShowMilkyWay", true );
+	GetOptions()->drawGrid = kapp->config()->readBoolEntry( "ShowGrid", true );
 	GetOptions()->drawEquator = kapp->config()->readBoolEntry( "ShowEquator", true );
 	GetOptions()->drawEcliptic = kapp->config()->readBoolEntry( "ShowEcliptic", true );
 	GetOptions()->drawHorizon = kapp->config()->readBoolEntry( "ShowHorizon", true );
@@ -523,9 +518,8 @@ void KStars::initOptions()
 	GetOptions()->drawStarMagnitude = kapp->config()->readBoolEntry( "drawStarMagnitude", false );
 	GetOptions()->windowWidth = kapp->config()->readNumEntry( "windowWidth", 600 );
 	GetOptions()->windowHeight = kapp->config()->readNumEntry( "windowHeight", 600 );
-	GetOptions()->useNightColors = kapp->config()->readBoolEntry( "UseNightColors", false );
+	GetOptions()->starColorMode = kapp->config()->readNumEntry( "StarColorMode", 0 );
 	GetOptions()->starColorIntensity = kapp->config()->readNumEntry ("StarColorsIntensity", 4);
-
 }
 
 void KStars::initLocation() {
@@ -603,9 +597,11 @@ void KStars::initStars()
 	}
 
 	// Milky Way
-	for (SkyPoint *data = GetData()->MilkyWay.first(); data; data = GetData()->MilkyWay.next()) {
-		data->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-		data->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for ( unsigned int j=0; j<11; ++j ) {
+		for (SkyPoint *data = GetData()->MilkyWay[j].first(); data; data = GetData()->MilkyWay[j].next()) {
+			data->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
+			data->RADecToAltAz( skymap->LSTh, geo->lat() );
+		}
 	}
 
 	// CLines
@@ -621,9 +617,9 @@ void KStars::initStars()
 	}
 
 	// Define the Celestial Equator
-	for ( unsigned int i=0; i<720; ++i ) {
-		SkyPoint *o = new SkyPoint( i/30., 0.0 );
-		o->RADecToAltAz( skymap->LSTh, geo->lat() );
+	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
+		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
+		o->RADecToAltAz( skymap->LSTh, geo->lat() );		
 		GetData()->Equator.append( o );
 	}
 
@@ -651,8 +647,8 @@ void KStars::initStars()
 		o->setAz( Az );
 
 		GetData()->Horizon.append( o );
-
-		//Define the Ecliptic (use the same ListIteration)
+	
+		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		double ELong, ELat;
 		ELong = data->getRA().getD();
 		ELat = 0.0;
@@ -660,7 +656,6 @@ void KStars::initStars()
 		o->setEcliptic( ELong, ELat, GetData()->CurrentDate );
 		o->RADecToAltAz( skymap->LSTh, geo->lat() );
 		GetData()->Ecliptic.append( o );
-
 	}
 }
 
@@ -788,51 +783,37 @@ void KStars::mReverseVideo() {
 */
 }
 
-
 void KStars::mGeoLocator() {
 	LocationDialog locationdialog (this);
 	if ( locationdialog.exec() == QDialog::Accepted ) {
- 		if ( locationdialog.NewLong->text().isEmpty() ||
-	 			locationdialog.NewLat->text().isEmpty() ) {
-	 		int ii = locationdialog.getCityIndex();
+		if ( !locationdialog.NewCityName->text().isEmpty() ) { //user closed the location dialog without adding their new city;
+			locationdialog.addCity();                   //call addCity() for them!
+		}
 
- 			if ( ii >= 0 ) {
- 				geo->reset( GetData()->geoList.at(ii) );
-				GetOptions()->CityName = geo->name();
-				GetOptions()->StateName = geo->state();
- 				PlaceName->setText( geo->translatedName()+ ",  " + geo->translatedState() );
- 				Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
- 				Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
-
- 				// Adjust Local time for new time zone
-	 			GetData()->LTime.setDate( GetData()->UTime.date() );
- 				GetData()->LTime.setTime( GetData()->UTime.time() );
- 				GetData()->LTime = GetData()->LTime.addSecs( geo->TZ()*-3600 );
-
-			  GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
-				skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
-				skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
-
-        //need to recompute Alt/Az coordinates of all objects, so
-				//adjust LastSkyUpdate to ensure computation.  Then
-				//explicitly call updateTime()
-				GetData()->LastSkyUpdate -= 1.0; // a full day, should be plenty
-				updateTime();
-	 		}
- 		} else {
- 			geo->setLong( locationdialog.NewLong->text().toFloat() );
- 			geo->setLat( locationdialog.NewLat->text().toFloat() );
- 			geo->setName( locationdialog.NewCityName->text() );
- 			geo->setState( locationdialog.NewStateName->text() );
+	 	int ii = locationdialog.getCityIndex();
+ 		if ( ii >= 0 ) {
+ 			geo->reset( GetData()->geoList.at(ii) );
+			GetOptions()->CityName = geo->name();
+			GetOptions()->StateName = geo->state();
+ 			PlaceName->setText( geo->translatedName()+ ",  " + geo->translatedState() );
  			Long->setText( QString::number( geo->lng().getD(), 'f', 3 ) );
  			Lat->setText( QString::number( geo->lat().getD(), 'f', 3 ) );
- 			PlaceName->setText( geo->translatedName() + ",  " + geo->translatedState() );
 
-	 		locationdialog.NewLong->setText( "" );
-	 		locationdialog.NewLat->setText( "" );
-	 		locationdialog.NewCityName->setText( "" );
-	 		locationdialog.NewStateName->setText( "" );
- 		}
+ 			// Adjust Local time for new time zone
+	 		GetData()->LTime.setDate( GetData()->UTime.date() );
+ 			GetData()->LTime.setTime( GetData()->UTime.time() );
+ 			GetData()->LTime = GetData()->LTime.addSecs( geo->TZ()*-3600 );
+
+			GetData()->LST = UTtoLST( GetData()->UTime, geo->lng() );
+			skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
+			skymap->HourAngle.setH( skymap->LSTh.getH() - skymap->focus.getRA().getH() );
+
+      //need to recompute Alt/Az coordinates of all objects, so
+			//adjust LastSkyUpdate to ensure computation.  Then
+			//explicitly call updateTime()
+			GetData()->LastSkyUpdate -= 1.0; // a full day, should be plenty
+			updateTime();
+	 	}
  	}
 }
 
@@ -846,8 +827,8 @@ void KStars::updateTime( void ) {
 
 	float factor = ((TimeSpinBox *)toolBar()->getWidget( idSpinBox ))->text().toFloat();
 	int dSeconds = int( dJD*24*3600*factor );
-	int dMSeconds = int( 1000*(dJD*24*3600*factor - dSeconds ) );
-
+	int dMSeconds = int( 1000*(dJD*24*3600*factor - dSeconds ) );		
+	
 	//Using QDateTime::addSecs() directly, instead of setTime()
 	//will automatically advance the date, when required
 	GetData()->LTime = GetData()->LTime.addSecs( dSeconds );
@@ -910,9 +891,6 @@ void KStars::updateTime( void ) {
 
 		GetData()->Sun->findPosition( GetData()->CurrentDate );
 		GetData()->Earth->findPosition( GetData()->CurrentDate );
-
-		qDebug( "%f %f", GetData()->Earth->EcLong.getD(), GetData()->Earth->EcLat.getD() );
-
 		GetData()->Mercury->findPosition( GetData()->CurrentDate, GetData()->Earth );
 		GetData()->Venus->findPosition( GetData()->CurrentDate, GetData()->Earth );
 		GetData()->Mars->findPosition( GetData()->CurrentDate, GetData()->Earth );
@@ -1007,12 +985,14 @@ void KStars::updateTime( void ) {
 				GetData()->icList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
 			}
 		}
-
-		//CLines
+		
+		//Milky Way
 		if ( GetOptions()->drawMilkyWay ) {
-			for ( unsigned int i=0; i<GetData()->MilkyWay.count(); ++i) {
-				if (isNewEpoch) GetData()->MilkyWay.at(i)->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
-				GetData()->MilkyWay.at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+			for ( unsigned int j=0; j<11; ++j ) {
+				for ( unsigned int i=0; i<GetData()->MilkyWay[j].count(); ++i) {
+					if (isNewEpoch) GetData()->MilkyWay[j].at(i)->updateCoords( GetData()->CurrentEpoch, GetData()->Obliquity, GetData()->dObliq, GetData()->dEcLong );
+					GetData()->MilkyWay[j].at(i)->RADecToAltAz( skymap->LSTh, geo->lat() );
+				}
 			}
 		}
 
@@ -1094,8 +1074,15 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 		if ( name==GetData()->icList.at(i)->name ) return GetData()->icList.at(i);
 	}
 
-}
+	//Constellations
+	for ( unsigned int i=0; i<GetData()->cnameList.count(); ++i ) {
+		if ( name==GetData()->cnameList.at(i)->name ) return GetData()->cnameList.at(i);
+	}
 
+	//should never get here
+	return NULL;
+}
+	
 QString KStars::getDateString( QDate date ) {
   QString dummy;
   QString dateString = dummy.sprintf( "%02d / %02d / %04d",

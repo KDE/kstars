@@ -22,7 +22,7 @@
 #include "ksplanet.h"
 
 KSPlanet::KSPlanet(){
-	KSPlanet( "Unnamed" );
+	KSPlanet( I18N_NOOP( "Unnamed" ) );
 }
 
 KSPlanet::KSPlanet( QString s, QImage im )
@@ -31,6 +31,7 @@ KSPlanet::KSPlanet( QString s, QImage im )
 	EcLat.setD( 0.0 );
 	image = im;
 
+/*************
 	//yuck.  I need the untranslated name to generate data filenames
 	if ( s == i18n( "Mercury" ) ) { EnglishName = "Mercury"; }
 	else if ( s == i18n( "Venus" ) ) { EnglishName = "Venus"; }
@@ -41,13 +42,13 @@ KSPlanet::KSPlanet( QString s, QImage im )
 	else if ( s == i18n( "Uranus" ) ) { EnglishName = "Uranus"; }
 	else if ( s == i18n( "Neptune" ) ) { EnglishName = "Neptune"; }
 	else if ( s == i18n( "Pluto" ) ) { EnglishName = "Pluto"; }
-
+**************/
 }
 
 bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 	QString fname, snum, line;
 	QFile f;
-	double sum[6], A, B, C, T, RE;
+	double sum[6], A, B, C, T;
 	double x, y, z;
 	double sinL, sinL0, sinB, sinB0;
 	double cosL, cosL0, cosB, cosB0;
@@ -60,8 +61,10 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 	for (int i=0; i<6; ++i) {
 		sum[i] = 0.0;
 		snum.setNum( i );
-		fname = EnglishName.lower() + ".L" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+//		fname = EnglishName.lower() + ".L" + snum + ".vsop";
+		fname = name.lower() + ".L" + snum + ".vsop";
+
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {
@@ -84,8 +87,9 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 	for (int i=0; i<6; ++i) {
 		sum[i] = 0.0;
 		snum.setNum( i );
-		fname = EnglishName.lower() + ".B" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+//		fname = EnglishName.lower() + ".B" + snum + ".vsop";
+		fname = name.lower() + ".B" + snum + ".vsop";
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {
@@ -107,8 +111,9 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 	for (int i=0; i<6; ++i) {
 		sum[i] = 0.0;
 		snum.setNum( i );
-		fname = EnglishName.lower() + ".R" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+//		fname = EnglishName.lower() + ".R" + snum + ".vsop";
+		fname = name.lower() + ".R" + snum + ".vsop";
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {
@@ -125,78 +130,6 @@ bool KSPlanet::findPosition( long double jd, KSPlanet *Earth ) {
 
   Rsun = sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T;
 
-/*  //Find Earth's heliocentric coords
-	//Ecliptic Longitude
-	nCount = 0;
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.L" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				line = line.sprintf( "%f", C );
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no longitude data found!
-
-  EarthLong.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-	EarthLong.setD( EarthLong.reduce().getD() );
-	  	
-	//Ecliptic Latitude
-	nCount = 0;
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.B" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no latitude data found!
-
-  EarthLat.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-  	
-	//Compute Heliocentric Distance
-	nCount = 0;
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.R" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no distance data found!
-
-  RE = sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T;
-*/
 	//find geometric geocentric coordinates
 	if ( Earth != NULL ) {
 		EcLong.SinCos( sinL, cosL );

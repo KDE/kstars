@@ -112,6 +112,10 @@ public slots:
 	*Popup menu function: Display image with ImageViewer (only available for some objects).
 	*/
 	void slotImage( int id );
+/**
+	* Add a custom Image or Information URL.
+	*/
+	void addLink( void );
 	
 protected:
 /**

@@ -40,7 +40,7 @@ KStarsSplash::KStarsSplash( KStarsData* kstarsData, QWidget *parent, const char*
 	topLayout->setMargin( 0 ); //still have an ugly margin :(
 	
 	QFile imFile;
-	if ( kstarsData->openDataFile( imFile, "kstars.png", false ) ) {
+	if ( kstarsData->openDataFile( imFile, "kstars.png" ) ) {
 		imFile.close(); //Just need the filename...
 		splashImage = new QPixmap( imFile.name() );
 	} else {
@@ -90,21 +90,6 @@ void KStarsSplash::paintEvent( QPaintEvent *e ) {
 	
 void KStarsSplash::slotLoadDataFile()
 {
-// JH: It's annoying, but I can't use the error messagebox function I built
-// into openDataFile() here.  If I try to use it, I get an endless
-// cascade of errorboxes which can only be stopped by killing the X server (!)
-// So, I have set doWarn=false in each instance of openDataFile() in the
-// read*Data() functions, and I added another errorbox function here,
-// after the qTimer is stopped.
-//
-// It's a lame kludge, but it's important to not only fail to start up if
-// these data files can't be found, but to also provide an informative message
-// about why it won't start.
-//
-// Warning:  If you try to fix this, be ready to kill your X server
-// I use Ctrl-Alt-F1 to get a console, then Ctrl-C.
-// I also recommend shutting doen all apps, as some of them (especially KDevelop,
-// unfortunately) don't die very gracefully.
 	QFile imFile;
 	QString ImageName;
 	
@@ -158,7 +143,7 @@ void KStarsSplash::slotLoadDataFile()
 	case 5:
 		if ( !kstarsData->readMWData( ) ) {
 			qtimer->stop();
-			KludgeError( "mw.dat" );
+			KludgeError( "mw*.dat" );
 			reject();
 		}
 		loadStatus++;
@@ -185,7 +170,7 @@ void KStarsSplash::slotLoadDataFile()
 		kstarsData->Sun = new KSSun( kstarsData->CurrentDate );
 //		ImageName = kstarsData->Sun->name.lower() + ".png";
 		ImageName = "sun.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Sun->image.load( imFile.name() );
 		}
@@ -208,17 +193,17 @@ void KStarsSplash::slotLoadDataFile()
 		//Earth is only needed for calculating Geocentric coordinates of planets;
 		//it is not displayed in the skymap, so there is no image, and we
 		//don't add it to objList/ObjNames
-		kstarsData->Earth = new KSPlanet( i18n( "Earth" ) );
+		kstarsData->Earth = new KSPlanet( I18N_NOOP( "Earth" ) );
 		kstarsData->Earth->findPosition( kstarsData->CurrentDate );
 
 		loadStatus++;
 	  textCurrentStatus->setText( i18n( "Creating Mercury" ) ); // next load, show text now
 		break;
 	case 10:		
-		kstarsData->Mercury = new KSPlanet( i18n( "Mercury" ) );
+		kstarsData->Mercury = new KSPlanet( I18N_NOOP( "Mercury" ) );
 //		ImageName = kstarsData->Mercury->name.lower() + ".png";
 		ImageName = "mercury.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Mercury->image.load( imFile.name() );
 		}
@@ -232,10 +217,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n( "Creating Venus" ) ); // next load, show text now
 		break;
 	case 11:
-		kstarsData->Venus = new KSPlanet( i18n( "Venus" ) );
+		kstarsData->Venus = new KSPlanet( I18N_NOOP( "Venus" ) );
 //		ImageName = kstarsData->Venus->name.lower() + ".png";
 		ImageName = "venus.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Venus->image.load( imFile.name() );
 		}
@@ -249,10 +234,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n("Creating Mars" ) ); // next load, show text now
 		break;
 	case 12:
-		kstarsData->Mars = new KSPlanet( i18n( "Mars" ) );
+		kstarsData->Mars = new KSPlanet( I18N_NOOP( "Mars" ) );
 //		ImageName = kstarsData->Mars->name.lower() + ".png";
 		ImageName = "mars.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Mars->image.load( imFile.name() );
 		}
@@ -266,10 +251,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n("Creating Jupiter" ) ); // next load, show text now
 		break;
 	case 13:
-		kstarsData->Jupiter = new KSPlanet( i18n( "Jupiter" ) );
+		kstarsData->Jupiter = new KSPlanet( I18N_NOOP( "Jupiter" ) );
 //		ImageName = kstarsData->Jupiter->name.lower() + ".png";
 		ImageName = "jupiter.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Jupiter->image.load( imFile.name() );
 		}
@@ -283,10 +268,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n("Creating Saturn" ) ); // next load, show text now
 		break;
 	case 14:	
-		kstarsData->Saturn = new KSPlanet( i18n( "Saturn" ) );
+		kstarsData->Saturn = new KSPlanet( I18N_NOOP( "Saturn" ) );
 //		ImageName = kstarsData->Saturn->name.lower() + ".png";
 		ImageName = "saturn.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Saturn->image.load( imFile.name() );
 		}
@@ -300,10 +285,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n("Creating Uranus" ) ); // next load, show text now
 		break;
 	case 15:
-		kstarsData->Uranus = new KSPlanet( i18n( "Uranus" ) );
+		kstarsData->Uranus = new KSPlanet( I18N_NOOP( "Uranus" ) );
 //		ImageName = kstarsData->Uranus->name.lower() + ".png";
 		ImageName = "uranus.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Uranus->image.load( imFile.name() );
 		}
@@ -317,10 +302,10 @@ void KStarsSplash::slotLoadDataFile()
 	  textCurrentStatus->setText( i18n("Creating Neptune" ) ); // next load, show text now
 		break;
 	case 16:			
-		kstarsData->Neptune = new KSPlanet( i18n( "Neptune" ) );
+		kstarsData->Neptune = new KSPlanet( I18N_NOOP( "Neptune" ) );
 //		ImageName = kstarsData->Neptune->name.lower() + ".png";
 		ImageName = "neptune.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Neptune->image.load( imFile.name() );
 		}
@@ -336,7 +321,7 @@ void KStarsSplash::slotLoadDataFile()
 		kstarsData->Pluto = new KSPluto();
 //		ImageName = kstarsData->Pluto->name.lower() + ".png";
 		ImageName = "pluto.png";
-		if ( KStarsData::openDataFile( imFile, ImageName, false ) ) {
+		if ( KStarsData::openDataFile( imFile, ImageName ) ) {
 			imFile.close();
 			kstarsData->Pluto->image.load( imFile.name() );
 		}
@@ -355,6 +340,9 @@ void KStarsSplash::slotLoadDataFile()
 			KludgeError( "image_url.dat", false );
 			qtimer->start(0);
 		}
+		if ( !kstarsData->readURLData( "myimage_url.dat", 0 ) ) {
+		//Don't do anything if the local file is not found.
+		}
 		loadStatus++;
 	  textCurrentStatus->setText( i18n("Loading Information URLs" ) ); // next load, show text now
 		break;
@@ -363,6 +351,9 @@ void KStarsSplash::slotLoadDataFile()
 			qtimer->stop();
 			KludgeError( "info_url.dat", false );
 			qtimer->start(0);
+		}
+		if ( !kstarsData->readURLData( "myinfo_url.dat", 1 ) ) {
+		//Don't do anything if the local file is not found.
 		}
 
 		// that's all. Now quit the splash dialog and open the main window (see main.cpp)

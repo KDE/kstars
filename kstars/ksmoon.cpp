@@ -24,7 +24,7 @@
 #include "ksmoon.h"
 
 KSMoon::KSMoon( long double Epoch )
- : KSPlanet( i18n( "Moon" ) ) {
+ : KSPlanet( I18N_NOOP( "Moon" ) ) {
 	findPosition( Epoch );
 }
 
@@ -91,7 +91,7 @@ void KSMoon::findPosition( long double Epoch ) {
 	sumL = 0.0;
 	sumR = 0.0;
 
-	if ( KStarsData::openDataFile( f, "moonLR.dat", false ) ) {
+	if ( KStarsData::openDataFile( f, "moonLR.dat" ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -110,7 +110,7 @@ void KSMoon::findPosition( long double Epoch ) {
   }
 
 	sumB = 0.0;
-	if ( KStarsData::openDataFile( f, "moonB.dat", false ) ) {
+	if ( KStarsData::openDataFile( f, "moonB.dat" ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -174,7 +174,7 @@ void KSMoon::findPhase( KSSun *Sun ) {
 	QString imName = "moon" + sPhase + ".png";
 
 	QFile imFile;
-	if ( KStarsData::openDataFile( imFile, imName, false ) ) {
+	if ( KStarsData::openDataFile( imFile, imName ) ) {
 		imFile.close();
 		image.load( imFile.name() );
 	}

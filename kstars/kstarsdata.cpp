@@ -71,12 +71,11 @@ KStarsData::~KStarsData() {
 }
 
 //Functions for reading data files
-bool KStarsData::openDataFile( QFile &file, QString s, bool doWarn, bool required ) {
+bool KStarsData::openDataFile( QFile &file, QString s ) {
 	bool result;
 	KStandardDirs *stdDirs = new KStandardDirs();
-	QString ResName = "kstars/" + s;
-	QString FileName= stdDirs->findResource( "data", ResName );
-	
+	QString FileName= stdDirs->findResource( "data", "kstars/" + s );
+
 	if ( FileName != QString::null ) {
 		file.setName( FileName );
 		if ( !file.open( IO_ReadOnly ) ) {
@@ -97,75 +96,44 @@ bool KStarsData::openDataFile( QFile &file, QString s, bool doWarn, bool require
 		}									
   }
 
-/*
-	if ( result==false && doWarn ) {
-		QString caption;
-		QString message;
-
-		if (required) {
-			message = i18n( "The file " ) + s + i18n( " could not be found." )+ "\n" +
-				i18n( "Shutting down, because KStars cannot run properly without this file.") + "\n" +
-				i18n( "Place it in one of the following locations, then try again:" ) + "\n\n" +
-				(QString)"\t$(KDEDIR)/share/apps/kstars/" + s +
-				(QString)"\n\t~/.kde/share/apps/kstars/" + s +
-				(QString)"\n\t$(PATH_TO_KSTARS)/data/" + s;
-			caption = i18n( "Critical file not found: " ) + s;
-		} else {
-			message = i18n( "The file " ) + s + i18n( " could not be found." )+ "\n" +
-				i18n( "KStars can still run without this file, so I will continue.") + "\n" +
-				i18n( "However, to avoid seeing this message in the future, you may want to " ) + "\n" +
-				i18n( "place the file in one of the following locations:" ) + "\n\n" +
-				(QString)"\t$(KDEDIR)/share/apps/kstars/" + s +
-				(QString)"\n\t~/.kde/share/apps/kstars/" + s +
-				(QString)"\n\t$(PATH_TO_KSTARS)/data/" + s;
-			caption = i18n( "Non-critical file not found: " ) + s;
-		}
-
-		KMessageBox::information( 0, message, caption );
-	}
-*/
 	return result;
 }
 
 bool KStarsData::readMWData( void ) {
 	QFile file;
-	if ( openDataFile( file, "mw.dat", false ) ) {
-	  QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-	  	QString line;
-		  int rah, ram, ras, dd, dm, ds;
-		  QChar sgn;
+	for ( unsigned int i=0; i<11; ++i ) {
+		QString snum, fname, szero;
+		snum = snum.setNum( i+1 );
+		if ( i+1 < 10 ) szero = "0"; else szero = "";
+		fname = "mw" + szero + snum + ".dat";
 
-		  line = stream.readLine();
+		if ( openDataFile( file, fname ) ) {
+		  QTextStream stream( &file );
 
-		  rah = line.mid( 0, 2 ).toInt();
-	  	ram = line.mid( 2, 2 ).toInt();
-		  ras = line.mid( 4, 2 ).toInt();
+	  	while ( !stream.eof() ) {
+		  	QString line;
+			  double ra, dec;
 
-		  sgn = line.at( 6 );
-	  	dd = line.mid( 7, 2 ).toInt();
-		  dm = line.mid( 9, 2 ).toInt();
-		  ds = line.mid( 11, 2 ).toInt();
-		  dms r; r.setH( rah, ram, ras );
-	  	dms d( dd, dm,  ds );
+			  line = stream.readLine();
 
-		  if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
+			  ra = line.mid( 0, 8 ).toDouble();
+	  		dec = line.mid( 9, 8 ).toDouble();
 
-		  SkyPoint *o = new SkyPoint( r.getH(), d.getD() );
-		  MilkyWay.append( o );
-  	}
-		file.close();
-
-		return true;
-	} else {
-		return false;
+			  SkyPoint *o = new SkyPoint( ra, dec );
+			  MilkyWay[i].append( o );
+	  	}
+			file.close();
+		} else {
+			return false;
+		}
 	}
+	return true;
 }
 
 bool KStarsData::readCLineData( void ) {
 	QFile file;
-	if ( openDataFile( file, "clines.dat", false ) ) {
+	if ( openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -207,7 +175,7 @@ bool KStarsData::readCNameData( void ) {
 	cnameFile = "cnames.dat";
 	if ( locale->language()=="fr" ) cnameFile = "fr_cnames.dat";
 
-	if ( openDataFile( file, cnameFile, false ) ) {
+	if ( openDataFile( file, cnameFile ) ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -248,7 +216,7 @@ bool KStarsData::readCNameData( void ) {
 
 bool KStarsData::readStarData( void ) {
 	QFile file;
-	if ( openDataFile( file, "sao.dat", false ) ) {
+	if ( openDataFile( file, "sao.dat" ) ) {
 		QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
@@ -302,7 +270,7 @@ bool KStarsData::readStarData( void ) {
 
 bool KStarsData::readNGCData( void ) {
 	QFile file;
-	if ( openDataFile( file, "ngc2000.dat", false ) ) {
+	if ( openDataFile( file, "ngc2000.dat" ) ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -394,7 +362,16 @@ bool KStarsData::readNGCData( void ) {
 
 bool KStarsData::readURLData( QString urlfile, int type ) {
 	QFile file;
-	if ( openDataFile( file, urlfile, true, false ) ) {
+	bool fileFound = false;
+
+	if ( openDataFile( file, urlfile ) ) {
+		fileFound = true;
+	} else {
+		file.setName( locateLocal( "appdata", urlfile ) );
+		if ( file.open( IO_ReadOnly ) ) fileFound = true;
+	}
+
+	if ( fileFound ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -428,7 +405,9 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 
 bool KStarsData::readCityData( void ) {
 	QFile file;
-	if ( openDataFile( file, "Cities.dat", false ) ) {
+	bool citiesFound = false;
+
+	if ( openDataFile( file, "Cities.dat" ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -478,9 +457,78 @@ bool KStarsData::readCityData( void ) {
 			}
 
 			geoList.append (new GeoLocation( lng, lat, name, state, TZ ));
+			if ( !citiesFound ) citiesFound = true; //found at least one city
    	}
 		file.close();
+	}
 
+	//check for local cities database, but don't require it.
+	file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+	if ( file.open( IO_ReadOnly ) ) {
+		QTextStream stream( &file );
+
+  	while ( !stream.eof() ) {
+	  	QString line, name, state;
+			char latsgn, lngsgn;
+			int lngD, lngM, lngS;
+	  	int latD, latM, latS;
+			int TZ;
+		  float lng, lat;
+
+		 	line = stream.readLine();
+
+		  name  = line.left( 32 );
+	  	state = line.mid( 31, 17 );
+		 	latD = line.mid( 49, 2 ).toInt();
+		  latM = line.mid( 52, 2 ).toInt();
+	  	latS = line.mid( 55, 2 ).toInt();
+		 	latsgn = line.at( 58 ).latin1();
+		  lngD = line.mid( 60, 3 ).toInt();
+	  	lngM = line.mid( 64, 2 ).toInt();
+		 	lngS = line.mid( 67, 2 ).toInt();
+		  lngsgn = line.at( 70 ).latin1();
+
+	  	lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
+			lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
+  	
+		 	if ( latsgn == 'S' ) lat *= -1.0;
+			if ( lngsgn == 'W' ) lng *= -1.0;
+  	
+		  TZ = int(lng/-15.0);
+
+//Strip off white space, and capitalize words properly
+			name = name.stripWhiteSpace();
+			name = name.left(1).upper() + name.mid(1).lower();
+			if ( name.contains( ' ' ) ) {
+				for ( unsigned int i=1; i<name.length(); ++i ) {
+					if ( name.at(i) == ' ' ) name.replace( i+1, 1, name.at(i+1).upper() );
+				}
+			}
+
+			state = state.stripWhiteSpace();
+			state = state.left(1).upper() + state.mid(1).lower();
+			if ( state.contains( ' ' ) ) {
+				for ( unsigned int i=1; i<state.length(); ++i ) {
+					if ( state.at(i) == ' ' ) state.replace( i+1, 1, state.at(i+1).upper() );
+				}
+			}
+
+			//insert the custom city alphabetically into geoList
+			for ( unsigned int i=0; i < geoList.count(); ++i ) {
+				if ( geoList.at(i)->name().lower() > name.lower() ) {
+					int TZ = int(lng/-15.0); //estimate time zone
+					geoList.insert( i, new GeoLocation( lng, lat, name, state, TZ ) );
+					break;
+				}
+      }
+
+			geoList.append (new GeoLocation( lng, lat, name, state, TZ ));
+			if ( !citiesFound ) citiesFound = true; //found at least one city
+   	}
+		file.close();
+  }
+
+	if ( citiesFound ) {
 		return true;
 	} else {
 		return false;

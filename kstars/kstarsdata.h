@@ -55,7 +55,7 @@ public:
 		*@param doWarn If true, show a warning on failure (default is true).
 		*@param required If true, the warning message indicates that KStars can't function without the file.
 		*/
-	static bool openDataFile( QFile &file, QString filename, bool doWarn=true, bool required=true );
+	static bool openDataFile( QFile &file, QString filename );
 	bool readCityData( void );
 	bool readStarData( void );
 	bool readNGCData( void );
@@ -77,7 +77,7 @@ public:
 	QList<SkyPoint> Equator;
 	QList<SkyPoint> Ecliptic;
 	QList<SkyPoint> Horizon;
-	QList<SkyPoint> MilkyWay;
+	QList<SkyPoint> MilkyWay[11];
 	QList < SkyObjectName > *ObjNames;
 
 	QString cnameFile;  	

@@ -26,7 +26,7 @@ KSSun::KSSun() {
 	KSSun( J2000 );
 }
 
-KSSun::KSSun( long double Epoch ) : KSPlanet( i18n( "Sun" ) ) {
+KSSun::KSSun( long double Epoch ) : KSPlanet( I18N_NOOP( "Sun" ) ) {
 	JD0 = 2447892.5; //Jan 1, 1990
 	eclong0 = 279.403303; //mean ecliptic longitude at JD0
 	plong0 = 282.768422; //longitude of sun at perigee for JD0
@@ -40,7 +40,7 @@ KSSun::~KSSun(){
 bool KSSun::findPosition( long double jd ) {
 	QString fname, snum, line;
 	QFile f;
-	long double sum[6], T, RE;
+	long double sum[6], T;
 	double A, B, C;
 	int nCount = 0;
 
@@ -55,7 +55,7 @@ bool KSSun::findPosition( long double jd ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 		fname = "earth.L" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {
@@ -80,7 +80,7 @@ bool KSSun::findPosition( long double jd ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 		fname = "earth.B" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {
@@ -107,7 +107,7 @@ bool KSSun::findPosition( long double jd ) {
 		sum[i] = 0.0;
 		snum.setNum( i );
 		fname = "earth.R" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
+		if ( KStarsData::openDataFile( f, fname ) ) {
 			++nCount;
 		  QTextStream stream( &f );
   		while ( !stream.eof() ) {

@@ -28,6 +28,8 @@ KStarsOptions::KStarsOptions()
 	, drawConstellNames( true )
 	, useLatinConstellNames ( true )
 	, drawMilkyWay( true )
+	, fillMilkyWay( true )
+	, drawGrid( true )
 	, drawEquator( true )
 	, drawHorizon( true )
 	, drawGround( true )
@@ -52,8 +54,9 @@ KStarsOptions::KStarsOptions()
   , magLimitDrawStarInfo( 3.0 )
   , drawStarName( true )
   , drawStarMagnitude( true )
+	, starColorMode( 0 )
+  , starColorIntensity( 4 )
  	, colorSky()
-//	, colorStar()
 	, colorMess()
 	, colorNGC()
 	, colorIC()
@@ -62,6 +65,7 @@ KStarsOptions::KStarsOptions()
 	, colorEq()
 	, colorEcl()
 	, colorHorz()
+	, colorGrid()
 	, colorCLine()
 	, colorCName()
 	, colorSName()
@@ -84,7 +88,6 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	// handle ALL members here !!!
 	// coordinate system
 	useAltAz     = dataSource->useAltAz;
-	useNightColors     = dataSource->useNightColors;
 
 	// draw options
 	drawBSC      = dataSource->drawBSC;
@@ -95,6 +98,8 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	drawConstellLines = dataSource->drawConstellLines;
 	drawConstellNames = dataSource->drawConstellNames;
 	drawMilkyWay  = dataSource->drawMilkyWay;
+	fillMilkyWay  = dataSource->fillMilkyWay;
+	drawGrid     = dataSource->drawEquator;
 	drawEquator  = dataSource->drawEquator;
  	drawHorizon  = dataSource->drawHorizon;
 	drawGround   = dataSource->drawGround;
@@ -120,6 +125,7 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	magLimitDrawStarInfo	= dataSource->magLimitDrawStarInfo;
 	drawStarName					= dataSource->drawStarName;
 	drawStarMagnitude			= dataSource->drawStarMagnitude;
+	starColorMode = dataSource->starColorMode;
 	starColorIntensity			= dataSource->starColorIntensity;
 
 	// color options
@@ -132,6 +138,7 @@ void KStarsOptions::copy( KStarsOptions* dataSource )
 	colorMW			=	dataSource->colorMW;
 	colorEq			=	dataSource->colorEq;
 	colorHorz		=	dataSource->colorHorz;
+	colorGrid		=	dataSource->colorGrid;
 	colorCLine	=	dataSource->colorCLine;
 	colorCName	=	dataSource->colorCName;
 

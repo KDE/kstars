@@ -54,6 +54,8 @@ public:
 	bool drawConstellNames;
 	bool useLatinConstellNames;
 	bool drawMilkyWay;
+	bool fillMilkyWay;
+	bool drawGrid;
 	bool drawEquator;
 	bool drawHorizon;
 	bool drawGround;
@@ -79,7 +81,6 @@ public:
 
 	//the colors of things
 	QString colorSky;   //Sky background
-//	QString colorStar;  //Stars
 	QString	colorMess;  //Messier catalog
 	QString	colorNGC;   //NGC catalog
 	QString	colorIC;    //IC catalog
@@ -88,12 +89,12 @@ public:
 	QString	colorEq;    //celestial equator
 	QString	colorEcl;   //ecliptic
 	QString	colorHorz;  //horizon
+	QString	colorGrid;  //coordinate grid
 	QString	colorCLine; //constellation lines
 	QString	colorCName; //constellation names
 	QString	colorSName; //star names
 
-	// use nightcolors for stars?
-	bool useNightColors;
+	int starColorMode;  // 0 = temperature colors; 1 = all red; 2 = all black; 3 = all white
 	// intensity of stars
 	int starColorIntensity;
 	

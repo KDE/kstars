@@ -105,7 +105,6 @@ public:
 	*/
 	void nutate( long double Epoch, double &delong, double &dobliq );
 
-	QString EnglishName;
 	QImage image;
 	dms EcLong, EcLat;
 	double Rsun;

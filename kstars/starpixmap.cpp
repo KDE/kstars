@@ -23,16 +23,16 @@
 #include <qimage.h>
 #include <qpainter.h>
 
-StarPixmap::StarPixmap (bool useNightColors, int colorIntensity)
-	: night (useNightColors), intensity (colorIntensity)
+StarPixmap::StarPixmap (int starColorMode, int starColorIntensity)
+	: colorMode (starColorMode), colorIntensity (starColorIntensity)
 {
-	loadPixmaps (night, intensity);
+	loadPixmaps (starColorMode, starColorIntensity);
 }
 
 StarPixmap::~StarPixmap(){
 }
 
-QPixmap* StarPixmap::getPixmap (QChar *color, int size, int zoomlevel) {
+QPixmap* StarPixmap::getPixmap (QChar *color, int size) {
 	int c (0);
 //	the colors from blue to red	+, O, B, A, F, G, K, M, N, P
 // if *color is '+' use white star
@@ -54,93 +54,82 @@ QPixmap* StarPixmap::getPixmap (QChar *color, int size, int zoomlevel) {
 		c = 8;
 	else if (*color == 'P')
 		c = 9;
-	return &starPixmaps[c][size/*+zoomlevel*/];
+	return &starPixmaps[c][size];
 }
 
-void StarPixmap::setDefaultColors() {
-	if (night)	// only if night colors are loaded
-		loadPixmaps (false);
+void StarPixmap::setColorMode( int newMode ) {
+	colorMode = newMode;
+	loadPixmaps ( colorMode, colorIntensity );
 }
 
-void StarPixmap::setNightColors() {
-	if (!night)	// only if default colors are loaded
-		loadPixmaps (true);
+void StarPixmap::setIntensity ( int newIntensity ) {
+	colorIntensity = newIntensity;
+	loadPixmaps ( colorMode, colorIntensity );
 }
 
-void StarPixmap::setIntensity (int colorIntensity) {
-	loadPixmaps (night, colorIntensity);
-}
+void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
+	colorMode = newColorMode;
+	colorIntensity = newColorIntensity;
 
-void StarPixmap::loadPixmaps (bool useNightColors, int colorIntensity) {
-	night = useNightColors;
-	intensity = colorIntensity;
-	if (intensity < 0) intensity = 0;	// min
+	if (colorIntensity < 0) colorIntensity = 0;	// min
 	
 	QPixmap pix (64, 64);
 	QBitmap mask (64, 64);
 	QImage image;
 	QPainter p;
+	QArray<QColor> starColor;
+	starColor.resize( 8 );	
+
+	starColor[0] = QColor( 255, 255, 255 );   //default to white
+	starColor[1] = QColor(   0,   0, 255 );   //type O
+	starColor[2] = QColor(   0, 200, 255 );   //type B
+	starColor[3] = QColor(   0, 255, 255 );   //type A
+	starColor[4] = QColor( 200, 255, 100 );   //type F
+	starColor[5] = QColor( 255, 255,   0 );   //type G
+	starColor[6] = QColor( 255, 100,   0 );   //type K
+	starColor[7] = QColor( 255,   0,   0 );   //type M
 
 // background of the star
-	if (night)
-		pix.fill (Qt::red);	// night color
+	if ( colorMode==1 ) // night colors (fill red, no temperature colors)
+		pix.fill (Qt::red);	
+	else if ( colorMode==2 ) //star chart colors (fill black, no temperature colors)
+		pix.fill (Qt::black);
 	else
-		pix.fill (Qt::white);	// default color
-/*
-	*The colors are defined:
-		0 = white
-		white = QColor (255, 255, 255)
-		1..9 = blue..red
-		blue		=	QColor (	  0	,	0	, 255	)	color = 1..4
-		green	=	QColor (	  0	, 255,	0		)	color = 5
-		red		=	QColor (	255	, 	0	,	0		)	color = 6..9
-	*/
-	for (int color = 0; color < 10; color ++)
-	{
-		if (color)	// first array field is white
-		{
-			p.begin (&pix);
-			int red(0), green(0), blue(0);
-  		if (color==1) { blue = 255; red = 100; green = 100; }
-			else if (color==2) { blue = 100; green = 255; }
-			else if (color==3) { green = 255; }
-			else if (color==4) { red = 100; green = 255; }
-			else if (color==5) { red = 255; green = 255; }
-			else if (color==6) { red = 255; green = 100; }
-			else if (color>=7) { red = 255; }
-
-			QColor c (red, green, blue);
-//			p.setPen (QPen (c, 4));	// the intensity of color depends on the width of the pen
-			p.setPen (QPen (c, colorIntensity));	// the intensity of color depends on the width of the pen
+		pix.fill (Qt::white);	// default colors
 		
-			if (!night)	// if not night is set paint the corona
-				p.drawEllipse (32, 32, 23, 23);
+	for (int color = 0; color < 10; color ++) {
+		int ic = color;
+		if ( color > 7 ) ic = 7;
+
+		if (colorMode==0)	{
+			p.begin (&pix);
+			p.setPen (QPen (starColor[ic], colorIntensity));	// the intensity of color determines the width of the pen
+			p.drawEllipse (32, 32, 23, 23);
 			p.end();
 		}
+
 		mask.fill (Qt::color0);
-	
+
 		p.begin (&mask);
 		p.setPen (QPen ( Qt::color1, 1));
 		p.setBrush( QBrush( Qt::color1 ) );
-//		for (int i = 0; i < 24; i++)
-//			p.drawEllipse (32, 32, i, i);	// paint the star
 		p.drawEllipse(32,32,23,23);
 		p.end();
 		pix.setMask (mask);	// set the mask
 		image = pix.convertToImage();	// create the image for smoothScale()
-	
+
 		for (int i = 0; i < 24; i++)
 		{
 			QImage tmp;
 			if (i < 6)
 				tmp = image.smoothScale (1+ i, 1+ i);	// size: 1x1 .. 24x24
 			else	if (i < 12)
-				tmp = image.smoothScale ((1+ i)*1.25, (1+ i)*1.25);	// size: 1x1 .. 30x30
+				tmp = image.smoothScale (int((1+ i)*1.25), int((1+ i)*1.25));	// size: 1x1 .. 30x30
 			else	if (i < 18)
-				tmp = image.smoothScale ((1+ i)*1.5, (1+ i)*1.5);	// size: 1x1 .. 36x36
+				tmp = image.smoothScale (int((1+ i)*1.5), int((1+ i)*1.5));	// size: 1x1 .. 36x36
 			else
 				tmp = image.smoothScale ((1+ i)*2, (1+ i)*2);	// size: 1x1 .. 48x48
-//			qDebug ("image: %ix%i", tmp.width(), tmp.height());
+
 			starPixmaps[color][i].convertFromImage (tmp);	// fill the array of pixmaps
 		}
 	}

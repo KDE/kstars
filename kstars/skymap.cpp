@@ -21,6 +21,7 @@
 #include <kurl.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
+#include <kmessagebox.h>
 
 #include <qpopupmenu.h>
 #include <qlabel.h>
@@ -41,6 +42,7 @@
 #include "kstars.h"
 #include "skymap.h"
 #include "imageviewer.h"
+#include "addlinkdialog.h"
 
 SkyMap::SkyMap(QWidget *parent, const char *name )
  : QWidget (parent,name), downloads (0), computeSkymap (true)
@@ -53,7 +55,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	if (ZoomLevel == 0) ksw->actZoomOut->setEnabled (false);
 
 	// load the pixmaps of stars
-	starpix = new StarPixmap (ksw->GetOptions()->useNightColors, ksw->GetOptions()->starColorIntensity);
+	starpix = new StarPixmap (ksw->GetOptions()->starColorMode, ksw->GetOptions()->starColorIntensity);
 
   //initialize pixelScale array, will be indexed by ZoomLevel
 	for ( int i=0; i<13; ++i ) {
@@ -600,7 +602,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		clickedObject = NULL;
 		StarObject *starobj = NULL;
 
-		if ( rmin < 80.0/pixelScale[ZoomLevel] ) {
+		if ( rmin < 200.0/pixelScale[ZoomLevel] ) {
 			switch (icat) {
 				case -1: //solar system object
 					switch( isolar_min ) {
@@ -671,6 +673,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
+							pmenu->insertSeparator();
+							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
+
 							pmenu->popup( QCursor::pos() );
 
 							break;
@@ -696,6 +701,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 							pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
 							pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+
+							//can't add links to anonymous stars, because links indexed by object name :(
+							if (clickedObject->name != "star" ) {
+								pmenu->insertSeparator();
+								pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
+    					}
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -745,6 +757,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								pmenu->insertItem( i18n( t.latin1() ), this, SLOT( slotInfo( int ) ), 0, id++ );
 								++itTitle;
 							}
+
+							pmenu->insertSeparator();
+							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
 
 							pmenu->popup( QCursor::pos() );
 							break;
@@ -796,6 +811,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
+							pmenu->insertSeparator();
+							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -846,6 +864,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 								++itTitle;
 							}
 
+							pmenu->insertSeparator();
+							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
+
 							pmenu->popup( QCursor::pos() );
 							break;
 						default:
@@ -868,6 +889,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					pmType->setText( QString::null );
 					pmenu->insertItem( i18n( "Show 1st-Gen DSS image" ), this, SLOT( slotDSS() ) );
 					pmenu->insertItem( i18n( "Show 2nd-Gen DSS image" ), this, SLOT( slotDSS2() ) );
+
 					pmenu->popup( QCursor::pos() );
 					break;
 				default:
@@ -921,62 +943,136 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 
 	QPointArray pts;
 	QList<QPoint> points;
-	int ptsCount = 0;
-
-	pts.resize( 3000 );
+	int ptsCount;
 
 	//Draw Milky Way (draw this first so it's in the "background")
 	if ( ksw->GetOptions()->drawMilkyWay ) {
-	  psky.setPen( QPen( QColor( ksw->GetOptions()->colorMW ), 1, DotLine ) );
-		int max = 5*pixelScale[ZoomLevel]/pixelScale[0];
+		psky.setPen( QPen( QColor( ksw->GetOptions()->colorMW ) ) );
+		psky.setBrush( QBrush( QColor( ksw->GetOptions()->colorMW ) ) );
+		bool offscreen, lastoffscreen=false;
+		int max = pixelScale[ZoomLevel]/100;
 
-		QPoint o = getXY( ksw->GetData()->MilkyWay.at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-		QPoint o1 = o;
-		QPoint o2(0,0);
+		for ( unsigned int j=0; j<11; ++j ) {
+			if ( ksw->GetOptions()->fillMilkyWay ) {
+				ptsCount = 0;
+				pts.resize( 2000 );
+				bool partVisible = false;
 
-		psky.moveTo( o.x(), o.y() );
+				QPoint o = getXY( ksw->GetData()->MilkyWay[j].at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+				if ( o.x() != -100000 && o.y() != -100000 ) pts.setPoint( ptsCount++, o.x(), o.y() );
+				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) partVisible = true;
 
-		bool newlyVisible = false;
-		for ( unsigned int i=1; i<ksw->GetData()->MilkyWay.count(); ++i ) {
-			if ( checkVisibility( ksw->GetData()->MilkyWay.at(i), FOV, ksw->GetOptions()->useAltAz, isPoleVisible ) ) {
-				o = getXY( ksw->GetData()->MilkyWay.at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+				for ( unsigned int i=1; i<ksw->GetData()->MilkyWay[j].count(); ++i ) {
+					o = getXY( ksw->GetData()->MilkyWay[j].at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+					if ( o.x() != -100000 && o.y() != -100000 ) pts.setPoint( ptsCount++, o.x(), o.y() );
+					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) partVisible = true;
+				}
 
+				if ( ptsCount && partVisible ) {
+					pts.resize( ptsCount );
+					psky.drawPolygon( pts );
+	 	  	}
+			} else {
+	      QPoint o = getXY( ksw->GetData()->MilkyWay[j].at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+				if (o.x()==-100000 && o.y()==-100000) offscreen = true;
+				else offscreen = false;
+
+				psky.moveTo( o.x(), o.y() );
+  	
+				for ( unsigned int i=1; i<ksw->GetData()->MilkyWay[j].count(); ++i ) {
+					o = getXY( ksw->GetData()->MilkyWay[j].at(i), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+					if (o.x()==-100000 && o.y()==-100000) offscreen = true;
+					else offscreen = false;
+
+					//don't draw a line if the last point's getXY was (-100000, -100000)
+					int dx = abs(o.x()-psky.pos().x());
+					int dy = abs(o.y()-psky.pos().y());
+					if ( (!lastoffscreen && !offscreen) && (dx<max && dy<max) ) {
+						psky.lineTo( o.x(), o.y() );
+					} else {
+						psky.moveTo( o.x(), o.y() );
+					}
+					lastoffscreen = offscreen;
+				}
+			}
+		}
+	}
+
+	//Draw coordinate grid
+	if ( ksw->GetOptions()->drawGrid ) {
+		psky.setPen( QPen( QColor( ksw->GetOptions()->colorGrid ), 0, DotLine ) ); //change to colorGrid
+			
+		//First, the parallels
+		for ( double Dec=-80.; Dec<=80.; Dec += 20. ) {
+			bool newlyVisible = false;
+			SkyPoint *sp = new SkyPoint( 0.0, Dec );
+			if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
+			QPoint o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+			QPoint o1 = o;
+			psky.moveTo( o.x(), o.y() );
+
+			double dRA = 1./15.; //180 points along full circle of RA
+			for ( double RA=dRA; RA<24.; RA+=dRA ) {
+				sp->set( RA, Dec );
+				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
+				o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+  	
 				int dx = psky.pos().x() - o.x();
-				int dy = psky.pos().y() - o.y();
-				if ( abs(dx) < max && abs(dy) < max ) {
+				if ( abs(dx) < 250 ) {
 					if ( newlyVisible ) {
 						newlyVisible = false;
-						QPoint last = getXY( ksw->GetData()->MilkyWay.at(i-1), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
-						psky.moveTo( last.x(), last.y() );
+						psky.moveTo( o.x(), o.y() );
 					}
 					psky.lineTo( o.x(), o.y() );
 				} else {
-					//connect last segment in current loop
-					int dx = psky.pos().x() - o2.x();
-					int dy = psky.pos().y() - o2.y();
-					if ( abs(dx) < max && abs(dy) < max && ( o2.x()!=0 || o2.y()!=0 ) )
-						psky.lineTo( o2.x(), o2.y() );
-					o2 = o;
-					psky.moveTo( o.x(), o.y() );
+					psky.moveTo( o.x(), o.y() );	
 				}
-			} else {
-				newlyVisible = true;
 			}
+
+			//connect the final segment
+			int dx = psky.pos().x() - o1.x();
+			if (abs(dx) < 250 ) {
+				psky.lineTo( o1.x(), o1.y() );
+			} else {
+				psky.moveTo( o1.x(), o1.y() );	
+			}
+
+			delete sp; //leaks are bad :)
 		}
 
-		//connect the final segment
-		int dx = psky.pos().x() - o1.x();
-		int dy = psky.pos().y() - o.y();
-		if (abs(dx) < max && abs(dy) < max ) {
-			psky.lineTo( o1.x(), o1.y() );
-		} else {
-			psky.moveTo( o1.x(), o1.y() );
+    //next, the meridians
+		for ( double RA=0.; RA<24.; RA += 2. ) {
+			bool newlyVisible = false;
+			SkyPoint *sp = new SkyPoint( RA, -90. );
+			if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
+			QPoint o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+			psky.moveTo( o.x(), o.y() );
+
+			double dDec = 1.;
+			for ( double Dec=-89.; Dec<=90.; Dec+=dDec ) {
+				sp->set( RA, Dec );
+				if ( ksw->GetOptions()->useAltAz ) sp->RADecToAltAz( LSTh, ksw->geo->lat() );
+				o = getXY( sp, ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
+  	
+				int dx = psky.pos().x() - o.x();
+				if ( abs(dx) < 250 ) {
+					if ( newlyVisible ) {
+						newlyVisible = false;
+						psky.moveTo( o.x(), o.y() );
+					}
+					psky.lineTo( o.x(), o.y() );
+				} else {
+					psky.moveTo( o.x(), o.y() );	
+				}
+			}
+
+			delete sp; //leaks are bad :)
 		}
-  }
+	}
 
 	//Draw Equator
 	if ( ksw->GetOptions()->drawEquator ) {
-		psky.setPen( QColor( ksw->GetOptions()->colorEq ) );
+		psky.setPen( QPen( QColor( ksw->GetOptions()->colorEq ), 0, SolidLine ) );
 
 		QPoint o = getXY( ksw->GetData()->Equator.at(0), ksw->GetOptions()->useAltAz, LSTh, ksw->geo->lat() );
 		QPoint o1 = o;
@@ -1236,7 +1332,7 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 						drawSymbol( psky, ksw->GetData()->messList.at(i)->type, o.x(), o.y(), size );
             //reset color
 						psky.setPen( QColor( ksw->GetOptions()->colorMess ) );
-					}
+					}			
 				}
 			}
 		}
@@ -1426,13 +1522,10 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 	}
 
 	//Draw Horizon
-
-	ptsCount = 0;
-
 	if (ksw->GetOptions()->drawHorizon || ksw->GetOptions()->drawGround) {
 		psky.setPen( QColor ( ksw->GetOptions()->colorHorz ) );
-
 		psky.setBrush( QColor ( ksw->GetOptions()->colorHorz ) );
+		ptsCount = 0;
 		pts.resize( 720 );
 
 		for ( unsigned int i=0; i<ksw->GetData()->Horizon.count(); ++i ) {
@@ -1477,7 +1570,9 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 				}
 			}
 		}
-
+    //connect the last segment back to the beginning
+		if ( abs( points.at(0)->x() - psky.pos().x() ) < 250 && abs( points.at(0)->y() - psky.pos().y() ) < 250 )
+			psky.lineTo( points.at(0)->x(), points.at(0)->y() );
   }
 
 //  Finish the polygon by adding a square bottom edge, offscreen
@@ -1604,7 +1699,7 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, QChar
 
 	switch (type) {
 		case 0: //star
-			star = starpix->getPixmap (&color, size, ZoomLevel);
+			star = starpix->getPixmap (&color, size);
 			bitBlt ((QPaintDevice *) sky, x1-star->width()/2, y1-star->height()/2, star);
 			break;
 		case 1: //catalog star
@@ -1936,5 +2031,50 @@ void SkyMap::showFocusCoords( void ) {
 	ksw->FocusAltAz->setText( s.sprintf( "Alt: %c%02d:%02d:%02d  Az: %c%02d:%02d:%02d ",
 					altsgn, altd, altm, alts,
 					azsgn, azd, azm, azs ) );
+}
+
+void SkyMap::addLink( void ) {
+	AddLinkDialog adialog( this );
+	QString entry;
+  QFile file;
+
+	if ( adialog.exec()==QDialog::Accepted ) {
+		if ( adialog.isImageLink() ) {
+			//Add link to object's ImageList, and descriptive text to its ImageTitle list
+			clickedObject->ImageList.append( adialog.url() );
+			clickedObject->ImageTitle.append( adialog.title() );
+
+			//Also, update the user's custom image links database
+			//check for user's image-links database.  If it doesn't exist, create it.
+			file.setName( locateLocal( "appdata", "myimage_url.dat" ) ); //determine filename in local user KDE directory tree.
+
+			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );		
+				KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				return;
+			} else {
+				entry = clickedObject->name + ":" + adialog.title() + ":" + adialog.url();
+				QTextStream stream( &file );
+				stream << entry << endl;
+				file.close();
+      }
+		} else {
+			clickedObject->InfoList.append( adialog.url() );
+			clickedObject->InfoTitle.append( adialog.title() );
+
+			//check for user's image-links database.  If it doesn't exist, create it.
+			file.setName( locateLocal( "appdata", "myinfo_url.dat" ) ); //determine filename in local user KDE directory tree.
+
+			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+				return;
+			} else {
+				entry = clickedObject->name + ":" + adialog.title() + ":" + adialog.url();
+				QTextStream stream( &file );
+				stream << entry;
+				file.close();
+      }
+		}
+	}
 }
 #include "skymap.moc"

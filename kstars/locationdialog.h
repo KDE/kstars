@@ -123,6 +123,14 @@ public slots:
 	*completed, and the QPushButton is disabled.
 	*/
 	void addCity( void );
+/**
+	*Make sure a valid Longitude value was entered.
+	*/
+	void checkLong( void );
+/**
+	*Make sure a valid Latitude value was entered.
+	*/
+	void checkLat( void );
 		
 protected:
   bool event( QEvent* );

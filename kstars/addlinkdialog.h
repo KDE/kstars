@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skyobjectname.cpp  -  description
+                          addlinkdialog.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Aug 22 2001
+    begin                : Sun Oct 21 2001
     copyright            : (C) 2001 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
@@ -15,28 +15,42 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skyobjectname.h"
+#ifndef ADDLINKDIALOG_H
+#define ADDLINKDIALOG_H
 
-#include <klocale.h>
+#include <kdialogbase.h>
 
-SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
-	: skyobject ( obj ), Text ( str )
-{
-}
+class KLineEdit;
+class QString;
+class QHBoxLayout;
+class QVBoxLayout;
+class QPushButton;
+class QRadioButton;
+class QButtonGroup;
 
-SkyObjectName::~SkyObjectName(){
-}
+/**
+  *@author Jason Harris
+  */
 
-SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj, bool useLatinConstellNames )
-	: QListBoxText ( parent ), object ( obj )
-{
-	if ( useLatinConstellNames )
-		setText ( obj->text() );
-	else
-		setText ( obj->translatedText() );
-}
+class AddLinkDialog : public KDialogBase  {
+	Q_OBJECT
+public:
+	AddLinkDialog( QWidget* parent = 0 );
+	~AddLinkDialog();
+	QString url();
+	QString title();
+	bool isImageLink();
+private slots:
+	void checkURL( void );
+	void changeDefaultTitle( int id );
+private:
+	QVBoxLayout *vlay;
+	QHBoxLayout *hlayTitle, *hlayURL, *hlayBrowse;
+	KLineEdit *URLEntry, *TitleEntry;
+	QPushButton *BrowserButton;
+	QButtonGroup *TypeGroup;
+	QRadioButton *ImageRadio;
+	QRadioButton *InfoRadio;
+};
 
-
-SkyObjectNameListItem::~SkyObjectNameListItem() {
-}
-
+#endif

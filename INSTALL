@@ -23,6 +23,7 @@ Basic Installation
           zlib-devel (needed for image compression, may be named zlib1-devel)
           kdelibs-devel (KDE headers)
           libqt2-devel (QT headers)
+          XFree86-devel (X11 headers and lib symlinks)
 
        If you are using an RPM-based distro (e.g., redhat or mandrake), you
        can check for these packages with "rpm -q <package-name>".

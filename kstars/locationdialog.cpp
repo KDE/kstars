@@ -18,15 +18,20 @@
 
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kstddirs.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlistbox.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qgroupbox.h>
+#include <qvalidator.h>
 #include <qvariant.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
+#include <qfile.h>
+#include <qtextstream.h>
+#include <stdlib.h>
 #include "kstars.h"
 #include <stdio.h>
 
@@ -94,7 +99,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	NewLong = new QLineEdit( CoordBox, "NewLong" );
 	NewLat = new QLineEdit( CoordBox, "NewLat" );
 	AddCityButton = new QPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
-	AddCityButton->setEnabled( false );
+	AddCityButton->setEnabled( true );
 		
 	NewCityLabel->setText( i18n( "City name:" ) );
 	NewStateLabel->setText( i18n( "State name:" ) );
@@ -142,12 +147,17 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CoordLay->activate();
 	RootLay->activate();
 	
+	NewLong->setValidator( new QDoubleValidator( -180.0, 180.0, 4, NewLong ) );
+	NewLat->setValidator( new QDoubleValidator( -90.0, 90.0, 4, NewLat ) );
+
   GeoID.resize(10000);
 
   connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
   connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
   connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
   connect( StateFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
+  connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLong() ) );
+  connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLat() ) );
 	connect( GeoBox, SIGNAL( selectionChanged() ), this, SLOT( changeCity() ) );
 	connect( AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
 	
@@ -189,8 +199,7 @@ void LocationDialog::initCityList( void ) {
 		GeoBox->insertItem( s );
 		GeoID[GeoBox->count() - 1] = p->GetData()->geoList.at();
 	}
-
-	QString countLabel = i18n( "%1 cities match search criteria" ).arg(GeoBox->count());
+	QString countLabel = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
 	TextLabel2->setText( countLabel );
 	
 	if ( GeoBox->firstItem() )		// set first item in list as selected
@@ -233,13 +242,94 @@ int LocationDialog::getCityIndex( void ) {
 }
 
 void LocationDialog::addCity( void ) {
+	KStars *p = (KStars *)parent();
+
 	if ( NewCityName->text().isEmpty() || NewStateName->text().isEmpty() ||
 		NewLat->text().isEmpty() || NewLong->text().isEmpty() ) {
 
 		QString message = i18n( "All fields must be filled to add this location." );		
 		KMessageBox::sorry( 0, message, i18n( "Fields are empty" ) );
 	} else {
+    QString entry;
+		QFile file;
+
+		//Strip off white space, and capitalize words properly
+		QString name = NewCityName->text().stripWhiteSpace();
+		name = name.left(1).upper() + name.mid(1).lower();
+		if ( name.contains( ' ' ) ) {
+			for ( unsigned int i=1; i<name.length(); ++i ) {
+				if ( name.at(i) == ' ' ) name.replace( i+1, 1, name.at(i+1).upper() );
+			}
+		}
+
+		QString state = NewStateName->text().stripWhiteSpace();
+		state = state.left(1).upper() + state.mid(1).lower();
+		if ( state.contains( ' ' ) ) {
+			for ( unsigned int i=1; i<state.length(); ++i ) {
+				if ( state.at(i) == ' ' ) state.replace( i+1, 1, state.at(i+1).upper() );
+			}
+		}
+
 		//check for user's city database.  If it doesn't exist, create it.
+		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+
+		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );		
+			KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
+			return;
+		} else {
+			dms lat = dms( NewLat->text().toDouble() );
+			dms lng = dms( NewLong->text().toDouble() );
+			char ltsgn = 'N'; if ( lat.getDeg()<0 ) ltsgn = 'S';
+			char lgsgn = 'E'; if ( lng.getDeg()<0 ) lgsgn = 'W';
+
+			entry = entry.sprintf( "%-31s %-16s %2d %2d %2d %c %3d %2d %2d %c\n",
+						name.local8Bit().data(), state.local8Bit().data(),
+						abs(lat.getDeg()), lat.getArcMin(), lat.getArcSec(), ltsgn,
+						abs(lng.getDeg()), lng.getArcMin(), lat.getArcSec(), lgsgn );
+
+			QTextStream stream( &file );
+			stream << entry;
+			file.close();
+
+			//Add city to geoList and GeoBox
+			//insert the new city into geoList alphabetically
+			unsigned int i;
+			for ( i=0; i < p->GetData()->geoList.count(); ++i ) {
+				if ( p->GetData()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
+					int TZ = int(lng.getD()/-15.0); //estimate time zone
+					p->GetData()->geoList.insert( i, new GeoLocation( lng.getD(), lat.getD(), NewCityName->text(), NewStateName->text(), TZ ) );
+					break;
+				}
+      }
+
+			GeoBox->clear();
+			initCityList();
+			GeoBox->setCurrentItem( i );
+		}
+	}
+
+	NewLong->clear();
+	NewLat->clear();
+	NewCityName->clear();
+	NewStateName->clear();
+}
+
+void LocationDialog::checkLong( void ) {
+	double lng = NewLong->text().toDouble();
+	if ( lng < -180.0 || lng > 180.0 ) {
+		QString message = i18n( "The longitude must be expressed as \na floating-point number between -180.0 and 180.0" );
+		KMessageBox::sorry( 0, message, i18n( "Invalid Longitude" ) );
+		NewLong->clear();
+	}
+}
+
+void LocationDialog::checkLat( void ) {
+	double lat = NewLat->text().toDouble();
+	if ( lat < -90.0 || lat > 90.0 ) {
+		QString message = i18n( "The latitude must be expressed as \na floating-point number between -90.0 and 90.0" );
+		KMessageBox::sorry( 0, message, i18n( "Invalid Latitude" ) );
+		NewLat->clear();
 	}
 }
 #include "locationdialog.moc"

@@ -1,18 +1,18 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 bin_PROGRAMS = kstars
-kstars_SOURCES = kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp 
+kstars_SOURCES = addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp 
 kstars_LDADD   = -lkio -lm $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = data 
 
-EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h 
+EXTRA_DIST = main.cpp kstars.cpp kstars.h kstars.desktop skymap.cpp skymap.h geolocation.cpp geolocation.h skyobject.cpp skyobject.h dms.cpp dms.h skypoint.cpp skypoint.h timedialog.cpp timedialog.h locationdialog.cpp locationdialog.h mapcanvas.cpp mapcanvas.h viewopsdialog.cpp viewopsdialog.h finddialog.cpp finddialog.h ksplanet.cpp ksplanet.h kssun.cpp kssun.h kstarsdata.cpp kstarsdata.h kstarssplash.cpp kstarssplash.h kstarsoptions.h kstarsoptions.cpp magnitudespinbox.cpp magnitudespinbox.h skyobjectname.cpp skyobjectname.h ksmoon.cpp ksmoon.h imageviewer.cpp imageviewer.h timespinbox.cpp timespinbox.h starobject.cpp starobject.h starpixmap.cpp starpixmap.h kspluto.cpp kspluto.h addlinkdialog.cpp addlinkdialog.h 
 
-# place KStar in the start menu under edutainment
-kdelnkdir = $(kde_appsdir)/Edutainment
-kdelnk_DATA = kstars.desktop
+install-data-local:
+	$(mkinstalldirs) $(kde_appsdir)/Applications/
+	$(INSTALL_DATA) $(srcdir)/kstars.desktop $(kde_appsdir)/Applications/kstars.desktop
 
 uninstall-local:
-	-rm -f $(kde_appsdir)/Edutainment/kstars.desktop
+	-rm -f $(kde_appsdir)/Applications/kstars.desktop
 
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:

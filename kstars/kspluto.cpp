@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "kspluto.h"
 
-KSPluto::KSPluto() : KSPlanet( "Pluto" ) {
+KSPluto::KSPluto() : KSPlanet( I18N_NOOP( "Pluto" ) ) {
 }
 
 KSPluto::~KSPluto(){
@@ -30,7 +30,7 @@ KSPluto::~KSPluto(){
 bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 	QString fname, snum, line;
 	QFile f;
-	double freq[106], A, B, C, T, U, RE;
+	double freq[106], T, U;
 	double ac, as, X, Y, Z, X0, Y0, Z0, RARad;
 	dms L0, B0; //geocentric ecliptic coords of Sun
 	dms EarthLong, EarthLat; //heliocentric ecliptic coords of Earth
@@ -47,7 +47,7 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
   //read in the periodic frequencies
 	int n = 0;
 	fname = "pluto.freq";
-	if ( KStarsData::openDataFile( f, fname, false ) ) {
+	if ( KStarsData::openDataFile( f, fname ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -62,7 +62,7 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 // compute periodic X terms
 	n = 0;
 	fname = "pluto.x";
-	if ( KStarsData::openDataFile( f, fname, false ) ) {
+	if ( KStarsData::openDataFile( f, fname ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -85,7 +85,7 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 // compute periodic Y terms
 	n = 0;
 	fname = "pluto.y";
-	if ( KStarsData::openDataFile( f, fname, false ) ) {
+	if ( KStarsData::openDataFile( f, fname ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -108,7 +108,7 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 // compute periodic Z terms
 	n = 0;
 	fname = "pluto.z";
-	if ( KStarsData::openDataFile( f, fname, false ) ) {
+	if ( KStarsData::openDataFile( f, fname ) ) {
 		QTextStream stream( &f );
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -130,88 +130,6 @@ bool KSPluto::findPosition( long double jd, KSPlanet *Earth ) {
 
 	//convert X, Y, Z to AU (given in 1.0E10 AU)
 	X /= 10000000000.0; Y /= 10000000000.0; Z /= 10000000000.0;
-
-//Find Pluto's RA, Dec by first obtaining X, Y, Z coordinates of the Sun.
-//Then we will apply Equation 32.10 from Astronomical Algorithms (by Jean Meeus)
-//First, compute the Ecliptic coordinates of the Earth:
-/*
-  //Earth Ecliptic Longitude
-	int nCount = 0;
-	double sum[6];
-
-	//redefine T
-	T = (jd - J2000)/365250.0; //Julian millenia since J2000
-
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.L" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				line = line.sprintf( "%f", C );
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no longitude data found!
-
-  EarthLong.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-	EarthLong.setD( EarthLong.reduce().getD() );
-	  	
-	//Ecliptic Latitude
-	nCount = 0;
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.B" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no latitude data found!
-
-  EarthLat.setRadians( sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T );
-
-	//Compute Heliocentric Distance
-	nCount = 0;
-	for (int i=0; i<6; ++i) {
-		sum[i] = 0.0;
-		snum.setNum( i );
-		fname = "earth.R" + snum + ".vsop";
-		if ( KStarsData::openDataFile( f, fname, false ) ) {
-			++nCount;
-		  QTextStream stream( &f );
-  		while ( !stream.eof() ) {
-				line = stream.readLine();
-				QTextIStream instream( &line );
-  			instream >> A >> B >> C;
-				sum[i] += A * cos( B + C*T );
-	  	}
-  		f.close();
-  	}
-  }
-
-	if (nCount==0) return false; //no distance data found!
-
-	//Well, for the Sun, Rsun is the geocentric distance, not the heliocentric! :)
-  RE = sum[0] + sum[1]*T + sum[2]*T*T + sum[3]*T*T*T + sum[4]*T*T*T*T + sum[5]*T*T*T*T*T;
-*/
 
 	//L0, B0 are Sun's Ecliptic coords (L0 = Learth + 180; B0 = -Bearth)
 	L0.setD( Earth->EcLong.getD() + 180.0 );

@@ -54,6 +54,9 @@ class LocationDialog;
 class FindDialog;
 class ViewOpsDialog;
 
+//Define some global constants
+#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
+#define NMILKYWAY 11  //number of Milky Way segments
 #define TIMER_INTERVAL 10
 
 /** KStars is the base class of the project */

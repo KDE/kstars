@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = Cities.dat clines.dat cnames.dat ngc2000.dat sao.dat hi16-app-kstars.png hi32-app-kstars.png hi48-app-kstars.png lo16-app-kstars.png lo32-app-kstars.png lo48-app-kstars.png geomap.png mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop mercury.B2.vsop mercury.B3.vsop mercury.B4.vsop mercury.B5.vsop mercury.R0.vsop mercury.R1.vsop mercury.R2.vsop mercury.R3.vsop mercury.R4.vsop mercury.R5.vsop venus.L0.vsop venus.L1.vsop venus.L2.vsop venus.L3.vsop venus.L4.vsop venus.L5.vsop venus.B0.vsop venus.B1.vsop venus.B2.vsop venus.B3.vsop venus.B4.vsop venus.B5.vsop venus.R0.vsop venus.R1.vsop venus.R2.vsop venus.R3.vsop venus.R4.vsop venus.R5.vsop earth.L0.vsop earth.L1.vsop earth.L2.vsop earth.L3.vsop earth.L4.vsop earth.L5.vsop earth.B0.vsop earth.B1.vsop earth.B2.vsop earth.B3.vsop earth.B4.vsop earth.R0.vsop earth.R1.vsop earth.R2.vsop earth.R3.vsop earth.R4.vsop earth.R5.vsop mars.L0.vsop mars.L1.vsop mars.L2.vsop mars.L3.vsop mars.L4.vsop mars.L5.vsop mars.B0.vsop mars.B1.vsop mars.B2.vsop mars.B3.vsop mars.B4.vsop mars.B5.vsop mars.R0.vsop mars.R1.vsop mars.R2.vsop mars.R3.vsop mars.R4.vsop mars.R5.vsop jupiter.L0.vsop jupiter.L1.vsop jupiter.L2.vsop jupiter.L3.vsop jupiter.L4.vsop jupiter.L5.vsop jupiter.B0.vsop jupiter.B1.vsop jupiter.B2.vsop jupiter.B3.vsop jupiter.B4.vsop jupiter.B5.vsop jupiter.R0.vsop jupiter.R1.vsop jupiter.R2.vsop jupiter.R3.vsop jupiter.R4.vsop jupiter.R5.vsop saturn.L0.vsop saturn.L1.vsop saturn.L2.vsop saturn.L3.vsop saturn.L4.vsop saturn.L5.vsop saturn.B0.vsop saturn.B1.vsop saturn.B2.vsop saturn.B3.vsop saturn.B4.vsop saturn.B5.vsop saturn.R0.vsop saturn.R1.vsop saturn.R2.vsop saturn.R3.vsop saturn.R4.vsop saturn.R5.vsop uranus.L0.vsop uranus.L1.vsop uranus.L2.vsop uranus.L3.vsop uranus.L4.vsop uranus.L5.vsop uranus.B0.vsop uranus.B1.vsop uranus.B2.vsop uranus.B3.vsop uranus.B4.vsop uranus.R0.vsop uranus.R1.vsop uranus.R2.vsop uranus.R3.vsop uranus.R4.vsop neptune.L0.vsop neptune.L1.vsop neptune.L2.vsop neptune.L3.vsop neptune.L4.vsop neptune.L5.vsop neptune.B0.vsop neptune.B1.vsop neptune.B2.vsop neptune.B3.vsop neptune.B4.vsop neptune.B5.vsop neptune.R0.vsop neptune.R1.vsop neptune.R2.vsop neptune.R3.vsop neptune.R4.vsop jupiter.png mars.png mercury.png neptune.png pluto.png saturn.png sun.png uranus.png venus.png kstars.png earth.png moon0.png moon1.png moon2.png moon3.png moon4.png moon5.png moon6.png moon7.png moon8.png moon9.png moon10.png moon11.png moon12.png moon13.png moon14.png moon15.png moon16.png moon17.png moon18.png moon19.png moon20.png moon21.png moon22.png moon23.png moonB.dat moonLR.dat fr_cnames.dat image_url.dat info_url.dat m1.png m10.png m100.png m101.png m102.png m103.png m104.png m105.png m106.png m107.png m108.png m109.png m11.png m110.png m12.png m13.png m14.png m15.png m16.png m17.png m19.png m2.png m20.png m22.png m27.png m28.png m3.png m30.png m31.png m32.png m33.png m4.png m42.png m45.png m49.png m5.png m50.png m51.png m53.png m54.png m55.png m56.png m57.png m58.png m59.png m6.png m60.png m61.png m62.png m63.png m64.png m65.png m66.png m67.png m68.png m69.png m70.png m71.png m72.png m73.png m74.png m75.png m76.png m77.png m78.png m79.png m8.png m80.png m81.png m82.png m83.png m84.png m85.png m86.png m87.png m88.png m89.png m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png mw.dat pluto.freq pluto.x pluto.y pluto.z 
+EXTRA_DIST = Cities.dat clines.dat cnames.dat ngc2000.dat sao.dat hi16-app-kstars.png hi32-app-kstars.png hi48-app-kstars.png lo16-app-kstars.png lo32-app-kstars.png lo48-app-kstars.png geomap.png mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop mercury.B2.vsop mercury.B3.vsop mercury.B4.vsop mercury.B5.vsop mercury.R0.vsop mercury.R1.vsop mercury.R2.vsop mercury.R3.vsop mercury.R4.vsop mercury.R5.vsop venus.L0.vsop venus.L1.vsop venus.L2.vsop venus.L3.vsop venus.L4.vsop venus.L5.vsop venus.B0.vsop venus.B1.vsop venus.B2.vsop venus.B3.vsop venus.B4.vsop venus.B5.vsop venus.R0.vsop venus.R1.vsop venus.R2.vsop venus.R3.vsop venus.R4.vsop venus.R5.vsop earth.L0.vsop earth.L1.vsop earth.L2.vsop earth.L3.vsop earth.L4.vsop earth.L5.vsop earth.B0.vsop earth.B1.vsop earth.B2.vsop earth.B3.vsop earth.B4.vsop earth.R0.vsop earth.R1.vsop earth.R2.vsop earth.R3.vsop earth.R4.vsop earth.R5.vsop mars.L0.vsop mars.L1.vsop mars.L2.vsop mars.L3.vsop mars.L4.vsop mars.L5.vsop mars.B0.vsop mars.B1.vsop mars.B2.vsop mars.B3.vsop mars.B4.vsop mars.B5.vsop mars.R0.vsop mars.R1.vsop mars.R2.vsop mars.R3.vsop mars.R4.vsop mars.R5.vsop jupiter.L0.vsop jupiter.L1.vsop jupiter.L2.vsop jupiter.L3.vsop jupiter.L4.vsop jupiter.L5.vsop jupiter.B0.vsop jupiter.B1.vsop jupiter.B2.vsop jupiter.B3.vsop jupiter.B4.vsop jupiter.B5.vsop jupiter.R0.vsop jupiter.R1.vsop jupiter.R2.vsop jupiter.R3.vsop jupiter.R4.vsop jupiter.R5.vsop saturn.L0.vsop saturn.L1.vsop saturn.L2.vsop saturn.L3.vsop saturn.L4.vsop saturn.L5.vsop saturn.B0.vsop saturn.B1.vsop saturn.B2.vsop saturn.B3.vsop saturn.B4.vsop saturn.B5.vsop saturn.R0.vsop saturn.R1.vsop saturn.R2.vsop saturn.R3.vsop saturn.R4.vsop saturn.R5.vsop uranus.L0.vsop uranus.L1.vsop uranus.L2.vsop uranus.L3.vsop uranus.L4.vsop uranus.L5.vsop uranus.B0.vsop uranus.B1.vsop uranus.B2.vsop uranus.B3.vsop uranus.B4.vsop uranus.R0.vsop uranus.R1.vsop uranus.R2.vsop uranus.R3.vsop uranus.R4.vsop neptune.L0.vsop neptune.L1.vsop neptune.L2.vsop neptune.L3.vsop neptune.L4.vsop neptune.L5.vsop neptune.B0.vsop neptune.B1.vsop neptune.B2.vsop neptune.B3.vsop neptune.B4.vsop neptune.B5.vsop neptune.R0.vsop neptune.R1.vsop neptune.R2.vsop neptune.R3.vsop neptune.R4.vsop jupiter.png mars.png mercury.png neptune.png pluto.png saturn.png sun.png uranus.png venus.png kstars.png earth.png moon0.png moon1.png moon2.png moon3.png moon4.png moon5.png moon6.png moon7.png moon8.png moon9.png moon10.png moon11.png moon12.png moon13.png moon14.png moon15.png moon16.png moon17.png moon18.png moon19.png moon20.png moon21.png moon22.png moon23.png moonB.dat moonLR.dat fr_cnames.dat image_url.dat info_url.dat m1.png m10.png m100.png m101.png m102.png m103.png m104.png m105.png m106.png m107.png m108.png m109.png m11.png m110.png m12.png m13.png m14.png m15.png m16.png m17.png m19.png m2.png m20.png m22.png m27.png m28.png m3.png m30.png m31.png m32.png m33.png m4.png m42.png m45.png m49.png m5.png m50.png m51.png m53.png m54.png m55.png m56.png m57.png m58.png m59.png m6.png m60.png m61.png m62.png m63.png m64.png m65.png m66.png m67.png m68.png m69.png m70.png m71.png m72.png m73.png m74.png m75.png m76.png m77.png m78.png m79.png m8.png m80.png m81.png m82.png m83.png m84.png m85.png m86.png m87.png m88.png m89.png m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png pluto.freq pluto.x pluto.y pluto.z mw01.dat mw02.dat mw03.dat mw04.dat mw05.dat mw06.dat mw07.dat mw08.dat mw09.dat mw10.dat mw11.dat chart.colors default.colors night.colors 
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/kstars/
@@ -565,8 +565,6 @@ install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/m99.png $(kde_datadir)/kstars/m99.png
 	$(mkinstalldirs) $(kde_datadir)/kstars/
-	$(INSTALL_DATA) $(srcdir)/mw.dat $(kde_datadir)/kstars/mw.dat
-	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/pluto.freq $(kde_datadir)/kstars/pluto.freq
 	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/pluto.x $(kde_datadir)/kstars/pluto.x
@@ -574,6 +572,34 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/pluto.y $(kde_datadir)/kstars/pluto.y
 	$(mkinstalldirs) $(kde_datadir)/kstars/
 	$(INSTALL_DATA) $(srcdir)/pluto.z $(kde_datadir)/kstars/pluto.z
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw01.dat $(kde_datadir)/kstars/mw01.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw02.dat $(kde_datadir)/kstars/mw02.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw03.dat $(kde_datadir)/kstars/mw03.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw04.dat $(kde_datadir)/kstars/mw04.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw05.dat $(kde_datadir)/kstars/mw05.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw06.dat $(kde_datadir)/kstars/mw06.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw07.dat $(kde_datadir)/kstars/mw07.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw08.dat $(kde_datadir)/kstars/mw08.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw09.dat $(kde_datadir)/kstars/mw09.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw10.dat $(kde_datadir)/kstars/mw10.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/mw11.dat $(kde_datadir)/kstars/mw11.dat
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/chart.colors $(kde_datadir)/kstars/chart.colors
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/default.colors $(kde_datadir)/kstars/default.colors
+	$(mkinstalldirs) $(kde_datadir)/kstars/
+	$(INSTALL_DATA) $(srcdir)/night.colors $(kde_datadir)/kstars/night.colors
 
 uninstall-local:
 	-rm -f $(kde_datadir)/kstars/Cities.dat
@@ -856,10 +882,23 @@ uninstall-local:
 	-rm -f $(kde_datadir)/kstars/m97.png
 	-rm -f $(kde_datadir)/kstars/m98.png
 	-rm -f $(kde_datadir)/kstars/m99.png
-	-rm -f $(kde_datadir)/kstars/mw.dat
 	-rm -f $(kde_datadir)/kstars/pluto.freq
 	-rm -f $(kde_datadir)/kstars/pluto.x
 	-rm -f $(kde_datadir)/kstars/pluto.y
 	-rm -f $(kde_datadir)/kstars/pluto.z
+	-rm -f $(kde_datadir)/kstars/mw01.dat
+	-rm -f $(kde_datadir)/kstars/mw02.dat
+	-rm -f $(kde_datadir)/kstars/mw03.dat
+	-rm -f $(kde_datadir)/kstars/mw04.dat
+	-rm -f $(kde_datadir)/kstars/mw05.dat
+	-rm -f $(kde_datadir)/kstars/mw06.dat
+	-rm -f $(kde_datadir)/kstars/mw07.dat
+	-rm -f $(kde_datadir)/kstars/mw08.dat
+	-rm -f $(kde_datadir)/kstars/mw09.dat
+	-rm -f $(kde_datadir)/kstars/mw10.dat
+	-rm -f $(kde_datadir)/kstars/mw11.dat
+	-rm -f $(kde_datadir)/kstars/chart.colors
+	-rm -f $(kde_datadir)/kstars/default.colors
+	-rm -f $(kde_datadir)/kstars/night.colors
 
 ####### kdevelop will overwrite this part!!! (end)############

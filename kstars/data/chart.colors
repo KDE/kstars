@@ -1,0 +1,14 @@
+2          StarColorMode
+#FFFFFF    SkyColor
+#00FF00    MessColor
+#006666    NGCColor
+#443399    ICColor
+#AA0000    LinkColor
+#77AAAA    SNameColor
+#AAAA77    CNameColor
+#5555AA    CLineColor
+#DDDDDD    MWColor
+#000000    EqColor
+#999900    EclColor
+#55AA33    HorzColor
+#445566    GridColor

@@ -32,24 +32,22 @@
 class StarPixmap {
 
 	public:
-		StarPixmap (bool useNightColors = false, int colorIntensity = 4);
+		StarPixmap (int colorMode=0, int colorIntensity = 4);
 		~StarPixmap();
 		
-		QPixmap* getPixmap (QChar *color, int s, int z);
+		QPixmap* getPixmap (QChar *color, int s);
 		
-		void setNightColors();
-		void setDefaultColors();
-		void setIntensity (int colorIntensity);
-		bool useNightColors() { return night; }
-		int Intensity() { return intensity; }
+		void setColorMode( int newMode );
+		void setIntensity ( int newIntensity );
+		int mode() { return colorMode; }
+		int intensity() { return colorIntensity; }
 		
 	private:
 		
 		QPixmap starPixmaps[10][24];	// the preloaded starpixmaps 10 colors/ 24 sizes
-		bool night;
-		int size, zoomlevel, intensity;
+		int size, zoomlevel, colorMode, colorIntensity;
 
-		void loadPixmaps (bool useNightColors = false, int colorIntensity = 4);
+		void loadPixmaps ( int colorMode = 0, int colorIntensity = 4 );
 };
 
 #endif

@@ -35,6 +35,9 @@ class QCheckBox;
 class QFrame;
 class QPushButton;
 class QColor;
+class QListBox;
+class QListBoxItem;
+class QPixmap;
 class MagnitudeSpinBox;
 class KIntSpinBox;
 
@@ -60,11 +63,13 @@ public:
 	~ViewOpsDialog();
 
 private:
-	QHBoxLayout *hlay, *ColorButtonsLayout;
-	QVBoxLayout *vlayStarsTab, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab, *vlayColorTab, *DisplayBoxLayout;
-	QGridLayout *glayColorTab, *glayPlanetTab;
+	QHBoxLayout *hlay, *ColorButtonsLayout, *hlayColorTab;
+	QHBoxLayout *hlayLeftBox, *hlayLeftBox2;
+	QVBoxLayout *vlayStarsTab, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab;
+	QVBoxLayout *vlayLeftBox, *vlayRightBox, *DisplayBoxLayout;
+	QGridLayout *glayPlanetTab;
 
-	QGroupBox  *DisplayBox;
+	QGroupBox  *DisplayBox, *LeftBox, *RightBox;
 	QTabWidget *DisplayTabs;
 	QWidget    *StarsTab, *CatalogTab, *GuideTab, *PlanetTab, *ColorTab;
 	
@@ -83,6 +88,8 @@ private:
 	QCheckBox *showConstellNames;
 	QCheckBox *useLatinConstellNames;
 	QCheckBox *showMilkyWay;
+	QCheckBox *showMilkyWayFilled;
+	QCheckBox *showGrid;
 	QCheckBox *showEquator;
 	QCheckBox *showEcliptic;
 	QCheckBox *showHorizon;
@@ -91,7 +98,12 @@ private:
 	QCheckBox *showSun, *showMoon;
 	QCheckBox *showMercury, *showVenus, *showMars, *showJupiter;
 	QCheckBox *showSaturn, *showUranus, *showNeptune, *showPluto;
-	
+
+	QListBox *ColorPalette, *PresetBox;
+	QPixmap *SkyColor, *MessColor, *NGCColor, *ICColor, *LinksColor;
+	QPixmap *EqColor, *EclColor, *HorzColor, *GridColor, *MWColor;
+	QPixmap *SNameColor, *CNameColor, *CLineColor;
+
 	QPushButton *ChangeCSky;
 //	QPushButton *ChangeCStar;
 	QPushButton *ChangeCMess;
@@ -106,76 +118,52 @@ private:
 	QPushButton *ChangeCConstText;
 	QPushButton *ChangeCStarText;
 	
-	QPushButton *NightColors;
-	QPushButton *ResetColors;
+	QPushButton *AddPreset;
+	QPushButton *showAll, *showNone;
+
+//	QPushButton *NightColors;
+//	QPushButton *ChartColors;
+//	QPushButton *ResetColors;
 
 	QButtonGroup *CoordsGroup;
 	QRadioButton *EquatRadio;
 	QRadioButton *AltAzRadio;
 
 	KIntSpinBox *IntensityBox;
+	QComboBox *StarColorMode;
+
+	QStringList PresetFileList;
 
 private slots:
 /**
-	*Choose a new Sky color with a QColorDialog.
+	*Choose a new palette Color for the selected item with a QColorDialog.
 	*/
-	void newSkyColor( void );
+	void newColor( QListBoxItem* );
 /**
-	*Choose a new Star color with a QColorDialog.
+	*Load one of the predefined color schemes.  Just calls setColors with the
+  *filename selected from the PresetFileList.
 	*/
-//	void newStarColor( void );
+	void slotPreset( int i );
 /**
-	*Choose a new Messier-object color with a QColorDialog.
+	*Save the current color scheme as a custom preset.
 	*/
-	void newMessColor( void );
+	void slotAddPreset( void );
 /**
-	*Choose a new NGC-object color with a QColorDialog.
+	*Select the color scheme stored in filename.
 	*/
-	void newNGCColor( void );
+	bool setColors( QString filename );
 /**
-	*Choose a new IC-object color with a QColorDialog.
+	*Select the default preset color scheme.
 	*/
-	void newICColor( void );
-/**
-	*Choose a new HST-object color with a QColorDialog.
-	*/
-	void newHSTColor( void );
-/**
-	*Choose a new Milky Way color with a QColorDialog.
-	*/
-	void newMWColor( void );
-/**
-	*Choose a new Equator color with a QColorDialog.
-	*/
-	void newEqColor( void );
-/**
-	*Choose a new Ecliptic color with a QColorDialog.
-	*/
-	void newEclColor( void );
-/**
-	*Choose a new Horizon color with a QColorDialog.
-	*/
-	void newHorzColor( void );
-/**
-	*Choose a new Constellation-line color with a QColorDialog.
-	*/
-	void newCLineColor( void );
-/**
-	*Choose a new Constellation-name color with a QColorDialog.
-	*/
-	void newCNameColor( void );
-/**
-	*Choose a new Star-name color with a QColorDialog.
-	*/
-	void newSNameColor( void );
+	void defaultColors( void );
 /**
 	*Select the "Night Vision" preset color scheme/
 	*/
 	void redColors( void );
 /**
-	*Select the default preset color scheme.
+	*Select the chart preset color scheme.
 	*/
-	void defaultColors( void );
+	void chartColors( void );
 /**
 	*Sync the KStars display with a newly-changed option.
 	*/
@@ -200,6 +188,18 @@ private slots:
 	* Set the intensity of starcolors.
 	*/
 	void changeStarColorIntensity ( int newValue );
+/**
+	* Set the star color mode.
+	*/
+	void changeStarColorMode( int newMode );
+/**
+	* Mark all planets for display.
+	*/
+	void markPlanets( void );
+/**
+	* Unmark all planets, so they won't be displayed.
+	*/
+	void unMarkPlanets( void );
 };
 
 #endif
