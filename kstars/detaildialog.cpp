@@ -68,7 +68,7 @@ void DetailDialog::createLogTab()
 //	userLog->setTextFormat(Qt::RichText);
 
 	if (selectedObject->userLog.isEmpty())
-		userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->name()));
+		userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
 	else
 		userLog->setText(selectedObject->userLog);
 
@@ -267,12 +267,12 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		dso = (DeepSkyObject *)selectedObject;
 
 		if ( ! dso->longname().isEmpty() ) {
-			pname = dso->longname();
-			oname = dso->name();
+			pname = dso->translatedLongName();
+			oname = dso->translatedName();
 		} else {
-			pname = dso->name();
+			pname = dso->translatedName();
 		}
-		if ( ! dso->name2().isEmpty() ) oname += ", " + dso->name2();
+		if ( ! dso->name2().isEmpty() ) oname += ", " + dso->translatedName2();
 		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 

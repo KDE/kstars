@@ -90,10 +90,9 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	
 	//Initialize Transient label stuff
 	TransientTimeout = 100; //fade label color every 0.2 sec
-	MaxHoverTicks = 5; //attach transient label after hover of 0.5 sec
-	nHoverTicks = 0;
+	connect( &HoverTimer, SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
 	connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
-
+	
 	IBoxes = new InfoBoxes( Options::windowWidth(), Options::windowHeight(),
 			Options::positionTimeBox(), Options::shadeTimeBox(),
 			Options::positionGeoBox(), Options::shadeGeoBox(),
@@ -417,51 +416,24 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	}
 }
 
-void SkyMap::checkHoverPoint( void ) {
-	nHoverTicks++;
+void SkyMap::slotTransientLabel( void ) {
+	//This function is only called if the HoverTimer manages to timeout.
+	//(HoverTimer is restarted with every mouseMoveEvent; so if it times 
+	//out, that means there was no mouse movement for HOVER_INTERVAL msec.)
+	//Identify the object nearest to the mouse cursor as the
+	//TransientObject.  The TransientObject is automatically labeled 
+	//in SkyMap::paintEvent().
+	//Note that when the TransientObject pointer is not NULL, the next 
+	//mouseMoveEvent calls fadeTransientLabel(), which will fade out the 
+	//TransientLabel and then set TransientObject to NULL.
+	SkyObject *so = objectNearest( mousePoint() );
 	
-	//check for hover every MaxHoverTicks timesteps
-	//also, if we are hovering already, then this will be true 
-	//every timestep until we move the mouse
-	if ( nHoverTicks > MaxHoverTicks ) {
-		//have we hovered ?
-
-		if ( MousePoint.ra()->toHMSString() == HoverPoint.ra()->toHMSString() &&
-				MousePoint.dec()->toDMSString() == HoverPoint.dec()->toDMSString() ) {
-			
-			//we should only check for a new TransientObject if we aren't already hovering on one.
-			//Can't check transientObjec(), because it's possible that the old one is still fading.
-			//We instead check to see if TransientColor!=UserLabelColor, because this is only true when
-			//we are not hovering on an already-identified TransientObject
-
-			if ( TransientColor != data->colorScheme()->colorNamed( "UserLabelColor" ) ) {
-				SkyObject *so = objectNearest( mousePoint() );
-				
-				if ( so ) {
-					if ( so->name() == "star" ) { 
-						setTransientObject( NULL ); 
-						nHoverTicks = 0; 
-					} else {
-						setTransientObject( so );
-						
-						TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
-						if ( TransientTimer.isActive() ) TransientTimer.stop();
-						update();
-					}
-				}
-			}
-			
-		//The MousePoint and HoverPoint are different; we didn't hover, or we stopped hovering.
-		} else {
-			//If we were just hovering on the TransientObject, start fading it.
-			if ( transientObject() && ! TransientTimer.isActive() ) {
-				fadeTransientLabel();
-			}
-			
-			//Try new HoverPoint, restart nHoverTicks counter
-			setHoverPoint( mousePoint() );
-			nHoverTicks = 0;
-		}
+	if ( so ) {
+		setTransientObject( so );
+		
+		TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
+		if ( TransientTimer.isActive() ) TransientTimer.stop();
+		update();
 	}
 }
 
@@ -657,7 +629,7 @@ void SkyMap::slotEndAngularDistance(void) {
 	if(angularDistanceMode) {
 		if ( SkyObject *so = objectNearest( mousePoint() ) ) {
 			angularDistance = so->angularDistanceTo( previousClickedPoint() );
-			ksw->statusBar()->changeItem( i18n(so->longname().utf8()) + 
+			ksw->statusBar()->changeItem( so->translatedLongName() + 
 					"     " +
 					i18n("Angular distance: " ) +
 					angularDistance.toDMSString(), 0 );

@@ -24,6 +24,8 @@
 #include "skypoint.h"
 #include "starpixmap.h"
 
+#define HOVER_INTERVAL 500 
+
 class QPainter;
 class QPaintDevice;
 class QPoint;
@@ -253,32 +255,6 @@ public:
 	*/
 	void setMousePoint( SkyPoint f ) { MousePoint.set( f.ra(), f.dec() ); }
 
-/**@short Retrieve the position at which the mouse was last "hovered".
-	*@return a pointer to the SkyPoint of the position where the mouse cursor was hovered.
-	*@note The mouse cursor is considered to have "hovered" when MaxHoverTicks 
-	*timesteps have passed without any movement of the mouse.
-	*@see SkyMap::checkHoverPoint()
-	*/
-	SkyPoint* hoverPoint() { return &HoverPoint; }
-	
-/**@short Set the HoverPoint to the skypoint given as an argument.
-	*@note The mouse cursor is considered to have "hovered" when MaxHoverTicks 
-	*timesteps have passed without any movement of the mouse.
-	*@see SkyMap::checkHoverPoint()
-	*@param f pointer to the skypoint of the new HoverPoint.
-	*/
-	void setHoverPoint( SkyPoint *f ) { HoverPoint.set( f->ra(), f->dec() ); }
-
-/**@short Determine if the mouse has "hovered".
-	*This function is called by KStarsData::updateTime(), so every 0.1 seconds of real time.
-	*First, check to see if MousePoint==HoverPoint.  If so, this indicates that the mouse 
-	*has not moved since HoverPoint was last set.  In this case, increment the counter
-	*nHoverTicks.  Then check if (nHoverTicks > MaxHoverTicks).  If so, then find the object
-	*nearest to HoverPoint and point TransientObject at that object.  if (MousePoint!=HoverPoint)
-	*then set HoverPoint=MousePoint and reset nHoverTicks=0 
-	*/
-	void checkHoverPoint();
-
 	/**@short Attempt to find a named object near the SkyPoint argument.  
 		*
 		*There is a object-type preference order for selecting among nearby objects:  
@@ -289,7 +265,7 @@ public:
 		*search radius of about 4 pixels, then the function returns a NULL pointer.
 		*
 		*@note This code used to be in mousePressEvent(), but now we need it in 
-		*checkHoverPoint()and other parts of the code as well.
+		*slotTransientLabel() and other parts of the code as well.
 		*@param p pointer to the skypoint around which to search for an object.
 		*@return a pointer to the nearest named object to point p, or NULL if 
 		*no object was found.
@@ -331,7 +307,7 @@ public:
 	*because a transient name label will be attached to it).  This function returns 
 	*a pointer to the current TransientObject, or NULL if no TransientObject is set.
 	*@return pointer to the SkyObject nearest to the mouse hover position.
-	*@see SkyMap::checkHoverPoint()
+	*@see SkyMap::slotTransientLabel()
 	*/
 	SkyObject* transientObject( void ) const { return TransientObject; }
 	
@@ -629,9 +605,20 @@ protected:
 private slots:
 /**Gradually fade the Transient Hover Label into the background sky color, and
 	*redraw the screen after each color change.  Once it has faded fully, set the 
-	*TransientObject pointer to NULL and remove the label.
+	*TransientObject pointer to NULL to remove the label.
 	*/
 	void slotTransientTimeout();
+
+/**@short attach transient label to object nearest the mouse cursor.
+	*This slot is connected to the timeout() signal of the HoverTimer, which is restarted
+	*in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
+	*HOVER_INTERVAL msec.  It points TransientObject at the SkyObject nearest the 
+	*mouse cursor, and the TransientObject is subsequently labeled in paintEvent().
+	*Note that when TransientObject is not NULL, the next mouseMoveEvent() calls 
+	*fadeTransientLabel(), which fades the label color and then sets TransientLabel to NULL.
+	*@sa mouseMoveEvent(), paintEvent(), slotTransientTimeout(), fadeTransientLabel()
+	*/
+	void slotTransientLabel();
 
 /**Set the shape of mouse cursor to a cross with 4 arrows. */
 	void setMouseMoveCursor();
@@ -804,8 +791,7 @@ private:
 	*hovers on an object.
 	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
-	*@see SkyMap::checkHoverPoint()
-	*@see SkyMap::slotTransientTimeout()
+	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
 	*/
 	void drawTransientLabel( QPainter &psky );
 
@@ -887,15 +873,14 @@ private:
 
 /**@short Begin fading out the name label attached to TransientObject.
 	*
-	*SkyMap::checkHoverPoint() will call fadeTransientLabel() if two conditions are met:
-	*first, that TransientObject is not a NULL pointer, and second that HoverPoint
-	*is not equal to MousePoint.  These conditions are met when the mouse has hovered
-	*in one place long enough to get a transient label drawn, but the mouse has since 
-	*been moved, thus ending the Hover.  This function merely starts the TransientTimer,
-	*whose timeout SIGNAL is connected to the slotTransientTimeout() SLOT, which
-	*handles the actual fading of the transient label.
-	*@see SkyMap::checkHoverPoint()
-	*@see SkyMap::slotTransientTimeout()
+	*mouseMoveEvent() will call fadeTransientLabel() when TransientObject is not a 
+	*NULL pointer, and the TransientTimer is not already active.  These conditions 
+	*are met when the mouse did not move for HOVER_INTERVAL msec (triggering a 
+	*TransientLabel), but the mouse has since been moved, thus ending the Hover event.  
+	*This function merely starts the TransientTimer, whose timeout SIGNAL is 
+	*connected to the slotTransientTimeout() SLOT, which handles the actual fading 
+	*of the transient label, and eventually resets TransientObject to NULL.
+	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
 	*/
 	void fadeTransientLabel() { TransientTimer.start( TransientTimeout ); }
 
@@ -955,9 +940,9 @@ private:
 	QRect ZoomRect; //The manual-focus circle.
 
 	//data for transient object labels
-	QTimer TransientTimer;
+	QTimer TransientTimer, HoverTimer;
 	QColor TransientColor;
-	unsigned int nHoverTicks, MaxHoverTicks, TransientTimeout;
+	unsigned int TransientTimeout;
 
 //DEBUG
 	bool dumpHorizon;

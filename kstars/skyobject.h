@@ -101,6 +101,10 @@ public:
 	*/
 	QString name2( void ) const { return Name2; }
 
+/**@return object's secondary name, translated to local language.
+	*/
+	QString translatedName2() const { return i18n( Name2.utf8() );}
+
 /**Set the object's secondary name.
 	*@param the object's secondary name.
 	*/
@@ -109,6 +113,10 @@ public:
 /**@return object's common (long) name
 	*/
 	QString longname( void ) const { return LongName; }
+
+/**@return object's common (long) name, translated to local language.
+	*/
+	QString translatedLongName() const { return i18n( LongName.utf8() );}
 
 /**Set the object's long name.
 	*@param the object's long name.

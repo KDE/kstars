@@ -244,10 +244,10 @@ void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, in
 }
 
 void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
-	QString sName("");
+	QString sName( i18n("star") + " " );
 	if ( drawName ) {
-		if ( name() != "star" ) sName = name() + " ";
-		else if ( longname() != "star" ) sName = longname() + " ";
+		if ( name() != "star" ) sName = translatedName() + " ";
+		else if ( longname() != "star" ) sName = translatedLongName() + " ";
 	}
 	if ( drawMag ) {
 		sName += QString().sprintf("%.1f", mag() );

@@ -50,7 +50,7 @@ void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
 	//Add name, rise/set time, center/track, and detail-window items
-	initPopupMenu( star, star->longname(), i18n( "Spectral type: %1" ).arg(star->sptype()),
+	initPopupMenu( star, star->translatedLongName(), i18n( "Spectral type: %1" ).arg(star->sptype()),
 		i18n( "star" ) );
 
 //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
@@ -64,19 +64,19 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 	QString TypeName = ksw->data()->TypeName[ obj->type() ];
-	QString secondName = obj->name2();
-	if ( obj->longname() != obj->name() ) secondName = obj->longname();
+	QString secondName = obj->translatedName2();
+	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
-	initPopupMenu( obj, obj->translatedName(), i18n( secondName.local8Bit() ), TypeName );
+	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
 	addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 	QString TypeName = ksw->data()->TypeName[ obj->type() ];
-	QString secondName = obj->name2();
-	if ( obj->longname() != obj->name() ) secondName = obj->longname();
+	QString secondName = obj->translatedName2();
+	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
-	initPopupMenu( obj, obj->translatedName(), i18n( secondName.local8Bit() ), TypeName );
+	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
 
 	addLinksToMenu( obj, true, false ); //don't allow user to add more links (temporary)
 }

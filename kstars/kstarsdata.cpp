@@ -1754,9 +1754,6 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	LTime = geo->UTtoLT( ut() );
 	syncLST();
 	
-	//Check for mouse Hover:
-	if ( Options::useHoverLabel() ) skymap->checkHoverPoint();
-
 	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 	//the DST change date/time.
 	if ( !geo->tzrule()->isEmptyRule() ) {

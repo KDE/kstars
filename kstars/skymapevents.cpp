@@ -389,8 +389,20 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 }
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
-	// Are we in angularDistanceMode?: Then draw a line
+	if ( Options::useHoverLabel() ) {
+		//First of all, if the transientObject() pointer is not NULL, then 
+		//we just moved off of a hovered object.  Begin fading the label.
+		if ( transientObject() && ! TransientTimer.isActive() ) {
+			fadeTransientLabel();
+		}
+		
+		//Start a single-shot timer to monitor whether we are currently hovering.  
+		//The idea is that whenever a moveEvent occurs, the timer is reset.  It
+		//will only timeout if there are no move events for HOVER_INTERVAL ms
+		HoverTimer.start( HOVER_INTERVAL, true );
+	}
 	
+	// Are we in angularDistanceMode?: Then draw a line
 	if ( isAngleMode() ) {
 
 		// We put this instruction here so that the first point of the 
@@ -627,7 +639,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			}
 			
 			if ( ksw && e->button() == LeftButton ) {
-				ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()), 0 );
+				ksw->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.

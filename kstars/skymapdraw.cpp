@@ -1381,7 +1381,7 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	}
 
 	int offset = int( ( 0.5*size + 4 ) );
-	psky.drawText( x+offset, y+offset, i18n(obj->name().local8Bit()) );
+	psky.drawText( x+offset, y+offset, obj->translatedName() );
 }
 
 void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
