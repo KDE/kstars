@@ -165,8 +165,8 @@ void KSPlanet::EquatorialToEcliptic( long double jd ) {
 	double y = sinRA*cosOb + tanDec*sinOb;
 	double ELongRad = atan( y/cosRA );
 	//resolve atan ambiguity
-	if ( cosRA < 0 ) ELongRad += PI();
-	if ( cosRA > 0 && y < 0 ) ELongRad += 2.0*PI();
+	if ( cosRA < 0 ) ELongRad += dms::PI;
+	if ( cosRA > 0 && y < 0 ) ELongRad += 2.0*dms::PI;
 
 	EcLong.setRadians( ELongRad );
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
@@ -193,8 +193,8 @@ void KSPlanet::EclipticToEquatorial( long double jd ) {
 	double RARad =  atan( y / cosLong );
 	
 	//resolve ambiguity of atan:
-	if ( cosLong < 0 ) RARad += PI();
-	if ( cosLong > 0 && y < 0 ) RARad += 2.0*PI();
+	if ( cosLong < 0 ) RARad += dms::PI;
+	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
 	
 	dms newRA, newDec;
 	newRA.setRadians( RARad );

@@ -741,7 +741,7 @@ void KStars::initAltAz()
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
    		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
-		if ( sinAz > 0.0 ) { HARad = 2.0*PI() - HARad; }
+		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
 		RA = data()->LSTh.Degrees() - HA.Degrees();
 

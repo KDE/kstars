@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+// needed for sincos() in math.h
+#define _GNU_SOURCE
 
 #include <stdlib.h>
 #include <qstring.h>
@@ -85,19 +87,29 @@ dms dms::operator- (dms angle)
 //---------------------------------------------------------------------------
 
 void dms::SinCos(double &sina, double &cosa) {
-  sina = sin( radians() );
-	cosa = cos( radians() );
+// This is the old implementation of sincos which is standard C compliant
+/*
+	register double rad = radians();
+	sina = sin( rad );
+	cosa = cos( rad );
+*/
+
+/**The sincos function computes sin and cos at once (hardware accelareted / fsincos in assembler).
+	*It's ~33% faster than computing sin and cos separate. But sincos() is not a standard C/C++
+	*function and requires #define _GNU_SOURCE. It's defined in math.h.
+	*/
+	sincos(radians(), &sina, &cosa);
 }
 //---------------------------------------------------------------------------
 
 double dms::radians( void ) {
-  double Rad = Degrees()*PI()/180.0;
+  double Rad = Degrees()*PI/180.0;
   return Rad;
 }
 //---------------------------------------------------------------------------
 
 void dms::setRadians( double Rad ) {
-  setD( Rad*180.0/PI() );
+  setD( Rad*180.0/PI );
 }
 //---------------------------------------------------------------------------
 
@@ -109,4 +121,6 @@ dms dms::reduce( void ) const {
 }
 //---------------------------------------------------------------------------
 
-double PI( void ) { return acos(-1.0); }
+//double PI( void ) { return acos(-1.0); }
+//M_PI is defined in math.h
+const double dms::PI = M_PI;

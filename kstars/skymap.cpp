@@ -2020,8 +2020,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		A = atan( yy/xx );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) A = A + PI();
-//		if ( xx>0 && yy<0 ) A = A + 2.0*PI();
+		if ( xx<0 ) A = A + dms::PI;
+//		if ( xx>0 && yy<0 ) A = A + 2.0*dms::PI;
 
 		dms deltaAz;
 		deltaAz.setRadians( A );
@@ -2050,8 +2050,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		double RARad = ( atan( yy / xx ) );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) RARad = RARad + PI();
-//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*PI();
+		if ( xx<0 ) RARad = RARad + dms::PI;
+//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*dms::PI;
 
 		dms deltaRA, Dec;
 		deltaRA.setRadians( RARad );
