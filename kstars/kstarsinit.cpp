@@ -438,8 +438,6 @@ void KStars::privatedata::buildGUI() {
 	//Instantiate the SimClock object
 	ks->clock = new SimClock(ks);
 
-	ks->initLocation();
-
 	// create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
