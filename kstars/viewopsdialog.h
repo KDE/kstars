@@ -22,6 +22,11 @@
 #define VIEWOPSDIALOG_H
 
 #include <kdialogbase.h>
+#include "opscatalog.h"
+#include "opssolarsystem.h"
+#include "opsguides.h"
+#include "opscolors.h"
+#include "opsadvanced.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
@@ -47,8 +52,7 @@ class KIntSpinBox;
 class KStars;
 
 /**
-	*Dialog containing controls for all user-configuration options in KStars,
-	*including color schemes, display toggles, and coordinate system.
+	*Dialog containing controls for all user-configuration options in KStars.
 	*@short User configuration dialog.
   *@author Jason Harris
 	*@version 0.9
@@ -68,82 +72,22 @@ public:
 	~ViewOpsDialog();
 
 private:
-	QHBoxLayout *hlay, *ColorButtonsLayout, *hlayColorTab;
-	QHBoxLayout *hlayLeftBox, *hlayLeftBox2, *hlayAdvHideStars, *hlayAdvHideTimeScale;
-  QHBoxLayout *hlayDrawLimit, *hlayLabelLimit, *hlayCatButtons;
-	QVBoxLayout *vlayStarsBox, *vlayCatTab, *vlayGuideTab, *vlayPlanetTab, *vlayAdvancedTab;
-	QVBoxLayout *vlayLeftBox, *vlayRightBox, *DisplayBoxLayout, *vlayAdvHideObj;
-	QVBoxLayout *vlayPlanetBox, *vlayMinorBox, *vlayTrailBox;
-	QGridLayout *glayPlanetBox, *glayMinorBox, *glayTrailBox, *glayAdvHideObj;
-
-	QGroupBox  *DisplayBox, *StarsBox, *LeftBox, *RightBox, *HideBox;
-	QGroupBox  *PlanetBox, *MinorBox, *TrailBox;
-	QTabWidget *DisplayTabs;
-	QWidget    *CatalogTab, *GuideTab, *PlanetTab, *ColorTab, *AdvancedTab;
-	
-	QCheckBox *showSAO;
-	QCheckListItem *showMessier, *showMessImages;
-	QCheckListItem *showNGC, *showIC;
 	QPtrList<bool> showCatalog;
 
-	// Star options
-	QLabel *textLabelMagStars, *textLabelMagStarInfo, *textLabelMagAsteroids;
-	MagnitudeSpinBox *magSpinBoxDrawStars;
-	MagnitudeSpinBox *magSpinBoxDrawStarInfo;
-	QCheckBox *showStarNames;
-	QCheckBox *showStarMagnitude;
-		
-	QCheckBox *showConstellLines;
-	QCheckBox *showConstellNames;
-	QButtonGroup *ConstellOptions;
-	QRadioButton *useLatinConstellNames;
-	QRadioButton *useLocalConstellNames;
-	QRadioButton *useAbbrevConstellNames;
-	QCheckBox *showMilkyWay;
-	QCheckBox *showMilkyWayFilled;
-	QCheckBox *showGrid;
-	QCheckBox *showEquator;
-	QCheckBox *showEcliptic;
-	QCheckBox *showHorizon;
-	QCheckBox *showGround;
-
-	QCheckBox *showSun, *showMoon;
-	QCheckBox *showMercury, *showVenus, *showMars, *showJupiter;
-	QCheckBox *showSaturn, *showUranus, *showNeptune, *showPluto;
-	QCheckBox *showPlanetNames, *showPlanetImages;
-	QCheckBox *showAsteroids, *showComets, *showAsteroidNames, *showCometNames;
-	QCheckBox *fadePlanetTrails, *autoTrail;
-	QCheckBox *useRefraction, *animateSlewing, *autoLabel, *hideObjects;
-	QCheckBox *hideStars, *hidePlanets, *hideMess, *hideNGC, *hideIC;
-	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
-
-	MagnitudeSpinBox *magSpinBoxHideStars;
-	MagnitudeSpinBox *astDrawSpinBox, *astNameSpinBox;
-	QSpinBox *comNameSpinBox;
-	TimeStepBox *hideSpinBox;
-
-	QListView *CatalogList;
-	QListBox *ColorPalette, *PresetBox;
 	QPixmap *SkyColor, *MessColor, *NGCColor, *ICColor, *LinksColor;
 	QPixmap *EqColor, *EclColor, *HorzColor, *GridColor, *MWColor;
 	QPixmap *PNameColor, *SNameColor, *CNameColor, *CLineColor;
-	
-	QPushButton *AddPreset, *RemovePreset;
-	QPushButton *showAll, *showNone;
-	QPushButton *AddCatalog, *RemoveCatalog;
-	QPushButton *ClearAllTrails;
-	
-	QButtonGroup *CoordsGroup;
-	QRadioButton *EquatRadio;
-	QRadioButton *AltAzRadio;
-
-	KIntSpinBox *IntensityBox;
-	QComboBox *StarColorMode;
-
 	QStringList PresetFileList;
+	QCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
+
+	OpsCatalog *cat;
+	OpsSolarSystem *ss;
+	OpsGuides *guide;
+	OpsColors *color;
+	OpsAdvanced *adv;
 
 	KStars *ksw;
-	
+
 private slots:
 /**
 	*Choose a new palette Color for the selected item with a QColorDialog.
@@ -182,26 +126,20 @@ private slots:
 	void changeSlewTimeScale( float );
 
 /**
-	*Switch between Equatorial (RA, Dec) and Horizontal (Az, Alt)
-	*coordinate systems.
-	*/	
-	void changeCoordSys( void );
-
-/**
   * We have a new minimum star magnitude (brightness) for the display
   */
-	void changeMagDrawStars( int newValue );
+	void changeMagDrawStars( double newValue );
 
 /**
   * We have a new minimum star magnitude to be used while moving the display
   */
-	void changeMagHideStars( int newValue );
+	void changeMagHideStars( double newValue );
 
 /**
   * We have a new minimum star magnitude (brightness) for the displaying star information
   */
-	void changeMagDrawInfo( int newValue );
-	
+	void changeMagDrawInfo( double );
+
 /**
 	* Set the intensity of starcolors.
 	*/
@@ -215,18 +153,18 @@ private slots:
 /**
 	* Set magnitude limit for drawing asteroids.
 	*/
-	void changeAstDrawMagLimit( int );
-	
+	void changeAstDrawMagLimit( double );
+
 /**
 	* Set magnitude limit for labeling asteroids.
 	*/
-	void changeAstNameMagLimit( int );
-	
+	void changeAstNameMagLimit( double );
+
 /**
 	* Set maximum solar radius for labeling comets.
 	*/
-	void changeComNameMaxRad( int );
-	
+	void changeComNameMaxRad( double );
+
 /**
 	* Mark all planets for display.
 	*/
@@ -250,11 +188,11 @@ private slots:
 	void selectCatalog( void );
 
 	/**Toggle whether trails are added to centered planet.
-		*The actual option toggle is handled bu updateDisplay().  
+		*The actual option toggle is handled bu updateDisplay().
 		*Here, we just check to see if there is currently a temporaryTrail (or if one is needed)
 		*/
 	void changeAutoTrail( void );
-	
+
 	/**Remove all planet trails
 		*/
 	void clearPlanetTrails( void );

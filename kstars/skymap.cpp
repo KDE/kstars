@@ -765,9 +765,6 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 //if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
 void SkyMap::forceUpdate( bool now )
 {
-	//DEBUG
-	kdDebug() << "forceUpdate: " << now << endl;
-	
 	computeSkymap = true;
 	if ( now ) repaint();
 	else update();

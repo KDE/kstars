@@ -26,7 +26,7 @@
 
 typedef QStringList::const_iterator SL_it;
 
-ColorScheme::ColorScheme(){
+ColorScheme::ColorScheme() : FileName() {
 	//Each color has two names associated with it.  The KeyName is its
 	//identification in the QMap, the *.colors file, and the config file.
 	//The Name is what appears in the ViewOpsDialog ListBox.
@@ -97,7 +97,7 @@ ColorScheme::ColorScheme(){
 	KeyName.append( "PlanetTrailColor" );
 	Name.append( i18n( "Planet Trails" ) );
 	Default.append( "#963" );
-	
+
 	//Default values for integer variables:
 	StarColorMode = 0;
 	StarColorIntensity = 4;
@@ -110,6 +110,7 @@ ColorScheme::ColorScheme( const ColorScheme &cs ) {
 	StarColorMode = cs.StarColorMode;
 	StarColorIntensity = cs.StarColorIntensity;
 	Palette = cs.Palette;
+	FileName = cs.FileName;
 }
 
 ColorScheme::~ColorScheme(){
@@ -122,6 +123,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 	StarColorMode = cs.StarColorMode;
 	StarColorIntensity = cs.StarColorIntensity;
 	Palette = cs.Palette;
+	FileName = cs.FileName;
 }
 
 QString ColorScheme::colorNamed( const QString &name ) const {
@@ -163,7 +165,7 @@ bool ColorScheme::load( const QString &filename ) {
 		file.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
 		if ( !file.open( IO_ReadOnly ) ) {
 			return false;
-    }
+		}
 	}
 
 	QTextStream stream( &file );
@@ -217,6 +219,7 @@ bool ColorScheme::load( const QString &filename ) {
 		}
 	}
 
+	FileName = filename;
 	return true;
 }
 
@@ -264,21 +267,22 @@ bool ColorScheme::save( const QString &name ) {
 		return false;
 	}
 
+	FileName = filename;
 	return true;
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
 	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
 		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
-	
+
 	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
 	setStarColorIntensity( conf->readNumEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it ) 
+	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
 		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
-	
+
 	conf->writeEntry( "StarColorMode", starColorMode() );
 	conf->writeEntry( "StarColorIntensity", starColorIntensity() );
 }

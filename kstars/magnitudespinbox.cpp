@@ -17,27 +17,13 @@
 
 #include "magnitudespinbox.h"
 
-MagnitudeSpinBox::MagnitudeSpinBox( int minValue, int maxValue, QWidget * parent , const char * name )
-	: QSpinBox ( minValue, maxValue, 1 /* step */, parent, name)
+MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent , const char * name )
+	: KDoubleNumInput( 0.0, 10.0, 0.0, 0.1 /*step*/, 1 /*precision*/, parent, name)
 {
-	// otherwise a decimal point cannot be entered. One could also try a float validator,
-	// but that was too difficult tonight.
-	setValidator(0);
-
-	// another simplification: Only accept values >=0. That means that negative magnitudes cannot be entered.
-	// That should not matter too much as the number of stars with a magnitude < 0 (i.e. brighter that ma 0.0)
-	// is very limited.
-  if ( minValue < 0 ) {
-		setMinValue(0);   	
-	}
 }
 
-QString MagnitudeSpinBox::mapValueToText( int value )
+MagnitudeSpinBox::MagnitudeSpinBox( double minValue, double maxValue,
+	QWidget * parent , const char * name )
+	: KDoubleNumInput( minValue, maxValue, minValue, 0.1 /* step */, 1, parent, name)
 {
-	return QString("%1.%2").arg(value/10).arg(value%10);
-}
-
-int MagnitudeSpinBox::mapTextToValue( bool* ok )
-{
-	return int(text().toFloat()*10);
 }

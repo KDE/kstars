@@ -1,0 +1,168 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>OpsGuides</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>OpsGuides</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>OpsGuides</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showConstellLines</cstring>
+            </property>
+            <property name="text">
+                <string>Constellation lines</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showConstellNames</cstring>
+            </property>
+            <property name="text">
+                <string>Constellation names:</string>
+            </property>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>ConstellOptions</cstring>
+            </property>
+            <property name="title">
+                <string>Constellation name options</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>useLatinConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Latin</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>useLocalConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Localized</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>useAbbrevConstellNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Abbreviated</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showMilkyWay</cstring>
+            </property>
+            <property name="text">
+                <string>Milky Way</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showMilkyWayFilled</cstring>
+            </property>
+            <property name="text">
+                <string>Fill Milky Way</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer12</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Fixed</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showGrid</cstring>
+            </property>
+            <property name="text">
+                <string>Coordinate Grid</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showEquator</cstring>
+            </property>
+            <property name="text">
+                <string>Celestial Equator</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showEcliptic</cstring>
+            </property>
+            <property name="text">
+                <string>Ecliptic</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showHorizon</cstring>
+            </property>
+            <property name="text">
+                <string>Horizon (line)</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showGround</cstring>
+            </property>
+            <property name="text">
+                <string>Opaque ground</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer13</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>40</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

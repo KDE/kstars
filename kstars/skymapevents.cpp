@@ -787,9 +787,6 @@ void SkyMap::paintEvent( QPaintEvent * )
 {
 	KStarsOptions* options = data->options;
 
-	//DEBUG
-	kdDebug() << "sky width: " << sky->width() << endl;
-	
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
 	if (!computeSkymap)
 	{

@@ -29,8 +29,8 @@ class KConfig;
 
 class ColorScheme {
 
-	public: 
-	
+	public:
+
 	/**Constructor
 		*/
 		ColorScheme();
@@ -44,41 +44,30 @@ class ColorScheme {
 		~ColorScheme();
 
 		QString colorNamed( const QString &name ) const;
-
 		QString colorAt( int i ) const;
-
 		QString nameAt( int i ) const;
-
 		QString keyAt( int i ) const;
-
 		void setColor( const QString &key, const QString &color );
 
 		bool load( const QString &filename );
-
 		bool save( const QString &name );
-
+		QString fileName() const { return FileName; }
 		void copy( const ColorScheme &cs );
 
 		void loadFromConfig( KConfig* );
-
 		void saveToConfig( KConfig* );
 
 		unsigned int numberOfColors() const { return (int)Palette.size(); }
 
 		int starColorMode() const { return StarColorMode; }
-
 		int starColorIntensity() const { return StarColorIntensity; }
-
 		void setStarColorMode( int mode ) { StarColorMode = mode; }
-
 		void setStarColorIntensity( int intens) { StarColorIntensity = intens; }
 
 	private:
-
 		int StarColorMode, StarColorIntensity;
-
+		QString FileName;
 		QStringList KeyName, Name, Default;
-
 		QMap<QString,QString> Palette;
 
 };
