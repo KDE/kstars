@@ -24,7 +24,7 @@
 #include "kstarssplash.h"
 
 static const char *description =
-	I18N_NOOP("A Desktop Planetarium");
+	I18N_NOOP("Desktop Planetarium");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 	
 	
