@@ -442,8 +442,11 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, becuase it's unset there.
 		mouseButtonDown = false;
-		setDestination( focus() );
-		slewing = false;
+		if ( slewing ) {
+			setDestination( focus() );
+			slewing = false;
+		}
+		
 		setOldFocus( focus() );
 		Update();	// is needed because after moving the sky not all stars are shown
 	}
