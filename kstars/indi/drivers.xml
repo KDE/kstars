@@ -27,6 +27,14 @@
 		<Exec>lx200autostar</Exec>
 		<Version>0.2</Version>
 	</device>
+	<device label="Celestron GPS" driver="Celestron GPS">
+		<Exec>celestrongps</Exec>
+		<Version>0.2</Version>
+	</device>
+	<device label="Celestron NexStar" driver="Celestron GPS">
+		<Exec>celestrongps</Exec>
+		<Version>0.2</Version>
+	</device>
 	<device label="Astro-Physics AP" driver="LX200 Generic">
 		<Exec>lx200generic</Exec>
 		<Version>0.1</Version>
