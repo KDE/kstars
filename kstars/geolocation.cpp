@@ -2,8 +2,10 @@
                           geolocation.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Feb 11 2001
-    copyright            : (C) 2001 by Jason Harris
+    copyright            : (C) 2001-2005 by Jason Harris
     email                : jharris@30doradus.org
+    copyright            : (C) 2003-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -178,4 +180,21 @@ void GeoLocation::geodToCart (void) {
 	PosCartX = (xn+Height)*cosLat*cosLong;
 	PosCartY = (xn+Height)*cosLat*sinLong;
 	PosCartZ = (xn*(1-e2)+Height)*sinLat;
+}
+
+void GeoLocation::TopocentricVelocity(double vtopo[], dms gst) {
+	
+	double Wearth = 7.29211510e-5;     // rads/s
+	dms angularVEarth;
+	
+	dms time= GSTtoLST(gst);
+	angularVEarth.setRadians(time.Hours()*Wearth*3600.);
+	double se, ce;
+	angularVEarth.SinCos(se,ce);
+
+	double d0 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
+	// km/s
+	vtopo[0] = d0 * Wearth * se /1000.;
+	vtopo[1] = d0 * Wearth * ce /1000.;
+	vtopo[2] = 0.;
 }

@@ -2,8 +2,10 @@
                           geolocation.h  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Feb 11 2001
-    copyright            : (C) 2001 by Jason Harris
+    copyright            : (C) 2001-2005 by Jason Harris
     email                : jharris@30doradus.org
+    copyright            : (C) 2003-2005 by Pablo de Vicente
+    email                : p.devicente@wanadoo.es
  ***************************************************************************/
 
 /***************************************************************************
@@ -101,7 +103,7 @@ public:
 /**@return pointer to the latitude dms object
 	*/
 	const dms* lat() const { return &Latitude; }
-/**@return elevation above seal level
+/**@return elevation above seal level (meters)
 	*/
 	double height() const { return Height; }
 /**@return X position in m
@@ -186,7 +188,7 @@ public:
 	}
 
 /**Set elevation above sea level
-	*@param hg the new elevation
+	*@param hg the new elevation (meters)
 	*/
 	void setHeight( double hg ) { 
 		Height  = hg; 
@@ -194,21 +196,21 @@ public:
 	}
 
 /**Set X 
-	*@param x the new x-position
+	*@param x the new x-position (meters)
 	*/
 	void setXPos( double x ) { 
 		PosCartX  = x; 
 		cartToGeod();
 	}
 /**Set Y 
-	*@param y the new y-position
+	*@param y the new y-position (meters)
 	*/
 	void setYPos( double y ) { 
 		PosCartY  = y; 
 		cartToGeod();
 	}
 /**Set Z 
-	*@param z the new z-position
+	*@param z the new z-position (meters)
 	*/
 	void setZPos( double z ) { 
 		PosCartZ  = z; 
@@ -295,6 +297,18 @@ public:
 
 	KStarsDateTime UTtoLT( const KStarsDateTime &ut ) const { return ut.addSecs( int( 3600.*TZ() ) ); }
 	KStarsDateTime LTtoUT( const KStarsDateTime &lt ) const { return lt.addSecs( int( -3600.*TZ() ) ); }
+
+
+	/* Computes the velocity in km/s of an observer on the surface of the Earth 
+	 * referred to a system whose origin is the center of the Earth. The X and 
+	 * Y axis are contained in the equator and the X axis is towards the nodes
+	 * line. The Z axis is along the poles.
+	 *
+	 * @param vtopo[] Topocentric velocity. The resultant velocity is available 
+	 *        in this array.
+	 * @param gt. Greenwich sideral time for which we want to compute the topocentric velocity.
+	 */
+	void TopocentricVelocity(double vtopo[], dms gt);
 
 private:
 	dms Longitude, Latitude;
