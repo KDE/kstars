@@ -906,22 +906,86 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 	} else {
    // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
 		file.setName( locateLocal( "appdata", urlfile ) );
-		if ( file.open( IO_ReadOnly ) )
-			fileFound = true;
-		else
+		if ( file.open( IO_ReadOnly ) ) {
+			//local file found.  Now, if global file has newer timestamp, then merge the two files.
+			//First load local file into QStringList
+			bool newDataFound( false );
+			QStringList urlData;
+			QTextStream lStream( &file );
+			while ( ! lStream.eof() ) urlData.append( lStream.readLine() );
+
+			//Find global file(s) in findAllResources() list.
+			QFileInfo fi_local( file.name() );
+			QStringList flist = KGlobal::instance()->dirs()->findAllResources( "appdata", urlfile );
+			for ( unsigned int i=0; i< flist.count(); i++ ) {
+				if ( flist[i] != file.name() ) {
+					QFileInfo fi_global( flist[i] );
+
+					//Is this global file newer than the local file?
+					if ( fi_global.lastModified() > fi_local.lastModified() ) {
+						//Global file has newer timestamp than local.  Add lines in global file that don't already exist in local file.
+						//be smart about this; in some cases the URL is updated but the image is probably the same if its
+						//label string is the same.  So only check strings up to last ":"
+						QFile globalFile( flist[i] );
+						if ( globalFile.open( IO_ReadOnly ) ) {
+							QTextStream gStream( &globalFile );
+							while ( ! gStream.eof() ) {
+								QString line = gStream.readLine();
+
+								//does local file contain the current global file line, up to second ':' ?
+
+								bool linefound( false );
+								for ( unsigned int j=0; j< urlData.count(); ++j ) {
+									if ( urlData[j].contains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
+										//replace line in urlData with its equivalent in the newer global file.
+										urlData.remove( urlData.at(j) );
+										urlData.insert( urlData.at(j), line );
+										if ( !newDataFound ) newDataFound = true;
+										linefound = true;
+										break;
+									}
+								}
+								if ( ! linefound ) {
+									urlData.append( line );
+									if ( !newDataFound ) newDataFound = true;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			file.close();
+
+			//(possibly) write appended local file
+			if ( newDataFound ) {
+				if ( file.open( IO_WriteOnly ) ) {
+					QTextStream outStream( &file );
+					for ( unsigned int i=0; i<urlData.count(); i++ ) {
+						outStream << urlData[i] << endl;
+					}
+					file.close();
+				}
+			}
+
+			if ( file.open( IO_ReadOnly ) ) fileFound = true;
+
+		} else {
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
 				if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using default English file." ) << endl;
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(IO_WriteOnly)) {
-				QTextStream readStream(&file);
-				QTextStream writeStream(&localeFile);
-				writeStream <<  readStream.read();
-				localeFile.close();
-				file.reset();
-			} else
-				kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
-			fileFound = true;
+					QTextStream readStream(&file);
+					QTextStream writeStream(&localeFile);
+					writeStream <<  readStream.read();
+					localeFile.close();
+					file.reset();
+				} else {
+					kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
+				}
+				fileFound = true;
+			}
 		}
 	}
 	return fileFound;
@@ -986,8 +1050,8 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 				sonm->skyObject()->ImageList.append( url );
 				sonm->skyObject()->ImageTitle.append( title );
 			} else if ( type==1 ) { //info URL
-				  sonm->skyObject()->InfoList.append( url );
-					sonm->skyObject()->InfoTitle.append( title );
+				sonm->skyObject()->InfoList.append( url );
+				sonm->skyObject()->InfoTitle.append( title );
 			}
 		}
 
@@ -1483,7 +1547,7 @@ void KStarsData::slotInitialize() {
 				initError( "advinterface.dat", false);
 			break;
 
-		case 3: //Load NGC 2000 database//
+		case 3: //Load NGC/IC database//
 
 			emit progressText( i18n("Loading NGC/IC Data" ) );
 			if ( !readDeepSkyData( ) )
