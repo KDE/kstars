@@ -701,14 +701,14 @@ void ScriptBuilder::slotOpen() {
 	tmpfile.setAutoDelete(true);
 
 	if ( !UnsavedChanges ) {
-		ScriptList.clear();
-		sb->ScriptListBox->clear();
-		sb->ArgStack->raiseWidget( argBlank );
-
 		currentFileURL = KFileDialog::getOpenURL( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
 
 		if ( currentFileURL.isValid() ) {
 			currentDir = currentFileURL.directory();
+
+			ScriptList.clear();
+			sb->ScriptListBox->clear();
+			sb->ArgStack->raiseWidget( argBlank );
 
 			if ( currentFileURL.isLocalFile() ) {
 				fname = currentFileURL.path();
