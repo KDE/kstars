@@ -66,8 +66,8 @@ public:
 	void showInDegrees(dms t);
 	void showInDegrees(const dms *t);
 
-	void show(dms t);
-	void show(const dms *t);
+	void show(dms t, bool deg=TRUE);
+	void show(const dms *t,bool deg=TRUE);
 
 	/**
 	*@p s Fills the degrees entry field with string s

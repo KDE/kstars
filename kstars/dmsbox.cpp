@@ -60,8 +60,8 @@ void dmsBox::showInHours (dms d)
 
 }
 
-void dmsBox::show(const dms *d) { show( dms( *d ) ); }
-void dmsBox::show(dms d)
+void dmsBox::show(const dms *d, bool deg) { show( dms( *d ),deg ); }
+void dmsBox::show(dms d, bool deg)
 {
 	if (deg)
 		showInDegrees(d);
