@@ -60,7 +60,6 @@
 #include "focusdialog.h"
 #include "fovdialog.h"
 #include "kswizard.h"
-#include "ksnewstuff.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
@@ -74,6 +73,7 @@
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "fitsviewer.h"
+//#include "ksnewstuff.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -152,8 +152,8 @@ void KStars::slotWizard() {
 
 void KStars::slotDownload() {
 //	KNS::DownloadDialog::open("kstars/data");
-	KSNewStuff kns( this );
-	kns.download();
+	if (!kns) kns = new KSNewStuff( this );
+	kns->download();
 }
 
 void KStars::slotLCGenerator() {

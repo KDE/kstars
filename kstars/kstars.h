@@ -27,6 +27,7 @@
 #include <qwidget.h>
 
 #include "kstarsinterface.h"
+#include "ksnewstuff.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -404,7 +405,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KDialogBase *AAVSODialog;
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
-
+		KSNewStuff *kns;
 
 		int idSpinBox;
 		bool DialogIsObsolete;
