@@ -1208,7 +1208,7 @@ bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objL
 //						StarObject *o = new StarObject( RA, Dec, mag, name, "", spType );
 //						objList.append( o );
 //					} else if ( iType > 2 && iType <= 8 ) { //Deep-sky objects...
-						if ( name == "" ) name = i18n( "unnamed object" );
+						if ( name.isEmpty()) name = i18n( "unnamed object" );
 
 						DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, name, "", "" );
 						objList.append( o );
