@@ -139,12 +139,7 @@ KStars::KStars( KStarsData* kstarsData )
 	UTDate = new QLabel( data()->locale->formatDate( data()->UTime.date(), true ), infoPanel );
 
 //Localize display of decimal point number (slightly different between KDE 2 and 3)
-	if (KDE_VERSION <= 222) {
-		KLocale localjd;
-		JD = new QLabel( "JD: " + localjd.formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
-	} else {
-		JD = new QLabel( "JD: " + KGlobal::locale()->formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
-	}
+	JD = new QLabel( "JD: " + KGlobal::locale()->formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
 
 	LTDate->setPalette( pal );
 	UTDate->setPalette( pal );
@@ -180,21 +175,8 @@ KStars::KStars( KStarsData* kstarsData )
 	LongLabel = new QLabel( i18n( "Longitude", "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Latitude", "Lat:  " ), infoPanel );
 
-//Localize display of decimal point number (slightly different between KDE 2 and 3)
-	if (KDE_VERSION <= 222) {
-		KLocale localeLong;
-		Long = new QLabel( localeLong.formatNumber( geo()->lng().Degrees(),3) , infoPanel );
-	} else {
-		Long = new QLabel( KGlobal::locale()->formatNumber( geo()->lng().Degrees(),3) , infoPanel );
-	}
-
-//Localize display of decimal point number (slightly different between KDE 2 and 3)
-	if (KDE_VERSION <= 222) {
-		KLocale localeLat;
-		Lat = new QLabel( localeLat.formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
-	} else {
-		Lat = new QLabel( KGlobal::locale()->formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
-	}
+	Long = new QLabel( KGlobal::locale()->formatNumber( geo()->lng().Degrees(),3) , infoPanel );
+	Lat = new QLabel( KGlobal::locale()->formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
 
 	Long->setAlignment( AlignRight );
 	Lat->setAlignment( AlignRight );
