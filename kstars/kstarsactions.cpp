@@ -334,6 +334,7 @@ void KStars::slotViewOps() {
 
 void KStars::slotApplySettings() {
 	Options::writeConfig();
+	data()->setFullTimeUpdate();
 	map()->forceUpdate();
 }
 
