@@ -137,8 +137,7 @@ KStars::KStars( KStarsData* kstarsData )
 
 	LTDate = new QLabel( data()->locale->formatDate( data()->LTime.date(), true ), infoPanel );
 	UTDate = new QLabel( data()->locale->formatDate( data()->UTime.date(), true ), infoPanel );
-	KLocale localjd;
-	JD = new QLabel( "JD: " + localjd.formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
+	JD = new QLabel( "JD: " + KGlobal::locale()->formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
 	LTDate->setPalette( pal );
 	UTDate->setPalette( pal );
 	JD->setPalette( pal );
@@ -172,11 +171,9 @@ KStars::KStars( KStarsData* kstarsData )
 	}
 	LongLabel = new QLabel( i18n( "Longitude", "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Latitude", "Lat:  " ), infoPanel );
-	KLocale localeLong;
-	Long = new QLabel( localeLong.formatNumber( geo()->lng().Degrees(),3) , infoPanel );
+	Long = new QLabel( KGlobal::locale()->formatNumber( geo()->lng().Degrees(),3) , infoPanel );
 	Long->setAlignment( AlignRight );
-	KLocale localeLat;
-	Lat = new QLabel( localeLat.formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
+	Lat = new QLabel( KGlobal::locale()->formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
 	Lat->setAlignment( AlignRight );
 	PlaceName->setPalette( pal );
 	LongLabel->setPalette( pal );
@@ -920,8 +917,7 @@ void KStars::updateTime( void ) {
 	UTDate->setText( data()->locale->formatDate( data()->UTime.date(), true ) );
 
 	data()->CurrentDate = data()->getJD( data()->UTime );
-	JD->setText( "JD: " + QString("%1").arg( data()->CurrentDate, 10, 'f', 2) );
-
+	JD->setText( "JD: " + KGlobal::locale()->formatNumber( data()->CurrentEpoch, 2 ) );
 	bool isNewEpoch = false;
 	if ( fabs( data()->CurrentDate - data()->CurrentEpoch ) > 365.25 ) { //update epoch-dependent numbers annually
 		updateEpoch( data()->CurrentDate );
