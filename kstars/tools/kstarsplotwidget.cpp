@@ -17,6 +17,8 @@
 
 #include <math.h> //for log10(), pow(), modf()
 #include <kdebug.h>
+#include <kglobal.h>
+#include <klocale.h>
 #include <qcolor.h>
 #include <qpainter.h>
 #include <qpixmap.h>
@@ -357,6 +359,10 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					case DOUBLE :
 					{
 						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						int idot = str.find( '.' );
+						if ( idot >= 0 ) 
+							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+						
 						if ( px > 0 && px < pW ) {
 							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
@@ -421,6 +427,10 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					case DOUBLE :
 					{
 						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						int idot = str.find( '.' );
+						if ( idot >= 0 ) 
+							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+						
 						if ( py > 0 && py < pH ) {
 							QRect r( -2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
@@ -483,6 +493,10 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						case DOUBLE :
 						{
 							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							int idot = str.find( '.' );
+							if ( idot >= 0 ) 
+								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+							
 							if ( px > 0 && px < pW ) {
 								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
@@ -543,6 +557,10 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						case DOUBLE :
 						{
 							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							int idot = str.find( '.' );
+							if ( idot >= 0 ) 
+								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+							
 							if ( py > 0 && py < pH ) {
 								QRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
