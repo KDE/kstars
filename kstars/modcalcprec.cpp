@@ -189,9 +189,15 @@ void modCalcPrec::slotComputeCoords (void) {
 	SkyPoint sp;
 	
 	sp = getEquCoords();
+
 	double epoch0 = getEpoch( epoch0Name->text() );
 	double epochf = getEpoch( epochfName->text() );
-	sp = precess( sp.ra0(), sp.dec0(), epoch0, epochf );
+
+	long double jd0 = epochToJd ( epoch0 );
+	long double jdf = epochToJd ( epochf );
+
+	sp.precessFromAnyEpoch(jd0, jdf);
+
 	showEquCoords( sp );
 
 }
@@ -221,76 +227,4 @@ long double modCalcPrec::epochToJd (double epoch) {
 		return ( J2000 - yearsTo2000 * 365.2425 );
 	}
 
-}
-
-SkyPoint modCalcPrec::precess (dms RA0, dms Dec0, double epoch0, double epochf) {
-
-	double cosRA0, sinRA0, cosDec0, sinDec0;
-	dms RA, Dec;
-        double v[3], s[3]; 
-
-	long double jd0 = epochToJd ( epoch0 );
-	long double jdf = epochToJd ( epochf );
-
-	RA0.SinCos( sinRA0, cosRA0 );
-	Dec0.SinCos( sinDec0, cosDec0 );
-
-	//Need to first precess to J2000.0 coords
-
-	if ( jd0 != J2000 ) {
-	
-	//v is a column vector representing input coordinates.
-
-		KSNumbers *num = new KSNumbers (jd0);
-
-		v[0] = cosRA0*cosDec0; 
-		v[1] = sinRA0*cosDec0;
-		v[2] = sinDec0;
-
-	//s is the product of P1 and v; s represents the
-	//coordinates precessed to J2000
-		for ( unsigned int i=0; i<3; ++i ) {
-			s[i] = num->p1( 0, i )*v[0] + num->p1( 1, i )*v[1] + 
-				num->p1( 2, i )*v[2];
-		}
-		delete num;
-
-	} else {
-
-		//Input coords already in J2000, set s accordingly.
-		s[0] = cosRA0*cosDec0;
-		s[1] = sinRA0*cosDec0;
-		s[2] = sinDec0; 
-	}
-      
-	KSNumbers *num = new KSNumbers (jdf);
-      
-	//Multiply P2 and s to get v, the vector representing the new coords.
-
-	for ( unsigned int i=0; i<3; ++i ) {
-		v[i] = num->p2( 0, i )*s[0] + num->p2( 1, i )*s[1] + 
-		num->p2( 2, i )*s[2];
-	}
-	delete num;
-
-	//Extract RA, Dec from the vector:
-
-//	RA.setRadians( atan( v[1]/v[0] ) );
-	RA.setRadians( atan2( v[1],v[0] ) );
-	Dec.setRadians( asin( v[2] ) );
-	
-	//resolve ambiguity of atan()
-
-//	if ( v[0] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 180.0 );
-//	} else if( v[1] < 0.0 ) {
-//		RA.setD( RA.Degrees() + 360.0 );
-//	}
-
-	if (RA.Degrees() < 0.0 )
-		RA.setD( RA.Degrees() + 360.0 );
-
-	SkyPoint sPoint = SkyPoint (RA, Dec);
-
-	return sPoint;
 }

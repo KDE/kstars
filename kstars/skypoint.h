@@ -242,10 +242,27 @@ public:
 
 /**Determine the effects of aberration for this SkyPoint*/
 	void aberrate(const KSNumbers *num);
+	
+/**	Computes the apparent coordinates for this SkyPoint. The difference 
+  	*with function updateCoords is that original coordinates might 
+  	* not be J2000, and final coordinates might not be the present time.
+  	*@param jd0 Julian Day which identifies the original epoch
+  	*@param jdf Julian Day which identifies the final epoch
+	*/
+  void apparentCoord(long double jd0, long double jdf);
+
+/** 	General case of precession. It precess from an original epoch to a 
+ 	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent 
+ 	*the coordinates for the original epoch and not for J2000, as usual.
+	*@param jd0 Julian Day which identifies the original epoch
+	*@param jdf Julian Day which identifies the final epoch
+	*/
+	void precessFromAnyEpoch(long double jd0, long double jdf);
 
 protected:
 /**Precess this SkyPoint's catalog coordinates */
 	void precess(const KSNumbers *num);
+	
 
 private:
 	dms RA0, Dec0; //catalog coordinates
