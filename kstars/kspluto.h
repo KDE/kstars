@@ -36,8 +36,9 @@ public:
 /**Constructor.  Calls KSPlanetBase constructor with name="Pluto".
 	*@p kd pointer to the KStarsData object
 	*@p fn filename of Pluto's image
+	*@p pSize physical diameter of Pluto, in km
 	*/
-	KSPluto(KStarsData *kd, QString fn="");
+	KSPluto(KStarsData *kd, QString fn="", double pSize=0);
 
 /**Destructor.  Delete some member data. */
 	virtual ~KSPluto();

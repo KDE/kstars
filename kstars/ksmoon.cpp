@@ -27,7 +27,7 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ) ) {
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", 3474.8 /*diameter in km*/ ) {
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
 }
@@ -167,7 +167,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 	setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./dms::PI );  //convert radians to degrees
 	setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./dms::PI );
 	Rearth = ( 385000.56 + sumR/1000.0 )/AU_KM; //distance from Earth, in AU
-
+	setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI ); //angular size in arcmin
 
 	EclipticToEquatorial( num->obliquity() );
 

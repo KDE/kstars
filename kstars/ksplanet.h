@@ -47,8 +47,9 @@ public:
 /**Constructor.  
 	*@param s Name of planet
 	*@param image_file filename of the planet's image
+	*@param pSize physical diameter of the planet, in km
 	*/
-	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="" );
+	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", double pSize=0 );
 
 /**Destructor (empty)
 	*/

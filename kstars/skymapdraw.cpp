@@ -1670,8 +1670,11 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 			pa.SinCos( spa, cpa );
 			cpa = fabs(cpa); spa = fabs(spa);
 	
-			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 * (cpa + spa) );
 			//int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 * (cpa + spa) );
+			//Because Saturn has rings, we inflate its size by a factor 2.5 
+			if ( p->name() == "Saturn" ) size = int(2.5*size);
+			
 			if ( size < sizemin ) size = sizemin;
 																								//Only draw planet image if:
 			if ( Options::showPlanetImages() &&     //user wants them,

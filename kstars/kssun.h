@@ -34,8 +34,11 @@ class KSSun : public KSPlanet  {
 public:
 /**Constructor.  Defines constants needed by findPosition().
 	*Sets Ecliptic coordinates appropriate for J2000.
+	*@param kd pointer to KStarsData object
+	*@param fn filename of Sun image
+	*@param pSize physical diameter of the Sun, in km
 	*/
-	KSSun(KStarsData *kd, QString fn = "");
+	KSSun(KStarsData *kd, QString fn = "", double pSize=0 );
 
 /**Destructor (empty)
 	*/

@@ -144,8 +144,8 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 	return ret;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile )
- : KSPlanetBase(kd, s, imfile), data_loaded(false) {
+KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, double pSize )
+ : KSPlanetBase(kd, s, imfile, pSize ), data_loaded(false) {
 }
 
 bool KSPlanet::loadData() {

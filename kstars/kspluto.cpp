@@ -32,7 +32,7 @@ KSPluto::XYZData *KSPluto::ydata = 0;
 KSPluto::XYZData *KSPluto::zdata = 0;
 int KSPluto::objects = 0;
 
-KSPluto::KSPluto(KStarsData *kd, QString fn) : KSPlanetBase( kd, I18N_NOOP( "Pluto" ), fn ) {
+KSPluto::KSPluto(KStarsData *kd, QString fn, double pSize ) : KSPlanetBase( kd, I18N_NOOP( "Pluto" ), fn, pSize ) {
 	objects++;
 }
 
@@ -282,6 +282,8 @@ bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 
 	//determine the position angle
 	findPA( num );
+
+	setRearth( Earth );
 
 	return true;
 }

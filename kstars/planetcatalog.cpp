@@ -46,61 +46,52 @@ PlanetCatalog::~PlanetCatalog() {
 bool PlanetCatalog::initialize() {
 	KSPlanetBase *ksp;
 
-	Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ) );
+	Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ), "", 12756.28 /*diameter in km*/ );
 	if (!Earth->loadData())
 		return false;
 
-	Sun = new KSSun( kd, "sun.png" );
+	Sun = new KSSun( kd, "sun.png", 1392000. /*diameter in km*/ );
 	if (Sun->loadData()) {
-		Sun->setAngSize( 32.0 );
 		planets.append(Sun);
 	}
 
-	ksp = new KSPluto( kd, "pluto.png" );
+	ksp = new KSPluto( kd, "pluto.png", 2320. /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.0017 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Mercury" ), "mercury.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Mercury" ), "mercury.png", 4879.4 /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.137 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Venus" ), "venus.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Venus" ), "venus.png", 12103.6 /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.56 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Mars" ), "mars.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Mars" ), "mars.png", 6792.4 /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.178 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Jupiter" ), "jupiter.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Jupiter" ), "jupiter.png", 142984. /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Saturn" ), "saturn.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Saturn" ), "saturn.png", 120536. /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.69 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Uranus" ), "uranus.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Uranus" ), "uranus.png", 51118. /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.06 );
 		planets.append(ksp);
 	}
 
-	ksp = new KSPlanet( kd, I18N_NOOP( "Neptune" ), "neptune.png");
+	ksp = new KSPlanet( kd, I18N_NOOP( "Neptune" ), "neptune.png", 49572. /*diameter in km*/ );
 	if (ksp->loadData()) {
-		ksp->setAngSize( 0.038 );
 		planets.append(ksp);
 	}
 

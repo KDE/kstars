@@ -152,7 +152,8 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 	ep.longitude.setRadians( ELongRad );
 	ep.latitude.setRadians( ELatRad );
 	setRsun( r );
-
+	setRearth( Earth );
+	
 	EclipticToEquatorial( num->obliquity() );
 	nutate( num );
 	aberrate( num );

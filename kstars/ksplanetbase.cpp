@@ -29,7 +29,7 @@
 #include "kspopupmenu.h"
 
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )
+KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, double pSize )
  : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd) {
 
 	 if (! image_file.isEmpty()) {
@@ -44,6 +44,7 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file )
 	}
 	PositionAngle = 0.0;
 	ImageAngle = 0.0;
+	PhysicalSize = pSize;
 	Trail.setAutoDelete( TRUE );
 }
 
@@ -143,6 +144,8 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
 
 	Rearth = sqrt(x*x + y*y + z*z);
 
+	//Set angular size, in arcmin
+	AngularSize = asin(PhysicalSize/Rearth/AU_KM)*60.*180./dms::PI;
 }
 
 void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {

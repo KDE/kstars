@@ -23,7 +23,7 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd, QString fn ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn ) {
+KSSun::KSSun( KStarsData *kd, QString fn, double pSize ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn, pSize ) {
 	/*
 	JD0 = 2447892.5; //Jan 1, 1990
 	eclong0 = 279.403303; //mean ecliptic longitude at JD0

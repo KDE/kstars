@@ -110,7 +110,8 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 	ep.longitude.setRadians( ELongRad );
 	ep.latitude.setRadians( ELatRad );
 	setRsun( r );
-
+	setRearth( Earth );
+	
 	EclipticToEquatorial( num->obliquity() );
 	nutate( num );
 	aberrate( num );

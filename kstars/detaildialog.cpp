@@ -207,7 +207,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	DeepSkyObject *dso;
 	KSPlanetBase *ps;
 
-	QString pname, oname, distStr;
+	QString pname, oname, distStr, angStr;
 	QString sflags( "" );
 
 //arguments to NameBox depend on type of object
@@ -247,21 +247,38 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		//Want to add distance from Earth, Mass, angular size.
 		//Perhaps: list of moons
 
-		//the Sun should display type=star, not planet!
 		ps = (KSPlanetBase *)selectedObject;
-		distStr = QString("%1").arg( ps->rearth(), 0, 'f',1 ) + i18n(" Astronomical Units", " AU");
+		
+		//Construct string for distance from Earth.  The moon requires a unit conversion
+		if ( ps->name() == "Moon" ) {
+			distStr = i18n("distance in kilometers", "%1 km").arg( ps->rearth()*AU_KM, 0, 'f', 1 );
+		} else {
+			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
+		}
+		
+		//Construct the string for angular size
+		angStr = "--";
+		if ( ps->angSize() ) {
+			angStr = i18n("angular size in arcseconds", "%1 arcsec").arg( ps->angSize()*60.0, 0, 'f', 1 );
+			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
+				angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( ps->angSize(), 0, 'f', 1 );
+		} 
+		
+		//the Sun should display type=star, not planet!
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					i18n("star"), "--", distStr, "--", generalTab );
+					i18n("star"), "--", distStr, angStr, generalTab );
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", distStr, "--", generalTab );
+					selectedObject->typeName(), "--", distStr, angStr, generalTab );
 		}
 		break;
 	case 9:  //comets
 	case 10: //asteroids:
+		ps = (KSPlanetBase *)selectedObject;
+		distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
 		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", "--", "--", generalTab );
+					selectedObject->typeName(), "--", distStr, "--", generalTab );
 		break;
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
@@ -276,12 +293,11 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
-		QString ang;
-		if ( dso->a() ) ang = QString("%1 arcmin").arg( dso->a() );
-		else ang = "--";
+		if ( dso->a() ) angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( dso->a() );
+		else angStr = "--";
 		
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				dso->typeName(), QString("%1").arg( dso->mag() ), "--", ang, generalTab );
+				dso->typeName(), QString("%1").arg( dso->mag() ), "--", angStr, generalTab );
 		break;
 	}
 

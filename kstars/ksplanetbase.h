@@ -75,8 +75,9 @@ public:
 	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
 	*@param s Name of planet
 	*@param im the planet's image
+	*@param pSize the planet's physical size, in km
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="" );
+	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", double pSize=0 );
 
 /**
 	*Destructor (empty)
@@ -221,10 +222,19 @@ public:
 	*/
 		double angSize() const { return AngularSize; }
 
-/**@short Set the Planet's angular size in arcminutes
-	*@param a the new angular size
+/**@short set the planet's angular size, in km.
+	*@p size the planet's size, in km
 	*/
-		void setAngSize( double a ) { AngularSize = a; }
+	void setAngularSize( double size ) { AngularSize = size; }
+
+/**@return the Planet's physical size, in km
+	*/
+		double physicalSize() const { return PhysicalSize; }
+
+/**@short set the planet's physical size, in km.
+	*@p size the planet's size, in km
+	*/
+	void setPhysicalSize( double size ) { PhysicalSize = size; }
 
 /**@return whether the planet has a trail
 	*/
@@ -310,7 +320,7 @@ private:
 	void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
 
 	QImage Image0, Image;
-	double PositionAngle, ImageAngle, AngularSize;
+	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	KStarsData *data;
 };
 
