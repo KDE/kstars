@@ -106,7 +106,7 @@ class SimClock : public QObject, public SimClockInterface {
 			*(we may want to modify this slightly...e.g., the number of seconds in a
 			*year is not constant (leap years), so it is better to increment the
 			*year, instead of adding 31 million seconds. */
-		void manualTick();
+		void manualTick( bool force=false );
 
 	signals:
 
