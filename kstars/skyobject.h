@@ -118,8 +118,8 @@ public:
 	int type( void ) const { return Type; }
 
 /**@returns a string describing object's type
-	*/
-	QString typeName( void ) const;
+        */
+        QString typeName( void ) const;
 
 /**@returns object's magnitude
 	*/
@@ -171,9 +171,52 @@ public:
   *@param geo current geographic location
   */
 	QTime riseTime( long double jd, GeoLocation *geo );
-	dms riseUTTime( long double jd, dms gLn, dms gLt, dms rga, dms decl, bool rst);
-	dms riseLSTTime( dms gLt, dms rga, dms decl, bool rst );
-	dms riseSetTimeAz (dms gLat, bool rst);
+
+/**
+  *Returns the UT time when the object will rise or set
+  *@param jd  current Julian date
+  *@param gLn Geographic longitude
+  *@param gLt Geographic latitude
+  *@param rst Boolean. If TRUE will compute rise time. If FALSE 
+  *       will compute set time.
+  */
+	dms riseUTTime( long double jd, dms gLn, dms gLt, bool rst);
+
+/**
+  *Returns the LST time when the object will rise or set
+  *@param jd  current Julian date
+  *@param gLn Geographic longitude
+  *@param gLt Geographic latitude
+  *@param rst Boolean. If TRUE will compute rise time. If FALSE 
+  *       will compute set time.
+  */
+	dms riseLSTTime( long double jd, dms gLn, dms gLt, bool rst);
+
+/**
+  *Returns the Azimuth time when the object will rise or set. This function
+  *recomputes set or rise UT times. 
+  *@param jd Julian Day
+  *@param geo GeoLocation object
+  *@param rst Boolen. If TRUE will compute rise time. If FALSE 
+  *       will compute set time.
+  */
+	dms riseSetTimeAz (long double jd, GeoLocation *geo, bool rst);
+/**
+  *Returns the julian day for which JD gives the date and UT the time. 
+  *@param jd  Julian day from which the date is extracted. 
+  *@param UT  Universal Time for which the JD is computed. 
+  */
+
+	long double newJDfromJDandUT(long double jd, dms UT);
+/**
+  *Returns the coordinates of the selected object for the time given by jd0
+  *@param jd  Julian day for which the coordinates of the object are given.
+  *           This parameter is necessary to return the selected object to
+  *           its original position.
+  *@param jd0 Julian day for which the coords will be recomputed. 
+  */
+
+	SkyPoint getNewCoords(long double jd, long double jd0);
 
 /**
   *Return the local time that the object will set
@@ -183,45 +226,15 @@ public:
 	QTime setTime( long double jd, GeoLocation *geo );
 
 	QTime transitTime( QDateTime currentTime, dms LST );
-	dms transitUTTime( long double jd, dms gLng, dms gLat );
-	void setThreeCoords (long double jd);
+
+//	dms transitUTTime(long double jd, dms gLng);
+//	QTime transitTime( long double jd, GeoLocation *geo );
+
 	double approxHourAngle (dms h0, dms gLng, dms d2);
 	dms gstAtCeroUT (long double jd);
+//	dms transitAltitude(long double jd, GeoLocation *geo);
 	dms transitAltitude(GeoLocation *geo);
 
-	/**
-	 * Interpolates the value of a function y=f(n+x2)
-	 * given the values of the function at three points:
-	 * y1=f(x1)    y2=f(x2)    y3=f(x3)    n=x-x2 / x1<x2<x3
-	 *
-	 *@param y1    First y value
-	 *@param y2    Second y value
-	 *@param y3    Third y value
-	 *@param n     Interpolation factor
-	 *
-	 *@returns    interpolated value
-	 **/
-
-	dms Interpolate (dms y1, dms y2, dms y3, double nx);
-	/**
-	 * Reduces a double variable which corresponds to time expressed in 
-	 * Days, to the interval (0,1). If value is < 0 or > 1, one 
-	 * has to add or substract 1.
-	 *
-	 *@param x    value to correct
-	 *@returns    corrected value
-	 */
-	double reduceToOne(double x);
-
-	/**
-	 * Reduces a double variable which corresponds to degrees so that
-	 * it remains in the interval (-180,180)
-	 * has to add or substract 1.
-
-	 *@param h    angle to correct
-	 *@returns    corrected value
-	 */
-	double reduceTo180(double h);
 
 	/**
 	 * Checks whether a source is circumpolar or not. True = cirmcumpolar
@@ -248,6 +261,40 @@ public:
 	QStringList InfoList, InfoTitle;
 
 private:
+
+/**
+  *Returns the UT time when the object will rise or set. It is an auxiliary 
+  *procedure because it does not use the RA and DEC of the object but values 
+  *given as parameters. You may want to use riseUTTime function which is 
+  *public.
+  *@param jd  current Julian date
+  *@param gLn Geographic longitude
+  *@param gLt Geographic latitude
+  *@param rga Right ascention of the object
+  *@param decl Declination of the object
+  *@param rst Boolean. If TRUE will compute rise time. If FALSE 
+  *       will compute set time.
+  */
+
+	dms auxRiseUTTime( long double jd, dms gLng, dms gLat, dms righta, dms decl, bool riseT);
+	
+/**
+  *Returns the LST time when the object will rise or set. It is an auxiliary 
+  *procedure because it does not use the RA and DEC of the object but values 
+  *given as parameters. You may want to use riseLSTTime function which is 
+  *public.
+  *@param gLt Geographic latitude
+  *@param rga Right ascention of the object
+  *@param decl Declination of the object
+  *@param rst Boolean. If TRUE will compute rise time. If FALSE 
+  *       will compute set time.
+  */
+	dms auxRiseLSTTime( dms gLt, dms rga, dms decl, bool rst );
+
+	QDateTime DMStoQDateTime(long double jd, dms UT); 
+
+	dms QTimeToDMS(QTime dT);
+
 	int Type, PositionAngle;
 	int UGC, PGC;
 	float MajorAxis, MinorAxis, Magnitude;
@@ -257,9 +304,6 @@ private:
 	QString Catalog;
 	QImage *Image;
 	
-	// Auxiliary variables
-	
-//	dms ra1, dec1, ra2, dec2, ra3, dec3;
 };
 
 #endif
