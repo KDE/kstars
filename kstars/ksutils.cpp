@@ -109,7 +109,7 @@ dms KSUtils::UTtoGST( const QDateTime &UT ) {
 	double mn = double( UT.time().minute() );
 	double sc = double( UT.time().second() ) + double ( 0.001 * UT.time().msec() );
 	double t = (hr + ( mn + sc/60.0)/60.0)*1.002737909;
-	
+
 	dms gst = dms( gst0.Degrees() + t*15.0 ).reduce();
 
 	return gst;
@@ -117,19 +117,19 @@ dms KSUtils::UTtoGST( const QDateTime &UT ) {
 
 QTime KSUtils::GSTtoUT( const dms &GST, const QDateTime &UT ) {
 	dms gst0 = KSUtils::GSTat0hUT( UT );
-	
+
 	//dt is the number of sidereal hours since UT 0h.
 	double dt = GST.Hours() - gst0.Hours();
 	while ( dt < 0.0 ) dt += 24.0;
 	while ( dt >= 24.0 ) dt -= 24.0;
-	
+
 	//convert to solar time.  dt is now the number of hours since 0h UT.
 	dt /= 1.002737909;
-	
+
 	int hr = int( dt );
 	int mn = int( 60.0*( dt - double( hr ) ) );
 	int sc = int( 60.0*( 60.0*( dt - double( hr ) ) - double( mn ) ) );
-	
+
 	return QTime( hr, mn, sc );
 }
 
@@ -155,12 +155,12 @@ dms KSUtils::GSTat0hUT( const QDateTime &td ) {
 	long double jd0 = KSUtils::UTtoJD( t0 );
 	long double s = jd0 - J2000;
 	double t = s/36525.0;
-	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t + 
+	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t +
 		0.000000002*t*t*t;
 
 	dms gst;
 	gst.setH( t1 );
-	
+
 	return gst.reduce();
 }
 
@@ -170,10 +170,10 @@ long double KSUtils::JDat0hUT( const QDateTime &UT ) {
 }
 
 long double KSUtils::JDat0hUT( long double jd ) {
-	return int( jd - 0.5 ) + 0.5;;
+	return int( jd - 0.5 ) + 0.5;
 }
 
-bool KSUtils::openDataFile( QFile &file, QString s ) {
+bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 	bool result;
 	KStandardDirs stdDirs;
 	stdDirs.addPrefix(".");

@@ -153,7 +153,7 @@ void DetailDialog::createLinksTab()
   topLayout->addWidget(imagesBox);
   topLayout->addLayout(buttonLayout);
 
-   QStringList::Iterator itList = selectedObject->InfoList.begin();;
+   QStringList::Iterator itList = selectedObject->InfoList.begin();
 	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
 
   for ( ; itList != selectedObject->InfoList.end(); ++itList ) {

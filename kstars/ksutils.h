@@ -54,7 +54,7 @@ class KSUtils {
 		static dms UTtoGST( const QDateTime &UT );
 
 	/**Compute the Universal Time from the Greenwich Sidereal Time.
-		*This operation requires a date, which is why the UT 
+		*This operation requires a date, which is why the UT
 		*is needed as an argument (we only use the Date portion of the UT).
 		*@param GST the Greenwich sidereal time
 		*@param UT the Universal Time/Date
@@ -97,7 +97,7 @@ class KSUtils {
 		*@returns julian day at 0h UT
 		*/
 		static long double JDat0hUT( long double j );
-		
+
 	/**Overloaded member function, provided for convenience.
 		*It behaves essentially like the above function.
 		*@param ut The Universal Time/Date
@@ -105,8 +105,8 @@ class KSUtils {
 		*/
 		static long double JDat0hUT( const QDateTime &ut );
 
-	/**Convenience function to compute the Greenwich sidereal 
-		*time at 0h of universal time. 
+	/**Convenience function to compute the Greenwich sidereal
+		*time at 0h of universal time.
 		*
 		*@param DT = date and time
 		*@returns sidereal time in hours.
@@ -124,7 +124,7 @@ class KSUtils {
 		*@returns bool Returns true if data file was opened successfully.
 		*@returns a reference to the opened file.
 		*/
-		static bool openDataFile( QFile &file, QString filename );
+		static bool openDataFile( QFile &file, const QString &filename );
 
 	private:
 		//

@@ -166,7 +166,7 @@ int CelestronGPS::handleCoordSet()
 
 	  if (OnCoordSetSw.s == ILS_BUSY)
 	  {
-	     StopNSEW();;
+	     StopNSEW();
 
 	     // sleep for 100 mseconds
 	     usleep(100000);
