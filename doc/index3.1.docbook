@@ -1,0 +1,237 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
+ "dtd/kdex.dtd" [
+  <!ENTITY kappname "&kstars;">
+  <!ENTITY package "kdeedu">
+  <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
+  <!ENTITY blackbody SYSTEM "blackbody.docbook">
+  <!ENTITY calc-apcoords SYSTEM "calc-apcoords.docbook">
+  <!ENTITY calc-eqgal SYSTEM "calc-eqgal.docbook">
+  <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
+  <!ENTITY calc-precess SYSTEM "calc-precess.docbook">
+  <!ENTITY calc-geodetic SYSTEM "calc-geodetic.docbook">
+  <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
+  <!ENTITY calc-julian SYSTEM "calc-julianday.docbook">
+  <!ENTITY calc-sidereal SYSTEM "calc-sidereal.docbook">
+  <!ENTITY calculator SYSTEM "calculator.docbook">
+  <!ENTITY colorandtemp SYSTEM "colorandtemp.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY config SYSTEM "config.docbook">
+  <!ENTITY contents SYSTEM "ai-contents.docbook">
+  <!ENTITY cpoles SYSTEM "cpoles.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY csphere SYSTEM "csphere.docbook">
+  <!ENTITY darkmatter SYSTEM "darkmatter.docbook">
+  <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
+  <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
+  <!ENTITY equinox SYSTEM "equinox.docbook">
+  <!ENTITY faq SYSTEM "faq.docbook">
+  <!ENTITY flux SYSTEM "flux.docbook">
+  <!ENTITY geocoords SYSTEM "geocoords.docbook">
+  <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
+  <!ENTITY horizon SYSTEM "horizon.docbook">
+  <!ENTITY hourangle SYSTEM "hourangle.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
+  <!ENTITY julianday SYSTEM "julianday.docbook">
+  <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY lightcurves SYSTEM "lightcurves.docbook">
+  <!ENTITY luminosity SYSTEM "luminosity.docbook">
+  <!ENTITY magnitude SYSTEM "magnitude.docbook">
+  <!ENTITY meridian SYSTEM "meridian.docbook">
+  <!ENTITY parallax SYSTEM "parallax.docbook">
+  <!ENTITY precession SYSTEM "precession.docbook">
+  <!ENTITY quicktour SYSTEM "quicktour.docbook">
+  <!ENTITY retrograde SYSTEM "retrograde.docbook">
+  <!ENTITY sidereal SYSTEM "sidereal.docbook">
+  <!ENTITY skycoords SYSTEM "skycoords.docbook">
+  <!ENTITY stars SYSTEM "stars.docbook">
+  <!ENTITY timezones SYSTEM "timezones.docbook">
+  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook">
+  <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
+  <!ENTITY tool-calculator SYSTEM "calculator.docbook">
+  <!ENTITY tool-details SYSTEM "details.docbook">
+  <!ENTITY tool-whatsup SYSTEM "wut.docbook">
+  <!ENTITY tools SYSTEM "tools.docbook">
+  <!ENTITY utime SYSTEM "utime.docbook">
+  <!ENTITY zenith SYSTEM "zenith.docbook">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title>The &kstars; Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>Jason</firstname>
+<surname>Harris</surname>
+<affiliation>
+<address><email>kstars@30doradus.org</email></address>
+</affiliation>
+</author>
+
+<othercredit role="developer">
+<firstname>Heiko</firstname>
+<surname>Evermann</surname>
+<affiliation>
+<address><email>heiko@evermann.de</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Thomas</firstname>
+<surname>Kabelmann</surname>
+<affiliation>
+<address><email>tk78@gmx.de</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Pablo</firstname>
+<surname>de Vicente</surname>
+<affiliation>
+<address><email>pvicentea@wanadoo.es</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Carsten</firstname>
+<surname>Niehaus</surname>
+<affiliation>
+<address><email>cniehaus@gmx.de</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Mark</firstname>
+<surname>Holloman</surname>
+<affiliation>
+<address><email>mhh@mindspring.com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>2001</year><year>2002</year><year>2003</year>
+<holder>Jason Harris and the KStars Team</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>2002-10-08</date>
+<releaseinfo>1.0</releaseinfo>
+
+<abstract>
+<para>
+&kstars; is a graphical desktop planetarium for KDE.  It depicts an 
+accurate simulation of the night sky, including stars, constellations, 
+star clusters, nebulae, galaxies, all planets, the Sun, the Moon,  
+comets and asteroids.  You can see the sky as it appears 
+from any location on Earth, on any date.  The user interface is highly 
+intuitive and flexible.  The display can be panned and zoomed with the 
+mouse, and you can easily identify objects, and track their motion 
+across the sky.  &kstars; includes many powerful features, yet the 
+interface is clean and simple, and fun to use.  
+</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>kdeedu</keyword>
+<keyword>Astronomy</keyword>
+<keyword>KStars</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>
+&kstars; lets you explore the night sky from
+the comfort of your computer chair.  It provides an accurate graphical
+representation of the night sky for any date, from any location on
+Earth.  The display includes 40,000 stars to 8th magnitude (well below
+the naked-eye limit), 13,000 deep-sky objects (Messier, NGC and IC
+catalogs), all planets, the Sun and Moon, hundreds of comets and 
+asteroids, the Milky Way, 88 constellations, and guide lines such as 
+the celestial equator, horizon and ecliptic.  
+</para>
+<para>
+However, &kstars; is more than a simple night-sky simulator.  The 
+display provides a compelling interface to a number of tools with 
+which you can learn more about astronomy and the night sky.  There is 
+a customized popup menu attached to each displayed object, which 
+provides links to informative webpages and beautiful images of the 
+object taken by the Hubble Space Telescope and other telescopes around 
+the world.  You can also examine the physical data of the object stored 
+in our catalog databases, and connect to online databases used by 
+professional astronomers for even more information.  You can even 
+attach your own internet links, images and text notes, making &kstars; 
+a graphical front-end to your observing logs and your personal 
+astronomical notebook.
+</para>
+<para>
+In addition, &kstars; comes with some powerful features for amateur 
+and professional astronomers.  Our Astronomical Calculator Tool 
+provides direct access to many of the algorithms the program uses 
+behind the scenes.  You can also download lightcurves of any variable 
+star, compiled by the AAVSO (American Association of Variable Star 
+Observers), and plan your observing sessions by plotting the altitude 
+of objects as a function of time, for any date.  Or, if that's too much
+detail, we also provide a "What's Up Tonight?" Tool that summarizes the 
+objects that you will be able to see from your location on any given 
+night.
+</para>
+<para>
+Our primary goal is to make &kstars; an interactive educational tool for
+learning about astronomy and the night sky.  To this end, the &kstars;
+Handbook includes the AstroInfo Project, a series of short, hyperlinked
+articles on astronomical topics that can be explored with &kstars;.
+Furthermore, we are designing DCOP functions that enable complex 
+behaviors to be scripted ahead of time, making &kstars; a powerful
+"demo engine" for classroom use or general illustration of astronomical
+topics.  At this point, the DCOP scripts must be constructed by hand, 
+but in a future version, we will provide a GUI tool for editing 
+behavioral scripts easily.
+</para>
+<para>
+We are very interested in your feedback; please report bugs or 
+feature requests to the &kstars; development mailing list:
+<email>kstars-devel@lists.sourceforge.net</email>. You can also use
+the automated bug reporting tool, accessible from the Help menu.
+</para>
+</chapter>
+
+&quicktour;   <!--A Quick Tour of KStars-->
+&config;      <!--Configuring KStars-->
+&commands;    <!--Command Reference-->
+&astroinfo;   <!--AstroInfo Articles-->
+&tools;       <!--The AASVO Lightcurve Tool-->
+&faq;         <!--Questions and Answers-->
+&credits;     <!--Credits and License-->
+&install;     <!--Installation-->
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
