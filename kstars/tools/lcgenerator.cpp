@@ -457,7 +457,7 @@ downloadJob = 0;
                 for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
                 NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 		
-                KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully"));
+                KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
 
 		
 		return;

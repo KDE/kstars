@@ -493,7 +493,7 @@ void ScriptBuilder::slotOpen() {
 
 			QFile f( fname );
 			if ( !f.open( IO_ReadOnly) ) {
-				QString message = i18n( "Could not open file %1" ).arg( f.name() );
+				QString message = i18n( "Could not open file %1." ).arg( f.name() );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				currentFileURL = "";
 				return;
@@ -541,7 +541,7 @@ void ScriptBuilder::slotSave() {
 
 		QFile f( fname );
 		if ( !f.open( IO_WriteOnly) ) {
-			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			QString message = i18n( "Could not open file %1." ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			currentFileURL = "";
 			return;
@@ -609,7 +609,7 @@ void ScriptBuilder::slotRunScript() {
 	QFile f( fname );
 	if ( f.exists() ) f.remove();
 	if ( !f.open( IO_WriteOnly) ) {
-		QString message = i18n( "Could not open file %1" ).arg( f.name() );
+		QString message = i18n( "Could not open file %1." ).arg( f.name() );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 		currentFileURL = "";
 		return;

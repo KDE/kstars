@@ -207,8 +207,8 @@ void OpsColors::slotRemovePreset() {
 			for( unsigned int i=0; i<slist.count(); ++i )
 				stream << slist[i] << endl;
 		} else {
-			QString message = i18n( "Could not find an entry named %1 in colors.dat" ).arg( name );
-			KMessageBox::sorry( 0, message, i18n( "Scheme Not Found in colors.dat" ) );
+			QString message = i18n( "Could not find an entry named %1 in colors.dat." ).arg( name );
+			KMessageBox::sorry( 0, message, i18n( "Scheme Not Found" ) );
 		}
 		cdatFile.close();
 	}

@@ -192,8 +192,7 @@ void modCalcSidTime::slotRunBatch() {
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1"
-			).arg( f.name() );
+			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;

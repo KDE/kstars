@@ -351,7 +351,7 @@ bool INDIDriver::runDevice(IDevice *dev)
 
   if (dev->indiPort < 0)
   {
-   KMessageBox::error(0, i18n("Cannot start INDI server : port error."));
+   KMessageBox::error(0, i18n("Cannot start INDI server: port error."));
    return false;
   }
 

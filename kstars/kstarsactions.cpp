@@ -428,8 +428,8 @@ void KStars::slotRunScript() {
 				tmpfile.setAutoDelete(true);
 
 				while ( ! saveURL.isValid() ) {
-					message = i18n( "Save location is invalid.  Try another location?" );
-					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid save location" ) ) == KMessageBox::No ) return;
+					message = i18n( "Save location is invalid. Try another location?" );
+					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ) ) == KMessageBox::No ) return;
 					saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
 				}
 
@@ -496,7 +496,7 @@ void KStars::slotRunScript() {
 
 		if ( ! fileOK ) {
 			KMessageBox::sorry( 0, i18n( "The selected file appears to be an invalid KStars script." ),
-					i18n( "Script Validation Failed." ) );
+					i18n( "Script Validation Failed" ) );
 		} else {
 			//file is OK, run it!
 			KProcess p;
