@@ -431,6 +431,14 @@ private:
 
 	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
+
+	// computed in paintEvent() to save time in draw-functions
+	int guidemax;
+	float FOV;
+	double Xmax, Ymax;
+	bool isPoleVisible;
+	float guideFOV;
+	double guideXmax;
 };
 
 #endif

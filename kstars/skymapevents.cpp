@@ -847,7 +847,7 @@ void SkyMap::drawBoxes( QPixmap *pm ) {
 	p.end();
 }
 
-void SkyMap::paintEvent( QPaintEvent *e )
+void SkyMap::paintEvent( QPaintEvent * )
 {
   KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
@@ -865,10 +865,9 @@ void SkyMap::paintEvent( QPaintEvent *e )
 // if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with Update())
 	QPainter psky;
 
-	/*
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
+	guidemax = pixelScale[ data->ZoomLevel ]/10;
+	FOV = fov();
+	isPoleVisible = false;
 	if ( options->useAltAz ) {
 		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
@@ -877,8 +876,12 @@ void SkyMap::paintEvent( QPaintEvent *e )
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
-	*/
-	
+
+	//at high zoom, double FOV for guide lines so they don't disappear.
+	guideFOV = fov();
+	guideXmax = Xmax;
+	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
+
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
 //and clockSlewing (which is true if the timescale exceeds options()->slewTimeScale)
@@ -1007,27 +1010,8 @@ void SkyMap::drawMilkyWay( QPainter& psky)
 
 void SkyMap::drawCoordinateGrid(QPainter& psky)
 {
-  KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
 
-	int guidemax = pixelScale[ data->ZoomLevel ]/10;
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	//Draw coordinate grid
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to colorGrid
@@ -1114,23 +1098,6 @@ void SkyMap::drawEquator(QPainter& psky)
   KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
 
-	int guidemax = pixelScale[ data->ZoomLevel ]/10;
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-	
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	//Draw Equator (currently can't be hidden on slew)
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
@@ -1181,23 +1148,6 @@ void SkyMap::drawEcliptic(QPainter& psky)
   KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
 
-	int guidemax = pixelScale[ data->ZoomLevel ]/10;
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	//Draw Ecliptic (currently can't be hidden on slew)
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
@@ -1277,31 +1227,13 @@ void SkyMap::drawConstellationNames(QPainter& psky, QFont& stdFont)
   KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
 
-	bool drawGround( options->drawGround );
-
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	//Draw Constellation Names
 	//Don't draw names if slewing
 	if ( true ) {
 		psky.setFont( stdFont );
 		psky.setPen( QColor( options->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
-			if ( checkVisibility( p, FOV, Xmax, options->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( p, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
 				QPoint o = getXY( p, options->useAltAz, options->useRefraction );
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 					if ( options->useLatinConstellNames ) {
@@ -1331,25 +1263,7 @@ void SkyMap::drawStars(QPainter& psky)
 
 //shortcuts to inform wheter to draw different objects
 	bool hideFaintStars( checkSlewing && options->hideStars );
-	bool drawGround( options->drawGround );
 
-
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	//Draw Stars
 	if ( options->drawSAO ) {
 
@@ -1372,7 +1286,7 @@ void SkyMap::drawStars(QPainter& psky)
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
-			if ( checkVisibility( curStar, FOV, Xmax, options->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( curStar, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
 				QPoint o = getXY( curStar, options->useAltAz, options->useRefraction );
 
 				// draw star if currently on screen
@@ -1415,19 +1329,6 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
   KStarsData* data = ksw->data();
   KStarsOptions* options = ksw->options();
 	QImage ScaledImage;
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
-	bool drawGround( options->drawGround );
-
-	if ( options->useAltAz ) {
-		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
-	} else {
-		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
-		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
-	}
-	if ( Ymax >= 90. ) isPoleVisible = true;
 
   // Set color once
   psky.setPen( color );
@@ -1438,7 +1339,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 	for ( SkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 
 		if ( drawObject || drawImage ) {
-			if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, drawGround ) ) {
+			if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -1512,14 +1413,7 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
   KStarsOptions* options = ksw->options();
 
 	QImage ScaledImage;
-	float FOV = fov();
-	double Xmax, Ymax;
-	bool isPoleVisible = false;
 
-	//at high zoom, double FOV for guide lines so they don't disappear.
-	float guideFOV = fov();
-	double guideXmax = Xmax;
-	if ( data->ZoomLevel > 4 ) { guideFOV *= 2.0; guideXmax *= 2.0; }
 	bool checkSlewing = ( ( slewing || ( clockSlewing && ksw->getClock()->isActive() ) )
 				&& options->hideOnSlew );
 
@@ -1528,7 +1422,6 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
 	bool drawNGC( options->drawDeepSky && options->drawNGC && !(checkSlewing && options->hideNGC) );
 	bool drawOther( options->drawDeepSky && options->drawOther && !(checkSlewing && options->hideOther) );
 	bool drawIC( options->drawDeepSky && options->drawIC && !(checkSlewing && options->hideIC) );
-	bool drawGround( options->drawGround );
 
   // calculate color objects once, outside the loop
   QColor colorMess = options->colorScheme()->colorNamed( "MessColor" );
@@ -1573,7 +1466,7 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, drawGround ) ) {
+				if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
 					QPoint o = getXY( obj, options->useAltAz, options->useRefraction );
 
 					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
