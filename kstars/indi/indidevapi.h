@@ -157,6 +157,8 @@ extern void IUResetSwitches(const ISwitchVectorProperty *svp);
 
 extern int IUUpdateSwitches(const ISwitchVectorProperty *svp, ISState *states, char *names[], int n);
 
+extern int IUUpdateNumbers(const INumberVectorProperty *nvp, double values[], char *names[], int n);
+
 /* function to reliably save new text in a IText */
 extern void IUSaveText (IText *tp, const char *newtext);
 

@@ -43,36 +43,44 @@
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <linux/usb.h>
-#include <linux/usbdevice_fs.h>
 #include <sys/ioctl.h>
-
 #include <errno.h>
 
 #include "libfli-libfli.h"
 #include "libfli-sys.h"
 #include "libfli-usb.h"
 
+#define USB_DIR_OUT			0		/* to device */
+#define USB_DIR_IN			0x80		/* to host */
+#define USBDEVFS_CLAIMINTERFACE    _IOR('U', 15, unsigned int)
+#define USBDEVFS_BULK              _IOWR('U', 2, struct usbdevfs_bulktransfer)
+#define USBDEVFS_RELEASEINTERFACE  _IOR('U', 16, unsigned int)
+
 /* Device descriptor */
 typedef struct     
 {
-  __u8  bLength;
-  __u8  bDescriptorType;
-  __u16 bcdUSB;
-  __u8  bDeviceClass;
-  __u8  bDeviceSubClass;
-  __u8  bDeviceProtocol;
-  __u8  bMaxPacketSize0;
-  __u16 idVendor;
-  __u16 idProduct;
-  __u16 bcdDevice;
-  __u8  iManufacturer;
-  __u8  iProduct;
-  __u8  iSerialNumber;
-  __u8  bNumConfigurations;
+  u_int8_t  bLength;
+  u_int8_t  bDescriptorType;
+  u_int16_t bcdUSB;
+  u_int8_t  bDeviceClass;
+  u_int8_t  bDeviceSubClass;
+  u_int8_t  bDeviceProtocol;
+  u_int8_t  bMaxPacketSize0;
+  u_int16_t idVendor;
+  u_int16_t idProduct;
+  u_int16_t bcdDevice;
+  u_int8_t  iManufacturer;
+  u_int8_t  iProduct;
+  u_int8_t  iSerialNumber;
+  u_int8_t  bNumConfigurations;
 } usb_device_descriptor;
 
-/* __attribute__ ((packed));*/
+struct usbdevfs_bulktransfer {
+	unsigned int ep;
+	unsigned int len;
+	unsigned int timeout; /* in milliseconds */
+	void *data;
+};
 
 long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
 {

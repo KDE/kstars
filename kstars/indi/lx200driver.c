@@ -222,6 +222,8 @@ char ACK()
 int getCommandSexa(double *value, const char * cmd)
 {
   char tempString[16];
+  
+  tcflush(fd, TCIFLUSH);
 
   if (portWrite(cmd) < 0)
    return -1;
@@ -993,6 +995,10 @@ int Sync(char *matchedObject)
    return read_ret;
    
   matchedObject[read_ret-1] = '\0';
+  
+  sleep(0);
+  
+  tcflush(fd, TCIFLUSH);
 }
 
 int selectSite(int siteNum)
