@@ -60,9 +60,15 @@ class modCalcGeodCoord : public modCalcGeodCoordDlg {
 		void slotXCheckedBatch();
 		void slotYCheckedBatch();
 		void slotZCheckedBatch();
+		void slotOutputFile();
+		void slotInputFile();
 	private:
 
+		void geoCheck(void);
+		void xyzCheck(void);
 		void showLongLat(void);
+		void processLines( QTextStream &istream );
+		void slotRunBatch(void);
 
 //		QRadioButton *cartRadio, *spheRadio;
 //		QVBox *vbox, *rightBox;
@@ -70,6 +76,7 @@ class modCalcGeodCoord : public modCalcGeodCoordDlg {
 //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
 		GeoLocation *geoPlace;
+		bool xyzInputCoords;
 
 };
 	
