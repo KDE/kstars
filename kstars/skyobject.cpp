@@ -93,18 +93,43 @@ SkyObject::SkyObject( int t, double r, double d, double m,
 	Image = 0;
 }
 
+QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
+
+	//this object does not rise or set; return an invalid time
+	if ( checkCircumpolar(geo->lat()) )
+		return QTime( 25, 0, 0 );  
+
+	dms UT = riseUTTime (jd, geo->lng(), geo->lat(), ra(), dec(), false); 
+	
+	//convert UT to LT;
+	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
+
+	return QTime( LT.hour(), LT.minute(), LT.second() );
+}
+
 QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
-	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
-	if ( r < -1.0 || r > 1.0 )
-		return QTime( 25, 0, 0 );  //this object does not rise or set; return an invalid time
-		
-	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
-	dms LST;
-	LST.setH( 24.0 + ra().Hours() - H/15.0 );
-	LST = LST.reduce();
+
+	//this object does not rise or set; return an invalid time
+	if ( checkCircumpolar(geo->lat()) )
+		return QTime( 25, 0, 0 );  
+
+	dms UT = riseUTTime (jd, geo->lng(), geo->lat(), ra(), dec(), true); 
+	
+	//convert UT to LT;
+	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
+
+	return QTime( LT.hour(), LT.minute(), LT.second() );
+
+}
+
+dms SkyObject::riseUTTime( long double jd, dms gLng, dms gLat, dms righta, dms decl, bool riseT) {
+
+	// if riseT = true => rise Time, else setTime
+	
+	dms LST = riseLSTTime (gLat, righta, decl, riseT ); 
 
 	//convert LST to Greenwich ST
-	dms GST = dms( LST.Degrees() - geo->lng().Degrees() ).reduce();
+	dms GST = dms( LST.Degrees() - gLng.Degrees() ).reduce();
 
 	//convert GST to UT
 	double T = ( jd - J2000 )/36525.0;
@@ -113,15 +138,61 @@ QTime SkyObject::riseTime( long double jd, GeoLocation *geo ) {
 	T0 = T0.reduce();
 	dT.setH( GST.Hours() - T0.Hours() );
 	dT = dT.reduce();
+
 	UT.setH( 0.9972695663 * dT.Hours() );
 	UT = UT.reduce();
 
-	//convert UT to LT;
-	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
+	return UT;
 
-	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
 
+dms SkyObject::riseLSTTime( dms gLat, dms righta, dms decl, bool riseT ) {
+
+	double r = -1.0 * tan( gLat.radians() ) * tan( decl.radians() );
+	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
+	dms LST;
+	
+	// rise Time or setTime
+
+	if (riseT) 
+		LST.setH( 24.0 + righta.Hours() - H/15.0 );
+	else
+		LST.setH( righta.Hours() + H/15.0 );
+
+	LST = LST.reduce();
+
+	return LST;
+}
+
+
+dms SkyObject::riseSetTimeAz (dms gLat, bool riseT) {
+
+	dms Azimuth;
+	double AltRad, AzRad;
+	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
+	double sinAlt, cosAlt;
+
+	dms LST = riseLSTTime( gLat, ra(), dec(), riseT);
+
+	dms HourAngle = dms( LST.Degrees() - ra().Degrees() );
+
+	gLat.SinCos( sinlat, coslat );
+	dec().SinCos( sindec, cosdec );
+	HourAngle.SinCos( sinHA, cosHA );
+
+	sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
+	AltRad = asin( sinAlt );
+	cosAlt = cos( AltRad );
+
+	AzRad = acos( ( sindec - sinlat*sinAlt )/( coslat*cosAlt ) );
+	// AzRad = acos( sindec /( coslat*cosAlt ) );
+	if ( sinHA > 0.0 ) AzRad = 2.0*PI() - AzRad; // resolve acos() ambiguity
+	Azimuth.setRadians( AzRad );
+
+	return Azimuth;
+}
+
+/*
 QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 	double r = -1.0 * tan( geo->lat().radians() ) * tan( dec().radians() );
 	if ( r < -1.0 || r > 1.0 )
@@ -145,13 +216,13 @@ QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {
 	dT.setH( GST.Hours() - T0.Hours() );
 	dT = dT.reduce();
 	UT.setH( 0.9972695663 * dT.Hours() );
-  UT = UT.reduce();
+	UT = UT.reduce();
 
 	//convert UT to LT;
 	dms LT = dms( UT.Degrees() + 15.0*geo->TZ() ).reduce();
 	return QTime( LT.hour(), LT.minute(), LT.second() );
 }
-
+*/
 //QTime SkyObject::transitTime( long double jd, GeoLocation *geo ) {
 
 QTime SkyObject::transitTime( QDateTime currentTime, dms LST ) {
@@ -215,12 +286,13 @@ dms SkyObject::transitUTTime( long double jd, dms gLng, dms gLat ) {
 
 dms SkyObject::transitAltitude(GeoLocation *geo) {
 
-	double delta = asin ( sin (geo->lat().radians()) * 
+	dms delta;
+	delta.setRadians( asin ( sin (geo->lat().radians()) * 
 				sin ( dec().radians() ) +
 				cos (geo->lat().radians()) * 
-				cos (dec().radians() ) );
+				cos (dec().radians() ) ) );
 
-	return dms(delta);
+	return delta;
 }
 
 float SkyObject::e( void ) const {

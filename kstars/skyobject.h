@@ -167,6 +167,9 @@ public:
   *@param geo current geographic location
   */
 	QTime riseTime( long double jd, GeoLocation *geo );
+	dms riseUTTime( long double jd, dms gLn, dms gLt, dms rga, dms decl, bool rst);
+	dms riseLSTTime( dms gLt, dms rga, dms decl, bool rst );
+	dms riseSetTimeAz (dms gLat, bool rst);
 
 /**
   *Return the local time that the object will set
