@@ -55,6 +55,9 @@ void modCalcPlanets::showCurrentDateTime (void)
 
 	dateBox->setDate( dt.date() );
 	timeBox->setTime( dt.time() );
+
+	dateBoxBatch->setDate( dt.date() );
+	utBoxBatch->setTime( dt.time() );
 }
 
 ExtDateTime modCalcPlanets::getExtDateTime (void)
@@ -70,6 +73,9 @@ void modCalcPlanets::showLongLat(void)
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );
+
+	longBoxBatch->show( ks->geo()->lng() );
+	latBoxBatch->show( ks->geo()->lat() );
 }
 
 
@@ -349,15 +355,30 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 	QString line;
 	QString space = " ";
-	QString *planetB;
-	int yearB;
+	QString planetB;
 	int i = 0;
 	QTime utB;
 	ExtDate dtB;
-	dms longB, latB;
-	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
-	KSPlanet *Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ));
-	KSNumbers *num;
+	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
+	double rSunB, rEarthB;
+	KStarsData *kd = (KStarsData*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	PlanetCatalog *PCat = new PlanetCatalog(kd); 
+	PCat->initialize();
+
+	QString pName[11], pNamei18n[11];
+
+	pName[0] = "Mercury";  pNamei18n[0]= i18n("Mercury"); 
+	pName[1] = "Venus";    pNamei18n[1]= i18n("Venus");
+	pName[2] = "Earth";    pNamei18n[2]= i18n("Earth");
+	pName[3] = "Mars";     pNamei18n[3]= i18n("Mars");
+	pName[4] = "Jupiter";  pNamei18n[4]= i18n("Jupiter");
+	pName[5] = "Saturn";   pNamei18n[5]= i18n("Saturn");
+	pName[6] = "Uranus";   pNamei18n[6]= i18n("Uranus");
+	pName[7] = "Neptune";  pNamei18n[7]= i18n("Neptune");
+	pName[8] = "Pluto";    pNamei18n[8]= i18n("Pluto");
+	pName[9] = "Sun";      pNamei18n[9]= i18n("Sun");
+	pName[10] = "Moon";    pNamei18n[10]= i18n("Moon");
+
 	
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -369,10 +390,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 		i = 0;
 		if(planetCheckBatch->isChecked() ) {
-			planetB = new QString( fields[i] );
+			planetB = fields[i];
 			i++;
 		} else
-			planetB = new QString( planetComboBoxBatch->currentText( ) );
+			planetB = planetComboBoxBatch->currentText( );
 		
 		if ( allRadioBatch->isChecked() )
 			ostream << planetB << space;
@@ -434,13 +455,82 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			if (latCheckBatch->isChecked() )
 				ostream << latB.toDMSString() << space;	
 
+		ExtDateTime edt ( dtB, utB );
+		dms *LST = new dms( KSUtils::UTtoLST( edt, &longB ) );
+		long double julianDay = computeJdFromCalendar(edt);
+		
+		KSNumbers *num = new KSNumbers(julianDay);
+		
+		PCat->findPosition( num, &latB, LST );
+		PCat->EquatorialToHorizontal(&latB, LST);
 
-//		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space <<
-//			dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space <<
-//			dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space <<
-//			dtw.toString(Qt::ISODate) << space << (float)(jdsp1 - jdwin) << endl;
+		KSPlanet *Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ));
+		Earth->findPosition(num);
+
+		KSMoon *Moon = new KSMoon(kd);
+		Moon->findPosition(num, &latB, LST, Earth);
+		Moon->EquatorialToHorizontal(&latB, LST);
+
+		int result = 1;
+		int jp = -1;
+		while (result != 0 && jp < 10) {
+			jp++;
+			result = QString::compare( pNamei18n[jp] , planetB );
+		}
+		
+		if (jp < 11) {
+			if (jp < 10) {
+				// Heliocentric Ecl. coords.
+				hlongB.setD(PCat->findByName( pName[jp] )->helEcLong()->Degrees());
+				hlatB.setD( PCat->findByName( pName[jp] )->helEcLat()->Degrees());
+				rSunB = PCat->findByName( pName[jp] )->rsun();
+
+				// Geocentric Ecl. coords.
+				glongB .setD( PCat->findByName( pName[jp] )->ecLong()->Degrees() );
+				glatB.setD( PCat->findByName( pName[jp] )->ecLat()->Degrees() );
+				rEarthB = PCat->findByName( pName[jp] )->rearth();
+
+				// Equatorial coords.
+				decB.setD( PCat->findByName( pName[jp] )->dec()->Degrees() );
+				raB.setD( PCat->findByName( pName[jp] )->ra()->Degrees() );
+
+				// Topocentric Coords.
+				azmB.setD( PCat->findByName( pName[jp] )->az()->Degrees() );
+				altB.setD( PCat->findByName( pName[jp] )->alt()->Degrees() );
+			} else {
+			
+				// Heliocentric Ecl. coords.
+				hlongB.setD( Moon->helEcLong()->Degrees() );
+				hlatB.setD( Moon->helEcLat()->Degrees() );
+
+				// Geocentric Ecl. coords.
+				glongB .setD( Moon->ecLong()->Degrees() );
+				glatB.setD( Moon->ecLat()->Degrees() );
+				rEarthB = Moon->rearth();
+
+				// Equatorial coords.
+				decB.setD( Moon->dec()->Degrees() );
+				raB.setD( Moon->ra()->Degrees() );
+
+				// Topocentric Coords.
+				azmB.setD( Moon->az()->Degrees() );
+				altB.setD( Moon->alt()->Degrees() );
+			}
+			
+
+			if ( helEclCheckBatch->isChecked() ) 
+				ostream << hlongB.toDMSString() << space << hlatB.toDMSString() << space << rSunB << space ;
+			if ( geoEclCheckBatch->isChecked() ) 
+				ostream << glongB.toDMSString() << space << glatB.toDMSString() << space << rEarthB << space ;
+			if ( equGeoCheckBatch->isChecked() ) 
+				ostream << raB.toHMSString() << space << decB.toDMSString() << space ;
+			if ( topoCheckBatch->isChecked() ) 
+				ostream << azmB.toDMSString() << space << altB.toDMSString() << space ;
+
+			ostream << endl;
+		}
+
 	}
-
 
 	fOut.close();
 }
