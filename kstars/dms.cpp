@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 // needed for sincos() in math.h
-#define _GNU_SOURCE
+//#define _GNU_SOURCE
 
 #include <stdlib.h>
 #include <qstring.h>
@@ -105,22 +105,25 @@ dms dms::operator- (dms angle)
 //---------------------------------------------------------------------------
 
 void dms::SinCos( double &sina, double &cosa ) {
-// This is the old implementation of sincos which is standard C compliant
-#if defined(__FreeBSD__)
-// almost certainly this needs more checks for other non-glibc platforms
-// but I am currently unable to check those
-/*
-	register double rad = radians();
-	sina = sin( rad );
-	cosa = cos( rad );
-*/
-#else
-/**The sincos function computes sin and cos at once (hardware accelareted / fsincos in assembler).
-	*It's ~33% faster than computing sin and cos separate. But sincos() is not a standard C/C++
-	*function and requires #define _GNU_SOURCE. It's defined in math.h.
-	*/
-	sincos(radians(), &sina, &cosa);
-#endif
+  /**We have two versions of this function.  One is ANSI standard, but 
+   *slower.  The other is faster, but is GNU only.
+   *For now, leaving the GNU-only solution commented out, until
+   *we figure out a way to tell if the user has the GNU math library.
+   *(perhaps with a "#if defined ( SOMETHING )" directive. )
+   */
+
+  // This is the old implementation of sincos which is standard C compliant
+  //#if defined(__FreeBSD__) 
+  // almost certainly this needs more checks for other non-glibc platforms
+  // but I am currently unable to check those
+  register double rad = radians();
+  sina = sin( rad );
+  cosa = cos( rad );
+  
+  //#else
+  //This is the faster GNU version.  Commented out for now.
+  //sincos(radians(), &sina, &cosa);
+  //#endif
 }
 //---------------------------------------------------------------------------
 
