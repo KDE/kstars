@@ -367,7 +367,6 @@ bool KStarsData::readStarData( void ) {
 				// check star magnitude
 				mag = line.mid( 33, 4 ).toFloat();
 				if ( mag > options->magLimitDrawStar ) {
-					kdDebug() << "magnitude limit reached" << endl;
 					ready = true;
 					break;
 				}
@@ -434,7 +433,7 @@ void KStarsData::processSAO(QString *line, bool reloadedData) {
 	starList.append(o);
 
 	// add named stars to list
-	if (starIsUnnamed == true) {
+	if (starIsUnnamed == false) {
 		ObjNames.append(o);
 	}
 
