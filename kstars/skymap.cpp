@@ -421,7 +421,11 @@ void SkyMap::slotTransientLabel( void ) {
 	//Note that when the TransientObject pointer is not NULL, the next 
 	//mouseMoveEvent calls fadeTransientLabel(), which will fade out the 
 	//TransientLabel and then set TransientObject to NULL.
-	if ( ! slewing ) {
+	//
+	//Do not show a transient label if the map is in motion, or if the mouse 
+	//pointer is below the opaque horizon
+	if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() && 
+			mousePoint()->alt()->Degrees() < 0.0 ) ) {
 		SkyObject *so = objectNearest( mousePoint() );
 		
 		if ( so ) {
