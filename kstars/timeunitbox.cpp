@@ -19,6 +19,7 @@
 #include <qpushbutton.h>
 #include <kdebug.h>
 #include "timeunitbox.h"
+#include "timeunitbox.moc"
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name ) : QSpinBox(parent,name) {
 	setValidator( 0 );
