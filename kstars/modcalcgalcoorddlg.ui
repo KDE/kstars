@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>modCalcGalCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>468</width>
-            <height>436</height>
+            <width>529</width>
+            <height>438</height>
         </rect>
     </property>
     <property name="caption">
@@ -41,91 +41,81 @@
                         <property name="title">
                             <string>Choose Input Coordinates</string>
                         </property>
-                        <vbox>
+                        <hbox>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QLayoutWidget">
+                            <spacer>
                                 <property name="name">
-                                    <cstring>layout1</cstring>
+                                    <cstring>spacer4</cstring>
                                 </property>
-                                <hbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <spacer>
-                                        <property name="name">
-                                            <cstring>spacer4</cstring>
-                                        </property>
-                                        <property name="orientation">
-                                            <enum>Horizontal</enum>
-                                        </property>
-                                        <property name="sizeType">
-                                            <enum>Expanding</enum>
-                                        </property>
-                                        <property name="sizeHint">
-                                            <size>
-                                                <width>61</width>
-                                                <height>21</height>
-                                            </size>
-                                        </property>
-                                    </spacer>
-                                    <widget class="QRadioButton">
-                                        <property name="name">
-                                            <cstring>equRadio</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Equatorial</string>
-                                        </property>
-                                        <property name="checked">
-                                            <bool>true</bool>
-                                        </property>
-                                    </widget>
-                                    <spacer>
-                                        <property name="name">
-                                            <cstring>spacer3</cstring>
-                                        </property>
-                                        <property name="orientation">
-                                            <enum>Horizontal</enum>
-                                        </property>
-                                        <property name="sizeType">
-                                            <enum>Expanding</enum>
-                                        </property>
-                                        <property name="sizeHint">
-                                            <size>
-                                                <width>61</width>
-                                                <height>21</height>
-                                            </size>
-                                        </property>
-                                    </spacer>
-                                    <widget class="QRadioButton">
-                                        <property name="name">
-                                            <cstring>galRadio</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Galactic</string>
-                                        </property>
-                                    </widget>
-                                    <spacer>
-                                        <property name="name">
-                                            <cstring>spacer2</cstring>
-                                        </property>
-                                        <property name="orientation">
-                                            <enum>Horizontal</enum>
-                                        </property>
-                                        <property name="sizeType">
-                                            <enum>Expanding</enum>
-                                        </property>
-                                        <property name="sizeHint">
-                                            <size>
-                                                <width>71</width>
-                                                <height>21</height>
-                                            </size>
-                                        </property>
-                                    </spacer>
-                                </hbox>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>97</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>equRadio</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Equatorial</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
                             </widget>
-                        </vbox>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer3</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>96</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>galRadio</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Galactic</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>97</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
@@ -235,6 +225,12 @@
                                                 <verstretch>0</verstretch>
                                             </sizepolicy>
                                         </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>0</width>
+                                                <height>0</height>
+                                            </size>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
                                         <property name="name">
@@ -256,6 +252,12 @@
                                                 <verstretch>0</verstretch>
                                             </sizepolicy>
                                         </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>0</width>
+                                                <height>0</height>
+                                            </size>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="2" column="0">
                                         <property name="name">
@@ -263,14 +265,6 @@
                                         </property>
                                         <property name="text">
                                             <string>Epoch:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
-                                        <property name="name">
-                                            <cstring>decLabel</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Declination:</string>
                                         </property>
                                     </widget>
                                     <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="2">
@@ -284,6 +278,14 @@
                                             <string>1950.0</string>
                                         </property>
                                     </widget>
+                                    <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                                        <property name="name">
+                                            <cstring>decLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Declination:</string>
+                                        </property>
+                                    </widget>
                                 </grid>
                             </widget>
                             <spacer>
@@ -294,11 +296,11 @@
                                     <enum>Horizontal</enum>
                                 </property>
                                 <property name="sizeType">
-                                    <enum>Expanding</enum>
+                                    <enum>Fixed</enum>
                                 </property>
                                 <property name="sizeHint">
                                     <size>
-                                        <width>30</width>
+                                        <width>15</width>
                                         <height>20</height>
                                     </size>
                                 </property>
@@ -310,38 +312,75 @@
                                 <property name="title">
                                     <string>Galactic Coordinates</string>
                                 </property>
-                                <grid>
+                                <vbox>
                                     <property name="name">
                                         <cstring>unnamed</cstring>
                                     </property>
-                                    <widget class="dmsBox" row="0" column="1">
+                                    <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>lgBox</cstring>
+                                            <cstring>layout5</cstring>
                                         </property>
-                                        <property name="minimumSize">
-                                            <size>
-                                                <width>70</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
+                                        <grid>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel" row="1" column="0">
+                                                <property name="name">
+                                                    <cstring>bgLabel</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Latitude:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel" row="0" column="0">
+                                                <property name="name">
+                                                    <cstring>lgLabel</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Longitude:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="dmsBox" row="0" column="1">
+                                                <property name="name">
+                                                    <cstring>lgBox</cstring>
+                                                </property>
+                                                <property name="sizePolicy">
+                                                    <sizepolicy>
+                                                        <hsizetype>0</hsizetype>
+                                                        <vsizetype>0</vsizetype>
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <property name="minimumSize">
+                                                    <size>
+                                                        <width>0</width>
+                                                        <height>0</height>
+                                                    </size>
+                                                </property>
+                                            </widget>
+                                            <widget class="dmsBox" row="1" column="1">
+                                                <property name="name">
+                                                    <cstring>bgBox</cstring>
+                                                </property>
+                                                <property name="sizePolicy">
+                                                    <sizepolicy>
+                                                        <hsizetype>0</hsizetype>
+                                                        <vsizetype>0</vsizetype>
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <property name="minimumSize">
+                                                    <size>
+                                                        <width>0</width>
+                                                        <height>0</height>
+                                                    </size>
+                                                </property>
+                                            </widget>
+                                        </grid>
                                     </widget>
-                                    <widget class="QLabel" row="0" column="0">
-                                        <property name="name">
-                                            <cstring>lgLabel</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Galactic Longitude:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel" row="1" column="0">
-                                        <property name="name">
-                                            <cstring>bgLabel</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Galactic Latitude:</string>
-                                        </property>
-                                    </widget>
-                                    <spacer row="2" column="0">
+                                    <spacer>
                                         <property name="name">
                                             <cstring>spacer33</cstring>
                                         </property>
@@ -349,7 +388,7 @@
                                             <enum>Horizontal</enum>
                                         </property>
                                         <property name="sizeType">
-                                            <enum>Fixed</enum>
+                                            <enum>Expanding</enum>
                                         </property>
                                         <property name="sizeHint">
                                             <size>
@@ -358,18 +397,7 @@
                                             </size>
                                         </property>
                                     </spacer>
-                                    <widget class="dmsBox" row="1" column="1">
-                                        <property name="name">
-                                            <cstring>bgBox</cstring>
-                                        </property>
-                                        <property name="minimumSize">
-                                            <size>
-                                                <width>70</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                    </widget>
-                                </grid>
+                                </vbox>
                             </widget>
                         </hbox>
                     </widget>
@@ -799,8 +827,6 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -811,6 +837,5 @@
     <includehint>klineedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>
