@@ -28,6 +28,7 @@
 #include <qlineedit.h>
 #include <qstring.h>
 #include <qwidget.h>
+#include <qregexp.h>
 
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QHBox(parent,name) {
 
