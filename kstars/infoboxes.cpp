@@ -331,3 +331,4 @@ void InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true) +
 		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az().toDMSString(true) );
 }
+#include "infoboxes.moc"

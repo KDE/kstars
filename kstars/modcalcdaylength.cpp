@@ -295,3 +295,4 @@ void modCalcDayLength::slotComputePosTime()
 	delete num;
 
 }
+#include "modcalcdaylength.moc"
