@@ -77,6 +77,11 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	kcfg_StarColorMode->insertItem( i18n( "show stars as white circles", "Solid White" ) );
 	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
 
+	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
+		kcfg_StarColorIntensity->setEnabled( false );
+	else
+		kcfg_StarColorIntensity->setEnabled( true );
+		
 	connect( ColorPalette, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( newColor( QListBoxItem* ) ) );
 	connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
 	connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
@@ -231,6 +236,10 @@ void OpsColors::slotStarColorMode( int i ) {
 	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
 		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
 
+	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
+		kcfg_StarColorIntensity->setEnabled( false );
+	else
+		kcfg_StarColorIntensity->setEnabled( true );
 }
 
 void OpsColors::slotStarColorIntensity( int i ) {
