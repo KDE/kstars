@@ -630,7 +630,7 @@ void INDIDriver::addINDIHost()
      if (hostItem->name   == ksw->data()->INDIHostsList.at(i)->name &&
          hostItem->portnumber == ksw->data()->INDIHostsList.at(i)->portnumber)
      {
-       KMessageBox::error(0, i18n("Host: %1 Port: %1 already exists.").arg(hostItem->name).arg(hostItem->portnumber));
+       KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.").arg(hostItem->name).arg(hostItem->portnumber));
        return;
      }
 
