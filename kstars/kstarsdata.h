@@ -273,6 +273,14 @@ public:
 
 	KSPlanet *earth() { return PC.earth(); }
 
+	/**The Sky is updated more frequently than the moon, which is updated more frequently
+		*than the planets.  The date of the last update for each category is recorded so we
+		*know when we need to do it again (see KStars::updateTime()).
+		*Initializing these to -1000000.0 ensures they will be updated immediately
+		*on the first call to KStars::updateTime().
+		*/
+	void setFullTimeUpdate();
+
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/

@@ -38,8 +38,8 @@
 #define FLUSH flush
 #endif
 
-KStarsData::KStarsData( KStars *ks ) : kstars( ks ), initTimer(0), inited(false),
-	source(0), loader(0), pump(0), Moon(0) {
+KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), inited(false),
+	source(0), loader(0), pump(0) {
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
 
@@ -352,7 +352,8 @@ bool KStarsData::readDeepSkyData( void ) {
 			if (ss == "     " ) { ugc = 0; } else { ugc = ss.toInt(); }
 			longname = line.mid( 77, line.length() ).stripWhiteSpace();
 
-			dms r; r.setH( rah, ram, int(ras) );
+			dms r;
+			r.setH( rah, ram, int(ras) );
 			dms d( dd, dm, ds );
 
 			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
@@ -377,8 +378,16 @@ bool KStarsData::readDeepSkyData( void ) {
 				if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );
 				else name = longname;
 			}
-
-			SkyObject *o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+			
+			// create new starobject or skyobject
+			// type 0 and 1 are starobjects
+			// all other are skyobjects
+			SkyObject *o = 0;
+			if (type < 2) {
+				o = new StarObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+			} else {
+				o = new SkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+			}
 
 			deepSkyList.append( o );
 			ObjNames.append( o );
@@ -961,15 +970,7 @@ void KStarsData::slotInitialize() {
 		case 7: //Start the Clock//
 
 			emit progressText( i18n("Starting Clock" ) );
-			//The Sky is updated more frequently than the moon, which is updated more frequently
-			//than the planets.  The date of the last update for each category is recorded so we
-			//know when we need to do it again (see KStars::updateTime()).
-			//Initializing these to -1000000.0 ensures they will be updated immediately
-			//on the first call to KStars::updateTime().
-			LastSkyUpdate = -1000000.0;
-			LastPlanetUpdate = -1000000.0;
-			LastMoonUpdate   = -1000000.0;
-			LastNumUpdate = -1000000.0;
+			setFullTimeUpdate();
 			break;
 
 		case 8: //Initialize the Planets//
@@ -1224,6 +1225,13 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 void KStarsData::setTimeDirection( float scale ) {
 	TimeRunsForward = ( scale < 0 ? false : true );
+}
+
+void KStarsData::setFullTimeUpdate() {
+			LastSkyUpdate = -1000000.0;
+			LastPlanetUpdate = -1000000.0;
+			LastMoonUpdate   = -1000000.0;
+			LastNumUpdate = -1000000.0;
 }
 
 #include "kstarsdata.moc"
