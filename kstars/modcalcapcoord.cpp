@@ -22,7 +22,7 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
-#include "timebox.h"
+//#include "timebox.h"
 
 #include <qwidget.h>
 #include <qlabel.h>
@@ -33,6 +33,7 @@
 #include <qpushbutton.h>
 #include <qstring.h>
 #include <qdatetime.h>
+#include <qdatetimeedit.h>
 #include <klocale.h>
 
 #include <kapplication.h>
@@ -67,14 +68,16 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal Time","UT:") );
-	timBox = new timeBox(d0Box,"timeBox");
+//	timBox = new timeBox(d0Box,"timeBox");
+	timBox = new QTimeEdit(d0Box,"timeBox");
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Date:") );
-	datBox = new timeBox(d1Box,"dateBox",FALSE);
+//	datBox = new timeBox(d1Box,"dateBox",FALSE);
+	datBox = new QDateEdit(d1Box,"dateBox");
 
 	showCurrentTime();
 
@@ -173,14 +176,17 @@ void modCalcApCoord::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-	datBox->showDate( dt.date() );
-	timBox->showTime( dt.time() );
+//	datBox->showDate( dt.date() );
+//	timBox->showTime( dt.time() );
+	datBox->setDate( dt.date() );
+	timBox->setTime( dt.time() );
 
 }
 
 QDateTime modCalcApCoord::getQDateTime (void)
 {
-	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+//	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+	QDateTime dt ( datBox->date() , timBox->time() );
 
 	return dt;
 }
@@ -332,8 +338,10 @@ void modCalcApCoord::slotClearCoords(){
 	rafBox->clearFields();
 	decfBox->clearFields();
 	epoch0Name->setText("");
-	datBox->clearFields();
-	timBox->clearFields();
+//	datBox->clearFields();
+//	timBox->clearFields();
+	datBox->setDate(QDate::currentDate());
+	timBox->setTime(QTime(0,0,0));
 }
 
 void modCalcApCoord::slotComputeCoords(){

@@ -26,6 +26,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <stdlib.h>
+#include <kdebug.h>
 
 timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,name) 
 { 
@@ -158,6 +159,14 @@ QDate timeBox::createDate (bool *ok)
 	
 	QString entry = text().stripWhiteSpace();
 
+	// if entry is an empty string or invalid date use current date
+	QDate date = QDate().fromString(entry);
+	if (entry.isEmpty() || !date.isValid()) {
+		kdDebug() << k_funcinfo << "Invalid date" << endl;
+		showDate(QDate::currentDate());
+		entry = text().stripWhiteSpace();
+	}
+	
 	QDate qd = KGlobal::locale()->readDate( entry, ok );
 
 	return qd;

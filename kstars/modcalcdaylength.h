@@ -31,6 +31,8 @@ class dmsBox;
 class GeoLocation;
 class QDateTime;
 class timeBox;
+class QDateEdit;
+class QTimeEdit;
 
 
 class modCalcDayLength : public QWidget  {
@@ -75,7 +77,9 @@ private:
 
 	QWidget *rightBox;
 	dmsBox *azSetBox, *azRiseBox, *elTransitBox, *longBox, *latBox;
-	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox, *datBox;
+	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
+//	QTimeEdit *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox;
+	QDateEdit *datBox;
 
 	GeoLocation *geoPlace;
 };

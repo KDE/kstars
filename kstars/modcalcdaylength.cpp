@@ -26,6 +26,7 @@
 #include "geolocation.h"
 #include "kstars.h"
 #include "ksnumbers.h"
+#include "timebox.h"
 
 #include <qwidget.h>
 #include <qlabel.h>
@@ -36,6 +37,7 @@
 #include <qpushbutton.h>
 #include <qstring.h>
 #include <qdatetime.h>
+#include <qdatetimeedit.h>
 #include <klocale.h>
 
 #include <kapplication.h>
@@ -77,7 +79,8 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	QLabel * dateLabel = new QLabel(InputBox);
 	dateLabel->setText( i18n( "Date:") );
-	datBox = new timeBox(InputBox,"dateBox",FALSE);
+//	datBox = new timeBox(InputBox,"dateBox",FALSE);
+	datBox = new QDateEdit(QDate::currentDate(), InputBox, "dateBox");
 
 	showCurrentDate();
  	initGeo();
@@ -112,6 +115,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	QLabel * riseTimeLabel = new QLabel(resultsBox);
 	riseTimeLabel->setText(i18n("Sunrise:"));
 	riseTimeBox = new timeBox(resultsBox,"riseTimeBox");
+//	riseTimeBox = new QTimeEdit(resultsBox,"riseTimeBox");
 
 	QLabel * azRiseLabel = new QLabel(resultsBox);
 	azRiseLabel->setText(i18n("Azimuth:"));
@@ -120,6 +124,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	QLabel * transitTimeLabel = new QLabel(resultsBox);
 	transitTimeLabel->setText(i18n("Noon:"));
 	transitTimeBox = new timeBox(resultsBox,"noonTimeBox");
+//	transitTimeBox = new QTimeEdit(resultsBox,"noonTimeBox");
 
 	QLabel * elTransitLabel = new QLabel(resultsBox);
 	elTransitLabel->setText(i18n("Elevation:"));
@@ -128,6 +133,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	QLabel * setTimeLabel = new QLabel(resultsBox);
 	setTimeLabel->setText(i18n("Sunset:"));
 	setTimeBox = new timeBox(resultsBox,"setTimeBox");
+//	setTimeBox = new QTimeEdit(resultsBox,"setTimeBox");
 
 	QLabel * azSetLabel = new QLabel(resultsBox);
 	azSetLabel->setText(i18n("Azimuth:"));
@@ -136,6 +142,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	QLabel * dayLLabel = new QLabel(resultsBox);
 	dayLLabel->setText(i18n("Day length:"));
 	dayLBox = new timeBox(resultsBox,"daylBox");
+//	dayLBox = new QTimeEdit(resultsBox,"setTimeBox");
 	
 	DGLay->addWidget(riseTimeLabel,0,0);
 	DGLay->addWidget(riseTimeBox,0,1);
@@ -187,7 +194,8 @@ void modCalcDayLength::showCurrentDate (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-	datBox->showDate( dt.date() );
+//	datBox->showDate( dt.date() );
+	datBox->setDate( dt.date() );
 
 }
 
@@ -215,7 +223,7 @@ void modCalcDayLength::getGeoLocation (void)
 
 QDateTime modCalcDayLength::getQDateTime (void)
 {
-	QDateTime dt ( datBox->createDate() , QTime(8,0,0) );
+	QDateTime dt ( datBox->date() , QTime(8,0,0) );
 
 	return dt;
 }
@@ -235,10 +243,19 @@ void modCalcDayLength::slotClearCoords(){
 	azRiseBox->clearFields();
 	elTransitBox->clearFields();
 
+	// reset to current date
+	datBox->setDate(QDate::currentDate());
+
+	// reset times to 00:00:00
+/*	QTime time(0,0,0);
+	setTimeBox->setTime(time);
+	riseTimeBox->setTime(time);
+	transitTimeBox->setTime(time);*/
 	setTimeBox->clearFields();
 	riseTimeBox->clearFields();
 	transitTimeBox->clearFields();
 	
+//	dayLBox->setTime(time);
 	dayLBox->clearFields();
 }
 
@@ -256,7 +273,7 @@ void modCalcDayLength::slotComputePosTime()
 {
 
 	long double jd0 = computeJdFromCalendar();
-	
+
 	KSNumbers * num = new KSNumbers(jd0);
 	KSSun *Sun = new KSSun();
 	Sun->findPosition(num);
@@ -273,12 +290,16 @@ void modCalcDayLength::slotComputePosTime()
 	elTransitBox->show( transAlt );
 	azRiseBox->show( riseAz );
 
+/*	setTimeBox->setTime( setQtime );
+	riseTimeBox->setTime( riseQtime );
+	transitTimeBox->setTime( transitQtime );*/
 	setTimeBox->showTime( setQtime );
 	riseTimeBox->showTime( riseQtime );
 	transitTimeBox->showTime( transitQtime );
 
 	QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
 
+//	dayLBox->setTime( dayLQtime );
 	dayLBox->showTime( dayLQtime );
 
 	delete num;

@@ -17,8 +17,9 @@
 
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
-#include "timebox.h"
+//#include "timebox.h"
 #include "ksutils.h"
+#include <qdatetimeedit.h>
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>
@@ -133,14 +134,16 @@ modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit
 
 	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
 	timeLabel->setText( i18n( "Universal time","UT:") );
-	timBox = new timeBox(d0Box,"timeBox");
+//	timBox = new timeBox(d0Box,"timeBox");
+	timBox = new QTimeEdit(d0Box,"timeBox");
 
 	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
 	d1Box->setMaximumWidth(140);
 
 	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
 	dateLabel->setText( i18n( "Universal time","Date:") );
-	datBox = new timeBox(d1Box,"dateBox",FALSE);
+//	datBox = new timeBox(d1Box,"dateBox",FALSE);
+	datBox = new QDateEdit(d1Box,"dateBox");
 
 	QPushButton *Now = new QPushButton( i18n( "Now" ), DateBox );
 	showCurrentTime();
@@ -222,8 +225,10 @@ void modCalcJD::computeFromJd (void)
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoDateTime( julianDay );
 
-	datBox->showDate( dt.date() );
-	timBox->showTime( dt.time() );
+//	datBox->showDate( dt.date() );
+//	timBox->showTime( dt.time() );
+	datBox->setDate( dt.date() );
+	timBox->setTime( dt.time() );
 
 	modjulianDay = julianDay - 2400000.5;
 	MjdName->setText(KGlobal::locale()->formatNumber( modjulianDay, 5 ) );
@@ -235,21 +240,27 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-	datBox->clearFields();
-	timBox->clearFields();
+//	datBox->clearFields();
+//	timBox->clearFields();
+	QDate date = QDate::currentDate();
+	datBox->setDate(date);
+	timBox->setTime(QTime(0,0,0));
 }
 
 void modCalcJD::showCurrentTime (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 	
-	datBox->showDate( dt.date() );
-	timBox->showTime( dt.time() );
+//	datBox->showDate( dt.date() );
+//	timBox->showTime( dt.time() );
+	datBox->setDate( dt.date() );
+	timBox->setTime( dt.time() );
 }
 
 QDateTime modCalcJD::getQDateTime (void)
 {
-	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+//	QDateTime dt ( datBox->createDate() , timBox->createTime() );
+	QDateTime dt ( datBox->date() , timBox->time() );
 
 	return dt;
 }

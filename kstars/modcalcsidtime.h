@@ -36,7 +36,8 @@ class timeBox;
 class QTime;
 class QDate;
 class QRadioButton;
-
+class QTimeEdit;
+class QDateEdit;
 
 class modCalcSidTime : public QWidget  {
 
@@ -76,7 +77,9 @@ private:
 	
 	QRadioButton *UtRadio, *StRadio;
 	QWidget *rightBox;
-	timeBox *UtBox, *StBox, *datBox;
+//	timeBox *UtBox, *StBox, *datBox;
+	QTimeEdit *UtBox, *StBox;
+	QDateEdit *datBox;
 	dmsBox *longBox;
 
 };

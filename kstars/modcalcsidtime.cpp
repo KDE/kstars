@@ -33,6 +33,7 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qabstractlayout.h>
+#include <qdatetimeedit.h>
 #include <klocale.h>
 
 #include <kapplication.h>
@@ -104,7 +105,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 
 	QLabel * dateLabel = new QLabel(d0Box);
 	dateLabel->setText( i18n( "Date:") );
-	datBox = new timeBox(d0Box,"dateBox",FALSE);
+//	datBox = new timeBox(d0Box,"dateBox",FALSE);
+	datBox = new QDateEdit(d0Box,"dateBox");
 
 	D0Lay->addWidget(l0Box);
 	D0Lay->addWidget(d0Box);
@@ -119,7 +121,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 	
 	QLabel * UtLabel = new QLabel( Ut0Box);
 	UtLabel->setText( i18n("Universal Time","UT:") );
-	UtBox = new timeBox( Ut0Box, "UtBox" );
+//	UtBox = new timeBox( Ut0Box, "UtBox" );
+	UtBox = new QTimeEdit( Ut0Box, "UtBox" );
 		
 	QHBoxLayout * UtLay = new QHBoxLayout( UtimeBox);
 	UtLay->setSpacing(6);
@@ -137,7 +140,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 	
 	QLabel * StLabel = new QLabel( St0Box );
 	StLabel->setText( i18n("Sidereal Time","ST:") );
-	StBox = new timeBox( St0Box, "StBox" );
+//	StBox = new timeBox( St0Box, "StBox" );
+	StBox = new QTimeEdit( St0Box, "StBox" );
 		
 	QHBoxLayout * StLay = new QHBoxLayout( StimeBox);
 	StLay->setSpacing(6);
@@ -192,7 +196,8 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 
-	datBox->showDate( dt.date() );
+//	datBox->showDate( dt.date() );
+	datBox->setDate( dt.date() );
 	showUT( dt.time() );
 
 	KStars *ks = (KStars*)kapp->mainWidget();
@@ -225,32 +230,37 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 
 void modCalcSidTime::showUT ( QTime dt )
 {
-	UtBox->showTime( dt );
+//	UtBox->showTime( dt );
+	UtBox->setTime( dt );
 }
 
 void modCalcSidTime::showST ( QTime dt )
 {
-	StBox->showTime( dt );
+//	StBox->showTime( dt );
+	StBox->setTime( dt );
 }
 
 QTime modCalcSidTime::getUT (void) 
 {
 	QTime dt;
-	dt = UtBox->createTime();
+//	dt = UtBox->createTime();
+	dt = UtBox->time();
 	return dt;
 }
 
 QTime modCalcSidTime::getST (void) 
 {
 	QTime dt;
-	dt = StBox->createTime();
+//	dt = StBox->createTime();
+	dt = StBox->time();
 	return dt;
 }
 
 QDate modCalcSidTime::getDate (void) 
 {
 	QDate dt;
-	dt = datBox->createDate();
+//	dt = datBox->createDate();
+	dt = datBox->date();
 	return dt;
 }
 
@@ -262,8 +272,12 @@ dms modCalcSidTime::getLongitude (void)
 }
 
 void modCalcSidTime::slotClearFields(){
-	UtBox->clearFields();
-	StBox->clearFields();
+//	UtBox->clearFields();
+//	StBox->clearFields();
+	datBox->setDate(QDate::currentDate());
+	QTime time(0,0,0);
+	UtBox->setTime(time);
+	StBox->setTime(time);
 }
 
 void modCalcSidTime::slotComputeTime(){

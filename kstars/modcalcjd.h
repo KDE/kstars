@@ -34,7 +34,9 @@ class VBox;
 class QLineEdit;
 class QRadioButton;
 class QDateTime;
-class timeBox;
+//class timeBox;
+class QTimeEdit;
+class QDateEdit;
 
 
 class modCalcJD : public QVBox
@@ -65,7 +67,9 @@ private:
 	QVBox *rightBox;
 	QLineEdit *JdName, *MjdName, *DayName, *MonthName, *YearName;
 	QRadioButton *JdRadio, *MjdRadio, *DateRadio;
-	timeBox *timBox, *datBox;
+//	timeBox *timBox, *datBox;
+	QTimeEdit *timBox;
+	QDateEdit *datBox;
 		
 };
 
