@@ -21,6 +21,20 @@
 #include "dms.h"
 #include "skypoint.h"
 
+void SkyPoint::set( dms r, dms d ) { 
+	RA0.set( r ); 
+	Dec0.set( d ); 
+	RA.set( r ); 
+	Dec.set( d ); 
+}
+
+void SkyPoint::set( double r, double d ) { 
+	RA0.setH( r ); 
+	Dec0.setD( d ); 
+	RA.setH( r ); 
+	Dec.setD( d ); 
+}
+
 SkyPoint::~SkyPoint(){
 }
 

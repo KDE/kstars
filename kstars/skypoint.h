@@ -78,7 +78,8 @@ public:
 	*@param r Right Ascension	
 	*@param d Declination
 	*/
-	void set( dms r, dms d ) { RA0.set( r ); Dec0.set( d ); RA.set( r ); Dec.set( d ); }
+	//void set( dms r, dms d ) { RA0.set( r ); Dec0.set( d ); RA.set( r ); Dec.set( d ); }
+	void set( dms r, dms d );
 	void set( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
 
 /**
@@ -87,7 +88,9 @@ public:
 	*@param r Right Ascension, expressed as a double	
 	*@param d Declination, expressed as a double
 	*/
-	void set( double r, double d ) { RA0.setH( r ); Dec0.setD( d ); RA.setH( r ); Dec.setD( d ); }
+	//XYZ_COORD
+	//void set( double r, double d ) { RA0.setH( r ); Dec0.setD( d ); RA.setH( r ); Dec.setD( d ); }
+	void set( double r, double d );
 
 /**
 	*Sets RA0, the catalog Right Ascension.

@@ -279,7 +279,6 @@ public:
 	static const double DegToRad;
 
 private:
-	int Deg, Min, Sec;
 	double D;
 	
 	//DMS_SPEED
