@@ -68,9 +68,9 @@ public:
 	*Attempt to create the angle according to the string argument.  If the string 
 	*cannot be parsed as an angle value, the angle is set to zero. 
 	*
-	*@note This is not an unambiguous notification of failure, since the string could have 
-	*been a valid representation of zero degrees.  If this is a concern, use the 
-	*setFromString() function directly instead.
+	*@warning There is not an unambiguous notification that it failed to parse the string, 
+	*since the string could have been a valid representation of zero degrees.  
+	*If this is a concern, use the setFromString() function directly instead.
 	*
 	*@param s the string to parse as a dms value.
 	*@param isDeg if true, value is in degrees; if false, value is in hours.
