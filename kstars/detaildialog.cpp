@@ -336,14 +336,12 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 	long double jd = KSUtils::UTtoJulian( ut );
 	QTime LST = KSUtils::UTtoLST( ut, geo->lng() );
 	dms LSTd; LSTd.setH( LST.hour(), LST.minute(), LST.second() );
-	QTime rt = o->riseTime( jd, geo );
-	//QTime tt = o->transitTime( lt, LSTd );
+	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
+	QTime st = o->riseSetTime( jd, geo, false ); //false = use set time
 	QTime tt = o->transitTime( jd, geo );
-	QTime st = o->setTime( jd, geo );
 
 	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time
 	dms saz = o->riseSetTimeAz(jd, geo, false ); //false = use set time
-	//dms talt = o->transitAltitude( geo );
 	dms talt = o->transitAltitude( jd, geo );
 
 	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );

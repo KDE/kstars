@@ -210,7 +210,7 @@ void KSPopupMenu::initPopupMenu( QString s1, QString s2, QString s3,
 }
 
 void KSPopupMenu::setRiseSetLabels( void ) {
-	QTime rtime = ksw->map()->clickedObject()->riseTime( ksw->data()->CurrentDate, ksw->geo() );
+	QTime rtime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
 	QString rt, rt2, rt3;
 	dms rAz = ksw->map()->clickedObject()->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
 	if ( rtime.isValid() ) {
@@ -235,7 +235,7 @@ void KSPopupMenu::setRiseSetLabels( void ) {
 		rt = i18n( "No rise time: Never rises" );
 	}
 
-	QTime stime = ksw->map()->clickedObject()->setTime( ksw->data()->CurrentDate, ksw->geo() );
+	QTime stime = ksw->map()->clickedObject()->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), false );
 	QString st, st2, st3;
 	dms sAz = ksw->map()->clickedObject()->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
 	if ( stime.isValid() ) {

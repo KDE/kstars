@@ -126,8 +126,8 @@ void modCalcDayLength::slotComputePosTime()
 	KSSun *Sun = new KSSun((KStars*) parent()->parent()->parent());
 	Sun->findPosition(num);
 
-	QTime setQtime = Sun->setTime(jd0 , geoPlace);
-	QTime riseQtime = Sun->riseTime(jd0 , geoPlace);
+	QTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );
+	QTime riseQtime = Sun->riseSetTime( jd0 , geoPlace, true );
 	QTime transitQtime = Sun->transitTime(jd0 , geoPlace);
 
 	dms setAz = Sun->riseSetTimeAz(jd0, geoPlace, false);

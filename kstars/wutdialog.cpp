@@ -172,17 +172,18 @@ void WUTDialog::init() {
 
 	// sun informations
 	SkyObject *o = (SkyObject*) kstars->data()->PC->planetSun();
-	sunRiseTomorrow = o->riseTime(tomorrow, geo);
-	sunSetToday = o->setTime(today, geo);
-	sunRiseToday = o->riseTime(today, geo);
-	sunSetTimeLabel->setText(sunSetToday.toString("hh:mm"));
-	sunRiseTimeLabel->setText(sunRiseTomorrow.toString("hh:mm") + " (" + i18n("tomorrow") + ")");
+	sunRiseTomorrow = o->riseSetTime( tomorrow, geo, true );
+	sunSetToday = o->riseSetTime( today, geo, false );
+	sunRiseToday = o->riseSetTime( today, geo, true );
+	sunSetTimeLabel->setText( sunSetToday.toString("hh:mm") );
+	sunRiseTimeLabel->setText( sunRiseTomorrow.toString("hh:mm") + " (" + i18n("tomorrow") + ")" );
+	
 	// moon informations
 	o = (SkyObject*) kstars->data()->Moon;
-	moonRise = o->riseTime(today, geo);
-	moonSet = o->setTime(tomorrow, geo);
-	moonRiseTimeLabel->setText(moonRise.toString("hh:mm"));
-	moonSetTimeLabel->setText(moonSet.toString("hh:mm"));
+	moonRise = o->riseSetTime( today, geo, true );
+	moonSet = o->riseSetTime( tomorrow, geo, false );
+	moonRiseTimeLabel->setText( moonRise.toString("hh:mm") );
+	moonSetTimeLabel->setText( moonSet.toString("hh:mm") );
 	splitObjectList();
 	// load first list
 	loadList(0);
@@ -333,18 +334,18 @@ void WUTDialog::updateTimes(QListBoxItem *item) {
 		set = QString("--:--:--");
 	} else {
 		// get times
-		QTime riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseTime(today, geo);
-		QTime setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->setTime(today, geo);
+		QTime riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseSetTime( today, geo, true );
+		QTime setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseSetTime( today, geo, false );
 		// we assume that object rises and sets today
 		bool riseToday = true, setToday = true;
 		// object set time is tomorrow
 		if ((riseTime < sunSetToday && riseTime < sunRiseToday) && riseTime < setTime) {
-			riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseTime(tomorrow, geo);
+			riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseSetTime( tomorrow, geo, true );
 			riseToday = false;
 		}
 		// if object set time is on morning, take set time from tomorrow
 		if (setTime < riseTime || riseToday == false) {
-			setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->setTime(tomorrow, geo);
+			setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseSetTime( tomorrow, geo, false );
 			setToday = false;
 		}
 		if (riseTime.isValid()) {
