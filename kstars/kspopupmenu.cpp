@@ -89,14 +89,14 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom ) {
 	QString sURL;
-	QStringList::Iterator itList;
-	QStringList::Iterator itTitle;
+	QStringList::Iterator itList, itTitle, itListEnd;
 
 	itList  = obj->ImageList.begin();
 	itTitle = obj->ImageTitle.begin();
+	itListEnd = obj->ImageList.end();
 
 	int id = 100;
-	for ( ; itList != obj->ImageList.end(); ++itList ) {
+	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
 		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotImage( int ) ), 0, id++ );
@@ -112,9 +112,10 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 
 	itList  = obj->InfoList.begin();
 	itTitle = obj->InfoTitle.begin();
+	itListEnd = obj->InfoList.end();
 
 	id = 200;
-	for ( ; itList != obj->InfoList.end(); ++itList ) {
+	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
 		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotInfo( int ) ), 0, id++ );
