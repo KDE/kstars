@@ -197,7 +197,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 	ut = lt.addSecs( int( 3600*geo->TZ() ) );
 	jd = KSUtils::UTtoJD( ut );
 
-	Coords = new CoordBox( selectedObject, lt, generalTab );
+	Coords = new CoordBox( selectedObject, lt, ksw->data()->LST, generalTab );
 	RiseSet = new RiseSetBox( selectedObject, lt, geo, generalTab );
 
 	StarObject *s;
@@ -231,7 +231,7 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 
 		Names = new NameBox( pname, s->gname(),
 				i18n( "Spectral type:" ), s->sptype(),
-				QString("%1").arg( s->mag() ), distStr, generalTab );
+				QString("%1").arg( s->mag() ), distStr, QString( "--" ), generalTab );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
@@ -243,16 +243,16 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		distStr = QString("%1").arg( ps->rearth(), 0, 'f',1 ) + i18n(" Astronomical Units", " AU");
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					i18n("star"), "--", distStr , generalTab );
+					i18n("star"), "--", distStr, "--", generalTab );
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", distStr, generalTab );
+					selectedObject->typeName(), "--", distStr, "--", generalTab );
 		}
 		break;
 	case 9:  //comets
 	case 10: //asteroids:
 		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", "?", generalTab );
+					selectedObject->typeName(), "--", "--", "--", generalTab );
 		break;
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
@@ -267,8 +267,12 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
+		QString ang;
+		if ( dso->a() ) ang = QString("%1 arcmin").arg( dso->a() );
+		else ang = "--";
+		
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				dso->typeName(), QString("%1").arg( dso->mag() ), "?", generalTab );
+				dso->typeName(), QString("%1").arg( dso->mag() ), "--", ang, generalTab );
 		break;
 	}
 
@@ -283,13 +287,11 @@ void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 
 DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
-		QString distStr, QWidget *parent, const char *name )
+		QString distStr, QString size, QWidget *parent, const char *name )
 		: QGroupBox( i18n( "General" ), parent, name ) {
 
 	PrimaryName = new QLabel( pname, this );
 	OtherNames = new QLabel( oname, this );
-
-
 
 	TypeLabel = new QLabel( typelabel, this );
 	Type = new QLabel( type, this );
@@ -298,29 +300,31 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	boldFont.setWeight( QFont::Bold );
 	PrimaryName->setFont( boldFont );
 	Type->setFont( boldFont );
+	
 	MagLabel = new QLabel( i18n( "Magnitude:" ), this );
-	if(mag=="99.9")
-		Mag = new QLabel( i18n("unknown"), this );
-	else
+	if ( mag == "99.9" ) 
+		Mag = new QLabel( "--", this );
+	else 
 		Mag = new QLabel( mag, this );
-
 	Mag->setAlignment( AlignRight );
 	Mag->setFont( boldFont );
 
 	DistLabel = new QLabel( i18n( "Distance:" ), this);
-//	QString distStr; 
-//	distStr = QString("%1").arg( distance, 0, 'f',1 ) + i18n(" parsecs", "pc");
-	
 	Dist = new QLabel (distStr, this);
 	Dist->setAlignment( AlignRight );
 	Dist->setFont( boldFont );
 
+	SizeLabel = new QLabel( i18n( "Angular Size:" ), this );
+	AngSize = new QLabel( size, this );
+	AngSize->setAlignment( AlignRight );
+	AngSize->setFont( boldFont );
 
 //Layout
 	hlayType = new QHBoxLayout( 2 );
 	hlayMag  = new QHBoxLayout( 2 );
 	hlayDist = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 3, 10 );
+	hlaySize = new QHBoxLayout( 2 );
+	glay     = new QGridLayout( 2, 4, 10 );
 	vlay     = new QVBoxLayout( this, 12 );
 
 	hlayType->addWidget( TypeLabel );
@@ -329,57 +333,92 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	hlayMag->addWidget( Mag );
 	hlayDist->addWidget( DistLabel);
 	hlayDist->addWidget( Dist);
+	hlaySize->addWidget( SizeLabel );
+	hlaySize->addWidget( AngSize );
+
+	glay->setColStretch( 0, 1 );
 
 	glay->addWidget( PrimaryName, 0, 0);
 	glay->addWidget( OtherNames, 1, 0);
 	glay->addLayout( hlayType, 0, 1 );
 	glay->addLayout( hlayMag, 1, 1 );
 	glay->addLayout( hlayDist, 2, 1 );
+	glay->addLayout( hlaySize, 3, 1 );
 	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
 
 //In the printf() statements, the "176" refers to the ASCII code for the degree symbol
 
-DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
+DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, dms *LST, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
 	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
-	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra()->hour(), o->ra()->minute(), o->ra()->second() ), this );
-	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec()->degree(), 176, o->dec()->arcmin(), o->dec()->arcsec() ), this );
-
+	HALabel = new QLabel( i18n( "Hour Angle:" ), this );
+	
+	RA  = new QLabel( o->ra()->toHMSString(), this );
+	Dec = new QLabel( o->dec()->toDMSString(), this );
+	dms ha( LST->Degrees() - o->ra()->Degrees() );
+	
+	//Hour Angle can be negative, but dms HMS expressions cannot.  
+	//Here's a kludgy workaround:
+	QChar sgn('+');
+	if ( ha.Hours() > 12.0 ) {
+		ha.setH( 24.0 - ha.Hours() );
+		sgn = '-';
+	}
+	HA = new QLabel( QString("%1%2").arg(sgn).arg(ha.toHMSString()), this );
+	
 	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
 	AltLabel = new QLabel( i18n( "Altitude:" ), this );
-	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az()->degree(), 176, o->az()->arcmin(), o->az()->arcsec() ), this );
-	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt()->degree(), 176, o->alt()->arcmin(), o->alt()->arcsec() ), this );
+	AirMassLabel = new QLabel( i18n( "Airmass:" ), this );
+	
+	Az = new QLabel( o->az()->toDMSString(), this );
+	Alt = new QLabel( o->alt()->toDMSString(), this );
+	
+	//airmass is approximated as the secant of the zenith distance,
+	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
+	if ( o->alt()->Degrees() > 0.0 ) 
+		AirMass = new QLabel( QString("%1").arg( 1./sin( o->alt()->radians() ), 4, 'f', 2 ), this );
+	else 
+		AirMass = new QLabel( "--", this );
 
 	QFont boldFont = RA->font();
 	boldFont.setWeight( QFont::Bold );
 	RA->setFont( boldFont );
 	Dec->setFont( boldFont );
+	HA->setFont( boldFont );
 	Az->setFont( boldFont );
 	Alt->setFont( boldFont );
+	AirMass->setFont( boldFont );
 	RA->setAlignment( AlignRight );
 	Dec->setAlignment( AlignRight );
+	HA->setAlignment( AlignRight );
 	Az->setAlignment( AlignRight );
 	Alt->setAlignment( AlignRight );
+	AirMass->setAlignment( AlignRight );
 
 //Layouts
-	glayCoords = new QGridLayout( 5, 2, 10 );
+	glayCoords = new QGridLayout( 5, 3, 10 );
 	vlayMain = new QVBoxLayout( this, 12 );
 
 	glayCoords->addWidget( RALabel, 0, 0 );
 	glayCoords->addWidget( DecLabel, 1, 0 );
+	glayCoords->addWidget( HALabel, 2, 0 );
 	glayCoords->addWidget( RA, 0, 1 );
 	glayCoords->addWidget( Dec, 1, 1 );
+	glayCoords->addWidget( HA, 2, 1 );
 	glayCoords->addItem( new QSpacerItem(20,2), 0, 2 );
 	glayCoords->addItem( new QSpacerItem(20,2), 1, 2 );
+	glayCoords->addItem( new QSpacerItem(20,2), 2, 2 );
 	glayCoords->addWidget( AzLabel, 0, 3 );
 	glayCoords->addWidget( AltLabel, 1, 3 );
+	glayCoords->addWidget( AirMassLabel, 2, 3 );
 	glayCoords->addWidget( Az, 0, 4 );
 	glayCoords->addWidget( Alt, 1, 4 );
+	glayCoords->addWidget( AirMass, 2, 4 );
 	vlayMain->addSpacing( 10 );
 	vlayMain->addLayout( glayCoords );
 }
@@ -532,7 +571,7 @@ void DetailDialog::updateLists()
 void DetailDialog::editLinkDialog()
 {
   int type;
-  uint i, ObjectIndex;
+  uint i;
   QString defaultURL , entry;
   QFile newFile;
 
@@ -621,7 +660,7 @@ void DetailDialog::editLinkDialog()
 void DetailDialog::removeLinkDialog()
 {
   int type;
-  uint i, ObjectIndex;
+  uint i;
   QString defaultURL, entry;
   QFile newFile;
 

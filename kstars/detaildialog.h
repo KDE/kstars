@@ -80,23 +80,23 @@ private:
 	public:
 		/**Constructor for stars */
 		NameBox( QString pname, QString oname, QString typelabel, QString type,
-			QString mag, QString distStr, QWidget *parent, const char *name=0 );
+			QString mag, QString distStr, QString size, QWidget *parent, const char *name=0 );
 		~NameBox() {}
 	private:
-		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag, *DistLabel, *Dist;
-		QLabel *SizeLabel, *Size;
+		QLabel *PrimaryName, *OtherNames, *TypeLabel, *Type, *MagLabel, *Mag;
+		QLabel  *DistLabel, *Dist, *SizeLabel, *AngSize;
 		QVBoxLayout *vlay;
-		QHBoxLayout *hlayType, *hlayMag, *hlayDist;
+		QHBoxLayout *hlayType, *hlayMag, *hlayDist, *hlaySize;
 		QGridLayout *glay;
 	};
 
 	class CoordBox : public QGroupBox {
 	public:
-		CoordBox( SkyObject *o, QDateTime lt, QWidget *parent, const char *name=0 );
+		CoordBox( SkyObject *o, QDateTime lt, dms *LST, QWidget *parent, const char *name=0 );
 		~CoordBox() {}
 	private:
-		QLabel *RALabel, *DecLabel, *RA, *Dec;
-		QLabel *AzLabel, *AltLabel, *Az, *Alt;
+		QLabel *RALabel, *DecLabel, *HALabel, *RA, *Dec, *HA;
+		QLabel *AzLabel, *AltLabel, *AirMassLabel, *Az, *Alt, *AirMass;
 
 		QVBoxLayout *vlayMain;
 		QGridLayout *glayCoords;
