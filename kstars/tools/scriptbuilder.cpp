@@ -116,11 +116,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	ScriptList.setAutoDelete( TRUE );
 
 	//Initialize function templates and descriptions
-	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'" ),
+	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'." ),
 			false, "QString", "dir" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  %1 is expressed in Hours; %2 is expressed in Degrees" ),
+	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  %1 is expressed in Hours; %2 is expressed in Degrees." ),
 			false, "double", "ra", "double", "dec" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees" ),
+	KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees." ),
 			false, "double", "alt", "double", "az" ) );
 	KStarsFunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
 	KStarsFunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
@@ -128,8 +128,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	KStarsFunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
 	KStarsFunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
 			false, "int", "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second" ) );
-	KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds" ), false, "double", "sec" ) );
-	KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the key %1 is pressed.  Only single-key strokes are possible; use 'space' for the spacebar" ),
+	KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds." ), false, "double", "sec" ) );
+	KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the key %1 is pressed.  Only single-key strokes are possible; use 'space' for the spacebar." ),
 			false, "QString", "key" ) );
 	KStarsFunctionList.append( new ScriptFunction( "setTracking", i18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
 	KStarsFunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2." ), false, "QString", "opName", "QString", "opValue" ) );
@@ -160,11 +160,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	tempINDIFunc->setINDIProperty("DEVICE_PORT");
 	INDIFunctionList.append ( tempINDIFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Avaiable actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "deviceName", "QString", "action");
+	tempINDIFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Available actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "deviceName", "QString", "action");
 	tempINDIFunc->setINDIProperty("CHECK");
 	INDIFunctionList.append( tempINDIFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordiantes to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees" ), false, "QString", "deviceName", "double", "RA", "double", "DEC" );
+	tempINDIFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordinates to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees." ), false, "QString", "deviceName", "double", "RA", "double", "DEC" );
 	tempINDIFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
 	INDIFunctionList.append ( tempINDIFunc );
 	
@@ -206,7 +206,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	tempINDIFunc->setINDIProperty("FRAME_TYPE");
 	INDIFunctionList.append( tempINDIFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD expousre. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
+	tempINDIFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
 	tempINDIFunc->setINDIProperty("EXPOSE_DURATION");
 	INDIFunctionList.append( tempINDIFunc);
 	

@@ -134,7 +134,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	}
 
 	if ( ! objectFound ) {
-		kdDebug() << i18n( "Can't remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
+		kdDebug() << i18n( "Cannot remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
 	}
 }
 
