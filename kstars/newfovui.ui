@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>421</width>
-            <height>415</height>
+            <height>418</height>
         </rect>
     </property>
     <property name="caption">
@@ -44,6 +44,12 @@
                 <widget class="KLineEdit">
                     <property name="name">
                         <cstring>FOVName</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Name for FOV symbol</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>The name of the field-of-view (FOV) symbol.  This name appears in the FOV menu and in the "Edit FOV Symbols" tool.</string>
                     </property>
                 </widget>
             </hbox>
@@ -128,6 +134,14 @@
                                                 <property name="name">
                                                     <cstring>TLength1</cstring>
                                                 </property>
+                                                <property name="toolTip" stdset="0">
+                                                    <string>Telescope focal length, in millimeters</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
+                                                </property>
                                             </widget>
                                             <widget class="QLabel">
                                                 <property name="name">
@@ -151,6 +165,14 @@
                                                 <property name="name">
                                                     <cstring>EyeLength</cstring>
                                                 </property>
+                                                <property name="toolTip" stdset="0">
+                                                    <string>Eyepiece focal length, in millimeters</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>Enter the eyepiece focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
+                                                </property>
                                             </widget>
                                             <widget class="QLabel">
                                                 <property name="name">
@@ -173,6 +195,14 @@
                                             <widget class="KDoubleNumInput">
                                                 <property name="name">
                                                     <cstring>EyeFOV</cstring>
+                                                </property>
+                                                <property name="toolTip" stdset="0">
+                                                    <string>field-of-view of the eyepiece, in arcminutes</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>Enter the eyepiece field-of-view angle, in arcminutes.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
                                                 </property>
                                             </widget>
                                             <widget class="QLabel">
@@ -238,6 +268,14 @@
                                 <property name="text">
                                     <string>Compute FOV</string>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Compute field-of-view from above data fields</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>This button will compute the field-of-view (FOV) angle for a specific eyepiece/telescope combination.  You must first specify the focal lengths of the telescope and eyepiece, and the FOV angle of the eyepiece in the above entry fields.
+
+The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
+                                </property>
                             </widget>
                         </hbox>
                     </widget>
@@ -260,6 +298,14 @@
                         </property>
                         <property name="text">
                             <string>Compute FOV</string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Compute field-of-view from above data fields</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
+
+The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
                         </property>
                     </widget>
                     <spacer row="2" column="0">
@@ -367,6 +413,14 @@
                                                 <property name="name">
                                                     <cstring>TLength2</cstring>
                                                 </property>
+                                                <property name="toolTip" stdset="0">
+                                                    <string>Telescope focal length, in millimeters</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+                                                </property>
                                             </widget>
                                             <widget class="QLabel">
                                                 <property name="name">
@@ -395,6 +449,14 @@
                                             <widget class="KDoubleNumInput">
                                                 <property name="name">
                                                     <cstring>ChipSize</cstring>
+                                                </property>
+                                                <property name="toolTip" stdset="0">
+                                                    <string>Size of chip or film, in millimeters</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
                                                 </property>
                                             </widget>
                                             <widget class="QLabel">
@@ -433,6 +495,14 @@
                 <widget class="KLineEdit">
                     <property name="name">
                         <cstring>FOVEdit</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Desired field-of-view size, in arcminutes</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to compute an angular size for specific eyepieces or cameras.</string>
                     </property>
                 </widget>
             </hbox>
@@ -492,6 +562,12 @@
                                             <blue>255</blue>
                                         </color>
                                     </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Select color for the field-of-view symbol</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Select a color for the field-of-view (FOV) symbol.</string>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel" row="1" column="0">
                                     <property name="name">
@@ -524,6 +600,14 @@
                                     </item>
                                     <property name="name">
                                         <cstring>ShapeBox</cstring>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Select a shape for the field-of-view symbol</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Select a shape for the field-of-view (FOV) symbol.  The possible shapes are:
+
+Circle, Square, Crosshairs, Bullseye.</string>
                                     </property>
                                 </widget>
                                 <widget class="QLabel" row="0" column="0">
@@ -599,9 +683,12 @@
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

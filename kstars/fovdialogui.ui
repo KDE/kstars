@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>FOVDialogUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>275</width>
-            <height>322</height>
+            <height>325</height>
         </rect>
     </property>
     <property name="caption">
@@ -32,6 +32,9 @@
             <property name="vScrollBarMode">
                 <enum>AlwaysOn</enum>
             </property>
+            <property name="whatsThis" stdset="0">
+                <string>The list of defined field-of-view (FOV) symbols.  You can add a symbol to the list using the "New" button, remove a symbol using the "Remove" button, and modify a symbol using the "Edit" button.  A schematic of the highlighted symbol is drawn at right.</string>
+            </property>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
@@ -47,6 +50,12 @@
                     </property>
                     <property name="text">
                         <string>New...</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add a new FOV symbol</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, shape, and color of the new symbol.</string>
                     </property>
                 </widget>
                 <spacer>
@@ -73,6 +82,12 @@
                     <property name="text">
                         <string>Edit...</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Modify the highlighted FOV symbol</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, shape and color.</string>
+                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -80,6 +95,12 @@
                     </property>
                     <property name="text">
                         <string>Remove</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Remove highlighted FOV symbol</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Press this button to remove the highlighted FOV symbol from the list.</string>
                     </property>
                 </widget>
                 <spacer>
@@ -159,5 +180,13 @@
         </widget>
     </hbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>

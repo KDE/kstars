@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>WUTDialogUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>432</width>
-            <height>421</height>
+            <height>424</height>
         </rect>
     </property>
     <property name="caption">
@@ -175,6 +175,12 @@
                             <property name="text">
                                 <string>Change Date</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Choose a new date</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this button to select a new date for the "What's Up Tonight" tool.  Note that the date of the main window is not changed.</string>
+                            </property>
                         </widget>
                         <widget class="KPushButton">
                             <property name="name">
@@ -182,6 +188,12 @@
                             </property>
                             <property name="text">
                                 <string>Change Location</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Choose a new geographic location</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this button to select a new geographic location for the "What's Up Tonight" tool.  Note that the location of the main window is not changed.</string>
                             </property>
                         </widget>
                         <widget class="KComboBox">
@@ -202,6 +214,12 @@
                             </item>
                             <property name="name">
                                 <cstring>EveningMorningBox</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Choose time interval</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>By default, the "What's Up Tonight" tool displays all objects which are above the horizon between sunset and midnight (i.e., "in the evening").  You can also choose to show objects which are up between midnight and dawn (i.e., "in the morning"), or objects which are up at any time between sunset and sunrise (i.e., "any time tonight")</string>
                             </property>
                         </widget>
                     </vbox>
@@ -232,6 +250,12 @@
                     <property name="text">
                         <string>Sunrise:  07:15</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time of sunrise</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the time of sunrise for the selected date.</string>
+                    </property>
                 </widget>
                 <widget class="QLabel" row="0" column="1">
                     <property name="name">
@@ -245,6 +269,12 @@
                     </property>
                     <property name="text">
                         <string>Moon rise:  13:19</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time of moon rise</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the time at which the moon rises on the selected date.</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="1">
@@ -260,6 +290,12 @@
                     <property name="text">
                         <string>Moon set: 04:27 </string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time of moon set</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the time at which the moon sets on the selected date.</string>
+                    </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
                     <property name="name">
@@ -273,6 +309,12 @@
                     </property>
                     <property name="text">
                         <string>Sunset:  19:15</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time of sunset</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the time of sunset for the selected date.</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="2" column="0">
@@ -288,6 +330,12 @@
                     <property name="text">
                         <string>Night duration: 11:00 hours</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Duration of night for selected date</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the duration between sunset and sunrise for the selected date.</string>
+                    </property>
                 </widget>
                 <widget class="QLabel" row="2" column="1">
                     <property name="name">
@@ -301,6 +349,12 @@
                     </property>
                     <property name="text">
                         <string>Moon illum: 42%</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Moon's illumination fraction</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Displays the illumination fraction of the Moon for the selected date.</string>
                     </property>
                 </widget>
             </grid>
@@ -339,6 +393,12 @@
                                     <height>0</height>
                                 </size>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>List of object categories</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select an item in the Categories list to display objects in that category which are above the horizon on the selected date.</string>
+                            </property>
                         </widget>
                         <widget class="KListBox" row="1" column="1">
                             <property name="name">
@@ -349,6 +409,12 @@
                                     <width>150</width>
                                     <height>0</height>
                                 </size>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>List of objects above horizon tonight</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Objects listed here are above the horizon on the selected date, and have the object type which is highlighted in the "Choose a Category" list.</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="0" column="1">
@@ -407,6 +473,9 @@
                                     <property name="alignment">
                                         <set>AlignVCenter</set>
                                     </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Displays the time at which the highlighted object rises above the horizon on the selected date.</string>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
@@ -418,6 +487,9 @@
                                     <property name="alignment">
                                         <set>AlignVCenter</set>
                                     </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Displays the time at which the highlighted object transits across the local meridian on the selected date.</string>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
@@ -428,6 +500,9 @@
                                     </property>
                                     <property name="alignment">
                                         <set>AlignVCenter</set>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Displays the time at which the highlighted object sets below the horizon on the selected date.</string>
                                     </property>
                                 </widget>
                                 <spacer>
@@ -454,6 +529,12 @@
                                     <property name="text">
                                         <string>Object Details...</string>
                                     </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Open the Object Details window</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>Open the Details window for the highlighted object.</string>
+                                    </property>
                                 </widget>
                             </vbox>
                         </widget>
@@ -463,6 +544,8 @@
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
