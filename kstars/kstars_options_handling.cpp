@@ -133,8 +133,9 @@ void KStars::loadOptions()
 	options()->magLimitDrawStar = conf->readDoubleNumEntry( "magLimitDrawStar", 7.0 );
 	options()->magLimitDrawStarInfo = conf->readDoubleNumEntry( "magLimitDrawStarInfo", 3.0 );
 	options()->magLimitHideStar = conf->readDoubleNumEntry( "magLimitHideStar", 5.0 );
+	options()->magLimitAsteroidName = conf->readDoubleNumEntry( "magLimitAsteroid", 8.0 );
 	options()->magLimitAsteroidName = conf->readDoubleNumEntry( "magLimitAsteroidName", 4.0 );
-	options()->maxRadCometName = conf->readDoubleNumEntry( "maxRadCometName", 5.0 );
+	options()->maxRadCometName = conf->readDoubleNumEntry( "maxRadCometName", 3.0 );
 	options()->drawStarName      = conf->readBoolEntry( "drawStarName", false );
 	options()->drawAsteroidName  = conf->readBoolEntry( "drawAsteroidName", true );
 	options()->drawCometName     = conf->readBoolEntry( "drawCometName", true );
@@ -266,6 +267,7 @@ void KStars::saveOptions() {
 	conf->writeEntry( "magLimitDrawStar", 	 options()->magLimitDrawStar );
 	conf->writeEntry( "magLimitDrawStarInfo",options()->magLimitDrawStarInfo );
 	conf->writeEntry( "magLimitHideStar",options()->magLimitHideStar );
+	conf->writeEntry( "magLimitAsteroid",options()->magLimitAsteroid );
 	conf->writeEntry( "magLimitAsteroidName",options()->magLimitAsteroidName );
 	conf->writeEntry( "maxRadCometName",options()->maxRadCometName );
 	conf->writeEntry( "drawStarName", options()->drawStarName );

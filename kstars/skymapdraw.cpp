@@ -775,29 +775,28 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 	//Draw Asteroids
 	if ( options->drawAsteroids && drawPlanets ) {
 		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+			if ( ast->mag() > ksw->options()->magLimitAsteroid ) break;
+			
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			//if ( options->ZoomLevel > 3 ) {
-				QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
+			QPoint o = getXY( ast, options->useAltAz, options->useRefraction, scale );
 
-				if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-					
-					int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
-					if ( size <= 1 ) psky.drawPoint( o.x(), o.y() );
-					int x1 = o.x() - size/2;
-					int y1 = o.y() - size/2;
-					psky.drawEllipse( x1, y1, size, size );
-				
-					//draw Name
-					if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
-						int offset( int( 0.5*size ) );
-						if ( offset < 2 ) offset = 2;
+			if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+				int size = int( 0.05 * scale * pixelScale[ ksw->options()->ZoomLevel ]/pixelScale[0] );
+				if ( size <= 1 ) psky.drawPoint( o.x(), o.y() );
+				int x1 = o.x() - size/2;
+				int y1 = o.y() - size/2;
+				psky.drawEllipse( x1, y1, size, size );
 
-						psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
-						psky.drawText( o.x()+offset, o.y()+offset, ast->translatedName() );
-					}
+				//draw Name
+				if ( ksw->options()->drawAsteroidName && ast->mag() < ksw->options()->magLimitAsteroidName ) {
+					int offset( int( 0.5*size ) );
+					if ( offset < 2 ) offset = 2;
+
+					psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "PNameColor" ) ) );
+					psky.drawText( o.x()+offset, o.y()+offset, ast->translatedName() );
 				}
-			//}
+			}
 		}
 	}
 

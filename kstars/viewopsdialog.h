@@ -87,7 +87,7 @@ private:
 	QList<bool> showCatalog;
 
 	// Star options
-	QLabel *textLabelMagStars, *textLabelMagStarInfo;
+	QLabel *textLabelMagStars, *textLabelMagStarInfo, *textLabelMagAsteroids;
 	MagnitudeSpinBox *magSpinBoxDrawStars;
 	MagnitudeSpinBox *magSpinBoxDrawStarInfo;
 	QCheckBox *showStarNames;
@@ -117,7 +117,7 @@ private:
 	QCheckBox *hideMW, *hideCNames, *hideCLines, *hideGrid;
 
 	MagnitudeSpinBox *magSpinBoxHideStars;
-	MagnitudeSpinBox *astNameSpinBox;
+	MagnitudeSpinBox *astDrawSpinBox, *astNameSpinBox;
 	QSpinBox *comNameSpinBox;
 	TimeStepBox *hideSpinBox;
 
@@ -210,6 +210,11 @@ private slots:
 	*/
 	void changeStarColorMode( int newMode );
 
+/**
+	* Set magnitude limit for drawing asteroids.
+	*/
+	void changeAstDrawMagLimit( int );
+	
 /**
 	* Set magnitude limit for labeling asteroids.
 	*/

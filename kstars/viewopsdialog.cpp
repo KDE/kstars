@@ -286,13 +286,22 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	MinorBox = new QGroupBox( i18n( "Minor Planets" ), PlanetTab, "MinorBox" );
 	vlayMinorBox = new QVBoxLayout( MinorBox );
-	glayMinorBox = new QGridLayout( 2, 3 );
+	glayMinorBox = new QGridLayout( 3, 3 );
 	vlayMinorBox->setSpacing( 6 );
 	vlayMinorBox->setMargin( 11 );
 	
 	showAsteroids = new QCheckBox( i18n( "Asteroids" ), MinorBox, "show_asteroids" );
 	showAsteroids->setFont( stdFont );
 	showAsteroids->setChecked( ksw->options()->drawAsteroids );
+	
+	textLabelMagAsteroids = new QLabel( MinorBox, "LabelMagAsteroids" );
+	textLabelMagAsteroids->setFont( stdFont );
+	textLabelMagAsteroids->setText( i18n( "Show asteroids brighter than " ) );
+	
+	int intMagLimitAsteroid = int( 10 * ksw->options()->magLimitAsteroid );
+	astDrawSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
+	astDrawSpinBox->setFont( stdFont );
+	astDrawSpinBox->setValue( intMagLimitAsteroid );
 	
 	showAsteroidNames = new QCheckBox( i18n( "Show names of asteroids brighter than: " ), MinorBox, "show_asteroid_names" );
 	showAsteroidNames->setFont( stdFont );
@@ -316,12 +325,17 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	comNameSpinBox->setFont( stdFont );
 	comNameSpinBox->setValue( intMaxRadCometName );
 	
+	QSpacerItem *spacerAsteroid  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
+	
 	glayMinorBox->addWidget( showAsteroids, 0, 0 );
-	glayMinorBox->addWidget( showComets, 1, 0 );
-	glayMinorBox->addWidget( showAsteroidNames, 0, 1 );
-	glayMinorBox->addWidget( showCometNames, 1, 1 );
-	glayMinorBox->addWidget( astNameSpinBox, 0, 2 );
-	glayMinorBox->addWidget( comNameSpinBox, 1, 2 );
+	glayMinorBox->addItem( spacerAsteroid, 1, 0 );
+	glayMinorBox->addWidget( showComets, 2, 0 );
+	glayMinorBox->addWidget( textLabelMagAsteroids, 0, 1 );
+	glayMinorBox->addWidget( showAsteroidNames, 1, 1 );
+	glayMinorBox->addWidget( showCometNames, 2, 1 );
+	glayMinorBox->addWidget( astDrawSpinBox, 0, 2 );
+	glayMinorBox->addWidget( astNameSpinBox, 1, 2 );
+	glayMinorBox->addWidget( comNameSpinBox, 2, 2 );
 	
 	QSpacerItem *spacerPlanetTab  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 	QSpacerItem *spacerPlanetBox  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
@@ -672,6 +686,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( showAsteroidNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showComets, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( showCometNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( astDrawSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeAstDrawMagLimit( int ) ) );
 	connect( astNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeAstNameMagLimit( int ) ) );
 	connect( comNameSpinBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeComNameMaxRad( int ) ) );
 
@@ -1039,6 +1054,13 @@ void ViewOpsDialog::changeStarColorMode( int newValue ) {
 	ksw->options()->colorScheme()->setStarColorMode( newValue );
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
+	ksw->map()->Update();
+}
+
+void ViewOpsDialog::changeAstDrawMagLimit( int newValue ) {
+	float fNewValue = float( newValue ) / 10.0;
+	ksw->options()->magLimitAsteroid = fNewValue;
+	// force redraw
 	ksw->map()->Update();
 }
 

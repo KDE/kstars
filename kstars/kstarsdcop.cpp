@@ -230,6 +230,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "magLimitDrawStar"     && dOk ) options()->magLimitDrawStar     = dVal;
 	if ( op == "magLimitDrawStarInfo" && dOk ) options()->magLimitDrawStarInfo = dVal;
 	if ( op == "magLimitHideStar"     && dOk ) options()->magLimitHideStar     = dVal;
+	if ( op == "magLimitAsteroid"     && dOk ) options()->magLimitAsteroid     = dVal;
 	if ( op == "magLimitAsteroidName" && dOk ) options()->magLimitAsteroidName = dVal;
 	if ( op == "maxRadCometName"      && dOk ) options()->maxRadCometName      = dVal;
 	

@@ -107,6 +107,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
 	magLimitHideStar     = o.magLimitHideStar;
 	
+	magLimitAsteroid     = o.magLimitAsteroid;
 	magLimitAsteroidName = o.magLimitAsteroidName;
 	maxRadCometName      = o.maxRadCometName;
 	
@@ -200,8 +201,9 @@ void KStarsOptions::setDefaultOptions() {
 	magLimitDrawStar = 8.0;
 	magLimitDrawStarInfo = 3.0;
 	magLimitHideStar = 5.0;
+	magLimitAsteroid     = 8.0;
 	magLimitAsteroidName = 4.0;
-	maxRadCometName = 5.0;
+	maxRadCometName = 3.0;
 	drawStarName      = true;
 	drawPlanetName    = true;
 	drawAsteroidName  = true;
