@@ -1,0 +1,126 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>ConBriForm</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ConBriForm</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>398</width>
+            <height>88</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Contrast/Brightness</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QSlider" row="0" column="1">
+            <property name="name">
+                <cstring>briSlider</cstring>
+            </property>
+            <property name="minValue">
+                <number>-128</number>
+            </property>
+            <property name="maxValue">
+                <number>128</number>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="tickmarks">
+                <enum>NoMarks</enum>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>conLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Contrast</string>
+            </property>
+        </widget>
+        <widget class="KIntSpinBox" row="0" column="2">
+            <property name="name">
+                <cstring>briSpinBox</cstring>
+            </property>
+            <property name="maxValue">
+                <number>128</number>
+            </property>
+            <property name="minValue">
+                <number>-128</number>
+            </property>
+        </widget>
+        <widget class="KIntSpinBox" row="1" column="2">
+            <property name="name">
+                <cstring>conSpinBox</cstring>
+            </property>
+            <property name="maxValue">
+                <number>128</number>
+            </property>
+            <property name="minValue">
+                <number>-128</number>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>briLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Brightness</string>
+            </property>
+        </widget>
+        <widget class="QSlider" row="1" column="1">
+            <property name="name">
+                <cstring>conSlider</cstring>
+            </property>
+            <property name="minValue">
+                <number>-128</number>
+            </property>
+            <property name="maxValue">
+                <number>128</number>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>briSlider</sender>
+        <signal>sliderMoved(int)</signal>
+        <receiver>briSpinBox</receiver>
+        <slot>setValue(int)</slot>
+    </connection>
+    <connection>
+        <sender>briSpinBox</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>briSlider</receiver>
+        <slot>setValue(int)</slot>
+    </connection>
+    <connection>
+        <sender>conSlider</sender>
+        <signal>sliderMoved(int)</signal>
+        <receiver>conSpinBox</receiver>
+        <slot>setValue(int)</slot>
+    </connection>
+    <connection>
+        <sender>conSpinBox</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>conSlider</receiver>
+        <slot>setValue(int)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

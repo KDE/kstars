@@ -1,5 +1,5 @@
 /***************************************************************************
-                          fitsviewer.cpp  -  An FitsViewer for KStars
+                          FITSViewer.cpp  -  A FITSViewer for KStars
                              -------------------
     begin                : Thu Jan 22 2004
     copyright            : (C) 2004 by Jasem Mutlaq
@@ -17,14 +17,17 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSVIEWER_H
-#define FITSVIEWER_H
+#ifndef FITSViewer_H
+#define FITSViewer_H
 
 #include <qwidget.h>
 #include <qstring.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qframe.h>
 #include <qrect.h> 
+#include <qptrlist.h>
+#include <qscrollview.h>
 
 #include <kpixmapio.h>
 #include <kpixmap.h>
@@ -34,21 +37,26 @@
 
 #include "indi/fitsrw.h"
 
-class FitsViewer : public KMainWindow  {
+class KCommandHistory;
+class ContrastBrightnessDlg;
+class QScrollView;
+class FITSImage;
+
+class FITSViewer : public KMainWindow  {
 	Q_OBJECT
 
 	public:
-		/**Constructor. */
-		FitsViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
-
-		~FitsViewer();
+	
+	friend class ContrastBrightnessDlg;
+	friend class FITSProcess;
+	friend class FITSImage;
+	
+	/**Constructor. */
+	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
+	~FITSViewer();
 		
 	protected:
-	/**Bitblt the image onto the viewer widget */
-	void paintEvent (QPaintEvent *ev);
-	/* Resize even */
-	void resizeEvent (QResizeEvent *ev);
-	
+	/* key press event */
 	void keyPressEvent (QKeyEvent *ev);
 	/* Calculate stats */
 	void calculateStats();
@@ -56,44 +64,35 @@ class FitsViewer : public KMainWindow  {
 	private slots:
 	void fileSave();
         void fileSaveAs();
-	void fitsUNDO();
-	void fitsREDO();
 	void fitsCOPY();
 	void imageReduction();
 	void BrightContrastDlg();
-	void imageFilters();
+	void imageFilters();	
 	
 	private:
-	/* Attempts to load image into QImage */
-	int  loadImage();
-	int  loadFits(char *filename, FITS_FILE *ifp, uint picnum, uint ncompose);
-	void check_load_vals ();
+	//int  loadImage(unsigned int *buffer, bool displayImage = false);
+	unsigned int * loadData(const char * filename, unsigned int *buffer);
 	void show_fits_errors();
-	/* Image data for fast pixel manipulation */
-	QImage	image;
-	/* Pixmap for drawing */
-	KPixmap	pix; 
-	/* Pixmap IO for fast converting */
-	KPixmapIO kpix;
-	
-	bool Dirty;
-	KURL currentURL;
-	QRect currentRect;
-	int currentContrast;
-	int currentBrightness;
-	unsigned char *imgBuffer;
-		
-	struct {
-		double min, max;
-		double average;
-		double stddev;
-	} stats;
-		
+
 	double average();
 	double min();
 	double max();
 	double stddev();
-	void convertTo8Bit();
+
+	FITSImage *image;					/* FITS image object */
+	bool Dirty;						/* Document modified? */
+	KURL currentURL;					/* FITS File name and path */
+	unsigned int *imgBuffer;				/* Main unmodified FITS data buffer */
+	KCommandHistory *history;				/* History for undo/redo */
+	
+	/* stats struct to hold statisical data about the FITS data */
+	struct {
+		double min, max;
+		double average;
+		double stddev;
+		int bitpix, width, height;
+	} stats;
+		
 		
 };
 

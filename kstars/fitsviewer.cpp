@@ -1,5 +1,5 @@
 /***************************************************************************
-                          fitsviewer.cpp  -  An FitsViewer for KStars
+                          FITSViewer.cpp  -  A FITSViewer for KStars
                              -------------------
     begin                : Thu Jan 22 2004
     copyright            : (C) 2004 by Jasem Mutlaq
@@ -30,83 +30,83 @@
 #include <ktempfile.h>
 #include <kimageeffect.h> 
 #include <kmenubar.h>
+#include <kprogress.h>
+#include <kstatusbar.h>
+#include <kcommand.h>
+
+#include <qfile.h>
+#include <qvbox.h>
+#include <qcursor.h>
+#include <qstringlist.h>
+#include <qlistview.h>
+#include <qradiobutton.h>
 
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <qfile.h>
+#include <netinet/in.h>
 
 #include "fitsviewer.h"
-
+#include "fitsimage.h"
+#include "fitsprocess.h"
+#include "conbridlg.h"
+#include "imagereductiondlg.h"
 #include "ksutils.h"
 
-/* Load info */
-typedef struct
-{
-  uint replace;    /* replacement for blank/NaN-values */
-  uint use_datamin;/* Use DATAMIN/MAX-scaling if possible */
-  uint compose;    /* compose images with naxis==3 */
-} FITSLoadVals;
+#define FITS_GETBITPIX16(p,val) val = ((p[1] << 8) | (p[0]))
+#define FITS_GETBITPIX32(p,val) val = \
+          ((p[3] << 24) | (p[2] << 16) | (p[1] << 8) | p[0])
 
-typedef struct
-{
-  int run;
-} FITSLoadInterface;
-
-static FITSLoadVals plvals =
-{
-  0,        /* Replace with black */
-  0,        /* Do autoscale on pixel-values */
-  0         /* Dont compose images */
-};
-
-FitsViewer::FitsViewer (const KURL *url, QWidget *parent, const char *name)
+FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
 {
-    
     currentURL = *url;
-    currentContrast =0;
-    currentBrightness =0;
     imgBuffer = NULL;
+
+    /* Setup image widget */    
+    image = new FITSImage(this);
+    setCentralWidget(image);
     
-    if (loadImage () == -1)
-    {
-	close();
-	return;
-    }
-      
+    /* Load image into buffer */
+    if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return; }
+    /* Display image in the central widget */
+    if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return; }
+    
+    /* Initiliaze menu actions */
+    history = new KCommandHistory(actionCollection());
     KStdAction::save(this, SLOT(fileSave()), actionCollection());
     KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
     KStdAction::close(this, SLOT(close()), actionCollection());
-    
-    KStdAction::undo(this, SLOT(fitsUNDO()), actionCollection());
-    KStdAction::redo(this, SLOT(fitsREDO()), actionCollection());
     KStdAction::copy(this, SLOT(fitsCOPY()), actionCollection());
     
     new KAction( i18n("Image Reduction"), "blend", KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
     new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
     new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( imageFilters()), actionCollection(), "image_filters");
-  
+
+   /* Create GUI */  
    createGUI("fitsviewer.rc");
-   
    setCaption(currentURL.filename());
+   statusBar()->insertItem("                               ", 0, true);
+   statusBar()->setItemAlignment(0 , Qt::AlignLeft);
+   statusBar()->insertItem(".......", 1);
+
+   /* Get initial statistics */
+   calculateStats();
    
-   resize(image.width(), image.height() + toolBar()->height() + menuBar()->height());
+   /* resize in accord with KDE rules */
+   resize(640, 480);
 }
 
-FitsViewer::~FitsViewer()
+FITSViewer::~FITSViewer()
 {
- if (imgBuffer)
- 	free(imgBuffer);
+   free(imgBuffer);
 }
 
-int FitsViewer::loadImage()
+/*
+int FITSViewer::loadImage(unsigned int * buffer, bool displayImage)
 {
- int image_ID, *nl;
+ int image_ID;
  char filename[currentURL.path().length()];
- uint picnum;
- int   k, n_images, max_images, hdu_picnum;
- int   compose;
  FILE *fp;
  FITS_FILE *ifp;
  FITS_HDU_LIST *hdu;
@@ -134,52 +134,30 @@ int FitsViewer::loadImage()
    return (-1);
  }
 
- n_images = 0;
- max_images = 10;
-
- for (picnum = 1; picnum <= ifp->n_pic; )
+ image_ID = loadData (ifp, buffer);
+ if (image_ID == -1)
  {
-   /* Get image info to see if we can compose them */
-   hdu = fits_image_info (ifp, picnum, &hdu_picnum);
-   if (hdu == NULL) break;
-
-   /* Get number of FITS-images to compose */
-   compose = (   plvals.compose && (hdu_picnum == 1) && (hdu->naxis == 3)
-              && (hdu->naxisn[2] > 1) && (hdu->naxisn[2] <= 4));
-   if (compose)
-     compose = hdu->naxisn[2];
-   else
-     compose = 1;  /* Load as GRAY */
-
-   image_ID = loadFits (filename, ifp, picnum, compose);
-
-   /* Write out error messages of FITS-Library */
-   show_fits_errors ();
-
-   if (image_ID == -1) break;
-   n_images++;
-
-   picnum += compose;
+  show_fits_errors ();
+  fits_close (ifp);
+  return -1;
  }
-
- /* Write out error messages of FITS-Library */
- show_fits_errors ();
-
+   
+ if (displayImage)
+ image_ID = image->loadFits (ifp);
+ if (image_ID == -1)
+ {
+  show_fits_errors ();
+  fits_close (ifp);
+  return -1;
+ }
+  
  fits_close (ifp);
- 
- image_ID = (n_images > 0) ? 0 : -1;
-
- return (image_ID);
+ return (0);
 
 }
+*/
 
-void check_load_vals (void)
-
-{
-  if (plvals.replace > 255) plvals.replace = 255;
-}
-
-void FitsViewer::show_fits_errors()
+void FITSViewer::show_fits_errors()
 {
   char *msg;
   /* Write out error messages of FITS-Library */
@@ -187,273 +165,282 @@ void FitsViewer::show_fits_errors()
      KMessageBox::error(0, msg);
 }
 
-int FitsViewer::loadFits (char *filename, FITS_FILE *ifp, uint picnum, uint ncompose)
+unsigned int * FITSViewer::loadData(const char *filename, unsigned int *buffer)
 {
- register unsigned char *dest, *src; 
- unsigned char *data, *data_end;
- int width, height, val;
- int i, j;
- double a, b;
- int err = 0;
- FITS_HDU_LIST *hdulist;
- FITS_PIX_TRANSFORM trans;
-
- hdulist = fits_seek_image (ifp, (int)picnum);
- if (hdulist == NULL) return (-1);
-
- width = hdulist->naxisn[0];  /* Set the size of the FITS image */
- height = hdulist->naxisn[1];
-
- data = (unsigned char *) malloc (height * width * ncompose * sizeof(unsigned char));
- if (data == NULL) return (-1);
- data_end = data + height * width * ncompose;
-
- /* If the transformation from pixel value to */
- /* data value has been specified, use it */
- if (   plvals.use_datamin
-     && hdulist->used.datamin && hdulist->used.datamax
-     && hdulist->used.bzero && hdulist->used.bscale)
- {
-   a = (hdulist->datamin - hdulist->bzero) / hdulist->bscale;
-   b = (hdulist->datamax - hdulist->bzero) / hdulist->bscale;
-   if (a < b) trans.pixmin = a, trans.pixmax = b;
-   else trans.pixmin = b, trans.pixmax = a;
- }
- else
- {
-   trans.pixmin = hdulist->pixmin;
-   trans.pixmax = hdulist->pixmax;
- }
- trans.datamin = 0.0;
- trans.datamax = 255.0;
- trans.replacement = plvals.replace;
- trans.dsttyp = 'c';
-
- image.create(width, height, 32);
+  FILE *fp;
+  FITS_FILE *ifp;
+  FITS_HDU_LIST *hdulist;
+  unsigned char *tempData, *tempDataPtr;
+  short pixval_16;
+  long  pixval_32;
+  int width, height, bpp;
  
- /* FITS stores images with bottom row first. Therefore we have */
- /* to fill the image from bottom to top. */
-
- if (ncompose == 1)
+ fp = fopen (filename, "rb");
+ if (!fp)
  {
-   dest = data + height * width;
-   
-   for (i = 0; i < height ; i++)
-   {
-     /* Read FITS line */
-     dest -= width;
-     if (fits_read_pixel (ifp, hdulist, width, &trans, dest) != width)
-     {
-       err = 1;
-       break;
-     }
-     
-       for (j = 0 ; j < width; j++)
-       {
-       val = dest[j];
-       image.setPixel(j, i, qRgb(val, val, val));
+   KMessageBox::error(0, i18n("Can't open file for reading"));
+   return (NULL);
+ }
+ fclose (fp);
+
+ ifp = fits_open (filename, "r");
+ if (ifp == NULL)
+ {
+   KMessageBox::error(0, i18n("Error during open of FITS file"));
+   return (NULL);
+ }
+ if (ifp->n_pic <= 0)
+ {
+   KMessageBox::error(0, i18n("FITS file keeps no displayable images"));
+   fits_close (ifp);
+   return (NULL);
+ }
+  
+  // We only deal with 1 image in a FITS for now.
+  hdulist = fits_seek_image (ifp, 1);
+  if (hdulist == NULL) return (NULL);
+  
+  width  = hdulist->naxisn[0]; 
+  height = hdulist->naxisn[1];
+  bpp    = hdulist->bpp;
+
+  buffer           = (unsigned int   *) malloc (height * width * sizeof(unsigned int )); 
+  tempData         = (unsigned char  *) malloc (height * width * bpp * sizeof(unsigned char));
+  if (buffer == NULL || tempData == NULL)
+  {
+    KMessageBox::error(0, i18n("Not enough memory to load FITS."));
+    return (NULL);
+  }
+  tempDataPtr      = tempData;
+  
+  fread(tempData, 1, width * height * bpp, ifp->fp); 
+  
+  //TODO change this to bitpix to check for all possiblities.
+  switch (bpp)
+  {
+   case 1:
+    for (int i=0; i < width * height; i++)
+      buffer[i] = (int) tempData[i];
+    break;
+    
+   case 2:
+    for (int i=0; i < height ; i++)
+      for (int j=0; j < width ; j++)
+      {
+        FITS_GETBITPIX16(tempData, pixval_16);
+        buffer[i * width + j] = ntohs(pixval_16);
+	tempData+=2;
       }
+      break;
+      
+   case 4:
+   for (int i=0; i < width * height ; i++)
+    {
+    FITS_GETBITPIX32(tempData, pixval_32);
+    buffer[i] = ntohl(pixval_32);
+    tempData+=4;
    }
- }
- else
- {
-  KMessageBox::error(0, i18n("Error: KStars currently supports loading one image per FITS file. The current FITS file contains %1 images").arg(ncompose));
-  free (data);
-  return (-1);
- }
-
- imgBuffer = data;
-
- if (err)
-   KMessageBox::error(0, i18n("EOF encountered on reading"));
-
- return (err ? -1 : 0);
-}
-
-void FitsViewer::paintEvent(QPaintEvent *ev)
-{
-	bitBlt (this, 0, toolBar()->height() + menuBar()->height() +1, &pix);
-}
-
-void FitsViewer::resizeEvent (QResizeEvent *ev)
-{
-	pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - menuBar()->height()) );	
+    break;
+  }
+ 
+  fits_close(ifp);
+  free(tempDataPtr); 
+  return buffer;                                              
 
 }
 
-void FitsViewer::calculateStats()
+void FITSViewer::calculateStats()
 {
   kdDebug() << "Calculating statistics..." << endl;
   stats.min 	= min();
   stats.max 	= max();
   stats.average = average();
   stats.stddev  = stddev();
+  stats.bitpix  = image->bitpix;
+  stats.width   = image->width;
+  stats.height  = image->height;
   
   kdDebug() << "Min: " << stats.min << " - Max: " << stats.max << endl;
   kdDebug() << "Average: " << stats.average << " - stddev: " << stats.stddev << endl;
 
 }
 
-double FitsViewer::min()
+double FITSViewer::min()
 {
   if (!imgBuffer) return -1;
-  double lmin = imgBuffer[currentRect.y() * image.width() + currentRect.x()];
-  int index=0;
+  int width   = image->currentRect.width();
+  int height  = image->currentRect.height();
+  double lmin = imgBuffer[image->currentRect.y() * width + image->currentRect.x()];
+  int index=0; 
   
-  for (int i= currentRect.y() ; i < currentRect.height(); i++)
-    for (int j= currentRect.x(); j < currentRect.width(); j++)
+  for (int i= image->currentRect.y() ; i < height; i++)
+    for (int j= image->currentRect.x(); j < width; j++)
     {
-       index = (i * image.width()) + j;
+       index = (i * width) + j;
        if (imgBuffer[index] < lmin) lmin = imgBuffer[index];
+       
     }
     
     return lmin;
 }
 
-double FitsViewer::max()
+double FITSViewer::max()
 {
   if (!imgBuffer) return -1;
-  double lmax = imgBuffer[currentRect.y() * image.width() + currentRect.x()];
+  int width   = image->currentRect.width();
+  int height  = image->currentRect.height();
+  double lmax = imgBuffer[image->currentRect.y() * width + image->currentRect.x()];
   int index=0;
   
-  for (int i= currentRect.y() ; i < currentRect.height(); i++)
-    for (int j= currentRect.x(); j < currentRect.width(); j++)
+  for (int i= image->currentRect.y() ; i < height; i++)
+    for (int j= image->currentRect.x(); j < width; j++)
     {
-       index = (i * image.width()) + j;
-       if (imgBuffer[index] > lmax) lmax = imgBuffer[index];
+       index = (i * width) + j;
+       if ( imgBuffer[index] > lmax) lmax = imgBuffer[index];
     }
     
     return lmax;
 }
 
-double FitsViewer::average()
+double FITSViewer::average()
 {
-  double sum=0;
   int index=0;
+  double sum=0;  
+  int width  = image->currentRect.width();
+  int height = image->currentRect.height();
   if (!imgBuffer) return -1;
-
-  for (int i= currentRect.y() ; i < currentRect.height(); i++)
-    for (int j= currentRect.x(); j < currentRect.width(); j++)
+  
+  for (int i= image->currentRect.y() ; i < height; i++)
+    for (int j= image->currentRect.x(); j < width; j++)
     {
-       index = (i * image.width()) + j;
+       index = (i * width) + j;
        sum += imgBuffer[index];
     }
     
-    return (sum / (currentRect.width() * currentRect.height() ));
+    return (sum / (width * height ));
 }
 
-double FitsViewer::stddev()
+double FITSViewer::stddev()
 {
   int index=0;
   double lsum=0;
+  int width  = image->currentRect.width();
+  int height = image->currentRect.height();
   if (!imgBuffer) return -1;
   
-  for (int i= currentRect.y() ; i < currentRect.height(); i++)
-    for (int j= currentRect.x(); j < currentRect.width(); j++)
+  for (int i= image->currentRect.y() ; i < height; i++)
+    for (int j= image->currentRect.x(); j < width; j++)
     {
-       index = (i * image.width()) + j;
+       index = (i * width) + j;
        lsum += (imgBuffer[index] - stats.average) * (imgBuffer[index] - stats.average);
     }
     
-  return (sqrt(lsum/(currentRect.width() * currentRect.height() - 1)));
+  return (sqrt(lsum/(width * height - 1)));
 
 }
 
-void FitsViewer::keyPressEvent (QKeyEvent *ev)
+void FITSViewer::keyPressEvent (QKeyEvent *ev)
 {
-        QImage Tempimage = image.copy();
+        //QImage Tempimage = imageList.at(undo+1)->copy();
 	int val;
 	
 	ev->accept();  //make sure key press events are captured.
 	switch (ev->key())
 	{
-		case Key_Up   : currentContrast+=1;
-				if (currentContrast > 127) currentContrast = 127;
-				kdDebug() << "Value before contrast " << qRed(image.pixel(0,0)) << endl;
-				for (int i=0; i < image.height(); i++)
-				  for (int j=0; j < image.width(); j++)
-				  {
-				    val = qRed(image.pixel(j,i));
-				    val = (val - 255) * (-0.01 * -currentContrast) + val;
-				    if (val < 0) val =0;
-				    if (val > 255) val = 255;
-				    Tempimage.setPixel(j, i, qRgb(val, val, val));
-				  }
-				  
-				  kdDebug() << "Value after contrast " << qRed(image.pixel(0,0)) << endl;
-		 		break;
-		case Key_Down : currentContrast-=1;
-				if (currentContrast < -127) currentContrast = -127;
-				for (int i=0; i < image.height(); i++)
-				  for (int j=0; j < image.width(); j++)
-				  {
-				    val = qRed(image.pixel(j,i));
-				    val = (val - 255) * (-0.01 * -currentContrast) + val;
-				    if (val < 0) val =0;
-				    if (val > 255) val = 255;
-				    Tempimage.setPixel(j, i, qRgb(val, val, val));
-				  }
-		  		break;
-		case Key_H    : KImageEffect::contrastHSV(image); break;
-		case Key_S    : KImageEffect::sharpen(image); break;
-		case Key_B    : KImageEffect::blur(image); break;
-		case Key_Right: currentBrightness+=5;
-				if (currentBrightness > 100) currentBrightness = 100;
-				KImageEffect::intensity(Tempimage, (currentBrightness/100.));
-				break;
-		case Key_Left : currentBrightness-=5;
-				if (currentBrightness < -100) currentBrightness = -100;
-				KImageEffect::intensity(Tempimage, (currentBrightness/100.));
-				break;
-		
+		//case Key_H    : KImageEffect::contrastHSV(image); break;
+		//case Key_S    : KImageEffect::sharpen(image); break;
+		//case Key_B    : KImageEffect::blur(image); break;
+	
 		default : ev->ignore();
 	}
 	
-	        kdDebug() << "Current contrast is " << currentContrast << " - Current brightness is " << currentBrightness << endl;
-		pix = kpix.convertToPixmap ( Tempimage.smoothScale ( size().width() , size().height() - toolBar()->height() - menuBar()->height()) );	
-		bitBlt (this, 0, toolBar()->height() + menuBar()->height() +1, &pix);
-		//resizeEvent(NULL);
-		//paintEvent(NULL);
-
 }
 
-void FitsViewer::fileSave()
+void FITSViewer::fileSave()
 {
 
 }
 
-void FitsViewer::fileSaveAs()
+void FITSViewer::fileSaveAs()
 {
 
 }
 
-void FitsViewer::fitsUNDO()
+void FITSViewer::fitsCOPY()
 {
 
 }
 
-void FitsViewer::fitsREDO()
+void FITSViewer::imageReduction()
 {
 
+  QStringList darkFiles, flatFiles;
+  int darkCombineMode = 0 , flatCombineMode = 0;
+  QListViewItem *file;
+  
+  image->saveTemplateImage();
+  ImageReductionDlg irDialog(this);
+    
+  if (irDialog.exec() == QDialog::Accepted)
+  {
+    if (irDialog.darkListView->childCount() == 0 && 
+        irDialog.flatListView->childCount() == 0)
+	{
+	 image->destroyTemplateImage();
+	 return;
+	}
+	 
+    darkCombineMode = irDialog.darkAverageB->isChecked() ? 0 : 1;
+    flatCombineMode = irDialog.flatAverageB->isChecked() ? 0 : 1;
+    
+    file = irDialog.darkListView->firstChild();
+    while (file)
+    {
+      darkFiles << file->text(0);
+      file = file->nextSibling();
+    }
+    
+    file = irDialog.flatListView->firstChild();
+    while (file)
+    {
+      flatFiles << file->text(0);
+      file = file->nextSibling();
+    }
+    
+    FITSProcess reduc(this, darkFiles, flatFiles, darkCombineMode, flatCombineMode);
+    image->rescale();
+       
+  }
+  
+  
+  image->destroyTemplateImage();
+
+
 }
-	
-void FitsViewer::fitsCOPY()
+
+void FITSViewer::BrightContrastDlg()
 {
-
+  image->saveTemplateImage();
+  ContrastBrightnessDlg conbriDlg(this);
+    
+  if (conbriDlg.exec() == QDialog::Rejected)
+  {
+    image->reLoadTemplateImage();
+    image->convertImageToPixmap();
+    image->update();
+  }
+  else
+  {
+    //TODO the undo/redo stuff here
+    //imageList.append(currentImage);
+    //undo++;
+  }
+  
+  image->destroyTemplateImage();
+    
 }
 
-void FitsViewer::imageReduction()
-{
-
-
-}
-
-void FitsViewer::BrightContrastDlg()
-{
-
-}
-
-void FitsViewer::imageFilters()
+void FITSViewer::imageFilters()
 {
 
 

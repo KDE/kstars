@@ -29,7 +29,7 @@
 #include <time.h>
 
 #define J2000 2451545.0
-#define TRACKING_THRESHOLD	0.083		/* 5' for tracking */
+#define TRACKING_THRESHOLD	0.016		/* 1' for tracking */
 
 extern const char * Direction[];
 extern const char * SolarSystem[];

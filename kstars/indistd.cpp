@@ -300,6 +300,9 @@ void INDIStdDevice::timerDone()
        kdDebug() << "Timer called, starting processing" << endl;
 
 	SkyPoint sp(currentObject->ra(), currentObject->dec());
+	
+	kdDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString() << endl;
+	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
         sp.apparentCoord( ksw->data()->clock()->JD() , (long double) J2000);
 

@@ -307,10 +307,7 @@ void KStars::slotOpenFITS()
   if (fileURL.isEmpty())
     return;
     
-  FitsViewer * fv = new FitsViewer(&fileURL, this);
-  
-  //data()->FITSList.append(fv);
-  
+  FITSViewer * fv = new FITSViewer(&fileURL, this);
   fv->show();
   
 }

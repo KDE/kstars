@@ -474,7 +474,7 @@ static void fits_drop_error (void)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-FITS_FILE *fits_open (char *filename, char *openmode)
+FITS_FILE *fits_open (const char *filename, char *openmode)
 
 {int reading, writing, n_rec, n_hdr;
  long fpos_header, fpos_data;
@@ -1719,7 +1719,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
          return (-1);
        npix -= maxelem;
 
-       pix = pixbuffer;
+       pix = pixbuffer;  
        if (hdulist->used.blank)
        {
          bp8blank = (FITS_BITPIX8)hdulist->blank;

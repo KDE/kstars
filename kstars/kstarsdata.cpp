@@ -102,7 +102,6 @@ KStarsData::KStarsData() {
 
 	VariableStarsList.setAutoDelete(TRUE);
 	INDIHostsList.setAutoDelete(TRUE);
-	FITSList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	//(type==-1 is a constellation)

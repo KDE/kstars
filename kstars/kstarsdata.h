@@ -567,8 +567,7 @@ private:
 	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
-   /** List of all FITS viewer windows */
-	QPtrList<FitsViewer> FITSList;
+	
 	ObjectNameList ObjNames;
 
 	QMap<QString, QPtrList<DeepSkyObject> > CustomCatalogs;
