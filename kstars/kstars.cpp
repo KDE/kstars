@@ -395,9 +395,9 @@ void KStars::initMenuBar() {
 
 	p = new KPopupMenu;
 	actTimeNow = new KAction( i18n( "Set Time to &Now" ), 0, this, SLOT( mSetTimeToNow() ), actionCollection() );
-	actTimeNow->setAccel( KAccel::stringToKey( "Ctrl+N"  ) );
+	actTimeNow->setAccel( CTRL+Key_N );
 	actTimeSet = new KAction( i18n( "&Set Time..." ), BarIcon( "clock" ), 0, this, SLOT( mSetTime() ), actionCollection() );
-	actTimeSet->setAccel( KAccel::stringToKey( "Ctrl+S"  ) );
+	actTimeSet->setAccel( CTRL+Key_S );
 	actTimeRun = new KAction( i18n( "Stop &Clock" ), BarIcon( "player_pause" ), 0, this, SLOT( mToggleTimer() ), actionCollection() );
 	actTimeNow->plug( p );
 	actTimeSet->plug( p );
@@ -411,7 +411,7 @@ void KStars::initMenuBar() {
 	actFind->setToolTip( i18n( "Find Object" ) );
 	actFind->plug( p );
 	actTrack = new KAction( i18n( "&Track Object" ), BarIcon( "unlock" ), 0, this, SLOT( mTrack() ), actionCollection() );
-	actTrack->setAccel( KAccel::stringToKey( "Ctrl+T"  ) );
+	actTrack->setAccel( CTRL+Key_T );
 	actTrack->plug( p );
 	p->insertSeparator();
 
@@ -425,7 +425,7 @@ void KStars::initMenuBar() {
 	} else {
 		actLocation = new KAction( i18n( "&Geographic..." ), BarIcon( "gohome" ), 0, this, SLOT( mGeoLocator() ), actionCollection() );
 	}
-	actLocation->setAccel( KAccel::stringToKey( "Ctrl+G"  ) );
+	actLocation->setAccel( CTRL+Key_G );
 	actLocation->plug( p );
 	menuBar()->insertItem( i18n( "&Location" ), p );
 

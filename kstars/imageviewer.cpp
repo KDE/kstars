@@ -50,9 +50,9 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 // JH: easier to just disable its mobility
 	toolBar()->enableMoving( false );
 
-	KAction *action = new KAction (i18n ("Close Window"), BarIcon( "fileclose" ), KAccel::stringToKey( "Ctrl+Q" ), this, SLOT (close()), actionCollection());
+	KAction *action = new KAction (i18n ("Close Window"), BarIcon( "fileclose" ), CTRL+Key_Q, this, SLOT (close()), actionCollection());
 	action->plug (toolBar());
-	action = new KAction (i18n ("Save Image"), BarIcon( "filesave" ), KAccel::stringToKey( "Ctrl+S" ), this, SLOT (saveFileToDisc()), actionCollection());
+	action = new KAction (i18n ("Save Image"), BarIcon( "filesave" ), CTRL+Key_S, this, SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
 
 	if (imageURL.isMalformed())		//check URL
