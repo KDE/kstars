@@ -546,7 +546,7 @@ IUResetSwitches(const ISwitchVectorProperty *svp)
 
 /* Update property switches in accord with states and names. */
 int 
-IUUpdateSwitches(const ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
+IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
 {
  int i=0;
  
@@ -571,7 +571,7 @@ IUUpdateSwitches(const ISwitchVectorProperty *svp, ISState *states, char *names[
 }
 
 /* Update property numbers in accord with values and names */
-int IUUpdateNumbers(const INumberVectorProperty *nvp, double values[], char *names[], int n)
+int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n)
 {
   int i=0;
   
