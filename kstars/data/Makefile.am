@@ -18,7 +18,7 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   venus.L0.vsop venus.L1.vsop venus.L2.vsop venus.L3.vsop venus.L4.vsop venus.L5.vsop \
 		   venus.B0.vsop venus.B1.vsop venus.B2.vsop venus.B3.vsop venus.B4.vsop venus.B5.vsop \
 		   venus.R0.vsop venus.R1.vsop venus.R2.vsop venus.R3.vsop venus.R4.vsop venus.R5.vsop \
-		   earth.L0.vsop earth.L1.vsop earth.L2.vsop earth.L3.vsop earth.L4.vsop earth.L5.vsop 
+		   earth.L0.vsop earth.L1.vsop earth.L2.vsop earth.L3.vsop earth.L4.vsop earth.L5.vsop \
 		   earth.B0.vsop earth.B1.vsop earth.B2.vsop earth.B3.vsop earth.B4.vsop \
 		   earth.R0.vsop earth.R1.vsop earth.R2.vsop earth.R3.vsop earth.R4.vsop earth.R5.vsop \
 		   moonB.dat moonLR.dat\
@@ -49,6 +49,6 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   m5.png m50.png m51.png m53.png m54.png m55.png m56.png m57.png m58.png m59.png m6.png m60.png m61.png m62.png\
 		   m63.png m64.png m65.png m66.png m67.png m68.png m69.png m70.png m71.png m72.png m73.png m74.png m75.png m76.png\
 		   m77.png m78.png m79.png m8.png m80.png m81.png m82.png m83.png m84.png m85.png m86.png m87.png m88.png m89.png \
-		   m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png 
+		   m9.png m90.png m91.png m92.png m93.png m94.png m95.png m96.png m97.png m98.png m99.png \
 		   chart.colors default.colors moonless-night.colors night.colors \
 		   tips TZrules.dat valaav.txt advinterface.dat 
