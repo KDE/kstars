@@ -21,20 +21,24 @@
 #include "ksutils.h"
 
 FileSource::FileSource(KStarsData *ksdata, float magnitude)
-	: readingData(true), maxMagnitude(magnitude), data(ksdata) {
+	: maxMagnitude(magnitude), data(ksdata) {
 
-	kdDebug() << "new magnitude to load is " << maxMagnitude << endl;
-	kdDebug() << "count()=" << data->starList.count() << endl;
+//	kdDebug() << "new magnitude to load is " << maxMagnitude << endl;
+//	kdDebug() << "count()=" << data->starList.count() << endl;
 	fileNumber = ksdata->starList.count() / 1000 + 1;
 	lineNumber = ksdata->starList.count() % 1000;
-	kdDebug() << "fileNumber=" << fileNumber << " lineNumber=" << lineNumber << endl;
+//	kdDebug() << "fileNumber=" << fileNumber << " lineNumber=" << lineNumber << endl;
 
 	if (fileNumber <= 40) {
-		data->openSAOFile(fileNumber);
-		if (data->saoFileReader->setLine(lineNumber) == true)
-			kdDebug() << "line reset ok" << endl;
-		else
-			kdDebug() << "line reset not ok" << endl;
+		// if file opened it's true else false
+		readingData = data->openSAOFile(fileNumber);
+		if (data->saoFileReader->setLine(lineNumber) == true) {
+//			kdDebug() << "line reset ok" << endl;
+		} else {
+//			kdDebug() << "line reset not ok" << endl;
+		}
+	} else {
+		readingData = false;
 	}
 }
 
@@ -56,16 +60,25 @@ void FileSource::sendTo(QDataSink *sink, int) {
 	while (data->saoFileReader->hasMoreLines() && counter < maxLines) {
 		QString line = data->saoFileReader->readLine();
 		float mag = line.mid(33, 4).toFloat();  // check magnitude
+//		kdDebug() << "mag=" << mag << " maxmag=" << maxMagnitude << endl;
 		if (mag > maxMagnitude) {
 			readingData = false;
+			break;
 		} else {
 			stringArray[counter++] = line;
 		}
 	}
 	// open next file if end is reached
 	if (data->saoFileReader->hasMoreLines() == false && readingData == true && fileNumber < 41) {
-		kdDebug() << "sendTo: open file #" << fileNumber << endl;
-		data->openSAOFile(fileNumber++);
+		fileNumber++;
+//		kdDebug() << "sendTo: open file #" << fileNumber << endl;
+		data->openSAOFile(fileNumber);
+	}
+	// check if more data are available
+	if (readingData == true && data->saoFileReader != 0 && data->saoFileReader->hasMoreLines() == true) {
+		readingData = true;
+	} else {
+		readingData = false;
 	}
 	// send data to StarDataSink
 	sink->receive((uchar*) &stringArray[0], counter);
