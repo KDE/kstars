@@ -455,6 +455,7 @@ private:
 	QList<SkyPoint> clineList;
 	QList<QChar> clineModeList;
 	QList<SkyObject> cnameList;
+	QList<SkyObject> ObjLabelList;
 	
 	QList<SkyPoint> Equator;
 	QList<SkyPoint> Ecliptic;
@@ -463,7 +464,7 @@ private:
 	QPtrList<ADVTreeData> ADVtreeList;
 	QList<SkyPoint> PlanetTrail;
 	ObjectNameList ObjNames;
-
+	
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 

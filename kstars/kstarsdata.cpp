@@ -68,6 +68,9 @@ KStarsData::KStarsData( KStars *ks ) {
   deepSkyListIC.setAutoDelete( FALSE );
   deepSkyListOther.setAutoDelete( FALSE );
 
+	//ObjLabelList does not construct new objects, so no autoDelete needed
+	ObjLabelList.setAutoDelete( FALSE );
+
 	cometList.setAutoDelete( TRUE );
 	asteroidList.setAutoDelete( TRUE );
 	

@@ -961,11 +961,12 @@ void SkyMap::paintEvent( QPaintEvent * )
 	} else {
 		psky.setFont( stdFont );
 	}
-  drawStars(psky );
-  drawDeepSkyObjects(psky );
-  drawPlanetTrail(psky );
-  drawSolarSystem(psky, drawPlanets );
-  drawHorizon(psky, stdFont );
+	drawStars(psky );
+	drawDeepSkyObjects(psky );
+	drawPlanetTrail(psky );
+	drawSolarSystem(psky, drawPlanets );
+	drawAttachedLabels(psky);
+	drawHorizon(psky, stdFont );
 	
 	//Draw a Field-of-View indicator
 	drawTargetSymbol( psky, options->targetSymbol );
@@ -1512,6 +1513,27 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+void SkyMap::drawAttachedLabels(QPainter &psky) {
+	//Set color to contrast well with background
+	QColor csky( ksw->options()->colorScheme()->colorNamed( "SkyColor" ) );
+	int h,s,v;
+	csky.hsv( &h, &s, &v );
+	if ( v > 128 ) psky.setPen( QColor( "black" ) );
+	else psky.setPen( QColor( "white" ) );
+
+	for ( SkyObject *obj = ksw->data()->ObjLabelList.first(); obj; obj = ksw->data()->ObjLabelList.next() ) {
+		if ( checkVisibility( obj, FOV, Xmax ) ) {
+			QPoint o = getXY( obj, ksw->options()->useAltAz, ksw->options()->useRefraction );
+			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
+				int offset = 3 + int(0.5*( ksw->options()->ZoomLevel - 6));
+				if ( obj->type() == 0 ) offset +=  + int(0.5*(5.0-obj->mag()));
+				
+				psky.drawText( o.x() + offset, o.y() + offset, obj->translatedName() );
 			}
 		}
 	}

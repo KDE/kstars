@@ -210,8 +210,11 @@ void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
 	bool showRiseSet, bool showCenterTrack, bool showDetails ) {
 	pmenu->clear();
 
-	//All objects have at least the primary title label
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
+	
+	bool showLabel( true );
+	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
+	
 	pmTitle = new QLabel( s1, pmenu );
 	pmTitle->setAlignment( AlignCenter );
 	QPalette pal( pmTitle->palette() );
@@ -270,6 +273,15 @@ void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
 		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details" ), this, SLOT( slotDetail() ) );
 	}
 
+	//Insert "Add/Remove Label" item
+	if ( showLabel ) {
+		if ( isObjectLabeled( clickedObject() ) ) {
+			pmenu->insertItem( i18n( "Remove Label" ), this, SLOT( slotRemoveObjectLabel() ) );
+		} else {
+			pmenu->insertItem( i18n( "Attach Label" ), this, SLOT( slotAddObjectLabel() ) );
+		}
+	}
+	
 	pmenu->insertSeparator();
 }
 
@@ -395,6 +407,31 @@ void SkyMap::slotImage( int id ) {
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		new ImageViewer (&url, this);
+}
+
+bool SkyMap::isObjectLabeled( SkyObject *object ) {
+	for ( SkyObject *o = ksw->data()->ObjLabelList.first(); o; o = ksw->data()->ObjLabelList.next() ) {
+		if ( o == object ) return true;
+	}
+	
+	return false;
+}
+
+void SkyMap::slotRemoveObjectLabel( void ) {
+	for ( SkyObject *o = ksw->data()->ObjLabelList.first(); o; o = ksw->data()->ObjLabelList.next() ) {
+		if ( o == clickedObject() ) {
+			//remove object from list
+			ksw->data()->ObjLabelList.remove();
+			break;
+		}
+	}
+	
+	Update();
+}
+
+void SkyMap::slotAddObjectLabel( void ) {
+	ksw->data()->ObjLabelList.append( clickedObject() );
+	Update();
 }
 
 void SkyMap::slotDetail( void ) {

@@ -195,6 +195,8 @@ public:
 /**@returns whether the map is in slewing mode */
 	bool isSlewing() const { return slewing; }
 
+	bool isObjectLabeled( SkyObject *o );
+
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
 	virtual void setGeometry( const QRect &r );
@@ -247,6 +249,9 @@ public slots:
 /**Popup menu function: Show Detailed Information Dialog. */
 	void slotDetail( void );
 
+	void slotAddObjectLabel( void );
+	void slotRemoveObjectLabel( void );
+
 /**Popup menu function: Add a custom Image or Information URL. */
 	void addLink( void );
 
@@ -273,7 +278,7 @@ protected:
   void drawPlanetTrail(QPainter& psky);
   void drawSolarSystem(QPainter& psky, bool drawPlanets);
   void drawHorizon(QPainter& psky, QFont& stdFont);
-
+	void drawAttachedLabels(QPainter &psky);
 
 /**Detect keystrokes: arrow keys, and +/- keys. */
 	virtual void keyPressEvent( QKeyEvent *e );
