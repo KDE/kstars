@@ -58,7 +58,7 @@ KStars::KStars( bool doSplash ) :
 	}
 	pd->kstarsData->initialize();
 
-	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 ) 
+	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
 	#else
 	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
@@ -69,13 +69,13 @@ KStars::KStars( KStarsData* kd )
 	: KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface")
 {
 	// The assumption is that kstarsData is fully initialized
-	
+
 	pd = new privatedata(this);
 	pd->kstarsData = kd;
 	pd->buildGUI();
-	
+
 	clock()->start();
-	
+
 	show();
 }
 
@@ -104,12 +104,14 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 
 	// reset tzrules data with newlocal time and time direction (forward or backward)
 	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
-	
+
 	// reset next dst change time
 	Data->setNextDSTChange( KSUtils::UTtoJD( Geo->tzrule()->nextDSTChange() ) );
 
 	//Turn off animated slews for the next time step.
 	options()->setSnapNextFocus();
+
+	//Set the clock
 	clock()->setUTC( new_time.addSecs( int(-3600 * Geo->TZ()) ) );
 
 	// reset local sideral time
@@ -120,7 +122,7 @@ void KStars::clearCachedFindDialog() {
 	if ( findDialog  ) {  // dialog is cached
 /**
 	*Delete findDialog only if it is not opened
-	*/	
+	*/
 		if ( findDialog->isHidden() ) {
 			delete findDialog;
 			findDialog = 0;
@@ -145,7 +147,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
-//	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) { 
+//	if ( !options()->isTracking && LST()->Degrees() > oldLST.Degrees() ) {
 //		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
 //		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
 //		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
