@@ -32,6 +32,10 @@
 
 #include "timespinbox.h"
 
+#define SECS_PER_DAY 86400.
+#define SIDEREAL_YEAR 31558149.77
+#define TROPICAL_YEAR 31556925.19
+
 TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
 	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
@@ -40,49 +44,49 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
 	editor()->setReadOnly( true );
 	setValue( 4 ); //1 second (real time)
 
-	TimeScale[0] = 0.0;
-	TimeScale[1] = 0.1;
-	TimeScale[2] = 0.25;
-	TimeScale[3] = 0.5;
-	TimeScale[4] = 1.0;
-	TimeScale[5] = 2.0;
-	TimeScale[6] = 5.0;
-	TimeScale[7] = 10.0;
-	TimeScale[8] = 20.0;
-	TimeScale[9] = 30.0;
-	TimeScale[10] = 60.0;
-	TimeScale[11] = 120.0;
-	TimeScale[12] = 300.0;
-	TimeScale[13] = 600.0;
-	TimeScale[14] = 900.0;
-	TimeScale[15] = 1800.0;
-	TimeScale[16] = 3600.0;
-	TimeScale[17] = 7200.0;
-	TimeScale[18] = 10800.0;
-	TimeScale[19] = 21600.0;
-	TimeScale[20] = 43200.0;
-	TimeScale[21] = 86400.0;
-	TimeScale[22] = 172800.0;
-	TimeScale[23] = 259200.0;
-	TimeScale[24] = 432000.0;
-	TimeScale[25] = 604800.0;
-	TimeScale[26] = 1209600.0;
-	TimeScale[27] = 1814400.0;
+	TimeScale[0] = 0.0;          // 0.0 sec
+	TimeScale[1] = 0.1;          // 0.1 sec
+	TimeScale[2] = 0.25;         // 0.25 sec
+	TimeScale[3] = 0.5;          // 0.5 sec 
+	TimeScale[4] = 1.0;          // 1 sec (real-time)
+	TimeScale[5] = 2.0;          // 2 sec
+	TimeScale[6] = 5.0;          // 5 sec
+	TimeScale[7] = 10.0;         // 10 sec
+	TimeScale[8] = 20.0;         // 20 sec
+	TimeScale[9] = 30.0;         // 30 sec
+	TimeScale[10] = 60.0;        // 1 min
+	TimeScale[11] = 120.0;       // 2 min
+	TimeScale[12] = 300.0;       // 5 min
+	TimeScale[13] = 600.0;       // 10 min
+	TimeScale[14] = 900.0;       // 15 min
+	TimeScale[15] = 1800.0;      // 30 min
+	TimeScale[16] = 3600.0;      // 1 hr
+	TimeScale[17] = 7200.0;      // 2 hr
+	TimeScale[18] = 10800.0;     // 3 hr
+	TimeScale[19] = 21600.0;     // 6 hr
+	TimeScale[20] = 43200.0;     // 12 hr
+	TimeScale[21] = SECS_PER_DAY;     // 1 day
+	TimeScale[22] = 2.*SECS_PER_DAY;  // 2 days
+	TimeScale[23] = 3.*SECS_PER_DAY;  // 3 days
+	TimeScale[24] = 5.*SECS_PER_DAY;  // 5 days
+	TimeScale[25] = 7.*SECS_PER_DAY;  // 1 week
+	TimeScale[26] = 14.*SECS_PER_DAY; //2 weeks
+	TimeScale[27] = 21.*SECS_PER_DAY; //3 weeks    
 //Months aren't a simple measurement of time; I'll just use fractions of a year
-	TimeScale[28] = 31556909.0/12.0;
-	TimeScale[29] = 31556909.0/6.0;
-	TimeScale[30] = 0.25*31556909.0;
-	TimeScale[31] = 31556909.0/3.0;
-	TimeScale[32] = 0.5*31556909.0;
-	TimeScale[33] = 0.75*31556909.0;
-	TimeScale[34] = 31556909.0;
-	TimeScale[35] = 2.0*31556909.0;
-	TimeScale[36] = 3.0*31556909.0;
-	TimeScale[37] = 5.0*31556909.0;
-	TimeScale[38] = 10.0*31556909.0;
-	TimeScale[39] = 25.0*31556909.0;
-	TimeScale[40] = 50.0*31556909.0;
-	TimeScale[41] = 100.0*31556909.0;
+	TimeScale[28] = SIDEREAL_YEAR/12.0; // 1 month
+	TimeScale[29] = SIDEREAL_YEAR/6.0;  // 2 months
+	TimeScale[30] = 0.25*SIDEREAL_YEAR; // 3 months
+	TimeScale[31] = SIDEREAL_YEAR/3.0;  // 4 months
+	TimeScale[32] = 0.5*SIDEREAL_YEAR;  // 6 months
+	TimeScale[33] = 0.75*SIDEREAL_YEAR; // 9 months
+	TimeScale[34] = SIDEREAL_YEAR;       // 1 year
+	TimeScale[35] = 2.0*SIDEREAL_YEAR;   // 2 years
+	TimeScale[36] = 3.0*SIDEREAL_YEAR;   // 3 years
+	TimeScale[37] = 5.0*SIDEREAL_YEAR;   // 5 years
+	TimeScale[38] = 10.0*SIDEREAL_YEAR;  // 10 years
+	TimeScale[39] = 25.0*SIDEREAL_YEAR;  // 25 years
+	TimeScale[40] = 50.0*SIDEREAL_YEAR;  // 50 years
+	TimeScale[41] = 100.0*SIDEREAL_YEAR; // 100 years
 
 	TimeString.append( "0 " + i18n( "seconds", "secs" ));
 	TimeString.append( "0.1 " + i18n( "seconds", "secs" ));

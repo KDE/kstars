@@ -23,6 +23,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "skymap.h"
 #include "simclock.h"
 #include "ksnumbers.h"
@@ -48,7 +49,6 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
-
 	KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
 		KSTARS_VERSION, description, KAboutData::License_GPL,
 		I18N_NOOP("(c) 2001-2003, The KStars Team"), notice, "http://edu.kde.org/kstars");
@@ -103,9 +103,9 @@ int main(int argc, char *argv[])
 		dat->colorScheme()->loadFromConfig( kapp->config() );
 
 		//reset clock now that we have a location:
-		dat->clock()->setUTC( ExtDateTime::currentDateTime().addSecs( int( -3600 * dat->geo()->TZ() ) ) );
+		dat->clock()->setUTC( KStarsDateTime::currentDateTime() );
 
-		KSNumbers num( dat->clock()->JD() );
+		KSNumbers num( dat->ut().djd() );
 		dat->initGuides(&num);
 
 		SkyMap *map = new SkyMap( dat );
@@ -143,6 +143,8 @@ int main(int argc, char *argv[])
 	}
 
 	//start up normally
+	//DEBUG
+	kdDebug() << "creating KStars object..." << endl;
 	KStars *kstars = new KStars( true );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();

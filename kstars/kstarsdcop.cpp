@@ -23,7 +23,6 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobject.h"
-#include "ksutils.h"
 #include "infoboxes.h"
 #include "simclock.h"
 #include "Options.h"
@@ -81,7 +80,7 @@ void KStars::zoom( double z ) {
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-	data()->changeTime( ExtDate(yr, mth, day), QTime(hr,min,sec));
+	data()->changeDateTime( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) );
 }
 
 void KStars::waitFor( double t ) {
@@ -127,12 +126,12 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 			infoBoxes()->geoChanged( loc );
 
 			//configure time zone rule
-			ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
+			KStarsDateTime ltime = loc->UTtoLT( data()->ut() );
 			loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
-			data()->setNextDSTChange( KSUtils::UTtoJD( loc->tzrule()->nextDSTChange() ) );
+			data()->setNextDSTChange( loc->tzrule()->nextDSTChange() );
 
 			//reset LST
-			data()->setLST( data()->clock()->UTC() );
+			data()->syncLST();
 
 			//make sure planets, etc. are updated immediately
 			data()->setFullTimeUpdate();

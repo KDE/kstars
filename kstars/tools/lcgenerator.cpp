@@ -34,7 +34,6 @@
 
 #include "lcgenerator.h"
 #include "imageviewer.h"
-#include "ksutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 
@@ -350,9 +349,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
      }
 
      // Convert to JD and verify its lower limit
-     ExtDateTime datetime( tempdate );
-
-     TempJD =  int(KSUtils::UTtoJD(datetime));
+     TempJD = tempdate.jd();
 
      if (TempJD >= JDCutOff)
         {

@@ -20,7 +20,7 @@
 
 #include <qwidget.h>
 #include <kdialogbase.h>
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
 
 #define NCATEGORY 8
 
@@ -91,7 +91,7 @@ class WUTDialog : public KDialogBase  {
 
 		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 
-		ExtDateTime Today;
+		KStarsDateTime Today;
 		long double JDToday, JDTomorrow;
 		GeoLocation *geo;
 		int EveningFlag;

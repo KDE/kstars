@@ -47,12 +47,12 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "skymap.h"
 #include "skyobject.h"
 #include "skyobjectname.h"
 #include "ksplanetbase.h"
 #include "simclock.h"
-#include "ksutils.h"
 #include "infoboxes.h"
 #include "toggleaction.h"
 #include "timedialog.h"
@@ -122,19 +122,18 @@ void KStars::slotWizard() {
 		// reset infoboxes
 		infoBoxes()->geoChanged( geo() );
 
-		// call changeTime to reset DST change times
-		// However, adjust local time to keep UT the same.
+		// adjust local time to keep UT the same.
 		// create new LT without DST offset
-		ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * geo()->TZ0()) );
+		KStarsDateTime ltime = geo()->UTtoLT( data()->ut() );
 
 		// reset timezonerule to compute next dst change
 		geo()->tzrule()->reset_with_ltime( ltime, geo()->TZ0(), data()->isTimeRunningForward() );
 
 		// reset next dst change time
-		data()->setNextDSTChange( KSUtils::UTtoJD( geo()->tzrule()->nextDSTChange() ) );
+		data()->setNextDSTChange( geo()->tzrule()->nextDSTChange() );
 
 		// reset local sideral time
-		data()->setLST();
+		data()->syncLST();
 
 		// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 		data()->setFullTimeUpdate();
@@ -245,19 +244,18 @@ void KStars::slotGeoLocator() {
 			// reset infoboxes
 			infoBoxes()->geoChanged( newLocation );
 
-			// call changeTime to reset DST change times
-			// However, adjust local time to keep UT the same.
+			// adjust local time to keep UT the same.
 			// create new LT without DST offset
-			ExtDateTime ltime = data()->UTime.addSecs( int( 3600 * newLocation->TZ0()) );
+			KStarsDateTime ltime = newLocation->UTtoLT( data()->ut() );
 
 			// reset timezonerule to compute next dst change
 			newLocation->tzrule()->reset_with_ltime( ltime, newLocation->TZ0(), data()->isTimeRunningForward() );
 
 			// reset next dst change time
-			data()->setNextDSTChange( KSUtils::UTtoJD( newLocation->tzrule()->nextDSTChange() ) );
+			data()->setNextDSTChange( newLocation->tzrule()->nextDSTChange() );
 
 			// reset local sideral time
-			data()->setLST();
+			data()->syncLST();
 
 			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
@@ -311,10 +309,10 @@ void KStars::slotApplySettings() {
 }
 
 void KStars::slotSetTime() {
-	TimeDialog timedialog ( data()->LTime, this );
+	TimeDialog timedialog ( data()->lt(), this );
 
 	if ( timedialog.exec() == QDialog::Accepted ) {
-		data()->changeTime( timedialog.selectedDate(), timedialog.selectedTime() );
+		data()->changeDateTime( geo()->LTtoUT( timedialog.selectedDateTime() ) );
 
 		if ( Options::useAltAz() ) {
 			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
@@ -560,8 +558,7 @@ void KStars::slotPrint() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-	ExtDateTime now = ExtDateTime::currentDateTime();
-	data()->changeTime( now.date(), now.time() );
+	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
 
 	if ( Options::useAltAz() ) {
 		map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );

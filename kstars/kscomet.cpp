@@ -18,9 +18,9 @@
 #include <kdebug.h>
 
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "dms.h"
-#include "ksutils.h"
 #include "kscomet.h"
 
 
@@ -40,7 +40,7 @@ KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
 	int m = int( 60.0 * ( Hour - h ) );
 	int s = int( 60.0 * ( 60.0 * ( Hour - h) - m ) );
 
-	JDp = KSUtils::UTtoJD( ExtDateTime( ExtDate( year, month, day ), QTime( h, m, s ) ) );
+	JDp = KStarsDateTime( ExtDate( year, month, day ), QTime( h, m, s ) ).djd();
 
 	//compute the semi-major axis, a:
 	a = q/(1.0-e);

@@ -578,7 +578,7 @@ void KStars::privatedata::buildGUI() {
 	ks->slotSetTimeToNow();
 
 	//Define the celestial equator, horizon and ecliptic
-	KSNumbers tempnum(ks->data()->clock()->JD());
+	KSNumbers tempnum(ks->data()->ut().djd());
 	ks->data()->initGuides(&tempnum);
 
 	//Connect the clock.

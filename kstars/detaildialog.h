@@ -24,7 +24,6 @@
 #include <kdialogbase.h>
 
 #include "skyobject.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
 class GeoLocation;
 class QLabel;
@@ -37,12 +36,13 @@ class QStringList;
 class QTextEdit;
 class QListView;
 class KStars;
+class KStarsDateTime;
 
 struct ADVTreeData
 {
-      QString Name;
-      QString Link;
-      int Type;
+	QString Name;
+	QString Link;
+	int Type;
 };
 
 
@@ -69,7 +69,7 @@ class DetailDialog : public KDialogBase  {
 public: 
 /**Constructor
 	*/
-	DetailDialog(SkyObject *o, ExtDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+	DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent=0, const char *name=0);
 	
 /**Destructor (empty)
 	*/
@@ -128,11 +128,8 @@ private:
 	bool verifyUserData(int type);
 
 /**Build the General Tab for the current object.
-	*@param lt The ExtDateTime to use for time-dependent data
-	*@param geo pointer to the Geographic location to use for 
-	*location-dependent data
 	*/
-	void createGeneralTab(ExtDateTime lt, GeoLocation *geo);
+	void createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo );
 
 /**Build the Links Tab, populating the image and info lists with the 
 	*known URLs for the current Object.
@@ -150,7 +147,7 @@ private:
 
 /**Populate the TreeView of known astronomical databases in the Advanced Tab
 	*/
-	void Populate(QListViewItem *parent);
+	void populateADVTree(QListViewItem *parent);
 
 /**For the databases TreeView
 	*/
@@ -206,9 +203,6 @@ private:
 	QSpacerItem *LOGbuttonSpacer;
 	QHBoxLayout *LOGbuttonLayout;
 
-	long double jd;
-	ExtDateTime ut;
-
 	class NameBox : public QGroupBox {
 	public:
 	/**Constructor
@@ -232,7 +226,7 @@ private:
 	public:
 	/**Constructor
 		*/
-		CoordBox( SkyObject *o, ExtDateTime lt, dms *LST, QWidget *parent, const char *name=0 );
+		CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent, const char *name=0 );
 	
 	/**Destructor (empty)
 		*/
@@ -249,7 +243,7 @@ private:
 	public:
 	/**Constructor
 		*/
-		RiseSetBox( SkyObject *o, ExtDateTime lt, GeoLocation *geo, QWidget *parent, const char *name=0 );
+		RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent, const char *name=0 );
 	
 	/**Destructor (empty)
 		*/

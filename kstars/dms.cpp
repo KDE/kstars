@@ -17,7 +17,6 @@
 
 #include <stdlib.h>
 
-#include "skypoint.h"
 #include "dms.h"
 #include <kglobal.h>
 #include <klocale.h>

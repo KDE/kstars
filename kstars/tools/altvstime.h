@@ -20,8 +20,7 @@
 
 #include "kstarsplotwidget.h"
 
-class ExtDate;
-class ExtDateTime;
+class KStarsDateTime;
 class QTime;
 class QVariant;
 class QVBoxLayout;
@@ -116,10 +115,10 @@ public:
 	*/
 	void showCurrentDate (void);
 	
-/**@return a ExtDateTime object constructed from the current 
-	*setting in the Date widget.
+/**@return a KStarsDateTime object constructed from the 
+	*current setting in the Date widget.
 	*/
-	ExtDateTime getExtDate (void);
+	KStarsDateTime getDate (void);
 	
 /**Determine the time of sunset and sunrise for the current 
 	*date and location settings.  Convert the times to doubles, 
@@ -129,30 +128,12 @@ public:
 	*/
 	void computeSunRiseSetTimes();
 	
-/**Determine the Julian Day corresponding to the current 
-	*Date setting.  Simply calls KSUtils::UTtoJD() with 
-	*the current AVT time, converted to UT.
-	*/
-	long double computeJdFromCalendar (void);
-	
-/**Convert a ExtDate to an Epoch number.  For example,
-	*the date 1 June 2003 becomes 2003.5.
-	*@param d the date to convert
-	*/
-	double ExtDateToEpoch( const ExtDate &d );
-	
 /**Parse a string as an epoch number.  If the string can't 
 	*be parsed, return 2000.0.
 	*@param eName the epoch string to be parsed
 	*@return the epoch number
 	*/
 	double getEpoch (QString eName);
-	
-/**Convert an epoch number to a Julian Day.
-	*@return the Julian Day
-	*@param the epoch number to be converted
-	*/
-	long double epochToJd (double epoch);
 	
 /**@short Add a SkyObject to the display.
 	*Constructs a PLotObject representing the Alt-vs-time curve for the object.

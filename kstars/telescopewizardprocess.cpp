@@ -66,8 +66,8 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
    INDIMessageBar = Options::indiMessages();
    Options::setIndiMessages( false );
 
-  QTime newTime( ksw->data()->LTime.time() );
-  ExtDate newDate( ksw->data()->LTime.date() );
+  QTime newTime( ksw->data()->lt().time() );
+  ExtDate newDate( ksw->data()->lt().date() );
 
   timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
   dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
@@ -191,20 +191,16 @@ void telescopeWizardProcess::processBack(void)
 
 void telescopeWizardProcess::newTime()
 {
-
-  TimeDialog timedialog (ksw->data()->LTime, ksw);
+	TimeDialog timedialog (ksw->data()->lt(), ksw);
 
 	if ( timedialog.exec() == QDialog::Accepted )
 	{
-		QTime newTime( timedialog.selectedTime() );
-		ExtDate newDate( timedialog.selectedDate() );
+		KStarsDateTime dt( timedialog.selectedDate(), timedialog.selectedTime() );
+		ksw->data()->changeDateTime( dt );
 
-		ksw->data()->changeTime(newDate, newTime);
-
-  		timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
-  		dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
+		timeOut->setText( QString().sprintf("%02d:%02d:%02d", dt.time().hour(), dt.time().minute(), dt.time().second()));
+		dateOut->setText( QString().sprintf("%d-%02d-%02d", dt.date().year(), dt.date().month(), dt.date().day()));
 	}
-
 }
 
 void telescopeWizardProcess::newLocation()
@@ -215,10 +211,10 @@ void telescopeWizardProcess::newLocation()
    locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
   					     .arg(ksw->geo()->translatedProvince())
 					     .arg(ksw->geo()->translatedCountry()));
-   timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->LTime.time().hour(), ksw->data()->LTime.time().minute(), ksw->data()->LTime.time().second()));
+   timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
 
-  dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->LTime.date().year(),
-  ksw->data()->LTime.date().month() ,ksw->data()->LTime.date().day()));
+  dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
+  ksw->data()->lt().date().month() ,ksw->data()->lt().date().day()));
 
 
 

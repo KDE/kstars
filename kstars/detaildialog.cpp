@@ -30,6 +30,7 @@
 #include "detaildialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "geolocation.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -38,86 +39,89 @@
 #include "deepskyobject.h"
 #include "ksplanetbase.h"
 
-DetailDialog::DetailDialog(SkyObject *o, ExtDateTime lt, GeoLocation *geo,
-		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) {
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
+		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), 
+		Close, Close, parent, name ) {
 
-    selectedObject = o;
-    ksw = (KStars*) parent;
+	selectedObject = o;
+	ksw = (KStars*) parent;
 
-		//DEBUG
-		kdDebug() << "Details for: " << selectedObject->name() << endl;
+//	//DEBUG
+//	kdDebug() << "Details for: " << selectedObject->name() << endl;
 
-    createGeneralTab(lt, geo);
-    createLinksTab();
-    createAdvancedTab();
-    createLogTab();
+	createGeneralTab( ut, geo );
+	createLinksTab();
+	createAdvancedTab();
+	createLogTab();
 }
 
 void DetailDialog::createLogTab()
 {
- // We don't create a a log tab for an unnamed object
-   if (selectedObject->name() == QString("star"))
-       return;
+	// We don't create a a log tab for an unnamed object
+	if (selectedObject->name() == QString("star"))
+			return;
 
-     // Log Tab
-   logTab = addPage(i18n("Log"));
+	// Log Tab
+	logTab = addPage(i18n("Log"));
 
-   userLog = new QTextEdit(logTab, "userLog");
-//   userLog->setTextFormat(Qt::RichText);
+	userLog = new QTextEdit(logTab, "userLog");
+//	userLog->setTextFormat(Qt::RichText);
 
-   if (selectedObject->userLog.isEmpty())
-      userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->name()));
-   else
-      userLog->setText(selectedObject->userLog);
+	if (selectedObject->userLog.isEmpty())
+		userLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->name()));
+	else
+		userLog->setText(selectedObject->userLog);
 
-   saveLog = new QPushButton(i18n("Save"), logTab, "Save");
+	saveLog = new QPushButton(i18n("Save"), logTab, "Save");
 
-   LOGbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-   LOGbuttonLayout = new QHBoxLayout(5, "buttonlayout");
-   LOGbuttonLayout->addWidget(saveLog);
-   LOGbuttonLayout->addItem(LOGbuttonSpacer);
+	LOGbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	LOGbuttonLayout = new QHBoxLayout(5, "buttonlayout");
+	LOGbuttonLayout->addWidget(saveLog);
+	LOGbuttonLayout->addItem(LOGbuttonSpacer);
 
-   logLayout = new QVBoxLayout(logTab, 6, 6, "logLayout");
-   logLayout->addWidget(userLog);
-   logLayout->addLayout(LOGbuttonLayout);
+	logLayout = new QVBoxLayout(logTab, 6, 6, "logLayout");
+	logLayout->addWidget(userLog);
+	logLayout->addLayout(LOGbuttonLayout);
 
-   connect(saveLog, SIGNAL(clicked()), this, SLOT(saveLogData()));
-
+	connect(saveLog, SIGNAL(clicked()), this, SLOT(saveLogData()));
 }
+
 void DetailDialog::createAdvancedTab()
 {
-  // We don't create an adv tab for an unnamed object or if advinterface file failed loading
-  // We also don't need adv dialog for solar system objects.
-   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || selectedObject->type() == SkyObject::PLANET ||selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
-       return;
+	// We don't create an adv tab for an unnamed object or if advinterface file failed loading
+	// We also don't need adv dialog for solar system objects.
+   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty() || 
+				selectedObject->type() == SkyObject::PLANET || 
+				selectedObject->type() == SkyObject::COMET || 
+				selectedObject->type() == SkyObject::ASTEROID )
+		return;
 
-  advancedTab = addPage(i18n("Advanced"));
+	advancedTab = addPage(i18n("Advanced"));
 
-  ADVTree = new KListView(advancedTab, "advancedtree");
-  ADVTree->addColumn(i18n("Data"));
-  ADVTree->setRootIsDecorated(true);
+	ADVTree = new KListView(advancedTab, "advancedtree");
+	ADVTree->addColumn(i18n("Data"));
+	ADVTree->setRootIsDecorated(true);
 
-  viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
+	viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
 
-  ADVbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	ADVbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-  ADVbuttonLayout = new QHBoxLayout(5, "buttonlayout");
-  ADVbuttonLayout->addWidget(viewTreeItem);
-  ADVbuttonLayout->addItem(ADVbuttonSpacer);
+	ADVbuttonLayout = new QHBoxLayout(5, "buttonlayout");
+	ADVbuttonLayout->addWidget(viewTreeItem);
+	ADVbuttonLayout->addItem(ADVbuttonSpacer);
 
-  treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");
-  treeLayout->addWidget(ADVTree);
-  treeLayout->addLayout(ADVbuttonLayout);
+	treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");
+	treeLayout->addWidget(ADVTree);
+	treeLayout->addLayout(ADVbuttonLayout);
 
-  treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+	treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 
-  connect(viewTreeItem, SIGNAL(clicked()), this, SLOT(viewADVData()));
-  connect(ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
+	connect(viewTreeItem, SIGNAL(clicked()), this, SLOT(viewADVData()));
+	connect(ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
 
-  Populate(NULL);
+	populateADVTree(NULL);
 
-  //ADVtreeRoot->setOpen(true);
-
+	//ADVtreeRoot->setOpen(true);
 }
 
 
@@ -180,28 +184,24 @@ void DetailDialog::createLinksTab()
 	if (!infoList->count() && !imagesList->count())
 			editLink->setDisabled(true);
 
-  // Signals/Slots
-  connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
-  connect(addLink, SIGNAL(clicked()), ksw->map(), SLOT(addLink()));
-  connect(ksw->map(), SIGNAL(linkAdded()), this, SLOT(updateLists()));
-  connect(editLink, SIGNAL(clicked()), this, SLOT(editLinkDialog()));
-  connect(removeLink, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
-  connect(infoList, SIGNAL(highlighted(int)), this, SLOT(unselectImagesList()));
-  connect(imagesList, SIGNAL(highlighted(int)), this, SLOT(unselectInfoList()));
-
-
+	// Signals/Slots
+	connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
+	connect(addLink, SIGNAL(clicked()), ksw->map(), SLOT(addLink()));
+	connect(ksw->map(), SIGNAL(linkAdded()), this, SLOT(updateLists()));
+	connect(editLink, SIGNAL(clicked()), this, SLOT(editLinkDialog()));
+	connect(removeLink, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
+	connect(infoList, SIGNAL(highlighted(int)), this, SLOT(unselectImagesList()));
+	connect(imagesList, SIGNAL(highlighted(int)), this, SLOT(unselectInfoList()));
 }
 
-void DetailDialog::createGeneralTab(ExtDateTime lt, GeoLocation *geo)
+void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo )
 {
-
 	QFrame *generalTab= addPage(i18n("General"));
 
-	ut = lt.addSecs( int( 3600*geo->TZ() ) );
-	jd = KSUtils::UTtoJD( ut );
-
-	Coords = new CoordBox( selectedObject, lt, ksw->data()->LST, generalTab );
-	RiseSet = new RiseSetBox( selectedObject, lt, geo, generalTab );
+	dms lst = ksw->data()->geo()->GSTtoLST( ut.gst() );
+	
+	Coords = new CoordBox( selectedObject, ut.epoch(), &lst, generalTab );
+	RiseSet = new RiseSetBox( selectedObject, ut, geo, generalTab );
 
 	StarObject *s;
 	DeepSkyObject *dso;
@@ -359,10 +359,9 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 
 //In the printf() statements, the "176" refers to the ASCII code for the degree symbol
 
-DetailDialog::CoordBox::CoordBox( SkyObject *o, ExtDateTime t, dms *LST, QWidget *parent,
+DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
-	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	HALabel = new QLabel( i18n( "Hour Angle:" ), this );
@@ -432,28 +431,26 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, ExtDateTime t, dms *LST, QWidget
 	vlayMain->addLayout( glayCoords );
 }
 
-DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, ExtDateTime lt, GeoLocation *geo,
+DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent, const char *name ) : QGroupBox( i18n( "Rise/Set/Transit" ), parent, name ) {
 
-	ExtDateTime ut = lt.addSecs( int( -3600*geo->TZ() ) );
-	long double jd = KSUtils::UTtoJD( ut );
-	QTime rt = o->riseSetTime( jd, geo, true ); //true = use rise time
-	dms raz = o->riseSetTimeAz(jd, geo, true ); //true = use rise time
+	QTime rt = o->riseSetTime( ut, geo, true ); //true = use rise time
+	dms raz = o->riseSetTimeAz( ut, geo, true ); //true = use rise time
 
 	//If transit time is before rise time, use transit time for tomorrow
-	QTime tt = o->transitTime( jd, geo );
-	dms talt = o->transitAltitude( jd, geo );
+	QTime tt = o->transitTime( ut, geo );
+	dms talt = o->transitAltitude( ut, geo );
 	if ( tt < rt ) {
-		tt = o->transitTime( jd+1.0, geo );
-		talt = o->transitAltitude( jd+1.0, geo );
+		tt = o->transitTime( ut.addDays( 1 ), geo );
+		talt = o->transitAltitude( ut.addDays( 1 ), geo );
 	}
 
 	//If set time is before rise time, use set time for tomorrow
-	QTime st = o->riseSetTime( jd, geo, false ); //false = use set time
-	dms saz = o->riseSetTimeAz(jd, geo, false ); //false = use set time
+	QTime st = o->riseSetTime(  ut, geo, false ); //false = use set time
+	dms saz = o->riseSetTimeAz( ut, geo, false ); //false = use set time
 	if ( st < rt ) {
-		st = o->riseSetTime( jd+1.0, geo, false ); //false = use set time
-		saz = o->riseSetTimeAz(jd+1.0, geo, false ); //false = use set time
+		st = o->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
+		saz = o->riseSetTimeAz( ut.addDays( 1 ), geo, false ); //false = use set time
 	}
 
 	RTimeLabel = new QLabel( i18n( "Rise time:" ), this );
@@ -486,7 +483,6 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, ExtDateTime lt, GeoLocation 
 
 	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );
 	TAlt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", talt.degree(), 176, talt.arcmin(), talt.arcsec() ), this );
-
 
 	QFont boldFont = RTime->font();
 	boldFont.setWeight( QFont::Bold );
@@ -801,7 +797,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	return true;
 }
 
-void DetailDialog::Populate(QListViewItem *parent)
+void DetailDialog::populateADVTree(QListViewItem *parent)
 {
 	// list done
 	if (!treeIt->current())
@@ -840,7 +836,7 @@ void DetailDialog::forkTree(QListViewItem *parent)
 
 	// we need to increment the iterator before and after populating the tree
 	++(*treeIt);
-	Populate(current);
+	populateADVTree(current);
 	++(*treeIt);
 }
 

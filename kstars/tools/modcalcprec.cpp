@@ -18,10 +18,9 @@
 #include "modcalcprec.h"
 #include "modcalcprec.moc"
 #include "dmsbox.h"
-#include "ksutils.h"
 #include "skypoint.h"
 #include "dms.h"
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
 
 #include <qcheckbox.h>
 #include <qradiobutton.h>
@@ -62,19 +61,19 @@ QString modCalcPrec:: showCurrentEpoch () {
 }
 
 double modCalcPrec::setCurrentEpoch () {
-
-	ExtDateTime dt = ExtDateTime::currentDateTime();
-	long double jd = KSUtils::UTtoJD( dt );
-	double epoch = JdtoEpoch(jd);
-
-	return epoch;
+	return KStarsDateTime::currentDateTime().epoch();
 }
 
 double modCalcPrec::getEpoch (QString eName) {
+	bool ok = false;
+	double epoch = eName.toDouble(&ok);
 
-	double epoch = eName.toDouble();
-
-	return epoch;
+	if ( ok )
+		return epoch;
+	else {
+		kdDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
+		return 2000.0;
+	}
 }
 
 void modCalcPrec::slotClearCoords (void) {
@@ -97,8 +96,11 @@ void modCalcPrec::slotComputeCoords (void) {
 	double epoch0 = getEpoch( epoch0Name->text() );
 	double epochf = getEpoch( epochfName->text() );
 
-	long double jd0 = epochToJd ( epoch0 );
-	long double jdf = epochToJd ( epochf );
+	KStarsDateTime dt;
+	dt.setFromEpoch( epoch0 );
+	long double jd0 = dt.djd();
+	dt.setFromEpoch( epochf );
+	long double jdf = dt.djd();
 
 	sp.precessFromAnyEpoch(jd0, jdf);
 
@@ -109,26 +111,6 @@ void modCalcPrec::slotComputeCoords (void) {
 void modCalcPrec::showEquCoords ( SkyPoint sp ) {
 	rafBox->show( sp.ra(),FALSE );
 	decfBox->show( sp.dec() );
-}
-
-double modCalcPrec::JdtoEpoch (long double jd) {
-
-	long double Jd2000 = 2451545.00;
-	return ( 2000.0 - ( Jd2000 - jd ) / 365.2425);
-}
-
-long double modCalcPrec::epochToJd (double epoch) {
-
-	double yearsTo2000 = 2000.0 - epoch;
-
-	if (epoch == 1950.0) {
-		return 2433282.4235;
-	} else if ( epoch == 2000.0 ) {
-		return J2000;
-	} else {
-		return ( J2000 - yearsTo2000 * 365.2425 );
-	}
-
 }
 
 void modCalcPrec::slotRaCheckedBatch(){
@@ -231,6 +213,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 	SkyPoint sp;
 	dms raB, decB;
 	double epoch0B, epochfB;
+	KStarsDateTime dt0, dtf;
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -298,9 +281,10 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 			if(targetEpochCheckBatch->isChecked() )
 				ostream << epochfB << space;
 
-
-		jd0 = epochToJd ( epoch0B );
-		jdf = epochToJd ( epochfB );
+		dt0.setFromEpoch( epoch0B );
+		dtf.setFromEpoch( epoch0B );
+		jd0 = dt0.djd();
+		jdf = dtf.djd();
 		sp = SkyPoint (raB, decB);
 		sp.precessFromAnyEpoch(jd0, jdf);
 

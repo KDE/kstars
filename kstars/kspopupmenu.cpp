@@ -298,8 +298,8 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	if ( ! obj ) return;
 	
 	QString rt, rt2, rt3;
-	QTime rtime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), true );
-	dms rAz = obj->riseSetTimeAz( ksw->data()->CurrentDate, ksw->geo(), true );
+	QTime rtime = obj->riseSetTime( ksw->data()->ut(), ksw->geo(), true );
+	dms rAz = obj->riseSetTimeAz( ksw->data()->ut(), ksw->geo(), true );
 
 	if ( rtime.isValid() ) {
 		int hour = rtime.hour();
@@ -324,12 +324,16 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	}
 
 	//If set time is before rise time, use tomorrow's set time.
-	QTime stime = obj->riseSetTime( ksw->data()->CurrentDate, ksw->geo(), false );
-	if ( stime < rtime ) 
-		stime = obj->riseSetTime( ksw->data()->CurrentDate+1.0, ksw->geo(), false );
-
+	KStarsDateTime dt = ksw->data()->ut();
+	QTime stime = obj->riseSetTime( dt, ksw->geo(), false );
+	if ( stime < rtime ) {
+		dt = dt.addDays( 1 );
+		stime = obj->riseSetTime( dt, ksw->geo(), false );
+	}
+	
 	QString st, st2, st3;
-	dms sAz = obj->riseSetTimeAz(ksw->data()->CurrentDate,  ksw->geo(), false );
+	dms sAz = obj->riseSetTimeAz( dt,  ksw->geo(), false );
+	
 	if ( stime.isValid() ) {
 		int hour = stime.hour();
 		int min = stime.minute();
@@ -351,12 +355,14 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	}
 
 	//If transit time is before rise time, use tomorrow's transit time
-	QTime ttime = obj->transitTime( ksw->data()->CurrentDate, ksw->geo() );
-	if ( ttime < rtime ) 
-		ttime = obj->transitTime( ksw->data()->CurrentDate+1.0, ksw->geo() );
-
+	QTime ttime = obj->transitTime( dt, ksw->geo() );
+	if ( ttime < rtime ) {
+		dt = dt.addDays( 1 );
+		ttime = obj->transitTime( dt, ksw->geo() );
+	}
+	
 	QString tt, tt2, tt3;
-	dms trAlt = obj->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
+	dms trAlt = obj->transitAltitude( dt, ksw->geo() );
 
 	if ( ttime.isValid() ) {
 		int hour = ttime.hour();

@@ -212,8 +212,8 @@
   
   if (!lp) return;
   
-  QTime newTime( ksw->data()->clock()->UTC().time());
-  ExtDate newDate( ksw->data()->clock()->UTC().date());
+  QTime newTime( ksw->data()->ut().time());
+  ExtDate newDate( ksw->data()->ut().date());
 
   lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
 					.arg(newDate.day()).arg(newTime.hour())
@@ -464,7 +464,7 @@ void INDIStdDevice::timerDone()
 	kdDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString() << endl;
 	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
-        sp.apparentCoord( ksw->data()->clock()->JD() , (long double) J2000);
+        sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
@@ -582,7 +582,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
        else
          sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
-         sp.apparentCoord( ksw->data()->clock()->JD() , (long double) J2000);
+         sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
 
            // Use J2000 coordinate as required by INDI
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
@@ -653,7 +653,7 @@ void INDIStdProperty::newTime()
    timeEle = pp->findElement("UTC");
    if (!timeEle) return;
    
-   TimeDialog timedialog ( ksw->data()->UTime, ksw, true );
+   TimeDialog timedialog ( ksw->data()->ut(), ksw );
 
 	if ( timedialog.exec() == QDialog::Accepted )
 	{

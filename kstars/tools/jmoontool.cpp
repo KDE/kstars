@@ -94,7 +94,7 @@ JMoonTool::~JMoonTool()
 void JMoonTool::initPlotObjects() {
 	KPlotObject *orbit[4];
 	KPlotObject *jpath;
-	long double jd0 = ksw->data()->clock()->JD();
+	long double jd0 = ksw->data()->ut().djd();
 	KSSun *ksun = (KSSun*)ksw->data()->PCat->findByName( "Sun" );
 	KSPlanet *jup = (KSPlanet*)ksw->data()->PCat->findByName( "Jupiter" );
 	JupiterMoons jm;
@@ -107,9 +107,9 @@ void JMoonTool::initPlotObjects() {
 	orbit[3] = new KPlotObject( "callisto", colCa, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	jpath    = new KPlotObject( "jupiter", colJp, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	
-	//t is the offset from jd0, in hours.
 	double dy = 0.01*pw->dataHeight();
 	
+	//t is the offset from jd0, in hours.
 	for ( double t=pw->y(); t<=pw->y2(); t+=dy ) {
 		KSNumbers num( jd0 + t/24.0 );
 		jm.findPosition( &num, jup, ksun );

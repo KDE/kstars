@@ -20,7 +20,8 @@
 #include "modcalcgalcoord.h"
 #include "modcalcgalcoord.moc"
 #include "skypoint.h"
-#include "ksutils.h"
+#include "kstarsdatetime.h"
+
 #include <qradiobutton.h>
 #include <qstring.h>
 #include <qcheckbox.h>
@@ -107,7 +108,9 @@ void modCalcGalCoord::GalToEqu(void) {
 	sp.GalacticToEquatorial1950();
 	sp.set(*sp.ra(), *sp.dec() );
 
-	long double jdf = KSUtils::epochToJd(epoch);
+	KStarsDateTime dt;
+	dt.setFromEpoch( epoch );
+	long double jdf = dt.djd();
 	sp.precessFromAnyEpoch(B1950,jdf);
 
 	raCoord.set( *sp.ra() );
@@ -118,7 +121,9 @@ void modCalcGalCoord::EquToGal(void) {
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
 
-	long double jd0 = KSUtils::epochToJd(epoch);
+	KStarsDateTime dt;
+	dt.setFromEpoch( epoch );
+	long double jd0 = dt.djd();
 	sp.precessFromAnyEpoch(jd0,B1950);
 
 	sp.Equatorial1950ToGalactic();

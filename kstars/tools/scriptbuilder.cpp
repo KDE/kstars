@@ -64,6 +64,7 @@
 
 #include "scriptbuilder.h"
 #include "kstars.h"
+#include "kstarsdatetime.h"
 #include "dmsbox.h"
 #include "finddialog.h"
 #include "locationdialog.h"
@@ -591,7 +592,7 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 	ostream << "#!/bin/bash" << endl;
 	ostream << "#KStars DCOP script: " << currentScriptName << endl;
 	ostream << "#by " << currentAuthor << endl;
-	ostream << "#last modified: " << ExtDateTime::currentDateTime().toString() << endl;
+	ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString() << endl;
 	ostream << "#" << endl;
 	ostream << "KSTARS=`dcopfind -a 'kstars*'`" << endl;
 	ostream << "MAIN=KStarsInterface" << endl;

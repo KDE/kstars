@@ -14,19 +14,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include "modcalcequinox.h"
 
 #include "modcalcequinox.moc"
 #include "dms.h"
 #include "dmsbox.h"
-#include "ksutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "kssun.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <qcombobox.h>
-#include <qdatetimeedit.h>
 #include <qstring.h>
 #include <qtextstream.h>
 #include <kfiledialog.h>
@@ -34,9 +33,8 @@
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 
-
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) : modCalcEquinoxDlg (parentSplit,name) {
-
+modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) 
+		: modCalcEquinoxDlg (parentSplit,name) {
 	showCurrentYear();
 	this->show();
 }
@@ -46,13 +44,19 @@ modCalcEquinox::~modCalcEquinox(){
 
 int modCalcEquinox::getYear (QString eName)
 {
-	int equinoxYear = eName.toInt();
-	return equinoxYear;
+	bool ok = FALSE;
+	int equinoxYear = eName.toInt(&ok);
+	if ( ok ) 
+		return equinoxYear;
+	else {
+		kdDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
+		return 2000;
+	}
 }
 
 void modCalcEquinox::showCurrentYear (void)
 {
-	QDateTime dt = QDateTime::currentDateTime();
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 	yearEdit->setText( QString( "%1").arg( dt.date().year() ) );
 }
 
@@ -62,9 +66,7 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 	float deltaJd;
 	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
 	KSSun *Sun = new KSSun(kd);
-	
 	int year0 = getYear( yearEdit->text() );
-//	if ( equinoxSolsticesComboBox->currentText() == i18n() ) 
 	
 	if (equinoxSolsticesComboBox->currentItem() == 0 ) {
 		julianDay = Sun->springEquinox(year0);
@@ -94,19 +96,18 @@ void modCalcEquinox::slotClear(void){
 	seasonDuration->setText("");
 }
 
-void modCalcEquinox::showStartDateTime(double jd)
+void modCalcEquinox::showStartDateTime(long double jd)
 {
-	ExtDateTime dt(KSUtils::JDtoUT( jd ));
-
-	startDateTimeEquinox->setDateTime( QDateTime(QDate( dt.date().year(), dt.date().month(), dt.date().day()), dt.time()) );
+	KStarsDateTime dt( jd );
+	startDateTimeEquinox->setDateTime( dt );
 }
+
 void modCalcEquinox::showSeasonDuration(float deltaJd)
 {
 	seasonDuration->setText( QString( "%1").arg( deltaJd ) );
 }
 
 void modCalcEquinox::slotYearCheckedBatch(){
-
 	if ( yearCheckBatch->isChecked() )
 		yearCheckBatch->setEnabled( false );
 	else {
@@ -202,20 +203,20 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 				ostream << yearB << space;
 
 		jdsp = Sun->springEquinox(yearB);
-		ExtDateTime dts(KSUtils::JDtoUT( jdsp ));
 		jdsu = Sun->summerSolstice(yearB);
-		ExtDateTime dtu(KSUtils::JDtoUT( jdsu ));
 		jdau = Sun->autumnEquinox(yearB);
-		ExtDateTime dta(KSUtils::JDtoUT( jdau ));
 		jdwin = Sun->winterSolstice(yearB);
-		ExtDateTime dtw(KSUtils::JDtoUT( jdwin ));
-
 		jdsp1 = Sun->springEquinox(yearB+1);
 
-		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space <<
-			dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space <<
-			dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space <<
-			dtw.toString(Qt::ISODate) << space << (float)(jdsp1 - jdwin) << endl;
+		KStarsDateTime dts( jdsp );
+		KStarsDateTime dtu( jdsu );
+		KStarsDateTime dta( jdau );
+		KStarsDateTime dtw( jdwin );
+
+		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space 
+						<< dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space 
+						<< dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space 
+						<< dtw.toString(Qt::ISODate) << space << (float)(jdsp1 - jdwin) << endl;
 	}
 
 

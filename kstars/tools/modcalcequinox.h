@@ -50,7 +50,7 @@ private:
 
 	int getYear (QString eName);
 	void showCurrentYear (void);
-	void showStartDateTime(double jd);
+	void showStartDateTime(long double jd);
 	void showSeasonDuration(float deltaJd);
 	void processLines( QTextStream &istream );
   

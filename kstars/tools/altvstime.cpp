@@ -33,13 +33,12 @@
 #include "skyobject.h"
 #include "skyobjectname.h"
 #include "ksnumbers.h"
-#include "ksutils.h"
 #include "objectnamelist.h"
 #include "simclock.h"
 #include "finddialog.h"
 #include "locationdialog.h"
 
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
 AltVsTime::AltVsTime( QWidget* parent)  :
@@ -74,11 +73,12 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	topLayout->addWidget( View );
 	topLayout->addWidget( avtUI );
 
+	geo = ks->geo();
+	
 	DayOffset = 0;
 	showCurrentDate();
-	if ( getExtDate().time().hour() > 12 ) DayOffset = 1;
+	if ( getDate().time().hour() > 12 ) DayOffset = 1;
 
-	geo = ks->geo();
 	avtUI->longBox->show( geo->lng() );
 	avtUI->latBox->show( geo->lat() );
 
@@ -148,7 +148,9 @@ void AltVsTime::slotAddSource(void) {
 
 		//If the epochName is blank (or any non-double), we assume J2000
 		//Otherwise, precess to J2000.
-		double jd = epochToJd( getEpoch( avtUI->epochName->text() ) );
+		KStarsDateTime dt;
+		dt.setFromEpoch( getEpoch( avtUI->epochName->text() ) );
+		long double jd = dt.djd();
 		if ( jd != J2000 ) {
 			SkyPoint ptest( newRA, newDec );
 			ptest.precessFromAnyEpoch( jd, J2000 );
@@ -203,12 +205,12 @@ void AltVsTime::slotBrowseObject(void) {
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
-	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
+	KSNumbers *num = new KSNumbers( getDate().djd() );
 	KSNumbers *oldNum = 0;
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( o && o->isSolarSystem() ) {
-		oldNum = new KSNumbers( ks->data()->clock()->JD() );
+		oldNum = new KSNumbers( ks->data()->ut().djd() );
 		o->updateCoords( num, true, geo->lat(), ks->LST() );
 	}
 
@@ -250,7 +252,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		avtUI->nameBox->setText(o->translatedName() );
 
 		//Set epochName to epoch shown in date tab
-		avtUI->epochName->setText( QString().setNum( ExtDateToEpoch( avtUI->dateBox->date() ) ) );
+		avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
 	}
 	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
@@ -263,22 +265,13 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 }
 
 double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
-	int dDay = DayOffset;
-	if ( hour < 0.0 ) {
-		dDay--;
-		hour += 24.0;
-	}
+	hour += 24.0*(double)DayOffset;
+	
+	//getDate converts the user-entered local time to UT
+	KStarsDateTime ut = getDate().addSecs( hour*3600.0 ); 
 
-	int h = int(hour);
-	int m = int(60.*(hour - h));
-	int s = int(60.*(60.*(hour - h) - m));
-
-	ExtDateTime lt( getExtDate().date().addDays( dDay ), QTime( h,m,s ) );
-	ExtDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
-
-	dms LST = KSUtils::UTtoLST( ut , geo->lng() );
+	dms LST = geo->GSTtoLST( ut.gst() );
 	p->EquatorialToHorizontal( &LST, geo->lat() );
-
 	return p->alt()->Degrees();
 }
 
@@ -336,24 +329,23 @@ void AltVsTime::slotClearBoxes(void) {
 	avtUI->nameBox->clear();
 	avtUI->raBox->clear() ;
 	avtUI->decBox->clear();
-	avtUI->epochName->setText( QString().setNum( ExtDateToEpoch( avtUI->dateBox->date() ) ) );
-
+	avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
 }
 
 void AltVsTime::computeSunRiseSetTimes() {
 	//Determine the time of sunset and sunrise for the desired date and location
 	//expressed as doubles, the fraction of a full day.
-	long double JDToday = computeJdFromCalendar();
+	KStarsDateTime today = getDate();
 	
 	SkyObject *oSun = (SkyObject*) ks->data()->PCat->planetSun();
-	double sunRise = -1.0 * oSun->riseSetTime( JDToday + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
-	double sunSet = -1.0 * oSun->riseSetTime( JDToday, geo, false ).secsTo(QTime()) / 86400.0;
+	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
+	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
 
 	//check to see if Sun is circumpolar
 	//requires temporary repositioning of Sun to target date
-	KSNumbers *num = new KSNumbers( JDToday );
-	KSNumbers *oldNum = new KSNumbers( ks->data()->clock()->JD() );
-	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( JDToday ), geo->lng() );
+	KSNumbers *num = new KSNumbers( today.djd() );
+	KSNumbers *oldNum = new KSNumbers( ks->data()->ut().djd() );
+	dms LST = geo->GSTtoLST( getDate().gst() );
 	oSun->updateCoords( num, true, geo->lat(), &LST );
 	if ( oSun->checkCircumpolar( geo->lat() ) ) {
 		if ( oSun->alt()->Degrees() > 0.0 ) {
@@ -378,9 +370,10 @@ void AltVsTime::computeSunRiseSetTimes() {
 }
 
 void AltVsTime::slotUpdateDateLoc(void) {
-	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
+	KStarsDateTime today = getDate();
+	KSNumbers *num = new KSNumbers( today.djd() );
 	KSNumbers *oldNum = 0;
-	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( computeJdFromCalendar() ), geo->lng() );
+	dms LST = geo->GSTtoLST( today.gst() );
 	
 	//First determine time of sunset and sunrise
 	computeSunRiseSetTimes();
@@ -397,7 +390,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
 				//If the object is in the solar system, recompute its position for the given date
 				if ( o->isSolarSystem() ) {
-					oldNum = new KSNumbers( ks->data()->clock()->JD() );
+					oldNum = new KSNumbers( ks->data()->ut().djd() );
 					o->updateCoords( num, true, geo->lat(), &LST );
 				}
 
@@ -436,7 +429,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 		}
 	}
 
-	if ( getExtDate().time().hour() > 12 ) DayOffset = 1;
+	if ( getDate().time().hour() > 12 ) DayOffset = 1;
 	else DayOffset = 0;
 
 	setLSTLimits();
@@ -463,33 +456,26 @@ int AltVsTime::currentPlotListItem() const {
 }
 
 void AltVsTime::setLSTLimits(void) {
-	ExtDateTime lt( getExtDate().date().addDays( DayOffset ), QTime( 12, 0, 0 ) );
-	ExtDateTime ut = lt.addSecs( int( -3600.0*geo->TZ() ) );
-
-	dms lst = KSUtils::UTtoLST( ut, geo->lng() );
+	//UT at noon on target date
+	KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
+	
+	dms lst = geo->GSTtoLST( ut.gst() );
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate (void)
 {
-	ExtDateTime dt = ExtDateTime::currentDateTime();
+	KStarsDateTime dt = KStarsDateTime::currentDateTime();
+	if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
 	avtUI->dateBox->setDate( dt.date() );
 }
 
-ExtDateTime AltVsTime::getExtDate (void)
+KStarsDateTime AltVsTime::getDate (void)
 {
-	ExtDateTime dt ( avtUI->dateBox->date(),QTime(0,0,0) );
+	//convert midnight local time to UT:
+	KStarsDateTime dt( avtUI->dateBox->date(), QTime() );
+	dt = geo->LTtoUT( dt );
 	return dt;
-}
-
-long double AltVsTime::computeJdFromCalendar (void)
-{
-	return KSUtils::UTtoJD( getExtDate().addSecs( int( -3600*geo->TZ() ) ) );
-}
-
-double AltVsTime::ExtDateToEpoch( const ExtDate &d )
-{
-	return double(d.year()) + double(d.dayOfYear())/double(d.daysInYear());
 }
 
 double AltVsTime::getEpoch (QString eName)
@@ -504,21 +490,6 @@ double AltVsTime::getEpoch (QString eName)
 	}
 
 	return epoch;
-}
-
-long double AltVsTime::epochToJd (double epoch)
-{
-
-	double yearsTo2000 = 2000.0 - epoch;
-
-	if (epoch == 1950.0) {
-		return 2433282.4235;
-	} else if ( epoch == 2000.0 ) {
-		return J2000;
-	} else {
-		return ( J2000 - yearsTo2000 * 365.2425 );
-	}
-
 }
 
 AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )

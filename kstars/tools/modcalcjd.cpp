@@ -25,9 +25,9 @@
 #include <klocale.h>
 #include <kglobal.h>
 
-#include "ksutils.h"
+#include "kstarsdatetime.h"
 
-//#include <kapplication.h> ...already included in modcalcjd.h
+#define MJD0 2400000.5
 
 modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : modCalcJdDlg(parentSplit,name) {
 	
@@ -51,17 +51,16 @@ void modCalcJD::slotComputeTime (void)
 		MjdName->setFocus();
 		computeFromMjd();
 	}
-
 }
 
 void modCalcJD::computeFromCalendar (void)
 {
 	long double julianDay, modjulianDay;
 	
-	julianDay = KSUtils::UTtoJD( getExtDateTime() );
-	showJd(julianDay);
+	julianDay = getDateTime().djd();
+	showJd( julianDay );
 
-	modjulianDay = julianDay - 2400000.5;
+	modjulianDay = julianDay - MJD0;
 	showMjd(modjulianDay);
 }
 
@@ -70,25 +69,22 @@ void modCalcJD::computeFromMjd (void)
 	long double julianDay, modjulianDay;
 
 	modjulianDay = KGlobal::locale()->readNumber( MjdName->text() );
-	julianDay = 	2400000.5 + modjulianDay;
-	showJd(julianDay);
+	julianDay = MJD0 + modjulianDay;
+	showJd( julianDay );
 	computeFromJd();
-	
 }
+
 void modCalcJD::computeFromJd (void)
 {
 	long double julianDay, modjulianDay;
-
-	ExtDateTime dt;
-
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
-	dt = KSUtils::JDtoUT( julianDay );
+	KStarsDateTime dt( julianDay );
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 
-	modjulianDay = julianDay - 2400000.5;
-	showMjd(modjulianDay);
+	modjulianDay = julianDay - MJD0;
+	showMjd( modjulianDay );
 }
 
 
@@ -96,21 +92,20 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-	datBox->setDate(ExtDate::currentDate());
+	datBox->setDate( ExtDate::currentDate() );
 	timBox->setTime(QTime(0,0,0));
 }
 
 void modCalcJD::showCurrentTime (void)
 {
-	ExtDateTime dt = ExtDateTime::currentDateTime();
+	KStarsDateTime dt = KStarsDateTime::currentDateTime();
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 }
 
-ExtDateTime modCalcJD::getExtDateTime (void)
+KStarsDateTime modCalcJD::getDateTime (void)
 {
-	ExtDateTime dt ( datBox->date() , timBox->time() );
-	return dt;
+	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
 void modCalcJD::showJd(long double julianDay)

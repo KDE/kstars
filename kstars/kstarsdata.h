@@ -32,7 +32,8 @@
 #include "objectnamelist.h"
 #include "planetcatalog.h"
 #include "tools/lcgenerator.h"
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
+#include "simclock.h"
 
 #define NHIPFILES 127
 #define NMWFILES  11
@@ -67,7 +68,6 @@ class KSMoon;
 class PlanetCatalog;
 class JupiterMoons;
 
-class SimClock;
 class TimeZoneRule;
 class FileSource;
 class StarDataSink;
@@ -395,7 +395,7 @@ public:
 		*Need this accessor because I could not make KStars::privatedata a friend
 		*class for some reason...:/
 		*/
-	void setNextDSTChange( long double jd ) { NextDSTChange = jd; }
+	void setNextDSTChange( const KStarsDateTime &dt ) { NextDSTChange = dt; }
 
 	/**Returns true if time is running forward else false. Used by KStars to prevent
 		*2 calculations of daylight saving change time.
@@ -424,22 +424,25 @@ public:
 		*/
 	void setFullTimeUpdate();
 
-	/**change the current simulation time to the time and date specified as the arguments.
-		*Specified date and time is always local time.
-		*@param newDate the date to set.
+	/**change the current simulation date/time to the KStarsDateTime argument.
+		*Specified DateTime is always universal time.
+		*@param newDate the DateTime to set.
 		*@param newTIme the time to set.
 		*/
-	void changeTime(ExtDate newDate, QTime newTime );
+	void changeDateTime( const KStarsDateTime &newDate );
 
-	/**Set the LST from the simulation clock's UTC value.
+	/**@return pointer to the current simulation local time
 		*/
-	void setLST();
+	const KStarsDateTime& lt() const { return LTime; }
 	
-	/**Set the LST from the UTC specified as an argument.
-		*@param UTC the Universal time from which to set the LST.
+	/**@return reference to the current simulation universal time
 		*/
-	void setLST( ExtDateTime UTC );
-
+	const KStarsDateTime& ut() const { return Clock->utc(); }
+	
+	/**Sync the LST with the simulation clock.
+		*/
+	void syncLST();
+	
 	/**Set the HourAngle member variable according to the argument.
 		*@param ha The new HourAngle
 		*/
@@ -459,10 +462,6 @@ public:
 		*/
 	dms *lst() { return LST; }
 	
-	/**@return the current simulation Julian Day.
-		*/
-	long double currentDate() {return CurrentDate;}
-
 	/**@return pointer to the GeoLocation object*/
 	GeoLocation *geo() { return &Geo; }
 	
@@ -683,7 +682,7 @@ private:
 	SimClock *Clock;
 	ColorScheme CScheme;
 
-	ExtDateTime LTime, UTime;
+	KStarsDateTime LTime;
 
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
@@ -703,8 +702,8 @@ private:
 	FOV fovSymbol;
 
 	double Obliquity, dObliq, dEcLong;
-	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
-	long double NextDSTChange;
+	KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
+	KStarsDateTime NextDSTChange;
 
 	KStars *kstars; //pointer to the parent widget
 

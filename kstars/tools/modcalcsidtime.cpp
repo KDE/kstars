@@ -23,15 +23,14 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "ksutils.h"
 #include "dmsbox.h"
 #include "modcalcsidtime.h"
 #include "modcalcsidtime.moc"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
@@ -48,26 +47,25 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	KStars *ks = (KStars*) parent()->parent()->parent();
 	 // modCalcSidTimeDlg -> QSplitter->AstroCalc->KStars
 
-	showUT( ks->data()->clock()->UTC().time() );
-	datBox->setDate( ks->data()->clock()->UTC().date() );
+	showUT( ks->data()->ut().time() );
+	datBox->setDate( ks->data()->ut().date() );
 
 	longBox->show( ks->geo()->lng() );
 }
 
 QTime modCalcSidTime::computeUTtoST (QTime ut, ExtDate dt, dms longitude)
 {
-	ExtDateTime utdt = ExtDateTime( dt, ut);
-	dms st = KSUtils::UTtoLST( utdt, &longitude);
-	QTime dst( st.hour(), st.minute(), st.second() );
-	return dst;
+	KStarsDateTime utdt = KStarsDateTime( dt, ut);
+	dms st = longitude.Degrees() + utdt.gst().Degrees();
+	return QTime( st.hour(), st.minute(), st.second() );
 }
 
 QTime modCalcSidTime::computeSTtoUT (QTime st, ExtDate dt, dms longitude)
 {
-	ExtDateTime dtt = ExtDateTime( dt, QTime());
-	dms dst;
-	dst.setH(st.hour(), st.minute(), st.second());
-	return KSUtils::LSTtoUT( dst, dtt, &longitude);
+	KStarsDateTime dtt = KStarsDateTime( dt, QTime());
+	dms lst(st.hour(), st.minute(), st.second());
+	dms gst( lst.Degrees() - longitude.Degrees() );
+	return dtt.GSTtoUT( gst );
 }
 
 void modCalcSidTime::showUT( QTime dt )
@@ -77,37 +75,27 @@ void modCalcSidTime::showUT( QTime dt )
 
 void modCalcSidTime::showST( QTime st )
 {
-	QTime dt( st.hour(), st.minute(), st.second() );
-	StBox->setTime( dt );
+	StBox->setTime( st );
 }
 
 QTime modCalcSidTime::getUT( void ) 
 {
-	QTime dt;
-	dt = UtBox->time();
-	return dt;
+	return UtBox->time();
 }
 
 QTime modCalcSidTime::getST( void ) 
 {
-	QTime st = StBox->time();
-//	dms st; 
-//	st.setH( dt.hour(), dt.minute(), dt.second() );
-	return st;
+	return StBox->time();
 }
 
 ExtDate modCalcSidTime::getDate( void ) 
 {
-	ExtDate dt;
-	dt = datBox->date();
-	return dt;
+	return datBox->date();
 }
 
 dms modCalcSidTime::getLongitude( void )
 {
-	dms longitude;
-	longitude = longBox->createDms();
-	return longitude;
+	return longBox->createDms();
 }
 
 void modCalcSidTime::slotClearFields(){
@@ -284,14 +272,14 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 
 		
 		// We make the first calculations
-		
-		jdf = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
-		jd0 = KSUtils::epochToJd ( epoch0B );
+		KStarsDateTime dt;
+		dt.setFromEpoch( epoch0B );
+		jdf = KStarsDateTime(dtB,utB).djd();
+		jd0 = dt.djd();
 
-		LST = KSUtils::UTtoLST( ExtDateTime(dtB,utB), &longB );
+		LST = dms( longB.Degrees() + KStarsDateTime(dtB,utB).gst().Degrees() );
 		
 		// Universal Time is the input time.
-
 		if (!stInputTime) {
 
 		// Read Ut and write in ostream if corresponds

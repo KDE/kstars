@@ -19,7 +19,6 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "ksnumbers.h"
 #include "skyobjectname.h"
 #include "objectnamelist.h"
@@ -56,9 +55,9 @@ WUTDialog::WUTDialog(KStars *ks) :
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();
-	JDToday = kstars->data()->CurrentDate;
+	JDToday = kstars->data()->ut().djd();
 	//Today is the Local Date/Time
-	Today = KSUtils::JDtoUT( JDToday ).addSecs( int( 3600.*geo->TZ() ) );
+	Today = kstars->data()->lt();
 
 	//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date`
 	if ( Today.time().hour() < 6 ) {
@@ -126,8 +125,8 @@ void WUTDialog::init() {
 
 	//check to see if Sun is circumpolar
 	KSNumbers *num = new KSNumbers( JDToday );
-	KSNumbers *oldNum = new KSNumbers( kstars->data()->clock()->JD() );
-	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( JDToday ), geo->lng() );
+	KSNumbers *oldNum = new KSNumbers( kstars->data()->ut().djd() );
+	dms LST = geo->GSTtoLST( Today.gst() );
 	
 	oSun->updateCoords( num, true, geo->lat(), &LST );
 	if ( oSun->checkCircumpolar( geo->lat() ) ) {
@@ -268,9 +267,9 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
-	ExtDateTime T1 = Today;
+	KStarsDateTime T1 = Today;
 	T1.setTime( sunSetToday );
-	ExtDateTime T2 = Today;
+	KStarsDateTime T2 = Today;
 	T2 = T2.addDays( 1 );
 	T2.setTime( sunRiseTomorrow );
 
@@ -284,12 +283,11 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		T2.setTime( sunRiseTomorrow );
 	}
 
-	for ( ExtDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
+	for ( KStarsDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
 		//Need LST of the test time, expressed as a dms object.
-		ExtDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
-		long double jd = KSUtils::UTtoJD( ut );
-		dms LST = KSUtils::UTtoLST( ut, geo->lng() );
-		SkyPoint sp = oname->skyObject()->computeCoordsForJD( jd, geo );
+		KStarsDateTime ut = geo->LTtoUT( test );
+		dms LST = geo->GSTtoLST( ut.gst() );
+		SkyPoint sp = oname->skyObject()->recomputeCoords( ut, geo );
 		
 		//check altitude of object at this time.
 		sp.EquatorialToHorizontal( &LST, geo->lat() );
@@ -367,7 +365,7 @@ void WUTDialog::slotChangeDate() {
 	if ( td.exec() == QDialog::Accepted ) {
 		Today = td.selectedDateTime();
 		if ( Today.time().hour() < 6 ) Today = Today.addDays( -1 ); //assume user wants previous night.
-		JDToday = KSUtils::UTtoJD( Today.addSecs( int( -3600.*geo->TZ() ) ) );
+		JDToday = geo->LTtoUT( Today ).djd();
 		JDTomorrow = JDToday + 1.0;
 		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Today.toString() ) );
 

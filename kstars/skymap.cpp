@@ -574,7 +574,7 @@ void SkyMap::slotDSS( void ) {
 		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
 		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
 		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
-		clickedPoint()->precessFromAnyEpoch( data->CurrentDate, J2000 );
+		clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
 		ra.setH( clickedPoint()->ra()->Hours() );
 		dec.setD( clickedPoint()->dec()->Degrees() );
 
@@ -613,7 +613,7 @@ void SkyMap::slotDSS2( void ) {
 		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
 		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
 		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
-		clickedPoint()->precessFromAnyEpoch( data->CurrentDate, J2000 );
+		clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
 		ra.setH( clickedPoint()->ra()->Hours() );
 		dec.setD( clickedPoint()->dec()->Degrees() );
 
@@ -726,10 +726,10 @@ void SkyMap::slotAddPlanetTrail( void ) {
 void SkyMap::slotDetail( void ) {
 // check if object is selected
 	if ( !clickedObject() ) {
-    	KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
+		KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
 		return;
-   }
-	DetailDialog detail( clickedObject(), data->LTime, data->geo(), ksw );
+	}
+	DetailDialog detail( clickedObject(), data->lt(), data->geo(), ksw );
 	detail.exec();
 }
 

@@ -24,7 +24,7 @@
 
 class QWidget;
 class SkyPoint;
-class ExtDateTime;
+class KStarsDateTime;
 class GeoLocation;
 class dms;
 
@@ -73,11 +73,8 @@ private:
 	 * CPU clock. */
 	void showCurrentDateTime(void);
 
-	/**@returns a ExtDateTime constructed from the Time and Date fields. */
-	ExtDateTime getExtDateTime (void);
-
-	/**Convert the Time and Date to a Julian Day. */
-	long double computeJdFromCalendar (void);
+	/**@returns a KStarsDateTime constructed from the Time and Date fields. */
+	KStarsDateTime getDateTime (void);
 
 	/**Parse the string argument as a double
 	 * @param eName    String from which the epoch is to be constructed
@@ -96,13 +93,12 @@ private:
 	 * @param jd   Julian day for which the conversion has been performed
 	 *             The epoch is constructed for that day
 	 */
-	void showEquCoords ( SkyPoint sp, long double jd );
+	void showEquCoords ( SkyPoint sp );
 	
 	/**Fills the epoch box with the value corresponding to a julian day
-	 * @param jd   Julian day for which the conversion has been performed
-	 *             The epoch is constructed for that day
+	 * @param dt   date/time from which to construct the epoch string
 	 */
-	void showEpoch (long double jd);
+	void showEpoch ( const KStarsDateTime &dt );
 
 	/* Creates a dms object from the latitude box */
 	dms getLatitude (void);

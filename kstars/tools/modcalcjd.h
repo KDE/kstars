@@ -34,7 +34,7 @@
 
 class QWidget;
 class VBox;
-class ExtDateTime;
+class KStarsDateTime;
 
 class modCalcJD : public modCalcJdDlg
 {
@@ -43,11 +43,10 @@ public:
 	modCalcJD(QWidget *p, const char *n);
 	~modCalcJD();
 	
-//	long double getJD(ExtDateTime t);
 	void computeFromCalendar (void);
 	void computeFromMjd (void);
 	void computeFromJd (void);
-	ExtDateTime getExtDateTime (void);
+	KStarsDateTime getDateTime (void);
 
 public slots:
 		

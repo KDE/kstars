@@ -19,7 +19,6 @@
 #include "modcalcplanets.moc"
 #include "dms.h"
 #include "dmsbox.h"
-#include "ksutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kssun.h"
@@ -40,7 +39,6 @@
 
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit, const char *name) : modCalcPlanetsDlg (parentSplit,name) {
-
 	showCurrentDateTime();
 	showLongLat();
 	this->show();
@@ -51,7 +49,7 @@ modCalcPlanets::~modCalcPlanets(){
 
 void modCalcPlanets::showCurrentDateTime (void)
 {
-	ExtDateTime dt = ExtDateTime::currentDateTime();
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
 	dateBox->setDate( dt.date() );
 	timeBox->setTime( dt.time() );
@@ -60,11 +58,9 @@ void modCalcPlanets::showCurrentDateTime (void)
 	utBoxBatch->setTime( dt.time() );
 }
 
-ExtDateTime modCalcPlanets::getExtDateTime (void)
+KStarsDateTime modCalcPlanets::getDateTime (void)
 {
-	ExtDateTime dt ( dateBox->date() , timeBox->time() );
-
-	return dt;
+	return KStarsDateTime( dateBox->date() , timeBox->time() );
 }
 
 void modCalcPlanets::showLongLat(void)
@@ -90,130 +86,118 @@ GeoLocation modCalcPlanets::getObserverPosition (void)
 	return geoPlace;
 }
 
-long double modCalcPlanets::computeJdFromCalendar (ExtDateTime edt)
-{
-	long double julianDay;
-	julianDay = KSUtils::UTtoJD( edt );
-
-	return julianDay;
-}
-
 void modCalcPlanets::slotComputePosition (void)
 {
 	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
-	ExtDateTime edt = getExtDateTime(); 
-	long double julianDay = computeJdFromCalendar(edt);
-	GeoLocation *position = new GeoLocation( getObserverPosition() );
+	KStarsDateTime dt = getDateTime(); 
+	long double julianDay = dt.djd();
+	GeoLocation position( getObserverPosition() );
+	KSNumbers num( julianDay );
+	dms LST( position.GSTtoLST( dt.gst() ) );
 
-	KSNumbers *num = new KSNumbers(julianDay);
-	dms *LST = new dms( KSUtils::UTtoLST( edt, position->lng() ) );
-
-	// We create the Earth and the Sun
-	KSPlanet *Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ));
-	Earth->findPosition(num);
-//	KSPlanet *Sun = new KSSun( kd );
-//	Sun->findPosition(num, position->lat(), LST, Earth);
+	// Earth
+	KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
+	Earth.findPosition( &num );
 	
 	// Mercury
 	if (planetComboBox->currentItem() == 0 ) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Mercury" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Mercury" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 1) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Venus" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Venus" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 2) {
-		showCoordinates(Earth);
+		showCoordinates( Earth );
 	}
 	else if(planetComboBox->currentItem() == 3) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Mars" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Mars" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 4) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Jupiter" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Jupiter" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 5) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Saturn" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Saturn" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 6) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Uranus" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Uranus" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 7) {
-		KSPlanet *ksp = new KSPlanet( kd, I18N_NOOP( "Neptune" ));
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPlanet p( kd, I18N_NOOP( "Neptune" ));
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 8) {
-		KSPluto *ksp = new KSPluto( kd );
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSPluto p( kd );
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 9) {
-		KSMoon *ksp = new KSMoon( kd );
-		ksp->findPosition(num, position->lat(), LST, Earth);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		showCoordinates(ksp);
+		KSMoon p( kd );
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		showCoordinates( p );
 	}
 	else if(planetComboBox->currentItem() == 10) {
-		KSSun *ksp = new KSSun( kd);
-		ksp->findPosition(num, position->lat(), LST);
-		ksp->EquatorialToHorizontal(position->lat(), LST);
-		ksp->setRsun(0.0);
-		showCoordinates(ksp);
+		KSSun p( kd );
+		p.findPosition( &num, position.lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( position.lat(), &LST);
+		p.setRsun(0.0);
+		showCoordinates( p );
 	}
+}
+
+void modCalcPlanets::showCoordinates( const KSPlanet &ksp) {
+
+	showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
+	showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
+	showEquatorialCoords(ksp.ra(), ksp.dec() );
+	showTopocentricCoords(ksp.az(), ksp.alt() );
 	
 }
 
-void modCalcPlanets::showCoordinates(KSPlanet *ksp) {
+void modCalcPlanets::showCoordinates( const KSMoon &ksp ) {
 
-	showHeliocentricEclipticCoords(ksp->helEcLong(), ksp->helEcLat(), ksp->rsun() );
-	showGeocentricEclipticCoords(ksp->ecLong(), ksp->ecLat(), ksp->rearth() );
-	showEquatorialCoords(ksp->ra(), ksp->dec() );
-	showTopocentricCoords(ksp->az(), ksp->alt() );
+	showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
+	showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
+	showEquatorialCoords(ksp.ra(), ksp.dec() );
+	showTopocentricCoords(ksp.az(), ksp.alt() );
+	
+}
+void modCalcPlanets::showCoordinates( const KSPluto &ksp ) {
+
+	showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
+	showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
+	showEquatorialCoords(ksp.ra(), ksp.dec() );
+	showTopocentricCoords(ksp.az(), ksp.alt() );
 	
 }
 
-void modCalcPlanets::showCoordinates(KSMoon *ksp) {
+void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
 
-	showHeliocentricEclipticCoords(ksp->helEcLong(), ksp->helEcLat(), ksp->rsun() );
-	showGeocentricEclipticCoords(ksp->ecLong(), ksp->ecLat(), ksp->rearth() );
-	showEquatorialCoords(ksp->ra(), ksp->dec() );
-	showTopocentricCoords(ksp->az(), ksp->alt() );
-	
-}
-void modCalcPlanets::showCoordinates(KSPluto *ksp) {
-
-	showHeliocentricEclipticCoords(ksp->helEcLong(), ksp->helEcLat(), ksp->rsun() );
-	showGeocentricEclipticCoords(ksp->ecLong(), ksp->ecLat(), ksp->rearth() );
-	showEquatorialCoords(ksp->ra(), ksp->dec() );
-	showTopocentricCoords(ksp->az(), ksp->alt() );
-	
-}
-
-void modCalcPlanets::showCoordinates(KSSun *ksp) {
-
-	showHeliocentricEclipticCoords(ksp->helEcLong(), ksp->helEcLat(), ksp->rsun() );
-	showGeocentricEclipticCoords(ksp->ecLong(), ksp->ecLat(), ksp->rearth() );
-	showEquatorialCoords(ksp->ra(), ksp->dec() );
-	showTopocentricCoords(ksp->az(), ksp->alt() );
+	showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
+	showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
+	showEquatorialCoords(ksp.ra(), ksp.dec() );
+	showTopocentricCoords(ksp.az(), ksp.alt() );
 	
 }
 
@@ -362,8 +346,8 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
 	double rSunB, rEarthB;
 	KStarsData *kd = (KStarsData*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	PlanetCatalog *PCat = new PlanetCatalog(kd); 
-	PCat->initialize();
+	PlanetCatalog PCat( kd ); 
+	PCat.initialize();
 
 	QString pName[11], pNamei18n[11];
 
@@ -455,21 +439,20 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			if (latCheckBatch->isChecked() )
 				ostream << latB.toDMSString() << space;	
 
-		ExtDateTime edt ( dtB, utB );
-		dms *LST = new dms( KSUtils::UTtoLST( edt, &longB ) );
-		long double julianDay = computeJdFromCalendar(edt);
-		
-		KSNumbers *num = new KSNumbers(julianDay);
-		
-		PCat->findPosition( num, &latB, LST );
-		PCat->EquatorialToHorizontal(&latB, LST);
+		KStarsDateTime edt( dtB, utB );
+		dms LST = edt.gst().Degrees() + longB.Degrees();
 
-		KSPlanet *Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ));
-		Earth->findPosition(num);
+		KSNumbers num( edt.djd() );
+		
+		PCat.findPosition( &num, &latB, &LST );
+		PCat.EquatorialToHorizontal(&latB, &LST);
 
-		KSMoon *Moon = new KSMoon(kd);
-		Moon->findPosition(num, &latB, LST, Earth);
-		Moon->EquatorialToHorizontal(&latB, LST);
+		KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
+		Earth.findPosition( &num );
+
+		KSMoon Moon( kd );
+		Moon.findPosition( &num, &latB, &LST, &Earth );
+		Moon.EquatorialToHorizontal( &latB, &LST );
 
 		int result = 1;
 		int jp = -1;
@@ -481,40 +464,40 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		if (jp < 11) {
 			if (jp < 10) {
 				// Heliocentric Ecl. coords.
-				hlongB.setD(PCat->findByName( pName[jp] )->helEcLong()->Degrees());
-				hlatB.setD( PCat->findByName( pName[jp] )->helEcLat()->Degrees());
-				rSunB = PCat->findByName( pName[jp] )->rsun();
+				hlongB.setD(PCat.findByName( pName[jp] )->helEcLong()->Degrees());
+				hlatB.setD( PCat.findByName( pName[jp] )->helEcLat()->Degrees());
+				rSunB = PCat.findByName( pName[jp] )->rsun();
 
 				// Geocentric Ecl. coords.
-				glongB .setD( PCat->findByName( pName[jp] )->ecLong()->Degrees() );
-				glatB.setD( PCat->findByName( pName[jp] )->ecLat()->Degrees() );
-				rEarthB = PCat->findByName( pName[jp] )->rearth();
+				glongB .setD( PCat.findByName( pName[jp] )->ecLong()->Degrees() );
+				glatB.setD( PCat.findByName( pName[jp] )->ecLat()->Degrees() );
+				rEarthB = PCat.findByName( pName[jp] )->rearth();
 
 				// Equatorial coords.
-				decB.setD( PCat->findByName( pName[jp] )->dec()->Degrees() );
-				raB.setD( PCat->findByName( pName[jp] )->ra()->Degrees() );
+				decB.setD( PCat.findByName( pName[jp] )->dec()->Degrees() );
+				raB.setD( PCat.findByName( pName[jp] )->ra()->Degrees() );
 
 				// Topocentric Coords.
-				azmB.setD( PCat->findByName( pName[jp] )->az()->Degrees() );
-				altB.setD( PCat->findByName( pName[jp] )->alt()->Degrees() );
+				azmB.setD( PCat.findByName( pName[jp] )->az()->Degrees() );
+				altB.setD( PCat.findByName( pName[jp] )->alt()->Degrees() );
 			} else {
 			
 				// Heliocentric Ecl. coords.
-				hlongB.setD( Moon->helEcLong()->Degrees() );
-				hlatB.setD( Moon->helEcLat()->Degrees() );
+				hlongB.setD( Moon.helEcLong()->Degrees() );
+				hlatB.setD( Moon.helEcLat()->Degrees() );
 
 				// Geocentric Ecl. coords.
-				glongB .setD( Moon->ecLong()->Degrees() );
-				glatB.setD( Moon->ecLat()->Degrees() );
-				rEarthB = Moon->rearth();
+				glongB .setD( Moon.ecLong()->Degrees() );
+				glatB.setD( Moon.ecLat()->Degrees() );
+				rEarthB = Moon.rearth();
 
 				// Equatorial coords.
-				decB.setD( Moon->dec()->Degrees() );
-				raB.setD( Moon->ra()->Degrees() );
+				decB.setD( Moon.dec()->Degrees() );
+				raB.setD( Moon.ra()->Degrees() );
 
 				// Topocentric Coords.
-				azmB.setD( Moon->az()->Degrees() );
-				altB.setD( Moon->alt()->Degrees() );
+				azmB.setD( Moon.az()->Degrees() );
+				altB.setD( Moon.alt()->Degrees() );
 			}
 			
 

@@ -41,17 +41,17 @@
 	*string on its own indicates the last weekday of the month (i.e.,
 	*"mon" is the last Monday of the month).
 	*
-	*The isDSTActive(ExtDateTime) function returns true if DST is active for the
+	*The isDSTActive(KStarsDateTime) function returns true if DST is active for the
 	*DateTime given as an argument.
 	*
-	*The nextDSTChange(ExtDateTime) function returns the ExtDateTime of the moment
+	*The nextDSTChange(KStarsDateTime) function returns the KStarsDateTime of the moment
 	*at which the next DST change will occur for the current location.
 	*@author Jason Harris
 	*@version 1.0
 	*/
 
-#include "libkdeedu/extdate/extdatetime.h"
 #include <qstring.h>
+#include "kstarsdatetime.h"
 
 class TimeZoneRule {
 public: 
@@ -67,8 +67,8 @@ public:
 		*@p rtime the time at which DST reverts
 		*@p offset the offset between normal time and DS time (always 1.00?)
 		*/
-	TimeZoneRule( const QString smonth, const QString sday, const QTime stime, const QString rmonth,
-		const QString rday, const QTime rtime, const double offset=1.00 );
+	TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime, 
+		const QString &rmonth, const QString &rday, const QTime &rtime, const double &offset=1.00 );
 
 	/**Destructor. (empty)*/
 	~TimeZoneRule();
@@ -76,10 +76,10 @@ public:
 	/**Determine whether DST is in effect for the given DateTime, according to this rule 
 		*@p date the date/time to test for DST
 		*/
-	bool isDSTActive(ExtDateTime date);
+	bool isDSTActive( const KStarsDateTime &date );
 
 	/**@return TRUE if the rule is the "empty" TZ rule. */
-	bool isEmptyRule( void ) { if ( HourOffset ) return false; else return true; }
+	bool isEmptyRule() { return ( HourOffset == 0.0 ); }
 
 	/**@Toggle DST on/off.  The "activate" argument should probably be isDSTActive() 
 		*@p activate if TRUE, then set DST active; otherwise, deactivate DST
@@ -96,16 +96,16 @@ public:
 	*@param bool time_runs_forward time direction
 	*@param automaticDSTchange is automatic DST change?
 	*/
-	void reset_with_ltime( ExtDateTime &ltime, const double TZoffset, const bool time_runs_forward,
+	void reset_with_ltime( KStarsDateTime &ltime, const double TZoffset, const bool time_runs_forward,
 												const bool automaticDSTchange = false );
 
 	/**@return computed value for next DST change in universal time.
 		*/
-	ExtDateTime nextDSTChange() { return next_change_utc; }
+	KStarsDateTime nextDSTChange() { return next_change_utc; }
 
 	/**@return computed value for next DST change in local time.
 		*/
-	ExtDateTime nextDSTChange_LTime() { return next_change_ltime; }
+	KStarsDateTime nextDSTChange_LTime() { return next_change_ltime; }
 
 	/**@return TRUE if this rule is the same as the argument.
 		*@p r the rule to check for equivalence
@@ -116,25 +116,25 @@ public:
 
 private:
 
-	/**@return the ExtDateTime of the moment when the next DST change will occur in local time
+	/**@return the KStarsDateTime of the moment when the next DST change will occur in local time
 		*This is useful because DST change times are saved in local times*/
-	void nextDSTChange_LTime( const ExtDateTime date );
+	void nextDSTChange_LTime( const KStarsDateTime &date );
 
-	/**@return the ExtDateTime of the moment when the last DST change occurred in local time
+	/**@return the KStarsDateTime of the moment when the last DST change occurred in local time
 		*This is useful because DST change times are saved in local times
 		*We need this in case time is running backwards. */
-	void previousDSTChange_LTime( const ExtDateTime date );
+	void previousDSTChange_LTime( const KStarsDateTime &date );
 
 	/**calculate the next DST change in universal time for current location */
-	void nextDSTChange( const ExtDateTime local_date, const double TZoffset );
+	void nextDSTChange( const KStarsDateTime &local_date, const double TZoffset );
 
 	/**calculate the previous DST change in universal time for current location */
-	void previousDSTChange( const ExtDateTime local_date, const double TZoffset );
+	void previousDSTChange( const KStarsDateTime &local_date, const double TZoffset );
 
 	/**Interpret the string as a month of the year; 
 		*@return the month integer (1=jan ... 12=dec) 
 		*/
-	int initMonth( const QString m );
+	int initMonth( const QString &m );
 
 	/**Interpret the day string as a week ID and a day-of-week ID.  The day-of-week
 		*is an integer between 1 (sunday) and 7 (saturday); the week integer can
@@ -143,24 +143,24 @@ private:
 		*@p week the week integer is returned by reference through this value
 		*@return TRUE if the day string was successfully parsed 
 		*/
-	bool initDay( const QString d, int &day, int &week );
+	bool initDay( const QString &d, int &day, int &week );
 
 	/**Find the calendar date on which DST starts for the calendar year
-		*of the given ExtDateTime.
+		*of the given KStarsDateTime.
 		*@p d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
-	int findStartDay( const ExtDateTime d );
+	int findStartDay( const KStarsDateTime &d );
 
 	/**Find the calendar date on which DST ends for the calendar year
-		*of the given ExtDateTime.
+		*of the given KStarsDateTime.
 		*@p d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
-	int findRevertDay( const ExtDateTime d );
+	int findRevertDay( const KStarsDateTime &d );
 
 	int StartDay, RevertDay;
 	int StartWeek, RevertWeek;
 	QTime StartTime, RevertTime;
-	ExtDateTime next_change_utc, next_change_ltime;
+	KStarsDateTime next_change_utc, next_change_ltime;
 	double dTZ, HourOffset;
 	
 };

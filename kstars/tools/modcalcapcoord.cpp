@@ -21,7 +21,7 @@
 #include "dms.h"
 #include "dmsbox.h"
 #include "skypoint.h"
-#include "ksutils.h"
+#include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <qcheckbox.h>
@@ -58,52 +58,31 @@ SkyPoint modCalcApCoord::getEquCoords (void) {
 
 void modCalcApCoord::showCurrentTime (void)
 {
-	ExtDateTime dt = ExtDateTime::currentDateTime();
-
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 }
 
-ExtDateTime modCalcApCoord::getExtDateTime (void)
+KStarsDateTime modCalcApCoord::getDateTime (void)
 {
-	ExtDateTime dt ( datBox->date() , timBox->time() );
-
-	return dt;
-}
-
-long double modCalcApCoord::computeJdFromCalendar (void)
-{
-	long double julianDay;
-
-	julianDay = KSUtils::UTtoJD( getExtDateTime() );
-
-	return julianDay;
+	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
 double modCalcApCoord::getEpoch (QString eName) {
+	bool ok = false;
+	double epoch = eName.toDouble(&ok);
 
-	double epoch = eName.toDouble();
-
-	return epoch;
+	if ( ok )
+		return epoch;
+	else {
+		kdDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
+		return 2000.0;
+	}
 }
 
 void modCalcApCoord::showEquCoords ( SkyPoint sp ) {
 	rafBox->show( sp.ra() , FALSE);
 	decfBox->show( sp.dec() );
-}
-
-long double modCalcApCoord::epochToJd (double epoch) {
-
-	double yearsTo2000 = 2000.0 - epoch;
-
-	if (epoch == 1950.0) {
-		return 2433282.4235;
-	} else if ( epoch == 2000.0 ) {
-		return J2000;
-	} else {
-		return ( J2000 - yearsTo2000 * 365.2425 );
-	}
-
 }
 
 void modCalcApCoord::slotClearCoords(){
@@ -118,21 +97,19 @@ void modCalcApCoord::slotClearCoords(){
 }
 
 void modCalcApCoord::slotComputeCoords(){
-
-	long double jd = computeJdFromCalendar();
-	double epoch0 = getEpoch( epoch0Name->text() );
-	long double jd0 = epochToJd ( epoch0 );
+	long double jd = getDateTime().djd();
+	KStarsDateTime dt;
+	dt.setFromEpoch( getEpoch( epoch0Name->text() ) );
+	long double jd0 = dt.djd();
 
 	SkyPoint sp;
 	sp = getEquCoords();
 
 	sp.apparentCoord(jd0, jd);
 	showEquCoords( sp );
-
 }
 
 void modCalcApCoord::slotUtCheckedBatch(){
-
 	if ( utCheckBatch->isChecked() )
 		utBoxBatch->setEnabled( false );
 	else {
@@ -322,14 +299,15 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 			if(decCheckBatch->isChecked() )
 				ostream << epoch0B;
 
-		jd = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
-		jd0 = epochToJd ( epoch0B );
+		KStarsDateTime dt;
+		dt.setFromEpoch( epoch0B );
+		jd = KStarsDateTime(dtB,utB).djd();
+		jd0 = dt.djd();
 		sp = SkyPoint (raB, decB);
 		sp.apparentCoord(jd0, jd);
 
 		ostream << sp.ra()->toHMSString() << sp.dec()->toDMSString() << endl;
 	}
-
 
 	fOut.close();
 }

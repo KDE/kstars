@@ -22,11 +22,10 @@
 #include <qstring.h>
 #include <kdebug.h>
 
+//TODO: Remove these when KStarsDateTime is added!
 #define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
                        //defined here because this file is included in every other class.
 #define B1950 2433282.4235  // Julian date for Jan 0.9235, 1950
-
-class SkyPoint;
 
 /**@class dms
 	*@short An angle, stored as degrees, but expressible in many ways.
@@ -46,7 +45,7 @@ class SkyPoint;
 
 class dms {
 public:
-/**@short Default Constructor.  
+/**@short Default Constructor.
 	*
 	*Set the floating-point value of the angle according to the four integer arguments.
 	*@param d degree portion of angle (int).  Defaults to zero.
@@ -65,11 +64,11 @@ public:
 
 /**@short Construct an angle from a string representation.
 	*
-	*Attempt to create the angle according to the string argument.  If the string 
-	*cannot be parsed as an angle value, the angle is set to zero. 
+	*Attempt to create the angle according to the string argument.  If the string
+	*cannot be parsed as an angle value, the angle is set to zero.
 	*
-	*@warning There is not an unambiguous notification that it failed to parse the string, 
-	*since the string could have been a valid representation of zero degrees.  
+	*@warning There is not an unambiguous notification that it failed to parse the string,
+	*since the string could have been a valid representation of zero degrees.
 	*If this is a concern, use the setFromString() function directly instead.
 	*
 	*@param s the string to parse as a dms value.
@@ -106,7 +105,7 @@ public:
 	const double& Degrees() const { return D; }
 
 /**@return integer hours portion of the angle
-	*@note an angle can be measured in degrees/arcminutes/arcseconds 
+	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
 	const int hour() const { return int( reduce().Degrees()/15.0 ); }
@@ -127,7 +126,7 @@ public:
 	const int msecond() const;
 
 /**@return angle in hours expressed as a double.
-	*@note an angle can be measured in degrees/arcminutes/arcseconds 
+	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
 	const double Hours() const { return reduce().Degrees()/15.0; }
@@ -223,7 +222,7 @@ public:
 /**Copy value of another dms angle.  Differs from above function only
 	*in argument type.  Identical to setD(double d).
 	*@param d set angle according to this double value
-	*@sa setD() 
+	*@sa setD()
 	*/
 	void set( const double &d ) { setD( d ); }
 
@@ -232,7 +231,7 @@ public:
 	*@param s the string to be parsed as a dms value.  The string can be an int or
 	*floating-point value, or a triplet of values (d/h, m, s) separated by spaces or colons.
 	*@param isDeg if true, the value is in degrees.  Otherwise, it is in hours.
-	*@return true if sting was parsed successfully.  Otherwise, set the dms value 
+	*@return true if sting was parsed successfully.  Otherwise, set the dms value
 	*to 0.0 and return false.
 	*/
 	bool setFromString( const QString &s, bool isDeg=true );
@@ -264,12 +263,12 @@ public:
 	*/
 //  dms operator= ( const double &d ) { return (dms( d )); }
 
-/**@short Compute Sine and Cosine of the angle simultaneously.  
-	*On machines using glibc >= 2.1, calling SinCos() is somewhat faster 
+/**@short Compute Sine and Cosine of the angle simultaneously.
+	*On machines using glibc >= 2.1, calling SinCos() is somewhat faster
 	*than calling sin() and cos() separately.
 	*The values are returned through the arguments (passed by reference).
 	*The Sin and Cos values are stored internally; on subsequent calls
-	*to SinCos(), the stored values are returned directly (unless the 
+	*to SinCos(), the stored values are returned directly (unless the
 	*angle's value has changed).
 	*@param s Sine of the angle
 	*@param c Cosine of the angle
@@ -279,9 +278,9 @@ public:
 
 /**@short Compute the Angle's Sine.
 	*
-	*If the Sine/Cosine values have already been computed, then this 
-	*function simply returns the stored value.  Otherwise, it will compute 
-	*and store the values first. 
+	*If the Sine/Cosine values have already been computed, then this
+	*function simply returns the stored value.  Otherwise, it will compute
+	*and store the values first.
 	*@return the Sine of the angle.
 	*@sa cos()
 	*/
@@ -289,17 +288,17 @@ public:
 
 /**@short Compute the Angle's Cosine.
 	*
-	*If the Sine/Cosine values have already been computed, then this 
-	*function simply returns the stored value.  Otherwise, it will compute 
-	*and store the values first. 
+	*If the Sine/Cosine values have already been computed, then this
+	*function simply returns the stored value.  Otherwise, it will compute
+	*and store the values first.
 	*@return the Cosine of the angle.
 	*@sa sin()
 	*/
 	const double& cos( void ) const;
 
-/**@short Express the angle in radians.  
-	*The computed Radians value is stored internally.  On subsequent calls,  
-	*the stored value is returned directly (unless the angle's value has 
+/**@short Express the angle in radians.
+	*The computed Radians value is stored internally.  On subsequent calls,
+	*the stored value is returned directly (unless the angle's value has
 	*changed).
 	*@return the angle in radians (double)
 	*/
@@ -307,7 +306,7 @@ public:
 
 /**@short Set angle according to the argument, in radians.
 	*
-	*This function converts the argument to degrees, then sets the angle 
+	*This function converts the argument to degrees, then sets the angle
 	*with setD().
 	*@param a angle in radians
 	*/

@@ -1744,18 +1744,16 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 	// force a DST change with option true for 3. parameter
 	geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );
 	// reset next DST change time
-	setNextDSTChange( KSUtils::UTtoJD( geo->tzrule()->nextDSTChange() ) );
+	setNextDSTChange( geo->tzrule()->nextDSTChange() );
 	//reset LTime, because TZoffset has changed
-	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
+	LTime = geo->UTtoLT( ut() );
 }
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
-	// sync times with clock
-	UTime = Clock->UTC();
-	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
-	CurrentDate = Clock->JD();
-	setLST();
-
+	// sync LTime with the simulation clock
+	LTime = geo->UTtoLT( ut() );
+	syncLST();
+	
 	//Check for mouse Hover:
 	if ( Options::useHoverLabel() ) skymap->checkHoverPoint();
 
@@ -1765,26 +1763,26 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		if ( TimeRunsForward ) {
 			// timedirection is forward
 			// DST change happens if current date is bigger than next calculated dst change
-			if ( CurrentDate > NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
+			if ( ut() > NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
 		} else {
 			// timedirection is backward
 			// DST change happens if current date is smaller than next calculated dst change
-			if ( CurrentDate < NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
+			if ( ut() < NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
 		}
 	}
 
-	KSNumbers num(CurrentDate);
+	KSNumbers num( ut().djd() );
 
 	bool needNewCoords = false;
-	if ( fabs( CurrentDate - LastNumUpdate ) > 1.0 ) {
+	if ( fabs( ut().djd() - LastNumUpdate.djd() ) > 1.0 ) {
 		//update time-dependent variables once per day
 		needNewCoords = true;
-		LastNumUpdate = CurrentDate;
+		LastNumUpdate = ut().djd();
 	}
 
 	// Update positions of objects, if necessary
-	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
-		LastPlanetUpdate = CurrentDate;
+	if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 ) {
+		LastPlanetUpdate = ut().djd();
 
 		if ( Options::showPlanets() ) PCat->findPosition( &num, geo->lat(), LST );
 
@@ -1812,8 +1810,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	}
 
 	// Moon moves ~30 arcmin/hr, so update its position every minute.
-	if ( fabs( CurrentDate - LastMoonUpdate ) > 0.00069444 ) {
-		LastMoonUpdate = CurrentDate;
+	if ( fabs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 ) {
+		LastMoonUpdate = ut();
 		if ( Options::showMoon() ) {
 			Moon->findPosition( &num, geo->lat(), LST );
 			Moon->findPhase( PCat->planetSun() );
@@ -1826,8 +1824,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
 	//If Clock is in Manual Mode, always update. (?)
-	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/Options::zoomFactor() || Clock->isManualMode() ) {
-		LastSkyUpdate = CurrentDate;
+	if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || Clock->isManualMode() ) {
+		LastSkyUpdate = ut();
 
 		//Recompute Alt, Az coords for all objects
 		//Planets
@@ -1972,10 +1970,10 @@ void KStarsData::setTimeDirection( float scale ) {
 }
 
 void KStarsData::setFullTimeUpdate() {
-			LastSkyUpdate = -1000000.0;
-			LastPlanetUpdate = -1000000.0;
-			LastMoonUpdate   = -1000000.0;
-			LastNumUpdate = -1000000.0;
+	LastSkyUpdate.setDJD(    (long double)INVALID_DAY );
+	LastPlanetUpdate.setDJD( (long double)INVALID_DAY );
+	LastMoonUpdate.setDJD(   (long double)INVALID_DAY );
+	LastNumUpdate.setDJD(    (long double)INVALID_DAY );
 }
 
 void KStarsData::setLocationFromOptions() {
@@ -2002,34 +2000,27 @@ void KStarsData::setLocation( const GeoLocation &l ) {
 	Options::setLatitude( g.lat()->Degrees() );
 }
 
-void KStarsData::setLST() {
-	setLST( Clock->UTC() );
+void KStarsData::syncLST() {
+	LST->set( geo()->GSTtoLST( ut().gst() ) );
 }
 
-void KStarsData::setLST( ExtDateTime UTC ) {
-	LST->set( KSUtils::UTtoLST( UTC, geo()->lng() ) );
-}
-
-void KStarsData::changeTime( ExtDate newDate, QTime newTime ) {
-	ExtDateTime new_time(newDate, newTime);
-
+void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
+	//Turn off animated slews for the next time step.
+	setSnapNextFocus();
+	
+	clock()->setUTC( newDate );
+	LTime = geo()->UTtoLT( ut() );
+	//set local sideral time
+	syncLST();
+	
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
 	setFullTimeUpdate();
 
-	// reset tzrules data with newlocal time and time direction (forward or backward)
-	geo()->tzrule()->reset_with_ltime(new_time, geo()->TZ0(), isTimeRunningForward() );
+	// reset tzrules data with new local time and time direction (forward or backward)
+	geo()->tzrule()->reset_with_ltime(LTime, geo()->TZ0(), isTimeRunningForward() );
 
 	// reset next dst change time
-	setNextDSTChange( KSUtils::UTtoJD( geo()->tzrule()->nextDSTChange() ) );
-
-	//Turn off animated slews for the next time step.
-	setSnapNextFocus();
-
-	//Set the clock
-	clock()->setUTC( new_time.addSecs( int(-3600 * geo()->TZ()) ) );
-
-	//set local sideral time
-	setLST();
+	setNextDSTChange( geo()->tzrule()->nextDSTChange() );
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {
@@ -2172,7 +2163,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( ok ) min = fn[5].toInt(&ok);
 				if ( ok ) sec = fn[6].toInt(&ok);
 				if ( ok ) {
-					changeTime( ExtDate(yr, mth, day), QTime(hr,min,sec));
+					changeDateTime( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) );
 					cmdCount++;
 				} else {
 					kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )

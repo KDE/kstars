@@ -21,7 +21,7 @@
 #include <kdialogbase.h>
 #include <qvariant.h>
 
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
@@ -48,7 +48,7 @@ public:
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( ExtDateTime now, QWidget* parent = 0, bool isUTCNow = false );
+	TimeDialog( const KStarsDateTime &now, QWidget* parent = 0 );
 
 /**
 	*Destructor (empty)
@@ -63,9 +63,9 @@ public:
 	*/
 	ExtDate selectedDate( void );
 
-/**@returns a ExtDateTime object with the selected date and time
+/**@returns a KStarsDateTime object with the selected date and time
 	*/
-	ExtDateTime selectedDateTime( void );
+	KStarsDateTime selectedDateTime( void );
 
 public slots:
 /**

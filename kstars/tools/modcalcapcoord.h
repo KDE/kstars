@@ -30,7 +30,7 @@
 class dms;
 class dmsBox;
 class SkyPoint;
-class ExtDateTime;
+class KStarsDateTime;
 class QTextStream;
 
 class modCalcApCoord : public modCalcApCoordDlg  {
@@ -41,9 +41,6 @@ public:
 	modCalcApCoord(QWidget *p, const char *n);
 /**Destructor. */
 	~modCalcApCoord();
-
-/**Convert the "epoch" (e.g., 2002.25) to a Julian Day. */
-	long double epochToJd (double epoch);
 
 /**Precess the coordinates from epoch 1 to epoch 2 */
 	SkyPoint precess (dms ra0, dms dec0, long double j0, long double jf);
@@ -77,11 +74,8 @@ private:
 /**Fill the Time and Date fields with the current values from the CPU clock. */
 	void showCurrentTime(void);
 
-/**@returns a ExtDateTime constructed from the Time and Date fields. */
-	ExtDateTime getExtDateTime (void);
-
-/**Convert the Time and Date to a Julian Day. */
-	long double computeJdFromCalendar (void);
+/**@returns a KStarsDateTime constructed from the Time and Date fields. */
+	KStarsDateTime getDateTime (void);
 
 /**Parse the string argument as a double */
 	double getEpoch (QString eName);

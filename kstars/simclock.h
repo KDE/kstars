@@ -22,7 +22,7 @@
 #include <qtimer.h>
 
 #include "simclockinterface.h"
-#include "libkdeedu/extdate/extdatetime.h"
+#include "kstarsdatetime.h"
 
 /**@class SimClock
 	*@short kstars simulation clock
@@ -38,18 +38,15 @@ class SimClock : public QObject, public SimClockInterface {
 		 * Constructor
 		 * @param when the date/time to which the SimClock should be initialized in UTC
 		 */
-		SimClock(QObject *parent = 0, const ExtDateTime &when = ExtDateTime::currentDateTime() );
+		SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
 		/**
 		 * Constructor
 		 * @param old a SimClock to initialize from.
 		 */
 		SimClock(const SimClock &old);
 
-	/**@returns the Julian Day for the current simulation time. */
-		long double JD();
-
-	/**@returns the Universal Time for the current simulation time. */
-		ExtDateTime UTC();
+	/**@return const reference to the current simulation Universal Time. */
+		const KStarsDateTime& utc();
 
 	/**Whether the clock is active or not is a bit complicated by the
 		*introduction of "manual mode".  In manual mode, SimClock's internal timer
@@ -86,7 +83,7 @@ class SimClock : public QObject, public SimClockInterface {
 		virtual ASYNC start();
 
 	/**DCOP function to set the time of the SimClock. */
-		virtual ASYNC setUTC(const ExtDateTime &newtime);
+		virtual ASYNC setUTC(const KStarsDateTime &newtime);
 
 	/**DCOP function to set scale of simclock.  Calls setScale().
 		*/
@@ -126,17 +123,12 @@ class SimClock : public QObject, public SimClockInterface {
 		void clockStopped();
 
 	private:
-		
-		long double julian, julianmark;
-		// only store zulu stuff. local times require knowledge the clock
-		// shouldn't have.
-		ExtDateTime utc;
-		QTime gst;
+		long double julianmark;
+		KStarsDateTime UTC;
 		QTimer tmr;
 		double Scale;
 		QTime sysmark;
 		int lastelapsed;
-		bool utcvalid;
 		bool ManualMode, ManualActive;
 
 		// used to generate names for dcop interfaces

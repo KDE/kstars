@@ -22,8 +22,8 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "geolocation.h"
-#include "ksutils.h"
 #include "kstars.h"
+#include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <qdatetimeedit.h>  //need for QTimeEdit
@@ -77,8 +77,7 @@ SkyPoint modCalcAzel::getHorCoords (void)
 
 void modCalcAzel::showCurrentDateTime (void)
 {
-
-	ExtDateTime dt = ExtDateTime::currentDateTime();
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
@@ -86,29 +85,21 @@ void modCalcAzel::showCurrentDateTime (void)
 	utBoxBatch->setTime( dt.time() );
 }
 
-ExtDateTime modCalcAzel::getExtDateTime (void)
+KStarsDateTime modCalcAzel::getDateTime (void)
 {
-
-	ExtDateTime dt ( datBox->date() , timBox->time() );
-
-	return dt;
-}
-
-long double modCalcAzel::computeJdFromCalendar (void)
-{
-	long double julianDay;
-
-	julianDay = KSUtils::UTtoJD( getExtDateTime() );
-
-	return julianDay;
+	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
 double modCalcAzel::getEpoch (QString eName)
 {
-
-	double epoch = eName.toDouble();
-
-	return epoch;
+	bool ok = false;
+	double epoch = eName.toDouble(&ok);
+	if ( ok )
+		return epoch;
+	else {
+		kdDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
+		return 2000.0;
+	}
 }
 
 dms modCalcAzel::getLongitude(void)
@@ -159,17 +150,16 @@ void modCalcAzel::showHorCoords ( SkyPoint sp )
 
 }
 
-void modCalcAzel::showEquCoords ( SkyPoint sp, long double jd )
+void modCalcAzel::showEquCoords ( SkyPoint sp )
 {
 	raBox->show( sp.ra(), FALSE );
 	decBox->show( sp.dec() );
-	showEpoch(jd);
+	showEpoch( getDateTime() );
 }
 
-void modCalcAzel::showEpoch ( long double jd )
+void modCalcAzel::showEpoch( const KStarsDateTime &dt )
 {
-	double epochN = 0.;
-	epochN = KSUtils::JdToEpoch(jd);
+	double epochN = dt.epoch();
 //	Localization
 //	epochName->setText(KGlobal::locale()->formatNumber(epochN,3));
 	epochName->setText( QString("%1").arg(epochN, 0, 'f', 2));
@@ -192,18 +182,16 @@ void modCalcAzel::slotClearCoords()
 
 void modCalcAzel::slotComputeCoords()
 {
-
-	long double jd = computeJdFromCalendar();
-	double epoch0 = getEpoch( epochName->text() );
-	long double jd0 = KSUtils::epochToJd ( epoch0 );
-
-	dms lgt = getLongitude();
-	dms LST = KSUtils::UTtoLST( getExtDateTime(), &lgt );
-
 	SkyPoint sp;
+	double epoch0 = getEpoch( epochName->text() );
+	KStarsDateTime dt;
+	dt.setFromEpoch( epoch0 );
+	long double jd = getDateTime().djd();
+	long double jd0 = dt.djd();
+
+	dms LST( getDateTime().gst().Degrees() + getLongitude().Degrees() );
 
 	if(radioApCoords->isChecked()) {
-
 		sp = getEquCoords();
 		sp.apparentCoord(jd0, jd);
 		dms lat(getLatitude());
@@ -211,16 +199,14 @@ void modCalcAzel::slotComputeCoords()
 		showHorCoords( sp );
 
 	} else {
-
 		sp = getHorCoords();
 		dms lat(getLatitude());
 		sp.HorizontalToEquatorial( &LST, &lat );
-		showEquCoords( sp, jd );
+		showEquCoords( sp );
 	}
 
 }
 void modCalcAzel::slotUtChecked(){
-
 	if ( utCheckBatch->isChecked() )
 		utBoxBatch->setEnabled( false );
 	else {
@@ -229,7 +215,6 @@ void modCalcAzel::slotUtChecked(){
 }
 
 void modCalcAzel::slotDateChecked(){
-
 	if ( dateCheckBatch->isChecked() )
 		dateBoxBatch->setEnabled( false );
 	else {
@@ -238,7 +223,6 @@ void modCalcAzel::slotDateChecked(){
 }
 
 void modCalcAzel::slotRaChecked(){
-
 	if ( raCheckBatch->isChecked() ) {
 		raBoxBatch->setEnabled( false );
 		horNoCheck();
@@ -249,7 +233,6 @@ void modCalcAzel::slotRaChecked(){
 }
 
 void modCalcAzel::slotDecChecked(){
-
 	if ( decCheckBatch->isChecked() ) {
 		decBoxBatch->setEnabled( false );
 		horNoCheck();
@@ -260,7 +243,6 @@ void modCalcAzel::slotDecChecked(){
 }
 
 void modCalcAzel::slotEpochChecked(){
-
 	if ( epochCheckBatch->isChecked() )
 		epochBoxBatch->setEnabled( false );
 	else 
@@ -268,7 +250,6 @@ void modCalcAzel::slotEpochChecked(){
 }
 
 void modCalcAzel::slotLongChecked(){
-
 	if ( longCheckBatch->isChecked() )
 		longBoxBatch->setEnabled( false );
 	else 
@@ -276,7 +257,6 @@ void modCalcAzel::slotLongChecked(){
 }
 
 void modCalcAzel::slotLatChecked(){
-
 	if ( latCheckBatch->isChecked() )
 		latBoxBatch->setEnabled( false );
 	else {
@@ -285,7 +265,6 @@ void modCalcAzel::slotLatChecked(){
 }
 
 void modCalcAzel::slotAzChecked(){
-
 	if ( azCheckBatch->isChecked() ) {
 		azBoxBatch->setEnabled( false );
 		equNoCheck();
@@ -296,7 +275,6 @@ void modCalcAzel::slotAzChecked(){
 }
 
 void modCalcAzel::slotElChecked(){
-
 	if ( elCheckBatch->isChecked() ) {
 		elBoxBatch->setEnabled( false );
 		equNoCheck();
@@ -307,7 +285,6 @@ void modCalcAzel::slotElChecked(){
 }
 
 void modCalcAzel::horNoCheck() {
-
 	azCheckBatch->setChecked(false);
 	azBoxBatch->setEnabled(false);
 	elCheckBatch->setChecked(false);
@@ -317,7 +294,6 @@ void modCalcAzel::horNoCheck() {
 }
 
 void modCalcAzel::equNoCheck() {
-
 	raCheckBatch->setChecked(false);
 	raBoxBatch->setEnabled(false);
 	decCheckBatch->setChecked(false);
@@ -339,7 +315,6 @@ void modCalcAzel::slotOutputFile() {
 }
 
 void modCalcAzel::slotRunBatch() {
-
 	QString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
@@ -472,14 +447,14 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 				ostream << epoch0B << space;
 
 		// We make the first calculations
-		
-		jdf = KSUtils::UTtoJD( ExtDateTime(dtB,utB) );
-		jd0 = KSUtils::epochToJd ( epoch0B );
+		KStarsDateTime dt;
+		dt.setFromEpoch( epoch0B );
+		jdf = KStarsDateTime(dtB,utB).djd();
+		jd0 = dt.djd();
 
-		LST = KSUtils::UTtoLST( ExtDateTime(dtB,utB), &longB );
+		LST = KStarsDateTime(dtB,utB).gst().Degrees() + longB.Degrees();
 		
 		// Equatorial coordinates are the input coords.
-
 		if (!horInputCoords) {
 		// Read RA and write in ostream if corresponds
 

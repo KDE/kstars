@@ -91,7 +91,7 @@ void FocusDialog::validatePoint() {
 		Point = new SkyPoint( ra, dec );
 		double epoch0 = getEpoch( fdlg->epochName->text() );
 		long double jd0 = epochToJd ( epoch0 );
-		Point->apparentCoord(jd0, ks->data()->currentDate() );
+		Point->apparentCoord(jd0, ks->data()->ut().djd() );
 
 		QDialog::accept();
 	} else {

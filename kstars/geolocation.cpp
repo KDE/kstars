@@ -155,7 +155,6 @@ void GeoLocation::cartToGeod(void)
 }
 
 void GeoLocation::geodToCart (void) {
-
 	double e2, xn;
 	double sinLong, cosLong, sinLat, cosLat;
 
@@ -168,5 +167,4 @@ void GeoLocation::geodToCart (void) {
 	PosCartX = (xn+Height)*cosLat*cosLong;
 	PosCartY = (xn+Height)*cosLat*sinLong;
 	PosCartZ = (xn*(1-e2)+Height)*sinLat;
-
 }

@@ -20,69 +20,70 @@
 
 #include "simclock.h"
 #include "kstars.h"
-#include "ksutils.h"
 
 int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 
-SimClock::SimClock(QObject *parent, const ExtDateTime &when) :
-	QObject(parent),
-	DCOPObject("clock#" + QCString().setNum(idgen++)),
-	tmr(this)
+SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
+		QObject(parent),
+		DCOPObject("clock#" + QCString().setNum(idgen++)),
+		tmr(this)
 {
 	if (! when.isValid() ) tmr.stop();
-	Scale = 1.0;
 	setUTC(when);
-	julianmark = julian;
-	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+	julianmark = UTC.djd();
+	
+	Scale = 1.0;
 	ManualMode = false;
 	ManualActive = false;
+	
+	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 SimClock::SimClock (const SimClock &old) :
-	QObject(old.parent()),
-	SimClockInterface(),
-	DCOPObject("clock#" + QCString().setNum(idgen++)),
-	tmr(this)
+		QObject(old.parent()),
+		SimClockInterface(),
+		DCOPObject("clock#" + QCString().setNum(idgen++)),
+		tmr(this)
 {
-	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
-	julian = old.julian;
-	utcvalid = false;
+	UTC = old.UTC;
+	julianmark = old.julianmark;
+	
 	Scale = old.Scale;
 	ManualMode = old.ManualMode;
 	ManualActive = old.ManualActive;
+	
+	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 void SimClock::tick() {
 	if ( ! ManualMode ) { //only tick if ManualMode is false
 		long mselapsed = sysmark.elapsed();
 		if (mselapsed < lastelapsed) {
-			//
-			// The clock has been running more than 24 hours "real" time.
-			// Reset our julian base by scale number of days.
-			//
+			// The sysmark timer has wrapped after 24 hours back to 0 ms.  
+			// Reset our JD marker by Scale number of days.
 			julianmark += 1.0 * Scale;
 		}
 		lastelapsed = mselapsed;
-		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 		
-		julian = julianmark + (scaledsec / (24. * 3600.));
+		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
+		UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
-// 		kdDebug() << "tick() : julian = " << QString("%1").arg( julian, 15, 'f', 7) <<
+// 		kdDebug() << "tick() : JD = " << QString("%1").arg( UTC.djd(), 15, 'f', 7) <<
 // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
 // 			"  scaledsec = " << double(scaledsec) << endl;
 
-		utcvalid = false;
 		emit timeAdvanced();
 	}
 }
 
 void SimClock::setManualMode( bool on ) {
 	if ( on ) {
-		//Turn on manual ticking.  If the timer was active, stop the timer and
-		//set ManualActive=true.  Otherwise, set ManualActive=false.
-		//Then set ManualMode=true.
+		//Turn on manual ticking.  
+		//If the timer was active, stop the timer and set ManualActive=true.  
+		//Otherwise, set ManualActive=false.
+		//Finally, set ManualMode=true.
 		if ( tmr.isActive() ) {
 			tmr.stop();
 			ManualActive = true;
@@ -95,7 +96,7 @@ void SimClock::setManualMode( bool on ) {
 		//Then set ManualMode=false.
 		if ( isActive() ) {
 			sysmark.start();
-			julianmark = julian;
+			julianmark = UTC.djd();
 			lastelapsed = 0;
 			tmr.start(TimerInterval);
 		}
@@ -105,26 +106,12 @@ void SimClock::setManualMode( bool on ) {
 
 void SimClock::manualTick( bool force ) {
 	if ( force || (ManualMode && ManualActive) ) {
-		int dDays = int( Scale / 86400. );
-		int dSecs = int( Scale - dDays*86400. );
-		ExtDateTime newUT( UTC().addDays( dDays ) );
-		newUT = newUT.addSecs( dSecs );
-		setUTC( newUT );
-		julian += Scale/86400.;
+		setUTC( UTC.addSecs( (long double)Scale ) );
 	} else if ( ! ManualMode ) tick();
 }
 
-long double SimClock::JD() {
-	return julian;
-}
-
-ExtDateTime SimClock::UTC() {
-	if (! utcvalid) {
-		utc = KSUtils::JDtoUT(julian);
-		utcvalid = true;
-	}
-
-	return utc;
+const KStarsDateTime& SimClock::utc() {
+	return UTC;
 }
 
 bool SimClock::isActive() {
@@ -150,7 +137,7 @@ void SimClock::start() {
 	if ( ManualMode && !ManualActive ) {
 		ManualActive = true;
 		sysmark.start();
-		julianmark = julian;
+		julianmark = UTC.djd();
 		lastelapsed = 0;
 		emit clockStarted();
 		//emit timeChanged() in order to restart calls to updateTime()
@@ -160,25 +147,24 @@ void SimClock::start() {
 	if (! ManualMode && ! tmr.isActive()) {
 		kdDebug() << i18n( "Starting the timer" ) << endl;
 		sysmark.start();
-		julianmark = julian;
+		julianmark = UTC.djd();
 		lastelapsed = 0;
 		tmr.start(TimerInterval);
 		emit clockStarted();
 	}
 }
 
-void SimClock::setUTC(const ExtDateTime &newtime) {
+void SimClock::setUTC(const KStarsDateTime &newtime) {
 	if ( newtime.isValid() ) {
-		utc = newtime;
-		julian = KSUtils::UTtoJD(utc);
+		UTC = newtime;
 		if (tmr.isActive()) {
-			julianmark = julian;
+			julianmark = UTC.djd();
 			sysmark.start();
 			lastelapsed = 0;
 		}
 		
-		kdDebug() << i18n( "Setting clock UTC = " ) << utc.toString() <<
-			i18n( " julian day = " ) << QString("%1").arg( julian, 10, 'f', 2) << endl;
+		kdDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" )
+						.arg( UTC.toString() ).arg( UTC.djd(), 10, 'f', 2) << endl;
 		emit timeChanged();
 	} else {
 		kdDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;
@@ -187,16 +173,14 @@ void SimClock::setUTC(const ExtDateTime &newtime) {
 
 void SimClock::setScale(float s) {
 	if (Scale != s ) {
-		kdDebug() << "setScale: setting scale = " << s << endl;
+		kdDebug() << i18n( "New clock scale: %1 sec" ).arg( s ) << endl;
 		Scale = s;
 		if (tmr.isActive()) {
-			julianmark = julian;
+			julianmark = UTC.djd();
 			sysmark.start();
 			lastelapsed = 0;
 		}
 		emit scaleChanged(s);
-	} else {
-		kdDebug() << "setScale: scale and parm equal " << s << endl;
 	}
 }
 

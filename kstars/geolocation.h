@@ -22,6 +22,7 @@
 
 #include "dms.h"
 #include "timezonerule.h"
+#include "kstarsdatetime.h"
 
 /**@class GeoLocation
 	*Contains all relevant information for specifying a location 
@@ -284,6 +285,12 @@ public:
 	*5="IERS89"};
 	*/
 	void setEllipsoid( int i );
+
+	dms GSTtoLST( const dms &gst ) const { return dms( gst.Degrees() + Longitude.Degrees() ); }
+	dms LSTtoGST( const dms &lst ) const { return dms( lst.Degrees() - Longitude.Degrees() ); }
+
+	KStarsDateTime UTtoLT( const KStarsDateTime &ut ) const { return ut.addSecs( int( 3600.*TZ() ) ); }
+	KStarsDateTime LTtoUT( const KStarsDateTime &lt ) const { return lt.addSecs( int( -3600.*TZ() ) ); }
 
 private:
 	dms Longitude, Latitude;

@@ -20,47 +20,36 @@
 #include "dms.h"
 #include "dmsbox.h"
 #include "skyobject.h"
-#include "ksutils.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "timebox.h"
 #include "kssun.h"
 #include "ksnumbers.h"
+#include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <kapplication.h> //...already included in modcalcdaylength.h
+#include <kapplication.h> 
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
-
 	showCurrentDate();
- 	initGeo();
-	showLongLat();
+	initGeo();
 	this->show();
-
 }
 
-modCalcDayLength::~modCalcDayLength(){
-    delete geoPlace;
-}
+modCalcDayLength::~modCalcDayLength() {}
 
 void modCalcDayLength::showCurrentDate (void)
 {
-	ExtDateTime dt = ExtDateTime::currentDateTime();
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 	datBox->setDate( dt.date() );
 }
 
 void modCalcDayLength::initGeo(void)
 {
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	geoPlace = new GeoLocation( ks->geo() );
-}
-
-void modCalcDayLength::showLongLat(void)
-{
-
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	longBox->show( ks->geo()->lng() );
-	latBox->show( ks->geo()->lat() );
+	geoPlace = ks->geo();
+	longBox->show( geoPlace->lng() );
+	latBox->show( geoPlace->lat() );
 }
 
 void modCalcDayLength::getGeoLocation (void)
@@ -68,22 +57,11 @@ void modCalcDayLength::getGeoLocation (void)
 	geoPlace->setLong( longBox->createDms() );
 	geoPlace->setLat(  latBox->createDms() );
 	geoPlace->setHeight( 0.0);
-
 }
 
-ExtDateTime modCalcDayLength::getExtDateTime (void)
+KStarsDateTime modCalcDayLength::getDateTime (void)
 {
-	ExtDateTime dt ( datBox->date() , QTime(8,0,0) );
-	return dt;
-}
-
-long double modCalcDayLength::computeJdFromCalendar (void)
-{
-	long double julianDay;
-
-	julianDay = KSUtils::UTtoJD( getExtDateTime() );
-
-	return julianDay;
+	return KStarsDateTime( datBox->date() , QTime(8,0,0) );
 }
 
 void modCalcDayLength::slotClearCoords(){
@@ -105,19 +83,16 @@ void modCalcDayLength::slotClearCoords(){
 }
 
 QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
-
 	QTime dL(0,0,0);
-
-  int dds = riseQTime.secsTo(setQTime);
-  QTime dLength = dL.addSecs( dds );
+	int dds = riseQTime.secsTo(setQTime);
+	QTime dLength = dL.addSecs( dds );
 
 	return dLength;
 }
 
 void modCalcDayLength::slotComputePosTime()
 {
-
-	long double jd0 = computeJdFromCalendar();
+	long double jd0 = getDateTime().djd();
 	getGeoLocation();
 
 	KSNumbers * num = new KSNumbers(jd0);
@@ -142,10 +117,9 @@ void modCalcDayLength::slotComputePosTime()
 
 	QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
 
-//	dayLBox->setTime( dayLQtime );
 	dayLBox->showTime( dayLQtime );
 
 	delete num;
-
 }
+
 #include "modcalcdaylength.moc"

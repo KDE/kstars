@@ -166,7 +166,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						//kdDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
 
 						SkyPoint sp( &raDMS, &decDMS);
-						sp.apparentCoord( (double) J2000, ksw->data()->clock()->JD());
+						sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
 						sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 						QPoint P = getXY( &sp, Options::useAltAz(), Options::useRefraction() );
@@ -605,7 +605,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 			dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
 		}
 		
-		KSNumbers num( data->currentDate() );
+		KSNumbers num( data->ut().djd() );
 		dms ecLong, ecLat;
 		
 		//LabelPoint is offset from the anchor point by +2.0 degree ecl. Long 

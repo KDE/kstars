@@ -21,6 +21,7 @@
 #include <qpainter.h>
 
 #include "infoboxes.h"
+#include "kstarsdatetime.h"
 #include "dms.h"
 #include "geolocation.h"
 #include "skypoint.h"
@@ -335,7 +336,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	else return false;
 }
 
-bool InfoBoxes::timeChanged(ExtDateTime ut, ExtDateTime lt, dms *lst, long double julian) {
+bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt, dms *lst ) {
 	QString ot1 = TimeBox->text1();
 	QString ot2 = TimeBox->text2();
 	QString ot3 = TimeBox->text3();
@@ -348,7 +349,7 @@ bool InfoBoxes::timeChanged(ExtDateTime ut, ExtDateTime lt, dms *lst, long doubl
 	STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
 		i18n( "Julian Day", "JD: " ) +
-		KGlobal::locale()->formatNumber( julian, 2 ) );
+		KGlobal::locale()->formatNumber( ut.djd(), 2 ) );
 
 	if ( ot1 == TimeBox->text1() && ot2 == TimeBox->text2() &&
 			ot3 == TimeBox->text3() ) 

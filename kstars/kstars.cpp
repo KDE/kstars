@@ -61,6 +61,7 @@ KStars::KStars( bool doSplash ) :
 				pd->splash, SLOT( setMessage(QString) ));
 		pd->splash->show();
 	}
+	
 	pd->kstarsData->initialize();
 
 	//Set Geographic Location
@@ -166,8 +167,8 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	SkyMap *Map = map();
 
 	Data->updateTime( geo(), Map, automaticDSTchange );
-	if ( infoBoxes()->timeChanged(Data->UTime, Data->LTime, LST(), Data->CurrentDate) )
-	        Map->update();
+	if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), LST() ) )
+		Map->update();
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.

@@ -25,21 +25,18 @@
   *@author Pablo de Vicente
   */
 
-class ExtDateTime;
+class KStarsDateTime;
 class GeoLocation;
-
 
 class modCalcDayLength : public modCalcDayLengthDlg  {
 Q_OBJECT
 public: 
-
 /**Constructor. */
 	modCalcDayLength(QWidget *p, const char *n);
 /**Destructor. */
 	~modCalcDayLength();
 
 public slots:
-
 	/** No descriptions */
 	void slotComputePosTime();
 	/** No descriptions */
@@ -52,25 +49,15 @@ private:
 /**Fills the Date fields with the current values from the current date. */
 	void showCurrentDate(void);
 
-/**@returns a ExtDateTime constructed from the Time and Date fields. */
-	ExtDateTime getExtDateTime (void);
+/**@returns a KStarsDateTime constructed from the Time and Date fields. */
+	KStarsDateTime getDateTime (void);
 
 /**@returns a GeoLocation constructed from the Longitude and Latitude fields.
  * Height is arbitrarily set to 0.0 */
-
-	void getGeoLocation (void);
-	
+	void getGeoLocation(void);
 	void initGeo(void);
 
-
-/**Convert the Time and Date to a Julian Day. */
-	long double computeJdFromCalendar (void);
-
-/**Fills the Longitude and Latitude with the current location ones */
-	void showLongLat(void);
-
 	GeoLocation *geoPlace;
-
 };
 
 #endif

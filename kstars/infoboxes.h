@@ -25,7 +25,6 @@
 #include <kdebug.h>
 
 #include "infobox.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
 /**@class InfoBoxes
 	*Infoboxes manages the three infobox objects which are drawn on the Skymap.
@@ -42,6 +41,7 @@ class GeoLocation;
 class SkyPoint;
 class dms;
 class InfoBox;
+class KStarsDateTime;
 
 class InfoBoxes : public QObject {
 Q_OBJECT
@@ -210,10 +210,9 @@ public slots:
 	*@param ut The Universal Time date/time object
 	*@param lt The Local Time date/time object
 	*@param lst The Sidereal Time object
-	*@param jd The Julian Date (long double)
 	*@return true if values have changed
 	*/
-	bool timeChanged(ExtDateTime ut, ExtDateTime lt, dms *lst, long double julian);
+	bool timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt, dms *lst );
 
 /**Update the GeoBox strings according to the argument.
 	*@param geo The Geographic Location (we get the name, longitude and latitude from this)

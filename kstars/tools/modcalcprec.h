@@ -41,9 +41,6 @@ Q_OBJECT
 public: 
 	modCalcPrec(QWidget *p, const char *n); 
 	~modCalcPrec();
-
-	double JdtoEpoch (long double jd);
-	long double epochToJd (double epoch);
 	SkyPoint precess (dms ra0, dms dec0, double e0, double ef);
 
 public slots:
