@@ -1,0 +1,94 @@
+<chapter id="credits">
+<title>Credits and License</title>
+
+<para>&kstars;</para>
+<para>
+Program copyright 2001-2002 Jason Harris <email>kstars@30doradus.org</email>
+</para>
+
+<para>
+Contributors:
+<itemizedlist>
+<listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
+</listitem>
+<listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
+</listitem>
+<listitem><para>Mark Hollomon <email>mhh@mindspring.com</email></para>
+</listitem>
+<listitem><para>Pablo de Vicente <email>pvicentea@wanadoo.es</email></para>
+</listitem>
+<listitem><para>Carsten Niehaus <email>cniehaus@gmx.de</email></para>
+</listitem>
+<listitem><para>Vincent Jagot <email>vincent.jagot@free.fr</email></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para>
+Data Sources:
+<itemizedlist>
+<listitem>
+<para>Object catalogs and planet position tables: <ulink
+url="http://adc.gsfc.nasa.gov">NASA Astronomical Data Center</ulink></para>
+</listitem>
+<listitem>
+<para>Image and Information links provided by:</para>
+  <itemizedlist>
+  <listitem>
+  <para><ulink url="http://www.seds.org">SEDS.org</ulink></para>
+  </listitem>
+  <listitem>
+  <para><ulink url="http://oposite.stsci.edu/pubinfo/pr.html">HST Press
+  releases</ulink></para>
+  </listitem>
+  <listitem>
+  <para><ulink url="http://www.noao.edu/outreach/aop/">KPNO
+  Advanced Observing Program</ulink></para>
+  </listitem>
+  <listitem>
+  <para><ulink url="http://archive.stsci.edu/cgi-bin/dss_form">the
+  Digitized Sky Survey</ulink></para>
+  </listitem>
+  </itemizedlist>
+</listitem>
+<listitem>
+<para>Lunar images coyright 1999-2001 by <ulink
+url="http://www.astrosurf.com/cidadao">Antonio Cidadao</ulink> (used
+with permission)</para>
+</listitem>
+<listitem>
+<para>Inline images of M 17 and M 42 were adapted from images
+copyright 2000 by <ulink url="http://www.galaxyphoto.com">Jason
+Ware</ulink> (used with permission).</para>
+</listitem>
+</itemizedlist>
+</para>
+<para>
+References:
+<itemizedlist>
+<listitem><para><quote>Practical Astronomy With Your
+Calculator</quote> by Peter Duffet-Smith</para></listitem>
+<listitem><para><quote>Astronomical Algorithms</quote> by Jean
+Meeus</para></listitem>
+</itemizedlist>
+</para>
+<para>
+Special thanks:  To the &kde; and &Qt; developers for providing the
+world with a peerless set of free API libraries.  To the KDevelop
+team, for their excellent IDE, which made developing &kstars; so much
+easier and more fun.  To everyone on the KDevelop message board and on
+irc.kde.org, for answering my frequent questions.  Finally, to
+everyone who has submitted bug reports and other feedback.  Thank you,
+everyone.
+</para>
+
+<para>
+Documentation copyright 2001-2002 Jason Harris <email>kstars@30doradus.org</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove -->
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>

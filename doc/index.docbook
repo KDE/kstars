@@ -88,14 +88,14 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <copyright>
-<year>2001</year>
+<year>2001-2002</year>
 <holder>Jason Harris</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-11-20</date>
-<releaseinfo>0.80.00</releaseinfo>
+<date>2002-05-01</date>
+<releaseinfo>0.90.00</releaseinfo>
 
 <abstract>
 <para>
@@ -129,7 +129,7 @@ learning about astronomy and the night sky.
 the comfort of your computer chair.  It provides an accurate graphical
 representation of the night sky for any date, from any location on
 Earth.  The display includes 40,000 stars to 8th magnitude (well below
-the naked-eye limit), 10,000 deep-sky objects (Messier, NGC and IC
+the naked-eye limit), 13,000 deep-sky objects (Messier, NGC and IC
 catalogs), all planets, the Sun and Moon, the Milky Way, and guide
 lines such as the celestial equator, horizon and ecliptic.
 </para>
