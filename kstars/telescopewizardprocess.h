@@ -10,6 +10,8 @@
 #ifndef TELESCOPEWIZARDPROCESS_H
 #define TELESCOPEWIZARDPROCESS_H
 
+#include <qstringlist.h>
+
 #include "telescopewizard.h"
 
 class KStars;
@@ -27,7 +29,7 @@ Q_OBJECT
 
 public:
 	telescopeWizardProcess( QWidget* parent = 0, const char* name = 0);
-	~telescopeWizardProcess() {}
+	~telescopeWizardProcess();
 
 	unsigned int currentPage;
 	enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
@@ -42,11 +44,13 @@ private:
 
 	KProgressDialog *progressScan;
 
-	char *currentLabel;
+	QStringList portList;
+	QString currentDevice;
+
 	int currentPort;
 	int timeOutCount;
-	const int portLimit;
 	bool INDIMessageBar;
+        bool linkRejected;
 
 	int establishLink();
 	void Reset();

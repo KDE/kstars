@@ -144,13 +144,14 @@ void INDIDriver::processDeviceStatus(int id)
 {
 
    for (uint i=0; i < devices.size(); i++)
-     if (localListView->selectedItem()->text(0) == QString(devices[i]->label))
+     if (localListView->selectedItem()->text(0) == devices[i]->label)
      {
 	devices[i]->state = id == 0 ? 1 : 0;
 	if (devices[i]->state)
 	{
 
-	  ksw->getINDIMenu()->getCustomLabel(devices[i]->label, devices[i]->label);
+	  ksw->getINDIMenu()->setCustomLabel(devices[i]->label);
+	  devices[i]->label = ksw->getINDIMenu()->currentLabel;
 
 	  if (!runDevice(devices[i]))
 	  {
@@ -228,24 +229,23 @@ void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
 {
 
   for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(dev->label, devices[i]->label))
+     if (dev->label == devices[i]->label)
      	devices[i]->restart();
 }
 
-void INDIDriver::removeDevice(const char * deviceLabel)
+void INDIDriver::removeDevice(QString deviceLabel)
 {
   for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(deviceLabel, devices[i]->label))
+     if (deviceLabel == devices[i]->label)
      	devices[i]->restart();
 
 }
 
-
-bool INDIDriver::isDeviceRunning(const char * deviceLabel)
+bool INDIDriver::isDeviceRunning(QString deviceLabel)
 {
 
     for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(deviceLabel, devices[i]->label))
+     if (deviceLabel == devices[i]->label)
      {
        if (!devices[i]->proc)
         return false;
@@ -355,10 +355,10 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   XMLAtt *ap;
   XMLEle *el;
   IDevice *dv;
-  char label[128];
-  char driver[128];
-  char exec[128];
-  char version[16];
+  char *label;
+  char *driver;
+  char *exec;
+  char *version;
 
   ap = findXMLAtt(root, "label");
   if (!ap)
@@ -367,6 +367,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
     return false;
   }
 
+  label = new char[strlen(ap->valu) + 1];
   strcpy(label, ap->valu);
 
   ap = findXMLAtt(root, "driver");
@@ -376,6 +377,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
     return false;
   }
 
+  driver = new char[strlen(ap->valu) + 1];
   strcpy(driver, ap->valu);
 
   el = findXMLEle(root, "Exec");
@@ -383,6 +385,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   if (!el)
    return false;
 
+  exec = new char[strlen(ap->valu) + 1];
   strcpy(exec, el->pcdata);
 
   el = findXMLEle(root, "Version");
@@ -390,6 +393,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   if (!el)
    return false;
 
+  version = new char[strlen(ap->valu) + 1];
   strcpy(version ,el->pcdata);
 
   QListViewItem *device = new QListViewItem(DGroup, lastDevice);
@@ -400,26 +404,19 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
 
   lastDevice = device;
 
-  dv = new IDevice(label, driver, exec, version);
+  dv = new IDevice(QString(label), QString(driver), QString(exec), QString(version));
   devices.push_back(dv);
 
-
   // SLOTS/SIGNAL, pop menu, indi server logic
-
   return true;
 }
 
-INDIDriver::IDevice::IDevice(char *inLabel, char *inDriver, char * inExec, char *inVersion)
+INDIDriver::IDevice::IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion)
 {
-  label = new char[128];
-  driver = new char[128];
-  exec = new char [128];
-  version = new char[16];
-
-  strcpy(label, inLabel);
-  strcpy(driver, inDriver);
-  strcpy(exec, inExec);
-  strcpy(version, inVersion);
+  label = inLabel;;
+  driver = inDriver;;
+  exec = inExec;
+  version = inVersion;
 
   // Initially off
   state = 0;

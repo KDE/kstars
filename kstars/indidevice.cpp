@@ -52,6 +52,7 @@
 #include <qvbox.h>
 #include <qdatetime.h>
 #include <qtable.h>
+#include <qstring.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -73,14 +74,11 @@
 /*******************************************************************
 ** INDI Label
 *******************************************************************/
-INDI_L::INDI_L(INDI_P *parentProperty, char *inName, char *inLabel)
+INDI_L::INDI_L(INDI_P *parentProperty, QString inName, QString inLabel)
 {
-  format = new char[64];
-  text = new char[1024];
-  name = new char [strlen (inName) + 1];
-  label = new char [strlen (inLabel) + 1];
-  strcpy(name, inName);
-  strcpy(label, inLabel);
+  name = inName;
+  label = inLabel;
+
   pp = parentProperty;
 
   label_w = NULL;
@@ -110,10 +108,10 @@ INDI_L::~INDI_L()
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *parentGroup, char * inName)
+INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
 {
-  name = new char[64];
-  strcpy(name, inName);
+  name = inName;
+
   pg = parentGroup;
   isINDIStd = false;
 
@@ -170,7 +168,7 @@ bool INDI_P::isOn(QString component)
 
   INDI_L *lp;
 
-  lp = findLabel(component.ascii());
+  lp = findLabel(component);
 
   if (!lp)
    return false;
@@ -185,10 +183,10 @@ bool INDI_P::isOn(QString component)
   return false;
 }
 
-INDI_L * INDI_P::findLabel(const char *lname)
+INDI_L * INDI_P::findLabel(QString lname)
 {
   for (unsigned int i=0; i < labels.size(); i++)
-    if (!strcmp (labels[i]->name, lname) || !strcmp (labels[i]->label, lname))
+    if ( (labels[i]->name == lname) || (labels[i]->label == lname))
      return (labels[i]);
 
   return NULL;
@@ -246,19 +244,18 @@ void INDI_P::newText()
         if (perm == PP_WO)
 	{
 	  if ((table_w->text( i , 0)).isNull())
-	   strcpy(labels[i]->text, "0");
+	   labels[i]->text = "";
 	  else
-	   strcpy(labels[i]->text, (table_w->text( i , 0)).ascii());
+	   labels[i]->text = table_w->text( i , 0);
 	}
       	else if ((table_w->text( i , 1)).isNull())
-       	strcpy(labels[i]->text, (table_w->text( i , 0)).ascii());
-      	else
-       	strcpy(labels[i]->text, (table_w->text( i , 1)).ascii());
+	   labels[i]->text = table_w->text( i , 0);
+	else
+	    labels[i]->text = table_w->text( i , 1);
 
 	if (guitype == PG_NUMERIC)
-        f_scansexa(labels[i]->text, &(labels[i]->value));
+        f_scansexa(labels[i]->text.ascii(), &(labels[i]->value));
       }
-
 
   }
 
@@ -286,7 +283,7 @@ void INDI_P::convertSwitch(int id)
 
  //fprintf(stderr, "Property name is %s. Conevrting a switch, we have %s\n", name, parentPopup->text(id).ascii());
 
- lp = findLabel(parentPopup->text(id).ascii());
+ lp = findLabel(parentPopup->text(id));
 
  if (!lp)
   return;
@@ -296,7 +293,7 @@ void INDI_P::convertSwitch(int id)
 
  for (uint i=0; i < labels.size(); i++)
  {
-   if (!strcmp(labels[i]->label, parentPopup->text(id).ascii()))
+   if (labels[i]->label == parentPopup->text(id))
    {
      switchIndex = i;
      break;
@@ -305,7 +302,7 @@ void INDI_P::convertSwitch(int id)
 
  //fprintf(stderr, "The label is %s and its state is %s. Also, the switch index is %d\n", lp->name, lp->state == PS_OFF ? "Off" : "On", switchIndex);
 
- if (!strcmp(lp->name, "Slew") || !strcmp(lp->name, "Sync") || !strcmp(lp->name, "Track"))
+ if ((lp->name == "Slew") || (lp->name == "Sync") || (lp->name == "Track"))
  {
     // #1 set current object to NULL
     pg->dp->currentObject = NULL;
@@ -314,12 +311,12 @@ void INDI_P::convertSwitch(int id)
 		 pg->dp->devTimer->stop();
 
 
-   prop = pg->dp->findProp("EQUATORIAL_COORD");
+   prop = pg->dp->findProp(QString("EQUATORIAL_COORD"));
        if (prop == NULL)
         return;
 
 	// Track is a special case
-	 if (!strcmp(lp->name, "Track"))
+	 if ((lp->name == "Track"))
         	if (pg->dp->handleNonSidereal(pg->dp->parent->ksw->map()->clickedObject()))
 		        return;
 
@@ -339,7 +336,7 @@ void INDI_P::convertSwitch(int id)
        sp.apparentCoord( pg->dp->parent->ksw->data()->clock()->JD() , (long double) J2000);
 
        // Use J2000 coordinate as required by INDI
-       if ( !strcmp (prop->labels[0]->name, "RA"))
+       if ( (prop->labels[0]->name == "RA"))
          { RARowIndex = 0; DECRowIndex = 1;}
        else
          { RARowIndex = 1; DECRowIndex = 0;}
@@ -366,7 +363,7 @@ void INDI_P::convertSwitch(int id)
         }
 	return;
    }
-   else if (!strcmp(lp->name, "Abort Slew/Track"))
+   else if ((lp->name == "Abort Slew/Track"))
    {
          kdDebug() << "Stopping timer " << endl;
 	 pg->dp->devTimer->stop();
@@ -410,7 +407,7 @@ void INDI_P::updateLocation()
    GeoLocation *geo = pg->dp->parent->ksw->geo();
    int longRowIndex, latRowIndex;
 
-  if (!strcmp(name, "GEOGRAPHIC_COORD"))
+  if (name == "GEOGRAPHIC_COORD")
   {
     dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
     dms fullCir(360,0,0);
@@ -418,7 +415,7 @@ void INDI_P::updateLocation()
     if (tempLong.degree() < 0)
       tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
 
-    if (!strcmp (labels[0]->name, "LONG"))
+    if (labels[0]->name == "LONG")
     { longRowIndex = 0; latRowIndex = 1;}
     else
     { longRowIndex = 1; latRowIndex = 0;}
@@ -507,7 +504,7 @@ void INDI_P::newSwitch(int id)
 	lp->push_w->setFont(buttonFont);
 	lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
 
-	if ( !strcmp(name, "ABORT_MOTION"))
+	if (name == "ABORT_MOTION")
 	  pg->dp->devTimer->stop();
 
   }
@@ -526,11 +523,11 @@ void INDI_P::newSwitch(int id)
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *parentDevice, char *inName)
+INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
 {
   dp = parentDevice;
 
- if (!strcmp(inName, ""))
+ if (inName.isEmpty())
   {
     box = new QGroupBox(dp->propertyLayout);
     box->setFrameShape(QFrame::NoFrame);
@@ -538,7 +535,7 @@ INDI_G::INDI_G(INDI_D *parentDevice, char *inName)
   }
   else
   {
-  box = new QGroupBox(QString(inName), dp->propertyLayout);
+  box = new QGroupBox(inName, dp->propertyLayout);
   box->setColumnLayout(0, Qt::Vertical );
   box->layout()->setSpacing( 5 );
   box->layout()->setMargin( 5 );
@@ -563,10 +560,10 @@ int INDI_G::removeProperty(INDI_P *pp)
 {
 
   for (uint i=0; i < pl.size(); i++)
-   if (!strcmp(pl[i]->name, pp->name))
+   if (pl[i]->name == pp->name)
    {
-     pl.erase(pl.begin() + i);
      delete (pp);
+     pl.erase(pl.begin() + i);
      return (0);
    }
 
@@ -578,23 +575,22 @@ int INDI_G::removeProperty(INDI_P *pp)
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName, char *inLabel)
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inName, QString inLabel)
 {
-  name = new char[128];
-  label = new char[128];
-  strcpy(name, inName);
-  strcpy(label, inLabel);
+  name = inName;
+  label = inLabel;
+
   parent = menuParent;
   parentMgr = parentManager;
 
- tabContainer  = new QFrame( parent->deviceContainer, label);
- parent->deviceContainer->addTab (tabContainer, i18n(label));
+ tabContainer  = new QFrame( parent->deviceContainer);
+ parent->deviceContainer->addTab (tabContainer, label);
 
- curGroup = NULL;
- biggestLabel = 0;
- widestTableCol =0;
+ curGroup       = NULL;
+ biggestLabel   = 0;
+ widestTableCol = 0;
  initDevCounter = 0;
- currentObject = NULL;
+ currentObject  = NULL;
 
  sv = new QScrollView(tabContainer);
  sv->setResizePolicy(QScrollView::AutoOneFit);
@@ -619,10 +615,10 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
 
  clear   = new QPushButton(i18n("Clear"), tabContainer);
  clear->setDefault(false);
- savelog = new QPushButton(i18n("Save Log..."), tabContainer);
+ //savelog = new QPushButton(i18n("Save Log..."), tabContainer);
 
  buttonLayout->addWidget(clear);
- buttonLayout->addWidget(savelog);
+ //buttonLayout->addWidget(savelog);
  buttonLayout->addItem(hSpacer);
 
  mainLayout->addWidget(sv);
@@ -648,11 +644,9 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, char * inName
 
 INDI_D::~INDI_D()
 {
-  char errmsg[1024];
-
    for (uint j=0; j < gl.size(); j++)
-	      for (uint k=0; j < gl[j]->pl.size(); k++)
-	          removeProperty(gl[j]->pl[0], errmsg);
+	      for (uint k=0; k < gl[j]->pl.size(); k++)
+	          removeProperty(gl[j]->pl[k]);
 
   if (tabContainer)
     delete (tabContainer);
@@ -688,7 +682,7 @@ bool INDI_D::handleNonSidereal(SkyObject *o)
 
     int trackIndex=0;
 
-    fprintf(stderr, "Object of type %s\n", o->typeName().ascii());
+    kdDebug() << "Object of type " << o->typeName() << endl;
   //TODO Meade claims that the library access is available to
   // all telescopes, which is unture. Only classic meade support
   // that. They claim that library funcion will be available to all
@@ -706,20 +700,20 @@ bool INDI_D::handleNonSidereal(SkyObject *o)
   // handle Non Sideral is ONLY called when tracking an object, not slewing.
 
 
-  INDI_P *prop = findProp("SOLAR_SYSTEM");
-  INDI_P *setMode = findProp("ON_COORD_SET");
+  INDI_P *prop = findProp(QString("SOLAR_SYSTEM"));
+  INDI_P *setMode = findProp(QString("ON_COORD_SET"));
 
   // If the device support it
   if (prop && setMode)
   {
     for (uint i=0; i < setMode->labels.size(); i++)
-      if (!strcmp(setMode->labels[i]->name, "Track"))
+      if (setMode->labels[i]->name == "Track")
       { trackIndex = i; break; }
 
     kdDebug() << "Device supports SOLAR_SYSTEM property" << endl;
 
     for (unsigned int i=0; i < prop->labels.size(); i++)
-     if (o->name().lower() == QString(prop->labels[i]->label).lower())
+     if (o->name().lower() == prop->labels[i]->label.lower())
      {
        setMode->newSwitch(trackIndex);
        prop->newSwitch(i);
@@ -735,13 +729,13 @@ bool INDI_D::handleNonSidereal(SkyObject *o)
    {
     // Planet/Moon
     case 2:
-       fprintf(stderr, "Initiating pulse tracking for %s.\n", currentObject->name().ascii());
+       kdDebug() << "Initiating pulse tracking for " << currentObject->name() << endl;
        devTimer->start(INDI_PULSE_TRACKING);
        break;
     // Comet/Asteroid
     case 9:
     case 10:
-      fprintf(stderr, "Initiating pulse tracking for %s.\n", currentObject->name().ascii());
+      kdDebug() << "Initiating pulse tracking for " << currentObject->name() << endl;
       devTimer->start(INDI_PULSE_TRACKING);
       break;
     default:
@@ -763,7 +757,7 @@ void INDI_D::timerDone()
 	return;
        }
 
-       prop = findProp("ON_COORD_SET");
+       prop = findProp(QString("ON_COORD_SET"));
        if (prop == NULL || !currentObject)
         return;
 
@@ -771,10 +765,10 @@ void INDI_D::timerDone()
        if (prop->state == PS_BUSY)
         return;
 
-       //kdDebug() << "Timer called, starting processing" << endl;
-       fprintf(stderr, "Time called, starting processing\n");
+       kdDebug() << "Timer called, starting processing" << endl;
 
-       prop = findProp("EQUATORIAL_COORD");
+
+       prop = findProp(QString("EQUATORIAL_COORD"));
        if (prop == NULL)
         return;
 
@@ -788,7 +782,7 @@ void INDI_D::timerDone()
        // The ra0() of a skyPoint is the same as its JNow ra() without this process
 
        // Use J2000 coordinate as required by INDI
-       if ( !strcmp (prop->labels[0]->name, "RA"))
+       if (prop->labels[0]->name == "RA")
          { RARowIndex = 0; DECRowIndex = 1;}
        else
          { RARowIndex = 1; DECRowIndex = 0;}
@@ -818,11 +812,13 @@ void INDI_D::timerDone()
 }
 
 
-int INDI_D::removeProperty(INDI_P *pp, char errmsg[])
+int INDI_D::removeProperty(INDI_P *pp)
 {
+    QString propName(pp->name);
+
     if (!pp->pg->removeProperty(pp))
     {
-    	for (uint j=0; j < gl.size(); j++)
+    	for (unsigned int j=0; j < gl.size(); j++)
     	{
 		if (gl[j]->pl.size() == 0)
 		{
@@ -834,7 +830,7 @@ int INDI_D::removeProperty(INDI_P *pp, char errmsg[])
 	return (0);
     }
 
-    sprintf (errmsg, "INDI: Device %s has no property named %s", name, pp->name);
+    kdDebug() << "INDI: Device " << name << " has no property named " << propName << endl;
     return (-1);
 
 }
@@ -855,7 +851,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 	if (!pp)
 	{
 	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
-						root->tag, name, ap->valu);
+						root->tag, name.ascii(), ap->valu);
 	    return (-1);
 	}
 
@@ -869,7 +865,6 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
  */
 int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 {
-	char *pn = pp->name;
 	XMLAtt *ap;
 
 	/* set overall property state, if any */
@@ -881,7 +876,7 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    else
 	    {
 		sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
-						root->tag, ap->valu, name, pn);
+						root->tag, ap->valu, name.ascii(), pp->name.ascii());
 		return (-1);
 	    }
 	}
@@ -924,6 +919,7 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 {
 	XMLEle *ep;
+	char iNumber[32];
 
 	for (int i = 0; i < root->nel; i++)
 	{
@@ -940,14 +936,14 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	     if (pp->guitype == PG_TEXT)
 	     {
 	     	pp->table_w->setText(i , 0, QString(ep->pcdata));
-		pp->labels[i]->text = new char[strlen(ep->pcdata)+1];
-		strcpy(pp->labels[i]->text, ep->pcdata);
+		pp->labels[i]->text = QString(ep->pcdata);
              }
 	     else if (pp->guitype == PG_NUMERIC)
 	     {
 	       pp->labels[i]->value = atof(ep->pcdata);
-	       numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
-	       pp->table_w->setText(i , 0, QString(pp->labels[i]->text));
+	       numberFormat(iNumber, pp->labels[i]->format.ascii(), pp->labels[i]->value);
+	       pp->labels[i]->text = iNumber;
+	       pp->table_w->setText(i , 0, pp->labels[i]->text);
 	     }
 	     break;
 
@@ -958,12 +954,13 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    else if (pp->guitype == PG_NUMERIC)
 	    {
 	      pp->labels[i]->value = atof(ep->pcdata);
-	      numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
+	      numberFormat(iNumber, pp->labels[i]->format.ascii(), pp->labels[i]->value);
+	      pp->labels[i]->text = iNumber;
 
 	      if (pp->labels[i]->spin_w)
                 pp->labels[i]->spin_w->setValue(pp->labels[i]->value);
 	      else
- 	        pp->table_w->setText(i , 0, QString(pp->labels[i]->text));
+ 	        pp->table_w->setText(i , 0, pp->labels[i]->text);
 	    }
 
 
@@ -971,10 +968,10 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	   }
 	}
 
-        if (!strcmp(pp->name , "EQUATORIAL_COORD"))
+        if (pp->name == "EQUATORIAL_COORD")
 	  parent->ksw->map()->forceUpdateNow();
-	else if  ( (!strcmp(pp->name, "TIME") && parent->ksw->options()->indiAutoTime) ||
-	           (!strcmp(pp->name, "GEOGRAPHIC_COORD") && parent->ksw->options()->indiAutoGeo))
+	else if  ( ((pp->name == "TIME") && parent->ksw->options()->indiAutoTime) ||
+	            ((pp->name == "GEOGRAPHIC_COORD") && parent->ksw->options()->indiAutoGeo))
 		  handleDevCounter();
 
         // suppress warning
@@ -992,7 +989,7 @@ void INDI_D::handleDevCounter()
   initDevCounter--;
 
   if (initDevCounter == 0 && parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online and ready."), 0);
+    parent->ksw->statusBar()->changeItem( name + i18n(" is online and ready."), 0);
 
 }
 
@@ -1003,7 +1000,8 @@ void INDI_D::handleDevCounter()
  */
 int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 {
-        XMLEle *ep;// = parent->findEle (root, pp, "setText", errmsg);
+        XMLEle *ep;
+	char iNumber[32];
 
 	for (int i = 0; i < root->nel; i++)
 	{
@@ -1017,17 +1015,17 @@ int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	   case PP_RW:	// FALLTHRU
 	   case PP_WO:
 	     if (pp->guitype == PG_TEXT)
-	     	pp->table_w->setText(i , 1, QString(ep->pcdata));
+	     	pp->table_w->setText(i , pp->perm == PP_RW ? 1 : 0, QString(ep->pcdata));
              else if (pp->guitype == PG_NUMERIC)
 	     {
 	       pp->labels[i]->value = atof(ep->pcdata);
-	       numberFormat(pp->labels[i]->text, pp->labels[i]->format, pp->labels[i]->value);
-	       pp->table_w->setText(i , 1, QString(pp->labels[i]->text));
+	       numberFormat(iNumber, pp->labels[i]->format.ascii(), pp->labels[i]->value);
+	       pp->labels[i]->text = iNumber;
+
+	       pp->table_w->setText(i , pp->perm == PP_RW ? 1 : 0, pp->labels[i]->text);
 	     }
 
-
-	     break;
-	case PP_RO:
+	   case PP_RO:
 	      break;
 	   }
 	}
@@ -1044,14 +1042,10 @@ int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
  */
 int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 {
-	char *pn = pp->name;
-	uint i;
 	int menuChoice=0;
 
-	//fprintf(stderr, "In set Label state\n");
-
 	/* for each child element */
-	for (i = 0; i < (uint) root->nel; i++)
+	for (unsigned i = 0; i < (unsigned int) root->nel; i++)
 	{
 	    XMLEle *ep = root->el[i];
 	    XMLAtt *ap;
@@ -1069,7 +1063,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	    if (!ap)
 	    {
 		sprintf (errmsg, "INDI: <%s> %s %s %s requires name",
-						    root->tag, name, pn, ep->tag);
+						    root->tag, name.ascii(), pp->name.ascii(), ep->tag);
 		return (-1);
 	    }
 
@@ -1077,18 +1071,18 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 		    || (!islight && crackSwitchState (ep->pcdata, &state) < 0))
 	    {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-					    root->tag, ep->pcdata, name, pn, ep->tag);
+					    root->tag, ep->pcdata, name.ascii(), pp->name.ascii(), ep->tag);
 		return (-1);
 	    }
 
 	    /* find matching label */
 	    //fprintf(stderr, "Find matching label. Name from XML is %s\n", ap->valu);
-	    lp = pp->findLabel(ap->valu);
+	    lp = pp->findLabel(QString(ap->valu));
 
 	    if (!lp)
 	    {
 		sprintf (errmsg,"INDI: <%s> %s %s has no choice named %s",
-						    root->tag, name, pn, ap->valu);
+						    root->tag, name.ascii(), pp->name.ascii(), ap->valu);
 		return (-1);
 	    }
 
@@ -1102,17 +1096,17 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	      if (islight)
 	       break;
 
-               lp->push_w->setDown(state == PS_ON ? true : false);
+                lp->push_w->setDown(state == PS_ON ? true : false);
 		buttonFont = lp->push_w->font();
 		buttonFont.setBold(state == PS_ON ? TRUE : FALSE);
 		lp->push_w->setFont(buttonFont);
 
-		if (state == PS_ON && !strcmp(lp->name, "CONNECT"))
+		if (state == PS_ON && (lp->name == "CONNECT"))
 		{
 		  initDeviceOptions();
 		  emit linkAccepted();
 		}
-		else if (state == PS_ON && !strcmp(lp->name, "DISCONNECT"))
+		else if (state == PS_ON && (lp->name == "DISCONNECT"))
 		{
 		  parent->ksw->map()->forceUpdateNow();
 		  emit linkRejected();
@@ -1127,7 +1121,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	       {
 	      	if (menuChoice)
 	      	{
-	        	sprintf(errmsg, "INDI: <%s> %s %s has multiple ON states", root->tag, name, pn);
+	        	sprintf(errmsg, "INDI: <%s> %s %s has multiple ON states", root->tag, name.ascii(), pp->name.ascii());
 			return (-1);
               	}
 	      	menuChoice = 1;
@@ -1157,7 +1151,7 @@ void INDI_D::initDeviceOptions()
 
   if (parent->ksw->options()->indiAutoTime)
   {
-  	prop = findProp("TIME");
+  	prop = findProp(QString("TIME"));
   	  if (prop)
 	  {
             prop->updateTime();
@@ -1167,7 +1161,7 @@ void INDI_D::initDeviceOptions()
 
   if (parent->ksw->options()->indiAutoGeo)
   {
-  	prop = findProp("GEOGRAPHIC_COORD");
+  	prop = findProp(QString("GEOGRAPHIC_COORD"));
    	   if (prop)
 	   {
    		prop->updateLocation();
@@ -1176,7 +1170,7 @@ void INDI_D::initDeviceOptions()
   }
 
   if (parent->ksw->options()->indiMessages)
-    parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online."), 0);
+    parent->ksw->statusBar()->changeItem( name + i18n(" is online."), 0);
 
   parent->ksw->map()->forceUpdateNow();
 
@@ -1187,7 +1181,7 @@ bool INDI_D::isOn()
 
   INDI_P *prop;
 
-  prop = findProp("CONNECTION");
+  prop = findProp(QString("CONNECTION"));
   if (!prop)
    return false;
 
@@ -1209,7 +1203,7 @@ int INDI_D::newAnyCmd (XMLEle *root, char errmsg[])
 	pp = findProp(ap->valu);
 	if (!pp) {
 	    sprintf (errmsg,"INDI: <%s> device %s has no property named %s",
-						root->tag, name, ap->valu);
+						root->tag, name.ascii(), ap->valu);
 	    return (-1);
 	}
 
@@ -1262,7 +1256,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
                 return NULL;
         }
 	// Find an existing group, if none found, create one
-        pg = findGroup(ap->valu, 1, errmsg);
+        pg = findGroup(QString(ap->valu), 1, errmsg);
 
 	if (!pg)
 	 return NULL;
@@ -1275,11 +1269,11 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	if (findProp (ap->valu))
 	{
 	    sprintf (errmsg, "INDI: <%s %s %s> already exists", root->tag,
-							name, ap->valu);
+							name.ascii(), ap->valu);
 	    return NULL;
 	}
 
-	pp = new INDI_P(pg, ap->valu);
+	pp = new INDI_P(pg, QString(ap->valu));
 
 	/* N.B. if trouble from here on must call delP() */
 
@@ -1294,7 +1288,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	if (crackLightState (ap->valu, &pp->state) < 0)
 	{
 	    sprintf (errmsg, "INDI: <%s> bogus state %s for %s %s",
-				root->tag, ap->valu, pp->pg->dp->name, pp->name);
+				root->tag, ap->valu, pp->pg->dp->name.ascii(), pp->name.ascii());
 	    delete(pp);
 	    return (NULL);
 	}
@@ -1318,17 +1312,17 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	return (pp);
 }
 
-INDI_P * INDI_D::findProp (const char *name)
+INDI_P * INDI_D::findProp (QString name)
 {
        for (unsigned int i = 0; i < gl.size(); i++)
 	for (unsigned int j = 0; j < gl[i]->pl.size(); j++)
-	    if (!strcmp (name, gl[i]->pl[j]->name))
+	    if (name == gl[i]->pl[j]->name)
 		return (gl[i]->pl[j]);
 
 	return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
+INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 {
   for (int i= gl.size() - 1 ; i >= 0; i--)
   {
@@ -1336,7 +1330,7 @@ INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
 
     // If the new group is empty and the LAST group is not, then
     // create a new group, otherwise return the LAST empty group
-    if (!strcmp(grouptag, ""))
+    if (grouptag.isEmpty())
     {
       if ((!curGroup->box->title().isEmpty()) && create)
        break;
@@ -1344,7 +1338,7 @@ INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
        return curGroup;
     }
 
-    if (QString(grouptag) == curGroup->box->title())
+    if (grouptag == curGroup->box->title())
       return (curGroup);
   }
 
@@ -1356,7 +1350,7 @@ INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
         return curGroup;
   }
 
-  sprintf (errmsg, "INDI: group %s not found in %s", grouptag, name);
+  sprintf (errmsg, "INDI: group %s not found in %s", grouptag.ascii(), name.ascii());
   return NULL;
 }
 
@@ -1371,7 +1365,7 @@ INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
 	ap = findXMLAtt(root, "perm");
 	if (!ap) {
 	    sprintf (errmsg, "INDI: <%s %s %s> missing attribute 'perm'",
-					root->tag, pp->pg->dp->name, pp->name);
+					root->tag, pp->pg->dp->name.ascii(), pp->name.ascii());
 	    return (-1);
 	}
 	if (!strcmp(ap->valu, "ro") || !strcmp(ap->valu, "r"))
@@ -1382,7 +1376,7 @@ INDI_G *  INDI_D::findGroup (char *grouptag, int create, char errmsg[])
 	    *permp = PP_RW;
 	else {
 	    sprintf (errmsg, "INDI: <%s> unknown perm %s for %s %s",
-				root->tag, ap->valu, pp->pg->dp->name, pp->name);
+				root->tag, ap->valu, pp->pg->dp->name.ascii(), pp->name.ascii());
 	    return (-1);
 	}
 
@@ -1607,11 +1601,11 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	     strcpy(tlabel, tname);
 	    }
 
-	    lp = new INDI_L(pp, tname, tlabel);
+	    lp = new INDI_L(pp, QString(tname), QString(tlabel));
 
 	     pp->labels.push_back(lp);
 
-	     pp->table_w->verticalHeader()->setLabel(i, QString(tlabel));
+	     pp->table_w->verticalHeader()->setLabel(i, tlabel);
 	     pp->table_w->setText(i , 0, QString(text->pcdata));
 
 	     if (pp->table_w->verticalHeader()->sizeHint().width() > widestTableCol)
@@ -1641,7 +1635,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
         if (pp->perm != PP_RO)
 	{
 	    // INDI STD, but we use our own controls
-	    if (!strcmp(pp->name, "TIME"))
+	    if (pp->name == "TIME")
 	    {
 	     	pp->set_w   = new QPushButton(i18n("Set Time..."), curGroup->box);
 	        QObject::connect(pp->set_w, SIGNAL(clicked()), pp, SLOT(newTime()));
@@ -1654,9 +1648,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 		curGroup->layout->addWidget(pp->set_w, curGroup->pl.size(), 6);
 	}
 
-
 	curGroup->addProperty(pp);
-
 
 	return (0);
 }
@@ -1673,6 +1665,7 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	XMLAtt *ap;
 	char *nlabel;
 	char *nname;
+	char iNumber[32];
 	PPerm p;
 
 	/* build a new property */
@@ -1773,11 +1766,12 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 		lp->step = atof(ap->valu);
 	    ap = findXMLAtt (number, "format");
 	    if (ap)
-		strcpy(lp->format, ap->valu);
+		lp->format = ap->valu;
 
 	    lp->value = atof(number->pcdata);
 
-	    numberFormat(lp->text, lp->format, lp->value);
+	    numberFormat(iNumber, lp->format.ascii(), lp->value);
+	    lp->text = iNumber;
 
 	    pp->labels.push_back(lp);
 
@@ -1811,10 +1805,6 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	     else
 	       pp->table_w->setLeftMargin(widestTableCol);
 
-
-
-	     //pp->table_w->setText(i , 0, QString(tlabel));
-
 	 }
 
 	/* we know it will be a general text GUI */
@@ -1839,8 +1829,6 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 
 
 	return (0);
-
-
 
 }
 
@@ -1891,7 +1879,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	else
 	{
 	    sprintf (errmsg, "INDI: <%s> unknown rule %s for %s %s",
-				root->tag, ap->valu, name, pp->name);
+				root->tag, ap->valu, name.ascii(), pp->name.ascii());
 	    delete(pp);
 	    return (-1);
 	}
@@ -1911,8 +1899,8 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 
 	XMLEle *sep;
         char *sstate;
-	char sname[128];
-	char slabel[128];
+	char *sname;
+	char *slabel;
 	QPushButton *button;
 	QCheckBox   *checkbox;
 	INDI_L *lp;
@@ -1934,6 +1922,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		return (-1);
 	    }
 
+	    sname = new char[strlen(ap->valu) + 1];
 	    strcpy(sname, ap->valu);
 
 	    /* find label */
@@ -1944,19 +1933,23 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		return (-1);
 	     }
 
+	    slabel = new char[strlen(ap->valu)+1];
 	    strcpy(slabel, ap->valu);
 
 	    if (!strcmp (slabel, ""))
+	    {
+	     slabel = new char[strlen(sname) + 1];
 	     strcpy(slabel, sname);
+	    }
 
-            lp = new INDI_L(pp, sname, slabel);
+            lp = new INDI_L(pp, QString(sname), QString(slabel));
 
 	    sstate = sep->pcdata;
 
 	    if (crackSwitchState (sstate, &(lp->state)) < 0)
 	    {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, name);
+			    root->tag, ap->valu, name.ascii(), pp->name.ascii(), name.ascii());
 		delete(pp);
 		return (-1);
 	    }
@@ -2101,16 +2094,19 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 	    strcpy(slabel, ap->valu);
 
 	    if (!strcmp (slabel, ""))
+	    {
+	     slabel = new char[strlen(sname) + 1];
 	     strcpy(slabel, sname);
+	    }
 
-            lp = new INDI_L(pp, sname, slabel);
+            lp = new INDI_L(pp, QString(sname), QString(slabel));
 
 	    sstate = sep->pcdata;
 
 	    if (crackSwitchState (sstate, &(lp->state)) < 0)
 	    {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, name);
+			    root->tag, ap->valu, name.ascii(), pp->name.ascii(), name.ascii());
 		delete(pp);
 		return (-1);
 	    }
@@ -2124,7 +2120,7 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 		if (initlp)
 		{
 		    sprintf (errmsg,"INDI: <%s> %s %s has multiple On switches",
-					root->tag, name, pp->name);
+					root->tag, name.ascii(), pp->name.ascii());
 		    return (-1);
 		}
 		initlp = lp;
@@ -2188,8 +2184,8 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	INDI_L *lp;
 	QLabel *label;
 	KLed   *led;
-	char sname[128];
-	char slabel[128];
+	char *sname;
+	char *slabel;
 
 	for (i = 0; i < root->nel; i++)
 	{
@@ -2206,6 +2202,7 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 		return (-1);
 	    }
 
+	    sname = new char[strlen(ap->valu) +1];
 	    strcpy(sname, ap->valu);
 
 	    /* find label */
@@ -2216,17 +2213,21 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 		return (-1);
 	     }
 
+	    slabel = new char[strlen(ap->valu) +1];
 	    strcpy(slabel, ap->valu);
 
 	    if (!strcmp (slabel, ""))
+	    {
+             slabel = new char[strlen(sname) + 1];
 	     strcpy(slabel, sname);
+	    }
 
-	   lp = new INDI_L(pp, sname, slabel);
+	   lp = new INDI_L(pp, QString(sname), QString(slabel));
 
 	    if (crackLightState (lep->pcdata, &lp->state) < 0)
 	     {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
-			    root->tag, ap->valu, name, pp->name, sname);
+			    root->tag, ap->valu, name.ascii(), pp->name.ascii(), sname);
 		delete(pp);
 		return (-1);
 	    }
@@ -2364,10 +2365,10 @@ void DeviceManager::dataReceived()
 	    else
 		sprintf (msg, "INDI: agent closed connection");
 
+
             tcflush(serverFD, TCIFLUSH);
 	    sNotifier->disconnect();
 	    close(serverFD);
-
 	    parent->removeDeviceMgr(mgrID);
 	    KMessageBox::error(0, QString(msg));
 
@@ -2378,6 +2379,9 @@ void DeviceManager::dataReceived()
 	/* process each char */
 	for (i = 0; i < nr; i++)
 	{
+  	  if (!XMLParser)
+	     	return;
+
 	    XMLEle *root = readXMLEle (XMLParser, (int)ibuf[i], msg);
 	    if (root)
 	    {
@@ -2463,18 +2467,15 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 	    return (-1);
 	ap = findXMLAtt (root, "name");
 
-
-
 	/* delete just pname, or all if no property specified.
 	 * N.B. remember delP decrements dp->npl
 	 */
 	if (ap)
 	{
-	    pp = dp->findProp(ap->valu);
+	  pp = dp->findProp(QString(ap->valu));
 
-	    if (pp)
-  	      return dp->removeProperty(pp, errmsg);
-	    // err set from findProp
+	 if(pp)
+	 return dp->removeProperty(pp);
 	    else
 	      return (-1);
 	}
@@ -2484,24 +2485,23 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 
 }
 
-int DeviceManager::removeDevice(char *devName, char errmsg[])
+int DeviceManager::removeDevice(QString devName, char errmsg[])
 {
 
     // remove all devices if devName == NULL
     if (devName == NULL)
     {
-    	for (uint i=0; i < indi_dev.size(); i++)
-    	{
+    	for (unsigned int i=0; i < indi_dev.size(); i++)
           	delete(indi_dev[i]);
-	  	indi_dev.erase(indi_dev.begin());
-	}
+
+        indi_dev.clear();
 
 	return (0);
     }
 
-    for (uint i=0; i < indi_dev.size(); i++)
+    for (unsigned int i=0; i < indi_dev.size(); i++)
     {
-         if (!strcmp(indi_dev[i]->name, devName))
+         if (indi_dev[i]->name ==  devName)
 	 {
 	   kdDebug() << "Device Manager: Device found, deleting " << devName << endl;
 
@@ -2513,20 +2513,20 @@ int DeviceManager::removeDevice(char *devName, char errmsg[])
 	 }
    }
 
-   sprintf(errmsg, "Device %s not found" , devName);
+   sprintf(errmsg, "Device %s not found" , devName.ascii());
    return -1;
 }
 
-INDI_D * DeviceManager::findDev (char *devName, char errmsg[])
+INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
 {
 	/* search for existing */
-	for (uint i = 0; i < indi_dev.size(); i++)
+	for (unsigned int i = 0; i < indi_dev.size(); i++)
 	{
-	    if (!strcmp (indi_dev[i]->name, devName))
+	    if (indi_dev[i]->name == devName)
 		return (indi_dev[i]);
 	}
 
-	sprintf (errmsg, "INDI: no such device %s", devName);
+	sprintf (errmsg, "INDI: no such device %s", devName.ascii());
 	kdDebug() << errmsg;
 
 	return NULL;
@@ -2548,23 +2548,19 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 {
 	INDI_D *dp;
 	XMLAtt *ap;
-	char *label;
 
 	/* allocate new INDI_D on indi_dev */
 	ap = parent->findAtt (dep, "device", errmsg);
 	if (!ap)
 	    return NULL;
 
-	if (!strcmp(parent->currentLabel, ""))
-	{
-	  label = new char[ strlen(ap->valu) + 16];
-	  parent->getCustomLabel(ap->valu, label);
-	}
+	if (parent->currentLabel.isEmpty())
+	 parent->setCustomLabel(ap->valu);
 
 	//fprintf(stderr, "\n\n\n ***************** Adding a device %s with label %s *************** \n\n\n", ap->valu, label);
-	dp = new INDI_D(parent, this, ap->valu, parent->currentLabel);
+	dp = new INDI_D(parent, this, QString(ap->valu), parent->currentLabel);
 
-	strcpy(parent->currentLabel, "");
+	parent->currentLabel = "";
 
 	indi_dev.push_back(dp);
 
@@ -2586,7 +2582,7 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	/* search for existing */
 	for (uint i = 0; i < indi_dev.size(); i++)
 	{
-	    if (!strcmp (indi_dev[i]->name, dn))
+	    if (indi_dev[i]->name == QString(dn))
 		return (indi_dev[i]);
 	}
 
@@ -2647,14 +2643,14 @@ void DeviceManager::sendNewText (INDI_P *pp)
 {
 
 	fprintf(serverFP, "<newTextVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name);
-	fprintf(serverFP, "  name='%s'\n>", pp->name);
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
 	for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
 	    INDI_L *lp = pp->labels[i];
 	    fprintf(serverFP, "  <newText\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name);
-	    fprintf(serverFP, "      %s\n", lp->text);
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
+	    fprintf(serverFP, "      %s\n", lp->text.ascii());
 	    fprintf(serverFP, "  </newText>\n");
 	}
 	fprintf(serverFP, "</newTextVector>\n");
@@ -2663,13 +2659,13 @@ void DeviceManager::sendNewText (INDI_P *pp)
 void DeviceManager::sendNewNumber (INDI_P *pp)
 {
         fprintf(serverFP, "<newNumberVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name);
-	fprintf(serverFP, "  name='%s'\n>", pp->name);
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
 	for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
 	    INDI_L *lp = pp->labels[i];
 	    fprintf(serverFP, "  <newNumber\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name);
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
 	    fprintf(serverFP, "      %g\n", lp->value);
 	    fprintf(serverFP, "  </newNumber>\n");
 	}
@@ -2685,13 +2681,13 @@ void DeviceManager::sendNewSwitch (INDI_P *pp)//, int set)
 	//		pp->pg->dp->name, pp->name, set ? "On" : "Off", lp->name);
 
 	fprintf (serverFP,"<newSwitchVector\n");
-	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name);
-	fprintf (serverFP,"  name='%s'>\n", pp->name);
+	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.ascii());
+	fprintf (serverFP,"  name='%s'>\n", pp->name.ascii());
         for (unsigned int i = 0; i < pp->labels.size(); i++)
 	{
 	    INDI_L *lp = pp->labels[i];
 	    fprintf (serverFP,"  <newSwitch\n");
-	    fprintf (serverFP,"    name='%s'>\n", lp->name);
+	    fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
 	    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
 	    fprintf (serverFP,"  </newSwitch>\n");
 	}

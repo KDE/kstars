@@ -1228,7 +1228,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
       // make sure the dev is on first
       if (devMenu->mgr[i]->indi_dev[j]->isOn())
       {
-        eqNum = devMenu->mgr[i]->indi_dev[j]->findProp("EQUATORIAL_COORD");
+        eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
 
 	//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
         // make sure it has RA and DEC properties
@@ -1236,7 +1236,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	{
 
 	//fprintf(stderr, "Looking for RA label\n");
-	lp = eqNum->findLabel("RA");
+	lp = eqNum->findLabel(QString("RA"));
 	if (!lp)
 	 continue;
 
@@ -1245,7 +1245,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 	 //fprintf(stderr, "RA (%s) value is %g\n", lp->text, lp->value);
 
 	 //fprintf(stderr, "Looking for DEC label\n");
-	lp = eqNum->findLabel("DEC");
+	lp = eqNum->findLabel(QString("DEC"));
 	if (!lp)
 	 continue;
 

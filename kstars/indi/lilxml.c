@@ -151,7 +151,7 @@ readXMLEle (LilXML *lp, int newc, char errmsg[])
 	if (s < 0) {
 	    initParser(lp);
 	    return (NULL);
-	}
+	} 
 
 	/* Ok! return ce and we start over.
 	 * N.B. up to caller to call delXMLEle with what we return.

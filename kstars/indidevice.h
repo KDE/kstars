@@ -85,10 +85,10 @@ class QVBox;
 class INDI_L
 {
  public:
-  INDI_L(INDI_P *parentProperty, char *inName, char *inLabel);
+  INDI_L(INDI_P *parentProperty, QString inName, QString inLabel);
   ~INDI_L();
-    char *name;				//  name
-    char *label;			// label is the name by default, unless specefied
+    QString name;				//  name
+    QString label;			// label is the name by default, unless specefied
     PState state;			/* control on/off t/f etc */
     INDI_P *pp;				/* parent property */
 
@@ -99,8 +99,8 @@ class INDI_L
     KLed           *led_w;		// light led
     double min, max, step;		// params for scale
     double value;			// current value
-    char *text;				// current text
-    char *format;			// number format, if applicable
+    QString text;				// current text
+    QString format;			// number format, if applicable
 };
 
 /* INDI property */
@@ -108,10 +108,10 @@ class INDI_P : public QObject
 {
   Q_OBJECT
    public:
-   INDI_P(INDI_G *parentGroup, char *inName);
+   INDI_P(INDI_G *parentGroup, QString inName);
    ~INDI_P();
 
-    char	*name;			/* malloced name */
+    QString	name;			/* malloced name */
     INDI_G	*pg;			/* parent group */
     float	timeout;		/* TODO timeout, seconds */
     PState	state;			/* state light code */
@@ -132,7 +132,7 @@ class INDI_P : public QObject
 
     void drawLt(KLed *w, PState lstate);
     void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
-    INDI_L * findLabel(const char *lname);
+    INDI_L * findLabel(QString lname);
 
     void updateTime();
     void updateLocation();
@@ -151,7 +151,7 @@ class INDI_P : public QObject
 class INDI_G
 {
   public:
-  INDI_G(INDI_D *parentDevice, char *inName);
+  INDI_G(INDI_D *parentDevice, QString inName);
   ~INDI_G();
 
   QGroupBox   *box;
@@ -172,11 +172,11 @@ class INDI_D : public QObject
 {
  Q_OBJECT
   public:
-   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, char *inName, char *inLabel);
+   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, QString inName, QString inLabel);
    ~INDI_D();
 
-    char 	*name;			/* malloced name */
-    char	*label;
+    QString 	name;			/* malloced name */
+    QString	label;
     QFrame	*tabContainer;
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     QScrollView *sv;
@@ -186,7 +186,7 @@ class INDI_D : public QObject
     QSpacerItem *hSpacer;
 
     QPushButton  *clear;
-    QPushButton  *savelog;
+    //QPushButton  *savelog;
     QHBoxLayout  *buttonLayout;
 
     std::vector<INDI_G      *> gl;	/* malloced list of pointers to groups */
@@ -221,8 +221,8 @@ class INDI_D : public QObject
    /*****************************************************************
    * Find
    ******************************************************************/
-   INDI_P *   findProp    (const char *name);
-   INDI_G *   findGroup   (char *grouptag, int create, char errmsg[]);
+   INDI_P *   findProp    (QString name);
+   INDI_G *   findGroup   (QString grouptag, int create, char errmsg[]);
    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, char errmsg[]);
 
    /*****************************************************************
@@ -238,7 +238,7 @@ class INDI_D : public QObject
    int setAnyCmd      (XMLEle *root, char errmsg[]);
    int newAnyCmd      (XMLEle *root, char errmsg[]);
 
-   int  removeProperty(INDI_P *pp, char errmsg[]);
+   int  removeProperty(INDI_P *pp);
    void resizeGroups();
    void resizeTableHeaders();
 
@@ -304,8 +304,8 @@ class DeviceManager : public QObject
    * Misc.
    ******************************************************************/
    int  delPropertyCmd (XMLEle *root, char errmsg[]);
-   int  removeDevice(char *devName, char errmsg[]);
-   INDI_D *  findDev(char *devName, char errmsg[]);
+   int  removeDevice(QString devName, char errmsg[]);
+   INDI_D *  findDev(QString devName, char errmsg[]);
 
    int  messageCmd     (XMLEle *root, char errmsg[]);
    void checkMsg       (XMLEle *root, INDI_D *dp);

@@ -12,6 +12,7 @@
 #ifndef INDIMENU_H
 #define INDIMENU_H
 
+#include <qstring.h>
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
@@ -64,8 +65,8 @@ class INDIMenu : public KDialogBase
    QTextEdit 	*msgST_w;
    QWidget	*tab;
    QPushButton  *clear;
-   QPushButton  *savelog;
-   char *	currentLabel;
+   //QPushButton  *savelog;
+   QString	currentLabel;
 
    KStars *ksw;
 
@@ -75,18 +76,17 @@ class INDIMenu : public KDialogBase
    std::vector<DeviceManager *> mgr;
 
    void updateStatus();
-   bool removeDevice(char *devName);
+   bool removeDevice(QString devName);
    void removeDeviceMgr(int mgrID);
-   void getCustomLabel(const char *deviceName, char *new_label);
+   void setCustomLabel(QString deviceName);
 
    int mgrCounter;
    bool processServer();
    int processClient(QString hostname, QString portnumber);
    INDI_D * findDevice(QString deviceName);
-   INDI_D * findDeviceByLabel(char *label);
+   INDI_D * findDeviceByLabel(QString label);
 
    signals:
-
    void driverDisconnected(int mgrID);
 
 };

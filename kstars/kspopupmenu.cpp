@@ -169,9 +169,9 @@ bool KSPopupMenu::addINDI(void)
 	 	if ( prop->labels[g]->state == PS_ON)
 		{
 		        // Slew, Track, Sync are not checked
-			if ( strcmp (prop->labels[g]->name, "Slew") &&
-			     strcmp (prop->labels[g]->name, "Track") &&
-			     strcmp (prop->labels[g]->name, "Sync"))
+			if ((prop->labels[g]->name != "Slew") &&
+			    (prop->labels[g]->name != "Track") &&
+			    (prop->labels[g]->name != "Sync"))
 		  	menuDevice->setItemChecked(id, true);
 			else
 			menuDevice->setItemChecked(id, false);

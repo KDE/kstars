@@ -534,7 +534,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	  {
 	    TrackingFreq.s = IPS_OK;
 	    TrackingFreq.n[0].value = values[0];
-	    IDSetNumber(&TrackingFreq, "Tracking frequency set to %04.1f", h);
+	    IDSetNumber(&TrackingFreq, "Tracking frequency set to %04.1f", values[0]);
 	    if (trackingMode != LX200_TRACK_MANUAL)
 	    {
 	      trackingMode = LX200_TRACK_MANUAL;

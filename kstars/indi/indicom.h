@@ -82,7 +82,7 @@ int f_scansexa (const char *str0, double *dp);
 int extractISOTime(char *timestr, struct tm *utm);
 double UTtoJD(struct tm *utm);
 void getSexComponents(double value, int *d, int *m, int *s);
-int numberFormat (char *buf, char *format, double value);
+int numberFormat (char *buf, const char *format, double value);
 
 #ifdef __cplusplus
 }

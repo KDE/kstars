@@ -570,7 +570,7 @@ void getSexComponents(double value, int *d, int *m, int *s)
 
 /* fill buf with properly formatted INumber string. return length */
 int
-numberFormat (char *buf, char *format, double value)
+numberFormat (char *buf, const char *format, double value)
 {
         int w, f, s, l;
 

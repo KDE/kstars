@@ -60,11 +60,9 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
 
  ksw = (KStars *) parent;
 
- currentLabel = new char[128];
-
- strcpy(currentLabel, "");
-
  mgrCounter = 0;
+
+ currentLabel = "";
 
  mainLayout = new QVBoxLayout(plainPage(), 5, 5);
 
@@ -92,7 +90,6 @@ INDIMenu::~INDIMenu()
 void INDIMenu::updateStatus()
 {
    INDIDriver *drivers = ksw->getINDIDriver();
-
 
    // Local/Server
    processServer();
@@ -124,7 +121,7 @@ DeviceManager *dev;
     if (drivers == NULL)
      return false;
 
-    for (uint i=0; i < drivers->devices.size(); i++)
+    for (unsigned int i=0; i < drivers->devices.size(); i++)
     {
       // Devices ready to run but not yet managed
       if (drivers->devices[i]->state && drivers->devices[i]->managed == false)
@@ -147,8 +144,8 @@ DeviceManager *dev;
       // Devices running and they need to be shutdown
       else if (!drivers->devices[i]->state && drivers->devices[i]->managed == true)
       {
+           drivers->devices[i]->managed = false;
            removeDeviceMgr(drivers->devices[i]->mgrID);
-	   drivers->devices[i]->managed = false;
 	   return true;
 
       }
@@ -163,7 +160,6 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 
   DeviceManager *dev;
 
-  kdDebug() << "in process Client" << endl;
   dev = new DeviceManager(this, mgrCounter);
   if (dev->indiConnect(hostname, portnumber))
       mgr.push_back(dev);
@@ -177,18 +173,19 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
  return (mgrCounter - 1);
 }
 
-bool INDIMenu::removeDevice(char *devName)
+bool INDIMenu::removeDevice(QString devName)
 {
 
   char errmsg[1024];
 
-  for (uint i=0; i < mgr.size(); i++)
+  for (unsigned int i=0; i < mgr.size(); i++)
     if (!mgr[i]->removeDevice(devName, errmsg))
     {
       if (mgr[i]->indi_dev.size() == 0)
+      {
         delete mgr[i];
-
-      mgr.erase(mgr.begin() + i);
+        mgr.erase(mgr.begin() + i);
+      }
       return true;
     }
 
@@ -209,6 +206,7 @@ void INDIMenu::removeDeviceMgr(int mgrID)
 
       for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
          mgr[i]->removeDevice(mgr[i]->indi_dev[j]->name, errmsg);
+
        delete mgr[i];
        mgr.erase(mgr.begin() + i);
 
@@ -241,7 +239,7 @@ XMLEle * INDIMenu::findEle (XMLEle *ep, INDI_P *pp, const char *child, char errm
 	    return (cp);
 	if (errmsg)
 	    sprintf (errmsg, "INDI: <%s %s %s> missing child '%s'", ep->tag,
-						pp->pg->dp->name, pp->name, child);
+						pp->pg->dp->name.ascii(), pp->name.ascii(), child);
 	return (NULL);
 }
 
@@ -251,7 +249,7 @@ INDI_D * INDIMenu::findDevice(QString deviceName)
   for (unsigned int i=0; i < mgr.size(); i++)
   {
       for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-        if (QString(mgr[i]->indi_dev[j]->name) == deviceName)
+        if (mgr[i]->indi_dev[j]->name == deviceName)
        		return mgr[i]->indi_dev[j];
  }
 
@@ -259,12 +257,12 @@ INDI_D * INDIMenu::findDevice(QString deviceName)
 
 }
 
-INDI_D * INDIMenu::findDeviceByLabel(char *label)
+INDI_D * INDIMenu::findDeviceByLabel(QString label)
 {
   for (unsigned int i=0; i < mgr.size(); i++)
   {
       for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-        if (!strcmp(mgr[i]->indi_dev[j]->label, label))
+        if (mgr[i]->indi_dev[j]->label == label)
        		return mgr[i]->indi_dev[j];
  }
 
@@ -272,26 +270,20 @@ INDI_D * INDIMenu::findDeviceByLabel(char *label)
 }
 
 
-void INDIMenu::getCustomLabel(const char *deviceName, char *new_label)
+void INDIMenu::setCustomLabel(QString deviceName)
 {
 
  int nset=0;
 
 for (unsigned int i=0; i < mgr.size(); i++)
    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
-         if (strstr(mgr[i]->indi_dev[j]->label, deviceName))
+         if (mgr[i]->indi_dev[j]->label.find(deviceName) >= 0)
 	 	nset++;
 
 if (nset)
-{
- sprintf(new_label, "%s %d", deviceName, nset + 1);
- strcpy(currentLabel, new_label);
-}
+ currentLabel = deviceName + QString(" %1").arg(nset+1);
 else
-{
- strcpy (new_label, deviceName);
- strcpy (currentLabel, new_label);
-}
+ currentLabel = deviceName;
 
 }
 
