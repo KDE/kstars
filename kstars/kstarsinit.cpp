@@ -220,7 +220,7 @@ void KStars::initActions() {
 
 	new KAction(i18n( "Altitude vs. Time..."), KShortcut( "Ctrl+A"),
 						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
-	new KAction(i18n( "What's up tonight..."), KShortcut("Ctrl+U"),
+	new KAction(i18n( "What's up Tonight..."), KShortcut("Ctrl+U"),
 						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 	new KAction(i18n( "Script Builder..."), KShortcut("Ctrl+B"),
 						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
@@ -373,7 +373,7 @@ void KStars::initFOV() {
 			QTextStream ostream(&f);
 			ostream << i18n( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
 			ostream << i18n( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
-			ostream << i18n( "use 1-degree field-of-view indicator", "One degree" ) << ":60:2:#AAAAAA" << endl;
+			ostream << i18n( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
 			ostream << i18n( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
 			f.close();
 		}

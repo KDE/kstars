@@ -492,7 +492,7 @@ void ScriptBuilder::slotSaveAs() {
 
 void ScriptBuilder::saveWarning() {
 	if ( UnsavedChanges ) {
-		QString caption = i18n( "Save changes to script?" );
+		QString caption = i18n( "Save Changes to Script?" );
 		QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
 		QString ybut = i18n( "&Save" );
 		QString nbut = i18n( "&Discard" );

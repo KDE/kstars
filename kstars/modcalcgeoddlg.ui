@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>modCalcGeodCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -430,7 +430,7 @@
                                     <cstring>longCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Longitude</string>
+                                    <string>Longitude:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -441,7 +441,7 @@
                                     <cstring>latCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Latitude</string>
+                                    <string>Latitude:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -452,7 +452,7 @@
                                     <cstring>elevCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Elev. (m)</string>
+                                    <string>Elev. (m):</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -466,7 +466,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>X (km)</string>
+                                    <string>X (km):</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -480,7 +480,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Y (km)</string>
+                                    <string>Y (km):</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -494,7 +494,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Z (km)</string>
+                                    <string>Z (km):</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -550,7 +550,7 @@
                                     <cstring>InputButtonBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Input File</string>
+                                    <string>Input File...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
                                     <string>Archivo con los datos de entrada</string>
@@ -571,7 +571,7 @@
                                     <cstring>OutButtonBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Output File</string>
+                                    <string>Output File...</string>
                                 </property>
                             </widget>
                         </grid>

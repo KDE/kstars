@@ -184,24 +184,24 @@ void LCGenerator::createGUI()
     LCGeneratorDialogLayout->addLayout( ButtonHLayout );
     
     
-    StarInfoBox->setTitle( i18n( "Star Info" ) );
-    desigLabel->setText( i18n( "Designation" ) );
-    nameLabel->setText( i18n( "Or Name" ) );
-    startLabel->setText( i18n( "Start Date" ) );
+    StarInfoBox->setTitle( i18n( "Star Info:" ) );
+    desigLabel->setText( i18n( "Designation:" ) );
+    nameLabel->setText( i18n( "Or name:" ) );
+    startLabel->setText( i18n( "Start date:" ) );
     QWhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
-    endLabel->setText( i18n( "End Date" ) );
+    endLabel->setText( i18n( "End date:" ) );
     QWhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
     StartDateIn->setText( i18n( "default" ) );
     EndDateIn->setText( i18n( "default" ) );
     DataSelectBox->setTitle( i18n( "Data Selection" ) );
     VisualCheck->setText( i18n( "Visual" ) );
-    FainterCheck->setText( i18n( "Fainter Thans" ) );
-    DiscrepantCheck->setText( i18n( "Discrepant Data" ) );
+    FainterCheck->setText( i18n( "Fainter thans" ) );
+    DiscrepantCheck->setText( i18n( "Discrepant data" ) );
     CCDBCheck->setText( i18n( "CCDB" ) );
     CCDVCheck->setText( i18n( "CCDV" ) );
     CCDRCheck->setText( i18n( "CCDR" ) );
     CCDICheck->setText( i18n( "CCDI" ) );
-    plotLabel->setText( i18n( "Plot average" ) );
+    plotLabel->setText( i18n( "Plot average:" ) );
     daysLabel->setText( i18n( "days" ) );
     GetCurveButton->setText( i18n( "Retrieve Curve" ) );
     UpdateListButton->setText( i18n( "Update List" ) );

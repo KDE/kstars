@@ -197,7 +197,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Find Object</string>
+                                    <string>Find Object...</string>
                                 </property>
                             </widget>
                             <widget class="KPushButton">

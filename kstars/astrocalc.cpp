@@ -36,14 +36,14 @@
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true,
-	i18n("KStars Calculator"), Close ) {
+	i18n("Calculator"), Close ) {
 
 	split = new QSplitter ( this );
 	setMainWidget(split);
 
 	navigationPanel = new QListView (split,"NavigationPanel");
 	splashScreen = new QTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
-	
+
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 
@@ -56,28 +56,28 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QPixmap geodIcon = QPixmap ("geodetic.png");
 	QPixmap sunsetIcon = QPixmap ("sunset.png");
 	QPixmap timeIcon = QPixmap ("sunclock.png");
-			
-	QListViewItem * timeItem = new QListViewItem(navigationPanel,i18n("Time calculators"));
+
+	QListViewItem * timeItem = new QListViewItem(navigationPanel,i18n("Time Calculators"));
 	timeItem->setPixmap(0,timeIcon);
-	
+
 	QListViewItem * jdItem = new QListViewItem(timeItem,i18n("Julian Day"));
 	jdItem->setPixmap(0,jdIcon);
 
 	QListViewItem * stItem = new QListViewItem(timeItem,i18n("Sidereal Time"));
-	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
-//	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
+	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day Duration"));
+//	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day Duration"));
 //	dayItem->setPixmap(0,sunsetIcon);
-	
-	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate converters"));
+
+	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate Converters"));
 	QListViewItem * galItem = new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
 	QListViewItem * precItem = new QListViewItem(coordItem,i18n("Precession"));
-	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent coordinates"));
-	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal coordinates"));
-		
-	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth coordinates"));
+	QListViewItem * appItem = new QListViewItem(coordItem,i18n("Apparent Coordinates"));
+	QListViewItem * azelItem = new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
+
+	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
 
-	QListViewItem * cartItem = new QListViewItem(geoItem,i18n("Geodetic coordinates"));
+	QListViewItem * cartItem = new QListViewItem(geoItem,i18n("Geodetic Coordinates"));
 
 	connect(navigationPanel, SIGNAL(clicked(QListViewItem *)), this,
 		SLOT(slotItemSelection(QListViewItem *)));
@@ -90,15 +90,15 @@ AstroCalc::~AstroCalc()
 void AstroCalc::slotItemSelection(QListViewItem *item)
 {
 	QString election;
-	
+
 	if (item==0L) return;
-	
+
 	election = item->text(0);
-	if(!(election.compare(i18n("Time calculators"))))
+	if(!(election.compare(i18n("Time Calculators"))))
 		genTimeText();
 	if(!(election.compare(i18n("Sidereal Time"))))
 		genSidFrame();
-	if(!(election.compare(i18n("Coordinate converters"))))
+	if(!(election.compare(i18n("Coordinate Converters"))))
 		genCoordText();
 	if(!(election.compare(i18n("Julian Day"))))
 		genJdFrame();
@@ -106,19 +106,19 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genGalFrame();
 	if(!(election.compare(i18n("Precession"))))
 		genPrecFrame();
-	if(!(election.compare(i18n("Apparent coordinates"))))
+	if(!(election.compare(i18n("Apparent Coordinates"))))
 		genAppFrame();
-	if(!(election.compare(i18n("Horizontal coordinates"))))
+	if(!(election.compare(i18n("Horizontal Coordinates"))))
 		genAzelFrame();
-	if(!(election.compare(i18n("Earth coordinates"))))
+	if(!(election.compare(i18n("Earth Coordinates"))))
 		genGeodText();
-	if(!(election.compare(i18n("Geodetic coordinates"))))
+	if(!(election.compare(i18n("Geodetic Coordinates"))))
 		genGeodCoordFrame();
-	if(!(election.compare(i18n("Day duration"))))
+	if(!(election.compare(i18n("Day Duration"))))
 		genDayFrame();
-		
+
 		previousElection = election;
-			
+
 }
 
 void AstroCalc::genTimeText(void)

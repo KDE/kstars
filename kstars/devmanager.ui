@@ -210,7 +210,7 @@
                                             <cstring>addB</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Add</string>
+                                            <string>Add...</string>
                                         </property>
                                     </widget>
                                     <widget class="KPushButton">

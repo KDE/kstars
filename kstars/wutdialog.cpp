@@ -40,7 +40,7 @@
 #include <qcursor.h>
 
 WUTDialog::WUTDialog(KStars *ks) :
-	KDialogBase (KDialogBase::Plain, i18n("What's up tonight"), Close, Close, (QWidget*)ks),
+	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
 	kstars(ks), EveningFlag(0) {
 
 	QFrame *page = plainPage();

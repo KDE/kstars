@@ -470,7 +470,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                             <cstring>setTimeB</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Set Time</string>
+                                            <string>Set Time...</string>
                                         </property>
                                     </widget>
                                     <widget class="QPushButton">
@@ -478,7 +478,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                             <cstring>setLocationB</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Set Location</string>
+                                            <string>Set Location...</string>
                                         </property>
                                     </widget>
                                 </vbox>

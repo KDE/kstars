@@ -656,12 +656,12 @@ void KStars::slotSetZoom() {
 	//keep KDE 3.0.x and 3.1.x compatibility
 	#if ( KDE_VERSION_MINOR >= 1 && KDE_VERSION_RELEASE > 20 )
 	angSize = KInputDialog::getDouble( i18n( "The user should enter an angle for the field-of-view of the display",
-			"Enter desired field-of-view angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
+			"Enter Desired Field-of-View Angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
 			currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
 	#else
 	QString sCurrent = QString("%1").arg( currentAngle, 0, 'f', 1 );
 	QString entry = KLineEditDlg::getText( i18n( "The user should enter an angle for the field-of-view of the display",
-			"Enter desired field-of-view angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
+			"Enter Desired Field-of-View Angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
 			sCurrent, &ok, 0, &QDoubleValidator( minAngle, maxAngle, 1, 0 ) );
 
 	if ( ok ) angSize = entry.toDouble( &ok );

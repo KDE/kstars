@@ -82,8 +82,8 @@ LocationDialog::LocationDialog( QWidget* parent )
 	NewCountryLabel = new QLabel( i18n( "Country:" ), CoordBox );
 	LongLabel = new QLabel( i18n( "Longitude:" ), CoordBox );
 	LatLabel = new QLabel( i18n( "Latitude:" ), CoordBox );
-	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT offset: " ), CoordBox );
-	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "    DST rule: " ), CoordBox );
+	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT offset:" ), CoordBox );
+	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "DST rule:" ), CoordBox );
 
 	NewCityName = new KLineEdit( CoordBox );
 	NewProvinceName = new KLineEdit( CoordBox );
@@ -346,7 +346,7 @@ void LocationDialog::addCity( void ) {
 	dms lng = NewLong->createDms( true, &lngOk );
 
 	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ) {
-		QString message = i18n( "All fields (except Province) must be filled to add this location." );
+		QString message = i18n( "All fields (except province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 		return;
 	} else if ( ! latOk || ! lngOk ) {
@@ -372,7 +372,7 @@ void LocationDialog::addCity( void ) {
 		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );		
+			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		} else {

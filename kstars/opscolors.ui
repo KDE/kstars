@@ -224,7 +224,7 @@
                                 <cstring>AddPreset</cstring>
                             </property>
                             <property name="text">
-                                <string>Save Current Colors</string>
+                                <string>Save Current Colors...</string>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>Create a new preset color scheme using current settings</string>

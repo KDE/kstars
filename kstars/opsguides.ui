@@ -38,7 +38,7 @@
                 <cstring>showConstellNames</cstring>
             </property>
             <property name="text">
-                <string>Constellation names:</string>
+                <string>Constellation names</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>Draw constellation names?</string>

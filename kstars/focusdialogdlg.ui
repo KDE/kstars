@@ -39,7 +39,7 @@
                             <cstring>raLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>new RA:</string>
+                            <string>New RA:</string>
                         </property>
                     </widget>
                     <widget class="dmsBox" row="0" column="1">
@@ -69,7 +69,7 @@
                             <cstring>decLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>new Dec:</string>
+                            <string>New dec:</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="2" column="0">
@@ -109,7 +109,7 @@
                             <cstring>azLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>new Azimuth:</string>
+                            <string>New azimuth:</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
@@ -117,7 +117,7 @@
                             <cstring>altLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>new Altitude:</string>
+                            <string>New altitude:</string>
                         </property>
                     </widget>
                     <widget class="dmsBox" row="0" column="1">

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>modCalcGalCoordDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>484</width>
+            <width>575</width>
             <height>443</height>
         </rect>
     </property>
@@ -513,7 +513,7 @@
                                     <cstring>raCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Right ascention</string>
+                                    <string>Right ascention:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -527,7 +527,7 @@
                                     <cstring>decCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Declination</string>
+                                    <string>Declination:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -541,7 +541,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Epoch</string>
+                                    <string>Epoch:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -555,7 +555,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Gal. Long.</string>
+                                    <string>Gal. Long.:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -569,7 +569,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Gal. Lat.</string>
+                                    <string>Gal. Lat.:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
@@ -647,7 +647,7 @@
                                     <cstring>InputButtonBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Input File</string>
+                                    <string>Input File...</string>
                                 </property>
                                 <property name="toolTip" stdset="0">
                                     <string>Archivo con los datos de entrada</string>
@@ -668,7 +668,7 @@
                                     <cstring>OutButtonBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Output File</string>
+                                    <string>Output File...</string>
                                 </property>
                             </widget>
                         </grid>
