@@ -379,7 +379,7 @@ indiRun(void)
 static void
 newClient()
 {
-	ClInfo *cp;
+	ClInfo *cp = 0;
 	int s, cli;
 
 	/* assign new socket */
