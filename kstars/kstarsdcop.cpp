@@ -293,7 +293,13 @@ void KStars::setColor( const QString name, const QString value ) {
 	}
 }
 
-void KStars::loadColorScheme( const QString name ) {
+void KStars::loadColorScheme( const QString _name ) {
+	QString name( _name );
+	//Parse default names which don't follow the regular file-naming scheme
+	if ( name == i18n("use default color scheme", "Default Colors") ) name = "default.colors";
+	if ( name == i18n("use 'star chart' color scheme", "Star Chart") ) name = "chart.colors"; 
+	if ( name == i18n("use 'night vision' color scheme", "Night Vision") ) name = "night.colors"; 
+	
 	//Try assuming arg was the filename
 	bool ok = data()->colorScheme()->load( name );
 
@@ -312,10 +318,14 @@ void KStars::loadColorScheme( const QString name ) {
 		if ( ! ok ) kdDebug() << i18n( "Unable to load color scheme named %1.  Also tried %2." ).arg( name ).arg( filename ); 
 	}
 	
-	if ( ok ) map()->forceUpdate();
+	if ( ok ) {
+		map()->setStarColorMode( data()->colorScheme()->starColorMode() );
+		map()->setStarColorIntensity( data()->colorScheme()->starColorIntensity() );
+		map()->forceUpdate();
+	}
 }
 
-void KStars::exportImage( const QString url ) {
+void KStars::exportImage( const QString url, int w, int h ) {
 	//If the filename string contains no "/" separators, assume the 
 	//user wanted to place a file in their home directory.
 	KURL fileURL;
@@ -325,8 +335,11 @@ void KStars::exportImage( const QString url ) {
 	KTempFile tmpfile;
 	QString fname;
 	tmpfile.setAutoDelete(true);
+	
 	QPixmap skyimage( map()->width(), map()->height() );
-
+	QPixmap outimage( w, h );
+	outimage.fill();
+	
 	if ( fileURL.isValid() ) {
 		if ( fileURL.isLocalFile() ) {
 			fname = fileURL.path();
@@ -347,7 +360,31 @@ void KStars::exportImage( const QString url ) {
 		map()->exportSkyImage( &skyimage );
 		kapp->processEvents(10000);
 
-		if ( ! skyimage.save( fname, format ) ) kdDebug() << i18n( "Error: Unable to save image: %1 " ).arg( fname ) << endl;
+		//skyImage is the size of the sky map.  The requested image size is w x h.
+		//If w x h is smaller than the skymap, then we simply crop the image.  
+		//If w x h is larger than the skymap, pad the skymap image with a white border.
+		if ( w == map()->width() && h == map()->height() ) {
+			outimage = skyimage;
+		} else {
+			int dx(0), dy(0), sx(0), sy(0);
+			int sw(map()->width()), sh(map()->height());
+			if ( w > map()->width() ) {
+				dx = (w - map()->width())/2;
+			} else { 
+				sx = (map()->width() - w)/2; 
+				sw = w; 
+			}
+			if ( h > map()->height() ) {
+				dy = (h - map()->height())/2;
+			} else { 
+				sy = (map()->height() - h)/2; 
+				sh = h; 
+			}
+			
+			bitBlt( &outimage, dx, dy, &skyimage, sx, sy, sw, sh );
+		}
+		
+		if ( ! outimage.save( fname, format ) ) kdDebug() << i18n( "Error: Unable to save image: %1 " ).arg( fname ) << endl;
 		else kdDebug() << i18n( "Image saved to file: %1" ).arg( fname ) << endl;
 
 		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location

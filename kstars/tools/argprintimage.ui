@@ -1,0 +1,61 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>ArgPrintImage</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ArgPrintImage</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>258</width>
+            <height>190</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>ArgPrintImage</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>UsePrintDialog</cstring>
+            </property>
+            <property name="text">
+                <string>Show Print Dialog</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>UseChartColors</cstring>
+            </property>
+            <property name="text">
+                <string>Use Star Chart Colors</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer4</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>70</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

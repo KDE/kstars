@@ -383,7 +383,7 @@ void KStars::slotOpenFITS()
 void KStars::slotExportImage() {
 	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 	
-	exportImage( fileURL.url() );
+	exportImage( fileURL.url(), map()->width(), map()->height() );
 }
 
 void KStars::slotRunScript() {

@@ -169,27 +169,27 @@ QString ScriptFunction::prototype() const {
 	}
 
 	if ( ! ArgType[1].isEmpty() && ! ArgName[1].isEmpty() ) {
-		p += " " + ArgType[1];
+		p += ", " + ArgType[1];
 		p += " " + ArgName[1];
 	}
 
 	if ( ! ArgType[2].isEmpty() && ! ArgName[2].isEmpty() ) {
-		p += " " + ArgType[2];
+		p += ", " + ArgType[2];
 		p += " " + ArgName[2];
 	}
 
 	if ( ! ArgType[3].isEmpty() && ! ArgName[3].isEmpty() ) {
-		p += " " + ArgType[3];
+		p += ", " + ArgType[3];
 		p += " " + ArgName[3];
 	}
 
 	if ( ! ArgType[4].isEmpty() && ! ArgName[4].isEmpty() ) {
-		p += " " + ArgType[4];
+		p += ", " + ArgType[4];
 		p += " " + ArgName[4];
 	}
 
 	if ( ! ArgType[5].isEmpty() && ! ArgName[5].isEmpty() ) {
-		p += " " + ArgType[5];
+		p += ", " + ArgType[5];
 		p += " " + ArgName[5];
 	}
 

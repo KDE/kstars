@@ -177,7 +177,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC loadColorScheme( const QString name );
 
 	/**DCOP interface function.  Export the sky image to a file. */
-		ASYNC exportImage( const QString filename );
+		ASYNC exportImage( const QString filename, int width, int height );
 
 	/**DCOP interface function.  Print the sky image. */
 		ASYNC printImage( bool usePrintDialog, bool useChartColors );

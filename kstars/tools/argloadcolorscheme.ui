@@ -1,0 +1,30 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>ArgLoadColorScheme</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ArgLoadColorScheme</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>329</width>
+            <height>180</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>ArgLoadColorScheme</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KListBox">
+            <property name="name">
+                <cstring>SchemeList</cstring>
+            </property>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

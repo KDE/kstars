@@ -161,8 +161,10 @@ class KStarsInterface : virtual public DCOPObject
 			*@param filename The filename for the exported image (the image type 
 			*will be determined from the fileame extension; if this is not possible, 
 			*it will save the image as a PNG)
+			*@param width the width of the image
+			*@param height the height of the image
 			*/
-		virtual ASYNC exportImage( const QString filename ) = 0;
+		virtual ASYNC exportImage( const QString filename, int width, int height ) = 0;
 		
 		/**Print the current sky map.  Options to show the Print Dialog and to use Star Chart colors.
 			*/

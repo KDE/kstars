@@ -20,6 +20,7 @@
 
 #include <kdebug.h>
 #include <kpushbutton.h>
+#include <kcolorbutton.h>
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kicontheme.h>
@@ -36,6 +37,8 @@
 #include <kstdguiitem.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
+#include <kurlrequester.h>
+#include <knuminput.h>
 
 #include <qcheckbox.h>
 #include <qspinbox.h>
@@ -61,9 +64,15 @@
 #include "argsetgeolocation.h"
 #include "argtimescale.h"
 #include "argzoom.h"
+#include "argexportimage.h"
+#include "argprintimage.h"
+#include "argsetcolor.h"
+#include "argloadcolorscheme.h"
 
 #include "scriptbuilder.h"
 #include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
 #include "kstarsdatetime.h"
 #include "dmsbox.h"
 #include "finddialog.h"
@@ -106,6 +115,10 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	FunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2." ), false, "QString", "opName", "QString", "opValue" ) );
 	FunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by %1, %2 and %3." ),
 			false, "QString", "cityName", "QString", "provinceName", "QString", "countryName" ) );
+	FunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2." ), false, "QString", "colorName", "QString", "value" ) );
+	FunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme named %1." ), false, "QString", "name" ) );
+	FunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file %1, with width %2 and height %3." ), false, "QString", "fileName", "int", "width", "int", "height" ) );
+	FunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing." ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
 	FunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
 	FunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
 	FunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to %1.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
@@ -140,7 +153,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argSetGeoLocation = new ArgSetGeoLocation( sb->ArgStack );
 	argTimeScale = new ArgTimeScale( sb->ArgStack );
 	argZoom = new ArgZoom( sb->ArgStack );
-
+	argExportImage = new ArgExportImage( sb->ArgStack );
+	argPrintImage = new ArgPrintImage( sb->ArgStack );
+	argSetColor = new ArgSetColor( sb->ArgStack );
+	argLoadColorScheme = new ArgLoadColorScheme( sb->ArgStack );
+	
 	sb->ArgStack->addWidget( argBlank );
 	sb->ArgStack->addWidget( argLookToward );
 	sb->ArgStack->addWidget( argSetRaDec );
@@ -153,7 +170,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	sb->ArgStack->addWidget( argSetGeoLocation );
 	sb->ArgStack->addWidget( argTimeScale );
 	sb->ArgStack->addWidget( argZoom );
-
+	sb->ArgStack->addWidget( argExportImage );
+	sb->ArgStack->addWidget( argPrintImage );
+	sb->ArgStack->addWidget( argSetColor );
+	sb->ArgStack->addWidget( argLoadColorScheme );
+	
 	sb->ArgStack->raiseWidget( 0 );
 
 	snd = new ScriptNameDialog( ks );
@@ -191,14 +212,21 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
 	connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
 	connect( argSetTracking->CheckTrack, SIGNAL( stateChanged(int) ), this, SLOT( slotTracking() ) );
-	connect( argChangeViewOption->OptionName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotViewOption() ) );
+	connect( argChangeViewOption->OptionName, SIGNAL( activated(const QString &) ), this, SLOT( slotViewOption() ) );
 	connect( argChangeViewOption->OptionValue, SIGNAL( textChanged(const QString &) ), this, SLOT( slotViewOption() ) );
 	connect( argSetGeoLocation->CityName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotChangeCity() ) );
 	connect( argSetGeoLocation->ProvinceName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotChangeProvince() ) );
 	connect( argSetGeoLocation->CountryName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotChangeCountry() ) );
 	connect( argTimeScale->TimeScale, SIGNAL( scaleChanged(float) ), this, SLOT( slotTimeScale() ) );
 	connect( argZoom->ZoomBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotZoom() ) );
-
+	connect( argExportImage->ExportFileName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotExportImage() ) );
+	connect( argExportImage->ExportWidth, SIGNAL( valueChanged(int) ), this, SLOT( slotExportImage() ) );
+	connect( argExportImage->ExportHeight, SIGNAL( valueChanged(int) ), this, SLOT( slotExportImage() ) );
+	connect( argPrintImage->UsePrintDialog, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
+	connect( argPrintImage->UseChartColors, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
+	connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
+	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
+	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( slotLoadColorScheme( QListBoxItem* ) ) );
 	connect( snd->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableScriptNameOK() ) );
 
 	//disbale some buttons
@@ -395,6 +423,29 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "magLimitAsteroidName" );
 	argChangeViewOption->OptionName->insertItem( "maxRadCometName" );
 
+	//init the list of color names and values
+	for ( unsigned int i=0; i < ks->data()->colorScheme()->numberOfColors(); ++i ) {
+		argSetColor->ColorName->insertItem( ks->data()->colorScheme()->nameAt(i) );
+	}
+	
+	//init list of color scheme names
+	argLoadColorScheme->SchemeList->insertItem( i18n( "use default color scheme", "Default Colors" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'star chart' color scheme", "Star Chart" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'night vision' color scheme", "Night Vision" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'moonless night' color scheme", "Moonless Night" ) );
+	
+	QFile file;
+	QString line;
+	file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+	if ( file.open( IO_ReadOnly ) ) {
+		QTextStream stream( &file );
+
+  	while ( !stream.eof() ) {
+			line = stream.readLine();
+			argLoadColorScheme->SchemeList->insertItem( line.left( line.find( ':' ) ) );
+		}
+		file.close();
+	}
 }
 
 //Slots defined in ScriptBuilderUI
@@ -863,6 +914,27 @@ void ScriptBuilder::slotArgWidget() {
 			if (ok) argZoom->ZoomBox->setText( sf->argVal(0) );
 			else argZoom->ZoomBox->setText( "2000." );
 
+		} else if ( sf->name() == "exportImage" ) {
+			sb->ArgStack->raiseWidget( argExportImage );
+			argExportImage->ExportFileName->setURL( sf->argVal(0) );
+			bool ok(false);
+			int w, h;
+			w = sf->argVal(1).toInt( &ok );
+			if (ok) h = sf->argVal(2).toInt( &ok );
+			if (ok) { 
+				argExportImage->ExportWidth->setValue( w ); 
+				argExportImage->ExportHeight->setValue( h );
+			} else { 
+				argExportImage->ExportWidth->setValue( ks->map()->width() ); 
+				argExportImage->ExportHeight->setValue( ks->map()->height() );
+			}
+
+		} else if ( sf->name() == "printImage" ) {
+			if ( sf->argVal(0) == i18n( "true" ) ) argPrintImage->UsePrintDialog->setChecked( true );
+			else argPrintImage->UsePrintDialog->setChecked( false );
+			if ( sf->argVal(1) == i18n( "true" ) ) argPrintImage->UseChartColors->setChecked( true );
+			else argPrintImage->UseChartColors->setChecked( false );
+
 		} else if ( sf->name() == "setLocalTime" ) {
 			sb->ArgStack->raiseWidget( argSetLocalTime );
 			bool ok(false);
@@ -896,7 +968,7 @@ void ScriptBuilder::slotArgWidget() {
 
 		} else if ( sf->name() == "setTracking" ) {
 			sb->ArgStack->raiseWidget( argSetTracking );
-			if ( sf->argVal(0) == "true"  ) argSetTracking->CheckTrack->setChecked( true  );
+			if ( sf->argVal(0) == i18n( "true" ) ) argSetTracking->CheckTrack->setChecked( true  );
 			else argSetTracking->CheckTrack->setChecked( false );
 
 		} else if ( sf->name() == "changeViewOption" ) {
@@ -910,6 +982,16 @@ void ScriptBuilder::slotArgWidget() {
 			argSetGeoLocation->CityName->setText( sf->argVal(0) );
 			argSetGeoLocation->ProvinceName->setText( sf->argVal(1) );
 			argSetGeoLocation->CountryName->setText( sf->argVal(2) );
+
+		} else if ( sf->name() == "setColor" ) {
+			sb->ArgStack->raiseWidget( argSetColor );
+			if ( sf->argVal(0).isEmpty() ) sf->setArg( 0, "SkyColor" );  //initialize default value
+			argSetColor->ColorName->setCurrentItem( ks->data()->colorScheme()->nameFromKey( sf->argVal(0) ) );
+			argSetColor->ColorValue->setColor( QColor( sf->argVal(1).remove('\\') ) );
+
+		} else if ( sf->name() == "loadColorScheme" ) {
+			sb->ArgStack->raiseWidget( argLoadColorScheme );
+			argLoadColorScheme->SchemeList->setCurrentItem( argLoadColorScheme->SchemeList->findItem( sf->argVal(0).remove('\"'), 0 ) );
 
 		} else if ( sf->name() == "stop" ) {
 			sb->ArgStack->raiseWidget( argBlank );
@@ -1172,11 +1254,7 @@ void ScriptBuilder::slotTracking() {
 	if ( sf->name() == "setTracking" ) {
 		setUnsavedChanges( true );
 
-		if ( argSetTracking->CheckTrack->isChecked() ) {
-			sf->setArg( 0, "true" );
-		} else {
-			sf->setArg( 0, "false" );
-		}
+		sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
 	} else {
 		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setTracking" ) << endl;
@@ -1288,7 +1366,82 @@ void ScriptBuilder::slotZoom() {
 			sf->setValid( true );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "zoom" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotExportImage() {
+	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+	if ( sf->name() == "exportImage" ) {
+		setUnsavedChanges( true );
+		
+		sf->setArg( 0, argExportImage->ExportFileName->url() );
+		sf->setArg( 1, QString("%1").arg( argExportImage->ExportWidth->value() ) );
+		sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
+		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotPrintImage() {
+	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+	if ( sf->name() == "printImage" ) {
+		setUnsavedChanges( true );
+		
+		sf->setArg( 0, ( argPrintImage->UsePrintDialog->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
+		sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
+		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotChangeColorName() {
+	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+	if ( sf->name() == "setColor" ) {
+		setUnsavedChanges( true );
+		
+		argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentItem() ) );
+		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentItem() ) );
+		QString cname( argSetColor->ColorValue->color().name() );
+		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
+		sf->setArg( 1, cname );
+		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotChangeColor() {
+	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+	if ( sf->name() == "setColor" ) {
+		setUnsavedChanges( true );
+		
+		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentItem() ) );
+		QString cname( argSetColor->ColorValue->color().name() );
+		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
+		sf->setArg( 1, cname );
+		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotLoadColorScheme(QListBoxItem *i) {
+	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+	if ( sf->name() == "loadColorScheme" ) {
+		setUnsavedChanges( true );
+		
+		sf->setArg( 0, "\"" + argLoadColorScheme->SchemeList->currentText() + "\"" );
+		sf->setValid( true );
+	} else {
+		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "loadColorScheme" ) << endl;
 	}
 }
 

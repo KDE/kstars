@@ -77,6 +77,8 @@ class ColorScheme {
 		*/
 		QString keyAt( int i ) const;
 		
+		QString nameFromKey( const QString &key ) const;
+		
 	/**Change the color with the given key to the given value
 		*@p key the key-name of the color to be changed
 		*@p color the new color value

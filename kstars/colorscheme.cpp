@@ -164,6 +164,10 @@ QString ColorScheme::keyAt( int i ) const {
 	return QString(*it);
 }
 
+QString ColorScheme::nameFromKey( const QString &key ) const {
+	return nameAt( KeyName.findIndex( key ) );
+}
+
 void ColorScheme::setColor( const QString &key, const QString &color ) {
 	//We can blindly insert() the new value; if the key exists, the old value is replaced
 	Palette.insert( key, color );

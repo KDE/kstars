@@ -38,7 +38,10 @@ class ArgChangeViewOption;
 class ArgSetGeoLocation;
 class ArgTimeScale;
 class ArgZoom;
-
+class ArgExportImage;
+class ArgPrintImage;
+class ArgSetColor;
+class ArgLoadColorScheme;
 
 /**@class ScriptBuilder
 	*A GUI tool for building behavioral DCOP scripts for KStars.
@@ -95,7 +98,12 @@ public slots:
 	void slotChangeCountry();
 	void slotTimeScale();
 	void slotZoom();
-
+	void slotExportImage();
+	void slotPrintImage();
+	void slotChangeColor();
+	void slotChangeColorName();
+	void slotLoadColorScheme(QListBoxItem*);
+	
 	void slotEnableScriptNameOK();
 
 private:
@@ -120,7 +128,11 @@ private:
 	ArgSetGeoLocation *argSetGeoLocation;
 	ArgTimeScale *argTimeScale;
 	ArgZoom *argZoom;
-
+	ArgExportImage *argExportImage;
+	ArgPrintImage *argPrintImage;
+	ArgSetColor *argSetColor;
+	ArgLoadColorScheme *argLoadColorScheme;
+	
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
 
