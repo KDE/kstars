@@ -1046,7 +1046,7 @@ void handleExposure(void *p)
  
    ExposeTimeNP.s = IPS_BUSY;
 		  
-   IDSetNumber(&ExposeTimeNP, "Taking a %g seconds frame...", ExposeTimeN[0].value);
+   IDSetNumber(&ExposeTimeNP, "Taking a %g seconds frame...", FLIImg->expose / 1000.);
    
    IDLog("Taking a frame...\n");
 }
