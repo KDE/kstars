@@ -93,7 +93,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 //Place stars-related widgets in a group box
 	StarsBox = new QGroupBox( i18n( "Stars" ), CatalogTab, "StarsBox" );
-  vlayStarsBox = new QVBoxLayout( StarsBox );
+	vlayStarsBox = new QVBoxLayout( StarsBox );
 	vlayStarsBox->setSpacing( 6 );
 	vlayStarsBox->setMargin( 11 );
 
@@ -165,9 +165,9 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 //Incompatible with KDE2.2:
 //	CatalogList->setResizeMode( QListView::LastColumn );
-  CatalogList->setVScrollBarMode( QScrollView::AlwaysOn );
-  CatalogList->setSorting( -1 );
-  CatalogList->setMaximumHeight( 128 );
+	CatalogList->setVScrollBarMode( QScrollView::AlwaysOn );
+	CatalogList->setSorting( -1 );
+	CatalogList->setMaximumHeight( 128 );
 
 	showIC = new QCheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), QCheckListItem::CheckBox );
 	showIC->setOn( ksw->options()->drawIC );

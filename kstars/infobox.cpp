@@ -33,6 +33,7 @@ InfoBox::InfoBox(){
 
 	AnchorRight = false;
 	AnchorBottom = false;
+	Visible = true;
 }
 
 InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 ) {
@@ -49,6 +50,7 @@ InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 )
 
 	AnchorRight = false;
 	AnchorBottom = false;
+	Visible = true;
 }
 
 InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
@@ -65,6 +67,7 @@ InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
 
 	AnchorRight = false;
 	AnchorBottom = false;
+	Visible = true;
 }
 
 InfoBox::~InfoBox(){
@@ -80,8 +83,10 @@ bool InfoBox::toggleShade() {
 
 void InfoBox::updateSize() {
 	int dh = ShadedTextHeight/2;
+//	kdDebug() << "Full=" << FullTextWidth + 2*padx() << "," << FullTextHeight - dh + 2*pady() << endl;
 	if ( Shaded ) resize( ShadedTextWidth + 2*padx(), ShadedTextHeight - dh + 2*pady() );
 	else resize( FullTextWidth + 2*padx(), FullTextHeight - dh + 2*pady() );
+//	kdDebug() << "Size=" << Size.width() << "," << Size.height() << endl;
 }
 
 bool InfoBox::constrain( QRect r, bool inside ) {
@@ -130,7 +135,6 @@ void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 		h += r.height();
 	}
 
-
 	FullTextWidth = w;
 	FullTextHeight = h;
 
@@ -154,6 +158,14 @@ void InfoBox::draw( QPainter &p, QColor BGColor, bool fillBG ) {
 
 QRect InfoBox::rect() const {
 	return QRect( pos(), size() );
+}
+
+void InfoBox::move( int x, int y ) {
+	Pos.setX( x ); Pos.setY( y ); emit moved( QPoint(x,y) );
+}
+
+void InfoBox::move( QPoint p ) {
+	move( p.x(), p.y() );
 }
 
 #include "infobox.moc"

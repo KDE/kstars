@@ -36,10 +36,13 @@
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
-		computeSkymap = true;	// skymap must be new computed
-		if ( testWState(WState_AutoMask) )
-		updateMask();
-		ksw->infoBoxes()->resize( width(), height() );
+		computeSkymap = true; // skymap must be new computed
+		if ( testWState(WState_AutoMask) ) updateMask();
+		
+		// avoid phantom positions of infoboxes
+		if ( isVisible() || width() == ksw->width() || height() == ksw->height() ) {
+			ksw->infoBoxes()->resize( width(), height() );
+		}
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {

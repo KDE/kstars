@@ -51,8 +51,8 @@ public:
 	bool toggleShade();
 
 	/**Reset the x,y position.  Check the anchors*/
-	void move( int x, int y ) { Pos.setX( x ); Pos.setY( y ); emit moved( QPoint(x,y) ); }
-	void move( QPoint p ) { move( p.x(), p.y() ); }
+	void move( int x, int y );
+	void move( QPoint p );
 
 	/**Reset the width and height*/
 	void resize( int w, int h ) { Size.setWidth( w ); Size.setHeight( h ); }

@@ -105,6 +105,12 @@ public slots:
 /**Update the focus object-related labels.
 	*/
 	void focusObjChanged(const QString &n);
+
+/**Check if boxes are anchored with bottom or right border.
+	@param resetToDefault reset all borders of boxes to false before checking borders.
+	*/	
+	void checkBorders(bool resetToDefault=true);
+
 private:
 	int Width, Height;
 	int GrabbedBox;

@@ -37,6 +37,9 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;
 
+	Width = w;
+	Height = h;
+
 //Create infoboxes
 	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
 	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
@@ -58,6 +61,9 @@ InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;
 
+	Width = w;
+	Height = h;
+
 //Create infoboxes
 	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
 	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
@@ -78,20 +84,7 @@ InfoBoxes::~InfoBoxes(){
 void InfoBoxes::resize( int w, int h ) {
 	Width = w;
 	Height = h;
-
-	if ( GeoBox->rect().right() >= w-2 ) GeoBox->setAnchorRight(true);
-	if ( TimeBox->rect().right() >= w-2 ) TimeBox->setAnchorRight(true);
-	if ( FocusBox->rect().right() >= w-2 ) FocusBox->setAnchorRight(true);
-	if ( GeoBox->rect().bottom() >= h-2 ) GeoBox->setAnchorBottom(true);
-	if ( TimeBox->rect().bottom() >= h-2 ) TimeBox->setAnchorBottom(true);
-	if ( FocusBox->rect().bottom() >= h-2 ) FocusBox->setAnchorBottom(true);
-	
-	if ( GeoBox->anchorRight() ) GeoBox->move( w, GeoBox->y() );
-	if ( TimeBox->anchorRight() ) TimeBox->move( w, TimeBox->y() );
-	if ( FocusBox->anchorRight() ) FocusBox->move( w, FocusBox->y() );
-	if ( GeoBox->anchorBottom() ) GeoBox->move( GeoBox->x(), h );
-	if ( TimeBox->anchorBottom() ) TimeBox->move( TimeBox->x(), h );
-	if ( FocusBox->anchorBottom() ) FocusBox->move( FocusBox->x(), h );
+	checkBorders(false);
 }
 
 void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
@@ -151,6 +144,7 @@ bool InfoBoxes::grabBox( QMouseEvent *e ) {
 bool InfoBoxes::unGrabBox( void ) {
 	if ( GrabbedBox ) {
 		GrabbedBox = 0;
+		checkBorders();
 		return true;
 	} else {
 		return false;
@@ -176,7 +170,6 @@ bool InfoBoxes::dragBox( QMouseEvent *e ) {
 			break;
 		default: //no box is grabbed; return false
 			return false;
-			break;
 	}
 }
 
@@ -214,10 +207,10 @@ bool InfoBoxes::shadeBox( QMouseEvent *e ) {
 
 bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	int dLeft(0), dRight(0), dUp(0), dDown(0);
-	QRect area = QRect( 0, 0, width(), height() );
+	QRect area = QRect( 0, 0, Width, Height );
 	QRect t = target->rect();
 	QRect Box1, Box2;
-
+	
 //Set Box1 and Box2 to the rects of the other two InfoBoxes, unless
 //they are not visible (if so, set a null QRect)
 	if ( target == GeoBox ) {
@@ -241,7 +234,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		if ( GeoBox->isVisible() ) Box2 = GeoBox->rect();
 		else Box2 = QRect(0,0,0,0);
 
-	} else return false; //none of the Boxes match target!
+	} else { return false; } //none of the Boxes match target!
 
 //Shrink Box1 and Box2 by one pixel in each direction.  This will make the
 //Edges of adjacent boxes line up more nicely.
@@ -250,10 +243,18 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 
 //First, make sure target box is within area rect.
 	if ( ! area.contains( t ) ) {
-		if ( t.x() < area.x() ) target->move( area.x(), t.y() );
+/*		if ( t.x() < area.x() ) target->move( area.x(), t.y() );
 		if ( t.y() < area.y() ) target->move( t.x(), area.y() );
-		if ( t.right() > area.right() ) target->move( area.right() - t.width(), t.y() );
-		if ( t.bottom() > area.bottom() ) target->move( t.x(), area.bottom() - t.height() );
+		if ( t.right() > area.right() ){ target->move( area.right() - t.width(), t.y() ); }
+		if ( t.bottom() > area.bottom() ) target->move( t.x(), area.bottom() - t.height() );*/
+
+		int x = t.x(), y = t.y();
+		
+		if ( t.x() < area.x() ) x = area.x();
+		if ( t.y() < area.y() ) y = area.y();
+		if ( t.right() > area.right() ) x = area.right() - t.width();
+		if ( t.bottom() > area.bottom() ) y = area.bottom() - t.height();
+		target->move(x,y);
 
 		//Reset t
 		t = target->rect();
@@ -274,7 +275,6 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		}
 		//If leftRect is outside area, set dLeft to a nonsense large value
 		if ( !area.contains( leftRect ) ) { dLeft = 100000; }
-
 		//repeat for right, up and down directions.
 		while ( rightRect.intersects( Box1 ) || rightRect.intersects( Box2 ) ) {
 			++dRight;
@@ -294,6 +294,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		}
 		if ( !area.contains( downRect ) ) { dDown = 100000; }
 
+
 		//find the smallest displacement, and move the target box there.
 		//if the smallest displacement is 100000, then the function has failed
 		//to find any legal position; return false.
@@ -302,7 +303,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		if ( dDown < dmin ) dmin = dDown;
 		if ( dUp < dmin ) dmin = dUp;
 
-		if ( dmin == 100000 ) return false;
+		if ( dmin == 100000 ) { return false; }
 		else if ( dmin == dLeft ) {
 			target->move( leftRect.x(), leftRect.y() );
 		} else if ( dmin == dRight ) {
@@ -313,6 +314,8 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 			target->move( downRect.x(), downRect.y() );
 		}
 	}
+	else  // no intersection with other boxes
+		return true;
 
 	//Set Anchor flags based on new position
 	if ( target->rect().right() >= width()-2 ) target->setAnchorRight(true);
@@ -360,4 +363,30 @@ void InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true) +
 		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az().toDMSString(true) );
 }
+
+void InfoBoxes::checkBorders(bool resetToDefault) {
+	if (resetToDefault) {
+		GeoBox->setAnchorRight(false);
+		TimeBox->setAnchorRight(false);
+		FocusBox->setAnchorRight(false);
+		GeoBox->setAnchorBottom(false);
+		TimeBox->setAnchorBottom(false);
+		FocusBox->setAnchorBottom(false);
+	}
+	
+	if ( GeoBox->rect().right() >= Width-2 ) GeoBox->setAnchorRight(true);
+	if ( TimeBox->rect().right() >= Width-2 ) TimeBox->setAnchorRight(true);
+	if ( FocusBox->rect().right() >= Width-2 ) FocusBox->setAnchorRight(true);
+	if ( GeoBox->rect().bottom() >= Height-2 ) GeoBox->setAnchorBottom(true);
+	if ( TimeBox->rect().bottom() >= Height-2 ) TimeBox->setAnchorBottom(true);
+	if ( FocusBox->rect().bottom() >= Height-2 ) FocusBox->setAnchorBottom(true);
+	
+	if ( GeoBox->anchorRight() ) GeoBox->move( Width, GeoBox->y() );
+	if ( TimeBox->anchorRight() ) TimeBox->move( Width, TimeBox->y() );
+	if ( FocusBox->anchorRight() ) FocusBox->move( Width, FocusBox->y() );
+	if ( GeoBox->anchorBottom() ) GeoBox->move( GeoBox->x(), Height );
+	if ( TimeBox->anchorBottom() ) TimeBox->move( TimeBox->x(), Height );
+	if ( FocusBox->anchorBottom() ) FocusBox->move( FocusBox->x(), Height );
+}
+
 #include "infoboxes.moc"
