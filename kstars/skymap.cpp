@@ -440,7 +440,9 @@ int SkyMap::findPA( SkyObject *o, int x, int y ) {
 	return pa;
 }
 
-void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, double e, int pa, QChar color ) {
+void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, double e, int pa, QChar color, double scale ) {
+	size = int( scale * size );
+	
 	int dx1 = -size/2;
 	int dx2 =  size/2;
 	int dy1 = int( -e*size/2 );
@@ -459,17 +461,23 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 	int ya = y + dya;
 	int yb = y + dyb;
 
-	int psize = 2;
+	int psize;
 
 	QPixmap *star;
-
+	QPoint oldXForm;
+	
 	switch (type) {
 		case 0: //star
 			//the starpix images look bad for size==2.
 				if (size == 2) size = 1;
 
 			star = starpix->getPixmap (&color, size);
-			bitBlt ((QPaintDevice *) sky, xa-star->width()/2, ya-star->height()/2, star);
+			
+			//Only bitBlt() if we are drawing to the sky pixmap
+			if ( psky.device() == sky )
+				bitBlt ((QPaintDevice *) sky, xa-star->width()/2, ya-star->height()/2, star);
+			else
+				psky.drawPixmap( xa-star->width()/2, ya-star->height()/2, *star );
 			break;
 		case 1: //catalog star
 			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
@@ -480,8 +488,9 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			break;
 		case 3: //Open cluster
 			psky.setBrush( psky.pen().color() );
-			if ( size > 50 )  psize = 4;
-			if ( size > 100 ) psize = 8;
+			psize = 2;
+			if ( size > 50 )  psize *= 2;
+			if ( size > 100 ) psize *= 2;
 			psky.drawEllipse( xa, y1, psize, psize ); // draw circle of points
 			psky.drawEllipse( xb, y1, psize, psize );
 			psky.drawEllipse( xa, y2, psize, psize );
@@ -494,6 +503,9 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			break;
 		case 4: //Globular Cluster
 			if (size<2) size = 2;
+			//Store old xform:
+			oldXForm = psky.xForm( QPoint(0,0) );
+			
 			psky.translate( x, y );
 			psky.rotate( double( pa ) );  //rotate the coordinate system
 			psky.drawEllipse( dx1, dy1, size, int( e*size ) );
@@ -502,9 +514,15 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.moveTo( dx1, 0 );
 			psky.lineTo( dx2, 0 );
 			psky.resetXForm(); //reset coordinate system
+			
+			//restore old xform:
+			psky.translate( oldXForm.x(), oldXForm.y() );
 			break;
 		case 5: //Gaseous Nebula
 			if (size <2) size = 2;
+			//Store old xform:
+			oldXForm = psky.xForm( QPoint(0,0) );
+			
 			psky.translate( x, y );
 			psky.rotate( double( pa ) );  //rotate the coordinate system
 			psky.drawLine( dx1, dy1, dx2, dy1 );
@@ -512,9 +530,15 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.drawLine( dx2, dy2, dx1, dy2 );
 			psky.drawLine( dx1, dy2, dx1, dy1 );
 			psky.resetXForm(); //reset coordinate system
+			
+			//restore old xform:
+			psky.translate( oldXForm.x(), oldXForm.y() );
 			break;
 		case 6: //Planetary Nebula
 			if (size<2) size = 2;
+			//Store old xform:
+			oldXForm = psky.xForm( QPoint(0,0) );
+			
 			psky.translate( x, y );
 			psky.rotate( double( pa ) );  //rotate the coordinate system
 			psky.drawEllipse( dx1, dy1, size, int( e*size ) );
@@ -527,9 +551,15 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.moveTo( dx2, 0 );
 			psky.lineTo( dx2 + size/2, 0 );
 			psky.resetXForm(); //reset coordinate system
+			
+			//restore old xform:
+			psky.translate( oldXForm.x(), oldXForm.y() );
 			break;
 		case 7: //Supernova remnant
 			if (size<2) size = 2;
+			//Store old xform:
+			oldXForm = psky.xForm( QPoint(0,0) );
+			
 			psky.translate( x, y );
 			psky.rotate( double( pa ) );  //rotate the coordinate system
 			psky.moveTo( 0, dy1 );
@@ -538,15 +568,24 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 			psky.lineTo( dx1, 0 );
 			psky.lineTo( 0, dy1 );
 			psky.resetXForm(); //reset coordinate system
+			
+			//restore old xform:
+			psky.translate( oldXForm.x(), oldXForm.y() );
 			break;
 		case 8: //Galaxy
 			if ( size <1 && ksw->options()->ZoomLevel > 8 ) size = 3; //force ellipse above zoomlevel 8
 			if ( size <1 && ksw->options()->ZoomLevel > 5 ) size = 1; //force points above zoomlevel 5
 			if ( size>2 ) {
+				//Store old xform:
+				oldXForm = psky.xForm( QPoint(0,0) );
+			
 				psky.translate( x, y );
 				psky.rotate( double( pa ) );  //rotate the coordinate system
 				psky.drawEllipse( dx1, dy1, size, int( e*size ) );
 				psky.resetXForm(); //reset coordinate system
+				
+				//restore old xform:
+				psky.translate( oldXForm.x(), oldXForm.y() );
 			} else if ( size>0 ) {
 				psky.drawPoint( x, y );
 			}
@@ -555,32 +594,24 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 }
 //---------------------------------------------------------------------------
 
-QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
+QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
 	QPoint p;
 	
-	//SPEED_DMS
-	//dms X, Y, X0, dX;
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
+	int Width = int( width() * scale );
+	int Height = int( height() * scale );
+
+	double pscale = pixelScale[ ksw->options()->ZoomLevel ] * scale;
+	
 	if ( Horiz ) {
-		//SPEED_DMS
-		//X0 = focus()->az()->Degrees();
-		//X = o->az()->Degrees();
-		//if ( doRefraction ) Y = refract( o->alt(), true ).Degrees(); //account for atmospheric refraction
-		//else Y = o->alt()->Degrees();
 		if ( doRefraction ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
 		else Y = o->alt()->radians();
 
-		//SPEED_DMS
-		//if ( X0.Degrees() > 270.0 && X.Degrees() < 90.0 ) {
 		if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
-			//SPEED_DMS
-			//dX.setD( 360.0 + X0.Degrees() - X.Degrees() );
 			dX = 2*dms::PI + focus()->az()->radians() - o->az()->radians();
 		} else {
-			//SPEED_DMS
-			//dX.setD( X0.Degrees() - X.Degrees() );
 			dX = focus()->az()->radians() - o->az()->radians();
 		}
 
@@ -588,10 +619,8 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 		
   } else {
 		if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
-			//dX.setD( o->ra()->Degrees() + 360.0 - focus()->ra()->Degrees() );
 			dX = 2*dms::PI + o->ra()->radians() - focus()->ra()->radians();
 		} else {
-			//dX.setD( o->ra()->Degrees() - focus()->ra()->Degrees() );
 			dX = o->ra()->radians() - focus()->ra()->radians();
 		}
     Y = o->dec()->radians();
@@ -599,14 +628,12 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
   }
 
 	//Convert dX, Y coords to screen pixel coords.
-	//SPEED_DMS
-	//dX.SinCos( sindX, cosdX );
-	//Y.SinCos( sinY, cosY );
 	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
 	//GNU version
 	sincos( dX, &sindX, &cosdX );
 	sincos( Y, &sinY, &cosY );
 	#else
+	//ANSI version
 	sindX = sin(dX);
 	cosdX = cos(dX);
 	sinY  = sin(Y);
@@ -623,12 +650,11 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction ) {
 
 	double k = sqrt( 2.0/( 1 + c ) );
 
-	p.setX( int( 0.5*width()  - pixelScale[ ksw->options()->ZoomLevel ]*k*cosY*sindX ) );
-	p.setY( int( 0.5*height() - pixelScale[ ksw->options()->ZoomLevel ]*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
+	p.setX( int( 0.5*Width  - pscale*k*cosY*sindX ) );
+	p.setY( int( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
 
 	return p;
 }
-//---------------------------------------------------------------------------
 
 SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms *LSTh, const dms *lat, bool doRefract ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel

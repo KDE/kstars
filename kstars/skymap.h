@@ -194,6 +194,22 @@ public:
 
 	bool isObjectLabeled( SkyObject *o );
 
+  //These were protected, but KStars needs them for slotPrint()...
+	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
+	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
+	void drawEquator( QPainter& psky, double scale = 1.0 );
+	void drawEcliptic( QPainter& psky, double scale = 1.0 );
+	void drawConstellationLines( QPainter& psky, double scale = 1.0 );
+	void drawConstellationNames( QPainter& psky, QFont& stdFont, double scale = 1.0 );
+	void drawStars( QPainter& psky, double scale = 1.0 );
+	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
+	void drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
+	void drawPlanetTrail( QPainter& psky, double scale = 1.0 );
+	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
+	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );
+	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
+
+
 public slots:
 	virtual void setGeometry( int x, int y, int w, int h );
 	virtual void setGeometry( const QRect &r );
@@ -263,19 +279,6 @@ signals:
 protected:
 /**Draw the Sky, and all objects in it. */
 	virtual void paintEvent( QPaintEvent *e );
-  void drawMilkyWay( QPainter& psky);
-  void drawCoordinateGrid(QPainter& psky);
-  void drawEquator(QPainter& psky);
-  void drawEcliptic(QPainter& psky);
-  void drawConstellationLines(QPainter& psky);
-  void drawConstellationNames(QPainter& psky, QFont& stdFont);
-  void drawStars(QPainter& psky);
-  void drawDeepSkyObjects(QPainter& psky );
-  void drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage );
-  void drawPlanetTrail(QPainter& psky);
-  void drawSolarSystem(QPainter& psky, bool drawPlanets);
-  void drawHorizon(QPainter& psky, QFont& stdFont);
-	void drawAttachedLabels(QPainter &psky);
 
 /**Detect keystrokes: arrow keys, and +/- keys. */
 	virtual void keyPressEvent( QKeyEvent *e );
@@ -322,7 +325,7 @@ private:
 	*@param Horiz if true, use Alt/Az coordinates.
 	*@param doRefraction if true, correct for atmospheric refraction
 	*/
-	QPoint getXY( SkyPoint *o, bool Horiz, bool doRefraction=true );
+	QPoint getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
 
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*pixel coordinates measured from the center of the SkyMap bitmap.
@@ -340,7 +343,7 @@ private:
 	*called from SkyMap's paintEvent().	
 	*color is only needed by Stars.
 	*/
-	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0 );
+	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0, double scale = 1.0 );
 
 /**Determine the on-screen position angle of the SkyObject.  This is the sum
 	*of the object's sky position angle (w.r.t. North), and the position angle
@@ -355,7 +358,7 @@ private:
 	*user has selected that planet images be shown.  If one of these conditions
 	*is false, then a simple circle is drawn instead.  */
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, int sizemin,
-			double mult, int zoommin, int resize_mult = 1);
+			double mult, int zoommin, int resize_mult = 1, double scale = 1.0 );
 
 /**Draw the InfoBoxes on the pixmap passed as an argument (this should be 
 	*the skymap's pixmap).

@@ -199,11 +199,11 @@ void KStars::slotPrint() {
 	// save current colorscheme using copy constructor
 	ColorScheme cs( * options()->colorScheme() );
 
-	KPrinter printer( true, QPrinter::PrinterResolution );
+	KPrinter printer( true, QPrinter::HighResolution );
 	
 //Suggest Chart color scheme
 	if ( options()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
-		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing? (Your current color settings will be restored when printing is finished.)" );
+		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing?" );
 
 		int answer;
 		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart Colors?" ),
@@ -212,7 +212,7 @@ void KStars::slotPrint() {
 		if ( answer == KMessageBox::Yes ) {
 			switchColors = true;
 			map()->setColors( "chart.colors" );
-			map()->UpdateNow();
+		//	map()->UpdateNow();
 		}
 	}
 
@@ -220,9 +220,10 @@ void KStars::slotPrint() {
 	if( printer.setup( this ) ) {
 		kapp->setOverrideCursor( waitCursor );
 
+		//PRINT_REDRAW
+		/*
 		QPainter *p = new QPainter( &printer );
 		QPaintDeviceMetrics pdm( p->device() );
-
 		QImage img( map()->skyPixmap().convertToImage() );
 	
 		//Fit map image to page if it's larger than the page.
@@ -236,7 +237,66 @@ void KStars::slotPrint() {
 		p->drawImage( pt, img );
 
 		delete p;
-
+		*/
+		
+		//PRINT_REDRAW: the new draw code
+		QPainter p;
+		
+		//shortcuts to inform wheter to draw different objects
+		bool drawPlanets( options()->drawPlanets );
+		bool drawMW( options()->drawMilkyWay );
+		bool drawCNames( options()->drawConstellNames );
+		bool drawCLines( options()->drawConstellLines );
+		bool drawGrid( options()->drawGrid );
+		
+		p.begin( &printer );
+		QPaintDeviceMetrics pdm( p.device() );
+		
+		//scale image such that it fills 90% of the x or y dimension on the paint device
+		double xscale = pdm.width() / map()->width();
+		double yscale = pdm.height() / map()->height();
+		double scale = (xscale < yscale) ? xscale : yscale;
+		
+		int pdWidth = int( scale * map()->width() );
+		int pdHeight = int( scale * map()->height() );
+		int x1 = int( 0.5*(pdm.width()  - pdWidth) );
+		int y1 = int( 0.5*(pdm.height()  - pdHeight) );
+		
+		p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
+		p.setClipping( true );
+		
+		//Fil background with sky color
+		p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( options()->colorScheme()->colorNamed( "SkyColor" ) ) );
+		
+		p.translate( x1, y1 );
+		
+		QFont stdFont = p.font();
+		QFont smallFont = p.font();
+		smallFont.setPointSize( stdFont.pointSize() - 2 );
+		
+		if ( drawMW ) map()->drawMilkyWay( p, scale );
+		if ( drawGrid ) map()->drawCoordinateGrid( p, scale );
+		if ( options()->drawEquator ) map()->drawEquator( p, scale );
+		if ( options()->drawEcliptic ) map()->drawEcliptic( p, scale );
+		if ( drawCLines ) map()->drawConstellationLines( p, scale );
+		if ( drawCNames ) map()->drawConstellationNames( p, stdFont, scale );
+		
+		// stars and planets use the same font size
+		if ( options()->ZoomLevel < 6 ) {
+			p.setFont( smallFont );
+		} else {
+			p.setFont( stdFont );
+		}
+		map()->drawStars( p, scale );
+		
+		map()->drawDeepSkyObjects( p, scale );
+		map()->drawPlanetTrail( p, scale );
+		map()->drawSolarSystem( p, drawPlanets, scale );
+		map()->drawAttachedLabels( p, scale );
+		map()->drawHorizon( p, stdFont, scale );
+		
+		p.end();
+		
 		kapp->restoreOverrideCursor();
 	}
 
@@ -246,7 +306,7 @@ void KStars::slotPrint() {
 		options()->colorScheme()->copy( cs );
 		// restore colormode in skymap
 		map()->setStarColorMode( cs.starColorMode() );
-		map()->UpdateNow();
+//		map()->UpdateNow();
 	}
 }
 
