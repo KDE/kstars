@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>INDIConf</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>417</width>
-            <height>170</height>
+            <width>452</width>
+            <height>172</height>
         </rect>
     </property>
     <property name="caption">
@@ -158,7 +158,7 @@
                                 <string>Time</string>
                             </property>
                             <property name="checked">
-                                <bool>true</bool>
+                                <bool>false</bool>
                             </property>
                         </widget>
                         <widget class="QCheckBox">
@@ -169,7 +169,7 @@
                                 <string>Geographic location</string>
                             </property>
                             <property name="checked">
-                                <bool>true</bool>
+                                <bool>false</bool>
                             </property>
                         </widget>
                     </vbox>
