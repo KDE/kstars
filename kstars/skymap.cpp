@@ -295,7 +295,8 @@ void SkyMap::slotCenter( void ) {
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
+		if ( KMessageBox::warningYesNo( ksw, message, caption,
+				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;

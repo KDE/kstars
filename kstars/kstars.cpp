@@ -91,7 +91,6 @@ KStars::KStars( KStarsData* kd )
 
 KStars::~KStars()
 {
-	kdDebug() << "in kstars destructor..." << endl;
 	saveOptions();
 
 	clearCachedFindDialog();
