@@ -18,6 +18,7 @@
 #ifndef ELTS_H
 #define ELTS_H
 
+#include <qptrlist.h>
 #include <qvariant.h>
 #include <kdialogbase.h>
 
@@ -36,6 +37,7 @@ class QTabWidget;
 class QPainter;
 class QDateTime;
 class QTime;
+class SkyObject;
 class SkyPoint;
 class dms;
 class dmsBox;
@@ -48,6 +50,8 @@ class elts : public KDialogBase
 	Q_OBJECT
 
 public:
+	friend class eltsCanvas;
+	
 	elts( QWidget* parent = 0);
 	~elts();
 
@@ -55,7 +59,6 @@ public:
 //	void drawGrid( QPainter *);
 //	void initVars(void); 
 	void showCurrentDate (void);
-	SkyPoint getEquCoords (void);
 	QDateTime getQDate (void);
 	dms getLongitude (void);
 	dms getLatitude (void);
@@ -63,12 +66,11 @@ public:
 	void showLongLat(void);
 //	int UtMinutes(void);
 //	QSize sizeHint() const;
-	SkyPoint appCoords();
 	long double computeJdFromCalendar (void);
+	double QDateToEpoch( const QDate &d );
 	double getEpoch (QString eName);
 	long double epochToJd (double epoch);
-
-	bool newsource;
+	void processObject( SkyObject *o );
 
 public slots:
 
@@ -77,6 +79,7 @@ public slots:
 	void slotAddSource(void);
 	void slotBrowseObject(void);
 	void slotChooseCity(void);
+	void slotAdvanceFocus(void);
 
 private:	
 	// xnticks, ynticks = number of minor ticks of X and Y axis
@@ -111,7 +114,8 @@ private:
 		*updateLayout;
 	GeoLocation *geoPlace;
 	KStars *ks;
-
+	QPtrList<SkyPoint> pList;
+	QPtrList<SkyPoint> deleteList;
 
 };
 

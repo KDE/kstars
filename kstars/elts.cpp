@@ -16,9 +16,11 @@
  ***************************************************************************/
 #include "elts.h"
 #include "eltscanvas.h"
-
 #include "skypoint.h"
+#include "skyobject.h"
 #include "geolocation.h"
+#include "ksnumbers.h"
+
 #include <qvariant.h>
 #include <dmsbox.h>
 #include <qdatetimeedit.h>
@@ -60,10 +62,10 @@ elts::elts( QWidget* parent)  :
 
 	eltsView = new eltsCanvas( page );
 
-	// each pixel 4 minutes x 30 arcmin 
-	// Total size is X: 24x60 = 1440; 1440/4 = 360 + 2*40 (padding) = 440
-	//            is Y: 180 + 2*40 (padding) = 260
-	eltsView->setFixedSize( 440, 260 );
+	// each pixel 3 minutes x 30 arcmin 
+	// Total size is X: 24x60 = 1440; 1440/3 = 480 + 2*40 (padding) = 560
+	//            is Y: 360 + 2*40 (padding) = 440
+	eltsView->setFixedSize( 560, 440 );
 
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 //	ctlTabs->move( 10, 24 );
@@ -79,7 +81,7 @@ elts::elts( QWidget* parent)  :
 	nameLayout = new QHBoxLayout( 0, 2, 9 );
 	coordLayout = new QHBoxLayout( 0, 2, 9 );
 
-	nameLabel = new QLabel( sourceTab );
+	nameLabel = new QLabel( sourceTab, "namebox" );
 	nameLabel->setText( i18n( "Name:" ) );
 	
 	nameBox = new QLineEdit( sourceTab);
@@ -96,17 +98,17 @@ elts::elts( QWidget* parent)  :
 	raLabel = new QLabel( sourceTab );
 	raLabel->setText( i18n( "RA:" ) );
 	
-	raBox = new dmsBox( sourceTab , "raBox", FALSE);
+	raBox = new dmsBox( sourceTab , "rabox", FALSE);
 
 	decLabel = new QLabel( sourceTab );
 	decLabel->setText( i18n( "Dec:" ) );
 
-	decBox = new dmsBox( sourceTab );
+	decBox = new dmsBox( sourceTab, "decbox" );
 
 	epochLabel = new QLabel( sourceTab );
 	epochLabel->setText( i18n( "Epoch:" ) );
 
-	epochName = new QLineEdit( sourceTab );
+	epochName = new QLineEdit( sourceTab, "epochname" );
 	epochName->setMaximumSize( QSize( 60, 32767 ) );
 
 	coordLayout->addWidget( raLabel );
@@ -118,7 +120,7 @@ elts::elts( QWidget* parent)  :
 	
 	/** Buttons Layout */
 
-	clearAddLayout = new QHBoxLayout( 0, 0, 6);
+	clearAddLayout = new QHBoxLayout( 0, 0, 6 );
 
 	clearButton = new QPushButton( sourceTab );
 	clearButton->setMinimumSize( QSize( 80, 0 ) );
@@ -155,21 +157,21 @@ elts::elts( QWidget* parent)  :
 	dateLabel->setText( i18n( "Date:" ) );
 	longLatLayout->addWidget( dateLabel );
 
-	dateBox = new QDateEdit( dateTab );
+	dateBox = new QDateEdit( dateTab, "datebox" );
 	longLatLayout->addWidget( dateBox );
 
 	latLabel = new QLabel( dateTab );
 	latLabel->setText( i18n( "Lat.:" ) );
 	longLatLayout->addWidget( latLabel );
 
-	latBox = new dmsBox( dateTab );
+	latBox = new dmsBox( dateTab, "latbox" );
 	longLatLayout->addWidget( latBox );
 
 	longLabel = new QLabel( dateTab );
 	longLabel->setText( i18n( "Long.:" ) );
 	longLatLayout->addWidget( longLabel );
 
-	longBox = new dmsBox( dateTab );
+	longBox = new dmsBox( dateTab, "longbox" );
 	longLatLayout->addWidget( longBox );
 
 	/* Layout for the button part */
@@ -206,9 +208,17 @@ elts::elts( QWidget* parent)  :
 
 	connect( browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
 	connect( cityButton, SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
-	connect( updateButton, SIGNAL(clicked() ), this, SLOT( slotUpdateDateLoc() ) );
-	connect( clearButton, SIGNAL(clicked() ), this, SLOT( slotClear() ) );
-	connect( addButton, SIGNAL(clicked() ), this, SLOT( slotAddSource() ) );
+	connect( updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
+	connect( clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
+	connect( addButton, SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
+	connect( nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( raBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( decBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( latBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	
+	pList.setAutoDelete(FALSE);
+	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
 }
 
 
@@ -226,30 +236,132 @@ elts::~elts()
 //}
 
 void elts::slotAddSource(void) {
+	//First, attempt to parse the object name field
+	if ( ! nameBox->text().isEmpty() ) {
+		ObjectNameList &ObjNames = ks->data()->ObjNames;
+		QString text = nameBox->text().lower();
+		bool objFound(false);
 	
-	// There is a bug here. If one puts a window on top of
-	// this one the source curve will disappear.
-	newsource = true;
+		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
+			if ( name->text().lower() == text ) {
+				//object found
+				SkyObject *o = name->skyObject();
+				processObject( o );
+				objFound = true;
+				break;
+			}
+		}
+		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
+	
+	//Next, attempt to parse the coordinate fields
+	} else if ( ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+		bool ok(false);
+		dms ra, dec;
+		ra = raBox->createDms(false, &ok);
+		if ( ok ) decBox->createDms(true, &ok);
+		
+		if ( ok ) {
+			SkyPoint *sp = new SkyPoint( ra, dec ); 
+			double epoch0 = getEpoch( epochName->text() );
+			double epoch  = QDateToEpoch( dateBox->date() );
+			long double jd0 = epochToJd ( epoch0 );
+			long double jd  = computeJdFromCalendar();
+			sp->apparentCoord(jd0, jd);
+			
+			//If this point is not in list already, add it to list
+			bool found(false);
+			for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+				if ( sp->ra()->Degrees() == p->ra()->Degrees() && sp->dec()->Degrees() == p->dec()->Degrees() ) {
+					found = true;
+					break;
+				}
+			}
+			if ( found ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
+			else {
+				
+				raBox->showInHours( sp->ra() );
+				decBox->showInDegrees( sp->dec() );
+				epochName->setText( QString().setNum( epoch ) );
+				
+				deleteList.append(sp);
+				pList.append(sp);
+			}
+			kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
+		}
+	}
 	eltsView->repaint(false);
-	newsource = false;
+}
+
+//Use find dialog to choose an object
+void elts::slotBrowseObject(void) {
+	FindDialog fd(ks);
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *o = fd.currentItem()->objName()->skyObject();
+		
+		processObject( o );
+	} 
+}
+
+void elts::processObject( SkyObject *o ) {
+	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
+	
+	//If the object is in the solar system, recompute its position for the given epochLabel
+	if ( ks->data()->isSolarSystem( o ) ) {
+		if ( o->type() == 2 && o->name() == "Moon" ) {
+			((KSMoon*)o)->findPosition(num);
+		} else if ( o->type() == 2 ) {
+			((KSPlanet*)o)->findPosition(num);
+		} else if ( o->type() == 9 ) {
+			((KSComet*)o)->findPosition(num);
+		} else if ( o->type() == 10 ) {
+			((KSAsteroid*)o)->findPosition(num);
+		} else {
+			kdDebug() << "Error: I don't know what kind of body " << o->name() << " is." << endl;
+		}
+	}
+	
+	//precess coords to target epoch
+	o->updateCoords( num );
+	
+	//If this point is not in list already, add it to list
+	bool found(false);
+	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+		if ( o->ra()->Degrees() == p->ra()->Degrees() && o->dec()->Degrees() == p->dec()->Degrees() ) {
+			found = true;
+			break;
+		}
+	}
+	if ( found ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
+	else {
+		pList.append( (SkyPoint*)o );
+		raBox->showInHours( o->ra() );
+		decBox->showInDegrees( o->dec() );
+		nameBox->setText( o->translatedName() );
+		//Set epochName to epoch shown in date tab
+		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+	}
+	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
+	
+	delete num;
+}
+
+//move input focus to the next logical widget
+void elts::slotAdvanceFocus(void) {
+	if ( sender()->name() == QString( "namebox" ) ) addButton->setFocus();
+	if ( sender()->name() == QString( "rabox" ) ) decBox->setFocus();
+	if ( sender()->name() == QString( "decbox" ) ) addButton->setFocus();
+	if ( sender()->name() == QString( "longbox" ) ) latBox->setFocus();
+	if ( sender()->name() == QString( "latbox" ) ) updateButton->setFocus();
 }
 
 void elts::slotClear(void) {
-	eltsView->erase();
+	if ( pList.count() ) pList.clear();
+	if ( deleteList.count() ) deleteList.clear();
+	eltsView->repaint();
 }
 
 void elts::slotUpdateDateLoc(void) {
 	eltsView->repaint();
-}
-
-void elts::slotBrowseObject(void) {
-	FindDialog fd(ks);
-	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *obj = fd.currentItem()->objName()->skyObject();
-		raBox->showInHours( obj->ra() );
-		decBox->showInDegrees( obj->dec() );
-		nameBox->setText( obj->translatedName() );
-	} 
 }
 
 void elts::slotChooseCity(void) {
@@ -262,18 +374,6 @@ void elts::slotChooseCity(void) {
 			longBox->showInDegrees( geo->lng() );
 		}
 	}
-}
-
-SkyPoint elts::getEquCoords (void)
-{
-	dms raCoord, decCoord;
-
-	raCoord = raBox->createDms();
-	decCoord = decBox->createDms();
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	return sp;
 }
 
 void elts::showCurrentDate (void)
@@ -322,11 +422,22 @@ long double elts::computeJdFromCalendar (void)
 	return julianDay;
 }
 
+double elts::QDateToEpoch( const QDate &d )
+{
+	return double(d.year()) + double(d.dayOfYear())/double(d.daysInYear());
+}
+
 double elts::getEpoch (QString eName)
 {
-
-	double epoch = eName.toDouble();
-
+	//If Epoch field not a double, assume J2000
+	bool ok(false);
+	double epoch = eName.toDouble(&ok);
+	
+	if ( !ok ) {
+		kdDebug() << "Invalid Epoch.  Assuming 2000.0." << endl;
+		return 2000.0;
+	}
+	
 	return epoch;
 }
 
@@ -344,20 +455,3 @@ long double elts::epochToJd (double epoch)
 	}
 
 }
-
-
-SkyPoint elts::appCoords() {
-
-	long double jd = computeJdFromCalendar();
-	double epoch0 = getEpoch( epochName->text() );
-	long double jd0 = epochToJd ( epoch0 );
-
-
-	SkyPoint sp;
-	sp = getEquCoords();
-
-	sp.apparentCoord(jd0, jd);
-
-	return sp;
-}
-

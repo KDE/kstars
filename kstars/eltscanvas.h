@@ -21,11 +21,12 @@
 #include <qwidget.h>
 #include <qpainter.h>
 
+
 class QDateTime;
 class dms;
 class QPainter;
 class KStars;
-
+class SkyPoint;
 
 /**
   *@author Pablo de Vicente
@@ -46,8 +47,8 @@ private:
 	void drawGrid( QPainter * pcanvas );
 	dms DateTimetoLST (QDateTime date, int ut, dms longitude);
 	dms QTimeToDMS(QTime qtime);
-	int getEl (int ut);
-	void drawSource(QPainter * pcanvas);
+	int getEl (SkyPoint *p, int ut);
+	void drawCurves(QPainter * pcanvas);
 	int Interpol(int x1,int x2,int y1,int y2);
 
 	// xnticks, ynticks = number of minor ticks of X and Y axis

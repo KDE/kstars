@@ -1380,11 +1380,11 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		//Asteroids
 		for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
-			ast->findPosition( &num, PC->earth() );
+			ast->findPosition( &num, earth() );
 		
 		//Comets
 		for ( KSComet *com = cometList.first(); com; com = cometList.next() ) 
-			com->findPosition( &num, PC->earth() );
+			com->findPosition( &num, earth() );
 		
 		//Add a point to the planet trail if the centered object is a solar system body.
 		if ( isSolarSystem( skymap->foundObject() ) ) {
