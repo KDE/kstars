@@ -231,7 +231,7 @@ dms SkyObject::riseSetTimeAz (long double jd, GeoLocation *geo, bool riseT) {
 //	QDateTime utDateTime;
 //	utDateTime = KSUtils::JDtoDateTime(jd );
 //	QTime lstTime;
-//  lstTime = KSUtils::UTtoLST( utDateTime, gLng );
+//	lstTime = KSUtils::UTtoLST( utDateTime, gLng );
 //	dms LST = QTimeToDMS(lstTime);
 //	
 // 	dms HourAngle = dms ( LST.Degrees() - ra().Degrees() );
@@ -373,7 +373,8 @@ QDateTime SkyObject::DMStoQDateTime(long double jd, dms UT) {
 dms SkyObject::QTimeToDMS(QTime qtime) {
 
 	dms tt;
-	tt.setH(qtime.hour() + qtime.minute()*60. + qtime.second()*3600.);
+	tt.setH(qtime.hour(), qtime.minute(), qtime.second());
+	tt.reduce();
 
 	return tt;
 }
