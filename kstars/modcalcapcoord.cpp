@@ -45,8 +45,10 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(p
 	rightBox = new QVBox (parentSplit);
 
 	QGroupBox * InputBox = new QGroupBox (rightBox);
-	InputBox->setTitle( i18n("Input") );
+	InputBox->setTitle( i18n("Input Data") );
 	
+	QVBoxLayout * D00Lay = new QVBoxLayout( InputBox );
+
 	QHBox * buttonBox = new QHBox(InputBox);
 	
 	QPushButton * Compute = new QPushButton( i18n( "Compute" ), buttonBox);
@@ -57,11 +59,41 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(p
 	
 	Clear->setFixedHeight(25);
 	Clear->setMaximumWidth(100);
+//
+// Date and Time
+
+	QHBox * datetimeBox = new QHBox(InputBox,"datetimeBox");
+
+	QHBox * d0Box = new QHBox(datetimeBox,"datetimeBox");
+	d0Box->setMaximumWidth(100);
+
+	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
+	timeLabel->setText( i18n( "Universal Time","UT:") );
+	timBox = new timeBox(d0Box,"timeBox");
+
+	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
+	d1Box->setMaximumWidth(140);
+
+	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
+	dateLabel->setText( i18n( "Date:") );
+	datBox = new timeBox(d1Box,"dateBox",FALSE);
+
+	showCurrentTime();
+
+	buttonBox->setMargin(10);
+	
+	D00Lay->setMargin(14);
+	D00Lay->setSpacing(4);
+	D00Lay->addWidget(buttonBox);
+	D00Lay->addWidget(datetimeBox);
 
 // RA and DEC
+
+	QGroupBox * origCoordBox = new QGroupBox (rightBox);
+	origCoordBox->setTitle( i18n("Original Coordinates") );
 	
-	QVBoxLayout * D0Lay = new QVBoxLayout( InputBox);
-	QHBox * ra0dec0Box = new QHBox(InputBox);
+	QVBoxLayout * D0Lay = new QVBoxLayout( origCoordBox);
+	QHBox * ra0dec0Box = new QHBox(origCoordBox);
 	
 	QLabel * ra0Label = new QLabel(ra0dec0Box,"raLabel");
 	ra0Label->setText(i18n("Right ascention","RA:"));
@@ -82,38 +114,14 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(p
 	epoch0Box->setMargin(6);
 	epoch0Box->setSpacing(6);
 	
-	buttonBox->setMargin(10);
-
-// Date and Time
-
-	QHBox * datetimeBox = new QHBox(InputBox,"datetimeBox");
-
-	QHBox * d0Box = new QHBox(datetimeBox,"datetimeBox");
-	d0Box->setMaximumWidth(100);
-
-	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
-	timeLabel->setText( i18n( "Universal Time","UT:") );
-	timBox = new timeBox(d0Box,"timeBox");
-
-	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
-	d1Box->setMaximumWidth(140);
-
-	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
-	dateLabel->setText( i18n( "Date:") );
-	datBox = new timeBox(d1Box,"dateBox",FALSE);
-
-	showCurrentTime();
-	
 	D0Lay->setMargin(14);
 	D0Lay->setSpacing(4);
-	D0Lay->addWidget(buttonBox);
 	D0Lay->addWidget(ra0dec0Box);
-	D0Lay->addWidget(datetimeBox);
 
 	//Output
 
 	QGroupBox * outputBox = new QGroupBox (rightBox);
-	outputBox->setTitle( i18n ("Result") );
+	outputBox->setTitle( i18n ("Apparent Coordinates") );
 
 	QVBoxLayout * D1Lay = new QVBoxLayout( outputBox);
 	QHBox * rafdecfBox = new QHBox(outputBox);
@@ -134,6 +142,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(p
 	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
 	D2Lay->addItem(downSpacer);
 	
+	rightBox->setMaximumWidth(550);
+	rightBox->setMinimumWidth(400);
 	rightBox->setMargin(14);
 	rightBox->setSpacing(7);
 	rightBox->show();
