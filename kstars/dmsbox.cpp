@@ -73,13 +73,5 @@ dms dmsBox::createDms ( bool deg, bool *ok )
 	return dmsAngle;
 }
 
-void dmsBox::showCircumpolar(void) {
-	setText(i18n("Circumpolar"));	
-}
-
-void dmsBox::showDoesNotRise(void) {
-	setText(i18n("Does not rise"));	
-}
-
 dmsBox::~dmsBox(){
 }
