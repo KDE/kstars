@@ -200,6 +200,8 @@ void KStars::initActions() {
    new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
 			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
+	new KAction(i18n( "Elevation vs. Time"), KAccel::stringToKey ( "Ctrl+E"),
+			                           this, SLOT( slotElTs() ), actionCollection(), "elevation_vs_time");
 
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,

@@ -31,6 +31,7 @@
 #include "lcgenerator.h"
 #include "infoboxes.h"
 #include "ksutils.h"
+#include "elts.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
@@ -77,6 +78,12 @@ void KStars::slotLCGenerator() {
         
   AAVSODialog->show();
 }
+
+void KStars::slotElTs() {
+	elts * eltsDialog = new elts(this);
+	eltsDialog->show();
+}
+
 
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);

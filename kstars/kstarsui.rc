@@ -59,7 +59,8 @@
 
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
-        <Action name="lightcurvegenerator" />
+		<Action name="lightcurvegenerator" />
+		<Action name="elevation_vs_time" />
 	</Menu>
 
 	<Menu name="help"><text>&amp;Help</text>

@@ -199,12 +199,13 @@ void LCGenerator::createGUI()
     GridGroup->setTitle( QString::null );
 
     GridOffRad = new QRadioButton( GridGroup, "GridOffRad" );
-    GridOffRad->setGeometry( QRect( 9, 9, 55, 16 ) );
+    //GridOffRad->setGeometry( QRect( 9, 9, 55, 16 ) );
+    GridOffRad->setGeometry( QRect( 9, 9, 105, 16 ) );
     GridOffRad->setText( i18n( "Off" ) );
     GridOffRad->setChecked( TRUE );
 
     GridOnRad = new QRadioButton( GridGroup, "GridOnRad" );
-    GridOnRad->setGeometry( QRect( 9, 29, 55, 16 ) );
+    GridOnRad->setGeometry( QRect( 9, 29, 105, 16 ) );
     GridOnRad->setText( i18n( "On" ) );
 
     TextLabel15 = new QLabel( ImageConfBox, "TextLabel15" );

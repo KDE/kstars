@@ -265,6 +265,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 
 		void slotLCGenerator();
+
+		/**
+		* action slot: open Elevation vs. Time tool
+		*/
+
+		void slotElTs();
     
 
 		/**
