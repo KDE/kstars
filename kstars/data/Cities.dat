@@ -111,7 +111,7 @@ Attleboro                      :Massachusetts : USA :41:57:28:N: 71:17:30:W
 Auburn                         :Alabama : USA       :32:36:24:N: 85:28:59:W
 Auburn                         :Maine : USA         :44: 5:48:N: 70:13:41:W
 Auckland                       :New Zealand         :36:52:59:S:174:45: 0:E
-Augsburg                       :Germany             :48:22:00:N  10:53:00:E
+Augsburg                       :Germany             :48:22:00:N: 10:53:00:E
 Augusta                        :Arkansas : USA      :35:16: 1:N: 91:20:59:W
 Augusta                        :Georgia : USA       :33:28:19:N: 81:58: 0:W
 Augusta                        :Maine : USA         :44:18:52:N: 69:46:28:W
@@ -173,7 +173,7 @@ Beaumont                       :Texas : USA         :30: 5:20:N: 94: 6: 9:W
 Beaverton                      :Oregon : USA        :45:29:17:N:122:48:25:W
 Beaver                         :Utah : USA          :38:15: 0:N:112:40: 1:W
 Beckley                        :West Virginia : USA :37:46:36:N: 81:11:23:W
-Beersheba                      :Israel              :31:15:00:N: 34:47:OO:E
+Beersheba                      :Israel              :31:15:00:N: 34:47:00:E
 Beijing                        :China               :39:54:59:N:116:22:59:E
 Beirut                         :Lebanon             :33:52:59:N: 35:30: 0:E
 Beja                           :Portugal            :38: 8:45:N:  7:55:19:W
@@ -221,7 +221,7 @@ Bloomington                    :Indiana : USA       :39: 9:53:N: 86:31:54:W
 Bloomington                    :Minnesota : USA     :44:49:30:N: 93:16:30:W
 Bluefield                      :West Virginia : USA :37:16: 0:N: 81:13:23:W
 Bluff                          :Utah : USA          :37:17:59:N:109:34: 1:W
-Bnei Brak                      :Israel              :32:05:00:N: 34:52:OO:E
+Bnei Brak                      :Israel              :32:05:00:N: 34:52:00:E
 Boca Raton                     :Florida : USA       :26:21: 0:N: 80: 5:12:W
 Boca Raton                     :Florida : USA       :26:21: 0:N: 80: 5:12:W
 Bodo                           :Norway              :67:16:11:N: 14:22: 0:E
@@ -258,7 +258,7 @@ Brandon                        :Vermont : USA       :43:45: 0:N: 73: 4:58:W
 Brasilia                       :Brazil              :15:52: 0:S: 47:55: 0:W
 Brattleboro                    :Vermont : USA       :42:51: 6:N: 72:33:47:W
 Braunschweig                   :Germany             :52:16:00:N: 10:32:00:E
-Bremen                         :Germany             :53: 2:49:N: 8 :47:23:E
+Bremen                         :Germany             :53: 2:49:N:  8:47:23:E
 Bremerhaven                    :Germany             :53:33:00:N:  8:35:00:E
 Bremerton                      :Washington : USA    :47:34: 1:N:122:37:58:W
 Brest                          :France              :48:23:59:N:  4:29:59:W
@@ -786,7 +786,7 @@ Guthrie                        :Oklahoma : USA      :35:52: 1:N: 97:25:58:W
 Haarlem                        :Netherlands         :52:23:00:N:  4:38:00:E
 Hagen                          :Germany             :51:21:00:N:  7:28:00:E
 Hagerstown                     :Maryland : USA      :39:38:42:N: 77:43:11:W
-Haifa                          :Israel              :32:49:00:N: 34:59:OO:E
+Haifa                          :Israel              :32:49:00:N: 34:59:00:E
 Haiku                          :Hawaii : USA        :20:58:59:N:156:16:58:W
 Hailey                         :Idaho : USA         :43:31: 1:N:114:19: 1:W
 Haines                         :Alaska : USA        :59:15: 0:N:135:27:36:W
@@ -853,7 +853,7 @@ Holliston                      :Massachusetts : USA :42:21: 0:N: 71: 2:59:W
 Holly Springs                  :Mississippi : USA   :34:45: 0:N: 89:28: 1:W
 Hollywood                      :California : USA    :34: 7:30:N:118:20:13:W
 Hollywood                      :Florida : USA       :26: 0:36:N: 80: 9: 0:W
-Holon                          :Israel              :32:02:00:N: 34:47:OO:E
+Holon                          :Israel              :32:02:00:N: 34:47:00:E
 Holyoke                        :Massachusetts : USA :42:12:29:N: 72:36:35:W
 Homer                          :Alaska : USA        :59:38:59:N:151:31:12:W
 Hong Kong                      :China               :21:45: 0:N:115: 0: 0:E
@@ -981,7 +981,7 @@ Kitchener                      :Canada              :43:15: 0:N: 80:19:47:W
 Klamath Falls                  :Oregon : USA        :42:13: 1:N:121:49: 1:W
 Knightdale                     :North Carolina : USA:35:47:48:N: 78:26:21:W
 Knoxville                      :Tennessee : USA     :35:57:38:N: 83:55: 6:W
-Koblenz                        :Germany             :50:21:00:N:   : 3: 0: E
+Koblenz                        :Germany             :50:21:00:N:   : 3: 0:E
 Kodiak                         :Alaska : USA        :57:47:17:N:152:24:10:W
 Kohala                         :Hawaii : USA        :20: 0:15:N:155:40:15:W
 Koko Head                      :Hawaii : USA        :21:16: 5:N:157:42:21:W
@@ -1470,7 +1470,7 @@ Perth Amboy                    :New Jersey : USA    :40:31: 1:N: 74:16: 1:W
 Perth                          :Australia           :31:49:59:S:116:10: 0:E
 Peru                           :Illinois : USA      :41:19:58:N: 89:10: 1:W
 Peshawar                       :Pakistan            :34: 0: 0:N: 71:30:47:E
-Petach Tikwa                   :Israel              :31:52:00:N: 34:55:OO:E
+Petach Tikwa                   :Israel              :31:52:00:N: 34:55:00:E
 Petersburg                     :Alaska : USA        :56:48:36:N:132:56:59:W
 Petersburg                     :Virginia : USA      :37:12: 0:N: 77:30: 0:W
 Pforzheim                      :Germany             :48:53:00:N:  8:42:00:E
@@ -1560,7 +1560,7 @@ Raanana                        :Israel              :32:10:59:N: 34:52:30:E
 Rabat                          :Morocco             :34: 2:59:N:  6:45: 0:W
 Racine                         :Wisconsin : USA     :42:43:49:N: 87:47:12:W
 Raleigh                        :North Carolina : USA:35:46:37:N: 78:38:21:W
-Ramat Gan                      :Israel              :32:04:00:N: 34:48:OO:E
+Ramat Gan                      :Israel              :32:04:00:N: 34:48:00:E
 Ramstein                       :Germany             :49:25:58:N:  7:35:59:E
 Rancho Palos Verdes            :California : USA    :33:46: 2:N:118:24:10:W
 Randolph                       :Vermont : USA       :43:55: 1:N: 72:40: 1:W

@@ -187,7 +187,7 @@ bool KStarsData::readCNameData( void ) {
 	  QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
-	  	QString line, name, abbrev, starname;
+	  	QString line, name, abbrev;
 		  int rah, ram, ras, dd, dm, ds;
 		  QChar sgn;
 
@@ -203,15 +203,14 @@ bool KStarsData::readCNameData( void ) {
 		  ds = line.mid( 11, 2 ).toInt();
 
 			abbrev = line.mid( 13, 3 );
-		  name  = line.mid( 17, line.find(':')-18 ).stripWhiteSpace();
-	    starname = line.mid( line.find(':')+1).stripWhiteSpace();
+		  name  = line.mid( 17 ).stripWhiteSpace();
 
 		  dms r; r.setH( rah, ram, ras );
 		  dms d( dd, dm,  ds );
 
 	  	if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
 
-		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name, abbrev, starname );
+		  SkyObject *o = new SkyObject( -1, r, d, 0.0, name, abbrev, "" );
 	  	cnameList.append( o );
 			objList->append( o );
 	  	ObjNames->append (new SkyObjectName (o->name, objList->last()));
@@ -230,7 +229,7 @@ bool KStarsData::readStarData( void ) {
 		QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
-			QString line, name, SpType;
+			QString line, name, gname, SpType;
 			float mag;
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
@@ -239,8 +238,9 @@ bool KStarsData::readStarData( void ) {
 
 			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
 			if ( mag > options->magLimitDrawStar ) break;	// break reading file if magnitude is higher than needed
+			
+			name = "star"; gname = "";
 
-			name = "star";
 			rah = line.mid( 0, 2 ).toInt();
 			ram = line.mid( 2, 2 ).toInt();
 			ras = int( line.mid( 4, 6 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
@@ -251,7 +251,11 @@ bool KStarsData::readStarData( void ) {
 			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
 			SpType = line.mid( 37, 2 );
-			name = line.mid( 40, 20 ).stripWhiteSpace();
+			name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
+			if ( name.contains( ':' ) ) { //genetive form exists
+				gname = name.mid( name.find(':')+1 );
+				name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+			}
 			if ( name.isEmpty() ) name = "star";
 
 			dms r;
@@ -260,7 +264,7 @@ bool KStarsData::readStarData( void ) {
 
 			if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
 
-			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
+			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
 	  		starList.append( o );
 
 			if ( o->name != "star" ) {		// just add to name list if a name is given
@@ -273,7 +277,7 @@ bool KStarsData::readStarData( void ) {
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
 			if (mag < 7.5) starCount3 = starList.count();
-  		}	// enf of while
+  		}	// end of while
 		lastFileIndex = file.at();	// stores current file index - needed by reloading
 		file.close();
     	return true;
@@ -425,7 +429,7 @@ bool KStarsData::readCityData( void ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
-			QString line, field[11];
+			QString line, totalLine, field[11];
 			QString name, province, country;
 			bool abort=false;
 			bool intCheck = true, lastField = false;
@@ -436,6 +440,7 @@ bool KStarsData::readCityData( void ) {
 			float lng, lat;
 
 			line = stream.readLine();
+			totalLine = line;
 
 			unsigned int i;
 			for ( i=0; i<11; ++i ) {
@@ -446,8 +451,9 @@ bool KStarsData::readCityData( void ) {
 			}
 
 			if ( i<9 ) {
-                            kdDebug()<<i18n( "Ran out of fields!" )<<endl;
-                            abort = true;
+				kdDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
+				kdDebug()<< totalLine.local8Bit() <<endl;
+				abort = true;
 			}
 
 			int index = 0;
@@ -459,55 +465,54 @@ bool KStarsData::readCityData( void ) {
 
 			latD = field[index++].toInt( &intCheck );
 			if ( !intCheck ) {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			latM = field[index++].toInt( &intCheck );
-			if ( !intCheck )
-                        {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+			if ( !intCheck ) {
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			latS = field[index++].toInt( &intCheck );
-			if ( !intCheck )
-                        {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+			if ( !intCheck ) {
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			QChar ctemp = field[index++].at(0);
 			latsgn = ctemp;
 			if (latsgn != 'N' && latsgn != 'S') {
-                            kdDebug()<<i18n( "Invalid latitude sign" )<<endl;
-                            abort = true;
+				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
+				abort = true;
 			}
+
+			kdDebug() << "test" << endl;
 
 			lngD = field[index++].toInt( &intCheck );
 			if ( !intCheck ) {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			lngM = field[index++].toInt( &intCheck );
 			if ( !intCheck ) {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			lngS = field[index++].toInt( &intCheck );
 			if ( !intCheck ) {
-                            abort = true;
-                            kdDebug()<<field[index-1]<<endl;
-                            kdDebug()<<i18n( "Bad integer" )<<endl;
-                        }
+				kdDebug() << field[index-1] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+				abort = true;
+			}
+
 			ctemp = field[index++].at(0);
 			lngsgn = ctemp;
 			if (lngsgn != 'E' && lngsgn != 'W') {
-                            kdDebug()<<" "<<lngsgn<<endl;
-                            kdDebug()<<i18n( "Invalid longitude sign" )<<endl;
-                            abort = true;
+				kdDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine << endl;
+				abort = true;
 			}
 
 			if ( !abort ) {
@@ -739,7 +744,7 @@ bool KStarsData::reloadStarData( float newMag ) {
 		int i = 0;
 
 		while ( !stream.eof() ) {
-			QString line, name, SpType;
+			QString line, name, gname, SpType;
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
 
@@ -760,7 +765,11 @@ bool KStarsData::reloadStarData( float newMag ) {
 			ds = int( line.mid( 22, 5 ).toDouble() + 0.5 ); //add 0.5 to make int() pick nearest integer
 
 			SpType = line.mid( 37, 2 );
-			name = line.mid( 40, 20 ).stripWhiteSpace();
+			name = line.mid( 40 ).stripWhiteSpace(); //the rest of the line
+			if ( name.contains( ':' ) ) { //genetive form exists
+				gname = name.mid( name.find(':')+1 );
+				name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+			}
 			if ( name.isEmpty() ) name = "star";
 
 			dms r;
@@ -768,9 +777,9 @@ bool KStarsData::reloadStarData( float newMag ) {
 			dms d( dd, dm,  ds );
 
 			if ( sgn == "-" ) d.setD( -1.0*d.getD() );
-
-			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
-  			starList.append( o );
+			
+			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+			starList.append( o );
 
 			if ( o->name != "star" ) {		// just add to name list if a name is given
 				objList->append( o );

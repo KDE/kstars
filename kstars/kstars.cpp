@@ -583,9 +583,6 @@ void KStars::initLocation() {
 		oldConfig = true;
     kapp->config()->writeEntry( "State", "" ); //ignore this key from now on...
 	}
-        kdDebug()<<GetOptions()->CityName<<endl;
-        kdDebug()<<GetOptions()->ProvinceName<<endl;
-        kdDebug()<<GetOptions()->CountryName<<endl;
 
 	for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 	{

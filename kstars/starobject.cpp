@@ -31,17 +31,25 @@ StarObject::StarObject( StarObject &o )
 	soName = o.soName;
 }
 
-StarObject::StarObject( int t, dms r, dms d, double m, QString n, QString n2, QString lname, QString st )
-	: SkyObject (t, r, d, m, n, n2, lname), SpType(st), soName( 0 )
+StarObject::StarObject( dms r, dms d, double m, QString n, QString n2, QString st )
+	: SkyObject (0, r, d, m, n, n2, ""), SpType(st), soName( 0 )
 {
 }
 
-StarObject::StarObject( int t, double r, double d, double m, QString n, QString n2, QString lname, QString st )
-	: SkyObject (t, r, d, m, n, n2, lname), SpType(st), soName( 0 )
+StarObject::StarObject( double r, double d, double m, QString n, QString n2, QString st )
+	: SkyObject (0, r, d, m, n, n2, ""), SpType(st), soName( 0 )
 {
 }
 
 StarObject::~StarObject()
 {
 // destructor is empty
+}
+
+QString StarObject::greekLetter( void ) {
+	QString letter = "";
+	if ( name2.find(" ") > 0 )
+		letter = name2.mid( 0, name2.find(" ") );
+
+	return letter;
 }

@@ -723,7 +723,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		initPopupMenu();
 		QStringList::Iterator itList;
 		QStringList::Iterator itTitle;
-    QString s;
+    QString s, DisplayName;
 		int id;
 		clickedObject = NULL;
 		StarObject *starobj = NULL;
@@ -814,12 +814,22 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					clickedObject = (SkyObject *)ksw->GetData()->starList.at(istar_min);
 					clickedPoint.set( clickedObject->getRA(), clickedObject->getDec() );
 
+					//set DisplayName to be either the Arabic name, the genetive name, or both
+					DisplayName = clickedObject->translatedName();
+					if ( clickedObject->name2.length() ) {
+						if ( DisplayName.length() ) {
+							DisplayName += " (" + clickedObject->name2 + ")";
+						} else {
+							DisplayName = clickedObject->name2;
+						}
+					}
+
 					switch (e->button()) {
 						case LeftButton:
-							ksw->statusBar()->changeItem( clickedObject->translatedName(), 0 );
+							ksw->statusBar()->changeItem( DisplayName, 0 );
 							break;
 						case RightButton:
-							pmTitle->setText( clickedObject->translatedName() );
+							pmTitle->setText( DisplayName );
 							pmTitle2->setText( i18n( "Spectral Type: %1" ).arg(starobj->sptype()) );
 							if ( clickedObject->name != "star" ) {
 								pmType->setText( i18n( "star" ) );
@@ -1375,7 +1385,8 @@ void SkyMap::paintEvent( QPaintEvent *e ) {
 							if ( ksw->GetOptions()->drawStarMagnitude ) {
 								sTmp += QString().sprintf("%.1f", curStar->mag );
 							}
-							int offset = int( 7.5 - mag ) + 5;
+							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*(ZoomLevel - 6));
+						
 							psky.setPen( QColor( ksw->GetOptions()->colorSName ) );
 							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
   	  	  	 			}
@@ -2078,7 +2089,6 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPole
 
 bool SkyMap::unusablePoint (double dx, double dy)
 {
-//	qDebug ("dx=%f dy=%f", dx, dy);
 	if (dx >= 1.41 || dx <= -1.41 || dy >= 1.41 || dy <= -1.41)
 		return true;
 	else
@@ -2140,7 +2150,13 @@ void SkyMap::showFocusCoords( void ) {
 	char dsgn = '+', azsgn = '+', altsgn = '+';
 
 	oname = i18n( "nothing" );
-	if ( foundObject != NULL && ksw->GetOptions()->isTracking ) oname = foundObject->translatedName();
+	if ( foundObject != NULL && ksw->GetOptions()->isTracking ) {
+		oname = foundObject->translatedName();
+		//add genetive name for stars
+	  if ( foundObject->type==0 && foundObject->name2.length() )
+			oname += " (" + foundObject->name2 + ")";
+	}
+
 	ksw->FocusObject->setText( i18n( "Focused on: " ) + oname );
 
 	if ( focus.getDec().getD() < 0 ) dsgn = '-';
