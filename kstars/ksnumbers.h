@@ -67,10 +67,12 @@ public:
 	/**@returns eccentricity of Earth's orbit.*/
 	double earthEccentricity() const { return e; }
 
-	/**@returns the change in obliquity due to the nutation of Earth's orbit. */
+	/**@returns the change in obliquity due to the nutation of 
+	 * Earth's orbit. Value is in degrees */
 	double dObliq() const { return deltaObliquity; }
 
-	/**@returns the change in Ecliptic Longitude due to nutation. */
+	/**@returns the change in Ecliptic Longitude due to nutation.
+	 * Value is in degrees. */
 	double dEcLong() const { return deltaEcLong; }
 
 	/**@returns Julian centuries since J2000*/
