@@ -31,7 +31,6 @@ class QGridLayout;
 class QDateEdit;
 class QGroupBox;
 class QLabel;
-class QLineEdit;
 class QPushButton;
 class QTabWidget;
 class QPainter;
@@ -44,6 +43,7 @@ class dmsBox;
 class eltsCanvas;
 class GeoLocation;
 class KStars;
+class KSLineEdit;
 class KListBox;
 
 class elts : public KDialogBase
@@ -105,10 +105,10 @@ private:
 		*raLabel, *decLabel, *latLabel, *longLabel;
 	QTabWidget *ctlTabs;
 	QWidget *sourceTab, *dateTab;
-	QLineEdit *nameBox, *epochName;
+	KSLineEdit *nameBox, *epochName;
 	QDateEdit *dateBox;
 	dmsBox *latBox, *longBox, *raBox, *decBox;
-	QPushButton *browseButton, *cityButton, *clearButton, *addButton, *updateButton;
+	QPushButton *browseButton, *cityButton, *clearFieldsButton, *clearButton, *addButton, *updateButton;
 	eltsCanvas *eltsView;
 	KListBox *PlotList;
 
@@ -121,6 +121,7 @@ private:
 	QPtrList<SkyPoint> pList;
 	QPtrList<SkyPoint> deleteList;
 
+	bool dirtyFlag;
 };
 
 #endif // ELTS_H

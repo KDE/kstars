@@ -19,9 +19,9 @@
 #define DMSBOX_H
 
 //#include <qhbox.h>
-#include <qlineedit.h>
 #include <qlabel.h>
 #include <qstring.h>
+#include "kslineedit.h"
 #include "dms.h"
 
 
@@ -36,7 +36,7 @@ class dms;
 	*@version 0.9
   */
 
-class dmsBox : public QLineEdit  {
+class dmsBox : public KSLineEdit  {
 public: 
 	/**
 	 * Constructor for the dmsBox object.

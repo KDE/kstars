@@ -27,7 +27,6 @@
 #include <qdatetimeedit.h>
 #include <qgroupbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
@@ -40,9 +39,10 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 #include "geolocation.h"
+#include "kslineedit.h"
 
 elts::elts( QWidget* parent)  : 
-	KDialogBase( KDialogBase::Plain, i18n( "Elevation vs. Time" ), 0, Close, parent ) 
+	KDialogBase( KDialogBase::Plain, i18n( "Elevation vs. Time" ), Close, Close, parent ) 
 {
 
 	ks = (KStars*) parent;
@@ -73,11 +73,6 @@ elts::elts( QWidget* parent)  :
 	coordLayout    = new QHBoxLayout( 0, 2, 9 );
 	clearAddLayout = new QHBoxLayout( 0, 2, 9 );
 
-	//define this first so it has default focus
-	addButton = new QPushButton( sourceTab );
-	addButton->setMinimumSize( QSize( 80, 0 ) );
-	addButton->setText( i18n( "Plot" ) );
-	
 	//labels for sourceLeftLayout
 	nameLabel = new QLabel( sourceTab, "namebox" );
 	nameLabel->setText( i18n( "Name:" ) );
@@ -91,7 +86,7 @@ elts::elts( QWidget* parent)  :
 	sourceLeftLayout->addWidget( epochLabel );
 	
 	//widgets for nameLayout
-	nameBox = new QLineEdit( sourceTab );
+	nameBox = new KSLineEdit( sourceTab );
 	browseButton = new QPushButton( sourceTab );
 	browseButton->setText( i18n( "Browse" ) );
 	
@@ -111,14 +106,21 @@ elts::elts( QWidget* parent)  :
 	coordLayout->addWidget( decBox );
 	
 	//widgets for clearAddLayout
-	epochName = new QLineEdit( sourceTab, "epochname" );
-	epochName->setMaximumSize( QSize( 60, 32767 ) );
+	epochName = new KSLineEdit( sourceTab, "epochname" );
+	epochName->setMaximumSize( QSize( 80, 32767 ) );
+	clearFieldsButton = new QPushButton( sourceTab );
+	clearFieldsButton->setMinimumSize( QSize( 80, 0 ) );
+	clearFieldsButton->setText( i18n( "Clear Fields" ) );
+	addButton = new QPushButton( sourceTab );
+	addButton->setMinimumSize( QSize( 60, 0 ) );
+	addButton->setText( i18n( "Plot" ) );
 	clearButton = new QPushButton( sourceTab );
 	clearButton->setMinimumSize( QSize( 80, 0 ) );
 	clearButton->setText( i18n( "Clear List" ) );
 
 	clearAddLayout->addWidget( epochName );
 	clearAddLayout->addItem( new QSpacerItem( 6, 0, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
+	clearAddLayout->addWidget( clearFieldsButton );
 	clearAddLayout->addWidget( addButton );
 	clearAddLayout->addWidget( clearButton );
 
@@ -199,21 +201,32 @@ elts::elts( QWidget* parent)  :
 //	initVars();
 
 	connect( browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
-	connect( cityButton, SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
+	connect( cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
 	connect( updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
 	connect( clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
-	connect( addButton, SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
-	connect( nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( nameBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
-	connect( raBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( raBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
-	connect( decBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( decBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
+	connect( addButton,   SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
+	connect( nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	connect( raBox,   SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	connect( decBox,  SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
+	//CLEAR_FIELDS
+//	connect( nameBox, SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
+//	connect( raBox,   SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
+//	connect( decBox,  SIGNAL( gotFocus() ), this, SLOT( slotClearBoxes() ) );
+	connect( clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( latBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( PlotList, SIGNAL( highlighted(int) ), eltsView, SLOT( update() ) );
 	
 	pList.setAutoDelete(FALSE);
 	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
+
+	//ther edit boxes should not pass on the return key!
+	nameBox->setTrapReturnKey( true );
+	raBox->setTrapReturnKey( true );
+	decBox->setTrapReturnKey( true );
+
+	//CLEAR_FIELDS
+//	dirtyFlag = false;
 }
 
 
@@ -231,22 +244,8 @@ elts::~elts()
 //}
 
 void elts::slotAddSource(void) {
-	//First, if the name, RA, and Dec fields are all filled, construct a new skyobject 
-	//with these parameters
-	if ( ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
-		bool ok( true );
-		dms newRA( 0.0 ), newDec( 0.0 );
-		newRA = raBox->createDms( false, &ok );
-		if ( ok ) newDec = decBox->createDms( true, &ok );
-		if ( ok ) {
-			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, nameBox->text() );
-			deleteList.append( obj ); //this object will be deleted when window is destroyed
-			processObject( obj );
-			PlotList->insertItem( obj->name() );
-		}
-		
-	//Next, if the name box is filled, attempt to parse the object name field
-	} else if ( ! nameBox->text().isEmpty() ) {
+	//First, attempt to find the object name in the list of known objects
+	if ( ! nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		QString text = nameBox->text().lower();
 		bool objFound(false);
@@ -256,7 +255,6 @@ void elts::slotAddSource(void) {
 				//object found
 				SkyObject *o = name->skyObject();
 				processObject( o );
-				PlotList->insertItem( o->name() );
 				
 				objFound = true;
 				break;
@@ -264,6 +262,19 @@ void elts::slotAddSource(void) {
 		}
 		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
 	
+	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject 
+	//with these parameters
+	} else if ( ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
+		bool ok( true );
+		dms newRA( 0.0 ), newDec( 0.0 );
+		newRA = raBox->createDms( false, &ok );
+		if ( ok ) newDec = decBox->createDms( true, &ok );
+		if ( ok ) {
+			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, nameBox->text() );
+			deleteList.append( obj ); //this object will be deleted when window is destroyed
+			processObject( obj );
+		}
+		
 	//If the Ra and Dec boxes are filled, but the name field is empty, 
 	//move input focus to nameBox`
 	} else if ( ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
@@ -283,22 +294,24 @@ void elts::slotBrowseObject(void) {
 	FindDialog fd(ks);
 	if ( fd.exec() == QDialog::Accepted ) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
-
 		processObject( o );
-		slotAddSource();
 	} 
+
+	eltsView->repaint();
 }
 
 void elts::processObject( SkyObject *o ) {
 	//We need earth for findPosition.  Store KSNumbers for simulation date/time 
 	//so we can restore Earth position later.
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
-	KSNumbers *oldNum = new KSNumbers( ks->getClock()->JD() );
+	KSNumbers *oldNum = 0;
 	KSPlanet *Earth = ks->data()->earth();
-	Earth->findPosition( num );
 	
 	//If the object is in the solar system, recompute its position for the given epochLabel
 	if ( ks->data()->isSolarSystem( o ) ) {
+		oldNum = new KSNumbers( ks->getClock()->JD() );
+		Earth->findPosition( num );
+		
 		if ( o->type() == 2 && o->name() == "Moon" ) {
 			((KSMoon*)o)->findPosition(num, Earth);
 		} else if ( o->type() == 2 ) {
@@ -327,19 +340,28 @@ void elts::processObject( SkyObject *o ) {
 	if ( found ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
 	else {
 		pList.append( (SkyPoint*)o );
+		PlotList->insertItem( o->name() );
+		PlotList->setCurrentItem( PlotList->count() - 1 );
 		raBox->showInHours(o->ra() );
 		decBox->showInDegrees(o->dec() );
 		nameBox->setText(o->translatedName() );
+		
+		//CLEAR_FIELDS
+//		dirtyFlag = true;
+		
 		//Set epochName to epoch shown in date tab
-		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+//		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
 	}
 	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
 	
 
 	//restore original Earth position
-	Earth->findPosition( oldNum );
+	if ( ks->data()->isSolarSystem( o ) ) {
+		Earth->findPosition( oldNum );
+		delete oldNum;
+	}
+	
 	delete num;
-	delete oldNum;
 }
 
 //move input focus to the next logical widget
@@ -354,17 +376,30 @@ void elts::slotAdvanceFocus(void) {
 void elts::slotClear(void) {
 	if ( pList.count() ) pList.clear();
 	if ( deleteList.count() ) deleteList.clear();
+	PlotList->clear();
+	nameBox->clear();
+	raBox->clear();
+	decBox->clear();
 	eltsView->repaint();
+	
+	//CLEAR_FIELDS
+//	dirtyFlag = false;
 }
 
 void elts::slotClearBoxes(void) {
 	//clear the name, ra, and dec fields
 	// This still does not work. I will have a look later.
-//	nameBox->clear();
-//	raBox->clear() ;
-//	decBox->clear();
-//	epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
-
+	
+	//CLEAR_FIELDS
+//	if ( dirtyFlag ) {
+//		dirtyFlag = false;
+		nameBox->clear();
+		raBox->clear() ;
+		decBox->clear();
+		epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+		
+	//CLER_FIELDS
+//	}
 }
 
 void elts::slotUpdateDateLoc(void) {
