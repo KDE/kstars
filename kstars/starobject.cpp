@@ -246,7 +246,10 @@ void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool draw
 		else if ( longname() != "star" ) sName = translatedLongName() + " ";
 	}
 	if ( drawMag ) {
-		sName += QString().sprintf("%.1f", mag() );
+		if ( drawName )
+			sName += QString().sprintf("%.1f", mag() );
+		else 
+			sName = QString().sprintf("%.1f", mag() );
 	}
 
 	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.01*( zoom/500. )) ));
