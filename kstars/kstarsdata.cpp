@@ -415,9 +415,16 @@ bool KStarsData::readDeepSkyData( void ) {
 
 bool KStarsData::readURLData( QString urlfile, int type ) {
 	QFile file;
+	QString localFile;
 	bool fileFound = false;
 
-	if ( KSUtils::openDataFile( file, urlfile ) ) {
+	if ( locale->language() != "en_US" ) 
+		localFile = locale->language() + "/" + urlfile;
+
+	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) ) {
+		fileFound = true;
+	} else if ( KSUtils::openDataFile( file, urlfile ) ) {
+		if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
 		fileFound = true;
 	} else {
 		file.setName( locateLocal( "appdata", urlfile ) );
