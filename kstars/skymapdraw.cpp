@@ -21,6 +21,8 @@
 #include "kstars.h"
 #include "infoboxes.h"
 
+#include <stdlib.h> // abs
+
 void SkyMap::drawBoxes( QPixmap *pm ) {
 	QPainter p;
 	p.begin( pm );
