@@ -204,7 +204,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	DeepSkyObject *dso;
 	KSPlanetBase *ps;
 	
-	QString pname, oname, distStr, angStr, illumStr;
+	QString pname, oname, distStr, angStr, illumStr, magStr;
 	QString sflags( "" );
 	
 //arguments to NameBox depend on type of object
@@ -252,6 +252,9 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		} else {
 			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
 		}
+
+		// Construct string for magnitude:
+		magStr = QString("%1").arg(ps->mag(),0,'f',1);
 		
 		//Construct the string for angular size
 		angStr = "--";
@@ -264,7 +267,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		//the Sun should display type=star, not planet!
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					i18n("star"), "--", distStr, angStr, generalTab );
+					i18n("star"), "-26.8", distStr, angStr, generalTab );
 		
 		//the Moon displays illumination fraction instead of magnitude
 		} else if ( selectedObject->name() == "Moon" ) {
@@ -276,7 +279,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		
 		} else {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					selectedObject->typeName(), "--", distStr, angStr, generalTab );
+					selectedObject->typeName(), magStr, distStr, angStr, generalTab );
 		}
 		break;
 	case 9:  //comets

@@ -319,6 +319,14 @@ private:
 	*/
 	void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
 
+	/* Computes the visual magnitude for the major planets. 
+	 * @param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
+	 *        saturn magnitude.
+	 * @param Earth pointer to an Earth object. Needed to know the distance between the Earth and the
+	 *        Sun.
+	 */
+	void findMagnitude(const KSNumbers *num);
+
 	QImage Image0, Image;
 	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	KStarsData *data;

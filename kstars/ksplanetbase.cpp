@@ -81,6 +81,8 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 		Trail.append( new SkyPoint( ra(), dec() ) );
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
 	}
+
+	findMagnitude(num);
 }
 
 void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST ) {
@@ -184,4 +186,61 @@ void KSPlanetBase::scaleRotateImage( int scale, double imAngle ) {
 	QWMatrix m;
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m ).smoothScale( scale, scale );
+}
+
+void KSPlanetBase::findMagnitude(const KSNumbers *num) {
+	
+	double cosDec, sinDec;
+	dec()->SinCos(cosDec, sinDec);
+	
+	// I would rather like to obtain the Earth Sun distance rather than assigning it
+	// by hand..... Still TODO
+	// double earthSun = Earth->rsun(); 
+	double earthSun = 1.;
+
+	/* Phase of the planet in degrees */
+	
+	double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun) / (2 * rsun() * rearth() );
+	double phase = acos ( cosPhase ) * dms::PI / 180.;
+
+       /* Computation of the visual magnitude (V band) of the planet.
+	* Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
+	* It has some simmilarity to J. Meeus algorithm in Astronomical Algorithms, Chapter 40.
+	* */
+
+	// Initialized to the faintest magnitude observable with the HST
+	float magnitude = 30;
+
+	double param = 5 * log10(rsun() * rearth() );
+	double f1 = phase/100.;
+	if ( name() == "Mercury" ) {
+		if (phase > 150)
+			f1 = 1.5;
+		magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
+	}
+	if ( name() =="Venus")
+		magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
+	if( name() == "Mars")
+		magnitude = -1.52 + param + 0.016*phase;
+	if( name() == "Jupiter") 
+		magnitude = -9.25 + param + 0.005*phase;
+
+	if( name() == "Saturn") {
+		double T = num->julianCenturies();
+		double a0 = (40.66-4.695*T)* dms::PI / 180.;
+		double d0 = (83.52+0.403*T)* dms::PI / 180.;
+		double sinx = -cos(d0)*cosDec*cos(a0 - ra()->radians());
+		sinx = fabs(sinx-sin(d0)*sinDec);
+		double rings = -2.6*sinx + 1.25*sinx*sinx;
+		magnitude = -8.88 + param + 0.044*phase + rings;
+	}
+
+	if( name() == "Uranus")
+		magnitude = -7.19 + param + 0.0028*phase;
+	if( name() == "Neptune")
+		magnitude = -6.87 + param;
+	if( name() == "Pluto")
+		magnitude = -1.01 + param + 0.041*phase;
+
+	setMag(magnitude);
 }
