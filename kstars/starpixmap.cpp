@@ -30,27 +30,23 @@ StarPixmap::StarPixmap (int starColorMode, int starColorIntensity)
 }
 
 QPixmap* StarPixmap::getPixmap (QChar *color, int size) {
-	int c (0);
+	int c;
 //	the colors from blue to red	+, O, B, A, F, G, K, M, N, P
 // if *color is '+' use white star
-	if (*color == 'O')
-		c = 1;
-	else if (*color == 'B')
-		c = 2;
-	else if (*color == 'A')
-		c = 3;
-	else if (*color == 'F')
-		c = 4;
-	else if (*color == 'G')
-		c = 5;
-	else if (*color == 'K')
-		c = 6;
-	else if (*color == 'M')
-		c = 7;
-	else if (*color == 'N')
-		c = 8;
-	else if (*color == 'P')
-		c = 9;
+	switch (*color) {
+		case 'O' : c = 1; break;
+		case 'B' : c = 2; break;
+		case 'A' : c = 3; break;
+		case 'F' : c = 4; break;
+		case 'G' : c = 5; break;
+		case 'K' : c = 6; break;
+		case 'M' : c = 7; break;
+		case 'N' : c = 8; break;
+		case 'P' : c = 9; break;
+		default : c = 0;
+	}
+	// don't overflow the array
+	if (size > 25) size = 25;
 	return &starPixmaps[c][size];
 }
 
