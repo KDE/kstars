@@ -127,13 +127,13 @@
         <sender>buttonCancel</sender>
         <signal>clicked()</signal>
         <receiver>OptionsTreeView</receiver>
-        <slot>accept()</slot>
+        <slot>reject()</slot>
     </connection>
     <connection>
         <sender>buttonOk</sender>
         <signal>clicked()</signal>
         <receiver>OptionsTreeView</receiver>
-        <slot>reject()</slot>
+        <slot>accept()</slot>
     </connection>
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
