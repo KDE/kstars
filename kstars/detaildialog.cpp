@@ -288,13 +288,18 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	default: //deep-sky objects
 		dso = (DeepSkyObject *)selectedObject;
 
-		if ( ! dso->longname().isEmpty() ) {
+		if ( ! dso->longname().isEmpty() && dso->longname() != dso->name() ) {
 			pname = dso->translatedLongName();
 			oname = dso->translatedName();
 		} else {
 			pname = dso->translatedName();
 		}
-		if ( ! dso->name2().isEmpty() ) oname += ", " + dso->translatedName2();
+
+		if ( ! dso->name2().isEmpty() ) {
+			if ( oname.isEmpty() ) oname = dso->translatedName2();
+			else oname += ", " + dso->translatedName2();
+		}
+
 		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
