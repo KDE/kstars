@@ -727,7 +727,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	}
 
 	/* decide GUI. might use MENU if OneOf but too many for button array */
-	if (!strcmp (valuXMLAtt(ap), "OneOfMany"))
+	if (!strcmp (valuXMLAtt(ap), "OneOfMany") || !strcmp (valuXMLAtt(ap), "AtMostOne"))
 	{
 	    /* count number of switches -- make menu if too many */
 	    for ( ep = nextXMLEle(root, 1) , n = 0 ; ep != NULL; ep = nextXMLEle(root, 0))
