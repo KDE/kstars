@@ -135,6 +135,16 @@ void AltVsTime::slotAddSource(void) {
 		newRA = avtUI->raBox->createDms( false, &ok );
 		if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
 
+		//If the epochName is blank (or any non-double), we assume J2000
+		//Otherwise, precess to J2000.
+		double jd = epochToJd( getEpoch( avtUI->epochName->text() ) );
+		if ( jd != J2000 ) {
+			SkyPoint ptest( newRA, newDec );
+			ptest.precessFromAnyEpoch( jd, J2000 );
+			newRA.setH( ptest.ra()->Hours() );
+			newDec.setD( ptest.dec()->Degrees() );
+		}
+
 		//make sure the coords do not already exist from another object
 		bool found(false);
 		for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
@@ -359,6 +369,7 @@ void AltVsTime::computeSunRiseSetTimes() {
 void AltVsTime::slotUpdateDateLoc(void) {
 	KSNumbers *num = new KSNumbers( computeJdFromCalendar() );
 	KSNumbers *oldNum = 0;
+	dms LST = KSUtils::UTtoLST( KSUtils::JDtoUT( computeJdFromCalendar() ), geo->lng() );
 	
 	//First determine time of sunset and sunrise
 	computeSunRiseSetTimes();
@@ -376,7 +387,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				//If the object is in the solar system, recompute its position for the given date
 				if ( o->isSolarSystem() ) {
 					oldNum = new KSNumbers( ks->data()->clock()->JD() );
-					o->updateCoords( num, true, geo->lat(), ks->LST() );
+					o->updateCoords( num, true, geo->lat(), &LST );
 				}
 
 				//precess coords to target epoch
@@ -401,6 +412,16 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				objFound = true;
 				break;
 			}
+		}
+		
+		if ( ! objFound ) {  //assume unfound object is a custom object
+			pList.at(i)->updateCoords( num ); //precess to desired epoch
+
+			KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
+				po->addPoint( new DPoint( h, findAltitude( pList.at(i), h ) ) );
+			}
+			View->replaceObject( i, po );
 		}
 	}
 
