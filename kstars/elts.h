@@ -78,6 +78,7 @@ public slots:
 
 	void slotUpdateDateLoc(void);
 	void slotClear(void);
+	void slotClearBoxes(void);
 	void slotAddSource(void);
 	void slotBrowseObject(void);
 	void slotChooseCity(void);

@@ -204,8 +204,11 @@ elts::elts( QWidget* parent)  :
 	connect( clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
 	connect( addButton, SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
 	connect( nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( nameBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( raBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( raBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( decBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
+	connect( decBox, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
 	connect( longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 	connect( latBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 	
@@ -332,10 +335,6 @@ void elts::processObject( SkyObject *o ) {
 	}
 	kdDebug() << "Currently, there are " << pList.count() << " objects displayed." << endl;
 	
-	//clear the name, ra, and dec fields
-//	nameBox->clear();
-//	raBox->clear() ;
-//	decBox->clear();
 
 	//restore original Earth position
 	Earth->findPosition( oldNum );
@@ -356,6 +355,16 @@ void elts::slotClear(void) {
 	if ( pList.count() ) pList.clear();
 	if ( deleteList.count() ) deleteList.clear();
 	eltsView->repaint();
+}
+
+void elts::slotClearBoxes(void) {
+	//clear the name, ra, and dec fields
+	// This still does not work. I will have a look later.
+	nameBox->clear();
+	raBox->clear() ;
+	decBox->clear();
+//	epochName->setText( QString().setNum( QDateToEpoch( dateBox->date() ) ) );
+
 }
 
 void elts::slotUpdateDateLoc(void) {
