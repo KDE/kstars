@@ -78,12 +78,12 @@ void WUTDialog::createMoonBox() {
 	moonBox = new QGroupBox(6, Qt::Horizontal, i18n("Moon"), page, "moonBox");
 	QLabel *moonRise = new QLabel(i18n("Rise time:"), moonBox);
 	moonRise->setAlignment(AlignRight);
-	moonRiseTimeLabel = new QLabel(i18n("--:--:--"), moonBox);
+	moonRiseTimeLabel = new QLabel("--:--:--", moonBox);
 	moonRiseTimeLabel->setAlignment(AlignLeft);
 	moonBox->addSpace(0);
 	QLabel *moonSet = new QLabel(i18n("Set time:"), moonBox);
 	moonSet->setAlignment(AlignRight);
-	moonSetTimeLabel = new QLabel(i18n("--:--:--"), moonBox);
+	moonSetTimeLabel = new QLabel("--:--:--", moonBox);
 	moonSetTimeLabel->setAlignment(AlignLeft);
 	moonBox->addSpace(0);
 }
@@ -171,10 +171,11 @@ void WUTDialog::init() {
 
 	// sun informations
 	SkyObject *o = (SkyObject*) kstars->data()->PC->planetSun();
-	sunRise = o->riseTime(today, geo);
-	sunSet = o->setTime(tomorrow, geo);
-	sunRiseTimeLabel->setText(sunRise.toString("hh:mm") + " (" + i18n("tomorrow") + ")");
-	sunSetTimeLabel->setText(sunSet.toString("hh:mm"));
+	sunRiseTomorrow = o->riseTime(tomorrow, geo);
+	sunSetToday = o->setTime(today, geo);
+	sunRiseToday = o->riseTime(today, geo);
+	sunSetTimeLabel->setText(sunSetToday.toString("hh:mm"));
+	sunRiseTimeLabel->setText(sunRiseTomorrow.toString("hh:mm") + " (" + i18n("tomorrow") + ")");
 	// moon informations
 	o = (SkyObject*) kstars->data()->Moon;
 	moonRise = o->riseTime(today, geo);
@@ -226,43 +227,17 @@ void WUTDialog::loadList(int i) {
 	for (SkyObjectName *oname=lists.visibleList[i].first(); oname; oname=lists.visibleList[i].next()) {
 		bool visible = true;
 		if (lists.initialized[i] == false) {
-			visible = false;
-			// circumpolar objects
-			if (oname->skyObject()->checkCircumpolar(geo->lat()) == true) {
-				visible = true;
-			} else {
-				// non circumpolar objects
-				QTime riseTime = oname->skyObject()->riseTime(today, geo);
-				QTime setTime;
-				// if rise time is invalid => circumpolar
-				// object rises after sunset => visible
-				if (riseTime.isValid() == false || riseTime > sunSet) {
-					visible = true;
-				} else {
-					// object set time is after sunset => visible
-					setTime = oname->skyObject()->setTime(today, geo);
-					if (setTime > sunSet) {
-						visible = true;
-					} else {
-						// object rises after midnight but before sunrise => visible
-						riseTime = oname->skyObject()->riseTime(today, geo);
-						if (riseTime < sunRise) {
-							visible = true;
-						} else {
-							// object set time is before sunrise => visible
-							setTime = oname->skyObject()->setTime(tomorrow, geo);
-							if (setTime < sunRise) {
-								visible = true;
-							}
-						}
-					}
-				}
+			visible = checkVisibility(oname);
+			// don't show the sun
+			if (i == 0) {
+				if (oname->skyObject()->name() == "Sun") visible = false;
 			}
 			if (visible == false) {
 				// collect all invisible objects
 				invisibleList.append(oname);
 			}
 		}
+		// append to listbox
 		if (visible == true) new SkyObjectNameListItem(objectListBox, oname);
 	}
 	// remove all invisible objects from list
@@ -278,31 +253,95 @@ void WUTDialog::loadList(int i) {
 	objectListBox->setFocus();
 }
 
+bool WUTDialog::checkVisibility(SkyObjectName *oname) {
+	bool visible = false;
+	// circumpolar objects
+	if (oname->skyObject()->checkCircumpolar(geo->lat()) == true) {
+		visible = true;
+	} else {
+		// non circumpolar objects
+		QTime riseTimeToday = oname->skyObject()->riseTime(today, geo);
+		QTime setTimeToday, setTimeTomorrow;
+		// if rise time is invalid => circumpolar
+		// object rises after sunset and before sunrise => visible
+		if (riseTimeToday.isValid() == false || riseTimeToday > sunSetToday && riseTimeToday < sunRiseTomorrow) {
+			visible = true;
+		} else {
+			// object set time is after sunset => visible
+			setTimeToday = oname->skyObject()->setTime(today, geo);
+			if (setTimeToday > sunSetToday) {
+				visible = true;
+			} else {
+				// object rises after midnight but before sunrise => visible
+				riseTimeToday = oname->skyObject()->riseTime(today, geo);
+				if (riseTimeToday < sunRiseTomorrow) {
+					visible = true;
+				} else {
+					// object set time is before sunrise => visible
+					setTimeTomorrow = oname->skyObject()->setTime(tomorrow, geo);
+					if (setTimeTomorrow < sunRiseTomorrow) {
+						visible = true;
+					} else {
+						// rises before sunset and set after sun rise tomorrow
+						if (riseTimeToday > setTimeTomorrow && riseTimeToday < sunSetToday && setTimeTomorrow > sunRiseTomorrow) {
+							visible = true;
+						}
+					}
+				}
+			}
+		}
+	}
+	return visible;
+}
+
 void WUTDialog::updateTimes(QListBoxItem *item) {
+	QString rise, set;
 	// update the time labels of current object
 	if (item == 0) {
 		// no object selected
-		setTimeLabel->setText("--:--:--");
-		riseTimeLabel->setText("--:--:--");
+		rise = QString("--:--:--");
+		set = QString("--:--:--");
 	} else {
 		// get times
 		QTime riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseTime(today, geo);
 		QTime setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->setTime(today, geo);
-		// if object set time is on morning, take set time from tomorrow
-		if (setTime < riseTime) {
+		// we assume that object rises and sets today
+		bool riseToday = true, setToday = true;
+		// object set time is tomorrow
+		if ((riseTime < sunSetToday && riseTime < sunRiseToday) && riseTime < setTime) {
 			riseTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->riseTime(tomorrow, geo);
+			riseToday = false;
+		}
+		// if object set time is on morning, take set time from tomorrow
+		if (setTime < riseTime || riseToday == false) {
+			setTime = ((SkyObjectNameListItem*)item)->objName()->skyObject()->setTime(tomorrow, geo);
+			setToday = false;
 		}
 		if (riseTime.isValid()) {
-			riseTimeLabel->setText(riseTime.toString("hh:mm"));
+			rise = riseTime.toString("hh:mm");
+			rise.append(" (");
+			if (riseToday == true)
+				rise.append(i18n("today"));
+			else
+				rise.append(i18n("tomorrow"));
+			rise.append(")");
 		} else {
-			riseTimeLabel->setText(i18n("Circumpolar"));
+			rise = QString(i18n("Circumpolar"));
 		}
 		if (setTime.isValid()) {
-			setTimeLabel->setText(setTime.toString("hh:mm"));
+			set = setTime.toString("hh:mm");
+			set.append(" (");
+			if (setToday == true)
+				set.append(i18n("today"));
+			else
+				set.append(i18n("tomorrow"));
+			set.append(")");
 		} else {
-			setTimeLabel->setText(i18n("Circumpolar"));
+			set = QString(i18n("Circumpolar"));
 		}
 	}
+	riseTimeLabel->setText(rise);
+	setTimeLabel->setText(set);
 }
 
 void WUTDialog::slotDetails() {

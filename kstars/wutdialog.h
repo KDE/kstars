@@ -54,7 +54,7 @@ class WUTDialog : public KDialogBase  {
 
 	private slots:
 
-		// loads list for selected object type
+		/** Load list for selected object type. */
 		void loadList(int);
 
 		/** initialize the object lists */
@@ -67,6 +67,11 @@ class WUTDialog : public KDialogBase  {
 		void slotDetails();
 
 	private:
+
+		/** Check visibility of object
+			* @returns true if visible
+			*/
+		bool checkVisibility(SkyObjectName *oname);
 
 		/** split the objects in several lists */
 		void splitObjectList();
@@ -122,7 +127,7 @@ class WUTDialog : public KDialogBase  {
 
 		ObjectNameList *objectList;
 
-		QTime sunRise, sunSet, moonRise, moonSet;
+		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 
 		long double today, tomorrow;
 		GeoLocation *geo;
