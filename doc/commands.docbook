@@ -620,7 +620,7 @@ download a photograph of any patch of sky.  &kstars; provides one-click
 access to this database.  There are two generations of the Survey; the
 second generation is not yet complete, so you may get an error when
 requesting a <quote>2nd Gen DSS</quote> image.  Note that the image
-files are large, and may not be very aesthetic.  If other images are
+files are large, and may not be very esthetic.  If other images are
 available for your object, you should try them first.
 </para></listitem>
 </varlistentry>

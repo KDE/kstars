@@ -132,7 +132,7 @@ a large load on the <abbrev>CPU</abbrev>.  If the <abbrev>CPU</abbrev>
 cannot keep up with the demand, then the display will seem sluggish or jerky.  
 To mitigate this, &kstars; will hide certain objects during these rapid-redraw 
 situations, as long as the <guilabel>Hide objects while moving</guilabel> 
-checkbox is selected.  The timestep threshhold above which objects will be 
+checkbox is selected.  The timestep threshold above which objects will be 
 hidden is determined by the <guilabel>Also hide if timescale greater 
 than:</guilabel> timestep-spinbox.  You can specify the objects that should 
 be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.

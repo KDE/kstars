@@ -44,7 +44,7 @@ Open the <guilabel>Set Time</guilabel> window
 to the year 8000 (currently, &kstars; cannot handle dates much more remote than
 this, but this date is sufficient for our purposes).  Notice that the sky
 display is now centered at a point between the constellations Cygnus and
-Cepheus.  Veryify that this is actually the pole by slewing left and right: the
+Cepheus.  Verify that this is actually the pole by slewing left and right: the
 sky rotates about this point; in the year 8000, the North celestial pole will no
 longer be near Polaris!
 </para>

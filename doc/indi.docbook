@@ -306,7 +306,7 @@ Vega, and the telescope's crosshair should now be centered around Vega.
 
 <warning>
 <title>WARNING</title>
-<para>Never use the telescope to look at the sun. Looking at the sun might cause an irrevesible damage to your eyes and as well as your equipment</para>
+<para>Never use the telescope to look at the sun. Looking at the sun might cause an irreversible damage to your eyes and as well as your equipment</para>
 </warning>
 </sect1>
 
@@ -389,7 +389,7 @@ convenience. For example, all the following numbers are equal:</para>
 </listitem>
 <listitem>
 <para>
-Time: The standard time for all INDI-related communications is Universal Time UTC specefied as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>Configure INDI</guimenuitem> dialog under the <guimenu>Devices</guimenu> menu.
+Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>Configure INDI</guimenuitem> dialog under the <guimenu>Devices</guimenu> menu.
 </para>
 </listitem>
 </itemizedlist>
@@ -440,7 +440,7 @@ lunch an INDI server from the command line.
 </para>
 
 <para>
-Since INDI is an independent backend component, you can run an INDI server on a host without KStars. INDI can be compiled seperately to run on remote hosts. Furthermore, device drivers log messages to <constant>stderr</constant> and that can be helpful in a debugging situation.  The syntax for INDI server is
+Since INDI is an independent backend component, you can run an INDI server on a host without KStars. INDI can be compiled separately to run on remote hosts. Furthermore, device drivers log messages to <constant>stderr</constant> and that can be helpful in a debugging situation.  The syntax for INDI server is
 as following:</para>
 
 <para>$ <command>indiserver</command> [options] [<filename>driver</filename>
