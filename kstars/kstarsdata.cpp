@@ -324,8 +324,10 @@ while ( (c = (char) file.getch()) != -1)
 
       // Get host name
       ap = findXMLAtt(root, "name");
-      if (!ap)
-       return false;
+      if (!ap) {
+	delLilXML(xmlParser);
+	return false;
+      }
 
        INDIHostsInfo *VInfo = new INDIHostsInfo;
 
@@ -334,16 +336,19 @@ while ( (c = (char) file.getch()) != -1)
       // Get host name
       ap = findXMLAtt(root, "hostname");
 
-      if (!ap)
-       return false;
-
+      if (!ap) {
+	delLilXML(xmlParser);
+	return false;
+      }
 
     VInfo->hostname = QString(ap->valu);
 
     ap = findXMLAtt(root, "port");
 
-     if (!ap)
+    if (!ap) {
+      delLilXML(xmlParser);
       return false;
+    }
 
     VInfo->portnumber = QString(ap->valu);
 

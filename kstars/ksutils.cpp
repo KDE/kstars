@@ -179,6 +179,8 @@ dms KSUtils::GSTat0hUT( const QDateTime &td ) {
 	dms gst;
 	gst.setH( t1 );
 
+	delete num;
+
 	return gst.reduce();
 }
 
