@@ -210,7 +210,7 @@ coordinates by setting the <quote>UseAltAz</quote> option to
 centers the display on the Moon, and automatically engages tracking.
 We then set the default zoom level, and then zoom in five times.
 Next, the clock's timescale is set to 1 hour per second (3600 seconds 
-is one hour), and the clock is started (in case it was no already 
+is one hour), and the clock is started (in case it was not already 
 running).  The next line pauses the script for 20 seconds while we 
 track the Moon as it moves across the sky.  Finally, we stop the clock
 and reset the zoom level to its default setting.
