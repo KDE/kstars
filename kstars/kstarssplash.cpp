@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <qwidget.h>
-#include <qlabel.h>
 #include <qpixmap.h>
 #include <qfile.h>
 #include <qpaintdevice.h>

@@ -18,7 +18,7 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qfile.h>
 #include <qmap.h>
 #include <qstring.h>

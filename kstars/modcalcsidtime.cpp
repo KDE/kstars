@@ -32,7 +32,7 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qabstractlayout.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 

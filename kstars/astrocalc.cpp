@@ -30,7 +30,7 @@
 #include <qsplitter.h>
 #include <qlistview.h>
 #include <qtextview.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include <kmenubar.h>
 

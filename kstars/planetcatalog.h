@@ -1,7 +1,7 @@
 #ifndef PLANETCATALOG_H
 #define PLANETCATALOG_H
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstring.h>
 #include "ksplanetbase.h"
 #include "ksplanet.h"

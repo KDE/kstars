@@ -41,7 +41,7 @@
 	*@version 0.9
   */
 #include <kdialogbase.h>
-#include <qarray.h>
+#include <qmemarray.h>
 #include <qlineedit.h>
 #include "mapcanvas.h"
 

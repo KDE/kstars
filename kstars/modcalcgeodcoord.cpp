@@ -31,7 +31,7 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qcombobox.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {

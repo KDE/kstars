@@ -31,7 +31,7 @@
 #include <qbuttongroup.h>
 #include <qlistview.h>
 #include <qtextview.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {

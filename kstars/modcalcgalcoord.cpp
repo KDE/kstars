@@ -29,7 +29,7 @@
 #include <qstring.h>
 #include <qbuttongroup.h>
 #include <qcombobox.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 

@@ -20,7 +20,7 @@
 
 #include <qdatetime.h>
 
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 #include "dms.h"
 #include "ksutils.h"

@@ -28,7 +28,7 @@
 #include <qobject.h>
 #include <qasyncio.h>
 #include <qtextstream.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 #include "starobject.h"
 

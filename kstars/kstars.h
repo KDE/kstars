@@ -30,11 +30,9 @@
 #include <qlayout.h>
 #include <qframe.h>
 #include <qfile.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qdatetime.h>
-#include <qtimer.h>
 #include <qlabel.h>
-#include <qdatetime.h>
 #include <qtimer.h>
 #include <qdir.h>
 #include <qwidget.h>

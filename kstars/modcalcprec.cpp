@@ -29,7 +29,7 @@
 #include <qpushbutton.h>
 #include <qstring.h>
 #include <qdatetime.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {

@@ -20,7 +20,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qlistbox.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
