@@ -147,7 +147,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget
 
 	showCurrentTimeAndLong();
 
-	QSpacerItem * downSpacer = new QSpacerItem(400,110);
+	QSpacerItem * downSpacer = new QSpacerItem(400,40);
 
 	rightBoxLayout->addWidget(InputBox);
 	rightBoxLayout->addWidget(longdateBox);
