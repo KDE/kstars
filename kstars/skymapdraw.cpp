@@ -347,11 +347,12 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	QPoint o1 = o;
 	QPoint last = o;
 	QPoint cur = o;
+	QPoint o2;
 	psky.moveTo( o.x(), o.y() );
 	bool newlyVisible = false;
 
 	//index of point near the left or top/bottom edge
-	int index1(0), index2(0);
+	uint index1(0), index2(0);
 	int xSmall(width() + 100); //ridiculous initial value
 	
 	//start loop at second item
@@ -412,7 +413,6 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 			ra0 = p->ra()->Hours();
 		
 		} else {
-			
 			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
 			//offscreen.  Determine the exact point at which this happens.
 			index2 = index1 + 1;
@@ -420,7 +420,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 			SkyPoint *p2 = data->Equator.at(index2);
 			
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			QPoint o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
 			
 			double x1, x2;
 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
@@ -442,25 +442,28 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
 		}
 		
-		//LabelPoint is offset from the anchor point by -1.5 degree (0.1 hour) in RA 
+		//LabelPoint is the top left corner of the text label.  It is 
+		//offset from the anchor point by -1.5 degree (0.1 hour) in RA 
 		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are 
 		//independent of zoom.
 		SkyPoint LabelPoint( ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
-		
 		if ( Options::useAltAz() ) 
 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		
+		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.  
+		//We use this point to determine the rotation angle for the text (which 
+		//we want to be parallel to the line joining LabelPoint and p2)
+		SkyPoint p2 = LabelPoint;
+		p2.setRA( p2.ra()->Hours() - 200./Options::zoomFactor() );
+		if ( Options::useAltAz() ) 
+			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		
+		//o and o2 are the screen coordinates of LabelPoint and p2.
 		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
 		
-		//now we need the position angle between p and an Equator point at index1-5
-		//to approximate the angle at the position of the label
-		index2 = index1 - 5;
-		if ( index2 < 0 ) index2 += data->Equator.count();
-		SkyPoint *p2 = data->Equator.at(index2);
-		
-		QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
-		QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
-		double sx = double( t.x() - t2.x() );
-		double sy = double( t.y() - t2.y() );
+		double sx = double( o.x() - o2.x() );
+		double sy = double( o.y() - o2.y() );
 		double angle;
 		if ( sx ) {
 			angle = atan( sy/sx )*180.0/dms::PI;
@@ -484,17 +487,18 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	int Height = int( scale * height() );
 
 	//Draw Ecliptic (currently can't be hidden on slew)
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); //change to colorGrid
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) ); 
 
 	SkyPoint *p = data->Ecliptic.first();
 	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+	QPoint o2 = o;
 	QPoint o1 = o;
 	QPoint last = o;
 	QPoint cur = o;
 	psky.moveTo( o.x(), o.y() );
 
 	//index of point near the right or top/bottom edge
-	int index1(0), index2(0);
+	uint index1(0), index2(0);
 	int xBig(-100); //ridiculous initial value
 	
 	bool newlyVisible = false;
@@ -558,12 +562,12 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 		} else {
 			//Somewhere between Ecliptic point p and its immediate neighbor, the Ecliptic goes
 			//offscreen.  Determine the exact point at which this happens.
-			index2 = index1 - 1;
-			if ( index2 < 0 ) index2 = 0;
+			if ( index1 == 0 ) index2 = 0;
+			else index2 = index1 - 1;
 			SkyPoint *p2 = data->Ecliptic.at(index2);
 			
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			QPoint o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
 			
 			double x1, x2;
 			//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
@@ -587,31 +591,37 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 			dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
 		}
 		
+		KSNumbers num( data->currentDate() );
+		dms ecLong, ecLat;
+		
 		//LabelPoint is offset from the anchor point by +2.0 degree ecl. Long 
 		//and -0.4 degree in ecl. Lat, scaled by 2000./zoomFactor so that they are 
 		//independent of zoom.
-		KSNumbers num( data->currentDate() );
 		SkyPoint LabelPoint(ra0, dec0);
-		dms ecLong, ecLat;
 		LabelPoint.findEcliptic( num.obliquity(), ecLong, ecLat );
 		ecLong.setD( ecLong.Degrees() + 4000./Options::zoomFactor() );
 		ecLat.setD( ecLat.Degrees() - 800./Options::zoomFactor() );
 		LabelPoint.setFromEcliptic( num.obliquity(), &ecLong, &ecLat );
-		
 		if ( Options::useAltAz() ) 
 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		
+		//p2 is a SkyPoint offset from LabelPoint by -1.0 degrees of ecliptic longitude.  
+		//we use p2 to determine the onscreen rotation angle for the ecliptic label,
+		//which we want to be parallel to the line between LabelPoint and p2.
+		SkyPoint p2(ra0, dec0);
+		p2.findEcliptic( num.obliquity(), ecLong, ecLat );
+		ecLong.setD( ecLong.Degrees() + 2000./Options::zoomFactor() );
+		ecLat.setD( ecLat.Degrees() - 800./Options::zoomFactor() );
+		p2.setFromEcliptic( num.obliquity(), &ecLong, &ecLat );
+		if ( Options::useAltAz() ) 
+			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		
+		//o and o2 are the screen positions of LabelPoint and p2.
 		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
 		
-		//now we need the position angle between p and an Ecliptic point at index1+5
-		//to approximate the angle at the position of the label
-		index2 = index1 + 5;
-		if ( index2 > data->Ecliptic.count() ) index2 -= data->Ecliptic.count();
-		SkyPoint *p2 = data->Ecliptic.at(index2);
-		
-		QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
-		QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
-		double sx = double( t.x() - t2.x() );
-		double sy = double( t.y() - t2.y() );
+		double sx = double( o.x() - o2.x() );
+		double sy = double( o.y() - o2.y() );
 		double angle;
 		if ( sx ) {
 			angle = atan( sy/sx )*180.0/dms::PI;
@@ -636,6 +646,8 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 
 	QPtrList<QPoint> points;
 	points.setAutoDelete(true);
+	QPoint o, o2;
+
 	//Draw Horizon
 	//The horizon should not be corrected for atmospheric refraction, so getXY has doRefract=false...
 	if (Options::showHorizon() || Options::showGround() ) {
@@ -647,54 +659,51 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		int maxdist = int(Options::zoomFactor()/4);
 
 		//index of point near the right or top/bottom edge
-		int index1(0), index2(0);
+		uint index1(0), index2(0);
 		int xBig(-100); //ridiculous initial value
 		
 		for ( SkyPoint *p = data->Horizon.first(); p; p = data->Horizon.next() ) {
-			QPoint *o = new QPoint();
-			*o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
+			o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
 			bool found = false;
 
 			//first iteration for positioning the "Ecliptic" label:
 			//flag the onscreen equator point with the largest x value
 			//we don't draw the label while slewing, or if the opaque ground is drawn
 			if ( ! slewing && ( ! Options::showGround() || ! Options::useAltAz() ) 
-						&& o->x() > 0 && o->x() < width() && o->y() > 0 && o->y() < height() ) {
-				if ( o->x() > xBig ) {
-					xBig = o->x();
+						&& o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
+				if ( o.x() > xBig ) {
+					xBig = o.x();
 					index1 = data->Horizon.at();
 				}
 			}
 			
 			//Use the QPtrList of points to pre-sort visible horizon points
-			if ( o->x() > -100 && o->x() < Width + 100 && o->y() > -100 && o->y() < Height + 100 ) {
+			if ( o.x() > -100 && o.x() < Width + 100 && o.y() > -100 && o.y() < Height + 100 ) {
 				if ( Options::useAltAz() ) {
 					register unsigned int j;
 					for ( j=0; j<points.count(); ++j ) {
-						if ( o->x() < points.at(j)->x() ) {
+						if ( o.x() < points.at(j)->x() ) {
 							found = true;
 							break;
 						}
 					}
 					if ( found ) {
-						points.insert( j, o );
+						points.insert( j, new QPoint(o) );
 					} else {
-						points.append( o );
+						points.append( new QPoint(o) );
 					}
 				} else {
-					points.append( o );
+					points.append( new QPoint(o) );
 				}
 			} else {  //find the out-of-bounds points closest to the left and right borders
-				if ( ( OutLeft.x() == 0 || o->x() > OutLeft.x() ) && o->x() < -100 ) {
-					OutLeft.setX( o->x() );
-					OutLeft.setY( o->y() );
+				if ( ( OutLeft.x() == 0 || o.x() > OutLeft.x() ) && o.x() < -100 ) {
+					OutLeft.setX( o.x() );
+					OutLeft.setY( o.y() );
 				}
-				if ( ( OutRight.x() == 0 || o->x() < OutRight.x() ) && o->x() >  + 100 ) {
-					OutRight.setX( o->x() );
-					OutRight.setY( o->y() );
+				if ( ( OutRight.x() == 0 || o.x() < OutRight.x() ) && o.x() >  + 100 ) {
+					OutRight.setX( o.x() );
+					OutRight.setY( o.y() );
 				}
-				// delete non stored points to avoid memory leak
-				delete o;
 			}
 		}
 
@@ -702,15 +711,15 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 		//to the nearest offscreen points.
 
 		if ( Options::useAltAz() && points.count() > 0 ) {
-     //Interpolate from first sorted onscreen point to x=-100,
-     //using OutLeft to determine the slope
+			//Interpolate from first sorted onscreen point to x=-100,
+			//using OutLeft to determine the slope
 			int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
 			int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
 			int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
 			QPoint *LeftEdge = new QPoint( -100, yp );
 			points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
 
-    	//Interpolate from the last sorted onscreen point to ()+100,
+			//Interpolate from the last sorted onscreen point to ()+100,
 			//using OutRight to determine the slope.
 			xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
 			xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
@@ -718,24 +727,24 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			QPoint *RightEdge = new QPoint( Width+100, yp );
 			points.append( RightEdge );
 
-//If there are no horizon points, then either the horizon doesn't pass through the screen
-//or we're at high zoom, and horizon points lie on either side of the screen.
+		//If there are no horizon points, then either the horizon doesn't pass through the screen
+		//or we're at high zoom, and horizon points lie on either side of the screen.
 		} else if ( Options::useAltAz() && OutLeft.y() !=0 && OutRight.y() !=0 &&
-            !( OutLeft.y() > Height + 100 && OutRight.y() > Height + 100 ) &&
-            !( OutLeft.y() < -100 && OutRight.y() < -100 ) ) {
+						!( OutLeft.y() > Height + 100 && OutRight.y() > Height + 100 ) &&
+						!( OutLeft.y() < -100 && OutRight.y() < -100 ) ) {
 
-     //It's possible at high zoom that /no/ horizon points are onscreen.  In this case,
-     //interpolate between OutLeft and OutRight directly to construct the horizon polygon.
+			//It's possible at high zoom that /no/ horizon points are onscreen.  In this case,
+			//interpolate between OutLeft and OutRight directly to construct the horizon polygon.
 			int xtotal = ( OutRight.x() - OutLeft.x() );
 			int xx = ( OutRight.x() + 100 ) / xtotal;
 			int yp = xx*OutLeft.y() + (1-xx)*OutRight.y();  //interpolated left-edge y value
-			QPoint *LeftEdge = new QPoint( -100, yp );
-			points.append( LeftEdge );
+//			QPoint *LeftEdge = new QPoint( -100, yp );
+			points.append( new QPoint( -100, yp ) );
 
 			xx = ( Width + 100 - OutLeft.x() ) / xtotal;
 			yp = xx*OutRight.y() + (1-xx)*OutLeft.y(); //interpolated right-edge y value
-			QPoint *RightEdge = new QPoint( Width+100, yp );
-			points.append( RightEdge );
+//			QPoint *RightEdge = new QPoint( Width+100, yp );
+			points.append( new QPoint( Width+100, yp ) );
  		}
 
 		if ( points.count() ) {
@@ -886,7 +895,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				//Somewhere between Horizon point p and its immediate neighbor, the Horizon goes
 				//offscreen.  Determine the exact point at which this happens.
 				index2 = index1 + 1;
-				if ( index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
+				if ( data->Horizon.count() &&  index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
 				SkyPoint *p2 = data->Horizon.at(index2);
 				
 				QPoint o1 = getXY( p, Options::useAltAz(), false, scale );
@@ -914,7 +923,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 				dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
 			}
 			
-			//LabelPoint is offset from the anchor point by +2.0 degrees azimuth 
+			//LabelPoint is offset from the anchor point by -2.0 degrees in azimuth 
 			//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are 
 			//independent of zoom.
 			SkyPoint LabelPoint(ra0, dec0);
@@ -922,18 +931,30 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
 			LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
 			LabelPoint.HorizontalToEquatorial( data->LST, data->geo()->lat() );
-			QPoint o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
+			o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
+			if ( o.x() > width() || o.x() < 0 ) {
+				//the LabelPoint is offscreen.  Either we are in the Southern hemisphere, 
+				//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees 
+			LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
+				LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
+				LabelPoint.HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
+			}
 			
-			//now we need the position angle between p and a Horizon point at index1+5
-			//to approximate the angle at the position of the label
-			index2 = index1 + 5;
-			if ( index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
-			SkyPoint *p2 = data->Horizon.at(index2);
+			//p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
+			//2000./zoomFactor).  We use p2 to determine the rotation angle for the 
+			//Horizon label, which we want to be parallel to the line between LabelPoint and p2.
+			SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
+			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
+			p2.HorizontalToEquatorial( data->LST, data->geo()->lat() );
 			
-			QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
-			QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
-			double sx = double( t.x() - t2.x() );
-			double sy = double( t.y() - t2.y() );
+			//o and o2 are the screen positions of LabelPoint and p2
+			o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
+			o2 = getXY( &p2, Options::useAltAz(), false, scale );
+			
+			double sx = double( o.x() - o2.x() );
+			double sy = double( o.y() - o2.y() );
 			double angle;
 			if ( sx ) {
 				angle = atan( sy/sx )*180.0/dms::PI;
@@ -1077,7 +1098,8 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 					int size = int( sizeFactor*( maglim - curStar->mag())/maglim ) + 1;
 
 					if ( size > 0 ) {
-						QPixmap *spixmap = starpix->getPixmap( &(curStar->color()), size );
+						QChar c = curStar->color();
+						QPixmap *spixmap = starpix->getPixmap( &c, size );
 						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 						
 						// now that we have drawn the star, we can display some extra info
@@ -1228,7 +1250,8 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							int size = int( sizeFactor*(zoomlim - mag) ) + 1;
 							if (size>23) size=23;
 							if ( size ) {
-								QPixmap *spixmap = starpix->getPixmap( &(starobj->color()), size );
+								QChar c = starobj->color();
+								QPixmap *spixmap = starpix->getPixmap( &c, size );
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 							}
 						} else {
