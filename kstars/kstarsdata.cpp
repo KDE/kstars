@@ -33,14 +33,14 @@ QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), inited(false),
-	source(0), loader(0), pump(0) {
+KStarsData::KStarsData( KStars *ks ) : Moon(0), jmoons(0), kstars( ks ), initTimer(0),
+	inited(false), source(0), loader(0), pump(0) {
 	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
 	LSTh = new dms();
 	HourAngle = new dms();
-	
+
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
 
@@ -50,7 +50,9 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	//ARRAY: setting static array limit for now
 	//starArray = new StarObject[40000];
 	starList.setAutoDelete( TRUE );
-	
+
+	ADVtreeList.setAutoDelete(true);
+
 	geoList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
   // Keep separated lists per deep space object type, to speed up drawing the sky map
@@ -113,6 +115,7 @@ KStarsData::~KStarsData() {
 	if (LSTh) delete LSTh;
 	if (HourAngle) delete HourAngle;
 	if (PC) delete PC;
+	if (jmoons) delete jmoons;
 }
 
 bool KStarsData::readMWData( void ) {
