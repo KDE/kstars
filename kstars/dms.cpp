@@ -106,17 +106,21 @@ dms dms::operator- (dms angle)
 
 void dms::SinCos( double &sina, double &cosa ) {
 // This is the old implementation of sincos which is standard C compliant
+#if defined(__FreeBSD__)
+// almost certainly this needs more checks for other non-glibc platforms
+// but I am currently unable to check those
 /*
 	register double rad = radians();
 	sina = sin( rad );
 	cosa = cos( rad );
 */
-
+#else
 /**The sincos function computes sin and cos at once (hardware accelareted / fsincos in assembler).
 	*It's ~33% faster than computing sin and cos separate. But sincos() is not a standard C/C++
 	*function and requires #define _GNU_SOURCE. It's defined in math.h.
 	*/
 	sincos(radians(), &sina, &cosa);
+#endif
 }
 //---------------------------------------------------------------------------
 
