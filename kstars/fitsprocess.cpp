@@ -29,7 +29,7 @@
  #include "fitsviewer.h"
  #include "fitsimage.h"
  
- #define ELEM_SWAP(a,b) { register int t=(a);(a)=(b);(b)=t; }
+ #define ELEM_SWAP(a,b) { register float t=(a);(a)=(b);(b)=t; }
  
  FITSProcess::FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode)
  {
@@ -55,7 +55,7 @@
    int nprogress = 0;
    
    /* #1 Load dark frames */
-   for (int i=0; i < darkFiles.size(); i++)
+   for (unsigned int i=0; i < darkFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(darkFiles[i].ascii(), buffer)) == NULL)
      {
@@ -69,7 +69,7 @@
    }
    
    /* Load flat frames */
-   for (int i=0; i < flatFiles.size(); i++)
+   for (unsigned int i=0; i < flatFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(flatFiles[i].ascii(), buffer)) == NULL)
      {
@@ -83,7 +83,7 @@
    }
    
    /* Load dark frames for the flat field */
-   for (int i=0; i < darkflatFiles.size(); i++)
+   for (unsigned int i=0; i < darkflatFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(darkflatFiles[i].ascii(), buffer)) == NULL)
      {
@@ -240,7 +240,7 @@ void FITSProcess::normalize(float *buf)
    if (!avg) return;
     
    if (avg < 0)
-     avg += abs(min(buf));
+     avg += abs((int) min(buf));
     
   for (int i=0; i < npix; i++)
     buf[i] = buf[i] / avg;
@@ -347,5 +347,6 @@ QString FITSProcessCommand::name() const
 {
   return i18n("Image Reduction");
 }
+
 
   

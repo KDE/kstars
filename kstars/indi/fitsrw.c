@@ -100,7 +100,7 @@ static void fits_delete_recordlist (FITS_RECORD_LIST *rl);
 static void fits_delete_hdulist (FITS_HDU_LIST *hl);
 int  fits_nan_32 (unsigned char *value);
 int  fits_nan_64 (unsigned char *value);
-static void fits_set_error (char *errmsg);
+static void fits_set_error (const char *errmsg);
 static void fits_drop_error (void);
 static FITS_RECORD_LIST *fits_read_header (FILE *fp, int *nrec);
 static FITS_HDU_LIST *fits_decode_header (FITS_RECORD_LIST *hdr,
@@ -425,7 +425,7 @@ char *fits_get_error (void)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-static void fits_set_error (char *errmsg)
+static void fits_set_error (const char *errmsg)
 
 {
   if (fits_n_error < FITS_MAX_ERROR)
@@ -474,7 +474,7 @@ static void fits_drop_error (void)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-FITS_FILE *fits_open (const char *filename, char *openmode)
+FITS_FILE *fits_open (const char *filename, const char *openmode)
 
 {int reading, writing, n_rec, n_hdr;
  long fpos_header, fpos_data;
@@ -832,7 +832,7 @@ static FITS_RECORD_LIST *fits_read_header (FILE *fp, int *nrec)
 int fits_write_header (FITS_FILE *ff, FITS_HDU_LIST *hdulist)
 
 {int numcards;
- int k;
+ int r;
 
  if (ff->openmode != 'w')
    FITS_RETURN ("fits_write_header: file not open for writing", -1);
@@ -856,10 +856,10 @@ int fits_write_header (FITS_FILE *ff, FITS_HDU_LIST *hdulist)
  FITS_WRITE_LONGCARD (ff->fp, "NAXIS", hdulist->naxis);
  numcards++;
 
- for (k = 0; k < hdulist->naxis; k++)
+ for (r = 0; r < hdulist->naxis; r++)
  {char naxisn[10];
-   sprintf (naxisn, "NAXIS%d", k+1);
-   FITS_WRITE_LONGCARD (ff->fp, naxisn, hdulist->naxisn[k]);
+   sprintf (naxisn, "NAXIS%d", r+1);
+   FITS_WRITE_LONGCARD (ff->fp, naxisn, hdulist->naxisn[r]);
    numcards++;
  }
 
@@ -924,10 +924,10 @@ int fits_write_header (FITS_FILE *ff, FITS_HDU_LIST *hdulist)
  FITS_WRITE_CARD (ff->fp, "END");
  numcards++;
 
- k = (numcards*FITS_CARD_SIZE) % FITS_RECORD_SIZE;
- if (k)  /* Must the record be filled up ? */
+ r = (numcards*FITS_CARD_SIZE) % FITS_RECORD_SIZE;
+ if (r)  /* Must the record be filled up ? */
  {
-   while (k++ < FITS_RECORD_SIZE)
+   while (r++ < FITS_RECORD_SIZE)
      putc (' ', ff->fp);
  }
 
@@ -1159,10 +1159,10 @@ err_return:
 
 static int fits_eval_pixrange (FILE *fp, FITS_HDU_LIST *hdu)
 
-{register int maxelem;
+{register unsigned int maxelem;
 #define FITSNPIX 4096 
  unsigned char pixdat[FITSNPIX];
- int nelem, bpp;
+ unsigned int nelem, bpp;
  int blank_found = 0, nan_found = 0;
    
  if (fseek (fp, hdu->data_offset, SEEK_SET) < 0)
@@ -1535,7 +1535,7 @@ FITS_DATA *fits_decode_card (const char *card, FITS_DATA_TYPES data_type)
 /* #END-PAR                                                                  */
 /*****************************************************************************/
 
-char *fits_search_card (FITS_RECORD_LIST *rl, char *keyword)
+char *fits_search_card (FITS_RECORD_LIST *rl, const char *keyword)
 
 {int key_len, k;
  char *card;
@@ -1710,7 +1710,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
 
  switch (hdulist->bitpix)
  {
-   case 8:
+   case 8: 
      while (npix > 0)  /* For all pixels to read */
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;

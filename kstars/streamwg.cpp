@@ -30,10 +30,7 @@
 #include <qstringlist.h>
 #include <qdir.h>
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -46,9 +43,9 @@ FILE *wfp;
  {
  
    stdDev         = inStdDev;
-   streamBuffer   = NULL;
+//   streamBuffer   = NULL;
    streamWidth    = streamHeight = -1;
-   streamFD       = -1;
+//   streamFD       = -1;
    processStream  = colorFrame = false;
    
    streamFrame    = new VideoWG(videoFrame);
@@ -71,7 +68,7 @@ FILE *wfp;
  
 StreamWG::~StreamWG()
 {
-  delete streamBuffer;
+//  delete streamBuffer;
 }
 
 void StreamWG::closeEvent ( QCloseEvent * e )
@@ -86,7 +83,7 @@ void StreamWG::setColorFrame(bool color)
   colorFrame = color;
 }
 
-void StreamWG::establishDataChannel(QString host, int port)
+/*void StreamWG::establishDataChannel(QString host, int port)
 {
         QString errMsg;
 	struct sockaddr_in pin;
@@ -114,7 +111,7 @@ void StreamWG::establishDataChannel(QString host, int port)
 	// callback notified
 	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
         QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
-}
+}*/
 
 void StreamWG::enableStream(bool enable)
 {
@@ -150,7 +147,7 @@ void StreamWG::resizeEvent(QResizeEvent *ev)
   streamFrame->resize(ev->size().width(), ev->size().height() - playB->height());
 
 }
- 
+ /*
 void StreamWG::allocateStreamBuffer()
 {
   if (streamWidth < 0 || streamHeight < 0) return;
@@ -186,8 +183,8 @@ void StreamWG::streamReceived()
 	    	else
 			sprintf (msg, "INDI: agent closed connection.");
 
-	    sNotifier->disconnect();
-	    close(streamFD);
+	    stdDev->sNotifier->disconnect();
+	    close(stdDev->streamFD);
 	    KMessageBox::error(0, QString(msg));
             return;
 	   }
@@ -198,7 +195,7 @@ void StreamWG::streamReceived()
 	
 	streamFrame->newFrame(streamBuffer, streamWidth, streamHeight, colorFrame);
 
-}
+}*/
 
 void StreamWG::playPressed()
 {
@@ -221,7 +218,6 @@ void StreamWG::captureImage()
   QString fname;
   QString fmt;
   KURL currentFileURL;
-  // TODO where to save should be in options
   QString currentDir = Options::fitsSaveDirectory();
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
@@ -292,9 +288,10 @@ void VideoWG::newFrame(unsigned char *buffer, int w, int h, bool color)
   if (color)
      streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
    else
+   
     streamImage = new QImage(buffer, w, h, 8, grayTable, 256, QImage::IgnoreEndian);
-     
-    update();
+    
+   update();
     
 }
 
@@ -304,7 +301,8 @@ void VideoWG::paintEvent(QPaintEvent *ev)
    if (streamImage)
    {
 	if (streamImage->isNull()) return;
-  	qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
+  	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
+	qPix = kPixIO.convertToPixmap(streamImage->smoothScale(width(), height()));
 	delete (streamImage);
 	streamImage = NULL;
    }

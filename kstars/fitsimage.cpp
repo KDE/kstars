@@ -24,7 +24,7 @@
 #include <kaction.h>
 #include <kaccel.h>
 #include <kdebug.h>
-#include <ktoolbar.h>
+#include <ktoolbar.h> 
 #include <kapplication.h>
 #include <kpixmap.h> 
 #include <ktempfile.h>
@@ -86,21 +86,22 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, 
 FITSImage::~FITSImage()
 {
   free(reducedImgBuffer);
+  delete(displayImage);
 }
 	
-void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
+/*void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
 {
   //kdDebug() << "in draw contents " << endl;
   //imgFrame->update();
   
-}
+}*/
 
 /**Bitblt the image onto the viewer widget */
-void FITSImage::paintEvent (QPaintEvent *ev)
+/*void FITSImage::paintEvent (QPaintEvent *ev)
 {
  //kdDebug() << "in paint event " << endl;
  //bitBlt(imgFrame, 0, 0, &qpix);
-}
+}*/
 
 /* Resize event */
 void FITSImage::resizeEvent (QResizeEvent *ev)
@@ -136,9 +137,9 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   }
   else if (currentZoom < 0)
   {
-    x *= pow(zoomFactor, abs(currentZoom));
+    x *= pow(zoomFactor, abs((int) currentZoom));
     //kdDebug() << "The X power is " << pow(zoomFactor, abs(currentZoom)) << " -- X final = " << x << endl;
-    y *= pow(zoomFactor, abs(currentZoom));
+    y *= pow(zoomFactor, abs((int) currentZoom));
   }
   
   if (x < 0 || x > width)
@@ -178,8 +179,10 @@ void FITSImage::viewportResizeEvent ( QResizeEvent * e)
 	
 	w = viewport()->width();
         h = viewport()->height();
-	conW = currentWidth  + 40;
-	conH = currentHeight + 40;
+	
+	conW = (int) (currentWidth  + 40);
+        conH = (int) (currentHeight + 40);
+	
 	if ( w > conW )
 	   x = (int) ( (w - conW) / 2.);
         else
@@ -188,9 +191,10 @@ void FITSImage::viewportResizeEvent ( QResizeEvent * e)
           y = (int) ( (h - conH) / 2.);
        else
           y = 0;
-	 
+	
+	// do new movement
         moveChild( imgFrame, x, y );
-
+		
 }
 
 void FITSImage::reLoadTemplateImage()
@@ -201,14 +205,23 @@ void FITSImage::reLoadTemplateImage()
 void FITSImage::saveTemplateImage()
 {
   templateImage = new QImage(displayImage->copy());
-  //*templateImage = displayImage->copy();
-
 }
 
 void FITSImage::destroyTemplateImage()
 {
   delete (templateImage);
 }
+
+void FITSImage::clearMem()
+{
+
+  free(reducedImgBuffer);
+  delete (displayImage);
+  reducedImgBuffer = NULL;
+  displayImage     = NULL;
+
+}
+
 
 int FITSImage::loadFits (const char *filename)
 {
@@ -218,9 +231,9 @@ int FITSImage::loadFits (const char *filename)
  // TODO add KStars options for transformation
  FITS_PIX_TRANSFORM trans;
  register unsigned char *dest; 
- register unsigned char *tempBuffer;
+ //register unsigned char *tempBuffer;
  unsigned char *data;
- int i, j, val;
+ int i, j;
  double a, b;
  int err = 0;
  
@@ -251,15 +264,17 @@ int FITSImage::loadFits (const char *filename)
  hdl = fits_seek_image (ifp, 1);
  if (hdl == NULL) return (-1);
 
- width  = currentWidth = hdl->naxisn[0]; 
- height = currentHeight = hdl->naxisn[1]; 
+ width  = hdl->naxisn[0]; 
+ height = hdl->naxisn[1]; 
+ currentWidth = hdl->naxisn[0]; 
+ currentHeight = hdl->naxisn[1]; 
  bitpix = hdl->bitpix;
  bpp    = hdl->bpp;
  
  imgFrame->setGeometry(0, 0, width, height);
  
  data = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
- tempBuffer = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
+ //tempBuffer = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
  if (data == NULL)
  {
   KMessageBox::error(0, i18n("Not enough memory to load FITS."));
@@ -297,6 +312,8 @@ int FITSImage::loadFits (const char *filename)
  fitsProgress.setMinimumWidth(300);
  fitsProgress.show();
 
+ delete (displayImage);
+ 
  displayImage = new QImage(width, height, 8, 256, QImage::IgnoreEndian);
  for (int i=0; i < 256; i++)
    displayImage->setColor(i, grayTable[i]);
@@ -365,8 +382,8 @@ void FITSImage::zoomToCurrent()
  }
  else
  { 
-   cwidth  = ((double) displayImage->width()) / pow(zoomFactor, abs(currentZoom)) ;
-   cheight = ((double) displayImage->height()) / pow(zoomFactor, abs(currentZoom));
+   cwidth  = ((double) displayImage->width()) / pow(zoomFactor, abs((int) currentZoom)) ;
+   cheight = ((double) displayImage->height()) / pow(zoomFactor, abs((int) currentZoom));
  }
   
  if (cwidth != displayImage->width() || cheight != displayImage->height())
@@ -454,7 +471,7 @@ void FITSFrame::paintEvent(QPaintEvent * e)
 {
  
  bitBlt(this, 20, 20, &(image->qpix));
- resize(image->currentWidth + 40, image->currentHeight + 40);
+ resize( (int) (image->currentWidth + 40), (int) (image->currentHeight + 40));
 
 }
 

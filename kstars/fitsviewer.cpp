@@ -58,7 +58,6 @@
 #include "statform.h"
 #include "imagereductiondlg.h"
 #include "fitsheaderdialog.h"
-#include "fitsfilter.h"
 #include "ksutils.h"
 #include "Options.h"
 
@@ -96,19 +95,12 @@ extern int fits_ieee64_motorola;
 FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
 {
+    image      = NULL;
     currentURL = *url;
     imgBuffer  = NULL;
     histo      = NULL;
     Dirty      = 0;
-
-    /* Setup image widget */    
-    image = new FITSImage(this);
-    setCentralWidget(image);
     
-    /* Load image into buffer */
-    if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return; }
-    /* Display image in the central widget */
-    if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return; }
     /* Initiliaze menu actions */
     history = new KCommandHistory(actionCollection());
     history->setUndoLimit(10);
@@ -116,6 +108,17 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     history->documentSaved();
     connect(history, SIGNAL(documentRestored()), this, SLOT(fitsRestore()));
     
+    /* Setup image widget */    
+    image = new FITSImage(this);
+    setCentralWidget(image);
+    
+    /* FITS initializations */
+    if (!initFITS())
+    {
+     close();
+     return;
+    }
+     
     QFile tempFile;
     
     if (KSUtils::openDataFile( tempFile, "imgreduction.png" ) )
@@ -134,8 +137,6 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     else
        	new KAction( i18n("Brightness/Contrast"), "airbrush", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
 	
-    new KAction( i18n("Filters"), "filter", KShortcut( "Ctrl+L" ), this, SLOT( fitsFilter()), actionCollection(), "image_filters");
-    
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
     	new KAction ( i18n("Histogram"), tempFile.name(), KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
@@ -143,7 +144,8 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     }
     else
         new KAction ( i18n("Histogram"), "wizard", KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
-       
+    
+    KStdAction::open(this, SLOT(fileOpen()), actionCollection());   
     KStdAction::save(this, SLOT(fileSave()), actionCollection());
     KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
     KStdAction::close(this, SLOT(slotClose()), actionCollection());
@@ -158,8 +160,6 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
    /* Create GUI */  
    createGUI("fitsviewer.rc");
     
-   setCaption(currentURL.fileName());
-   
    statusBar()->insertItem("", 0);
    statusBar()->setItemFixed(0, 100);
    statusBar()->insertItem("", 1);
@@ -168,9 +168,6 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
    statusBar()->setItemFixed(2, 100);
    statusBar()->insertItem(i18n("Welcome to KStars FITS Editor."), 3, 1, true);
    statusBar()->setItemAlignment(3 , Qt::AlignLeft);
-   
-   /* Get initial statistics */
-   calculateStats();
      
    /* initially resize in accord with KDE rules */
    resize(640, 480); 
@@ -179,6 +176,34 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
 FITSViewer::~FITSViewer()
 {
    free(imgBuffer);
+}
+
+bool  FITSViewer::initFITS()
+{
+
+    free(imgBuffer);
+    imgBuffer = NULL;
+    image->clearMem();
+    
+  /* Load image into buffer */
+    if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return false; }
+    /* Display image in the central widget */
+    if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return false; }
+
+    /* Clear history */
+    history->clear();
+    
+    /* Set new file caption */
+    setCaption(currentURL.fileName());
+    
+    /* Get initial statistics */
+    calculateStats();
+    
+    image->viewport()->resize(image->viewport()->width() + 5, image->viewport()->height());
+    image->viewportResizeEvent(NULL);
+    
+    return true;
+
 }
 
 void FITSViewer::slotClose()
@@ -274,6 +299,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
   
   width  = hdulist->naxisn[0]; 
   height = hdulist->naxisn[1];
+  
   bpp    = hdulist->bpp;
   bitpix = hdulist->bitpix;
   
@@ -467,13 +493,42 @@ void FITSViewer::keyPressEvent (QKeyEvent *ev)
 	
 }
 
+void FITSViewer::fileOpen()
+{
+
+  if (Dirty)
+  {
+    
+  QString caption = i18n( "Save Changes to FITS?" );
+		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
+		QString ybut = KStdGuiItem::save().text();
+		QString nbut = i18n( "&Discard" );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
+		if ( ans == KMessageBox::Yes )
+			fileSave();	
+		else if ( ans == KMessageBox::No ) 
+			fitsRestore();
+   }
+   
+   KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  
+  if (fileURL.isEmpty())
+    return;
+
+  
+  currentURL = fileURL;
+  
+  initFITS();
+
+}
+
 void FITSViewer::fileSave()
 {
   
   FITS_FILE *ifp;
   QString recordList;
   KURL backupCurrent = currentURL;
-  int k=0, index=0;
+  int index=0;
   
   QString currentDir = Options::fitsSaveDirectory();
   
@@ -515,7 +570,7 @@ void FITSViewer::fileSave()
     	
 	setbuf(ifp->fp, NULL);
 	
-	for (int i=0; i < record.count(); i++)
+	for (unsigned int i=0; i < record.count(); i++)
 	{
 	  recordList = record[i];
 	  
@@ -630,7 +685,7 @@ void FITSViewer::imageReduction()
       reduc.reduce();
       history->addCommand(cbc, false);
       calculateStats();
-      hbc = new FITSHistogramCommand(this, NULL, FITSImage::FITSLinear, stats.min, stats.max);
+      hbc = new FITSHistogramCommand(this, NULL, FITSImage::FITSLinear, (int) stats.min, (int) stats.max);
       history->addCommand(hbc);
       fitsChange();
   }
@@ -758,7 +813,7 @@ void FITSViewer::fitsHeader()
    header.headerView->setColumnAlignment(1, Qt::AlignHCenter);
    
    //fprintf(stderr, "%s", image->hdl->header_record_list->data);
-   for (int i=0; i < record.count(); i++)
+   for (unsigned int i=0; i < record.count(); i++)
    {
      recordList = record[i];
      //recordList = QString((char *) record);
@@ -804,14 +859,6 @@ void FITSViewer::fitsHeader()
 
 }
 
-
-void FITSViewer::fitsFilter()
-{
-
-  FITSFilter filter(this);
-  filter.exec();
-
-}
 
 FITSChangeCommand::FITSChangeCommand(QWidget * parent, int inType, QImage* newIMG, QImage *oldIMG)
 {

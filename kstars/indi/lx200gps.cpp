@@ -32,28 +32,28 @@ extern LX200Generic *telescope;
 extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
-static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF}, {"Off", "", ISS_ON}};
-static ISwitch GPSStatusS[]	  	= {{ "GPS Sleep", "", ISS_OFF}, {"GPS Wake up", "", ISS_OFF}, {"GPS Restart", "", ISS_OFF}};
-static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF}};
-static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF}, {"Disable", "", ISS_OFF}};
-static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF}, {"Disable", "", ISS_OFF}};
-static ISwitch SelenSyncS[]		= {{ "Sync", "",  ISS_OFF}};
-static ISwitch AltDecBackSlashS[]	= {{ "Activate", "", ISS_OFF}};
-static ISwitch AzRaBackSlashS[]		= {{ "Activate", "", ISS_OFF}};
+static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_ON, 0, 0}};
+static ISwitch GPSStatusS[]	  	= {{ "GPS Sleep", "", ISS_OFF, 0, 0}, {"GPS Wake up", "", ISS_OFF, 0 ,0}, {"GPS Restart", "", ISS_OFF, 0, 0}};
+static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF, 0, 0}};
+static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF, 0 ,0}, {"Disable", "", ISS_OFF, 0 ,0}};
+static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF, 0, 0}, {"Disable", "", ISS_OFF, 0 ,0}};
+static ISwitch SelenSyncS[]		= {{ "Sync", "",  ISS_OFF, 0, 0}};
+static ISwitch AltDecBackSlashS[]	= {{ "Activate", "", ISS_OFF, 0, 0}};
+static ISwitch AzRaBackSlashS[]		= {{ "Activate", "", ISS_OFF, 0, 0}};
 
-static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS)};
-static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS)};
-static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS)};
-static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS)};
-static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS)};
-static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS)};
-static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecBackSlashS, NARRAY(AltDecBackSlashS)};
-static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS)};
+static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS), 0 ,0};
+static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS), 0, 0};
+static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), 0, 0};
+static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS), 0 ,0};
+static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC Compensation", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS), 0, 0};
+static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS), 0, 0};
+static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecBackSlashS, NARRAY(AltDecBackSlashS), 0, 0};
+static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS), 0, 0};
 
-static INumber Temp[]	= { {"Temp.", "", "%g", 0., 0., 0., 0. } };
-static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (°C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp)};
+static INumber Temp[]	= { {"Temp.", "", "%g", 0., 0., 0., 0., 0, 0, 0 } };
+static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), 0, 0};
 
-void changeLX200GPSDeviceName(char *newName)
+void changeLX200GPSDeviceName(const char *newName)
 {
  strcpy(GPSPowerSw.device, newName);
  strcpy(GPSStatusSw.device, newName );

@@ -20,6 +20,7 @@
  class KStars;
  class SkyObject;
  class StreamWG;
+ class QSocketNotifier;
 
  
  /* This class implmements standard properties on the device level*/
@@ -38,25 +39,38 @@
    QTimer      		*devTimer;	
    
     
+   enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER };
+   
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);
    void registerProperty(INDI_P *pp);
     
+   /* Data channel */
+   void establishDataChannel(QString host, int port);
+   void allocateStreamBuffer();
+   
    /* Device options */
    void initDeviceOptions();
    void handleDevCounter();
-    
    bool handleNonSidereal(SkyObject *o);
    void streamDisabled();
+   
    
    /* INDI STD: Updates device time */
    void updateTime();
     /* INDI STD: Updates device location */
    void updateLocation();
    
-   int initDevCounter;
- 
+   int                  dataType;
+   int 			initDevCounter;
+   int 			streamFD;
+   int 			totalBytes;
+   unsigned char        *streamBuffer;
+   QSocketNotifier 	*sNotifier;
+   QString		dataExt;
+   
    public slots:
+   void streamReceived();
    void timerDone();
    
    signals:

@@ -24,16 +24,25 @@
  #include "devicemanager.h"
  #include "timedialog.h"
  #include "streamwg.h"
+ #include "fitsviewer.h"
  
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+ #include <netdb.h>
+
  #include <qtimer.h>
  #include <qlabel.h>
  #include <qfont.h>
+ #include <qsocketnotifier.h>
  
  #include <klocale.h>
  #include <kdebug.h>
  #include <kpushbutton.h>
  #include <klineedit.h>
  #include <kstatusbar.h>
+ #include <kmessagebox.h>
+ #include <kurl.h>
  
  INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
  {
@@ -41,6 +50,8 @@
    dp   = associatedDevice;
    ksw  = kswPtr;
    initDevCounter = 0;
+   streamFD = -1;
+   streamBuffer = NULL;
    
    streamWindow   = new StreamWG(this, ksw);
    currentObject  = NULL; 
@@ -54,6 +65,142 @@
  
  }
  
+void INDIStdDevice::establishDataChannel(QString host, int port)
+{
+        QString errMsg;
+	struct sockaddr_in pin;
+	struct hostent *serverHostName = gethostbyname(host.ascii());
+	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
+	
+	memset(&pin, 0, sizeof(pin));
+	pin.sin_family 		= AF_INET;
+	pin.sin_addr.s_addr 	= ((struct in_addr *) (serverHostName->h_addr))->s_addr;
+	pin.sin_port 		= htons(port);
+
+	if ( (streamFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+	{
+	 KMessageBox::error(0, i18n("Cannot create socket."));
+	 return;
+	}
+
+	if ( ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
+	{
+	  KMessageBox::error(0, errMsg);
+	  streamFD = -1;
+	  return;
+	}
+
+	// callback notified
+	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
+        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
+}
+
+void INDIStdDevice::allocateStreamBuffer()
+{
+  delete (streamBuffer);
+  
+  kdDebug() << "new size " << totalBytes << endl;
+  
+  streamBuffer = new unsigned char[totalBytes];
+  
+}
+
+void INDIStdDevice::streamReceived()
+{
+
+   char msg[1024];
+   int nr=0, n=0;
+   
+   /*if (dataType == VIDEO_STREAM)
+     totalBytes = streamWindow->frameTotalBytes;
+   else
+     totalBytes = fileSize; */
+	
+    
+    for (nr = 0; nr < totalBytes; nr+=n)
+    {
+           n = read (streamFD, streamBuffer + nr, totalBytes - nr);
+	   if (n <= 0)
+	   {
+	    	if (n < 0)
+			sprintf (msg, "INDI: input error.");
+	    	else
+			sprintf (msg, "INDI: agent closed connection.");
+
+	    sNotifier->disconnect();
+	    close(streamFD);
+	    streamWindow->close();
+	    KMessageBox::error(0, QString(msg));
+            return;
+	   }
+    }
+    
+     if (dataType == DATA_STREAM)
+     {
+       if (!streamWindow->processStream)
+	  return;
+	
+	streamWindow->streamFrame->newFrame(streamBuffer, streamWindow->streamWidth, streamWindow->streamHeight, streamWindow->colorFrame);
+     }
+     else if (dataType == DATA_FITS || dataType == DATA_OTHER)
+     {
+       char filename[256];
+       FILE *fitsTempFile;
+       int fd, nr, n;
+       QString currentDir = Options::fitsSaveDirectory();
+        
+	if (dataType == DATA_FITS)
+        {
+	  strcpy(filename, "/tmp/fitsXXXXXX");
+	  if ((fd = mkstemp(filename)) < 0)
+          { 
+            KMessageBox::error(NULL, "Error making temporary filename.");
+            return;
+          }
+          close(fd);
+	}
+	else
+        {
+	  char ts[32];
+	  struct tm *tp;
+          time_t t;
+          time (&t);
+          tp = gmtime (&t);
+	  
+	  strncpy(filename, currentDir.ascii(), currentDir.length());
+	  filename[currentDir.length()] = '\0';
+          strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
+	  strncat(filename, ts, sizeof(ts));
+	  strncat(filename, dataExt.ascii(), 3);
+        }
+	  
+       fitsTempFile = fopen(filename, "w");
+       
+       if (fitsTempFile == NULL) return;
+       
+       for (nr=0; nr < totalBytes; nr += n)
+           n = fwrite(streamBuffer + nr, 1, totalBytes - nr, fitsTempFile);
+       
+       fclose(fitsTempFile);
+       
+       // We're done if we have DATA_OTHER
+       if (dataType == DATA_OTHER)
+       {
+         ksw->statusBar()->changeItem( i18n("Data file saved to %1").arg(filename), 0);
+         return;
+       }
+       
+       KURL fileURL(filename);
+       
+       FITSViewer * fv = new FITSViewer(&fileURL, ksw);
+       fv->fitsChange();
+       fv->show();
+       
+    }
+       
+
+}
+
  void INDIStdDevice::setTextValue(INDI_P *pp)
  {
    INDI_E *el;
@@ -94,21 +241,49 @@
 	 ht = (int) el->value;
 	 
 	 streamWindow->setSize(wd, ht);
-	 streamWindow->allocateStreamBuffer();
+	 //streamWindow->allocateStreamBuffer();
 	 break;
 	 
       case DATA_CHANNEL:
          el = pp->findElement("CHANNEL");
-	 if (el && el->value && streamWindow->streamFD == -1)
-	    streamWindow->establishDataChannel(dp->parentMgr->host, (int) el->value);
-     break;
+	 /*if (el && el->value && streamWindow->streamFD == -1)
+	    streamWindow->establishDataChannel(dp->parentMgr->host, (int) el->value);*/
+	    if (el && el->value && streamFD == -1)
+	      establishDataChannel(dp->parentMgr->host, (int) el->value);
+         break;
+     
+      case DATA_TYPE:
+        el  = pp->findElement("TYPE");
+	if (!el) return;
+	if (el->text == "FITS")
+	  dataType = DATA_FITS;
+	else if (el->text == "VIDEO_STREAM")
+	  dataType = DATA_STREAM;
+	else 
+	{
+	  dataType = DATA_OTHER;
+	  dataExt  = el->text;
+	}
+	  
+	/*kdDebug() << "We have DATA_TYPE " << el->text << endl;
+	kdDebug() << "We have dataType " << ((dataType == DATA_FITS) ? "DATA_FITS" : "DATA_STREAM") << endl;*/
+	  break;
+	  
+      case DATA_SIZE:
+        el = pp->findElement("SIZE_BYTES");
+	if (!el) return;
+	totalBytes = (int) el->value;
+	if (totalBytes > 0)
+	  allocateStreamBuffer();
+	break;
+     
     default:
         break;
 	
   }
  
  }
- 
+
  void INDIStdDevice::setLabelState(INDI_P *pp)
  {
     INDI_E *lp;
@@ -138,7 +313,7 @@
       break;
       
       case VIDEO_STREAM:
-       if (streamWindow->streamFD == -1)
+       if (streamFD == -1)
        {
           pp->state = PS_OFF;
 	  pp->drawLt(pp->state);
@@ -175,7 +350,7 @@
       else
         streamWindow->setColorFrame(false);
 	
-        streamWindow->allocateStreamBuffer();
+       // streamWindow->allocateStreamBuffer();
       break;
       
     default:
@@ -270,7 +445,7 @@ void INDIStdDevice::updateLocation()
      
      if (drivers)
      {
-       for (int i=0; i < drivers->devices.size(); i++)
+       for (unsigned int i=0; i < drivers->devices.size(); i++)
        {
          if (drivers->devices[i]->mgrID == dp->parentMgr->mgrID)
 	 {
@@ -515,7 +690,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	
         if (lp && drivers) 
 	{
-          for (int i=0; i < drivers->devices.size(); i++)
+          for (unsigned int i=0; i < drivers->devices.size(); i++)
           {
               if (drivers->devices[i]->mgrID == stdDev->dp->parentMgr->mgrID)
 	      {
@@ -623,6 +798,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 bool INDIStdProperty::newSwitch(int id, INDI_E* el)
 {
   INDI_P *prop;
+  id=id; el=el;
 
   switch (pp->stdID)
   {

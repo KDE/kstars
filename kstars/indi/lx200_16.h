@@ -46,7 +46,7 @@ class LX200_16 : public LX200Autostar
 
 };
 
-void changeLX200_16DeviceName(char * newName);
+void changeLX200_16DeviceName(const char * newName);
 
 #endif
 

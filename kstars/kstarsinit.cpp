@@ -17,6 +17,7 @@
 
 #include <qlayout.h>
 #include <qfile.h>
+#include <qdir.h>
 #include <dcopclient.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
@@ -412,6 +413,9 @@ void KStars::initActions() {
 				this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 		a->setChecked( Options::showGround() );
 	}
+	
+        if (Options::fitsSaveDirectory().isEmpty())
+            Options::setFitsSaveDirectory(QDir:: homeDirPath());
 }
 
 void KStars::initFOV() {

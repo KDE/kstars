@@ -2,6 +2,7 @@
 <kpartgui name="FitsViewer" version="3">
 
 <Menu name="file"><text>&amp;File</text>
+		<Action name="file_open" />
 		<Action name="file_save"/>
 		<Action name="file_save_as"/>
 		<Separator/>
@@ -22,7 +23,9 @@
 </Menu>
 
 <ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
+	<Action name="file_open" />
         <Action name="file_save" />
+	<Action name="file_save_as" />
 	<Action name="edit_undo" />
 	<Action name="edit_redo" />
 	<Action name="view_zoom_in" />
@@ -31,11 +34,10 @@
 </ToolBar>
 	
 <ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>
-	<Action name="image_reduce" />
 	<Action name="image_brightness_contrast" />
-	<Action name="image_filters" />
 	<Action name="image_histogram" />
 	<Action name="image_stats" />
 	<Action name="fits_editor" />
+	<Action name="image_reduce" />
 </ToolBar>
 </kpartgui>

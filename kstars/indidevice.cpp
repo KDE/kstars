@@ -75,11 +75,11 @@
 #include <kstatusbar.h>
 #include <kpopupmenu.h>
 
-#define NINDI_STD	18
+#define NINDI_STD	20
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] = 
   {"CONNECTION", "EQUATORIAL_COORD", "ON_COORD_SET", "ABORT_MOTION", "SOLAR_SYSTEM",
-   "GEOGRAPHIC_COORD", "HORIZONTAL_COORD", "TIME", "EXPOSE_DURATION", "DEVICE_PORT", "PARK", "MOVEMENT", "SDTIME", "DATA_CHANNEL", "VIDEO_STREAM", "IMAGE_SIZE", "IMAGE_TYPE", "FILE_NAME"};
+   "GEOGRAPHIC_COORD", "HORIZONTAL_COORD", "TIME", "EXPOSE_DURATION", "DEVICE_PORT", "PARK", "MOVEMENT", "SDTIME", "DATA_CHANNEL", "VIDEO_STREAM", "IMAGE_SIZE", "IMAGE_TYPE", "FILE_NAME", "DATA_TYPE", "DATA_SIZE"};
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its

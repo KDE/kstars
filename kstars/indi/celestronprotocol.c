@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
+#include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -63,7 +64,7 @@ void StopNSEW(void);
 int  SetSlewRate(int slewRate);
 
 int  SyncLST(double newTime);
-int  SyncLocalTime();
+int  SyncLocalTime(void);
 
 void Reticle(int reticle);
 void Focus(int focus);
@@ -114,7 +115,6 @@ int CheckConnectTel(void)
 int ConnectTel(char *port)
 {
   struct termios tty;
-  char tempChar;
   char returnStr[128];
   int numRead;
 
@@ -706,7 +706,7 @@ int  SyncLST(double newTime)
 
 /*  Reset the telescope local time */
 
-int  SyncLocalTime()
+int SyncLocalTime()
 {
   fprintf(stderr,"NexStar does not support remote setting of local time.\n");
   return -1;

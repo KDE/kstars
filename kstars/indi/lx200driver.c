@@ -30,6 +30,7 @@
 #include <time.h>
 
 #include "indicom.h"
+#include "indidevapi.h"
 #include "lx200driver.h"
 
 #define LX200_TIMEOUT	5		/* FD timeout in seconds */
@@ -46,13 +47,13 @@ int portWrite(const char * buf);
 int LX200readOut(int timeout);
 
 int Connect(const char* device);
-void Disconnect();
+void Disconnect(void);
 
 /**************************************************************************
  Diagnostics
  **************************************************************************/
-char ACK();
-int testTelescope();
+char ACK(void);
+int testTelescope(void);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
@@ -133,11 +134,11 @@ int setMaxElevationLimit(int max);
  Motion Commands
  **************************************************************************/
 /* Slew to the selected coordinates */
-int Slew();
+int Slew(void);
 /* Synchronize to the selected coordinates and return the matching object if any */
 int Sync(char *matchedObject);
 /* Abort slew in all axes */
-int abortSlew();
+int abortSlew(void);
 /* Move into one direction, two valid directions can be stacked */
 int MoveTo(int direction);
 /* Half movement in a particular direction */
@@ -149,7 +150,7 @@ int selectTrackingMode(int trackMode);
  Other Commands
  **************************************************************************/
  /* Ensures LX200 RA/DEC format is long */
-int checkLX200Format();
+int checkLX200Format(void);
 /* Select a site from the LX200 controller */
 int selectSite(int siteNum);
 /* Select a catalog object */

@@ -41,21 +41,21 @@
 #include "fitsrw.h"
 #include "eventloop.h"
 
-void ISInit();
+void ISInit(void);
 void ISPoll(void *);
-void connectV4L();
-void initDataChannel();
+void connectV4L(void);
+void initDataChannel(void);
 void waitForData(int rp, int wp);
 void updateDataChannel(void *p);
 void updateStream(void * p);
-void getBasicData();
+void getBasicData(void);
+void uploadFile(char * filename);
 int  writeFITS(char *filename, char errmsg[]);
-int  writeRAW (char *filename, char errmsg[]);
-int  grabImage();
+int  grabImage(void);
 int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerT(ITextVectorProperty *tp);
-int  findPort();
+int  findPort(void);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
 
 
@@ -64,9 +64,9 @@ extern int errno;
 
 #define mydev           "Video4Linux Generic Device"
 
-#define COMM_GROUP	"Communication"
-#define EXPOSE_GROUP	"Expose"
+#define COMM_GROUP	"Main Control"
 #define IMAGE_GROUP	"Image Settings"
+#define DATA_GROUP      "Data Channel"
 
 
 #define MAX_PIXELS	4096		/* Max number of pixels in one dimension */
@@ -102,59 +102,58 @@ static int nclients;			/* # of clients using the binary stream */
 /*INDI controls */
 
 /* Connect/Disconnect */
-static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONNECT", "Disconnect", ISS_ON}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS)};
+static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), 0, 0};
 
 /* Ports */
-static IText PortT[]			= {{"PORT", "Port", "/dev/video0"}};
-static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
+static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
+static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), 0, 0};
 
 /* Camera Name */
-static IText camNameT[]		        = {{"Model", "", "" }};
-static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT)};
-
-/* Data channel */
-static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0.}};
-static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", COMM_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN)};
+static IText camNameT[]		        = {{"Model", "", 0, 0, 0, 0 }};
+static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT), 0 , 0};
 
 /* Video Stream */
-static ISwitch StreamS[]		= {{"ON", "", ISS_OFF}, {"OFF", "", ISS_ON}};
-static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS) };
+static ISwitch StreamS[]		= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
+static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), 0, 0 };
 
 /* Frame Rate */
-static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 50., 1., 10.}};
-static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN)};
+static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 50., 1., 10., 0, 0, 0}};
+static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), 0, 0};
 
 /* Image color */
-static ISwitch ImageTypeS[]		= {{ "GREY", "Grey", ISS_ON}, { "COLOR", "Color", ISS_OFF }};
-static ISwitchVectorProperty ImageTypeSP= { mydev, "IMAGE_TYPE", "Image Type", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS)};
-
-/* Images Type */
-static ISwitch ImageFormatS[]		= {{ "FITS", "", ISS_ON}, { "RAW", "", ISS_OFF }};
-static ISwitchVectorProperty ImageFormatSP= { mydev, "IMAGE_FORMAT", "Image Format", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageFormatS, NARRAY(ImageFormatS)};
+static ISwitch ImageTypeS[]		= {{ "GREY", "Grey", ISS_ON, 0, 0}, { "COLOR", "Color", ISS_OFF, 0, 0 }};
+static ISwitchVectorProperty ImageTypeSP= { mydev, "IMAGE_TYPE", "Image Type", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), 0, 0};
 
 /* Frame dimension */
-static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0.},
-					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0.}};
-static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN)};
-
-
-/* File Name */
-static IText FileNameT[]		= {{ "FILE", "File" }};
-static ITextVectorProperty FileNameTP	= { mydev, "FILE_NAME", "File name", EXPOSE_GROUP, IP_RW, 0, IPS_IDLE, FileNameT, NARRAY(FileNameT)};
+static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0, 0},
+					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0., 0, 0, 0}};
+static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), 0, 0};
 
 /* Exposure */
-  static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF}};
-  static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS)};
+  static ISwitch ExposeS[]    = {{ "Capture Image", "", ISS_OFF, 0, 0}};
+  static ISwitchVectorProperty ExposeSP = { mydev, "Capture", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ExposeS, NARRAY(ExposeS), 0, 0};
   
-static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0. }, 
-                                   {"Brightness", "", "%0.f", 0., 256., 1., 0.}, 
-				   {"Hue", "", "%0.f", 0., 256., 1., 0.}, 
-				   {"Color", "", "%0.f", 0., 256., 1., 0.}, 
-				   {"Whiteness", "", "%0.f", 0., 256., 1., 0.}};
+static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
+                                   {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
+				   {"Hue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0}, 
+				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}, 
+				   {"Whiteness", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
 				   
-static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN) };
- 
+static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), 0, 0 };
+
+/* Data channel */
+static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0., 0, 0, 0}};
+static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
+
+ /* Data type */
+static IText DataTypeT[]	= {{ "TYPE", "Type", 0, 0, 0, 0 }};
+static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT), 0, 0};
+
+/* Data size */
+static INumber DataSizeN[]	= {{ "SIZE_BYTES", "Bytes", "%0.f", 0., 0., 0., 0., 0, 0, 0}};
+static INumberVectorProperty DataSizeNP = { mydev, "DATA_SIZE", "Data Size", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataSizeN, NARRAY(DataSizeN), 0, 0};
+
 /* send client definitions of all properties */
 void ISInit()
 {
@@ -173,7 +172,10 @@ void ISInit()
  }
  
  streamTimerID = -1;
- FileNameT[0].text = strcpy(new char[FILENAMESIZ], "image1.fits");
+ //FileNameT[0].text = strcpy(new char[FILENAMESIZ], "image1.fits");
+ 
+ PortT[0].text     = strcpy(new char[32], "/dev/video0");
+ DataTypeT[0].text = strcpy(new char[32], "VIDEO_STREAM");
  camNameT[0].text  = new char[MAXINDILABEL];
  
  INDIClients = NULL;
@@ -196,18 +198,18 @@ void ISGetProperties (const char *dev)
   IDDefText(&PortTP, NULL);
   IDDefText(&camNameTP, NULL);
   IDDefSwitch(&StreamSP, NULL);
-  IDDefNumber(&DataChannelNP, NULL);
   IDDefNumber(&FrameRateNP, NULL);
-  
-  /* Expose */
   IDDefSwitch(&ExposeSP, NULL);
-  IDDefText(&FileNameTP, NULL);
   
   /* Image properties */
   IDDefSwitch(&ImageTypeSP, NULL);
-  IDDefSwitch(&ImageFormatSP, NULL);
   IDDefNumber(&ImageSizeNP, NULL);
   IDDefNumber(&ImageAdjustNP, NULL);
+  
+  /* Data Channel */
+  IDDefNumber(&DataChannelNP, NULL);
+  IDDefText(&DataTypeTP, NULL);
+  IDDefNumber(&DataSizeNP, NULL);
   
   INDIClients = INDIClients ? (client_t *) realloc(INDIClients, (nclients+1) * sizeof(client_t)) :
                               (client_t *) malloc (sizeof(client_t));
@@ -230,9 +232,7 @@ void ISGetProperties (const char *dev)
   
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-        char errmsg[2048];
-	long err;
-	ISwitch *sp;
+	int totalSize;
 	
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -248,24 +248,24 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
    	  connectV4L();
 	  return;
      }
-
-
-     /* Image Format */	
-     if (!strcmp(name, ImageFormatSP.name))
-     {
-        IUResetSwitches(&ImageFormatSP);
-       	IUUpdateSwitches(&ImageFormatSP, states, names, n);
-	ImageFormatSP.s = IPS_OK;
-	IDSetSwitch(&ImageFormatSP, NULL);
-	return;
-     }
-     
+    
      /* Image Type */
      if (!strcmp(name, ImageTypeSP.name))
      {
        IUResetSwitches(&ImageTypeSP);
        IUUpdateSwitches(&ImageTypeSP, states, names, n);
        ImageTypeSP.s = IPS_OK;
+       
+       /* if grey */
+       if (ImageTypeS[0].s == ISS_ON)
+         totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value); 
+       /* else if color */
+       else
+         totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value * 4);
+	
+       DataSizeN[0].value = totalSize;
+        
+       IDSetNumber(&DataSizeNP, NULL);   
        IDSetSwitch(&ImageTypeSP, NULL);
        return;
      }
@@ -281,11 +281,23 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        IUUpdateSwitches(&StreamSP, states, names, n);
        StreamSP.s = IPS_IDLE;
        
+          
        if (StreamS[0].s == ISS_ON && streamTimerID == -1)
        {
+         strcpy(DataTypeT[0].text, "VIDEO_STREAM");
+         IDSetText(&DataTypeTP, NULL);
+	 /* Set proper frame size, check if grey */
+         if (ImageTypeS[0].s == ISS_ON)
+            totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value); 
+         /* else if color */
+         else
+            totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value * 4);
+         DataSizeN[0].value = totalSize;
+         IDSetNumber(&DataSizeNP, NULL);
+        
          IDLog("Starting the video stream.\n");
          streamTimerID = addTimer(1000 / (int) FrameRateN[0].value, updateStream, NULL);
-	 StreamSP.s  = IPS_BUSY;
+	 StreamSP.s  = IPS_BUSY; 
        }
        else
        {
@@ -305,7 +317,17 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        if (checkPowerS(&ExposeSP))
          return;
     
+	IUResetSwitches(&StreamSP);
+	//rmTimer(streamTimerID);
+	streamTimerID = -1;
+	StreamS[1].s  = ISS_ON;
+	StreamSP.s    = IPS_IDLE;
+	IDSetSwitch(&StreamSP, NULL);
+	
         ExposeS[0].s = ISS_OFF;
+	
+	strcpy(DataTypeT[0].text, "FITS");
+        IDSetText(&DataTypeTP, NULL);
        
 	V4LFrame->expose = 1000;
 	V4LFrame->Y      = getY();
@@ -350,7 +372,7 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  return;
 	}
 	
-	if (!strcmp(name, FileNameTP.name))
+	/*if (!strcmp(name, FileNameTP.name))
 	{
 	  tp = IUFindText(&FileNameTP, names[0]);
 	  FileNameTP.s = IPS_IDLE;
@@ -367,16 +389,14 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  IDSetText(&FileNameTP, NULL);
 	  return;
 	  
-	}	  
+	}*/	  
 	      	
 }
 
 
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
-      long err;
-      INumber *np;
-      char errmsg[1024];
+      int totalSize;
 
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -399,6 +419,17 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       {
          ImageSizeN[0].value = getWidth();
 	 ImageSizeN[1].value = getHeight();
+	 
+	 /* if grey */
+         if (ImageTypeS[0].s == ISS_ON)
+           totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value); 
+         /* else if color */
+         else
+           totalSize = (int) (ImageSizeN[0].value * ImageSizeN[1].value * 4);
+	
+         DataSizeN[0].value = totalSize;
+        
+         IDSetNumber(&DataSizeNP, NULL);   
          IDSetNumber(&ImageSizeNP, NULL);
 	 return;
       }
@@ -439,11 +470,11 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
        return;
      
-     setContrast(ImageAdjustN[0].value * 128);
-     setBrightness(ImageAdjustN[1].value * 128);
-     setHue(ImageAdjustN[2].value * 128);
-     setColor(ImageAdjustN[3].value * 128);
-     setWhiteness(ImageAdjustN[4].value * 128);
+     setContrast( (int) (ImageAdjustN[0].value * 128));
+     setBrightness( (int) (ImageAdjustN[1].value * 128));
+     setHue( (int) (ImageAdjustN[2].value * 128));
+     setColor( (int) (ImageAdjustN[3].value * 128));
+     setWhiteness( (int) (ImageAdjustN[4].value * 128));
      
      ImageAdjustN[0].value = getContrast() / 128.;
      ImageAdjustN[1].value = getBrightness() / 128.;
@@ -465,10 +496,20 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
  N.B. No processing is done on the image */
 int grabImage()
 {
-   int err;
+   int err, fd;
    char errmsg[1024];
+   char filename[] = "/tmp/fitsXXXXXX";
+  
    
-   err = (ImageFormatS[0].s == ISS_ON) ? writeFITS(FileNameT[0].text, errmsg) : writeRAW(FileNameT[0].text, errmsg);
+   if ((fd = mkstemp(filename)) < 0)
+   { 
+    IDMessage(mydev, "Error making temporary filename.", NULL);
+    IDLog("Error making temporary filename.\n", NULL);
+    return -1;
+   }
+   close(fd);
+  
+   err = writeFITS(filename, errmsg);
    if (err)
    {
        IDMessage(mydev, errmsg, NULL);
@@ -478,40 +519,7 @@ int grabImage()
   return 0;
 }
 
-int writeRAW (char *filename, char errmsg[])
-{
-
-int fd, img_size;
-
-img_size = getWidth() * getHeight() * sizeof(unsigned char);
-
-if ((fd = open(filename, O_WRONLY | O_CREAT  | O_EXCL,
-		   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH )) == -1)
-   {
-      IDMessage(mydev, "Error: open of %s failed.", filename);
-      IDLog("Error: open of '%s' failed.\n", filename);
-      return -1;
-   }
-   
- if (write(fd, V4LFrame->Y, img_size) != img_size)
- {
-      IDMessage(mydev, "Error: write to %s failed.", filename);
-      IDLog("Error: write to '%s' failed.\n", filename);
-      return -1;
- }
-   
- close(fd);
-   
- /* Success */
- ExposeSP.s = IPS_OK;
- IDSetSwitch(&ExposeSP, "Raw image written to %s", filename);
- IDLog("Raw image written to '%s'\n", filename);
-
- return 0;
- 
-}
-
-int writeFITS(char *filename, char errmsg[])
+int writeFITS(char * filename, char errmsg[])
 {
   FITS_FILE* ofp;
   int i, bpp, bpsl, width, height;
@@ -568,10 +576,14 @@ int writeFITS(char *filename, char errmsg[])
  
   /* Success */
  ExposeSP.s = IPS_OK;
- IDSetSwitch(&ExposeSP, "FITS image written to %s", filename);
- IDLog("FITS image written to '%s'\n", filename);
+ /*IDSetSwitch(&ExposeSP, "FITS image written to %s", filename);
+ IDLog("FITS image written to '%s'\n", filename);*/
+ IDSetSwitch(&ExposeSP, "Loading FITS image...");
+ IDLog("Loading FITS image...\n");
+ 
+ uploadFile(filename);
   
-  return 0;
+ return 0;
 
 }
 
@@ -598,6 +610,10 @@ void getBasicData()
   
   IDSetNumber(&ImageSizeNP, NULL);
   
+  // Initial Data Size
+  DataSizeN[0].value = ImageSizeN[0].value * ImageSizeN[1].value;
+  IDSetNumber(&DataSizeNP, NULL);
+  
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
   IDSetText(&camNameTP, NULL);
   
@@ -609,6 +625,8 @@ void getBasicData()
      
   ImageAdjustNP.s = IPS_OK;
   IDSetNumber(&ImageAdjustNP, NULL);
+  
+  IDSetText(&DataTypeTP, NULL);
   
   IDLog("Exiting getBasicData()\n");
 }
@@ -657,9 +675,6 @@ int checkPowerT(ITextVectorProperty *tp)
 
 void connectV4L()
 {
-  long err;
-  char errmsg[1024];
- 
   IDLog ("In ConnectV4L\n");
     
   switch (PowerS[0].s)
@@ -699,7 +714,6 @@ void connectV4L()
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
 {
  FITS_HDU_LIST *hdulist;
- int print_ctype3 = 0;   /* The CTYPE3-card may not be FITS-conforming */
  char expose_s[80];
  char obsDate[80];
  char instrumentName[80];
@@ -746,6 +760,7 @@ void updateStream(void *p)
    int totalBytes;
    unsigned char *targetFrame;
    int nr=0, n=0;
+   p=p;
    
    V4LFrame->Y      		= getY();
    V4LFrame->U      		= getU();
@@ -779,11 +794,76 @@ void updateStream(void *p)
              }
         }
   }
-    
-  if (!streamTimerID != -1)
+     
+  //IDLog("updating stream...\n");
+  
+  if (streamTimerID != -1)
     	streamTimerID = addTimer(1000/ (int) FrameRateN[0].value, updateStream, NULL);
    
 }
+
+void uploadFile(char * filename)
+{
+   FILE * fitsFile;
+   unsigned char fitsData[PIPEBUFSIZ];
+   int totalBytes, nr=0, n=0, i=0;
+   struct stat stat_p; 
+ 
+   if ( -1 ==  stat (filename, &stat_p))
+   { 
+     IDLog(" Error occoured attempting to stat %s\n", filename); 
+     return; 
+   } 
+   
+   IDLog("File size is   %d bytes\n", stat_p.st_size); 
+   DataSizeN[0].value = stat_p.st_size;
+   IDSetNumber(&DataSizeNP, NULL);
+ 
+   /* TODO This is temporary to avoid race condition.
+            I need to introduce some hand-shake signals later on */
+	    
+   usleep(500000);
+
+   fitsFile = fopen(filename, "r");
+   
+   if (fitsFile == NULL)
+    return;
+    
+   while (!feof(fitsFile))
+   {
+     totalBytes = fread(fitsData, 1, PIPEBUFSIZ, fitsFile);
+     
+     if (totalBytes <= 0)
+     {
+       IDLog("Error reading temporary FITS file.\n");
+       return;
+     }
+   
+     for (i=0; i < nclients; i++)
+     {
+  	if (INDIClients[i].streamReady)
+        {
+             for (nr=0; nr < totalBytes; nr+=n)
+   	     {
+	  	n = write(INDIClients[i].wp, fitsData + nr, totalBytes - nr );
+		if (n <= 0)
+		{
+			if (nr <= 0)
+    			{
+      				IDLog("Stream error: %s\n", strerror(errno));
+      				return;
+    			}
+		        break;
+		}		
+		 
+             }
+        }
+      }
+      
+    } /* end while */
+   
+}
+
 
 void initDataChannel ()
 {
@@ -836,7 +916,9 @@ void updateDataChannel(void *p)
   timeval tv;
   tv.tv_sec  = 0;
   tv.tv_usec = 0;
-  
+
+  p=p;
+    
   for (int i=0; i < nclients; i++)
   {
         if (INDIClients[i].rp < 0)
@@ -984,11 +1066,9 @@ void waitForData(int rp, int wp)
 	FD_ZERO(&rs);
 	FD_SET(rp, &rs);
 	
-	int bufcount=0;
-	
 	while (1)
 	{
-               // IDLog("Waiting for input from driver\n");	
+                /*IDLog("Waiting for input from driver\n");	*/
 	
 		i = select(rp+1, &rs, NULL, NULL, NULL);
 		if (i < 0)

@@ -39,7 +39,7 @@ class LX200Autostar : public LX200Generic
 
 };
 
-void changeLX200AutostarDeviceName(char *newName);
+void changeLX200AutostarDeviceName(const char *newName);
 
 #endif
  

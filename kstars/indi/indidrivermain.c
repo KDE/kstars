@@ -41,15 +41,16 @@
 #include "lilxml.h"
 #include "eventloop.h"
 #include "indidevapi.h"
+#include "indicom.h"
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
 static int dispatch (XMLEle *root, char msg[]);
 static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
-static char *pstateStr(IPState s);
-static char *sstateStr(ISState s);
-static char *ruleStr(ISRule r);
-static char *permStr(IPerm p);
+const  char *pstateStr(IPState s);
+const  char *sstateStr(ISState s);
+const  char *ruleStr(ISRule r);
+const  char *permStr(IPerm p);
 static char *timestamp (void);
 
 static int verbose;			/* chatty */
@@ -638,6 +639,7 @@ clientMsgCB (int fd, void *arg)
 {
 	char buf[1024], msg[1024], *bp;
 	int nr;
+	arg=arg;
 
 	/* one read */
 	nr = read (fd, buf, sizeof(buf));
@@ -724,7 +726,7 @@ printf ("%s\n", valuXMLAtt(na));
 	    static char **names;
 	    static int maxn;
 	    char *dev, *name;
-	    XMLEle *ep;
+	    /*XMLEle *ep;*/
 
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
@@ -856,7 +858,7 @@ crackDN (XMLEle *root, char **dev, char **name, char msg[])
 }
 
 /* return static string corresponding to the given property or light state */
-static char *
+const char *
 pstateStr (IPState s)
 {
 	switch (s) {
@@ -871,7 +873,7 @@ pstateStr (IPState s)
 }
 
 /* return static string corresponding to the given switch state */
-static char *
+const char *
 sstateStr (ISState s)
 {
 	switch (s) {
@@ -884,7 +886,7 @@ sstateStr (ISState s)
 }
 
 /* return static string corresponding to the given Rule */
-static char *
+const char *
 ruleStr (ISRule r)
 {
 	switch (r) {
@@ -898,7 +900,7 @@ ruleStr (ISRule r)
 }
 
 /* return static string corresponding to the given IPerm */
-static char *
+const char *
 permStr (IPerm p)
 {
 	switch (p) {
@@ -925,5 +927,3 @@ timestamp()
 	return (ts);
 }
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};

@@ -61,89 +61,87 @@ static void ISPoll(void *);
 static void retryConnection(void *);
 
 /*INDI controls */
-static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONNECT", "Disconnect", ISS_ON}};
-static ISwitch AlignmentS []     = {{"Polar", "", ISS_ON}, {"AltAz", "", ISS_OFF}, {"Land", "", ISS_OFF}};
-static ISwitch SitesS[]          = {{"Site 1", "", ISS_ON}, {"Site 2", "", ISS_OFF},  {"Site 3", "", ISS_OFF},  {"Site 4", "", ISS_OFF}};
-static ISwitch SlewModeS[]       = {{"Max", "", ISS_ON}, {"Find", "", ISS_OFF}, {"Centering", "", ISS_OFF}, {"Guide", "", ISS_OFF}};
-static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON }, {"TRACK", "Track", ISS_OFF}, {"SYNC", "Sync", ISS_OFF }};
-static ISwitch TrackModeS[]      = {{ "Default", "", ISS_ON} , { "Lunar", "", ISS_OFF}, {"Manual", "", ISS_OFF}};
-static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF }};
-static ISwitch ParkS[]		 = { {"Park", "", ISS_OFF} };
+static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitch AlignmentS []     = {{"Polar", "", ISS_ON, 0, 0}, {"AltAz", "", ISS_OFF, 0, 0}, {"Land", "", ISS_OFF, 0, 0}};
+static ISwitch SitesS[]          = {{"Site 1", "", ISS_ON, 0, 0}, {"Site 2", "", ISS_OFF, 0, 0},  {"Site 3", "", ISS_OFF, 0, 0},  {"Site 4", "", ISS_OFF, 0 ,0}};
+static ISwitch SlewModeS[]       = {{"Max", "", ISS_ON, 0, 0}, {"Find", "", ISS_OFF, 0, 0}, {"Centering", "", ISS_OFF, 0, 0}, {"Guide", "", ISS_OFF, 0 , 0}};
+static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0, 0 }, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0 , 0}};
+static ISwitch TrackModeS[]      = {{ "Default", "", ISS_ON, 0, 0} , { "Lunar", "", ISS_OFF, 0, 0}, {"Manual", "", ISS_OFF, 0, 0}};
+static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0 }};
+static ISwitch ParkS[]		 = { {"Park", "", ISS_OFF, 0, 0} };
 
-static ISwitch MovementS[]       = {{"N", "North", ISS_OFF}, {"W", "West", ISS_OFF}, {"E", "East", ISS_OFF}, {"S", "South", ISS_OFF}};
+static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON}, { "Fast", "", ISS_OFF }, {"Slow", "", ISS_OFF}};
-static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF}, {"Focus out", "", ISS_OFF}};
+static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON, 0, 0}, { "Fast", "", ISS_OFF, 0, 0}, {"Slow", "", ISS_OFF, 0, 0}};
+static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF, 0, 0}, {"Focus out", "", ISS_OFF, 0, 0}};
 
 /* equatorial position */
 INumber eq[] = {
-    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0.},
-    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.},
+    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},
+    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0},
 };
 //TODO decide appropiate TIME_OUT
 // N.B. No Static identifier as it is needed for external linkage
 INumberVectorProperty eqNum = {
     mydev, "EQUATORIAL_COORD", "Equatorial J2000", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
-    eq, NARRAY(eq),
-};
+    eq, NARRAY(eq), 0, 0};
 
 /* Fundamental group */
-ISwitchVectorProperty PowerSP		= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS)};
-static IText PortT[]			= {{"PORT", "Port", "/dev/ttyS0"}};
-static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
+ISwitchVectorProperty PowerSP		= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), 0, 0};
+static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
+static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), 0, 0};
 
 /* Basic data group */
-static ISwitchVectorProperty AlignmentSw	= { mydev, "Alignment", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AlignmentS, NARRAY(AlignmentS)};
+static ISwitchVectorProperty AlignmentSw	= { mydev, "Alignment", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AlignmentS, NARRAY(AlignmentS), 0, 0};
 
 static INumber altLimit[] = {
-       {"minAlt", "min Alt", "%+03f", -90., 90., 0., 0.},
-       {"maxAlt", "max Alt", "%+03f", -90., 90., 0., 0.}};
-static INumberVectorProperty elevationLimit = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit)};
+       {"minAlt", "min Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0},
+       {"maxAlt", "max Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0}};
+static INumberVectorProperty elevationLimit = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit), 0, 0};
 
 /* Movement group */
-static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS)};
+static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), 0, 0};
 
-static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS)};
+static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS), 0, 0};
 
-ISwitchVectorProperty	ParkSP = {mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ParkS, NARRAY(ParkS) };
+ISwitchVectorProperty	ParkSP = {mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ParkS, NARRAY(ParkS), 0, 0 };
 
-static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS)};
+static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS), 0, 0};
 
-static ISwitchVectorProperty TrackModeSw  = { mydev, "Tracking Mode", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, TrackModeS, NARRAY(TrackModeS)};
+static ISwitchVectorProperty TrackModeSw  = { mydev, "Tracking Mode", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, TrackModeS, NARRAY(TrackModeS), 0, 0};
 
-static INumber TrackFreq[]  = {{ "trackFreq", "Freq", "%g", 50.0, 80.0, 0.1, 60.1}};
+static INumber TrackFreq[]  = {{ "trackFreq", "Freq", "%g", 50.0, 80.0, 0.1, 60.1, 0, 0, 0}};
 
-static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackFreq, NARRAY(TrackFreq)};
+static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackFreq, NARRAY(TrackFreq), 0, 0};
 
-static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS)};
+static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), 0, 0};
 
 // Focus Control
-static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "Speed", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS)};
+static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "Speed", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS), 0, 0};
 
-static ISwitchVectorProperty	FocusMotionSw = {mydev, "Motion", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS)};
+static ISwitchVectorProperty	FocusMotionSw = {mydev, "Motion", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), 0, 0};
 
 /* Data & Time */
-static IText UTC[] = {{"UTC", "UTC", "YYYY-MM-DDTHH:MM:SS"}};
-ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC)};
-static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,0.,0.,0.}};
-INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime)};
+static IText UTC[] = {{"UTC", "UTC", 0, 0, 0, 0}};
+ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), 0, 0};
+static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,0.,0.,0., 0, 0, 0}};
+INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime), 0, 0};
 
 
 /* Site managment */
-static ISwitchVectorProperty SitesSw  = { mydev, "Sites", "", SITE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SitesS, NARRAY(SitesS)};
+static ISwitchVectorProperty SitesSw  = { mydev, "Sites", "", SITE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SitesS, NARRAY(SitesS), 0, 0};
 /* geographic location */
 static INumber geo[] = {
-    {"LAT",  "Lat.  D:M:S +N", "%10.6m",  -90.,  90., 0., 0.},
-    {"LONG", "Long. D:M:S +E", "%10.6m", 0., 360., 0., 0.},
+    {"LAT",  "Lat.  D:M:S +N", "%10.6m",  -90.,  90., 0., 0., 0, 0, 0},
+    {"LONG", "Long. D:M:S +E", "%10.6m", 0., 360., 0., 0., 0, 0, 0},
 };
 static INumberVectorProperty geoNum = {
     mydev, "GEOGRAPHIC_COORD", "Geographic Location", SITE_GROUP, IP_RW, 0., IPS_IDLE,
-    geo, NARRAY(geo),
-};
-static IText   SiteNameT[] = {{"SiteName", "", ""}};
-static ITextVectorProperty SiteName = { mydev, "Site Name", "", SITE_GROUP, IP_RW, 0 , IPS_IDLE, SiteNameT, NARRAY(SiteNameT)};
+    geo, NARRAY(geo), 0, 0};
+static IText   SiteNameT[] = {{"SiteName", "", 0, 0, 0, 0}};
+static ITextVectorProperty SiteName = { mydev, "Site Name", "", SITE_GROUP, IP_RW, 0 , IPS_IDLE, SiteNameT, NARRAY(SiteNameT), 0, 0};
 
-void changeLX200GenericDeviceName(char * newName)
+void changeLX200GenericDeviceName(const char * newName)
 {
   strcpy(PowerSP.device , newName);
   strcpy(Port.device , newName);
@@ -177,7 +175,7 @@ void changeLX200GenericDeviceName(char * newName)
   
 }
 
-void changeAllDeviceNames(char *newName)
+void changeAllDeviceNames(const char *newName)
 {
   changeLX200GenericDeviceName(newName);
   changeLX200AutostarDeviceName(newName);
@@ -198,6 +196,9 @@ void ISInit()
  isInit = 1;
 
  
+  PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
+  UTC[0].text   = strcpy(new char[32], "YYYY-MM-DDTHH:MM:SS");
+  
   if (strstr(me, "lx200classic"))
   {
      fprintf(stderr , "initilizaing from LX200 classic device...\n");
@@ -1079,7 +1080,6 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 
 void LX200Generic::handleError(ISwitchVectorProperty *svp, int err, const char *msg)
 {
-  char errmsg[1024];
   
   svp->s = IPS_ALERT;
   
@@ -1112,7 +1112,6 @@ void LX200Generic::handleError(ISwitchVectorProperty *svp, int err, const char *
 
 void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *msg)
 {
-  char errmsg[1024];
   
   nvp->s = IPS_ALERT;
   
@@ -1145,7 +1144,6 @@ void LX200Generic::handleError(INumberVectorProperty *nvp, int err, const char *
 
 void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *msg)
 {
-  char errmsg[1024];
   
   tvp->s = IPS_ALERT;
   

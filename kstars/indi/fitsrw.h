@@ -137,7 +137,7 @@ typedef struct {
 
 /* User callable functions of the FITS-library */
 
-FITS_FILE     *fits_open (const char *filename, char *openmode);
+FITS_FILE     *fits_open (const char *filename, const char *openmode);
 void           fits_close (FITS_FILE *ff);
 FITS_HDU_LIST *fits_add_hdu (FITS_FILE *ff);
 int            fits_add_card (FITS_HDU_LIST *hdulist, char *card);
@@ -146,7 +146,7 @@ FITS_HDU_LIST *fits_image_info (FITS_FILE *ff, int picind, int *hdupicind);
 FITS_HDU_LIST *fits_seek_image (FITS_FILE *ff, int picind);
 void           fits_print_header (FITS_HDU_LIST *hdr);
 FITS_DATA     *fits_decode_card (const char *card, FITS_DATA_TYPES data_type);
-char          *fits_search_card (FITS_RECORD_LIST *rl, char *keyword);
+char          *fits_search_card (FITS_RECORD_LIST *rl, const char *keyword);
 int            fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist,
                                 int npix, FITS_PIX_TRANSFORM *trans, void *buf);
 int 	       fits_nan_32 (unsigned char *v);

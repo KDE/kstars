@@ -220,7 +220,10 @@ void KStars::slotINDIConf() {
    indiconf.vidPort_IN->setText ( Options::indiVideoPort());
    
    if (Options::fitsSaveDirectory().isEmpty())
+   {
      indiconf.fitsDIR_IN->setText (QDir:: homeDirPath());
+     Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
+   }
    else
    indiconf.fitsDIR_IN->setText ( Options::fitsSaveDirectory());
 

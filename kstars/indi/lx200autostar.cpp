@@ -37,15 +37,15 @@ extern INumberVectorProperty eqNum;
 extern ISwitchVectorProperty ParkSP;
 extern ISwitchVectorProperty PowerSP;
 
-static IText   VersionT[] ={{ "Date", ""} ,
-			   { "Time", ""} ,
-			   { "Number", ""} ,
-			   { "Full", ""} ,
-			   { "Name", ""}};
+static IText   VersionT[] ={{ "Date", "", 0, 0, 0, 0} ,
+			   { "Time", "", 0, 0, 0, 0} ,
+			   { "Number", "", 0, 0, 0 ,0} ,
+			   { "Full", "", 0, 0, 0, 0} ,
+			   { "Name", "" ,0 ,0 ,0 ,0}};
 
-static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT)};
+static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), 0 ,0};
 
-void changeLX200AutostarDeviceName(char *newName)
+void changeLX200AutostarDeviceName(const char *newName)
 {
   strcpy(VersionInfo.device, newName);
 }

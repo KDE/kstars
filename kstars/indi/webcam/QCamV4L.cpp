@@ -100,6 +100,7 @@ int connectCam(const char * devpath,int preferedPalette,
 
 void callFrame(void *p)
 {
+  p=p;
   updateFrame(0, NULL);
 }
 
@@ -299,7 +300,7 @@ bool dropFrame() {
 }
 
 void updateFrame(int d, void * p) {
-   p=p;
+   p=p; d=d;
    static unsigned char nullBuf[640*480];
    bool res;
    
@@ -467,7 +468,9 @@ int getWhiteness() {
 void disconnectCam()
 {
    delete tmpBuffer_;
-   delete YBuf, UBuf, VBuf;
+   delete YBuf;
+   delete UBuf;
+   delete VBuf;
    tmpBuffer_ = YBuf = UBuf = VBuf = NULL;
    streamActive = false;
    munmap (mmap_buffer_, mmap_mbuf_.size);

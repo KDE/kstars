@@ -34,25 +34,25 @@ extern int MaxReticleFlashRate;
 #define LIBRARY_GROUP	"Library"
 #define MOVE_GROUP	"Movement Control"
 
-static IText   ObjectText[] = {{"objectText", "Info"}};
-static ITextVectorProperty ObjectInfo = {mydev, "Object Info", "", BASIC_GROUP, IP_RO, 0, IPS_IDLE, ObjectText, NARRAY(ObjectText)};
+static IText   ObjectText[] = {{"objectText", "Info", 0, 0, 0, 0}};
+static ITextVectorProperty ObjectInfo = {mydev, "Object Info", "", BASIC_GROUP, IP_RO, 0, IPS_IDLE, ObjectText, NARRAY(ObjectText), 0, 0};
 
 /* Library group */
-static ISwitch StarCatalogS[]    = {{"STAR", "", ISS_ON}, {"SAO", "", ISS_OFF}, {"GCVS", "", ISS_OFF}};
-static ISwitch DeepSkyCatalogS[] = {{"NGC", "", ISS_ON}, {"IC", "", ISS_OFF}, {"UGC", "", ISS_OFF}, {"Caldwell", "", ISS_OFF}, {"Arp", "", ISS_OFF}, {"Abell", "", ISS_OFF}, {"Messier", "", ISS_OFF}};
-static ISwitch SolarS[]          = { {"Select", "Select item...", ISS_ON}, {"1", "Mercury", ISS_OFF}, {"2", "Venus", ISS_OFF}, {"3", "Moon", ISS_OFF}, {"4", "Mars", ISS_OFF}, {"5", "Jupiter", ISS_OFF}, {"6", "Saturn", ISS_OFF}, {"7", "Uranus", ISS_OFF}, {"8", "Neptune", ISS_OFF}, {"9", "Pluto", ISS_OFF}};
+static ISwitch StarCatalogS[]    = {{"STAR", "", ISS_ON, 0, 0}, {"SAO", "", ISS_OFF, 0, 0}, {"GCVS", "", ISS_OFF, 0, 0}};
+static ISwitch DeepSkyCatalogS[] = {{"NGC", "", ISS_ON, 0, 0}, {"IC", "", ISS_OFF, 0, 0}, {"UGC", "", ISS_OFF, 0, 0}, {"Caldwell", "", ISS_OFF, 0, 0}, {"Arp", "", ISS_OFF, 0, 0}, {"Abell", "", ISS_OFF, 0, 0}, {"Messier", "", ISS_OFF, 0, 0}};
+static ISwitch SolarS[]          = { {"Select", "Select item...", ISS_ON, 0, 0}, {"1", "Mercury", ISS_OFF,0 , 0}, {"2", "Venus", ISS_OFF, 0, 0}, {"3", "Moon", ISS_OFF, 0, 0}, {"4", "Mars", ISS_OFF, 0, 0}, {"5", "Jupiter", ISS_OFF, 0, 0}, {"6", "Saturn", ISS_OFF, 0, 0}, {"7", "Uranus", ISS_OFF, 0, 0}, {"8", "Neptune", ISS_OFF, 0, 0}, {"9", "Pluto", ISS_OFF, 0 ,0}};
 
-static ISwitchVectorProperty StarCatalogSw   = { mydev, "Star Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StarCatalogS, NARRAY(StarCatalogS)};
-static ISwitchVectorProperty DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, DeepSkyCatalogS, NARRAY(DeepSkyCatalogS)};
-static ISwitchVectorProperty SolarSw         = { mydev, "SOLAR_SYSTEM", "Solar System", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SolarS, NARRAY(SolarS)};
+static ISwitchVectorProperty StarCatalogSw   = { mydev, "Star Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StarCatalogS, NARRAY(StarCatalogS), 0, 0};
+static ISwitchVectorProperty DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), 0, 0};
+static ISwitchVectorProperty SolarSw         = { mydev, "SOLAR_SYSTEM", "Solar System", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SolarS, NARRAY(SolarS), 0, 0};
 
-static INumber ObjectN[] = { "ObjectN", "Number", "%g", 1., 10000., 1., 0.};
-static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN) };
+static INumber ObjectN[] = { "ObjectN", "Number", "%g", 1., 10000., 1., 0., 0, 0, 0};
+static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN), 0, 0 };
 
-static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9.}};
-static INumberVectorProperty MaxSlewRate = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew)};
+static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9., 0, 0 ,0}};
+static INumberVectorProperty MaxSlewRate = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew), 0, 0};
 
-void changeLX200ClassicDeviceName(char *newName)
+void changeLX200ClassicDeviceName(const char *newName)
 {
  strcpy(ObjectInfo.device, newName);
  strcpy(SolarSw.device, newName);

@@ -51,35 +51,34 @@ extern char* me;
 static void ISPoll(void *);
 
 /*INDI controls */
-static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF},{"DISCONNECT", "Disconnect", ISS_ON}};
-static ISwitch SlewModeS[]       = {{"Slew", "", ISS_ON}, {"Find", "", ISS_OFF}, {"Centering", "", ISS_OFF}, {"Guide", "", ISS_OFF}};
-static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON }, {"TRACK", "Track", ISS_OFF}, {"SYNC", "Sync", ISS_OFF }};
-static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF }};
+static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitch SlewModeS[]       = {{"Slew", "", ISS_ON, 0, 0}, {"Find", "", ISS_OFF, 0, 0}, {"Centering", "", ISS_OFF, 0, 0}, {"Guide", "", ISS_OFF, 0, 0}};
+static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0 , 0}, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0, 0}};
+static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0}};
 
-static ISwitch MovementS[]       = {{"N", "North", ISS_OFF}, {"W", "West", ISS_OFF}, {"E", "East", ISS_OFF}, {"S", "South", ISS_OFF}};
+static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
 /* equatorial position */
 static INumber eq[] = {
-    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0.},
-    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.},
+    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},
+    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0},
 };
 //TODO decide appropiate TIME_OUT
 static INumberVectorProperty eqNum = {
     mydev, "EQUATORIAL_COORD", "Equatorial J2000", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
-    eq, NARRAY(eq),
-};
+    eq, NARRAY(eq), 0, 0};
 
 /* Fundamental group */
-static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS)};
-static IText PortT[]			= {{"PORT", "Port", "/dev/ttyS0"}};
-static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT)};
+static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), 0, 0};
+static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
+static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), 0, 0};
 
 /* Movement group */
-static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS)};
-static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS)};
-static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS)};
+static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), 0, 0};
+static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS), 0, 0};
+static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS), 0, 0};
 
-static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS)};
+static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), 0, 0};
 
 
 /* send client definitions of all properties */
@@ -92,9 +91,11 @@ void ISInit()
 
  isInit = 1;
 
+  PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
+  
   telescope = new CelestronGPS();
 
-   IEAddTimer (POLLMS, ISPoll, NULL);
+  IEAddTimer (POLLMS, ISPoll, NULL);
 }
 
 void ISGetProperties (const char *dev)
@@ -327,7 +328,7 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	     		MovementS[i].s = ISS_OFF;
 	   	}
 		
-		MovementSw.s == IPS_IDLE;
+		MovementSw.s = IPS_IDLE;
 		IDSetSwitch(&MovementSw, NULL);
 	       }
 

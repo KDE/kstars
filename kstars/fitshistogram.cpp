@@ -103,8 +103,8 @@ void FITSHistogram::applyScale()
     max  = swap;
   }
   
-   min  = min * binSize + viewer->stats.min;
-   max  = max * binSize + viewer->stats.min;
+   min  = (int) (min * binSize + viewer->stats.min);
+   max  = (int) (max * binSize + viewer->stats.min);
 
   
   napply++;
@@ -135,7 +135,7 @@ void FITSHistogram::constructHistogram(float * buffer)
   int height    = histFrame->height(); 
   int id;
   int index;
-  int range = (viewer->stats.max - viewer->stats.min);
+  int range = (int) (viewer->stats.max - viewer->stats.min);
     
   for (int i=0; i < BARS; i++)
       histArray[i] = 0;
@@ -157,8 +157,8 @@ void FITSHistogram::constructHistogram(float * buffer)
      for (int i=0; i < BARS - 1; i++)
          if (histArray[i] == 0)
 	 {
-	    index = ceil(i * binSize);
-            if (index == ceil ((i+1) * binSize))
+	    index = (int) ceil(i * binSize);
+            if (index == (int) (ceil ((i+1) * binSize)))
                 histArray[i] = histArray[i+1];
          }
   
@@ -217,7 +217,7 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
 void FITSHistogram::updateIntenFreq(int x)
 {
 
-  int index = ceil(x * binSize);
+  int index = (int) ceil(x * binSize);
     
   intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
   
@@ -274,7 +274,7 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = (int) viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
@@ -289,7 +289,7 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = (int) viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * log(1 + bufferVal));
@@ -304,7 +304,7 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = (int) viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * exp(bufferVal));
@@ -319,7 +319,7 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = (int) viewer->imgBuffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * sqrt(bufferVal));

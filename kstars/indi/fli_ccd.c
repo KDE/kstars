@@ -37,6 +37,7 @@
 #include "fli/libfli.h"
 #include "fitsrw.h"
 #include "indidevapi.h"
+#include "eventloop.h"
 #include "indicom.h"
 
 void ISInit(void);
@@ -44,19 +45,24 @@ void getBasicData(void);
 void ISPoll(void *);
 void handleExposure(void *);
 void connectCCD(void);
+void getBasicData(void);
+void initDataChannel(void);
+void waitForData(int rp, int wp);
+void updateDataChannel(void *p);
+void uploadFile(char * filename);
+int  findPort(void);
 int  writeFITS(char *filename, char errmsg[]);
-int  writeRAW (char *filename, char errmsg[]);
 int  findcam(flidomain_t domain);
 int  setImageArea(char errmsg[]);
-void getBasicData();
 int  manageDefaults(char errmsg[]);
-int  grabImage();
-int  findPort();
+int  grabImage(void);
+int  findPort(void);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerT(ITextVectorProperty *tp);
 int  getOnSwitch(ISwitchVectorProperty *sp);
 int  isCCDConnected(void);
+
 double min(void);
 double max(void);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
@@ -69,7 +75,7 @@ extern int errno;
 #define COMM_GROUP	"Communication"
 #define EXPOSE_GROUP	"Expose"
 #define IMAGE_GROUP	"Image Settings"
-#define DATA_GROUP    "Data Channel"
+#define DATA_GROUP      "Data Channel"
 
 #define MAX_CCD_TEMP	45		/* Max CCD temperature */
 #define MIN_CCD_TEMP	-55		/* Min CCD temperature */
@@ -146,18 +152,6 @@ static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_R
 static ISwitch FrameTypeS[]		= { {"FRAME_LIGHT", "Light", ISS_ON, 0, 0}, {"FRAME_BIAS", "Bias", ISS_OFF, 0, 0}, {"FRAME_DARK", "Dark", ISS_OFF, 0, 0}, {"FRAME_FLAT", "Flat Field", ISS_OFF, 0, 0}};
 static ISwitchVectorProperty FrameTypeSP = { mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS), 0, 0};
 
-/* Images Prefix */
-static IText ImagePrefixT[]      	= {{"PREFIX", "Prefix", 0, 0, 0, 0}};
-static ITextVectorProperty ImagePrefixTP= { mydev, "FILE_PREFIX", "Images Prefix", IMAGE_GROUP, IP_WO, 0, IPS_IDLE, ImagePrefixT, NARRAY(ImagePrefixT), 0, 0};
-
-/* Images Type */
-static ISwitch ImageFormatS[]		= {{ "FITS", "", ISS_ON, 0, 0}, { "RAW", "", ISS_OFF, 0, 0 }};
-static ISwitchVectorProperty ImageFormatSP= { mydev, "IMAGE_FORMAT", "Image Format", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageFormatS, NARRAY(ImageFormatS), 0, 0};
-
-/* File Name */
-static IText FileNameT[]		= {{ "FILE", "File", 0, 0, 0, 0}};
-static ITextVectorProperty FileNameTP	= { mydev, "FILE_NAME", "File name", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, FileNameT, NARRAY(FileNameT), 0, 0};
-
 /* Frame coordinates. Full frame is default */
 static INumber FrameN[]          	= {
  { "X", "", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
@@ -176,16 +170,7 @@ static INumber FrameN[]          	= {
   static INumber ExposeTimeN[]    = {{ "EXPOSE_TIME_S", "Duration (s)", "%5.2f", 0., 59., .5, 1., 0, 0, 0}};
   static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), 0, 0};
  
- /* Number of Exposures */
- static INumber NumberOfExpN[]    = {
-  { "EXPOSURE_COUNT", "Count", "%.0f", 1. , 0., 0., 1., 0, 0, 0}};
-  static INumberVectorProperty NumberOfExpNP  = { mydev, "NUMBER_OF_EXPOSURES", "# of Exposures", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, NumberOfExpN, NARRAY(NumberOfExpN), 0, 0};
-  
- /* Delay between exposures */
- static INumber DelayN[]	  = { {"EXPOSURE_DELAY", "Delay", "%0.f", 0., 0., 0., 0., 0, 0, 0} };
- static INumberVectorProperty DelayNP = { mydev, "DELAY_BETWEEN_EXPOSURES", "Delay (s)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, DelayN, NARRAY(DelayN), 0, 0};
- 
- /* Temperature control */
+  /* Temperature control */
  static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
  static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN), 0, 0};
  
@@ -204,8 +189,12 @@ static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 
 static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
 
 /* Data type */
-static IText DataTypeT[]	= { "TYPE", "FILE", 0, 0, 0, 0 };
+static IText DataTypeT[]	= {{ "TYPE", "Type", 0, 0, 0, 0}};
 static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT), 0, 0};
+
+/* Data size */
+static INumber DataSizeN[]	= {{ "SIZE_BYTES", "Bytes", "%0.f", 0., 0., 0., 0., 0, 0, 0}};
+static INumberVectorProperty DataSizeNP = { mydev, "DATA_SIZE", "Data Size", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataSizeN, NARRAY(DataSizeN), 0, 0};
 
 /* send client definitions of all properties */
 void ISInit()
@@ -227,16 +216,9 @@ void ISInit()
    return;
  }
  
-/* ImageLocationT[0].text = strcpy(malloc (sizeof (char) * (FILENAMESIZ - PREFIXSIZ)), "");*/
- 
- DataTypeT[0].text      = strcpy(malloc (sizeof(char) * 32), "FILE");
- 
- ImagePrefixT[0].text   = strcpy(malloc (sizeof (char) * PREFIXSIZ), "image_");
- 
- FileNameT[0].text = strcpy(malloc (sizeof (char) * FILENAMESIZ), "image1.fits");
+ DataTypeT[0].text      = strcpy(malloc (sizeof(char) * 32), "FITS");
  
  imageCount = 0;
- 
  streamTimerID = -1;
  INDIClients = NULL;
  nclients    = 0;
@@ -263,18 +245,32 @@ void ISGetProperties (const char *dev)
   IDDefNumber(&TemperatureNP, NULL);
   
   /* Image Group */
-  IDDefSwitch(&ImageFormatSP, NULL);
-  IDDefText(&FileNameTP, NULL);
   IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&BinningNP, NULL);
   
   /* Data Group */
   IDDefNumber (&DataChannelNP, NULL);
   IDDefText(&DataTypeTP, NULL);
+  IDDefNumber(&DataSizeNP, NULL);
   
- /* Send the basic data to the new client if the previous client(s) are already connected. */		
-  if (PowerSP.s == IPS_OK)
+  INDIClients = INDIClients ? (client_t *) realloc(INDIClients, (nclients+1) * sizeof(client_t)) :
+                              (client_t *) malloc (sizeof(client_t));
+    
+  if (INDIClients)
+  {
+        INDIClients[nclients].streamReady = 0;
+	INDIClients[nclients].rp	  = 0;
+	INDIClients[nclients].wp          = 0;
+  	DataPort = findPort();
+        if (DataPort > 0)
+ 		initDataChannel();
+
+        /* Send the basic data to the new client if the previous client(s) are already connected. */		
+	if (PowerSP.s == IPS_OK)
 	  getBasicData();
+  }
+  
+ 
   	
   IEAddTimer (POLLMS, ISPoll, NULL);
   
@@ -403,19 +399,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	return;
      }
      
-     if (!strcmp(name, ImageFormatSP.name))
-     {
-       	IUUpdateSwitches(&ImageFormatSP, states, names, n);
-	ImageFormatSP.s = IPS_OK;
-	IDSetSwitch(&ImageFormatSP, NULL);
-	return;
-     }
 }
 
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-	IText *tp;
-
 	ISInit();
  
        /* ignore if not ours */ 
@@ -423,27 +410,8 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
          return;
 
 	/* suppress warning */
-	n=n;
+	n=n; dev=dev; name=name; names=names; texts=texts;
 	
-	if (!strcmp(name, FileNameTP.name))
-	{
-	  tp = IUFindText(&FileNameTP, names[0]);
-	  FileNameTP.s = IPS_IDLE;
-	  
-	  if (!tp)
-	  {
-	    IDSetText(&ImagePrefixTP, "Error: %s is not a member of %s property.", names[0], name);
-	    IDLog("Error: %s is not a member of %s property.", names[0], name);
-	    return;
-	  }
-	  
-	  strcpy(tp->text, texts[0]);
-	  FileNameTP.s = IPS_OK;
-	  IDSetText(&FileNameTP, NULL);
-	  return;
-	  
-	}	  
-	      	
 }
 
 
@@ -463,7 +431,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
     /* Exposure time */
     if (!strcmp (ExposeTimeNP.name, name))
     {
-       
        if (checkPowerN(&ExposeTimeNP))
          return;
 
@@ -493,7 +460,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
        {
 	   IDSetNumber(&ExposeTimeNP, "Error: %s is not a member of %s property.", names[0], name);
 	   return;
-        }
+       }
 	 
         np->value = values[0];
 	FLIImg->expose = (int) (values[0] * 1000.);
@@ -511,62 +478,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       handleExposure(NULL);
       return;
     } 
-  
-  if (!strcmp(NumberOfExpNP.name, name))
-  {
-    NumberOfExpNP.s = IPS_IDLE;
-    
-    np = IUFindNumber(&NumberOfExpNP, names[0]);
-    
-    if (!np)
-    {
-    IDSetNumber(&NumberOfExpNP, "Unknown error. %s is not a member of %s property.", names[0], name);
-    return;
-    }
-    
-    if (values[0] < 1)
-    {
-      IDSetNumber(&NumberOfExpNP, "The number of exposures must be a positive integer.");
-      return;
-    }
-    
-    np->value = values[0];
-    
-    NumberOfExpNP.s = IPS_OK;
-    
-    IDLog("Number of Exposures is: %02f\n", np->value);
-    
-    IDSetNumber(&NumberOfExpNP, NULL);
-    return;
-  }
-
-  if (!strcmp (DelayNP.name, name))
-  {
-    DelayNP.s = IPS_IDLE;
-    
-    np = IUFindNumber(&DelayNP, names[0]);
-    
-    if (!np)
-    {
-    IDSetNumber(&DelayNP, "Unknown error. %s is not a member of %s property.", names[0], name);
-    return;
-    }
-    
-    if (values[0] < 0)
-    {
-      IDSetNumber(&DelayNP, "The delay must be greater than zero.");
-      return;
-    }
-    
-    np->value = values[0];
-    
-    IDLog("Delay is: %02f\n", np->value);
-    
-    DelayNP.s = IPS_OK;
-    
-    IDSetNumber(&DelayNP, NULL);
-    return;
-  }
     
     
   if (!strcmp(TemperatureNP.name, name))
@@ -921,9 +832,18 @@ int setImageArea(char errmsg[])
 int grabImage()
 {
   long err;
-  int img_size,i;
+  int img_size,i, fd;
   char errmsg[1024];
+  char filename[] = "/tmp/fitsXXXXXX";
   
+   if ((fd = mkstemp(filename)) < 0)
+   { 
+    IDMessage(mydev, "Error making temporary filename.", NULL);
+    IDLog("Error making temporary filename.\n", NULL);
+    return -1;
+   }
+   close(fd);
+     
   img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
   
   FLIImg->img = malloc (img_size);
@@ -934,6 +854,10 @@ int grabImage()
     IDLog("Not enough memory to store image.\n", NULL);
     return -1;
   }
+  
+  /* Set file size */
+  DataSizeN[0].value = img_size;
+  IDSetNumber(&DataSizeNP, NULL);
   
   for (i=0; i < FLIImg->width ; i++)
   {
@@ -946,7 +870,9 @@ int grabImage()
     }
   }
   
-   err = (ImageFormatS[0].s == ISS_ON) ? writeFITS(FileNameT[0].text, errmsg) : writeRAW(FileNameT[0].text, errmsg);
+   /*err = (ImageFormatS[0].s == ISS_ON) ? writeFITS(FileNameT[0].text, errmsg) : writeRAW(FileNameT[0].text, errmsg);*/
+   err = writeFITS(filename, errmsg);
+   
    if (err)
    {
        free(FLIImg->img);
@@ -956,41 +882,6 @@ int grabImage()
    
   free(FLIImg->img);
   return 0;
- 
-}
-
-int writeRAW (char *filename, char errmsg[])
-{
-
-int fd, img_size;
-
-img_size = FLIImg->width * FLIImg->height * sizeof(unsigned short);
-
-/*sprintf(filename, "%s.raw", filename);*/
-
-if ((fd = open(filename, O_WRONLY | O_CREAT  | O_EXCL,
-		   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH )) == -1)
-   {
-      IDMessage(mydev, "Error: open of %s failed.", filename);
-      IDLog("Error: open of '%s' failed.\n", filename);
-      return -1;
-   }
-   
- if (write(fd, FLIImg->img, img_size) != img_size)
- {
-      IDMessage(mydev, "Error: write to %s failed.", filename);
-      IDLog("Error: write to '%s' failed.\n", filename);
-      return -1;
- }
-   
- close(fd);
-   
- /* Success */
- ExposeTimeNP.s = IPS_OK;
- IDSetNumber(&ExposeTimeNP, "Raw image written to %s", filename);
- IDLog("Raw image written to '%s'\n", filename);
-
- return 0;
  
 }
 
@@ -1054,11 +945,77 @@ int writeFITS(char *filename, char errmsg[])
  
   /* Success */
  ExposeTimeNP.s = IPS_OK;
- IDSetNumber(&ExposeTimeNP, "FITS image written to %s", filename);
- IDLog("FITS image written to '%s'\n", filename);
-  
-  return 0;
+ /*IDSetNumber(&ExposeTimeNP, "FITS image written to %s", filename);
+ IDLog("FITS image written to '%s'\n", filename);*/
+ IDSetNumber(&ExposeTimeNP, "Loading FITS image...");
+ IDLog("Loading FITS image...\n");
+ 
+ uploadFile(filename);
+ 
+ return 0;
 
+}
+
+void uploadFile(char * filename)
+{
+   FILE * fitsFile;
+   unsigned char fitsData[PIPEBUFSIZ];
+   int totalBytes, nr=0, n=0, i=0;
+   struct stat stat_p; 
+ 
+   if ( -1 ==  stat (filename, &stat_p))
+   { 
+     IDLog(" Error occoured attempting to stat %s\n", filename); 
+     return; 
+   } 
+   
+   IDLog("File size is   %d bytes\n", stat_p.st_size); 
+   DataSizeN[0].value = stat_p.st_size;
+   IDSetNumber(&DataSizeNP, NULL);
+ 
+   /* TODO This is temporary to avoid race condition.
+            I need to introduce some hand-shake signals later on */
+	    
+   usleep(500000);
+
+   fitsFile = fopen(filename, "r");
+   
+   if (fitsFile == NULL)
+    return;
+    
+   while (!feof(fitsFile))
+   {
+     totalBytes = fread(fitsData, 1, PIPEBUFSIZ, fitsFile);
+     
+     if (totalBytes <= 0)
+     {
+       IDLog("Error reading temporary FITS file.\n");
+       return;
+     }
+   
+     for (i=0; i < nclients; i++)
+     {
+  	if (INDIClients[i].streamReady)
+        {
+             for (nr=0; nr < totalBytes; nr+=n)
+   	     {
+	  	n = write(INDIClients[i].wp, fitsData + nr, totalBytes - nr );
+		if (n <= 0)
+		{
+			if (nr <= 0)
+    			{
+      				IDLog("Stream error: %s\n", strerror(errno));
+      				return;
+    			}
+		        break;
+		}		
+		 
+             }
+        }
+      }
+      
+    } /* end while */
+   
 }
 
 /* Initiates the exposure procedure */
@@ -1103,7 +1060,7 @@ void getBasicData()
 
   char buff[2048];
   long err;
-  
+
   IDLog("In getBasicData()\n");
   
   if ((err = FLIGetModel (fli_dev, buff, 2048)))
@@ -1160,7 +1117,6 @@ void getBasicData()
   {
     IDMessage(mydev, "FLIGetVisibleArea() failed. %s.", strerror((int)-err));
     IDLog("FLIGetVisibleArea() failed. %s.\n", strerror((int)-err));
-    return;
   }
   
   if (( err = FLIGetTemperature(fli_dev, &FLICam->temperature)))
@@ -1192,8 +1148,10 @@ void getBasicData()
   IDSetNumber(&TemperatureNP, NULL);
   IDSetNumber(&FrameNP, NULL);
   IDSetNumber(&BinningNP, NULL);
+  IDSetText(&DataTypeTP, NULL);
   
   IDLog("Exiting getBasicData()\n");
+  
 }
 
 int manageDefaults(char errmsg[])
@@ -1305,7 +1263,7 @@ void connectCCD()
   char errmsg[1024];
  
   IDLog ("In ConnectCCD\n");
-  
+   
   /* USB by default {USB, SERIAL, PARALLEL, INET} */
   switch (PowerS[0].s)
   {
@@ -1450,7 +1408,6 @@ int findcam(flidomain_t domain)
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
 {
  FITS_HDU_LIST *hdulist;
- int print_ctype3 = 0;   /* The CTYPE3-card may not be FITS-conforming */
  char temp_s[80], expose_s[80], binning_s[80], pixel_s[80], frame_s[80];
  char obsDate[80];
  char ts[32];
@@ -1541,3 +1498,250 @@ double max()
     return lmax;
 }
 
+
+void initDataChannel ()
+{
+	int pid;
+	int rp[2], wp[2];
+
+	/* new pipes */
+	if (pipe (rp) < 0) {
+	    fprintf (stderr, "%s: read pipe: %s\n", me, strerror(errno));
+	    exit(1); 
+	}
+	if (pipe (wp) < 0) {
+	    fprintf (stderr, "%s: write pipe: %s\n", me, strerror(errno));
+	    exit(1);
+	}
+
+	/* new process */
+	pid = fork();
+	if (pid < 0) {
+	    fprintf (stderr, "%s: fork: %s\n", me, strerror(errno));
+	    exit(1);
+	}
+	if (pid == 0) {
+	    /* child: listen to driver */
+	    close(wp[1]);
+	    close(rp[0]);
+	    
+	    waitForData(wp[0], rp[1]);
+	    
+	    return;
+	}
+
+	close (wp[0]);
+	close (rp[1]);
+	INDIClients[nclients].rp = rp[0];
+	INDIClients[nclients].wp = wp[1];
+	
+	nclients++;
+	
+	fprintf(stderr, "Going to listen on fd %d, and write to fd %d\n", rp[0], wp[1]);
+	updateDataChannel(NULL);
+
+}
+
+void updateDataChannel(void *p)
+{
+  char buffer[1];
+  fd_set rs;
+  int nr, i;
+  struct timeval tv;
+  tv.tv_sec  = 0;
+  tv.tv_usec = 0;
+  p=p;
+  
+  for (i=0; i < nclients; i++)
+  {
+        if (INDIClients[i].rp < 0)
+	 continue;
+	 
+  	FD_ZERO(&rs);
+  	FD_SET(INDIClients[i].rp, &rs);
+  
+  	nr = select(INDIClients[i].rp+1, &rs, NULL, NULL, &tv);
+  
+  	if (nr <= 0)
+	 continue;
+
+  	nr = read(INDIClients[i].rp, buffer, 1);
+  	if (nr > 0 && atoi(buffer) == 0)
+	{
+	        IDLog("Client %d is ready to receive stream\n", i);
+		INDIClients[i].streamReady = 1;
+	}
+	else
+	{
+		INDIClients[i].streamReady = 0;
+		INDIClients[i].rp          = -1;
+		IDLog("Lost connection with client %d\n", i);
+	}
+   }
+  
+   addTimer(1000, updateDataChannel, NULL);
+  
+}
+
+int findPort()
+{
+  struct sockaddr_in serv_socket;
+  int sfd;
+  int port = 8000;
+  int i=0;
+  
+  /* make socket endpoint */
+  if ((sfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+	    fprintf (stderr, "%s: socket: %s", me, strerror(errno));
+	    exit(1);
+  }
+	
+  /* bind to given port for any IP address */
+  memset (&serv_socket, 0, sizeof(serv_socket));
+  serv_socket.sin_family = AF_INET;
+  serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+  
+  for (i=0; i < 100; i++)
+  {
+  	serv_socket.sin_port = htons ((unsigned short)port);
+	if (bind(sfd,(struct sockaddr*)&serv_socket,sizeof(serv_socket)) < 0)
+	{
+	  	fprintf (stderr, "%s: bind: %s\n", me, strerror(errno));
+		port +=5;
+	}
+	else break;
+  }
+  
+  close(sfd);
+  if (i == 100) return -1;
+  
+  return port;
+	
+}
+		
+  
+void waitForData(int rp, int wp)
+{
+        struct sockaddr_in serv_socket;
+	struct sockaddr_in cli_socket;
+	int cli_len;
+	int sfd, lsocket;
+	int reuse = 1;
+        fd_set rs;
+	int maxfd;
+	int i, s, nr, n;
+	unsigned char buffer[PIPEBUFSIZ];
+	char dummy[8];
+	
+	/* make socket endpoint */
+	if ((sfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+	    fprintf (stderr, "%s: socket: %s", me, strerror(errno));
+	    exit(1);
+	}
+	
+	/* bind to given port for any IP address */
+	memset (&serv_socket, 0, sizeof(serv_socket));
+	serv_socket.sin_family = AF_INET;
+	serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+	
+	serv_socket.sin_port = htons ((unsigned short)DataPort);
+	if (setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse)) < 0){
+		fprintf (stderr, "%s: setsockopt: %s", me, strerror(errno));
+	    	exit(1);
+		}
+	if (bind(sfd,(struct sockaddr*)&serv_socket,sizeof(serv_socket)) < 0){
+	    	fprintf (stderr, "%s: bind: %s\n", me, strerror(errno));
+		exit(1);
+	    	}
+	
+        /* Tell client we're ready to connect */
+	/* N.B. This only modifies the child DataChannelNP, the parent's property remains unchanged. */
+	DataChannelN[0].value = DataPort;
+        DataChannelNP.s = IPS_OK;
+        IDSetNumber(&DataChannelNP, NULL);
+	
+	/* willing to accept connections with a backlog of 1 pending */
+	if (listen (sfd, 1) < 0) {
+	    fprintf (stderr, "%s: listen: %s", me, strerror(errno));
+	    exit(1);
+	}
+
+	/* ok */
+	lsocket = sfd;
+        fprintf (stderr, "%s: listening to data port %d on fd %d\n",me,DataPort,sfd);
+
+	/* start with public contact point */
+	FD_ZERO(&rs);
+	FD_SET(lsocket, &rs);
+	maxfd = lsocket;
+
+	/* wait for action */
+	s = select (maxfd+1, &rs, NULL, NULL, NULL);
+	if (s < 0) {
+	    fprintf (stderr, "%s: select: %s\n", me, strerror(errno));
+	    exit(1);
+	}
+ 
+	/* get a private connection to new client */
+	cli_len = sizeof(cli_socket);
+	s = accept (lsocket, (struct sockaddr *)&cli_socket, (socklen_t *)&cli_len);
+	if(s < 0) {
+	    fprintf (stderr, "%s: accept: %s", me, strerror(errno));
+	    exit (1);
+	}
+	
+	/* Tell the driver that this client established a connection to the data channel and is ready
+	   to receive stream data */
+	sprintf(dummy, "%d", 0);
+	write(wp, dummy, 1);
+	
+	FD_ZERO(&rs);
+	FD_SET(rp, &rs);
+	
+	while (1)
+	{
+		i = select(rp+1, &rs, NULL, NULL, NULL);
+		if (i < 0)
+		{
+	  		fprintf (stderr, "%s: select: %s\n", me, strerror(errno));
+			/* Tell driver the client has disconnected the data channel */
+			sprintf(dummy, "%d", -1);
+			write(wp, dummy, 1);
+	  		exit(1);
+		}
+		
+		nr = read(rp, buffer, PIPEBUFSIZ);
+		if (nr < 0) {
+		sprintf(dummy, "%d", -1);
+		write(wp, dummy, 1);
+	    	exit(1);
+		}
+		if (nr == 0) {
+		sprintf(dummy, "%d", -1);
+		write(wp, dummy, 1);
+		fprintf (stderr, "Client %d: EOF\n", s);
+	    	exit(1);
+		}
+		
+		for (i=0; i < nr; i+=n)
+		{
+		  n = write(s, buffer + i, nr - i);
+		  
+		  if (n <= 0)
+		  {
+		        fprintf(stderr, "nr is %d\n", nr);
+			
+			if (n < 0)
+		    		fprintf(stderr, "%s\n", strerror(errno));
+			else
+		    	        fprintf(stderr, "Short write of FITS pixels.\n");
+				
+		       sprintf(dummy, "%d", -1);
+		       write(wp, dummy, 1);
+		       exit(1);
+		  }		
+		}
+		
+	}
+
+}

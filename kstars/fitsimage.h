@@ -62,13 +62,15 @@ class FITSImage : public QScrollView  {
 	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSExp, FITSSqrt, FITSCustom };
 	
 	/**Bitblt the image onto the viewer widget */
-	void paintEvent (QPaintEvent *ev);
+	/*void paintEvent (QPaintEvent *ev);*/
 	/* Resize event */
 	void resizeEvent (QResizeEvent *ev);
 	/* Loads FITS image, scales it, and displays it in the GUI */
 	int  loadFits(const char *filename);
 	/* Convert current image to a pixmap */
 	void convertImageToPixmap();
+	/* Clear memory */
+	void clearMem();
 	
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
@@ -93,7 +95,7 @@ class FITSImage : public QScrollView  {
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
 	
 	protected:
-	void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );
+	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
 	void contentsMouseMoveEvent ( QMouseEvent * e );
 	void viewportResizeEvent ( QResizeEvent * e) ;
 	

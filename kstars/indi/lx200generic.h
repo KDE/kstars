@@ -80,7 +80,7 @@ class LX200Generic
 
 };
 
-void changeLX200GenericDeviceName(char * newName);
-void changeAllDeviceNames(char *newName);
+void changeLX200GenericDeviceName(const char * newName);
+void changeAllDeviceNames(const char *newName);
 
 #endif

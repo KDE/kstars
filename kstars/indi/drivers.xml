@@ -55,13 +55,13 @@
 <devGroup group="CCDs">
 	<device label="FLI CCD" driver="FLI CCD">
 		<Exec>fliccd</Exec>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 	</device>
 </devGroup>
 <devGroup group="Video">
-	<device label="Video4Linux" driver="v4ldriver">
+	<device label="Generic Video4Linux" driver="v4ldriver">
 		<Exec>v4ldriver</Exec>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 	</device>
 </devGroup>
 

@@ -62,6 +62,8 @@ class FITSViewer : public KMainWindow  {
 	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
 	~FITSViewer();
 
+	
+	
 	enum undoTypes { CONTRAST_BRIGHTNESS, IMAGE_REDUCTION, IMAGE_FILTER };
 			
 	protected:
@@ -71,15 +73,17 @@ class FITSViewer : public KMainWindow  {
 	void calculateStats();
 	void closeEvent(QCloseEvent *ev);
 	
+	public slots:
+	void fitsChange();
+	
 	private slots:
+	void fileOpen();
 	void fileSave();
         void fileSaveAs();
 	void fitsCOPY();
 	void fitsRestore();
-	void fitsChange();
 	void fitsStatistics();
 	void fitsHeader();
-	void fitsFilter();
 	void slotClose();
 	void imageReduction();
 	void imageHistogram();
@@ -89,6 +93,7 @@ class FITSViewer : public KMainWindow  {
 	private:
 	//int  loadImage(unsigned int *buffer, bool displayImage = false);
 	float * loadData(const char * filename, float *buffer);
+	bool    initFITS();
 	void show_fits_errors();
 
 	double average();

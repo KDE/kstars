@@ -54,9 +54,9 @@ extern int MaxReticleFlashRate;
 //    bool setObjAz(int degrees, int minutes);
 
 
-static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
-static ISwitch HomeSearchS[]		= { {"Save home", "", ISS_OFF} , {"Set home", "", ISS_OFF}};
-static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
+static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF, 0, 0}};
+static ISwitch HomeSearchS[]		= { {"Save home", "", ISS_OFF, 0, 0} , {"Set home", "", ISS_OFF, 0, 0}};
+static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF,0 ,0}};
 //static ISwitch SlewAltAzS[]		= { {"Slew To Alt/Az",  ISS_ON}};
 
 #define	MAXINDINAME	32
@@ -65,25 +65,24 @@ static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF}, {"Off", "", ISS_OFF}};
 #define	MAXINDIGROUP	32
 #define	MAXINDIFORMAT	32
 
-static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS)};
+static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), 0, 0};
 
-static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS)};
+static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), 0, 0};
 
-static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS)};
+static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS), 0, 0};
 
 //static ISwitches SlewAltAzSw		= { mydev, "AltAzSet", "On Alt/Az Set",  SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
 
 /* horizontal position */
 static INumber hor[] = {
-    {"ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.},
-    {"AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.},
-};
+    {"ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0., 0, 0, 0},
+    {"AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0., 0, 0, 0}};
+    
 static INumberVectorProperty horNum = {
     mydev, "HORIZONTAL_COORD", "Horizontal Coords", LX16GROUP, IP_RW, 0, IPS_IDLE,
-    hor, NARRAY(hor),
-};
+    hor, NARRAY(hor), 0, 0};
 
-void changeLX200_16DeviceName(char * newName)
+void changeLX200_16DeviceName(const char * newName)
 {
   strcpy(horNum.device, newName);
   strcpy(FanStatusSw.device, newName);

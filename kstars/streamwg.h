@@ -37,21 +37,16 @@
    friend class INDIStdDevice;
    
    void setColorFrame(bool color);
-   void establishDataChannel(QString host, int port);
-   void allocateStreamBuffer();
    void setSize(int wd, int ht);
    void enableStream(bool enable);
    
-   private:
-   
-   INDIStdDevice        *stdDev;
-   QSocketNotifier 	*sNotifier;
+   bool	processStream;
+   int         		 streamWidth, streamHeight;
    VideoWG		*streamFrame;
-   unsigned char        *streamBuffer;
-   int         		 streamFD, streamWidth, streamHeight;
-   bool			 processStream;
    bool			 colorFrame;
-   int			 frameTotalBytes;
+      
+   private:
+   INDIStdDevice        *stdDev;
    QPixmap               playPix, pausePix, capturePix;
    
    protected:
@@ -60,7 +55,6 @@
    
    
    public slots: 
-   void streamReceived();
    void playPressed();
    void captureImage();
 
@@ -91,4 +85,5 @@
 };
  
  #endif
+
  
