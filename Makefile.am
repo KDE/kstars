@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 SUBDIRS = kstars 
-
+CXXFLAGS = -fno-exceptions -fno-check-new
 EXTRA_DIST = kstars.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO kstars.lsm 
 
 ####### kdevelop will overwrite this part!!! (end)############
