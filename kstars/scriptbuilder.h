@@ -47,7 +47,7 @@ class QListViewItem;
  *
  * Jason Harris
  **/
-class ScriptBuilder : public ScriptBuilderUI
+class ScriptBuilder : public KDialogBase
 {
 Q_OBJECT
 public:
@@ -65,20 +65,20 @@ protected:
 	void closeEvent( QCloseEvent *e );
 
 public slots:
-	virtual void slotAddFunction();
-	virtual void slotMoveFunctionUp();
-	virtual void slotMoveFunctionDown();
-	virtual void slotArgWidget();
-	virtual void slotShowDoc();
+	void slotAddFunction();
+	void slotMoveFunctionUp();
+	void slotMoveFunctionDown();
+	void slotArgWidget();
+	void slotShowDoc();
 
-	virtual void slotNew();
-	virtual void slotOpen();
-	virtual void slotSave();
-	virtual void slotSaveAs();
-	virtual void slotRunScript();
+	void slotNew();
+	void slotOpen();
+	void slotSave();
+	void slotSaveAs();
+	void slotRunScript();
 
-	virtual void slotCopyFunction();
-	virtual void slotRemoveFunction();
+	void slotCopyFunction();
+	void slotRemoveFunction();
 
 	void slotFindCity();
 	void slotFindObject();
@@ -104,6 +104,8 @@ public slots:
 
 private:
 	void initViewOptions();
+
+	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
 	QPtrList<ScriptFunction> FunctionList;
