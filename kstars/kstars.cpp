@@ -65,6 +65,12 @@ KStars::KStars( bool doSplash ) :
 		pd->splash->show();
 	}
 	pd->kstarsData->initialize();
+
+	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 ) 
+	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
+	#else
+	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
+	#endif
 }
 
 KStars::KStars( KStarsData* kd )

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 // needed for sincos() in math.h
-//#define _GNU_SOURCE
+#define _GNU_SOURCE
 
 #include <stdlib.h>
 #include <qstring.h>
@@ -107,23 +107,19 @@ dms dms::operator- (dms angle)
 void dms::SinCos( double &sina, double &cosa ) {
   /**We have two versions of this function.  One is ANSI standard, but 
    *slower.  The other is faster, but is GNU only.
-   *For now, leaving the GNU-only solution commented out, until
-   *we figure out a way to tell if the user has the GNU math library.
-   *(perhaps with a "#if defined ( SOMETHING )" directive. )
+   *Using the __GLIBC_ and __GLIBC_MINOR_ constants to determine if the
+   * GNU extension sincos() is defined.
    */
 
-  // This is the old implementation of sincos which is standard C compliant
-  //#if defined(__FreeBSD__) 
-  // almost certainly this needs more checks for other non-glibc platforms
-  // but I am currently unable to check those
+  #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) 
+  //GNU version
+  sincos( radians(), &sina, &cosa );
+  #else
+  //ANSI-compliant version
   register double rad = radians();
   sina = sin( rad );
   cosa = cos( rad );
-  
-  //#else
-  //This is the faster GNU version.  Commented out for now.
-  //sincos(radians(), &sina, &cosa);
-  //#endif
+  #endif
 }
 //---------------------------------------------------------------------------
 
