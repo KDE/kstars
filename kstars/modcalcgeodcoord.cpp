@@ -167,6 +167,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 	geoPlace = new GeoLocation();
 
 	showLongLat();
+	setEllipsoid(0);
 		
 // slots
 
