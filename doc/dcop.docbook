@@ -180,7 +180,7 @@ Save this script to a file.  The filename can be anything you like; I
 suggest something descriptive like 
 <filename>trackmoon.kstars</filename>.  Then type the following command 
 to make the script executable: 
-<userinput><command>chmod</command><option>a+x</option>
+<userinput><command>chmod</command> <option>a+x</option>
 <parameter>trackmoon.kstars</parameter>
 </userinput>.  The script can then be executed at any time by typing
 <userinput><command>./trackmoon.kstars</command></userinput> in the 
