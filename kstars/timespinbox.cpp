@@ -35,8 +35,6 @@
 TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
 	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
-	setMinimumWidth( 80 );
-	setMaximumWidth( 80 );
 	setValidator( 0 );
 	setButtonSymbols( QSpinBox::PlusMinus );
 	editor()->setReadOnly( true );
@@ -157,7 +155,7 @@ QString TimeSpinBox::mapValueToText( int value ) {
 void TimeSpinBox::changeScale( float x ) {
 	//Pick the closest value
 	int imin;
-	float dx, dxlast, dxmin(10000000000.0);
+	float dx, dxlast(10000000000.0), dxmin(10000000000.0);
 	for ( unsigned int i=0; i<42; ++i ) {
 		dx = fabs( TimeScale[i] - fabs(x) );
 		if ( dx < dxmin ) { imin = i; dxmin = dx; }

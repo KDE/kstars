@@ -494,7 +494,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
-	hideSpinBox->tsbox()->changeScale( ksw->options()->slewTimeScale );
+	hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
 	hsbLabel->setText( i18n( "Also hide if time scale greater than:" ) );
 
