@@ -239,7 +239,8 @@ QDateTime TimeZoneRule::nextDSTChange( QDateTime date ) {
 
 		//It's possible that the revert date occurs in the next calendar year.
 		//this is the case if RevertMonth is less than the date's month.
-		if ( RevertMonth < date.date().month() ) result = result.addDays(365);
+		//if ( RevertMonth < date.date().month() ) result = result.addYears(1); 
+		if ( RevertMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day()), RevertTime);
 	} else if ( StartMonth ) {
 		//Next change is starting DST.
 		result = QDateTime( QDate( date.date().year(), StartMonth, 1 ), StartTime );
@@ -247,7 +248,8 @@ QDateTime TimeZoneRule::nextDSTChange( QDateTime date ) {
 
 		//It's possible that the start date occurs in the next calendar year.
 		//this is the case if StartMonth is less than the date's month.
-		if ( StartMonth < date.date().month() ) result = result.addDays(365);
+	//	if ( StartMonth < date.date().month() ) result = result.addYears(1);
+		if ( StartMonth < date.date().month() ) result = QDateTime( QDate(result.date().year()+1, result.date().month(), result.date().day() ), StartTime);
 	}
 
 	kdDebug() << i18n( "Next Daylight Savings Time change: " ) << result.toString() << endl;
@@ -267,7 +269,8 @@ QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
 
 		//It's possible that the start date occured in the previous calendar year.
 		//this is the case if StartMonth is greater than the date's month.
-		if ( StartMonth > date.date().month() ) result = result.addDays( -365 );
+	//	if ( StartMonth > date.date().month() ) result = result.addYears(-1);
+		if ( StartMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day()), StartTime);
 	} else if ( StartMonth ) {
 		//Last change was reverting to standard time.
 		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
@@ -275,7 +278,8 @@ QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
 
 		//It's possible that the revert date occurred in the previous calendar year.
 		//this is the case if RevertMonth is greater than the date's month.
-		if ( RevertMonth > date.date().month() ) result = result.addDays( -365 );
+		//if ( RevertMonth > date.date().month() ) result = result.addYears(-1);
+		if ( RevertMonth > date.date().month() ) result = QDateTime( QDate( result.date().year()-1, result.date().month(), result.date().day() ), RevertTime);
 	}
 
 	kdDebug() << i18n( "Previous Daylight Savings Time change: " ) << result.toString() << endl;
