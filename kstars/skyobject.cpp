@@ -177,8 +177,11 @@ dms SkyObject::riseLSTTime( long double jd, dms gLng, dms gLat, bool riseT) {
 
 dms SkyObject::auxRiseLSTTime( dms gLat, dms righta, dms decl, bool riseT ) {
 
-	double r = -1.0 * tan( gLat.radians() ) * tan( decl.radians() );
-	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
+//	double r = -1.0 * tan( gLat.radians() ) * tan( decl.radians() );
+//	double H = acos( r )*180./acos(-1.0); //180/Pi converts radians to degrees
+	dms h0 = elevationCorrection();
+	double H = approxHourAngle (h0, gLat, decl);
+
 	dms LST;
 	
 	// rise Time or setTime
@@ -313,7 +316,7 @@ dms SkyObject::gstAtCeroUT (long double jd) {
 
 double SkyObject::approxHourAngle (dms h0, dms gLat, dms dec) {
 
-	double sh0 = sin ( h0.radians() );
+	double sh0 = - sin ( h0.radians() );
 	double r = (sh0 - sin( gLat.radians() ) * sin(dec.radians() ))
 		 / (cos( gLat.radians() ) * cos( dec.radians() ) );
 
