@@ -83,13 +83,13 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 				if (devMenu->mgr[i]->indi_dev[j]->isOn())
 				{
 				        portConnect = devMenu->mgr[i]->indi_dev[j]->findProp(QString("CONNECTION"));
-					
+
 					if (!portConnect)
 					 return;
-					
+
 					 if (portConnect->state == PS_BUSY)
 					  return;
-					
+
 					eqNum = devMenu->mgr[i]->indi_dev[j]->findProp(QString("EQUATORIAL_COORD"));
 
 					//fprintf(stderr, "Looking for EQUATORIAL_COORD prop\n");
@@ -548,21 +548,21 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 	psky.setBrush( NoBrush );
 	QColor colorHST  = options->colorScheme()->colorNamed( "HSTColor" );
 
+	//MAGLIMIT
+	//adjust maglimit for ZoomLevel
+	double lgmin = log10(MINZOOM);
+	double lgmax = log10(MAXZOOM);
+	double lgz = log10(zoomFactor());
+	double maglim = options->magLimitDrawDeepSky;
+	if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawDeepSky - options->magLimitDrawDeepSkyZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+	else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
+
 	//Draw Deep-Sky Objects
 	for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
-		//MAGLIMIT
-		//adjust maglimit for ZoomLevel
-		double lgmin = log10(MINZOOM);
-		double lgmax = log10(MAXZOOM);
-		double lgz = log10(zoomFactor());
-		double maglim = options->magLimitDrawDeepSky;
-		if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawDeepSky - options->magLimitDrawDeepSkyZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-		else maglim = 40.0; //show all deep-sky objects above 0.75*lgmax
-		float mag = obj->mag();
-		if ( mag == 0.0 || mag > 90.0 ) mag = 14.0;
-
-		if ( ( drawObject || drawImage ) && mag < (float)maglim ) {
-			if ( checkVisibility( obj, fov(), XRange ) ) {
+		if ( checkVisibility( obj, fov(), XRange ) ) {
+			float mag = obj->mag();
+			//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
+			if ( ( drawObject || drawImage ) && ( mag > 90.0 || mag < (float)maglim  ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction, scale );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -624,14 +624,13 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
             }
 					}
 				}
-			} else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
-				if ( obj->image() ) {
-					obj->deleteImage();
-				}
+			}
+		} else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
+			if ( obj->image() ) {
+				obj->deleteImage();
 			}
 		}
 	}
-
 }
 
 void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
