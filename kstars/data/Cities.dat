@@ -192,7 +192,7 @@ Beaumont                         : Texas                 : USA                  
 Beaverton                        : Oregon                : USA                   : 45 : 29 : 17 : N : 122 : 48 : 25 : W : -8.0 : US
 Beaver                           : Utah                  : USA                   : 38 : 15 :  0 : N : 112 : 40 :  1 : W : -7.0 : US
 Beckley                          : West Virginia         : USA                   : 37 : 46 : 36 : N :  81 : 11 : 23 : W : -5.0 : US
-Beersheba                        :                       : Israel                : 31 : 15 : 00 : N :  34 : 47 : 00 : E : 2.0  : ZN
+Be'er Sheva                      :                       : Israel                : 31 : 15 : 00 : N :  34 : 47 : 00 : E : 2.0  : ZN
 Beijing                          :                       : China                 : 39 : 54 : 59 : N : 116 : 22 : 59 : E : 8.0  : CH
 Beirut                           :                       : Lebanon               : 33 : 52 : 59 : N :  35 : 30 :  0 : E : 2.0  : LB
 Beja                             :                       : Portugal              : 38 :  8 : 45 : N :   7 : 55 : 19 : W : 0.0  : EU
@@ -1718,7 +1718,7 @@ Perth Amboy                      : New Jersey            : USA                  
 Perth                            : Western Australia     : Australia             : 31 : 49 : 59 : S : 116 : 10 :  0 : E : +8.0 : --
 Peru                             : Illinois              : USA                   : 41 : 19 : 58 : N :  89 : 10 :  1 : W : -6.0 : US
 Peshawar                         :                       : Pakistan              : 34 :  0 :  0 : N :  71 : 30 : 47 : E : 5.0  : --
-Petach Tikwa                     :                       : Israel                : 31 : 52 : 00 : N :  34 : 55 : 00 : E : 2.0  : ZN
+Petach Tikva                     :                       : Israel                : 31 : 52 : 00 : N :  34 : 55 : 00 : E : 2.0  : ZN
 Petersburg                       : Alaska                : USA                   : 56 : 48 : 36 : N : 132 : 56 : 59 : W : -9.0 : US
 Petersburg                       : Virginia              : USA                   : 37 : 12 :  0 : N :  77 : 30 :  0 : W : -5.0 : US
 Pforzheim                        :                       : Germany               : 48 : 53 : 00 : N :   8 : 42 : 00 : E : 1.0  : EU
@@ -1818,7 +1818,7 @@ Quebec                           : Quebec                : Canada               
 Quezón                           :                       : Philippines           : 14 : 39 :  2 : N : 121 :  4 : 14 : E :  1.0 : --
 Quincy                           : Massachusetts         : USA                   : 42 : 15 :  6 : N :  71 :  0 :  6 : W : -5.0 : US
 Quito                            :                       : Ecuador               :  0 :  7 : 58 : S :  78 : 28 : 58 : W : -5.0 : --
-Raanana                          :                       : Israel                : 32 : 10 : 59 : N :  34 : 52 : 30 : E : 2.0  : ZN
+Ra'anana                         :                       : Israel                : 32 : 10 : 59 : N :  34 : 52 : 30 : E : 2.0  : ZN
 Rabat                            :                       : Morocco               : 34 :  2 : 59 : N :   6 : 45 :  0 : W : 0.0  : --
 Racine                           : Wisconsin             : USA                   : 42 : 43 : 49 : N :  87 : 47 : 12 : W : -6.0 : US
 Raleigh                          : North Carolina        : USA                   : 35 : 46 : 37 : N :  78 : 38 : 21 : W : -5.0 : US
@@ -1840,6 +1840,7 @@ Redondo Beach                    : California            : USA                  
 Redwood City                     : California            : USA                   : 37 : 28 :  0 : N : 122 : 15 :  0 : W : -8.0 : US
 Regensburg                       :                       : Germany               : 49 : 01 : 00 : N :  12 : 06 : 00 : E : 1.0  : EU
 Regina                           : Saskatchewan          : Canada                : 50 : 30 :  0 : N : 104 : 30 :  0 : W : -6.0 : US
+Rehovot                          :                       : Israel                : 31 : 53 : 49 : N :  34 : 49 :  8 : E : 2.0  : ZN
 Reims                            :                       : France                : 49 : 16 :  0 : N :   4 :  0 :  0 : E : 1.0  : EU
 Remscheid                        :                       : Germany               : 51 : 11 : 00 : N :   7 : 12 : 00 : E : 1.0  : EU
 Rennes                           :                       : France                : 48 :  7 :  0 : N :   1 :  1 : 59 : W : 1.0  : EU
