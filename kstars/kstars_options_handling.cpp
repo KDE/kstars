@@ -61,7 +61,7 @@ void KStars::loadOptions()
 		options()->drawCatalog.append( conf->readBoolEntry( cshow, false ) );
 
 		//read in custom catalog:
-		QList<SkyObject> oList;
+		QPtrList<SkyObject> oList;
 		if ( data()->readCustomData( options()->CatalogFile[i], oList, false ) ) {
 			data()->addCatalog( options()->CatalogName[i], oList );
 		} else {

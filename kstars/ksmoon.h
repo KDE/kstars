@@ -18,7 +18,7 @@
 #ifndef KSMOON_H
 #define KSMOON_H
 
-#include <ksplanetbase.h>
+#include "ksplanetbase.h"
 #include "dms.h"
 
 /**
@@ -121,7 +121,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {};
 	};
 
-	static QList<MoonLRData> LRData;
+	static QPtrList<MoonLRData> LRData;
 
 /**Class to encapsulate the Latitude terms of the sums
 	*used to compute the moon's position.
@@ -141,7 +141,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {};
 	};
 
-	static QList<MoonBData> BData;
+	static QPtrList<MoonBData> BData;
 };
 
 #endif

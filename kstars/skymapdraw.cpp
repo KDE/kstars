@@ -426,7 +426,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	}
 }
 
-void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, 
+void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, QColor& color, 
 			bool drawObject, bool drawImage, double scale )
 {
 	KStarsOptions* options = ksw->options();
@@ -578,7 +578,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 			psky.setBrush( NoBrush );
 			psky.setPen( QColor( options->colorScheme()->colorNamed( "NGCColor" ) ) );
 
-			QList<SkyObject> cat = data->CustomCatalogs[ options->CatalogName[i] ];
+			QPtrList<SkyObject> cat = data->CustomCatalogs[ options->CatalogName[i] ];
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
@@ -982,7 +982,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 	
-	QList<QPoint> points;
+	QPtrList<QPoint> points;
 	points.setAutoDelete(true);
 	//Draw Horizon
 	//The horizon should not be corrected for atmospheric refraction, so getXY has doRefract=false...
@@ -1000,7 +1000,7 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 			*o = getXY( p, options->useAltAz, false, scale );  //false: do not refract the horizon
 			bool found = false;
 
-			//Use the QList of points to pre-sort visible horizon points
+			//Use the QPtrList of points to pre-sort visible horizon points
 //			if ( o->x() > -1*maxdist && o->x() < width() + maxdist ) {
 			if ( o->x() > -100 && o->x() < Width + 100 && o->y() > -100 && o->y() < Height + 100 ) {
 				if ( options->useAltAz ) {

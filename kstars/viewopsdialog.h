@@ -84,7 +84,7 @@ private:
 	QCheckBox *showSAO;
 	QCheckListItem *showMessier, *showMessImages;
 	QCheckListItem *showNGC, *showIC;
-	QList<bool> showCatalog;
+	QPtrList<bool> showCatalog;
 
 	// Star options
 	QLabel *textLabelMagStars, *textLabelMagStarInfo, *textLabelMagAsteroids;

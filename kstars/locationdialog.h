@@ -85,7 +85,7 @@ public:
 	*Retrieve ID number of the highlighted City in the QListBox.
 	*Because the list can be filtered, the city's position in the List
 	*cannot be used to directly identify the city in the database.
-	*So, we maintain an integer QArray that contains the database ID of each
+	*So, we maintain an integer QMemArray that contains the database ID of each
 	*city in the list.  This function uses the List position of the highlighted
 	*city to select the corresponding database ID.
 	*@returns the position of the highlighted city in the List of cities.
@@ -125,7 +125,7 @@ public slots:
 /**
 	*When text is entered in the City/Province/Country Filter KLineEdits,
 	*the List of cities is trimmed to show only cities beginning with the entered text.
-	*Also, the QArray of ID numbers is kept in sync with the filtered list.
+	*Also, the QMemArray of ID numbers is kept in sync with the filtered list.
 	*/
   void filterCity( void );
 
@@ -175,7 +175,7 @@ private:
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-  QArray<int> GeoID;
+        QMemArray<int> GeoID;
 
 };
 

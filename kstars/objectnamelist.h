@@ -20,7 +20,7 @@
 
 
 /**
-	*This class provides an interface like a QList, but sorts objects internally
+	*This class provides an interface like a QPtrList, but sorts objects internally
 	*in 27 lists. The objects will sorted alphabetically. List 0 contains all objects
 	*beginning not with a letter. List 1 - 26 contains objects beginning with a letter.
 	*The number of the list is similar to positon of letter in alphabet. (A = 1 .. Z = 26 )
@@ -132,7 +132,7 @@ class ObjectNameList {
 		*are in first list too. We just have to delete objects which are not in first list. These objects
 		*will stored in this list.
 		*/
-		QList <SkyObjectName> constellations;
+		QPtrList <SkyObjectName> constellations;
 
 	/**
 		*Which list was accessed last time by first() or next()

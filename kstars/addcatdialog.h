@@ -55,9 +55,9 @@ public:
 	*/
 	QString filename() const { return catFileName->text(); }
 
-/**@returns QList of SkyObjects as parsed from the custom catalog file.
+/**@returns QPtrList of SkyObjects as parsed from the custom catalog file.
 	*/
-	QList<SkyObject> objectList() { return objList; }
+	QPtrList<SkyObject> objectList() { return objList; }
 private slots:
 /**Fill the "catalog filename" KLineEdit according to selection from
 	*a OpenFile dialog.
@@ -84,7 +84,7 @@ private:
 	QHBoxLayout *hlay;
 	KLineEdit *catFileName, *catName;
 	QPushButton *browseForFile;
-	QList<SkyObject> objList;
+	QPtrList<SkyObject> objList;
 
 };
 

@@ -45,7 +45,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 	QFile f;
 	double A, B, C;
 
-	QList<OrbitData> DData;
+	QPtrList<OrbitData> DData;
 
 	if ( KSUtils::openDataFile( f, fname ) ) {
 		KSFileReader fileReader( f ); // close file is included

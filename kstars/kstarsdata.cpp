@@ -29,7 +29,7 @@
 
 #include <kapplication.h>
 
-QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
+QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 int KStarsData::objects = 0;
 
@@ -782,7 +782,7 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 	return true;
 }
 
-bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bool showerrs ) {
+bool KStarsData::readCustomData( QString filename, QPtrList<SkyObject> &objList, bool showerrs ) {
 	bool checkValue;
 	bool badLine(false);
 	int countValidLines(0);
@@ -1179,7 +1179,7 @@ void KStarsData::sendClearCache() {
 	emit clearCache();
 }
 
-void KStarsData::addCatalog( QString name, QList<SkyObject> oList ) {
+void KStarsData::addCatalog( QString name, QPtrList<SkyObject> oList ) {
 	CustomCatalogs[ name ] = oList;
 	CustomCatalogs[ name ].setAutoDelete( TRUE );
 }
@@ -1543,7 +1543,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		//Custom Catalogs
 		for ( unsigned int j=0; j<options->CatalogCount; ++j ) {
-			QList<SkyObject> cat = CustomCatalogs[ options->CatalogName[j] ];
+			QPtrList<SkyObject> cat = CustomCatalogs[ options->CatalogName[j] ];
 			if ( options->drawCatalog[j] ) {
 				for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );

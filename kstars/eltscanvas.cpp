@@ -23,7 +23,7 @@
 #include "skypoint.h"
 #include "geolocation.h"
 #include <qvariant.h>
-#include <dmsbox.h>
+#include "dmsbox.h"
 #include <qdatetimeedit.h>
 #include <qgroupbox.h>
 #include <qlabel.h>

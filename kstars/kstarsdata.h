@@ -279,12 +279,12 @@ public:
    bool openURLFile(QString urlfile, QFile& file);
 
 	/**Read in custom object catalog.  Object data is read from a file, and parsed into a 
-		*QList of SkyObjects which is returned by reference through the 2nd argument.
+		*QPtrList of SkyObjects which is returned by reference through the 2nd argument.
 		*@param filename The custom catalog data file
 		*@param olist the list of skyobjects, returned as a reference through this variable
 		*@bool showerrs if true, notify user of unparsed lines.
 		*/
-	bool readCustomData( QString filename, QList<SkyObject> &olist, bool showerrs );
+	bool readCustomData( QString filename, QPtrList<SkyObject> &olist, bool showerrs );
 
 	/**@short reset the faint limit for the stellar database
 		*@param newMagnitude the new faint limit.
@@ -295,11 +295,11 @@ public:
 	void setMagnitude( float newMagnitude, bool forceReload=false );
 
 	/**Add a custom object catalog.  The QString name of the catalog and
-		*the QList of SkyObjects comprising the data are given as arguments.
-		*This function simply appends the QList as an entry in the
+		*the QPtrList of SkyObjects comprising the data are given as arguments.
+		*This function simply appends the QPtrList as an entry in the
 		*CustomCatalogs QMap, with the name string used as the key.
 		*/
-	void addCatalog( QString name, QList<SkyObject> );
+	void addCatalog( QString name, QPtrList<SkyObject> );
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
@@ -432,42 +432,42 @@ private:
 
 	KSFileReader *saoFileReader;
 
-	static QList<GeoLocation> geoList;
-	QList<SkyObject> objList;
+	static QPtrList<GeoLocation> geoList;
+	QPtrList<SkyObject> objList;
 
-	QList<StarObject> starList;
+	QPtrList<StarObject> starList;
 
 	unsigned int StarCount;
 
   /** List of all deep sky objects */
-	QList<SkyObject> deepSkyList;
+	QPtrList<SkyObject> deepSkyList;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QList<SkyObject> deepSkyListMessier;
+	QPtrList<SkyObject> deepSkyListMessier;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QList<SkyObject> deepSkyListNGC;
+	QPtrList<SkyObject> deepSkyListNGC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QList<SkyObject> deepSkyListIC;
+	QPtrList<SkyObject> deepSkyListIC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QList<SkyObject> deepSkyListOther;
+	QPtrList<SkyObject> deepSkyListOther;
 
-	QList<KSAsteroid> asteroidList;
-	QList<KSComet> cometList;
+	QPtrList<KSAsteroid> asteroidList;
+	QPtrList<KSComet> cometList;
 	
-	QList<SkyPoint> MilkyWay[NMWFILES];
+	QPtrList<SkyPoint> MilkyWay[NMWFILES];
 	
-	QList<SkyPoint> clineList;
-	QList<QChar> clineModeList;
-	QList<SkyObject> cnameList;
-	QList<SkyObject> ObjLabelList;
+	QPtrList<SkyPoint> clineList;
+	QPtrList<QChar> clineModeList;
+	QPtrList<SkyObject> cnameList;
+	QPtrList<SkyObject> ObjLabelList;
 	
-	QList<SkyPoint> Equator;
-	QList<SkyPoint> Ecliptic;
-	QList<SkyPoint> Horizon;
-	QList<VariableStarInfo> VariableStarsList;
+	QPtrList<SkyPoint> Equator;
+	QPtrList<SkyPoint> Ecliptic;
+	QPtrList<SkyPoint> Horizon;
+	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	ObjectNameList ObjNames;
 	
-	QMap<QString, QList<SkyObject> > CustomCatalogs;
+	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
 
 

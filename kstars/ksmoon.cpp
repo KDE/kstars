@@ -35,8 +35,8 @@ KSMoon::~KSMoon() {
 }
 
 bool KSMoon::data_loaded = false;
-QList<KSMoon::MoonLRData> KSMoon::LRData;
-QList<KSMoon::MoonBData> KSMoon::BData;
+QPtrList<KSMoon::MoonLRData> KSMoon::LRData;
+QPtrList<KSMoon::MoonBData> KSMoon::BData;
 
 bool KSMoon::loadData() {
 	if (data_loaded) return true;

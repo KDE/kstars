@@ -69,7 +69,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	QBitmap mask (64, 64);
 	QImage image;
 	QPainter p;
-	QArray<QColor> starColor;
+	QMemArray<QColor> starColor;
 	starColor.resize( 8 );	
 
 	starColor[0] = QColor( 255, 255, 255 );   //default to white

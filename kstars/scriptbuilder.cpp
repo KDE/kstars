@@ -35,7 +35,6 @@
 #include <qdatetimeedit.h>
 #include <qwidgetstack.h>
 
-#include <kdebug.h>
 
 #include "kstars.h"
 #include "finddialog.h"

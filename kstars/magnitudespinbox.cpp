@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <magnitudespinbox.h>
+#include "magnitudespinbox.h"
 
 MagnitudeSpinBox::MagnitudeSpinBox( int minValue, int maxValue, QWidget * parent , const char * name )
 	: QSpinBox ( minValue, maxValue, 1 /* step */, parent, name)

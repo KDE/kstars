@@ -24,7 +24,7 @@
 #include <klineedit.h>
 #include <klistbox.h>
 #include <qvariant.h>
-#include <dmsbox.h>
+#include "dmsbox.h"
 #include <qdatetimeedit.h>
 #include <qgroupbox.h>
 #include <qlabel.h>
@@ -39,7 +39,6 @@
 #include "kstars.h"
 #include "finddialog.h"
 #include "locationdialog.h"
-#include "geolocation.h"
 
 elts::elts( QWidget* parent)  : 
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent ) 

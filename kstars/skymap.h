@@ -204,7 +204,7 @@ public:
 	void drawConstellationNames( QPainter& psky, QFont& stdFont, double scale = 1.0 );
 	void drawStars( QPainter& psky, double scale = 1.0 );
 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
-	void drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
+	void drawDeepSkyCatalog( QPainter& psky, QPtrList<SkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
 	void drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
 	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
 	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );

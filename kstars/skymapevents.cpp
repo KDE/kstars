@@ -620,7 +620,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 		for ( register unsigned int j=0; j<ksw->options()->CatalogCount; ++j ) {
 			if ( ksw->options()->drawCatalog[j] ) {
-				QList<SkyObject> cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[j] ];
+				QPtrList<SkyObject> cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[j] ];
 
 				for ( register unsigned int i=0; i<cat.count(); ++i ) {
 					//test RA and dec to see if this object is roughly nearby
@@ -691,7 +691,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		if ( icat >= 0 && rmin < r0 ) { //was any object found within r0?
-			QList<SkyObject> cat;
+			QPtrList<SkyObject> cat;
 
 			switch (icat) {
 				case 0: //star

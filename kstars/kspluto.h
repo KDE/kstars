@@ -18,7 +18,7 @@
 #ifndef KSPLUTO_H
 #define KSPLUTO_H
 
-#include <ksplanetbase.h>
+#include "ksplanetbase.h"
 
 /**
 	*A subclass of KSPlanetBase that provides a custom findPosition() function
