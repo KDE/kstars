@@ -24,7 +24,7 @@
   * Class which implements the KStars calculator module to compute Universal
   * time to/from Sidereal time.
   *
-  * Inherits QVBox
+  * Inherits QWidget
   *@author Pablo de Vicente
 	*@version 0.9
   */
@@ -36,10 +36,9 @@ class timeBox;
 class QTime;
 class QDate;
 class QRadioButton;
-class QVBox;
 
 
-class modCalcSidTime : public QVBox  {
+class modCalcSidTime : public QWidget  {
 
 Q_OBJECT
 
@@ -76,7 +75,7 @@ private:
 	dms getLongitude (void);
 	
 	QRadioButton *UtRadio, *StRadio;
-	QVBox *rightBox;
+	QWidget *rightBox;
 	timeBox *UtBox, *StBox, *datBox;
 	dmsBox *longBox;
 

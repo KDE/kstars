@@ -40,9 +40,10 @@
 #endif
 
 
-modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
+modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 	
-	rightBox = new QVBox (parentSplit);
+	rightBox = new QWidget (parentSplit);
+	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
 
 	QButtonGroup * InputBox = new QButtonGroup (rightBox);
 	InputBox->setTitle( i18n("Input Selection") );
@@ -145,15 +146,15 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : QVBox
 	D0Lay->addWidget(radecBox);
 //	D0Lay->addWidget(epochBox,0);
 
-	QSpacerItem * downSpacer = new QSpacerItem(400,500);
-	QVBox * noBox = new QVBox (rightBox);
-	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
-	D2Lay->addItem(downSpacer);
+	QSpacerItem * downSpacer = new QSpacerItem(400,130);
 
+        rightBoxLayout->addWidget(InputBox);
+	rightBoxLayout->addWidget(equBox);
+	rightBoxLayout->addWidget(galBox);
+	rightBoxLayout->addItem(downSpacer);
+	
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
-	rightBox->setMargin(14);
-	rightBox->setSpacing(7);
 	rightBox->show();
 //
 // slots

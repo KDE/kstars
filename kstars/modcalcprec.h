@@ -26,20 +26,19 @@
   * that coordinates are in the FK5 system. For example the conversion between
   * B1950 and J2000 is not exact. 
   *
-  * Inherits QVBox
+  * Inherits QWidget
   *@author Pablo de Vicente
 	*@version 0.9
   */
 
 class QWidget;
-class QVBox;
 class QLineEdit;
 class QString;
 class dms;
 class dmsBox;
 class SkyPoint;
 
-class modCalcPrec : public QVBox  {
+class modCalcPrec : public QWidget  {
 
 Q_OBJECT
 public: 
@@ -61,7 +60,7 @@ private:
 	double getEpoch (QString eName);
 	void showEquCoords ( SkyPoint sp );
 
-	QVBox *rightBox;
+	QWidget *rightBox;
 	QLineEdit *rafName, *decfName, *ra0Name, *dec0Name, *epoch0Name, 
 		*epochfName;
 	dmsBox *ra0Box, *dec0Box, *rafBox, *decfBox;

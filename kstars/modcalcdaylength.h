@@ -26,7 +26,6 @@
   */
 
 class QWidget;
-class QVBox;
 class dms;
 class dmsBox;
 class GeoLocation;
@@ -34,7 +33,7 @@ class QDateTime;
 class timeBox;
 
 
-class modCalcDayLength : public QVBox  {
+class modCalcDayLength : public QWidget  {
 Q_OBJECT
 public: 
 
@@ -74,7 +73,7 @@ private:
 /**Fills the Longitude and Latitude with the current location ones */
 	void showLongLat(void);
 
-	QVBox *rightBox;
+	QWidget *rightBox;
 	dmsBox *azSetBox, *azRiseBox, *elTransitBox, *longBox, *latBox;
 	timeBox *riseTimeBox, *setTimeBox, *transitTimeBox, *dayLBox, *datBox;
 

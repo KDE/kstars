@@ -34,9 +34,10 @@
 
 #include <kapplication.h>
 
-modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
+modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
-	rightBox = new QVBox (parentSplit);
+	rightBox = new QWidget (parentSplit);
+	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
 
 	QGroupBox * InputBox = new QGroupBox (rightBox);
 	InputBox->setTitle( i18n("Original Coordinates") );
@@ -111,16 +112,14 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : QVBox(parentS
 	D1Lay->setMargin(14);
 	D1Lay->addWidget(rafdecfBox);
 
-	QSpacerItem * downSpacer = new QSpacerItem(400,500);
-	QVBox * noBox = new QVBox (rightBox);
-	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
+	QSpacerItem * downSpacer = new QSpacerItem(400,150);
 
-	D2Lay->addItem(downSpacer);
+	rightBoxLayout->addWidget(InputBox);
+	rightBoxLayout->addWidget(outputBox);
+	rightBoxLayout->addItem(downSpacer);
 	
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
-	rightBox->setMargin(14);
-	rightBox->setSpacing(7);
 	rightBox->show();
 //
 // slots

@@ -38,9 +38,10 @@
 #include <kapplication.h>
 
 
-modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
+modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
-	rightBox = new QVBox (parentSplit);
+	rightBox = new QWidget (parentSplit);
+	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
 
 // Radio Buttons
 	
@@ -144,13 +145,18 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(p
 	
 	StLay->addWidget ( St0Box );
 
-	rightBox->setMaximumWidth(550);
-	rightBox->setMinimumWidth(400);
-
 	showCurrentTimeAndLong();
 
-	rightBox->setMargin(14);
-	rightBox->setSpacing(7);
+	QSpacerItem * downSpacer = new QSpacerItem(400,110);
+
+	rightBoxLayout->addWidget(InputBox);
+	rightBoxLayout->addWidget(longdateBox);
+	rightBoxLayout->addWidget(UtimeBox);
+	rightBoxLayout->addWidget(StimeBox);
+	rightBoxLayout->addItem(downSpacer);
+
+	rightBox->setMaximumWidth(550);
+	rightBox->setMinimumWidth(400);
 	rightBox->show();
 
 	connect( Compute, SIGNAL(clicked() ), this, SLOT( slotComputeTime() ) ) ;

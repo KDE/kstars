@@ -37,9 +37,10 @@
 
 #include <kapplication.h>
 
-modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
+modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
-	rightBox = new QVBox (parentSplit);
+	rightBox = new QWidget (parentSplit);
+	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
 
 	QGroupBox * InputBox = new QGroupBox (rightBox);
 	InputBox->setTitle( i18n("Input Data") );
@@ -134,15 +135,15 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QVBox(p
 	D1Lay->setMargin(14);
 	D1Lay->addWidget(rafdecfBox);
 
-	QSpacerItem * downSpacer = new QSpacerItem(400,300);
-	QVBox * noBox = new QVBox (rightBox);
-	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
-	D2Lay->addItem(downSpacer);
+	QSpacerItem * downSpacer = new QSpacerItem(400,80);
+
+	rightBoxLayout->addWidget(InputBox);
+	rightBoxLayout->addWidget(origCoordBox);
+	rightBoxLayout->addWidget(outputBox);
+	rightBoxLayout->addItem(downSpacer);
 	
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
-	rightBox->setMargin(14);
-	rightBox->setSpacing(7);
 	rightBox->show();
 //
 // slots

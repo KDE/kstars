@@ -40,10 +40,11 @@
 
 #include <kapplication.h>
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QVBox(parentSplit,name) {
+modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
 
-	rightBox = new QVBox (parentSplit);
-
+	rightBox = new QWidget (parentSplit);
+	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
+//
 //  Buttons 
 //
 	QGroupBox * InputBox = new QGroupBox (rightBox);
@@ -156,30 +157,40 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QVB
 	DGLay->setMargin(14);
 	DGLay->setSpacing(4);
  	
-  QHBox * dLBox = new QHBox(resultsBox);
-  dLBox->setMaximumWidth(150);
+	QHBoxLayout * dLBox = new QHBoxLayout(resultsBox);
+//	dLBox->setMaximumWidth(200);
 
-	QLabel * dayLLabel = new QLabel(dLBox);
+	QLabel * dayLLabel = new QLabel(resultsBox);
 	dayLLabel->setText(i18n("Day length:"));
-	dayLBox = new timeBox(dLBox,"daylBox");
+	dayLBox = new timeBox(resultsBox,"daylBox");
+	QSpacerItem * rightLBoxSpacer = new QSpacerItem(20,20);
+	QSpacerItem * leftLBoxSpacer = new QSpacerItem(20,20);
+
+	dLBox->addItem(rightLBoxSpacer);
+	dLBox->addWidget(dayLLabel);
+	dLBox->addWidget(dayLBox);
+	dLBox->addItem(leftLBoxSpacer);
 
 	D0Lay->setMargin(14);
 	D0Lay->setSpacing(4);
 
 	D0Lay->addLayout(DGLay);
-	D0Lay->addWidget(dLBox);
+	D0Lay->addLayout(dLBox);
+//	D0Lay->additem(rightLBoxSpacer);
+//	D0Lay->additem(leftLBoxSpacer);
 
 //  D0Lay->activate();
 
-	QSpacerItem * downSpacer = new QSpacerItem(400,300);
-	QVBox * noBox = new QVBox (rightBox);
-	QVBoxLayout * D2Lay = new QVBoxLayout( noBox);
-	D2Lay->addItem(downSpacer);
+	QSpacerItem * downSpacer = new QSpacerItem(400,90);
+
+	rightBoxLayout->addWidget(InputBox);
+	rightBoxLayout->addWidget(resultsBox);
+	rightBoxLayout->addItem(downSpacer);
 	
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
-	rightBox->setMargin(14);
-	rightBox->setSpacing(7);
+	//rightBox->setMargin(14);
+	//rightBox->setSpacing(7);
 	rightBox->show();
 //
 // slots

@@ -25,7 +25,7 @@
   * Class which implements the KStars calculator module to compute
   * Galactic coordinates to/from Equatorial coordinates.
   *
-  * Inherits QVBox
+  * Inherits QWidget
   *@author Pablo de Vicente
 	*@version 0.9
   */
@@ -35,9 +35,8 @@ class dms;
 class dmsBox;
 class QLineEdit;
 class QRadioButton;
-class QVBox;
 
-class modCalcGalCoord : public QVBox  {
+class modCalcGalCoord : public QWidget  {
 
 Q_OBJECT
 
@@ -63,7 +62,7 @@ public slots:
 	
 private:
 		
-	QVBox *rightBox;	
+	QWidget *rightBox;	
 	double epoch;
 	dms raCoord, raHourCoord, decCoord, galLong, galLat;
 	dmsBox *raBox, *decBox;

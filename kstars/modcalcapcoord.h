@@ -36,7 +36,7 @@ class SkyPoint;
 class QDateTime;
 class timeBox;
 
-class modCalcApCoord : public QVBox  {
+class modCalcApCoord : public QWidget  {
 
 Q_OBJECT
 public: 
@@ -81,7 +81,7 @@ private:
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
 	void showEquCoords ( SkyPoint sp );
 
-	QVBox *rightBox;
+	QWidget *rightBox;
 	QLineEdit *rafName, *decfName, *ra0Name, *dec0Name, *epoch0Name;
 	dmsBox *ra0Box, *dec0Box, *rafBox, *decfBox;
 	timeBox *datBox, *timBox;
