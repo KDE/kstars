@@ -101,7 +101,7 @@ int eltsCanvas::UtMinutes(void) {
 
 void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 
-	int lst_minutes = UtMinutes();
+//	int lst_minutes = UtMinutes();
 	pcanvas->translate(40, 40);
 	
 	int xt = 0, ix = 1;
