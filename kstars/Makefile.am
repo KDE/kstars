@@ -3,8 +3,7 @@ bin_PROGRAMS = kstars
 
 ## INCLUDES were found outside kdevelop specific part
 
-kstars_SOURCES = modcalcdaylength.cpp infoboxes.cpp infobox.cpp colorscheme.cpp detaildialog.cpp timeunitbox.cpp timestepbox.cpp modcalcapcoord.cpp timezonerule.cpp kstars_options_handling.cpp focusdialog.cpp skymapevents.cpp kstarsmessagebox.cpp addcatdialog.cpp kstarsinit.cpp kstarsactions.cpp objectnamelist.cpp planetcatalog.cpp stardatasink.cpp filesource.cpp modcalcgeodcoord.cpp modcalcsidtime.cpp modcalcgalcoord.cpp modcalcprec.cpp modcalcjd.cpp astrocalc.cpp timebox.cpp dmsbox.cpp ksplanetbase.cpp ksnumbers.cpp ksutils.cpp simclock.cpp toggleaction.cpp addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp kstarsinterface.skel simclockinterface.skel
-include_HEADERS = kstarsinterface.h simclockinterface.h
+kstars_SOURCES = modcalcdaylength.cpp infoboxes.cpp infobox.cpp colorscheme.cpp detaildialog.cpp timeunitbox.cpp timestepbox.cpp modcalcapcoord.cpp timezonerule.cpp kstars_options_handling.cpp focusdialog.cpp skymapevents.cpp kstarsmessagebox.cpp addcatdialog.cpp kstarsinit.cpp kstarsactions.cpp objectnamelist.cpp planetcatalog.cpp stardatasink.cpp filesource.cpp modcalcgeodcoord.cpp modcalcsidtime.cpp modcalcgalcoord.cpp modcalcprec.cpp modcalcjd.cpp astrocalc.cpp timebox.cpp dmsbox.cpp ksplanetbase.cpp ksnumbers.cpp ksutils.cpp simclock.cpp toggleaction.cpp addlinkdialog.cpp kspluto.cpp starpixmap.cpp starobject.cpp timespinbox.cpp imageviewer.cpp ksmoon.cpp skyobjectname.cpp magnitudespinbox.cpp kstarsoptions.cpp kstarssplash.cpp kstarsdata.cpp kssun.cpp ksplanet.cpp finddialog.cpp viewopsdialog.cpp mapcanvas.cpp locationdialog.cpp timedialog.cpp skypoint.cpp dms.cpp skyobject.cpp geolocation.cpp skymap.cpp kstars.cpp main.cpp
 kstars_LDADD   = $(LIB_KDEPRINT) -lm $(LIB_KIO) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = data 
@@ -34,6 +33,11 @@ uninstall-local:
 # kde_mimedir       Where mimetypes should go to.
 # kde_toolbardir    Where general toolbar icons should go to.
 # kde_wallpaperdir  Where general wallpapers should go to.
+
+# (HE 03/09/2002) kdevelop does not know how to treat these. So we help it by adding these files
+# outside the area in Makefile.am that is under kdevelop's control
+kstars_SOURCES += kstarsinterface.skel simclockinterface.skel
+include_HEADERS = kstarsinterface.h simclockinterface.h
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
