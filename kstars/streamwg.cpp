@@ -123,6 +123,7 @@ void StreamWG::enableStream(bool enable)
   else
   {
     processStream = false;
+    playB->setPixmap(pausePix);
     hide();
   }
   

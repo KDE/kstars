@@ -35,6 +35,7 @@
 #include <netdb.h>
 
 #include "fli/libfli.h"
+#include "lzo/minilzo.h"
 #include "fitsrw.h"
 #include "indidevapi.h"
 #include "eventloop.h"
@@ -90,8 +91,14 @@ extern int errno;
 #define LIBVERSIZ 	1024
 #define PREFIXSIZ	64
 #define PIPEBUFSIZ	8192
+#define FRAME_ILEN	64
 
 #define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
+
+#define HEAP_ALLOC(var,size) \
+	lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
+
+static HEAP_ALLOC(wrkmem,LZO1X_1_MEM_COMPRESS);
 
 enum FLIFrames { LIGHT_FRAME = 0, BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
 
@@ -188,14 +195,6 @@ static INumberVectorProperty PixelSizeNP = { mydev, "Pixel Size (µm)", "", DATA
 static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0., 0, 0, 0}};
 static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
 
-/* Data type */
-static IText DataTypeT[]	= {{ "TYPE", "Type", 0, 0, 0, 0}};
-static ITextVectorProperty DataTypeTP = { mydev, "DATA_TYPE", "Data Type", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataTypeT, NARRAY(DataTypeT), 0, 0};
-
-/* Data size */
-static INumber DataSizeN[]	= {{ "SIZE_BYTES", "Bytes", "%0.f", 0., 0., 0., 0., 0, 0, 0}};
-static INumberVectorProperty DataSizeNP = { mydev, "DATA_SIZE", "Data Size", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataSizeN, NARRAY(DataSizeN), 0, 0};
-
 /* send client definitions of all properties */
 void ISInit()
 {
@@ -216,12 +215,13 @@ void ISInit()
    return;
  }
  
- DataTypeT[0].text      = strcpy(malloc (sizeof(char) * 32), "FITS");
- 
  imageCount = 0;
  streamTimerID = -1;
  INDIClients = NULL;
  nclients    = 0;
+ 
+ if (lzo_init() != LZO_E_OK)
+   IDLog("lzo_init() failed !!!\n");
  
  isInit = 1;
  
@@ -250,8 +250,6 @@ void ISGetProperties (const char *dev)
   
   /* Data Group */
   IDDefNumber (&DataChannelNP, NULL);
-  IDDefText(&DataTypeTP, NULL);
-  IDDefNumber(&DataSizeNP, NULL);
   
   INDIClients = INDIClients ? (client_t *) realloc(INDIClients, (nclients+1) * sizeof(client_t)) :
                               (client_t *) malloc (sizeof(client_t));
@@ -855,10 +853,6 @@ int grabImage()
     return -1;
   }
   
-  /* Set file size */
-  DataSizeN[0].value = img_size;
-  IDSetNumber(&DataSizeNP, NULL);
-  
   for (i=0; i < FLIImg->width ; i++)
   {
     if ( (err = FLIGrabRow(fli_dev, &FLIImg->img[i * FLIImg->width], FLIImg->width)))
@@ -959,47 +953,73 @@ int writeFITS(char *filename, char errmsg[])
 void uploadFile(char * filename)
 {
    FILE * fitsFile;
-   unsigned char fitsData[PIPEBUFSIZ];
-   int totalBytes, nr=0, n=0, i=0;
+   char frameSize[FRAME_ILEN];
+   unsigned char *fitsData, *compressedData;
+   int nr=0, n=0, i=0, j=0, r=0;
+   unsigned int totalBytes, compressedBytes = 0, frameLen;
    struct stat stat_p; 
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
      IDLog(" Error occoured attempting to stat %s\n", filename); 
      return; 
-   } 
+   }
    
-   IDLog("File size is   %d bytes\n", stat_p.st_size); 
-   DataSizeN[0].value = stat_p.st_size;
-   IDSetNumber(&DataSizeNP, NULL);
- 
-   /* TODO This is temporary to avoid race condition.
-            I need to introduce some hand-shake signals later on */
-	    
-   usleep(500000);
-
+   totalBytes     = stat_p.st_size;
+   fitsData       = (unsigned char *) malloc (sizeof(unsigned char) * totalBytes);
+   compressedData = (unsigned char *) malloc (sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
+   
+   if (fitsData == NULL || compressedData == NULL)
+   {
+     IDLog("Error! low memory. Unable to initialize fits buffers.\n");
+     return;
+   }
+   
    fitsFile = fopen(filename, "r");
    
    if (fitsFile == NULL)
     return;
-    
-   while (!feof(fitsFile))
+   
+   /* #1 Read file from disk */ 
+   for (i=0; i < totalBytes; i+= nr)
    {
-     totalBytes = fread(fitsData, 1, PIPEBUFSIZ, fitsFile);
+      nr = fread(fitsData + i, 1, totalBytes - i, fitsFile);
      
-     if (totalBytes <= 0)
+     if (nr <= 0)
      {
-       IDLog("Error reading temporary FITS file.\n");
-       return;
+        IDLog("Error reading temporary FITS file.\n");
+        return;
      }
+   }
+   
+   /* #2 Compress it */
+   r = lzo1x_1_compress(fitsData, totalBytes, compressedData, &compressedBytes, wrkmem);
+   if (r != LZO_E_OK)
+      /*IDLog("compressed %lu bytes into %lu bytes\n", (long) totalBytes, (long) compressedBytes);
+   else*/
+   {
+ 	/* this should NEVER happen */
+ 	IDLog("internal error - compression failed: %d\n", r);
+	return;
+   }
+   
+   snprintf(frameSize, FRAME_ILEN, "FITS;%d,%d]", totalBytes, compressedBytes);
+   frameLen = strlen(frameSize);
+   r = 0;
    
      for (i=0; i < nclients; i++)
      {
   	if (INDIClients[i].streamReady)
         {
-             for (nr=0; nr < totalBytes; nr+=n)
+	
+	      /* #1 send frame size to client */
+	     for (j=0; j < frameLen; j+=r)
+	      r = write(INDIClients[i].wp, frameSize + j , frameLen - j);
+	      
+	     /* Send the actual file */
+             for (nr=0; nr < compressedBytes; nr+=n)
    	     {
-	  	n = write(INDIClients[i].wp, fitsData + nr, totalBytes - nr );
+	  	n = write(INDIClients[i].wp, compressedData + nr, compressedBytes - nr );
 		if (n <= 0)
 		{
 			if (nr <= 0)
@@ -1009,12 +1029,13 @@ void uploadFile(char * filename)
     			}
 		        break;
 		}		
-		 
              }
         }
-      }
-      
-    } /* end while */
+      } 
+    
+   
+   free (fitsData);   
+   free (compressedData);
    
 }
 
@@ -1148,7 +1169,6 @@ void getBasicData()
   IDSetNumber(&TemperatureNP, NULL);
   IDSetNumber(&FrameNP, NULL);
   IDSetNumber(&BinningNP, NULL);
-  IDSetText(&DataTypeTP, NULL);
   
   IDLog("Exiting getBasicData()\n");
   

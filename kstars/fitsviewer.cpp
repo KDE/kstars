@@ -111,6 +111,15 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     /* Setup image widget */    
     image = new FITSImage(this);
     setCentralWidget(image);
+   
+    statusBar()->insertItem("", 0);
+    statusBar()->setItemFixed(0, 100);
+    statusBar()->insertItem("", 1);
+    statusBar()->setItemFixed(1, 100);
+    statusBar()->insertItem("", 2);
+    statusBar()->setItemFixed(2, 100);
+    statusBar()->insertItem(i18n("Welcome to KStars FITS Editor."), 3, 1, true);
+    statusBar()->setItemAlignment(3 , Qt::AlignLeft);
     
     /* FITS initializations */
     if (!initFITS())
@@ -159,15 +168,6 @@ FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
     
    /* Create GUI */  
    createGUI("fitsviewer.rc");
-    
-   statusBar()->insertItem("", 0);
-   statusBar()->setItemFixed(0, 100);
-   statusBar()->insertItem("", 1);
-   statusBar()->setItemFixed(1, 100);
-   statusBar()->insertItem("", 2);
-   statusBar()->setItemFixed(2, 100);
-   statusBar()->insertItem(i18n("Welcome to KStars FITS Editor."), 3, 1, true);
-   statusBar()->setItemAlignment(3 , Qt::AlignLeft);
      
    /* initially resize in accord with KDE rules */
    resize(640, 480); 
@@ -391,7 +391,7 @@ void FITSViewer::calculateStats()
   kdDebug() << "Average: " << stats.average << " - stddev: " << stats.stddev << endl;
   kdDebug() << "Width: " << stats.width << " - Height " << stats.height << " - bitpix " << stats.bitpix << endl;
   
-  statusBar()->changeItem( QString("%1 x %2").arg(stats.width).arg(stats.height), 2);
+  statusBar()->changeItem( QString("%1 x %2").arg( (int) stats.width).arg( (int) stats.height), 2);
 
 }
 

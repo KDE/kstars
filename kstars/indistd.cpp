@@ -25,6 +25,7 @@
  #include "timedialog.h"
  #include "streamwg.h"
  #include "fitsviewer.h"
+ #include "indi/lzo/minilzo.h"
  
  #include <sys/socket.h>
  #include <netinet/in.h>
@@ -34,6 +35,7 @@
  #include <qtimer.h>
  #include <qlabel.h>
  #include <qfont.h>
+ #include <qeventloop.h>
  #include <qsocketnotifier.h>
  
  #include <klocale.h>
@@ -42,7 +44,12 @@
  #include <klineedit.h>
  #include <kstatusbar.h>
  #include <kmessagebox.h>
+ #include <kapplication.h>
+ #include <kprogress.h>
  #include <kurl.h>
+ 
+ #define STD_BUFFER_SIZ		1024000
+ #define FRAME_ILEN		64
  
  INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
  {
@@ -50,19 +57,24 @@
    dp   = associatedDevice;
    ksw  = kswPtr;
    initDevCounter = 0;
+   totalCompressedBytes  = totalBytes = 0;
    streamFD = -1;
-   streamBuffer = NULL;
+   streamBuffer     = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+   compressedBuffer = (unsigned char *) malloc (sizeof(unsigned char) * 1);
    
    streamWindow   = new StreamWG(this, ksw);
    currentObject  = NULL; 
    devTimer = new QTimer(this);
    QObject::connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
- 
+   
+   downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
+   downloadDialog->cancel();
  }
  
  INDIStdDevice::~INDIStdDevice()
  {
- 
+   free(streamBuffer);
+   free(compressedBuffer);
  }
  
 void INDIStdDevice::establishDataChannel(QString host, int port)
@@ -90,36 +102,125 @@ void INDIStdDevice::establishDataChannel(QString host, int port)
 	  return;
 	}
 
+	if (lzo_init() != LZO_E_OK)
+           kdDebug() << "lzo_init() failed !!!" << endl;
+	   
 	// callback notified
 	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
         QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
 }
 
-void INDIStdDevice::allocateStreamBuffer()
+void INDIStdDevice::allocateCompressedBuffer()
 {
-  delete (streamBuffer);
+  //delete (compressedBuffer);
   
-  kdDebug() << "new size " << totalBytes << endl;
+  //kdDebug() << "new compress size " << totalCompressedBytes << endl;
   
-  streamBuffer = new unsigned char[totalBytes];
+  compressedBuffer = (unsigned char *) realloc (compressedBuffer, sizeof(unsigned char) * totalCompressedBytes);
+  
+  if (compressedBuffer == NULL)
+   kdDebug() << "Low memory! Failed to initialize compressed buffer." << endl;
   
 }
+
+void INDIStdDevice::allocateStreamBuffer()
+{
+
+  //kdDebug() << "new FULL size " << totalBytes << endl;
+  
+  streamBuffer = (unsigned char *) realloc (streamBuffer, sizeof(unsigned char) * totalBytes);
+  
+  if (streamBuffer == NULL)
+   kdDebug() << "Low memory! Failed to initialize compressed buffer." << endl;
+
+}
+
+
 
 void INDIStdDevice::streamReceived()
 {
 
    char msg[1024];
-   int nr=0, n=0;
+   char frameSize[FRAME_ILEN];
+   int nr=0, n=0, r;
+   unsigned int newCompressSize, newFrameSize, fullFrameSize;
    
-   /*if (dataType == VIDEO_STREAM)
-     totalBytes = streamWindow->frameTotalBytes;
-   else
-     totalBytes = fileSize; */
-	
-    
-    for (nr = 0; nr < totalBytes; nr+=n)
+   /* #1 Read first the frame size in bytes */
+   for (int i=0; i < FRAME_ILEN; i+=n)
+   {
+     n = read (streamFD, frameSize + i, 1);
+     if (n <= 0)
+	   {
+	    	if (n < 0)
+			sprintf (msg, "INDI: input error.");
+	    	else
+			sprintf (msg, "INDI: agent closed connection.");
+
+	    sNotifier->disconnect();
+	    close(streamFD);
+	    streamWindow->close();
+	    KMessageBox::error(0, QString(msg));
+            return;
+	   }
+	   
+    /* A. Check for data type */
+    if (frameSize[i] == ';')
     {
-           n = read (streamFD, streamBuffer + nr, totalBytes - nr);
+      frameSize[i] = '\0';
+      if (!strcmp(frameSize, "VIDEO"))
+       		dataType = DATA_STREAM;
+      else if (!strcmp(frameSize, "FITS"))
+      		dataType = DATA_FITS;
+      else   
+      { 
+      		dataType = DATA_OTHER;
+		dataExt  = QString(frameSize);
+      }
+      
+      i = n = 0;
+    }
+    /* B. Check for full uncompressed frame size */
+    if (frameSize[i] == ',')
+    {
+      frameSize[i] = '\0';
+      fullFrameSize = atoi(frameSize);
+      if (fullFrameSize != totalBytes)
+      {
+        totalBytes = fullFrameSize;
+	allocateStreamBuffer();
+	if (streamBuffer == NULL) return;
+      }
+      i = n = 0;
+    }
+    /* C. Check for compressed frame size */
+    else if (frameSize[i] == ']')
+    {
+       frameSize[i] = '\0';
+       newCompressSize = atoi(frameSize);
+       if (newCompressSize != totalCompressedBytes)
+       {
+         totalCompressedBytes = newCompressSize;
+	 allocateCompressedBuffer();
+	 if (compressedBuffer == NULL) return;
+       }
+       
+       if (dataType == DATA_FITS || dataType == DATA_OTHER)
+       {
+         downloadDialog->progressBar()->setTotalSteps(totalCompressedBytes);
+	 downloadDialog->setMinimumWidth(300);
+	 downloadDialog->show();
+       }
+       //kdDebug() << "*** Uncompressed size is " << totalBytes << " and compressed is " << totalCompressedBytes << endl;
+       break;
+    }
+   }
+   
+    //kdDebug() << "Will read actual frame now ... " << endl;
+   
+    /* #2 Read actual frame */    
+    for (nr = 0; nr < totalCompressedBytes; nr+=n)
+    {
+           n = read (streamFD, compressedBuffer + nr, totalCompressedBytes - nr);
 	   if (n <= 0)
 	   {
 	    	if (n < 0)
@@ -133,12 +234,37 @@ void INDIStdDevice::streamReceived()
 	    KMessageBox::error(0, QString(msg));
             return;
 	   }
+	   
+	   if (dataType == DATA_FITS || dataType == DATA_OTHER)
+	   {
+	       downloadDialog->progressBar()->setProgress(nr);
+	       kapp->eventLoop()->processEvents(QEventLoop::ExcludeSocketNotifiers);
+	   }
     }
     
+     //kdDebug() << "We're done reading .... " << endl;
+    
+    downloadDialog->cancel();
+    
+    r = lzo1x_decompress(compressedBuffer,totalCompressedBytes, streamBuffer , &newFrameSize,NULL);
+    
+    //kdDebug() << "Finished decompress with r = " << r << endl;
+    
+    if (r != LZO_E_OK)
+      //kdDebug() << "decompressed " << totalCompressedBytes << " bytes back into " << newFrameSize << " bytes" << endl;
+     //else
+     {
+        /* this should NEVER happen */
+	kdDebug() << "internal error - decompression failed: " << r << endl;
+	return;
+     }
+	
      if (dataType == DATA_STREAM)
      {
        if (!streamWindow->processStream)
 	  return;
+	
+	streamWindow->show();
 	
 	streamWindow->streamFrame->newFrame(streamBuffer, streamWindow->streamWidth, streamWindow->streamHeight, streamWindow->colorFrame);
      }
@@ -146,8 +272,11 @@ void INDIStdDevice::streamReceived()
      {
        char filename[256];
        FILE *fitsTempFile;
-       int fd, nr, n;
+       int fd, nr, n=0;
        QString currentDir = Options::fitsSaveDirectory();
+       
+       //streamWindow->enableStream(false);
+       streamWindow->close();
         
 	if (dataType == DATA_FITS)
         {
@@ -167,6 +296,9 @@ void INDIStdDevice::streamReceived()
           time (&t);
           tp = gmtime (&t);
 	  
+	  if (currentDir[currentDir.length() -1] == '/')
+	    currentDir.truncate(currentDir.length() - 1);
+	  
 	  strncpy(filename, currentDir.ascii(), currentDir.length());
 	  filename[currentDir.length()] = '\0';
           strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
@@ -178,8 +310,8 @@ void INDIStdDevice::streamReceived()
        
        if (fitsTempFile == NULL) return;
        
-       for (nr=0; nr < totalBytes; nr += n)
-           n = fwrite(streamBuffer + nr, 1, totalBytes - nr, fitsTempFile);
+       for (nr=0; nr < newFrameSize; nr += n)
+           n = fwrite(streamBuffer + nr, 1, newFrameSize - nr, fitsTempFile);
        
        fclose(fitsTempFile);
        
@@ -251,31 +383,6 @@ void INDIStdDevice::streamReceived()
 	    if (el && el->value && streamFD == -1)
 	      establishDataChannel(dp->parentMgr->host, (int) el->value);
          break;
-     
-      case DATA_TYPE:
-        el  = pp->findElement("TYPE");
-	if (!el) return;
-	if (el->text == "FITS")
-	  dataType = DATA_FITS;
-	else if (el->text == "VIDEO_STREAM")
-	  dataType = DATA_STREAM;
-	else 
-	{
-	  dataType = DATA_OTHER;
-	  dataExt  = el->text;
-	}
-	  
-	/*kdDebug() << "We have DATA_TYPE " << el->text << endl;
-	kdDebug() << "We have dataType " << ((dataType == DATA_FITS) ? "DATA_FITS" : "DATA_STREAM") << endl;*/
-	  break;
-	  
-      case DATA_SIZE:
-        el = pp->findElement("SIZE_BYTES");
-	if (!el) return;
-	totalBytes = (int) el->value;
-	if (totalBytes > 0)
-	  allocateStreamBuffer();
-	break;
      
     default:
         break;
@@ -466,16 +573,6 @@ void INDIStdDevice::updateLocation()
 	}
       }     
      }
-     break;
-     
-     case FILE_NAME:
-     portEle = pp->findElement("FILE");
-     if (!portEle) return;
-     str = Options::fitsSaveDirectory() + "/" + "image1.fits";
-     portEle->read_w->setText( str );
-     portEle->write_w->setText( str);
-     portEle->text = str;
-     pp->newText();
      break;
      
    }

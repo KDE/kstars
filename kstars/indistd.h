@@ -21,6 +21,7 @@
  class SkyObject;
  class StreamWG;
  class QSocketNotifier;
+ class KProgressDialog;
 
  
  /* This class implmements standard properties on the device level*/
@@ -37,6 +38,7 @@
    StreamWG             *streamWindow;
    SkyObject   		*currentObject;
    QTimer      		*devTimer;	
+   KProgressDialog      *downloadDialog;
    
     
    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER };
@@ -47,6 +49,7 @@
     
    /* Data channel */
    void establishDataChannel(QString host, int port);
+   void allocateCompressedBuffer();
    void allocateStreamBuffer();
    
    /* Device options */
@@ -64,8 +67,9 @@
    int                  dataType;
    int 			initDevCounter;
    int 			streamFD;
-   int 			totalBytes;
+   unsigned int 	totalCompressedBytes, totalBytes;
    unsigned char        *streamBuffer;
+   unsigned char	*compressedBuffer;
    QSocketNotifier 	*sNotifier;
    QString		dataExt;
    
