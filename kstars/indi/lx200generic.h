@@ -54,6 +54,7 @@ class LX200Generic
  int getOnSwitch(ISwitchVectorProperty *sp);
  void setCurrentDeviceName(const char * devName);
  void correctFault();
+ void enableSimulation(bool enable);
  
 
  protected:
@@ -69,6 +70,7 @@ class LX200Generic
   double lastRA;
   double lastDEC;
   bool   fault;
+  bool   simulation;
 
   struct tm *localTM;
   

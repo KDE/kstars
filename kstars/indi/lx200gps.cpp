@@ -33,7 +33,7 @@ extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
 static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_ON, 0, 0}};
-static ISwitch GPSStatusS[]	  	= {{ "GPS Sleep", "", ISS_OFF, 0, 0}, {"GPS Wake up", "", ISS_OFF, 0 ,0}, {"GPS Restart", "", ISS_OFF, 0, 0}};
+static ISwitch GPSStatusS[]	  	= {{ "Sleep", "", ISS_OFF, 0, 0}, {"Wake up", "", ISS_OFF, 0 ,0}, {"Restart", "", ISS_OFF, 0, 0}};
 static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF, 0, 0}};
 static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF, 0 ,0}, {"Disable", "", ISS_OFF, 0 ,0}};
 static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF, 0, 0}, {"Disable", "", ISS_OFF, 0 ,0}};
@@ -53,6 +53,8 @@ static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", 
 static INumber Temp[]	= { {"Temp.", "", "%g", -200., 500., 0., 0., 0, 0, 0 } };
 static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), 0, 0};
 
+void updateTemp(void * /*p*/);
+
 void changeLX200GPSDeviceName(const char *newName)
 {
  strcpy(GPSPowerSw.device, newName);
@@ -68,7 +70,8 @@ void changeLX200GPSDeviceName(const char *newName)
 
 LX200GPS::LX200GPS() : LX200_16()
 {
-
+   IEAddTimer(900000, updateTemp, NULL);
+   
 }
 
 void LX200GPS::ISGetProperties (const char *dev)
@@ -111,36 +114,18 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
  }
 
- /*#define turnGPSOn()			portWrite("#:g+#")
-#define turnGPSOff()			portWrite("#:g-#")
-#define alignGPSScope()			portWrite("#:Aa#")
-#define gpsSleep()			portWrite("#:hN#")
-#define gpsWakeUp()			portWrite("#:hW#")
-#define gpsRestart()			portWrite("#:I#")
-#define updateGPS_System()		setStandardProcedure("#:gT#")
-#define enableDecAltPec()		portWrite("#:QA+#")
-#define disableDecAltPec()		portWrite("#:QA-#")
-#define enableRA_AZPec()		portWrite("#:QZ+#")
-#define disableRA_AZPec()		portWrite("#:QZ-#")
-#define activateAltDecAntiBackSlash()	portWrite("#$BAdd#")
-#define activateAzRaAntiBackSlash()	portWrite("#$BZdd#")
-#define SelenographicSync()		portWrite("#:CL#")
-
-double getOTATemp();
-*/
-
 
  void LX200GPS::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
  {
     int index;
-    char msg[32];
+    char msg[64];
 
     if (strcmp (dev, thisDevice))
 	    return;
 
     if (!strcmp(name,GPSPowerSw.name))
     {
-      if (checkPower(&GPSPowerSw))
+       if (checkPower(&GPSPowerSw))
        return;
 
       IUResetSwitches(&GPSPowerSw);
@@ -155,10 +140,10 @@ double getOTATemp();
 
     if (!strcmp(name,GPSStatusSw.name))
     {
-      if (checkPower(&GPSStatusSw))
+       if (checkPower(&GPSStatusSw))
        return;
 
-      IUResetSwitches(&GPSPowerSw);
+      IUResetSwitches(&GPSStatusSw);
       IUUpdateSwitches(&GPSStatusSw, states, names, n);
       index = getOnSwitch(&GPSStatusSw);
 
@@ -186,7 +171,7 @@ double getOTATemp();
 
     if (!strcmp(name,GPSUpdateSw.name))
     {
-      if (checkPower(&GPSUpdateSw))
+       if (checkPower(&GPSUpdateSw))
        return;
 
      GPSUpdateSw.s = IPS_OK;
@@ -203,7 +188,7 @@ double getOTATemp();
 
     if (!strcmp(name, AltDecPecSw.name))
     {
-      if (checkPower(&AltDecPecSw))
+       if (checkPower(&AltDecPecSw))
        return;
 
       IUResetSwitches(&AltDecPecSw);
@@ -229,8 +214,8 @@ double getOTATemp();
 
     if (!strcmp(name, AzRaPecSw.name))
     {
-      if (checkPower(&AzRaPecSw))
-       return;
+       if (checkPower(&AzRaPecSw))
+       return; 
 
       IUResetSwitches(&AzRaPecSw);
       IUUpdateSwitches(&AzRaPecSw, states, names, n);
@@ -255,7 +240,7 @@ double getOTATemp();
 
    if (!strcmp(name, AltDecBackSlashSw.name))
    {
-     if (checkPower(&AltDecBackSlashSw))
+      if (checkPower(&AltDecBackSlashSw))
       return;
 
      activateAltDecAntiBackSlash();
@@ -284,12 +269,20 @@ double getOTATemp();
 
    LX200_16::ISPoll();
 
-   if (isTelescopeOn())
+
+ }
+ 
+ void updateTemp(void * /*p*/)
+ {
+ 
+   if (telescope->isTelescopeOn())
    {
    	getOTATemp(&OTATemp.np[0].value);
    	IDSetNumber(&OTATemp, NULL);
-   }
-
+   } 
+ 
+   IEAddTimer(900000, updateTemp, NULL);
+      
  }
 
  void LX200GPS::getBasicData()
