@@ -98,6 +98,8 @@ void KStars::initActions() {
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 	if ( options()->useAltAz ) actCoordSys->turnOff();
+	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+	
 
 //Settings Menu:
 	//

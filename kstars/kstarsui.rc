@@ -41,6 +41,8 @@
 		<Action name="zoom_default" />
 		<Action name="zoom_set" />
 		<Separator />
+		<Action name="fullscreen" />
+		<Separator />
 		<Action name="coordsys" />
 	</Menu>
 
@@ -103,6 +105,7 @@
 </MenuBar>
 
 <ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
+	<Action name="fullscreen" />
 	<Action name="zoom_in" />
 	<Action name="zoom_out" />
 	<Action name="zoom_default" />

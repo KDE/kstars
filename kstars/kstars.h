@@ -371,6 +371,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Re-assign the input focus to the SkyMap widget.
 			*/
 		void mapGetsFocus() { map()->QWidget::setFocus(); }
+		
+		/**Toggle to and from full screen mode */
+		void slotFullScreen();
 
 	private:
 		/**

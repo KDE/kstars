@@ -830,6 +830,17 @@ void KStars::slotTipOfDay() {
 	KTipDialog::showTip("kstars/tips", true);
 }
 
+// Toggle to and from full screen mode
+void KStars::slotFullScreen()
+{
+  if ( topLevelWidget()->isFullScreen() ) {
+    topLevelWidget()->showNormal();
+    }
+  else {
+    topLevelWidget()->showFullScreen();
+    }
+}
+
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
