@@ -1,0 +1,162 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
+ "dtd/kdex.dtd" [
+  <!ENTITY kappname "&kstars;">
+  <!ENTITY package "kdeedu">
+  <!ENTITY quicktour SYSTEM "quicktour.docbook">
+  <!ENTITY config SYSTEM "config.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY faq SYSTEM "faq.docbook">
+  <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
+  <!ENTITY contents SYSTEM "ai-contents.docbook">
+  <!ENTITY skycoords SYSTEM "skycoords.docbook">
+  <!ENTITY cpoles SYSTEM "cpoles.docbook">
+  <!ENTITY csphere SYSTEM "csphere.docbook">
+  <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
+  <!ENTITY equinox SYSTEM "equinox.docbook">
+  <!ENTITY geocoords SYSTEM "geocoords.docbook">
+  <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
+  <!ENTITY horizon SYSTEM "horizon.docbook">
+  <!ENTITY hourangle SYSTEM "hourangle.docbook">
+  <!ENTITY julianday SYSTEM "julianday.docbook">
+  <!ENTITY leapyear SYSTEM "leapyear.docbook">
+  <!ENTITY meridian SYSTEM "meridian.docbook">
+  <!ENTITY precession SYSTEM "precession.docbook">
+  <!ENTITY retrograde SYSTEM "retrograde.docbook">
+  <!ENTITY sidereal SYSTEM "sidereal.docbook">
+  <!ENTITY timezones SYSTEM "timezones.docbook">
+  <!ENTITY utime SYSTEM "utime.docbook">
+  <!ENTITY zenith SYSTEM "zenith.docbook">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title>The &kstars; Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>Jason</firstname>
+<surname>Harris</surname>
+<affiliation>
+<address><email>kstars@30doradus.org</email></address>
+</affiliation>
+</author>
+
+<othercredit role="developer">
+<firstname>Heiko</firstname>
+<surname>Evermann</surname>
+<affiliation>
+<address><email>heiko@evermann.de</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Thomas</firstname>
+<surname>Kabelmann</surname>
+<affiliation>
+<address><email>tk78@gmx.de</email></address>
+</affiliation>
+<contrib>Core Developer, German Translation</contrib>
+</othercredit>
+
+<othercredit role="translator">
+<firstname>Vincent</firstname>
+<surname>Jagot</surname>
+<affiliation>
+<address><email>vincent.jagot@free.fr</email></address>
+</affiliation>
+<contrib>French Translation</contrib>
+</othercredit>
+
+<othercredit role="translator">
+<firstname>Davide</firstname>
+<surname>Rizzo</surname>
+<affiliation>
+<address><email>rizzo@merate.mi.astro.it</email></address>
+</affiliation>
+<contrib>Italian Translation</contrib>
+</othercredit>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>2001</year>
+<holder>Jason Harris</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>2001-11-20</date>
+<releaseinfo>0.80.00</releaseinfo>
+
+<abstract>
+<para>
+&kstars; is a graphical desktop planetarium.
+It plots the positions of stars, constellations, star clusters,
+nebulae, galaxies and planets in the night sky for any date, from any
+location on Earth.  The display can be panned and zoomed, and it can
+even identify and track objects as they move across the sky.
+&kstars; is highly configurable, you can
+control what objects are displayed, and with what colors.  Images of
+any part of the sky can be downloaded from online databases.  Our plan
+is to make &kstars; an interactive tool for
+learning about astronomy and the night sky.
+</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>kdeedu</keyword>
+<keyword>Astronomy</keyword>
+<keyword>KStars</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>
+&kstars; lets you explore the night sky from
+the comfort of your computer chair.  It provides an accurate graphical
+representation of the night sky for any date, from any location on
+Earth.  The display includes 40,000 stars to 8th magnitude (well below
+the naked-eye limit), 10,000 deep-sky objects (Messier, NGC and IC
+catalogs), all planets, the Sun and Moon, the Milky Way, and guide
+lines such as the celestial equator, horizon and ecliptic.
+</para>
+<para>
+Please report bugs or feature requests to the
+&kstars; development mailing list:
+<email>kstars-devel@lists.sourceforge.net</email>. You can also use
+the automated bug reporting tool, accessible from the Help menu.
+</para>
+</chapter>
+
+&quicktour; <!--A Quick Tour of KStars-->
+&config;    <!--Configuring KStars-->
+&commands;  <!--Command Reference-->
+&astroinfo; <!--AstroInfo Articles-->
+&faq;       <!--Questions and Answers-->
+&credits;   <!--Credits and License-->
+&install;   <!--Installation-->
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
