@@ -58,7 +58,7 @@ class StarObject : public SkyObject {
   *@param SpType Spectral Type
   */
 		StarObject( dms r, dms d, double m, QString n="unnamed",
-  					 		QString n2="", QString sptype="" );
+  					 		QString n2="", QString sptype="--" );
 /**
   *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
   *spectral type.  Differs from above function only in argument type.
@@ -70,12 +70,28 @@ class StarObject : public SkyObject {
   *@param SpType Spectral Type
   */
 		StarObject( double r, double d, double m, QString n="unnamed",
-  					 		QString n2="", QString sptype="" );
+  					 		QString n2="", QString sptype="--" );
           
+/**
+	*Constructor.  Set SkyObject data according to arguments.
+	*@param t Type of object
+	*@param r catalog Right Ascension
+	*@param d catalog Declination
+	*@param m magnitude (brightness)
+	*@param a major axis (arcminutes)
+	*@param b minor axis (arcminutes)
+	*@param pa position angle (degrees)
+	*@param pgc PGC catalog number
+	*@param ugc UGC catalog number
+	*@param n Primary name
+	*@param n2 Secondary name
+	*@param lname Long name (common name)
+	*@param sptype Spectral Type
+	*/
 		StarObject( int t, dms r, dms d, double m,
 						QString n="unnamed", QString n2="", QString lname="", QString cat="",
 						double a=0.0, double b=0.0,
-						int pa=0, int pgc=0, int ugc=0, QString sptype="" );
+						int pa=0, int pgc=0, int ugc=0, QString sptype="--" );
 
 /**
   *Empty destructor.
