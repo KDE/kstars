@@ -43,7 +43,7 @@ eltsCanvas::eltsCanvas(QWidget *parent, const char *name) : QWidget(parent,name)
 	elts *el = (elts *)topLevelWidget();
 	KStars *ks = (KStars *)el->parent();
 
-	setBackgroundColor( QColor( ks->options()->colorScheme()->colorNamed( "SkyColor" ) ) );
+	setBackgroundColor( QColor( "black" ) );
 	//setBackgroundMode( QWidget::NoBackground );
 	initVars();
 }
@@ -78,10 +78,10 @@ void eltsCanvas::initVars(void) {
 
 void eltsCanvas::paintEvent( QPaintEvent * ) {
 	QPainter paint;
-	
+
 	erase();
 	paint.begin(this);
-	
+
 	drawGrid( &paint );
 	drawCurves( &paint );
 
@@ -89,25 +89,24 @@ void eltsCanvas::paintEvent( QPaintEvent * ) {
 }
 
 void eltsCanvas::drawGrid( QPainter * pcanvas ) {
-	
 	int lst_minutes = LSTMinutes();
 	pcanvas->setPen( white );
 	pcanvas->setFont( topLevelWidget()->font() );
 	pcanvas->translate(40, 40);
-	
+
 	int xt = 0, ix = 1;
 	int yt = 0, iy = 1;
-	
+
 	//Ground indicator
 	pcanvas->setPen( "#002200" );
 	pcanvas->fillRect( xmin, ymin+ywidth/2, xmax, ywidth/2, QBrush( "#002200" ) );
-	
+
 	// X grid and labels
 	for (ix=1;ix<xmticks;ix++) {
 		xt = xmin+xmticksep*ix;
 		pcanvas->setPen( "#555555" );
 		pcanvas->drawLine(xt,ymin, xt,ymax);
-		
+
 		int h = int(xt*24/xmax);
 		QString s;
 		if ( h<10 ) {
@@ -115,7 +114,7 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 		} else {
 			s = QString("%1:00").arg(h);
 		}
-		
+
 		pcanvas->setPen( "white" );
 //		pcanvas->drawText(xt-2*xticksize-2, ymax+xmticksize, s);
 		pcanvas->drawLine(xt,ymax, xt,ymax-xmticksize);
@@ -145,7 +144,7 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 	pcanvas->restore();
 
 	// X minor ticks for the lower axis:
-	
+
 	for (ix=1;ix<xnticks;ix++) {
 		xt = xmin+xticksep*ix;
 //		pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
@@ -162,12 +161,12 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
 			if (xt+xtranslation < xmax && xt+xtranslation > xmin)
 				pcanvas->drawLine(xt,ymin, xt,ymin+xticksize);
                 }
-                
+
                 // Major ticks and labels for the upper axis
 
 		for (ix=0;ix<xmticks;ix++) {
 			xt = xmin+xmticksep*ix;
-			
+
 			int h = int(xt*24/xmax);
 			QString s;
 			if ( h<10 ) {
@@ -188,7 +187,7 @@ void eltsCanvas::drawGrid( QPainter * pcanvas ) {
         }
 	QString xUpperLabel = i18n("Local Sidereal Time");
 	pcanvas->drawText((xmax-xmin)/2-4*xticksize,ymin-xwidth/20,xUpperLabel);
-	
+
 	// Y minor ticks:
 	for (iy=1;iy<ynticks;iy++) {
 		yt = ymin+yticksep*iy;
@@ -203,18 +202,18 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 	elts *el = (elts *)topLevelWidget();
 	int ltm = 0, ltmPrev = 0, tzm = 0;
 	int utm = 0, elevation = 0, utmPrev = 0, elevationPrev = 0;
-	
+
 
 	tzm = int( el->getTZ()*60.0 );
-	
+
 	int iPlotList = el->PlotList->currentItem();
-	
+
 	int index = 0;
 	for ( SkyPoint *p = el->pList.first(); p; p = el->pList.next() ) {
 		if ( index == iPlotList ) pcanvas->setPen( QPen( white, 2 ) );
 		else pcanvas->setPen( QPen( red, 1 ) );
 		++index;
-		
+
 		ltmPrev = 0;
 		utmPrev = ltmPrev - tzm;
 		while ( utmPrev < 0 ) utmPrev += 24*60;
@@ -222,13 +221,13 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 		
 		elevationPrev = getAlt(p, utmPrev);
 		pcanvas->moveTo( ltmPrev, elevationPrev );
-		
+
 		for (int i=1;i<=24*4;i++) {
 			ltm = i*15;
 			utm = ltm - tzm;
 			while ( utm < 0 ) utm += 24*60;
 			while ( utm >= 24*60 ) utm -= 24*60;
-			
+
 			elevation = getAlt(p, utm );
 			pcanvas->drawLine(ltmPrev/DX,(5400-elevationPrev)/DY, ltm/DX,(5400-elevation)/DY);
 			ltmPrev = ltm;
@@ -245,7 +244,7 @@ int eltsCanvas::getAlt(SkyPoint *sp, int utm) {
 	dms lat = el->getLatitude();
 	dms lgt = el->getLongitude();
 	QDateTime ut( el->getQDate().date(), QTime( utm / 60, utm % 60, 0 ) );
-	
+
 	dms LST = KSUtils::UTtoLST( ut , &lgt );
 	sp->EquatorialToHorizontal( &LST, &lat );
 
