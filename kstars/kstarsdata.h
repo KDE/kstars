@@ -20,12 +20,14 @@
 
 #include <qfile.h>
 #include <qmap.h>
+#include <qptrlist.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdatetime.h>
 #include <qtimer.h>
 
 #include <klocale.h>
+#include <kshortcut.h>
 
 #include "geolocation.h"
 #include "skyobject.h"
@@ -47,7 +49,9 @@
 #include "detaildialog.h"
 #include "jupitermoons.h"
 
-#include <qptrlist.h>
+#define NSAOFILES 40
+#define NMWFILES  11
+#define NNGCFILES 13
 
 class KStandardDirs;
 class FileSource;
@@ -465,6 +469,7 @@ private:
 	KLocale *locale;
 
 	QString TypeName[10];
+	KKey resumeKey;
 
 	PlanetCatalog *PC;
 	KSMoon *Moon;

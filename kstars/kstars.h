@@ -21,6 +21,7 @@
 #include <config.h>
 #endif
 
+#include <dcopclient.h>
 #include <kmainwindow.h>
 #include <kmenubar.h>
 #include <kaction.h>
@@ -57,6 +58,7 @@
 
 // forward declaration is enough. We only need pointers
 class KDialogBase;
+class KKey;
 class TimeDialog;
 class LocationDialog;
 class FindDialog;
@@ -178,9 +180,15 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	*/
 		void setHourAngle();
 
+	/**DCOP interface function.  Set focus to given Ra/Dec coordinates */
+		ASYNC setRaDec( double ra, double dec );
+		
+	/**DCOP interface function.  Set focus to given Alt/Az coordinates. */
+		ASYNC setAltAz(double alt, double az);
+
 	/**DCOP interface function.
 		*Point in the direction described by the string argument.  */
-		ASYNC lookTowards(QString direction);
+		ASYNC lookTowards( const QString direction );
 
 	/**DCOP interface function.  Zoom in. */
 		ASYNC zoomIn(void) { slotZoomIn(); };
@@ -188,12 +196,30 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Zoom out. */
 		ASYNC zoomOut(void){ slotZoomOut(); };
 
-	/**DCOP interface function.  Set focus to given Alt/Az coordinates. */
-		ASYNC setAltAz(double alt, double az);
-
 	/**DCOP interface function.  Set local time and date. */
 		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
+	/**DCOP interface function.  Pause for t seconds. */
+		ASYNC waitFor( double t );
+		
+	/**DCOP interface function.  Pause until Key k is pressed. */
+		ASYNC waitForKey( const QString k );
+		
+	/**DCOP interface function.  Toggle tracking. */
+		ASYNC setTracking( bool track );
+		
+	/**DCOP interface function.  modify option. */
+		ASYNC changeOption( const QString option, const QString value );
+	
+	/**DCOP interface function.  Show text message in a popup window. */
+		ASYNC popupMessage( int x, int y, const QString message );
+		
+	/**DCOP interface function.  Draw a line on the sky. */
+		ASYNC drawLine( int x1, int y1, int x2, int y2, int speed=0 );
+	
+	/**DCOP interface function.  Set the geographic location. */
+		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
+		
 	public slots:
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.
@@ -215,6 +241,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
    	*reloading star data. So list in FindDialog must be new filled with current data.
    	*/
 		void clearCachedFindDialog();
+
+		void resumeDCOP( void ) { kapp->dcopClient()->resume(); }
 
 	private slots:
 		/**

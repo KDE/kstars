@@ -26,7 +26,6 @@
 #include <stdlib.h>
 //#include <iostream.h>
 #include <kdebug.h>
-#include <dcopclient.h>
 
 #include "finddialog.h"
 #include "kstars.h"
@@ -235,17 +234,24 @@ void KStars::showFocusCoords( void ) {
 }
 
 QString KStars::getDateString( QDate date ) {
-  QString dummy;
-  QString dateString = dummy.sprintf( "%02d / %02d / %04d",
-			  date.month(), date.day(), date.year() );
-  return dateString;
+	QString dummy;
+	QString dateString = dummy.sprintf( "%02d / %02d / %04d",
+			date.month(), date.day(), date.year() );
+	return dateString;
 }
 
-void KStars::setAltAz(double alt, double az) {
- 	map()->setFocusAltAz(alt,az);
+//DCOP function
+void KStars::setRaDec( double ra, double dec ) {
+	map()->setDestination( new SkyPoint( ra, dec ) );
 }
 
-void KStars::lookTowards (QString direction) {
+//DCOP function
+void KStars::setAltAz( double alt, double az ) {
+ 	map()->setDestinationAltAz(alt,az);
+}
+
+//DCOP function
+void KStars::lookTowards ( const QString direction ) {
   QString dir = direction.lower();
 	if (dir == "zenith" || dir=="z") map()->invokeKey( KAccel::stringToKey( "Z" ) );
 	else if (dir == "north" || dir=="n") map()->invokeKey( KAccel::stringToKey( "N" ) );
@@ -282,8 +288,87 @@ void KStars::lookTowards (QString direction) {
 	}
 }
 
+//DCOP function
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 	changeTime( QDate(yr, mth, day), QTime(hr,min,sec));
+}
+
+//DCOP function
+void KStars::waitFor( double t ) {
+	kapp->dcopClient()->suspend();
+	QTimer::singleShot( int( 1000.*t ), this, SLOT( resumeDCOP() ) );
+}
+
+//DCOP function
+void KStars::waitForKey( const QString k ) {
+	data()->resumeKey = KKey( k );
+	if ( ! data()->resumeKey.isNull() ) {
+		kapp->dcopClient()->suspend();
+	} else {
+		kdDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." ) << endl;
+	}
+}
+
+//DCOP function
+void KStars::setTracking( bool track ) {
+	if ( track != options()->isTracking ) slotTrack();
+}
+
+//DCOP function
+void KStars::changeOption( QString option, QString value ) {
+	//Try to match option argument to an existing option, then parse the argument
+	//This function will be tedious to write and maintain with our current 
+	//implementation of options.  May re-implement options using a QMap or QDict
+	//object to store option values.
+}
+
+//DCOP function
+void KStars::popupMessage( int x, int y, QString message ){
+	//Show a small popup window at (x,y) with a text message
+}
+
+//DCOP function
+void KStars::drawLine( int x1, int y1, int x2, int y2, int speed ) {
+	//Draw a line on the skymap display
+}
+
+//DCOP function 
+void KStars::setGeoLocation( QString city, QString province, QString country ) {
+	//Set the geographic location
+	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
+		if ( loc->translatedName() == city &&
+					loc->translatedProvince() == province &&
+					loc->translatedCountry() == country ) {
+			options()->setLocation( *loc );
+			
+			//notify on-screen GeoBox
+			infoBoxes()->geoChanged( loc );
+			
+			//configure time zone rule
+			QDateTime ltime = data()->UTime.addSecs( int( 3600 * loc->TZ0() ) );
+			loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
+			data()->setNextDSTChange( KSUtils::UTtoJulian( loc->tzrule()->nextDSTChange() ) );
+			
+			//reset LST
+			setLSTh( clock->UTC() );
+			
+			//make sure planets, etc. are updated immediately
+			data()->setFullTimeUpdate();
+			
+			// If the sky is in Horizontal mode and not tracking, reset focus such that
+			// Alt/Az remain constant.
+			if ( ! options()->isTracking && options()->useAltAz ) {
+				map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+			}
+
+			// recalculate new times and objects
+			options()->setSnapNextFocus();
+			updateTime();
+			
+			//no need to keep looking, we're done.
+			break;
+		}
+	}
 }
 
 

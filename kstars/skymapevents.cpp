@@ -21,7 +21,7 @@
 
 #include <kiconloader.h>
 #include <kstatusbar.h>
-
+#include <kshortcut.h> //KKey class
 #include <stdlib.h>
 #include <math.h> //using fabs()
 
@@ -47,6 +47,13 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	float step = 2.0;
 	if ( e->state() & ShiftButton ) step = 4.0;
 
+	//If the resume key was pressed, we process it here
+	if ( ! ksw->data()->resumeKey.isNull() && e->key() == ksw->data()->resumeKey.keyCodeQt() ) {
+		//kdDebug() << "resumeKey pressed; resuming DCOP." << endl;
+		ksw->resumeDCOP();
+		return;
+	}
+	
 	switch ( e->key() ) {
 		case Key_Left :
 			if ( ksw->options()->useAltAz ) {

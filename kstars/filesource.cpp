@@ -29,7 +29,7 @@ FileSource::FileSource(KStarsData *ksdata, float magnitude)
 	lineNumber = ksdata->starList.count() % 1000;
 //	kdDebug() << "fileNumber=" << fileNumber << " lineNumber=" << lineNumber << endl;
 
-	if (fileNumber <= 40) {
+	if (fileNumber <= NSAOFILES) {
 		// if file opened it's true else false
 		readingData = data->openSAOFile(fileNumber);
 		if (data->saoFileReader->setLine(lineNumber) == true) {

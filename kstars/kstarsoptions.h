@@ -91,7 +91,7 @@ class KStarsOptions {
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 
 		bool setTargetSymbol( QString name );
-
+		
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
 		// (false=equatorial coordinate system)
 		bool useAltAz;
@@ -104,7 +104,7 @@ class KStarsOptions {
 		//       how infinite in faculties!
 		//        in Class and Object, how expressive and admirable!
 		//         in KStdAction how like an angel!
-		//          in apprehension, how like a god!
+		//          in application, how like a god!
 		//     (more hacked Hamlet :)
 
 		//control drawing of various items in the skymap
