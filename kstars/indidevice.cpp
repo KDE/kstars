@@ -359,6 +359,7 @@ void INDI_P::convertSwitch(int id)
            if (lp->state == PS_OFF)
 		   newSwitch(switchIndex);
 	   prop->newText();
+	   break;
 	 default:
 	  break;
         }
@@ -798,6 +799,7 @@ void INDI_D::timerDone()
                                                          .arg(sp.dec()->arcmin())
 							 .arg(sp.dec()->arcsec()));
 	    prop->newText();
+	    break;
 	 case PP_WO:
 	    prop->table_w->setText( RARowIndex, 0,  QString("%1:%2:%3").arg(sp.ra()->hour())
         						 .arg(sp.ra()->minute())
@@ -806,6 +808,7 @@ void INDI_D::timerDone()
                                                          .arg(sp.dec()->arcmin())
 							 .arg(sp.dec()->arcsec()));
 	    prop->newText();
+	    break;
 	 default:
 	  break;
         }
@@ -948,7 +951,6 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	     }
 	     break;
 
-	    break;
 	case PP_WO:
 	    if (pp->guitype == PG_TEXT)
 	       pp->table_w->setText(i , 0, QString(ep->pcdata));
@@ -963,11 +965,10 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	      else
  	        pp->table_w->setText(i , 0, pp->labels[i]->text);
 	    }
-
-
 	    break;
-	   }
-	}
+
+	  }
+       }
 
         if (pp->name == "EQUATORIAL_COORD")
 	  parent->ksw->map()->forceUpdateNow();
@@ -1025,6 +1026,7 @@ int INDI_D::newTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	       pp->table_w->setText(i , pp->perm == PP_RW ? 1 : 0, pp->labels[i]->text);
 	     }
+	     break;
 
 	   case PP_RO:
 	      break;
@@ -1234,7 +1236,6 @@ int INDI_D::newValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	case PG_MENU:
 	    return (setLabelState (pp, root, errmsg));
 	    break;
-
 
 	default:
 	    break;
