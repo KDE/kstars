@@ -30,6 +30,7 @@
 #include <kaccel.h>
 #include <kapp.h>
 #include <kiconloader.h>
+#include <kdebug.h>
 #include "imageviewer.h"
 
 ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
@@ -53,7 +54,7 @@ ImageViewer::ImageViewer (const KURL *url, QWidget *parent, const char *name)
 	action->plug (toolBar());
 
 	if (imageURL.isMalformed())		//check URL
-		qDebug ("URL is malformed");
+            kdDebug()<<"URL is malformed"<<endl;
 	setCaption (imageURL.filename()); // the title of the window
 	loadImageFromURL();
 }
@@ -63,13 +64,13 @@ ImageViewer::~ImageViewer(){
 // remove the tempfile
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
-		qDebug ("remove of %s failed", file->name().local8Bit().data());
+            kdDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
 		file->setName (file->name() + ".part");		// set new suffix to filename
-		qDebug ("try to remove %s", file->name().local8Bit().data());
+                kdDebug()<<QString("try to remove %1").arg( file->name())<<endl;
 		if (file->remove())
-			qDebug ("file removed");
+                    kdDebug()<<"file removed\n";
 		else
-			qDebug ("file not removed");	// this should never happens
+                    kdDebug()<<"file not removed\n";
 	}
 }
 
@@ -130,7 +131,7 @@ void ImageViewer::loadImageFromURL()
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
 	KURL saveURL (file->name());
 	if (saveURL.isMalformed())
-		qDebug ("tempfile-URL is malformed");
+            kdDebug()<<"tempfile-URL is malformed\n";
 
 	emit StartDownload();
 	KIO::Job *downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
@@ -200,11 +201,11 @@ void ImageViewer::saveFileToDisc()
 	if (!newURL.isEmpty())
 	{
 		QFile f (newURL.directory() + "/" +  newURL.filename());
-		qDebug ("Saving to %s", f.name().local8Bit().data());
+                kdDebug()<<"Saving to :"<<f.name()<<endl;
 		if (f.exists())
 		{
-			qDebug ("Warning! Remove existing file %s", f.name().local8Bit().data());
-			f.remove();
+                    kdDebug()<<"Warning! Remove existing file "<< f.name()<<endl;
+                    f.remove();
 		}
 		saveFile (newURL);
 	}

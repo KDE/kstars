@@ -37,6 +37,7 @@
 #include <qlabel.h>
 #include <qlistbox.h>
 #include <qpushbutton.h>
+#include <kdebug.h>
 
 #include "kstars.h"
 #include "magnitudespinbox.h"
@@ -102,18 +103,18 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	QLabel *textLabelMagStars = new QLabel( StarsTab, "LabelMagStars" );
 	textLabelMagStars->setText( i18n( "Show stars brighter than" ) );
-	textLabelMagStars->setFont( stdFont );	
+	textLabelMagStars->setFont( stdFont );
 
 	// Spin box : show stars names for stars brighter than magnitude limit
 	int intMagLimitDrawStarInfo = 10*((int)(ksw->GetOptions()->magLimitDrawStarInfo));
 	//	float magLimitDrawStarName;
 	magSpinBoxDrawStarInfo = new MagnitudeSpinBox( 0, 90, StarsTab );
-	magSpinBoxDrawStarInfo->setFont( stdFont );	
+	magSpinBoxDrawStarInfo->setFont( stdFont );
 	magSpinBoxDrawStarInfo->setValue( intMagLimitDrawStarInfo );
 
 	QLabel *textLabelMagStarInfo = new QLabel( StarsTab, "LabelMagStarNames" );
 	textLabelMagStarInfo->setText( i18n( "for stars brighter than" ) );
-	textLabelMagStarInfo->setFont( stdFont );	
+	textLabelMagStarInfo->setFont( stdFont );
 
 	showStarNames = new QCheckBox( i18n( "show name" ), StarsTab );
 	showStarNames->setFont( stdFont );
@@ -194,7 +195,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
   useAbbrevConstellNames = new QRadioButton( i18n( "Abbreviated" ), ConstellOptions );
 	useAbbrevConstellNames->setFont ( stdFont );
 	useAbbrevConstellNames->setChecked( ksw->GetOptions()->useAbbrevConstellNames );
-	ConstellOptions->setEnabled( showConstellNames->isChecked() );	
+	ConstellOptions->setEnabled( showConstellNames->isChecked() );
 
 	showMilkyWay = new QCheckBox( i18n( "Milky Way" ), GuideTab );
 	showMilkyWay->setFont( stdFont );
@@ -405,7 +406,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	IntensityBox = new KIntSpinBox (0, 10, 1, ksw->GetOptions()->starColorIntensity, 10, LeftBox);
 	QLabel *IntensityLabel = new QLabel (IntensityBox, i18n ("Star Color &Intensity"), LeftBox);
 	IntensityLabel->setAlignment ( AlignRight | AlignVCenter );
-	
+
 // the QComboBox for the starcolor mode
 	StarColorMode = new QComboBox( LeftBox );
 	QLabel *ColorModeLabel = new QLabel( StarColorMode, i18n( "Star Color &Mode" ), LeftBox );
@@ -525,16 +526,16 @@ ViewOpsDialog::~ViewOpsDialog(){
 void ViewOpsDialog::changeMagDrawStars( int newValue )
 {
 	float fNewValue = ( newValue * 1.0) / 10.0;
-	
+
 	ksw->GetData()->setMagnitude( fNewValue );
-	
+
 	// force redraw
 	ksw->skymap->Update();
 }
 
 void ViewOpsDialog::changeMagDrawInfo( int newValue )
 {
-	qDebug( "magnitude limit draw star info %d", newValue );
+    kdDebug()<<"magnitude limit draw star info "<<newValue<<endl;
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	ksw->GetOptions()->magLimitDrawStarInfo = fNewValue;
 	// force redraw
@@ -679,7 +680,7 @@ void ViewOpsDialog::slotAddPreset( void ) {
 		file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 
 		if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );		
+			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
 		} else {
 			QTextStream stream( &file );
@@ -697,13 +698,13 @@ void ViewOpsDialog::slotAddPreset( void ) {
 			stream << ksw->GetOptions()->colorEcl << endl;
 			stream << ksw->GetOptions()->colorHorz << endl;
 			stream << ksw->GetOptions()->colorGrid << endl;
-			file.close();		
-		}	
+			file.close();
+		}
 
 		file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );		
+			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could not open file" ) );
 		} else {
 			QTextStream stream( &file );
@@ -855,7 +856,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->GetOptions()->useLatinConstellNames = useLatinConstellNames->isChecked();
 	ksw->GetOptions()->useLocalConstellNames = useLocalConstellNames->isChecked();
 	ksw->GetOptions()->useAbbrevConstellNames = useAbbrevConstellNames->isChecked();
-	ConstellOptions->setEnabled( showConstellNames->isChecked() );	
+	ConstellOptions->setEnabled( showConstellNames->isChecked() );
 	ksw->GetOptions()->drawMilkyWay = showMilkyWay->isChecked();
 	ksw->GetOptions()->fillMilkyWay = showMilkyWayFilled->isChecked();
 	showMilkyWayFilled->setEnabled( showMilkyWay->isChecked() );

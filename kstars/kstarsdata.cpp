@@ -26,6 +26,7 @@
 #include <klocale.h>
 
 #include "kstars.h"
+#include <kdebug.h>
 
 KStarsData::KStarsData() : reloadingInProgress ( false ) {
 	stdDirs = new KStandardDirs();
@@ -34,10 +35,10 @@ KStarsData::KStarsData() : reloadingInProgress ( false ) {
 	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
 	*/
 	maxSetMagnitude = options->magLimitDrawStar;
-	
+
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
-	
+
 	objList = new QList < SkyObject >;
 	ObjNames = new QList < SkyObjectName >;
 
@@ -99,8 +100,8 @@ bool KStarsData::openDataFile( QFile &file, QString s ) {
 			result = false;
 		}	else {
 			delete stdDirs;
-			result = true;	
-		}									
+			result = true;
+		}
   }
 
 	return result;
@@ -238,7 +239,7 @@ bool KStarsData::readStarData( void ) {
 
 			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
 			if ( mag > options->magLimitDrawStar ) break;	// break reading file if magnitude is higher than needed
-			
+
 			name = "star";
 			rah = line.mid( 0, 2 ).toInt();
 			ram = line.mid( 2, 2 ).toInt();
@@ -256,18 +257,18 @@ bool KStarsData::readStarData( void ) {
 			dms r;
 			r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );
-	
+
 			if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
 
 			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
 	  		starList.append( o );
-			
+
 			if ( o->name != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
 				ObjNames->append (new SkyObjectName (o->name, objList->last()));
 //				starList.last()->setSkyObjectName( ObjNames->last() );	// set pointer to ObjNames
 			}
-			
+
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
@@ -296,7 +297,7 @@ bool KStarsData::readNGCData( void ) {
 
 		  cat_id = line.at( 0 ); //check for IC catalog flag
 	  	if ( cat_id == " " ) cat_id = 'N'; // if blank, set catalog to NGC
-	
+
 		  ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
 			type = line.mid( 6, 1 ).toInt();     // object type identifier
 	  	rah = line.mid( 8, 2 ).toInt();
@@ -314,15 +315,15 @@ bool KStarsData::readNGCData( void ) {
 				imess = line.mid( 30, 3 ).toInt();
 			}
 			longname = line.mid( 34, 30 ).stripWhiteSpace();
-		
+
 		  ram = int( ramf );
 		  ras = int( 60.0*( ramf - (float)ram ) );
-	
+
 	  	dms r; r.setH( rah, ram, ras );
 		  dms d( dd, dm, 0 );
 
 		  if ( sgn == "-" ) { d.setD( -1.0*d.getD() ); }
-	
+
 			QString snum;
 			if (cat_id=="I") {
 				snum.setNum( ingc );
@@ -343,14 +344,14 @@ bool KStarsData::readNGCData( void ) {
 					name2 = "";
 				}
 			}
-			
+
 	  	SkyObject *o = new SkyObject( type, r, d, mag, name, name2, longname );
 
 	  	if ( !o->longname.isEmpty() ) {
 	  		objList->append( o );
   			ObjNames->append (new SkyObjectName (o->longname, objList->last()));
 	  	}
-	  			
+
 		  if (cat_id=="M") {
 	  		messList.append( o );
 				objList->append( o );
@@ -363,7 +364,7 @@ bool KStarsData::readNGCData( void ) {
 				icList.append( o );
 				objList->append( o );
 	  		ObjNames->append (new SkyObjectName (o->name, objList->last()));
-			}  	
+			}
 	  }
 		file.close();
 
@@ -445,8 +446,8 @@ bool KStarsData::readCityData( void ) {
 			}
 
 			if ( i<9 ) {
-				qDebug( i18n( "Ran out of fields!" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<i18n( "Ran out of fields!" )<<endl;
+                            abort = true;
 			}
 
 			int index = 0;
@@ -457,39 +458,65 @@ bool KStarsData::readCityData( void ) {
 			country = field[index++];
 
 			latD = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			latM = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck )
+                        {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			latS = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck )
+                        {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			QChar ctemp = field[index++].at(0);
 			latsgn = ctemp;
 			if (latsgn != 'N' && latsgn != 'S') {
-				qDebug( i18n( "Invalid latitude sign" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<i18n( "Invalid latitude sign" )<<endl;
+                            abort = true;
 			}
 
 			lngD = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			lngM = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			lngS = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( field[index-1].local8Bit() ); qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<field[index-1]<<endl;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			ctemp = field[index++].at(0);
 			lngsgn = ctemp;
 			if (lngsgn != 'E' && lngsgn != 'W') {
-				qDebug( "%c", lngsgn );
-				qDebug( i18n( "Invalid longitude sign" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<" "<<lngsgn<<endl;
+                            kdDebug()<<i18n( "Invalid longitude sign" )<<endl;
+                            abort = true;
 			}
 
 			if ( !abort ) {
 	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
 				lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
-  	
+
 				if ( latsgn == 'S' ) lat *= -1.0;
 				if ( lngsgn == 'W' ) lng *= -1.0;
-  	
+
 				TZ = int(lng/-15.0);
 
 //Strip off white space, and capitalize words properly
@@ -534,8 +561,8 @@ bool KStarsData::readCityData( void ) {
 			}
 
 			if ( i<9 ) {
-				qDebug( i18n( "Ran out of fields!" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<i18n( "Ran out of fields!" )<<endl;
+                            abort = true;
 			}
 
 			int index = 0;
@@ -546,38 +573,56 @@ bool KStarsData::readCityData( void ) {
 			country = field[index++];
 
 			latD = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			latM = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			latS = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			QChar ctemp = field[index++].at(0);
 			latsgn = ctemp;
 			if (latsgn != 'N' && latsgn != 'S') {
-				qDebug( i18n( "Invalid latitude sign" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<i18n( "Invalid latitude sign" )<<endl;
+                            abort = true;
 			}
 
 			lngD = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			lngM = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			lngS = field[index++].toInt( &intCheck );
-			if ( !intCheck ) { abort = true; qDebug( i18n( "Bad integer" ).local8Bit() ); }
+			if ( !intCheck ) {
+                            abort = true;
+                            kdDebug()<<i18n( "Bad integer" )<<endl;
+                        }
 			ctemp = field[index++].at(0);
 			lngsgn = ctemp;
 			if (lngsgn != 'E' && lngsgn != 'W') {
-				qDebug( i18n( "Invalid longitude sign" ).local8Bit() );
-				abort = true;
+                            kdDebug()<<i18n( "Invalid longitude sign" )<<endl;
+                            abort = true;
 			}
 
 			if ( !abort ) {
 	  		lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
 				lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
-  	
+
 				if ( latsgn == 'S' ) lat *= -1.0;
 				if ( lngsgn == 'W' ) lng *= -1.0;
-  	
+
 				TZ = int(lng/-15.0);
 
 
@@ -604,7 +649,7 @@ void KStarsData::saveOptions()
 	}
 	oldOptions->copy( options );
 }
-	
+
 void KStarsData::restoreOptions()
 {
 	if ( 0 == oldOptions ) {
@@ -681,16 +726,18 @@ bool KStarsData::reloadStarData( float newMag ) {
 	* will rejected if this variable is true.
 	*/
 	reloadingInProgress = true;
-		
+
 	QFile file;
 	if ( openDataFile( file, "sao.dat" ) ) {
-		if ( !file.at( lastFileIndex ) ) qDebug( "Warning: Setting of file index failed" );	// set index to last index in file
-		
+		if ( !file.at( lastFileIndex ) )
+                    kdDebug()<<"Warning: Setting of file index failed\n";
+	// set index to last index in file
+
 		QTextStream stream( &file );
 
 		float mag;	// magnitude of current star read in file
 		int i = 0;
-		
+
 		while ( !stream.eof() ) {
 			QString line, name, SpType;
 			int rah, ram, ras, dd, dm, ds;
@@ -699,9 +746,9 @@ bool KStarsData::reloadStarData( float newMag ) {
 			line = stream.readLine();
 
 			mag = line.mid( 33, 4 ).toFloat();	// star magnitude
-			
+
 			if ( mag > newMag ) break;	// break reading file if magnitude is higher than needed
-							
+
 			name = "star";
 			rah = line.mid( 0, 2 ).toInt();
 			ram = line.mid( 2, 2 ).toInt();
@@ -721,10 +768,10 @@ bool KStarsData::reloadStarData( float newMag ) {
 			dms d( dd, dm,  ds );
 
 			if ( sgn == "-" ) d.setD( -1.0*d.getD() );
-			
+
 			StarObject *o = new StarObject( 0, r, d, mag, name, "", "", SpType );
   			starList.append( o );
-			
+
 			if ( o->name != "star" ) {		// just add to name list if a name is given
 				objList->append( o );
 				ObjNames->append (new SkyObjectName (o->name, objList->last()));
@@ -732,12 +779,12 @@ bool KStarsData::reloadStarData( float newMag ) {
 			}
 			// recompute coordinates if AltAz is used
 			o->pos()->RADecToAltAz( ( (KStars *) kapp) ->skymap->LSTh, ( ( KStars *) kapp )->geo->lat() );
-			
+
 			if (mag < 4.0) starCount0 = starList.count();
 			if (mag < 6.0) starCount1 = starList.count();
 			if (mag < 7.0) starCount2 = starList.count();
 			if (mag < 7.5) starCount3 = starList.count();
-			
+
 /*
 	* If new magnitude is bigger than 6.0 check every 5000 stars the process loop.
 	* So it loads data in background.
@@ -746,9 +793,9 @@ bool KStarsData::reloadStarData( float newMag ) {
 				i = 0;
 				if ( newMag > 6.0 ) kapp->processEvents();
 			}
-  		
+
   		}	// enf of while
-		maxSetMagnitude = mag;	// store new set magnitude to compare in KStarsData::setMagnitude()		
+		maxSetMagnitude = mag;	// store new set magnitude to compare in KStarsData::setMagnitude()
 		lastFileIndex = file.at();	// stores last file index
 		file.close();
 // Set false to unlock the function.

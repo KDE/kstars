@@ -37,6 +37,7 @@
 
 #include <stdio.h>
 #include <stream.h>
+#include <kdebug.h>
 
 #include "timedialog.h"
 #include "locationdialog.h"
@@ -582,10 +583,9 @@ void KStars::initLocation() {
 		oldConfig = true;
     kapp->config()->writeEntry( "State", "" ); //ignore this key from now on...
 	}
-
-	qDebug( GetOptions()->CityName.local8Bit() );
-	qDebug( GetOptions()->ProvinceName.local8Bit() );
-	qDebug( GetOptions()->CountryName.local8Bit() );
+        kdDebug()<<GetOptions()->CityName<<endl;
+        kdDebug()<<GetOptions()->ProvinceName<<endl;
+        kdDebug()<<GetOptions()->CountryName<<endl;
 
 	for (GeoData = GetData()->geoList.first(); GeoData; GeoData = GetData()->geoList.next())
 	{
@@ -715,7 +715,7 @@ void KStars::initStars()
 	// Define the Celestial Equator
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->RADecToAltAz( skymap->LSTh, geo->lat() );		
+		o->RADecToAltAz( skymap->LSTh, geo->lat() );
 		GetData()->Equator.append( o );
 	}
 
@@ -743,7 +743,7 @@ void KStars::initStars()
 		o->setAz( Az );
 
 		GetData()->Horizon.append( o );
-	
+
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		double ELong, ELat;
 		ELong = data->getRA().getD();
@@ -930,8 +930,8 @@ void KStars::updateTime( void ) {
 
 	float factor = ((TimeSpinBox *)toolBar()->getWidget( idSpinBox ))->text().toFloat();
 	int dSeconds = int( dJD*24*3600*factor );
-	int dMSeconds = int( 1000*(dJD*24*3600*factor - dSeconds ) );		
-	
+	int dMSeconds = int( 1000*(dJD*24*3600*factor - dSeconds ) );
+
 	//Using QDateTime::addSecs() directly, instead of setTime()
 	//will automatically advance the date, when required
 	GetData()->LTime = GetData()->LTime.addSecs( dSeconds );
@@ -1088,7 +1088,7 @@ void KStars::updateTime( void ) {
 				GetData()->icList.at(i)->pos()->RADecToAltAz( skymap->LSTh, geo->lat() );
 			}
 		}
-		
+
 		//Milky Way
 		if ( GetOptions()->drawMilkyWay ) {
 			for ( unsigned int j=0; j<11; ++j ) {
@@ -1185,7 +1185,7 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 	//should never get here
 	return NULL;
 }
-	
+
 QString KStars::getDateString( QDate date ) {
   QString dummy;
   QString dateString = dummy.sprintf( "%02d / %02d / %04d",
