@@ -28,8 +28,8 @@
 #include "kstarsdatetime.h"
 
 QString SkyObject::emptyString = QString("");
-QString SkyObject::unnamedString = QString(i18n("unnamed"));
-QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
+QString SkyObject::unnamedString = i18n("unnamed");
+QString SkyObject::unnamedObjectString = i18n("unnamed object");
 QString SkyObject::starString = QString("star");
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
@@ -93,7 +93,7 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 	if ( checkCircumpolar(geo->lat()) )
 		return QTime( 25, 0, 0 );
 
-	//First of all, if the object is below the horizon at date/time dt, adjust the time 
+	//First of all, if the object is below the horizon at date/time dt, adjust the time
 	//to bring it above the horizon
 	KStarsDateTime dt2 = dt;
 	SkyPoint p = recomputeCoords( dt, geo );
@@ -105,14 +105,14 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 			dt2 = dt.addSecs( -12.*3600. );
 		}
 	}
-	
+
 	return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
 }
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
 	// First trial to calculate UT
 	QTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
-	
+
 	// We iterate once more using the calculated UT to compute again
 	// the ra and dec for that time and hence the rise/set time.
 	// Also, adjust the date by +/- 1 day, if necessary
@@ -123,7 +123,7 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 	} else if ( ! riseT && dt0 < dt ) {
 		dt0 = dt0.addDays( 1 );
 	}
-	
+
 	SkyPoint sp = recomputeCoords( dt0, geo );
 	UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
 
@@ -245,29 +245,29 @@ double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *de
 
 dms SkyObject::elevationCorrection(void) {
 
-	/* The atmospheric refraction at the horizon shifts altitude by 
+	/* The atmospheric refraction at the horizon shifts altitude by
 	 * - 34 arcmin = 0.5667 degrees. This value changes if the observer
 	 * is above the horizon, or if the weather conditions change much.
 	 *
 	 * For the sun we have to add half the angular sie of the body, since
 	 * the sunset is the time the upper limb of the sun disappears below
-	 * the horizon, and dawn, when the upper part of the limb appears 
+	 * the horizon, and dawn, when the upper part of the limb appears
 	 * over the horizon. The angular size of the sun = angular size of the
-	 * moon = 31' 59''. 
+	 * moon = 31' 59''.
 	 *
 	 * So for the sun the correction is = -34 - 16 = 50 arcmin = -0.8333
 	 *
 	 * This same correction should be applied to the moon however parallax
-	 * is important here. Meeus states that the correction should be 
-	 * 0.7275 P - 34 arcmin, where P is the moon's horizontal parallax. 
-	 * He proposes a mean value of 0.125 degrees if no great accuracy 
+	 * is important here. Meeus states that the correction should be
+	 * 0.7275 P - 34 arcmin, where P is the moon's horizontal parallax.
+	 * He proposes a mean value of 0.125 degrees if no great accuracy
 	 * is needed.
 	 */
 
 	if ( name() == "Sun" || name() == "Moon" )
 		return dms(-0.8333);
 //	else if ( name() == "Moon" )
-//		return dms(0.125);       
+//		return dms(0.125);
 	else                             // All sources point-like.
 		return dms(-0.5667);
 }
@@ -336,7 +336,7 @@ void SkyObject::setName2( const QString &name2 ) {
 QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 	QString message = imageTitle;
 	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
-		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]" ).arg( longname() );  
+		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]" ).arg( longname() );
 	} else if ( imageTitle == i18n( "Show SEDS Image" ) ) {
 		message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]" ).arg( longname() );
 	} else if ( imageTitle == i18n( "Show KPNO AOP Image" ) ) {
@@ -349,6 +349,6 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 		message = imageTitle.mid( imageTitle.find( " " ) + 1 ); //eat first word, "Show"
 		message = longname() + ": " + message;
 	}
-	
+
 	return message;
 }
