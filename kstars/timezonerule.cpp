@@ -198,11 +198,13 @@ bool TimeZoneRule::isDSTActive( const QDateTime date ) {
 	// the interval check is different if StartMonth > RevertMonth (indicating that
 	// the DST interval includes the end of the year).
 	int month = date.date().month();
-	if ( StartMonth < RevertMonth )
+	
+	if ( StartMonth < RevertMonth ) {
 		if ( month < StartMonth || month > RevertMonth ) return false;
-	else
+	} else {
 		if ( month < StartMonth && month > RevertMonth ) return false;
-
+	}
+	
 	// OK, if the month is equal to StartMonth or Revert Month, we have more
 	// detailed checking to do...
 	int day = date.date().day();
