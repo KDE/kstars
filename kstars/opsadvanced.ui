@@ -12,9 +12,6 @@
             <height>397</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>OpsAdvanced</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
