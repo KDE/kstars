@@ -36,7 +36,7 @@
 
 
 DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
-		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Ok, Ok, parent, name ) {
+		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) {
 
     selectedObject = o;
     ksw = (KStars*) parent;
