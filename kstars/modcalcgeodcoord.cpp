@@ -87,15 +87,15 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 	cartBox->setTitle( i18n("Cartesian Coordinates"));
 	
 	QLabel * XLabel = new QLabel( cartBox );
-	XLabel->setText( i18n(" X coordinate in meters","X (km):") );
+	XLabel->setText( i18n("X coordinate","X (km):") );
 	xGeoName = new QLineEdit( cartBox, "XGeoName" );
 
 	QLabel * YLabel = new QLabel( cartBox );
-	YLabel->setText( i18n(" Y coordinate","Y (km):") );
+	YLabel->setText( i18n("Y coordinate","Y (km):") );
 	yGeoName = new QLineEdit( cartBox, "YGeoName" );
 
 	QLabel * ZLabel = new QLabel( cartBox );
-	ZLabel->setText( i18n(" > coordinate","Z (km):") );
+	ZLabel->setText( i18n("Z coordinate","Z (km):") );
 	zGeoName = new QLineEdit( cartBox, "ZGeoName" );
 			
 	QVBoxLayout * cartLay = new QVBoxLayout( cartBox );
