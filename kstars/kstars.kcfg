@@ -98,7 +98,7 @@
 			<label>Filenames of defined custom object catalogs.</label>
 		</entry>
 		<entry name="ShowCatalog" type="IntList">
-			<label>nonzero value means corresponding defined custom object catalog will be shown.</label>
+			<label>Non-zero value means corresponding defined custom object catalog will be shown.</label>
 		</entry>
 	</group>
 
@@ -221,11 +221,11 @@
 			<default>true</default>
 		</entry>
 		<entry name="HideIC" type="Bool">
-			<label>Hide IC obejcts while moving?</label>
+			<label>Hide IC objects while moving?</label>
 			<default>true</default>
 		</entry>
 		<entry name="HideMilkyWay" type="Bool">
-			<label>Hide Milky Way countour while moving?</label>
+			<label>Hide Milky Way contour while moving?</label>
 			<default>true</default>
 		</entry>
 		<entry name="HideMessier" type="Bool">
@@ -277,7 +277,7 @@
 			<default>true</default>
 		</entry>
 		<entry name="ShowDeepSky" type="Bool">
-			<label>Draw "deep sky" obejcts in the sky map?</label>
+			<label>Draw "deep sky" objects in the sky map?</label>
 			<default>true</default>
 		</entry>
 		<entry name="ShowEcliptic" type="Bool">
@@ -325,7 +325,7 @@
 			<default>true</default>
 		</entry>
 		<entry name="FillMilkyWay" type="Bool">
-			<label>Fill Milky Way contour?l (false means use outline only)</label>
+			<label>Fill Milky Way contour? (false means use outline only)</label>
 			<default>true</default>
 		</entry>
 		<entry name="ShowPlanets" type="Bool">
@@ -411,7 +411,7 @@
 			<default>false</default>
 		</entry>
 		<entry name="UseLatinConstellNames" type="Bool">
-			<label>Use latin constellation names?</label>
+			<label>Use Latin constellation names?</label>
 			<default>true</default>
 		</entry>
 		<entry name="UseLocalConstellNames" type="Bool">
