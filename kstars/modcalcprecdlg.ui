@@ -140,7 +140,7 @@
                                 <cstring>Clear</cstring>
                             </property>
                             <property name="text">
-                                <string>clear</string>
+                                <string>Clear</string>
                             </property>
                         </widget>
                         <spacer>
@@ -278,6 +278,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>

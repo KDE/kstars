@@ -120,7 +120,7 @@
                                 <cstring>Clear</cstring>
                             </property>
                             <property name="text">
-                                <string>clear</string>
+                                <string>Clear</string>
                             </property>
                         </widget>
                         <spacer>
@@ -365,6 +365,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>dmsbox.h</includehint>

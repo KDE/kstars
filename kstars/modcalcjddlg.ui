@@ -191,7 +191,7 @@
                                 </size>
                             </property>
                             <property name="text">
-                                <string>clear</string>
+                                <string>Clear</string>
                             </property>
                         </widget>
                         <spacer>
@@ -272,7 +272,7 @@
                 <cstring>Datebox</cstring>
             </property>
             <property name="title">
-                <string>Date and Time</string>
+                <string>Date &amp;&amp; Time</string>
             </property>
             <vbox>
                 <property name="name">
@@ -417,6 +417,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>
