@@ -19,6 +19,7 @@
 #include <kdebug.h>
 #include "ksutils.h"
 #include "ksplanet.h"
+#include "ksfilereader.h"
 
 
 KSPlanet::OrbitDataManager KSPlanet::odm;
@@ -47,6 +48,15 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 	QList<OrbitData> DData;
 
 	if ( KSUtils::openDataFile( f, fname ) ) {
+		KSFileReader fileReader( f ); // close file is included
+    while ( fileReader.hasMoreLines() ) {
+      line = fileReader.readLine();
+			QTextIStream instream( &line );
+			instream >> A >> B >> C;
+			DData.append(new OrbitData(A, B, C));
+				
+		}
+/* old code
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -56,6 +66,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 				
 		}
 		f.close();
+*/
 	} else {
 		return false;
 	}

@@ -25,6 +25,7 @@
 #include "kstarsmessagebox.h"
 #include "filesource.h"
 #include "stardatasink.h"
+#include "ksfilereader.h"
 
 #include <kapplication.h>
 
@@ -124,13 +125,12 @@ bool KStarsData::readMWData( void ) {
 		fname = "mw" + szero + snum + ".dat";
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
-		  QTextStream stream( &file );
-
-	  	while ( !stream.eof() ) {
+      KSFileReader fileReader( file ); // close file is included
+	  	while ( fileReader.hasMoreLines() ) {
 		  	QString line;
 			  double ra, dec;
 
-			  line = stream.readLine();
+			  line = fileReader.readLine();
 
 			  ra = line.mid( 0, 8 ).toDouble();
 	  		dec = line.mid( 9, 8 ).toDouble();
@@ -138,7 +138,6 @@ bool KStarsData::readMWData( void ) {
 			  SkyPoint *o = new SkyPoint( ra, dec );
 			  MilkyWay[i].append( o );
 	  	}
-			file.close();
 		} else {
 			return false;
 		}
@@ -800,7 +799,7 @@ bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bo
 }
 
 
-bool KStarsData::processCity( QString line ) {
+bool KStarsData::processCity( QString& line ) {
 	QString totalLine;
 	QString name, province, country;
 	QStringList fields;
@@ -945,15 +944,15 @@ bool KStarsData::readCityData( void ) {
 	QFile file;
 	bool citiesFound = false;
 
-	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
-			QString line = stream.readLine();
-			citiesFound |= processCity( line );
-		}	// while ( !stream.eof() )
-		file.close();
-	}	// if ( KSUtils::openDataFile() )
+// begin new code
+	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
+    KSFileReader fileReader( file ); // close file is included
+    while ( fileReader.hasMoreLines() ) {
+			citiesFound |= processCity( fileReader.readLine() );
+    }
+  }
+// end new code
 
 	//check for local cities database, but don't require it.
 	file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.

@@ -121,7 +121,7 @@ public:
 		*@param line The line from the geographic database to be parsed
 		*@returns true if location successfully parsed; otherwise false.
 		*/
-	bool processCity( QString line );
+	bool processCity( QString& line );
 
 	/**Populate list of star objects from the stars database file.
 		*Each line in the file provides the information required to construct a
