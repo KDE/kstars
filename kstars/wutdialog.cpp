@@ -215,10 +215,9 @@ void WUTDialog::slotLoadList(int i) {
 	for (SkyObjectName *oname=lists.visibleList[i].first(); oname; oname=lists.visibleList[i].next()) {
 		bool visible = true;
 		if (lists.initialized[i] == false) {
-			visible = checkVisibility(oname);
-			// don't show the sun or moon
-			if (i == 0) {
-				if (oname->text() == "Sun" || oname->text() == "Moon" ) visible = false;
+			if (i == 0) {  //planets, sun and moon
+				if (oname->skyObject()->name() == "Sun" ) visible = false;  // don't ever display the sun
+				else visible = checkVisibility(oname);
 			}
 			if (visible == false) {
 				// collect all invisible objects
@@ -247,7 +246,6 @@ void WUTDialog::slotLoadList(int i) {
 bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	bool visible( false );
 	double minAlt = 20.0; //minimum altitude for object to be considered 'visible'
-	SkyPoint sp = (SkyPoint)*(oname->skyObject()); //local copy of skyObject's position
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
 	QDateTime T1 = Today;
@@ -269,8 +267,10 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	for ( QDateTime test = T1; test < T2; test = test.addSecs(3600) ) {
 		//Need LST of the test time, expressed as a dms object.
 		QDateTime ut = test.addSecs( int( -3600*geo->TZ() ) );
+		long double jd = KSUtils::UTtoJD( ut );
 		dms LST = KSUtils::UTtoLST( ut, geo->lng() );
-
+		SkyPoint sp = oname->skyObject()->computeCoordsForJD( jd, geo );
+		
 		//check altitude of object at this time.
 		sp.EquatorialToHorizontal( &LST, geo->lat() );
 

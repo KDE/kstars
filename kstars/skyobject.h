@@ -206,6 +206,14 @@ public:
 	*/
 	bool checkCircumpolar( const dms *gLng );
 
+/**The coordinates for the object on date "jd" are computed and returned,
+	*but the object's internal coordinates are not permanently modified.
+	*@return the coordinates of the selected object for the time given by jd
+	*@param jd0 Julian day for which the coords will be recomputed.
+	*@param geo pointer to geographic location (used for solar system only)
+	*/
+	SkyPoint computeCoordsForJD( long double jd, const GeoLocation *geo=0 );
+
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
 	QString userLog;
@@ -270,15 +278,6 @@ private:
 	*@param UT  Universal Time for which the JD is computed.
 	*/
 	long double newJDfromJDandUT(long double jd, QTime UT);
-
-/**This function is only used internally, to calculate rise/set times.
-	*The coordinates for the object on date "jd" are computed and returned,
-	*but the object's internal coordinates are not permanently modified.
-	*@return the coordinates of the selected object for the time given by jd
-	*@param jd0 Julian day for which the coords will be recomputed.
-	*@param geo pointer to geographic location (used for solar system only)
-	*/
-	SkyPoint computeCoordsForJD( long double jd, const GeoLocation *geo=0 );
 
 	unsigned char Type;
 	float Magnitude;
