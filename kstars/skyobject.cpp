@@ -97,7 +97,8 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 	//to bring it above the horizon
 	KStarsDateTime dt2 = dt;
 	SkyPoint p = recomputeCoords( dt, geo );
-	p.EquatorialToHorizontal( &(geo->GSTtoLST( dt.gst() )), geo->lat() );
+	dms d( geo->GSTtoLST( dt.gst() ) );
+	p.EquatorialToHorizontal( &d, geo->lat() );
 	if ( p.alt()->Degrees() < 0.0 ) {
 		if ( p.az()->Degrees() < 180.0 ) { //object has not risen yet
 			dt2 = dt.addSecs( 12.*3600. );
