@@ -40,8 +40,6 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	hlay->addWidget( unitBox );
 	hlay->activate();
 
-	setMinimumWidth( unitBox->width() + 2*timeBox->width() );
-	setMaximumWidth( unitBox->width() + 2*timeBox->width() );
 	timeBox->setValue( 4 ); //real-time
 
 	connect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );

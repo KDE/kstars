@@ -375,6 +375,19 @@ void KStars::initActions() {
 		a->setChecked( Options::showCNames() );
 	}
 
+//show_cbound:
+	if (KSUtils::openDataFile( tempFile, "show_cbound.png" ) ) {
+		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ),
+				tempFile.name(), 0,
+				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
+		a->setChecked( Options::showCBounds() );
+		tempFile.close();
+	} else {
+		KToggleAction *a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "wizard", 0,
+				this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
+		a->setChecked( Options::showCBounds() );
+	}
+
 //show_mw:
 	if (KSUtils::openDataFile( tempFile, "show_mw.png" ) ) {
 		KToggleAction *a = new KToggleAction( i18n( "Toggle Milky Way" ),

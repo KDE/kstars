@@ -91,6 +91,8 @@ void KStars::slotViewToolBar() {
 		Options::setShowCLines( !Options::showCLines() );
 	} else if ( sender()->name() == QString( "show_cnames" ) ) {
 		Options::setShowCNames( !Options::showCNames() );
+	} else if ( sender()->name() == QString( "show_cbounds" ) ) {
+		Options::setShowCBounds( !Options::showCBounds() );
 	} else if ( sender()->name() == QString( "show_mw" ) ) {
 		Options::setShowMilkyWay( !Options::showMilkyWay() );
 	} else if ( sender()->name() == QString( "show_grid" ) ) {
