@@ -164,7 +164,7 @@
                         </column>
                         <column>
                             <property name="text">
-                                <string>Host</string>
+                                <string>Name</string>
                             </property>
                             <property name="clickable">
                                 <bool>true</bool>

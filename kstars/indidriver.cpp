@@ -78,7 +78,7 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
   	QListViewItem *item = new QListViewItem(clientListView, lastGroup);
 	lastGroup = item;
 	item->setPixmap(0, disconnected);
-        item->setText(1, ksw->data()->INDIHostsList.at(i)->hostname);
+        item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
 	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
 
   }
@@ -488,10 +488,15 @@ void INDIDriver::processHostStatus(int id)
    QListViewItem *currentItem = clientListView->selectedItem();
    INDIHostsInfo *hostInfo;
 
+   //kdDebug() << "The INDI host size is " << ksw->data()->INDIHostsList.count() << endl;
+   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     //kdDebug() << "The name is " << ksw->data()->INDIHostsList.at(i)->name << endl;
+
+
    for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
      hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (currentItem->text(1) == hostInfo->hostname && currentItem->text(2) == hostInfo->portnumber)
+     if (currentItem->text(1) == hostInfo->name && currentItem->text(2) == hostInfo->portnumber)
      {
         // Nothing changed, return
         if (hostInfo->isConnected == toConnect)
@@ -501,7 +506,7 @@ void INDIDriver::processHostStatus(int id)
 	if (toConnect)
 	{
 	   // if connection successful
-          if ( (mgrID = ksw->getINDIMenu()->processClient(currentItem->text(1), currentItem->text(2))) >= 0)
+          if ( (mgrID = ksw->getINDIMenu()->processClient(hostInfo->hostname, hostInfo->portnumber)) >= 0)
 	  {
 	    currentItem->setPixmap(0, connected);
 	    hostInfo->isConnected = true;
@@ -525,19 +530,29 @@ void INDIDriver::addINDIHost()
 {
   INDIHostConf hostConf(this);
   hostConf.setCaption(i18n("Add Host"));
+  bool portOk = false;
 
   if (hostConf.exec() == QDialog::Accepted)
   {
     INDIHostsInfo *hostItem = new INDIHostsInfo;
+    hostItem->name       = hostConf.nameIN->text();
     hostItem->hostname   = hostConf.hostname->text();
     hostItem->portnumber = hostConf.portnumber->text();
 
+    hostItem->portnumber.toInt(&portOk);
+
+    if (portOk == false)
+    {
+     KMessageBox::error(0, i18n("Error: the port number is invalid"));
+     return;
+    }
+
     //search for duplicates
     for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     if (hostItem->hostname   == ksw->data()->INDIHostsList.at(i)->hostname &&
+     if (hostItem->name   == ksw->data()->INDIHostsList.at(i)->name &&
          hostItem->portnumber == ksw->data()->INDIHostsList.at(i)->portnumber)
      {
-       KMessageBox::error(0, i18n("Host: ") + hostItem->hostname + " Port: " + hostItem->portnumber + i18n(" already exist."));
+       KMessageBox::error(0, i18n("Host: ") + hostItem->name + " Port: " + hostItem->portnumber + i18n(" already exist."));
        return;
      }
 
@@ -545,7 +560,7 @@ void INDIDriver::addINDIHost()
 
     QListViewItem *item = new QListViewItem(clientListView);
     item->setPixmap(0, disconnected);
-    item->setText(1, hostConf.hostname->text());
+    item->setText(1, hostConf.nameIN->text());
     item->setText(2, hostConf.portnumber->text());
 
   }
@@ -566,23 +581,31 @@ void INDIDriver::modifyINDIHost()
   if (currentItem == NULL)
    return;
 
-  hostConf.hostname->setText(currentItem->text(1));
-  hostConf.portnumber->setText(currentItem->text(2));
+  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     if (currentItem->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
+         currentItem->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
+     {
 
-  if (hostConf.exec() == QDialog::Accepted)
-  {
-    INDIHostsInfo *hostItem = new INDIHostsInfo;
-    hostItem->hostname   = hostConf.hostname->text();
-    hostItem->portnumber = hostConf.portnumber->text();
+        hostConf.nameIN->setText(ksw->data()->INDIHostsList.at(i)->name);
+  	hostConf.hostname->setText(ksw->data()->INDIHostsList.at(i)->hostname);
+  	hostConf.portnumber->setText(ksw->data()->INDIHostsList.at(i)->portnumber);
 
-    currentItem->setText(1, hostConf.hostname->text());
-    currentItem->setText(2, hostConf.portnumber->text());
+  	if (hostConf.exec() == QDialog::Accepted)
+  	{
+    	INDIHostsInfo *hostItem = new INDIHostsInfo;
+	hostItem->name       = hostConf.nameIN->text();
+    	hostItem->hostname   = hostConf.hostname->text();
+    	hostItem->portnumber = hostConf.portnumber->text();
 
-    ksw->data()->INDIHostsList.replace(clientListView->itemIndex(currentItem), hostItem);
+    	currentItem->setText(1, hostConf.nameIN->text());
+    	currentItem->setText(2, hostConf.portnumber->text());
 
-    saveHosts();
-  }
+    	ksw->data()->INDIHostsList.replace(clientListView->itemIndex(currentItem), hostItem);
 
+    	saveHosts();
+  	}
+
+     }
 }
 
 void INDIDriver::removeINDIHost()
@@ -594,7 +617,11 @@ void INDIDriver::removeINDIHost()
  if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the host?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
    return;
 
- ksw->data()->INDIHostsList.remove(clientListView->itemIndex(clientListView->currentItem()));
+ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     if (clientListView->currentItem()->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
+         clientListView->currentItem()->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
+ 	ksw->data()->INDIHostsList.remove(i);
+
  clientListView->takeItem(clientListView->currentItem());
 
  saveHosts();
@@ -621,7 +648,9 @@ void INDIDriver::saveHosts()
  for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
  {
 
- hostData  = "<INDIHost hostname='";
+ hostData  = "<INDIHost name='";
+ hostData += ksw->data()->INDIHostsList.at(i)->name;
+ hostData += "' hostname='";
  hostData += ksw->data()->INDIHostsList.at(i)->hostname;
  hostData += "' port='";
  hostData += ksw->data()->INDIHostsList.at(i)->portnumber;

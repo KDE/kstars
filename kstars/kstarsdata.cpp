@@ -320,12 +320,21 @@ while ( (c = (char) file.getch()) != -1)
     {
 
       // Get host name
+      ap = findXMLAtt(root, "name");
+      if (!ap)
+       return false;
+
+       INDIHostsInfo *VInfo = new INDIHostsInfo;
+
+       VInfo->name = QString(ap->valu);
+
+      // Get host name
       ap = findXMLAtt(root, "hostname");
 
       if (!ap)
        return false;
 
-    INDIHostsInfo *VInfo = new INDIHostsInfo;
+
     VInfo->hostname = QString(ap->valu);
 
     ap = findXMLAtt(root, "port");

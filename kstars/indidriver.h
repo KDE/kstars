@@ -33,6 +33,7 @@ class KProcess;
 
 struct INDIHostsInfo
 {
+  QString name;
   QString hostname;
   QString portnumber;
   bool isConnected;
