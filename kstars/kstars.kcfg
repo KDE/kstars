@@ -158,7 +158,7 @@
 		<entry name="indiVideoPort" type="String">
 			<label>INDI Video port</label>
 			<default>/dev/video0</default>
-			<whatsthis>The port to which the video device is connected to</whatsthis>
+			<whatsthis>The port to which the video device is connected</whatsthis>
 		</entry>
 		<entry name="fitsSaveDirectory" type="String">
 			<label>FITS Default directory</label>

@@ -100,7 +100,7 @@ void StreamWG::establishDataChannel(QString host, int port)
 
 	if ( (streamFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
-	 KMessageBox::error(0, i18n("Can not create socket."));
+	 KMessageBox::error(0, i18n("Cannot create socket."));
 	 return;
 	}
 
