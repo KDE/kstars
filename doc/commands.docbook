@@ -573,7 +573,9 @@ displayed in the status bar.  Clicking the Mouse anywhere will
 identify the nearest object in the status bar.  Double-clicking will
 center and track on the clicked location or object.  Click and drag
 to pan the display.  <mousebutton>Right</mousebutton> click to bring up the popup menu
-with detailed options for the clicked object.
+with detailed options for the clicked object. Holding the right and left mousebutton and moving
+the mouse vertical with change the zoomlevel. Moving upwards will cause a zoom out and moving downwards
+will cause a zoom in.
 </para>
 </sect1>
 </chapter>
