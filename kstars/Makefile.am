@@ -32,7 +32,7 @@ modcalcsidtimedlg.ui opsadvanced.ui opscatalog.ui opscolors.ui \
 opsguides.ui opssolarsystem.ui optionstreeview.ui scriptbuilderui.ui \
 scriptnamedialog.ui kstarsinterface.skel simclockinterface.skel
 
-kstars_LDADD = indi/liblilxml.a indi/libindicom.a -lkdeeduplot -lkdeprint -lm
+kstars_LDADD = indi/liblilxml.a indi/libindicom.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la -lkdeprint -lm
 
 SUBDIRS = data indi
 
