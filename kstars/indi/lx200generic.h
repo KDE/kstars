@@ -53,16 +53,17 @@ class LX200Generic
   int currentSubCatalog;
   int portIndex;
   int trackingMode;
-  int lastSet;
 
+  double JD;
   double currentRA;
   double currentDEC;
   double targetRA;
   double targetDEC;
-  int lastMove[4];
 
-  char lastDate [64];
-  char lastTime [64];
+  struct tm *localTM;
+
+  int lastSet;
+  int lastMove[4];
 
 };
 

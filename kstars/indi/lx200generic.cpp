@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "indicom.h"
 #include "lx200driver.h"
 #include "lx200GPS.h"
 
@@ -192,6 +193,9 @@ LX200Generic::LX200Generic()
    lastSet   = 0;
    lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
+   localTM = new tm;
+   JD = 0;
+
    // Children call parent routines, this is the default
    fprintf(stderr , "initilizaing from generic LX200 device...\n");
 
@@ -209,8 +213,8 @@ void LX200Generic::ISGetProperties(const char *dev)
   ICDefSwitches (&AlignmentSw, "Alignment", ISP_W, IR_1OFMANY);
   ICDefNumber (&minAlt, "Min Elevation Limit", IP_RW, NULL);
   ICDefNumber (&maxAlt, "Max Elevation Limit", IP_RW, NULL);
-  ICDefNumber (&RA, "RA H:M:S", IP_RW, NULL);
-  ICDefNumber (&DEC, "DEC D:M:S", IP_RW, NULL);
+  ICDefNumber (&RA, "RA J2000 H:M:S", IP_RW, NULL);
+  ICDefNumber (&DEC, "DEC J2000 D:M:S", IP_RW, NULL);
   ICDefSwitches (&OnCoordSetSw, "On Set", ISP_W, IR_1OFMANY);
   ICDefText   (&ObjectInfo, "Object Info", IP_RO);
 
@@ -242,12 +246,9 @@ void LX200Generic::ISGetProperties(const char *dev)
 
 void LX200Generic::ISNewText(IText *t)
 {
-        int dd, mm, yy;
-	int h ,  m,  s;
 	int UTCOffset;
-	char localTime[64];
-  	char localDate[64];
 	struct tm *ltp = new tm;
+	struct tm utm;
 	time_t ltime;
 	time (&ltime);
 	localtime_r (&ltime, ltp);
@@ -296,72 +297,46 @@ void LX200Generic::ISNewText(IText *t)
 	    return;
 	  }
 
-	  if (extractDateTime(t->text, localTime, localDate))
+	  if (extractISOTime(t->text, &utm) < 0)
 	  {
 	    Time.s = ILS_IDLE;
 	    ICSetText(&Time , "Time invalid");
 	    return;
 	  }
+	        utm.tm_mon   += 1;
+		ltp->tm_mon  += 1;
+		utm.tm_year  += 1900;
+		ltp->tm_year += 1900;
 
-	  	// Time changed
-	  	if (strcmp(lastTime, localTime))
-	  	{
+	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
 
-	  		if (extractTime(localTime, &h, &m, &s))
-		  	{
-	    		Time.s = ILS_IDLE;
-	    		ICSetText(&Time , "Time invalid");
-	    		return;
-	  		}
-
-
-			UTCOffset = (h - ltp->tm_hour);
-
-			extractDate(lastDate, &dd, &mm, &yy);
-			if (dd - ltp->tm_mday != 0)
+		if (utm.tm_mday - ltp->tm_mday != 0)
 			 UTCOffset += 24;
 
-			fprintf(stderr, "UTCOffset is %d\n", UTCOffset);
-			fprintf(stderr, "time is %02d:%02d:%02d\n", ltp->tm_hour, m, s);
-			setUTCOffset(UTCOffset);
-	  		setLocalTime(ltp->tm_hour, m, s);
-		  	Time.s = ILS_OK;
+		fprintf(stderr, "UTCOffset is %d\n", UTCOffset);
+		fprintf(stderr, "time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
+		setUTCOffset(UTCOffset);
+	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 
-			strcpy(Time.text, t->text);
-  	  		ICSetText(&Time , "Time updated to %s", Time.text);
+		strcpy(Time.text, t->text);
+		Time.s = ILS_OK;
 
-			strcpy(lastTime, localTime);
+		// update JD
+                JD = UTtoJD(&utm);
+
+		fprintf(stderr, "New JD is %f\n", (float) JD);
+
+		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
+		    (localTM->tm_year == ltp->tm_year))
+		{
+		  ICSetText(&Time , "Time updated to %s", Time.text);
+		  return;
 		}
 
-		// Date changed
-		if (strcmp(lastDate, localDate))
-		{
-
-			if (extractDate(localDate, &dd, &mm, &yy))
-	  		{
-	    		Time.s = ILS_IDLE;
-	   		ICSetText(&Time , "Date invalid");
-	   		return;
-	  		}
-
-			// To make YYYY to YY
-			//sprintf(lastDate, "%d:%d:%d", tp->tm_year, tp->tm_mon, tp->tm_mday);
-			//fprintf(stderr, "The year is %d , month %d, day of month is %d\n",tp->tm_year, tp->tm_mon, tp->tm_mday);
-			strftime (lastDate, sizeof(lastDate), "%Y:%m:%d", ltp);
-			extractDate(lastDate, &dd, &mm, &yy);
-
-			//fprintf(stderr, "date writtin is %d:%d:%d\n", dd, mm, yy);
-
-			setCalenderDate(dd, mm, yy);
- 			strcpy(Time.text, t->text);
-	  		Time.s = ILS_OK;
-	  		ICSetText(&Time , "Date changed, updating planetary data...");
-
-	  		strcpy (lastDate, localDate);
-	        }
-	 return;
-        }
-
+		localTM = ltp;
+		setCalenderDate(ltp->tm_mday, ltp->tm_mon, ltp->tm_year);
+ 		ICSetText(&Time , "Date changed, updating planetary data...");
+	}
 }
 
 
@@ -370,8 +345,8 @@ int LX200Generic::handleCoordSet()
 
   int i=0;
   char syncString[256];
-  char RAbuffer[64];
-  char Decbuffer[64];
+  //char RAbuffer[64];
+  //char Decbuffer[64];
 
   switch (lastSet)
   {
@@ -408,48 +383,17 @@ int LX200Generic::handleCoordSet()
 	    return (-1);
 	  }
 
-	  formatSex(targetRA, RAbuffer, XXYYZZ);
-	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
-	  //strcpy(RA.nstr, RAbuffer);
-	  //strcpy(DEC.nstr, Decbuffer);
 	  OnCoordSetSw.s = ILS_BUSY;
-	  //ICSetNumber(&RA, NULL);
-	  //ICSetNumber(&DEC, NULL);
-	  ICSetSwitch(&OnCoordSetSw, "Slewing to RA %s - DEC %s", RAbuffer, Decbuffer);
+	  ICSetSwitch(&OnCoordSetSw, "Slewing to J2000 RA %s - DEC %s", RA.nstr, DEC.nstr);
 	  break;
 
-   // Track
-   case 2:
 
-	  if (OnCoordSetSw.s == ILS_BUSY)
-	  {
-	     abortSlew();
-
-	     // sleep for 100 mseconds
-	     usleep(100000);
-	  }
-
-	  if ((i = Slew()))
-	  {
-	    slewError(i);
-	    return (-1);
-	  }
-
-	  formatSex(targetRA, RAbuffer, XXYYZZ);
-	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
-	  OnCoordSetSw.s = ILS_BUSY;
-	  ICSetSwitch(&OnCoordSetSw, "Slewing to RA %s - DEC %s", RAbuffer, Decbuffer);
-	  break;
   // Sync
-  case 3:
+  case 2:
 
 	  OnCoordSetSw.s = ILS_OK;
 	  Sync(syncString);
 
-          formatSex(targetRA, RAbuffer, XXYYZZ);
-	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
-	  strcpy(RA.nstr, RAbuffer);
-	  strcpy(DEC.nstr, Decbuffer);
           RA.s = ILS_OK;
 	  DEC.s = ILS_OK;
 	  ICSetNumber(&RA, NULL);
@@ -465,20 +409,22 @@ int LX200Generic::handleCoordSet()
 void LX200Generic::ISNewNumber (INumber *n)
 {
 	float h =0, d=0, m =0, s=0;
-	int hour, min, sec;
+	double tempRA =0, tempDEC =0;
+	char tempNum[32];
 	int num;
+	struct tm stm;
 
 	// ignore if not ours //
 	if (strcmp (n->dev, mydev))
 	    return;
 
-	if ( !strcmp (n->name, RA.name) && !validateSex(n->nstr, &h, &m, &s ))
+	if ( !strcmp (n->name, RA.name))
 	{
-	  if (h < 0 || h > 24)
-	  {
-	   RA.s = ILS_IDLE;
-	   ICSetNumber (&RA, "RA coordinate out of range (0 to 24 hours)");
-	   return;
+	   if (getSex(n->nstr, &tempRA))
+	   {
+	     RA.s = ILS_IDLE;
+	     ICSetNumber (&RA, "RA coordinates invalid (0 to 24 hours)");
+	     return;
 	  }
 
 	  if (checkPower())
@@ -488,42 +434,45 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    return;
 	  }
 
+
+	   fprintf(stderr, "We recevined J2000 RA %s\n", n->nstr);
+	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
+	   formatSex(tempRA, tempNum, XXYYZZ);
+	   fprintf(stderr, "Processed to RA %f and %s\n", tempRA, tempNum);
+	   validateSex(tempNum, &h, &m, &s);
+
 	   if (!setObjectRA( (int) h,(int) m, (int) s))
 	   {
-	       RA.s = ILS_BUSY;
-	       getSex(n->nstr, &targetRA);
+	       strcpy(RA.nstr, n->nstr);
+               RA.s = ILS_BUSY;
+	       targetRA = tempRA;
+
 	       getObjectInfo(ObjectInfo.text);
 	       ICSetText   (&ObjectInfo, NULL);
-	       //strcpy(RA.nstr, n->nstr);
-	       //ICSetNumber(&RA, NULL);
+
 	       if (handleCoordSet())
 	       {
-	        strcpy(RA.nstr, n->nstr);
 	        RA.s = ILS_IDLE;
 	    	ICSetNumber(&RA, NULL);
 	       }
-
-	       return;
-
 	    }
 	    else
 	    {
-	        strcpy(RA.nstr, n->nstr);
 	        RA.s = ILS_ALERT;
 		ICSetNumber (&RA, "Error setting RA");
-		return;
             }
+
+	    return;
 
 	} // end RA set
 
-
-	if ( !strcmp (n->name, DEC.name) && !validateSex(n->nstr, &d, &m, &s))
+        if (!strcmp (n->name, DEC.name))
 	{
-	  if (d < -90.0 || d > 90.0)
-	  {
-	   DEC.s = ILS_IDLE;
-	   ICSetNumber (&DEC, "DEC coordinate out of range (-90 to +90 degrees)");
-	   return;
+	   if (getSex(n->nstr, &tempDEC))
+	   {
+	     DEC.s = ILS_IDLE;
+	     ICSetNumber (&DEC, "DEC coordinates invalid (-90 to +90 degrees)");
+	     return;
 	  }
 
 	  if (checkPower())
@@ -533,19 +482,25 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    return;
 	  }
 
-	  if (!setObjectDEC((int) d, (int) m, (int) s))
-	    {
+	   fprintf(stderr, "We recevined J2000 DEC %s\n", n->nstr);
+	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
+	   formatSex(tempDEC, tempNum, SXXYYZZ);
+	   fprintf(stderr, "Processed to DEC %f and %s\n", tempDEC, tempNum);
+	   validateSex(tempNum, &d, &m, &s);
+
+	   if (!setObjectDEC( (int) d,(int) m, (int) s))
+	   {
+	       strcpy(DEC.nstr, n->nstr);
+	       targetDEC = tempDEC;
 	       DEC.s = ILS_BUSY;
-	       getSex(n->nstr, &targetDEC);
+
 	       getObjectInfo(ObjectInfo.text);
 	       ICSetText   (&ObjectInfo, NULL);
-	       //strcpy(DEC.nstr, n->nstr);
-	       //ICSetNumber(&DEC, NULL);
+
 	       if (handleCoordSet())
 	       {
-	        strcpy(DEC.nstr, n->nstr);
 	        DEC.s = ILS_IDLE;
-	        ICSetNumber(&DEC, NULL);
+	    	ICSetNumber(&DEC, NULL);
 	       }
 
 	       return;
@@ -553,7 +508,6 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    }
 	    else
 	    {
-	        strcpy(DEC.nstr, n->nstr);
 	        DEC.s = ILS_ALERT;
 		ICSetNumber (&DEC, "Error setting DEC");
 		return;
@@ -595,18 +549,18 @@ void LX200Generic::ISNewNumber (INumber *n)
 	    return;
 	  }
 
-	  if (extractTime(n->nstr, &hour, &min, &sec))
+	  if (!strptime(n->nstr, "%H:%M:%S", &stm))
 	  {
 	    SDTime.s = ILS_IDLE;
 	    ICSetNumber(&SDTime , "Time invalid");
 	    return;
 	  }
 
-	  fprintf(stderr, "time is %02d:%02d:%02d\n", hour, min, sec);
-	  setSDTime(hour,  min, sec);
+	  fprintf(stderr, "time is %02d:%02d:%02d\n", stm.tm_hour, stm.tm_min, stm.tm_sec);
+	  setSDTime(stm.tm_hour, stm.tm_min, stm.tm_sec);
 	  SDTime.s = ILS_OK;
    	  strcpy(SDTime.nstr , n->nstr);
-	  ICSetNumber(&SDTime , "Sidereal time updated to %02d:%02d:%02d", hour, min, sec);
+	  ICSetNumber(&SDTime , "Sidereal time updated to %s", n->nstr);
 
 	  return;
         }
@@ -1083,7 +1037,9 @@ void LX200Generic::ISPoll()
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
-	    formatSex ( currentRA, RA.nstr, XXYYZZ);
+            apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+
+	    formatSex (currentRA, RA.nstr, XXYYZZ);
 	    formatSex (currentDEC, DEC.nstr, SXXYYZZ);
 
 	    if (dx < 0) dx *= -1;
@@ -1092,12 +1048,15 @@ void LX200Generic::ISPoll()
 	    fprintf(stderr, "targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
 
 
+	    // Wait until acknowledged or within 3.6"
 	    if (getNumberOfBars() == 0 || (dx <= 0.001 && dy <= 0.001))
 	    {
 
 		OnCoordSetSw.s = ILS_OK;
 		currentRA = targetRA;
 		currentDEC = targetDEC;
+
+                apparentCoord( JD, (double) J2000, &targetRA, &targetDEC);
 
 		formatSex (targetRA, RA.nstr, XXYYZZ);
 		formatSex (targetDEC, DEC.nstr, SXXYYZZ);
@@ -1128,6 +1087,9 @@ void LX200Generic::ISPoll()
 	 case ILS_BUSY:
 	     currentRA = getLX200RA();
 	     currentDEC = getLX200DEC();
+
+	     apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+
 	     formatSex(currentRA, RA.nstr, XXYYZZ);
 	     formatSex(currentDEC, DEC.nstr, SXXYYZZ);
 	     ICSetNumber (&RA, NULL);
@@ -1188,6 +1150,12 @@ int LX200Generic::validateSwitch(ISwitches *clientSw, ISwitches *driverSw, int d
 void LX200Generic::getBasicData()
 {
   int dd, mm;
+  struct tm *timep;
+  time_t ut;
+  time (&ut);
+  timep = gmtime (&ut);
+  strftime (Time.text, sizeof(Time.text), "%Y-%m-%dT%H:%M:%S", timep);
+
 
   checkLX200Format();
   getAlignment();
@@ -1204,9 +1172,6 @@ void LX200Generic::getBasicData()
   sprintf(minAlt.nstr, "%02d", getMinElevationLimit());
   sprintf(maxAlt.nstr, "%02d", getMaxElevationLimit());
 
-  formatSex ( getLocalTime24(), lastTime, XXYYZZ);
-  getCalenderDate(lastDate);
-  formatDateTime(Time.text, lastTime, lastDate);
   formatSex (getSDTime(), SDTime.nstr, XXYYZZ);
 
   selectSite(currentSiteNum);
@@ -1229,6 +1194,10 @@ void LX200Generic::getBasicData()
   ICSetText   (&Time, NULL);
   ICSetText   (&SiteName, NULL);
   ICSetSwitch (&SitesSw, NULL);
+
+//  extractFullDate(lastDate, &dd, &mm, &yy);
+//  cal_mjd(mm, dd, yy, &jd);
+
 }
 
 void LX200Generic::powerTelescope(ISwitches* s)

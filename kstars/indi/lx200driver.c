@@ -544,6 +544,7 @@ int setCalenderDate(int dd, int mm, int yy)
    char dumpPlanetaryUpdateString[64];
    char boolRet[2];
    int result = 0;
+   yy = yy % 100;
 
    sprintf(tempString, "#:SC %02d/%02d/%02d#", mm, dd, yy);
 

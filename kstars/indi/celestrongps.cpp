@@ -54,7 +54,7 @@ static ISwitch PowerS[]          = {{"Power On" , ISS_OFF},{"Power Off", ISS_ON}
 
 static ISwitch SlewModeS[]       = {{"Slew", ISS_ON}, {"Find", ISS_OFF}, {"Center", ISS_OFF}, {"Guide", ISS_OFF}};
 
-static ISwitch OnCoordSetS[]     = {{ "Slew", ISS_ON }, { "Sync", ISS_OFF }};
+static ISwitch OnCoordSetS[]     = {{"Idle", ISS_ON}, { "Slew", ISS_OFF }, { "Sync", ISS_OFF }};
 static ISwitch abortSlewS[]      = {{"Abort Slew/Track", ISS_OFF }};
 static ISwitch MovementS[]       = {{"North", ISS_OFF}, {"West", ISS_OFF}, {"East", ISS_OFF}, {"South", ISS_OFF}};
 static ISwitch haltMoveS[]       = {{"Northward", ISS_OFF}, {"Westward", ISS_OFF}, {"Eastward", ISS_OFF}, {"Southward", ISS_OFF}};
@@ -112,8 +112,8 @@ void CelestronGPS::ISGetProperties(const char *dev)
   ICDefSwitches (&PowerSw, "Power", ISP_W, IR_1OFMANY);
   ICDefText     (&Port , "Port", IP_RW);
 
-  ICDefNumber (&RA, "RA H:M:S", IP_RW, NULL);
-  ICDefNumber (&DEC, "DEC D:M:S", IP_RW, NULL);
+  ICDefNumber (&RA, "RA J2000 H:M:S", IP_RW, NULL);
+  ICDefNumber (&DEC, "DEC J2000 D:M:S", IP_RW, NULL);
   ICDefSwitches (&OnCoordSetSw, "On Set", ISP_W, IR_1OFMANY);
 
   ICDefSwitches (&abortSlewSw, "Abort", ISP_W, IR_1OFMANY);
@@ -142,18 +142,31 @@ int CelestronGPS::handleCoordSet()
 {
 
   int i=0;
-  char RAbuffer[64];
-  char Decbuffer[64];
 
   switch (lastSet)
   {
 
-    // Slew
+    //idle
     case 0:
+    if (RA.s == ILS_BUSY)
+    {
+      RA.s = ILS_OK;
+      ICSetNumber(&RA, "RA coordinates stored.");
+    }
+    else if (DEC.s == ILS_BUSY)
+    {
+      DEC.s = ILS_OK;
+      ICSetNumber(&DEC, "Dec coordinates stored.");
+    }
+    return (0);
+    break;
+
+    // Slew
+    case 1:
 
 	  if (OnCoordSetSw.s == ILS_BUSY)
 	  {
-	     StopNSEW();
+	     StopNSEW();;
 
 	     // sleep for 100 mseconds
 	     usleep(100000);
@@ -165,28 +178,21 @@ int CelestronGPS::handleCoordSet()
 	    return (-1);
 	  }
 
-	  formatSex(targetRA, RAbuffer, XXYYZZ);
-	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
 	  OnCoordSetSw.s = ILS_BUSY;
-	  ICSetSwitch(&OnCoordSetSw, "Slewing to RA %s - DEC %s", RAbuffer, Decbuffer);
+	  ICSetSwitch(&OnCoordSetSw, "Slewing to J2000 RA %s - DEC %s", RA.nstr, DEC.nstr);
 	  break;
 
 
   // Sync
-  case 1:
-
+  case 2:
 	  OnCoordSetSw.s = ILS_OK;
 	  SyncToCoords(targetRA, targetDEC);
 
-          formatSex(targetRA, RAbuffer, XXYYZZ);
-	  formatSex(targetDEC, Decbuffer, SXXYYZZ);
-	  strcpy(RA.nstr, RAbuffer);
-	  strcpy(DEC.nstr, Decbuffer);
           RA.s = ILS_OK;
 	  DEC.s = ILS_OK;
 	  ICSetNumber(&RA, NULL);
 	  ICSetNumber(&DEC, NULL);
-	  ICSetSwitch(&OnCoordSetSw, "Synchronization successful.");
+	  ICSetSwitch(&OnCoordSetSw, "Synchronization successful.", NULL);
 	  break;
    }
 
@@ -197,19 +203,31 @@ int CelestronGPS::handleCoordSet()
 void CelestronGPS::ISNewNumber (INumber *n)
 {
 
-        float d, h, m , s;
+	double tempRA=0, tempDEC=0;
+	char tempNum[32];
+
+	struct tm *tp;
+	time_t t;
+
+	time (&t);
+	tp = gmtime (&t);
+
+	tp->tm_mon  += 1;
+	tp->tm_year += 1900;
+
+	JD = UTtoJD(tp);
 
 	// ignore if not ours //
 	if (strcmp (n->dev, mydev))
 	    return;
 
-	if ( !strcmp (n->name, RA.name) && !validateSex(n->nstr, &h, &m, &s ))
+	if ( !strcmp (n->name, RA.name))
 	{
-	  if (h < 0 || h > 24)
-	  {
-	   RA.s = ILS_IDLE;
-	   ICSetNumber (&RA, "RA coordinate out of range (0 to 24 hours)");
-	   return;
+	   if (getSex(n->nstr, &tempRA))
+	   {
+	     RA.s = ILS_IDLE;
+	     ICSetNumber (&RA, "RA coordinates invalid (0 to 24 hours)");
+	     return;
 	  }
 
 	  if (checkPower())
@@ -219,26 +237,32 @@ void CelestronGPS::ISNewNumber (INumber *n)
 	    return;
 	  }
 
-	   RA.s = ILS_BUSY;
-	   getSex(n->nstr, &targetRA);
+
+	   fprintf(stderr, "We recevined J2000 RA %s\n", n->nstr);
+	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
+	   formatSex(tempRA, tempNum, XXYYZZ);
+	   fprintf(stderr, "Processed to RA %f and %s\n", tempRA, tempNum);
+
+	   strcpy(RA.nstr, n->nstr);
+           RA.s = ILS_BUSY;
+	   targetRA = tempRA;
 
 	   if (handleCoordSet())
 	   {
-	        strcpy(RA.nstr, n->nstr);
 	        RA.s = ILS_IDLE;
 	    	ICSetNumber(&RA, NULL);
 	   }
-
-         } // end RA set
-
-
-	if ( !strcmp (n->name, DEC.name) && !validateSex(n->nstr, &d, &m, &s))
-	{
-	  if (d < -90.0 || d > 90.0)
-	  {
-	   DEC.s = ILS_IDLE;
-	   ICSetNumber (&DEC, "DEC coordinate out of range (-90 to +90 degrees)");
 	   return;
+
+	} // end RA set
+
+        if (!strcmp (n->name, DEC.name))
+	{
+	   if (getSex(n->nstr, &tempDEC))
+	   {
+	     DEC.s = ILS_IDLE;
+	     ICSetNumber (&DEC, "DEC coordinates invalid (-90 to +90 degrees)");
+	     return;
 	  }
 
 	  if (checkPower())
@@ -248,19 +272,22 @@ void CelestronGPS::ISNewNumber (INumber *n)
 	    return;
 	  }
 
-	  DEC.s = ILS_BUSY;
-	  getSex(n->nstr, &targetDEC);
+	   fprintf(stderr, "We recevined J2000 DEC %s\n", n->nstr);
+	   apparentCoord( (double) J2000, JD, &tempRA, &tempDEC);
+	   formatSex(tempDEC, tempNum, SXXYYZZ);
+	   fprintf(stderr, "Processed to DEC %f and %s\n", tempDEC, tempNum);
+           strcpy(DEC.nstr, n->nstr);
+	   targetDEC = tempDEC;
+	   DEC.s = ILS_BUSY;
 
-	  if (handleCoordSet())
-	  {
-	        strcpy(DEC.nstr, n->nstr);
-	        DEC.s = ILS_IDLE;
-	        ICSetNumber(&DEC, NULL);
-	  }
+	   if (handleCoordSet())
+	   {
+	      DEC.s = ILS_IDLE;
+	      ICSetNumber(&DEC, NULL);
+	   }
 
-
+	       return;
 	} // end DEC set
-
 
 }
 
@@ -400,6 +427,8 @@ void CelestronGPS::ISPoll()
 	    currentRA = GetRA();
 	    currentDEC = GetDec();
 
+	    apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
+
 	    formatSex (currentRA, RA.nstr, XXYYZZ);
 	    formatSex (currentDEC, DEC.nstr, SXXYYZZ);
 
@@ -413,6 +442,8 @@ void CelestronGPS::ISPoll()
 		OnCoordSetSw.s = ILS_OK;
 		currentRA = targetRA;
 		currentDEC = targetDEC;
+
+		apparentCoord( JD, (double) J2000, &targetRA, &targetDEC);
 
 		formatSex (targetRA, RA.nstr, XXYYZZ);
 		formatSex (targetDEC, DEC.nstr, SXXYYZZ);
@@ -445,6 +476,7 @@ void CelestronGPS::ISPoll()
 	 case ILS_BUSY:
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
+	     apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);
 	     formatSex(currentRA, RA.nstr, XXYYZZ);
 	     formatSex(currentDEC, DEC.nstr, SXXYYZZ);
 	     ICSetNumber (&RA, NULL);

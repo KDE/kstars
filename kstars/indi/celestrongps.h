@@ -48,6 +48,7 @@ class CelestronGPS
  private:
 
  int lastSet;
+ double JD;
  double currentRA;
  double currentDEC;
  double targetRA;
