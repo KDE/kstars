@@ -131,6 +131,12 @@ private slots:
 	void changeMagDrawStars( double newValue );
 
 /**
+  * We have a new minimum star magnitude (brightness) for the display,
+	* to be used when fully zoomed out
+  */
+	void changeMagDrawStarZoomOut( double newValue );
+
+/**
   * We have a new minimum star magnitude to be used while moving the display
   */
 	void changeMagHideStars( double newValue );

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>480</height>
+            <height>483</height>
         </rect>
     </property>
     <property name="caption">
@@ -33,6 +33,12 @@
                 <widget class="KListBox">
                     <property name="name">
                         <cstring>ColorPalette</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Current color settings</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>The list of all customizable colors in the program.  Next to each item is a square showing the color it is currently set to.  Click on any item to change its color.</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -75,6 +81,12 @@
                             <property name="name">
                                 <cstring>StarColorMode</cstring>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Set the star color mode</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>There are four ways to draw stars on the map.  By default, stars are circles with a white core and a rim which is tinted to reflect the star's actual color.  You may also choose to draw the stars as solid white, red, or black circles, to match the needs of your overall color scheme.</string>
+                            </property>
                         </widget>
                     </hbox>
                 </widget>
@@ -101,6 +113,12 @@
                             <property name="maxValue">
                                 <number>10</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Set the intensity of star colors</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>When using the realistic-color star mode, this option will set the saturation level of the star's colors.  A higher value means more intense colors.</string>
+                            </property>
                         </widget>
                     </hbox>
                 </widget>
@@ -120,6 +138,12 @@
                 <widget class="KListBox">
                     <property name="name">
                         <cstring>PresetBox</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>List of preset color schemes</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>List of all known color schemes.  Several are provided by default, and you may also define your own.</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -153,6 +177,12 @@
                             </property>
                             <property name="text">
                                 <string>Remove Color Scheme</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Remove a preset color scheme</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
                             </property>
                         </widget>
                         <spacer row="0" column="0">
@@ -212,6 +242,12 @@
                             </property>
                             <property name="text">
                                 <string>Save Current Colors</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Create a new preset color scheme using current settings</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>After changing the colors to a scheme that you like, press this button to create a new scheme using those colors.  Your scheme will appear here in the list of presets, and will also be available in the "Settings" menu of the main window.</string>
                             </property>
                         </widget>
                     </grid>

@@ -381,15 +381,16 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	bool hideFaintStars( checkSlewing && options->hideStars );
 
 	if ( options->drawSAO ) {
-		float maglim = options->magLimitDrawStar;
-
 		//adjust maglimit for ZoomLevel
 		double lgmin = log10(MINZOOM);
 		double lgmax = log10(MAXZOOM);
 		double lgz = log10(zoomFactor());
-		if ( lgz < 0.75*lgmax ) {
-			maglim -= 2.0*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-		}
+
+		double maglim = options->magLimitDrawStar;
+		if ( lgz <= 0.75*lgmax ) maglim -= (options->magLimitDrawStar - options->magLimitDrawStarZoomOut)*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+//		if ( options->magLimitDrawStar < maglim ) maglim = options->magLimitDrawStar;
+
+		float sizeFactor = 6.0 + (lgz - lgmin);
 
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
@@ -400,8 +401,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
-					float sizeFactor = 1.0 + 1.9*( lgz - lgmin )/(lgmax - lgmin);
-					int size = int( sizeFactor*( maglim - curStar->mag()) ) + 1;
+					int size = int( sizeFactor*( maglim - curStar->mag())/maglim ) + 1;
 
 					if ( size > 0 ) {
 						psky.setPen( QColor( options->colorScheme()->colorNamed( "SkyColor" ) ) );

@@ -55,7 +55,7 @@
 #include "indidriver.h"
 #include "telescopewizardprocess.h"
 
-#define NHIPFILES 42
+#define NHIPFILES 127
 #define NMWFILES  11
 #define NNGCFILES 13
 #define NTYPENAME 11

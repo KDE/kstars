@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>480</height>
+            <height>483</height>
         </rect>
     </property>
     <property name="caption">
@@ -26,6 +26,12 @@
             <property name="text">
                 <string>Constellation lines</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Show constellation lines?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, constellation lines will be drawn on the sky map.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -33,6 +39,12 @@
             </property>
             <property name="text">
                 <string>Constellation names:</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw constellation names?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, constellation names will be drawn on the sky map.</string>
             </property>
         </widget>
         <widget class="QButtonGroup">
@@ -53,6 +65,12 @@
                     <property name="text">
                         <string>Latin</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use Latin constellation names</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use Latin constellation names on the sky map</string>
+                    </property>
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
@@ -61,6 +79,12 @@
                     <property name="text">
                         <string>Localized</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use Localized constellation names</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use constellation names from your locality (if available)</string>
+                    </property>
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
@@ -68,6 +92,12 @@
                     </property>
                     <property name="text">
                         <string>Abbreviated</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use IAU abbreviations</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select this to use abbreviations from the International Astronomical Union as constellation labels</string>
                     </property>
                 </widget>
             </vbox>
@@ -79,6 +109,12 @@
             <property name="text">
                 <string>Milky Way</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw the Milky Way contour?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a contour representing the Milky Way will be drawn on the sky map</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -86,6 +122,12 @@
             </property>
             <property name="text">
                 <string>Fill Milky Way</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Use filled Milky Way contour?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the Milky Way contour will be shown filled.  Otherwise, only the outline will be drawn.</string>
             </property>
         </widget>
         <spacer>
@@ -112,6 +154,12 @@
             <property name="text">
                 <string>Coordinate Grid</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw coordinate grid?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a grid of lines will be drawn every 2 hours in Right Ascension and every 20 degrees in Declination.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -119,6 +167,12 @@
             </property>
             <property name="text">
                 <string>Celestial Equator</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw Celestial equator?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the celestial equator will be drawn in the sky map.</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -128,6 +182,12 @@
             <property name="text">
                 <string>Ecliptic</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw Ecliptic?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the ecliptic will be drawn on the sky map.  The ecliptic is a great circle on the sky that the Sun appears to follow over the course of one year.  All other solar system bodies roughly follow the ecliptic as well.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -136,6 +196,12 @@
             <property name="text">
                 <string>Horizon (line)</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw horizon?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, a line representing the local horizon will be drawn on the map.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -143,6 +209,12 @@
             </property>
             <property name="text">
                 <string>Opaque ground</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Draw opaque ground?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, the area below the horizon will be filled in, to simulate the ground beneath you.  Note that the ground is never drawn when using the Equatorial coordinate system.</string>
             </property>
         </widget>
         <spacer>

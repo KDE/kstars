@@ -9,6 +9,19 @@ appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames
 		   hip022.dat hip023.dat hip024.dat hip025.dat hip026.dat hip027.dat hip028.dat \
 		   hip029.dat hip030.dat hip031.dat hip032.dat hip033.dat hip034.dat hip035.dat \
 		   hip036.dat hip037.dat hip038.dat hip039.dat hip040.dat hip041.dat hip042.dat \
+		   hip043.dat hip044.dat hip045.dat hip046.dat hip047.dat hip048.dat hip049.dat \
+		   hip050.dat hip051.dat hip052.dat hip053.dat hip054.dat hip055.dat hip056.dat \
+		   hip057.dat hip058.dat hip059.dat hip060.dat hip061.dat hip062.dat hip063.dat \
+		   hip064.dat hip065.dat hip066.dat hip067.dat hip068.dat hip069.dat hip070.dat \
+		   hip071.dat hip072.dat hip073.dat hip074.dat hip075.dat hip076.dat hip077.dat \
+		   hip078.dat hip079.dat hip080.dat hip081.dat hip082.dat hip083.dat hip084.dat \
+		   hip085.dat hip086.dat hip087.dat hip088.dat hip089.dat hip090.dat hip091.dat \
+		   hip092.dat hip093.dat hip094.dat hip095.dat hip096.dat hip097.dat hip098.dat \
+		   hip099.dat hip100.dat hip101.dat hip102.dat hip103.dat hip104.dat hip105.dat \
+		   hip106.dat hip107.dat hip108.dat hip109.dat hip110.dat hip111.dat hip112.dat \
+		   hip113.dat hip114.dat hip115.dat hip116.dat hip117.dat hip118.dat hip119.dat \
+		   hip120.dat hip121.dat hip122.dat hip123.dat hip124.dat hip125.dat hip126.dat \
+		   hip127.dat \
 		   ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat ngcic06.dat \
 		   ngcic07.dat ngcic08.dat ngcic09.dat ngcic10.dat ngcic11.dat ngcic12.dat ngcic13.dat \
 		   mw01.dat mw02.dat mw03.dat mw04.dat mw05.dat mw06.dat mw07.dat mw08.dat mw09.dat mw10.dat mw11.dat \

@@ -181,7 +181,7 @@ class KStarsOptions {
 		int windowWidth, windowHeight;
 		double ZoomFactor;
 
-		float magLimitDrawStar;
+		float magLimitDrawStar, magLimitDrawStarZoomOut;
 		float magLimitHideStar;
 		float magLimitDrawStarInfo;
 		float magLimitAsteroid, magLimitAsteroidName;

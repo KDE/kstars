@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>480</height>
+            <height>483</height>
         </rect>
     </property>
     <property name="caption">
@@ -26,6 +26,12 @@
             <property name="text">
                 <string>Correct for atmospheric refraction</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Correct coordinates of objects for the effects of the atmosphere</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this "atmospheric refraction" will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -34,6 +40,12 @@
             <property name="text">
                 <string>Use animated slewing</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Show slewing motion when focus changes?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, then changing the focus position will result in a visible animated "slew" to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">
@@ -41,6 +53,12 @@
             </property>
             <property name="text">
                 <string>Attach label to centered object</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Show name label of centered object?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If checked, then a name label will be temporarily attached to an object while it is centered in the display.  You can attach a more persistent label to any object using the right-click popup menu.</string>
             </property>
         </widget>
         <spacer>
@@ -66,6 +84,12 @@
             </property>
             <property name="text">
                 <string>Hide objects while moving</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Don't draw all objects while the map is moving?</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>When the map is in motion, smooth animation is compromised if the program has too many objects to draw on the map.  Check this item to temporarily hide some of the objects while the display is in motion.</string>
             </property>
         </widget>
         <widget class="QLayoutWidget">
@@ -134,10 +158,22 @@
                             <property name="text">
                                 <string>Stars fainter than</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide faint stars while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then fainter stars will be hidden when the map is in motion.</string>
+                            </property>
                         </widget>
                         <widget class="MagnitudeSpinBox">
                             <property name="name">
                                 <cstring>magSpinBoxHideStars</cstring>
+                            </property>
+                            <property name="property" stdset="0">
+                                <string>Stars fainter than this will not be drawn while the map is moving.</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Stars fainter than this will not be drawn while the map is moving.</string>
                             </property>
                         </widget>
                         <widget class="QLabel">
@@ -182,6 +218,12 @@
                             <property name="text">
                                 <string>Milky Way</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide the Milky Way contour while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then the Milky Way contour will be hidden when the map is in motion.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="0" column="0">
                             <property name="name">
@@ -189,6 +231,12 @@
                             </property>
                             <property name="text">
                                 <string>Solar system</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide solar system bodies while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="1" column="1">
@@ -198,6 +246,12 @@
                             <property name="text">
                                 <string>Constellation names</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide constellation names while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then constellation names will be hidden when the map is in motion.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="2" column="0">
                             <property name="name">
@@ -205,6 +259,12 @@
                             </property>
                             <property name="text">
                                 <string>NGC objects</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide NGC objects while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then objects in the NGC catalog will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="2" column="1">
@@ -214,6 +274,12 @@
                             <property name="text">
                                 <string>Constellation lines</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide constellation lines while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="3" column="0">
                             <property name="name">
@@ -221,6 +287,12 @@
                             </property>
                             <property name="text">
                                 <string>IC objects</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide IC objects while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then objects in the IC catalog will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="1" column="0">
@@ -230,6 +302,12 @@
                             <property name="text">
                                 <string>Messier objects</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide Messier objects when moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then objects in the Messier catalog will be hidden when the map is in motion.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="3" column="1">
                             <property name="name">
@@ -237,6 +315,12 @@
                             </property>
                             <property name="text">
                                 <string>Coordinate grid</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide coordinate grid while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then the coordinate grid will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
                     </grid>
@@ -294,6 +378,7 @@
             <verstretch>0</verstretch>
         </sizepolicy>
         <pixmap>image0</pixmap>
+        <property type="String">property</property>
     </customwidget>
 </customwidgets>
 <images>

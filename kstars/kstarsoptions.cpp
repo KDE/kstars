@@ -107,6 +107,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	windowHeight   = o.windowHeight;
 	// magnitude limits and other star options
 	magLimitDrawStar     = o.magLimitDrawStar;
+	magLimitDrawStarZoomOut = o.magLimitDrawStarZoomOut;
 	magLimitDrawStarInfo = o.magLimitDrawStarInfo;
 	magLimitHideStar     = o.magLimitHideStar;
 
@@ -209,7 +210,8 @@ void KStarsOptions::setDefaultOptions() {
 	ZoomFactor   = DEFAULTZOOM;
 	windowWidth  = 600;
 	windowHeight = 600;
-	magLimitDrawStar = 8.0;
+	magLimitDrawStar = 9.0;
+	magLimitDrawStarZoomOut = 6.0;
 	magLimitDrawStarInfo = 3.0;
 	magLimitHideStar = 5.0;
 	magLimitAsteroid     = 8.0;

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>480</height>
+            <height>483</height>
         </rect>
     </property>
     <property name="caption">
@@ -45,6 +45,12 @@
                             <property name="text">
                                 <string>Saturn</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Saturn?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Saturn will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="3" column="2">
                             <property name="name">
@@ -52,6 +58,12 @@
                             </property>
                             <property name="text">
                                 <string>Use images</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw major bodies as images?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then the planets, the Sun and the Moon will be shown as bitmap images on the map</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="4" column="0">
@@ -61,6 +73,12 @@
                             <property name="text">
                                 <string>Mars</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Mars?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Mars will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="2" column="2">
                             <property name="name">
@@ -68,6 +86,12 @@
                             </property>
                             <property name="text">
                                 <string>Use name labels</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Attach Name labels to the major solar system bodies?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, name labels will bne attached to the planets, the Sun and the Moon</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="4" column="1">
@@ -77,6 +101,12 @@
                             <property name="text">
                                 <string>Pluto</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Pluto?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Pluto will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="KPushButton" row="0" column="2">
                             <property name="name">
@@ -84,6 +114,12 @@
                             </property>
                             <property name="text">
                                 <string>Select All</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Select all major bodies</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this to select all planets, the Sun and the Moon to be drawn in the map</string>
                             </property>
                         </widget>
                         <widget class="KPushButton" row="1" column="2">
@@ -93,6 +129,12 @@
                             <property name="text">
                                 <string>Select None</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Unselect all major bodies</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this button to unselect all planets, the Sun and the Moon so that they will not be drawn on the map</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="3" column="0">
                             <property name="name">
@@ -100,6 +142,12 @@
                             </property>
                             <property name="text">
                                 <string>Venus</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Venus?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Venus will be drawn on the map.</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="0" column="0">
@@ -109,6 +157,12 @@
                             <property name="text">
                                 <string>The sun</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw the Sun?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, the Sun will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="0" column="1">
                             <property name="name">
@@ -116,6 +170,12 @@
                             </property>
                             <property name="text">
                                 <string>Jupiter</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Jupiter?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Jupiter will be drawn on the map.</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="1" column="0">
@@ -125,6 +185,12 @@
                             <property name="text">
                                 <string>The moon</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw the Moon?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, the Moon will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="2" column="0">
                             <property name="name">
@@ -133,6 +199,12 @@
                             <property name="text">
                                 <string>Mercury</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Mercury?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Mercury will be drawn on the map.</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="3" column="1">
                             <property name="name">
@@ -140,6 +212,12 @@
                             </property>
                             <property name="text">
                                 <string>Neptune</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Neptune?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Neptune will be drawn on the map.</string>
                             </property>
                         </widget>
                         <spacer row="4" column="2">
@@ -165,6 +243,12 @@
                             </property>
                             <property name="text">
                                 <string>Uranus</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Draw Uranus?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, Uranus will be drawn on the map.</string>
                             </property>
                         </widget>
                     </grid>
@@ -205,6 +289,12 @@
                     </property>
                     <property name="text">
                         <string>Comets</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Draw comets?</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked, comets will be drawn on the map</string>
                     </property>
                 </widget>
                 <spacer row="1" column="0">
@@ -263,6 +353,12 @@
                     <property name="text">
                         <string>Asteroids</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Draw asteroids?</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked, asteroids will be drawn on the map</string>
+                    </property>
                 </widget>
                 <widget class="QCheckBox" row="1" column="1">
                     <property name="name">
@@ -271,16 +367,28 @@
                     <property name="text">
                         <string>Show names of asteroids brighter than</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Attach names to bright asteroids?</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked, then name labels will be attached to bright asteroids</string>
+                    </property>
                 </widget>
                 <widget class="KDoubleNumInput" row="2" column="2">
                     <property name="name">
                         <cstring>comNameSpinBox</cstring>
                     </property>
                     <property name="maxValue">
-                        <number>100</number>
+                        <number>1000</number>
                     </property>
                     <property name="precision">
                         <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Maximum distance for comet names</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="1">
@@ -290,15 +398,35 @@
                     <property name="text">
                         <string>Show names of comets within</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Show names of comets near the Sun</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked, the comets near the Sun will have name labels 
+attached.  Comets vary in brightness in their orbits, so a faint 
+magnitude is not effective in this case.</string>
+                    </property>
                 </widget>
                 <widget class="MagnitudeSpinBox" row="0" column="2">
                     <property name="name">
                         <cstring>astDrawSpinBox</cstring>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>faint limit for asteroids</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the faintest magnitude for drawing asteroids</string>
+                    </property>
                 </widget>
                 <widget class="MagnitudeSpinBox" row="1" column="2">
                     <property name="name">
                         <cstring>astNameSpinBox</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Faint limit for asteroid name labels</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Set the faint limit for drawing asteroid name labels</string>
                     </property>
                 </widget>
             </grid>
@@ -321,6 +449,12 @@
                     <property name="text">
                         <string>Always show trail when tracking a solar system body</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Auto-trail tracked bodies</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If checked then any solar system body will have a temporary trail attached while it is centered in the display.</string>
+                    </property>
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
@@ -336,6 +470,12 @@
                             </property>
                             <property name="text">
                                 <string>Fade trails to background color</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Fade trail color into the background?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, the color of the planet trail will be blended into the background sky color.</string>
                             </property>
                         </widget>
                         <spacer>
@@ -361,6 +501,12 @@
                             </property>
                             <property name="text">
                                 <string>Remove All Trails</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Clear all orbit trails</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
                             </property>
                         </widget>
                     </hbox>

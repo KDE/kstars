@@ -60,8 +60,11 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	cat->magSpinBoxDrawStars->setMinValue( 0.0 );
 	cat->magSpinBoxDrawStars->setMaxValue( 13.0 );
 	cat->magSpinBoxDrawStars->setValue( ksw->options()->magLimitDrawStar );
-	cat->magSpinBoxDrawStars->setMinValue( 0.0 );
-	cat->magSpinBoxDrawStars->setMaxValue( 9.0 );
+	cat->magSpinBoxDrawStarZoomOut->setMinValue( 0.0 );
+	cat->magSpinBoxDrawStarZoomOut->setMaxValue( cat->magSpinBoxDrawStars->value() );
+	cat->magSpinBoxDrawStarZoomOut->setValue( ksw->options()->magLimitDrawStarZoomOut );
+	cat->magSpinBoxDrawStarInfo->setMinValue( 0.0 );
+	cat->magSpinBoxDrawStarInfo->setMaxValue( 9.0 );
 	cat->magSpinBoxDrawStarInfo->setValue( ksw->options()->magLimitDrawStarInfo );
 	cat->showStarNames->setChecked( ksw->options()->drawStarName );
 	cat->showStarMagnitude->setChecked( ksw->options()->drawStarMagnitude );
@@ -249,6 +252,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( cat->showStarNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( cat->showStarMagnitude, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( cat->magSpinBoxDrawStars, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawStars( double ) ) );
+	connect( cat->magSpinBoxDrawStarZoomOut, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawStarZoomOut( double ) ) );
 	connect( cat->magSpinBoxDrawStarInfo, SIGNAL( valueChanged( double ) ), this, SLOT( changeMagDrawInfo( double ) ) );
 	connect( cat->AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( cat->RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
@@ -328,6 +332,14 @@ ViewOpsDialog::~ViewOpsDialog(){
 void ViewOpsDialog::changeMagDrawStars( double newValue )
 {
 	ksw->data()->setMagnitude( newValue );
+	cat->magSpinBoxDrawStarZoomOut->setMaxValue( ksw->options()->magLimitDrawStar );
+
+	// force redraw
+	ksw->map()->forceUpdate();
+}
+
+void ViewOpsDialog::changeMagDrawStarZoomOut( double newValue ) {
+	ksw->options()->magLimitDrawStarZoomOut = newValue;
 
 	// force redraw
 	ksw->map()->forceUpdate();
@@ -528,6 +540,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	cat->showStarNames->setEnabled( cat->showSAO->isChecked() );
 	cat->showStarMagnitude->setEnabled( cat->showSAO->isChecked() );
 	cat->magSpinBoxDrawStars->setEnabled( cat->showSAO->isChecked() );
+	cat->magSpinBoxDrawStarZoomOut->setEnabled( cat->showSAO->isChecked() );
 	cat->magSpinBoxDrawStarInfo->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMagStars->setEnabled( cat->showSAO->isChecked() );
 	cat->textLabelMagStarInfo->setEnabled( cat->showSAO->isChecked() );
