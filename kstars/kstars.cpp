@@ -446,9 +446,9 @@ void KStars::initMenuBar() {
 
 //	p = helpMenu( false );
 	p = helpMenu( 0, false );
-	actInfo = new KAction( i18n( "&AstroInfo..." ), BarIcon( "help" ), 0, this, SLOT( mAstroInfo() ), actionCollection() );
-	actInfo->setAccel( KAccel::stringToKey( "Ctrl+A"  ) );
-	actInfo->plug( p );
+//	actInfo = new KAction( i18n( "&AstroInfo..." ), BarIcon( "help" ), 0, this, SLOT( mAstroInfo() ), actionCollection() );
+//	actInfo->setAccel( KAccel::stringToKey( "Ctrl+A"  ) );
+//	actInfo->plug( p );
 
 	menuBar()->insertItem( i18n( "&Help" ), p );
 
@@ -480,7 +480,7 @@ void KStars::initToolBar() {
 	toolBar()->insertWidget( idSpinBox, 6, TimeStep );
 	toolBar()->insertWidget( 1, 40, Blank );
 	toolBar()->setStretchableWidget( Blank );
-	actInfo->plug( toolBar() );
+//	actInfo->plug( toolBar() );
 	actHandbook = new KAction( i18n( "&Handbook" ), BarIcon( "contents" ), 0, this, SLOT( appHelpActivated() ), actionCollection() );
 	actHandbook->plug( toolBar() );
 }
@@ -759,14 +759,15 @@ void KStars::initStars()
 void KStars::mSetTime() {
 
 	TimeDialog timedialog ( GetData()->LTime, this );
-	if (tmr->isActive() ) {
-		tmr->stop();
-    actTimeRun->setIconSet( BarIcon( "1rightarrow" ) );
-		actTimeRun->setText( i18n( "Start &Clock" ) );
-		actTimeRun->setToolTip( i18n( "Start Clock" ) );
-	}
 
 	if ( timedialog.exec() == QDialog::Accepted ) {
+		if (tmr->isActive() ) {
+			tmr->stop();
+	    actTimeRun->setIconSet( BarIcon( "1rightarrow" ) );
+			actTimeRun->setText( i18n( "Start &Clock" ) );
+			actTimeRun->setToolTip( i18n( "Start Clock" ) );
+		}
+
 		QTime newTime( timedialog.HourBox->value(),
 					   timedialog.MinuteBox->value(),
 					   timedialog.SecondBox->value() );
@@ -778,6 +779,12 @@ void KStars::mSetTime() {
 		GetData()->UTime.setTime( newTime );
 		GetData()->UTime.setDate( newDate );
 		GetData()->UTime = GetData()->UTime.addSecs( int(geo->TZ()*3600) );
+		GetData()->CurrentDate = getJD( GetData()->UTime );
+
+		//Make sure Moon, planets, and sky objects are updated immediately
+		GetData()->LastMoonUpdate = GetData()->CurrentDate - 1.0;
+		GetData()->LastPlanetUpdate = GetData()->CurrentDate - 1.0;
+		GetData()->LastSkyUpdate = GetData()->CurrentDate - 1.0;
 
 		GetData()->then = QDateTime::currentDateTime();
 		updateTime();
@@ -984,13 +991,6 @@ void KStars::updateTime( void ) {
 	skymap->LSTh.setH( GetData()->LST.hour(), GetData()->LST.minute(), GetData()->LST.second() );
 
   // Update positions of objects, if necessary
-	// Moon moves ~30 arcmin/hr, so update its position every minute.
-	if ( fabs( GetData()->CurrentDate - GetData()->LastMoonUpdate ) > 0.00069444 ) {
-		GetData()->LastMoonUpdate = GetData()->CurrentDate;
-		GetData()->Moon->findPosition( GetData()->CurrentDate, geo->lat(), skymap->LSTh );
-		GetData()->Moon->findPhase( GetData()->Sun );
-	}
-
   // Sun and Planet positions change rather slowly, so only update them twice daily
   if ( fabs( GetData()->CurrentDate - GetData()->LastPlanetUpdate ) > 0.5 ) {
   	GetData()->LastPlanetUpdate = GetData()->CurrentDate;
@@ -1017,6 +1017,14 @@ void KStars::updateTime( void ) {
 			GetData()->Ecliptic.append( o );
 		}
 	}
+
+	// Moon moves ~30 arcmin/hr, so update its position every minute.
+	if ( fabs( GetData()->CurrentDate - GetData()->LastMoonUpdate ) > 0.00069444 ) {
+		GetData()->LastMoonUpdate = GetData()->CurrentDate;
+		GetData()->Moon->findPosition( GetData()->CurrentDate, geo->lat(), skymap->LSTh );
+		GetData()->Moon->findPhase( GetData()->Sun );
+	}
+
 
 	//update focus
 	if ( GetOptions()->isTracking ) {

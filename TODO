@@ -9,11 +9,6 @@ up-to-date to-do list.
     Many constellations near the south celestial pole do not have
     constellation lines.
 
-  - There seems to be a problem with the lunar phases.  For example, 
-    KStars shows that Mare Tranquilitis was dark on July 20, 1969, when 
-    Apollo 11 landed there!  oops.  "Modern" phases seem to be correct, 
-    however.
-
 + GUI Improvements
   - Customizable info panel:
     Some users may prefer a smaller infopanel with less information,
