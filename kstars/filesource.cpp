@@ -69,7 +69,7 @@ void FileSource::sendTo(QDataSink *sink, int) {
 		}
 	}
 	// open next file if end is reached
-	if (data->starFileReader->hasMoreLines() == false && readingData == true && fileNumber < 41) {
+	if (data->starFileReader->hasMoreLines() == false && readingData == true && fileNumber < NHIPFILES) {
 		fileNumber++;
 //		kdDebug() << "sendTo: open file #" << fileNumber << endl;
 		data->openStarFile(fileNumber);
