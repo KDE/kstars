@@ -102,18 +102,28 @@ ColorScheme::ColorScheme(){
 	StarColorIntensity = 4;
 }
 
+ColorScheme::ColorScheme( const ColorScheme &cs ) {
+	KeyName = cs.KeyName;
+	Name = cs.Name;
+	Default = cs.Default;
+	StarColorMode = cs.StarColorMode;
+	StarColorIntensity = cs.StarColorIntensity;
+	Palette = cs.Palette;
+}
+
 ColorScheme::~ColorScheme(){
 }
 
-void ColorScheme::copy( ColorScheme cs ) {
-	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
-		setColor( QString(*it), cs.colorNamed( QString(*it) ) );
-
-	setStarColorIntensity( cs.starColorIntensity() );
-	setStarColorMode( cs.starColorMode() );
+void ColorScheme::copy( const ColorScheme &cs ) {
+	KeyName = cs.KeyName;
+	Name = cs.Name;
+	Default = cs.Default;
+	StarColorMode = cs.StarColorMode;
+	StarColorIntensity = cs.StarColorIntensity;
+	Palette = cs.Palette;
 }
 
-QString ColorScheme::colorNamed( QString name ) {
+QString ColorScheme::colorNamed( QString name ) const {
 	QString color( Palette[ name ] );
 	if ( color.isEmpty() ) {
 		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;

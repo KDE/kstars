@@ -167,7 +167,9 @@ void KStars::closeWindow() {
 
 void KStars::slotPrint() {
 	bool switchColors(false);
+	// save current colorscheme using copy constructor
 	ColorScheme cs( * options()->colorScheme() );
+
 #if (KDE_VERSION <= 222)
 	KPrinter printer( true );
 #else
@@ -236,6 +238,8 @@ void KStars::slotPrint() {
 	// if printing will aborted the colorscheme will restored too
 	if ( switchColors ) {
 		options()->colorScheme()->copy( cs );
+		// restore colormode in skymap
+		map()->setStarColorMode( cs.starColorMode() );
 		map()->UpdateNow();
 	}
 }

@@ -28,29 +28,59 @@ class KConfig;
   */
 
 class ColorScheme {
-public: 
-	ColorScheme();
-//	ColorScheme( const ColorScheme &cs );
-	~ColorScheme();
-	QString colorNamed( QString name );
-	QString colorAt( int i ) const;
-	QString nameAt( int i ) const;
-	QString keyAt( int i ) const;
-	void setColor( QString key, QString color );
-	bool load( QString filename );
-	bool save( QString name );
-	void copy( ColorScheme cs );
-	void loadFromConfig( KConfig* );
-	void saveToConfig( KConfig* );
-	unsigned int numberOfColors() const { return (int)Palette.size(); }
-	int starColorMode() const { return StarColorMode; }
-	int starColorIntensity() const { return StarColorIntensity; }
-	void setStarColorMode( int mode ) { StarColorMode = mode; }
-	void setStarColorIntensity( int intens) { StarColorIntensity = intens; }
-private:
-	int StarColorMode, StarColorIntensity;
-	QStringList KeyName, Name, Default;
-	QMap<QString,QString> Palette;
+
+	public: 
+	
+	/**Constructor
+		*/
+		ColorScheme();
+
+	/**Copy constructor
+		*/
+		ColorScheme( const ColorScheme &cs );
+
+	/**Destructor
+		*/
+		~ColorScheme();
+
+		QString colorNamed( QString name ) const;
+
+		QString colorAt( int i ) const;
+
+		QString nameAt( int i ) const;
+
+		QString keyAt( int i ) const;
+
+		void setColor( QString key, QString color );
+
+		bool load( QString filename );
+
+		bool save( QString name );
+
+		void copy( const ColorScheme &cs );
+
+		void loadFromConfig( KConfig* );
+
+		void saveToConfig( KConfig* );
+
+		unsigned int numberOfColors() const { return (int)Palette.size(); }
+
+		int starColorMode() const { return StarColorMode; }
+
+		int starColorIntensity() const { return StarColorIntensity; }
+
+		void setStarColorMode( int mode ) { StarColorMode = mode; }
+
+		void setStarColorIntensity( int intens) { StarColorIntensity = intens; }
+
+	private:
+
+		int StarColorMode, StarColorIntensity;
+
+		QStringList KeyName, Name, Default;
+
+		QMap<QString,QString> Palette;
+
 };
 
 #endif
