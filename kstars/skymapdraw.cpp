@@ -447,8 +447,7 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	//TODO: add CBoundColor
-	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+	psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) ); 
 
 	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
 		bool started( false );
@@ -1542,6 +1541,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	bool drawMW( data->options->drawMilkyWay );
 	bool drawCNames( data->options->drawConstellNames );
 	bool drawCLines( data->options->drawConstellLines );
+	bool drawCBounds( data->options->drawConstellBounds );
 	bool drawGrid( data->options->drawGrid );
 
 	p.begin( pd );
@@ -1574,8 +1574,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	if ( data->options->drawEquator ) drawEquator( p, scale );
 	if ( data->options->drawEcliptic ) drawEcliptic( p, scale );
 	
-	//TODO: add drawCBounds option
-	if ( drawCLines ) drawConstellationBoundaries( p, scale );
+	if ( drawCBounds ) drawConstellationBoundaries( p, scale );
 	if ( drawCLines ) drawConstellationLines( p, scale );
 	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
 

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>383</width>
-            <height>397</height>
+            <height>399</height>
         </rect>
     </property>
     <property name="caption">
@@ -178,6 +178,12 @@
                             <property name="name">
                                 <cstring>magSpinBoxHideStars</cstring>
                             </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>40</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
                             <property name="focusPolicy">
                                 <enum>StrongFocus</enum>
                             </property>
@@ -217,12 +223,26 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout13</cstring>
+                        <cstring>layout4</cstring>
                     </property>
                     <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
+                        <widget class="QCheckBox" row="4" column="0" rowspan="2" colspan="1">
+                            <property name="name">
+                                <cstring>hideIC</cstring>
+                            </property>
+                            <property name="text">
+                                <string>IC objects</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide IC objects while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then objects in the IC catalog will be hidden when the map is in motion.</string>
+                            </property>
+                        </widget>
                         <widget class="QCheckBox" row="0" column="1">
                             <property name="name">
                                 <cstring>hideMW</cstring>
@@ -251,60 +271,12 @@
                                 <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
-                        <widget class="QCheckBox" row="1" column="1">
+                        <widget class="QCheckBox" row="5" column="1">
                             <property name="name">
-                                <cstring>hideCNames</cstring>
+                                <cstring>hideCBounds</cstring>
                             </property>
                             <property name="text">
-                                <string>Constellation names</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Hide constellation names while moving?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>If checked, then constellation names will be hidden when the map is in motion.</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="2" column="0">
-                            <property name="name">
-                                <cstring>hideNGC</cstring>
-                            </property>
-                            <property name="text">
-                                <string>NGC objects</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Hide NGC objects while moving?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>If checked, then objects in the NGC catalog will be hidden when the map is in motion.</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="2" column="1">
-                            <property name="name">
-                                <cstring>hideCLines</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Constellation lines</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Hide constellation lines while moving?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="3" column="0">
-                            <property name="name">
-                                <cstring>hideIC</cstring>
-                            </property>
-                            <property name="text">
-                                <string>IC objects</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Hide IC objects while moving?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>If checked, then objects in the IC catalog will be hidden when the map is in motion.</string>
+                                <string>Constellation boundaries</string>
                             </property>
                         </widget>
                         <widget class="QCheckBox" row="1" column="0">
@@ -321,7 +293,7 @@
                                 <string>If checked, then objects in the Messier catalog will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
-                        <widget class="QCheckBox" row="3" column="1">
+                        <widget class="QCheckBox" row="6" column="1">
                             <property name="name">
                                 <cstring>hideGrid</cstring>
                             </property>
@@ -333,6 +305,48 @@
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>If checked, then the coordinate grid will be hidden when the map is in motion.</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="2" column="0" rowspan="2" colspan="1">
+                            <property name="name">
+                                <cstring>hideNGC</cstring>
+                            </property>
+                            <property name="text">
+                                <string>NGC objects</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide NGC objects while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then objects in the NGC catalog will be hidden when the map is in motion.</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="3" column="1" rowspan="2" colspan="1">
+                            <property name="name">
+                                <cstring>hideCLines</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Constellation lines</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide constellation lines while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="1" rowspan="2" colspan="1">
+                            <property name="name">
+                                <cstring>hideCNames</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Constellation names</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Hide constellation names while moving?</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>If checked, then constellation names will be hidden when the map is in motion.</string>
                             </property>
                         </widget>
                     </grid>
@@ -352,7 +366,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>

@@ -107,8 +107,9 @@ void KStarsData::loadOptions()
 	options->drawMessImages = conf->readBoolEntry( "ShowMessImages", true );
 	options->drawNGC        = conf->readBoolEntry( "ShowNGC", true );
 	options->drawIC         = conf->readBoolEntry( "ShowIC", true );
-	options->drawConstellLines = conf->readBoolEntry( "ShowCLines", true );
-	options->drawConstellNames = conf->readBoolEntry( "ShowCNames", true );
+	options->drawConstellLines  = conf->readBoolEntry( "ShowCLines", true );
+	options->drawConstellBounds = conf->readBoolEntry( "ShowCBounds", true );
+	options->drawConstellNames  = conf->readBoolEntry( "ShowCNames", true );
 	options->useLatinConstellNames  = conf->readBoolEntry( "UseLatinConstellationNames", true );
 	options->useLocalConstellNames  = conf->readBoolEntry( "UseLocalConstellationNames", false );
 	options->useAbbrevConstellNames = conf->readBoolEntry( "UseAbbrevConstellationNames", false );
@@ -173,6 +174,7 @@ void KStarsData::loadOptions()
 	options->hideMW      = conf->readBoolEntry( "HideMW", true );
 	options->hideCNames  = conf->readBoolEntry( "HideCNames", false );
 	options->hideCLines  = conf->readBoolEntry( "HideCLines", false );
+	options->hideCBounds = conf->readBoolEntry( "HideCBounds", true );
 	options->hideGrid    = conf->readBoolEntry( "HideGrid", true );
 
 	conf->setGroup( "INDI" );
@@ -256,6 +258,7 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "ShowNGC", 		options->drawNGC );
 	conf->writeEntry( "ShowIC", 		options->drawIC );
 	conf->writeEntry( "ShowCLines", options->drawConstellLines );
+	conf->writeEntry( "ShowCBounds", options->drawConstellBounds );
 	conf->writeEntry( "ShowCNames", options->drawConstellNames );
 	conf->writeEntry( "UseLatinConstellationNames", options->useLatinConstellNames );
 	conf->writeEntry( "UseLocalConstellationNames", options->useLocalConstellNames );
@@ -329,6 +332,7 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "HideMW", options->hideMW );
 	conf->writeEntry( "HideCNames", options->hideCNames );
 	conf->writeEntry( "HideCLines", options->hideCLines );
+	conf->writeEntry( "HideCBounds", options->hideCBounds );
 	conf->writeEntry( "HideGrid", options->hideGrid );
 
 	conf->setGroup( "INDI" );

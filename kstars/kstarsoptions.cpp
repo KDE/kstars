@@ -44,8 +44,9 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	drawNGC         = o.drawNGC;
 	drawIC          = o.drawIC;
 	drawOther       = o.drawOther;
-	drawConstellLines = o.drawConstellLines;
-	drawConstellNames = o.drawConstellNames;
+	drawConstellLines  = o.drawConstellLines;
+	drawConstellBounds = o.drawConstellBounds;
+	drawConstellNames  = o.drawConstellNames;
 	drawMilkyWay  = o.drawMilkyWay;
 	fillMilkyWay  = o.fillMilkyWay;
 	drawGrid      = o.drawEquator;
@@ -83,6 +84,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	hideMW        = o.hideMW;
 	hideCNames    = o.hideCNames;
 	hideCLines    = o.hideCLines;
+	hideCBounds   = o.hideCBounds;
 	hideGrid      = o.hideGrid;
 	isTracking     = o.isTracking;
 	showMainToolBar = o.showMainToolBar;
@@ -162,8 +164,9 @@ void KStarsOptions::setDefaultOptions() {
 	drawNGC        = true;
 	drawIC         = true;
 	drawOther      = true;
-	drawConstellLines = true;
-	drawConstellNames = true;
+	drawConstellLines  = true;
+	drawConstellBounds = true;
+	drawConstellNames  = true;
 	drawMilkyWay = true;
 	fillMilkyWay = true;
 	drawGrid     = true;
@@ -195,6 +198,7 @@ void KStarsOptions::setDefaultOptions() {
 	hideMW      = true;
 	hideCNames  = true;
 	hideCLines  = true;
+	hideCBounds = true;
 	hideGrid    = true;
 	isTracking = false;
 	showMainToolBar = true;

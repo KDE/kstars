@@ -117,6 +117,7 @@ class KStarsOptions {
 		bool drawIC;
 		bool drawOther;
 		bool drawConstellLines;
+		bool drawConstellBounds;
 		bool drawConstellNames;
 		bool useLatinConstellNames;
 		bool useLocalConstellNames;
@@ -157,7 +158,7 @@ class KStarsOptions {
 		bool fadePlanetTrails;
 		bool hideOnSlew;
 		bool hideStars, hidePlanets, hideMess, hideNGC, hideIC, hideOther;
-		bool hideMW, hideCNames, hideCLines, hideGrid;
+		bool hideMW, hideCNames, hideCLines, hideCBounds, hideGrid;
 
 		//snapToFocus is set true for one-time skipping of animated slews
 		bool snapToFocus;

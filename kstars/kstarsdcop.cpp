@@ -195,8 +195,9 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "ShowMessImages"  && bOk ) options()->drawMessImages  = bVal;
 	if ( op == "ShowNGC"         && bOk ) options()->drawNGC         = bVal;
 	if ( op == "ShowIC"          && bOk ) options()->drawIC          = bVal;
-	if ( op == "ShowCLines"      && bOk ) options()->drawConstellLines = bVal;
-	if ( op == "ShowCNames"      && bOk ) options()->drawConstellNames = bVal;
+	if ( op == "ShowCLines"      && bOk ) options()->drawConstellLines  = bVal;
+	if ( op == "ShowCBounds"     && bOk ) options()->drawConstellBounds = bVal;
+	if ( op == "ShowCNames"      && bOk ) options()->drawConstellNames  = bVal;
 	if ( op == "ShowMilkyWay"    && bOk ) options()->drawMilkyWay    = bVal;
 	if ( op == "ShowGrid"        && bOk ) options()->drawGrid        = bVal;
 	if ( op == "ShowEquator"     && bOk ) options()->drawEquator     = bVal;
@@ -232,6 +233,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	if ( op == "HideMW"      && bOk ) options()->hideMW      = bVal;
 	if ( op == "HideCNames"  && bOk ) options()->hideCNames  = bVal;
 	if ( op == "HideCLines"  && bOk ) options()->hideCLines  = bVal;
+	if ( op == "HideCBounds" && bOk ) options()->hideCBounds = bVal;
 	if ( op == "HideGrid"    && bOk ) options()->hideGrid    = bVal;
 
 	if ( op == "UseAltAz"         && bOk ) options()->useAltAz           = bVal;

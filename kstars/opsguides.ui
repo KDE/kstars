@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>382</height>
+            <height>428</height>
         </rect>
     </property>
     <property name="caption">
@@ -31,6 +31,14 @@
             </property>
             <property name="whatsThis" stdset="0">
                 <string>If checked, constellation lines will be drawn on the sky map.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>showConstellBounds</cstring>
+            </property>
+            <property name="text">
+                <string>Constellation boundaries</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -230,7 +238,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>8</height>
                 </size>
             </property>
         </spacer>

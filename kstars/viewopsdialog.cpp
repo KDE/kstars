@@ -163,6 +163,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	guide = new OpsGuides( guidepage );
 
 	guide->showConstellLines->setChecked( ksw->options()->drawConstellLines );
+	guide->showConstellBounds->setChecked( ksw->options()->drawConstellBounds );
 	guide->showConstellNames->setChecked( ksw->options()->drawConstellNames );
 	guide->ConstellOptions->setEnabled( ksw->options()->drawConstellNames );
 	guide->useLatinConstellNames->setChecked( ksw->options()->useLatinConstellNames );
@@ -257,6 +258,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	adv->hideMW->setChecked( ksw->options()->hideMW );
 	adv->hideCNames->setChecked( ksw->options()->hideCNames );
 	adv->hideCLines->setChecked( ksw->options()->hideCLines );
+	adv->hideCBounds->setChecked( ksw->options()->hideCBounds );
 	adv->hideGrid->setChecked( ksw->options()->hideGrid );
 	adv->magSpinBoxHideStars->setValue( ksw->options()->magLimitHideStar );
 
@@ -314,6 +316,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	//Guide Tab
 	connect( guide->showConstellLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( guide->showConstellBounds, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( guide->showConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( guide->useLatinConstellNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( guide->useLatinConstellNames, SIGNAL( clicked() ), this, SLOT( sendClearCache() ) );
@@ -351,6 +354,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	connect( adv->hideMW, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->hideCNames, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->hideCLines, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
+	connect( adv->hideCBounds, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->hideGrid, SIGNAL( clicked() ), this, SLOT( updateDisplay() ) );
 	connect( adv->magSpinBoxHideStars, SIGNAL( valueChanged( double ) ), SLOT( changeMagHideStars( double ) ) );
         color->RemovePreset->setEnabled( false );
@@ -624,6 +628,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 
 //Guides Tab
 	ksw->options()->drawConstellLines = guide->showConstellLines->isChecked();
+	ksw->options()->drawConstellBounds = guide->showConstellBounds->isChecked();
 	ksw->options()->drawConstellNames = guide->showConstellNames->isChecked();
 	ksw->options()->useLatinConstellNames = guide->useLatinConstellNames->isChecked();
 	ksw->options()->useLocalConstellNames = guide->useLocalConstellNames->isChecked();
@@ -655,6 +660,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->options()->hideMW = adv->hideMW->isChecked();
 	ksw->options()->hideCNames = adv->hideCNames->isChecked();
 	ksw->options()->hideCLines = adv->hideCLines->isChecked();
+	ksw->options()->hideCBounds = adv->hideCBounds->isChecked();
 	ksw->options()->hideGrid = adv->hideGrid->isChecked();
 
 	//HideBox widgets enabled only if hideObjects is checked...

@@ -898,6 +898,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	bool drawMW( options->drawMilkyWay && !(checkSlewing && options->hideMW) );
 	bool drawCNames( options->drawConstellNames && !(checkSlewing && options->hideCNames) );
 	bool drawCLines( options->drawConstellLines &&!(checkSlewing && options->hideCLines) );
+	bool drawCBounds( options->drawConstellBounds &&!(checkSlewing && options->hideCBounds) );
 	bool drawGrid( options->drawGrid && !(checkSlewing && options->hideGrid) );
 
 	psky.begin( sky );
@@ -912,8 +913,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	if ( data->options->drawEquator ) drawEquator( psky );
 	if ( options->drawEcliptic ) drawEcliptic( psky );
 	
-	//TODO: add a drawCBounds option
-	if ( drawCLines ) drawConstellationBoundaries( psky );
+	if ( drawCBounds ) drawConstellationBoundaries( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
 	if ( drawCNames ) drawConstellationNames( psky, stdFont );
 

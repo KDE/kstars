@@ -259,6 +259,7 @@ void ScriptBuilder::initViewOptions() {
 
 	opsShowOther = new QListViewItem( otv->OptionsList, i18n( "Show Other" ) );
 	new QListViewItem( opsShowOther, "ShowCLines", i18n( "Toggle display of constellation lines" ), i18n( "bool" ) );
+	new QListViewItem( opsShowOther, "ShowCBounds", i18n( "Toggle display of constellation boundaries" ), i18n( "bool" ) );
 	new QListViewItem( opsShowOther, "ShowCNames", i18n( "Toggle display of constellation names" ), i18n( "bool" ) );
 	new QListViewItem( opsShowOther, "ShowMilkyWay", i18n( "Toggle display of Milky Way" ), i18n( "bool" ) );
 	new QListViewItem( opsShowOther, "ShowGrid", i18n( "Toggle display of the coordinate grid" ), i18n( "bool" ) );
@@ -273,6 +274,7 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsShowOther, "drawPlanetName", i18n( "Toggle display of planet name labels" ), i18n( "bool" ) );
 	new QListViewItem( opsShowOther, "drawPlanetImage", i18n( "Toggle display of planet images" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "ShowCLines" );
+	argChangeViewOption->OptionName->insertItem( "ShowCBounds" );
 	argChangeViewOption->OptionName->insertItem( "ShowCNames" );
 	argChangeViewOption->OptionName->insertItem( "ShowMilkyWay" );
 	argChangeViewOption->OptionName->insertItem( "ShowGrid" );
@@ -306,6 +308,7 @@ void ScriptBuilder::initViewOptions() {
 	new QListViewItem( opsHide, "HideMW", i18n( "Hide Milky Way while slewing?" ), i18n( "bool" ) );
 	new QListViewItem( opsHide, "HideCNames", i18n( "Hide constellation names while slewing?" ), i18n( "bool" ) );
 	new QListViewItem( opsHide, "HideCLines", i18n( "Hide constellation lines while slewing?" ), i18n( "bool" ) );
+	new QListViewItem( opsHide, "HideCBounds", i18n( "Hide constellation boundaries while slewing?" ), i18n( "bool" ) );
 	new QListViewItem( opsHide, "HideGrid", i18n( "Hide coordinate grid while slewing?" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "HideOnSlew" );
 	argChangeViewOption->OptionName->insertItem( "SlewTimeScale" );
@@ -317,6 +320,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "HideMW" );
 	argChangeViewOption->OptionName->insertItem( "HideCNames" );
 	argChangeViewOption->OptionName->insertItem( "HideCLines" );
+	argChangeViewOption->OptionName->insertItem( "HideCBounds" );
 	argChangeViewOption->OptionName->insertItem( "HideGrid" );
 
 	opsSkymap = new QListViewItem( otv->OptionsList, i18n( "Skymap Options" ) );

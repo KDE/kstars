@@ -8,6 +8,7 @@
 #ac9800 :PNameColor
 #718488 :CNameColor
 #3d3d3d :CLineColor
+#222f2f :CBoundColor
 #0d1115 :MWColor
 #909090 :EqColor
 #613d12 :EclColor

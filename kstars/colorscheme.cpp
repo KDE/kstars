@@ -61,6 +61,9 @@ ColorScheme::ColorScheme() : FileName() {
 	KeyName.append( "CLineColor" );
 	Name.append( i18n( "Constellation Line", "Constell. Line" ) );
 	Default.append( "#555" );
+	KeyName.append( "CBoundColor" );
+	Name.append( i18n( "Constellation Boundary", "Constell. Boundary" ) );
+	Default.append( "#222" );
 	KeyName.append( "MWColor" );
 	Name.append( i18n( "refers to the band of stars in the sky due to the Galactic plane", "Milky Way" ) );
 	Default.append( "#123" );

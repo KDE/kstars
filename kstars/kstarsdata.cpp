@@ -1918,7 +1918,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Constellation Boundaries
-		if ( options->drawConstellLines ) {  //TODO: add drawCBound option
+		if ( options->drawConstellBounds ) {  
 			for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
 				for ( SkyPoint *p = seg->firstNode(); p; p = seg->nextNode() ) {
 					if ( needNewCoords ) p->updateCoords( &num );
