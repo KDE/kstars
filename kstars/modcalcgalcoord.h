@@ -18,7 +18,7 @@
 #ifndef MODCALCGALCOORD_H
 #define MODCALCGALCOORD_H
 
-#include <qvbox.h>
+#include "modcalcgalcoorddlg.h"
 #include "dms.h"
 
 /**
@@ -30,13 +30,7 @@
 	*@version 0.9
   */
 
-class QWidget;
-class dms;
-class dmsBox;
-class QLineEdit;
-class QRadioButton;
-
-class modCalcGalCoord : public QWidget  {
+class modCalcGalCoord : public modCalcGalCoordDlg  {
 
 Q_OBJECT
 
@@ -61,14 +55,8 @@ public slots:
 	void slotComputeCoords (void);
 	
 private:
-		
-	QWidget *rightBox;	
+	dms galLong, galLat, raCoord, decCoord;	
 	double epoch;
-	dms raCoord, raHourCoord, decCoord, galLong, galLat;
-	dmsBox *raBox, *decBox;
-	QRadioButton *equRadio, *galRadio;
-	QLineEdit *raName, *decName, *epochName, *lgName, *bgName;
-
 };
 #endif
 
