@@ -108,10 +108,6 @@ public:
 /**@returns object's common (long) name
 	*/
   QString longname( void ) const { return LongName; }
-	
-/**Set the object's common (long) name
-	*@param longname The object's long name
-	*/
 	void setLongName( const QString &longname="" );
 
 /**@returns a code identifying the object's catalog
@@ -124,7 +120,7 @@ public:
 
 /**@returns a string describing object's type
         */
-        QString typeName( void ) const;
+	QString typeName( void ) const;
 
 /**@returns object's magnitude
 	*/
@@ -175,7 +171,7 @@ public:
   *@param jd  current Julian date
   *@param geo current geographic location
   */
-	QTime riseTime( long double jd, GeoLocation *geo );
+	QTime riseTime( long double jd, const GeoLocation *geo );
 
 /**
   *Returns the UT time when the object will rise or set
@@ -185,7 +181,7 @@ public:
   *@param rst Boolean. If TRUE will compute rise time. If FALSE 
   *       will compute set time.
   */
-	dms riseUTTime( long double jd, dms gLn, dms gLt, bool rst);
+	dms riseUTTime( long double jd, const dms *gLn, const dms *gLt, bool rst);
 
 /**
   *Returns the LST time when the object will rise or set
@@ -195,7 +191,7 @@ public:
   *@param rst Boolean. If TRUE will compute rise time. If FALSE 
   *       will compute set time.
   */
-	dms riseLSTTime( long double jd, dms gLn, dms gLt, bool rst);
+	dms riseLSTTime( long double jd, const dms *gLn, const dms *gLt, bool rst);
 
 /**
   *Returns the Azimuth time when the object will rise or set. This function
@@ -205,7 +201,7 @@ public:
   *@param rst Boolen. If TRUE will compute rise time. If FALSE 
   *       will compute set time.
   */
-	dms riseSetTimeAz (long double jd, GeoLocation *geo, bool rst);
+	dms riseSetTimeAz (long double jd, const GeoLocation *geo, bool rst);
 /**
   *Returns the julian day for which JD gives the date and UT the time. 
   *@param jd  Julian day from which the date is extracted. 
@@ -228,54 +224,26 @@ public:
   *@param jd  current Julian date
   *@param geo current geographic location
   */
-	QTime setTime( long double jd, GeoLocation *geo );
+	QTime setTime( long double jd, const GeoLocation *geo );
 
 //	QTime transitTime( QDateTime currentTime, dms LST );
 
-/**Determine the UT at which the object will transit the local meridian.
-	*@param jd the Julian Day to use in the calculation (most likely, the current simulation JD)
-	*@param gLng The geographic longitude to use (most likely, the current simulation geographic longitude)
-	*@returns the UT time of the object's meridian transit, expressed as a dms object.
-	*/
-	dms transitUTTime(long double jd, dms gLng);
-	
-/**Determine the local time at which the object will transit the local meridian.
-	*@param jd the Julian Day to use in the calculation (most likely the current simulation JD)
-	*@param geo The geographic location to use.
-	*@returns the QTime that the object will transit across the meridian.
-	*/
-	QTime transitTime( long double jd, GeoLocation *geo );
+	dms transitUTTime( long double jd, const dms *gLng );
+	QTime transitTime( long double jd, const GeoLocation *geo );
 
-/**Determine the object's approximate hour angle.  It is only approximate if it is a planet, because
-	*this function does not take the planet's motion into account.
-	*@param h0 right ascension (?)
-	*@param gLng The geographic longitude
-	*@param d declination
-	*@returns the hour angle 
-	*/
-	double approxHourAngle (dms h0, dms gLng, dms dec);
-	
-/**Determine the Greenwich Sidereal Time (GST) for the given Julian Day at midnight.
-	*@param jd The Julian Day to use.
-	*@returns the GST as a dms object.
-	*/
-	dms gstAtCeroUT (long double jd);
-	
-/**The altitude of the object when it is transiting across the meridian.
-	*@param jd The Julian Day to use.
-	*@param geo The geographic location to use.
-	*@returns the transit altitude as a dms object.
-	*/
-	dms transitAltitude(long double jd, GeoLocation *geo);
+	double approxHourAngle ( const dms *h0, const dms *gLng, const dms *d2 );
+	dms gstAtCeroUT ( long double jd );
+	dms transitAltitude(long double jd, const GeoLocation *geo);
 //	dms transitAltitude(GeoLocation *geo);
+
 
 	/**
 	 * Checks whether a source is circumpolar or not. True = cirmcumpolar
 	 * False = Not circumpolar
-	 *@param gLng the Geographic longitude
+	 *
 	 *@returns true if circumpolar
 	 */
-	bool checkCircumpolar(dms gLng);
+	bool checkCircumpolar( const dms *gLng );
 
 	/**
 	 * Corrects for the geometric altitude of the center of the body at the
@@ -292,6 +260,7 @@ public:
 
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
+   QString userLog;
 
 private:
 
@@ -309,7 +278,8 @@ private:
   *       will compute set time.
   */
 
-	dms auxRiseUTTime( long double jd, dms gLng, dms gLat, dms righta, dms decl, bool riseT);
+	dms auxRiseUTTime( long double jd, const dms *gLng, const dms *gLat, 
+				const dms *righta, const dms *decl, bool riseT);
 	
 /**
   *Returns the LST time when the object will rise or set. It is an auxiliary 
@@ -322,19 +292,10 @@ private:
   *@param rst Boolean. If TRUE will compute rise time. If FALSE 
   *       will compute set time.
   */
-	dms auxRiseLSTTime( dms gLt, dms rga, dms decl, bool rst );
+	dms auxRiseLSTTime( const dms *gLt, const dms *rga, const dms *decl, bool rst );
 
-/**Convert from a dms angle object to a QDateTime, given a Julian Day and a UT (expressed as dms object).
-	*@param jd the Julian Day to use.
-	*@param UT the Universal Time to use.
-	*@returns the QDateTime object corresponding to the given Date/Time.
-	*/
 	QDateTime DMStoQDateTime(long double jd, dms UT); 
 
-/**Convert from a QTime object to a dms object.
-	*@param dT the QTime to convert to a dms object.
-	*@returns the time converted to a dms object.
-	*/
 	dms QTimeToDMS(QTime dT);
 
 	int Type, PositionAngle;

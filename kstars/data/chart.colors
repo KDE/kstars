@@ -17,3 +17,4 @@
 #000000 :BoxTextColor
 #FF0000 :BoxGrabColor
 #FFFFFF :BoxBGColor
+#006600 :TargetColor

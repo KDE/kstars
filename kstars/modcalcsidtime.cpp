@@ -214,7 +214,6 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 #endif
 	showUT( dt.time() );
 
-//	KStars *ks = (KStars*)kapp->mainWidget();
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 
 	longBox->show( ks->geo()->lng() );
@@ -225,7 +224,7 @@ QTime modCalcSidTime::computeUTtoST (QTime ut, QDate dt, dms longitude)
 	QTime lst;
 
 	QDateTime utdt = QDateTime( dt, ut);
-	lst = KSUtils::UTtoLST( utdt, longitude);
+	lst = KSUtils::UTtoLST( utdt, &longitude);
 	return lst;
 }
 
@@ -234,7 +233,7 @@ QTime modCalcSidTime::computeSTtoUT (QTime st, QDate dt, dms longitude)
 	QTime ut;
 
 	QDateTime dtst = QDateTime( dt, st);
-	ut = KSUtils::LSTtoUT( dtst, longitude);
+	ut = KSUtils::LSTtoUT( dtst, &longitude);
 	return ut;
 }
 

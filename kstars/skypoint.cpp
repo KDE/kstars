@@ -25,15 +25,15 @@
 SkyPoint::~SkyPoint(){
 }
 
-void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
+void SkyPoint::EquatorialToHorizontal( const dms *LSTh, const dms *lat ) {
 	double AltRad, AzRad;
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
   double sinAlt, cosAlt;
 
-	dms HourAngle = LSTh.Degrees() - RA.Degrees();
+	dms HourAngle = LSTh->Degrees() - ra()->Degrees();
 
-	lat.SinCos( sinlat, coslat );
-	dec().SinCos( sindec, cosdec );
+	lat->SinCos( sinlat, coslat );
+	dec()->SinCos( sindec, cosdec );
 	HourAngle.SinCos( sinHA, cosHA );
 
 	sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
@@ -47,13 +47,13 @@ void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
 	Alt.setRadians( AltRad );
 }
 
-void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
+void SkyPoint::HorizontalToEquatorial( const dms *LSTh, const dms *lat ) {
 	double HARad, DecRad;
 	double sinlat, coslat, sinAlt, cosAlt, sinAz, cosAz;
   double sinDec, cosDec;
 
-	lat.SinCos( sinlat, coslat );
-	Alt.SinCos( sinAlt, cosAlt );
+	lat->SinCos( sinlat, coslat );
+	alt()->SinCos( sinAlt, cosAlt );
 	Az.SinCos( sinAz,  cosAz );
 
 	sinDec = sinAlt*sinlat + cosAlt*coslat*cosAz;
@@ -78,14 +78,14 @@ void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
 
 	if ( sinAz > 0.0 ) HARad = 2.0*dms::PI - HARad; // resolve acos() ambiguity	
 
-	RA.setRadians( LSTh.radians() - HARad );
+	RA.setRadians( LSTh->radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
 void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
 	double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
-	ra().SinCos( sinRA, cosRA );
-	dec().SinCos( sinDec, cosDec );
+	ra()->SinCos( sinRA, cosRA );
+	dec()->SinCos( sinDec, cosDec );
 	Obliquity.SinCos( sinOb, cosOb );
 
 	tanDec = sinDec/cosDec;
@@ -99,10 +99,10 @@ void SkyPoint::findEcliptic( dms Obliquity, dms &EcLong, dms &EcLat ) {
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( dms Obliquity, dms EcLong, dms EcLat ) {
+void SkyPoint::setFromEcliptic( dms Obliquity, const dms *EcLong, const dms *EcLat ) {
 	double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
-	EcLong.SinCos( sinLong, cosLong );
-	EcLat.SinCos( sinLat, cosLat );
+	EcLong->SinCos( sinLong, cosLong );
+	EcLat->SinCos( sinLat, cosLat );
 	Obliquity.SinCos( sinObliq, cosObliq );
 	
 	double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
@@ -175,7 +175,8 @@ void SkyPoint::nutate(const KSNumbers *num) {
 		findEcliptic( num->obliquity(), EcLong, EcLat );
 		
 		//Add dEcLong to the Ecliptic Longitude
-		setFromEcliptic( num->obliquity(), dms( EcLong.Degrees() + num->dEcLong() ), EcLat );
+		dms newLong( EcLong.Degrees() + num->dEcLong() );
+		setFromEcliptic( num->obliquity(), &newLong, &EcLat );
 	}
 }
 
@@ -221,4 +222,85 @@ void SkyPoint::updateCoords( KSNumbers *num, bool includePlanets ) {
 	aberrate(num);
 
 	
+}
+
+void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
+
+ 	double cosRA0, sinRA0, cosDec0, sinDec0;
+	double v[3], s[3];
+
+	RA0.SinCos( sinRA0, cosRA0 );
+	Dec0.SinCos( sinDec0, cosDec0 );
+
+	//Need first to precess to J2000.0 coords
+
+	if ( jd0 != J2000 ) {
+
+	//v is a column vector representing input coordinates.
+
+		KSNumbers *num = new KSNumbers (jd0);
+
+		v[0] = cosRA0*cosDec0;
+		v[1] = sinRA0*cosDec0;
+		v[2] = sinDec0;
+
+	//s is the product of P1 and v; s represents the
+	//coordinates precessed to J2000
+		for ( unsigned int i=0; i<3; ++i ) {
+			s[i] = num->p1( 0, i )*v[0] + num->p1( 1, i )*v[1] +
+				num->p1( 2, i )*v[2];
+		}
+		delete num;
+
+	} else {
+
+	//Input coords already in J2000, set s accordingly.
+
+
+
+		s[0] = cosRA0*cosDec0;
+		s[1] = sinRA0*cosDec0;
+		s[2] = sinDec0;
+       }
+
+	KSNumbers *num = new KSNumbers (jdf);
+
+	//Multiply P2 and s to get v, the vector representing the new coords.
+
+	for ( unsigned int i=0; i<3; ++i ) {
+		v[i] = num->p2( 0, i )*s[0] + num->p2( 1, i )*s[1] +
+		num->p2( 2, i )*s[2];
+	}
+
+	delete num;
+
+	//Extract RA, Dec from the vector:
+
+	//RA.setRadians( atan( v[1]/v[0] ) );
+	RA.setRadians( atan2( v[1],v[0] ) );
+	Dec.setRadians( asin( v[2] ) );
+
+	//resolve ambiguity of atan()
+
+//	if ( v[0] < 0.0 ) {
+//		RA.setD( RA.Degrees() + 180.0 );
+//	} else if( v[1] < 0.0 ) {
+//		RA.setD( RA.Degrees() + 360.0 );
+//	}
+
+	if (RA.Degrees() < 0.0 )
+		RA.setD( RA.Degrees() + 360.0 );
+
+}
+/** No descriptions */
+void SkyPoint::apparentCoord(long double jd0, long double jdf){
+
+	precessFromAnyEpoch(jd0,jdf);
+
+	KSNumbers *num = new KSNumbers (jdf);
+
+	nutate(num);
+	aberrate(num);
+
+	delete num;
 }

@@ -19,6 +19,7 @@
 #include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktip.h>
+#include <kdialogbase.h>
 #include <qpaintdevicemetrics.h>
 
 #include "kstars.h"
@@ -28,6 +29,7 @@
 #include "focusdialog.h"
 #include "viewopsdialog.h"
 #include "astrocalc.h"
+#include "lcgenerator.h"
 #include "infoboxes.h"
 #include "ksutils.h"
 
@@ -68,6 +70,13 @@ void KStars::slotViewToolBar() {
 void KStars::slotCalculator() {
 	AstroCalc astrocalc (this);
 	astrocalc.exec();
+ }
+
+void KStars::slotLCGenerator() {
+	if (AAVSODialog == 0)
+        AAVSODialog = new LCGenerator(this);
+        
+  AAVSODialog->show();
 }
 
 void KStars::slotGeoLocator() {
@@ -133,7 +142,7 @@ void KStars::slotViewOps() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
-	kdDebug() << "before Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "before Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
 	
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		QTime newTime( timedialog.selectedTime() );
@@ -145,7 +154,7 @@ void KStars::slotSetTime() {
 			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
 		}
 
-		kdDebug() << "after Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+//	kdDebug() << "after Alt: " << map()->focus()->alt()->toDMSString(true) << endl;
 
 	}
 }
@@ -296,6 +305,7 @@ void KStars::slotTrack() {
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		map()->setClickedObject( NULL );
 		map()->setFoundObject( NULL );//no longer tracking foundObject
+		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
 	} else {
 		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
@@ -311,13 +321,14 @@ void KStars::slotManualFocus() {
 		map()->setClickedObject( NULL );
 		map()->setFoundObject( NULL ); //make sure no longer tracking
 		options()->isTracking = false;
+		if ( data()->PlanetTrail.count() ) data()->PlanetTrail.clear();
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 
 		map()->slotCenter();
 	}
 }
 
-//View
+//View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( data()->ZoomLevel < MAXZOOMLEVEL ) {
@@ -349,13 +360,20 @@ void KStars::slotCoordSys() {
 	map()->Update();
 }
 
+//Settings Menu:
 void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
 	map()->setColors( filename );
 }
 
-//Help
+void KStars::slotTargetSymbol() {
+	QString symbolName( sender()->name() );
+	options()->setTargetSymbol( symbolName ); 
+	map()->Update();
+}
+
+//Help Menu
 void KStars::slotTipOfDay() {
 	KTipDialog::showTip("kstars/tips", true);
 }

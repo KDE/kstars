@@ -97,9 +97,9 @@ void PlanetCatalog::findPosition( const KSNumbers *num) {
 
 }
 
-void PlanetCatalog::EquatorialToHorizontal( const dms LST, const dms lat ) {
+void PlanetCatalog::EquatorialToHorizontal( dms *LST, const dms *lat ) {
 	for (KSPlanetBase * ksp = planets.first(); ksp != 0; ksp = planets.next()) {
-		ksp->EquatorialToHorizontal(LST, lat);
+		ksp->EquatorialToHorizontal( LST, lat);
 	}
 }
 
@@ -134,10 +134,9 @@ KSPlanetBase *PlanetCatalog::findByName( const QString n) const {
 }
 
 static double dist_squared(const SkyPoint *a, const SkyPoint *b) {
-
-	double dRA = a->ra().Hours() - b->ra().Hours();
-	double dDec = a->dec().Degrees() - b->dec().Degrees();
-	double f = 15.0*cos( a->dec().radians() );
+	double dRA = a->ra()->Hours() - b->ra()->Hours();
+	double dDec = a->dec()->Degrees() - b->dec()->Degrees();
+	double f = 15.0*cos( a->dec()->radians() );
 
 	return f*f*dRA*dRA + dDec*dDec;
 }

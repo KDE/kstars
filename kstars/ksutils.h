@@ -52,7 +52,7 @@ class KSUtils {
 			*@param longitude the current location's longitude
 			*@returns QTime representing local sidereal time
 			*/
-		static QTime GSTtoLST( QTime GST, dms longitude );
+		static QTime GSTtoLST( QTime GST, const dms *longitude );
 
 		/**convert universal time to local sidereal time.
 			*This is a convenience function: it calls UTtoGST, followed by GSTtoLST.
@@ -60,14 +60,14 @@ class KSUtils {
 			*@param longitude the current location's longitude
 			*@returns QTime representing local sidereal time
 			*/
-		static QTime UTtoLST( QDateTime UT, dms longitude );
+		static QTime UTtoLST( QDateTime UT, const dms *longitude );
 
 		/**Converts local sidereal time to universal time.
 		 * @param UT = universal time
 		 * @param longitude = east longitude
 		 * @returns QTime representing universal time
 		 */
-		static QTime LSTtoUT( QDateTime LST, dms longitude);
+		static QTime LSTtoUT( QDateTime LST, const dms *longitude);
 
 		/**Convenience function to compute the Greenwich sidereal 
 		 * time at 0h of universal time. This function is called

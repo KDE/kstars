@@ -207,9 +207,9 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	epret.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
 	/*
-	kdDebug() << name() << " pre: Lat = " << epret->latitude.toDMSString() << " Long = " << 
-		epret->longitude.toDMSString() << " Dist = " << epret->radius << endl;
-		*/
+	kdDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " << 
+		epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
+	*/
 
 }
 
@@ -226,8 +226,8 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		EclipticPosition trialpos;
 
 		double jm = num->julianMillenia();
-		Earth->ecLong().SinCos( sinL0, cosL0 );
-		Earth->ecLat().SinCos( sinB0, cosB0 );
+		Earth->ecLong()->SinCos( sinL0, cosL0 );
+		Earth->ecLat()->SinCos( sinB0, cosB0 );
 		double eX = Earth->rsun()*cosB0*cosL0;
 		double eY = Earth->rsun()*cosB0*sinL0;
 		double eZ = Earth->rsun()*sinB0;
@@ -258,7 +258,8 @@ bool KSPlanet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		ep.longitude.setRadians( atan( y/x ) );
 		if (x<0) ep.longitude.setD( ep.longitude.Degrees() + 180.0 ); //resolve atan ambiguity
 		ep.latitude.setRadians( atan( z/( sqrt( x*x + y*y ) ) ) );
-
+		setRsun( trialpos.radius );
+		
 		EclipticToEquatorial( num->obliquity() );
 
 		nutate(num);

@@ -14,10 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-//JH 25.08.2001: added i18n() to strings
 
 #include <qtextstream.h>
-
+#include <qregexp.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -39,18 +38,28 @@
 #include <kapplication.h>
 #endif
 
+QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
+QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
+int KStarsData::objects = 0;
+
 KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), inited(false),
 	source(0), loader(0), pump(0) {
+	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
-
+	LSTh = new dms();
+	HourAngle = new dms();
+	
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
 
 	PC = new PlanetCatalog(ks);
+
+	//ARRAY: setting static array limit for now
+	starArray = new StarObject[40000];
+//	starList.setAutoDelete( TRUE );
 	
 	geoList.setAutoDelete( TRUE );
-	starList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
@@ -58,7 +67,9 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
+	PlanetTrail.setAutoDelete( TRUE );
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
+    VariableStarsList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	//(type==-1 is a constellation)
@@ -78,6 +89,7 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 }
 
 KStarsData::~KStarsData() {
+	objects--;
 	checkDataPumpAction();
 	
 	if ( 0 != oldOptions ) {
@@ -92,37 +104,15 @@ KStarsData::~KStarsData() {
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
+	//ARRAY
+	delete[] starArray;
+
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
-
-	delete PC;
-
-/*
-	QString s = QString( "geoList count: %1" ).arg( geoList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "starList count: %1" ).arg( starList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "deepSkyList count: %1" ).arg( deepSkyList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineList count: %1" ).arg( clineList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "clineModeList count: %1" ).arg( clineModeList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "cnameList count: %1" ).arg( cnameList.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Equator count: %1" ).arg( Equator.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Ecliptic count: %1" ).arg( Ecliptic.count() );
-	qDebug( s.local8Bit() );
-	s = QString( "Horizon count: %1" ).arg( Horizon.count() );
-	qDebug( s.local8Bit() );
-
-	for ( unsigned int i=0; i<11; ++i ) {
-		s = QString( "MW[%1] count: %2" ).arg( i ).arg( MilkyWay[i].count() );
-		qDebug( s.local8Bit() );
-	}
-*/
+	if (LSTh) delete LSTh;
+	if (HourAngle) delete HourAngle;
+	if (PC) delete PC;
 }
 
 bool KStarsData::readMWData( void ) {
@@ -155,6 +145,103 @@ bool KStarsData::readMWData( void ) {
 		}
 	}
 	return true;
+}
+
+bool KStarsData::readADVTreeData(void)
+{
+
+  QFile file;
+  QString Interface;
+
+  // !!!! for some reason, I cannot load any new data file?!! I'm using existing one for the sake of development, then I'll check it out.
+  if (!KSUtils::openDataFile(file, "advinterface.dat"))
+   return false;
+
+   QTextStream stream(&file);
+   QString Line;
+
+  while  (!stream.atEnd())
+  {
+    QString Name, Link, subName;
+    int Type, interfaceIndex;
+
+    Line = stream.readLine();
+
+    if (Line.startsWith("[KSLABEL]"))
+    {
+       Name = Line.mid(9);
+       Type = 0;
+    }
+    else if (Line.startsWith("[END]"))
+       Type = 1;
+    else if (Line.startsWith("[KSINTERFACE]"))
+    {
+      Interface = Line.mid(13);
+      continue;
+    }
+      
+    else
+    {
+      Name = Line.mid(0, Line.find(":"));
+      Link = Line.mid(Line.find(":") + 1);
+
+      // Link is empty, using Interface instead
+      if (Link.isEmpty())
+      {
+         Link = Interface;
+         subName = Name;
+         interfaceIndex = Link.find("KSINTERFACE");
+         Link.remove(interfaceIndex, 11);
+         Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
+
+       }
+      
+      Type = 2;
+    }
+      
+    ADVTreeData *ADVData = new ADVTreeData;
+
+    ADVData->Name = Name;
+    ADVData->Link = Link;
+    ADVData->Type = Type;
+
+    ADVtreeList.append(ADVData);
+   }
+
+   return true;
+
+
+
+}
+bool KStarsData::readVARData(void)
+{
+  QFile file;
+
+  if (!KSUtils::openDataFile(file, "var.dat"))
+   return false;
+  
+   QTextStream stream(&file);
+
+  while  (!stream.atEnd())
+  {
+    QString Name;
+    QString Designation;
+    QString Line;
+
+    Line = stream.readLine();
+
+    Designation = Line.mid(0,8).stripWhiteSpace();
+    Name          = Line.mid(10,20).simplifyWhiteSpace();
+
+    VariableStarInfo *VInfo = new VariableStarInfo;
+
+    VInfo->Designation = Designation;
+    VInfo->Name          = Name;
+    VariableStarsList.append(VInfo);
+   }
+
+   return true;
+
 }
 
 bool KStarsData::readCLineData( void ) {
@@ -244,7 +331,10 @@ bool KStarsData::readStarData( void ) {
 	QFile file;
 	if ( KSUtils::openDataFile( file, "sao.dat" ) ) {
 		QTextStream stream( &file );
-
+		
+		//ARRAY:
+		StarCount = 0;
+		
 		while ( !stream.eof() ) {
 			QString line, name, gname, SpType;
 			float mag;
@@ -284,20 +374,25 @@ bool KStarsData::readStarData( void ) {
 
 			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
-			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-				starList.append( o );
-
+			//ARRAY:
+			//StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
+			//starList.append( o );
+			starArray[StarCount++] = StarObject( r, d, mag, name, gname, SpType );
+			StarObject *o = &starArray[StarCount-1];
+			
 			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				ObjNames.append( o );
 			}
 
-  		}	// end of while
+  	}  // end of while
 		file.close();
+
 /*
 	* Store the max set magnitude of current session. Will increased in KStarsData::appendNewData()
 	*/
 		maxSetMagnitude = options->magLimitDrawStar;
-    	return true;
+		
+		return true;
 	} else {
 		maxSetMagnitude = 0;  // nothing loaded
 		return false;
@@ -410,22 +505,101 @@ bool KStarsData::readDeepSkyData( void ) {
 	}
 }
 
-bool KStarsData::readURLData( QString urlfile, int type ) {
-	QFile file;
-	bool fileFound = false;
+bool KStarsData::openURLFile(QString urlfile, QFile & file)
+{
 
-	if ( KSUtils::openDataFile( file, urlfile ) ) {
+	//QFile file;
+	QString localFile;
+	bool fileFound = false;
+    QFile localeFile;
+
+	if ( locale->language() != "en_US" )
+		localFile = locale->language() + "/" + urlfile;
+
+	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) )
+   {
 		fileFound = true;
-	} else {
-		file.setName( locateLocal( "appdata", urlfile ) );
+	} else
+   // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
+   {
+    	file.setName( locateLocal( "appdata", urlfile ) );
 		if ( file.open( IO_ReadOnly ) ) fileFound = true;
+       else if ( KSUtils::openDataFile( file, urlfile ) )
+                {
+           	        if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
+                      // we found urlfile, we need to copy it to locale
+                      localeFile.setName( locateLocal( "appdata", urlfile ) );
+                      if (localeFile.open(IO_WriteOnly)) {
+                        QTextStream readStream(&file);
+                        QTextStream writeStream(&localeFile);
+                        writeStream <<  readStream.read();
+                        localeFile.close();
+                        file.reset(); }
+                      else
+                         kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
+                      fileFound = true;
+           	 } 
+	
 	}
 
-	if ( fileFound ) {
-	  QTextStream stream( &file );
+	return fileFound;
+}
 
+bool KStarsData::readUserLog(void)
+{
+
+  QFile file;
+  QString buffer;
+  QString sub, name, data;
+  
+    if (!KSUtils::openDataFile( file, "userlog.dat" ))
+     return false;
+
+    QTextStream stream(&file);
+
+  if (!stream.eof())
+    buffer = stream.read();
+
+  while (!buffer.isEmpty())
+  {
+     int startIndex, endIndex;
+
+    startIndex = buffer.find("[KSLABEL:");
+    sub = buffer.mid(startIndex);
+    endIndex = sub.find("[KSLogEnd]");
+
+    // Read name after KSLABEL identifer
+    name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
+    // Read data and skip new line
+    data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
+    buffer = buffer.mid(endIndex + 11);
+
+  for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() )
+       {
+          if ( sonm->text() == name )
+          {
+    		  sonm->skyObject()->userLog = data;
+             break;
+			}
+        }
+        
+   } // end while
+
+  file.close();
+
+     return true;
+}
+bool KStarsData::readURLData( QString urlfile, int type ) {
+
+    QFile file;
+    if (!openURLFile(urlfile, file))
+      return false;
+    
+    QTextStream stream(&file);
+    
   	while ( !stream.eof() ) {
-	  	QString line = stream.readLine();
+   	QString line = stream.readLine();
+
 			QString name = line.mid( 0, line.find(':') );
 			QString sub = line.mid( line.find(':')+1 );
 			QString title = sub.mid( 0, sub.find(':') );
@@ -434,6 +608,7 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 			bool bMatched = false;
 			for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() ) {
 				if ( sonm->text() == name ) {
+             
 					bMatched = true;
 
 					if ( type==0 ) { //image URL
@@ -451,10 +626,8 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 		}
 		file.close();
 
-		return true;
-	} else {
-		return false;
-	}
+     return true;
+
 }
 
 bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bool showerrs ) {
@@ -720,7 +893,6 @@ bool KStarsData::processCity( QString line ) {
 
 //	if ( fields[12]=="--" )
 //		kdDebug() << "Empty rule start month: " << TZrule->StartMonth << endl;
-
 	geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
 	return true;
 }
@@ -922,18 +1094,20 @@ void KStarsData::slotInitialize() {
 	{
 		case 0: //Load Options//
 			emit progressText( i18n("Loading Options") );
-			// timezone rules
-			if ( !readTimeZoneRulebook( ) )
-				initError( "TZrules.dat", true );
+
+			if (objects==1) {
+				// timezone rules
+				if ( !readTimeZoneRulebook( ) )
+					initError( "TZrules.dat", true );
+			}
 
 				kstars->loadOptions();
 			break;
 
 		case 1: //Load Cities//
-			emit progressText( i18n("Loading City Data") );
+			if (objects>1) break;
 
-//			if ( !readTimeZoneRulebook( ) )
-//				initError( "TZrules.dat", true );
+			emit progressText( i18n("Loading City Data") );
 
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
@@ -944,6 +1118,10 @@ void KStarsData::slotInitialize() {
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
+			if (!readVARData())
+				initError( "var.dat", false);
+			if (!readADVTreeData())
+				initError( "advinterface.dat", false);
 			break;
 
 		case 3: //Load NGC 2000 database//
@@ -985,6 +1163,8 @@ void KStarsData::slotInitialize() {
 			emit progressText( i18n("Creating Planets" ) );
 			if (PC->initialize())
 				PC->addObject( ObjNames );
+			
+			jmoons = new JupiterMoons();
 			break;
 
 		case 9: //Initialize the Moon//
@@ -1004,6 +1184,9 @@ void KStarsData::slotInitialize() {
 			if ( !readURLData( "myimage_url.dat", 0 ) ) {
 			//Don't do anything if the local file is not found.
 			}
+          // doesn't belong here, only temp
+             readUserLog();
+
 			break;
 
 		case 11: //Load Information URLs//
@@ -1068,7 +1251,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	}
 
 	LST = KSUtils::UTtoLST( UTime, geo->lng() );
-	LSTh.setH( LST.hour(), LST.minute(), LST.second() );
+	LSTh->setH( LST.hour(), LST.minute(), LST.second() );
 
 	// Update positions of objects, if necessary
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
@@ -1076,12 +1259,23 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		PC->findPosition(&num);
 
+		//Add a point to the planet trail if the centered object is a planet.
+		if ( skymap->foundObject() == Moon || 
+				PC->isPlanet( skymap->foundObject() ) ) {
+			PlanetTrail.append( new SkyPoint(skymap->foundObject()->ra(), skymap->foundObject()->dec()) );
+			
+			//Allow no more than 500 points in the trail
+			while ( PlanetTrail.count() > 500 ) 
+				PlanetTrail.removeFirst();
+		}
+
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
 			Ecliptic.clear();
 			for ( unsigned int i=0; i<Equator.count(); ++i ) {
 				SkyPoint *o = new SkyPoint( 0.0, 0.0 );
-				o->setFromEcliptic( num.obliquity(), Equator.at(i)->ra(), dms( 0.0 ) );
+				dms temp(0.0);
+				o->setFromEcliptic( num.obliquity(), Equator.at(i)->ra(), &temp );
 				Ecliptic.append( o );
 			}
 		}
@@ -1094,6 +1288,9 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			Moon->findPosition( &num, geo->lat(), LSTh );
 			Moon->findPhase( PC->planetSun() );
 		}
+	
+		//for now, update positions of Jupiter's moons here also
+		jmoons->findPosition( &num, (const KSPlanet*)PC->findByName("Jupiter"), PC->planetSun() );
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
@@ -1104,11 +1301,21 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		//Recompute Alt, Az coords for all objects
 		//Planets
 		PC->EquatorialToHorizontal( LSTh, geo->lat() );
+		jmoons->EquatorialToHorizontal( LSTh, geo->lat() );
 		if ( options->drawMoon ) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
 
+		//Planet Trails
+		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() ) 
+			p->EquatorialToHorizontal( LSTh, geo->lat() );
+		
 		//Stars
 		if ( options->drawSAO ) {
-			for ( StarObject *star = starList.first(); star; star = starList.next() ) {
+			//ARRAY:
+			//for ( StarObject *star = starList.first(); star; star = starList.next() ) {
+			StarObject *star;
+			for ( unsigned int i=0; i<StarCount; ++i ) {
+				star = &starArray[i];
+				
 				if ( star->mag() > options->magLimitDrawStar ) break;
 				if (needNewCoords) star->updateCoords( &num );
 				star->EquatorialToHorizontal( LSTh, geo->lat() );
@@ -1194,7 +1401,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				//Tracking any object in Alt/Az mode requires focus updates
 				skymap->setDestinationAltAz(
 						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(),
-						skymap->foundObject()->az().Degrees() );
+						skymap->foundObject()->az()->Degrees() );
 				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 
@@ -1215,7 +1422,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 			}
 		} else if ( ! skymap->isSlewing() ) {
 			//Not tracking and not slewing, let sky drift by
-			skymap->focus()->setRA( LSTh.Hours() - HourAngle.Hours() );
+			skymap->focus()->setRA( LSTh->Hours() - HourAngle->Hours() );
 			skymap->setDestination( skymap->focus() );
 			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
 			skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );

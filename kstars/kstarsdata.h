@@ -43,6 +43,9 @@
 #include "planetcatalog.h"
 #include "objectnamelist.h"
 #include "timezonerule.h"
+#include "lcgenerator.h"
+#include "detaildialog.h"
+#include "jupitermoons.h"
 
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
@@ -77,6 +80,9 @@ public:
 	friend class SkyMap;
 	friend class FileSource;
 	friend class StarDataSink;
+	friend class LCGenerator;
+   friend class DetailDialog;
+   
 	
 	/**Constructor. */
 	KStarsData( KStars *ks );
@@ -216,6 +222,32 @@ public:
 		*/
 	bool readMWData( void );
 
+    /**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
+        *0-8 AAVSO Star Designation
+        *10-20 Common star name
+		*@short read Variable Stars data.
+		*@returns true if data is successfully read.
+		*/
+    bool readVARData(void);
+
+    /**Read Advanced interface structure to be used later to construct the list view in
+       *the advanced tab in the Detail Dialog.
+       *KSLABEL designates a top-level parent label
+       *KSINTERFACE designates a common URL interface for several objects
+       *END designates the end of a sub tree structure
+		*@short read Advanted interface structure.
+		*@returns true if data is successfully read.
+		*/
+   bool readADVTreeData(void);
+
+       /**Read user logs. The log file is formatted as following:
+       *KSLABEL designates the beginning of a log
+       *KSLogEnd designates the end of a log.
+		*@short read user logs.
+		*@returns true if data is successfully read.
+		*/
+   bool readUserLog(void);
+
 	/**Read in URLs to be attached to a named object's right-click popup menu.  At this
 		*point, there is no way to attach URLs to unnamed objects.  There are two
 		*kinds of URLs, each with its own data file: image links and webpage links.  In addition,
@@ -230,6 +262,9 @@ public:
 		*@returns true if data files were successfully read.
 		*/
 	bool readURLData( QString url, int type=0 );
+
+   // Used several times in the code, so why not
+   bool openURLFile(QString urlfile, QFile& file);
 
 	/**Read in custom object catalog.  Object data is read from a file, and parsed into a 
 		*QList of SkyObjects which is returned by reference through the 2nd argument.
@@ -286,6 +321,8 @@ public:
 		*on the first call to KStars::updateTime().
 		*/
 	void setFullTimeUpdate();
+
+
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -356,6 +393,9 @@ private slots:
 	void sendClearCache();
 
 private:
+
+ 	void initError(QString fn, bool required);
+  
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().
 	*/
@@ -374,9 +414,14 @@ private:
 
 	bool reloadingData();  // is currently reloading of data in progress
 
-	QList<GeoLocation> geoList;
+	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
-	QList<StarObject> starList;
+
+//ARRAY: replacing starList with starArray
+//	QList<StarObject> starList;
+	StarObject *starArray;
+	unsigned int StarCount;
+
 	QList<SkyObject> deepSkyList;
 	QList<SkyPoint> clineList;
 	QList<QChar> clineModeList;
@@ -385,12 +430,14 @@ private:
 	QList<SkyPoint> Ecliptic;
 	QList<SkyPoint> Horizon;
 	QList<SkyPoint> MilkyWay[11];
+	QList<VariableStarInfo> VariableStarsList;
+	QPtrList<ADVTreeData> ADVtreeList;
+	QList<SkyPoint> PlanetTrail;
 	ObjectNameList ObjNames;
 
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
-	QMap<QString, TimeZoneRule> Rulebook;
+	static QMap<QString, TimeZoneRule> Rulebook;
 
-	PlanetCatalog *PC;
 
 	QString cnameFile;
 	KStandardDirs *stdDirs;
@@ -398,13 +445,15 @@ private:
 	QDateTime LTime, UTime;
 	QTime LST;
 	bool TimeRunsForward;
-	dms LSTh, HourAngle;
+	dms *LSTh, *HourAngle;
 	int ZoomLevel;
 	KLocale *locale;
 
 	QString TypeName[10];
 
+	PlanetCatalog *PC;
 	KSMoon *Moon;
+	JupiterMoons *jmoons;
 
 	double Obliquity, dObliq, dEcLong;
 	long double CurrentDate, LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
@@ -419,7 +468,6 @@ private:
 	QTimer *initTimer;
 	bool inited;
 	int initCounter;
-	void initError(QString fn, bool required);
 
 /**
 	*Reloading of star data asynchronous:
@@ -429,6 +477,10 @@ private:
 	StarDataSink *loader;
 	QDataPump *pump;
 
+/**
+	*Count the number of KStarsData objects.
+	*/
+	static int objects;
 };
 
 

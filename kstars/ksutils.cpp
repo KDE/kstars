@@ -166,16 +166,16 @@ void KSUtils::nutate( long double JD, double &dEcLong, double &dObliq ) {
 }
 */
 
-QTime KSUtils::UTtoLST( QDateTime UT, dms longitude) {
+QTime KSUtils::UTtoLST( QDateTime UT, const dms *longitude) {
   QTime GST = KSUtils::UTtoGST( UT );
   QTime LST = KSUtils::GSTtoLST( GST, longitude );
   return LST;
 }
 
 
-QTime KSUtils::GSTtoLST( QTime GST, dms longitude) {
+QTime KSUtils::GSTtoLST( QTime GST, const dms *longitude) {
   double lsth = double(GST.hour()) + (double(GST.minute()) +
-			   double(GST.second())/60.0)/60.0 + longitude.Degrees()/15.0;
+			   double(GST.second())/60.0)/60.0 + longitude->Degrees()/15.0;
 
   while (lsth < 0.0) lsth += 24.0;
   while (lsth >24.0) lsth -= 24.0;
@@ -226,10 +226,10 @@ double KSUtils::GSTat0hUT( QDateTime DT ) {
 }
 
 
-QTime KSUtils::LSTtoUT( QDateTime LST, dms longitude) {
+QTime KSUtils::LSTtoUT( QDateTime LST, const dms *longitude) {
 
 	double t1 = KSUtils::GSTat0hUT( LST );
-	double tslocal0h = t1 + longitude.Degrees()/15.0;
+	double tslocal0h = t1 + longitude->Degrees()/15.0;
 	double lsth = double(LST.time().hour()) + (double(LST.time().minute()) +
 			   double(LST.time().second())/60.0)/60.0;
 

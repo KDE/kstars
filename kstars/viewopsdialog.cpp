@@ -104,7 +104,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 
 	// Spin box : show stars brighter than magnitude limit
 	int intMagLimitDrawStars = int ( 10.0 * ksw->options()->magLimitDrawStar );
-	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 79, StarsBox );	// max mag = 7.9
+	magSpinBoxDrawStars = new MagnitudeSpinBox( 0, 129, StarsBox );	// max mag = 12.9
 	magSpinBoxDrawStars->setFont( stdFont );
 	magSpinBoxDrawStars->setValue( intMagLimitDrawStars );
 
@@ -449,7 +449,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 		file.close();
 	}
 
-	AddPreset = new QPushButton( i18n( "Save Current Colors..." ), RightBox );
+	AddPreset = new QPushButton( i18n( "Save Current Colors" ), RightBox );
 	RemovePreset = new QPushButton( i18n( "Remove Color Scheme" ), RightBox );
 	RemovePreset->setEnabled( false );
 
@@ -494,7 +494,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	animateSlewing->setChecked( ksw->options()->useAnimatedSlewing );
 
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
-	hideSpinBox->tsbox()->changeScale( ksw->options()->slewTimeScale );
+	hideSpinBox->tsbox()->changeScale( (float)ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
 	hsbLabel->setText( i18n( "Also hide if time scale greater than:" ) );
 

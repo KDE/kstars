@@ -206,7 +206,6 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-//	KStars *ks = (KStars*)kapp->mainWidget();
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	geoPlace = new GeoLocation( ks->geo() );
 }
@@ -214,7 +213,6 @@ void modCalcDayLength::initGeo(void)
 void modCalcDayLength::showLongLat(void)
 {
 
-//	KStars *ks = (KStars*)kapp->mainWidget();
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );

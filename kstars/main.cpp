@@ -54,28 +54,13 @@ int main(int argc, char *argv[])
 
 	KApplication a;
 
-	/*
-	KStarsData *   kstarsData = new KStarsData();
-	KStarsSplash*  splashDialog = new KStarsSplash(0, "Splash");
-
-	QObject::connect(kstarsData, SIGNAL( progressText(Qstring) ),
-			splashDialog, SLOT( setMessage(QString) ));
-
-	if (kstarsData->initialize()) {
-		KStars *kstars = new KStars( kstarsData );
-		kstars->show();
-		return a.exec();
-	} else {
-		a.exit(1);
-	}
-	*/
-
 #if (QT_VERSION <= 299)
 	a.dcopClient()->attach();
 	a.dcopClient()->registerAs("kstars");
 #endif
 
 	KStars *kstars = new KStars( true );
+
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 

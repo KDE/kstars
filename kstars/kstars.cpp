@@ -91,7 +91,6 @@ KStars::KStars( KStarsData* kd )
 
 KStars::~KStars()
 {
-	kdDebug() << "in kstars destructor..." << endl;
 	saveOptions();
 
 	clearCachedFindDialog();
@@ -101,6 +100,7 @@ KStars::~KStars()
 	delete pd;
 	if (clock) delete clock;
 	if (centralWidget) delete centralWidget;
+    if (AAVSODialog) delete AAVSODialog;
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {
@@ -158,9 +158,9 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 
 	//We do this outside of kstarsdata just to get the coordinates
 	//displayed in the infobox to update every second.
-	if ( !options()->isTracking && Data->LST > oldLST ) { //kludge advancing the focus
+	if ( !options()->isTracking && Data->LST > oldLST ) { 
 		int nSec = oldLST.secsTo( Data->LST );
-		Map->focus()->setRA( Map->focus()->ra().Hours() + double( nSec )/3600. );
+		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
 		if ( options()->useAltAz ) Map->focus()->EquatorialToHorizontal( Data->LSTh, geo()->lat() );
 		showFocusCoords();
 	}
@@ -185,10 +185,15 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 		return so;
 
 	//Stars
-	for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
-		if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
+	//ARRAY:
+	//for ( unsigned int i=0; i<data()->starList.count(); ++i ) {
+	//	if ( name==data()->starList.at(i)->name() ) return data()->starList.at(i);
+	//}
+	for ( unsigned int i=0; i < data()->StarCount; ++i ) {
+		StarObject *o = &(data()->starArray[i]);
+		if ( name == o->name() ) return o;
 	}
-
+	
 	//Deep-sky catalogs
 	for ( unsigned int i=0; i<data()->deepSkyList.count(); ++i ) {
 		if ( name==data()->deepSkyList.at(i)->name() ) return data()->deepSkyList.at(i);
@@ -281,18 +286,14 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 //class where they _really_ belong, we'll do the forwarding.
 //
 void KStars::setHourAngle() {
-	data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
+	data()->HourAngle->setH( LSTh()->Hours() - map()->focus()->ra()->Hours() );
 }
 
 void KStars::setLSTh( QDateTime UTC ) {
 	data()->LST = KSUtils::UTtoLST( UTC, geo()->lng() );
-	data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
+	LSTh()->setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
 }
 
-dms KStars::LSTh() { return data()->LSTh; }
-
-KStarsData* KStars::data() { return pd->kstarsData; }
-
-void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
+KStarsData* KStars::data( void ) { return pd->kstarsData; }
 
 #include "kstars.moc"

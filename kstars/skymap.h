@@ -221,7 +221,7 @@ public slots:
 	*@param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.  Otherwise, vice versa.
 	*@returns the corrected altitude.
 	*/
-	dms refract( dms alt, bool findApparent );
+	dms refract( const dms *alt, bool findApparent );
 
 /**Step the Focus point toward the Destination point.  If the Focus is within 1 step of the
 	*destination, snap directly to the destination.
@@ -256,6 +256,7 @@ public slots:
 
 signals:
 	void destinationChanged();
+    void linkAdded();
 	
 protected:
 /**Draw the Sky, and all objects in it. */
@@ -311,35 +312,11 @@ private:
 	void initPopupMenu( QString name1, QString name2, QString type,
 		bool showRiseSet=true, bool showCenterTrack=true, bool showDetails=true );
 
-/**Completes the popup menu by adding Image and Information links as menu items.
-	*@param showDSS show DSS Image links?  These links are inappropriate for planets, so 
-	*this should be false for planets' menus.
-	*@param allowCustom If true, add the "Add link..." menu item
-	*/
 	void addLinksToMenu( bool showDSS=true, bool allowCustom=true );
-	
-/**Call initPopupMenu() and addLinksToMenu() with parameters set for a star object
-	*@param star a pointer to the StarObject to which the menu is attached.
-	*/
 	void createStarMenu( StarObject *star );
-	
-	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a general sky object
-	*@param obj a pointer to the SkyObject to which the menu is attached.
-	*/
 	void createSkyObjectMenu( SkyObject *obj );
-	
-	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a custom sky object
-	*@param obj a pointer to the SkyObject to which the menu is attached.
-	*/
 	void createCustomObjectMenu( SkyObject *obj );
-	
-	/**Call initPopupMenu() and addLinksToMenu() with parameters set for a planet
-	*@param p a pointer to the SkyObject of the planet to which the menu is attached.
-	*/
 	void createPlanetMenu( SkyObject *p );
-	
-	/**Call initPopupMenu() and addLinksToMenu() with parameters set for empty sky.
-	*/
 	void createEmptyMenu( void );
 	
 /**Given the coordinates of the SkyPoint argument, determine the
@@ -360,7 +337,7 @@ private:
 	*@param LSTh Local sidereal time.
 	*@param lat current geographic laitude
 	*/	
-	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms LST, dms lat, bool doRefraction=true );
+	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
 /**Large switch-controlled statement to draw objects on the SkyMap
 	*according to their type and catalog.  This is going to be changed
@@ -385,8 +362,22 @@ private:
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, int sizemin,
 			double mult, int zoommin, int resize_mult = 1);
 
+/**Draw the InfoBoxes on the pixmap passed as an argument (this should be 
+	*the skymap's pixmap).
+	*/
 	void drawBoxes( QPixmap *pm );
 
+/**Draw the Field-of-View indicator.
+	*@param psky The QPainter to draw on (this should be skymap's QPainter).
+	*@param style The kind of FOV indicator to draw:
+	*0: no symbol
+	*1: 1-degree circle
+	*2: crosshairs 
+	*3: bullseye (2, 1, 0.5 degrees)
+	*4: rectangle (user-defined width, height)
+	*/
+	void drawTargetSymbol( QPainter &psky, int style );
+	
 /**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 

@@ -62,7 +62,7 @@ public:
 		*@param lat The geographic latitude
 		*@param LST The local sidereal time
 		*/
-	void findPosition( KSNumbers *num, dms lat, dms LST );
+	void findPosition( KSNumbers *num, const dms *lat, const dms *LST );
 
 	/**
 		*Convert geocentric coordinates to local (topographic) coordinates,
@@ -70,7 +70,7 @@ public:
 		*@param lat The geographic latitude
 		*@param LST The local sidereal time
 		*/
-	void localizeCoords( dms lat, dms LST );
+	void localizeCoords( const dms *lat, const dms *LST );
 
 	/**
 		*Determine the phase angle of the moon, and assign the appropriate

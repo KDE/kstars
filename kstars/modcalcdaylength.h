@@ -28,10 +28,9 @@
 #endif
 
 /** Module to compute the equatorial coordinates for a given date and time 
-	* from a given epoch or equinox
-	*@author Pablo de Vicente
-	*@version 0.9
-	*/
+ * from a given epoch or equinox
+  *@author Pablo de Vicente
+  */
 
 class QWidget;
 class dms;
@@ -52,9 +51,9 @@ public:
 
 public slots:
 
-  /** Peform the calculation */
+  /** No descriptions */
   void slotComputePosTime();
-  /** Clear all fields */
+  /** No descriptions */
   void slotClearCoords();
 
 private:
@@ -69,6 +68,7 @@ private:
 
 /**@returns a GeoLocation constructed from the Longitude and Latitude fields.
  * Height is arbitrarily set to 0.0 */
+
 	void getGeoLocation (void);
 	
 	void initGeo(void);

@@ -20,62 +20,238 @@
 #include <qframe.h>
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qpushbutton.h>
+#include <qlineedit.h>
+#include <qfile.h>
+#include <qtextstream.h>
+#include <qtextedit.h>
+#include <qpixmap.h>
+
+#include <klistbox.h>
+#include <kurl.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+#include <klistview.h>
+
 #include "geolocation.h"
 #include "ksutils.h"
 #include "skymap.h"
 #include "skyobject.h"
 #include "starobject.h"
+#include "kstars.h"
 
 #include "detaildialog.h"
 
-DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
-		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Plain, i18n( "Object Details" ), Ok, Ok, parent, name ) {
+#if (QT_VERSION < 300)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
-	QFrame *page = plainPage();
+
+DetailDialog::DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo,
+		QWidget *parent, const char *name ) : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Ok, Ok, parent, name ) {
+      
+    selectedObject = o;
+    ksw = (KStars*) parent;
+
+    createGeneralTab(lt, geo);
+    createLinksTab();
+    createAdvancedTab();
+    createLogTab();
+}
+
+void DetailDialog::createLogTab()
+{
+ // We don't create a a log tab for an unnamed object
+   if (selectedObject->name() == QString("star"))
+       return;
+
+     // Log Tab
+   logTab = addPage(i18n("Log"));
+
+   userLog = new QTextEdit(logTab, "userLog");
+//   userLog->setTextFormat(Qt::RichText);
+
+   if (selectedObject->userLog.isEmpty())
+      userLog->setText("Record here observation logs and/or data on " + selectedObject->name());
+   else
+      userLog->setText(selectedObject->userLog);
+      
+   saveLog = new QPushButton(i18n("Save"), logTab, "Save");
+   
+   LOGbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+   LOGbuttonLayout = new QHBoxLayout(5, "buttonlayout");
+   LOGbuttonLayout->addWidget(saveLog);
+   LOGbuttonLayout->addItem(LOGbuttonSpacer);
+
+   logLayout = new QVBoxLayout(logTab, 6, 6, "logLayout");
+   logLayout->addWidget(userLog);
+   logLayout->addLayout(LOGbuttonLayout);
+
+   connect(saveLog, SIGNAL(clicked()), this, SLOT(saveLogData()));
+
+}
+void DetailDialog::createAdvancedTab()
+{
+  // We don't create a a log tab for an unnamed object or if advinterface file failed loading
+   if (selectedObject->name() == QString("star") || ksw->data()->ADVtreeList.isEmpty())
+       return;
+
+  advancedTab = addPage(i18n("Advanced"));
+
+  ADVTree = new KListView(advancedTab, "advancedtree");
+  ADVTree->addColumn(i18n("Data"));
+  ADVtreeRoot = new QListViewItem(ADVTree);
+  
+  QFile ADVIcon;
+  if (KSUtils::openDataFile(ADVIcon, "advdataicon.png"))
+    ADVtreeRoot->setPixmap( 0, QPixmap (ADVIcon.name()));
+  
+  viewTreeItem = new QPushButton (i18n("View"), advancedTab, "view");
+
+  ADVbuttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+  ADVbuttonLayout = new QHBoxLayout(5, "buttonlayout");
+  ADVbuttonLayout->addWidget(viewTreeItem);
+  ADVbuttonLayout->addItem(ADVbuttonSpacer);
+
+  treeLayout = new QVBoxLayout(advancedTab, 6, 6, "treeLayout");  
+  treeLayout->addWidget(ADVTree);
+  treeLayout->addLayout(ADVbuttonLayout);
+
+  treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+
+  connect(viewTreeItem, SIGNAL(clicked()), this, SLOT(viewADVData()));
+  connect(ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
+
+  Populate(NULL);
+
+  ADVtreeRoot->setOpen(true);
+
+}
+
+
+void DetailDialog::createLinksTab()
+{
+
+ // We don't create a link tab for an unnamed object
+   if (selectedObject->name() == QString("star"))
+       return;
+     
+  linksTab = addPage(i18n("Links"));
+
+  infoBox = new QGroupBox(i18n("Info Links"), linksTab, "linksgroup");
+  infoLayout = new QVBoxLayout(infoBox, 20, 0, "linksbox");
+  infoList = new KListBox(infoBox, "links");
+  infoLayout->addWidget(infoList);
+
+  imagesBox = new QGroupBox(i18n("Image Links"), linksTab, "imagesgroup");
+  imagesLayout = new QVBoxLayout(imagesBox, 20, 0, "imagesbox");
+  imagesList = new KListBox(imagesBox, "links");
+  imagesLayout->addWidget(imagesList);
+  
+  view = new QPushButton(i18n("View"), linksTab, "view");
+  addLink = new QPushButton(i18n("Add link..."), linksTab, "addlink");
+  editLink = new QPushButton(i18n("Edit link..."), linksTab, "editlink");
+  removeLink = new QPushButton(i18n("Remove link"), linksTab, "removelink");
+  buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+ 
+  buttonLayout = new QHBoxLayout(5, "buttonlayout");
+  buttonLayout->addWidget(view);
+  buttonLayout->addWidget(addLink);
+  buttonLayout->addWidget(editLink);
+  buttonLayout->addWidget(removeLink);
+  buttonLayout->addItem(buttonSpacer);
+
+  topLayout = new QVBoxLayout(linksTab, 6, 6 , "toplayout");
+  topLayout->addWidget(infoBox);
+  topLayout->addWidget(imagesBox);
+  topLayout->addLayout(buttonLayout);
+
+   QStringList::Iterator itList = selectedObject->InfoList.begin();;
+	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+
+  for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
+         infoList->insertItem(QString(*itTitle));
+         itTitle++;
+	}
+
+  infoList->setSelected(0, true);
+  
+	itList  = selectedObject->ImageList.begin();
+	itTitle = selectedObject->ImageTitle.begin();
+
+	for ( ; itList != selectedObject->ImageList.end(); ++itList ) {
+         imagesList->insertItem(QString(*itTitle));
+         itTitle++;
+	}
+
+  if (!infoList->count() && !imagesList->count())
+     editLink->setDisabled(true);
+     
+  // Signals/Slots
+  connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
+  connect(addLink, SIGNAL(clicked()), ksw->map(), SLOT(addLink()));
+  connect(ksw->map(), SIGNAL(linkAdded()), this, SLOT(updateLists()));
+  connect(editLink, SIGNAL(clicked()), this, SLOT(editLinkDialog()));
+  connect(removeLink, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
+  connect(infoList, SIGNAL(highlighted(int)), this, SLOT(unselectImagesList()));
+  connect(imagesList, SIGNAL(highlighted(int)), this, SLOT(unselectInfoList()));
+  
+
+}
+
+void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
+{
+   currentItemTitle = new QString();
+   currentItemURL = new QString();
+
+	QFrame *generalTab= addPage(i18n("General"));
 
 	ut = lt.addSecs( int( 3600*geo->TZ() ) );
 	jd = KSUtils::UTtoJulian( ut );
 
-	Coords = new CoordBox( o, lt, page );
-	RiseSet = new RiseSetBox( o, lt, geo, page );
+	Coords = new CoordBox( selectedObject, lt, generalTab );
+	RiseSet = new RiseSetBox( selectedObject, lt, geo, generalTab );
 
 	StarObject *s;
 	QString pname, oname;
 //arguments to NameBox depend on type of object
-	switch ( o->type() ) {
+	switch ( selectedObject->type() ) {
 	case 0: //stars
-		s = (StarObject *)o;
+		s = (StarObject *)selectedObject;
 		pname = s->translatedName();
 		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
 		Names = new NameBox( pname, s->gname(),
 				i18n( "Spectral type:" ), s->sptype(),
-				QString("%1").arg( s->mag() ), page );
+				QString("%1").arg( s->mag() ), generalTab );
 //		ProperMotion = new ProperMotionBox( s );
 		break;
 	case 2: //planets
 		//Want to add distance from Earth, Mass, angular size.
 		//Perhaps: list of moons
-		Names = new NameBox( o->translatedName(), "", i18n( "Object type:" ),
-				o->typeName(), "--", page );
+		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
+				selectedObject->typeName(), "--", generalTab );
 		break;
 	default: //deep-sky objects
-		if ( ! o->longname().isEmpty() ) {
-			pname = o->longname();
-			oname = o->name() + ", ";
+		if ( ! selectedObject->longname().isEmpty() ) {
+			pname = selectedObject->longname();
+			oname = selectedObject->name();
 		} else {
-			pname = o->name();
+			pname = selectedObject->name();
 		}
-		if ( ! o->name2().isEmpty() ) oname += o->name2();
-		if ( o->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( o->ugc() );
-		if ( o->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( o->pgc() );
+		if ( ! selectedObject->name2().isEmpty() ) oname += ", " + selectedObject->name2();
+		if ( selectedObject->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( selectedObject->ugc() );
+		if ( selectedObject->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( selectedObject->pgc() );
 
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
-				o->typeName(), QString("%1").arg(o->mag()), page );
+				selectedObject->typeName(), QString("%1").arg(selectedObject->mag()), generalTab );
 		break;
 	}
 
 //Layout manager
-	vlay = new QVBoxLayout( page, 2 );
+	vlay = new QVBoxLayout( generalTab, 2 );
 	vlay->addWidget( Names );
 	vlay->addWidget( Coords );
 	vlay->addWidget( RiseSet );
@@ -87,9 +263,11 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 		QString typelabel, QString type, QString mag,
 		QWidget *parent, const char *name )
 		: QGroupBox( i18n( "General" ), parent, name ) {
-
+	
 	PrimaryName = new QLabel( pname, this );
 	OtherNames = new QLabel( oname, this );
+
+
 
 	TypeLabel = new QLabel( typelabel, this );
 	Type = new QLabel( type, this );
@@ -106,7 +284,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 //Layout
 	hlayType = new QHBoxLayout( 2 );
 	hlayMag  = new QHBoxLayout( 2 );
-	glay     = new QGridLayout( 2, 2, 2 );
+	glay     = new QGridLayout( 2, 2, 10 );
 	vlay     = new QVBoxLayout( this, 12 );
 
 	hlayType->addWidget( TypeLabel );
@@ -118,7 +296,7 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 	glay->addWidget( OtherNames, 1, 0);
 	glay->addLayout( hlayType, 0, 1 );
 	glay->addLayout( hlayMag, 1, 1 );
-	vlay->addSpacing( 20 );
+	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
 
@@ -130,13 +308,13 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	double epoch = t.date().year() + double( t.date().dayOfYear() )/365.25;
 	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
 	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
-	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra().hour(), o->ra().minute(), o->ra().second() ), this );
-	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec().degree(), 176, o->dec().getArcMin(), o->dec().getArcSec() ), this );
+	RA = new QLabel( QString().sprintf( "%02dh %02dm %02ds", o->ra()->hour(), o->ra()->minute(), o->ra()->second() ), this );
+	Dec = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->dec()->degree(), 176, o->dec()->getArcMin(), o->dec()->getArcSec() ), this );
 
 	AzLabel = new QLabel( i18n( "Azimuth:" ), this );
 	AltLabel = new QLabel( i18n( "Altitude:" ), this );
-	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az().degree(), 176, o->az().getArcMin(), o->az().getArcSec() ), this );
-	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt().degree(), 176, o->alt().getArcMin(), o->alt().getArcSec() ), this );
+	Az = new QLabel( QString().sprintf( "%02d%c %02d\'%02d\"", o->az()->degree(), 176, o->az()->getArcMin(), o->az()->getArcSec() ), this );
+	Alt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", o->alt()->degree(), 176, o->alt()->getArcMin(), o->alt()->getArcSec() ), this );
 
 	QFont boldFont = RA->font();
 	boldFont.setWeight( QFont::Bold );
@@ -150,18 +328,20 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, QDateTime t, QWidget *parent,
 	Alt->setAlignment( AlignRight );
 
 //Layouts
-	glayCoords = new QGridLayout( 4, 2, 2 );
+	glayCoords = new QGridLayout( 5, 2, 10 );
 	vlayMain = new QVBoxLayout( this, 12 );
 
 	glayCoords->addWidget( RALabel, 0, 0 );
 	glayCoords->addWidget( DecLabel, 1, 0 );
 	glayCoords->addWidget( RA, 0, 1 );
 	glayCoords->addWidget( Dec, 1, 1 );
-	glayCoords->addWidget( AzLabel, 0, 2 );
-	glayCoords->addWidget( AltLabel, 1, 2 );
-	glayCoords->addWidget( Az, 0, 3 );
-	glayCoords->addWidget( Alt, 1, 3 );
-	vlayMain->addSpacing( 20 );
+	glayCoords->addItem( new QSpacerItem(20,2), 0, 2 );
+	glayCoords->addItem( new QSpacerItem(20,2), 1, 2 );
+	glayCoords->addWidget( AzLabel, 0, 3 );
+	glayCoords->addWidget( AltLabel, 1, 3 );
+	glayCoords->addWidget( Az, 0, 4 );
+	glayCoords->addWidget( Alt, 1, 4 );
+	vlayMain->addSpacing( 10 );
 	vlayMain->addLayout( glayCoords );
 }
 
@@ -196,7 +376,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.getArcMin(), saz.getArcSec() ), this );
 	} else {
 		QString rs, ss;
-		if ( o->alt().Degrees() > 0.0 ) {
+		if ( o->alt()->Degrees() > 0.0 ) {
 			rs = i18n( "Circumpolar" );
 			ss = i18n( "Circumpolar" );
 		} else {
@@ -231,21 +411,564 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, QDateTime lt, GeoLocation *g
 
 //Layout
 	vlay = new QVBoxLayout( this, 12 );
-	glay = new QGridLayout( 4, 3, 2 ); //nrows, ncols, spacing
+	glay = new QGridLayout( 5, 3, 10 ); //ncols, nrows, spacing
 	glay->addWidget( RTimeLabel, 0, 0 );
 	glay->addWidget( TTimeLabel, 1, 0 );
 	glay->addWidget( STimeLabel, 2, 0 );
 	glay->addWidget( RTime, 0, 1 );
 	glay->addWidget( TTime, 1, 1 );
 	glay->addWidget( STime, 2, 1 );
-	glay->addWidget( RAzLabel, 0, 2 );
-	glay->addWidget( TAltLabel, 1, 2 );
-	glay->addWidget( SAzLabel, 2, 2 );
-	glay->addWidget( RAz, 0, 3 );
-	glay->addWidget( TAlt, 1, 3 );
-	glay->addWidget( SAz, 2, 3 );
-	vlay->addSpacing( 20 );
+	glay->addItem( new QSpacerItem(20,2), 0, 2 );
+	glay->addItem( new QSpacerItem(20,2), 1, 2 );
+	glay->addItem( new QSpacerItem(20,2), 2, 2 );
+	glay->addWidget( RAzLabel, 0, 3 );
+	glay->addWidget( TAltLabel, 1, 3 );
+	glay->addWidget( SAzLabel, 2, 3 );
+	glay->addWidget( RAz, 0, 4 );
+	glay->addWidget( TAlt, 1, 4 );
+	glay->addWidget( SAz, 2, 4 );
+	vlay->addSpacing( 10 );
 	vlay->addLayout( glay );
 }
+
+void DetailDialog::unselectInfoList()
+{
+  infoList->setSelected(infoList->currentItem(), false);
+}
+
+void DetailDialog::unselectImagesList()
+{
+  imagesList->setSelected(imagesList->currentItem(), false);
+
+
+}
+
+void DetailDialog::viewLink()
+{
+     QString URL;
+
+    if (infoList->currentItem() != -1 && infoList->isSelected(infoList->currentItem())
+        && !selectedObject->InfoList.isEmpty())
+        URL = QString(*selectedObject->InfoList.at(infoList->currentItem()));
+    else if (!selectedObject->ImageList.isEmpty())
+       URL = QString(*selectedObject->ImageList.at(imagesList->currentItem()));
+
+  if (!URL.isEmpty())
+       kapp->invokeBrowser(URL);
+
+}
+
+void DetailDialog::updateLists()
+{
+
+  infoList->clear();
+  imagesList->clear();
+
+  QStringList::Iterator itList = selectedObject->InfoList.begin();
+  QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+
+  for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
+         infoList->insertItem(QString(*itTitle));
+         itTitle++;
+	}
+
+  infoList->setSelected(0, true);
+
+	itList  = selectedObject->ImageList.begin();
+	itTitle = selectedObject->ImageTitle.begin();
+
+	for ( ; itList != selectedObject->ImageList.end(); ++itList ) {
+         imagesList->insertItem(QString(*itTitle));
+         itTitle++;
+	}
+
+}
+
+void DetailDialog::editLinkDialog()
+{
+  int type;
+  uint i, ObjectIndex;
+  QString defaultURL , entry;
+  QFile newFile;
+
+  KDialogBase editDialog(KDialogBase::Plain, i18n("Edit link..."), Ok|Cancel, Ok , this, "editlink", false);
+  QFrame *editFrame = editDialog.plainPage();
+
+  editLinkURL = new QLabel(i18n("URL:"), editFrame);
+  editLinkField = new QLineEdit(editFrame, "lineedit");
+  editLinkField->setMinimumWidth(300);
+  editLinkField->home(false);
+  editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
+  editLinkLayout->addWidget(editLinkURL);
+  editLinkLayout->addWidget(editLinkField);
+
+  currentItemIndex = infoList->currentItem();
+  
+  if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+  {
+        defaultURL = *selectedObject->InfoList.at(currentItemIndex);
+        editLinkField->setText(defaultURL);
+        type = 1;
+        *currentItemTitle = infoList->currentText();
+  }
+  else if ( (currentItemIndex = imagesList->currentItem()) != -1)
+  {
+        defaultURL = *selectedObject->ImageList.at(currentItemIndex);
+        editLinkField->setText(defaultURL);
+        type = 0;
+        *currentItemTitle = imagesList->currentText();
+  }
+  else return;
+
+  // If user presses cancel then return
+  if (!editDialog.exec() == QDialog::Accepted)
+        return;
+  // if it wasn't edit, don't do anything
+  if (!editLinkField->edited())
+        return;
+
+  // Save the URL of the current item
+   *currentItemURL =  editLinkField->text();
+    entry = selectedObject->name() + ":" + *currentItemTitle + ":" + *currentItemURL;
+
+   switch (type)
+   {
+     case 0:
+       if (!verifyUserData(0, ObjectIndex))
+           return;
+       break;
+     case 1:
+       if (!verifyUserData(1, ObjectIndex))
+          return;
+       break;
+   }
+
+   // Open a new file with the same name and copy all data along with changes
+   newFile.setName(file.name());
+   newFile.open(IO_WriteOnly);
+
+   QTextStream newStream(&newFile);
+   
+   for (i=0; i<dataList->count(); i++)
+   {
+      if (i != ObjectIndex)
+      {
+        newStream << *dataList->at(i) << endl;
+        continue;
+      }
+
+     if (type==0)
+     {
+       *selectedObject->ImageTitle.at(currentItemIndex) = *currentItemTitle;
+       *selectedObject->ImageList.at(currentItemIndex) = *currentItemURL;
+     }
+     else
+     {
+        *selectedObject->InfoTitle.at(currentItemIndex) = *currentItemTitle;
+        *selectedObject->InfoList.at(currentItemIndex) = *currentItemURL;
+     }
+
+     newStream << entry << endl;
+ 
+   }
+
+    newFile.close();
+    file.close();
+    updateLists();
+}
+
+void DetailDialog::removeLinkDialog()
+{
+  int type;
+  uint i, ObjectIndex;
+  QString defaultURL, entry;
+  QFile newFile;
+
+  if (KMessageBox::questionYesNoCancel( 0, i18n("Are you sure you want to remove the link?"), i18n("Delete confirmation..."))!=KMessageBox::Yes)
+   return; 
+
+   currentItemIndex = infoList->currentItem();
+    
+  if (currentItemIndex != -1 && infoList->isSelected(currentItemIndex))
+  {
+        defaultURL = *selectedObject->InfoList.at(currentItemIndex);
+        type = 1;
+        *currentItemTitle = infoList->currentText();
+  }
+  else
+  {
+        currentItemIndex = imagesList->currentItem();
+        defaultURL = *selectedObject->ImageList.at(currentItemIndex);
+        type = 0;
+        *currentItemTitle = imagesList->currentText();
+  }
+
+    switch (type)
+    {
+       case 0:
+        if (!verifyUserData(0, ObjectIndex))
+           return;
+        selectedObject->ImageTitle.remove( selectedObject->ImageTitle.at(currentItemIndex));
+        selectedObject->ImageList.remove( selectedObject->ImageList.at(currentItemIndex));
+        break;
+
+        case 1:
+         if (!verifyUserData(1, ObjectIndex))
+          return;
+        selectedObject->InfoTitle.remove(selectedObject->InfoTitle.at(currentItemIndex));
+        selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
+        break;
+    }
+       
+   // Open a new file with the same name and copy all data along with changes
+   newFile.setName(file.name());
+   newFile.open(IO_WriteOnly);
+
+   QTextStream newStream(&newFile);
+
+   for (i=0; i<dataList->count(); i++)
+   {
+      if (i != ObjectIndex)
+        newStream << *dataList->at(i) << endl;
+   }
+
+    newFile.close();
+    file.close();
+    updateLists();
+}
+
+bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
+{
+  QString line, name, sub, title;
+  bool ObjectFound = false;
+  uint i;
+
+  switch (type)
+   {
+     case 0:
+        if (!readUserFile(0,0))
+          return false;
+        for (i=0; i<dataList->count(); i++)
+        {
+             line = *dataList->at(i);
+             name = line.mid( 0, line.find(':') );
+        	  sub = line.mid( line.find(':')+1 );
+             title = sub.mid( 0, sub.find(':') );
+            if (name == selectedObject->name() && title == *currentItemTitle)
+                {
+                  ObjectFound = true;
+                  ObjectIndex = i;
+                  break;
+                }
+         }
+
+         if (!ObjectFound)
+           if (!readUserFile(0, 1))
+              return false;
+              
+        for (i=0; i<dataList->count(); i++)
+        {
+             line = *dataList->at(i);
+             name = line.mid( 0, line.find(':') );
+        	  sub = line.mid( line.find(':')+1 );
+             title = sub.mid( 0, sub.find(':') );
+            if (name == selectedObject->name() && title == *currentItemTitle)
+                {
+                  ObjectFound = true;
+                  ObjectIndex = i;
+                  break;
+                }
+         }
+         
+        break;
+     case 1:
+        if (!readUserFile(1,0))
+          return false;
+        for (i=0; i<dataList->count(); i++)
+        {
+             line = *dataList->at(i);
+             name = line.mid( 0, line.find(':') );
+        	  sub = line.mid( line.find(':')+1 );
+             title = sub.mid( 0, sub.find(':') );
+            if (name == selectedObject->name() && title == *currentItemTitle)
+                {
+                  ObjectFound = true;
+                  ObjectIndex = i;
+                  break;
+                }
+         }
+
+         if (!ObjectFound)
+           if (!readUserFile(1, 1))
+              return false;
+
+        for (i=0; i<dataList->count(); i++)
+        {
+             line = *dataList->at(i);
+             name = line.mid( 0, line.find(':') );
+        	  sub = line.mid( line.find(':')+1 );
+             title = sub.mid( 0, sub.find(':') );
+            if (name == selectedObject->name() && title == *currentItemTitle)
+                {
+                  ObjectFound = true;
+                  ObjectIndex = i;
+                  break;
+                }
+         }
+       break;
+   }
+
+   return true;
+
+}
+
+bool DetailDialog::readUserFile(int type, int sourceFileType)
+{
+
+   switch (type)
+   {
+       case 0:
+          if (!sourceFileType)
+          {
+              file.setName( locateLocal( "appdata", "myimage_url.dat" ) ); //determine filename in local user KDE directory tree.
+                if ( !file.open( IO_ReadOnly) )
+                {
+        			   QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                    KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+        	         return false;
+               }
+           }
+          else
+          {
+             file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
+             if ( !file.open( IO_ReadOnly) )
+                {
+        			   ksw->data()->initError("image_url.dat", false);
+        	         return false;
+               }
+           }
+           break;
+       case 1:
+         if (!sourceFileType)
+         {
+               file.setName( locateLocal( "appdata", "myinfo_url.dat" ) ); //determine filename in local user KDE directory tree.
+                 if ( !file.open( IO_ReadOnly) )
+                 {
+        			   QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                    KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                   return false;
+                  }
+
+         }
+         else
+         {
+             file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
+             if ( !file.open( IO_ReadOnly) )
+             {
+        			   ksw->data()->initError("info_url.dat", false);
+        	         return false;
+             }
+           }
+           break;
+    }
+
+
+   // Must reset file
+   file.reset();
+   QTextStream stream(&file);
+
+   dataList = new QStringList();
+   
+  // read all data into memory
+   while (!stream.eof())
+     dataList->append(stream.readLine());
+
+   return true;
+}
+
+void DetailDialog::Populate(QListViewItem *parent)
+{
+  // list done
+  if (!treeIt->current())
+    return;
+
+  // if relative top level [KSLABEL]
+  if (treeIt->current()->Type == 0)
+    forkTree(parent);
+
+  while (treeIt->current())
+  {
+       if (treeIt->current()->Type == 0)
+       {
+          forkTree(parent);
+          continue;
+       }
+       // if [END]
+       else if (treeIt->current()->Type == 1)
+          break;
+
+       if (parent)
+           new QListViewItem(parent, treeIt->current()->Name);
+       else
+           new QListViewItem(ADVtreeRoot, treeIt->current()->Name);
+      
+
+       ++(*treeIt);
+    }
+    
+}
+
+void DetailDialog::forkTree(QListViewItem *parent)
+{
+  QListViewItem *current = 0;
+  
+   if (parent)
+     current = new QListViewItem(parent, treeIt->current()->Name);
+   else
+     current = new QListViewItem(ADVtreeRoot, treeIt->current()->Name);
+
+  // we need to increment the iterator before and after populating the tree
+  ++(*treeIt);
+
+  Populate(current);
+
+  ++(*treeIt);
+
+}
+
+void  DetailDialog::viewADVData()
+{
+   QString link;
+
+   QListViewItem * current = ADVTree->currentItem();
+   
+   if (!current)
+     return;
+
+   treeIt->toFirst();
+
+   while (treeIt->current())
+   {
+     if (treeIt->current()->Name == current->text(0))
+     {
+        if (treeIt->current()->Type == 2)
+          break;
+        else return;
+     }
+
+       ++(*treeIt);
+   }
+
+   link = treeIt->current()->Link;
+   link = parseADVData(link);
+
+   kapp->invokeBrowser(link);
+        
+}
+     
+QString DetailDialog::parseADVData(QString link)
+{
+  QString subLink;
+  int index;
+
+  if ( (index = link.find("KSOBJ")) != -1)
+  {
+    link.remove(index, 5);
+    link = link.insert(index, selectedObject->name());
+  }
+  if ( (index = link.find("KSRA")) != -1)
+  {
+    link.remove(index, 4);
+    subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra()->hour(), selectedObject->ra()->minute(), selectedObject->ra()->second());
+    subLink = subLink.insert(2, "%20");
+    subLink = subLink.insert(7, "%20");
+
+    link = link.insert(index, subLink);
+  }
+  if ( (index = link.find("KSDEC")) != -1)
+  {
+    link.remove(index, 5);
+    if (selectedObject->dec()->degree() < 0)
+    {
+       subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
+       subLink = subLink.insert(3, "%20");
+       subLink = subLink.insert(8, "%20");
+    }
+    else
+    {
+       subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec()->degree(), selectedObject->dec()->minute(), selectedObject->dec()->second());
+       subLink = subLink.insert(0, "%2B");
+       subLink = subLink.insert(5, "%20");
+       subLink = subLink.insert(10, "%20");
+    }
+
+    link = link.insert(index, subLink);
+  }
+
+  return link;
+}
+
+void DetailDialog::saveLogData()
+{
+
+ QFile file;
+ QString logs;
+ QString currentLog = userLog->text();
+
+ if (currentLog == ("Record here observation logs and/or data on " + selectedObject->name()))
+  return;
+  
+ // A label to identiy a header
+ QString KSLabel ="[KSLABEL:" + selectedObject->name() + "]";
+ 
+  file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+  if ( file.open( IO_ReadOnly))
+  {
+     QTextStream instream(&file);
+     // read all data into memory
+     logs = instream.read();
+     file.close();
+  }
+
+  // delete old data
+  if (!selectedObject->userLog.isEmpty())
+  {
+    int startIndex, endIndex;
+    QString sub;
+    
+    startIndex = logs.find(KSLabel);
+    sub = logs.mid (startIndex);
+    endIndex = sub.find("[KSLogEnd]");
+
+    logs.remove(startIndex, endIndex + 11);
+
+  }
+
+    selectedObject->userLog = currentLog;
+    
+     // append log to existing logs
+   if (!currentLog.isEmpty())
+     logs.append( KSLabel + "\n" + currentLog + "\n[KSLogEnd]\n");
+     
+   if ( !file.open( IO_WriteOnly))
+    {
+      			QString message = i18n( "user log file could not be opened.\nCurrent user log cannot be recorded for future sessions." );
+              KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+      	       return;
+     }
+
+  QTextStream outstream(&file);
+  
+  outstream << logs;
+
+  KMessageBox::information(0, i18n("The log was saved successfully."));
+
+  file.close();
+  
+}
+
+
+
+
 
 #include "detaildialog.moc"

@@ -104,7 +104,7 @@ dms dms::operator- (dms angle)
 */
 //---------------------------------------------------------------------------
 
-void dms::SinCos( double &sina, double &cosa ) {
+void dms::SinCos( double &sina, double &cosa ) const {
   /**We have two versions of this function.  One is ANSI standard, but 
    *slower.  The other is faster, but is GNU only.
    *Using the __GLIBC_ and __GLIBC_MINOR_ constants to determine if the
@@ -123,7 +123,7 @@ void dms::SinCos( double &sina, double &cosa ) {
 }
 //---------------------------------------------------------------------------
 
-double dms::radians( void ) {
+double dms::radians( void ) const {
 	return (D*PI/180.0);
 }
 //---------------------------------------------------------------------------

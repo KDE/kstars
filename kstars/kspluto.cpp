@@ -220,9 +220,9 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double olddst = -1000;
 	double dst = 0;
 
-	double jd = num->julianDate();
-	Earth->ecLong().SinCos( sinL0, cosL0 );
-	Earth->ecLat().SinCos( sinB0, cosB0 );
+	double jd = num->julianDay();
+	Earth->ecLong()->SinCos( sinL0, cosL0 );
+	Earth->ecLat()->SinCos( sinB0, cosB0 );
 	double eX = Earth->rsun()*cosB0*cosL0;
 	double eY = Earth->rsun()*cosB0*sinL0;
 	double eZ = Earth->rsun()*sinB0;
@@ -244,7 +244,7 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		dst = sqrt( dX * dX + dY * dY + dZ * dZ );
 		double delay = .0057755183 * dst;
 
-		jd = num->julianDate() - delay;
+		jd = num->julianDay() - delay;
 
 	}
 
@@ -252,9 +252,9 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 
 	//L0, B0 are Sun's Ecliptic coords (L0 = Learth + 180; B0 = -Bearth)
-	L0.setD( Earth->ecLong().Degrees() + 180.0 );
+	L0.setD( Earth->ecLong()->Degrees() + 180.0 );
 	L0.setD( L0.reduce().Degrees() );
-	B0.setD( -1.0*Earth->ecLat().Degrees() );
+	B0.setD( -1.0*Earth->ecLat()->Degrees() );
 
 	L0.SinCos( sinL0, cosL0 );
 	B0.SinCos( sinB0, cosB0 );

@@ -97,8 +97,8 @@ GeoLocation::GeoLocation( double x, double y, double z, QString name, QString pr
 void GeoLocation::reset( GeoLocation *g ) {
 	indexEllipsoid = g->ellipsoid();
 	setEllipsoid ( indexEllipsoid );
-	Longitude = g->lng();
-	Latitude  = g->lat();
+	setLong( g->lng()->Degrees() );
+	setLat( g->lat()->Degrees() );
 	Name      = g->name();
 	Province  = g->province();
 	Country   = g->country();

@@ -162,6 +162,22 @@ void KStars::initActions() {
 		file.close();
 	}
 
+	//Add Target Symbol actions
+	new KAction( i18n( "do not use a target symbol", "No Symbol" ), 0, 
+			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_none" );
+	
+	new KAction( i18n( "use a circle target symbol", "Circle" ), 0, 
+			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_circle" );
+	
+	new KAction( i18n( "use a crosshairs target symbol", "Crosshairs" ), 0, 
+			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_crosshairs" );
+	
+	new KAction( i18n( "use a bullseye target symbol", "Bullseye" ), 0, 
+			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_bullseye" );
+	
+	new KAction( i18n( "use a rectangle target symbol", "Rectangle" ), 0, 
+			this, SLOT( slotTargetSymbol() ), actionCollection(), "target_symbol_rectangle" );
+	
 	//use custom icon earth.png for the geoLocator icon.  If it is not installed
   //for some reason, use standard icon gohome.png instead.
 	QFile tempFile;
@@ -182,6 +198,11 @@ void KStars::initActions() {
 //Tools Menu:
 	new KAction(i18n( "Calculator"), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+
+   // enable action only if file was loaded and processed successfully.   
+   if (!data()->VariableStarsList.isEmpty())
+   new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
+			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
 
 //Help Menu:
@@ -328,16 +349,16 @@ void KStars::initGuides(KSNumbers *num)
 		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
 		double HARad;
 		dms dec, HA, RA, Az;
-		Az = point->ra();
+		Az = dms(*(point->ra()));
 		Az.SinCos( sinAz, cosAz );
-		geo()->lat().SinCos( sinlat, coslat );
+		geo()->lat()->SinCos( sinlat, coslat );
 
 		dec.setRadians( asin( coslat*cosAz ) );
 		dec.SinCos( sindec, cosdec );
 		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
 		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
 		HA.setRadians( HARad );
-		RA = data()->LSTh.Degrees() - HA.Degrees();
+		RA = LSTh()->Degrees() - HA.Degrees();
 
 		SkyPoint *o = new SkyPoint( RA, dec );
 		o->setAlt( 0.0 );
@@ -347,7 +368,7 @@ void KStars::initGuides(KSNumbers *num)
 
 		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
 		o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num->obliquity(), point->ra(), dms( 0.0 ) );
+		o->setFromEcliptic( num->obliquity(), point->ra(), &dms( 0.0 ) );
 		o->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
 		data()->Ecliptic.append( o );
 	}
@@ -375,9 +396,6 @@ void KStars::datainitFinished(bool worked) {
 }
 
 void KStars::privatedata::buildGUI() {
-	// need to set the mainwidget here, in main() this will cause a segfault because
-	// skymap will be created in this constructor and needs kapp->mainWidget()
-//	kapp->setMainWidget( ks );
 	// here we get the preloaded data (stars, constellations etc.)
 
 	//Instantiate the SimClock object
@@ -386,6 +404,9 @@ void KStars::privatedata::buildGUI() {
 	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
+
+   //set AAVSO modeless dialog pointer to 0
+   ks->AAVSODialog = 0;
 
 	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight,
 			ks->options()->posTimeBox, ks->options()->shadeTimeBox,
@@ -506,8 +527,8 @@ void KStars::privatedata::buildGUI() {
 	ks->setHourAngle();
 
 	ks->map()->setOldFocus( ks->map()->focus() );
-	ks->map()->oldfocus()->setAz( ks->map()->focus()->az() );
-	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt() );
+	ks->map()->oldfocus()->setAz( ks->map()->focus()->az()->Degrees() );
+	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
 
 	kapp->dcopClient()->resume();
 

@@ -360,9 +360,9 @@ bool InfoBoxes::geoChanged(const GeoLocation *geo) {
 	GeoBox->setText1( name );
 
 	GeoBox->setText2( i18n( "Longitude", "Long:" ) + " " +
-		KGlobal::locale()->formatNumber( geo->lng().Degrees(),3) + "   " +
+		KGlobal::locale()->formatNumber( geo->lng()->Degrees(),3) + "   " +
 		i18n( "Latitude", "Lat:" ) + " " +
-		KGlobal::locale()->formatNumber( geo->lat().Degrees(),3) );
+		KGlobal::locale()->formatNumber( geo->lat()->Degrees(),3) );
 	
 	if ( ot1 == GeoBox->text1() && ot2 == GeoBox->text2() )
 		return false;
@@ -381,10 +381,10 @@ bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 	QString ot2 = FocusBox->text2();
 	QString ot3 = FocusBox->text3();
 	
-	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() +
-		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec().toDMSString(true) );
-	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true) +
-		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az().toDMSString(true) );
+	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() +
+		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec()->toDMSString(true) );
+	FocusBox->setText3( i18n( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true) +
+		"  " + i18n( "Azimuth", "Az" ) + ": " + p->az()->toDMSString(true) );
 
 	if ( ot2 == FocusBox->text2() && ot3 == FocusBox->text3() ) 
 		return false;

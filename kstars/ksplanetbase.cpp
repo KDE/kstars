@@ -42,12 +42,11 @@ void KSPlanetBase::EquatorialToEcliptic( dms Obliquity ) {
 }
 	
 void KSPlanetBase::EclipticToEquatorial( dms Obliquity ) {
-	setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
+	setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets ){
 	if ( includePlanets ) {
-//		KStars *ks = (KStars *)kapp->mainWidget();
 		kstars->data()->earth()->findPosition( num );
 		findPosition( num, kstars->data()->earth() );
 	}

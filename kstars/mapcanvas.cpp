@@ -81,8 +81,8 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 	QPoint o;
 
 	for ( unsigned int i=0; i < ks->data()->geoList.count(); ++i ) {
-		o.setX( int( ks->data()->geoList.at(i)->lng().Degrees() + origin.x() ) );
-		o.setY( height() - int( ks->data()->geoList.at(i)->lat().Degrees() + origin.y() ) );
+		o.setX( int( ks->data()->geoList.at(i)->lng()->Degrees() + origin.x() ) );
+		o.setY( height() - int( ks->data()->geoList.at(i)->lat()->Degrees() + origin.y() ) );
 
 		if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 			pcanvas.drawPoint( o.x(), o.y() );
@@ -95,8 +95,8 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 		pcanvas.setPen( white );
 		for ( unsigned int i=0; i < ld->GeoBox->count(); ++i ) {
 			int index = ld->cityIDAt( i );
-			o.setX( int( ks->data()->geoList.at(index)->lng().Degrees() + origin.x() ) );
-			o.setY( height() - int( ks->data()->geoList.at(index)->lat().Degrees() + origin.y() ) );
+			o.setX( int( ks->data()->geoList.at(index)->lng()->Degrees() + origin.x() ) );
+			o.setY( height() - int( ks->data()->geoList.at(index)->lat()->Degrees() + origin.y() ) );
 
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 				pcanvas.drawPoint( o.x(), o.y() );
@@ -105,8 +105,8 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 	}
 
 	if (ld->getCityIndex() < ks->data()->geoList.count()) {
-		o.setX( int( ks->data()->geoList.at(ld->getCityIndex())->lng().Degrees() + origin.x() ) );
-		o.setY( height() - int( ks->data()->geoList.at(ld->getCityIndex())->lat().Degrees() + origin.y() ) );
+		o.setX( int( ks->data()->geoList.at(ld->getCityIndex())->lng()->Degrees() + origin.x() ) );
+		o.setY( height() - int( ks->data()->geoList.at(ld->getCityIndex())->lat()->Degrees() + origin.y() ) );
 
 		pcanvas.setPen( red );
 		pcanvas.setBrush( red );

@@ -35,98 +35,62 @@
 
 class KStarsOptions {
 	public:
-		/**Constructor. 
-			*@param loadDefaults if true, set default values to all options.
+		/**Constructor. Set default values to all options if param is true.
 			*/
 		KStarsOptions(bool loadDefaults = true);
 
 		/**Destructor (empty)*/
 	  ~KStarsOptions();
 
-		/**Copy constructor.
-			*Copy options values from another KStarsOptions object.  If you add options
-			*to KStars, make **SURE** to include them here!
-			*@param o the KStarsOptions objects to copy
-			*/
+		/**Copy constructor
+		Copy options values from another KStarsOptions object.  If you add options
+		*to KStars, make **SURE** to include them here!
+		*/
 		KStarsOptions( KStarsOptions& o );
 
-		/**Set all options to their factory-default values.
-			*Currently only used in this constructor, but later it may be used for a option wizard.
+		/**Currently only used in this constructor, but later it may be used for a option wizard.
 			*/
 		void setDefaultOptions();
 
-		/**Set the faintest-magnitude-star-drawn value.
-			*@param newMagnitude the new limiting magnitude for stars.
-			*/
 		void setMagLimitDrawStar( float newMagnitude );	
 	
 		/**@returns pointer to the ColorScheme object
 			*/
 		ColorScheme *colorScheme() { return &CScheme; }
 
-		/**Set new Geographic Location.  This actually only sets the longitude and latitude from the 
-			*given location; there are separate functions for setting the names. (why is it done this way?)
-			*@param l the new GeoLocation to set.
+		/**Set new Location.
 			*/
 		void setLocation(const GeoLocation& l);
 
-		/**@returns the current Geographic Location as a pointer to a GeoLocation object.
-			*/
 		GeoLocation* Location();
 
-		/**Modify the current GeoLocation to have the given City name.
-			*@param city The new City name.
+		/**CityName, CountryName and ProvinceName are stored in GeoLoaction object.
 			*/
+
 		void setCityName(const QString& city);
 
-		/**Modify the current GeoLocation to have the given Country name.
-			*@param country The new Country name.
-			*/
 		void setCountryName(const QString& country);
 
-		/**Modify the current GeoLocation to have the given Province name.
-			*@param prov The new Province name.
-			*/
 		void setProvinceName(const QString& prov);
 
-		/**Modify the current GeoLocation's Longitude.
-			*@param l The new Longitude
-			*/
 		void setLongitude(const double l);
 
-		/**Modify the current GeoLocation's Latitude.
-			*@param l The new Latitude
-			*/
 		void setLatitude(const double l);
 
-		/**@returns the current GeoLocation's city name.
-			*/
 		QString cityName();
 
-		/**@returns the current GeoLocation's country name.
-			*/
 		QString countryName();
 
-		/**@returns the current GeoLocation's province name.
-			*/
 		QString provinceName();
 
-		/**@returns the current GeoLocation's longitude as a double.
-			*/
 		double longitude();
 
-		/**@returns the current GeoLocation's latitude as a double.
-			*/
 		double latitude();
 
-		/**@returns snapToFocus setting (should this be in kstarsoptions?)
-			*/
 		bool snapNextFocus() const { return snapToFocus; }
-		
-		/**Set the snapToFocus variable.  If true, then the next focus change will not use 
-			*animated slewing. (should this be in kstarsoptions?)
-			*/
 		void setSnapNextFocus(bool b=true) { snapToFocus = b; }
+
+		bool setTargetSymbol( QString name );
 
 		// Use Horizontal (a.k.a. Altitude-Azimuth) coordinate system?
 		// (false=equatorial coordinate system)
@@ -195,7 +159,8 @@ class KStarsOptions {
 		bool showTimeBox, showFocusBox, showGeoBox;
 		bool shadeTimeBox, shadeFocusBox, shadeGeoBox;
 		QPoint posTimeBox, posFocusBox, posGeoBox;
-
+		int targetSymbol;
+		
 		//Custom Catalogs
 		unsigned int CatalogCount;
 		QValueList<bool> drawCatalog;

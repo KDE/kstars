@@ -62,6 +62,7 @@
 #include "toggleaction.h"
 
 // forward declaration is enough. We only need pointers
+class KDialogBase;
 class TimeDialog;
 class LocationDialog;
 class FindDialog;
@@ -95,12 +96,14 @@ class KStars : public KMainWindow, virtual public KStarsInterface
   public:
     /**
 	 *Constructor.
+	 *
 	 *@param kstarsData the KStars Data object
 	 */
     KStars( KStarsData* kstarsData );
 
 	/**
 	 * Constructor.
+	 *
 	 * @param doSplash should the splash panel be displayed during
 	 * intialization.
 	 */
@@ -136,22 +139,22 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		InfoBoxes* infoBoxes() { return IBoxes; }
 
-		/**Display object name and coordinates in the FocusBox
+		/**Display object name and coordinates in the KStars infoPanel
 			*/
 		void showFocusCoords();
 
 		/**
-			*Load KStars options from the kstarsrc file.
+			*Load KStars options.
 			*/
 		void loadOptions();
 
 		/**
-			*Save KStars options to the kstarsrc file.
+			*Save KStars options.
 			*/
 		void saveOptions();
 
 		/**
-			*Add an item to the color-scheme action menu
+			*Add an item to the color-scheme action manu
 			*@param name The name to use in the menu
 			*@param actionName The internal name for the action (derived from filename)
 			*/
@@ -169,9 +172,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		SimClock* getClock( void ) { return clock; }
 
-	/**@returns the local sidereal time.
+	/**@returns pointer to the local sidereal time.
 		*/
-		dms LSTh();
+		dms* LSTh() { return data()->LSTh; }
 
 	/**@returns the timestep scale of the simulation clock.
 		*/
@@ -182,9 +185,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void setHourAngle();
 
 	/**DCOP interface function.
-		*Point in the direction described by the string argument.  
-		*@param direction the object or direction to foxus on
-		*/
+		*Point in the direction described by the string argument.  */
 		ASYNC lookTowards(QString direction);
 
 	/**DCOP interface function.  Zoom in. */
@@ -193,20 +194,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Zoom out. */
 		ASYNC zoomOut(void){ slotZoomOut(); };
 
-	/**DCOP interface function.  Set focus to given Alt/Az coordinates. 
-		*@param alt new focus Altiude 
-		*@param az  new focus Azimuth 
-		*/
+	/**DCOP interface function.  Set focus to given Alt/Az coordinates. */
 		ASYNC setAltAz(double alt, double az);
 
-	/**DCOP interface function.  Set local time and date. 
-		*@param yr Year portion of new date
-		*@param mth Month portion of new date
-		*@param day Day portion of new date
-		*@param hr Hour portion of new time
-		*@param min Minute portion of new time
-		*@param sec Second portion of new time
-		*/
+	/**DCOP interface function.  Set local time and date. */
 		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
 	public slots:
@@ -270,12 +261,18 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotCalculator();
 
 		/**
+		 * action slot: open KStars AAVSO Light Curve Generator
+		 */
+
+		void slotLCGenerator();
+    
+
+		/**
 			*action slot: open dialog for setting the view options
 			*/	
 		void slotViewOps();
 
 		/** finish setting up after the kstarsData has finished
-		 *@param worked Did the data initialization finish successfully?
 		 */
 		void datainitFinished(bool worked);
 
@@ -303,6 +300,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*Action which sent the activating signal.  */
 		void slotColorScheme();
 
+		/**Select the Target symbol (a.k.a. field-of-view indicator) */
+		void slotTargetSymbol();
+		
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
@@ -316,25 +316,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		/**Re-assign the input focus to the SkyMap widget.
 			*/
-		void mapGetsFocus();
+		void mapGetsFocus() { map()->QWidget::setFocus(); }
 
-		/**Record shaded state of TimeBox in config object.
-			*/
 		void saveTimeBoxShaded( bool s );
-		/**Record shaded state of GeoBox in config object.
-			*/
 		void saveGeoBoxShaded( bool s );
-		/**Record shaded state of FocusBox in config object.
-			*/
 		void saveFocusBoxShaded( bool s );
-		/**Record position of TimeBox in config object.
-			*/
 		void saveTimeBoxPos( QPoint p );
-		/**Record position of GeoBox in config object.
-			*/
 		void saveGeoBoxPos( QPoint p );
-		/**Record position of FocusBox in config object.
-			*/
 		void saveFocusBoxPos( QPoint p );
 
 	private:
@@ -383,7 +371,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KActionMenu *colorActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
+       KDialogBase *AAVSODialog;
 
+    
 		int idSpinBox;
 		bool useDefaultOptions, DialogIsObsolete;
 
@@ -392,10 +382,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		privatedata *pd;
 };
 
-/**privatedata is a class exposed only to the KStars class.
-	*It contains a pointer to the KStarsData object, and to the KStarsSplash object.
-	*It also contains the buildGUI() function.
-	*/
 class KStars::privatedata {
 
 	public:
@@ -403,14 +389,9 @@ class KStars::privatedata {
 		KStarsSplash *splash;
 		KStarsData *kstarsData;
 
-		/**Constructor.*/
 		privatedata(KStars *parent) : ks(parent), splash(0), kstarsData(0) {};
-		
-		/**Construct the KStars GUI.  
-			*/
 		void buildGUI();
 
-		/**Destructor*/
 		virtual ~privatedata() {
 			if (splash) delete splash;
 			if (kstarsData) delete kstarsData;
