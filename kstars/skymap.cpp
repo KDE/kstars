@@ -40,6 +40,7 @@
 #include "ksutils.h"
 #include "skymap.h"
 #include "imageviewer.h"
+#include "infoboxes.h"
 #include "addlinkdialog.h"
 
 #if (QT_VERSION < 300)
@@ -295,7 +296,8 @@ void SkyMap::slotCenter( void ) {
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
+		if ( KMessageBox::warningYesNo( ksw, message, caption,
+				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;
@@ -521,6 +523,9 @@ void SkyMap::slewFocus( void ) {
 		//Also, now that the focus has re-centered, engage tracking.
 		setFocus( destination() );
 		focus()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+                if ( foundObject() )
+                       ksw->infoBoxes()->focusObjChanged( foundObject()->translatedName() );
+
 		ksw->setHourAngle();
 		slewing = false;
 
