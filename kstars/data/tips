@@ -1,38 +1,37 @@
 <tip category="KStars|General">
 <html>
-<p>...that you can search for objects in the sky by their name?<br>
+<p>You can locate objects in the sky by their name. 
 Use Ctrl+F, the "Focus->Find Object" menu item, or the "Find"
 Toolbar button.
 </html>
 </tip>
 <tip category="KStars|General">
 <html>
-<p>...that you can change your Geographic Location?<br>
-Use Ctrl+G, the "Settings->Set Geographic Location..." menu item,
+<p>To change your Geographic Location, 
+use Ctrl+G, the "Settings->Set Geographic Location..." menu item,
 or the "globe" Toolbar button.
 </html>
 </tip>
 <tip category="KStars|General">
 <html>
-<p>...that you can Track an object, so it will always be centered
-in the display?<br>
+<p>You can Track an object, so it will always be centered
+in the display.<br>
 Use Ctrl+T, the "Focus->Track Object" menu item, or the "lock"
 Toolbar button. You can also simply center the object by
 double-clicking on it or selecting "Center and Track" from the
-popup menu.
+object's popup menu.
 </html>
 <tip category="KStars|General">
 <html>
-<p>...that the KStars Handbook includes the AstroInfo Project, a series 
-of informative articles about Astronomy?
+<p>The KStars Handbook includes the AstroInfo Project, a series 
+of informative articles about Astronomy.
 </html>
 </tip>
 <tip category="KStars|General">
 <html>
-<p>...that you can directly access many of the calculations that
-KStars does behind-the-scenes?<br>
-Open the KStars Astrocalculator by pressing Ctrl+C or by selecting
-the "Tools->Calculator" menu item.
+<p>You can directly access many of the calculations that
+KStars does behind-the-scenes.  Open the KStars Astrocalculator 
+by pressing Ctrl+C or by selecting the "Tools->Calculator" menu item.
 </html>
 </tip>
 <tip category="KStars|General">
@@ -46,13 +45,13 @@ them altogether in the Settings->Info Boxes menu.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that the Z key will point the display at the Zenith?
+<p>The Z key will point the display at the Zenith.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that the N,S,E,W keys will point the display at the North,
-South, East and West points on the Horizon?
+<p>The N,S,E,W keys will point the display at the North,
+South, East and West points on the Horizon.
 </html>
 </tip>
 <tip category="KStars|Navigation">
@@ -87,7 +86,7 @@ coordinates of the mouse cursor.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that there are 5 different ways to zoom the display in and out?
+<p>There are 5 different ways to zoom the display in and out.
 You can use the mouse's scroll wheel, drag the mouse vertically while pressing
 the middle button, use the +/- keys, use the zoom buttons on the toolbar,
 and use the "Zoom In" and "Zoom Out" items in the "View" menu.
@@ -95,29 +94,28 @@ and use the "Zoom In" and "Zoom Out" items in the "View" menu.
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that you can set the Focus point manually? Press Ctrl+M, or
-use the "Focus->Set Focus Manually..." menu item, and enter the desired
-coordinates in the popup window.
+<p>You can manually set the coordinates of the central Focus point.
+Press Ctrl+M, or use the "Focus->Set Focus Manually..." menu item, and enter 
+the desired coordinates in the popup window.
 </html>
 </tip>
 <tip category="KStars|Navigation">
 <html>
-<p>...that you can switch between Equatorial and Horizontal coordinate
-systems? Use the "View->Coordinates" menu item, or the buttons
-in the KStars Configuration window.
+<p>To switch between Equatorial and Horizontal coordinate
+systems, use the "View->Coordinates" menu item, or the buttons
+in the KStars Configuration Options window.
 </html>
 </tip>
 <tip category="KStars|Time">
 <html>
-<p>...that you can set the Time and Date? <br>
-Use Ctrl+S, the "Time->Set Time" menu item, or the "hourglass" toolbar
-button.
+<p>To set the Time and Date, type Ctrl+S, use the "Time->Set Time" menu item, 
+or press the "time" toolbar button.
 </html>
 </tip>
 <tip category="KStars|Time">
 <html>
-<p>...that you can use Ctrl+E or the "Time->Set Time to Now" to synchronize
-the simulation clock with your CPU clock?
+<p>You can use Ctrl+E or the "Time->Set Time to Now" menu item to synchronize
+the simulation clock with your CPU clock.
 </html>
 </tip>
 <tip category="KStars|Time">
@@ -148,34 +146,33 @@ while hotter stars are blue.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can add your own custom Object catalogs? Select
+<p>To add your own custom Object Catalogs, select
 "Add Catalog" from the Catalogs tab in the KStars Configuration window.
 See the Handbook for instructions on formatting your catalog file.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can add your own custom image/information URLs to
-any object? Select "Add Link..." from the popup menu.
+<p>To add your own custom image/information URLs to
+any object, select "Add Link..." from the object's popup menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can adjust dozens of display options by clicking the
-"wrench" Toolbar button, or selecting the "Settings->Configure KStars..."
-menu item?
+<p>You can adjust dozens of display options by clicking the
+"configure" Toolbar button, or selecting the "Settings->Configure KStars..."
+menu item.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can hide the on-screen Info Boxes?
-Select your preferences in the "Settings->Info Boxes" menu.
+<p>The on-screen Info Boxes can be hidden or shown using the 
+"Settings->Info Boxes" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can hide the Toolbars? Select your preferences
-in the "Settings->Toolbars" menu.
+<p>The Toolbars can be hidden or shown using the "Settings->Toolbars" menu.
 </html>
 </tip>
 <tip category="KStars|Customize">
@@ -186,7 +183,7 @@ the scheme from the "Settings->Color Schemes" menu.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can define your own Geographic Locations? Fill in the
+<p>You can define your own Geographic Locations.  Fill in the
 required fields in the "Change Location" Dialog and then press the
 "Add to List" button. Your Locations will be available in all
 future sessions.
@@ -194,7 +191,7 @@ future sessions.
 </tip>
 <tip category="KStars|Customize">
 <html>
-<p>...that you can define your own Color Schemes? Adjust the colors
+<p>You can define your own Color Schemes.  Adjust the colors
 in the Configuration Window's "Colors" Tab, and then press the "Save
 Current Colors" button. Your Color Scheme will appear in the list in
 all future sessions.
