@@ -29,7 +29,7 @@ around the equator is about 0.3% longer than a <link
 linkend="ai-greatcircle">Great Circle</link> that passes through the 
 poles.  The <firstterm>Geodetic Coordinate system</firstterm> takes
 this ellipsoidal shape into account, and expresses the position
-on the Earth's surface in cartesian coordinates (X, Y, and Z).
+on the Earth's surface in Cartesian coordinates (X, Y, and Z).
 </para>
 <para>
 To use the module, first select which coordinates you will use as 
