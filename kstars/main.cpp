@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 					kdt.setTime( QTime( 0, 0, 0 ) );
 				}
 			} else { //assume Text format for date string
-				kdt = KStarsDateTime::fromString( datestring, Qt::TextDate );
+				kdt = dat->geo()->LTtoUT( KStarsDateTime::fromString( datestring, Qt::TextDate ) );
 			}
 			
 			if ( ! kdt.isValid() ) {
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 	//warn about invalid dates
 	QString datestring = args->getOption( "date" );
 	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
-		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ) << endl;
+		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
 	
 	new KStars( true, ! args->isSet( "paused" ), datestring );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
