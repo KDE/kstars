@@ -83,7 +83,7 @@ INDIMenu::~INDIMenu()
 
 /*********************************************************************
 ** Traverse the drivers list, check for updated drivers and take
-** appropiate action
+** appropriate action
 *********************************************************************/
 void INDIMenu::updateStatus()
 {
