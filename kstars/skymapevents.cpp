@@ -1030,7 +1030,7 @@ void SkyMap::drawCoordinateGrid(QPainter& psky)
 				sp->set( RA, Dec );
 				if ( options->useAltAz ) sp->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
-				if ( checkVisibility( sp, guideFOV, guideXmax, options->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp, guideFOV, guideXmax ) ) {
 					o = getXY( sp, options->useAltAz, options->useRefraction );
   	
 					int dx = psky.pos().x() - o.x();
@@ -1071,7 +1071,7 @@ void SkyMap::drawCoordinateGrid(QPainter& psky)
 				sp1->set( RA, Dec );
 				if ( options->useAltAz ) sp1->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
-				if ( checkVisibility( sp1, guideFOV, guideXmax, options->useAltAz, isPoleVisible ) ) {
+				if ( checkVisibility( sp1, guideFOV, guideXmax ) ) {
 					o = getXY( sp1, options->useAltAz, options->useRefraction );
   	  	
 					int dx = psky.pos().x() - o.x();
@@ -1111,7 +1111,7 @@ void SkyMap::drawEquator(QPainter& psky)
 
 		//start loop at second item
 		for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXmax, options->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( p, guideFOV, guideXmax ) ) {
 				o = getXY( p, options->useAltAz, options->useRefraction );
 
 				int dx = psky.pos().x() - o.x();
@@ -1161,7 +1161,7 @@ void SkyMap::drawEcliptic(QPainter& psky)
 		bool newlyVisible = false;
 		//Start loop at second item
 		for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
-			if ( checkVisibility( p, guideFOV, guideXmax, options->useAltAz, isPoleVisible ) ) {
+			if ( checkVisibility( p, guideFOV, guideXmax ) ) {
 				o = getXY( p, options->useAltAz, options->useRefraction );
 
 				int dx = psky.pos().x() - o.x();
@@ -1233,7 +1233,7 @@ void SkyMap::drawConstellationNames(QPainter& psky, QFont& stdFont)
 		psky.setFont( stdFont );
 		psky.setPen( QColor( options->colorScheme()->colorNamed( "CNameColor" ) ) );
 		for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
-			if ( checkVisibility( p, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
+			if ( checkVisibility( p, FOV, Xmax ) ) {
 				QPoint o = getXY( p, options->useAltAz, options->useRefraction );
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
 					if ( options->useLatinConstellNames ) {
@@ -1286,7 +1286,7 @@ void SkyMap::drawStars(QPainter& psky)
 			// break loop if maglim is reached
 			if ( curStar->mag() > maglim ) break;
 
-			if ( checkVisibility( curStar, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
+			if ( checkVisibility( curStar, FOV, Xmax ) ) {
 				QPoint o = getXY( curStar, options->useAltAz, options->useRefraction );
 
 				// draw star if currently on screen
@@ -1339,7 +1339,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 	for ( SkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
 
 		if ( drawObject || drawImage ) {
-			if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
+			if ( checkVisibility( obj, FOV, Xmax ) ) {
 				QPoint o = getXY( obj, options->useAltAz, options->useRefraction );
 				if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 					int PositionAngle = findPA( obj, o.x(), o.y() );
@@ -1466,7 +1466,7 @@ void SkyMap::drawDeepSkyObjects(QPainter& psky)
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
-				if ( checkVisibility( obj, FOV, Xmax, options->useAltAz, isPoleVisible, options->drawGround ) ) {
+				if ( checkVisibility( obj, FOV, Xmax ) ) {
 					QPoint o = getXY( obj, options->useAltAz, options->useRefraction );
 
 					if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {

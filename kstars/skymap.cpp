@@ -874,12 +874,14 @@ float SkyMap::fov( void ) {
 	return Range[ ksw->data()->ZoomLevel ]*width()/600.;
 }
 
-bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax, bool useAltAz, bool isPoleVisible, bool drawGround ) {
+bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 	double dX, dY;
 
 //Skip objects below the horizon if the ground is drawn.
 //commented out because ground disappears if it fills the view
 //	if ( useAltAz && drawGround && p->alt()->Degrees() < -2.0 ) return false;
+
+	bool useAltAz = ksw->options()->useAltAz;
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
