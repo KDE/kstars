@@ -81,7 +81,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
 	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString() ) );
+	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString( Qt::LocalDate ) ) );
 
 	initCategories();
 
