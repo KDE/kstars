@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="1">
+<kpartgui name="KStars" version="2">
 <MenuBar noMerge="1">
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="new_window" />
@@ -43,6 +43,25 @@
 		<Action name="coordsys" />
 	</Menu>
 
+	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
+		<Action name="telescope_wizard" />
+	        <Action name="device_manager" />
+		<Action name="indi_control_panel" />
+		<Separator />
+		<Action name="configure_indi" />
+
+	</Menu>
+
+	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+		<Action name="astrocalculator" />
+		<Action name="lightcurvegenerator" />
+		<Action name="altitude_vs_time" />
+		<Action name="whats_up_tonight" />
+		<Action name="scriptbuilder" />
+		<Action name="solarsystem" />
+		<Action name="jmoontool" />
+	</Menu>
+
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 		<Menu name="infopanel"><text>&amp;Info Boxes</text>
 			<Action name="show_boxes"/>
@@ -68,25 +87,6 @@
 		<Action name="geolocation" />
 		<Separator />
 		<Action name="configure" />
-	</Menu>
-
-	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
-		<Action name="astrocalculator" />
-		<Action name="lightcurvegenerator" />
-		<Action name="altitude_vs_time" />
-		<Action name="whats_up_tonight" />
-		<Action name="scriptbuilder" />
-		<Action name="solarsystem" />
-		<Action name="jmoontool" />
-	</Menu>
-
-	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
-		<Action name="telescope_wizard" />
-	        <Action name="device_manager" />
-		<Action name="indi_control_panel" />
-		<Separator />
-		<Action name="configure_indi" />
-
 	</Menu>
 
 	<Menu name="help"><text>&amp;Help</text>
