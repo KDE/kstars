@@ -83,9 +83,10 @@ FindDialog::FindDialog( QWidget* parent )
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
+	connect( SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
 	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect (SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
-        connect( SearchList, SIGNAL( doubleClicked ( QListBoxItem *  ) ), SLOT( slotOk() ) );
+	connect( SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
+	connect( SearchList, SIGNAL( doubleClicked ( QListBoxItem *  ) ), SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
 	QTimer::singleShot(0, this, SLOT( init() ));
@@ -197,4 +198,20 @@ void FindDialog::slotOk() {
 		accept();
 	}
 }
+
+void FindDialog::keyPressEvent( QKeyEvent *e ) {
+	switch( e->key() ) {
+		case Key_Down :
+			if ( SearchList->currentItem() < SearchList->count() - 1 )
+				SearchList->setCurrentItem( SearchList->currentItem() + 1 );
+			break;
+			
+		case Key_Up :
+			if ( SearchList->currentItem() > 0 )
+				SearchList->setCurrentItem( SearchList->currentItem() - 1 );
+			break;
+			
+	}
+}
+
 #include "finddialog.moc"

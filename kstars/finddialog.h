@@ -47,9 +47,9 @@ class QStringList;
 	*/
 
 class FindDialog : public KDialogBase  {
-	Q_OBJECT
-	
-	public:
+Q_OBJECT
+
+public:
 /**
 	*Constructor. Creates all widgets and packs them in QLayouts.  Connects
 	*Signals and Slots.  Runs initObjectList().
@@ -65,23 +65,25 @@ class FindDialog : public KDialogBase  {
   *Return the currently-selected item in the list
   */
 	SkyObjectNameListItem * currentItem() const { return currentitem; }
+
+protected:
+	void keyPressEvent( QKeyEvent *e );
+
+private:
+	QVBoxLayout *vlay;
+	QHBoxLayout *hlay;
+	QListBox *SearchList;
+	QLineEdit *SearchBox;
+	QLabel *filterTypeLabel;
+	QComboBox *filterType;
+
+	SkyObjectNameListItem *currentitem;
 	
-	private:
-
-		QVBoxLayout *vlay;
-		QHBoxLayout *hlay;
-		QListBox *SearchList;
-		QLineEdit *SearchBox;
-		QLabel *filterTypeLabel;
-		QComboBox *filterType;
-
-		SkyObjectNameListItem *currentitem;
-		
-		int Filter;
+	int Filter;
 /**
-  *Automatically select the first item in the list
-  */
-		void setListItemEnabled();
+	*Automatically select the first item in the list
+	*/
+	void setListItemEnabled();
 	
 public slots:
 /**
