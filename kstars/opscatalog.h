@@ -51,7 +51,7 @@ private slots:
 	void slotRemoveCatalog();
 	void slotSetDrawStarMagnitude(double newValue);
 	void slotSetDrawStarZoomOutMagnitude(double newValue);
-
+	void slotStarWidgets(bool on);
 	
 private:
 	QCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
