@@ -318,7 +318,7 @@ void KStars::loadColorScheme( const QString _name ) {
 			ok = data()->colorScheme()->load( filename );
 		}
 		
-		if ( ! ok ) kdDebug() << i18n( "Unable to load color scheme named %1.  Also tried %2." ).arg( name ).arg( filename ); 
+		if ( ! ok ) kdDebug() << i18n( "Unable to load color scheme named %1. Also tried %2." ).arg( name ).arg( filename ); 
 	}
 	
 	if ( ok ) {
