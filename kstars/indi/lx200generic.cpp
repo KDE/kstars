@@ -351,7 +351,7 @@ void LX200Generic::ISGetProperties(const char *dev)
 
 void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-	double UTCOffset;
+	double UTCOffset, dayDiff;
 	int err;
 	struct tm *ltp = new tm;
 	struct tm utm;
@@ -414,11 +414,14 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		utm.tm_year  += 1900;
 		ltp->tm_year += 1900;
 
-	  	UTCOffset = (utm.tm_hour - ltp->tm_hour);
-
-		if (utm.tm_mday - ltp->tm_mday != 0)
-			 UTCOffset += 24;
-
+	        
+                dayDiff = utm.tm_mday - ltp->tm_mday;
+		if (dayDiff == 0)
+		   UTCOffset = (ltp->tm_hour - utm.tm_hour);  
+		else if (dayDiff > 0)
+		   UTCOffset = ltp->tm_hour - utm.tm_hour - 24;
+		else UTCOffset = ltp->tm_hour - utm.tm_hour + 24;
+		
 		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 		
 		getSDTime(&STime[0].value);

@@ -86,7 +86,7 @@ void INDIStdDevice::establishDataChannel(QString host, int port)
 	int conResult = -1;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
+	errMsg = QString("Connection to INDI host at %1 on port %2 failed. Data Channel Will not be avaiable.").arg(host).arg(port);
 	
 	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
@@ -103,6 +103,8 @@ void INDIStdDevice::establishDataChannel(QString host, int port)
 	{
 		if ( (conResult = ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin))) == 0)
 		  break;
+		  
+		usleep(50000);
 	}
 	
 	if (conResult == -1)

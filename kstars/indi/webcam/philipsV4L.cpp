@@ -80,7 +80,7 @@ extern int  timerCallBackID;
 
 int connectPhilips(const char * devpath,int preferedPalette)
 {
-   //options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
+   //options_= (haveBrightness|haveContrast|haveColor);
    options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
    struct pwc_probe probe;
    bool IsPhilips = false;

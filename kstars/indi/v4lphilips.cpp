@@ -325,6 +325,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        IUUpdateSwitches(&StreamSP, states, names, n);
        StreamSP.s = IPS_IDLE;
        
+       // Refresh Size
+       IDSetNumber(&ImageSizeNP, NULL);
           
        if (StreamS[0].s == ISS_ON && streamTimerID == -1)
        {
@@ -335,8 +337,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        else
        {
          IDLog("The video stream has been disabled.\n");
-	 rmTimer(streamTimerID);
+	 //rmTimer(streamTimerID);
 	 streamTimerID = -1;
+	 
+
        }
        
        IDSetSwitch(&StreamSP, NULL);
@@ -1222,7 +1226,7 @@ void updateStream(void *p)
    char frameSize[FRAME_ILEN];
    int nr=0, n=0,r, frameLen;
    p=p;
-   if (PowerS[0].s == ISS_OFF) return;
+   if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
    //IDLog("entering update Stream\n");
    
    V4LFrame->Y      		= getY();

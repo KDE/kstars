@@ -143,7 +143,7 @@ void StreamWG::setSize(int wd, int ht)
 void StreamWG::resizeEvent(QResizeEvent *ev)
 {
 
-  streamFrame->resize(ev->size().width(), ev->size().height() - playB->height());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
 
 }
  /*
