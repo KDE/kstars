@@ -346,8 +346,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		dm = abs( mousePoint()->dec().getArcMin() );
 		ds = abs( mousePoint()->dec().getArcSec() );
 
-		sRA = sRA.sprintf( " %02d:%02d:%02d", mousePoint()->ra().hour(), mousePoint()->ra().minute(),  mousePoint()->ra().second() );
-		sDec = sDec.sprintf( "%c%02d:%02d:%02d ", dsgn, dd, dm, ds );
+		sRA = mousePoint()->ra().toHMSString();
+		sDec = mousePoint()->dec().toDMSString(true); //true = force +/- symbol
 		s = sRA + ",  " + sDec;
 		ksw->statusBar()->changeItem( s, 1 );
 	}

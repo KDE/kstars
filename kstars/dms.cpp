@@ -131,16 +131,16 @@ QString dms::toDMSString(bool forceSign) const {
 	int ds = abs(getArcSec());
 
 	if (forceSign) {
-		return dummy.sprintf("%+03d:%02d:%02d", degree(), dm, ds);
+		return dummy.sprintf("%+03d%c %02d\' %02d\"", degree(), 176, dm, ds);
 	} else {
-		return dummy.sprintf("%03d:%02d:%02d", degree(), dm, ds);
+		return dummy.sprintf("%03d%c %02d\' %02d\"", degree(), 176, dm, ds);
 	}
 }
 
 QString dms::toHMSString() const {
 	QString dummy;
 
-	return dummy.sprintf("%02d:%02d:%02d", hour(), minute(), second());
+	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
 	

@@ -68,7 +68,7 @@ InfoPanel::InfoPanel(QWidget * parent, const char * name, const KLocale *loc, WF
 
 	QHBoxLayout *hblo = new QHBoxLayout(pd->timef, 0, -1, "timelo");
 
-	pd->LT = new QLabel(i18n( "Local Time", "LT:" ) + " 00:00:00    0000-00-00     ", pd->timef);
+	pd->LT = new QLabel(i18n( "Local Time", "LT:" ) + " 00:00:00    0000-00-00             ", pd->timef);
 	// just so we make sure we have a consistent font, and to
 	// gives a handle for changing the font in later, better code:
 	QFont ipFont = pd->LT->font();
@@ -115,7 +115,7 @@ InfoPanel::InfoPanel(QWidget * parent, const char * name, const KLocale *loc, WF
 
 	hblo = new QHBoxLayout(pd->focusf, 0, -1, "focuslo");
 
-	pd->FocusRA = new QLabel( i18n( "Right Ascension", "RA" ) + ": 00:00:00  ", pd->focusf );
+	pd->FocusRA = new QLabel( i18n( "Right Ascension", "RA" ) + ": 00h 00m 00s  ", pd->focusf );
 	pd->FocusRA->setFont( ipFont );
 	pd->FocusRA->setFixedSize( pd->FocusRA->sizeHint() );
 	pd->FocusRA->setPalette( pal );
@@ -123,7 +123,8 @@ InfoPanel::InfoPanel(QWidget * parent, const char * name, const KLocale *loc, WF
 
 	hblo->addWidget( pd->FocusRA);
 
-	pd->FocusDec = new QLabel( i18n( "Declination", "Dec" ) + ": +00:00:00    ", pd->focusf );
+	pd->FocusDec = new QLabel( i18n( "Declination", "Dec" ) +
+			QString().sprintf( ": +00%c 00\' 00\"    ", 176 ), pd->focusf );
 	pd->FocusDec->setFont( ipFont );
 	pd->FocusDec->setFixedSize( pd->FocusDec->sizeHint() );
 	pd->FocusDec->setPalette( pal );
@@ -131,7 +132,8 @@ InfoPanel::InfoPanel(QWidget * parent, const char * name, const KLocale *loc, WF
 
 	hblo->addWidget( pd->FocusDec);
 
-	pd->FocusAz = new QLabel( i18n( "Azimuth", "Az" ) + ": +000:00:00", pd->focusf );
+	pd->FocusAz = new QLabel( i18n( "Azimuth", "Az" ) +
+			QString().sprintf( ": +00%c 00\' 00\"    ", 176 ), pd->focusf );
 	pd->FocusAz->setFont( ipFont );
 	pd->FocusAz->setFixedSize( pd->FocusAz->sizeHint() );
 	pd->FocusAz->setPalette( pal );
@@ -139,7 +141,8 @@ InfoPanel::InfoPanel(QWidget * parent, const char * name, const KLocale *loc, WF
 
 	hblo->addWidget( pd->FocusAz);
 
-	pd->FocusAlt = new QLabel( i18n( "Altitude", "Alt" ) + ": +00:00:00    ", pd->focusf );
+	pd->FocusAlt = new QLabel( i18n( "Altitude", "Alt" ) +
+			QString().sprintf( ": +00%c 00\' 00\"    ", 176 ), pd->focusf );
 	pd->FocusAlt->setFont( ipFont );
 	pd->FocusAlt->setFixedSize( pd->FocusAlt->sizeHint() );
 	pd->FocusAlt->setPalette( pal );

@@ -244,6 +244,9 @@ public slots:
 /**Popup menu function: Display image with ImageViewer (only available for some objects). */
 	void slotImage( int id );
 
+/**Popup menu function: Show Detailed Information Dialog. */
+	void slotDetail( void );
+
 /**Popup menu function: Add a custom Image or Information URL. */
 	void addLink( void );
 

@@ -117,6 +117,10 @@ public:
 	*/
 	int type( void ) const { return Type; }
 
+/**@returns a string describing object's type
+	*/
+	QString typeName( void ) const;
+
 /**@returns object's magnitude
 	*/
 	float mag( void ) const { return Magnitude; }

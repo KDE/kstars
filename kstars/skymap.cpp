@@ -35,6 +35,7 @@
 #include <stream.h>
 #include <unistd.h>
 
+#include "detaildialog.h"
 #include "kstars.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -159,6 +160,9 @@ void SkyMap::initPopupMenu( void ) {
 	pmenu->insertSeparator();
 	pmenu->insertItem( i18n( "Center and Track" ), this, SLOT( slotCenter() ) );
 	pmenu->insertSeparator();
+
+	//Insert item for Showing details dialog
+	pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details..." ), this, SLOT( slotDetail() ) );
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
@@ -276,6 +280,11 @@ void SkyMap::slotImage( int id ) {
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		new ImageViewer (&url, this);
+}
+
+void SkyMap::slotDetail( void ) {
+	DetailDialog detail( clickedObject(), ksw->data()->LTime, ksw->geo() );
+	detail.exec();
 }
 
 void SkyMap::slotClockSlewing() {

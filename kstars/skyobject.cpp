@@ -412,3 +412,16 @@ dms SkyObject::elevationCorrection(void) {
 	else
 		return dms(0.8333);
 }
+
+QString SkyObject::typeName( void ) const {
+	if ( Type==0 ) return i18n( "Star" );
+	else if ( Type==1 ) return i18n( "Catalog Star" );
+	else if ( Type==2 ) return i18n( "Planet" );
+	else if ( Type==3 ) return i18n( "Open Cluster" );
+	else if ( Type==4 ) return i18n( "Globular Cluster" );
+	else if ( Type==5 ) return i18n( "Gaseous Nebula" );
+	else if ( Type==6 ) return i18n( "Planetary Nebula" );
+	else if ( Type==7 ) return i18n( "Supernova Remnant" );
+	else if ( Type==8 ) return i18n( "Galaxy" );
+	else return i18n( "Unknown Type" );
+}
