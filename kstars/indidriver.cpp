@@ -488,11 +488,11 @@ bool INDIDriver::readXMLDriver()
     return false;
  }
 
- char c;
+ signed char c;
  LilXML *xmlParser = newLilXML();
  XMLEle *root = NULL;
 
- while ( (c = (char) file.getch()) != -1)
+ while ( (c = (signed char) file.getch()) != -1)
  {
     root = readXMLEle(xmlParser, c, errmsg);
 

@@ -1784,7 +1784,7 @@ void LX200Generic::getAlignment()
    if (PowerSP.s != IPS_OK)
     return;
 
-   char align = ACK();
+   signed char align = ACK();
    if (align < 0)
    {
      IDSetSwitch (&AlignmentSw, "Failed to get telescope alignment.");
