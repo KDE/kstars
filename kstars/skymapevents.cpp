@@ -480,6 +480,9 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		double dy = ( 0.5*height() - ZoomRect.center().y() )/zoomFactor();
 
 		SkyPoint newcenter = dXdYToRaDec( dx, dy, data->options->useAltAz, data->LST, data->geo()->lat() );
+		setClickedPoint( &newcenter );
+		setClickedObject( NULL );
+		setFocusObject( NULL );
 		setFocus( &newcenter );
 		setDestination( &newcenter );
 		setOldFocus( &newcenter );
@@ -487,8 +490,10 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
 		ZoomRect = QRect(); //invalidate ZoomRect
 		forceUpdate();
+	} else {
+		ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
 	}
-
+	
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, because it's unset there.
 		mouseButtonDown = false;
