@@ -76,8 +76,14 @@ void KStars::initActions() {
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
 	tmpAction->setToolTip( i18n( "Find object" ) );
+	
 	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
+	if ( options()->isTracking ) { 
+		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	}
+
 	new KAction( i18n( "Set Focus &Manually..." ), KShortcut( "Ctrl+M" ),
 			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
 
@@ -417,6 +423,7 @@ void KStars::datainitFinished(bool worked) {
 	pd->buildGUI();
 	data()->setFullTimeUpdate();
 	updateTime();
+
 	data()->clock()->start();
 
 //Initialize FOV symbol from options
@@ -553,24 +560,24 @@ void KStars::privatedata::buildGUI() {
 	if ( ks->options()->isTracking ) {
 		if ( (ks->options()->focusObject== i18n( "star" ) ) ||
 		     (ks->options()->focusObject== i18n( "nothing" ) ) ) {
-			ks->map()->setClickedPoint( &newPoint );
+			ks->map()->setFocusPoint( &newPoint );
 		} else {
 			ks->map()->setClickedObject( ks->data()->objectNamed( ks->options()->focusObject ) );
 			if ( ks->map()->clickedObject() ) {
-				ks->map()->setClickedPoint( ks->map()->clickedObject() );
+				ks->map()->setFocusPoint( ks->map()->clickedObject() );
 			} else {
-				ks->map()->setClickedPoint( &newPoint );
+				ks->map()->setFocusPoint( &newPoint );
 			}
 		}
 //		ks->map()->slotCenter();
 	} else {
-		ks->map()->setClickedPoint( &newPoint );
+		ks->map()->setFocusPoint( &newPoint );
 //		ks->map()->slotCenter();
 	}
 
 	if ( ks->options()->focusObject== i18n( "star" ) ) ks->options()->focusObject = i18n( "nothing" );
 
-	ks->map()->setDestination( ks->map()->clickedPoint() );
+	ks->map()->setDestination( ks->map()->focusPoint() );
 	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
@@ -589,5 +596,4 @@ void KStars::privatedata::buildGUI() {
 	if ( ks->options()->ZoomFactor <= MINZOOM ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
 
 	kapp->dcopClient()->resume();
-
 }

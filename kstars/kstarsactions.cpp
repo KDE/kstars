@@ -603,6 +603,9 @@ void KStars::slotManualFocus() {
 		if ( options()->isTracking ) slotTrack();
 
 		map()->slotCenter();
+		
+		//Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
+		if ( focusDialog.usedAltAz() ) map()->stopTracking();
 	}
 }
 
