@@ -456,6 +456,12 @@
                             <property name="name">
                                 <cstring>epochBoxBatch</cstring>
                             </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>1950.0</string>
+                            </property>
                         </widget>
                         <widget class="QCheckBox" row="0" column="0">
                             <property name="name">
@@ -483,28 +489,17 @@
                             <property name="name">
                                 <cstring>epochCheckBatch</cstring>
                             </property>
-                            <property name="text">
-                                <string>Epoch</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="0" column="2">
-                            <property name="name">
-                                <cstring>galLatCheckBatch</cstring>
-                            </property>
                             <property name="enabled">
                                 <bool>true</bool>
                             </property>
                             <property name="text">
-                                <string>Gal. Lat.</string>
+                                <string>Epoch</string>
                             </property>
                             <property name="checked">
                                 <bool>false</bool>
                             </property>
                         </widget>
-                        <widget class="QCheckBox" row="1" column="2">
+                        <widget class="QCheckBox" row="0" column="2">
                             <property name="name">
                                 <cstring>galLongCheckBatch</cstring>
                             </property>
@@ -518,9 +513,23 @@
                                 <bool>false</bool>
                             </property>
                         </widget>
+                        <widget class="QCheckBox" row="1" column="2">
+                            <property name="name">
+                                <cstring>galLatCheckBatch</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                            <property name="text">
+                                <string>Gal. Lat.</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
                         <widget class="dmsBox" row="1" column="3">
                             <property name="name">
-                                <cstring>galLongBoxBatch</cstring>
+                                <cstring>galLatBoxBatch</cstring>
                             </property>
                             <property name="enabled">
                                 <bool>false</bool>
@@ -528,7 +537,7 @@
                         </widget>
                         <widget class="dmsBox" row="0" column="3">
                             <property name="name">
-                                <cstring>galLatBoxBatch</cstring>
+                                <cstring>galLongBoxBatch</cstring>
                             </property>
                             <property name="enabled">
                                 <bool>false</bool>
@@ -637,7 +646,7 @@
                         </spacer>
                         <widget class="KPushButton">
                             <property name="name">
-                                <cstring>runButtonBatch_2</cstring>
+                                <cstring>runButtonBatch</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
@@ -727,10 +736,66 @@
         <receiver>modCalcGalCoordDlg</receiver>
         <slot>slotComputeCoords()</slot>
     </connection>
+    <connection>
+        <sender>decCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotDecCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>raCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotRaCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>epochCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotEpochCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>galLongCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotGalLongCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>InputButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotInputFile()</slot>
+    </connection>
+    <connection>
+        <sender>OutButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotOutputFile()</slot>
+    </connection>
+    <connection>
+        <sender>galLatCheckBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotGalLatCheckedBatch()</slot>
+    </connection>
+    <connection>
+        <sender>runButtonBatch</sender>
+        <signal>clicked()</signal>
+        <receiver>modCalcGalCoordDlg</receiver>
+        <slot>slotRunBatch()</slot>
+    </connection>
 </connections>
 <slots>
     <slot>slotComputeCoords()</slot>
     <slot>slotClearCoords()</slot>
+    <slot>slotInputFile()</slot>
+    <slot>slotOutputFile()</slot>
+    <slot>slotRaCheckedBatch()</slot>
+    <slot>slotDecCheckedBatch()</slot>
+    <slot>slotEpochCheckedBatch()</slot>
+    <slot>slotGalLatCheckedBatch()</slot>
+    <slot>slotGalLongCheckedBatch()</slot>
+    <slot>slotRunBatch()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
