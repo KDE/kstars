@@ -49,6 +49,7 @@ extern char* me;
 #define MOVE_GROUP	"Movement Control"
 #define DATETIME_GROUP	"Date/Time"
 #define SITE_GROUP	"Site Management"
+#define FOCUS_GROUP	"Focus Control"
 
 #define RA_THRESHOLD	0.01
 #define DEC_THRESHOLD	0.05
@@ -66,6 +67,9 @@ static ISwitch abortSlewS[]      = {{"Abort", "Abort Slew/Track", ISS_OFF }};
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF}, {"W", "West", ISS_OFF}, {"E", "East", ISS_OFF}, {"S", "South", ISS_OFF}};
 static ISwitch haltMoveS[]       = {{"TN", "Northward", ISS_OFF}, {"TW", "Westward", ISS_OFF}, {"TE", "Eastward", ISS_OFF}, {"TS", "Southward", ISS_OFF}};
+
+static ISwitch	FocusSpeedS[]	 = { {"Halt", "", ISS_ON}, { "Fast", "", ISS_OFF }, {"Slow", "", ISS_OFF}};
+static ISwitch  FocusMotionS[]	 = { {"Focus in", "", ISS_OFF}, {"Focus out", "", ISS_OFF}};
 
 /* equatorial position */
 static INumber eq[] = {
@@ -106,6 +110,11 @@ static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MO
 
 static ISwitchVectorProperty MovementSw      = { mydev, "Move toward", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS)};
 static ISwitchVectorProperty haltMoveSw      = { mydev, "Halt movement", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, haltMoveS, NARRAY(haltMoveS)};
+
+// Focus Control
+static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "Speed", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS)};
+
+static ISwitchVectorProperty	FocusMotionSw = {mydev, "Motion", "", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS)};
 
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", "YYYY-MM-DDTHH:MM:SS"}};
@@ -253,6 +262,10 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefNumber (&TrackingFreq);
   IDDefSwitch (&MovementSw);
   IDDefSwitch (&haltMoveSw);
+
+  // FOCUS_GROUP
+  IDDefSwitch(&FocusSpeedSw);
+  IDDefSwitch(&FocusMotionSw);
 
   // DATETIME_GROUP
   IDDefText   (&Time);
@@ -717,6 +730,37 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  IDSetNumber (&geoNum, NULL);
 	  IDSetText   (&SiteName, NULL);
           IDSetSwitch (&SitesSw, NULL);
+	  return;
+	}
+
+	// Focus speed
+	if (!strcmp (name, FocusSpeedSw.name))
+	{
+	  if (checkPower(&FocusSpeedSw))
+	   return;
+
+	  index = getOnSwitch(states, n);
+	  setFocuserSpeedMode(index);
+          resetSwitches(&FocusSpeedSw);
+	  FocusSpeedSw.sw[index].s = ISS_ON;
+
+	  FocusSpeedSw.s = IPS_OK;
+	  IDSetSwitch(&FocusSpeedSw, NULL);
+	  return;
+	}
+
+	// Focus speed
+	if (!strcmp (name, FocusMotionSw.name))
+	{
+	  if (checkPower(&FocusMotionSw))
+	   return;
+
+	  index = getOnSwitch(states, n);
+	  setFocuserMotion(index);
+          resetSwitches(&FocusMotionSw);
+
+	  FocusMotionSw.s = IPS_OK;
+	  IDSetSwitch(&FocusMotionSw, NULL);
 	  return;
 	}
 

@@ -70,7 +70,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
 
 
    for (unsigned int i=0; i < indidriver->devices.size(); i++)
-   		telescopeCombo->insertItem(i18n(indidriver->devices[i]->name));
+   		telescopeCombo->insertItem(QString(indidriver->devices[i]->label));
 
    connect(helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
    connect(nextB, SIGNAL(clicked()), this, SLOT(processNext()));

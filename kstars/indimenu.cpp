@@ -60,6 +60,10 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
 
  ksw = (KStars *) parent;
 
+ currentLabel = new char[128];
+
+ strcpy(currentLabel, "");
+
  mgrCounter = 0;
 
  mainLayout = new QVBoxLayout(plainPage(), 5, 5);
@@ -279,9 +283,15 @@ for (unsigned int i=0; i < mgr.size(); i++)
 	 	nset++;
 
 if (nset)
+{
  sprintf(new_label, "%s %d", deviceName, nset + 1);
+ strcpy(currentLabel, new_label);
+}
 else
+{
  strcpy (new_label, deviceName);
+ strcpy (currentLabel, new_label);
+}
 
 }
 

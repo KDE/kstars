@@ -144,11 +144,13 @@ void INDIDriver::processDeviceStatus(int id)
 {
 
    for (uint i=0; i < devices.size(); i++)
-     if (localListView->selectedItem()->text(0) == QString(devices[i]->name))
+     if (localListView->selectedItem()->text(0) == QString(devices[i]->label))
      {
 	devices[i]->state = id == 0 ? 1 : 0;
 	if (devices[i]->state)
 	{
+
+	  ksw->getINDIMenu()->getCustomLabel(devices[i]->label, devices[i]->label);
 
 	  if (!runDevice(devices[i]))
 	  {
@@ -226,24 +228,24 @@ void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
 {
 
   for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(dev->name, devices[i]->name))
+     if (!strcmp(dev->label, devices[i]->label))
      	devices[i]->restart();
 }
 
-void INDIDriver::removeDevice(const char * deviceName)
+void INDIDriver::removeDevice(const char * deviceLabel)
 {
   for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(deviceName, devices[i]->name))
+     if (!strcmp(deviceLabel, devices[i]->label))
      	devices[i]->restart();
 
 }
 
 
-bool INDIDriver::isDeviceRunning(const char * deviceName)
+bool INDIDriver::isDeviceRunning(const char * deviceLabel)
 {
 
     for (unsigned int i=0 ; i < devices.size(); i++)
-     if (!strcmp(deviceName, devices[i]->name))
+     if (!strcmp(deviceLabel, devices[i]->label))
      {
        if (!devices[i]->proc)
         return false;
@@ -353,18 +355,28 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   XMLAtt *ap;
   XMLEle *el;
   IDevice *dv;
-  char name[128];
+  char label[128];
+  char driver[128];
   char exec[128];
   char version[16];
 
-  ap = findXMLAtt(root, "name");
+  ap = findXMLAtt(root, "label");
   if (!ap)
   {
-    sprintf(errmsg, "Tag %s does not have a name attribute", root->tag);
+    sprintf(errmsg, "Tag %s does not have a label attribute", root->tag);
     return false;
   }
 
-  strcpy(name, ap->valu);
+  strcpy(label, ap->valu);
+
+  ap = findXMLAtt(root, "driver");
+  if (!ap)
+  {
+    sprintf(errmsg, "Tag %s does not have a driver attribute", root->tag);
+    return false;
+  }
+
+  strcpy(driver, ap->valu);
 
   el = findXMLEle(root, "Exec");
 
@@ -382,13 +394,13 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
 
   QListViewItem *device = new QListViewItem(DGroup, lastDevice);
 
-  device->setText(0, QString(name));
+  device->setText(0, QString(label));
   device->setPixmap(1, stopPix);
   device->setText(2, QString(version));
 
   lastDevice = device;
 
-  dv = new IDevice(name, exec, version);
+  dv = new IDevice(label, driver, exec, version);
   devices.push_back(dv);
 
 
@@ -397,13 +409,15 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
   return true;
 }
 
-INDIDriver::IDevice::IDevice(char *inName, char * inExec, char *inVersion)
+INDIDriver::IDevice::IDevice(char *inLabel, char *inDriver, char * inExec, char *inVersion)
 {
-  name = new char[128];
+  label = new char[128];
+  driver = new char[128];
   exec = new char [128];
   version = new char[16];
 
-  strcpy(name, inName);
+  strcpy(label, inLabel);
+  strcpy(driver, inDriver);
   strcpy(exec, inExec);
   strcpy(version, inVersion);
 

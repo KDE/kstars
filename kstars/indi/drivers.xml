@@ -1,26 +1,48 @@
 <devGroup group="Telescopes">
-	<device name="LX200 Generic">
+	<device label="LX200 Generic" driver="LX200 Generic">
 		<Exec>lx200generic</Exec>
 		<Version>0.5</Version>
 	</device>
-	<device name="LX200 Classic">
+	<device label="LX200 Classic" driver="LX200 Classic">
 		<Exec>lx200classic</Exec>
 		<Version>0.2</Version>
 	</device>
-	<device name="LX200 Autostar">
-		<Exec>lx200autostar</Exec>
-		<Version>0.1</Version>
-	</device>
-	<device name="LX200 16">
-		<Exec>lx200_16</Exec>
-		<Version>0.1</Version>
-	</device>
-	<device name="LX200 GPS">
+	<device label="LX200 GPS" driver="LX200 GPS">
 		<Exec>lx200gps</Exec>
 		<Version>0.1</Version>
 	</device>
-	<device name="Celestron GPS">
-		<Exec>celestrongps</Exec>
+	<device label="LX200 16" driver="LX200 16">
+		<Exec>lx200_16</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device label="LX90" driver="LX200 Autostar">
+		<Exec>lx200autostar</Exec>
+		<Version>0.2</Version>
+	</device>
+	<device label="ETX125" driver="LX200 Autostar">
+		<Exec>lx200autostar</Exec>
+		<Version>0.2</Version>
+	</device>
+	<device label="ETX90" driver="LX200 Autostar">
+		<Exec>lx200autostar</Exec>
+		<Version>0.2</Version>
+	</device>
+	<device label="Astro-Physics AP" driver="LX200 Generic">
+		<Exec>lx200generic</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device label="Astro-Electronic FS-2" driver="LX200 Generic">
+		<Exec>lx200generic</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device label="Losmandy Gemini" driver="LX200 Generic">
+		<Exec>lx200generic</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device label="Mel Bartels" driver="LX200 Generic">
+		<Exec>lx200generic</Exec>
 		<Version>0.1</Version>
 	</device>
 </devGroup>
+
+

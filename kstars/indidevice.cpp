@@ -2555,14 +2555,18 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	if (!ap)
 	    return NULL;
 
-	label = new char[ strlen(ap->valu) + 16];
-
-	parent->getCustomLabel(ap->valu, label);
+	if (!strcmp(parent->currentLabel, ""))
+	{
+	  label = new char[ strlen(ap->valu) + 16];
+	  parent->getCustomLabel(ap->valu, label);
+	}
 
 	//fprintf(stderr, "\n\n\n ***************** Adding a device %s with label %s *************** \n\n\n", ap->valu, label);
-	dp = new INDI_D(parent, this, ap->valu, label);
+	dp = new INDI_D(parent, this, ap->valu, parent->currentLabel);
 
-	 indi_dev.push_back(dp);
+	strcpy(parent->currentLabel, "");
+
+	indi_dev.push_back(dp);
 
 	/* ok */
 	return dp;

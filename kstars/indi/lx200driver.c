@@ -693,7 +693,6 @@ void setSlewMode(int slewMode)
 
 }
 
-/* ask about what this actually *accomplish* before writing it to INDI*/
 void setFocuserMotion(int motionType)
 {
 

@@ -65,6 +65,7 @@ class INDIMenu : public KDialogBase
    QWidget	*tab;
    QPushButton  *clear;
    QPushButton  *savelog;
+   char *	currentLabel;
 
    KStars *ksw;
 

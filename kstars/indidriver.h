@@ -74,10 +74,11 @@ class INDIDriver : public devManager
     class IDevice
     {
      public:
-        IDevice(char *inName, char * inExec, char *inVersion);
+        IDevice(char *inLabel, char* inDriver, char * inExec, char *inVersion);
 	~IDevice();
 
-      char *name;
+      char *label;
+      char *driver;
       char *exec;
       char *version;
       int state;
@@ -91,10 +92,10 @@ class INDIDriver : public devManager
 
     bool runDevice(INDIDriver::IDevice *dev);
     void removeDevice(INDIDriver::IDevice *dev);
-    void removeDevice(const char * deviceName);
+    void removeDevice(const char * deviceLabel);
     int getINDIPort();
     int activeDriverCount();
-    bool isDeviceRunning(const char * deviceName);
+    bool isDeviceRunning(const char * deviceLabel);
 
 
     void saveHosts();
