@@ -34,11 +34,31 @@ StarObject::StarObject( StarObject &o )
 StarObject::StarObject( dms r, dms d, double m, QString n, QString n2, QString st )
 	: SkyObject (0, r, d, m, n, n2, ""), SpType(st), soName( 0 )
 {
+	QString lname = "";
+	if ( n.length() && n != i18n("star") ) {
+		if ( n2.length() )
+			lname = n + "(" + n2 + ")";
+		else
+			lname = n;
+	} else if ( n2.length() )
+		lname = n2;
+
+	setLongName( lname );
 }
 
 StarObject::StarObject( double r, double d, double m, QString n, QString n2, QString st )
 	: SkyObject (0, r, d, m, n, n2, ""), SpType(st), soName( 0 )
 {
+	QString lname = "";
+	if ( n.length() && n != i18n("star") ) {
+		if ( n2.length() )
+			lname = n + "(" + n2 + ")";
+		else
+			lname = n;
+	} else if ( n2.length() )
+		lname = n2;
+
+	setLongName( lname );
 }
 
 QString StarObject::greekLetter( void ) {

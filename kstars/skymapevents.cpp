@@ -541,12 +541,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			}
 		}
 
-		initPopupMenu();
-		QStringList::Iterator itList;
-		QStringList::Iterator itTitle;
-		QString s, DisplayName;
+//REMOVE CLEAN-UP
+//		initPopupMenu();
+//		QStringList::Iterator itList;
+//		QStringList::Iterator itTitle;
+//		QString s;
 
-		int id(-1), jmin(-1);
+		int jmin(-1);
 		int icat(-1);
 		setClickedObject( NULL );
 		StarObject *starobj = NULL;
@@ -607,62 +608,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					setClickedObject( (SkyObject *)ksw->data()->starList.at(istar_min) );
 					setClickedPoint( clickedObject() );
 
-					//set DisplayName to be either the Arabic name, the genetive name, or both
-					DisplayName = clickedObject()->translatedName();
-					if ( clickedObject()->name2().length() ) {
-						if ( DisplayName.length() ) {
-							DisplayName += " (" + clickedObject()->name2() + ")";
-						} else {
-							DisplayName = clickedObject()->name2();
-						}
-					}
-
 					if ( e->button() == RightButton ) {
-						pmTitle->setText( DisplayName );
-						pmTitle2->setText( i18n( "Spectral type: %1" ).arg(starobj->sptype()) );
-						if ( clickedObject()->name() != "star" ) {
-							pmType->setText( i18n( "star" ) );
-						} else {
-							pmType->setText( QString::null );
-						}
-
-						setRiseSetLabels();
-
-//					If the star is named, add custom items to popup menu based on object's ImageList and InfoList
-						if ( clickedObject()->name() != "star" ) {
-							itList  = clickedObject()->ImageList.begin();
-							itTitle = clickedObject()->ImageTitle.begin();
-
-							id = 100;
-							for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
-								QString t = QString(*itTitle);
-								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
-								++itTitle;
-							}
-
-							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
-							if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
-
-							itList  = clickedObject()->InfoList.begin();
-							itTitle = clickedObject()->InfoTitle.begin();
-
-							id = 200;
-							for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
-								QString t = QString(*itTitle);
-								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
-								++itTitle;
-							}
-
-							pmenu->insertSeparator();
-							pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
-						} else {
-							pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
-							pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
-						}
-
+						createStarMenu( starobj );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -670,49 +617,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 1: //Deep-Sky Objects
 					setClickedObject( (SkyObject *)ksw->data()->deepSkyList.at(jmin) );
 					setClickedPoint( clickedObject());
-					DisplayName = clickedObject()->translatedName();
 
 					if (e->button() == RightButton ) {
-						pmTitle->setText( clickedObject()->translatedName() );
-						if ( !clickedObject()->longname().isEmpty() ) {
-							pmTitle2->setText( i18n( clickedObject()->longname().local8Bit() ) );
-						} else if ( !clickedObject()->name2().isEmpty() ) {
-							pmTitle2->setText( i18n( clickedObject()->name2().local8Bit() ) );
-						}
-						pmType->setText( ksw->data()->TypeName[ clickedObject()->type() ] );
-
-						setRiseSetLabels();
-
-						//Add custom items to popup menu based on object's ImageList and InfoList
-						itList  = clickedObject()->ImageList.begin();
-						itTitle = clickedObject()->ImageTitle.begin();
-
-						id = 100;
-						for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
-							QString t = QString(*itTitle);
-							sURL = QString(*itList);
-							pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
-							++itTitle;
-						}
-
-						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
-						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
-						if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
-
-						itList  = clickedObject()->InfoList.begin();
-						itTitle = clickedObject()->InfoTitle.begin();
-
-						id = 200;
-						for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
-							QString t = QString(*itTitle);
-							sURL = QString(*itList);
-							pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
-							++itTitle;
-						}
-
-						pmenu->insertSeparator();
-						pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
-
+						createSkyObjectMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -721,53 +628,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					cat = ksw->data()->CustomCatalogs[ ksw->options()->CatalogName[icust_cat] ];
 					setClickedObject( (SkyObject *)cat.at(icust_min) );
 					setClickedPoint( clickedObject() );
-					DisplayName = clickedObject()->translatedName();
 
 					if ( e->button() == RightButton ) {
-						pmTitle->setText( clickedObject()->translatedName() );
-						if ( !clickedObject()->longname().isEmpty() ) {
-							pmTitle2->setText( i18n( clickedObject()->longname().local8Bit() ) );
-						} else if ( !clickedObject()->name2().isEmpty() ) {
-							pmTitle2->setText( i18n( clickedObject()->name2().local8Bit() ) );
-						}
-						pmType->setText( ksw->data()->TypeName[ clickedObject()->type() ] );
-
-						setRiseSetLabels();
-
-/* images and info links temporarily disabled...
-//					Add custom items to popup menu based on object's ImageList and InfoList
-							itList  = clickedObject()->ImageList.begin();
-							itTitle = clickedObject()->ImageTitle.begin();
-
-							id = 100;
-							for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
-								QString t = QString(*itTitle);
-								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
-								++itTitle;
-							}
-*/
-						pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
-						pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
-						if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
-
-/*
-							itList  = clickedObject()->InfoList.begin();
-							itTitle = clickedObject()->InfoTitle.begin();
-
-							id = 200;
-							for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
-								QString t = QString(*itTitle);
-								sURL = QString(*itList);
-								pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
-								++itTitle;
-							}
-*/
-
-						pmenu->insertSeparator();
-						pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
-						pmenu->setItemEnabled( id-1, false ); //disable adding links to xutom objects for now
-
+						createCustomObjectMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -775,42 +638,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				case 3: //solar system object
 					setClickedObject(solarminobj);
 					if ( clickedObject() != NULL ) setClickedPoint( clickedObject() );
-					DisplayName = clickedObject()->translatedName();
 
 					if ( e->button() == RightButton ) {
-						pmTitle->setText( clickedObject()->translatedName() );
-						pmTitle2->setText( QString::null );
-						pmType->setText( i18n( "Solar System" ) );
-
-						setRiseSetLabels();
-
-//					Add custom items to popup menu based on object's ImageList and InfoList
-						itList  = clickedObject()->ImageList.begin();
-						itTitle = clickedObject()->ImageTitle.begin();
-
-						id = 100;
-						for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
-							sURL = QString(*itList);
-							QString t = QString(*itTitle);
-							pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
-						}
-
-						if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
-
-						itList  = clickedObject()->InfoList.begin();
-						itTitle = clickedObject()->InfoTitle.begin();
-
-						id = 200;
-						for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
-							QString t = QString(*itTitle);
-							sURL = QString(*itList);
-							pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
-							++itTitle;
-						}
-
-						pmenu->insertSeparator();
-						pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
-
+						createPlanetMenu( clickedObject() );
 						pmenu->popup( QCursor::pos() );
 					}
 					break;
@@ -818,28 +648,23 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			if ( e->button() == LeftButton ) {
 				//Display name in status bar
-				ksw->statusBar()->changeItem( DisplayName, 0 );
+				ksw->statusBar()->changeItem( clickedObject()->longname(), 0 );
 
 				//show label in skymap
 //				labelClickedObject = true;
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
-	    //If right-click, open pmStar with "nothing" as star name.
+	    //If right-click, open "empty" popup menu.
 			setClickedObject( NULL );
 
 			switch (e->button()) {
 				case LeftButton:
-					ksw->statusBar()->changeItem( i18n( "nothing" ), 0 );
+					ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
 				case RightButton:
-                    //This will appear in case nothing is selected. The QPopupMenu will just
-                    //show one small errormessage
-                    pnothing_menu->clear();
-                    nothing_label->setText( i18n( "You have not selected anything" ) );
-                    pnothing_menu->insertItem( nothing_label );
-                    pnothing_menu->popup(  QCursor::pos() );
-
+					createEmptyMenu();
+					pmenu->popup(  QCursor::pos() );
 					break;
 				default:
 					break;
@@ -1295,16 +1120,16 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	  //Only draw bright stars if slewing
 		if ( hideFaintStars && maglim > ksw->options()->magLimitHideStar ) maglim = ksw->options()->magLimitHideStar;
 	
-	for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
-		// break loop if maglim is reached
-		if ( curStar->mag() > maglim ) break;
+		for ( StarObject *curStar = ksw->data()->starList.first(); curStar; curStar = ksw->data()->starList.next() ) {
+			// break loop if maglim is reached
+			if ( curStar->mag() > maglim ) break;
 
-		if ( checkVisibility( curStar, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
-			QPoint o = getXY( curStar, ksw->options()->useAltAz, ksw->options()->useRefraction );
+			if ( checkVisibility( curStar, FOV, ksw->options()->useAltAz, isPoleVisible, drawGround ) ) {
+				QPoint o = getXY( curStar, ksw->options()->useAltAz, ksw->options()->useRefraction );
 
-			// draw star if currently on screen
-			if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-				// but only if the star is bright enough.
+				// draw star if currently on screen
+				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+					// but only if the star is bright enough.
 					float mag = curStar->mag();
 					float sizeFactor = 2.0;
 					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
@@ -1327,7 +1152,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 								sTmp += QString().sprintf("%.1f", curStar->mag() );
 							}
 							int offset = 3 + int(0.5*(5.0-mag)) + int(0.5*( ksw->data()->ZoomLevel - 6));
-						
+
 							psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "SNameColor" ) ) );
 							psky.drawText( o.x()+offset, o.y()+offset, sTmp );
 						}

@@ -90,7 +90,6 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
-    pnothing_menu = new QPopupMenu();
 
 	ClickedObject = NULL;
 	FoundObject = NULL;
@@ -108,7 +107,6 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
-	delete pnothing_menu;
 	delete starpix;
 	delete pts;
 	delete sp;
@@ -120,49 +118,158 @@ SkyMap::~SkyMap() {
 		if ( obj->image() ) obj->deleteImage();
 }
 
-void SkyMap::initPopupMenu( void ) {
-    nothing_label = new QLabel( pnothing_menu );
+void SkyMap::createEmptyMenu( void ) {
+	initPopupMenu( i18n("Empty sky"), QString::null, QString::null, false, true, false );
+
+	pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+	pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
+}
+
+void SkyMap::createStarMenu( StarObject *star ) {
+	//Add name, rise/set time, center/track, and detail-window items
+	initPopupMenu(star->longname(), i18n( "Spectral type: %1" ).arg(star->sptype()),
+		i18n( "star" ) );
+
+//If the star is named, add custom items to popup menu based on object's ImageList and InfoList
+	if ( star->name() != i18n("star") ) {
+		addLinksToMenu();
+	} else {
+		pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+		pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
+	}
+}
+
+void SkyMap::createSkyObjectMenu( SkyObject *obj ) {
+	QString TypeName = ksw->data()->TypeName[ obj->type() ];
+	QString secondName = obj->name2();
+	if ( obj->longname() != obj->name() ) secondName = obj->longname();
+
+	initPopupMenu(obj->translatedName(), i18n( secondName.local8Bit() ),
+		TypeName );
+
+	addLinksToMenu();
+}
+
+void SkyMap::createCustomObjectMenu( SkyObject *obj ) {
+	QString TypeName = ksw->data()->TypeName[ obj->type() ];
+	QString secondName = obj->name2();
+	if ( obj->longname() != obj->name() ) secondName = obj->longname();
+
+	initPopupMenu(obj->translatedName(), i18n( secondName.local8Bit() ),
+		TypeName );
+
+	addLinksToMenu( true, false ); //don't allow user to add more links (temporary)
+}
+
+void SkyMap::createPlanetMenu( SkyObject *p ) {
+	initPopupMenu( p->translatedName(), "", i18n("Solar System") );
+	addLinksToMenu(false); //don't offer DSS images for planets
+}
+
+void SkyMap::addLinksToMenu( bool showDSS, bool allowCustom ) {
+	QStringList::Iterator itList;
+	QStringList::Iterator itTitle;
+
+	itList  = clickedObject()->ImageList.begin();
+	itTitle = clickedObject()->ImageTitle.begin();
+
+	int id = 100;
+	for ( ; itList != clickedObject()->ImageList.end(); ++itList ) {
+		QString t = QString(*itTitle);
+		sURL = QString(*itList);
+		pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotImage( int ) ), 0, id++ );
+		++itTitle;
+	}
+
+	if ( showDSS ) {
+	  pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
+	  pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
+	  pmenu->insertSeparator();
+	}
+	else if ( clickedObject()->ImageList.count() ) pmenu->insertSeparator();
+
+	itList  = clickedObject()->InfoList.begin();
+	itTitle = clickedObject()->InfoTitle.begin();
+
+	id = 200;
+	for ( ; itList != clickedObject()->InfoList.end(); ++itList ) {
+		QString t = QString(*itTitle);
+		sURL = QString(*itList);
+		pmenu->insertItem( i18n( t.local8Bit() ), this, SLOT( slotInfo( int ) ), 0, id++ );
+		++itTitle;
+	}
+
+	if ( allowCustom ) {
+		pmenu->insertSeparator();
+		pmenu->insertItem( i18n( "Add Link..." ), this, SLOT( addLink() ), 0, id++ );
+	}
+}
+
+void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
+	bool showRiseSet, bool showCenterTrack, bool showDetails ) {
 	pmenu->clear();
-	pmTitle = new QLabel( i18n( "nothing" ), pmenu );
+
+	//All objects have at least the primary title label
+	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
+	pmTitle = new QLabel( s1, pmenu );
 	pmTitle->setAlignment( AlignCenter );
 	QPalette pal( pmTitle->palette() );
 	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "White" ) );
 	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "Black" ) );
 	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "Black" ) );
 	pmTitle->setPalette( pal );
-	pmTitle2 = new QLabel( QString::null, pmenu );
-	pmTitle2->setAlignment( AlignCenter );
-	pmTitle2->setPalette( pal );
-	pmType = new QLabel( i18n( "no type" ), pmenu );
-	pmType->setAlignment( AlignCenter );
-	pmType->setPalette( pal );
 	pmenu->insertItem( pmTitle );
-	pmenu->insertItem( pmTitle2 );
-	pmenu->insertItem( pmType );
-	pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), pmenu );
-	pmRiseTime->setAlignment( AlignCenter );
-	pmRiseTime->setPalette( pal );
-	QFont rsFont = pmRiseTime->font();
-	rsFont.setPointSize( rsFont.pointSize() - 2 );
-	pmRiseTime->setFont( rsFont );
-	pmSetTime = new QLabel( i18n( "Set time: 00:00" ), pmenu );
-	pmSetTime->setAlignment( AlignCenter );
-	pmSetTime->setPalette( pal );
-	pmSetTime->setFont( rsFont );
-	pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), pmenu );
-	pmTransitTime->setAlignment( AlignCenter );
-	pmTransitTime->setPalette( pal );
-	pmTransitTime->setFont( rsFont );
-	pmenu->insertSeparator();
-	pmenu->insertItem( pmRiseTime );
-	pmenu->insertItem( pmTransitTime );
-	pmenu->insertItem( pmSetTime );
-	pmenu->insertSeparator();
-	pmenu->insertItem( i18n( "Center && Track" ), this, SLOT( slotCenter() ) );
-	pmenu->insertSeparator();
+
+	if ( ! s2.isEmpty() ) {
+		pmTitle2 = new QLabel( s2, pmenu );
+		pmTitle2->setAlignment( AlignCenter );
+		pmTitle2->setPalette( pal );
+		pmenu->insertItem( pmTitle2 );
+	}
+
+	if ( ! s3.isEmpty() ) {
+		pmType = new QLabel( s3, pmenu );
+		pmType->setAlignment( AlignCenter );
+		pmType->setPalette( pal );
+		pmenu->insertItem( pmType );
+	}
+
+	//Insert Rise/Set/Transit labels
+	if ( showRiseSet ) {
+		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), pmenu );
+		pmRiseTime->setAlignment( AlignCenter );
+		pmRiseTime->setPalette( pal );
+		QFont rsFont = pmRiseTime->font();
+		rsFont.setPointSize( rsFont.pointSize() - 2 );
+		pmRiseTime->setFont( rsFont );
+		pmSetTime = new QLabel( i18n( "Set time: 00:00" ), pmenu );
+		pmSetTime->setAlignment( AlignCenter );
+		pmSetTime->setPalette( pal );
+		pmSetTime->setFont( rsFont );
+		pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), pmenu );
+		pmTransitTime->setAlignment( AlignCenter );
+		pmTransitTime->setPalette( pal );
+		pmTransitTime->setFont( rsFont );
+		pmenu->insertSeparator();
+		pmenu->insertItem( pmRiseTime );
+		pmenu->insertItem( pmTransitTime );
+		pmenu->insertItem( pmSetTime );
+
+		setRiseSetLabels();
+	}
+
+	//Insert item for centering on object
+	if ( showCenterTrack ) {
+		pmenu->insertSeparator();
+		pmenu->insertItem( i18n( "Center and Track" ), this, SLOT( slotCenter() ) );
+	}
 
 	//Insert item for Showing details dialog
-	pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details..." ), this, SLOT( slotDetail() ) );
+	if ( showDetails ) {
+		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details..." ), this, SLOT( slotDetail() ) );
+	}
+
+	pmenu->insertSeparator();
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
@@ -754,7 +861,8 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, bool useAltAz, bool isPole
 	double dX, dY, XMax;
 
 //Skip objects below the horizon if the ground is drawn.
-	if ( useAltAz && drawGround && p->alt().Degrees() < -2.0 ) return false;
+//commented out because ground disappears if it fills the view
+//	if ( useAltAz && drawGround && p->alt().Degrees() < -2.0 ) return false;
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt().Degrees() - focus()->alt().Degrees() );

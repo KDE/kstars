@@ -30,9 +30,9 @@ SkyObject::SkyObject() : SkyPoint(0.0, 0.0) {
 	PositionAngle = 0;
 	UGC = 0;
 	PGC = 0;
-	Name = "unnamed";
+	Name = i18n("unnamed object");
 	Name2 = "";
-	LongName = "";
+	LongName = Name;
 	Catalog = "";
 	Image = 0;
 	
@@ -56,6 +56,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	InfoTitle = o.InfoTitle;
 	Image = o.image();
 
+	setLongName();
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, double m,
@@ -74,6 +75,7 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	Catalog = cat;
 	Image = 0;
 
+	setLongName();
 }
 
 SkyObject::SkyObject( int t, double r, double d, double m,
@@ -91,6 +93,20 @@ SkyObject::SkyObject( int t, double r, double d, double m,
 	LongName = lname;
 	Catalog = cat;
 	Image = 0;
+
+	setLongName();
+}
+
+void SkyObject::setLongName( const QString &longname ) {
+	if ( longname.isEmpty() )
+		if ( Name.length() )
+			LongName = Name;
+		else if ( Name2.length() )
+			LongName = Name2;
+		else
+			LongName = i18n( "unnamed object" );
+	else
+		LongName = longname;
 }
 
 QTime SkyObject::setTime( long double jd, GeoLocation *geo ) {

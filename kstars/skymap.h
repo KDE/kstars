@@ -298,9 +298,26 @@ private slots:
 	void setMouseMoveCursor();
 	
 private:
-/**Initialize the popup menus */
-	void initPopupMenu( void );
+/**Initialize the popup menus. Adds name and type labels, and possibly
+	*Rise/Set/Transit labels, Center/Track item, and Show Details item.
+	*@short initialize the right-click popup menu
+	*@param name1 The primary object name
+	*@param name2 The (optional) secondary object name
+	*@param type a string identifying the object type
+	*@param showRiseSet if true, the Rise/Set/Transit labels are added
+	*@param showCenterTrack if true, the Center/Track item is added
+	*@param showDetails if true, the Show-Details item is added
+	*/
+	void initPopupMenu( QString name1, QString name2, QString type,
+		bool showRiseSet=true, bool showCenterTrack=true, bool showDetails=true );
 
+	void addLinksToMenu( bool showDSS=true, bool allowCustom=true );
+	void createStarMenu( StarObject *star );
+	void createSkyObjectMenu( SkyObject *obj );
+	void createCustomObjectMenu( SkyObject *obj );
+	void createPlanetMenu( SkyObject *p );
+	void createEmptyMenu( void );
+	
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.  If Horiz==true, use the SkyPoint's
 	*Alt/AZ coordinates; otherwise, use RA/Dec.
@@ -317,7 +334,7 @@ private:
 	*@param dy vertical pixel offset from center of SkyMap.
 	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
 	*@param LSTh Local sidereal time.
-	*@param lat current geographic latitude
+	*@param lat current geographic laitude
 	*/	
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms LST, dms lat, bool doRefraction=true );
 
@@ -359,7 +376,7 @@ private:
 
 	KStars *ksw;
 	QString sURL;
-	QPopupMenu *pmenu, *pnothing_menu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
+	QPopupMenu *pmenu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
 	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2, *nothing_label;
 	QLabel *pmMessType, *pmNGCType, *pmTitle, *pmTitle2, *pmType;
 	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;

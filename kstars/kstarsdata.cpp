@@ -254,7 +254,7 @@ bool KStarsData::readStarData( void ) {
 			else
 				lastFileIndex = file.at();	// stores current file index - needed by reloading
 			
-			name = "star"; gname = "";
+			name = ""; gname = "";
 
 			rah = line.mid( 0, 2 ).toInt();
 			ram = line.mid( 2, 2 ).toInt();
@@ -280,7 +280,7 @@ bool KStarsData::readStarData( void ) {
 			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
 			StarObject *o = new StarObject( r, d, mag, name, gname, SpType );
-	  		starList.append( o );
+				starList.append( o );
 
 			if ( o->name() != "star" ) {		// just add to name list if a name is given
 				ObjNames.append( o );
@@ -417,8 +417,11 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 			QString title = sub.mid( 0, sub.find(':') );
 			QString url = sub.mid( sub.find(':')+1 );
 
+			bool bMatched = false;
 			for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() ) {
 				if ( sonm->text() == name ) {
+					bMatched = true;
+
 					if ( type==0 ) { //image URL
 					  sonm->skyObject()->ImageList.append( url );
 						sonm->skyObject()->ImageTitle.append( title );
@@ -429,6 +432,8 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 	        break;
 				}
 			}
+
+//			if ( ! bMatched ) kdWarning() << i18n( "Could not find match to object named " ) << name << endl;
 		}
 		file.close();
 
@@ -1096,12 +1101,13 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(),
 						skymap->foundObject()->az().Degrees() );
 				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
-			} else if (skymap->foundObject()==Moon) {
-				//Tracking on the Moon requires focus updates in both coord systems
+				skymap->setFocus( skymap->destination() );
+
+			} else if (skymap->foundObject()==Moon || PC.isPlanet(skymap->foundObject()) ) {
+				//Tracking on the Moon or Planet requires focus updates in both coord systems
 				skymap->setDestination( skymap->foundObject() );
-			} else if (PC.isPlanet(skymap->foundObject())) {
-				//Tracking on planets requires focus updates in both coord systems
-				skymap->setDestination( skymap->foundObject() );
+				skymap->setFocus( skymap->destination() );
+
 			} else { //tracking non-solar system object in equatorial; update alt/az
 				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
 			}
@@ -1110,6 +1116,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				//Tracking on empty sky in Alt/Az mode
 				skymap->setDestination( skymap->clickedPoint() );
 				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+				skymap->setFocus( skymap->destination() );
 			}
 		} else if ( ! skymap->isSlewing() ) {
 			//Not tracking and not slewing, let sky drift by

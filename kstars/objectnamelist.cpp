@@ -96,6 +96,13 @@ SkyObjectName* ObjectNameList::first( const QString &name ) {
 
 	soName = list[ language ] [ currentIndex ].first();
 
+	//It's possible that there is no object that belongs to currentIndex
+	//If not, and mode==allLists, try the next index
+	while ( !soName && mode==allLists && currentIndex < 26 ) {
+		currentIndex++;  // loop through the array
+		soName = list[ language ] [ currentIndex ].first();
+  }
+  
 	return soName;
 }
 

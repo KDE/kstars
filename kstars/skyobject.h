@@ -108,6 +108,7 @@ public:
 /**@returns object's common (long) name
 	*/
   QString longname( void ) const { return LongName; }
+	void setLongName( const QString &longname="" );
 
 /**@returns a code identifying the object's catalog
 	*/
