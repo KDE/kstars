@@ -588,6 +588,7 @@ int setCommandInt(int data, const char *cmd)
   if (portWrite(tempString) < 0)
     return -1;
 
+  return 0;
 }
 
 int setMinElevationLimit(int min)
@@ -940,7 +941,8 @@ int MoveTo(int direction)
     default:
     break;
   }
-
+  
+  return 0;
 }
 
 int HaltMovement(int direction)
@@ -979,10 +981,10 @@ switch (direction)
 
 int abortSlew()
 {
-
  if (portWrite("#:Q#") < 0)
   return -1;
 
+ return 0;
 }
 
 int Sync(char *matchedObject)
@@ -1000,6 +1002,8 @@ int Sync(char *matchedObject)
   usleep(10000);
   
   tcflush(fd, TCIFLUSH);
+
+  return 0;
 }
 
 int selectSite(int siteNum)
@@ -1054,6 +1058,7 @@ int selectCatalogObject(int catalog, int NNNN)
   if (portWrite(tempString) < 0)
    return -1;
 
+  return 0;
 }
 
 int selectSubCatalog(int catalog, int subCatalog)
@@ -1073,7 +1078,7 @@ int selectSubCatalog(int catalog, int subCatalog)
      return 0;
   }
 
-   return (setStandardProcedure(tempString));
+  return (setStandardProcedure(tempString));
 }
 
 int checkLX200Format()
