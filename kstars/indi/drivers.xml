@@ -1,0 +1,24 @@
+<devGroup group="Telescopes">
+	<device name="LX200 Generic">
+		<Exec>lx200generic</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device name="LX200 Autostar">
+		<Exec>lx200autostar</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device name="LX200 16">
+		<Exec>lx200_16</Exec>
+		<Version>0.1</Version>
+	</device>
+	<device name="LX200 GPS">
+		<Exec>lx200gps</Exec>
+		<Version>0.1</Version>
+	</device>
+</devGroup>
+<devGroup group="Simulation">
+	<device name="Weather Station Simulation">
+		<Exec>wx</Exec>
+		<Version>0.1</Version>
+	</device>
+</devGroup>
