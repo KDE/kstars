@@ -61,9 +61,6 @@ public:
 	void writeScript( QTextStream &ostream );
 	bool parseFunction( QStringList &fn );
 
-protected:
-	void closeEvent( QCloseEvent *e );
-
 public slots:
 	void slotAddFunction();
 	void slotMoveFunctionUp();
@@ -76,6 +73,7 @@ public slots:
 	void slotSave();
 	void slotSaveAs();
 	void slotRunScript();
+	void slotClose();
 
 	void slotCopyFunction();
 	void slotRemoveFunction();

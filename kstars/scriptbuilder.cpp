@@ -897,14 +897,6 @@ void ScriptBuilder::slotShowDoc() {
 	}
 }
 
-void ScriptBuilder::closeEvent( QCloseEvent *e ) {
-	//warn user if there are unsaved changes before closing.
-	saveWarning();
-
-	//if user selects 'Save' or 'Discard', UnsavedChanges is set false
-	if ( !UnsavedChanges ) e->accept();
-}
-
 //Slots for Arg Widgets
 void ScriptBuilder::slotFindCity() {
 	LocationDialog ld( ks );
@@ -1252,6 +1244,15 @@ void ScriptBuilder::slotZoom() {
 		}
 	} else {
 		kdWarning() << i18n( "Mismatch between function and Arg widget! (expected %1)" ).arg( "setClockScale" ) << endl;
+	}
+}
+
+void ScriptBuilder::slotClose() {
+	saveWarning();
+
+	if ( !UnsavedChanges ) {
+		emit closeClicked();
+		reject();
 	}
 }
 
