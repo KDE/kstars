@@ -105,6 +105,14 @@ class ObjectNameList {
 		QList < SkyObjectName > list [2] [27];
 
 	/**
+		*Constellations has latin names and alloc extra SkyObjectNames which will stored in 2 list.
+		*But second list will not delete objects while clearing it, because most of objects in this list
+		*are in first list too. We just have to delete objects which are not in first list. These objects
+		*will stored in this list.
+		*/
+		QList < SkyObjectName > constellations;
+
+	/**
 		*Which list was accessed last time by first() or next()
 		*/
 		int currentIndex;

@@ -230,7 +230,6 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowDeepSky", 	options()->drawDeepSky );
 	conf->writeEntry( "IsTracking", 	options()->isTracking );
 	if ( map()->foundObject() != NULL ) {
-		kdDebug() << "map found" << endl;
 		conf->writeEntry( "FocusObject",  map()->foundObject()->name() );
 	} else {
 		conf->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );

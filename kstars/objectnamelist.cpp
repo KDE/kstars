@@ -25,17 +25,9 @@ ObjectNameList::ObjectNameList()
 	language = latin;
 	mode = allLists;
 
-// this is needed to avoid memory leaks, but enable this code will
-// crash kstars at closing window
-// TK: I reviewed the code but I don't know why it is crashing :(
-/**********************************
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 27; j++) {
-			list[i][j].setAutoDelete(true);
-		}
-	}
-***********************************/
-
+	// delete just objects of local list
+	for (int i= 0; i< 27; i++) list[local][i].setAutoDelete(true);
+	constellations.setAutoDelete(true);
 }
 
 ObjectNameList::~ObjectNameList(){
@@ -79,6 +71,8 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 		iName = name;
 		// create new SkyObject with localized name
 		soName = new SkyObjectName( iName, object );
+		// to delete these objects store them in separate list
+		constellations.append(soName);
 	}
 
 	// append in latin list
@@ -140,9 +134,10 @@ int ObjectNameList::getIndex( const QString &name ) {
 				*Avoid invalid index due to non ASCII letters like "ö" etc. Add your own letters to put them in
 				*the right list.
 				*/
-			if (index > 26) {
+			if (index < 0 || index > 26) {
 				switch (index) {
-					case 54 : index = 15; break;  // ö == o
+					case 41 : index = 5;					// é = e
+					case 54 : index = 15; break;	// ö = o
 					default : index = 0;						// all other letters
 				}
 				kdDebug() << k_funcinfo << "Object: " << name << " starts with non ASCII letter. Put it in list #" << index << endl;

@@ -108,6 +108,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
+	delete pnothing_menu;
 	delete starpix;
 	delete pts;
 	delete sp;
