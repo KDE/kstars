@@ -1,0 +1,36 @@
+<sect1 id="ai-contents">
+<title>AstroInfo: Table of Contents</title>
+<para>
+<itemizedlist>
+<listitem><para><link linkend="ai-skycoords">Celestial Coordinate
+ Systems</link></para></listitem>
+<listitem><para><link linkend="ai-cpoles">Celestial
+ Poles</link></para></listitem>
+<listitem><para><link linkend="ai-csphere">Celestial
+ Sphere</link></para></listitem>
+<listitem><para><link linkend="ai-ecliptic">The
+ Ecliptic</link></para></listitem>
+<listitem><para><link linkend="ai-equinox">The
+ Equinoxes</link></para></listitem>
+<listitem><para><link linkend="ai-geocoords">Geographic
+ Coordinates</link></para></listitem>
+<listitem><para><link linkend="ai-greatcircle">Great
+ Circles</link></para></listitem>
+<listitem><para><link linkend="ai-horizon">The Horizon</link></para></listitem>
+<listitem><para><link linkend="ai-hourangle">Hour Angle</link></para></listitem>
+<listitem><para><link linkend="ai-julianday">Julian Day</link></para></listitem>
+<listitem><para><link linkend="ai-leapyear">Leap Years</link></para></listitem>
+<listitem><para><link linkend="ai-meridian">Local
+ Meridian</link></para></listitem>
+<listitem><para><link
+ linkend="ai-precession">Precession</link></para></listitem>
+<listitem><para><link linkend="ai-retrograde">Retrograde
+ Motion</link></para></listitem>
+<listitem><para><link linkend="ai-sidereal">Sidereal
+ Time</link></para></listitem>
+<listitem><para><link linkend="ai-timezones">Time Zones</link></para></listitem>
+<listitem><para><link linkend="ai-utime">Universal Time</link></para></listitem>
+<listitem><para><link linkend="ai-zenith">The Zenith</link></para></listitem>
+</itemizedlist>
+</para>
+</sect1>

@@ -1,7 +1,34 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN"
+ "dtd/kdex.dtd" [
   <!ENTITY kappname "&kstars;"><!-- replace kapp here -->
-  <!ENTITY package "kdeedu">
+  <!ENTITY kstars "<application>KStars</application>">
+  <!ENTITY quicktour SYSTEM "quicktour.docbook">
+  <!ENTITY config SYSTEM "config.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY faq SYSTEM "faq.docbook">
+  <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
+    <!ENTITY contents SYSTEM "ai-contents.docbook">
+    <!ENTITY skycoords SYSTEM "skycoords.docbook">
+    <!ENTITY cpoles SYSTEM "cpoles.docbook">
+    <!ENTITY csphere SYSTEM "csphere.docbook">
+    <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
+    <!ENTITY equinox SYSTEM "equinox.docbook">
+    <!ENTITY geocoords SYSTEM "geocoords.docbook">
+    <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
+    <!ENTITY horizon SYSTEM "horizon.docbook">
+    <!ENTITY hourangle SYSTEM "hourangle.docbook">
+    <!ENTITY julianday SYSTEM "julianday.docbook">
+    <!ENTITY leapyear SYSTEM "leapyear.docbook">
+    <!ENTITY meridian SYSTEM "meridian.docbook">
+    <!ENTITY precession SYSTEM "precession.docbook">
+    <!ENTITY retrograde SYSTEM "retrograde.docbook">
+    <!ENTITY sidereal SYSTEM "sidereal.docbook">
+    <!ENTITY timezones SYSTEM "timezones.docbook">
+    <!ENTITY utime SYSTEM "utime.docbook">
+    <!ENTITY zenith SYSTEM "zenith.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -9,7 +36,7 @@
 <book lang="&language;">
 
 <bookinfo>
-<title>The &kstars; Handbook</title>
+<title>The KStars Handbook</title>
 
 <authorgroup>
 <author>
@@ -19,6 +46,7 @@
 <address><email>kstars@30doradus.org</email></address>
 </affiliation>
 </author>
+
 <othercredit role="developer">
 <firstname>Heiko</firstname>
 <surname>Evermann</surname>
@@ -27,6 +55,7 @@
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
+
 <othercredit role="developer">
 <firstname>Thomas</firstname>
 <surname>Kabelmann</surname>
@@ -35,16 +64,24 @@
 </affiliation>
 <contrib>Core Developer, German Translation</contrib>
 </othercredit>
-<!-- 
-Put this in the appropriate place in the french translators .po
-<othercredit>
+
+<othercredit role="translator">
 <firstname>Vincent</firstname>
 <surname>Jagot</surname>
 <affiliation>
 <address><email>vincent.jagot@free.fr</email></address>
 </affiliation>
 <contrib>French Translation</contrib>
-</othercredit> -->
+</othercredit>
+
+<othercredit role="translator">
+<firstname>Davide</firstname>
+<surname>Rizzo</surname>
+<affiliation>
+<address><email>rizzo@merate.mi.astro.it</email></address>
+</affiliation>
+<contrib>Italian Translation</contrib>
+</othercredit>
 </authorgroup>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -53,14 +90,17 @@ Put this in the appropriate place in the french translators .po
 <year>2001</year>
 <holder>Jason Harris</holder>
 </copyright>
-
+<!-- Translators: put here the copyright notice of the translation -->
+<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
+     and in the FDL itself on how to use it. -->
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-10-07</date>
-<releaseinfo>0.70.00</releaseinfo>
+<date>11/20/2001</date>
+<releaseinfo>0.80.00</releaseinfo>
 
 <abstract>
-<para>&kstars; is a graphical desktop planetarium.
+<para>
+&kstars; is a graphical desktop planetarium.
 It plots the positions of stars, constellations, star clusters,
 nebulae, galaxies and planets in the night sky for any date, from any
 location on Earth.  The display can be panned and zoomed, and it can
@@ -72,6 +112,10 @@ is to make &kstars; an interactive tool for
 learning about astronomy and the night sky.
 </para>
 </abstract>
+
+<!-- This is a set of Keywords for indexing by search engines.
+Please at least include KDE, the KDE package it is in, the name
+ of your application, and a few relevant keywords. -->
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -85,976 +129,30 @@ learning about astronomy and the night sky.
 <chapter id="introduction">
 <title>Introduction</title>
 
-<para>&kstars; lets you explore the night sky from the comfort of your
-computer chair.  It provides an accurate graphical representation of
-the night sky for any date, from any location on Earth.  The display
-includes 40,000 stars to 8th magnitude (well below the naked-eye
-limit), 10,000 deep-sky objects (Messier, <acronym>NGC</acronym> and
-<acronym>IC</acronym> catalogs), all planets, the Sun and Moon, the
-Milky Way, and guide lines such as the celestial equator, horizon and
-ecliptic.</para>
-
 <para>
-Please report bugs or feature requests to the &kstars; development
-mailing list: <email>kstars-devel@lists.sourceforge.net</email>. You
-can also use the automated bug reporting tool, accessible from the
-<guimenu>Help</guimenu> menu.
+&kstars; lets you explore the night sky from
+the comfort of your computer chair.  It provides an accurate graphical
+representation of the night sky for any date, from any location on
+Earth.  The display includes 40,000 stars to 8th magnitude (well below
+the naked-eye limit), 10,000 deep-sky objects (Messier, NGC and IC
+catalogs), all planets, the Sun and Moon, the Milky Way, and guide
+lines such as the celestial equator, horizon and ecliptic.
+</para>
+<para>
+Please report bugs or feature requests to the
+&kstars; development mailing list:
+<email>kstars-devel@lists.sourceforge.net</email>. You can also use
+the automated bug reporting tool, accessible from the Help menu.
 </para>
 </chapter>
 
-<chapter id="using-kstars">
-<title>A Quick Tour of &kstars;</title>
-
-<para>This chapter introduces most of the useful features of &kstars;,
-in the form of a guided tour.</para>
-
-<screenshot>
-<screeninfo>Here's a screenshot of &kstars;</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="screen1.png" format="PNG" width="350"/>
-</imageobject>
-<textobject>
-<phrase>A screenshot of the &kstars; main window.</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
-
-<para>
-In the above screenshot, you can see the sky display centered near the
-constellation Sagittarius.  Mars is visible on the left, and there are
-a couple dozen deep-sky objects (shown as colored symbols) on the
-right.  Above the sky display, there is an information panel
-displaying the current time and date (left), the coordinates of the
-screen center (middle), and the current geographic location (right).
-There is a toolbar and a menubar above the information panel.  There
-is a status bar at the bottom of the window, which displays the
-name of any object you click on, and the sky coordinates of the mouse
-cursor. 
-</para>
-
-<sect1 id="geolocation">
-<title>Where am I?</title>
-
-<para>The first thing to do is to set the geographic location.  By
-default, &kstars; assumes you are in Baltimore, Maryland, USA (just
-because that is the author's hometown).  Since you are probably
-somewhere else, you'll want to change this.</para>
-
-<para>
-Open the Change Geographic Location window by selecting
-<guimenuitem>Geographic...</guimenuitem> from the
-<guimenu>Location</guimenu> menu, or by pressing the
-<guiicon>Globe</guiicon> icon in the toolbar. 
-</para>
-
-<para>Here is the Change Location window:</para>
-
-<screenshot>
-<screeninfo>Changing the Location</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="screen2.png" format="PNG" width="400"/>
-</imageobject>
-<textobject>
-<phrase>A screenshot of the Change Location Window</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
-
-<para>
-In the upper right, there is a list of 2000 predefined cities.  The
-easiest way to set your location is to choose the nearest city from
-this list.  Each city is represented in the world map as a small white
-dot, and when a city is highlighted in the list, a red crosshairs
-appears on its location in the map. 
-</para>
-
-<para>
-The list of cities can be filtered by entering text in the boxes below
-the map. For example, in the screenshot, the text <quote>Green</quote>
-appears in the City filter text box.  Note that all of the cities in
-the list begin with <quote>Green</quote>. 
-</para>
-
-<para>
-The list can also be filtered by location.  Clicking anywhere in the
-world map will show only those cities within two degrees of the
-clicked location. 
-</para>
-
-<para>
-If you want to use your exact coordinates or there is no predefined
-city near your location, you can also manually define your location
-using the four boxes at the bottom of the window.  Please note, this
-feature is not fully supported yet.  Custom locations are not recorded
-for future sessions in the current version. 
-</para>
-</sect1>
-
-<sect1 id="settime">
-<title>What Time Is It?</title>
-
-<para>
-The next thing you may want to do is change the time and/or date.  By
-default, the time is set to your computer's system clock, and the
-&kstars; clock is running to keep up with the real time.  If you want to
-stop the clock, select <guimenuitem>Stop Clock</guimenuitem> from the
-<guimenu>Time</guimenu> menu, or simply press the
-<guiicon>Pause</guiicon> icon in the toolbar.  You can make the clock
-run slower or faster than normal using the time-step spinbox in the
-toolbar. 
-</para>
-
-<para>
-You can change to any time or date by selecting <guimenuitem>Set
-Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
-pressing the <guiicon>hourglass</guiicon> icon in the toolbar.  The
-Set Time window uses a standard &kde; DatePicker widget, coupled with
-three spinboxes for setting the hours, minutes and seconds.  If you
-ever need to reset the clock back to the current time, just select
-<guimenuitem>Set Time to Now</guimenuitem> from the
-<guimenu>Time</guimenu> menu. 
-</para>
-</sect1>
-
-<sect1 id="lookaround">
-<title>Have a Look Around!</title>
-
-<para>
-Now that we have the time and location set, let's have a look around.
-You can pan the display using the arrow keys.  If you hold down the
-shift key, the scrolling speed is doubled.  The display can also be
-panned by clicking and dragging with the mouse.  Note that while the
-display is scrolling, not all objects are displayed.  This is done to
-cut down on the <acronym>CPU</acronym> load of recomputing object
-positions, and make the scrolling smoother.  You can zoom in and out
-with the <keycap>+</keycap> and <keycap>-</keycap> keys.  Notice that
-as you zoom in, you can see fainter stars than at lower zoom settings.
-</para>
-
-<para>
-Zoom out until you can see a green curve; this represents your local
-horizon.  If you haven't adjusted the &kstars; configuration, the
-display will be solid green below the horizon, representing the solid
-ground of the Earth.  There is also a white curve, which represents
-the celestial equator (an imaginary line which divides the sky into
-northern and southern hemispheres).  There is also a yellow curve,
-which represents the Ecliptic, the path that the Sun appears to follow
-across the sky over the course of a year.  Therefore, the Sun is
-always found somewhere along the Ecliptic, and the planets are never
-far from it.
-</para>
-</sect1>
-
-<sect1 id="skyobjects">
-<title>Objects in the Sky</title>
-<para>
-&kstars; displays thousands of objects: stars, planets, clusters,
-nebulae and galaxies.  You can identify any object by clicking on it
-(its name appears in the statusbar at the bottom of the window.  You
-can get more information about an object by right-clicking on it.  A
-popup menu will appear, showing its name(s), object type, and links to
-images and information from the internet. 
-</para>
-
-<para>
-You can search for named objects by clicking on the
-<guiicon>search</guiicon> icon in the toolbar, or by selecting
-<guimenuitem>Find Object...</guimenuitem> from the
-<guimenu>Location</guimenu> menu.  The Find Object window lists all
-the named objects in the &kstars; database.  Many objects are listed by
-their catalog name (for example, NGC 3077), but some are listed by a
-common name (for example, Whirlpool Galaxy).  You can filter the list
-by name, or by object type.  Highlight the desired object, and press
-<guibutton>OK</guibutton>.  The display will center on the object and
-begin tracking it.</para>
-
-<note><para>If the object is below the horizon, you may not see
-anything except the ground.  You can make the ground invisible in the
-Configuration window.  </para></note>
-
-<para>
-Object Tracking is automatically engaged whenever an object is
-centered in the display, either by using the Find Object window, by
-double-clicking on an object, or by selecting <guimenuitem>Center and
-Track</guimenuitem> from the <mousebutton>right</mousebutton> click
-popup menu.  You can disengage tracking by panning the display,
-pressing the <guiicon>Lock</guiicon> icon in the toolbar, or selecting
-<guimenuitem>Track Object</guimenuitem> from the
-<guimenu>Location</guimenu> menu.
-</para>
-</sect1>
-
-<sect1 id="config">
-<title>Configuring &kstars;</title>
-<para>
-&kstars; has many configuration options, you can access them by
-opening the Display Options window, either with the
-<guiicon>wrench</guiicon> toolbar icon, or selecting
-<guimenuitem>Configure KStars...</guimenuitem> from the
-<guimenu>View</guimenu> menu.  The window is depicted below:</para>
-
-<screenshot>
-<screeninfo>Configuration Window</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="screen3.png" format="PNG" width="300"/>
-</imageobject>
-<textobject>
-<phrase>A screenshot of the Configuration Window</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
-
-
-<para>The Configuration options are divided into five tabs:
-<guilabel>Stars</guilabel>, <guilabel>Catalogs</guilabel>,
-<guilabel>Guides</guilabel>, <guilabel>Solar System</guilabel>, and
-<guilabel>Colors</guilabel>.  Below the tabs, you can choose between
-Equatorial and Altitude/Azimuth coordinate systems.</para>
-
-<note><para>The opaque ground can only be displayed in Alt/Az
-coordinates.</para></note>
-
-<para>In the <guilabel>Stars</guilabel> tab, you can toggle whether
-any stars are displayed (SAO Star Catalog), set the faint limit for
-named stars and for all stars, and toggle whether the names and/or
-magnitudes (<acronym>aka</acronym> brightness) of the brighter stars
-are displayed.  In the <guilabel>Catalogs</guilabel> tab, you can
-toggle whether the deep sky catalogs are displayed.  The
-<guilabel>Guides</guilabel> tab lets you toggle whether non-objects
-are displayed (&ie;, constellation lines, constellation names, Milky
-Way contour, celestial equator, ecliptic, horizon line, and opaque
-ground).  In the <guilabel>Solar system</guilabel> tab, you can
-specify whether the Sun, Moon and Plaents are displayed.  Finally, you
-can set the color scheme in the <guilabel>Colors</guilabel> tab.
-There are two predefined color schemes: the default scheme, and Night
-Vision, which uses only shades of red to protect your dark-adapted
-eyes.</para>
-
-</sect1>
-</chapter>
-
-<chapter id="commands">
-<title>Command Reference</title>
-
-<sect1 id="kstars-menus">
-<title>Menu Commands</title>
-
-<sect2>
-<title>File Menu</title>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>Quit</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Quits</action> &kstars;</para></listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
-
-<sect2>
-<title>Time Menu</title>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<guimenu>Time</guimenu>
-<guimenuitem>Set Time to Now</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Sync time to system clock</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
-</shortcut>
-<guimenu>Time</guimenu>
-<guimenuitem>Set Time...</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Choose time and date</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Time</guimenu>
-<guimenuitem>Start/Stop Clock</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Toggle whether time passes</action></para></listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
-
-<sect2>
-<title>Location Menu</title>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
-</shortcut>
-<guimenu>Location</guimenu>
-<guimenuitem>Find Object</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Locate an object by name</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
-</shortcut>
-<guimenu>Location</guimenu>
-<guimenuitem>Track Object</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Stay centered on current position</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
-</shortcut>
-<guimenu>Location</guimenu>
-<guimenuitem>Geographic...</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Select a new geographic location</action></para></listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
-
-<sect2>
-<title>View Menu</title>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<guimenu>View</guimenu>
-<guimenuitem>Zoom in</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>  </para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>View</guimenu>
-<guimenuitem>Zoom out</guimenuitem>
-</menuchoice></term>
-<listitem><para></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>View</guimenu>
-<guimenuitem>Configure KStars...</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Change view options</action></para></listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
-
-<sect2>
-<title>Help Menu</title>
-
-<!-- Replace this entire variablelist with &help.menu.documentation; -->
-<!-- entity for KDE 3.x -->
-
-<variablelist>
-<varlistentry>
-<term>
-<menuchoice>
-<shortcut>
-<keycombo action="simul"><keycap>F1</keycap></keycombo>
-</shortcut>
-<guimenu>Help</guimenu>
-<guimenuitem>Contents...</guimenuitem>
-</menuchoice>
-</term>
-<listitem><para><action>Invokes the KDE Help system</action> starting at the
-&kappname; help pages. (this document).</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Shift;<keycap>F1</keycap></keycombo>
-</shortcut>
-<guimenu>Help</guimenu>
-<guimenuitem>What's This?</guimenuitem>
-</menuchoice>
-</term>
-<listitem><para><action>Changes the mouse cursor to a combination arrow and
-question mark.</action>  Clicking on items within &kappname; will open a help
-window (if one exists for the particular item) explaining the item's
-function.</para></listitem>
-</varlistentry>
-
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Help</guimenu>
-<guimenuitem>Report Bug...</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Opens the Bug report dialog</action> where you can
-report a bug or request a <quote>wishlist</quote> feature.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Help</guimenu>
-<guimenuitem>About &kappname;</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>This will display version and author
-information.</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Help</guimenu>
-<guimenuitem>About KDE</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>This displays the KDE version and other basic
-information.</action></para></listitem>
-</varlistentry>
-</variablelist>
-
-
-</sect2>
-
-<sect2>
-<title>Popup Menu</title>
-
-<para>
-The <mousebutton>right</mousebutton> click popup menu is
-context-sensitive, meaning it is different depending on what kind of
-object you click on.  We list all possible popup menu items here, with
-the object type [in brackets]. 
-</para>
-
-<variablelist>
-<varlistentry>
-<term>[All] Identification and type</term>
-<listitem><para>
-The top three lines are devoted to the name(s) of the object, and its
-type.  For stars, the Spectral Type is also shown here.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[All] <guimenuitem>Center and Track</guimenuitem></term>
-<listitem><para>
-Center the display on this location, and engage tracking.  Equivalent
-to double-clicking. </para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[All] <guimenuitem>Show 1st/2nd Gen DSS Image</guimenuitem></term>
-<listitem>
-<para>The Digitized Sky Survey is an incredible resource: a
-photographic atlas of the entire sky.  Through the miracle of the
-internet, you can download a photograph of any patch of sky.  &kstars;
-provides one-click access to this database.  There are two generations
-of the Survey; the second generation is not yet complete, so you may
-get an error when requesting a <quote>2nd Gen DSS</quote> image.  Note
-that the image files are large, and may not be very aesthetic.  If
-other images are available for your object, you should try them
-first.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[Messier, Solar System] <guimenuitem>Show SEDS Information
-Page</guimenuitem></term>
-<listitem>
-<para>The Students For the Exploration and Development of Space have a
-<ulink url="http://www.seds.org">wonderful website</ulink>, which
-includes very extensive information on the Solar System and on Messier
-objects.  &kstars; provides links to these pages in the popup
-menu.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[Messier] <guimenuitem>Show SEDS Image</guimenuitem></term>
-<listitem>
-<para>
-The main image of this Messier object from the SEDS.org information
-page.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[Some Deep-Sky objects] <guimenuitem>Show HST
-Image</guimenuitem></term>
-<listitem><para>
-Astronomers using the Hubble Space Telescope periodically publish
-beautiful images from the <acronym>HST</acronym> as press releases.
-Some of these have become pretty famous, and have become cultural
-icons.  You can access them all through &kstars;.  
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>[Some Deep-Sky objects] <guimenuitem>Show KPNO AOP
-Image</guimenuitem></term>
-<listitem><para>
-The Kitt Peak National Observatory in Arizona has
-a public outreach program called the <ulink
-url="http://www.noao.edu/outreach/nop/advanced/advanced.html">Advanced
-Observing Program</ulink>, which allows anyone to <quote>rent</quote> 
-a 16-inch telescope located on Kitt Peak for a night.  This program
-has been producing some of the finest amateur astronomy images ever
-taken, and we include over 100 of them in our database of links. 
-</para></listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
-
-</sect1>
-
-<sect1 id="kstars-keymouse">
-<title>Keyboard and Mouse Commands</title>
-
-<para>Use the arrow keys to pan the display.  Holding down the shift
-key doubles the scrolling speed.  Use the
-<keycap>+</keycap>/<keycap>-</keycap> keys to Zoom in and out.</para>
-
-<para>The current RA, Dec coordinates of the mouse cursor is always
-displayed in the status bar.  Clicking the Mouse anywhere will
-identify the nearest object in the status bar.  Double clicking will
-center and track on the clicked location or object.  Click and drag
-to pan the display.  <mousebutton>Right</mousebutton> click to bring
-up the popup menu with detailed options for the clicked object.
-</para>
-</sect1>
-</chapter>
-
-<chapter id="faq">
-<title>Questions and Answers</title>
-
-&reporting.bugs;
-&updating.documentation;
-
-<qandaset id="faqlist">
-<qandaentry>
-<question>
-<para>What do the different symbols for Deep-sky objects mean?</para>
-</question>
-<answer>
-<para>
-The symbol indicates the object type:</para>
-
-<itemizedlist>
-<listitem><para>dotted circle: Open Cluster</para></listitem>
-<listitem>
-<para>cross-in-circle: Globular Cluster</para></listitem>
-<listitem>
-<para>Box: Gaseous Nebula</para></listitem>
-<listitem>
-<para>Diamond: Supernova Remnant</para></listitem>
-<listitem>
-<para>Circle with outer lines: Planetary Nebula</para></listitem>
-<listitem>
-<para>ellipse: Galaxy</para></listitem>
-</itemizedlist>
-
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>What do the different colors of Deep-sky objects mean?</para>
-</question>
-<answer>
-<para>
-Mostly, the different colors indicate which catalog the object belongs
-with (Messier, NGC or IC).  However, some objects have a different color
-(the default is red).  This indicates that there are extra images available
-in the <mousebutton>right</mousebutton> click popup menu.
-</para>
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>
-Why are there so many more <acronym>U.S.</acronym> cities than in
-other countries?  Is it a conspiracy?
-</para>
-</question>
-<answer>
-<para>
-It may be a conspiracy, but &kstars; is not involved!  We were unable to
-find a longitude/latitude database that covers the globe more equitably.
-Please let us know if you find one.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>Why can't I display the ground when using Equatorial Coordinates</para>
-</question>
-<answer>
-<para>
-The short answer is, this is a temporary limitation.  There is a
-problem when constructing the filled polygon that represents the ground
-when in Equatorial mode.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>
-Why do the faint stars and non-Messier deep sky objects disappear
-when I am scrolling the display?
-</para>
-</question>
-<answer>
-<para>
-When you update the display's central position, &kstars; must recompute
-the pixel coordinates of every object in its database, which involves
-some pretty heavy trigonometry.  When scrolling the display (either
-with the arrow keys or by dragging with the mouse), the display becomes
-slow and jerky, because the computer is having trouble keeping up.
-By excluding many of the objects, the computer can keep up and the
-scrolling becomes fast and silky smooth!
-</para>
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>I don't understand all the terms used in &kstars;.  Where can I
-learn more about the astronomy behind the program?</para>
-</question>
-<answer>
-<para>
-We have started a project called <ulink
-url="http://kstars.sourceforge.net">AstroInfo</ulink> to address this
-problem.  AstroInfo is the beginning of an interactive encyclopedia of
-astronomy for which &kstars; will be the user interface and demo
-engine.  Right now, it's just a collection of <acronym>HTML</acronym>
-pages on various astronomy-related topics, with a particular focus on
-the terms that &kstars; uses.  In the future, these articles will be
-accessible directly from &kstars;, but for now, you'll have to browse
-the articles separately.  AstroInfo is supposed to be a community
-effort, like GNUpedia or Everything2.  If you'd like to contribute an
-article to AstroInfo, please let us know!
-</para>
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>How accurate is &kstars;?</para>
-</question>
-<answer>
-<para>
-&kstars; is pretty accurate, but it is not (yet) as accurate as it can
-possibly be.  The problem with high-precision calculations is that
-you start having to deal with a large number of complicating factors.
-If you aren't a professional astronomer, you'll probably never have a
-problem with its accuracy.  There are two occasions where it may be
-noticeable:  eclipses, and rise/set times.  As discussed below, the
-position of the Moon is extremely hard to predict with high precision,
-so you probably cannot use &kstars; to predict eclipses at this time.
-</para>
-<para>
-Here is a list of some of the factors we have not yet corrected
-for:</para>
-
-<itemizedlist>
-<listitem>
-<para>The positions are not corrected for atmospheric refraction.
-Light bends slightly as it passes through our atmosphere, which alters
-the apparent positions of objects in the sky.  The effect is larger
-for objects near the horizon.  For example, you may find that the
-rise/set time predicted by &kstars; is off by a few minutes without
-this correction.  We plan to correct for refraction in a future
-version of &kstars;.</para>
-</listitem>
-<listitem>
-<para>The positions of the planets are not corrected for the
-<quote>Figure of the Earth</quote>.  The planets are shown as they
-would be seen from the center of the Earth.  Since the Earth is about
-6000 km in radius, the direction to a planet (and especially to the
-moon, which is very nearby) will be slightly different from different
-places on Earth.  We plan to make this correction in a future version
-of &kstars;.</para>
-</listitem>
-<listitem>
-<para>
-Planet positions are only accurate for dates within 4000 years
-or so of the current epoch.  The planet positions are predicted using 
-a fourier-like analysis of their orbits, as observed over the past few 
-centuries.  We learned in school that planets follow simple elliptical
-orbits around the Sun, but this isn't strictly true.  It would be true
-only if there was only one planet in the Solar system, and if the Sun
-and the planet were both point masses.  As it is, the planets are
-constantly tugging on each other, perturbing the orbits slightly, and
-tidal effects also induce precessional wobbling.  In fact, recent
-analysis suggests that the planets' orbits may not even be stable in
-the long term (&ie;, millions or billions of years).  As a rule of
-thumb, you can expect the position of a planet to be accurate to a few
-arcseconds (modulo the refraction and figure-of-earth errors)
-between the dates -2000 and 6000.  
-</para>
-
-<para>
-The moon and Pluto are exceptions to this.  Pluto's position is
-perhaps 10 times less accurate, although its position for dates near
-the present epoch are good to an arcsecond.  The moon's position is
-probably the least accurate.  This is because it is quite perturbed by
-the Earth, and because it is so close, even minute effects that would
-be indetectable in more distant bodies are easily apparent in the
-moon.  </para>
-
-<para> The discussion of very remote dates is currently somewhat moot
-because the <classname>QDate</classname> class we use for storing
-dates does not allow dates prior to October 1752 (when the
-currently-standard Gregorian calendar was adopted).  However, you can
-enter future dates up to around 8000 AD.  We'd like to implement our
-own date class that allows for more remote dates in the past.
-</para>
-</listitem>
-</itemizedlist>
-
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>Can I help contribute to future versions of &kstars;?</para>
-</question>
-<answer>
-<para>
-Yes, definitely!  Introduce yourself on our mailing list:
-<email>kstars-devel@lists.sourceforge.net</email>.  If you want to
-help with the coding, you may want to look over the To-Do list on the 
-webpage for some ideas of what's needed, and talk to current
-developers about what we're working on.  
-</para><para>
-If you aren't into coding, we can still use your help with i18n, docs, 
-AstroInfo, bug reports, and feature requests.  
-</para>
-</answer>
-</qandaentry>
-
-</qandaset>
-</chapter>
-
-<chapter id="credits">
-<title>Credits and License</title>
-
-<para>
-&kstars;
-</para>
-<para>
-Program copyright 2001 Jason Harris <email>kstars@30doradus.org</email>
-</para>
-
-<para>
-Contributors:
-<itemizedlist>
-<listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
-</listitem>
-<listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
-</listitem>
-<listitem><para>Vincent Jagot <email>vincent.jagot@free.fr</email></para>
-</listitem>
-</itemizedlist>
-</para>
-
-<para>
-Data Sources:
-<itemizedlist>
-<listitem>
-<para>Object catalogs and planet position tables: <ulink
-url="http://adc.gsfc.nasa.gov">NASA Astronomical Data Center</ulink></para>
-</listitem> 
-<listitem>
-<para>Image and Information links provided by:</para>
-  <itemizedlist>
-  <listitem>
-  <para><ulink url="http://www.seds.org">SEDS.org</ulink></para>
-  </listitem> 
-  <listitem>
-  <para><ulink url="http://oposite.stsci.edu/pubinfo/pr.html">HST Press
-  releases</ulink></para>
-  </listitem>
-  <listitem>
-  <para><ulink url="http://www.noao.edu/outreach/aop/">KPNO
-  Advanced Observing Program</ulink></para>
-  </listitem>
-  <listitem>
-  <para><ulink url="http://archive.stsci.edu/cgi-bin/dss_form">the
-  Digitized Sky Survey</ulink></para>
-  </listitem>
-  </itemizedlist>
-</listitem>
-<listitem>
-<para>Lunar images coyright 1999-2001 by <ulink
-url="http://www.astrosurf.com/cidadao">Antonio Cidadao</ulink> (used
-with permission)</para>
-</listitem>
-<listitem>
-<para>Inline images of M 17, M 31 and M 42 were adapted from images
-copyright 2000 by <ulink url="http://www.galaxyphoto.com">Jason 
-Ware</ulink> (used with permission).</para>
-</listitem>
-</itemizedlist>
-</para>
-<para>
-References:
-<itemizedlist>
-<listitem><para><quote>Practical Astronomy With Your
-Calculator</quote> by Peter Duffet-Smith</para></listitem>
-<listitem><para><quote>Astronomical Algorithms</quote> by Jean
-Meeus</para></listitem>
-</itemizedlist>
-</para>
-
-<para>Special thanks: To the &kde; and &Qt; developers for providing
-the world with a peerless set of free <acronym>API</acronym>
-libraries.  To the <application>KDevelop</application> team, for their
-excellent <acronym>IDE</acronym>, which made developing &kstars; so
-much easier and more fun.  To everyone on the
-<application>KDevelop</application> message board and on <systemitem
-class="systemname">irc.kde.org</systemitem>, for answering my frequent
-questions.  Finally, to everyone who has submitted bug reports and
-other feedback.  Thank you, everyone.</para>
-
-<para>
-Documentation copyright 2001 Jason Harris <email>kstars@30doradus.org</email>
-</para>
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
-&underFDL;               <!-- FDL: do not remove -->
-&underGPL;        	 <!-- GPL License -->
-
-</chapter>
-
-<appendix id="installation">
-<title>Installation</title>
-
-<sect1 id="getting-kstars">
-<title>How to obtain &kstars;</title>
-
-<para>&kstars; is presently available as a source tarball, a Mandrake
-RPM, a Debian package, or as CVS source.  If you'd like to contribute
-a binary package for your favorite distribution, please let us
-know!</para>
-
-<para>
-The latest &kstars; source code tarball can be obtained from <ulink
-url="http://prdownloads.sourceforge.net/kstars/">http://prdownloads.sourceforge.net/kstars/</ulink>.
-It is also posted at the <ulink
-url="http://kstars.sourceforge.net">KStars homepage</ulink>, at <ulink
-url="http://apps.kde.com/uk/0/info/id/1050">apps.kde.com</ulink>, and
-at <ulink
-url="http://freshmeat.net/projects/kstars">freshmeat.net</ulink>.
-</para>
-
-<para>
-If you want the latest development version of &kstars;, you can access
-the CVS repository here: <ulink
-url="http://sourceforge.net/cvs/?group_id=22914">http://sourceforge.net/cvs/?group_id=22914</ulink>.
-</para>
-
-<!-- Replace from here to end of section with -->
-<!-- &install.intro.documentation; entity for KDE 3.x -->
-
-<para>&kappname; is part of the &kde; project <ulink
-url="&kde-http;">&kde-http;</ulink>.</para>
-
-<para>&kappname; can be found in the &package; package on <ulink
-url="&kde-ftp;">&kde-ftp;</ulink>, the main &FTP; site of the &kde;
-project.</para>
-
-<!-- Stop replacing here -->
-
-</sect1>
-
-<sect1 id="requirements">
-<title>Requirements</title>
-
-<para>
-In order to successfully run &kstars;, you need &kde; >=2.1 and &Qt;
->=2.2.4.  It may run on &kde; 2.0 (and a similarly deprecated &Qt;),
-but this has not been tested.  If you try, please contact us with the
-results (success or failure)!
-</para>
-
-<para>
-To compile &kstars;, you will also have to have the following packages
-installed: </para>
-
-<itemizedlist>
-<listitem><para>kdelibs-devel</para></listitem>
-<listitem><para>libqt2-headers</para></listitem>
-<listitem><para>zlib-devel</para></listitem>
-<listitem><para><command>autoconf</command> less than 2.5!!</para></listitem>
-</itemizedlist>
-
-<para>Autoconf 2.5 is (apparently) incompatible with the files
-generated by <application>KDevelop</application>. </para>
-
-<para>On my system, &kstars; uses about 50 MB of system memory. Most
-of this usage is due to the loaded object databases.  If &kstars; is
-idling, it uses very little <acronym>CPU</acronym>; but it will use as
-much as you've got when panning or zooming.</para>
-</sect1>
-
-<sect1 id="compilation">
-<title>Compilation and Installation</title>
-
-<!-- replace this next section with the -->
-<!-- &install.compile.documentation; entity for KDE 3.x -->
-
-<para>In order to compile and install &kappname; on your system, type the
-following in the base directory of the &kappname; distribution:</para>
-
-<screen><prompt>%</prompt> <userinput><command>./configure</command></userinput>
-<prompt>%</prompt> <userinput><command>make</command></userinput>
-<prompt>%</prompt> <userinput><command>make</command> install</userinput>
-</screen>
-
-<para>Since &kappname; uses <command>autoconf</command> and
-<command>automake</command> you should have no trouble compiling it.
-Should you run into problems please report them to the &kstars;
-mailing list <email>kstars-devel@lists.sourceforge.net</email>.
-</para>
-
-</sect1>
-
-<sect1 id="configuration">
-<title>Configuration</title>
-
-<para>
-At this point, there are no special configuration options or
-requirements.  If &kstars; complains that there are missing data
-files, become <systemitem class="username">root</systemitem> and
-manually copy all files in <filename
-class="directory">kstars/data/</filename> to <filename
-class="directory">$<envar>KDEDIR</envar>/apps/kstars/</filename>. (If
-you don't have <systemitem class="username">root</systemitem>
-priveliges, copy them to <filename
-class="directory">~/.kde/share/apps/kstars/</filename>.)
-</para>
-
-</sect1>
-
-</appendix>
+&quicktour; <!--A Quick Tour of KStars-->
+&config;    <!--Configuring KStars-->
+&commands;  <!--Command Reference-->
+&astroinfo; <!--AstroInfo Articles-->
+&faq;       <!--Questions and Answers-->
+&credits;   <!--Credits and License-->
+&install;   <!--Installation-->
 
 &documentation.index;
 </book>

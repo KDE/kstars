@@ -1,0 +1,218 @@
+<chapter id="faq">
+<title>Questions and Answers</title>
+
+&reporting.bugs;
+&updating.documentation;
+
+<qandaset id="faqlist">
+
+<qandaentry>
+<question>
+<para>What is the &kstars; Icon?</para>
+</question>
+<answer>
+<para>
+The <guiicon>&kstars; Icon</guiicon> is a sextant, a handheld telescope which
+was used by navigators on sailing ships back when the stars were important for
+navigation. By carefully reckoning the positions of the stars, the navigator
+could get an accurate estimate of the ship's current longitude and latitude.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>What do the different symbols for Deep-sky objects mean?</para>
+</question>
+<answer>
+<para>
+The symbol indicates the object type:
+<itemizedlist>
+<listitem><para>dotted circle: Open Cluster</para></listitem>
+<listitem><para>cross-in-circle: Globular Cluster</para></listitem>
+<listitem><para>Box: Gaseous Nebula</para></listitem>
+<listitem><para>Diamond: Supernova Remnant</para></listitem>
+<listitem><para>Circle with outer lines: Planetary Nebula</para></listitem>
+<listitem><para>ellipse: Galaxy</para></listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>What do the different colors of Deep-sky objects mean?</para>
+</question>
+<answer>
+<para>
+Mostly, the different colors indicate which catalog the object belongs
+with (Messier, NGC or IC).  However, some objects have a different color
+(the default is red).  This indicates that there are extra images available
+in the right-click popup menu.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Why are there so many more U.S. cities than in other countries?  Is it a
+conspiracy?
+</para>
+</question>
+<answer>
+<para>
+It may be a conspiracy, but &kstars; is not involved!  We were unable to
+find a longitude/latitude database that covers the globe more equitably.
+We are currently working on adding many more non-U.S. cities to the database.
+If you can contribute to this effort, please let us know.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Why can't I display the ground when using Equatorial Coordinates</para>
+</question>
+<answer>
+<para>
+The short answer is, this is a temporary limitation.  There is a
+problem when constructing the filled polygon that represents the ground
+when in Equatorial mode.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Why do the faint stars and non-Messier deep sky objects disappear
+when I am scrolling the display?
+</para>
+</question>
+<answer>
+<para>
+When you update the display's central position, &kstars; must recompute
+the pixel coordinates of every object in its database, which involves
+some pretty heavy trigonometry.  When scrolling the display (either
+with the arrow keys or by dragging with the mouse), the display becomes
+slow and jerky, because the computer is having trouble keeping up.
+By excluding many of the objects, the computer can keep up and the
+scrolling becomes fast and smooth!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>I don't understand all the terms used in &kstars;.  Where can I
+learn more about the astronomy behind the program?</para>
+</question>
+<answer>
+<para>
+We have started the AstroInfo project to address this
+problem.  AstroInfo is the beginning of an interactive encyclopedia of
+astronomy for which &kstars; will be the user interface and demo
+engine.  Right now, it's just a collection of HTML pages on various
+astronomy-related topics, with a particular focus on the terms that
+&kstars; uses.  These articles are presented later in this document.
+AstroInfo is supposed to be a community effort, like GNUpedia or Everything2.
+If you'd like to contribute an article to AstroInfo, please let us know!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How accurate is &kstars;?</para>
+</question>
+<answer>
+<para>
+&kstars; is pretty accurate, but it is not (yet) as accurate as it can
+possibly be.  The problem with high-precision calculations is that
+you start having to deal with a large number of complicating factors.
+If you aren't a professional astronomer, you'll probably never have a
+problem with its accuracy.  There are two occasions where it may be
+noticeable:  eclipses, and rise/set times.  As discussed below, the
+position of the Moon is extremely hard to predict with high precision,
+so you probably cannot use &kstars; to predict eclipses at this time.
+</para><para>
+Here is a list of some of the factors we have not yet corrected for:
+<itemizedlist>
+<listitem><para>
+The positions are not corrected for atmospheric refraction.  Light
+bends slightly as it passes through our atmosphere, which alters the
+apparent positions of objects in the sky.  The effect is larger for
+objects near the horizon.  For example, you may find that the rise/set
+time predicted by &kstars; is off by a few minutes without this
+correction.  We plan to correct for refraction in a future version of
+&kstars;.
+</para></listitem>
+<listitem><para>
+The positions of the planets are not corrected for the <quote>Figure
+of the Earth</quote>.  The planets are shown as they would be seen
+from the center of the Earth.  Since the Earth is about 6000 km in
+radius, the direction to a planet (and especially to the moon, which
+is very nearby) will be slightly different from different places on
+Earth.  We plan to make this correction in a future version of
+&kstars;.
+</para></listitem>
+<listitem>
+<para>
+Planet positions are only accurate for dates within 4000 years
+or so of the current epoch.  The planet positions are predicted using
+a fourier-like analysis of their orbits, as observed over the past few
+centuries.  We learned in school that planets follow simple elliptical
+orbits around the Sun, but this isn't strictly true.  It would be true
+only if there was only one planet in the Solar system, and if the Sun
+and the planet were both point masses.  As it is, the planets are
+constantly tugging on each other, perturbing the orbits slightly, and
+tidal effects also induce precessional wobbling.  In fact, recent
+analysis suggests that the planets' orbits may not even be stable in
+the long term (i.e., millions or billions of years).  As a rule of
+thumb, you can expect the position of a planet to be accurate to a few
+arcseconds (modulo the refraction and figure-of-earth errors)
+between the dates -2000 and 6000.
+</para><para>
+The moon and Pluto are exceptions
+to this.  Pluto's position is perhaps 10 times less accurate, although
+its position for dates near the present epoch are good to an
+arcsecond.  The moon's position is probably the least accurate.  This
+is because it is quite perturbed by the Earth, and because it is so
+close, even minute effects that would be indetectable in more
+distant bodies are easily apparent in the moon.
+</para><para>
+The discussion of very remote dates is currently somehwat moot because
+the QDate class we use for storing dates does not allow dates prior to
+October 1752 (when the currently-standard Gregorian calendar was
+adopted).  However, you can enter future dates up to around 8000 AD.
+We'd like to implement our own date class that allows for more remote
+dates in the past.
+</para>
+</listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Can I help contribute to future versions of &kstars;?</para>
+</question>
+<answer>
+<para>
+Yes, definitely!  Introduce yourself on our mailing list:
+<email>kstars-devel@lists.sourceforge.net</email>.  If you want to
+help with the coding, you may want to look over the <ulink
+url="http://kstars.sourceforge.net/kstars-todo.html">To-Do list</ulink> on the
+webpage for some ideas of what's needed, and talk to current developers about
+what we're working on.
+</para><para>
+If you aren't into coding, we can still use your help with i18n, docs,
+AstroInfo articles, bug reports, and feature requests.
+</para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</chapter>

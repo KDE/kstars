@@ -1,0 +1,65 @@
+<chapter id="config">
+<title>Configuring &kstars;</title>
+<para>
+&kstars; has many configuration options, which you can access by opening
+the <guilabel>Display Options</guilabel> window, either with the
+<guiicon>wrench</guiicon> toolbar icon, or selecting <guimenuitem>Configure
+KStars...</guimenuitem> from the <guimenu>View</guimenu> menu.  The
+window is depicted below:
+
+<screenshot>
+<screeninfo>Display Options Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="screen3.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Display Options Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para><para>
+The <guilabel>Display Options</guilabel> window is divided into five tabs:
+<guilabel>Stars</guilabel>, <guilabel>Catalogs</guilabel>,
+<guilabel>Guides</guilabel>, <guilabel>Solar System</guilabel>, and
+<guilabel>Colors</guilabel>.  Below the tabs, you can choose between Equatorial
+and Horizontal coordinate systems (note that the opaque ground can only be
+displayed when using Horizontal coordinates).
+</para><para>
+In the <guilabel>Stars</guilabel> tab, you can toggle whether any stars are
+displayed (SAO Star Catalog), set the faint limit for named stars and for all
+stars, and toggle whether the names and/or magnitudes (aka brightness) of the
+brighter stars are displayed.  In the <guilabel>Catalogs</guilabel> tab, you can
+toggle whether the deep sky catalogs are displayed.  The
+<guilabel>Guides</guilabel> tab lets you toggle whether non-objects are
+displayed (&ie;, constellation lines, constellation names, Milky Way contour,
+celestial equator, ecliptic, horizon line, and opaque ground).  In the
+<guilabel>Solar System</guilabel> tab, you can specify whether the Sun, Moon and
+Planets are displayed.
+</para><para>
+Finally, you can set the color scheme in the <guilabel>Colors</guilabel> tab.
+The tab is split into two panels:
+</para><para>
+The left panel shows a list of all display items with adjustable
+colors.  Click on any item to bring up a color selection window to adjust the
+color.  Below the list is the <guilabel>Star Color Mode</guilabel> selection
+box.  By default, &kstars; draws stars with a realistic color tint according to
+the spectral type of the star.  However, you may also choose to draw the stars
+as solid white, black or red circles.  If you are using the realistic star
+colors, you can choose the saturation level of the star colors with the
+<guilabel>Star Color Intensity</guilabel> spinbox.
+</para><para>
+The right panel lists the defined color schemes.  There are three predefined
+schemes: the Default scheme, a Star Chart scheme with black stars on a white
+background, and Night Vision, which uses only shades of red in order to
+protect your dark-adapted vision.  Additionally, you can save the current color
+settings as a custom scheme by clicking the <guibutton>Save Current
+Colors</guibutton> button.  It will prompt you for a name for the new scheme,
+and then your scheme will appear in the list in all future &kstars; sessions.
+To remove a custom scheme, you have to remove the appropriate line from the
+<filename>~/.kde/share/apps/kstars/colors.dat</filename> file. You may want to
+also delete the corresponding <literal role="extension">*.colors</literal> file
+in the same directory, but as long as you remove the reference to it in
+<filename>colors.dat</filename>, it won't appear in &kstars;.
+</para>
+</chapter>

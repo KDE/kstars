@@ -1,0 +1,46 @@
+<sect1 id="ai-ecliptic">
+<sect1info>
+<author>
+<firstname>John</firstname>
+<surname>Cirillo</surname>
+</author>
+</sect1info>
+<title>The Ecliptic</title>
+<para>
+The ecliptic is an imaginary <link linkend="ai-greatcircle">Great Circle</link>
+on the <link linkend="ai-csphere">Celestial Sphere</link> along which the Sun
+appears to move over the course of a year.  Of course, it is really the
+Earth's orbit around the Sun causing the change in the Sun's apparent
+direction.  The ecliptic is inclined from the <firstterm>Celestial
+Equator</firstterm> by 23.5 degrees.   The two points where the ecliptic crosses
+the celestial equator are known as the <link
+linkend="ai-equinox">Equinoxes</link>.
+</para><para>
+Since our solar system is relatively flat, the orbits of the planets are
+also close to the plane of the ecliptic.  In addition, the constellations of the
+zodiac are located along the ecliptic. This makes the ecliptic a very useful
+line of reference to anyone attempting to locate the planets or the
+constellations of the zodiac, since they all literally <quote>follow the
+Sun</quote>.
+</para><para>
+The <firstterm>Altitude</firstterm> of the ecliptic above the Horizon changes
+over the course of the year, because of the 23.5 degree tilt of the Earth's spin
+axis.  This causes the seasons.  When the ecliptic (and therefore the Sun) is
+high above the horizon, the days are longer, and you have Summer. When the
+ecliptic is low in the sky, you have Winter.
+</para>
+<tip>
+<para>Exercises:</para>
+<para>
+Open the <guilabel>View Options</guilabel> window, and switch to Horizontal
+coordinates, with the Opaque Ground shown.  Open the <guilabel>Set
+Time</guilabel> window
+(<keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>),and change the
+Date to sometime in the middle of Summer, and the Time to 12:00 Noon.  Back in
+the Main Window, point toward the Southern Horizon (press <keycap>S</keycap>).
+Note the height of the Sun above the Horizon at Noon in the Summer.  Now, change
+the Date to something in the middle of Winter (but keep the Time at 12:00 Noon).
+The Sun is now much lower in the Sky.
+</para>
+</tip>
+</sect1>

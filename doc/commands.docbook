@@ -1,0 +1,327 @@
+<chapter id="commands">
+<title>Command Reference</title>
+
+<sect1 id="kstars-menus">
+<title>Menu Commands</title>
+
+<sect2>
+<title>File Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Quits &kstars;</action>
+</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>Time Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Time</guimenu>
+<guimenuitem>Set Time to Now</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Sync time to system clock</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+</shortcut>
+<guimenu>Time</guimenu>
+<guimenuitem>Set Time...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Choose time and date</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Time</guimenu>
+<guimenuitem>Start/Stop Clock</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Toggle whether time passes</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>Location Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Location</guimenu>
+<guimenuitem>Zenith</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Center at the Zenith point
+(straight up)</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Find Object</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Locate an object by name</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>t</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Track Object</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Stay centered on current
+ position</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu>
+<guimenuitem>Geographic...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select a new geographic
+ location</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>View Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom in</guimenuitem>
+</menuchoice></term>
+<listitem><para>Zooms view in</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom out</guimenuitem>
+</menuchoice></term>
+<listitem><para>Zooms view out</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Configure &kstars;...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Change view options</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>Help Menu</title>
+<para>
+A standard KDE help menu: you can access this document (the
+&kstars; Handbook), file a bug report, or view our About Box.
+</para>
+</sect2>
+<sect2>
+<title>Popup Menu</title>
+<para>
+The right-click popup menu is context-sensitive, meaning it is
+different depending on what kind of object you click on.  We list all
+possible popup menu items here, with the object type [in brackets].
+</para>
+
+<variablelist>
+<varlistentry>
+<term>[All]</term>
+<listitem><para>
+Identification and type:  The top three lines are devoted to the
+name(s) of the object, and its type.  For stars, the Spectral Type
+is also shown here.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All]</term>
+<listitem><para>
+<guimenuitem>Center and Track</guimenuitem>: Center the display
+on this location, and engage tracking.  Equivalent to double-clicking.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All except Solar System]</term>
+<listitem><para>
+<guimenuitem>Show 1st/2nd Gen DSS Image</guimenuitem>:
+The Digitized Sky Survey is an incredible resource: a photographic
+atlas of the entire sky.  Through the miracle of the internet, you can
+download a photograph of any patch of sky.  &kstars; provides one-click
+access to this database.  There are two generations of the Survey; the
+second generation is not yet complete, so you may get an error when
+requesting a <quote>2nd Gen DSS</quote> image.  Note that the image
+files are large, and may not be very aesthetic.  If other images are
+available for your object, you should try them first.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Messier, Solar System]</term>
+<listitem><para>
+<guimenuitem>Show SEDS Information
+Page</guimenuitem>: The Students For the Exploration and Development
+of Space have a <ulink url="http://www.seds.org">wonderful
+website</ulink>, which includes very extensive information on the
+Solar System and on Messier objects.  &kstars; provides links to these
+pages in the popup menu.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Messier]</term>
+<listitem><para>
+<guimenuitem>Show SEDS Image</guimenuitem>: The main image
+of this Messier object from the SEDS.org information page.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Some Deep-Sky objects]</term>
+<listitem><para>
+<guimenuitem>Show HST Image</guimenuitem>:
+Astronomers using the Hubble Space Telescope periodically publish
+beautiful images from the HST as press releases.  Some of these are pretty
+famous, and have become cultural icons.  You can access them all through
+&kstars;.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Some Deep-Sky objects]</term>
+<listitem><para>
+<guimenuitem>Show KPNO AOP
+Image</guimenuitem>: The Kitt Peak National Observatory in Arizona has
+a public outreach program called the <ulink
+url="http://www.noao.edu/outreach/nop/advanced/advanced.html">Advanced
+Observing Program</ulink>, which allows anyone to <quote>rent</quote>
+a 16-inch telescope located on Kitt Peak for a night.  This program
+has been producing some of the finest amateur astronomy images ever
+taken, and we include over 100 of them in our database of links.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All Named Objects]</term>
+<listitem><para>
+<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own custom
+links to the popup menu of any object.  It opens a small window in which you
+enter the <abbrev>URL</abbrev> of the link, and the text you want to appear in
+the popup menu.  There is also a pair of radio buttons which allow you to
+specify whether the <abbrev>URL</abbrev> is an image or an <abbrev>HTML</abbrev>
+document, so &kstars; knows whether to launch the web browser or the image
+viewer.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+</sect1>
+
+<sect1 id="kstars-keys">
+<title>Keyboard Commands</title>
+<para>
+<variablelist>
+<varlistentry><term>Arrow Keys</term>
+<listitem><para>
+Use the arrow keys to pan the display.  Holding down the <keycap>Shift</keycap>
+key doubles the scrolling speed.
+</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>+</keycap> / <keycap>-</keycap></term>
+<listitem><para>Zoom In/Out</para></listitem></varlistentry>
+
+<varlistentry><term>0&ndash;9</term>
+<listitem><para>Center Display on a Solar System object.
+<itemizedlist>
+<listitem><para>0: Sun</para></listitem>
+<listitem><para>1: Mercury</para></listitem>
+<listitem><para>2: Venus</para></listitem>
+<listitem><para>3: Moon</para></listitem>
+<listitem><para>4: Mars</para></listitem>
+<listitem><para>5: Jupiter</para></listitem>
+<listitem><para>6: Saturn</para></listitem>
+<listitem><para>7: Uranus</para></listitem>
+<listitem><para>8: Neptune</para></listitem>
+<listitem><para>9: Pluto</para></listitem>
+</itemizedlist>
+</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>Z</keycap></term>
+<listitem><para>Center on the Zenith Point (straight
+ up).</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>N</keycap></term>
+<listitem><para>Center above North horizon.</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>E</keycap></term>
+<listitem><para>Center above East horizon.</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>S</keycap></term>
+<listitem><para>Center above South horizon.</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>W</keycap></term>
+<listitem><para>Center above West horizon.</para></listitem></varlistentry>
+
+<varlistentry><term><keycap>F1</keycap></term>
+<listitem><para>Open &kstars; Handbook.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>
+</term>
+<listitem><para>Open Find Object Window.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>g</keycap></keycombo>
+</term>
+<listitem><para>Open Change Location Window.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+</term>
+<listitem><para>Open Set Time Window.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>t</keycap></keycombo>
+</term>
+<listitem><para>Toggle tracking.</para></listitem></varlistentry>
+
+<varlistentry><term><keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+</term>
+<listitem><para>Quit &kstars;.</para></listitem></varlistentry>
+
+</variablelist>
+</para>
+</sect1>
+
+<sect1 id="kstars-mouse">
+<title>Mouse Commands</title>
+<para>
+The current RA, Dec coordinates of the mouse cursor is always
+displayed in the status bar.  Clicking the Mouse anywhere will
+identify the nearest object in the status bar.  Double-clicking will
+center and track on the clicked location or object.  Click and drag
+to pan the display.  Right-click to bring up the popup menu
+with detailed options for the clicked object.
+</para>
+</sect1>
+</chapter>
