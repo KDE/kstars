@@ -69,16 +69,31 @@ ThumbnailPicker::~ThumbnailPicker()
 
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
-	//Number of images to be loaded:
-	int nImages = Object->ImageList.count();
+	//Preload list with object's ImageList:
+	QStringList ImageList( Object->ImageList );
+
+	//Query Google Image Search:
+	KURL gURL( "http://images.google.com/images" );
+	//Search for the primary name, or longname and primary name
+	QString sName = QString("\"%1\"").arg( Object->name() );
+	if ( Object->longname() != Object->name() ) {
+		sName = QString("\"%1\" ").arg( Object->longname() ) + sName;
+	}
+	gURL.addQueryItem( "q", sName ); //add the Google-image query string
+
+	//Download the google page and parse it for image URLs
+	parseGooglePage( ImageList, gURL.prettyURL() );
+
+	//Total Number of images to be loaded:
+	int nImages = ImageList.count();
 	if ( nImages ) {
 		ui->SearchProgress->setTotalSteps( nImages );
 		ui->SearchLabel->setText( i18n( "Loading images..." ) );
 	}
 
-	//First add images from object's ImageList
-	QStringList::Iterator itList  = Object->ImageList.begin();
-	QStringList::Iterator itListEnd = Object->ImageList.end();
+	//Add images from the ImageList
+	QStringList::Iterator itList  = ImageList.begin();
+	QStringList::Iterator itListEnd = ImageList.end();
 	for ( ; itList != itListEnd; ++itList ) {
 		QString s( *itList );
 		KURL u( s );
@@ -90,6 +105,40 @@ void ThumbnailPicker::slotFillList() {
 			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 
 		}
+	}
+}
+
+void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
+	QString tmpFile;
+	QString PageHTML;
+
+	//Read the google image page's HTML into the PageHTML QString:
+	if ( KIO::NetAccess::download( URL, tmpFile ) ) {
+		QFile file( tmpFile );
+		if ( file.open( IO_ReadOnly ) ) {
+			QTextStream instream(&file);
+			PageHTML = instream.read();
+			file.close();
+		} else {
+			kdDebug() << "Could not read local copy of google image page" << endl;
+			return;
+		}
+	} else {
+		kdDebug() << KIO::NetAccess::lastErrorString() << endl;
+		return;
+	}
+
+	int index = PageHTML.find( "?imgurl=", 0 );
+	while ( index >= 0 ) {
+		index += 8; //move to end of "?imgurl=" marker
+
+		//Image URL is everything from index to next occurence of "&"
+		ImList.append( PageHTML.mid( index, PageHTML.find( "&", index ) - index ) );
+
+//		//DEBUG
+//		kdDebug() << index << "::" << ImList.last() << endl;
+
+		index = PageHTML.find( "?imgurl=", index );
 	}
 }
 
