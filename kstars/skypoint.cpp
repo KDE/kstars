@@ -40,7 +40,7 @@ void SkyPoint::EquatorialToHorizontal( dms LSTh, dms lat ) {
 	cosAlt = cos( AltRad );
 
 	AzRad = acos( ( sindec - sinlat*sinAlt )/( coslat*cosAlt ) );
-	if ( sinHA > 0.0 ) AzRad = 2.0*PI() - AzRad; // resolve acos() ambiguity
+	if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
 
 	Az.setRadians( AzRad );
 	Alt.setRadians( AltRad );
@@ -65,17 +65,17 @@ void SkyPoint::HorizontalToEquatorial( dms LSTh, dms lat ) {
 //Under certain circumstances, x can be very slightly less than -1.0000, or slightly
 //greater than 1.0000, leading to a crash on acos(x).  However, the value isn't
 //*really* out of range; it's a kind of roundoff error.
-	if ( x < -1.0 && x > -1.000001 ) HARad = PI();
+	if ( x < -1.0 && x > -1.000001 ) HARad = dms::PI;
 	else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
 	else if ( x < -1.0 ) {
 		kdWarning() << i18n( "Coordinate out of range!" );
-		HARad = PI();
+		HARad = dms::PI;
 	} else if ( x > 1.0 ) {
 		kdWarning() << i18n( "Coordinate out of range!" );
 		HARad = 0.0;
 	} else HARad = acos( x );
 
-	if ( sinAz > 0.0 ) HARad = 2.0*PI() - HARad; // resolve acos() ambiguity	
+	if ( sinAz > 0.0 ) HARad = 2.0*dms::PI - HARad; // resolve acos() ambiguity	
 
 	RA.setRadians( LSTh.radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
@@ -100,8 +100,8 @@ void SkyPoint::setEcliptic( double ELong, double ELat, long double jd ) {
 	double RARad =  atan( y / cosLong );
 	
 	//resolve ambiguity of atan:
-	if ( cosLong < 0 ) RARad += PI();
-	if ( cosLong > 0 && y < 0 ) RARad += 2.0*PI();
+	if ( cosLong < 0 ) RARad += dms::PI;
+	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
 	
 	dms newRA, newDec;
 	newRA.setRadians( RARad );

@@ -79,6 +79,8 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
 
+	FoundObject = NULL;
+	ClickedObject = NULL;
 }
 
 SkyMap::~SkyMap() {
@@ -176,10 +178,10 @@ void SkyMap::slotCenter( void ) {
   setFoundObject( ClickedObject );
 	if ( foundObject() != NULL ) { //set tracking to true
 		ksw->options()->isTracking = true;
-		ksw->actTrack->setIconSet( BarIcon( "lock" ) );
+		ksw->actTrack->setIconSet( BarIcon( "encrypted" ) );
 	} else {
 		ksw->options()->isTracking = false;
-		ksw->actTrack->setIconSet( BarIcon( "unlock" ) );
+		ksw->actTrack->setIconSet( BarIcon( "decrypted" ) );
 	}
 
 	ksw->showFocusCoords(); //updateinfoPanel
@@ -423,7 +425,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 			ksw->options()->isTracking = false;
-  	  ksw->actTrack->setIconSet( BarIcon( "unlock" ) );
+  	  ksw->actTrack->setIconSet( BarIcon( "decrypted" ) );
 		}
 		ksw->showFocusCoords();
 	}
@@ -446,7 +448,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!slewing) {
 			slewing = true;
 			ksw->options()->isTracking = false; //break tracking on slew
-			ksw->actTrack->setIconSet( BarIcon( "unlock" ) );
+			ksw->actTrack->setIconSet( BarIcon( "decrypted" ) );
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 		}
@@ -1872,7 +1874,7 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, QChar
 			if ( QT_VERSION >=300 && size==2 ) size = 1;
 
 			star = starpix->getPixmap (&color, size);
-			bitBlt ((QPaintDevice *) sky, x1-star->width()/2, y1-star->height()/2, star);
+			bitBlt ((QPaintDevice *) sky, xa-star->width()/2, ya-star->height()/2, star);
 			break;
 		case 1: //catalog star
 			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
@@ -2018,8 +2020,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		A = atan( yy/xx );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) A = A + PI();
-//		if ( xx>0 && yy<0 ) A = A + 2.0*PI();
+		if ( xx<0 ) A = A + dms::PI;
+//		if ( xx>0 && yy<0 ) A = A + 2.0*dms::PI;
 
 		dms deltaAz;
 		deltaAz.setRadians( A );
@@ -2048,8 +2050,8 @@ SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms LSTh, dms
 
 		double RARad = ( atan( yy / xx ) );
 		//resolve ambiguity of atan():
-		if ( xx<0 ) RARad = RARad + PI();
-//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*PI();
+		if ( xx<0 ) RARad = RARad + dms::PI;
+//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*dms::PI;
 
 		dms deltaRA, Dec;
 		deltaRA.setRadians( RARad );
