@@ -92,7 +92,7 @@ void FocusDialog::validatePoint( void ) {
 	//6. space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 -33 0.0 )
 	//7. space-delimited, with unit labels ( 5h 0m 0s, -33d 0m 0s )
 
-	QString errMsg = i18n( "Could not parse %1 entry. Specify a %1 value " ) +
+	QString errMsg = i18n( "Could not parse %1 entry. Specify a value " ) +
 						i18n( "as a simple integer, a floating-point number, or as a triplet " ) +
 						i18n( "of values using colons or spaces as separators." );
 
@@ -168,12 +168,38 @@ void FocusDialog::validatePoint( void ) {
 	}
 
 	if ( !valueFound[0] )
-		KMessageBox::sorry( 0, errMsg.arg( "RA" ), i18n( "Could not set RA Value" ) );
+		KMessageBox::sorry( 0, errMsg.arg( i18n("short for Right Ascension", "RA") ), i18n( "Could not set RA Value" ) );
 
 	if ( !valueFound[1] )
-		KMessageBox::sorry( 0, errMsg.arg( "Dec" ), i18n( "Could not set Dec Value" ) );
+		KMessageBox::sorry( 0, errMsg.arg( i18n("short for Declination", "Dec") ), i18n( "Could not set Dec Value" ) );
 
 	if ( valueFound[0] && valueFound[1] ) {
+		//Check to make sure entered values are in bounds.
+		QString warnRAMess = i18n( "The RA value you entered is not between 0 and 24 hours. " )
+						+ i18n( "Would you like me to wrap the value?" );
+		QString warnDecMess = i18n( "The Dec value you entered is not between -90 and +90 degrees. " )
+						+ i18n( "Please enter a new value." );
+
+		kdDebug() << "RA, Dec: " << RA.Hours() << ", " << Dec.Degrees() << endl;
+
+		//can't check using RA.Hours() because this automatically calls reduce().
+		if ( RA.Degrees() < 0.0 || RA.Degrees() > 360.0 ) {
+			if ( KMessageBox::warningYesNo( 0,
+						warnRAMess, i18n( "RA out-of-bounds" ) )==KMessageBox::No ) {
+				editRA->clear();
+				editRA->setFocus();
+				return;
+			}
+		}
+
+		if ( Dec.Degrees() < -90.0 || Dec.Degrees() > 90.0 ) {
+			KMessageBox::sorry( 0,
+					warnDecMess, i18n( "Dec out-of-bounds" ) );
+			editDec->clear();
+			if ( ! editRA->text().isEmpty() ) editDec->setFocus();
+			return;
+		}
+
 		Point = new SkyPoint( RA, Dec );
 		emit QDialog::accept();
 		close();

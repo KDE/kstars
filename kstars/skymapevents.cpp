@@ -1177,7 +1177,7 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		if ( obj->catalog() == "M" && drawMess ) {
 			psky.setBrush( NoBrush );
 			psky.setPen( QColor( ksw->options()->colorScheme()->colorNamed( "MessColor" ) ) );
-			drawObject = true;
+			drawObject = ksw->options()->drawMessier;
 			drawImage = ksw->options()->drawMessImages;
 		} else if ( obj->catalog() == "NGC" && drawNGC ) {
 			psky.setBrush( NoBrush );

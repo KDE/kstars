@@ -75,8 +75,8 @@ void KStars::slotGeoLocator() {
 	if ( locationdialog.exec() == QDialog::Accepted ) {
 		int ii = locationdialog.getCityIndex();
 		if ( ii >= 0 ) {
+			// set new location in options
 			GeoLocation *newLocation = data()->geoList.at(ii);
-			// save location in options
 			options()->setLocation( *newLocation );
 
 			// reset infoboxes
@@ -96,8 +96,14 @@ void KStars::slotGeoLocator() {
 			// reset local sideral time
 			setLSTh( clock->UTC() );
 			
-			//Make sure Numbers, Moon, planets, and sky objects are updated immediately
+			// Make sure Numbers, Moon, planets, and sky objects are updated immediately
 			data()->setFullTimeUpdate();
+
+			// If the sky is in Horizontal mode and not tracking, reset focus such that
+			// Alt/Az remain constant.
+			if ( ! options()->isTracking && options()->useAltAz ) {
+				map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+			}
 
 			// recalculate new times and objects
 			options()->setSnapNextFocus();
@@ -127,11 +133,20 @@ void KStars::slotViewOps() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->LTime, this );
 
+	kdDebug() << "before Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+	
 	if ( timedialog.exec() == QDialog::Accepted ) {
 		QTime newTime( timedialog.selectedTime() );
 		QDate newDate( timedialog.selectedDate() );
 
 		changeTime(newDate, newTime);
+
+		if ( options()->useAltAz ) {
+			map()->focus()->HorizontalToEquatorial( LSTh(), geo()->lat() );
+		}
+
+		kdDebug() << "after Alt: " << map()->focus()->alt().toDMSString(true) << endl;
+
 	}
 }
 
