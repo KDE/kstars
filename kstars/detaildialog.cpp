@@ -676,6 +676,10 @@ void DetailDialog::editLinkDialog()
 	currentItemURL =  editLinkField->text();
 	entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
 
+	//FIXME: usage of verifyUserData() is pretty unclear
+	//verifyUserData() returns false if currentItemTitle/currentItemURL 
+	//are not found in the user's list already.  If they are, then that 
+	//item is removed.
 	switch (type)
 	{
 		case 0:

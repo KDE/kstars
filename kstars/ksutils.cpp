@@ -21,9 +21,7 @@
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 	bool result;
-	KStandardDirs stdDirs;
-	stdDirs.addPrefix(".");
-	QString FileName= stdDirs.findResource( "data", "kstars/" + s );
+	QString FileName = locate( "appdata", s );
 
 	if ( !FileName.isNull() ) {
 		file.setName( FileName );

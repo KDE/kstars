@@ -69,9 +69,9 @@ void FOVDialog::initList() {
 	int sh(0);
 	float sz(0.0);
 
-	f.setName( locateLocal( "appdata", "fov.dat" ) );
+	f.setName( locate( "appdata", "fov.dat" ) );
 
-	if ( f.open( IO_ReadOnly ) ) {
+	if ( f.exists() && f.open( IO_ReadOnly ) ) {
 		QListBoxItem *item = 0;
 
 		QTextStream stream( &f );

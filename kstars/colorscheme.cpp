@@ -177,12 +177,8 @@ bool ColorScheme::load( const QString &filename ) {
 	QFile file;
 	int inew(0),iold(0);
 
-	if ( !KSUtils::openDataFile( file, filename ) ) {
-		file.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
-		if ( !file.open( IO_ReadOnly ) ) {
-			return false;
-		}
-	}
+	if ( !KSUtils::openDataFile( file, filename ) ) 
+		return false;
 
 	QTextStream stream( &file );
 	QString line;

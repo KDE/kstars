@@ -32,12 +32,12 @@ FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), Size( 0.0 ), Shape( 0
 
 FOV::FOV( QString sname ) {
 	QFile f;
-	f.setName( locateLocal( "appdata", "fov.dat" ) );
+	f.setName( locate( "appdata", "fov.dat" ) );
 	
 	int sh;
 	float sz;
 
-	if ( f.open( IO_ReadOnly ) ) {
+	if ( f.exists() && f.open( IO_ReadOnly ) ) {
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
 			QStringList fields = QStringList::split( ":", stream.readLine() );

@@ -323,8 +323,8 @@ bool KStarsData::readINDIHosts(void)
   XMLEle *root = NULL;
   XMLAtt *ap;
 
-  file.setName( locateLocal( "appdata", indiFile ) );
-		if ( !file.open( IO_ReadOnly ) )
+  file.setName( locate( "appdata", indiFile ) );
+	if ( file.name().isEmpty() || !file.open( IO_ReadOnly ) )
 		 return false;
 
  while ( (c = (signed char) file.getch()) != -1)
@@ -1406,8 +1406,8 @@ bool KStarsData::readCityData( void ) {
 // end new code
 
 	//check for local cities database, but don't require it.
-	file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
-	if ( file.open( IO_ReadOnly ) ) {
+	file.setName( locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+	if ( file.exists() && file.open( IO_ReadOnly ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
