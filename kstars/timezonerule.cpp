@@ -285,3 +285,14 @@ QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
 	kdDebug() << i18n( "Previous Daylight Savings Time change: " ) << result.toString() << endl;
 	return result;
 }
+
+bool TimeZoneRule::equals( TimeZoneRule *r ) {
+	if ( StartDay == r->StartDay && RevertDay == r->RevertDay &&
+			StartWeek == r->StartWeek && RevertWeek == r->RevertWeek &&
+			StartMonth == r->StartMonth && RevertMonth == r->RevertMonth &&
+			StartTime == r->StartTime && RevertTime == r->RevertTime &&
+			isEmptyRule() == r->isEmptyRule() )
+		return true;
+	else
+		return false;
+}

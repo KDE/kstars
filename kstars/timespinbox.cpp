@@ -36,6 +36,7 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name )
 	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
 	setMinimumWidth( 80 );
+	setMaximumWidth( 80 );
 	setValidator( 0 );
 	setButtonSymbols( QSpinBox::PlusMinus );
 	editor()->setReadOnly( true );

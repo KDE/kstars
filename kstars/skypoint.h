@@ -30,7 +30,7 @@
 /**
 	*Encapsulates the sky coordinates of a point in the sky.  The
 	*coordinates are stored in both Equatorial (Right Ascension,
-	*Declination) and Horizon (Azimuth, Altitude) coordinate systems.
+	*Declination) and Horizontal (Azimuth, Altitude) coordinate systems.
 	*Provides set/get functions for each coordinate angle, and functions
 	* to convert between the Equatorial and Horizon coordinate systems.
 	*
@@ -91,95 +91,113 @@ public:
 	*@param r Right Ascension.
 	*/
   void setRA0( dms r ) { RA0.set( r ); }
+
 /**
 	*Sets RA0, the catalog Right Ascension.  Differs from above function
 	*only in argument type.
 	*@param r Right Ascension, expressed as a double.
 	*/
   void setRA0( double r ) { RA0.setH( r ); }
+
 /**
 	*Sets Dec0, the catalog Declination.
 	*@param d Declination.
 	*/
   void setDec0( dms d ) { Dec0.set( d ); }
+
 /**
 	*Sets Dec0, the catalog Declination.  Differs from above function only
 	*in argument type.
 	*@param d Declination, expressed as a double.
 	*/
   void setDec0( double d ) { Dec0.setD( d ); }
+
 /**
 	*Sets RA, the current Right Ascension.
 	*@param r Right Ascension.
 	*/
   void setRA( dms r ) { RA.set( r ); }
+
 /**
 	*Sets RA, the current Right Ascension.  Differs from above function only
 	*in argument type
 	*@param r Right Ascension, expressed as a double.
 	*/
   void setRA( double r ) { RA.setH( r ); }
+
 /**
 	*Sets Dec, the current Declination
 	*@param d Declination.
 	*/
   void setDec( dms d ) { Dec.set( d ); }
+
 /**
 	*Sets Dec, the current Declination.  Differs from above function only
 	*in argument type
 	*@param d Declination, expressed as a double.
 	*/
   void setDec( double d ) { Dec.setD( d ); }
+
 /**
 	*Sets Alt, the Altitude.
 	*@param alt Altitude.
 	*/
 	void setAlt( dms alt ) { Alt.set( alt ); }
+
 /**
 	*Sets Alt, the Altitude.  Differs from above function only in argument type.
 	*@param alt Altitude, expressed as a double.
 	*/
 	void setAlt( double alt ) { Alt.setD( alt ); }
+
 /**
 	*Sets Az, the Azimuth.
 	*@param az Azimuth.
 	*/
 	void setAz( dms az ) { Az.set( az ); }
+
 /**
 	*Sets Az, the Azimuth.  Differs from above function only in argument type.
 	*@param az Azimuth, expressed as a double.
 	*/
 	void setAz( double az ) { Az.setD( az ); }
+
 /**
 	*Returns the catalog Right Ascension.
 	*@returns RA0, the catalog Right Ascension.	
 	*/
 	dms ra0() const { return RA0; };
+
 /**
 	*Returns the catalog Declination.
 	*@returns Dec0, the catalog Declination.	
 	*/
   dms dec0() const { return Dec0; };
+
 /**
 	*Returns the apparent Right Ascension.
 	*@returns RA, the current Right Ascension.	
 	*/
 	dms ra() const { return RA; }
+
 /**
 	*Returns the apparent Declination.
 	*@returns Dec, the current Declination.	
 	*/
   dms dec() const { return Dec; }
+
 /**
 	*Returns the apparent Azimuth.
 	*@returns Az, the current Azimuth.	
 	*/
 	dms az() const { return Az; }
+
 /**
 	*Returns the apparent Altitude.
 	*@returns Alt, the current Altitude.	
 	*/
 	dms alt() const { return Alt; }
+
 /**
 	*Determines the (Altitude, Azimuth) coordinates of the
 	*SkyPoint from its (RA, Dec) coordinates, given the local
@@ -221,10 +239,14 @@ public:
 	*/
 	virtual void updateCoords( KSNumbers *num );
 
+/**Determine the effects of nutation for this SkyPoint*/
 	void nutate(const KSNumbers *num);
+
+/**Determine the effects of aberration for this SkyPoint*/
 	void aberrate(const KSNumbers *num);
 
 protected:
+/**Precess this SkyPoint's catalog coordinates */
 	void precess(const KSNumbers *num);
 
 private:

@@ -1,3 +1,20 @@
+/***************************************************************************
+                          infopanel.cpp  -  Information Panel for KStars
+                             -------------------
+    begin                : Mon Jan 11 2002
+    copyright            : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include <qnamespace.h>
 #include <qlayout.h>
 #include <qtooltip.h>
@@ -9,6 +26,7 @@
 
 class InfoPanel::pdata {
 	public:
+		/**Constructor. */
 		pdata(const KLocale *loc) : locale(*loc) {};
 		const KLocale &locale;
 		QLabel *LT, *UT, *ST, *JD;
@@ -17,6 +35,8 @@ class InfoPanel::pdata {
 		QLabel *PlaceName, *Long, *Lat;
 		QFrame *timef, *focusf, *placef;
 
+	/**Toggle display of the widget pointed to with the first argument.
+		*/
 		void showstuff(QWidget *thing, bool showit) {
 			if (showit && thing->isHidden())
 				thing->show();

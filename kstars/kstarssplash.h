@@ -43,13 +43,9 @@ class KStarsSplash : public KDialogBase
 
 
 	public slots:
+	/**Display the text argument in the Splash Screen's status label.
+		*This is connected to KStarsData::progressText(QString)*/
 		void setMessage(QString s);
-	/**Show an error/warning message box if a data file could not be opened.  This must be done
-		*outside of the methods which actually read the files, or there is an infinite cascade
-		*of message boxes!
-		*@param s the name of the file that could not be opened.
-		*@param required if true, then the file that failed was critical to KStars; close the program on failure.
-		*/
 
 	protected:
 	/**Paint event to redraw the widgets.  This only gets called when the timer fires.
@@ -63,7 +59,6 @@ class KStarsSplash : public KDialogBase
 		QLabel *textCurrentStatus, *label;
 		QWidget *Banner;
 		QPixmap *splashImage;
-
 };
 
 #endif

@@ -92,7 +92,6 @@ KStars::~KStars()
 	delete Location;
 	delete skymap;
 	delete clock;
-	delete Blank;
 	delete centralWidget;
 }
 
@@ -133,7 +132,7 @@ void KStars::clearCachedFindDialog() {
 }
 
 void KStars::updateTime( void ) {
-	data()->updateTime(clock, geo(), skymap);
+	data()->updateTime( clock, geo(), map() );
 
 	showFocusCoords();
 	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
@@ -182,11 +181,11 @@ void KStars::showFocusCoords( void ) {
 	QString oname;
 
 	oname = i18n( "nothing" );
-	if ( skymap->foundObject() != NULL && options()->isTracking ) {
-		oname = skymap->foundObject()->translatedName();
+	if ( map()->foundObject() != NULL && options()->isTracking ) {
+		oname = map()->foundObject()->translatedName();
 		//add genetive name for stars
-	  if ( skymap->foundObject()->type()==0 && skymap->foundObject()->name2().length() )
-			oname += " (" + skymap->foundObject()->name2() + ")";
+	  if ( map()->foundObject()->type()==0 && map()->foundObject()->name2().length() )
+			oname += " (" + map()->foundObject()->name2() + ")";
 	}
 
 	//
@@ -194,7 +193,7 @@ void KStars::showFocusCoords( void ) {
 	//
 	infoPanel->focusObjChanged(oname);
 	
-	infoPanel->focusCoordChanged(skymap->focus());
+	infoPanel->focusCoordChanged(map()->focus());
 
 }
 
@@ -206,42 +205,42 @@ QString KStars::getDateString( QDate date ) {
 }
 
 void KStars::setAltAz(double alt, double az) {
- 	skymap->setFocusAltAz(alt,az);
+ 	map()->setFocusAltAz(alt,az);
 }
 
 void KStars::lookTowards (QString direction) {
   QString dir = direction.lower();
-	if (dir == "zenith" || dir=="z") skymap->invokeKey( KAccel::stringToKey( "Z" ) );
-	else if (dir == "north" || dir=="n") skymap->invokeKey( KAccel::stringToKey( "N" ) );
-	else if (dir == "east"  || dir=="e") skymap->invokeKey( KAccel::stringToKey( "E" ) );
-	else if (dir == "south" || dir=="s") skymap->invokeKey( KAccel::stringToKey( "S" ) );
-	else if (dir == "west"  || dir=="w") skymap->invokeKey( KAccel::stringToKey( "W" ) );
+	if (dir == "zenith" || dir=="z") map()->invokeKey( KAccel::stringToKey( "Z" ) );
+	else if (dir == "north" || dir=="n") map()->invokeKey( KAccel::stringToKey( "N" ) );
+	else if (dir == "east"  || dir=="e") map()->invokeKey( KAccel::stringToKey( "E" ) );
+	else if (dir == "south" || dir=="s") map()->invokeKey( KAccel::stringToKey( "S" ) );
+	else if (dir == "west"  || dir=="w") map()->invokeKey( KAccel::stringToKey( "W" ) );
 	else if (dir == "northeast" || dir=="ne") {
-		skymap->setClickedObject( NULL );
-		skymap->clickedPoint()->setAlt( 15.0 ); skymap->clickedPoint()->setAz( 45.0 );
-		skymap->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
-		skymap->slotCenter();
+		map()->setClickedObject( NULL );
+		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
+		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->slotCenter();
 	} else if (dir == "southeast" || dir=="se") {
-		skymap->setClickedObject( NULL );
-		skymap->clickedPoint()->setAlt( 15.0 ); skymap->clickedPoint()->setAz( 135.0 );
-		skymap->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
-		skymap->slotCenter();
+		map()->setClickedObject( NULL );
+		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
+		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->slotCenter();
 	} else if (dir == "southwest" || dir=="sw") {
-		skymap->setClickedObject( NULL );
-		skymap->clickedPoint()->setAlt( 15.0 ); skymap->clickedPoint()->setAz( 225.0 );
-		skymap->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
-		skymap->slotCenter();
+		map()->setClickedObject( NULL );
+		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
+		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->slotCenter();
 	} else if (dir == "northwest" || dir=="nw") {
-		skymap->setClickedObject( NULL );
-		skymap->clickedPoint()->setAlt( 15.0 ); skymap->clickedPoint()->setAz( 315.0 );
-		skymap->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
-		skymap->slotCenter();
+		map()->setClickedObject( NULL );
+		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
+		map()->clickedPoint()->HorizontalToEquatorial( data()->LSTh, geo()->lat() );
+		map()->slotCenter();
 	} else {
 		SkyObject *target = getObjectNamed( direction );
 		if ( target != NULL ) {
-			skymap->setClickedObject( target );
-			skymap->setClickedPoint( target );
-			skymap->slotCenter();
+			map()->setClickedObject( target );
+			map()->setClickedPoint( target );
+			map()->slotCenter();
 		}
 	}
 }
@@ -256,10 +255,8 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 //class where they _really_ belong, we'll do the forwarding.
 //
 void KStars::setHourAngle() {
-	data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
+	data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
 }
-
-void KStars::mapGetsFocus() { skymap->QWidget::setFocus(); }
 
 void KStars::setLSTh( QDateTime UTC ) {
 	data()->LST = KSUtils::UTtoLST( UTC, geo()->lng() );
@@ -269,5 +266,7 @@ void KStars::setLSTh( QDateTime UTC ) {
 dms KStars::LSTh() { return data()->LSTh; }
 
 KStarsData* KStars::data() { return pd->kstarsData; }
+
+void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
 
 #include "kstars.moc"

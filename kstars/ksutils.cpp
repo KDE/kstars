@@ -2,8 +2,8 @@
                           ksutils.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Mon Jan  7 10:48:09 EST 2002
-    copyright            : (C) 2002 by Jason Harris
-    email                : jharris@30doradus.org
+    copyright            : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -131,6 +131,7 @@ QDateTime KSUtils::JDtoDateTime( long double jd ) {
 	return dateTime;
 }
 
+/**Deprecated function.
 void KSUtils::nutate( long double JD, double &dEcLong, double &dObliq ) {
 	//This uses the pre-1984 theory of nutation.  The results
 	//are accurate to 0.5 arcsec, should be fine for KStars.
@@ -162,6 +163,7 @@ void KSUtils::nutate( long double JD, double &dEcLong, double &dObliq ) {
 	dEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
 	dObliq = (   9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
 }
+*/
 
 QTime KSUtils::UTtoLST( QDateTime UT, dms longitude) {
   QTime GST = KSUtils::UTtoGST( UT );

@@ -195,7 +195,7 @@ public:
 	 *@returns    interpolated value
 	 **/
 
-	double Interpolate (double x1, double x2, double x3, double nx);
+	double Interpolate (double y1, double y2, double y3, double nx);
 	/**
 	 * Reduces a double variable which corresponds to time expressed in 
 	 * Days, to the interval (0,1). If value is < 0 or > 1, one 
@@ -220,7 +220,7 @@ public:
 	 * Checks whether a source is circumpolar or not. True = cirmcumpolar
 	 * False = Not circumpolar
 	 *
-	 *@returns boolean
+	 *@returns true if circumpolar
 	 */
 	bool checkCircumpolar(dms gLng);
 

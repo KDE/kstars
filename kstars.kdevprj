@@ -60,11 +60,17 @@ User Interface=*.kdevdlg,*.ui,*.rc
 groups=Headers,Sources,User Interface,Translations,GNU,Others
 
 [Makefile.am]
-files=kstars.kdevprj,AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,kstars.lsm
+files=kstars.kdevprj,AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,kstars.lsm,README.customize
 sub_dirs=kstars
 type=normal
 
 [README]
+dist=true
+install=false
+install_location=
+type=DATA
+
+[README.customize]
 dist=true
 install=false
 install_location=

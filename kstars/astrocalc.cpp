@@ -33,9 +33,14 @@
 #include <qsplitter.h>
 #include <qlistview.h>
 #include <qtextview.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kmenubar.h>
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true,

@@ -18,15 +18,14 @@
 #ifndef FILESOURCE_H
 #define FILESOURCE_H
 
-
 /**
-  *FileSource is a asynchronous class for reloading star data while running
+  *FileSource is an asynchronous class for reloading star data while running
   *the program. It's basing on QDataSource class and implements the function
   *for reading a file step by step and send these data to an QDataSink object.
   *KStarsData uses this class for asynchronous io.
   *@author Thomas Kabelmann
+	*@version 0.9
   */
-
 
 #include <qasyncio.h>
 #include <qtextstream.h>

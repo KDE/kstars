@@ -1,9 +1,9 @@
 /***************************************************************************
                           kssun.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Sun Jul 22 2001
-    copyright            : (C) 2001 by Jason Harris
-    email                : jharris@30doradus.org
+    begin                : Sun Jan 29 2002
+    copyright            : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -25,7 +25,7 @@
 /**
 	*Child class of KSPlanetBase; encapsulates information about the Sun.
 	*@short Provides necessary information about the Sun.
-  *@author Jason Harris
+  *@author Mark Hollomon
   *@version 0.9
   */
 
@@ -52,12 +52,6 @@ public:
 	*@param Epoch current Julian Date
 	*/
 	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );	
-
-private:
-	/*
-	long double JD0;
-	double eclong0, plong0, e0;
-	*/
 };
 
 #endif

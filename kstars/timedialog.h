@@ -39,7 +39,6 @@
 	*@version 0.9
 	*/
 
-
 class TimeDialog : public KDialogBase {
   Q_OBJECT
 public:

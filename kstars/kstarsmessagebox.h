@@ -19,10 +19,6 @@
 #define KSTARSMESSAGEBOX_H
 #include <qstring.h>
 
-//KDE3 only, removing for compatibility...
-//#include <kguiitem.h>
-//#include <kstdguiitem.h>
-
 class QWidget;
 class QStringList;
 
@@ -31,7 +27,9 @@ class QStringList;
   *badCatalog.  This is nearly identical to
   *KMessageBox::warningContinueCancelList, except it only has one button,
   *instead of two.
+	*@short slightly modified KMessageBox
   *@author Jason Harris
+	*@version 0.9
   */
 
 class KStarsMessageBox {

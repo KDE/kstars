@@ -99,6 +99,13 @@ private:
 	double Rearth; //Distance from Earth, in km.
 	dms Phase;
 	static bool data_loaded;
+
+/**Class to encapsulate the Longitude and radius terms of the sums
+	*used to compute the moon's position.
+	*@short Moon Longitude and radius data object
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
 	class MoonLRData {
 		public:
 			int nd;
@@ -114,6 +121,12 @@ private:
 
 	static QList<MoonLRData> LRData;
 
+/**Class to encapsulate the Latitude terms of the sums
+	*used to compute the moon's position.
+	*@short Moon Latitude data object
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
 	class MoonBData {
 		public:
 			int nd;

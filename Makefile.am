@@ -2,7 +2,7 @@
 
 SUBDIRS = kstars 
 
-EXTRA_DIST = kstars.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO kstars.lsm 
+EXTRA_DIST = kstars.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO kstars.lsm README.customize 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 

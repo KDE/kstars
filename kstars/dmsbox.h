@@ -18,7 +18,7 @@
 #ifndef DMSBOX_H
 #define DMSBOX_H
 
-#include <qhbox.h>
+//#include <qhbox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qstring.h>
@@ -28,14 +28,15 @@
 class dms;
 
 /**
-  *@author Pablo de Vicente
   * This class creates a QHBox with 3 QLineEdit Fields which will contain
   * Degrees (Degrees, Minutes, Seconds) or Hours (Hours, Minutes, Seconds).
   *
   * Inherits QHBox.
+  *@author Pablo de Vicente
+	*@version 0.9
   */
 
-class dmsBox : public QHBox  {
+class dmsBox : public QLineEdit  {
 public: 
 	/**
 	 * Constructor for the dmsBox object.
@@ -45,7 +46,7 @@ public:
 	 *  degrees, arcminutes, ...
 	 *  FALSE if it will contain hours, minutes, seconds..
 	 */
-	dmsBox(QWidget *parent, const char *ni, bool deg=TRUE);
+	dmsBox(QWidget *parent, const char *ni=0, bool deg=TRUE);
 
 	~dmsBox();
 
@@ -68,12 +69,17 @@ public:
 	/**
 	*@p s Fills the degrees entry field with string s
 	*/
-	void setDMS(QString s) { dmsName->setText(s); }
+	void setDMS(QString s) { setText(s); }
 
-	/**
-	* returns a dms object constructed from the fields of the dmsbox
+/**Parse the text in the dmsBox as an angle.  The text may be an integer
+	*or double value, or it may be a triplet of integer values (separated by spaces
+	*or colons) representing deg/hrs, min, sec.  It is also possible to have two
+	*fields.  In this case, if the second field is a double, it is converted
+	*to decimal min and double sec.
+	*@param ok set to true if a dms object was succedssfully created.
+	*@returns a dms object constructed from the fields of the dmsbox
 	*/
-	dms createDms(void);
+	dms createDms(bool *ok=0);
 
 	/**
 	* returns a boolean indicating if object contains degrees or hours
@@ -91,7 +97,7 @@ private:
 	double second;
 	int second_int, msecond;
 	bool deg;
-	QLineEdit *dmsName;
+//	QLineEdit *dmsName;
 	dms degValue;
 };
 

@@ -91,6 +91,9 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
 
+	ClickedObject = NULL;
+	FoundObject = NULL;
+
 	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
 	//Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
@@ -170,6 +173,7 @@ void SkyMap::slotCenter( void ) {
 //If the requested object is below the opaque horizon, issue a warning message
 //(unless user is already pointed below the horizon)
 	clickedPoint()->EquatorialToHorizontal( ksw->data()->LSTh, ksw->geo()->lat() );
+
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
 			focus()->alt().Degrees() > -1.0 && clickedPoint()->alt().Degrees() < -1.0 ) {
 		QString caption = i18n( "Requested position below horizon" );

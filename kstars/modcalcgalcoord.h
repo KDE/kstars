@@ -22,11 +22,12 @@
 #include "dms.h"
 
 /**
-  *@author Pablo de Vicente
-  * Class which implements the KStars calculator module to compute 
+  * Class which implements the KStars calculator module to compute
   * Galactic coordinates to/from Equatorial coordinates.
   *
   * Inherits QVBox
+  *@author Pablo de Vicente
+	*@version 0.9
   */
 
 class QWidget;

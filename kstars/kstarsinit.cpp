@@ -452,7 +452,7 @@ void KStars::privatedata::buildGUI() {
 	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( Update() ) );
 
 	// get focus of keyboard and mouse actions (for example zoom in with +)
-	ks->skymap->QWidget::setFocus();
+	ks->map()->QWidget::setFocus();
 
 	// create the layout of the central widget
 	ks->topLayout = new QVBoxLayout( ks->centralWidget );
@@ -470,6 +470,8 @@ void KStars::privatedata::buildGUI() {
 	if ( !ks->options()->showViewToolBar ) ks->toolBar( "viewToolBar" )->hide();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
+//	ks->TimeStep->setMaximumWidth( ks->TimeStep->minimumWidth() );
+
 //Tooltip is now part of TimeStepBox class definition
 //	QToolTip::add( ks->TimeStep, i18n( "Time Step (seconds)" ) );
 
@@ -479,10 +481,7 @@ void KStars::privatedata::buildGUI() {
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
 	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
 	connect( ks->clock, SIGNAL(scaleChanged( float )), ks->TimeStep->tsbox(), SLOT( changeScale( float )) );
-	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 9 );
-	ks->Blank = new QWidget( ks->toolBar() );
-	ks->toolBar()->insertWidget( 1, 40, ks->Blank, 10);
-	ks->toolBar()->setStretchableWidget( ks->Blank );
+	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 14 );
 
 	ks->resize( ks->options()->windowWidth, ks->options()->windowHeight );
 
@@ -521,42 +520,45 @@ void KStars::privatedata::buildGUI() {
 		newPoint.set( ks->options()->focusRA, ks->options()->focusDec );
 	}
 
+	ks->updateTime();
+
 	//Set focus of Skymap.
   //Set default position in case stored focus is below horizon
 	SkyPoint DefaultFocus;
 	DefaultFocus.setAz( 180.0 );
 	DefaultFocus.setAlt( 45.0 );
 	DefaultFocus.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
-	ks->skymap->setDestination( &DefaultFocus );
+	ks->map()->setDestination( &DefaultFocus );
 
 	//if user was tracking last time, track on same object now.
 	if ( ks->options()->isTracking ) {
 		if ( (ks->options()->focusObject== i18n( "star" ) ) ||
 		     (ks->options()->focusObject== i18n( "nothing" ) ) ) {
-			ks->skymap->setClickedPoint( &newPoint );
+			ks->map()->setClickedPoint( &newPoint );
 		} else {
-			ks->skymap->setClickedObject( ks->getObjectNamed( ks->options()->focusObject ) );
-			if ( ks->skymap->clickedObject() ) {
-				ks->skymap->setClickedPoint( ks->skymap->clickedObject() );
+			ks->map()->setClickedObject( ks->getObjectNamed( ks->options()->focusObject ) );
+			if ( ks->map()->clickedObject() ) {
+				ks->map()->setClickedPoint( ks->map()->clickedObject() );
 			} else {
-				ks->skymap->setClickedPoint( &newPoint );
+				ks->map()->setClickedPoint( &newPoint );
 			}
 		}
-		ks->skymap->slotCenter();
+
+		ks->map()->slotCenter();
 	} else {
-		ks->skymap->setClickedPoint( &newPoint );
-		ks->skymap->slotCenter();
+		ks->map()->setClickedPoint( &newPoint );
+		ks->map()->slotCenter();
 	}
 
-	ks->skymap->setFocus( ks->skymap->destination() );
-	ks->skymap->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
-	ks->skymap->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
+	ks->map()->setFocus( ks->map()->destination() );
+	ks->map()->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
+	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 
 	ks->setHourAngle();
 
-	ks->skymap->setOldFocus( ks->skymap->focus() );
-	ks->skymap->oldfocus()->setAz( ks->skymap->focus()->az() );
-	ks->skymap->oldfocus()->setAlt( ks->skymap->focus()->alt() );
+	ks->map()->setOldFocus( ks->map()->focus() );
+	ks->map()->oldfocus()->setAz( ks->map()->focus()->az() );
+	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt() );
 
 	kapp->dcopClient()->resume();
 

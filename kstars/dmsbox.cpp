@@ -31,21 +31,23 @@
 #include <qwidget.h>
 #include <qregexp.h>
 
-dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QHBox(parent,name) {
+dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) : QLineEdit(parent,name) {
 
 	
-	QHBox * dBox = new QHBox(parent,name);
+//	QHBox * dBox = new QHBox(parent,name);
 	
-	dmsName = new QLineEdit( dBox,"dmsName");
+//	dmsName = new QLineEdit( dBox,"dmsName");
 	
-	dBox->setSpacing(1);
+//	dBox->setSpacing(1);
 //	setStretchFactor(dBox,0);
-	dBox->setMargin(6);
+//	dBox->setMargin(6);
 
-	dmsName->setMaxLength(14);
-	dmsName->setMaximumWidth(160);
+//	dmsName->setMaxLength(14);
+//	dmsName->setMaximumWidth(160);
+	setMaxLength(14);
+	setMaximumWidth(160);
 
-	dBox->setMaximumWidth(180);
+//	dBox->setMaximumWidth(180);
 
 	deg = dg;
 }
@@ -54,7 +56,7 @@ void dmsBox::showInDegrees (dms d)
 {
 	double seconds = d.getArcSec() + d.getmArcSec()/1000.;
 
-	setDMS ( QString("%1 %2 %3").arg(d.degree(),2).arg(d.getArcMin(),2).arg(seconds,6,'f',3) );
+	setDMS ( QString("%1 %2 %3").arg(d.degree(),2).arg(d.getArcMin(),2).arg(seconds,6,'f',2) );
 }
 
 void dmsBox::showInHours (dms d)
@@ -73,7 +75,7 @@ void dmsBox::show(dms d)
 		showInHours(d);
 }
 
-dms dmsBox::createDms ()
+dms dmsBox::createDms ( bool *ok=0 )
 {
 //	QString entry;
 	int d = 0, m = 0;
@@ -81,10 +83,12 @@ dms dmsBox::createDms ()
 	dms dmsAng;
 	bool valueFound = false, badEntry = false , checkValue = false;
 
+//Initialize bool for result
+	if ( ok != NULL ) *ok = false;
 
 //	QString errMsg = i18n( "Could not parse %1 entry.  Specify a %1 value ") + i18n( "as a simple integer, a floating-point number, or as a triplet " ) + i18n( "of values using colons or spaces as separators." );
 
-	QString entry = dmsName->text().stripWhiteSpace();
+	QString entry = text().stripWhiteSpace();
 
 	//Try simplest cases: integer or double representation
 
@@ -93,6 +97,7 @@ dms dmsBox::createDms ()
 		if (deg) dmsAng.setD( d, 0, 0 );
 		else dmsAng.setH( d, 0, 0 );
 		valueFound = true;
+		if ( ok != NULL ) *ok = true;
 		return dmsAng;
 	} else {
 		double x = entry.toDouble( &checkValue );
@@ -100,6 +105,7 @@ dms dmsBox::createDms ()
 			if ( deg ) dmsAng.setD( x );
 			else dmsAng.setH( x );
 			valueFound = true;
+			if ( ok != NULL ) *ok = true;
 			return dmsAng;
 		}
 	}
@@ -152,6 +158,8 @@ dms dmsBox::createDms ()
 					+ (double)s/3600.;
 			if ( d <0 ) {D = -1.0*D;}
 
+			if ( ok != NULL ) *ok = true;
+
 			if (deg) {  	
 				return	dms( D );
 			} else {
@@ -159,6 +167,8 @@ dms dmsBox::createDms ()
 				h.setH (D);
 				return	h;
 			}
+		} else {
+			if ( ok != NULL ) *ok = false;
 		}
 	}
 

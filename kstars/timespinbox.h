@@ -21,22 +21,24 @@
 #include <qspinbox.h>
 #include <qstringlist.h>
 
-/**
-  *@author Jason Harris
-	*Custom spinbox to handle selection of timestep values with variable units.
+/**Custom spinbox to handle selection of timestep values with variable units.
+	*@author Jason Harris
+	*@version 0.9
   */
 
 class TimeSpinBox : public QSpinBox  {
 Q_OBJECT
 public:
+/**Constructor */
 	TimeSpinBox( QWidget *parent, const char* name=0 );
+/**Destructor (empty)*/
 	~TimeSpinBox() {};
 
 	virtual QString mapValueToText( int value );
 	virtual int mapTextToValue( bool *ok);
 
+	/**@returns the current TimeStep setting */
 	float timeScale();
-//	virtual int mapTextToValue( bool *ok);
 
 signals:
 	void scaleChanged( float s );

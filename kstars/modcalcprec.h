@@ -21,13 +21,14 @@
 #include <qvbox.h>
 
 /**
-  * @author Pablo de Vicente
   * Class which implements the KStars calculator precession module. Precesses
   * coordinates between different epochs. Conversions are performed assuming
   * that coordinates are in the FK5 system. For example the conversion between
   * B1950 and J2000 is not exact. 
   *
   * Inherits QVBox
+  *@author Pablo de Vicente
+	*@version 0.9
   */
 
 class QWidget;

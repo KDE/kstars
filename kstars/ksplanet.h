@@ -53,18 +53,22 @@ public:
 
 
 /**
-	*Given the current Julian date (Epoch), calculate the RA, Dec
-	*coordinates of the Planet.
-	*@param Epoch current Julain Date
+	*Calculate the RA, Dec coordinates of the Planet.
+	*@param num time-dependent values for the desired date
 	*@param Earth planet Earth (needed to calculate geocentric coords)
 	*@returns true if position was successfully calculated.
 	*/
 	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
-	/**
-	 * Preload the data used by findPosition.
-	 */
+
+/**
+	*@short Preload the data used by findPosition.
+	*/
 	virtual bool loadData();
 
+/**Calculate the ecliptic longitude and latitude of the planet for
+	*the given date (expressed in Julian Millenia since J2000).  A reference
+	*to the ecliptic coordinates is returned as the second object.
+	*/
 	virtual void calcEcliptic(double jm, EclipticPosition &ret) const;
 
 protected:

@@ -26,6 +26,7 @@
 #include <qgroupbox.h>
 #include <qvalidator.h>
 #include <qvariant.h>
+#include <qspinbox.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 #include <qfile.h>
@@ -35,6 +36,7 @@
 #include <kmessagebox.h>
 
 #include "kstars.h"
+#include "kstarsmessagebox.h"
 #include "locationdialog.h"
 
 #if (KDE_VERSION <= 222)
@@ -46,11 +48,13 @@
 LocationDialog::LocationDialog( QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "Set Location" ), Ok|Cancel, Ok, parent ) {
 
+	KStars *p = (KStars *)parent;
+
 	QFrame *page = plainPage();
 	CityBox = new QGroupBox( page, "CityBox" );
 	CoordBox = new QGroupBox( page, "CoordBox" );
 	CityBox->setTitle( i18n( "Choose City" ) );
-	CoordBox->setTitle( i18n( "Choose Coordinates" ) );
+	CoordBox->setTitle( i18n( "Choose/Modify Coordinates" ) );
 	
 //Create Layout managers
 	RootLay = new QVBoxLayout( page, 4, 4 ); //root mgr for dialog
@@ -64,8 +68,11 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CoordLay = new QVBoxLayout( CoordBox, 6, 4 ); //root mgr for coordbox
 	CoordLay->setSpacing( 6 );
 	CoordLay->setMargin( 6 );
-	glay2 = new QGridLayout( 3, 4, 4 ); //this layout will be added to vlay2
-	hlay2 = new QHBoxLayout( 2 ); //this layout will be added to vlay2
+	glay2 = new QGridLayout( 3, 4, 4 ); //this layout will be added to CoordLay
+	hlayCoord   = new QHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayTZ      = new QHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayButtons = new QHBoxLayout( 2 ); //this layout will be added to glay2
+	hlay3       = new QHBoxLayout( 2 ); //this layout will be added to CoordLay
 
 //Create widgets
   CityFiltLabel = new QLabel( CityBox );
@@ -89,28 +96,36 @@ LocationDialog::LocationDialog( QWidget* parent )
 	MapView = new MapCanvas( CityBox );
 	MapView->setFixedSize( 360, 180 ); //each pixel 1 deg x 2 deg
 
-	NewCityLabel = new QLabel( CoordBox );
-	NewProvinceLabel = new QLabel( CoordBox );
-	NewCountryLabel = new QLabel( CoordBox );
-	LongLabel = new QLabel( CoordBox );
-	LatLabel = new QLabel( CoordBox );
+	NewCityLabel = new QLabel( i18n( "City:" ), CoordBox );
+	NewProvinceLabel = new QLabel( i18n( "State/Province:" ), CoordBox );
+	NewCountryLabel = new QLabel( i18n( "Country:" ), CoordBox );
+	LongLabel = new QLabel( i18n( "Longitude:" ), CoordBox );
+	LatLabel = new QLabel( i18n( "Latitude:" ), CoordBox );
+	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT Offset: " ), CoordBox );
+	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "    DST rule: " ), CoordBox );
 
 	NewCityName = new QLineEdit( CoordBox );
 	NewProvinceName = new QLineEdit( CoordBox );
 	NewCountryName = new QLineEdit( CoordBox );
-	NewLong = new QLineEdit( CoordBox );
-	NewLat = new QLineEdit( CoordBox );
+	NewLong = new dmsBox( CoordBox );
+	NewLat = new dmsBox( CoordBox );
+
+	TZBox = new QComboBox( CoordBox );
+	TZRuleBox = new QComboBox( CoordBox );
+	TZBox->setMinimumWidth( 16 );
+	TZRuleBox->setMinimumWidth( 16 );
+
+	for ( int i=0; i<25; ++i )
+		TZBox->insertItem( QString("%1").arg( i-12 ) );
+
+	QMap<QString, TimeZoneRule>::iterator it;
+	for ( it = p->data()->Rulebook.begin(); it != p->data()->Rulebook.end(); ++it )
+		TZRuleBox->insertItem( it.key() );
+
+	ClearFields = new QPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
+	ShowTZRules = new QPushButton( i18n( "Explain DST rules" ), CoordBox, "ShowDSTRules" );
+
 	AddCityButton = new QPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
-	AddCityButton->setEnabled( true );
-	
-	//blank widget needed for empty place in grid layout
-	Empty = new QWidget( CoordBox );
-		
-	NewCityLabel->setText( i18n( "City:" ) );
-	NewProvinceLabel->setText( i18n( "State/Province:" ) );
-	NewCountryLabel->setText( i18n( "Country:" ) );
-	LongLabel->setText( i18n( "Longitude:" ) );
-	LatLabel->setText( i18n( "Latitude:" ) );
 	
 //Pack the widgets into the layouts
 	RootLay->addWidget( CityBox, 0, 0 );
@@ -138,7 +153,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	
 	CoordLay->addSpacing( 14 );
 	CoordLay->addLayout( glay2, 0 );
-//	CoordLay->addLayout( hlay2, 0 );
+	CoordLay->addLayout( hlay3, 0 );
 	
 	glay2->addWidget( NewCityLabel, 0, 0 );
 	glay2->addWidget( NewProvinceLabel, 1, 0 );
@@ -146,34 +161,55 @@ LocationDialog::LocationDialog( QWidget* parent )
 	glay2->addWidget( NewCityName, 0, 1 );
 	glay2->addWidget( NewProvinceName, 1, 1 );
 	glay2->addWidget( NewCountryName, 2, 1 );
-	glay2->addWidget( LongLabel, 0, 2 );
-	glay2->addWidget( LatLabel, 1, 2 );
-	glay2->addWidget( Empty, 2, 2 );
-	glay2->addWidget( NewLong, 0, 3 );
-	glay2->addWidget( NewLat, 1, 3 );
-	glay2->addLayout( hlay2, 2, 3 );
+	glay2->addLayout( hlayCoord, 0, 3 );
+	glay2->addLayout( hlayTZ, 1, 3 );
+	glay2->addLayout( hlayButtons, 2, 3 );
 
-	hlay2->addStretch();
-	hlay2->addWidget( AddCityButton, 0 );
+	hlayCoord->addWidget( LongLabel );
+	hlayCoord->addWidget( NewLong );
+	hlayCoord->addWidget( LatLabel );
+	hlayCoord->addWidget( NewLat );
+
+	hlayTZ->addWidget( TZLabel );
+	hlayTZ->addWidget( TZBox );
+	hlayTZ->addWidget( TZRuleLabel );
+	hlayTZ->addWidget( TZRuleBox );
+
+	hlayButtons->addStretch();
+	hlayButtons->addWidget( ClearFields );
+	hlayButtons->addWidget( ShowTZRules );
+
+	hlay3->addStretch();
+	hlay3->addWidget( AddCityButton, 0 );
 	
 	CoordLay->activate();
 	RootLay->activate();
 	
-	NewLong->setValidator( new QDoubleValidator( -180.0, 180.0, 4, NewLong ) );
-	NewLat->setValidator( new QDoubleValidator( -90.0, 90.0, 4, NewLat ) );
-
   GeoID.resize(10000);
 
-  connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
-  connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-  connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-  connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-  connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-  connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLong() ) );
-  connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLat() ) );
+	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
+	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
+	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
+	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
+	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
+	connect( NewCityName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
+	connect( NewProvinceName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
+	connect( NewCountryName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
+	connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLong() ) );
+	connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLat() ) );
+	connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
+	connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
+	connect( TZBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
+	connect( TZRuleBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
 	connect( GeoBox, SIGNAL( selectionChanged() ), this, SLOT( changeCity() ) );
 	connect( AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
-	
+	connect( ClearFields, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
+	connect( ShowTZRules, SIGNAL( clicked() ), this, SLOT( showTZRules() ) );
+
+	dataModified = false;
+	nameModified = false;
+	AddCityButton->setEnabled( false );
+
 	initCityList();
 	resize (640, 480);
 }
@@ -197,14 +233,30 @@ void LocationDialog::initCityList( void ) {
 	QString scount = i18n( "%1 cities match search criteria" ).arg( (int)GeoBox->count());
 	CountLabel->setText( scount );
 	
-	if ( GeoBox->firstItem() )		// set first item in list as selected
-		GeoBox->setCurrentItem( GeoBox->firstItem() );
+	bool cityFound(false);
+	if ( GeoBox->firstItem() ) {
+		// attempt to set the current location
+		for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next()) {
+			if ( loc->name() == p->geo()->name() &&
+						loc->province().stripWhiteSpace() == p->geo()->province().stripWhiteSpace() &&
+						loc->country() == p->geo()->country() ) {
+				cityFound = true;
+				break;
+			}
+		}
+
+		if ( cityFound ) GeoBox->setCurrentItem( p->data()->geoList.at() );
+		else GeoBox->setCurrentItem( GeoBox->firstItem() );
+	}
 }
 
 void LocationDialog::filterCity( void ) {
 	KStars *p = (KStars *)parent();
 	GeoBox->clear();
-	
+	nameModified = false;
+	dataModified = false;
+	AddCityButton->setEnabled( false );
+
 	for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next()) {
 		QString sc( loc->translatedName() );
 		QString ss( loc->translatedCountry() );
@@ -238,11 +290,31 @@ void LocationDialog::filterCity( void ) {
 
 void LocationDialog::changeCity( void ) {
 	//when the selected city changes, set newCity, and redraw map
+	//Also, fill the fields at the bottom of the window with the selected city's data.
 	newCity = GeoID[GeoBox->currentItem()];
 	MapView->repaint();
 
-//	KStars *p = (KStars *)parent();
+	KStars *p = (KStars *)parent();
+	GeoLocation c = p->data()->geoList.at(newCity);
 //	kdWarning() << "TimeZoneRule: " << p->data()->geoList.at(newCity)->tzrule() << endl;
+	NewCityName->setText( c.name() );
+	NewProvinceName->setText( c.province() );
+	NewCountryName->setText( c.country() );
+	NewLong->showInDegrees( c.lng() );
+	NewLat->showInDegrees( c.lat() );
+	TZBox->setCurrentItem( int( c.TZ0() ) + 12 );
+
+//Pick the City's rule from the rulebook
+	for ( unsigned int i=0; i<TZRuleBox->count(); ++i ) {
+		if ( p->data()->Rulebook[ TZRuleBox->text(i) ].equals( c.tzrule() ) ) {
+			TZRuleBox->setCurrentItem( i );
+			break;
+		}
+	}
+
+	nameModified = false;
+	dataModified = false;
+	AddCityButton->setEnabled( false );
 }
 
 int LocationDialog::getCityIndex( void ) {
@@ -254,13 +326,29 @@ int LocationDialog::getCityIndex( void ) {
 void LocationDialog::addCity( void ) {
 	KStars *p = (KStars *)parent();
 
+	if ( !nameModified && !dataModified ) {
+		QString message = i18n( "This City already exists in the database." );
+		KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
+		return;
+	}
+
+	bool latOk(false), lngOk(false);
+	dms lat = NewLat->createDms( &latOk );
+	dms lng = NewLong->createDms( &lngOk );
+
 	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ||
-		NewLat->text().isEmpty() || NewLong->text().isEmpty() ) {
+		! latOk || ! lngOk ) {
 
 		QString message = i18n( "All fields (except Province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 	} else {
-    QString entry;
+		if ( !nameModified ) {
+			QString message = i18n( "Really override original data for this city?" );
+			if ( KMessageBox::questionYesNo( 0, message, i18n( "Override existing data?" ) ) == KMessageBox::No )
+				return; //user answered No.
+		}
+
+		QString entry;
 		QFile file;
 
 		//Strip off white space
@@ -276,15 +364,16 @@ void LocationDialog::addCity( void ) {
 			KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 			return;
 		} else {
-			dms lat = dms( NewLat->text().toDouble() );
-			dms lng = dms( NewLong->text().toDouble() );
 			char ltsgn = 'N'; if ( lat.degree()<0 ) ltsgn = 'S';
 			char lgsgn = 'E'; if ( lng.degree()<0 ) lgsgn = 'W';
+			double TZ = double( TZBox->currentItem() - 12 );
+			QString TZrule = TZRuleBox->currentText();
 
-			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : x\n",
+			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : %5.1f : %2s\n",
 						name.local8Bit().data(), province.local8Bit().data(), country.local8Bit().data(),
 						abs(lat.degree()), lat.getArcMin(), lat.getArcSec(), ltsgn,
-						abs(lng.degree()), lng.getArcMin(), lat.getArcSec(), lgsgn );
+						abs(lng.degree()), lng.getArcMin(), lat.getArcSec(), lgsgn,
+						TZ, TZrule.local8Bit().data() );
 
 			QTextStream stream( &file );
 			stream << entry;
@@ -295,8 +384,9 @@ void LocationDialog::addCity( void ) {
 			unsigned int i;
 			for ( i=0; i < p->data()->geoList.count(); ++i ) {
 				if ( p->data()->geoList.at(i)->name().lower() > NewCityName->text().lower() ) {
-					double TZ = double(int(lng.Degrees()/15.0)); //estimate time zone
-					p->data()->geoList.insert( i, new GeoLocation( lng.Degrees(), lat.Degrees(), NewCityName->text(), NewProvinceName->text(), NewCountryName->text(), TZ ) );
+					p->data()->geoList.insert( i, new GeoLocation( lng.Degrees(), lat.Degrees(),
+							NewCityName->text(), NewProvinceName->text(), NewCountryName->text(),
+							TZ, &p->data()->Rulebook[ TZrule ] ) );
 					break;
 				}
       }
@@ -307,11 +397,11 @@ void LocationDialog::addCity( void ) {
 		}
 	}
 
-	NewLong->clear();
-	NewLat->clear();
-	NewCityName->clear();
-	NewProvinceName->clear();
-	NewCountryName->clear();
+//	NewLong->clear();
+//	NewLat->clear();
+//	NewCityName->clear();
+//	NewProvinceName->clear();
+//	NewCountryName->clear();
 }
 
 void LocationDialog::findCitiesNear( int lng, int lat ) {
@@ -345,20 +435,87 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 }
 
 void LocationDialog::checkLong( void ) {
-	double lng = NewLong->text().toDouble();
-	if ( lng < -180.0 || lng > 180.0 ) {
+	double lng = NewLong->createDms().Degrees();
+
+	if ( ! NewLong->text().isEmpty() && ( lng < -180.0 || lng > 180.0 ) ) {
 		QString message = i18n( "The longitude must be expressed as \na floating-point number between -180.0 and 180.0" );
 		KMessageBox::sorry( 0, message, i18n( "Invalid Longitude" ) );
-		NewLong->clear();
+		NewLong->clearFields();
 	}
 }
 
 void LocationDialog::checkLat( void ) {
-	double lat = NewLat->text().toDouble();
-	if ( lat < -90.0 || lat > 90.0 ) {
+	double lat = NewLat->createDms().Degrees();
+	if ( ! NewLat->text().isEmpty() && ( lat < -90.0 || lat > 90.0 ) ) {
 		QString message = i18n( "The latitude must be expressed as \na floating-point number between -90.0 and 90.0" );
 		KMessageBox::sorry( 0, message, i18n( "Invalid Latitude" ) );
-		NewLat->clear();
+		NewLat->clearFields();
 	}
 }
+
+void LocationDialog::clearFields( void ) {
+	CityFilter->clear();
+	ProvinceFilter->clear();
+	CountryFilter->clear();
+	NewCityName->clear();
+	NewProvinceName->clear();
+	NewCountryName->clear();
+	NewLong->clearFields();
+	NewLat->clearFields();
+	TZBox->setCurrentItem( 12 );
+	TZRuleBox->setCurrentItem( 0 );
+	nameModified = true;
+	dataModified = false;
+	AddCityButton->setEnabled( false );
+}
+
+void LocationDialog::showTZRules( void ) {
+	QStringList lines;
+	lines.append( i18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
+	lines.append( " " );
+	lines.append( i18n( "--: No DST correction" ) );
+	lines.append( i18n( "AU: last Sun in Oct. (02:00) / last Sun in Mar. (02:00)" ) );
+	lines.append( i18n( "BZ:  2nd Sun in Oct. (00:00) /  3rd Sun in Feb. (00:00)" ) );
+	lines.append( i18n( "CH:  2nd Sun in Apr. (00:00) /  2nd Sun in Sep. (00:00)" ) );
+	lines.append( i18n( "CL:  2nd Sun in Oct. (04:00) /  2nd Sun in Mar. (04:00)" ) );
+	lines.append( i18n( "CZ:  1st Sun in Oct. (02:45) /  3rd Sun in Mar. (02:45)" ) );
+	lines.append( i18n( "EE: Last Sun in Mar. (00:00) / Last Sun in Oct. (02:00)" ) );
+	lines.append( i18n( "EG: Last Fri in Apr. (00:00) / Last Thu in Sep. (00:00)" ) );
+	lines.append( i18n( "EU: Last Sun in Mar. (01:00) / Last Sun in Oct. (01:00)" ) );
+	lines.append( i18n( "FK:  1st Sun in Sep. (02:00) /  3rd Sun in Apr. (02:00)" ) );
+	lines.append( i18n( "HK:  2nd Sun in May  (03:30) /  3rd Sun in Oct. (03:30)" ) );
+	lines.append( i18n( "IQ: Apr 1 (03:00) / Oct. 1 (00:00)" ) );
+	lines.append( i18n( "IR: Mar 21 (00:00) / Sep. 22 (00:00)" ) );
+	lines.append( i18n( "JD: Last Thu in Mar. (00:00) / Last Thu in Sep. (00:00)" ) );
+	lines.append( i18n( "LB: Last Sun in Mar. (00:00) / Lasy Sun in Oct. (00:00)" ) );
+	lines.append( i18n( "MX:  1st Sun in May  (02:00) / Last Sun in Sep. (02:00)" ) );
+	lines.append( i18n( "NB:  1st Sun in Sep. (02:00) /  1st Sun in Apr. (02:00)" ) );
+	lines.append( i18n( "NZ:  1st Sun in Oct. (02:00) /  3rd Sun in Mar. (02:00)" ) );
+	lines.append( i18n( "PY:  1st Sun in Oct. (00:00) /  1st Sun in Mar. (00:00)" ) );
+	lines.append( i18n( "RU: Last Sun in Mar. (02:00) / Last Sun in Oct. (02:00)" ) );
+	lines.append( i18n( "SK:  2nd Sun in May  (00:00) /  2nd Sun in Oct. (00:00)" ) );
+	lines.append( i18n( "SY: Apr. 1 (00:00) / Oct. 1 (00:00)" ) );
+	lines.append( i18n( "TG:  1st Sun in Nov. (02:00) / Last Sun in Jan. (02:00)" ) );
+	lines.append( i18n( "TS:  1st Sun in Oct. (02:00) / Last Sun in Mar. (02:00)" ) );
+	lines.append( i18n( "US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)" ) );
+	lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
+
+	QString message = i18n( "Daylight Savings Time Rules" );
+	KStarsMessageBox::badCatalog( 0, message, lines, message );
+}
+
+void LocationDialog::nameChanged( void ) {
+	nameModified = true;
+	if ( !NewCityName->text().isEmpty() && !NewProvinceName->text().isEmpty() &&
+				!NewCountryName->text().isEmpty() )
+		AddCityButton->setEnabled( true );
+//	kdDebug() << "name changed." << endl;
+}
+
+void LocationDialog::dataChanged( void ) {
+	dataModified = true;
+	AddCityButton->setEnabled( true );
+//	kdDebug() << "data changed." << endl;
+}
+
 #include "locationdialog.moc"

@@ -2,9 +2,9 @@
 /***************************************************************************
                           ksplanetbase.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Sun Jul 22 2001
-    copyright            : (C) 2001 by Jason Harris
-    email                : jharris@30doradus.org
+    begin                : Sun Jan 29 2002
+    copyright            : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,6 +28,30 @@
 #include "dms.h"
 #include "ksnumbers.h"
 
+/**Class that encapsulates the ecliptic position of a planet.
+	*This includes not only the Ecliptic longitude and latitude, but also the
+	*distance from the Sun.
+	*@author Mark Hollomon
+	*@version 0.9
+	*/
+class EclipticPosition {
+	public:
+		dms longitude;
+		dms latitude;
+		double radius;
+
+		/**Constructor. */
+		EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
+			longitude(plong), latitude(plat), radius(prad) {};
+
+		/**Assignment operator. Copy all values from the target object. */
+		EclipticPosition &operator=(EclipticPosition &r) {
+			this->longitude = r.longitude;
+			this->latitude = r.latitude;
+			this->radius = r.radius;
+			return *this;
+		};
+};
 
 /**
 	*A subclass of SkyObject that provides additional information
@@ -37,22 +61,6 @@
   *@author Mark Hollomon
   *@version 0.9
   */
-
-class EclipticPosition {
-	public:
-		dms longitude;
-		dms latitude;
-		double radius;
-		EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
-			longitude(plong), latitude(plat), radius(prad) {};
-
-		EclipticPosition &operator=(EclipticPosition &r) {
-			this->longitude = r.longitude;
-			this->latitude = r.latitude;
-			this->radius = r.radius;
-			return *this;
-		};
-};
 
 class KSPlanetBase : public SkyObject {
 public: 
@@ -105,7 +113,6 @@ public:
 	 *@param elat Ecliptic Latitude
 	 */	
 	void setEcLat( double elat ) { ep.latitude.setD( elat ); }
-
 
 	virtual bool loadData() = 0;
 
@@ -181,7 +188,6 @@ protected:
 private:
 	QImage Image0, Image;
 	double PositionAngle;
-
 };
 
 #endif

@@ -21,11 +21,12 @@
 #include <qvbox.h>
 
 /**
-  * @author Pablo de Vicente
   * Class which implements the KStars calculator module to compute Universal
   * time to/from Sidereal time.
   *
   * Inherits QVBox
+  *@author Pablo de Vicente
+	*@version 0.9
   */
 
 class QWidget;

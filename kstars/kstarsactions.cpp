@@ -53,7 +53,7 @@ void KStars::slotViewToolBar() {
 		options()->drawGround = !options()->drawGround;
 	}
 
-	skymap->Update();
+	map()->Update();
 }
 
 /** Major Dialog Window Actions **/
@@ -66,7 +66,7 @@ void KStars::slotCalculator() {
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);
 	if ( locationdialog.exec() == QDialog::Accepted ) {
-		if ( !locationdialog.selectedCityName().isEmpty() ) { //user closed the location dialog without adding their new city;
+		if ( locationdialog.addCityEnabled() ) { //user closed the location dialog without adding their new city;
 			locationdialog.addCity();                   //call addCity() for them!
 		}
 
@@ -102,7 +102,7 @@ void KStars::slotGeoLocator() {
 
 			data()->LST = KSUtils::UTtoLST( data()->UTime, geo()->lng() );
 			data()->LSTh.setH( data()->LST.hour(), data()->LST.minute(), data()->LST.second() );
-			data()->HourAngle.setH( data()->LSTh.Hours() - skymap->focus()->ra().Hours() );
+			data()->HourAngle.setH( data()->LSTh.Hours() - map()->focus()->ra().Hours() );
 
       //need to recompute Alt/Az coordinates of all objects, so
 			//adjust LastSkyUpdate to ensure computation.  Then
@@ -125,7 +125,7 @@ void KStars::slotViewOps() {
 	if ( viewopsdialog.exec() != QDialog::Accepted ) {
 		// cancelled
 		data()->restoreOptions();
-		skymap->Update();
+		map()->Update();
 	}
 	else
 		saveOptions();
@@ -150,9 +150,9 @@ void KStars::slotFind() {
 	if ( !findDialog ) kdWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
 	
 	if ( findDialog->exec() == QDialog::Accepted && findDialog->currentItem() ) {
-		skymap->setClickedObject( findDialog->currentItem()->objName()->skyObject() );
-		skymap->setClickedPoint( skymap->clickedObject() );
-		skymap->slotCenter();
+		map()->setClickedObject( findDialog->currentItem()->objName()->skyObject() );
+		map()->setClickedPoint( map()->clickedObject() );
+		map()->slotCenter();
 	}
 	// check if data has changed while dialog was open
 	if ( DialogIsObsolete ) clearCachedFindDialog();
@@ -181,10 +181,10 @@ void KStars::slotPrint() {
 		QPaintDeviceMetrics pdm( &printer );
 		QPainter *p = new QPainter;
 
-		p->setWindow( 0, 0, skymap->width(), skymap->height() );
+		p->setWindow( 0, 0, map()->width(), map()->height() );
 		p->setViewport( 0, 0, pdm.width(), pdm.height() );
 		p->begin( &printer );
-		p->drawPixmap( 0, 0, skymap->skyPixmap() );
+		p->drawPixmap( 0, 0, map()->skyPixmap() );
 		p->setPen( QColor("red") );
 		p->drawRect( p->window() );
 		p->end();
@@ -206,7 +206,7 @@ void KStars::slotToggleTimer() {
 		if ( fabs( clock->scale() ) > options()->slewTimeScale )
 			clock->setManualMode( true );
 		clock->start();
-		if ( clock->isManualMode() ) skymap->Update();
+		if ( clock->isManualMode() ) map()->Update();
 	}
 }
 
@@ -215,25 +215,25 @@ void KStars::slotPointFocus() {
 	QString sentFrom( sender()->name() );
 
 	if ( sentFrom == "zenith" )
-		skymap->invokeKey( KAccel::stringToKey( "Z" ) );
+		map()->invokeKey( KAccel::stringToKey( "Z" ) );
 	else if ( sentFrom == "north" )
-		skymap->invokeKey( KAccel::stringToKey( "N" ) );
+		map()->invokeKey( KAccel::stringToKey( "N" ) );
 	else if ( sentFrom == "east" )
-		skymap->invokeKey( KAccel::stringToKey( "E" ) );
+		map()->invokeKey( KAccel::stringToKey( "E" ) );
 	else if ( sentFrom == "south" )
-		skymap->invokeKey( KAccel::stringToKey( "S" ) );
+		map()->invokeKey( KAccel::stringToKey( "S" ) );
 	else if ( sentFrom == "west" )
-		skymap->invokeKey( KAccel::stringToKey( "W" ) );
+		map()->invokeKey( KAccel::stringToKey( "W" ) );
 }
 
 void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
-		skymap->setClickedObject( NULL );
-		skymap->setFoundObject( NULL );//no longer tracking foundObject
+		map()->setClickedObject( NULL );
+		map()->setFoundObject( NULL );//no longer tracking foundObject
 	} else {
-		skymap->setClickedPoint( skymap->focus() );
+		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
@@ -243,8 +243,8 @@ void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	
 	if ( focusDialog.exec() == QDialog::Accepted ) {
-		skymap->setClickedPoint( focusDialog.point() );
-		skymap->slotCenter();
+		map()->setClickedPoint( focusDialog.point() );
+		map()->slotCenter();
 	}
 }
 
@@ -253,7 +253,7 @@ void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( data()->ZoomLevel < MAXZOOMLEVEL ) {
 		++data()->ZoomLevel;
-		skymap->Update();
+		map()->Update();
 	}
 	if ( data()->ZoomLevel == MAXZOOMLEVEL )
 		actionCollection()->action("zoom_in")->setEnabled (false);
@@ -263,7 +263,7 @@ void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
 	if ( data()->ZoomLevel > MINZOOMLEVEL ) {
 		--data()->ZoomLevel;
-		skymap->Update();
+		map()->Update();
 	}
 	if ( data()->ZoomLevel == MINZOOMLEVEL )
 		actionCollection()->action("zoom_out")->setEnabled (false);
@@ -277,12 +277,12 @@ void KStars::slotCoordSys() {
 		options()->useAltAz = true;
 		actCoordSys->turnOff();
 	}
-	skymap->Update();
+	map()->Update();
 }
 
 void KStars::slotColorScheme() {
 	QString filename = QString( sender()->name() ).mid(3) + ".colors";
-	skymap->setColors( filename );
+	map()->setColors( filename );
 }
 
 //Help

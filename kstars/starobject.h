@@ -2,8 +2,8 @@
                           starobject.h  -  K Desktop Planetarium
                              -------------------
     begin                : Tue Sep 18 2001
-    copyright            : (C) 2001 by Jason Harris
-    email                : kstars@30doradus.org
+    copyright            : (C) 2001 by Thomas Kabelmann
+    email                : tk78@gmx.de
  ***************************************************************************/
 
 /***************************************************************************

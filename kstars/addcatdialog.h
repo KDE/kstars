@@ -33,7 +33,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QPushButton;
 
-/**@short dialog for adding a custom objects catalog to KStars
+/**@short dialog for adding custom object catalogs to KStars
   *@author Jason Harris
   *@version 0.9
   */
@@ -41,15 +41,44 @@ class QPushButton;
 class AddCatDialog : public KDialogBase  {
 	Q_OBJECT
 public:
+/**Default constructor
+	*/
 	AddCatDialog( QWidget *parent=0 );
+
+/**Destructor (empty)
+	*/
 	~AddCatDialog();
+
+/**@returns text entered into "catalog name" KLineEdit.
+	*/
 	QString name() const { return catName->text(); }
+
+/**@returns text entered into "catalog filename" KLineEdit.
+	*/
 	QString filename() const { return catFileName->text(); }
+
+/**@returns QList of SkyObjects as parsed from the custom catalog file.
+	*/
 	QList<SkyObject> objectList() { return objList; }
 private slots:
+/**Fill the "catalog filename" KLineEdit according to selection from
+	*a OpenFile dialog.
+	*/
 	void findFile();
+
+/**If both the "catalog name" and "catalog filename" fields are filled,
+	*enable the "Ok" button.
+	*/
 	void checkLineEdits();
+
+/**Attempt to parse SkyObjects from the custom catalog file.
+	*If at least on e object is read successfully, close the dialog.
+	*/
 	void validateFile();
+
+/**Overridden from KDialogBase, so that the entered file can be parsed
+	*before window is closed.
+	*/
 	void slotOk();
 
 private:

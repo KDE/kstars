@@ -21,11 +21,12 @@
 #include <qvbox.h>
 
 /**
-  *@author Pablo de Vicente
-  * Class for KStars module which computes JD, MJD and Date/Time from the 
+  * Class for KStars module which computes JD, MJD and Date/Time from the
   * any of the other entries.
   *
   * Inherits QVBox
+  *@author Pablo de Vicente
+	*@version 0.9
   */
 
 class QWidget;

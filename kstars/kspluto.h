@@ -38,7 +38,7 @@ public:
 	*/
 	KSPluto(QString fn="");
 
-/**Destructor */
+/**Destructor (empty)*/
 	virtual ~KSPluto() {};
 
 /**

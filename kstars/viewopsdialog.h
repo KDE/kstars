@@ -165,22 +165,6 @@ private slots:
 	bool setColors( QString filename );
 
 /**
-	*Select the default preset color scheme.
-	*/
-
-//	void defaultColors( void );
-/**
-	*Select the "Night Vision" preset color scheme/
-	*/
-
-//	void redColors( void );
-
-/**
-	*Select the chart preset color scheme.
-	*/
-//	void chartColors( void );
-
-/**
 	*Sync the KStars display with a newly-changed option.
 	*/
 	void updateDisplay( void );

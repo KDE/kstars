@@ -220,14 +220,14 @@ void KStars::saveOptions() {
 	conf->writeEntry( "ShowPlanets", 	options()->drawPlanets );
 	conf->writeEntry( "ShowDeepSky", 	options()->drawDeepSky );
 	conf->writeEntry( "IsTracking", 	options()->isTracking );
-	if ( skymap->foundObject() != NULL ) {
-		conf->writeEntry( "FocusObject",  skymap->foundObject()->name() );
+	if ( map()->foundObject() != NULL ) {
+		conf->writeEntry( "FocusObject",  map()->foundObject()->name() );
 	} else {
 		conf->writeEntry( "FocusObject", i18n( "not focused on any object", "nothing" ) );
 	}
 	conf->writeEntry( "UseAltAz", 	options()->useAltAz );
-	conf->writeEntry( "FocusRA", skymap->focus()->ra().Hours() );
-	conf->writeEntry( "FocusDec", skymap->focus()->dec().Degrees() );
+	conf->writeEntry( "FocusRA", map()->focus()->ra().Hours() );
+	conf->writeEntry( "FocusDec", map()->focus()->dec().Degrees() );
 	conf->writeEntry( "SlewTimeScale", options()->slewTimeScale );
 	conf->writeEntry( "ZoomLevel", data()->ZoomLevel );
 	conf->writeEntry( "windowWidth", width() );

@@ -55,6 +55,7 @@ class FindDialog : public KDialogBase  {
 	*Signals and Slots.  Runs initObjectList().
 	*/
 	FindDialog( QWidget* parent = 0 );
+
 /**
 	*Destructor
 	*/

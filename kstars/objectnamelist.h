@@ -25,6 +25,7 @@
 	*beginning not with a letter. List 1 - 26 contains objects beginning with a letter.
 	*The number of the list is similar to positon of letter in alphabet. (A = 1 .. Z = 26 )
 	*@author Thomas Kabelmann
+	*@version 0.9
 	*/
 
 
@@ -107,6 +108,7 @@ class ObjectNameList {
 		*/
 		int currentIndex;
 
+	/**@returns the position in the list of the object with a name matching the argument */
 		int getIndex( const QString &name = QString::null );
 
 		Language language;

@@ -23,6 +23,7 @@
   *StarDataSink receives data from an FileSource object and appends these data
   *to a QList of star data. It's an asynchronous io class.
   *@author Thomas Kabelmann
+	*@version 0.9
   */
 
 #include <qobject.h>

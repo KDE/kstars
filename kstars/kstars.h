@@ -78,8 +78,8 @@ class AstroCalc;
 /**
 	*kstars is the base class for the KStars project.  It is derived from KMainWindow.
 	*In addition to the GUI elements, the class contains the program clock,
-	*time conversion routines, and event actions.
-	*
+	*KStarsData, KStarsOptions, SkyMap, and InfoPanel child objects.
+	*It also contains functions for the DCOP interface.
 	*@short KStars base class
 	*@author Jason Harris
 	*@version 0.9
@@ -98,7 +98,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
     KStars( KStarsData* kstarsData );
 
 	/**
-	 * Contructor.
+	 * Constructor.
 	 *
 	 * @param doSplash should the splash panel be displayed during
 	 * intialization.
@@ -123,16 +123,16 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*@returns pointer to SkyMap object which is the sky display widget.
 			*/
-		SkyMap* map( void ) { return skymap; }
+		SkyMap* map() { return skymap; }
 
 		/**
 			*@returns GeoLocation object which is the current geographic location.
 			*/
-		GeoLocation* geo( void ) const { return Location; }
+		GeoLocation* geo() const { return Location; }
 
 		/**Display object name and coordinates in the KStars infoPanel
 			*/
-		void showFocusCoords( void );
+		void showFocusCoords();
 
 		/**
 			*Load KStars options.
@@ -144,28 +144,39 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void saveOptions();
 
-		/**Find object by name.
-			*@param name Object name to find
-			*@returns pointer to SkyObject matching this name
-			*/
+	/**Find object by name.
+		*@param name Object name to find
+		*@returns pointer to SkyObject matching this name
+		*/
 		SkyObject* getObjectNamed( QString name );	
 
+	/**@returns pointer to the simulation clock.
+		*/
 		SimClock* getClock( void ) { return clock; }
 
-		SkyMap *skymap;
+	/**@returns the local sidereal time.
+		*/
 		dms LSTh();
 
+	/**@returns the timestep scale of the simulation clock.
+		*/
 		double clockScale( void ) const { return clock->scale(); }
 
-		//KAction *actQuit, *actZoomIn, *actZoomOut, *actFind, *actTrack, *actInfo, *actHandbook;
-		//KAction *actTimeSet, *actTimeNow, *actLocation, *actViewOps;
-		//ToggleAction *actTimeRun;
+	/**DCOP interface function.
+		*Point in the direction described by the string argument.  */
+		ASYNC lookTowards(QString direction);
 
- 		ASYNC lookTowards(QString direction);
- 		ASYNC zoomIn(void) { slotZoomIn(); };
- 		ASYNC zoomOut(void){ slotZoomOut(); };
- 		ASYNC setAltAz(double alt, double az);
- 		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
+	/**DCOP interface function.  Zoom in. */
+		ASYNC zoomIn(void) { slotZoomIn(); };
+
+	/**DCOP interface function.  Zoom out. */
+		ASYNC zoomOut(void){ slotZoomOut(); };
+
+	/**DCOP interface function.  Set focus to given Alt/Az coordinates. */
+		ASYNC setAltAz(double alt, double az);
+
+	/**DCOP interface function.  Set local time and date. */
+		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
 	public slots:
 		/**
@@ -236,21 +247,43 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 */
 		void datainitFinished(bool worked);
 
+		/**Open new KStars window. */
 		void newWindow();
 
+		/**Close KStars window. */
 		void closeWindow();
 
+		/**Action slot to print skymap. */
 		void slotPrint();
+
+		/**Action slot to show tip-of-the-day window. */
 		void slotTipOfDay();
+
+		/**Action slot to set focus coordinates manually (opens FocusDialog). */
 		void slotManualFocus();
+
+		/**Meta-slot to point the focus at special points (zenith, N, S, E, W).
+			*Uses the name of the Action which sent the Signal to identify the
+			*desired direction.  */
 		void slotPointFocus();
+
+		/**Meta-slot to set the color scheme according to the name of the
+			*Action which sent the activating signal.  */
 		void slotColorScheme();
+
+		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
+		/**Meta-slot to handle display toggles for all of the viewtoolbar buttons.
+			*uses the name of the sender to identify the item to change.  */
 		void slotViewToolBar();
 
+		/**Meta-slot to handle toggling display of GUI elements (toolbars and infopanel)
+			*uses name of the sender action to identify the widget to hide/show.  */
 		void slotShowGUIItem( bool );
 
+		/**Re-assign the input focus to the SkyMap widget.
+			*/
 		void mapGetsFocus();
 
 	private:
@@ -286,27 +319,34 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void changeTime(QDate newDate, QTime newTime);
 
-//		QPtrList<KAction> colorActions;
-		KActionMenu *colorActionMenu;
-		QWidget *centralWidget, *Blank;
-		QVBoxLayout *topLayout;
+/**Set the KStarsData::HourAngle according to the current LST and focus->ra
+	*/
+		void setHourAngle();
+
+/**Set the KStarsData::LSTh member from the current UTC.
+	*/
+		void setLSTh( QDateTime UTC );
+
+		SkyMap *skymap;
+		SimClock *clock;
+		GeoLocation *Location;
+
+		FindDialog *findDialog;
 		InfoPanel   *infoPanel;
 		KToolBar *viewToolBar;
-		SimClock *clock;
 		TimeStepBox *TimeStep;
-		GeoLocation *Location;
+
 		ToggleAction *actCoordSys;
+		KActionMenu *colorActionMenu;
+		QWidget *centralWidget;
+		QVBoxLayout *topLayout;
+
 		int idSpinBox;
+		bool useDefaultOptions, DialogIsObsolete;
 
 		class privatedata;
 		friend class privatedata;
 		privatedata *pd;
-		void setHourAngle();
-		void setLSTh( QDateTime UTC );
-
-		FindDialog *findDialog;
-
-		bool useDefaultOptions, DialogIsObsolete;
 };
 
 class KStars::privatedata {

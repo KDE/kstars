@@ -85,7 +85,7 @@ public:
 	*/
 	void setDestination( SkyPoint *f );
 
-/**@short sets the central focus point of the sky map, using alt/az coordinates
+/**@short sets the destination point of the sky map, using alt/az coordinates
 	*@param alt the new altitude
 	*@param az the new azimuth
 	*/
@@ -183,10 +183,13 @@ public:
 	*/
 	bool checkVisibility( SkyPoint *p, float fov, bool useAltAz, bool isPoleVisible );
 
+/**call keyPressEvent, as if the key given as an argument had been pressed. */
 	void invokeKey( int key );
 
+/**Apply the color scheme described by the file given as an argument. */
 	bool setColors( QString filename );
 
+/**@returns a pointer to the current sky pixmap. */
 	QPixmap skyPixmap() const { return *sky; }
 
 public slots:
@@ -201,14 +204,13 @@ public slots:
 	void Update();
 
 /**Identical to Update(), except calls repaint() instead of update() in order
-	*to have the paintEvent executed immediately (update() simply adds the call to
-	*event queue, so if many calls to Update() are made, some will be dropped.
-	*UpdateNow() avoids this, forcing each paintEvent to execute.
+	*to have the paintEvent executed immediately (whereas update() simply adds
+	*the call to the event queue, so if many calls to Update() are made, some
+	*will be dropped.  UpdateNow() avoids this, forcing each paintEvent to execute.
 	*/
 	void UpdateNow();
 
-/**
-	*Estimate the effect of atmospheric refraction.  Refraction only affects the
+/**Estimate the effect of atmospheric refraction.  Refraction only affects the
 	*altitude of objects beyond the atmosphere (so it shouldn't be used for the horizon).
 	*There are two cases:  the true altitude is known, and the apparent altitude is needed;
 	*or the apparent altitude is known and the true altitude is needed.
@@ -218,104 +220,82 @@ public slots:
 	*/
 	dms refract( dms alt, bool findApparent );
 
-/**
-	*Step the Focus point toward the Destination point.  If the Focus is within 1 step of the
+/**Step the Focus point toward the Destination point.  If the Focus is within 1 step of the
 	*destination, snap directly to the destination.
 	*@param step the size of one step (default is 1.0 degree)
 	*/
 	void slewFocus( void );
 
-/**
-	*Popup menu function: centers display at clicked position.
-	*/
+/**Popup menu function: centers display at clicked position. */
 	void slotCenter( void );
-/**
-	*Popup menu function: Display 1st-Generation DSS image with ImageViewer.
-	*/
+
+/**Popup menu function: Display 1st-Generation DSS image with ImageViewer. */
 	void slotDSS( void );
-/**
-	*Popup menu function: Display 2nd-Generation DSS image with ImageViewer.
-	*/
+
+/**Popup menu function: Display 2nd-Generation DSS image with ImageViewer. */
 	void slotDSS2( void );
-/**
-	*Popup menu function: Show webpage with konqueror (only available for some objects).
-	*/
+
+/**Popup menu function: Show webpage with konqueror (only available for some objects). */
 	void slotInfo( int id );
-/**
-	*Popup menu function: Display image with ImageViewer (only available for some objects).
-	*/
+
+/**Popup menu function: Display image with ImageViewer (only available for some objects). */
 	void slotImage( int id );
 
-/**
-	*Popup menu function: Add a custom Image or Information URL.
-	*/
+/**Popup menu function: Add a custom Image or Information URL. */
 	void addLink( void );
 
+/**Checks whether the timestep exceeds a threshhold value.  If so, sets
+	*ClockSlewing=true and sets the SimClock to ManualMode. */
 	void slotClockSlewing();
 
 signals:
 	void destinationChanged();
 	
 protected:
-/**
-	*Draw the Sky, and all objects in it.
-	*/	
+/**Draw the Sky, and all objects in it. */
 	virtual void paintEvent( QPaintEvent *e );
-/**
-	*Detect keystrokes: arrow keys, and +/- keys.
-	*/
+
+/**Detect keystrokes: arrow keys, and +/- keys. */
 	virtual void keyPressEvent( QKeyEvent *e );
-/**
-	*When keyRelease is triggered, just set the "slewing" flag to false,
-	*and update the display (many objects aren't drawn when slewing==true).
-	*/
+
+/**When keyRelease is triggered, just set the "slewing" flag to false,
+	*and update the display (to draw objects that are hidden when slewing==true). */
 	virtual void keyReleaseEvent( QKeyEvent *e );
-/**
-	*Determine RA, Dec coordinates of clicked location.  Find the SkyObject
+
+/**Determine RA, Dec coordinates of clicked location.  Find the SkyObject
 	*which is nearest to the clicked location.
 	*
 	*If left-clicked: Set set mouseButtonDown==true, slewing==true; display nearest object name in status bar.
 	*If right-clicked: display popup menu appropriate for nearest object.
-	*/	
-	virtual void mousePressEvent( QMouseEvent *e );
-/**
-	*set mouseButtonDown==false, slewing==false
-	*/	
-	virtual void mouseReleaseEvent( QMouseEvent *e );
-/**
-	*Center SkyMap at double-clicked location
 	*/
+	virtual void mousePressEvent( QMouseEvent *e );
+
+/**set mouseButtonDown==false, slewing==false */
+	virtual void mouseReleaseEvent( QMouseEvent *e );
+
+/**Center SkyMap at double-clicked location  */
 	virtual void mouseDoubleClickEvent( QMouseEvent *e );
-/**
-	*If mouseButtonDown==false: display RA, Dec of mouse pointer in status bar.
-	*else:  redefine focus such that RA, Dec under mouse cursor remains constant.
-	*/	
+
+/**If mouseButtonDown==false: display RA, Dec of mouse pointer in status bar.
+	*else:  redefine focus such that RA, Dec under mouse cursor remains constant. */
 	virtual void mouseMoveEvent( QMouseEvent *e );
 
-/**
-	*Zoom in and out with the mouse wheel.
-	*/	
+/**Zoom in and out with the mouse wheel. */
 	virtual void wheelEvent( QWheelEvent *e );
 
-/**
-	*If the skymap will be resized, the sky must be new computed. So this function calls explicite new computing of
-	*the skymap.
-	*/
+/**If the skymap will be resized, the sky must be new computed. So this function calls explicite new computing of
+	*the skymap. */
 	virtual void resizeEvent( QResizeEvent * );
 	
 private slots:
-/**Set the shape of mouse cursor to a cross with 4 arrows.
-	*/
+/**Set the shape of mouse cursor to a cross with 4 arrows. */
 	void setMouseMoveCursor();
 	
 private:
-/**
-	*Initialize the popup menus
-	*/
+/**Initialize the popup menus */
 	void initPopupMenu( void );
 
-/**
-	*Given the coordinates of the SkyPoint argument, determine the
+/**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.  If Horiz==true, use the SkyPoint's
 	*Alt/AZ coordinates; otherwise, use RA/Dec.
 	*@returns QPoint containing pixel x, y coordinates of SkyPoint.
@@ -343,25 +323,30 @@ private:
 	*/
 	void drawSymbol( QPainter &p, int type, int x, int y, int size, double e=1.0, int pa=0, QChar color=0 );
 
+/**Determine the on-screen position angle of the SkyObject.  This is the sum
+	*of the object's sky position angle (w.r.t. North), and the position angle
+	*of "North" at the position of the object.  The latter is determined by
+	*constructing a test point with the same RA but a slightly increased Dec
+	*as the Object, and calculating the angle of a line connecing the object to
+	*its test point. */
 	int findPA( SkyObject *o, int x, int y );
 
+/**Draw a planet.  This is an image if the planet image is loaded, the zoomlevel
+	*is high enough (but not so high that the image fills the screen), and the
+	*user has selected that planet images be shown.  If one of these conditions
+	*is false, then a simple circle is drawn instead.  */
 	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c, int sizemin,
 			double mult, int zoommin, int resize_mult = 1);
 
-/**
-	*Sets the shape of the default mouse cursor to a cross.
-	*/
+/**Sets the shape of the default mouse cursor to a cross.  */
 	void setDefaultMouseCursor();
 
-/**
-	*Check if the current point on screen is a valid point on the sky. This is needed
+/**Check if the current point on screen is a valid point on the sky. This is needed
   *to avoid a crash of the program if the user clicks on a point outside the sky (the
-	*corners of the sky map at the lowest zoom level are the invalid points).
-	*/
+	*corners of the sky map at the lowest zoom level are the invalid points).  */
 	bool unusablePoint (double dx, double dy);
-/**
-	*Set the text of the Rise time and Set time labels in the popup menu
-	*/
+
+/**Set the text of the Rise time and Set time labels in the popup menu  */
 	void setRiseSetLabels( void );
 
 	KStars *ksw;

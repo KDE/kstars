@@ -1,15 +1,6 @@
 Basic Installation
 ==================
 
-*** Important note for users of Suse (and possibly other distros as well):
-*** If you have Autoconf v. 2.5 or greater, you likely won't be able to
-*** compile KStars (or any other KDE project).  If you are getting error
-*** messages on make like:
-***    "aclocal.m4:645: error: m4_defn: undefined: _m4_divert_diversion"
-***
-*** then autoconf is the problem.  Try downgrading to Autoconf 2.13 or so.
-
-
 ==---> Don't forget to specify the install directory on the configure
        command line: `./configure --prefix=$KDEDIR'. If KDEDIR is not
        defined, then substitute the top-level directory of your KDE
@@ -17,6 +8,8 @@ Basic Installation
        "which konqueror".  The KDEDIR is everything before "bin"
        (i.e., if it's /usr/bin/konqueror, then use
        "./configure --prefix=/usr").
+
+       KDEDIR is typically /usr or /opt/kde or /opt/kde2 or /opt/kde3
 
 ==---> Dependencies:  KStars is a KDE application.  To build it from 
        source code, you will need to have the following packages installed.
@@ -39,6 +32,9 @@ Basic Installation
 
        If you find a dependency other than those listed here, please let us 
        know!  (email to kstars@30doradus.org)
+
+       (NOTE: you only need the devel packages if you are compiling from
+        the source code, not if you are installing a precompiled binary)
 
 ---------------------------------------------------------------------
 

@@ -132,6 +132,11 @@ public:
 	QString translatedCountry() const { return i18n(Country.local8Bit().data()); }
 
 /**
+	*@returns time zone without DST correction
+	*/
+	double TZ0() const { return TimeZone; }
+
+/**
 	*@returns time zone
 	*/
 	double TZ() const { return TimeZone + TZrule->deltaTZ(); }

@@ -42,7 +42,10 @@
   */
 #include <kdialogbase.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
+
 #include "mapcanvas.h"
+#include "dmsbox.h"
 
 #if (KDE_VERSION > 222)
 #include <qmemarray.h>
@@ -56,6 +59,7 @@ class QLabel;
 class QListBox;
 class QListBoxItem;
 class QPushButton;
+class QComboBox;
 
 class LocationDialog : public KDialogBase {
 	Q_OBJECT
@@ -104,11 +108,15 @@ public:
 	*/
 	QString selectedCityName( void ) { return NewCityName->text(); }
 
+/**@returns true if the AddCityBUtton is enabled
+	*/
+	bool addCityEnabled() { return AddCityButton->isEnabled(); }
+
   QListBox *GeoBox;
 
 public slots:
 /**
-	*When text is entered in either the City Filter or State Filter QLineEdits,
+	*When text is entered in the City/Province/Country Filter QLineEdits,
 	*the List of cities is trimmed to show only cities beginning with the entered text.
 	*Also, the QArray of ID numbers is kept in sync with the filtered list.
 	*/
@@ -136,20 +144,27 @@ public slots:
 	*/
 	void checkLat( void );
 
+	void clearFields( void );
+	void showTZRules( void );
+	void nameChanged( void );
+	void dataChanged( void );
+
 private:
   int newCity;
+	bool dataModified, nameModified;
 	QGridLayout *glay, *glay2;
-	QHBoxLayout *hlay, *hlay2;
+	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
 	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
 	QGroupBox *CityBox, *CoordBox;
-  QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
+	QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
 	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
 	QLabel *LongLabel, *LatLabel, *CountLabel;
+	QLabel *TZLabel, *TZRuleLabel;
 	QLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
-	QLineEdit *NewLong, *NewLat;
-  QLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
-	QPushButton *AddCityButton;
-	QWidget *Empty;
+	dmsBox *NewLong, *NewLat;
+	QLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
+	QComboBox *TZBox, *TZRuleBox;
+	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
   QArray<int> GeoID;
 

@@ -741,7 +741,7 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 	ksw->data()->setMagnitude( fNewValue );
 
 	// force redraw
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeMagHideStars( int newValue )
@@ -750,7 +750,7 @@ void ViewOpsDialog::changeMagHideStars( int newValue )
 	ksw->options()->magLimitHideStar = fNewValue;
 
 //no need to redraw
-//	ksw->skymap->Update();
+//	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeMagDrawInfo( int newValue )
@@ -759,7 +759,7 @@ void ViewOpsDialog::changeMagDrawInfo( int newValue )
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	ksw->options()->magLimitDrawStarInfo = fNewValue;
 	// force redraw
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::newColor( QListBoxItem *item ) {
@@ -855,7 +855,7 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 		ColorPalette->changeItem( *temp, item->text(), ColorPalette->index( item ) );
 
 	delete temp;
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::slotPreset( int index ) {
@@ -1001,8 +1001,8 @@ bool ViewOpsDialog::setColors( QString filename ) {
   line = stream.readLine();
 	int newmode = line.left(1).toInt();
 	ksw->options()->starColorMode = newmode;
-	if ( ksw->skymap->starColorMode() != newmode )
-		ksw->skymap->setStarColorMode( newmode );
+	if ( ksw->map()->starColorMode() != newmode )
+		ksw->map()->setStarColorMode( newmode );
 	StarColorMode->setCurrentItem( newmode );
 
 //More flexible method for reading in color values.  Any order is acceptable, and
@@ -1165,7 +1165,7 @@ bool ViewOpsDialog::setColors( QString filename ) {
 			}
 		}
 	}
-	ksw->skymap->Update();
+	ksw->map()->Update();
 	return true;
 }
 
@@ -1274,7 +1274,7 @@ void ViewOpsDialog::updateDisplay( void ) {
 	hideCLines->setEnabled( hideObjects->isChecked() );
 	hideGrid->setEnabled( hideObjects->isChecked() );
 
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeCoordSys( void ) {
@@ -1285,21 +1285,21 @@ void ViewOpsDialog::changeCoordSys( void ) {
 		showGround->setChecked( false );
 	}
 	ksw->options()->drawGround = showGround->isChecked();
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
-	ksw->skymap->setStarColorIntensity( newValue );
-	ksw->options()->starColorIntensity = ksw->skymap->starColorIntensity();
-	ksw->skymap->Update();
+	ksw->map()->setStarColorIntensity( newValue );
+	ksw->options()->starColorIntensity = ksw->map()->starColorIntensity();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
-	ksw->skymap->setStarColorMode( newValue );
-	ksw->options()->starColorMode = ksw->skymap->starColorMode();
+	ksw->map()->setStarColorMode( newValue );
+	ksw->options()->starColorMode = ksw->map()->starColorMode();
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
-	ksw->skymap->Update();
+	ksw->map()->Update();
 }
 
 void ViewOpsDialog::markPlanets( void ) {
@@ -1353,7 +1353,7 @@ void ViewOpsDialog::slotAddCatalog() {
 		ksw->options()->drawCatalog.append( true );
 //		kdWarning() << "CatalogCount: " << ksw->options()->CatalogCount << endl;
 //		kdWarning() << "CatalogName.count(): " << ksw->options()->CatalogName.count() << endl;
-		ksw->skymap->Update();
+		ksw->map()->Update();
 	}
 }
 

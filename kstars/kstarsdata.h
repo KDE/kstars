@@ -24,7 +24,6 @@
 #include <qstringlist.h>
 #include <qdatetime.h>
 #include <qtimer.h>
-//#include <qasyncio.h>
 
 #include <klocale.h>
 
@@ -45,7 +44,9 @@
 #include "objectnamelist.h"
 #include "timezonerule.h"
 
-#if (KDE_VERSION > 222)
+#if (KDE_VERSION <= 222)
+#include <qlist.h>
+#else
 #include <qptrlist.h>
 #endif
 
@@ -238,7 +239,12 @@ public:
 		*checkDataPumpAction() and should not used outside.
 		*/
 	void setMagnitude( float newMagnitude, bool forceReload=false );
-	
+
+	/**Add a custom object catalog.  The QString name of the catalog and
+		*the QList of SkyObjects comprising the data are given as arguments.
+		*This function simply appends the QList as an entry in the
+		*CustomCatalogs QMap, with the name string used as the key.
+		*/
 	void addCatalog( QString name, QList<SkyObject> );
 
 	/**Set the NextDSTChange member.
@@ -253,21 +259,79 @@ public:
 		*/
 	void setPrevDSTChange( long double jd ) { PrevDSTChange = jd; }
 
+	/**Make a backup copy of the KStarsOptions object.
+		*This is needed in case the user presses "cancel" after making changes in
+		*the ViewOpsDialog. */
 	void saveOptions();
+
+	/**Restore the KStarsOptions object from the backup copy.
+		*This is needed in case the user presses "cancel" after making changes in
+		*the ViewOpsDialog. */
 	void restoreOptions();
+
 	KLocale *getLocale() { return locale; };
 
 signals:
+	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
+		*/
 	void progressText(QString);
+
+	/**Signal that the Data initialization has finished.
+		*/
 	void initFinished(bool);
 
+/**
+	*Should be used to refresh skymap.
+	*/
+	void update();
+
+/**
+	*If data changed, emit clearCache signal.
+	*/	
+	void clearCache();
+
 public slots:
+
+	/**Create a timer and connect its timeout() signal to slotInitialize(). */
 	void initialize();
-	/*
-	 * This is ugly.
-	 * It _will_ change!
-	 */
+
+	/**Update the Simulation Clock.  Update positions of Planets.  Update
+		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
+		*Draw new Skymap.
+		*
+		* This is ugly.
+		* It _will_ change!
+		*(JH:)hey, it's much less ugly now...can we lose the comment yet? :p
+		*/
 	void updateTime(SimClock *clock, GeoLocation *geo, SkyMap * skymap);
+
+private slots:
+	/**This function runs while the splash screen is displayed as KStars is
+		*starting up.  It is connected to the timeout() signal of a timer
+		*created in the initialize() slot.  It consists of a large switch
+		*statement, in which each case causes the next data object to be
+		*initialized (which usually consists of reading data from a file on disk,
+		*and storing it in the appropriate object in memory).
+		*At the end of this function, the integer which the switch statement is
+		*checking is incremented, so that the next case label will be executed when
+		*the next timeout() signal is fired.
+		*/
+	void slotInitialize();
+
+/**
+	*Checks if data transmission is allready running or not.
+	*/
+	void checkDataPumpAction();
+
+/**
+	*Send update signal to refresh skymap.
+	*/
+	void updateSkymap();
+
+/**
+	*Send clearCache signal.
+	*/
+	void sendClearCache();
 
 private:
 /*
@@ -322,7 +386,7 @@ private:
 	KStarsOptions* options;
 	KStarsOptions* oldOptions;
 
-	KStars *kstars;
+	KStars *kstars; //pointer to the parent widget
 
 	QTimer *initTimer;
 	bool inited;
@@ -337,34 +401,6 @@ private:
 	StarDataSink *loader;
 	QDataPump *pump;
 
-private slots:
-	void slotInitialize();
-
-/**
-	*Checks if data transmission is allready running or not.
-	*/
-	void checkDataPumpAction();
-
-/**
-	*Send update signal to refresh skymap.
-	*/
-	void updateSkymap();
-
-/**
-	*Send clearCache signal.
-	*/
-	void sendClearCache();
-
-signals:
-/**
-	*Should be used to refresh skymap.
-	*/
-	void update();
-
-/**
-	*If data changed, emit clearCache signal.
-	*/	
-	void clearCache();
 };
 
 

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          simclock.cpp  -  K Desktop Planetarium
+                          simclock.cpp  -  description
                              -------------------
-    begin                : Mon Jan  7 10:48:09 EST 2002
-    copyright            : (C) 2002 by Jason Harris
-    email                : jharris@30doradus.org
+    begin                : Mon Feb 18 2002
+    copyright          : (C) 2002 by Mark Hollomon
+    email                : mhh@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 
 #include <kdebug.h>
 #include <klocale.h>

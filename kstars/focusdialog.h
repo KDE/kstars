@@ -25,23 +25,34 @@ class QHBoxLayout;
 class KLineEdit;
 class SkyPoint;
 
-/**
+/**@Short Dialog to provide a way to set the focus coordinates manually.
   *@author Jason Harris
+	*@version 0.9
   */
 
 class FocusDialog : public KDialogBase  {
 	Q_OBJECT
 public:
+	/**Constructor. */
 	FocusDialog( QWidget *parent=0 );
+
+	/**Destructor (empty). */
 	~FocusDialog();
 
-	/**@returns pointer to the SkyPoint described by the entered RA, Dec
-		*/
+	/**@returns pointer to the SkyPoint described by the entered RA, Dec */
 	SkyPoint* point() const { return Point; }
 
 public slots:
+	/**If text has been entered in both KLineEdits, enable the Ok button. */
 	void checkLineEdits();
+
+	/**Attempt to interpret the text in the KLineEdits as Ra and Dec values.
+		*If the point is validated, clode the window.
+		*/
 	void validatePoint();
+
+	/**Overridden from KDialogBase so that LineEdits will be validated before
+		*window is closed. */
 	void slotOk();
 
 private:

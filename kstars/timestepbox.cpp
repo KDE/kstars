@@ -41,6 +41,8 @@ TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
 	hlay->addWidget( unitBox );
 	hlay->activate();
 
+	setMaximumWidth( unitBox->width() + timeBox->width() );
+
 	UnitStep[0] = 0;
 	UnitStep[1] = 4;
 	UnitStep[2] = 10;
