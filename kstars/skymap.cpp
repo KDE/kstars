@@ -506,7 +506,11 @@ void SkyMap::slotCenter( void ) {
 //destination to previous object...
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
-	if ( ksw ) ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	if ( ksw ) {
+	  ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	  ksw->toolBar( "mainToolBar" )->setButtonIconSet( 4, BarIcon( "encrypted" ) );
+	  ksw->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+	}
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 	if ( focusObject() && focusObject()->isSolarSystem()

@@ -281,6 +281,7 @@ LX200Generic::LX200Generic()
    trackingMode   = LX200_TRACK_DEFAULT;
    lastSet        = -1;
    fault          = false;
+   simulation     = false;
    targetRA       = 0;
    targetDEC      = 0;
    currentRA      = 0;
@@ -1188,6 +1189,8 @@ void LX200Generic::handleError(ITextVectorProperty *tvp, int err, const char *ms
 
 bool LX200Generic::isTelescopeOn(void)
 {
+  if (simulation) return true;
+  
   return (PowerSP.sp[0].s == ISS_ON);
 }
 
@@ -1570,6 +1573,8 @@ int LX200Generic::getOnSwitch(ISwitchVectorProperty *sp)
 
 int LX200Generic::checkPower(ISwitchVectorProperty *sp)
 {
+  if (simulation) return 0;
+  
   if (PowerSP.s != IPS_OK)
   {
     if (!strcmp(sp->label, ""))
@@ -1587,7 +1592,8 @@ int LX200Generic::checkPower(ISwitchVectorProperty *sp)
 
 int LX200Generic::checkPower(INumberVectorProperty *np)
 {
-
+  if (simulation) return 0;
+  
   if (PowerSP.s != IPS_OK)
   {
     
@@ -1608,6 +1614,8 @@ int LX200Generic::checkPower(INumberVectorProperty *np)
 int LX200Generic::checkPower(ITextVectorProperty *tp)
 {
 
+  if (simulation) return 0;
+  
   if (PowerSP.s != IPS_OK)
   {
     if (!strcmp(tp->label, ""))
@@ -1711,4 +1719,14 @@ void LX200Generic::getAlignment()
     AlignmentSw.s = IPS_OK;
     IDSetSwitch (&AlignmentSw, NULL);
     IDLog("ACK success %c\n", align);
+}
+
+void LX200Generic::enableSimulation(bool enable)
+{
+   simulation = enable;
+   
+   if (simulation)
+     IDLog("Warning: Simulation is activated.\n");
+   else
+     IDLog("Simulation is disabled.\n");
 }

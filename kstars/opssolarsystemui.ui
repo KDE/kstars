@@ -1,16 +1,19 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>OpsSolarSystem</class>
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>OpsSolarSystemUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>OpsSolarSystem</cstring>
+        <cstring>OpsSolarSystemUI</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>600</width>
-            <height>438</height>
+            <width>610</width>
+            <height>469</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>OpsSolarSystem</string>
     </property>
     <vbox>
         <property name="name">
@@ -376,7 +379,7 @@
                         <cstring>kcfg_MaxRadCometName</cstring>
                     </property>
                     <property name="maxValue">
-                        <number>1e+06</number>
+                        <number>1e+07</number>
                     </property>
                     <property name="precision">
                         <number>1</number>

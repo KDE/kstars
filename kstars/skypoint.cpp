@@ -22,7 +22,7 @@
 #include "dms.h"
 #include "ksnumbers.h"
 
-void SkyPoint::set( dms r, dms d ) {
+void SkyPoint::set( const dms& r, const dms& d ) {
 	RA0.set( r );
 	Dec0.set( d );
 	RA.set( r );
