@@ -910,9 +910,10 @@ void SkyMap::setRiseSetLabels( void ) {
 		st = i18n( "No Set Time: Never rises" );
 	}
 
-	QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
+	//QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
+	QTime ttime = clickedObject()->transitTime( ksw->data()->CurrentDate, ksw->geo() );
 	QString tt, tt2, tt3;
-	dms trAlt = clickedObject()->transitAltitude( ksw->geo() );
+	dms trAlt = clickedObject()->transitAltitude( ksw->data()->CurrentDate, ksw->geo() );
 
 	if ( ttime.isValid() ) {
 		int min = ttime.minute();
