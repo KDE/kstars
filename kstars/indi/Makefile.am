@@ -2,7 +2,7 @@ if LINUX
 bin_add   =  v4ldriver v4lphilips
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd $(bin_add)
+bin_PROGRAMS = indiserver lx200generic celestrongps fliccd temma $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c
@@ -26,6 +26,9 @@ v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
 v4lphilips_SOURCES = eventloop.c indidrivermain.c v4lphilips.cpp
 v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
+
+temma_SOURCES =  indidrivermain.c eventloop.c temmadriver.c
+temma_LDADD = liblilxml.a libindicom.a -lm
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
