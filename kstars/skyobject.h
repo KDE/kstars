@@ -251,11 +251,13 @@ private:
 
 /**Correct for the geometric altitude of the center of the body at the
 	*time of rising or setting. This is due to refraction at the horizon
-	*and to the size of the body. The moon correction is only a rough
-	*approximation.
+	*and to the size of the body. The moon correction has also to take into
+	*account parallax. The value we use here is a rough approximation
+	*suggeted by J. Meeus.
 	*
 	*Weather status (temperature and pressure basically) is not taken
-	*into account.
+	*into account although change of conditions between summer and 
+	*winter could shift the times of sunrise and sunset by 20 seconds.
 	*
 	*This function is only used by auxRiseSetTimeLST().
 	*@return dms object with the correction.
