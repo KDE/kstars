@@ -40,7 +40,7 @@ KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {
 }
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname, 
-		QVector<KSPlanet::OrbitData> *vector) {
+		QPtrVector<KSPlanet::OrbitData> *vector) {
 	QString line;
 	QFile f;
 	double A, B, C;

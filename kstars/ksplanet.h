@@ -17,7 +17,7 @@
 
 #include <qstring.h>
 #include <qimage.h>
-#include <qvector.h>
+#include <qptrvector.h>
 #include <qdict.h>
 #include "ksplanetbase.h"
 #include "dms.h"
@@ -96,9 +96,9 @@ protected:
 				A(a), B(b), C(c) {};
 	};
 
-	typedef QVector<OrbitData> OBArray[6];
+	typedef QPtrVector<OrbitData> OBArray[6];
 	
-/**OrbitDataColl contains three groups of six QVectors.  Each QVector is a
+/**OrbitDataColl contains three groups of six QPtrVectors.  Each QPtrVector is a
 	*list of OrbitData objects, representing a single sum used in computing 
 	*the planet's position.  A set of six of these vectors comprises the large 
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
@@ -128,7 +128,7 @@ protected:
 			OrbitDataColl *loadData(QString n);
 
 		private:
-			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> *vector);
+			bool readOrbitData(QString fname, QPtrVector<KSPlanet::OrbitData> *vector);
 			QDict<OrbitDataColl> dict;
 	};
 
