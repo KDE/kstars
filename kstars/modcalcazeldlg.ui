@@ -18,198 +18,78 @@
     <property name="caption">
         <string>rightBox</string>
     </property>
-    <widget class="QGroupBox">
+    <vbox>
         <property name="name">
-            <cstring>GroupBox3</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>290</y>
-                <width>441</width>
-                <height>80</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Horizontal Coordinates</string>
-        </property>
-        <widget class="QLayoutWidget">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>Layout28</cstring>
+                <cstring>inputGroupBox</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>36</x>
-                    <y>30</y>
-                    <width>360</width>
-                    <height>22</height>
-                </rect>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>2</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>azLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Az:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>azBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>elLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>El:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>elBox</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>GroupBox2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>190</y>
-                <width>440</width>
-                <height>80</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Equatorial Coordinates</string>
-        </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>Layout29</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>30</x>
-                    <y>30</y>
-                    <width>380</width>
-                    <height>24</height>
-                </rect>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>2</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>raLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>RA:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>raBox</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>decLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>DEC:</string>
-                    </property>
-                </widget>
-                <widget class="dmsBox">
-                    <property name="name">
-                        <cstring>decBox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>epochLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Epoch:</string>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>epochName</cstring>
-                    </property>
-                    <property name="maximumSize">
-                        <size>
-                            <width>60</width>
-                            <height>32767</height>
-                        </size>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>inputGroupBox</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>10</y>
-                <width>440</width>
-                <height>160</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Input Data</string>
-        </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>Layout32</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>70</x>
-                    <y>70</y>
-                    <width>290</width>
-                    <height>60</height>
-                </rect>
+            <property name="title">
+                <string>Input Data</string>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>2</number>
-                </property>
-                <property name="spacing">
-                    <number>10</number>
-                </property>
-                <widget class="QLayoutWidget" row="1" column="1">
+                <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Layout10</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Compute</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>120</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>Compute</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Clear</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>120</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>Clear</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="1">
                     <property name="name">
                         <cstring>Layout30</cstring>
                     </property>
@@ -238,7 +118,7 @@
                         </widget>
                     </hbox>
                 </widget>
-                <widget class="QLayoutWidget" row="0" column="1">
+                <widget class="QLayoutWidget" row="1" column="1">
                     <property name="name">
                         <cstring>dateLayout</cstring>
                     </property>
@@ -267,7 +147,7 @@
                         </widget>
                     </hbox>
                 </widget>
-                <widget class="QLayoutWidget" row="1" column="0">
+                <widget class="QLayoutWidget" row="2" column="0">
                     <property name="name">
                         <cstring>Layout31</cstring>
                     </property>
@@ -296,7 +176,7 @@
                         </widget>
                     </hbox>
                 </widget>
-                <widget class="QLayoutWidget" row="0" column="0">
+                <widget class="QLayoutWidget" row="1" column="0">
                     <property name="name">
                         <cstring>timeLayout</cstring>
                     </property>
@@ -327,71 +207,139 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QLayoutWidget">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>Layout10</cstring>
+                <cstring>GroupBox2</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>60</x>
-                    <y>20</y>
-                    <width>320</width>
-                    <height>27</height>
-                </rect>
+            <property name="title">
+                <string>Equatorial Coordinates</string>
             </property>
-            <hbox>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QPushButton">
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>Compute</cstring>
+                        <cstring>Layout29</cstring>
                     </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>25</height>
-                        </size>
-                    </property>
-                    <property name="maximumSize">
-                        <size>
-                            <width>120</width>
-                            <height>32767</height>
-                        </size>
-                    </property>
-                    <property name="text">
-                        <string>Compute</string>
-                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>2</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>raLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>RA:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>raBox</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>decLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>DEC:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>decBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>epochLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Epoch:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>epochName</cstring>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>60</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>Clear</cstring>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>25</height>
-                        </size>
-                    </property>
-                    <property name="maximumSize">
-                        <size>
-                            <width>120</width>
-                            <height>32767</height>
-                        </size>
-                    </property>
-                    <property name="text">
-                        <string>Clear</string>
-                    </property>
-                </widget>
-            </hbox>
+            </vbox>
         </widget>
-    </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox3</cstring>
+            </property>
+            <property name="title">
+                <string>Horizontal Coordinates</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout28</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>2</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>azLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Az:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>azBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>elLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>El:</string>
+                            </property>
+                        </widget>
+                        <widget class="dmsBox">
+                            <property name="name">
+                                <cstring>elBox</cstring>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
 </widget>
 <customwidgets>
     <customwidget>
