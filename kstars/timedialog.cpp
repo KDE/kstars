@@ -18,6 +18,7 @@
 
 #include <klocale.h>
 #include "timedialog.h"
+#include "kstars.h"
 #include <kdatepik.h>
 #include <qdatetime.h>
 #include <qlabel.h>
@@ -26,10 +27,13 @@
 #include <qlayout.h>
 
 
-
-TimeDialog::TimeDialog( QDateTime now, QWidget* parent )
+TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
+        ksw = (KStars*) parent;
+
+	UTCNow = isUTCNow;
+
 	QFrame *page = plainPage();
 
 	vlay = new QVBoxLayout( page, 2, 2 );
@@ -138,7 +142,16 @@ bool TimeDialog::event( QEvent* ev )
 void TimeDialog::setNow( void ) {
 	dPicker->setDate( QDate::currentDate() );
 
-  QTime t( QTime::currentTime() );
+  QTime t;
+
+  if (UTCNow)
+  {
+    QDateTime dt( ksw->clock()->UTC() );
+    t = dt.time();
+  }
+  else
+  t = QTime::currentTime();
+
   HourBox->setValue( t.hour() );
   MinuteBox->setValue( t.minute() );
   SecondBox->setValue( t.second() );

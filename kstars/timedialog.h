@@ -30,6 +30,7 @@ class KDatePicker;
 class QSpinBox;
 class QLabel;
 class QPushButton;
+class KStars;
 
 /**Dialog for adjusting the Time and Date.  Contains a KDatePicker widget
 	*for selecting the date, and three QSpinBoxes for selecting the Hour,
@@ -47,7 +48,7 @@ public:
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( QDateTime now, QWidget* parent = 0 );
+	TimeDialog( QDateTime now, QWidget* parent = 0, bool isUTCNow = false );
 
 /**
 	*Destructor (empty)
@@ -101,9 +102,11 @@ protected:
   bool event( QEvent* );
 
 private:
-	QHBoxLayout *hlay;
-	QVBoxLayout *vlay;
-	KDatePicker *dPicker;
+  KStars *ksw;
+  bool UTCNow;
+  QHBoxLayout *hlay;
+  QVBoxLayout *vlay;
+  KDatePicker *dPicker;
   QSpinBox* HourBox;
   QLabel* TextLabel1;
   QSpinBox* MinuteBox;
