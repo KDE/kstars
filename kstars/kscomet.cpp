@@ -24,9 +24,9 @@
 #include "kscomet.h"
 
 
-KSComet::KSComet( KStars *ks, QString s, QString imfile,
+KSComet::KSComet( KStars *ks, QString _s, QString imfile,
 		long double _JD, double _q, double _e, dms _i, dms _w, dms _N, double Tp )
- : KSPlanetBase(ks, s, imfile), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
+ : KSPlanetBase(ks, _s, imfile), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
 	
 	setType( 9 ); //Comet
 	
