@@ -58,7 +58,7 @@ typedef struct {
 typedef struct
 {
   short index;
-  char *model;
+  const char *model;
   area_t array_area;
   area_t visible_area;
   double fillfactor;
