@@ -290,7 +290,7 @@ void KStars::closeWindow() {
 }
 
 void KStars::slotExportImage() {
-	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpg image/gif image/pnm image/bmp" );
+	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 	KTempFile tmpfile;
 	QString fname;
 	tmpfile.setAutoDelete(true);
