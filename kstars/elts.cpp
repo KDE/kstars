@@ -52,8 +52,11 @@ elts::elts( QWidget* parent)  :
 	setMainWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-	View = new PlotWidget( 0, 24, -95, 95, page );
+	View = new PlotWidget( 0, 24, -90, 90, page );
 	View->setFixedSize( 500, 400 );
+	View->setXAxisType( PlotWidget::TIME );
+	View->setYAxisType( PlotWidget::ANGLE );
+	View->updateTickmarks();
 
 	ctlTabs = new QTabWidget( page, "DisplayTabs" );
 
@@ -260,16 +263,30 @@ void elts::slotAddSource(void) {
 		}
 
 		if ( !objFound ) kdDebug() << "No object named " << nameBox->text() << " found." << endl;
+	}
 
 	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject
 	//with these parameters
-	}
-
 	if ( !objFound && ! nameBox->text().isEmpty() && ! raBox->text().isEmpty() && ! decBox->text().isEmpty() ) {
 		bool ok( true );
 		dms newRA( 0.0 ), newDec( 0.0 );
 		newRA = raBox->createDms( false, &ok );
 		if ( ok ) newDec = decBox->createDms( true, &ok );
+
+		//make sure the coords do not already exist from another object
+		bool found(false);
+		for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+			//within an arcsecond?
+			if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
+				found = true;
+				break;
+			}
+		}
+		if ( found ) {
+			kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
+			ok = false;
+		}
+
 		if ( ok ) {
 			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, nameBox->text() );
 			deleteList.append( obj ); //this object will be deleted when window is destroyed
@@ -343,7 +360,17 @@ void elts::processObject( SkyObject *o, bool forceAdd ) {
 	else {
 		pList.append( (SkyPoint*)o );
 
-		PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 1, PlotObject::SOLID );
+		//make sure existing curves are thin and red
+		for ( int i=0; i<View->objectCount(); ++i ) {
+			PlotObject *obj = View->object( i );
+			if ( obj->size() == 2 ) {
+				obj->setColor( "red" );
+				obj->setSize( 1 );
+			}
+		}
+
+		//add new curve with width=2, and color=white
+		PlotObject *po = new PlotObject( "", "white", PlotObject::CURVE, 2, PlotObject::SOLID );
 		for ( double h=0.0; h<=24.0; h+=0.5 ) {
 			po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 		}
@@ -386,9 +413,22 @@ double elts::findAltitude( SkyPoint *p, double hour ) {
 }
 
 void elts::slotHighlight(void) {
-	View->update();
-
 	int iPlotList = PlotList->currentItem();
+
+	//highlight the curve of the selected object
+	for ( int i=0; i<View->objectCount(); ++i ) {
+		PlotObject *obj = View->object( i );
+
+		if ( i == iPlotList ) {
+			obj->setSize( 2 );
+			obj->setColor( "white" );
+		} else if ( obj->size() == 2 ) {
+			obj->setSize( 1 );
+			obj->setColor( "red" );
+		}
+	}
+
+	View->update();
 
 	int index = 0;
 	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {

@@ -24,10 +24,10 @@
 #include "plotobject.h"
 
 PlotObject::PlotObject() {
-	PlotObject( "", "white", 0 );
+	PlotObject( "", "white", POINTS );
 }
 
-PlotObject::PlotObject( const QString &n, const QString &c, int t, int s, int p ) {
+PlotObject::PlotObject( const QString &n, const QString &c, PTYPE t, unsigned int s, unsigned int p ) {
 	//We use the set functions because they may include data validation
 	setName( n );
 	setColor( c );

@@ -89,22 +89,10 @@ private:
 	*/
 class PlotObject{
 public:
-/**Default constructor.  Create a POINTS-type object with an empty list of points.
-	*/
-	PlotObject();
-
-/**Constructor.  Create a PlotObject according to the arguments.
-	*/
-	PlotObject( const QString &name, const QString &color, int otype, int size=2, int param=0 );
-
-/**Destructor (empty)
-	*/
-	~PlotObject();
-
-/**@enum TYPE
+/**@enum PTYPE
 	*The Type classification of the PlotObject
 	*/
-	enum TYPE { POINTS=0, CURVE=1, LABEL=2, UNKNOWN_TYPE };
+	enum PTYPE { POINTS=0, CURVE=1, LABEL=2, UNKNOWN_TYPE };
 
 /**@enum PPARAM
 	*Parameter specifying the kind of points
@@ -116,6 +104,18 @@ public:
 	*the Qt::PenStyle enum values.
 	*/
 	enum CPARAM { NO_LINE=0, SOLID=1, DASHED=2, DOTTED=3, DASHDOTTED=4, DASHDOTDOTTED=5, UNKNOWN_CURVE };
+
+/**Default constructor.  Create a POINTS-type object with an empty list of points.
+	*/
+	PlotObject();
+
+/**Constructor.  Create a PlotObject according to the arguments.
+	*/
+	PlotObject( const QString &name, const QString &color, PTYPE otype, unsigned int size=2, unsigned int param=0 );
+
+/**Destructor (empty)
+	*/
+	~PlotObject();
 
 /**@return the PlotObject's Name
 	*/
@@ -137,12 +137,12 @@ public:
 
 /**@return the PlotObject's Type
 	*/
-	unsigned int type() const { return Type; }
+	PTYPE type() const { return Type; }
 
 /**@short set the PlotObject's Type
 	*@param t the new type
 	*/
-	void setType( unsigned int t ) { Type = t; }
+	void setType( PTYPE t ) { Type = t; }
 
 /**@return the PlotObject's Size
 	*/
@@ -154,11 +154,13 @@ public:
 	void setSize( unsigned int s ) { Size = s; }
 
 /**@return the PlotObject's type-specific Parameter
+	*Parameter is an unsigned int because it can either be a PPARAM or a CPARAM enum.
 	*/
 	unsigned int param() const { return Parameter; }
 
 /**@short set the PlotObject's type-specific Parameter
 	*@param p the new parameter
+	*Parameter is an unsigned int because it can either be a PPARAM or a CPARAM enum.
 	*/
 	void setParam( unsigned int p ) { Parameter = p; }
 
@@ -195,7 +197,8 @@ public:
 
 private:
 	QPtrList<DPoint> pList;
-	unsigned int Size, Type, Parameter;
+	PTYPE Type;
+	unsigned int Size, Parameter;
 	QString Color, Name;
 };
 

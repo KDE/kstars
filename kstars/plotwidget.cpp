@@ -27,7 +27,8 @@
 PlotWidget::PlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
  : QWidget( parent, name ), XS1( XPADDING ), YS1( YPADDING ),
    dXtick1(0.0), dYtick1(0.0), dXtick2(0.0), dYtick2(0.0),
-   nmajX1(0), nmajX2(0), nminX1(0), nminX2(0), nmajY1(0), nmajY2(0), nminY1(0), nminY2(0) {
+   nmajX1(0), nmajX2(0), nminX1(0), nminX2(0), nmajY1(0), nmajY2(0), nminY1(0), nminY2(0),
+   XAxisType(DOUBLE), YAxisType(DOUBLE) {
 
 	setLimits( x1, x2, y1, y2 );
 	setSecondaryLimits( 0.0, 0.0, 0.0, 0.0 );
@@ -73,13 +74,6 @@ void PlotWidget::setSecondaryLimits( double x1, double x2, double y1, double y2 
 
 void PlotWidget::updateTickmarks() {
 	// Determine the number and spacing of tickmarks for the current plot limits.
-	// dX and dY are the interval covered by the limits in X and Y.
-	// We then factor this number by a power of ten: dX = tX * 10^[powX], such
-	// that tX is between 3 and 30.  The goal is to have int(tX) equal to the
-	// number of major tickmarks, each spaced by some distance dtX.
-	// So we set dtX=10^[powX] at first.  Then, if tX is too big (greater
-	// than 5), we divide tX and multiply dtX by the same integer factor
-	// (2,4,5) until we get 3 <= tX <= 5 (and the same for tY, of course).
 
 	if ( x1()==x2() ) {
 		kdWarning() << "X range invalid! " << x1() << " to " << x2() << endl;
@@ -92,88 +86,172 @@ void PlotWidget::updateTickmarks() {
 		return;
 	}
 
-	int ntry(1);
-	if ( dXB > 0.0 ) ntry=2; //secondary limits are defined
+	AXIS_TYPE type(DOUBLE);
+	int nmajor(0), nminor(0);
+	double z1(0.0), z2(0.0), zb1(0.0), zb2(0.0), dzb(0.0);
+	double Range(0.0), s(0.0), t(0.0), pwr(0.0), dTick(0.0);
 
-	for ( int itry=1; itry<=ntry; itry++ ) {
-		int nmajX(0), nmajY(0), nminX(0), nminY(0);
-		double mX(0.0), mY(0.0);
-		double dX(0.0), dY(0.0), tX(0.0), tY(0.0), dtX(0.0), dtY(0.0);
-		//determine size of region to be drawn, in draw units
-		if ( itry==1 ) {
-			dX = x2() - x1();
-			dY = y2() - y1();
+	//loop over X and Y axes...the z variables substitute for either X or Y
+	for ( unsigned int iaxis=0; iaxis<2; ++iaxis ) {
+		if ( iaxis == 1 ) {
+			z1 = x1(); z2 = x2(); zb1 = xb1(); zb2 = xb2(); dzb = dXB;
+			type = xAxisType();
 		} else {
-			dX = xb2() - xb1();
-			dY = yb2() - yb1();
+			z1 = y1(); z2 = y2(); zb1 = yb1(); zb2 = yb2(); dzb = dYB;
+			type = yAxisType();
 		}
 
-		//dX = tX * 10^(powX).  e.g., dX=350 then powX = 2.0, tX=3.5, dtX = 100.0
-		double powX(0.0), powY(0.0);
-		modf( log10(dX), &powX );
-		modf( log10(dY), &powY );
-		dtX = pow( 10.0, powX );
-		dtY = pow( 10.0, powY );
-		tX = dX/dtX;
-		tY = dY/dtY;
-		if ( tX < 3.0 ) { tX *= 10.0; dtX /= 10.0; } //don't use powX/powY after here
-		if ( tY < 3.0 ) { tY *= 10.0; dtY /= 10.0; }
-		//tX and tY are now between 3 and 30.
+		int ntry(1);
+		if ( dzb > 0.0 ) ntry=2; //secondary limits are defined
 
-		//make sure tX and tY are between 3 and 5;
-		//set nX (number of big ticks) and mX (distance btwn ticks)
-		if ( tX < 6.0 ) { //accept current values
-			mX = dtX;
-			nmajX = int(tX);
-			nminX = 5;
-		} else if ( tX < 10.0 ) { //factor of 2
-			mX = dtX*2.0;
-			nmajX = int(tX/2.0);
-			nminX = 4;
-		}	 else if ( tX < 20.0 ) { //factor of 4
-			mX = dtX*4.0;
-			nmajX = int(tX/4.0);
-			nminX = 4;
-		} else { //factor of 5
-			mX = dtX*5.0;
-			nmajX = int(tX/5.0);
-			nminX = 5;
-		}
+		for ( unsigned int itry=1; itry<=ntry; ++itry ) {
+			//determine size of region to be drawn, in draw units
+			if ( itry==1 ) Range = z2 - z1;
+			else           Range = zb2 - zb1;
 
-		if ( tY < 6.0 ) { //accept current values
-			mY = dtY;
-			nmajY = int(tY);
-			nminY = 5;
-		} else if ( tX < 10.0 ) { //factor of 2
-			mY = dtY*2.0;
-			nmajY = int(tY/2.0);
-			nminY = 4;
-		} else if ( tX < 20.0 ) { //factor of 4
-			mY = dtY*4.0;
-			nmajY = int(tY/4.0);
-			nminY = 4;
-		} else { //factor of 5
-			mY = dtY*5.0;
-			nmajY = int(tY/5.0);
-			nminY = 5;
-		}
+			//we switch from TIME type to DOUBLE type if :
+			// Range <1 (we measure in minutes) or
+			// Range >36 (we measure in days)
+			if ( type==TIME ) {
+				if ( Range > 36.0 ) {
+					type = DOUBLE;
+					Range /= 24.0;
+				} else if ( Range < 1.0 ) {
+					type = DOUBLE;
+					Range *= 60.0;
+				}
+			}
 
-		if ( itry==1 ) {
-			nmajX1 = nmajX;
-			nmajY1 = nmajY;
-			nminX1 = nminX;
-			nminY1 = nminY;
-			dXtick1 = mX;
-			dYtick1 = mY;
-		} else {
-			nmajX2 = nmajX;
-			nmajY2 = nmajY;
-			nminX2 = nminX;
-			nminY2 = nminY;
-			dXtick2 = mX;
-			dYtick2 = mY;
-		}
-	} //end for(itry)
+			//we switch from ANGLE type to DOUBLE type if :
+			// Range <1 (we measure in arcminutes) or
+			// Range >450 (== 1.25 revolutions) (we still measure in degrees, but use DOUBLE rules)
+			if ( type==ANGLE ) {
+				if ( Range > 450.0 ) {
+					type = DOUBLE;
+				} else if ( Range < 1.0 ) {
+					type = DOUBLE;
+					Range *= 60.0;
+				}
+			}
+
+			switch ( type ) {
+				case DOUBLE :
+				{
+					//s is the power-of-ten factor of Range:
+					//Range = t * s; s = 10^(pwr).  e.g., Range=350.0 then t=3.5, s = 100.0; pwr = 2.0
+					modf( log10(Range), &pwr );
+					s = pow( 10.0, pwr );
+					t = Range/s;
+
+					//adjust s and t such that t is between 3 and 5:
+					if ( t < 3.0 ) { t *= 10.0; s /= 10.0; } //t now btwn 3 and 30
+					if ( t < 6.0 ) { //accept current values
+						dTick = s;
+						nmajor = int(t);
+						nminor = 5;
+					} else if ( t < 10.0 ) { //factor of 2
+						dTick = s*2.0;
+						nmajor = int(t/2.0);
+						nminor = 4;
+					} else if ( t < 20.0 ) { //factor of 4
+						dTick = s*4.0;
+						nmajor = int(t/4.0);
+						nminor = 4;
+					} else { //factor of 5
+						dTick = s*5.0;
+						nmajor = int(t/5.0);
+						nminor = 5;
+					}
+
+					break;
+				} // end case DOUBLE
+
+				case TIME:
+				{
+					if ( Range < 3.0 ) {
+						dTick = 0.5;
+						nmajor = int(Range/dTick);
+						nminor = 3;
+					} else if ( Range < 6.0 ) {
+						dTick = 1.0;
+						nmajor = int(Range/dTick);
+						nminor = 4;
+					} else if ( Range < 12.0 ) {
+						dTick = 2.0;
+						nmajor = int(Range/dTick);
+						nminor = 4;
+					} else {
+						dTick = 4.0;
+						nmajor = int(Range/dTick);
+						nminor = 4;
+					}
+
+					break;
+				} //end case TIME
+
+				case ANGLE:
+				{
+					if ( Range < 3.0 ) {
+						dTick = 0.5;
+						nmajor = int(Range/dTick);
+						nminor = 3;
+					} else if ( Range < 6.0 ) {
+						dTick = 1.0;
+						nmajor = int(Range/dTick);
+						nminor = 4;
+					} else if ( Range < 12.0 ) {
+						dTick = 2.0;
+						nmajor = int(Range/dTick);
+						nminor = 4;
+					} else if ( Range < 20.0 ) {
+						dTick = 4.0;
+						nmajor = int(Range/dTick);
+						nminor = 5;
+					} else if ( Range < 30.0 ) {
+						dTick = 5.0;
+						nmajor = int(Range/dTick);
+						nminor = 5;
+					} else if ( Range < 60.0 ) {
+						dTick = 10.0;
+						nmajor = int(Range/dTick);
+						nminor = 5;
+					} else if ( Range < 190.0 ) {
+						dTick = 30.0;
+						nmajor = int(Range/dTick);
+						nminor = 3;
+					} else {
+						dTick = 45.0;
+						nmajor = int(Range/dTick);
+						nminor = 3;
+					}
+
+					break;
+				} //end case TIME
+			} //end type switch
+
+			if ( iaxis==1 ) { //X axis
+				if ( itry==1 ) {
+					nmajX1 = nmajor;
+					nminX1 = nminor;
+					dXtick1 = dTick;
+				} else {
+					nmajX2 = nmajor;
+					nminX2 = nminor;
+					dXtick2 = dTick;
+				}
+			} else { //Y axis
+				if ( itry==1 ) {
+					nmajY1 = nmajor;
+					nminY1 = nminor;
+					dYtick1 = dTick;
+				} else {
+					nmajY2 = nmajor;
+					nminY2 = nminor;
+					dYtick2 = dTick;
+				}
+			} //end if iaxis
+		} //end for itry
+	} //end for iaxis
 }
 
 void PlotWidget::resizeEvent( QResizeEvent *e ) {
@@ -194,8 +272,8 @@ void PlotWidget::paintEvent( QPaintEvent *e ) {
 
 	p.translate( XS1, YS1 );
 
+	drawBox( &p, true, true, true, true );
 	drawObjects( &p );
-	drawBox( &p );
 	p.end();
 
 	bitBlt( this, 0, 0, buffer );
@@ -270,15 +348,15 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 		//vertical grid lines
 		double x0 = XA1 - dmod( XA1, dXtick1 ); //zeropoint; x(i) is this plus i*dXtick1
-		for ( int ix = 1; ix <= nmajX1; ix++ ) {
-			int px = int( dXS * ( (x0 + ix*dXtick1)/dXA ) );
+		for ( int ix = 0; ix <= nmajX1+1; ix++ ) {
+			int px = int( dXS * ( (x0 + ix*dXtick1 - XA1)/dXA ) );
 			p->drawLine( px, 0, px, dYS );
 		}
 
 		//horizontal grid lines
 		double y0 = YA1 - dmod( YA1, dYtick1 ); //zeropoint; y(i) is this plus i*mX
-		for ( int iy = 1; iy <= nmajY1; iy++ ) {
-			int py = int( dYS * ( (y0 + iy*dYtick1)/dYA ) );
+		for ( int iy = 0; iy <= nmajY1+1; iy++ ) {
+			int py = int( dYS * ( (y0 + iy*dYtick1 - YA1)/dYA ) );
 			p->drawLine( 0, py, dXS, py );
 		}
 	}
@@ -311,8 +389,29 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 			if ( showTickLabels ) {
 				double lab = x0 + ix*dXtick1;
 				if ( fabs(lab)/dXtick1 < 0.00001 ) lab = 0.0; //fix occassional roundoff error with "0.0" label
-				QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
-				if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
+
+				switch ( xAxisType() ) {
+					case DOUBLE :
+					{
+						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
+						break;
+					}
+					case TIME :
+					{
+						int h = int(lab);
+						int m = int(60.*(lab - h));
+						QString str = QString().sprintf( "%02d:%02d", h, m );
+						if ( px > 0 && px < dXS ) p->drawText( px - 2*BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
+						break;
+					}
+					case ANGLE :
+					{
+						QString str = QString().sprintf( "%d%c", int(lab), 176 );
+						if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
+						break;
+					}
+				}
 			}
 
 			//draw minor ticks
@@ -339,8 +438,31 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 			//tick label
 			if ( showTickLabels ) {
-				QString str = QString( "%1" ).arg( (y0 + iy*dYtick1), 0, 'g', 2 );
-				if ( py > 0 && py < dYS ) p->drawText( -3*BIGTICKSIZE, py + BIGTICKSIZE, str );
+				double lab = y0 + iy*dYtick1;
+				if ( fabs(lab)/dYtick1 < 0.00001 ) lab = 0.0; //fix occassional roundoff error with "0.0" label
+
+				switch ( yAxisType() ) {
+					case DOUBLE :
+					{
+						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						if ( py > 0 && py < dYS ) p->drawText( -2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+						break;
+					}
+					case TIME :
+					{
+						int h = int(lab);
+						int m = int(60.*(lab - h));
+						QString str = QString().sprintf( "%02d:%02d", h, m );
+						if ( py > 0 && py < dYS ) p->drawText( -2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+						break;
+					}
+					case ANGLE :
+					{
+						QString str = QString().sprintf( "%d%c", int(lab), 176 );
+						if ( py > 0 && py < dYS ) p->drawText(-3*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+						break;
+					}
+				}
 			}
 
 			//minor ticks
@@ -366,8 +488,31 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 				//tick label
 				if ( showTickLabels ) {
-					QString str = QString( "%1" ).arg( (x0 + ix*dXtick2), 0, 'g', 2 );
-					if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, -2*BIGTICKSIZE, str );
+					double lab = x0 + ix*dXtick2;
+					if ( fabs(lab)/dXtick2 < 0.00001 ) lab = 0.0; //fix occassional roundoff error with "0.0" label
+
+					switch ( xAxisType() ) {
+						case DOUBLE :
+						{
+							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, -2*BIGTICKSIZE, str );
+							break;
+						}
+						case TIME :
+						{
+							int h = int(lab);
+							int m = int(60.*(lab - h));
+							QString str = QString().sprintf( "%02d:%02d", h, m );
+							if ( px > 0 && px < dXS ) p->drawText( px - 2*BIGTICKSIZE, -2*BIGTICKSIZE, str );
+							break;
+						}
+						case ANGLE :
+						{
+							QString str = QString().sprintf( "%d%c", int(lab), 176 );
+							if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, -2*BIGTICKSIZE, str );
+							break;
+						}
+					}
 				}
 
 				//draw minor ticks
@@ -384,10 +529,33 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 				int py = dYS - int( dYS * ( (y0 + iy*dYtick2 - YB1)/dYB ) ); //position of tickmark i (in screen units)
 				if ( py > 0 && py < dYS ) p->drawLine( dYS, py, dXS-BIGTICKSIZE, py );
 
-				//tick labels
+				//tick label
 				if ( showTickLabels ) {
-					QString str = QString( "%1" ).arg( (y0 + iy*dYtick2), 0, 'g', 2 );
-					if ( py > 0 && py < dYS ) p->drawText( dXS + 2*BIGTICKSIZE, py + BIGTICKSIZE, str );
+					double lab = y0 + iy*dYtick2;
+					if ( fabs(lab)/dYtick2 < 0.00001 ) lab = 0.0; //fix occassional roundoff error with "0.0" label
+
+					switch ( yAxisType() ) {
+						case DOUBLE :
+						{
+							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							if ( py > 0 && py < dYS ) p->drawText( dXS + 2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+							break;
+						}
+						case TIME :
+						{
+							int h = int(lab);
+							int m = int(60.*(lab - h));
+							QString str = QString().sprintf( "%02d:%02d", h, m );
+							if ( py > 0 && py < dYS ) p->drawText( dXS + 2*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+							break;
+						}
+						case ANGLE :
+						{
+							QString str = QString().sprintf( "%d%c", int(lab), 176 );
+							if ( py > 0 && py < dYS ) p->drawText( dXS + 3*BIGTICKSIZE, py + SMALLTICKSIZE, str );
+							break;
+						}
+					}
 				}
 
 				//minor ticks

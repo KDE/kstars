@@ -48,6 +48,11 @@ public:
 	*/
 	~PlotWidget() {}
 
+/**@enum AXIS_TYPE
+	*Specifies the data type of the axis.
+	*/
+	enum AXIS_TYPE { DOUBLE=0, TIME=1, ANGLE=2, UNKNOWN_TYPE };
+
 /**@short Determine the placement of major and minor tickmarks, based on the current Limit settings
 	*/
 	void updateTickmarks();
@@ -64,10 +69,16 @@ public:
 	double yb1() const { return YB1; }
 	double yb2() const { return YB2; }
 
+	AXIS_TYPE xAxisType() const { return XAxisType; }
+	AXIS_TYPE yAxisType() const { return YAxisType; }
+	void setXAxisType( AXIS_TYPE xtype ) { XAxisType = xtype; }
+	void setYAxisType( AXIS_TYPE ytype ) { YAxisType = ytype; }
+
 	void addObject( PlotObject *o ) { ObjectList.append( o ); }
 	void clearObjectList() { ObjectList.clear(); update(); }
 	void replaceObject( int i, PlotObject *o ) { ObjectList.replace( i, o ); }
 	int objectCount() const { return ObjectList.count(); }
+	PlotObject *object( int i ) { return ObjectList.at(i); }
 
 	QColor bgColor() const { return cBackground; }
 	void setBGColor( const QColor &bg ) { cBackground = bg; setBackgroundColor( bg ); }
@@ -91,6 +102,7 @@ private:
 	double dXtick1, dYtick1, dXtick2, dYtick2;
 	int nmajX1, nmajX2, nminX1, nminX2;
 	int nmajY1, nmajY2, nminY1, nminY2;
+	AXIS_TYPE XAxisType, YAxisType;
 
 	int dXS, dYS;
 	double dXA, XA1, XA2, dYA, YA1, YA2;
