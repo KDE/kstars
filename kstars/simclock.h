@@ -21,7 +21,7 @@ class SimClock : public QObject, public SimClockInterface {
 		 * Constructor
 		 * @param when the date/time to which the SimClock should be initialized in UTC
 		 */
-		SimClock(QObject *parent = 0, const QDateTime &when = QDateTime());
+		SimClock(QObject *parent = 0, const QDateTime &when = QDateTime::currentDateTime() );
 		/**
 		 * Constructor
 		 * @param old a SimClock to initialize from.

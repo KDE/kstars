@@ -51,32 +51,73 @@ field to geolocation database.
 Documentation: Updated Handbook.  Added AstroInfo articles to the Handbook. 
 Added toolbar button to launch handbook browser
 	
-Performance: Improved memory handling (unused objects are not loaded into 
-memory on startup).  Various bug fixes.
+Performance: 
+- Improved memory handling (unused objects are not loaded into 
+  memory on startup).  
 
 0.9 (Indus):
 Display Features:
-- Configurable InfoPanel: can choose to show parts of infopanel, or hide it all.
+- Configurable InfoPanel: can choose to show parts of infopanel, or hide 
+  it all.
+- We now show the sky "slewing" to a new position, instead of "snapping"
+  immediately to the new position.  You can turn this off in the options.
 - Added planet name labels
-- Planet sizes much more realistic
+- Planets drawn with more realistic angular sizes
+- Deep sky objects drawn with correct angular size and orientation 
+  (including images)
 - Added many more zoom levels
-- KDE3 automatically alpha-blends the planet, Messier, and star bitmaps in the sky map.
+- KDE3 automatically alpha-blends the planet, Messier, and star bitmaps 
+  in the sky map.
+- KStars can spawn multiple windows.  Use this with caution; it isn't 
+  stable yet!
+- Added View Options toolbar, which provides buttons to toggle the display 
+  of major sky features (stars, constellations, planets, deep sky obj., 
+  coordinate grid, and horizon).
 
 Other Features:
-- Added AstroCalc calculator dialog
+- Can now add custom object catalogs!
+- Manual focus function (you enter exact coordinates to center on).
+- Added AstroCalc calculator window
 - Added wider range of timesteps
 - Time can now run backwards
-- Improved selection of object when mouse is clicked.  It now prefers brighter objects,
-  and it picks planets first, followed by Messier, NGC, IC, and stars.
-- Added DCOP interface, which will form the foundation of our scriptable behavior features.
+- Improved selection of object when mouse is clicked.  It now prefers 
+  brighter objects, and it picks planets first, followed by Messier, 
+  NGC, IC, and stars.
+- Added DCOP interface, which will form the foundation of our scriptable 
+  behavior features.
+- Can zoom with the mouse wheel, or by dragging with the middle mouse
+  button.
+- new "Advanced" Options tab for tweaking behaviors such as atmospheric 
+  refraction correction, hiding objects while moving, and animated slewing
+- Preliminary Print function (does not work well yet)
 
 Calculation Accuracy:
-- More accurate Planet positions:  now properly include aberration, nutation, light travel time
-  delay.  Planet positions are calculated more often.
-- Atmospheric refraction: in Alt/Az mode, we include the effect of our atmosphere, which
-  bends light that passes through it, slightly altering the positions of objects in the sky.
+- More accurate Planet positions:  now properly include aberration, 
+  nutation, light travel time delay.  Planet positions are updated
+  more often.
+- Atmospheric refraction: in Alt/Az mode, we include the effect of our 
+  atmosphere, which bends light that passes through it, slightly altering 
+  the positions of objects in the sky.
+- rewrote time handling code; simulation time is now kept by a separate 
+  class.
 
-Code efficiency: major code overhauls to improve performance and memory usage, and to make
-greater use of C++'s OOP features.
+Performance:
+- Using a memory cache for object images, which greatly reduces CPU load
+  when object images are on-screen.
+- rewrite of splashscreen/data loading procedure to be more efficient.
+- Find Object (by Name) function is faster
+- clicking on the map to identify an object is more intelligent when 
+  several objects are near the clicked location (it prioritizes the 
+  selection by object type).
 
+Code Structure: 
+- major code overhauls to improve performance and memory usage
+- Improved OOP code structure (classes are more independent; and 
+  have private data).
+- Planet data stored in a hierarchy of classes.
+- the information panel is now its own class
+- using XMLGUI to describe menu and toolbar structure
+- Menus conform to the standard KDE structure
+
+Several bugfixes, including some crashes.
 

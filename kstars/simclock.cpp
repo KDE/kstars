@@ -17,6 +17,7 @@
 
 
 #include <kdebug.h>
+#include <klocale.h>
 
 #include "simclock.h"
 #include "ksutils.h"
@@ -92,7 +93,7 @@ bool SimClock::isActive() {
 // The SimClockInterface
 void SimClock::stop() {
 	if (tmr.isActive()) {
-		kdDebug() << "Stopping the timer" << endl;
+		kdDebug() << i18n( "Stopping the timer" ) << endl;
 		tmr.stop();
 		emit clockStopped();
 	}
@@ -100,7 +101,7 @@ void SimClock::stop() {
 
 void SimClock::start() {
 	if (! tmr.isActive()) {
-		kdDebug() << "Starting the timer" << endl;
+		kdDebug() << i18n( "Starting the timer" ) << endl;
 		sysmark.start();
 		julianmark = julian;
 		lastelapsed = 0;
@@ -118,8 +119,8 @@ void SimClock::setUTC(const QDateTime &newtime) {
 		sysmark.start();
 		lastelapsed = 0;
 	}
-	kdDebug() << "Setting clock UTC = " << utc.toString() << 
-		" julian = " << QString("%1").arg( julian, 10, 'f', 2) << endl;
+	kdDebug() << i18n( "Setting clock UTC = " ) << utc.toString() <<
+		i18n( " julian day = " ) << QString("%1").arg( julian, 10, 'f', 2) << endl;
 	emit timeChanged();
 
 }
