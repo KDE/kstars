@@ -17,7 +17,7 @@
 
 //KStars DCOP functions
 
-#include <kaccel.h>
+#include <kshortcut.h>
 
 #include "kstars.h"
 #include "kstarsoptions.h"
@@ -34,11 +34,11 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString direction ) {
   QString dir = direction.lower();
-	if (dir == "zenith" || dir=="z") map()->invokeKey( KAccel::stringToKey( "Z" ) );
-	else if (dir == "north" || dir=="n") map()->invokeKey( KAccel::stringToKey( "N" ) );
-	else if (dir == "east"  || dir=="e") map()->invokeKey( KAccel::stringToKey( "E" ) );
-	else if (dir == "south" || dir=="s") map()->invokeKey( KAccel::stringToKey( "S" ) );
-	else if (dir == "west"  || dir=="w") map()->invokeKey( KAccel::stringToKey( "W" ) );
+	if (dir == "zenith" || dir=="z") map()->invokeKey( KKey( "Z" ).keyCodeQt() );
+	else if (dir == "north" || dir=="n") map()->invokeKey( KKey( "N" ).keyCodeQt() );
+	else if (dir == "east"  || dir=="e") map()->invokeKey( KKey( "E" ).keyCodeQt() );
+	else if (dir == "south" || dir=="s") map()->invokeKey( KKey( "S" ).keyCodeQt() );
+	else if (dir == "west"  || dir=="w") map()->invokeKey( KKey( "W" ).keyCodeQt() );
 	else if (dir == "northeast" || dir=="ne") {
 		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );

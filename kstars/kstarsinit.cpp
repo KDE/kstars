@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <dcopclient.h>
-#include <kaccel.h>
+#include <kshortcut.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
@@ -35,21 +35,21 @@
 
 void KStars::initActions() {
 //File Menu:
-	new KAction(i18n("&New Window"), "window_new", KAccel::stringToKey( "Ctrl+N"  ),
+	new KAction(i18n("&New Window"), "window_new", KShortcut( "Ctrl+N"  ),
 			this, SLOT( newWindow() ), actionCollection(), "new_window");
-	new KAction(i18n("&Close Window"), "fileclose", KAccel::stringToKey( "Ctrl+W"  ),
+	new KAction(i18n("&Close Window"), "fileclose", KShortcut( "Ctrl+W"  ),
 			this, SLOT( closeWindow() ), actionCollection(), "close_window");
-	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KAccel::stringToKey( "Ctrl+I" ),
+	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KShortcut( "Ctrl+I" ),
 			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
-	new KAction( i18n( "&Run Script..." ), "launch", KAccel::stringToKey( "Ctrl+R" ),
+	new KAction( i18n( "&Run Script..." ), "launch", KShortcut( "Ctrl+R" ),
 			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
   KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
 	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
 
 //Time Menu:
-	new KAction( i18n( "Set Time to &Now" ), KAccel::stringToKey( "Ctrl+E"  ),
+	new KAction( i18n( "Set Time to &Now" ), KShortcut( "Ctrl+E"  ),
 		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
-	new KAction( i18n( "set clock to a new time", "&Set Time..." ), "clock", KAccel::stringToKey( "Ctrl+S"  ),
+	new KAction( i18n( "set clock to a new time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
 		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),
@@ -62,31 +62,31 @@ void KStars::initActions() {
 	QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
 //Focus Menu:
-	new KAction(i18n( "&Zenith" ), KAccel::stringToKey( "Z" ),
+	new KAction(i18n( "&Zenith" ), KShortcut( "Z" ),
 			this, SLOT( slotPointFocus() ),  actionCollection(), "zenith");
-	new KAction(i18n( "&North" ), KAccel::stringToKey( "N" ),
+	new KAction(i18n( "&North" ), KShortcut( "N" ),
 			this, SLOT( slotPointFocus() ),  actionCollection(), "north");
-	new KAction(i18n( "&East" ), KAccel::stringToKey( "E" ),
+	new KAction(i18n( "&East" ), KShortcut( "E" ),
 			this, SLOT( slotPointFocus() ),  actionCollection(), "east");
-	new KAction(i18n( "&South" ), KAccel::stringToKey( "S" ),
+	new KAction(i18n( "&South" ), KShortcut( "S" ),
 			this, SLOT( slotPointFocus() ),  actionCollection(), "south");
-	new KAction(i18n( "&West" ), KAccel::stringToKey( "W" ),
+	new KAction(i18n( "&West" ), KShortcut( "W" ),
 			this, SLOT( slotPointFocus() ),  actionCollection(), "west");
 	KAction *tmpAction = KStdAction::find( this, SLOT( slotFind() ),
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
 	tmpAction->setToolTip( i18n( "Find object" ) );
-	new KAction( i18n( "&Track Object" ), "decrypted", KAccel::stringToKey( "Ctrl+T"  ),
+	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
-	new KAction( i18n( "Set Focus &Manually..." ), KAccel::stringToKey( "Ctrl+M" ),
+	new KAction( i18n( "Set Focus &Manually..." ), KShortcut( "Ctrl+M" ),
 			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
 
 //View Menu:
 	KStdAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
 	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
-	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KAccel::stringToKey( "Ctrl+Z" ),
+	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+Z" ),
 		this, SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
-	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KAccel::stringToKey( "Ctrl+Shift+Z" ),
+	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KShortcut( "Ctrl+Shift+Z" ),
 		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
@@ -100,26 +100,26 @@ void KStars::initActions() {
 	// to me, but ...
 	//
 	//Info Boxes option actions
-	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show Info Boxes"),
+	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
 	a->setChecked( options()->showInfoBoxes );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 	infoBoxes()->setVisible( options()->showInfoBoxes );
 
-	a = new KToggleAction(i18n( "Show time-related info box", "Show Time"),
+	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
 	a->setChecked( options()->showTimeBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	a = new KToggleAction(i18n( "Show focus-related info box", "Show Focus"),
+	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
 	a->setChecked( options()->showFocusBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	a = new KToggleAction(i18n( "Show location-related info box", "Show Location"),
+	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
 	a->setChecked( options()->showGeoBox );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
@@ -191,36 +191,36 @@ void KStars::initActions() {
 	QFile tempFile;
 	if (KSUtils::openDataFile( tempFile, "earth.png" ) ) {
 		tmpAction = new KAction( i18n( "Set Geographic Location..." ),
-				tempFile.name(), KAccel::stringToKey( "Ctrl+G"  ),
+				tempFile.name(), KShortcut( "Ctrl+G"  ),
 				this, SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 		tmpAction->setToolTip( i18n( "Geographic location" ) );
 		tempFile.close();
 	} else {
-		new KAction( i18n( "Location on Earth", "&Geographic..." ), "gohome", KAccel::stringToKey( "Ctrl+G"  ),
+		new KAction( i18n( "Location on Earth", "&Geographic..." ), "gohome", KShortcut( "Ctrl+G"  ),
 				this, SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 	}
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
-
+	actionCollection()->action( "configure" )->setShortcut( KShortcut( "Ctrl+O" ) );
 
 //Tools Menu:
-	new KAction(i18n( "Calculator..."), KAccel::stringToKey ( "Ctrl+C"),
+	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
 	// enable action only if file was loaded and processed successfully.
 	if (!data()->VariableStarsList.isEmpty())
-		new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
+		new KAction(i18n( "AAVSO Light Curves..."), KShortcut( "Ctrl+V"),
 						this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
-	new KAction(i18n( "Altitude vs. Time..."), KAccel::stringToKey ( "Ctrl+A"),
+	new KAction(i18n( "Altitude vs. Time..."), KShortcut( "Ctrl+A"),
 						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
-	new KAction(i18n( "What's up tonight..."), KAccel::stringToKey("Ctrl+U"),
+	new KAction(i18n( "What's up tonight..."), KShortcut("Ctrl+U"),
 						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
-	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
+	new KAction(i18n( "Script Builder..."), KShortcut("Ctrl+B"),
 						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
-	new KAction(i18n( "Solar System..."), KAccel::stringToKey("Ctrl+Y"),
+	new KAction(i18n( "Solar System..."), KShortcut("Ctrl+Y"),
 						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
-	new KAction(i18n( "Jupiter's Moons..."), KAccel::stringToKey("Ctrl+J"),
+	new KAction(i18n( "Jupiter's Moons..."), KShortcut("Ctrl+J"),
 						this, SLOT(slotJMoonTool()), actionCollection(), "jmoontool");
 
 // devices Menu
@@ -236,7 +236,7 @@ void KStars::initActions() {
 			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
 
 //Handbook toolBar item:
-	new KAction( i18n( "&Handbook" ), "contents", KAccel::stringToKey( "F1"  ),
+	new KAction( i18n( "&Handbook" ), "contents", KShortcut( "F1"  ),
 			this, SLOT( appHelpActivated() ), actionCollection(), "handbook" );
 
 //

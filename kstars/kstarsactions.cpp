@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 
 #include <kdebug.h>
-#include <kaccel.h>
+#include <kshortcut.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -436,8 +436,10 @@ void KStars::slotPrint() {
 		QString message = i18n( "You can save printer ink by using the \"Star Chart\" color scheme, which uses a white background. Would you like to switch to the Star Chart color scheme for printing?" );
 
 		int answer;
-		answer = KMessageBox::questionYesNo( 0, message, i18n( "Switch to Star Chart Colors?" ),
+		answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
 			KStdGuiItem::yes(), KStdGuiItem::no(), "askAgainPrintColors" );
+
+		if ( answer == KMessageBox::Cancel ) return;
 
 		if ( answer == KMessageBox::Yes ) {
 			switchColors = true;
@@ -547,20 +549,21 @@ void KStars::slotPointFocus() {
 	QString sentFrom( sender()->name() );
 
 	if ( sentFrom == "zenith" )
-		map()->invokeKey( KAccel::stringToKey( "Z" ) );
+		map()->invokeKey( KKey( "Z" ).keyCodeQt() );
 	else if ( sentFrom == "north" )
-		map()->invokeKey( KAccel::stringToKey( "N" ) );
+		map()->invokeKey( KKey( "N" ).keyCodeQt() );
 	else if ( sentFrom == "east" )
-		map()->invokeKey( KAccel::stringToKey( "E" ) );
+		map()->invokeKey( KKey( "E" ).keyCodeQt() );
 	else if ( sentFrom == "south" )
-		map()->invokeKey( KAccel::stringToKey( "S" ) );
+		map()->invokeKey( KKey( "S" ).keyCodeQt() );
 	else if ( sentFrom == "west" )
-		map()->invokeKey( KAccel::stringToKey( "W" ) );
+		map()->invokeKey( KKey( "W" ).keyCodeQt() );
 }
 
 void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
+		actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
@@ -573,6 +576,7 @@ void KStars::slotTrack() {
 	} else {
 		map()->setClickedPoint( map()->focus() );
 		options()->isTracking = true;
+		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
 
@@ -594,7 +598,7 @@ void KStars::slotManualFocus() {
 			focusDialog.point()->setAlt( map()->refract( focusDialog.point()->alt(), true ) );
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
-		
+
 		map()->setClickedPoint( focusDialog.point() );
 		if ( options()->isTracking ) slotTrack();
 

@@ -98,12 +98,26 @@ TimeDialog::TimeDialog( QDateTime now, QWidget* parent, bool isUTCNow )
 
 }
 
+//Add handler for Escape key to close window
+void TimeDialog::keyPressEvent( QKeyEvent *kev ) {
+	switch( kev->key() ) {
+		case Key_Escape:
+		{
+			close();
+			break;
+		}
+
+		default: { kev->ignore(); break; }
+	}
+}
+
 /*  Main event handler. Reimplemented to handle application
  *  font changes
  */
 bool TimeDialog::event( QEvent* ev )
 {
     bool ret = QDialog::event( ev );
+
     if ( ev->type() == QEvent::ApplicationFontChange ) {
       QFont HourBox_font(  HourBox->font() );
       HourBox_font.setFamily( "helvetica" );
@@ -181,7 +195,7 @@ QTime TimeDialog::selectedTime( void ) {
 }
 
 QDate TimeDialog::selectedDate( void ) {
-	QDate d( dPicker->getDate() );
+	QDate d( dPicker->date() );
 	return d;
 }
 
