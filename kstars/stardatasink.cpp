@@ -56,7 +56,7 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 		line++;
 	}
 
-	// update the skymap every third block
-	if (receivedBlocks % 3 == 0) emit updateSkymap();
+	// update the skymap every tenth block
+	if (receivedBlocks % 10 == 0) emit updateSkymap();
 }
 
