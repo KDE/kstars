@@ -75,12 +75,14 @@ void KStars::loadOptions()
 	options()->shadeTimeBox  = conf->readBoolEntry( "ShadeTimeBox", true );
 	options()->shadeFocusBox = conf->readBoolEntry( "ShadeFocusBox", true );
 	options()->shadeGeoBox   = conf->readBoolEntry( "ShadeGeoBox", true );
-	options()->posTimeBox    = conf->readPointEntry( "PositionTimeBox", new QPoint(0,0) );
-	options()->posFocusBox   = conf->readPointEntry( "PositionFocusBox", new QPoint(600,0) );
-	options()->posGeoBox     = conf->readPointEntry( "PositionGeoBox", new QPoint(0,600) );
+	QPoint p(0,0);
+	options()->posTimeBox    = conf->readPointEntry( "PositionTimeBox", &p );
+	p.setX(600);  // (600,0)
+	options()->posFocusBox   = conf->readPointEntry( "PositionFocusBox", &p );
+	p.setX(0); p.setY(600);  // (0,600)
+	options()->posGeoBox     = conf->readPointEntry( "PositionGeoBox", &p );
 	options()->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
-
 	conf->setGroup( "View" );
 	options()->colorScheme()->loadFromConfig( conf );
 
