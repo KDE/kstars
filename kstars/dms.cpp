@@ -43,7 +43,6 @@ void dms::setH( const double &x ) {
   setD( x*15.0 );
 }
 
-//DMS_SPEED
 void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
   D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
   if (h<0) {D = -1.0*D;}
@@ -51,10 +50,113 @@ void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
 	rDirty = true;
 }
 
-//DMS_SPEED
 void dms::setRadians( const double &Rad ) {
 	setD( Rad/DegToRad );
 	Radians = Rad;
+}
+
+bool dms::setFromString( const QString &str, bool isDeg ) {
+	int d(0), m(0);
+	double s(0.0);
+	bool checkValue( false ), badEntry( false );
+	QString entry = str.stripWhiteSpace();
+
+	//remove any instances of unit characters.
+	//h, d, m, s, ', ", or the degree symbol (ASCII 176)
+	entry.replace( QRegExp("h"), "" );
+	entry.replace( QRegExp("d"), "" );
+	entry.replace( QRegExp("m"), "" );
+	entry.replace( QRegExp("s"), "" );
+	QString sdeg;
+	sdeg.sprintf("%c", 176);
+	entry.replace( QRegExp(sdeg), "" );
+	entry.replace( QRegExp("\'"), "" );
+	entry.replace( QRegExp("\""), "" );
+
+	//empty entry returns false
+	if ( entry.isEmpty() ) {
+		setD( 0.0 );
+		return false;
+	}
+
+	//try parsing a simple integer
+	d = entry.toInt( &checkValue );
+	if ( checkValue ) {
+		if (isDeg) setD( d, 0, 0 );
+		else setH( d, 0, 0 );
+		return true;
+	}
+
+	//try parsing a simple double
+	double x = entry.toDouble( &checkValue );
+	if ( checkValue ) {
+		if ( isDeg ) setD( x );
+		else setH( x );
+		return true;
+	}
+
+	//try parsing multiple fields.
+	QStringList fields;
+
+	//check for colon-delimiters or space-delimiters
+	if ( entry.contains(':') )
+		fields = QStringList::split( ':', entry );
+	else fields = QStringList::split( " ", entry );
+
+	//anything with one field is invalid!
+	if ( fields.count() == 1 ) {
+		setD(0.0);
+		return false;
+	}
+
+	//If two fields we will add a third one, and then parse with
+	//the 3-field code block. If field[1] is an int, add a third field equal to "0".
+	//If field[1] is a double, convert it to integer arcmin, and convert
+	//the remainder to integer arcsec
+	//If field[1] is neither int nor double, return false.
+	if ( fields.count() == 2 ) {
+		m = fields[1].toInt( &checkValue );
+		if ( checkValue ) fields.append( QString( "0" ) );
+		else {
+			double mx = fields[1].toDouble( &checkValue );
+			if ( checkValue ) {
+				fields[1] = QString("%1").arg( int(mx) );
+				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+			} else {
+				setD( 0.0 );
+				return false;
+			}
+		}
+	}
+
+	//Now have (at least) three fields ( h/d m s );
+	//we can ignore anything after 3rd field
+	if ( fields.count() >= 3 ) {
+		//See if first two fields parse as integers, and third field as a double
+		d = fields[0].toInt( &checkValue );
+		if ( !checkValue ) badEntry = true;
+		m = fields[1].toInt( &checkValue );
+		if ( !checkValue ) badEntry = true;
+		s = fields[2].toDouble( &checkValue );
+		if ( !checkValue ) badEntry = true;
+	}
+
+	if ( !badEntry ) {
+		double D = (double)abs(d) + (double)m/60.
+				+ (double)s/3600.;
+		if ( d <0 ) {D = -1.0*D;}
+
+		if (isDeg) {
+			setD( D );
+		} else {
+			setH( D );
+		}
+	} else {
+		setD( 0.0 );
+		return false;
+	}
+
+	return true;
 }
 
 const int dms::arcmin( void ) const {
@@ -109,7 +211,7 @@ const int dms::msecond( void ) const {
 
 //SPEED_DMS
 void dms::SinCos( double &sina, double &cosa ) const {
-	/**We have two versions of this function.  One is ANSI standard, but 
+	/**We have two versions of this function.  One is ANSI standard, but
 		*slower.  The other is faster, but is GNU only.
 		*Using the __GLIBC_ and __GLIBC_MINOR_ constants to determine if the
 		* GNU extension sincos() is defined.
@@ -120,7 +222,7 @@ void dms::SinCos( double &sina, double &cosa ) const {
                 #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
 		//GNU version
 		sincos( radians(), &Sin, &Cos );
-                #else 
+                #else
 		//For older GLIBC versions
 	        Sin = ::sin( radians() );
 		Cos = ::cos( radians() );
@@ -142,7 +244,7 @@ const double& dms::radians( void ) const {
 		Radians = D*DegToRad;
 		rDirty = false;
 	}
-	
+
 	return Radians;
 }
 

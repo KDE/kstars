@@ -102,7 +102,27 @@ public:
 	*/
 	void setDestination( SkyPoint *f );
 
+/**@short sets the destination point of the skymap, using ra/dec coordinates
+	*@param ra the new right ascension
+	*@param dec the new declination
+	*/
+	void setDestination( const dms &ra, const dms &dec );
+
+/**@short sets the destination point of the sky map, using ra/dec coordinates
+	*Differs from the above function only in the type of its parameters
+	*@param ra the new right ascension
+	*@param dec the new declination
+	*/
+	void setDestination(double ra, double dec);
+
 /**@short sets the destination point of the sky map, using alt/az coordinates
+	*@param alt the new altitude
+	*@param az the new azimuth
+	*/
+	void setDestinationAltAz( const dms &alt, const dms & az);
+
+/**@short sets the destination point of the sky map, using alt/az coordinates.
+	*Differs from the above function only in the type of its parameters
 	*@param alt the new altitude
 	*@param az the new azimuth
 	*/

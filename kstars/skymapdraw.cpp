@@ -17,6 +17,8 @@
 
 //This file contains drawing functions SkyMap class.
 
+#include <math.h> //log10()
+
 #include "skymap.h"
 #include "kstars.h"
 #include "infoboxes.h"
@@ -197,7 +199,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 void SkyMap::drawEquator( QPainter& psky, double scale )
 {
 	KStarsOptions* options = data->options;
-	
+
 	//Draw Equator (currently can't be hidden on slew)
 	if ( true ) {
 		psky.setPen( QPen( QColor( options->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
@@ -378,36 +380,30 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 //shortcuts to inform wheter to draw different objects
 	bool hideFaintStars( checkSlewing && options->hideStars );
 
-	//Draw Stars
 	if ( options->drawSAO ) {
-		float maglim;
-		float maglim0 = options->magLimitDrawStar;
-//		float zoomlim = 7.0 + float( options->ZoomLevel )/4.0;
-		float zoomlim = 7.0 + (zoomFactor()/MINZOOM)/50.0;
+		float maglim = options->magLimitDrawStar;
 
-		if ( maglim0 < zoomlim ) maglim = maglim0;
-		else maglim = zoomlim;
-
-		//Only draw bright stars if slewing
-		if ( hideFaintStars && maglim > options->magLimitHideStar ) maglim = options->magLimitHideStar;
+		//adjust maglimit for ZoomLevel
+		double lgmin = log10(MINZOOM);
+		double lgmax = log10(MAXZOOM);
+		double lgz = log10(zoomFactor());
+		if ( lgz < 0.75*lgmax ) {
+			maglim -= 2.0*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+		}
 
 		for ( StarObject *curStar = data->starList.first(); curStar; curStar = data->starList.next() ) {
 			// break loop if maglim is reached
-			if ( curStar->mag() > maglim ) break;
+			if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > options->magLimitHideStar ) ) break;
 
 			if ( checkVisibility( curStar, fov(), XRange ) ) {
 				QPoint o = getXY( curStar, options->useAltAz, options->useRefraction, scale );
-				
+
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
-					// but only if the star is bright enough.
-					float mag = curStar->mag();
-					float sizeFactor = 2.0;
-					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
-					if (size>23) size=23;
+					float sizeFactor = 1.0 + 1.9*( lgz - lgmin )/(lgmax - lgmin);
+					int size = int( sizeFactor*( maglim - curStar->mag()) ) + 1;
 
 					if ( size > 0 ) {
-						
 						psky.setPen( QColor( options->colorScheme()->colorNamed( "SkyColor" ) ) );
 						drawSymbol( psky, curStar->type(), o.x(), o.y(), size, 1.0, 0, curStar->color(), scale );
 
@@ -940,8 +936,8 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		//int size = int( p->angSize() * scale * dms::PI * zoomFactor()/10800.0 );
 		if ( size < sizemin ) size = sizemin;
                                                //Only draw planet image if:
-		if ( data->options->drawPlanetImage &&    //user wants them,
-				zoomFactor() >= zoommin &&             //zoomed in enough,
+		if ( data->options->drawPlanetImage &&     //user wants them,
+				int(zoomFactor()) >= int(zoommin) &&   //zoomed in enough,
 				!p->image()->isNull() &&               //image loaded ok,
 				size < Width ) {                       //and size isn't too big.
 
@@ -1374,16 +1370,13 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 
 	switch (type) {
 		case 0: //star
-			//the starpix images look bad for size==2.
-				if (size == 2) size = 1;
-
 			star = starpix->getPixmap (&color, size);
 
 			//Only bitBlt() if we are drawing to the sky pixmap
 			if ( psky.device() == sky )
-				bitBlt ((QPaintDevice *) sky, xa-star->width()/2, ya-star->height()/2, star);
+				bitBlt ((QPaintDevice *) sky, x - star->width()/2, y - star->height()/2, star);
 			else
-				psky.drawPixmap( xa-star->width()/2, ya-star->height()/2, *star );
+				psky.drawPixmap( x - star->width()/2, y - star->height()/2, *star );
 			break;
 		case 1: //catalog star
 			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
@@ -1477,7 +1470,7 @@ void SkyMap::drawSymbol( QPainter &psky, int type, int x, int y, int size, doubl
 
 void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	QPainter p;
-	
+
 	//shortcuts to inform wheter to draw different objects
 	bool drawPlanets( data->options->drawPlanets );
 	bool drawMW( data->options->drawMilkyWay );
@@ -1523,7 +1516,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	} else {
 		p.setFont( stdFont );
 	}
-	
+
 	drawStars( p, scale );
 	drawDeepSkyObjects( p, scale );
 	drawSolarSystem( p, drawPlanets, scale );
@@ -1535,7 +1528,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 
 void SkyMap::setMapGeometry() {
 	guidemax = zoomFactor()/10;
-	
+
 	isPoleVisible = false;
 	if ( data->options->useAltAz ) {
 		XRange = 1.2*fov()/cos( focus()->alt()->radians() );

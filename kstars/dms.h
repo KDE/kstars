@@ -30,7 +30,7 @@ class SkyPoint;
 	*@short An angle, stored as degrees, but expressible in many ways.
 	*@author Jason Harris
 	*@version 1.0
-	
+
 	*dms encapsulates an angle.  The angle is stored as a double,
 	*equal to the value of the angle in degrees.  Methods are available
 	*for setting/getting the angle as a floating-point measured in
@@ -38,7 +38,7 @@ class SkyPoint;
 	*arcseconds or hours, minutes, seconds).  There is also a method
 	*to set the angle according to a radian value, and to return the
 	*angle expressed in radians.  Finally, a SinCos() method computes
-	*the sin and cosine of the angle.  Once computed, the sin and cos 
+	*the sin and cosine of the angle.  Once computed, the sin and cos
 	*values are stored, so that subsequent SinCos() calls will be faster.
   */
 
@@ -59,6 +59,12 @@ public:
 	*@param x angle expressed as a floating-point number (in degrees)
 	*/
   dms( const double &x ) { setD( x ); }
+
+/**Alternate constructor.  Attempt to set the angle according to the string argument.
+	*@param s the string to parse as a dms value.
+	*@param isDeg if true, value is in degrees; if false, value is in hours.
+	*/
+	dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
 
 /**Destructor (empty).
 	*/
@@ -129,7 +135,7 @@ public:
   void setD( const double &x );
 
 /**Sets floating-point value of angle, in degrees.
-	*This is an overloaded member function; it behaves essentially 
+	*This is an overloaded member function; it behaves essentially
 	*like the above function.  The floating-point value of the angle
 	*(D) is determined from the following formulae:
 	*
@@ -168,7 +174,7 @@ public:
 	void setH( const double &x );
 
 /**Sets floating-point value of angle, first converting hours to degrees.
-	*This is an overloaded member function, provided for convenience.  It 
+	*This is an overloaded member function, provided for convenience.  It
 	*behaves essentially like the above function.
 	*@param h integer hours portion of angle
 	*@param m integer minutes portion of angle
@@ -187,6 +193,15 @@ public:
 	*@param d set angle according to this double value
 	*/
   void set( const double &d ) { setD( d ); }
+
+/**Attempt to parse the string argument as a dms value, and set the dms object
+	*accordingly.
+	*@param s the string to be parsed as a dms value.  The string can be an int or
+	*floating-point value, or a triplet of values (d/h, m, s) separated by spaces or colons.
+	*@param isDeg if true, the value is in degrees.  Otherwise, it is in hours.
+	*@return true if sting was parsed successfully.  Otherwise, set the dms value to 0.0 and return false.
+	*/
+	bool setFromString( const QString &s, bool isDeg=true );
 
 /**
 	*Addition operator.  Add two dms objects.
@@ -215,11 +230,11 @@ public:
 	*/
 //  dms operator= ( const double &d ) { return (dms( d )); }
 
-/**Compute Sine and Cosine of angle.  If you have glibc >= 2.1, then 
-	*SinCos is a bit faster than calling sin() and cos() separately.  
+/**Compute Sine and Cosine of angle.  If you have glibc >= 2.1, then
+	*SinCos is a bit faster than calling sin() and cos() separately.
 	*The values are returned through the arguments (passed by reference).
 	*The Sin and Cos values are stored internally; on subsequent calls,
-	*the stored values are returned directly (unless the angle's value 
+	*the stored values are returned directly (unless the angle's value
 	*has changed).
 	*@param s Sine of the angle
 	*@param c Cosine of the angle
@@ -230,7 +245,7 @@ public:
 	*@warning must call SinCos() before using this function.
 	*/
 	const double& sin( void ) const { return Sin; }
-	
+
 /**@return the stored Cos value of the angle.
 	*@warning must call SinCos() before using this function.
 	*/

@@ -435,7 +435,26 @@ void SkyMap::setDestination( SkyPoint *p ) {
 	emit destinationChanged();
 }
 
+void SkyMap::setDestination( const dms &ra, const dms &dec ) {
+	Destination.set( ra, dec );
+	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	emit destinationChanged();
+}
+
+void SkyMap::setDestination( double ra, double dec ) {
+	Destination.set( ra, dec );
+	destination()->EquatorialToHorizontal( data->LST, data->options->Location()->lat() );
+	emit destinationChanged();
+}
+
 void SkyMap::setDestinationAltAz(double alt, double az) {
+	destination()->setAlt(alt);
+	destination()->setAz(az);
+	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );
+	emit destinationChanged();
+}
+
+void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
 	destination()->setAlt(alt);
 	destination()->setAz(az);
 	destination()->HorizontalToEquatorial( data->LST, data->options->Location()->lat() );

@@ -459,12 +459,12 @@ void KStars::slotTrack() {
 void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	if ( options()->useAltAz ) focusDialog.activateAzAltPage();
-	
+
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		//Do we need to convert Az/Alt to RA/Dec?
-		if ( focusDialog.usedAltAz() ) 
+		if ( focusDialog.usedAltAz() )
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
-		
+
 		//If we are correcting for atmospheric refraction, correct the coordinates for that effect
 		if ( options()->useAltAz && options()->useRefraction ) {
 			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
@@ -481,22 +481,28 @@ void KStars::slotManualFocus() {
 //View Menu
 void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
-	if ( options()->ZoomFactor < MAXZOOM ) {
+	if ( options()->ZoomFactor < MAXZOOM )
 		options()->ZoomFactor *= DZOOM;
-		map()->forceUpdate();
-	}
-	if ( options()->ZoomFactor >= MAXZOOM )
+
+	if ( options()->ZoomFactor >= MAXZOOM ) {
+		options()->ZoomFactor = MAXZOOM;
 		actionCollection()->action("zoom_in")->setEnabled (false);
+	}
+
+	map()->forceUpdate();
 }
 
 void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
-	if ( options()->ZoomFactor > MINZOOM ) {
+	if ( options()->ZoomFactor > MINZOOM )
 		options()->ZoomFactor /= DZOOM;
-		map()->forceUpdate();
-	}
-	if ( options()->ZoomFactor <= MINZOOM )
+
+	if ( options()->ZoomFactor <= MINZOOM ) {
+		options()->ZoomFactor = MINZOOM;
 		actionCollection()->action("zoom_out")->setEnabled (false);
+	}
+
+	map()->forceUpdate();
 }
 
 void KStars::slotDefaultZoom() {

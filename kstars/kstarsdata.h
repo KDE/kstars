@@ -60,7 +60,7 @@
 #define NTYPENAME 11
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-#define MINZOOM 500.
+#define MINZOOM 400.
 #define MAXZOOM 1000000.
 #define DEFAULTZOOM 2000.
 #define DZOOM 1.10
@@ -394,14 +394,14 @@ public:
 	void setLST( QDateTime UTC );
 
 	void setHourAngle( double ha ) { HourAngle->setH( ha ); }
-	
+
 	//Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 	GeoLocation *geo() { return options->Location(); }
 	SimClock *clock() { return Clock; }
 	dms *lst() { return LST; }
 
 	bool executeScript( const QString &name, SkyMap *map );
-	
+
 	/**
 		*Initialize celestial equator, horizon and ecliptic.
 		*/

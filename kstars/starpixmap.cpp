@@ -23,6 +23,8 @@
 #include <qimage.h>
 #include <qpainter.h>
 
+#define STARSIZE 24
+
 StarPixmap::StarPixmap (int starColorMode, int starColorIntensity)
 	: colorMode (starColorMode), colorIntensity (starColorIntensity)
 {
@@ -65,15 +67,15 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	colorIntensity = newColorIntensity;
 
 	if (colorIntensity < 0) colorIntensity = 0;	// min
-	
-	QPixmap pix (64, 64);
-	QBitmap mask (64, 64);
+
+	QPixmap pix (STARSIZE, STARSIZE);
+	QBitmap mask (STARSIZE, STARSIZE);
 	QImage image;
 	QPainter p;
 	QMemArray<QColor> starColor;
-	starColor.resize( 8 );	
+	starColor.resize( 8 );
 	image.setAlphaBuffer(true);
-	
+
 	starColor[0] = QColor( 255, 255, 255 );   //default to white
 	starColor[1] = QColor(   0,   0, 255 );   //type O
 	starColor[2] = QColor(   0, 200, 255 );   //type B
@@ -85,12 +87,12 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 
 // background of the star
 	if ( colorMode==1 ) // night colors (fill red, no temperature colors)
-		pix.fill (Qt::red);	
+		pix.fill (Qt::red);
 	else if ( colorMode==2 ) //star chart colors (fill black, no temperature colors)
 		pix.fill (Qt::black);
 	else
 		pix.fill (Qt::white);	// default (white)
-		
+
 	for (int color = 0; color < 10; color ++) {
 		int ic = color;
 		if ( color > 7 ) ic = 7;
@@ -98,7 +100,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		if (colorMode==0)	{
 			p.begin (&pix);
 			p.setPen (QPen (starColor[ic], colorIntensity));	// the intensity of color determines the width of the pen
-			p.drawEllipse (32, 32, 23, 23);
+			p.drawEllipse (0, 0, STARSIZE, STARSIZE);
 			p.end();
 		}
 
@@ -107,28 +109,29 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		p.begin (&mask);
 		p.setPen (QPen ( Qt::color1, 1));
 		p.setBrush( QBrush( Qt::color1 ) );
-		p.drawEllipse(32,32,23,23);
+		p.drawEllipse(0, 0, STARSIZE, STARSIZE);
 		p.end();
-		
+
 		//BLUR!! ugliness-- requires temporary conversion to pixmap, then back again.
 		//       if we defer the blur until the end, we lose the transparency.  Bleh.
 		QImage tmp = pix.convertToImage();
 		pix.convertFromImage( KImageEffect::blur( tmp, 100.0 ) );
-		
+
 		pix.setMask (mask);	// set the mask
 		image = pix.convertToImage();	// create the image for smoothScale()
 
 		for (int i = 0; i < 26; i++)
 		{
-			if (i < 6)
-				tmp = image.smoothScale (1+ i, 1+ i);	// size: 1x1 .. 24x24
+			tmp = image.smoothScale( STARSIZE*(i+1)/26, STARSIZE*(i+1)/26 );
+/*			if (i < 6)
+				tmp = image.smoothScale (1+ i, 1+ i);	// size: 1x1 .. 6x6
 			else	if (i < 12)
-				tmp = image.smoothScale (int((1+ i)*1.25), int((1+ i)*1.25));	// size: 1x1 .. 30x30
+				tmp = image.smoothScale (int((1+ i)*1.25), int((1+ i)*1.25));	// size: 8x8 ... 16x16
 			else	if (i < 18)
-				tmp = image.smoothScale (int((1+ i)*1.5), int((1+ i)*1.5));	// size: 1x1 .. 36x36
+				tmp = image.smoothScale (int((1+ i)*1.5), int((1+ i)*1.5));	// size: 19x19 .. 27x27
 			else
-				tmp = image.smoothScale ((1+ i)*2, (1+ i)*2);	// size: 1x1 .. 48x48
-
+				tmp = image.smoothScale ((1+ i)*2, (1+ i)*2);	// size: 38 .. 52x52
+*/
 			starPixmaps[color][i].convertFromImage( tmp );  // fill the array of pixmaps
 		}
 	}
