@@ -14,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+//JH 11.06.2002: replaced infoPanel with infoBoxes
 //JH 24.08.2001: reorganized infoPanel
 //JH 25.08.2001: added toolbar, converted menu items to KAction objects
 //JH 25.08.2001: main window now resizable, window size saved in config file
@@ -41,7 +42,8 @@
 #include "kstarssplash.h"
 #include "simclock.h"
 #include "ksutils.h"
-#include "infopanel.h"
+//#include "infopanel.h"
+#include "infoboxes.h"
 
 KStars::KStars( bool doSplash ) :
 	KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface"),
@@ -128,17 +130,25 @@ void KStars::clearCachedFindDialog() {
 }
 
 void KStars::updateTime( void ) {
+	QTime oldLST = data()->LST;
 	data()->updateTime( clock, geo(), map() );
 
-	showFocusCoords();
-	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
+//	infoPanel->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
+	infoBoxes()->timeChanged(data()->UTime, data()->LTime, data()->LST, data()->CurrentDate);
+	if ( data()->LST > oldLST ) { //kludge advancing the focus
+		int nSec = oldLST.secsTo( data()->LST );
+		map()->focus()->setRA( map()->focus()->ra().Hours() + double( nSec )/3600. );
+		if ( options()->useAltAz ) map()->focus()->EquatorialToHorizontal( data()->LSTh, geo()->lat() );
+		showFocusCoords();
+	}
+
+	map()->update();
 
 	//If time is accelerated beyond slewTimescale, then the clock's timer is stopped,
 	//so that it can be ticked manually after each update, in order to make each time
 	//step exactly equal to the timeScale setting.
 	//Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
 	//the skymap has been completely updated.
-
 	if ( clock->isManualMode() && clock->isActive() ) {
 		QTimer::singleShot( 0, clock, SLOT( manualTick() ) );
 	}
@@ -173,7 +183,7 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 }
 
 void KStars::showFocusCoords( void ) {
-	//display object info in infoPanel
+	//display object info in infoBoxes
 	QString oname;
 
 	oname = i18n( "nothing" );
@@ -187,9 +197,10 @@ void KStars::showFocusCoords( void ) {
 	//
 	//This is ugly, got to find a way to change this. But for now.
 	//
-	infoPanel->focusObjChanged(oname);
-	
-	infoPanel->focusCoordChanged(map()->focus());
+//	infoPanel->focusObjChanged(oname);
+//	infoPanel->focusCoordChanged(map()->focus());
+	infoBoxes()->focusObjChanged(oname);
+	infoBoxes()->focusCoordChanged(map()->focus());
 
 }
 

@@ -145,8 +145,8 @@ class KStarsOptions {
 		bool hideMW, hideCNames, hideCLines, hideGrid;
 
 		//GUI options
-		bool showInfoPanel;
-		bool showIPTime, showIPFocus, showIPGeo;
+		bool showInfoBoxes;
+		bool showTimeBox, showFocusBox, showGeoBox;
 		bool showMainToolBar, showViewToolBar;
 
 		//Custom Catalogs

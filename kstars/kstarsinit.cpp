@@ -26,7 +26,8 @@
 #include <qtooltip.h>
 #include <qtextstream.h>
 
-#include "infopanel.h"
+//#include "infopanel.h"
+#include "infoboxes.h"
 #include "kstars.h"
 #include "ksutils.h"
 #include "toggleaction.h"
@@ -95,33 +96,33 @@ void KStars::initActions() {
 	// to me, but ...
 	//
 	//Info Panel option actions
-	KToggleAction *a = new KToggleAction(i18n( "Show the information panel", "Show Infopanel"),
-			0, 0, 0, actionCollection(), "show_panel");
-	a->setChecked( options()->showInfoPanel );
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoPanel, SLOT(showInfoPanel(bool)));
+	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show Info Boxes"),
+			0, 0, 0, actionCollection(), "show_boxes");
+	a->setChecked( options()->showInfoBoxes );
+	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoPanel->showInfoPanel( options()->showInfoPanel );
+	infoBoxes()->setVisible( options()->showInfoBoxes );
 
-	a = new KToggleAction(i18n( "Show time-related info panel items", "Show Time"),
-			0, 0, 0, actionCollection(), "show_time_panel");
-	a->setChecked( options()->showIPTime );
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoPanel, SLOT(showTimeBar(bool)));
+	a = new KToggleAction(i18n( "Show time-related info box", "Show Time"),
+			0, 0, 0, actionCollection(), "show_time_box");
+	a->setChecked( options()->showTimeBox );
+	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoPanel->showTimeBar( options()->showIPTime );
+	infoBoxes()->showTimeBox( options()->showTimeBox );
 
-	a = new KToggleAction(i18n( "Show focus-related info panel items", "Show Focus"),
-			0, 0, 0, actionCollection(), "show_focus_panel");
-	a->setChecked( options()->showIPFocus );
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoPanel, SLOT(showFocusBar(bool)));
+	a = new KToggleAction(i18n( "Show focus-related info box", "Show Focus"),
+			0, 0, 0, actionCollection(), "show_focus_box");
+	a->setChecked( options()->showFocusBox );
+	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoPanel->showFocusBar( options()->showIPFocus );
+	infoBoxes()->showFocusBox( options()->showFocusBox );
 
-	a = new KToggleAction(i18n( "Show location-related info panel items", "Show Location"),
-			0, 0, 0, actionCollection(), "show_location_panel");
-	a->setChecked( options()->showIPGeo );
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoPanel, SLOT(showLocationBar(bool)));
+	a = new KToggleAction(i18n( "Show location-related info box", "Show Location"),
+			0, 0, 0, actionCollection(), "show_location_box");
+	a->setChecked( options()->showGeoBox );
+	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoPanel->showLocationBar( options()->showIPGeo );
+	infoBoxes()->showGeoBox( options()->showGeoBox );
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
@@ -431,17 +432,18 @@ void KStars::datainitFinished(bool worked) {
 
 void KStars::privatedata::buildGUI() {
 	// need to set the mainwidget here, in main() this will cause a segfault because
-	// skymap will created in this constructor and needs kapp->mainWidget()
+	// skymap will be created in this constructor and needs kapp->mainWidget()
 	kapp->setMainWidget( ks );
 	// here we get the preloaded data (stars, constellations etc.)
 
 	//Instantiate the SimClock object
 	ks->clock = new SimClock(ks);
 
-	// create the widgets
+	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
-	ks->infoPanel = new InfoPanel( ks->centralWidget, "ip", ks->data()->getLocale() );
+//	ks->infoPanel = new InfoPanel( ks->centralWidget, "ip", ks->data()->getLocale() );
+	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight );
 
 	ks->initStatusBar();
 	ks->initActions();
@@ -455,10 +457,11 @@ void KStars::privatedata::buildGUI() {
 
 	// create the layout of the central widget
 	ks->topLayout = new QVBoxLayout( ks->centralWidget );
-	ks->topLayout->addWidget( ks->infoPanel );
+//	ks->topLayout->addWidget( ks->infoPanel );
 	ks->topLayout->addWidget( ks->skymap );
 
-	ks->infoPanel->geoChanged(ks->geo());
+//	ks->infoPanel->geoChanged(ks->geo());
+	ks->infoBoxes()->geoChanged(ks->geo());
 
 	ks->createGUI("kstarsui.rc", false); //2nd parameter must be false, or
                                       //plugActionList won't work!

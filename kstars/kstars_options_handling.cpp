@@ -77,10 +77,10 @@ void KStars::loadOptions()
 
 	//GUI options
 	conf->setGroup( "GUI" );
-	options()->showInfoPanel = conf->readBoolEntry( "ShowInfoPanel", true );
-	options()->showIPTime    = conf->readBoolEntry( "ShowIPTime", true );
-	options()->showIPFocus   = conf->readBoolEntry( "ShowIPFocus", true );
-	options()->showIPGeo     = conf->readBoolEntry( "ShowIPGeo", true );
+	options()->showInfoBoxes = conf->readBoolEntry( "ShowInfoBoxes", true );
+	options()->showTimeBox   = conf->readBoolEntry( "ShowTimeBox", true );
+	options()->showFocusBox  = conf->readBoolEntry( "ShowFocusBox", true );
+	options()->showGeoBox    = conf->readBoolEntry( "ShowGeoBox", true );
 	options()->showMainToolBar = conf->readBoolEntry( "ShowMainToolBar", true );
 	options()->showViewToolBar = conf->readBoolEntry( "ShowViewToolBar", true );
 
@@ -193,10 +193,10 @@ void KStars::saveOptions() {
 	}
 
 	conf->setGroup( "GUI" );
-	conf->writeEntry( "ShowInfoPanel", options()->showInfoPanel );
-	conf->writeEntry( "ShowIPTime", options()->showIPTime );
-	conf->writeEntry( "ShowIPFocus", options()->showIPFocus );
-	conf->writeEntry( "ShowIPGeo", options()->showIPGeo );
+	conf->writeEntry( "ShowInfoBoxes", options()->showInfoBoxes );
+	conf->writeEntry( "ShowTimeBox", options()->showTimeBox );
+	conf->writeEntry( "ShowFocusBox", options()->showFocusBox );
+	conf->writeEntry( "ShowGeoBox", options()->showGeoBox );
 	conf->writeEntry( "ShowMainToolBar", options()->showMainToolBar );
 	conf->writeEntry( "ShowViewToolBar", options()->showViewToolBar );
 

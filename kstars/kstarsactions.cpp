@@ -28,7 +28,8 @@
 #include "focusdialog.h"
 #include "viewopsdialog.h"
 #include "astrocalc.h"
-#include "infopanel.h"
+//#include "infopanel.h"
+#include "infoboxes.h"
 #include "ksutils.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -78,7 +79,8 @@ void KStars::slotGeoLocator() {
 			options()->setProvinceName( geo()->province() );
 			options()->setCountryName( geo()->country() );
 
-			infoPanel->geoChanged(geo());
+//			infoPanel->geoChanged(geo());
+			infoBoxes()->geoChanged(geo());
 
 			// Adjust Local time for new time zone (but we aren't sure about DST yet)
 			data()->LTime.setDate( data()->UTime.date() );
@@ -360,14 +362,14 @@ void KStars::slotShowGUIItem( bool show ) {
 		else toolBar( "viewToolBar" )->hide();
 	}
 
-//InfoPanel: we only change options here; these are also connected to slots in
-//InfoPanel that actually toggle the display.
-	if ( sender()->name() == QString( "show_panel" ) )
-		options()->showInfoPanel = show;
-	if ( sender()->name() == QString( "show_time_panel" ) )
-		options()->showIPTime = show;
-	if ( sender()->name() == QString( "show_location_panel" ) )
-		options()->showIPGeo = show;
-	if ( sender()->name() == QString( "show_focus_panel" ) )
-		options()->showIPFocus = show;
+//InfoBoxes: we only change options here; these are also connected to slots in
+//InfoBoxes that actually toggle the display.
+	if ( sender()->name() == QString( "show_boxes" ) )
+		options()->showInfoBoxes = show;
+	if ( sender()->name() == QString( "show_time_box" ) )
+		options()->showTimeBox = show;
+	if ( sender()->name() == QString( "show_location_box" ) )
+		options()->showGeoBox = show;
+	if ( sender()->name() == QString( "show_focus_box" ) )
+		options()->showFocusBox = show;
 }

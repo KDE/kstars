@@ -77,10 +77,10 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	hideCLines   = o.hideCLines;
 	hideGrid     = o.hideGrid;
 	isTracking     = o.isTracking;
-	showInfoPanel = o.showInfoPanel;
-	showIPTime    = o.showIPTime;
-	showIPFocus   = o.showIPFocus;
-	showIPGeo     = o.showIPGeo;
+	showInfoBoxes = o.showInfoBoxes;
+	showTimeBox   = o.showTimeBox;
+	showFocusBox  = o.showFocusBox;
+	showGeoBox    = o.showGeoBox;
 	showMainToolBar = o.showMainToolBar;
 	showViewToolBar = o.showViewToolBar;
 	focusObject    = o.focusObject;
@@ -164,10 +164,10 @@ void KStarsOptions::setDefaultOptions() {
 	hideCLines= true;
 	hideGrid= true;
 	isTracking= false;
-	showInfoPanel= true;
-	showIPTime= true;
-	showIPFocus= true;
-	showIPGeo= true;
+	showInfoBoxes= true;
+	showTimeBox= true;
+	showFocusBox= true;
+	showGeoBox= true;
 	showMainToolBar= true;
 	showViewToolBar= true;
 //	focusObject()

@@ -1078,8 +1078,41 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 	if ( fabs( CurrentDate - LastSkyUpdate) > 0.25/skymap->getPixelScale() || clock->isManualMode() ) {
 		LastSkyUpdate = CurrentDate;
 
-		//Recompute Alt, Az coords for all objects
+		//Update focus
+		if ( options->isTracking && skymap->foundObject() != NULL ) {
+			if ( options->useAltAz ) {
+				//Tracking any object in Alt/Az mode requires focus updates
+				skymap->setDestinationAltAz(
+						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(),
+						skymap->foundObject()->az().Degrees() );
+				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
+			} else if (skymap->foundObject()==Moon) {
+				//Tracking on the Moon requires focus updates in both coord systems
+				skymap->setDestination( skymap->foundObject() );
+			} else if (PC.isPlanet(skymap->foundObject())) {
+				//Tracking on planets requires focus updates in both coord systems
+				skymap->setDestination( skymap->foundObject() );
+			} else { //tracking non-solar system object in equatorial; update alt/az
+				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
+			}
+		} else if ( options->isTracking ) {
+			if ( options->useAltAz ) {
+				//Tracking on empty sky in Alt/Az mode
+				skymap->setDestination( skymap->clickedPoint() );
+				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+			}
+		} else if ( ! skymap->isSlewing() ) {
+			//Not tracking and not slewing, let sky drift by
+			skymap->focus()->setRA( LSTh.Hours() - HourAngle.Hours() );
+			skymap->setDestination( skymap->focus() );
+			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
+			skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
+		}
 
+		skymap->setOldFocus( skymap->focus() );
+		skymap->oldfocus()->EquatorialToHorizontal( LSTh, geo->lat() );
+
+		//Recompute Alt, Az coords for all objects
 		//Planets
 
 		PC.EquatorialToHorizontal( LSTh, geo->lat() );
@@ -1166,45 +1199,6 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 				p->HorizontalToEquatorial( LSTh, geo->lat() );
 			}
 		}
-
-		//update focus
-		if ( options->isTracking && skymap->foundObject() != NULL ) {
-
-			if ( options->useAltAz ) { 
-				//Tracking any object in Alt/Az mode requires focus updates
-				skymap->setDestinationAltAz( 
-						skymap->refract( skymap->foundObject()->alt(), true ).Degrees(), 
-						skymap->foundObject()->az().Degrees() );
-				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
-      } else if (skymap->foundObject()==Moon) {
-        //Tracking on the Moon requires focus updates in both coord systems
-				skymap->setDestination( skymap->foundObject() );
-			} else if (PC.isPlanet(skymap->foundObject())) {
-				//Tracking on planets requires focus updates in both coord systems
-				skymap->setDestination( skymap->foundObject() );
-			} else { //tracking non-solar system object in equatorial; update alt/az
-				skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
-			}
-		} else if ( options->isTracking ) {
-			if ( options->useAltAz ) {
-				//Tracking on empty sky in Alt/Az mode
-				skymap->setDestination( skymap->clickedPoint() );
-				skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
-//				skymap->setDestinationAltAz(
-//						skymap->refract( skymap->focus()->alt(), true ).Degrees(),
-//						skymap->focus()->az().Degrees() );
-//				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
-			}
-		} else if ( ! skymap->isSlewing() ) {
-			//Not tracking and not slewing, let sky drift by
-			skymap->focus()->setRA( LSTh.Hours() - HourAngle.Hours() );
-			skymap->setDestination( skymap->focus() );
-			skymap->focus()->EquatorialToHorizontal( LSTh, geo->lat() );
-			skymap->destination()->EquatorialToHorizontal( LSTh, geo->lat() );
-		}
-
-		skymap->setOldFocus( skymap->focus() );
-		skymap->oldfocus()->EquatorialToHorizontal( LSTh, geo->lat() );
 
 		if (clock->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( UpdateNow() ) );

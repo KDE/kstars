@@ -66,6 +66,7 @@ class FindDialog;
 class ViewOpsDialog;
 class SimClock;
 class InfoPanel;
+class InfoBoxes;
 class AstroCalc;
 
 //Define some global constants
@@ -126,9 +127,14 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		SkyMap* map() { return skymap; }
 
 		/**
-			*@returns GeoLocation object which is the current geographic location.
+			*@returns pointer to GeoLocation object which is the current geographic location.
 			*/
 		GeoLocation* geo() { return options()->Location(); }
+
+		/**
+			*@returns pointer to InfoBoxes object.
+			*/
+		InfoBoxes* infoBoxes() { return IBoxes; }
 
 		/**Display object name and coordinates in the KStars infoPanel
 			*/
@@ -332,6 +338,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		FindDialog *findDialog;
 		InfoPanel   *infoPanel;
+		InfoBoxes   *IBoxes;
 		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
 

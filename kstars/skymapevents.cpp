@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <math.h> //using fabs()
 
+#include "infoboxes.h"
 #include "kstars.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -261,6 +262,12 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 }
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
+	//Are we dragging an infoBox?
+	if ( ksw->infoBoxes()->dragBox( e ) ) {
+		update();
+		return;
+	}
+
 	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
 	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
 	double dyPix = 0.5*height() - e->y();
@@ -359,6 +366,11 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
+	if ( ksw->infoBoxes()->unGrabBox() ) {
+		update();
+		return;
+	}
+
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
 	if (mouseButtonDown) { //false if double-clicked, becuase it's unset there.
 		mouseButtonDown = false;
@@ -373,6 +385,12 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
+//did we Grab an infoBox?
+	if ( e->button() == LeftButton && ksw->infoBoxes()->grabBox( e ) ) {
+		update();
+		return;
+	}
+
 // if button is down and cursor is not moved set the move cursor after 500 ms
 	QTimer t;
 	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
@@ -821,6 +839,12 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
+	//Was the event inside an infoBox?  If so, shade the box.
+	if ( e->button() == LeftButton && ksw->infoBoxes()->shadeBox( e ) ) {
+		update();
+		return;
+	}
+
 	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
 	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
 
@@ -904,12 +928,22 @@ void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
 		}
 	}
 }
-		
+
+void SkyMap::drawBoxes( QPixmap *pm ) {
+	QPainter p;
+	p.begin( pm );
+	ksw->infoBoxes()->drawBoxes( p );
+	p.end();
+}
+
 void SkyMap::paintEvent( QPaintEvent * ) {
 // if the skymap should be only repainted and constellations need not to be new computed; call this with update() (default)
 	if (!computeSkymap)
 	{
-		bitBlt( this, 0, 0, sky );
+		QPixmap *sky2 = new QPixmap( *sky );
+		drawBoxes( sky2 );
+		bitBlt( this, 0, 0, sky2 );
+		delete sky2;
 		return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
@@ -1708,7 +1742,10 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 	}  //endif drawing horizon
 
 	psky.end();
-	bitBlt( this, 0, 0, sky );
+	QPixmap *sky2 = new QPixmap( *sky );
+	drawBoxes( sky2 );
+	bitBlt( this, 0, 0, sky2 );
+	delete sky2;
 	computeSkymap = false;	// use Update() to compute new skymap else old pixmap will be shown
 }
 
