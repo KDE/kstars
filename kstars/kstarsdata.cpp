@@ -1377,7 +1377,7 @@ void KStarsData::slotInitialize() {
 
 			emit progressText( i18n("Creating Moon" ) );
 			Moon = new KSMoon(this);
-			Moon->setAngSize( 31.5 );
+			Moon->setAngSize( 30.0 );
 			ObjNames.append( Moon );
 			Moon->loadData();
 			break;

@@ -22,6 +22,10 @@
       <numberofjobs/>
       <dontact/>
       <makebin/>
+      <envvars>
+        <envvar value="1" name="WANT_AUTOCONF_2_5" />
+        <envvar value="1" name="WANT_AUTOMAKE_1_6" />
+      </envvars>
     </make>
     <compiler>
       <cflags/>
@@ -60,4 +64,15 @@
       <dbgshell>libtool</dbgshell>
     </general>
   </kdevdebugger>
+  <kdevcvs>
+    <cvsoptions>-f</cvsoptions>
+    <commitoptions></commitoptions>
+    <addoptions></addoptions>
+    <logoptions></logoptions>
+    <updateoptions>-dP</updateoptions>
+    <removeoptions>-f</removeoptions>
+    <revertoptions>-C -d -P</revertoptions>
+    <diffoptions>-u3 -p</diffoptions>
+    <rshoptions></rshoptions>
+  </kdevcvs>
 </kdevelop>
