@@ -260,7 +260,7 @@ void WUTDialog::slotLoadList(int i) {
 
 bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	bool visible( false );
-	double minAlt = 20.0; //minimum altitude for object to be considered 'visible'
+	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
 	QDateTime T1 = Today;
