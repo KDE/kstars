@@ -128,14 +128,15 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 	Palette = cs.Palette;
 }
 
-QString ColorScheme::colorNamed( QString name ) const {
-	QString color( Palette[ name ] );
-	if ( color.isEmpty() ) {
+QString ColorScheme::colorNamed( const QString &name ) const {
+	//QString color( Palette[ name ] );
+	if ( Palette[ name ].isEmpty() ) {
 		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
-		color = "#FFFFFF"; //set to white if no color found
+		//color = "#FFFFFF"; //set to white if no color found
+		return "#FFFFFF";
 	}
 
-	return color;
+	return Palette[ name ];
 }
 
 QString ColorScheme::colorAt( int i ) const {
@@ -153,12 +154,12 @@ QString ColorScheme::keyAt( int i ) const {
 	return QString(*it);
 }
 
-void ColorScheme::setColor( QString key, QString color ) {
+void ColorScheme::setColor( const QString &key, const QString &color ) {
 	//We can blindly insert() the new value; if the key exists, the old value is replaced
 	Palette.insert( key, color );
 }
 
-bool ColorScheme::load( QString filename ) {
+bool ColorScheme::load( const QString &filename ) {
 	QFile file;
 	int inew(0),iold(0);
 
@@ -223,7 +224,7 @@ bool ColorScheme::load( QString filename ) {
 	return true;
 }
 
-bool ColorScheme::save( QString name ) {
+bool ColorScheme::save( const QString &name ) {
 	QFile file;
 
 	//Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",

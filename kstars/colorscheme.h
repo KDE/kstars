@@ -43,7 +43,7 @@ class ColorScheme {
 		*/
 		~ColorScheme();
 
-		QString colorNamed( QString name ) const;
+		QString colorNamed( const QString &name ) const;
 
 		QString colorAt( int i ) const;
 
@@ -51,11 +51,11 @@ class ColorScheme {
 
 		QString keyAt( int i ) const;
 
-		void setColor( QString key, QString color );
+		void setColor( const QString &key, const QString &color );
 
-		bool load( QString filename );
+		bool load( const QString &filename );
 
-		bool save( QString name );
+		bool save( const QString &name );
 
 		void copy( const ColorScheme &cs );
 
