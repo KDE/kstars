@@ -284,16 +284,17 @@ void SkyMap::setGeometry( const QRect &r ) {
 }
 
 void SkyMap::slotCenter( void ) {
-//If the requested object is below the opaque horizon, issue a warning message
-//(unless user is already pointed below the horizon)
 	clickedPoint()->EquatorialToHorizontal( ksw->LSTh(), ksw->geo()->lat() );
 
+//If the requested object is below the opaque horizon, issue a warning message
+//(unless user is already pointed below the horizon)
 	if ( ksw->options()->useAltAz && ksw->options()->drawGround &&
 			focus()->alt()->Degrees() > -1.0 && clickedPoint()->alt()->Degrees() < -1.0 ) {
+
 		QString caption = i18n( "Requested Position Below Horizon" );
 		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
-
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::No ) {
+		if ( KMessageBox::warningYesNo( ksw, message, caption,
+				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );
 			ksw->options()->isTracking = false;
@@ -302,7 +303,7 @@ void SkyMap::slotCenter( void ) {
 			return;
 		}
 	}
-
+	
 //set FoundObject before slewing.  Otherwise, KStarsData::updateTime() can reset
 //destination to previous object...
 	setFoundObject( ClickedObject );
@@ -310,7 +311,7 @@ void SkyMap::slotCenter( void ) {
 	ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 
 //update the destination to the selected coordinates
-	if ( ksw->options()->useAltAz ) { //correct for atmospheric refraction if using horizontal coords
+	if ( ksw->options()->useAltAz && ksw->options()->useRefraction ) { //correct for atmospheric refraction if using horizontal coords
 		setDestinationAltAz( refract( clickedPoint()->alt(), true ).Degrees(), clickedPoint()->az()->Degrees() );
 	} else {
 		setDestination( clickedPoint() );

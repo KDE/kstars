@@ -482,7 +482,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), ksw->geo()->lat() ) );
+		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, 
+				ksw->LSTh(), ksw->geo()->lat(), ksw->options()->useRefraction ) );
 		setClickedPoint( mousePoint() );
 
 		double r0 = 200.0/pixelScale[ ksw->data()->ZoomLevel ];  //the maximum search radius
@@ -741,22 +742,28 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	//Was the event inside an infoBox?  If so, shade the box.
-	if ( e->button() == LeftButton && ksw->infoBoxes()->shadeBox( e ) ) {
-		update();
-		return;
+	if ( e->button() == LeftButton ) {
+		if ( ksw->infoBoxes()->shadeBox( e ) ) {
+			update();
+			return;
+		}
+
+		double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
+		double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
+		if (unusablePoint (dx, dy)) return;	// break if point is unusable
+
+//This is already done in mousePressEvent(), which is executed immediately 
+//prior to mouseDoubleClickEvent().
+/*
+		//determine RA, Dec of mouse pointer
+		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), 
+				ksw->geo()->lat(), ksw->options()->useRefraction ) );
+		setClickedPoint( mousePoint() );
+*/
+
+		if (mouseButtonDown ) mouseButtonDown = false;
+		if ( dx != 0.0 || dy != 0.0 )  slotCenter();
 	}
-
-	double dx = ( 0.5*width()  - e->x() )/pixelScale[ ksw->data()->ZoomLevel ];
-	double dy = ( 0.5*height() - e->y() )/pixelScale[ ksw->data()->ZoomLevel ];
-
-	if (unusablePoint (dx, dy)) return;	// break if point is unusable
-
-	//determine RA, Dec of mouse pointer
-	setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), ksw->geo()->lat() ) );
-	setClickedPoint( mousePoint() );
-
-	if (mouseButtonDown ) mouseButtonDown = false;
-	if ( dx != 0.0 || dy != 0.0 )  slotCenter();
 }
 
 void SkyMap::drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
@@ -858,18 +865,19 @@ void SkyMap::paintEvent( QPaintEvent *e )
 // if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with Update())
 	QPainter psky;
 
+	/*
 	float FOV = fov();
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
+	*/
 	
 //checkSlewing combines the slewing flag (which is true when the display is actually in motion),
 //the hideOnSlew option (which is true if slewing should hide objects),
@@ -1007,14 +1015,14 @@ void SkyMap::drawCoordinateGrid(QPainter& psky)
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 	
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
@@ -1111,14 +1119,13 @@ void SkyMap::drawEquator(QPainter& psky)
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 	
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
@@ -1179,15 +1186,14 @@ void SkyMap::drawEcliptic(QPainter& psky)
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-	
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
 	double guideXmax = Xmax;
@@ -1277,15 +1283,14 @@ void SkyMap::drawConstellationNames(QPainter& psky, QFont& stdFont)
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-	
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
 	double guideXmax = Xmax;
@@ -1333,15 +1338,14 @@ void SkyMap::drawStars(QPainter& psky)
 	double Xmax, Ymax;
 	bool isPoleVisible = false;
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
 
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
-	
 	//at high zoom, double FOV for guide lines so they don't disappear.
 	float guideFOV = fov();
 	double guideXmax = Xmax;
@@ -1417,14 +1421,13 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QList<SkyObject>& catalog, QCol
 	bool drawGround( options->drawGround );
 
 	if ( options->useAltAz ) {
+		Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 		Ymax = fabs( focus()->alt()->Degrees() ) + FOV;
 	} else {
+		Xmax = 1.2*FOV/cos( focus()->dec()->radians() );
 		Ymax = fabs( focus()->dec()->Degrees() ) + FOV;
 	}
 	if ( Ymax >= 90. ) isPoleVisible = true;
-
-	//moved here from checkVisibility()
-	Xmax = 1.2*FOV/cos( focus()->alt()->radians() );
 
   // Set color once
   psky.setPen( color );

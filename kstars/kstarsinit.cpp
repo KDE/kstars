@@ -20,6 +20,7 @@
 #include <kstatusbar.h>
 #include <ktip.h>
 
+#include <kmessagebox.h>
 
 //#include "infopanel.h"
 #include "infoboxes.h"
@@ -397,12 +398,36 @@ void KStars::datainitFinished(bool worked) {
 
 	pd->buildGUI();
 	updateTime();
-
 	clock->start();
 	show();
 
+//Check whether initial position is below the horizon.
+//We sued to just call slotCenter() in buildGUI() which performs this check.  
+//However, on a Gentoo system, if the messagebox is shown before show() is called, 
+//the program exits.  It does not crash (at least there are no error messages),
+//it simply exits.  Very strange.
+	if ( options()->useAltAz && options()->drawGround &&
+			map()->focus()->alt()->Degrees() < -1.0 ) {
+		QString caption = i18n( "Initial Position is Below Horizon" );
+		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
+		if ( KMessageBox::warningYesNo( this, message, caption, 
+				KStdGuiItem::yes(), KStdGuiItem::no(), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
+			map()->setClickedObject( NULL );
+			map()->setFoundObject( NULL );
+			options()->isTracking = false;
+			options()->setSnapNextFocus(true);
+			
+			SkyPoint DefaultFocus;
+			DefaultFocus.setAz( 180.0 );
+			DefaultFocus.setAlt( 45.0 );
+			DefaultFocus.HorizontalToEquatorial( LSTh(), geo()->lat() );
+			map()->setDestination( &DefaultFocus );
+		}
+	}
+
 // just show dialog if option is set (don't force it)	
 	KTipDialog::showTip( "kstars/tips" );
+
 }
 
 void KStars::privatedata::buildGUI() {
@@ -502,13 +527,13 @@ void KStars::privatedata::buildGUI() {
 
 	ks->updateTime();
 
-	//Set focus of Skymap.
+	//Set focus of Skymap to value stored in config.
 	//Set default position in case stored focus is below horizon
-	SkyPoint DefaultFocus;
-	DefaultFocus.setAz( 180.0 );
-	DefaultFocus.setAlt( 45.0 );
-	DefaultFocus.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
-	ks->map()->setDestination( &DefaultFocus );
+//	SkyPoint DefaultFocus;
+//	DefaultFocus.setAz( 180.0 );
+//	DefaultFocus.setAlt( 45.0 );
+//	DefaultFocus.HorizontalToEquatorial( ks->LSTh(), ks->geo()->lat() );
+//	ks->map()->setDestination( &DefaultFocus );
 
 	//if user was tracking last time, track on same object now.
 	if ( ks->options()->isTracking ) {
@@ -523,16 +548,16 @@ void KStars::privatedata::buildGUI() {
 				ks->map()->setClickedPoint( &newPoint );
 			}
 		}
-
-		ks->map()->slotCenter();
+//		ks->map()->slotCenter();
 	} else {
 		ks->map()->setClickedPoint( &newPoint );
-		ks->map()->slotCenter();
+//		ks->map()->slotCenter();
 	}
-
+	
+	ks->map()->setDestination( ks->map()->clickedPoint() );
+	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 	ks->map()->setFocus( ks->map()->destination() );
 	ks->map()->focus()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
-	ks->map()->destination()->EquatorialToHorizontal( ks->LSTh(), ks->geo()->lat() );
 
 	ks->setHourAngle();
 
