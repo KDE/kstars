@@ -17,7 +17,6 @@
 
 //This file contains drawing functions SkyMap class.
 
-#include <iostream.h> //DEBUG
 #include <math.h> //log10()
 
 #include "skymap.h"
@@ -353,7 +352,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 
 	//index of point near the left or top/bottom edge
 	int index1(0), index2(0);
-	double xSmall(10000.0); //ridiculous initial value
+	int xSmall(width() + 100); //ridiculous initial value
 	
 	//start loop at second item
 	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
@@ -399,10 +398,6 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	} else {
 		psky.moveTo( o1.x(), o1.y() );
 	}
-	
-	//Instead of keying off of one of the equator points, I should determine the 
-	//RA of the equator at x=0.0 by interpolating from bracketing 
-	//Equator points.
 	
 	if ( ! slewing && xSmall < width() ) {
 		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
@@ -498,12 +493,26 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	QPoint cur = o;
 	psky.moveTo( o.x(), o.y() );
 
+	//index of point near the right or top/bottom edge
+	int index1(0), index2(0);
+	int xBig(-100); //ridiculous initial value
+	
 	bool newlyVisible = false;
 	//Start loop at second item
 	for ( p = data->Ecliptic.next(); p; p = data->Ecliptic.next() ) {
 		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
+			//first iteration for positioning the "Ecliptic" label:
+			//flag the onscreen equator point with the largest x value
+			//we don't draw the label while slewing
+			if ( ! slewing && o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
+				if ( o.x() > xBig ) {
+					xBig = o.x();
+					index1 = data->Ecliptic.at();
+				}
+			}
+			
 			//When drawing on the printer, the psky.pos() point does NOT get updated
 			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
 			int dx = cur.x() - o.x();
@@ -533,6 +542,413 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	} else {
 		psky.moveTo( o1.x(), o1.y() );
 	}
+
+	if ( ! slewing && xBig > 0 ) {
+		//Draw the "Ecliptic" label.  We have flagged the rightmost onscreen Ecliptic point.
+		//If the zoom level is below 1000, simply adopt this point as the anchor for the 
+		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+		//point at which the Ecliptic goes offscreen, and anchor from that point.
+		p = data->Ecliptic.at(index1);
+		double ra0(0.0);  //the ra of our anchor point 
+		double dec0(0.0); //the dec of our anchor point 
+		
+		if ( Options::zoomFactor() < 1000. ) {
+			ra0 = p->ra()->Hours();
+			dec0 = p->dec()->Degrees();
+		} else {
+			//Somewhere between Ecliptic point p and its immediate neighbor, the Ecliptic goes
+			//offscreen.  Determine the exact point at which this happens.
+			index2 = index1 - 1;
+			if ( index2 < 0 ) index2 = 0;
+			SkyPoint *p2 = data->Ecliptic.at(index2);
+			
+			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			QPoint o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			
+			double x1, x2;
+			//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
+			if ( o2.x() > width() ) { 
+				x1 = double(width()-o.x())/double(o2.x()-o.x());
+				x2 = double(o2.x()-width())/double(o2.x()-o.x());
+			} else if ( o2.y() < 0 ) {
+				x1 = double(o.y())/double(o.y()-o2.y());
+				x2 = -1.0*double(o2.y())/double(o.y()-o2.y());
+			} else if ( o2.y() > height() ) {
+				x1 = double(height() - o.y())/double(o2.y()-o.y());
+				x2 = double(o2.y() - height())/double(o2.y()-o.y());
+			} else {  //should never get here
+				x1 = 0.0;
+				x2 = 1.0;
+			}
+			
+			//ra0 is the exact RA at which the Ecliptic intersects a screen edge
+			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
+			//dec0 is the exact Dec at which the Ecliptic intersects a screen edge
+			dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
+		}
+		
+		//LabelPoint is offset from the anchor point by +2.0 degree ecl. Long 
+		//and -0.4 degree in ecl. Lat, scaled by 2000./zoomFactor so that they are 
+		//independent of zoom.
+		KSNumbers num( data->currentDate() );
+		SkyPoint LabelPoint(ra0, dec0);
+		dms ecLong, ecLat;
+		LabelPoint.findEcliptic( num.obliquity(), ecLong, ecLat );
+		ecLong.setD( ecLong.Degrees() + 4000./Options::zoomFactor() );
+		ecLat.setD( ecLat.Degrees() - 800./Options::zoomFactor() );
+		LabelPoint.setFromEcliptic( num.obliquity(), &ecLong, &ecLat );
+		
+		if ( Options::useAltAz() ) 
+			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+		
+		//now we need the position angle between p and an Ecliptic point at index1+5
+		//to approximate the angle at the position of the label
+		index2 = index1 + 5;
+		if ( index2 > data->Ecliptic.count() ) index2 -= data->Ecliptic.count();
+		SkyPoint *p2 = data->Ecliptic.at(index2);
+		
+		QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
+		QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
+		double sx = double( t.x() - t2.x() );
+		double sy = double( t.y() - t2.y() );
+		double angle;
+		if ( sx ) {
+			angle = atan( sy/sx )*180.0/dms::PI;
+		} else {
+			angle = 90.0;
+			if ( sy < 0 ) angle = -90.0;
+		}
+		
+		//Finally, draw the "Ecliptic" label at the determined location and angle
+		psky.save();
+		psky.translate( o.x(), o.y() );
+		psky.rotate( double( angle ) );  //rotate the coordinate system
+		psky.drawText( 0, 0, i18n( "Ecliptic" ) );
+		psky.restore(); //reset coordinate system
+	}
+}
+
+void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
+{
+	int Width = int( scale * width() );
+	int Height = int( scale * height() );
+
+	QPtrList<QPoint> points;
+	points.setAutoDelete(true);
+	//Draw Horizon
+	//The horizon should not be corrected for atmospheric refraction, so getXY has doRefract=false...
+	if (Options::showHorizon() || Options::showGround() ) {
+		QPoint OutLeft(0,0), OutRight(0,0);
+
+		psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) );
+		psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+		int ptsCount = 0;
+		int maxdist = int(Options::zoomFactor()/4);
+
+		//index of point near the right or top/bottom edge
+		int index1(0), index2(0);
+		int xBig(-100); //ridiculous initial value
+		
+		for ( SkyPoint *p = data->Horizon.first(); p; p = data->Horizon.next() ) {
+			QPoint *o = new QPoint();
+			*o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
+			bool found = false;
+
+			//first iteration for positioning the "Ecliptic" label:
+			//flag the onscreen equator point with the largest x value
+			//we don't draw the label while slewing
+			if ( ! slewing && o->x() > 0 && o->x() < width() && o->y() > 0 && o->y() < height() ) {
+				if ( o->x() > xBig ) {
+					xBig = o->x();
+					index1 = data->Horizon.at();
+				}
+			}
+			
+			//Use the QPtrList of points to pre-sort visible horizon points
+			if ( o->x() > -100 && o->x() < Width + 100 && o->y() > -100 && o->y() < Height + 100 ) {
+				if ( Options::useAltAz() ) {
+					register unsigned int j;
+					for ( j=0; j<points.count(); ++j ) {
+						if ( o->x() < points.at(j)->x() ) {
+							found = true;
+							break;
+						}
+					}
+					if ( found ) {
+						points.insert( j, o );
+					} else {
+						points.append( o );
+					}
+				} else {
+					points.append( o );
+				}
+			} else {  //find the out-of-bounds points closest to the left and right borders
+				if ( ( OutLeft.x() == 0 || o->x() > OutLeft.x() ) && o->x() < -100 ) {
+					OutLeft.setX( o->x() );
+					OutLeft.setY( o->y() );
+				}
+				if ( ( OutRight.x() == 0 || o->x() < OutRight.x() ) && o->x() >  + 100 ) {
+					OutRight.setX( o->x() );
+					OutRight.setY( o->y() );
+				}
+				// delete non stored points to avoid memory leak
+				delete o;
+			}
+		}
+
+		//Add left-edge and right-edge points based on interpolating the first/last onscreen points
+		//to the nearest offscreen points.
+
+		if ( Options::useAltAz() && points.count() > 0 ) {
+     //Interpolate from first sorted onscreen point to x=-100,
+     //using OutLeft to determine the slope
+			int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
+			int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
+			int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
+			QPoint *LeftEdge = new QPoint( -100, yp );
+			points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
+
+    	//Interpolate from the last sorted onscreen point to ()+100,
+			//using OutRight to determine the slope.
+			xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
+			xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
+			yp = xx*OutRight.y() + (1-xx)*points.at( points.count() - 1 )->y(); //interpolated right-edge y value
+			QPoint *RightEdge = new QPoint( Width+100, yp );
+			points.append( RightEdge );
+
+//If there are no horizon points, then either the horizon doesn't pass through the screen
+//or we're at high zoom, and horizon points lie on either side of the screen.
+		} else if ( Options::useAltAz() && OutLeft.y() !=0 && OutRight.y() !=0 &&
+            !( OutLeft.y() > Height + 100 && OutRight.y() > Height + 100 ) &&
+            !( OutLeft.y() < -100 && OutRight.y() < -100 ) ) {
+
+     //It's possible at high zoom that /no/ horizon points are onscreen.  In this case,
+     //interpolate between OutLeft and OutRight directly to construct the horizon polygon.
+			int xtotal = ( OutRight.x() - OutLeft.x() );
+			int xx = ( OutRight.x() + 100 ) / xtotal;
+			int yp = xx*OutLeft.y() + (1-xx)*OutRight.y();  //interpolated left-edge y value
+			QPoint *LeftEdge = new QPoint( -100, yp );
+			points.append( LeftEdge );
+
+			xx = ( Width + 100 - OutLeft.x() ) / xtotal;
+			yp = xx*OutRight.y() + (1-xx)*OutLeft.y(); //interpolated right-edge y value
+			QPoint *RightEdge = new QPoint( Width+100, yp );
+			points.append( RightEdge );
+ 		}
+
+		if ( points.count() ) {
+//		Fill the pts array with sorted horizon points, Draw Horizon Line
+			pts->setPoint( 0, points.at(0)->x(), points.at(0)->y() );
+			if ( Options::showHorizon() ) psky.moveTo( points.at(0)->x(), points.at(0)->y() );
+
+			for ( register unsigned int i=1; i<points.count(); ++i ) {
+				pts->setPoint( i, points.at(i)->x(), points.at(i)->y() );
+
+				if ( Options::showHorizon() ) {
+					if ( !Options::useAltAz() && ( abs( points.at(i)->x() - psky.pos().x() ) > maxdist ||
+								abs( points.at(i)->y() - psky.pos().y() ) > maxdist ) ) {
+						psky.moveTo( points.at(i)->x(), points.at(i)->y() );
+					} else {
+						psky.lineTo( points.at(i)->x(), points.at(i)->y() );
+					}
+
+				}
+			}
+
+  	 //connect the last segment back to the beginning
+			if ( abs( points.at(0)->x() - psky.pos().x() ) < maxdist && abs( points.at(0)->y() - psky.pos().y() ) < maxdist )
+				psky.lineTo( points.at(0)->x(), points.at(0)->y() );
+
+//		Finish the Ground polygon by adding a square bottom edge, offscreen
+			if ( Options::useAltAz() ) {
+				if ( Options::showGround() ) {
+					ptsCount = points.count();
+					pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
+					pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
+
+					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
+
+//  remove all items in points list
+					for ( register unsigned int i=0; i<points.count(); ++i ) {
+						points.remove(i);
+					}
+				}
+
+//	Draw compass heading labels along horizon
+				SkyPoint *c = new SkyPoint;
+				QPoint cpoint;
+				psky.setFont( stdFont );
+
+				if ( Options::showGround() )
+					psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
+				else
+					psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+
+		//North
+				c->setAz( 359.99 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "North", "N" ) );
+				}
+
+		//NorthEast
+				c->setAz( 45.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northeast", "NE" ) );
+				}
+
+		//East
+				c->setAz( 90.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "East", "E" ) );
+				}
+
+		//SouthEast
+				c->setAz( 135.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southeast", "SE" ) );
+				}
+
+		//South
+				c->setAz( 179.99 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "South", "S" ) );
+				}
+
+		//SouthWest
+				c->setAz( 225.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southwest", "SW" ) );
+				}
+
+		//West
+				c->setAz( 270.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "West", "W" ) );
+				}
+
+		//NorthWest
+				c->setAz( 315.0 );
+				c->setAlt( 0.0 );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cpoint = getXY( c, Options::useAltAz(), false, scale );
+				cpoint.setY( cpoint.y() + int(scale*20) );
+				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
+					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northwest", "NW" ) );
+				}
+
+				delete c;
+			}
+		}
+		
+		if ( ! slewing && xBig > 0 ) {
+			//Draw the "Horizon" label.  We have flagged the rightmost onscreen Horizon point.
+			//If the zoom level is below 1000, simply adopt this point as the anchor for the 
+			//label.  If the zoom level is 1000 or higher, we interpolate to find the exact 
+			//point at which the Horizon goes offscreen, and anchor from that point.
+			SkyPoint *p = data->Horizon.at(index1);
+			double ra0(0.0);  //the ra of our anchor point 
+			double dec0(0.0); //the dec of our anchor point 
+			
+			if ( Options::zoomFactor() < 1000. ) {
+				ra0 = p->ra()->Hours();
+				dec0 = p->dec()->Degrees();
+			} else {
+				//Somewhere between Horizon point p and its immediate neighbor, the Horizon goes
+				//offscreen.  Determine the exact point at which this happens.
+				index2 = index1 + 1;
+				if ( index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
+				SkyPoint *p2 = data->Horizon.at(index2);
+				
+				QPoint o1 = getXY( p, Options::useAltAz(), false, scale );
+				QPoint o2 = getXY( p2, Options::useAltAz(), false, scale );
+
+				double x1, x2;
+				//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
+				if ( o2.x() > width() ) { 
+					x1 = double(width()-o1.x())/double(o2.x()-o1.x());
+					x2 = double(o2.x()-width())/double(o2.x()-o1.x());
+				} else if ( o2.y() < 0 ) {
+					x1 = double(o1.y())/double(o1.y()-o2.y());
+					x2 = -1.0*double(o2.y())/double(o1.y()-o2.y());
+				} else if ( o2.y() > height() ) {
+					x1 = double(height() - o1.y())/double(o2.y()-o1.y());
+					x2 = double(o2.y() - height())/double(o2.y()-o1.y());
+				} else {  //should never get here
+					x1 = 0.0;
+					x2 = 1.0;
+				}
+				
+				//ra0 is the exact RA at which the Horizon intersects a screen edge
+				ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
+				//dec0 is the exact Dec at which the Horizon intersects a screen edge
+				dec0 = x1*p2->dec()->Degrees() + x2*p->dec()->Degrees();
+			}
+			
+			//LabelPoint is offset from the anchor point by +2.0 degrees azimuth 
+			//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are 
+			//independent of zoom.
+			SkyPoint LabelPoint(ra0, dec0);
+			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
+			LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
+			LabelPoint.HorizontalToEquatorial( data->LST, data->geo()->lat() );
+			QPoint o = getXY( &LabelPoint, Options::useAltAz(), false, scale );
+			
+			//now we need the position angle between p and a Horizon point at index1+5
+			//to approximate the angle at the position of the label
+			index2 = index1 + 5;
+			if ( index2 > data->Horizon.count() ) index2 -= data->Horizon.count();
+			SkyPoint *p2 = data->Horizon.at(index2);
+			
+			QPoint t  = getXY( p,  Options::useAltAz(), Options::useRefraction() );
+			QPoint t2 = getXY( p2, Options::useAltAz(), Options::useRefraction() );
+			double sx = double( t.x() - t2.x() );
+			double sy = double( t.y() - t2.y() );
+			double angle;
+			if ( sx ) {
+				angle = atan( sy/sx )*180.0/dms::PI;
+			} else {
+				angle = 90.0;
+				if ( sy < 0 ) angle = -90.0;
+			}
+			
+			//Finally, draw the "Equator" label at the determined location and angle
+			psky.save();
+			psky.translate( o.x(), o.y() );
+			psky.rotate( double( angle ) );  //rotate the coordinate system
+			psky.drawText( 0, 0, i18n( "Horizon" ) );
+			psky.restore(); //reset coordinate system
+		}
+	}  //endif drawing horizon
 }
 
 void SkyMap::drawConstellationLines( QPainter& psky, double scale )
@@ -1241,254 +1657,6 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 			}
 		}
 	}
-}
-
-void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
-{
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
-
-	QPtrList<QPoint> points;
-	points.setAutoDelete(true);
-	//Draw Horizon
-	//The horizon should not be corrected for atmospheric refraction, so getXY has doRefract=false...
-	if (Options::showHorizon() || Options::showGround() ) {
-		QPoint OutLeft(0,0), OutRight(0,0);
-
-		psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) ); //change to colorGrid
-		psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
-		int ptsCount = 0;
-
-		int maxdist = int(Options::zoomFactor()/4);
-
-		for ( SkyPoint *p = data->Horizon.first(); p; p = data->Horizon.next() ) {
-			QPoint *o = new QPoint();
-			*o = getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
-			bool found = false;
-
-			//Use the QPtrList of points to pre-sort visible horizon points
-//			if ( o->x() > -1*maxdist && o->x() < width() + maxdist ) {
-			if ( o->x() > -100 && o->x() < Width + 100 && o->y() > -100 && o->y() < Height + 100 ) {
-				if ( Options::useAltAz() ) {
-					register unsigned int j;
-					for ( j=0; j<points.count(); ++j ) {
-						if ( o->x() < points.at(j)->x() ) {
-							found = true;
-							break;
-						}
-					}
-					if ( found ) {
-						points.insert( j, o );
-					} else {
-						points.append( o );
-					}
-				} else {
-					points.append( o );
-				}
-			} else {  //find the out-of-bounds points closest to the left and right borders
-				if ( ( OutLeft.x() == 0 || o->x() > OutLeft.x() ) && o->x() < -100 ) {
-					OutLeft.setX( o->x() );
-					OutLeft.setY( o->y() );
-				}
-				if ( ( OutRight.x() == 0 || o->x() < OutRight.x() ) && o->x() >  + 100 ) {
-					OutRight.setX( o->x() );
-					OutRight.setY( o->y() );
-				}
-				// delete non stored points to avoid memory leak
-				delete o;
-			}
-		}
-
-		//Add left-edge and right-edge points based on interpolating the first/last onscreen points
-		//to the nearest offscreen points.
-
-		if ( Options::useAltAz() && points.count() > 0 ) {
-     //Interpolate from first sorted onscreen point to x=-100,
-     //using OutLeft to determine the slope
-			int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
-			int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
-			int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
-			QPoint *LeftEdge = new QPoint( -100, yp );
-			points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
-
-    	//Interpolate from the last sorted onscreen point to ()+100,
-			//using OutRight to determine the slope.
-			xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
-			xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
-			yp = xx*OutRight.y() + (1-xx)*points.at( points.count() - 1 )->y(); //interpolated right-edge y value
-			QPoint *RightEdge = new QPoint( Width+100, yp );
-			points.append( RightEdge );
-
-//If there are no horizon points, then either the horizon doesn't pass through the screen
-//or we're at high zoom, and horizon points lie on either side of the screen.
-		} else if ( Options::useAltAz() && OutLeft.y() !=0 && OutRight.y() !=0 &&
-            !( OutLeft.y() > Height + 100 && OutRight.y() > Height + 100 ) &&
-            !( OutLeft.y() < -100 && OutRight.y() < -100 ) ) {
-
-     //It's possible at high zoom that /no/ horizon points are onscreen.  In this case,
-     //interpolate between OutLeft and OutRight directly to construct the horizon polygon.
-			int xtotal = ( OutRight.x() - OutLeft.x() );
-			int xx = ( OutRight.x() + 100 ) / xtotal;
-			int yp = xx*OutLeft.y() + (1-xx)*OutRight.y();  //interpolated left-edge y value
-			QPoint *LeftEdge = new QPoint( -100, yp );
-			points.append( LeftEdge );
-
-			xx = ( Width + 100 - OutLeft.x() ) / xtotal;
-			yp = xx*OutRight.y() + (1-xx)*OutLeft.y(); //interpolated right-edge y value
-			QPoint *RightEdge = new QPoint( Width+100, yp );
-			points.append( RightEdge );
- 		}
-
-		if ( points.count() ) {
-//		Fill the pts array with sorted horizon points, Draw Horizon Line
-			pts->setPoint( 0, points.at(0)->x(), points.at(0)->y() );
-			if ( Options::showHorizon() ) psky.moveTo( points.at(0)->x(), points.at(0)->y() );
-
-			for ( register unsigned int i=1; i<points.count(); ++i ) {
-				pts->setPoint( i, points.at(i)->x(), points.at(i)->y() );
-
-				if ( Options::showHorizon() ) {
-					if ( !Options::useAltAz() && ( abs( points.at(i)->x() - psky.pos().x() ) > maxdist ||
-								abs( points.at(i)->y() - psky.pos().y() ) > maxdist ) ) {
-						psky.moveTo( points.at(i)->x(), points.at(i)->y() );
-					} else {
-						psky.lineTo( points.at(i)->x(), points.at(i)->y() );
-					}
-
-				}
-			}
-
-  	 //connect the last segment back to the beginning
-			if ( abs( points.at(0)->x() - psky.pos().x() ) < maxdist && abs( points.at(0)->y() - psky.pos().y() ) < maxdist )
-				psky.lineTo( points.at(0)->x(), points.at(0)->y() );
-
-//DUMP_HORIZON
-/*
-			if (dumpHorizon) {
-				//First, make sure output file doesn't exist yet (so this only happens once)
-				QFile dumpFile( "horizon.xy" );
-				if ( !dumpFile.exists() && dumpFile.open( IO_WriteOnly ) ) {
-					QTextStream t( &dumpFile );
-					for ( register uint i=0; i < points.count(); ++i ) {
-						t << points.at(i)->x() << " " << points.at(i)->y() << endl;
-					}
-					dumpFile.close();
-				}
-
-				dumpHorizon = false;
-			}
-*/
-//END_DUMP_HORIZON
-
-//		Finish the Ground polygon by adding a square bottom edge, offscreen
-			if ( Options::useAltAz() ) {
-				if ( Options::showGround() ) {
-					ptsCount = points.count();
-					pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
-					pts->setPoint( ptsCount++, -100, Height+100 );         //bottom left corner
-
-					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
-
-//  remove all items in points list
-					for ( register unsigned int i=0; i<points.count(); ++i ) {
-						points.remove(i);
-					}
-				}
-
-//	Draw compass heading labels along horizon
-				SkyPoint *c = new SkyPoint;
-				QPoint cpoint;
-				psky.setFont( stdFont );
-
-				if ( Options::showGround() )
-					psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
-				else
-					psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
-
-		//North
-				c->setAz( 359.99 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "North", "N" ) );
-				}
-
-		//NorthEast
-				c->setAz( 45.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northeast", "NE" ) );
-				}
-
-		//East
-				c->setAz( 90.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "East", "E" ) );
-				}
-
-		//SouthEast
-				c->setAz( 135.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southeast", "SE" ) );
-				}
-
-		//South
-				c->setAz( 179.99 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "South", "S" ) );
-				}
-
-		//SouthWest
-				c->setAz( 225.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Southwest", "SW" ) );
-				}
-
-		//West
-				c->setAz( 270.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "West", "W" ) );
-				}
-
-		//NorthWest
-				c->setAz( 315.0 );
-				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cpoint = getXY( c, Options::useAltAz(), false, scale );
-				cpoint.setY( cpoint.y() + int(scale*20) );
-				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
-					psky.drawText( cpoint.x(), cpoint.y(), i18n( "Northwest", "NW" ) );
-				}
-
-				delete c;
-			}
-		}
-	}  //endif drawing horizon
 }
 
 void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
