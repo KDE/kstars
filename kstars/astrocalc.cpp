@@ -27,6 +27,7 @@
 #include "modcalcsidtime.h"
 #include "modcalcprec.h"
 #include "modcalcapcoord.h"
+#include "modcalcdaylength.h"
 
 #include <qvbox.h>
 #include <qstring.h>
@@ -68,6 +69,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	jdItem->setPixmap(0,jdIcon);
 
 	QListViewItem * stItem = new QListViewItem(timeItem,i18n("Sidereal Time"));
+	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
 //	QListViewItem * dayItem = new QListViewItem(timeItem,i18n("Day duration"));
 //	dayItem->setPixmap(0,sunsetIcon);
 	
@@ -114,6 +116,8 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genGeodText();
 	if(!(election.compare(i18n("Geodetic coordinates"))))
 		genGeodCoordFrame();
+	if(!(election.compare(i18n("Day duration"))))
+		genDayFrame();
 		
 		previousElection = election;
 			
@@ -201,6 +205,8 @@ void AstroCalc::delRightPanel(void)
 		delete JDFrame;
 	else if (rightPanel == SidTime)
 		delete SidFrame;
+	else if (rightPanel == DayLength)
+		delete DayFrame;
 	else if (rightPanel == GeoCoord)
 		delete GeodCoordFrame;
 	else if (rightPanel == Galactic)
@@ -224,6 +230,13 @@ void AstroCalc::genSidFrame(void)
 	delRightPanel();
 	SidFrame = new modCalcSidTime(split,"SiderealTime");
 	rightPanel = SidTime;
+}
+
+void AstroCalc::genDayFrame(void)
+{
+	delRightPanel();
+	DayFrame = new modCalcDayLength(split,"DayDuration");
+	rightPanel = DayLength;
 }
 
 
