@@ -19,10 +19,6 @@
 #define MODCALCAPCOORD_H
 
 #include "modcalcapcoorddlg.h"
-#include "dms.h"
-#include "skypoint.h"
-#include <qdatetime.h>
-
 #include <kapplication.h>
 
 /** Module to compute the equatorial coordinates for a given date and time
@@ -35,6 +31,7 @@ class dms;
 class dmsBox;
 class SkyPoint;
 class QDateTime;
+class QTextStream;
 
 class modCalcApCoord : public modCalcApCoordDlg  {
 
@@ -54,6 +51,9 @@ public:
 /**Apply precession, nutation and aberration corrections to coordinates. */
 	SkyPoint apparentCoordinates (dms r0, dms d0, long double j0, long double jf);
 
+	/** Process Lines **/
+//	void processLines( const QFile * f );
+	void processLines( QTextStream &istream );
 public slots:
 
 
@@ -66,6 +66,9 @@ public slots:
 	void slotRaCheckedBatch();
 	void slotDecCheckedBatch();
 	void slotEpochCheckedBatch();
+	void slotInputFile();
+	void slotOutputFile();
+	void slotRunBatch();
 
 private:
 /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
@@ -86,10 +89,6 @@ private:
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
 	void showEquCoords ( SkyPoint sp );
 
-	dms ra0B, dec0B;
-	double epoch0B;
-	QTime utB;
-	QDate dtB;
 };
 
 #endif
