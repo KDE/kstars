@@ -28,7 +28,7 @@ PlanetCatalog::~PlanetCatalog() {
 	// do NOT delete Sun. It is also in the QList
 	// and will be deleted automatically.
 	//
-	if (Earth) delete Earth;
+	delete Earth;
 }
 
 

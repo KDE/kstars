@@ -116,12 +116,12 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
-	if ( starpix ) delete starpix;
-	if ( pts ) delete pts;
-	if ( sp ) delete sp;
-	if ( sky ) delete sky;
-	if ( pmenu ) delete pmenu;
-	if ( IBoxes ) delete IBoxes;
+	delete starpix;
+	delete pts;
+	delete sp;
+	delete sky;
+	delete pmenu;
+	delete IBoxes;
 
 //delete any remaining object Image pointers
 	for ( DeepSkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
