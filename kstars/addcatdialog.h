@@ -26,14 +26,16 @@
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include "deepskyobject.h"
+#include "addcatdialogui.h"
 
 class QHBoxLayout;
 class QVBoxLayout;
 
-/**@short dialog for adding custom object catalogs to KStars
-  *@author Jason Harris
-  *@version 0.9
-  */
+/**@class AddCatDialog
+	*@short Dialog for adding custom object catalogs to KStars
+	*@author Jason Harris
+	*@version 1.0
+	*/
 
 class AddCatDialog : public KDialogBase  {
 	Q_OBJECT
@@ -46,32 +48,33 @@ public:
 	*/
 	~AddCatDialog();
 
-/**@returns text entered into "catalog name" KLineEdit.
+/**@return the name for the custom catalog.
 	*/
-	QString name() const { return catName->text(); }
+	QString name() const { return acd->catName->text(); }
 
-/**@returns text entered into "catalog filename" KLineEdit.
+/**@return the filename of the custom catalog.
 	*/
-	QString filename() const { return catFileName->lineEdit()->text(); }
+	QString filename() const { return acd->catFileName->lineEdit()->text(); }
 
-/**@returns QPtrList of SkyObjects as parsed from the custom catalog file.
+/**@return QPtrList of SkyObjects as parsed from the custom catalog file.
 	*/
 	QPtrList<DeepSkyObject> objectList() { return objList; }
-private slots:
-/**Fill the "catalog filename" KLineEdit according to selection from
-	*a OpenFile dialog.
-	*/
-	void findFile();
 
+private slots:
 /**If both the "catalog name" and "catalog filename" fields are filled,
 	*enable the "Ok" button.
 	*/
-	void checkLineEdits();
+	void slotCheckLineEdits();
 
 /**Attempt to parse SkyObjects from the custom catalog file.
 	*If at least on e object is read successfully, close the dialog.
 	*/
-	void validateFile();
+	void slotValidateFile();
+
+/**Overridden from KDialogBase to show short help in a dialog rather 
+	*than launch KHelpCenter.
+	*/
+	void slotHelp();
 
 /**Overridden from KDialogBase, so that the entered file can be parsed
 	*before window is closed.
@@ -80,11 +83,8 @@ private slots:
 
 private:
 	QVBoxLayout *vlay;
-	QHBoxLayout *hlay;
-	KLineEdit *catName;
-    KURLRequester *catFileName;
+	AddCatDialogUI *acd;
 	QPtrList<DeepSkyObject> objList;
-
 };
 
 #endif

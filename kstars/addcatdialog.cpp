@@ -15,40 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 #include <kdebug.h>
-#include <kfiledialog.h>
+#include <kmessagebox.h>
 
 #include "kstars.h"
 #include "skyobject.h"
 #include "starobject.h"
 #include "addcatdialog.h"
-#include "addcatdialog.moc"
 
 AddCatDialog::AddCatDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Add Catalog" ), Ok|Cancel, Ok, parent ) {
+	: KDialogBase( KDialogBase::Plain, i18n( "Add Catalog" ), Help|Ok|Cancel, Ok, parent ) {
 
 	QFrame *page = plainPage();
-	vlay = new QVBoxLayout( page, 2, 2 );
-	hlay = new QHBoxLayout();
-
-	QLabel *catFileLabel = new QLabel( i18n( "Enter filename of custom catalog:" ), page );
-	QLabel *catNameLabel = new QLabel( i18n( "Enter name for this catalog:" ), page );
-
-
-	catFileName = new KURLRequester( "", page );
-
-	catName = new KLineEdit( "", page );
-
-	hlay->addWidget( catFileName );
-
-	vlay->addWidget( catFileLabel );
-	vlay->addLayout( hlay );
-	vlay->addSpacing( 20 );
-	vlay->addWidget( catNameLabel );
-	vlay->addWidget( catName );
-
-	connect( catFileName, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( catName, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( this, SIGNAL( okClicked() ), this, SLOT( validateFile() ) );
+	setMainWidget(page);
+	vlay = new QVBoxLayout( page, 0, spacingHint() );
+	acd = new AddCatDialogUI(page);
+	vlay->addWidget( acd );
+	
+	connect( acd->catFileName, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotCheckLineEdits() ) );
+	connect( acd->catName, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotCheckLineEdits() ) );
+	connect( this, SIGNAL( okClicked() ), this, SLOT( slotValidateFile() ) );
 //	connect( catName, SIGNAL( returnPressed() ), this, SLOT( checkLineEdits() ) );
 
 	enableButtonOK( false ); //disable until both lineedits are filled
@@ -68,7 +53,25 @@ void AddCatDialog::slotOk() {
 	emit okClicked();
 }
 
-void AddCatDialog::validateFile() {
+void AddCatDialog::slotHelp() {
+	QString message = 
+			i18n( "A valid custom catalog file has one line per object, "
+						"with the following fields in each line:") + "\n\t" +
+			i18n( "1. Type identifier.  Must be one of: 0 (star), 3 (open cluster), 4 (globular cluster), "
+						"5 (gaseous nebula), 6 (planetary nebula), 7 (supernova remnant), or 8 (galaxy)" ) + "\n\t" +
+			i18n( "2. Right Ascension (floating-point value)" ) + "\n\t" +
+			i18n( "3. Declination (floating-point value)" ) + "\n\t" +
+			i18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
+			i18n( "5. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
+			i18n( "6. Star name (if type=0); otherwise object's common name. [field 6 is optional]" ) + "\n\n" +
+			
+			i18n( "The fields should be separated by whitespace.  In addition, the catalog "
+						"may contain comment lines beginning with \'#\'." );
+
+	KMessageBox::information( 0, message, i18n( "Help on custom catalog file format" ) );
+}
+
+void AddCatDialog::slotValidateFile() {
 //A Valid custom data file must satisfy the following conditions:
 //1. Each line is either a comment (beginning with '#'), or a data line
 //2. A data line consists of whitespace-delimited fields
@@ -94,12 +97,8 @@ void AddCatDialog::validateFile() {
 	}
 }
 
-void AddCatDialog::findFile() {
-	QString fname = KFileDialog::getOpenFileName();
-	if ( !fname.isEmpty() )
-            catFileName->lineEdit()->setText( fname );
+void AddCatDialog::slotCheckLineEdits() {
+    enableButtonOK(! acd->catFileName->lineEdit()->text().isEmpty() && ! acd->catName->text().isEmpty());
 }
 
-void AddCatDialog::checkLineEdits() {
-    enableButtonOK(!catFileName->lineEdit()->text().isEmpty() && !catName->text().isEmpty());
-}
+#include "addcatdialog.moc"
