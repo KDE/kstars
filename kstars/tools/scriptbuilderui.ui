@@ -160,7 +160,7 @@
                         <string>Save Script As...</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Saves the script to a file, allowing you to first specify the file name and a name for the script.</string>
+                        <string>Saves the script to a file, allowing you to first specify the filename and a name for the script.</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">

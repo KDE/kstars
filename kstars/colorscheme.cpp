@@ -282,8 +282,8 @@ bool ColorScheme::save( const QString &name ) {
 			file.close();
 		}
 	} else {
-		QString message = i18n( "Invalid file name requested.\nScheme cannot be recorded." );
-		KMessageBox::sorry( 0, message, i18n( "Invalid File Name" ) );
+		QString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
+		KMessageBox::sorry( 0, message, i18n( "Invalid Filename" ) );
 		return false;
 	}
 
