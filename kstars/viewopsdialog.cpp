@@ -303,16 +303,20 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	astDrawSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
 	astDrawSpinBox->setFont( stdFont );
 	astDrawSpinBox->setValue( intMagLimitAsteroid );
+	astDrawSpinBox->setEnabled( ksw->options()->drawAsteroids );
 	
 	showAsteroidNames = new QCheckBox( i18n( "Show names of asteroids brighter than: " ), MinorBox, "show_asteroid_names" );
 	showAsteroidNames->setFont( stdFont );
 	showAsteroidNames->setChecked( ksw->options()->drawAsteroidName );
+	showAsteroidNames->setEnabled( ksw->options()->drawAsteroids );
 	
 	int intMagLimitAsteroidName = int( 10 * ksw->options()->magLimitAsteroidName );
 	astNameSpinBox = new MagnitudeSpinBox( 25, 120, MinorBox );	// min mag = 2.5; max mag = 12.0 
 	astNameSpinBox->setFont( stdFont );
 	astNameSpinBox->setValue( intMagLimitAsteroidName );
-	
+	astNameSpinBox->setEnabled( ksw->options()->drawAsteroids );
+	astNameSpinBox->setEnabled( ksw->options()->drawAsteroids && ksw->options()->drawAsteroidName );
+
 	showComets = new QCheckBox( i18n( "Comets" ), MinorBox, "show_comets" );
 	showComets->setFont( stdFont );
 	showComets->setChecked( ksw->options()->drawComets );
@@ -320,11 +324,13 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	showCometNames = new QCheckBox( i18n( "Show names of comets within (AU): " ), MinorBox, "show_comet_names" );
 	showCometNames->setFont( stdFont );
 	showCometNames->setChecked( ksw->options()->drawCometName );
+	showCometNames->setEnabled( ksw->options()->drawComets );
 	
 	int intMaxRadCometName = int( 10 * ksw->options()->maxRadCometName );
 	comNameSpinBox = new MagnitudeSpinBox( 0, 1000, MinorBox );	// max rad = 100.0 AU 
 	comNameSpinBox->setFont( stdFont );
 	comNameSpinBox->setValue( intMaxRadCometName );
+	comNameSpinBox->setEnabled( ksw->options()->drawComets && ksw->options()->drawCometName );
 	
 	QSpacerItem *spacerAsteroid  = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Minimum );
 	
