@@ -221,7 +221,9 @@ bool ColorScheme::load( const QString &filename ) {
 			//Assuming the old *.colors format.  Loop through the KeyName list,
 			//and assign each color.  Note that order matters here, but only here
 			//(so if you don't use the old format, then order doesn't ever matter)
-			for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
+			QStringList::Iterator it = KeyName.begin()
+			QStringList::Iterator it_end = KeyName.end();
+			for ( ; it != it_end; ++it )
 				setColor( QString(*it), line.left( 7 ) );
 		}
 	}
@@ -251,7 +253,9 @@ bool ColorScheme::save( const QString &name ) {
 			QTextStream stream( &file );
 			stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-			for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
+			QStringList::Iterator it = KeyName.begin()
+			QStringList::Iterator it_end = KeyName.end();
+			for ( ; it != it_end; ++it )
 				stream << Palette[ (*it) ] << " :" << (*it) << endl;
 
 			file.close();
@@ -279,7 +283,9 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
-	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
+	QStringList::Iterator it = KeyName.begin()
+	QStringList::Iterator it_end = KeyName.end();
+	for ( ; it != it_end; ++it )
 		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
 
 	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
@@ -287,7 +293,9 @@ void ColorScheme::loadFromConfig( KConfig *conf ) {
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	for ( QStringList::Iterator it = KeyName.begin(); it != KeyName.end(); ++it )
+	QStringList::Iterator it = KeyName.begin()
+	QStringList::Iterator it_end = KeyName.end();
+	for ( ; it != it_end; ++it )
 		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
 
 	conf->writeEntry( "StarColorMode", starColorMode() );

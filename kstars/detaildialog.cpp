@@ -124,61 +124,62 @@ void DetailDialog::createAdvancedTab()
 
 void DetailDialog::createLinksTab()
 {
+	// We don't create a link tab for an unnamed object
+	if (selectedObject->name() == QString("star"))
+		return;
 
- // We don't create a link tab for an unnamed object
-   if (selectedObject->name() == QString("star"))
-       return;
+	linksTab = addPage(i18n("Links"));
 
-  linksTab = addPage(i18n("Links"));
+	infoBox = new QGroupBox(i18n("Info Links"), linksTab, "linksgroup");
+	infoLayout = new QVBoxLayout(infoBox, 20, 0, "linksbox");
+	infoList = new KListBox(infoBox, "links");
+	infoLayout->addWidget(infoList);
 
-  infoBox = new QGroupBox(i18n("Info Links"), linksTab, "linksgroup");
-  infoLayout = new QVBoxLayout(infoBox, 20, 0, "linksbox");
-  infoList = new KListBox(infoBox, "links");
-  infoLayout->addWidget(infoList);
+	imagesBox = new QGroupBox(i18n("Image Links"), linksTab, "imagesgroup");
+	imagesLayout = new QVBoxLayout(imagesBox, 20, 0, "imagesbox");
+	imagesList = new KListBox(imagesBox, "links");
+	imagesLayout->addWidget(imagesList);
 
-  imagesBox = new QGroupBox(i18n("Image Links"), linksTab, "imagesgroup");
-  imagesLayout = new QVBoxLayout(imagesBox, 20, 0, "imagesbox");
-  imagesList = new KListBox(imagesBox, "links");
-  imagesLayout->addWidget(imagesList);
+	view = new QPushButton(i18n("View"), linksTab, "view");
+	addLink = new QPushButton(i18n("Add Link..."), linksTab, "addlink");
+	editLink = new QPushButton(i18n("Edit Link..."), linksTab, "editlink");
+	removeLink = new QPushButton(i18n("Remove Link"), linksTab, "removelink");
+	buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-  view = new QPushButton(i18n("View"), linksTab, "view");
-  addLink = new QPushButton(i18n("Add Link..."), linksTab, "addlink");
-  editLink = new QPushButton(i18n("Edit Link..."), linksTab, "editlink");
-  removeLink = new QPushButton(i18n("Remove Link"), linksTab, "removelink");
-  buttonSpacer = new QSpacerItem(40, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	buttonLayout = new QHBoxLayout(5, "buttonlayout");
+	buttonLayout->addWidget(view);
+	buttonLayout->addWidget(addLink);
+	buttonLayout->addWidget(editLink);
+	buttonLayout->addWidget(removeLink);
+	buttonLayout->addItem(buttonSpacer);
 
-  buttonLayout = new QHBoxLayout(5, "buttonlayout");
-  buttonLayout->addWidget(view);
-  buttonLayout->addWidget(addLink);
-  buttonLayout->addWidget(editLink);
-  buttonLayout->addWidget(removeLink);
-  buttonLayout->addItem(buttonSpacer);
+	topLayout = new QVBoxLayout(linksTab, 6, 6 , "toplayout");
+	topLayout->addWidget(infoBox);
+	topLayout->addWidget(imagesBox);
+	topLayout->addLayout(buttonLayout);
 
-  topLayout = new QVBoxLayout(linksTab, 6, 6 , "toplayout");
-  topLayout->addWidget(infoBox);
-  topLayout->addWidget(imagesBox);
-  topLayout->addLayout(buttonLayout);
-
-   QStringList::Iterator itList = selectedObject->InfoList.begin();
+	QStringList::Iterator itList = selectedObject->InfoList.begin();
 	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
 
-  for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
-         infoList->insertItem(QString(*itTitle));
-         itTitle++;
+	for ( ; itList != itListEnd; ++itList ) {
+		infoList->insertItem(QString(*itTitle));
+		itTitle++;
 	}
 
-  infoList->setSelected(0, true);
+	infoList->setSelected(0, true);
 
 	itList  = selectedObject->ImageList.begin();
 	itTitle = selectedObject->ImageTitle.begin();
+	itListEnd  = selectedObject->ImageList.end();
 
-	for ( ; itList != selectedObject->ImageList.end(); ++itList ) {
-         imagesList->insertItem(QString(*itTitle));
-         itTitle++;
+	for ( ; itList != itListEnd; ++itList ) {
+		imagesList->insertItem(QString(*itTitle));
+		itTitle++;
 	}
 
-  if (!infoList->count() && !imagesList->count())
-     editLink->setDisabled(true);
+	if (!infoList->count() && !imagesList->count())
+			editLink->setDisabled(true);
 
   // Signals/Slots
   connect(view, SIGNAL(clicked()), this, SLOT(viewLink()));
@@ -555,8 +556,9 @@ void DetailDialog::updateLists()
 	
 	QStringList::Iterator itList = selectedObject->InfoList.begin();
 	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
 	
-	for ( ; itList != selectedObject->InfoList.end(); ++itList ) {
+	for ( ; itList != itListEnd; ++itList ) {
 		infoList->insertItem(QString(*itTitle));
 		itTitle++;
 	}
@@ -564,8 +566,9 @@ void DetailDialog::updateLists()
 	infoList->setSelected(0, true);
 	itList  = selectedObject->ImageList.begin();
 	itTitle = selectedObject->ImageTitle.begin();
+	itListEnd = selectedObject->ImageList.end();
 
-	for ( ; itList != selectedObject->ImageList.end(); ++itList ) {
+	for ( ; itList != itListEnd; ++itList ) {
 		imagesList->insertItem(QString(*itTitle));
 		itTitle++;
 	}

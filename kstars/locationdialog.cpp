@@ -111,8 +111,9 @@ LocationDialog::LocationDialog( QWidget* parent )
 	for ( int i=0; i<25; ++i )
 		TZBox->insertItem( QString("%1").arg( (double)(i-12), 0, 'f', 2 ) );
 
-	QMap<QString, TimeZoneRule>::Iterator it;
-	for ( it = p->data()->Rulebook.begin(); it != p->data()->Rulebook.end(); ++it )
+	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
+	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
+	for ( ; it != itEnd; ++it )
 		TZRuleBox->insertItem( it.key() );
 
 	ClearFields = new QPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
