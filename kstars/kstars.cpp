@@ -36,7 +36,7 @@
 #include "indidriver.h"
 
 KStars::KStars( bool doSplash ) :
-	KMainWindow(), DCOPObject("KStarsInterface"),
+	DCOPObject("KStarsInterface"), KMainWindow(),
 	skymap(0), findDialog(0), centralWidget(0),
 	AAVSODialog(0), DialogIsObsolete(false)
 {
@@ -66,7 +66,7 @@ KStars::KStars( bool doSplash ) :
 }
 
 KStars::KStars( KStarsData* kd )
-	: KMainWindow( NULL, NULL ), DCOPObject("KStarsInterface")
+	: DCOPObject("KStarsInterface"), KMainWindow( )
 {
 	// The assumption is that kstarsData is fully initialized
 
