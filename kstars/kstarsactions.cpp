@@ -426,7 +426,7 @@ void KStars::slotRunScript() {
 			message += i18n( "to cancel the download, press Cancel. " );
 
 			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
-					i18n( "&Continue" ), i18n( "&Save" ) );
+					KStdGuiItem::cont(), KStdGuiItem::save() );
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
