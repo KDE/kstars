@@ -157,7 +157,8 @@ void KStars::loadOptions()
 void KStars::saveOptions() {
 	// don't save options if no options or map exists
 	// this is normally the case if application was closed over splashscreen
-	if ( !map() || options() ) { kdDebug() << "Warning: Options not saved!" << endl;
+	if ( !map() || !options() ) {
+		kdDebug() << k_funcinfo << "Warning: Options not saved!" << endl;
 		return;
 	}
 
