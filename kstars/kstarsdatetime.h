@@ -39,6 +39,7 @@ public:
 	KStarsDateTime();
 	KStarsDateTime( long int jd );
 	KStarsDateTime( const KStarsDateTime &kdt );
+	KStarsDateTime( const ExtDateTime &kdt );
 	KStarsDateTime( const ExtDate &_d, const QTime &_t );
 	KStarsDateTime( double djd );
 	KStarsDateTime( long double djd );

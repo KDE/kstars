@@ -43,6 +43,7 @@ static KCmdLineOptions options[] =
 	{ "script ", I18N_NOOP( "script to execute" ), 0 },
 	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
+	{ "date ", I18N_NOOP( "date and time" ), "" },
 	{ "filename ", I18N_NOOP( "filename for sky image" ), "kstars.png" },
 	KCmdLineLastOption
 };
@@ -102,9 +103,37 @@ int main(int argc, char *argv[])
 		//Set color scheme
 		dat->colorScheme()->loadFromConfig( kapp->config() );
 
-		//reset clock now that we have a location:
-		dat->clock()->setUTC( KStarsDateTime::currentDateTime() );
-
+		//set clock now that we have a location:
+		//Check to see if user provided a date/time string.  If not, use current CPU time
+		QString datestring = args->getOption( "date" );
+		KStarsDateTime kdt;
+		if ( ! datestring.isEmpty() ) {
+			if ( datestring.contains( "-" ) ) { //assume ISODate format
+				if ( datestring.contains( ":" ) ) { //also includes time
+					kdt = KStarsDateTime::fromString( datestring, Qt::ISODate );
+				} else { //string probably contains date only
+					kdt.setDate( ExtDate::fromString( datestring, Qt::ISODate ) );
+					kdt.setTime( QTime( 0, 0, 0 ) );
+				}
+			} else { //assume Text format for date string
+				kdt = KStarsDateTime::fromString( datestring, Qt::TextDate );
+			}
+			
+			if ( ! kdt.isValid() ) {
+				kdWarning() << i18n( "Could not parse Date/Time string: " ) << datestring << endl;
+				kdWarning() << i18n( "Valid date formats: " ) << endl;
+				kdWarning() << "  1950-02-25  ;  1950-02-25 05:30:00" << endl;
+				kdWarning() << "  Feb 25 1950 ;  Feb 25 1950 05:30:00" << endl;
+				kdWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" << endl;
+				kdWarning() << i18n( "Using CPU date/time instead." ) << endl;
+				
+				kdt = KStarsDateTime::currentDateTime();
+			}
+		} else { 
+			kdt = KStarsDateTime::currentDateTime();
+		}
+		dat->clock()->setUTC( kdt );
+		
 		KSNumbers num( dat->ut().djd() );
 		dat->initGuides(&num);
 

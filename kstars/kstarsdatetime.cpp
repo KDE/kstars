@@ -33,6 +33,14 @@ KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : ExtDateTime() {
 	setDJD( kdt.djd() );
 }
 
+KStarsDateTime::KStarsDateTime( const ExtDateTime &edt ) : ExtDateTime( edt ) {
+	//don't call setDJD() because we don't need to compute the time; just set DJD directly
+	QTime _t = edt.time();
+	ExtDate _d = edt.date();
+	long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
+	DJD = (long double)( _d.jd() ) + jdFrac;
+}
+
 KStarsDateTime::KStarsDateTime( const ExtDate &_d, const QTime &_t ) : ExtDateTime( _d, _t ) {
 	//don't call setDJD() because we don't need to compute the time; just set DJD directly
 	long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
