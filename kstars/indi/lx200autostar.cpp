@@ -1,6 +1,6 @@
 /*
     LX200 Autostar
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -25,16 +25,18 @@
 #include "lx200autostar.h"
 #include "lx200driver.h"
 
+#define FirmwareGroup "Firmware data"
+
 
 extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
 extern char mydev[];
 
-static IText   VersionDate	 = { mydev, "Version Date", NULL, ILS_IDLE};
-static IText   VersionTime       = { mydev, "Version Time", NULL, ILS_IDLE};
-static IText   VersionNumber     = { mydev, "Version Number", NULL, ILS_IDLE};
-static IText   FullVersion	 = { mydev, "Full Version", NULL, ILS_IDLE};
-static IText   ProductName       = { mydev, "Product Name", NULL, ILS_IDLE};
+static IText   VersionDate	 = { mydev, "Version Date", NULL, ILS_IDLE, 0, FirmwareGroup};
+static IText   VersionTime       = { mydev, "Version Time", NULL, ILS_IDLE, 0, FirmwareGroup};
+static IText   VersionNumber     = { mydev, "Version Number", NULL, ILS_IDLE, 0 , FirmwareGroup};
+static IText   FullVersion	 = { mydev, "Full Version", NULL, ILS_IDLE, 0 , FirmwareGroup};
+static IText   ProductName       = { mydev, "Product Name", NULL, ILS_IDLE, 0 , FirmwareGroup};
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
@@ -47,7 +49,7 @@ LX200Autostar::LX200Autostar() : LX200Generic()
 
 }
 
-void LX200Autostar::ISGetProperties (char *dev)
+void LX200Autostar::ISGetProperties (const char *dev)
 {
 
 if (dev && strcmp (mydev, dev))

@@ -1,6 +1,6 @@
 /*
     LX200 Generic
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ class LX200Generic
  LX200Generic();
  virtual ~LX200Generic() {}
 
- virtual void ISGetProperties (char *dev);
+ virtual void ISGetProperties (const char *dev);
  virtual void ISNewText (IText *t);
  virtual void ISNewNumber (INumber *n);
  virtual void ISNewSwitch (ISwitches *s);
@@ -45,22 +45,26 @@ class LX200Generic
  void slewError(int slewCode);
  void getAlignment();
  void alterSwitches(int OnOff, ISwitches * s, int switchArraySize);
+ int handleCoordSet();
 
  private:
   int timeFormat;
   int currentSiteNum;
   int currentCatalog;
   int currentSubCatalog;
-  int portType;
   int portIndex;
   int trackingMode;
+  int lastSet;
 
-  double objectRA;
-  double objectDEC;
+  double currentRA;
+  double currentDEC;
   double targetRA;
   double targetDEC;
   double oldLX200RA;
   double oldLX200DEC;
+
+  char lastDate [64];
+  char lastTime [64];
 
 };
 

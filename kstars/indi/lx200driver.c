@@ -1,6 +1,6 @@
 #if 0
     LX200 Driver
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -35,8 +35,8 @@
 int fd;
 int read_ret, write_ret;
 
-const char* ttyPort[] = { "/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS2", "/dev/ttyS3" };
-const char* USBPort[] = { "/dev/ttyUSB0", "/dev/ttyUSB1","/dev/ttyUSB2","/dev/ttyUSB3"};
+const char* SerialUSBPort[] = { "/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS2", "/dev/ttyS3",
+                           "/dev/ttyUSB0", "/dev/ttyUSB1","/dev/ttyUSB2","/dev/ttyUSB3"};
 const char* alignModes[] = { "Polar", "AltAz", "Land"};
 const char * LX200Direction[] = { "North", "West", "East", "South", "All"};
 const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
@@ -91,7 +91,7 @@ char ACK()
 
 }
 
-double getCommand(char * cmd)
+double getCommand(const char * cmd)
 {
   char tempString[16];
   double value;
@@ -101,10 +101,47 @@ double getCommand(char * cmd)
     read_ret = portRead(tempString, -1);
     tempString[read_ret - 1] = '\0';
 
-  if (validateFormat(tempString, &value))
-   return -100;
+  if (getSex(tempString, &value))
+   return -1000;
  else
    return value;
+}
+
+int getCommandStr(char *data, const char* cmd)
+{
+    char * term;
+    portWrite(cmd);
+
+    read_ret = portRead(data, -1);
+    if (read_ret < 1)
+     return -1;
+
+    term = strchr (data, '#');
+    if (term)
+      *term = '\0';
+
+    fprintf(stderr, "Request data: %s\n", data);
+
+    return 0;
+}
+
+int getCalenderDate(char *date)
+{
+
+ float dd, mm, yy;
+
+ if (getCommandStr(date, "#:GC#"))
+  return (-1);
+
+ /* Meade format is MM/DD/YY */
+ if (validateSex(date, &mm, &dd, &yy))
+  return (-1);
+
+ /* We need to have in in YYYY/MM/DD format */
+ sprintf(date, "20%02d/%02d/%02d", (int) yy, (int) mm, (int) dd);
+
+ return (0);
+
 }
 
 int getTimeFormat()
@@ -124,24 +161,6 @@ int getTimeFormat()
   else
   return tMode;
 
-}
-
-int getCommandStr(char *data, char* cmd)
-{
-    char * term;
-    portWrite(cmd);
-
-    read_ret = portRead(data, -1);
-    if (read_ret < 1)
-     return -1;
-
-    term = strchr (data, '#');
-    if (term)
-      *term = '\0';
-
-    fprintf(stderr, "Request data: %s\n", data);
-
-    return 0;
 }
 
 int getUCTOffset()
@@ -259,6 +278,8 @@ int getNumberOfBars()
 
    portWrite("#:D#");
 
+   fprintf(stderr, "************* Getting Number of Bars *************");
+
    read_ret = portRead(tempString, -1);
 
    return (read_ret - 1);
@@ -325,18 +346,7 @@ int setStandardProcedure(char * data)
 
 }
 
-int setCommand(double data, char * cmd)
-{
-  char tempString[16];
-  int hours = (int) data;
-  int minutes = (int) ((data - hours) * 60.0);
-  int seconds = (int) ( (data - hours) * 60.0 - minutes);
-
-  sprintf(tempString, "%s %02d:%02d:%02d#", cmd, hours, minutes, seconds);
-  return (setStandardProcedure(tempString));
-}
-
-void setCommandInt(int data, char *cmd)
+void setCommandInt(int data, const char *cmd)
 {
 
   char tempString[16];
@@ -347,8 +357,36 @@ void setCommandInt(int data, char *cmd)
 
 }
 
+/*int setObjectRA(double RA)
+{
+  char tempString[16];
+  int hours = (int) data;
+  int minutes = (int) ((data - hours) * 60.0);
+  int seconds = (int) ( (data - hours) * 60.0 - minutes);
 
-int setObjectDEC(double DEC)
+  sprintf(tempString, "#:Sr %02d:%02d:%02d#", hours, minutes, seconds);
+  return (setStandardProcedure(tempString));
+}*/
+
+int setObjectRA(double h, double m, double s)
+{
+
+ char tempString[16];
+ sprintf(tempString, "#:Sr %02d:%02d:%02d#", (int) h, (int) m, (int) s);
+  return (setStandardProcedure(tempString));
+}
+
+
+int setObjectDEC(double d, double m, double s)
+{
+  char tempString[16];
+   sprintf(tempString, "#:Sd %+03d:%02d:%02d#", (int) d, (int) m, (int) s);
+
+   return (setStandardProcedure(tempString));
+
+}
+
+/*int setObjectDEC(double DEC)
 {
   char tempString[16];
   int degrees = (int) DEC;
@@ -364,8 +402,10 @@ int setObjectDEC(double DEC)
 
    return (setStandardProcedure(tempString));
 }
+*/
 
-int setCommandXYZ(int x, int y, int z, char *cmd)
+
+int setCommandXYZ(int x, int y, int z, const char *cmd)
 {
   char tempString[16];
 
@@ -738,57 +778,85 @@ void checkLX200Format()
 
 }
 
-int validateFormat(char * str, double * result)
+int validateSex(const char * str, float *x, float *y, float *z)
 {
-
-  float h = 0, m = 0, s = 0;
-  char localstr[64];
-  char * negative;
   int ret;
 
-  strcpy(localstr, str);
-
-  negative = strchr (localstr, '-');
-  if (negative)
-  	*negative = ' ';
-
-  ret = sscanf(localstr, "%f%*c%f%*c%f", &h, &m, &s);
+  ret = sscanf(str, "%f%*c%f%*c%f", x, y, z);
   if (ret < 1)
    return -1;
 
-  *result = (double) (h + m / 60.0 + s / 3600.0);
+  if (ret == 1)
+  {
+   *y = 0;
+   *z = 0;
+  }
+  else if (ret == 2)
+   *z = 0;
 
-  if (negative)
-  *result *= -1;
 
   return (0);
 
 }
 
-void formatHMS(double number, char * str)
+int getSex(const char *str, double * value)
 {
+  float x,y,z;
 
-  int h = (int) number;
-  int m = (int) ((number - h) * 60.0);
-  int s = (int) ( (number - h) * 60.0 - m);
+  if (validateSex(str, &x, &y, &z))
+   return (-1);
 
-  if (m < 0) m *= -1;
-  if (s < 0) s *= -1;
+  if (x > 0)
+   *value = x + (y / 60.0) + (z / (3600.00));
+  else
+   *value = x - (y / 60.0) - (z / (3600.00));
 
-  sprintf(str, "%02d:%02d:%02d", h, m, s);
+   return (0);
 }
 
-void formatDMS(double number, char * str)
+/* Mode 0   XX:YY:ZZ
+   Mode 1 +-XX:YY:ZZ
+   Mode 2   XX:YY
+   Mode 3 +-XX:YY
+   Mode 3   XX:YY.Z
+   Mode 4   XXX:YY */
+void formatSex(double number, char * str, int mode)
 {
+  int x;
+  double y, z;
 
-  int d = (int) number;
-  int m = (int) ((number - d) * 60.0);
-  int s = (int) ( (number - d) * 60.0 - m);
+  x = (int) number;
 
-  if (m < 0) m *= -1;
-  if (s < 0) s *= -1;
+  y = ((number - x) * 60.00);
 
-  sprintf(str, "%+03d:%02d:%02d", d, m, s);
+  if (y < 0) y *= -1;
+
+  z = (y - (int) y) * 60.00;
+
+  if (z < 0) z *= -1;
+
+  switch (mode)
+  {
+    case XXYYZZ:
+      	sprintf(str, "%02d:%02d:%02.0f", x, (int) y, z);
+	break;
+    case SXXYYZZ:
+        sprintf(str, "%+03d:%02d:%02.0f", x, (int) y, z);
+	break;
+    case XXYY:
+        sprintf(str, "%02d:%02d", x, (int) y);
+	break;
+    case SXXYY:
+    sprintf(str, "%+03d:%02d", x, (int) y);
+	break;
+    case XXYYZ:
+        sprintf(str, "%02d:%02.1f", x, (float) y);
+	break;
+    case XXXYY:
+    	sprintf(str, "%03d:%02d", x, (int) y);
+	break;
+  }
+
 }
 
 int extractDate(char *inDate, int *dd, int *mm, int *yy)
@@ -818,7 +886,7 @@ int extractDate(char *inDate, int *dd, int *mm, int *yy)
      if (j > 2)
      {
        /* if it it not the years field, return an error */
-       if (slashCount <= 2)
+       if (slashCount > 1)
        {
    	 return -1;
 	 fprintf(stderr, "error: field has more than two digits\n");
@@ -857,9 +925,9 @@ int extractDate(char *inDate, int *dd, int *mm, int *yy)
      buf[j++] = inDate[i];
  }
 
- *mm = dates[0];
- *dd = dates[1];
- *yy = dates[2];
+ *yy = dates[0];
+ *mm = dates[1];
+ *dd = dates[2];
 
  if (*mm < 1 || *mm > 12 || *dd < 1 || *yy < 0)
  {
@@ -905,7 +973,9 @@ int extractTime(char *inTime, int *h, int *m, int *s)
       break;
 
      default:
-       return -1;
+     buf[j] = '\0';
+      break;
+
      }
 
      times[colonCount-1] = atoi(buf);
@@ -929,6 +999,32 @@ int extractTime(char *inTime, int *h, int *m, int *s)
  return 0;
 
 }
+
+/* Seperates date form time fields in the ISO time format */
+int extractDateTime(char *datetime, char *inTime, char *date)
+{
+ uint searchT;
+
+ searchT = strcspn(datetime, "T");
+
+ if (searchT == strlen(datetime))
+  return (-1);
+
+ strncpy(date, datetime, searchT);
+ date[searchT] = '\0';
+
+ strcpy(inTime, datetime + searchT + 1);
+ inTime[strlen(datetime)] = '\0';
+
+ return (0);
+}
+
+/* Forms YYYY/MM/DDTHH:MM:SS */
+void formatDateTime(char *datetime, char *inTime, char *date)
+{
+ sprintf(datetime, "%sT%s", date, inTime);
+}
+
 
 void selectTrackingMode(int trackMode)
 {
@@ -1084,12 +1180,17 @@ int portRead(char *buf, int nbytes)
 
          if (bytesRead < 0 )
             return READ_ERROR;
-            
+
         if (bytesRead)
           totalBytes++;
 
+        fprintf(stderr, "%d read so far\n", totalBytes);
+
         if (*buf == '#')
+	{
+	   fprintf(stderr, "********** # terminating found, returning\n");
 	   return totalBytes;
+	}
 	
         buf += bytesRead;
      }

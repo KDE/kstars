@@ -1,6 +1,6 @@
 /*
     LX200 Driver
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -42,12 +42,10 @@ enum DeepSkyCatalog { LX200_NGC, LX200_IC, LX200_UGC, LX200_CALDWELL, LX200_ARP,
 
 enum TFreq { LX200_TRACK_DEFAULT, LX200_TRACK_LUNAR, LX200_TRACK_MANUAL};
 
-enum TPorts { SERIAL_PORT, USB_PORT};
-
+enum SexFormat { XXYYZZ = 0 , SXXYYZZ, XXYY, SXXYY, XXYYZ, XXXYY };
 extern const char * LX200Direction[];
 extern const char * SolarSystem[];
-extern const char* ttyPort[];
-extern const char* USBPort[];
+extern const char* SerialUSBPort[];
 
 #define OPENPORT_ERROR			-1000		/* port open failed */
 #define READOUT_ERROR			-1001		/* timeout on fd */
@@ -67,7 +65,6 @@ extern const char* USBPort[];
 #define getSDTime()			getCommand("#:GS#")
 
 /* Get String, pass x as string */
-#define getCalenderDate(x)		getCommandStr(x, "#:GC#")
 #define getObjectInfo(x)		getCommandStr(x, "#:LI#")
 #define getVersionDate(x)		getCommandStr(x, "#:GVD#")
 #define getVersionTime(x)		getCommandStr(x, "#:GVT#")
@@ -75,9 +72,6 @@ extern const char* USBPort[];
 #define getVersionNumber(x)		getCommandStr(x, "#:GVN#")
 #define getProductName(x)		getCommandStr(x, "#:GVP#")
 #define turnGPS_StreamOn		getCommandStr(x, "#:gps#")
-
-/* Generic set, x is a double to set */
-#define setObjectRA(x)			setCommand(x, "#:Sr")
 
 /* Generic set, x is an integer */
 #define setReticleDutyFlashCycle(x)	setCommandInt(x, "#:BD")
@@ -124,9 +118,9 @@ extern const char* USBPort[];
 extern "C" {
 #endif
 
-int validateFormat(char * str, double * result);
-void formatHMS(double number, char * str);
-void formatDMS(double number, char * str);
+int validateSex(const char * str, float *x, float *y, float *z);
+void formatSex(double number, char * str, int mode);
+int getSex(const char *str, double * value);
 
 int LX200readOut(int timeout);
 int openPort(const char *portID);
@@ -142,12 +136,13 @@ char ACK();
    
 /* Get commands */
 void checkLX200Format();
-double getCommand(char *cmd);
+double getCommand(const char *cmd);
 double getTrackFreq();
 
-int getCommandStr(char *data, char* cmd);
+int getCommandStr(char *data, const char* cmd);
 int getTimeFormat();
 
+int getCalenderDate(char *date);
 int getUCTOffset();
 int getSiteName(char *siteName, int siteNum);
 int getSiteLatitude(int *dd, int *mm);
@@ -161,15 +156,20 @@ double getOTATemp();
 
 
 /* Set Commands */
-int setCommand(double data, char *cmd);
-void setCommandInt(int data, char *cmd);
+int setCommand(double data, const char *cmd);
+void setCommandInt(int data, const char *cmd);
 
-int setCommandXYZ( int x, int y, int z, char *cmd);
+int setCommandXYZ( int x, int y, int z, const char *cmd);
 int setStandardProcedure(char * writeData);
 
 void setSlewMode(int slewMode);
 void setAlignmentMode(unsigned int alignMode);
-int setObjectDEC(double DEC);
+
+/*int setObjectRA(double RA)			setCommand(x, "#:Sr")
+int setObjectDEC(double DEC); */
+int setObjectRA(double h, double m, double s);
+int setObjectDEC(double d, double m, double s);
+
 int setCalenderDate(int dd, int mm, int yy);
 int setUTCOffset(int hours);
 int setTrackFreq(double trackF);
@@ -196,6 +196,8 @@ void selectTrackingMode(int trackMode);
 int selectSubCatalog(int catalog, int subCatalog);
 int extractDate(char *inDate, int *dd, int *mm, int *yy);
 int extractTime(char *inTime, int *h, int *m, int *s);
+int extractDateTime(char *datetime, char *inTime, char *date);
+void formatDateTime(char *datetime, char *inTime, char *date);
 
 
 #ifdef __cplusplus

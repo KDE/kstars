@@ -1,6 +1,6 @@
 /*
     LX200 Autostar
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ class LX200Autostar : public LX200Generic
   LX200Autostar();
   ~LX200Autostar() {}
 
- virtual void ISGetProperties (char *dev);
+ virtual void ISGetProperties (const char *dev);
  virtual void ISNewText (IText *t);
  virtual void ISNewNumber (INumber *n);
  virtual void ISNewSwitch (ISwitches *s);

@@ -62,7 +62,7 @@ ISInit()
 
 /* send client definitions of all properties */
 void
-ISGetProperties (char *dev)
+ISGetProperties (const char *dev)
 {
 	if (dev && strcmp (mydev, dev))
 	    return;
@@ -85,7 +85,7 @@ ISNewText (IText *t)
 }
 
 void
-ISNewSwitch (ISwitches *s)
+ISNewSwitch (ISwitches *sw)
 {
 }
 

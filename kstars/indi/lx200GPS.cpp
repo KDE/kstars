@@ -1,6 +1,6 @@
 /*
     LX200 GPS
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,7 @@
 #include "lx200GPS.h"
 #include "lx200driver.h"
 
+#define GPSGroup   "Extended GPS Features"
 
 extern LX200Generic *telescope;
 extern char mydev[];
@@ -39,16 +40,16 @@ static ISwitch SelenSyncS[]		= {{ "Selenographic Sync", ISS_OFF}};
 static ISwitch AltDecBackSlashS[]	= {{ "Activate Alt Dec Anti Backslash", ISS_OFF}};
 static ISwitch AzRaBackSlashS[]		= {{ "Activate Az Ra Anti Backslash", ISS_OFF}};
 
-static ISwitches GPSPowerSw		= { mydev, "GPS Power", GPSPowerS, NARRAY(GPSPowerS), ILS_IDLE, 0};
-static ISwitches GPSStatusSw		= { mydev, "GPS Status", GPSStatusS, NARRAY(GPSStatusS), ILS_IDLE, 0};
-static ISwitches GPSUpdateSw		= { mydev, "GPS Update", GPSUpdateS, NARRAY(GPSUpdateS), ILS_IDLE, 0};
-static ISwitches AltDecPecSw		= { mydev, "Alt/Dec PEC Compensation", AltDecPecS, NARRAY(AltDecPecS), ILS_IDLE, 0};
-static ISwitches AzRaPecSw		= { mydev, "Az/Ra PEC Compensation", AzRaPecS, NARRAY(AzRaPecS), ILS_IDLE, 0};
-static ISwitches SelenSyncSw		= { mydev, "Selenographic Sync", SelenSyncS, NARRAY(SelenSyncS), ILS_IDLE, 0};
-static ISwitches AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", AltDecBackSlashS, NARRAY(AltDecBackSlashS), ILS_IDLE, 0};
-static ISwitches AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", AzRaBackSlashS, NARRAY(AzRaBackSlashS), ILS_IDLE, 0};
+static ISwitches GPSPowerSw		= { mydev, "GPS Power", GPSPowerS, NARRAY(GPSPowerS), ILS_IDLE, 0, GPSGroup};
+static ISwitches GPSStatusSw		= { mydev, "GPS Status", GPSStatusS, NARRAY(GPSStatusS), ILS_IDLE, 0, GPSGroup};
+static ISwitches GPSUpdateSw		= { mydev, "GPS Update", GPSUpdateS, NARRAY(GPSUpdateS), ILS_IDLE, 0, GPSGroup};
+static ISwitches AltDecPecSw		= { mydev, "Alt/Dec PEC Compensation", AltDecPecS, NARRAY(AltDecPecS), ILS_IDLE, 0, GPSGroup};
+static ISwitches AzRaPecSw		= { mydev, "Az/Ra PEC Compensation", AzRaPecS, NARRAY(AzRaPecS), ILS_IDLE, 0, GPSGroup};
+static ISwitches SelenSyncSw		= { mydev, "Selenographic Sync", SelenSyncS, NARRAY(SelenSyncS), ILS_IDLE, 0, GPSGroup};
+static ISwitches AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", AltDecBackSlashS, NARRAY(AltDecBackSlashS), ILS_IDLE, 0, GPSGroup};
+static ISwitches AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", AzRaBackSlashS, NARRAY(AzRaBackSlashS), ILS_IDLE, 0, GPSGroup};
 
-static IText OTATemp			= { mydev, "OTA Temperature",  NULL, ILS_IDLE};
+static IText OTATemp			= { mydev, "OTA Temperature",  NULL, ILS_IDLE, 0 , GPSGroup};
 
 
 
@@ -58,7 +59,7 @@ LX200GPS::LX200GPS() : LX200_16()
   OTATemp.text = new char[8];
 }
 
-void LX200GPS::ISGetProperties (char *dev)
+void LX200GPS::ISGetProperties (const char *dev)
 {
 
 if (dev && strcmp (mydev, dev))

@@ -42,12 +42,12 @@ static void usage(void);
 static void driverRun(void);
 static int dispatch (XMLEle *root, char msg[]);
 static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
-static char *lstateStr(ILState s);
-static char *sstateStr(ISState s);
-static char *ruleStr(IRule r);
-static char *permStr(IPerm p);
-static char *spermStr(ISPerm p);
-static char *timestamp (void);
+const char *lstateStr(ILState s);
+const char *sstateStr(ISState s);
+const char *ruleStr(IRule r);
+const char *permStr(IPerm p);
+const char *spermStr(ISPerm p);
+const char *timestamp (void);
 
 static int verbose;			/* chatty */
 char *me;			/* a.out name */
@@ -97,7 +97,7 @@ ICPollMe (int ms)
 
 /* tell client to create a new text property */
 void
-ICDefText (IText *t, char *prompt, IPerm p)
+ICDefText (IText *t, const char *prompt, IPerm p)
 {
 	printf ("<defText device='%s' name='%s'", t->dev, t->name);
 	printf (" perm='%s' state='%s'", permStr(p), lstateStr(t->s));
@@ -111,7 +111,7 @@ ICDefText (IText *t, char *prompt, IPerm p)
 
 /* tell client to create a new numeric property */
 void
-ICDefNumber (INumber *n, char *prompt, IPerm p, INRange *r)
+ICDefNumber (INumber *n, const char *prompt, IPerm p, INRange *r)
 {
 	printf ("<defNumber device='%s' name='%s'", n->dev, n->name);
 	printf (" perm='%s' state='%s'", permStr(p), lstateStr(n->s));
@@ -135,7 +135,7 @@ ICDefNumber (INumber *n, char *prompt, IPerm p, INRange *r)
 
 /* tell client to create a new switches property */
 void
-ICDefSwitches (ISwitches *s, char *prompt, IPerm p, IRule r)
+ICDefSwitches (ISwitches *s, const char *prompt, IPerm p, IRule r)
 {
 	int i;
 
@@ -153,7 +153,7 @@ ICDefSwitches (ISwitches *s, char *prompt, IPerm p, IRule r)
 
 /* tell client to create a new lights property */
 void
-ICDefLights (ILights *l, char *prompt)
+ICDefLights (ILights *l, const char *prompt)
 {
 	int i;
 
@@ -170,7 +170,7 @@ ICDefLights (ILights *l, char *prompt)
 
 /* tell client to update an existing text property */
 void
-ICSetText (IText *t, char *msg, ...)
+ICSetText (IText *t, const char *msg, ...)
 {
 	printf ("<setText device='%s' name='%s'", t->dev, t->name);
 	printf (" timeout='%g' state='%s'>\n", t->tout, lstateStr(t->s));
@@ -189,7 +189,7 @@ ICSetText (IText *t, char *msg, ...)
 
 /* tell client to update an existing numeric property */
 void
-ICSetNumber (INumber *n, char *msg, ...)
+ICSetNumber (INumber *n, const char *msg, ...)
 {
 	printf ("<setNumber device='%s' name='%s'", n->dev, n->name);
 	printf (" timeout='%g' state='%s'>\n", n->tout, lstateStr(n->s));
@@ -208,7 +208,7 @@ ICSetNumber (INumber *n, char *msg, ...)
 
 /* tell client to update an existing switch property */
 void
-ICSetSwitch (ISwitches *s, char *msg, ...)
+ICSetSwitch (ISwitches *s, const char *msg, ...)
 {
 	int i;
 
@@ -231,7 +231,7 @@ ICSetSwitch (ISwitches *s, char *msg, ...)
 
 /* tell client to update an existing lights property */
 void
-ICSetLights (ILights *l, char *msg, ...)
+ICSetLights (ILights *l, const char *msg, ...)
 {
 	int i;
 
@@ -254,7 +254,7 @@ ICSetLights (ILights *l, char *msg, ...)
 
 /* send client a message for a specific device or at large if !dev */
 void
-ICMessage (char *dev, char *msg, ...)
+ICMessage (const char *dev, const char *msg, ...)
 {
 	printf ("<message");
 	if (dev)
@@ -276,7 +276,7 @@ ICMessage (char *dev, char *msg, ...)
  * entire device if !name
  */
 void
-ICDelete (char *dev, char *name, char *msg, ...)
+ICDelete (const char *dev, const char *name, const char *msg, ...)
 {
 	printf ("<delProperty device='%s'", dev);
 	if (name)
@@ -296,7 +296,7 @@ ICDelete (char *dev, char *name, char *msg, ...)
 
 /* log message locally. Has nothing to do with any Clients. */
 void
-ICLog (char *msg, ...)
+ICLog (const char *msg, ...)
 {
 	va_list ap;
 
@@ -512,7 +512,7 @@ crackDN (XMLEle *root, char **dev, char **name, char msg[])
 }
 
 /* return static string corresponding to the given light state */
-static char *
+const char *
 lstateStr (ILState s)
 {
 	switch (s) {
@@ -527,7 +527,7 @@ lstateStr (ILState s)
 }
 
 /* return static string corresponding to the given switch state */
-static char *
+const char *
 sstateStr (ISState s)
 {
 	switch (s) {
@@ -540,7 +540,7 @@ sstateStr (ISState s)
 }
 
 /* return static string corresponding to the given Rule */
-static char *
+const char *
 ruleStr (IRule r)
 {
 	switch (r) {
@@ -553,7 +553,7 @@ ruleStr (IRule r)
 }
 
 /* return static string corresponding to the given IPerm */
-static char *
+const char *
 permStr (IPerm p)
 {
 	switch (p) {
@@ -567,7 +567,7 @@ permStr (IPerm p)
 }
 
 /* return static string corresponding to the given ISPerm */
-static char *
+const char *
 spermStr (ISPerm p)
 {
 	switch (p) {
@@ -580,7 +580,7 @@ spermStr (ISPerm p)
 }
 
 /* return current system time in message format */
-static char *
+const char *
 timestamp()
 {
 	static char ts[32];

@@ -1,6 +1,6 @@
 /*
     LX200 16"
-    Copyright (C) 2003 Jasem Mutlaq
+    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,7 @@
 #include "lx200driver.h"
 
 
+#define LX16Group	"GPS/16 inch Features"
 extern LX200Generic *telescope;
 extern char mydev[];
 extern int MaxReticleFlashRate;
@@ -57,13 +58,13 @@ static ISwitch HomeSearchS[]		= { {"Seek home and save", ISS_OFF} , {"Seek home 
 static ISwitch FieldDeRotatorS[]	= { {"On", ISS_OFF}, {"Off", ISS_OFF}};
 static ISwitch SlewAltAzS[]		= { {"Slew to Object Az/Alt", ISS_OFF}};
 
-static ISwitches FanStatusSw		= { mydev, "Fan", FanStatusS, NARRAY(FanStatusS), ILS_IDLE, 0};
-static ISwitches HomeSearchSw		= { mydev, "Home Search", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0};
-static ISwitches FieldDeRotatorSw	= { mydev, "Field De-rotator", FieldDeRotatorS, NARRAY(FieldDeRotatorS), ILS_IDLE, 0};
-static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0};
+static ISwitches FanStatusSw		= { mydev, "Fan", FanStatusS, NARRAY(FanStatusS), ILS_IDLE, 0, LX16Group };
+static ISwitches HomeSearchSw		= { mydev, "Home Search", HomeSearchS, NARRAY(HomeSearchS), ILS_IDLE, 0, LX16Group};
+static ISwitches FieldDeRotatorSw	= { mydev, "Field De-rotator", FieldDeRotatorS, NARRAY(FieldDeRotatorS), ILS_IDLE, 0, LX16Group};
+static ISwitches SlewAltAzSw		= { mydev, "Slew to Object Az/Alt", SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
 
-static INumber ObjectAlt		= { mydev, "Object Altitude", NULL, ILS_IDLE};
-static INumber ObjectAz			= { mydev, "Object Azimuth", NULL, ILS_IDLE};
+static INumber ObjectAlt		= { mydev, "Object Altitude", NULL, ILS_IDLE, 0, LX16Group};
+static INumber ObjectAz			= { mydev, "Object Azimuth", NULL, ILS_IDLE, 0, LX16Group};
 
 
 LX200_16::LX200_16() : LX200Autostar()
@@ -74,7 +75,7 @@ LX200_16::LX200_16() : LX200Autostar()
 
 }
 
-void LX200_16::ISGetProperties (char *dev)
+void LX200_16::ISGetProperties (const char *dev)
 {
 
 if (dev && strcmp (mydev, dev))

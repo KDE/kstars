@@ -75,21 +75,21 @@ typedef enum {					/* which range fields are set */
  */
 
 typedef struct {			/* text property descriptor */
-    char *dev;				/* device name */
-    char *name;				/* propert name */
+    const char *dev;				/* device name */
+    const char *name;				/* propert name */
     char *text;				/* text string */
     ILState s;				/* * property state */
     double tout;			/* * max time to change, secs */
-    char *grouptag;			/* * group Propertiess within one Dev */
+    const char *grouptag;			/* * group Propertiess within one Dev */
 } IText;
 
 typedef struct {			/* number property descriptor */
-    char *dev;				/* device name */
-    char *name;				/* propert name */
+    const char *dev;				/* device name */
+    const char *name;				/* propert name */
     char *nstr;				/* numeric value as a string */
     ILState s;				/* * property state */
     double tout;			/* * max time to change, secs */
-    char *grouptag;			/* * group Propertiess within one Dev */
+    const char *grouptag;			/* * group Propertiess within one Dev */
 } INumber;
 
 typedef struct {			/* specify legal range of an INumber */
@@ -100,33 +100,33 @@ typedef struct {			/* specify legal range of an INumber */
 } INRange;
 
 typedef struct {			/* one switch descriptor */
-    char *name;				/* this switch's label */
+    const char *name;				/* this switch's label */
     ISState s;				/* this switch's state */
 } ISwitch;
 
 typedef struct {			/* switch property descriptor */
-    char *dev;				/* device name */
-    char *name;				/* propert name */
+    const char *dev;				/* device name */
+    const char *name;				/* propert name */
     ISwitch *sw;			/* array of each switch */
     int nsw;				/* * number in array sw */
     ILState s;				/* * property state */
     double tout;			/* * max time to change, secs */
-    char *grouptag;			/* * group Propertiess within one Dev */
+    const char *grouptag;			/* * group Propertiess within one Dev */
 } ISwitches;
 
 typedef struct {			/* one light descriptor */
-    char *name;				/* this lights's label */
+    const char *name;				/* this lights's label */
     ILState s;				/* this lights's state */
 } ILight;
 
 typedef struct {			/* Light property descriptor */
-    char *dev;				/* device name */
-    char *name;				/* propert name */
+    const char *dev;				/* device name */
+    const char *name;				/* propert name */
     ILight *l;				/* array of each light */
     int nl;				/* number in array l */
     ILState s;				/* property state */
     double tout;			/* max time to change, secs */
-    char *grouptag;			/* * group Propertiess within one Dev */
+    const char *grouptag;			/* * group Propertiess within one Dev */
 } ILights;
 
 
@@ -158,13 +158,13 @@ typedef struct {			/* Light property descriptor */
 extern "C" {
 #endif
 
-extern void ICDefText (IText *t, char *prompt, IPerm p);
+extern void ICDefText (IText *t, const char *prompt, IPerm p);
 
-extern void ICDefNumber (INumber *n, char *prompt, IPerm p, INRange *rp);
+extern void ICDefNumber (INumber *n, const char *prompt, IPerm p, INRange *rp);
 
-extern void ICDefSwitches (ISwitches *s, char *prompt, ISPerm p, IRule r);
+extern void ICDefSwitches (ISwitches *s, const char *prompt, ISPerm p, IRule r);
 
-extern void ICDefLights (ILights *l, char *prompt);
+extern void ICDefLights (ILights *l, const char *prompt);
 
 
 
@@ -173,13 +173,13 @@ extern void ICDefLights (ILights *l, char *prompt);
  * Properties. msg may be NULL.
  */
 
-extern void ICSetText (IText *t, char *msg, ...);
+extern void ICSetText (IText *t, const char *msg, ...);
 
-extern void ICSetNumber (INumber *n, char *msg, ...);
+extern void ICSetNumber (INumber *n, const char *msg, ...);
 
-extern void ICSetSwitch (ISwitches *s, char *msg, ...);
+extern void ICSetSwitch (ISwitches *s, const char *msg, ...);
 
-extern void ICSetLights (ILights *l, char *msg, ...);
+extern void ICSetLights (ILights *l, const char *msg, ...);
 
 
 
@@ -189,7 +189,7 @@ extern void ICSetLights (ILights *l, char *msg, ...);
  * the Client should treat the message as a general one from no specific Device.
  */
 
-extern void ICMessage (char *dev, char *msg, ...);
+extern void ICMessage (const char *dev, const char *msg, ...);
 
 
 /**********************************************************************
@@ -197,7 +197,7 @@ extern void ICMessage (char *dev, char *msg, ...);
  * or the entire device is if name is NULL. msg may be NULL.
  */
 
-extern void ICDelete (char *dev, char *name, char *msg, ...);
+extern void ICDelete (const char *dev, const char *name, const char *msg, ...);
 
 
 
@@ -206,7 +206,7 @@ extern void ICDelete (char *dev, char *name, char *msg, ...);
  * is not sent to any Clients.
  */
 
-extern void ICLog (char *msg, ...);
+extern void ICLog (const char *msg, ...);
 
 
 /**********************************************************************
@@ -246,7 +246,7 @@ extern void ISInit (void);
  * approprate defXXX functions soon after receiving this call.
  */
 
-extern void ISGetProperties (char *dev);
+extern void ISGetProperties (const char *dev);
 
 
 /**********************************************************************
