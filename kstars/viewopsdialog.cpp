@@ -449,7 +449,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 		file.close();
 	}
 
-	AddPreset = new QPushButton( i18n( "Save Current Colors" ), RightBox );
+	AddPreset = new QPushButton( i18n( "Save Current Colors..." ), RightBox );
 	RemovePreset = new QPushButton( i18n( "Remove Color Scheme" ), RightBox );
 	RemovePreset->setEnabled( false );
 

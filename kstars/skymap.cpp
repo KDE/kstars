@@ -263,12 +263,12 @@ void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
 	//Insert item for centering on object
 	if ( showCenterTrack ) {
 		pmenu->insertSeparator();
-		pmenu->insertItem( i18n( "Center and Track" ), this, SLOT( slotCenter() ) );
+		pmenu->insertItem( i18n( "Center && Track" ), this, SLOT( slotCenter() ) );
 	}
 
 	//Insert item for Showing details dialog
 	if ( showDetails ) {
-		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details..." ), this, SLOT( slotDetail() ) );
+		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details" ), this, SLOT( slotDetail() ) );
 	}
 
 	pmenu->insertSeparator();

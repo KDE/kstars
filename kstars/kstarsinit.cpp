@@ -180,7 +180,7 @@ void KStars::initActions() {
 
 
 //Tools Menu:
-	new KAction(i18n( "Calculator..."), KAccel::stringToKey ( "Ctrl+C"),
+	new KAction(i18n( "Calculator"), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
 
