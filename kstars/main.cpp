@@ -25,6 +25,9 @@
 
 static const char *description =
 	I18N_NOOP("Desktop Planetarium");
+
+static const char *version = "1.0";
+
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 	
 	
@@ -38,7 +41,7 @@ int main(int argc, char *argv[])
 {
 
   KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
-    VERSION, description, KAboutData::License_GPL,
+    version, description, KAboutData::License_GPL,
     "(c) 2001, Jason Harris", 0, "http://edu.kde.org/kstars");
   aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
   aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
