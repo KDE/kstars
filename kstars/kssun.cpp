@@ -33,7 +33,7 @@ KSSun::KSSun( QString fn ) : KSPlanet( I18N_NOOP( "Sun" ), fn ) {
 }
 
 bool KSSun::loadData() {
-	kdDebug() << k_funcinfo << endl;
+//	kdDebug() << k_funcinfo << endl;
 	return (odm.loadData("earth") != 0);
 }
 

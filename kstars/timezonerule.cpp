@@ -36,9 +36,7 @@ TimeZoneRule::TimeZoneRule() {
 TimeZoneRule::TimeZoneRule( QString smonth, QString sday, QTime stime,
 			QString rmonth, QString rday, QTime rtime, double dh ) {
 
-	if ( smonth == "0" ) { //Signals empty rule.
-		TimeZoneRule();
-	} else {
+	if ( smonth != "0" ) {
 		StartMonth = initMonth( smonth );
 		RevertMonth = initMonth( rmonth );
 
@@ -49,8 +47,26 @@ TimeZoneRule::TimeZoneRule( QString smonth, QString sday, QTime stime,
 			HourOffset = dh;
 		} else {
 			kdWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) << endl;
-			TimeZoneRule();
+			StartMonth = 0;
+			RevertMonth = 0;
+			StartDay = 0;
+			RevertDay = 0;
+			StartWeek = -1;
+			RevertWeek = -1;
+			StartTime = QTime();
+			RevertTime = QTime();
+			HourOffset = 0.0;
 		}
+	} else { //Empty rule
+		StartMonth = 0;
+		RevertMonth = 0;
+		StartDay = 0;
+		RevertDay = 0;
+		StartWeek = -1;
+		RevertWeek = -1;
+		StartTime = QTime();
+		RevertTime = QTime();
+		HourOffset = 0.0;
 	}
 }
 
@@ -59,10 +75,10 @@ TimeZoneRule::~TimeZoneRule() {
 
 void TimeZoneRule::setDST( bool activate ) {
 	if ( activate ) {
-		kdWarning() << i18n( "Daylight Savings Time activated" ) << endl;
+		kdDebug() << i18n( "Daylight Savings Time active" ) << endl;
 		dTZ = HourOffset;
 	} else {
-		kdWarning() << i18n( "Daylight Savings Time de-activated" ) << endl;
+		kdDebug() << i18n( "Daylight Savings Time inactive" ) << endl;
 		dTZ = 0.0;
 	}
 }
@@ -132,7 +148,7 @@ int TimeZoneRule::findStartDay( QDateTime d ) {
 	QDate test;
 
 //TimeZoneRule is empty, return -1
-	if ( StartWeek==-1 ) return -1;
+	if ( isEmptyRule() ) return -1;
 
 //If StartWeek=0, just return the integer.
 	if ( StartWeek==0 ) return StartDay;
@@ -155,7 +171,7 @@ int TimeZoneRule::findRevertDay( QDateTime d ) {
 	QDate test;
 
 //TimeZoneRule is empty, return -1
-	if ( RevertWeek==-1 ) return -1;
+	if ( isEmptyRule() ) return -1;
 
 //If RevertWeek=0, just return the integer.
 	if ( RevertWeek==0 ) return RevertDay;
@@ -175,7 +191,7 @@ int TimeZoneRule::findRevertDay( QDateTime d ) {
 
 bool TimeZoneRule::isDSTActive( QDateTime date ) {
 //The empty rule always returns false
-	if ( StartMonth == 0 || RevertMonth == 0 ) return false;
+	if ( HourOffset == 0.0 ) return false;
 
 //First, check whether the month is outside the DST interval.  Note that
 //the interval chack is different if StartMonth > RevertMonth (indicating that
@@ -213,6 +229,9 @@ bool TimeZoneRule::isDSTActive( QDateTime date ) {
 QDateTime TimeZoneRule::nextDSTChange( QDateTime date ) {
 	QDateTime result;
 
+//return a very remote date if the rule is the empty rule.
+	if ( isEmptyRule() ) return QDateTime( QDate( 8000, 1, 1 ), QTime() );
+
 	if ( isDSTActive( date ) ) {
 		//Next change is reverting back to standard time.
 		result = QDateTime( QDate( date.date().year(), RevertMonth, 1 ), RevertTime );
@@ -231,12 +250,15 @@ QDateTime TimeZoneRule::nextDSTChange( QDateTime date ) {
 		if ( StartMonth < date.date().month() ) result = result.addYears(1);
 	}
 
-	kdWarning() << i18n( "Next Daylight Savings Time change: " ) << result.toString() << endl;
+	kdDebug() << i18n( "Next Daylight Savings Time change: " ) << result.toString() << endl;
 	return result;
 }
 
 QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
 	QDateTime result;
+
+	//return a very remote date if the rule is the empty rule
+	if ( isEmptyRule() ) return QDateTime( QDate( 1783, 1, 1 ), QTime() );
 
 	if ( isDSTActive( date ) ) {
 		//Last change was starting DST.
@@ -256,6 +278,6 @@ QDateTime TimeZoneRule::previousDSTChange( QDateTime date ) {
 		if ( RevertMonth > date.date().month() ) result = result.addYears( -1 );
 	}
 
-	kdWarning() << i18n( "Previous Daylight Savings Time change: " ) << result.toString() << endl;
+	kdDebug() << i18n( "Previous Daylight Savings Time change: " ) << result.toString() << endl;
 	return result;
 }

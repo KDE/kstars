@@ -22,9 +22,14 @@
 #include <config.h>
 #endif
 
-#include <kapplication.h>
 #include <qwidget.h>
 #include <kdialogbase.h>
+
+#if (KDE_VERSION <= 222)
+#include <kapp.h>
+#else
+#include <kapplication.h>
+#endif
 
 #include "dms.h"
 #include "geolocation.h"

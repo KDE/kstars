@@ -20,7 +20,11 @@
 
 #include <qdatetime.h>
 
+#if (KDE_VERSION <=222)
+#include <kstddirs.h>
+#else
 #include <kstandarddirs.h>
+#endif
 
 #include "dms.h"
 #include "ksutils.h"

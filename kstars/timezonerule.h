@@ -53,14 +53,17 @@
 
 class TimeZoneRule {
 public: 
-	TimeZoneRule(); //For the "empty" rule (no daylight savings time)
+	TimeZoneRule();
 	TimeZoneRule( QString smonth, QString sday, QTime stime, QString rmonth, QString rday, QTime rtime, double offset=1.00 );
 	~TimeZoneRule();
 	bool isDSTActive( QDateTime date );
+	bool isEmptyRule( void ) { if ( HourOffset ) return false; else return true; }
 	QDateTime nextDSTChange( QDateTime date );
 	QDateTime previousDSTChange( QDateTime date );
 	void setDST( bool activate=true );
 	double deltaTZ() const { return dTZ; }
+
+	int StartMonth, RevertMonth;
 
 private:
 	int initMonth( QString m );
@@ -68,7 +71,6 @@ private:
 	int findStartDay( QDateTime d );
 	int findRevertDay( QDateTime d );
 
-	int StartMonth, RevertMonth;
 	int StartDay, RevertDay;
 	int StartWeek, RevertWeek;
 	QTime StartTime, RevertTime;

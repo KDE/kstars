@@ -667,6 +667,9 @@ bool KStarsData::processCity( QString line ) {
 	//last field is the TimeZone Rule ID.
 	TZrule = &( Rulebook[ fields[12] ] );
 
+//	if ( fields[12]=="--" )
+//		kdDebug() << "Empty rule start month: " << TZrule->StartMonth << endl;
+
 	geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
 	return true;
 }
@@ -866,6 +869,7 @@ void KStarsData::slotInitialize() {
 	{
 		case 0: //Load Options//
 			emit progressText( i18n("Loading Options") );
+
 				kstars->loadOptions();
 			break;
 
@@ -981,7 +985,9 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap )
 	LTime = UTime.addSecs( int( 3600*geo->TZ() ) );
 	CurrentDate = clock->JD();
 
-	if ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) {
+//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
+//the DST change date/time.
+	if ( geo->tzrule()->isEmptyRule() && ( CurrentDate > NextDSTChange || CurrentDate < PrevDSTChange ) ) {
 		//compute JD for the next DST adjustment
 		QDateTime changetime = geo->tzrule()->nextDSTChange( LTime );
 		setNextDSTChange( KSUtils::UTtoJulian( changetime.addSecs( int(-3600 * geo->TZ())) ) );
