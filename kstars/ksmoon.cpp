@@ -26,6 +26,11 @@
 
 KSMoon::KSMoon()
  : KSPlanetBase( I18N_NOOP( "Moon" ) ) {
+	BData.setAutoDelete(true);
+	LRData.setAutoDelete(true);
+}
+
+KSMoon::~KSMoon() {
 }
 
 bool KSMoon::data_loaded = false;

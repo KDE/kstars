@@ -35,6 +35,25 @@ KSPluto::XYZData *KSPluto::zdata = 0;
 KSPluto::KSPluto(QString fn) : KSPlanetBase( I18N_NOOP( "Pluto" ), fn ) {
 }
 
+KSPluto::~KSPluto() {
+	if (freq) {
+		delete freq;
+		freq = 0;
+	}
+	if (xdata) {
+		delete xdata;
+		xdata = 0;
+	}
+	if (ydata) {
+		delete ydata;
+		ydata = 0;
+	}
+	if (zdata) {
+		delete zdata;
+		zdata = 0;
+	}
+
+}
 
 bool KSPluto::loadData() {
 	return loadData("pluto");

@@ -26,9 +26,9 @@
 	*Heliocentric coordinates in rectangular (X,Y,Z), which must be converted
 	*to (R, Ecl. Longitude, Ecl. Latitude)
 	*@short Provides necessary information about Pluto.
-  *@author Jason Harris
-  *@version 0.9
-  */
+	*@author Jason Harris
+	*@version 0.9
+	*/
 
 class KSPluto : public KSPlanetBase  {
 public:
@@ -38,8 +38,8 @@ public:
 	*/
 	KSPluto(QString fn="");
 
-/**Destructor (empty)*/
-	virtual ~KSPluto() {};
+/**Destructor */
+	virtual ~KSPluto();
 
 /**
 	*A custom findPosition() function needed for the unique orbit of Pluto.

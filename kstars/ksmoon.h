@@ -39,7 +39,7 @@ public:
 	KSMoon();
 
 	/**Destructor (empty). */
-	~KSMoon() {}
+	~KSMoon();
 
 	/**
     *Reimplemented from KSPlanet, this function employs unique algorithms for
