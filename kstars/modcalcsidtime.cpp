@@ -39,10 +39,11 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 {
 	QDateTime dt = QDateTime::currentDateTime();
 	datBox->setDate( dt.date() );
-	showUT( dt.time() );
 
 	KStars *ks = (KStars*) parent()->parent()->parent();
 	 // modCalcSidTimeDlg -> QSplitter->AstroCalc->KStars
+
+	showUT( ks->getClock()->UTC().time() );
 
 	longBox->show( ks->geo()->lng() );
 }
