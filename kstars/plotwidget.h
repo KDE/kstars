@@ -27,6 +27,7 @@
 #define YPADDING 40
 
 class QColor;
+class QPixmap;
 
 /**@class PlotWidget
 	*@short Genric plotting widget for KStars tools.
@@ -96,6 +97,7 @@ private:
 	DRect DataRect;
 	QPtrList<PlotObject> ObjectList;
 	QColor cBackground, cForeground, cGrid;
+	QPixmap *buffer;
 };
 
 #endif

@@ -19,6 +19,7 @@
 #include <kdebug.h>
 #include <qcolor.h>
 #include <qpainter.h>
+#include <qpixmap.h>
 #include <qstring.h>
 
 #include "plotwidget.h"
@@ -36,6 +37,8 @@ PlotWidget::PlotWidget( double x1, double x2, double y1, double y2, QWidget *par
 	YS2 = height() - YS2;
 	dXS = XS2 - XS1;
 	dYS = YS2 - YS1;
+
+	buffer = new QPixmap();
 
 	//default colors:
 	setBGColor( QColor( "black" ) );
@@ -105,7 +108,7 @@ void PlotWidget::updateTickmarks() {
 			dY = yb2() - yb1();
 		}
 
-		//powX,powY are power-of-ten factors of dX,dY.  e.g., dx=350 then powX = 100, dX=3.5
+		//dX = tX * 10^(powX).  e.g., dX=350 then powX = 2.0, tX=3.5, dtX = 100.0
 		double powX(0.0), powY(0.0);
 		modf( log10(dX), &powX );
 		modf( log10(dY), &powY );
@@ -179,18 +182,23 @@ void PlotWidget::resizeEvent( QResizeEvent *e ) {
 	dXS = XS2 - XS1;
 	dYS = YS2 - YS1;
 	PixRect = QRect( 0, 0, dXS, dYS );
+
+	buffer->resize( width(), height() );
 }
 
 void PlotWidget::paintEvent( QPaintEvent *e ) {
 	QPainter p;
 
-	p.begin( this );
+	p.begin( buffer );
+	p.fillRect( 0, 0, width(), height(), bgColor() );
 
 	p.translate( XS1, YS1 );
 
 	drawObjects( &p );
 	drawBox( &p );
 	p.end();
+
+	bitBlt( this, 0, 0, buffer );
 }
 
 void PlotWidget::drawObjects( QPainter *p ) {
@@ -290,8 +298,9 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 		//--- Draw primary X tickmarks on bottom axis---//
 		double x0 = XA1 - dmod( XA1, dXtick1 ); //zeropoint; tickmark i is this plus i*dXtick1 (in data units)
+		if ( XA1 < 0 ) x0 -= dXtick1;
 
-		for ( int ix = 0; ix <= nmajX1; ix++ ) {
+		for ( int ix = 0; ix <= nmajX1+1; ix++ ) {
 			int px = int( dXS * ( (x0 + ix*dXtick1 - XA1)/dXA ) ); //position of tickmark i (in screen units)
 			if ( px > 0 && px < dXS ) {
 				p->drawLine( px, dYS - 2, px, dYS - BIGTICKSIZE - 2 ); //move tickmarks 2 pixels (avoids sticking out other side)
@@ -300,13 +309,16 @@ void PlotWidget::drawBox( QPainter *p, bool showAxes, bool showTickMarks, bool s
 
 			//tick label
 			if ( showTickLabels ) {
-				QString str = QString( "%1" ).arg( (x0 + ix*dXtick1), 0, 'g', 2 );
+				double lab = x0 + ix*dXtick1;
+				if ( fabs(lab)/dXtick1 < 0.00001 ) lab = 0.0; //fix occassional roundoff error with "0.0" label
+				QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
 				if ( px > 0 && px < dXS ) p->drawText( px - BIGTICKSIZE, dYS + 2*BIGTICKSIZE, str );
 			}
 
 			//draw minor ticks
 			for ( int j=0; j < nminX1; j++ ) {
 				int pmin = int( px + dXS*j*dminX/dXA ); //position of minor tickmark j (in screen units)
+
 				if ( pmin > 0 && pmin < dXS ) {
 					p->drawLine( pmin, dYS - 2, pmin, dYS - SMALLTICKSIZE - 2 );
 					if ( !secondaryLimits ) p->drawLine( pmin, 0, pmin, SMALLTICKSIZE );
