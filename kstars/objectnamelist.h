@@ -76,6 +76,10 @@ class ObjectNameList {
 		*/
 		SkyObjectName* find(const QString &name = QString::null);
 
+	/**@short remove named object from the list.
+		*/
+		void remove( const QString &name = QString::null );
+
 	/**
 		*Define the languages which should be used.
 		*/

@@ -575,6 +575,10 @@ void KStarsData::processStar(QString *line, bool reloadedData) {
 	StarObject *o = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
 	starList.append(o);
 
+	//STAR_SIZE
+//	StarObject *p = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
+//	starList.append(p);
+
 	// add named stars to list
 	if (starIsUnnamed == false) {
 		ObjNames.append(o);
@@ -1433,7 +1437,21 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 			// start reloading
 			pump = new QDataPump (source, (QDataSink*) loader);
 		}
+	} else if ( newMagnitude < maxSetMagnitude ) {
+		StarObject *lastStar = starList.last();
+		while ( lastStar->mag() > newMagnitude  && starList.count() ) {
+			//check if star is named.  If so, remove it from ObjNames
+			if ( ! lastStar->name().isEmpty() ) {
+				ObjNames.remove( lastStar->name() );
+			}
+			starList.removeLast();
+			lastStar = starList.last();
+
+			//Need to recompute names of objects
+			sendClearCache();
+		}
 	}
+
 	// change current magnitude level in KStarsOptions
 	options->setMagLimitDrawStar(newMagnitude);
 }

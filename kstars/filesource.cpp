@@ -59,7 +59,7 @@ void FileSource::sendTo(QDataSink *sink, int) {
 	counter = 0;
 	while (data->starFileReader->hasMoreLines() && counter < maxLines) {
 		QString line = data->starFileReader->readLine();
-		float mag = line.mid(33, 4).toFloat();  // check magnitude
+		float mag = line.mid( 46, 5 ).toFloat();  // check magnitude
 //		kdDebug() << "mag=" << mag << " maxmag=" << maxMagnitude << endl;
 		if (mag > maxMagnitude) {
 			readingData = false;

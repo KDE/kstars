@@ -171,6 +171,15 @@ void ObjectNameList::sort() {
 	}
 }
 
+void ObjectNameList::remove ( const QString &name ) {
+	setMode(oneList);
+	int index = getIndex(name);
+	SortedList <SkyObjectName> *l = &(list[language][index]);
+
+	SkyObjectName *son = find( name );
+	if ( son ) l->remove( son );
+}
+
 SkyObjectName* ObjectNameList::find(const QString &name) {
 	sort();
 	if (name.isNull()) return 0;
@@ -188,7 +197,7 @@ SkyObjectName* ObjectNameList::find(const QString &name) {
 
 	int next;
 	// items are translated stored
-	QString translatedName = i18n(name.latin1());
+	QString translatedName = i18n(name.utf8());
 
 	// it's the "binary search" algorithm
 	SkyObjectName *o;
