@@ -217,6 +217,10 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 				SearchList->setCurrentItem( SearchList->currentItem() - 1 );
 			break;
 			
+		case Key_Escape :
+			reject();
+			break;
+			
 	}
 }
 

@@ -86,41 +86,41 @@ QString StarObject::sptype( void ) const {
 	return SpType;
 }
 
-QString StarObject::gname( void ) const {
-	return greekLetter() + " " + constell();
+QString StarObject::gname( bool useGreekChars ) const {
+	return greekLetter( useGreekChars ) + " " + constell();
 }
 
-QString StarObject::greekLetter( void ) const {
+QString StarObject::greekLetter( bool gchar ) const {
 	QString code = name2().left(3);
 	QString letter = code;  //in case genitive name is *not* a Greek letter
 	int alpha = 0x03B1;
 
-	if ( code == "alp" ) letter = QString( QChar(alpha + 0) );
-	if ( code == "bet" ) letter = QString( QChar(alpha + 1) );
-	if ( code == "gam" ) letter = QString( QChar(alpha + 2) );
-	if ( code == "del" ) letter = QString( QChar(alpha + 3) );
-	if ( code == "eps" ) letter = QString( QChar(alpha + 4) );
-	if ( code == "zet" ) letter = QString( QChar(alpha + 5) );
-	if ( code == "eta" ) letter = QString( QChar(alpha + 6) );
-	if ( code == "the" ) letter = QString( QChar(alpha + 7) );
-	if ( code == "iot" ) letter = QString( QChar(alpha + 8) );
-	if ( code == "kap" ) letter = QString( QChar(alpha + 9) );
-	if ( code == "lam" ) letter = QString( QChar(alpha +10) );
-	if ( code == "mu " ) letter = QString( QChar(alpha +11) );
-	if ( code == "nu " ) letter = QString( QChar(alpha +12) );
-	if ( code == "xi " ) letter = QString( QChar(alpha +13) );
-	if ( code == "omi" ) letter = QString( QChar(alpha +14) );
-	if ( code == "pi " ) letter = QString( QChar(alpha +15) );
-	if ( code == "rho" ) letter = QString( QChar(alpha +16) );
+	if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = i18n("alpha");
+	if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = i18n("beta");
+	if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = i18n("gamma");
+	if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = i18n("delta");
+	if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = i18n("epsilon");
+	if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = i18n("zeta");
+	if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = i18n("eta");
+	if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = i18n("theta");
+	if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = i18n("iota");
+	if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = i18n("kappa");
+	if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = i18n("lambda");
+	if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = i18n("mu");
+	if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = i18n("nu");
+	if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = i18n("xi");
+	if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = i18n("omicron");
+	if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = i18n("pi");
+	if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = i18n("rho");
 	//there are two unicode symbols for sigma;
 	//skip the first one, the second is more widely used
-	if ( code == "sig" ) letter = QString( QChar(alpha +18) );
-	if ( code == "tau" ) letter = QString( QChar(alpha +19) );
-	if ( code == "ups" ) letter = QString( QChar(alpha +20) );
-	if ( code == "phi" ) letter = QString( QChar(alpha +21) );
-	if ( code == "chi" ) letter = QString( QChar(alpha +22) );
-	if ( code == "psi" ) letter = QString( QChar(alpha +23) );
-	if ( code == "ome" ) letter = QString( QChar(alpha +24) );
+	if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = i18n("sigma");
+	if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = i18n("tau");
+	if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = i18n("upsilon");
+	if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = i18n("phi");
+	if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = i18n("chi");
+	if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = i18n("psi");
+	if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
 
 	if ( name2().length() && name2().mid(3,1) != " " )
 		letter += "[" + name2().mid(3,1) + "]";

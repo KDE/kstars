@@ -112,14 +112,14 @@ class StarObject : public SkyObject {
 	*Returns the genetive name of the star.
 	*@return genetive name of the star
 	*/
-	QString gname( void ) const;
+	QString gname( bool useGreekChars=true ) const;
 
 /**
 	*Returns the greek letter portion of the star's genetive name.
 	*Returns empty string if star has no genetive name defined.
 	*@return greek letter portion of genetive name
 	*/
-	QString greekLetter( void ) const;
+	QString greekLetter( bool useGreekChars=true ) const;
 
 /**@return the genitive form of the star's constellation.
 	*/

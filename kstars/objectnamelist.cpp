@@ -18,6 +18,7 @@
 #include "objectnamelist.h"
 #include "skyobjectname.h"
 #include "skyobject.h"
+#include "starobject.h"
 
 #include <qstring.h>
 #include <kdebug.h>
@@ -56,6 +57,10 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	// create name string and init with longname if forced by parameter else default name
 	QString name = ( useLongName ) ? object->longname() : object->name();
 
+	//if star's name is it's genetive name, make sure we don't use the Greek charcter here
+	if ( object->type() == 0 && name == ((StarObject*)object)->gname() )
+		name = ((StarObject*)object)->gname( false );
+	
 	// create string with translated name
 	QString iName;
 
