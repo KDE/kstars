@@ -541,6 +541,10 @@ bool KStarsData::readCBoundData( void ) {
 				}
 			}
 		}
+		
+		return true;
+	} else {
+		return false;
 	}
 }
 
