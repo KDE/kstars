@@ -25,6 +25,7 @@
 #include "geolocation.h"
 #include "kstars.h"
 #include "ksnumbers.h"
+#include "timebox.h"
 
 #include <qwidget.h>
 #include <qlabel.h>
