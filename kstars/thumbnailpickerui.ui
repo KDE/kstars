@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Thumnail Picker</string>
+        <string>Thumbnail Picker</string>
     </property>
     <hbox>
         <property name="name">
