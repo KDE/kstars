@@ -39,13 +39,13 @@ static const char notice[] =
 
 static KCmdLineOptions options[] =
 {
-	{ "!dump", I18N_NOOP( "dump sky image to file" ), 0 },
-	{ "script ", I18N_NOOP( "script to execute" ), 0 },
-	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
-	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
-	{ "filename ", I18N_NOOP( "filename for sky image" ), "kstars.png" },
-	{ "date ", I18N_NOOP( "date and time" ), "" },
-	{ "!paused", I18N_NOOP( "start with clock paused" ), 0 },
+	{ "!dump", I18N_NOOP( "Dump sky image to file" ), 0 },
+	{ "script ", I18N_NOOP( "Script to execute" ), 0 },
+	{ "width ", I18N_NOOP( "Width of sky image" ), "640" },
+	{ "height ", I18N_NOOP( "Height of sky image" ), "480" },
+	{ "filename ", I18N_NOOP( "Filename for sky image" ), "kstars.png" },
+	{ "date ", I18N_NOOP( "Date and time" ), "" },
+	{ "!paused", I18N_NOOP( "Start with clock paused" ), 0 },
 	KCmdLineLastOption
 };
 

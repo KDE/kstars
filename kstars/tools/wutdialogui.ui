@@ -498,7 +498,7 @@
                                 <cstring>DetailButton</cstring>
                             </property>
                             <property name="text">
-                                <string>Object Details...</string>
+                                <string>Object Details</string>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>Open the Object Details window</string>
