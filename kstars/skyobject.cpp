@@ -233,10 +233,6 @@ QTime SkyObject::transitTimeUT(long double jd, const dms *gLng ) {
 	dms HourAngle = dms ( LST.Degrees() - ra()->Degrees() );
 	int dSec = int( -3600.*HourAngle.Hours() );
 	
-//UT is now a QTime
-//	dms UT0 = QTimeToDMS( utDateTime.time() );
-//	UT0 = dms (UT0.Degrees() + dSec*15/3600.);
-
 	//UT0 is the first guess at the transit time.  
 	QTime UT0 = utDateTime.time().addSecs( dSec );
 	long double jd0 = newJDfromJDandUT(jd, UT0);
@@ -337,15 +333,6 @@ bool SkyObject::checkCircumpolar( const dms *gLat ) {
 		return true;
 	else
 		return false;
-}
-
-dms SkyObject::QTimeToDMS(QTime qtime) {
-
-	dms tt;
-	tt.setH(qtime.hour(), qtime.minute(), qtime.second());
-	tt.reduce();
-
-	return tt;
 }
 
 float SkyObject::e( void ) const {

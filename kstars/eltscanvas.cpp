@@ -240,15 +240,14 @@ void eltsCanvas::drawCurves(QPainter * pcanvas) {
 }
 
 //Returns elevation above horizon, in minutes of arc.
-int eltsCanvas::getEl (SkyPoint *sp, int ut) {
+int eltsCanvas::getEl (SkyPoint *sp, int utm) {
 	elts *el = (elts *)topLevelWidget();
 
-	//SkyPoint sp = el->appCoords();
-	//dms lat;
-
 	dms lat = el->getLatitude();
-
-	dms LST = DateTimetoLST (el->getQDate(), ut , el->getLongitude() );
+	dms lgt = el->getLongitude();
+	QDateTime ut( el->getQDate().date(), QTime( utm / 60, utm % 60, 0 ) );
+	
+	dms LST = KSUtils::UTtoLST( ut , &lgt );
 	sp->EquatorialToHorizontal( &LST, &lat );
 
 	int sgn = 1;
@@ -265,22 +264,6 @@ int eltsCanvas::UtMinutes(void) {
 
 	dms lst_at_ut0 = KSUtils::UTtoLST( el->getQDate(), &longit);
 	return lst_at_ut0.hour()*60 + lst_at_ut0.minute();
-}
-
-dms eltsCanvas::DateTimetoLST (QDateTime date, int ut, dms longitude)
-{
-	int uth = ut/60;
-	int utm = ut%60;
-
-	QDateTime utdt = QDateTime( date.date(), QTime(uth, utm, 0) );
-	return KSUtils::UTtoLST( utdt, &longitude);
-}
-
-dms eltsCanvas::QTimeToDMS(QTime qtime) {
-	dms tt;
-	tt.setH(qtime.hour(), qtime.minute(), qtime.second());
-	tt.reduce();
-	return tt;
 }
 
 int eltsCanvas::Interpol(int x1,int x2,int y1,int y2) {

@@ -362,10 +362,6 @@ private:
 	*/
 	void calcCatalogFlags();
 	
-/**@return a dms object whose value is equivalent to the hms given by the QTime arguments
-	*@param dT the QTime to convert to a dms object.
-	*/
-	dms QTimeToDMS( QTime dT );
 
 	int Type, PositionAngle;
 	int UGC, PGC;

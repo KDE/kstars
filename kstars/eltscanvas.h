@@ -45,8 +45,6 @@ private:
 	void paintEvent( QPaintEvent * );
 	int UtMinutes(void);
 	void drawGrid( QPainter * pcanvas );
-	dms DateTimetoLST (QDateTime date, int ut, dms longitude);
-	dms QTimeToDMS(QTime qtime);
 	int getEl (SkyPoint *p, int ut);
 	void drawCurves(QPainter * pcanvas);
 	int Interpol(int x1,int x2,int y1,int y2);

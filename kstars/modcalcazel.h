@@ -77,10 +77,6 @@ private:
 	
 	void showLongLat(void);
 
-	dms DateTimetoLST (QDateTime utdt, dms longitude);
-
-	dms QTimeToDMS(QTime qtime); 
-
 	void getGeoLocation (void);
 
 	GeoLocation *geoPlace;

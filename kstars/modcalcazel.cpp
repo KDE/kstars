@@ -87,14 +87,14 @@ double modCalcAzel::getEpoch (QString eName)
 	return epoch;
 }
 
-dms modCalcAzel::getLongitude (void)
+dms modCalcAzel::getLongitude(void)
 {
 	dms longitude;
 	longitude = longBox->createDms();
 	return longitude;
 }
 
-dms modCalcAzel::getLatitude (void)
+dms modCalcAzel::getLatitude(void)
 {
 	dms latitude;
 	latitude = latBox->createDms();
@@ -148,20 +148,6 @@ long double modCalcAzel::epochToJd (double epoch)
 
 }
 
-dms modCalcAzel::DateTimetoLST (QDateTime utdt, dms longitude)
-{
-	return KSUtils::UTtoLST( utdt, &longitude);
-}
-
-dms modCalcAzel::QTimeToDMS(QTime qtime) {
-
-	dms tt;
-	tt.setH(qtime.hour(), qtime.minute(), qtime.second());
-	tt.reduce();
-
-	return tt;
-}
-
 void modCalcAzel::slotClearCoords()
 {
 
@@ -182,15 +168,16 @@ void modCalcAzel::slotComputeCoords()
 	long double jd = computeJdFromCalendar();
 	double epoch0 = getEpoch( epochName->text() );
 	long double jd0 = epochToJd ( epoch0 );
-
-	dms LSTh = DateTimetoLST (getQDateTime() , getLongitude() );
+	
+	dms lgt = getLongitude();
+	dms LST = KSUtils::UTtoLST( getQDateTime(), &lgt );
 	
 	SkyPoint sp;
 	sp = getEquCoords();
 
 	sp.apparentCoord(jd0, jd);
 	dms lat(getLatitude());
-	sp.EquatorialToHorizontal( &LSTh, &lat );
+	sp.EquatorialToHorizontal( &LST, &lat );
 	showHorCoords( sp );
 
 }
