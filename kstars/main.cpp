@@ -37,7 +37,7 @@ static KCmdLineOptions options[] =
 	{ "script ", I18N_NOOP( "script to execute" ), 0 },
 	{ "width ", I18N_NOOP( "width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "height of sky image" ), "480" },
-	{ "filename ", I18N_NOOP( "filename for sky image" ), 0 },
+	{ "filename ", I18N_NOOP( "filename for sky image" ), "kstars.png" },
 	KCmdLineLastOption
 };
 
