@@ -51,11 +51,11 @@
 //	menu->insertItem( i18n("&Help"), helpmenu);
 AstroCalc::AstroCalc( QWidget* parent ) : KDialogBase( KDialogBase::Plain, i18n( "KStars Calculator" ), Ok|Close|Cancel, Ok, parent ) {
 
-	QFrame *page = plainPage();
+	//QFrame *page = plainPage();
 
 //	vbox = new QVBox (this);
 
-	split = new QSplitter ( page );
+	split = new QSplitter ( this );
 
 	navigationPanel = new QListView (split,"NavigationPanel");
 	splashScreen = new QTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
@@ -98,7 +98,8 @@ AstroCalc::AstroCalc( QWidget* parent ) : KDialogBase( KDialogBase::Plain, i18n(
 	splashScreen->setMinimumSize(420, 360);
 	navigationPanel->setMaximumWidth(180);
 	navigationPanel->setMinimumWidth(160);
-	navigationPanel->show();
+	split->show();
+//	navigationPanel->show();
 	
 //	page->resize(600,430);
 	setMinimumSize(620, 430);
@@ -170,7 +171,7 @@ void AstroCalc::genCoordText(void)
 	splashScreen->show();
 	
 	splashScreen->setText(i18n("<QT>"
-														 "Section with algorithms for the conversion of"
+														 "Section with algorithms for the conversion of "
 														 "different astronomical systems of coordinates"
 														 "<UL><LI>"
 														 "<B>Precessor:</B> Precession of coordinates between epochs"
