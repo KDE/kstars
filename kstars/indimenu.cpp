@@ -14,6 +14,7 @@
     2003-05-05 Adding INDI Conf
     2003-05-06 Drivers XML reader
     2003-05-07 Device manager integration
+    2003-05-21 Full client support
 
  */
 
@@ -58,19 +59,8 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
 {
 
  ksw = (KStars *) parent;
- isClientOn = false;
- createGUI();
 
-}
-
-INDIMenu::~INDIMenu()
-{
-  for (uint i=0; i < mgr.size(); i++)
-    delete (mgr[i]);
-}
-
-void INDIMenu::createGUI()
-{
+ mgrCounter = 0;
 
  mainLayout = new QVBoxLayout(plainPage(), 5, 5);
 
@@ -83,7 +73,12 @@ void INDIMenu::createGUI()
  mainLayout->addWidget(msgST_w);
 
  resize( 640, 480);
+}
 
+INDIMenu::~INDIMenu()
+{
+  for (uint i=0; i < mgr.size(); i++)
+    delete (mgr[i]);
 }
 
 /*********************************************************************
@@ -93,22 +88,24 @@ void INDIMenu::createGUI()
 void INDIMenu::updateStatus()
 {
 
-  // just in case
-  hide();
+   // Local/Server
+   processServer();
 
-  INDIDriver *drivers = ksw->getINDIDriver();
-  DeviceManager *dev;
+   if (mgr.size() == 0)
+     return;
 
-  // Local/Server
-  if (ksw->options()->isINDILocal)
-  {
+  show();
+
+}
+
+bool INDIMenu::processServer()
+{
+
+INDIDriver *drivers = ksw->getINDIDriver();
+DeviceManager *dev;
 
     if (drivers == NULL)
-    {
-      KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Driver Control Panel in the devices menu"));
-      return;
-    }
-
+     return false;
 
     for (uint i=0; i < drivers->devices.size(); i++)
     {
@@ -116,13 +113,14 @@ void INDIMenu::updateStatus()
       if (drivers->devices[i]->state && drivers->devices[i]->managed == false)
       {
 
-        kdDebug() << "Device manager will run " << drivers->devices[i]->name << " now" << endl;
-	dev = new DeviceManager(this);
-	//FIXME is it safe to assume localhost for local connections always?
+        dev = new DeviceManager(this, mgrCounter);
     	if (dev->indiConnect("localhost", QString("%1").arg(drivers->devices[i]->indiPort)))
 	{
+	        drivers->devices[i]->mgrID   = mgrCounter;
+	        drivers->devices[i]->managed = true;
       		mgr.push_back(dev);
-		drivers->devices[i]->managed = true;
+		mgrCounter++;
+
 	}
     	else
       		delete (dev);
@@ -130,52 +128,39 @@ void INDIMenu::updateStatus()
       // Devices running and they need to be shutdown
       else if (!drivers->devices[i]->state && drivers->devices[i]->managed == true)
       {
-         kdDebug() << "Device manager will shutdown " << drivers->devices[i]->name << " now" << endl;
-           if (removeDevice(drivers->devices[i]->name))
-	     drivers->devices[i]->managed = false;
-	   else
-	 kdDebug() << "Error removing device" << endl;
+           removeDeviceMgr(drivers->devices[i]->mgrID);
+	   drivers->devices[i]->managed = false;
+	   return true;
 
       }
     }
 
     if (drivers->activeDriverCount() == 0)
     {
-       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Driver Control Panel in the devices menu"));
-      return;
+       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu"));
+      return false;
     }
+
+  return true;
+
   }
-  // Client
+
+int INDIMenu::processClient(QString hostname, QString portnumber)
+{
+
+  DeviceManager *dev;
+
+  dev = new DeviceManager(this, mgrCounter);
+  if (dev->indiConnect(hostname, portnumber))
+      mgr.push_back(dev);
   else
   {
-
-    //TODO
-    // JM: The infrastructure that enable KStars to connect and control multiple
-    // INDI servers is complete, but I still need to add the GUI part for this
-    // For now, only create one client device manager and that's it
-     KMessageBox::error(0, i18n("Client support is not complete yet"));
-     /*
-    if (!isClientOn)
-    {
-    	dev = new DeviceManager(this);
-    	// only one server connection for now
-    	if (dev->indiConnect(ksw->options()->INDIHost, ksw->options()->INDIPort))
-	{
-      		mgr.push_back(dev);
-		isClientOn = true;
-	}
-    	else
-	{
-		delete (dev);
-		return;
-	}
-    }*/
-    return;
-
+     delete (dev);
+     return (-1);
   }
 
-  show();
-
+ mgrCounter++;
+ return (mgrCounter - 1);
 }
 
 bool INDIMenu::removeDevice(char *devName)
@@ -196,6 +181,26 @@ bool INDIMenu::removeDevice(char *devName)
   kdDebug() << errmsg;
 
   return false;
+
+}
+
+void INDIMenu::removeDeviceMgr(int mgrID)
+{
+ char errmsg[1024];
+
+ for (uint i=0; i < mgr.size(); i++)
+  {
+       if (mgrID == mgr[i]->mgrID)
+       {
+
+      for (uint j=0; j < mgr[i]->indi_dev.size(); j++)
+         mgr[i]->removeDevice(mgr[i]->indi_dev[j]->name, errmsg);
+       delete mgr[i];
+       mgr.erase(mgr.begin() + i);
+
+       emit driverDisconnected(mgrID);
+       }
+  }
 
 }
 

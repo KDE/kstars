@@ -50,6 +50,7 @@
 #include "lcgenerator.h"
 #include "detaildialog.h"
 #include "jupitermoons.h"
+#include "indidriver.h"
 
 #define NSAOFILES 40
 #define NMWFILES  11
@@ -86,10 +87,11 @@ public:
 	friend class StarDataSink;
 	friend class LCGenerator;
 	friend class DetailDialog;
-	friend class elts;   
+	friend class elts;
 	friend class KSPopupMenu;
 	friend class WUTDialog;
 	friend class ViewOpsDialog;
+	friend class INDIDriver;
 
 	/**Constructor. */
 	KStarsData( KStars *ks );
@@ -186,7 +188,7 @@ public:
 
 	bool readAsteroidData( void );
 	bool readCometData( void );
-	
+
 	/**Read in Constellation line data.  The constellations are represented as a list of
 		*SkyPoints and an associated list of chars that indicates whether to draw a line
 		*between points (i) and (i+1) or to simply move to point (i+1). The lines are parsed
@@ -242,6 +244,7 @@ public:
 		*/
     bool readVARData(void);
 
+    //TODO JM: ADV tree should use XML instead
     /**Read Advanced interface structure to be used later to construct the list view in
        *the advanced tab in the Detail Dialog.
        *KSLABEL designates a top-level parent label
@@ -252,6 +255,12 @@ public:
 		*/
    bool readADVTreeData(void);
 
+    /**Read INDI hosts from an XML file*/
+   bool readINDIHosts(void);
+
+       //TODO JM: Use XML instead; The logger should have more features
+       // that allow users to enter details about their observation logs
+       // objects observed, eye pieces, telescope, conditions, mag..etc
        /**Read user logs. The log file is formatted as following:
        *KSLABEL designates the beginning of a log
        *KSLogEnd designates the end of a log.
@@ -465,6 +474,7 @@ private:
 	QPtrList<SkyPoint> Horizon;
 	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
+	QPtrList<INDIHostsInfo> INDIHostsList;
 	ObjectNameList ObjNames;
 	
 	QMap<QString, QPtrList<SkyObject> > CustomCatalogs;

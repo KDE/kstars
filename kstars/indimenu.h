@@ -68,18 +68,23 @@ class INDIMenu : public KDialogBase
 
    KStars *ksw;
 
-   void createGUI();
-
    XMLAtt *   findAtt     (XMLEle *ep  , const char *name , char errmsg[]);
    XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, char errmsg[]);
 
    std::vector<DeviceManager *> mgr;
 
-   //TODO remove this, this is only temp
-   bool isClientOn;
-
    void updateStatus();
    bool removeDevice(char *devName);
+   void removeDeviceMgr(int mgrID);
+   int mgrCounter;
+
+   bool processServer();
+   int processClient(QString hostname, QString portnumber);
+
+   signals:
+
+   void driverDisconnected(int mgrID);
+
 
 };
 

@@ -168,8 +168,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**@returns pointer to the INDI driver
 		*/
-		INDIDriver* getINDIDriver(void) { return indidriver; }
-		
+                INDIDriver* getINDIDriver(void) { return indidriver; }
+
+         /**@returns pointer to the INDI menu
+		*/
+		INDIMenu* getINDIMenu(void) { return indimenu; }
+
 	/**@returns pointer to the local sidereal time.
 		*/
 		dms* LST() { return data()->LST; }
@@ -315,11 +319,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		 * action slot: open INDI control panel
 		 */
     		void slotINDIPanel();
-
-		/**
-		 * action slot: open INDI configuration dialog
-		 */
-    		void slotINDIConf();
 
 		/**
 		 * action slot: open ScriptBuilder dialog

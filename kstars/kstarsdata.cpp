@@ -26,6 +26,7 @@
 #include "filesource.h"
 #include "stardatasink.h"
 #include "ksfilereader.h"
+#include "indi/lilxml.h"
 
 #include <kapplication.h>
 
@@ -83,6 +84,7 @@ KStarsData::KStarsData( KStars *ks ) {
 
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
     VariableStarsList.setAutoDelete(TRUE);
+    INDIHostsList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	//(type==-1 is a constellation)
@@ -228,6 +230,7 @@ bool KStarsData::readADVTreeData(void)
 
 
 }
+
 bool KStarsData::readVARData(void)
 {
   QString varFile("valaav.txt");
@@ -280,6 +283,63 @@ bool KStarsData::readVARData(void)
    }
 
    return true;
+
+}
+
+
+bool KStarsData::readINDIHosts(void)
+{
+  QString indiFile("indihosts.xml");
+  QFile localeFile;
+  QFile file;
+  char errmsg[1024];
+  char c;
+  LilXML *xmlParser = newLilXML();
+  XMLEle *root = NULL;
+  XMLAtt *ap;
+
+  file.setName( locateLocal( "appdata", indiFile ) );
+		if ( !file.open( IO_ReadOnly ) )
+		 return false;
+
+while ( (c = (char) file.getch()) != -1)
+ {
+    root = readXMLEle(xmlParser, c, errmsg);
+
+    if (root)
+    {
+
+      // Get host name
+      ap = findXMLAtt(root, "hostname");
+
+      if (!ap)
+       return false;
+
+    INDIHostsInfo *VInfo = new INDIHostsInfo;
+    VInfo->hostname = QString(ap->valu);
+
+    ap = findXMLAtt(root, "port");
+
+     if (!ap)
+      return false;
+
+    VInfo->portnumber = QString(ap->valu);
+
+    VInfo->isConnected = false;
+    VInfo->mgrID = -1;
+
+    INDIHostsList.append(VInfo);
+
+    delXMLEle(root);
+    }
+
+    else if (errmsg[0])
+     kdDebug() << errmsg << endl;
+
+  }
+
+  return true;
+
 
 }
 
@@ -1242,6 +1302,9 @@ void KStarsData::slotInitialize() {
 			}
 
 				kstars->loadOptions();
+
+			// read INDI hosts file, not required
+			readINDIHosts();
 			break;
 
 		case 1: //Load Cities//

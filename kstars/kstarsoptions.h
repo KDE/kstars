@@ -189,10 +189,6 @@ class KStarsOptions {
 		//the colors of things
 		ColorScheme CScheme;
 
-		QString INDIHost;
-		QString INDIPort;
-		bool	isINDILocal;
-
 		private:
 			GeoLocation location;  // store all location data here
 };

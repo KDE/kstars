@@ -25,6 +25,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <termios.h>
 
 #include <qlineedit.h>
 #include <qtextedit.h>
@@ -64,10 +66,11 @@
 ** of devices, while indimenu is 'GUI' parent of devices
 *******************************************************************/
 
-DeviceManager::DeviceManager(INDIMenu *INDIparent)
+DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID)
 {
 
  parent = INDIparent;
+ mgrID  = inID;
 
  serverFD  = -1;
  serverFP  = NULL;
@@ -80,10 +83,10 @@ DeviceManager::~DeviceManager()
 {
   if (serverFD >= 0)
   {
+    serverFD = -1;
     if (serverFP)
     	fclose(serverFP);
     serverFP = NULL;
-    serverFD = -1;
   }
 
   if (XMLParser)
@@ -110,11 +113,6 @@ bool DeviceManager::indiConnect(QString host, QString port)
 
 	if ( (serverFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
-	 // If daemon mode is local/server then display the drivers selector, otherwise, report an error
-	 // TODO TODO
-	 //if (ksw->options()->isINDILocal && INDIDriver.indiServerNotRunning)
-	    // Trigger XML reader
-
 	 KMessageBox::error(0, errMsg);
 	 return false;
 	}
@@ -152,6 +150,7 @@ bool DeviceManager::indiConnect(QString host, QString port)
 	return true;
 }
 
+
 void DeviceManager::dataReceived()
 {
 	char ibuf[32];	/* not so much user input lags */
@@ -167,20 +166,15 @@ void DeviceManager::dataReceived()
 	    else
 		sprintf (msg, "INDI: agent closed connection");
 
-            close(serverFD);
-	    delete(sNotifier);
-	    serverFD = -1;
+            tcflush(serverFD, TCIFLUSH);
+	    sNotifier->disconnect();
+	    close(serverFD);
 
-	    if (!parent->ksw->getINDIDriver()->silentRemove)
- 	       KMessageBox::error(0, QString(msg));
-	    else
-	      parent->ksw->getINDIDriver()->silentRemove = false;
+	    parent->removeDeviceMgr(mgrID);
+	    KMessageBox::error(0, QString(msg));
 
 
-	    if (parent->isShown())
-	       parent->close();
-
-	    return;
+            return;
 	}
 
 	/* process each char */
@@ -197,7 +191,6 @@ void DeviceManager::dataReceived()
 
                 else if (parent->deviceContainer->currentPage() && parent->deviceContainer->isShown())
 		 {
-		 	// Gloria Gloria Gloria!
 		 	for (uint j=0; j < indi_dev.size(); j++)
 		   	   for (uint k=0; k < indi_dev[j]->gl.size(); k++)
 		   	{
@@ -301,7 +294,7 @@ int DeviceManager::removeDevice(char *devName, char errmsg[])
     	for (uint i=0; i < indi_dev.size(); i++)
     	{
           	delete(indi_dev[i]);
-	  	indi_dev.erase(indi_dev.begin() + i);
+	  	indi_dev.erase(indi_dev.begin());
 	}
 
 	return (0);
@@ -311,7 +304,7 @@ int DeviceManager::removeDevice(char *devName, char errmsg[])
     {
          if (!strcmp(indi_dev[i]->name, devName))
 	 {
-	   kdDebug() << "DeviceManager: Device found, deleting..." << endl;
+	   kdDebug() << "Device Manager: Device found, deleting " << devName << endl;
 
 	   parent->deviceContainer->removePage(indi_dev[i]->tabContainer);
 
@@ -327,7 +320,6 @@ int DeviceManager::removeDevice(char *devName, char errmsg[])
 
 INDI_D * DeviceManager::findDev (char *devName, char errmsg[])
 {
-        kdDebug() << "in Device Manager find Device, searching for " << devName << endl;
 	/* search for existing */
 	for (uint i = 0; i < indi_dev.size(); i++)
 	{

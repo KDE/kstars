@@ -81,13 +81,14 @@ class DeviceManager : public QObject
 {
    Q_OBJECT
    public:
-   DeviceManager(INDIMenu *INDIparent);
+   DeviceManager(INDIMenu *INDIparent, int inID);
    ~DeviceManager();
 
    INDIMenu *parent;
 
    std::vector<INDI_D *> indi_dev;
 
+   int			mgrID;
    int			serverFD;
    FILE			*serverFP;
    LilXML		*XMLParser;

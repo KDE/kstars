@@ -76,10 +76,9 @@
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
-	        <Action name="INDI_DRIVER" />
+	        <Action name="DEVICE_MANAGER" />
 		<Action name="INDI_Control_Panel" />
-		<Separator/>
-		<Action name="Configure_INDI" />
+
 	</Menu>
 
 	<Menu name="help"><text>&amp;Help</text>

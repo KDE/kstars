@@ -27,6 +27,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "toggleaction.h"
+#include "indimenu.h"
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h
@@ -210,9 +211,9 @@ void KStars::initActions() {
 			                           this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 
 // devices Menu
-	new KAction(i18n("Driver Control Panel..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "INDI_DRIVER");
+	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "DEVICE_MANAGER");
 	new KAction(i18n("INDI Control Panel"), 0, this, SLOT(slotINDIPanel()), actionCollection(), "INDI_Control_Panel");
-	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "Configure_INDI");
+
 
 	new KAction(i18n( "Script Builder..."), KAccel::stringToKey("Ctrl+B"),
 			                           this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
@@ -453,7 +454,11 @@ void KStars::privatedata::buildGUI() {
 
 	//set AAVSO modaless dialog pointer to 0
 	ks->AAVSODialog = 0;
-	ks->indimenu = 0;
+
+	//INDI menu started without GUI
+	ks->indimenu = new INDIMenu(ks);
+
+	//INDI driver set to null
 	ks->indidriver = 0;
 
 	ks->skymap = new SkyMap( ks->centralWidget );

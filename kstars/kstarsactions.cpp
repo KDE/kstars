@@ -107,28 +107,8 @@ void KStars::slotINDIDriver() {
 }
 
 void KStars::slotINDIPanel() {
-    if (indimenu == NULL)
-        indimenu = new INDIMenu(this);
 
    indimenu->updateStatus();
-}
-
-void KStars::slotINDIConf() {
-
-   INDIConf indiConf(this);
-
-   indiConf.hostName->setText(options()->INDIHost);
-   indiConf.portNumber->setText(options()->INDIPort);
-   indiConf.indiLocal->setChecked(options()->isINDILocal);
-   indiConf.indiClient->setChecked(!options()->isINDILocal);
-
-   if (indiConf.exec() == QDialog::Accepted)
-   {
-     options()->INDIHost = indiConf.hostName->text();
-     options()->INDIPort = indiConf.portNumber->text();
-     options()->isINDILocal = indiConf.indiLocal->isChecked();
-   }
-
 }
 
 void KStars::slotScriptBuilder() {
