@@ -164,7 +164,7 @@ void FocusDialog::validatePoint( void ) {
 				if ( !checkValue ) badEntry = true;
 				s = fields[2].toInt( &checkValue );
 				if ( !checkValue ) { //it's possible that seconds are a double
-					double x = fields[2].toInt( &checkValue );
+					double x = fields[2].toDouble( &checkValue );
 					if ( checkValue ) s = int( x );
 					else badEntry = true;
 				}
