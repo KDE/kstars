@@ -134,7 +134,7 @@ void FOVDialog::paintEvent( QPaintEvent * ) {
 			QFont smallFont = p.font();
 			smallFont.setPointSize( p.font().pointSize() - 2 );
 			p.setFont( smallFont );
-			p.drawText( 0, fov->ViewBox->contentsRect().height(), QString( "%1 arcmin" ).arg( (double)(f->size()), 0, 'g', 3 ) );
+			p.drawText( 0, fov->ViewBox->contentsRect().height(), i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f->size() ), 3 ) );
 		}
 	}
 
@@ -162,7 +162,7 @@ void FOVDialog::slotEditFOV() {
 	 return;
 
 	newfdlg.ui->FOVName->setText( f->name() );
-	newfdlg.ui->FOVEdit->setText( QString("%1").arg( f->size(), 0, 'g', 3 ) );
+	newfdlg.ui->FOVEdit->setText( KGlobal::locale()->formatNumber( f->size(), 3 ) );
 	newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
 	newfdlg.ui->ShapeBox->setCurrentItem( f->shape() );
 	newfdlg.slotUpdateFOV();
@@ -231,7 +231,7 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 	p.begin( ui->ViewBox );
 	p.fillRect( ui->ViewBox->contentsRect(), QColor( "black" ) );
 	f.draw( p, (float)( 0.3*ui->ViewBox->contentsRect().width() ) );
-	p.drawText( 0, 0, QString( "%1 arcmin" ).arg( f.size(), 0, 'g', 3 ) );
+	p.drawText( 0, 0, i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f.size() ), 3 ) );
 	p.end();
 }
 
@@ -242,11 +242,11 @@ void NewFOV::slotComputeFOV() {
 	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kdDebug() << "B" << endl;
 
 	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
-		ui->FOVEdit->setText( QString("%1").arg( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 0, 'f', 2 ) );
+		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
 	else if ( sender()->name() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
-		ui->FOVEdit->setText( QString("%1").arg( ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 0, 'f', 2 ) );
+		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->ChipSize->value() * 3438.0 / ui->TLength2->value() ) );
 	else if ( sender()->name() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
-		ui->FOVEdit->setText( QString("%1").arg( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 0, 'f', 2) );
+		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
 		// Beam width for an antenna is usually a circle on the sky.
 		ui->ShapeBox->setCurrentItem(4);
 		slotUpdateFOV();

@@ -118,7 +118,7 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 {
 	lonGeoBox->show( geoPlace->lng() );
 	latGeoBox->show( geoPlace->lat() );
-	altGeoBox->setText(QString("%1").arg( geoPlace->height() ,11,'f',3));
+	altGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->height(), 3) );
 }
 
 void modCalcGeodCoord::showCartGeoCoords(void)
@@ -127,9 +127,6 @@ void modCalcGeodCoord::showCartGeoCoords(void)
 	xGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->xPos()/1000. ,6));
 	yGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->yPos()/1000. ,6));
 	zGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->zPos()/1000. ,6));
-//	xGeoName->setText(QString("%1").arg( geoPlace->xPos()/1000. ,11,'f',6));
-//	yGeoName->setText(QString("%1").arg( geoPlace->yPos()/1000. ,11,'f',6));
-//	zGeoName->setText(QString("%1").arg( geoPlace->zPos()/1000. ,11,'f',6));
 }
 
 void modCalcGeodCoord::geoCheck(void) {

@@ -109,7 +109,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	TZBox->setDuplicatesEnabled( false );
 
 	for ( int i=0; i<25; ++i )
-		TZBox->insertItem( QString("%1").arg( (double)(i-12), 0, 'f', 2 ) );
+		TZBox->insertItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
 	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
 	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
@@ -223,10 +223,10 @@ void LocationDialog::initCityList( void ) {
 		filteredCityList.append( loc );
 
 		//If TZ is not even integer value, add it to listbox
-		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
+		if ( loc->TZ0() - int( loc->TZ0() ) && ! TZBox->listBox()->findItem( KGlobal::locale()->formatNumber( loc->TZ0() ) ) ) {
 			for ( unsigned int i=0; i<((unsigned int) TZBox->count()); ++i ) {
 				if ( TZBox->text( i ).toDouble() > loc->TZ0() ) {
-					TZBox->insertItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ), i-1 );
+					TZBox->insertItem( KGlobal::locale()->formatNumber( loc->TZ0() ), i-1 );
 					break;
 				}
 			}
@@ -307,7 +307,7 @@ void LocationDialog::changeCity( void ) {
 		NewCountryName->setText( SelectedCity->translatedCountry() );
 		NewLong->showInDegrees( SelectedCity->lng() );
 		NewLat->showInDegrees( SelectedCity->lat() );
-		TZBox->setCurrentText( QString("%1").arg( SelectedCity->TZ0(), 0, 'f', 2 ) );
+		TZBox->setCurrentText( KGlobal::locale()->formatNumber( SelectedCity->TZ0() ) );
 		
 		//Pick the City's rule from the rulebook
 		for ( int i=0; i<TZRuleBox->count(); ++i ) {
@@ -460,7 +460,7 @@ void LocationDialog::clearFields( void ) {
 	NewCountryName->clear();
 	NewLong->clearFields();
 	NewLat->clearFields();
-	TZBox->lineEdit()->setText( QString( "%1" ).arg( 0.0, 0, 'f', 2 ) );
+	TZBox->lineEdit()->setText( KGlobal::locale()->formatNumber( 0.0 ) );
 	TZRuleBox->setCurrentItem( 0 );
 	nameModified = true;
 	dataModified = false;

@@ -163,7 +163,7 @@ void modCalcAzel::showEpoch( const KStarsDateTime &dt )
 	double epochN = dt.epoch();
 //	Localization
 //	epochName->setText(KGlobal::locale()->formatNumber(epochN,3));
-	epochName->setText( QString("%1").arg(epochN, 0, 'f', 2));
+	epochName->setText( KGlobal::locale()->formatNumber( epochN ) );
 	
 }
 

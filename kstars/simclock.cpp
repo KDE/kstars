@@ -73,7 +73,7 @@ void SimClock::tick() {
 		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 		UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
-// 		kdDebug() << "tick() : JD = " << QString("%1").arg( UTC.djd(), 15, 'f', 7) <<
+// 		kdDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
 // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
 // 			"  scaledsec = " << double(scaledsec) << endl;
 
@@ -163,7 +163,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
 		}
 		
 		kdDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" )
-						.arg( UTC.toString() ).arg( UTC.djd(), 10, 'f', 2) << endl;
+				.arg( UTC.toString() ).arg( KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
 		emit timeChanged();
 	} else {
 		kdDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;

@@ -162,7 +162,7 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   if (validPoint)
   {
   viewer->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
-  viewer->statusBar()->changeItem(QString("%1").arg(viewer->imgBuffer[(int) (y * width + x)], 0, 'f', 3), 1);
+	viewer->statusBar()->changeItem( KGlobal::locale()->formatNumber( viewer->imgBuffer[(int) (y * width + x)], 3 ), 1 );
   setCursor(Qt::CrossCursor);
   }
   else

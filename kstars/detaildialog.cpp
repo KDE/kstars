@@ -213,7 +213,14 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		s = (StarObject *)selectedObject;
 		pname = s->translatedName();
 		if ( pname == i18n( "star" ) ) pname = i18n( "Unnamed star" );
-		distStr = QString("%1").arg( s->distance(), 0, 'f',1 ) + i18n(" parsecs", " pc");
+		
+		//distance
+		if ( s->distance() > 50.0 ) //show to nearest integer
+			distStr = QString::number( int( s->distance() + 0.5 ) ) + i18n(" parsecs", " pc");
+		else if ( s->distance() > 10.0 ) //show to tenths place
+			distStr = KGlobal::locale()->formatNumber( s->distance(), 1 ) + i18n(" parsecs", " pc");
+		else //show to hundredths place
+			distStr = KGlobal::locale()->formatNumber( s->distance() ) + i18n(" parsecs", " pc");
 		// astrometric precision limit for Hipparcos is:
 		// This is not clear:
 		// 7 mas if V < 9   => 7 mas -> 142 pc 
@@ -248,26 +255,26 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		
 		//Construct string for distance from Earth.  The moon requires a unit conversion
 		if ( ps->name() == "Moon" ) {
-			distStr = i18n("distance in kilometers", "%1 km").arg( ps->rearth()*AU_KM, 0, 'f', 1 );
+			distStr = i18n("distance in kilometers", "%1 km").arg( KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) );
 		} else {
-			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
+			distStr = i18n("distance in Astronomical Units", "%1 AU").arg( KGlobal::locale()->formatNumber( ps->rearth() ) );
 		}
 
 		// Construct string for magnitude:
-		magStr = QString("%1").arg(ps->mag(),0,'f',1);
+		magStr = KGlobal::locale()->formatNumber( ps->mag(), 1 );
 		
 		//Construct the string for angular size
 		angStr = "--";
 		if ( ps->angSize() ) {
-			angStr = i18n("angular size in arcseconds", "%1 arcsec").arg( ps->angSize()*60.0, 0, 'f', 1 );
+			angStr = i18n("angular size in arcseconds", "%1 arcsec").arg( KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) );
 			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
-				angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( ps->angSize(), 0, 'f', 1 );
+				angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( ps->angSize() ) );
 		} 
 		
 		//the Sun should display type=star, not planet!
 		if ( selectedObject->name() == "Sun" ) {
 			Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
-					i18n("star"), "-26.8", distStr, angStr, generalTab );
+													 i18n("star"), KGlobal::locale()->formatNumber( -26.8 ), distStr, angStr, generalTab );
 		
 		//the Moon displays illumination fraction instead of magnitude
 		} else if ( selectedObject->name() == "Moon" ) {
@@ -285,7 +292,7 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 	case 9:  //comets
 	case 10: //asteroids:
 		ps = (KSPlanetBase *)selectedObject;
-		distStr = i18n("distance in Astronomical Units", "%1 AU").arg( ps->rearth(), 0, 'f', 1 );
+		distStr = i18n("distance in Astronomical Units", "%1 AU").arg( KGlobal::locale()->formatNumber( ps->rearth() ) );
 		Names = new NameBox( selectedObject->translatedName(), "", i18n( "Object type:" ),
 					selectedObject->typeName(), "--", distStr, "--", generalTab );
 		break;
@@ -307,8 +314,13 @@ void DetailDialog::createGeneralTab( const KStarsDateTime &ut, GeoLocation *geo 
 		if ( dso->ugc() != 0 ) oname += ", UGC " + QString("%1").arg( dso->ugc() );
 		if ( dso->pgc() != 0 ) oname += ", PGC " + QString("%1").arg( dso->pgc() );
 
-		if ( dso->a() ) angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( dso->a() );
-		else angStr = "--";
+		//Only show decimal place for small angular sizes
+		if ( dso->a() > 10.0 ) 
+			angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( int( dso->a() ) );
+		else if ( dso->a() ) 
+			angStr = i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( dso->a(), 1 ) );
+		else 
+			angStr = "--";
 		
 		Names = new NameBox( pname, oname, i18n( "Object type:" ),
 				dso->typeName(), QString("%1").arg( dso->mag() ), "--", angStr, generalTab );
@@ -398,8 +410,8 @@ DetailDialog::NameBox::NameBox( QString pname, QString oname,
 DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget *parent,
 		const char *name ) : QGroupBox( i18n( "Coordinates" ), parent, name ) {
 
-	RALabel = new QLabel( i18n( "RA (%1):" ).arg( epoch, 7, 'f', 2 ), this );
-	DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( epoch, 7, 'f', 2 ), this );
+			RALabel = new QLabel( i18n( "RA (%1):" ).arg( KGlobal::locale()->formatNumber( epoch ) ), this );
+			DecLabel = new QLabel( i18n( "Dec (%1):" ).arg( KGlobal::locale()->formatNumber( epoch ) ), this );
 	HALabel = new QLabel( i18n( "Hour angle:" ), this );
 	
 	RA  = new QLabel( o->ra()->toHMSString(), this );
@@ -425,7 +437,7 @@ DetailDialog::CoordBox::CoordBox( SkyObject *o, double epoch, dms *LST, QWidget 
 	//airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
 	if ( o->alt()->Degrees() > 0.0 ) 
-		AirMass = new QLabel( QString("%1").arg( 1./sin( o->alt()->radians() ), 4, 'f', 2 ), this );
+		AirMass = new QLabel( QString("%1").arg( KGlobal::locale()->formatNumber( 1./sin( o->alt()->radians() ) ) ), this );
 	else 
 		AirMass = new QLabel( "--", this );
 
@@ -499,8 +511,8 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, Ge
 	if ( rt.isValid() ) {
 		RTime = new QLabel( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ), this );
 		STime = new QLabel( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ), this );
-		RAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", raz.degree(), 176, raz.arcmin(), raz.arcsec() ), this );
-		SAz = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", saz.degree(), 176, saz.arcmin(), saz.arcsec() ), this );
+		RAz = new QLabel( raz.toDMSString(), this );
+		SAz = new QLabel( saz.toDMSString(), this );
 	} else {
 		QString rs, ss;
 		if ( o->alt()->Degrees() > 0.0 ) {
@@ -518,7 +530,7 @@ DetailDialog::RiseSetBox::RiseSetBox( SkyObject *o, const KStarsDateTime &ut, Ge
 	}
 
 	TTime = new QLabel( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ), this );
-	TAlt = new QLabel( QString().sprintf( "%02d%c %02d\' %02d\"", talt.degree(), 176, talt.arcmin(), talt.arcsec() ), this );
+	TAlt = new QLabel( talt.toDMSString(), this );
 
 	QFont boldFont = RTime->font();
 	boldFont.setWeight( QFont::Bold );
