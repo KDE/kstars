@@ -359,8 +359,8 @@ private:
 
 	KStars *ksw;
 	QString sURL;
-	QPopupMenu *pmenu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
-	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2;
+	QPopupMenu *pmenu, *pnothing_menu, *pmStar, *pmSolarSys, *pmMoon, *pmMess, *pmNGC;
+	QLabel *pmStarTitle, *pmSolTitle, *pmMoonTitle, *pmMessTitle, *pmMessTitle2, *pmNGCTitle, *pmNGCTitle2, *nothing_label;
 	QLabel *pmMessType, *pmNGCType, *pmTitle, *pmTitle2, *pmType;
 	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
 	bool mouseButtonDown, midMouseButtonDown;

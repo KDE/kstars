@@ -90,6 +90,7 @@ SkyMap::SkyMap(QWidget *parent, const char *name )
 
 	sky = new QPixmap();
 	pmenu = new QPopupMenu();
+    pnothing_menu = new QPopupMenu();
 
 	ClickedObject = NULL;
 	FoundObject = NULL;
@@ -119,6 +120,7 @@ SkyMap::~SkyMap() {
 }
 
 void SkyMap::initPopupMenu( void ) {
+    nothing_label = new QLabel( pnothing_menu );
 	pmenu->clear();
 	pmTitle = new QLabel( i18n( "nothing" ), pmenu );
 	pmTitle->setAlignment( AlignCenter );

@@ -599,7 +599,6 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		if ( icat >= 0 && rmin < r0 ) { //was any object found within r0?
-
 			QList<SkyObject> cat;
 
 			switch (icat) {
@@ -834,13 +833,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					ksw->statusBar()->changeItem( i18n( "nothing" ), 0 );
 					break;
 				case RightButton:
-					pmTitle->setText( i18n( "nothing" ) );
-					pmTitle2->setText( QString::null );
-					pmType->setText( QString::null );
-					pmenu->insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), this, SLOT( slotDSS() ) );
-					pmenu->insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), this, SLOT( slotDSS2() ) );
+                    //This will appear in case nothing is selected. The QPopupMenu will just
+                    //show one small errormessage
+                    pnothing_menu->clear();
+                    nothing_label->setText( i18n( "You have not selected anything" ) );
+                    pnothing_menu->insertItem( nothing_label );
+                    pnothing_menu->popup(  QCursor::pos() );
 
-					pmenu->popup( QCursor::pos() );
 					break;
 				default:
 					break;
