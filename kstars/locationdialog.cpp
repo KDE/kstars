@@ -102,7 +102,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 	NewCountryLabel = new QLabel( i18n( "Country:" ), CoordBox );
 	LongLabel = new QLabel( i18n( "Longitude:" ), CoordBox );
 	LatLabel = new QLabel( i18n( "Latitude:" ), CoordBox );
-	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT Offset: " ), CoordBox );
+	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT offset: " ), CoordBox );
 	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "    DST rule: " ), CoordBox );
 
 	NewCityName = new QLineEdit( CoordBox );

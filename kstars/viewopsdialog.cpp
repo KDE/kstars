@@ -97,7 +97,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	vlayStarsBox->setSpacing( 6 );
 	vlayStarsBox->setMargin( 11 );
 
-	showSAO = new QCheckBox( i18n( "Smithsonian Astrophysical Observatory (SAO) star catalog", "SAO Star Catalog" ), StarsBox );
+	showSAO = new QCheckBox( i18n( "Smithsonian Astrophysical Observatory (SAO) star catalog", "SAO star catalog" ), StarsBox );
 	QFont stdFont(  showSAO->font() );
 	showSAO->setFont( stdFont );
 	showSAO->setChecked( ksw->options()->drawSAO );
@@ -119,7 +119,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	magSpinBoxDrawStarInfo->setValue( intMagLimitDrawStarInfo );
 
 	textLabelMagStarInfo = new QLabel( StarsBox, "LabelMagStarNames" );
-	textLabelMagStarInfo->setText( i18n( "for stars brighter than" ) );
+	textLabelMagStarInfo->setText( i18n( "For stars brighter than" ) );
 	textLabelMagStarInfo->setFont( stdFont );
 
 	showStarNames = new QCheckBox( i18n( "Show name" ), StarsBox );
@@ -496,7 +496,7 @@ ViewOpsDialog::ViewOpsDialog( QWidget *parent )
 	hideSpinBox = new TimeStepBox( AdvancedTab, "HideSpinBox" );
 	hideSpinBox->tsbox()->changeScale( ksw->options()->slewTimeScale );
 	QLabel *hsbLabel = new QLabel( AdvancedTab, "HSBLabel" );
-	hsbLabel->setText( i18n( "also hide if time scale greater than:" ) );
+	hsbLabel->setText( i18n( "Also hide if time scale greater than:" ) );
 
 	hideObjects = new QCheckBox( i18n( "Hide objects while moving" ), AdvancedTab );
 	hideObjects->setFont( stdFont );
