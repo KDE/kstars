@@ -1,90 +1,132 @@
-## KStars TODO list:  updated August 2003
-## Brackets indicate a developer who has expressed interest in this item.
-## Contact that developer before working on the item to avoid collisions.
-## announce interest in working on these on kstars-devel@lists.sourceforge.net
-## suggest new items at http://bugs.kde.org
+## KStars TODO list:  updated August 2004
+## Announce interest in working on these on kstars-devel@kde.org
+## suggest new items on the same list or at http://bugs.kde.org
 
-+ Bug Fixes
-  - Replace SAO star catalog with Hipparcos/Tycho catalog [Harris]
 
-  - Create UI files for dialogs:  Details[Harris], ...
+1. Bug reports to be resolved:
 
-  - Separate "planets" from "comets/asteroids" in control of hidden objects
-    in Advanced Tab of Options window.
+- 69818: Empty Sky on PPC 
 
-+ GUI Improvements
-  - dmsBoxes could have slightly different backround or text color, to 
-    indicate that they are not normal edit boxes (?).
+- 71434: Date boxes too small [cannot reproduce]
 
-  - Should night vision mode change desktop colors? (bug 43595)
+- 77564: Sun and other planets overlay in dumped image [cannot reproduce]
 
-  - Add labels along ecliptic, equator and grid lines (bug 51299)
+- 81303: KStars crashes with segfault after loading
 
-  - Better rendering of asteroids and comets
+- 85322: Cannot start INDI service [cannot reproduce]
 
-  - Add alternative projection schemes
 
-  - Add contour lines tracing the Magellanic Clouds and nebulae
+2. Other Required Fixes:
 
-  - Zoom-dependent faint limit should apply to non-stellar objects as well.
+- Improve opaque ground polygon
 
-+ Tools/Dialogs
-  - What's Up Tonight Window: add option to show only evening/morning
-    also add an option to show only abjects brighter than some limit.
+- Fix custom catalogs, make it *much* easier to add custom objects.
 
-  - Manual Focus window: ability to specify epoch [Harris]
+- UI file for Location dialog (and others?)
 
-  - Finish Solar system viewer (add labels to planets) [Harris]
+- "Engage Tracking" menu/toolbar action jumps to previous tracked object
 
-  - Add airmass to Details dialog [Harris]
+- INDI device manager: Close button instead of Ok/Cancel
 
-  - Add distance from Earth/Sun to Planet's Details window.
+- ExtDatePicker highlights wrong day for year<2000 (correct day selected,
+	just highlighting is wrong)
 
-+ Add Functionality
-  - Add command-line option(s) to dump the sky image to a file without launching 
-    the GUI (useful for using KStars as dynamic background generator, and possibly 
-    as the basis for a screensaver/"live" desktop mode) [Harris; in progress]
+- OpsDialog: zoomed-out faint limit not restricted to be <= zoomed-in limit
 
-  - Add transparent-overlay to skymap that can be updated at a different rate than
-    the underlying sky image (i.e., more rapidly).  Already sort-of use this for 
-    the infoboxes.  Also useful for other on-screen effects like the target symbols,
-    automatic, transient object IDs, display of cursor's coords right next to cursor, 
-    etc. [Harris]
+- OpsDialog: child widgets should disable when parent deselected:
+	   Stars, Asteroids, Comets, CNames, MW, Hide obj.
 
-  - Add "What's this" functionality (perhaps tied to AstroInfo). 
+- OpsDialog: Remove All Trails button does nothing
 
-  - Indicate on the map whether stars are multiple or variable [Harris]
-    (part of change to Tycho star catalog)
+- OpsDialog: modifying the Hide Objects timestep should trigger Apply button
 
-  - Ability to measure angular distance between objects (from the 
-    popup menu, perhaps).
+- AltVsTime: can add custom object more than once, because coords are 
+	re-precessed
 
-  - Finish DCOP functions [Harris]
+- Details: Messier object with no long name display M name twice
 
-  - Ability to construct spreadsheet-like observing lists. [Mutlaq?]
+- Details: "Edit Link" button should allow link text to be changed
 
-+ Long-term/wishlist:
-  - KStars: The Screensaver!  
-    A "lite" version of KStars to be used as a screensaver. A few
-    thousand stars plus the planets would not use much CPU. Could also
-    optionally run in an accelerated-time mode in which the sky could
-    be seen to  rotate with respect to the horizon.      want to! :)  
+- Details: Log window: get rid of Save button; text should silently autosave
 
-  - OpenGL rendering of the sky; realistic sky-lighting effects.
+- ScriptBuilder: Does not warn if Save As target already exists
 
-  - Add moons for planets other than Jupiter (long-term)
+- ScriptBuilder: Sometimes, opening a script file sets UnsavedChanges
 
-  - Allow ephemerides of planetary bodies to be updated from online
-    sources (e.g., JPL)
+- Removing a User Label does not cause it to disappear immediately
 
-  - Implement our own Date/Time class that allows for very remote dates
+- Showing star mag label, but not name label, prepends "star" to label
 
-+ Ever-present needs
-  - Translations
+- Dump mode:  Chris Sommer reports that planets drawn at wrong positions
+	(all placed on top of each other)
 
-  - Improve documentation
 
-  - More AstroInfo articles
+3.  Wishlist Items
 
-  - More internet links
+- 51299: Marking of important points on celestial lines
+
+- 63369: Display multiple views [Low priority]
+
+- 66177: Screen saver mode
+
+- 68529: Occultation detection
+
+- 77748: Show Magelanic Cloud contours
+
+- 78068: Option to startup with clock paused
+
+- 79671: Ability to add individual custom objects or "pushpin" markers
+
+- 81617: Ability to save and reload "view profiles"
+
+- 81760: Add "Goto" button to Details/WUT
+
+- 82946: Include Constellation in object details
+
+- 83125: Add new cities in Sweden
+
+
+4.  New Features
+
+- Almanac tool (sun events, moon events, planet events, etc)
+
+- Observing list tool (under development by Jeff Woods)
+
+- Solar system viewer: more interactive; independent clock; include minor bodies
+
+- JMoons tool: show dates rather than day offset; show position of moons at t0
+
+- Countour lines for nebulae
+
+- Alternative sky-projection schemes
+
+- Indicate binarity/variability of stars on map?
+
+- DCOP functions for overlay drawing of text and lines
+
+- add light grey "dd:mm:ss" text to dmsBoxes, which disappears when it gets focus
+
+- Better rendering of comets and asteroids
+
+
+5.  Large projects:
+- OpenGL rendering
+
+- KStars Screensaver
+
+- Add more planet satellites
+
+- Add Earth satellites (man-made)
+
+- Update moon position code to Meeus 1998.
+
+
+6.  Ever-present needs
+- Translations
+
+- Improve documentation
+
+- More AstroInfo articles
+
+- More internet links
 
