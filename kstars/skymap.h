@@ -173,6 +173,13 @@ public:
 	SkyPoint* focusPoint() { return &FocusPoint; }
 	void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint.set( f->ra(), f->dec() ); }
 
+	SkyPoint* previousClickedPoint() { return &PreviousClickedPoint; }
+
+/**Sets the ClickedPoint to the skypoint given as an argument.
+	*@param f pointer to the new ClickedPoint.
+	*/
+	void setPreviousClickedPoint( SkyPoint *f ) { PreviousClickedPoint.set( f->ra(), f->dec() ); }
+
 /**When the user moves the mouse in the sky map, the sky coordinates of the mouse
 	*cursor are continually passed to the private member MousePoint.  This function retrieves
 	*a pointer to MousePoint.
@@ -332,6 +339,7 @@ public slots:
 /**Checks whether the timestep exceeds a threshold value.  If so, sets
 	*ClockSlewing=true and sets the SimClock to ManualMode. */
 	void slotClockSlewing();
+	void slotAngularDistance(void);
 
 signals:
 	void destinationChanged();
@@ -482,7 +490,7 @@ private:
 	KSPopupMenu *pmenu;
 	QPixmap *sky;
 	InfoBoxes   *IBoxes;
-	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination;
+	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
 	SkyObject *ClickedObject, *FocusObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
@@ -492,6 +500,7 @@ private:
 	QRect ZoomRect; //The manual-focus circle.
 //DEBUG
 	bool dumpHorizon;
+	bool measuringAngularDistance;
 //END_DEBUG
 };
 

@@ -191,7 +191,7 @@ bool KSPopupMenu::addINDI(void)
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
-	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail ) {
+	bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, bool showAngularDistance ) {
 	clear();
 
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
@@ -251,6 +251,12 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 		insertSeparator();
 		insertItem( i18n( "Center && Track" ), ksw->map(), SLOT( slotCenter() ) );
 	}
+	
+	//Insert item for measuring distances
+	if ( showAngularDistance && obj ) {
+		insertItem( i18n( "Angular distance to ...." ), ksw->map(), SLOT( slotAngularDistance() ) );
+	}
+
 
 	//Insert item for Showing details dialog
 	if ( showDetails && obj ) {

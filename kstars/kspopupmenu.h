@@ -48,7 +48,7 @@ public:
 	*/
 	void initPopupMenu( SkyObject *obj, QString name1, QString name2, QString type,
 		bool showRiseSet=true, bool showCenterTrack=true,
-		bool showDetails=true, bool showTrail=false, bool addTrail=false );
+		bool showDetails=true, bool showTrail=false, bool addTrail=false, bool showAngularDistance=true );
 
 	void addLinksToMenu( SkyObject *obj, bool showDSS=true, bool allowCustom=true );
 	void createStarMenu( StarObject *star );

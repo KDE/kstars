@@ -328,6 +328,15 @@ void SkyMap::slotInfo( int id ) {
 		kapp->invokeBrowser(sURL);
 }
 
+void SkyMap::slotAngularDistance(void) {
+	if ( clickedObject() ) {
+		measuringAngularDistance = true;
+		setPreviousClickedPoint( clickedPoint() );
+		//previousClickedObject->setDec( clickedObject()->dec()->Degrees() );
+	}
+
+}
+
 void SkyMap::slotImage( int id ) {
 	QStringList::Iterator it = clickedObject()->ImageList.at(id-100);
   QString sURL = (*it);

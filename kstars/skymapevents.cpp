@@ -515,6 +515,8 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
+	dms angularDistance;
+	
 	//did we Grab an infoBox?
 	if ( e->button() == LeftButton && infoBoxes()->grabBox( e ) ) {
 		update(); //refresh without redrawing skymap
@@ -813,6 +815,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				//} else {
 					ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()), 0 );
 				//}
+					if(measuringAngularDistance) {
+						//deleteRuler();
+						 angularDistance = clickedObject()->angularDistanceTo( previousClickedPoint() );
+//						ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "  " + i18n("Angular distance:" ), 0 );
+						ksw->statusBar()->changeItem( i18n(clickedObject()->longname().utf8()) + "     " + 
+					i18n("Angular distance: " ) + 
+					angularDistance.toDMSString(), 0 );
+						measuringAngularDistance=false;
+					}
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
