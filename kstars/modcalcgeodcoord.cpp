@@ -23,11 +23,19 @@
 #include "kstars.h"
 
 #include <qradiobutton.h>
+#include <qstring.h>
+#include <qcheckbox.h>
+#include <qtextstream.h>
 
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <kapplication.h>
 #include <knumvalidator.h>
+#include <klocale.h>
+#include <klineedit.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 
 modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : modCalcGeodCoordDlg(parentSplit,name) {
 
@@ -121,4 +129,69 @@ void modCalcGeodCoord::showCartGeoCoords(void)
 //	xGeoName->setText(QString("%1").arg( geoPlace->xPos()/1000. ,11,'f',6));
 //	yGeoName->setText(QString("%1").arg( geoPlace->yPos()/1000. ,11,'f',6));
 //	zGeoName->setText(QString("%1").arg( geoPlace->zPos()/1000. ,11,'f',6));
+}
+
+void geoCheck() {
+
+}
+
+void modCalcGeodCoord::slotLongCheckedBatch(){
+
+	if ( longCheckBatch->isChecked() ) {
+		longBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		longBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcGeodCoord::slotLatCheckedBatch(){
+
+	if ( latCheckBatch->isChecked() ) {
+		latBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		latBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcGeodCoord::slotElevCheckedBatch(){
+
+	if ( elevCheckBatch->isChecked() ) {
+		elevBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		elevBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcGeodCoord::slotXCheckedBatch(){
+
+	if ( xCheckBatch->isChecked() ) {
+		xBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		xBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcGeodCoord::slotYCheckedBatch(){
+
+	if ( yCheckBatch->isChecked() ) {
+
+		yBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		yBoxBatch->setEnabled( true );
+	}
+}
+
+void modCalcGeodCoord::slotZCheckedBatch(){
+
+	if ( zCheckBatch->isChecked() ) {
+		zBoxBatch->setEnabled( false );
+		geoCheck();
+	} else {
+		zBoxBatch->setEnabled( true );
+	}
 }

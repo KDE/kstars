@@ -364,7 +364,7 @@
                             </property>
                             <widget class="KLineEdit" row="0" column="3">
                                 <property name="name">
-                                    <cstring>xGeoNameBatch</cstring>
+                                    <cstring>xBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
@@ -372,7 +372,7 @@
                             </widget>
                             <widget class="KLineEdit" row="1" column="3">
                                 <property name="name">
-                                    <cstring>yGeoNameBatch</cstring>
+                                    <cstring>yBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
@@ -380,7 +380,7 @@
                             </widget>
                             <widget class="KLineEdit" row="2" column="3">
                                 <property name="name">
-                                    <cstring>zGeoNameBatch</cstring>
+                                    <cstring>zBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
@@ -388,7 +388,7 @@
                             </widget>
                             <widget class="dmsBox" row="0" column="1">
                                 <property name="name">
-                                    <cstring>longGeoBoxBatch</cstring>
+                                    <cstring>longBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
@@ -396,7 +396,7 @@
                             </widget>
                             <widget class="dmsBox" row="1" column="1">
                                 <property name="name">
-                                    <cstring>latGeoBoxBatch</cstring>
+                                    <cstring>latBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>
@@ -404,7 +404,7 @@
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
                                 <property name="name">
-                                    <cstring>altGeoBoxBatch</cstring>
+                                    <cstring>elevBoxBatch</cstring>
                                 </property>
                                 <property name="enabled">
                                     <bool>false</bool>

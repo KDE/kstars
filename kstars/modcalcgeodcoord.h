@@ -54,7 +54,12 @@ class modCalcGeodCoord : public modCalcGeodCoordDlg {
 		void slotComputeGeoCoords (void);
 		void slotClearGeoCoords (void);		
 		void setEllipsoid(int i);
-
+		void slotLongCheckedBatch();
+		void slotLatCheckedBatch();
+		void slotElevCheckedBatch();
+		void slotXCheckedBatch();
+		void slotYCheckedBatch();
+		void slotZCheckedBatch();
 	private:
 
 		void showLongLat(void);

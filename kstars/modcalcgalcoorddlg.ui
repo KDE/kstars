@@ -469,6 +469,9 @@
                                 <property name="checked">
                                     <bool>true</bool>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>If checked value will be read from input file. If not, value will be read from adjacent box</string>
+                                </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="0">
                                 <property name="name">
