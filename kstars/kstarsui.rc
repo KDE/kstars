@@ -61,7 +61,7 @@
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
 		<Action name="lightcurvegenerator" />
-		<Action name="elevation_vs_time" />
+		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
 	</Menu>
 

@@ -207,6 +207,14 @@ KSPluto::XYZpos KSPluto::calcRectCoords(double jd)  {
 }
 
 bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+//NEW_EARTH
+//	bool newEarth( false );
+//	if ( Earth == NULL ) {
+//		newEarth = true;
+//		Earth = new KSPlanet( ks, "Earth" );
+//		Earth->findPosition( num );
+//	}
+	
 	double X0, Y0, Z0, RARad;
 	dms L0, B0; //geocentric ecliptic coords of Sun
 	dms EarthLong, EarthLat; //heliocentric ecliptic coords of Earth
@@ -247,9 +255,6 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 
 	}
 
-
-
-
 	//L0, B0 are Sun's Ecliptic coords (L0 = Learth + 180; B0 = -Bearth)
 	L0.setD( Earth->ecLong()->Degrees() + 180.0 );
 	L0.setD( L0.reduce().Degrees() );
@@ -289,5 +294,6 @@ bool KSPluto::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
 	}
 
+//	if ( newEarth ) { delete Earth; Earth = 0; }
 	return true;
 }

@@ -24,9 +24,9 @@
 #include "kscomet.h"
 
 
-KSComet::KSComet( KStars *ks, QString _s, QString imfile,
+KSComet::KSComet( KStars *_ks, QString _s, QString imfile,
 		long double _JD, double _q, double _e, dms _i, dms _w, dms _N, double Tp )
- : KSPlanetBase(ks, _s, imfile), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
+ : KSPlanetBase(_ks, _s, imfile), ks(_ks), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_N) {
 	
 	setType( 9 ); //Comet
 	
@@ -57,6 +57,14 @@ KSComet::KSComet( KStars *ks, QString _s, QString imfile,
 
 bool KSComet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	double v(0.0), r(0.0);
+	
+//NEW_EARTH
+//	bool newEarth( false );
+//	if ( Earth == NULL ) {
+//		newEarth = true;
+//		Earth = new KSPlanet( ks, "Earth" );
+//		Earth->findPosition( num );
+//	}
 	
 	//Precess the longitude of the Ascending Node to the desired epoch:
 	dms n = dms( double(N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
@@ -162,6 +170,8 @@ bool KSComet::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
 	}
 
+//NEW_EARTH
+//	if ( newEarth ) { delete Earth; Earth = 0; }
 	return true;
 }
 

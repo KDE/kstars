@@ -69,6 +69,7 @@ class KSComet : public KSPlanetBase
 		virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 	
 	private:
+		KStars *ks;
 		long double JD, JDp;
 		double q, e, a, P;
 		dms i, w, N;

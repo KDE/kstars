@@ -69,6 +69,7 @@ class KSAsteroid : public KSPlanetBase
 		virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 	
 	private:
+		KStars *ks;
 		long double JD;
 		double a, e, H, P;
 		dms i, w, M, N;

@@ -24,9 +24,9 @@
 #include "ksasteroid.h"
 
 
-KSAsteroid::KSAsteroid( KStars *ks, QString s, QString imfile,
+KSAsteroid::KSAsteroid( KStars *_ks, QString s, QString imfile,
 		long double _JD, double _a, double _e, dms _i, dms _w, dms _N, dms _M, double _H )
- : KSPlanetBase(ks, s, imfile), JD(_JD), a(_a), e(_e), i(_i), w(_w), N(_N), M(_M), H(_H) {
+ : KSPlanetBase(_ks, s, imfile), ks(_ks), JD(_JD), a(_a), e(_e), i(_i), w(_w), N(_N), M(_M), H(_H) {
 	
 	setType( 10 ); //Asteroid
 	setMag( H );
@@ -35,6 +35,14 @@ KSAsteroid::KSAsteroid( KStars *ks, QString s, QString imfile,
 }
 
 bool KSAsteroid::findPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+//NEW_EARTH
+//	bool newEarth( false );
+//	if ( Earth == NULL ) {
+//		newEarth = true;
+//		Earth = new KSPlanet( ks, "Earth" );
+//		Earth->findPosition( num );
+//	}
+	
 	//Precess the longitude of the Ascending Node to the desired epoch:
 	dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
 	
@@ -121,6 +129,7 @@ bool KSAsteroid::findPosition( const KSNumbers *num, const KSPlanetBase *Earth )
 		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
 	}
 
+//	if ( newEarth ) { delete Earth; Earth = 0; }
 	return true;
 }
 

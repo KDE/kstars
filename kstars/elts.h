@@ -44,6 +44,7 @@ class dmsBox;
 class eltsCanvas;
 class GeoLocation;
 class KStars;
+class KListBox;
 
 class elts : public KDialogBase
 { 
@@ -108,11 +109,12 @@ private:
 	dmsBox *latBox, *longBox, *raBox, *decBox;
 	QPushButton *browseButton, *cityButton, *clearButton, *addButton, *updateButton;
 	eltsCanvas *eltsView;
-//	QWidget *eltsView;
+	KListBox *PlotList;
 
-	QVBoxLayout *sourceLayout, *dateLocationLayout, *eltsTotalBoxLayout;
-	QHBoxLayout *nameLayout, *coordLayout, *clearAddLayout, *longLatLayout, 
-		*updateLayout;
+	QVBoxLayout *dateLocationLayout, *eltsTotalBoxLayout,
+		*sourceLeftLayout, *sourceMidLayout;
+	QHBoxLayout *sourceLayout, *nameLayout, *coordLayout, 
+		*clearAddLayout, *longLatLayout, *updateLayout;
 	GeoLocation *geoPlace;
 	KStars *ks;
 	QPtrList<SkyPoint> pList;

@@ -75,7 +75,14 @@ bool KSMoon::loadData() {
 }
 
 bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
-
+//NEW_EARTH
+//	bool newEarth( false );
+//	if ( Earth == NULL ) {
+//		newEarth = true;
+//		Earth = new KSPlanet( ks, "Earth" );
+//		Earth->findPosition( num );
+//	}
+	
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
 	QString fname, snum, line;
@@ -171,6 +178,8 @@ bool KSMoon::findPosition( const KSNumbers *num, const KSPlanetBase *Earth) {
 
 	EclipticToEquatorial( num->obliquity() );
 
+//NEW_EARTH
+//	if ( newEarth ) { delete Earth; Earth = 0; } //yikes!  it was mostly harmless, anyway...
 	return true;
 }
 
