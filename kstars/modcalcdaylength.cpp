@@ -19,7 +19,6 @@
 #include "modcalcprec.h"
 #include "dms.h"
 #include "dmsbox.h"
-#include "timebox.h"
 #include "skyobject.h"
 #include "ksutils.h"
 #include "geolocation.h"
@@ -35,21 +34,21 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	rightBox = new QWidget (parentSplit);
 	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
 //
-//  Buttons 
+//  Buttons
 //
 	QGroupBox * InputBox = new QGroupBox (rightBox);
 	InputBox->setTitle( i18n("Input Data") );
-	
+
 	QVBoxLayout * D00Lay = new QVBoxLayout( InputBox );
 
 	QHBox * buttonBox = new QHBox(InputBox);
-	
+
 	QPushButton * Compute = new QPushButton( i18n( "Compute" ), buttonBox);
 	QPushButton * Clear = new QPushButton( i18n( "Clear" ), buttonBox );
-	
+
 	Compute->setFixedHeight(25);
 	Compute->setMaximumWidth(100);
-	
+
 	Clear->setFixedHeight(25);
 	Clear->setMaximumWidth(100);
 //
@@ -90,7 +89,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	D0Lay->setSpacing(4);
 
 	buttonBox->setMargin(10);
-	
+
 	D00Lay->setMargin(14);
 	D00Lay->setSpacing(4);
 	D00Lay->addWidget(buttonBox);
@@ -102,7 +101,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	resultsBox->setTitle( i18n("Positions and Times") );
 
 	QGridLayout * DGLay = new QGridLayout(resultsBox, 4, 4);
-	
+
 	QLabel * riseTimeLabel = new QLabel(resultsBox);
 	riseTimeLabel->setText(i18n("Sunrise:"));
 	riseTimeBox = new timeBox(resultsBox,"riseTimeBox");
@@ -134,7 +133,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 	dayLLabel->setText(i18n("Day length:"));
 	dayLBox = new timeBox(resultsBox,"daylBox");
 //	dayLBox = new QTimeEdit(resultsBox,"setTimeBox");
-	
+
 	DGLay->addWidget(riseTimeLabel,0,0);
 	DGLay->addWidget(riseTimeBox,0,1);
 
@@ -143,7 +142,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	DGLay->addWidget(transitTimeLabel,1,0);
 	DGLay->addWidget(transitTimeBox,1,1);
-	
+
 	DGLay->addWidget(elTransitLabel,1,2);
 	DGLay->addWidget(elTransitBox,1,3);
 
@@ -158,13 +157,13 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	DGLay->setMargin(14);
 	DGLay->setSpacing(4);
- 	
+
 	QSpacerItem * downSpacer = new QSpacerItem(400,70);
 
 	rightBoxLayout->addWidget(InputBox);
 	rightBoxLayout->addWidget(resultsBox);
 	rightBoxLayout->addItem(downSpacer);
-	
+
 	rightBox->setMaximumWidth(550);
 	rightBox->setMinimumWidth(400);
 	rightBox->show();
@@ -174,7 +173,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : QWi
 
 	connect( Compute, SIGNAL(clicked() ), this, SLOT( slotComputePosTime() ) ) ;
 	connect( Clear, SIGNAL(clicked() ), this, SLOT( slotClearCoords() ) ) ;
-	
+
 }
 
 modCalcDayLength::~modCalcDayLength(){
@@ -235,7 +234,7 @@ long double modCalcDayLength::computeJdFromCalendar (void)
 }
 
 void modCalcDayLength::slotClearCoords(){
- 	
+
 	azSetBox->clearFields();
 	azRiseBox->clearFields();
 	elTransitBox->clearFields();
@@ -255,7 +254,7 @@ void modCalcDayLength::slotClearCoords(){
 	setTimeBox->clearFields();
 	riseTimeBox->clearFields();
 	transitTimeBox->clearFields();
-	
+
 //	dayLBox->setTime(time);
 	dayLBox->clearFields();
 }
@@ -263,10 +262,10 @@ void modCalcDayLength::slotClearCoords(){
 QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 
 	QTime dL(0,0,0);
- 	
+
   int dds = riseQTime.secsTo(setQTime);
   QTime dLength = dL.addSecs( dds );
- 	
+
 	return dLength;
 }
 
