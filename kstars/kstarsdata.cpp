@@ -40,38 +40,38 @@ KStarsData::KStarsData() {
 	saoFileReader = 0;
 	Moon = 0;
 	jmoons = 0;
-	initTimer = 0;
+	initTimer = 0L;
 	startupComplete = false;
 	source = 0;
 	loader = 0;
 	pump = 0;
 	objects++;
-	
+
 	//standard directories and locale objects
 	stdDirs = new KStandardDirs();
 	locale = new KLocale( "kstars" );
-	
+
 	//Instantiate the SimClock object
 	clock = new SimClock();
 
 	//Instantiate KStarsOptions object
 	options = new KStarsOptions();
 	oldOptions = 0;
-	
-	//Sidereal Time and Hour Angle objects 
+
+	//Sidereal Time and Hour Angle objects
 	LST = new dms();
 	HourAngle = new dms();
 
 	//Instantiate planet catalog
 	PC = new PlanetCatalog(this);
 
-	//set AutoDelete property for QPtrLists.  Most are set TRUE, 
+	//set AutoDelete property for QPtrLists.  Most are set TRUE,
 	//but some 'meta-lists' need to be FALSE.
 	starList.setAutoDelete( TRUE );
 	ADVtreeList.setAutoDelete( TRUE );
 	geoList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
-  
+
 	//separate lists for each deep-sky catalog.  The objects are duplicates of
 	//deepSkyList, so do not delete them twice!
   deepSkyListMessier.setAutoDelete( FALSE );
@@ -88,12 +88,12 @@ KStarsData::KStarsData() {
 	clineList.setAutoDelete( TRUE );
 	clineModeList.setAutoDelete( TRUE );
 	cnameList.setAutoDelete( TRUE );
-	
+
 	Equator.setAutoDelete( TRUE );
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
-	
+
 	VariableStarsList.setAutoDelete(TRUE);
 	INDIHostsList.setAutoDelete(TRUE);
 
@@ -121,26 +121,23 @@ KStarsData::~KStarsData() {
 	objects--;
 	checkDataPumpAction();
 
-	if ( 0 != oldOptions ) {
   	delete oldOptions;
-		oldOptions = 0;
-	}
+        oldOptions = 0;
 
-	if ( 0 != options ) {
-		delete options;
-		options = 0;
-	}
+        delete options;
+        options = 0;
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
 
-	if (stdDirs) delete stdDirs;
-	if (clock) delete clock;
-	if (Moon) delete Moon;
-	if (locale) delete locale;
-	if (LST) delete LST;
-	if (HourAngle) delete HourAngle;
-	if (PC) delete PC;
-	if (jmoons) delete jmoons;
+	delete stdDirs;
+	delete clock;
+	delete Moon;
+	delete locale;
+	delete LST;
+	delete HourAngle;
+	delete PC;
+	delete jmoons;
+        delete initTimer;
 }
 
 bool KStarsData::readMWData( void ) {
@@ -1278,6 +1275,7 @@ void KStarsData::initError(QString s, bool required = false) {
 
 	if (required) {
 		delete initTimer;
+                initTimer = 0L;
 		emit initFinished(false);
 	} else {
 		initTimer->start(1);
@@ -1412,6 +1410,7 @@ void KStarsData::slotInitialize() {
 		default:
 			initTimer->stop();
 			delete initTimer;
+                        initTimer = 0L;
 			startupComplete = true;
 			emit initFinished(true);
 			break;
