@@ -37,8 +37,8 @@ void KStarsData::loadOptions()
 	conf->setGroup( "Location" );
 	// set Greenwich as default
 	QString city = conf->readEntry( "City", "Greenwich" );
-	QString province = conf->readEntry( "Province", "" );
-	QString country = conf->readEntry( "Country", "United Kingdom" );
+	QString province = conf->readEntry( "Province" );
+	QString country = conf->readEntry( "Country", i18n("United Kingdom") );
 	double longitude = conf->readDoubleNumEntry( "Longitude", 0.0 );
 	double latitude = conf->readDoubleNumEntry( "Latitude", 51.4667 );
 	double timezone = conf->readDoubleNumEntry( "TimeZone", 0.0 );
@@ -56,8 +56,8 @@ void KStarsData::loadOptions()
 		QString cname = QString( "CatalogName%1" ).arg( i );
 		QString cfile = QString( "CatalogFile%1" ).arg( i );
 		QString cshow = QString( "ShowCatalog%1" ).arg( i );
-		options->CatalogName.append( conf->readEntry( cname, "" ) );
-		options->CatalogFile.append( conf->readEntry( cfile, "" ) );
+		options->CatalogName.append( conf->readEntry( cname ) );
+		options->CatalogFile.append( conf->readEntry( cfile ) );
 		options->drawCatalog.append( conf->readBoolEntry( cshow, false ) );
 
 		//read in custom catalog:
