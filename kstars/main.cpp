@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	}
 	*/
 
-#if (KDE_VERSION <= 222)
+#if (QT_VERSION <= 299)
 	a.dcopClient()->attach();
 	a.dcopClient()->registerAs("kstars");
 #endif

@@ -25,7 +25,8 @@
 #include <qwidget.h>
 #include <kdialogbase.h>
 
-#if (KDE_VERSION <= 222)
+#include <qglobal.h>
+#if (QT_VERSION <= 299)
 #include <kapp.h>
 #else
 #include <kapplication.h>

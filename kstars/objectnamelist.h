@@ -34,7 +34,8 @@
 
 #include "skyobjectname.h"
 
-#if (KDE_VERSION > 222)
+#include <qglobal.h>
+#if (QT_VERSION > 299)
 #include <qptrlist.h>
 #endif
 class ObjectNameList {

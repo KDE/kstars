@@ -22,7 +22,8 @@
 #include "dms.h"
 #include "kstars.h"
 
-#if (KDE_VERSION <= 222)
+#include <qglobal.h>
+#if (QT_VERSION <= 299)
 #include <kapp.h>
 #else
 #include <kapplication.h>
@@ -58,7 +59,7 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 	*/
 	QString *line = (QString * ) data;
 	int counter = -1;
-	float mag;  // needed also out of while loop
+	float mag = 1.0;  // needed also out of while loop
 	while ( ++counter < entries ) {  // run counter from 0 to entries -1
 
 	/**

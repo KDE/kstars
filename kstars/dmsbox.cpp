@@ -75,7 +75,7 @@ void dmsBox::show(dms d)
 		showInHours(d);
 }
 
-dms dmsBox::createDms ( bool *ok=0 )
+dms dmsBox::createDms ( bool *ok )
 {
 //	QString entry;
 	int d = 0, m = 0;
@@ -175,6 +175,8 @@ dms dmsBox::createDms ( bool *ok=0 )
 //	 if ( !valueFound )
 //		KMessageBox::sorry( 0, errMsg.arg( "Angle" ), i18n( "Could not Set Value" ) );
 
+
+	return dmsAng;
 }
 
 dmsBox::~dmsBox(){

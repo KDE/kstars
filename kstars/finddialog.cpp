@@ -27,7 +27,8 @@
 #include "finddialog.h"
 #include "kstars.h"
 
-#if (KDE_VERSION > 222)
+#include <qglobal.h>
+#if (QT_VERSION > 299)
 #include <qptrlist.h>
 #endif
 

@@ -18,7 +18,9 @@
 #ifndef ADDCATDIALOG_H
 #define ADDCATDIALOG_H
 
-#if (KDE_VERSION <= 222)
+#include <qglobal.h>
+
+#if (QT_VERSION <= 299)
 #include <qlist.h>
 #else
 #include <qptrlist.h>

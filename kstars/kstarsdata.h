@@ -44,7 +44,8 @@
 #include "objectnamelist.h"
 #include "timezonerule.h"
 
-#if (KDE_VERSION <= 222)
+#include <qglobal.h>
+#if (QT_VERSION <= 299)
 #include <qlist.h>
 #else
 #include <qptrlist.h>

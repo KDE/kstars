@@ -47,7 +47,8 @@
 #include "mapcanvas.h"
 #include "dmsbox.h"
 
-#if (KDE_VERSION > 222)
+#include <qglobal.h>
+#if (QT_VERSION > 299)
 #include <qmemarray.h>
 #endif
 

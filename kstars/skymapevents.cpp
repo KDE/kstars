@@ -516,7 +516,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		QStringList::Iterator itList;
 		QStringList::Iterator itTitle;
 		QString s, DisplayName;
-		int id, jmin(-1);
+		int id(-1), jmin(-1);
 		int icat(-1);
 		setClickedObject( NULL );
 		StarObject *starobj = NULL;

@@ -20,7 +20,8 @@
 
 #include <qdatetime.h>
 
-#if (KDE_VERSION <=222)
+#include <qglobal.h>
+#if (QT_VERSION <=299)
 #include <kstddirs.h>
 #else
 #include <kstandarddirs.h>
