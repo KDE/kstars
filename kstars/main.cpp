@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
 #endif
 
 	KStars *kstars = new KStars( true );
+
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 

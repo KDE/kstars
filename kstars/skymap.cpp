@@ -400,7 +400,7 @@ void SkyMap::slotDetail( void ) {
     	KMessageBox::sorry( this, i18n("No Object selected!"), i18n("Object Details") );
 		return;
    }
-	DetailDialog detail( clickedObject(), ksw->data()->LTime, ksw->geo() );
+	DetailDialog detail( clickedObject(), ksw->data()->LTime, ksw->geo(), ksw );
 	detail.exec();
 }
 
@@ -960,6 +960,7 @@ void SkyMap::addLink( void ) {
 				QTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
+              emit linkAdded();
       }
 		} else {
 			clickedObject()->InfoList.append( adialog.url() );
@@ -974,8 +975,9 @@ void SkyMap::addLink( void ) {
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.title() + ":" + adialog.url();
 				QTextStream stream( &file );
-				stream << entry;
+				stream << entry << endl;
 				file.close();
+              emit linkAdded();
       }
 		}
 	}

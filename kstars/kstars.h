@@ -62,6 +62,7 @@
 #include "toggleaction.h"
 
 // forward declaration is enough. We only need pointers
+class KDialogBase;
 class TimeDialog;
 class LocationDialog;
 class FindDialog;
@@ -370,7 +371,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KActionMenu *colorActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
-        QDialog *AAVSODialog;
+       KDialogBase *AAVSODialog;
 
     
 		int idSpinBox;

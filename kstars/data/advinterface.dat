@@ -1,0 +1,134 @@
+[KSLABEL]Simbad
+General:http://simbad.harvard.edu/sim-id.pl?protocol=html&Ident=KSOBJ&NbIdent=1&Radius=10&Radius.unit=arcmin&CooFrame=FK5&CooEpoch=2000&CooEqui=2000&output.max=all&o.catall=on&output.mesdisp=N&Bibyear1=1983&Bibyear2=2002&Frame1=FK5&Frame2=FK4&Frame3=G&Equi1=2000.0&Equi2=1950.0&Equi3=2000.0&Epoch1=2000.0&Epoch2=1950.0&Epoch3=2000.0
+References:http://simbad.harvard.edu/sim-id.pl?protocol=html&Ident=KSOBJ&keywords=&Radius=10&CooEqui=2000&output.mes=o.catall%2C&output.mesdisp=N&Equi1=2000.0&Epoch1=2000.0&Frame1=FK5&Equi2=1950.0&Epoch2=1950.0&Frame2=FK4&Equi3=2000.0&Epoch3=2000.0&Frame3=G&FrameList=FK5&EquiList=2000.0&EpochList=2000.0&output.bib=b.ref&Bibyear1=1983&Bibyear2=2002
+[KSLABEL]Adalin
+Aladin previewer:http://aladin.u-strasbg.fr/AladinPreview?KSRA%20KSDEC
+Adalin Java applet:http://aladin.u-strasbg.fr/java/nph-aladin.pl?-c=KSRA%20KSDEC&-rm=11&-server=Aladin%2CSimbad
+[END]
+[END]
+[KSLABEL]Skyview
+[KSINTERFACE]http://skyview.gsfc.nasa.gov/cgi-bin/nnskcall.pl?Interface=bform&VCOORD=KSRA8%2C+KSDEC&NWINDOW=on&SURVEY=KSINTERFACE&SCOORD=Equatorial&EQUINX=2000&MAPROJ=Gnomonic&SFACTR=Default&ISCALN=Log%2810%29&GRIDDD=No&COLTAB=Stern+Special
+[KSLABEL]Gamma-ray
+EGRET(3D):
+EGRET > 100 MeV:
+EGRET < 100 MeV:
+COMPTEL:
+[END]
+[KSLABEL]X-ray
+HEAO 1 A-2:
+RASS-Cnt Broad:
+RASS-Cnt Hard:
+RASS-Cnt Soft:
+HRI:
+PSPC 2.0 Deg-Inten:
+PSPC 1.0 Deg-Inten:
+RASS 1/4 keV:
+RASS 3/4 keV:
+RASS 1.5 keV:
+Old PSPC (2 deg):
+[END]
+[KSLABEL]EUV
+ROSAR WFC F1:
+ROSAR WFC F2:
+EUVE 83 A:
+EUVE 171 A:
+EUVE 405 A:
+EUVE 555 A:
+[END]
+[KSLABEL]UV
+UV Total:
+UV Galactic:
+UV Stellar:
+UV SolSys:
+[END]
+[KSLABEL]Optical
+Digitized Sky Survey:
+DSS2 Red:
+DSS2 Blue:
+NEAT/SkyMorph:
+[END]
+[KSLABEL]Infrared
+CODE DIRBE:
+2MASS-J:
+2MASS-H:
+2MASS-K
+IRAS 12 micron:
+IRAS 25 micron:
+IRAS 60 micron:
+IRAS 100 micron:
+SFD 100 micron:
+SFD Dust Map:
+[END]
+[KSLABEL]Radio
+CO:
+GB6 (4850Mhz):
+4850Mhz (OLD):
+nH:
+VLA FIRST (1.4 Ghz):
+VLA NVSS (1.4 Ghz):
+1420Mhz (Bonn):
+SUMSS 843 MHZ:
+0408Mhz:
+WENSS:
+0035MHz:
+[END]
+[END]
+[KSLABEL]High Energy Astrophysical Archive
+[KSLABEL]Recent X-Ray Missions
+[KSINTERFACE]http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D/cgi-bin/W3Browse/w3browse.pl%253%3E+Main+Search+Form%3C/a%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_xray1=KSINTERFACE&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+ASCA:
+BeppoSAX:
+Chandra:
+RXTE:
+XMM-Newton:
+[END]
+[KSLABEL]Past X-ray Mission
+[KSINTERFACE]http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D/cgi-bin/W3Browse/w3browse.pl%253%3E+Main+Search+Form%3C/a%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_xray2=KSINTERFACE&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Ariel V:
+BBXRT:
+Copernicus:
+EXOSAT:
+Cinga:
+HEAO 1:
+SAS 3:
+Uhuru:
+Vela 5B:
+[END]
+[KSLABEL]Gamma-Ray Missions
+[KSINTERFACE]http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D/cgi-bin/W3Browse/w3browse.pl%253%3E+Main+Search+Form%3C/a%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_gammaray=KSINTERFACE&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+CGRO:
+COS B:
+HETE-2:
+SAS-2:
+Gamma-Ray Bursts:
+[END]
+[KSLABEL]Other Missions
+[KSINTERFACE]http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D/cgi-bin/W3Browse/w3browse.pl%253%3E+Main+Search+Form%3C/a%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_other=KSINTERFACE&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+EUVE:
+FAUST:
+HST:
+ISO:
+IUE:
+TD1 (UV):
+[END]
+[KSLABEL]Popular Catalog Choices
+Hipparcos Main:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Dhipparcos&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+HST Guide Stars 2.2:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253DI%2F271&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+NGC 2000:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Dngc2000&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+USNO A2:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=         &table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+2MASS:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=         &table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+ROSAT All-Sky-Survey:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Drassbsc%7C%7Crassfs&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+ROSAT Pointed Source Catalogs:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Drospspc%7C%7Croshri%7C%7Cwgacat&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+CGRO BATSE GRB Catalog:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Dbatsegrb&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Veron Quasars/AGN:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3F%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&tablehead=name%253Dveron2000&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+[END]
+[KSLABEL]Multiwavelength Catalogs
+Galaxies:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=GALAXY+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Master:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=MASTER+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Nebulae:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=NEBULA+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Mega-catalogs:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=GENERAL+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Stars:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=STAR+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Radio:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=RADIO+CATALOG&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+Atomic Data:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3Ca+class%3Dnavpast+href%3D%2Fcgi-bin%2FW3Browse%2Fw3browse.pl%3%3E+Main+Search+Form%3C%2Fa%3E&Entry=KSRA%2C+KSDEC&Coordinates=J2000&Radius=Default&Radius_unit=arcmin&NR=CheckCaches%2FSIMBAD%2FNED&Time=&Observatory_object=PHYSICS+DATA&table_type=Observation&table_type=Object&table_type=Proposal&table_type=Physics&maxpriority=&ResultMax=1000&displaymode=Display&Basic=on
+[END]
+[END]

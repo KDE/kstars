@@ -199,7 +199,9 @@ void KStars::initActions() {
 	new KAction(i18n( "Calculator"), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
-  	new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
+   // enable action only if file was loaded and processed successfully.   
+   if (!data()->VariableStarsList.isEmpty())
+   new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
 			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
 

@@ -256,6 +256,7 @@ public slots:
 
 signals:
 	void destinationChanged();
+    void linkAdded();
 	
 protected:
 /**Draw the Sky, and all objects in it. */

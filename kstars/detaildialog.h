@@ -19,6 +19,8 @@
 #define DETAILDIALOG_H
 
 #include <qgroupbox.h>
+#include <qfile.h>
+#include <qptrlist.h>
 #include <kdialogbase.h>
 
 #include "skyobject.h"
@@ -28,13 +30,31 @@ class QDateTime;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
+class QFrame;
+class QLineEdit;
+class QString;
+class QStringList;
+class QTextEdit;
+class QListView;
+//class QPtrListIterator;
+class KStars;
+
+struct ADVTreeData
+{
+      QString Name;
+      QString Link;
+      int Type;
+};
+
 
 /**DetailDialog is a window showing detailed information for a selected object.
 	*Also shows a piece of the skymap centered on the object.
 	*The kind of information displayed depends upon the object type:
 	*
 	*Stars: Long name, Genetive name, Spectral Type, Magnitude,
-  *@author Jason Harris
+   *In additional to the General tab, there is also a tab for editing/viewing links,
+   *a tab that provides advanced access to data, and a log tab.
+  *@author Jason Harris, Jasem Mutlaq
   */
 
 class DetailDialog : public KDialogBase  {
@@ -43,6 +63,18 @@ public:
 	DetailDialog(SkyObject *o, QDateTime lt, GeoLocation *geo, QWidget *parent=0, const char *name=0);
 	~DetailDialog() {}
 private:
+
+    bool readUserFile(int type, int sourceFileType);
+    bool verifyUserData(int type, uint & ObjectIndex);
+    void createGeneralTab(QDateTime lt, GeoLocation *geo);
+    void createLinksTab();
+    void createAdvancedTab();
+    void createLogTab();
+
+    void Populate(QListViewItem *parent);
+    void forkTree(QListViewItem *parent);
+    QString parseADVData(QString link);
+    
 
 	class NameBox : public QGroupBox {
 	public:
@@ -93,14 +125,66 @@ private:
 		QLabel *deltaRA, *deltaDec;
 	};
 */
+    SkyObject *selectedObject;
+    KStars* ksw;
 
+    // General Tab
 	QVBoxLayout *vlay;
 
-	long double jd;
+    // Links Tab
+    QFrame *linksTab;
+    QGroupBox *infoBox, *imagesBox;
+    QVBoxLayout *infoLayout, *imagesLayout, *topLayout;
+    KListBox *infoList, *imagesList; 
+
+   QPushButton *view, *addLink, *editLink, *removeLink;
+   QSpacerItem *buttonSpacer;
+   QHBoxLayout *buttonLayout;
+
+   // Edit Link Dialog
+   QHBoxLayout *editLinkLayout;
+   QLabel *editLinkURL;
+   QLineEdit *editLinkField;
+   QFile file;
+   int currentItemIndex;
+   QString *currentItemURL, *currentItemTitle;
+   QStringList *dataList;
+
+   // Advanced Tab
+   QFrame *advancedTab;
+   KListView *ADVTree;
+   QPushButton *viewTreeItem;
+   QLabel *treeLabel;
+   QVBoxLayout *treeLayout;
+   QSpacerItem *ADVbuttonSpacer;
+   QHBoxLayout *ADVbuttonLayout;
+
+   QPtrListIterator<ADVTreeData> * treeIt;
+   QListViewItem *ADVtreeRoot;
+
+   // Log Tab
+   QFrame *logTab;
+   QTextEdit *userLog;
+   QPushButton *saveLog;
+   QVBoxLayout *logLayout;
+   QSpacerItem *LOGbuttonSpacer;
+   QHBoxLayout *LOGbuttonLayout;
+
+  	long double jd;
 	QDateTime ut;
 	NameBox *Names;
 	CoordBox *Coords;
 	RiseSetBox *RiseSet;
+
+  public slots:
+  void viewLink();
+  void unselectImagesList();
+  void unselectInfoList();
+  void updateLists();
+  void editLinkDialog();
+  void removeLinkDialog();
+  void viewADVData();
+  void saveLogData();
 
 };
 

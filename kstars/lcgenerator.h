@@ -26,7 +26,7 @@
 #define LCGENERATOR_H
 
 #include <qvariant.h>
-#include <qdialog.h>
+#include <kdialogbase.h>
 
 class QVBoxLayout; 
 class QHBoxLayout; 
@@ -38,7 +38,9 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QRadioButton;
+class QFrame;
 
+class KListBox;
 class KStars;
 
 struct VariableStarInfo
@@ -47,7 +49,7 @@ struct VariableStarInfo
   QString Designation;
 };
 
-class LCGenerator : public QDialog
+class LCGenerator : public KDialogBase
 { 
     Q_OBJECT
 
@@ -71,8 +73,9 @@ public:
    *@param FinalStartDate The start date in Julian days
    *@param FinalEndDate The end date in Julian days
    *@param FinalDesignation The AAVSO star designation
+   *@param AverageDay Number of average days for binning the light curve
    */
-    void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation);
+    void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay);
 
 
     KStars *ksw;
@@ -81,8 +84,8 @@ public:
     
      // Star Info Box
     QGroupBox* StarInfoBox;
-    QLineEdit* DesignationIn;
-    QLineEdit* NameIn;
+    KListBox* DesignationIn;
+    KListBox* NameIn;
     QLineEdit* StartDateIn;
     QLineEdit* EndDateIn;
     QLabel* TextLabel1;
@@ -125,6 +128,11 @@ public:
     public slots:
     /** Checks if a star name or designation exists in the database, verifies date format, and connects to server if no errors occur  */
     void VerifyData();
+    /** Selects a star name based on the star designation */
+    void updateNameList(int index);
+    /** Selects a designation based on the star name */
+    void updateDesigList(int index);
+    
 
 };
 

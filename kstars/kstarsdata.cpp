@@ -17,6 +17,7 @@
 //JH 25.08.2001: added i18n() to strings
 
 #include <qtextstream.h>
+#include <qregexp.h>
 
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -139,6 +140,72 @@ bool KStarsData::readMWData( void ) {
 	return true;
 }
 
+bool KStarsData::readADVTreeData(void)
+{
+
+  QFile file;
+  QString Interface;
+
+  // !!!! for some reason, I cannot load any new data file?!! I'm using existing one for the sake of development, then I'll check it out.
+  if (!KSUtils::openDataFile(file, "advinterface.dat"))
+   return false;
+
+   QTextStream stream(&file);
+   QString Line;
+
+  while  (!stream.atEnd())
+  {
+    QString Name, Link, subName;
+    int Type, interfaceIndex;
+
+    Line = stream.readLine();
+
+    if (Line.startsWith("[KSLABEL]"))
+    {
+       Name = Line.mid(9);
+       Type = 0;
+    }
+    else if (Line.startsWith("[END]"))
+       Type = 1;
+    else if (Line.startsWith("[KSINTERFACE]"))
+    {
+      Interface = Line.mid(13);
+      continue;
+    }
+      
+    else
+    {
+      Name = Line.mid(0, Line.find(":"));
+      Link = Line.mid(Line.find(":") + 1);
+
+      // Link is empty, using Interface instead
+      if (Link.isEmpty())
+      {
+         Link = Interface;
+         subName = Name;
+         interfaceIndex = Link.find("KSINTERFACE");
+         Link.remove(interfaceIndex, 11);
+         Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
+
+       }
+      
+      Type = 2;
+    }
+      
+    ADVTreeData *ADVData = new ADVTreeData;
+
+    ADVData->Name = Name;
+    ADVData->Link = Link;
+    ADVData->Type = Type;
+
+    ADVtreeList.append(ADVData);
+   }
+
+   return true;
+
+
+
+}
 bool KStarsData::readVARData(void)
 {
   QFile file;
@@ -424,29 +491,101 @@ bool KStarsData::readDeepSkyData( void ) {
 	}
 }
 
-bool KStarsData::readURLData( QString urlfile, int type ) {
-	QFile file;
+bool KStarsData::openURLFile(QString urlfile, QFile & file)
+{
+
+	//QFile file;
 	QString localFile;
 	bool fileFound = false;
+    QFile localeFile;
 
-	if ( locale->language() != "en_US" ) 
+	if ( locale->language() != "en_US" )
 		localFile = locale->language() + "/" + urlfile;
 
-	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) ) {
+	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) )
+   {
 		fileFound = true;
-	} else if ( KSUtils::openDataFile( file, urlfile ) ) {
-		if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
-		fileFound = true;
-	} else {
-		file.setName( locateLocal( "appdata", urlfile ) );
+	} else
+   // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
+   {
+    	file.setName( locateLocal( "appdata", urlfile ) );
 		if ( file.open( IO_ReadOnly ) ) fileFound = true;
+       else if ( KSUtils::openDataFile( file, urlfile ) )
+                {
+           	        if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using defaul English file." ) << endl;
+                      // we found urlfile, we need to copy it to locale
+                      localeFile.setName( locateLocal( "appdata", urlfile ) );
+                      if (localeFile.open(IO_WriteOnly)) {
+                        QTextStream readStream(&file);
+                        QTextStream writeStream(&localeFile);
+                        writeStream <<  readStream.read();
+                        localeFile.close();
+                        file.reset(); }
+                      else
+                         kdDebug() << i18n( "Failed to copy default URL file to locale directory, modifying default object links is not possible" ) << endl;
+                      fileFound = true;
+           	 } 
+	
 	}
 
-	if ( fileFound ) {
-	  QTextStream stream( &file );
+	return fileFound;
+}
 
+bool KStarsData::readUserLog(void)
+{
+
+  QFile file;
+  QString buffer;
+  QString sub, name, data;
+  
+    if (!KSUtils::openDataFile( file, "userlog.dat" ))
+     return false;
+
+    QTextStream stream(&file);
+
+  if (!stream.eof())
+    buffer = stream.read();
+
+  while (!buffer.isEmpty())
+  {
+     int startIndex, endIndex;
+
+    startIndex = buffer.find("[KSLABEL:");
+    sub = buffer.mid(startIndex);
+    endIndex = sub.find("[KSLogEnd]");
+
+    // Read name after KSLABEL identifer
+    name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
+    // Read data and skip new line
+    data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
+    buffer = buffer.mid(endIndex + 11);
+
+  for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() )
+       {
+          if ( sonm->text() == name )
+          {
+    		  sonm->skyObject()->userLog = data;
+             break;
+			}
+        }
+        
+   } // end while
+
+  file.close();
+
+     return true;
+}
+bool KStarsData::readURLData( QString urlfile, int type ) {
+
+    QFile file;
+    if (!openURLFile(urlfile, file))
+      return false;
+    
+    QTextStream stream(&file);
+    
   	while ( !stream.eof() ) {
-	  	QString line = stream.readLine();
+   	QString line = stream.readLine();
+
 			QString name = line.mid( 0, line.find(':') );
 			QString sub = line.mid( line.find(':')+1 );
 			QString title = sub.mid( 0, sub.find(':') );
@@ -455,6 +594,7 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 			bool bMatched = false;
 			for ( SkyObjectName *sonm = ObjNames.first(); sonm; sonm = ObjNames.next() ) {
 				if ( sonm->text() == name ) {
+             
 					bMatched = true;
 
 					if ( type==0 ) { //image URL
@@ -472,10 +612,8 @@ bool KStarsData::readURLData( QString urlfile, int type ) {
 		}
 		file.close();
 
-		return true;
-	} else {
-		return false;
-	}
+     return true;
+
 }
 
 bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bool showerrs ) {
@@ -967,7 +1105,10 @@ void KStarsData::slotInitialize() {
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
             if (!readVARData())
-                initError( "var.dat", true);
+                initError( "var.dat", false);
+            if (!readADVTreeData())
+                initError( "advinterface.dat", false);
+
 			break;
 
 		case 3: //Load NGC 2000 database//
@@ -1030,6 +1171,9 @@ void KStarsData::slotInitialize() {
 			if ( !readURLData( "myimage_url.dat", 0 ) ) {
 			//Don't do anything if the local file is not found.
 			}
+          // doesn't belong here, only temp
+             readUserLog();
+
 			break;
 
 		case 11: //Load Information URLs//

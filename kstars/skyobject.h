@@ -260,6 +260,7 @@ public:
 
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;
+   QString userLog;
 
 private:
 

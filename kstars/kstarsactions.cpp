@@ -19,6 +19,7 @@
 #include <kmessagebox.h>
 #include <kprinter.h>
 #include <ktip.h>
+#include <kdialogbase.h>
 #include <qpaintdevicemetrics.h>
 
 #include "kstars.h"
@@ -75,7 +76,7 @@ void KStars::slotLCGenerator() {
 	if (AAVSODialog == 0)
         AAVSODialog = new LCGenerator(this);
         
-	AAVSODialog->show();
+  AAVSODialog->show();
 }
 
 void KStars::slotGeoLocator() {

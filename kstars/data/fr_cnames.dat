@@ -1,90 +1,9 @@
-012000+410000ANDROMEDE                  
-100000-320000LA MACH. PNEUMATIQUE                     
-170000-810000L'OISEAU PARADIS                        
-222000-070000LE VERSEAU                    
-194000+070000L'AIGLE         
-171000-580000L'AUTEL       
-023000+250000LE BELIER                       
-053000+370000LE COCHER                      
-145000+320000LE BOUVIER                      
-045000-460000LE BURIN                      
-043000+533000LA GIRAFE             
-084000+160000LE CANCER                     
-123000+370000LES CHIENS DE CHASSE              
-070000-230000LE GRAND CHIEN                 
-073000+043000LE PETIT CHIEN                 
-204000-263000LE CAPRICORNE                 
-103000-740000LA CARENE                     
-010000+560000CASSIOPEE                  
-133000-480000LE CENTAURE                   
-220000+670000CEPHEE                     
-020000-070000LA BALEINE                       
-120000-820000LE CAMELEON                  
-145000-700000LE COMPAS                    
-055500-420000LA COLOMBE                     
-130000+230000CHEVELURE DE BERENICE              
-190000-390000COURONNE AUSTRALE            
-154500+280000COURONNE BOREALE             
-123000-200000LE CORBEAU                     
-111500-183000LA COUPE                      
-123000-600000LA CROIX DU SUD                        
-200000+370000LE CYGNE                      
-203000+120000LE DAUPHIN                   
-052000-640000LA DORADE                     
-173000+540000LE DRAGON                       
-212000+030000LE PETIT CHEVAL                    
-033000-200000L'ERIDAN                   
-030000-390000LE FOURNEAU                      
-070000+230000LES GEMEAUX                      
-223000-460000LA GRUE                        
-170000+340000HERCULE                    
-030000-500000L'HORLOGE                 
-091000-183000L'HYDRE                       
-090000-130000L'HYDRE MALE                      
-213000-580000L'INDIEN                       
-224500+460000LE LEZARD                     
-103000+160000LE LION                         
-104000+300000LE PETIT LION                  
-054000-210000LE LIEVRE                      
-151500-170000LA BALANCE                       
-151500-461500LE LOUP                      
-080000+480000LE LYNX                        
-184500+350000LA LYRE                        
-053000-800000LA TABLE                      
-210000-440000LE MICROSCOPE               
-070000-060000LA LICORNE                   
-130000-740000LA MOUCHE                       
-161000-590000LA REGLE                       
-100000-850000L'OCTANT                      
-170000-020000LE SERPENTAIRE                  
-054000+030000ORION                       
-210000-730000LE PAON                        
-234000+210000PEGASE                     
-033000+420000PERSEE                     
-004600-500000LE PHENIX                     
-060000-540000LE PEINTRE                      
-012000+112000LES POISSONS                     
-223000-300000POISSON AUSTRAL            
-073000-403000LA POUPE                      
-085000-320000LA BOUSSOLE                       
-040000-620000LE RETICULE                  
-194000+170000LA FLECHE                     
-184000-310000LE SAGITTAIRE                 
-164500-320000LE SCORPION                    
-001400-300000LE SCULPTEUR                    
-184000-110000LE BOUCLIER                      
-154000+080000LE SERPENT               
-180000-053000LE SERPENT              
-101000-030000LE SEXTANT                    
-050000+210000LE TAUREAU                      
-184000-500000LE TELESCOPE                
-020000+323000LE TRIANGLE                 
-163000-690000LE TRIANGLE AUSTRALE         
-003000-680000LE TOUCAN                     
-110000+520000LA GRANDE OURSE                  
-140000+820000LA PETITE OURSE                  
-093000-490000LES VOILES                        
-131500-030000LA VIERGE                      
-080000-733000LE POISSON VOLANT                      
-194000+240000LE RENARD                   
-
+[KSLABEL]Simbad
+General:http://simbad.u-strasbg.fr/sim-id.pl?protocol=html&Ident=KSNAMECOORD&NbIdent=1&Radius=10&Radius.unit=arcmin&CooFrame=FK5&CooEpoch=2000&CooEqui=2000&output.max=all&o.catall=on&output.mesdisp=N&Bibyear1=1983&Bibyear2=2002&Frame1=FK5&Frame2=FK4&Frame3=G&Equi1=2000.0&Equi2=1950.0&Equi3=2000.0&Epoch1=2000.0&Epoch2=1950.0&Epoch3=2000.0
+References:http://simbad.u-strasbg.fr/sim-id.pl?protocol=html&Ident=KSOBJ&keywords=&Radius=10&CooEqui=2000&output.mes=o.catall%2C&output.mesdisp=N&Equi1=2000.0&Epoch1=2000.0&Frame1=FK5&Equi2=1950.0&Epoch2=1950.0&Frame2=FK4&Equi3=2000.0&Epoch3=2000.0&Frame3=G&FrameList=FK5&EquiList=2000.0&EpochList=2000.0&output.bib=b.ref&Bibyear1=1983&Bibyear2=2002
+[KSLABEL]Adalin
+Aladin previewer:http://aladin.u-strasbg.fr/AladinPreview?KSRA%20%2BKSDEC
+Adalin Java applet:http://aladin.u-strasbg.fr/java/nph-aladin.pl?-c=KSRA%20%2BKSDEC&-rm=11&-server=Aladin%2CSimbad
+[END]
+Photometry:http://www.slashdot.org
+[END]

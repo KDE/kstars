@@ -23,15 +23,12 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlayout.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qfile.h>
 #include <qtextstream.h>
+#include <qframe.h>
 
 #include <klocale.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
-#include <kmainwindow.h>
+#include <klistbox.h>
 
 #include "lcgenerator.h"
 #include "imageviewer.h"
@@ -45,18 +42,11 @@
 #endif
 
 LCGenerator::LCGenerator( QWidget* parent)
-    : QDialog( parent, "lcgenerator", FALSE,  WType_TopLevel) , Hostprefix("http://www.aavso.org/cgi-bin/xephemstar.pl"), JDCutOff(2437600)
+    : KDialogBase( parent, "lcgenerator", false, i18n( "AAVSO Light Curve Generator"),0) , Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
 {
 
-    // pointer to KStars to access date
-    ksw = (KStars*) parent;
-    resize( 455, 370 ); 
-    setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, sizePolicy().hasHeightForWidth() ) );
-    setMinimumSize( QSize( 455, 370 ) );
-    setMaximumSize( QSize( 455, 370 ) );
-    setCaption( i18n( "AAVSO Light Curve Generator" ) );
-
-    createGUI();
+  ksw = (KStars*) parent;
+  createGUI();
 }
 
 LCGenerator::~LCGenerator()
@@ -67,69 +57,72 @@ LCGenerator::~LCGenerator()
 void LCGenerator::createGUI()
 {
 
-    StarInfoBox = new QGroupBox( this, "StarInfoBox" );
+    QWidget *page = new QWidget(this);
+    setMainWidget(page);
+    page->setMinimumSize( QSize( 455, 370 ) );
+    setMaximumSize( QSize( 455, 370 ) );
+    page->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, sizePolicy().hasHeightForWidth() ) );
+
+    
+    StarInfoBox = new QGroupBox( page, "StarInfoBox" );
     StarInfoBox->setGeometry( QRect( 5, 10, 245, 245 ) );
     StarInfoBox->setTitle( i18n( "Star Info" ) );
 
     TextLabel1 = new QLabel( StarInfoBox, "TextLabel1" );
-    TextLabel1->setGeometry( QRect( 10, 30, 81, 26 ) );
+    TextLabel1->setGeometry( QRect( 10, 32, 81, 26 ) );
     TextLabel1->setText( i18n( "Designation:" ) );
 
-    TextLabel2 = new QLabel( StarInfoBox, "TextLabel2" );
-    TextLabel2->setGeometry( QRect( 10, 55, 81, 16 ) );
-    QFont TextLabel2_font(  TextLabel2->font() );
-    TextLabel2_font.setPointSize( 9 );
-    TextLabel2->setFont( TextLabel2_font );
-    TextLabel2->setText( i18n( "Ex: 0214-03" ) );
-
     TextLabel3 = new QLabel( StarInfoBox, "TextLabel3" );
-    TextLabel3->setGeometry( QRect( 10, 75, 81, 26 ) );
+    TextLabel3->setGeometry( QRect( 10, 93, 81, 26 ) );
     TextLabel3->setText( i18n( "Or Name:" ) );
 
-    TextLabel4 = new QLabel( StarInfoBox, "TextLabel4" );
-    TextLabel4->setGeometry( QRect( 10, 100, 81, 16 ) );
-    QFont TextLabel4_font(  TextLabel4->font() );
-    TextLabel4_font.setPointSize( 9 );
-    TextLabel4->setFont( TextLabel4_font );
-    TextLabel4->setText( i18n( "Ex: Omi Cet" ) );
-
     TextLabel5 = new QLabel( StarInfoBox, "TextLabel5" );
-    TextLabel5->setGeometry( QRect( 10, 125, 81, 26 ) );
+    TextLabel5->setGeometry( QRect( 10, 145, 81, 26 ) );
     TextLabel5->setText( i18n( "Start Date:" ) );
 
     TextLabel6 = new QLabel( StarInfoBox, "TextLabel6" );
-    TextLabel6->setGeometry( QRect( 10, 155, 107, 16 ) );
+    TextLabel6->setGeometry( QRect( 10, 170, 107, 16 ) );
     QFont TextLabel6_font(  TextLabel6->font() );
     TextLabel6_font.setPointSize( 9 );
     TextLabel6->setFont( TextLabel6_font );
     TextLabel6->setText( i18n( "In JD or mm/dd/yyyy" ) );
 
     TextLabel7 = new QLabel( StarInfoBox, "TextLabel7" );
-    TextLabel7->setGeometry( QRect( 10, 180, 81, 26 ) );
+    TextLabel7->setGeometry( QRect( 10, 195, 81, 26 ) );
     TextLabel7->setText( i18n( "End Date:" ) );
 
     TextLabel8 = new QLabel( StarInfoBox, "TextLabel8" );
-    TextLabel8->setGeometry( QRect( 10, 210, 107, 16 ) );
+    TextLabel8->setGeometry( QRect( 10, 220, 107, 16 ) );
     QFont TextLabel8_font(  TextLabel8->font() );
     TextLabel8_font.setPointSize( 9 );
     TextLabel8->setFont( TextLabel8_font );
     TextLabel8->setText( i18n( "In JD or mm/dd/yyyy" ) );
 
-    DesignationIn = new QLineEdit( StarInfoBox, "DesignationIn" );
-    DesignationIn->setGeometry( QRect( 95, 30, 116, 26 ) );
+    DesignationIn = new KListBox(StarInfoBox, "DesignationIn");
+    DesignationIn->setGeometry( QRect( 90, 20, 116, 50) );
+    DesignationIn->setAutoScrollBar(true);
 
-    NameIn = new QLineEdit( StarInfoBox, "NameIn" );
-    NameIn->setGeometry( QRect( 95, 75, 116, 26 ) );
+    // Fill stars designations
+    for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
+     DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
+
+    NameIn = new KListBox(StarInfoBox, "NameIn");
+    NameIn->setGeometry( QRect( 90, 80, 116, 50 ) );
+    NameIn->setAutoScrollBar(true);
+
+    // Fill star names
+    for (i=0; i<ksw->data()->VariableStarsList.count(); i++)
+     NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 
     StartDateIn = new QLineEdit( StarInfoBox, "StartDateIn" );
-    StartDateIn->setGeometry( QRect( 95, 125, 116, 26 ) );
+    StartDateIn->setGeometry( QRect( 90, 145, 116, 26 ) );
     StartDateIn->setText( i18n( "default" ) );
 
     EndDateIn = new QLineEdit( StarInfoBox, "EndDateIn" );
-    EndDateIn->setGeometry( QRect( 95, 180, 116, 26 ) );
+    EndDateIn->setGeometry( QRect( 90, 195, 116, 26 ) );
     EndDateIn->setText( i18n( "default" ) );
 
-    DataSelectBox = new QGroupBox( this, "DataSelectBox" );
+    DataSelectBox = new QGroupBox( page, "DataSelectBox" );
     DataSelectBox->setGeometry( QRect( 255, 10, 195, 245 ) );
     DataSelectBox->setTitle( i18n( "Data Selection" ) );
 
@@ -179,11 +172,11 @@ void LCGenerator::createGUI()
     TextLabel10->setText( i18n( "days" ) );
 
     ImageConfBox = new QGroupBox( this, "ImageConfBox" );
-    ImageConfBox->setGeometry( QRect( 5, 260, 445, 80 ) );
+    ImageConfBox->setGeometry( QRect( 15, 270, 445, 80 ) );
     ImageConfBox->setTitle( i18n( "Image Configuration" ) );
 
     TextLabel11 = new QLabel( ImageConfBox, "TextLabel11" );
-    TextLabel11->setGeometry( QRect( 10, 30, 45, 16 ) );
+    TextLabel11->setGeometry( QRect( 5, 30, 45, 16 ) );
     TextLabel11->setText( i18n( "Width:" ) );
 
     TextLabel12 = new QLabel( ImageConfBox, "TextLabel12" );
@@ -231,17 +224,17 @@ void LCGenerator::createGUI()
     TextLabel15->setGeometry( QRect( 265, 30, 35, 21 ) );
     TextLabel15->setText( i18n( "Grid:" ) );
 
-
+     
     // Buttons
-    CloseButton = new QPushButton( this, "CloseButton" );
+    CloseButton = new QPushButton(page, "CloseButton" );
     CloseButton->setGeometry( QRect( 356, 345, 95, 21 ) );
     CloseButton->setText( i18n( "Close" ) );
 
-    GetCurveButton = new QPushButton( this, "GetCurveButton" );
+    GetCurveButton = new QPushButton( page, "GetCurveButton" );
     GetCurveButton->setGeometry( QRect( 5, 345, 155, 21 ) );
     GetCurveButton->setText( i18n( "Retrieve Curve" ) );
     GetCurveButton->setDefault( TRUE );
-
+    
     // tab order
     setTabOrder( DesignationIn, NameIn );
     setTabOrder( NameIn, StartDateIn );
@@ -260,90 +253,40 @@ void LCGenerator::createGUI()
     setTabOrder( GridOffRad, GridOnRad );
     setTabOrder( GridOnRad, GetCurveButton );
     setTabOrder( GetCurveButton, CloseButton );
-
+        
     // Signals/Slots
     QObject::connect(CloseButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(GetCurveButton, SIGNAL(clicked()), this, SLOT(VerifyData()));
-
+    QObject::connect(DesignationIn, SIGNAL(highlighted(int)), this, SLOT(updateNameList(int)));
+    QObject::connect(NameIn, SIGNAL(highlighted(int)), this, SLOT(updateDesigList(int)));
+      
+    
 }
 
 void LCGenerator::VerifyData()
 {
-    uint i=0;
-    QString InitialDesignation, InitialName, InitialStartDate, InitialEndDate;
-    QString FinalDesignation, FinalStartDate, FinalEndDate;
-    bool starFound = false;
+    QString InitialStartDate, InitialEndDate;
+    QString FinalDesignation, FinalStartDate, FinalEndDate, AverageDays;
+    bool AverageDaysOK;
 
     // Get initial user input
-    InitialDesignation  = DesignationIn->text().stripWhiteSpace();
-    InitialName           = NameIn->text().simplifyWhiteSpace().upper();
     InitialStartDate     = StartDateIn->text().lower();
     InitialEndDate       = EndDateIn->text().lower();
-        
-    // #1
-    // verify that the star exists in the database
-
-    // Both fields empty
-    if (InitialDesignation.isEmpty() && NameIn->text().isEmpty())
-    {
-       KMessageBox::error(this, i18n("Both Designation and Name fields are empty!"));
-       return;
-    }
-
-    // Designation filed not empty
-    if (!InitialDesignation.isEmpty())
-    {
-       for (i=0; i<ksw->data()->VariableStarsList.count(); i++)
-       {
-           if (InitialDesignation == ksw->data()->VariableStarsList.at(i)->Designation)
-           {
-             FinalDesignation = InitialDesignation;
-             starFound = true;
-             break;
-           }
-
-     }
-      
-      if (!starFound)
-         {
-            KMessageBox::error(this,  i18n("Star Designation does not exist in the AAVSO Variable Stars database, please check again."));
-            return;
-         }
-    }      
-
-    // Name Filed not empty
-    if (!InitialName.isEmpty() && !starFound)
-    {
-       for (i=0; i<ksw->data()->VariableStarsList.count(); i++)
-       {
-           if (InitialName == ksw->data()->VariableStarsList.at(i)->Name)
-           {
-             FinalDesignation = ksw->data()->VariableStarsList.at(i)->Designation;
-             starFound = true;
-             break;
-           }
-       }
-
-      if (!starFound)
-      {
-         KMessageBox::error(this,  i18n("Star Name does not exist in the AAVSO Variable Stars database, please check again."));
-         return;
-      }
-    }
+    AverageDays       =  AverageDayIn->text();
+    FinalDesignation = DesignationIn->currentText();
 
     // set Julian day
     if (!setJD(InitialStartDate, &FinalStartDate))
         return;
     if (!setJD(InitialEndDate, &FinalEndDate))
         return;
-    
+
     if (FinalEndDate.toInt() < FinalStartDate.toInt())
     {
         KMessageBox::error(this, i18n("End Date must occur after Start Date."));
         return;
     }
 
-    //#3
     // Check for image width, height
     if (ImageWidthIn->text().toInt() < 100 || ImageWidthIn->text().toInt() > 2000)
     {
@@ -357,10 +300,21 @@ void LCGenerator::VerifyData()
        return;
    }
 
-  
-    //#4 Download the curve!
-   DownloadCurve(FinalStartDate, FinalEndDate, FinalDesignation);
+   // Check that we have an integer for average number of days, if data field empty, then make it 'default'
+   if (!AverageDays.isEmpty())
+   {
+        AverageDays.toInt(&AverageDaysOK);
+        if (!AverageDaysOK)
+        {
+            KMessageBox::error(this, i18n("Average days must be an integer."));
+            return;
+         }
+   }
+   else AverageDays = QString("default");
 
+    //Download the curve!
+   DownloadCurve(FinalStartDate, FinalEndDate, FinalDesignation, AverageDays);
+  
 }
 
 bool LCGenerator::setJD(QString Date, QString *JD)
@@ -380,7 +334,7 @@ bool LCGenerator::setJD(QString Date, QString *JD)
        *JD = Date;
        return true;
     }
-      
+
     // Get slashcount and and slash refrences
     for (i=0; i<Date.length(); i++)
       if (Date.at(i) == '/')
@@ -423,8 +377,8 @@ bool LCGenerator::setJD(QString Date, QString *JD)
           KMessageBox::error(this, invalidFormatMsg);
           return false;
      }
-    
-    // form mm/dd/yyy fields   
+
+    // form mm/dd/yyy fields
     dateFormat[0] = Date.mid(0, slashRefrence[0]).toInt();
     dateFormat[1] = Date.mid(slashRefrence[0]+1, slashRefrence[1] - (slashRefrence[0] +1)).toInt();
     dateFormat[2] = Date.mid(slashRefrence[1]+1, Date.length()).toInt();
@@ -452,20 +406,39 @@ bool LCGenerator::setJD(QString Date, QString *JD)
              KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
              return false;
         }
-        
+  
 }
 
-void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation)
+void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay)
 {
+
         QString buf(Hostprefix);
 
         buf.append("?"+FinalStartDate);
         buf.append("?"+FinalEndDate);
         buf.append("?"+FinalDesignation);
-        
+        buf.append("?"+AverageDay);
+
         KURL url(buf);
         // parent of imageview is KStars
         new ImageViewer(&url, ksw, "lightcurve");
+        
+}
+
+void LCGenerator::updateDesigList(int index)
+{
+
+    DesignationIn->setSelected(index, true);
+    DesignationIn->centerCurrentItem();
+    
+}
+
+void LCGenerator::updateNameList(int index)
+{
+
+    NameIn->setSelected(index, true);
+    NameIn->centerCurrentItem();
+    
 }
 
 #include "lcgenerator.moc"
