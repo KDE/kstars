@@ -40,7 +40,7 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
 	QString lname = "";
-	if ( n.length() && n != i18n("star") ) {
+	if ( n.length() && n != "star" ) {
 		if ( n2.length() )
 			lname = n + " (" + gname() + ")";
 		else
@@ -49,7 +49,7 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 		lname = gname();
 
 	//If genetive name exists, but no primary name, set primary name = genetive name.
-	if ( n2.length() && n == i18n( "star" ) ) {
+	if ( n2.length() && n == "star" ) {
 		setName( gname() );
 		setName2(); //no secondary name (it is now primary)
 	}

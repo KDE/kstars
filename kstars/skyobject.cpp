@@ -58,8 +58,8 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 
 void SkyObject::setLongName( const QString &longname ) {
 	if ( longname.isEmpty() ) {
-		if ( Name.length() )
-			LongName = Name;
+		if ( translatedName().length() )
+			LongName = translatedName();
 		else if ( Name2.length() )
 			LongName = Name2;
 		else

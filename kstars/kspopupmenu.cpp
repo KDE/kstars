@@ -48,7 +48,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 		i18n( "star" ) );
 
 //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
-	if ( star->name() != i18n("star") ) {
+	if ( star->name() != "star" ) {
 		addLinksToMenu( star );
 	} else {
 		insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
