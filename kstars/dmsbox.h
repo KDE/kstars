@@ -41,6 +41,8 @@
 	*/
 
 class dmsBox : public KLineEdit  {
+Q_OBJECT
+
 public:
 	/**Constructor for the dmsBox object.
 		*@p parent pointer to the parent QWidget
@@ -108,8 +110,8 @@ public:
 		*/
 	dms createDms(bool deg=TRUE, bool *ok=0);
 
-	/*@return a boolean indicating if object contains degrees or hours
-		**/
+	/**@return a boolean indicating if object contains degrees or hours
+		*/
 	bool degType(void) const {return deg;}
 
 	/**@short set the dmsBox to Degrees or Hours
@@ -122,12 +124,20 @@ public:
 		*/
 	void clearFields (void) { setDMS(""); }
 
+protected:
+	void focusInEvent( QFocusEvent *e );
+	void focusOutEvent( QFocusEvent *e );
+
+private slots:
+	void slotTextChanged( const QString &t );
+
 private:
+	void setEmptyText();
 
 	int degree, minute, hour;
 	double second;
 	int second_int, msecond;
-	bool deg;
+	bool deg, EmptyFlag;
 	dms degValue;
 };
 
