@@ -94,5 +94,3 @@ messages: rc.cpp stringsfile
 	rm -f tips.cpp
 
 noinst_HEADERS =  fovdialog.h
-
-KDE_OPTIONS = nofinal
