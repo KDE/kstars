@@ -169,7 +169,6 @@ bool KStarsData::readADVTreeData(void)
   QFile file;
   QString Interface;
 
-  // !!!! for some reason, I cannot load any new data file?!! I'm using existing one for the sake of development, then I'll check it out.
   if (!KSUtils::openDataFile(file, "advinterface.dat"))
    return false;
 
@@ -231,12 +230,36 @@ bool KStarsData::readADVTreeData(void)
 }
 bool KStarsData::readVARData(void)
 {
+  QString varFile("valaav.txt");
+  QFile localeFile;
   QFile file;
-
-  if (!KSUtils::openDataFile(file, "var.dat"))
-   return false;
   
+  file.setName( locateLocal( "appdata", varFile ) );
+		if ( !file.open( IO_ReadOnly ) )
+		{
+			// Open default variable stars file
+			if ( KSUtils::openDataFile( file, varFile ) )
+			{
+				// we found urlfile, we need to copy it to locale
+				localeFile.setName( locateLocal( "appdata", varFile ) );
+				
+				if (localeFile.open(IO_WriteOnly))
+				{
+				    QTextStream readStream(&file);
+				    QTextStream writeStream(&localeFile);
+				    writeStream <<  readStream.read();
+				    localeFile.close();
+				    file.reset();
+				}
+			}
+			else
+			 return false;
+		}
+		
+
    QTextStream stream(&file);
+   
+  stream.readLine();
 
   while  (!stream.atEnd())
   {
@@ -1232,7 +1255,7 @@ void KStarsData::slotInitialize() {
 			if ( !readStarData( ) )
 				initError( "saoN.dat", true );
 			if (!readVARData())
-				initError( "var.dat", false);
+				initError( "valaav.dat", false);
 			if (!readADVTreeData())
 				initError( "advinterface.dat", false);
 			break;
