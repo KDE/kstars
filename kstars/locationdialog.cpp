@@ -96,9 +96,11 @@ LocationDialog::LocationDialog( QWidget* parent )
 	TZRuleBox = new QComboBox( CoordBox );
 	TZBox->setMinimumWidth( 16 );
 	TZRuleBox->setMinimumWidth( 16 );
+	TZBox->setEditable( true );
+	TZBox->setDuplicatesEnabled( false );
 
 	for ( int i=0; i<25; ++i )
-		TZBox->insertItem( QString("%1").arg( i-12 ) );
+		TZBox->insertItem( QString("%1").arg( (double)(i-12), 0, 'f', 2 ) );
 
 	QMap<QString, TimeZoneRule>::Iterator it;
 	for ( it = p->data()->Rulebook.begin(); it != p->data()->Rulebook.end(); ++it )
@@ -217,6 +219,16 @@ void LocationDialog::initCityList( void ) {
 		}
 		GeoBox->insertItem( s );
 		GeoID[GeoBox->count() - 1] = p->data()->geoList.at();
+
+		//If TZ is not even integer value, add it to listbox (don't worry about dupes, they are excluded)
+		if ( loc->TZ0() - int( loc->TZ0() ) ) { //&& ! TZBox->listBox()->findItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ) ) ) {
+			for ( unsigned int i=0; i<TZBox->count(); ++i ) {
+				if ( TZBox->text( i ).toDouble() > loc->TZ0() ) {
+					TZBox->insertItem( QString("%1").arg( loc->TZ0(), 0, 'f', 2 ), i-1 );
+					break;
+				}
+			}
+		}
 	}
 
 	QString scount;
@@ -301,7 +313,7 @@ void LocationDialog::changeCity( void ) {
 	NewCountryName->setText( c.translatedCountry() );
 	NewLong->showInDegrees( c.lng() );
 	NewLat->showInDegrees( c.lat() );
-	TZBox->setCurrentItem( int( c.TZ0() ) + 12 );
+	TZBox->setCurrentText( QString("%1").arg( c.TZ0(), 0, 'f', 2 ) );
 
 //Pick the City's rule from the rulebook
 	for ( int i=0; i<TZRuleBox->count(); ++i ) {
