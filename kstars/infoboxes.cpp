@@ -29,7 +29,8 @@
 InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 		QPoint gp, bool gshade, QPoint fp, bool fshade,
 		QColor colorText, QColor colorGrab, QColor colorBG ) :
-		GeoBox(0), TimeBox(0), FocusBox(0)
+		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG),
+		GeoBox(0), FocusBox(0), TimeBox(0)
 {
 
 	int tx = tp.x();
@@ -39,9 +40,6 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 	int fx = fp.x();
 	int fy = fp.y();
 
-	boxColor = colorText;
-	grabColor = colorGrab;
-	bgColor = colorBG;
 	GrabbedBox = 0;
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;
@@ -62,10 +60,9 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 
 InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 		int gx, int gy, bool gshade, int fx, int fy, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) {
-	boxColor = colorText;
-	grabColor = colorGrab;
-	bgColor = colorBG;
+		QColor colorText, QColor colorGrab, QColor colorBG ) :
+		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG) {
+
 	GrabbedBox = 0;
 	GrabPos = QPoint( 0, 0 );
 	Visible = true;

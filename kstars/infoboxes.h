@@ -241,7 +241,7 @@ private:
 	int Width, Height;
 	int GrabbedBox;
 	bool Visible;
-	QColor boxColor, grabColor, bgColor;
+	const QColor boxColor, grabColor, bgColor;
 	QPoint GrabPos;
 	InfoBox *GeoBox, *FocusBox, *TimeBox;
 };
