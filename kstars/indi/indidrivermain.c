@@ -121,6 +121,7 @@ IDDefText (const ITextVectorProperty *t)
 
 	printf ("</defTextVector>\n");
 	fflush (stdout);
+
 }
 
 /* tell client to create a new numeric vector property */
@@ -534,6 +535,7 @@ clientMsgCB (int fd, void *arg)
 	    } else if (msg[0])
 		fprintf (stderr, "%s XML error: %s\n", me, msg);
 	}
+
 }
 
 /* crack the given INDI XML element and call driver's IS* entry points as they
@@ -548,6 +550,7 @@ dispatch (XMLEle *root, char msg[])
 
 	if (verbose)
 	    prXMLEle (stderr, root, 0);
+
 
 	/* check tag in surmised decreasing order of likelyhood */
 
@@ -647,6 +650,7 @@ dispatch (XMLEle *root, char msg[])
 	    static int maxn;
 	    char *dev, *name;
 
+
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
@@ -677,6 +681,7 @@ dispatch (XMLEle *root, char msg[])
 		ISNewText (dev, name, texts, names, n);
 	    else
 		IDMessage (dev, "%s: set with no valid members", name);
+
 	    return (0);
 	}
 

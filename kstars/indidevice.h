@@ -264,6 +264,10 @@ class INDI_D : public QObject
    public slots:
    void timerDone();
 
+   signals:
+   void linkRejected();
+   void linkAccepted();
+
 };
 
 // INDI device manager

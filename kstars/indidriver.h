@@ -91,8 +91,10 @@ class INDIDriver : public devManager
 
     bool runDevice(INDIDriver::IDevice *dev);
     void removeDevice(INDIDriver::IDevice *dev);
+    void removeDevice(const char * deviceName);
     int getINDIPort();
     int activeDriverCount();
+    bool isDeviceRunning(const char * deviceName);
 
 
     void saveHosts();
@@ -111,6 +113,7 @@ public slots:
     void modifyINDIHost();
     void removeINDIHost();
     void shutdownHost(int mgrID);
+    void processstd(KProcess *proc, char* buffer, int buflen);
 };
 
 #endif

@@ -314,7 +314,6 @@ void INDI_P::convertSwitch(int id)
 		 pg->dp->devTimer->stop();
 
 
-
    prop = pg->dp->findProp("EQUATORIAL_COORD");
        if (prop == NULL)
         return;
@@ -492,6 +491,9 @@ void INDI_P::newSwitch(int id)
     for (unsigned int i=0; i < labels.size(); i++)
      	if (i != (unsigned) id)
 	{
+	  if (!labels[i])
+	   continue;
+
 	  labels[i]->push_w->setDown(false);
        	  buttonFont = labels[i]->push_w->font();
 	  buttonFont.setBold(FALSE);
@@ -502,7 +504,6 @@ void INDI_P::newSwitch(int id)
         lp->push_w->setDown(true);
 	buttonFont = lp->push_w->font();
 	buttonFont.setBold(TRUE);
-	//(*u.multi.push_v)[i]->setFont(buttonFont);
 	lp->push_w->setFont(buttonFont);
 	lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
 
@@ -515,10 +516,8 @@ void INDI_P::newSwitch(int id)
 
   drawLt(light, state);
 
- // do I need last item?
-//  lastItem = id;
+  pg->dp->parentMgr->sendNewSwitch (this);
 
-  pg->dp->parentMgr->sendNewSwitch (this); //(*u.multi.labels)[id], (*u.multi.labels)[id]->state);
 
 }
 
@@ -706,8 +705,6 @@ bool INDI_D::handleNonSidereal(SkyObject *o)
   // based on the object type. Objects with high proper motions will require faster updates.
   // handle Non Sideral is ONLY called when tracking an object, not slewing.
 
-
-  kdDebug() << "In handle non sidereal " << endl;
 
   INDI_P *prop = findProp("SOLAR_SYSTEM");
   INDI_P *setMode = findProp("ON_COORD_SET");
@@ -1111,9 +1108,15 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 		lp->push_w->setFont(buttonFont);
 
 		if (state == PS_ON && !strcmp(lp->name, "CONNECT"))
+		{
 		  initDeviceOptions();
+		  emit linkAccepted();
+		}
 		else if (state == PS_ON && !strcmp(lp->name, "DISCONNECT"))
+		{
 		  parent->ksw->map()->forceUpdateNow();
+		  emit linkRejected();
+		}
 		break;
 
 	     case PG_RADIO:
@@ -1172,16 +1175,6 @@ void INDI_D::initDeviceOptions()
 	   }
   }
 
-  /*if (parent->ksw->options()->indiAutoLat)
-  {
-  	prop = findProp("LAT");
-   	 if (prop)
-	 {
-   		prop->updateLocation();
-     	        initDevCounter += 2;
-	 }
-   }*/
-
   if (parent->ksw->options()->indiMessages)
     parent->ksw->statusBar()->changeItem( QString(name) + i18n(" is online."), 0);
 
@@ -1194,13 +1187,9 @@ bool INDI_D::isOn()
 
   INDI_P *prop;
 
-  //fprintf(stderr, "Trying to find property CONNECTION\n");
-
   prop = findProp("CONNECTION");
   if (!prop)
    return false;
-
-   //fprintf(stderr, "Property found, trying to see if the switch is ON\n");
 
   return (prop->isOn(QString("CONNECT")));
 }
@@ -1331,8 +1320,8 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 INDI_P * INDI_D::findProp (const char *name)
 {
-       for (uint i = 0; i < gl.size(); i++)
-	for (uint j = 0; j < gl[i]->pl.size(); j++)
+       for (unsigned int i = 0; i < gl.size(); i++)
+	for (unsigned int j = 0; j < gl[i]->pl.size(); j++)
 	    if (!strcmp (name, gl[i]->pl[j]->name))
 		return (gl[i]->pl[j]);
 
@@ -1832,7 +1821,6 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	pp->guitype = PG_NUMERIC;
 	pp->perm = p;
 
-	//pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	pp->table_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	pp->table_w->setMaximumHeight(pp->labels.size() * uniHeight + pp->table_w->horizontalHeader()->height() + 5);
 	curGroup->layout->addMultiCellWidget(pp->table_w, curGroup->pl.size(), curGroup->pl.size(), 2, 5);

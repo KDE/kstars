@@ -187,11 +187,10 @@ void ISInit()
  // be nice and give them a generic device
  else telescope = new LX200Generic();
 
-   IEAddTimer (POLLMS, ISPoll, NULL);
 }
 
 void ISGetProperties (const char *dev)
-{ ISInit(); telescope->ISGetProperties(dev);}
+{ ISInit(); telescope->ISGetProperties(dev); IEAddTimer (POLLMS, ISPoll, NULL);}
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 { ISInit(); telescope->ISNewSwitch(dev, name, states, names, n);}
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
@@ -293,7 +292,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	  if (!tp)
 	   return;
 
-	  tp->text = new char[strlen(texts[0]+1)];
+	  tp->text = new char[strlen(texts[0])+1];
 	  strcpy(tp->text, texts[0]);
 	  IDSetText (&Port, NULL);
 	  return;
@@ -312,7 +311,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	  }
 	     SiteName.s = IPS_OK;
 	     tp = IUFindText(&SiteName, names[0]);
-	     tp->text = new char[strlen(texts[0]+1)];
+	     tp->text = new char[strlen(texts[0])+1];
 	     strcpy(tp->text, texts[0]);
    	     IDSetText(&SiteName , "Site name updated");
 	     return;
@@ -346,7 +345,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		tp = IUFindText(&Time, names[0]);
 		if (!tp)
 		 return;
-		tp->text = new char[strlen(texts[0]+1)];
+		tp->text = new char[strlen(texts[0])+1];
 	        strcpy(tp->text, texts[0]);
 		Time.s = IPS_OK;
 
@@ -617,6 +616,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (!strcmp (name, PowerSw.name))
 	{
    	 powerTelescope(states);
+	 fprintf(stderr, "after powering telescope\n");
 	 return;
 	}
 
@@ -822,7 +822,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 
 void LX200Generic::ISPoll()
 {
-	double dx, dy;
+        double dx, dy;
 
 	if (!isTelescopeOn())
 	 return;

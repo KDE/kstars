@@ -16,6 +16,9 @@ class KStars;
 class INDIMenu;
 class INDIDriver;
 class QTimer;
+class INDI_D;
+
+class KProgressDialog;
 
 class telescopeWizardProcess : public telescopeWizard
 {
@@ -33,10 +36,19 @@ private:
 	KStars * ksw;
 	INDIMenu   *indimenu;
 	INDIDriver *indidriver;
-	char *currentLabel;
-
-	void establishLink();
 	QTimer *newDeviceTimer;
+
+	INDI_D *indiDev;
+
+	KProgressDialog *progressScan;
+
+	char *currentLabel;
+	int currentPort;
+	int timeOutCount;
+	bool INDIMessageBar;
+
+	int establishLink();
+	void Reset();
 
 public slots:
 	void processNext();
@@ -44,6 +56,8 @@ public slots:
 	void newTime();
 	void newLocation();
 	void processPort();
+	void scanPorts();
+	void linkSuccess();
 
 };
 

@@ -21,6 +21,9 @@
 #include "kstars.h"
 #include "ksutils.h"
 
+#include <qvaluelist.h>
+#include <qcstring.h>
+
 #include <kiconloader.h>
 #include <klistview.h>
 #include <kpopupmenu.h>
@@ -189,21 +192,68 @@ bool INDIDriver::runDevice(INDIDriver::IDevice *dev)
   dev->proc = new KProcess;
 
   *dev->proc << "indiserver";
-  *dev->proc << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
+  *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->exec;
 
+
+
+  //connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)), this, SLOT(processstd(KProcess *, char*, int)));
+
+  //dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
   dev->proc->start();
 
 
   return (dev->proc->isRunning());
 }
 
+void INDIDriver::processstd(KProcess *proc, char* buffer, int buflen)
+{
+  //fprintf(stderr, "Receving the following error from child \n\n %s\n", buffer);
+
+  /*typedef QValueList<QCString> strlist;
+
+  strlist list(proc->args());
+
+  strlist::iterator it;
+
+  for (it = list.begin(); it != list.end(); ++it)
+  {
+    QString thing((*it));
+    fprintf(stderr, "%s ", thing.ascii());
+  }*/
+}
+
 void INDIDriver::removeDevice(INDIDriver::IDevice *dev)
 {
 
-  for (uint i=0 ; i < devices.size(); i++)
+  for (unsigned int i=0 ; i < devices.size(); i++)
      if (!strcmp(dev->name, devices[i]->name))
-     	dev->restart();
+     	devices[i]->restart();
 }
+
+void INDIDriver::removeDevice(const char * deviceName)
+{
+  for (unsigned int i=0 ; i < devices.size(); i++)
+     if (!strcmp(deviceName, devices[i]->name))
+     	devices[i]->restart();
+
+}
+
+
+bool INDIDriver::isDeviceRunning(const char * deviceName)
+{
+
+    for (unsigned int i=0 ; i < devices.size(); i++)
+     if (!strcmp(deviceName, devices[i]->name))
+     {
+       if (!devices[i]->proc)
+        return false;
+       else return (devices[i]->proc->isRunning());
+     }
+
+    return false;
+
+}
+
 
 int INDIDriver::getINDIPort()
 {

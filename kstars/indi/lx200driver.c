@@ -115,7 +115,9 @@ close(fd);
 int testTelescope()
 {
   char ack[1] = { (char) 0x06 };
-  char MountAlign[2];
+  char MountAlign[64];
+  fprintf(stderr, "In testing telescope\n");
+
 
   write(fd, ack, 1);
   return portRead(MountAlign, 1);
@@ -511,8 +513,11 @@ int setObjectDEC(double dec)
 
   getSexComponents(dec, &d, &m, &s);
 
-
-   sprintf(tempString, "#:Sd %+03d:%02d:%02d#", (int) d, (int) m, (int) s);
+  /* case with negative zero */
+  if (!d && dec < 0)
+   sprintf(tempString, "#:Sd -%02d:%02d:%02d#", (int) d, (int) m, (int) s);
+  else
+  sprintf(tempString, "#:Sd %+03d:%02d:%02d#", (int) d, (int) m, (int) s);
 
    return (setStandardProcedure(tempString));
 
