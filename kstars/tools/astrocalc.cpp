@@ -161,7 +161,7 @@ void AstroCalc::genTimeText(void)
 														 "</LI><LI>"
 														 "<B>Day duration:</B> Sunrise, Sunset and noon time and "
 														 "positions for those events"
-														 "</LI></LI>"
+														 "</LI><LI>"
 														"<B>Equinoxes & Solstices:</B> Equinoxes, Solstices and duration of the "
 														"seasons"
 														 "</LI></UL>"
