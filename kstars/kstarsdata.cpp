@@ -1213,7 +1213,7 @@ bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objL
 											i18n( "To reject the file, press Cancel. " ) +
 											i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
 			if ( KMessageBox::warningContinueCancelList( 0, message, errs,
-					i18n( "Some lines in file were invalid" ), i18n( "Accept" ) )==KMessageBox::Continue ) {
+					i18n( "Some Lines in File Were Invalid" ), i18n( "Accept" ) )==KMessageBox::Continue ) {
 				return true;
 			} else {
 				return false;

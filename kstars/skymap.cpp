@@ -380,7 +380,7 @@ void SkyMap::slotAddPlanetTrail( void ) {
 void SkyMap::slotDetail( void ) {
 // check if object is selected
 	if ( !clickedObject() ) {
-    	KMessageBox::sorry( this, i18n("No Object selected!"), i18n("Object Details") );
+    	KMessageBox::sorry( this, i18n("No object selected!"), i18n("Object Details") );
 		return;
    }
 	DetailDialog detail( clickedObject(), data->LTime, data->options->Location(), ksw );

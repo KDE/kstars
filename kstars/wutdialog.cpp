@@ -288,7 +288,7 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 	QString sRise, sTransit, sSet;
 
 	if ( item==0 ) { //no object selected
-		WUT->ObjectBox->setTitle( i18n( "No object selected" ) );
+		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
 
 		sRise = "--:--";
 		sTransit = "--:--";

@@ -334,7 +334,7 @@ void KStars::slotRunScript() {
 			message += i18n( "To save the file without executing it, press Save. " );
 			message += i18n( "To cancel the download, press Cancel. " );
 
-			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really execute remote script?" ),
+			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
 					i18n( "&Continue" ), i18n( "&Save" ) );
 
 			if ( result == KMessageBox::Cancel ) return;
@@ -365,7 +365,7 @@ void KStars::slotRunScript() {
 						}
 					}
 				} else {
-					KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download error" ) );
+					KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download Error" ) );
 				}
 
 				return;
