@@ -201,9 +201,9 @@ void modCalcGeodCoord::setEllipsoid(int index) {
 
 void modCalcGeodCoord::getCartGeoCoords (void)
 {
-	geoPlace->setXPos( xGeoName->text().toDouble() );
-	geoPlace->setYPos( yGeoName->text().toDouble() );
-	geoPlace->setZPos( zGeoName->text().toDouble() );
+	geoPlace->setXPos( xGeoName->text().toDouble()*1000. );
+	geoPlace->setYPos( yGeoName->text().toDouble()*1000. );
+	geoPlace->setZPos( zGeoName->text().toDouble()*1000. );
 }
 
 void modCalcGeodCoord::getSphGeoCoords (void)
@@ -248,7 +248,7 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 
 void modCalcGeodCoord::showCartGeoCoords(void)
 {
-	xGeoName->setText(QString("%1").arg( geoPlace->xPos() ,11,'f',3));
-	yGeoName->setText(QString("%1").arg( geoPlace->yPos() ,11,'f',3));
-	zGeoName->setText(QString("%1").arg( geoPlace->zPos() ,11,'f',3));
+	xGeoName->setText(QString("%1").arg( geoPlace->xPos()/1000. ,11,'f',6));
+	yGeoName->setText(QString("%1").arg( geoPlace->yPos()/1000. ,11,'f',6));
+	zGeoName->setText(QString("%1").arg( geoPlace->zPos()/1000. ,11,'f',6));
 }
