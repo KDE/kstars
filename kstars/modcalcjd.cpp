@@ -195,23 +195,19 @@ void modCalcJD::computeFromCalendar (void)
 	long double julianDay, modjulianDay;
 	
 	julianDay = KSUtils::UTtoJulian( getQDateTime() );
-//	JdName->setText(QString("%1").arg(julianDay,13,'f',5));
-	JdName->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
+	showJd(julianDay);
 
 	modjulianDay = julianDay - 2400000.5;
-	//MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
-	MjdName->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
+	showMjd(modjulianDay);
 }
 
 void modCalcJD::computeFromMjd (void)
 {
 	long double julianDay, modjulianDay;
 
-	//modjulianDay = MjdName->text().toDouble();
 	modjulianDay = KGlobal::locale()->readNumber( MjdName->text() );
 	julianDay = 	2400000.5 + modjulianDay;
-	JdName->setText(KGlobal::locale()->formatNumber( julianDay, 5 ) );
-	//JdName->setText(QString("%1").arg(julianDay,13,'f',5));
+	showJd(julianDay);
 	computeFromJd();
 	
 }
@@ -221,7 +217,6 @@ void modCalcJD::computeFromJd (void)
 
 	QDateTime dt;
 
-	//julianDay = JdName->text().toDouble();
 	julianDay = KGlobal::locale()->readNumber( JdName->text() );
 	dt = KSUtils::JDtoDateTime( julianDay );
 
@@ -231,8 +226,7 @@ void modCalcJD::computeFromJd (void)
 	timBox->setTime( dt.time() );
 
 	modjulianDay = julianDay - 2400000.5;
-	MjdName->setText(KGlobal::locale()->formatNumber( modjulianDay, 5 ) );
-	//MjdName->setText(QString("%1").arg(modjulianDay,13,'f',5));
+	showMjd(modjulianDay);
 }
 
 
@@ -265,17 +259,12 @@ QDateTime modCalcJD::getQDateTime (void)
 	return dt;
 }
 
-/** Gets Julian Day in the Box */
-long double modCalcJD::getJd(void)
-{
-		long double julianDay;
-		
-		julianDay = JdName->text().toDouble();
-		return julianDay;
-}
-
-/** Shows Julian Day in the Box */
 void modCalcJD::showJd(long double julianDay)
 {
-	JdName->setText(QString("%1").arg(julianDay,13,'f',5));
+	JdName->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
+}
+
+void modCalcJD::showMjd(long double modjulianDay)
+{
+	MjdName->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
 }

@@ -46,7 +46,7 @@ public:
 	modCalcJD(QWidget *p, const char *n);
 	~modCalcJD();
 	
-	long double getJD(QDateTime t);
+//	long double getJD(QDateTime t);
 	void computeFromCalendar (void);
 	void computeFromMjd (void);
 	void computeFromJd (void);
@@ -60,9 +60,10 @@ public slots:
 
 private:
 
-  /** Shows Julian Day in the Box */
-  void showJd(long double jd);
-  long double getJd(void);
+	/** Shows Julian Day in the Box */
+	void showJd(long double jd);
+	/** Shows the modified Julian Day in the Box */
+	void showMjd(long double mjd);
 	
 	QVBox *rightBox;
 	QLineEdit *JdName, *MjdName, *DayName, *MonthName, *YearName;
