@@ -19,6 +19,9 @@
 #define MODCALCAPCOORD_H
 
 #include "modcalcapcoorddlg.h"
+#include "dms.h"
+#include "skypoint.h"
+#include <qdatetime.h>
 
 #include <kapplication.h>
 
@@ -36,7 +39,7 @@ class QDateTime;
 class modCalcApCoord : public modCalcApCoordDlg  {
 
 Q_OBJECT
-public: 
+public:
 /**Constructor. */
 	modCalcApCoord(QWidget *p, const char *n);
 /**Destructor. */
@@ -58,6 +61,11 @@ public slots:
 	void slotComputeCoords();
 	/** No descriptions */
 	void slotClearCoords();
+	void slotUtCheckedBatch();
+	void slotDateCheckedBatch();
+	void slotRaCheckedBatch();
+	void slotDecCheckedBatch();
+	void slotEpochCheckedBatch();
 
 private:
 /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
@@ -78,6 +86,10 @@ private:
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
 	void showEquCoords ( SkyPoint sp );
 
+	dms ra0B, dec0B;
+	double epoch0B;
+	QTime utB;
+	QDate dtB;
 };
 
 #endif
