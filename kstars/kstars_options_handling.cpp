@@ -28,8 +28,7 @@ void KStars::loadOptions()
 
 	// Get initial Location from config()
 	conf->setGroup( "Location" );
-	options()->CityName = conf->readEntry( "City", "Greenwich" );
-
+/*	options()->CityName = conf->readEntry( "City", "Greenwich" );
 	if ( conf->readEntry( "State", "" ).length() ) { //old version of config file
 		options()->ProvinceName = conf->readEntry( "State", "" );
 		options()->CountryName = conf->readEntry( "State", "United Kingdom" );
@@ -37,6 +36,13 @@ void KStars::loadOptions()
 		options()->ProvinceName = conf->readEntry( "Province", "" );
 		options()->CountryName = conf->readEntry( "Country", "United Kingdom" );
 	}
+*/
+	// set Greenwich as default
+	options()->setCityName( conf->readEntry( "City", "Greenwich" ) );
+	options()->setProvinceName( conf->readEntry( "Province", "" ) );
+	options()->setCountryName( conf->readEntry( "Country", "United Kingdom" ) );
+	options()->setLongitude( conf->readDoubleNumEntry( "Longitude", 0.0 ) );
+	options()->setLatitude( conf->readDoubleNumEntry( "Latitude", 51.4667 ) );
 
 	conf->setGroup( "Catalogs" );
 	options()->CatalogCount = conf->readNumEntry( "CatalogCount", 0 );
@@ -155,9 +161,11 @@ void KStars::saveOptions() {
 	KConfig *conf = kapp->config();
 
 	conf->setGroup( "Location" );
-	conf->writeEntry( "City", options()->CityName );
-	conf->writeEntry( "Province", options()->ProvinceName );
-	conf->writeEntry( "Country", options()->CountryName );
+	conf->writeEntry( "City", options()->cityName() );
+	conf->writeEntry( "Province", options()->provinceName() );
+	conf->writeEntry( "Country", options()->countryName() );
+	conf->writeEntry( "Longitude", options()->longitude() );
+	conf->writeEntry( "Latitude", options()->latitude() );
 
 	conf->setGroup( "Catalogs" );
 	conf->writeEntry( "CatalogCount", options()->CatalogCount );
