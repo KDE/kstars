@@ -1796,6 +1796,8 @@ void LX200Generic::updateTime()
   double ctime;
   int h, m, s;
   int day, month, year, result;
+  int UTC_h, UTC_month, UTC_year, UTC_day, daysInFeb;
+  bool leapYear;
   
   tzset();
   
@@ -1814,6 +1816,8 @@ void LX200Generic::updateTime()
   getLocalTime24(&ctime);
   getSexComponents(ctime, &h, &m, &s);
   
+  UTC_h = h;
+  
   if ( (result = getSDTime(&STime[0].value)) < 0)
     IDMessage(thisDevice, "Failed to retrieve siderial time from device.");
   
@@ -1826,10 +1830,132 @@ void LX200Generic::updateTime()
   
   year += 2000;
   
+  if (year % 4 == 0)
+  {
+    if (year % 100 == 0)
+    {
+      if (year % 400 == 0)
+       leapYear = true;
+      else 
+       leapYear = false;
+    }
+    else
+       leapYear = true;
+  }
+  else
+       leapYear = false;
+  
+  daysInFeb = leapYear ? 29 : 28;
+  
+  UTC_year  = year; 
+  UTC_month = month;
+  UTC_day   = day;
+  
   IDLog("day: %d - month %d - year: %d - len(cdate): %d\n", day, month, year, strlen(cdate));
   
+  // we'll have to convert telescope time to UTC manually starting from hour up
+  // seems like a stupid way to do it.. oh well
+  UTC_h = (int) UTCOffset + h;
+  if (UTC_h < 0)
+  {
+   UTC_h += 24;
+   UTC_day--;
+  }
+  else if (UTC_h > 24)
+  {
+   UTC_h -= 24;
+   UTC_day++;
+  }
+  
+  switch (UTC_month)
+  {
+    case 1:
+    case 8:
+     if (UTC_day < 1)
+     {
+     	UTC_day = 31;
+     	UTC_month--;
+     }
+     else if (UTC_day > 31)
+     {
+       UTC_day = 1;
+       UTC_month++;
+     }
+     break;
+     
+   case 2:
+   if (UTC_day < 1)
+     {
+     	UTC_day = 31;
+     	UTC_month--;
+     }
+     else if (UTC_day > daysInFeb)
+     {
+       UTC_day = 1;
+       UTC_month++;
+     }
+     break;
+     
+  case 3:
+     if (UTC_day < 1)
+     {
+     	UTC_day = daysInFeb;
+     	UTC_month--;
+     }
+     else if (UTC_day > 31)
+     {
+       UTC_day = 1;
+       UTC_month++;
+     }
+     break;
+   
+   case 4:
+   case 6:
+   case 9:
+   case 11:
+    if (UTC_day < 1)
+     {
+     	UTC_day = 31;
+     	UTC_month--;
+     }
+     else if (UTC_day > 30)
+     {
+       UTC_day = 1;
+       UTC_month++;
+     }
+     break;
+   
+   case 5:
+   case 7:
+   case 10:
+   case 12:
+    if (UTC_day < 1)
+     {
+     	UTC_day = 30;
+     	UTC_month--;
+     }
+     else if (UTC_day > 31)
+     {
+       UTC_day = 1;
+       UTC_month++;
+     }
+     break;
+   
+  }   
+       
+  if (UTC_month < 1)
+  {
+   UTC_month = 12;
+   UTC_year--;
+  }
+  else if (UTC_month > 12)
+  {
+    UTC_month = 1;
+    UTC_year++;
+  }
+  
   /* Format it into ISO 8601 */
-  sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", year, month, day, h, m, s);
+  sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", UTC_year, UTC_month, UTC_day, UTC_h, m, s);
   
   IDLog("Telescope ISO date and time: %s\n", UTC[0].text);
 
