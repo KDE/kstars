@@ -793,6 +793,7 @@ Greenwood                        : Mississippi           : USA                  
 Greenwood                        : South Carolina        : USA                   : 34 : 11 : 35 : N :  82 :  9 : 54 : W : -5.0 : US
 Grenoble                         :                       : France                : 45 : 21 : 35 : N :   5 : 19 : 12 : E : 1.0  : EU
 Gresham                          : Oregon                : USA                   : 45 : 30 :  0 : N : 122 : 25 : 48 : W : -8.0 : US
+Groningen                        :                       : Netherlands           : 53 : 13 :  0 : N :   6 : 35 :  0 : E :  1.0 : EU
 Groton                           : South Dakota          : USA                   : 45 : 25 :  1 : N :  98 :  4 :  1 : W : -6.0 : US
 Groveton                         : New Hampshire         : USA                   : 44 : 34 : 58 : N :  71 : 30 :  0 : W : -5.0 : US
 Guantanamo Bay                   :                       : Cuba                  : 19 : 53 : 59 : N :  75 : 12 :  0 : W : -5.0 : US
@@ -1160,6 +1161,7 @@ Lynn                             : Massachusetts         : USA                  
 Lynn Haven                       : Florida               : USA                   : 30 : 14 : 50 : N :  85 : 40 : 18 : W : -5.0 : US
 Lyon                             :                       : France                : 45 : 43 : 59 : N :   4 : 52 :  0 : E : 1.0  : EU
 Maando                           : Pyungbuk              : Korea                 : 39 : 47 : 60 : N : 124 : 10 : 60 : E : 9.0  : SK
+Maastricht                       :                       : Netherlands           : 50 : 51 :  0 : N :   5 : 42 :  0 : E : 1.0  : EU
 Macao                            :                       : China                 : 22 :  0 :  0 : N : 113 :  0 :  0 : E : 8.0  : CH
 Mackay                           : Idaho                 : USA                   : 43 : 55 :  1 : N : 113 : 37 : 58 : W : -7.0 : US
 Macon                            : Georgia               : USA                   : 32 : 50 : 12 : N :  83 : 37 : 36 : W : -5.0 : US
@@ -1244,6 +1246,7 @@ Mexico City                      :                       : Mexico               
 Miami                            : Florida               : USA                   : 25 : 46 : 36 : N :  80 : 11 : 31 : W : -5.0 : US
 Miami Beach                      : Florida               : USA                   : 25 : 47 : 17 : N :  80 :  7 : 47 : W : -5.0 : US
 Midas                            : Nevada                : USA                   : 41 : 15 :  0 : N : 116 : 49 : 58 : W : -8.0 : US
+Middelburg                       :                       : Netherlands           : 51 : 15 :  0 : N :   3 : 25 :  0 : E :  1.0 : EU
 Middlebury                       : Vermont               : USA                   : 44 :  0 :  0 : N :  73 : 10 :  1 : W : -5.0 : US
 Middletown                       : Delaware              : USA                   : 39 : 30 :  0 : N :  75 : 40 :  1 : W : -5.0 : US
 Midland                          : Texas                 : USA                   : 31 : 59 : 42 : N : 102 :  4 : 40 : W : -6.0 : US
@@ -1672,7 +1675,7 @@ Rostock                          :                       : Germany              
 Roswell                          : Georgia               : USA                   : 34 :  1 : 58 : N :  84 : 20 : 59 : W : -5.0 : US
 Roswell                          : New Mexico            : USA                   : 33 : 23 : 42 : N : 104 : 31 : 37 : W : -7.0 : US
 Rota Island                      :                       : US Territory          : 14 : 10 : 23 : N : 145 : 14 : 20 : E : x    : --
-Rotterdam                        :                       : Netherlands           : 51 : 55 :  0 : N :   4 : 27 :  0 : E : 1.0  : EU
+Rotterdam                        :                       : Netherlands           : 51 : 55 :  0 : N :   4 : 29 :  0 : E : 1.0  : EU
 Rouen                            :                       : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
 Roundup                          : Montana               : USA                   : 46 : 25 :  1 : N : 108 : 34 : 58 : W : -7.0 : US
 Rowland Heights                  : California            : USA                   : 34 :  0 :  0 : N : 117 : 52 : 30 : W : -8.0 : US

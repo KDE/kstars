@@ -868,8 +868,9 @@ void SkyMap::setRiseSetLabels( void ) {
 		if ( rtime.second() >=30 ) ++min;
 		rt2.sprintf( "%02d:%02d", rtime.hour(), min );
 		rt3.sprintf( "%02d:%02d", rAz.degree(), rAz.getArcMin() );
-		rt = i18n( "Rise Time: " ) + rt2 + 
-			i18n(", Azimuth: ") + rt3;
+//		rt = i18n( "Rise Time: " ) + rt2 +
+//			i18n(", Azimuth: ") + rt3;
+		rt = i18n( "Rise Time: " ) + rt2;
 
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		rt = i18n( "No Rise Time: Circumpolar" );
@@ -885,8 +886,10 @@ void SkyMap::setRiseSetLabels( void ) {
 		if ( stime.second() >=30 ) ++min;
 		st2.sprintf( "%02d:%02d", stime.hour(), min );
 		st3.sprintf( "%02d:%02d", sAz.degree(), sAz.getArcMin() );
-		st = i18n( "Set Time: " ) + st2 + 
-			i18n(", Azimuth: ") + st3;
+//		st = i18n( "Set Time: " ) + st2 +
+//			i18n(", Azimuth: ") + st3;
+		st = i18n( "Set Time: " ) + st2;
+
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		st = i18n( "No Set Time: Circumpolar" );
 	} else {
@@ -896,13 +899,16 @@ void SkyMap::setRiseSetLabels( void ) {
 	QTime ttime = clickedObject()->transitTime( ksw->data()->LTime, ksw->data()->LSTh );
 	QString tt, tt2, tt3;
 	dms trAlt = clickedObject()->transitAltitude( ksw->geo() );
+
 	if ( ttime.isValid() ) {
 		int min = ttime.minute();
 		if ( ttime.second() >=30 ) ++min;
 		tt2.sprintf( "%02d:%02d", ttime.hour(), min );
 		tt3.sprintf( "%02d:%02d", trAlt.degree(), trAlt.minute() );
-		tt = i18n( "Transit Time: " ) + tt2 + 
-			i18n(", Altitude: ") + tt3 ;
+//		tt = i18n( "Transit Time: " ) + tt2 +
+//			i18n(", Altitude: ") + tt3 ;
+		tt = i18n( "Transit Time: " ) + tt2;
+
 	} else if ( clickedObject()->alt().Degrees() > 0 ) {
 		tt = i18n( "No Transit Time: Circumpolar" );
 	} else {
