@@ -35,6 +35,7 @@
 #include "finddialog.h"
 #include "ksutils.h"
 #include "infoboxes.h"
+#include "imagesequence.h"
 
 // to remove warnings
 #include "indimenu.h"
