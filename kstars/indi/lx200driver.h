@@ -135,7 +135,7 @@ int getCommandStr(char *data, const char* cmd);
 int getTimeFormat();
 
 int getCalenderDate(char *date);
-int getUCTOffset();
+int getUTCOffset();
 int getSiteName(char *siteName, int siteNum);
 int getSiteLatitude(int *dd, int *mm);
 int getSiteLongitude(int *ddd, int *mm);

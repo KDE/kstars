@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "lx200gps.h"
 #include "lx200driver.h"
@@ -103,6 +104,9 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 	  if (checkPower(&Time))
 	   return;
 
+	 int autostarUTC;
+	 int UTCDiff;
+
 	  if (extractISOTime(texts[0], &utm) < 0)
 	  {
 	    Time.s = IPS_IDLE;
@@ -121,6 +125,21 @@ void LX200GPS::ISNewText (const char *dev, const char *name, char *texts[], char
 
 		IDLog("time is %02d:%02d:%02d\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 		setUTCOffset(UTCOffset);
+
+		// wait for autostar a bit and then read what UTC it sets
+		// The autostar UTC is affected by Day Light Saving option which
+		// we cannot inquire directly.
+		usleep(100000);
+
+		autostarUTC = getUTCOffset();
+		UTCDiff = (int) UTCOffset - autostarUTC;
+
+		// The UTC we send the autostar already accounts for day light savings
+		// assuming the machine time is correct. If autostar incoperates day light savings
+		// we need to reverse that process
+		if (UTCDiff)
+		  setUTCOffset(UTCOffset - UTCDiff);
+
 	  	setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec);
 
 		tp = IUFindText(&Time, names[0]);

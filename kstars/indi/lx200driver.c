@@ -51,7 +51,7 @@ double getTrackFreq(void);
 int getCommandStr(char *data, const char* cmd);
 int getTimeFormat(void);
 int getCalenderDate(char *date);
-int getUCTOffset(void);
+int getUTCOffset(void);
 int getSiteName(char *siteName, int siteNum);
 int getSiteLatitude(int *dd, int *mm);
 int getSiteLongitude(int *ddd, int *mm);
@@ -219,7 +219,7 @@ int getTimeFormat()
 
 }
 
-int getUCTOffset()
+int getUTCOffset()
 {
     char tempString[4];
     int offSet;
