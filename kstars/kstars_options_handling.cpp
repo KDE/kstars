@@ -176,10 +176,11 @@ void KStarsData::loadOptions()
 	options->hideGrid    = conf->readBoolEntry( "HideGrid", true );
 
 	conf->setGroup( "INDI" );
-	options->indiAutoTime    = conf->readBoolEntry( "indiAutoTime", true);
-	options->indiAutoGeo     = conf->readBoolEntry( "indiAutoGeo", true);
+	options->indiAutoTime    = conf->readBoolEntry( "indiAutoTime", false);
+	options->indiAutoGeo     = conf->readBoolEntry( "indiAutoGeo", false);
 	options->indiCrosshairs  = conf->readBoolEntry( "indiCrosshairs", true);
 	options->indiMessages    = conf->readBoolEntry( "indiMessages", true);
+	options->indiPortName    = conf->readEntry( "indiPortName", "/dev/ttyS0" );
 
 }
 
@@ -335,6 +336,7 @@ void KStarsData::saveOptions(KStars *ks) {
 	conf->writeEntry( "indiAutoGeo", options->indiAutoGeo);
 	conf->writeEntry( "indiCrosshairs", options->indiCrosshairs);
 	conf->writeEntry( "indiMessages", options->indiMessages);
+	conf->writeEntry( "indiPortName", options->indiPortName);
 
 	conf->sync();
 }

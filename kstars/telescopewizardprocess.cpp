@@ -299,12 +299,12 @@ void telescopeWizardProcess::processPort()
      if (pp->perm == PP_RW)
      {
             	pp->table_w->setText(0, 1, portIn->text());
-		pp->newText();
+		//pp->newText();
      }
 	    else if (pp->perm == PP_WO)
      {
 		pp->table_w->setText(0, 0, portIn->text());
-		pp->newText();
+		//pp->newText();
      }
 
      pp = indiDev->findProp(QString("CONNECTION"));

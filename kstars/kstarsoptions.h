@@ -196,6 +196,7 @@ class KStarsOptions {
 		bool indiAutoGeo;
 		bool indiCrosshairs;
 		bool indiMessages;
+		QString indiPortName;
 
 		//the colors of things
 		ColorScheme CScheme;

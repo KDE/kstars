@@ -99,7 +99,7 @@ class INDI_L
     KLed           *led_w;		// light led
     double min, max, step;		// params for scale
     double value;			// current value
-    QString text;				// current text
+    QString text;			// current text
     QString format;			// number format, if applicable
 };
 

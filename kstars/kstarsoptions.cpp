@@ -124,6 +124,7 @@ KStarsOptions::KStarsOptions(KStarsOptions& o) {
 	indiAutoGeo    = o.indiAutoGeo;
 	indiCrosshairs = o.indiCrosshairs;
 	indiMessages   = o.indiMessages;
+	indiPortName   = o.indiPortName;
 
 	// color options
 	CScheme.copy( *o.colorScheme() );
@@ -233,6 +234,11 @@ void KStarsOptions::setDefaultOptions() {
 	drawCometName     = true;
 	drawPlanetImage   = true;
 	drawStarMagnitude = true;
+	indiAutoTime   = false;
+	indiAutoGeo    = false;
+	indiCrosshairs = true;
+	indiMessages   = true;
+	indiPortName   = "/dev/ttyS0";
 }
 
 

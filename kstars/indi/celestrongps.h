@@ -24,7 +24,7 @@
 #include "indiapi.h"
 #include "indicom.h"
 
-#define	POLLMS		2000		/* poll period, ms */
+#define	POLLMS		1000		/* poll period, ms */
 
 class CelestronGPS
 {

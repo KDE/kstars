@@ -256,6 +256,13 @@ void INDI_P::newText()
   pg->dp->parentMgr->sendNewText(this);
   else if (guitype == PG_NUMERIC)
   pg->dp->parentMgr->sendNewNumber(this);
+  
+  INDI_L *lp = findLabel(QString("Port"));
+  
+  if (!lp)
+    return;
+    
+  pg->dp->parent->ksw->options()->indiPortName = lp->text;
 
 }
 
@@ -503,6 +510,14 @@ void INDI_P::newSwitch(int id)
   state = PS_BUSY;
 
   drawLt(light, state);
+  
+  if (name == QString("CONNECTION"))
+  {
+    INDI_P *pp = pg->dp->findProp(QString("Ports"));
+    
+    if (pp)
+     pp->newText();
+  }
 
   pg->dp->parentMgr->sendNewSwitch (this);
 
@@ -650,6 +665,13 @@ void INDI_D::registerProperty(INDI_P *pp)
    {
     pp->isINDIStd = true;
     pp->pg->dp->INDIStdSupport = true;
+   }
+   
+   if (pp->name == QString("Ports"))
+   {
+     pp->table_w->setText( 0 , 0, parent->ksw->options()->indiPortName);
+     pp->table_w->setText( 0 , 1, parent->ksw->options()->indiPortName);
+     pp->labels[0]->text = parent->ksw->options()->indiPortName;
    }
 }
 
