@@ -425,7 +425,8 @@ void KStars::datainitFinished(bool worked) {
 	clock->start();
 	show();
 
-	KTipDialog::showTip( "kstars/tips", true );
+// just show dialog if option is set (don't force it)	
+	KTipDialog::showTip( "kstars/tips" );
 }
 
 void KStars::privatedata::buildGUI() {
