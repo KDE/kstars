@@ -18,6 +18,8 @@
 #ifndef KSNUMBERS_H
 #define KSNUMBERS_H
 
+#define NUTTERMS 63
+
 #include "dms.h"
 
 /**There are several time-dependent values used in position calculations,
@@ -94,7 +96,7 @@ public:
 	void updateValues( long double jd );
 
 private:
-	dms Obliquity, K, L, L0, LM, M, M0, O, P;
+	dms Obliquity, K, L, L0, LM, M, M0, O, P, D, MM, F;
 	dms XP, YP, ZP;
 	double CX, SX, CY, SY, CZ, SZ;
 	double P1[3][3], P2[3][3];
@@ -102,6 +104,8 @@ private:
 	double e, T;
 	long double days;
 	double jm;
+	static const int arguments[NUTTERMS][5];
+	static const int amp[NUTTERMS][4];
 
 };
 
