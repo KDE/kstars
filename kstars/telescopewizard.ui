@@ -60,9 +60,6 @@
                     <property name="text">
                         <string>&amp;Help</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+H</string>
-                    </property>
                     <property name="autoDefault">
                         <bool>false</bool>
                     </property>
@@ -91,9 +88,6 @@
                     <property name="text">
                         <string>&amp;Back</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+B</string>
-                    </property>
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
@@ -101,9 +95,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Next</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
