@@ -1050,6 +1050,9 @@ bool KStarsData::readUserLog(void)
 		data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
 		buffer = buffer.mid(endIndex + 11);
 
+		//Find the sky object named 'name'.
+		//Note that ObjectNameList::find() looks for the ascii representation 
+		//of star genetive names, so stars are identified that way in the user log.
 		SkyObjectName *sonm = ObjNames.find(name);
 		if (sonm == 0) {
 			kdWarning() << k_funcinfo << name << " not found" << endl;

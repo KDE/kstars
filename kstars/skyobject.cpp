@@ -25,6 +25,7 @@
 #include <qtextstream.h>
 
 #include "skyobject.h"
+#include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
 #include "dms.h"
 #include "geolocation.h"
@@ -360,50 +361,56 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 //Should create a special UserLog widget that encapsulates the "default"
 //message in the widget when no log exists (much like we do with dmsBox now)
 void SkyObject::saveUserLog( const QString &newLog ) {
-  QFile file;
-  QString logs; //existing logs
-  
-  //Do nothing if: 
-  //+ new log is the "default" message
-  //+ new log is empty
-  if ( newLog == (i18n("Record here observation logs and/or data on %1.").arg(name())) || newLog.isEmpty() )
-    return;
+	QFile file;
+	QString logs; //existing logs
+	
+	//Do nothing if: 
+	//+ new log is the "default" message
+	//+ new log is empty
+	if ( newLog == (i18n("Record here observation logs and/or data on %1.").arg(name())) || newLog.isEmpty() )
+		return;
 
-  // header label
-  QString KSLabel ="[KSLABEL:" + name() + "]";
-
-  file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
-  if ( file.open( IO_ReadOnly)) {
-    QTextStream instream(&file);
-    // read all data into memory
-    logs = instream.read();
-    file.close();
-  }
-  
-  //Remove old log entry from the logs text
-  if ( ! userLog.isEmpty() ) {
-    int startIndex, endIndex;
-    QString sub;
-
-    startIndex = logs.find(KSLabel);
-    sub = logs.mid (startIndex);
-    endIndex = sub.find("[KSLogEnd]");
-
-    logs.remove(startIndex, endIndex + 11);
-  }
-
-  //append the new log entry to the end of the logs text
-  logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
-
-  //Open file for writing
-  if ( !file.open( IO_WriteOnly ) ) {
-    kdDebug() << i18n( "user log file could not be opened." ) << endl;
-    return;
-  }
-
-  //Write new logs text
-  QTextStream outstream(&file);
-  outstream << logs;
+	// header label
+	QString KSLabel ="[KSLABEL:" + name() + "]";
+	//However, we can't accept a star name if it has a greek letter in it:
+	if ( type() == STAR ) {
+		StarObject *star = (StarObject*)this;
+		if ( name() == star->gname() ) 
+			KSLabel = "[KSLABEL:" + star->gname( false ) + "]"; //"false": spell out greek letter
+	}
+	
+	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+	if ( file.open( IO_ReadOnly)) {
+		QTextStream instream(&file);
+		// read all data into memory
+		logs = instream.read();
+		file.close();
+	}
+	
+	//Remove old log entry from the logs text
+	if ( ! userLog.isEmpty() ) {
+		int startIndex, endIndex;
+		QString sub;
+	
+		startIndex = logs.find(KSLabel);
+		sub = logs.mid (startIndex);
+		endIndex = sub.find("[KSLogEnd]");
+	
+		logs.remove(startIndex, endIndex + 11);
+	}
+	
+	//append the new log entry to the end of the logs text
+	logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
+	
+	//Open file for writing
+	if ( !file.open( IO_WriteOnly ) ) {
+		kdDebug() << i18n( "user log file could not be opened." ) << endl;
+		return;
+	}
+	
+	//Write new logs text
+	QTextStream outstream(&file);
+	outstream << logs;
 	
 	//Set the log text in the object itself.
 	userLog = newLog;
