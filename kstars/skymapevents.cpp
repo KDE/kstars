@@ -322,7 +322,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		}
 	}
 
-	Update(); //need a total update, or slewing with the arrow keys doesn't work.
+	forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
@@ -334,7 +334,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 			slewing = false;
 			scrollCount = 0;
 			showFocusCoords();
-			Update();	// Need a full update to draw faint objects that are not drawn while slewing.
+			forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
 			break;
 	}
 }
@@ -417,7 +417,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		setMousePoint( dXdYToRaDec( dx, dy, ksw->options()->useAltAz, ksw->LSTh(), ksw->geo()->lat() ) );
 		setClickedPoint( mousePoint() );
 
-		Update();  // must be new computed
+		forceUpdate();  // must be new computed
 	} else {
 
 		QString sRA, sDec, s;
@@ -448,7 +448,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		}
 		
 		setOldFocus( focus() );
-		Update();	// is needed because after moving the sky not all stars are shown
+		forceUpdate();	// is needed because after moving the sky not all stars are shown
 	}
 	if ( midMouseButtonDown ) midMouseButtonDown = false;  // if middle button was pressed unset here
 
@@ -794,7 +794,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 		return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
-// if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with Update())
+// if the sky should be recomputed (this is not every paintEvent call needed, explicitly call with forceUpdate())
 	QPainter psky;
 
 	guidemax = pixelScale[ options->ZoomLevel ]/10;
@@ -866,6 +866,6 @@ void SkyMap::paintEvent( QPaintEvent * )
 	bitBlt( this, 0, 0, sky2 );
 	delete sky2;
 	
-	computeSkymap = false;	// use Update() to compute new skymap else old pixmap will be shown
+	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
 

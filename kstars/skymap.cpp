@@ -244,7 +244,7 @@ void SkyMap::slotCenter( void ) {
 	ksw->statusBar()->changeItem( s, 1 );
 
 	showFocusCoords(); //update FocusBox
-//	Update();	// must be new computed
+//	forceUpdate();	// must be new computed
 }
 
 void SkyMap::slotDSS( void ) {
@@ -322,19 +322,19 @@ void SkyMap::slotRemoveObjectLabel( void ) {
 		}
 	}
 	
-	Update();
+	forceUpdate();
 }
 
 void SkyMap::slotAddObjectLabel( void ) {
 	ksw->data()->ObjLabelList.append( clickedObject() );
-	Update();
+	forceUpdate();
 }
 
 void SkyMap::slotRemovePlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
 	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
 		((KSPlanetBase*)clickedObject())->clearTrail();
-		Update();
+		forceUpdate();
 	}
 }
 
@@ -342,7 +342,7 @@ void SkyMap::slotAddPlanetTrail( void ) {
 	//probably don't need this if-statement, but just to be sure...
 	if ( ksw->data()->isSolarSystem( clickedObject() ) ) {
 		((KSPlanetBase*)clickedObject())->addToTrail();
-		Update();
+		forceUpdate();
 	}
 }
 
@@ -391,7 +391,7 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 	while ( dHA < 0.0 ) dHA += 24.0;
 	ksw->data()->HourAngle->setH( dHA );
 
-	Update(); //need a total update, or slewing with the arrow keys doesn't work.
+	forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
 void SkyMap::setDestination( SkyPoint *p ) {
@@ -450,7 +450,7 @@ void SkyMap::slewFocus( void ) {
 				}
 	
 				slewing = true;
-				Update();
+				forceUpdate();
 				kapp->processEvents(10); //keep up with other stuff
 	
 				if ( ksw->options()->useAltAz ) {
@@ -487,7 +487,7 @@ void SkyMap::slewFocus( void ) {
 			ksw->options()->setSnapNextFocus(false);
 		}
 
-		Update();
+		forceUpdate();
 	}
 }
 
@@ -682,22 +682,14 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 //---------------------------------------------------------------------------
 
 
-// force new compute of the skymap (used instead of update())
-void SkyMap::Update()
+// force a new calculation of the skymap (used instead of update(), which may skip the redraw)
+//if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
+void SkyMap::forceUpdate( bool now )
 {
 	computeSkymap = true;
-	update();
+	if ( now ) repaint();
+	else update();
 }
-
-//Identical to Update(), except calls repaint() instead of update(), so
-//paintEvent gets executed immediately instead of just adding it to the event
-//queue.
-void SkyMap::UpdateNow()
-{
-	computeSkymap = true;
-	repaint();
-}
-
 
 float SkyMap::fov( void ) {
 	return Range[ ksw->options()->ZoomLevel ]*width()/600.;
@@ -850,7 +842,7 @@ bool SkyMap::setColors( QString filename ) {
     if ( starColorMode() != ksw->options()->colorScheme()->starColorMode() )
       setStarColorMode( ksw->options()->colorScheme()->starColorMode() );
     
-    Update();
+    forceUpdate();
     return true;
   } else {
     return false;

@@ -790,7 +790,7 @@ void ViewOpsDialog::changeMagDrawStars( int newValue )
 	ksw->data()->setMagnitude( fNewValue );
 
 	// force redraw
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeMagHideStars( int newValue )
@@ -799,7 +799,7 @@ void ViewOpsDialog::changeMagHideStars( int newValue )
 	ksw->options()->magLimitHideStar = fNewValue;
 
 //no need to redraw
-//	ksw->map()->Update();
+//	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeMagDrawInfo( int newValue )
@@ -808,7 +808,7 @@ void ViewOpsDialog::changeMagDrawInfo( int newValue )
 	float fNewValue = ( newValue * 1.0) / 10.0;
 	ksw->options()->magLimitDrawStarInfo = fNewValue;
 	// force redraw
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::newColor( QListBoxItem *item ) {
@@ -830,7 +830,7 @@ void ViewOpsDialog::newColor( QListBoxItem *item ) {
 		ksw->options()->colorScheme()->setColor( ksw->options()->colorScheme()->keyAt( i ), newColor.name() );
 	}
 
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::slotPreset( int index ) {
@@ -944,7 +944,7 @@ bool ViewOpsDialog::setColors( QString filename ) {
 		return false;
 	}
 
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 	return true;
 }
 
@@ -1076,20 +1076,20 @@ void ViewOpsDialog::updateDisplay( void ) {
 	ksw->data()->setFullTimeUpdate();
 	ksw->updateTime();
 
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeCoordSys( void ) {
 	ksw->options()->useAltAz = AltAzRadio->isChecked();
 	showGround->setEnabled( AltAzRadio->isChecked() );
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeStarColorIntensity( int newValue ) {
 	ksw->map()->setStarColorIntensity( newValue );
 //	ksw->options()->starColorIntensity = ksw->map()->starColorIntensity();
 	ksw->options()->colorScheme()->setStarColorIntensity( newValue );
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeStarColorMode( int newValue ) {
@@ -1097,28 +1097,28 @@ void ViewOpsDialog::changeStarColorMode( int newValue ) {
 	ksw->options()->colorScheme()->setStarColorMode( newValue );
 	if (newValue) IntensityBox->setEnabled( false );
 	else IntensityBox->setEnabled( true );
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeAstDrawMagLimit( int newValue ) {
 	float fNewValue = float( newValue ) / 10.0;
 	ksw->options()->magLimitAsteroid = fNewValue;
 	// force redraw
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeAstNameMagLimit( int newValue ) {
 	float fNewValue = float( newValue ) / 10.0;
 	ksw->options()->magLimitAsteroidName = fNewValue;
 	// force redraw
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::changeComNameMaxRad( int newValue ) {
 	float fNewValue = float( newValue ) / 10.0;
 	ksw->options()->maxRadCometName = fNewValue;
 	// force redraw
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }
 
 void ViewOpsDialog::markPlanets( void ) {
@@ -1172,7 +1172,7 @@ void ViewOpsDialog::slotAddCatalog() {
 		ksw->options()->drawCatalog.append( true );
 //		kdWarning() << "CatalogCount: " << ksw->options()->CatalogCount << endl;
 //		kdWarning() << "CatalogName.count(): " << ksw->options()->CatalogName.count() << endl;
-		ksw->map()->Update();
+		ksw->map()->forceUpdate();
 	}
 }
 
@@ -1247,5 +1247,5 @@ void ViewOpsDialog::clearPlanetTrails( void ) {
 	for ( KSPlanetBase *ksp = ksw->data()->cometList.first(); ksp; ksp = ksw->data()->cometList.next() ) 
 		ksp->clearTrail();
 
-	ksw->map()->Update();
+	ksw->map()->forceUpdate();
 }

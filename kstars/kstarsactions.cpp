@@ -66,7 +66,7 @@ void KStars::slotViewToolBar() {
 	data()->setFullTimeUpdate();
 	updateTime();
 
-	map()->Update();
+	map()->forceUpdate();
 }
 
 /** Major Dialog Window Actions **/
@@ -152,7 +152,7 @@ void KStars::slotViewOps() {
 	if ( viewopsdialog.exec() != QDialog::Accepted ) {
 		// cancelled
 		data()->restoreOptions();
-		map()->Update();
+		map()->forceUpdate();
 	}
 	else
 		saveOptions();
@@ -269,7 +269,7 @@ void KStars::slotPrint() {
 		if ( answer == KMessageBox::Yes ) {
 			switchColors = true;
 			map()->setColors( "chart.colors" );
-		//	map()->UpdateNow();
+		//	map()->forceUpdate( true );
 		}
 	}
 
@@ -342,7 +342,7 @@ void KStars::slotPrint() {
 		options()->colorScheme()->copy( cs );
 		// restore colormode in skymap
 		map()->setStarColorMode( cs.starColorMode() );
-		map()->Update();
+		map()->forceUpdate();
 	}
 }
 
@@ -360,7 +360,7 @@ void KStars::slotToggleTimer() {
 		if ( fabs( clock->scale() ) > options()->slewTimeScale )
 			clock->setManualMode( true );
 		clock->start();
-		if ( clock->isManualMode() ) map()->Update();
+		if ( clock->isManualMode() ) map()->forceUpdate();
 	}
 }
 
@@ -397,7 +397,7 @@ void KStars::slotTrack() {
 		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
 	
-	map()->Update();
+	map()->forceUpdate();
 }
 
 void KStars::slotManualFocus() {
@@ -422,7 +422,7 @@ void KStars::slotZoomIn() {
 	actionCollection()->action("zoom_out")->setEnabled (true);
 	if ( options()->ZoomLevel < MAXZOOMLEVEL ) {
 		++options()->ZoomLevel;
-		map()->Update();
+		map()->forceUpdate();
 	}
 	if ( options()->ZoomLevel == MAXZOOMLEVEL )
 		actionCollection()->action("zoom_in")->setEnabled (false);
@@ -432,7 +432,7 @@ void KStars::slotZoomOut() {
 	actionCollection()->action("zoom_in")->setEnabled (true);
 	if ( options()->ZoomLevel > MINZOOMLEVEL ) {
 		--options()->ZoomLevel;
-		map()->Update();
+		map()->forceUpdate();
 	}
 	if ( options()->ZoomLevel == MINZOOMLEVEL )
 		actionCollection()->action("zoom_out")->setEnabled (false);
@@ -440,7 +440,7 @@ void KStars::slotZoomOut() {
 
 void KStars::slotDefaultZoom() {
 	options()->ZoomLevel = DEFAULTZOOMLEVEL;
-	map()->Update();
+	map()->forceUpdate();
 	
 	if ( options()->ZoomLevel > MINZOOMLEVEL )
 		actionCollection()->action("zoom_out")->setEnabled (true);
@@ -456,7 +456,7 @@ void KStars::slotCoordSys() {
 		options()->useAltAz = true;
 		actCoordSys->turnOff();
 	}
-	map()->Update();
+	map()->forceUpdate();
 }
 
 //Settings Menu:
@@ -469,7 +469,7 @@ void KStars::slotColorScheme() {
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->name() );
 	options()->setTargetSymbol( symbolName ); 
-	map()->Update();
+	map()->forceUpdate();
 }
 
 //Help Menu

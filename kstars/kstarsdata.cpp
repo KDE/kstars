@@ -1643,8 +1643,8 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		skymap->oldfocus()->EquatorialToHorizontal( LSTh, geo->lat() );
 
 		if (clock->isManualMode() )
-			QTimer::singleShot( 0, skymap, SLOT( UpdateNow() ) );
-		else skymap->Update();
+			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
+		else skymap->forceUpdate();
 	}
 }
 

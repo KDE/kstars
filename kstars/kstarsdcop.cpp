@@ -256,5 +256,5 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 		options()->useAbbrevConstellNames = true;
 	}
 	
-	map()->Update();
+	map()->forceUpdate();
 } 

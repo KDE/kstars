@@ -230,18 +230,12 @@ public slots:
 	virtual void setGeometry( const QRect &r );
 
 /**Recalculates the positions of objects in the sky, and then repaints the sky map.
-	*If the positions don't need to be recalculated, use update() instead of Update().
-	*This saves a lot of CPU time.  Note that update() is called automatically when the widget
-	*window is brought to the front from behind another window.
+	*If the positions don't need to be recalculated, use update() instead of forceUpdate().
+	*This saves a lot of CPU time.  
+	*@param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
 	*/	
-	void Update();
-
-/**Identical to Update(), except calls repaint() instead of update() in order
-	*to have the paintEvent executed immediately (whereas update() simply adds
-	*the call to the event queue, so if many calls to Update() are made, some
-	*will be dropped.  UpdateNow() avoids this, forcing each paintEvent to execute.
-	*/
-	void UpdateNow();
+	void forceUpdate( bool now=false );
+	void forceUpdateNow() { forceUpdate( true ); }
 
 /**Estimate the effect of atmospheric refraction.  Refraction only affects the
 	*altitude of objects beyond the atmosphere (so it shouldn't be used for the horizon).
