@@ -4,9 +4,13 @@
   <!ENTITY package "kdeedu">
   <!ENTITY astroinfo SYSTEM "astroinfo.docbook">
   <!ENTITY blackbody SYSTEM "blackbody.docbook">
+  <!ENTITY calc-angdist SYSTEM "calc-angdist.docbook">
   <!ENTITY calc-apcoords SYSTEM "calc-apcoords.docbook">
+  <!ENTITY calc-ecliptic SYSTEM "calc-ecliptic.docbook">
   <!ENTITY calc-eqgal SYSTEM "calc-eqgal.docbook">
+  <!ENTITY calc-equinox SYSTEM "calc-equinox.docbook">
   <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
+  <!ENTITY calc-planetcoords SYSTEM "calc-planetcoords.docbook">
   <!ENTITY calc-precess SYSTEM "calc-precess.docbook">
   <!ENTITY calc-geodetic SYSTEM "calc-geodetic.docbook">
   <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
