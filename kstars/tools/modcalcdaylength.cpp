@@ -107,17 +107,40 @@ void modCalcDayLength::slotComputePosTime()
 	dms riseAz = Sun->riseSetTimeAz(jd0, geoPlace, true);
 	dms transAlt = Sun->transitAltitude(jd0, geoPlace);
 
-	azSetBox->show( setAz );
-	elTransitBox->show( transAlt );
-	azRiseBox->show( riseAz );
+	if (setQtime.isValid() ) {
+		azSetBox->show( setAz );
+		elTransitBox->show( transAlt );
+		azRiseBox->show( riseAz );
 
-	setTimeBox->showTime( setQtime );
-	riseTimeBox->showTime( riseQtime );
-	transitTimeBox->showTime( transitQtime );
+		setTimeBox->showTime( setQtime );
+		riseTimeBox->showTime( riseQtime );
+		transitTimeBox->showTime( transitQtime );
 
-	QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
+		QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
 
-	dayLBox->showTime( dayLQtime );
+		dayLBox->showTime( dayLQtime );
+	} else if (transAlt.Degrees() > 0. ) {
+		azSetBox->showCircumpolar();
+		elTransitBox->show( transAlt );
+		azRiseBox->showCircumpolar();
+
+		setTimeBox->showTime( setQtime );
+		riseTimeBox->showTime( riseQtime );
+		transitTimeBox->showTime( transitQtime );
+
+		dayLBox->showTime( QTime(23,59,59) );
+
+	} else if (transAlt.Degrees() < 0. ) {
+		azSetBox->showDoesNotRise();
+		elTransitBox->showDoesNotRise();
+		azRiseBox->showDoesNotRise();
+
+		setTimeBox->clearFields();
+		riseTimeBox->clearFields();
+		transitTimeBox->clearFields();
+
+		dayLBox->showTime( QTime(0,0,0) );
+	}
 
 	delete num;
 }
