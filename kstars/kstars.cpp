@@ -100,6 +100,7 @@ KStars::~KStars()
 	delete pd;
 	if (clock) delete clock;
 	if (centralWidget) delete centralWidget;
+    if (AAVSODialog) delete AAVSODialog;
 }
 
 void KStars::changeTime( QDate newDate, QTime newTime ) {

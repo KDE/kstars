@@ -260,6 +260,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotCalculator();
 
 		/**
+		 * action slot: open KStars AAVSO Light Curve Generator
+		 */
+
+		void slotLCGenerator();
+    
+
+		/**
 			*action slot: open dialog for setting the view options
 			*/	
 		void slotViewOps();
@@ -360,7 +367,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KActionMenu *colorActionMenu;
 		QWidget *centralWidget;
 		QVBoxLayout *topLayout;
+        QDialog *AAVSODialog;
 
+    
 		int idSpinBox;
 		bool useDefaultOptions, DialogIsObsolete;
 

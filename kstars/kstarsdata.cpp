@@ -57,6 +57,7 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 	Ecliptic.setAutoDelete( TRUE );
 	Horizon.setAutoDelete( TRUE );
 	for ( unsigned int i=0; i<11; ++i ) MilkyWay[i].setAutoDelete( TRUE );
+    VariableStarsList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	//(type==-1 is a constellation)
@@ -125,6 +126,37 @@ bool KStarsData::readMWData( void ) {
 		}
 	}
 	return true;
+}
+
+bool KStarsData::readVARData(void)
+{
+  QFile file;
+
+  if (!KSUtils::openDataFile(file, "var.dat"))
+   return false;
+  
+   QTextStream stream(&file);
+
+  while  (!stream.atEnd())
+  {
+    QString Name;
+    QString Designation;
+    QString Line;
+
+    Line = stream.readLine();
+
+    Designation = Line.mid(0,8).stripWhiteSpace();
+    Name          = Line.mid(10,20).simplifyWhiteSpace();
+
+    VariableStarInfo *VInfo = new VariableStarInfo;
+
+    VInfo->Designation = Designation;
+    VInfo->Name          = Name;
+    VariableStarsList.append(VInfo);
+   }
+
+   return true;
+
 }
 
 bool KStarsData::readCLineData( void ) {
@@ -913,6 +945,8 @@ void KStarsData::slotInitialize() {
 			emit progressText(i18n("Loading Star Data" ) );
 			if ( !readStarData( ) )
 				initError( "sao.dat", true );
+            if (!readVARData())
+                initError( "var.dat", true);
 			break;
 
 		case 3: //Load NGC 2000 database//

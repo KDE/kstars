@@ -183,6 +183,9 @@ void KStars::initActions() {
 	new KAction(i18n( "Calculator"), KAccel::stringToKey ( "Ctrl+C"),
 			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
+  	new KAction(i18n( "AAVSO Light Curves..."), KAccel::stringToKey ( "Ctrl+V"),
+			this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
+
 
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,
@@ -386,6 +389,9 @@ void KStars::privatedata::buildGUI() {
 	//create the widgets
 	ks->centralWidget = new QWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
+
+   //set AAVSO modeless dialog pointer to 0
+   ks->AAVSODialog = 0;
 
 	ks->IBoxes = new InfoBoxes( ks->options()->windowWidth, ks->options()->windowHeight,
 			ks->options()->posTimeBox, ks->options()->shadeTimeBox,

@@ -28,6 +28,7 @@
 #include "focusdialog.h"
 #include "viewopsdialog.h"
 #include "astrocalc.h"
+#include "lcgenerator.h"
 #include "infoboxes.h"
 #include "ksutils.h"
 
@@ -68,6 +69,13 @@ void KStars::slotViewToolBar() {
 void KStars::slotCalculator() {
 	AstroCalc astrocalc (this);
 	astrocalc.exec();
+ }
+
+void KStars::slotLCGenerator() {
+	if (AAVSODialog == 0)
+        AAVSODialog = new LCGenerator(this);
+        
+	AAVSODialog->show();
 }
 
 void KStars::slotGeoLocator() {

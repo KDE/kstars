@@ -43,6 +43,7 @@
 #include "planetcatalog.h"
 #include "objectnamelist.h"
 #include "timezonerule.h"
+#include "lcgenerator.h"
 
 #include <qglobal.h>
 #if (QT_VERSION <= 299)
@@ -77,6 +78,7 @@ public:
 	friend class SkyMap;
 	friend class FileSource;
 	friend class StarDataSink;
+    friend class LCGenerator;
 	
 	/**Constructor. */
 	KStarsData( KStars *ks );
@@ -215,6 +217,14 @@ public:
 		*@returns true if all MW files were successfully read
 		*/
 	bool readMWData( void );
+
+    /**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
+        *0-8 AAVSO Star Designation
+        *10-20 Common star name
+		*@short read Variable Stars data.
+		*@returns true if data is successfully read.
+		*/
+    bool readVARData(void);
 
 	/**Read in URLs to be attached to a named object's right-click popup menu.  At this
 		*point, there is no way to attach URLs to unnamed objects.  There are two
@@ -379,6 +389,7 @@ private:
 	QList<SkyPoint> Ecliptic;
 	QList<SkyPoint> Horizon;
 	QList<SkyPoint> MilkyWay[11];
+    QList<VariableStarInfo> VariableStarsList;
 	ObjectNameList ObjNames;
 
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
