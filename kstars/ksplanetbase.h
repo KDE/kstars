@@ -63,6 +63,7 @@ class EclipticPosition {
   *@version 0.9
   */
 
+class KStars;
 class KSPlanetBase : public SkyObject {
 public: 
 
@@ -72,7 +73,7 @@ public:
 	 *@param s Name of planet
 	 *@param im the planet's image
 	 */
-	KSPlanetBase( QString s = i18n("unnamed"), QString image_file="" );
+	KSPlanetBase( KStars *ks, QString s = i18n("unnamed"), QString image_file="" );
 
 	/**
 	 *Destructor (empty)
@@ -115,28 +116,28 @@ public:
 	 */	
 	void setEcLat( double elat ) { ep.latitude.setD( elat ); }
 
+	/**Load the position data from disk.
+	 */
 	virtual bool loadData() = 0;
 
 	/**
-	 *Given the current Julian date (Epoch), calculate and set the RA, Dec
-	 *coordinates of the Planet.
-	 *@param Epoch current Julian Date
+	 *Given the current KSNumbers object (time-dependent), calculate and set 
+	 *the RA, Dec coordinates of the Planet.
+	 *@param num current KSNumbers object
 	 *@param Earth planet Earth (needed to calculate geocentric coords)
 	 *@returns true if position was successfully calculated.
 	 */
 	virtual bool findPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
 
 	/**
-	 *Convert Ecliptic logitude/latitude to Right Ascension/Declination,
-	 *given the current Julian date (Epoch).	
-	 *@param Epoch current Julian Date
+	 *Convert Ecliptic logitude/latitude to Right Ascension/Declination.
+	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	 */
 	void EclipticToEquatorial( dms Obliquity );
 
 	/**
-	 *Convert Right Ascension/Declination to Ecliptic logitude/latitude,
-	 *given the current Julian date (Epoch).	
-	 *@param Epoch current Julain Date
+	 *Convert Right Ascension/Declination to Ecliptic logitude/latitude.
+	 *@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	 */
 	void EquatorialToEcliptic( dms Obliquity );
 
@@ -160,22 +161,25 @@ public:
 	 */
 	void setRsun( double r ) { ep.radius = r; };
 
-	/**
-	 * @short reimplemented from SkyPoint
+	/**Update position of the planet (reimplemented from SkyPoint)
+	 *@param num current KSNumbers object
+	 *@param includePlanets this function does nothing if includePlanets=false
 	 */
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true );
 
-	/**Return the Planet's position angle.
+	/**@returns the Planet's position angle.
 		*/
 		double pa() const { return PositionAngle; }
 
 	/**Set the Planet's position angle.
+		*@param p the new position angle
 		*/
 		void setPA( double p ) { PositionAngle = p; }
 
 	/**
 		*If pa argument is more than 5 degrees different than current internal
 		*PositionAngle, then update the internal PA and rotate the Planet image.
+		*@param pa the new position angle
 		*/
 	void updatePA( double pa );
 
@@ -193,6 +197,7 @@ protected:
 private:
 	QImage Image0, Image;
 	double PositionAngle;
+	KStars *kstars;
 };
 
 /**Helper function for xFormImage */

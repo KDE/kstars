@@ -100,7 +100,7 @@ void AddCatDialog::validateFile() {
 // data files without needing an AddCatDialog (on startup, for example).
 // The bool argument below flags whether the detailed warning messagebox
 // should appear when parse errors are found.
-	KStars *ksw = (KStars*)kapp->mainWidget();
+	KStars *ksw = (KStars*) parent()->parent(); // ViewOpsDialog->KStars
 	bool result = ksw->data()->readCustomData( filename(), objList, true );
 
 	if ( result ) {

@@ -49,7 +49,7 @@ LCGenerator::LCGenerator( QWidget* parent)
 {
 
     // pointer to KStars to access date
-    ksw = (KStars*) kapp->mainWidget();
+    ksw = (KStars*) parent;
     resize( 455, 370 ); 
     setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, sizePolicy().hasHeightForWidth() ) );
     setMinimumSize( QSize( 455, 370 ) );

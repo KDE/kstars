@@ -39,13 +39,20 @@
 #include <kapplication.h>
 #endif
 
+QList<GeoLocation> KStarsData::geoList = QList<GeoLocation>();
+QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
+int KStarsData::objects = 0;
+
 KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), inited(false),
 	source(0), loader(0), pump(0) {
+	objects++;
 	stdDirs = new KStandardDirs();
 	options = new KStarsOptions();
 
 	locale = new KLocale( "kstars" );
 	oldOptions = 0;
+
+	PC = new PlanetCatalog(ks);
 
 	geoList.setAutoDelete( TRUE );
 	starList.setAutoDelete( TRUE );
@@ -77,6 +84,7 @@ KStarsData::KStarsData( KStars *ks ) : Moon(0), kstars( ks ), initTimer(0), init
 }
 
 KStarsData::~KStarsData() {
+	objects--;
 	checkDataPumpAction();
 	
 	if ( 0 != oldOptions ) {
@@ -94,6 +102,8 @@ KStarsData::~KStarsData() {
 	if (stdDirs) delete stdDirs;
 	if (Moon) delete Moon;
 	if (locale) delete locale;
+
+	delete PC;
 }
 
 bool KStarsData::readMWData( void ) {
@@ -614,6 +624,8 @@ bool KStarsData::readCustomData( QString filename, QList<SkyObject> &objList, bo
 		}
 		return false;
 	}
+	// all test passed
+	return false;
 }
 
 
@@ -728,7 +740,6 @@ bool KStarsData::processCity( QString line ) {
 
 //	if ( fields[12]=="--" )
 //		kdDebug() << "Empty rule start month: " << TZrule->StartMonth << endl;
-
 	geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
 	return true;
 }
@@ -930,18 +941,20 @@ void KStarsData::slotInitialize() {
 	{
 		case 0: //Load Options//
 			emit progressText( i18n("Loading Options") );
-			// timezone rules
-			if ( !readTimeZoneRulebook( ) )
-				initError( "TZrules.dat", true );
+
+			if (objects==1) {
+				// timezone rules
+				if ( !readTimeZoneRulebook( ) )
+					initError( "TZrules.dat", true );
+			}
 
 				kstars->loadOptions();
 			break;
 
 		case 1: //Load Cities//
-			emit progressText( i18n("Loading City Data") );
+			if (objects>1) break;
 
-//			if ( !readTimeZoneRulebook( ) )
-//				initError( "TZrules.dat", true );
+			emit progressText( i18n("Loading City Data") );
 
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
@@ -993,14 +1006,14 @@ void KStarsData::slotInitialize() {
 		case 8: //Initialize the Planets//
 
 			emit progressText( i18n("Creating Planets" ) );
-			if (PC.initialize())
-				PC.addObject( ObjNames );
+			if (PC->initialize())
+				PC->addObject( ObjNames );
 			break;
 
 		case 9: //Initialize the Moon//
 
 			emit progressText( i18n("Creating Moon" ) );
-			Moon = new KSMoon();
+			Moon = new KSMoon(kstars);
 			ObjNames.append( Moon );
 			Moon->loadData();
 			break;
@@ -1084,7 +1097,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 	if ( fabs( CurrentDate - LastPlanetUpdate ) > 0.01 ) {
 		LastPlanetUpdate = CurrentDate;
 
-		PC.findPosition(&num);
+		PC->findPosition(&num);
 
 		//Recompute the Ecliptic
 		if ( options->drawEcliptic ) {
@@ -1102,7 +1115,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 		LastMoonUpdate = CurrentDate;
 		if ( options->drawMoon ) {
 			Moon->findPosition( &num, geo->lat(), LSTh );
-			Moon->findPhase( PC.planetSun() );
+			Moon->findPhase( PC->planetSun() );
 		}
 	}
 
@@ -1113,7 +1126,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 
 		//Recompute Alt, Az coords for all objects
 		//Planets
-		PC.EquatorialToHorizontal( LSTh, geo->lat() );
+		PC->EquatorialToHorizontal( LSTh, geo->lat() );
 		if ( options->drawMoon ) Moon->EquatorialToHorizontal( LSTh, geo->lat() );
 
 		//Stars
@@ -1208,7 +1221,7 @@ void KStarsData::updateTime( SimClock *clock, GeoLocation *geo, SkyMap *skymap, 
 				skymap->destination()->HorizontalToEquatorial( LSTh, geo->lat() );
 				skymap->setFocus( skymap->destination() );
 
-			} else if (skymap->foundObject()==Moon || PC.isPlanet(skymap->foundObject()) ) {
+			} else if (skymap->foundObject()==Moon || PC->isPlanet(skymap->foundObject()) ) {
 				//Tracking on the Moon or Planet requires focus updates in both coord systems
 				skymap->setDestination( skymap->foundObject() );
 				skymap->setFocus( skymap->destination() );

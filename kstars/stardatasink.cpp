@@ -104,7 +104,7 @@ void StarDataSink::receive( const uchar *data, int entries ) {
 		}
 
 		// recompute coordinates if AltAz is used
-		o->EquatorialToHorizontal( ksData->LSTh, ( (KStars*) kapp->mainWidget() )->geo()->lat() );
+		o->EquatorialToHorizontal( ksData->LSTh, ksData->kstars->geo()->lat() );
 
 		line++; // go to next array field
 	}  // end of while

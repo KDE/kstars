@@ -24,6 +24,7 @@
 #include "kstars.h"
 
 #include <qwidget.h>
+#include <qwidgetlist.h>
 #include <qlabel.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
@@ -213,7 +214,8 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 #endif
 	showUT( dt.time() );
 
-	KStars *ks = (KStars*)kapp->mainWidget();
+	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+
 	longBox->show( ks->geo()->lng() );
 }
 

@@ -206,14 +206,14 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-	KStars *ks = (KStars*)kapp->mainWidget();
+	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	geoPlace = new GeoLocation( ks->geo() );
 }
 
 void modCalcDayLength::showLongLat(void)
 {
 
-	KStars *ks = (KStars*)kapp->mainWidget();
+	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );
 }
@@ -288,7 +288,7 @@ void modCalcDayLength::slotComputePosTime()
 	long double jd0 = computeJdFromCalendar();
 
 	KSNumbers * num = new KSNumbers(jd0);
-	KSSun *Sun = new KSSun();
+	KSSun *Sun = new KSSun((KStars*) parent()->parent()->parent());
 	Sun->findPosition(num);
 
 	QTime setQtime = Sun->setTime(jd0 , geoPlace);

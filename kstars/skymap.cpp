@@ -32,7 +32,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include <stream.h>
+//#include <iostream.h>
 #include <unistd.h>
 
 #include "detaildialog.h"
@@ -52,7 +52,7 @@
 SkyMap::SkyMap(QWidget *parent, const char *name )
  : QWidget (parent,name), ClickedObject(0), FoundObject(0),  computeSkymap (true)
 {
-	ksw = (KStars*) kapp->mainWidget();
+	ksw = (KStars*) parent->parent();
 
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
@@ -263,12 +263,12 @@ void SkyMap::initPopupMenu( QString s1, QString s2, QString s3,
 	//Insert item for centering on object
 	if ( showCenterTrack ) {
 		pmenu->insertSeparator();
-		pmenu->insertItem( i18n( "Center and Track" ), this, SLOT( slotCenter() ) );
+		pmenu->insertItem( i18n( "Center && Track" ), this, SLOT( slotCenter() ) );
 	}
 
 	//Insert item for Showing details dialog
 	if ( showDetails ) {
-		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details..." ), this, SLOT( slotDetail() ) );
+		pmenu->insertItem( i18n( "Show Detailed Information Dialog", "Details" ), this, SLOT( slotDetail() ) );
 	}
 
 	pmenu->insertSeparator();

@@ -24,8 +24,8 @@
 #include "kssun.h"
 #include "ksmoon.h"
 
-KSMoon::KSMoon()
- : KSPlanetBase( I18N_NOOP( "Moon" ) ) {
+KSMoon::KSMoon(KStars *ks)
+ : KSPlanetBase( ks, I18N_NOOP( "Moon" ) ) {
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
 }

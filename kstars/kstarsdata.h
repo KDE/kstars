@@ -52,6 +52,11 @@
 #include <qptrlist.h>
 #endif
 
+class KStandardDirs;
+class FileSource;
+class StarDataSink;
+class QDataPump;
+
 /**KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
 	*images and information pages.
@@ -60,11 +65,6 @@
 	*@author Heiko Evermann
 	*@version 0.9
 	*/
-
-class KStandardDirs;
-class FileSource;
-class StarDataSink;
-class QDataPump;
 
 class KStarsData : public QObject
 {
@@ -78,7 +78,7 @@ public:
 	friend class SkyMap;
 	friend class FileSource;
 	friend class StarDataSink;
-    friend class LCGenerator;
+	friend class LCGenerator;
 	
 	/**Constructor. */
 	KStarsData( KStars *ks );
@@ -90,7 +90,7 @@ public:
 		*locations file "mycities.dat", but don't require it.  Each line in the file
 		*provides the information required to create one GeoLocation object.
 		*@short Fill list of geographic locations from file(s)
-		*@returns bool Returns true if at least one city read successfully.
+		*@returns true if at least one city read successfully.
 		*/
 	bool readCityData( void );
 
@@ -241,6 +241,12 @@ public:
 		*/
 	bool readURLData( QString url, int type=0 );
 
+	/**Read in custom object catalog.  Object data is read from a file, and parsed into a 
+		*QList of SkyObjects which is returned by reference through the 2nd argument.
+		*@param filename The custom catalog data file
+		*@param olist the list of skyobjects, returned as a reference through this variable
+		*@bool showerrs if true, notify user of unparsed lines.
+		*/
 	bool readCustomData( QString filename, QList<SkyObject> &olist, bool showerrs );
 
 	/**@short reset the faint limit for the stellar database
@@ -281,7 +287,7 @@ public:
 
 	KLocale *getLocale() { return locale; };
 
-	KSPlanet *earth() { return PC.earth(); }
+	KSPlanet *earth() { return PC->earth(); }
 
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
@@ -378,7 +384,7 @@ private:
 
 	bool reloadingData();  // is currently reloading of data in progress
 
-	QList<GeoLocation> geoList;
+	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
 	QList<StarObject> starList;
 	QList<SkyObject> deepSkyList;
@@ -389,13 +395,13 @@ private:
 	QList<SkyPoint> Ecliptic;
 	QList<SkyPoint> Horizon;
 	QList<SkyPoint> MilkyWay[11];
-    QList<VariableStarInfo> VariableStarsList;
+	QList<VariableStarInfo> VariableStarsList;
 	ObjectNameList ObjNames;
 
 	QMap<QString, QList<SkyObject> > CustomCatalogs;
-	QMap<QString, TimeZoneRule> Rulebook;
+	static QMap<QString, TimeZoneRule> Rulebook;
 
-	PlanetCatalog PC;
+	PlanetCatalog *PC;
 
 	QString cnameFile;
 	KStandardDirs *stdDirs;
@@ -434,6 +440,10 @@ private:
 	StarDataSink *loader;
 	QDataPump *pump;
 
+/**
+	*Count the number of KStarsData objects.
+	*/
+	static int objects;
 };
 
 

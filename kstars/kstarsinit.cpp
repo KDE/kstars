@@ -394,9 +394,6 @@ void KStars::datainitFinished(bool worked) {
 }
 
 void KStars::privatedata::buildGUI() {
-	// need to set the mainwidget here, in main() this will cause a segfault because
-	// skymap will be created in this constructor and needs kapp->mainWidget()
-	kapp->setMainWidget( ks );
 	// here we get the preloaded data (stars, constellations etc.)
 
 	//Instantiate the SimClock object

@@ -33,7 +33,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stream.h>
+//#include <iostream.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 
@@ -178,7 +178,7 @@ SkyObject* KStars::getObjectNamed( QString name ) {
 	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
 	if ( name== data()->Moon->name() ) return data()->Moon;
 
-	SkyObject *so = data()->PC.findByName(name);
+	SkyObject *so = data()->PC->findByName(name);
 
 	if (so != 0)
 		return so;
