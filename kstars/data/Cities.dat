@@ -447,7 +447,7 @@ Chitose                          :                       : Japan                
 Chittagong                       :                       : Bangladesh            : 22 : 15 :  0 : N :  91 : 49 : 59 : E : 6.0  : --
 Christchurch                     :                       : New Zealand           : 43 : 28 : 58 : S : 172 : 31 : 58 : E : 12.0 : NZ
 Christiansoe                     : Bornholm              : Denmark               : 55 : 19 :  0 : N :  15 : 11 :  0 : E :   1.0 : EU
-Christmas Island                 :                       : Australia             :  10 : 30 : 00 : S : 105 : 40 : 00 : E : 7.0 : --
+Christmas Island                 :                       : Australia             : 10 : 30 : 00 : S : 105 : 40 : 00 : E : 7.0 : --
 Chula Vista                      : California            : USA                   : 32 : 38 : 35 : N : 117 :  4 : 58 : W : -8.0 : US
 Chuncheon                        : Gangwon               : Korea                 : 37 : 54 :  0 : N : 127 : 44 :  0 : E : 9.0  : SK
 Chungju                          : Chungbuk              : Korea                 : 36 : 58 :  0 : N : 127 : 53 :  0 : E : 9.0  : SK
@@ -879,7 +879,7 @@ Green Bank Obs.                  : West Virginia         : USA                  
 Green Bay                        : Wisconsin             : USA                   : 44 : 30 : 47 : N :  88 :  0 : 50 : W : -6.0 : US
 Green River                      : Utah                  : USA                   : 39 :  0 :  0 : N : 110 :  4 : 58 : W : -7.0 : US
 Green River                      : Wyoming               : USA                   : 41 : 31 : 36 : N : 109 : 28 :  4 : W : -7.0 : US
-Greenbelt                        : Maryland              : USA                   : 39 :  0 :  0 : N :  76 : 51 : 15 : E : -5.0 : US
+Greenbelt                        : Maryland              : USA                   : 39 :  0 :  0 : N :  76 : 51 : 15 : W : -5.0 : US
 Greensboro                       : North Carolina        : USA                   : 36 :  4 : 17 : N :  79 : 47 : 25 : W : -5.0 : US
 Greenville                       : Maine                 : USA                   : 45 : 25 : 58 : N :  69 : 34 : 58 : W : -5.0 : US
 Greenville                       : Mississippi           : USA                   : 33 : 24 : 24 : N :  91 :  3 : 36 : W : -6.0 : US
