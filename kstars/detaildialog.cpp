@@ -17,6 +17,7 @@
 
 #include <qlineedit.h>
 #include <qtextedit.h>
+#include <qstring.h>
 
 #include <kmessagebox.h>
 #include <klistview.h>
@@ -59,7 +60,7 @@ void DetailDialog::createLogTab()
 //   userLog->setTextFormat(Qt::RichText);
 
    if (selectedObject->userLog.isEmpty())
-      userLog->setText("Record here observation logs and/or data on " + selectedObject->name());
+      userLog->setText(i18n("Record here observation logs and/or data on ") + selectedObject->name());
    else
       userLog->setText(selectedObject->userLog);
 
@@ -185,8 +186,6 @@ void DetailDialog::createLinksTab()
 
 void DetailDialog::createGeneralTab(QDateTime lt, GeoLocation *geo)
 {
-	currentItemTitle = new QString();
-	currentItemURL = new QString();
 
 	QFrame *generalTab= addPage(i18n("General"));
 
@@ -497,14 +496,14 @@ void DetailDialog::editLinkDialog()
         defaultURL = *selectedObject->InfoList.at(currentItemIndex);
         editLinkField->setText(defaultURL);
         type = 1;
-        *currentItemTitle = infoList->currentText();
+        currentItemTitle = infoList->currentText();
   }
   else if ( (currentItemIndex = imagesList->currentItem()) != -1)
   {
         defaultURL = *selectedObject->ImageList.at(currentItemIndex);
         editLinkField->setText(defaultURL);
         type = 0;
-        *currentItemTitle = imagesList->currentText();
+        currentItemTitle = imagesList->currentText();
   }
   else return;
 
@@ -516,8 +515,8 @@ void DetailDialog::editLinkDialog()
         return;
 
   // Save the URL of the current item
-   *currentItemURL =  editLinkField->text();
-    entry = selectedObject->name() + ":" + *currentItemTitle + ":" + *currentItemURL;
+   currentItemURL =  editLinkField->text();
+    entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
 
    switch (type)
    {
@@ -537,23 +536,23 @@ void DetailDialog::editLinkDialog()
 
    QTextStream newStream(&newFile);
 
-   for (i=0; i<dataList->count(); i++)
+   for (i=0; i<dataList.count(); i++)
    {
       if (i != ObjectIndex)
       {
-        newStream << *dataList->at(i) << endl;
+        newStream << dataList[i] << endl;
         continue;
       }
 
      if (type==0)
      {
-       *selectedObject->ImageTitle.at(currentItemIndex) = *currentItemTitle;
-       *selectedObject->ImageList.at(currentItemIndex) = *currentItemURL;
+       *selectedObject->ImageTitle.at(currentItemIndex) = currentItemTitle;
+       *selectedObject->ImageList.at(currentItemIndex) = currentItemURL;
      }
      else
      {
-        *selectedObject->InfoTitle.at(currentItemIndex) = *currentItemTitle;
-        *selectedObject->InfoList.at(currentItemIndex) = *currentItemURL;
+        *selectedObject->InfoTitle.at(currentItemIndex) = currentItemTitle;
+        *selectedObject->InfoList.at(currentItemIndex) = currentItemURL;
      }
 
      newStream << entry << endl;
@@ -581,14 +580,14 @@ void DetailDialog::removeLinkDialog()
   {
         defaultURL = *selectedObject->InfoList.at(currentItemIndex);
         type = 1;
-        *currentItemTitle = infoList->currentText();
+        currentItemTitle = infoList->currentText();
   }
   else
   {
         currentItemIndex = imagesList->currentItem();
         defaultURL = *selectedObject->ImageList.at(currentItemIndex);
         type = 0;
-        *currentItemTitle = imagesList->currentText();
+        currentItemTitle = imagesList->currentText();
   }
 
     switch (type)
@@ -614,10 +613,10 @@ void DetailDialog::removeLinkDialog()
 
    QTextStream newStream(&newFile);
 
-   for (i=0; i<dataList->count(); i++)
+   for (i=0; i<dataList.count(); i++)
    {
       if (i != ObjectIndex)
-        newStream << *dataList->at(i) << endl;
+        newStream << dataList[i] << endl;
    }
 
     newFile.close();
@@ -636,13 +635,13 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
      case 0:
         if (!readUserFile(0,0))
           return false;
-        for (i=0; i<dataList->count(); i++)
+        for (i=0; i<dataList.count(); i++)
         {
-             line = *dataList->at(i);
+             line = dataList[i];
              name = line.mid( 0, line.find(':') );
         	  sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == *currentItemTitle)
+            if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
                   ObjectIndex = i;
@@ -654,13 +653,13 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
            if (!readUserFile(0, 1))
               return false;
 
-        for (i=0; i<dataList->count(); i++)
+        for (i=0; i<dataList.count(); i++)
         {
-             line = *dataList->at(i);
+             line = dataList[i];
              name = line.mid( 0, line.find(':') );
         	  sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == *currentItemTitle)
+            if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
                   ObjectIndex = i;
@@ -672,13 +671,13 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
      case 1:
         if (!readUserFile(1,0))
           return false;
-        for (i=0; i<dataList->count(); i++)
+        for (i=0; i<dataList.count(); i++)
         {
-             line = *dataList->at(i);
+             line = dataList[i];
              name = line.mid( 0, line.find(':') );
         	  sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == *currentItemTitle)
+            if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
                   ObjectIndex = i;
@@ -690,13 +689,13 @@ bool DetailDialog::verifyUserData(int type, uint & ObjectIndex)
            if (!readUserFile(1, 1))
               return false;
 
-        for (i=0; i<dataList->count(); i++)
+        for (i=0; i<dataList.count(); i++)
         {
-             line = *dataList->at(i);
+             line = dataList[i];
              name = line.mid( 0, line.find(':') );
         	  sub = line.mid( line.find(':')+1 );
              title = sub.mid( 0, sub.find(':') );
-            if (name == selectedObject->name() && title == *currentItemTitle)
+            if (name == selectedObject->name() && title == currentItemTitle)
                 {
                   ObjectFound = true;
                   ObjectIndex = i;
@@ -765,11 +764,9 @@ bool DetailDialog::readUserFile(int type, int sourceFileType)
    file.reset();
    QTextStream stream(&file);
 
-   dataList = new QStringList();
-
   // read all data into memory
    while (!stream.eof())
-     dataList->append(stream.readLine());
+     dataList.append(stream.readLine());
 
    return true;
 }
@@ -903,7 +900,7 @@ void DetailDialog::saveLogData()
  QString logs;
  QString currentLog = userLog->text();
 
- if (currentLog == ("Record here observation logs and/or data on " + selectedObject->name()))
+ if (currentLog == (i18n("Record here observation logs and/or data on ") + selectedObject->name()))
   return;
 
  // A label to identiy a header

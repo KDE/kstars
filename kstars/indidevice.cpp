@@ -646,7 +646,7 @@ INDI_D::~INDI_D()
 {
    for (uint j=0; j < gl.size(); j++)
 	      for (uint k=0; k < gl[j]->pl.size(); k++)
-	          removeProperty(gl[j]->pl[k]);
+	          removeProperty(gl[j]->pl[0]);
 
   if (tabContainer)
     delete (tabContainer);
@@ -1663,8 +1663,8 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	INDI_L *lp = NULL;
 	XMLEle *number;
 	XMLAtt *ap;
-	char *nlabel;
-	char *nname;
+	char *nlabel=NULL;
+	char *nname=NULL;
 	char iNumber[32];
 	PPerm p;
 
@@ -1827,6 +1827,10 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 
 	curGroup->addProperty(pp);
 
+	if (nlabel)
+	delete [] nlabel;
+	if (nname);
+	delete [] nname;
 
 	return (0);
 
@@ -1898,9 +1902,8 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
     		     pp, SLOT(newSwitch(int)));
 
 	XMLEle *sep;
-        char *sstate;
-	char *sname;
-	char *slabel;
+	char *sname=NULL;
+	char *slabel=NULL;
 	QPushButton *button;
 	QCheckBox   *checkbox;
 	INDI_L *lp;
@@ -1944,9 +1947,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 
             lp = new INDI_L(pp, QString(sname), QString(slabel));
 
-	    sstate = sep->pcdata;
-
-	    if (crackSwitchState (sstate, &(lp->state)) < 0)
+	    if (crackSwitchState (sep->pcdata, &(lp->state)) < 0)
 	    {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
 			    root->tag, ap->valu, name.ascii(), pp->name.ascii(), name.ascii());
@@ -2010,6 +2011,11 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 
         curGroup->addProperty(pp);
 
+	if (sname)
+	delete [] sname;
+	if (slabel)
+	delete [] slabel;
+
 	return (0);
 }
 
@@ -2025,9 +2031,8 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 	XMLEle *sep = NULL;
 	XMLAtt *ap;
 	INDI_L *lp;
-	char *sname;
-	char *slabel;
-	char *sstate;
+	char *sname=NULL;
+	char *slabel=NULL;
 	int i=0, onItem=0;
 
 	pp->guitype = PG_MENU;
@@ -2101,9 +2106,7 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 
             lp = new INDI_L(pp, QString(sname), QString(slabel));
 
-	    sstate = sep->pcdata;
-
-	    if (crackSwitchState (sstate, &(lp->state)) < 0)
+	    if (crackSwitchState (sep->pcdata, &(lp->state)) < 0)
 	    {
 		sprintf (errmsg, "INDI: <%s> unknown state %s for %s %s %s",
 			    root->tag, ap->valu, name.ascii(), pp->name.ascii(), name.ascii());
@@ -2155,6 +2158,11 @@ int INDI_D::buildMenuGUI (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	curGroup->addProperty(pp);
 
+	if (sname)
+	delete [] sname;
+	if (slabel)
+	delete [] slabel;
+
 	return (0);
 }
 
@@ -2184,8 +2192,8 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	INDI_L *lp;
 	QLabel *label;
 	KLed   *led;
-	char *sname;
-	char *slabel;
+	char *sname=NULL;
+	char *slabel=NULL;
 
 	for (i = 0; i < root->nel; i++)
 	{
@@ -2250,6 +2258,11 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	}
 
 	curGroup->addProperty(pp);
+
+	if (sname)
+	delete [] sname;
+	if (slabel)
+	delete [] slabel;
 
 	return (0);
 }

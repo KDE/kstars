@@ -347,7 +347,8 @@ void telescopeWizardProcess::scanPorts()
 
      INDI_P * pp;
 
-     indiDev->msgST_w->clear();
+     if (indiDev->msgST_w)
+     	indiDev->msgST_w->clear();
 
      pp = indiDev->findProp(QString("Ports"));
 

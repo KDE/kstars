@@ -35,7 +35,7 @@ KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, 
 }
 
 void KStarsPlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
-	double X1, X2, Y1, Y2;
+	double X1=0, X2=0, Y1=0, Y2=0;
 	if (x2<x1) { X1=x2; X2=x1; }
 	else { X1=x1; X2=x2; }
 	if ( y2<y1) { Y1=y2; Y2=y1; }
@@ -48,7 +48,7 @@ void KStarsPlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
 }
 
 void KStarsPlotWidget::setSecondaryLimits( double x1, double x2, double y1, double y2 ) {
-	double XB1, XB2, YB1, YB2;
+	double XB1=0, XB2=0, YB1=0, YB2=0;
 	if (x2<x1) { XB1=x2; XB2=x1; }
 	else { XB1=x1; XB2=x2; }
 	if ( y2<y1) { YB1=y2; YB2=y1; }

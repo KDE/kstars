@@ -357,6 +357,8 @@ while ( (c = (char) file.getch()) != -1)
 
   }
 
+  delLilXML(xmlParser);
+  
   return true;
 
 

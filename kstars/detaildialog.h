@@ -147,8 +147,8 @@ private:
    QLineEdit *editLinkField;
    QFile file;
    int currentItemIndex;
-   QString *currentItemURL, *currentItemTitle;
-   QStringList *dataList;
+   QString currentItemURL, currentItemTitle;
+   QStringList dataList;
 
    // Advanced Tab
    QFrame *advancedTab;

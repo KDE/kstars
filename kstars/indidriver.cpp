@@ -313,6 +313,7 @@ bool INDIDriver::readXMLDriver()
     }
   }
 
+ delLilXML(xmlParser);
  return true;
 
 }
@@ -406,6 +407,11 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, char er
 
   dv = new IDevice(QString(label), QString(driver), QString(exec), QString(version));
   devices.push_back(dv);
+
+  delete [] label;
+  delete [] driver;
+  delete [] exec;
+  delete [] version;
 
   // SLOTS/SIGNAL, pop menu, indi server logic
   return true;
