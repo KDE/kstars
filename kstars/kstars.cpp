@@ -35,6 +35,7 @@
 #include <kmessagebox.h>
 #include <kstatusbar.h>
 #include <kpopupmenu.h>
+#include <klocale.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -137,7 +138,8 @@ KStars::KStars( KStarsData* kstarsData )
 
 	LTDate = new QLabel( data()->locale->formatDate( data()->LTime.date(), true ), infoPanel );
 	UTDate = new QLabel( data()->locale->formatDate( data()->UTime.date(), true ), infoPanel );
-	JD = new QLabel( "JD: " + QString("%1").arg(data()->CurrentEpoch, 10, 'f', 2), infoPanel );
+	KLocale localjd;
+	JD = new QLabel( "JD: " + localjd.formatNumber( data()->CurrentEpoch, 2 ), infoPanel );
 	LTDate->setPalette( pal );
 	UTDate->setPalette( pal );
 	JD->setPalette( pal );
@@ -171,9 +173,11 @@ KStars::KStars( KStarsData* kstarsData )
 	}
 	LongLabel = new QLabel( i18n( "Longitude", "Long: " ), infoPanel );
 	LatLabel = new QLabel( i18n( "Latitude", "Lat:  " ), infoPanel );
-	Long = new QLabel( QString::number( geo()->lng().Degrees(), 'f', 3 ), infoPanel );
+	KLocale localeLong;
+	Long = new QLabel( localeLong.formatNumber( geo()->lng().Degrees(),3) , infoPanel );
 	Long->setAlignment( AlignRight );
-	Lat = new QLabel( QString::number( geo()->lat().Degrees(), 'f', 3 ), infoPanel );
+	KLocale localeLat;
+	Lat = new QLabel( localeLat.formatNumber( geo()->lat().Degrees(),3 ), infoPanel );
 	Lat->setAlignment( AlignRight );
 	PlaceName->setPalette( pal );
 	LongLabel->setPalette( pal );
