@@ -1,7 +1,7 @@
 KDE_ICON = kstars
 
 appdatadir = $(kde_datadir)/kstars
-appdata_DATA = kstars.png geomap.png advdataicon.png show_clines.png show_cnames.png show_deepsky.png \
+appdata_DATA = kstars.png geomap.png show_clines.png show_cnames.png show_deepsky.png \
 		   show_grid.png show_horiz.png show_mw.png show_planets.png show_stars.png \
 		   hip001.dat hip002.dat hip003.dat hip004.dat hip005.dat hip006.dat hip007.dat \
 		   hip008.dat hip009.dat hip010.dat hip011.dat hip012.dat hip013.dat hip014.dat \
