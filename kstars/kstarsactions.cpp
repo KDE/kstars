@@ -55,11 +55,9 @@ void KStars::slotViewToolBar() {
 		options()->drawGround = !options()->drawGround;
 	}
 
-	// force a recomputing of coordinates because some objects may not be initalized and will not
-	// shown after activating
-	// TK: normally this is just needed if Alt/Az coordinates are used and if something will enabled
-	// but I think it's better at every change with every coordinate system to update
-	data()->LastSkyUpdate = -1000000.0;
+	// update time for all objects because they might be not initialized
+	// it's needed when using horizontal coordinates
+	data()->setFullTimeUpdate();
 	updateTime();
 
 	map()->Update();
@@ -103,10 +101,7 @@ void KStars::slotGeoLocator() {
 			setLSTh( clock->UTC() );
 			
 			//Make sure Numbers, Moon, planets, and sky objects are updated immediately
-			data()->LastNumUpdate = -1000000.0;
-			data()->LastMoonUpdate = -1000000.0;
-			data()->LastPlanetUpdate = -1000000.0;
-			data()->LastSkyUpdate = -1000000.0;
+			data()->setFullTimeUpdate();
 
 			// recalculate new times and objects
 			updateTime();

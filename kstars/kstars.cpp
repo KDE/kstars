@@ -105,10 +105,7 @@ void KStars::changeTime( QDate newDate, QTime newTime ) {
 	clock->stop();
 
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
-	Data->LastNumUpdate = -1000000.0;
-	Data->LastMoonUpdate = -1000000.0;
-	Data->LastPlanetUpdate = -1000000.0;
-	Data->LastSkyUpdate = -1000000.0;
+	Data->setFullTimeUpdate();
 
 	// reset tzrules data with newlocal time and time direction (forward or backward)
 	Geo->tzrule()->reset_with_ltime(new_time, Geo->TZ0(), Data->isTimeRunningForward() );
