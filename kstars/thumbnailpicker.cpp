@@ -23,6 +23,7 @@
 #include <qfile.h>
 #include <qrect.h>
 
+#include <kdeversion.h>
 #include <kpushbutton.h>
 #include <klistbox.h>
 #include <kprogress.h>
@@ -106,7 +107,9 @@ void ThumbnailPicker::slotFillList() {
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
 			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
+#if KDE_IS_VERSION( 3, 3, 90 )
 			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
+#endif
 			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 
 		}
