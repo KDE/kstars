@@ -57,7 +57,7 @@ static long fli_freelist(char **names);
 
 flidevdesc_t *devices[MAX_OPEN_DEVICES] = {NULL,};
 
-const char* version = \
+const char* version =
 "FLI Software Development Library for " __SYSNAME__ " " __LIBFLIVER__;
 
 static long devalloc(flidev_t *dev)
