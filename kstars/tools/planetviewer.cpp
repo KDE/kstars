@@ -121,7 +121,7 @@ void PlanetViewer::slotRunClock() {
 }
 
 void PlanetViewer::slotChangeDate( const ExtDate &d ) {
-	ut.setDate( d ); 
+	ut.setDate( pw->dateBox->date() ); 
 	updatePlanets();
 }
 
