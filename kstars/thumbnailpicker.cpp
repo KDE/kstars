@@ -145,18 +145,25 @@ void ThumbnailPicker::slotUnsetImage() {
 
 void ThumbnailPicker::slotSetFromList( int i ) {
 	//Display image in preview pane
-	QPixmap pm;
+	QPixmap pm, pm2;
 	if ( PixList.at(i)->width() > PixList.at(i)->height() )
 		pm = shrinkImage( PixList.at(i), 0, 200 ); //scale width
 	else
 		pm = shrinkImage( PixList.at(i), 200, 0 ); //scale height
 
-	pm.resize( 200, 200 ); //crop image to make it square
-	ui->CurrentImage->setPixmap( pm );
+	pm2.resize( 200, 200 ); //crop image to make it square
+	int sx(0), sy(0);
+	if ( pm.width() > pm.height() ) 
+		sx = (pm.width() - 200)/2;
+	else 
+		sy = (pm.height() - 200)/2;
+
+	bitBlt( &pm2, 0, 0, &pm, sx, sy );
+	ui->CurrentImage->setPixmap( pm2 );
 	ui->CurrentImage->update();
 
 	//Set Image to the selected 200x200 pixmap
-	*Image = pm;
+	*Image = pm2;
 	bImageFound = true;
 }
 
