@@ -35,6 +35,15 @@
 #include <qglobal.h>
 #include <qptrlist.h>
 
+/**Reimplemented from QPtrList for sorting objects in the list. */
+template <class T> class SortedList : public QPtrList <T> {
+ protected:
+  int compareItems(QPtrCollection::Item item1, QPtrCollection::Item item2) {
+    if ( *((T*)item1) == *((T*)item2) ) return 0;
+    return ( *((T*)item1) < *((T*)item2) ) ? -1 : 1;
+  }
+};
+
 class ObjectNameList {
 
 	public:
@@ -105,15 +114,6 @@ class ObjectNameList {
 		*@see first()
 		*/
 		void setMode( Mode m );
-
-		/**Reimplemented from QPtrList for sorting objects in the list. */
-		template <class T> class SortedList : public QPtrList <T> {
-			protected:
-				int compareItems(QPtrCollection::Item item1, QPtrCollection::Item item2) {
-					if ( *((T*)item1) == *((T*)item2) ) return 0;
-					return ( *((T*)item1) < *((T*)item2) ) ? -1 : 1;
-				}
-		};
 
 	/**
 		*Hold 2 pointer lists in memory. Number of lists can easily increased for adding more languages.
