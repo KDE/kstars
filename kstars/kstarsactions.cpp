@@ -617,6 +617,10 @@ void KStars::slotManualFocus() {
 		if ( focusDialog.usedAltAz() )
 			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
 
+		//Do we need to convert RA/Dec to Alt/Az?
+		if ( ! focusDialog.usedAltAz() )
+			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
+
 		map()->setClickedPoint( focusDialog.point() );
 		if ( Options::isTracking() ) slotTrack();
 
