@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
 	KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
 		KSTARS_VERSION, description, KAboutData::License_GPL,
-		"(c) 2001-2003, The KStars Team", notice, "http://edu.kde.org/kstars");
+		I18N_NOOP("(c) 2001-2003, The KStars Team"), notice, "http://edu.kde.org/kstars");
 	aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
 	aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
 	aboutData.addAuthor("Thomas Kabelmann", 0, "tk78@gmx.de", 0);
