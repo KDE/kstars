@@ -18,7 +18,7 @@
 #ifndef MODCALCAPCOORD_H
 #define MODCALCAPCOORD_H
 
-#include <qvbox.h>
+#include "modcalcapcoorddlg.h"
 
 #include <kapplication.h>
 
@@ -28,18 +28,12 @@
 	*@version 0.9
   */
 
-class QWidget;
-class QVBox;
-class QLineEdit;
-class QString;
 class dms;
 class dmsBox;
 class SkyPoint;
 class QDateTime;
-class QTimeEdit;
-class QDateEdit;
 
-class modCalcApCoord : public QWidget  {
+class modCalcApCoord : public modCalcApCoordDlg  {
 
 Q_OBJECT
 public: 
@@ -60,10 +54,10 @@ public:
 public slots:
 
 
-  /** No descriptions */
-  void slotComputeCoords();
-  /** No descriptions */
-  void slotClearCoords();
+	/** No descriptions */
+	void slotComputeCoords();
+	/** No descriptions */
+	void slotClearCoords();
 
 private:
 /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
@@ -84,11 +78,6 @@ private:
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
 	void showEquCoords ( SkyPoint sp );
 
-	QWidget *rightBox;
-	QLineEdit *rafName, *decfName, *ra0Name, *dec0Name, *epoch0Name;
-	dmsBox *ra0Box, *dec0Box, *rafBox, *decfBox;
-	QDateEdit *datBox;
-	QTimeEdit *timBox;
 };
 
 #endif

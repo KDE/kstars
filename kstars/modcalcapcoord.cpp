@@ -22,141 +22,26 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 #include "ksutils.h"
-
+#include <klineedit.h>
 #include <qdatetimeedit.h>
-
-#include <qgroupbox.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
 #include <klocale.h>
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h
 
-modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : QWidget(parentSplit,name) {
-
-	rightBox = new QWidget (parentSplit);
-	QVBoxLayout * rightBoxLayout = new QVBoxLayout( rightBox, 12, 6);
-
-	QGroupBox * InputBox = new QGroupBox (rightBox);
-	InputBox->setTitle( i18n("Input Data") );
-	
-	QVBoxLayout * D00Lay = new QVBoxLayout( InputBox );
-
-	QHBox * buttonBox = new QHBox(InputBox);
-	
-	QPushButton * Compute = new QPushButton( i18n( "Compute" ), buttonBox);
-	QPushButton * Clear = new QPushButton( i18n( "Clear" ), buttonBox );
-	
-	Compute->setFixedHeight(25);
-	Compute->setMaximumWidth(100);
-	
-	Clear->setFixedHeight(25);
-	Clear->setMaximumWidth(100);
-//
-// Date and Time
-
-	QHBox * datetimeBox = new QHBox(InputBox,"datetimeBox");
-
-	QHBox * d0Box = new QHBox(datetimeBox,"datetimeBox");
-	d0Box->setMaximumWidth(100);
-
-	QLabel * timeLabel = new QLabel(d0Box,"timeLabel");
-	timeLabel->setText( i18n( "Universal Time","UT:") );
-	timBox = new QTimeEdit(d0Box,"timeBox");
-
-	QHBox * d1Box = new QHBox(datetimeBox,"datetimeBox");
-	d1Box->setMaximumWidth(140);
-
-	QLabel * dateLabel = new QLabel(d1Box,"dateLabel");
-	dateLabel->setText( i18n( "Date:") );
-	datBox = new QDateEdit(d1Box,"dateBox");
+modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : modCalcApCoordDlg(parentSplit,name) {
 
 	showCurrentTime();
+	this->show();
 
-	buttonBox->setMargin(10);
-	
-	D00Lay->setMargin(14);
-	D00Lay->setSpacing(4);
-	D00Lay->addWidget(buttonBox);
-	D00Lay->addWidget(datetimeBox);
-
-// RA and DEC
-
-	QGroupBox * origCoordBox = new QGroupBox (rightBox);
-	origCoordBox->setTitle( i18n("Original Coordinates") );
-	
-	QVBoxLayout * D0Lay = new QVBoxLayout( origCoordBox);
-	QHBox * ra0dec0Box = new QHBox(origCoordBox);
-	
-	QLabel * ra0Label = new QLabel(ra0dec0Box,"raLabel");
-	ra0Label->setText(i18n("Right ascention","RA:"));
-	ra0Box = new dmsBox(ra0dec0Box,"raBox",FALSE);
-
-	QLabel * dec0Label = new QLabel(ra0dec0Box,"decLabel");
-	dec0Label->setText(i18n("Declination","DEC:"));
-	dec0Box = new dmsBox(ra0dec0Box,"decBox");
-	
-	QHBox * epoch0Box = new QHBox(ra0dec0Box);	
-	QLabel * epoch0Label = new QLabel( epoch0Box, "Epoch" );
-	epoch0Label->setText( i18n(" Epoch:") );
-	epoch0Name = new QLineEdit( epoch0Box );
-	epoch0Name->setMaximumWidth(70);
-
-	epoch0Name->setText( "2000.0" );
-
-	epoch0Box->setMargin(6);
-	epoch0Box->setSpacing(6);
-	
-	D0Lay->setMargin(14);
-	D0Lay->setSpacing(4);
-	D0Lay->addWidget(ra0dec0Box);
-
-	//Output
-
-	QGroupBox * outputBox = new QGroupBox (rightBox);
-	outputBox->setTitle( i18n ("Apparent Coordinates") );
-
-	QVBoxLayout * D1Lay = new QVBoxLayout( outputBox);
-	QHBox * rafdecfBox = new QHBox(outputBox);
-	
-	QLabel * rafLabel = new QLabel(rafdecfBox,"raLabel");
-	rafLabel->setText(i18n("Right ascention","RA:"));
-	rafBox = new dmsBox(rafdecfBox,"raBox",FALSE);
-
-	QLabel * decfLabel = new QLabel(rafdecfBox,"decLabel");
-	decfLabel->setText(i18n("Declination","DEC:"));
-	decfBox = new dmsBox(rafdecfBox,"decBox");
-	
-	D1Lay->setMargin(14);
-	D1Lay->addWidget(rafdecfBox);
-
-	QSpacerItem * downSpacer = new QSpacerItem(400,80);
-
-	rightBoxLayout->addWidget(InputBox);
-	rightBoxLayout->addWidget(origCoordBox);
-	rightBoxLayout->addWidget(outputBox);
-	rightBoxLayout->addItem(downSpacer);
-	
-	rightBox->setMaximumWidth(550);
-	rightBox->setMinimumWidth(400);
-	rightBox->show();
-//
-// slots
-
-
-	connect( Compute, SIGNAL(clicked() ), this, SLOT( slotComputeCoords() ) ) ;
-	connect( Clear, SIGNAL(clicked() ), this, SLOT( slotClearCoords() ) ) ;
-	
 }
 
 modCalcApCoord::~modCalcApCoord(){
-	delete rightBox;
 }
 
 SkyPoint modCalcApCoord::getEquCoords (void) {
 	dms raCoord, decCoord;
 
-	raCoord = ra0Box->createDms();
+	raCoord = ra0Box->createDms(FALSE);
 	decCoord = dec0Box->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -196,7 +81,7 @@ double modCalcApCoord::getEpoch (QString eName) {
 }
 
 void modCalcApCoord::showEquCoords ( SkyPoint sp ) {
-	rafBox->show( sp.ra() );
+	rafBox->show( sp.ra() , FALSE);
 	decfBox->show( sp.dec() );
 }
 
