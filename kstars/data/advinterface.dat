@@ -7,7 +7,7 @@ Aladin Java applet:http://aladin.u-strasbg.fr/java/nph-aladin.pl?-c=KSRA%20KSDEC
 [END]
 [END]
 [KSLABEL]Skyview
-[KSINTERFACE]http://skyview.gsfc.nasa.gov/cgi-bin/nnskcall.pl?Interface=bform&VCOORD=KSRA8%2C+KSDEC&NWINDOW=on&SURVEY=KSINTERFACE&SCOORD=Equatorial&EQUINX=2000&MAPROJ=Gnomonic&SFACTR=Default&ISCALN=Log%2810%29&GRIDDD=No&COLTAB=Stern+Special
+[KSINTERFACE]http://skyview.gsfc.nasa.gov/cgi-bin/nnskcall.pl?Interface=bform&VCOORD=KSRA%2C+KSDEC&NWINDOW=on&SURVEY=KSINTERFACE&SCOORD=Equatorial&EQUINX=2000&MAPROJ=Gnomonic&SFACTR=Default&ISCALN=Log%2810%29&GRIDDD=No&COLTAB=Stern+Special
 [KSLABEL]Gamma-ray
 EGRET(3D):
 EGRET > 100 MeV:
