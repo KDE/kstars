@@ -94,7 +94,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : QVBox(p
 	
 	QLabel * longLabel = new QLabel(l0Box);
 	longLabel->setText( i18n( "Geographical Longitude","Longitude:") );
-	longBox = new dmsBox(l0Box,"LongBox",4);
+	longBox = new dmsBox(l0Box,"LongBox");
 
 	QHBox * d0Box = new QHBox(longdateBox);
 	d0Box->setMaximumWidth(120);

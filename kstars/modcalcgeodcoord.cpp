@@ -133,11 +133,11 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : QVB
 	
 	QLabel * lonLabel = new QLabel( lonlatBox );
 	lonLabel->setText( i18n("Geographic Longitude","Long.:"));
-	lonGeoBox = new dmsBox(lonlatBox,"LongGeoBox",TRUE,4);
+	lonGeoBox = new dmsBox(lonlatBox,"LongGeoBox",TRUE);
 
 	QLabel * latLabel = new QLabel( lonlatBox );
 	latLabel->setText( i18n("Geographic Latitude","Lat.:"));
-	latGeoBox = new dmsBox(lonlatBox,"LatGeoBox",TRUE,4);
+	latGeoBox = new dmsBox(lonlatBox,"LatGeoBox",TRUE);
 	
 	QHBox * altGeoBox = new QHBox(lonlatBox);	
 	QLabel * AltLabel = new QLabel( altGeoBox, "Alt" );
