@@ -48,7 +48,6 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	PGC = o.pgc();
 	Name = o.name();
 	Name2 = o.name2();
-	LongName = o.longname();
 	Catalog = o.catalog();
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
@@ -56,7 +55,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o) {
 	InfoTitle = o.InfoTitle;
 	Image = o.image();
 
-	setLongName();
+	setLongName(o.longname());
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, double m,
@@ -71,11 +70,10 @@ SkyObject::SkyObject( int t, dms r, dms d, double m,
 	UGC = ugc;
 	Name = n;
 	Name2 = n2;
-	LongName = lname;
 	Catalog = cat;
 	Image = 0;
 
-	setLongName();
+	setLongName(lname);
 }
 
 SkyObject::SkyObject( int t, double r, double d, double m,
@@ -90,11 +88,10 @@ SkyObject::SkyObject( int t, double r, double d, double m,
 	UGC = ugc;
 	Name = n;
 	Name2 = n2;
-	LongName = lname;
 	Catalog = cat;
 	Image = 0;
 
-	setLongName();
+	setLongName(lname);
 }
 
 void SkyObject::setLongName( const QString &longname ) {
