@@ -996,7 +996,8 @@ int Sync(char *matchedObject)
    
   matchedObject[read_ret-1] = '\0';
   
-  sleep(0);
+  /* Sleep 10ms before flushing. This solves some issues with LX200 compatible devices. */
+  usleep(10000);
   
   tcflush(fd, TCIFLUSH);
 }
