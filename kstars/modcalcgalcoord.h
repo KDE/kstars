@@ -44,6 +44,7 @@ public:
 	void getGalCoords (void);
 	void getEquCoords (void);
 	void getEpoch (void);
+	double getEpoch( QString t );
 	void showEquCoords(void);
 	void showGalCoords(void);
 	void GalToEqu(void);
@@ -53,10 +54,23 @@ public slots:
 
 	void slotClearCoords (void);
 	void slotComputeCoords (void);
-	
+	void slotGalLatCheckedBatch(void);
+	void slotGalLongCheckedBatch(void);
+	void slotRaCheckedBatch(void);
+	void slotDecCheckedBatch(void);
+	void slotEpochCheckedBatch(void);
+	void slotInputFile(void);
+	void slotOutputFile(void);
+	void slotRunBatch();
+
 private:
-	dms galLong, galLat, raCoord, decCoord;	
+	void equCheck(void);
+	void galCheck(void);
+	void processLines( QTextStream &is );
+
+	dms galLong, galLat, raCoord, decCoord;
 	double epoch;
+	bool galInputCoords;
 };
 #endif
 
