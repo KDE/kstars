@@ -18,6 +18,8 @@
 
 #endif
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,7 +40,7 @@
 */
 
 
-#ifndef __linux__
+#if TIMEZONE_IS_INT
 static int daylight = 0;
 #endif
 
@@ -49,7 +51,7 @@ static inline double timezoneOffset()
 ** Otherwise, we need to make a little detour. The directions of the offset
 ** are different: CET is -3600 in Linux and +3600 elsewhere.
 */
-#ifdef __linux__
+#if TIMEZONE_IS_INT
   return timezone / (60 * 60);
 #else
   time_t now;
