@@ -1602,6 +1602,13 @@ void SkyMap::paintEvent( QPaintEvent * ) {
 		}
 	}  //endif drawing horizon
 
+	//Draw a Field-of-View indicator
+	//Draw this last so it is never "behind" other things.
+	psky.setPen( QPen( QColor( "white" ) ) );
+	psky.setBrush( NoBrush );
+	int size = (pixelScale[ ksw->data()->ZoomLevel ]/57.3);
+	psky.drawEllipse( width()/2-size/2, height()/2-size/2, size, size );
+	
 	psky.end();
 	QPixmap *sky2 = new QPixmap( *sky );
 	drawBoxes( sky2 );
