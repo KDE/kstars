@@ -698,10 +698,10 @@ long fli_camera_parport_read_ioport(flidev_t dev, long *ioportset)
 long fli_camera_parport_write_ioport(flidev_t dev, long ioportset)
 {
   long rlen, wlen;
-  unsigned short buf;
+  unsigned short buf = (unsigned short) ioportset;
 
-  correctioportdatawrite(dev, (unsigned short *) &ioportset);
-  buf = htons((unsigned short) (0x7100 | (ioportset & 0x00ff)));
+  correctioportdatawrite(dev, &buf);
+  buf = htons((unsigned short) (0x7100 | (buf & 0x00ff)));
 
   rlen = 2; wlen = 2;
   IO(dev, &buf, &wlen, &rlen);
@@ -712,10 +712,10 @@ long fli_camera_parport_write_ioport(flidev_t dev, long ioportset)
 long fli_camera_parport_configure_ioport(flidev_t dev, long ioportset)
 {
   long rlen, wlen;
-  unsigned short buf;
+  unsigned short buf = (unsigned short) ioportset;
 
-  correctioportdatawrite(dev, (unsigned short *) &ioportset);
-  buf = htons((unsigned short) (0x7000 | (ioportset & 0x00ff)));
+  correctioportdatawrite(dev, &buf);
+  buf = htons((unsigned short) (0x7000 | (buf & 0x00ff)));
 
   rlen = 2; wlen = 2;
   IO(dev, &buf, &wlen, &rlen);
