@@ -246,23 +246,24 @@ void ObservingList::slotNewSelection() {
 }
 
 void ObservingList::slotCenterObject() {
-  if ( obsList.current() ) {
-    ks->map()->setClickedObject( obsList.current() );
-    ks->map()->slotCenter();
-  }
+	if ( obsList.current() ) {
+		ks->map()->setClickedObject( obsList.current() );
+		ks->map()->setClickedPoint( obsList.current() );
+		ks->map()->slotCenter();
+	}
 }
 
 void ObservingList::slotSlewToObject() {
-  //Needs Jasem  :)
+	//Needs Jasem  :)
 }
 
 //FIXME: This will open multiple Detail windows for each object;
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
-  if ( obsList.current() ) {
-    DetailDialog dd( obsList.current(), ks->data()->lt(), ks->geo(), ks );
-    dd.exec();
-  }
+	if ( obsList.current() ) {
+		DetailDialog dd( obsList.current(), ks->data()->lt(), ks->geo(), ks );
+		dd.exec();
+	}
 }
 
 void ObservingList::slotAVT() {
@@ -278,13 +279,13 @@ void ObservingList::slotAVT() {
 
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
-  //Save the current User log text
-  if ( ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
-         != i18n("Record here observation logs and/or data on %1.").arg( obsList.current()->name()) ) {
-    obsList.current()->saveUserLog( ui->NotesEdit->text() );
-  }
-
-  hide();
+	//Save the current User log text
+	if ( ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+					!= i18n("Record here observation logs and/or data on %1.").arg( obsList.current()->name()) ) {
+		obsList.current()->saveUserLog( ui->NotesEdit->text() );
+	}
+	
+	hide();
 }
 
 void ObservingList::saveCurrentUserLog() {
