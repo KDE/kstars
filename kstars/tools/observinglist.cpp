@@ -23,6 +23,8 @@
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
+#include <kmessagebox.h>
+#include <klineedit.h>
 
 #include "observinglist.h"
 #include "observinglistui.h"
@@ -32,6 +34,12 @@
 #include "skymap.h"
 #include "detaildialog.h"
 #include "tools/altvstime.h"
+
+#include "indimenu.h"
+#include "indielement.h"
+#include "indiproperty.h"
+#include "indidevice.h"
+#include "devicemanager.h"
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
@@ -257,8 +265,74 @@ void ObservingList::slotCenterObject() {
 	}
 }
 
-void ObservingList::slotSlewToObject() {
-	//Needs Jasem  :)
+void ObservingList::slotSlewToObject()
+{
+
+  INDI_D *indidev;
+  INDI_P *eqCoord, *onSet;
+  INDI_E *RAEle, *DecEle, *ConnectEle;
+  bool useJ2000( false);
+  SkyPoint sp;
+  
+  if (obsList.current() == NULL)
+    return;
+  
+  // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
+  // i.e. the first telescope we find!
+  
+  INDIMenu *imenu = ks->getINDIMenu();
+  
+  for (unsigned int i=0; i < imenu->mgr.count() ; i++)
+  {
+    for (unsigned int j=0; j < imenu->mgr.at(i)->indi_dev.count(); j++)
+    {
+       indidev = imenu->mgr.at(i)->indi_dev.at(j);
+       eqCoord = indidev->findProp("EQUATORIAL_EOD_COORD");
+       if (eqCoord == NULL)
+       {
+	 eqCoord = indidev->findProp("EQUATORIAL_COORD");
+	 useJ2000 = true;
+       }
+       
+       if (eqCoord == NULL) continue;
+       
+       ConnectEle = indidev->findElem("CONNECT");
+       if (!ConnectEle) continue;
+       
+       if (ConnectEle->state == PS_OFF)
+       {
+	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.").arg(indidev->label));
+	 return;
+       }
+
+       RAEle = eqCoord->findElement("RA");
+       if (!RAEle) continue;
+       DecEle = eqCoord->findElement("DEC");
+       if (!DecEle) continue;
+       
+       onSet = indidev->findProp("ON_COORD_SET");
+       if (!onSet) continue;
+       
+       onSet->activateSwitch("SLEW");
+       
+       sp.set (obsList.current()->ra(), obsList.current()->dec());
+       
+       if (useJ2000)
+	 sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
+
+           // Use J2000 coordinate as required by INDI
+       RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+       DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+       
+       eqCoord->newText();
+       
+       return;
+    }
+  }
+       
+  // We didn't find any telescopes
+  KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+  
 }
 
 //FIXME: This will open multiple Detail windows for each object;
@@ -299,7 +373,7 @@ void ObservingList::saveCurrentUserLog() {
 		LogObject->saveUserLog( ui->NotesEdit->text() );
 		
 		ui->NotesEdit->clear();
-		ui->NotesLabel->setText( i18n( "observing notes for object:" ) );
+		ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
 		LogObject = NULL;
 	}
 }

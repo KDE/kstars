@@ -137,7 +137,7 @@ static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GR
 
 static ISwitchVectorProperty TrackModeSw  = { mydev, "Tracking Mode", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, TrackModeS, NARRAY(TrackModeS), 0, 0};
 
-static INumber TrackFreq[]  = {{ "trackFreq", "Freq", "%g", 50.0, 80.0, 0.1, 60.1, 0, 0, 0}};
+static INumber TrackFreq[]  = {{ "trackFreq", "Freq", "%g", 56.4, 60.1, 0.1, 60.1, 0, 0, 0}};
 
 static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackFreq, NARRAY(TrackFreq), 0, 0};
 
