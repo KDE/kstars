@@ -202,10 +202,10 @@ void SkyMap::slotCenter( void ) {
 
 //	if ( foundObject() != NULL ) { //set tracking to true
 		ksw->options()->isTracking = true;
-		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "lock" ) );
+		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 //	} else {
 //		ksw->options()->isTracking = false;
-//		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "unlock" ) );
+//		ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 //	}
 
 	ksw->showFocusCoords(); //update infoPanel
@@ -288,7 +288,7 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 			ksw->options()->isTracking = false;
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "unlock" ) );
+			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		}
 		ksw->showFocusCoords();
 	}

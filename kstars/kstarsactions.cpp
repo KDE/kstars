@@ -207,13 +207,13 @@ void KStars::slotPointFocus() {
 void KStars::slotTrack() {
 	if ( options()->isTracking ) {
 		options()->isTracking = false;
-		actionCollection()->action("track_object")->setIconSet( BarIcon( "unlock" ) );
+		actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		skymap->setClickedObject( NULL );
 		skymap->setFoundObject( NULL );//no longer tracking foundObject
 	} else {
 		skymap->setClickedPoint( skymap->focus() );
 		options()->isTracking = true;
-		actionCollection()->action("track_object")->setIconSet( BarIcon( "lock" ) );
+		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
 	}
 }
 

@@ -71,7 +71,7 @@ void KStars::initActions() {
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
 	tmpAction->setToolTip( i18n( "Find Object" ) );
-	new KAction( i18n( "&Track Object" ), "unlock", KAccel::stringToKey( "Ctrl+T"  ),
+	new KAction( i18n( "&Track Object" ), "decrypted", KAccel::stringToKey( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
 	new KAction( i18n( "Set Focus &Manually..." ), KAccel::stringToKey( "Ctrl+M" ),
 			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
@@ -564,7 +564,6 @@ void KStars::privatedata::buildGUI() {
 	//Instantiate the SimClock object
 	ks->clock = new SimClock(ks);
 
-	ks->initStatusBar();
 	ks->initOptions();
 	ks->initLocation();
 
@@ -573,6 +572,7 @@ void KStars::privatedata::buildGUI() {
 	ks->setCentralWidget( ks->centralWidget );
 	ks->infoPanel = new InfoPanel( ks->centralWidget, "ip", ks->data()->getLocale() );
 
+	ks->initStatusBar();
 	ks->initActions();
 
 	ks->skymap = new SkyMap( ks->centralWidget );

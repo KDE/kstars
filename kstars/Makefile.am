@@ -56,18 +56,23 @@ kstars_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 # messages:
 
-stringsfile:
-	cd $(srcdir);\
-	rm -f kstars_i18n.cpp; \
-	echo "#if 0" >> kstars_i18n.cpp; \
-	sed 's/\(.\{33\}\): \(.\{22\}\): \(.\{22\}\):.*/i18n("\1"); i18n("\2"); \
-	i18n("\3");/' < data/Cities.dat | sed 's/[ ]\+/ /g' | sed 's/ "/"/g' | sed \
-	's/i18n("");//' >>"kstars_i18n.cpp";
-	sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/[A-B]//' | sed \
-	's/\([A-Z].*\)/i18n("\1");/' | sed 's/\ "/"/' >>"kstars_i18n.cpp";
-	echo "#endif" >>kstars_i18n.cpp;
+#commenting out for now (JH 30/03/2002)
+#contains an error in which leading and trailing 'A's are removed from a
+#constellation name; also doesn't insert required comment string for
+#constellation names.
+#
+#stringsfile:
+#	cd $(srcdir);\
+#	rm -f kstars_i18n.cpp; \
+#	echo "#if 0" >> kstars_i18n.cpp; \
+#	sed 's/\(.\{33\}\): \(.\{22\}\): \(.\{22\}\):.*/i18n("\1"); i18n("\2"); \
+#	i18n("\3");/' < data/Cities.dat | sed 's/[ ]\+/ /g' | sed 's/ "/"/g' | sed \
+#	's/i18n("");//' >>"kstars_i18n.cpp";
+#	sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/[A-B]//' | sed \
+#	's/\([A-Z].*\)/i18n("\1");/' | sed 's/\ "/"/' >>"kstars_i18n.cpp";
+#	echo "#endif" >>kstars_i18n.cpp;
 
-messages: stringsfile 
+messages: #stringsfile
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
 	if test -n "$$LIST"; then \
 	 $(XGETTEXT) $$LIST -o $(podir)/kstars.pot; \

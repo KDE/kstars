@@ -233,7 +233,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 			ksw->options()->isTracking = false;
-  	  ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "unlock" ) );
+  	  ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 		}
 
 		if ( scrollCount > 10 ) {
@@ -289,7 +289,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!slewing) {
 			slewing = true;
 			ksw->options()->isTracking = false; //break tracking on slew
-			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "unlock" ) );
+			ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "decrypted" ) );
 			setClickedObject( NULL );
 			setFoundObject( NULL );//no longer tracking foundObject
 		}
