@@ -125,8 +125,8 @@ static ISwitchVectorProperty	FocusMotionSw = {mydev, "Motion", "", FOCUS_GROUP, 
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", "YYYY-MM-DDTHH:MM:SS"}};
 ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC)};
-static INumber STime[] = {{"SDTime", "Sidereal time", "%10.6m" , 0.,0.,0.,0.}};
-INumberVectorProperty SDTime = { mydev, "Sidereal Time", "", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime)};
+static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,0.,0.,0.}};
+INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime)};
 
 
 /* Site managment */

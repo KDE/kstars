@@ -55,6 +55,11 @@
        handleDevCounter();
       break;
       
+    case SDTIME:
+      if (ksw->options()->indiAutoTime)
+       handleDevCounter();
+      break;
+    
     case GEOGRAPHIC_COORD:
       if (ksw->options()->indiAutoGeo)
        handleDevCounter();
@@ -117,6 +122,14 @@
 					.arg(newDate.day()).arg(newTime.hour())
 					.arg(newTime.minute()).arg(newTime.second()));
   pp->newText();
+  
+  pp  = dp->findProp("SDTIME");
+  if (!pp) return;
+  lp = pp->findElement("LST");
+  if (!lp) return;
+   
+  lp->write_w->setText(ksw->LST()->toHMSString());
+  pp->newText();
 }
 
 void INDIStdDevice::updateLocation()
@@ -174,7 +187,7 @@ void INDIStdDevice::initDeviceOptions()
   	  if (prop)
 	  {
             updateTime();
-	    initDevCounter += 2;
+	    initDevCounter += 5;
 	  }
   }
 
@@ -479,6 +492,7 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
 void INDIStdProperty::newTime()
 {
    INDI_E * timeEle;
+   INDI_P *SDProp;
    
    timeEle = pp->findElement("UTC");
    if (!timeEle) return;
@@ -496,4 +510,12 @@ void INDIStdProperty::newTime()
 					.arg(newTime.minute()).arg(newTime.second()));
 	        pp->newText();
 	}
+	
+   SDProp  = pp->pg->dp->findProp("SDTIME");
+   if (!SDProp) return;
+   timeEle = SDProp->findElement("LST");
+   if (!timeEle) return;
+   
+   timeEle->write_w->setText(ksw->LST()->toHMSString());
+   SDProp->newText();
 }
