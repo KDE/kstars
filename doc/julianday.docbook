@@ -9,7 +9,7 @@
 <indexterm><primary>Julian Day</primary>
 </indexterm>
 <para>
-The Julian Calendar is a way of reckoning the current date by a simple count of
+Julian Days are a way of reckoning the current date by a simple count of
 the number of days that have passed since some remote, arbitrary date.  This
 number of days is called the <firstterm>Julian Day</firstterm>,
 abbreviated as <abbrev>JD</abbrev>.  The starting point, <abbrev>JD=0</abbrev>,
