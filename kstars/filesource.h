@@ -58,9 +58,10 @@ class FileSource : public QDataSource  {
 		
 	/**
 		*The function for sending data to an QDataSink object. Here will all data
-		*operations defined.
+		*operations defined. Due to this function is virtual, we need a second int
+		*parameter, but we don't use it, so it's unnamed.
 		*/
-		void sendTo( QDataSink *sink, int count );
+		void sendTo( QDataSink *sink, int );
 
 	/**
 		*returns current magnitude to load

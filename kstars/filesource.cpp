@@ -63,7 +63,7 @@ int FileSource::readyToSend() {
 	return readingData ? currentBlockSize : -1;
 }
 
-void FileSource::sendTo( QDataSink *sink, int count ) {
+void FileSource::sendTo( QDataSink *sink, int ) {
 	int counter = 0;
 	float mag(0.0);
 	while ( !stream.atEnd() && readingData ) {  // read stream until eof or readingData == false
