@@ -606,30 +606,34 @@ QString SkyPoint::constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject
 	return i18n("Unknown");
 }
 
-double SkyPoint::vHeliocentric(double vlsr, double epoch) {
+double SkyPoint::vHeliocentric(double vlsr, long double jd0) {
 
 	dms asun,dsun;
 	double ca, sa, cd, sd, vsun;
 	double cosRA, sinRA, cosDec, sinDec;
 	
 	/* Sun apex (where the sun goes) coordinates */
-
-	if(epoch==1950.) {
-		asun.setD(270.4796);	/* Right ascention: 18h 1m 55.1s 1950. */
-		dsun.setD(30.00118);	/* Declination: 30^o 0' 4.2'' 1950. */
-		vsun=20.;		/* km/s */
-	}
-	else if(epoch==2000.)	{
-		asun.setD(270.9592);	/* Right ascention: 18h 3m 50.2s 2000. */
-		dsun.setD(30.00467);	/* Declination: 30^o 0' 16.8'' 2000. */
-		vsun=20.;		/* en km/s */
-	}
+	
+	asun.setD(270.9592);	// Right ascention: 18h 3m 50.2s [J2000]
+	dsun.setD(30.00467);	// Declination: 30^o 0' 16.8'' [J2000]
+	vsun=20.;		// [km/s]
+	
 	asun.SinCos(sa,ca);
 	dsun.SinCos(sd,cd);
+	
+	/* We need an auxiliary SkyPoint since we need the 
+	* source referred to the J2000 equinox and we do not want to ovewrite
+	* the current values
+	*/
+	
+	SkyPoint aux;
+	aux.set(RA0,Dec0);
+	
+	aux.precessFromAnyEpoch(jd0, J2000);
+			
+	aux.ra()->SinCos( sinRA, cosRA );
+	aux.dec()->SinCos( sinDec, cosDec );
 		
-	RA0.SinCos( sinRA, cosRA );
-	Dec0.SinCos( sinDec, cosDec );
-
 	/* Computation is done performing the scalar product of a unitary vector 
 	in the direction of the source with the vector velocity of Sun, both being in the
 	LSR reference system:
@@ -643,7 +647,7 @@ double SkyPoint::vHeliocentric(double vlsr, double epoch) {
 	return (vlsr - vsun);
 }
 
-double SkyPoint::vGeocentric(double vlsr, double epoch, KSNumbers *num)
+double SkyPoint::vGeocentric(double vhelio, long double jd0)
 {
   
 	double sinRA, sinDec, cosRA, cosDec, vREarth;
@@ -656,13 +660,40 @@ double SkyPoint::vGeocentric(double vlsr, double epoch, KSNumbers *num)
 			=  Vhel - VEarth.u_radial
 			=  Vhel - (vx, vy, vz).(cos d cos a,cos d sen a,sen d)
 	*/
+	
+	/* We need an auxiliary SkyPoint since we need the 
+	* source referred to the J2000 equinox and we do not want to ovewrite
+	* the current values
+	*/
+	
+	SkyPoint aux;
+	aux.set(RA0,Dec0);
+	
+	aux.precessFromAnyEpoch(jd0, J2000);
+			
+	aux.ra()->SinCos( sinRA, cosRA );
+	aux.dec()->SinCos( sinDec, cosDec );
+
+	/* vEarth is referred to the J2000 equinox, hence we need that
+	the source coordinates are also in the same reference system.
+	*/
+	
+	KSNumbers *num = new KSNumbers(jd0);
+	
+	vREarth = num->vEarth(0) * cosDec * cosRA + 
+		num->vEarth(1) * cosDec * sinRA +
+		num->vEarth(2) * sinDec;
+		
+	return (vhelio - vREarth);
+}
+
+double SkyPoint::vTopocentric(double vgeo, double vsite[3])
+{
+  
+	double sinRA, sinDec, cosRA, cosDec, vREarth;
 
 	RA.SinCos( sinRA, cosRA );
 	Dec.SinCos( sinDec, cosDec );
 
-	vREarth = num->vEarth(0) * cosDec * cosRA + 
-		num->vEarth(1) * cosDec * sinDec +
-		num->vEarth(2) * sinDec;
-		
-	return (vHeliocentric(vlsr, epoch)-vREarth);
+	return (vgeo - vsite[0]*cosDec*cosRA + vsite[1]*cosDec*sinRA + vsite[2]*sinDec);
 }

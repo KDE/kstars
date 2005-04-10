@@ -390,6 +390,39 @@ public:
 	dms angularDistanceTo( SkyPoint *sp);
 
 	bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
+	
+	/** Computes the radial velocity of a source referred to the solar system barycenter 
+	 * from the radial velocity referred to the
+	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
+	 * source the VLSR and the epoch for the source coordinates.
+	 *
+	 * @param vlsr radial velocity of the source referred to the LSR in km/s
+	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
+	 * @return Radial velocity of the source referred to the barycenter of the solar system in km/s
+	 **/
+	double vHeliocentric(double vlsr, long double jd);
+
+	/** Computes the radial velocity of a source referred to the center of the earth 
+	 * from the radial velocity referred to the
+	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
+	 * source the VLSR and the epoch for the source coordinates.
+	 *
+	 * @param vhelio radial velocity of the source referred to the barycenter of the 
+	 *               solar system in km/s
+	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
+	 * @return Radial velocity of the source referred to the center of the Earth in km/s
+	 **/
+	double vGeocentric(double vhelio, long double jd);
+
+	/** Computes the radial velocity of a source referred to the observer site on the surface
+	 * of the earth from the geocentric velovity and the velocity of the site referred to the center
+	 * of the Earth.
+	 *
+	 * @param vgeo radial velocity of the source referred to the center of the earth in km/s
+	 * @param vsite Velocity at which the observer moves referred to the center of the earth.
+	 * @return Radial velocity of the source referred to the observer's site in km/s
+	 **/
+	double vTopocentric(double vgeo, double vsite[3]);
 
 ////
 //// 5. Calculating Rise/Set/Transit data.
@@ -403,27 +436,6 @@ public:
 
 	QString constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const;
 
-	/* Computes the radial velocity of a source referred to the solar system barycenter 
-	 * from the radial velocity referred to the
-	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
-	 * source the VLSR and the epoch for the source coordinates.
-	 *
-	 * @param vlsr radial velocity of the source referred to the LSR in km/s
-	 * @param epoch to which the source coordinates refer to.
-	 */
-	double vHeliocentric(double vlsr, double epoch);
-
-	/* Computes the radial velocity of a source referred to the center of the earth 
-	 * from the radial velocity referred to the
-	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
-	 * source the VLSR and the epoch for the source coordinates.
-	 *
-	 * @param vlsr radial velocity of the source referred to the LSR in km/s
-	 * @param epoch to which the source coordinates refer to.
-	 * @param pointer to a KSNumbers object. We need it to know the velocity components
-	 *        of the Earth for a given date and time.
-	 */
-	double vGeocentric(double vlsr, double epoch, KSNumbers *num);
 
 protected:
 /**Precess this SkyPoint's catalog coordinates to the epoch described by the

@@ -191,23 +191,26 @@ void modCalcVlsr::slotClearCoords()
 void modCalcVlsr::slotComputeVelocities()
 {
 	SkyPoint sp = getEquCoords();
-	double epoch0 = getEpoch( epochName->text() );
-	double vlsr = getVLSR();
-	showHelVel( sp.vHeliocentric(vlsr, epoch0) );
+	getGeoLocation();
 
-	KStarsDateTime dt = getDateTime();
-	KSNumbers *num = new KSNumbers( dt.djd() );
-	double vg = sp.vGeocentric(vlsr, epoch0, num);
+
+	double epoch0 = getEpoch( epochName->text() );
+	KStarsDateTime dt0;
+	dt0.setFromEpoch(epoch0);
+
+	double vlsr = getVLSR();
+	double vhelio = sp.vHeliocentric(vlsr, dt0.djd() );
+	showHelVel( vhelio );
+
+	KStarsDateTime dt1 = getDateTime();
+	double vg = sp.vGeocentric(vhelio, dt1.djd());
 	showGeoVel( vg );
 
 	double vtopo[3];
-	dms gsidt = dt.gst();
+	dms gsidt = dt1.gst();
 	geoPlace->TopocentricVelocity(vtopo, gsidt);
 
-	double sra, cra, sdc, cdc;
-	sp.ra()->SinCos(sra, cra);
-	sp.dec()->SinCos(sdc, cdc);
-	showTopoVel ( vg - (vtopo[0]*cdc*cra + vtopo[1]*cdc*sra + vtopo[2]*sdc));
+	showTopoVel ( sp.vTopocentric(vg, vtopo) );
 		
 }
 
@@ -347,6 +350,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 	double vtopo[3];
 	QTime utB;
 	ExtDate dtB;
+	KStarsDateTime dt0B;
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
@@ -486,10 +490,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// We make the first calculations
 
 		spB = SkyPoint (raB, decB);
-		vhB = spB.vHeliocentric(vlsrB, epoch0B);
+		dt0B.setFromEpoch(epoch0B);
+		vhB = spB.vHeliocentric(vlsrB, dt0B.djd());
 		jd0 = KStarsDateTime(dtB,utB).djd();
-		KSNumbers *num = new KSNumbers( jd0 );
-		vgB = spB.vGeocentric(vlsrB, epoch0B, num); 
+		vgB = spB.vGeocentric(vlsrB, jd0); 
 		geoPlace->setLong( longB );
 		geoPlace->setLat(  latB );
 		geoPlace->setHeight( heightB );
