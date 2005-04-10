@@ -334,7 +334,6 @@ void INDI_P::addGUI (XMLEle *root)
 	   
 	   PHBox->addWidget(label_w);
 	 
-	 // FIXME: do we need this?
          light->show();
 	 label_w->show();
 	 
@@ -725,6 +724,71 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	PHBox->addItem(HorSpacer);
 
 	return (0);
+}
+
+/* Build BLOB GUI
+ * Return 0 if okay, -1 if error */
+int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
+{
+  INDI_E *lp;
+  XMLEle *blob;
+  XMLAtt *ap;
+  QString blobName, blobLabel ;
+  errmsg=errmsg;
+	
+  for (blob = nextXMLEle (root, 1); blob != NULL; blob = nextXMLEle (root, 0))
+  {
+    if (strcmp (tagXMLEle(blob), "defBLOB"))
+      continue;
+
+    ap = findXMLAtt(blob, "name");
+    if (!ap)
+    {
+      kdDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+      return (-1);
+    }
+
+    blobName = valuXMLAtt(ap);
+    /*char * tname = strcpy(new char[ strlen(valuXMLAtt(ap)) + 1], valuXMLAtt(ap));*/
+
+    ap = findXMLAtt(blob, "label");
+
+    if (!ap)
+    {
+      kdDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+      return (-1);
+    }
+
+    blobLabel = valuXMLAtt(ap);
+
+    if (blobLabel.isEmpty())
+      blobLabel = blobName;
+
+    lp = new INDI_E(this, blobName, blobLabel);
+
+    lp->buildBLOBGUI();
+	     
+    el.append(lp);
+	     
+  }
+	
+  if (perm == PP_RO)
+    return 0;
+	
+	 // INDI STD, but we use our own controls
+  if (name == "TIME")
+  {
+    setupSetButton("Time");
+    QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
+  }
+  else
+  {
+    setupSetButton("Set");
+    QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
+  }
+	 
+  return 0;
+	 
 }
 
 void INDI_P::activateSwitch(QString name)

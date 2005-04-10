@@ -44,6 +44,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <stdio.h>
+
 #include <errno.h>
 
 #include "libfli-libfli.h"
@@ -55,11 +57,10 @@
 #define USBDEVFS_CLAIMINTERFACE    _IOR('U', 15, unsigned int)
 #define USBDEVFS_BULK              _IOWR('U', 2, struct usbdevfs_bulktransfer)
 #define USBDEVFS_RELEASEINTERFACE  _IOR('U', 16, unsigned int)
-
-long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io);
+#define IOCTL_USB_RESET		   _IO('U', 20)
 
 /* Device descriptor */
-typedef struct     
+typedef struct
 {
   u_int8_t  bLength;
   u_int8_t  bDescriptorType;
@@ -75,20 +76,22 @@ typedef struct
   u_int8_t  iProduct;
   u_int8_t  iSerialNumber;
   u_int8_t  bNumConfigurations;
-} usb_device_descriptor __attribute__ ((packed));
+}  usb_device_descriptor __attribute__ ((packed));
 
 struct usbdevfs_bulktransfer {
-	unsigned int ep;
-	unsigned int len;
-	unsigned int timeout; /* in milliseconds */
-	void *data;
+  unsigned int ep;
+  unsigned int len;
+  unsigned int timeout; /* in milliseconds */
+  void *data;
 };
+
+long linux_usb_reset(flidev_t dev);
 
 long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
 {
   usb_device_descriptor usb_desc;
   int r;
-  
+
   if ((r = read(io->fd, &usb_desc, sizeof(usb_device_descriptor))) !=
       sizeof(usb_device_descriptor))
   {
@@ -103,24 +106,25 @@ long unix_usbverifydescriptor(flidev_t dev, fli_unixio_t *io)
       debug(FLIDEBUG_FAIL, "linux_usbverifydescriptor(): Not a FLI device!");
       return -ENODEV;
     }
-    
+
     switch(DEVICE->domain)
     {
-     case FLIDOMAIN_USB:
-      if(usb_desc.idProduct != 0x0002)
-      {
-	return -ENODEV;
-      }
+			case FLIDOMAIN_USB:
+				if( (usb_desc.idProduct != 0x0002) &&
+						(usb_desc.idProduct != 0x0006) &&
+						(usb_desc.idProduct != 0x0007) ) {
+					return -ENODEV;
+				}
       break;
-      
-     default:
-      return -EINVAL;
-      break;
+
+			default:
+				return -EINVAL;
+				break;
     }
-        
+
     DEVICE->devinfo.fwrev = usb_desc.bcdDevice;
   }
-    
+
   return 0;
 }
 
@@ -129,25 +133,72 @@ static long linux_bulktransfer(flidev_t dev, int ep, void *buf, long *len)
   fli_unixio_t *io;
   unsigned int iface = 0;
   struct usbdevfs_bulktransfer bulk;
+  unsigned int tbytes = 0;
+  long bytes;
+
+/* This section of code has been modified since the Linux kernel has (had)
+   a 4096 byte limit (kernel page size) on the IOCTL for data transfer.
+   We ran into a problem when the CCD camera became large and the data
+   transfer requirements grew. */
 
   io = DEVICE->io_data;
-  bulk.ep = ep;
-  bulk.len = *len;
-  bulk.timeout = DEVICE->io_timeout;
-  bulk.data = buf;
 
   /* Claim the interface */
   if (ioctl(io->fd, USBDEVFS_CLAIMINTERFACE, &iface))
     return -errno;
 
-  /* This ioctl return the number of bytes transfered */
-  *len = ioctl(io->fd, USBDEVFS_BULK, &bulk);
+/* #define _DEBUG */
+
+#ifdef _DEBUG
+
+	if ((ep & 0xf0) == 0) {
+		char buffer[1024];
+		int i;
+
+		sprintf(buffer, "OUT %6ld: ", *len);
+		for (i = 0; i < ((*len > 16)?16:*len); i++) {
+			sprintf(buffer + strlen(buffer), "%02x ", ((unsigned char *) buf)[i]);
+		}
+
+		debug(FLIDEBUG_INFO, buffer);
+	}
+
+#endif /* _DEBUG */
+
+	while (tbytes < (unsigned) *len) {
+		bulk.ep = ep;
+		bulk.len = ((*len - tbytes) > 4096)?4096:(*len - tbytes);
+		bulk.timeout = DEVICE->io_timeout;
+		bulk.data = buf + tbytes;
+
+		/* This ioctl return the number of bytes transfered */
+		if((bytes = ioctl(io->fd, USBDEVFS_BULK, &bulk)) != (long) bulk.len)
+			break;
+
+		tbytes += bytes;
+	}
+
+#ifdef _DEBUG
+
+	if ((ep & 0xf0) != 0) {
+		char buffer[1024];
+		int i;
+
+		sprintf(buffer, " IN %6ld: ", *len);
+		for (i = 0; i < ((*len > 16)?16:*len); i++) {
+			sprintf(buffer + strlen(buffer), "%02x ", ((unsigned char *) buf)[i]);
+		}
+
+		debug(FLIDEBUG_INFO, buffer);
+	}
+
+#endif /* _DEBUG */
 
   /* Release the interface */
-  if (ioctl(io->fd, USBDEVFS_RELEASEINTERFACE, &iface))
-    return -errno;
+/*  if (ioctl(io->fd, USBDEVFS_RELEASEINTERFACE, &iface))
+    return -errno; */
 
-  if (*len != (long) bulk.len)
+  if ((unsigned) *len != tbytes)
     return -errno;
   else
     return 0;
@@ -161,4 +212,14 @@ long linux_bulkwrite(flidev_t dev, void *buf, long *wlen)
 long linux_bulkread(flidev_t dev, void *buf, long *rlen)
 {
   return linux_bulktransfer(dev, FLI_CMD_ENDPOINT | USB_DIR_IN, buf, rlen);
+}
+
+long linux_usb_reset(flidev_t dev)
+{
+	fli_unixio_t *io;
+	
+	io = DEVICE->io_data;
+	
+	return (ioctl(io->fd, IOCTL_USB_RESET, NULL));
+
 }

@@ -36,7 +36,7 @@
  
 \section Audience Intended Audience 
 
-INDI is intended for developers who seek a scalable and mature API for device control and automation. Hardware drivers written under INDI can be used under any INDI-compatible client. INDI serves as a backend only, you need frontend clients to control devices. Current clients include <a href="http://edu.kde.org/kstars">KStars</a> and <a href="http://www.clearyskyinstitute.com/xephem">Xephem</a>. 
+INDI is intended for developers who seek a scalable API for device control and automation. Hardware drivers written under INDI can be used under any INDI-compatible client. INDI serves as a backend only, you need frontend clients to control devices. Current clients include <a href="http://edu.kde.org/kstars">KStars</a>, <a href="http://www.clearyskyinstitute.com/xephem">Xephem</a>, and <a href="http://www.stargazing.net/astropc">Cartes du Ciel</a>. 
 
 \section Development Developing under INDI
 
@@ -60,7 +60,7 @@ You can find information on INDI development in the <a href="http://indi.sf.net"
  * N.B. this is indepedent of the API itself.
  */
 
-#define	INDIV	1.2
+#define	INDIV	1.5
 
 /*******************************************************************************
  * Manifest constants
@@ -102,6 +102,8 @@ typedef enum {
 #define	MAXINDIDEVICE	32
 #define	MAXINDIGROUP	32
 #define	MAXINDIFORMAT	32
+#define	MAXINDIBLOBFMT	32
+#define	MAXINDITSTAMP	32
 
 /*******************************************************************************
  * Typedefs for each INDI Property type.
@@ -163,9 +165,9 @@ typedef struct _ITextVectorProperty {
     /** texts comprising this vector */
     IText *tp;				
     /** dimension of tp[] */
-    int ntp;				
-    /** secs since 1/1/1970 UTC, else 0 */
-    double timestamp;			
+    int ntp;
+    /** ISO 8601 timestamp of this event */			
+    char timestamp[MAXINDITSTAMP];	
     /** handy place to hang helper info */
     void *aux;				
 } ITextVectorProperty;
@@ -219,9 +221,9 @@ typedef struct _INumberVectorProperty {
     /** numbers comprising this vector */
     INumber *np;			
     /** dimension of np[] */
-    int nnp;				
-    /** secs since 1/1/1970 UTC, else 0 */
-    double timestamp;			
+    int nnp;
+    /** ISO 8601 timestamp of this event */			
+    char timestamp[MAXINDITSTAMP];			
     /** handy place to hang helper info */
     void *aux;				
 } INumberVectorProperty;
@@ -260,9 +262,9 @@ typedef struct _ISwitchVectorProperty {
     /** switches comprising this vector */
     ISwitch *sp;			
     /** dimension of sp[] */
-    int nsp;				
-    /** secs since 1/1/1970 UTC, else 0 */
-    double timestamp;			
+    int nsp;
+    /** ISO 8601 timestamp of this event */			
+    char timestamp[MAXINDITSTAMP];
     /** handy place to hang helper info */
     void *aux;				
 } ISwitchVectorProperty;
@@ -295,12 +297,64 @@ typedef struct _ILightVectorProperty {
     /** lights comprising this vector */
     ILight *lp;				
     /** dimension of lp[] */
-    int nlp;				
-    /** secs since 1/1/1970 UTC, else 0 */
-    double timestamp;			
+    int nlp;
+    /** ISO 8601 timestamp of this event */			
+    char timestamp[MAXINDITSTAMP];	
     /** handy place to hang helper info */
     void *aux;				
 } ILightVectorProperty;
+
+/** \struct IBLOB
+    \brief One Blob (Binary Large Object) descriptor.
+ */
+typedef struct {			/* one BLOB descriptor */
+  /** index name */
+  char name[MAXINDINAME];		
+  /** this BLOB's label */
+  char label[MAXINDILABEL];	
+  /** format attr */	
+  char format[MAXINDIBLOBFMT];	
+  /** malloced binary large object bytes */
+  void *blob;			
+  /** bytes in blob */	
+  int bloblen;			
+  /** n uncompressed bytes */
+  int size;				
+  /** pointer to parent */
+  struct _IBLOBVectorProperty *bvp;	
+  /** handy place to hang helper info */
+  void *aux0, *aux1, *aux2;		
+} IBLOB;
+
+/** \struct _IBLOBVectorProperty
+    \brief BLOB (Binary Large Object) vector property descriptor.
+ */
+
+typedef struct _IBLOBVectorProperty {	/* BLOB vector property descriptor */
+  /** device name */
+  char device[MAXINDIDEVICE];		
+  /** property name */
+  char name[MAXINDINAME];		
+  /** short description */
+  char label[MAXINDILABEL];		
+  /** GUI grouping hint */
+  char group[MAXINDIGROUP];		
+  /** client accessibility hint */
+  IPerm p;				
+  /** current max time to change, secs */
+  double timeout;			
+  /** current property state */
+  IPState s;				
+  /** BLOBs comprising this vector */
+  IBLOB *bp;				
+  /** dimension of bp[] */
+  int nbp;				
+  /** ISO 8601 timestamp of this event */
+  char timestamp[MAXINDITSTAMP];	
+  /** handy place to hang helper info */
+  void *aux;				
+} IBLOBVectorProperty;
+
 
 /** \brief Handy macro to find the number of elements in array a[]. Must be used with actual array, not pointer.
 */

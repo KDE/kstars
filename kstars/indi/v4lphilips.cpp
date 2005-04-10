@@ -48,9 +48,6 @@
 void ISInit(void);
 void ISPoll(void *);
 void connectV4L(void);
-void initDataChannel(void);
-void waitForData(int rp, int wp);
-void updateDataChannel(void *p);
 void updateStream(void * p);
 void getBasicData(void);
 void uploadFile(const char* filename);
@@ -59,7 +56,6 @@ int  grabImage(void);
 int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerT(ITextVectorProperty *tp);
-int  findPort(void);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
 
 
@@ -101,70 +97,65 @@ typedef struct {
  bool streamReady;			/* Can we write to data stream? */
 } client_t;
 
-client_t *INDIClients;			/* INDI clients */
 img_t * V4LFrame;			/* V4L frame */
-static int DataPort;			/* Data Port */
 static int streamTimerID;		/* Stream ID */
-static int nclients;			/* # of clients using the binary stream */
-static int dataChannelTimerID;
-bool	   disableUpdate;
 
 /*INDI controls */
 
 /* Connect/Disconnect */
 static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), 0, 0};
+static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
 
 /* Ports */
 static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
-static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), 0, 0};
+static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), "", 0};
 
 /* Camera Name */
 static IText camNameT[]		        = {{"Model", "", 0, 0, 0, 0 }};
-static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT), 0 , 0};
+static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT), "" , 0};
 
 /* Video Stream */
 static ISwitch StreamS[]		= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), 0, 0 };
+static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), "", 0 };
 
 /* Frame Rate */
 static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 15., 1., 15., 0, 0, 0}};
-static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), 0, 0};
+static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), "", 0};
 
 static INumber ShutterSpeedN[]		= {{"Speed", "", "%0.f", 0., 65535., 100., 0., 0, 0, 0}};
-static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), 0, 0};
+static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), "", 0};
 
 /* Exposure time */
 static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 1., 1., .0, 1., 0, 0, 0}};
-static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), 0, 0};
+static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
 
 /* Image color */
 static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
-static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), 0, 0};
+static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), "", 0};
 
 /* Frame dimension */
 static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0, 0},
 					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0., 0, 0, 0}};
-static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), 0, 0};
+static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), "", 0};
 
 static ISwitch BackLightS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty BackLightSP = { mydev, "Back Light", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, BackLightS, NARRAY(BackLightS), 0, 0};
+static ISwitchVectorProperty BackLightSP = { mydev, "Back Light", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, BackLightS, NARRAY(BackLightS), "", 0};
 
 static ISwitch AntiFlickerS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty AntiFlickerSP = { mydev, "Anti Flicker", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AntiFlickerS, NARRAY(AntiFlickerS), 0, 0};
+static ISwitchVectorProperty AntiFlickerSP = { mydev, "Anti Flicker", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AntiFlickerS, NARRAY(AntiFlickerS), "", 0};
 
 static ISwitch NoiseReductionS[] = { {"None", "", ISS_ON, 0, 0},
 				     {"Low", "", ISS_OFF, 0, 0},
                                      {"Medium", "", ISS_OFF, 0, 0},
 				     {"High", "", ISS_OFF, 0, 0}};
 				     
-static ISwitchVectorProperty NoiseReductionSP = { mydev, "Noise Reduction", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, NoiseReductionS, NARRAY(NoiseReductionS), 0, 0};
+static ISwitchVectorProperty NoiseReductionSP = { mydev, "Noise Reduction", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, NoiseReductionS, NARRAY(NoiseReductionS), "", 0};
 
 static ISwitch CamSettingS[]  = { {"Save", "", ISS_OFF, 0, 0 },
 				  { "Restore", "", ISS_OFF, 0, 0},
 				  { "Factory", "", ISS_OFF, 0, 0}};
 				  
-static ISwitchVectorProperty CamSettingSP = { mydev, "Settings", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, CamSettingS, NARRAY(CamSettingS), 0, 0};
+static ISwitchVectorProperty CamSettingSP = { mydev, "Settings", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, CamSettingS, NARRAY(CamSettingS), "", 0};
   
 static INumber ImageAdjustN[] = {  {"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
                                    {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
@@ -173,12 +164,12 @@ static INumber ImageAdjustN[] = {  {"Contrast", "", "%0.f", 0., 256., 1., 0., 0,
 				   {"Gain", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
 				   {"Gamma", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
 				   
-static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), 0, 0 };
+static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), "", 0 };
 
 static INumber WhiteBalanceN[] = { {"Manual Red", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
 				   {"Manual Blue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }};
 				   
-static INumberVectorProperty WhiteBalanceNP = { mydev, "White Balance", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, WhiteBalanceN, NARRAY(WhiteBalanceN), 0, 0 };
+static INumberVectorProperty WhiteBalanceNP = { mydev, "White Balance", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, WhiteBalanceN, NARRAY(WhiteBalanceN), "", 0 };
 
 static ISwitch WhiteBalanceModeS[] = {{ "Auto", "", ISS_ON, 0, 0 },
                                      { "Manual", "", ISS_OFF, 0, 0 },
@@ -186,11 +177,12 @@ static ISwitch WhiteBalanceModeS[] = {{ "Auto", "", ISS_ON, 0, 0 },
 				     { "Outdoor", "", ISS_OFF, 0, 0},
 				     { "Fluorescent", "", ISS_OFF, 0, 0}};
 				     
-static ISwitchVectorProperty WhiteBalanceModeSP = { mydev, "White Balance Mode", "", IMAGE_ADJUST, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), 0, 0};
+static ISwitchVectorProperty WhiteBalanceModeSP = { mydev, "White Balance Mode", "", IMAGE_ADJUST, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), "", 0};
 				     
-/* Data channel */
-static INumber DataChannelN[]		= {{"CHANNEL", "Channel", "%0.f", 1024., 20000., 1., 0., 0, 0, 0}};
-static INumberVectorProperty DataChannelNP={ mydev, "DATA_CHANNEL", "Data Channel", DATA_GROUP, IP_RO, 0, IPS_IDLE, DataChannelN, NARRAY(DataChannelN), 0, 0};
+/* BLOB for sending image */
+static IBLOB imageB = {"CCD1", "Feed", "", 0, 0, 0, 0, 0, 0, 0};
+static IBLOBVectorProperty imageBP = {mydev, "Video", "Video", COMM_GROUP,
+  IP_RO, 0, IPS_IDLE, &imageB, 1, "", 0};
 
 /* send client definitions of all properties */
 void ISInit()
@@ -199,8 +191,6 @@ void ISInit()
 
  if (isInit)
   return;
- 
- dataChannelTimerID = -1;
  
  V4LFrame = new img_t;
  
@@ -212,15 +202,10 @@ void ISInit()
  }
  
  streamTimerID = -1;
- disableUpdate = false;
- //FileNameT[0].text = strcpy(new char[FILENAMESIZ], "image1.fits");
  
  PortT[0].text     = strcpy(new char[32], "/dev/video0");
  camNameT[0].text  = new char[MAXINDILABEL];
  
- INDIClients = NULL;
- nclients    = 0;
-      
  isInit = 1;
 
 }
@@ -241,6 +226,7 @@ void ISGetProperties (const char *dev)
   IDDefNumber(&FrameRateNP, NULL);
   IDDefNumber(&ExposeTimeNP, NULL);
   IDDefNumber(&ShutterSpeedNP, NULL);
+  IDDefBLOB(&imageBP, NULL);
   
   /* Image properties */
   IDDefSwitch(&ImageTypeSP, NULL);
@@ -255,27 +241,6 @@ void ISGetProperties (const char *dev)
   IDDefNumber(&WhiteBalanceNP, NULL);
   IDDefNumber(&ImageAdjustNP, NULL);
   
-  /* Data Channel */
-  IDDefNumber(&DataChannelNP, NULL);
-
-  
-  INDIClients = INDIClients ? (client_t *) realloc(INDIClients, (nclients+1) * sizeof(client_t)) :
-                              (client_t *) malloc (sizeof(client_t));
-    
-  if (INDIClients)
-  {
-        INDIClients[nclients].streamReady = false;
-	INDIClients[nclients].rp	  = 0;
-	INDIClients[nclients].wp          = 0;
-  	DataPort = findPort();
-        if (DataPort > 0)
- 		initDataChannel();
-
-        /* Send the basic data to the new client if the previous client(s) are already connected. */		
-	if (PowerSP.s == IPS_OK)
-	  getBasicData();
-  }
-  
 }
   
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
@@ -284,8 +249,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	int index=0;
 	
 	/* ignore if not ours */
-	if (dev && strcmp (dev, mydev))
-	    return;
+     if (dev && strcmp (dev, mydev))
+	 return;
 	    
 	ISInit();
      
@@ -950,8 +915,6 @@ void getBasicData()
   bool result;
   int xmax, ymax, xmin, ymin, index;
   
-  IDLog("In getBasicData()\n");
-  
   getMaxMinSize(xmax, ymax, xmin, ymin);
   
   /* Width */
@@ -1051,7 +1014,6 @@ void getBasicData()
   }
   IDSetSwitch(&WhiteBalanceModeSP, NULL);    
   
-  IDLog("Exiting getBasicData()\n");
 }
 
 int checkPowerS(ISwitchVectorProperty *sp)
@@ -1109,7 +1071,6 @@ int checkPowerT(ITextVectorProperty *tp)
 void connectV4L()
 {
   char errmsg[1024];
-  IDLog ("In ConnectV4L\n");
     
   switch (PowerS[0].s)
   {
@@ -1133,12 +1094,6 @@ void connectV4L()
       
       V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
       
-      if (dataChannelTimerID == -1)
-      {
-        disableUpdate = false;
-        updateDataChannel(NULL);
-      }
-      
       IDLog("V4L Device is online. Retrieving basic data.\n");
       getBasicData();
       
@@ -1149,7 +1104,6 @@ void connectV4L()
       PowerS[1].s = ISS_ON;
       PowerSP.s = IPS_IDLE;
       
-      disableUpdate = true;
       // Disable stream if running
       if (streamTimerID != -1)
       {
@@ -1221,7 +1175,6 @@ void updateStream(void * /*p*/)
    int nr=0, n=0,r, frameLen;
    
    if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
-   //IDLog("entering update Stream\n");
    
    V4LFrame->Y      		= getY();
    V4LFrame->U      		= getU();
@@ -1236,6 +1189,7 @@ void updateStream(void * /*p*/)
    
    compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
    
+   //IDLog("Before compression\n");
    r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
    if (r != Z_OK)
    {
@@ -1244,50 +1198,17 @@ void updateStream(void * /*p*/)
 	return;
    }
    
-   snprintf(frameSize, FRAME_ILEN, "<Data type='VIDEO' size='%ld' compsize='%ld' />", totalBytes, compressedBytes);
-   //snprintf(frameSize, FRAME_ILEN, "VIDEO,%d,%d\n", totalBytes, compressedBytes);
-   frameLen = strlen(frameSize);
-   r = 0;
-
+   /* #3 Send it */
+   imageB.blob = V4LFrame->compressedFrame;
+   imageB.bloblen = compressedBytes;
+   imageB.size = totalBytes;
+   strcpy(imageB.format, ".stream.z");
+   imageBP.s = IPS_OK;
+   IDSetBLOB (&imageBP, NULL);
    
-  for (int i=0; i < nclients; i++)
-  {
-  	if (StreamS[0].s == ISS_ON && INDIClients[i].streamReady)
-        {
-	     /* #1 send frame size to client */
-	     for (int j=0; j < frameLen; j+=r)
-	      r = write(INDIClients[i].wp, frameSize + j , frameLen - j);
-	     
-	     /* #2 Send the actual compressed frame */
-             for (nr=0; nr < (int) compressedBytes; nr+=n)
-   	     {
-	  	n = write(INDIClients[i].wp, V4LFrame->compressedFrame + nr, compressedBytes - nr );
-		if (n <= 0)
-		{
-			if (nr <= 0)
-    			{
-      				IDLog("Stream error: %s\n", strerror(errno));
-      				StreamS[0].s = ISS_OFF;
-      				StreamS[1].s = ISS_ON;
-      				StreamSP.s   = IPS_IDLE;
-      				IDSetSwitch(&StreamSP, "Stream error: %s.", strerror(errno));
-      				return;
-    			}
-		        break;
-		}		
-		 
-             }
-        }
-  }
-     
-  //IDLog("updating stream...\n");
-  
-  
-  
   if (streamTimerID != -1)
     	streamTimerID = addTimer(1000/ (int) FrameRateN[0].value, updateStream, NULL);
-   
- // IDLog("Leaving update stream\n");
+
 }
 
 void uploadFile(const char* filename)
@@ -1295,7 +1216,7 @@ void uploadFile(const char* filename)
    FILE * fitsFile;
    char frameSize[FRAME_ILEN];
    unsigned char *fitsData;
-   int n=0, i=0, r=0;
+   int r=0;
    unsigned int frameLen =0 , nr = 0;
    uLongf compressedBytes = 0;
    uLong totalBytes;
@@ -1330,9 +1251,7 @@ void uploadFile(const char* filename)
    /* #2 Compress it */
    V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
    
-     compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
-     
-     
+   compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
    r = compress2(V4LFrame->compressedFrame, &compressedBytes, fitsData, totalBytes, VIDEO_COMPRESSION_LEVEL);
    if (r != Z_OK)
    {
@@ -1341,304 +1260,14 @@ void uploadFile(const char* filename)
 	return;
    }
   
-   //snprintf(frameSize, FRAME_ILEN, "FITS,%d,%d\n", totalBytes, compressedBytes);
-   snprintf(frameSize, FRAME_ILEN, "<Data type='FITS' size='%ld' compsize='%ld' />", totalBytes, compressedBytes);
-   frameLen = strlen(frameSize); 
-   r = 0;
+   /* #3 Send it */
+   imageB.blob = V4LFrame->compressedFrame;
+   imageB.bloblen = compressedBytes;
+   imageB.size = totalBytes;
+   strcpy(imageB.format, ".fits.z");
+   imageBP.s = IPS_OK;
+   IDSetBLOB (&imageBP, NULL);
    
-     for (i=0; i < nclients; i++)
-     {
-  	if (INDIClients[i].streamReady)
-        {
-	
-	      /* #1 send frame size to client */
-	     for (unsigned int j=0; j < frameLen; j+=r)
-	      r = write(INDIClients[i].wp, frameSize + j , frameLen - j);
-	      
-	     /* Send the actual file */
-             for (nr=0; nr < compressedBytes; nr+=n)
-   	     {
-	  	n = write(INDIClients[i].wp, V4LFrame->compressedFrame + nr, compressedBytes - nr );
-		if (n <= 0)
-		{
-			if (nr <= 0)
-    			{
-      				IDLog("Stream error: %s\n", strerror(errno));
-      				return;
-    			}
-		        break;
-		}
-		
-             }
-        }
-      } 
-    
    
    delete (fitsData);
-}
-
-
-void initDataChannel ()
-{
-	int pid;
-	int rp[2], wp[2];
-
-	/* new pipes */
-	if (pipe (rp) < 0) {
-	    fprintf (stderr, "%s: read pipe: %s\n", me, strerror(errno));
-	    exit(1); 
-	}
-	if (pipe (wp) < 0) {
-	    fprintf (stderr, "%s: write pipe: %s\n", me, strerror(errno));
-	    exit(1);
-	}
-
-	/* new process */
-	pid = fork();
-	if (pid < 0) {
-	    fprintf (stderr, "%s: fork: %s\n", me, strerror(errno));
-	    exit(1);
-	}
-	if (pid == 0) {
-	    /* child: listen to driver */
-	    close(wp[1]);
-	    close(rp[0]);
-	    
-	    waitForData(wp[0], rp[1]);
-	    
-	    return;
-	}
-
-	close (wp[0]);
-	close (rp[1]);
-	INDIClients[nclients].rp = rp[0];
-	INDIClients[nclients].wp = wp[1];
-	
-	nclients++;
-	
-	fprintf(stderr, "Going to listen on fd %d, and write to fd %d\n", rp[0], wp[1]);
-	updateDataChannel(NULL);
-
-}
-
-void updateDataChannel(void *p)
-{
-  char buffer[1];
-  fd_set rs;
-  int nr;
-  p=p;
-  timeval tv;
-  tv.tv_sec  = 0;
-  tv.tv_usec = 0;
-  if (disableUpdate)
-  {
-   dataChannelTimerID = -1;
-   return;
-  }
-  
-   
-  //IDLog("Entering updateDataChannel\n");
-    
-  for (int i=0; i < nclients; i++)
-  {
-        if (INDIClients[i].rp < 0)
-	 continue;
-	 
-  	FD_ZERO(&rs);
-  	FD_SET(INDIClients[i].rp, &rs);
-  
-  	nr = select(INDIClients[i].rp+1, &rs, NULL, NULL, &tv);
-  
-  	if (nr <= 0)
-	 continue;
-
-  	nr = read(INDIClients[i].rp, buffer, 1);
-	buffer[1]='\0';
-  	if (nr > 0 && atoi(buffer) == 0)
-	{
-	        IDLog("Client %d is ready to receive stream\n", i);
-		INDIClients[i].streamReady = true;
-	}
-	else
-	{
-		INDIClients[i].streamReady = false;
-		INDIClients[i].rp          = -1;
-		IDLog("Lost connection with client %d\n", i);
-	}
-   }
-  
-   dataChannelTimerID = addTimer(1000, updateDataChannel, NULL);    
-}
-
-int findPort()
-{
-  struct sockaddr_in serv_socket;
-  int sfd;
-  int port = 8000;
-  int i=0;
-  
-  /* make socket endpoint */
-  if ((sfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-	    fprintf (stderr, "%s: socket: %s", me, strerror(errno));
-	    exit(1);
-  }
-	
-  /* bind to given port for any IP address */
-  memset (&serv_socket, 0, sizeof(serv_socket));
-  serv_socket.sin_family = AF_INET;
-  serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
-  
-  for (i=0; i < 100; i++)
-  {
-  	serv_socket.sin_port = htons ((unsigned short)port);
-	if (bind(sfd,(struct sockaddr*)&serv_socket,sizeof(serv_socket)) < 0)
-	{
-	  	fprintf (stderr, "%s: bind: %s\n", me, strerror(errno));
-		port +=5;
-	}
-	else break;
-  }
-  
-  close(sfd);
-  if (i == 100) return -1;
-  
-  return port;
-	
-}
-	
-	
-  
-void waitForData(int rp, int wp)
-{
-        struct sockaddr_in serv_socket;
-	struct sockaddr_in cli_socket;
-	int cli_len;
-	int sfd, lsocket;
-	int reuse = 1;
-        fd_set rs;
-	int maxfd;
-	int i, s, nr, n;
-	unsigned char buffer[PIPEBUFSIZ];
-	char dummy[8];
-	
-	/* make socket endpoint */
-	if ((sfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-	    fprintf (stderr, "%s: socket: %s", me, strerror(errno));
-	    exit(1);
-	}
-	
-	/* bind to given port for any IP address */
-	memset (&serv_socket, 0, sizeof(serv_socket));
-	serv_socket.sin_family = AF_INET;
-	serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
-	
-	serv_socket.sin_port = htons ((unsigned short)DataPort);
-	if (setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse)) < 0){
-		fprintf (stderr, "%s: setsockopt: %s", me, strerror(errno));
-	    	exit(1);
-		}
-	if (bind(sfd,(struct sockaddr*)&serv_socket,sizeof(serv_socket)) < 0){
-	    	fprintf (stderr, "%s: bind: %s\n", me, strerror(errno));
-		exit(1);
-	    	}
-	
-        /* Tell client we're ready to connect */
-	/* N.B. This only modifies the child DataChannelNP, the parent's property remains unchanged. */
-	DataChannelN[0].value = DataPort;
-        DataChannelNP.s = IPS_OK;
-        IDSetNumber(&DataChannelNP, NULL);
-	
-	/* willing to accept connections with a backlog of 1 pending */
-	if (listen (sfd, 1) < 0) {
-	    fprintf (stderr, "%s: listen: %s", me, strerror(errno));
-	    exit(1);
-	}
-
-	/* ok */
-	lsocket = sfd;
-        fprintf (stderr, "%s: listening to data port %d on fd %d\n",me,DataPort,sfd);
-
-	/* start with public contact point */
-	FD_ZERO(&rs);
-	FD_SET(lsocket, &rs);
-	maxfd = lsocket;
-
-	/* wait for action */
-	s = select (maxfd+1, &rs, NULL, NULL, NULL);
-	if (s < 0) {
-	    fprintf (stderr, "%s: select: %s\n", me, strerror(errno));
-	    exit(1);
-	}
- 
-	/* get a private connection to new client */
-	cli_len = sizeof(cli_socket);
-	s = accept (lsocket, (struct sockaddr *)&cli_socket, (socklen_t *)&cli_len);
-	if(s < 0) {
-	    fprintf (stderr, "%s: accept: %s", me, strerror(errno));
-	    exit (1);
-	}
-	
-	/* Tell the driver that this client established a connection to the data channel and is ready
-	   to receive stream data */
-	sprintf(dummy, "%d", 0);
-	write(wp, dummy, 1);
-	
-	FD_ZERO(&rs);
-	FD_SET(rp, &rs);
-	
-	while (1)
-	{
-                //IDLog("#1 Waiting for input from driver\n");
-	
-		i = select(rp+1, &rs, NULL, NULL, NULL);
-		if (i < 0)
-		{
-	  		fprintf (stderr, "%s: select: %s\n", me, strerror(errno));
-			/* Tell driver the client has disconnected the data channel */
-			sprintf(dummy, "%d", -1);
-			write(wp, dummy, 1);
-	  		exit(1);
-		}
-		else if (i==0) continue;
-		
-		nr = read(rp, buffer, PIPEBUFSIZ);
-		if (nr < 0) {
-		sprintf(dummy, "%d", -1);
-		write(wp, dummy, 1);
-	    	exit(1);
-		}
-		if (nr == 0) 
-		{
-		sprintf(dummy, "%d", -1);
-		write(wp, dummy, 1);
-		fprintf (stderr, "Data Client %d: EOF\n", s);
-	    	exit(1);
-		continue;
-		}
-		
-		//IDLog("#2 Writing stuff to client\n");
-		for (i=0; i < nr; i+=n)
-		{
-		  n = write(s, buffer + i, nr - i);
-		  
-		  if (n <= 0)
-		  {
-		        fprintf(stderr, "nr is %d\n", nr);
-			
-			if (n < 0)
-		    		fprintf(stderr, "%s\n", strerror(errno));
-			else
-		    	        fprintf(stderr, "Short write of FITS pixels.\n");
-			
-		       sprintf(dummy, "%d", -1);
-		       write(wp, dummy, 1);
-		       exit(1);
-		  }
-		  
-		}
-		
-		//IDLog("#3 All seems okay in Wait for Data\n");
-		
-	}
-
 }

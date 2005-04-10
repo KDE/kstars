@@ -43,7 +43,7 @@ static IText   VersionT[] ={{ "Date", "", 0, 0, 0, 0} ,
 			   { "Full", "", 0, 0, 0, 0} ,
 			   { "Name", "" ,0 ,0 ,0 ,0}};
 
-static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), 0 ,0};
+static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), "" ,0};
 
 void changeLX200AutostarDeviceName(const char *newName)
 {

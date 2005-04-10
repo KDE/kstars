@@ -83,7 +83,8 @@ class INDI_P : public QObject
    int buildSwitchesGUI(XMLEle *root, char errmsg[]);
    int buildMenuGUI    (XMLEle *root, char errmsg[]);
    int buildLightsGUI  (XMLEle *root, char errmsg[]);
-   
+   int buildBLOBGUI    (XMLEle *root, char errmsg[]);
+      
    /* Setup the 'set' button in the property */
     void setupSetButton(QString caption);
     

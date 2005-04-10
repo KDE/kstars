@@ -49,6 +49,7 @@
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);
    void registerProperty(INDI_P *pp);
+   void handleBLOB(unsigned char *buffer, int bufferSize, int dataType);
     
    /* Data channel */
    void establishDataChannel(QString host, int port);

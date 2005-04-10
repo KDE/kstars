@@ -39,6 +39,7 @@
 #include <sys/stat.h>
 
 #include "lilxml.h"
+#include "base64.h"
 #include "eventloop.h"
 #include "indidevapi.h"
 #include "indicom.h"
@@ -296,6 +297,42 @@ IDDefLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 	fflush (stdout);
 }
 
+/* tell client to create a new BLOB vector property */
+void IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
+{
+  int i;
+
+  printf ("<defBLOBVector\n");
+  printf ("  device='%s'\n", b->device);
+  printf ("  name='%s'\n", b->name);
+  printf ("  label='%s'\n", b->label);
+  printf ("  group='%s'\n", b->group);
+  printf ("  state='%s'\n", pstateStr(b->s));
+  printf ("  perm='%s'\n", permStr(b->p));
+  printf ("  timeout='%g'\n", b->timeout);
+  printf ("  timestamp='%s'\n", timestamp());
+  if (fmt) {
+    va_list ap;
+    va_start (ap, fmt);
+    printf ("  message='");
+    vprintf (fmt, ap);
+    printf ("'\n");
+    va_end (ap);
+  }
+  printf (">\n");
+
+  for (i = 0; i < b->nbp; i++) {
+    IBLOB *bp = &b->bp[i];
+    printf ("  <defBLOB\n");
+    printf ("    name='%s'\n", bp->name);
+    printf ("    label='%s'\n", bp->label);
+    printf ("  />\n");
+  }
+
+  printf ("</defBLOBVector>\n");
+  fflush (stdout);
+}
+
 /* tell client to update an existing text vector property */
 void
 IDSetText (const ITextVectorProperty *tvp, const char *fmt, ...)
@@ -363,34 +400,6 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 	fflush (stdout);
 }
 
-/* tell client to update min/max elements of an existing number vector property */
-void
-IUUpdateMinMax(INumberVectorProperty *nvp)
-{
-  int i;
-
-  printf ("<setNumberVector\n");
-  printf ("  device='%s'\n", nvp->device);
-  printf ("  name='%s'\n", nvp->name);
-  printf ("  state='%s'\n", pstateStr(nvp->s));
-  printf ("  timeout='%g'\n", nvp->timeout);
-  printf ("  timestamp='%s'\n", timestamp());
-  printf (">\n");
-
-  for (i = 0; i < nvp->nnp; i++) {
-    INumber *np = &nvp->np[i];
-    printf ("  <oneNumber name='%s'\n", np->name);
-    printf ("    min='%g'\n", np->min);
-    printf ("    max='%g'\n", np->max);
-    printf(">\n");
-    printf ("      %g\n", np->value);
-    printf ("  </oneNumber>\n");
-  }
-
-  printf ("</setNumberVector>\n");
-  fflush (stdout);
-}
-
 /* tell client to update an existing switch vector property */
 void
 IDSetSwitch (const ISwitchVectorProperty *svp, const char *fmt, ...)
@@ -454,6 +463,77 @@ IDSetLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 
 	printf ("</setLightVector>\n");
 	fflush (stdout);
+}
+
+/* tell client to update an existing BLOB vector property */
+void IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
+{
+  int i;
+
+  printf ("<setBLOBVector\n");
+  printf ("  device='%s'\n", bvp->device);
+  printf ("  name='%s'\n", bvp->name);
+  printf ("  state='%s'\n", pstateStr(bvp->s));
+  printf ("  timeout='%g'\n", bvp->timeout);
+  printf ("  timestamp='%s'\n", timestamp());
+  if (fmt) {
+    va_list ap;
+    va_start (ap, fmt);
+    printf ("  message='");
+    vprintf (fmt, ap);
+    printf ("'\n");
+    va_end (ap);
+  }
+  printf (">\n");
+
+  for (i = 0; i < bvp->nbp; i++) {
+    IBLOB *bp = &bvp->bp[i];
+    char *encblob;
+    int j, l;
+
+    printf ("  <oneBLOB\n");
+    printf ("    name='%s'\n", bp->name);
+    printf ("    size='%d'\n", bp->size);
+    printf ("    format='%s'>\n", bp->format);
+
+    encblob = malloc (4*bp->bloblen/3+4);
+    l = to64frombits(encblob, bp->blob, bp->bloblen);
+    for (j = 0; j < l; j += 72)
+      printf ("%.72s\n", encblob+j);
+    free (encblob);
+
+    printf ("  </oneBLOB>\n");
+  }
+
+  printf ("</setBLOBVector>\n");
+  fflush (stdout);
+}
+
+/* tell client to update min/max elements of an existing number vector property */
+void IUUpdateMinMax(INumberVectorProperty *nvp)
+{
+  int i;
+
+  printf ("<setNumberVector\n");
+  printf ("  device='%s'\n", nvp->device);
+  printf ("  name='%s'\n", nvp->name);
+  printf ("  state='%s'\n", pstateStr(nvp->s));
+  printf ("  timeout='%g'\n", nvp->timeout);
+  printf ("  timestamp='%s'\n", timestamp());
+  printf (">\n");
+
+  for (i = 0; i < nvp->nnp; i++) {
+    INumber *np = &nvp->np[i];
+    printf ("  <oneNumber name='%s'\n", np->name);
+    printf ("    min='%g'\n", np->min);
+    printf ("    max='%g'\n", np->max);
+    printf(">\n");
+    printf ("      %g\n", np->value);
+    printf ("  </oneNumber>\n");
+  }
+
+  printf ("</setNumberVector>\n");
+  fflush (stdout);
 }
 
 /* send client a message for a specific device or at large if !dev */
@@ -670,8 +750,6 @@ int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], 
   return 0;
 
 }
-
-
 
 /* save malloced copy of newtext in tp->text, reusing if not first time */
 void

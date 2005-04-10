@@ -59,6 +59,12 @@
 #include "libfli-debug.h"
 #include "libfli-filter-focuser.h"
 
+/*
+Array of filterwheel info
+	Pos = # of filters
+	Off = Offset of 0 filter from magnetic stop,
+	X - y = number of steps from filter x to filter y
+*/
 static const wheeldata_t wheeldata[] =
 {
   /* POS OFF   0-1 1-2 2-3 3-4 4-5 5-6 6-7 7-8 8-9 9-A A-B B-C C-D D-E F-F F-0 */
@@ -69,13 +75,12 @@ static const wheeldata_t wheeldata[] =
   { 4,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   { 5,  0, { 48, 48, 48, 48, 48,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   { 6,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
-  { 7, 14, { 34, 34, 35, 34, 34, 34, 35,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   { 7, 14, { 34, 34, 35, 34, 34, 35, 35,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   { 8, 18, { 30, 30, 30, 30, 30, 30, 30, 30,  0,  0,  0,  0,  0,  0,  0,  0} },
   { 9,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
-  {10,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
+  {10,  0, { 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,  0,  0,  0,  0,  0,  0} },
   {11,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
-  {12,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
+  {12,  6,{ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,  0,  0,  0,  0} },
   {13,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   {14,  0, {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0} },
   {15,  0, { 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48} },
@@ -84,6 +89,7 @@ static const wheeldata_t wheeldata[] =
 static long fli_stepmotor(flidev_t dev, long steps);
 static long fli_getsteppos(flidev_t dev, long *pos);
 static long fli_setfilterpos(flidev_t dev, long pos);
+
 
 long fli_filter_focuser_open(flidev_t dev)
 {
@@ -94,7 +100,7 @@ long fli_filter_focuser_open(flidev_t dev)
   unsigned long ndev;
   long rlen, wlen;
   unsigned short buf[16];
-  flifilterdata_t *fdata;
+  flifilterdata_t *fdata = NULL;
 
   CHKDEVICE(dev);
 
@@ -144,7 +150,7 @@ long fli_filter_focuser_open(flidev_t dev)
     debug(FLIDEBUG_INFO, "Device is old fashioned filter wheel.");
     fdata->numslots = 5;
 
-    /* FIX: should model info be set first?*/
+    /* FIX: should model info be set first? */
     return 0;
   }
 
@@ -169,16 +175,18 @@ long fli_filter_focuser_open(flidev_t dev)
   }
 
   ndev &= 0x00ff;
+
+  /* switch based on the jumper settings on the filter/focuser dongle, determines how many slots in the filter wheel */
   switch (ndev)
   {
-  case 0x00:
-    if (DEVICE->devinfo.type != FLIDEVICE_FILTERWHEEL)
-    {
-      err = -ENODEV;
-      goto done;
-    }
-    fdata->numslots = 5;
-    snprintf(DEVICE->devinfo.model, MODEL_LEN, FWSTRING, fdata->numslots);
+	case 0x00:
+	if (DEVICE->devinfo.type != FLIDEVICE_FILTERWHEEL)
+	{
+		err = -ENODEV;
+		goto done;
+	}
+	fdata->numslots = 5;
+	snprintf(DEVICE->devinfo.model, MODEL_LEN, FWSTRING, fdata->numslots);
     break;
 
   case 0x01:
@@ -212,14 +220,40 @@ long fli_filter_focuser_open(flidev_t dev)
     break;
 
   case 0x04:
+    fdata->numslots = 15;
+		fdata->stepspersec= 16;/* // 1/.06 */
+		if (DEVICE->devinfo.type != FLIDEVICE_FILTERWHEEL)
+    {
+      err = -ENODEV;
+      goto done;
+    }
+    snprintf(DEVICE->devinfo.model, MODEL_LEN, FWSTRING, fdata->numslots);
+    break;
+
+
+  case 0x05:
     if (DEVICE->devinfo.type != FLIDEVICE_FILTERWHEEL)
     {
       err = -ENODEV;
       goto done;
     }
-    fdata->numslots = 15;
+    fdata->numslots = 12;
+	fdata->stepspersec= 16; /*//   1/.06*/
+
     snprintf(DEVICE->devinfo.model, MODEL_LEN, FWSTRING, fdata->numslots);
     break;
+
+  case 0x06:
+    fdata->numslots = 10;
+	fdata->stepspersec= 16; /*//   1/.06*/
+    if (DEVICE->devinfo.type != FLIDEVICE_FILTERWHEEL)
+	{
+      err = -ENODEV;
+      goto done;
+    }
+    snprintf(DEVICE->devinfo.model, MODEL_LEN, FWSTRING, fdata->numslots);
+    break;
+
 
   case 0x07:
     if (DEVICE->devinfo.type != FLIDEVICE_FOCUSER)
@@ -517,6 +551,7 @@ static long fli_getsteppos(flidev_t dev, long *pos)
   return 0;
 }
 
+
 static long fli_setfilterpos(flidev_t dev, long pos)
 {
   flifilterdata_t *fdata;
@@ -532,8 +567,17 @@ static long fli_setfilterpos(flidev_t dev, long pos)
   if (fdata->currentslot < 0)
   {
     debug(FLIDEBUG_INFO, "Home filter wheel/focuser.");
-    DEVICE->io_timeout =
-      (DEVICE->devinfo.type == FLIDEVICE_FILTERWHEEL ? 5000 : 30000);
+	/*	//set the timeout*/
+    DEVICE->io_timeout = (DEVICE->devinfo.type == FLIDEVICE_FILTERWHEEL ? 5000 : 30000);
+		/*//10,12,15 pos filterwheel  needs a longer timeout t*/
+		if(fdata->numslots == 12||fdata->numslots == 10)
+		{
+			DEVICE->io_timeout = 120000;
+		}
+		if(fdata->numslots == 15)
+		{
+			DEVICE->io_timeout = 200000;
+		}
 
     wlen = 2;
     rlen = 2;
@@ -545,7 +589,8 @@ static long fli_setfilterpos(flidev_t dev, long pos)
     DEVICE->io_timeout = 1000;
 
     debug(FLIDEBUG_INFO, "Moving %d steps to home position.",
-	  wheeldata[fdata->numslots].n_offset);
+		wheeldata[fdata->numslots].n_offset);
+
     COMMAND(fli_stepmotor(dev, - (wheeldata[fdata->numslots].n_offset)));
     fdata->currentslot = 0;
   }

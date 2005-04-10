@@ -156,12 +156,9 @@ void INDIStdDevice::allocateStreamBuffer()
 
 }
 
-
-
 void INDIStdDevice::streamReceived()
 {
 
-  
    char msg[1024];
    char c;
    int n=0, r=0;
@@ -417,6 +414,110 @@ void INDIStdDevice::streamReceived()
 
 }
 
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataType)
+{
+
+  if (dataType == DATA_STREAM)
+  {
+    if (!streamWindow->processStream)
+      return;
+	
+    streamWindow->show();
+	
+    streamWindow->streamFrame->newFrame( (unsigned char *) buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
+  }
+  else if (dataType == DATA_FITS || dataType == DATA_OTHER)
+  {
+    char filename[256];
+    FILE *fitsTempFile;
+    int fd, nr, n=0;
+    QString currentDir = Options::fitsSaveDirectory();
+       
+    streamWindow->close();
+        
+    if (dataType == DATA_FITS && !batchMode && Options::indiFITSDisplay())
+    {
+      strcpy(filename, "/tmp/fitsXXXXXX");
+      if ((fd = mkstemp(filename)) < 0)
+      { 
+	KMessageBox::error(NULL, "Error making temporary filename.");
+	return;
+      }
+      close(fd);
+    }
+    else
+    {
+      char ts[32];
+      struct tm *tp;
+      time_t t;
+      time (&t);
+      tp = gmtime (&t);
+	  
+      if (currentDir[currentDir.length() -1] == '/')
+	currentDir.truncate(currentDir.length() - 1);
+	  
+      strncpy(filename, currentDir.ascii(), currentDir.length());
+      filename[currentDir.length()] = '\0';
+	  
+      if (dataType == DATA_FITS)
+      {
+	char tempFileStr[256];
+	strncpy(tempFileStr, filename, 256);
+	    
+	if ( batchMode && !ISOMode)
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
+	else if (!batchMode && !Options::indiFITSDisplay())
+	{
+	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+	  snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
+	}
+	else
+	{
+	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
+	}
+	     
+	seqCount++;
+      }
+      else
+      {
+	strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
+	strncat(filename, ts, sizeof(ts));
+	strncat(filename, dataExt.ascii(), 3);
+      }
+    }
+	  
+    fitsTempFile = fopen(filename, "w");
+       
+    if (fitsTempFile == NULL) return;
+       
+    for (nr=0; nr < (int) bufferSize; nr += n)
+      n = fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
+       
+    fclose(fitsTempFile);
+       
+       // We're done if we have DATA_OTHER
+    if (dataType == DATA_OTHER)
+    {
+      ksw->statusBar()->changeItem( i18n("Data file saved to %1").arg(filename), 0);
+      return;
+    }
+    else if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
+    {
+      ksw->statusBar()->changeItem( i18n("FITS file saved to %1").arg(filename), 0);
+      emit FITSReceived(dp->label);
+      return;
+    } 
+       
+    KURL fileURL(filename);
+       
+    FITSViewer * fv = new FITSViewer(&fileURL, ksw);
+    fv->fitsChange();
+    fv->show();
+  }
+       
+}
+
  void INDIStdDevice::setTextValue(INDI_P *pp)
  {
    INDI_E *el;
@@ -544,7 +645,7 @@ void INDIStdDevice::streamReceived()
       break;
       
       case VIDEO_STREAM:
-       if (streamFD == -1)
+       /*if (streamFD == -1)
        {
           pp->state = PS_OFF;
 	  pp->drawLt(pp->state);
@@ -563,7 +664,7 @@ void INDIStdDevice::streamReceived()
 	  buttonFont.setBold(lp->state == PS_ON ? TRUE : FALSE);
 	  lp->push_w->setFont(buttonFont);
 	  break;
-       }
+    }*/
 	
        lp = pp->findElement("ON");
        if (!lp) return;

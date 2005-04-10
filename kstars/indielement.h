@@ -19,7 +19,7 @@
 
 #include "indi/lilxml.h"
 
-#define	INDIVERSION	1.2	/* we support this or less */
+#define	INDIVERSION	1.5	/* we support this or less */
 
 /* GUI layout */
 #define PROPERTY_LABEL_WIDTH	80
@@ -42,7 +42,7 @@ typedef enum {PS_IDLE = 0, PS_OK, PS_BUSY, PS_ALERT, PS_N} PState;
 #define	PS_ON	PS_OK		/* alternate name */
 typedef enum {PP_RW = 0, PP_WO, PP_RO} PPerm;
 typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
-    PG_RADIO, PG_MENU, PG_LIGHTS} PGui;
+  PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
@@ -51,7 +51,7 @@ enum stdProperties { CONNECTION, EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, ON_COOR
                      DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE};
 		     
 /* Devices families that we explicity support (i.e. with std properties) */
-enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
+enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_WHEEL, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
 
 #define	MAXSCSTEPS	1000	/* max number of steps in a scale */
 #define MAXRADIO	4	/* max numbere of buttons in a property */
@@ -111,6 +111,7 @@ class INDI_E : public QObject
    int buildTextGUI    (QString initText);
    int buildNumberGUI  (double initValue);
    int buildLightGUI();
+   int buildBLOBGUI();
    void drawLt();
    
    void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);

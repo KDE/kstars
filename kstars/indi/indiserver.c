@@ -82,7 +82,7 @@ static void clientMsg (int cl);
 static void startDvr (char *name);
 static void restartDvr (int i);
 static void send2AllDrivers (XMLEle *root);
-static void send2AllClients (ClInfo *notcp, XMLEle *root);
+static void send2AllClients (ClInfo *notthiscp, XMLEle *root);
 static void driverMsg (int dn);
 
 static char *me;			/* our name */
@@ -263,7 +263,6 @@ startDvr (char *name)
 	dp->name = name;
 	dp->rfd = rp[0];
 	close (rp[1]);
-	fcntl (wp[1], F_SETFL, O_NONBLOCK);
 	dp->wfp = fdopen (wp[1], "a");
 	setbuf (dp->wfp, NULL);
 	close (wp[0]);
@@ -423,7 +422,7 @@ clientMsg (int cli)
 	int i, nr;
 
 	/* read client */
-	nr = read (cp->s, buf, sizeof(buf)-1);
+	nr = read (cp->s, buf, sizeof(buf));
 	if (nr < 0) {
 	    fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
 	    closeClient (cli);
@@ -435,7 +434,7 @@ clientMsg (int cli)
 	    closeClient (cli);
 	    return;
 	} 
-        buf[ sizeof( buf )-1 ] = '\0';
+
 	if (verbose > 1)
 	    fprintf (stderr, "Client %d: rcv from:\n%.*s", cp->s, nr, buf);
 
@@ -465,7 +464,7 @@ driverMsg (int i)
 	int nr;
 
 	/* read driver */
-	nr = read (dp->rfd, buf, sizeof(buf)-1);
+	nr = read (dp->rfd, buf, sizeof(buf));
 	if (nr < 0) {
 	    fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
 	    restartDvr (i);
@@ -476,7 +475,7 @@ driverMsg (int i)
 	    restartDvr (i);
 	    return;
 	}
-        buf[ sizeof( buf )-1 ]='\0';
+
 	if (verbose > 1)
 	    fprintf (stderr, "Driver %s: rcv from:\n%.*s", dp->name, nr, buf);
 
@@ -550,13 +549,13 @@ send2AllDrivers (XMLEle *root)
 
 /* send the xml command to all clients, except notcp */
 static void
-send2AllClients (ClInfo *notcp, XMLEle *root)
+send2AllClients (ClInfo *notthiscp, XMLEle *root)
 {
 	int i;
 
 	for (i = 0; i < nclinfo; i++) {
 	    ClInfo *cp = &clinfo[i];
-	    if (cp == notcp || !cp->active)
+	    if (cp == notthiscp || !cp->active)
 		continue;
 	    prXMLEle (cp->wfp, root, 0);
 	    if (ferror(cp->wfp)) {
@@ -588,9 +587,6 @@ newClSocket ()
 	}
 
 	/* ok */
-	fcntl (cli_fd, F_SETFL, O_NONBLOCK);
 	return (cli_fd);
 }
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};

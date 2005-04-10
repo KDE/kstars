@@ -1,0 +1,40 @@
+<ApogeeSpecs> 
+ <Apogee_Camera model='AP8P'>
+  <System interface='PPI' Base='0x378'>
+     <PP_Repeat>1</PP_Repeat>
+     <Cable>Short</Cable>
+     <High_Priority>True</High_Priority>
+     <Data_Bits>16</Data_Bits>
+     <Sensor>CCD</Sensor>
+     <Mode>0x2</Mode>
+     <Test>0x6</Test>
+     <Shutter_Speed>Normal</Shutter_Speed>
+     <Shutter_Bits>0x00</Shutter_Bits>
+     <MaxBinX>8</MaxBinX>
+     <MaxBinY>63</MaxBinY>
+     <Guider_Relays>False</Guider_Relays>
+   </System>
+   
+   <Geometry Columns='1043' Rows='1033'>
+     <ImgCols>1024</ImgCols>
+     <ImgRows>1024</ImgRows>
+     <BIC>12</BIC>
+     <BIR>6</BIR>
+     <SKIPC>6</SKIPC>
+     <SKIPR>2</SKIPR>
+     <HFlush>8</HFlush>
+     <VFlush>50</VFlush>
+   </Geometry>
+   
+   <Temp Control='True' Target='-30.0' Cal='165' Scale='2.1' />
+   
+   <CCD Sensor='SI-003a'>
+     <Color>False</Color>
+     <Noise>10.0</Noise>
+     <Gain>3.5</Gain>
+     <PixelXSize>24</PixelXSize>
+     <PixelYSize>24</PixelYSize>
+   </CCD>
+ </Apogee_Camera>
+</ApogeeSpecs>
+ 

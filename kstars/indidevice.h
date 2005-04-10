@@ -96,6 +96,8 @@ class INDI_D : public KDialogBase
 
     INDIMenu      *parent;
     DeviceManager *parentMgr;
+    
+    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER };
 
    /*****************************************************************
    * Build
@@ -105,7 +107,8 @@ class INDI_D : public KDialogBase
    int buildSwitchesGUI(XMLEle *root, char errmsg[]);
    int buildMenuGUI    (INDI_P *pp, XMLEle *root, char errmsg[]);
    int buildLightsGUI  (XMLEle *root, char errmsg[]);
-
+   int buildBLOBGUI    (XMLEle *root, char errmsg[]);
+   
    /*****************************************************************
    * Add
    ******************************************************************/
@@ -125,7 +128,8 @@ class INDI_D : public KDialogBase
    int setValue       (INDI_P *pp, XMLEle *root, char errmsg[]);
    int setLabelState  (INDI_P *pp, XMLEle *root, char errmsg[]);
    int setTextValue   (INDI_P *pp, XMLEle *root, char errmsg[]);
-
+   int setBLOB        (INDI_P *pp, XMLEle * root, char errmsg[]);
+       
    int newValue       (INDI_P *pp, XMLEle *root, char errmsg[]);
    int newTextValue   (INDI_P *pp, XMLEle *root, char errmsg[]);
 
@@ -139,7 +143,12 @@ class INDI_D : public KDialogBase
    ******************************************************************/
    int crackLightState  (char *name, PState *psp);
    int crackSwitchState (char *name, PState *psp);
-
+   
+   /*****************************************************************
+   * Data processing
+   ******************************************************************/
+   int processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[]);
+   
    /*****************************************************************
    * INDI standard property policy
    ******************************************************************/

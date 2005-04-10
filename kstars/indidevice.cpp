@@ -33,6 +33,7 @@
 #include "skyobject.h"
 #include "timedialog.h"
 #include "geolocation.h"
+#include "indi/base64.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -41,6 +42,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>
+#include <zlib.h>
 
 #include <qlineedit.h>
 #include <qtextedit.h>
@@ -224,6 +226,10 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	case PG_RADIO:		
 	case PG_MENU:
 	    return (setLabelState (pp, root, errmsg));
+	    break;
+	    
+	case PG_BLOB:
+	    return (setBLOB(pp, root, errmsg));
 	    break;
 
 	default:
@@ -430,6 +436,108 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	stdDev->setLabelState(pp);
 
 	return (0);
+}
+
+/* Set BLOB vector. Process incoming data stream
+ * Return 0 if okay, -1 if error 
+*/
+int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
+{
+  
+  XMLEle *ep;
+  INDI_E *blobEL;
+  
+  for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0))
+  {
+    
+    if (strcmp(tagXMLEle(ep), "oneBLOB") == 0)
+    {
+      
+      blobEL = pp->findElement(QString(findXMLAttValu (ep, "name")));
+      
+      if (blobEL)
+	return processBlob(blobEL, ep, errmsg);
+      else
+      {
+	sprintf (errmsg, "INDI: set %64s.%64s.%64s not found", name.ascii(), pp->name.ascii(), findXMLAttValu(ep, "name"));
+	return (-1);
+      }
+    }
+  }
+  
+  return (0);
+  
+}
+
+/* Process incoming data stream
+ * Return 0 if okay, -1 if error 
+*/
+int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
+{
+  XMLAtt *ap;
+  int blobSize=0, r=0, dataType=0;
+  uLongf dataSize=0;
+  QString dataFormat;
+  char *baseBuffer;
+  unsigned char *blobBuffer(NULL), *dataBuffer(NULL);
+  bool iscomp(false);
+  
+  ap = findXMLAtt(ep, "size");
+  if (!ap)
+  {
+    sprintf (errmsg, "INDI: set %64s size not found", blobEL->name.ascii());
+    return (-1);
+  }
+  
+  dataSize = atoi(valuXMLAtt(ap));
+  
+  ap = findXMLAtt(ep, "format");
+  if (!ap)
+  {
+    sprintf (errmsg, "INDI: set %64s format not found", blobEL->name.ascii());
+    return (-1);
+  }
+  
+  dataFormat = QString(valuXMLAtt(ap));
+  
+  baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
+  blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
+  blobBuffer = (unsigned char *) baseBuffer;
+  
+  if (blobSize < 0)
+  {
+    free (blobBuffer);
+    sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii());
+    return (-1);
+  }
+  
+  iscomp = (dataFormat.find(".z") != -1);
+  
+  dataFormat.remove(".z");
+  
+  if (dataFormat == ".fits") dataType = DATA_FITS;
+  else if (dataFormat == ".stream") dataType = DATA_STREAM;
+  else dataType = DATA_OTHER;
+  
+  if (iscomp)
+  {
+    
+    dataBuffer = (unsigned char *) malloc (dataSize * sizeof(unsigned char));
+    r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
+    if (r != Z_OK)
+    {
+      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii(), r);    
+      return -1;
+    }
+   
+    free (blobBuffer);
+    blobBuffer = dataBuffer;
+  }
+  
+  stdDev->handleBLOB(dataBuffer, dataSize, dataType);
+  
+  return (0);
+  
 }
 
 bool INDI_D::isOn()
@@ -799,6 +907,39 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	
 	pp->pg->addProperty(pp);
 	return (0);
+}
+
+/* build GUI for a BLOB GUI.
+ * return 0 if ok, else -1 with reason in errmsg[] */
+int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
+{
+  INDI_P *pp;
+  PPerm p;
+
+  // build a new property
+  pp = addProperty (root, errmsg);
+  if (!pp)
+    return (-1);
+
+  /* get the permission, it will determine layout issues */
+  if (findPerm (pp, root, &p, errmsg))
+  {
+    delete(pp);
+    return (-1);
+  }
+	 
+  /* we know it will be a number GUI */
+  pp->perm = p;
+  pp->guitype = PG_BLOB;
+	
+  if (pp->buildBLOBGUI(root, errmsg) < 0)
+  {
+    delete (pp);
+    return (-1);
+  }
+	
+  pp->pg->addProperty(pp);
+  return (0);
 }
 
 INDI_E * INDI_D::findElem(QString name)

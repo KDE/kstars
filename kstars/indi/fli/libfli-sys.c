@@ -72,6 +72,8 @@ static long unix_fli_list_parport(flidomain_t domain, char ***names);
 static long unix_fli_list_usb(flidomain_t domain, char ***names);
 static long unix_fli_list_serial(flidomain_t domain, char ***names);
 
+long linux_usb_reset(flidev_t dev);
+
 long unix_fli_connect(flidev_t dev, char *name, long domain)
 {
   fli_unixio_t *io;
@@ -169,6 +171,14 @@ long unix_fli_disconnect(flidev_t dev)
   fli_unixio_t *io;
 
   CHKDEVICE(dev);
+  
+#define USB_RESET
+#ifdef USB_RESET
+  if ((DEVICE->domain & 0x00ff) == FLIDOMAIN_USB) {
+    debug(FLIDEBUG_INFO, "Resetting device");
+    linux_usb_reset(dev);
+  }
+#endif
 
   if ((io = DEVICE->io_data) == NULL)
     return -EINVAL;
@@ -411,7 +421,7 @@ static long unix_fli_list_glob(char *pattern, flidomain_t domain,
   {
     flidev_t dev;
 
-    if (FLIOpen(&dev, g.gl_pathv[i], domain))
+    if (FLIOpen(&dev, g.gl_pathv[i], domain)) 
       continue;
 
     if ((list[found] = xmalloc(strlen(g.gl_pathv[i]) +

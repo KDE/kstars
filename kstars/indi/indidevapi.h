@@ -105,6 +105,17 @@ extern void IDDefLight (const ILightVectorProperty *l, const char *msg, ...)
 #endif
 ;
 
+/** \brief Tell client to create a BLOB vector property.
+    \param l pointer to the vector BLOB property to be defined.
+    \param msg message in printf style to send to the client. May be NULL.
+ */
+extern void IDDefBLOB (const IBLOBVectorProperty *b, const char *msg, ...)
+#ifdef __GNUC__
+    __attribute__ ( ( format( printf, 2, 3 ) ) )
+#endif
+;
+
+
 /*@}*/
 
 /**
@@ -149,6 +160,16 @@ extern void IDSetSwitch (const ISwitchVectorProperty *s, const char *msg, ...)
 extern void IDSetLight (const ILightVectorProperty *l, const char *msg, ...)
 #ifdef __GNUC__
         __attribute__ ( ( format( printf, 2, 3 ) ) )
+#endif
+;
+
+/** \brief Tell client to update an existing BLOB vector property.
+    \param l pointer to the vector BLOB property.
+    \param msg message in printf style to send to the client. May be NULL.
+ */
+extern void IDSetBLOB (const IBLOBVectorProperty *b, const char *msg, ...)
+#ifdef __GNUC__
+    __attribute__ ( ( format( printf, 2, 3 ) ) )
 #endif
 ;
 

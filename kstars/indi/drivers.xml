@@ -65,6 +65,16 @@
 		<Exec>fliccd</Exec>
 		<Version>0.2</Version>
 	</device>
+	<device label="Apogee PPI" driver="Apogee PPI">
+	  <Exec>apogee_ppi</Exec>
+	  <Version>0.1</Version>
+	</device>
+</devGroup>
+<devGroup group="Filter Wheels">
+  	<device label="FLI Wheel" driver="FLI WHEEL">
+    		<Exec>fliwheel</Exec>
+    		<Version>0.1</Version>
+    	</device>
 </devGroup>
 <devGroup group="Video">
 	<device label="Generic Video4Linux" driver="v4ldriver">

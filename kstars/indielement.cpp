@@ -140,6 +140,36 @@ int INDI_E::buildTextGUI(QString initText)
     
 }
 
+int INDI_E::buildBLOBGUI()
+{
+
+  setupElementLabel();  
+  
+  text = "INDI DATA STREAM";
+  
+  switch (pp->perm)
+  {
+    case PP_RW:
+      // TODO Allow it to upload some file. Same for PP_WO
+      //setupElementRead(ELEMENT_READ_WIDTH);
+      //setupElementWrite(ELEMENT_WRITE_WIDTH);
+    
+      break;
+    
+    case PP_RO:
+      setupElementRead(ELEMENT_FULL_WIDTH);
+      break;
+    
+    case PP_WO:
+      //setupElementWrite(ELEMENT_FULL_WIDTH);
+      break;
+  }
+  
+  pp->PVBox->addLayout(EHBox);
+  return (0);
+    
+}
+
 int INDI_E::buildNumberGUI  (double initValue)
 {
   bool scale = false;

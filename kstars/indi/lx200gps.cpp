@@ -41,18 +41,18 @@ static ISwitch AltDecBackSlashS[]	= {{ "Activate", "", ISS_OFF, 0, 0}};
 static ISwitch AzRaBackSlashS[]		= {{ "Activate", "", ISS_OFF, 0, 0}};
 static ISwitch OTAUpdateS[]		= {{ "Update", "", ISS_OFF, 0, 0}};
 
-static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS), 0 ,0};
-static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS), 0, 0};
-static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), 0, 0};
-static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS), 0 ,0};
-static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS), 0, 0};
-static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS), 0, 0};
-static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecBackSlashS, NARRAY(AltDecBackSlashS), 0, 0};
-static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS), 0, 0};
-static ISwitchVectorProperty OTAUpdateSw	= { mydev, "OTA Update", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OTAUpdateS, NARRAY(OTAUpdateS), 0, 0};
+static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS), "", 0};
+static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS), "", 0};
+static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), "", 0};
+static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS), "", 0};
+static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS), "", 0};
+static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS), "", 0};
+static ISwitchVectorProperty AltDecBackSlashSw	= { mydev, "Alt/Dec Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecBackSlashS, NARRAY(AltDecBackSlashS), "", 0};
+static ISwitchVectorProperty AzRaBackSlashSw	= { mydev, "Az/Ra Anti-backslash", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaBackSlashS, NARRAY(AzRaBackSlashS), "", 0};
+static ISwitchVectorProperty OTAUpdateSw	= { mydev, "OTA Update", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OTAUpdateS, NARRAY(OTAUpdateS), "", 0};
 
 static INumber Temp[]	= { {"Temp.", "", "%g", -200., 500., 0., 0., 0, 0, 0 } };
-static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), 0, 0};
+static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), "", 0};
 
 void updateTemp(void * /*p*/);
 

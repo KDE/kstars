@@ -1715,7 +1715,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;
        if (maxelem > npix) maxelem = npix;
-       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != maxelem)
+       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != (unsigned) maxelem)
          return (-1);
        npix -= maxelem;
 
@@ -1758,7 +1758,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;
        if (maxelem > npix) maxelem = npix;
-       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != maxelem)
+       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != (unsigned) maxelem)
          return (-1);
        npix -= maxelem;
 
@@ -1803,7 +1803,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;
        if (maxelem > npix) maxelem = npix;
-       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != maxelem)
+       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != (unsigned) maxelem)
          return (-1);
        npix -= maxelem;
 
@@ -1848,7 +1848,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;
        if (maxelem > npix) maxelem = npix;
-       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != maxelem)
+       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != (unsigned) maxelem)
          return (-1);
        npix -= maxelem;
 
@@ -1876,7 +1876,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
      {
        maxelem = sizeof (pixbuffer) / hdulist->bpp;
        if (maxelem > npix) maxelem = npix;
-       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != maxelem)
+       if (fread ((char *)pixbuffer, hdulist->bpp, maxelem, ff->fp) != (unsigned) maxelem)
          return (-1);
        npix -= maxelem;
 

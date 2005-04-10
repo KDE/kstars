@@ -1,34 +1,44 @@
+AM_CPPFLAGS = @CPPFLAGS@ -DTOP_DATADIR=\"$(pkgdatadir)\"
+
 if LINUX
 bin_add   =  v4ldriver v4lphilips
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd temma $(bin_add)
+bin_PROGRAMS = indiserver lx200generic celestrongps fliccd fliwheel temma apogee_ppi $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
-libindicom_a_SOURCES = indicom.c fitsrw.c
+libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
 
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
 indiserver_SOURCES = indiserver.c
 indiserver_LDADD = liblilxml.a $(LIBSOCKET)
 
-lx200generic_SOURCES = indidrivermain.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
+lx200generic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a
 
-celestrongps_SOURCES =  indidrivermain.c eventloop.c celestronprotocol.c celestrongps.cpp
+celestrongps_SOURCES =  indidrivermain.c base64.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a
 
-fliccd_SOURCES =  eventloop.c fli_ccd.c indidrivermain.c
+fliccd_SOURCES =  eventloop.c base64.c fli_ccd.c indidrivermain.c
 fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz
 
-v4ldriver_SOURCES = eventloop.c indidrivermain.c v4ldriver.cpp
+fliwheel_SOURCES =  eventloop.c base64.c fli_wheel.c indidrivermain.c
+fliwheel_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
+
+v4ldriver_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp
 v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
-v4lphilips_SOURCES = eventloop.c indidrivermain.c v4lphilips.cpp
+v4lphilips_SOURCES = eventloop.c base64.c indidrivermain.c v4lphilips.cpp
 v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
-temma_SOURCES =  indidrivermain.c eventloop.c temmadriver.c
+temma_SOURCES =  indidrivermain.c base64.c eventloop.c temmadriver.c
 temma_LDADD = liblilxml.a libindicom.a -lm
+
+apogee_ppi_SOURCES = apogee_ppi.cpp base64.c eventloop.c indidrivermain.c
+apogee_ppi_LDADD = libindicom.a liblilxml.a apogee/libapogee_PPI.la -lz
+
+pkgdata_DATA = apogee_caminfo.xml
 
 appdatadir = $(kde_datadir)/kstars
 appdata_DATA = drivers.xml
@@ -49,4 +59,4 @@ uninstall-local:
 
 KDE_OPTIONS = nofinal
 
-SUBDIRS = fli webcam
+SUBDIRS = fli webcam apogee

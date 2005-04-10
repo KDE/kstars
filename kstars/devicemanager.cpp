@@ -127,7 +127,7 @@ bool DeviceManager::indiConnect(QString inHost, QString inPort)
 
 	setbuf (serverFP, NULL);
 
-	fprintf(serverFP, "<getProperties version='0.1'/>\n");
+	fprintf(serverFP, "<getProperties version='%g'/>\n", INDIVERSION);
 
 	// We made it!
 	return true;
@@ -207,10 +207,13 @@ int DeviceManager::dispatchCommand(XMLEle *root, char errmsg[])
        return dp->buildSwitchesGUI(root, errmsg);
    else if (!strcmp (tagXMLEle(root), "defLightVector"))
         return dp->buildLightsGUI(root, errmsg);
+   else if (!strcmp (tagXMLEle(root), "defBLOBVector"))
+     return dp->buildBLOBGUI(root, errmsg);
    else if (!strcmp (tagXMLEle(root), "setTextVector") ||
    	    !strcmp (tagXMLEle(root), "setNumberVector") ||
 	    !strcmp (tagXMLEle(root), "setSwitchVector") ||
-	    !strcmp (tagXMLEle(root), "setLightVector"))
+	    !strcmp (tagXMLEle(root), "setLightVector") ||
+	    !strcmp (tagXMLEle(root), "setBLOBVector")) 
 	return dp->setAnyCmd(root, errmsg);
 
    return (-1);

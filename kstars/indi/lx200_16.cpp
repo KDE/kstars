@@ -65,11 +65,11 @@ static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_
 #define	MAXINDIGROUP	32
 #define	MAXINDIFORMAT	32
 
-static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), 0, 0};
+static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), "", 0};
 
-static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), 0, 0};
+static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), "", 0};
 
-static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS), 0, 0};
+static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS), "", 0};
 
 //static ISwitches SlewAltAzSw		= { mydev, "AltAzSet", "On Alt/Az Set",  SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
 
@@ -80,7 +80,7 @@ static INumber hor[] = {
     
 static INumberVectorProperty horNum = {
     mydev, "HORIZONTAL_COORD", "Horizontal Coords", LX16GROUP, IP_RW, 0, IPS_IDLE,
-    hor, NARRAY(hor), 0, 0};
+    hor, NARRAY(hor), "", 0};
 
 void changeLX200_16DeviceName(const char * newName)
 {
@@ -191,7 +191,6 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
    int index;
-   char msg[32];
    int err;
 
   if (strcmp (dev, thisDevice))
