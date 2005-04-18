@@ -28,8 +28,8 @@
 #define ELEMENT_WRITE_WIDTH	175
 #define ELEMENT_FULL_WIDTH	340
 #define BUTTON_WIDTH		101
-#define MIN_SET_WIDTH		40
-#define MAX_SET_WIDTH		100
+#define MIN_SET_WIDTH		50
+#define MAX_SET_WIDTH		110
 
 // Pulse tracking
 #define INDI_PULSE_TRACKING   15000
@@ -99,6 +99,7 @@ class INDI_E : public QObject
     KDoubleSpinBox *spin_w;		// spinbox
     QSlider	   *slider_w;		// Slider
     KPushButton    *push_w;		// push button
+    KPushButton    *browse_w;		// browse button
     QCheckBox      *check_w;		// check box
     QSpacerItem    *hSpacer;		// Horizontal spacer
     
@@ -123,10 +124,12 @@ class INDI_E : public QObject
    void setupElementRead(int length);
    void setupElementWrite(int length);
    void setupElementScale(int length);
+   void setupBrowseButton();
    
    public slots:
    void spinChanged(double value);
    void sliderChanged(int value);
+   void browseBlob();
 
 };
 

@@ -249,6 +249,19 @@ void getSexComponents(double value, int *d, int *m, int *s);
 */
 int numberFormat (char *buf, const char *format, double value);
 
+/** \brief Fill buffer with properly formatted INumber string.
+    \param buf to store the formatted string.
+    \param format format in sprintf style.
+    \param value the number to format.
+    \return length of string.
+*/
+int numberFormat (char *buf, const char *format, double value);
+
+/** \brief Create an ISO 8601 formatted time stamp. The format is YYYY-MM-DDTHH:MM:SS
+    \return The formatted time stamp.
+*/
+const char *timestamp (void);
+
 /*@}*/
 
 #ifdef __cplusplus

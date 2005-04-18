@@ -177,13 +177,13 @@ addTimer (int ms, TCF *fp, void *ud)
  * silently ignore if id not found.
  */
 void
-rmTimer (int tid)
+rmTimer (int timerID)
 {
 	TF *tp;
 
 	/* find it */
 	for (tp = timef; tp < &timef[ntimef]; tp++)
-	    if (tp->tid == tid)
+	    if (tp->tid == timerID)
 		break;
 	if (tp == &timef[ntimef])
 	    return;
@@ -226,12 +226,12 @@ addWorkProc (WPF *fp, void *ud)
  * silently ignore if id not found.
  */
 void
-rmWorkProc (int wid)
+rmWorkProc (int workID)
 {
 	WP *wp;
 
 	for (wp = wproc; wp < &wproc[nwproc]; wp++) {
-	    if (wp->in_use && wp->wid == wid) {
+	    if (wp->in_use && wp->wid == workID) {
 		if (wp == &wproc[nwproc-1] && wp > wproc)
 		    wproc = (WP *) realloc (wproc, (--nwproc)*sizeof(WP));
 		else

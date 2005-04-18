@@ -1,6 +1,6 @@
 #if 0
     INDI
-    Copyright (C) 2003 Elwood C. Downey
+    Copyright (C) 2003-2005 Elwood C. Downey
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -26,8 +26,6 @@
     Refer to the <a href="http://www.clearskyinstitute.com/INDI/INDI.pdf">INDI White Paper</a> for more details on the INDI Server.
  */
  
- /* TODO: since we are parsing, could send drivers only cmds for their devices. Each driver process's stderr is connected to our stderr.*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -45,13 +43,13 @@
 #include "lilxml.h"
 
 #define INDIPORT        7624            /* TCP/IP port on which to listen */
-#define	BUFSZ		1024		/* max buffering here */
-#define	MAXRS		2		/* default times to restart a driver */
+#define	BUFSZ		2048		/* max buffering here */
+#define	MAXRS		4		/* default times to restart a driver */
 
 /* info for each connected client */
 typedef struct {
     int active;				/* 1 when this record is in use */
-    int s;				/* private socket */
+    int s;				/* socket for this client */
     FILE *wfp;				/* FILE to write to s */
     LilXML *lp;				/* XML parsing context */
 } ClInfo;
@@ -82,8 +80,10 @@ static void clientMsg (int cl);
 static void startDvr (char *name);
 static void restartDvr (int i);
 static void send2AllDrivers (XMLEle *root);
-static void send2AllClients (ClInfo *notthiscp, XMLEle *root);
+static void send2AllClients (ClInfo *notthisone, XMLEle *root);
 static void driverMsg (int dn);
+static int fdwritable (int fd);
+static int fddrop (int fd, XMLEle *root);
 
 static char *me;			/* our name */
 static int port = INDIPORT;		/* public INDI port */
@@ -378,7 +378,7 @@ indiRun(void)
 static void
 newClient()
 {
-	ClInfo *cp = 0;
+	ClInfo *cp = NULL;
 	int s, cli;
 
 	/* assign new socket */
@@ -409,15 +409,15 @@ newClient()
 	    fprintf (stderr, "Client %d: new arrival - welcome!\n", cp->s);
 }
 
-/* read more from client clinfo[cli], send to each driver when see xml closure.
+/* read more from client clinfo[c], send to each driver when see xml closure.
  * also send all newXXX() to all other clients.
  * restart driver if not accepting commands.
  * shut down client if gives us any trouble.
  */
 static void
-clientMsg (int cli)
+clientMsg (int c)
 {
-	ClInfo *cp = &clinfo[cli];
+	ClInfo *cp = &clinfo[c];
 	char buf[BUFSZ];
 	int i, nr;
 
@@ -425,18 +425,17 @@ clientMsg (int cli)
 	nr = read (cp->s, buf, sizeof(buf));
 	if (nr < 0) {
 	    fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
-	    closeClient (cli);
+	    closeClient (c);
 	    return;
 	}
 	if (nr == 0) {
 	    if (verbose)
 		fprintf (stderr, "Client %d: EOF\n", cp->s);
-	    closeClient (cli);
+	    closeClient (c);
 	    return;
 	} 
-
 	if (verbose > 1)
-	    fprintf (stderr, "Client %d: rcv from:\n%.*s", cp->s, nr, buf);
+	    fprintf (stderr, "Client %d: rcv %d from:\n%.*s", cp->s, nr,nr,buf);
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
@@ -452,32 +451,32 @@ clientMsg (int cli)
 	}
 }
 
-/* read more from driver dvrinfo[i], send to each client when see xml closure.
- * if driver dies, try to restart.
+/* read more from driver dvrinfo[d], send to each client when see xml closure.
+ * if driver dies, try to restarting up to MAXRS times.
  * if any client can not keep up, drop its connection.
  */
 static void
-driverMsg (int i)
+driverMsg (int d)
 {
-	DvrInfo *dp = &dvrinfo[i];
+	DvrInfo *dp = &dvrinfo[d];
 	char buf[BUFSZ];
-	int nr;
+	int i, nr;
 
 	/* read driver */
 	nr = read (dp->rfd, buf, sizeof(buf));
 	if (nr < 0) {
 	    fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
-	    restartDvr (i);
+	    restartDvr (d);
 	    return;
 	}
 	if (nr == 0) {
 	    fprintf (stderr, "Driver %s: died, or failed to start\n", dp->name);
-	    restartDvr (i);
+	    restartDvr (d);
 	    return;
 	}
-
 	if (verbose > 1)
-	    fprintf (stderr, "Driver %s: rcv from:\n%.*s", dp->name, nr, buf);
+	    fprintf (stderr, "Driver %s: rcv %d from:\n%.*s", dp->name, nr,
+								    nr, buf);
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
@@ -491,11 +490,11 @@ driverMsg (int i)
 	}
 }
 
-/* close down clinof[i] */
+/* close down clinof[c] */
 static void
-closeClient (int i)
+closeClient (int c)
 {
-	ClInfo *cp = &clinfo[i];
+	ClInfo *cp = &clinfo[c];
 
 	fclose (cp->wfp);		/* also closes cp->s */
 	cp->active = 0;
@@ -505,11 +504,11 @@ closeClient (int i)
 	    fprintf (stderr, "Client %d: closed\n", cp->s);
 }
 
-/* close down driver process dvrinfo[i] and restart if not too many already */
+/* close down driver process dvrinfo[d] and restart if not too many already */
 static void
-restartDvr (int i)
+restartDvr (int d)
 {
-	DvrInfo *dp = &dvrinfo[i];
+	DvrInfo *dp = &dvrinfo[d];
 
 	/* make sure it's dead, reclaim resources */
 	kill (dp->pid, SIGKILL);
@@ -547,16 +546,22 @@ send2AllDrivers (XMLEle *root)
 	}
 }
 
-/* send the xml command to all clients, except notcp */
+/* send the xml command to all writable clients, except notthisone */
 static void
-send2AllClients (ClInfo *notthiscp, XMLEle *root)
+send2AllClients (ClInfo *notthisone, XMLEle *root)
 {
 	int i;
 
 	for (i = 0; i < nclinfo; i++) {
 	    ClInfo *cp = &clinfo[i];
-	    if (cp == notthiscp || !cp->active)
+	    if (cp == notthisone || !cp->active)
 		continue;
+	    if (fddrop(cp->s,root)) {
+		fprintf (stderr, "Client %d: channel full, dropping %s %s.%s\n",
+		    cp->s, tagXMLEle(root), findXMLAttValu (root, "device"),
+						findXMLAttValu (root, "name"));
+		continue;
+	    }
 	    prXMLEle (cp->wfp, root, 0);
 	    if (ferror(cp->wfp)) {
 		fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
@@ -589,4 +594,44 @@ newClSocket ()
 	/* ok */
 	return (cli_fd);
 }
+
+/* return 1 if the given file descriptor will not block for writing, else 0 */
+static int
+fdwritable (int fd)
+{
+	struct timeval tv;
+	int maxfd;
+	fd_set ws;
+
+	FD_ZERO(&ws);
+	FD_SET(fd, &ws);
+	maxfd = fd;
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
+
+	return (select (maxfd+1, NULL, &ws, NULL, &tv) == 1);
+}
+
+/* return 1 if the given file descriptor being considered for the given message
+ * should be dropped, else 0
+ */
+static int
+fddrop (int fd, XMLEle *root)
+{
+	XMLEle *ep;
+
+	/* ok if would not block or not a BLOB */
+	if (fdwritable(fd) || strcmp(tagXMLEle(root),"setBLOBVector"))
+	    return (0);
+
+	/* drop if any BLOB vector element is >0 size */
+	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
+	    if (!strcmp (tagXMLEle(ep), "oneBLOB") &&
+					atoi(findXMLAttValu(ep,"size")) > 0)
+		return (1);
+
+	/* ok */
+	return (0);
+}
+
 

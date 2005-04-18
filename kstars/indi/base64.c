@@ -22,6 +22,7 @@
  */
 
 #include <ctype.h>
+#include "base64.h"
 
 static const char base64digits[] =
    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

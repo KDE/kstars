@@ -53,6 +53,9 @@ class DeviceManager : public QObject
    void sendNewText    (INDI_P *pp);
    void sendNewNumber  (INDI_P *pp);
    void sendNewSwitch  (INDI_P *pp, int index);
+   void startBlob (QString devName, QString propName, QString timestamp);
+   void sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer);
+   void finishBlob();
 
    /*****************************************************************
    * Misc.

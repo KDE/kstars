@@ -504,12 +504,19 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
   blobBuffer = (unsigned char *) baseBuffer;
   
-  if (blobSize < 0)
+  /* Blob size = 0 when only state changes */
+  if (dataSize == 0)
+  {
+    free (blobBuffer);
+    return (0);
+  }
+  else if (blobSize < 0)
   {
     free (blobBuffer);
     sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii());
     return (-1);
   }
+  
   
   iscomp = (dataFormat.find(".z") != -1);
   

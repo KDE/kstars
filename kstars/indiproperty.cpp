@@ -20,6 +20,9 @@
  #include "Options.h"
  #include "kstars.h"
  #include "timedialog.h"
+
+ #include "indi/base64.h"
+ #include "indi/indicom.h"
  
  #include <kpopupmenu.h>
  #include <klineedit.h>
@@ -36,7 +39,9 @@
  #include <qlabel.h>
  #include <qlayout.h>
  #include <qtimer.h>
- 
+ #include <qfile.h>
+ #include <qdatastream.h>
+
  #include <unistd.h>
  #include <stdlib.h>
  
@@ -288,6 +293,96 @@ void INDI_P::newSwitch(int id)
 
   pg->dp->parentMgr->sendNewSwitch (this, id);
 
+
+}
+
+/* Display file dialog to select and upload a file to the client
+   Loop through blobs and send each accordingly
+ */
+void INDI_P::newBlob()
+{
+ QFile fp;
+ QString filename;
+ QString format;
+ QDataStream binaryStream;
+ int data64_size=0, pos=0;
+ char *data_file;
+ unsigned char *data, *data64;
+ bool sending (false);
+ bool valid (true);
+ 
+  for (unsigned int i=0; i < el.count(); i++)
+  {
+     filename = el.at(i)->write_w->text();
+     if (filename.isEmpty())
+     {
+        valid = false;
+        continue; 
+     }
+     
+      fp.setName(filename);
+
+      if ( (pos = filename.findRev(".")) != -1)
+		format = filename.mid (pos, filename.length());
+
+      if (!fp.open(IO_ReadOnly))
+      {
+          KMessageBox::error(0, i18n("Cannot open file %1 for reading").arg(filename));
+          valid = false;
+          continue;
+     }
+     
+     binaryStream.setDevice(&fp);
+
+     data_file = new char[fp.size()];
+     if (data_file == NULL)
+     {
+ 	KMessageBox::error(0, i18n("Not enough memory to load %1").arg(filename));
+	fp.close();
+        valid = false;
+        continue;
+     }
+
+     binaryStream.readRawBytes(data_file, fp.size());
+     data = (unsigned char *) data_file;
+
+     data64 = new unsigned char[4*fp.size()/3+4];
+     if (data64 == NULL)
+     {
+	KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64").arg(filename));
+	fp.close();
+        valid = false;
+        continue;
+     }
+
+     data64_size = to64frombits (data64, data, fp.size());
+
+     delete (data);
+
+    if (sending == false)
+    {
+        sending = true;
+	pg->dp->parentMgr->startBlob (pg->dp->name, name, QString(timestamp()));
+    }
+
+    pg->dp->parentMgr->sendOneBlob(el.at(i)->name, data64_size, format, data64);
+
+    delete (data64);
+
+  }
+
+  /* Nothing been made, no changes */
+  if (!sending && !valid)
+    return;
+  else if (sending)
+    pg->dp->parentMgr->finishBlob();
+
+  if (valid) 
+	state = PS_BUSY;
+  else
+	state = PS_ALERT;
+
+  drawLt(state);
 
 }
 
@@ -775,18 +870,9 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
   if (perm == PP_RO)
     return 0;
 	
-	 // INDI STD, but we use our own controls
-  if (name == "TIME")
-  {
-    setupSetButton("Time");
-    QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
-  }
-  else
-  {
-    setupSetButton("Set");
-    QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
-  }
-	 
+   setupSetButton(i18n("Upload"));
+   QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));
+
   return 0;
 	 
 }

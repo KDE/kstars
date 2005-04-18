@@ -229,6 +229,11 @@ void ISGetProperties (const char *dev)
   IEAddTimer (POLLMS, ISPoll, NULL);
   
 }
+
+void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], char *formats[], char *names[], int n)
+{
+  dev=dev;name=name;sizes=sizes;blobs=blobs;formats=formats;names=names;n=n;
+}
   
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {

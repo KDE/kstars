@@ -100,6 +100,11 @@ void ISGetProperties (const char *dev) {
 	IDDefNumber (&geoNum, NULL);
 }
 
+void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], char *formats[], char *names[], int n)
+{
+ dev=dev;name=name;sizes=sizes;blobs=blobs;formats=formats;names=names;n=n;
+}
+
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n) {
         /*IText *tp;*/
 

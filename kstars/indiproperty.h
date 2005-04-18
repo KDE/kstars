@@ -14,6 +14,7 @@
 
 #include "indielement.h"
 
+
 class INDI_G;
 class INDIStdProperty;
 
@@ -48,6 +49,7 @@ class INDI_P : public QObject
     KLed	*light;			/* state LED */
     PPerm       perm;		        /* permissions wrt client */
     PGui        guitype;		/* type of GUI, if any */
+
     
     int 	stdID;			/* Standard property ID, if any */
     
@@ -94,6 +96,7 @@ class INDI_P : public QObject
     public slots:
     void newText();
     void newSwitch(int id);
+    void newBlob();
     void convertSwitch(int id);
     
     signals:

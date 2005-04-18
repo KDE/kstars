@@ -243,6 +243,9 @@ void ISGetProperties (const char *dev)
   
 }
   
+void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
+{}
+
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
 	char errmsg[ERRMSG_SIZE];

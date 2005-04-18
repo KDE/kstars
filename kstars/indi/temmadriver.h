@@ -124,7 +124,7 @@ static ISwitch RAmotor[] = {
 
 static ISwitchVectorProperty RAmotorSw = { 
 	mydev, "RA motor", "RA motor", MOVE_GROUP, IP_RW, ISR_ATMOST1, 
-	0, IPS_IDLE, RAmotor, NARRAY(RAmotor), 0, 0 };
+	0, IPS_IDLE, RAmotor, NARRAY(RAmotor), "", 0};
 
 /*****************************/
 /* Track mode control switch */
@@ -136,7 +136,7 @@ static ISwitch trackmode[] = {
 
 static ISwitchVectorProperty trackmodeSw = { 
 	mydev, "Tracking mode", "Tracking mode", MOVE_GROUP, IP_RW, ISR_1OFMANY, 
-	0, IPS_IDLE, trackmode, NARRAY(trackmode), 0, 0 };
+	0, IPS_IDLE, trackmode, NARRAY(trackmode), "", 0};
 
 /*****************************/
 /* Power control switch 		 */
@@ -146,7 +146,7 @@ static ISwitch power[] = {
 
 static ISwitchVectorProperty powSw = { 
 	mydev, "CONNECTION", "Connection", MAIN_GROUP, IP_RW, ISR_ATMOST1, 
-	0, IPS_IDLE, power, NARRAY(power), 0, 0 };
+	0, IPS_IDLE, power, NARRAY(power), "", 0};
 
 /*******************************/
 /* Temma version text property */
@@ -154,14 +154,14 @@ static ISwitchVectorProperty powSw = {
 static IText TemmaVersionT[]			= {{"VERSION", "Version", 0, 0, 0, 0}};
 static ITextVectorProperty TemmaVersion		= { 
 	mydev, "VERSION", "Temma version", COMM_GROUP, IP_RO, 0,
-	IPS_OK, TemmaVersionT, NARRAY(TemmaVersionT), 0, 0};
+	IPS_OK, TemmaVersionT, NARRAY(TemmaVersionT), "", 0};
 
 
 /*******************************/
 /* Driver notes text property */
 /*******************************/
 static IText TemmaNoteT[]			= {{"Note", "", 0, 0, 0, 0}, {"Feedback", "", 0, 0,0 ,0}};
-static ITextVectorProperty TemmaNoteTP		= { mydev, "Temma Driver", "", MAIN_GROUP, IP_RO, 0, IPS_OK, TemmaNoteT, NARRAY(TemmaNoteT), 0, 0};
+static ITextVectorProperty TemmaNoteTP		= { mydev, "Temma Driver", "", MAIN_GROUP, IP_RO, 0, IPS_OK, TemmaNoteT, NARRAY(TemmaNoteT), "", 0};
 		
 /*******************************/
 /* Port names text property */
@@ -169,7 +169,7 @@ static ITextVectorProperty TemmaNoteTP		= { mydev, "Temma Driver", "", MAIN_GROU
 static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
 static ITextVectorProperty Port		= { 
 	mydev, "DEVICE_PORT", "Ports", COMM_GROUP, 
-	IP_RW, 0, IPS_OK, PortT, NARRAY(PortT), 0, 0};
+	IP_RW, 0, IPS_OK, PortT, NARRAY(PortT), "", 0};
 
 /*******************************/
 /* EQUATORIAL_COORD RW property */
@@ -180,7 +180,7 @@ static INumber eq[] = {
 };
 static INumberVectorProperty eqNum = { 
 	mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", 
-	MAIN_GROUP , IP_RW, 0, IPS_IDLE, eq, NARRAY(eq), 0, 0};
+	MAIN_GROUP , IP_RW, 0, IPS_IDLE, eq, NARRAY(eq), "", 0};
 
 /*******************************/
 /* MOUNT_COORD RO property */
@@ -191,7 +191,7 @@ static INumber eqtem[] = {
 };
 static INumberVectorProperty eqTemma = { 
 	mydev, "Temma", "Mount coordinates", 
-	MAIN_GROUP , IP_RO, 0, IPS_IDLE, eqtem, NARRAY(eqtem), 0, 0 };
+	MAIN_GROUP , IP_RO, 0, IPS_IDLE, eqtem, NARRAY(eqtem), "", 0};
 
 
 /* Traccking correction parameters (i.e. to track comets) */
@@ -202,14 +202,14 @@ static INumber comet[] = {
 
 static INumberVectorProperty cometNum = { 
 	mydev, "COMET_TRACKING", "Comet tracking parameters", 
-	MOVE_GROUP, IP_RW, 0, IPS_IDLE, comet, NARRAY(comet), 0, 0};
+	MOVE_GROUP, IP_RW, 0, IPS_IDLE, comet, NARRAY(comet), "", 0};
 
 /* Date & Time */
 static INumber UTC[] = {
 	{"UTC", "UTC", "%10.6m" , 0.,0.,0.,0., 0, 0, 0}};
 INumberVectorProperty Time = { 
 	mydev, "TIME", "UTC Time", DATETIME_GROUP, 
-	IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), 0, 0};
+	IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), "", 0};
 
 static INumber STime[] = {
 	{"LST", "Sidereal time", "%10.6m" , 
@@ -218,7 +218,7 @@ static INumber STime[] = {
 INumberVectorProperty SDTime = { 
 	mydev, "SDTIME", "Sidereal Time", 
 	DATETIME_GROUP, IP_RW, 0, IPS_IDLE, 
-	STime, NARRAY(STime), 0, 0};
+	STime, NARRAY(STime), "", 0};
 
 static ISwitch OnCoordSetS[] = {
 	{"SLEW", "Goto", ISS_OFF, 0, 0 }, 
@@ -228,7 +228,7 @@ static ISwitch OnCoordSetS[] = {
 static ISwitchVectorProperty OnCoordSetSw = { 
 	mydev, "ON_COORD_SET", "On Set", 
 	MAIN_GROUP, IP_RW, ISR_1OFMANY, 0,
-	IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), 0, 0};
+	IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), "", 0};
 
 
 
@@ -237,7 +237,7 @@ static ISwitch abortSlewS[] = {
 static ISwitchVectorProperty abortSlewSw = { 
 	mydev, "ABORT_MOTION", "******* ABORT GOTO *********",
 	MAIN_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, 
-	abortSlewS, NARRAY(abortSlewS), 0, 0};
+	abortSlewS, NARRAY(abortSlewS), "", 0};
 
 /* geographic location */
 static INumber geo[] = {
@@ -247,6 +247,6 @@ static INumber geo[] = {
 static INumberVectorProperty geoNum = {
 	mydev, "GEOGRAPHIC_COORD", "Geographic Location", 
 	DATETIME_GROUP, IP_RW, 0., IPS_IDLE,
-	geo, NARRAY(geo), 0, 0};
+	geo, NARRAY(geo), "", 0};
 
 #endif

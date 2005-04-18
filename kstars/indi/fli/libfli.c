@@ -184,6 +184,7 @@ static long fli_freelist(char **names)
 LIBFLIAPI FLIGrabFrame(flidev_t dev, void* buff,
 		       size_t buffsize, size_t* bytesgrabbed)
 {
+	dev=dev; buff=buff; buffsize=buffsize;bytesgrabbed=bytesgrabbed;
 	return -EFAULT;
 }
 

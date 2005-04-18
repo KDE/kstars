@@ -46,13 +46,12 @@
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
-static int dispatch (XMLEle *root, char errmsg[]);
-static int crackDN (XMLEle *root, char **dev, char **name, char errmsg[]);
-const  char *pstateStr(IPState s);
-const  char *sstateStr(ISState s);
-const  char *ruleStr(ISRule r);
-const  char *permStr(IPerm p);
-static char *timestamp (void);
+static int dispatch (XMLEle *root, char msg[]);
+static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
+const char *pstateStr(IPState s);
+const char *sstateStr(ISState s);
+const char *ruleStr(ISRule r);
+const char *permStr(IPerm p);
 
 static int nroCheck;			/* # of elements in roCheck */
 static int verbose;			/* chatty */
@@ -298,28 +297,29 @@ IDDefLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 }
 
 /* tell client to create a new BLOB vector property */
-void IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
+void
+IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
 {
   int i;
 
-  printf ("<defBLOBVector\n");
-  printf ("  device='%s'\n", b->device);
-  printf ("  name='%s'\n", b->name);
-  printf ("  label='%s'\n", b->label);
-  printf ("  group='%s'\n", b->group);
-  printf ("  state='%s'\n", pstateStr(b->s));
-  printf ("  perm='%s'\n", permStr(b->p));
-  printf ("  timeout='%g'\n", b->timeout);
-  printf ("  timestamp='%s'\n", timestamp());
-  if (fmt) {
-    va_list ap;
-    va_start (ap, fmt);
-    printf ("  message='");
-    vprintf (fmt, ap);
-    printf ("'\n");
-    va_end (ap);
-  }
-  printf (">\n");
+	printf ("<defBLOBVector\n");
+	printf ("  device='%s'\n", b->device);
+	printf ("  name='%s'\n", b->name);
+	printf ("  label='%s'\n", b->label);
+	printf ("  group='%s'\n", b->group);
+	printf ("  state='%s'\n", pstateStr(b->s));
+	printf ("  perm='%s'\n", permStr(b->p));
+	printf ("  timeout='%g'\n", b->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
   for (i = 0; i < b->nbp; i++) {
     IBLOB *bp = &b->bp[i];
@@ -329,8 +329,8 @@ void IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
     printf ("  />\n");
   }
 
-  printf ("</defBLOBVector>\n");
-  fflush (stdout);
+	printf ("</defBLOBVector>\n");
+	fflush (stdout);
 }
 
 /* tell client to update an existing text vector property */
@@ -390,9 +390,8 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 
 	for (i = 0; i < nvp->nnp; i++) {
 	    INumber *np = &nvp->np[i];
-	    printf ("  <oneNumber name='%s'\n", np->name);
-	    printf(">\n");
-	    printf ("      %g\n", np->value);
+	    printf ("  <oneNumber name='%s'>\n", np->name);
+	    printf ("      %.10g\n", np->value);
 	    printf ("  </oneNumber>\n");
 	}
 
@@ -466,44 +465,45 @@ IDSetLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 }
 
 /* tell client to update an existing BLOB vector property */
-void IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
+void
+IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
 {
-  int i;
+	int i;
 
-  printf ("<setBLOBVector\n");
-  printf ("  device='%s'\n", bvp->device);
-  printf ("  name='%s'\n", bvp->name);
-  printf ("  state='%s'\n", pstateStr(bvp->s));
-  printf ("  timeout='%g'\n", bvp->timeout);
-  printf ("  timestamp='%s'\n", timestamp());
-  if (fmt) {
-    va_list ap;
-    va_start (ap, fmt);
-    printf ("  message='");
-    vprintf (fmt, ap);
-    printf ("'\n");
-    va_end (ap);
-  }
-  printf (">\n");
+	printf ("<setBLOBVector\n");
+	printf ("  device='%s'\n", bvp->device);
+	printf ("  name='%s'\n", bvp->name);
+	printf ("  state='%s'\n", pstateStr(bvp->s));
+	printf ("  timeout='%g'\n", bvp->timeout);
+	printf ("  timestamp='%s'\n", timestamp());
+	if (fmt) {
+	    va_list ap;
+	    va_start (ap, fmt);
+	    printf ("  message='");
+	    vprintf (fmt, ap);
+	    printf ("'\n");
+	    va_end (ap);
+	}
+	printf (">\n");
 
-  for (i = 0; i < bvp->nbp; i++) {
-    IBLOB *bp = &bvp->bp[i];
-    char *encblob;
-    int j, l;
+	for (i = 0; i < bvp->nbp; i++) {
+	    IBLOB *bp = &bvp->bp[i];
+	    char *encblob;
+	    int j, l;
 
-    printf ("  <oneBLOB\n");
-    printf ("    name='%s'\n", bp->name);
-    printf ("    size='%d'\n", bp->size);
-    printf ("    format='%s'>\n", bp->format);
+	    printf ("  <oneBLOB\n");
+	    printf ("    name='%s'\n", bp->name);
+	    printf ("    size='%d'\n", bp->size);
+	    printf ("    format='%s'>\n", bp->format);
 
-    encblob = malloc (4*bp->bloblen/3+4);
-    l = to64frombits(encblob, bp->blob, bp->bloblen);
-    for (j = 0; j < l; j += 72)
-      printf ("%.72s\n", encblob+j);
-    free (encblob);
+	    encblob = malloc (4*bp->bloblen/3+4);
+	    l = to64frombits(encblob, bp->blob, bp->bloblen);
+	    for (j = 0; j < l; j += 72)
+		printf ("%.72s\n", encblob+j);
+	    free (encblob);
 
-    printf ("  </oneBLOB>\n");
-  }
+	    printf ("  </oneBLOB>\n");
+	}
 
   printf ("</setBLOBVector>\n");
   fflush (stdout);
@@ -783,12 +783,12 @@ usage(void)
 static void
 clientMsgCB (int fd, void *arg)
 {
-	char buf[1024], errmsg[ERRMSG_SIZE], *bp;
+	char buf[1024], msg[1024], *bp;
 	int nr;
 	arg=arg;
 
 	/* one read */
-	nr = read (fd, buf, sizeof(buf)-1);
+	nr = read (fd, buf, sizeof(buf));
 	if (nr < 0) {
 	    fprintf (stderr, "%s: %s\n", me, strerror(errno));
 	    exit(1);
@@ -797,31 +797,30 @@ clientMsgCB (int fd, void *arg)
 	    fprintf (stderr, "%s: EOF\n", me);
 	    exit(1);
 	}
-        buf[ sizeof( buf )-1 ] = '\0';
 
 	/* crack and dispatch when complete */
 	for (bp = buf; nr-- > 0; bp++) {
-	    XMLEle *root = readXMLEle (clixml, *bp, errmsg);
+	    XMLEle *root = readXMLEle (clixml, *bp, msg);
 	    if (root) {
-		if (dispatch (root, errmsg) < 0)
-		    fprintf (stderr, "%s dispatch error: %s\n", me, errmsg);
+		if (dispatch (root, msg) < 0)
+		    fprintf (stderr, "%s dispatch error: %s\n", me, msg);
 		delXMLEle (root);
-	    } else if (errmsg[0])
-		fprintf (stderr, "%s XML error: %s\n", me, errmsg);
+	    } else if (msg[0])
+		fprintf (stderr, "%s XML error: %s\n", me, msg);
 	}
 }
 
 /* crack the given INDI XML element and call driver's IS* entry points as they
  *   are recognized.
- * return 0 if ok else -1 with reason in errmsg[].
+ * return 0 if ok else -1 with reason in msg[].
  * N.B. exit if getProperties does not proclaim a compatible version.
  */
 static int
-dispatch (XMLEle *root, char errmsg[])
+dispatch (XMLEle *root, char msg[])
 {
-	XMLEle *ep;
+	XMLEle *epx;
 	int n;
-	int i;
+        int i=0;
 
 	if (verbose)
 	    prXMLEle (stderr, root, 0);
@@ -835,26 +834,30 @@ dispatch (XMLEle *root, char errmsg[])
 	    char *dev, *name;
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, errmsg) < 0)
+	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
 
+	    /* seed for reallocs */
+	    if (!doubles) {
+		doubles = (double *) malloc (1);
+		names = (char **) malloc (1);
+	    }
+
 	    /* pull out each name/value pair */
-	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(ep), "oneNumber") == 0) {
-		    XMLAtt *na = findXMLAtt (ep, "name");
+	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(epx), "oneNumber") == 0) {
+		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
-printf ("%s\n", valuXMLAtt(na));
 			if (n >= maxn) {
-			    int newsz = (maxn += 2)*sizeof(double);
-			    doubles = doubles ? (double*)realloc(doubles,newsz)
-			                      : (double*)malloc (newsz);
+			    /* grow for this and another */
+			    int newsz = (maxn=n+1)*sizeof(double);
+			    doubles = (double *) realloc(doubles,newsz);
 			    newsz = maxn*sizeof(char *);
-			    names = names ? (char **) realloc (names, newsz)
-			                  : (char **) malloc (newsz);
+			    names = (char **) realloc (names, newsz);
 			}
-			if (f_scansexa (pcdataXMLEle(ep), &doubles[n]) < 0)
+			if (f_scansexa (pcdataXMLEle(epx), &doubles[n]) < 0)
 			    IDMessage (dev,"%s: Bad format %s", name,
-							    pcdataXMLEle(ep));
+							    pcdataXMLEle(epx));
 			else
 			    names[n++] = valuXMLAtt(na);
 		    }
@@ -875,7 +878,7 @@ printf ("%s\n", valuXMLAtt(na));
 	    if (n > 0)
 		ISNewNumber (dev, name, doubles, names, n);
 	    else
-		IDMessage (dev, "%s: set with no valid members", name);
+		IDMessage(dev,"%s: newNumberVector with no valid members",name);
 	    return (0);
 	}
 
@@ -884,36 +887,39 @@ printf ("%s\n", valuXMLAtt(na));
 	    static char **names;
 	    static int maxn;
 	    char *dev, *name;
-	    /*XMLEle *ep;*/
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, errmsg) < 0)
+	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
 
+	    /* seed for reallocs */
+	    if (!states) {
+		states = (ISState *) malloc (1);
+		names = (char **) malloc (1);
+	    }
+
 	    /* pull out each name/state pair */
-	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(ep), "oneSwitch") == 0) {
-		    XMLAtt *na = findXMLAtt (ep, "name");
+	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(epx), "oneSwitch") == 0) {
+		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
 			if (n >= maxn) {
-			    int newsz = (maxn += 2)*sizeof(ISState);
-			    states = states ? (ISState *) realloc(states, newsz)
-			            : (ISState *) malloc (newsz);
+			    int newsz = (maxn=n+1)*sizeof(ISState);
+			    states = (ISState *) realloc(states, newsz);
 			    newsz = maxn*sizeof(char *);
-			    names = names ? (char **) realloc (names, newsz)
-			                  : (char **) malloc (newsz);
+			    names = (char **) realloc (names, newsz);
 			}
-			if (strcmp (pcdataXMLEle(ep),"On") == 0) {
+			if (strcmp (pcdataXMLEle(epx),"On") == 0) {
 			    states[n] = ISS_ON;
 			    names[n] = valuXMLAtt(na);
 			    n++;
-			} else if (strcmp (pcdataXMLEle(ep),"Off") == 0) {
+			} else if (strcmp (pcdataXMLEle(epx),"Off") == 0) {
 			    states[n] = ISS_OFF;
 			    names[n] = valuXMLAtt(na);
 			    n++;
 			} else 
 			    IDMessage (dev, "%s: must be On or Off: %s", name,
-							    pcdataXMLEle(ep));
+							    pcdataXMLEle(epx));
 		    }
 		}
 	    }
@@ -932,7 +938,7 @@ printf ("%s\n", valuXMLAtt(na));
 	    if (n > 0)
 		ISNewSwitch (dev, name, states, names, n);
 	    else
-		IDMessage (dev, "%s: set with no valid members", name);
+		IDMessage(dev,"%s: newSwitchVector with no valid members",name);
 	    return (0);
 	}
 
@@ -943,23 +949,26 @@ printf ("%s\n", valuXMLAtt(na));
 	    char *dev, *name;
 
 	    /* pull out device and name */
-	    if (crackDN (root, &dev, &name, errmsg) < 0)
+	    if (crackDN (root, &dev, &name, msg) < 0)
 		return (-1);
 
+	    /* seed for reallocs */
+	    if (!texts) {
+		texts = (char **) malloc (1);
+		names = (char **) malloc (1);
+	    }
+
 	    /* pull out each name/text pair */
-	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(ep), "oneText") == 0) {
-		    XMLAtt *na = findXMLAtt (ep, "name");
+	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(epx), "oneText") == 0) {
+		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
 			if (n >= maxn) {
-			    int newsz = (maxn += 2)*sizeof(char *);
-			    texts = texts ? (char **) realloc (texts, newsz)
-			            : (char **) malloc (newsz);
-			    newsz = maxn*sizeof(char *);
-			    names = names ? (char **) realloc (names, newsz)
-			                  : (char **) malloc (newsz);
+			    int newsz = (maxn=n+1)*sizeof(char *);
+			    texts = (char **) realloc (texts, newsz);
+			    names = (char **) realloc (names, newsz);
 			}
-			texts[n] = pcdataXMLEle(ep);
+			texts[n] = pcdataXMLEle(epx);
 			names[n] = valuXMLAtt(na);
 			n++;
 		    }
@@ -981,6 +990,58 @@ printf ("%s\n", valuXMLAtt(na));
 		ISNewText (dev, name, texts, names, n);
 	    else
 		IDMessage (dev, "%s: set with no valid members", name);
+	    return (0);
+	}
+
+	if (!strcmp (tagXMLEle(root), "newBLOBVector")) {
+	    static char **blobs;
+	    static char **names;
+	    static char **formats;
+	    static int *sizes;
+	    static int maxn;
+	    char *dev, *name;
+
+	    /* pull out device and name */
+	    if (crackDN (root, &dev, &name, msg) < 0)
+		return (-1);
+
+	    /* seed for reallocs */
+	    if (!blobs) {
+		blobs = (char **) malloc (1);
+		names = (char **) malloc (1);
+		formats = (char **) malloc (1);
+		sizes = (int *) malloc (1);
+	    }
+
+	    /* pull out each name/BLOB pair */
+	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(epx), "oneBLOB") == 0) {
+		    XMLAtt *na = findXMLAtt (epx, "name");
+		    XMLAtt *fa = findXMLAtt (epx, "format");
+		    XMLAtt *sa = findXMLAtt (epx, "size");
+		    if (na && fa && sa) {
+			if (n >= maxn) {
+			    int newsz = (maxn=n+1)*sizeof(char *);
+			    blobs = (char **) realloc (blobs, newsz);
+			    names = (char **) realloc (names, newsz);
+			    formats = (char **) realloc(formats,newsz);
+			    newsz = maxn*sizeof(int);
+			    sizes = (int *) realloc(sizes,newsz);
+			}
+			blobs[n] = pcdataXMLEle(epx);
+			names[n] = valuXMLAtt(na);
+			formats[n] = valuXMLAtt(fa);
+			sizes[n] = atoi(valuXMLAtt(sa));
+			n++;
+		    }
+		}
+	    }
+
+	    /* invoke driver if something to do, but not an error if not */
+	    if (n > 0)
+		ISNewBLOB (dev, name, sizes, blobs, formats, names, n);
+	    else
+		IDMessage (dev, "%s: newBLOBVector with no valid members",name);
 	    return (0);
 	}
 
@@ -1006,28 +1067,28 @@ printf ("%s\n", valuXMLAtt(na));
 	    return (0);
 	}
 
-	snprintf (errmsg, ERRMSG_SIZE, "Unknown command: %s", tagXMLEle(root));
+	sprintf (msg, "Unknown command: %s", tagXMLEle(root));
 	return(1);
 }
 
 /* pull out device and name attributes from root.
- * return 0 if ok else -1 with reason in errmsg[].
+ * return 0 if ok else -1 with reason in msg[].
  */
 static int
-crackDN (XMLEle *root, char **dev, char **name, char errmsg[])
+crackDN (XMLEle *root, char **dev, char **name, char msg[])
 {
 	XMLAtt *ap;
 
 	ap = findXMLAtt (root, "device");
 	if (!ap) {
-	    snprintf (errmsg, ERRMSG_SIZE, "%s requires 'device' attribute", tagXMLEle(root));
+	    sprintf (msg, "%s requires 'device' attribute", tagXMLEle(root));
 	    return (-1);
 	}
 	*dev = valuXMLAtt(ap);
 
 	ap = findXMLAtt (root, "name");
 	if (!ap) {
-	    snprintf (errmsg, ERRMSG_SIZE, "%s requires 'name' attribute", tagXMLEle(root));
+	    sprintf (msg, "%s requires 'name' attribute", tagXMLEle(root));
 	    return (-1);
 	}
 	*name = valuXMLAtt(ap);
@@ -1089,19 +1150,5 @@ permStr (IPerm p)
 	    fprintf (stderr, "Impossible IPerm %d\n", p);
 	    exit(1);
 	}
-}
-
-/* return current system time in message format */
-static char *
-timestamp()
-{
-	static char ts[32];
-	struct tm *tp;
-	time_t t;
-
-	time (&t);
-	tp = gmtime (&t);
-	strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	return (ts);
 }
 

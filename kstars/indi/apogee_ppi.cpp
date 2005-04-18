@@ -30,6 +30,7 @@
 
 #include "apogee_ppi.h"
 #include "lilxml.h"
+#include "base64.h"
 
 extern char* me;			/* argv[0] */
 ApogeeCam *MainCam = NULL;		/* Main and only camera */
@@ -91,6 +92,11 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
   MainCam->ISNewNumber(dev, name, values, names, n);
 }
 
+void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
+{
+
+}
+
 ApogeeCam::ApogeeCam()
 {
   streamTimerID = -1;
@@ -133,10 +139,6 @@ void ApogeeCam::initProperties()
   fillNumber(&TemperatureN[0], "TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, 0.2, 0.);
   fillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
-  IBLOB imageB = {"CCD1", "Feed", "", 0, 0, 0, 0, 0, 0, 0};
-  static IBLOBVectorProperty imageBP = {mydev, "Video", "Video", COMM_GROUP,
-    IP_RO, 0, IPS_IDLE, &imageB, 1, "", 0};
-    
   strcpy(imageB.name, "CCD1");
   strcpy(imageB.label, "Feed");
   strcpy(imageB.format, "");
@@ -281,7 +283,7 @@ void ApogeeCam::fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nn
   
 }
 
-void ApogeeCam::ISGetProperties(const char *dev)
+void ApogeeCam::ISGetProperties(const char */*dev*/)
 {
   
   /* COMM_GROUP */
@@ -306,7 +308,7 @@ void ApogeeCam::ISGetProperties(const char *dev)
   
 }
 
-void ApogeeCam::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
+void ApogeeCam::ISNewSwitch (const char */*dev*/, const char *name, ISState *states, char *names[], int n)
 {
   
 	/* Connection */
@@ -349,7 +351,7 @@ void ApogeeCam::ISNewText (const char */*dev*/, const char */*name*/, char **/*t
   
 }
 
-void ApogeeCam::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
+void ApogeeCam::ISNewNumber (const char */*dev*/, const char *name, double values[], char *names[], int n)
 {
     /* Exposure time */
     if (!strcmp (ExposeTimeNP.name, name))
@@ -609,7 +611,6 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
     return (-1);
   }
   
-  /* Convert buffer to BIG endian FIXME do I need this???*/
   for (int i=0; i < height; i++)
     for (int j=0 ; j < width; j++)
       APGFrame.img[width * i + j] = getBigEndian( (APGFrame.img[width * i + j]) );

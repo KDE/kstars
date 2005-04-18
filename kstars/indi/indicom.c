@@ -621,3 +621,18 @@ double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC)
 	
 	return (RadToDeg ( 2 * fabs(asin( sqrt(aux) ))));
 }
+
+/* return current system time in message format */
+const char *
+timestamp()
+{
+	static char ts[32];
+	struct tm *tp;
+	time_t t;
+
+	time (&t);
+	tp = gmtime (&t);
+	strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+	return (ts);
+}
+

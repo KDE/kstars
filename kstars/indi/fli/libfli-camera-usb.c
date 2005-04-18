@@ -680,6 +680,7 @@ long fli_camera_usb_flush_rows(flidev_t dev, long rows, long repeat)
 
 long fli_camera_usb_set_bit_depth(flidev_t dev, flibitdepth_t bitdepth)
 {
+  dev=dev; bitdepth=bitdepth;
   return -EINVAL;
 }
 

@@ -22,7 +22,10 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qslider.h>
+#include <qdir.h>
 
+#include <kurl.h>
+#include <kfiledialog.h>
 #include <kled.h>
 #include <ksqueezedtextlabel.h> 
 #include <klineedit.h>
@@ -77,6 +80,7 @@ INDI_E::INDI_E(INDI_P *parentProperty, QString inName, QString inLabel)
   spin_w    = NULL;
   slider_w  = NULL;
   push_w    = NULL;
+  browse_w  = NULL;
   check_w   = NULL;
   led_w     = NULL;
   hSpacer   = NULL;
@@ -92,6 +96,7 @@ INDI_E::~INDI_E()
     delete (spin_w);
     delete (slider_w);
     delete (push_w);
+    delete (browse_w);
     delete (check_w);
     delete (led_w);
     delete (hSpacer);
@@ -150,9 +155,9 @@ int INDI_E::buildBLOBGUI()
   switch (pp->perm)
   {
     case PP_RW:
-      // TODO Allow it to upload some file. Same for PP_WO
-      //setupElementRead(ELEMENT_READ_WIDTH);
-      //setupElementWrite(ELEMENT_WRITE_WIDTH);
+      setupElementRead(ELEMENT_READ_WIDTH);
+      setupElementWrite(ELEMENT_WRITE_WIDTH);
+      setupBrowseButton();
     
       break;
     
@@ -161,7 +166,8 @@ int INDI_E::buildBLOBGUI()
       break;
     
     case PP_WO:
-      //setupElementWrite(ELEMENT_FULL_WIDTH);
+      setupElementWrite(ELEMENT_FULL_WIDTH);
+      setupBrowseButton();
       break;
   }
   
@@ -371,6 +377,18 @@ void INDI_E::setupElementRead(int length)
 
 }
 
+void INDI_E::setupBrowseButton()
+{
+   browse_w = new KPushButton("...", pp->pg->propertyContainer);
+   browse_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
+   browse_w->setMinimumWidth( MIN_SET_WIDTH );
+   browse_w->setMaximumWidth( MAX_SET_WIDTH );
+
+   EHBox->addWidget(browse_w);
+   QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
+}
+
+
 void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char * newFormat)
 {
   min = newMin;
@@ -378,5 +396,22 @@ void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char
   step = newStep;
   format = newFormat;
 }
+
+void INDI_E::browseBlob()
+{
+
+  KURL currentURL;
+
+  currentURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*");
+
+  // if user presses cancel
+  if (currentURL.isEmpty())
+		  return;
+
+  if ( currentURL.isValid() )
+    write_w->setText(currentURL.path());
+
+}
+
 
 #include "indielement.moc"

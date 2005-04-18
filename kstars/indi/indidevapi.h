@@ -332,6 +332,7 @@ extern void IUResetSwitches(const ISwitchVectorProperty *svp);
 * \param states the states of the new ISwitch members.
 * \param names the names of the ISwtich members to update.
 * \param n the number of ISwitch members to update.
+* \return 0 if update successful, -1 otherwise.
 */
 extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n);
 
@@ -341,6 +342,7 @@ extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *n
 * \param values the states of the new INumber members.
 * \param names the names of the INumber members to update.
 * \param n the number of INumber members to update.
+* \return 0 if update successful, -1 otherwise. Update will fail if values are out of scope, or in case of property name mismatch.
 */
 extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
@@ -413,6 +415,19 @@ extern void ISNewNumber (const char *dev, const char *name, double *doubles,
 */
 extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
     char *names[], int n); 
+
+/** \brief Update data of an existing blob vector property.
+    \param dev the name of the device.
+    \param name the name of the blob vector property to update.
+    \param sizes an array of blob sizes in bytes.
+    \param blobs names of blob members to update. Each name and size pair form a blob member.
+    \param format Blob data format (e.g. fits.z).
+    \param n the number of blobs to update.
+    \note You do not need to call this function, it is called by INDI when new blob values arrive from the client.
+*/
+
+extern void ISNewBLOB (const char *dev, const char *name, int sizes[],
+    char *blobs[], char *formats[], char *names[], int n); 
 
 /*@}*/
 

@@ -1,3 +1,6 @@
+#ifndef BASE64_H
+#define BASE64_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,4 +31,6 @@ extern int from64tobits(char *out, const char *in);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

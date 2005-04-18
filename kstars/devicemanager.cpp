@@ -467,5 +467,35 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	
 }
 
+void DeviceManager::startBlob (QString devName, QString propName, QString timestamp)
+{
+
+   fprintf (serverFP, "<newBLOBVector\n");
+   fprintf (serverFP, "  device='%s'\n", devName.ascii());
+   fprintf (serverFP, "  name='%s'\n", propName.ascii());
+   fprintf (serverFP, "  timestamp='%s'>\n", timestamp.ascii());
+
+}
+
+void DeviceManager::sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer)
+{
+
+ fprintf (serverFP, "  <oneBLOB\n");
+ fprintf (serverFP, "    name='%s'\n", blobName.ascii());
+ fprintf (serverFP, "    size='%d'\n", blobSize);
+ fprintf (serverFP, "    format='%s'>\n", blobFormat.ascii());
+
+  for (unsigned i = 0; i < blobSize; i += 72)
+	fprintf (serverFP, "    %.72s\n", blobBuffer+i);
+
+  fprintf (serverFP, "  </oneBLOB>\n");
+
+}
+
+void DeviceManager::finishBlob()
+{
+       fprintf (serverFP, "</newBLOBVector>\n");
+}
+
 
 #include "devicemanager.moc"
