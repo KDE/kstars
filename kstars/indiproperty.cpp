@@ -350,7 +350,7 @@ void INDI_P::newBlob()
      if (data64 == NULL)
      {
 	KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64").arg(filename));
-	fp.close();
+        fp.close();
         valid = false;
         continue;
      }
@@ -367,6 +367,7 @@ void INDI_P::newBlob()
 
     pg->dp->parentMgr->sendOneBlob(el.at(i)->name, data64_size, format, data64);
 
+    fp.close();
     delete (data64);
 
   }

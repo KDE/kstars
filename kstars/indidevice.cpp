@@ -102,6 +102,8 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
  msgST_w        = new QTextEdit(deviceVBox);
  msgST_w->setReadOnly(true);
  msgST_w->setMaximumHeight(100);
+
+ dataBuffer = (unsigned char *) malloc (1);
  
  stdDev 	= new INDIStdDevice(this, parent->ksw);
 
@@ -116,6 +118,8 @@ INDI_D::~INDI_D()
    gl.clear();
    delete(deviceVBox);
    delete (stdDev);
+   free (dataBuffer);
+   dataBuffer = NULL;
    deviceVBox = NULL;
    stdDev     = NULL;
 }
@@ -479,7 +483,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   uLongf dataSize=0;
   QString dataFormat;
   char *baseBuffer;
-  unsigned char *blobBuffer(NULL), *dataBuffer(NULL);
+  unsigned char *blobBuffer(NULL);
   bool iscomp(false);
   
   ap = findXMLAtt(ep, "size");
@@ -517,7 +521,6 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     return (-1);
   }
   
-  
   iscomp = (dataFormat.find(".z") != -1);
   
   dataFormat.remove(".z");
@@ -529,7 +532,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   if (iscomp)
   {
     
-    dataBuffer = (unsigned char *) malloc (dataSize * sizeof(unsigned char));
+    dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
     r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
     if (r != Z_OK)
     {
@@ -538,7 +541,6 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     }
    
     free (blobBuffer);
-    blobBuffer = dataBuffer;
   }
   
   stdDev->handleBLOB(dataBuffer, dataSize, dataType);

@@ -424,7 +424,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
 	
     streamWindow->show();
 	
-    streamWindow->streamFrame->newFrame( (unsigned char *) buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
+    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
   }
   else if (dataType == DATA_FITS || dataType == DATA_OTHER)
   {

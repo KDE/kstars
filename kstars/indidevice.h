@@ -79,6 +79,7 @@ class INDI_D : public KDialogBase
     QVBox	*deviceVBox;		/* device tab frame */
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
+    unsigned char *dataBuffer;          /* Generic buffer */
     //QScrollView *sv;			/* Scroll view */
     //QVBoxLayout *mainLayout;
     //QVBox       *propertyLayout;

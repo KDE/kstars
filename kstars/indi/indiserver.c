@@ -557,7 +557,8 @@ send2AllClients (ClInfo *notthisone, XMLEle *root)
 	    if (cp == notthisone || !cp->active)
 		continue;
 	    if (fddrop(cp->s,root)) {
-		fprintf (stderr, "Client %d: channel full, dropping %s %s.%s\n",
+		if (verbose > 2)
+                    fprintf (stderr, "Client %d: channel full, dropping %s %s.%s\n",
 		    cp->s, tagXMLEle(root), findXMLAttValu (root, "device"),
 						findXMLAttValu (root, "name"));
 		continue;

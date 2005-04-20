@@ -1,6 +1,6 @@
 #if 0
     FLI CCD
-    INDI Interface for Finger Lakes Instruments CCDs
+    INDI Interface for Apogee PPI
     Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
@@ -34,9 +34,6 @@
 
 extern char* me;			/* argv[0] */
 ApogeeCam *MainCam = NULL;		/* Main and only camera */
-
-/* Initiate static class members */
-int ApogeeCam::streamTimerID			= -1;
 
 /* send client definitions of all properties */
 void ISInit()
@@ -99,7 +96,6 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 
 ApogeeCam::ApogeeCam()
 {
-  streamTimerID = -1;
   ApogeeModelS = NULL;
   
   initProperties();
