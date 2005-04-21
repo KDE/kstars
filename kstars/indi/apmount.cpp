@@ -177,8 +177,7 @@ APMount::APMount()
    IDLog("Initilizing from Astro-Physics device...\n");
    IDLog("Driver Version: 2005-04-21\n");
  
-   // FIXME disable this
-   enableSimulation(true);  
+   //enableSimulation(true);  
 }
 
 void APMount::initProperties()
