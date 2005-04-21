@@ -260,7 +260,10 @@ int getCommandSexa(double *value, const char * cmd)
   tempString[read_ret - 1] = '\0';
   
   if (f_scansexa(tempString, value))
+  {
+   fprintf(stderr, "unable to process [%s]\n", tempString);
    return -1;
+  }
  
    return 0;
 }

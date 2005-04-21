@@ -153,7 +153,7 @@ APMount::APMount()
    time_t t;
    time (&t);
    utp = gmtime (&t);
-   
+
    initProperties();
 
    currentSiteNum = 1;
