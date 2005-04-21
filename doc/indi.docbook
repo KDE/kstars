@@ -25,32 +25,32 @@ devices:</para>
 <row>
 <entry>LX200 8"-12" Classic</entry>
 <entry>LX200 Classic</entry>
-<entry>0.5</entry>
+<entry>1.0</entry>
 </row>
 <row>
 <entry>Autostar based telescopes</entry>
 <entry>LX200 Autostar</entry>
-<entry>0.5</entry>
+<entry>1.0</entry>
 </row>
 <row>
 <entry>LX200 GPS 8"-16"</entry>
 <entry>LX200 GPS</entry>
-<entry>0.5</entry>
+<entry>1.0</entry>
 </row>
 <row>
 <entry>LX200 Classic 16"</entry>
 <entry>LX00 16"</entry>
-<entry>0.5</entry>
+<entry>1.0</entry>
 </row>
 <row>
 <entry>NexStar GPS, CGE, AS-GT</entry>
 <entry>Celestron GPS</entry>
-<entry>0.5</entry>
+<entry>0.9</entry>
 </row>
 <row>
 <entry>New GT, NexStar 5i/8i</entry>
 <entry>Celestron GPS</entry>
-<entry>0.5</entry>
+<entry>0.9</entry>
 </row>
 <row>
 <entry>Takahashi Temma</entry>
@@ -59,12 +59,12 @@ devices:</para>
 </row>
 <row>
 <entry>Astro-Physics AP</entry>
-<entry>LX200 Generic</entry>
+<entry>apmount</entry>
 <entry>0.1</entry>
 </row>
 <row>
 <entry>Astro-Electronic FS-2</entry>
-<entry>LX200 Generic</entry>
+<entry>apmount</entry>
 <entry>0.1</entry>
 </row>
 <row>
@@ -95,12 +95,12 @@ devices:</para>
 <row>
 <entry>Meade LX200GPS Microfocuser</entry>
 <entry>LX200 GPS</entry>
-<entry>0.1</entry>
+<entry>0.9</entry>
 </row>
 <row>
 <entry>Meade 1206 Primary Mirror Focuser</entry>
 <entry>LX200 Generic</entry>
-<entry>0.1</entry>
+<entry>0.9</entry>
 </row>
 <row>
 <entry>JMI NGF Series</entry>
@@ -115,11 +115,6 @@ devices:</para>
 </tbody>
 </tgroup>
 </table>
-
-<note>
-<title>Focuser connection</title>
-<para>The focusers must be connected to the focuser port in the LX200 GPS, Autostar, or Classic telescopes <emphasis>only</emphasis>.</para>
-</note>
 
 <para></para>
 <table id="ccd-table" pgwide="1" frame="all">
@@ -136,6 +131,11 @@ devices:</para>
 <row>
 <entry>Finger Lakes Instruments CCDs</entry>
 <entry>fliccd</entry>
+<entry>1.0</entry>
+</row>
+<row>
+<entry>Santa Barbara Instrument CCDs</entry>
+<entry>sbigccd</entry>
 <entry>0.1</entry>
 </row>
 <row>
@@ -161,7 +161,7 @@ devices:</para>
       <row>
 	<entry>FLI Filter Wheels</entry>
 	<entry>fliwheel</entry>
-	<entry>0.1</entry>
+	<entry>0.9</entry>
       </row>
     </tbody>
   </tgroup>
@@ -182,12 +182,12 @@ devices:</para>
 <row>
 <entry>Any Video4Linux compatible device</entry>
 <entry>v4ldriver</entry>
-<entry>0.1</entry>
+<entry>1.0</entry>
 </row>
 <row>
 <entry>Philips webcam</entry>
 <entry>v4lphilips</entry>
-<entry>0.1</entry>
+<entry>1.0</entry>
 </row>
 </tbody>
 </tgroup>
