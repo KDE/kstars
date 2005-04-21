@@ -111,29 +111,29 @@ void ApogeeCam::initProperties()
 {
   fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
   fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
-  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
   
   fillSwitch(&FrameTypeS[0], "FRAME_LIGHT", "Light", ISS_ON);
   fillSwitch(&FrameTypeS[1], "FRAME_BIAS", "Bias", ISS_OFF);
   fillSwitch(&FrameTypeS[2], "FRAME_DARK", "Dark", ISS_OFF);
   fillSwitch(&FrameTypeS[3], "FRAME_FLAT", "Flat Field", ISS_OFF);
-  fillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  fillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
   fillNumber(&FrameN[0], "X", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
   fillNumber(&FrameN[1], "Y", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
   fillNumber(&FrameN[2], "Width", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
   fillNumber(&FrameN[3], "Height", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), mydev, "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
   
   fillNumber(&BinningN[0], "HOR_BIN", "X", "%0.f", 1., MAXHBIN, 1., 1.);
   fillNumber(&BinningN[1], "VER_BIN", "Y", "%0.f", 1., MAXVBIN, 1., 1.);
-  fillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
     
   fillNumber(&ExposeTimeN[0], "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
   fillNumber(&TemperatureN[0], "TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, 0.2, 0.);
-  fillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), mydev, "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
   strcpy(imageB.name, "CCD1");
   strcpy(imageB.label, "Feed");
@@ -213,69 +213,11 @@ bool ApogeeCam::loadXMLModel()
   
   if (ncams > 0)
   {
-  	fillSwitchVector(&ApogeeModelSP, ApogeeModelS, ncams, "Model", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  	fillSwitchVector(&ApogeeModelSP, ApogeeModelS, ncams, mydev, "Model", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 	return true;
   }
   
   return false;
-  
-}
-
-void ApogeeCam::fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
-{
-  strcpy(sp->name, name);
-  strcpy(sp->label, label);
-  sp->s = s;
-  sp->svp = NULL;
-  sp->aux = NULL;
-}
-
-void ApogeeCam::fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s)
-{
-  strcpy(svp->device, mydev);
-  strcpy(svp->name, name);
-  strcpy(svp->label, label);
-  strcpy(svp->group, group);
-  strcpy(svp->timestamp, "");
-  
-  svp->p	= p;
-  svp->r	= r;
-  svp->timeout	= timeout;
-  svp->s	= s;
-  svp->sp	= sp;
-  svp->nsp	= nsp;
-}
- 
-void ApogeeCam::fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value)
-{
-
-  strcpy(np->name, name);
-  strcpy(np->label, label);
-  strcpy(np->format, format);
-  
-  np->min	= min;
-  np->max	= max;
-  np->step	= step;
-  np->value	= value;
-  np->nvp	= NULL;
-  np->aux0	= NULL;
-  np->aux1	= NULL;
-}
-
-void ApogeeCam::fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
-{
-  
-  strcpy(nvp->device, mydev);
-  strcpy(nvp->name, name);
-  strcpy(nvp->label, label);
-  strcpy(nvp->group, group);
-  strcpy(nvp->timestamp, "");
-  
-  nvp->p	= p;
-  nvp->timeout	= timeout;
-  nvp->s	= s;
-  nvp->np	= np;
-  nvp->nnp	= nnp;
   
 }
 

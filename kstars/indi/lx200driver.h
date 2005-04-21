@@ -47,68 +47,71 @@ enum TFreq { LX200_TRACK_DEFAULT, LX200_TRACK_LUNAR, LX200_TRACK_MANUAL};
 #define MaxFocuserSpeed			4
 
 /* GET formatted sexagisemal value from device, return as double */
-#define getLX200RA(x)			getCommandSexa(x, "#:GR#")
-#define getLX200DEC(x)			getCommandSexa(x, "#:GD#")
-#define getObjectRA(x)			getCommandSexa(x, "#:Gr#")
-#define getObjectDEC(x)			getCommandSexa(x, "#:Gd#")
-#define getLocalTime12(x)		getCommandSexa(x, "#:Ga#")
-#define getLocalTime24(x)		getCommandSexa(x, "#:GL#")
-#define getSDTime(x)			getCommandSexa(x, "#:GS#")
-#define getLX200Alt(x)			getCommandSexa(x, "#:GA#")
-#define getLX200Az(x)			getCommandSexa(x, "#:GZ#")
+#define getLX200RA(x)				getCommandSexa(x, "#:GR#")
+#define getLX200DEC(x)				getCommandSexa(x, "#:GD#")
+#define getObjectRA(x)				getCommandSexa(x, "#:Gr#")
+#define getObjectDEC(x)				getCommandSexa(x, "#:Gd#")
+#define getLocalTime12(x)			getCommandSexa(x, "#:Ga#")
+#define getLocalTime24(x)			getCommandSexa(x, "#:GL#")
+#define getSDTime(x)				getCommandSexa(x, "#:GS#")
+#define getLX200Alt(x)				getCommandSexa(x, "#:GA#")
+#define getLX200Az(x)				getCommandSexa(x, "#:GZ#")
 
 /* GET String from device and store in supplied buffer x */
-#define getObjectInfo(x)		getCommandString(x, "#:LI#")
-#define getVersionDate(x)		getCommandString(x, "#:GVD#")
-#define getVersionTime(x)		getCommandString(x, "#:GVT#")
-#define getFullVersion(x)		getCommandString(x, "#:GVF#")
-#define getVersionNumber(x)		getCommandString(x, "#:GVN#")
-#define getProductName(x)		getCommandString(x, "#:GVP#")
-#define turnGPS_StreamOn()		getCommandString(x, "#:gps#")
+#define getObjectInfo(x)			getCommandString(x, "#:LI#")
+#define getVersionDate(x)			getCommandString(x, "#:GVD#")
+#define getVersionTime(x)			getCommandString(x, "#:GVT#")
+#define getFullVersion(x)			getCommandString(x, "#:GVF#")
+#define getVersionNumber(x)			getCommandString(x, "#:GVN#")
+#define getProductName(x)			getCommandString(x, "#:GVP#")
+#define turnGPS_StreamOn()			getCommandString(x, "#:gps#")
 
 /* GET Int from device and store in supplied pointer to integer x */
-#define getUTCOffset(x)			getCommandInt(x, "#:GG#")
-#define getMaxElevationLimit(x)		getCommandInt(x, "#:Go#")
-#define getMinElevationLimit(x)		getCommandInt(x, "#:Gh#")
+#define getUTCOffset(x)				getCommandInt(x, "#:GG#")
+#define getMaxElevationLimit(x)			getCommandInt(x, "#:Go#")
+#define getMinElevationLimit(x)			getCommandInt(x, "#:Gh#")
 
 /* Generic set, x is an integer */
-#define setReticleDutyFlashCycle(x)	setCommandInt(x, "#:BD")
-#define setReticleFlashRate(x)		setCommandInt(x, "#:B")
-#define setFocuserSpeed(x)		setCommandInt(x, "#:F")
-#define setSlewSpeed(x)			setCommandInt(x, "#:Sw")
+#define setReticleDutyFlashCycle(x)		setCommandInt(x, "#:BD")
+#define setReticleFlashRate(x)			setCommandInt(x, "#:B")
+#define setFocuserSpeed(x)			setCommandInt(x, "#:F")
+#define setSlewSpeed(x)				setCommandInt(x, "#:Sw")
 
 /* Set X:Y:Z */
-#define setLocalTime(x,y,z)		setCommandXYZ(x,y,z, "#:SL")
-#define setSDTime(x,y,z)		setCommandXYZ(x,y,z, "#:SS")
+#define setLocalTime(x,y,z)			setCommandXYZ(x,y,z, "#:SL")
+#define setSDTime(x,y,z)			setCommandXYZ(x,y,z, "#:SS")
 
 /* GPS Specefic */
-#define turnGPSOn()			portWrite("#:g+#")
-#define turnGPSOff()			portWrite("#:g-#")
-#define alignGPSScope()			portWrite("#:Aa#")
-#define gpsSleep()			portWrite("#:hN#")
-#define gpsWakeUp()			portWrite("#:hW#")
-#define gpsRestart()			portWrite("#:I#")
-#define updateGPS_System()		setStandardProcedure("#:gT#")
-#define enableDecAltPec()		portWrite("#:QA+#")
-#define disableDecAltPec()		portWrite("#:QA-#")
-#define enableRaAzPec()			portWrite("#:QZ+#")
-#define disableRaAzPec()		portWrite("#:QZ-#")
-#define activateAltDecAntiBackSlash()	portWrite("#$BAdd#")
-#define activateAzRaAntiBackSlash()	portWrite("#$BZdd#")
-#define SelenographicSync()		portWrite("#:CL#")
+#define turnGPSOn()				portWrite("#:g+#")
+#define turnGPSOff()				portWrite("#:g-#")
+#define alignGPSScope()				portWrite("#:Aa#")
+#define gpsSleep()				portWrite("#:hN#")
+#define gpsWakeUp()				portWrite("#:hW#")
+#define gpsRestart()				portWrite("#:I#")
+#define updateGPS_System()			setStandardProcedure("#:gT#")
+#define enableDecAltPec()			portWrite("#:QA+#")
+#define disableDecAltPec()			portWrite("#:QA-#")
+#define enableRaAzPec()				portWrite("#:QZ+#")
+#define disableRaAzPec()			portWrite("#:QZ-#")
+#define activateAltDecAntiBackSlash()		portWrite("#$BAdd#")
+#define activateAzRaAntiBackSlash()		portWrite("#$BZdd#")
+#define SelenographicSync()			portWrite("#:CL#")
 
-#define slewToAltAz()			setStandardProcedure("#:MA#")
-#define toggleTimeFormat()		portWrite("#:H#")
-#define increaseReticleBrightness()	portWrite("#:B+#")
-#define decreaseReticleBrightness()	portWrite("#:B-#")
-#define turnFanOn()			portWrite("#:f+#")
-#define turnFanOff()			portWrite("#:f-#")
-#define seekHomeAndSave()		portWrite("#:hS#")
-#define seekHomeAndSet()		portWrite("#:hF#")
-#define turnFieldDeRotatorOn()		portWrite("#:r+#")
-#define turnFieldDeRotatorOff()		portWrite("#:r-#")
-#define slewToPark()			portWrite("#:hP#")
+#define slewToAltAz()				setStandardProcedure("#:MA#")
+#define toggleTimeFormat()			portWrite("#:H#")
+#define increaseReticleBrightness()		portWrite("#:B+#")
+#define decreaseReticleBrightness()		portWrite("#:B-#")
+#define turnFanOn()				portWrite("#:f+#")
+#define turnFanOff()				portWrite("#:f-#")
+#define seekHomeAndSave()			portWrite("#:hS#")
+#define seekHomeAndSet()			portWrite("#:hF#")
+#define turnFieldDeRotatorOn()			portWrite("#:r+#")
+#define turnFieldDeRotatorOff()			portWrite("#:r-#")
+#define slewToPark()				portWrite("#:hP#")
 
+/* Astro-Physics specific */
+#define APPark()				portWrite("#:KA#")
+#define APUnpark()				portWrite("#:PO#");
 
 #ifdef __cplusplus
 extern "C" {
@@ -130,6 +133,7 @@ void Disconnect();
  **************************************************************************/
 char ACK();
 int testTelescope();
+int testAP();
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
@@ -221,6 +225,8 @@ int MoveTo(int direction);
 int HaltMovement(int direction);
 /* Select the tracking mode */
 int selectTrackingMode(int trackMode);
+/* Select Astro-Physics tracking mode */
+int selectAPTrackingMode(int trackMode);
 
 /**************************************************************************
  Other Commands

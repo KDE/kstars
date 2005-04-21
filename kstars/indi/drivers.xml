@@ -39,12 +39,12 @@
 		<Exec>celestrongps</Exec>
 		<Version>0.2</Version>
 	</device>
-	<device label="Astro-Physics AP" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
+	<device label="Astro-Physics AP" driver="Astro-Physics">
+		<Exec>apmount</Exec>
 		<Version>0.1</Version>
 	</device>
-	<device label="Astro-Electronic FS-2" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
+	<device label="Astro-Electronic FS-2" driver="Astro-Physics">
+		<Exec>apmount</Exec>
 		<Version>0.1</Version>
 	</device>
 	<device label="Losmandy Gemini" driver="LX200 Generic">

@@ -763,6 +763,94 @@ IUSaveText (IText *tp, const char *newtext)
 	tp->text = strcpy (realloc (tp->text, strlen(newtext)+1), newtext);
 }
 
+void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
+{
+  strcpy(sp->name, name);
+  strcpy(sp->label, label);
+  sp->s = s;
+  sp->svp = NULL;
+  sp->aux = NULL;
+}
+
+void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value)
+{
+
+  strcpy(np->name, name);
+  strcpy(np->label, label);
+  strcpy(np->format, format);
+  
+  np->min	= min;
+  np->max	= max;
+  np->step	= step;
+  np->value	= value;
+  np->nvp	= NULL;
+  np->aux0	= NULL;
+  np->aux1	= NULL;
+}
+
+void fillText(IText *tp, const char *name, const char * label, const char *initialText)
+{
+
+  strcpy(tp->name, name);
+  strcpy(tp->label, label);
+  tp->text = NULL;
+  tp->tvp  = NULL;
+  tp->aux0 = NULL;
+  tp->aux1 = NULL;
+
+  IUSaveText(tp, initialText);
+
+}
+
+void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s)
+{
+  strcpy(svp->device, dev);
+  strcpy(svp->name, name);
+  strcpy(svp->label, label);
+  strcpy(svp->group, group);
+  strcpy(svp->timestamp, "");
+  
+  svp->p	= p;
+  svp->r	= r;
+  svp->timeout	= timeout;
+  svp->s	= s;
+  svp->sp	= sp;
+  svp->nsp	= nsp;
+}
+ 
+void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
+{
+  
+  strcpy(nvp->device, dev);
+  strcpy(nvp->name, name);
+  strcpy(nvp->label, label);
+  strcpy(nvp->group, group);
+  strcpy(nvp->timestamp, "");
+  
+  nvp->p	= p;
+  nvp->timeout	= timeout;
+  nvp->s	= s;
+  nvp->np	= np;
+  nvp->nnp	= nnp;
+  
+}
+
+void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
+{
+  strcpy(tvp->device, dev);
+  strcpy(tvp->name, name);
+  strcpy(tvp->label, label);
+  strcpy(tvp->group, group);
+  strcpy(tvp->timestamp, "");
+  
+  tvp->p	= p;
+  tvp->timeout	= timeout;
+  tvp->s	= s;
+  tvp->tp	= tp;
+  tvp->ntp	= ntp;
+
+}
+
 /* print usage message and exit (1) */
 static void
 usage(void)

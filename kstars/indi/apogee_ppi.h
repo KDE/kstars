@@ -153,10 +153,6 @@ class ApogeeCam {
     int  checkPowerT(ITextVectorProperty *tp);
     
     /* Helper functions */
-    void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
-    void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
-    void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value);
-    void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
     int  manageDefaults(char errmsg[]);
     int  getOnSwitch(ISwitchVectorProperty *sp);
     FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);

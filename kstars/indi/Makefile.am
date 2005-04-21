@@ -4,7 +4,7 @@ if LINUX
 bin_add   =  v4ldriver v4lphilips
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps fliccd fliwheel temma apogee_ppi $(bin_add)
+bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma apogee_ppi $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
@@ -19,6 +19,9 @@ lx200generic_LDADD = liblilxml.a libindicom.a
 
 celestrongps_SOURCES =  indidrivermain.c base64.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a
+
+apmount_SOURCES = indidrivermain.c base64.c eventloop.c  lx200driver.c apmount.cpp
+apmount_LDADD =  liblilxml.a libindicom.a
 
 fliccd_SOURCES =  eventloop.c base64.c fli_ccd.c indidrivermain.c
 fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz

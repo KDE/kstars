@@ -54,6 +54,7 @@ void Disconnect(void);
  **************************************************************************/
 char ACK(void);
 int testTelescope(void);
+int testAP(void);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
@@ -145,6 +146,8 @@ int MoveTo(int direction);
 int HaltMovement(int direction);
 /* Select the tracking mode */
 int selectTrackingMode(int trackMode);
+/* Select Astro-Physics tracking mode */
+int selectAPTrackingMode(int trackMode);
 
 /**************************************************************************
  Other Commands
@@ -196,6 +199,28 @@ int testTelescope()
   
   return -1;
 }
+
+int testAP()
+{
+   int i=0;
+   char currentDate[64];
+
+   fprintf(stderr, "Testing telescope's connection...\n");
+
+  /* We need to test if the telescope is responding
+  / We're going to request the calander date */
+  for (i=0; i < 2; i++)
+  {
+    if (!getCalenderDate(currentDate))
+     return 0;
+
+    usleep(50000);
+  }
+  
+  return -1;
+
+}
+
 
 /**********************************************************************
 * GET
@@ -256,7 +281,7 @@ int getCommandString(char *data, const char* cmd)
     if (term)
       *term = '\0';
 
-    fprintf(stderr, "Request data: %s\n", data);
+    fprintf(stderr, "Requested data: %s\n", data);
 
     return 0;
 }
@@ -1141,6 +1166,48 @@ int  selectTrackingMode(int trackMode)
    return 0;
 
 }
+
+int selectAPTrackingMode(int trackMode)
+{
+    switch (trackMode)
+   {
+    /* Lunar */
+    case 0:
+      fprintf(stderr, "Setting tracking mode to lunar.\n");
+     if (portWrite("#:RT0#") < 0)
+       return -1;
+     break;
+    
+     /* Solar */
+     case 1:
+      fprintf(stderr, "Setting tracking mode to solar.\n");
+     if (portWrite("#:RT1#") < 0)
+       return -1;
+     break;
+
+   /* Sidereal */
+   case 2:
+     fprintf(stderr, "Setting tracking mode to sidereal.\n");
+     if (portWrite("#:RT2#") < 0)
+      return -1;
+     break;
+
+   /* Zero */
+   case 3:
+     fprintf(stderr, "Setting tracking mode to zero.\n");
+     if (portWrite("#:RT9#") < 0)
+      return -1;
+     break;
+ 
+   default:
+    return -1;
+    break;
+   }
+   
+   return 0;
+
+}
+
 
 /**********************************************************************
 * Comm

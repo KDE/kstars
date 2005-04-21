@@ -357,6 +357,14 @@ extern void IUUpdateMinMax(INumberVectorProperty *nvp);
 */
 extern void IUSaveText (IText *tp, const char *newtext);
 
+extern void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
+extern void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value);
+extern void fillText(IText *tp, const char *name, const char * label, const char *initialText);
+
+extern void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
+extern void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
+extern void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
+
 /*@}*/
 
 /*******************************************************************************
