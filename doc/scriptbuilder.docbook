@@ -176,7 +176,7 @@ Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
 <sect2 id="sb-indi">
   <title>Device Automation with INDI</title>
   <para>
-    Device scheduling and automation is supported for all <link linkend="what-is-indi">INDI</link>-compliant devices. You can coordinate any number of devices to perform complex operations using &kstars; <link linkend="sb-intro">Script Builder</link>. This can be accomplished by using &kstars; INDI DCOP interface, which provides different classes of functions to suit your tasks. The INDI DCOP functions can be decomposed into four different classes. The following is a review of the functions and their arguments as supported in KStars. It it highly recommended to read the <link linkend="indi-concepts">INDI Concepts</link> section as we will employ key INDI concepts throughout this tutorial.</para>
+    Device scheduling and automation is supported for all <link linkend="what-is-indi">INDI</link>-compliant devices. You can coordinate any number of devices to perform complex operations using &kstars; <link linkend="sb-intro">Script Builder</link>. This can be accomplished by using &kstars; INDI DCOP interface, which provides different classes of functions to suit your tasks. The INDI DCOP functions can be decomposed into five different classes. The following is a review of the functions and their arguments as supported in KStars. It it highly recommended to read the <link linkend="indi-concepts">INDI Concepts</link> section as we will employ key INDI concepts throughout this tutorial.</para>
   <orderedlist>
     <listitem><para>Generic Device Functions: Functions to establish/shutdown devices..etc.</para>
       <itemizedlist>
@@ -197,20 +197,26 @@ Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
 	<listitem><para><function>setINDIUTC(QString ddeviceName, QString UTCDateTime)</function> : Set the telescope UTC Date and Time in ISO 8601 format. The format is YYYY-MM-DDTHH:MM:SS (e.g. 2004-07-12T22:05:32).</para></listitem>
       </itemizedlist>
     </listitem>
-    <listitem><para>Focuser Functions: Functions to control the focuser motion and status.</para>
-      <itemizedlist>
-      <listitem><para><function>setINDIFocusSpeed(QString deviceName, QString action)</function> : Set the focuser speed. Available options are FOCUS_HALT, FOCUS_SLOW, FOCUS_MEDIUM, and FOCUS_FAST.</para></listitem>
-      <listitem><para><function>setINDIFocusTimeout(QString deviceName, int timeout)</function> : Set the duration in seconds for any subsequent startINDIFocus operations.</para></listitem>
-      <listitem><para><function>startINDIFocus(QString deviceName, int focusDir)</function> : Move the focuser either inward (focusDir = 0) or outward (focusDir = 1). The speed and duration of this operation is set by the <function>setINDIFocusSpeed()</function> and <function>setINDIFocusTimeout()</function> functions.</para></listitem>
-    </itemizedlist>
-    </listitem>
     <listitem><para>Camera/CCD Functions: Functions to control the camera/CCD properties and status.</para>
       <itemizedlist>
 	<listitem><para><function>setINDICCDTemp(QString deviceName, int temp)</function> : Set the CCD chip target temperature in degrees celsius.</para></listitem>
 	<listitem><para><function>setINDIFrameType(QString deviceName, QString type)</function> : Set the CCD frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT.</para></listitem>
 	<listitem><para><function>startINDIExposure(QString deviceName, int timeout)</function> : Start the CCD/Camera exposure for the duration specified by <emphasis>timeout</emphasis> in seconds.</para></listitem>
       </itemizedlist>
+    </listitem>    
+   <listitem><para>Focuser Functions: Functions to control the focuser motion and status.</para>
+      <itemizedlist>
+      <listitem><para><function>setINDIFocusSpeed(QString deviceName, QString action)</function> : Set the focuser speed. Available options are FOCUS_HALT, FOCUS_SLOW, FOCUS_MEDIUM, and FOCUS_FAST.</para></listitem>
+      <listitem><para><function>setINDIFocusTimeout(QString deviceName, int timeout)</function> : Set the duration in seconds for any subsequent startINDIFocus operations.</para></listitem>
+      <listitem><para><function>startINDIFocus(QString deviceName, int focusDir)</function> : Move the focuser either inward (focusDir = 0) or outward (focusDir = 1). The speed and duration of this operation is set by the <function>setINDIFocusSpeed()</function> and <function>setINDIFocusTimeout()</function> functions.</para></listitem>
+    </itemizedlist>
     </listitem>
+   <listitem><para>Filter Functions: Functions to control the filter position.</para>
+      <itemizedlist>
+      <listitem><para><function>setINDIFilterNum(QString deviceName, int filter_num)</function> : Change the filter position to <varname>filter_num</varname>. The user can assign aliases to filter numbers in the <guimenuitem>Configure INDI</guimenuitem> dialog box under the <guimenu>Devices</guimenu> menu (e.g. Filter 1 = Red, Filter 2 = Green..etc).</para></listitem>
+    </itemizedlist>
+    </listitem>
+    
   </orderedlist>
   
 <para>
