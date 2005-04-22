@@ -86,6 +86,7 @@
 #include "argsetscopeactionindi.h"
 #include "argsetframetypeindi.h"
 #include "argsetccdtempindi.h"
+#include "argsetfilternumindi.h"
 
 #include "scriptbuilder.h"
 #include "kstars.h"
@@ -144,88 +145,124 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to %1.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 	
 	// INDI fuctions
-	ScriptFunction *tempINDIFunc = NULL;
+	ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL); 
 	
-	tempINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
-	INDIFunctionList.append ( tempINDIFunc );
+	startINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
+	INDIFunctionList.append ( startINDIFunc );
 	
-	tempINDIFunc = new ScriptFunction( "shutdownINDI", i18n("Shutdown an INDI device."), false, "QString", "deviceName");
-	INDIFunctionList.append ( tempINDIFunc);
+	shutdownINDIFunc = new ScriptFunction( "shutdownINDI", i18n("Shutdown an INDI device."), false, "QString", "deviceName");
+	INDIFunctionList.append ( shutdownINDIFunc);
 	
-	tempINDIFunc = new ScriptFunction( "switchINDI", i18n("Connect or Disconnect an INDI device."), false, "QString", "deviceName", "bool", "turnOn");
-	tempINDIFunc->setINDIProperty("CONNECTION");
-	INDIFunctionList.append ( tempINDIFunc);
+	switchINDIFunc = new ScriptFunction( "switchINDI", i18n("Connect or Disconnect an INDI device."), false, "QString", "deviceName", "bool", "turnOn");
+	switchINDIFunc->setINDIProperty("CONNECTION");
+	INDIFunctionList.append ( switchINDIFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDIPort", i18n("Set INDI's device connection port."), false, "QString", "deviceName", "QString", "port");
-	tempINDIFunc->setINDIProperty("DEVICE_PORT");
-	INDIFunctionList.append ( tempINDIFunc);
+	setINDIPortFunc = new ScriptFunction( "setINDIPort", i18n("Set INDI's device connection port."), false, "QString", "deviceName", "QString", "port");
+	setINDIPortFunc->setINDIProperty("DEVICE_PORT");
+	INDIFunctionList.append ( setINDIPortFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Available actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "deviceName", "QString", "action");
-	tempINDIFunc->setINDIProperty("CHECK");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIScopeActionFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Available actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "deviceName", "QString", "action");
+	setINDIScopeActionFunc->setINDIProperty("CHECK");
+	INDIFunctionList.append( setINDIScopeActionFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordinates to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees." ), false, "QString", "deviceName", "double", "RA", "double", "DEC" );
-	tempINDIFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
-	INDIFunctionList.append ( tempINDIFunc );
+	setINDITargetCoordFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordinates to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees." ), false, "QString", "deviceName", "double", "RA", "double", "DEC" );
+	setINDITargetCoordFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
+	INDIFunctionList.append ( setINDITargetCoordFunc );
 	
-	tempINDIFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "deviceName", "QString", "objectName");
-	tempINDIFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "deviceName", "QString", "objectName");
+	setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
+	INDIFunctionList.append( setINDITargetNameFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is E of N."), false, "QString", "deviceName", "double", "long", "double", "lat");
-	tempINDIFunc->setINDIProperty("GEOGRAPHIC_COORD");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIGeoLocationFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is E of N."), false, "QString", "deviceName", "double", "long", "double", "lat");
+	setINDIGeoLocationFunc->setINDIProperty("GEOGRAPHIC_COORD");
+	INDIFunctionList.append( setINDIGeoLocationFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "setINDIUTC", i18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "deviceName", "QString", "UTCDateTime");
-	tempINDIFunc->setINDIProperty("TIME");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIUTCFunc = new ScriptFunction ( "setINDIUTC", i18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "deviceName", "QString", "UTCDateTime");
+	setINDIUTCFunc->setINDIProperty("TIME");
+	INDIFunctionList.append( setINDIUTCFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDIAction", i18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "deviceName", "QString", "actionName");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIActionFunc = new ScriptFunction( "setINDIAction", i18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "deviceName", "QString", "actionName");
+	INDIFunctionList.append( setINDIActionFunc);
 	
-	tempINDIFunc = new ScriptFunction ("waitForINDIAction", i18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "deviceName", "QString", "actionName");
-	INDIFunctionList.append( tempINDIFunc );
+	waitForINDIActionFunc = new ScriptFunction ("waitForINDIAction", i18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "deviceName", "QString", "actionName");
+	INDIFunctionList.append( waitForINDIActionFunc );
 	
-	tempINDIFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed."), false, "QString", "deviceName", "QString", "speed");
-	tempINDIFunc->setINDIProperty("FOCUS_SPEED");
-	INDIFunctionList.append( tempINDIFunc );
+	setINDIFocusSpeedFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed."), false, "QString", "deviceName", "QString", "speed");
+	setINDIFocusSpeedFunc->setINDIProperty("FOCUS_SPEED");
+	INDIFunctionList.append( setINDIFocusSpeedFunc );
 	
-	tempINDIFunc = new ScriptFunction ("startINDIFocus", i18n("Start moving the focuser in the direction Dir, and for the duration specified by setINDIFocusTimeout."), false, "QString", "deviceName", "QString", "Dir");
-	tempINDIFunc->setINDIProperty("FOCUS_MOTION");
-	INDIFunctionList.append( tempINDIFunc);
+	startINDIFocusFunc = new ScriptFunction ("startINDIFocus", i18n("Start moving the focuser in the direction Dir, and for the duration specified by setINDIFocusTimeout."), false, "QString", "deviceName", "QString", "Dir");
+	startINDIFocusFunc->setINDIProperty("FOCUS_MOTION");
+	INDIFunctionList.append( startINDIFocusFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timeout in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "QString", "deviceName", "int", "timeout");
-	tempINDIFunc->setINDIProperty("FOCUS_TIMEOUT");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIFocusTimeoutFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timeout in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "QString", "deviceName", "int", "timeout");
+	setINDIFocusTimeoutFunc->setINDIProperty("FOCUS_TIMEOUT");
+	INDIFunctionList.append( setINDIFocusTimeoutFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDICCDTemp", i18n("Set the target CCD chip temperature."), false, "QString", "deviceName", "int", "temp");
-	tempINDIFunc->setINDIProperty("CCD_TEMPERATURE");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDICCDTempFunc = new ScriptFunction( "setINDICCDTemp", i18n("Set the target CCD chip temperature."), false, "QString", "deviceName", "int", "temp");
+	setINDICCDTempFunc->setINDIProperty("CCD_TEMPERATURE");
+	INDIFunctionList.append( setINDICCDTempFunc);
+
+        setINDIFilterNumFunc = new ScriptFunction( "setINDIFilterNum", i18n("Set the target filter position."), false, "QString", "deviceName", "int", "filter_num");
+	setINDIFilterNumFunc->setINDIProperty("FILTER_CONF");
+	INDIFunctionList.append ( setINDIFilterNumFunc);
 	
-	tempINDIFunc = new ScriptFunction( "setINDIFrameType", i18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "deviceName", "QString", "type");
-	tempINDIFunc->setINDIProperty("FRAME_TYPE");
-	INDIFunctionList.append( tempINDIFunc);
+	setINDIFrameTypeFunc = new ScriptFunction( "setINDIFrameType", i18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "deviceName", "QString", "type");
+	setINDIFrameTypeFunc->setINDIProperty("FRAME_TYPE");
+	INDIFunctionList.append( setINDIFrameTypeFunc);
 	
-	tempINDIFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
-	tempINDIFunc->setINDIProperty("EXPOSE_DURATION");
-	INDIFunctionList.append( tempINDIFunc);
+	startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
+	startINDIExposureFunc->setINDIProperty("EXPOSE_DURATION");
+	INDIFunctionList.append( startINDIExposureFunc);
 	
 	
 	// Modified by JM
 	// We're using KListView instead of listbox to arrange the functions in two
-	// main categories: KStars and INDI.
+	// main categories: KStars and INDI. INDI is further subdivided.
 	
 	sb->FunctionListView->addColumn(i18n("Functions"));
 	sb->FunctionListView->setSorting(-1);
 	
 	QListViewItem *INDI_tree = new QListViewItem( sb->FunctionListView, "INDI");
+        QListViewItem *INDI_filter = new QListViewItem( INDI_tree, "Filter");
+	QListViewItem *INDI_focuser = new QListViewItem( INDI_tree, "Focuser");
+	QListViewItem *INDI_ccd = new QListViewItem( INDI_tree, "Camera/CCD");
+	QListViewItem *INDI_telescope = new QListViewItem( INDI_tree, "Telescope");
+        QListViewItem *INDI_general = new QListViewItem( INDI_tree, "General");
+        
 	QListViewItem *kstars_tree = new QListViewItem( sb->FunctionListView, "KStars");
+        
 	
 	for ( ScriptFunction *sf = KStarsFunctionList.last(); sf; sf = KStarsFunctionList.prev() )
 	    new QListViewItem (kstars_tree, sf->prototype());
 	
-	for ( ScriptFunction *sf = INDIFunctionList.last(); sf; sf = INDIFunctionList.prev() )
-	  new QListViewItem (INDI_tree, sf->prototype());
+          // General
+          new QListViewItem(INDI_general, waitForINDIActionFunc->prototype());
+          new QListViewItem(INDI_general, setINDIActionFunc->prototype());
+	  new QListViewItem(INDI_general, setINDIPortFunc->prototype());
+	  new QListViewItem(INDI_general, switchINDIFunc->prototype());
+	  new QListViewItem(INDI_general, shutdownINDIFunc->prototype());
+	  new QListViewItem(INDI_general, startINDIFunc->prototype());
+
+	  // Telescope
+	  new QListViewItem(INDI_telescope, setINDIUTCFunc->prototype());
+	  new QListViewItem(INDI_telescope, setINDIGeoLocationFunc->prototype());
+	  new QListViewItem(INDI_telescope, setINDITargetNameFunc->prototype());
+	  new QListViewItem(INDI_telescope, setINDITargetCoordFunc->prototype());
+	  new QListViewItem(INDI_telescope, setINDIScopeActionFunc->prototype());
+
+	  // CCD
+	  new QListViewItem(INDI_ccd, startINDIExposureFunc->prototype());
+	  new QListViewItem(INDI_ccd, setINDIFrameTypeFunc->prototype());
+	  new QListViewItem(INDI_ccd, setINDICCDTempFunc->prototype());
+
+	  // Focuser
+	  new QListViewItem(INDI_focuser, startINDIFocusFunc->prototype());
+	  new QListViewItem(INDI_focuser, setINDIFocusTimeoutFunc->prototype());
+          new QListViewItem(INDI_focuser, setINDIFocusSpeedFunc->prototype());
+
+	  // Filter
+          new QListViewItem(INDI_filter, setINDIFilterNumFunc->prototype());
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
@@ -274,6 +311,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argSetScopeActionINDI  = new ArgSetScopeActionINDI( sb->ArgStack);
 	argSetFrameTypeINDI    = new ArgSetFrameTypeINDI (sb->ArgStack);
 	argSetCCDTempINDI      = new ArgSetCCDTempINDI(sb->ArgStack);
+	argSetFilterNumINDI    = new ArgSetFilterNumINDI(sb->ArgStack);
 	
 	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_HALT");
 	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_FAST");
@@ -328,6 +366,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	sb->ArgStack->addWidget( argSetScopeActionINDI);
 	sb->ArgStack->addWidget( argSetFrameTypeINDI);
 	sb->ArgStack->addWidget( argSetCCDTempINDI);
+	sb->ArgStack->addWidget( argSetFilterNumINDI);
 	
 	sb->ArgStack->raiseWidget( 0 );
 
@@ -456,6 +495,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	// INDI Set CCD Temp
 	connect (argSetCCDTempINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetCCDTempDeviceName()));
 	connect (argSetCCDTempINDI->temp, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetCCDTemp()));
+
+	// INDI Set Filter Num
+	connect (argSetFilterNumINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetFilterNumDeviceName()));
+	connect (argSetFilterNumINDI->filter_num, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFilterNum()));
+
 	
 	//disbale some buttons
 	sb->CopyButton->setEnabled( false );
@@ -1716,8 +1760,28 @@ void ScriptBuilder::slotArgWidget() {
 		    else argSetCCDTempINDI->deviceName->setText(sf->argVal(0));
 		     
 		  }
-		
+		  else if (sf->name() == "setINDIFilterNum") {
+		    int t(0);
+		    bool ok(false);
 		  
+		    sb->ArgStack->raiseWidget( argSetFilterNumINDI);
+		  
+		    t = sf->argVal(1).toInt(&ok);
+		    if (ok) argSetFilterNumINDI->filter_num->setValue(t);
+		    else argSetFilterNumINDI->filter_num->setValue(0);
+		  
+		    argSetFilterNumINDI->deviceName->clear();
+		    
+		    if (sb->ReuseINDIDeviceName->isChecked())
+		    {
+		      if (!sf->argVal(0).isEmpty())
+			argSetFilterNumINDI->deviceName->setText(sf->argVal(0));
+		      else
+			argSetFilterNumINDI->deviceName->setText(lastINDIDeviceName);
+		    }
+		    else argSetFilterNumINDI->deviceName->setText(sf->argVal(0));
+		     
+		  }
 	}
 }
 
@@ -3095,6 +3159,55 @@ void ScriptBuilder::slotINDISetCCDTemp()
     kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
   }
   
+}
+
+void ScriptBuilder::slotINDISetFilterNumDeviceName()
+{
+
+  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFilterNum" )
+  {
+    if (argSetFilterNumINDI->deviceName->text().isEmpty())
+    {
+      sf->setValid(false);
+      return;
+    }
+    
+    if (sf->argVal(0) != argSetFilterNumINDI->deviceName->text())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(0, argSetFilterNumINDI->deviceName->text());
+    sf->setArg(1, QString("%1").arg(argSetFilterNumINDI->filter_num->value()));
+    sf->setValid(true);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
+  }
+}
+
+void ScriptBuilder::slotINDISetFilterNum()
+{
+
+ ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+
+  if ( sf->name() == "setINDIFilterNum" )
+  {
+    
+    if (sf->argVal(1).toInt() != argSetFilterNumINDI->filter_num->value())
+    	setUnsavedChanges( true );
+    
+    sf->setArg(1, QString("%1").arg(argSetFilterNumINDI->filter_num->value()));
+    if (! sf->argVal(0).isEmpty()) sf->setValid(true);
+    else sf->setValid(false);
+  }
+  else
+  {
+    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
+  }
+
+
 }
 	
 #include "scriptbuilder.moc"

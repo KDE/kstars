@@ -57,6 +57,7 @@ int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerT(ITextVectorProperty *tp);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
+void updateImageSettings();
 
 
 extern char* me;
@@ -532,6 +533,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	   IUResetSwitches(&CamSettingSP);
 	   CamSettingSP.s = IPS_OK;
 	   IDSetSwitch(&CamSettingSP, "Settings restored.");
+           updateImageSettings();
 	   return;
 	}
 	
@@ -541,6 +543,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	  IUResetSwitches(&CamSettingSP);
 	  CamSettingSP.s = IPS_OK;
 	  IDSetSwitch(&CamSettingSP, "Factory settings restored.");
+          updateImageSettings();
 	  return;
 	}
      }
@@ -938,20 +941,7 @@ void getBasicData()
   
   IDLog("Raw values\n Contrast: %d \n Brightness %d \n Color %d \n Sharpness %d \n Gain %d \n Gamma %d \n", getContrast(), getBrightness(), getColor(), getSharpness(), getGain(), getGama());
   
-  ImageAdjustN[0].value = getContrast() / 256.;
-  ImageAdjustN[1].value = getBrightness() / 256.;
-  ImageAdjustN[2].value = getColor() / 256.;
-  index = getSharpness();
-  if (index < 0)
-  	ImageAdjustN[3].value = -1;
-  else
-    ImageAdjustN[3].value = getSharpness() / 256.;
-    
-  ImageAdjustN[4].value = getGain() / 256.;
-  ImageAdjustN[5].value = getGama() / 256.;
-       
-  ImageAdjustNP.s = IPS_OK;
-  IDSetNumber(&ImageAdjustNP, NULL);
+  updateImageSettings();
   
   if (setFrameRate( (int) FrameRateN[0].value, errmsg) < 0)
   {
@@ -1273,4 +1263,25 @@ void uploadFile(const char* filename)
    
    
    delete (fitsData);
+}
+
+void updateImageSettings()
+{
+  int index =0;
+
+  ImageAdjustN[0].value = getContrast() / 256.;
+  ImageAdjustN[1].value = getBrightness() / 256.;
+  ImageAdjustN[2].value = getColor() / 256.;
+  index = getSharpness();
+  if (index < 0)
+  	ImageAdjustN[3].value = -1;
+  else
+    ImageAdjustN[3].value = getSharpness() / 256.;
+    
+  ImageAdjustN[4].value = getGain() / 256.;
+  ImageAdjustN[5].value = getGama() / 256.;
+       
+  ImageAdjustNP.s = IPS_OK;
+  IDSetNumber(&ImageAdjustNP, NULL);
+
 }

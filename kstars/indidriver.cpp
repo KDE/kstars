@@ -543,8 +543,8 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     groupType = KSTARS_TELESCOPE;
   else if (groupName.find("CCDs") != -1)
     groupType = KSTARS_CCD;
-  else if (groupName.find("Wheels") != -1)
-    groupType = KSTARS_WHEEL;
+  else if (groupName.find("Filter") != -1)
+    groupType = KSTARS_FILTER;
   else if (groupName.find("Video") != -1)
     groupType = KSTARS_VIDEO;
   else if (groupName.find("Focusers") != -1)

@@ -104,7 +104,7 @@ static ISwitch PortS[]           	= {{"USB", "", ISS_ON, 0, 0}, {"Serial", "", I
 static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PortS, NARRAY(PortS), "", 0};
  
 /* Filter control */
-static INumber FilterN[]	  = { {"FILTER", "Active Filter", "%2.0f", FIRST_FILTER, LAST_FILTER, 1, 0, 0, 0, 0}};
+static INumber FilterN[]	  = { {"FILTER_NUM", "Active Filter", "%2.0f", FIRST_FILTER, LAST_FILTER, 1, 0, 0, 0, 0}};
 static INumberVectorProperty FilterNP = { mydev, "FILTER_CONF", "Filter", FILTER_GROUP, IP_RW, 0, IPS_IDLE, FilterN, NARRAY(FilterN), "", 0};
   
 /* send client definitions of all properties */

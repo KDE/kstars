@@ -236,6 +236,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC setINDIFrameType(QString deviceName, QString type);
 		
 	/**DCOP interface function. Set CCD target temperature. */
+		ASYNC setINDIFilterNum(QString deviceName, int filter_num);
+
+	/**DCOP interface function. Set CCD target temperature. */
 		ASYNC setINDICCDTemp(QString deviceName, int temp);
 		
 	public slots:

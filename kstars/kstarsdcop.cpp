@@ -897,6 +897,42 @@ void KStars::startINDIExposure(QString deviceName, int timeout)
   prop->newText();
   
 }
+
+void KStars::setINDIFilterNum(QString deviceName, int filter_num)
+{
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+  
+  if (!indidriver || !indimenu)
+  {
+    kdDebug() << "setINDIFilterNum: establishINDI() failed." << endl;
+    return;
+  }
+  
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
+  if (!dev)
+  {
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
+    return;
+  }
+  
+  prop = dev->findProp("FILTER_CONF");
+  if (!prop) return;
+  
+  el   = prop->findElement("FILTER_NUM");
+  if (!el) return;
+  
+  if (el->write_w)
+    el->write_w->setText(QString("%1").arg(filter_num));
+  else if (el->spin_w)
+    el->spin_w->setValue(filter_num);
+  
+  prop->newText();
+  
+}
 		
 void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
 {

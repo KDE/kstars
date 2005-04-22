@@ -58,6 +58,7 @@ class ArgSetUTCINDI;
 class ArgSetScopeActionINDI;
 class ArgSetFrameTypeINDI;
 class ArgSetCCDTempINDI;
+class ArgSetFilterNumINDI;
 
 /**@class ScriptBuilder
 	*A GUI tool for building behavioral DCOP scripts for KStars.
@@ -159,6 +160,8 @@ public slots:
 	void slotINDISetFrameType();
 	void slotINDISetCCDTempDeviceName();
 	void slotINDISetCCDTemp();
+	void slotINDISetFilterNumDeviceName();
+	void slotINDISetFilterNum();
 
 private:
 	void initViewOptions();
@@ -204,6 +207,7 @@ private:
 	ArgSetScopeActionINDI *argSetScopeActionINDI;
 	ArgSetFrameTypeINDI *argSetFrameTypeINDI;
 	ArgSetCCDTempINDI *argSetCCDTempINDI;
+        ArgSetFilterNumINDI *argSetFilterNumINDI;
 	
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;

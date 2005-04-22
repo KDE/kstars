@@ -263,7 +263,13 @@ class KStarsInterface : virtual public DCOPObject
 		 */
 		virtual ASYNC startINDIFocus(QString deviceName, int focusDir) = 0;
 		
-		
+		// Filter Functions
+		/** Sets the Filter position
+		 *@param deviceName The INDI device name
+		 *@param type The filter position (0-20)
+		 */
+		virtual ASYNC setINDIFilterNum(QString deviceName, int filter_num) = 0;
+
 		// Camera CCD Functions
 		
 		/** Sets the CCD camera frame type

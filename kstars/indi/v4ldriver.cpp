@@ -55,6 +55,7 @@ int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerT(ITextVectorProperty *tp);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
+void updateImageSettings();
 
 
 extern char* me;
@@ -514,14 +515,7 @@ void getBasicData()
   strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
   IDSetText(&camNameTP, NULL);
   
-  ImageAdjustN[0].value = getContrast() / 128.;
-  ImageAdjustN[1].value = getBrightness() / 128.;
-  ImageAdjustN[2].value = getHue() / 128.;
-  ImageAdjustN[3].value = getColor() / 128.;
-  ImageAdjustN[4].value = getWhiteness() / 128.;
-     
-  ImageAdjustNP.s = IPS_OK;
-  IDSetNumber(&ImageAdjustNP, NULL);
+  updateImageSettings();
   
 }
 
@@ -781,3 +775,18 @@ void uploadFile(const char * filename)
    
    delete (fitsData);
 }
+
+void updateImageSettings()
+{
+
+  ImageAdjustN[0].value = getContrast() / 128.;
+  ImageAdjustN[1].value = getBrightness() / 128.;
+  ImageAdjustN[2].value = getHue() / 128.;
+  ImageAdjustN[3].value = getColor() / 128.;
+  ImageAdjustN[4].value = getWhiteness() / 128.;
+
+  ImageAdjustNP.s = IPS_OK;
+  IDSetNumber(&ImageAdjustNP, NULL);
+
+}
+
