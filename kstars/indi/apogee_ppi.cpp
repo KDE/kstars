@@ -370,7 +370,7 @@ void ApogeeCam::ISNewNumber (const char */*dev*/, const char *name, double value
      IUUpdateNumbers(&BinningNP, values, names, n);
      
      cam->m_BinX = (int) BinningN[0].value;
-     cam->m_BinX = (int) BinningN[0].value;
+     cam->m_BinY = (int) BinningN[1].value;
      
      IDLog("Binning is: %.0f x %.0f\n", BinningN[0].value, BinningN[1].value);
      return;
@@ -665,7 +665,7 @@ void ApogeeCam::handleExposure(void *p)
   switch (curFrame)
   {
     /* Light frame */ 
-   case FRAME_LIGHT:
+   case LIGHT_FRAME:
    if (!cam->Expose( (int) ExposeTimeN[0].value, true ))
    {  
      ExposeTimeNP.s = IPS_IDLE;
@@ -677,7 +677,7 @@ void ApogeeCam::handleExposure(void *p)
    
    /* BIAS frame is the same as DARK but with minimum period. i.e. readout from camera electronics.
    */
-    case FRAME_BIAS:
+    case BIAS_FRAME:
       if (!cam->Expose( 0.05 , false ))
       {  
 	ExposeTimeNP.s = IPS_IDLE;
@@ -688,7 +688,7 @@ void ApogeeCam::handleExposure(void *p)
       break;
       
       /* Dark frame */
-    case FRAME_DARK:
+    case DARK_FRAME:
       if (!cam->Expose( (int) ExposeTimeN[0].value , false ))
       {  
 	ExposeTimeNP.s = IPS_IDLE;
@@ -698,7 +698,7 @@ void ApogeeCam::handleExposure(void *p)
       }
       break;
       
-    case FRAME_FLAT:
+    case FLAT_FRAME:
       if (!cam->Expose( (int) ExposeTimeN[0].value , true ))
       {  
 	ExposeTimeNP.s = IPS_IDLE;
@@ -713,6 +713,9 @@ void ApogeeCam::handleExposure(void *p)
   APGFrame.width	= (int) FrameN[2].value;
   APGFrame.height	= (int) FrameN[3].value;
   APGFrame.expose	= (int) ExposeTimeN[0].value;
+  APGFrame.temperature  =       TemperatureN[0].value;
+  APGFrame.binX         = (int) BinningN[0].value;
+  APGFrame.binY         = (int) BinningN[1].value;
   
   ExposeTimeNP.s = IPS_BUSY;
 		  
@@ -1421,43 +1424,35 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  
  FITS_HDU_LIST *hdulist;
  
-#if 0
-
- char temp_s[80], expose_s[80], binning_s[80], pixel_s[80], frame_s[80];
- char obsDate[80];
- char ts[32];
- struct tm *tp;
- time_t t;
+ char temp_s[FITS_CARD_SIZE], expose_s[FITS_CARD_SIZE], binning_s[FITS_CARD_SIZE], pixel_s[FITS_CARD_SIZE], frame_s[FITS_CARD_SIZE];
+ char obsDate[FITS_CARD_SIZE];
  
- time (&t);
- tp = gmtime (&t);
- strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
- 
- snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
+ snprintf(obsDate, FITS_CARD_SIZE, "DATE-OBS= '%s' /Observation Date UTC", timestamp());
  
  hdulist = fits_add_hdu (ofp);
  if (hdulist == NULL) return (NULL);
 
  hdulist->used.simple = 1;
- hdulist->bitpix = 16;/*sizeof(unsigned short) * 8;*/
+ hdulist->bitpix = 16;
  hdulist->naxis = 2;
  hdulist->naxisn[0] = width;
  hdulist->naxisn[1] = height;
  hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = min();
+ // JM: TODO Record here the minimum and maximum pixel values
+ /*hdulist->used.datamin = min();
  hdulist->datamin = min();
  hdulist->used.datamax = max();
- hdulist->datamax = max();
+ hdulist->datamax = max();*/
  hdulist->used.bzero = 1;
  hdulist->bzero = 0.0;
  hdulist->used.bscale = 1;
  hdulist->bscale = 1.0;
  
- sprintf(temp_s, "CCD-TEMP= %g / degrees celcius", TemperatureN[0].value);
- sprintf(expose_s, "EXPOSURE= %d / milliseconds", FLIImg->expose);
- sprintf(binning_s, "BINNING = '(%g x %g)'", BinningN[0].value, BinningN[1].value);
- sprintf(pixel_s, "PIX-SIZ = '%.0f microns square'", PixelSizeN[0].value);
- switch (FLIImg->frameType)
+ snprintf(temp_s, FITS_CARD_SIZE, "CCD-TEMP= %g / degrees celcius", APGFrame.temperature);
+ snprintf(expose_s, FITS_CARD_SIZE, "EXPOSURE= %d / milliseconds", APGFrame.expose);
+ snprintf(binning_s, FITS_CARD_SIZE, "BINNING = '(%d x %d)'", APGFrame.binX, APGFrame.binY);
+ //sprintf(pixel_s, "PIX-SIZ = '%.0f microns square'", PixelSizeN[0].value);
+ switch (APGFrame.frameType)
   {
     case LIGHT_FRAME:
       	strcpy(frame_s, "FRAME   = 'Light'");
@@ -1476,59 +1471,11 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  fits_add_card (hdulist, frame_s);   
  fits_add_card (hdulist, temp_s);
  fits_add_card (hdulist, expose_s);
- fits_add_card (hdulist, pixel_s);
- fits_add_card (hdulist, "INSTRUME= 'Finger Lakes Instruments'");
+ //fits_add_card (hdulist, pixel_s);
+ fits_add_card (hdulist, "INSTRUME= 'Apogee CCD'");
  fits_add_card (hdulist, obsDate);
   
-#endif
-
  return (hdulist);
-}
-
-double min()
-{
-#if 0 
-  double lmin = FLIImg->img[0];
-  int ind=0, i, j;
- 
-
-  for (i= 0; i < FLIImg->height ; i++)
-    for (j= 0; j < FLIImg->width; j++)
-    {
-       ind = (i * FLIImg->width) + j;
-       if (FLIImg->img[ind] < lmin) lmin = FLIImg->img[ind];
-    }
-    
-
-    return lmin;
-#endif
-
-return 0;
-}
-
-double max()
-{
-#if 0
-
-  double lmax = FLIImg->img[0];
-  int ind=0, i, j;
-  
-
-
-   for (i= 0; i < FLIImg->height ; i++)
-    for (j= 0; j < FLIImg->width; j++)
-    {
-      ind = (i * FLIImg->width) + j;
-       if (FLIImg->img[ind] > lmax) lmax = FLIImg->img[ind];
-    }
- 
-
-
- return lmax;
-#endif
-
-return 0;
- 
 }
 
 // Convert a string to a decimal or hexadecimal integer

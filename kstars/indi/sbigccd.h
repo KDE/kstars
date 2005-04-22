@@ -1,7 +1,8 @@
 #if 0
-    Apogee PPI
-    INDI Interface for Apogee PPI
-    Copyright (C) 2005 Jasem Mutlaq (mutlaqja AT ikarustech DOT com)
+    INDI driver for SBIG CCD
+    Copyright (C) 2005 Chris Curran (ccurran AT planetcurran DOT com)
+
+    Based on Apogee PPI driver by Jasem Mutlaq (mutlaqja AT ikarustech DOT com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -19,8 +20,8 @@
 
 #endif
 
-#ifndef APOGEE_PPI_H
-#define APOGEE_PPI_H
+#ifndef SBIGCCD_H
+#define SBIGCCD_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,14 +37,12 @@
 #include "indidevapi.h"
 #include "eventloop.h"
 #include "indicom.h"
-#include "apogee/CameraIO_Linux.h"
 
-#define mydev           "Apogee PPI"
+#define mydev           "SBIG CCD"
 
 #define COMM_GROUP	"Communication"
 #define EXPOSE_GROUP	"Expose"
 #define IMAGE_GROUP	"Image Settings"
-#define DATA_GROUP      "Data Channel"
 
 #define POLLMS		1000		/* Polling time (ms) */
 #define TEMP_THRESHOLD  .25		/* Differential temperature threshold (C)*/
@@ -53,25 +52,15 @@
 #define MAXVBIN 	64
 #define MIN_CCD_TEMP	-60
 #define MAX_CCD_TEMP	40
-#define MAXCOLUMNS 	16383
-#define MAXROWS 	16383
-#define MAXTOTALCOLUMNS 16383
-#define MAXTOTALROWS 	16383
-
-#define FILENAMESIZ	2048
-#define LIBVERSIZ 	1024
-#define PREFIXSIZ	64
-#define PIPEBUFSIZ	8192
-#define FRAME_ILEN	64
 
 #define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
 
-class ApogeeCam {
+class SBIGCam {
   
   public:
     
-    ApogeeCam();
-    ~ApogeeCam();
+    SBIGCam();
+    ~SBIGCam();
     
     /* INDI Functions that must be called from indidrivermain */
     void ISGetProperties (const char *dev);
@@ -91,13 +80,12 @@ class ApogeeCam {
       double temperature;
       int    binX, binY;
       unsigned short  *img;
-    } APGFrame;
+    } SBIGFrame;
     
     enum { LIGHT_FRAME , BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
     
     /* Switches */
     ISwitch PowerS[2];
-    ISwitch *ApogeeModelS;
     ISwitch FrameTypeS[4];
     
     /* Numbers */
@@ -105,14 +93,12 @@ class ApogeeCam {
     INumber BinningN[2];
     INumber ExposeTimeN[1];
     INumber TemperatureN[1];
-    INumber DataChannelN[1];
     
     /* BLOBs */
     IBLOB imageB;
     
     /* Switch vectors */
     ISwitchVectorProperty PowerSP;				/* Connection switch */
-    ISwitchVectorProperty ApogeeModelSP;			/* Apogee Model */
     ISwitchVectorProperty FrameTypeSP;				/* Frame type */
     
     /* Number vectors */
@@ -126,15 +112,12 @@ class ApogeeCam {
     IBLOBVectorProperty imageBP;				/* Data stream */
     
     /* Other */
-    static int streamTimerID;					/* Stream ID */
     double targetTemp;						/* Target temperature */
-    CCameraIO *cam;						/* Apogee Camera object */
     
     /* Functions */
     
     /* General */
     void initProperties();
-    bool loadXMLModel();
     bool initCamera();
     
     /* CCD */
@@ -143,7 +126,6 @@ class ApogeeCam {
     void connectCCD(void);
     void uploadFile(char * filename);
     int  writeFITS(char *filename, char errmsg[]);
-    int  setImageArea(char errmsg[]);
     void grabImage(void);
     int  isCCDConnected(void);
     
@@ -158,13 +140,8 @@ class ApogeeCam {
     FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
     static void ISStaticPoll(void *);
     void   ISPoll();
-    unsigned short hextoi(char* instr);
     
 };
     
-double min(void);
-double max(void);
-
-
 #endif
 

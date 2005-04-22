@@ -4,7 +4,7 @@ if LINUX
 bin_add   =  v4ldriver v4lphilips
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma apogee_ppi $(bin_add)
+bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma apogee_ppi sbigccd $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
@@ -40,6 +40,9 @@ temma_LDADD = liblilxml.a libindicom.a -lm
 
 apogee_ppi_SOURCES = apogee_ppi.cpp base64.c eventloop.c indidrivermain.c
 apogee_ppi_LDADD = libindicom.a liblilxml.a apogee/libapogee_PPI.la -lz
+
+sbigccd_SOURCES = sbigccd.cpp base64.c eventloop.c indidrivermain.c
+sbigccd_LDADD = libindicom.a liblilxml.a -lz
 
 pkgdata_DATA = apogee_caminfo.xml
 

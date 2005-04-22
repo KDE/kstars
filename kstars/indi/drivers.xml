@@ -1,43 +1,43 @@
 <devGroup group="Telescopes">
 	<device label="LX200 Generic" driver="LX200 Generic">
 		<Exec>lx200generic</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="LX200 Autostar" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="LX200 Classic" driver="LX200 Classic">
 		<Exec>lx200classic</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="LX200 GPS" driver="LX200 GPS">
 		<Exec>lx200gps</Exec>
-		<Version>0.2</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="LX200 16" driver="LX200 16">
 		<Exec>lx200_16</Exec>
-		<Version>0.2</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="LX90" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="ETX125" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="ETX90" driver="LX200 Autostar">
 		<Exec>lx200autostar</Exec>
-		<Version>0.5</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="Celestron GPS" driver="Celestron GPS">
 		<Exec>celestrongps</Exec>
-		<Version>0.2</Version>
+		<Version>0.9</Version>
 	</device>
 	<device label="Celestron NexStar" driver="Celestron GPS">
 		<Exec>celestrongps</Exec>
-		<Version>0.2</Version>
+		<Version>0.9</Version>
 	</device>
 	<device label="Astro-Physics AP" driver="Astro-Physics">
 		<Exec>apmount</Exec>
@@ -61,9 +61,13 @@
 	</device>
 </devGroup>
 <devGroup group="CCDs">
+	<device label="SBIG CCD" driver="SBIG CCD">
+		<Exec>sbigccd</Exec>
+		<Version>0.1</Version>
+	</device>
 	<device label="FLI CCD" driver="FLI CCD">
 		<Exec>fliccd</Exec>
-		<Version>0.2</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="Apogee PPI" driver="Apogee PPI">
 	  <Exec>apogee_ppi</Exec>
@@ -73,17 +77,17 @@
 <devGroup group="Filter Wheels">
   	<device label="FLI Wheel" driver="FLI WHEEL">
     		<Exec>fliwheel</Exec>
-    		<Version>0.1</Version>
+    		<Version>0.9</Version>
     	</device>
 </devGroup>
 <devGroup group="Video">
 	<device label="Generic Video4Linux" driver="v4ldriver">
 		<Exec>v4ldriver</Exec>
-		<Version>0.2</Version>
+		<Version>1.0</Version>
 	</device>
 	<device label="Philips Webcam" driver="v4lphilips">
 		<Exec>v4lphilips</Exec>
-		<Version>0.1</Version>
+		<Version>1.0</Version>
 	</device>
 </devGroup>
 
