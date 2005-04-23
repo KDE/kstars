@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>imgSequenceDlg</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>386</width>
-            <height>381</height>
+            <width>421</width>
+            <height>335</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,192 +21,11 @@
     <property name="modal">
         <bool>false</bool>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>setupGroup</cstring>
-            </property>
-            <property name="title">
-                <string>Setup</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox" row="1" column="0">
-                    <property name="name">
-                        <cstring>ISOCheck</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Add ISO 8601 time stamp</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Add time stamp to the file name</string>
-                    </property>
-                </widget>
-                <spacer row="0" column="1">
-                    <property name="name">
-                        <cstring>spacer7_2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>135</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLayoutWidget" row="0" column="0">
-                    <property name="name">
-                        <cstring>layout30</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout29</cstring>
-                            </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1_5</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Device:</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string></string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string></string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Prefix:</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Prefix to append to the beginning of file names</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string></string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>exposureLabel</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Exposure:</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Set the exposure time in seconds for individual images, if applicable</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string></string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1_2</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Count:</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Number of images to capture</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string></string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1_3</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Delay:</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Delay in seconds between consecutive images</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string></string>
-                                    </property>
-                                </widget>
-                            </vbox>
-                        </widget>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout28</cstring>
-                            </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QComboBox">
-                                    <property name="name">
-                                        <cstring>deviceCombo</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="KLineEdit">
-                                    <property name="name">
-                                        <cstring>prefixIN</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>image</string>
-                                    </property>
-                                    <property name="maxLength">
-                                        <number>128</number>
-                                    </property>
-                                </widget>
-                                <widget class="KDoubleNumInput">
-                                    <property name="name">
-                                        <cstring>exposureIN</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="KIntNumInput">
-                                    <property name="name">
-                                        <cstring>countIN</cstring>
-                                    </property>
-                                    <property name="minValue">
-                                        <number>1</number>
-                                    </property>
-                                </widget>
-                                <widget class="KIntNumInput">
-                                    <property name="name">
-                                        <cstring>delayIN</cstring>
-                                    </property>
-                                    <property name="minValue">
-                                        <number>0</number>
-                                    </property>
-                                </widget>
-                            </vbox>
-                        </widget>
-                    </hbox>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="1" column="0">
             <property name="name">
                 <cstring>progressGroup</cstring>
             </property>
@@ -331,7 +150,7 @@
                 </spacer>
             </hbox>
         </widget>
-        <widget class="QLayoutWidget">
+        <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
                 <cstring>layout9</cstring>
             </property>
@@ -400,10 +219,262 @@
                 </widget>
             </hbox>
         </widget>
-    </vbox>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout10</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>setupGroup</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Camera/CCD</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget" row="0" column="0">
+                            <property name="name">
+                                <cstring>layout30</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLayoutWidget">
+                                    <property name="name">
+                                        <cstring>layout29</cstring>
+                                    </property>
+                                    <vbox>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel1_5</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Device:</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string></string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string></string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel1</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Prefix:</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Prefix to append to the beginning of file names</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string></string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>exposureLabel</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Exposure:</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Set the exposure time in seconds for individual images, if applicable</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string></string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel1_2</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Count:</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Number of images to capture</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string></string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel1_3</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Delay:</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Delay in seconds between consecutive images</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string></string>
+                                            </property>
+                                        </widget>
+                                    </vbox>
+                                </widget>
+                                <widget class="QLayoutWidget">
+                                    <property name="name">
+                                        <cstring>layout28</cstring>
+                                    </property>
+                                    <vbox>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <widget class="QComboBox">
+                                            <property name="name">
+                                                <cstring>CCDCombo</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="KLineEdit">
+                                            <property name="name">
+                                                <cstring>prefixIN</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>image</string>
+                                            </property>
+                                            <property name="maxLength">
+                                                <number>128</number>
+                                            </property>
+                                        </widget>
+                                        <widget class="KDoubleNumInput">
+                                            <property name="name">
+                                                <cstring>exposureIN</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="KIntNumInput">
+                                            <property name="name">
+                                                <cstring>countIN</cstring>
+                                            </property>
+                                            <property name="minValue">
+                                                <number>1</number>
+                                            </property>
+                                        </widget>
+                                        <widget class="KIntNumInput">
+                                            <property name="name">
+                                                <cstring>delayIN</cstring>
+                                            </property>
+                                            <property name="minValue">
+                                                <number>0</number>
+                                            </property>
+                                        </widget>
+                                    </vbox>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget class="QCheckBox" row="1" column="0">
+                            <property name="name">
+                                <cstring>ISOCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Add ISO 8601 time stamp</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Add time stamp to the file name</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>setupGroup_2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Filter</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget" row="0" column="0" rowspan="2" colspan="1">
+                            <property name="name">
+                                <cstring>layout29_2</cstring>
+                            </property>
+                            <vbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel1_5_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Device:</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string></string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string></string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel1_2_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Filter:</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Number of images to capture</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string></string>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                        <widget class="QComboBox" row="1" column="1">
+                            <property name="name">
+                                <cstring>filterPosCombo</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QComboBox" row="0" column="1">
+                            <property name="name">
+                                <cstring>filterCombo</cstring>
+                            </property>
+                        </widget>
+                        <spacer row="2" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>spacer3</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>21</width>
+                                    <height>81</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </grid>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
 </widget>
 <tabstops>
-    <tabstop>deviceCombo</tabstop>
+    <tabstop>CCDCombo</tabstop>
     <tabstop>prefixIN</tabstop>
     <tabstop>countIN</tabstop>
     <tabstop>delayIN</tabstop>
@@ -414,6 +485,7 @@
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kprogress.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
@@ -421,6 +493,5 @@
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>

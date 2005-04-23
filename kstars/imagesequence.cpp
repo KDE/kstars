@@ -40,7 +40,14 @@ imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFla
 {
   
   ksw = (KStars *) parent;
-  
+  INDIMenu *devMenu = ksw->getINDIMenu();
+
+  if (devMenu)
+  {
+   connect (devMenu, SIGNAL(newDevice()), this, SLOT(newCCD()));
+   connect (devMenu, SIGNAL(newDevice()), this, SLOT(newFilter()));
+  }
+
   seqTimer = new QTimer(this);
   
   setModal(false);
@@ -49,8 +56,9 @@ imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFla
   connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
   connect(stopB, SIGNAL(clicked()), this, SLOT(stopSequence()));
   connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
-  connect(seqTimer, SIGNAL(timeout()), this, SLOT(captureImage()));
-  connect(deviceCombo, SIGNAL(activated(const QString &)), this, SLOT(checkDevice(const QString &)));
+  connect(seqTimer, SIGNAL(timeout()), this, SLOT(prepareCapture()));
+  connect(CCDCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+  connect(filterCombo, SIGNAL(activated(int)), this, SLOT(updateFilterCombo(int)));
   
   active 		= false;
   ISOStamp		= false;
@@ -58,8 +66,10 @@ imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFla
   seqTotalCount 	= 0;
   seqCurrentCount	= 0;
   seqDelay		= 0;
-  lastItem              = 0;
-  stdDev                = NULL;
+  lastCCD              = 0;
+  lastFilter            = 0;
+  stdDevCCD             = NULL;
+  stdDevFilter		= NULL;
   
 }
 
@@ -69,13 +79,39 @@ imagesequence::~imagesequence()
 
 bool imagesequence::updateStatus()
 {
-  bool imgDeviceFound = false;
+  bool result;
+
+  result = setupCCDs();
+  setupFilters();
+ 
+  // If everything okay, let's show the dialog
+  return result;
+   
+ }
+
+void imagesequence::newCCD()
+{
+   // Only update when it's visible
+   if (isVisible())
+      setupCCDs();
+}
+
+void imagesequence::newFilter()
+{
+   // Only update when it's visible
+   if (isVisible())
+      setupFilters();
+}
+
+bool imagesequence::setupCCDs()
+{
+  bool imgDeviceFound (false);
   INDI_P *imgProp;
   INDIMenu *devMenu = ksw->getINDIMenu();
   if (devMenu == NULL)
      return false;
   
-  deviceCombo->clear();
+  CCDCombo->clear();
   
   for (uint i=0; i < devMenu->mgr.count(); i++)
   {
@@ -90,7 +126,7 @@ bool imagesequence::updateStatus()
 		if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())
 			devMenu->mgr.at(i)->indi_dev.at(j)->label = devMenu->mgr.at(i)->indi_dev.at(j)->name;
 				
-		deviceCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+		CCDCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
 			
 	}
 	
@@ -98,12 +134,12 @@ bool imagesequence::updateStatus()
          
   if (imgDeviceFound)
   {
-  	deviceCombo->setCurrentItem(lastItem);
-  	currentDevice = deviceCombo->currentText();
+  	CCDCombo->setCurrentItem(lastCCD);
+  	currentCCD = CCDCombo->currentText();
   }
   else return false;
   
-  if (!verifyDeviceIntegrity())
+  if (!verifyCCDIntegrity())
   {
    stopSequence();
    return false;
@@ -113,7 +149,7 @@ bool imagesequence::updateStatus()
     INDI_P *exposeProp;
     INDI_E *exposeElem;
     
-    exposeProp = stdDev->dp->findProp("EXPOSE_DURATION");
+    exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
     if (!exposeProp)
     {
       KMessageBox::error(this, i18n("Device does not support EXPOSE_DURATION property."));
@@ -129,11 +165,57 @@ bool imagesequence::updateStatus()
     
     exposureIN->setValue(exposeElem->value);
   }
-   
-  // Everything okay, let's show the dialog
+
   return true;
-   
- }
+
+}
+
+bool imagesequence::setupFilters()
+{
+  bool filterDeviceFound(false);
+  INDI_P *filterProp;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  if (devMenu == NULL)
+     return false;
+
+  filterCombo->clear();
+  filterPosCombo->clear();
+  
+  filterCombo->insertItem(i18n("None"));
+
+  // Second step is to check for filter wheel, it is only optional.
+  for (uint i=0; i < devMenu->mgr.count(); i++)
+  {
+	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
+	{
+  		filterProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("FILTER_CONF");
+		if (!filterProp)
+			 continue;
+
+		filterDeviceFound = true;
+		 
+		if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())
+			devMenu->mgr.at(i)->indi_dev.at(j)->label = devMenu->mgr.at(i)->indi_dev.at(j)->name;
+				
+		filterCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+			
+	}
+	
+   }
+
+  // If we found device, let's populate filters combo with aliases assigned to filter numbers
+  // In Configure INDI
+  if (filterDeviceFound)
+  {
+    filterCombo->setCurrentItem(lastFilter);
+    currentFilter = filterCombo->currentText();
+    updateFilterCombo(lastFilter);
+    return true;
+  }
+  else
+	return false;
+
+}
 
 void imagesequence::resetButtons()
 {
@@ -149,7 +231,7 @@ void imagesequence::startSequence()
     stopSequence();
     
   // Let's find out which device has been selected and that it's connected.
-  if (!verifyDeviceIntegrity())
+  if (!verifyCCDIntegrity())
    return;
   
  
@@ -160,32 +242,33 @@ void imagesequence::startSequence()
   seqTotalCount 	= countIN->value();
   seqCurrentCount	= 0;
   seqDelay		= delayIN->value() * 1000;		/* in ms */
-  currentDevice		= deviceCombo->currentText();
-  lastItem              = deviceCombo->currentItem();
+  currentCCD		= CCDCombo->currentText();
+  lastCCD              = CCDCombo->currentItem();
+  currentFilter         = filterCombo->currentText();
+  lastFilter            = filterCombo->currentItem();
   
   fullImgCountOUT->setText( QString("%1").arg(seqTotalCount));
   currentImgCountOUT->setText(QString("%1").arg(seqCurrentCount));
   
-  
   // Ok, now let's connect signals and slots for this device
-  connect(stdDev, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(QString)));
+  connect(stdDevCCD, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(QString)));
   
   // set the progress info
   imgProgress->setEnabled(true);
   imgProgress->setTotalSteps(seqTotalCount);
   imgProgress->setProgress(seqCurrentCount);
   
-  stdDev->batchMode    = true;
-  stdDev->ISOMode      = ISOStamp;
+  stdDevCCD->batchMode    = true;
+  stdDevCCD->ISOMode      = ISOStamp;
   // Set this LAST
-  stdDev->updateSequencePrefix(prefixIN->text());
+  stdDevCCD->updateSequencePrefix(prefixIN->text());
   
   
   // Update button status
   startB->setEnabled(false);
   stopB->setEnabled(true);
   
-  captureImage();
+  prepareCapture();
 }
 
 void imagesequence::stopSequence()
@@ -203,21 +286,22 @@ void imagesequence::stopSequence()
   resetButtons();
   seqTimer->stop();
   
-  if (stdDev)
+  if (stdDevCCD)
   {
-    stdDev->seqCount     = 0;
-    stdDev->batchMode    = false;
-    stdDev->ISOMode      = false;
+    stdDevCCD->seqCount     = 0;
+    stdDevCCD->batchMode    = false;
+    stdDevCCD->ISOMode      = false;
     
-    stdDev->disconnect( SIGNAL(FITSReceived(QString)));
+    stdDevCCD->disconnect( SIGNAL(FITSReceived(QString)));
   }
 
 }
 
-void imagesequence::checkDevice(const QString & deviceLabel)
+void imagesequence::checkCCD(int ccdNum)
 {
   INDI_D *idevice = NULL;
-  
+  QString targetCCD = CCDCombo->text(ccdNum);
+
   INDIMenu *imenu = ksw->getINDIMenu();
   if (!imenu)
   {
@@ -225,31 +309,34 @@ void imagesequence::checkDevice(const QString & deviceLabel)
     return;
   }
   
-  idevice = imenu->findDeviceByLabel(deviceLabel);
+  idevice = imenu->findDeviceByLabel(targetCCD);
   
   if (!idevice)
   {
-	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(deviceLabel));
-    	deviceCombo->setCurrentItem(lastItem);
+	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
+        CCDCombo->removeItem(ccdNum);
+        lastCCD = CCDCombo->currentItem();
+        if (lastCCD != -1)
+        	checkCCD(lastCCD);
     	return;
   }
   
   if (!idevice->isOn())
   {
-        KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(deviceLabel));
+        KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(targetCCD));
 		
-	deviceCombo->setCurrentItem(lastItem);
+	CCDCombo->setCurrentItem(lastCCD);
     	return;
   }
   
-  currentDevice = deviceLabel;
+  currentCCD = targetCCD;
 
 }
 
 void imagesequence::newFITS(QString deviceLabel)
 {
   // If the FITS is not for our device, simply ignore
-  if (deviceLabel != currentDevice)
+  if (deviceLabel != currentCCD)
    return;
 
   seqCurrentCount++;
@@ -260,16 +347,16 @@ void imagesequence::newFITS(QString deviceLabel)
   // if we're done
   if (seqCurrentCount == seqTotalCount)
   {
-    stdDev->batchMode    = false;
-    stdDev->ISOMode      = false;
+    stdDevCCD->batchMode    = false;
+    stdDevCCD->ISOMode      = false;
     retries              = 0;
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
     active               = false;
     seqTimer->stop();
     
-    if (stdDev)
-    	stdDev->disconnect( SIGNAL(FITSReceived(QString)));
+    if (stdDevCCD)
+    	stdDevCCD->disconnect( SIGNAL(FITSReceived(QString)));
     
     resetButtons();
   }
@@ -279,12 +366,14 @@ void imagesequence::newFITS(QString deviceLabel)
 }
 
 
-bool imagesequence::verifyDeviceIntegrity()
+bool imagesequence::verifyCCDIntegrity()
 {
+  
+  QString targetCCD;
   INDI_D *idevice = NULL;
   INDI_P *exposeProp;
   INDI_E *exposeElem;
-  stdDev = NULL;
+  stdDevCCD = NULL;
   
   INDIMenu *imenu = ksw->getINDIMenu();
   if (!imenu)
@@ -293,26 +382,33 @@ bool imagesequence::verifyDeviceIntegrity()
     return false;
   }
   
+  targetCCD = CCDCombo->currentText();
+
+  if (targetCCD.isEmpty())
+    return false;
+
   // #2 Check if the device exists
-  idevice = imenu->findDeviceByLabel(currentDevice);
+  idevice = imenu->findDeviceByLabel(targetCCD);
 	
 	
   if (!idevice)
   {
-    	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(currentDevice));
+    	KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
+        CCDCombo->removeItem(CCDCombo->currentItem());
+        lastCCD = CCDCombo->currentItem();
     	return false;
   }
   
   if (!idevice->isOn())
   {
-	    	KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(currentDevice));
+	    	KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(currentCCD));
 		
     		return false;
   }
   
-  stdDev = idevice->stdDev;
+  stdDevCCD = idevice->stdDev;
   
-  exposeProp = stdDev->dp->findProp("EXPOSE_DURATION");
+  exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
   if (!exposeProp)
   {
     KMessageBox::error(this, i18n("Device does not support EXPOSE_DURATION property."));
@@ -329,11 +425,101 @@ bool imagesequence::verifyDeviceIntegrity()
   return true;
 }
 
+bool imagesequence::verifyFilterIntegrity()
+{
+
+  QString targetFilter;
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  INDI_D *filterDevice (NULL);
+  INDI_E *filterElem(NULL);
+  if (devMenu == NULL)
+     return false;
+
+  targetFilter  = filterCombo->currentText();
+
+  if (targetFilter.isEmpty() || targetFilter == i18n("None"))
+  {
+   filterPosCombo->clear();
+   return false;
+  }
+
+  // #1 Check the device exists
+  filterDevice = devMenu->findDeviceByLabel(targetFilter);
+  if (filterDevice == NULL)
+  {
+    KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetFilter));
+    filterCombo->removeItem(filterCombo->currentItem());
+    filterCombo->setCurrentItem(0);
+    currentFilter = filterCombo->currentText();
+    filterPosCombo->clear();
+    stdDevFilter = NULL;
+    return false;
+  }
+
+  // #2 Make sure it's connected
+   if (!filterDevice->isOn())
+  {
+       KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(targetFilter));
+       filterCombo->setCurrentItem(0);
+       currentFilter = filterCombo->currentText();
+       filterPosCombo->clear();
+       stdDevFilter = NULL;
+       return false;
+  }
+
+  // #3 Make sure it has FILTER_CONF std property by searching for its FILTER_NUM element
+  filterElem = filterDevice->findElem("FILTER_NUM");
+  if (filterElem == NULL)
+  {
+ 	KMessageBox::error(this, i18n("Device does not support FILTER_CONF property."));
+        filterCombo->setCurrentItem(0);
+        currentFilter = filterCombo->currentText();
+        filterPosCombo->clear();
+	stdDevFilter = NULL;
+        return false;
+  }
+
+  stdDevFilter  = filterDevice->stdDev;
+  lastFilter    = filterCombo->currentItem();
+  currentFilter = targetFilter;
+
+  // We're good
+  return true;
+
+}
+
+void imagesequence::prepareCapture()
+{
+  INDI_P * tempProp(NULL);
+
+  // Do we need to select filter First??
+  if (currentFilter.isEmpty() || currentFilter == i18n("None"))
+   captureImage();
+  else
+  {
+     if (!verifyFilterIntegrity())
+     {
+        stopSequence();
+	return;
+     }
+
+     if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_CONF")) != NULL))
+     {
+     connect (tempProp, SIGNAL(okState()), this, SLOT(captureImage()));
+     selectFilter();
+     }
+     else
+       kdDebug() << "Error: std Filter device lost or missing FILTER_CONF property" << endl;
+  }
+    
+}
+  
 void imagesequence::captureImage()
 {
 
-  INDI_P * exposeProp = NULL;
-  INDI_E * exposeElem = NULL;
+  INDI_P * exposeProp(NULL);
+  INDI_E * exposeElem(NULL);
+  INDI_P * tempProp(NULL);
   
   // Let's capture a new frame in acoord with the settings
   // We need to take into consideration the following conditions:
@@ -342,13 +528,16 @@ void imagesequence::captureImage()
   // C. The property is still busy.
   // D. The property has been lost.
   
-  if (!verifyDeviceIntegrity())
+  if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_CONF")) != NULL))
+    	tempProp->disconnect( SIGNAL (okState()));
+
+  if (!verifyCCDIntegrity())
   {
     stopSequence();
     return;
   }
   
-  exposeProp = stdDev->dp->findProp("EXPOSE_DURATION");
+  exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
   exposeElem = exposeProp->findElement("EXPOSE_S");
   
   // disable timer until it's called again by newFITS, or called for retries
@@ -377,7 +566,7 @@ void imagesequence::captureImage()
     if (seqExpose < exposeElem->min || seqExpose > exposeElem->max)
     {
       stopSequence();
-      KMessageBox::error(this, i18n("Expose duration is invalid. %1 supports expose durations from %2 to %3 seconds only.").arg(currentDevice).arg(exposeElem->min).arg(exposeElem->max));
+      KMessageBox::error(this, i18n("Expose duration is invalid. %1 supports expose durations from %2 to %3 seconds only.").arg(currentCCD).arg(exposeElem->min).arg(exposeElem->max));
       return;
     }
     
@@ -398,6 +587,73 @@ void imagesequence::captureImage()
 
 }
 
- 
+void imagesequence::updateFilterCombo(int filterNum)
+{
+  INDIMenu *devMenu = ksw->getINDIMenu();
+  INDI_E *filterElem;
+  int filterMax;
+
+  if (!verifyFilterIntegrity())
+    return;
+
+  filterElem = devMenu->findDeviceByLabel(filterCombo->text(filterNum))->findElem("FILTER_NUM");
+  filterMax = (int) filterElem->max; 
+  filterPosCombo->clear();
+
+  // Populate combo
+  for (int i = 0 ; i <= filterMax ; i++)
+      filterPosCombo->insertItem(QString("%1").arg(i));
+
+   filterPosCombo->setCurrentItem(((int) filterElem->value));
+
+}
+
+void imagesequence::selectFilter()
+{
+
+  INDI_P * filterProp(NULL);
+  INDI_E * filterElem(NULL);
+  INDI_D * filterDev(NULL);
+  INDIMenu *devMenu = ksw->getINDIMenu();
+
+  // Let's select a new filter in acoord with the settings
+  // We need to take into consideration the following conditions:
+  // A. The device has been disconnected.
+  // B. The device has been lost.
+  // C. The property is still busy.
+  // D. The property has been lost.
+  
+  // We have a filter, let's check if it's valid
+  if (!verifyFilterIntegrity())
+   return;
+
+  filterDev = devMenu->findDeviceByLabel(currentFilter);
+  filterProp = filterDev->findProp("FILTER_CONF");
+  filterElem = filterProp->findElement("FILTER_NUM");
+
+  // Do we need to change the filter position??
+  if (filterPosCombo->currentItem() == filterElem->read_w->text().toInt())
+  {
+	captureImage();
+	return;
+  }
+
+  if (filterProp->perm == PP_RW || filterProp->perm == PP_WO)
+  {
+    filterElem->targetValue = filterPosCombo->currentItem();
+    if (filterElem->spin_w)
+    {
+      filterElem->spin_w->setValue(filterElem->targetValue);
+      filterElem->spinChanged(filterElem->targetValue);
+    }
+    else
+     filterElem->write_w->setText(QString("%1").arg(filterElem->targetValue));
+      
+    // We're done! Send it to the driver
+    filterProp->newText();
+  }
+
+}
+
 #include "imagesequence.moc"
 

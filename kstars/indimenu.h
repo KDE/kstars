@@ -77,8 +77,14 @@ class INDIMenu : public KDialogBase
    INDI_D * findDevice(QString deviceName);
    INDI_D * findDeviceByLabel(QString label);
 
+
+   public slots:
+   void discoverDevice();
+   void announceDevice();
+
    signals:
    void driverDisconnected(int mgrID);
+   void newDevice();
 
 };
 

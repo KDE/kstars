@@ -197,7 +197,7 @@ void ISInit()
    return;
  }
  
- streamTimerID = -1;
+ IEAddTimer (POLLMS, ISPoll, NULL);
 
  isInit = 1;
  
@@ -224,9 +224,6 @@ void ISGetProperties (const char *dev)
   /* Image Group */
   IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&BinningNP, NULL);
-  
-
-  IEAddTimer (POLLMS, ISPoll, NULL);
   
 }
 

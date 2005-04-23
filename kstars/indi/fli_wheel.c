@@ -1,8 +1,8 @@
 #if 0
     FLI WHEEL
     INDI Interface for Finger Lakes Instruments Filter Wheels
-    Copyright (C) 2005 Gaetano Vocca (yagvoc-web@yahoo.it)
-	Based on fli_ccd by Jasem Mutlaq (mutlaqja@ikarustech.com)
+    Copyright (C) 2005 Gaetano Vocca (yagvoc-web AT yahoo DOT it)
+	Based on fli_ccd by Jasem Mutlaq (mutlaqja AT ikarustech DOT com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -53,7 +53,7 @@ int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerT(ITextVectorProperty *tp);
 int  getOnSwitch(ISwitchVectorProperty *sp);
-int  isCCDConnected(void);
+int  isFilterConnected(void);
 
 double min(void);
 double max(void);
@@ -61,14 +61,16 @@ double max(void);
 extern char* me;
 extern int errno;
 
-#define mydev           "FLI WHEEL"
+#define mydev           "FLI Wheel"
 
-#define COMM_GROUP	"Communication"
-#define FILTER_GROUP	"Filters"
+#define MAIN_GROUP	"Main Control"
 
 #define LAST_FILTER  14		/* Max slot index */
 #define FIRST_FILTER 0		/* Min slot index */
 
+#define currentFilter	FilterN[0].value
+
+#define POLLMS		1000
 #define LIBVERSIZ 	1024
 #define PREFIXSIZ	64
 #define PIPEBUFSIZ	8192
@@ -90,6 +92,8 @@ typedef struct {
 static flidev_t fli_dev;
 static cam_t *FLIWheel;
 static int portSwitchIndex;
+static int simulation;
+static int targetFilter;
 
 long int Domains[] = { FLIDOMAIN_USB, FLIDOMAIN_SERIAL, FLIDOMAIN_PARALLEL_PORT,  FLIDOMAIN_INET };
 
@@ -97,15 +101,15 @@ long int Domains[] = { FLIDOMAIN_USB, FLIDOMAIN_SERIAL, FLIDOMAIN_PARALLEL_PORT,
 
 /* Connect/Disconnect */
 static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
+static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", MAIN_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
 
 /* Types of Ports */
 static ISwitch PortS[]           	= {{"USB", "", ISS_ON, 0, 0}, {"Serial", "", ISS_OFF, 0, 0}, {"Parallel", "", ISS_OFF, 0, 0}, {"INet", "", ISS_OFF, 0, 0}};
-static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PortS, NARRAY(PortS), "", 0};
+static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", MAIN_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PortS, NARRAY(PortS), "", 0};
  
 /* Filter control */
 static INumber FilterN[]	  = { {"FILTER_NUM", "Active Filter", "%2.0f", FIRST_FILTER, LAST_FILTER, 1, 0, 0, 0, 0}};
-static INumberVectorProperty FilterNP = { mydev, "FILTER_CONF", "Filter", FILTER_GROUP, IP_RW, 0, IPS_IDLE, FilterN, NARRAY(FilterN), "", 0};
+static INumberVectorProperty FilterNP = { mydev, "FILTER_CONF", "Filter", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterN, NARRAY(FilterN), "", 0};
   
 /* send client definitions of all properties */
 void ISInit()
@@ -117,6 +121,17 @@ void ISInit()
 	
 	/* USB by default {USB, SERIAL, PARALLEL, INET} */
 	portSwitchIndex = 0;
+
+	targetFilter = 0;
+
+        /* No Simulation by default */
+	simulation = 0;
+
+        /* Enable the following for simulation mode */
+        /*simulation = 1;
+        IDLog("WARNING: Simulation is on\n");*/
+
+        IEAddTimer (POLLMS, ISPoll, NULL);
 	
 	isInit = 1; 
 }
@@ -129,11 +144,9 @@ void ISGetProperties (const char *dev)
 	if (dev && strcmp (mydev, dev))
 		return;
 	
-	/* COMM_GROUP */
+	/* Main Control */
 	IDDefSwitch(&PowerSP, NULL);
 	IDDefSwitch(&PortSP, NULL);
-	
-	/* Filter group */
 	IDDefNumber(&FilterNP, NULL);
 	
 }
@@ -205,15 +218,24 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
 	if (!strcmp(FilterNP.name, name))
 	{
-		if (!isCCDConnected()) {
+                if (simulation)
+		{
+                targetFilter = values[0];
+		FilterNP.s = IPS_BUSY;
+		IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
+		IDLog("Setting current filter to slot %d\n", targetFilter);
+		return;
+ 		}
+
+
+		if (!isFilterConnected()) {
 			IDMessage(mydev, "Device not connected.");
 			FilterNP.s = IPS_OK;
 			IDSetNumber(&FilterNP, NULL);
 			return;
 		}
 		
-		FilterNP.s = IPS_BUSY;
-		IDSetNumber(&FilterNP, NULL);
+		targetFilter = values[0];
 		
 		np = IUFindNumber(&FilterNP, names[0]);
 		
@@ -223,27 +245,23 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 			return;
 		}
 		
-		if (values[0] < FIRST_FILTER || values[0] > FLIWheel->filter_count - 1)
+		if (targetFilter < FIRST_FILTER || targetFilter > FLIWheel->filter_count - 1)
 		{
 			IDSetNumber(&FilterNP, "Error: valid range of filter is from %d to %d", FIRST_FILTER, LAST_FILTER);
 			return;
 		}
 		
 		
-		if ( (err = FLISetFilterPos(fli_dev, values[0])))
+		if ( (err = FLISetFilterPos(fli_dev, targetFilter)))
 		{
 			IDSetNumber(&FilterNP, "FLISetFilterPos() failed. %s.", strerror((int)-err));
 			IDLog("FLISetFilterPos() failed. %s.", strerror((int)-err));
 			return;
 		}
 		
-		
-		FLIWheel->current_filter = values[0];
-		FilterN[0].value = FLIWheel->current_filter;
-		FilterNP.s = IPS_OK;
-		
-		IDSetNumber(&FilterNP, "Setting current filter to slot %2.0f", values[0]);
-		IDLog("Setting current filter to slot %2.0f\n", np->value);
+		FilterNP.s = IPS_BUSY;
+		IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
+		IDLog("Setting current filter to slot %d\n", targetFilter);
 		
 		return;
 	}
@@ -342,6 +360,71 @@ int manageDefaults(char errmsg[])
     
 }
 
+void ISPoll(void *p)
+{
+  long err;
+  static int simMTC = 5;
+
+  if (!isFilterConnected())
+  {
+      IEAddTimer (POLLMS, ISPoll, NULL);
+      return;
+  }
+
+
+  switch (FilterNP.s)
+  {
+    case IPS_IDLE:
+    case IPS_OK:
+       break;
+  
+   
+   case IPS_BUSY:
+    /* Simulate that it takes 5 seconds to change slot */
+    if (simulation)
+    {
+        simMTC--;
+        if (simMTC == 0)
+        {
+           simMTC = 5;
+           currentFilter = targetFilter;
+           FilterNP.s = IPS_OK;
+	   IDSetNumber(&FilterNP, "Filter set to slot #%2.0f", currentFilter);
+           break;
+        }
+        IDSetNumber(&FilterNP, NULL);
+        break;
+    }
+
+
+    if (( err = FLIGetFilterPos(fli_dev, &currentFilter)))
+	{
+                FilterNP.s = IPS_ALERT;
+		IDSetNumber(&FilterNP, "FLIGetFilterPos() failed. %s.", strerror((int)-err));
+		IDLog("FLIGetFilterPos() failed. %s.\n", strerror((int)-err));
+		return;
+	}
+
+        if (targetFilter == currentFilter)
+        {
+		FLIWheel->current_filter = currentFilter;
+		FilterNP.s = IPS_OK;
+		IDSetNumber(&FilterNP, "Filter set to slot #%2.0f", currentFilter);
+                return;
+        }
+       
+        IDSetNumber(&FilterNP, NULL);
+	break;
+
+   case IPS_ALERT:
+    break;
+ }
+
+   IEAddTimer (POLLMS, ISPoll, NULL);
+
+}
+
+
 int getOnSwitch(ISwitchVectorProperty *sp)
 {
   int i=0;
@@ -357,6 +440,10 @@ int getOnSwitch(ISwitchVectorProperty *sp)
 
 int checkPowerS(ISwitchVectorProperty *sp)
 {
+
+  if (simulation)
+   return 0;
+
   if (PowerSP.s != IPS_OK)
   {
     if (!strcmp(sp->label, ""))
@@ -374,6 +461,9 @@ int checkPowerS(ISwitchVectorProperty *sp)
 
 int checkPowerN(INumberVectorProperty *np)
 {
+  if (simulation)
+   return 0;
+
   if (PowerSP.s != IPS_OK)
   {
      if (!strcmp(np->label, ""))
@@ -391,6 +481,8 @@ int checkPowerN(INumberVectorProperty *np)
 
 int checkPowerT(ITextVectorProperty *tp)
 {
+   if (simulation)
+    return 0;
 
   if (PowerSP.s != IPS_OK)
   {
@@ -418,8 +510,21 @@ void connectFilter()
 	switch (PowerS[0].s)
 	{
 		case ISS_ON:
+			
+			if (simulation)
+			{
+	                        /* Success! */
+				PowerS[0].s = ISS_ON;
+				PowerS[1].s = ISS_OFF;
+				PowerSP.s = IPS_OK;
+				IDSetSwitch(&PowerSP, "Simulation Wheel is online.");
+				IDLog("Simulation Wheel is online.\n");
+				return;
+			}
+
 			IDLog("Current portSwitch is %d\n", portSwitchIndex);
 			IDLog("Attempting to find the device in domain %ld\n", Domains[portSwitchIndex]);
+
 			if (findwheel(Domains[portSwitchIndex]))
 			{
 				PowerSP.s = IPS_IDLE;
@@ -459,6 +564,16 @@ void connectFilter()
 			break;
 		
 		case ISS_OFF:
+
+			if (simulation)
+			{
+				PowerS[0].s = ISS_OFF;
+				PowerS[1].s = ISS_ON;
+				PowerSP.s = IPS_IDLE;
+				IDSetSwitch(&PowerSP, "Wheel is offline.");
+				return;
+			}
+
 			PowerS[0].s = ISS_OFF;
 			PowerS[1].s = ISS_ON;
 			PowerSP.s = IPS_IDLE;
@@ -473,10 +588,13 @@ void connectFilter()
 	}
 }
 
-/* isCCDConnected: return 1 if we have a connection, 0 otherwise */
-int isCCDConnected(void)
+/* isFilterConnected: return 1 if we have a connection, 0 otherwise */
+int isFilterConnected(void)
 {
-	return ((PowerS[0].s == ISS_ON) ? 1 : 0);
+   if (simulation)
+     return 1;
+
+   return ((PowerS[0].s == ISS_ON) ? 1 : 0);
 }
 
 int findwheel(flidomain_t domain)

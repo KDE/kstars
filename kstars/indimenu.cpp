@@ -37,6 +37,7 @@
 #include <qsocketnotifier.h>
 #include <qdatetime.h>
 #include <qvbox.h>
+#include <qtimer.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -127,6 +128,8 @@ DeviceManager *dev;
 	        drivers->devices[i]->managed = true;
       		mgr.append(dev);
 		connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
+                connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
+
 		mgrCounter++;
 
 	}
@@ -161,7 +164,10 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
   {
       mgr.append(dev);
       if (drivers)
+	{
       	connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
+        connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
+	}
   }
   else
   {
@@ -225,5 +231,17 @@ else
  currentLabel = deviceName;
 
 }
+
+void INDIMenu::discoverDevice()
+{
+  QTimer::singleShot( 1000, this, SLOT(announceDevice()) );
+}
+
+void INDIMenu::announceDevice()
+{
+  newDevice();
+}
+
+
 
 #include "indimenu.moc"
