@@ -72,7 +72,10 @@ static long unix_fli_list_parport(flidomain_t domain, char ***names);
 static long unix_fli_list_usb(flidomain_t domain, char ***names);
 static long unix_fli_list_serial(flidomain_t domain, char ***names);
 
+#ifdef USB_RESET
+/* Dodgy OS-specific code. */
 long linux_usb_reset(flidev_t dev);
+#endif
 
 long unix_fli_connect(flidev_t dev, char *name, long domain)
 {
@@ -172,7 +175,6 @@ long unix_fli_disconnect(flidev_t dev)
 
   CHKDEVICE(dev);
   
-#define USB_RESET
 #ifdef USB_RESET
   if ((DEVICE->domain & 0x00ff) == FLIDOMAIN_USB) {
     debug(FLIDEBUG_INFO, "Resetting device");
