@@ -1,14 +1,11 @@
-//
-// C++ Interface: 
-//
-// Description: 
-//
-//
-// Author: Jason Harris <kstars@30doradus.org>, (C) 2004
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/*  INDI Options (subclass)
+    Copyright (C) 2005 Jasem Mutlaq
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
 
 #ifndef INDIFITSCONF_H
 #define INDIFITSCONF_H
@@ -24,14 +21,17 @@ public:
   ~INDIFITSConf();
   /*$PUBLIC_FUNCTIONS$*/
 
+   void loadOptions();
+   void saveOptions();
+
 public slots:
+  void comboUpdate(int newIndex);
   void saveFITSDirectory();
 
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
+ private:
+ int lastIndex;
+ QStringList filterList;
 
-protected slots:
-  /*$PROTECTED_SLOTS$*/
 
 };
 

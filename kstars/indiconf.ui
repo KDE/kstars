@@ -89,7 +89,7 @@
                         <cstring>fitsAutoDisplayCheck</cstring>
                     </property>
                     <property name="text">
-                        <string>Automatic display of FITS upon capture</string>
+                        <string>&amp;Automatic display of FITS upon capture</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -101,6 +101,9 @@
                     </property>
                     <property name="text">
                         <string>Telescope port:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Default INDI telescope port</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">
@@ -115,6 +118,9 @@
                     <property name="text">
                         <string>Video port:</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Default INDI video port</string>
+                    </property>
                 </widget>
                 <widget class="KLineEdit">
                     <property name="name">
@@ -123,97 +129,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QGroupBox" row="1" column="1">
-            <property name="name">
-                <cstring>displayGroup</cstring>
-            </property>
-            <property name="title">
-                <string>Display</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout2</cstring>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>crosshairCheck</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Device target crosshair</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>messagesCheck</cstring>
-                            </property>
-                            <property name="text">
-                                <string>INDI messages in status bar</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox" row="1" column="0">
-            <property name="name">
-                <cstring>autoGroup</cstring>
-            </property>
-            <property name="title">
-                <string>Automatic Device Updates</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout3</cstring>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>timeCheck</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Time</string>
-                            </property>
-                            <property name="checked">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>GeoCheck</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Geographic location</string>
-                            </property>
-                            <property name="checked">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>Layout1</cstring>
             </property>
@@ -249,7 +165,7 @@
                         <cstring>buttonOk</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;OK</string>
+                        <string>O&amp;K</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>
@@ -269,6 +185,209 @@
                         <bool>true</bool>
                     </property>
                 </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox" row="1" column="1">
+            <property name="name">
+                <cstring>displayGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Display</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>crosshairCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Device target crosshair</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+D</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Display the telescope position on the sky map</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>messagesCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>INDI messages in status &amp;bar</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Display INDI status messages in the status bar</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <spacer row="2" column="1">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Preferred</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>200</width>
+                    <height>21</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>autoGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Automatic Device Updates</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>timeCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Time</string>
+                    </property>
+                    <property name="checked">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Update telescope clock upon connection</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>GeoCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Geographic location</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+G</string>
+                    </property>
+                    <property name="checked">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Update telescope geographical location upon connection</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox" row="2" column="0">
+            <property name="name">
+                <cstring>autoGroup_2</cstring>
+            </property>
+            <property name="title">
+                <string>Filter Wheel</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Assign color values for your filter wheel slots</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout3</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Slot:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Alias:</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout4</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QComboBox">
+                            <property name="name">
+                                <cstring>filterCombo</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit">
+                            <property name="name">
+                                <cstring>filterAlias</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Preferred</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>61</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
             </hbox>
         </widget>
     </grid>
@@ -299,6 +418,7 @@
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>

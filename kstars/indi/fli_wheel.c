@@ -130,7 +130,7 @@ void ISInit()
         /* Enable the following for simulation mode */
         /*simulation = 1;
         IDLog("WARNING: Simulation is on\n");*/
-
+        
         IEAddTimer (POLLMS, ISPoll, NULL);
 	
 	isInit = 1; 
@@ -206,6 +206,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 {
 	long err;
 	INumber *np;
+	long newFilter;
 
 	n = n;
 	
@@ -216,15 +217,13 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	ISInit();
 	
 	
-	if (!strcmp(FilterNP.name, name))
-	{
-                if (simulation)
-		{
-                targetFilter = values[0];
-		FilterNP.s = IPS_BUSY;
-		IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
-		IDLog("Setting current filter to slot %d\n", targetFilter);
-		return;
+if (!strcmp(FilterNP.name, name)) {
+		if (simulation) {
+			targetFilter = values[0];
+			FilterNP.s = IPS_BUSY;
+			IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
+			IDLog("Setting current filter to slot %d\n", targetFilter);
+			return;
  		}
 
 
@@ -250,23 +249,37 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 			IDSetNumber(&FilterNP, "Error: valid range of filter is from %d to %d", FIRST_FILTER, LAST_FILTER);
 			return;
 		}
-		
+
+		FilterNP.s = IPS_BUSY;
+		IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
+		IDLog("Setting current filter to slot %d\n", targetFilter);
 		
 		if ( (err = FLISetFilterPos(fli_dev, targetFilter)))
 		{
+			FilterNP.s = IPS_ALERT;
 			IDSetNumber(&FilterNP, "FLISetFilterPos() failed. %s.", strerror((int)-err));
 			IDLog("FLISetFilterPos() failed. %s.", strerror((int)-err));
 			return;
 		}
 		
-		FilterNP.s = IPS_BUSY;
-		IDSetNumber(&FilterNP, "Setting current filter to slot %d", targetFilter);
-		IDLog("Setting current filter to slot %d\n", targetFilter);
+		/* Check current filter position */
+		if (( err = FLIGetFilterPos(fli_dev, &newFilter))) {
+			FilterNP.s = IPS_ALERT;
+			IDSetNumber(&FilterNP, "FLIGetFilterPos() failed. %s.", strerror((int)-err));
+			IDLog("FLIGetFilterPos() failed. %s.\n", strerror((int)-err));
+			return;
+		}
 		
+		if (newFilter == targetFilter) {
+			FLIWheel->current_filter = targetFilter;
+			FilterN[0].value = FLIWheel->current_filter;
+			FilterNP.s = IPS_OK;
+			IDSetNumber(&FilterNP, "Filter set to slot #%d", targetFilter);
+			return;
+		}
+
 		return;
 	}
-
-	
 }
 
 
@@ -362,7 +375,6 @@ int manageDefaults(char errmsg[])
 
 void ISPoll(void *p)
 {
-  long err;
   static int simMTC = 5;
 
   if (!isFilterConnected())
@@ -397,7 +409,7 @@ void ISPoll(void *p)
     }
 
 
-    if (( err = FLIGetFilterPos(fli_dev, &currentFilter)))
+    /*if (( err = FLIGetFilterPos(fli_dev, &currentFilter)))
 	{
                 FilterNP.s = IPS_ALERT;
 		IDSetNumber(&FilterNP, "FLIGetFilterPos() failed. %s.", strerror((int)-err));
@@ -413,7 +425,7 @@ void ISPoll(void *p)
                 return;
         }
        
-        IDSetNumber(&FilterNP, NULL);
+        IDSetNumber(&FilterNP, NULL);*/
 	break;
 
    case IPS_ALERT:
@@ -423,6 +435,7 @@ void ISPoll(void *p)
    IEAddTimer (POLLMS, ISPoll, NULL);
 
 }
+
 
 
 int getOnSwitch(ISwitchVectorProperty *sp)

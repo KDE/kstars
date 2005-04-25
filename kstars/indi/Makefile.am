@@ -1,10 +1,10 @@
 AM_CPPFLAGS = @CPPFLAGS@ -DTOP_DATADIR=\"$(pkgdatadir)\"
 
 if LINUX
-bin_add   =  apogee_ppi v4ldriver v4lphilips
+bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma sbigccd $(bin_add)
+bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c

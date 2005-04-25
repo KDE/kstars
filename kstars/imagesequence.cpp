@@ -18,6 +18,7 @@
 #include "indidevice.h"
 #include "indistd.h"
 #include "devicemanager.h"
+#include "Options.h"
 
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -31,6 +32,7 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qstringlist.h>
 
 #define RETRY_MAX	12
 #define RETRY_PERIOD	5000
@@ -590,18 +592,31 @@ void imagesequence::captureImage()
 void imagesequence::updateFilterCombo(int filterNum)
 {
   INDIMenu *devMenu = ksw->getINDIMenu();
+  QStringList filterList;
   INDI_E *filterElem;
   int filterMax;
 
   if (!verifyFilterIntegrity())
     return;
 
+  filterList = Options::filterAlias();
+
   filterElem = devMenu->findDeviceByLabel(filterCombo->text(filterNum))->findElem("FILTER_NUM");
   filterMax = (int) filterElem->max; 
+  
+  // Clear combo
   filterPosCombo->clear();
 
+  if (filterList.empty())
+   for (int i=0; i <= filterMax; i++)
+      filterList << QString("%1").arg(i);
+
+
+ 
   // Populate combo
-  for (int i = 0 ; i <= filterMax ; i++)
+   filterPosCombo->insertStringList(filterList);
+
+   for (int i = filterList.count() ; i <= filterMax ; i++)
       filterPosCombo->insertItem(QString("%1").arg(i));
 
    filterPosCombo->setCurrentItem(((int) filterElem->value));

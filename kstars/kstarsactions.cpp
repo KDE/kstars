@@ -233,8 +233,12 @@ void KStars::slotINDIDriver() {
 
 void KStars::slotINDIConf() {
 
-   INDIFITSConf indiconf(this);
+   INDIFITSConf indioptions(this);
 
+    indioptions.loadOptions();
+   /*QStringList filterList;
+ 
+   
    indiconf.timeCheck->setChecked( Options::indiAutoTime() );
    indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
    indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
@@ -251,16 +255,24 @@ void KStars::slotINDIConf() {
    else
    indiconf.fitsDIR_IN->setText ( Options::fitsSaveDirectory());
 
-   if (indiconf.exec() == QDialog::Accepted)
+   if (Options::filterAlias().empty())
    {
-     Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
+        filterList << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8"
+                   << "9";
+        indiconf.filterCombo->insertStringList(filterList);
+   }*/
+
+   if (indioptions.exec() == QDialog::Accepted)
+   {
+     /*Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
      Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
      Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
      Options::setIndiFITSDisplay (indiconf.fitsAutoDisplayCheck->isChecked());
      Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
      Options::setIndiVideoPort( indiconf.vidPort_IN->text());
-     Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
+     Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());*/
+     indioptions.saveOptions();
 
      map()->forceUpdateNow();
    }
