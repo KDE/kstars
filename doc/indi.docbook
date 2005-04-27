@@ -404,8 +404,85 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
 
 <important>
-<para>The FLICCD driver requires root privilges in order to operate properly. Note that running the driver as root is considered a security risk</para>
+<para>The FLICCD driver requires root privileges in order to operate properly. Note that running the driver as root is considered a security risk</para>
 </important>
+</sect1>
+
+<sect1 id="indi-capture">
+<title>Capture Image Sequence</title>
+<indexterm><primary>Capture</primary>
+<secondary>Image</secondary>
+</indexterm>
+
+<para>The Capture Image Sequence tool can be used to aquire images from cameras and CCDs in interactive and batch modes. Furthermore, you can select which filter, if any, you want to use for your images. The capture tool remains disabled until you establish a connection to an imaging device.</para> 
+
+<screenshot>
+<screeninfo>Capture Image Sequence</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="indicapture.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</screenshot>
+
+<para>The above screenshot depicts a sample capture session. The tool provides the following options:</para>
+<itemizedlist>
+  <listitem><para>Camera/CCD</para>
+     <itemizedlist>
+         <listitem><para><option>Device:</option> The desired imaging device.</para></listitem>
+         <listitem><para><option>Prefix:</option> The image prefix which will be prepended to each captured filename.</para></listitem>
+         <listitem><para><option>Exposure:</option> The number of seconds to expose each frame.</para></listitem>
+         <listitem><para><option>Count:</option> The number of images to aquire.</para></listitem>
+         <listitem><para><option>Delay:</option> The delay in seconds between consecutive images.</para></listitem>
+         <listitem><para><option>ISO 8601 time stamp:</option> Append ISO 8601 time stamp to the filename. (e.g. image_01_20050427T09:48:05).</para></listitem>
+     </itemizedlist>
+    </listitem>
+   <listitem><para>Filter</para>
+      <itemizedlist>
+          <listitem><para><option>Device:</option> The desired filter device.</para></listitem>
+          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">Configure INDI</link> window (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
+       </itemizedlist>
+   </listitem>
+</itemizedlist>
+
+<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">Configure INDI</link> window.</para>
+
+<para>If you have more complex capturing requirements and conditions to fulfil, it is recommended to create a script to meet your specific needs using the <link linkend="tool-scriptbuilder">Script Builder</link> tool in the <guimenu>Tools</guimenu> menu.</para>
+</sect1>
+
+<sect1 id="indi-configure">
+<title>Configure INDI</title>
+<indexterm><primary>Configure</primary>
+<secondary>INDI</secondary>
+</indexterm>
+
+<para>The Configure INDI window allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into four main categories: General, Automatic device updates, Display, and Filter Wheel:</para>
+
+ <itemizedlist>
+   <listitem><para>General</para>
+      <itemizedlist>
+         <listitem><para><option>Default FITS directory:</option> Specify the directory where all captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.</para></listitem>
+         <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, KStars will display captured FITS in KStars <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
+         <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, KStars will automatically fill the telescope's device port with the specified default port.</para></listitem>
+         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, KStars will automatically fill the webcam's device port with the specified default port.</para></listitem>
+      </itemizedlist>
+   </listitem>
+   <listitem><para>Automatic device updates</para>
+    <itemizedlist>
+       <listitem><para><option>Time:</option> Update the telescope's date and time, if supported, upon connection.</para></listitem>
+       <listitem><para><option>Geographic location:</option> Update the telescope's geographical location information (current longitude and latitude), if supported, upon connection.</para></listitem>
+    </itemizedlist>
+   </listitem>
+   <listitem><para>Display</para>
+    <itemizedlist>
+     <listitem><para><option>Device target crosshair:</option> When checked, KStars displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. KStars displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure KStars</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
+     <listitem><para><option>INDI messages in status bar:</option> When checked, KStars displays INDI status messages in the KStars status bar.</para></listitem>
+    </itemizedlist>
+   </listitem>
+  <listitem><para>Filter Wheel: Assign color codes to the filter wheel slots (e.g. Slot #0 Red, Slot #1 Blue..etc). You can assign color codes for up to 10 filter slots (0 to 9). To assign a color code, select a slot number from the drop down combo box, and then type the corresponding color code in the edit field. Repeat the process for all desired slots and then press OK.</para>
+  </listitem>
+  </itemizedlist>
+
 </sect1>
 
 <sect1 id="indi-concepts">
@@ -714,3 +791,4 @@ telescope is not connected to the serial/USB port. What can I do?
 </qandaset>
 </sect1>
 </chapter>
+
