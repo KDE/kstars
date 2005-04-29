@@ -391,6 +391,13 @@ public:
 
 	bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
 	
+	/** Computes the velocity of the Sun projected on the direction of the source.
+	 *
+	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
+	 * @return Radial velocity of the source referred to the barycenter of the solar system in km/s
+	 **/
+	double vRSun(long double jd);
+
 	/** Computes the radial velocity of a source referred to the solar system barycenter 
 	 * from the radial velocity referred to the
 	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
@@ -402,17 +409,47 @@ public:
 	 **/
 	double vHeliocentric(double vlsr, long double jd);
 
+	/** Computes the radial velocity of a source referred to the Local Standard of Rest, aka known as VLSR
+	 * from the radial velocity referred to the solar system barycenter 
+	 *
+	 * @param vlsr radial velocity of the source referred to the LSR in km/s
+	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
+	 * @return Radial velocity of the source referred to the barycenter of the solar system in km/s
+	 **/
+	double vHelioToVlsr(double vhelio, long double jd);
+
+	/** Computes the velocity of any object projected on the direction of the source.
+	 *  @param jd0 Julian day for which we compute the direction of the source
+	 *  @return velocity of the Earth projected on the direction of the source kms-1
+	 */
+	double vREarth(long double jd0);
+	
 	/** Computes the radial velocity of a source referred to the center of the earth 
-	 * from the radial velocity referred to the
-	 * Local Standard of Rest, aka known as VLSR. To compute it we need the coordinates of the
-	 * source the VLSR and the epoch for the source coordinates.
+	 * from the radial velocity referred to the solar system barycenter
 	 *
 	 * @param vhelio radial velocity of the source referred to the barycenter of the 
 	 *               solar system in km/s
-	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
+	 * @param jd     Epoch expressed as julian day to which the source coordinates refer to.
 	 * @return Radial velocity of the source referred to the center of the Earth in km/s
 	 **/
 	double vGeocentric(double vhelio, long double jd);
+
+	/** Computes the radial velocity of a source referred to the solar system barycenter 
+	 * from the velocity referred to the center of the earth 
+	 *
+	 * @param vgeo   radial velocity of the source referred to the center of the Earth
+	 *               [km/s]
+	 * @param jd     Epoch expressed as julian day to which the source coordinates refer to.
+	 * @return Radial velocity of the source referred to the solar system barycenter in km/s
+	 **/
+	double vGeoToVHelio(double vgeo, long double jd);
+
+	/** Computes the velocity of any object (oberver's site) projected on the 
+	 * direction of the source.
+	 *  @param vsite velocity of that object in cartesian coordinates
+	 *  @return velocity of the object projected on the direction of the source kms-1
+	 */
+	double vRSite(double vsite[3]);
 
 	/** Computes the radial velocity of a source referred to the observer site on the surface
 	 * of the earth from the geocentric velovity and the velocity of the site referred to the center
@@ -423,6 +460,15 @@ public:
 	 * @return Radial velocity of the source referred to the observer's site in km/s
 	 **/
 	double vTopocentric(double vgeo, double vsite[3]);
+
+	/** Computes the radial velocity of a source referred to the center of the Earth from 
+	 * the radial velocity referred to an observer site on the surface of the earth 
+	 * 
+	 * @param vtopo radial velocity of the source referred to the observer's site in km/s
+	 * @param vsite Velocity at which the observer moves referred to the center of the earth.
+	 * @return Radial velocity of the source referred the center of the earth in km/s
+	 **/
+	double vTopoToVGeo(double vtopo, double vsite[3]);
 
 ////
 //// 5. Calculating Rise/Set/Transit data.

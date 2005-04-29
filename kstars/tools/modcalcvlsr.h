@@ -69,6 +69,18 @@ private:
 	/* @return a double with the Vlsr from the vlsrBox in the UI
 	 */
 	double getVLSR (void);
+	
+	/* @return a double with the Vhel from the vhelBox in the UI
+	 */
+	double getVhel (void);
+	
+	/* @return a double with the Vgeo from the vgeoBox in the UI
+	 */
+	double getVgeo (void);
+	
+	/* @return a double with the Vtopo from the vtopoBox in the UI
+	 */
+	double getVtopo (void);
 
 	/**@returns a KStarsDateTime constructed from the Time and Date fields. */
 	KStarsDateTime getDateTime (void);
@@ -105,6 +117,10 @@ private:
 	 * geoPlace object, which come from the calling classes.
 	 */
 	void showLongLat(void);
+
+	/**Fills the VLSR box with its value
+	 **/
+	void showVlsr (const double vlsr );
 
 	/**Fills the Heliocentric velocity box with its value
 	 **/

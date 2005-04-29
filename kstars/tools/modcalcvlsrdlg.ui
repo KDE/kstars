@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>670</width>
-            <height>550</height>
+            <height>640</height>
         </rect>
     </property>
     <property name="caption">
@@ -220,12 +220,29 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout21</cstring>
+                            <cstring>layout14</cstring>
                         </property>
                         <hbox>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer23</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>120</width>
+                                        <height>31</height>
+                                    </size>
+                                </property>
+                            </spacer>
                             <widget class="QGroupBox">
                                 <property name="name">
                                     <cstring>GroupBox2</cstring>
@@ -325,62 +342,149 @@
                                 </property>
                                 <property name="sizeHint">
                                     <size>
-                                        <width>16</width>
+                                        <width>100</width>
                                         <height>20</height>
                                     </size>
                                 </property>
                             </spacer>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout15</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
                             <widget class="QGroupBox">
                                 <property name="name">
-                                    <cstring>GroupBox3</cstring>
+                                    <cstring>groupBox8</cstring>
                                 </property>
                                 <property name="title">
-                                    <string>LSR Velocity</string>
+                                    <string>Radial Velocities</string>
+                                </property>
+                                <grid>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="KLineEdit" row="0" column="1">
+                                        <property name="name">
+                                            <cstring>vlsrBox</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="0" column="0">
+                                        <property name="name">
+                                            <cstring>azLabel</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>VLSR:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KLineEdit" row="1" column="1">
+                                        <property name="name">
+                                            <cstring>vHelioBox</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="1" column="0">
+                                        <property name="name">
+                                            <cstring>textLabel1</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Heliocentric Velocity:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KLineEdit" row="2" column="1">
+                                        <property name="name">
+                                            <cstring>vGeoBox</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="2" column="0">
+                                        <property name="name">
+                                            <cstring>textLabel2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Geocentric Velocity:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel" row="3" column="0">
+                                        <property name="name">
+                                            <cstring>textLabel3</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Topocentric Velocity:</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="KLineEdit" row="3" column="1">
+                                        <property name="name">
+                                            <cstring>vTopoBox</cstring>
+                                        </property>
+                                    </widget>
+                                </grid>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer24</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>30</width>
+                                        <height>21</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QButtonGroup">
+                                <property name="name">
+                                    <cstring>buttonGroup6</cstring>
+                                </property>
+                                <property name="title">
+                                    <string>Input Velocity</string>
                                 </property>
                                 <vbox>
                                     <property name="name">
                                         <cstring>unnamed</cstring>
                                     </property>
-                                    <widget class="QLayoutWidget">
+                                    <widget class="QRadioButton">
                                         <property name="name">
-                                            <cstring>layout10</cstring>
+                                            <cstring>radioVlsr</cstring>
                                         </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>azLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>VLSR:</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="KLineEdit">
-                                                <property name="name">
-                                                    <cstring>vlsrBox</cstring>
-                                                </property>
-                                            </widget>
-                                        </hbox>
+                                        <property name="text">
+                                            <string>LSR</string>
+                                        </property>
+                                        <property name="checked">
+                                            <bool>true</bool>
+                                        </property>
                                     </widget>
-                                    <spacer>
+                                    <widget class="QRadioButton">
                                         <property name="name">
-                                            <cstring>spacer9</cstring>
+                                            <cstring>radioVhelio</cstring>
                                         </property>
-                                        <property name="orientation">
-                                            <enum>Vertical</enum>
+                                        <property name="text">
+                                            <string>Heliocentric</string>
                                         </property>
-                                        <property name="sizeType">
-                                            <enum>Expanding</enum>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioVgeo</cstring>
                                         </property>
-                                        <property name="sizeHint">
-                                            <size>
-                                                <width>21</width>
-                                                <height>51</height>
-                                            </size>
+                                        <property name="text">
+                                            <string>Geocentric</string>
                                         </property>
-                                    </spacer>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioVtopo</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Topocentric</string>
+                                        </property>
+                                    </widget>
                                 </vbox>
                             </widget>
                         </hbox>
@@ -439,102 +543,6 @@
                                     <string>Clear</string>
                                 </property>
                             </widget>
-                        </hbox>
-                    </widget>
-                    <widget class="QGroupBox">
-                        <property name="name">
-                            <cstring>groupBox8</cstring>
-                        </property>
-                        <property name="title">
-                            <string>Target Velocities</string>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer10_2</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>71</width>
-                                        <height>21</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout7</cstring>
-                                </property>
-                                <grid>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="KLineEdit" row="2" column="1">
-                                        <property name="name">
-                                            <cstring>vTopoBox</cstring>
-                                        </property>
-                                    </widget>
-                                    <widget class="KLineEdit" row="1" column="1">
-                                        <property name="name">
-                                            <cstring>vGeoBox</cstring>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel" row="1" column="0">
-                                        <property name="name">
-                                            <cstring>textLabel2</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Geocentric Velocity:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel" row="2" column="0">
-                                        <property name="name">
-                                            <cstring>textLabel3</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Topocentric Velocity:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="KLineEdit" row="0" column="1">
-                                        <property name="name">
-                                            <cstring>vHelioBox</cstring>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel" row="0" column="0">
-                                        <property name="name">
-                                            <cstring>textLabel1</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Heliocentric Velocity:</string>
-                                        </property>
-                                    </widget>
-                                </grid>
-                            </widget>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer11_2</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>81</width>
-                                        <height>21</height>
-                                    </size>
-                                </property>
-                            </spacer>
                         </hbox>
                     </widget>
                     <spacer>
@@ -644,34 +652,6 @@
                                     <bool>true</bool>
                                 </property>
                             </widget>
-                            <widget class="dmsBox" row="1" column="3">
-                                <property name="name">
-                                    <cstring>longBoxBatch</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="minimumSize">
-                                    <size>
-                                        <width>100</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                                <property name="focusPolicy">
-                                    <enum>StrongFocus</enum>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="1" column="2">
-                                <property name="name">
-                                    <cstring>longCheckBatch</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Longitude:</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
                             <widget class="QTimeEdit" row="0" column="1">
                                 <property name="name">
                                     <cstring>utBoxBatch</cstring>
@@ -746,40 +726,35 @@
                                     </sizepolicy>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="2" column="2">
+                            <widget class="dmsBox" row="5" column="1">
                                 <property name="name">
-                                    <cstring>latCheckBatch</cstring>
+                                    <cstring>longBoxBatch</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="minimumSize">
+                                    <size>
+                                        <width>100</width>
+                                        <height>0</height>
+                                    </size>
+                                </property>
+                                <property name="focusPolicy">
+                                    <enum>StrongFocus</enum>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="5" column="0">
+                                <property name="name">
+                                    <cstring>longCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Latitude:</string>
+                                    <string>Longitude:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>false</bool>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="3" column="2">
-                                <property name="name">
-                                    <cstring>heightCheckBatch</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Height:</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="0" column="2">
-                                <property name="name">
-                                    <cstring>vlsrCheckBatch</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>LSR Velocity:</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="dmsBox" row="2" column="3">
+                            <widget class="dmsBox" row="0" column="3">
                                 <property name="name">
                                     <cstring>latBoxBatch</cstring>
                                 </property>
@@ -796,14 +771,86 @@
                                     <enum>StrongFocus</enum>
                                 </property>
                             </widget>
-                            <widget class="KLineEdit" row="0" column="3">
+                            <widget class="QCheckBox" row="0" column="2">
+                                <property name="name">
+                                    <cstring>latCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Latitude:</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="2">
+                                <property name="name">
+                                    <cstring>heightCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Height:</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="2" column="2">
+                                <property name="name">
+                                    <cstring>vlsrCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>LSR Velocity:</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="3" column="2">
+                                <property name="name">
+                                    <cstring>helioVCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Heliocentric V.</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="2">
+                                <property name="name">
+                                    <cstring>geoVCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Geocentric V.</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="5" column="2">
+                                <property name="name">
+                                    <cstring>topoVCheckBatch</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Topocentric V.</string>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="2" column="3">
                                 <property name="name">
                                     <cstring>vlsrBoxBatch</cstring>
                                 </property>
                             </widget>
-                            <widget class="KLineEdit" row="3" column="3">
+                            <widget class="KLineEdit" row="1" column="3">
                                 <property name="name">
                                     <cstring>heightBoxBatch</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="3" column="3">
+                                <property name="name">
+                                    <cstring>vhelioBoxBatch</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="4" column="3">
+                                <property name="name">
+                                    <cstring>vgeoBoxBatch</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="5" column="3">
+                                <property name="name">
+                                    <cstring>vtopoBoxBatch</cstring>
                                 </property>
                             </widget>
                         </grid>
@@ -958,7 +1005,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>21</height>
+                                <height>50</height>
                             </size>
                         </property>
                     </spacer>
@@ -1101,11 +1148,11 @@
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>dmsbox.h</includehint>
     <includehint>extdateedit.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

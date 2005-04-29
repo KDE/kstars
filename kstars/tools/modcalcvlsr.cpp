@@ -67,6 +67,24 @@ double modCalcVlsr::getVLSR (void)
 	return vlsr;
 }
 
+double modCalcVlsr::getVhel (void)
+{
+	double vh = vHelioBox->text().toDouble();
+	return vh;
+}
+
+double modCalcVlsr::getVgeo (void)
+{
+	double vg = vGeoBox->text().toDouble();
+	return vg;
+}
+
+double modCalcVlsr::getVtopo (void)
+{
+	double vt = vTopoBox->text().toDouble();
+	return vt;
+}
+
 
 KStarsDateTime modCalcVlsr::getDateTime (void)
 {
@@ -149,6 +167,11 @@ void modCalcVlsr::showLongLat(void)
 	latBoxBatch->show( ks->geo()->lat() );
 }
 
+void modCalcVlsr::showVlsr (const double vlsr )
+{
+	vlsrBox->setText( KGlobal::locale()->formatNumber( vlsr ) );
+}
+
 void modCalcVlsr::showHelVel (const double vhel )
 {
 	vHelioBox->setText( KGlobal::locale()->formatNumber( vhel ) );
@@ -182,6 +205,9 @@ void modCalcVlsr::slotClearCoords()
 	latBox->clearFields();
 	epochName->setText("");
 	vlsrBox->setText("");
+	vHelioBox->setText("");
+	vGeoBox->setText("");
+	vTopoBox->setText("");
 
 	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
@@ -198,20 +224,70 @@ void modCalcVlsr::slotComputeVelocities()
 	KStarsDateTime dt0;
 	dt0.setFromEpoch(epoch0);
 
-	double vlsr = getVLSR();
-	double vhelio = sp.vHeliocentric(vlsr, dt0.djd() );
-	showHelVel( vhelio );
+	if ( radioVlsr->isChecked() ) {
+	
+		double vlsr = getVLSR();
+		double vhelio = sp.vHeliocentric(vlsr, dt0.djd() );
+		showHelVel( vhelio );
 
-	KStarsDateTime dt1 = getDateTime();
-	double vg = sp.vGeocentric(vhelio, dt1.djd());
-	showGeoVel( vg );
+		KStarsDateTime dt1 = getDateTime();
+		double vg = sp.vGeocentric(vhelio, dt1.djd());
+		showGeoVel( vg );
 
-	double vtopo[3];
-	dms gsidt = dt1.gst();
-	geoPlace->TopocentricVelocity(vtopo, gsidt);
+		double vtopo[3];
+		dms gsidt = dt1.gst();
+		geoPlace->TopocentricVelocity(vtopo, gsidt);
 
-	showTopoVel ( sp.vTopocentric(vg, vtopo) );
+		showTopoVel ( sp.vTopocentric(vg, vtopo) );
 		
+	} else if (radioVhelio->isChecked() ) {
+		
+		double vhel = getVhel();
+		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
+		showVlsr(vlsr);
+
+		KStarsDateTime dt1 = getDateTime();
+		double vg = sp.vGeocentric(vhel, dt1.djd());
+		showGeoVel( vg );
+
+		double vtopo[3];
+		dms gsidt = dt1.gst();
+		geoPlace->TopocentricVelocity(vtopo, gsidt);
+
+		showTopoVel ( sp.vTopocentric(vg, vtopo) );
+
+	} else if (radioVgeo->isChecked() ) {
+
+		double vgeo = getVgeo();
+		KStarsDateTime dt1 = getDateTime();
+		double vhel = sp.vGeoToVHelio(vgeo, dt1.djd() );
+		showHelVel(vhel) ;
+
+		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
+		showVlsr(vlsr);
+
+		double vtopo[3];
+		dms gsidt = dt1.gst();
+		geoPlace->TopocentricVelocity(vtopo, gsidt);
+
+		showTopoVel ( sp.vTopocentric(vgeo, vtopo) );
+
+	} else {
+		double vtopo = getVtopo();
+		KStarsDateTime dt1 = getDateTime();
+		dms gsidt = dt1.gst();
+		double vst[3];
+		geoPlace->TopocentricVelocity(vst, gsidt);
+		double vgeo = sp.vTopoToVGeo(vtopo, vst);
+		showGeoVel( vgeo );
+
+		double vhel = sp.vGeoToVHelio(vgeo, dt1.djd() );
+		showHelVel(vhel) ;
+
+		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
+		showVlsr(vlsr);
+	}
+
 }
 
 void modCalcVlsr::slotUtChecked(){

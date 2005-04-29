@@ -606,7 +606,7 @@ QString SkyPoint::constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject
 	return i18n("Unknown");
 }
 
-double SkyPoint::vHeliocentric(double vlsr, long double jd0) {
+double SkyPoint::vRSun(long double jd0) {
 
 	dms asun,dsun;
 	double ca, sa, cd, sd, vsun;
@@ -642,12 +642,21 @@ double SkyPoint::vHeliocentric(double vlsr, long double jd0) {
 	Vhel 	= Vlsr - Vsun.u_radial
 	*/
 
-	vsun = vsun *(cd*cosDec*(cosRA*ca + sa*sinRA) + sd*sinDec);
+	return vsun *(cd*cosDec*(cosRA*ca + sa*sinRA) + sd*sinDec);
 
-	return (vlsr - vsun);
 }
 
-double SkyPoint::vGeocentric(double vhelio, long double jd0)
+double SkyPoint::vHeliocentric(double vlsr, long double jd0) {
+
+	return vlsr - vRSun(jd0);
+}
+
+double SkyPoint::vHelioToVlsr(double vhelio, long double jd0) {
+
+	return vhelio + vRSun(jd0);
+}
+
+double SkyPoint::vREarth(long double jd0)
 {
   
 	double sinRA, sinDec, cosRA, cosDec, vREarth;
@@ -684,10 +693,21 @@ double SkyPoint::vGeocentric(double vhelio, long double jd0)
 		num->vEarth(1) * cosDec * sinRA +
 		num->vEarth(2) * sinDec;
 		
-	return (vhelio - vREarth);
+	return vREarth;
 }
 
-double SkyPoint::vTopocentric(double vgeo, double vsite[3])
+
+double SkyPoint::vGeocentric(double vhelio, long double jd0)
+{
+	return vhelio - vREarth(jd0);
+}
+
+double SkyPoint::vGeoToVHelio(double vgeo, long double jd0)
+{
+	return vgeo + vREarth(jd0);
+}
+
+double SkyPoint::vRSite(double vsite[3])
 {
   
 	double sinRA, sinDec, cosRA, cosDec, vREarth;
@@ -695,5 +715,15 @@ double SkyPoint::vTopocentric(double vgeo, double vsite[3])
 	RA.SinCos( sinRA, cosRA );
 	Dec.SinCos( sinDec, cosDec );
 
-	return (vgeo - vsite[0]*cosDec*cosRA + vsite[1]*cosDec*sinRA + vsite[2]*sinDec);
+	return vsite[0]*cosDec*cosRA + vsite[1]*cosDec*sinRA + vsite[2]*sinDec;
+}
+
+double SkyPoint::vTopoToVGeo(double vtopo, double vsite[3])
+{
+	return vtopo + vRSite(vsite); 
+}
+
+double SkyPoint::vTopocentric(double vgeo, double vsite[3])
+{
+	return vgeo - vRSite(vsite); 
 }
