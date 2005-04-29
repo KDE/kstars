@@ -51,11 +51,6 @@
    void registerProperty(INDI_P *pp);
    void handleBLOB(unsigned char *buffer, int bufferSize, int dataType);
     
-   /* Data channel */
-   void establishDataChannel(QString host, int port);
-   void allocateCompressedBuffer();
-   void allocateStreamBuffer();
-   
    /* Device options */
    void initDeviceOptions();
    void handleDevCounter();
@@ -72,11 +67,6 @@
    
    int                  dataType;
    int 			initDevCounter;
-   int 			streamFD;
-   unsigned int 	totalCompressedBytes, totalBytes;
-   unsigned char        *streamBuffer;
-   unsigned char	*compressedBuffer;
-   QSocketNotifier 	*sNotifier;
    QString		dataExt;
    LilXML		*parser;
    
@@ -87,7 +77,6 @@
    KDirLister           *seqLister;
    
    public slots:
-   void streamReceived();
    void timerDone();
    
    protected slots:

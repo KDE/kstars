@@ -117,7 +117,7 @@ int  expose;
 unsigned short  *img;
 } img_t;
 
-static int streamTimerID;		/* Stream ID */
+/*static int streamTimerID;		 Stream ID */
 
 static flidev_t fli_dev;
 static cam_t *FLICam;

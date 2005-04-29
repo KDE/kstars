@@ -1,9 +1,7 @@
 /*
-    Phlips webcam driver
-    Copyright (C) 2004 by Jasem Mutlaq
+    Phlips webcam driver for V4L 1
+    Copyright (C) 2005 by Jasem Mutlaq
 
-    This library uses code from qastrocam.
-    
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
@@ -34,52 +32,43 @@
 
 #include "ccvt.h"
 #include "pwc-ioctl.h"
-#include "QCamV4L.h"
-#include "philipsV4L.h"
+#include "v4l1_pwc.h"
 #include "../eventloop.h"
 
 #define ERRMSG_SIZ	1024
 
 extern int errno;
-
 using namespace std;
 
-int whiteBalanceMode_;
-int whiteBalanceRed_;
-int whiteBalanceBlue_;
-int lastGain_;
-int multiplicateur_;
-int skippedFrame_;
-int type_;
+V4L1_PWC::V4L1_PWC()
+{
+   frameRate=15;
+   fd=-1;
+   streamActive = true;
 
-extern unsigned char * tmpBuffer_;
-extern long mmap_last_sync_buff_;
-extern long mmap_last_capture_buff_;  
-extern struct video_mbuf mmap_mbuf_;
-extern int device_;
-extern unsigned long options_;
-extern int frameRate_;
-extern bool usingTimer;
-extern bool streamActive;
-extern bool frameUpdate;
-extern struct video_capability capability_;
-extern struct video_window window_;
-extern struct video_picture picture_;
-extern unsigned char * mmap_buffer_;
-extern int  selectCallBackID;
-extern int  timerCallBackID;
+   YBuf       = NULL;
+   UBuf       = NULL;
+   VBuf       = NULL;
+   colorBuffer= NULL;
+   buffer_start=NULL;
+}
 
-int connectPhilips(const char * devpath, char *errmsg)
+V4L1_PWC::~V4L1_PWC()
+{
+
+}
+
+int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
 {
    options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
    struct pwc_probe probe;
    bool IsPhilips = false;
-   frameRate_=15;
-   device_=-1;
-   usingTimer = false;
+   frameRate=15;
+   fd=-1;
    streamActive = true;
+   buffer_start=NULL;
    
-   if (-1 == (device_=open(devpath,
+   if (-1 == (fd=open(devpath,
                            O_RDONLY | ((options_ & ioNoBlock) ? O_NONBLOCK : 0)))) {
       
       strncpy(errmsg, strerror(errno), 1024);
@@ -89,18 +78,18 @@ int connectPhilips(const char * devpath, char *errmsg)
   
    cerr << "Device opened" << endl;
    
-   if (device_ != -1) {
-      if (-1 == ioctl(device_,VIDIOCGCAP,&capability_)) {
+   if (fd != -1) {
+      if (-1 == ioctl(fd,VIDIOCGCAP,&capability_)) {
          cerr << "Error: ioctl (VIDIOCGCAP)" << endl;
 	 strncpy(errmsg, "ioctl (VIDIOCGCAP)", 1024);
 	 return -1;
       }
-      if (-1 == ioctl (device_, VIDIOCGWIN, &window_)) {
+      if (-1 == ioctl (fd, VIDIOCGWIN, &window)) {
          cerr << "Error: ioctl (VIDIOCGWIN)" << endl;
 	 strncpy(errmsg, "ioctl (VIDIOCGWIN)", 1024);
 	 return -1;
       }
-      if (-1 == ioctl (device_, VIDIOCGPICT, &picture_)) {
+      if (-1 == ioctl (fd, VIDIOCGPICT, &picture_format)) {
          cerr << "Error: ioctl (VIDIOCGPICT)" << endl;
 	 strncpy(errmsg, "ioctl (VIDIOCGPICT)", 1024);
 	 return -1;
@@ -109,7 +98,7 @@ int connectPhilips(const char * devpath, char *errmsg)
    }
    
   // Check to see if it's really a philips webcam       
-  if (ioctl(device_, VIDIOCPWCPROBE, &probe) == 0) 
+  if (ioctl(fd, VIDIOCPWCPROBE, &probe) == 0) 
   {
   	    if (!strcmp(capability_.name,probe.name))
 	    {
@@ -126,60 +115,24 @@ int connectPhilips(const char * devpath, char *errmsg)
    return -1;
   }
     
-   cerr << "initial size w:" << window_.width << " -- h: " << window_.height << endl;
+   cerr << "initial size w:" << window.width << " -- h: " << window.height << endl;
    
-   if (options_&ioUseSelect)
-   {
-      selectCallBackID = addCallback(device_, updatePhilipsFrame, NULL);
-       cerr << "Using select() to wait new frames." << endl;
-   }
-   else
-   {
-      usingTimer = true;
-      timerCallBackID = addTimer(1000/frameRate_, callPhilipsFrame, NULL);
-      cerr << "Using timer to wait new frames.\n";
-   }
-   mmap_buffer_=NULL;
-   if (mmapInit()) {
-      mmapCapture();
-   }
-   //label(capability_.name);
+   
+   mmapInit();
    
    setWhiteBalanceMode(PWC_WB_AUTO, errmsg);
    multiplicateur_=1;
    skippedFrame_=0;
    lastGain_=getGain();
 
-   //setDeviceFD(device_);
-   
    cerr << "All successful, returning\n";
-   return 0;
+   return fd;
 }
 
-void callPhilipsFrame(void *p)
+void V4L1_PWC::checkSize(int & x, int & y) 
 {
-  p=p;
-  updatePhilipsFrame(0, NULL);
-}
-
-//QCamFrame yuvFrame() const { return yuvBuffer_; }
-
-/*void resize(const QSize & s) {
-#if 1
-   cout << "QCamV4L::resize("
-        << s.width()
-        << "x"
-        << s.height()
-        << ")"
-        << endl;
-#endif
-   setSize(s.width(),s.height());
-}*/
-
-
-void checkPhilipsSize(int & x, int & y) 
-{
- if (x>=capability_.maxwidth && y >= capability_.maxheight) {
+ if (x>=capability_.maxwidth && y >= capability_.maxheight)
+   {
       x=capability_.maxwidth;
       y=capability_.maxheight;
    } else if (x>=352 && y >=288 && type_<700) {
@@ -196,100 +149,39 @@ void checkPhilipsSize(int & x, int & y)
    }
 }
 
-bool setPhilipsSize(int x, int y) 
+bool V4L1_PWC::setSize(int x, int y) 
 {
 
    int oldX, oldY;
    char msg[ERRMSG_SIZ];
-   checkPhilipsSize(x,y);
+   checkSize(x,y);
    
-   oldX = window_.width;
-   oldY = window_.height;
+   oldX = window.width;
+   oldY = window.height;
    
-   window_.width=x;
-   window_.height=y;
+   window.width=x;
+   window.height=y;
    
-   if (ioctl (device_, VIDIOCSWIN, &window_))
+   if (ioctl (fd, VIDIOCSWIN, &window))
    {
        snprintf(msg, ERRMSG_SIZ, "ioctl(VIDIOCSWIN) %s", strerror(errno));
        cerr << msg << endl;
-       window_.width=oldX;
-       window_.height=oldY;
+       window.width=oldX;
+       window.height=oldY;
        return false;
    }
-   ioctl (device_, VIDIOCGWIN, &window_);
+   ioctl (fd, VIDIOCGWIN, &window);
 
-   cerr << "New size is x=" << window_.width << " " << "y=" << window_.height <<endl;
+   cerr << "New size is x=" << window.width << " " << "y=" << window.height <<endl;
    
    allocBuffers();
    
    return true;
 }
 
-void updatePhilipsFrame(int /*d*/, void * /*p*/)
+int V4L1_PWC::saveSettings(char *errmsg)
 {
-   static int tmp;
-   if (!streamActive) return;
-   
-   if (skippedFrame_ < multiplicateur_- 1)
-   {
-      /* TODO consider SC modded cams
-      if (skippedFrame_ >= multiplicateur_ - 3)
-             stopAccumulation();*/
-      
-      if (dropFrame())
-      {
-         skippedFrame_++;
-         //exposureTimeLeft_->setProgress(skippedFrame_);
-	 cerr << "Progress of time left is " << skippedFrame_ << endl;
-         tmp=0;
-      }
-      return;
-      
-   } else
-   {
-      //if (updateFrame())
-      updateFrame(0, NULL);
-      if (frameUpdate)
-      {
-         skippedFrame_=0;
-         /* TODO consider SC modded cams 
-	 if (multiplicateur_ > 1)
-	 {
-            startAccumulation();
-            //if (guiBuild()) exposureTimeLeft_->reset();
-	    cerr << "Reseting time left exposure... " << endl;
-         }*/
-	 
-
-	 // TODO get gain..etc
-         //setProperty("Gain",tmpVal=getGain(),false);
-         //emit gainChange(tmpVal);
-	 //setProperty("FrameRateSecond",(tmpVal=getFrameRate())/(double)multiplicateur_);
-         //emit frameRateChange(tmpVal);
-	 
-         /*if (liveWhiteBalance_ || refreshGui_) {
-            getWhiteBalance();
-         }
-         if (SCmodCtrl_) {
-            setProperty("ExposureTime",multiplicateur_/(double)getFrameRate());
-            emit frameRateMultiplicateurChange(multiplicateur_);
-            emit exposureTime(multiplicateur_/(double)getFrameRate());
-         } else {
-            setProperty("ExposureTime",1/(double)getFrameRate());
-         }
-         refreshGui_=false;
-         return true;
-      } else {
-       //  refreshGui_=false;
-         return false; */
-      }
-   }
-}
-
-int saveSettings(char *errmsg)
-{
-   if (ioctl(device_, VIDIOCPWCSUSER)==-1)
+   if (ioctl(fd, VIDIOCPWCSUSER)==-1)
     {
       snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSUSER %s", strerror(errno));
       return -1;
@@ -298,20 +190,21 @@ int saveSettings(char *errmsg)
    return 0;
 }
 
-void restoreSettings()
+void V4L1_PWC::restoreSettings()
  {
-   ioctl(device_, VIDIOCPWCRUSER);
-   refreshPictureSettings();
+   ioctl(fd, VIDIOCPWCRUSER);
+   getPictureSettings();
 }
 
-void restoreFactorySettings() {
-   ioctl(device_, VIDIOCPWCFACTORY);
-   refreshPictureSettings();
+void V4L1_PWC::restoreFactorySettings()
+{
+   ioctl(fd, VIDIOCPWCFACTORY);
+   getPictureSettings();
 }
 
-int setGain(int val, char *errmsg)
+int V4L1_PWC::setGain(int val, char *errmsg)
  {
-   if(-1==ioctl(device_, VIDIOCPWCSAGC, &val))
+   if(-1==ioctl(fd, VIDIOCPWCSAGC, &val))
    {
       snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSAGC %s", strerror(errno));
       return -1;
@@ -323,14 +216,14 @@ int setGain(int val, char *errmsg)
    return lastGain_;
 }
 
-int getGain()
+int V4L1_PWC::getGain()
 {
    int gain;
    char msg[ERRMSG_SIZ];
    static int cpt=0;
    if ((cpt%4)==0)
    {
-      if (-1==ioctl(device_, VIDIOCPWCGAGC, &gain))
+      if (-1==ioctl(fd, VIDIOCPWCGAGC, &gain))
       {
          //perror("VIDIOCPWCGAGC");
 	 snprintf(msg, ERRMSG_SIZ, "VIDIOCPWCGAGC %s", strerror(errno));
@@ -351,11 +244,11 @@ int getGain()
    return gain;
 }
 
-int setExposure(int val, char *errmsg)
+int V4L1_PWC::setExposure(int val, char *errmsg)
  {
    //cout << "set exposure "<<val<<"\n";
    
-   if (-1==ioctl(device_, VIDIOCPWCSSHUTTER, &val))
+   if (-1==ioctl(fd, VIDIOCPWCSSHUTTER, &val))
    {
      snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSSHUTTER %s", strerror(errno));
      return -1;
@@ -364,22 +257,22 @@ int setExposure(int val, char *errmsg)
   return 0;
 }
 
-void setCompression(int val)
+void V4L1_PWC::setCompression(int val)
 {
-   ioctl(device_, VIDIOCPWCSCQUAL, &val); 
+   ioctl(fd, VIDIOCPWCSCQUAL, &val); 
 }
 
-int getCompression()
+int V4L1_PWC::getCompression()
 {
    int gain;
-   ioctl(device_, VIDIOCPWCGCQUAL , &gain);
+   ioctl(fd, VIDIOCPWCGCQUAL , &gain);
    if (gain < 0) gain*=-1;
    return gain;
 }
 
-int setNoiseRemoval(int val, char *errmsg)
+int V4L1_PWC::setNoiseRemoval(int val, char *errmsg)
 {
-   if (-1 == ioctl(device_, VIDIOCPWCSDYNNOISE, &val))
+   if (-1 == ioctl(fd, VIDIOCPWCSDYNNOISE, &val))
    {
        snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCGDYNNOISE %s", strerror(errno));
        return -1;
@@ -388,12 +281,12 @@ int setNoiseRemoval(int val, char *errmsg)
    return 0;
 }
 
-int getNoiseRemoval()
+int V4L1_PWC::getNoiseRemoval()
 {
    int gain;
    char msg[ERRMSG_SIZ];
    
-   if (-1 == ioctl(device_, VIDIOCPWCGDYNNOISE , &gain)) 
+   if (-1 == ioctl(fd, VIDIOCPWCGDYNNOISE , &gain)) 
    {
    	 snprintf(msg, ERRMSG_SIZ, "VIDIOCPWCGDYNNOISE %s", strerror(errno));
 	 cerr << msg << endl;
@@ -403,9 +296,9 @@ int getNoiseRemoval()
    return gain;
 }
 
-int setSharpness(int val, char *errmsg)
+int V4L1_PWC::setSharpness(int val, char *errmsg)
  {
-   if (-1 == ioctl(device_, VIDIOCPWCSCONTOUR, &val))
+   if (-1 == ioctl(fd, VIDIOCPWCSCONTOUR, &val))
    {
        snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSCONTOUR %s", strerror(errno));
        return -1;
@@ -414,12 +307,12 @@ int setSharpness(int val, char *errmsg)
   return 0;
 }
 
-int getSharpness()
+int V4L1_PWC::getSharpness()
 {
    int gain;
    char msg[ERRMSG_SIZ];
    
-   if (-1 == ioctl(device_, VIDIOCPWCGCONTOUR, &gain)) 
+   if (-1 == ioctl(fd, VIDIOCPWCGCONTOUR, &gain)) 
    {
       snprintf(msg, ERRMSG_SIZ, "VIDIOCPWCGCONTOUR %s", strerror(errno));
       cerr << msg << endl;
@@ -429,11 +322,11 @@ int getSharpness()
    return gain;
 }
 
-int setBackLight(bool val, char *errmsg)
+int V4L1_PWC::setBackLight(bool val, char *errmsg)
 {
    static int on=1;
    static int off=0;
-   if (-1 == ioctl(device_,VIDIOCPWCSBACKLIGHT, &  val?&on:&off))
+   if (-1 == ioctl(fd,VIDIOCPWCSBACKLIGHT, &  val?&on:&off))
    {
         snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSBACKLIGHT %s", strerror(errno));
 	return -1;
@@ -442,12 +335,12 @@ int setBackLight(bool val, char *errmsg)
    return 0;
 }
 
-bool getBackLight()
+bool V4L1_PWC::getBackLight()
 {
    int val;
    char msg[ERRMSG_SIZ];
    
-   if (-1 == ioctl(device_,VIDIOCPWCGBACKLIGHT, & val)) 
+   if (-1 == ioctl(fd,VIDIOCPWCGBACKLIGHT, & val)) 
    {
       snprintf(msg, ERRMSG_SIZ, "VIDIOCPWCSBACKLIGHT %s", strerror(errno));
       cerr << msg << endl;
@@ -456,11 +349,11 @@ bool getBackLight()
    return val !=0;
 }
 
-int setFlicker(bool val, char *errmsg)
+int V4L1_PWC::setFlicker(bool val, char *errmsg)
 {
    static int on=1;
    static int off=0;
-   if (-1 == ioctl(device_,VIDIOCPWCSFLICKER, val?&on:&off))
+   if (-1 == ioctl(fd,VIDIOCPWCSFLICKER, val?&on:&off))
    {
       snprintf(errmsg, ERRMSG_SIZ, "VIDIOCPWCSFLICKER %s", strerror(errno));
       return -1;
@@ -470,12 +363,12 @@ int setFlicker(bool val, char *errmsg)
    
 }
 
-bool getFlicker() 
+bool V4L1_PWC::getFlicker() 
 {
    int val;
    char msg[ERRMSG_SIZ];
    
-   if (-1 == ioctl(device_,VIDIOCPWCGFLICKER, & val))
+   if (-1 == ioctl(fd,VIDIOCPWCGFLICKER, & val))
    {
          snprintf(msg, ERRMSG_SIZ, "VIDIOCPWCGFLICKER %s", strerror(errno));
 	 cerr << msg << endl;
@@ -484,45 +377,45 @@ bool getFlicker()
    return val !=0;
 }
 
-void setGama(int val)
+void V4L1_PWC::setGama(int val)
 {
-   picture_.whiteness=val;
-   updatePictureSettings();
+   picture_format.whiteness=val;
+   setPictureSettings();
 }
 
-int getGama() 
+int V4L1_PWC::getGama() 
 {
-   return picture_.whiteness;
+   return picture_format.whiteness;
 }
 
-int setFrameRate(int value, char *errmsg)
+int V4L1_PWC::setFrameRate(int value, char *errmsg)
  {
-   window_.flags = (window_.flags & ~PWC_FPS_MASK) | ((value << PWC_FPS_SHIFT) & PWC_FPS_MASK);
-   if (ioctl(device_, VIDIOCSWIN, &window_))
+   window.flags = (window.flags & ~PWC_FPS_MASK) | ((value << PWC_FPS_SHIFT) & PWC_FPS_MASK);
+   if (ioctl(fd, VIDIOCSWIN, &window))
    {
              snprintf(errmsg, ERRMSG_SIZ, "setFrameRate %s", strerror(errno));
 	     return -1;
    }
    
-   ioctl(device_, VIDIOCGWIN, &window_);
-   frameRate_ = value;
+   ioctl(fd, VIDIOCGWIN, &window);
+   frameRate = value;
    
    return 0;
    //emit exposureTime(multiplicateur_/(double)getFrameRate());
 }
 
-int getFrameRate() 
+int V4L1_PWC::getFrameRate() 
 {
-   return ((window_.flags&PWC_FPS_FRMASK)>>PWC_FPS_SHIFT); 
+   return ((window.flags&PWC_FPS_FRMASK)>>PWC_FPS_SHIFT); 
 }
 
-int getWhiteBalance()
+int V4L1_PWC::getWhiteBalance()
 {
    char msg[ERRMSG_SIZ];
    struct pwc_whitebalance tmp_whitebalance;
    tmp_whitebalance.mode = tmp_whitebalance.manual_red = tmp_whitebalance.manual_blue = tmp_whitebalance.read_red = tmp_whitebalance.read_blue = PWC_WB_AUTO;
    
-   if (ioctl(device_, VIDIOCPWCGAWB, &tmp_whitebalance)) 
+   if (ioctl(fd, VIDIOCPWCGAWB, &tmp_whitebalance)) 
    {
            snprintf(msg, ERRMSG_SIZ, "getWhiteBalance %s", strerror(errno));
 	   cerr << msg << endl;
@@ -589,7 +482,7 @@ int getWhiteBalance()
    }*/
 }
 
-int setWhiteBalance(char *errmsg) 
+int V4L1_PWC::setWhiteBalance(char *errmsg) 
 {
    struct pwc_whitebalance wb;
    wb.mode=whiteBalanceMode_;
@@ -599,7 +492,7 @@ int setWhiteBalance(char *errmsg)
       wb.manual_blue=whiteBalanceBlue_;
    }
    
-   if (ioctl(device_, VIDIOCPWCSAWB, &wb))
+   if (ioctl(fd, VIDIOCPWCSAWB, &wb))
    {
        snprintf(errmsg, ERRMSG_SIZ, "setWhiteBalance %s", strerror(errno)); 
        return -1;
@@ -608,7 +501,7 @@ int setWhiteBalance(char *errmsg)
    return 0;
 }
 
-int setWhiteBalanceMode(int val, char *errmsg)
+int V4L1_PWC::setWhiteBalanceMode(int val, char *errmsg)
  {
    if (val == whiteBalanceMode_) 
       return whiteBalanceMode_;
@@ -648,7 +541,7 @@ int setWhiteBalanceMode(int val, char *errmsg)
    return 0;
 }
 
-int setWhiteBalanceRed(int val, char *errmsg) 
+int V4L1_PWC::setWhiteBalanceRed(int val, char *errmsg) 
 {
    whiteBalanceMode_ = PWC_WB_MANUAL;
    whiteBalanceRed_=val;
@@ -658,7 +551,7 @@ int setWhiteBalanceRed(int val, char *errmsg)
    return 0;
 }
 
-int setWhiteBalanceBlue(int val, char *errmsg)
+int V4L1_PWC::setWhiteBalanceBlue(int val, char *errmsg)
 {
    whiteBalanceMode_ = PWC_WB_MANUAL;
    whiteBalanceBlue_=val;

@@ -529,6 +529,9 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   else if (dataFormat == ".stream") dataType = DATA_STREAM;
   else dataType = DATA_OTHER;
   
+  //kdDebug() << "We're getting data with size " << dataSize << endl;
+  //kdDebug() << "data format " << dataFormat << endl;
+
   if (iscomp)
   {
     
@@ -537,13 +540,22 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     if (r != Z_OK)
     {
       sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii(), r);    
+      free (blobBuffer);
       return -1;
     }
-   
-    free (blobBuffer);
+
+    //kdDebug() << "compressed" << endl;
+  }
+  else
+  {
+    //kdDebug() << "uncompressed!!" << endl;
+    dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
+    memcpy(dataBuffer, blobBuffer, dataSize);
   }
   
   stdDev->handleBLOB(dataBuffer, dataSize, dataType);
+
+  free (blobBuffer);
   
   return (0);
   

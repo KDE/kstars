@@ -229,7 +229,7 @@ if (!strcmp(FilterNP.name, name)) {
 
 		if (!isFilterConnected()) {
 			IDMessage(mydev, "Device not connected.");
-			FilterNP.s = IPS_OK;
+			FilterNP.s = IPS_IDLE;
 			IDSetNumber(&FilterNP, NULL);
 			return;
 		}
@@ -240,12 +240,14 @@ if (!strcmp(FilterNP.name, name)) {
 		
 		if (!np)
 		{
+                        FilterNP.s = IPS_ALERT;
 			IDSetNumber(&FilterNP, "Unknown error. %s is not a member of %s property.", names[0], name);
 			return;
 		}
 		
 		if (targetFilter < FIRST_FILTER || targetFilter > FLIWheel->filter_count - 1)
 		{
+			FilterNP.s = IPS_ALERT;
 			IDSetNumber(&FilterNP, "Error: valid range of filter is from %d to %d", FIRST_FILTER, LAST_FILTER);
 			return;
 		}

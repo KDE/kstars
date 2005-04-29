@@ -36,12 +36,26 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <zlib.h>
+#include <asm/types.h>
 
-#include "webcam/QCamV4L.h"
 #include "indidevapi.h"
 #include "indicom.h"
 #include "fitsrw.h"
 #include "eventloop.h"
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef HAVE_LINUX_VIDEODEV2_H
+#include "webcam/v4l2_base.h"
+V4L2_Base *v4l_base;
+#else
+#include "webcam/v4l1_base.h"
+V4L1_Base *v4l_base;
+#endif 
+
+#define ERRMSGSIZ	1024
 
 void ISInit(void);
 void ISPoll(void *);
@@ -55,11 +69,14 @@ int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerS(ISwitchVectorProperty *sp);
 int  checkPowerT(ITextVectorProperty *tp);
 FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
-void updateImageSettings();
+void updateV4L1Controls();
+void updateV4L2Controls();
+void newFrame(void *p);
 
-
+ 
 extern char* me;
 extern int errno;
+static int frameCount = 0;
 
 #define mydev           "Video4Linux Generic Device"
 
@@ -72,7 +89,7 @@ extern int errno;
 #define POLLMS		1000		/* Polling time (ms) */
 
 #define FILENAMESIZ	2048
-#define LIBVERSIZ 	1024
+#define LIBVERSIZ 	ERRMSGSIZ
 #define PREFIXSIZ	64
 #define PIPEBUFSIZ	8192
 #define FRAME_ILEN	64
@@ -90,6 +107,7 @@ unsigned char  *compressedFrame;
 
 img_t * V4LFrame;			/* V4L frame */
 static int streamTimerID;		/* Stream ID */
+double divider;
 
 /*INDI controls */
 
@@ -113,6 +131,10 @@ static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream
 static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 50., 1., 10., 0, 0, 0}};
 static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), "", 0};
 
+/* Compression */
+static ISwitch CompressS[]          	= {{"ON" , "" , ISS_ON, 0, 0},{"OFF", "", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty CompressSP	= { mydev, "Compression" , "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, CompressS, NARRAY(CompressS), "", 0};
+
 /* Image color */
 static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
 static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), "", 0};
@@ -125,7 +147,8 @@ static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", 
 /* Exposure time */
 static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 1., 1., .0, 1., 0, 0, 0}};
 static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
-  
+
+#ifndef HAVE_LINUX_VIDEODEV2_H
 static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
                                    {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
 				   {"Hue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0}, 
@@ -133,6 +156,9 @@ static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0
 				   {"Whiteness", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
 				   
 static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), "", 0 };
+#else
+INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, NULL, 0, "", 0 };
+#endif
 
 /* BLOB for sending image */
 static IBLOB imageB = {"CCD1", "Feed", "", 0, 0, 0, 0, 0, 0, 0};
@@ -159,8 +185,18 @@ void ISInit()
  
  streamTimerID = -1;
  
- PortT[0].text     = strcpy(new char[32], "/dev/video0");
- camNameT[0].text  = new char[MAXINDILABEL];
+  #ifdef HAVE_LINUX_VIDEODEV2_H
+    v4l_base = new V4L2_Base();
+  #else
+    v4l_base = new V4L1_Base();
+    divider = 128.;
+  #endif 
+  
+ 
+ PortT[0].text     = NULL;
+ IUSaveText(&PortT[0], "/dev/video0");
+
+ camNameT[0].text  = NULL;
  
  isInit = 1;
 
@@ -179,15 +215,22 @@ void ISGetProperties (const char *dev)
   IDDefText(&PortTP, NULL);
   IDDefText(&camNameTP, NULL);
   IDDefSwitch(&StreamSP, NULL);
+  #ifndef HAVE_LINUX_VIDEODEV2_H
   IDDefNumber(&FrameRateNP, NULL);
+  #endif
   IDDefNumber(&ExposeTimeNP, NULL);
   IDDefBLOB(&imageBP, NULL);
   
   /* Image properties */
+  IDDefSwitch(&CompressSP, NULL);
   IDDefSwitch(&ImageTypeSP, NULL);
   IDDefNumber(&ImageSizeNP, NULL);
-  IDDefNumber(&ImageAdjustNP, NULL);
   
+  #ifndef HAVE_LINUX_VIDEODEV2_H
+  IDDefNumber(&ImageAdjustNP, NULL);
+  #endif
+
+
   
 }
  
@@ -196,7 +239,8 @@ void ISGetProperties (const char *dev)
 
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-	
+	char errmsg[ERRMSGSIZ];
+
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
 	    return;
@@ -211,7 +255,18 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
    	  connectV4L();
 	  return;
      }
-    
+
+     /* Compression */
+     if (!strcmp(name, CompressSP.name))
+     {
+       IUResetSwitches(&CompressSP);
+       IUUpdateSwitches(&CompressSP, states, names, n);
+       CompressSP.s = IPS_OK;
+       
+       IDSetSwitch(&CompressSP, NULL);
+       return;
+     }    
+
      /* Image Type */
      if (!strcmp(name, ImageTypeSP.name))
      {
@@ -235,17 +290,17 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        StreamSP.s = IPS_IDLE;
        
           
-       if (StreamS[0].s == ISS_ON && streamTimerID == -1)
+       if (StreamS[0].s == ISS_ON)
        {
+         frameCount = 0;
          IDLog("Starting the video stream.\n");
-         streamTimerID = addTimer(1000 / (int) FrameRateN[0].value, updateStream, NULL);
+         v4l_base->start_capturing(errmsg);
 	 StreamSP.s  = IPS_BUSY; 
        }
        else
        {
-         IDLog("The video stream has been disabled.\n");
-	 rmTimer(streamTimerID);
-	 streamTimerID = -1;
+         IDLog("The video stream has been disabled. Frame count %d\n", frameCount);
+         v4l_base->stop_capturing(errmsg);
        }
        
        IDSetSwitch(&StreamSP, NULL);
@@ -254,7 +309,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
      
 }
 
-void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
+void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int /*n*/)
 {
 	IText *tp;
 
@@ -264,9 +319,6 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
        if (dev && strcmp (mydev, dev))
          return;
 
-	/* suppress warning */
-	n=n;
-	
 	if (!strcmp(name, PortTP.name) )
 	{
 	  PortTP.s = IPS_OK;
@@ -274,17 +326,15 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	  if (!tp)
 	   return;
 
-	  tp->text = new char[strlen(texts[0])+1];
-	  strcpy(tp->text, texts[0]);
+          IUSaveText(tp, texts[0]);
 	  IDSetText (&PortTP, NULL);
 	  return;
 	}
-	
 }
-
 
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
+      char errmsg[ERRMSGSIZ];
 
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -298,21 +348,26 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       if (checkPowerN(&ImageSizeNP))
         return;
 	
+       int oldW = (int) ImageSizeN[0].value;
+       int oldH = (int) ImageSizeN[1].value;
+
       ImageSizeNP.s = IPS_OK;
       
       if (IUUpdateNumbers(&ImageSizeNP, values, names, n) < 0)
        return;
       
-      if (setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value))
+      if (v4l_base->setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value) != -1)
       {
-         ImageSizeN[0].value = getWidth();
-	 ImageSizeN[1].value = getHeight();
+         ImageSizeN[0].value = v4l_base->getWidth();
+	 ImageSizeN[1].value = v4l_base->getHeight();
          IDSetNumber(&ImageSizeNP, NULL);
 	 return;
       }
       else
       {
-        ImageSizeNP.s = IPS_IDLE;
+        ImageSizeN[0].value = oldW;
+	ImageSizeN[1].value = oldH;
+        ImageSizeNP.s = IPS_ALERT;
 	IDSetNumber(&ImageSizeNP, "Failed to set a new image size.");
       }
       
@@ -330,12 +385,13 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      if (IUUpdateNumbers(&FrameRateNP, values, names, n) < 0)
        return;
        
-     setFPS( (int) FrameRateN[0].value );
+     v4l_base->setFPS( (int) FrameRateN[0].value );
      
      FrameRateNP.s = IPS_OK;
      IDSetNumber(&FrameRateNP, NULL);
      return;
    }
+   
    
    if (!strcmp (ImageAdjustNP.name, name))
    {
@@ -347,22 +403,38 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
        return;
      
-     setContrast( (int) (ImageAdjustN[0].value * 128));
-     setBrightness( (int) (ImageAdjustN[1].value * 128));
-     setHue( (int) (ImageAdjustN[2].value * 128));
-     setColor( (int) (ImageAdjustN[3].value * 128));
-     setWhiteness( (int) (ImageAdjustN[4].value * 128));
+     #ifndef HAVE_LINUX_VIDEODEV2_H
+     v4l_base->setContrast( (int) (ImageAdjustN[0].value * divider));
+     v4l_base->setBrightness( (int) (ImageAdjustN[1].value * divider));
+     v4l_base->setHue( (int) (ImageAdjustN[2].value * divider));
+     v4l_base->setColor( (int) (ImageAdjustN[3].value * divider));
+     v4l_base->setWhiteness( (int) (ImageAdjustN[4].value * divider));
      
-     ImageAdjustN[0].value = getContrast() / 128.;
-     ImageAdjustN[1].value = getBrightness() / 128.;
-     ImageAdjustN[2].value = getHue() / 128.;
-     ImageAdjustN[3].value = getColor() / 128.;
-     ImageAdjustN[4].value = getWhiteness() / 128.;
+     ImageAdjustN[0].value = v4l_base->getContrast() / divider;
+     ImageAdjustN[1].value = v4l_base->getBrightness() / divider;
+     ImageAdjustN[2].value = v4l_base->getHue() / divider;
+     ImageAdjustN[3].value = v4l_base->getColor() / divider;
+     ImageAdjustN[4].value = v4l_base->getWhiteness() / divider;
+
+     #else
+     int ctrl_id;
+     for (int i=0; i < ImageAdjustNP.nnp; i++)
+     {
+         ctrl_id = *((int *) ImageAdjustNP.np[i].aux0);
+         if (v4l_base->setINTControl( ctrl_id , ImageAdjustNP.np[0].value, errmsg) < 0)
+         {
+            ImageAdjustNP.s = IPS_ALERT;
+            IDSetNumber(&ImageAdjustNP, "Unable to adjust setting. %s", errmsg);
+            return;
+         }
+     }
+     #endif
      
      ImageAdjustNP.s = IPS_OK;
      IDSetNumber(&ImageAdjustNP, NULL);
      return;
    }
+   
    
     /* Exposure */
     if (!strcmp (ExposeTimeNP.name, name))
@@ -371,22 +443,31 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
        if (checkPowerN(&ExposeTimeNP))
          return;
     
+        if (StreamS[0].s == ISS_ON) 
+          v4l_base->stop_capturing(errmsg);
+
 	streamTimerID = -1;
 	StreamS[0].s  = ISS_OFF;
 	StreamS[1].s  = ISS_ON;
 	StreamSP.s    = IPS_IDLE;
 	IDSetSwitch(&StreamSP, NULL);
+        
 	
+        
 	V4LFrame->expose = 1000;
-	V4LFrame->Y      = getY();
-	V4LFrame->U      = getU();
-	V4LFrame->V      = getV();
+	/*V4LFrame->Y      = v4l_base->getY();
+	V4LFrame->U      = v4l_base->getU();
+	V4LFrame->V      = v4l_base->getV();*/
+
+        v4l_base->start_capturing(errmsg);
+        ExposeTimeNP.s   = IPS_BUSY;
+	IDSetNumber(&ExposeTimeNP, NULL);
 	
-        if (grabImage() < 0)
+        /*if (grabImage() < 0)
 	{
 	 ExposeTimeNP.s   = IPS_IDLE;
 	 IDSetNumber(&ExposeTimeNP, NULL);
-	}
+	}*/
 	  
 	
      return;
@@ -394,6 +475,41 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       
   
   	
+}
+
+void newFrame(void */*p*/)
+{
+  char errmsg[ERRMSGSIZ];
+  static int dropLarge = 3;
+
+  V4LFrame->Y      = v4l_base->getY();
+  V4LFrame->U      = v4l_base->getU();
+  V4LFrame->V      = v4l_base->getV();
+
+  if (StreamSP.s == IPS_BUSY)
+  {
+      frameCount++;
+
+     // Drop some frames
+     if (ImageSizeN[0].value > 160)
+     {
+        dropLarge--;
+        if (dropLarge == 0)
+        {
+          dropLarge = 3;
+          return;
+        }
+        else if (dropLarge < 2) return;
+        
+      }
+     updateStream(NULL);
+  }
+  else if (ExposeTimeNP.s == IPS_BUSY)
+  {
+     v4l_base->stop_capturing(errmsg);
+     grabImage();
+  }
+
 }
 
 /* Downloads the image from the CCD row by row and store them
@@ -431,8 +547,6 @@ int writeFITS(const char * filename, char errmsg[])
   long nbytes;
   FITS_HDU_LIST *hdu;
   
-  IDLog("in writeFITS with filename %s\n", filename);
-  
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
@@ -440,8 +554,8 @@ int writeFITS(const char * filename, char errmsg[])
     return (-1);
   }
   
-  width  = getWidth();
-  height = getHeight();
+  width  = v4l_base->getWidth();
+  height = v4l_base->getHeight();
   bpp    = 1;                      /* Bytes per Pixel */
   bpsl   = bpp * width;    	   /* Bytes per Line */
   nbytes = 0;
@@ -482,7 +596,6 @@ int writeFITS(const char * filename, char errmsg[])
   /* Success */
  ExposeTimeNP.s = IPS_OK;
  IDSetNumber(&ExposeTimeNP, NULL);
- IDLog("Loading FITS image...\n");
  
  uploadFile(filename);
   
@@ -497,27 +610,66 @@ void getBasicData()
 
   int xmax, ymax, xmin, ymin;
   
-  getMaxMinSize(xmax, ymax, xmin, ymin);
+  v4l_base->getMaxMinSize(xmax, ymax, xmin, ymin);
   
   /* Width */
-  ImageSizeN[0].value = getWidth();
+  ImageSizeN[0].value = v4l_base->getWidth();
   ImageSizeN[0].min = xmin;
   ImageSizeN[0].max = xmax;
   
   /* Height */
-  ImageSizeN[1].value = getHeight();
+  ImageSizeN[1].value = v4l_base->getHeight();
   ImageSizeN[1].min = ymin;
   ImageSizeN[1].max = ymax;
   
   IUUpdateMinMax(&ImageSizeNP);
   IDSetNumber(&ImageSizeNP, NULL);
   
-  strncpy(camNameT[0].text, getDeviceName(), MAXINDILABEL);
+  IUSaveText(&camNameT[0], v4l_base->getDeviceName());
   IDSetText(&camNameTP, NULL);
-  
-  updateImageSettings();
-  
+
+   #ifndef HAVE_LINUX_VIDEODEV2_H
+     updateV4L1Controls();
+   #else
+    updateV4L2Controls();
+   #endif
+   
 }
+
+void updateV4L2Controls()
+{
+    #ifdef HAVE_LINUX_VIDEODEV2_H
+    char errmsg[ERRMSGSIZ];
+
+    //IDLog("in updateV4L2Controls\n");
+
+    // #1 Query for INTEGER controls, and fill up the structure
+      free(ImageAdjustNP.np);
+      ImageAdjustNP.nnp = 0;
+      
+   if (v4l_base->queryINTControls(&ImageAdjustNP) > 0)
+      IDDefNumber(&ImageAdjustNP, NULL);
+    #endif
+
+/*    if (v4l_base->query_ctrl(V4L2_CID_CONTRAST, ImageAdjustN[0].min, ImageAdjustN[0].max, ImageAdjustN[0].step, ImageAdjustN[0].value, errmsg))
+        IDLog("Contract: %s\n", errmsg);
+       
+    if (v4l_base->query_ctrl(V4L2_CID_BRIGHTNESS, ImageAdjustN[1].min, ImageAdjustN[1].max, ImageAdjustN[1].step, ImageAdjustN[1].value, errmsg))
+       IDLog("Brightness: %s\n", errmsg);
+    
+    if (v4l_base->query_ctrl(V4L2_CID_HUE, ImageAdjustN[2].min, ImageAdjustN[2].max, ImageAdjustN[2].step, ImageAdjustN[2].value, errmsg))
+        IDLog("Hue: %s\n", errmsg);
+    
+    if (v4l_base->query_ctrl(V4L2_CID_SATURATION, ImageAdjustN[3].min, ImageAdjustN[3].max, ImageAdjustN[3].step, ImageAdjustN[3].value, errmsg))
+       IDLog("%s\n", errmsg);
+    
+    if (v4l_base->query_ctrl(V4L2_CID_WHITENESS, ImageAdjustN[4].min, ImageAdjustN[4].max, ImageAdjustN[4].step, ImageAdjustN[4].value, errmsg))
+       IDLog("%s\n", errmsg);
+    
+   IUUpdateMinMax(&ImageAdjustNP);*/
+
+}
+
 
 int checkPowerS(ISwitchVectorProperty *sp)
 {
@@ -575,13 +727,13 @@ int checkPowerT(ITextVectorProperty *tp)
 
 void connectV4L()
 {
-  char errmsg[1024];
+  char errmsg[ERRMSGSIZ];
   
     
   switch (PowerS[0].s)
   {
      case ISS_ON:
-      if (connectCam(PortT[0].text, errmsg))
+      if (v4l_base->connectCam(PortT[0].text, errmsg) < 0)
       {
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
@@ -596,6 +748,8 @@ void connectV4L()
       PowerS[1].s = ISS_OFF;
       PowerSP.s = IPS_OK;
       IDSetSwitch(&PowerSP, "Video4Linux Generic Device is online. Retrieving basic data.");
+
+      v4l_base->registerCallback(newFrame);
       
       V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
       
@@ -618,7 +772,7 @@ void connectV4L()
       
       free(V4LFrame->compressedFrame);
       V4LFrame->compressedFrame = NULL;
-      disconnectCam();
+      v4l_base->disconnectCam();
       
       IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
       
@@ -640,7 +794,7 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  tp = gmtime (&t);
  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
  
- snprintf(instrumentName, 80, "INSTRUME= '%s'", getDeviceName());
+ snprintf(instrumentName, 80, "INSTRUME= '%s'", v4l_base->getDeviceName());
  snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
 
  hdulist = fits_add_hdu (ofp);
@@ -669,49 +823,64 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
 }
 
 
-void updateStream(void *p)
+void updateStream(void */*p*/)
 {
  
-   int width  = getWidth();
-   int height = getHeight();
+   int width  = v4l_base->getWidth();
+   int height = v4l_base->getHeight();
    uLongf compressedBytes = 0;
-   uLong  totalBytes;
+   uLong totalBytes;
    unsigned char *targetFrame;
    int r;
-   p=p;
+   char errmsg[ERRMSGSIZ];
    
-   V4LFrame->Y      		= getY();
-   V4LFrame->U      		= getU();
-   V4LFrame->V      		= getV();
-   V4LFrame->colorBuffer 	= getColorBuffer();
+   if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
+   
+   V4LFrame->Y      		= v4l_base->getY();
+   V4LFrame->U      		= v4l_base->getU();
+   V4LFrame->V      		= v4l_base->getV();
+   V4LFrame->colorBuffer 	= v4l_base->getColorBuffer();
   
    totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
    targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;
+
+   /* Do we want to compress ? */
+    if (CompressS[0].s == ISS_ON)
+    {   
+   	/* Compress frame */
+   	V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
    
-   /* Compress frame */
-   V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
+   	compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
    
-   compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
+   	r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
+   	if (r != Z_OK)
+   	{
+	 	/* this should NEVER happen */
+	 	IDLog("internal error - compression failed: %d\n", r);
+		return;
+   	}
    
-   r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, VIDEO_COMPRESSION_LEVEL);
-   if (r != Z_OK)
-   {
- 	/* this should NEVER happen */
- 	IDLog("internal error - compression failed: %d\n", r);
-	return;
-   }
-   
-   /* #3 Send it */
-   imageB.blob = V4LFrame->compressedFrame;
-   imageB.bloblen = compressedBytes;
-   imageB.size = totalBytes;
-   strcpy(imageB.format, ".stream.z");
+   	/* #3.A Send it compressed */
+   	imageB.blob = V4LFrame->compressedFrame;
+   	imageB.bloblen = compressedBytes;
+   	imageB.size = totalBytes;
+   	strcpy(imageB.format, ".stream.z");
+     }
+     else
+     {
+       /* #3.B Send it uncompressed */
+        imageB.blob = targetFrame;
+   	imageB.bloblen = totalBytes;
+   	imageB.size = totalBytes;
+   	strcpy(imageB.format, ".stream");
+     }
+        
    imageBP.s = IPS_OK;
    IDSetBLOB (&imageBP, NULL);
-  
-  if (streamTimerID != -1)
-    	streamTimerID = addTimer(1000/ (int) FrameRateN[0].value, updateStream, NULL);
- 
+   
+   #ifndef HAVE_LINUX_VIDEODEV2_H
+      v4l_base->start_capturing(errmsg);
+   #endif
 }
 
 void uploadFile(const char * filename)
@@ -751,6 +920,8 @@ void uploadFile(const char * filename)
      }
    }
    
+   if (CompressS[0].s == ISS_ON)
+   {   
    /* #2 Compress it */
    V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
    
@@ -764,29 +935,46 @@ void uploadFile(const char * filename)
  	IDLog("internal error - compression failed: %d\n", r);
 	return;
    }
-   
-   /* #3 Send it */
+
+   /* #3.A Send it compressed */
    imageB.blob = V4LFrame->compressedFrame;
    imageB.bloblen = compressedBytes;
    imageB.size = totalBytes;
    strcpy(imageB.format, ".fits.z");
+   }
+   else
+   {
+     imageB.blob = fitsData;
+     imageB.bloblen = totalBytes;
+     imageB.size = totalBytes;
+     strcpy(imageB.format, ".fits");
+   }
+   
    imageBP.s = IPS_OK;
    IDSetBLOB (&imageBP, NULL);
    
    delete (fitsData);
-}
+} 
 
-void updateImageSettings()
+void updateV4L1Controls()
 {
 
-  ImageAdjustN[0].value = getContrast() / 128.;
-  ImageAdjustN[1].value = getBrightness() / 128.;
-  ImageAdjustN[2].value = getHue() / 128.;
-  ImageAdjustN[3].value = getColor() / 128.;
-  ImageAdjustN[4].value = getWhiteness() / 128.;
+  #ifndef HAVE_LINUX_VIDEODEV2_H
+  if ( (v4l_base->getContrast() / divider) > ImageAdjustN[0].max)
+      divider *=2;
+
+  if ( (v4l_base->getHue() / divider) > ImageAdjustN[2].max)
+      divider *=2;
+
+  ImageAdjustN[0].value = v4l_base->getContrast() / divider;
+  ImageAdjustN[1].value = v4l_base->getBrightness() / divider;
+  ImageAdjustN[2].value = v4l_base->getHue() / divider;
+  ImageAdjustN[3].value = v4l_base->getColor() / divider;
+  ImageAdjustN[4].value = v4l_base->getWhiteness() / divider;
 
   ImageAdjustNP.s = IPS_OK;
   IDSetNumber(&ImageAdjustNP, NULL);
+  #endif
 
 }
 

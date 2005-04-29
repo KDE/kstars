@@ -527,6 +527,7 @@ void IUUpdateMinMax(INumberVectorProperty *nvp)
     printf ("  <oneNumber name='%s'\n", np->name);
     printf ("    min='%g'\n", np->min);
     printf ("    max='%g'\n", np->max);
+    printf ("    step='%g'\n", np->step);
     printf(">\n");
     printf ("      %g\n", np->value);
     printf ("  </oneNumber>\n");

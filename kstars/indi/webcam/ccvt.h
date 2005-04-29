@@ -21,6 +21,15 @@
 
 /* 
  $Log$
+ Revision 1.3  2004/06/26 23:12:03  mutlaqja
+ Hopefully this will fix compile issues on 64bit archs, and FreeBSD, among others. The assembly code is replaced with a more portable, albeit slower C implementation. I imported the videodev.h header after cleaning it for user space.
+
+ Anyone who has problems compiling this, please report the problem to kstars-devel@kde.org
+
+ I noticed one odd thing after updating my kdelibs, the LEDs don't change color when state is changed. Try that by starting any INDI device, and hit connect, if the LED turns to yellow and back to grey then it works fine, otherwise, we've got a problem.
+
+ CCMAIL: kstars-devel@kde.org
+
  Revision 1.10  2003/10/24 16:55:18  nemosoft
  removed erronous log messages
 
@@ -101,6 +110,7 @@ void ccvt_rgb24_rgb32(int width, int height, const void *const src, void *const 
 void ccvt_rgb32_bgr24(int width, int height, const void *const src, void *const dst);
 void ccvt_rgb32_rgb24(int width, int height, const void *const src, void *const dst);
 
+int RGB2YUV (int x_dim, int y_dim, void *bmp, void *y_out, void *u_out, void *v_out, int flip);
 
 #ifdef __cplusplus
 }
