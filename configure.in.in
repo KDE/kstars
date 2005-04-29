@@ -1,0 +1,106 @@
+dnl KStars configuration
+
+timezone_int=no
+AC_TRY_COMPILE(
+	#include <time.h>
+	,
+	daylight = 0;
+	timezone = 0;
+	,
+	AC_DEFINE(TIMEZONE_IS_INT,1,[The symbol timezone is an int, not a function])
+	,
+	AC_DEFINE(TIMEZONE_IS_INT,0,[The symbol timezone is an int, not a function])
+	)
+
+# KStars INDI driver for the FLI CCD
+case "${host_os}" in
+       *linux* ) OSDIR=linux ;;
+       *bsd*   ) OSDIR=bsd   ;;
+       *       ) OSDIR=null  ;;
+esac
+
+# This variable to is check for the availability of libusb
+have_libusb="no"
+
+dnl --enable-libusb=PATH
+AC_ARG_ENABLE(libusb,
+	AC_HELP_STRING([--enable-libusb=PATH],[libusb path (default /usr)]),
+	[
+		case ${enableval} in
+			"" | "yes" | "YES")
+				;;
+			"no" | "NO")
+				use_libusb=false
+				;;
+			*)
+				CPPFLAGS="$CPPFLAGS -I${enableval}/include"
+				LDFLAGS="$LDFLAGS -L${enableval}/lib"
+				;;
+		esac
+	]
+)
+
+dnl check if libusb is available
+if test "${use_libusb}" != false ; then
+	AC_SUBST(LIBUSB)
+	AC_CHECK_HEADERS(usb.h, [have_libusb="yes"],
+		[ AC_MSG_WARN([usb.h not found, use --enable-libusb=PATH. Otherwise, INDI will compile without Apogee USB support.]) ])
+
+	ac_save_LIBS="$LIBS"
+	LIBS="$LIBS $COREFOUNDATION $IOKIT"
+	AC_CHECK_LIB(usb, usb_init, [LIBUSB="$LIBUSB -lusb" have_libusb="yes"],
+		[ AC_MSG_WARN([libusb not found. INDI will compile without Apogee USB support.]) ])
+	LIBS="$ac_save_LIBS"
+
+fi
+
+dnl check if v4l2 is available
+have_v4l2=false
+case "$target" in
+   *-*-linux*)
+	AC_ARG_ENABLE(v4l2,
+	              [AC_HELP_STRING([--disable-v4l2],
+		                      [disable V4L2 interface for KStars])],
+		      [ case "${enableval}" in
+		        no)  disable_v4l2=yes ;;
+			yes) disable_v4l2=no ;;
+			 *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2) ;;
+			 esac],
+		      [disable_v4l2=no])
+        if test x$disable_v4l2 = xno; then
+	  AC_CHECK_TYPE([struct v4l2_buffer], 
+                        [have_v4l2=true],
+	                [have_v4l2=false],
+		        [#include <sys/time.h>
+#include <linux/videodev.h>])
+	 if test x$have_v4l2 = xfalse; then
+	    KERNEL_VERSION=`uname -r`
+	    AC_CHECK_FILE(/lib/modules/$KERNEL_VERSION/build/include/linux/videodev2.h,
+	                  [AC_MSG_WARN([])
+			   AC_MSG_WARN([])
+			  AC_MSG_WARN([We cannot locate videodev2.h in /usr/include/linux])
+			  AC_MSG_WARN([])
+			  AC_MSG_WARN([This file is responsible for V4L2 in KStars])
+			   AC_MSG_WARN([This file is correct in /lib/modules/$KERNEL_VERSION/build/include])
+			   AC_MSG_WARN([It is recommended that you copy this file and videodev.h to /usr/include/linux])
+			   AC_MSG_WARN([])
+			   ])
+	  fi
+        else
+            have_v4l2=false
+        fi
+	;;
+    *)
+	;;
+   esac
+
+if test x$have_v4l2 = xtrue; then
+  AC_DEFINE(HAVE_LINUX_VIDEODEV2_H, 1, [Define to 1 if you have the <linux/videodev2.h> header file.])
+fi
+
+AM_CONDITIONAL(BSD, test x$OSDIR = xbsd)
+AM_CONDITIONAL(LINUX, test x$OSDIR = xlinux)
+AM_CONDITIONAL(NULL, test x$OSDIR = xnull)
+AM_CONDITIONAL(HAVE_LIBUSB, test x$have_libusb = xyes)
+AM_CONDITIONAL(HAVE_V4L2, [test x$have_v4l2 = xtrue])
+
