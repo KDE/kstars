@@ -43,8 +43,8 @@
 		<Exec>apmount</Exec>
 		<Version>0.1</Version>
 	</device>
-	<device label="Astro-Electronic FS-2" driver="Astro-Physics">
-		<Exec>apmount</Exec>
+	<device label="Astro-Electronic FS-2" driver="LX200 Generic">
+		<Exec>lx200generic</Exec>
 		<Version>0.1</Version>
 	</device>
 	<device label="Losmandy Gemini" driver="LX200 Generic">
@@ -88,6 +88,10 @@
 	<device label="Philips Webcam" driver="v4lphilips">
 		<Exec>v4lphilips</Exec>
 		<Version>1.0</Version>
+	</device>
+	<device label="Meade LPI" driver="v4ldriver">
+		<Exec>v4ldriver</Exec>
+		<Version>0.1</Version>
 	</device>
 </devGroup>
 
