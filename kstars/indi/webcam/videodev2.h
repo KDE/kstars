@@ -36,7 +36,7 @@ enum v4l2_field {
 	V4L2_FIELD_SEQ_TB     = 5, /* both fields sequential into one
 				      buffer, top-bottom order */
 	V4L2_FIELD_SEQ_BT     = 6, /* same as above + bottom-top order */
-	V4L2_FIELD_ALTERNATE  = 7, /* both fields alternating into
+	V4L2_FIELD_ALTERNATE  = 7  /* both fields alternating into
 				      separate buffers */
 };
 #define V4L2_FIELD_HAS_TOP(field)	\
@@ -60,25 +60,25 @@ enum v4l2_buf_type {
 	V4L2_BUF_TYPE_VIDEO_OVERLAY  = 3,
 	V4L2_BUF_TYPE_VBI_CAPTURE    = 4,
 	V4L2_BUF_TYPE_VBI_OUTPUT     = 5,
-	V4L2_BUF_TYPE_PRIVATE        = 0x80,
+	V4L2_BUF_TYPE_PRIVATE        = 0x80
 };
 
 enum v4l2_ctrl_type {
 	V4L2_CTRL_TYPE_INTEGER	     = 1,
 	V4L2_CTRL_TYPE_BOOLEAN	     = 2,
 	V4L2_CTRL_TYPE_MENU	     = 3,
-	V4L2_CTRL_TYPE_BUTTON	     = 4,
+	V4L2_CTRL_TYPE_BUTTON	     = 4
 };
 
 enum v4l2_tuner_type {
 	V4L2_TUNER_RADIO	     = 1,
-	V4L2_TUNER_ANALOG_TV	     = 2,
+	V4L2_TUNER_ANALOG_TV	     = 2
 };
 
 enum v4l2_memory {
 	V4L2_MEMORY_MMAP             = 1,
 	V4L2_MEMORY_USERPTR          = 2,
-	V4L2_MEMORY_OVERLAY          = 3,
+	V4L2_MEMORY_OVERLAY          = 3
 };
 
 /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
@@ -106,7 +106,7 @@ enum v4l2_colorspace {
 	V4L2_COLORSPACE_JPEG          = 7,
 	
 	/* For RGB colourspaces, this is probably a good start. */
-	V4L2_COLORSPACE_SRGB          = 8,
+	V4L2_COLORSPACE_SRGB          = 8
 };
 
 enum v4l2_priority {
@@ -114,7 +114,7 @@ enum v4l2_priority {
 	V4L2_PRIORITY_BACKGROUND  = 1,
 	V4L2_PRIORITY_INTERACTIVE = 2,
 	V4L2_PRIORITY_RECORD      = 3,
-	V4L2_PRIORITY_DEFAULT     = V4L2_PRIORITY_INTERACTIVE,
+	V4L2_PRIORITY_DEFAULT     = V4L2_PRIORITY_INTERACTIVE
 };
 
 struct v4l2_rect {
