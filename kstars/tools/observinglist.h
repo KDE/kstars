@@ -81,7 +81,7 @@ public slots:
 /**@short Remove skyobjects which are highlighted in the 
 	*observing list tool from the observing list.
 	*/
-							void slotRemoveObjects();
+	void slotRemoveObjects();
 
 /**@short Remove skyobject from the observing list.
 	*@p o pointer to the SkyObject to be removed.
@@ -112,6 +112,18 @@ public slots:
 	*/
 	void slotNewSelection();
 
+/**@short load an observing list from disk.
+	*/
+	void slotOpenList();
+
+/**@short save the current observing list to disk.
+	*/
+	void slotSaveList();
+
+/**@short save the current observing list to disk, specify filename.
+	*/
+	void slotSaveListAs();
+
 /**@short Save the user log text to a file.
 	*@note the log is attached to the current object in obsList.
 	*/
@@ -127,6 +139,9 @@ private:
 	QPtrList<SkyObject> SelectedObjects;
 	SkyObject *LogObject;
 	uint noNameStars;
+
+	bool isModified;
+	QString ListName, FileName;
 };
 
 #endif // OBSERVINGLIST_H

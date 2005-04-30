@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <stdio.h>
+#include <qfile.h>
+#include <qdir.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qstringlist.h>
@@ -23,7 +25,13 @@
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
+#include <kinputdialog.h>
+#include <kicontheme.h>
+#include <kiconloader.h>
+#include <kio/netaccess.h>
 #include <kmessagebox.h>
+#include <kfiledialog.h>
+#include <ktempfile.h>
 #include <klineedit.h>
 
 #include "observinglist.h"
@@ -43,14 +51,15 @@
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), noNameStars(0)
+				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), noNameStars(0), isModified(false)
 {
 	QFrame *page = plainPage();
-//	setMainWidget( page );
-	QHBoxLayout *hlay = new QHBoxLayout( page, 0, spacingHint() );
+	setMainWidget( page );
+	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	ui = new ObservingListUI( page );
-	hlay->addWidget( ui );
-  
+	vlay->addWidget( ui );
+  vlay->addSpacing( 12 );
+
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
 	connect( ui->table, SIGNAL( selectionChanged() ), 
@@ -66,8 +75,21 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	connect( ui->AVTButton, SIGNAL( clicked() ), 
 			this, SLOT( slotAVT() ) );
 
+	connect( ui->OpenButton, SIGNAL( clicked() ), 
+			this, SLOT( slotOpenList() ) );
+	connect( ui->SaveButton, SIGNAL( clicked() ),
+			this, SLOT( slotSaveList() ) );
+	connect( ui->SaveAsButton, SIGNAL( clicked() ),
+			this, SLOT( slotSaveListAs() ) );
+
 	obsList.setAutoDelete( false ); //do NOT delete removed pointers!
 	
+	//Add icons to Push Buttons
+	KIconLoader *icons = KGlobal::iconLoader();
+	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
+	ui->SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
+	ui->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
+
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
 	ui->DetailsButton->setEnabled( false );
@@ -92,6 +114,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 
 	//Insert object in obsList
 	obsList.append( obj );
+	if ( ! isModified ) isModified = true; 
 
 	//Insert object entry in table
 	new KListViewItem( ui->table, obj->translatedName(), 
@@ -101,7 +124,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 			obj->typeName() );
 
 	//Note addition in statusbar
-	ks->statusBar()->changeItem( i18n( "Added %1 to observing list." ).arg( ks->map()->clickedObject()->name() ), 0 );
+	ks->statusBar()->changeItem( i18n( "Added %1 to observing list." ).arg( obj->name() ), 0 );
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
@@ -109,6 +132,8 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 		o = ks->map()->clickedObject();
 	
 	obsList.remove(o);
+	if ( ! isModified ) isModified = true;
+
 	if ( o == LogObject ) 
 		saveCurrentUserLog();
 		
@@ -149,20 +174,13 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 void ObservingList::slotRemoveObjects() {
 	if ( SelectedObjects.count() == 0) return;
 	
-	for ( SkyObject *o = SelectedObjects.first(); o; o = SelectedObjects.next() ) {
-		//DEBUG
-		kdDebug() << o->translatedName() << endl;
-		
+	for ( SkyObject *o = SelectedObjects.first(); o; o = SelectedObjects.next() ) 
 		slotRemoveObject( o );
-	} //end for-loop over SelectedObjects
 
 	slotNewSelection();
 }
 
 void ObservingList::slotNewSelection() {
-	//DEBUG
-	kdDebug() << "selected item changed" << endl;
-
 	//Construct list of selected objects
 	SelectedObjects.clear();
 	QListViewItemIterator it( ui->table, QListViewItemIterator::Selected ); //loop over selected items
@@ -376,6 +394,109 @@ void ObservingList::saveCurrentUserLog() {
 		ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
 		LogObject = NULL;
 	}
+}
+
+void ObservingList::slotOpenList() {
+	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
+	QFile f;
+
+	if ( fileURL.isValid() ) {
+		if ( ! fileURL.isLocalFile() ) {
+			//Save remote list to a temporary local file
+			KTempFile tmpfile;
+			tmpfile.setAutoDelete(true);
+			FileName = tmpfile.name();
+			if( KIO::NetAccess::download( fileURL, FileName, this ) ) 
+				f.setName( FileName );
+
+		} else {
+			FileName = fileURL.path();
+			f.setName( FileName );
+		}
+
+		if ( !f.open( IO_ReadOnly) ) {
+			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			return;
+		}
+
+		//Before loading a new list, do we need to save the current one?
+		//Assume that if the list is empty, then there's no need to save
+		if ( obsList.count() ) {
+			if ( isModified ) {
+				QString message = i18n( "Do you want to save the current list before opening a new list?" );
+				if ( KMessageBox::questionYesNo( this, message, 
+						i18n( "Save current list?" ) ) == KMessageBox::Yes )
+					slotSaveList();
+			}
+
+			//If we ever allow merging the loaded list with 
+			//the existing one, that code would go here
+			obsList.clear();
+		}
+
+		//First line is the name of the list.  The rest of the file should 
+		//be object names, one per line.
+		QTextStream istream(&f);
+		QString line;
+		ListName = istream.readLine();
+
+		while ( ! istream.eof() ) {
+			line = istream.readLine();
+			SkyObject *o = ks->data()->objectNamed( line );
+			if ( o ) slotAddObject( o );
+		}
+
+		f.close();
+
+	} else if ( fileURL.path() != "" ) {
+		QString message = i18n( "The specified file is invalid.  Try another file?" );
+		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid file") ) == KMessageBox::Yes ) {
+			slotOpenList();
+		}
+	}
+}
+
+void ObservingList::slotSaveListAs() {
+	bool ok(false);
+	ListName = KInputDialog::getText( i18n( "Enter list name" ), 
+			i18n( "List Name:" ), "", &ok );
+
+	if ( ok ) {
+		KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
+
+		if ( fileURL.isValid() ) 
+			FileName = fileURL.path();
+	}
+
+	slotSaveList();
+}
+
+void ObservingList::slotSaveList() {
+	if ( ListName.isEmpty() || FileName.isEmpty() ) {
+		slotSaveListAs();
+		return;
+	}
+
+	QFile f( FileName );
+	if ( !f.open( IO_WriteOnly) ) {
+		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
+		
+		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ) ) == KMessageBox::Yes ) {
+			FileName == "";
+			slotSaveList();
+		}
+		return;
+	}
+	
+	QTextStream ostream(&f);
+	ostream << ListName << endl;
+	for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
+		ostream << o->name() << endl;
+	}
+
+	f.close();
+	isModified = false;
 }
 
 #include "observinglist.moc"
