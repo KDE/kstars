@@ -188,13 +188,14 @@ void GeoLocation::TopocentricVelocity(double vtopo[], dms gst) {
 	dms angularVEarth;
 	
 	dms time= GSTtoLST(gst);
-	angularVEarth.setRadians(time.Hours()*Wearth*3600.);
+	// angularVEarth.setRadians(time.Hours()*Wearth*3600.);
 	double se, ce;
-	angularVEarth.SinCos(se,ce);
+	// angularVEarth.SinCos(se,ce);
+	time.SinCos(se,ce);
 
 	double d0 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
 	// km/s
-	vtopo[0] = d0 * Wearth * se /1000.;
+	vtopo[0] = - d0 * Wearth * se /1000.;
 	vtopo[1] = d0 * Wearth * ce /1000.;
 	vtopo[2] = 0.;
 }
