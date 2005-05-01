@@ -117,10 +117,12 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! isModified ) isModified = true; 
 
 	//Insert object entry in table
+	QString smag("--");
+	if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
 	new KListViewItem( ui->table, obj->translatedName(), 
 			obj->ra()->toHMSString(),
 			obj->dec()->toDMSString(),
-			QString::number( obj->mag(), 'g', 2 ),
+			smag,
 			obj->typeName() );
 
 	//Note addition in statusbar
