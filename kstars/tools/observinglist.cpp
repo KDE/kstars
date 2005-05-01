@@ -338,7 +338,7 @@ void ObservingList::slotSlewToObject()
        if (useJ2000)
 	 sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
 
-           // Use J2000 coordinate as required by INDI
+       // Use JNow coordinate as required by INDI
        RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
        DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
        

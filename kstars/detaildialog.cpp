@@ -27,6 +27,7 @@
 #include <kactivelabel.h>
 #include <kpushbutton.h>
 #include <klistview.h>
+#include <klineedit.h>
 
 #include "detaildialog.h"
 //UI headers
@@ -48,6 +49,12 @@
 #include "ksplanetbase.h"
 #include "ksmoon.h"
 #include "thumbnailpicker.h"
+
+#include "indielement.h"
+#include "indiproperty.h"
+#include "indidevice.h"
+#include "indimenu.h"
+#include "devicemanager.h"
 
 LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
@@ -85,7 +92,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	//Connections
 	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
 	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
-	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
+	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
 	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 }
 
@@ -887,8 +894,71 @@ void DetailDialog::centerMap() {
 	ksw->map()->slotCenter();
 }
 
-void DetailDialog::centerTelescope() {
-	//FIXME: point telescope at selectedObject
+void DetailDialog::centerTelescope()
+{
+
+  INDI_D *indidev;
+  INDI_P *eqCoord, *onSet;
+  INDI_E *RAEle, *DecEle, *ConnectEle;
+  bool useJ2000( false);
+  SkyPoint sp;
+  
+  // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
+  // i.e. the first telescope we find!
+  
+  INDIMenu *imenu = ksw->getINDIMenu();
+  
+  for (unsigned int i=0; i < imenu->mgr.count() ; i++)
+  {
+    for (unsigned int j=0; j < imenu->mgr.at(i)->indi_dev.count(); j++)
+    {
+       indidev = imenu->mgr.at(i)->indi_dev.at(j);
+       eqCoord = indidev->findProp("EQUATORIAL_EOD_COORD");
+       if (eqCoord == NULL)
+       {
+	 eqCoord = indidev->findProp("EQUATORIAL_COORD");
+	 useJ2000 = true;
+       }
+       
+       if (eqCoord == NULL) continue;
+       
+       ConnectEle = indidev->findElem("CONNECT");
+       if (!ConnectEle) continue;
+       
+       if (ConnectEle->state == PS_OFF)
+       {
+	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.").arg(indidev->label));
+	 return;
+       }
+
+       RAEle = eqCoord->findElement("RA");
+       if (!RAEle) continue;
+       DecEle = eqCoord->findElement("DEC");
+       if (!DecEle) continue;
+       
+       onSet = indidev->findProp("ON_COORD_SET");
+       if (!onSet) continue;
+       
+       onSet->activateSwitch("SLEW");
+       
+       sp.set (selectedObject->ra(), selectedObject->dec());
+       
+       if (useJ2000)
+	 sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+
+       // Use JNow coordinate as required by INDI
+       RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+       DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+       
+       eqCoord->newText();
+       
+       return;
+    }
+  }
+       
+  // We didn't find any telescopes
+  KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+	
 }
 
 void DetailDialog::showThumbnail() {
