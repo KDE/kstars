@@ -433,6 +433,7 @@ void ObservingList::slotOpenList() {
 			//If we ever allow merging the loaded list with 
 			//the existing one, that code would go here
 			obsList.clear();
+			ui->table->clear();
 		}
 
 		//First line is the name of the list.  The rest of the file should 
@@ -446,6 +447,9 @@ void ObservingList::slotOpenList() {
 			SkyObject *o = ks->data()->objectNamed( line );
 			if ( o ) slotAddObject( o );
 		}
+
+		//Newly-opened list should not trigger isModified flag
+		isModified = false;
 
 		f.close();
 
@@ -467,9 +471,9 @@ void ObservingList::slotSaveListAs() {
 
 		if ( fileURL.isValid() ) 
 			FileName = fileURL.path();
-	}
 
-	slotSaveList();
+		slotSaveList();
+	}
 }
 
 void ObservingList::slotSaveList() {
