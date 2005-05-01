@@ -59,11 +59,12 @@ V4L2_Base::V4L2_Base()
    buffers      = NULL;
    n_buffers    = 0;
 
-   YBuf       = NULL;
-   UBuf       = NULL;
-   VBuf       = NULL;
-   colorBuffer= NULL;
-   callback    = NULL;
+   YBuf         = NULL;
+   UBuf         = NULL;
+   VBuf         = NULL;
+   colorBuffer  = NULL;
+   rgb24_buffer = NULL;
+   callback     = NULL;
 
 }
 
@@ -74,6 +75,7 @@ V4L2_Base::~V4L2_Base()
   delete (UBuf);
   delete (VBuf);
   delete (colorBuffer);
+  delete (rgb24_buffer);
 
 }
 
@@ -97,7 +99,7 @@ int V4L2_Base::errno_exit(const char *s, char *errmsg)
         return -1;
 } 
 
-int V4L2_Base::connectCam(const char * devpath, char *errmsg)
+int V4L2_Base::connectCam(const char * devpath, char *errmsg , int pixelFormat , int width , int height )
 {
    frameRate=10;
    selectCallBackID = -1;
@@ -106,10 +108,10 @@ int V4L2_Base::connectCam(const char * devpath, char *errmsg)
     if (-1 == open_device (devpath, errmsg))
       return -1;
 
-    if (-1 == init_device(errmsg))
+    if (-1 == init_device(errmsg, pixelFormat, width, height))
       return -1;
 
-   cerr << "All successful, returning\n";
+   cerr << "V4L 2 - All successful, returning\n";
    return fd;
 }
 
@@ -197,6 +199,11 @@ int V4L2_Base::read_frame(char *errmsg)
 
                  case V4L2_PIX_FMT_RGB24:
 			RGB2YUV(fmt.fmt.pix.width, fmt.fmt.pix.height, buffers[buf.index].start, YBuf, UBuf, VBuf, 0);
+                        break;
+
+                 case V4L2_PIX_FMT_SBGGR8:
+                         bayer2rgb24(rgb24_buffer, ((unsigned char *) buffers[buf.index].start), fmt.fmt.pix.width, fmt.fmt.pix.height);
+                         break;
                 }
 
 		if (-1 == xioctl (fd, VIDIOC_QBUF, &buf))
@@ -500,7 +507,7 @@ void V4L2_Base::init_userp(unsigned int buffer_size)
         }
 }
 
-int V4L2_Base::init_device(char *errmsg)
+int V4L2_Base::init_device(char *errmsg, int pixelFormat , int width, int height)
 {
 	unsigned int min;
 
@@ -576,10 +583,10 @@ int V4L2_Base::init_device(char *errmsg)
         CLEAR (fmt);
 
         fmt.type                = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        fmt.fmt.pix.width       = 160; 
-        fmt.fmt.pix.height      = 120;
-        fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
-        fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
+        fmt.fmt.pix.width       = width; 
+        fmt.fmt.pix.height      = height;
+        fmt.fmt.pix.pixelformat = pixelFormat;
+        //fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
 
         if (-1 == xioctl (fd, VIDIOC_S_FMT, &fmt))
                 return errno_exit ("VIDIOC_S_FMT", errmsg);
@@ -700,15 +707,19 @@ char * V4L2_Base::getDeviceName()
 
 void V4L2_Base::allocBuffers()
 {
-   delete YBuf;
-   delete UBuf;
-   delete VBuf;
-   delete colorBuffer;
+   delete (YBuf); YBuf = NULL;
+   delete (UBuf); UBuf = NULL;
+   delete (VBuf); VBuf = NULL;
+   delete (colorBuffer); colorBuffer = NULL;
+   delete (rgb24_buffer); rgb24_buffer = NULL;
    
    YBuf= new unsigned char[ fmt.fmt.pix.width * fmt.fmt.pix.height];
    UBuf= new unsigned char[ fmt.fmt.pix.width * fmt.fmt.pix.height];
    VBuf= new unsigned char[ fmt.fmt.pix.width * fmt.fmt.pix.height];
    colorBuffer = new unsigned char[fmt.fmt.pix.width * fmt.fmt.pix.height * 4];
+
+   if (fmt.fmt.pix.pixelformat == V4L2_PIX_FMT_SBGGR8)
+     rgb24_buffer = new unsigned char[fmt.fmt.pix.width * fmt.fmt.pix.height * 3];
 }
 
 void V4L2_Base::getMaxMinSize(int & x_max, int & y_max, int & x_min, int & y_min)
@@ -818,6 +829,9 @@ void V4L2_Base::getPictureSettings()
 
 unsigned char * V4L2_Base::getY()
 {
+  if (fmt.fmt.pix.pixelformat == V4L2_PIX_FMT_SBGGR8)
+      RGB2YUV(fmt.fmt.pix.width, fmt.fmt.pix.height, rgb24_buffer, YBuf, UBuf, VBuf, 0);
+
   return YBuf;
 }
 
@@ -852,6 +866,11 @@ unsigned char * V4L2_Base::getColorBuffer()
                       buffers[0].start, (void*)colorBuffer);
          break;
 
+    case V4L2_PIX_FMT_SBGGR8:
+         ccvt_rgb24_bgr32(fmt.fmt.pix.width, fmt.fmt.pix.height,
+                      rgb24_buffer, (void*)colorBuffer);
+         break;
+
    default:
     break;
   }
@@ -870,6 +889,9 @@ void V4L2_Base::findMinMax()
     char errmsg[ERRMSGSIZ];
     struct v4l2_format tryfmt;
     CLEAR(tryfmt);
+
+    xmin = xmax = fmt.fmt.pix.width;
+    ymin = ymax = fmt.fmt.pix.height;
 
     tryfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     tryfmt.fmt.pix.width       = 10;

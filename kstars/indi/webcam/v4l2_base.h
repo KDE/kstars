@@ -46,7 +46,7 @@ class V4L2_Base
    };
 
   /* Connection */
-  virtual int connectCam(const char * devpath, char *errmsg);
+  virtual int connectCam(const char * devpath, char *errmsg, int pixelFormat = V4L2_PIX_FMT_YUYV , int width = 160, int height = 120);
   virtual void disconnectCam();
   char * getDeviceName();
 
@@ -102,7 +102,7 @@ class V4L2_Base
   int read_frame(char *errsg);
   int uninit_device(char *errmsg);
   int open_device(const char *devpath, char *errmsg);
-  int init_device(char *errmsg);  
+  int init_device(char *errmsg, int pixelFormat , int width, int height); 
   int init_mmap(char *errmsg);
   int errno_exit(const char *s, char *errmsg);
   
@@ -134,7 +134,7 @@ class V4L2_Base
   int frameRate;
   int  xmax, xmin, ymax, ymin;
   int  selectCallBackID;
-  unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer;
+  unsigned char * YBuf,*UBuf,*VBuf, *colorBuffer, *rgb24_buffer;
 
 };
    

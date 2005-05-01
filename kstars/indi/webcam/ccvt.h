@@ -21,6 +21,11 @@
 
 /* 
  $Log$
+ Revision 1.4  2005/04/29 16:51:20  mutlaqja
+ Adding initial support for Video 4 Linux 2 drivers. This mean that KStars can probably control Meade Lunar Planetary Imager (LPI). V4L2 requires a fairly recent kernel (> 2.6.9) and many drivers don't fully support it yet. It will take sometime. KStars still supports V4L1 and will continue so until V4L1 is obselete. Please test KStars video drivers if you can. Any comments welcomed.
+
+ CCMAIL: kstars-devel@kde.org
+
  Revision 1.3  2004/06/26 23:12:03  mutlaqja
  Hopefully this will fix compile issues on 64bit archs, and FreeBSD, among others. The assembly code is replaced with a more portable, albeit slower C implementation. I imported the videodev.h header after cleaning it for user space.
 
@@ -111,6 +116,36 @@ void ccvt_rgb32_bgr24(int width, int height, const void *const src, void *const 
 void ccvt_rgb32_rgb24(int width, int height, const void *const src, void *const dst);
 
 int RGB2YUV (int x_dim, int y_dim, void *bmp, void *y_out, void *u_out, void *v_out, int flip);
+
+/*
+ * BAYER2RGB24 ROUTINE TAKEN FROM:
+ *
+ * Sonix SN9C101 based webcam basic I/F routines
+ * Copyright (C) 2004 Takafumi Mizuno <taka-qce@ls-a.jp>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+void bayer2rgb24(unsigned char *dst, unsigned char *src, long int WIDTH, long int HEIGHT);
 
 #ifdef __cplusplus
 }

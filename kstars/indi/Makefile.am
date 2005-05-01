@@ -1,7 +1,7 @@
 AM_CPPFLAGS = @CPPFLAGS@ -DTOP_DATADIR=\"$(pkgdatadir)\"
 
 if LINUX
-bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips
+bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi
 endif
 
 bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma $(bin_add)
@@ -34,6 +34,9 @@ v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
 v4lphilips_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp indi_philips.cpp
 v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
+
+meade_lpi_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp indi_lpi.cpp
+meade_lpi_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
 temma_SOURCES =  indidrivermain.c base64.c eventloop.c temmadriver.c
 temma_LDADD = liblilxml.a libindicom.a -lm

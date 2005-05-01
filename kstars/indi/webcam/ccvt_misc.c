@@ -25,6 +25,11 @@
 
 /* 
  * $Log$
+ * Revision 1.2  2005/04/29 16:51:20  mutlaqja
+ * Adding initial support for Video 4 Linux 2 drivers. This mean that KStars can probably control Meade Lunar Planetary Imager (LPI). V4L2 requires a fairly recent kernel (> 2.6.9) and many drivers don't fully support it yet. It will take sometime. KStars still supports V4L1 and will continue so until V4L1 is obselete. Please test KStars video drivers if you can. Any comments welcomed.
+ *
+ * CCMAIL: kstars-devel@kde.org
+ *
  * Revision 1.1  2004/06/26 23:12:03  mutlaqja
  * Hopefully this will fix compile issues on 64bit archs, and FreeBSD, among others. The assembly code is replaced with a more portable, albeit slower C implementation. I imported the videodev.h header after cleaning it for user space.
  *
@@ -151,6 +156,79 @@ void ccvt_yuyv_420p(int width, int height, const void *src, void *dsty, void *ds
       }
       s1 = s2;
    }
+}
+
+void bayer2rgb24(unsigned char *dst, unsigned char *src, long int WIDTH, long int HEIGHT)
+{
+    long int i;
+    unsigned char *rawpt, *scanpt;
+    long int size;
+
+    rawpt = src;
+    scanpt = dst;
+    size = WIDTH*HEIGHT;
+
+    for ( i = 0; i < size; i++ ) {
+	if ( (i/WIDTH) % 2 == 0 ) {
+	    if ( (i % 2) == 0 ) {
+		/* B */
+		if ( (i > WIDTH) && ((i % WIDTH) > 0) ) {
+		    *scanpt++ = (*(rawpt-WIDTH-1)+*(rawpt-WIDTH+1)+
+				 *(rawpt+WIDTH-1)+*(rawpt+WIDTH+1))/4;	/* R */
+		    *scanpt++ = (*(rawpt-1)+*(rawpt+1)+
+				 *(rawpt+WIDTH)+*(rawpt-WIDTH))/4;	/* G */
+		    *scanpt++ = *rawpt;					/* B */
+		} else {
+		    /* first line or left column */
+		    *scanpt++ = *(rawpt+WIDTH+1);		/* R */
+		    *scanpt++ = (*(rawpt+1)+*(rawpt+WIDTH))/2;	/* G */
+		    *scanpt++ = *rawpt;				/* B */
+		}
+	    } else {
+		/* (B)G */
+		if ( (i > WIDTH) && ((i % WIDTH) < (WIDTH-1)) ) {
+		    *scanpt++ = (*(rawpt+WIDTH)+*(rawpt-WIDTH))/2;	/* R */
+		    *scanpt++ = *rawpt;					/* G */
+		    *scanpt++ = (*(rawpt-1)+*(rawpt+1))/2;		/* B */
+		} else {
+		    /* first line or right column */
+		    *scanpt++ = *(rawpt+WIDTH);	/* R */
+		    *scanpt++ = *rawpt;		/* G */
+		    *scanpt++ = *(rawpt-1);	/* B */
+		}
+	    }
+	} else {
+	    if ( (i % 2) == 0 ) {
+		/* G(R) */
+		if ( (i < (WIDTH*(HEIGHT-1))) && ((i % WIDTH) > 0) ) {
+		    *scanpt++ = (*(rawpt-1)+*(rawpt+1))/2;		/* R */
+		    *scanpt++ = *rawpt;					/* G */
+		    *scanpt++ = (*(rawpt+WIDTH)+*(rawpt-WIDTH))/2;	/* B */
+		} else {
+		    /* bottom line or left column */
+		    *scanpt++ = *(rawpt+1);		/* R */
+		    *scanpt++ = *rawpt;			/* G */
+		    *scanpt++ = *(rawpt-WIDTH);		/* B */
+		}
+	    } else {
+		/* R */
+		if ( i < (WIDTH*(HEIGHT-1)) && ((i % WIDTH) < (WIDTH-1)) ) {
+		    *scanpt++ = *rawpt;					/* R */
+		    *scanpt++ = (*(rawpt-1)+*(rawpt+1)+
+				 *(rawpt-WIDTH)+*(rawpt+WIDTH))/4;	/* G */
+		    *scanpt++ = (*(rawpt-WIDTH-1)+*(rawpt-WIDTH+1)+
+				 *(rawpt+WIDTH-1)+*(rawpt+WIDTH+1))/4;	/* B */
+		} else {
+		    /* bottom line or right column */
+		    *scanpt++ = *rawpt;				/* R */
+		    *scanpt++ = (*(rawpt-1)+*(rawpt-WIDTH))/2;	/* G */
+		    *scanpt++ = *(rawpt-WIDTH-1);		/* B */
+		}
+	    }
+	}
+	rawpt++;
+    }
+
 }
 
 /************************************************************************
