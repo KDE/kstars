@@ -1,7 +1,7 @@
 #if 0
     V4L INDI Driver
     INDI Interface for V4L devices
-    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+    Copyright (C) 2003-2005 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -19,195 +19,130 @@
 
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <math.h>
-#include <unistd.h>
-#include <time.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <zlib.h>
-#include <asm/types.h>
+#include "v4ldriver.h"
 
-#include "indidevapi.h"
-#include "indicom.h"
-#include "fitsrw.h"
-#include "eventloop.h"
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_LINUX_VIDEODEV2_H
-#include "webcam/v4l2_base.h"
-V4L2_Base *v4l_base;
-#else
-#include "webcam/v4l1_base.h"
-V4L1_Base *v4l_base;
-#endif 
-
-#define ERRMSGSIZ	1024
-
-void ISInit(void);
-void ISPoll(void *);
-void connectV4L(void);
-void updateStream(void * p);
-void getBasicData(void);
-void uploadFile(const char * filename);
-int  writeFITS(const char *filename, char errmsg[]);
-int  grabImage(void);
-int  checkPowerN(INumberVectorProperty *np);
-int  checkPowerS(ISwitchVectorProperty *sp);
-int  checkPowerT(ITextVectorProperty *tp);
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
-void updateV4L1Controls();
-void updateV4L2Controls();
-void newFrame(void *p);
-
- 
-extern char* me;
-extern int errno;
-static int frameCount = 0;
-
-#define mydev           "Video4Linux Generic Device"
-
-#define COMM_GROUP	"Main Control"
-#define IMAGE_GROUP	"Image Settings"
-#define DATA_GROUP      "Data Channel"
-
-
-#define MAX_PIXELS	4096		/* Max number of pixels in one dimension */
-#define POLLMS		1000		/* Polling time (ms) */
-
-#define FILENAMESIZ	2048
-#define LIBVERSIZ 	ERRMSGSIZ
-#define PREFIXSIZ	64
-#define PIPEBUFSIZ	8192
-#define FRAME_ILEN	64
-
-typedef struct {
-int  width;
-int  height;
-int  expose;
-unsigned char  *Y;
-unsigned char  *U;
-unsigned char  *V;
-unsigned char  *colorBuffer;
-unsigned char  *compressedFrame;
-} img_t;
-
-img_t * V4LFrame;			/* V4L frame */
-static int streamTimerID;		/* Stream ID */
-double divider;
-
-/*INDI controls */
-
-/* Connect/Disconnect */
-static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
-
-/* Ports */
-static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
-static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), "", 0};
-
-/* Camera Name */
-static IText camNameT[]		        = {{"Model", "", 0, 0, 0, 0 }};
-static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT), "", 0};
-
-/* Video Stream */
-static ISwitch StreamS[]		= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), "", 0 };
-
-/* Frame Rate */
-static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 50., 1., 10., 0, 0, 0}};
-static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), "", 0};
-
-/* Compression */
-static ISwitch CompressS[]          	= {{"ON" , "" , ISS_ON, 0, 0},{"OFF", "", ISS_OFF, 0, 0}};
-static ISwitchVectorProperty CompressSP	= { mydev, "Compression" , "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, CompressS, NARRAY(CompressS), "", 0};
-
-/* Image color */
-static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
-static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), "", 0};
-
-/* Frame dimension */
-static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0, 0},
-					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0., 0, 0, 0}};
-static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), "", 0};
-
-/* Exposure time */
-static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 1., 1., .0, 1., 0, 0, 0}};
-static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
-
-#ifndef HAVE_LINUX_VIDEODEV2_H
-static INumber ImageAdjustN[] = {{"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
-                                   {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
-				   {"Hue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0}, 
-				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}, 
-				   {"Whiteness", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
-				   
-static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), "", 0 };
-#else
-INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 0, IPS_IDLE, NULL, 0, "", 0 };
-#endif
-
-/* BLOB for sending image */
-static IBLOB imageB = {"CCD1", "Feed", "", 0, 0, 0, 0, 0, 0, 0};
-static IBLOBVectorProperty imageBP = {mydev, "Video", "Video", COMM_GROUP,
-  IP_RO, 0, IPS_IDLE, &imageB, 1, "", 0};
-
-  
-/* send client definitions of all properties */
-void ISInit()
+V4L_Driver::V4L_Driver()
 {
-  static int isInit=0;
+  V4LFrame = (img_t *) malloc (sizeof(img_t));
+ 
+  if (V4LFrame == NULL)
+  {
+     IDMessage(NULL, "Error: unable to initialize driver. Low memory.");
+     IDLog("Error: unable to initialize driver. Low memory.");
+     return;
+  }
+ 
+  camNameT[0].text  = NULL; 
+  PortT[0].text     = NULL;
+  IUSaveText(&PortT[0], "/dev/video0");
 
- if (isInit)
-  return;
+  divider = 128.;
  
- V4LFrame = new img_t;
- 
- if (V4LFrame == NULL)
- {
-   IDMessage(mydev, "Error: unable to initialize driver. Low memory.");
-   IDLog("Error: unable to initialize driver. Low memory.");
-   return;
- }
- 
- streamTimerID = -1;
- 
-  #ifdef HAVE_LINUX_VIDEODEV2_H
-    v4l_base = new V4L2_Base();
-  #else
-    v4l_base = new V4L1_Base();
-    divider = 128.;
-  #endif 
-  
- 
- PortT[0].text     = NULL;
- IUSaveText(&PortT[0], "/dev/video0");
-
- camNameT[0].text  = NULL;
- 
- isInit = 1;
 
 }
 
-void ISGetProperties (const char *dev)
+V4L_Driver::~V4L_Driver()
+{
+  free (V4LFrame);
+}
+
+
+void V4L_Driver::initProperties(const char *dev)
+{
+  
+  strncpy(device_name, dev, MAXINDIDEVICE);
+ 
+  /* Connection */
+  fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
+  fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
+  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), dev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+
+ /* Port */
+  fillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
+  fillTextVector(&PortTP, PortT, NARRAY(PortT), dev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+
+ /* Video Stream */
+  fillSwitch(&StreamS[0], "ON", "", ISS_OFF);
+  fillSwitch(&StreamS[1], "OFF", "", ISS_ON);
+  fillSwitchVector(&StreamSP, StreamS, NARRAY(StreamS), dev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  /* Compression */
+  fillSwitch(&CompressS[0], "ON", "", ISS_ON);
+  fillSwitch(&CompressS[1], "OFF", "", ISS_OFF);
+  fillSwitchVector(&CompressSP, CompressS, NARRAY(StreamS), dev, "Compression", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  /* Image type */
+  fillSwitch(&ImageTypeS[0], "Grey", "", ISS_ON);
+  fillSwitch(&ImageTypeS[1], "Color", "", ISS_OFF);
+  fillSwitchVector(&ImageTypeSP, ImageTypeS, NARRAY(ImageTypeS), dev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  /* Camera Name */
+  fillText(&camNameT[0], "Model", "", "");
+  fillTextVector(&camNameTP, camNameT, NARRAY(camNameT), dev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE);
+  
+  /* Expose */
+  fillNumber(&ExposeTimeN[0], "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+
+/* Frame Rate */
+  fillNumber(&FrameRateN[0], "RATE", "Rate", "%0.f", 1., 50., 1., 10.);
+  fillNumberVector(&FrameRateNP, FrameRateN, NARRAY(FrameRateN), dev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+
+  /* Frame dimension */
+  fillNumber(&ImageSizeN[0], "WIDTH", "Width", "%0.f", 0., 0., 10., 0.);
+  fillNumber(&ImageSizeN[1], "HEIGHT", "Height", "%0.f", 0., 0., 10., 0.);
+  fillNumberVector(&ImageSizeNP, ImageSizeN, NARRAY(ImageSizeN), dev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  
+  #ifndef HAVE_LINUX_VIDEODEV2_H
+  fillNumber(&ImageAdjustN[0], "Contrast", "", "%0.f", 0., 256., 1., 0.);
+  fillNumber(&ImageAdjustN[1], "Brightness", "", "%0.f", 0., 256., 1., 0.);
+  fillNumber(&ImageAdjustN[2], "Hue", "", "%0.f", 0., 256., 1., 0.);
+  fillNumber(&ImageAdjustN[3], "Color", "", "%0.f", 0., 256., 1., 0.);
+  fillNumber(&ImageAdjustN[4], "Whiteness", "", "%0.f", 0., 256., 1., 0.);
+  fillNumberVector(&ImageAdjustNP, ImageAdjustN, NARRAY(ImageAdjustN), dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  #else
+  fillNumberVector(&ImageAdjustNP, NULL, 0, dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  #endif 
+
+  // We need to setup the BLOB (Binary Large Object) below. Using this property, we can send FITS to our client
+  strcpy(imageB.name, "CCD1");
+  strcpy(imageB.label, "Feed");
+  strcpy(imageB.format, "");
+  imageB.blob    = 0;
+  imageB.bloblen = 0;
+  imageB.size    = 0;
+  imageB.bvp     = 0;
+  imageB.aux0    = 0;
+  imageB.aux1    = 0;
+  imageB.aux2    = 0;
+  
+  strcpy(imageBP.device, dev);
+  strcpy(imageBP.name, "Video");
+  strcpy(imageBP.label, "Video");
+  strcpy(imageBP.group, COMM_GROUP);
+  strcpy(imageBP.timestamp, "");
+  imageBP.p       = IP_RO;
+  imageBP.timeout = 0;
+  imageBP.s       = IPS_IDLE;
+  imageBP.bp	  = &imageB;
+  imageBP.nbp     = 1;
+  imageBP.aux     = 0;
+
+}
+
+void V4L_Driver::initCamBase()
+{
+   #ifndef HAVE_LINUX_VIDEODEV2_H
+    v4l_base = new V4L1_Base();
+   #else
+    v4l_base = new V4L2_Base();
+   #endif
+}
+
+void V4L_Driver::ISGetProperties (const char *dev)
 { 
 
-   ISInit();
-  
-  if (dev && strcmp (mydev, dev))
+  if (dev && strcmp (device_name, dev))
     return;
 
   /* COMM_GROUP */
@@ -234,25 +169,20 @@ void ISGetProperties (const char *dev)
   
 }
  
- void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
-{}
-
-void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
+void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
 	char errmsg[ERRMSGSIZ];
 
 	/* ignore if not ours */
-	if (dev && strcmp (dev, mydev))
+	if (dev && strcmp (device_name, dev))
 	    return;
 	    
-	ISInit();
-	
      /* Connection */
      if (!strcmp (name, PowerSP.name))
      {
           IUResetSwitches(&PowerSP);
 	  IUUpdateSwitches(&PowerSP, states, names, n);
-   	  connectV4L();
+   	  connectCamera();
 	  return;
      }
 
@@ -309,14 +239,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
      
 }
 
-void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int /*n*/)
+void V4L_Driver::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int /*n*/)
 {
 	IText *tp;
 
-	ISInit();
- 
+
        /* ignore if not ours */ 
-       if (dev && strcmp (mydev, dev))
+       if (dev && strcmp (device_name, dev))
          return;
 
 	if (!strcmp(name, PortTP.name) )
@@ -332,15 +261,14 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 	}
 }
 
-void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
+void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
       char errmsg[ERRMSGSIZ];
 
 	/* ignore if not ours */
-	if (dev && strcmp (dev, mydev))
+	if (dev && strcmp (device_name, dev))
 	    return;
 	    
-	ISInit();
     
     /* Frame Size */
     if (!strcmp (ImageSizeNP.name, name))
@@ -373,7 +301,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       
       return;
    }
-   
+
+   #ifndef HAVE_LINUX_VIDEODEV2_H
    /* Frame rate */
    if (!strcmp (FrameRateNP.name, name))
    {
@@ -391,6 +320,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      IDSetNumber(&FrameRateNP, NULL);
      return;
    }
+   #endif
    
    
    if (!strcmp (ImageAdjustNP.name, name))
@@ -446,38 +376,30 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
         if (StreamS[0].s == ISS_ON) 
           v4l_base->stop_capturing(errmsg);
 
-	streamTimerID = -1;
 	StreamS[0].s  = ISS_OFF;
 	StreamS[1].s  = ISS_ON;
 	StreamSP.s    = IPS_IDLE;
 	IDSetSwitch(&StreamSP, NULL);
         
-	
-        
 	V4LFrame->expose = 1000;
-	/*V4LFrame->Y      = v4l_base->getY();
-	V4LFrame->U      = v4l_base->getU();
-	V4LFrame->V      = v4l_base->getV();*/
 
         v4l_base->start_capturing(errmsg);
         ExposeTimeNP.s   = IPS_BUSY;
 	IDSetNumber(&ExposeTimeNP, NULL);
 	
-        /*if (grabImage() < 0)
-	{
-	 ExposeTimeNP.s   = IPS_IDLE;
-	 IDSetNumber(&ExposeTimeNP, NULL);
-	}*/
-	  
-	
-     return;
+        return;
     } 
       
   
   	
 }
 
-void newFrame(void */*p*/)
+void V4L_Driver::newFrame(void *p)
+{
+  ((V4L_Driver *) (p))->updateFrame();
+}
+
+void V4L_Driver::updateFrame()
 {
   char errmsg[ERRMSGSIZ];
   static int dropLarge = 3;
@@ -502,7 +424,8 @@ void newFrame(void */*p*/)
         else if (dropLarge < 2) return;
         
       }
-     updateStream(NULL);
+
+     updateStream();
   }
   else if (ExposeTimeNP.s == IPS_BUSY)
   {
@@ -512,10 +435,70 @@ void newFrame(void */*p*/)
 
 }
 
+void V4L_Driver::updateStream()
+{
+ 
+   int width  = v4l_base->getWidth();
+   int height = v4l_base->getHeight();
+   uLongf compressedBytes = 0;
+   uLong totalBytes;
+   unsigned char *targetFrame;
+   int r;
+   
+   if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
+   
+   V4LFrame->Y      		= v4l_base->getY();
+   V4LFrame->U      		= v4l_base->getU();
+   V4LFrame->V      		= v4l_base->getV();
+   V4LFrame->colorBuffer 	= v4l_base->getColorBuffer();
+  
+   totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
+   targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;
+
+   /* Do we want to compress ? */
+    if (CompressS[0].s == ISS_ON)
+    {   
+   	/* Compress frame */
+   	V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
+   
+   	compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
+   
+   	r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
+   	if (r != Z_OK)
+   	{
+	 	/* this should NEVER happen */
+	 	IDLog("internal error - compression failed: %d\n", r);
+		return;
+   	}
+   
+   	/* #3.A Send it compressed */
+   	imageB.blob = V4LFrame->compressedFrame;
+   	imageB.bloblen = compressedBytes;
+   	imageB.size = totalBytes;
+   	strcpy(imageB.format, ".stream.z");
+     }
+     else
+     {
+       /* #3.B Send it uncompressed */
+        imageB.blob = targetFrame;
+   	imageB.bloblen = totalBytes;
+   	imageB.size = totalBytes;
+   	strcpy(imageB.format, ".stream");
+     }
+        
+   imageBP.s = IPS_OK;
+   IDSetBLOB (&imageBP, NULL);
+   
+   #ifndef HAVE_LINUX_VIDEODEV2_H
+      char errmsg[ERRMSGSIZ];
+      v4l_base->start_capturing(errmsg);
+   #endif
+}
+
 /* Downloads the image from the CCD row by row and store them
    in a raw file.
  N.B. No processing is done on the image */
-int grabImage()
+int V4L_Driver::grabImage()
 {
    int err, fd;
    char errmsg[ERRMSG_SIZE];
@@ -524,7 +507,7 @@ int grabImage()
    
    if ((fd = mkstemp(filename)) < 0)
    { 
-    IDMessage(mydev, "Error making temporary filename.");
+    IDMessage(device_name, "Error making temporary filename.");
     IDLog("Error making temporary filename.\n");
     return -1;
    }
@@ -533,14 +516,14 @@ int grabImage()
    err = writeFITS(filename, errmsg);
    if (err)
    {
-       IDMessage(mydev, errmsg, NULL);
+       IDMessage(device_name, errmsg, NULL);
        return -1;
    }
    
   return 0;
 }
 
-int writeFITS(const char * filename, char errmsg[])
+int V4L_Driver::writeFITS(const char * filename, char errmsg[])
 {
   FITS_FILE* ofp;
   int i, bpp, bpsl, width, height;
@@ -603,287 +586,7 @@ int writeFITS(const char * filename, char errmsg[])
 
 }
 
-
-/* Retrieves basic data from the device upon connection.*/
-void getBasicData()
-{
-
-  int xmax, ymax, xmin, ymin;
-  
-  v4l_base->getMaxMinSize(xmax, ymax, xmin, ymin);
-  
-  /* Width */
-  ImageSizeN[0].value = v4l_base->getWidth();
-  ImageSizeN[0].min = xmin;
-  ImageSizeN[0].max = xmax;
-  
-  /* Height */
-  ImageSizeN[1].value = v4l_base->getHeight();
-  ImageSizeN[1].min = ymin;
-  ImageSizeN[1].max = ymax;
-  
-  IUUpdateMinMax(&ImageSizeNP);
-  IDSetNumber(&ImageSizeNP, NULL);
-  
-  IUSaveText(&camNameT[0], v4l_base->getDeviceName());
-  IDSetText(&camNameTP, NULL);
-
-   #ifndef HAVE_LINUX_VIDEODEV2_H
-     updateV4L1Controls();
-   #else
-    updateV4L2Controls();
-   #endif
-   
-}
-
-void updateV4L2Controls()
-{
-    #ifdef HAVE_LINUX_VIDEODEV2_H
-    char errmsg[ERRMSGSIZ];
-
-    //IDLog("in updateV4L2Controls\n");
-
-    // #1 Query for INTEGER controls, and fill up the structure
-      free(ImageAdjustNP.np);
-      ImageAdjustNP.nnp = 0;
-      
-   if (v4l_base->queryINTControls(&ImageAdjustNP) > 0)
-      IDDefNumber(&ImageAdjustNP, NULL);
-    #endif
-
-/*    if (v4l_base->query_ctrl(V4L2_CID_CONTRAST, ImageAdjustN[0].min, ImageAdjustN[0].max, ImageAdjustN[0].step, ImageAdjustN[0].value, errmsg))
-        IDLog("Contract: %s\n", errmsg);
-       
-    if (v4l_base->query_ctrl(V4L2_CID_BRIGHTNESS, ImageAdjustN[1].min, ImageAdjustN[1].max, ImageAdjustN[1].step, ImageAdjustN[1].value, errmsg))
-       IDLog("Brightness: %s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_HUE, ImageAdjustN[2].min, ImageAdjustN[2].max, ImageAdjustN[2].step, ImageAdjustN[2].value, errmsg))
-        IDLog("Hue: %s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_SATURATION, ImageAdjustN[3].min, ImageAdjustN[3].max, ImageAdjustN[3].step, ImageAdjustN[3].value, errmsg))
-       IDLog("%s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_WHITENESS, ImageAdjustN[4].min, ImageAdjustN[4].max, ImageAdjustN[4].step, ImageAdjustN[4].value, errmsg))
-       IDLog("%s\n", errmsg);
-    
-   IUUpdateMinMax(&ImageAdjustNP);*/
-
-}
-
-
-int checkPowerS(ISwitchVectorProperty *sp)
-{
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(sp->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->name);
-    else
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->label);
-    
-    sp->s = IPS_IDLE;
-    IDSetSwitch(sp, NULL);
-    return -1;
-  }
-
-  return 0;
-}
-
-int checkPowerN(INumberVectorProperty *np)
-{
-   
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(np->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->name);
-    else
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
-	
-    np->s = IPS_IDLE;
-    IDSetNumber(np, NULL);
-    return -1;
-  }
-
-  return 0;
-}
-
-int checkPowerT(ITextVectorProperty *tp)
-{
-
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(tp->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->name);
-    else
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
-	
-    tp->s = IPS_IDLE;
-    IDSetText(tp, NULL);
-    return -1;
-  }
-
-  return 0;
-
-}
-
-void connectV4L()
-{
-  char errmsg[ERRMSGSIZ];
-  
-    
-  switch (PowerS[0].s)
-  {
-     case ISS_ON:
-      if (v4l_base->connectCam(PortT[0].text, errmsg) < 0)
-      {
-	  PowerSP.s = IPS_IDLE;
-	  PowerS[0].s = ISS_OFF;
-	  PowerS[1].s = ISS_ON;
-	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
-	  IDLog("Error: %s\n", errmsg);
-	  return;
-      }
-      
-      /* Sucess! */
-      PowerS[0].s = ISS_ON;
-      PowerS[1].s = ISS_OFF;
-      PowerSP.s = IPS_OK;
-      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is online. Retrieving basic data.");
-
-      v4l_base->registerCallback(newFrame);
-      
-      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
-      
-      IDLog("V4L Device is online. Retrieving basic data.\n");
-      getBasicData();
-      
-      break;
-      
-    case ISS_OFF:
-      PowerS[0].s = ISS_OFF;
-      PowerS[1].s = ISS_ON;
-      PowerSP.s = IPS_IDLE;
-      
-      // Disable stream if running
-      if (streamTimerID != -1)
-      {
-	rmTimer(streamTimerID);
-	streamTimerID = -1;
-      }
-      
-      free(V4LFrame->compressedFrame);
-      V4LFrame->compressedFrame = NULL;
-      v4l_base->disconnectCam();
-      
-      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
-      
-      break;
-     }
-}
-
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
-{
- FITS_HDU_LIST *hdulist;
- char expose_s[80];
- char obsDate[80];
- char instrumentName[80];
- char ts[32];
-	
- struct tm *tp;
- time_t t;
- time (&t);
- tp = gmtime (&t);
- strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
- 
- snprintf(instrumentName, 80, "INSTRUME= '%s'", v4l_base->getDeviceName());
- snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
-
- hdulist = fits_add_hdu (ofp);
- if (hdulist == NULL) return (NULL);
-
- hdulist->used.simple = 1;
- hdulist->bitpix = 8;
- hdulist->naxis = 2;
- hdulist->naxisn[0] = width;
- hdulist->naxisn[1] = height;
- hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = 0;
- hdulist->used.datamax = 0;
- hdulist->used.bzero = 1;
- hdulist->bzero = 0.0;
- hdulist->used.bscale = 1;
- hdulist->bscale = 1.0;
- 
- snprintf(expose_s, sizeof(expose_s), "EXPOSURE= %d / milliseconds", V4LFrame->expose);
- 
- fits_add_card (hdulist, expose_s);
- fits_add_card (hdulist, instrumentName);
- fits_add_card (hdulist, obsDate);
- 
- return (hdulist);
-}
-
-
-void updateStream(void */*p*/)
-{
- 
-   int width  = v4l_base->getWidth();
-   int height = v4l_base->getHeight();
-   uLongf compressedBytes = 0;
-   uLong totalBytes;
-   unsigned char *targetFrame;
-   int r;
-   char errmsg[ERRMSGSIZ];
-   
-   if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
-   
-   V4LFrame->Y      		= v4l_base->getY();
-   V4LFrame->U      		= v4l_base->getU();
-   V4LFrame->V      		= v4l_base->getV();
-   V4LFrame->colorBuffer 	= v4l_base->getColorBuffer();
-  
-   totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
-   targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;
-
-   /* Do we want to compress ? */
-    if (CompressS[0].s == ISS_ON)
-    {   
-   	/* Compress frame */
-   	V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
-   
-   	compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
-   
-   	r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
-   	if (r != Z_OK)
-   	{
-	 	/* this should NEVER happen */
-	 	IDLog("internal error - compression failed: %d\n", r);
-		return;
-   	}
-   
-   	/* #3.A Send it compressed */
-   	imageB.blob = V4LFrame->compressedFrame;
-   	imageB.bloblen = compressedBytes;
-   	imageB.size = totalBytes;
-   	strcpy(imageB.format, ".stream.z");
-     }
-     else
-     {
-       /* #3.B Send it uncompressed */
-        imageB.blob = targetFrame;
-   	imageB.bloblen = totalBytes;
-   	imageB.size = totalBytes;
-   	strcpy(imageB.format, ".stream");
-     }
-        
-   imageBP.s = IPS_OK;
-   IDSetBLOB (&imageBP, NULL);
-   
-   #ifndef HAVE_LINUX_VIDEODEV2_H
-      v4l_base->start_capturing(errmsg);
-   #endif
-}
-
-void uploadFile(const char * filename)
+void V4L_Driver::uploadFile(const char * filename)
 {
    
    FILE * fitsFile;
@@ -956,10 +659,100 @@ void uploadFile(const char * filename)
    delete (fitsData);
 } 
 
-void updateV4L1Controls()
+void V4L_Driver::connectCamera()
+{
+  char errmsg[ERRMSGSIZ];
+  
+    
+  switch (PowerS[0].s)
+  {
+     case ISS_ON:
+      if (v4l_base->connectCam(PortT[0].text, errmsg) < 0)
+      {
+	  PowerSP.s = IPS_IDLE;
+	  PowerS[0].s = ISS_OFF;
+	  PowerS[1].s = ISS_ON;
+	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
+	  IDLog("Error: %s\n", errmsg);
+	  return;
+      }
+      
+      /* Sucess! */
+      PowerS[0].s = ISS_ON;
+      PowerS[1].s = ISS_OFF;
+      PowerSP.s = IPS_OK;
+      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is online. Retrieving basic data.");
+
+      v4l_base->registerCallback(newFrame, this);
+      
+      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+      
+      IDLog("V4L Device is online. Retrieving basic data.\n");
+      getBasicData();
+      
+      break;
+      
+    case ISS_OFF:
+      PowerS[0].s = ISS_OFF;
+      PowerS[1].s = ISS_ON;
+      PowerSP.s = IPS_IDLE;
+      
+      free(V4LFrame->compressedFrame);
+      V4LFrame->compressedFrame = NULL;
+      v4l_base->disconnectCam();
+      
+      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
+      
+      break;
+     }
+}
+
+/* Retrieves basic data from the device upon connection.*/
+void V4L_Driver::getBasicData()
 {
 
-  #ifndef HAVE_LINUX_VIDEODEV2_H
+  int xmax, ymax, xmin, ymin;
+  
+  v4l_base->getMaxMinSize(xmax, ymax, xmin, ymin);
+  
+  /* Width */
+  ImageSizeN[0].value = v4l_base->getWidth();
+  ImageSizeN[0].min = xmin;
+  ImageSizeN[0].max = xmax;
+  
+  /* Height */
+  ImageSizeN[1].value = v4l_base->getHeight();
+  ImageSizeN[1].min = ymin;
+  ImageSizeN[1].max = ymax;
+  
+  IUUpdateMinMax(&ImageSizeNP);
+  IDSetNumber(&ImageSizeNP, NULL);
+  
+  IUSaveText(&camNameT[0], v4l_base->getDeviceName());
+  IDSetText(&camNameTP, NULL);
+
+   #ifndef HAVE_LINUX_VIDEODEV2_H
+     updateV4L1Controls();
+   #else
+    updateV4L2Controls();
+   #endif
+   
+}
+
+#ifdef HAVE_LINUX_VIDEODEV2_H
+void V4L_Driver::updateV4L2Controls()
+{
+    // #1 Query for INTEGER controls, and fill up the structure
+      free(ImageAdjustNP.np);
+      ImageAdjustNP.nnp = 0;
+      
+   if (v4l_base->queryINTControls(&ImageAdjustNP) > 0)
+      IDDefNumber(&ImageAdjustNP, NULL);
+}
+#else
+void V4L_Driver::updateV4L1Controls()
+{
+
   if ( (v4l_base->getContrast() / divider) > ImageAdjustN[0].max)
       divider *=2;
 
@@ -974,7 +767,106 @@ void updateV4L1Controls()
 
   ImageAdjustNP.s = IPS_OK;
   IDSetNumber(&ImageAdjustNP, NULL);
-  #endif
+  
+}
+#endif
+
+int V4L_Driver::checkPowerS(ISwitchVectorProperty *sp)
+{
+  if (PowerSP.s != IPS_OK)
+  {
+    if (!strcmp(sp->label, ""))
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", sp->name);
+    else
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", sp->label);
+    
+    sp->s = IPS_IDLE;
+    IDSetSwitch(sp, NULL);
+    return -1;
+  }
+
+  return 0;
+}
+
+int V4L_Driver::checkPowerN(INumberVectorProperty *np)
+{
+   
+  if (PowerSP.s != IPS_OK)
+  {
+    if (!strcmp(np->label, ""))
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", np->name);
+    else
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", np->label);
+	
+    np->s = IPS_IDLE;
+    IDSetNumber(np, NULL);
+    return -1;
+  }
+
+  return 0;
+}
+
+int V4L_Driver::checkPowerT(ITextVectorProperty *tp)
+{
+
+  if (PowerSP.s != IPS_OK)
+  {
+    if (!strcmp(tp->label, ""))
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", tp->name);
+    else
+        IDMessage (device_name, "Cannot change property %s while the camera is offline.", tp->label);
+	
+    tp->s = IPS_IDLE;
+    IDSetText(tp, NULL);
+    return -1;
+  }
+
+  return 0;
 
 }
+
+FITS_HDU_LIST * V4L_Driver::create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
+{
+
+ FITS_HDU_LIST *hdulist;
+ char expose_s[80];
+ char obsDate[80];
+ char instrumentName[80];
+ char ts[32];
+	
+ struct tm *tp;
+ time_t t;
+ time (&t);
+ tp = gmtime (&t);
+ strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+ 
+ snprintf(instrumentName, 80, "INSTRUME= '%s'", v4l_base->getDeviceName());
+ snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
+
+ hdulist = fits_add_hdu (ofp);
+ if (hdulist == NULL) return (NULL);
+
+ hdulist->used.simple = 1;
+ hdulist->bitpix = 8;
+ hdulist->naxis = 2;
+ hdulist->naxisn[0] = width;
+ hdulist->naxisn[1] = height;
+ hdulist->naxisn[2] = bpp;
+ hdulist->used.datamin = 0;
+ hdulist->used.datamax = 0;
+ hdulist->used.bzero = 1;
+ hdulist->bzero = 0.0;
+ hdulist->used.bscale = 1;
+ hdulist->bscale = 1.0;
+ 
+ snprintf(expose_s, sizeof(expose_s), "EXPOSURE= %d / milliseconds", V4LFrame->expose);
+ 
+ fits_add_card (hdulist, expose_s);
+ fits_add_card (hdulist, instrumentName);
+ fits_add_card (hdulist, obsDate);
+ 
+ return (hdulist);
+}
+
+
 

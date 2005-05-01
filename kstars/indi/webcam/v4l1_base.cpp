@@ -70,7 +70,7 @@ V4L1_Base::~V4L1_Base()
 
 int V4L1_Base::connectCam(const char * devpath, char *errmsg)
 {
-   options_= (haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
+   options= (haveBrightness|haveContrast|haveHue|haveColor|haveWhiteness);
 
    buffer_start=NULL;
    frameRate=10;
@@ -93,7 +93,7 @@ int V4L1_Base::connectCam(const char * devpath, char *errmsg)
    
    if (fd != -1) 
    {
-      if (-1 == ioctl(fd,VIDIOCGCAP,&capability_))
+      if (-1 == ioctl(fd,VIDIOCGCAP,&capability))
      {
          cerr << "Error: ioctl (VIDIOCGCAP)" << endl;
 	 strncpy(errmsg, "ioctl (VIDIOCGCAP)", ERRMSGSIZ);
@@ -117,7 +117,7 @@ int V4L1_Base::connectCam(const char * devpath, char *errmsg)
 
    cerr << "initial size w:" << window.width << " -- h: " << window.height << endl;
 
-   /*if (options_ & ioUseSelect)
+   /*if (options & ioUseSelect)
    {
       selectCallBackID = addCallback(fd, V4L1_Base::staticUpdateFrame, this);
       cerr << "Using select to wait new frames." << endl;
@@ -205,7 +205,7 @@ void V4L1_Base::newFrame()
    
    
     if (callback)
-      (*callback)(NULL);
+      (*callback)(uptr);
 
 }
 
@@ -257,7 +257,7 @@ int V4L1_Base::getFPS()
 
 char * V4L1_Base::getDeviceName()
 {
-  return capability_.name;
+  return capability.name;
 }
 
 void V4L1_Base::init(int preferedPalette)
@@ -330,10 +330,10 @@ void V4L1_Base::allocBuffers()
 
 void V4L1_Base::checkSize(int & x, int & y)
 {
-   if (x>=capability_.maxwidth && y >= capability_.maxheight)
+   if (x >= capability.maxwidth && y >= capability.maxheight)
    {
-      x=capability_.maxwidth;
-      y=capability_.maxheight;
+      x=capability.maxwidth;
+      y=capability.maxheight;
    }
    else if (x>=352 && y >=288) {
       x=352;y=288;
@@ -345,17 +345,17 @@ void V4L1_Base::checkSize(int & x, int & y)
       x=160;y=120;
    } else
    {
-      x=capability_.minwidth;
-      y=capability_.minheight;
+      x=capability.minwidth;
+      y=capability.minheight;
    }
 }
 
 void V4L1_Base::getMaxMinSize(int & xmax, int & ymax, int & xmin, int & ymin)
 {
-  xmax = capability_.maxwidth;
-  ymax = capability_.maxheight;
-  xmin = capability_.minwidth;
-  ymin = capability_.minheight;
+  xmax = capability.maxwidth;
+  ymax = capability.maxheight;
+  xmin = capability.minwidth;
+  ymin = capability.minheight;
 }
 
 bool V4L1_Base::setSize(int x, int y)
@@ -557,7 +557,8 @@ unsigned char * V4L1_Base::getColorBuffer()
 
 }
 
-void V4L1_Base::registerCallback(WPF *fp)
+void V4L1_Base::registerCallback(WPF *fp, void *ud)
 {
   callback = fp;
+  uptr = ud;
 }

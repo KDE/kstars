@@ -29,10 +29,10 @@ fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz
 fliwheel_SOURCES =  eventloop.c base64.c fli_wheel.c indidrivermain.c
 fliwheel_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
 
-v4ldriver_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp
+v4ldriver_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp
 v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
-v4lphilips_SOURCES = eventloop.c base64.c indidrivermain.c v4lphilips.cpp
+v4lphilips_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp indi_philips.cpp
 v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
 
 temma_SOURCES =  indidrivermain.c base64.c eventloop.c temmadriver.c

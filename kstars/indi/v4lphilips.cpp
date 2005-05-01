@@ -1,6 +1,6 @@
 /*
     Phlips webcam INDI driver
-    Copyright (C) 2004 by Jasem Mutlaq
+    Copyright (C) 2003-2005 by Jasem Mutlaq
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -20,347 +20,118 @@
 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <math.h>
-#include <unistd.h>
-#include <time.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <asm/types.h>
-
-#include <zlib.h>
-
+#include "v4lphilips.h"
 #include "webcam/pwc-ioctl.h"
-#include "indidevapi.h"
-#include "indicom.h"
-#include "fitsrw.h"
-#include "eventloop.h"
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_LINUX_VIDEODEV2_H
-#include "webcam/v4l2_base.h" 
-V4L2_Base *v4l_pwc;
-#else
-#include "webcam/v4l1_pwc.h"
-V4L1_PWC *v4l_pwc;
-#endif 
-
-void ISInit(void);
-void ISPoll(void *);
-void connectV4L(void);
-void updateStream(void * p);
-void getBasicData(void);
-void uploadFile(const char* filename);
-int  writeFITS(const char* filename, char errmsg[]);
-int  grabImage(void);
-int  checkPowerN(INumberVectorProperty *np);
-int  checkPowerS(ISwitchVectorProperty *sp);
-int  checkPowerT(ITextVectorProperty *tp);
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
-void updateV4L1Controls();
-void updateV4L2Controls();
-void newFrame(void *p);
-
-
-extern char* me;
-extern int errno;
-
-#define mydev           "Philips Webcam"
-
-#define COMM_GROUP	"Main Control"
-#define IMAGE_GROUP	"Image Settings"
-#define IMAGE_ADJUST    "Image Adjustments"
-#define DATA_GROUP      "Data Channel"
-
-
-#define MAX_PIXELS	4096		/* Max number of pixels in one dimension */
-#define POLLMS		1000		/* Polling time (ms) */
-
-#define FILENAMESIZ	2048
-#define LIBVERSIZ 	1024
-#define PREFIXSIZ	64
-#define PIPEBUFSIZ	8192
-#define FRAME_ILEN	64
-#define ERRMSGSIZ	1024
-
-
-typedef struct {
-int  width;
-int  height;
-int  expose;
-unsigned char  *Y;
-unsigned char  *U;
-unsigned char  *V;
-unsigned char  *colorBuffer;
-unsigned char  *compressedFrame;
-} img_t;
-
-typedef struct {
- int rp;				/* Read pipe */
- int wp;				/* Write pipe */
- bool streamReady;			/* Can we write to data stream? */
-} client_t;
-
-img_t * V4LFrame;			/* V4L frame */
-static int streamTimerID;		/* Stream ID */
-
-/*INDI controls */
-
-/* Connect/Disconnect */
-static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
-
-/* Ports */
-static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
-static ITextVectorProperty PortTP	= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), "", 0};
-
-/* Camera Name */
-static IText camNameT[]		        = {{"Model", "", 0, 0, 0, 0 }};
-static ITextVectorProperty camNameTP    = { mydev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE, camNameT, NARRAY(camNameT), "" , 0};
-
-/* Video Stream */
-static ISwitch StreamS[]		= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty StreamSP   = { mydev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StreamS, NARRAY(StreamS), "", 0 };
-
-/* Frame Rate */
-static INumber FrameRateN[]		= {{"RATE", "Rate", "%0.f", 1., 15., 1., 15., 0, 0, 0}};
-static INumberVectorProperty FrameRateNP= { mydev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE, FrameRateN, NARRAY(FrameRateN), "", 0};
-
-static INumber ShutterSpeedN[]		= {{"Speed", "", "%0.f", 0., 65535., 100., 0., 0, 0, 0}};
-static INumberVectorProperty ShutterSpeedNP={ mydev, "Shutter Speed", "", COMM_GROUP, IP_RW, 0, IPS_IDLE, ShutterSpeedN, NARRAY(ShutterSpeedN), "", 0};
-
-/* Exposure time */
-static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 1., 1., .0, 1., 0, 0, 0}};
-static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
-
-/* Compression */
-static ISwitch CompressS[]          	= {{"ON" , "" , ISS_ON, 0, 0},{"OFF", "", ISS_OFF, 0, 0}};
-static ISwitchVectorProperty CompressSP	= { mydev, "Compression" , "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, CompressS, NARRAY(CompressS), "", 0};
-
-
-/* Image color */
-static ISwitch ImageTypeS[]		= {{ "Grey", "", ISS_ON, 0, 0}, { "Color", "", ISS_OFF, 0, 0 }};
-static ISwitchVectorProperty ImageTypeSP= { mydev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ImageTypeS, NARRAY(ImageTypeS), "", 0};
-
-/* Frame dimension */
-static INumber ImageSizeN[]		= {{"WIDTH", "Width", "%0.f", 0., 0., 10., 0., 0, 0, 0},
-					   {"HEIGHT", "Height", "%0.f", 0., 0., 10., 0., 0, 0, 0}};
-static INumberVectorProperty ImageSizeNP = { mydev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, ImageSizeN, NARRAY(ImageSizeN), "", 0};
-
-static ISwitch BackLightS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty BackLightSP = { mydev, "Back Light", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, BackLightS, NARRAY(BackLightS), "", 0};
-
-static ISwitch AntiFlickerS[]	= {{"ON", "", ISS_OFF, 0, 0}, {"OFF", "", ISS_ON, 0, 0} };
-static ISwitchVectorProperty AntiFlickerSP = { mydev, "Anti Flicker", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AntiFlickerS, NARRAY(AntiFlickerS), "", 0};
-
-static ISwitch NoiseReductionS[] = { {"None", "", ISS_ON, 0, 0},
-				     {"Low", "", ISS_OFF, 0, 0},
-                                     {"Medium", "", ISS_OFF, 0, 0},
-				     {"High", "", ISS_OFF, 0, 0}};
-				     
-static ISwitchVectorProperty NoiseReductionSP = { mydev, "Noise Reduction", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, NoiseReductionS, NARRAY(NoiseReductionS), "", 0};
-
-static ISwitch CamSettingS[]  = { {"Save", "", ISS_OFF, 0, 0 },
-				  { "Restore", "", ISS_OFF, 0, 0},
-				  { "Factory", "", ISS_OFF, 0, 0}};
-				  
-static ISwitchVectorProperty CamSettingSP = { mydev, "Settings", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, CamSettingS, NARRAY(CamSettingS), "", 0};
-  
-#ifndef HAVE_LINUX_VIDEODEV2_H
-static INumber ImageAdjustN[] = {  {"Contrast", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
-                                   {"Brightness", "", "%0.f", 0., 256., 1., 0., 0 ,0 ,0}, 
-				   {"Color", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
-				   {"Sharpness", "", "%0.f", -1., 256., 1., -1., 0 , 0 ,0},
-				   {"Gain", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0},
-				   {"Gamma", "", "%0.f", 0., 256., 1., 0., 0 , 0 ,0}};
-				   
-static INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, ImageAdjustN, NARRAY(ImageAdjustN), "", 0 };
-#else
-INumberVectorProperty ImageAdjustNP = {mydev, "Image Adjustments", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, NULL, 0, "", 0 };
-#endif
-
-static INumber WhiteBalanceN[] = { {"Manual Red", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }, 
-				   {"Manual Blue", "", "%0.f", 0., 256., 1., 0., 0, 0, 0 }};
-				   
-static INumberVectorProperty WhiteBalanceNP = { mydev, "White Balance", "", IMAGE_ADJUST, IP_RW, 0, IPS_IDLE, WhiteBalanceN, NARRAY(WhiteBalanceN), "", 0 };
-
-static ISwitch WhiteBalanceModeS[] = {{ "Auto", "", ISS_ON, 0, 0 },
-                                     { "Manual", "", ISS_OFF, 0, 0 },
-				     { "Indoor", "", ISS_OFF, 0, 0},
-				     { "Outdoor", "", ISS_OFF, 0, 0},
-				     { "Fluorescent", "", ISS_OFF, 0, 0}};
-				     
-static ISwitchVectorProperty WhiteBalanceModeSP = { mydev, "White Balance Mode", "", IMAGE_ADJUST, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), "", 0};
-				     
-/* BLOB for sending image */
-static IBLOB imageB = {"CCD1", "Feed", "", 0, 0, 0, 0, 0, 0, 0};
-static IBLOBVectorProperty imageBP = {mydev, "Video", "Video", COMM_GROUP,
-  IP_RO, 0, IPS_IDLE, &imageB, 1, "", 0};
-
-/* send client definitions of all properties */
-void ISInit()
+V4L_Philips::V4L_Philips() : V4L_Driver()
 {
-  static int isInit=0;
-
- if (isInit)
-  return;
- 
- V4LFrame = new img_t;
- 
- if (V4LFrame == NULL)
- {
-   IDMessage(mydev, "Error: unable to initialize driver. Low memory.");
-   IDLog("Error: unable to initialize driver. Low memory.");
-   return;
- }
- 
- streamTimerID = -1;
- 
- PortT[0].text     = NULL;
- IUSaveText(&PortT[0], "/dev/video0");
- 
- camNameT[0].text  = NULL;
-
- #ifdef HAVE_LINUX_VIDEODEV2_H
-   v4l_pwc = new V4L2_Base();
- #else
-   v4l_pwc = new V4L1_PWC();
- #endif 
-
- isInit = 1;
 
 }
 
-void ISGetProperties (const char *dev)
-{ 
+V4L_Philips::~V4L_Philips()
+{
 
-   ISInit();
+}
+
+void V4L_Philips::initCamBase()
+{
+   #ifdef HAVE_LINUX_VIDEODEV2_H
+    v4l_base = new V4L2_Base();
+   #else
+    v4l_pwc = new V4L1_PWC();
+    v4l_base = (V4L1_Base *) v4l_pwc;
+   #endif
+}
+
+void V4L_Philips::initProperties(const char *dev)
+{
+
+  // Call parent
+  V4L_Driver::initProperties(dev);
+
+  fillSwitch(&BackLightS[0], "ON", "", ISS_OFF);
+  fillSwitch(&BackLightS[1], "OFF", "", ISS_ON);
+  fillSwitchVector(&BackLightSP, BackLightS, NARRAY(BackLightS), dev, "Back Light", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
+
+  fillSwitch(&AntiFlickerS[0], "ON", "", ISS_OFF);
+  fillSwitch(&AntiFlickerS[1], "OFF", "", ISS_ON);
+  fillSwitchVector(&AntiFlickerSP, AntiFlickerS, NARRAY(AntiFlickerS), dev, "Anti Flicker", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
+
+  fillSwitch(&NoiseReductionS[0], "None", "", ISS_ON);
+  fillSwitch(&NoiseReductionS[1], "Low", "", ISS_OFF);
+  fillSwitch(&NoiseReductionS[2], "Medium", "", ISS_OFF);
+  fillSwitch(&NoiseReductionS[3], "High", "", ISS_OFF);
+  fillSwitchVector(&NoiseReductionSP, NoiseReductionS, NARRAY(NoiseReductionS), dev, "Noise Reduction", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  fillSwitch(&CamSettingS[0], "Save", "", ISS_OFF);
+  fillSwitch(&CamSettingS[1], "Restore", "", ISS_OFF);
+  fillSwitch(&CamSettingS[2], "Factory", "", ISS_OFF);
+  fillSwitchVector(&CamSettingSP, CamSettingS, NARRAY(CamSettingS), dev, "Settings", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  fillSwitch(&WhiteBalanceModeS[0], "Auto" , "", ISS_ON);
+  fillSwitch(&WhiteBalanceModeS[1], "Manual" , "", ISS_OFF);
+  fillSwitch(&WhiteBalanceModeS[2], "Indoor" , "", ISS_OFF);
+  fillSwitch(&WhiteBalanceModeS[3], "Outdoor" , "", ISS_OFF);
+  fillSwitch(&WhiteBalanceModeS[4], "Fluorescent" , "", ISS_OFF);
   
-  if (dev && strcmp (mydev, dev))
+  fillSwitchVector(&WhiteBalanceModeSP, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), dev, "White Balance Mode", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+
+  fillNumber(&WhiteBalanceN[0], "Manual Red", "", "%0.f", 0., 256., 1., 0.);
+  fillNumber(&WhiteBalanceN[1], "Manual Blue", "", "%0.f", 0., 256., 1., 0.);
+  fillNumberVector(&WhiteBalanceNP, WhiteBalanceN, NARRAY(WhiteBalanceN), dev, "White Balance", "", IMAGE_CONTROL, IP_RW, 60, IPS_IDLE);
+
+  fillNumber(&ShutterSpeedN[0], "Speed", "", "%0.f", 0., 65535., 100., 0.);
+  fillNumberVector(&ShutterSpeedNP, ShutterSpeedN, NARRAY(ShutterSpeedN), dev, "Shutter Speed", "", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+
+}
+
+void V4L_Philips::ISGetProperties (const char *dev)
+{
+
+  if (dev && strcmp (device_name, dev))
     return;
     
+   #ifdef HAVE_LINUX_VIDEODEV2_H
+    V4L_Driver::ISGetProperties(dev);
+    return;
+   #endif
+
   /* COMM_GROUP */
   IDDefSwitch(&PowerSP, NULL);
   IDDefText(&PortTP, NULL);
   IDDefText(&camNameTP, NULL);
   IDDefSwitch(&StreamSP, NULL);
-  #ifndef HAVE_LINUX_VIDEODEV2_H
   IDDefNumber(&FrameRateNP, NULL);
-  #endif
-
   IDDefNumber(&ExposeTimeNP, NULL);
-  #ifndef HAVE_LINUX_VIDEODEV2_H
   IDDefNumber(&ShutterSpeedNP, NULL);
-  #endif
   IDDefBLOB(&imageBP, NULL);
   
-  /* Image properties */
+  /* Image Groups */
   IDDefSwitch(&CompressSP, NULL);
   IDDefSwitch(&ImageTypeSP, NULL);
   IDDefNumber(&ImageSizeNP, NULL);
-  #ifndef HAVE_LINUX_VIDEODEV2_H
+  IDDefNumber(&ImageAdjustNP, NULL);
+  
+  /* Image Control */
+  IDDefSwitch(&WhiteBalanceModeSP, NULL);
+  IDDefNumber(&WhiteBalanceNP, NULL);
   IDDefSwitch(&BackLightSP, NULL);
   IDDefSwitch(&AntiFlickerSP, NULL);
   IDDefSwitch(&NoiseReductionSP, NULL);
   IDDefSwitch(&CamSettingSP, NULL);
-  
-  /* Image Adjustments */
-  IDDefSwitch(&WhiteBalanceModeSP, NULL);
-  IDDefNumber(&WhiteBalanceNP, NULL);
-  IDDefNumber(&ImageAdjustNP, NULL);
-  #endif
-  
-}
-  
-void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
-{}
 
-void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
+}
+
+void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-	char errmsg[ERRMSG_SIZE];
-	int index=0;
+     char errmsg[ERRMSG_SIZE]; 
+     int index=0;
 	
 	/* ignore if not ours */
-     if (dev && strcmp (dev, mydev))
+     if (dev && strcmp (device_name, dev))
 	 return;
-	    
-	ISInit();
-     
-     /* Connection */
-     if (!strcmp (name, PowerSP.name))
-     {
-          IUResetSwitches(&PowerSP);
-	  IUUpdateSwitches(&PowerSP, states, names, n);
-   	  connectV4L();
-	  return;
-     }
-    
-     /* Compression */
-     if (!strcmp(name, CompressSP.name))
-     {
-       IUResetSwitches(&CompressSP);
-       IUUpdateSwitches(&CompressSP, states, names, n);
-       CompressSP.s = IPS_OK;
-       
-       IDSetSwitch(&CompressSP, NULL);
-       return;
-     }
 
-     /* Image Type */
-     if (!strcmp(name, ImageTypeSP.name))
-     {
-       IUResetSwitches(&ImageTypeSP);
-       IUUpdateSwitches(&ImageTypeSP, states, names, n);
-       ImageTypeSP.s = IPS_OK;
-       
-       IDSetSwitch(&ImageTypeSP, NULL);
-       return;
-     }
-     
-     /* Video Stream */
-     if (!strcmp(name, StreamSP.name))
-     {
-     
-      if (checkPowerS(&StreamSP))
-         return;
-       
-       IUResetSwitches(&StreamSP);
-       IUUpdateSwitches(&StreamSP, states, names, n);
-       StreamSP.s = IPS_IDLE;
-       
-       // Refresh Size
-       IDSetNumber(&ImageSizeNP, NULL);
-          
-       if (StreamS[0].s == ISS_ON && streamTimerID == -1)
-       {
-         IDLog("Starting the video stream.\n");
-         v4l_pwc->start_capturing(errmsg);
-	 StreamSP.s  = IPS_BUSY; 
-       }
-       else
-       {
-         IDLog("The video stream has been disabled.\n");
-	 v4l_pwc->stop_capturing(errmsg);
-       }
-       
-       IDSetSwitch(&StreamSP, NULL);
-       return;
-     }
-     
-    #ifndef HAVE_LINUX_VIDEODEV2_H
+     #ifndef HAVE_LINUX_VIDEODEV2_H
     /* Anti Flicker control */
     if (!strcmp (AntiFlickerSP.name, name))
     {
@@ -602,79 +373,30 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	  return;
 	}
      }
-    #endif
-    
+     #endif
+
+     // Call parent
+     V4L_Driver::ISNewSwitch(dev, name, states, names, n);
+        
+     
+
 }
 
-void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int /*n*/)
+void V4L_Philips::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
-	IText *tp;
-	
-	ISInit();
- 
-       /* ignore if not ours */ 
-       if (dev && strcmp (mydev, dev))
-         return;
-
-	
-	if (!strcmp(name, PortTP.name) )
-	{
-	  PortTP.s = IPS_OK;
-	  tp = IUFindText( &PortTP, names[0] );
-	  if (!tp)
-	   return;
-
-          IUSaveText(tp, texts[0]);
-	  IDSetText (&PortTP, NULL);
-	  return;
-	}
-	
-}
-
-
-void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
-{
-        char errmsg[ERRMSG_SIZE];
-	
-	/* ignore if not ours */
-	if (dev && strcmp (dev, mydev))
-	    return;
-	    
-	ISInit();
-    
-    /* Frame Size */
-    if (!strcmp (ImageSizeNP.name, name))
-    {
-      if (checkPowerN(&ImageSizeNP))
-        return;
-	
-       int oldW = (int) ImageSizeN[0].value;
-       int oldH = (int) ImageSizeN[1].value;
-	
-      ImageSizeNP.s = IPS_OK;
-      
-      if (IUUpdateNumbers(&ImageSizeNP, values, names, n) < 0)
-       return;
-      
-      if (v4l_pwc->setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value) != -1)
-      {
-         ImageSizeN[0].value = v4l_pwc->getWidth();
-	 ImageSizeN[1].value = v4l_pwc->getHeight();
-         IDSetNumber(&ImageSizeNP, NULL);
-      }
-      else
-      {
-        ImageSizeN[0].value = oldW;
-	ImageSizeN[1].value = oldH;
-        ImageSizeNP.s = IPS_ALERT;
-	IDSetNumber(&ImageSizeNP, "Failed to set a new image size.");
-      }
-      
-      return;
-   }
    
-   #ifndef HAVE_LINUX_VIDEODEV2_H
-   /* Frame rate */
+     V4L_Driver::ISNewText(dev, name, texts, names, n);
+
+}
+
+void V4L_Philips::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
+{
+
+    // Nothing for V4L 2 to do here
+    #ifndef HAVE_LINUX_VIDEODEV2_H
+    char errmsg[ERRMSGSIZ];
+
+    /* Frame rate */
    if (!strcmp (FrameRateNP.name, name))
    {
      if (checkPowerN(&FrameRateNP))
@@ -698,111 +420,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      IDSetNumber(&FrameRateNP, NULL);
      return;
    }
-  #endif
-   
-   if (!strcmp (ImageAdjustNP.name, name))
-   {
-     if (checkPowerN(&ImageAdjustNP))
-       return;
-       
-     ImageAdjustNP.s = IPS_IDLE;
-     
-     #ifndef HAVE_LINUX_VIDEODEV2_H
-     double oldImgPar[6], shrValue;
-     for (int i=0; i < 6; i++)
-       oldImgPar[i] = ImageAdjustN[i].value;
-     
-     if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
-       return;
-
-     if ( ImageAdjustN[0].value != oldImgPar[0])
-     {
-     	        IDLog("Setting contrast %g\n", (ImageAdjustN[0].value * 256));
-     		v4l_pwc->setContrast( (int) (ImageAdjustN[0].value * 256));
-		ImageAdjustN[0].value = v4l_pwc->getContrast() / 256.;
-     }
-		
-     if ( ImageAdjustN[1].value != oldImgPar[1])
-     {
-     		IDLog("Setting brighness %g\n", (ImageAdjustN[1].value * 256));
-		v4l_pwc->setBrightness( (int) (ImageAdjustN[1].value * 256));
-		ImageAdjustN[1].value = v4l_pwc->getBrightness() / 256.;
-     }
-		
-     if ( ImageAdjustN[2].value != oldImgPar[2])
-     {
-           IDLog("Setting color %g\n" , (ImageAdjustN[2].value * 256));
-     	   v4l_pwc->setColor( (int) (ImageAdjustN[2].value * 256));
-	   ImageAdjustN[2].value = v4l_pwc->getColor() / 256.;
-     }
-		
-     if (ImageAdjustN[3].value < 0)
-       shrValue = -1;
-     else
-       shrValue = (ImageAdjustN[3].value * 256);
-       
-     if ( ImageAdjustN[3].value != oldImgPar[3])
-     	if (v4l_pwc->setSharpness( (int) shrValue , errmsg) < 0)
-     	{ 
-       		for (int i=0; i < 6; i++)
-         	ImageAdjustN[i].value = oldImgPar[i];
-	 
-       		IDSetNumber(&ImageAdjustNP, "%s", errmsg);
-       		return;
-     	}
-	else
-	{
-	   IDLog("Setting sharpness %g\n", shrValue);
-	   if (shrValue == -1)
-	      ImageAdjustN[3].value = -1;
-	   else
-	      ImageAdjustN[3].value = v4l_pwc->getSharpness() / 256.;
-	}
-	
-     if ( ImageAdjustN[4].value != oldImgPar[4])
-     	if (v4l_pwc->setGain( (int) (ImageAdjustN[4].value * 256), errmsg) < 0)
-     	{
-       		for (int i=0; i < 6; i++)
-         		ImageAdjustN[i].value = oldImgPar[i];
-	 
-       		IDSetNumber(&ImageAdjustNP, "%s", errmsg);
-       		return;
-     	}
-	else
-	{
-	   IDLog("Setting gain %g\n", (ImageAdjustN[4].value * 256));
-	   ImageAdjustN[4].value = v4l_pwc->getGain() / 256.;
-	}
-	
-     if ( ImageAdjustN[5].value != oldImgPar[5])
-     {
-       IDLog("Setting gamma %g\n",  (ImageAdjustN[5].value * 256));
-       v4l_pwc->setGama ( (int) (ImageAdjustN[5].value * 256));
-       ImageAdjustN[5].value = v4l_pwc->getGama() / 256.;
-     }
-     #else
-     if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
-       return;
-
-     int ctrl_id;
-     for (int i=0; i < ImageAdjustNP.nnp; i++)
-     {
-         ctrl_id = *((int *) ImageAdjustNP.np[i].aux0);
-         if (v4l_pwc->setINTControl( ctrl_id , ImageAdjustNP.np[0].value, errmsg) < 0)
-         {
-            ImageAdjustNP.s = IPS_ALERT;
-            IDSetNumber(&ImageAdjustNP, "Unable to adjust setting. %s", errmsg);
-            return;
-         }
-     }
-     #endif
-     
-     ImageAdjustNP.s = IPS_OK;
-     IDSetNumber(&ImageAdjustNP, NULL);
-     return;
-   }
-   
-   #ifndef HAVE_LINUX_VIDEODEV2_H
+  
    if (!strcmp (ShutterSpeedNP.name, name))
    {
      if (checkPowerN(&ShutterSpeedNP))
@@ -822,9 +440,9 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      return;
   }
   
-  /* White balance */
-  if (!strcmp (WhiteBalanceNP.name, name))
-  {
+   /* White balance */
+   if (!strcmp (WhiteBalanceNP.name, name))
+   {
      if (checkPowerN(&WhiteBalanceNP))
        return;
        
@@ -860,167 +478,17 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
      IDSetNumber(&WhiteBalanceNP, NULL);
      return;
    }
+
    #endif
-   
-   /* Exposure */
-    if (!strcmp (ExposeTimeNP.name, name))
-    {
-       
-       if (checkPowerN(&ExposeTimeNP))
-         return;
-    
-        if (StreamS[0].s == ISS_ON) 
-          v4l_pwc->stop_capturing(errmsg);
 
-	streamTimerID = -1;
-	StreamS[0].s  = ISS_OFF;
-	StreamS[1].s  = ISS_ON;
-	StreamSP.s    = IPS_IDLE;
-	IDSetSwitch(&StreamSP, NULL);
-	
-	V4LFrame->expose = 1000;
-	//V4LFrame->Y      = v4l_pwc->getY();
-	//V4LFrame->U      = v4l_pwc->getU();
-	//V4LFrame->V      = v4l_pwc->getV();
-	
-        v4l_pwc->start_capturing(errmsg);
-        ExposeTimeNP.s   = IPS_BUSY;
-	IDSetNumber(&ExposeTimeNP, NULL);
-
-     return;
-    } 
-  
-  	
-} 
-
-void newFrame(void */*p*/)
-{
-  char errmsg[ERRMSGSIZ];
-  static int dropLarge = 3;
-
-  V4LFrame->Y      = v4l_pwc->getY();
-  V4LFrame->U      = v4l_pwc->getU();
-  V4LFrame->V      = v4l_pwc->getV();  
-
-  if (StreamSP.s == IPS_BUSY)
-  {
-     // Drop some frames
-     if (ImageSizeN[0].value > 160)
-     {
-        dropLarge--;
-        if (dropLarge == 0)
-        {
-          dropLarge = 3;
-          return;
-        }
-        else if (dropLarge < 2) return;
-      }
-
-     updateStream(NULL);
-
-  }
-  else if (ExposeTimeNP.s == IPS_BUSY)
-  {
-     v4l_pwc->stop_capturing(errmsg);
-     grabImage();
-  }
+   // Call parent 
+   V4L_Driver::ISNewNumber(dev, name, values, names, n);
 
 }
 
-/* Downloads the image from the CCD row by row and store them
-   in a raw file.
- N.B. No processing is done on the image */
-int grabImage()
-{
-   int err, fd;
-   char errmsg[ERRMSGSIZ];
-   char filename[] = "/tmp/fitsXXXXXX";
-   
-   if ((fd = mkstemp(filename)) < 0)
-   { 
-    IDMessage(mydev, "Error making temporary filename.");
-    IDLog("Error making temporary filename.\n");
-    return -1;
-   }
-   close(fd);
-  
-   err = writeFITS(filename, errmsg);
-   if (err)
-   {
-       IDMessage(mydev, errmsg, NULL);
-       return -1;
-   }
-   
-  return 0;
-}
-
-int writeFITS(const char* filename, char errmsg[])
-{
-  FITS_FILE* ofp;
-  int i, bpp, bpsl, width, height;
-  long nbytes;
-  FITS_HDU_LIST *hdu;
-  
-  ofp = fits_open (filename, "w");
-  if (!ofp)
-  {
-    strcpy(errmsg, "Error: cannot open file for writing.");
-    return (-1);
-  }
-  
-  width  = v4l_pwc->getWidth();
-  height = v4l_pwc->getHeight();
-  bpp    = 1;                      /* Bytes per Pixel */
-  bpsl   = bpp * width;    	   /* Bytes per Line */
-  nbytes = 0;
-  
-  hdu = create_fits_header (ofp, width, height, bpp);
-  if (hdu == NULL)
-  {
-     strcpy(errmsg, "Error: creating FITS header failed.");
-     return (-1);
-  }
-  if (fits_write_header (ofp, hdu) < 0)
-  {
-    strcpy(errmsg, "Error: writing to FITS header failed.");
-    return (-1);
-  }
-  
-  for (i= height - 1; i >=0 ; i--) 
-  {
-    fwrite(V4LFrame->Y + (i * width), 1, width, ofp->fp);
-    nbytes += bpsl;
-  }
-  
-  nbytes = nbytes % FITS_RECORD_SIZE;
-  if (nbytes)
-  {
-    while (nbytes++ < FITS_RECORD_SIZE)
-      putc (0, ofp->fp);
-  }
-  
-  if (ferror (ofp->fp))
-  {
-    strcpy(errmsg, "Error: write error occured");
-    return (-1);
-  }
- 
- fits_close (ofp);      
- 
-  /* Success */
- ExposeTimeNP.s = IPS_OK;
- IDSetNumber(&ExposeTimeNP, NULL);
- //IDLog("Loading FITS image...\n");
- 
- uploadFile(filename);
-  
- return 0;
-
-}
-
-
+#ifndef HAVE_LINUX_VIDEODEV2_H
 /* Retrieves basic data from the device upon connection.*/
-void getBasicData()
+void V4L_Philips::getBasicData()
 {
 
   char errmsg[ERRMSGSIZ];
@@ -1045,7 +513,6 @@ void getBasicData()
   IUSaveText(&camNameT[0], v4l_pwc->getDeviceName());
   IDSetText(&camNameTP, NULL);
   
-  #ifndef HAVE_LINUX_VIDEODEV2_H
   IDLog("Raw values\n Contrast: %d \n Brightness %d \n Color %d \n Sharpness %d \n Gain %d \n Gamma %d \n", v4l_pwc->getContrast(), v4l_pwc->getBrightness(), v4l_pwc->getColor(), v4l_pwc->getSharpness(), v4l_pwc->getGain(), v4l_pwc->getGama());
   
   updateV4L1Controls();
@@ -1113,334 +580,15 @@ void getBasicData()
      break;
   }
   IDSetSwitch(&WhiteBalanceModeSP, NULL);    
-  #else
-  updateV4L2Controls();
-  #endif
   
 }
+#endif
 
-void updateV4L2Controls()
-{
-    #ifdef HAVE_LINUX_VIDEODEV2_H
-    char errmsg[ERRMSGSIZ];
-
-    //IDLog("in updateV4L2Controls\n");
-
-    // #1 Query for INTEGER controls, and fill up the structure
-      free(ImageAdjustNP.np);
-      ImageAdjustNP.nnp = 0;
-      
-   if (v4l_pwc->queryINTControls(&ImageAdjustNP) > 0)
-      IDDefNumber(&ImageAdjustNP, NULL);
-
-   #endif
-/*    if (v4l_base->query_ctrl(V4L2_CID_CONTRAST, ImageAdjustN[0].min, ImageAdjustN[0].max, ImageAdjustN[0].step, ImageAdjustN[0].value, errmsg))
-        IDLog("Contract: %s\n", errmsg);
-       
-    if (v4l_base->query_ctrl(V4L2_CID_BRIGHTNESS, ImageAdjustN[1].min, ImageAdjustN[1].max, ImageAdjustN[1].step, ImageAdjustN[1].value, errmsg))
-       IDLog("Brightness: %s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_HUE, ImageAdjustN[2].min, ImageAdjustN[2].max, ImageAdjustN[2].step, ImageAdjustN[2].value, errmsg))
-        IDLog("Hue: %s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_SATURATION, ImageAdjustN[3].min, ImageAdjustN[3].max, ImageAdjustN[3].step, ImageAdjustN[3].value, errmsg))
-       IDLog("%s\n", errmsg);
-    
-    if (v4l_base->query_ctrl(V4L2_CID_WHITENESS, ImageAdjustN[4].min, ImageAdjustN[4].max, ImageAdjustN[4].step, ImageAdjustN[4].value, errmsg))
-       IDLog("%s\n", errmsg);
-    
-   IUUpdateMinMax(&ImageAdjustNP);*/
-
-}
-
-
-int checkPowerS(ISwitchVectorProperty *sp)
-{
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(sp->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->name);
-    else
-    	IDMessage (mydev, "Cannot change property %s while the camera is offline.", sp->label);
-	
-    sp->s = IPS_IDLE;
-    IDSetSwitch(sp, NULL);
-    return -1;
-  }
-
-  return 0;
-}
-
-int checkPowerN(INumberVectorProperty *np)
-{
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(np->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->name);
-    else
-    	IDMessage (mydev, "Cannot change property %s while the camera is offline.", np->label);
-	
-    np->s = IPS_IDLE;
-    IDSetNumber(np, NULL);
-    return -1;
-  }
-
-  return 0;
-}
-
-int checkPowerT(ITextVectorProperty *tp)
-{
-  if (PowerSP.s != IPS_OK)
-  {
-    if (!strcmp(tp->label, ""))
-        IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->name);
-    else
-    	IDMessage (mydev, "Cannot change property %s while the camera is offline.", tp->label);
-    
-    tp->s = IPS_IDLE;
-    IDSetText(tp, NULL);
-    return -1;
-  }
-
-  return 0;
-
-}
-
-void connectV4L()
-{
-  char errmsg[ERRMSGSIZ];
-    
-  switch (PowerS[0].s)
-  {
-     case ISS_ON:
-      if (v4l_pwc->connectCam(PortT[0].text, errmsg) < 0)
-      {
-	  PowerSP.s = IPS_IDLE;
-	  PowerS[0].s = ISS_OFF;
-	  PowerS[1].s = ISS_ON;
-	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
-	  IDLog("Error: %s\n", errmsg);
-	  return;
-      }
-      
-      /* Sucess! */
-      
-      PowerS[0].s = ISS_ON;
-      PowerS[1].s = ISS_OFF;
-      PowerSP.s = IPS_OK;
-      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is online. Retrieving basic data.");
-      
-      v4l_pwc->registerCallback(newFrame);
-
-      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
-      
-      IDLog("V4L Device is online. Retrieving basic data.\n");
-      getBasicData();
-      
-      break;
-      
-    case ISS_OFF:
-      PowerS[0].s = ISS_OFF;
-      PowerS[1].s = ISS_ON;
-      PowerSP.s = IPS_IDLE;
-      
-      // Disable stream if running
-      if (streamTimerID != -1)
-      {
-      	rmTimer(streamTimerID);
-      	streamTimerID = -1;
-      }
-      
-      
-      free(V4LFrame->compressedFrame);
-      V4LFrame->compressedFrame = NULL;
-      v4l_pwc->disconnectCam();      
-      
-      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
-      
-      break;
-     }
-}
-
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
-{
- FITS_HDU_LIST *hdulist;
- char expose_s[80];
- char obsDate[80];
- char instrumentName[80];
- char ts[32];
-	
- struct tm *tp;
- time_t t;
- time (&t);
- tp = gmtime (&t);
- strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
- 
- snprintf(instrumentName, 80, "INSTRUME= '%s'", v4l_pwc->getDeviceName());
- snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
-
- hdulist = fits_add_hdu (ofp);
- if (hdulist == NULL) return (NULL);
-
- hdulist->used.simple = 1;
- hdulist->bitpix = 8;
- hdulist->naxis = 2;
- hdulist->naxisn[0] = width;
- hdulist->naxisn[1] = height;
- hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = 0;
- hdulist->used.datamax = 0;
- hdulist->used.bzero = 1;
- hdulist->bzero = 0.0;
- hdulist->used.bscale = 1;
- hdulist->bscale = 1.0;
- 
- sprintf(expose_s, "EXPOSURE= %d / milliseconds", V4LFrame->expose);
- 
- fits_add_card (hdulist, expose_s);
- fits_add_card (hdulist, instrumentName);
- fits_add_card (hdulist, obsDate);
- 
- return (hdulist);
-}
-
-void updateStream(void * /*p*/)
-{
-   int width  = v4l_pwc->getWidth();
-   int height = v4l_pwc->getHeight();
-   uLongf compressedBytes = 0;
-   uLong totalBytes;
-   unsigned char *targetFrame;
-   int r;
-   char errmsg[1024];
-   
-   if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
-   
-   V4LFrame->Y      		= v4l_pwc->getY();
-   V4LFrame->U      		= v4l_pwc->getU();
-   V4LFrame->V      		= v4l_pwc->getV();
-   V4LFrame->colorBuffer 	= v4l_pwc->getColorBuffer();
-  
-   totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
-   targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;
-
-   /* Do we want to compress ? */
-    if (CompressS[0].s == ISS_ON)
-    {   
-   	/* Compress frame */
-   	V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
-   
-   	compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
-   
-   	r = compress2(V4LFrame->compressedFrame, &compressedBytes, targetFrame, totalBytes, 4);
-   	if (r != Z_OK)
-   	{
-	 	/* this should NEVER happen */
-	 	IDLog("internal error - compression failed: %d\n", r);
-		return;
-   	}
-   
-   	/* #3.A Send it compressed */
-   	imageB.blob = V4LFrame->compressedFrame;
-   	imageB.bloblen = compressedBytes;
-   	imageB.size = totalBytes;
-   	strcpy(imageB.format, ".stream.z");
-     }
-     else
-     {
-       /* #3.B Send it uncompressed */
-        imageB.blob = targetFrame;
-   	imageB.bloblen = totalBytes;
-   	imageB.size = totalBytes;
-   	strcpy(imageB.format, ".stream");
-     }
-        
-   imageBP.s = IPS_OK;
-   IDSetBLOB (&imageBP, NULL);
-
-   #ifndef HAVE_LINUX_VIDEODEV2_H
-      v4l_pwc->start_capturing(errmsg);
-   #endif
-
-}
-
-void uploadFile(const char* filename)
-{
-   FILE * fitsFile;
-   unsigned char *fitsData;
-   int r=0;
-   unsigned int nr = 0;
-   uLongf compressedBytes = 0;
-   uLong totalBytes;
-   struct stat stat_p; 
- 
-   if ( -1 ==  stat (filename, &stat_p))
-   { 
-     IDLog(" Error occoured attempting to stat %s\n", filename); 
-     return; 
-   }
-   
-   totalBytes = stat_p.st_size;
-   fitsData = new unsigned char[totalBytes];
-
-   fitsFile = fopen(filename, "r");
-   
-   if (fitsFile == NULL)
-    return;
-   
-   /* #1 Read file from disk */ 
-   for (unsigned int i=0; i < totalBytes; i+= nr)
-   {
-      nr = fread(fitsData + i, 1, totalBytes - i, fitsFile);
-     
-     if (nr <= 0)
-     {
-        IDLog("Error reading temporary FITS file.\n");
-        return;
-     }
-   }
-   
-if (CompressS[0].s == ISS_ON)
-   {   
-   /* #2 Compress it */
-   V4LFrame->compressedFrame = (unsigned char *) realloc (V4LFrame->compressedFrame, sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3);
-   
-    compressedBytes = sizeof(unsigned char) * totalBytes + totalBytes / 64 + 16 + 3;
-     
-     
-   r = compress2(V4LFrame->compressedFrame, &compressedBytes, fitsData, totalBytes, 9);
-   if (r != Z_OK)
-   {
- 	/* this should NEVER happen */
- 	IDLog("internal error - compression failed: %d\n", r);
-	return;
-   }
-
-   /* #3.A Send it compressed */
-   imageB.blob = V4LFrame->compressedFrame;
-   imageB.bloblen = compressedBytes;
-   imageB.size = totalBytes;
-   strcpy(imageB.format, ".fits.z");
-   }
-   else
-   {
-     imageB.blob = fitsData;
-     imageB.bloblen = totalBytes;
-     imageB.size = totalBytes;
-     strcpy(imageB.format, ".fits");
-   }
-   
-   imageBP.s = IPS_OK;
-   IDSetBLOB (&imageBP, NULL);
-   
-   delete (fitsData);
-}
-
-void updateV4L1Controls()
+#ifndef HAVE_LINUX_VIDEODEV2_H
+void V4L_Philips::updateV4L1Controls()
 {
   int index =0;
 
-  #ifndef HAVE_LINUX_VIDEODEV2_H
   ImageAdjustN[0].value = v4l_pwc->getContrast() / 256.;
   ImageAdjustN[1].value = v4l_pwc->getBrightness() / 256.;
   ImageAdjustN[2].value = v4l_pwc->getColor() / 256.;
@@ -1455,6 +603,8 @@ void updateV4L1Controls()
        
   ImageAdjustNP.s = IPS_OK;
   IDSetNumber(&ImageAdjustNP, NULL);
-  #endif
+
 
 }
+#endif
+

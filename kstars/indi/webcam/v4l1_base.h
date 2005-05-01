@@ -81,15 +81,16 @@ class V4L1_Base
 
   int start_capturing(char *errmsg);
   int stop_capturing(char *errmsg);
-  void registerCallback(WPF *fp);
+  void registerCallback(WPF *fp, void *ud);
 
   protected:
 
   int fd;
   WPF *callback;
-  unsigned long options_;
+  void *uptr;
+  unsigned long options;
 
-  struct video_capability capability_;
+  struct video_capability capability;
   struct video_window window;
   struct video_picture picture_format;
   struct video_mbuf mmap_buffer;

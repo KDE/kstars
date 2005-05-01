@@ -83,7 +83,7 @@ class V4L2_Base
   unsigned char * getV();
   unsigned char * getColorBuffer();
 
-  void registerCallback(WPF *fp);
+  void registerCallback(WPF *fp, void *ud);
 
   int start_capturing(char *errmsg);
   int stop_capturing(char *errmsg);
@@ -121,6 +121,7 @@ class V4L2_Base
   struct v4l2_querymenu querymenu;
 
   WPF *callback;
+  void *uptr;
   char          dev_name[64];
   io_method	io;
   int           fd;

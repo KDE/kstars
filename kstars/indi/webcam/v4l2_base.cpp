@@ -18,7 +18,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-*/
+*/ 
 
 #include <iostream>
 
@@ -210,7 +210,7 @@ int V4L2_Base::read_frame(char *errmsg)
 
                 /* Call provided callback function if any */
                  if (callback)
-                	(*callback)(NULL);
+                	(*callback)(uptr);
 
 		break;
 
@@ -859,9 +859,10 @@ unsigned char * V4L2_Base::getColorBuffer()
   return colorBuffer;
 }
 
-void V4L2_Base::registerCallback(WPF *fp)
+void V4L2_Base::registerCallback(WPF *fp, void *ud)
 {
   callback = fp;
+  uptr = ud;
 }
 
 void V4L2_Base::findMinMax()

@@ -56,11 +56,11 @@ V4L1_PWC::V4L1_PWC()
 V4L1_PWC::~V4L1_PWC()
 {
 
-}
+} 
 
 int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
 {
-   options_= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
+   options= (ioNoBlock|ioUseSelect|haveBrightness|haveContrast|haveColor);
    struct pwc_probe probe;
    bool IsPhilips = false;
    frameRate=15;
@@ -69,7 +69,7 @@ int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
    buffer_start=NULL;
    
    if (-1 == (fd=open(devpath,
-                           O_RDONLY | ((options_ & ioNoBlock) ? O_NONBLOCK : 0)))) {
+                           O_RDONLY | ((options & ioNoBlock) ? O_NONBLOCK : 0)))) {
       
       strncpy(errmsg, strerror(errno), 1024);
       cerr << strerror(errno);
@@ -79,7 +79,7 @@ int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
    cerr << "Device opened" << endl;
    
    if (fd != -1) {
-      if (-1 == ioctl(fd,VIDIOCGCAP,&capability_)) {
+      if (-1 == ioctl(fd,VIDIOCGCAP,&capability)) {
          cerr << "Error: ioctl (VIDIOCGCAP)" << endl;
 	 strncpy(errmsg, "ioctl (VIDIOCGCAP)", 1024);
 	 return -1;
@@ -100,7 +100,7 @@ int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
   // Check to see if it's really a philips webcam       
   if (ioctl(fd, VIDIOCPWCPROBE, &probe) == 0) 
   {
-  	    if (!strcmp(capability_.name,probe.name))
+  	    if (!strcmp(capability.name,probe.name))
 	    {
 	       IsPhilips = true;
 	       type_=probe.type;
@@ -131,10 +131,10 @@ int V4L1_PWC::connectCam(const char * devpath, char *errmsg)
 
 void V4L1_PWC::checkSize(int & x, int & y) 
 {
- if (x>=capability_.maxwidth && y >= capability_.maxheight)
+ if (x>=capability.maxwidth && y >= capability.maxheight)
    {
-      x=capability_.maxwidth;
-      y=capability_.maxheight;
+      x=capability.maxwidth;
+      y=capability.maxheight;
    } else if (x>=352 && y >=288 && type_<700) {
       x=352;y=288;
    } else if (x>=320 && y >= 240) {
@@ -144,8 +144,8 @@ void V4L1_PWC::checkSize(int & x, int & y)
    } else if (x>=160 && y >=120 ) {
       x=160;y=120;
    } else {
-      x=capability_.minwidth;
-      y=capability_.minheight;
+      x=capability.minwidth;
+      y=capability.minheight;
    }
 }
 
