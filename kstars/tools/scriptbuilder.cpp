@@ -266,16 +266,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
-	sb->NewButton->setPixmap( icons->loadIcon( "filenew", KIcon::Toolbar ) );
-	sb->OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
-	sb->SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
-	sb->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
-	sb->RunButton->setPixmap( icons->loadIcon( "launch", KIcon::Toolbar ) );
-	sb->CopyButton->setPixmap( icons->loadIcon( "reload", KIcon::Toolbar ) );
-	sb->AddButton->setPixmap( icons->loadIcon( "back", KIcon::Toolbar ) );
-	sb->RemoveButton->setPixmap( icons->loadIcon( "forward", KIcon::Toolbar ) );
-	sb->UpButton->setPixmap( icons->loadIcon( "up", KIcon::Toolbar ) );
-	sb->DownButton->setPixmap( icons->loadIcon( "down", KIcon::Toolbar ) );
+	sb->NewButton->setIconSet( icons->loadIcon( "filenew", KIcon::Toolbar ) );
+	sb->OpenButton->setIconSet( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
+	sb->SaveButton->setIconSet( icons->loadIconSet( "filesave", KIcon::Toolbar ) );
+	sb->SaveAsButton->setIconSet( icons->loadIconSet( "filesaveas", KIcon::Toolbar ) );
+	sb->RunButton->setIconSet( icons->loadIconSet( "launch", KIcon::Toolbar ) );
+	sb->CopyButton->setIconSet( icons->loadIconSet( "reload", KIcon::Toolbar ) );
+	sb->AddButton->setIconSet( icons->loadIconSet( "back", KIcon::Toolbar ) );
+	sb->RemoveButton->setIconSet( icons->loadIconSet( "forward", KIcon::Toolbar ) );
+	sb->UpButton->setIconSet( icons->loadIconSet( "up", KIcon::Toolbar ) );
+	sb->DownButton->setIconSet( icons->loadIconSet( "down", KIcon::Toolbar ) );
 
 	//Prepare the widget stack
 	argBlank = new QWidget( sb->ArgStack );
