@@ -72,6 +72,10 @@ public:
 	*/
 	bool contains( const SkyObject *o );
 
+	SkyObject* first() { return obsList.first(); }
+	SkyObject* next() { return obsList.next(); }
+	uint count() const { return obsList.count(); }
+
 public slots:
 /**@short add a new object to list
 	*@p o pointer to the object to add to the list

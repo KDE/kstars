@@ -565,6 +565,16 @@
 			<whatsthis>Toggle whether the object under the mouse cursor gets a transient name label.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ObsListSymbol" type="Bool">
+			<label>Use symbols to label observing list objects</label>
+			<whatsthis>Objects in the observing list will be highlighted with a symbol in the map.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ObsListText" type="Bool">
+			<label>Use text to label observing list objects</label>
+			<whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
+			<default>false</default>
+		</entry>
 		<entry name="UseRefraction" type="Bool">
 			<label>Correct positions for atmospheric refraction?</label>
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>

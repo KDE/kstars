@@ -104,6 +104,9 @@ ColorScheme::ColorScheme() : FileName() {
 	KeyName.append( "AngularRuler" );
 	Name.append( i18n( "Angular Distance Ruler" ) );
 	Default.append( "#FFF" );
+	KeyName.append( "ObsListColor" );
+	Name.append( i18n( "Observing List Label" ) );
+	Default.append( "#F00" );
 
 	//Set the default colors in the Palette.
 	for( uint i=0; i<KeyName.count(); ++i ) {

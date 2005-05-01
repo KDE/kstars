@@ -753,33 +753,22 @@ void SkyMap::paintEvent( QPaintEvent * )
 	psky.begin( sky );
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
-	QFont stdFont = psky.font();
-	QFont smallFont = psky.font();
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-
 	if ( drawMW ) drawMilkyWay( psky );
 	if ( drawGrid ) drawCoordinateGrid( psky );
 	
 	if ( drawCBounds ) drawConstellationBoundaries( psky );
 	if ( drawCLines ) drawConstellationLines( psky );
-	if ( drawCNames ) drawConstellationNames( psky, stdFont );
+	if ( drawCNames ) drawConstellationNames( psky );
 
 	if ( Options::showEquator() ) drawEquator( psky );
 	if ( Options::showEcliptic() ) drawEcliptic( psky );
-
-	// stars and planets use the same font size
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
 
 	//drawing to screen, so leave scale parameter at its default value of 1.0
 	drawStars( psky );
 	drawDeepSkyObjects( psky );
 	drawSolarSystem( psky, drawPlanets );
 	drawAttachedLabels( psky );
-	drawHorizon( psky, stdFont );
+	drawHorizon( psky );
 
 	//Finish up
 	psky.end();

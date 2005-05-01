@@ -657,11 +657,10 @@ private:
 	
 /**@short Draw the Horizon Line, the compass point labels, and the opaque ground.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param stdFont The font to be used for the compass point labels (DEPRECATE)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
 	
-	void drawHorizon( QPainter& psky, QFont& stdFont, double scale = 1.0 );
+	void drawHorizon( QPainter& psky, double scale = 1.0 );
 /**@short Draw the Constellation Lines.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
@@ -678,7 +677,7 @@ private:
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawConstellationNames( QPainter& psky, QFont& stdFont, double scale = 1.0 );
+	void drawConstellationNames( QPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Stars.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
@@ -783,6 +782,12 @@ private:
 	*/
 	void drawTelescopeSymbols(QPainter &psky);
 	
+/**@short Draw symbols for objects in the observing list.
+	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
+	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
+	*/
+	void drawObservingList( QPainter &psky, double scale = 1.0 );
+
 /**Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
 	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.

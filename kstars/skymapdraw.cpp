@@ -57,6 +57,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		//draw FOV symbol
 		ksw->data()->fovSymbol.draw( p, (float)(Options::fOVSize() * Options::zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
+		drawObservingList( p );
 		drawZoomBox( p );
 		if ( transientObject() ) drawTransientLabel( p );
 		if (isAngleMode()) {
@@ -83,24 +84,12 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );
 
-		QFont stdFont( p.font() );
-		QFont smallFont( stdFont );
-		smallFont.setPointSize( stdFont.pointSize() - 2 );
-		if ( Options::zoomFactor() < 10.*MINZOOM ) {
-			p.setFont( smallFont );
-		} else {
-			p.setFont( stdFont );
-		}
-
 		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
 			QPoint o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
 			}
 		}
-
-		//reset font
-		p.setFont( stdFont );
 	}
 }
 
@@ -110,6 +99,33 @@ void SkyMap::drawBoxes( QPainter &p ) {
 				data->colorScheme()->colorNamed( "BoxTextColor" ),
 				data->colorScheme()->colorNamed( "BoxGrabColor" ),
 				data->colorScheme()->colorNamed( "BoxBGColor" ), Options::boxBGMode() );
+	}
+}
+
+void SkyMap::drawObservingList( QPainter &psky, double scale ) {
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
+
+	if ( ksw && ksw->observingList()->count() ) {
+		for ( SkyObject* obj = ksw->observingList()->first(); obj; obj = ksw->observingList()->next() ) {
+			
+			if ( checkVisibility( obj, fov(), XRange ) ) {
+				QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
+
+				// label object if it is currently on screen
+				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <= height() ) {
+					if ( Options::obsListSymbol() ) {
+						int size = int(20*scale);
+						int x1 = o.x() - size/2;
+						int y1 = o.y() - size/2;
+						psky.drawArc( x1, y1, size, size, -60*16, 120*16 );
+						psky.drawArc( x1, y1, size, size, 120*16, 120*16 );
+					}
+					if ( Options::obsListText() ) {
+						drawNameLabel( psky, obj, o.x(), o.y(), scale );
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -666,7 +682,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
+void SkyMap::drawHorizon( QPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
@@ -860,7 +876,6 @@ void SkyMap::drawHorizon( QPainter& psky, QFont& stdFont, double scale )
 //	Draw compass heading labels along horizon
 				SkyPoint *c = new SkyPoint;
 				QPoint cpoint;
-				psky.setFont( stdFont );
 
 				if ( Options::showGround() )
 					psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
@@ -1104,12 +1119,11 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	}
 }
 
-void SkyMap::drawConstellationNames( QPainter& psky, QFont& stdFont, double scale ) {
+void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
 	//Draw Constellation Names
-	psky.setFont( stdFont );
 	psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
 	for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
 		if ( checkVisibility( p, fov(), XRange ) ) {
@@ -1403,9 +1417,19 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale ) {
 	int size(0);
 
+	QFont stdFont( psky.font() );
+	QFont smallFont( stdFont );
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+	if ( Options::zoomFactor() < 10.*MINZOOM ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
 	//Stars
 	if ( obj->type() == SkyObject::STAR ) {
 		((StarObject*)obj)->drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
+		psky.setFont( stdFont );
 		return;
 
 	//Solar system
@@ -1434,6 +1458,9 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 
 	int offset = int( ( 0.5*size + 4 ) );
 	psky.drawText( x+offset, y+offset, obj->translatedName() );
+
+	//Reset font
+	psky.setFont( stdFont );
 }
 
 void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
@@ -1776,32 +1803,22 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 
 	if ( x1 || y1 ) p.translate( x1, y1 );
 
-	QFont stdFont = p.font();
-	QFont smallFont = p.font();
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-
 	if ( drawMW ) drawMilkyWay( p, scale );
 	if ( drawGrid ) drawCoordinateGrid( p, scale );
 
 	if ( drawCBounds ) drawConstellationBoundaries( p, scale );
 	if ( drawCLines ) drawConstellationLines( p, scale );
-	if ( drawCNames ) drawConstellationNames( p, stdFont, scale );
+	if ( drawCNames ) drawConstellationNames( p, scale );
 
 	if ( Options::showEquator() ) drawEquator( p, scale );
 	if ( Options::showEcliptic() ) drawEcliptic( p, scale );
-
-	// stars and planets use the same font size
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		p.setFont( smallFont );
-	} else {
-		p.setFont( stdFont );
-	}
 
 	drawStars( p, scale );
 	drawDeepSkyObjects( p, scale );
 	drawSolarSystem( p, drawPlanets, scale );
 	drawAttachedLabels( p, scale );
-	drawHorizon( p, stdFont, scale );
+	drawObservingList( p, scale );
+	drawHorizon( p, scale );
 
 	p.end();
 }
