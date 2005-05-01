@@ -608,17 +608,23 @@ void imagesequence::updateFilterCombo(int filterNum)
   filterPosCombo->clear();
 
   if (filterList.empty())
-   for (int i=0; i <= filterMax; i++)
+   for (unsigned int i=0; i <= filterMax; i++)
       filterList << QString("%1").arg(i);
 
-
+  // Fill filter combo
+  if (filterList.count() <= filterMax)
+  {
+      filterPosCombo->insertStringList(filterList);
+      for (unsigned int i = filterList.count() ; i <= filterMax ; i++)
+          filterPosCombo->insertItem(QString("%1").arg(i));
+  } else
+  {
+      // filterMax < filterList.count()
+      for (unsigned int i = 0 ; i <= filterMax ; i++)
+        filterPosCombo->insertItem(QString("%1").arg(filterList[i]));
+   
+  }
  
-  // Populate combo
-   filterPosCombo->insertStringList(filterList);
-
-   for (int i = filterList.count() ; i <= filterMax ; i++)
-      filterPosCombo->insertItem(QString("%1").arg(i));
-
    filterPosCombo->setCurrentItem(((int) filterElem->value));
 
 }
