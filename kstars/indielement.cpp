@@ -111,6 +111,14 @@ label_w->setFrameShape( KSqueezedTextLabel::Box );
 label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
 label_w->setTextFormat( QLabel::RichText );
 label_w->setAlignment( int( QLabel::WordBreak | QLabel::AlignCenter ) );
+
+if (label.length() > MAX_LABEL_LENGTH)
+{
+  QFont tempFont(  label_w->font() );
+  tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
+  label_w->setFont( tempFont );
+}
+
 label_w->setText(label);
 
 EHBox->addWidget(label_w);

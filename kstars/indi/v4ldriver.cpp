@@ -672,7 +672,7 @@ void V4L_Driver::connectCamera()
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
 	  PowerS[1].s = ISS_ON;
-	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
+	  IDSetSwitch(&PowerSP, "Error: unable to open device");
 	  IDLog("Error: %s\n", errmsg);
 	  return;
       }

@@ -53,7 +53,7 @@ void Meade_LPI::connectCamera()
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
 	  PowerS[1].s = ISS_ON;
-	  IDSetSwitch(&PowerSP, "Error: %s", errmsg);
+	  IDSetSwitch(&PowerSP, "Error: unable to open device");
 	  IDLog("Error: %s\n", errmsg);
 	  return;
       }
@@ -68,7 +68,7 @@ void Meade_LPI::connectCamera()
       
       V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
       
-      IDLog("V4L Device is online. Retrieving basic data.\n");
+      IDLog("Meade LPI is online. Retrieving basic data.\n");
       getBasicData();
       
       break;
@@ -82,7 +82,7 @@ void Meade_LPI::connectCamera()
       V4LFrame->compressedFrame = NULL;
       v4l_base->disconnectCam();
       
-      IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
+      IDSetSwitch(&PowerSP, "Meade LPI is offline.");
       
       break;
      }

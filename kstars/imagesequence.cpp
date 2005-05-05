@@ -594,7 +594,7 @@ void imagesequence::updateFilterCombo(int filterNum)
   INDIMenu *devMenu = ksw->getINDIMenu();
   QStringList filterList;
   INDI_E *filterElem;
-  int filterMax;
+  unsigned int filterMax;
 
   if (!verifyFilterIntegrity())
     return;

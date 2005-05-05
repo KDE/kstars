@@ -89,8 +89,8 @@
 		<Exec>v4lphilips</Exec>
 		<Version>1.0</Version>
 	</device>
-	<device label="Meade LPI" driver="v4ldriver">
-		<Exec>v4ldriver</Exec>
+	<device label="Meade LPI" driver="meade_lpi">
+		<Exec>meade_lpi</Exec>
 		<Version>0.1</Version>
 	</device>
 </devGroup>

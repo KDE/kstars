@@ -105,10 +105,10 @@ int V4L2_Base::connectCam(const char * devpath, char *errmsg , int pixelFormat ,
    selectCallBackID = -1;
    dropFrame = false;
 
-    if (-1 == open_device (devpath, errmsg))
+    if (open_device (devpath, errmsg) < 0)
       return -1;
 
-    if (-1 == init_device(errmsg, pixelFormat, width, height))
+    if (init_device(errmsg, pixelFormat, width, height) < 0)
       return -1;
 
    cerr << "V4L 2 - All successful, returning\n";
@@ -611,6 +611,26 @@ int V4L2_Base::init_device(char *errmsg, int pixelFormat , int width, int height
 
         cerr << "width: " << fmt.fmt.pix.width << " - height: " << fmt.fmt.pix.height << endl;
 
+       switch (pixelFormat)
+       {
+        case V4L2_PIX_FMT_YUV420:
+         cerr << "pixel format: V4L2_PIX_FMT_YUV420" << endl;
+        break;
+
+        case V4L2_PIX_FMT_YUYV:
+          cerr << "pixel format: V4L2_PIX_FMT_YUYV" << endl;
+         break;
+
+        case V4L2_PIX_FMT_RGB24:
+          cerr << "pixel format: V4L2_PIX_FMT_RGB24" << endl;
+         break;
+
+        case V4L2_PIX_FMT_SBGGR8:
+         cerr << "pixel format: V4L2_PIX_FMT_SBGGR8" << endl;
+         break;
+
+       }
+
         findMinMax();
 
         allocBuffers();
@@ -919,7 +939,8 @@ void V4L2_Base::findMinMax()
 
     xmax = tryfmt.fmt.pix.width;
     ymax = tryfmt.fmt.pix.height;
-   
+
+    cerr << "Min X: " << xmin << " - Max X: " << xmax << " - Min Y: " << ymin << " - Max Y: " << ymax << endl;
 }
 
 void V4L2_Base::enumerate_ctrl (void)
@@ -1033,7 +1054,7 @@ int  V4L2_Base::query_ctrl(int ctrl_id, double & ctrl_min, double & ctrl_max, do
    if (0 == xioctl(fd, VIDIOC_G_CTRL, &control))
       ctrl_value = control.value;
 
-    cerr << "min " << ctrl_min << " max " << ctrl_max << " step " << ctrl_step << " value " << ctrl_value << endl;
+    cerr << queryctrl.name << " -- min: " << ctrl_min << " max: " << ctrl_max << " step: " << ctrl_step << " value: " << ctrl_value << endl;
 
     return 0;
 
@@ -1082,9 +1103,9 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
 
                    /* Store ID info in INumber. This is the first time ever I make use of aux0!! */
                    num_ctrls[nnum] = queryctrl.id;
-                   //numbers[nnum].aux0 = &num_ctrls[nnum];
-                   //cerr << "The id for " << nnum << " is " << queryctrl.id << endl;
-     
+
+                   cerr << queryctrl.name << " -- min: " << queryctrl.minimum << " max: " << queryctrl.maximum << " step: " << queryctrl.step << " value: " << numbers[nnum].value << endl;
+
                    nnum++;
                   
                 }

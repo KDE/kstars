@@ -1,4 +1,3 @@
-
 /*  INDI Property
     Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -41,6 +40,7 @@
  #include <qtimer.h>
  #include <qfile.h>
  #include <qdatastream.h>
+ #include <qtooltip.h>
 
  #include <unistd.h>
  #include <stdlib.h>
@@ -442,7 +442,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
         INDI_E *lp;
 	XMLEle *text;
 	XMLAtt *ap;
-        QString textName, textLabel ;
+        QString textName, textLabel;
 	errmsg=errmsg;
 	
         for (text = nextXMLEle (root, 1); text != NULL; text = nextXMLEle (root, 0))
@@ -458,7 +458,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	    }
 
 	    textName = valuXMLAtt(ap);
-	    /*char * tname = strcpy(new char[ strlen(valuXMLAtt(ap)) + 1], valuXMLAtt(ap));*/
+            textName.truncate(MAXINDINAME);
 
 	    ap = findXMLAtt(text, "label");
 
@@ -469,13 +469,14 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	    }
 
 	    textLabel = valuXMLAtt(ap);
-            //char * tlabel = strcpy(new char[ strlen(valuXMLAtt(ap)) + 1], valuXMLAtt(ap));
+            
 
 	    if (textLabel.isEmpty())
 	      textLabel = textName;
-	     //tlabel = strcpy (new char [ strlen(tname) + 1], tname);
 
-	     lp = new INDI_E(this, textName, textLabel);
+	      textLabel.truncate(MAXINDINAME);
+	     
+             lp = new INDI_E(this, textName, textLabel);
 
 	     lp->buildTextGUI(QString(pcdataXMLEle(text)));
 	     
@@ -525,6 +526,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	    }
 
 	    numberName = valuXMLAtt(ap);
+            numberName.truncate(MAXINDINAME);
 
 	    ap = findXMLAtt(number, "label");
 
@@ -538,6 +540,8 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	    
 	    if (numberLabel.isEmpty())
 	      numberLabel = numberName;
+
+           numberLabel.truncate(MAXINDINAME);
 	    
 	    lp = new INDI_E(this, numberName, numberLabel);
 
@@ -612,6 +616,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 		return (-1);
 
 	    switchName = valuXMLAtt(ap);
+            switchName.truncate(MAXINDINAME);
 	    
 	    /* find label */
 	    ap = findAtt (sep, "label", errmsg);
@@ -622,6 +627,8 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 
 	    if (switchLabel.isEmpty())
 	      switchLabel = switchName;
+
+            switchLabel.truncate(MAXINDINAME);
 
             lp = new INDI_E(this, switchName, switchLabel);
 
@@ -693,6 +700,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 		return (-1);
 
 	    switchName = valuXMLAtt(ap);
+            switchName.truncate(MAXINDINAME);
 
 	    /* find label */
 	    ap = findAtt (sep, "label", errmsg);
@@ -703,6 +711,8 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	    
 	    if (switchLabel.isEmpty())
 	      switchLabel = switchName;
+
+            switchLabel.truncate(MAXINDINAME);
 	    
             lp = new INDI_E(this, switchName, switchLabel);
 
@@ -722,6 +732,15 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	       button = new KPushButton(switchLabel, pg->propertyContainer);
 	       button->setMinimumWidth(BUTTON_WIDTH);
 	       button->setMaximumWidth(BUTTON_WIDTH);
+               
+               if (switchLabel.length() > 11)
+               {  
+                 QFont tempFont(  button->font() );
+                 tempFont.setPointSize( tempFont.pointSize() - SMALL_INDI_FONT );
+                 QToolTip::add( button, switchLabel );
+                 button->setFont( tempFont );
+               }
+
 	       groupB->insert(button, j);
 
 	       if (lp->state == PS_ON)
@@ -736,7 +755,6 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 
 	       PHBox->addWidget(button);
 	       	       
-	       // FIXME: do we need this?
 	       button->show();
 
 	      break;
@@ -746,6 +764,14 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	      checkbox->setMinimumWidth(BUTTON_WIDTH);
 	      checkbox->setMaximumWidth(BUTTON_WIDTH);
 	      groupB->insert(checkbox, j);
+
+	       if (switchLabel.length() > 11)
+               {  
+                 QFont tempFont(  button->font() );
+                 tempFont.setPointSize( tempFont.pointSize() - SMALL_INDI_FONT );
+                 QToolTip::add( checkbox, switchLabel );
+                 checkbox->setFont( tempFont );
+               }
 
 	      if (lp->state == PS_ON)
 	        checkbox->setChecked(true);
@@ -793,6 +819,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	    if (!ap) return (-1);
 	
 	    sname = valuXMLAtt(ap);
+            sname.truncate(MAXINDINAME);
 
 	    /* find label */
 	    ap = findAtt (lep, "label", errmsg);
@@ -801,6 +828,8 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	    slabel = valuXMLAtt(ap);
 	    if (slabel.isEmpty())
 	      slabel = sname;
+
+            slabel.truncate(MAXINDINAME);
 	   
 	   lp = new INDI_E(this, sname, slabel);
 
@@ -845,7 +874,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
     }
 
     blobName = valuXMLAtt(ap);
-    /*char * tname = strcpy(new char[ strlen(valuXMLAtt(ap)) + 1], valuXMLAtt(ap));*/
+    blobName.truncate(MAXINDINAME);
 
     ap = findXMLAtt(blob, "label");
 
@@ -859,6 +888,8 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
 
     if (blobLabel.isEmpty())
       blobLabel = blobName;
+
+    blobLabel.truncate(MAXINDINAME);
 
     lp = new INDI_E(this, blobName, blobLabel);
 
