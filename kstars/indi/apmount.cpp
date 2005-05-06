@@ -175,7 +175,7 @@ APMount::APMount()
    
    IDLog("Julian Day is %g\n", JD);
    IDLog("Initilizing from Astro-Physics device...\n");
-   IDLog("Driver Version: 2005-04-21\n");
+   IDLog("Driver Version: 2005-05-06\n");
  
    //enableSimulation(true);  
 }
@@ -216,8 +216,8 @@ void APMount::initProperties()
     fillSwitchVector(&MovementSP, MovementS, NARRAY(MovementS), mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
    fillSwitch(&FocusSpeedS[0], "FOCUS_HALT", "Halt", ISS_ON);
-   fillSwitch(&FocusSpeedS[1], "FOCUS_FAST", "Fast", ISS_ON);
-   fillSwitch(&FocusSpeedS[2], "FOCUS_SLOW", "Slow", ISS_ON);
+   fillSwitch(&FocusSpeedS[1], "FOCUS_FAST", "Fast", ISS_OFF);
+   fillSwitch(&FocusSpeedS[2], "FOCUS_SLOW", "Slow", ISS_OFF);
    fillSwitchVector(&FocusSpeedSP, FocusSpeedS, NARRAY(FocusSpeedS), mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   fillSwitch(&FocusMotionS[0], "FOCUS_IN", "Focus in", ISS_OFF);

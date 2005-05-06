@@ -357,12 +357,75 @@ extern void IUUpdateMinMax(INumberVectorProperty *nvp);
 */
 extern void IUSaveText (IText *tp, const char *newtext);
 
+/** \brief Assign attributes for a switch property. The switch's auxilary elements will be set to NULL.
+    \param sp pointer a switch property to fill
+    \param name the switch name
+    \param label the switch label
+    \param s the switch state (ISS_ON or ISS_OFF)
+*/
 extern void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
+
+/** \brief Assign attributes for a number property. The number's auxilary elements will be set to NULL.
+    \param np pointer a number property to fill
+    \param name the number name
+    \param label the number label
+    \param format the number format in printf style (e.g. "%02d")
+    \param min  the minimum possible value
+    \param max the maximum possible value
+    \param step the step used to climb from minimum value to maximum value
+    \param value the number's current value
+*/
 extern void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value);
+
+/** \brief Assign attributes for a text property. The text's auxilary elements will be set to NULL.
+    \param tp pointer a text property to fill
+    \param name the text name
+    \param label the text label
+    \param initialText the initial text
+*/
 extern void fillText(IText *tp, const char *name, const char * label, const char *initialText);
 
+/** \brief Assign attributes for a switch vector property. The vector's auxilary elements will be set to NULL.
+    \param svp pointer a switch vector property to fill
+    \param sp pointer to an array of switches
+    \param nsp the dimension of sp
+    \param dev the device name this vector property belongs to
+    \param name the vector property name
+    \param label the vector property label
+    \param group the vector property group
+    \param p the vector property permission
+    \param r the switches behavior
+    \param timeout vector property timeout in seconds 
+    \param s the vector property initial state.
+*/
 extern void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
+
+/** \brief Assign attributes for a number vector property. The vector's auxilary elements will be set to NULL.
+    \param nvp pointer a number vector property to fill
+    \param np pointer to an array of numbers
+    \param nnp the dimension of np
+    \param dev the device name this vector property belongs to
+    \param name the vector property name
+    \param label the vector property label
+    \param group the vector property group
+    \param p the vector property permission
+    \param timeout vector property timeout in seconds 
+    \param s the vector property initial state.
+*/
 extern void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
+
+/** \brief Assign attributes for a text vector property. The vector's auxilary elements will be set to NULL.
+    \param tvp pointer a text vector property to fill
+    \param tp pointer to an array of texts
+    \param ntp the dimension of tp
+    \param dev the device name this vector property belongs to
+    \param name the vector property name
+    \param label the vector property label
+    \param group the vector property group
+    \param p the vector property permission
+    \param timeout vector property timeout in seconds 
+    \param s the vector property initial state.
+*/
 extern void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
 
 /*@}*/

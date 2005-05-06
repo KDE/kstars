@@ -675,14 +675,14 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
         XMLEle *sep;
 	XMLAtt *ap;
 	INDI_E *lp;
-	KPushButton *button;
+	KPushButton *button(NULL);
 	QCheckBox   *checkbox;
 	QFont buttonFont;
 	QString switchName, switchLabel;
 	int j;
 
 	groupB = new QButtonGroup(0);
-	groupB->setFrameShape(QFrame::NoFrame);
+        groupB->setFrameShape(QFrame::NoFrame);
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
 	  
@@ -730,16 +730,6 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	    {
 	      case PG_BUTTONS:
 	       button = new KPushButton(switchLabel, pg->propertyContainer);
-	       button->setMinimumWidth(BUTTON_WIDTH);
-	       button->setMaximumWidth(BUTTON_WIDTH);
-               
-               if (switchLabel.length() > 11)
-               {  
-                 QFont tempFont(  button->font() );
-                 tempFont.setPointSize( tempFont.pointSize() - SMALL_INDI_FONT );
-                 QToolTip::add( button, switchLabel );
-                 button->setFont( tempFont );
-               }
 
 	       groupB->insert(button, j);
 
@@ -761,17 +751,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 
 	      case PG_RADIO:
 	      checkbox = new QCheckBox(switchLabel, pg->propertyContainer);
-	      checkbox->setMinimumWidth(BUTTON_WIDTH);
-	      checkbox->setMaximumWidth(BUTTON_WIDTH);
 	      groupB->insert(checkbox, j);
-
-	       if (switchLabel.length() > 11)
-               {  
-                 QFont tempFont(  button->font() );
-                 tempFont.setPointSize( tempFont.pointSize() - SMALL_INDI_FONT );
-                 QToolTip::add( checkbox, switchLabel );
-                 checkbox->setFont( tempFont );
-               }
 
 	      if (lp->state == PS_ON)
 	        checkbox->setChecked(true);
