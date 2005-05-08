@@ -1364,7 +1364,7 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  
  FITS_HDU_LIST *hdulist;
  
- char temp_s[FITS_CARD_SIZE], expose_s[FITS_CARD_SIZE], binning_s[FITS_CARD_SIZE], frame_s[FITS_CARD_SIZE];
+ char temp_s[FITS_CARD_SIZE], expose_s[FITS_CARD_SIZE], binning_s[FITS_CARD_SIZE], frame_s[FITS_CARD_SIZE], pixel_s[FITS_CARD_SIZE];
  char obsDate[FITS_CARD_SIZE];
  
  snprintf(obsDate, FITS_CARD_SIZE, "DATE-OBS= '%s' /Observation Date UTC", timestamp());
@@ -1390,7 +1390,7 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  snprintf(temp_s, FITS_CARD_SIZE, "CCD-TEMP= %g / degrees celcius", APGFrame.temperature);
  snprintf(expose_s, FITS_CARD_SIZE, "EXPOSURE= %d / milliseconds", APGFrame.expose);
  snprintf(binning_s, FITS_CARD_SIZE, "BINNING = '(%d x %d)'", APGFrame.binX, APGFrame.binY);
- //sprintf(pixel_s, "PIX-SIZ = '%.0f microns square'", PixelSizeN[0].value);
+ snprintf(pixel_s, FITS_CARD_SIZE, "PIX-SIZ = '%0.f x %0.f microns square'", cam->m_PixelXSize, cam->m_PixelYSize);
  switch (APGFrame.frameType)
   {
     case LIGHT_FRAME:
@@ -1410,7 +1410,7 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  fits_add_card (hdulist, frame_s);   
  fits_add_card (hdulist, temp_s);
  fits_add_card (hdulist, expose_s);
- //fits_add_card (hdulist, pixel_s);
+ fits_add_card (hdulist, pixel_s);
  fits_add_card (hdulist, "INSTRUME= 'Apogee CCD'");
  fits_add_card (hdulist, obsDate);
   
