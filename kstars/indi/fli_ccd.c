@@ -1391,9 +1391,9 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  hdulist->naxisn[0] = width;
  hdulist->naxisn[1] = height;
  hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = min();
+ hdulist->used.datamin = 1;
  hdulist->datamin = min();
- hdulist->used.datamax = max();
+ hdulist->used.datamax = 1;
  hdulist->datamax = max();
  hdulist->used.bzero = 1;
  hdulist->bzero = 0.0;

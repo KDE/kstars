@@ -158,7 +158,7 @@ void ApogeeCam::initProperties()
   imageBP.nbp     = 1;
   imageBP.aux     = 0;
   
-  loadXMLModel();
+  //loadXMLModel();
 }
 
 bool ApogeeCam::loadXMLModel()
@@ -408,10 +408,10 @@ void ApogeeCam::ISPoll()
       readStatus = cam->read_Status();
       if (readStatus < 0)
       {
-	IDLog("Error in exposure!\n");
-	ExposeTimeNP.s = IPS_IDLE;
+	IDLog("Error in exposure! Read status: %d\n", readStatus);
+	ExposeTimeNP.s = IPS_ALERT;
 	ExposeTimeN[0].value = 0;
-	IDSetNumber(&ExposeTimeNP, "Error in exposure procedure.");
+	IDSetNumber(&ExposeTimeNP, "Error in exposure procedure. Read states: %d", readStatus);
 	return;
       }
       else if (readStatus == Camera_Status_ImageReady)
@@ -654,13 +654,10 @@ void ApogeeCam::uploadFile(char * filename)
 }
 
 /* Initiates the exposure procedure */
-void ApogeeCam::handleExposure(void *p)
+void ApogeeCam::handleExposure(void */*p*/)
 {
   
   int curFrame = getOnSwitch(&FrameTypeSP);
-  
-  /* no warning */
-  p=p;
   
   switch (curFrame)
   {
@@ -743,63 +740,6 @@ void ApogeeCam::getBasicData()
   TemperatureN[0].value = cam->read_Temperature();
   IDSetNumber(&TemperatureNP, NULL);
   
-}
-
-int ApogeeCam::manageDefaults(char errmsg[])
-{
-  
-#if 0
-
-  long err;
-  int exposeTimeMS;
-  
-  exposeTimeMS = (int) (ExposeTimeN[0].value * 1000.);
-  
-  IDLog("Setting default exposure time of %d ms.\n", exposeTimeMS);
-  if ( (err = FLISetExposureTime(fli_dev, exposeTimeMS) ))
-  {
-    sprintf(errmsg, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* Default frame type is NORMAL */
-  if ( (err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
-  {
-    sprintf(errmsg, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* X horizontal binning */
-  if ( (err = FLISetHBin(fli_dev, BinningN[0].value) ))
-  {
-    sprintf(errmsg, "FLISetBin() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  /* Y vertical binning */
-  if ( (err = FLISetVBin(fli_dev, BinningN[1].value) ))
-  {
-    sprintf(errmsg, "FLISetVBin() failed. %s.\n", strerror((int)-err));
-    IDLog(errmsg, NULL);
-    return -1;
-  }
-  
-  IDLog("Setting default binning %f x %f.\n", BinningN[0].value, BinningN[1].value);
-  
-  FLISetNFlushes(fli_dev, NFLUSHES);
-  
-  /* Set image area */
-  if (setImageArea(errmsg))
-    return -1;
-
-#endif
-  
-  /* Success */
-  return 0;
-    
 }
 
 int ApogeeCam::getOnSwitch(ISwitchVectorProperty *sp)
@@ -1424,7 +1364,7 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  
  FITS_HDU_LIST *hdulist;
  
- char temp_s[FITS_CARD_SIZE], expose_s[FITS_CARD_SIZE], binning_s[FITS_CARD_SIZE], pixel_s[FITS_CARD_SIZE], frame_s[FITS_CARD_SIZE];
+ char temp_s[FITS_CARD_SIZE], expose_s[FITS_CARD_SIZE], binning_s[FITS_CARD_SIZE], frame_s[FITS_CARD_SIZE];
  char obsDate[FITS_CARD_SIZE];
  
  snprintf(obsDate, FITS_CARD_SIZE, "DATE-OBS= '%s' /Observation Date UTC", timestamp());
@@ -1438,11 +1378,10 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
  hdulist->naxisn[0] = width;
  hdulist->naxisn[1] = height;
  hdulist->naxisn[2] = bpp;
- // JM: TODO Record here the minimum and maximum pixel values
- /*hdulist->used.datamin = min();
+ hdulist->used.datamin = 1;
  hdulist->datamin = min();
- hdulist->used.datamax = max();
- hdulist->datamax = max();*/
+ hdulist->used.datamax = 1;
+ hdulist->datamax = max();
  hdulist->used.bzero = 1;
  hdulist->bzero = 0.0;
  hdulist->used.bscale = 1;
@@ -1513,3 +1452,34 @@ unsigned short ApogeeCam::hextoi(char *instr)
 
   return tot;
 }
+
+double ApogeeCam::min()
+{
+  double lmin = APGFrame.img[0];
+  int ind=0, i, j;
+  
+  for (i= 0; i < APGFrame.height ; i++)
+    for (j= 0; j < APGFrame.width; j++)
+    {
+       ind = (i * APGFrame.width) + j;
+       if (APGFrame.img[ind] < lmin) lmin = APGFrame.img[ind];
+    }
+    
+    return lmin;
+}
+
+double ApogeeCam::max()
+{
+  double lmax = APGFrame.img[0];
+  int ind=0, i, j;
+  
+   for (i= 0; i < APGFrame.height ; i++)
+    for (j= 0; j < APGFrame.width; j++)
+    {
+      ind = (i * APGFrame.width) + j;
+       if (APGFrame.img[ind] > lmax) lmax = APGFrame.img[ind];
+    }
+    
+    return lmax;
+}
+

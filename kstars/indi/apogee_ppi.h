@@ -159,12 +159,10 @@ class ApogeeCam {
     static void ISStaticPoll(void *);
     void   ISPoll();
     unsigned short hextoi(char* instr);
+    double min();
+    double max();
     
 };
     
-double min(void);
-double max(void);
-
-
 #endif
 
