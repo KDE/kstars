@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2000 Apogee Instruments Inc.
 //
-Portions Copyright (c) 2000 The Random Factory.
+//Portions Copyright (c) 2000 The Random Factory.
 //
 // Define the IOCTL codes we will use.  The IOCTL code contains a command
 // identifier, plus other information about the device, the type of access
