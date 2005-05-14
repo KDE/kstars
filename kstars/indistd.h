@@ -54,7 +54,7 @@
    /* Device options */
    void initDeviceOptions();
    void handleDevCounter();
-   bool handleNonSidereal(SkyObject *o);
+   bool handleNonSidereal();
    void streamDisabled();
    
    

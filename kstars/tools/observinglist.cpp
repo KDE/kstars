@@ -48,6 +48,7 @@
 #include "indiproperty.h"
 #include "indidevice.h"
 #include "devicemanager.h"
+#include "indistd.h"
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
@@ -275,6 +276,8 @@ void ObservingList::slotNewSelection() {
 		//Clear the user log text box.
 		saveCurrentUserLog();
 	}
+
+    
 }
 
 void ObservingList::slotCenterObject() {
@@ -288,15 +291,18 @@ void ObservingList::slotCenterObject() {
 void ObservingList::slotSlewToObject()
 {
 
-  INDI_D *indidev;
+  INDI_D *indidev(NULL);
   INDI_P *eqCoord, *onSet;
-  INDI_E *RAEle, *DecEle, *ConnectEle;
+  INDI_E *RAEle, *DecEle, *ConnectEle, *nameEle;
   bool useJ2000( false);
+  SkyObject *selectedObj;
   SkyPoint sp;
   
-  if (obsList.current() == NULL)
+  selectedObj = SelectedObjects.first();
+  if (selectedObj == NULL)
     return;
-  
+
+  indidev->stdDev->currentObject = NULL;
   // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
   // i.e. the first telescope we find!
   
@@ -313,7 +319,7 @@ void ObservingList::slotSlewToObject()
 	 eqCoord = indidev->findProp("EQUATORIAL_COORD");
 	 useJ2000 = true;
        }
-       
+     
        if (eqCoord == NULL) continue;
        
        ConnectEle = indidev->findElem("CONNECT");
@@ -335,7 +341,7 @@ void ObservingList::slotSlewToObject()
        
        onSet->activateSwitch("SLEW");
        
-       sp.set (obsList.current()->ra(), obsList.current()->dec());
+       sp.set (selectedObj->ra(), selectedObj->dec());
        
        if (useJ2000)
 	 sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
@@ -345,6 +351,17 @@ void ObservingList::slotSlewToObject()
        DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
        
        eqCoord->newText();
+
+       indidev->stdDev->currentObject = selectedObj;
+        if (indidev->stdDev->currentObject)
+          {
+             nameEle = indidev->findElem("OBJECT_NAME");
+             if (nameEle && nameEle->pp->perm != PP_RO)
+             {
+                 nameEle->write_w->setText(indidev->stdDev->currentObject->name());
+                 nameEle->pp->newText();
+             }
+        }
        
        return;
     }
@@ -378,7 +395,7 @@ void ObservingList::slotAVT() {
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
 	//Save the current User log text
-	if ( ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+	if ( obsList.current() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
 					!= i18n("Record here observation logs and/or data on %1.").arg( obsList.current()->name()) ) {
 		obsList.current()->saveUserLog( ui->NotesEdit->text() );
 	}

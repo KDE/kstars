@@ -68,6 +68,7 @@ private:
   /* Texts */
   IText PortT[1];
   IText UTCT[1];
+  IText ObjectT[1];
 
   /* Numbers */
   INumber EqN[2];
@@ -95,6 +96,7 @@ private:
    /* Text Vectors */
    ITextVectorProperty PortTP;
    ITextVectorProperty TimeTP;
+   ITextVectorProperty ObjectTP;
 
  void getBasicData();
  int checkPower(INumberVectorProperty *np);

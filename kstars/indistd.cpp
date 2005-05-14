@@ -542,14 +542,15 @@ void INDIStdDevice::initDeviceOptions()
 
 }
 
-bool INDIStdDevice::handleNonSidereal(SkyObject *o)
+bool INDIStdDevice::handleNonSidereal()
 {
-   if (!o)
+   if (!currentObject)
       return false;
 
     int trackIndex=0;
+    INDI_E *nameEle;
 
-    kdDebug() << "Object of type " << o->typeName() << endl;
+    kdDebug() << "Object of type " << currentObject->typeName() << endl;
   //TODO Meade claims that the library access is available to
   // all telescopes, which is unture. Only classic meade support
   // that. They claim that library funcion will be available to all
@@ -565,8 +566,6 @@ bool INDIStdDevice::handleNonSidereal(SkyObject *o)
   // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
   // based on the object type. Objects with high proper motions will require faster updates.
   // handle Non Sideral is ONLY called when tracking an object, not slewing.
-
-
   INDI_P *prop = dp->findProp(QString("SOLAR_SYSTEM"));
   INDI_P *setMode = dp->findProp(QString("ON_COORD_SET"));
 
@@ -580,17 +579,26 @@ bool INDIStdDevice::handleNonSidereal(SkyObject *o)
     kdDebug() << "Device supports SOLAR_SYSTEM property" << endl;
 
     for (unsigned int i=0; i < prop->el.count(); i++)
-     if (o->name().lower() == prop->el.at(i)->label.lower())
+     if (currentObject->name().lower() == prop->el.at(i)->label.lower())
      {
        prop->newSwitch(i);
        setMode->newSwitch(trackIndex);
+       
+       /* Send object name if available */
+       nameEle = dp->findElem("OBJECT_NAME");
+       if (nameEle && nameEle->pp->perm != PP_RO)
+       {
+           nameEle->write_w->setText(currentObject->name());
+           nameEle->pp->newText();
+       }
+
        return true;
      }
   }
 
    kdDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer" << endl;
-   kdDebug() << "Starting timer for object of type " << o->typeName() << endl;
-   currentObject = o;
+   kdDebug() << "Starting timer for object of type " << currentObject->typeName() << endl;
+   
 
    switch (currentObject->type())
    {
@@ -740,7 +748,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  bool INDIStdProperty::convertSwitch(int switchIndex, INDI_E *lp)
  {
  
-  INDI_E *RAEle, *DecEle;
+  INDI_E *RAEle, *DecEle, *nameEle;
   INDI_P * prop;
   SkyPoint sp;
   bool useJ2000 = false;
@@ -770,11 +778,24 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    	DecEle = prop->findElement("DEC");
    	if (!DecEle) return false;
    
+        stdDev->currentObject = ksw->map()->clickedObject();
   	// Track is similar to slew, except that for non-sidereal objects
 	// it tracks the objects automatically via a timer.
    	if ((lp->name == "TRACK"))
-       		if (stdDev->handleNonSidereal(ksw->map()->clickedObject()))
+       		if (stdDev->handleNonSidereal())
 	        	return true;
+
+      /* Send object name if available */
+          if (stdDev->currentObject)
+          {
+             kdDebug() << "We've got a current object " << stdDev->currentObject->name() << endl;
+             nameEle = pp->pg->dp->findElem("OBJECT_NAME");
+             if (nameEle && nameEle->pp->perm != PP_RO)
+             {
+                 nameEle->write_w->setText(stdDev->currentObject->name());
+                 nameEle->pp->newText();
+             }
+        }
 
 	kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
 	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString() << endl;
@@ -799,7 +820,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 		kdDebug() <<  "\n******** The point AFTER it was precessed ********" << endl;
 		kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
 	}
-	
+	 
 	
 	//sp.apparentCoord((long double) J2000,  ksw->data()->ut().djd());
 	//kdDebug() <<  "\n******** The point AFTER it was precessed AGAIN to JNOW ********" << endl;

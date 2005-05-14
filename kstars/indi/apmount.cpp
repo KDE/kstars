@@ -230,6 +230,9 @@ void APMount::initProperties()
   fillText(&UTCT[0], "UTC", "", "YYYY-MM-DDTHH:MM:SS");
   fillTextVector(&TimeTP, UTCT, NARRAY(UTCT), mydev, "TIME", "UTC Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
+  fillText(&ObjectT[0], "OBJECT_NAME", "Name", "--");
+  fillTextVector(&ObjectTP, ObjectT, NARRAY(ObjectT), mydev, "OBJECT_INFO", "Object", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+
    fillNumber(&EqN[0], "RA", "RA  H:M:S", "%10.6m",  0., 24., 0., 0.);
    fillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
    fillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
@@ -262,6 +265,7 @@ void APMount::ISGetProperties(const char *dev)
   IDDefNumber(&GeoNP, NULL);
   
   // MAIN CONTROL
+  IDDefText(&ObjectTP, NULL);
   IDDefNumber(&EqNP, NULL);
   IDDefSwitch(&OnCoordSetSP, NULL);
   IDDefSwitch(&AbortSlewSP, NULL);
@@ -377,6 +381,18 @@ void APMount::ISNewText (const char *dev, const char *name, char *texts[], char 
 		
  		IDSetText(&TimeTP , "Date changed, updating planetary data...");
 	}
+
+       if (!strcmp (name, ObjectTP.name))
+       {
+	  if (checkPower(&ObjectTP))
+	   return;
+
+          IUSaveText(&ObjectT[0], texts[0]);
+          ObjectTP.s = IPS_OK;
+          IDSetText(&ObjectTP, NULL);
+          return;
+       }
+          
 }
 
 

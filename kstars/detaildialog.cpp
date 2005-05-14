@@ -55,6 +55,7 @@
 #include "indidevice.h"
 #include "indimenu.h"
 #include "devicemanager.h"
+#include "indistd.h"
 
 LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
@@ -897,9 +898,9 @@ void DetailDialog::centerMap() {
 void DetailDialog::centerTelescope()
 {
 
-  INDI_D *indidev;
+  INDI_D *indidev(NULL);
   INDI_P *eqCoord, *onSet;
-  INDI_E *RAEle, *DecEle, *ConnectEle;
+  INDI_E *RAEle, *DecEle, *ConnectEle, *nameEle;
   bool useJ2000( false);
   SkyPoint sp;
   
@@ -907,6 +908,8 @@ void DetailDialog::centerTelescope()
   // i.e. the first telescope we find!
   
   INDIMenu *imenu = ksw->getINDIMenu();
+
+  indidev->stdDev->currentObject = NULL;
   
   for (unsigned int i=0; i < imenu->mgr.count() ; i++)
   {
@@ -951,6 +954,17 @@ void DetailDialog::centerTelescope()
        DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
        
        eqCoord->newText();
+
+        indidev->stdDev->currentObject = selectedObject;
+        if (indidev->stdDev->currentObject)
+          {
+             nameEle = indidev->findElem("OBJECT_NAME");
+             if (nameEle && nameEle->pp->perm != PP_RO)
+             {
+                 nameEle->write_w->setText(indidev->stdDev->currentObject->name());
+                 nameEle->pp->newText();
+             }
+        }
        
        return;
     }
