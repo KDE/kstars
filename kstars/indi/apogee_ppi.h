@@ -78,6 +78,7 @@ class ApogeeCam {
     void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
     void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
     void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
+    void ISPoll();
     
   private:
     
@@ -156,8 +157,6 @@ class ApogeeCam {
     int  manageDefaults(char errmsg[]);
     int  getOnSwitch(ISwitchVectorProperty *sp);
     FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
-    static void ISStaticPoll(void *);
-    void   ISPoll();
     unsigned short hextoi(char* instr);
     double min();
     double max();

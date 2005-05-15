@@ -32,6 +32,8 @@
 #include "lilxml.h"
 #include "base64.h"
 
+static void ISPoll(void *);
+
 extern char* me;			/* argv[0] */
 ApogeeCam *MainCam = NULL;		/* Main and only camera */
 
@@ -39,7 +41,10 @@ ApogeeCam *MainCam = NULL;		/* Main and only camera */
 void ISInit()
 {
   if (MainCam == NULL)
+  {
     MainCam = new ApogeeCam();
+    IEAddTimer (POLLMS, ISPoll, NULL);
+  }
 }
     
 void ISGetProperties (const char *dev)
@@ -93,6 +98,13 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 {
 
 }
+
+void ISPoll(void *)
+{
+ MainCam->ISPoll(); 
+ IEAddTimer (POLLMS, ISPoll, NULL);
+}
+
 
 ApogeeCam::ApogeeCam()
 {
@@ -224,6 +236,7 @@ bool ApogeeCam::loadXMLModel()
 void ApogeeCam::ISGetProperties(const char */*dev*/)
 {
   
+
   /* COMM_GROUP */
   IDDefSwitch(&PowerSP, NULL);
   if (loadXMLModel())
@@ -240,9 +253,6 @@ void ApogeeCam::ISGetProperties(const char */*dev*/)
   /* Image Group */
   IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&BinningNP, NULL);
-  
-  IEAddTimer (POLLMS, ApogeeCam::ISStaticPoll, this);
-
   
 }
 
@@ -378,25 +388,15 @@ void ApogeeCam::ISNewNumber (const char */*dev*/, const char *name, double value
 }
 
 
-void ApogeeCam::ISStaticPoll(void *p)
-{
-	if (!((ApogeeCam *)p)->isCCDConnected())
-	{
-	  IEAddTimer (POLLMS, ApogeeCam::ISStaticPoll, p);
-	  return;
-	}
-	
-	((ApogeeCam *) p)->ISPoll();
-	
-	IEAddTimer (POLLMS, ApogeeCam::ISStaticPoll, p);
-}
-
 void ApogeeCam::ISPoll()
 {
   static int mtc=5;
   int readStatus=0;
   double ccdTemp;
-	
+
+  if (!isCCDConnected())
+   return;
+
   switch (ExposeTimeNP.s)
   {
     case IPS_IDLE:
@@ -431,10 +431,10 @@ void ApogeeCam::ISPoll()
 	    
 	case IPS_ALERT:
 	    break;
-	}
+    }
 	 
-	 switch (TemperatureNP.s)
-	 {
+    switch (TemperatureNP.s)
+    {
 	   case IPS_IDLE:
 	   case IPS_OK:
 	     mtc--;
