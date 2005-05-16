@@ -32,6 +32,8 @@ kstars_LDADD = indi/liblilxml.a indi/libindicom.a tools/libkstarstools.a $(top_b
 
 SUBDIRS = indi tools . data icons 
 
+KDE_ICON=AUTO
+
 kstars_COMPILE_FIRST = Options.kcfgc
 
 EXTRA_DIST = kstars.desktop kstarsui.rc fitsviewer.rc
