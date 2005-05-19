@@ -49,6 +49,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 		infoBoxes()->resize( width(), height() );
 	}
 	sky->resize( width(), height() );
+	sky2->resize( width(), height() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
@@ -726,10 +727,9 @@ void SkyMap::paintEvent( QPaintEvent * )
 	//of the skymap, use forceUpdate().
 	if (!computeSkymap)
 	{
-		QPixmap *sky2 = new QPixmap( *sky );
+		*sky2 = *sky;
 		drawOverlays( sky2 );
 		bitBlt( this, 0, 0, sky2 );
-		delete sky2;
 		return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
@@ -773,10 +773,9 @@ void SkyMap::paintEvent( QPaintEvent * )
 	//Finish up
 	psky.end();
 
-	QPixmap *sky2 = new QPixmap( *sky );
+	*sky2 = *sky;
 	drawOverlays( sky2 );
 	bitBlt( this, 0, 0, sky2 );
-	delete sky2;
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }

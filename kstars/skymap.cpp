@@ -52,7 +52,7 @@
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
-		ksw(0), data(d), pmenu(0), sky(0), IBoxes(0), 
+		ksw(0), data(d), pmenu(0), sky(0), sky2(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
 		starpix(0), pts(0), sp(0)
 {
@@ -85,6 +85,7 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	FocusObject = NULL;
 
 	sky = new QPixmap();
+	sky2 = new QPixmap();
 	pmenu = new KSPopupMenu( ksw );
 	
 	//Initialize Transient label stuff
@@ -133,6 +134,7 @@ SkyMap::~SkyMap() {
 	delete pts;
 	delete sp;
 	delete sky;
+	delete sky2;
 	delete pmenu;
 	delete IBoxes;
 
@@ -155,11 +157,13 @@ SkyMap::~SkyMap() {
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
 	QWidget::setGeometry( x, y, w, h );
 	sky->resize( w, h );
+	sky2->resize( w, h );
 }
 
 void SkyMap::setGeometry( const QRect &r ) {
 	QWidget::setGeometry( r );
 	sky->resize( r.width(), r.height() );
+	sky2->resize( r.width(), r.height() );
 }
 
 

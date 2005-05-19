@@ -939,7 +939,7 @@ private:
 	KStars *ksw;
 	KStarsData *data;
 	KSPopupMenu *pmenu;
-	QPixmap *sky;
+	QPixmap *sky, *sky2;
 	InfoBoxes  *IBoxes;
 	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
 	SkyObject *ClickedObject, *FocusObject, *TransientObject;
