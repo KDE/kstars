@@ -136,7 +136,8 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 		INDI_P *portConnect;
 		INDI_E *lp;
 		INDIMenu *devMenu = ksw->getINDIMenu();
-		bool useJ2000 = false;
+		bool useJ2000 (false), useAltAz(false);
+		SkyPoint indi_sp;
 
 		if (!Options::indiCrosshairs() || devMenu == NULL)
 			return;
@@ -150,6 +151,9 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 		{
 			for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 			{
+				useAltAz = false;
+				useJ2000 = false;
+
 				// make sure the dev is on first
 				if (devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
 				{
@@ -166,13 +170,41 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 					if (eqNum == NULL)
 					{
 						eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
-						if (eqNum) useJ2000 = true;
+						if (eqNum == NULL)
+                                                {
+						  eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
+                                                  if (eqNum == NULL) continue;
+                                                  else
+							useAltAz = true;
+						}
+                                                else
+						 useJ2000 = true;
 					}
 
 					// make sure it has RA and DEC properties
 					if ( eqNum)
 					{
 						//fprintf(stderr, "Looking for RA label\n");
+                                                if (useAltAz)
+						{
+						lp = eqNum->findElement("AZ");
+						if (!lp)
+							continue;
+
+						dms azDMS(lp->value);
+						
+						lp = eqNum->findElement("ALT");
+						if (!lp)
+							continue;
+
+						dms altDMS(lp->value);
+
+						indi_sp.setAz(azDMS);
+						indi_sp.setAlt(altDMS);
+						}
+						else
+						{
+
 						lp = eqNum->findElement("RA");
 						if (!lp)
 							continue;
@@ -191,14 +223,17 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						//kdDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
 						//kdDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
 
-						SkyPoint sp( &raDMS, &decDMS);
+						indi_sp.setRA(raDMS);
+						indi_sp.setDec(decDMS);
 						
 						if (useJ2000)
-							sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
+							indi_sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
 							
-						sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+						indi_sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
-						QPoint P = getXY( &sp, Options::useAltAz(), Options::useRefraction() );
+						}
+
+						QPoint P = getXY( &indi_sp, Options::useAltAz(), Options::useRefraction() );
 
 						int s1 = pxperdegree/2;
 						int s2 = pxperdegree;
@@ -218,7 +253,6 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						psky.drawEllipse( x1, y1, s1, s1 );
 						psky.drawEllipse( x2, y2, s2, s2 );
 
-						//FIXME the label is not displayed optimally (needs to be somewhat centered vertically)
 						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 
 					}

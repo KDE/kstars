@@ -899,9 +899,10 @@ void DetailDialog::centerTelescope()
 {
 
   INDI_D *indidev(NULL);
-  INDI_P *eqCoord, *onSet;
-  INDI_E *RAEle, *DecEle, *ConnectEle, *nameEle;
+  INDI_P *prop(NULL), *onset(NULL);
+  INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *ConnectEle(NULL), *nameEle(NULL);
   bool useJ2000( false);
+  int selectedCoord(0);
   SkyPoint sp;
   
   // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
@@ -909,22 +910,29 @@ void DetailDialog::centerTelescope()
   
   INDIMenu *imenu = ksw->getINDIMenu();
 
-  indidev->stdDev->currentObject = NULL;
   
   for (unsigned int i=0; i < imenu->mgr.count() ; i++)
   {
     for (unsigned int j=0; j < imenu->mgr.at(i)->indi_dev.count(); j++)
     {
        indidev = imenu->mgr.at(i)->indi_dev.at(j);
-       eqCoord = indidev->findProp("EQUATORIAL_EOD_COORD");
-       if (eqCoord == NULL)
-       {
-	 eqCoord = indidev->findProp("EQUATORIAL_COORD");
-	 useJ2000 = true;
-       }
-       
-       if (eqCoord == NULL) continue;
-       
+       indidev->stdDev->currentObject = NULL;
+       prop = indidev->findProp("EQUATORIAL_EOD_COORD");
+       	if (prop == NULL)
+	{
+		  prop = indidev->findProp("EQUATORIAL_COORD");
+		  if (prop == NULL)
+                  {
+                    prop = indidev->findProp("HORIZONTAL_COORD");
+                    if (prop == NULL)
+        		continue;
+                    else
+                        selectedCoord = 1;		/* Select horizontal */
+                  }
+		  else
+		        useJ2000 = true;
+	}
+
        ConnectEle = indidev->findElem("CONNECT");
        if (!ConnectEle) continue;
        
@@ -934,37 +942,80 @@ void DetailDialog::centerTelescope()
 	 return;
        }
 
-       RAEle = eqCoord->findElement("RA");
-       if (!RAEle) continue;
-       DecEle = eqCoord->findElement("DEC");
-       if (!DecEle) continue;
-       
-       onSet = indidev->findProp("ON_COORD_SET");
-       if (!onSet) continue;
-       
-       onSet->activateSwitch("SLEW");
-       
-       sp.set (selectedObject->ra(), selectedObject->dec());
-       
-       if (useJ2000)
-	 sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+        switch (selectedCoord)
+        {
+          // Equatorial
+          case 0:
+           if (prop->perm == PP_RO) continue;
+           RAEle  = prop->findElement("RA");
+       	   if (!RAEle) continue;
+   	   DecEle = prop->findElement("DEC");
+   	   if (!DecEle) continue;
+           break;
 
-       // Use JNow coordinate as required by INDI
-       RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-       DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+         // Horizontal
+         case 1:
+          if (prop->perm == PP_RO) continue;
+          AzEle = prop->findElement("AZ");
+          if (!AzEle) continue;
+          AltEle = prop->findElement("ALT");
+          if (!AltEle) continue;
+          break;
+        }
+   
+        onset = indidev->findProp("ON_COORD_SET");
+        if (!onset) continue;
        
-       eqCoord->newText();
+        onset->activateSwitch("SLEW");
 
         indidev->stdDev->currentObject = selectedObject;
-        if (indidev->stdDev->currentObject)
-          {
+
+      /* Send object name if available */
+      if (indidev->stdDev->currentObject)
+         {
              nameEle = indidev->findElem("OBJECT_NAME");
              if (nameEle && nameEle->pp->perm != PP_RO)
              {
                  nameEle->write_w->setText(indidev->stdDev->currentObject->name());
                  nameEle->pp->newText();
              }
-        }
+          }
+
+       switch (selectedCoord)
+       {
+         case 0:
+            if (indidev->stdDev->currentObject)
+		sp.set (indidev->stdDev->currentObject->ra(), indidev->stdDev->currentObject->dec());
+            else
+                sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+
+      	 if (useJ2000)
+            sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+
+    	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+
+          break;
+
+       case 1:
+         if (indidev->stdDev->currentObject)
+         {
+           sp.setAz(*indidev->stdDev->currentObject->az());
+           sp.setAlt(*indidev->stdDev->currentObject->alt());
+         }
+         else
+         {
+           sp.setAz(*ksw->map()->clickedPoint()->az());
+           sp.setAlt(*ksw->map()->clickedPoint()->alt());
+         }
+
+          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+
+         break;
+       }
+
+       prop->newText();
        
        return;
     }

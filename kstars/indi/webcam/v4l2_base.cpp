@@ -184,7 +184,7 @@ int V4L2_Base::read_frame(char *errmsg)
 		}
 
                 assert (buf.index < n_buffers);
- 
+
                 switch (fmt.fmt.pix.pixelformat)
                 {
                   case V4L2_PIX_FMT_YUV420:
@@ -311,12 +311,15 @@ int V4L2_Base::start_capturing(char * errmsg)
 
         		if (-1 == xioctl (fd, VIDIOC_QBUF, &buf))
                     		return errno_exit ("VIDIOC_QBUF", errmsg);
+
 		}
 		
 		type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
 		if (-1 == xioctl (fd, VIDIOC_STREAMON, &type))
 			return errno_exit ("VIDIOC_STREAMON", errmsg);
+
+                
 
                 selectCallBackID = IEAddCallback(fd, newFrame, this);
 
@@ -1015,7 +1018,7 @@ void V4L2_Base::enumerate_menu (void)
          }
 }
 
-int  V4L2_Base::query_ctrl(int ctrl_id, double & ctrl_min, double & ctrl_max, double & ctrl_step, double & ctrl_value, char *errmsg)
+int  V4L2_Base::query_ctrl(unsigned int ctrl_id, double & ctrl_min, double & ctrl_max, double & ctrl_step, double & ctrl_value, char *errmsg)
 { 
 
     struct v4l2_control control;
@@ -1066,7 +1069,7 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
    char errmsg[ERRMSGSIZ];
    CLEAR(queryctrl);
    INumber *numbers = NULL;
-   int     *num_ctrls = NULL;
+   unsigned int *num_ctrls = NULL;
    int nnum=0;
 
   for (queryctrl.id = V4L2_CID_BASE; queryctrl.id < V4L2_CID_LASTP1; queryctrl.id++)
@@ -1084,8 +1087,8 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
                    numbers = (numbers == NULL) ? (INumber *) malloc (sizeof(INumber)) :
                                                  (INumber *) realloc (numbers, (nnum+1) * sizeof (INumber));
 
-                   num_ctrls = (num_ctrls == NULL) ? (int *) malloc  (sizeof (int)) :
-                                                     (int *) realloc (num_ctrls, (nnum+1) * sizeof (int));
+                   num_ctrls = (num_ctrls == NULL) ? (unsigned int *) malloc  (sizeof (unsigned int)) :
+                                                     (unsigned int *) realloc (num_ctrls, (nnum+1) * sizeof (unsigned int));
 
                    strncpy(numbers[nnum].name, ((char *) queryctrl.name) , MAXINDINAME);
                    strncpy(numbers[nnum].label, ((char *) queryctrl.name), MAXINDILABEL);
@@ -1129,8 +1132,8 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
                    numbers = (numbers == NULL) ? (INumber *) malloc (sizeof(INumber)) :
                                                  (INumber *) realloc (numbers, (nnum+1) * sizeof (INumber));
 
-                   num_ctrls = (num_ctrls == NULL) ? (int *) malloc  (sizeof (int)) :
-                                                     (int *) realloc (num_ctrls, (nnum+1) * sizeof (int));
+                   num_ctrls = (num_ctrls == NULL) ? (unsigned int *) malloc  (sizeof (unsigned int)) :
+                                                     (unsigned int *) realloc (num_ctrls, (nnum+1) * sizeof (unsigned int));
 
                    strncpy(numbers[nnum].name, ((char *) queryctrl.name) , MAXINDINAME);
                    strncpy(numbers[nnum].label, ((char *) queryctrl.name), MAXINDILABEL);
@@ -1148,8 +1151,6 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
 
                    /* Store ID info in INumber. This is the first time ever I make use of aux0!! */
                    num_ctrls[nnum] = queryctrl.id;
-                   //numbers[nnum].aux0 = &num_ctrls[nnum];
-                   //cerr << "The id for " << nnum << " is " << queryctrl.id << endl;
      
                    nnum++;
                   
@@ -1165,22 +1166,17 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
   nvp->np  = numbers;
   nvp->nnp = nnum;
 
-  
-  //cerr << "num_ctrls[0] " << num_ctrls[0] << endl;
-  //cerr << "numbers name " << numbers[0].name << " -  aux0= " << *( (int *) numbers[0].aux0) << endl;
-  //cerr << "nvp name " << nvp->np[0].name << " -  aux0= " << *( (int *) nvp->np[0].aux0) << endl;
-
   return nnum;
 
 }
 
-int  V4L2_Base::setINTControl(int ctrl_id, double new_value, char *errmsg)
+int  V4L2_Base::setINTControl(unsigned int ctrl_id, double new_value, char *errmsg)
 {
    struct v4l2_control control;
 
    CLEAR(control);
 
-   //cerr << "The id is " << ctrl_id << " new value is " << new_value << endl;
+   cerr << "The id is " << ctrl_id << " new value is " << new_value << endl;
 
    control.id = ctrl_id;
    control.value = (int) new_value;

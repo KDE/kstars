@@ -748,10 +748,11 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  bool INDIStdProperty::convertSwitch(int switchIndex, INDI_E *lp)
  {
  
-  INDI_E *RAEle, *DecEle, *nameEle;
+  INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
   INDI_P * prop;
   SkyPoint sp;
-  bool useJ2000 = false;
+  int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
+  bool useJ2000 (false);
   
   switch (pp->stdID)
   {
@@ -764,19 +765,41 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 		 	stdDev->devTimer->stop();
 
    	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
-       		if (prop == NULL)
-		{
+       	if (prop == NULL)
+	{
 		  prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
 		  if (prop == NULL)
+                  {
+                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
+                    if (prop == NULL)
         		return false;
+                    else
+                        selectedCoord = 1;		/* Select horizontal */
+                  }
 		  else
 		        useJ2000 = true;
-		}
+	}
 
-   	RAEle  = prop->findElement("RA");
-   	if (!RAEle) return false;
-   	DecEle = prop->findElement("DEC");
-   	if (!DecEle) return false;
+        switch (selectedCoord)
+        {
+          // Equatorial
+          case 0:
+           if (prop->perm == PP_RO) return false;
+           RAEle  = prop->findElement("RA");
+       	   if (!RAEle) return false;
+   	   DecEle = prop->findElement("DEC");
+   	   if (!DecEle) return false;
+           break;
+
+         // Horizontal
+         case 1:
+          if (prop->perm == PP_RO) return false;
+          AzEle = prop->findElement("AZ");
+          if (!AzEle) return false;
+          AltEle = prop->findElement("ALT");
+          if (!AltEle) return false;
+          break;
+        }
    
         stdDev->currentObject = ksw->map()->clickedObject();
   	// Track is similar to slew, except that for non-sidereal objects
@@ -786,48 +809,52 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	        	return true;
 
       /* Send object name if available */
-          if (stdDev->currentObject)
+      if (stdDev->currentObject)
           {
-             kdDebug() << "We've got a current object " << stdDev->currentObject->name() << endl;
              nameEle = pp->pg->dp->findElem("OBJECT_NAME");
              if (nameEle && nameEle->pp->perm != PP_RO)
              {
                  nameEle->write_w->setText(stdDev->currentObject->name());
                  nameEle->pp->newText();
              }
-        }
+          }
 
-	kdDebug() <<  "\n******** The point BEFORE it was precessed ********" << endl;
-	kdDebug() << "RA : " <<  ksw->map()->clickedPoint()->ra()->toHMSString() << "   - DEC : " << ksw->map()->clickedPoint()->dec()->toDMSString() << endl;
-	
+       switch (selectedCoord)
+       {
+         case 0:
+            if (stdDev->currentObject)
+		sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
+            else
+                sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
-       // We need to get from JNow (Skypoint) to J2000
-       // The ra0() of a skyPoint is the same as its JNow ra() without this process
-       if (stdDev->currentObject)
-         sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
-       else
-         sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+      	 if (useJ2000)
+            sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-	 if (useJ2000)
-         	sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
-
-           // Use J2000 coordinate as required by INDI
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
 	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
-	if (useJ2000)
-	{
-		kdDebug() <<  "\n******** The point AFTER it was precessed ********" << endl;
-		kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
-	}
-	 
-	
-	//sp.apparentCoord((long double) J2000,  ksw->data()->ut().djd());
-	//kdDebug() <<  "\n******** The point AFTER it was precessed AGAIN to JNOW ********" << endl;
-	//kdDebug() << "RA : " <<  sp.ra()->toHMSString() << "   - DEC : " << sp.dec()->toDMSString() << endl;
-	
-           pp->newSwitch(switchIndex);
-	   prop->newText();
+          break;
+
+       case 1:
+         if (stdDev->currentObject)
+         {
+           sp.setAz(*stdDev->currentObject->az());
+           sp.setAlt(*stdDev->currentObject->alt());
+         }
+         else
+         {
+           sp.setAz(*ksw->map()->clickedPoint()->az());
+           sp.setAlt(*ksw->map()->clickedPoint()->alt());
+         }
+
+          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+
+         break;
+       }
+
+       pp->newSwitch(switchIndex);
+       prop->newText();
 	
 	return true;
 	break;

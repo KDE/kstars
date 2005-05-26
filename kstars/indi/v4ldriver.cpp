@@ -347,10 +347,10 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
      ImageAdjustN[4].value = v4l_base->getWhiteness() / divider;
 
      #else
-     int ctrl_id;
+     unsigned int ctrl_id;
      for (int i=0; i < ImageAdjustNP.nnp; i++)
      {
-         ctrl_id = *((int *) ImageAdjustNP.np[i].aux0);
+         ctrl_id = *((unsigned int *) ImageAdjustNP.np[i].aux0);
          if (v4l_base->setINTControl( ctrl_id , ImageAdjustNP.np[0].value, errmsg) < 0)
          {
             ImageAdjustNP.s = IPS_ALERT;
@@ -404,10 +404,6 @@ void V4L_Driver::updateFrame()
   char errmsg[ERRMSGSIZ];
   static int dropLarge = 3;
 
-  V4LFrame->Y      = v4l_base->getY();
-  V4LFrame->U      = v4l_base->getU();
-  V4LFrame->V      = v4l_base->getV();
-
   if (StreamSP.s == IPS_BUSY)
   {
       frameCount++;
@@ -429,6 +425,7 @@ void V4L_Driver::updateFrame()
   }
   else if (ExposeTimeNP.s == IPS_BUSY)
   {
+     V4LFrame->Y      = v4l_base->getY();
      v4l_base->stop_capturing(errmsg);
      grabImage();
   }
@@ -447,10 +444,10 @@ void V4L_Driver::updateStream()
    
    if (PowerS[0].s == ISS_OFF || StreamS[0].s == ISS_OFF) return;
    
-   V4LFrame->Y      		= v4l_base->getY();
-   V4LFrame->U      		= v4l_base->getU();
-   V4LFrame->V      		= v4l_base->getV();
-   V4LFrame->colorBuffer 	= v4l_base->getColorBuffer();
+   if (ImageTypeS[0].s == ISS_ON)
+      V4LFrame->Y      		= v4l_base->getY();
+   else
+      V4LFrame->colorBuffer 	= v4l_base->getColorBuffer();
   
    totalBytes  = ImageTypeS[0].s == ISS_ON ? width * height : width * height * 4;
    targetFrame = ImageTypeS[0].s == ISS_ON ? V4LFrame->Y : V4LFrame->colorBuffer;

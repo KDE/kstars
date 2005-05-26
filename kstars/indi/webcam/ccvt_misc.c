@@ -380,13 +380,13 @@ void InitLookupTable()
 /* RGB/BGR to RGB/BGR */
 
 #define RGBBGR_BODY24(TIN, TOUT) \
-void ccvt_ ## TIN ## _ ## TOUT (int width, int height, const void *const src, void *const dst) \
+void ccvt_ ## TIN ## _ ## TOUT (int width, int height, const void *const src, void *dst) \
 { \
    const PIXTYPE_ ## TIN *in = src; \
    PIXTYPE_ ## TOUT *out = dst; \
    int l, c, stride = 0; \
    \
-   if (height < 0) { stride = width; height = -height; } \
+   stride = width; \
    out += ((height - 1) * width); \
    stride *= 2; \
    for (l = 0; l < height; l++) { \
@@ -402,13 +402,13 @@ void ccvt_ ## TIN ## _ ## TOUT (int width, int height, const void *const src, vo
 }
 
 #define RGBBGR_BODY32(TIN, TOUT) \
-void ccvt_ ## TIN ## _ ## TOUT (int width, int height, const void *const src, void *const dst) \
+void ccvt_ ## TIN ## _ ## TOUT (int width, int height, const void *const src, void *dst) \
 { \
    const PIXTYPE_ ## TIN *in = src; \
    PIXTYPE_ ## TOUT *out = dst; \
    int l, c, stride = 0; \
    \
-   if (height < 0) { stride = width; height = -height; } \
+   stride = width;\
    out += ((height - 1) * width); \
    stride *= 2; \
    for (l = 0; l < height; l++) { \

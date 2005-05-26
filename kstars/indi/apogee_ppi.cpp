@@ -475,6 +475,8 @@ void ApogeeCam::grabImage()
   int img_size, fd;
   char errmsg[1024];
   char filename[] = "/tmp/fitsXXXXXX";
+
+   IDLog("In grab Image\n");
   
    if ((fd = mkstemp(filename)) < 0)
    { 
@@ -485,7 +487,9 @@ void ApogeeCam::grabImage()
    close(fd);
      
    img_size = APGFrame.width * APGFrame.height * sizeof(unsigned short);
-  
+   
+   IDLog("Allocating memory buffer. Width: %d - Height: %d\n", APGFrame.width, APGFrame.height);
+
    APGFrame.img = (unsigned short *) malloc (img_size);
    
   if (APGFrame.img == NULL)
@@ -495,6 +499,7 @@ void ApogeeCam::grabImage()
     return;
   }
   
+  IDLog("Getting frame buffer from camera...\n");
   if (!cam->GetImage( APGFrame.img , APGFrame.width, APGFrame.height ))
   {
        free(APGFrame.img);
@@ -502,6 +507,8 @@ void ApogeeCam::grabImage()
        IDLog("GetImage() failed.");
        return;
   }
+
+  IDLog("Done with getting frame buffer, writing FITS file\n");
   
    err = writeFITS(filename, errmsg);
    
@@ -513,6 +520,8 @@ void ApogeeCam::grabImage()
    }
    
   free(APGFrame.img);
+
+  IDLog("All good, returning\n");
    
 }
 
@@ -524,6 +533,8 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
   long nbytes;
   FITS_HDU_LIST *hdu;
   
+  IDLog("in write FITS, opening filename %s\n", filename);
+
   ofp = fits_open (filename, "w");
   if (!ofp)
   {
@@ -537,6 +548,7 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
   bpsl   = bpp * APGFrame.width;    /* Bytes per Line */
   nbytes = 0;
   
+  IDLog("Creating FITS header\n");
   hdu = create_fits_header (ofp, width, height, bpp);
   if (hdu == NULL)
   {
@@ -549,16 +561,19 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
     return (-1);
   }
   
+  IDLog("Converting to BIG Endian\n");
   for (int i=0; i < height; i++)
     for (int j=0 ; j < width; j++)
       APGFrame.img[width * i + j] = getBigEndian( (APGFrame.img[width * i + j]) );
   
+  IDLog("Writing frame to disk\n");
   for (int i= 0; i < height  ; i++)
   {
     fwrite(APGFrame.img + (i * width), 2, width, ofp->fp);
     nbytes += bpsl;
   }
   
+  IDLog("Calculating nbytes\n");
   nbytes = nbytes % FITS_RECORD_SIZE;
   if (nbytes)
   {
@@ -572,6 +587,7 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
     return (-1);
   }
  
+ IDLog("Closing ofp\n");
  fits_close (ofp);      
  
   /* Success */
@@ -579,7 +595,9 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
  IDSetNumber(&ExposeTimeNP, NULL);
  IDLog("Loading FITS image...\n");
  
+ IDLog("Uploading filename\n");
  uploadFile(filename);
+ IDLog("Uploading done, returning\n");
 
  return 0;
 
@@ -595,6 +613,8 @@ void ApogeeCam::uploadFile(char * filename)
    uLongf compressedBytes=0;
    uLong  totalBytes;
    struct stat stat_p; 
+
+   IDLog("in upload file, will stat file now\n");
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
@@ -612,11 +632,13 @@ void ApogeeCam::uploadFile(char * filename)
      return;
    }
    
+   IDLog("opening file\n");
    fitsFile = fopen(filename, "r");
    
    if (fitsFile == NULL)
     return;
    
+   IDLog("Reading file from disk\n");
    /* #1 Read file from disk */ 
    for (i=0; i < totalBytes; i+= nr)
    {
@@ -631,6 +653,7 @@ void ApogeeCam::uploadFile(char * filename)
    
    compressedBytes = sizeof(char) * totalBytes + totalBytes / 64 + 16 + 3;
      
+   IDLog("Compressing data\n");
    /* #2 Compress it */
    r = compress2(compressedData, &compressedBytes, fitsData, totalBytes, 9);
    if (r != Z_OK)
@@ -640,6 +663,8 @@ void ApogeeCam::uploadFile(char * filename)
 	return;
    }
    
+   IDLog("Sending blob. bloblen %ld - size %ld\n", compressedBytes, totalBytes);
+
    /* #3 Send it */
    imageB.blob = compressedData;
    imageB.bloblen = compressedBytes;
@@ -717,7 +742,7 @@ void ApogeeCam::handleExposure(void */*p*/)
   ExposeTimeNP.s = IPS_BUSY;
 		  
   IDSetNumber(&ExposeTimeNP, "Taking a %g seconds frame...", ExposeTimeN[0].value);
-  IDLog("Taking a frame...\n");
+  IDLog("Taking a frame. Width: %d - Height: %d - expose %d - temperature %g - binX %d - binY %d\n", APGFrame.width, APGFrame.height, APGFrame.expose, APGFrame.temperature, APGFrame.binX, APGFrame.binY);
    
 }
 

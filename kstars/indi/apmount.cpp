@@ -175,7 +175,7 @@ APMount::APMount()
    
    IDLog("Julian Day is %g\n", JD);
    IDLog("Initilizing from Astro-Physics device...\n");
-   IDLog("Driver Version: 2005-05-06\n");
+   IDLog("Driver Version: 2005-05-26\n");
  
    //enableSimulation(true);  
 }
@@ -247,6 +247,10 @@ void APMount::initProperties()
    fillNumber(&SDTimeN[0], "LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0.);
    fillNumberVector(&SDTimeNP, SDTimeN, NARRAY(SDTimeN), mydev, "SDTIME", "Sidereal Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
+   fillNumber(&HorN[0], "ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.);
+   fillNumber(&HorN[1], "AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.);
+   fillNumberVector(&HorNP, HorN, NARRAY(HorN), mydev, "HORIZONTAL_COORD", "Horizontal Coords", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+
 
 }
 
@@ -267,6 +271,7 @@ void APMount::ISGetProperties(const char *dev)
   // MAIN CONTROL
   IDDefText(&ObjectTP, NULL);
   IDDefNumber(&EqNP, NULL);
+  //IDDefNumber(&HorNP, NULL);
   IDDefSwitch(&OnCoordSetSP, NULL);
   IDDefSwitch(&AbortSlewSP, NULL);
   IDDefSwitch(&ParkSP, NULL);
@@ -433,8 +438,8 @@ void APMount::ISNewNumber (const char *dev, const char *name, double values[], c
 	   fs_sexa(RAStr, newRA, 2, 3600);
 	   fs_sexa(DecStr, newDEC, 2, 3600);
 	  
-	   IDLog("We received J2000 RA %g - DEC %g\n", newRA, newDEC);
-	   IDLog("We received J2000 RA %s - DEC %s\n", RAStr, DecStr);
+	   IDLog("We received JNow RA %g - DEC %g\n", newRA, newDEC);
+	   IDLog("We received JNow RA %s - DEC %s\n", RAStr, DecStr);
 	   
 	   if ( (err = setObjectRA(newRA)) < 0 || ( err = setObjectDEC(newDEC)) < 0)
 	   {

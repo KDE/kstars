@@ -75,6 +75,7 @@ private:
   INumber GeoN[2];
   INumber FocusTimerN[1];
   INumber SDTimeN[1];
+  INumber HorN[2];
 
   /* Switch Vectors */
   ISwitchVectorProperty PowerSP;
@@ -92,6 +93,7 @@ private:
   INumberVectorProperty GeoNP;
   INumberVectorProperty FocusTimerNP;
   INumberVectorProperty SDTimeNP;
+  INumberVectorProperty HorNP;
 
    /* Text Vectors */
    ITextVectorProperty PortTP;

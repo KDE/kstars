@@ -92,9 +92,9 @@ class V4L2_Base
   void enumerate_ctrl (void);
   void enumerate_menu (void);
   int  queryINTControls(INumberVectorProperty *nvp);
-  int  setINTControl(int ctrl_id, double new_value, char *errmsg);
+  int  setINTControl(unsigned int ctrl_id, double new_value, char *errmsg);
 
-  int  query_ctrl(int ctrl_id, double & ctrl_min, double & ctrl_max, double & ctrl_step, double & ctrl_value, char *errmsg);
+  int  query_ctrl(unsigned int ctrl_id, double & ctrl_min, double & ctrl_max, double & ctrl_step, double & ctrl_value, char *errmsg);
 
   protected:
 
