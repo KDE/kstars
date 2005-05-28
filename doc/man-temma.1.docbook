@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+<!ENTITY % English "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title>KDE User's Manual</title>
+<author><personname>
+<firstname>Ben</firstname>
+<surname>Burton</surname>
+</personname>
+<email>bab@debian.org</email></author>
+<date>May 25, 2005</date>
+<productname>K Desktop Environment</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle><command>temma</command></refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname><command>temma</command></refname>
+<refpurpose>Temma Takahashi driver for INDI telescope control</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>temma</command>
+<group><option>-v</option></group>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>Description</title>
+<para>&kstars; allows you to configure and control astronomical instruments
+such as telescopes and focusers via the <acronym>INDI</acronym> protocol.
+<command>temma</command> is a device driver for supporting particular
+types of external hardware.</para>
+<para>This driver is not intended to be run directly.  Instead you should
+use &kstars; to configure and operate your astronomical instruments.  Most
+operations can be found under the <guimenu>Devices</guimenu> menu in
+&kstars;.</para>
+<para>&kstars; will start the <acronym>INDI</acronym> server internally, and
+the <acronym>INDI</acronym> server will in turn start this device
+driver.</para>
+<para>Much more detailed information can be found in the &kstars; handbook
+as described below.</para>
+<para>&kstars; is a graphical desktop planetarium for &kde; and forms part
+of the official &kde; edutainment module.</para>
+</refsect1>
+
+<refsect1>
+<title>Options</title>
+<variablelist>
+<varlistentry><term><option>-v</option></term>
+<listitem><para>Write more verbose output to stderr</para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title>See Also</title>
+<para>indiserver(1), kstars(1)</para>
+
+<para>More detailed user documentation is available from <ulink
+url="help:/kstars">help:/kstars</ulink>
+(either enter this <acronym>URL</acronym> into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/kstars</parameter></userinput>).</para>
+
+<para>There is also further information available at <ulink
+url="http://edu.kde.org/kstars/">the &kde; Edutainment
+website</ulink>.</para>
+</refsect1>
+
+<refsect1>
+<title>Authors</title>
+<para><command>temma</command> was written by &Jasem.Mutlaq;</para>
+<para>This man page based on the one written for Debian by <personname><firstname>Ben</firstname><surname>Burton</surname></personname> <email>bab@debian.org</email></para>
+</refsect1>
+
+</refentry>
