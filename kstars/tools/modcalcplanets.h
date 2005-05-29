@@ -2,7 +2,7 @@
                           modcalcazel.h  -  description
                              -------------------
     begin                : mier abr 20 2004
-    copyright            : (C) 2004 by Pablo de Vicente
+    copyright            : (C) 2004-2005 by Pablo de Vicente
     email                : pvicentea@wanadoo.es
  ***************************************************************************/
 
@@ -74,6 +74,7 @@ private:
 	void showGeocentricEclipticCoords( const dms *eLong, const dms *eLat, double r);
 	void showEquatorialCoords( const dms *ra, const dms *dec);
 	void showTopocentricCoords( const dms *az, const dms *el);
+	unsigned int requiredBatchFields(void);
 
 	// void processLines( QTextStream &istream );
   

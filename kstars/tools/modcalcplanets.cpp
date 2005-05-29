@@ -2,7 +2,7 @@
                           modcalcequinox.cpp  -  description
                              -------------------
     begin                : dom may 2 2004
-    copyright            : (C) 2004 by Pablo de Vicente
+    copyright            : (C) 2004-2005 by Pablo de Vicente
     email                : p.devicentea@wanadoo.es
  ***************************************************************************/
 
@@ -327,20 +327,40 @@ void modCalcPlanets::slotRunBatch() {
 	}
 }
 
+unsigned int modCalcPlanets::requiredBatchFields(void) {
+	unsigned int i = 0;
+	
+	if(planetCheckBatch->isChecked() )
+		i++;
+	if(utCheckBatch->isChecked() )
+		i++;
+	if(dateCheckBatch->isChecked() )
+		i++;
+	if (longCheckBatch->isChecked() )
+		i++;
+	if (latCheckBatch->isChecked() )
+		i++;
+
+	return i;
+	
+}
+
 void modCalcPlanets::processLines( QTextStream &istream ) {
 
 	// we open the output file
 
-	QString outputFileName;
+	QString outputFileName, lineToWrite;
 	outputFileName = OutputLineEditBatch->text();
 	QFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
 	QTextStream ostream(&fOut);
+	bool lineIsValid = true;
+	QString message;
 
 	QString line;
 	QString space = " ";
 	QString planetB;
-	int i = 0;
+	unsigned int i = 0, nline = 0;
 	QTime utB;
 	ExtDate dtB;
 	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
@@ -363,8 +383,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	pName[9] = "Sun";      pNamei18n[9]= i18n("Sun");
 	pName[10] = "Moon";    pNamei18n[10]= i18n("Moon");
 
+	unsigned int numberOfRequiredFields = requiredBatchFields();
 	
 	while ( ! istream.eof() ) {
+		lineToWrite="";
 		line = istream.readLine();
 		line.stripWhiteSpace();
 
@@ -372,45 +394,86 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 		QStringList fields = QStringList::split( " ", line );
 
+		if (fields.count() != numberOfRequiredFields ) {
+			lineIsValid = false;
+			kdWarning() << i18n( "Incorrect number of fields in line %1: " ).arg(nline) 
+			            << i18n( "Present fields %1. " ).arg(fields.count())
+			            << i18n( "Required fields %1. " ).arg(numberOfRequiredFields) << endl;
+			nline++;
+			continue;
+		}
+
 		i = 0;
 		if(planetCheckBatch->isChecked() ) {
 			planetB = fields[i];
+			unsigned int result = 1;
+			int j = 0;
+			while (j < 11) {
+			//while (result != 0 && j < 11) {
+				result = QString::compare( pNamei18n[j] , planetB );
+				if (result == 0)
+					break;
+				j++;
+			}
+			if (j == 11) {
+				kdWarning() << i18n("Unknown planet ")  
+					    << fields[i]  
+					    << i18n(" in line %1: ").arg(nline) << endl;
+				continue;
+			}
 			i++;
 		} else
 			planetB = planetComboBoxBatch->currentText( );
 		
-		if ( allRadioBatch->isChecked() )
-			ostream << planetB << space;
+		if ( allRadioBatch->isChecked() ) {
+			lineToWrite = planetB;
+			lineToWrite += space;
+		}
 		else
-			if(planetCheckBatch->isChecked() )
-				ostream << planetB << space;
+			if(planetCheckBatch->isChecked() ) {
+				lineToWrite = planetB;
+		  		lineToWrite += space;
+			}
 		
 		// Read Ut and write in ostream if corresponds
 		
 		if(utCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
+			if ( !utB.isValid() ) {
+				kdWarning() << i18n( "Line %1 contains an invalid time" ).arg(nline) << endl;
+				lineIsValid=false;
+				nline++;
+				continue;
+			}
 			i++;
 		} else
 			utB = utBoxBatch->time();
 		
-		if ( allRadioBatch->isChecked() )
-			ostream << utB.toString() << space;
+		if ( allRadioBatch->isChecked() ) 
+			lineToWrite += utB.toString().append(space);
 		else
-			if(utCheckBatch->isChecked() )
-				ostream << utB.toString() << space;
+			if(utCheckBatch->isChecked() ) 
+				lineToWrite += utB.toString().append(space);
 			
 		// Read date and write in ostream if corresponds
 		
 		if(dateCheckBatch->isChecked() ) {
-			 dtB = ExtDate::fromString( fields[i] );
-			 i++;
+			dtB = ExtDate::fromString( fields[i], Qt::ISODate );
+			if ( !dtB.isValid() ) {
+				kdWarning() << i18n( "Line %1 contains an invalid date: " ).arg(nline) << 
+				fields[i] << endl ;
+				lineIsValid=false;
+				nline++;
+				continue;
+			}
+			i++;
 		} else
 			dtB = dateBoxBatch->date();
 		if ( allRadioBatch->isChecked() )
-			ostream << dtB.toString().append(space);
+			lineToWrite += dtB.toString().append(space);
 		else
 			if(dateCheckBatch->isChecked() )
-			 	ostream << dtB.toString().append(space);
+			 	lineToWrite += dtB.toString().append(space);
 		
 		// Read Longitude and write in ostream if corresponds
 		
@@ -421,10 +484,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			longB = longBoxBatch->createDms(TRUE);
 		
 		if ( allRadioBatch->isChecked() )
-			ostream << longB.toDMSString() << space;
+			lineToWrite += longB.toDMSString() + space;
 		else
 			if (longCheckBatch->isChecked() )
-				ostream << longB.toDMSString() << space;
+				lineToWrite += longB.toDMSString() +  space;
 		
 		// Read Latitude
 
@@ -434,10 +497,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		} else
 			latB = latBoxBatch->createDms(TRUE);
 		if ( allRadioBatch->isChecked() )
-			ostream << latB.toDMSString() << space;
+			lineToWrite += latB.toDMSString() + space;
 		else
 			if (latCheckBatch->isChecked() )
-				ostream << latB.toDMSString() << space;	
+				lineToWrite += latB.toDMSString() + space;	
 
 		KStarsDateTime edt( dtB, utB );
 		dms LST = edt.gst().Degrees() + longB.Degrees();
@@ -445,14 +508,14 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		KSNumbers num( edt.djd() );
 		
 		PCat.findPosition( &num, &latB, &LST );
-		PCat.EquatorialToHorizontal(&latB, &LST);
+		PCat.EquatorialToHorizontal(&LST, &latB);
 
 		KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
 		Earth.findPosition( &num );
 
 		KSMoon Moon( kd );
 		Moon.findPosition( &num, &latB, &LST, &Earth );
-		Moon.EquatorialToHorizontal( &latB, &LST );
+		Moon.EquatorialToHorizontal( &LST, &latB );
 
 		int result = 1;
 		int jp = -1;
@@ -501,6 +564,8 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			}
 			
 
+			ostream << lineToWrite;
+
 			if ( helEclCheckBatch->isChecked() ) 
 				ostream << hlongB.toDMSString() << space << hlatB.toDMSString() << space << rSunB << space ;
 			if ( geoEclCheckBatch->isChecked() ) 
@@ -512,7 +577,13 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 			ostream << endl;
 		}
+		nline++;
 
+	}
+
+	if (!lineIsValid) { 
+		QString message = i18n("Errors found while parsing some lines in the input file");
+		KMessageBox::sorry( 0, message, i18n( "Errors in lines" ) );
 	}
 
 	fOut.close();
