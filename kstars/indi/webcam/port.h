@@ -40,7 +40,7 @@
   #endif /* !arm */
 #elif defined(QNX)
 #include <conio.h>
-#elif defined(FREEBSD)
+#elif defined(__FreeBSD__)
 #include <machine/cpufunc.h>
 #include <stdio.h>
 #elif defined(BSDI)
