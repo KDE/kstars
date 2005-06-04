@@ -141,7 +141,7 @@ private:
 	ObservingListUI *ui;
 	QPtrList<SkyObject> obsList;
 	QPtrList<SkyObject> SelectedObjects;
-	SkyObject *LogObject;
+	SkyObject *LogObject, *oCurrent;
 	uint noNameStars;
 
 	bool isModified;

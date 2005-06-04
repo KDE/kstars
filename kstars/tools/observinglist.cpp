@@ -52,7 +52,8 @@
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), noNameStars(0), isModified(false)
+				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
+				noNameStars(0), isModified(false)
 {
 	QFrame *page = plainPage();
 	setMainWidget( page );
@@ -252,6 +253,11 @@ void ObservingList::slotNewSelection() {
 			ui->NotesEdit->setEnabled( false );
 		}
 
+		//This shouldn't be necessary.  For some reason, obsList.current() 
+		//is valid here, but in subsequent functions (such as slotCenterObject) 
+		//called *right after* this one, obsList.current()==NULL.  No idea why.
+		oCurrent = obsList.current();
+
 	} else if ( SelectedObjects.count() == 0 ) {
 		//Disable buttons
 		ui->CenterButton->setEnabled( false );
@@ -261,6 +267,7 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( false );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
+		oCurrent = 0;
 		
 		//Clear the user log text box.
 		saveCurrentUserLog();
@@ -272,18 +279,18 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( true );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
-		
+		oCurrent = 0;
+
 		//Clear the user log text box.
 		saveCurrentUserLog();
 	}
 
-    
 }
 
 void ObservingList::slotCenterObject() {
-	if ( obsList.current() ) {
-		ks->map()->setClickedObject( obsList.current() );
-		ks->map()->setClickedPoint( obsList.current() );
+	if ( oCurrent ) {
+		ks->map()->setClickedObject( oCurrent );
+		ks->map()->setClickedPoint( oCurrent );
 		ks->map()->slotCenter();
 	}
 }
@@ -361,7 +368,7 @@ void ObservingList::slotSlewToObject()
        
         onset->activateSwitch("SLEW");
 
-        indidev->stdDev->currentObject = SelectedObjects.first();
+        indidev->stdDev->currentObject = oCurrent;
 
       /* Send object name if available */
       if (indidev->stdDev->currentObject)
@@ -422,8 +429,8 @@ void ObservingList::slotSlewToObject()
 //FIXME: This will open multiple Detail windows for each object;
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
-	if ( obsList.current() ) {
-		DetailDialog dd( obsList.current(), ks->data()->lt(), ks->geo(), ks );
+	if ( oCurrent ) {
+		DetailDialog dd( oCurrent, ks->data()->lt(), ks->geo(), ks );
 		dd.exec();
 	}
 }
@@ -442,9 +449,9 @@ void ObservingList::slotAVT() {
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
 	//Save the current User log text
-	if ( obsList.current() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
-					!= i18n("Record here observation logs and/or data on %1.").arg( obsList.current()->name()) ) {
-		obsList.current()->saveUserLog( ui->NotesEdit->text() );
+	if ( oCurrent && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+					!= i18n("Record here observation logs and/or data on %1.").arg( oCurrent->name()) ) {
+		oCurrent->saveUserLog( ui->NotesEdit->text() );
 	}
 	
 	hide();
