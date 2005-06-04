@@ -205,9 +205,6 @@
                     <property name="text">
                         <string>&amp;Device target crosshair</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+D</string>
-                    </property>
                     <property name="checked">
                         <bool>true</bool>
                     </property>
@@ -221,9 +218,6 @@
                     </property>
                     <property name="text">
                         <string>INDI messages in status &amp;bar</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+B</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -282,9 +276,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Geographic location</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+G</string>
                     </property>
                     <property name="checked">
                         <bool>false</bool>
