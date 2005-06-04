@@ -14,14 +14,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <qlabel.h>
 #include <qlayout.h>
+#include <kcolorbutton.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <knuminput.h>
+#include <ktempfile.h>
+#include <kurl.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
-//#include "skyobject.h"
-//#include "starobject.h"
+#include "customcatalog.h"
+
 #include "addcatdialog.h"
 
 AddCatDialog::AddCatDialog( QWidget *parent )
@@ -29,18 +35,26 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 
 	QFrame *page = plainPage();
 	setMainWidget(page);
+	QDir::setCurrent( QDir::homeDirPath() );
+
 	vlay = new QVBoxLayout( page, 0, spacingHint() );
 	acd = new AddCatDialogUI(page);
 	vlay->addWidget( acd );
 	
-	connect( acd->catFileName, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotCheckLineEdits() ) );
-	connect( acd->catName, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotCheckLineEdits() ) );
-	connect( this, SIGNAL( okClicked() ), this, SLOT( slotValidateFile() ) );
-//	connect( catName, SIGNAL( returnPressed() ), this, SLOT( checkLineEdits() ) );
+	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
+	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
 
-	enableButtonOK( false ); //disable until both lineedits are filled
+	acd->FieldList->insertItem( i18n( "ID Number" ) );
+	acd->FieldList->insertItem( i18n( "Right Ascension" ) );
+	acd->FieldList->insertItem( i18n( "Declination" ) );
+	acd->FieldList->insertItem( i18n( "Object Type" ) );
 
-	objList.setAutoDelete( false );
+	acd->FieldPool->insertItem( i18n( "Common Name" ) );
+	acd->FieldPool->insertItem( i18n( "Magnitude" ) );
+	acd->FieldPool->insertItem( i18n( "Major Axis" ) );
+	acd->FieldPool->insertItem( i18n( "Minor Axis" ) );
+	acd->FieldPool->insertItem( i18n( "Position Angle" ) );
+	acd->FieldPool->insertItem( i18n( "Ignore" ) );
 }
 
 AddCatDialog::~AddCatDialog(){
@@ -73,34 +87,123 @@ void AddCatDialog::slotHelp() {
 	KMessageBox::information( 0, message, i18n( "Help on custom catalog file format" ) );
 }
 
-void AddCatDialog::slotValidateFile() {
-//A Valid custom data file must satisfy the following conditions:
-//1. Each line is either a comment (beginning with '#'), or a data line
-//2. A data line consists of whitespace-delimited fields
-//   a. the object type integer is the first field
-//   b. the RA, Dec, and magnitude are the 2nd, 3rd and 4th fields (J2000 coords)
-//   c. If type==0 (or 1) (star), the next fields are the spectral type and the name (if any)
-//   d. If type==3-8, the next fields are the primary name and long name (if any)
-//      the type cannot be 1 or 2 (redundant star category and planet)
-//
-//   Also, if names contain spaces, they should be enclosed in quotes so they
-//   aren't split into multiple fields.
+/* Attempt to parse the catalog data file specified in the DataURL box.
+ * We assume the data file has space-separated fields, and that each line has 
+ * the data fields listed in the Catalog fields list, in the same order.
+ * Each data field is parsed as follows:
+ *
+ * ID number: integer value
+ * Right Ascension: colon-delimited hh:mm:ss.s or floating-point value
+ * Declination: colon-delimited dd:mm:ss.s or floating-point value
+ * Object type: integer value, one of [ 0,1,2,3,4,5,6,7,8 ]
+ * Common name: string value (if it contains a space, it *must* be enclosed in quotes!)
+ * Magnitude: floating-point value
+ * Major axis: floating-point value (length of major axis in arcmin)
+ * Minor axis: floating-point value (length of minor axis in arcmin)
+ * Position angle: floating-point value (position angle, in degrees)
+ */
+bool AddCatDialog::validateDataFile() {
+	KStars *ksw = (KStars*) topLevelWidget()->parent(); 
 
-// I moved the file parse code to KStarsData, so we can read in custom
-// data files without needing an AddCatDialog (on startup, for example).
-// The bool argument below flags whether the detailed warning messagebox
-// should appear when parse errors are found.
-	KStars *ksw = (KStars*) parent()->parent(); // ViewOpsDialog->KStars
-	bool result = ksw->data()->readCustomData( filename(), objList, true );
+	//Create the catalog file contents: first the header
+	CatalogContents = writeCatalogHeader();
 
-	if ( result ) {
-		emit QDialog::accept();
-		close();
+	//Next, the data lines (fill from user-specified file)
+	QFile dataFile( acd->DataURL->url() );
+	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
+		QTextStream dataStream( &dataFile );
+		CatalogContents += dataStream.read();
+
+		dataFile.close();
+	}
+
+	//Now create a temporary file for the Catalog, and attempt to parse it into a CustomCatalog
+	KTempFile ktf;
+	QFile tmpFile( ktf.name() );
+	ktf.unlink(); //just need filename
+	if ( tmpFile.open( IO_WriteOnly ) ) {
+		QTextStream ostream( &tmpFile );
+		ostream << CatalogContents;
+		tmpFile.close();
+		CustomCatalog *newCat;
+
+		newCat = ksw->data()->createCustomCatalog( tmpFile.name(), true ); // true = showerrs
+		if ( newCat ) {
+			int nObjects = newCat->objList().count();
+			delete newCat;
+			if ( nObjects ) return true;
+		}
+	}
+
+	return false;
+}
+
+QString AddCatDialog::writeCatalogHeader() {
+	QString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
+	QString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
+
+	QString h = QString("# Name: %1\n").arg( name );
+	h += QString("# Prefix: %1\n").arg( pre );
+	h += QString("# Color: %1\n").arg( acd->ColorButton->color().name() );
+	h += QString("# Epoch: %1\n").arg( acd->Epoch->value() );
+	h += QString("# ");
+
+	for ( uint i=0; i < acd->FieldList->count(); ++i ) {
+		QString f = acd->FieldList->text( i );
+
+		if ( f == i18n( "ID Number" ) ) {
+			h += "ID  ";
+		} else if ( f == i18n( "Right Ascension" ) ) {
+			h += "RA  ";
+		} else if ( f == i18n( "Declination" ) ) {
+			h += "Dc  ";
+		} else if ( f == i18n( "Object Type" ) ) {
+			h += "Tp  ";
+		} else if ( f == i18n( "Common Name" ) ) {
+			h += "Nm  ";
+		} else if ( f == i18n( "Magnitude" ) ) {
+			h += "Mg  ";
+		} else if ( f == i18n( "Major Axis" ) ) {
+			h += "Mj  ";
+		} else if ( f == i18n( "Minor Axis" ) ) {
+			h += "Mn  ";
+		} else if ( f == i18n( "Position Angle" ) ) {
+			h += "PA  ";
+		} else if ( f == i18n( "Ignore" ) ) {
+			h += "Ig  ";
+		}
+	}
+
+	h += "\n";
+
+	return h;
+}
+
+void AddCatDialog::slotPreviewCatalog() {
+	if ( validateDataFile() ) {
+		KMessageBox::informationList( 0, i18n( "Preview of %1" ).arg( acd->CatalogName->text() ),
+			QStringList::split( "\n", CatalogContents ), i18n( "Catalog preview" ) );
 	}
 }
 
-void AddCatDialog::slotCheckLineEdits() {
-    enableButtonOK(! acd->catFileName->lineEdit()->text().isEmpty() && ! acd->catName->text().isEmpty());
+void AddCatDialog::slotCreateCatalog() {
+	if ( validateDataFile() ) {
+		//CatalogContents now contains the text for the catalog file,
+		//and objList contains the parsed objects
+		QFile OutFile( acd->CatalogURL->url() );
+		if ( ! OutFile.open( IO_WriteOnly ) ) {
+			KMessageBox::sorry( 0, 
+				i18n( "Could not open the file %1 for writing." ).arg( acd->CatalogURL->url() ), 
+				i18n( "Error opening output file." ) );
+		} else {
+			QTextStream outStream( &OutFile );
+			outStream << CatalogContents;
+			OutFile.close();
+
+			emit QDialog::accept();
+			close();
+		}
+	}
 }
 
 #include "addcatdialog.moc"

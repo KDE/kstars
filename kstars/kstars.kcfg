@@ -114,15 +114,6 @@
 	</group>
 
 	<group name="Catalogs">
-		<entry name="CatalogCount" type="UInt">
-			<label>Number of defined custom object catalogs.</label>
-			<whatsthis>The number of defined custom object catalogs.</whatsthis>
-			<default>0</default>
-		</entry>
-		<entry name="CatalogName" type="StringList">
-			<label>Names of defined custom object catalogs.</label>
-			<whatsthis>List of the name labels of custom objects catalogs.</whatsthis>
-		</entry>
 		<entry name="CatalogFile" type="StringList">
 			<label>Filenames of defined custom object catalogs.</label>
 			<whatsthis>List of the filenames of custom objects catalogs.</whatsthis>

@@ -49,6 +49,7 @@
 #include "ksasteroid.h"
 #include "kscomet.h"
 #include "starobject.h"
+#include "customcatalog.h"
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
@@ -319,13 +320,13 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 	int icust_min = -1;
 	int icust_cat = -1;
 
-	for ( register unsigned int j=0; j<Options::catalogCount(); ++j ) {
+	for ( register unsigned int j=0; j< data->CustomCatalogs.count(); ++j ) {
 		if ( Options::showCatalog()[j] ) {
-			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ Options::catalogName()[j] ];
+			QPtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
 
-			for ( register unsigned int i=0; i<cat.count(); ++i ) {
+			for ( register unsigned int i=0; i<catList.count(); ++i ) {
 				//test RA and dec to see if this object is roughly nearby
-				SkyObject *test = (SkyObject *)cat.at(i);
+				SkyObject *test = (SkyObject *)catList.at(i);
 				double dRA = test->ra()->Hours()-p->ra()->Hours();
 				double dDec = test->dec()->Degrees()-p->dec()->Degrees();
 				double f = 15.0*cos( test->dec()->radians() );
@@ -389,7 +390,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 		icat = 3; //set catalog to solar system
 	}
 
-	QPtrList<DeepSkyObject> cat;
+	QPtrList<SkyObject> cat;
 
 	switch (icat) {
 		case 0: //star
@@ -401,7 +402,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 			break;
 
 		case 2: //Custom Catalog Object
-			cat = data->CustomCatalogs[ Options::catalogName()[icust_cat] ];
+			cat = data->CustomCatalogs.at(icust_cat)->objList();
 			return cat.at(icust_min);
 			break;
 

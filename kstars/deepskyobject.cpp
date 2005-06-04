@@ -105,7 +105,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAng
 	// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
 	// if we use size 0.0 the star wouldn't be drawn
 	float majorAxis = a();
-	if ( majorAxis == 0.0 && type() < 2 ) {	majorAxis = 1.0; }
+	if ( majorAxis == 0.0 ) {	majorAxis = 1.0; }
 
 	int size = int( scale * majorAxis * dms::PI * zoom / 10800.0 );
 	int dx1 = -size/2;

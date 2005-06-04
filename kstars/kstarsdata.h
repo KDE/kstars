@@ -75,6 +75,7 @@ class KSFileReader;
 class INDIHostsInfo;
 class ADVTreeData;
 class CSegment;
+class CustomCatalog;
 
 /**@class KStarsData
 	*KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
@@ -369,13 +370,56 @@ public:
 		*/
 	bool openURLFile(QString urlfile, QFile& file);
 
-	/**Read in custom object catalog.  Object data is read from a file, and parsed into a
-		*QPtrList of SkyObjects which is returned by reference through the 2nd argument.
-		*@param filename The custom catalog data file
-		*@param olist the list of skyobjects, returned as a reference through this variable
-		*@bool showerrs if true, notify user of unparsed lines.
+	/**Initialize custom object catalogs from the files listed in the config file
 		*/
-	bool readCustomData( QString filename, QPtrList<DeepSkyObject> &olist, bool showerrs );
+	bool readCustomCatalogs();
+
+	/**Add a user-defined object catalog to the list of custom catalogs.
+		*(Basically just calls createCustomCatalog() )
+		*/
+	bool addCatalog( QString filename );
+
+	/**Remove a user-defined object catalog from the list of custom catalogs.
+		*Also removes the objects from the ObjNames list.
+		*@param i the index identifier of the catalog to be removed
+		*/
+	bool removeCatalog( int i );
+
+	/**Read in and parse a custom object catalog.  Object data are read from a file, and 
+		*parsed into a CustomCatalog object.
+		*@param filename name of the custom catalog file
+		*@param showerrs show GUI window summarizing parsing errors
+		*@return pointer to the new catalog
+		*/
+	CustomCatalog* createCustomCatalog( QString filename, bool showerrs = false );
+
+	/**@short Parse the header of the custom object catalog.
+		*@param lines string list containing the lines from the custom catalog file
+		*@param Columns reference to list of descriptors of the data columns
+		*@param catName reference to the name of the catalog (read from header)
+		*@param catPrefix reference to the prefix for ID-number-based names (read from header)
+		*@param catColor reference to the color for the object symbols (read from header)
+		*@param catEpoch reference to the coordinate epoch of the catalog (read from header)
+		*@param iStart reference to the line number of the first data line (following the header)
+		*@param showerrs if true, notify user of problems parsing the header.
+		*@param errs reference to the cumulative list of error reports
+		*/
+	bool parseCustomDataHeader( QStringList lines, QStringList &Columns, 
+			QString &catName, QString &catPrefix, QString &catColor, float &catEpoch, int &iStart, 
+			bool showerrs, QStringList &errs );
+
+	/**@short Parse a line from custom object catalog.  If parsing is successful, add
+		*the object to the object list
+		*@param num the line number being processed
+		*@param d list of fields in the line
+		*@param Columns the list of field descriptors (read from the header)
+		*@param Prefix the string prefix to be prepended to ID numbers (read from the header)
+		*@param objList reference to the list of SkyObjects in the catalog
+		*@param showerrs if true, notify user of problems parsing the header.
+		*@param errs reference to the cumulative list of error reports
+		*/
+	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
+			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
 
 	/**@short reset the faint limit for the stellar database
 		*@param newMagnitude the new faint limit.
@@ -384,13 +428,6 @@ public:
 		*checkDataPumpAction() and should not used outside.
 		*/
 	void setMagnitude( float newMagnitude, bool forceReload=false );
-
-	/**Add a custom object catalog.  The QString name of the catalog and
-		*the QPtrList of SkyObjects comprising the data are given as arguments.
-		*This function simply appends the QPtrList as an entry in the
-		*CustomCatalogs QMap, with the name string used as the key.
-		*/
-	void addCatalog( QString name, QPtrList<DeepSkyObject> );
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
@@ -466,6 +503,10 @@ public:
 	/**@return pointer to the GeoLocation object*/
 	GeoLocation *geo() { return &Geo; }
 	
+	/**@return reference to the CustomCatalogs list
+		*/
+	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
+ 
 	/**Set the GeoLocation according to the argument.
 		*@param l reference to the new GeoLocation
 		*/
@@ -672,11 +713,13 @@ private:
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
 	
+	QPtrList<CustomCatalog> CustomCatalogs;
+
 	ObjectNameList ObjNames;
 
-	QMap<QString, QPtrList<DeepSkyObject> > CustomCatalogs;
 	static QMap<QString, TimeZoneRule> Rulebook;
-
+	static QStringList CustomColumns;
+	
 	GeoLocation Geo;
 	SimClock Clock;
 	ColorScheme CScheme;

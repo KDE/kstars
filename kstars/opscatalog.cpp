@@ -18,6 +18,7 @@
 #include <qlistview.h> //QCheckListItem
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <kfiledialog.h>
 
 #include "opscatalog.h"
 #include "Options.h"
@@ -26,6 +27,7 @@
 #include "skymap.h"
 #include "addcatdialog.h"
 #include "magnitudespinbox.h"
+#include "customcatalog.h"
 
 OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl ) 
 	: OpsCatalogUI( p, name, fl ) 
@@ -57,14 +59,15 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	if ( ! kcfg_ShowStars->isChecked() ) slotStarWidgets(false);
 	
 	//Add custom catalogs, if necessary
-	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) { //loop over custom catalogs
-		QCheckListItem *newItem = new QCheckListItem( CatalogList, Options::catalogName()[i], QCheckListItem::CheckBox );
+	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) { //loop over custom catalogs
+		QCheckListItem *newItem = new QCheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), QCheckListItem::CheckBox );
 		newItem->setOn( Options::showCatalog()[i] );
 	}
 
 	connect( CatalogList, SIGNAL( clicked( QListViewItem* ) ), this, SLOT( updateDisplay() ) );
 	connect( CatalogList, SIGNAL( selectionChanged() ), this, SLOT( selectCatalog() ) );
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
+	connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
 	connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
 
 	connect( kcfg_MagLimitDrawStar, SIGNAL( valueChanged(double) ),
@@ -86,8 +89,8 @@ void OpsCatalog::updateDisplay() {
 	Options::setShowMessierImages( showMessImages->isOn() );
 	Options::setShowNGC( showNGC->isOn() );
 	Options::setShowIC( showIC->isOn() );
-	for ( unsigned int i=0; i<Options::catalogCount(); ++i ) {
-		QCheckListItem *item = (QCheckListItem*)( CatalogList->findItem( Options::catalogName()[i], 0 ));
+	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) {
+		QCheckListItem *item = (QCheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
 		Options::showCatalog()[i] = item->isOn();
 	}
 
@@ -101,8 +104,8 @@ void OpsCatalog::updateDisplay() {
 void OpsCatalog::selectCatalog() {
 //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
 	RemoveCatalog->setEnabled( false );
-	for ( unsigned int i=0; i < Options::catalogName().count(); ++i ) {
-		if ( CatalogList->currentItem()->text( 0 ) == Options::catalogName()[i] ) {
+	for ( unsigned int i=0; i < ksw->data()->customCatalogs().count(); ++i ) {
+		if ( CatalogList->currentItem()->text( 0 ) == ksw->data()->customCatalogs().at(i)->name() ) {
 			RemoveCatalog->setEnabled( true );
 			break;
 		}
@@ -111,34 +114,60 @@ void OpsCatalog::selectCatalog() {
 
 void OpsCatalog::slotAddCatalog() {
 	AddCatDialog ac(this);
-	if ( ac.exec()==QDialog::Accepted ) {
-		//compute Horizontal coords for custom objects:
-		for ( unsigned int i=0; i < ac.objectList().count(); ++i )
-			ac.objectList().at(i)->EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+	if ( ac.exec()==QDialog::Accepted ) 
+		insertCatalog( ac.filename() );
+}
 
-		//Add new custom catalog, based on the list of SkyObjects we just parsed
-		ksw->data()->addCatalog( ac.name(), ac.objectList() );
-		QCheckListItem *newCat = new QCheckListItem( CatalogList, ac.name(), QCheckListItem::CheckBox );
-		newCat->setOn( true );
-		CatalogList->insertItem( newCat );
-
-		Options::setCatalogCount( Options::catalogCount() + 1 );
-		Options::catalogName().append( ac.name() );
-		Options::catalogFile().append( ac.filename() );
-		Options::showCatalog().append( true );
-		
-		ksw->map()->forceUpdate();
+void OpsCatalog::slotLoadCatalog() {
+	//Get the filename from the user
+	QString filename = KFileDialog::getOpenFileName( QDir::homeDirPath(), "*");
+	if ( ! filename.isEmpty() ) {
+		//test integrity of file before trying to add it
+		CustomCatalog *newCat = ksw->data()->createCustomCatalog( filename, true ); //true = show errors
+		if ( newCat ) {
+			int nObjects = newCat->objList().count();
+			delete newCat;
+			if ( nObjects )
+				insertCatalog( filename );
+		}
 	}
+}
+
+void OpsCatalog::insertCatalog( const QString &filename ) {
+	//Add new custom catalog, based on the list of SkyObjects we just parsed
+	ksw->data()->addCatalog( filename );
+
+	//Get the new catalog's name, add entry to the listbox
+	QString name = ksw->data()->customCatalogs().current()->name();
+	QCheckListItem *newCat = new QCheckListItem( CatalogList, name, QCheckListItem::CheckBox );
+	newCat->setOn( true );
+	CatalogList->insertItem( newCat );
+
+	//update Options object
+	QStringList tFileList = Options::catalogFile();
+	QValueList<int> tShowList = Options::showCatalog();
+	tFileList.append( filename );
+	tShowList.append( true );
+	Options::setCatalogFile( tFileList );
+	Options::setShowCatalog( tShowList );
+	
+	ksw->map()->forceUpdate();
 }
 
 void OpsCatalog::slotRemoveCatalog() {
 	//Remove CatalogName, CatalogFile, and ShowCatalog entries, and decrement CatalogCount
-	for ( unsigned int i=0; i < Options::catalogCount(); ++i ) {
-		if ( CatalogList->currentItem()->text( 0 ) == Options::catalogName()[i] ) {
-			Options::catalogName().remove( Options::catalogName()[i] );
-			Options::catalogFile().remove( Options::catalogFile()[i] );
-			Options::showCatalog().remove( Options::showCatalog()[i] );
-			Options::setCatalogCount( Options::catalogCount() - 1 );
+	for ( unsigned int i=0; i < ksw->data()->customCatalogs().count(); ++i ) {
+		if ( CatalogList->currentItem()->text( 0 ) == ksw->data()->customCatalogs().at(i)->name() ) {
+
+			ksw->data()->removeCatalog( i );
+
+			//Update Options object
+			QStringList tFileList = Options::catalogFile();
+			QValueList<int> tShowList = Options::showCatalog();
+			tFileList.remove( tFileList[i] );
+			tShowList.remove( tShowList[i] );
+			Options::setCatalogFile( tFileList );
+			Options::setShowCatalog( tShowList );
 			break;
 		}
 	}

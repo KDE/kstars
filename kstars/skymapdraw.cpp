@@ -40,6 +40,7 @@
 #include "infoboxes.h"
 #include "simclock.h"
 #include "csegment.h"
+#include "customcatalog.h"
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indiproperty.h"
@@ -1345,15 +1346,11 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 	}
 
 	//Draw Custom Catalogs
-	for ( register unsigned int i=0; i<Options::catalogCount(); ++i ) { //loop over custom catalogs
+	for ( register unsigned int i=0; i<data->CustomCatalogs.count(); ++i ) { 
 		if ( Options::showCatalog()[i] ) {
+			QPtrList<SkyObject> cat = data->CustomCatalogs.at(i)->objList();
 
-			psky.setBrush( NoBrush );
-			psky.setPen( QColor( data->colorScheme()->colorNamed( "NGCColor" ) ) );
-
-			QPtrList<DeepSkyObject> cat = data->CustomCatalogs[ Options::catalogName()[i] ];
-
-			for ( DeepSkyObject *obj = cat.first(); obj; obj = cat.next() ) {
+			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
 				if ( checkVisibility( obj, fov(), XRange ) ) {
 					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
@@ -1374,9 +1371,14 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							}
 						} else {
 							//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-							double pa = 90. + findPA( obj, o.x(), o.y(), scale );
-							obj->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-							obj->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
+							DeepSkyObject *dso = (DeepSkyObject*)obj;
+							double pa = 90. + findPA( dso, o.x(), o.y(), scale );
+							dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
+
+							psky.setBrush( NoBrush );
+							psky.setPen( QColor( data->CustomCatalogs.at(i)->color() ) );
+
+							dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 						}
 					}
 				}

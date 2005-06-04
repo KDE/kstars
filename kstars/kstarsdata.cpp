@@ -53,9 +53,11 @@
 #include "indistd.h"
 #include "detaildialog.h"
 #include "csegment.h"
+#include "customcatalog.h"
 
 QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
+QStringList KStarsData::CustomColumns = QStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
 int KStarsData::objects = 0;
 
 KStarsData::KStarsData() : stdDirs(0), locale(0), 
@@ -1101,155 +1103,409 @@ bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
 	return true;
 }
 
-bool KStarsData::readCustomData( QString filename, QPtrList<DeepSkyObject> &objList, bool showerrs ) {
-	bool checkValue;
-	bool badLine(false);
-	int countValidLines(0);
-	int countLine(0);
+bool KStarsData::readCustomCatalogs() {
+	bool result = false;
 
-	unsigned char iType(0);
-	double RA(0.0), Dec(0.0), mag(0.0);
-	QString name(""); QString lname(""); QString spType("");
-
-//If the filename begins with "~", replace the "~" with the user's home directory
-//(otherwise, the file will not successfully open)
-	if ( filename.at(0)=='~' ) filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
-
-	QFile test( filename );
-	QStringList errs;
-
-	if ( test.open( IO_ReadOnly ) ) {
-		QTextStream stream( &test );
-		while ( !stream.eof() ) {
-			QString sub, msg;
-			QString line = stream.readLine();
-			++countLine;
-			iType = SkyObject::TYPE_UNKNOWN; //initialize to invalid values
-			RA = 0.0; Dec = 0.0; mag = 0.0;
-			name = ""; lname = ""; spType = "";
-
-			if ( line.left(1) != "#" ) { //ignore commented lines
-				QStringList fields = QStringList::split( " ", line ); //parse the line
-				if ( fields.count() < 5 ) { //every valid line has at least 5 fields
-					badLine = true;
-					if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-						i18n( " does not have enough fields." ) );
-				} else {
-					iType = (*fields.at(0)).toInt( &checkValue );
-					if ( !checkValue ) {
-						badLine = true;
-						iType = SkyObject::TYPE_UNKNOWN;
-						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-							i18n( ": field 1 is not an integer." ) );
-					}
-					RA = (*fields.at(1)).toDouble( &checkValue );
-					if ( !checkValue ) {
-						badLine = true;
-						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-							i18n( ": field 2 is not a float (right ascension)." ) );
-					}
-					Dec = (*fields.at(2)).toDouble( &checkValue );
-					if ( !checkValue ) {
-						badLine = true;
-						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-							i18n( ": field 3 is not a float (declination)." ) );
-					}
-					mag = (*fields.at(3)).toDouble( &checkValue );
-					if ( !checkValue ) {
-						badLine = true;
-						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-							i18n( ": field 4 is not a float (magnitude)." ) );
-					}
-
-					if ( iType==0 || iType==1 ) {  //Star
-						spType = (*fields.at(4));
-						if ( !( spType.left(1)=="O" || spType.left(1)=="B" ||
-								spType.left(1)=="A" || spType.left(1)=="F" ||
-								spType.left(1)=="G" || spType.left(1)=="K" ||
-								spType.left(1)=="M" ) ) { //invalid spType
-							badLine = true;
-							if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-								i18n( ", field 5: invalid spectral type (must start with O,B,A,F,G,K or M)" ) );
-						}
-					} else if ( iType < 3 || iType > 8 ) { //invalid object type
-						badLine = true;
-						if (showerrs) errs.append( i18n( "Line " ) + QString( "%1" ).arg( countLine ) +
-							i18n( ", field 1: invalid object type (must be 0,1,3,4,5,6,7 or 8)" ) );
-					}
-				}
-
-				if ( !badLine ) { //valid data found!  add to objList
-					++countValidLines;
-					unsigned int Mark(4); //field marker; 5 for stars, 4 for deep-sky
-
-					//Stars:
-					if ( iType==0 || iType==1 ) Mark = 5;
-
-					//First, check for name:
-					if ( fields.count() > Mark && (*fields.at(Mark)).left(1)=="\"" ) {
-						//The name is (probably) more than one word...
-						name = (*fields.at(Mark)).mid(1); //remove leading quote mark
-						if (name.right(1)=="\"") { //name was one word in quotes...
-							name = name.left( name.length() -1 ); //remove trailing quote mark
-						} else {
-							for ( unsigned int i=Mark+1; i<fields.count(); ++i ) {
-								name = name + " " + (*fields.at(i));
-								if (name.right(1)=="\"") {
-									name = name.left( name.length() -1 ); //remove trailing quote mark
-									break;
-								}
-							}
-						}
-					} else if ( fields.count() > Mark ) { //one-word name
-						name = (*fields.at(Mark));
-					}
-
-//Not handling custom star catalogs yet...
-//					if ( Mark==5 ) { //Stars...
-//
-//						StarObject *o = new StarObject( RA, Dec, mag, name, "", spType );
-//						objList.append( o );
-//					} else if ( iType > 2 && iType <= 8 ) { //Deep-sky objects...
-						if ( name.isEmpty()) name = i18n( "unnamed object" );
-
-						DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, name, "", "" );
-						objList.append( o );
-//					}
-				}
-			}
-		}
-	} else {
-		if (showerrs) errs.append( i18n( "Could not open custom data file: " ) + filename );
-		kdWarning() << i18n( "Could not open custom data file: " ) << filename;
+	for ( uint i=0; i < Options::catalogFile().count(); i++ ) {
+		bool thisresult = addCatalog( Options::catalogFile()[i] );
+		//Make result = true if at least one catalog is added
+		result = ( result || thisresult );
 	}
+	return result;
+}
 
-	if ( countValidLines==countLine && countValidLines ) { //all lines were valid!
+bool KStarsData::addCatalog( QString filename ) {
+	CustomCatalog *newCat = createCustomCatalog( filename, false );
+	if ( newCat ) {
+		CustomCatalogs.append( newCat );
+
+		// add object names to ObjNames list
+		for ( uint i=0; i < newCat->objList().count(); i++ ) {
+//		for ( SkyObject *o=newCat->objList().first(); o; o = newCat->objList().next() ) {
+			SkyObject *o = newCat->objList().at(i);
+			ObjNames.append( o );
+			if ( o->hasLongName() && o->longname() != o->name() ) 
+				ObjNames.append( o, true ); //Add long name
+		}
+
 		return true;
-	} else if ( countValidLines ) { //found some valid lines, some invalid lines.
-		if ( showerrs ) {
-			QString message( i18n( "Some lines could not be parsed in the specified file, see error messages below." ) + "\n" +
-											i18n( "To reject the file, press Cancel. " ) +
-											i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
-			if ( KMessageBox::warningContinueCancelList( 0, message, errs,
-					i18n( "Some Lines in File Were Invalid" ), i18n( "Accept" ) )==KMessageBox::Continue ) {
-				return true;
-			} else {
-				return false;
-			}
-			return true; //not showing errs; return true for parsed lines
-		}
-	} else {
-		if ( showerrs ) {
-			QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
-			KMessageBox::informationList( 0, message, errs,
-					i18n( "No Valid Data Found in File" ) );
-		}
-		return false;
-	}
-	// all test passed
+	} else
+		kdWarning() << k_funcinfo << i18n("Error adding catalog: %1").arg( filename ) << endl;
+
 	return false;
 }
 
+bool KStarsData::removeCatalog( int i ) {
+	if ( ! CustomCatalogs.at(i) ) return false;
+
+	QPtrList<SkyObject> cat = CustomCatalogs.at(i)->objList();
+
+	for ( SkyObject *o=cat.first(); o; o=cat.next() ) {
+		ObjNames.remove( o->name() );
+		if ( o->hasLongName() && o->longname() != o->name() ) 
+			ObjNames.remove( o->longname() );
+	}
+
+	CustomCatalogs.remove(i);
+
+	return true;
+}
+
+CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs ) {
+	QDir::setCurrent( QDir::homeDirPath() );  //for files with relative path
+	QPtrList<SkyObject> objList;
+	QString CatalogName, CatalogPrefix, CatalogColor;
+	float CatalogEpoch;
+
+	//If the filename begins with "~", replace the "~" with the user's home directory
+	//(otherwise, the file will not successfully open)
+	if ( filename.at(0)=='~' )
+		filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
+	QFile ccFile( filename );
+
+	if ( ccFile.open( IO_ReadOnly ) ) {
+		int iStart(0); //the line number of the first non-header line
+		QStringList errs; //list of error messages 
+		QStringList Columns; //list of data column descriptors in the header
+
+		QTextStream stream( &ccFile );
+		QStringList lines = QStringList::split( "\n", stream.read() );
+
+		if ( parseCustomDataHeader( lines, Columns, CatalogName, CatalogPrefix, 
+				CatalogColor, CatalogEpoch, iStart, showerrs, errs ) ) {
+	
+			QStringList::Iterator it = lines.begin();
+			QStringList::Iterator itEnd  = lines.end();
+			it += iStart; //jump ahead past header
+		
+			for ( uint i=iStart; i < lines.count(); i++ ) {
+				QStringList d = QStringList::split( " ", lines[i] );
+	
+				//Now, if one of the columns is the "Name" field, the name may contain spaces.
+				//In this case, the name field will need to be surrounded by quotes.  
+				//Check for this, and adjust the d list accordingly
+				int iname = Columns.findIndex( "Nm" );
+				if ( iname >= 0 && d[iname].left(1) == "\"" ) { //multi-word name in quotes
+					d[iname] = d[iname].mid(1); //remove leading quote
+					//It's possible that the name is one word, but still in quotes
+					if ( d[iname].right(1) == "\"" ) {
+						d[iname] = d[iname].left( d[iname].length() - 1 );
+					} else {
+						int iend = iname + 1;
+						while ( d[iend].right(1) != "\"" ) {
+							d[iname] += " " + d[iend];
+							++iend;
+						}
+						d[iname] += " " + d[iend].left( d[iend].length() - 1 );
+	
+						//remove the entries from d list that were the multiple words in the name
+						for ( int j=iname+1; j<=iend; j++ ) {
+							d.remove( d.at(iname + 1) ); //index is *not* j, because next item becomes "iname+1" after remove
+						}
+					}
+				}
+	
+				if ( d.count() == Columns.count() ) {
+					processCustomDataLine( i, d, Columns, CatalogPrefix, objList, showerrs, errs );
+				} else {
+					if ( showerrs ) errs.append( i18n( "Line %1 does not contain %2 fields.  Skipping it." ).arg( i ).arg( Columns.count() ) );
+				}
+			}
+		}
+
+		if ( objList.count() ) {
+			if ( errs.count() > 0 ) { //some data parsed, but there are errs to report
+				QString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + "\n" +
+												i18n( "To reject the file, press Cancel. " ) +
+												i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
+				if ( KMessageBox::warningContinueCancelList( 0, message, errs,
+						i18n( "Some Lines in File Were Invalid" ), i18n( "Accept" ) ) != KMessageBox::Continue ) {
+					return 0; //User pressed Cancel, return NULL pointer
+				}
+			}
+		} else { //objList.count() == 0
+			if ( showerrs ) {
+				QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
+				KMessageBox::informationList( 0, message, errs,
+						i18n( "No Valid Data Found in File" ) );
+			}
+			return 0; //no valid catalog data parsed, return NULL pointer
+		}
+
+	} else { //Error opening catalog file
+		if ( showerrs )
+			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1" ).arg( filename ), 
+					i18n( "Error opening file" ) );
+		else 
+			kdDebug() << i18n( "Could not open custom data file: %1" ).arg( filename ) << endl;
+	}
+
+	//Return the catalog
+	if ( objList.count() )
+		return new CustomCatalog( CatalogName, CatalogPrefix, CatalogColor, CatalogEpoch, objList );
+	else
+		return 0;
+}
+
+
+bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Columns, 
+		QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs ) {
+
+	//object data
+	unsigned char iType(0);
+	dms RA, Dec;
+	float mag(0.0), a(0.0), b(0.0), PA(0.0);
+	QString name(""); QString lname("");
+
+	for ( uint i=0; i<Columns.count(); i++ ) {
+		if ( Columns[i] == "ID" ) 
+			name = Prefix + " " + d[i];
+
+		if ( Columns[i] == "Nm" )
+			lname = d[i];
+
+		if ( Columns[i] == "RA" ) {
+			if ( ! RA.setFromString( d[i], false ) ) {
+				if ( showerrs ) 
+					errs.append( i18n( "Line %1, field %2: Unable to parse RA value: %3" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "Dc" ) {
+			if ( ! Dec.setFromString( d[i], true ) ) {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Dec value: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "Tp" ) {
+			bool ok(false);
+			iType = d[i].toUInt( &ok );
+			if ( ok ) {
+				if ( iType == 2 || iType > 8 ) {
+					if ( showerrs )
+						errs.append( i18n( "Line %1, field %2: Invalid object type: %1" )
+								.arg(lnum).arg(i).arg(d[i]) +
+								i18n( "Must be one of 0, 1, 3, 4, 5, 6, 7, 8." ) );
+					return false;
+				}
+			} else {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Object type: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "Mg" ) {
+			bool ok(false);
+			mag = d[i].toFloat( &ok );
+			if ( ! ok ) {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "Mj" ) {
+			bool ok(false);
+			a = d[i].toFloat( &ok );
+			if ( ! ok ) {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Major Axis: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "Mn" ) {
+			bool ok(false);
+			b = d[i].toFloat( &ok );
+			if ( ! ok ) {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Minor Axis: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+
+		if ( Columns[i] == "PA" ) {
+			bool ok(false);
+			PA = d[i].toFloat( &ok );
+			if ( ! ok ) {
+				if ( showerrs )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Position Angle: %1" )
+							.arg(lnum).arg(i).arg(d[i]) );
+				return false;
+			}
+		}
+	}
+
+	if ( iType == 0 ) { //Add a star
+		StarObject *o = new StarObject( RA, Dec, mag, lname );
+		objList.append( o );
+	} else { //Add a deep-sky object
+		DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, 
+					name, "", lname, Prefix, a, b, PA );
+		objList.append( o );
+	}
+
+	return true;
+}
+
+bool KStarsData::parseCustomDataHeader( QStringList lines, QStringList &Columns, 
+			QString &CatalogName, QString &CatalogPrefix, QString &CatalogColor, float &CatalogEpoch,
+			int &iStart, bool showerrs, QStringList &errs ) {
+
+	bool foundDataColumns( false ); //set to true if description of data columns found
+	int ncol( 0 );
+
+	QStringList::Iterator it = lines.begin();
+	QStringList::Iterator itEnd  = lines.end();
+
+	CatalogName = "";
+	CatalogPrefix = "";
+	CatalogColor = "";
+	CatalogEpoch = 0.;
+	for ( ; it != itEnd; it++ ) {
+		QString d( *it ); //current data line
+		if ( d.left(1) != "#" ) break;  //no longer in header!
+
+		int iname   = d.find( "# Name: " );
+		int iprefix = d.find( "# Prefix: " );
+		int icolor  = d.find( "# Color: " );
+		int iepoch  = d.find( "# Epoch: " );
+
+		if ( iname == 0 ) { //line contains catalog name
+			iname = d.find(":")+2;
+			if ( CatalogName.isEmpty() ) { 
+				CatalogName = d.mid( iname );
+			} else { //duplicate name in header
+				if ( showerrs )
+					errs.append( i18n( "Parsing header: " ) + 
+							i18n( "Extra Name field in header: %1.  Will be ignored" ).arg( d.mid(iname) ) );
+			}
+		} else if ( iprefix == 0 ) { //line contains catalog prefix
+			iprefix = d.find(":")+2;
+			if ( CatalogPrefix.isEmpty() ) { 
+				CatalogPrefix = d.mid( iprefix );
+			} else { //duplicate prefix in header
+				if ( showerrs )
+					errs.append( i18n( "Parsing header: " ) + 
+							i18n( "Extra Prefix field in header: %1.  Will be ignored" ).arg( d.mid(iprefix) ) );
+			}
+		} else if ( icolor == 0 ) { //line contains catalog prefix
+			icolor = d.find(":")+2;
+			if ( CatalogColor.isEmpty() ) { 
+				CatalogColor = d.mid( icolor );
+			} else { //duplicate prefix in header
+				if ( showerrs )
+					errs.append( i18n( "Parsing header: " ) + 
+							i18n( "Extra Color field in header: %1.  Will be ignored" ).arg( d.mid(icolor) ) );
+			}
+		} else if ( iepoch == 0 ) { //line contains catalog epoch
+			iepoch = d.find(":")+2;
+			if ( CatalogEpoch == 0. ) {
+				bool ok( false );
+				CatalogEpoch = d.mid( iepoch ).toFloat( &ok );
+				if ( !ok ) {
+					if ( showerrs )
+						errs.append( i18n( "Parsing header: " ) + 
+								i18n( "Could not convert Epoch to float: %1.  Using 2000. instead" ).arg( d.mid(iepoch) ) );
+					CatalogEpoch = 2000.; //adopt default value
+				}
+			} else { //duplicate epoch in header
+				if ( showerrs )
+					errs.append( i18n( "Parsing header: " ) + 
+							i18n( "Extra Epoch field in header: %1.  Will be ignored" ).arg( d.mid(iepoch) ) );
+			}
+		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
+			//Chomp off leading "#" character
+			d = d.replace( QRegExp( "#" ), "" );
+
+			QStringList fields = QStringList::split( " ", d ); //split on whitespace
+
+			//we need a copy of the master list of data fields, so we can 
+			//remove fields from it as they are encountered in the "fields" list.
+			//this allows us to detect duplicate entries
+			QStringList master( KStarsData::CustomColumns ); 
+
+			QStringList::Iterator itf    = fields.begin();
+			QStringList::Iterator itfEnd = fields.end();
+
+			for ( ; itf != itfEnd; itf++ ) {
+				QString s( *itf );
+				if ( master.contains( s ) ) {
+					//add the data field
+					Columns.append( s );
+
+					// remove the field from the master list and inc the 
+					// count of "good" columns (unless field is "Ignore")
+					if ( s != "Ig" ) {
+						master.remove( master.find( s ) );
+						ncol++;
+					}
+				} else if ( fields.contains( s ) ) { //duplicate field
+					fields.append( "Ig" ); //skip this column
+					if ( showerrs )
+						errs.append( i18n( "Parsing header: " ) + 
+								i18n( "Duplicate data field descriptor \"%1\" will be ignored" ).arg( s ) );
+				} else { //Invalid field
+					fields.append( "Ig" ); //skip this column
+					if ( showerrs )
+						errs.append( i18n( "Parsing header: " ) + 
+								i18n( "Invalid data field descriptor \"%1\" will be ignored" ).arg( s ) );
+				}
+			}
+
+			if ( ncol ) foundDataColumns = true;
+		}
+	}
+
+	if ( ! foundDataColumns ) {
+		if ( showerrs )
+			errs.append( i18n( "Parsing header: " ) + 
+					i18n( "No valid column descriptors found.  Exiting" ) );
+		return false;
+	}
+
+	if ( it == itEnd ) {
+		if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
+				i18n( "No data lines found after header.  Exiting." ) );
+		return false; //fatal error
+	} else {
+		//Make sure Name, Prefix, Color and Epoch were set
+		if ( CatalogName.isEmpty() ) { 
+			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
+				i18n( "No Catalog Name specified; setting to \"Custom\"" ) );
+			CatalogName = i18n("Custom");
+		}
+		if ( CatalogPrefix.isEmpty() ) { 
+			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
+				i18n( "No Catalog Prefix specified; setting to \"CC\"" ) );
+			CatalogPrefix = "CC";
+		}
+		if ( CatalogColor.isEmpty() ) { 
+			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
+				i18n( "No Catalog Color specified; setting to Red" ) );
+			CatalogColor = "#CC0000";
+		}
+		if ( CatalogEpoch == 0. ) { 
+			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
+				i18n( "No Catalog Epoch specified; assuming 2000." ) );
+			CatalogEpoch = 2000.;
+		}
+
+		//the it iterator now points to the first line past the header
+		iStart = lines.findIndex( QString( *it ) );
+		return true;
+	}
+}
 
 bool KStarsData::processCity( QString& line ) {
 	QString totalLine;
@@ -1490,11 +1746,6 @@ void KStarsData::sendClearCache() {
 	emit clearCache();
 }
 
-void KStarsData::addCatalog( QString name, QPtrList<DeepSkyObject> oList ) {
-	CustomCatalogs[ name ] = oList;
-	CustomCatalogs[ name ].setAutoDelete( TRUE );
-}
-
 void KStarsData::initialize() {
 	if (startupComplete) return;
 
@@ -1585,11 +1836,16 @@ void KStarsData::slotInitialize() {
 				initError( "advinterface.dat", false);
 			break;
 
-		case 3: //Load NGC/IC database//
+		case 3: //Load NGC/IC database and custom catalogs//
 
 			emit progressText( i18n("Loading NGC/IC Data (%1%)" ).arg(0) );
 			if ( !readDeepSkyData( ) )
 				initError( "ngcicN.dat", true );
+
+			emit progressText( i18n("Loading Custom catalogs" ) );
+			readCustomCatalogs( );
+//			if ( !readCustomCatalogs( ) )
+//				initError( "<custom catalog>", true );
 			break;
 
 		case 4: //Load Constellation lines//
@@ -1884,10 +2140,10 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 
 		//Custom Catalogs
-		for ( unsigned int j=0; j<Options::catalogCount(); ++j ) {
-			QPtrList<DeepSkyObject> cat = CustomCatalogs[ Options::catalogName()[j] ];
+		for ( unsigned int j=0; j< CustomCatalogs.count(); ++j ) {
+			CustomCatalog *cat = CustomCatalogs.at(j);
 			if ( Options::showCatalog()[j] ) {
-				for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
+				for ( SkyObject *o = cat->objList().first(); o; o = cat->objList().next() ) {
 					if (needNewCoords) o->updateCoords( &num );
 					o->EquatorialToHorizontal( LST, geo->lat() );
 				}

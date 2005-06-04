@@ -48,12 +48,15 @@ private slots:
 	void updateDisplay();
 	void selectCatalog();
 	void slotAddCatalog();
+	void slotLoadCatalog();
 	void slotRemoveCatalog();
 	void slotSetDrawStarMagnitude(double newValue);
 	void slotSetDrawStarZoomOutMagnitude(double newValue);
 	void slotStarWidgets(bool on);
 	
 private:
+	void insertCatalog( const QString & filename );
+
 	QCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
 	KStars *ksw;
 };

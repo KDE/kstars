@@ -26,9 +26,7 @@
 #include <kurlrequester.h>
 #include "deepskyobject.h"
 #include "addcatdialogui.h"
-
-class QHBoxLayout;
-class QVBoxLayout;
+#include "draglistbox.h"
 
 /**@class AddCatDialog
 	*@short Dialog for adding custom object catalogs to KStars
@@ -49,26 +47,21 @@ public:
 
 /**@return the name for the custom catalog.
 	*/
-	QString name() const { return acd->catName->text(); }
+	QString name() const { return acd->CatalogName->text(); }
 
 /**@return the filename of the custom catalog.
 	*/
-	QString filename() const { return acd->catFileName->lineEdit()->text(); }
-
-/**@return QPtrList of SkyObjects as parsed from the custom catalog file.
-	*/
-	QPtrList<DeepSkyObject> objectList() { return objList; }
+	QString filename() const { return acd->CatalogURL->url(); }
 
 private slots:
-/**If both the "catalog name" and "catalog filename" fields are filled,
-	*enable the "Ok" button.
+/**Create the object catalog file, populate the objectList, 
+	*and close the dialog.
 	*/
-	void slotCheckLineEdits();
+	void slotCreateCatalog();
 
-/**Attempt to parse SkyObjects from the custom catalog file.
-	*If at least on e object is read successfully, close the dialog.
+/**Preview the catalog file as constructed by the current parameters
 	*/
-	void slotValidateFile();
+	void slotPreviewCatalog();
 
 /**Overridden from KDialogBase to show short help in a dialog rather 
 	*than launch KHelpCenter.
@@ -81,9 +74,19 @@ private slots:
 	void slotOk();
 
 private:
+/**Attempt to parse the user's data file according to the fields 
+	*specified in the Catalog fields list.
+	*/
+	bool validateDataFile();
+
+/**Write a header line describing the data fields in the catalog, and 
+	*defining the catalog name, ID prefix, and coordinate epoch.
+	*/
+	QString writeCatalogHeader();
+
 	QVBoxLayout *vlay;
 	AddCatDialogUI *acd;
-	QPtrList<DeepSkyObject> objList;
+	QString CatalogContents;
 };
 
 #endif
