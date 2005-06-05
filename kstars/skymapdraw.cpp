@@ -1217,12 +1217,26 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 
 						// now that we have drawn the star, we can display some extra info
+						//don't label unnamed stars with the generic "star" name
+						bool drawName = ( Options::showStarNames() && (curStar->name() != i18n("star") ) );
 						if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
-								&& ( Options::showStarNames() || Options::showStarMagnitudes() ) ) {
+								&& ( drawName || Options::showStarMagnitudes() ) ) {
 
 							psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+							QFont stdFont( psky.font() );
+							QFont smallFont( stdFont );
+							smallFont.setPointSize( stdFont.pointSize() - 2 );
+							if ( Options::zoomFactor() < 10.*MINZOOM ) {
+								psky.setFont( smallFont );
+							} else {
+								psky.setFont( stdFont );
+							}
+
 							curStar->drawLabel( psky, o.x(), o.y(), Options::zoomFactor(),
-									Options::showStarNames(), Options::showStarMagnitudes(), scale );
+									drawName, Options::showStarMagnitudes(), scale );
+
+							//reset font
+							psky.setFont( stdFont );
 						}
 					}
 				}
