@@ -50,21 +50,19 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 	if ( i > count() + 1 ) i = count() + 1;
 
 	if ( QTextDrag::decode( evt, text ) ) {
-		insertItem( text, i );
-
-		//If we dragged an "Ignore item from the FieldList to the FieldPool, we don't
-		//need the newly pasted item, because FieldPool already has a persistent Ignore item.
-		if ( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldList" && evt->source() != this ) {
-			removeItem( i );
+		//If we dragged an "Ignore item from the FieldList to the FieldPool, then we don't
+		//need to insert the item, because FieldPool already has a persistent Ignore item.
+		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldList" && 
+				evt->source() != this )) {
+			insertItem( text, i );
 		}
 
-		//If we dragged the "Ignore" item from FieldPool to FieldList, then restore it in FieldPool
-		if ( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldPool" && evt->source() != this ) {
+		//If we dragged the "Ignore" item from FieldPool to FieldList, then we don't
+		//want to remove the item from the FieldPool
+		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldPool" && 
+				evt->source() != this ) ) {
 			DragListBox *fp = (DragListBox*)evt->source();
-			fp->insertItem( text, fp->ignoreIndex() );
-
-			//DEBUG
-			kdDebug() << "restoring \'Ignore\': " << fp->ignoreIndex() << endl;
+			fp->removeItem( fp->currentItem() );
 		}
 	}
 }
@@ -88,8 +86,6 @@ void DragListBox::mouseMoveEvent( QMouseEvent * )
 		QDragObject *drag = new QTextDrag( currentText(), this );
 		drag->dragMove();
 		dragging = FALSE;
-
-		removeItem( currentItem() );
 	}
 }
 
