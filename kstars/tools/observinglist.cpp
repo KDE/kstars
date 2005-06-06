@@ -66,6 +66,8 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
 	connect( ui->table, SIGNAL( selectionChanged() ), 
 			this, SLOT( slotNewSelection() ) );
+	connect( ui->table, SIGNAL( doubleClicked( QListViewItem*, const QPoint&, int) ), 
+			this, SLOT( slotCenterObject() ) );
 	connect( ui->RemoveButton, SIGNAL( clicked() ), 
 			this, SLOT( slotRemoveObjects() ) );
 	connect( ui->CenterButton, SIGNAL( clicked() ), 
