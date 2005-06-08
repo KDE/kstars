@@ -127,6 +127,7 @@ bool DeviceManager::indiConnect(QString inHost, QString inPort)
 
 	setbuf (serverFP, NULL);
 
+	fprintf(serverFP, "<enableBLOB>Also</enableBLOB>\n");
 	fprintf(serverFP, "<getProperties version='%g'/>\n", INDIVERSION);
 
 	// We made it!
