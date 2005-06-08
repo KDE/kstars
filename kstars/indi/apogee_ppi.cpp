@@ -253,6 +253,8 @@ void ApogeeCam::ISGetProperties(const char */*dev*/)
   /* Image Group */
   IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&BinningNP, NULL);
+
+  IDLog("Apogee Driver Debug Enabled\n");
   
 }
 
@@ -322,7 +324,7 @@ void ApogeeCam::ISNewNumber (const char */*dev*/, const char *name, double value
        
        IUUpdateNumbers(&ExposeTimeNP, values, names, n);
        
-      IDLog("Exposure Time (ms) is: %g\n", ExposeTimeN[0].value);
+      IDLog("Exposure Time is: %g\n", ExposeTimeN[0].value);
       
       handleExposure(NULL);
       return;
@@ -760,6 +762,18 @@ void ApogeeCam::getBasicData()
   BinningN[0].max = cam->m_MaxBinX;
   BinningN[1].max = cam->m_MaxBinX;
   IUUpdateMinMax(&BinningNP);
+
+  FrameN[0].value = 0;
+  FrameN[1].value = 0;
+  FrameN[2].min   = 0;
+  FrameN[2].max   = cam->m_ImgColumns;
+  FrameN[2].value = cam->m_ImgColumns;
+  FrameN[3].min   = 0;
+  FrameN[3].max   = cam->m_ImgRows;
+  FrameN[3].value = cam->m_ImgRows;
+
+  IUUpdateMinMax(&FrameNP);
+  IDSetNumber(&FrameNP, NULL);
   
   // Current Temperature
   TemperatureN[0].value = cam->read_Temperature();

@@ -12,7 +12,7 @@ libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
 indiserver_SOURCES = indiserver.c
-indiserver_LDADD = liblilxml.a $(LIBSOCKET)
+indiserver_LDADD = liblilxml.a -lpthread $(LIBSOCKET)
 
 lx200generic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a
@@ -24,7 +24,7 @@ apmount_SOURCES = indidrivermain.c base64.c eventloop.c  lx200driver.c apmount.c
 apmount_LDADD =  liblilxml.a libindicom.a
 
 fliccd_SOURCES =  eventloop.c base64.c fli_ccd.c indidrivermain.c
-fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz
+fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz $(LIBSOCKET)
 
 fliwheel_SOURCES =  eventloop.c base64.c fli_wheel.c indidrivermain.c
 fliwheel_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
