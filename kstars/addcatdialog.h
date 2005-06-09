@@ -54,6 +54,10 @@ public:
 	QString filename() const { return acd->CatalogURL->url(); }
 
 private slots:
+/**Display contents of the import file.
+	*/
+	void slotShowDataFile();
+
 /**Create the object catalog file, populate the objectList, 
 	*and close the dialog.
 	*/

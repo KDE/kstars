@@ -262,7 +262,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                                 <cstring>kcfg_ShowStarNames</cstring>
                             </property>
                             <property name="text">
-                                <string>Show name</string>
+                                <string>Show &amp;name</string>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>Attach name labels to bright stars?</string>
@@ -387,7 +387,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                                         <cstring>AddCatalog</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Create Catalog...</string>
+                                        <string>Import Catalog...</string>
                                     </property>
                                     <property name="toolTip" stdset="0">
                                         <string>Create a custom object catalog</string>

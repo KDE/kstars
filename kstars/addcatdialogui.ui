@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>446</width>
-            <height>427</height>
+            <width>614</width>
+            <height>652</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,48 +19,55 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>groupBox4</cstring>
             </property>
-            <grid>
+            <property name="title">
+                <string>Import file</string>
+            </property>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="KURLRequester" row="1" column="1">
+                <widget class="KURLRequester">
                     <property name="name">
-                        <cstring>CatalogURL</cstring>
+                        <cstring>DataURL</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Enter import data filename</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>To import an existing data file, enter its filename here.  You will then describe the contents of the file below.  You can leave the filename blank to construct a catalog file with a valid header, but no data.</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="0" column="0">
+                <widget class="KListBox">
                     <property name="name">
-                        <cstring>textLabel1_2</cstring>
+                        <cstring>DataFileBox</cstring>
                     </property>
-                    <property name="text">
-                        <string>Catalog Name:</string>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>7</pointsize>
+                        </font>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Contents of the imported data file</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>When you select a data file in the above line, its contents are displayed here.</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Save Catalog As:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="0" column="1">
-                    <property name="name">
-                        <cstring>CatalogName</cstring>
-                    </property>
-                </widget>
-            </grid>
+            </vbox>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
             <property name="title">
-                <string>Data fields</string>
+                <string>Describe data fields</string>
             </property>
             <hbox>
                 <property name="name">
@@ -91,6 +98,12 @@
                             <property name="name">
                                 <cstring>FieldList</cstring>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Data fields present in the import file</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Build a list of data fields for your import data file (in the correct order from left to right), by dragging items from the "Available fields" list.</string>
+                            </property>
                         </widget>
                     </vbox>
                 </widget>
@@ -119,6 +132,12 @@
                             <property name="name">
                                 <cstring>FieldPool</cstring>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>The list of available data fields</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Drag items from this box to the "Catalog fields" box to describe the contents of your imported data file.</string>
+                            </property>
                         </widget>
                     </vbox>
                 </widget>
@@ -126,26 +145,37 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout18</cstring>
+                <cstring>layout27</cstring>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Append existing  file:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="2" column="1">
+                <widget class="KLineEdit" row="1" column="1">
                     <property name="name">
                         <cstring>Prefix</cstring>
                     </property>
                 </widget>
-                <widget class="QLayoutWidget" row="1" column="2">
+                <widget class="KDoubleNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>Epoch</cstring>
+                    </property>
+                    <property name="value">
+                        <number>2000</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>The coordinate epoch for the catalog</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Catalog name prefix:</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="2">
                     <property name="name">
                         <cstring>layout13</cstring>
                     </property>
@@ -178,7 +208,15 @@
                         </widget>
                     </hbox>
                 </widget>
-                <widget class="QLayoutWidget" row="2" column="2">
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Coordinate Epoch:</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="2">
                     <property name="name">
                         <cstring>layout12</cstring>
                     </property>
@@ -219,36 +257,46 @@
                         </widget>
                     </hbox>
                 </widget>
-                <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="2">
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout4</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KURLRequester" row="1" column="1">
                     <property name="name">
-                        <cstring>DataURL</cstring>
+                        <cstring>CatalogURL</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Enter the filename for the output catalog file</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Catalog Name:</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
                     <property name="name">
-                        <cstring>textLabel3</cstring>
+                        <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Coordinate Epoch:</string>
+                        <string>Save Catalog As:</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="2" column="0">
+                <widget class="KLineEdit" row="0" column="1">
                     <property name="name">
-                        <cstring>textLabel4</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Catalog name prefix:</string>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput" row="1" column="1">
-                    <property name="name">
-                        <cstring>Epoch</cstring>
-                    </property>
-                    <property name="value">
-                        <number>2000</number>
+                        <cstring>CatalogName</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>The coordinate epoch for the catalog</string>
+                        <string>Enter a name for the catalog</string>
                     </property>
                 </widget>
             </grid>
@@ -296,29 +344,31 @@
     </image>
 </images>
 <tabstops>
+    <tabstop>DataURL</tabstop>
+    <tabstop>DataFileBox</tabstop>
+    <tabstop>Epoch</tabstop>
+    <tabstop>ColorButton</tabstop>
+    <tabstop>Prefix</tabstop>
+    <tabstop>PreviewButton</tabstop>
     <tabstop>CatalogName</tabstop>
     <tabstop>CatalogURL</tabstop>
-    <tabstop>DataURL</tabstop>
-    <tabstop>Epoch</tabstop>
-    <tabstop>Prefix</tabstop>
-    <tabstop>ColorButton</tabstop>
-    <tabstop>PreviewButton</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
+    <includehint>klistbox.h</includehint>
     <includehint>draglistbox.h</includehint>
     <includehint>draglistbox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
     <includehint>kcolorbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

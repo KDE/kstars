@@ -31,7 +31,7 @@
 #include "addcatdialog.h"
 
 AddCatDialog::AddCatDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Add Catalog" ), Help|Ok|Cancel, Ok, parent ) {
+	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
 
 	QFrame *page = plainPage();
 	setMainWidget(page);
@@ -41,6 +41,7 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 	acd = new AddCatDialogUI(page);
 	vlay->addWidget( acd );
 	
+	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
 	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
 
@@ -177,6 +178,16 @@ QString AddCatDialog::writeCatalogHeader() {
 	h += "\n";
 
 	return h;
+}
+
+void AddCatDialog::slotShowDataFile() {
+	QFile dataFile( acd->DataURL->url() );
+	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
+		acd->DataFileBox->clear();
+		QTextStream dataStream( &dataFile );
+		acd->DataFileBox->insertStringList( QStringList::split( "\n", dataStream.read(), TRUE ) );
+		dataFile.close();
+	}
 }
 
 void AddCatDialog::slotPreviewCatalog() {
