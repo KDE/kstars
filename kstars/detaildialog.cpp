@@ -316,7 +316,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
 
 	Pos->RALabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
-	Pos->DecLabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
+	Pos->DecLabel->setText( i18n( "Dec (%1):" ).arg( sEpoch ) );
 	Pos->RA->setText( selectedObject->ra()->toHMSString() );
 	Pos->Dec->setText( selectedObject->dec()->toDMSString() );
 	Pos->Az->setText( selectedObject->az()->toDMSString() );
