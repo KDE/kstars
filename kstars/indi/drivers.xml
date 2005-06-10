@@ -1,98 +1,106 @@
+<ScopeDrivers>
+	<driver>lx200generic</driver>
+	<driver>lx200autostar</driver>
+	<driver>lx200classic</driver>
+	<driver>lx200gps</driver>
+	<driver>lx200_16</driver>
+	<driver>celestrongps</driver>
+	<driver>apmount</driver>
+	<driver>temma</driver>
+</ScopeDrivers>
 <devGroup group="Telescopes">
-	<device label="LX200 Generic" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
-		<Version>1.0</Version>
+	<device label="LX200 Generic" focal_length="" aperture="">
+		<driver>lx200generic</driver>
+		<version>1.0</version>
 	</device>
-	<device label="LX200 Autostar" driver="LX200 Autostar">
-		<Exec>lx200autostar</Exec>
-		<Version>1.0</Version>
+	<device label="LX200 Autostar" focal_length="" aperture="">
+		<driver>lx200autostar</driver>
+		<version>1.0</version>
 	</device>
-	<device label="LX200 Classic" driver="LX200 Classic">
-		<Exec>lx200classic</Exec>
-		<Version>1.0</Version>
+	<device label="LX200 Classic" focal_length="" aperture="">
+		<driver>lx200classic</driver>
+		<version>1.0</version>
 	</device>
-	<device label="LX200 GPS" driver="LX200 GPS">
-		<Exec>lx200gps</Exec>
-		<Version>1.0</Version>
+	<device label="LX200 GPS" focal_length="" aperture="">
+		<driver>lx200gps</driver>
+		<version>1.0</version>
 	</device>
-	<device label="LX200 16" driver="LX200 16">
-		<Exec>lx200_16</Exec>
-		<Version>1.0</Version>
+	<device label="LX200 16" focal_length="4064" aperture="406.4">
+		<driver>lx200_16</driver>
+		<version>1.0</version>
 	</device>
-	<device label="LX90" driver="LX200 Autostar">
-		<Exec>lx200autostar</Exec>
-		<Version>1.0</Version>
+	<device label="LX90" focal_length="2000" aperture="203.2">
+		<driver>lx200autostar</driver>
+		<version>1.0</version>
 	</device>
-	<device label="ETX125" driver="LX200 Autostar">
-		<Exec>lx200autostar</Exec>
-		<Version>1.0</Version>
+	<device label="ETX125" focal_length="1900" aperture="127">
+		<driver>lx200autostar</driver>
+		<version>1.0</version>
 	</device>
-	<device label="ETX90" driver="LX200 Autostar">
-		<Exec>lx200autostar</Exec>
-		<Version>1.0</Version>
+	<device label="ETX90"  focal_length="1250" aperture="88.9">
+		<driver>lx200autostar</driver>
+		<version>1.0</version>
 	</device>
-	<device label="Celestron GPS" driver="Celestron GPS">
-		<Exec>celestrongps</Exec>
-		<Version>0.9</Version>
+	<device label="Celestron GPS" focal_length="" aperture="">
+		<driver>celestrongps</driver>
+		<version>0.9</version>
 	</device>
-	<device label="Celestron NexStar" driver="Celestron GPS">
-		<Exec>celestrongps</Exec>
-		<Version>0.9</Version>
+	<device label="Celestron NexStar" focal_length="" aperture="">
+		<driver>celestrongps</driver>
+		<version>0.9</version>
 	</device>
-	<device label="Astro-Physics AP" driver="Astro-Physics">
-		<Exec>apmount</Exec>
-		<Version>0.1</Version>
+	<device label="Astro-Physics AP"  focal_length="" aperture="">
+		<driver>apmount</driver>
+		<version>0.1</version>
 	</device>
-	<device label="Astro-Electronic FS-2" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
-		<Version>0.1</Version>
+	<device label="Astro-Electronic FS-2" focal_length="" aperture="">
+		<driver>lx200generic</driver>
+		<version>0.1</version>
 	</device>
-	<device label="Losmandy Gemini" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
-		<Version>0.1</Version>
+	<device label="Losmandy Gemini" focal_length="" aperture="">
+		<driver>lx200generic</driver>
+		<version>0.1</version>
 	</device>
-	<device label="Mel Bartels" driver="LX200 Generic">
-		<Exec>lx200generic</Exec>
-		<Version>0.1</Version>
+	<device label="Mel Bartels" focal_length="" aperture="">
+		<driver>lx200generic</driver>
+		<version>0.1</version>
 	</device>
-	<device label="Temma Takahashi" driver="Temma">
-	  <Exec>temma</Exec>
-	  <Version>0.1</Version>
+	<device label="Temma Takahashi" focal_length="" aperture="">
+	  <driver>temma</driver>
+	  <version>0.1</version>
 	</device>
 </devGroup>
 <devGroup group="CCDs">
-	<device label="SBIG CCD" driver="SBIG CCD">
-		<Exec>sbigccd</Exec>
-		<Version>0.1</Version>
+	<device label="SBIG CCD">
+		<driver>sbigccd</driver>
+		<version>0.1</version>
 	</device>
-	<device label="FLI CCD" driver="FLI CCD">
-		<Exec>fliccd</Exec>
-		<Version>1.0</Version>
+	<device label="FLI CCD">
+		<driver>fliccd</driver>
+		<version>1.0</version>
 	</device>
-	<device label="Apogee PPI" driver="Apogee PPI">
-	  <Exec>apogee_ppi</Exec>
-	  <Version>0.1</Version>
+	<device label="Apogee PPI">
+	  <driver>apogee_ppi</driver>
+	  <version>0.1</version>
 	</device>
 </devGroup>
 <devGroup group="Filter Wheels">
-  	<device label="FLI Wheel" driver="FLI WHEEL">
-    		<Exec>fliwheel</Exec>
-    		<Version>0.9</Version>
+  	<device label="FLI Wheel">
+    		<driver>fliwheel</driver>
+    		<version>0.9</version>
     	</device>
 </devGroup>
 <devGroup group="Video">
-	<device label="Generic Video4Linux" driver="v4ldriver">
-		<Exec>v4ldriver</Exec>
-		<Version>1.0</Version>
+	<device label="Generic Video4Linux">
+		<driver>v4ldriver</driver>
+		<version>1.0</version>
 	</device>
-	<device label="Philips Webcam" driver="v4lphilips">
-		<Exec>v4lphilips</Exec>
-		<Version>1.0</Version>
+	<device label="Philips Webcam">
+		<driver>v4lphilips</driver>
+		<version>1.0</version>
 	</device>
-	<device label="Meade LPI" driver="meade_lpi">
-		<Exec>meade_lpi</Exec>
-		<Version>0.1</Version>
+	<device label="Meade LPI">
+		<driver>meade_lpi</driver>
+		<version>0.1</version>
 	</device>
 </devGroup>
-
-

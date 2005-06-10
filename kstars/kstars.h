@@ -360,6 +360,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void slotTelescopeWizard();
 
 		/**
+		 * action slot: open Telescope wizard
+		 */
+		void slotTelescopeProperties();
+
+		/**
 		 * action slot: open Image Sequence dialog
 		 */
 		void slotImageSequence();

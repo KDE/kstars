@@ -84,7 +84,7 @@
                         </column>
                         <column>
                             <property name="text">
-                                <string>Listening Port</string>
+                                <string>Port</string>
                             </property>
                             <property name="clickable">
                                 <bool>true</bool>
@@ -192,7 +192,7 @@
                                     <bool>false</bool>
                                 </property>
                                 <property name="text">
-                                    <string>Run Service</string>
+                                    <string>R&amp;un Service</string>
                                 </property>
                             </widget>
                             <widget class="KPushButton">

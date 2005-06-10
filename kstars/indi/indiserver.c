@@ -355,10 +355,10 @@ indiListen ()
 	    exit(1);
 	}
 	
-	/* bind to given port for any IP address */
+	/* bind to given port for local IP addresses only */
 	memset (&serv_socket, 0, sizeof(serv_socket));
 	serv_socket.sin_family = AF_INET;
-	serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+	serv_socket.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
 	serv_socket.sin_port = htons ((unsigned short)port);
 	if (setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse)) < 0){
 	    fprintf (stderr, "%s: setsockopt: %s", me, strerror(errno));
@@ -446,7 +446,7 @@ indiRun(void)
 static void
 newClient()
 {
-	ClInfo *cp;
+	ClInfo *cp = NULL;
 	int s, cli;
 
 	/* assign new socket */
@@ -876,6 +876,3 @@ xmlLog (XMLEle *root)
 			    sizeof(buf)/3-2, findXMLAttValu(root,"name"));
 	return (buf);
 }
-
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile: indiserver.c,v $ $Date$ $Revision$ $Name:  $"};

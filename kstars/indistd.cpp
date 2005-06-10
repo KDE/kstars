@@ -24,6 +24,7 @@
  #include "devicemanager.h"
  #include "timedialog.h"
  #include "streamwg.h"
+ #include "ccdpreviewwg.h"
  #include "fitsviewer.h"
  
  #include <sys/socket.h>
@@ -67,6 +68,8 @@
    
    currentObject  	= NULL; 
    streamWindow   	= new StreamWG(this, ksw);
+   CCDPreviewWindow   	= new CCDPreviewWG(this, ksw);
+	 
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
    
@@ -83,6 +86,8 @@
  {
    streamWindow->enableStream(false);
    streamWindow->close();
+   CCDPreviewWindow->enableStream(false);
+   CCDPreviewWindow->close();
    streamDisabled();
  }
  
@@ -94,9 +99,15 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
     if (!streamWindow->processStream)
       return;
 	
-    streamWindow->show();
-	
-    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
+    streamWindow->show();	
+    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);    
+  }
+  else if (dataType == DATA_CCDPREVIEW)
+  {
+    if (!CCDPreviewWindow->processStream)
+      return;
+    CCDPreviewWindow->show();	
+    CCDPreviewWindow->streamFrame->newFrame( buffer, bufferSize, CCDPreviewWindow->streamWidth, CCDPreviewWindow->streamHeight);    
   }
   else if (dataType == DATA_FITS || dataType == DATA_OTHER)
   {
@@ -190,10 +201,13 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
        
 }
 
+ /* Process standard Text and Number properties arrives from the driver */
  void INDIStdDevice::setTextValue(INDI_P *pp)
  {
    INDI_E *el;
-   int wd, ht;
+   int wd, ht, bpp, bo, mu;
+   long mgd;
+   double fwhm;
    int d, m, y, min, sec, hour;
    ExtDate indiDate;
    QTime indiTime;
@@ -253,7 +267,36 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
 	 streamWindow->setSize(wd, ht);
 	 //streamWindow->allocateStreamBuffer();
 	 break;
-	 
+    case CCDPREVIEW_CTRL:	 
+         el = pp->findElement("WIDTH");
+	 if (!el) return;
+	 wd = (int) el->value;
+	 el = pp->findElement("HEIGHT");
+	 if (!el) return;
+	 ht = (int) el->value;
+	 el = pp->findElement("BYTEORDER");
+	 if (!el) return;
+	 bo = (int) el->value;
+	 el = pp->findElement("BYTESPERPIXEL");
+	 if (!el) return;
+	 bpp = (int) el->value;	 
+	 el = pp->findElement("MAXGOODDATA");
+	 if (!el) return;
+	 mgd = (long) el->value;
+	 CCDPreviewWindow->setCtrl(wd, ht, bo ,bpp,mgd);
+         
+	 break;
+
+   case CCD_INFO:
+	 el = pp->findElement("CCD_FWHM_PIXEL");
+	 if (!el) return;
+	 fwhm = el->value;
+	 el = pp->findElement("CCD_PIXEL_SIZE");
+	 if (!el) return;
+	 mu = (int) el->value;
+	 CCDPreviewWindow->setCCDInfo(fwhm, mu);
+	 break;
+	
     default:
         break;
 	
@@ -288,7 +331,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
 	  		kdDebug() << "Warning: capture_sequence action not found" << endl;
   		else
 	  		tmpAction->setEnabled(true);
-       }
+        }
       }
       else
       {
@@ -301,6 +344,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
 	  
 	    //close(streamFD);
 	}
+	
 	
 	drivers->updateMenuActions();
        	ksw->map()->forceUpdateNow();
@@ -315,6 +359,15 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
           streamWindow->enableStream(true);
        else
           streamWindow->enableStream(false);
+       break;
+       
+       case CCDPREVIEW_STREAM:
+       lp = pp->findElement("ON");
+       if (!lp) return;
+       if (lp->state == PS_ON)
+          CCDPreviewWindow->enableStream(true);
+       else
+          CCDPreviewWindow->enableStream(false);
        break;
        
     default:

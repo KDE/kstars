@@ -45,13 +45,12 @@ class IDevice : public QObject
      Q_OBJECT
      
      public:
-        IDevice(QString inLabel, QString inDriver, QString inExec, QString inVersion);
+        IDevice(QString inLabel, QString inDriver, QString inVersion);
 	~IDevice();
 
       enum ServeMODE { M_LOCAL, M_SERVER };
       QString label;
       QString driver;
-      QString exec;
       QString version;
       QStringList serverBuffer;
       int state;
@@ -61,6 +60,10 @@ class IDevice : public QObject
       int mgrID;
       int deviceType;
       KProcess *proc;
+
+      /* Telescope specific attributes */
+      double focal_length;
+      double aperture;
 
       void restart();
       
@@ -86,11 +89,14 @@ class INDIDriver : public devManager
 
     bool readXMLDriver();
 
+    bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[]);
 
     QListViewItem *lastGroup;
     QListViewItem *lastDevice;
+
+    QStringList driversList;
 
     QPixmap runningPix;
     QPixmap stopPix;
@@ -108,15 +114,16 @@ class INDIDriver : public devManager
     bool runDevice(IDevice *dev);
     void removeDevice(IDevice *dev);
     void removeDevice(QString deviceLabel);
+    void saveDevicesToDisk();
     int getINDIPort();
     int activeDriverCount();
     bool isDeviceRunning(QString deviceLabel);
 
     void saveHosts();
 
-   std::vector <IDevice *> devices;
+    std::vector <IDevice *> devices;
 
-   KStars *ksw;
+     KStars *ksw;
 
 
 public slots:

@@ -77,6 +77,7 @@
 #include "indidriver.h"
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
+#include "telescopeprop.h"
 #include "fitsviewer.h"
 
 #if ( KDE_IS_VERSION( 3, 2, 90 ) )
@@ -215,6 +216,12 @@ void KStars::slotTelescopeWizard()
 {
   telescopeWizardProcess twiz(this);
   twiz.exec();
+}
+
+void KStars::slotTelescopeProperties()
+{
+  telescopeProp scopeProp(this);
+  scopeProp.exec();
 }
 
 void KStars::slotINDIPanel() {

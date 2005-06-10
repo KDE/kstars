@@ -22,6 +22,7 @@
  class KStars;
  class SkyObject;
  class StreamWG;
+ class CCDPreviewWG;
  class QSocketNotifier;
  class KProgressDialog;
  class KDirLister;
@@ -39,12 +40,13 @@
    INDI_D      		*dp;			/* associated device */
 
    StreamWG             *streamWindow;
+   CCDPreviewWG    *CCDPreviewWindow;
    SkyObject   		*currentObject;
    QTimer      		*devTimer;	
    KProgressDialog      *downloadDialog;
    
     
-   enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER };
+   enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
    
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);

@@ -98,7 +98,7 @@ class INDI_D : public KDialogBase
     INDIMenu      *parent;
     DeviceManager *parentMgr;
     
-    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER };
+    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
    /*****************************************************************
    * Build
