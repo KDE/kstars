@@ -2101,8 +2101,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
-		//Stars
-		if ( Options::showStars() ) {
+		//Stars (need to update if constell. lines or stars are shown)
+		if ( Options::showStars() || Options::showCLines() ) {
 			// use MINDRAWSTARMAG for calculating constellation lines right
 			float mag = Options::magLimitDrawStar();
 			if (mag < MINDRAWSTARMAG) mag = MINDRAWSTARMAG;
