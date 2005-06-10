@@ -81,6 +81,16 @@ class KSAsteroid : public KSPlanetBase
 	*/
 		virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
+		//these set functions are needed for the new KSPluto subclass
+		void set_a( double newa ) { a = newa; }
+		void set_e( double newe ) { e = newe; }
+		void set_P( double newP ) { P = newP; }
+		void set_i( double newi ) { i.setD( newi ); }
+		void set_w( double neww ) { w.setD( neww ); }
+		void set_M( double newM ) { M.setD( newM ); }
+		void set_N( double newN ) { N.setD( newN ); }
+		void setJD( long double jd ) { JD = jd; }
+
 	private:
 		KStarsData *kd;
 		long double JD;

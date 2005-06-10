@@ -15,77 +15,62 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSPLUTO_H
+#ifndef KSPLUTO2_H
 #define KSPLUTO_H
 
-#include "ksplanetbase.h"
+#include "ksasteroid.h"
 
 /**@class KSPluto
-	*A subclass of KSPlanetBase that provides a custom findPosition() function
-	*needed for the unique orbit of Pluto.  The Pluto ephemeris gives its
-	*Heliocentric coordinates in rectangular (X,Y,Z), which must be converted
-	*to (R, Ecl. Longitude, Ecl. Latitude)
+	*A subclass of KSAsteroid that represents the planet Pluto.  Now, we 
+	*are certainly NOT claiming that Pluto is an asteroid.  However, the 
+	*findPosition() routines of KSPlanet do not work properly for Pluto.
+	*We had been using a unique polynomial expansion for Pluto, but even
+	*this fails spectacularly for dates much more remote than a few 
+	*hundred years.  We consider it better to instead treat Pluto's 
+	*orbit much more simply, using elliptical orbital elements as we do 
+	*for asteroids.  In order to improve the long-term accuracy of Pluto's
+	*position, we are also including linear approximations of the evolution
+	*of each orbital element with time.
+	*
+	*The orbital element data (including the time-derivatives) come from 
+	*the NASA/JPL website:  http://ssd.jpl.nasa.gov/elem_planets.html
+	*
 	*@short Provides necessary information about Pluto.
 	*@author Jason Harris
-	*@version 0.9
+	*@version 1.0
 	*/
 
 class KStarsData;
-class KSPluto : public KSPlanetBase  {
+class KSPluto : public KSAsteroid  {
 public:
-/**Constructor.  Calls KSPlanetBase constructor with name="Pluto".
+/**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
+	*in orbital element data (which is hard-coded for now).
 	*@p kd pointer to the KStarsData object
 	*@p fn filename of Pluto's image
 	*@p pSize physical diameter of Pluto, in km
 	*/
 	KSPluto(KStarsData *kd, QString fn="", double pSize=0);
 
-/**Destructor.  Delete some member data. */
+/**Destructor (empty) */
 	virtual ~KSPluto();
 
-/**Read orbital data from disk.  Just calls loadData("Pluto").
-	*/
-	virtual bool loadData();
-
 protected:
-/**Read orbital data from disk.
-	*@param n name (should *always* be Pluto)
-	*/
-	virtual bool loadData(QString n);
-
-/**A custom findPosition() function needed for the unique orbit of Pluto.
-	*Pluto's coordinates are first solved in heliocentric rectangular (X, Y, Z)
-	*coordinates, which are then converted to heliocentric spherical
-	*(R, EcLong, EcLat) coordinates, and finally translated to geocentric
-	*(RA, Dec) coordinates.
+/**A custom findPosition() function for Pluto.  Computes the values of the 
+	*orbital elements on the requested date, and calls KSAsteroid::findGeocentricPosition()
+	*using those elements.
+	*@param num time-dependent values for the desired date
+	*@param Earth planet Earth (needed to calculate geocentric coords)
+	*@return true if position was successfully calculated.
 	*/
 	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 private:
-	class XYZData {
-		public:
-			double ac, as;
-			/**Constructor*/
-			XYZData(double AC = 0.0, double AS = 0.0) : ac(AC), as(AS) {};
-	};
-	static int DATAARRAYSIZE;
-	static bool data_loaded;
-	static double *freq;
-	static XYZData *xdata;
-	static XYZData *ydata;
-	static XYZData *zdata;
+	//The base orbital elements for J2000 (these don't change with time)
+	double a0, e0;
+	dms i0, w0, M0, N0;
 
-	class XYZpos {
-		public:
-			double X;
-			double Y;
-			double Z;
-			XYZpos(double pX = 0.0, double pY = 0.0, double pZ = 0.0) :
-				X(pX), Y(pY), Z(pZ) {};
-	};
-
-	XYZpos calcRectCoords(double jc);
-	static int objects; // count number of open objects
+	//Rates-of-change for each orbital element
+	double a1, e1, i1, w1, M1, N1;
 };
 
 #endif

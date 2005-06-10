@@ -85,32 +85,43 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 	double yh = r * ( sinN * cosvw + cosN * sinvw * cosi );
 	double zh = r * ( sinvw * sini );
 
-	//xe, ye, ze are the Earth's heliocentric cartesian coords
-	double cosBe, sinBe, cosLe, sinLe;
-	Earth->ecLong()->SinCos( sinLe, cosLe );
-	Earth->ecLat()->SinCos( sinBe, cosBe );
-
-	double xe = Earth->rsun() * cosBe * cosLe;
-	double ye = Earth->rsun() * cosBe * sinLe;
-	double ze = Earth->rsun() * sinBe;
-
-	//convert to geocentric ecliptic coordinates by subtracting Earth's coords:
-	xh -= xe;
-	yh -= ye;
-	zh -= ze;
-
-	//Finally, the spherical ecliptic coordinates:
+	//the spherical ecliptic coordinates:
 	double ELongRad = atan( yh/xh );
 	//resolve atan ambiguity
 	if ( xh < 0.0 ) ELongRad += dms::PI;
+	double ELatRad = atan( zh/r );  //(r can't possibly be negative, so no atan ambiguity)
 
-	double rr = sqrt( xh*xh + yh*yh );
-	double ELatRad = atan( zh/rr );  //(rr can't possibly be negative, so no atan ambiguity)
+	helEcPos.longitude.setRadians( ELongRad );
+	helEcPos.latitude.setRadians( ELatRad );
+	setRsun( r );
+
+	if ( Earth ) {
+		//xe, ye, ze are the Earth's heliocentric cartesian coords
+		double cosBe, sinBe, cosLe, sinLe;
+		Earth->ecLong()->SinCos( sinLe, cosLe );
+		Earth->ecLat()->SinCos( sinBe, cosBe );
+	
+		double xe = Earth->rsun() * cosBe * cosLe;
+		double ye = Earth->rsun() * cosBe * sinLe;
+		double ze = Earth->rsun() * sinBe;
+	
+		//convert to geocentric ecliptic coordinates by subtracting Earth's coords:
+		xh -= xe;
+		yh -= ye;
+		zh -= ze;
+	}
+
+	//the spherical geocentricecliptic coordinates:
+	ELongRad = atan( yh/xh );
+	//resolve atan ambiguity
+	if ( xh < 0.0 ) ELongRad += dms::PI;
+
+	double rr = sqrt( xh*xh + yh*yh + zh*zh );
+	ELatRad = atan( zh/rr );  //(rr can't possibly be negative, so no atan ambiguity)
 
 	ep.longitude.setRadians( ELongRad );
 	ep.latitude.setRadians( ELatRad );
-	setRsun( r );
-	setRearth( Earth );
+	if ( Earth ) setRearth( Earth );
 	
 	EclipticToEquatorial( num->obliquity() );
 	nutate( num );

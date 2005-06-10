@@ -56,9 +56,7 @@ bool PlanetCatalog::initialize() {
 	}
 
 	ksp = new KSPluto( kd, "pluto.png", 2320. /*diameter in km*/ );
-	if (ksp->loadData()) {
-		planets.append(ksp);
-	}
+	planets.append(ksp);
 
 	ksp = new KSPlanet( kd, I18N_NOOP( "Mercury" ), "mercury.png", 4879.4 /*diameter in km*/ );
 	if (ksp->loadData()) {

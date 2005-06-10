@@ -63,6 +63,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
 	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
 	pName[8] = "Pluto";   pColor[8] = "gray";
+
 	setCenterPlanet("");
 	
 	PCat.initialize();
@@ -72,7 +73,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	
 	for ( uint i=0; i<9; ++i ) 
 		LastUpdate[i] = int( ut.date().jd() );
-	
+
 	//The planets' update intervals are 0.5% of one period:
 	UpdateInterval[0] = 0;
 	UpdateInterval[1] = 0;
@@ -83,7 +84,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	UpdateInterval[6] = 76;
 	UpdateInterval[7] = 150;
 	UpdateInterval[8] = 227;
-	
+
 	QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
 
 	connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
@@ -122,7 +123,7 @@ void PlanetViewer::slotRunClock() {
 	}
 }
 
-void PlanetViewer::slotChangeDate( const ExtDate &d ) {
+void PlanetViewer::slotChangeDate( const ExtDate & ) {
 	ut.setDate( pw->dateBox->date() ); 
 	updatePlanets();
 }
@@ -135,18 +136,15 @@ void PlanetViewer::updatePlanets() {
 	for ( unsigned int i=0; i<9; ++i ) {
 		if ( abs( int(ut.date().jd()) - LastUpdate[i] ) > UpdateInterval[i] ) {
 			KSPlanetBase *p = PCat.findByName( pName[i] );
+			p->findPosition( &num );
 			
-			//Call findPosition w/o Earth pointer to skip geocentric coords calculation
-			//(however, this is not possible for Pluto)
-			if ( pName[i] == "Pluto" ) p->findPosition( &num, 0, 0, PCat.findByName( "Earth" ) );
-			else p->findPosition( &num );
-			
-			double s, c;
+			double s, c, s2, c2;
 			p->helEcLong()->SinCos( s, c );
-			planet[i]->point(0)->setX( p->rsun()*c );
-			planet[i]->point(0)->setY( p->rsun()*s );
-			planetLabel[i]->point(0)->setX( p->rsun()*c );
-			planetLabel[i]->point(0)->setY( p->rsun()*s );
+			p->helEcLat()->SinCos( s2, c2 );
+			planet[i]->point(0)->setX( p->rsun()*c*c2 );
+			planet[i]->point(0)->setY( p->rsun()*s*c2 );
+			planetLabel[i]->point(0)->setX( p->rsun()*c*c2 );
+			planetLabel[i]->point(0)->setY( p->rsun()*s*c2 );
 			
 			if ( centerPlanet() == pName[i] ) {
 				double xc = (pw->map->x2() + pw->map->x())*0.5;
@@ -170,27 +168,13 @@ void PlanetViewer::paintEvent( QPaintEvent* ) {
 }
 
 void PlanetViewer::initPlotObjects() {
-	//**Orbits**//
-	KPlotObject *orbit[9];
-
-	//mean orbital radii, in AU
-	double rad[9];
-	rad[0] = 0.4;
-	rad[1] = 0.7;
-	rad[2] = 1.0;
-	rad[3] = 1.5;
-	rad[4] = 5.2;
-	rad[5] = 9.5;
-	rad[6] = 19.2;
-	rad[7] = 30.1;
-	rad[8] = 39.5;
-
 	// Planets
 	ksun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
 	ksun->addPoint( new DPoint( 0.0, 0.0 ) );
 	pw->map->addObject( ksun );
 	
-	//Read in the orbit curves.  
+	//Read in the orbit curves
+	KPlotObject *orbit[9];
 	for ( unsigned int i=0; i<9; ++i ) {
 		orbit[i] = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 		
