@@ -45,9 +45,6 @@
                     <property name="text">
                         <string>&amp;New</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
-                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -56,9 +53,6 @@
                     <property name="text">
                         <string>S&amp;ave</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
-                    </property>
                 </widget>
                 <widget class="KPushButton">
                     <property name="name">
@@ -66,9 +60,6 @@
                     </property>
                     <property name="text">
                         <string>Remo&amp;ve</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+V</string>
                     </property>
                 </widget>
                 <spacer>
@@ -94,9 +85,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Close</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+C</string>
                     </property>
                 </widget>
             </hbox>

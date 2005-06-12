@@ -251,9 +251,6 @@
                             <property name="text">
                                 <string>Preview &amp;output</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+O</string>
-                            </property>
                         </widget>
                     </hbox>
                 </widget>
