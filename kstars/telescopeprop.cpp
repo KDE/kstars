@@ -55,6 +55,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, WFla
     	telescopeListBox->insertItem(indi_driver->devices[i]->label);
   }
 
+  telescopeListBox->setCurrentItem(0);
   updateScopeDetails(0);
      
 

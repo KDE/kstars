@@ -217,6 +217,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
   {
     case EQUATORIAL_COORD:
     case EQUATORIAL_EOD_COORD:
+    case HORIZONTAL_COORD:
       //ksw->map()->forceUpdateNow();
       ksw->map()->update();
       break;

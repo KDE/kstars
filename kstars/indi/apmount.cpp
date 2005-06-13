@@ -330,9 +330,7 @@ void APMount::ISNewText (const char *dev, const char *name, char *texts[], char 
 	    IDSetText(&TimeTP , "Time invalid");
 	    return;
 	  }
-	        utm.tm_mon   += 1;
 		ltp->tm_mon  += 1;
-		utm.tm_year  += 1900;
 		ltp->tm_year += 1900;
 
 		tzset();
