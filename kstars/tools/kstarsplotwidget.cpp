@@ -321,7 +321,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	p->setPen( fgColor() );
 	p->setBrush( Qt::NoBrush );
 
-	if ( ShowAxes ) p->drawRect( PixRect ); //box outline
+	if ( LeftAxis.isVisible() || BottomAxis.isVisible() ) p->drawRect( PixRect ); //box outline
 
 	if ( ShowTickMarks ) {
 		//spacing between minor tickmarks (in data units)
@@ -609,9 +609,9 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	} //end if ( showTickmarks )
 
 	//Draw X Axis Label(s)
-	if ( ! XAxisLabel.isEmpty() ) {
+	if ( ! BottomAxis.label().isEmpty() ) {
 		QRect r( 0, PixRect.height() + 2*YPADDING, PixRect.width(), YPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, XAxisLabel );
+		p->drawText( r, Qt::AlignCenter | Qt::DontClip, BottomAxis.label() );
 	}
 	if ( ! XAxisLabel2.isEmpty() ) {
 		QRect r( 0, -3*YPADDING, PixRect.width(), YPADDING );
@@ -619,7 +619,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	}
 
 	//Draw Y Axis Label(s).  We need to draw the text sideways.
-	if ( ! YAxisLabel.isEmpty() ) {
+	if ( ! LeftAxis.label().isEmpty() ) {
 		//store current painter translation/rotation state
 		p->save();
 
@@ -628,7 +628,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->rotate( -90.0 );
 
 		QRect r( 0, 0, PixRect.height(), XPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, YAxisLabel ); //draw the label, now that we are sideways
+		p->drawText( r, Qt::AlignCenter | Qt::DontClip, LeftAxis.label() ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state
 	}
