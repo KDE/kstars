@@ -21,6 +21,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qstringlist.h>
+#include <qwidgetstack.h>
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
@@ -36,6 +37,7 @@
 
 #include "observinglist.h"
 #include "observinglistui.h"
+#include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobject.h"
@@ -53,7 +55,7 @@
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
 				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
-				noNameStars(0), isModified(false)
+				noNameStars(0), isModified(false), bIsLarge(true)
 {
 	QFrame *page = plainPage();
 	setMainWidget( page );
@@ -64,9 +66,15 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
-	connect( ui->table, SIGNAL( selectionChanged() ), 
+	connect( ui->TableStack, SIGNAL( aboutToShow( QWidget* ) ), 
+			this, SLOT( slotPrepTable( QWidget* ) ) );
+	connect( ui->FullTable, SIGNAL( selectionChanged() ), 
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->table, SIGNAL( doubleClicked( QListViewItem*, const QPoint&, int) ), 
+	connect( ui->TinyTable, SIGNAL( selectionChanged() ), 
+			this, SLOT( slotNewSelection() ) );
+	connect( ui->FullTable, SIGNAL( doubleClicked( QListViewItem*, const QPoint&, int) ), 
+			this, SLOT( slotCenterObject() ) );
+	connect( ui->TinyTable, SIGNAL( doubleClicked( QListBoxItem* ) ), 
 			this, SLOT( slotCenterObject() ) );
 	connect( ui->RemoveButton, SIGNAL( clicked() ), 
 			this, SLOT( slotRemoveObjects() ) );
@@ -85,6 +93,10 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 			this, SLOT( slotSaveList() ) );
 	connect( ui->SaveAsButton, SIGNAL( clicked() ),
 			this, SLOT( slotSaveListAs() ) );
+	connect( ui->WizardButton, SIGNAL( clicked() ),
+			this, SLOT( slotWizard() ) );
+	connect( ui->MiniButton, SIGNAL( clicked() ),
+			this, SLOT( slotToggleSize() ) );
 
 	obsList.setAutoDelete( false ); //do NOT delete removed pointers!
 	
@@ -93,6 +105,8 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
 	ui->SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
 	ui->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
+	ui->WizardButton->setPixmap( icons->loadIcon( "wizard", KIcon::Toolbar ) );
+	ui->MiniButton->setPixmap( icons->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
 
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
@@ -113,6 +127,12 @@ bool ObservingList::contains( const SkyObject *q ) {
 
 
 //SLOTS
+void ObservingList::slotPrepTable( QWidget *tab ) {
+	if ( tab == ui->FullTable ) {
+	} else {
+	}
+}
+
 void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! obj ) obj = ks->map()->clickedObject();
 
@@ -120,14 +140,15 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	obsList.append( obj );
 	if ( ! isModified ) isModified = true; 
 
-	//Insert object entry in table
+	//Insert object entry in FullTable and TinyTable
 	QString smag("--");
 	if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
-	new KListViewItem( ui->table, obj->translatedName(), 
+	new KListViewItem( ui->FullTable, obj->translatedName(), 
 			obj->ra()->toHMSString(),
 			obj->dec()->toDMSString(),
 			smag,
 			obj->typeName() );
+	ui->TinyTable->insertItem( obj->translatedName() );
 
 	//Note addition in statusbar
 	ks->statusBar()->changeItem( i18n( "Added %1 to observing list." ).arg( obj->name() ), 0 );
@@ -143,28 +164,21 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	if ( o == LogObject ) 
 		saveCurrentUserLog();
 		
-	//Remove entry from table
+	//Remove entry from FullTable
 	bool objectFound = false;
-	QListViewItemIterator it( ui->table );
+	QListViewItemIterator it( ui->FullTable );
 	while ( it.current() ) {
 		QListViewItem *item = it.current();
-			
-			//If the object is named "star" then match coordinates instead of name
+
+		//If the object is named "star" then match coordinates instead of name
 		if ( o->translatedName() == i18n( "star" ) ) {
 			if ( item->text(1) == o->ra()->toHMSString() 
 							&& item->text(2) == o->dec()->toDMSString() ) {
-					//DEBUG
-				kdDebug() << "removing anonymous star from list." << endl;
-				kdDebug() << item->text(1) << "::" << o->ra()->toHMSString() << endl;
-					
 				delete item;
 				objectFound = true;
 				break;
 							}
 		} else if ( item->text( 0 ) == o->translatedName() ) {
-				//DEBUG
-			kdDebug() << "removing " << o->translatedName() << " from list." << endl;
-				
 			delete item;
 			objectFound = true;
 			break;
@@ -174,6 +188,14 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 
 	if ( ! objectFound ) {
 		kdDebug() << i18n( "Cannot remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
+	} else {
+		//Remove object from TinyTable
+		for ( uint i=0; i < ui->TinyTable->count(); i++ ) {
+			if ( o->translatedName() == ui->TinyTable->text(i) ) {
+				ui->TinyTable->removeItem(i);
+				break;
+			}
+		}
 	}
 }
 
@@ -187,9 +209,12 @@ void ObservingList::slotRemoveObjects() {
 }
 
 void ObservingList::slotNewSelection() {
+	//If the TinyTable is visible, we need to sync the selection in the FullTable
+	if ( sender() == ui->TinyTable ) syncTableSelection();
+
 	//Construct list of selected objects
 	SelectedObjects.clear();
-	QListViewItemIterator it( ui->table, QListViewItemIterator::Selected ); //loop over selected items
+	QListViewItemIterator it( ui->FullTable, QListViewItemIterator::Selected ); //loop over selected items
 	while ( it.current() ) {
 		for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
 			if ( it.current()->text(0) == i18n("star") ) {
@@ -495,22 +520,7 @@ void ObservingList::slotOpenList() {
 			return;
 		}
 
-		//Before loading a new list, do we need to save the current one?
-		//Assume that if the list is empty, then there's no need to save
-		if ( obsList.count() ) {
-			if ( isModified ) {
-				QString message = i18n( "Do you want to save the current list before opening a new list?" );
-				if ( KMessageBox::questionYesNo( this, message, 
-						i18n( "Save current list?" ) ) == KMessageBox::Yes )
-					slotSaveList();
-			}
-
-			//If we ever allow merging the loaded list with 
-			//the existing one, that code would go here
-			obsList.clear();
-			ui->table->clear();
-		}
-
+		saveCurrentList();
 		//First line is the name of the list.  The rest of the file should 
 		//be object names, one per line.
 		QTextStream istream(&f);
@@ -533,6 +543,24 @@ void ObservingList::slotOpenList() {
 		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid file") ) == KMessageBox::Yes ) {
 			slotOpenList();
 		}
+	}
+}
+
+void ObservingList::saveCurrentList() {
+	//Before loading a new list, do we need to save the current one?
+	//Assume that if the list is empty, then there's no need to save
+	if ( obsList.count() ) {
+		if ( isModified ) {
+			QString message = i18n( "Do you want to save the current list before opening a new list?" );
+			if ( KMessageBox::questionYesNo( this, message, 
+					i18n( "Save current list?" ) ) == KMessageBox::Yes )
+				slotSaveList();
+		}
+
+		//If we ever allow merging the loaded list with 
+		//the existing one, that code would go here
+		obsList.clear();
+		ui->FullTable->clear();
 	}
 }
 
@@ -576,6 +604,81 @@ void ObservingList::slotSaveList() {
 
 	f.close();
 	isModified = false;
+}
+
+void ObservingList::slotWizard() {
+	ObsListWizard wizard( ks );
+	if ( wizard.exec() == QDialog::Accepted ) {
+		//Make sure current list is saved
+		saveCurrentList();
+
+		for ( SkyObject *o = wizard.obsList().first(); o; o = wizard.obsList().next() ) {
+			slotAddObject( o );
+		}
+	}
+}
+
+void ObservingList::slotToggleSize() {
+	if ( isLarge() ) {
+		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", KIcon::Toolbar ) );
+
+		//switch widget stack to show TinyTable
+		ui->TableStack->raiseWidget( ui->TinyTable );
+
+		//Abbreviate text on each button
+		ui->CenterButton->setText( i18n( "First letter in 'Center'", "C" ) );
+		ui->ScopeButton->setText( i18n( "First letter in 'Scope'", "S" ) );
+		ui->DetailsButton->setText( i18n( "First letter in 'Details'", "D" ) );
+		ui->AVTButton->setText( i18n( "First letter in 'Alt vs Time'", "A" ) );
+		ui->RemoveButton->setText( i18n( "First letter in 'Remove'", "R" ) );
+
+		//Hide Observing notes
+		ui->NotesLabel->hide();
+		ui->NotesEdit->hide();
+
+		syncTableSelection( false ); //sync TinyTable with FullTable
+		adjustSize();
+		bIsLarge = false;
+
+	} else {
+		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
+
+		//switch widget stack to show FullTable
+		ui->TableStack->raiseWidget( ui->FullTable );
+
+		//Expand text on each button
+		ui->CenterButton->setText( i18n( "Center" ) );
+		ui->ScopeButton->setText( i18n( "Scope" ) );
+		ui->DetailsButton->setText( i18n( "Details" ) );
+		ui->AVTButton->setText( i18n( "Alt vs Time" ) );
+		ui->RemoveButton->setText( i18n( "Remove" ) );
+
+		//Show Observing notes
+		ui->NotesLabel->show();
+		ui->NotesEdit->show();
+
+		syncTableSelection( true ); //sync FullTable with TinyTable
+		adjustSize();
+		bIsLarge = true;
+	}
+}
+
+void ObservingList::syncTableSelection( bool syncFullTable ) {
+	if ( syncFullTable ) {
+		int i=0;
+		QListViewItem *it =  ui->FullTable->firstChild();
+		while ( it ) {
+			it->setSelected( ui->TinyTable->isSelected( i++ ) );
+			it->nextSibling();
+		}
+	} else {
+		int i=0;
+		QListViewItem *it =  ui->FullTable->firstChild();
+		while ( it ) {
+			ui->TinyTable->setSelected( i++, it->isSelected() );
+			it->nextSibling();
+		}
+	}	
 }
 
 #include "observinglist.moc"

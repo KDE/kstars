@@ -76,7 +76,21 @@ public:
 	SkyObject* next() { return obsList.next(); }
 	uint count() const { return obsList.count(); }
 
+/**@return true if the window is in its default "large" state.
+	*/
+	bool isLarge() const { return bIsLarge; }
+
+/**@short If the current list has unsaved changes, ask the user about saving it.
+	*@note also clears the list in preparation of opening a new one
+	*/
+	void saveCurrentList();
+
 public slots:
+/**@short about to switch the visible table in the widget stack
+	*@p tab pointer to the table which is about to be shown
+	*/
+	void slotPrepTable( QWidget *tab );
+ 
 /**@short add a new object to list
 	*@p o pointer to the object to add to the list
 	*/
@@ -128,6 +142,14 @@ public slots:
 	*/
 	void slotSaveListAs();
 
+/**@short construct a new observing list using the wizard.
+	*/
+	void slotWizard();
+
+/**@short toggle between the large and small window states
+	*/
+	void slotToggleSize();
+
 /**@short Save the user log text to a file.
 	*@note the log is attached to the current object in obsList.
 	*/
@@ -137,6 +159,8 @@ protected slots:
 	void slotClose();
 
 private:
+	void syncTableSelection( bool syncFullTable=true );
+
 	KStars *ks;
 	ObservingListUI *ui;
 	QPtrList<SkyObject> obsList;
@@ -144,7 +168,7 @@ private:
 	SkyObject *LogObject, *oCurrent;
 	uint noNameStars;
 
-	bool isModified;
+	bool isModified, bIsLarge;
 	QString ListName, FileName;
 };
 

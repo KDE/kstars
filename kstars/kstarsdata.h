@@ -114,7 +114,8 @@ public:
 	friend class JMoonTool;
 	friend class telescopeWizardProcess;
 	friend class KSNewStuff;
-	
+	friend class ObsListWizard;
+
 	/**Constructor. */
 	KStarsData();
 
