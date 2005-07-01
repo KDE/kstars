@@ -536,63 +536,236 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 	return angDist;
 }
 
-QString SkyPoint::constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const {
-	double hiDec =  90.;
-	double loDec = -90.;
-	QString nhi1( i18n("Unknown") ), nhi2( i18n("Unknown") );
-	QString nlo1( i18n("Unknown") ), nlo2( i18n("Unknown") );
+QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyObject> &cnameList ) const {
+	//Identify the constellation that contains point p.
+	//First, find all CSegments that bracket the RA of p.
+	//Then, identify the pair of these bracketing segments which bracket p in the Dec direction.
+	//Each segment has two cnames, identifying the 2 constellations which the segment delineates.
+	//There will be a name in common between the pair, this is the constellation that p is in.
+	//
+	//Corner case 1: points near the celestial poles are not bracketed by csegments.
+	//Corner case 2: it is possible that *both* cnames are shared between the two segments.
+	//In this case, we have to do more work to decide which is truly correct.
 	
-	//Loop through list of constellation segments, identify the two segments 
-	//which are directly above and directly below this point.
-	for ( CSegment *seg = seglist.first(); seg; seg = seglist.next() ) {
+	QPtrList<SkyPoint> p1List, p2List;
+	QStringList name1List, name2List;
+	QString abbrev("");
+
+	double pdc = dec()->Degrees();
+	double pra(0.0); //defined in the loop, because we may modify it there
+
+	for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
 		SkyPoint *p1 = seg->firstNode();
 		for ( SkyPoint *p2 = seg->nextNode(); p2; p2 = seg->nextNode() ) {
-			double p1dec = p1->dec()->Degrees();
-			double p2dec = p2->dec()->Degrees();
+			pra = ra()->Degrees(); 
 			double p1ra = p1->ra()->Degrees();
 			double p2ra = p2->ra()->Degrees();
-			if ( p1ra > 330. && p2ra < 30. ) p1ra -= 360.0; //wrap RA coordinate, if necessary
-			if ( p2ra > 330. && p1ra < 30. ) p2ra -= 360.0; //wrap RA coordinate, if necessary
-			
-			double d1 = p1ra - ra()->Degrees();
-			double d2 = p2ra - ra()->Degrees();
-			
-			if ( p1dec < hiDec && p2dec < hiDec && p1dec > loDec && p2dec > loDec 
-					&& d1*d2 < 0.0 ) { //the segment might be a new upper or lower boundary
-				if ( d1 < 0.0 ) d1 *= -1.0; //want positive lengths
-				if ( d2 < 0.0 ) d2 *= -1.0; //want positive lengths
-				
-				//Find Dec along this segment at RA of the point.
-				double f1 = d1/(d1+d2); 
-				double sdec = (1.0-f1)*p1dec + f1*p2dec;
-				
-				if ( sdec > dec()->Degrees() && sdec < hiDec ) { //New upper boundary segment
-					hiDec = sdec;
-					nhi1 = seg->name1();
-					nhi2 = seg->name2();
-				}
-				if ( sdec < dec()->Degrees() && sdec > loDec ) { //New lower boundary segment
-					loDec = sdec;
-					nlo1 = seg->name1();
-					nlo2 = seg->name2();
-				}
+			if ( p1ra > 330. && p2ra < 30. ) { //wrap RA coordinate, if necessary
+				p1ra -= 360.0; 
+				if ( pra > 330. ) pra -= 360.;
+			}
+			if ( p2ra > 330. && p1ra < 30. ) { //wrap RA coordinate, if necessary
+				p2ra -= 360.0; 
+				if ( pra > 330. ) pra -= 360.;
 			}
 			
-			p1 = p2; 
+			if ( p1ra <= pra && p2ra >= pra ) { //bracketing segment?
+				p1List.append( p1 );
+				p2List.append( p2 );
+				name1List.append( seg->name1() );
+				name2List.append( seg->name2() );
+				break;
+			} else if ( p2ra <= pra && p1ra >= pra ) { //bracketing segment? (RA order reversed)
+				p1List.append( p2 ); //make sure p1List gets the smaller bracketing RA
+				p2List.append( p1 );
+				name1List.append( seg->name1() );
+				name2List.append( seg->name2() );
+				break;
+			}
+			p1 = p2;
 		}
 	}
-	
-//	//DEBUG
-//	kdDebug() << nlo1 << " " << nlo2 << " , " << nhi1 << " " << nhi2 << endl;
-	
-	//Ok, it should be the case that one of the nhi names equals one of the nlo names.
-	//This is the constellation we are in.
-	QString abbrev( "" );
-	if ( nhi1 == nlo1 || nhi1 == nlo2 ) abbrev = nhi1;
-	else if ( nhi2 == nlo1 || nhi2 == nlo2 ) abbrev = nhi2;
-	else return i18n("Unknown");
 
-	for ( SkyObject *o = cnames.first(); o; o = cnames.next() ) {
+	//Should not happen:
+	if ( p1List.count() == 0 ) {
+		kdWarning() << "A: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+		return i18n("Unknown");
+	}
+
+	//Normal case: more than one segment brackets in RA.  Find segments which also bracket in Dec.
+	double dupper(90.), dlower(-90.);
+	int iupper(-1), ilower(-1);
+	for ( uint i=0; i < p1List.count(); ++i ) {
+		SkyPoint *p1 = p1List.at(i);
+		SkyPoint *p2 = p2List.at(i);
+		
+		//Find Dec value along segment at RA of p:
+		double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
+		double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+		if ( segDec >= pdc && segDec < dupper ) { dupper = segDec; iupper = i; }
+		if ( segDec <= pdc && segDec > dlower ) { dlower = segDec; ilower = i; }
+	}
+
+	//Corner case 1: Points near one of the poles are not bracketed by segments in the Dec direction.
+	//In this case, either iupper or ilower will remain at its preassigned invalid value (-1)
+	//Identify the constellation by extrapolating away from the pole to the next segment.
+	//This will identify which of the two names is the neighboring constellation
+	//so our target constell. is the other one.
+	//(note that we can't just assume Ursa Minor or Octans, because of precession: these constellations 
+	//are not near the pole at all epochs
+	if ( iupper == -1 ) { //point near north pole
+		int ilow2(-1);
+		double dlow2(-90.);
+		for ( uint i=0; i < p1List.count(); ++i ) {
+			if ( i != ilower ) {
+				SkyPoint *p1 = p1List.at(i);
+				SkyPoint *p2 = p2List.at(i);
+				
+				//Find Dec value along segment at RA of p:
+				double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
+				double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+				if ( segDec > dlow2 && segDec < dlower ) { dlow2 = segDec; ilow2 = i; }
+			}
+		}
+
+		if ( ilow2 == -1 ) { //whoops, what happened?
+			kdWarning() << "B: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+			return i18n("Unknown");
+		}
+
+		//If name1(ilower) is the adjacent constellation, then name2(ilower) must be the answer
+		if ( name1List[ ilower ] == name1List[ ilow2 ] || name1List[ ilower ] == name2List[ ilow2 ] )
+			abbrev = name2List[ ilower ];
+
+		//If name2(ilower) is the adjacent constellation, then name1(ilower) must be the answer
+		else if ( name2List[ ilower ] == name1List[ ilow2 ] || name2List[ ilower ] == name2List[ ilow2 ] )
+			abbrev = name1List[ ilower ];
+
+		else { //doh!
+			kdWarning() << "C: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+			return i18n("Unknown");
+		}
+
+	} else if ( ilower == -1 ) { //point near south pole
+		int iup2(-1);
+		double dup2(90.);
+		for ( uint i=0; i < p1List.count(); ++i ) {
+			if ( i != iupper ) {
+				SkyPoint *p1 = p1List.at(i);
+				SkyPoint *p2 = p2List.at(i);
+				
+				//Find Dec value along segment at RA of p:
+				double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
+				double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+				if ( segDec < dup2 && segDec > dupper ) { dup2 = segDec; iup2 = i; }
+			}
+		}
+
+		if ( iup2 == -1 ) { //whoops, what happened?
+			kdWarning() << "D: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+			return i18n("Unknown");
+		}
+
+		//If name1(iupper) is the adjacent constellation, then name2(iupper) must be the answer
+		if ( name1List[ iupper ] == name1List[ iup2 ] || name1List[ iupper ] == name2List[ iup2 ] )
+			abbrev = name2List[ iupper ] ;
+
+		//If name2(iupper) is the adjacent constellation, then name1(iupper) must be the answer
+		else if ( name2List[ iupper ] == name1List[ iup2 ] || name2List[ iupper ] == name2List[ iup2 ] )
+			abbrev = name1List[ iupper ];
+
+		else { //doh!
+			kdWarning() << "E: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+			return i18n("Unknown");
+		}
+	}
+
+	//Corner case 2: Both name1 and name2 are in common in the bracketing segments
+	//This can happen if a constellation is both above and below the true bracketing constellation
+	//Resolve it by again extending up or down to the next segment, which will share one of the ambiguous 
+	//names.  The answer is the one not shared in this next segment.
+	//To ensure that there will be a next segment, go up if dec is negative, otherwise go down.
+	else if ( (name1List[ iupper ] == name1List[ ilower ] || name1List[ iupper ] == name2List[ ilower ]) 
+		&& (name2List[ iupper ] == name1List[ ilower ] || name2List[ iupper ] == name2List[ ilower ]) ) {
+		if ( pdc < 0.0 ) { //find next segment up
+			int iup2(0);
+			double dup2(90.0);
+
+			for ( uint i=0; i < p1List.count(); ++i ) {
+				if ( i != iupper ) {
+					SkyPoint *p1 = p1List.at(i);
+					SkyPoint *p2 = p2List.at(i);
+					
+					//Find Dec value along segment at RA of p:
+					double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
+					double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+					if ( segDec < dup2 && segDec > dupper ) { dup2 = segDec; iup2 = i; }
+				}
+			}
+
+			//If name1(iupper) is the adjacent constellation, then name2(iupper) must be the answer
+			if ( name1List[ iupper ] == name1List[ iup2 ] || name1List[ iupper ] == name2List[ iup2 ] )
+				abbrev = name2List[ iupper ];
+	
+			//If name2(iupper) is the adjacent constellation, then name1(iupper) must be the answer
+			else if ( name2List[ iupper ] == name1List[ iup2 ] || name2List[ iupper ] == name2List[ iup2 ] )
+				abbrev = name1List[ iupper ];
+	
+			else { //doh!
+				kdWarning() << "F: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+				return i18n("Unknown");
+			}
+		} else { //pdc > 0.0, so search down
+			int ilow2(-1);
+			double dlow2(-90.);
+			for ( uint i=0; i < p1List.count(); ++i ) {
+				if ( i != ilower ) {
+					SkyPoint *p1 = p1List.at(i);
+					SkyPoint *p2 = p2List.at(i);
+					
+					//Find Dec value along segment at RA of p:
+					double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
+					double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+					if ( segDec > dlow2 && segDec < dlower ) { dlow2 = segDec; ilow2 = i; }
+				}
+			}
+	
+			if ( ilow2 == -1 ) { //whoops, what happened?
+				kdWarning() << "G: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+				return i18n("Unknown");
+			}
+	
+			//If name1(ilower) is the adjacent constellation, then name2(ilower) must be the answer
+			if ( name1List[ ilower ] == name1List[ ilow2 ] || name1List[ ilower ] == name2List[ ilow2 ] )
+				abbrev = name2List[ ilower ];
+	
+			//If name2(ilower) is the adjacent constellation, then name1(ilower) must be the answer
+			else if ( name2List[ ilower ] == name1List[ ilow2 ] || name2List[ ilower ] == name2List[ ilow2 ] )
+				abbrev = name1List[ ilower ];
+	
+			else { //doh!
+				kdWarning() << "H: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+				return i18n("Unknown");
+			}
+		}
+	}
+
+	//Normal case: one of the pair of names (name1/name2) should be shared between 
+	//the two bracketing segments
+	else if ( name1List[ iupper ] == name1List[ ilower ] || name1List[ iupper ] == name2List[ ilower ] ) 
+		abbrev = name1List[ iupper ];
+
+	else if ( name2List[ iupper ] == name1List[ ilower ] || name2List[ iupper ] == name2List[ ilower ] ) 
+		abbrev = name2List[ iupper ];
+
+	//If we reach here, then neither name1 nor name2 were shared between the bracketing segments!
+	else {
+		kdWarning() << "I: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+		return i18n("Unknown");
+	}
+
+	//Finally, match the abbreviated name to the full constellation name, and return that name
+	for ( SkyObject *o = cnameList.first(); o; o = cnameList.next() ) {
 		if ( abbrev.lower() == o->name2().lower() ) {
 			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
