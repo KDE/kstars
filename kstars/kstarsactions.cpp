@@ -533,16 +533,19 @@ void KStars::slotRunScript() {
 		}
 
 		if ( ! fileOK ) {
-			KMessageBox::sorry( 0, i18n( "The selected file appears to be an invalid KStars script." ),
-					i18n( "Script Validation Failed" ) );
-		} else {
-			//file is OK, run it!
-			KProcess p;
-			p << f.name();
-			p.start( KProcess::DontCare );
-
-			while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
+			int answer;
+			answer = KMessageBox::warningYesNo( 0, i18n( "The selected script contains unrecognized elements,"
+				"indicating that it was not created using the KStars script builder. "
+				"This script may not function properly, and it may even contain malicious code. "
+				"Would you like to execute it anyway?" ),
+					i18n( "Script Validation Failed" ), KStdGuiItem::yes(), KStdGuiItem::no(), "daExecuteScript" );
+			if ( answer == KMessageBox::No ) return;
 		}
+		KProcess p;
+		p << f.name();
+		p.start( KProcess::DontCare );
+
+		while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
 	}
 }
 
