@@ -124,7 +124,6 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	INDIHostsList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
-	//(type==-1 is a constellation)
 	TypeName[0] = i18n( "star" );
 	TypeName[1] = i18n( "multiple star" );
 	TypeName[2] = i18n( "planet" );

@@ -111,6 +111,19 @@ class KStarsInterface : virtual public DCOPObject
 			*/
 		virtual ASYNC setTracking( bool track ) = 0;
 		
+		/**@short read in the config file
+			*/
+		virtual ASYNC readConfig() = 0;
+
+		/**@short write current settings to the config file
+			*/
+		virtual ASYNC writeConfig() = 0;
+
+		/**@return the value of an option in the config file
+			*@param name the name of the option to be read
+			*/
+		virtual QString getOption( const QString &name ) = 0;
+
 		/**Reset a View option.  There are dozens of view options which can be adjusted 
 			*with this function.  See the ScriptBuilder tool for a hierarchical list, or
 			*see the kstarsrc config file.  Different options require different data types

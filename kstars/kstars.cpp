@@ -24,6 +24,8 @@
 #include <stdlib.h>
 //#include <iostream.h>
 #include <kdebug.h>
+#include <kactioncollection.h>
+#include <kiconloader.h>
 #include <qpalette.h>
 
 #include "Options.h"
@@ -37,6 +39,7 @@
 #include "infoboxes.h"
 #include "observinglist.h"
 #include "imagesequence.h"
+#include "toggleaction.h"
 
 // to remove warnings
 #include "indimenu.h"
@@ -81,13 +84,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Text, QColor( "red2" ) );
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Highlight, QColor( "red2" ) );
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
-
-	//set color scheme
+	//store original color scheme
 	OriginalPalette = QApplication::palette();
-	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
-	if ( Options::darkAppColors() ) {
-		QApplication::setPalette( DarkPalette, true );
-	}
 
 	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
@@ -170,6 +168,63 @@ void KStars::clearCachedFindDialog() {
 		else
 			DialogIsObsolete = true;  // dialog was opened so it could not deleted
    }
+}
+
+void KStars::applyConfig() {
+	if ( Options::isTracking() ) {
+		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	}
+
+	//Toggle actions
+	if ( Options::useAltAz() ) ((ToggleAction*)actionCollection()->action("coordsys"))->turnOff();
+	((KToggleAction*)actionCollection()->action("show_time_box"))->setChecked( Options::showTimeBox() );
+	((KToggleAction*)actionCollection()->action("show_location_box"))->setChecked( Options::showGeoBox() );
+	((KToggleAction*)actionCollection()->action("show_focus_box"))->setChecked( Options::showFocusBox() );
+	((KToggleAction*)actionCollection()->action("show_mainToolBar"))->setChecked( Options::showMainToolBar() );
+	((KToggleAction*)actionCollection()->action("show_viewToolBar"))->setChecked( Options::showViewToolBar() );
+	((KToggleAction*)actionCollection()->action("show_statusBar"))->setChecked( Options::showStatusBar() );
+	((KToggleAction*)actionCollection()->action("show_sbAzAlt"))->setChecked( Options::showAltAzField() );
+	((KToggleAction*)actionCollection()->action("show_sbRADec"))->setChecked( Options::showRADecField() );
+	((KToggleAction*)actionCollection()->action("show_stars"))->setChecked( Options::showStars() );
+	((KToggleAction*)actionCollection()->action("show_deepsky"))->setChecked( Options::showDeepSky() );
+	((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showPlanets() );
+	((KToggleAction*)actionCollection()->action("show_clines"))->setChecked( Options::showCLines() );
+	((KToggleAction*)actionCollection()->action("show_cnames"))->setChecked( Options::showCNames() );
+	((KToggleAction*)actionCollection()->action("show_cbounds"))->setChecked( Options::showCBounds() );
+	((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
+	((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
+	((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
+	
+	//color scheme
+	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
+	if ( Options::darkAppColors() ) {
+		QApplication::setPalette( DarkPalette, true );
+	} else {
+		QApplication::setPalette( OriginalPalette, true );
+	}
+
+	//Infoboxes, toolbars, statusbars
+	infoBoxes()->setVisible( Options::showInfoBoxes() );
+//May not need these; I think calling setChecked() on the actions should trigger slotShowGUIItem()
+//	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
+//	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
+
+	//Focus
+	SkyObject *fo = data()->objectNamed( Options::focusObject() );
+	if ( fo && fo != map()->focusObject() ) {
+		map()->setClickedObject( fo );
+		map()->setClickedPoint( fo );
+		map()->slotCenter();
+	}
+
+	if ( ! fo ) {
+		SkyPoint fp( Options::focusRA(), Options::focusDec() );
+		if ( fp.ra()->Degrees() != map()->focus()->ra()->Degrees() || fp.dec()->Degrees() != map()->focus()->dec()->Degrees() ) {
+			map()->setClickedPoint( &fp );
+			map()->slotCenter();
+		}
+	}
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {

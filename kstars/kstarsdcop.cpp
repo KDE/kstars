@@ -182,6 +182,30 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	}
 }
 
+void KStars::readConfig() {
+	//Load config file values into Options object
+	Options::self()->readConfig();
+
+	applyConfig();
+	map()->forceUpdate();
+}
+
+void KStars::writeConfig() {
+//	KGlobal::config()->sync();
+	Options::writeConfig();
+}
+
+QString KStars::getOption( const QString &name ) {
+	//Some config items are not stored in the Options object while 
+	//the program is running; catch these here and returntheir current value.
+	if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra()->Hours(), 'f', 6 ); }
+	if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec()->Degrees(), 'f', 6 ); }
+
+	KConfigSkeletonItem *it = Options::self()->findItem( name );
+	if ( it ) return it->property().toString();
+	else return QString::null;
+}
+
 void KStars::changeViewOption( const QString op, const QString val ) {
 	bool bOk(false), nOk(false), dOk(false);
 

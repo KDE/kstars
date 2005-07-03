@@ -95,10 +95,6 @@ void KStars::initActions() {
 
 	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
 		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
-	if ( Options::isTracking() ) {
-		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
-	}
 
 	new KAction( i18n( "Set Focus &Manually..." ), KShortcut( "Ctrl+M" ),
 			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
@@ -112,7 +108,6 @@ void KStars::initActions() {
 		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
-	if ( Options::useAltAz() ) actCoordSys->turnOff();
 	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 
 
@@ -126,79 +121,45 @@ void KStars::initActions() {
 	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
-#if KDE_IS_VERSION( 3, 2, 90 )
-//	a->setCheckedState(i18n("Hide &Info Boxes"));
-#endif
 	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	infoBoxes()->setVisible( Options::showInfoBoxes() );
 
 	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide &Time Box"));
-#endif
-	a->setChecked( Options::showTimeBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide &Focus Box"));
-#endif
-	a->setChecked( Options::showFocusBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide &Location Box"));
-#endif
-	a->setChecked( Options::showGeoBox() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			0, 0, 0, actionCollection(), "show_mainToolBar");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide Main Toolbar"));
-#endif
-	a->setChecked( Options::showMainToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide View Toolbar"));
-#endif
-	a->setChecked( Options::showViewToolBar() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide Statusbar"));
-#endif
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
-	a->setChecked( Options::showStatusBar() );
+
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
 			0, 0, 0, actionCollection(), "show_sbAzAlt");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide Az/Alt Field"));
-#endif
-	a->setChecked( Options::showAltAzField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
 			0, 0, 0, actionCollection(), "show_sbRADec");
-#if KDE_IS_VERSION( 3, 2, 90 )
-	//a->setCheckedState(i18n("Hide RA/Dec Field"));
-#endif
-	a->setChecked( Options::showRADecField() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
@@ -207,10 +168,6 @@ void KStars::initActions() {
 	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
 	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );
 	addColorMenuItem( i18n( "&Moonless Night" ), "cs_moonless-night" );
-
-//	colorActionMenu->insert( new KAction( i18n( "&Default" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_default" ) );
-//	colorActionMenu->insert( new KAction( i18n( "&Star Chart" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_chart" ) );
-//	colorActionMenu->insert( new KAction( i18n( "&Night Vision" ), 0, this, SLOT( slotColorScheme() ), actionCollection(), "cs_night" ) );
 
 //Add any user-defined color schemes:
 	QFile file;
@@ -225,9 +182,6 @@ void KStars::initActions() {
 			//I call it filename here, but it's used as the name of the action!
 			filename = "cs_" + line.mid( line.find( ':' ) +1, line.find( '.' ) - line.find( ':' ) - 1 );
 			addColorMenuItem( i18n( schemeName.local8Bit() ), filename.local8Bit() );
-
-//			colorActionMenu->insert( new KAction( i18n( schemeName.local8Bit() ), 0,
-//					this, SLOT( slotColorScheme() ), actionCollection(), filename.local8Bit() ) );
 		}
 		file.close();
 	}
@@ -298,47 +252,38 @@ void KStars::initActions() {
 //show_stars:
 	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
-	a->setChecked( Options::showStars() );
 
 //show_deepsky:
 	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
-	a->setChecked( Options::showDeepSky() );
 
 //show_planets:
 	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
-	a->setChecked( Options::showPlanets() );
 
 //show_clines:
 	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
-	a->setChecked( Options::showCLines() );
 
 //show_cnames:
 	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
-	a->setChecked( Options::showCNames() );
 
 //show_cbound:
 	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
-	a->setChecked( Options::showCBounds() );
 
 //show_mw:
 	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
-	a->setChecked( Options::showMilkyWay() );
 
 //show_grid:
 	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
-	a->setChecked( Options::showGrid() );
 
 //show_horizon:
 	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon", 
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
-	a->setChecked( Options::showGround() );
 	
 	if (Options::fitsSaveDirectory().isEmpty())
 			Options::setFitsSaveDirectory(QDir:: homeDirPath());
@@ -524,10 +469,8 @@ void KStars::privatedata::buildGUI() {
 	//text of each button shorter
 	ks->toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
 
-	//Initialize show/hide state of toolbars.
-	//These were in initActions, but they must appear after createGUI...
-	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
-	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
+	//Propagate Options values through the program
+	ks->applyConfig();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 15 );

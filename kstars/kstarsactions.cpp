@@ -355,8 +355,9 @@ void KStars::slotViewOps() {
 	dialog->show();
 }
 
-void KStars::slotApplySettings() {
+void KStars::slotApplyConfigChanges() {
 	Options::writeConfig();
+	applyConfig();
 	data()->setFullTimeUpdate();
 	map()->forceUpdate();
 }

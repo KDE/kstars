@@ -166,6 +166,15 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  modify option. */
 		ASYNC changeViewOption( const QString option, const QString value );
 
+	/**DCOP interface function.  Return an option value. */
+		QString getOption( const QString &name );
+
+	/**DCOP interface function.  Read config file. */
+		ASYNC readConfig();
+
+	/**DCOP interface function.  Write current settings to config file. */
+		ASYNC writeConfig();
+
 	/**DCOP interface function.  Show text message in a popup window. */
 		ASYNC popupMessage( int x, int y, const QString message );
 
@@ -241,6 +250,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function. Set CCD target temperature. */
 		ASYNC setINDICCDTemp(QString deviceName, int temp);
 		
+
+	/**@short Apply config options throughout the program.
+		*In most cases, we use the "Options" object directly, but for some things
+		*we have to react to config changes.
+		*/
+		void applyConfig();
+
 	public slots:
 		/**
 			*Update time-dependent data and (possibly) repaint the sky map.
@@ -250,7 +266,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*Apply new settings and redraw skymap
 			*/
-		void slotApplySettings( void );
+		void slotApplyConfigChanges( void );
 
 		/**
 			*Zoom in
