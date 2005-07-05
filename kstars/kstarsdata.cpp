@@ -140,6 +140,9 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	// at startup times run forward
 	setTimeDirection( 0.0 );
 
+	//The StoredDate is used when saving user settings in a script; initialize to invalid date
+	StoredDate.setDJD( (long double)INVALID_DAY );
+
 	temporaryTrail = false;
 }
 

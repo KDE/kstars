@@ -210,6 +210,9 @@ void KStars::applyConfig() {
 //	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
+	//Geographic location
+	setGeoLocation( Options::cityName(), Options::provinceName(), Options::countryName() );
+
 	//Focus
 	SkyObject *fo = data()->objectNamed( Options::focusObject() );
 	if ( fo && fo != map()->focusObject() ) {

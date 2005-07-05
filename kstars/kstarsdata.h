@@ -749,6 +749,7 @@ private:
 	double Obliquity, dObliq, dEcLong;
 	KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
 	KStarsDateTime NextDSTChange;
+	KStarsDateTime StoredDate;
 
 	QTimer *initTimer;
 	int initCounter;
