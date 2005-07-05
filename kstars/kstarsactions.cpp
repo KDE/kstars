@@ -38,6 +38,7 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <kdeversion.h>
+#include <libkdeedu/kdeeduglossary.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -186,6 +187,16 @@ void KStars::slotAVT() {
 void KStars::slotWUT() {
 	WUTDialog dialog(this);
 	dialog.exec();
+}
+
+void KStars::slotGlossary(){
+	GlossaryDialog *dlg = new GlossaryDialog( this, "glossary" );
+	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
+	KURL u = glossaryfile;
+	Glossary *g = Glossary::readFromXML( u );
+	g->setName( i18n( "Knowledge" ) );
+	dlg->addGlossary( g );
+	dlg->show();
 }
 
 void KStars::slotScriptBuilder() {
