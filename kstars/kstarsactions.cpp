@@ -38,7 +38,7 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <kdeversion.h>
-#include <libkdeedu/kdeeduglossary.h>
+#include <libkdeedu/kdeeduui/kdeeduglossary.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
