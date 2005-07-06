@@ -48,7 +48,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	pw->timeStep->tsbox()->setMinValue( 21 );
 	pw->timeStep->tsbox()->setValue( 21 );
 	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
-	pw->dateBox->setDate( ExtDate::currentDate() );
+	pw->dateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 	
 	vlay->addWidget( pw );
 	resize( 500, 500 );
@@ -74,16 +74,16 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	for ( uint i=0; i<9; ++i ) 
 		LastUpdate[i] = int( ut.date().jd() );
 
-	//The planets' update intervals are 0.5% of one period:
+	//The planets' update intervals are 0.25% of one period:
 	UpdateInterval[0] = 0;
 	UpdateInterval[1] = 0;
-	UpdateInterval[2] = 1;
-	UpdateInterval[3] = 2;
-	UpdateInterval[4] = 11;
-	UpdateInterval[5] = 27;
-	UpdateInterval[6] = 76;
-	UpdateInterval[7] = 150;
-	UpdateInterval[8] = 227;
+	UpdateInterval[2] = 0;
+	UpdateInterval[3] = 1;
+	UpdateInterval[4] = 5;
+	UpdateInterval[5] = 13;
+	UpdateInterval[6] = 38;
+	UpdateInterval[7] = 75;
+	UpdateInterval[8] = 113;
 
 	QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
 
@@ -91,6 +91,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
 	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
 	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
+	connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -161,6 +162,11 @@ void PlanetViewer::updatePlanets() {
 	}
 	
 	if ( changed ) pw->map->update();
+}
+
+void PlanetViewer::slotToday() {
+	KStars *ks = (KStars*)parent();
+	pw->dateBox->setDate( ks->data()->lt().date() );
 }
 
 void PlanetViewer::paintEvent( QPaintEvent* ) {

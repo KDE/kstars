@@ -54,6 +54,7 @@ private slots:
 	void setTimeScale(float);
 	void slotChangeDate( const ExtDate &d );
 	void slotRunClock();
+	void slotToday();
 
 private:
 	void updatePlanets();
