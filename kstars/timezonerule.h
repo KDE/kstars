@@ -81,8 +81,8 @@ public:
 	/**@return TRUE if the rule is the "empty" TZ rule. */
 	bool isEmptyRule() { return ( HourOffset == 0.0 ); }
 
-	/**@Toggle DST on/off.  The "activate" argument should probably be isDSTActive() 
-		*@p activate if TRUE, then set DST active; otherwise, deactivate DST
+	/** Toggle DST on/off.  The @p activate argument should probably be isDSTActive() 
+		*@param activate if TRUE, then set DST active; otherwise, deactivate DST
 		*/
 	void setDST( bool activate=true );
 
@@ -90,11 +90,14 @@ public:
 		*This is typically 0.0 if DST is inactive, and 1.0 if DST is active. */
 	double deltaTZ() const { return dTZ; }
 
-/**@Recalculate next dst change and if DST is active by a given local time with 
+/** Recalculate next dst change and if DST is active by a given local time with 
 	*timezone offset and time direction.
 	*@param ltime the time to be tested
-	*@param bool time_runs_forward time direction
+	*@param time_runs_forward time direction
+	*@param TZoffset offset of timezone in some fictional unit
 	*@param automaticDSTchange is automatic DST change?
+	*
+	* @todo Check dox for @pTZoffset
 	*/
 	void reset_with_ltime( KStarsDateTime &ltime, const double TZoffset, const bool time_runs_forward,
 												const bool automaticDSTchange = false );

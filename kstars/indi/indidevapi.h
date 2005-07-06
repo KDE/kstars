@@ -106,7 +106,7 @@ extern void IDDefLight (const ILightVectorProperty *l, const char *msg, ...)
 ;
 
 /** \brief Tell client to create a BLOB vector property.
-    \param l pointer to the vector BLOB property to be defined.
+    \param b pointer to the vector BLOB property to be defined.
     \param msg message in printf style to send to the client. May be NULL.
  */
 extern void IDDefBLOB (const IBLOBVectorProperty *b, const char *msg, ...)
@@ -164,7 +164,7 @@ extern void IDSetLight (const ILightVectorProperty *l, const char *msg, ...)
 ;
 
 /** \brief Tell client to update an existing BLOB vector property.
-    \param l pointer to the vector BLOB property.
+    \param b pointer to the vector BLOB property.
     \param msg message in printf style to send to the client. May be NULL.
  */
 extern void IDSetBLOB (const IBLOBVectorProperty *b, const char *msg, ...)
@@ -347,7 +347,7 @@ extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *n
 extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
 /** \brief Function to update the min and max elements of a number in the client
-    \param tp pointer to an INumberVectorProperty.
+    \param nvp pointer to an INumberVectorProperty.
  */
 extern void IUUpdateMinMax(INumberVectorProperty *nvp);
 
@@ -492,9 +492,11 @@ extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
     \param name the name of the blob vector property to update.
     \param sizes an array of blob sizes in bytes.
     \param blobs names of blob members to update. Each name and size pair form a blob member.
-    \param format Blob data format (e.g. fits.z).
+    \param formats Blob data format (e.g. fits.z).
+    \param names names of  blobs, just maybe.
     \param n the number of blobs to update.
     \note You do not need to call this function, it is called by INDI when new blob values arrive from the client.
+    \todo Check dox for @p names.
 */
 
 extern void ISNewBLOB (const char *dev, const char *name, int sizes[],
