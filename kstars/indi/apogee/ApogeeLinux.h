@@ -6,6 +6,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+ 
+#ifndef APOGEELINUX_H
+#define APOGEELINUX_H
 
 #define APISA_READ_USHORT	_IOR('a', 0x01, unsigned int)
 #define APISA_READ_LINE 	_IOR('a', 0x02, unsigned int)
@@ -47,13 +50,4 @@ struct apIOparam                  // IOCTL data
 #define APOGEE_ISA_DEVICE "/dev/apisa"
 #define APOGEE_USB_DEVICE "/dev/usb/alta"
 
-
-
-
-
-
-
-
-
-
-
+#endif
