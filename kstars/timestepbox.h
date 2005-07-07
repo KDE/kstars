@@ -37,7 +37,7 @@ class TimeStepBox : public QFrame  {
 Q_OBJECT
 public:
 	/**Constructor. */
-	TimeStepBox( QWidget *parent=0, const char* name=0 );
+	TimeStepBox( QWidget *parent=0, const char* name=0, bool daysonly=false );
 	/**Destructor. (empty)*/
 	~TimeStepBox() {}
 
@@ -46,8 +46,13 @@ public:
 
 	/**@return a pointer to the child TimeUnitBox*/
 	TimeUnitBox* unitbox() const { return unitBox; }
+
+	bool daysOnly() const { return DaysOnly; }
+	void setDaysOnly( bool daysonly );
+
 signals:
 	void scaleChanged( float );
+
 private slots:
 	/**Set the TimeSpinBox value according to the current UnitBox value.
 		*This is connected to the UnitBox valueChanged() Signal. */
@@ -57,7 +62,7 @@ private slots:
 		*current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot. */
 	void syncUnits( int );
 private:
-	int UnitStep[NUNITS];
+	bool DaysOnly;
 	QHBoxLayout *hlay;
 	TimeSpinBox *timeBox;
 	TimeUnitBox *unitBox;

@@ -22,7 +22,7 @@
 #include <qpushbutton.h>
 
 
-TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name )
+TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name, bool daysonly )
 	: QVBox( parent, name ) {
 
 	UpButton = new QPushButton( "+", this );
@@ -32,24 +32,40 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name )
 	DownButton->setMaximumWidth( 22 );
 	DownButton->setMaximumHeight( 10 );
 
-	setMinValue( 1-NUNITS );
-	setMaxValue( NUNITS-1 );
-	setValue( 1 ); // Start out with seconds units
-
-	UnitStep[0] = 0;
-	UnitStep[1] = 4;
-	UnitStep[2] = 10;
-	UnitStep[3] = 16;
-	UnitStep[4] = 21;
-	UnitStep[5] = 25;
-	UnitStep[6] = 28;
-	UnitStep[7] = 34;
+	setDaysOnly( daysonly );
 
 	connect( UpButton, SIGNAL( clicked() ), this, SLOT( increase() ) );
 	connect( DownButton, SIGNAL( clicked() ), this, SLOT( decrease() ) );
 }
 
 TimeUnitBox::~TimeUnitBox(){
+}
+
+void TimeUnitBox::setDaysOnly( bool daysonly ) {
+	if ( daysonly ) {
+		setMinValue( 1-DAYUNITS );
+		setMaxValue( DAYUNITS-1 );
+		setValue( 1 ); // Start out with days units
+	
+		UnitStep[0] = 0;
+		UnitStep[1] = 1;
+		UnitStep[2] = 5;
+		UnitStep[3] = 8;
+		UnitStep[4] = 14;
+	} else {
+		setMinValue( 1-ALLUNITS );
+		setMaxValue( ALLUNITS-1 );
+		setValue( 1 ); // Start out with seconds units
+	
+		UnitStep[0] = 0;
+		UnitStep[1] = 4;
+		UnitStep[2] = 10;
+		UnitStep[3] = 16;
+		UnitStep[4] = 21;
+		UnitStep[5] = 25;
+		UnitStep[6] = 28;
+		UnitStep[7] = 34;
+	}
 }
 
 void TimeUnitBox::increase() {

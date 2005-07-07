@@ -45,8 +45,9 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	pw->map->setXAxisLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
 	pw->map->setYAxisLabel( i18n( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", "Y-position (AU)" ) );
 	
-	pw->timeStep->tsbox()->setMinValue( 21 );
-	pw->timeStep->tsbox()->setValue( 21 );
+	pw->timeStep->setDaysOnly( true );
+	pw->timeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
+
 	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 	pw->dateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 	

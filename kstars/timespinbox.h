@@ -32,7 +32,7 @@ class TimeSpinBox : public QSpinBox  {
 Q_OBJECT
 public:
 /**Constructor */
-	TimeSpinBox( QWidget *parent, const char* name=0 );
+	TimeSpinBox( QWidget *parent, const char* name=0, bool daysOnly = false );
 /**Destructor (empty)*/
 	~TimeSpinBox() {};
 
@@ -53,6 +53,9 @@ public:
 	/**@return the current TimeStep setting */
 	float timeScale() const;
 
+	void setDaysOnly( bool daysonly );
+	bool daysOnly() const { return DaysOnly; }
+
 signals:
 	void scaleChanged( float s );
 
@@ -63,6 +66,7 @@ protected slots:
 	void reportChange();
 
 private:
+	bool DaysOnly;
 	float TimeScale[42];
 	QStringList TimeString;
 };

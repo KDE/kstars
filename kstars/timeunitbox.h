@@ -21,7 +21,8 @@
 #include <qvbox.h>
 #include <qwidget.h>
 
-#define NUNITS 8
+#define ALLUNITS 8
+#define DAYUNITS 5
 
 /**@class TimeUnitBox 
 	*A pair of buttons, arranged one above the other, labeled "+"/"-".  These buttons 
@@ -46,7 +47,7 @@ class TimeUnitBox : public QVBox {
    Q_OBJECT
 public:
 	/**Constructor*/
-	TimeUnitBox(QWidget *parent=0, const char *name=0);
+	TimeUnitBox(QWidget *parent=0, const char *name=0, bool daysonly = false);
 	/**Destructor (empty)*/
 	~TimeUnitBox();
 	/**@return the value of UnitStep for the current spinbox value() */
@@ -65,18 +66,6 @@ public:
 		*/
 	int value() const { return Value; }
 
-signals:
-	void valueChanged(int);
-
-private slots:
-	/**Increment the internal time-unit value
-		*/
-	void increase();
-	/**Decrement the internal time-unit value
-		*/
-	void decrease();
-
-private:
 	/**Set the minimum value for the internal time-unit value
 		*/
 	void setMinValue( int minValue ) { MinimumValue = minValue; }
@@ -91,8 +80,24 @@ private:
 		*/
 	int maxValue() const { return MaximumValue; }
 
+	bool daysOnly() const { return DaysOnly; }
+	void setDaysOnly( bool daysonly );
+
+signals:
+	void valueChanged(int);
+
+private slots:
+	/**Increment the internal time-unit value
+		*/
+	void increase();
+	/**Decrement the internal time-unit value
+		*/
+	void decrease();
+
+private:
+	bool DaysOnly;
 	QPushButton *UpButton, *DownButton;
-	int MinimumValue, MaximumValue, Value, UnitStep[ NUNITS ];
+	int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
 };
 
 #endif

@@ -23,11 +23,11 @@
 
 #include "timestepbox.h"
 
-TimeStepBox::TimeStepBox( QWidget *parent, const char* name )
+TimeStepBox::TimeStepBox( QWidget *parent, const char* name, bool daysonly )
 	: QFrame( parent, name ) {
 
-	timeBox = new TimeSpinBox( this );
-	unitBox = new TimeUnitBox( this );
+	timeBox = new TimeSpinBox( this, "timebox", daysonly );
+	unitBox = new TimeUnitBox( this, "unitbox", daysonly );
 
 	QToolTip::add( timeBox, i18n( "Adjust time step" ) );
 	QToolTip::add( unitBox, i18n( "Adjust time step units" ) );
@@ -54,13 +54,18 @@ void TimeStepBox::changeUnits( void ) {
 
 void TimeStepBox::syncUnits( int tstep ) {
 	int i;
-	for ( i=NUNITS-1; i>-NUNITS; --i )
+	for ( i=unitbox()->maxValue(); i>=unitbox()->minValue(); --i )
 		if ( abs(tstep) >= unitBox->getUnitValue( i ) ) break;
 
 //don't want setValue to trigger changeUnits()...
 	disconnect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );
 	unitBox->setValue( tstep < 0 ? -i : i );
 	connect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );
+}
+
+void TimeStepBox::setDaysOnly( bool daysonly ) {
+	tsbox()->setDaysOnly( daysonly );
+	unitbox()->setDaysOnly( daysonly );
 }
 
 #include "timestepbox.moc"
