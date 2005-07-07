@@ -34,12 +34,12 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	ArgType[5] = at6;  ArgName[5] = an6;
 
 	//Construct a richtext description of the function
-	QString nameStyle  = "<span style=\"font-family:courier;font-weight:600\">%1</span>";  //bold
-	QString typeStyle  = "<span style=\"font-family:courier;color:#009d00\">%1</span>";    //green
-	QString paramStyle = "<span style=\"font-family:courier;color:#00007f\">%1</span>";    //blue
+	QString nameStyle  = "<span style=\"font-family:monospace;font-weight:600\">%1</span>";  //bold
+	QString typeStyle  = "<span style=\"font-family:monospace;color:#009d00\">%1</span>";    //green
+	QString paramStyle = "<span style=\"font-family:monospace;color:#00007f\">%1</span>";    //blue
 
 	Description =  "<html><head><meta name=\"qrichtext\" content=\"1\" /></head>";
-	Description += "<body style=\"font-size:11pt;font-family:Verdana\">";
+	Description += "<body style=\"font-size:11pt;font-family:sans\">";
 	Description += "<p>" + nameStyle.arg( Name + "(" );
 
 	NumArgs = 0;

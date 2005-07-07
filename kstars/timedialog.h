@@ -99,7 +99,6 @@ public slots:
 	void SecondPrefix( int value );
 
 protected:
-	bool event( QEvent* );
 	void keyReleaseEvent( QKeyEvent* );
 
 private:

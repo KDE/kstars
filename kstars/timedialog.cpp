@@ -42,7 +42,6 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
 
 	HourBox = new QSpinBox( page, "HourBox" );
 	QFont Box_font(  HourBox->font() );
-	Box_font.setPointSize( 12 );
 	Box_font.setBold( TRUE );
 	HourBox->setFont( Box_font );
 	HourBox->setWrapping( TRUE );
@@ -109,48 +108,6 @@ void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 
 		default: { kev->ignore(); break; }
 	}
-}
-
-/*  Main event handler. Reimplemented to handle application
- *  font changes
- */
-bool TimeDialog::event( QEvent* ev )
-{
-    bool ret = QDialog::event( ev );
-
-    if ( ev->type() == QEvent::ApplicationFontChange ) {
-      QFont HourBox_font(  HourBox->font() );
-      HourBox_font.setFamily( "helvetica" );
-      HourBox_font.setPointSize( 12 );
-      HourBox_font.setBold( TRUE );
-      HourBox->setFont( HourBox_font );
-      QFont TextLabel1_font(  TextLabel1->font() );
-      TextLabel1_font.setFamily( "helvetica" );
-      TextLabel1_font.setPointSize( 12 );
-      TextLabel1_font.setBold( TRUE );
-      TextLabel1->setFont( TextLabel1_font );
-      QFont MinuteBox_font(  MinuteBox->font() );
-      MinuteBox_font.setFamily( "helvetica" );
-      MinuteBox_font.setPointSize( 12 );
-      MinuteBox_font.setBold( TRUE );
-      MinuteBox->setFont( MinuteBox_font );
-      QFont TextLabel1_2_font(  TextLabel1_2->font() );
-      TextLabel1_2_font.setFamily( "helvetica" );
-      TextLabel1_2_font.setPointSize( 12 );
-      TextLabel1_2_font.setBold( TRUE );
-      TextLabel1_2->setFont( TextLabel1_2_font );
-      QFont SecondBox_font(  SecondBox->font() );
-      SecondBox_font.setFamily( "helvetica" );
-      SecondBox_font.setPointSize( 12 );
-      SecondBox_font.setBold( TRUE );
-      SecondBox->setFont( SecondBox_font );
-      QFont NowButton_font(  NowButton->font() );
-      NowButton_font.setFamily( "helvetica" );
-      NowButton_font.setPointSize( 14 );
-      NowButton_font.setBold( TRUE );
-      NowButton->setFont( NowButton_font );
-    }
-    return ret;
 }
 
 void TimeDialog::setNow( void )
