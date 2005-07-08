@@ -56,10 +56,12 @@ class KSNewStuff : public QObject, public KNewStuff
 
 	public slots:
 		void updateData( const QString &newFile );
- 
+ 		void slotProcessEvents();
+
 	private:
 		KDirWatch *kdw;
 		KStars *ks;
+		bool NGCUpdated;
 };
 
 #endif  // KDE >= 3.2.90

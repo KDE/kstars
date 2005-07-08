@@ -38,7 +38,7 @@
 #include "skymap.h"
 
 KSNewStuff::KSNewStuff( QWidget *parent ) :
-  QObject(), KNewStuff( "kstars", parent )
+  QObject(), KNewStuff( "kstars", parent ), NGCUpdated( false )
 {
 	ks = (KStars*)parent;
 	kdw = new KDirWatch( this );
@@ -73,13 +73,13 @@ void KSNewStuff::updateData( const QString &path ) {
 	QDir qd( path );
 	qd.setSorting( QDir::Time );
 	qd.setFilter( QDir::Files );
-	
+
 	//Show the Wait cursor
 	ks->setCursor(QCursor(Qt::WaitCursor));
 	
 	
 	//Handle the Steinicke NGC/IC catalog
-	if ( qd[0].contains( "ngcic" ) ) {
+	if ( !NGCUpdated && qd[0].contains( "ngcic" ) ) {
 		//Build a progress dialog to show during data installation.
 		KProgressDialog prog( 0, "newstuffprogdialog", 
 				i18n( "Please Wait" ), i18n( "Installing Steinicke NGC/IC catalog..." ), false /*modal*/ );
@@ -87,7 +87,7 @@ void KSNewStuff::updateData( const QString &path ) {
 		prog.setMinimumDuration( 0 /*millisec*/ );
 		prog.progressBar()->setTotalSteps( 0 );  //show generic progress activity
 		prog.show();
-		kapp->processEvents(100);
+		kapp->processEvents(1000);
 		
 		//First, remove the existing NGC/IC objects from the ObjectNameList.
 		for ( DeepSkyObject *o = ks->data()->deepSkyList.first(); o; o = ks->data()->deepSkyList.next() ) {
@@ -106,10 +106,14 @@ void KSNewStuff::updateData( const QString &path ) {
 		
 		//Send progress messages to the console
 		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotConsoleMessage(QString) ) );
+		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotProcessEvents() ) );
 		
 		//We are now ready to read the new NGC/IC catalog
 		ks->data()->readDeepSkyData();
 		
+		//Avoid redundant installs
+		NGCUpdated = true;
+
 		//Re-assign image/info links.  3rd param means deep-sky objects only
 		ks->data()->readURLData( "image_url.dat", 0, true ); 
 		ks->data()->readURLData( "info_url.dat", 1, true ); 
@@ -156,6 +160,8 @@ void KSNewStuff::updateData( const QString &path ) {
 	//Restore arrow cursor
 	ks->setCursor(QCursor(Qt::ArrowCursor));
 }
+
+void KSNewStuff::slotProcessEvents() { kapp->processEvents( 500 ); }
 
 #include "ksnewstuff.moc"
 
