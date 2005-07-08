@@ -75,8 +75,8 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//Check to see if config file already exists.  If not, set 
 	//useDefaultOptions = true
-	QString fname = locate( "config", "kstarsrc" );
-	useDefaultOptions = fname.isEmpty();
+	QString fname = locateLocal( "config", "kstarsrc" );
+	useDefaultOptions = ! ( QFile(fname).exists() );
 
 	//Instantiate LST and HourAngle
 	LST = new dms();

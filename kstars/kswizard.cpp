@@ -115,15 +115,17 @@ void KSWizard::initGeoPage() {
 		CityListBox->insertItem( loc->fullName() );
 		filteredCityList.append( loc );
 		
-		if ( loc->fullName() == ksw->data()->geo()->fullName() ) 
+		if ( loc->fullName() == ksw->data()->geo()->fullName() ) {
 			index = ksw->data()->geoList.at();
+			Geo = loc;
+		}
 	}
 	
 	//Sort alphabetically
 	CityListBox->sort();
 	
 	//preset to current city
-	CityListBox->setCurrentItem( index );
+	CityListBox->setCurrentItem( index + 1 );
 }
 
 void KSWizard::slotChangeCity() {
