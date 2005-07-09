@@ -100,7 +100,7 @@ public:
 	*"Attach Label" item, and a "Detailed Info" item.  
 	*They may have image/info links, and also get the DSS Image links and the 
 	*"Add Link..." item.  They do not get an "Add Trail" item.
-	*@param star pointer to the star which the menu describes
+	*@param obj pointer to the object which the menu describes
 	*/
 	void createDeepSkyObjectMenu( SkyObject *obj );
 	

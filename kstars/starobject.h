@@ -52,7 +52,7 @@ class StarObject : public SkyObject {
 	*@param m magnitude
 	*@param n common name
 	*@param n2 genetive name
-	*@param SpType Spectral Type
+	*@param sptype Spectral Type
 	*@param pmra Proper motion in RA direction [mas/yr]
 	*@param pmdec Proper motion in Dec direction [mas/yr]
 	*@param par Parallax angle [mas]
@@ -70,7 +70,7 @@ class StarObject : public SkyObject {
 	*@param m magnitude
 	*@param n common name
 	*@param n2 genetive name
-	*@param SpType Spectral Type
+	*@param sptype Spectral Type
 	*@param pmra Proper motion in RA direction [mas/yr]
 	*@param pmdec Proper motion in Dec direction [mas/yr]
 	*@param par Parallax angle [mas]
@@ -172,7 +172,7 @@ class StarObject : public SkyObject {
 	bool isMultiple() const { return Multiplicity; }
 
 /**@short set the star's variability flag
-	*@param true if star is variable
+	*@param v true if star is variable
 	*/
 	void setVariable( bool v ) { Variability = v; }
 
