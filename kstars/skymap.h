@@ -554,11 +554,11 @@ protected:
 	*@li +/- keys  Zoom in and out 
 	*@li N/E/S/W keys  Go to the cardinal points on the Horizon
 	*@li Z  Go to the Zenith
-	*@li <Space>  Toggle between Horizontal and Equatorial coordinate systems
+	*@li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
 	*@li 0-9  Go to a major Solar System body (0=Sun; 1-9 are the major planets, except 3=Moon)
 	*@li [  Place starting point for measuring an angular distance
 	*@li ]  End point for Angular Distance; display measurement.
-	*@li <Escape>  Cancel Angular measurement
+	*@li <i>Escape</i>  Cancel Angular measurement
 	*@li ,/<  Step backward one time step
 	*@li ./>  Step forward one time step
 	*/

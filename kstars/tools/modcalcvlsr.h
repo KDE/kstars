@@ -30,7 +30,7 @@ class dms;
 
 /**
   *@author Pablo de Vicente
-  *@description Module to compute the heliocentric radial velocity, geocentric radial velocity and 
+  *Module to compute the heliocentric radial velocity, geocentric radial velocity and 
   *topocentric radial velocity for a source, given its coordinates, its Vlsr and the date and
   *location on the Earth.
   */
