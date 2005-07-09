@@ -46,10 +46,10 @@ Q_PROPERTY (bool degType READ degType WRITE setDegType)
 
 public:
 	/**Constructor for the dmsBox object.
-		*@p parent pointer to the parent QWidget
-		*@p ni the name of the object
-		*@p deg if TRUE use deg/arcmin/arcsec; otherwise 
-		*use hours/min/sec.
+		*@param parent pointer to the parent QWidget
+		*@param ni the name of the object
+		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
+		*           use hours/min/sec.
 		*/
 	dmsBox(QWidget *parent, const char *ni=0, bool deg=TRUE);
 
@@ -106,6 +106,8 @@ public:
 		*or colons) representing deg/hrs, min, sec.  It is also possible to have two
 		*fields.  In this case, if the second field is a double, it is converted
 		*to decimal min and double sec.
+		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
+		*           use hours/min/sec.
 		*@param ok set to true if a dms object was succedssfully created.
 		*@return a dms object constructed from the fields of the dmsbox
 		*/

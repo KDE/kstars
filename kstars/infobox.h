@@ -46,6 +46,7 @@ public:
 	/**General constructor.  Specify The text string, x,y position and size.
 		*@param x the X-coordinate for the box
 		*@param y the Y-coordinate for the box
+		*@param shade if TRUE, apply text shading as well
 		*@param t1 The first line of text
 		*@param t2 The second line of text
 		*@param t3 The third line of text
@@ -56,6 +57,7 @@ public:
 		*This behaves just like the above function.  It differs only in the data types
 		*of its arguments.
 		*@param p The (x,y) position of the box
+		*@param shade if TRUE, apply text shading as well
 		*@param t1 The first line of text
 		*@param t2 The second line of text
 		*@param t3 The third line of text
