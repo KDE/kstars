@@ -49,6 +49,7 @@ public:
 	*@param m magnitude (brightness)
 	*@param n Primary name
 	*@param n2 Secondary name
+	*@param lname Long name (common name)
 	*/
 	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
 						float m=0.0, QString n="", QString n2="", QString lname="" );
@@ -64,7 +65,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t, double r, double d, float m=0.0,
-						QString n="", QString n2="", QString Tlname="" );
+						QString n="", QString n2="", QString lname="" );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -105,7 +106,7 @@ public:
 	QString translatedName2() const { return i18n( name2().utf8() );}
 
 /**Set the object's secondary name.
-	*@param the object's secondary name.
+	*@param name2 the object's secondary name.
 	*/
 	void setName2( const QString &name2="" );
 
@@ -118,7 +119,7 @@ public:
 	QString translatedLongName() const { return i18n( longname().utf8() );}
 
 /**Set the object's long name.
-	*@param the object's long name.
+	*@param longname the object's long name.
 	*/
 	void setLongName( const QString &longname="" );
 
@@ -186,7 +187,6 @@ public:
 /**@return the LST time when the object will rise or set
   *@param dt  target date/time
   *@param geo pointer to Geographic location
-  *@param gLt Geographic latitude
   *@param rst Boolean. If TRUE will compute rise time. If FALSE
   *       will compute set time.
   */
@@ -210,7 +210,7 @@ public:
 
 /**@return the universal time that the object will transit the meridian.
 	*@param dt   target date/time
-	*@param gLng pointer to the geographic longitude
+	*@param geo pointer to the geographic location
 	*/
 	QTime transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo );
 
