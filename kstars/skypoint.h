@@ -246,12 +246,10 @@ public:
 	void HorizontalToEquatorial( const dms* LST, const dms* lat );
 
 	/**@short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
-	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	*/
 	void EquatorialToEcliptic( const KSNumbers *num );
 
 	/**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
-	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
 	*/
 
 	void EclipticToEquatorial( const KSNumbers *num );
@@ -383,7 +381,7 @@ public:
 	 *  is small.
 	 *  Meeus provides a different algorithm in page 111 which we 
 	 *  implement here.
-	 *  @param SkyPoint to which distance is to be calculated
+	 *  @param sp SkyPoint to which distance is to be calculated
 	 *  @return dms angle representing angular separation.
 	 **/
 
@@ -409,10 +407,10 @@ public:
 	 **/
 	double vHeliocentric(double vlsr, long double jd);
 
-	/** Computes the radial velocity of a source referred to the Local Standard of Rest, aka known as VLSR
+	/** Computes the radial velocity of a source referred to the Local Standard of Rest, also known as VLSR
 	 * from the radial velocity referred to the solar system barycenter 
 	 *
-	 * @param vlsr radial velocity of the source referred to the LSR in km/s
+	 * @param vhelio radial velocity of the source referred to the LSR in km/s
 	 * @param jd Epoch expressed as julian day to which the source coordinates refer to.
 	 * @return Radial velocity of the source referred to the barycenter of the solar system in km/s
 	 **/
