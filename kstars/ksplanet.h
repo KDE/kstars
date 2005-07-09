@@ -45,9 +45,12 @@ class KSPlanet : public KSPlanetBase {
 public:
 
 /**Constructor.  
+	*@param kd Some kind of data
 	*@param s Name of planet
 	*@param image_file filename of the planet's image
 	*@param pSize physical diameter of the planet, in km
+	*
+	*@todo figure out what @p kd does.
 	*/
 	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", double pSize=0 );
 

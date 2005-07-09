@@ -63,7 +63,11 @@ public:
 	*@param colorText The foreground color for infoboxes
 	*@param colorGrab The foreground color for infoboxes, while they are 
 	*"grabbed" by the user
-	*@param colorText The background color for infoboxes
+	*@param colorBG The background color for infoboxes
+	*
+	*@todo Use Qt::white as default color instead of QColor("white"),
+	*      for default values of colorText, colorGrab and colorBG,
+	*      since that's considerably faster.
 	*/
 	InfoBoxes( int w, int h,
 			int tx=0, int ty=0, bool tshade=false,
@@ -88,7 +92,7 @@ public:
 	*@param colorText The foreground color for infoboxes
 	*@param colorGrab The foreground color for infoboxes, while they are 
 	*"grabbed" by the user
-	*@param colorText The background color for infoboxes
+	*@param colorBG The background color for infoboxes
 	*/
 	InfoBoxes( int w, int h,
 			QPoint tp, bool tshade,

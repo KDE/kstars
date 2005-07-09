@@ -73,9 +73,12 @@ public:
 
 /**Constructor.  Calls SkyObject constructor with type=2 (planet),
 	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
+	@param kd Some kind of data
 	*@param s Name of planet
-	*@param im the planet's image
+	*@param image_file filename of the planet's image
 	*@param pSize the planet's physical size, in km
+	*
+	*@todo Figure out what @p kd does.
 	*/
 	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", double pSize=0 );
 
@@ -249,7 +252,6 @@ public:
 		QPtrList<SkyPoint>* trail() { return &Trail; }
 
 /**@short adds a point to the planet's trail
-	*@param sp a pointer to the SkyPoint to add (will be AutoDeleted)
 	*/
 		void addToTrail() { Trail.append( new SkyPoint( ra(), dec() ) ); }
 
