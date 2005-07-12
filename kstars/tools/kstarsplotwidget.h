@@ -86,7 +86,7 @@ public:
 	void setXAxisType( AXIS_TYPE xtype ) { XAxisType = xtype; }
 	void setXAxisType0( AXIS_TYPE xtype ) { XAxisType_0 = xtype; }
 	/**@short set the data type of the y-axis
-		*@param xtype the new data type (DOUBLE, TIME, or ANGLE)
+		*@param ytype the new data type (DOUBLE, TIME, or ANGLE)
 		*/
 	void setYAxisType( AXIS_TYPE ytype ) { YAxisType = ytype; }
 	void setYAxisType0( AXIS_TYPE ytype ) { YAxisType_0 = ytype; }

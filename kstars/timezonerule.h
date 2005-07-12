@@ -97,7 +97,7 @@ public:
 	*@param TZoffset offset of timezone in some fictional unit
 	*@param automaticDSTchange is automatic DST change?
 	*
-	* @todo Check dox for @pTZoffset
+	* @todo Check dox for TZoffset
 	*/
 	void reset_with_ltime( KStarsDateTime &ltime, const double TZoffset, const bool time_runs_forward,
 												const bool automaticDSTchange = false );

@@ -38,9 +38,9 @@ class timeBox : public QLineEdit  {
 public:
 	/**
 	 * Constructor for the timeBox object.
-	 * @p parent is the parent QWidget
-	 * @n name is the name of the object
-	 * @tt boolean. true means that the object will hold a Time.
+	 * @param parent is the parent QWidget
+	 * @param n name is the name of the object
+	 * @param tt boolean. true means that the object will hold a Time.
 	 * false means that the object will hold a Date.
 	 */
 	timeBox(QWidget *parent, const char *n, bool tt=TRUE);
@@ -50,14 +50,14 @@ public:
 	/**
 	* Fills the QLineEdit fields of the timebox object from a QTime object
 	* showing hours, minutes and seconds.
-	*@p t QTime object from which to fill the entry fields
+	* @param t QTime object from which to fill the entry fields
 	*/
 	void showTime(QTime t);
 
 	/**
 	* Fills the QLineEdit fields of the timebox object from a QTime object
 	* showing hours, minutes and seconds.
-	*@p t QTime object from which to fill the entry fields
+	* @param t QTime object from which to fill the entry fields
 	*/
 	void showDate(ExtDate t);
 
@@ -73,7 +73,7 @@ public:
 
 
 	/**
-	*         *@p s Fills the degrees entry field with string s
+	* Fills the degrees entry field with string @p s
 	*                 */
 	void setEntry(QString s) { setText(s); }
 
