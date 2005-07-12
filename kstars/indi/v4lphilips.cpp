@@ -109,7 +109,7 @@ void V4L_Philips::ISGetProperties (const char *dev)
   /* Image Groups */
   IDDefSwitch(&CompressSP, NULL);
   IDDefSwitch(&ImageTypeSP, NULL);
-  IDDefNumber(&ImageSizeNP, NULL);
+  IDDefNumber(&FrameNP, NULL);
   IDDefNumber(&ImageAdjustNP, NULL);
   
   /* Image Control */
@@ -498,17 +498,17 @@ void V4L_Philips::getBasicData()
   v4l_pwc->getMaxMinSize(xmax, ymax, xmin, ymin);
   
   /* Width */
-  ImageSizeN[0].value = v4l_pwc->getWidth();
-  ImageSizeN[0].min = xmin;
-  ImageSizeN[0].max = xmax;
+  FrameN[2].value = v4l_pwc->getWidth();
+  FrameN[2].min = xmin;
+  FrameN[2].max = xmax;
   
   /* Height */
-  ImageSizeN[1].value = v4l_pwc->getHeight();
-  ImageSizeN[1].min = ymin;
-  ImageSizeN[1].max = ymax;
+  FrameN[3].value = v4l_pwc->getHeight();
+  FrameN[3].min = ymin;
+  FrameN[3].max = ymax;
 
-  IDSetNumber(&ImageSizeNP, NULL);
-  IUUpdateMinMax(&ImageSizeNP);
+  IDSetNumber(&FrameNP, NULL);
+  IUUpdateMinMax(&FrameNP);
   
   IUSaveText(&camNameT[0], v4l_pwc->getDeviceName());
   IDSetText(&camNameTP, NULL);

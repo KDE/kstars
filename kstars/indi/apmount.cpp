@@ -215,13 +215,8 @@ void APMount::initProperties()
     fillSwitch(&MovementS[3], "S", "South", ISS_OFF); 
     fillSwitchVector(&MovementSP, MovementS, NARRAY(MovementS), mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-   fillSwitch(&FocusSpeedS[0], "FOCUS_HALT", "Halt", ISS_ON);
-   fillSwitch(&FocusSpeedS[1], "FOCUS_FAST", "Fast", ISS_OFF);
-   fillSwitch(&FocusSpeedS[2], "FOCUS_SLOW", "Slow", ISS_OFF);
-   fillSwitchVector(&FocusSpeedSP, FocusSpeedS, NARRAY(FocusSpeedS), mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
-
-  fillSwitch(&FocusMotionS[0], "FOCUS_IN", "Focus in", ISS_OFF);
-  fillSwitch(&FocusMotionS[1], "FOCUS_OUT", "Focus out", ISS_OFF);
+  fillSwitch(&FocusMotionS[0], "IN", "Focus in", ISS_OFF);
+  fillSwitch(&FocusMotionS[1], "OUT", "Focus out", ISS_OFF);
   fillSwitchVector(&FocusMotionSP, FocusMotionS, NARRAY(FocusMotionS), mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   fillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
@@ -250,6 +245,9 @@ void APMount::initProperties()
    fillNumber(&HorN[0], "ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.);
    fillNumber(&HorN[1], "AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.);
    fillNumberVector(&HorNP, HorN, NARRAY(HorN), mydev, "HORIZONTAL_COORD", "Horizontal Coords", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+
+   fillNumber(&FocusSpeedN[0], "SPEED", "Speed", "%0.f", 0., 3., 1., 0.);
+   fillNumberVector(&FocusSpeedNP, FocusSpeedN, NARRAY(FocusSpeedN), mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE);
 
 
 }
@@ -281,7 +279,7 @@ void APMount::ISGetProperties(const char *dev)
   IDDefSwitch(&MovementSP, NULL);
   
   // FOCUS CONTROL
-  IDDefSwitch(&FocusSpeedSP, NULL);
+  IDDefNumber(&FocusSpeedNP, NULL);
   IDDefSwitch(&FocusMotionSP, NULL);
   IDDefNumber(&FocusTimerNP, NULL);
 
@@ -579,6 +577,30 @@ void APMount::ISNewNumber (const char *dev, const char *name, double values[], c
 
 	}
 
+        // Focus speed
+	if (!strcmp (name, FocusSpeedNP.name))
+	{
+	  if (checkPower(&FocusSpeedNP))
+	   return;
+
+	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
+		return;
+
+	  /* disable timer and motion */
+	  if (FocusSpeedN[0].value == 0)
+	  {
+	    FocusMotionSP.s = IPS_IDLE;
+	    FocusTimerNP.s  = IPS_IDLE;
+	    IDSetSwitch(&FocusMotionSP, NULL);
+	    IDSetNumber(&FocusTimerNP, NULL);
+	  }
+	    
+	  setFocuserSpeedMode( ( (int) FocusSpeedN[0].value));
+	  FocusSpeedNP.s = IPS_OK;
+	  IDSetNumber(&FocusSpeedNP, NULL);
+	  return;
+	}
+
 }
 
 void APMount::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
@@ -718,42 +740,7 @@ void APMount::ISNewSwitch (const char *dev, const char *name, ISState *states, c
 
 	}
 
-	// Focus speed
-	if (!strcmp (name, FocusSpeedSP.name))
-	{
-	  if (checkPower(&FocusSpeedSP))
-	   return;
-	   
-	   IUResetSwitches(&FocusSpeedSP);
-	   IUUpdateSwitches(&FocusSpeedSP, states, names, n);
-	   index = getOnSwitch(&FocusSpeedSP);
-
-	   // AP doesn't have medium focus speed. Change medium to slow
-	   if (index == 2) index = 3;
-	  
-	  if ( ( err = setFocuserSpeedMode(index) < 0) )
-	  {
-	        handleError(&FocusSpeedSP, err, "Setting focuser speed mode"); 
-		return;
-	  }
-	  
-	  /* disable timer and motion */
-	  if (index == 0)
-	  {
-	    IUResetSwitches(&FocusMotionSP);
-	    FocusMotionSP.s = IPS_IDLE;
-	    FocusTimerNP.s  = IPS_IDLE;
-	    IDSetSwitch(&FocusMotionSP, NULL);
-	    IDSetNumber(&FocusTimerNP, NULL);
-	  }
-	    
-	  
-	  FocusSpeedSP.s = IPS_OK;
-	  IDSetSwitch(&FocusSpeedSP, NULL);
-	  return;
-	}
-
-	// Focus Motion
+        // Focus Motion
 	if (!strcmp (name, FocusMotionSP.name))
 	{
 	  if (checkPower(&FocusMotionSP))
@@ -762,7 +749,7 @@ void APMount::ISNewSwitch (const char *dev, const char *name, ISState *states, c
 	  IUResetSwitches(&FocusMotionSP);
 	  
 	  // If speed is "halt"
-	  if (FocusSpeedS[0].s == ISS_ON)
+	  if (FocusSpeedN[0].value == 0)
 	  {
 	    FocusMotionSP.s = IPS_IDLE;
 	    IDSetSwitch(&FocusMotionSP, NULL);
@@ -1140,7 +1127,7 @@ void APMount::ISPoll()
 	      
 	      if ( ( err = setFocuserSpeedMode(0) < 0) )
               {
-	        handleError(&FocusSpeedSP, err, "setting focuser speed mode");
+	        handleError(&FocusSpeedNP, err, "setting focuser speed mode");
                 IDLog("Error setting focuser speed mode\n");
                 return;
 	      } 
@@ -1148,13 +1135,12 @@ void APMount::ISPoll()
 	      
 	      FocusMotionSP.s = IPS_IDLE;
 	      FocusTimerNP.s  = IPS_OK;
-	      FocusSpeedSP.s  = IPS_OK;
+	      FocusSpeedNP.s  = IPS_OK;
 	      
               IUResetSwitches(&FocusMotionSP);
-	      IUResetSwitches(&FocusSpeedSP);
-	      FocusSpeedS[0].s = ISS_ON;
+	      FocusSpeedN[0].value = 0;
 	      
-	      IDSetSwitch(&FocusSpeedSP, NULL);
+	      IDSetNumber(&FocusSpeedNP, NULL);
 	      IDSetSwitch(&FocusMotionSP, NULL);
 	    }
 	    

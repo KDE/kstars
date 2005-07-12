@@ -119,7 +119,7 @@ bool imagesequence::setupCCDs()
   {
 	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 	{
-  		imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EXPOSE_DURATION");
+  		imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSE_DURATION");
 		if (!imgProp)
 			 continue;
 				 
@@ -151,17 +151,17 @@ bool imagesequence::setupCCDs()
     INDI_P *exposeProp;
     INDI_E *exposeElem;
     
-    exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
+    exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSE_DURATION");
     if (!exposeProp)
     {
-      KMessageBox::error(this, i18n("Device does not support EXPOSE_DURATION property."));
+      KMessageBox::error(this, i18n("Device does not support CCD_EXPOSE_DURATION property."));
       return false;
     }
   
-    exposeElem = exposeProp->findElement("EXPOSE_S");
+    exposeElem = exposeProp->findElement("EXPOSE_DURATION");
     if (!exposeElem)
     {
-      KMessageBox::error(this, i18n("EXPOSE_DURATION property is missing EXPOSE_S element."));
+      KMessageBox::error(this, i18n("CCD_EXPOSE_DURATION property is missing DURATION element."));
       return false;
     }
     
@@ -190,7 +190,7 @@ bool imagesequence::setupFilters()
   {
 	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 	{
-  		filterProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("FILTER_CONF");
+  		filterProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("FILTER_SLOT");
 		if (!filterProp)
 			 continue;
 
@@ -410,17 +410,17 @@ bool imagesequence::verifyCCDIntegrity()
   
   stdDevCCD = idevice->stdDev;
   
-  exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
+  exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSE_DURATION");
   if (!exposeProp)
   {
-    KMessageBox::error(this, i18n("Device does not support EXPOSE_DURATION property."));
+    KMessageBox::error(this, i18n("Device does not support CCD_EXPOSE_DURATION property."));
     return false;
   }
   
-  exposeElem = exposeProp->findElement("EXPOSE_S");
+  exposeElem = exposeProp->findElement("EXPOSE_DURATION");
   if (!exposeElem)
   {
-    KMessageBox::error(this, i18n("EXPOSE_DURATION property is missing EXPOSE_S element."));
+    KMessageBox::error(this, i18n("CCD_EXPOSE_DURATION property is missing DURATION element."));
     return false;
   }
   
@@ -469,11 +469,11 @@ bool imagesequence::verifyFilterIntegrity()
        return false;
   }
 
-  // #3 Make sure it has FILTER_CONF std property by searching for its FILTER_NUM element
-  filterElem = filterDevice->findElem("FILTER_NUM");
+  // #3 Make sure it has FILTER_SLOT std property by searching for its SLOT element
+  filterElem = filterDevice->findElem("SLOT");
   if (filterElem == NULL)
   {
- 	KMessageBox::error(this, i18n("Device does not support FILTER_CONF property."));
+ 	KMessageBox::error(this, i18n("Device does not support FILTER_SLOT property."));
         filterCombo->setCurrentItem(0);
         currentFilter = filterCombo->currentText();
         filterPosCombo->clear();
@@ -505,13 +505,13 @@ void imagesequence::prepareCapture()
 	return;
      }
 
-     if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_CONF")) != NULL))
+     if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_SLOT")) != NULL))
      {
      connect (tempProp, SIGNAL(okState()), this, SLOT(captureImage()));
      selectFilter();
      }
      else
-       kdDebug() << "Error: std Filter device lost or missing FILTER_CONF property" << endl;
+       kdDebug() << "Error: std Filter device lost or missing FILTER_SLOT property" << endl;
   }
     
 }
@@ -530,7 +530,7 @@ void imagesequence::captureImage()
   // C. The property is still busy.
   // D. The property has been lost.
   
-  if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_CONF")) != NULL))
+  if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_SLOT")) != NULL))
     	tempProp->disconnect( SIGNAL (okState()));
 
   if (!verifyCCDIntegrity())
@@ -539,8 +539,8 @@ void imagesequence::captureImage()
     return;
   }
   
-  exposeProp = stdDevCCD->dp->findProp("EXPOSE_DURATION");
-  exposeElem = exposeProp->findElement("EXPOSE_S");
+  exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSE_DURATION");
+  exposeElem = exposeProp->findElement("EXPOSE_DURATION");
   
   // disable timer until it's called again by newFITS, or called for retries
   seqTimer->stop();
@@ -601,7 +601,7 @@ void imagesequence::updateFilterCombo(int filterNum)
 
   filterList = Options::filterAlias();
 
-  filterElem = devMenu->findDeviceByLabel(filterCombo->text(filterNum))->findElem("FILTER_NUM");
+  filterElem = devMenu->findDeviceByLabel(filterCombo->text(filterNum))->findElem("SLOT");
   filterMax = (int) filterElem->max; 
   
   // Clear combo
@@ -649,8 +649,8 @@ void imagesequence::selectFilter()
    return;
 
   filterDev = devMenu->findDeviceByLabel(currentFilter);
-  filterProp = filterDev->findProp("FILTER_CONF");
-  filterElem = filterProp->findElement("FILTER_NUM");
+  filterProp = filterDev->findProp("FILTER_SLOT");
+  filterElem = filterProp->findElement("SLOT");
 
   // Do we need to change the filter position??
   if (filterPosCombo->currentItem() == filterElem->read_w->text().toInt())

@@ -175,7 +175,7 @@ void INDI_P::newText()
            f_scansexa(lp->text.ascii(), &(lp->targetValue));
 	   if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
 	   {
-	     KMessageBox::error(0, i18n("Invalid range. Valid values range from %1 to %2").arg(lp->min).arg(lp->max));
+	     KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3").arg(lp->label).arg(lp->min).arg(lp->max));
 	     return;
 	   }
         }
@@ -206,8 +206,8 @@ void INDI_P::convertSwitch(int id)
   return;
 
   //kdDebug() << "Name: " << name << " ID: " << id << endl;
- /* Special case is EXPOSE_DURATION, not a switch */
- if (stdID == EXPOSE_DURATION && assosiatedPopup->text(id) == label)
+ /* Special case is CCD_EXPOSE_DURATION, not a switch */
+ if (stdID == CCD_EXPOSE_DURATION && assosiatedPopup->text(id) == label)
  {
    newText();
    return;
@@ -569,7 +569,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	if (perm == PP_RO)
 	  return 0;
 	  
-        if (name == "EXPOSE_DURATION")
+        if (name == "CCD_EXPOSE_DURATION")
 	          setupSetButton("Start");
         else
 		  setupSetButton("Set");

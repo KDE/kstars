@@ -103,11 +103,11 @@ static ISwitch ParkS[]		 = { {"PARK", "Park", ISS_OFF, 0, 0} };
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static ISwitch	FocusSpeedS[]	 = { {"FOCUS_HALT", "Halt", ISS_ON, 0, 0}, { "FOCUS_FAST", "Fast", ISS_OFF, 0, 0}, {"FOCUS_MEDIUM", "Medium", ISS_OFF, 0, 0}, {"FOCUS_SLOW", "Slow", ISS_OFF, 0, 0}};
-static ISwitch  FocusMotionS[]	 = { {"FOCUS_IN", "Focus in", ISS_OFF, 0, 0}, {"FOCUS_OUT", "Focus out", ISS_OFF, 0, 0}};
-static INumber  FocusTimerN[]    = { {"TIMEOUT", "Timeout (s)", "%10.6m", 0., 120., 1., 0., 0, 0, 0 }};
+static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 0., 3., 1., 0.}};
+static ISwitch  FocusMotionS[]	 = { {"IN", "Focus in", ISS_OFF, 0, 0}, {"OUT", "Focus out", ISS_OFF, 0, 0}};
+static INumber  FocusTimerN[]    = { {"TIMER", "Timer (s)", "%10.6m", 0., 120., 1., 0., 0, 0, 0 }};
 
-static INumberVectorProperty FocusTimerNP = { mydev, "FOCUS_TIMEOUT", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), "", 0};
+static INumberVectorProperty FocusTimerNP = { mydev, "FOCUS_TIMER", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusTimerN, NARRAY(FocusTimerN), "", 0};
 
 /* equatorial position */
 INumber eq[] = {
@@ -146,7 +146,7 @@ static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MO
 static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), "", 0};
 
 // Focus Control
-static ISwitchVectorProperty	FocusSpeedSw  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusSpeedS, NARRAY(FocusSpeedS), "", 0};
+static INumberVectorProperty	FocusSpeedNP  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusSpeedN, NARRAY(FocusSpeedN), "", 0};
 
 static ISwitchVectorProperty	FocusMotionSw = {mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), "", 0};
 
@@ -189,7 +189,7 @@ void changeLX200GenericDeviceName(const char * newName)
   strcpy(MovementSw.device , newName );
 
   // FOCUS_GROUP
-  strcpy(FocusSpeedSw.device , newName );
+  strcpy(FocusSpeedNP.device , newName );
   strcpy(FocusMotionSw.device , newName );
   strcpy(FocusTimerNP.device, newName);
 
@@ -364,7 +364,7 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefSwitch (&MovementSw, NULL);
 
   // FOCUS_GROUP
-  IDDefSwitch(&FocusSpeedSw, NULL);
+  IDDefNumber(&FocusSpeedNP, NULL);
   IDDefSwitch(&FocusMotionSw, NULL);
   IDDefNumber(&FocusTimerNP, NULL);
 
@@ -739,6 +739,31 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 
 	}
 
+        // Focus speed
+	if (!strcmp (name, FocusSpeedNP.name))
+	{
+	  if (checkPower(&FocusSpeedNP))
+	   return;
+
+	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
+		return;
+
+	  /* disable timer and motion */
+	  if (FocusSpeedN[0].value == 0)
+	  {
+	    IUResetSwitches(&FocusMotionSw);
+	    FocusMotionSw.s = IPS_IDLE;
+	    FocusTimerNP.s  = IPS_IDLE;
+	    IDSetSwitch(&FocusMotionSw, NULL);
+	    IDSetNumber(&FocusTimerNP, NULL);
+	  }
+	    
+	  setFocuserSpeedMode( ( (int) FocusSpeedN[0].value));
+	  FocusSpeedNP.s = IPS_OK;
+	  IDSetNumber(&FocusSpeedNP, NULL);
+	  return;
+	}
+
 }
 
 void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
@@ -939,39 +964,6 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  return;
 	}
 
-	// Focus speed
-	if (!strcmp (name, FocusSpeedSw.name))
-	{
-	  if (checkPower(&FocusSpeedSw))
-	   return;
-	   
-	   IUResetSwitches(&FocusSpeedSw);
-	   IUUpdateSwitches(&FocusSpeedSw, states, names, n);
-	   index = getOnSwitch(&FocusSpeedSw);
-	  
-	  
-	  if ( ( err = setFocuserSpeedMode(index) < 0) )
-	  {
-	        handleError(&FocusSpeedSw, err, "Setting focuser speed mode"); 
-		return;
-	  }
-	  
-	  /* disable timer and motion */
-	  if (index == 0)
-	  {
-	    IUResetSwitches(&FocusMotionSw);
-	    FocusMotionSw.s = IPS_IDLE;
-	    FocusTimerNP.s  = IPS_IDLE;
-	    IDSetSwitch(&FocusMotionSw, NULL);
-	    IDSetNumber(&FocusTimerNP, NULL);
-	  }
-	    
-	  
-	  FocusSpeedSw.s = IPS_OK;
-	  IDSetSwitch(&FocusSpeedSw, NULL);
-	  return;
-	}
-
 	// Focus Motion
 	if (!strcmp (name, FocusMotionSw.name))
 	{
@@ -981,7 +973,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  IUResetSwitches(&FocusMotionSw);
 	  
 	  // If speed is "halt"
-	  if (FocusSpeedS[0].s == ISS_ON)
+	  if (FocusSpeedN[0].value == 0)
 	  {
 	    FocusMotionSw.s = IPS_IDLE;
 	    IDSetSwitch(&FocusMotionSw, NULL);
@@ -1438,7 +1430,7 @@ void LX200Generic::ISPoll()
 	      
 	      if ( ( err = setFocuserSpeedMode(0) < 0) )
               {
-	        handleError(&FocusSpeedSw, err, "setting focuser speed mode");
+	        handleError(&FocusSpeedNP, err, "setting focuser speed mode");
                 IDLog("Error setting focuser speed mode\n");
                 return;
 	      } 
@@ -1446,13 +1438,12 @@ void LX200Generic::ISPoll()
 	      
 	      FocusMotionSw.s = IPS_IDLE;
 	      FocusTimerNP.s  = IPS_OK;
-	      FocusSpeedSw.s  = IPS_OK;
+	      FocusSpeedNP.s  = IPS_OK;
 	      
               IUResetSwitches(&FocusMotionSw);
-	      IUResetSwitches(&FocusSpeedSw);
-	      FocusSpeedS[0].s = ISS_ON;
+	      FocusSpeedN[0].value = 0;
 	      
-	      IDSetSwitch(&FocusSpeedSw, NULL);
+	      IDSetNumber(&FocusSpeedNP, NULL);
 	      IDSetSwitch(&FocusMotionSw, NULL);
 	    }
 	    

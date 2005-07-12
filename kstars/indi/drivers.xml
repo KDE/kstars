@@ -7,6 +7,7 @@
 	<driver>celestrongps</driver>
 	<driver>apmount</driver>
 	<driver>temma</driver>
+	<driver>skycommander</driver>
 </ScopeDrivers>
 <devGroup group="Telescopes">
 	<device label="LX200 Generic" focal_length="" aperture="">
@@ -68,6 +69,10 @@
 	<device label="Temma Takahashi" focal_length="" aperture="">
 	  <driver>temma</driver>
 	  <version>0.1</version>
+	</device>
+	<device label="Sky Commander" focal_length="" aperture="">
+		<driver>skycommander</driver>
+		<version>0.1</version>
 	</device>
 </devGroup>
 <devGroup group="CCDs">

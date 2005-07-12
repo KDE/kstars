@@ -744,8 +744,13 @@ int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], 
        return -1;
     }
       
+  }
+
+  /* First loop checks for error, second loop set all values atomically*/
+  for (i=0; i < n; i++)
+  {
+    np = IUFindNumber(nvp, names[i]);
     np->value = values[i];
-    
   }
 
   return 0;

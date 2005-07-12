@@ -807,9 +807,9 @@ void KStars::startINDIFocus(QString deviceName, int focusDir)
   }
 
   if (focusDir == 0)
-    setINDIAction(deviceName, "FOCUS_IN");
+    setINDIAction(deviceName, "IN");
   else if (focusDir == 1)
-    setINDIAction(deviceName, "FOCUS_OUT");
+    setINDIAction(deviceName, "OUT");
 
 }
 
@@ -915,10 +915,10 @@ void KStars::startINDIExposure(QString deviceName, int timeout)
     return;
   }
   
-  prop = dev->findProp("EXPOSE_DURATION");
+  prop = dev->findProp("CCD_EXPOSE_DURATION");
   if (!prop) return;
   
-  el   = prop->findElement("EXPOSE_S");
+  el   = prop->findElement("EXPOSE_DURATION");
   if (!el) return;
   
   if (el->write_w)
@@ -952,10 +952,10 @@ void KStars::setINDIFilterNum(QString deviceName, int filter_num)
     return;
   }
   
-  prop = dev->findProp("FILTER_CONF");
+  prop = dev->findProp("FILTER_SLOT");
   if (!prop) return;
   
-  el   = prop->findElement("FILTER_NUM");
+  el   = prop->findElement("SLOT");
   if (!el) return;
   
   if (el->write_w)

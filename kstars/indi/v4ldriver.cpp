@@ -81,17 +81,23 @@ void V4L_Driver::initProperties(const char *dev)
   fillTextVector(&camNameTP, camNameT, NARRAY(camNameT), dev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE);
   
   /* Expose */
-  fillNumber(&ExposeTimeN[0], "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumber(&ExposeTimeN[0], "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "CCD_EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
 /* Frame Rate */
   fillNumber(&FrameRateN[0], "RATE", "Rate", "%0.f", 1., 50., 1., 10.);
   fillNumberVector(&FrameRateNP, FrameRateN, NARRAY(FrameRateN), dev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
   /* Frame dimension */
-  fillNumber(&ImageSizeN[0], "WIDTH", "Width", "%0.f", 0., 0., 10., 0.);
+  fillNumber(&FrameN[0], "X", "X", "%.0f", 0., 0., 0., 0.);
+  fillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., 0., 0., 0.);
+  fillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., 0., 10., 0.);
+  fillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., 0., 10., 0.);
+  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), dev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+
+  /*fillNumber(&ImageSizeN[0], "WIDTH", "Width", "%0.f", 0., 0., 10., 0.);
   fillNumber(&ImageSizeN[1], "HEIGHT", "Height", "%0.f", 0., 0., 10., 0.);
-  fillNumberVector(&ImageSizeNP, ImageSizeN, NARRAY(ImageSizeN), dev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&ImageSizeNP, ImageSizeN, NARRAY(ImageSizeN), dev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);*/
   
   #ifndef HAVE_LINUX_VIDEODEV2_H
   fillNumber(&ImageAdjustN[0], "Contrast", "", "%0.f", 0., 256., 1., 0.);
@@ -159,7 +165,7 @@ void V4L_Driver::ISGetProperties (const char *dev)
   /* Image properties */
   IDDefSwitch(&CompressSP, NULL);
   IDDefSwitch(&ImageTypeSP, NULL);
-  IDDefNumber(&ImageSizeNP, NULL);
+  IDDefNumber(&FrameNP, NULL);
   
   #ifndef HAVE_LINUX_VIDEODEV2_H
   IDDefNumber(&ImageAdjustNP, NULL);
@@ -271,32 +277,32 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
 	    
     
     /* Frame Size */
-    if (!strcmp (ImageSizeNP.name, name))
+    if (!strcmp (FrameNP.name, name))
     {
-      if (checkPowerN(&ImageSizeNP))
+      if (checkPowerN(&FrameNP))
         return;
 	
-       int oldW = (int) ImageSizeN[0].value;
-       int oldH = (int) ImageSizeN[1].value;
+       int oldW = (int) FrameN[2].value;
+       int oldH = (int) FrameN[3].value;
 
-      ImageSizeNP.s = IPS_OK;
+      FrameNP.s = IPS_OK;
       
-      if (IUUpdateNumbers(&ImageSizeNP, values, names, n) < 0)
+      if (IUUpdateNumbers(&FrameNP, values, names, n) < 0)
        return;
       
-      if (v4l_base->setSize( (int) ImageSizeN[0].value, (int) ImageSizeN[1].value) != -1)
+      if (v4l_base->setSize( (int) FrameN[2].value, (int) FrameN[3].value) != -1)
       {
-         ImageSizeN[0].value = v4l_base->getWidth();
-	 ImageSizeN[1].value = v4l_base->getHeight();
-         IDSetNumber(&ImageSizeNP, NULL);
+         FrameN[2].value = v4l_base->getWidth();
+	 FrameN[3].value = v4l_base->getHeight();
+         IDSetNumber(&FrameNP, NULL);
 	 return;
       }
       else
       {
-        ImageSizeN[0].value = oldW;
-	ImageSizeN[1].value = oldH;
-        ImageSizeNP.s = IPS_ALERT;
-	IDSetNumber(&ImageSizeNP, "Failed to set a new image size.");
+        FrameN[2].value = oldW;
+	FrameN[3].value = oldH;
+        FrameNP.s = IPS_ALERT;
+	IDSetNumber(&FrameNP, "Failed to set a new image size.");
       }
       
       return;
@@ -409,7 +415,7 @@ void V4L_Driver::updateFrame()
       frameCount++;
 
      // Drop some frames
-     if (ImageSizeN[0].value > 160)
+     if (FrameN[2].value > 160)
      {
         dropLarge--;
         if (dropLarge == 0)
@@ -713,17 +719,17 @@ void V4L_Driver::getBasicData()
   v4l_base->getMaxMinSize(xmax, ymax, xmin, ymin);
   
   /* Width */
-  ImageSizeN[0].value = v4l_base->getWidth();
-  ImageSizeN[0].min = xmin;
-  ImageSizeN[0].max = xmax;
+  FrameN[2].value = v4l_base->getWidth();
+  FrameN[2].min = xmin;
+  FrameN[2].max = xmax;
   
   /* Height */
-  ImageSizeN[1].value = v4l_base->getHeight();
-  ImageSizeN[1].min = ymin;
-  ImageSizeN[1].max = ymax;
+  FrameN[3].value = v4l_base->getHeight();
+  FrameN[3].min = ymin;
+  FrameN[3].max = ymax;
   
-  IUUpdateMinMax(&ImageSizeNP);
-  IDSetNumber(&ImageSizeNP, NULL);
+  IUUpdateMinMax(&FrameNP);
+  IDSetNumber(&FrameNP, NULL);
   
   IUSaveText(&camNameT[0], v4l_base->getDeviceName());
   IDSetText(&camNameTP, NULL);

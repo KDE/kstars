@@ -252,12 +252,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
        handleDevCounter();
       break;
       
-    case EXPOSE_DURATION:
+    case CCD_EXPOSE_DURATION:
        if (pp->state == PS_IDLE || pp->state == PS_OK)
          pp->set_w->setText(i18n("Start"));
        break;
        
-    case IMAGE_SIZE:
+    case CCD_FRAME:
          el = pp->findElement("WIDTH");
 	 if (!el) return;
 	 wd = (int) el->value;
@@ -324,7 +324,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
         initDeviceOptions();
 	emit linkAccepted();
 	
-	imgProp = dp->findProp("EXPOSE_DURATION");
+	imgProp = dp->findProp("CCD_EXPOSE_DURATION");
 	if (imgProp)
 	{
         	tmpAction = ksw->actionCollection()->action("capture_sequence");
@@ -765,7 +765,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    switch (pp->stdID)
    {
      /* Set expose duration button to 'cancel' when busy */
-     case EXPOSE_DURATION:
+     case CCD_EXPOSE_DURATION:
        pp->set_w->setText(i18n("Cancel"));
        break;
      

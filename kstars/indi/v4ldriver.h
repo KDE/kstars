@@ -110,7 +110,7 @@ class V4L_Driver
     /* Numbers */
     INumber ExposeTimeN[1];
     INumber FrameRateN[1];
-    INumber ImageSizeN[2];
+    INumber FrameN[4];
     #ifndef HAVE_LINUX_VIDEODEV2_H
     INumber ImageAdjustN[5];
     #endif
@@ -127,7 +127,7 @@ class V4L_Driver
     /* Number vectors */
     INumberVectorProperty ExposeTimeNP;				/* Exposure */
     INumberVectorProperty FrameRateNP;				/* Frame rate */
-    INumberVectorProperty ImageSizeNP;				/* Stream dimenstion */
+    INumberVectorProperty FrameNP;				/* Stream dimenstion */
     INumberVectorProperty ImageAdjustNP;			/* Image controls */
 
     /* Text vectors */

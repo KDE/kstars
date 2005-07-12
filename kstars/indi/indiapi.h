@@ -40,7 +40,7 @@ INDI is intended for developers who seek a scalable API for device control and a
 
 \section Development Developing under INDI
 
-Please refere to the <a href="http://indi.sf.net">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework. 
+Please refere to the <a href="http://indi.sf.net/manual/">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework. 
 
 \section Help 
 

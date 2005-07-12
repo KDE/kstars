@@ -62,7 +62,6 @@ private:
   ISwitch AbortSlewS[1];
   ISwitch ParkS[2];
   ISwitch MovementS[4];
-  ISwitch FocusSpeedS[3];
   ISwitch FocusMotionS[2];
 
   /* Texts */
@@ -76,6 +75,7 @@ private:
   INumber FocusTimerN[1];
   INumber SDTimeN[1];
   INumber HorN[2];
+  INumber FocusSpeedN[1];
 
   /* Switch Vectors */
   ISwitchVectorProperty PowerSP;
@@ -85,7 +85,6 @@ private:
   ISwitchVectorProperty ParkSP;
   ISwitchVectorProperty TrackModeSP;
   ISwitchVectorProperty MovementSP;
-  ISwitchVectorProperty FocusSpeedSP;
   ISwitchVectorProperty FocusMotionSP;
 
    /* Number Vectors */
@@ -94,6 +93,7 @@ private:
   INumberVectorProperty FocusTimerNP;
   INumberVectorProperty SDTimeNP;
   INumberVectorProperty HorNP;
+  INumberVectorProperty FocusSpeedNP;
 
    /* Text Vectors */
    ITextVectorProperty PortTP;

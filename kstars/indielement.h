@@ -48,9 +48,15 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
-enum stdProperties { CONNECTION, EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, ON_COORD_SET, ABORT_MOTION, SOLAR_SYSTEM,
-                     GEOGRAPHIC_COORD, HORIZONTAL_COORD, TIME, EXPOSE_DURATION, 
-                     DEVICE_PORT, PARK, MOVEMENT, SDTIME, DATA_CHANNEL, VIDEO_STREAM, IMAGE_SIZE, FILTER_CONF, CCDPREVIEW_STREAM, CCDPREVIEW_CTRL, CCD_INFO};
+enum stdProperties { CONNECTION, DEVICE_PORT, TIME, SDTIME, GEOGRAPHIC_COORD,   /* General */
+                     EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, HORIZONTAL_COORD,  /* Telescope */
+                     ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, MOVEMENT, PARK,  /* Telescope */
+                     CCD_EXPOSE_DURATION, CCD_TEMPERATURE, CCD_FRAME,           /* CCD */
+                     CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO, CCDPREVIEW_STREAM,  /* CCD */
+                     CCDPREVIEW_CTRL,						/* CCD */
+                     VIDEO_STREAM,						/* Video */
+		     FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
+                     FILTER_SLOT};						/* Filter */
 		     
 /* Devices families that we explicity support (i.e. with std properties) */
 enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };

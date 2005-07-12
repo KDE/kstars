@@ -118,20 +118,20 @@ void SBIGCam::initProperties()
   fillSwitch(&FrameTypeS[1], "FRAME_BIAS", "Bias", ISS_OFF);
   fillSwitch(&FrameTypeS[2], "FRAME_DARK", "Dark", ISS_OFF);
   fillSwitch(&FrameTypeS[3], "FRAME_FLAT", "Flat Field", ISS_OFF);
-  fillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  fillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), mydev, "CCD_FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
-  fillNumber(&FrameN[0], "X", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[1], "Y", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[2], "Width", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[3], "Height", "", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), mydev, "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumber(&FrameN[0], "X", "X", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  fillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  fillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  fillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), mydev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
   
   fillNumber(&BinningN[0], "HOR_BIN", "X", "%0.f", 1., MAXHBIN, 1., 1.);
   fillNumber(&BinningN[1], "VER_BIN", "Y", "%0.f", 1., MAXVBIN, 1., 1.);
-  fillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
     
-  fillNumber(&ExposeTimeN[0], "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
+  fillNumber(&ExposeTimeN[0], "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
   fillNumber(&TemperatureN[0], "TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, 0.2, 0.);
   fillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), mydev, "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);

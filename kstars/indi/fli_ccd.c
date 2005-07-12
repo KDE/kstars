@@ -138,35 +138,31 @@ static ISwitchVectorProperty PortSP	= { mydev, "Port Type", "", COMM_GROUP, IP_R
 
 /* Types of Frames */
 static ISwitch FrameTypeS[]		= { {"FRAME_LIGHT", "Light", ISS_ON, 0, 0}, {"FRAME_BIAS", "Bias", ISS_OFF, 0, 0}, {"FRAME_DARK", "Dark", ISS_OFF, 0, 0}, {"FRAME_FLAT", "Flat Field", ISS_OFF, 0, 0}};
-static ISwitchVectorProperty FrameTypeSP = { mydev, "FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS), "", 0};
+static ISwitchVectorProperty FrameTypeSP = { mydev, "CCD_FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FrameTypeS, NARRAY(FrameTypeS), "", 0};
 
 /* Frame coordinates. Full frame is default */
 static INumber FrameN[]          	= {
- { "X", "", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
- { "Y", "", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
- { "Width", "", "%.0f", 0., MAX_PIXELS, 1., 0., 0, 0, 0},
- { "Height", "", "%.0f",0., MAX_PIXELS, 1., 0., 0, 0, 0}};
- static INumberVectorProperty FrameNP = { mydev, "FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, FrameN, NARRAY(FrameN), "", 0};
+ { "X", "X", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "Y", "Y", "%.0f", 0.,     MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "WIDTH", "Width", "%.0f", 0., MAX_PIXELS, 1., 0., 0, 0, 0},
+ { "HEIGHT", "Height", "%.0f",0., MAX_PIXELS, 1., 0., 0, 0, 0}};
+ static INumberVectorProperty FrameNP = { mydev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, FrameN, NARRAY(FrameN), "", 0};
  
  /* Binning */ 
  static INumber BinningN[]       = {
  { "HOR_BIN", "X", "%0.f", 1., MAX_X_BIN, 1., 1., 0, 0, 0},
  { "VER_BIN", "Y", "%0.f", 1., MAX_Y_BIN, 1., 1., 0, 0, 0}};
- static INumberVectorProperty BinningNP = { mydev, "BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), "", 0};
+ static INumberVectorProperty BinningNP = { mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), "", 0};
  
  /* Exposure time */
-  static INumber ExposeTimeN[]    = {{ "EXPOSE_S", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
-  static INumberVectorProperty ExposeTimeNP = { mydev, "EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
+  static INumber ExposeTimeN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeNP = { mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
  
   /* Temperature control */
  static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
  static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN), "", 0};
  
- /* Expose progress */
- static INumber ExposeProgressN[] = { {"Time left", "", "%.0f", 0., 0., 0., 0., 0, 0, 0} };
- static INumberVectorProperty ExposeProgressNP  = { mydev, "Expose Progress (s)", "", EXPOSE_GROUP, IP_RO, 0, IPS_IDLE, ExposeProgressN, NARRAY(ExposeProgressN), "", 0};
-  
- /* Pixel size (µm) */
+  /* Pixel size (µm) */
 static INumber PixelSizeN[] 	= {
 	{ "Width", "", "%.0f", 0. , 0., 0., 0., 0, 0, 0},
 	{ "Height", "", "%.0f", 0. , 0., 0., 0., 0, 0, 0}};
@@ -661,28 +657,6 @@ void ISPoll(void *p)
 	  case IPS_ALERT:
 	    break;
 	 }
-	 
-	 switch (ExposeProgressNP.s)
-	 {
-	   case IPS_IDLE:
-	   case IPS_OK:
-	   	break;
-           case IPS_BUSY:
-	      ExposeProgressN[0].value--;
-	      
-	      if (ExposeProgressN[0].value > 0)
-	          IDSetNumber(&ExposeProgressNP, NULL);
-	      else
-	      {
-	        ExposeProgressNP.s = IPS_IDLE;
-		IDSetNumber(&ExposeProgressNP, NULL);
-	      }
-	      break;
-	      
-	  case IPS_ALERT:
-	     break;
-	  }
-		
 	 
 	 switch (TemperatureNP.s)
 	 {

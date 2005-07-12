@@ -369,7 +369,7 @@ void INDIDriver::updateMenuActions()
   {
 	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 	{
-  		        imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EXPOSE_DURATION");
+  		        imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSE_DURATION");
 			if (imgProp && devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
 			{
 			  activeImaging = true;

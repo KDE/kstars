@@ -583,6 +583,30 @@ int getOTATemp(double *value)
 
 }
 
+int updateSkyCommanderCoord(double *ra, double *dec)
+{
+  char coords[16];
+  char CR[1] = { (char) 0x0D };
+
+  float RA, DEC;
+
+  write(fd, CR, 1);
+  read_ret = portRead(coords, 16, LX200_TIMEOUT);
+  if (read_ret < 15)
+   return -1;
+
+  read_ret = sscanf(coords, " %g %g", &RA, &DEC);
+  if (read_ret < 2)
+   return -1;
+
+  *ra  = RA;
+  *dec = DEC;
+
+  return 0;
+
+}
+
+
 /**********************************************************************
 * SET
 **********************************************************************/
@@ -897,18 +921,18 @@ int setFocuserSpeedMode (int speedMode)
      if (portWrite("#:FQ#") < 0)
       return -1;
      break;
-    case LX200_FOCUSFAST:
-     if (portWrite("#:FF#") < 0)
-      return -1;
-     break;
+   case LX200_FOCUSSLOW:
+      if (portWrite("#:FS#") < 0)
+       return -1;
+      break;
     case LX200_FOCUSMEDIUM:
      if (portWrite("#:F3#") < 0)
       return -1;
       break;
-    case LX200_FOCUSSLOW:
-      if (portWrite("#:FS#") < 0)
-       return -1;
-      break;
+    case LX200_FOCUSFAST:
+     if (portWrite("#:FF#") < 0)
+      return -1;
+     break;
  }
  
  return 0;

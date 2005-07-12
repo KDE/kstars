@@ -491,12 +491,12 @@ extern void ISNewSwitch (const char *dev, const char *name, ISState *states,
     \param dev the name of the device.
     \param name the name of the blob vector property to update.
     \param sizes an array of blob sizes in bytes.
-    \param blobs names of blob members to update. Each name and size pair form a blob member.
+    \param blobs the blob data array in bytes
     \param formats Blob data format (e.g. fits.z).
-    \param names names of  blobs, just maybe.
+    \param names names of blob members to update. 
     \param n the number of blobs to update.
     \note You do not need to call this function, it is called by INDI when new blob values arrive from the client.
-    \todo Check dox for @p names.
+          e.g. BLOB element with name names[0] has data located in blobs[0] with size sizes[0] and format formats[0].
 */
 
 extern void ISNewBLOB (const char *dev, const char *name, int sizes[],

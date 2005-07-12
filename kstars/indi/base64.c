@@ -21,6 +21,11 @@
  * see http://www.faqs.org/rfcs/rfc3548.html
  */
 
+/** \file base64.c
+    \brief Pair of functions to convert to/from base64.
+
+*/
+
 #include <ctype.h>
 #include "base64.h"
 

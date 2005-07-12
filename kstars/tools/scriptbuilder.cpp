@@ -195,8 +195,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	startINDIFocusFunc->setINDIProperty("FOCUS_MOTION");
 	INDIFunctionList.append( startINDIFocusFunc);
 	
-	setINDIFocusTimeoutFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timeout in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "QString", "deviceName", "int", "timeout");
-	setINDIFocusTimeoutFunc->setINDIProperty("FOCUS_TIMEOUT");
+	setINDIFocusTimeoutFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timer in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "QString", "deviceName", "int", "timeout");
+	setINDIFocusTimeoutFunc->setINDIProperty("FOCUS_TIMER");
 	INDIFunctionList.append( setINDIFocusTimeoutFunc);
 	
 	setINDICCDTempFunc = new ScriptFunction( "setINDICCDTemp", i18n("Set the target CCD chip temperature."), false, "QString", "deviceName", "int", "temp");
@@ -204,7 +204,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	INDIFunctionList.append( setINDICCDTempFunc);
 
         setINDIFilterNumFunc = new ScriptFunction( "setINDIFilterNum", i18n("Set the target filter position."), false, "QString", "deviceName", "int", "filter_num");
-	setINDIFilterNumFunc->setINDIProperty("FILTER_CONF");
+	setINDIFilterNumFunc->setINDIProperty("FILTER_SLOT");
 	INDIFunctionList.append ( setINDIFilterNumFunc);
 	
 	setINDIFrameTypeFunc = new ScriptFunction( "setINDIFrameType", i18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "deviceName", "QString", "type");
@@ -212,7 +212,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	INDIFunctionList.append( setINDIFrameTypeFunc);
 	
 	startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "QString", "deviceName", "int", "timeout");
-	startINDIExposureFunc->setINDIProperty("EXPOSE_DURATION");
+	startINDIExposureFunc->setINDIProperty("CCD_EXPOSE_DURATION");
 	INDIFunctionList.append( startINDIExposureFunc);
 	
 	
@@ -314,12 +314,12 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argSetFilterNumINDI    = new ArgSetFilterNumINDI(sb->ArgStack);
 	
 	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_HALT");
-	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_FAST");
-	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_MEDIUM");
 	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_SLOW");
+        argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_MEDIUM");
+	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_FAST");
 	
-	argStartFocusINDI->directionCombo->insertItem("FOCUS_IN");
-	argStartFocusINDI->directionCombo->insertItem("FOCUS_OUT");
+	argStartFocusINDI->directionCombo->insertItem("IN");
+	argStartFocusINDI->directionCombo->insertItem("OUT");
 	
 	argSetScopeActionINDI->actionCombo->insertItem("SLEW");
 	argSetScopeActionINDI->actionCombo->insertItem("TRACK");

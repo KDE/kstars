@@ -4,30 +4,36 @@
  * includes standalone commandline test program, see below.
  */
 
+/** \file fq.c
+    \brief a fifo queue that never fills.
+
+   Generic FIFO Queue.
+
+   an FQ is a FIFO list of pointers to void, each called an "element".
+   elements are added at q[head]. there are (nq) elements in the list. the
+   element to be removed next is q[head-nq]. there are (head-nq) empty slots
+   at the front of the q array. there are (nmem-head) elements available at
+   the end. if the head reaches the end, existing enties are slid to the front
+   of the array and total memory is adjusted up or down as required.
+   
+   example:
+      
+    <-------------------- nmem = 17 --------------------------------->
+    <-- head - nq = 6 --->   <-- nq = 4 -->  <---- nmem - head = 7 -->
+    ---------------------------------------------------------------------
+    |   |   |   |   |   |   | x | x | x | x |   |   |   |   |   |   |   |
+    ---------------------------------------------------------------------
+      0   1   2   3   4   5   6   7   8   9   ^ 
+                                             head = 10
+ 
+     \author Elwood Downey
+*/
+
 #include <stdlib.h>
 #include <string.h>
 
 #include "fq.h"
 
-/* generic fifo queue.
- * an FQ is a FIFO list of pointers to void, each called an "element".
- * elements are added at q[head]. there are (nq) elements in the list. the
- * element to be removed next is q[head-nq]. there are (head-nq) empty slots
- * at the front of the q array. there are (nmem-head) elements available at
- * the end. if the head reaches the end, existing enties are slid to the front
- * of the array and total memory is adjusted up or down as required.
- *
- * example:
- *   
- *   <-------------------- nmem = 17 --------------------------------->
- *   <-- head - nq = 6 --->   <-- nq = 4 -->  <---- nmem - head = 7 -->
- *  ---------------------------------------------------------------------
- *  |   |   |   |   |   |   | x | x | x | x |   |   |   |   |   |   |   |
- *  ---------------------------------------------------------------------
- *    0   1   2   3   4   5   6   7   8   9   ^ 
- *                                           head = 10
- *
- */
 struct _FQ {
     void **q;				/* malloced array of (void *) */
     int nq;				/* number of elements on queue */
