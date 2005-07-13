@@ -466,7 +466,6 @@ public:
 	/**change the current simulation date/time to the KStarsDateTime argument.
 		*Specified DateTime is always universal time.
 		*@param newDate the DateTime to set.
-		*@param newTIme the time to set.
 		*/
 	void changeDateTime( const KStarsDateTime &newDate );
 

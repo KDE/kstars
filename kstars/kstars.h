@@ -80,6 +80,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param doSplash should the splash panel be displayed during
 		*initialization.
 		*@param startClockRunning should the clock be running on startup?
+		*@param startDateString date (in string representation) to start running from.
+		*
+		* @todo Refer to documentation on date format.
 		*/
 		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = "" );
 

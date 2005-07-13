@@ -260,7 +260,9 @@ class KStarsInterface : virtual public DCOPObject
 		// Focus Functions
 		/** Set Focus Speed
 		 *@param deviceName The INDI device name
-		 *@param speed Focus speed: Halt, Fast, Medium, and Slow
+		 *@param action Focus speed: Halt, Fast, Medium, and Slow
+		 *
+		 *@todo Be more explicit about allowed action strings.
 		*/
 		virtual ASYNC setINDIFocusSpeed(QString deviceName, QString action) = 0;
 		
@@ -279,7 +281,7 @@ class KStarsInterface : virtual public DCOPObject
 		// Filter Functions
 		/** Sets the Filter position
 		 *@param deviceName The INDI device name
-		 *@param type The filter position (0-20)
+		 *@param filter_num The filter position (0-20)
 		 */
 		virtual ASYNC setINDIFilterNum(QString deviceName, int filter_num) = 0;
 
