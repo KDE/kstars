@@ -511,7 +511,7 @@
                 </sizepolicy>
             </property>
             <property name="text">
-                <string>&lt;i&gt;observing notes for object:&lt;/i&gt;</string>
+                <string>observing notes for object:</string>
             </property>
             <property name="alignment">
                 <set>AlignVCenter</set>
