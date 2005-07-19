@@ -219,7 +219,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC waitForINDIAction(QString driverName, QString action);
 	
 	/**DCOP interface function.  Set INDI focus speed. */
-		ASYNC setINDIFocusSpeed(QString driverName, QString action);
+		ASYNC setINDIFocusSpeed(QString driverName,unsigned int speed);
 	
 	/**DCOP interface function.  Set INDI focus direction and focus. */
 		ASYNC startINDIFocus(QString driverName, int focusDir);

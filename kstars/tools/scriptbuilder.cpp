@@ -187,7 +187,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	waitForINDIActionFunc = new ScriptFunction ("waitForINDIAction", i18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "deviceName", "QString", "actionName");
 	INDIFunctionList.append( waitForINDIActionFunc );
 	
-	setINDIFocusSpeedFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed."), false, "QString", "deviceName", "QString", "speed");
+	setINDIFocusSpeedFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed. Set speed to 0 to halt the focuser. 1-3 correspond to slow, medium, and fast speeds respectively."), false, "QString", "deviceName", "unsigned int", "speed");
 	setINDIFocusSpeedFunc->setINDIProperty("FOCUS_SPEED");
 	INDIFunctionList.append( setINDIFocusSpeedFunc );
 	
@@ -312,11 +312,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	argSetFrameTypeINDI    = new ArgSetFrameTypeINDI (sb->ArgStack);
 	argSetCCDTempINDI      = new ArgSetCCDTempINDI(sb->ArgStack);
 	argSetFilterNumINDI    = new ArgSetFilterNumINDI(sb->ArgStack);
-	
-	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_HALT");
-	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_SLOW");
-        argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_MEDIUM");
-	argSetFocusSpeedINDI->speedCombo->insertItem("FOCUS_FAST");
 	
 	argStartFocusINDI->directionCombo->insertItem("IN");
 	argStartFocusINDI->directionCombo->insertItem("OUT");
@@ -461,7 +456,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	
 	// INDI Set Focus Speed
 	connect (argSetFocusSpeedINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetFocusSpeedDeviceName()));
-	connect (argSetFocusSpeedINDI->speedCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetFocusSpeed()));
+	connect (argSetFocusSpeedINDI->speedIN, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusSpeed()));
 	
 	// INDI Start Focus
 	connect (argStartFocusINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartFocusDeviceName()));
@@ -1538,20 +1533,14 @@ void ScriptBuilder::slotArgWidget() {
 		  
 		}
 		else if (sf->name() == "setINDIFocusSpeed") {
+		  int t(0);
+		  bool ok(false);
+		  
 		  sb->ArgStack->raiseWidget( argSetFocusSpeedINDI);
-		  bool itemSet(false);
-		  
-		  for (int i=0; i < argSetFocusSpeedINDI->speedCombo->count(); i++)
-		  {
-		    if (argSetFocusSpeedINDI->speedCombo->text(i) == sf->argVal(1))
-		    {
-		      argSetFocusSpeedINDI->speedCombo->setCurrentItem(i);
-		      itemSet = true;
-		      break;
-		    }
-		  }
-		  
-		  if (!itemSet) argSetFocusSpeedINDI->speedCombo->setCurrentItem(0);
+
+ 		  t = sf->argVal(1).toInt(&ok);
+		  if (ok) argSetFocusSpeedINDI->speedIN->setValue(t);
+		  else argSetFocusSpeedINDI->speedIN->setValue(0);
 		  
 		  argSetFocusSpeedINDI->deviceName->clear();
 		  
@@ -2698,7 +2687,7 @@ void ScriptBuilder::slotINDISetFocusSpeedDeviceName()
     	setUnsavedChanges( true );
     
     sf->setArg(0, argSetFocusSpeedINDI->deviceName->text());
-    sf->setArg(1, argSetFocusSpeedINDI->speedCombo->currentText());
+    sf->setArg(1, QString("%1").arg(argSetFocusSpeedINDI->speedIN->value()));
     sf->setValid(true);
   }
   else
@@ -2715,10 +2704,10 @@ void ScriptBuilder::slotINDISetFocusSpeed()
   if ( sf->name() == "setINDIFocusSpeed" )
   {
     
-    if (sf->argVal(1) != argSetFocusSpeedINDI->speedCombo->currentText())
+    if (sf->argVal(1).toInt() != argSetFocusSpeedINDI->speedIN->value())
     	setUnsavedChanges( true );
     
-    sf->setArg(1, argSetFocusSpeedINDI->speedCombo->currentText());
+    sf->setArg(1, QString("%1").arg(argSetFocusSpeedINDI->speedIN->value()));
     if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
     else sf->setValid(false);
   }

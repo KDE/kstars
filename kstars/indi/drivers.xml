@@ -10,8 +10,8 @@
 	<driver>skycommander</driver>
 </ScopeDrivers>
 <devGroup group="Telescopes">
-	<device label="LX200 Generic" focal_length="" aperture="">
-		<driver>lx200generic</driver>
+	<device label="LX200 Basic" focal_length="" aperture="">
+		<driver>lx200basic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="LX200 Autostar" focal_length="" aperture="">

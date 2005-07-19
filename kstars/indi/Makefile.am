@@ -4,7 +4,7 @@ if LINUX
 bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi
 endif
 
-bin_PROGRAMS = indiserver lx200generic celestrongps apmount fliccd fliwheel temma skycommander $(bin_add)
+bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount fliccd fliwheel temma skycommander $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
@@ -16,6 +16,9 @@ indiserver_LDADD = liblilxml.a -lpthread $(LIBSOCKET)
 
 lx200generic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a
+
+lx200basic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200basic.cpp
+lx200basic_LDADD = liblilxml.a libindicom.a
 
 celestrongps_SOURCES =  indidrivermain.c base64.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a

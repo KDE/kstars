@@ -264,7 +264,7 @@ class KStarsInterface : virtual public DCOPObject
 		 *
 		 *@todo Be more explicit about allowed action strings.
 		*/
-		virtual ASYNC setINDIFocusSpeed(QString deviceName, QString action) = 0;
+		virtual ASYNC setINDIFocusSpeed(QString deviceName, unsigned int speed) = 0;
 		
 		/** Set INDI focus timeout
 		 *@param deviceName The INDI device name

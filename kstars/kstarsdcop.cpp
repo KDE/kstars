@@ -785,15 +785,37 @@ void KStars::waitForINDIAction(QString deviceName, QString action)
 }
 
 	
-void KStars::setINDIFocusSpeed(QString deviceName, QString action)
+void KStars::setINDIFocusSpeed(QString deviceName, unsigned int speed)
 {
+  INDI_D *dev;
+  INDI_P *prop;
+  INDI_E *el;
+
   if (!indidriver || !indimenu)
   {
     kdDebug() << "setINDIFocusSpeed: establishINDI() failed." << endl;
     return;
   }
 
-  setINDIAction(deviceName, action);
+  dev = indimenu->findDevice(deviceName);
+  if (!dev)
+    dev = indimenu->findDeviceByLabel(deviceName);
+  if (!dev)
+  {
+    kdDebug() << "Device " << deviceName << " not found!" << endl;
+    return;
+  }
+  
+  prop = dev->findProp("FOCUS_SPEED");
+  if (!prop) return;
+  
+  el   = prop->findElement("SPEED");
+  if (!el) return;
+  if (!el->write_w) return;
+  
+  el->write_w->setText(QString("%1").arg(speed));
+
+  prop->newText();
 
 }
 

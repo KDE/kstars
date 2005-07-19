@@ -51,7 +51,7 @@
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);
    void registerProperty(INDI_P *pp);
-   void handleBLOB(unsigned char *buffer, int bufferSize, int dataType);
+   void handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat);
     
    /* Device options */
    void initDeviceOptions();

@@ -91,8 +91,17 @@
    streamDisabled();
  }
  
-void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataType)
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
 {
+
+  if (dataFormat == ".fits") dataType = DATA_FITS;
+  else if (dataFormat == ".stream") dataType = DATA_STREAM;
+  else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
+  else dataType = DATA_OTHER;
+
+  // FIXME remove this!!
+  if (dataType == DATA_OTHER)
+       return;
 
   if (dataType == DATA_STREAM)
   {
@@ -166,7 +175,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, int dataTy
       {
 	strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
 	strncat(filename, ts, sizeof(ts));
-	strncat(filename, dataExt.ascii(), 3);
+	strncat(filename, dataFormat.ascii(), 10);
       }
     }
 	  

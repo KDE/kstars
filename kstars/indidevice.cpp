@@ -554,7 +554,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     memcpy(dataBuffer, blobBuffer, dataSize);
   }
   
-  stdDev->handleBLOB(dataBuffer, dataSize, dataType);
+  stdDev->handleBLOB(dataBuffer, dataSize, dataFormat);
 
   free (blobBuffer);
   
