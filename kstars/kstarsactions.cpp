@@ -155,7 +155,13 @@ void KStars::slotWizard() {
 
 		// If the sky is in Horizontal mode and not tracking, reset focus such that
 		// Alt/Az remain constant.
-		if ( ! Options::isTracking() && Options::useAltAz() ) {
+		if ( data()->useDefaultOptions ) {
+			SkyPoint newPoint;
+			newPoint.setAz( Options::focusRA() );
+			newPoint.setAlt( Options::focusDec() + 0.0001 );
+			newPoint.HorizontalToEquatorial( LST(), geo()->lat() );
+			map()->setDestination( &newPoint );
+		} else if ( ! Options::isTracking() && Options::useAltAz() ) {
 			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 

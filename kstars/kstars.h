@@ -56,12 +56,11 @@ class INDIMenu;
 class INDIDriver;
 class imagesequence;
 
-/**@class KStars
-	*This is the main window for KStars.  It is derived from KMainWindow.
+/**
+	*@class KStars
+	*@short This is the main window for KStars.
 	*In addition to the GUI elements, the class contains the program clock,
-	*KStarsData, and SkyMap objects.
-	*It also contains functions for the DCOP interface.
-	*@short KStars base class
+	*KStarsData, and SkyMap objects.  It also contains functions for the DCOP interface.
 	*@author Jason Harris
 	*@version 1.0
 	*/
@@ -71,12 +70,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
   Q_OBJECT
   public:
-	/**Constructor.
-		*@param kstarsData the KStars Data object
-		*/
-		KStars( KStarsData* kstarsData );
-
-	/**Constructor.
+	/**
+		*@short Constructor.
 		*@param doSplash should the splash panel be displayed during
 		*initialization.
 		*@param startClockRunning should the clock be running on startup?

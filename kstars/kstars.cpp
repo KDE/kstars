@@ -96,22 +96,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	obsList = new ObservingList( this, this );
 }
 
-KStars::KStars( KStarsData* kd )
-	: DCOPObject("KStarsInterface"), KMainWindow( )
-{
-	// The assumption is that kstarsData is fully initialized
-
-	pd = new privatedata(this);
-	pd->kstarsData = kd;
-	pd->buildGUI();
-
-	kd->clock()->start();
-
-    obsList = new ObservingList( this, this );
-
-	show();
-}
-
 KStars::~KStars()
 {
 	//store focus values in Options
