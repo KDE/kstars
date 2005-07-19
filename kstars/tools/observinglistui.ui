@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>580</width>
-            <height>422</height>
+            <width>618</width>
+            <height>549</height>
         </rect>
     </property>
     <property name="caption">
@@ -30,6 +30,14 @@
                 <widget class="KPushButton">
                     <property name="name">
                         <cstring>OpenButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="minimumSize">
                         <size>
@@ -57,6 +65,14 @@
                     <property name="name">
                         <cstring>SaveButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                         <size>
                             <width>32</width>
@@ -83,6 +99,14 @@
                     <property name="name">
                         <cstring>SaveAsButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                         <size>
                             <width>32</width>
@@ -108,6 +132,14 @@
                 <widget class="KPushButton">
                     <property name="name">
                         <cstring>WizardButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="minimumSize">
                         <size>
@@ -152,6 +184,14 @@
                     <property name="name">
                         <cstring>MiniButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                         <size>
                             <width>32</width>
@@ -188,8 +228,19 @@
                     <property name="name">
                         <cstring>CenterButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="text">
                         <string>Ce&amp;nter</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Center sky map on highlighted object</string>
@@ -202,8 +253,19 @@
                     <property name="name">
                         <cstring>ScopeButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="text">
                         <string>Scope</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Point telescope at highlighted object</string>
@@ -216,8 +278,19 @@
                     <property name="name">
                         <cstring>DetailsButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="text">
                         <string>Details</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Show details for highlighted object</string>
@@ -230,8 +303,19 @@
                     <property name="name">
                         <cstring>AVTButton</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="text">
                         <string>&amp;Alt vs Time</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+A</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Show altitude plot</string>
@@ -243,6 +327,14 @@
                 <widget class="KPushButton">
                     <property name="name">
                         <cstring>RemoveButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
                         <string>Remove</string>
@@ -276,6 +368,14 @@
         <widget class="QWidgetStack">
             <property name="name">
                 <cstring>TableStack</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>1</verstretch>
+                </sizepolicy>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -380,6 +480,20 @@
                         <property name="name">
                             <cstring>TinyTable</cstring>
                         </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>7</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>1</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>0</width>
+                                <height>100</height>
+                            </size>
+                        </property>
                     </widget>
                 </vbox>
             </widget>
@@ -387,6 +501,14 @@
         <widget class="QLabel">
             <property name="name">
                 <cstring>NotesLabel</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="text">
                 <string>&lt;i&gt;observing notes for object:&lt;/i&gt;</string>
@@ -399,33 +521,30 @@
             <property name="name">
                 <cstring>NotesEdit</cstring>
             </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>1</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>100</height>
+                </size>
+            </property>
             <property name="maximumSize">
                 <size>
                     <width>32767</width>
-                    <height>100</height>
+                    <height>32767</height>
                 </size>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>Your observing notes for the highlighted object</string>
             </property>
         </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
     </vbox>
 </widget>
 <customwidgets>

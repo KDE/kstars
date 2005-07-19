@@ -58,11 +58,9 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
 	QFrame *page = plainPage();
-	setMainWidget( page );
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ObservingListUI( page );
 	vlay->addWidget( ui );
-  vlay->addSpacing( 12 );
 
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
