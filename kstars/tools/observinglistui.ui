@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>618</width>
-            <height>549</height>
+            <width>543</width>
+            <height>506</height>
         </rect>
     </property>
     <property name="caption">
@@ -388,6 +388,9 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
                     <widget class="KListView">
                         <column>
                             <property name="text">
@@ -476,6 +479,9 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
                     <widget class="KListBox">
                         <property name="name">
                             <cstring>TinyTable</cstring>
@@ -485,7 +491,7 @@
                                 <hsizetype>5</hsizetype>
                                 <vsizetype>7</vsizetype>
                                 <horstretch>0</horstretch>
-                                <verstretch>1</verstretch>
+                                <verstretch>4</verstretch>
                             </sizepolicy>
                         </property>
                         <property name="minimumSize">
@@ -510,6 +516,11 @@
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
+            <property name="font">
+                <font>
+                    <italic>1</italic>
+                </font>
+            </property>
             <property name="text">
                 <string>observing notes for object:</string>
             </property>
@@ -523,8 +534,8 @@
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>7</vsizetype>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>1</verstretch>
                 </sizepolicy>
@@ -538,7 +549,7 @@
             <property name="maximumSize">
                 <size>
                     <width>32767</width>
-                    <height>32767</height>
+                    <height>160</height>
                 </size>
             </property>
             <property name="whatsThis" stdset="0">

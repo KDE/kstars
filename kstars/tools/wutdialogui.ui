@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>541</width>
-            <height>547</height>
+            <width>652</width>
+            <height>589</height>
         </rect>
     </property>
     <property name="caption">
@@ -388,8 +388,14 @@
                     <property name="name">
                         <cstring>textLabel15</cstring>
                     </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>10</pointsize>
+                            <bold>1</bold>
+                        </font>
+                    </property>
                     <property name="text">
-                        <string>&lt;font size="-1"&gt;&lt;b&gt;Choose a category:&lt;/b&gt;&lt;/font&gt;</string>
+                        <string>Choose a category:</string>
                     </property>
                 </widget>
                 <widget class="KListBox" row="1" column="1">
@@ -530,13 +536,30 @@
                     <property name="name">
                         <cstring>textLabel16</cstring>
                     </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>10</pointsize>
+                            <bold>1</bold>
+                        </font>
+                    </property>
                     <property name="text">
-                        <string>&lt;font size="-1"&gt;&lt;b&gt;Matching objects:&lt;/b&gt;&lt;/font&gt;</string>
+                        <string>Matching objects:</string>
                     </property>
                 </widget>
             </grid>
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistbox.h</includehint>
+</includehints>
 </UI>
