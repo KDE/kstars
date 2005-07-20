@@ -239,9 +239,6 @@
                     <property name="text">
                         <string>Ce&amp;nter</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Center sky map on highlighted object</string>
                     </property>
@@ -313,9 +310,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Alt vs Time</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Show altitude plot</string>
