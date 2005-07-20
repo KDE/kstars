@@ -213,3 +213,5 @@ void ThumbImage::mouseMoveEvent( QMouseEvent *e ) {
 		update();
 	}
 }
+
+#include "thumbnaileditor.moc"

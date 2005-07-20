@@ -271,3 +271,5 @@ void ThumbnailPicker::slotSetFromList( int i ) {
 void ThumbnailPicker::slotSetFromURL( const QString &url ) {}
 void ThumbnailPicker::slotCheckValidURL( const QString &url ) {}
 
+
+#include "thumbnailpicker.moc"
