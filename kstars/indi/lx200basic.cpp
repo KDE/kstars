@@ -124,6 +124,8 @@ LX200Basic::LX200Basic()
    simulation     = false;
    targetRA       = 0;
    targetDEC      = 0;
+   lastRA 	  = 0;
+   lastDEC	  = 0;
    currentSet     = 0;
    UTCOffset      = 0;
 
