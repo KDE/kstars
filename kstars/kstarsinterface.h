@@ -260,7 +260,9 @@ class KStarsInterface : virtual public DCOPObject
 		// Focus Functions
 		/** Set Focus Speed
 		 *@param deviceName The INDI device name
-		 *@param action Focus speed: Halt, Fast, Medium, and Slow
+		 *@param speed Focus speed: Halt, Fast, Medium, and Slow;
+		 *             which numerical value corresponds to which
+		 *             is left to the INDI driver.
 		 *
 		 *@todo Be more explicit about allowed action strings.
 		*/
