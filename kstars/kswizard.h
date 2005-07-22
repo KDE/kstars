@@ -23,7 +23,8 @@
 
 class GeoLocation;
 
-/**@class Setup Wizard for KStars
+/**
+	*@class KSWizard
 	*The Setup Wizard will be automatically opened when KStars runs 
 	*for the first time.  It allows the user to set up some basic parameters:
 	*@li Geographic Location
@@ -39,17 +40,44 @@ class KSWizard : public KSWizardUI
 {
 Q_OBJECT
 public:
+	/**
+		*Constructor
+		*@p parent pointer to the parent widget
+		*@p name name for the KSWizard object
+		*/
 	KSWizard( QWidget *parent=0, const char *name=0 );
+
+	/**Destructor */
 	~KSWizard();
+
+	/**
+		*@return pointer to the geographic location selected by the user
+		*/
 	GeoLocation* geo() const { return Geo; }
 
 private slots:
+	/**
+		*Set the geo pointer to the user's selected city, and display
+		*its longitude and latitude in the window.
+		*@note called when the highlighted city in the list box changes
+		*/
 	void slotChangeCity();
+
+	/**
+		*Display only those cities which meet the user's search criteria 
+		*in the city list box.
+		*@note called when one of the name filters is modified
+		*/
 	void slotFilterCities();
+
 //Uncomment if we ever need the telescope page...
 //	void slotTelescopeSetup();
 
 private:
+	/**
+		*@short Initialize the geographic location page.
+		*Populate the city list box, and highlight the current location in the list.
+		*/
 	void initGeoPage();
 	
 	KStars *ksw;

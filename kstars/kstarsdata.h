@@ -82,7 +82,6 @@ class CustomCatalog;
 	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
 	*images and information pages.
 	*
-	*@short KStars Data
 	*@author Heiko Evermann
 	*@version 1.0
 	*/
@@ -106,7 +105,6 @@ public:
 	friend class AltVsTime;
 	friend class KSPopupMenu;
 	friend class WUTDialog;
-	friend class ViewOpsDialog;
 	friend class INDIDriver;
 	friend class INDI_P;
 	friend class INDIStdProperty;

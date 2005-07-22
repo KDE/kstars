@@ -23,7 +23,8 @@
 
 class KConfig;
 
-/**@class ColorScheme
+/**
+	*@class ColorScheme
 	*This class stores all of the adjustable colors in KStars, in 
 	*a QMap object keyed by the names of the colors.  It also stores
 	*information on how stars are to be rendered in the map
@@ -56,8 +57,9 @@ class ColorScheme {
 		*/
 		bool hasColorNamed( const QString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
 		
-	/**Retrieve a color by name.  
-		*@name the key name of the color to be retrieved.
+	/**
+		*@short Retrieve a color by name.  
+		*@p name the key name of the color to be retrieved.
 		*@return the requested color, or "#FFFFFF" (white) if color name not found. 
 		*/
 		QString colorNamed( const QString &name ) const;
@@ -67,7 +69,7 @@ class ColorScheme {
 		*/
 		QString colorAt( int i ) const;
 		
-	/**@p i the index of the key name to retrieve
+	/**@p i the index of the long name to retrieve
 		*@return the name of the color at index i
 		*/
 		QString nameAt( int i ) const;
@@ -77,6 +79,10 @@ class ColorScheme {
 		*/
 		QString keyAt( int i ) const;
 		
+	/**
+		*@return the long name of the color whose key name is given
+		*@p key the key name identifying the color.
+		*/
 		QString nameFromKey( const QString &key ) const;
 		
 	/**Change the color with the given key to the given value
