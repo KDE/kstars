@@ -147,8 +147,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2</cstring>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                    <string>mm</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -178,8 +183,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_2</cstring>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                    <string>mm</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -209,8 +219,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_2_2</cstring>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;arcmin&lt;/i&gt;</string>
+                                                    <string>arcmin</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -432,8 +447,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                         <height>0</height>
                                                     </size>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                    <string>mm</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -463,8 +483,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_3_2</cstring>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;mm&lt;/i&gt;</string>
+                                                    <string>mm</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -559,8 +584,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                         <height>0</height>
                                                     </size>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;m&lt;/i&gt;</string>
+                                                    <string>m</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -590,8 +620,13 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_3_2_3</cstring>
                                                 </property>
+                                                <property name="font">
+                                                    <font>
+                                                        <italic>1</italic>
+                                                    </font>
+                                                </property>
                                                 <property name="text">
-                                                    <string>&lt;i&gt;cm&lt;/i&gt;</string>
+                                                    <string>cm</string>
                                                 </property>
                                             </widget>
                                         </hbox>
