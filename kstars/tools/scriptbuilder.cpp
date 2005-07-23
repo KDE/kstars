@@ -858,9 +858,7 @@ void ScriptBuilder::saveWarning() {
 	if ( UnsavedChanges ) {
 		QString caption = i18n( "Save Changes to Script?" );
 		QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
-		QString ybut = KStdGuiItem::save().text();
-		QString nbut = i18n( "&Discard" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
 		if ( ans == KMessageBox::Yes ) {
 			slotSave();
 			setUnsavedChanges( false );

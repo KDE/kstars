@@ -52,7 +52,7 @@ void AddLinkDialog::checkURL( void ) {
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
 		QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
 		QString caption = i18n( "Invalid URL" );
-		if ( KMessageBox::warningYesNo( 0, message, caption )==KMessageBox::Yes ) {
+		if ( KMessageBox::warningYesNo( 0, message, caption, i18n("Browse Google"), i18n("Do Not Browse") )==KMessageBox::Yes ) {
 			kapp->invokeBrowser( "http://www.google.com" );
 		}
 	}

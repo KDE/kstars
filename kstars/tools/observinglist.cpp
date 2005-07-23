@@ -538,7 +538,7 @@ void ObservingList::slotOpenList() {
 
 	} else if ( fileURL.path() != "" ) {
 		QString message = i18n( "The specified file is invalid.  Try another file?" );
-		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid file") ) == KMessageBox::Yes ) {
+		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			slotOpenList();
 		}
 	}
@@ -551,7 +551,7 @@ void ObservingList::saveCurrentList() {
 		if ( isModified ) {
 			QString message = i18n( "Do you want to save the current list before opening a new list?" );
 			if ( KMessageBox::questionYesNo( this, message, 
-					i18n( "Save current list?" ) ) == KMessageBox::Yes )
+					i18n( "Save Current List?" ), KStdGuiItem::save(), KStdGuiItem::discard() ) == KMessageBox::Yes )
 				slotSaveList();
 		}
 
@@ -587,7 +587,7 @@ void ObservingList::slotSaveList() {
 	if ( !f.open( IO_WriteOnly) ) {
 		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
 		
-		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ) ) == KMessageBox::Yes ) {
+		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			FileName == "";
 			slotSaveList();
 		}

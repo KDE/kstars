@@ -213,9 +213,7 @@ void FITSViewer::slotClose()
     
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		QString ybut = KStdGuiItem::save().text();
-		QString nbut = i18n( "&Discard" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();	
 		else if ( ans == KMessageBox::No ) 
@@ -234,9 +232,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
     
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		QString ybut = KStdGuiItem::save().text();
-		QString nbut = i18n( "&Discard" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();	
 		else if ( ans == KMessageBox::No ) 
@@ -502,9 +498,7 @@ void FITSViewer::fileOpen()
     
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		QString ybut = KStdGuiItem::save().text();
-		QString nbut = i18n( "&Discard" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, ybut, nbut );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();	
 		else if ( ans == KMessageBox::No ) 
