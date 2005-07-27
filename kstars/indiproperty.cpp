@@ -19,6 +19,7 @@
  #include "Options.h"
  #include "kstars.h"
  #include "timedialog.h"
+ #include "skymap.h"
 
  #include "indi/base64.h"
  #include "indi/indicom.h"
@@ -78,6 +79,8 @@ INDI_P::~INDI_P()
       delete (label_w);
       delete (set_w);
       delete (PHBox);
+      delete (indistd);
+      delete (groupB);
 }
 
 bool INDI_P::isOn(QString component)
@@ -211,6 +214,16 @@ void INDI_P::convertSwitch(int id)
  {
    newText();
    return;
+ }
+
+ /* Another special case, center telescope */
+ if (assosiatedPopup->text(id) == i18n("Center Telescope"))
+ {
+        if (!indistd->stdDev->dp->isOn()) return;
+	indistd->ksw->map()->setClickedObject(indistd->stdDev->telescopeSkyObject);
+	indistd->ksw->map()->setClickedPoint(indistd->stdDev->telescopeSkyObject);
+	indistd->ksw->map()->slotCenter();
+	return;
  }
    
  lp = findElement(assosiatedPopup->text(id));

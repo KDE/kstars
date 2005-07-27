@@ -72,6 +72,7 @@
 	 
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
+   telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
    
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
@@ -89,6 +90,8 @@
    CCDPreviewWindow->enableStream(false);
    CCDPreviewWindow->close();
    streamDisabled();
+   delete (seqLister);
+   delete (telescopeSkyObject);
  }
  
 void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
@@ -98,10 +101,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
   else if (dataFormat == ".stream") dataType = DATA_STREAM;
   else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
   else dataType = DATA_OTHER;
-
-  // FIXME remove this!!
-  if (dataType == DATA_OTHER)
-       return;
 
   if (dataType == DATA_STREAM)
   {
@@ -380,12 +379,32 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
           CCDPreviewWindow->enableStream(false);
        break;
        
+       case EQUATORIAL_COORD:
+       case EQUATORIAL_EOD_COORD:
+	lp = pp->findElement("RA");
+	if (!lp) return;
+	telescopeSkyObject->setRA(lp->value);
+	lp = pp->findElement("DEC");
+	if (!lp) return;
+	telescopeSkyObject->setDec(lp->value);
+	//telescopeSkyObject->set(telescopeSkyObject->ra(), telescopeSkyObject->dec());
+	break;
+
+	case HORIZONTAL_COORD:
+	lp = pp->findElement("ALT");
+	if (!lp) return;
+	telescopeSkyObject->setAlt(lp->value);
+	lp = pp->findElement("AZ");
+	telescopeSkyObject->setAz(lp->value);
+        //telescopeSkyObject->set(telescopeSkyObject->ra(), telescopeSkyObject->dec());
+	break;
+
     default:
       break;
     }
  
  }
- 
+
  void INDIStdDevice::streamDisabled()
  {
     INDI_P *pp;
@@ -733,7 +752,10 @@ void INDIStdDevice::timerDone()
 	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
 	if (useJ2000)
+	{
+		sp.set(currentObject->ra(), currentObject->dec());
         	sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
+        }
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process

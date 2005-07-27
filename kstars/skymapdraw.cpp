@@ -202,6 +202,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 						indi_sp.setAz(azDMS);
 						indi_sp.setAlt(altDMS);
+
 						}
 						else
 						{
@@ -226,9 +227,13 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 						indi_sp.setRA(raDMS);
 						indi_sp.setDec(decDMS);
-						
+
 						if (useJ2000)
+						{
+							indi_sp.setRA0(raDMS);
+							indi_sp.setDec0(decDMS);
 							indi_sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
+						}
 							
 						indi_sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 

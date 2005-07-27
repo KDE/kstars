@@ -279,6 +279,7 @@ VideoWG::VideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt:
 VideoWG::~VideoWG() 
 {
  delete (streamImage);
+ delete [] (grayTable);
 }
 
 void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)

@@ -1,5 +1,5 @@
 #if 0
-    Astro-Physics driver
+    LX200 Basic Driver
     Copyright (C) 2005 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or

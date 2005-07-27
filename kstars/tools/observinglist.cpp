@@ -414,8 +414,8 @@ void ObservingList::slotSlewToObject()
             else
                 sp.set (ks->map()->clickedPoint()->ra(), ks->map()->clickedPoint()->dec());
 
-      	 if (useJ2000)
-            sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
+      	if (useJ2000)
+	    sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
 
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
 	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
