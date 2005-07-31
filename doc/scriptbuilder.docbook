@@ -282,6 +282,10 @@ Note that the device name is the first argument of all INDI functions. This perm
     dcop $KSTARS $MAIN  waitForINDIAction "FLI CCD" EXPOSE_DURATION
 </programlisting>
 </blockquote>
+
+<note>
+<para>The INDI Library provides robust scripting tools that enable developers to orchestrate very complex scripts. For more details, refer to the <ulink url="http://indi.sourceforge.net/manual/book1.html">INDI Developer Manual</ulink>.</para>
+</note>
 </sect2>
 </sect1>
 
