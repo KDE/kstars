@@ -22,7 +22,7 @@
         <widget class="KListView">
             <column>
                 <property name="text">
-                    <string>Choose an Online Database</string>
+                    <string>Choose Online Database</string>
                 </property>
                 <property name="clickable">
                     <bool>true</bool>

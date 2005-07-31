@@ -362,7 +362,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Hour Angle:</string>
+                                                <string>Hour angle:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -627,7 +627,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Set Time:</string>
+                                                <string>Set time:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -651,7 +651,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Transit Time:</string>
+                                                <string>Transit time:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -675,7 +675,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Rise Time:</string>
+                                                <string>Rise time:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -776,7 +776,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Azimuth at Set:</string>
+                                                <string>Azimuth at set:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -800,7 +800,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Altitude at Transit:</string>
+                                                <string>Altitude at transit:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>
@@ -874,7 +874,7 @@
                                                 <number>1</number>
                                             </property>
                                             <property name="text">
-                                                <string>Azimuth at Rise:</string>
+                                                <string>Azimuth at rise:</string>
                                             </property>
                                             <property name="alignment">
                                                 <set>AlignTop</set>

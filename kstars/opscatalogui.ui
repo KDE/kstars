@@ -188,7 +188,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                                 <cstring>textLabelMagStarInfo</cstring>
                             </property>
                             <property name="text">
-                                <string>For stars brighter than</string>
+                                <string>For stars brighter than:</string>
                             </property>
                         </widget>
                         <widget class="MagnitudeSpinBox">

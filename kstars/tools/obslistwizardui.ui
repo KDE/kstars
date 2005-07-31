@@ -252,7 +252,7 @@
                                                             <cstring>DeepSkyButton</cstring>
                                                         </property>
                                                         <property name="text">
-                                                            <string>Deep-sk&amp;y</string>
+                                                            <string>Deep-Sk&amp;y</string>
                                                         </property>
                                                     </widget>
                                                     <widget class="KPushButton">
@@ -334,7 +334,7 @@
                                             <cstring>SelectByRect</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Select objects in Region:</string>
+                                            <string>Select objects in region:</string>
                                         </property>
                                         <property name="accel">
                                             <string></string>
@@ -878,7 +878,7 @@
                                             <bool>false</bool>
                                         </property>
                                         <property name="text">
-                                            <string>Exclude objects which 
+                                            <string>Exclude objects which
 have &amp;no magnitude</string>
                                         </property>
                                         <property name="checked">
@@ -920,14 +920,14 @@ have &amp;no magnitude</string>
                                             <cstring>textLabel3</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>There are three ways to select objects from 
+                                            <string>There are three ways to select objects from
 a specific region on the sky:
 
 a. select objects in a constellation
 b. select objects in a rectangular region
 c. select objects in a circular region
 
-Choose one of these sub-items to 
+Choose one of these sub-items to
 select from a region on the sky.</string>
                                         </property>
                                         <property name="alignment">
