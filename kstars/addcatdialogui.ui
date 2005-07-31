@@ -24,7 +24,7 @@
                 <cstring>groupBox4</cstring>
             </property>
             <property name="title">
-                <string>Import file</string>
+                <string>Import File</string>
             </property>
             <vbox>
                 <property name="name">
@@ -67,7 +67,7 @@
                 <cstring>groupBox1</cstring>
             </property>
             <property name="title">
-                <string>Describe data fields</string>
+                <string>Describe Data Fields</string>
             </property>
             <hbox>
                 <property name="name">
@@ -213,7 +213,7 @@
                         <cstring>textLabel3</cstring>
                     </property>
                     <property name="text">
-                        <string>Coordinate Epoch:</string>
+                        <string>Coordinate epoch:</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget" row="1" column="2">
@@ -249,7 +249,7 @@
                                 <bool>true</bool>
                             </property>
                             <property name="text">
-                                <string>Preview &amp;output</string>
+                                <string>Preview &amp;Output</string>
                             </property>
                         </widget>
                     </hbox>
@@ -277,7 +277,7 @@
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>Catalog Name:</string>
+                        <string>Catalog name:</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="0">
@@ -285,7 +285,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Save Catalog As:</string>
+                        <string>Save catalog as:</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="0" column="1">

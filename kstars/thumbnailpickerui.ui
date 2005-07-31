@@ -92,7 +92,7 @@
                         <cstring>textLabel3</cstring>
                     </property>
                     <property name="text">
-                        <string>Specify Image location:</string>
+                        <string>Specify image location:</string>
                     </property>
                 </widget>
                 <widget class="KURLRequester">
@@ -241,7 +241,7 @@
                                         <cstring>EditButton</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Edit Image</string>
+                                        <string>Edit Image...</string>
                                     </property>
                                 </widget>
                                 <widget class="KPushButton">

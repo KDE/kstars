@@ -17,7 +17,7 @@
             <cstring>WelcomePage</cstring>
         </property>
         <attribute name="title">
-            <string>Welcome to KStars.</string>
+            <string>Welcome to KStars</string>
         </attribute>
         <hbox>
             <property name="name">
@@ -58,7 +58,7 @@
                             <cstring>textLabel1</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;Welcome to the KStars Setup Wizard.&lt;/h3&gt;</string>
+                            <string>&lt;h3&gt;Welcome to the KStars Setup Wizard&lt;/h3&gt;</string>
                         </property>
                     </widget>
                     <widget class="QLayoutWidget">
@@ -217,10 +217,10 @@
                                                     <cstring>textLabel4</cstring>
                                                 </property>
                                                 <property name="text">
-                                                    <string>&lt;p&gt;Select a City near your 
-location from the list.  You 
-may filter the list by the name 
-of your city, province, and 
+                                                    <string>&lt;p&gt;Select a City near your
+location from the list.  You
+may filter the list by the name
+of your city, province, and
 country.&lt;/p&gt;
 
 &lt;p&gt;Once you have selected a City, press &lt;b&gt;Next&lt;/b&gt;.&lt;/p&gt;</string>
@@ -492,8 +492,8 @@ country.&lt;/p&gt;
                                             <cstring>textLabel2_2</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>KStars can control most popular computerized telescope 
-mounts, as well as some focusers and CCD cameras.  It 
+                                            <string>KStars can control most popular computerized telescope
+mounts, as well as some focusers and CCD cameras.  It
 can also control telescopes remotely over the Internet.</string>
                                         </property>
                                     </widget>
@@ -519,9 +519,9 @@ can also control telescopes remotely over the Internet.</string>
                                             <cstring>textLabel3_2</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>To set up your devices, press the &lt;b&gt;Telescope Setup 
-Wizard&lt;/b&gt; button below.  When you are finished, press &lt;b&gt;Next&lt;/b&gt;.  
-If you do not have any devices to set up, just press &lt;b&gt;Next&lt;/b&gt;.  
+                                            <string>To set up your devices, press the &lt;b&gt;Telescope Setup
+Wizard&lt;/b&gt; button below.  When you are finished, press &lt;b&gt;Next&lt;/b&gt;.
+If you do not have any devices to set up, just press &lt;b&gt;Next&lt;/b&gt;.
 You can always set up devices later using the &lt;b&gt;Devices&lt;/b&gt; menu.</string>
                                         </property>
                                     </widget>
@@ -713,9 +713,9 @@ and other astronomical devices such as CCD cameras and focusers.</string>
                                             <cstring>textLabel1_3</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>&lt;p&gt;You may now download optional data files to enhance 
-KStars, such as Messier object images, or a more complete 
-NGC/IC catalog.  Press the &lt;b&gt;Download Extra Data&lt;/b&gt; 
+                                            <string>&lt;p&gt;You may now download optional data files to enhance
+KStars, such as Messier object images, or a more complete
+NGC/IC catalog.  Press the &lt;b&gt;Download Extra Data&lt;/b&gt;
 button to proceed. &lt;/p&gt;
 
 &lt;p&gt;You can also use this tool later, by selecting

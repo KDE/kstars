@@ -129,7 +129,7 @@
                                         <bool>false</bool>
                                     </property>
                                     <property name="text">
-                                        <string>Details...</string>
+                                        <string>Details</string>
                                     </property>
                                 </widget>
                             </hbox>
@@ -307,7 +307,7 @@
                                         <bool>false</bool>
                                     </property>
                                     <property name="text">
-                                        <string>Details...</string>
+                                        <string>Details</string>
                                     </property>
                                 </widget>
                             </hbox>
@@ -475,7 +475,7 @@
                                         <bool>false</bool>
                                     </property>
                                     <property name="text">
-                                        <string>Details...</string>
+                                        <string>Details</string>
                                     </property>
                                 </widget>
                             </hbox>

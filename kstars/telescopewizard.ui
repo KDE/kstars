@@ -133,7 +133,7 @@
                             </sizepolicy>
                         </property>
                         <property name="text">
-                            <string>Welcome to the &lt;b&gt;KStars Telescope Setup Wizard!&lt;/b&gt; 
+                            <string>Welcome to the &lt;b&gt;KStars Telescope Setup Wizard!&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
 This Wizard will help you to connect to your telescope and control it from KStars. You will be asked to verify some basic information.
 &lt;br&gt;
@@ -163,7 +163,7 @@ Please click next to continue.</string>
                             <cstring>modelPageLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;1. Telescope model&lt;/h3&gt;
+                            <string>&lt;h3&gt;1. Telescope Model&lt;/h3&gt;
 
 Please select your telescope model from the list below. Click next after selecting a model.</string>
                         </property>
@@ -272,11 +272,11 @@ Please select your telescope model from the list below. Click next after selecti
                             </sizepolicy>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;2. Align your telescope&lt;/h3&gt;
+                            <string>&lt;h3&gt;2. Align Your Telescope&lt;/h3&gt;
 
 You need to align your telescope before you can control it properly from KStars. Please refer to your telescope manual for alignment instructions.
 &lt;br&gt;&lt;br&gt;
-After a successful alignment, connect your telescope's RS232 interface to your computer's serial or USB port. 
+After a successful alignment, connect your telescope's RS232 interface to your computer's serial or USB port.
 &lt;br&gt;&lt;br&gt;&lt;br&gt;Click next to continue.</string>
                         </property>
                         <property name="alignment">
@@ -301,7 +301,7 @@ After a successful alignment, connect your telescope's RS232 interface to your c
                             <cstring>localPageLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;3. Verify local settings&lt;/h3&gt;
+                            <string>&lt;h3&gt;3. Verify Local Settings&lt;/h3&gt;
 
 Verify if the following time, date, and location settings are correct. If any of the settings are incorrect, you can correct them via the &lt;tt&gt;Set time&lt;/tt&gt; and &lt;tt&gt;Set Location&lt;/tt&gt; buttons.
 </string>
@@ -519,9 +519,9 @@ Verify if the following time, date, and location settings are correct. If any of
                             </sizepolicy>
                         </property>
                         <property name="text">
-                            <string>&lt;h3&gt;4. Determine connection port&lt;/h3&gt;
+                            <string>&lt;h3&gt;4. Determine Connection Port&lt;/h3&gt;
 
-Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt&gt;/dev/ttyS0&lt;/tt&gt; 
+Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt&gt;/dev/ttyS0&lt;/tt&gt;
 &lt;br&gt;&lt;br&gt;If you are unsure about the port number, you can leave the field empty and KStars will try to scan the ports for attached telescopes. Beware that the autoscan process might take few minutes to complete. </string>
                         </property>
                         <property name="alignment">

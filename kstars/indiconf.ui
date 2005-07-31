@@ -165,7 +165,7 @@
                         <cstring>buttonOk</cstring>
                     </property>
                     <property name="text">
-                        <string>O&amp;K</string>
+			    <string>&amp;OK</string>
                     </property>
                     <property name="autoDefault">
                         <bool>true</bool>

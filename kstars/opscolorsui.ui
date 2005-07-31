@@ -54,7 +54,7 @@
                                 <cstring>textLabel1_2</cstring>
                             </property>
                             <property name="text">
-                                <string>InfoBox BG Mode:</string>
+                                <string>InfoBox BG mode:</string>
                             </property>
                         </widget>
                         <widget class="KComboBox">
