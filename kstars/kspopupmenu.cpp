@@ -210,7 +210,7 @@ bool KSPopupMenu::addINDI(void)
 	if ( dev->findElem("RA") || dev->findElem("ALT"))
 	{
 		menuDevice->insertSeparator();
-		menuDevice->insertItem(i18n("Center Telescope"), id++);
+		menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
                 if (dev->findElem("RA"))
 			prop = dev->findElem("RA")->pp;
  		else   	

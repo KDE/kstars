@@ -73,6 +73,8 @@
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
    telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
+
+   telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
    
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
@@ -223,14 +225,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
    
   switch (pp->stdID)
   {
-    case EQUATORIAL_COORD:
-    case EQUATORIAL_EOD_COORD:
-    case HORIZONTAL_COORD:
-      //ksw->map()->forceUpdateNow();
-      ksw->map()->update();
-      break;
-      
-    
+
     case TIME:
       if ( Options::indiAutoTime() )
        handleDevCounter();
@@ -305,7 +300,30 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	 mu = (int) el->value;
 	 CCDPreviewWindow->setCCDInfo(fwhm, mu);
 	 break;
-	
+
+       case EQUATORIAL_COORD:
+       case EQUATORIAL_EOD_COORD:
+	el = pp->findElement("RA");
+	if (!el) return;
+	telescopeSkyObject->setRA(el->value);
+	el = pp->findElement("DEC");
+	if (!el) return;
+	telescopeSkyObject->setDec(el->value);
+	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
+	ksw->map()->update();
+	break;
+
+	case HORIZONTAL_COORD:
+	el = pp->findElement("ALT");
+	if (!el) return;
+	telescopeSkyObject->setAlt(el->value);
+	el = pp->findElement("AZ");
+	if (!el) return;
+	telescopeSkyObject->setAz(el->value);
+	telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
+	ksw->map()->update();
+	break;
+
     default:
         break;
 	
@@ -379,26 +397,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
           CCDPreviewWindow->enableStream(false);
        break;
        
-       case EQUATORIAL_COORD:
-       case EQUATORIAL_EOD_COORD:
-	lp = pp->findElement("RA");
-	if (!lp) return;
-	telescopeSkyObject->setRA(lp->value);
-	lp = pp->findElement("DEC");
-	if (!lp) return;
-	telescopeSkyObject->setDec(lp->value);
-	//telescopeSkyObject->set(telescopeSkyObject->ra(), telescopeSkyObject->dec());
-	break;
-
-	case HORIZONTAL_COORD:
-	lp = pp->findElement("ALT");
-	if (!lp) return;
-	telescopeSkyObject->setAlt(lp->value);
-	lp = pp->findElement("AZ");
-	telescopeSkyObject->setAz(lp->value);
-        //telescopeSkyObject->set(telescopeSkyObject->ra(), telescopeSkyObject->dec());
-	break;
-
     default:
       break;
     }
