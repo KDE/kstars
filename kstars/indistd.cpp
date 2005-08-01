@@ -72,10 +72,10 @@
 	 
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
-   telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
-
-   telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
    
+   telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
+   ksw->data()->appendTelescopeObject(telescopeSkyObject);
+	
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
@@ -93,7 +93,6 @@
    CCDPreviewWindow->close();
    streamDisabled();
    delete (seqLister);
-   delete (telescopeSkyObject);
  }
  
 void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
@@ -303,6 +302,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 
        case EQUATORIAL_COORD:
        case EQUATORIAL_EOD_COORD:
+	if (!dp->isOn()) break;
 	el = pp->findElement("RA");
 	if (!el) return;
 	telescopeSkyObject->setRA(el->value);
@@ -314,6 +314,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	break;
 
 	case HORIZONTAL_COORD:
+        if (!dp->isOn()) break;
 	el = pp->findElement("ALT");
 	if (!el) return;
 	telescopeSkyObject->setAlt(el->value);
@@ -349,8 +350,8 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
       {
         initDeviceOptions();
 	emit linkAccepted();
-	
-	imgProp = dp->findProp("CCD_EXPOSE_DURATION");
+
+        imgProp = dp->findProp("CCD_EXPOSE_DURATION");
 	if (imgProp)
 	{
         	tmpAction = ksw->actionCollection()->action("capture_sequence");
@@ -372,7 +373,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	    //close(streamFD);
 	}
 	
-	
+	if (ksw->map()->focusObject() == telescopeSkyObject)
+	{
+		ksw->map()->stopTracking();
+		ksw->map()->setFocusObject(NULL);
+	}
+
 	drivers->updateMenuActions();
        	ksw->map()->forceUpdateNow();
         emit linkRejected();

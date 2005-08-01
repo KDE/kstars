@@ -235,7 +235,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 							indi_sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
 						}
 							
-						indi_sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+						if ( Options::useAltAz() ) indi_sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
 
 						}
 

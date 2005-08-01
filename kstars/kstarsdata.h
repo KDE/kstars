@@ -545,6 +545,11 @@ public:
 
 	bool useDefaultOptions, startupComplete;
 
+	/**@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
+		*@param object pointer to telescope sky object
+	*/
+	void appendTelescopeObject(SkyObject * object);
+
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/
@@ -710,6 +715,7 @@ private:
 	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
+	QPtrList<SkyObject> INDITelescopeList;
 	
 	QPtrList<CustomCatalog> CustomCatalogs;
 

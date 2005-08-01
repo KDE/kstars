@@ -216,6 +216,7 @@ bool KSPopupMenu::addINDI(void)
  		else   	
 			prop = dev->findElem("ALT")->pp;
 
+		prop->assosiatedPopup = menuDevice;
 		QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
 	}
        } // end device
