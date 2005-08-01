@@ -193,7 +193,7 @@ void AddCatDialog::slotShowDataFile() {
 void AddCatDialog::slotPreviewCatalog() {
 	if ( validateDataFile() ) {
 		KMessageBox::informationList( 0, i18n( "Preview of %1" ).arg( acd->CatalogName->text() ),
-			QStringList::split( "\n", CatalogContents ), i18n( "Catalog preview" ) );
+			QStringList::split( "\n", CatalogContents ), i18n( "Catalog Preview" ) );
 	}
 }
 
@@ -205,7 +205,7 @@ void AddCatDialog::slotCreateCatalog() {
 		if ( ! OutFile.open( IO_WriteOnly ) ) {
 			KMessageBox::sorry( 0, 
 				i18n( "Could not open the file %1 for writing." ).arg( acd->CatalogURL->url() ), 
-				i18n( "Error opening output file." ) );
+				i18n( "Error Opening Output File" ) );
 		} else {
 			QTextStream outStream( &OutFile );
 			outStream << CatalogContents;
