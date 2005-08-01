@@ -40,7 +40,7 @@
 #include "skyobject.h"
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
- : KDialogBase( KDialogBase::Plain, i18n( "Choose a Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
+ : KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
 		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
 	Image = new QPixmap( current );

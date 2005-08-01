@@ -564,8 +564,8 @@ void ObservingList::saveCurrentList() {
 
 void ObservingList::slotSaveListAs() {
 	bool ok(false);
-	ListName = KInputDialog::getText( i18n( "Enter list name" ), 
-			i18n( "List Name:" ), "", &ok );
+	ListName = KInputDialog::getText( i18n( "Enter List Name" ), 
+			i18n( "List name:" ), "", &ok );
 
 	if ( ok ) {
 		KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
