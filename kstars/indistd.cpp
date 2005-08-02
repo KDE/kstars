@@ -310,7 +310,11 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	if (!el) return;
 	telescopeSkyObject->setDec(el->value);
 	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
-	ksw->map()->update();
+	// Force immediate update of skymap if the focus object is our telescope. 
+	if (ksw->map()->focusObject() == telescopeSkyObject && pp->state == PS_BUSY)
+		ksw->map()->updateFocus();
+	else  
+		ksw->map()->update();
 	break;
 
 	case HORIZONTAL_COORD:
@@ -322,7 +326,11 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	if (!el) return;
 	telescopeSkyObject->setAz(el->value);
 	telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
-	ksw->map()->update();
+	// Force immediate update of skymap if the focus object is our telescope. 
+	if (ksw->map()->focusObject() == telescopeSkyObject)
+	      ksw->map()->updateFocus();
+	else
+	      ksw->map()->update();
 	break;
 
     default:
