@@ -80,10 +80,6 @@
 	</device>
 </devGroup>
 <devGroup group="CCDs">
-	<device label="SBIG CCD">
-		<driver>sbigccd</driver>
-		<version>0.1</version>
-	</device>
 	<device label="FLI CCD">
 		<driver>fliccd</driver>
 		<version>1.0</version>
