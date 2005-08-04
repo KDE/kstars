@@ -311,7 +311,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	telescopeSkyObject->setDec(el->value);
 	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
 	// Force immediate update of skymap if the focus object is our telescope. 
-	if (ksw->map()->focusObject() == telescopeSkyObject && pp->state == PS_BUSY)
+	if (ksw->map()->focusObject() == telescopeSkyObject)
 		ksw->map()->updateFocus();
 	else  
 		ksw->map()->update();
