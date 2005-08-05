@@ -587,17 +587,19 @@ int updateSkyCommanderCoord(double *ra, double *dec)
 {
   char coords[16];
   char CR[1] = { (char) 0x0D };
-
-  float RA, DEC;
+  float RA=0.0, DEC=0.0;
 
   write(fd, CR, 1);
+
   read_ret = portRead(coords, 16, LX200_TIMEOUT);
-  if (read_ret < 15)
-   return -1;
 
   read_ret = sscanf(coords, " %g %g", &RA, &DEC);
+
   if (read_ret < 2)
+  {
+   fprintf(stderr, "Error in Sky commander number format [%s], exiting.\n", coords);
    return -1;
+  }
 
   *ra  = RA;
   *dec = DEC;
