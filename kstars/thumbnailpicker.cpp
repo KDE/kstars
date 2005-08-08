@@ -22,10 +22,14 @@
 #include <qpixmap.h>
 #include <qfile.h>
 #include <qrect.h>
+#include <qstyle.h>
 
+#include <kapplication.h>
 #include <kdeversion.h>
 #include <kpushbutton.h>
+#include <klineedit.h>
 #include <klistbox.h>
+#include <kmessagebox.h>
 #include <kprogress.h>
 #include <kurl.h>
 #include <kurlrequester.h>
@@ -60,10 +64,11 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 	connect( ui->ImageList, SIGNAL( highlighted( int ) ),
 						this, SLOT( slotSetFromList( int ) ) );
 	connect( ui->ImageURLBox, SIGNAL( urlSelected( const QString& ) ),
-						this, SLOT( slotSetFromURL( const QString& ) ) );
-	connect( ui->ImageURLBox, SIGNAL( textChanged( const QString& ) ),
-						this, SLOT( slotCheckValidURL( const QString& ) ) );
+						this, SLOT( slotSetFromURL() ) );
+	connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
+						this, SLOT( slotSetFromURL() ) );
 
+	ui->ImageURLBox->lineEdit()->setTrapReturnKey( true );
 	ui->EditButton->setEnabled( false );
 
 	slotFillList();
@@ -151,10 +156,12 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	//Note: no need to delete the job, it is automatically deleted !
 
 	//Update Progressbar
-	ui->SearchProgress->advance(1);
-	if ( ui->SearchProgress->progress() == ui->SearchProgress->totalSteps() ) {
-		ui->SearchProgress->hide();
-		ui->SearchLabel->setText( i18n( "Search results:" ) );
+	if ( ! ui->SearchProgress->isHidden() ) {
+		ui->SearchProgress->advance(1);
+		if ( ui->SearchProgress->progress() == ui->SearchProgress->totalSteps() ) {
+			ui->SearchProgress->hide();
+			ui->SearchLabel->setText( i18n( "Search results:" ) );
+		}
 	}
 
 	//If there was a problem, just return silently without adding image to list.
@@ -168,10 +175,32 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	tmp.close(); // to get the newest information of the file
 
 	//Add image to list
+	//If image is taller than desktop, rescale it.
+	//I tried to use kapp->style().pixelMetric( QStyle::PM_TitleBarHeight )
+	//for the titlebar height, but this returned zero.
+	//Hard-coding 25 instead :(
 	if ( tmp.exists() ) {
-		PixList.append( new QPixmap( tmp.name() ) );
+		QImage im( tmp.name() );
 
-		//Add small image and URL to listbox
+		if ( im.isNull() ) 
+			KMessageBox::sorry( 0, i18n("Failed to load image"), 
+					i18n("Could not load the specified image") );
+
+		uint w = im.width();
+		uint h = im.height();
+		uint pad = 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25;
+		uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
+
+//	this returns zero...
+// 		//DEBUG
+// 		kdDebug() << "Title bar height: " << kapp->style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
+
+		if ( h > hDesk ) 
+			im = im.smoothScale( w*hDesk/h, hDesk );
+
+		PixList.append( new QPixmap( im ) );
+
+		//Add 50x50 image and URL to listbox
 		ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
 				cjob->srcURLs().first().prettyURL() );
 	}
@@ -268,8 +297,56 @@ void ThumbnailPicker::slotSetFromList( int i ) {
 	bImageFound = true;
 }
 
-void ThumbnailPicker::slotSetFromURL( const QString &url ) {}
-void ThumbnailPicker::slotCheckValidURL( const QString &url ) {}
+void ThumbnailPicker::slotSetFromURL() {
+	//Attempt to load the specified URL
+	KURL u = ui->ImageURLBox->url();
+
+	if ( u.isValid() ) {
+		if ( u.isLocalFile() ) {
+			QFile localFile( u.path() );
+
+			//Add image to list
+			//If image is taller than desktop, rescale it.
+			QImage im( localFile.name() );
+
+			if ( im.isNull() ) {
+				KMessageBox::sorry( 0, 
+						i18n("Failed to load image at %1").arg( localFile.name() ),
+						i18n("Failed to load image") );
+				return;
+			}
+
+			uint w = im.width();
+			uint h = im.height();
+			uint pad = 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25;
+			uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
+
+			if ( h > hDesk ) 
+				im = im.smoothScale( w*hDesk/h, hDesk );
+
+			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
+			PixList.insert( 0, new QPixmap( im ) );
+			ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
+					u.prettyURL(), 0 );
+
+			//Select the new image
+			ui->ImageList->setCurrentItem( 0 );
+			slotSetFromList(0);
+
+		} else if ( KIO::NetAccess::exists(u, true, this) ) {
+			KTempFile ktf;
+			QFile *tmpFile = ktf.file();
+			ktf.unlink(); //just need filename
+			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
+#if KDE_IS_VERSION( 3, 3, 90 )
+			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
+#endif
+			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+
+			//
+		}
+	}
+}
 
 
 #include "thumbnailpicker.moc"

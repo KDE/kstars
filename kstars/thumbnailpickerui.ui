@@ -99,6 +99,12 @@
                     <property name="name">
                         <cstring>ImageURLBox</cstring>
                     </property>
+                    <property name="filter">
+                        <string>image/png image/jpeg image/gif image/tiff</string>
+                    </property>
+                    <property name="mode">
+                        <number>1</number>
+                    </property>
                 </widget>
             </vbox>
         </widget>
@@ -241,7 +247,7 @@
                                         <cstring>EditButton</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Edit Image...</string>
+                                        <string>Edit Ima&amp;ge...</string>
                                     </property>
                                 </widget>
                                 <widget class="KPushButton">
