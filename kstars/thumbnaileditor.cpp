@@ -43,11 +43,6 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 		tp->imageRect()->width(), tp->imageRect()->height() );
 	ui->ImageCanvas->setImage( tp->currentListImage() );
 
-//	ui->ImageCanvas->setFixedSize( Image.width(), Image.height() );
-//	setFixedSize( ui->ImageCanvas->width(), ui->ImageCanvas->height() 
-//			+ ui->CropButton->height() 
-//			+ 2*ui->CropLabel->height() + 5*hlay->spacing());
-
 	connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
 	slotUpdateCropLabel();
 
