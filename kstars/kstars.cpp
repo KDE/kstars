@@ -47,36 +47,35 @@
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
-	skymap(0), centralWidget(0), topLayout(0), viewToolBar(0), TimeStep(0),
-	actCoordSys(0), colorActionMenu(0), fovActionMenu(0),
-	AAVSODialog(0), findDialog(0), kns(0), 
+	kstarsData(0), splash(0), skymap(0), viewToolBar(0), TimeStep(0),
+	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
+	AAVSODialog(0), findDialog(0), kns(0), obsList(0), 
 	indimenu(0), indidriver(0), indiseq(0),
 	DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
-	pd = new privatedata(this);
-
 	// we're nowhere near ready to take dcop calls
 	kapp->dcopClient()->suspend();
 
-	if ( doSplash ) {
-		pd->kstarsData = new KStarsData();
-		QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
-				this, SLOT( datainitFinished(bool) ) );
+	kstarsData = new KStarsData();
+	connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
-		pd->splash = new KStarsSplash(0, "Splash");
-		QObject::connect(pd->splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
-		QObject::connect(pd->kstarsData, SIGNAL( progressText(QString) ),
-				pd->splash, SLOT( setMessage(QString) ));
-		pd->splash->show();
+	if ( doSplash ) {
+		splash = new KStarsSplash(0, "Splash");
+		connect( splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
+		connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
+		splash->show();
+	} else {
+		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
 	}
 
-	pd->kstarsData->initialize();
+	//Initialize data.  When initialization is complete, it will run dataInitFinished()
+	kstarsData->initialize();
 
 	//Set Geographic Location
-	pd->kstarsData->setLocationFromOptions();
+	kstarsData->setLocationFromOptions();
 
 	//Pause the clock if the user gave the "--paused" arg
-	if ( ! StartClockRunning ) pd->kstarsData->clock()->stop();
+	if ( ! StartClockRunning ) kstarsData->clock()->stop();
 	
 	//set up Dark color scheme for application windows
 	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));
@@ -87,12 +86,16 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	//store original color scheme
 	OriginalPalette = QApplication::palette();
 
-	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
+#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 )
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
-	#else
+#else
 	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
-	#endif
+#endif
 
+	//Initialize INDIMenu
+	indimenu = new INDIMenu(this);
+
+	//Initialize Observing List
 	obsList = new ObservingList( this, this );
 }
 
@@ -115,28 +118,16 @@ KStars::~KStars()
 	clearCachedFindDialog();
 
 	delete skymap;
-	delete pd;
-	delete centralWidget;
 	delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
 	
 	skymap = 0;
-	pd = 0;
-	centralWidget = 0;
 	AAVSODialog = 0;
 	indimenu = 0;
 	indidriver = 0;
 	indiseq = 0;
-}
-
-KStars::privatedata::~privatedata() {
-	delete splash;
-	delete kstarsData;
-
-	splash = 0;
-	kstarsData = 0;
 }
 
 void KStars::clearCachedFindDialog() {
@@ -181,7 +172,7 @@ void KStars::applyConfig() {
 	((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
 	
 	//color scheme
-	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
+	kstarsData->colorScheme()->loadFromConfig( kapp->config() );
 	if ( Options::darkAppColors() ) {
 		QApplication::setPalette( DarkPalette, true );
 	} else {
@@ -195,7 +186,7 @@ void KStars::applyConfig() {
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	//Geographic location
-	setGeoLocation( Options::cityName(), Options::provinceName(), Options::countryName() );
+	data()->setLocationFromOptions();
 
 	//Focus
 	SkyObject *fo = data()->objectNamed( Options::focusObject() );
@@ -245,7 +236,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	}
 }
 
-KStarsData* KStars::data( void ) { return pd->kstarsData; }
+KStarsData* KStars::data( void ) { return kstarsData; }
 
 SkyMap* KStars::map( void )  { return skymap; }
 

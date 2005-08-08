@@ -57,7 +57,7 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 		ClickedObject(0), FocusObject(0), TransientObject(0),
 		starpix(0), pts(0), sp(0)
 {
-	if ( parent ) ksw = (KStars*) parent->parent();
+	if ( parent ) ksw = (KStars*)parent;
 	else ksw = 0;
 	
 	pts = new QPointArray( 2000 );  // points for milkyway and horizon

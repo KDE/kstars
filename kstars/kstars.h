@@ -627,10 +627,19 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 			*/
 		void initStatusBar();
 
-		SkyMap *skymap;
+		/**
+			*Initialize focus position
+			*/
+		void initFocus();
 
-		QWidget *centralWidget;
-		QVBoxLayout *topLayout;
+		/**
+			*Build the KStars main window
+			*/
+		void buildGUI();
+
+		KStarsData *kstarsData;
+		KStarsSplash *splash;
+		SkyMap *skymap;
 
 		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
@@ -642,6 +651,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KDialogBase *AAVSODialog;
 		FindDialog *findDialog;
 		KSNewStuff *kns;
+		ObservingList *obsList;
 		
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
@@ -654,25 +664,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		QPalette OriginalPalette, DarkPalette;
 
-		class privatedata;
-		friend class privatedata;
-		privatedata *pd;
-        ObservingList *obsList;
-};
-
-class KStars::privatedata {
-	public:
-		KStars *ks;
-		KStarsSplash *splash;
-		KStarsData *kstarsData;
-
-		/**Constructor */
-		privatedata(KStars *parent) : ks(parent), splash(0), kstarsData(0) {};
-		/**Destructor */
-		~privatedata();
-
-		/**Build the main KStars window */
-		void buildGUI();
 };
 
 #endif

@@ -363,44 +363,123 @@ void KStars::initStatusBar() {
 }
 
 void KStars::datainitFinished(bool worked) {
+	//Quit program if something went wrong with initialization of data
 	if (!worked) {
 		kapp->quit();
 		return;
 	}
 
-	if (pd->splash) {
-		delete pd->splash;
-		pd->splash = 0;
+	//delete the splash screen window
+	if ( splash ) {
+		delete splash;
+		splash = 0;
 	}
 
-	pd->buildGUI();
+	//Add GUI elements to main window
+	buildGUI();
+
+	//Time-related connections
+	connect( data()->clock(), SIGNAL( timeAdvanced() ), this, 
+		 SLOT( updateTime() ) );
+	connect( data()->clock(), SIGNAL( timeChanged() ), this, 
+		 SLOT( updateTime() ) );
+ 	connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(), 
+		 SLOT( slotClockSlewing() ) );
+	connect(data(), SIGNAL( update() ), map(), SLOT( forceUpdateNow() ) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(), 
+		 SLOT( setTimeDirection( float ) ) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(), 
+		 SLOT( setScale( float )) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
+		 SLOT( mapGetsFocus() ) );
+
+	//Initialize Time and Date
+	KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
+	if ( startDate.isValid() )
+		data()->changeDateTime( geo()->LTtoUT( startDate ) );
+	else 
+		slotSetTimeToNow();
+
 	data()->setFullTimeUpdate();
 	updateTime();
 
-	//Do not start the clock if the user specified "--paused" on the cmd line
+	//Do not start the clock if "--paused" specified on the cmd line
 	if ( StartClockRunning )
 		data()->clock()->start();
 
-//Initialize FOV symbol from options
-	data()->fovSymbol.setName( Options::fOVName() );
-	data()->fovSymbol.setSize( Options::fOVSize() );
-	data()->fovSymbol.setShape( Options::fOVShape() );
-	data()->fovSymbol.setColor( Options::fOVColor().name() );
+	//Define the celestial equator, horizon and ecliptic
+	//(must come after date has been set)
+	KSNumbers tempnum(data()->ut().djd());
+	data()->initGuides(&tempnum);
 
+	//show the window.  must be before kswizard and messageboxes
 	show();
 
 	//If this is the first startup, show the wizard
 	if ( Options::runStartupWizard() ) {
 		slotWizard();
-		//reset the clock to the system CPU
-		slotSetTimeToNow();
 	}
 
+	//Initialize focus
+	initFocus();
+
+	//Start listening for DCOP
+	kapp->dcopClient()->resume();
+
+	// Connect cache function for Find dialog
+	connect( data(), SIGNAL( clearCache() ), this, 
+		 SLOT( clearCachedFindDialog() ) );
+
+	//Propagate config settings
+	applyConfig();
+
+	//Show TotD
+	KTipDialog::showTip( "kstars/tips" );
+}
+
+void KStars::initFocus() {
+	SkyPoint newPoint;
+	//If useDefaultOptions, then we set Az/Alt.  Otherwise, set RA/Dec
+	if ( data()->useDefaultOptions ) {
+		newPoint.setAz( Options::focusRA() );
+		newPoint.setAlt( Options::focusDec() + 0.0001 );
+		newPoint.HorizontalToEquatorial( LST(), geo()->lat() );
+	} else {
+		newPoint.set( Options::focusRA(), Options::focusDec() );
+		newPoint.EquatorialToHorizontal( LST(), geo()->lat() );
+	}
+
+//need to set focusObject before updateTime, otherwise tracking is set to false
+	if ( (Options::focusObject() != i18n( "star" ) ) &&
+		     (Options::focusObject() != i18n( "nothing" ) ) )
+			map()->setFocusObject( data()->objectNamed( Options::focusObject() ) );
+
+	//if user was tracking last time, track on same object now.
+	if ( Options::isTracking() ) {
+		map()->setClickedObject( data()->objectNamed( Options::focusObject() ) );
+		if ( map()->clickedObject() ) {
+		  map()->setFocusPoint( map()->clickedObject() );
+		  map()->setFocusObject( map()->clickedObject() );
+		} else {
+		  map()->setFocusPoint( &newPoint );
+		}
+	} else {
+		map()->setFocusPoint( &newPoint );
+	}
+
+	data()->setSnapNextFocus();
+	map()->setDestination( map()->focusPoint() );
+	map()->destination()->EquatorialToHorizontal( LST(), geo()->lat() );
+	map()->setFocus( map()->destination() );
+	map()->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
+
+	map()->showFocusCoords();
+
+	map()->setOldFocus( map()->focus() );
+	map()->oldfocus()->setAz( map()->focus()->az()->Degrees() );
+	map()->oldfocus()->setAlt( map()->focus()->alt()->Degrees() );
+
 	//Check whether initial position is below the horizon.
-	//We used to just call slotCenter() in buildGUI() which performs this check.
-	//However, on some systems, if the messagebox is shown before show() is called,
-	//the program exits.  It does not crash (at least there are no error messages),
-	//it simply exits.  Very strange.
 	if ( Options::useAltAz() && Options::showGround() &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Initial Position is Below Horizon" );
@@ -421,154 +500,46 @@ void KStars::datainitFinished(bool worked) {
 		}
 	}
 
-	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
+	//If there is a focusObject() and it is a SS body, add a temporary Trail
 	if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
 			&& Options::useAutoTrail() ) {
 		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;
 	}
-
-// just show dialog if option is set (don't force it)
-	KTipDialog::showTip( "kstars/tips" );
 }
+void KStars::buildGUI() {
+	//create the skymap
+	skymap = new SkyMap( data(), this );
+	setCentralWidget( skymap );
 
-void KStars::privatedata::buildGUI() {
-	//create the widgets
-	ks->centralWidget = new QWidget( ks );
-	ks->setCentralWidget( ks->centralWidget );
-
-	//set AAVSO modaless dialog pointer to 0
-	ks->AAVSODialog = 0;
-
-	//INDI menu started without GUI
-	ks->indimenu = new INDIMenu(ks);
-
-	//INDI driver set to null
-	ks->indidriver = 0;
-	
-	//INDI img sequence, set to null
-	ks->indiseq = 0;
-
-	ks->skymap = new SkyMap( ks->data(), ks->centralWidget );
-	// update skymap if KStarsData send update signal
-	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( forceUpdateNow() ) );
-
-	// get focus of keyboard and mouse actions (for example zoom in with +)
-	ks->map()->QWidget::setFocus();
-
-	ks->initStatusBar();
-	ks->initActions();
-
-	// create the layout of the central widget
-	ks->topLayout = new QVBoxLayout( ks->centralWidget );
-	ks->topLayout->addWidget( ks->skymap );
-
-	// 2nd parameter must be false, or plugActionList won't work!
-	ks->createGUI("kstarsui.rc", false);
+	//Initialize menus, toolbars, and statusbars
+	initStatusBar();
+	initActions();
 
 	//Do not show text on the view toolbar buttons
 	//FIXME: after strings freeze, remove this and make the
 	//text of each button shorter
-	ks->toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
+	toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
 
-	//Propagate Options values through the program
-	ks->applyConfig();
+	//Add timestep widget to toolbar
+	TimeStep = new TimeStepBox( this );
+	toolBar()->insertWidget( 0, 6, TimeStep, 15 );
 
-	ks->TimeStep = new TimeStepBox( ks->toolBar() );
-	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 15 );
+	//Initialize FOV symbol from options
+	data()->fovSymbol.setName( Options::fOVName() );
+	data()->fovSymbol.setSize( Options::fOVSize() );
+	data()->fovSymbol.setShape( Options::fOVShape() );
+	data()->fovSymbol.setColor( Options::fOVColor().name() );
 
-//Changing the timestep needs to propagate to the clock, check if slew mode should be
-//(dis)engaged, and return input focus to the skymap.
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data(), SLOT( setTimeDirection( float ) ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data()->clock(), SLOT( setScale( float )) );
-//	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
-	connect( ks->data()->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
+	//get focus of keyboard and mouse actions (for example zoom in with +)
+	map()->QWidget::setFocus();
 
-	ks->resize( Options::windowWidth(), Options::windowHeight() );
+	// 2nd parameter must be false, or plugActionList won't work!
+	createGUI("kstarsui.rc", false);
 
-	// initialize clock with current time/date or the date/time specified on the command line
-	KStarsDateTime startDate = KStarsDateTime::fromString( ks->StartDateString );
-	if ( startDate.isValid() )
-		ks->data()->changeDateTime( ks->geo()->LTtoUT( startDate ) );
-	else 
-		ks->slotSetTimeToNow();
+	resize( Options::windowWidth(), Options::windowHeight() );
 	
-	//Define the celestial equator, horizon and ecliptic
-	KSNumbers tempnum(ks->data()->ut().djd());
-	ks->data()->initGuides(&tempnum);
-
-	//Connect the clock.
-	QObject::connect( ks->data()->clock(), SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
-	QObject::connect( ks->data()->clock(), SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
-
-	// Connect cache function
-	QObject::connect( kstarsData, SIGNAL( clearCache() ), ks, SLOT( clearCachedFindDialog() ) );
-
-	SkyPoint newPoint;
-	if ( ks->data()->useDefaultOptions ) {
-		newPoint.setAz( Options::focusRA() );
-		newPoint.setAlt( Options::focusDec() + 0.0001 );
-		newPoint.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
-	} else {
-		newPoint.set( Options::focusRA(), Options::focusDec() );
-	}
-
-//need to set focusObject before updateTime, otherwise tracking is set to false
-	if ( (Options::focusObject() != i18n( "star" ) ) &&
-		     (Options::focusObject() != i18n( "nothing" ) ) )
-			ks->map()->setFocusObject( ks->data()->objectNamed( Options::focusObject() ) );
-
-	ks->updateTime();
-
-	//Set focus of Skymap to value stored in config.
-	//Set default position in case stored focus is below horizon
-//	SkyPoint DefaultFocus;
-//	DefaultFocus.setAz( 180.0 );
-//	DefaultFocus.setAlt( 45.0 );
-//	DefaultFocus.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
-//	ks->map()->setDestination( &DefaultFocus );
-
-	//if user was tracking last time, track on same object now.
-	if ( Options::isTracking() ) {
-		if ( (Options::focusObject() == i18n( "star" ) ) ||
-		     (Options::focusObject() == i18n( "nothing" ) ) ) {
-			ks->map()->setFocusPoint( &newPoint );
-		} else {
-			ks->map()->setClickedObject( ks->data()->objectNamed( Options::focusObject() ) );
-			if ( ks->map()->clickedObject() ) {
-				ks->map()->setFocusPoint( ks->map()->clickedObject() );
-				ks->map()->setFocusObject( ks->map()->clickedObject() );
-			} else {
-				ks->map()->setFocusPoint( &newPoint );
-			}
-		}
-//		ks->map()->slotCenter();
-	} else {
-		ks->map()->setFocusPoint( &newPoint );
-//		ks->map()->slotCenter();
-	}
-
-//	if ( Options::focusObject() == i18n( "star" ) ) Options::setFocusObject( i18n( "nothing" ) );
-
-	ks->map()->setDestination( ks->map()->focusPoint() );
-	ks->map()->destination()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
-	ks->map()->setFocus( ks->map()->destination() );
-	ks->map()->focus()->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
-
-//	ks->infoBoxes()->focusObjChanged( Options::focusObject() );
-//	ks->infoBoxes()->focusCoordChanged( ks->map()->focus() );
-	ks->map()->showFocusCoords();
-	
-	ks->data()->setHourAngle( ks->LST()->Hours() - ks->map()->focus()->ra()->Hours() );
-
-	ks->map()->setOldFocus( ks->map()->focus() );
-	ks->map()->oldfocus()->setAz( ks->map()->focus()->az()->Degrees() );
-	ks->map()->oldfocus()->setAlt( ks->map()->focus()->alt()->Degrees() );
-
 	// check zoom in/out buttons
-	if ( Options::zoomFactor() >= MAXZOOM ) ks->actionCollection()->action("zoom_in")->setEnabled( false );
-	if ( Options::zoomFactor() <= MINZOOM ) ks->actionCollection()->action("zoom_out")->setEnabled( false );
-
-	kapp->dcopClient()->resume();
+	if ( Options::zoomFactor() >= MAXZOOM ) actionCollection()->action("zoom_in")->setEnabled( false );
+	if ( Options::zoomFactor() <= MINZOOM ) actionCollection()->action("zoom_out")->setEnabled( false );
 }
