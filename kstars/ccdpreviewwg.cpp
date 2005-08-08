@@ -298,6 +298,8 @@ CCDVideoWG::~CCDVideoWG()
   if (streamBuffer!=NULL) {
     free(streamBuffer);	  
   }
+
+  delete [] (grayTable);
 }
 
 void CCDVideoWG::newFrame(unsigned char *buffer, int buffSize, int w, int h)

@@ -1,5 +1,5 @@
 #if 0
-    Astro-Physics driver
+    LX200 Basic Driver
     Copyright (C) 2005 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This library is free software; you can redistribute it and/or
@@ -780,8 +780,14 @@ void LX200Basic::powerTelescope()
          PowerS[0].s = ISS_OFF;
 	 PowerS[1].s = ISS_ON;
          PowerSP.s = IPS_IDLE;
+	 if (simulation)
+         {
+	    IDSetSwitch (&PowerSP, "Simulated Telescope is offline.");
+	    return;
+         }
          IDSetSwitch (&PowerSP, "Telescope is offline.");
 	 IDLog("Telescope is offline.");
+         
 	 Disconnect();
 	 break;
 

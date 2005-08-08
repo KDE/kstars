@@ -73,6 +73,9 @@
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
    
+   telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
+   ksw->data()->appendTelescopeObject(telescopeSkyObject);
+	
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
@@ -89,6 +92,7 @@
    CCDPreviewWindow->enableStream(false);
    CCDPreviewWindow->close();
    streamDisabled();
+   delete (seqLister);
  }
  
 void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
@@ -98,10 +102,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
   else if (dataFormat == ".stream") dataType = DATA_STREAM;
   else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
   else dataType = DATA_OTHER;
-
-  // FIXME remove this!!
-  if (dataType == DATA_OTHER)
-       return;
 
   if (dataType == DATA_STREAM)
   {
@@ -224,14 +224,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
    
   switch (pp->stdID)
   {
-    case EQUATORIAL_COORD:
-    case EQUATORIAL_EOD_COORD:
-    case HORIZONTAL_COORD:
-      //ksw->map()->forceUpdateNow();
-      ksw->map()->update();
-      break;
-      
-    
+
     case TIME:
       if ( Options::indiAutoTime() )
        handleDevCounter();
@@ -306,7 +299,40 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	 mu = (int) el->value;
 	 CCDPreviewWindow->setCCDInfo(fwhm, mu);
 	 break;
-	
+
+       case EQUATORIAL_COORD:
+       case EQUATORIAL_EOD_COORD:
+	if (!dp->isOn()) break;
+	el = pp->findElement("RA");
+	if (!el) return;
+	telescopeSkyObject->setRA(el->value);
+	el = pp->findElement("DEC");
+	if (!el) return;
+	telescopeSkyObject->setDec(el->value);
+	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
+	// Force immediate update of skymap if the focus object is our telescope. 
+	if (ksw->map()->focusObject() == telescopeSkyObject)
+		ksw->map()->updateFocus();
+	else  
+		ksw->map()->update();
+	break;
+
+	case HORIZONTAL_COORD:
+        if (!dp->isOn()) break;
+	el = pp->findElement("ALT");
+	if (!el) return;
+	telescopeSkyObject->setAlt(el->value);
+	el = pp->findElement("AZ");
+	if (!el) return;
+	telescopeSkyObject->setAz(el->value);
+	telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
+	// Force immediate update of skymap if the focus object is our telescope. 
+	if (ksw->map()->focusObject() == telescopeSkyObject)
+	      ksw->map()->updateFocus();
+	else
+	      ksw->map()->update();
+	break;
+
     default:
         break;
 	
@@ -332,8 +358,8 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
       {
         initDeviceOptions();
 	emit linkAccepted();
-	
-	imgProp = dp->findProp("CCD_EXPOSE_DURATION");
+
+        imgProp = dp->findProp("CCD_EXPOSE_DURATION");
 	if (imgProp)
 	{
         	tmpAction = ksw->actionCollection()->action("capture_sequence");
@@ -355,7 +381,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
 	    //close(streamFD);
 	}
 	
-	
+	if (ksw->map()->focusObject() == telescopeSkyObject)
+	{
+		ksw->map()->stopTracking();
+		ksw->map()->setFocusObject(NULL);
+	}
+
 	drivers->updateMenuActions();
        	ksw->map()->forceUpdateNow();
         emit linkRejected();
@@ -385,7 +416,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
     }
  
  }
- 
+
  void INDIStdDevice::streamDisabled()
  {
     INDI_P *pp;
@@ -733,7 +764,10 @@ void INDIStdDevice::timerDone()
 	kdDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
 
 	if (useJ2000)
+	{
+		sp.set(currentObject->ra(), currentObject->dec());
         	sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
+        }
 
        // We need to get from JNow (Skypoint) to J2000
        // The ra0() of a skyPoint is the same as its JNow ra() without this process

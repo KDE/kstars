@@ -122,6 +122,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	VariableStarsList.setAutoDelete(TRUE);
 	INDIHostsList.setAutoDelete(TRUE);
+	INDITelescopeList.setAutoDelete(TRUE);
 
 	//Initialize object type strings
 	TypeName[0] = i18n( "star" );
@@ -2201,6 +2202,9 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
+		for (SkyObject *o = INDITelescopeList.first(); o; o = INDITelescopeList.next())
+			o->EquatorialToHorizontal(LST, geo->lat());
+
 		//Update focus
 		skymap->updateFocus();
 
@@ -2533,6 +2537,11 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
 	if ( cmdCount ) return true;
 	return false;
+}
+
+void KStarsData::appendTelescopeObject(SkyObject * object)
+{
+  INDITelescopeList.append(object);
 }
 
 void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }

@@ -140,7 +140,7 @@ bool KSPopupMenu::addINDI(void)
   DeviceManager *mgr;
   INDI_D *dev;
   INDI_G *grp;
-  INDI_P *prop;
+  INDI_P *prop(NULL);
   INDI_E *element;
   int id=0;
 
@@ -205,7 +205,22 @@ bool KSPopupMenu::addINDI(void)
 	    
 	    } // end property
 	  } // end group
+
+	// For telescopes, add option to center the telescope position
+	if ( dev->findElem("RA") || dev->findElem("ALT"))
+	{
+		menuDevice->insertSeparator();
+		menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
+                if (dev->findElem("RA"))
+			prop = dev->findElem("RA")->pp;
+ 		else   	
+			prop = dev->findElem("ALT")->pp;
+
+		prop->assosiatedPopup = menuDevice;
+		QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
+	}
        } // end device
+	
     } // end device manager
 
  return true;

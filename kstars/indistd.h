@@ -26,6 +26,7 @@
  class QSocketNotifier;
  class KProgressDialog;
  class KDirLister;
+ class SkyObject;
  
  
  /* This class implmements standard properties on the device level*/
@@ -77,6 +78,7 @@
    bool			batchMode;
    bool			ISOMode;
    KDirLister           *seqLister;
+   SkyObject		*telescopeSkyObject;
    
    public slots:
    void timerDone();

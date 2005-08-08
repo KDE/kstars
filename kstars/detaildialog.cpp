@@ -990,7 +990,7 @@ void DetailDialog::centerTelescope()
                 sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
       	 if (useJ2000)
-            sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+	    sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
     	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
 	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
