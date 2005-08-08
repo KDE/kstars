@@ -50,8 +50,7 @@ private slots:
 	void slotEditImage();
 	void slotUnsetImage();
 	void slotSetFromList( int i );
-	void slotSetFromURL( const QString &url );
-	void slotCheckValidURL( const QString &url );
+	void slotSetFromURL();
 	void slotFillList();
 
 /**Make sure download has finished, then make sure file exists, then add image to list */
