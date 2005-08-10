@@ -55,12 +55,14 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
 		ksw(0), data(d), pmenu(0), sky(0), sky2(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
-		starpix(0), pts(0), sp(0)
+		starpix(0),
+		//pts(0),
+		sp(0)
 {
 	if ( parent ) ksw = (KStars*)parent;
 	else ksw = 0;
 	
-	pts = new QPointArray( 2000 );  // points for milkyway and horizon
+//	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
 
 	ZoomRect = QRect();

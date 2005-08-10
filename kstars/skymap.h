@@ -635,13 +635,13 @@ private:
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
+//	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the coordinate system grid lines.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
+//	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Celestial Equator line.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
@@ -660,7 +660,7 @@ private:
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
 	
-	void drawHorizon( QPainter& psky, double scale = 1.0 );
+//	void drawHorizon( QPainter& psky, double scale = 1.0 );
 /**@short Draw the Constellation Lines.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
@@ -945,7 +945,7 @@ private:
 	SkyObject *ClickedObject, *FocusObject, *TransientObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
-	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
+//	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
 	QPoint beginRulerPoint, endRulerPoint;  // used in angle mode

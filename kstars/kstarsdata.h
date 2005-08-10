@@ -266,7 +266,7 @@ public:
 		*@short Read in constellation line data.
 		*@return true if data file was successfully read
 		*/
-	bool readCLineData( void );
+//	bool readCLineData( void );
 
 	/**Read constellation names.  The coordinates are where the constellation name text
 		*will be centered.  The positions are imprecise, but that's okay since
@@ -283,7 +283,7 @@ public:
 		*@short Read in constellation name data.
 		*@return TRUE if data file was successfully read.
 		*/
-	bool readCNameData( void );
+//	bool readCNameData( void );
 
 	/**Read constellation boundary data.  The boundary data is defined by a series of 
 		*RA,Dec coordinate pairs defining the "nodes" of the boundaries.  The nodes are 
@@ -312,7 +312,7 @@ public:
 		*@short read Milky Way contour data.
 		*@return true if all MW files were successfully read
 		*/
-	bool readMWData( void );
+//	bool readMWData( void );
 
 	/**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
 		*@li 0-8 AAVSO Star Designation
@@ -541,7 +541,7 @@ public:
 	/**@short Initialize celestial equator, horizon and ecliptic.
 		*@param num pointer to a KSNumbers object to use.
 		*/
-	void initGuides( KSNumbers *num );
+//	void initGuides( KSNumbers *num );
 
 	bool useDefaultOptions, startupComplete;
 
@@ -701,17 +701,17 @@ private:
 	QPtrList<KSAsteroid> asteroidList;
 	QPtrList<KSComet> cometList;
 
-	QPtrList<SkyPoint> MilkyWay[NMWFILES];
+//	QPtrList<SkyPoint> MilkyWay[NMWFILES];
 
-	QPtrList<SkyPoint> clineList;
+//	QPtrList<SkyPoint> clineList;
 	QPtrList<CSegment> csegmentList;
-	QPtrList<QChar> clineModeList;
-	QPtrList<SkyObject> cnameList;
+//	QPtrList<QChar> clineModeList;
+//	QPtrList<SkyObject> cnameList;
 	QPtrList<SkyObject> ObjLabelList;
 
 	QPtrList<SkyPoint> Equator;
 	QPtrList<SkyPoint> Ecliptic;
-	QPtrList<SkyPoint> Horizon;
+//	QPtrList<SkyPoint> Horizon;
 	QPtrList<VariableStarInfo> VariableStarsList;
 	QPtrList<ADVTreeData> ADVtreeList;
 	QPtrList<INDIHostsInfo> INDIHostsList;
@@ -732,7 +732,7 @@ private:
 
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
-	QString cnameFile;
+//	QString cnameFile;
 	KStandardDirs *stdDirs;
 	KLocale *locale;
 

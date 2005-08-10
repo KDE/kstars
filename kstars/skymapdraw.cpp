@@ -269,6 +269,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 }
 
+/* moved into milkywaycomponent
 void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 {
 	int ptsCount = 0;
@@ -326,7 +327,9 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 		}
 	}
 }
+*/
 
+/* moved into coordinategridcomponent
 void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 {
 	QPoint cur;
@@ -419,6 +422,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 		delete sp1;  // avoid memory leak
 	}
 }
+*/
 
 void SkyMap::drawEquator( QPainter& psky, double scale )
 {
@@ -721,7 +725,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 		psky.restore(); //reset coordinate system
 	}
 }
-
+/* moved into horizoncomponent
 void SkyMap::drawHorizon( QPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
@@ -1099,7 +1103,9 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 		}
 	}  //endif drawing horizon
 }
+*/
 
+/* moved into constellationlinescomponent
 void SkyMap::drawConstellationLines( QPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
@@ -1126,6 +1132,7 @@ void SkyMap::drawConstellationLines( QPainter& psky, double scale )
 		}
   }
 }
+*/
 
 void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	int Width = int( scale * width() );
@@ -1159,6 +1166,7 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	}
 }
 
+/*
 void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
@@ -1184,6 +1192,7 @@ void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
 		}
   }
 }
+*/
 
 void SkyMap::drawStars( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );

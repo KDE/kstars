@@ -110,9 +110,9 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//Constellation lines are now pointers to existing StarObjects;
 	//these are already auto-deleted by starList.
-	clineList.setAutoDelete( FALSE );
-	clineModeList.setAutoDelete( TRUE );
-	cnameList.setAutoDelete( TRUE );
+//	clineList.setAutoDelete( FALSE );
+//	clineModeList.setAutoDelete( TRUE );
+//	cnameList.setAutoDelete( TRUE );
 	csegmentList.setAutoDelete( TRUE );
 
 	Equator.setAutoDelete( TRUE );
@@ -162,6 +162,7 @@ KStarsData::~KStarsData() {
 	delete initTimer;
 }
 
+/*moved into milkywaycomponent
 bool KStarsData::readMWData( void ) {
 	QFile file;
 
@@ -191,7 +192,7 @@ bool KStarsData::readMWData( void ) {
 	}
 	return true;
 }
-
+*/
 bool KStarsData::readADVTreeData(void)
 {
 
@@ -389,6 +390,7 @@ bool KStarsData::readINDIHosts(void)
 
 }
 
+/*
 bool KStarsData::readCLineData( void ) {
 	//The constellation lines data file (clines.dat) contains lists
 	//of abbreviated genetive star names in the same format as they 
@@ -443,7 +445,9 @@ bool KStarsData::readCLineData( void ) {
 		return false;
 	}
 }
+*/
 
+/* moved into constelleationnamescomponent
 bool KStarsData::readCNameData( void ) {
 	QFile file;
 	cnameFile = "cnames.dat";
@@ -486,6 +490,7 @@ bool KStarsData::readCNameData( void ) {
 		return false;
 	}
 }
+*/
 
 bool KStarsData::readCBoundData( void ) {
 	QFile file;
@@ -1943,6 +1948,9 @@ void KStarsData::slotInitialize() {
 	initCounter++;
 }
 
+/* moved into horizoncomponent
+TODO create eclipticcomponent + equatorcomponent
+
 void KStarsData::initGuides(KSNumbers *num)
 {
 	// Define the Celestial Equator
@@ -1987,7 +1995,7 @@ void KStarsData::initGuides(KSNumbers *num)
 		Ecliptic.append( o );
 	}
 }
-
+*/
 void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange) {
 	// reset tzrules data with local time, timezone offset and time direction (forward or backward)
 	// force a DST change with option true for 3. parameter
@@ -2152,7 +2160,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				}
 			}
 		}
-
+/*
 		//Milky Way
 		if ( Options::showMilkyWay() ) {
 			for ( unsigned int j=0; j<11; ++j ) {
@@ -2162,7 +2170,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				}
 			}
 		}
-
+*/
+/*
 		//CNames
 		if ( Options::showCNames() ) {
 			for ( SkyPoint *p = cnameList.first(); p; p = cnameList.next() ) {
@@ -2170,6 +2179,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
+*/
 
 		//Constellation Boundaries
 		if ( Options::showCBounds() ) {  
