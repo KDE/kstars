@@ -184,7 +184,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 		if ( im.isNull() ) 
 			KMessageBox::sorry( 0, i18n("Failed to load image"), 
-					i18n("Could not load the specified image") );
+					i18n("Could Not Load Specified Image") );
 
 		uint w = im.width();
 		uint h = im.height();
@@ -312,7 +312,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			if ( im.isNull() ) {
 				KMessageBox::sorry( 0, 
 						i18n("Failed to load image at %1").arg( localFile.name() ),
-						i18n("Failed to load image") );
+						i18n("Failed to Load Image") );
 				return;
 			}
 
