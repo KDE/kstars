@@ -90,7 +90,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//set AutoDelete property for QPtrLists.  Most are set TRUE,
 	//but some 'meta-lists' need to be FALSE.
-	starList.setAutoDelete( TRUE );
+//	starList.setAutoDelete( TRUE );
 	ADVtreeList.setAutoDelete( TRUE );
 	geoList.setAutoDelete( TRUE );
 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
@@ -158,7 +158,7 @@ KStarsData::~KStarsData() {
 	delete Moon;
 	delete locale;
 	delete PCat;
-	delete jmoons;
+//	delete jmoons;
 	delete initTimer;
 }
 
@@ -390,7 +390,7 @@ bool KStarsData::readINDIHosts(void)
 
 }
 
-/*
+/**
 bool KStarsData::readCLineData( void ) {
 	//The constellation lines data file (clines.dat) contains lists
 	//of abbreviated genetive star names in the same format as they 
@@ -447,7 +447,7 @@ bool KStarsData::readCLineData( void ) {
 }
 */
 
-/* moved into constelleationnamescomponent
+/** moved into constelleationnamescomponent
 bool KStarsData::readCNameData( void ) {
 	QFile file;
 	cnameFile = "cnames.dat";
@@ -567,6 +567,7 @@ bool KStarsData::readCBoundData( void ) {
 	}
 }
 
+/* moved into starscomponent
 bool KStarsData::openStarFile( int i ) {
 	if (starFileReader != 0) delete starFileReader;
 	QFile file;
@@ -706,6 +707,7 @@ void KStarsData::processStar( QString *line, bool reloadMode ) {
 		ObjNames.append(o);
 	}
 }
+*/
 
 bool KStarsData::readAsteroidData( void ) {
 	QFile file;
@@ -1836,8 +1838,8 @@ void KStarsData::slotInitialize() {
 		case 2: //Load stellar database//
 
 			emit progressText(i18n("Loading Star Data (%1%)" ).arg(0) );
-			if ( !readStarData( ) )
-				initError( "hipNNN.dat", true );
+//			if ( !readStarData( ) )
+//				initError( "hipNNN.dat", true );
 			if (!readVARData())
 				initError( "valaav.dat", false);
 			if (!readADVTreeData())
@@ -1859,29 +1861,29 @@ void KStarsData::slotInitialize() {
 		case 4: //Load Constellation lines//
 
 			emit progressText( i18n("Loading Constellations" ) );
-			if ( !readCLineData( ) )
-				initError( "clines.dat", true );
+/*			if ( !readCLineData( ) )
+				initError( "clines.dat", true );*/
 			break;
 
 		case 5: //Load Constellation names//
 
 			emit progressText( i18n("Loading Constellation Names" ) );
-			if ( !readCNameData( ) )
-				initError( cnameFile, true );
+/*			if ( !readCNameData( ) )
+				initError( cnameFile, true );*/
 			break;
 
 		case 6: //Load Constellation boundaries//
 
 			emit progressText( i18n("Loading Constellation Boundaries" ) );
-			if ( !readCBoundData( ) )
-				initError( "cbound.dat", true );
+/*			if ( !readCBoundData( ) )
+				initError( "cbound.dat", true );*/
 			break;
 
 		case 7: //Load Milky Way//
 
 			emit progressText( i18n("Loading Milky Way" ) );
-			if ( !readMWData( ) )
-				initError( "mw*.dat", true );
+/*			if ( !readMWData( ) )
+				initError( "mw*.dat", true );*/
 			break;
 
 		case 8: //Initialize the Planets//
@@ -1890,7 +1892,7 @@ void KStarsData::slotInitialize() {
 			if (PCat->initialize())
 				PCat->addObject( ObjNames );
 
-			jmoons = new JupiterMoons();
+//			jmoons = new JupiterMoons();
 			break;
 
 		case 9: //Initialize Asteroids & Comets//
@@ -2071,9 +2073,11 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			Moon->findPhase( PCat->planetSun() );
 		}
 
+/** moved in jupitermoonscomponent
 		//for now, update positions of Jupiter's moons here also
 		if ( Options::showPlanets() && Options::showJupiter() )
 			jmoons->findPosition( &num, (const KSPlanet*)PCat->findByName("Jupiter"), PCat->planetSun() );
+*/
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
@@ -2086,7 +2090,9 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//This updates trails as well
 		PCat->EquatorialToHorizontal( LST, geo->lat() );
 
+/** moved in jupitermoonscomponent
 		jmoons->EquatorialToHorizontal( LST, geo->lat() );
+*/
 		if ( Options::showMoon() ) {
 			Moon->EquatorialToHorizontal( LST, geo->lat() );
 			if ( Moon->hasTrail() ) Moon->updateTrail( LST, geo->lat() );
@@ -2112,6 +2118,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
+/** moved into starscomponent
 		//Stars (need to update if constell. lines or stars are shown)
 		if ( Options::showStars() || Options::showCLines() ) {
 			// use MINDRAWSTARMAG for calculating constellation lines right
@@ -2123,7 +2130,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				star->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-
+*/
 		//Deep-sky objects. Keep lists separated for performance reasons
 		if ( Options::showMessier() || Options::showMessierImages() ) {
 			for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {

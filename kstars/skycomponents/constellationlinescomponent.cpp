@@ -21,7 +21,7 @@ ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent)
 }
 
 // bool KStarsData::readCLineData( void )
-void ConstellationNamesComponent::init()
+void ConstellationNamesComponent::init(KStarsData *data)
 {
 // TODO be sure that stars are already loaded
 

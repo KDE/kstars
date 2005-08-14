@@ -36,7 +36,7 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class MilkyWayComponent : SkyComponent
+class MilkyWayComponent : public SkyComponent
 {
 	public:
 		
@@ -44,9 +44,9 @@ class MilkyWayComponent : SkyComponent
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
-		virtual void init();
+		virtual void init(KStarsData *data);
 	
-		virtual void updateTime(KStarsData*, KSNumbers*, bool needNewCoords);
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 		
 	private:
 		QList<SkyPoint> MilkyWay[NMWFILES];

@@ -33,7 +33,7 @@
 
 MilkyWayComponent::MilkyWayComponent(SkyComposite *parent) : SkyComponent(parent)
 {
-	pts = new QPointArray( 2000 )
+	pts = 0;
 }
 
 MilkyWayComponent::~MilkyWayComponent()
@@ -50,8 +50,10 @@ MilkyWayComponent::~MilkyWayComponent()
 	*@short read Milky Way contour data.
 	*@return true if all MW files were successfully read
 	*/
-void MilkyWayComponent::init()
+void MilkyWayComponent::init(KStarsData *data)
 {
+	pts = new QPointArray(2000)
+
 	QFile file;
 
 //	for ( unsigned int i=0; i<11; ++i ) {
@@ -83,7 +85,7 @@ void MilkyWayComponent::init()
 //	return true;
 }
 
-void MilkyWayComponent::updateTime(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void MilkyWayComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if (Options::showMilkyWay())
 	{

@@ -1194,6 +1194,7 @@ void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
 }
 */
 
+/* moved into starscomponent
 void SkyMap::drawStars( QPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
@@ -1258,7 +1259,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 		}
 	}
 }
-
+*/
 void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
 			bool drawObject, bool drawImage, double scale )
 {
@@ -1415,6 +1416,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 	}
 }
 
+/*********** obsolete: each object should know if it is labeled -> not implemented yet
 void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
@@ -1477,7 +1479,9 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 			drawNameLabel( psky, focusObject(), o.x(), o.y(), scale );
 	}
 }
+******************/
 
+/************************** moved into skycomponent and splitted into separate parts
 void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale ) {
 	int size(0);
 
@@ -1526,6 +1530,7 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	//Reset font
 	psky.setFont( stdFont );
 }
+*******************************/
 
 void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 {
@@ -1685,7 +1690,10 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		//Draw Jupiter and its moons.
 		//Draw all moons first, then Jupiter, then redraw moons that are in front of Jupiter.
 		if ( Options::showJupiter() ) {
+			//TODO Why should we draw the moons 2 times? First draw jupiter,
+			// then draw visible moons with labels
 			//Draw Jovian moons
+/**
 			psky.setPen( QPen( QColor( "white" ) ) );
 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
 				for ( unsigned int i=0; i<4; ++i ) {
@@ -1695,9 +1703,10 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 					}
 				}
 			}
-
+*/
 			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
 
+/** moved into jupitermoonscomponent
 			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
 			psky.setPen( QPen( QColor( "white" ) ) );
 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
@@ -1723,6 +1732,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				//reset font
 				psky.setFont( pfont );
 			}
+*/
 		}
 
 		//Draw Mars

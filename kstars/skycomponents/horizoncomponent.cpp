@@ -29,10 +29,10 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-HorizonComponent::HorizonComponent()
+HorizonComponent::HorizonComponent(SkyComposite *parent) : SkyComponent(parent)
 {
 //	Horizon.setAutoDelete(TRUE);
-	pts = new QPointArray( 2000 )
+	pts = 0;
 }
 
 HorizonComponent::~HorizonComponent()
@@ -46,8 +46,10 @@ HorizonComponent::~HorizonComponent()
 // -> solution:
 //	-all 3 objects in 1 component (this is messy)
 //	-3 components which share a algorithm class
-void HorizonComponent::init()
+void HorizonComponent::init(KStarsData *data)
 {
+	pts = new QPointArray(2000)
+	
 	// Define the Celestial Equator
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
@@ -91,7 +93,7 @@ void HorizonComponent::init()
 	}
 }
 
-void HorizonComponent::updateTime(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void HorizonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 		//Horizon: different than the others; Alt & Az remain constant, RA, Dec must keep up
 		if ( Options::showHorizon() || Options::showGround() ) {

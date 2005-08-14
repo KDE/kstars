@@ -36,7 +36,7 @@ class KSNumbers;
 #include <QList>
 #include "skyobject.h"
 
-class ConstellationNamesComponent : SkyComponent
+class ConstellationNamesComponent : public SkyComponent
 {
 	public:
 		
@@ -44,9 +44,9 @@ class ConstellationNamesComponent : SkyComponent
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
-		virtual void init();
+		virtual void init(KStarsData *data);
 	
-		virtual void updateTime(KStarsData*, KSNumbers*, bool needNewCoords);
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 		
 	private:
 		QList<SkyObject> cnameList;

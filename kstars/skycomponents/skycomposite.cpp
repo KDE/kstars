@@ -63,14 +63,26 @@ void SkyComposite::drawExportable(SkyMap *map, QPainter& psky, double scale)
 		component->drawExportable(map, psky, scale);
 }
 
-void SkyComposite::init()
+void SkyComposite::init(KStarsData *data)
 {
 	foreach (SkyComponent *component; Components)
-		component->init();
+		component->init(data);
 }
 
-void SkyComposite::updateTime(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void SkyComposite::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	foreach (SkyComponent *component; Components)
-		component->updateTime(data, num, needNewCoords);
+		component->update(data, num, needNewCoords);
+}
+
+void SkyComposite::updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords)
+{
+	foreach (SkyComponent *component; Components)
+		component->updatePlanets(data, num, needNewCoords);
+}}
+
+void SkyComposite::updateMoons(KStarsData*, KSNumbers*, bool needNewCoords)
+{
+	foreach (SkyComponent *component; Components)
+		component->updateMoons(data, num, needNewCoords);
 }

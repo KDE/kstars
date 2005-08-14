@@ -41,3 +41,26 @@ void SkyComponent::drawExportable(SkyMap *map, QPainter& psky, double scale)
 	if (isExportable())
 		draw(map, psky, scale);
 }
+
+void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale)
+{
+	int size(0);
+
+	QFont stdFont( psky.font() );
+	QFont smallFont( stdFont );
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+	if ( Options::zoomFactor() < 10.*MINZOOM ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
+	// get size of object
+	size = labelSize();
+	
+	int offset = int( ( 0.5*size + 4 ) );
+	psky.drawText( x+offset, y+offset, obj->translatedName() );
+
+	//Reset font
+	psky.setFont( stdFont );
+}

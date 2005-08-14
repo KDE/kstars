@@ -41,7 +41,7 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class SkyComposite : SkyComponent
+class SkyComposite : public SkyComponent
 {
 	public:
 		SkyComposite(SkyComposite*);
@@ -55,11 +55,17 @@ class SkyComposite : SkyComponent
 		virtual void drawExportable(SkyMap *map, QPainter& psky, double scale);
 		
 		/**Delegates init requests to it's sub components*/
-		virtual void init();
+		virtual void init(KStarsData *data);
 	
-		/**Delegates updateTime requests to it's sub components*/
-		virtual void updateTime(KStarsData *data, KSNumbers*, bool needNewCoords);
-	
+		/**Delegates update requests to it's sub components*/
+		virtual void update(KStarsData *data, KSNumbers*, bool needNewCoords);
+		
+		//TODO Optimization: updatePlanets + Moon doesn't need to delegate it's request
+		// to all sub components (perhaps auto setting by subcomponents?)
+		virtual void updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords) {};
+
+		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords) {};
+
 		/**Add a new sub component to the composite*/
 		void addComponent(SkyComponent*);
 		

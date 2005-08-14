@@ -1,7 +1,7 @@
 /***************************************************************************
-                          horizoncomponent.h  -  K Desktop Planetarium
+                          jupitermoonscomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/07/08
+    begin                : 2005/13/08
     copyright            : (C) 2005 by Thomas Kabelmann
     email                : thomas.kabelmann@gmx.de
  ***************************************************************************/
@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef HORIZONCOMPONENT_H
-#define HORIZONCOMPONENT_H
+#ifndef JUPITERMOONSCOMPONENT_H
+#define JUPITERMOONSCOMPONENT_H
 
 class QList;
 
-/**@class HorizonComponent
-*Represents the horizon on the sky map.
+/**@class JupiterMoonsComponent
+*Represents the jupitermoons on the sky map.
 
 *@author Thomas Kabelmann
 *@version 0.1
@@ -31,27 +31,27 @@ class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
+class JupiterMoons;
 
-class HorizonComponent: public SkyComponent
+class JupiterMoonsComponent: public SkyComponent
 {
 	public:
 
-		HorizonComponent(SkyComposite*);
+		JupiterMoonsComponent(SkyComposite*);
 		
-		virtual ~HorizonComponent();
+		virtual ~JupiterMoonsComponent();
 
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
 		virtual void init(KStarsData *data);
 	
+		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords) {};
+		
 		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 
 	private:
-		// the points of the horizon
-		QList<SkyPoint*> Horizon;
-		
-		QPointArray *pts;
 
+		JupiterMoons *jmoons;
 };
 
 #endif

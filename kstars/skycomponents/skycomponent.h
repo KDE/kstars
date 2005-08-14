@@ -55,10 +55,19 @@ class SkyComponent
 		
 		/**Initialize the component - loading data from file etc.*/
 		// TODO pass a splashscreen as parameter to init, so it can update the splashscreen -> should use the new KSplashScreen?
-		virtual void init() {};
+		virtual void init(KStarsData *data);
 		
-		/**Update the component with new data*/
-		virtual void updateTime(KStarsData*, KSNumbers*, bool needNewCoords) {};
+		/**For optimization there are 3 update methods. Long operations, like moon updates
+		  *can be called separately, so it's not necessary to process it every update call.
+		  *updatePlanets() is used by planets, comets, ecliptic.
+		  *updateMoons() is used by the moon and the jupiter moons.
+		  *update() is used by all components and for updating Alt/Az coordinates.
+		*/
+		virtual void updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords) {};
+
+		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords) {};
+
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords) {};
 	
 		/**The parent of a component may be a composite or nothing.
 		*It's useful to know it's parent, if a component want to add
@@ -75,6 +84,18 @@ class SkyComponent
 		*/
 		virtual bool isExportable();
 		
+		/** Draws the label of the object.
+		* This is an default implementation and can be overridden when needed.
+		* For most cases it's just needed to reimplement the labelSize() method.
+		* Currently only stars have an own implementation of drawNameLabel().
+		*/
+		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
+		
+		/** Returns the size for drawing the label. It's used by generic
+		* drawNameLabel() method.
+		*/
+		virtual int labelSize() { return 1; };
+
 	private:
 		SkyComposite *Parent;
 };

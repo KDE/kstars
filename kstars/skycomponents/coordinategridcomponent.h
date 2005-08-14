@@ -31,7 +31,7 @@ class SkyComposite;
 class KStarsData;
 class SkyMap;
 
-class CoordinateGridComponent : SkyComponent
+class CoordinateGridComponent : public SkyComponent
 {
 	public:
 		

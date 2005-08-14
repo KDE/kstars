@@ -1,7 +1,7 @@
 /***************************************************************************
-                          horizoncomponent.h  -  K Desktop Planetarium
+                          starcomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/07/08
+    begin                : 2005/14/08
     copyright            : (C) 2005 by Thomas Kabelmann
     email                : thomas.kabelmann@gmx.de
  ***************************************************************************/
@@ -15,30 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef HORIZONCOMPONENT_H
-#define HORIZONCOMPONENT_H
+#ifndef STARCOMPONENT_H
+#define STARCOMPONENT_H
 
 class QList;
 
-/**@class HorizonComponent
-*Represents the horizon on the sky map.
+/**@class StarComponent
+*Represents the stars on the sky map. For optimization reasons the stars are
+*not separate objects and are stored in a list.
 
 *@author Thomas Kabelmann
 *@version 0.1
 */
+
+#define NHIPFILES 127
 
 class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class HorizonComponent: public SkyComponent
+class StarComponent: public SkyComponent
 {
 	public:
 
-		HorizonComponent(SkyComposite*);
+		StarComponent(SkyComposite*);
 		
-		virtual ~HorizonComponent();
+		virtual ~StarComponent();
 
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
@@ -46,11 +49,19 @@ class HorizonComponent: public SkyComponent
 	
 		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 
-	private:
-		// the points of the horizon
-		QList<SkyPoint*> Horizon;
+	protected:
+
+		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
 		
-		QPointArray *pts;
+	private:
+		
+		// some helper methods
+		bool openStarFile(int i);
+		bool readStarData();
+		void processStar(QString *line, bool reloadMode);
+
+		QList<StarObject*> *starList;
+		KSFileReader *starFileReader;
 
 };
 

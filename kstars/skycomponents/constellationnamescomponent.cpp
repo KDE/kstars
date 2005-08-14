@@ -29,7 +29,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent)
 }
 
 //bool KStarsData::readCNameData( void )
-void ConstellationNamesComponent::init()
+void ConstellationNamesComponent::init(KStarsData *data)
 {
 	QFile file;
 	QString cnameFile = "cnames.dat";
@@ -73,7 +73,7 @@ void ConstellationNamesComponent::init()
 	}
 }
 
-void ConstellationNamesComponent::updateTime(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void ConstellationNamesComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if (Options::showCNames())
 	{

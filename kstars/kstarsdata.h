@@ -35,7 +35,7 @@
 #include "kstarsdatetime.h"
 #include "simclock.h"
 
-#define NHIPFILES 127
+//#define NHIPFILES 127
 #define NMWFILES  11
 #define NNGCFILES 14
 #define NTYPENAME 12
@@ -162,7 +162,7 @@ public:
 		*@return true if the data file was successfully opened and read.
 		*@see KStarsData::processStar()
 		*/
-	bool readStarData( void );
+//	bool readStarData( void );
 
 	/**Parse a line from a stars data file, constructing a StarObject from the data.
 		*The StarObject is added to the list of stars.
@@ -194,7 +194,7 @@ public:
 		*@param reloadMode makes additional calculations in reload mode, not needed at start up
 		*@see KStarsData::readStarData()
 		*/
-	void processStar( QString *line, bool reloadMode = false );
+//	void processStar( QString *line, bool reloadMode = false );
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
@@ -678,7 +678,7 @@ private:
 	bool reloadingData();  // is currently reloading of data in progress
 
 /*	bool openSAOFile(int i);*/
-	bool openStarFile(int i);
+//	bool openStarFile(int i);
 
 	static QPtrList<GeoLocation> geoList;
 	QPtrList<SkyObject> objList;
@@ -745,7 +745,7 @@ private:
 	KSMoon *Moon;
 	JupiterMoons *jmoons;
 
-	KSFileReader *starFileReader;
+//	KSFileReader *starFileReader;
 
 	FOV fovSymbol;
 
