@@ -698,8 +698,8 @@ on this location, and engage tracking.  Equivalent to double-clicking.
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-<guimenuitem>Angular Distance To...</guimenuitem>: Enter "angular distance
-mode".  In this mode, a dotted line is drawn from the first target object
+<guimenuitem>Angular Distance To...</guimenuitem>: In this mode,
+a dotted line is drawn from the first target object
 to the current mouse position.  When you invoke the popup menu of a second
 object, this item will read <guilabel>Compute Angular Distance</guilabel>.
 Selecting this item will display the angular distance between the two
@@ -1010,7 +1010,7 @@ for specifying a sky object on which to center</para></listitem>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </term>
-<listitem><para>Open the <guilabel>Set Manual Focus</guilabel> tool,
+<listitem><para>Open the <guilabel>Set Focus Manually...</guilabel> tool,
 for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
 </varlistentry>
 

@@ -776,7 +776,9 @@ telescope is not connected to the serial/USB port. What can I do?
 <para>Check your telescope power, make sure the power is on and that the telescope is getting enough power.</para>
    </listitem>
    <listitem>
-<para>Set the correct port in the <guilabel>INDI Control Panel</guilabel> under the <guimenu>Devices</guimenu> menu. The default port is <constant>/dev/ttyS0</constant></para>
+<para>Set the correct port in the <guilabel>INDI Control Panel</guilabel>
+under the <guimenu>Devices</guimenu> menu. The default device is
+<constant>/dev/ttyS0</constant></para>
    </listitem>
    <listitem>
    <para>Restart &kstars; and retry again.</para>

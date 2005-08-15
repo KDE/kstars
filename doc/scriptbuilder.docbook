@@ -193,7 +193,16 @@ Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
 	<listitem><para><function>setINDIScopeAction(QString deviceName, QString action)</function> : Set the telescope mode or action. Available options are SLEW, TRACK, SYNC, PARK, and ABORT.</para></listitem>
 	<listitem><para><function>setINDITargetCoord(QString deviceName, double RA, double DEC)</function> : Set the telescope JNow target coordinates to <emphasis>RA</emphasis> and <emphasis>DEC</emphasis>.</para></listitem>
 	<listitem><para><function>setINDITargetName(QString deviceName, QString objectName)</function> : Set the telescope JNow target coordinates to the coordinates of <emphasis>objectName</emphasis>. KStars will lookup the object name in its database and will fetch RA and Dec once found.</para></listitem>
-	<listitem><para><function>setINDIGeoLocation(QString deviceName, double longitude, double latitude)</function> : Set the telescope geographical location to the longitude and latitude as specified. The longitude is measured from Greenwich, UK, to the East.  However, while it is common to use negative longitudes for the Western hemisphere, INDI requires longitude values between 0 and 360 degrees.  So if you have a negative longitude, simply add 360 degrees to get the value that INDI expects.  For example, Calgary, Canada coordinates in KStars are longitude: -114 04 58; latitude: 51 02 58.  So INDI's would need  longitude = 360 - 114.069 = 245.931 degrees.</para></listitem>
+	<listitem><para><function>setINDIGeoLocation(QString deviceName, double
+longitude, double latitude)</function> : Set the telescope geographical
+location to the longitude and latitude as specified. The longitude is measured
+from Greenwich, UK, to the East.  However, while it is common to use negative
+longitudes for the Western hemisphere, INDI requires longitude values between
+0 and 360 degrees.  So if you have a negative longitude, simply add 360
+degrees to get the value that INDI expects.  For example, Calgary, Canada
+coordinates in &kstars; are longitude: -114 04 58; latitude: 51 02 58.  So
+INDI's would need  longitude = 360 - 114.069 = 245.931
+degrees.</para></listitem>
 	<listitem><para><function>setINDIUTC(QString ddeviceName, QString UTCDateTime)</function> : Set the telescope UTC Date and Time in ISO 8601 format. The format is YYYY-MM-DDTHH:MM:SS (e.g. 2004-07-12T22:05:32).</para></listitem>
       </itemizedlist>
     </listitem>
