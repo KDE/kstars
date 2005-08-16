@@ -345,14 +345,6 @@ control it with &kstars;.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Devices</guimenu>
-<guimenuitem>Capture Image Sequence...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Devices</guimenu>
 <guimenuitem>Device Manager</guimenuitem>
 </menuchoice></term>
 <listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
@@ -364,6 +356,14 @@ control it with &kstars;.</para></listitem>
 <guimenuitem>INDI Control Panel</guimenuitem>
 </menuchoice></term>
 <listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>Capture Image Sequence...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -397,6 +397,21 @@ which provides full access to many of the mathematical functions used by
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry> 
+<term><menuchoice> 
+<shortcut> 
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo> 
+</shortcut> 
+<guimenu>Tools</guimenu> 
+<guimenuitem>Observing List...</guimenuitem> 
+</menuchoice></term> 
+<listitem> 
+<para>Opens the <link linkend="tool-observinglist">Observing List</link>
+Tool, which provide convenient access to some common functions for a list of
+objects chosen by you.</para>
+</listitem> 
+</varlistentry> 
 
 <varlistentry>
 <term><menuchoice>
@@ -619,7 +634,7 @@ custom schemes.  Select any item to set that color scheme.
 This submenu lists the available field-of-view (FOV) Symbols.
 The FOV Symbol is drawn at the center of the display.  You
 may choose from the list of predefined symbols (No symbol,
-7x35 Binoculars, One degree, or HST WFPC2), or you may define
+7x35 Binoculars, One degree, HST WFPC2 or 30m at 1.3cm), or you may define
 your own symbols (or modify existing symbols) using the
 <guimenuitem>Edit FOV symbols...</guimenuitem> item.
 </para></listitem>
@@ -631,7 +646,7 @@ your own symbols (or modify existing symbols) using the
 <keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
-<guimenuitem>Set Geographic Location...</guimenuitem>
+<guimenuitem>Geographic...</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -649,6 +664,18 @@ location</link>
 <listitem><para>Modify <link linkend="config">configuration
 options</link></para></listitem>
 </varlistentry>
+
+<varlistentry> 
+<term><menuchoice> 
+<guimenu>Settings</guimenu> 
+<guimenuitem>Startup Wizard...</guimenuitem> 
+</menuchoice></term> 
+<listitem><para>Opens the <link linkend="startwizard">Setup Wizard</link>, 
+which allows you to easily set your geographic location and download some 
+extra data files.</para></listitem> 
+</varlistentry> 
+
+
 </variablelist>
 </sect2>
 
