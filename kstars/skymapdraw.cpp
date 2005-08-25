@@ -1260,6 +1260,8 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	}
 }
 */
+
+/* moved into deepskycomponent
 void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
 			bool drawObject, bool drawImage, double scale )
 {
@@ -1330,7 +1332,9 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		}
 	}
 }
+*/
 
+/* splitted into deepskycomponent and customcatalogscomponent
 void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
@@ -1415,6 +1419,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 		}
 	}
 }
+*/
 
 /*********** obsolete: each object should know if it is labeled -> not implemented yet
 void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {

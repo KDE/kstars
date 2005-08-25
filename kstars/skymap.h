@@ -692,7 +692,7 @@ private:
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*@see SkyMap::drawDeepSkyCatalog()
 	*/
-	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
+// 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
 	
 /**@short Draw a Deep-Sky Catalog.
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
@@ -702,7 +702,7 @@ private:
 	*@param drawImage if TRUE, the object images will be drawn
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
+// 	void drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
 	
 /**@short Draw the Planet Trails.
 	*

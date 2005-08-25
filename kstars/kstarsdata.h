@@ -371,18 +371,18 @@ public:
 
 	/**Initialize custom object catalogs from the files listed in the config file
 		*/
-	bool readCustomCatalogs();
+//	bool readCustomCatalogs();
 
 	/**Add a user-defined object catalog to the list of custom catalogs.
 		*(Basically just calls createCustomCatalog() )
 		*/
-	bool addCatalog( QString filename );
+// 	bool addCatalog( QString filename );
 
 	/**Remove a user-defined object catalog from the list of custom catalogs.
 		*Also removes the objects from the ObjNames list.
 		*@param i the index identifier of the catalog to be removed
 		*/
-	bool removeCatalog( int i );
+// 	bool removeCatalog( int i );
 
 	/**Read in and parse a custom object catalog.  Object data are read from a file, and 
 		*parsed into a CustomCatalog object.
@@ -390,7 +390,7 @@ public:
 		*@param showerrs show GUI window summarizing parsing errors
 		*@return pointer to the new catalog
 		*/
-	CustomCatalog* createCustomCatalog( QString filename, bool showerrs = false );
+// 	CustomCatalog* createCustomCatalog( QString filename, bool showerrs = false );
 
 	/**@short Parse the header of the custom object catalog.
 		*@param lines string list containing the lines from the custom catalog file
@@ -403,9 +403,9 @@ public:
 		*@param showerrs if true, notify user of problems parsing the header.
 		*@param errs reference to the cumulative list of error reports
 		*/
-	bool parseCustomDataHeader( QStringList lines, QStringList &Columns, 
-			QString &catName, QString &catPrefix, QString &catColor, float &catEpoch, int &iStart, 
-			bool showerrs, QStringList &errs );
+// 	bool parseCustomDataHeader( QStringList lines, QStringList &Columns, 
+// 			QString &catName, QString &catPrefix, QString &catColor, float &catEpoch, int &iStart, 
+// 			bool showerrs, QStringList &errs );
 
 	/**@short Parse a line from custom object catalog.  If parsing is successful, add
 		*the object to the object list
@@ -417,8 +417,8 @@ public:
 		*@param showerrs if true, notify user of problems parsing the header.
 		*@param errs reference to the cumulative list of error reports
 		*/
-	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
-			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
+// 	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
+// 			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
 
 	/**@short reset the faint limit for the stellar database
 		*@param newMagnitude the new faint limit.
@@ -503,7 +503,7 @@ public:
 	
 	/**@return reference to the CustomCatalogs list
 		*/
-	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
+// 	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
  
 	/**Set the GeoLocation according to the argument.
 		*@param l reference to the new GeoLocation
@@ -683,20 +683,20 @@ private:
 	static QPtrList<GeoLocation> geoList;
 	QPtrList<SkyObject> objList;
 
-	QPtrList<StarObject> starList;
+// 	QPtrList<StarObject> starList;
 
 	unsigned int StarCount;
 
   /** List of all deep sky objects */
-	QPtrList<DeepSkyObject> deepSkyList;
+// 	QPtrList<DeepSkyObject> deepSkyList;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListMessier;
+// 	QPtrList<DeepSkyObject> deepSkyListMessier;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListNGC;
+// 	QPtrList<DeepSkyObject> deepSkyListNGC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListIC;
+// 	QPtrList<DeepSkyObject> deepSkyListIC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListOther;
+// 	QPtrList<DeepSkyObject> deepSkyListOther;
 
 	QPtrList<KSAsteroid> asteroidList;
 	QPtrList<KSComet> cometList;
@@ -717,7 +717,7 @@ private:
 	QPtrList<INDIHostsInfo> INDIHostsList;
 	QPtrList<SkyObject> INDITelescopeList;
 	
-	QPtrList<CustomCatalog> CustomCatalogs;
+// 	QPtrList<CustomCatalog> CustomCatalogs;
 
 	ObjectNameList ObjNames;
 

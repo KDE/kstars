@@ -93,14 +93,14 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 //	starList.setAutoDelete( TRUE );
 	ADVtreeList.setAutoDelete( TRUE );
 	geoList.setAutoDelete( TRUE );
-	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
-
-	//separate lists for each deep-sky catalog.  The objects are duplicates of
-	//deepSkyList, so do not delete them twice!
-	deepSkyListMessier.setAutoDelete( FALSE );
-	deepSkyListNGC.setAutoDelete( FALSE );
-	deepSkyListIC.setAutoDelete( FALSE );
-	deepSkyListOther.setAutoDelete( FALSE );
+// 	deepSkyList.setAutoDelete( TRUE );        // list of all deep space objects
+ 
+ 	//separate lists for each deep-sky catalog.  The objects are duplicates of
+// 	//deepSkyList, so do not delete them twice!
+// 	deepSkyListMessier.setAutoDelete( FALSE );
+// 	deepSkyListNGC.setAutoDelete( FALSE );
+// 	deepSkyListIC.setAutoDelete( FALSE );
+// 	deepSkyListOther.setAutoDelete( FALSE );
 
 	//ObjLabelList does not construct new objects, so no autoDelete needed
 	ObjLabelList.setAutoDelete( FALSE );
@@ -785,7 +785,7 @@ bool KStarsData::readCometData( void ) {
 	return false;
 }
 
-
+/***********
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readDeepSkyData( void ) {
 	QFile file;
@@ -926,6 +926,7 @@ bool KStarsData::readDeepSkyData( void ) {
 
 	return true;
 }
+*/
 
 bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 	//QFile file;
@@ -1112,7 +1113,7 @@ bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
 	file.close();
 	return true;
 }
-
+/*** moved into customcatalogscomponent
 bool KStarsData::readCustomCatalogs() {
 	bool result = false;
 
@@ -1516,7 +1517,7 @@ bool KStarsData::parseCustomDataHeader( QStringList lines, QStringList &Columns,
 		return true;
 	}
 }
-
+*/
 bool KStarsData::processCity( QString& line ) {
 	QString totalLine;
 	QString name, province, country;
@@ -1849,8 +1850,8 @@ void KStarsData::slotInitialize() {
 		case 3: //Load NGC/IC database and custom catalogs//
 
 			emit progressText( i18n("Loading NGC/IC Data (%1%)" ).arg(0) );
-			if ( !readDeepSkyData( ) )
-				initError( "ngcicN.dat", true );
+//			if ( !readDeepSkyData( ) )
+//				initError( "ngcicN.dat", true );
 
 			emit progressText( i18n("Loading Custom catalogs" ) );
 			readCustomCatalogs( );
@@ -2131,6 +2132,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 */
+
+/** moved into deepskycomponent
 		//Deep-sky objects. Keep lists separated for performance reasons
 		if ( Options::showMessier() || Options::showMessierImages() ) {
 			for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
@@ -2156,7 +2159,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				o->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}
-
+*/
 		//Custom Catalogs
 		for ( unsigned int j=0; j< CustomCatalogs.count(); ++j ) {
 			CustomCatalog *cat = CustomCatalogs.at(j);
@@ -2167,7 +2170,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 				}
 			}
 		}
-/*
+/**
 		//Milky Way
 		if ( Options::showMilkyWay() ) {
 			for ( unsigned int j=0; j<11; ++j ) {
@@ -2178,7 +2181,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 */
-/*
+/**
 		//CNames
 		if ( Options::showCNames() ) {
 			for ( SkyPoint *p = cnameList.first(); p; p = cnameList.next() ) {
