@@ -418,8 +418,14 @@ void KStars::datainitFinished(bool worked) {
 			DefaultFocus.setAlt( 45.0 );
 			DefaultFocus.HorizontalToEquatorial( LST(), geo()->lat() );
 			map()->setDestination( &DefaultFocus );
+
+			Options::setFocusRA( DefaultFocus.ra()->Hours() );
+			Options::setFocusDec( DefaultFocus.dec()->Degrees() );
 		}
 	}
+
+	//Propagate Options values through the program
+	applyConfig();
 
 	//If there is a focusObject() and it is a SS body, add a temporary Trail to it.
 	if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
@@ -470,9 +476,6 @@ void KStars::privatedata::buildGUI() {
 	//FIXME: after strings freeze, remove this and make the
 	//text of each button shorter
 	ks->toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
-
-	//Propagate Options values through the program
-	ks->applyConfig();
 
 	ks->TimeStep = new TimeStepBox( ks->toolBar() );
 	ks->toolBar()->insertWidget( 0, 6, ks->TimeStep, 15 );
