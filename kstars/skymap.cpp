@@ -530,7 +530,10 @@ void SkyMap::slotCenter( void ) {
 
 	//update the destination to the selected coordinates
 	if ( Options::useAltAz() ) { 
-		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
+		if ( Options::useRefraction() )
+			setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
+		else
+			setDestinationAltAz( focusPoint()->alt()->Degrees(), focusPoint()->az()->Degrees() );
 	} else {
 		setDestination( focusPoint() );
 	}
