@@ -538,10 +538,15 @@ void SkyMap::slotCenter( void ) {
 		setDestination( focusPoint() );
 	}
 
+	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+
 	//display coordinates in statusBar
 	if ( ksw ) {
-		QString s = focusPoint()->az()->toDMSString() + ",  " 
-			+ refract( focusPoint()->alt(), true ).toDMSString(true);
+		QString sX = focusPoint()->az()->toDMSString();
+		QString sY = focusPoint()->alt()->toDMSString(true);
+		if ( Options::useAltAz() && Options::useRefraction() )
+			sY = refract( focusPoint()->alt(), true ).toDMSString(true);
+		QString s = sX + ",  " + sY;
 		ksw->statusBar()->changeItem( s, 1 );
 		s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
 		ksw->statusBar()->changeItem( s, 2 );
