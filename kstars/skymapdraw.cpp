@@ -1600,7 +1600,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( Options::showSun() && data->PCat->findByName("Sun")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Sun"), scale );
 		if ( Options::showMercury() && data->PCat->findByName("Mercury")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mercury"), scale );
 		if ( Options::showVenus() && data->PCat->findByName("Venus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Venus"), scale );
-		if ( Options::showMoon() && data->Moon->hasTrail() ) drawPlanetTrail( psky, data->Moon, scale );
+//		if ( Options::showMoon() && data->Moon->hasTrail() ) drawPlanetTrail( psky, data->Moon, scale );
 		if ( Options::showMars() && data->PCat->findByName("Mars")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mars"), scale );
 		if ( Options::showJupiter() && data->PCat->findByName("Jupiter")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Jupiter"), scale );
 		if ( Options::showSaturn() && data->PCat->findByName("Saturn")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Saturn"), scale );
@@ -1618,7 +1618,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
 			}
 		}
-
+/**
 		//Now draw the actual solar system bodies.  Draw furthest to closest.
 		//Draw Asteroids
 		if ( Options::showAsteroids() ) {
@@ -1646,7 +1646,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				}
 			}
 		}
-
+*/
 		//Draw Comets
 		if ( Options::showComets() ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
@@ -1781,9 +1781,11 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( Options::showMoon() ) {
 			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
 		}
+
 	}
 }
 
+/** moved into planethelper
 void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		double zoommin, int resize_mult, double scale ) {
 
@@ -1849,6 +1851,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 		}
 	}
 }
+*/
 
 void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	QPainter p;

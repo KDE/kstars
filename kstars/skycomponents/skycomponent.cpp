@@ -56,7 +56,7 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, d
 	}
 
 	// get size of object
-	size = labelSize();
+	size = labelSize(obj);
 	
 	int offset = int( ( 0.5*size + 4 ) );
 	psky.drawText( x+offset, y+offset, obj->translatedName() );

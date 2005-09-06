@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skymapcomposite.h  -  K Desktop Planetarium
+                          mooncomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/07/08
+    begin                : 2005/09/06
     copyright            : (C) 2005 by Thomas Kabelmann
     email                : thomas.kabelmann@gmx.de
  ***************************************************************************/
@@ -15,25 +15,48 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAPCOMPOSITE_H
-#define SKYMAPCOMPOSITE_H
+#ifndef MOONCOMPONENT_H
+#define MOONCOMPONENT_H
 
-#include "skycomposite.h"
+class SolarSystemComposite;
+class KSNumbers;
+class SkyMap;
+class KStarsData;
+class KSMoon;
 
-/**@class SkyMapComposite
-*SkyComposite is the root object in the object hierarchy of the sky map.
-*All requests to update, init, draw etc. will be done with this class.
-*The requests will be delegated to it's children.
-*The object hierarchy will created by adding new objects via addComponent().
-*
+#include "abstractplanetcomponent.h"
+
+/**@class MoonComponent
+* Represents the moon.
+
 *@author Thomas Kabelmann
 *@version 0.1
 */
 
-class SkyMapComposite : SkyComposite
+class MoonComponent : AbstractPlanetComponent
 {
 	public:
-		SkyMapComposite(SkyComposite*);
+	
+		MoonComponent(SolarSystemComposite*, bool (*visibleMethod)(), int msize = 8);
+		
+		virtual ~MoonComponent();
+		
+		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		
+		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale);
+		
+		virtual void init(KStarsData *data);
+		
+		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords);
+
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+	
+	
+	private:
+	
+		KSMoon *Moon;
+
+		earth()
 };
 
 #endif

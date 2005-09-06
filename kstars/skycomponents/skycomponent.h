@@ -74,7 +74,7 @@ class SkyComponent
 		*a component to it's parent, for example a star want to add/remove
 		*a trail to it's parent.
 		*/
-		void parent() { return Parent; }
+		SkyComposite* parent() { return Parent; }
 		
 	protected:
 
@@ -94,7 +94,7 @@ class SkyComponent
 		/** Returns the size for drawing the label. It's used by generic
 		* drawNameLabel() method.
 		*/
-		virtual int labelSize() { return 1; };
+		virtual int labelSize(SkyObject*) { return 1; };
 
 	private:
 		SkyComposite *Parent;

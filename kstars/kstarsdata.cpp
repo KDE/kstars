@@ -708,7 +708,7 @@ void KStarsData::processStar( QString *line, bool reloadMode ) {
 	}
 }
 */
-
+/** moved to asteroidscomponent
 bool KStarsData::readAsteroidData( void ) {
 	QFile file;
 
@@ -746,6 +746,7 @@ bool KStarsData::readAsteroidData( void ) {
 
 	return false;
 }
+*/
 
 bool KStarsData::readCometData( void ) {
 	QFile file;
@@ -2037,6 +2038,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		LastNumUpdate = ut().djd();
 	}
 
+	//TODO updatePlanets()
 	// Update positions of objects, if necessary
 	if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 ) {
 		LastPlanetUpdate = ut().djd();
@@ -2044,10 +2046,11 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		if ( Options::showPlanets() ) PCat->findPosition( &num, geo->lat(), LST );
 
 		//Asteroids
+/** moved into asteroidscomponent
 		if ( Options::showPlanets() && Options::showAsteroids() )
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() )
 				ast->findPosition( &num, geo->lat(), LST, earth() );
-
+*/
 		//Comets
 		if ( Options::showPlanets() && Options::showComets() )
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() )
@@ -2069,11 +2072,13 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	// Moon moves ~30 arcmin/hr, so update its position every minute.
 	if ( fabs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 ) {
 		LastMoonUpdate = ut();
+	//TODO updateMoons()
+/**
 		if ( Options::showMoon() ) {
 			Moon->findPosition( &num, geo->lat(), LST );
 			Moon->findPhase( PCat->planetSun() );
 		}
-
+*/
 /** moved in jupitermoonscomponent
 		//for now, update positions of Jupiter's moons here also
 		if ( Options::showPlanets() && Options::showJupiter() )
@@ -2081,6 +2086,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 */
 	}
 
+	//TODO update()
+	
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
 	//If Clock is in Manual Mode, always update. (?)
 	if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || clock()->isManualMode() ) {
@@ -2091,26 +2098,29 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//This updates trails as well
 		PCat->EquatorialToHorizontal( LST, geo->lat() );
 
-/** moved in jupitermoonscomponent
+/** moved into jupitermoonscomponent
 		jmoons->EquatorialToHorizontal( LST, geo->lat() );
 */
+/** moved into mooncomponent
 		if ( Options::showMoon() ) {
 			Moon->EquatorialToHorizontal( LST, geo->lat() );
 			if ( Moon->hasTrail() ) Moon->updateTrail( LST, geo->lat() );
 		}
+*/
 
 //		//Planet Trails
 //		for( SkyPoint *p = PlanetTrail.first(); p; p = PlanetTrail.next() )
 //			p->EquatorialToHorizontal( LST, geo->lat() );
 
 		//Asteroids
+/** moved into asteroidscomponent
 		if ( Options::showAsteroids() ) {
 			for ( KSAsteroid *ast = asteroidList.first(); ast; ast = asteroidList.next() ) {
 				ast->EquatorialToHorizontal( LST, geo->lat() );
 				if ( ast->hasTrail() ) ast->updateTrail( LST, geo->lat() );
 			}
 		}
-
+*/
 		//Comets
 		if ( Options::showComets() ) {
 			for ( KSComet *com = cometList.first(); com; com = cometList.next() ) {
