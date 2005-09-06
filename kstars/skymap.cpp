@@ -168,19 +168,22 @@ void SkyMap::setGeometry( const QRect &r ) {
 }
 
 
-void SkyMap::showFocusCoords( void ) {
-	//display object info in infoBoxes
-	QString oname;
-	oname = i18n( "nothing" );
-	if ( focusObject() != NULL && Options::isTracking() ) 
-		oname = focusObject()->translatedLongName();
-	
-	infoBoxes()->focusObjChanged(oname);
+void SkyMap::showFocusCoords( bool coordsOnly ) {
+	if ( ! coordsOnly ) {
+		//display object info in infoBoxes
+		QString oname;
+		oname = i18n( "nothing" );
+		if ( focusObject() != NULL && Options::isTracking() ) 
+			oname = focusObject()->translatedLongName();
+		
+		infoBoxes()->focusObjChanged(oname);
+	}
 
 	if ( Options::useAltAz() && Options::useRefraction() ) {
 		SkyPoint corrFocus( *(focus()) );
 		corrFocus.setAlt( refract( focus()->alt(), false ) );
 		corrFocus.HorizontalToEquatorial( data->LST, data->geo()->lat() );
+		corrFocus.setAlt( refract( focus()->alt(), true ) );
 		infoBoxes()->focusCoordChanged( &corrFocus );
 	} else {
 		infoBoxes()->focusCoordChanged( focus() );
@@ -527,17 +530,15 @@ void SkyMap::slotCenter( void ) {
 
 	//update the destination to the selected coordinates
 	if ( Options::useAltAz() ) { 
-		if ( Options::useRefraction() )
-			setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
-		else
-			setDestinationAltAz( focusPoint()->alt()->Degrees(), focusPoint()->az()->Degrees() );
+		setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az()->Degrees() );
 	} else {
 		setDestination( focusPoint() );
 	}
 
 	//display coordinates in statusBar
 	if ( ksw ) {
-		QString s = focusPoint()->az()->toDMSString() + ",  " + focusPoint()->alt()->toDMSString(true);
+		QString s = focusPoint()->az()->toDMSString() + ",  " 
+			+ refract( focusPoint()->alt(), true ).toDMSString(true);
 		ksw->statusBar()->changeItem( s, 1 );
 		s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
 		ksw->statusBar()->changeItem( s, 2 );

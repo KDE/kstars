@@ -423,7 +423,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 			else
 				setDestination( focus() );
 
-			showFocusCoords();
+			showFocusCoords( true );
 			forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
 			break;
 	}
@@ -536,7 +536,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		++scrollCount;
 		if ( scrollCount > 4 ) {
-			showFocusCoords();
+			showFocusCoords( true );
 			scrollCount = 0;
 		}
 
@@ -556,7 +556,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if ( ksw ) {
 			QString sX, sY, s;
 			sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
-			sY = mousePoint()->alt()->toDMSString(true); //true = force +/- symbol
+			sY = mousePoint()->alt()->toDMSString(true); //true=force +/- symbol
+			if ( Options::useAltAz() && Options::useRefraction() ) 
+				sY = refract( mousePoint()->alt(), true ).toDMSString(true);
+
 			s = sX + ",  " + sY;
 			ksw->statusBar()->changeItem( s, 1 );
 			

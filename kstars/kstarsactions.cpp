@@ -782,9 +782,22 @@ void KStars::slotSetZoom() {
 void KStars::slotCoordSys() {
 	if ( Options::useAltAz() ) {
 		Options::setUseAltAz( false );
+		if ( Options::useRefraction() ) {
+			if ( map()->focusObject() ) //simply update focus to focusObject's position
+				map()->setFocus( map()->focusObject() );
+			else { //need to recompute focus for unrefracted position
+				map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(), 
+						map()->focus()->az()->Degrees() );
+				map()->focus()->HorizontalToEquatorial( data()->lst(), geo()->lat() );
+			}
+		}
 		actCoordSys->turnOn();
 	} else {
 		Options::setUseAltAz( true );
+		if ( Options::useRefraction() ) {
+			map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(), 
+					map()->focus()->az()->Degrees() );
+		}
 		actCoordSys->turnOff();
 	}
 	map()->forceUpdate();

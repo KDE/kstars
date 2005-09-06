@@ -77,7 +77,7 @@ public:
 
 /**@short Update object name and coordinates in the Focus InfoBox
 	*/
-	void showFocusCoords();
+	void showFocusCoords( bool coordsOnly = false );
 
 /**@short Update the focus position according to current options.
 	*/
