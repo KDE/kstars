@@ -51,6 +51,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 	connect( fdlg->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
 
+	fdlg->raBox->setDegType(false); //RA box should be HMS-style
 	fdlg->raBox->setFocus(); //set input focus
 	enableButtonOK( false ); //disable until both lineedits are filled
 }
