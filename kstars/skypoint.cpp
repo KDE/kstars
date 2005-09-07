@@ -60,6 +60,7 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 
 	double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
 	if ( arg <= -1.0 ) AzRad = dms::PI;
+	else if ( arg >= 1.0 ) AzRad = 0.0;
 	else AzRad = acos( arg );
 	
 	if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
