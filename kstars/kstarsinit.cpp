@@ -419,9 +419,6 @@ void KStars::datainitFinished(bool worked) {
 			DefaultFocus.setAlt( 45.0 );
 			DefaultFocus.HorizontalToEquatorial( LST(), geo()->lat() );
 			map()->setDestination( &DefaultFocus );
-
-			Options::setFocusRA( DefaultFocus.ra()->Hours() );
-			Options::setFocusDec( DefaultFocus.dec()->Degrees() );
 		}
 	}
 
