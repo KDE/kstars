@@ -155,6 +155,11 @@ void KSNewStuff::updateData( const QString &path ) {
 		//add new asteroids and comets
 		ks->data()->readAsteroidData();
 		ks->data()->readCometData();
+
+		//Do a full update
+		ks->data()->setFullTimeUpdate();
+		ks->data()->updateTime( ks->geo(), ks->map() );
+		ks->map()->forceUpdate();
 	}
 
 	//Restore arrow cursor
