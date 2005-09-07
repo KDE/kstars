@@ -134,6 +134,15 @@ void ObservingList::slotPrepTable( QWidget *tab ) {
 void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! obj ) obj = ks->map()->clickedObject();
 
+	//First, make sure object is not already in the list
+	for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
+		if ( obj == o ) {
+			//FIXME STRINGS FREEZE
+			//ks->statusBar()->changeItem( i18n( "%1 is already in the observing list." ).arg( obj->name() ), 0 );
+			return;
+		}
+	}
+
 	//Insert object in obsList
 	obsList.append( obj );
 	if ( ! isModified ) isModified = true; 
