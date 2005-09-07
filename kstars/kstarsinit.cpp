@@ -506,6 +506,10 @@ void KStars::initFocus() {
 		((KSPlanetBase*)map()->focusObject())->addToTrail();
 		data()->temporaryTrail = true;
 	}
+
+	//Store focus coords in Options object before calling applyConfig()
+	Options::setFocusRA( map()->focus()->ra()->Hours() );
+	Options::setFocusDec( map()->focus()->dec()->Degrees() );
 }
 void KStars::buildGUI() {
 	//create the skymap

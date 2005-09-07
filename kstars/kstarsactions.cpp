@@ -558,6 +558,10 @@ void KStars::slotRunScript() {
 					i18n( "Script Validation Failed" ), i18n("Run Nevertheless"), "daExecuteScript" );
 			if ( answer == KMessageBox::Cancel ) return;
 		}
+
+		//Add statusbar message that script is running
+		ks->statusBar()->changeItem( i18n( "Running script: %1" ).arg( fileURL.fileName() ), 0 );
+
 		KProcess p;
 		p << f.name();
 		p.start( KProcess::DontCare );
