@@ -312,7 +312,7 @@
 		<entry name="HidePlanets" type="Bool">
 			<label>Hide solar system objects while moving?</label>
 			<whatsthis>Toggle whether solar system objects are hidden while the display is in motion.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="HideStars" type="Bool">
 			<label>Hide faint stars while moving?</label>
