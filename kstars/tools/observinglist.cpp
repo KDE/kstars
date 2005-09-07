@@ -62,6 +62,9 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	ui = new ObservingListUI( page );
 	vlay->addWidget( ui );
 
+	//FIXME: enable MiniButton when I figure out how to resize the window correctly
+	ui->MiniButton->hide();
+
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
 	connect( ui->TableStack, SIGNAL( aboutToShow( QWidget* ) ), 
@@ -93,8 +96,10 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 			this, SLOT( slotSaveListAs() ) );
 	connect( ui->WizardButton, SIGNAL( clicked() ),
 			this, SLOT( slotWizard() ) );
-	connect( ui->MiniButton, SIGNAL( clicked() ),
-			this, SLOT( slotToggleSize() ) );
+
+	//FIXME: enable MiniButton
+// 	connect( ui->MiniButton, SIGNAL( clicked() ),
+// 			this, SLOT( slotToggleSize() ) );
 
 	obsList.setAutoDelete( false ); //do NOT delete removed pointers!
 	
