@@ -215,8 +215,9 @@ void KStars::initActions() {
 						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
 	new KAction(i18n( "What's up Tonight..."), KShortcut("Ctrl+U"),
 						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
-	new KAction(i18n( "Glossary..."), KShortcut("Ctrl+K"),
-						this, SLOT(slotGlossary()), actionCollection(), "glossary");
+//FIXME GLOSSARY
+//	new KAction(i18n( "Glossary..."), KShortcut("Ctrl+K"),
+//						this, SLOT(slotGlossary()), actionCollection(), "glossary");
 	new KAction(i18n( "Script Builder..."), KShortcut("Ctrl+B"),
 						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
 	new KAction(i18n( "Solar System..."), KShortcut("Ctrl+Y"),
@@ -423,6 +424,10 @@ void KStars::datainitFinished(bool worked) {
 			Options::setFocusDec( DefaultFocus.dec()->Degrees() );
 		}
 	}
+
+	//Store focus coords in Options object before calling applyConfig()
+	Options::setFocusRA( map()->focus()->ra()->Hours() );
+	Options::setFocusDec( map()->focus()->dec()->Degrees() );
 
 	//Propagate Options values through the program
 	applyConfig();

@@ -38,7 +38,8 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <kdeversion.h>
-#include <libkdeedu/kdeeduui/kdeeduglossary.h>
+//FIXME GLSOSSARY (uncomment these when content is added)
+//#include <libkdeedu/kdeeduui/kdeeduglossary.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -195,15 +196,16 @@ void KStars::slotWUT() {
 	dialog.exec();
 }
 
-void KStars::slotGlossary(){
-	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
-	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
-	KURL u = glossaryfile;
-	Glossary *g = Glossary::readFromXML( u );
-	g->setName( i18n( "Knowledge" ) );
-	dlg->addGlossary( g );
-	dlg->show();
-}
+//FIXME GLOSSARY
+// void KStars::slotGlossary(){
+// 	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
+// 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
+// 	KURL u = glossaryfile;
+// 	Glossary *g = Glossary::readFromXML( u );
+// 	g->setName( i18n( "Knowledge" ) );
+// 	dlg->addGlossary( g );
+// 	dlg->show();
+// }
 
 void KStars::slotScriptBuilder() {
 	ScriptBuilder sb(this);
@@ -558,6 +560,11 @@ void KStars::slotRunScript() {
 					i18n( "Script Validation Failed" ), i18n("Run Nevertheless"), "daExecuteScript" );
 			if ( answer == KMessageBox::Cancel ) return;
 		}
+
+		//FIXME STRINGS FREEZE
+		//Add statusbar message that script is running
+		//ks->statusBar()->changeItem( i18n( "Running script: %1" ).arg( fileURL.fileName() ), 0 );
+
 		KProcess p;
 		p << f.name();
 		p.start( KProcess::DontCare );

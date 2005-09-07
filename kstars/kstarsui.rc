@@ -67,7 +67,9 @@
 		<Action name="lightcurvegenerator" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
+<!--FIXME GLOSSARY
 		<Action name="glossary" />
+-->
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
 		<Action name="jmoontool" />
