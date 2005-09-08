@@ -1383,7 +1383,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							float sizeFactor = 2.0;
 							int size = int( sizeFactor*(zoomlim - mag) ) + 1;
 							if (size>23) size=23;
-							if ( size ) {
+							if ( size > 0 ) {
 								QChar c = starobj->color();
 								QPixmap *spixmap = starpix->getPixmap( &c, size );
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
