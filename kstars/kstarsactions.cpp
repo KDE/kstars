@@ -855,7 +855,7 @@ void KStars::slotFOVEdit() {
 				QTextStream ostream(&f);
 
 				for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
-					ostream << fov->name() << ":" << KGlobal::locale()->formatNumber( fov->size() )
+					ostream << fov->name() << ":" << fov->size()
 							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
 
 				f.close();
