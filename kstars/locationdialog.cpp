@@ -114,7 +114,8 @@ LocationDialog::LocationDialog( QWidget* parent )
 	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
 	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
 	for ( ; it != itEnd; ++it )
-		TZRuleBox->insertItem( it.key() );
+		if ( it.key().length() )
+			TZRuleBox->insertItem( it.key() );
 
 	ClearFields = new QPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
 	ShowTZRules = new QPushButton( i18n( "Explain DST Rules" ), CoordBox, "ShowDSTRules" );
