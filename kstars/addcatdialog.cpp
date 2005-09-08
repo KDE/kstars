@@ -42,6 +42,8 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 	vlay->addWidget( acd );
 	
 	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
+	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ), 
+			this, SLOT( slotShowDataFile() ) );
 	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
 
@@ -201,6 +203,20 @@ void AddCatDialog::slotCreateCatalog() {
 	if ( validateDataFile() ) {
 		//CatalogContents now contains the text for the catalog file,
 		//and objList contains the parsed objects
+
+		//Warn user if file exists!
+		if ( QFile::exists( acd->CatalogURL->url() ) )
+		{
+			KURL u( acd->CatalogURL->url() );
+			int r=KMessageBox::warningContinueCancel( 0,
+									i18n( "A file named \"%1\" already exists. "
+											"Overwrite it?" ).arg( u.fileName() ),
+									i18n( "Overwrite File?" ),
+									i18n( "&Overwrite" ) );
+			
+			if(r==KMessageBox::Cancel) return;
+		}
+
 		QFile OutFile( acd->CatalogURL->url() );
 		if ( ! OutFile.open( IO_WriteOnly ) ) {
 			KMessageBox::sorry( 0, 
