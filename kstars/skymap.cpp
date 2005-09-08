@@ -594,7 +594,7 @@ void SkyMap::slotDSS( void ) {
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
 	
-	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
 	new ImageViewer (&url, message, this);
 }
 
@@ -636,7 +636,7 @@ void SkyMap::slotDSS2( void ) {
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
 	
-	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
 	new ImageViewer (&url, message, this);
 }
 
