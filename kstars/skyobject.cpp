@@ -396,7 +396,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 			KSLabel = "[KSLABEL:" + star->gname( false ) + "]"; //"false": spell out greek letter
 	}
 	
-	file.setName( locate( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.open( IO_ReadOnly)) {
 		QTextStream instream(&file);
 		// read all data into memory
@@ -419,6 +419,9 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	//append the new log entry to the end of the logs text
 	logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
 	
+	//DEBUG
+	kdDebug() << "filename: " << file.name() << endl;
+
 	//Open file for writing
 	//FIXME: change error message to "cannot write to user log file"
 	if ( !file.open( IO_WriteOnly ) ) {
