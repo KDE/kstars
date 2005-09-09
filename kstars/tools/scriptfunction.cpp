@@ -90,7 +90,7 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	//before adding description, replace any '%n' instances with the corresponding
 	//argument name in color.  For now, assume that the %n's occur in order, with no skips.
 	//Also assume that '%' is *only* used to indicate argument instances
-	int narg = desc.contains( '%' );
+	int narg = desc.count( '%' );
 	switch (narg ) {
 		case 1:
 			Description += desc.arg( paramStyle.arg( an1 ) );

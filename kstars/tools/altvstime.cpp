@@ -329,7 +329,7 @@ void AltVsTime::slotClearBoxes(void) {
 	avtUI->nameBox->clear();
 	avtUI->raBox->clear() ;
 	avtUI->decBox->clear();
-	avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
+	avtUI->epochName->clear();
 }
 
 void AltVsTime::computeSunRiseSetTimes() {

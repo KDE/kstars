@@ -396,7 +396,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 			KSLabel = "[KSLABEL:" + star->gname( false ) + "]"; //"false": spell out greek letter
 	}
 	
-	file.setName( locate( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.open( IO_ReadOnly)) {
 		QTextStream instream(&file);
 		// read all data into memory
