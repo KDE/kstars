@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <kdeversion.h>
-#if KDE_IS_VERSION( 3, 2, 90 )
 
 #include <kapplication.h>
 #include <kaction.h>
@@ -170,4 +169,3 @@ void KSNewStuff::slotProcessEvents() { kapp->processEvents( 500 ); }
 
 #include "ksnewstuff.moc"
 
-#endif // KDE >= 3.2.90

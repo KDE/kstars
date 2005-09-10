@@ -81,9 +81,7 @@
 #include "telescopeprop.h"
 #include "fitsviewer.h"
 
-#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 #include "ksnewstuff.h"
-#endif  // KDE >= 3.2.90
 #include "imagesequence.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -172,10 +170,8 @@ void KStars::slotWizard() {
 }
 
 void KStars::slotDownload() {
-#if ( KDE_IS_VERSION( 3, 2, 90 ) )
 	if (!kns) kns = new KSNewStuff( this );
 	kns->download();
-#endif //KDE >= 3.2.90
 }
 
 void KStars::slotLCGenerator() {

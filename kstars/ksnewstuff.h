@@ -32,7 +32,6 @@
 
 #include <kdeversion.h>
 
-#if KDE_IS_VERSION( 3, 2, 90 )
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -90,5 +89,4 @@ class KSNewStuff : public QObject, public KNewStuff
 		bool NGCUpdated;
 };
 
-#endif  // KDE >= 3.2.90
 #endif  // KSNEWSTUFF_H
