@@ -19,3 +19,4 @@ libapogee_USB_la_SOURCES = ApnCamData.cpp ApnCamData_CCD3011HS.cpp ApnCamData_CC
 libapogee_USB_la_LADD = -lusb
 
 KDE_OPTIONS = nofinal
+KDE_CXXFLAGS = -D_POSIX_C_SOURCE=199506L
