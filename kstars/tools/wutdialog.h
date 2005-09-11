@@ -64,7 +64,7 @@ class WUTDialog : public KDialogBase  {
 
 		/**@short display the rise/transit/set times for selected object 
 			*/
-		void slotDisplayObject(QListBoxItem *item);
+		void slotDisplayObject(QListWidgetItem *item);
 
 		/**@short Apply user's choice of what part of the night should 
 			*be examined:
@@ -123,7 +123,7 @@ class WUTDialog : public KDialogBase  {
 		int EveningFlag;
 		
 		struct List {
-			QPtrList <SkyObjectName> visibleList[NCATEGORY];
+			QList<SkyObjectName*> visibleList[NCATEGORY];
 			bool initialized[NCATEGORY];
 		} lists;
 

@@ -537,7 +537,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 	return angDist;
 }
 
-QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyObject> &cnameList ) const {
+QString SkyPoint::constellation( QList<CSegment> &csegmentList, QList<SkyObject> &cnameList ) const {
 	//Identify the constellation that contains point p.
 	//First, find all CSegments that bracket the RA of p.
 	//Then, identify the pair of these bracketing segments which bracket p in the Dec direction.
@@ -548,19 +548,21 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 	//Corner case 2: it is possible that *both* cnames are shared between the two segments.
 	//In this case, we have to do more work to decide which is truly correct.
 	
-	QPtrList<SkyPoint> p1List, p2List;
+	QList<SkyPoint> p1List, p2List;
 	QStringList name1List, name2List;
 	QString abbrev("");
 
 	double pdc = dec()->Degrees();
 	double pra(0.0); //defined in the loop, because we may modify it there
 
-	for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
-		SkyPoint *p1 = seg->firstNode();
-		for ( SkyPoint *p2 = seg->nextNode(); p2; p2 = seg->nextNode() ) {
+	for ( int iseg = 0; iseg < csegmentList.size(); ++i ) {
+		CSegment seg = csegmentList[iseg];
+		SkyPoint p1 = seg.firstNode();
+
+		for ( SkyPoint p2 = seg.nextNode(); p2 != seg.lastNode(); p2 = seg.nextNode() ) {
 			pra = ra()->Degrees(); 
-			double p1ra = p1->ra()->Degrees();
-			double p2ra = p2->ra()->Degrees();
+			double p1ra = p1.ra()->Degrees();
+			double p2ra = p2.ra()->Degrees();
 			if ( p1ra > 330. && p2ra < 30. ) { //wrap RA coordinate, if necessary
 				p1ra -= 360.0; 
 				if ( pra > 330. ) pra -= 360.;
@@ -573,14 +575,14 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 			if ( p1ra <= pra && p2ra >= pra ) { //bracketing segment?
 				p1List.append( p1 );
 				p2List.append( p2 );
-				name1List.append( seg->name1() );
-				name2List.append( seg->name2() );
+				name1List.append( seg.name1() );
+				name2List.append( seg.name2() );
 				break;
 			} else if ( p2ra <= pra && p1ra >= pra ) { //bracketing segment? (RA order reversed)
 				p1List.append( p2 ); //make sure p1List gets the smaller bracketing RA
 				p2List.append( p1 );
-				name1List.append( seg->name1() );
-				name2List.append( seg->name2() );
+				name1List.append( seg.name1() );
+				name2List.append( seg.name2() );
 				break;
 			}
 			p1 = p2;
@@ -596,13 +598,13 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 	//Normal case: more than one segment brackets in RA.  Find segments which also bracket in Dec.
 	double dupper(90.), dlower(-90.);
 	int iupper(-1), ilower(-1);
-	for ( uint i=0; i < p1List.count(); ++i ) {
-		SkyPoint *p1 = p1List.at(i);
-		SkyPoint *p2 = p2List.at(i);
+	for ( uint i=0; i < p1List.size(); ++i ) {
+		SkyPoint p1 = p1List[i];
+		SkyPoint p2 = p2List[i];
 		
 		//Find Dec value along segment at RA of p:
-		double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
-		double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+		double f = ( pra - p1.ra()->Degrees() ) / ( p2.ra()->Degrees() - p1.ra()->Degrees()); //fractional distance along segment
+		double segDec = f*p2.dec()->Degrees() + (1.0-f)*p1.dec()->Degrees();
 		if ( segDec >= pdc && segDec < dupper ) { dupper = segDec; iupper = i; }
 		if ( segDec <= pdc && segDec > dlower ) { dlower = segDec; ilower = i; }
 	}
@@ -619,12 +621,12 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 		double dlow2(-90.);
 		for ( uint i=0; i < p1List.count(); ++i ) {
 			if ( i != ilower ) {
-				SkyPoint *p1 = p1List.at(i);
-				SkyPoint *p2 = p2List.at(i);
+				SkyPoint p1 = p1List[i];
+				SkyPoint p2 = p2List[i];
 				
 				//Find Dec value along segment at RA of p:
-				double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
-				double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+				double f = ( pra - p1.ra()->Degrees() ) / ( p2.ra()->Degrees() - p1.ra()->Degrees()); //fractional distance along segment
+				double segDec = f*p2.dec()->Degrees() + (1.0-f)*p1.dec()->Degrees();
 				if ( segDec > dlow2 && segDec < dlower ) { dlow2 = segDec; ilow2 = i; }
 			}
 		}
@@ -652,12 +654,12 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 		double dup2(90.);
 		for ( uint i=0; i < p1List.count(); ++i ) {
 			if ( i != iupper ) {
-				SkyPoint *p1 = p1List.at(i);
-				SkyPoint *p2 = p2List.at(i);
+				SkyPoint p1 = p1List[i];
+				SkyPoint p2 = p2List[i];
 				
 				//Find Dec value along segment at RA of p:
-				double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
-				double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+				double f = ( pra - p1.ra()->Degrees() ) / ( p2.ra()->Degrees() - p1.ra()->Degrees()); //fractional distance along segment
+				double segDec = f*p2.dec()->Degrees() + (1.0-f)*p1.dec()->Degrees();
 				if ( segDec < dup2 && segDec > dupper ) { dup2 = segDec; iup2 = i; }
 			}
 		}
@@ -694,12 +696,12 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 
 			for ( uint i=0; i < p1List.count(); ++i ) {
 				if ( i != iupper ) {
-					SkyPoint *p1 = p1List.at(i);
-					SkyPoint *p2 = p2List.at(i);
+					SkyPoint p1 = p1List[i];
+					SkyPoint p2 = p2List[i];
 					
 					//Find Dec value along segment at RA of p:
-					double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
-					double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+					double f = ( pra - p1.ra()->Degrees() ) / ( p2.ra()->Degrees() - p1.ra()->Degrees()); //fractional distance along segment
+					double segDec = f*p2.dec()->Degrees() + (1.0-f)*p1.dec()->Degrees();
 					if ( segDec < dup2 && segDec > dupper ) { dup2 = segDec; iup2 = i; }
 				}
 			}
@@ -721,12 +723,12 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 			double dlow2(-90.);
 			for ( uint i=0; i < p1List.count(); ++i ) {
 				if ( i != ilower ) {
-					SkyPoint *p1 = p1List.at(i);
-					SkyPoint *p2 = p2List.at(i);
+					SkyPoint p1 = p1List[i];
+					SkyPoint p2 = p2List[i];
 					
 					//Find Dec value along segment at RA of p:
-					double f = ( pra - p1->ra()->Degrees() ) / ( p2->ra()->Degrees() - p1->ra()->Degrees()); //fractional distance along segment
-					double segDec = f*p2->dec()->Degrees() + (1.0-f)*p1->dec()->Degrees();
+					double f = ( pra - p1.ra()->Degrees() ) / ( p2.ra()->Degrees() - p1.ra()->Degrees()); //fractional distance along segment
+					double segDec = f*p2.dec()->Degrees() + (1.0-f)*p1.dec()->Degrees();
 					if ( segDec > dlow2 && segDec < dlower ) { dlow2 = segDec; ilow2 = i; }
 				}
 			}
@@ -766,7 +768,9 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 	}
 
 	//Finally, match the abbreviated name to the full constellation name, and return that name
-	for ( SkyObject *o = cnameList.first(); o; o = cnameList.next() ) {
+	for ( int iname = 0; iname < cnameList.size(); ++iname ) {
+		SkyObject o = cnameList[i];
+
 		if ( abbrev.lower() == o->name2().lower() ) {
 			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)

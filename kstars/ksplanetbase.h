@@ -19,9 +19,9 @@
 #ifndef KSPLANETBASE_H
 #define KSPLANETBASE_H
 
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qimage.h>
+#include <QString>
+#include <QList>
+#include <QImage>
 
 #include <kdebug.h>
 
@@ -249,11 +249,11 @@ public:
 
 /**@return a reference to the planet's trail
 	*/
-		QPtrList<SkyPoint>* trail() { return &Trail; }
+		QList<SkyPoint>& trail() { return Trail; }
 
 /**@short adds a point to the planet's trail
 	*/
-		void addToTrail() { Trail.append( new SkyPoint( ra(), dec() ) ); }
+		void addToTrail() { Trail.append( SkyPoint( ra(), dec() ) ); }
 
 /**@short removes the oldest point from the trail
 	*/
@@ -311,7 +311,7 @@ protected:
 	// Heliocentric ecliptic position referred to the equinox of the epoch 
 	// as obtained from VSOP.
 	EclipticPosition helEcPos;
-	QPtrList<SkyPoint> Trail;
+	QList<SkyPoint> Trail;
 	double  Rearth;
 
 private:

@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "planethelper.h"
+//JH: This file does not exist...
+//#include "planethelper.h" 
 
 #include "ksplanet.h"
 #include "skymap.h"

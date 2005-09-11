@@ -50,57 +50,23 @@ void HorizonComponent::init(KStarsData *data)
 {
 	pts = new QPointArray(2000)
 	
-	// Define the Celestial Equator
+	//Define Horizon
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
-		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->EquatorialToHorizontal( LST, geo()->lat() );
-		Equator.append( o );
-	}
-
-  // Define the horizon.
-  // Use the celestial Equator as a convenient starting point, but instead of RA and Dec,
-  // interpret the coordinates as azimuth and altitude, and then convert to RA, dec.
-  // The horizon will be redefined whenever the positions of sky objects are updated.
-	dms temp( 0.0 );
-	for (SkyPoint *point = Equator.first(); point; point = Equator.next()) {
-		double sinlat, coslat, sindec, cosdec, sinAz, cosAz;
-		double HARad;
-		dms dec, HA, RA, Az;
-		Az = dms(*(point->ra()));
-
-		Az.SinCos( sinAz, cosAz );
-		geo()->lat()->SinCos( sinlat, coslat );
-
-		dec.setRadians( asin( coslat*cosAz ) );
-		dec.SinCos( sindec, cosdec );
-
-		HARad = acos( -1.0*(sinlat*sindec)/(coslat*cosdec) );
-		if ( sinAz > 0.0 ) { HARad = 2.0*dms::PI - HARad; }
-		HA.setRadians( HARad );
-		RA = LST->Degrees() - HA.Degrees();
-
-		SkyPoint *o = new SkyPoint( RA, dec );
+		SkyPoint o = new SkyPoint();
+		o->setAz( i*24./NCIRCLE );
 		o->setAlt( 0.0 );
-		o->setAz( Az );
-
+		o->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 		Horizon.append( o );
-
-		//Define the Ecliptic (use the same ListIteration; interpret coordinates as Ecliptic long/lat)
-/*		o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num->obliquity(), point->ra(), &temp );
-		o->EquatorialToHorizontal( LST, geo()->lat() );
-		Ecliptic.append( o );*/
 	}
 }
 
 void HorizonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-		//Horizon: different than the others; Alt & Az remain constant, RA, Dec must keep up
-		if ( Options::showHorizon() || Options::showGround() ) {
-			for ( SkyPoint *p = Horizon.first(); p; p = Horizon.next() ) {
-				p->HorizontalToEquatorial( LST, map->data()->geo()->lat() );
-			}
+	if ( Options::showHorizon() || Options::showGround() ) {
+		for ( int i=0; i < Horizon.size(); i++ ) {
+			Horizon[i]->HorizontalToEquatorial( LST, data->geo()->lat() );
 		}
+	}
 }
 
 // was SkyMap::drawHorizon

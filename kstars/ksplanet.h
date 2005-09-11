@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qptrvector.h>
-#include <qdict.h>
+#include <QString>
+#include <QVector>
+#include <QHash>
 
 #include "ksplanetbase.h"
 #include "dms.h"
@@ -101,7 +101,7 @@ protected:
 			double A, B, C;
 	};
 
-	typedef QPtrVector<OrbitData> OBArray[6];
+	typedef QVector<OrbitData> OBArray[6];
 
 /**OrbitDataColl contains three groups of six QPtrVectors.  Each QPtrVector is a
 	*list of OrbitData objects, representing a single sum used in computing
@@ -137,9 +137,10 @@ protected:
 				*"name.[LBR][0...5].vsop", where "L"=Longitude data, "B"=Latitude data,
 				*and R=Radius data.
 				*@p n the name of the planet whose data is to be loaded from disk.
-				*@return pointer to the OrbitDataColl containing the planet's orbital data.
+				*@p odc reference to the OrbitDataColl containing the planet's orbital data.
+				*@return true if data successfully loaded
 				*/
-			OrbitDataColl *loadData(QString n);
+			bool loadData( OrbitDataColl &odc, const QString &n);
 
 		private:
 			/**Read a single orbital data file from disk into an OrbitData vector.
@@ -148,9 +149,9 @@ protected:
 			*@p fname the filename to be read.
 			*@p vector pointer to the OrbitData vector to be filled with these data.
 			*/
-			bool readOrbitData(QString fname, QPtrVector<KSPlanet::OrbitData> *vector);
+			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> vector);
 			
-			QDict<OrbitDataColl> dict;
+			QHash<QString, OrbitDataColl> hash;
 	};
 
 	static OrbitDataManager odm;

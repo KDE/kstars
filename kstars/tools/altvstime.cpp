@@ -100,9 +100,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
 	connect( avtUI->PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
 
-	pList.setAutoDelete(FALSE);
-	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
-
 	//ther edit boxes should not pass on the return key!
 	avtUI->nameBox->setTrapReturnKey( true );
 	avtUI->raBox->setTrapReturnKey( true );
@@ -113,7 +110,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
 AltVsTime::~AltVsTime()
 {
-    // no need to delete child widgets, Qt does it all for us
+    //WARNING: need to delete deleteList items!
 }
 
 void AltVsTime::slotAddSource(void) {
@@ -160,7 +157,8 @@ void AltVsTime::slotAddSource(void) {
 
 		//make sure the coords do not already exist from another object
 		bool found(false);
-		for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+		for ( uint i=0; i < pList.size(); ++i ) {
+			SkyPoint *p = pList.at(i);
 			//within an arcsecond?
 			if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
 				found = true;
@@ -219,7 +217,8 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
 	//If this point is not in list already, add it to list
 	bool found(false);
-	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
+	for ( uint i=0; i < pList.size(); ++i ) {
+		SkyPoint *p = pList.at(i);
 		if ( o->ra()->Degrees() == p->ra()->Degrees() && o->dec()->Degrees() == p->dec()->Degrees() ) {
 			found = true;
 			break;
@@ -293,14 +292,13 @@ void AltVsTime::slotHighlight(void) {
 
 	View->update();
 
-	int index = 0;
-	for ( SkyPoint *p = pList.first(); p; p = pList.next() ) {
-		if ( index == iPlotList ) {
-			avtUI->raBox->showInHours(p->ra() );
-			avtUI->decBox->showInDegrees(p->dec() );
-			avtUI->nameBox->setText(avtUI->PlotList->currentText() );
+	for ( uint i=0; i < pList.size(); ++i ) {
+		if ( i == iPlotList ) {
+			SkyPoint *p = pList.at(i);
+			avtUI->raBox->showInHours( p->ra() );
+			avtUI->decBox->showInDegrees( p->dec() );
+			avtUI->nameBox->setText( avtUI->PlotList->currentText() );
 		}
-		++index;
 	}
 }
 
@@ -315,7 +313,9 @@ void AltVsTime::slotAdvanceFocus(void) {
 
 void AltVsTime::slotClear(void) {
 	if ( pList.count() ) pList.clear();
-	if ( deleteList.count() ) deleteList.clear();
+	//Need to delete the pointers in deleteList
+	while ( ! deleteList.isEmpty() ) 
+		delete deleteList.takeFirst();
 	avtUI->PlotList->clear();
 	avtUI->nameBox->clear();
 	avtUI->raBox->clear();

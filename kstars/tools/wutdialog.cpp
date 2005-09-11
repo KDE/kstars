@@ -243,8 +243,9 @@ void WUTDialog::appendToList(SkyObjectName *o) {
 void WUTDialog::slotLoadList(int i) {
 	WUT->ObjectListBox->clear();
 	setCursor(QCursor(Qt::WaitCursor));
-	QPtrList <SkyObjectName> invisibleList;
-	for (SkyObjectName *oname=lists.visibleList[i].first(); oname; oname=lists.visibleList[i].next()) {
+	QList<SkyObjectName*> invisibleList;
+	for ( uint j=0; j < lists.visibleList[i].size(); ++j ) {
+		SkyObjectName *oname = lists.visibleList[i].at(j);
 		bool visible = true;
 		if (lists.initialized[i] == false) {
 			if (i == 0) {  //planets, sun and moon
@@ -261,8 +262,8 @@ void WUTDialog::slotLoadList(int i) {
 	}
 	// remove all invisible objects from list
 	if (invisibleList.isEmpty() == false) {
-		for (SkyObjectName *o=invisibleList.first(); o; o=invisibleList.next()) {
-			lists.visibleList[i].removeRef(o);
+		for ( uint j=0; j < invisibleList.size(); ++j ) {
+			lists.visibleList[i].takeAt(j);
 		}
 	}
 	setCursor(QCursor(Qt::ArrowCursor));

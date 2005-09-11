@@ -45,7 +45,6 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, doubl
 	PositionAngle = 0.0;
 	ImageAngle = 0.0;
 	PhysicalSize = pSize;
-	Trail.setAutoDelete( TRUE );
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -62,7 +61,7 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
 
 		if ( lat && LST ) {
 			findPosition( num, lat, LST, data->earth() );
-			if ( hasTrail() ) Trail.removeLast();
+			if ( hasTrail() ) delete Trail.takeLast();
 		} else {
 			findGeocentricPosition( num, data->earth() );
 		}
@@ -78,8 +77,8 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 		localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
 
 	if ( hasTrail() ) {
-		Trail.append( new SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) Trail.removeFirst();
+		Trail.append( SkyPoint( ra(), dec() ) );
+		if ( Trail.count() > MAXTRAIL ) delete Trail.takeFirst();
 	}
 
 	if ( isMajorPlanet() )
@@ -160,8 +159,8 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
 }
 
 void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {
-	for ( SkyPoint *sp = Trail.first(); sp; sp = Trail.next() )
-		sp->EquatorialToHorizontal( LST, lat );
+	for ( int i=0; i < Trail.size(); ++i )
+		Trail[i].EquatorialToHorizontal( LST, lat );
 }
 
 void KSPlanetBase::findPA( const KSNumbers *num ) {

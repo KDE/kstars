@@ -36,9 +36,8 @@ KSPlanet::OrbitDataColl::OrbitDataColl() {
 }
 
 
-KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {
-	// delete all data automatically to avoid a leak
-	dict.setAutoDelete(true);
+KSPlanet::OrbitDataManager::OrbitDataManager() {
+//EMPTY
 }
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
@@ -78,83 +77,70 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 	return true;
 }
 
-KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
+bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const QString &n ) {
 	QString fname, snum, line;
 	QFile f;
 	int nCount = 0;
-	OrbitDataColl *ret;
 
 //	kdDebug() << k_funcinfo << " Loading data named " << n << endl;
 
 	n = n.lower();
 
-	if ((ret = dict[n])) {
-//		kdDebug() << k_funcinfo << " already loaded - returning" << endl;
-		return ret;
-	}
+	if ( hash.contains( n ) ) 
+		return hash[n];
 
-	ret = new OrbitDataColl;
+	//Create a new OrbitDataColl
+	OrbitDataColl ret;
 
 	//Ecliptic Longitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
 		fname = n + ".L" + snum + ".vsop";
-		if (readOrbitData(fname, &(ret->Lon[i])))
+		if ( readOrbitData( fname, ret.Lon[i] ) )
 			nCount++;
 	}
 
-	if ( nCount==0 ){ //No longitude data found!
-		delete ret;
-		return 0;
-	}
+	if ( nCount==0 ) return false;
 
 	//Ecliptic Latitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
 		fname = n + ".B" + snum + ".vsop";
-		if (readOrbitData(fname, &(ret->Lat[i])))
+		if ( readOrbitData( fname, ret.Lat[i] ) )
 			nCount++;
-
 	}
 
-	if (nCount==0){ //no latitude data found!
-		delete ret;
-		return 0;
-	}
+	if ( nCount==0 ) return false;
 
 	//Heliocentric Distance
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
 		fname = n + ".R" + snum + ".vsop";
-		if (readOrbitData(fname, &(ret->Dst[i])))
+		if ( readOrbitData( fname, ret.Dst[i] ) )
 			nCount++;
-
 	}
 
-	if (nCount==0){ //no distance data found!
-		delete ret;
-		return 0;
-	}
+	if ( nCount==0 ) return false;
 
-	dict.insert(n, ret);
+	hash[n] = ret;
+	odc = hash[n];
 
-
-//	kdDebug() << k_funcinfo << " successful load" << endl;
-
-	return ret;
+	return true;
 }
 
 KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, double pSize )
  : KSPlanetBase(kd, s, imfile, pSize ), data_loaded(false) {
 }
 
+//we don't need the reference to the ODC, so just give it a junk variable
 bool KSPlanet::loadData() {
-	return (odm.loadData(name()) != 0);
+	OrbitDataColl odc;
+	return odm.loadData( odc, name() );
 }
 
 void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	double sum[6];
-	OrbitDataColl * odc;
+	OrbitDataColl odc;
 	double Tpow[6];
 
 	Tpow[0] = 1.0;
@@ -162,7 +148,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 		Tpow[i] = Tpow[i-1] * Tau;
 	}
 
-	if (!(odc =  odm.loadData(name()))) {
+	if ( ! odm.loadData( odc, name() ) ) {
 		epret.longitude = 0.0;
 		epret.latitude = 0.0;
 		epret.radius = 0.0;

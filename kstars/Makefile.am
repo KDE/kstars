@@ -28,9 +28,13 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 kde_kcfg_DATA = kstars.kcfg
 kde_conf_DATA = kstarsrc
 
-kstars_LDADD = indi/liblilxml.a indi/libindicom.a tools/libkstarstools.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la $(top_builddir)/libkdeedu/kdeeduui/libkdeeduui.la $(top_builddir)/libkdeedu/extdate/libextdate.la -lkdeprint -lknewstuff -lm -lz
+#HIDE_TOOLS
+#kstars_LDADD = indi/liblilxml.a indi/libindicom.a skycomponents/libkstarscomponents.a tools/libkstarstools.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la $(top_builddir)/libkdeedu/kdeeduui/libkdeeduui.la $(top_builddir)/libkdeedu/extdate/libextdate.la -lkdeprint -lknewstuff -lm -lz
+kstars_LDADD = indi/liblilxml.a indi/libindicom.a skycomponents/libkstarscomponents.a $(top_builddir)/libkdeedu/kdeeduplot/libkdeeduplot.la $(top_builddir)/libkdeedu/kdeeduui/libkdeeduui.la $(top_builddir)/libkdeedu/extdate/libextdate.la -lkdeprint -lknewstuff -lm -lz
 
-SUBDIRS = indi tools . data icons 
+#HIDE_TOOLS
+#SUBDIRS = indi tools skycomponents . data icons 
+SUBDIRS = indi skycomponents . data icons 
 
 KDE_ICON=AUTO
 

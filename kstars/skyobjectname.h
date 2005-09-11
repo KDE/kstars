@@ -18,7 +18,8 @@
 #ifndef SKYOBJECTNAME_H
 #define SKYOBJECTNAME_H
 
-#include <qstring.h>
+#include <QListWidgetItem>
+#include <QString>
 #include <klistbox.h>
 #include <klocale.h>
 
@@ -31,6 +32,7 @@
 	*@version 1.0
 	*/
 
+class QListWidget;
 class SkyObject;
 
 class SkyObjectName {
@@ -67,19 +69,19 @@ class SkyObjectName {
 
 
 /**Class for filling list of named objects in the Find Object dialog (FindDialog).
-	*The class is derived from QListBoxText, and adds a SkyObjectName* member variable,
+	*The class is derived from QListWidgetItem, and adds a SkyObjectName* member variable,
 	*and a method to retrieve this variable (a pointer).  This makes it very easy
-	*to add these items to the FindDialog's QListBox, and to sort and filter them.
-	*@short Derivative of QListBoxItem specifically for SkyObjects
+	*to add these items to the FindDialog's QListWidget, and to sort and filter them.
+	*@short Derivative of QListWidgetItem specifically for SkyObjects
 	*@author Thomas Kabelmann
-	*@version 0.9
+	*@version 1.0
 	*/
 
-class SkyObjectNameListItem : public QListBoxText  {
+class SkyObjectNameListItem : public QListWidgetItem  {
 	
 	public:
 	/**Constructor */
-		SkyObjectNameListItem (QListBox *parent, SkyObjectName *name );
+		SkyObjectNameListItem( QListWidget *parent, SkyObjectName *name );
 
 	/**Destructor (empty)*/
 		~SkyObjectNameListItem() {}

@@ -18,8 +18,9 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
+#include <QList>
+
 #include <qmap.h>
-#include <qptrlist.h>
 #include <qstring.h>
 
 #include <kshortcut.h>
@@ -680,8 +681,8 @@ private:
 /*	bool openSAOFile(int i);*/
 //	bool openStarFile(int i);
 
-	static QPtrList<GeoLocation> geoList;
-	QPtrList<SkyObject> objList;
+	static QList<GeoLocation> geoList;
+	QList<SkyObject> objList;
 
 // 	QPtrList<StarObject> starList;
 

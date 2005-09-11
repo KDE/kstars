@@ -1,9 +1,9 @@
 /***************************************************************************
-                          horizoncomponent.h  -  K Desktop Planetarium
+                          equatorcomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/07/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 10 Sept. 2005
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef HORIZONCOMPONENT_H
-#define HORIZONCOMPONENT_H
+#ifndef EQUATORCOMPONENT_H
+#define EQUATORCOMPONENT_H
 
 class QList;
 
-/**@class HorizonComponent
-*Represents the horizon on the sky map.
+/**@class EquatorComponent
+*Represents the celestial equator on the sky map.
 
-*@author Thomas Kabelmann
+*@author Jason Harris
 *@version 0.1
 */
 
@@ -32,13 +32,13 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class HorizonComponent: public SkyComponent
+class EquatorComponent: public SkyComponent
 {
 	public:
 
-		HorizonComponent(SkyComposite*);
+		EquatorComponent(SkyComposite*);
 		
-		virtual ~HorizonComponent();
+		virtual ~EquatorComponent();
 
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
@@ -47,8 +47,11 @@ class HorizonComponent: public SkyComponent
 		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 
 	private:
-		// the points of the horizon
-		QList<SkyPoint*> Horizon;
+		// the points of the equator
+		QList<SkyPoint*> Equator;
+		
+		QPointArray *pts;
+
 };
 
 #endif

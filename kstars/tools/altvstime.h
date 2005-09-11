@@ -18,6 +18,7 @@
 #ifndef ALTVSTIME_H
 #define ALTVSTIME_H
 
+#include <QList>
 #include "kstarsplotwidget.h"
 
 class KStarsDateTime;
@@ -211,8 +212,8 @@ private:
 
 	GeoLocation *geo;
 	KStars *ks;
-	QPtrList<SkyPoint> pList;
-	QPtrList<SkyPoint> deleteList;
+	QList<SkyPoint*> pList;
+	QList<SkyPoint*> deleteList;
 
 	int DayOffset;
 	bool dirtyFlag;

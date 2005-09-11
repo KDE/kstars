@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QListWidget>
+
 #include "skyobjectname.h"
 #include "skyobject.h"
 
@@ -23,8 +25,8 @@ SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
 {
 }
 
-SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj )
-	: QListBoxText ( parent ), object ( obj )
+SkyObjectNameListItem::SkyObjectNameListItem ( QListWidget *parent, SkyObjectName *obj )
+	: QListWidgetItem ( parent ), object ( obj )
 {
 	setText( obj->text() );
 }
