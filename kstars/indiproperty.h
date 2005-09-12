@@ -28,8 +28,6 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QButtonGroup;
 
-
-
 /* INDI property */
 class INDI_P : public QObject
 {
@@ -63,7 +61,7 @@ class INDI_P : public QObject
     QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
     KComboBox      *om_w;		/* Combo box for menu */
     
-    QPtrList<INDI_E> el;		/* list of elements */
+    QList<INDI_E*> el;		/* list of elements */
 
     /* Draw state LED */
     void drawLt(PState lstate);

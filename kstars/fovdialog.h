@@ -18,7 +18,6 @@
 #ifndef FOVDIALOG_H
 #define FOVDIALOG_H
 
-#include <qptrlist.h>
 #include <kdialogbase.h>
 #include "fov.h"
 
@@ -38,7 +37,7 @@ public:
 	FOVDialog( QWidget *parent=0 );
 	~FOVDialog();
 	unsigned int currentItem() const;
-	QPtrList<FOV> FOVList;
+	QList<FOV*> FOVList;
 
 protected:
 	void paintEvent( QPaintEvent * );

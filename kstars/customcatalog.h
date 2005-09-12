@@ -18,7 +18,6 @@
 #ifndef CUSTOM_CATALOG_H
 #define CUSTOM_CATALOG_H
 
-#include <qptrlist.h>
 #include "skyobject.h"
 
 class QString;
@@ -29,25 +28,25 @@ class QString;
 class CustomCatalog {
 public:
 	CustomCatalog();
-	CustomCatalog( QString nm, QString px, QString co, float ep, QPtrList<SkyObject> ol );
+	CustomCatalog( QString nm, QString px, QString co, float ep, QList<SkyObject*> ol );
 	~CustomCatalog();
 
 	QString name() const { return m_Name; }
 	QString prefix() const { return m_Prefix; }
 	QString color() const { return m_Color; }
 	float epoch() const { return m_Epoch; }
-	QPtrList<SkyObject> objList() const { return m_ObjList; }
+	QList<SkyObject*> objList() const { return m_ObjList; }
 
 	void setName( const QString &name ) { m_Name = name; }
 	void setPrefix( const QString &prefix ) { m_Prefix = prefix; }
 	void setColor( const QString &color ) { m_Color = color; }
 	void setEpoch( float epoch ) { m_Epoch = epoch; }
-	void setObjectList( QPtrList<SkyObject> ol ) { m_ObjList = ol; }
+	void setObjectList( QList<SkyObject*> ol ) { m_ObjList = ol; }
 
 private:
 	QString m_Name, m_Prefix, m_Color;
 	float m_Epoch;
-	QPtrList<SkyObject> m_ObjList;
+	QList<SkyObject*> m_ObjList;
 };
 
 #endif //CUSTOM_CATALOG_H

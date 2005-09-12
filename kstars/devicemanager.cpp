@@ -52,8 +52,8 @@ DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID)
  parent = INDIparent;
  mgrID  = inID;
 
- indi_dev.setAutoDelete(true);
- 
+// indi_dev.setAutoDelete(true);
+
  serverFD  = -1;
  serverFP  = NULL;
  XMLParser = NULL;
@@ -75,9 +75,8 @@ DeviceManager::~DeviceManager()
    delLilXML(XMLParser);
    XMLParser = NULL;
   }
-  
-  indi_dev.clear();
 
+	while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 }
 
 bool DeviceManager::indiConnect(QString inHost, QString inPort)
@@ -263,16 +262,16 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
     // remove all devices if devName == NULL
     if (devName == NULL)
     {
-        indi_dev.clear();
+        while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 	return (0);
     }
 
-    for (unsigned int i=0; i < indi_dev.count(); i++)
+    for (unsigned int i=0; i < indi_dev.size(); i++)
     {
-         if (indi_dev.at(i)->name ==  devName)
+         if (indi_dev[i]->name ==  devName)
 	 {
 	    kdDebug() << "Device Manager: Device found, deleting " << devName << endl;
-	    indi_dev.remove(i);
+	    delete indi_dev.takeAt(i);
             return (0);
 	 }
     }
@@ -284,10 +283,10 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
 INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
 {
 	/* search for existing */
-	for (unsigned int i = 0; i < indi_dev.count(); i++)
+	for (unsigned int i = 0; i < indi_dev.size(); i++)
 	{
-	    if (indi_dev.at(i)->name == devName)
-		return (indi_dev.at(i));
+	    if (indi_dev[i]->name == devName)
+		return indi_dev[i];
 	}
 
 	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.ascii());
@@ -337,10 +336,10 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	dn = valuXMLAtt(ap);
 
 	/* search for existing */
-	for (uint i = 0; i < indi_dev.count(); i++)
+	for (uint i = 0; i < indi_dev.size(); i++)
 	{
-	    if (indi_dev.at(i)->name == QString(dn))
-		return (indi_dev.at(i));
+	    if (indi_dev[i]->name == QString(dn))
+		return indi_dev[i];
 	}
 
 	/* not found, create if ok */

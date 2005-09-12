@@ -106,7 +106,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {};
 	};
 
-	static QPtrList<MoonLRData> LRData;
+	static QList<MoonLRData*> LRData;
 
 /**@class MoonBData
 	*Encapsulates the Latitude terms of the sums
@@ -127,7 +127,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {};
 	};
 
-	static QPtrList<MoonBData> BData;
+	static QList<MoonBData*> BData;
 };
 
 #endif

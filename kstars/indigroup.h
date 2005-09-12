@@ -15,7 +15,6 @@
 #define INDIGROUP_H
 
 #include "indielement.h"
-#include <qptrlist.h>
 #include <qstring.h>
 
 class INDI_P;
@@ -37,7 +36,7 @@ class INDI_G
   QVBoxLayout   *propertyLayout;        /* Properties layout */
   QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 
-  QPtrList<INDI_P> pl;			/* malloced list of pointers to properties */
+  QList<INDI_P*> pl;			/* malloced list of pointers to properties */
   
   void addProperty(INDI_P *pp);
   bool removeProperty(INDI_P *pp);

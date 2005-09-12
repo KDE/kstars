@@ -15,11 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QString>
+#include <QList>
+
 #include "csegment.h"
 #include "skypoint.h"
 
 CSegment::CSegment() : Name1(), Name2() {
-	Nodes.setAutoDelete( true );
+}
+
+CSegment::~CSegment() {
+	while ( ! Nodes.isEmpty() ) delete Nodes.takeFirst();
 }
 
 void CSegment::addPoint( double ra, double dec ) {

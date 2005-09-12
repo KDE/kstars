@@ -207,12 +207,11 @@ LocationDialog::LocationDialog( QWidget* parent )
 	ProvinceFilter->setTrapReturnKey(true);
 	CountryFilter->setTrapReturnKey(true);
 
-	filteredCityList.setAutoDelete( false );
-	
 	initCityList();
 	resize (640, 480);
 }
 
+//Do NOT delete members of filteredCityList! They are not created by LocationDialog
 LocationDialog::~LocationDialog(){
 }
 
@@ -254,7 +253,8 @@ void LocationDialog::initCityList( void ) {
 void LocationDialog::filterCity( void ) {
 	KStars *p = (KStars *)parent();
 	GeoBox->clear();
-	filteredCityList.clear();
+	//Do NOT delete members of filteredCityList
+	while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 	
 	nameModified = false;
 	dataModified = false;
@@ -290,7 +290,8 @@ void LocationDialog::changeCity( void ) {
 	//when the selected city changes, set newCity, and redraw map
 	SelectedCity = 0L;
 	if ( GeoBox->currentItem() >= 0 ) {
-		for (GeoLocation *loc = filteredCityList.first(); loc; loc = filteredCityList.next()) {
+		for ( int i=0; i < filteredCityList.size(); i+ ) {
+			GeoLocation *loc = filteredCityList[i];
 			if ( loc->fullName() == GeoBox->currentText() ) {
 				SelectedCity = loc;
 				break;
@@ -415,10 +416,11 @@ void LocationDialog::addCity( void ) {
 
 void LocationDialog::findCitiesNear( int lng, int lat ) {
 	KStars *ks = (KStars *)parent();
-
 	//find all cities within 3 degrees of (lng, lat); list them in GeoBox
 	GeoBox->clear();
-	filteredCityList.clear();
+	//Remember, do NOT delete members of filteredCityList
+	while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
+
 	for (GeoLocation *loc = ks->data()->geoList.first(); loc; loc = ks->data()->geoList.next()) {
 		if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
 				 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {

@@ -28,14 +28,10 @@
 	*@version 1.0
 	*/
 
-
-#include <qglobal.h>
-#include <qptrlist.h>
-#include <qstring.h>
-
 class SkyObject;
 class SkyObjectName;
 
+//FIXME: Need to find the equivalent of this for Qt4:
 /**Reimplemented from QPtrList for sorting objects in the list. */
 template <class T> class SortedList : public QPtrList <T> {
  protected:
@@ -158,7 +154,7 @@ class ObjectNameList {
 		*are in first list too. We just have to delete objects which are not in first list. These objects
 		*will stored in this list.
 		*/
-		QPtrList <SkyObjectName> constellations;
+		QList<SkyObjectName*> constellations;
 
 	/**
 		*Which list was accessed last time by first() or next()

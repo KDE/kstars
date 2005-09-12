@@ -43,9 +43,9 @@
    finalDarkFlat       = NULL;
    npix                = viewer->image->width * viewer->image->height;
    
-   darkFrames.setAutoDelete(true);
-   flatFrames.setAutoDelete(true);
-   darkflatFrames.setAutoDelete(true);
+//   darkFrames.setAutoDelete(true);
+//   flatFrames.setAutoDelete(true);
+//   darkflatFrames.setAutoDelete(true);
    
    KProgressDialog reduceProgress(0, 0, i18n("FITS Viewer"), i18n("Image Loading Process..."));
    reduceProgress.progressBar()->setTotalSteps(darkFiles.size() + flatFiles.size() + darkflatFiles.size());
@@ -99,9 +99,13 @@
  }
  
 
- FITSProcess::~FITSProcess() {}
+FITSProcess::~FITSProcess() {
+	while ( ! darkFrames.isEmpty() ) delete darkFrames.takeFirst();
+	while ( ! flatFrames.isEmpty() ) delete flatFrames.takeFirst();
+	while ( ! darkflatFrames.isEmpty() ) delete darkflatFrames.takeFirst();
+}
  
-float * FITSProcess::combine(QPtrList<float> & frames, int mode)
+float * FITSProcess::combine(QList<float*> & frames, int mode)
  {
     int nframes = frames.count();
     float *dest;

@@ -30,18 +30,12 @@
 #include "objectnamelist.h"
 
 PlanetCatalog::PlanetCatalog(KStarsData *dat) : Earth(0), Sun(0), kd(dat) {
-	planets.setAutoDelete(true);
 }
 
 PlanetCatalog::~PlanetCatalog() {
-	//
-	// do NOT delete Sun. It is also in the QList
-	// and will be deleted automatically.
-	//
+	while ( ! planets.isEmpty() ) delete planets.takeFirst();
 	delete Earth;
 }
-
-
 
 bool PlanetCatalog::initialize() {
 	KSPlanetBase *ksp;
@@ -97,24 +91,21 @@ bool PlanetCatalog::initialize() {
 }
 
 void PlanetCatalog::addObject( ObjectNameList &ObjNames ) const {
-	QPtrListIterator<KSPlanetBase> it(planets);
-
-	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
-		ObjNames.append( ksp );
+	for ( int i=0; i < planets.size(); ++i ) {
+		ObjNames.append( planets[i] );
 	}
 }
 
 void PlanetCatalog::findPosition( const KSNumbers *num, const dms *lat, const dms *LST ) {
 	Earth->findPosition(num);
-	for (KSPlanetBase * ksp = planets.first(); ksp != 0; ksp = planets.next()) {
-		ksp->findPosition(num, lat, LST, Earth);
-	}
+	for ( int i=0; i < planets.size(); ++i )
+		planets[i]->findPosition(num, lat, LST, Earth);
 }
 
 void PlanetCatalog::EquatorialToHorizontal( dms *LST, const dms *lat ) {
-	for (KSPlanetBase * ksp = planets.first(); ksp != 0; ksp = planets.next()) {
-		ksp->EquatorialToHorizontal( LST, lat);
-		if ( ksp->hasTrail() ) ksp->updateTrail( LST, lat );
+	for ( int i=0; i < planets.size(); ++i ) {
+		planets[i]->EquatorialToHorizontal( LST, lat);
+		if ( planets[i]->hasTrail() ) planets[i]->updateTrail( LST, lat );
 	}
 }
 
@@ -122,10 +113,8 @@ bool PlanetCatalog::isPlanet(SkyObject *so) const {
 	if (so == Earth)
 		return true;
 
-	QPtrListIterator<KSPlanetBase> it(planets);
-
-	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
-		if (so == ksp)
+	for ( int i=0; i < planets.size(); ++i ) {
+		if (so == planets[i])
 			return true;
 	}
 
@@ -138,9 +127,9 @@ KSPlanetBase *PlanetCatalog::findByName( const QString n) const {
 
 	QPtrListIterator<KSPlanetBase> it(planets);
 
-	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
-		if (ksp->name() == n)
-			return ksp;
+	for ( int i=0; i < planets.size(); ++i ) {
+		if (planets[i]->name() == n)
+			return planets[i];
 	}
 
 	kdDebug() << k_funcinfo << "could not find planet named " << n << endl;
@@ -157,16 +146,15 @@ static double dist_squared(const SkyPoint *a, const SkyPoint *b) {
 }
 
 SkyObject *PlanetCatalog::findClosest(const SkyPoint *p, double &r) const {
-	QPtrListIterator<KSPlanetBase> it(planets);
 	SkyObject *found = 0;
 	double trialr = 0.0;
 	double rmin = 100000.0;
 
-	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
-		trialr = dist_squared(ksp, p);
-		if (trialr < rmin) {
+	for ( int i=0; i < planets.size(); ++I ) {
+		trialr = dist_squared( planets[i], p );
+		if ( trialr < rmin ) {
 			rmin = trialr;
-			found = ksp;
+			found = planets[i];
 		}
 	}
 

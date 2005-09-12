@@ -55,7 +55,7 @@ INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
 
   pg = parentGroup;
   
-  el.setAutoDelete(true);
+//  el.setAutoDelete(true);
   
   stdID 	  = -1;
   
@@ -73,14 +73,14 @@ INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
 /* INDI property desstructor, makes sure everything is "gone" right */
 INDI_P::~INDI_P()
 {
-      pg->propertyLayout->removeItem(PHBox);
-      el.clear();
-      delete (light);
-      delete (label_w);
-      delete (set_w);
-      delete (PHBox);
-      delete (indistd);
-      delete (groupB);
+  while ( ! el.isEmpty() ) delete el.takeFirst();
+  pg->propertyLayout->removeItem(PHBox);
+  delete (light);
+  delete (label_w);
+  delete (set_w);
+  delete (PHBox);
+  delete (indistd);
+  delete (groupB);
 }
 
 bool INDI_P::isOn(QString component)
@@ -103,13 +103,11 @@ bool INDI_P::isOn(QString component)
 
 INDI_E * INDI_P::findElement(QString elementName)
 {
-  INDI_E *element = NULL;
-  
-  for (element = el.first(); element != NULL; element = el.next())
-     if (element->name == elementName || element->label == elementName)
-     	break;
+  for ( int i=0; i < el.size(); ++i )
+    if (el[i]->name == elementName || el[i]->label == elementName)
+      return el[i];
 
-  return element;
+  return NULL;
 }
 
 void INDI_P::drawLt(PState lstate)
@@ -147,64 +145,65 @@ void INDI_P::drawLt(PState lstate)
 void INDI_P::newText()
 {
   INDI_E * lp;
-  
-  for (lp = el.first(); lp != NULL; lp = el.next())
+
+  for ( int i=0; i < el.size(); ++i ) 
   {
-      /* If PG_SCALE */
-      if (lp->spin_w)
-       lp->targetValue = lp->spin_w->value();
+    lp = el[i];
+    /* If PG_SCALE */
+    if (lp->spin_w)
+      lp->targetValue = lp->spin_w->value();
       /* PG_NUMERIC or PG_TEXT */
-      else
+    else
+    {
+      switch (perm)
       {
-        switch (perm)
-	{
-	  case PP_RW:
-	  if (lp->write_w->text().isEmpty())
-	   lp->text = lp->read_w->text();
-	  else
-	   lp->text = lp->write_w->text();
-	  break;
-	  
-	  case PP_RO:
-	    break;
-	  
-	  case PP_WO:
-	   lp->text = lp->write_w->text();
-	  break;
-	}
-	
-	if (guitype == PG_NUMERIC)
-	{
-           f_scansexa(lp->text.ascii(), &(lp->targetValue));
-	   if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
-	   {
-	     KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3").arg(lp->label).arg(lp->min).arg(lp->max));
-	     return;
-	   }
+      case PP_RW:
+        if (lp->write_w->text().isEmpty())
+          lp->text = lp->read_w->text();
+        else
+          lp->text = lp->write_w->text();
+        break;
+
+      case PP_RO:
+        break;
+
+      case PP_WO:
+        lp->text = lp->write_w->text();
+        break;
+      }
+
+      if (guitype == PG_NUMERIC)
+      {
+        f_scansexa(lp->text.ascii(), &(lp->targetValue));
+        if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
+        {
+          KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3").arg(lp->label).arg(lp->min).arg(lp->max));
+          return;
         }
-     }
+      }
+    }
   }
 
   state = PS_BUSY;
 
   drawLt(state);
-  
+
   /* perform any std functions */
   indistd->newText();
 
   if (guitype == PG_TEXT)
-  	pg->dp->parentMgr->sendNewText(this);
+    pg->dp->parentMgr->sendNewText(this);
   else if (guitype == PG_NUMERIC)
-  	pg->dp->parentMgr->sendNewNumber(this);
+    pg->dp->parentMgr->sendNewNumber(this);
 
 }
 
 void INDI_P::convertSwitch(int id)
 {
- 
+
  INDI_E *lp;
  int switchIndex=0;
- 
+
  if (assosiatedPopup == NULL)
   return;
 
@@ -232,9 +231,9 @@ void INDI_P::convertSwitch(int id)
  if (!lp)
    return;
    
- for (uint i=0; i < el.count(); i++)
+ for (uint i=0; i < el.size(); i++)
  {
-   if (el.at(i)->label == assosiatedPopup->text(id))
+   if (el[i]->label == assosiatedPopup->text(id))
    {
      switchIndex = i;
      break;
@@ -250,64 +249,59 @@ void INDI_P::convertSwitch(int id)
 
 void INDI_P::newSwitch(int id)
 {
-
   QFont buttonFont;
-  INDI_E *lp;
-
-  lp = el.at(id);
+  INDI_E *lp = el[id];
 
   switch (guitype)
   {
     case PG_MENU:
-   	if (lp->state == PS_ON)
-    		return;
+      if (lp->state == PS_ON)
+        return;
 
-   	for (unsigned int i=0; i < el.count(); i++)
-	  el.at(i)->state = PS_OFF;
-	  
-	lp->state = PS_ON;
-        break;
- 
-   case PG_BUTTONS:
-      for (unsigned int i=0; i < el.count(); i++)
+      for (unsigned int i=0; i < el.size(); i++)
+        el[i]->state = PS_OFF;
+
+      lp->state = PS_ON;
+      break;
+
+    case PG_BUTTONS:
+      for (unsigned int i=0; i < el.size(); i++)
       {
-          if (i == (unsigned int) id) continue;
-	  
-     	  el.at(i)->push_w->setDown(false);
-       	  buttonFont = el.at(i)->push_w->font();
-	  buttonFont.setBold(FALSE);
-	  el.at(i)->push_w->setFont(buttonFont);
-          el.at(i)->state = PS_OFF;
-       }
+        if (i == (unsigned int) id) continue;
 
-        lp->push_w->setDown(true);
-	buttonFont = lp->push_w->font();
-	buttonFont.setBold(TRUE);
-	lp->push_w->setFont(buttonFont);
-	lp->state = PS_ON;
+        el[i]->push_w->setDown(false);
+        buttonFont = el[i]->push_w->font();
+        buttonFont.setBold(FALSE);
+        el[i]->push_w->setFont(buttonFont);
+        el[i]->state = PS_OFF;
+      }
 
-       break;
-       
-   case PG_RADIO:
-   	lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
-   	lp->check_w->setChecked(lp->state == PS_ON);
-   break;
-   
-   default:
-    break;
+      lp->push_w->setDown(true);
+      buttonFont = lp->push_w->font();
+      buttonFont.setBold(TRUE);
+      lp->push_w->setFont(buttonFont);
+      lp->state = PS_ON;
+
+      break;
+
+    case PG_RADIO:
+      lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
+      lp->check_w->setChecked(lp->state == PS_ON);
+      break;
+
+    default:
+      break;
 
   }
 
   state = PS_BUSY;
 
   drawLt(state);
-  
+
   if (indistd->newSwitch(id, lp))
-   return;
+    return;
 
   pg->dp->parentMgr->sendNewSwitch (this, id);
-
-
 }
 
 /* Display file dialog to select and upload a file to the client
@@ -324,66 +318,65 @@ void INDI_P::newBlob()
  unsigned char *data, *data64;
  bool sending (false);
  bool valid (true);
- 
-  for (unsigned int i=0; i < el.count(); i++)
+
+  for (unsigned int i=0; i < el.size(); i++)
   {
-     filename = el.at(i)->write_w->text();
-     if (filename.isEmpty())
-     {
-        valid = false;
-        continue; 
-     }
-     
-      fp.setName(filename);
+    filename = el[i]->write_w->text();
+    if (filename.isEmpty())
+    {
+      valid = false;
+      continue; 
+    }
 
-      if ( (pos = filename.findRev(".")) != -1)
-		format = filename.mid (pos, filename.length());
+    fp.setName(filename);
 
-      if (!fp.open(IO_ReadOnly))
-      {
-          KMessageBox::error(0, i18n("Cannot open file %1 for reading").arg(filename));
-          valid = false;
-          continue;
-     }
-     
-     binaryStream.setDevice(&fp);
+    if ( (pos = filename.findRev(".")) != -1)
+    format = filename.mid (pos, filename.length());
 
-     data_file = new char[fp.size()];
-     if (data_file == NULL)
-     {
- 	KMessageBox::error(0, i18n("Not enough memory to load %1").arg(filename));
-	fp.close();
-        valid = false;
-        continue;
-     }
+    if (!fp.open(IO_ReadOnly))
+    {
+      KMessageBox::error(0, i18n("Cannot open file %1 for reading").arg(filename));
+      valid = false;
+      continue;
+    }
 
-     binaryStream.readRawBytes(data_file, fp.size());
-     data = (unsigned char *) data_file;
+    binaryStream.setDevice(&fp);
 
-     data64 = new unsigned char[4*fp.size()/3+4];
-     if (data64 == NULL)
-     {
-	KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64").arg(filename));
-        fp.close();
-        valid = false;
-        continue;
-     }
+    data_file = new char[fp.size()];
+    if (data_file == NULL)
+    {
+      KMessageBox::error(0, i18n("Not enough memory to load %1").arg(filename));
+      fp.close();
+      valid = false;
+      continue;
+    }
 
-     data64_size = to64frombits (data64, data, fp.size());
+    binaryStream.readRawBytes(data_file, fp.size());
+    data = (unsigned char *) data_file;
 
-     delete (data);
+    data64 = new unsigned char[4*fp.size()/3+4];
+    if (data64 == NULL)
+    {
+      KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64").arg(filename));
+      fp.close();
+      valid = false;
+      continue;
+    }
+
+    data64_size = to64frombits (data64, data, fp.size());
+
+    delete (data);
 
     if (sending == false)
     {
-        sending = true;
-	pg->dp->parentMgr->startBlob (pg->dp->name, name, QString(timestamp()));
+      sending = true;
+      pg->dp->parentMgr->startBlob (pg->dp->name, name, QString(timestamp()));
     }
 
-    pg->dp->parentMgr->sendOneBlob(el.at(i)->name, data64_size, format, data64);
+    pg->dp->parentMgr->sendOneBlob(el[i]->name, data64_size, format, data64);
 
     fp.close();
     delete (data64);
-
   }
 
   /* Nothing been made, no changes */
@@ -393,12 +386,11 @@ void INDI_P::newBlob()
     pg->dp->parentMgr->finishBlob();
 
   if (valid) 
-	state = PS_BUSY;
+    state = PS_BUSY;
   else
-	state = PS_ALERT;
+    state = PS_ALERT;
 
   drawLt(state);
-
 }
 
 /* build widgets for property pp using info in root.
@@ -906,16 +898,14 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
 void INDI_P::activateSwitch(QString name)
 {
   int iCounter = 0;
-  INDI_E *element;
-  
-  for (element = el.first(); element != NULL; element = el.next())
+
+  for ( int i=0; i < el.size(); ++i ) 
   {
-     if (element->name == name && element->push_w)
-       newSwitch(iCounter);
-     
-     iCounter++;
+    if (el[i]->name == name && el[i]->push_w)
+      newSwitch(iCounter);
+
+      iCounter++;
   }
-  
 }
 
 

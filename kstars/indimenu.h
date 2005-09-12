@@ -64,7 +64,7 @@ class INDIMenu : public KDialogBase
 
    KStars *ksw;
 
-   QPtrList<DeviceManager> mgr;
+   QList<DeviceManager*> mgr;
 
    void updateStatus();
    //bool removeDevice(QString devName);

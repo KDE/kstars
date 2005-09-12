@@ -66,7 +66,7 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
 
  mgrCounter = 0;
  
- mgr.setAutoDelete(true);
+// mgr.setAutoDelete(true);
 
  currentLabel = "";
 
@@ -75,7 +75,7 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
 
 INDIMenu::~INDIMenu()
 {
-  mgr.clear();
+  while ( ! mgr.isEmpty() ) delete mgr.takeFirst();
 }
 
 /*********************************************************************
@@ -97,7 +97,7 @@ void INDIMenu::updateStatus()
        return;
     }
    }
-   else if (mgr.count() == 0)
+   else if (mgr.size() == 0)
    {
       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
       return;
@@ -182,54 +182,49 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 void INDIMenu::removeDeviceMgr(int mgrID)
 {
 
- for (unsigned int i=0; i < mgr.count(); i++)
- {
-   if (mgrID == mgr.at(i)->mgrID)
-        mgr.remove(i);
+  for (unsigned int i=0; i < mgr.size(); i++)
+  {
+    if (mgrID == mgr.at(i)->mgrID)
+      delete mgr.takeAt(i);
 
       emit driverDisconnected(mgrID);
- }
+  }
 }
 
 INDI_D * INDIMenu::findDevice(QString deviceName)
 {
-  for (unsigned int i=0; i < mgr.count(); i++)
-  {
-      for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
-        if (mgr.at(i)->indi_dev.at(j)->name == deviceName)
-       		return mgr.at(i)->indi_dev.at(j);
- }
+  for (unsigned int i=0; i < mgr.size(); i++)
+    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+      if (mgr[i]->indi_dev[j]->name == deviceName)
+        return mgr[i]->indi_dev[j];
+
   return NULL;
 }
 
 INDI_D * INDIMenu::findDeviceByLabel(QString label)
 {
-  for (unsigned int i=0; i < mgr.count(); i++)
-  {
-      for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
-          if (mgr.at(i)->indi_dev.at(j)->label == label)
-       		return mgr.at(i)->indi_dev.at(j);
-  }
-  
+  for (unsigned int i=0; i < mgr.size(); i++)
+    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+      if (mgr[i]->indi_dev[j]->label == label)
+        return mgr[i]->indi_dev[j];
+
   return NULL;
 }
 
 
 void INDIMenu::setCustomLabel(QString deviceName)
 {
+  int nset=0;
 
- int nset=0;
+  for (unsigned int i=0; i < mgr.size(); i++)
+    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+      if (mgr[i]->indi_dev[j]->label.find(deviceName) >= 0)
+        nset++;
 
-for (unsigned int i=0; i < mgr.count(); i++)
-   for (unsigned int j=0; j < mgr.at(i)->indi_dev.count(); j++)
-         if (mgr.at(i)->indi_dev.at(j)->label.find(deviceName) >= 0)
-	 	nset++;
-
-if (nset)
- currentLabel = deviceName + QString(" %1").arg(nset+1);
-else
- currentLabel = deviceName;
-
+  if (nset)
+    currentLabel = deviceName + QString(" %1").arg(nset+1);
+  else
+    currentLabel = deviceName;
 }
 
 void INDIMenu::discoverDevice()

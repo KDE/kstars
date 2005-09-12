@@ -18,9 +18,6 @@
 #ifndef ADDCATDIALOG_H
 #define ADDCATDIALOG_H
 
-#include <qglobal.h>
-#include <qptrlist.h>
-
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <kurlrequester.h>

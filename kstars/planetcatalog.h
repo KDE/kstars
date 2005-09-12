@@ -19,9 +19,9 @@
 #define PLANETCATALOG_H
 
 /**@class PlanetCatalog
-	*This class contains a QPtrList of the eight major planets, as well as pointers
+	*This class contains a QList of the eight major planets, as well as pointers
 	*to objects representing the Earth and Sun.  Note that the Sun also exists
-	*in the QPtrList, the external pointer is just for convenience.
+	*in the QList, the external pointer is just for convenience.
 	*There are methods to search
 	*the collection by name, identify if a given object pointer is a planet,
 	*find the coordinates of a planet, and find the planet closest to a given
@@ -30,10 +30,6 @@
 	*@author Mark Hollomon
 	*@version 1.0
 	*/
-
-#include <qglobal.h>
-#include <qobject.h>
-#include <qptrlist.h>
 
 class QString;
 class KStarsData;
@@ -53,7 +49,7 @@ class PlanetCatalog : public QObject {
 	/**Constructor. */
 		PlanetCatalog(KStarsData *dat);
 
-	/**Destructor. Delete the Earth object (all others auto-deleted by QPtrList)*/
+	/**Destructor. Delete the pointers*/
 		~PlanetCatalog();
 
 	/**Loads all planetary data from files on disk into the appropriate objects. */
@@ -102,7 +98,7 @@ class PlanetCatalog : public QObject {
 		SkyObject *findClosest(const SkyPoint *p, double &r) const;
 
 	private:
-		QPtrList<KSPlanetBase> planets;
+		QList<KSPlanetBase*> planets;
 		KSPlanet *Earth;
 		KSSun *Sun;
 		KStarsData *kd;

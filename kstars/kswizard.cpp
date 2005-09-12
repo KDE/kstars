@@ -97,10 +97,10 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	#endif
 	
 	//Initialize Geographic Location page
-	filteredCityList.setAutoDelete( false );
 	initGeoPage();
 }
 
+//Do NOT delete members of filteredCityList!  They are not created by KSWizard.
 KSWizard::~KSWizard() 
 {}
 
@@ -132,9 +132,9 @@ void KSWizard::slotChangeCity() {
 	Geo = 0L;
 	
 	if ( CityListBox->currentItem() >= 0 ) {
-		for (GeoLocation *loc = filteredCityList.first(); loc; loc = filteredCityList.next()) {
-			if ( loc->fullName() == CityListBox->currentText() ) {
-				Geo = loc;
+		for ( int i=0; i < filteredCityList.size(); ++i ) {
+			if ( filteredCityList[i]->fullName() == CityListBox->currentText() ) {
+				Geo = filteredCityList[i];
 				break;
 			}
 		}
@@ -146,7 +146,8 @@ void KSWizard::slotChangeCity() {
 
 void KSWizard::slotFilterCities() {
 	CityListBox->clear();
-	filteredCityList.clear();
+	//Do NOT delete members of filteredCityList!
+	while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
 	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
 		QString sc( loc->translatedName() );

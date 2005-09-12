@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
+#include <QString>
+#include <QList>
 
 #include "customcatalog.h"
 
@@ -24,11 +25,12 @@ CustomCatalog::CustomCatalog() : m_Name( i18n("Custom") ), m_Prefix( "CC" ),
 }
 
 CustomCatalog::CustomCatalog( QString nm, QString px, QString co, float ep, 
-		QPtrList<SkyObject> ol ) : m_Name(nm), m_Prefix(px), m_Color(co), 
+		QList<SkyObject*> ol ) : m_Name(nm), m_Prefix(px), m_Color(co), 
 		m_Epoch(ep), m_ObjList( ol ) {
 
 }
 
 CustomCatalog::~CustomCatalog() {
+	while ( ! objList().isEmpty() ) delete objList().takeFirst();
 }
 

@@ -28,16 +28,16 @@
 
 KSMoon::KSMoon(KStarsData *kd)
  : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", 3474.8 /*diameter in km*/ ) {
-	BData.setAutoDelete(true);
-	LRData.setAutoDelete(true);
 }
 
 KSMoon::~KSMoon() {
+	while ( ! LRData.isEmpty() ) delete LRData.takeFirst();
+	while ( !  BData.isEmpty() ) delete  BData.takeFirst();
 }
 
 bool KSMoon::data_loaded = false;
-QPtrList<KSMoon::MoonLRData> KSMoon::LRData;
-QPtrList<KSMoon::MoonBData> KSMoon::BData;
+QList<KSMoon::MoonLRData*> KSMoon::LRData;
+QList<KSMoon::MoonBData*> KSMoon::BData;
 
 bool KSMoon::loadData() {
 	if (data_loaded) return true;
@@ -137,7 +137,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 
 	if (!loadData()) return false;
 
-	for (MoonLRData *mlrd = LRData.first(); mlrd != 0; mlrd = LRData.next()) {
+	for ( int i=0; i < LRData.size(); ++i ) {
+		MoonLRData *mlrd = LRData[i];
 
 		E = 1.0;
 		if ( mlrd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit
@@ -149,7 +150,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 	}
 
 	sumB = 0.0;
-	for (MoonBData *mbd = BData.first(); mbd != 0; mbd = BData.next()) {
+	for ( int i=0; i < BData.size(); ++I ) {
+		MoonBData *mbd = BData[i];
 
 		E = 1.0;
 		if ( mbd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit

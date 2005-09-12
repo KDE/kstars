@@ -57,8 +57,6 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 
 	ui->CurrentImage->setPixmap( *Image );
 
-	PixList.setAutoDelete( true );
-
 	connect( ui->EditButton, SIGNAL( clicked() ), this, SLOT( slotEditImage() ) );
 	connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
 	connect( ui->ImageList, SIGNAL( highlighted( int ) ),
@@ -74,8 +72,10 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 	slotFillList();
 }
 
-ThumbnailPicker::~ThumbnailPicker()
-{}
+ThumbnailPicker::~ThumbnailPicker() {
+	while ( ! PixList.isEmpty() ) delete PixList.takeFirst();
+	while ( ! JobList.isEmpty() ) delete JobList.takeFirst();
+}
 
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
@@ -111,10 +111,10 @@ void ThumbnailPicker::slotFillList() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
-			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
-			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
-
+			KIO::Job *j = KIO::copy( u, KURL( tmpFile->name() ), false );
+			JobList.append( j ); //false = no progress window
+			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
+			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 		}
 	}
 }
@@ -150,6 +150,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
 	}
 }
 
+//FIXME: Do we need to remove the completed job from JobList, and/or delete it?
 void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	//Note: no need to delete the job, it is automatically deleted !
 
@@ -283,7 +284,7 @@ void ThumbnailPicker::slotUnsetImage() {
 void ThumbnailPicker::slotSetFromList( int i ) {
 	//Display image in preview pane
 	QPixmap pm;
-	pm = shrinkImage( PixList.at(i), 200, true ); //scale image
+	pm = shrinkImage( PixList[i], 200, true ); //scale image
 	SelectedImageIndex = i;
 
 	ui->CurrentImage->setPixmap( pm );
@@ -324,7 +325,7 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
 			PixList.insert( 0, new QPixmap( im ) );
-			ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
+			ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
 					u.prettyURL(), 0 );
 
 			//Select the new image
@@ -335,11 +336,10 @@ void ThumbnailPicker::slotSetFromURL() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
-			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
-			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
-
-			//
+			KIO::Job *j = KIO::copy( u, KURL( tmpFile->name() ), false );
+			JobList.append( j ); //false = no progress window
+			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
+			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
 		}
 	}
 }

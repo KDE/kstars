@@ -33,11 +33,10 @@ ObjectNameList::ObjectNameList() {
 		list[local][i].setAutoDelete(true);
 		unsorted[i] = false;
 	}
-
-	constellations.setAutoDelete(true);
 }
 
 ObjectNameList::~ObjectNameList(){
+	while ( ! constellations.isEmpty() ) delete constellations.takeFirst();
 }
 
 void ObjectNameList::setLanguage( Language lang ) {

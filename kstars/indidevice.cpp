@@ -94,7 +94,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
   parent    = menuParent;
   parentMgr = parentManager;
   
-  gl.setAutoDelete(true);
+//  gl.setAutoDelete(true);
 
  deviceVBox     = menuParent->addVBoxPage(inLabel);
  groupContainer = new QTabWidget(deviceVBox);
@@ -115,7 +115,8 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
 
 INDI_D::~INDI_D()
 {
-   gl.clear();
+   while ( ! gl.isEmpty() ) delete gl.takeFirst();
+
    delete(deviceVBox);
    delete (stdDev);
    free (dataBuffer);
@@ -150,11 +151,11 @@ bool INDI_D::isINDIStd(INDI_P *pp)
  * left in the group, then delete the group as well */
 int INDI_D::removeProperty(INDI_P *pp)
 {
-    for (unsigned int i=0; i < gl.count(); i++)
-       if (gl.at(i)->removeProperty(pp))
+    for (unsigned int i=0; i < gl.size(); i++)
+       if (gl[i]->removeProperty(pp))
        {
-         if (gl.at(i)->pl.count() == 0)
-	    gl.remove(i);
+         if (gl[i]->pl.count() == 0)
+           delete gl.takeAt(i);
          return 0;
 	}
 
@@ -644,34 +645,35 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 INDI_P * INDI_D::findProp (QString name)
 {
-       for (unsigned int i = 0; i < gl.count(); i++)
-	for (unsigned int j = 0; j < gl.at(i)->pl.count(); j++)
-	    if (name == gl.at(i)->pl.at(j)->name)
-		return (gl.at(i)->pl.at(j));
+  for (unsigned int i = 0; i < gl.size(); i++)
+    for (unsigned int j = 0; j < gl[i]->pl.size(); j++)
+      if (name == gl[i]->pl[j]->name)
+        return (gl[i]->pl[j]);
 
-	return NULL;
+  return NULL;
 }
 
 INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 {
   INDI_G *ig;
-  
-  for (ig = gl.first(); ig != NULL; ig = gl.next() )
-    if (ig->name == grouptag)
+
+  for ( int i=0; i < gl.size(); ++i ) {
+    if (gl[i]->name == grouptag)
     {
-      curGroup = ig;
-      return ig;
+      curGroup = gl[i];
+      return gl[i];
     }
+  }
 
   /* couldn't find an existing group, create a new one if create is 1*/
   if (create)
   {
-  	if (grouptag.isEmpty())
-	  grouptag = "Group_1";
-	  
-	curGroup = new INDI_G(this, grouptag);
-  	gl.append(curGroup);
-        return curGroup;
+    if (grouptag.isEmpty())
+    grouptag = "Group_1";
+
+    curGroup = new INDI_G(this, grouptag);
+    gl.append(curGroup);
+    return curGroup;
   }
 
   snprintf (errmsg, ERRMSG_SIZE, "INDI: group %.64s not found in %.64s", grouptag.ascii(), name.ascii());
@@ -969,18 +971,18 @@ INDI_E * INDI_D::findElem(QString name)
   INDI_G *grp;
   INDI_P *prop;
   INDI_E *el;
-  
-  for (grp = gl.first(); grp != NULL; grp = gl.next())
-	{
-	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
-	   {
-	     el = prop->findElement(name);
-	     if (el != NULL) return el;
-	   }
-	 }
-	 
-  return NULL;
 
+  for ( int i=0; i < gl.size(); ++i ) {
+    grp = gl[i];
+    for ( int j=0; j < grp->pl.size(); j++ ) 
+    {
+       prop = grp->pl[j];
+       el = prop->findElement(name);
+       if (el != NULL) return el;
+    }
+  }
+
+  return NULL;
 }
 
 

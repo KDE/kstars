@@ -13,7 +13,6 @@
 
 #include <kdialogbase.h>
 #include <unistd.h>
-#include <qptrlist.h>
 
 #include "indielement.h"
 
@@ -90,7 +89,7 @@ class INDI_D : public KDialogBase
     //QHBoxLayout  *buttonLayout;
     INDIStdDevice  *stdDev;
 
-    QPtrList<INDI_G> gl;		/* list of pointers to groups */
+    QList<INDI_G*> gl;		/* list of pointers to groups */
   
     INDI_G        *curGroup;
     bool	  INDIStdSupport;

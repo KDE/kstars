@@ -83,7 +83,7 @@ private:
 	KStars *ksw;
 	QMemArray<int> GeoID;
 	GeoLocation *Geo;
-	QPtrList<GeoLocation> filteredCityList;
+	QList<GeoLocation*> filteredCityList;
 };
 
 #endif

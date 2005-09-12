@@ -32,7 +32,7 @@ class DeviceManager : public QObject
 
    INDIMenu *parent;
 
-   QPtrList<INDI_D> indi_dev;
+   QList<INDI_D*> indi_dev;
 
    int			mgrID;
    int			serverFD;

@@ -34,7 +34,7 @@ INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
   
   name = inName;
 
-  pl.setAutoDelete(true);
+//  pl.setAutoDelete(true);
   
   // FIXME what's the parent exactly?
   // You can do this eaither way:
@@ -52,7 +52,7 @@ INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
 
 INDI_G::~INDI_G()
 {
-  pl.clear();
+  while ( ! pl.isEmpty() ) delete pl.takeFirst();
   
   delete(propertyContainer);
 }
@@ -69,7 +69,11 @@ void INDI_G::addProperty(INDI_P *pp)
 
 bool INDI_G::removeProperty(INDI_P *pp)
 {
-
-  return  (pl.remove(pp));
-
+  int i = pl.indexOf( pp );
+  if ( i != -1 ) {
+    delete list.takeAt(i);
+    return true;
+  } else {
+    return false;
+  }
 }

@@ -18,9 +18,6 @@
 #ifndef CSEGMENT_H
 #define CSEGMENT_H
 
-#include <qstring.h>
-#include <qptrlist.h>
-
 /**@class CSegment
 	*A segment of a constellation boundary.  The segment consists
 	*of two or more SkyPoint "nodes" which are vertices of the 
@@ -35,6 +32,7 @@
 	*and a third (AD) will describe the boundary between A and D. 
 	*/
 
+class QString;
 class SkyPoint;
 
 class CSegment {
@@ -42,7 +40,7 @@ public:
 	/**Constructor*/
 	CSegment();
 	/**Destructor (empty)*/
-	~CSegment() {};
+	~CSegment();
 	
 	/**Add a SkyPoint node to the boundary segment.
 		*@p ra the RA of the node
@@ -72,19 +70,11 @@ public:
 		*/
 	bool borders( QString cname );
 
-	/**@return pointer to the first node in the segment
-		*/
-	SkyPoint* firstNode() { return Nodes.first(); }
-	/**@return pointer to the next node in the segment.
-		*If we were on the last node, return the NULL pointer.
-		*/
-	SkyPoint* nextNode() { return Nodes.next(); }
-
-	/**@return pointer to the list of nodes*/
-	QPtrList<SkyPoint>* nodes() { return &Nodes; }
+	/**@return reference to the list of nodes*/
+	QList<SkyPoint*>& nodes() { return Nodes; }
 
 private:
-	QPtrList<SkyPoint> Nodes;
+	QList<SkyPoint*> Nodes;
 	QString Name1, Name2;
 };
 

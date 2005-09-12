@@ -83,7 +83,7 @@ public:
 	
 /**@return pointer to the List of filtered city pointers.
  */
-	QPtrList<GeoLocation>* filteredList() { return &filteredCityList; }
+	QList<GeoLocation*> filteredList() { return filteredCityList; }
 	
 /**@short Show only cities within 3 degrees of point specified by arguments
 	*@param longitude the longitude of the search point (int)
@@ -158,7 +158,7 @@ private:
 	QListBox *GeoBox;
 
 	GeoLocation *SelectedCity;
-	QPtrList<GeoLocation> filteredCityList;
+	QList<GeoLocation*> filteredCityList;
 };
 
 #endif

@@ -54,7 +54,7 @@ FOVDialog::FOVDialog( QWidget *parent )
 	connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
 	connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
-	FOVList.setAutoDelete( true );
+//	FOVList.setAutoDelete( true );
 	initList();
 }
 
@@ -128,7 +128,7 @@ void FOVDialog::paintEvent( QPaintEvent * ) {
 	p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
 
 	if ( fov->FOVListBox->currentItem() >= 0 ) {
-		FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
+		FOV *f = FOVList[ fov->FOVListBox->currentItem() ];
 		if ( f->size() > 0 ) {
 			f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
 			QFont smallFont = p.font();
@@ -156,7 +156,7 @@ void FOVDialog::slotNewFOV() {
 void FOVDialog::slotEditFOV() {
 	NewFOV newfdlg( this );
 	//Preload current values
-	FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
+	FOV *f = FOVList[ fov->FOVListBox->currentItem() ];
 
 	if (!f)
 	 return;
@@ -171,13 +171,17 @@ void FOVDialog::slotEditFOV() {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
-		FOVList.replace( fov->FOVListBox->currentItem(), newfov );
+		
+		//Use the following replacement for QPtrList::replace():
+		//(see Qt4 porting guide at doc.trolltech.com)
+		delete FOVList[ fov->FOVListBox->currentItem() ];
+		FOVList[ fov->FOVListBox->currentItem() ] = newfov;
 	}
 }
 
 void FOVDialog::slotRemoveFOV() {
 	uint i = fov->FOVListBox->currentItem();
-	FOVList.remove( i );
+	delete FOVList.takeAt( i );
 	fov->FOVListBox->removeItem( i );
 	if ( i == fov->FOVListBox->count() ) i--; //last item was removed
 	fov->FOVListBox->setSelected( i, true );
