@@ -21,7 +21,7 @@ ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent)
 }
 
 // bool KStarsData::readCLineData( void )
-void ConstellationNamesComponent::init(KStarsData *data)
+void ConstellationLinesComponent::init(KStarsData *data)
 {
 // TODO be sure that stars are already loaded
 
@@ -79,7 +79,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
 	}
 }
 
-void ConstellationNamesComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void ConstellationLinesComponent::draw(SkyMap *map, QPainter& psky, double scale)
 {
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );

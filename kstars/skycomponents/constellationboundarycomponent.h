@@ -1,5 +1,5 @@
 /***************************************************************************
-                          constellationlinescomponent.h  -  K Desktop Planetarium
+                          constellationboundarycomponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/10/08
     copyright            : (C) 2005 by Thomas Kabelmann
@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATIONLINESCOMPONENT_H
-#define CONSTELLATIONLINESCOMPONENT_H
+#ifndef CONSTELLATIONBOUNDARYCOMPONENT_H
+#define CONSTELLATIONBOUNDARYCOMPONENT_H
 
 #include "skycomponent.h"
 
-/**@class ConstellationLinesComponent
+/**@class ConstellationSegmentComponent
 *Represents the constellation lines on the sky map.
 
-*@author Thomas Kabelmann
+*@author Jason Harris
 *@version 0.1
 */
 
@@ -32,27 +32,25 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-// TODO change QLists into QList* of SkyObject*/QChar*
 #include <QList>
 #include <QChar>
-#include "skyobject.h"
+#include "csegment.h"
 
-class ConstellationLinesComponent : public SkyComponent
+class ConstellationBoundaryComponent : public SkyComponent
 {
 	public:
 		
-		ConstellationLinesComponent(SkyComposite*);
+		ConstellationBoundaryComponent(SkyComposite*);
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
 		virtual void init(KStarsData *data);
 	
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+
 	private:
 
-		QList<SkyPoint> clineList;
-
-		QList<QChar> clineModeList;
-
+		QList<CSegment*> csegmentList;
 };
 
 #endif
