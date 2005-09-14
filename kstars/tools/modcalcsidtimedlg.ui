@@ -941,11 +941,6 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>dmsbox.h</includehint>
-    <includehint>extdateedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>extdateedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

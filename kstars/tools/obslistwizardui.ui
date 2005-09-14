@@ -1017,20 +1017,9 @@ select from a region on the sky.</string>
     <includehint>klistview.h</includehint>
     <includehint>klistbox.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>klistbox.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>extdateedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>magnitudespinbox.h</includehint>
 </includehints>
 </UI>

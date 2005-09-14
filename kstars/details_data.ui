@@ -593,13 +593,7 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>clicklabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>
+

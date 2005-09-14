@@ -563,7 +563,4 @@
     <slot>slotRunBatch()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>extdatetimeedit.h</includehint>
-</includehints>
 </UI>

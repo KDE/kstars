@@ -1019,19 +1019,6 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>extdateedit.h</includehint>
     <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>dmsbox.h</includehint>
-    <includehint>extdateedit.h</includehint>
 </includehints>
 </UI>

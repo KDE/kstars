@@ -74,7 +74,4 @@
     </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>logedit.h</includehint>
-</includehints>
 </UI>
