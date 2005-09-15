@@ -2,7 +2,8 @@ noinst_LIBRARIES = libkstarscomponents.a
 
 libkstarscomponents_a_SOURCES = abstractplanetcomponent.cpp asteroidscomponent.cpp \
 			constellationlinescomponent.cpp constellationnamescomponent.cpp \
-			constellationboundarycomponent.cpp coordinategridcomponent.cpp \
+			constellationboundarycomponent.cpp \
+			coordinategridcomposite.cpp coordinategridcomponent.cpp \
 			customcatalogscomponent.cpp deepskycomponent.cpp \
 			equatorcomponent.cpp horizoncomponent.cpp \
 			jupitermoonscomponent.cpp milkywaycomponent.cpp \

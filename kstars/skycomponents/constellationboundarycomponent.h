@@ -41,6 +41,7 @@ class ConstellationBoundaryComponent : public SkyComponent
 	public:
 		
 		ConstellationBoundaryComponent(SkyComposite*);
+		~ConstellationBoundaryComponent();
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 

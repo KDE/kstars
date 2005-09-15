@@ -20,6 +20,10 @@ ConstellationBoundaryComponent::ConstellationBoundaryComponent(SkyComposite *par
 {
 }
 
+ConstellationBoundaryComponent::~ConstellationBoundaryComponent() {
+	while ( ! csegmentList.isEmpty() ) delete csegmentList.takeFirst();
+}
+
 // bool KStarsData::readCLineData( void )
 void ConstellationBoundaryComponent::init(KStarsData *data)
 {
@@ -99,19 +103,22 @@ void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double sc
 
 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
 
-	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
+	for ( int i=0; i < csegmentList.size(); ++i ) {
+		CSegment *seg = csegmentList[i];
 		bool started( false );
-		SkyPoint *p = seg->firstNode();
+		SkyPoint *p = seg->nodes()[0];
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 			psky.moveTo( o.x(), o.y() );
 			started = true;
 		}
 
-		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
-			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		for ( int i=0; i < p = seg->nodes()[i]->size(); ++i ) {
+			QPoint o = getXY( seg->nodes()[i], Options::useAltAz(), 
+								Options::useRefraction(), scale );
 
-			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+			if ( ( o.x() >= -1000 && o.x() <= Width+1000 
+					&& o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 				if ( started ) {
 					psky.lineTo( o.x(), o.y() );
 				} else {

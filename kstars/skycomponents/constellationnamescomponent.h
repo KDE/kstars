@@ -41,6 +41,7 @@ class ConstellationNamesComponent : public SkyComponent
 	public:
 		
 		ConstellationNamesComponent(SkyComposite*);
+		~ConstellationNamesComponent();
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 

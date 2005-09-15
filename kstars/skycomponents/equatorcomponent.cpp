@@ -31,12 +31,10 @@
 
 EquatorComponent::EquatorComponent(SkyComposite *parent) : SkyComponent(parent)
 {
-	pts = 0;
 }
 
 EquatorComponent::~EquatorComponent()
 {
-	delete pts;
 }
 
 // was KStarsData::initGuides(KSNumbers *num)
@@ -47,12 +45,10 @@ EquatorComponent::~EquatorComponent()
 //	-3 components which share a algorithm class
 void EquatorComponent::init(KStarsData *data)
 {
-	pts = new QPointArray(2000)
-	
 	// Define the Celestial Equator
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->EquatorialToHorizontal( LST, geo()->lat() );
+		o->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		Equator.append( o );
 	}
 }

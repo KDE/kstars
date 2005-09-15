@@ -39,7 +39,7 @@ class DeepSkyComponent: public SkyComponent
 
 		DeepSkyComponent(SkyComposite*);
 		
-		virtual ~DeepSkyComponent();
+		~DeepSkyComponent();
 
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
@@ -50,6 +50,8 @@ class DeepSkyComponent: public SkyComponent
 	private:
 		
 		bool readDeepSkyData();
+		void drawDeepSkyCatalog( QPainter& psky, QList<DeepSkyObject*>& catalog, 
+					QColor& color, bool drawObject, bool drawImage, double scale );
 
 		/** List of all deep sky objects */
 		QList<DeepSkyObject*> deepSkyList;

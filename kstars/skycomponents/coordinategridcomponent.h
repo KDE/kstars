@@ -21,7 +21,7 @@
 #include "skycomponent.h"
 
 /**@class CoordinateGridComponent
-*Represents the coordinate grid.
+*Represents one circle on the coordinate grid
 
 *@author Thomas Kabelmann
 *@version 0.1
@@ -35,8 +35,18 @@ class CoordinateGridComponent : public SkyComponent
 {
 	public:
 		
-		CoordinateGridComponent(SkyComposite*);
+		CoordinateGridComponent( SkyComposite*, bool isParallel, double coord );
+		~CoordinateGridComponent();
 		
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
+		virtual void init(KStarsData *data);
+
+		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+
+	private:
+		QList<SkyPoint*> gridList;
+
+		double Coordinate;
+		bool Parallel;
 };

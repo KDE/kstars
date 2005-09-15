@@ -24,6 +24,7 @@ DeepSkyComponent::DeepSkyComponent(SkyComposite *parent) : SkyComponent(parent)
 
 DeepSkyComponent::~DeepSkyComponent()
 {
+	while ( !deepSkyList.isEmpty() ) delete deepSkyList.takeFirst();
 }
 
 DeepSkyComponent::init(KStarsData *data)
@@ -34,25 +35,29 @@ DeepSkyComponent::init(KStarsData *data)
 DeepSkyComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( Options::showMessier() || Options::showMessierImages() ) {
-		for ( SkyObject *o = deepSkyListMessier.first(); o; o = deepSkyListMessier.next() ) {
+		for ( int i=0; i < deepSkyListMessier.size(); ++i ) {
+			SkyObject *o = deepSkyListMessier[i];
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showNGC() ) {
-		for ( SkyObject *o = deepSkyListNGC.first(); o; o = deepSkyListNGC.next() ) {
+		for ( int i=0; i < deepSkyListNGC.size(); ++i ) {
+			SkyObject *o = deepSkyListNGC[i];
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showIC() ) {
-		for ( SkyObject *o = deepSkyListIC.first(); o; o = deepSkyListIC.next() ) {
+		for ( int i=0; i < deepSkyListIC.size(); ++i ) {
+			SkyObject *o = deepSkyListIC[i];
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showOther() ) {
-		for ( SkyObject *o = deepSkyListOther.first(); o; o = deepSkyListOther.next() ) {
+		for ( int i=0; i < deepSkyListOther.size(); ++i ) {
+			SkyObject *o = deepSkyListOther[i];
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
@@ -246,8 +251,9 @@ bool DeepSkyComponent::readDeepSkyData()
 	return true;
 }
 
-void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
-			bool drawObject, bool drawImage, double scale )
+void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, 
+				QList<DeepSkyObject*>& catalog, QColor& color,
+				bool drawObject, bool drawImage, double scale )
 {
 	if ( drawObject || drawImage ) {  //don't do anything if nothing is to be drawn!
 		int Width = int( scale * width() );
@@ -270,7 +276,8 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObjec
 		//else
 			maglim = 40.0; //show all deep-sky objects
 
-		for ( DeepSkyObject *obj = catalog.first(); obj; obj = catalog.next() ) {
+		for ( int i=0; i < catalog.size(); ++i ) {
+			DeepSkyObject *obj = catalog[i];
 			if ( checkVisibility( obj, fov(), XRange ) ) {
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
