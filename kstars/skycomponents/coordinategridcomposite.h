@@ -31,9 +31,6 @@ class CoordinateGridComposite : public SkyComposite
 {
  public:
   CoordinateGridComposite( SkyComposite* );
-  virtual ~CoordinateGridComposite();
-
-
 };
 
 

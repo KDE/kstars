@@ -38,7 +38,10 @@ MilkyWayComponent::MilkyWayComponent(SkyComposite *parent) : SkyComponent(parent
 
 MilkyWayComponent::~MilkyWayComponent()
 {
-	delete pts;
+  for ( int i=0; i<NMWFILES; ++i ) 
+    while ( ! MilkyWay[i].isEmpty() ) delete MilkyWay[i].takeFirst();
+  
+  delete pts;
 }
 
 // was bool KStarsData::readMWData( void )
@@ -92,7 +95,7 @@ void MilkyWayComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoo
 //		for ( unsigned int j=0; j<11; ++j )
 		for ( unsigned int j=0; j<NMWFILES; ++j )
 		{
-			for (SkyPoint *p = MilkyWay[j].first(); p; p=MilkyWay[j].next())
+		  foreach  ( SkyPoint *p, MilkyWay[j] ) {
 			{
 				if (needNewCoords) p->updateCoords( num );
 				p->EquatorialToHorizontal( LST, map->data()->geo()->lat() );
@@ -127,8 +130,7 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
 
-			for ( SkyPoint *p = MilkyWay[j].first(); p; p = MilkyWay[j].next())
-			{
+			for ( SkyPoint *p, MilkyWay[j] ) {
 				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 				if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
@@ -144,8 +146,8 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 
 			psky.moveTo( o.x(), o.y() );
 
-			for ( unsigned int i=1; i<MilkyWay[j].count(); ++i ) {
-				o = map->getXY( MilkyWay[j].at(i), Options::useAltAz(), Options::useRefraction(), scale );
+			for ( SkyPoint *p, MilkyWay[j] ) {
+				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 				if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
 				else offscreen = false;
 

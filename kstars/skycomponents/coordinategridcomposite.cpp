@@ -16,3 +16,17 @@
  ***************************************************************************/
 
 #include "coordinategridcomposite.h"
+#include "coordinategridcomponent.h"
+
+CoordinateGridComposite::CoordinateGridComposite( SkyComposite *parent ) 
+  : SkyComposite(parent) 
+{
+  //Parallels
+  for ( double dec=-80.0; dec <= 80.0; dec += 10.0 ) 
+    addComponent( new CoordinatGridComponent( this, true, dec ) );
+  
+  //Meridians
+  for ( double ra=0.0; ra < 12.0; ra += 2.0 ) 
+    addComponent( new CoordinatGridComponent( this, false, ra ) );
+}
+
