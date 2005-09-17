@@ -35,6 +35,9 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent)
 
 SolarSystemComposite::~SolarSystemComposite::()
 {
+  //JH: is this necessary to call, or is it done automatically?
+  SkyComposite::~SkyComposite();
+
 	delete Earth;
 	delete Sun;
 	delete Venus;

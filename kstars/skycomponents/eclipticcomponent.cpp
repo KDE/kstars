@@ -1,7 +1,7 @@
 /***************************************************************************
-                          equatorcomponent.cpp  -  K Desktop Planetarium
+                          eclipticcomponent.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 10 Sept. 2005
+    begin                : 16 Sept. 2005
     copyright            : (C) 2005 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "equatorcomponent.h"
+#include "eclipticcomponent.h"
 
 #include <QList>
 #include <QPoint>
@@ -29,13 +29,13 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-EquatorComponent::EquatorComponent(SkyComposite *parent) : SkyComponent(parent)
+EclipticComponent::EclipticComponent(SkyComposite *parent) : SkyComponent(parent)
 {
 }
 
-EquatorComponent::~EquatorComponent()
+EclipticComponent::~EclipticComponent()
 {
-  while ( ! Equator.isEmpty() ) delete Equator.takeFirst();
+  while ( ! Ecliptic.isEmpty() ) delete Ecliptic.takeFirst();
 }
 
 // was KStarsData::initGuides(KSNumbers *num)
@@ -44,20 +44,24 @@ EquatorComponent::~EquatorComponent()
 // -> solution:
 //	-all 3 objects in 1 component (this is messy)
 //	-3 components which share a algorithm class
-void EquatorComponent::init(KStarsData *data)
+void EclipticComponent::init(KStarsData *data)
 {
-	// Define the Celestial Equator
+	// Define the Ecliptic
+  KSNumbers num( data->ut().djd() );
+  dms elat(0.0);
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
-		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
+	  dms elng( double( i ) );
+		SkyPoint *o = new SkyPoint( 0.0, 0.0 );
+		o->setFromEcliptic( num.obliquity(), &elng, &elat );
 		o->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		Equator.append( o );
+		Ecliptic.append( o );
 	}
 }
 
-void EquatorComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void EclipticComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-	if ( Options::showEquator() ) {
-	  foreach ( SkyPoint *p, Equator ) {
+	if ( Options::showEcliptic() ) {
+	  foreach ( SkyPoint *p, Ecliptic ) {
 			p->EquatorialToHorizontal( LST, data->geo()->lat() );
 		}
 	}

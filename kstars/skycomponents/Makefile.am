@@ -5,7 +5,7 @@ libkstarscomponents_a_SOURCES = abstractplanetcomponent.cpp asteroidscomponent.c
 			constellationboundarycomponent.cpp \
 			coordinategridcomposite.cpp coordinategridcomponent.cpp \
 			customcatalogscomponent.cpp deepskycomponent.cpp \
-			equatorcomponent.cpp horizoncomponent.cpp \
+			eclipticcomponent.cpp equatorcomponent.cpp horizoncomponent.cpp \
 			jupitermoonscomponent.cpp milkywaycomponent.cpp \
 			mooncomponent.cpp skycomponent.cpp skycomposite.cpp \
 			skymapcomposite.cpp solarsystemcomposite.cpp \
