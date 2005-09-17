@@ -36,8 +36,7 @@ AsteroidsComponent::~AsteroidsComponent()
 void AsteroidsComponent::drawTrail(SkyMap *map, QPainter& psky, double scale)
 {
 	if ( visible() ) {
-		for ( int i=0; i < asteroidList.size(); ++i ) {
-			KSAsteroid *ast = asteroidList[i];
+	  foreach ( KAsteroid *ast, asteroidList ) {
 			if ( ast->mag() > Options::magLimitAsteroid() ) break;
 			// will be drawn only if available
 			drawPlanetTrail(map, psky, ast, scale);
@@ -49,8 +48,7 @@ void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;
 	
-	for ( int i=0; i < asteroidList.size(); ++i ) {
-		KSAsteroid *ast = asteroidList[i];
+	foreach ( KSAsteroid *ast, asteroidList ) { 
 		if ( ast->mag() > Options::magLimitAsteroid() ) break;
 
 		if ( map->checkVisibility( ast, fov(), XRange ) )
@@ -86,16 +84,15 @@ void AsteroidsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool ne
 {
 //	if ( Options::showPlanets() && Options::showAsteroids() )
 	if ( visible() )
-		for ( int i=0; i < asteroidList.size(); ++i ) 
-			asteroidList[i]->findPosition( num, data->geo->lat(), data->LST, earth() );
+	  foreach ( KAsteroid *ast, asteroidList ) 
+			ast->findPosition( num, data->geo->lat(), data->LST, earth() );
 }
 
 void AsteroidsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( visible() )
 	{
-		for ( int i=0; i < asteroidList.size(); ++i ) {
-			KSAsteroid *ast = asteroidList[i];
+	  foreach ( KAsteroid *ast, asteroidList ) {
 			ast->EquatorialToHorizontal( LST, geo->lat() );
 			if ( ast->hasTrail() )
 			{

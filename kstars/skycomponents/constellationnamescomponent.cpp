@@ -81,8 +81,7 @@ void ConstellationNamesComponent::update(KStarsData *data, KSNumbers *num, bool 
 {
 	if (Options::showCNames())
 	{
-		for ( int i=0; i < cnameList.size(); ++i ) {
-			SkyPoint *p = cnameList[i];
+	  foreach ( SkyPoint *p, cnameList ) {
 			if (needNewCoords) p->updateCoords( num );
 			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 		}
@@ -98,8 +97,7 @@ void ConstellationNamesComponent::draw(SkyMap *map, QPainter& psky, double scale
 
 	//Draw Constellation Names
 	psky.setPen( QColor( map->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
-	for ( int i=0; i<cnameList.size(); ++i ) {
-		SkyObject *p=cnameList[i];
+	foreach ( SkyPoint *p, cnameList ) {
 		if ( map->checkVisibility( p, fov(), XRange ) ) {
 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {

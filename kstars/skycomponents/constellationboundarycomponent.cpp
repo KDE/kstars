@@ -103,8 +103,7 @@ void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double sc
 
 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
 
-	for ( int i=0; i < csegmentList.size(); ++i ) {
-		CSegment *seg = csegmentList[i];
+	foreach ( CSegment *seg, csegmentList ) {
 		bool started( false );
 		SkyPoint *p = seg->nodes()[0];
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
@@ -113,8 +112,8 @@ void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double sc
 			started = true;
 		}
 
-		for ( int i=0; i < p = seg->nodes()[i]->size(); ++i ) {
-			QPoint o = getXY( seg->nodes()[i], Options::useAltAz(), 
+		foreach ( SkyPoint *p, seg->nodes() ) {
+			QPoint o = getXY( p, Options::useAltAz(), 
 								Options::useRefraction(), scale );
 
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 
@@ -134,10 +133,8 @@ void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double sc
 
 void ConstellationBoundaryComponent::update(KStarsData*, KSNumbers*, bool needNewCoords) {
 	if ( Options::showCBounds() ) {  
-		for ( int i=0; i < csegmentList.size(); ++i ) {
-			CSegment *seg = csegmentList[i];
-			for ( uint j=0; j < seg->nodes().size(); ++j ) {
-				SkyPoint *p = seg->node()[j];
+	  foreach ( CSegment *seg, csegmentList ) {
+	    foreach ( SkyPoint *p, seg->nodes() ) {
 				if ( needNewCoords ) p->updateCoords( &num );
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}

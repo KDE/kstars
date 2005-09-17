@@ -62,8 +62,7 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 }
 
 void CoordinateGridComponent::update( KStarsData *data, KSNumbers *num, bool needNewCoords ) {
-	for ( int i=0; i < gridList.size(); ++i ) {
-		SkyPoint *sp = gridList[i];
+  foreach ( SkyPoint *sp, gridList ) {
 		sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	}
 }
@@ -86,8 +85,7 @@ void CoordinateGridComponent::draw(SkyMap *map, QPainter& psky, double scale)
 	cur = o;
 	psky.moveTo( o.x(), o.y() );
 
-	for ( int i=1; i < gridList.size(); ++i ) {
-		sp = gridList[i];
+	foreach ( sp, gridList ) {
 		if ( map->checkVisibility( sp, guideFOV, guideXRange ) ) {
 			o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
 

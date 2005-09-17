@@ -63,8 +63,8 @@ void HorizonComponent::init(KStarsData *data)
 void HorizonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( Options::showHorizon() || Options::showGround() ) {
-		for ( int i=0; i < Horizon.size(); i++ ) {
-			Horizon[i]->HorizontalToEquatorial( LST, data->geo()->lat() );
+	  foreach ( SkyPoint *p, Horizon ) {
+			p->HorizontalToEquatorial( LST, data->geo()->lat() );
 		}
 	}
 }
@@ -93,7 +93,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		uint index1(0), index2(0);
 		int xBig(-100); //ridiculous initial value
 
-		for ( SkyPoint *p = Horizon.first(); p; p = Horizon.next() ) {
+		foreach ( SkyPoint *p, Horizon ) {
 			o = map->getXY( p, Options::useAltAz(), false, scale );  //false: do not refract the horizon
 			bool found = false;
 
@@ -108,11 +108,11 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 				}
 			}
 
-			//Use the QPtrList of points to pre-sort visible horizon points
+			//Use the QList of points to pre-sort visible horizon points
 			if ( o.x() > -100 && o.x() < Width + 100 && o.y() > -100 && o.y() < Height + 100 ) {
 				if ( Options::useAltAz() ) {
 					unsigned int j;
-					for ( j=0; j<points.count(); ++j ) {
+					for ( j=0; j<points.size(); ++j ) {
 						if ( o.x() < points.at(j)->x() ) {
 							found = true;
 							break;
@@ -190,7 +190,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			pts->setPoint( 0, points.at(0)->x(), points.at(0)->y() );
 			if ( Options::showHorizon() ) psky.moveTo( points.at(0)->x(), points.at(0)->y() );
 
-			for ( unsigned int i=1; i<points.count(); ++i ) {
+			for ( int i=1; i<points.size(); ++i ) {
 				pts->setPoint( i, points.at(i)->x(), points.at(i)->y() );
 
 				if ( Options::showHorizon() ) {
@@ -256,6 +256,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
 
 					//remove all items in points list
+					//FIXME: JH: Do we really want this done here?
 					for ( unsigned int i=0; i<points.count(); ++i ) {
 						points.remove(i);
 					}

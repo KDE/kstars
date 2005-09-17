@@ -35,29 +35,25 @@ DeepSkyComponent::init(KStarsData *data)
 DeepSkyComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( Options::showMessier() || Options::showMessierImages() ) {
-		for ( int i=0; i < deepSkyListMessier.size(); ++i ) {
-			SkyObject *o = deepSkyListMessier[i];
+	  foreach ( SkyObject *o, deepSkyListMessier ) {
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showNGC() ) {
-		for ( int i=0; i < deepSkyListNGC.size(); ++i ) {
-			SkyObject *o = deepSkyListNGC[i];
+	  foreach ( SkyObject *o, deepSkyListNGC ) {
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showIC() ) {
-		for ( int i=0; i < deepSkyListIC.size(); ++i ) {
-			SkyObject *o = deepSkyListIC[i];
+	  foreach ( SkyObject *o, deepSkyListIC ) {
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
 	}
 	if ( Options::showOther() ) {
-		for ( int i=0; i < deepSkyListOther.size(); ++i ) {
-			SkyObject *o = deepSkyListOther[i];
+	  foreach ( SkyObject *o, deepSkyListOther ) {
 			if (needNewCoords) o->updateCoords( &num );
 			o->EquatorialToHorizontal( LST, geo->lat() );
 		}
@@ -276,8 +272,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky,
 		//else
 			maglim = 40.0; //show all deep-sky objects
 
-		for ( int i=0; i < catalog.size(); ++i ) {
-			DeepSkyObject *obj = catalog[i];
+			foreach ( DeepSkyObject *obj, catalog ) {
 			if ( checkVisibility( obj, fov(), XRange ) ) {
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
