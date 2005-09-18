@@ -89,6 +89,12 @@
 	  <version>0.1</version>
 	</device>
 </devGroup>
+<devGroup group="Focusers">
+	<device label="FLI PDF">
+		<driver>flipdf</driver>
+		<version>0.1</version>
+	</device>
+</devGroup>
 <devGroup group="Filter Wheels">
   	<device label="FLI Wheel">
     		<driver>fliwheel</driver>

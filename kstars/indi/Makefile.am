@@ -4,7 +4,7 @@ if LINUX
 bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi
 endif
 
-bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount fliccd fliwheel temma skycommander $(bin_add)
+bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount fliccd fliwheel flipdf temma skycommander $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
@@ -31,6 +31,9 @@ fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm -lz $(LIBSOCKET)
 
 fliwheel_SOURCES =  eventloop.c base64.c fli_wheel.c indidrivermain.c
 fliwheel_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
+
+flipdf_SOURCES = eventloop.c base64.c fli_pdf.c indidrivermain.c
+flipdf_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
 
 v4ldriver_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp
 v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
