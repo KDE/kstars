@@ -130,7 +130,7 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
 
-			for ( SkyPoint *p, MilkyWay[j] ) {
+			foreach ( SkyPoint *p, MilkyWay[j] ) {
 				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 				if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
@@ -146,7 +146,7 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 
 			psky.moveTo( o.x(), o.y() );
 
-			for ( SkyPoint *p, MilkyWay[j] ) {
+			foreach ( SkyPoint *p, MilkyWay[j] ) {
 				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 				if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
 				else offscreen = false;
