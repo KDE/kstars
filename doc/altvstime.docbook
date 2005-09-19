@@ -62,7 +62,7 @@ time.
 <para>
 The Altitude of an object depends on both where you are on Earth, and
 on the Date.  By default, the Tool adopts the Location and Date from the
-current KStars settings.  You can change these parameters in the
+current &kstars; settings.  You can change these parameters in the
 <guilabel>Date &amp; Location</guilabel> Tab.  To change the Location,
 you can press the <guibutton>Choose City...</guibutton> button to open
 the <link linkend="setgeo">Set Geographic Location</link> Window, or
