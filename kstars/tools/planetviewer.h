@@ -20,6 +20,11 @@
 #include <kdialogbase.h>
 #include <kpushbutton.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
 
 #include "kstarsplotwidget.h"
 #include "planetviewerui.h"

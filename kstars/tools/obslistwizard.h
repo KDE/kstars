@@ -20,9 +20,11 @@
 #include <kdialogbase.h>
 
 #include "obslistwizardui.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 class KStars;
-class QListViewItem;
+class Q3ListViewItem;
 
 /**@class ObsListWizard
  *@short Wizard for constructing observing lists
@@ -41,7 +43,7 @@ class ObsListWizard : public KDialogBase
 
 	/**@return reference to QPtrList of objects selected by the wizard
 		*/
-		QPtrList<SkyObject>& obsList() { return ObsList; }
+		Q3PtrList<SkyObject>& obsList() { return ObsList; }
 
 	private slots:
 		void slotAllButton();
@@ -49,7 +51,7 @@ class ObsListWizard : public KDialogBase
 		void slotDeepSkyButton();
 		void slotSolarSystemButton();
 		void slotChangeLocation();
-		void slotShowStackWidget(QListViewItem*);
+		void slotShowStackWidget(Q3ListViewItem*);
 		void slotEnableConstellationPage(bool);
 		void slotEnableRectPage(bool);
 		void slotEnableCircPage(bool);
@@ -66,7 +68,7 @@ class ObsListWizard : public KDialogBase
 		void applyFilters( bool doBuildList );
 		void applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
 
-		QPtrList<SkyObject> ObsList;
+		Q3PtrList<SkyObject> ObsList;
 		KStars *ksw;
 		ObsListWizardUI *olw;
 		uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;

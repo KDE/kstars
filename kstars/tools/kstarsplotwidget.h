@@ -19,6 +19,8 @@
 #define _KSTARSPLOTWIDGET_H_
 
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <libkdeedu/kdeeduplot/kplotwidget.h>
 
 #define BIGTICKSIZE 10

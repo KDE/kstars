@@ -80,8 +80,8 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	}
 
 	//Set Valid=false if there are arguments (indicates that this fcn's args must be filled in)
-	Valid = true;
-	if ( NumArgs ) Valid = false;
+	QValidator::Intermediate = true;
+	if ( NumArgs ) QValidator::Intermediate = false;
 
 	//Finish writing function prototype
 	if ( NumArgs ) Description += " ";

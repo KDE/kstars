@@ -16,6 +16,11 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QGridLayout>
+#include <QKeyEvent>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -35,7 +40,7 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 {
 	ksw = (KStars*)parent;
 	
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	
 	colJp = "White";

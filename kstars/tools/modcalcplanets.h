@@ -20,6 +20,8 @@
 
 #include <kapplication.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include "modcalcplanetsdlg.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"

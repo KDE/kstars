@@ -18,7 +18,7 @@
 #ifndef MODCALCJD_H
 #define MODCALCJD_H
 
-#include <qvbox.h>
+#include <q3vbox.h>
 
 #include <kapplication.h>
 #include "modcalcjddlg.h"

@@ -20,6 +20,8 @@
 
 #include <kdialogbase.h>
 #include "skyobject.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 class KStars;
 class ObservingListUI;
@@ -163,8 +165,8 @@ private:
 
 	KStars *ks;
 	ObservingListUI *ui;
-	QPtrList<SkyObject> obsList;
-	QPtrList<SkyObject> SelectedObjects;
+	Q3PtrList<SkyObject> obsList;
+	Q3PtrList<SkyObject> SelectedObjects;
 	SkyObject *LogObject, *oCurrent;
 	uint noNameStars;
 

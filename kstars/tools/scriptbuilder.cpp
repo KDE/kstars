@@ -42,13 +42,17 @@
 
 #include <qcheckbox.h>
 #include <qspinbox.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qwidget.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qlayout.h>
-#include <qdatetimeedit.h>
+#include <q3datetimeedit.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QTextStream>
 
 #include "scriptfunction.h"
 #include "scriptbuilderui.h"
@@ -105,7 +109,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homeDirPath() ), 
 		currentScriptName(), currentAuthor() {
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 
 	ks = (KStars*)parent;
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
@@ -223,46 +227,46 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	sb->FunctionListView->addColumn(i18n("Functions"));
 	sb->FunctionListView->setSorting(-1);
 	
-	QListViewItem *INDI_tree = new QListViewItem( sb->FunctionListView, "INDI");
-        QListViewItem *INDI_filter = new QListViewItem( INDI_tree, "Filter");
-	QListViewItem *INDI_focuser = new QListViewItem( INDI_tree, "Focuser");
-	QListViewItem *INDI_ccd = new QListViewItem( INDI_tree, "Camera/CCD");
-	QListViewItem *INDI_telescope = new QListViewItem( INDI_tree, "Telescope");
-        QListViewItem *INDI_general = new QListViewItem( INDI_tree, "General");
+	Q3ListViewItem *INDI_tree = new Q3ListViewItem( sb->FunctionListView, "INDI");
+        Q3ListViewItem *INDI_filter = new Q3ListViewItem( INDI_tree, "Filter");
+	Q3ListViewItem *INDI_focuser = new Q3ListViewItem( INDI_tree, "Focuser");
+	Q3ListViewItem *INDI_ccd = new Q3ListViewItem( INDI_tree, "Camera/CCD");
+	Q3ListViewItem *INDI_telescope = new Q3ListViewItem( INDI_tree, "Telescope");
+        Q3ListViewItem *INDI_general = new Q3ListViewItem( INDI_tree, "General");
         
-	QListViewItem *kstars_tree = new QListViewItem( sb->FunctionListView, "KStars");
+	Q3ListViewItem *kstars_tree = new Q3ListViewItem( sb->FunctionListView, "KStars");
         
 	
 	for ( ScriptFunction *sf = KStarsFunctionList.last(); sf; sf = KStarsFunctionList.prev() )
-	    new QListViewItem (kstars_tree, sf->prototype());
+	    new Q3ListViewItem (kstars_tree, sf->prototype());
 	
           // General
-          new QListViewItem(INDI_general, waitForINDIActionFunc->prototype());
-          new QListViewItem(INDI_general, setINDIActionFunc->prototype());
-	  new QListViewItem(INDI_general, setINDIPortFunc->prototype());
-	  new QListViewItem(INDI_general, switchINDIFunc->prototype());
-	  new QListViewItem(INDI_general, shutdownINDIFunc->prototype());
-	  new QListViewItem(INDI_general, startINDIFunc->prototype());
+          new Q3ListViewItem(INDI_general, waitForINDIActionFunc->prototype());
+          new Q3ListViewItem(INDI_general, setINDIActionFunc->prototype());
+	  new Q3ListViewItem(INDI_general, setINDIPortFunc->prototype());
+	  new Q3ListViewItem(INDI_general, switchINDIFunc->prototype());
+	  new Q3ListViewItem(INDI_general, shutdownINDIFunc->prototype());
+	  new Q3ListViewItem(INDI_general, startINDIFunc->prototype());
 
 	  // Telescope
-	  new QListViewItem(INDI_telescope, setINDIUTCFunc->prototype());
-	  new QListViewItem(INDI_telescope, setINDIGeoLocationFunc->prototype());
-	  new QListViewItem(INDI_telescope, setINDITargetNameFunc->prototype());
-	  new QListViewItem(INDI_telescope, setINDITargetCoordFunc->prototype());
-	  new QListViewItem(INDI_telescope, setINDIScopeActionFunc->prototype());
+	  new Q3ListViewItem(INDI_telescope, setINDIUTCFunc->prototype());
+	  new Q3ListViewItem(INDI_telescope, setINDIGeoLocationFunc->prototype());
+	  new Q3ListViewItem(INDI_telescope, setINDITargetNameFunc->prototype());
+	  new Q3ListViewItem(INDI_telescope, setINDITargetCoordFunc->prototype());
+	  new Q3ListViewItem(INDI_telescope, setINDIScopeActionFunc->prototype());
 
 	  // CCD
-	  new QListViewItem(INDI_ccd, startINDIExposureFunc->prototype());
-	  new QListViewItem(INDI_ccd, setINDIFrameTypeFunc->prototype());
-	  new QListViewItem(INDI_ccd, setINDICCDTempFunc->prototype());
+	  new Q3ListViewItem(INDI_ccd, startINDIExposureFunc->prototype());
+	  new Q3ListViewItem(INDI_ccd, setINDIFrameTypeFunc->prototype());
+	  new Q3ListViewItem(INDI_ccd, setINDICCDTempFunc->prototype());
 
 	  // Focuser
-	  new QListViewItem(INDI_focuser, startINDIFocusFunc->prototype());
-	  new QListViewItem(INDI_focuser, setINDIFocusTimeoutFunc->prototype());
-          new QListViewItem(INDI_focuser, setINDIFocusSpeedFunc->prototype());
+	  new Q3ListViewItem(INDI_focuser, startINDIFocusFunc->prototype());
+	  new Q3ListViewItem(INDI_focuser, setINDIFocusTimeoutFunc->prototype());
+          new Q3ListViewItem(INDI_focuser, setINDIFocusSpeedFunc->prototype());
 
 	  // Filter
-          new QListViewItem(INDI_filter, setINDIFilterNumFunc->prototype());
+          new Q3ListViewItem(INDI_filter, setINDIFilterNumFunc->prototype());
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
@@ -371,10 +375,10 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	initViewOptions();
 
 	//connect widgets in ScriptBuilderUI
-	connect( sb->FunctionListView, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int )), this, SLOT( slotAddFunction() ) );
-	connect( sb->FunctionListView, SIGNAL( currentChanged(QListViewItem*) ), this, SLOT( slotShowDoc() ) );
+	connect( sb->FunctionListView, SIGNAL( doubleClicked(Q3ListViewItem *, const QPoint &, int )), this, SLOT( slotAddFunction() ) );
+	connect( sb->FunctionListView, SIGNAL( currentChanged(Q3ListViewItem*) ), this, SLOT( slotShowDoc() ) );
 	connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
-	connect( sb->ScriptListBox, SIGNAL( currentChanged(QListBoxItem*) ), this, SLOT( slotArgWidget() ) );
+	connect( sb->ScriptListBox, SIGNAL( currentChanged(Q3ListBoxItem*) ), this, SLOT( slotArgWidget() ) );
 	connect( sb->DownButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionDown() ) );
 	connect( sb->CopyButton, SIGNAL( clicked() ), this, SLOT( slotCopyFunction() ) );
 	connect( sb->RemoveButton, SIGNAL( clicked() ), this, SLOT( slotRemoveFunction() ) );
@@ -414,7 +418,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	connect( argPrintImage->UseChartColors, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
 	connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
-	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( slotLoadColorScheme( QListBoxItem* ) ) );
+	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme( Q3ListBoxItem* ) ) );
 	connect( snd->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableScriptNameOK() ) );
 	
 	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
@@ -477,7 +481,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 	
 	// INDI Set UTC
 	connect (argSetUTCINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTCDeviceName()));
-	connect (argSetUTCINDI->UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
+	connect (argSetUTCINDI->Qt::UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
 	
 	// INDI Set Scope Action
 	connect (argSetScopeActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetScopeActionDeviceName()));
@@ -515,14 +519,14 @@ void ScriptBuilder::initViewOptions() {
 	otv->OptionsList->setRootIsDecorated( true );
 
 	//InfoBoxes
-	opsGUI = new QListViewItem( otv->OptionsList, i18n( "InfoBoxes" ) );
-	new QListViewItem( opsGUI, "ShowInfoBoxes", i18n( "Toggle display of all InfoBoxes" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShowTimeBox", i18n( "Toggle display of Time InfoBox" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShowGeoBox", i18n( "Toggle display of Geographic InfoBox" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShowFocusBox", i18n( "Toggle display of Focus InfoBox" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShadeTimeBox", i18n( "(un)Shade Time InfoBox" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShadeGeoBox", i18n( "(un)Shade Geographic InfoBox" ), i18n( "bool" ) );
-	new QListViewItem( opsGUI, "ShadeFocusBox", i18n( "(un)Shade Focus InfoBox" ), i18n( "bool" ) );
+	opsGUI = new Q3ListViewItem( otv->OptionsList, i18n( "InfoBoxes" ) );
+	new Q3ListViewItem( opsGUI, "ShowInfoBoxes", i18n( "Toggle display of all InfoBoxes" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShowTimeBox", i18n( "Toggle display of Time InfoBox" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShowGeoBox", i18n( "Toggle display of Geographic InfoBox" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShowFocusBox", i18n( "Toggle display of Focus InfoBox" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShadeTimeBox", i18n( "(un)Shade Time InfoBox" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShadeGeoBox", i18n( "(un)Shade Geographic InfoBox" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsGUI, "ShadeFocusBox", i18n( "(un)Shade Focus InfoBox" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "ShowInfoBoxes" );
 	argChangeViewOption->OptionName->insertItem( "ShowTimeBox" );
 	argChangeViewOption->OptionName->insertItem( "ShowGeoBox" );
@@ -532,33 +536,33 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShadeFocusBox" );
 
 	//Toolbars
-	opsToolbar = new QListViewItem( otv->OptionsList, i18n( "Toolbars" ) );
-	new QListViewItem( opsToolbar, "ShowMainToolBar", i18n( "Toggle display of main toolbar" ), i18n( "bool" ) );
-	new QListViewItem( opsToolbar, "ShowViewToolBar", i18n( "Toggle display of view toolbar" ), i18n( "bool" ) );
+	opsToolbar = new Q3ListViewItem( otv->OptionsList, i18n( "Toolbars" ) );
+	new Q3ListViewItem( opsToolbar, "ShowMainToolBar", i18n( "Toggle display of main toolbar" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsToolbar, "ShowViewToolBar", i18n( "Toggle display of view toolbar" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "ShowMainToolBar" );
 	argChangeViewOption->OptionName->insertItem( "ShowViewToolBar" );
 
 	//Show Objects
-	opsShowObj = new QListViewItem( otv->OptionsList, i18n( "Show Objects" ) );
-	new QListViewItem( opsShowObj, "ShowStars", i18n( "Toggle display of Stars" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowDeepSky", i18n( "Toggle display of all deep-sky objects" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowMessier", i18n( "Toggle display of Messier object symbols" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowMessierImages", i18n( "Toggle display of Messier object images" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowNGC", i18n( "Toggle display of NGC objects" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowIC", i18n( "Toggle display of IC objects" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowPlanets", i18n( "Toggle display of all solar system bodies" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowSun", i18n( "Toggle display of Sun" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowMoon", i18n( "Toggle display of Moon" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowMercury", i18n( "Toggle display of Mercury" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowVenus", i18n( "Toggle display of Venus" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowMars", i18n( "Toggle display of Mars" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowJupiter", i18n( "Toggle display of Jupiter" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowSaturn", i18n( "Toggle display of Saturn" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowUranus", i18n( "Toggle display of Uranus" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowNeptune", i18n( "Toggle display of Neptune" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowPluto", i18n( "Toggle display of Pluto" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowAsteroids", i18n( "Toggle display of Asteroids" ), i18n( "bool" ) );
-	new QListViewItem( opsShowObj, "ShowComets", i18n( "Toggle display of Comets" ), i18n( "bool" ) );
+	opsShowObj = new Q3ListViewItem( otv->OptionsList, i18n( "Show Objects" ) );
+	new Q3ListViewItem( opsShowObj, "ShowStars", i18n( "Toggle display of Stars" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowDeepSky", i18n( "Toggle display of all deep-sky objects" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowMessier", i18n( "Toggle display of Messier object symbols" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowMessierImages", i18n( "Toggle display of Messier object images" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowNGC", i18n( "Toggle display of NGC objects" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowIC", i18n( "Toggle display of IC objects" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowPlanets", i18n( "Toggle display of all solar system bodies" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowSun", i18n( "Toggle display of Sun" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowMoon", i18n( "Toggle display of Moon" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowMercury", i18n( "Toggle display of Mercury" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowVenus", i18n( "Toggle display of Venus" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowMars", i18n( "Toggle display of Mars" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowJupiter", i18n( "Toggle display of Jupiter" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowSaturn", i18n( "Toggle display of Saturn" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowUranus", i18n( "Toggle display of Uranus" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowNeptune", i18n( "Toggle display of Neptune" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowPluto", i18n( "Toggle display of Pluto" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowAsteroids", i18n( "Toggle display of Asteroids" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowObj, "ShowComets", i18n( "Toggle display of Comets" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "ShowSAO" );
 	argChangeViewOption->OptionName->insertItem( "ShowDeepSky" );
 	argChangeViewOption->OptionName->insertItem( "ShowMess" );
@@ -579,22 +583,22 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShowAsteroids" );
 	argChangeViewOption->OptionName->insertItem( "ShowComets" );
 
-	opsShowOther = new QListViewItem( otv->OptionsList, i18n( "Show Other" ) );
-	new QListViewItem( opsShowOther, "ShowCLines", i18n( "Toggle display of constellation lines" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowCBounds", i18n( "Toggle display of constellation boundaries" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowCNames", i18n( "Toggle display of constellation names" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowMilkyWay", i18n( "Toggle display of Milky Way" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowGrid", i18n( "Toggle display of the coordinate grid" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowEquator", i18n( "Toggle display of the celestial equator" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowEcliptic", i18n( "Toggle display of the ecliptic" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowHorizon", i18n( "Toggle display of the horizon line" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowGround", i18n( "Toggle display of the opaque ground" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowStarNames", i18n( "Toggle display of star name labels" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowStarMagnitudes", i18n( "Toggle display of star magnitude labels" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowAsteroidNames", i18n( "Toggle display of asteroid name labels" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowCometNames", i18n( "Toggle display of comet name labels" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowPlanetNames", i18n( "Toggle display of planet name labels" ), i18n( "bool" ) );
-	new QListViewItem( opsShowOther, "ShowPlanetImages", i18n( "Toggle display of planet images" ), i18n( "bool" ) );
+	opsShowOther = new Q3ListViewItem( otv->OptionsList, i18n( "Show Other" ) );
+	new Q3ListViewItem( opsShowOther, "ShowCLines", i18n( "Toggle display of constellation lines" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowCBounds", i18n( "Toggle display of constellation boundaries" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowCNames", i18n( "Toggle display of constellation names" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowMilkyWay", i18n( "Toggle display of Milky Way" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowGrid", i18n( "Toggle display of the coordinate grid" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowEquator", i18n( "Toggle display of the celestial equator" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowEcliptic", i18n( "Toggle display of the ecliptic" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowHorizon", i18n( "Toggle display of the horizon line" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowGround", i18n( "Toggle display of the opaque ground" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowStarNames", i18n( "Toggle display of star name labels" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowStarMagnitudes", i18n( "Toggle display of star magnitude labels" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowAsteroidNames", i18n( "Toggle display of asteroid name labels" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowCometNames", i18n( "Toggle display of comet name labels" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowPlanetNames", i18n( "Toggle display of planet name labels" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsShowOther, "ShowPlanetImages", i18n( "Toggle display of planet images" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "ShowCLines" );
 	argChangeViewOption->OptionName->insertItem( "ShowCBounds" );
 	argChangeViewOption->OptionName->insertItem( "ShowCNames" );
@@ -611,27 +615,27 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShowPlanetNames" );
 	argChangeViewOption->OptionName->insertItem( "ShowPlanetImages" );
 
-	opsCName = new QListViewItem( otv->OptionsList, i18n( "Constellation Names" ) );
-	new QListViewItem( opsCName, "UseLatinConstellNames", i18n( "Show Latin constellation names" ), i18n( "bool" ) );
-	new QListViewItem( opsCName, "UseLocalConstellNames", i18n( "Show constellation names in local language" ), i18n( "bool" ) );
-	new QListViewItem( opsCName, "UseAbbrevConstellNames", i18n( "Show IAU-standard constellation abbreviations" ), i18n( "bool" ) );
+	opsCName = new Q3ListViewItem( otv->OptionsList, i18n( "Constellation Names" ) );
+	new Q3ListViewItem( opsCName, "UseLatinConstellNames", i18n( "Show Latin constellation names" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsCName, "UseLocalConstellNames", i18n( "Show constellation names in local language" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsCName, "UseAbbrevConstellNames", i18n( "Show IAU-standard constellation abbreviations" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "UseLatinConstellNames" );
 	argChangeViewOption->OptionName->insertItem( "UseLocalConstellNames" );
 	argChangeViewOption->OptionName->insertItem( "UseAbbrevConstellNames" );
 
-	opsHide = new QListViewItem( otv->OptionsList, i18n( "Hide Items" ) );
-	new QListViewItem( opsHide, "HideOnSlew", i18n( "Toggle whether objects hidden while slewing display" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "SlewTimeScale", i18n( "Timestep threshold (in seconds) for hiding objects" ), i18n( "double" ) );
-	new QListViewItem( opsHide, "HideStars", i18n( "Hide faint stars while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HidePlanets", i18n( "Hide solar system bodies while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideMessier", i18n( "Hide Messier objects while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideNGC", i18n( "Hide NGC objects while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideIC", i18n( "Hide IC objects while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideMilkyWay", i18n( "Hide Milky Way while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideCNames", i18n( "Hide constellation names while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideCLines", i18n( "Hide constellation lines while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideCBounds", i18n( "Hide constellation boundaries while slewing?" ), i18n( "bool" ) );
-	new QListViewItem( opsHide, "HideGrid", i18n( "Hide coordinate grid while slewing?" ), i18n( "bool" ) );
+	opsHide = new Q3ListViewItem( otv->OptionsList, i18n( "Hide Items" ) );
+	new Q3ListViewItem( opsHide, "HideOnSlew", i18n( "Toggle whether objects hidden while slewing display" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "SlewTimeScale", i18n( "Timestep threshold (in seconds) for hiding objects" ), i18n( "double" ) );
+	new Q3ListViewItem( opsHide, "HideStars", i18n( "Hide faint stars while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HidePlanets", i18n( "Hide solar system bodies while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideMessier", i18n( "Hide Messier objects while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideNGC", i18n( "Hide NGC objects while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideIC", i18n( "Hide IC objects while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideMilkyWay", i18n( "Hide Milky Way while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideCNames", i18n( "Hide constellation names while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideCLines", i18n( "Hide constellation lines while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideCBounds", i18n( "Hide constellation boundaries while slewing?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsHide, "HideGrid", i18n( "Hide coordinate grid while slewing?" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "HideOnSlew" );
 	argChangeViewOption->OptionName->insertItem( "SlewTimeScale" );
 	argChangeViewOption->OptionName->insertItem( "HideStars" );
@@ -645,18 +649,18 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "HideCBounds" );
 	argChangeViewOption->OptionName->insertItem( "HideGrid" );
 
-	opsSkymap = new QListViewItem( otv->OptionsList, i18n( "Skymap Options" ) );
-	new QListViewItem( opsSkymap, "UseAltAz", i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "ZoomFactor", i18n( "Set the Zoom Factor" ), i18n( "double" ) );
-	new QListViewItem( opsSkymap, "FOV Size", i18n( "Select angular size for the FOV symbol (in arcmin)" ), i18n( "double" ) );
-	new QListViewItem( opsSkymap, "FOV Shape", i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
-	new QListViewItem( opsSkymap, "FOV Color", i18n( "Select color for the FOV symbol" ), i18n( "string" ) );
-	new QListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "UseAutoLabel", i18n( "Automatically attach name label to centered object?" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "UseHoverLabel", i18n( "Attach temporary name label when hovering mouse over an object?" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "UseAutoTrail", i18n( "Automatically add trail to centered solar system body?" ), i18n( "bool" ) );
-	new QListViewItem( opsSkymap, "FadePlanetTrails", i18n( "Planet trails fade to sky color? (otherwise color is constant)" ), i18n( "bool" ) );
+	opsSkymap = new Q3ListViewItem( otv->OptionsList, i18n( "Skymap Options" ) );
+	new Q3ListViewItem( opsSkymap, "UseAltAz", i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "ZoomFactor", i18n( "Set the Zoom Factor" ), i18n( "double" ) );
+	new Q3ListViewItem( opsSkymap, "FOV Size", i18n( "Select angular size for the FOV symbol (in arcmin)" ), i18n( "double" ) );
+	new Q3ListViewItem( opsSkymap, "FOV Shape", i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
+	new Q3ListViewItem( opsSkymap, "FOV Color", i18n( "Select color for the FOV symbol" ), i18n( "string" ) );
+	new Q3ListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "UseAutoLabel", i18n( "Automatically attach name label to centered object?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "UseHoverLabel", i18n( "Attach temporary name label when hovering mouse over an object?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "UseAutoTrail", i18n( "Automatically add trail to centered solar system body?" ), i18n( "bool" ) );
+	new Q3ListViewItem( opsSkymap, "FadePlanetTrails", i18n( "Planet trails fade to sky color? (otherwise color is constant)" ), i18n( "bool" ) );
 	argChangeViewOption->OptionName->insertItem( "UseAltAz" );
 	argChangeViewOption->OptionName->insertItem( "ZoomFactor" );
 	argChangeViewOption->OptionName->insertItem( "FOVName" );
@@ -670,16 +674,16 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "AnimateSlewing" );
 	argChangeViewOption->OptionName->insertItem( "FadePlanetTrails" );
 
-	opsLimit = new QListViewItem( otv->OptionsList, i18n( "Limits" ) );
-	new QListViewItem( opsLimit, "magLimitDrawStar", i18n( "magnitude of faintest star drawn on map when zoomed in" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitDrawStarZoomOut", i18n( "magnitude of faintest star drawn on map when zoomed out" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitDrawDeepSky", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitDrawDeepSkyZoomOut", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitDrawStarInfo", i18n( "magnitude of faintest star labeled on map" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitHideStar", i18n( "magnitude of brightest star hidden while slewing" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitAsteroid", i18n( "magnitude of faintest asteroid drawn on map" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "magLimitAsteroidName", i18n( "magnitude of faintest asteroid labeled on map" ), i18n( "double" ) );
-	new QListViewItem( opsLimit, "maxRadCometName", i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ), i18n( "double" ) );
+	opsLimit = new Q3ListViewItem( otv->OptionsList, i18n( "Limits" ) );
+	new Q3ListViewItem( opsLimit, "magLimitDrawStar", i18n( "magnitude of faintest star drawn on map when zoomed in" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitDrawStarZoomOut", i18n( "magnitude of faintest star drawn on map when zoomed out" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitDrawDeepSky", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitDrawDeepSkyZoomOut", i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitDrawStarInfo", i18n( "magnitude of faintest star labeled on map" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitHideStar", i18n( "magnitude of brightest star hidden while slewing" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitAsteroid", i18n( "magnitude of faintest asteroid drawn on map" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "magLimitAsteroidName", i18n( "magnitude of faintest asteroid labeled on map" ), i18n( "double" ) );
+	new Q3ListViewItem( opsLimit, "maxRadCometName", i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ), i18n( "double" ) );
 	argChangeViewOption->OptionName->insertItem( "magLimitDrawStar" );
 	argChangeViewOption->OptionName->insertItem( "magLimitDrawStarZoomOut" );
 	argChangeViewOption->OptionName->insertItem( "magLimitDrawDeepSky" );
@@ -704,7 +708,7 @@ void ScriptBuilder::initViewOptions() {
 	QFile file;
 	QString line;
 	file.setName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
-	if ( file.open( IO_ReadOnly ) ) {
+	if ( file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -758,7 +762,7 @@ void ScriptBuilder::slotOpen() {
 			}
 
 			QFile f( fname );
-			if ( !f.open( IO_ReadOnly) ) {
+			if ( !f.open( QIODevice::ReadOnly) ) {
 				QString message = i18n( "Could not open file %1." ).arg( f.name() );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				currentFileURL = "";
@@ -818,7 +822,7 @@ void ScriptBuilder::slotSave() {
 		if ( fname.right( 7 ).lower() != ".kstars" ) fname += ".kstars";
 
 		QFile f( fname );
-		if ( !f.open( IO_WriteOnly) ) {
+		if ( !f.open( QIODevice::WriteOnly) ) {
 			QString message = i18n( "Could not open file %1." ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			currentFileURL = "";
@@ -884,7 +888,7 @@ void ScriptBuilder::slotRunScript() {
 
 	QFile f( fname );
 	if ( f.exists() ) f.remove();
-	if ( !f.open( IO_WriteOnly) ) {
+	if ( !f.open( QIODevice::WriteOnly) ) {
 		QString message = i18n( "Could not open file %1." ).arg( f.name() );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 		currentFileURL = "";
@@ -1130,7 +1134,7 @@ void ScriptBuilder::slotRemoveFunction() {
 void ScriptBuilder::slotAddFunction() {
   
         ScriptFunction *sc = NULL;
-	QListViewItem *currentItem = sb->FunctionListView->currentItem();
+	Q3ListViewItem *currentItem = sb->FunctionListView->currentItem();
 	
 	if ( currentItem == NULL || currentItem->depth() == 0)
 	  return;
@@ -1774,7 +1778,7 @@ void ScriptBuilder::slotArgWidget() {
 
 void ScriptBuilder::slotShowDoc() {
   ScriptFunction *sc = NULL;
-  QListViewItem *currentItem = sb->FunctionListView->currentItem();
+  Q3ListViewItem *currentItem = sb->FunctionListView->currentItem();
 	
   if ( currentItem == NULL || currentItem->depth() == 0)
     return;
@@ -2225,7 +2229,7 @@ void ScriptBuilder::slotChangeColor() {
 	}
 }
 
-void ScriptBuilder::slotLoadColorScheme(QListBoxItem */*i*/) {
+void ScriptBuilder::slotLoadColorScheme(Q3ListBoxItem */*i*/) {
 	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
 
 	if ( sf->name() == "loadColorScheme" ) {

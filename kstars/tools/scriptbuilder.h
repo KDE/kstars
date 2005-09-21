@@ -1,3 +1,7 @@
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QTextStream>
+#include <Q3PtrList>
 /***************************************************************************
                           scriptbuilder.h  -  description
                              -------------------
@@ -19,7 +23,7 @@
 #define SCRIPTBUILDER_H
 
 class KStars;
-class QListViewItem;
+class Q3ListViewItem;
 class QWidget;
 class QLayout;
 class KURL;
@@ -119,7 +123,7 @@ public slots:
 	void slotPrintImage();
 	void slotChangeColor();
 	void slotChangeColorName();
-	void slotLoadColorScheme(QListBoxItem*);
+	void slotLoadColorScheme(Q3ListBoxItem*);
 	
 	void slotEnableScriptNameOK();
 	
@@ -169,9 +173,9 @@ private:
 	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
-	QPtrList<ScriptFunction> KStarsFunctionList;
-	QPtrList<ScriptFunction> INDIFunctionList;
-	QPtrList<ScriptFunction> ScriptList;
+	Q3PtrList<ScriptFunction> KStarsFunctionList;
+	Q3PtrList<ScriptFunction> INDIFunctionList;
+	Q3PtrList<ScriptFunction> ScriptList;
 	QVBoxLayout *vlay;
 
 	QWidget *argBlank;
@@ -212,7 +216,7 @@ private:
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
 
-	QListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+	Q3ListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
 	bool UnsavedChanges;
 	KURL currentFileURL;

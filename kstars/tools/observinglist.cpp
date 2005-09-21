@@ -21,7 +21,11 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qstringlist.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QTextStream>
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
@@ -57,7 +61,7 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ObservingListUI( page );
 	vlay->addWidget( ui );
@@ -70,9 +74,9 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 			this, SLOT( slotNewSelection() ) );
 	connect( ui->TinyTable, SIGNAL( selectionChanged() ), 
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->FullTable, SIGNAL( doubleClicked( QListViewItem*, const QPoint&, int) ), 
+	connect( ui->FullTable, SIGNAL( doubleClicked( Q3ListViewItem*, const QPoint&, int) ), 
 			this, SLOT( slotCenterObject() ) );
-	connect( ui->TinyTable, SIGNAL( doubleClicked( QListBoxItem* ) ), 
+	connect( ui->TinyTable, SIGNAL( doubleClicked( Q3ListBoxItem* ) ), 
 			this, SLOT( slotCenterObject() ) );
 	connect( ui->RemoveButton, SIGNAL( clicked() ), 
 			this, SLOT( slotRemoveObjects() ) );
@@ -172,9 +176,9 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 		
 	//Remove entry from FullTable
 	bool objectFound = false;
-	QListViewItemIterator it( ui->FullTable );
+	Q3ListViewItemIterator it( ui->FullTable );
 	while ( it.current() ) {
-		QListViewItem *item = it.current();
+		Q3ListViewItem *item = it.current();
 
 		//If the object is named "star" then match coordinates instead of name
 		if ( o->translatedName() == i18n( "star" ) ) {
@@ -220,7 +224,7 @@ void ObservingList::slotNewSelection() {
 
 	//Construct list of selected objects
 	SelectedObjects.clear();
-	QListViewItemIterator it( ui->FullTable, QListViewItemIterator::Selected ); //loop over selected items
+	Q3ListViewItemIterator it( ui->FullTable, Q3ListViewItemIterator::Selected ); //loop over selected items
 	while ( it.current() ) {
 		for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
 			if ( it.current()->text(0) == i18n("star") ) {
@@ -520,7 +524,7 @@ void ObservingList::slotOpenList() {
 			f.setName( FileName );
 		}
 
-		if ( !f.open( IO_ReadOnly) ) {
+		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1" ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
@@ -592,7 +596,7 @@ void ObservingList::slotSaveList() {
 	}
 
 	QFile f( FileName );
-	if ( !f.open( IO_WriteOnly) ) {
+	if ( !f.open( QIODevice::WriteOnly) ) {
 		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
 		
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
@@ -672,14 +676,14 @@ void ObservingList::slotToggleSize() {
 void ObservingList::syncTableSelection( bool syncFullTable ) {
 	if ( syncFullTable ) {
 		int i=0;
-		QListViewItem *it =  ui->FullTable->firstChild();
+		Q3ListViewItem *it =  ui->FullTable->firstChild();
 		while ( it ) {
 			it->setSelected( ui->TinyTable->isSelected( i++ ) );
 			it->nextSibling();
 		}
 	} else {
 		int i=0;
-		QListViewItem *it =  ui->FullTable->firstChild();
+		Q3ListViewItem *it =  ui->FullTable->firstChild();
 		while ( it ) {
 			ui->TinyTable->setSelected( i++, it->isSelected() );
 			it->nextSibling();

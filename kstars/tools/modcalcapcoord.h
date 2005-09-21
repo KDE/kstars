@@ -20,6 +20,8 @@
 
 #include "modcalcapcoorddlg.h"
 #include <kapplication.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 /** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox

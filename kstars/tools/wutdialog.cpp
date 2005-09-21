@@ -36,19 +36,21 @@
 #include <klistbox.h>
 #include <kpushbutton.h>
 
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qtabbar.h>
 #include <qtimer.h>
 #include <qcursor.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 WUTDialog::WUTDialog(KStars *ks) :
 	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
 	kstars(ks), EveningFlag(0) {
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	setMainWidget(page);
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	WUT = new WUTDialogUI( page );
@@ -100,8 +102,8 @@ void WUTDialog::makeConnections() {
 	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
 	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListBoxItem*) ),
-			SLOT( slotDisplayObject(QListBoxItem*) ) );
+	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(Q3ListBoxItem*) ),
+			SLOT( slotDisplayObject(Q3ListBoxItem*) ) );
 	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
 }
 
@@ -311,7 +313,7 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	return visible;
 }
 
-void WUTDialog::slotDisplayObject(QListBoxItem *item) {
+void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
 	QTime tRise, tSet, tTransit;
 	QString sRise, sTransit, sSet;
 

@@ -17,7 +17,10 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
 #include <knuminput.h>
 #include <klistbox.h>
 #include <klistview.h>
@@ -38,7 +41,7 @@ ObsListWizard::ObsListWizard( QWidget *parent, const char *name )
   : KDialogBase( KDialogBase::Plain, i18n("Observing List Wizard"), Ok|Cancel, Ok, parent, name )
 {
 	ksw = (KStars*)parent;
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 
 	olw = new ObsListWizardUI( page );
@@ -50,7 +53,7 @@ ObsListWizard::ObsListWizard( QWidget *parent, const char *name )
 	connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
 	connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
 
-	connect( olw->FilterList, SIGNAL( clicked(QListViewItem*) ), this, SLOT( slotShowStackWidget(QListViewItem*) ) );
+	connect( olw->FilterList, SIGNAL( clicked(Q3ListViewItem*) ), this, SLOT( slotShowStackWidget(Q3ListViewItem*) ) );
 
 	//Update the selected observing list when certain UI elements are modified
 	connect( olw->TypeList, SIGNAL( selectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
@@ -190,7 +193,7 @@ void ObsListWizard::slotEnableMagPage( bool t ) {
 	slotUpdateObjectCount();
 }
 
-void ObsListWizard::slotShowStackWidget( QListViewItem *i )
+void ObsListWizard::slotShowStackWidget( Q3ListViewItem *i )
 {
 	if ( i ) {
 		QString t = i->text(0);
@@ -418,7 +421,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList, bool doAd
 	//select by constellation
 	if ( olw->SelectByConstellation->isChecked() ) {
 		QString c( o->constellation( ksw->data()->csegmentList, ksw->data()->cnameList ) );
-		QListBoxItem *it = olw->ConstellationList->findItem( c );
+		Q3ListBoxItem *it = olw->ConstellationList->findItem( c );
 
 		if ( it && it->isSelected() ) { 
 			if ( doBuildList ) obsList().append ( o );

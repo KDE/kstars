@@ -27,7 +27,7 @@
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qdatetimeedit.h>  //need for QTimeEdit
+#include <q3datetimeedit.h>  //need for QTimeEdit
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 #include <qstring.h>
@@ -369,7 +369,7 @@ void modCalcVlsr::slotRunBatch() {
 
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
-		if ( !f.open( IO_ReadOnly) ) {
+		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
@@ -398,7 +398,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 	QString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
 	QFile fOut( outputFileName );
-	fOut.open(IO_WriteOnly);
+	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
 
 	QString line;

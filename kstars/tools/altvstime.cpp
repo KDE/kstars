@@ -17,6 +17,12 @@
 
 #include <qlayout.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPixmap>
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QPaintEvent>
 #include <klocale.h>
 #include <klineedit.h>
 #include <klistbox.h>
@@ -46,7 +52,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 {
 	ks = (KStars*) parent;
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 
 	setMainWidget(page);
 	topLayout = new QVBoxLayout( page, 0, spacingHint() );

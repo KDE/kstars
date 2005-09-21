@@ -20,6 +20,8 @@
 
 #include "modcalcangdistdlg.h"
 #include <kapplication.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 /** Module to compute the angular distance between two points in the sky 
   *@author Pablo de Vicente

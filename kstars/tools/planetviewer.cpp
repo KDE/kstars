@@ -18,6 +18,14 @@
 
 #include <qfile.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QWheelEvent>
+#include <QTextStream>
+#include <QKeyEvent>
+#include <QPaintEvent>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -38,7 +46,7 @@
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name ), PCat( ((KStars*)parent)->data() ), scale(1.0), isClockRunning(false), tmr(this)
 {
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	pw = new PlanetViewerUI( page );
 	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
@@ -229,7 +237,7 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par, const char *name ) :
 			KStarsPlotWidget( x1, x2, y1, y2, par, name ), 
 			mouseButtonDown(false), oldx(0), oldy(0) {
-	setFocusPolicy( QWidget::StrongFocus );
+	setFocusPolicy( Qt::StrongFocus );
 	setMouseTracking (true);
 	pv = (PlanetViewer*)topLevelWidget();
 }

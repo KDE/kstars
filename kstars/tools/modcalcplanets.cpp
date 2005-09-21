@@ -29,7 +29,7 @@
 #include "ksnumbers.h"
 
 #include <qcombobox.h>
-#include <qdatetimeedit.h>
+#include <q3datetimeedit.h>
 #include <qstring.h>
 #include <qtextstream.h>
 #include <kfiledialog.h>
@@ -308,7 +308,7 @@ void modCalcPlanets::slotRunBatch() {
 
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
-		if ( !f.open( IO_ReadOnly) ) {
+		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
@@ -352,7 +352,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	QString outputFileName, lineToWrite;
 	outputFileName = OutputLineEditBatch->text();
 	QFile fOut( outputFileName );
-	fOut.open(IO_WriteOnly);
+	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
 	bool lineIsValid = true;
 	QString message;

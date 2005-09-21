@@ -175,7 +175,7 @@ void modCalcPrec::slotRunBatch() {
 
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
-		if ( !f.open( IO_ReadOnly) ) {
+		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
@@ -204,7 +204,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 	QString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
 	QFile fOut( outputFileName );
-	fOut.open(IO_WriteOnly);
+	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
 
 	QString line;

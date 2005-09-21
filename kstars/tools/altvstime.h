@@ -19,6 +19,11 @@
 #define ALTVSTIME_H
 
 #include <QList>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QVBoxLayout>
+#include <QPaintEvent>
+#include <Q3PtrList>
 #include "kstarsplotwidget.h"
 
 class KStarsDateTime;
@@ -163,7 +168,7 @@ public:
 /**@return a pointer to the list of SkyPoints representing the 
 	*objects being displayed.
 	*/
-	QPtrList<SkyPoint>* skyPointList() { return &pList; }
+	Q3PtrList<SkyPoint>* skyPointList() { return &pList; }
 
 public slots:
 /**@short Update the plot to reflec new Date and Location settings.

@@ -19,6 +19,8 @@
 #define WUTDIALOG_H
 
 #include <qwidget.h>
+//Added by qt3to4:
+#include <Q3Frame>
 #include <kdialogbase.h>
 #include "kstarsdatetime.h"
 
@@ -30,7 +32,7 @@ class GeoLocation;
 class SkyObject;
 class SkyObjectName;
 class WUTDialogUI;
-class QFrame;
+class Q3Frame;
 
 /**@class WUTDialog
 	*What's up tonight dialog is a window which lists all skyobjects that will

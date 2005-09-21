@@ -16,16 +16,20 @@
  ***************************************************************************/
 
 #include <qvariant.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QCloseEvent>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qfile.h>
 
 #include <kio/netaccess.h>
@@ -67,7 +71,7 @@ void LCGenerator::createGUI()
 
     SDLayout = new QHBoxLayout( 0, 0, 6, "SDLayout"); 
 
-    StarInfoBox = new QGroupBox( page, "StarInfoBox" );
+    StarInfoBox = new Q3GroupBox( page, "StarInfoBox" );
     StarInfoBox->setColumnLayout(0, Qt::Vertical );
     StarInfoBox->layout()->setSpacing( 6 );
     StarInfoBox->layout()->setMargin( 11 );
@@ -123,7 +127,7 @@ void LCGenerator::createGUI()
     StarInfoBoxLayout->addLayout( EndHLayout );
     SDLayout->addWidget( StarInfoBox );
 
-    DataSelectBox = new QGroupBox( page, "DataSelectBox" );
+    DataSelectBox = new Q3GroupBox( page, "DataSelectBox" );
     DataSelectBox->setColumnLayout(0, Qt::Vertical );
     DataSelectBox->layout()->setSpacing( 6 );
     DataSelectBox->layout()->setMargin( 11 );
@@ -190,9 +194,9 @@ void LCGenerator::createGUI()
     desigLabel->setText( i18n( "Designation:" ) );
     nameLabel->setText( i18n( "Or name:" ) );
     startLabel->setText( i18n( "Start date:" ) );
-    QWhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
+    Q3WhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
     endLabel->setText( i18n( "End date:" ) );
-    QWhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
+    Q3WhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
     StartDateIn->setText( i18n( "default" ) );
     EndDateIn->setText( i18n( "default" ) );
     DataSelectBox->setTitle( i18n( "Data Selection" ) );

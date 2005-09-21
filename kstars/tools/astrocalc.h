@@ -30,10 +30,10 @@
 #include "dms.h"
 
 class QSplitter;
-class QListView;
-class QTextView;
-class QListViewItem;
-class QVBox;
+class Q3ListView;
+class Q3TextView;
+class Q3ListViewItem;
+class Q3VBox;
 class QString;
 class modCalcJD;
 class modCalcGeodCoord;
@@ -126,15 +126,15 @@ Q_OBJECT
 		/**Determine which item is selected in the function menu QListBox.
 			*Generate the corresponding calculator module.
 			*/
-		void slotItemSelection(QListViewItem *it);
+		void slotItemSelection(Q3ListViewItem *it);
 		
 	private:
 		
 		QSplitter *split;
-		QListView *navigationPanel, *auxiliar;
-		QTextView *splashScreen;
+		Q3ListView *navigationPanel, *auxiliar;
+		Q3TextView *splashScreen;
 //		QListViewItem *timeItem, *coordItem, *jdItem, *stItem, *dayItem;
-		QVBox *vbox, *rightBox;
+		Q3VBox *vbox, *rightBox;
 		QString previousElection;
 
 		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist, Vlsr};

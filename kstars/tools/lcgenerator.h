@@ -28,6 +28,12 @@
 #define LCGENERATOR_H
 
 #include <qvariant.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QCloseEvent>
 #include <kdialogbase.h>
 #include <kio/job.h>
 
@@ -39,9 +45,9 @@ class KLineEdit;
 class KListBox;
 class KPushButton;
 class QCheckBox;
-class QGroupBox;
+class Q3GroupBox;
 class QLabel;
-class QListBoxItem;
+class Q3ListBoxItem;
 
 class KStars;
 
@@ -89,7 +95,7 @@ private:
 	const QString Hostprefix;
 	const int JDCutOff;
 	
-	QGroupBox* StarInfoBox;
+	Q3GroupBox* StarInfoBox;
 	QLabel* desigLabel;
 	KListBox* DesignationIn;
 	QLabel* nameLabel;
@@ -98,7 +104,7 @@ private:
 	KLineEdit* StartDateIn;
 	QLabel* endLabel;
 	KLineEdit* EndDateIn;
-	QGroupBox* DataSelectBox;
+	Q3GroupBox* DataSelectBox;
 	QCheckBox* VisualCheck;
 	QCheckBox* FainterCheck;
 	QCheckBox* DiscrepantCheck;

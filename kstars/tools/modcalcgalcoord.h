@@ -20,6 +20,8 @@
 
 #include "dms.h"
 #include "modcalcgalcoorddlg.h"
+//Added by qt3to4:
+#include <QTextStream>
 
 /**
   * Class which implements the KStars calculator module to compute

@@ -20,6 +20,8 @@
 
 #include "modcalceclipticcoordsdlg.h"
 #include "dms.h"
+//Added by qt3to4:
+#include <QTextStream>
 
 class QString;
 
