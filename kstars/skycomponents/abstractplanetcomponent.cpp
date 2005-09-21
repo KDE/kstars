@@ -59,9 +59,9 @@ void AbstractPlanetComponent::drawPlanetTrail(SkyMap *map, QPainter& psky, KSPla
 		if ( Options::fadePlanetTrails() ) {
 			//Define interpolated color
 			QColor tcolor = QColor(
-						(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
-						(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
-						(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
+						(i*tcolor1.Qt::red()   + (n-i)*tcolor2.Qt::red())/n,
+						(i*tcolor1.Qt::green() + (n-i)*tcolor2.Qt::green())/n,
+						(i*tcolor1.Qt::blue()  + (n-i)*tcolor2.Qt::blue())/n );
 			++i;
 			psky.setPen( QPen( tcolor, 1 ) );
 		}

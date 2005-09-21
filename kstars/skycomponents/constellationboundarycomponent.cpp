@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <QTextStream>
 /***************************************************************************
                           constellationboundarycomponent.cpp  -  K Desktop Planetarium
                              -------------------
@@ -101,7 +103,7 @@ void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double sc
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
 
 	foreach ( CSegment *seg, csegmentList ) {
 		bool started( false );

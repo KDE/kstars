@@ -17,6 +17,8 @@
 #include "starcomponent.h"
 
 #include "Options.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 StarComponent::StarComponent(SkyComposite *parent) : SkyComponent(parent)
 {

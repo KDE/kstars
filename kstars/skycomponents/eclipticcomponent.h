@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PointArray>
 /***************************************************************************
                           eclipticcomponent.h  -  K Desktop Planetarium
                              -------------------
@@ -50,7 +52,7 @@ class EclipticComponent: public SkyComponent
 		// the points of the equator
 		QList<SkyPoint*> Ecliptic;
 		
-		QPointArray *pts;
+		Q3PointArray *pts;
 
 };
 

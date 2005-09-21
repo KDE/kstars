@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <QTextStream>
 /***************************************************************************
                           constellationlinescomponent.cpp  -  K Desktop Planetarium
                              -------------------
@@ -85,7 +87,7 @@ void ConstellationLinesComponent::draw(SkyMap *map, QPainter& psky, double scale
 	int Height = int( scale * map->height() );
 
 	//Draw Constellation Lines
-	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
 	int iLast = -1;
 
 	for ( SkyPoint *p = map->data()->clineList.first(); p; p = map->data()->clineList.next() ) {

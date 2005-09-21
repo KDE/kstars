@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PtrList>
 /***************************************************************************
                           deepskycomponent.h  -  K Desktop Planetarium
                              -------------------
@@ -57,7 +59,7 @@ class CustomCatalogComponent: public SkyComponent
 		CustomCatalog* createCustomCatalog(QString filename, bool showerrs);
 		
 		bool processCustomDataLine(int lnum, QStringList d, QStringList Columns,
-			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs,
+			QString Prefix, Q3PtrList<SkyObject> &objList, bool showerrs,
 			QStringList &errs)
 		
 		bool parseCustomDataHeader(QStringList lines, QStringList &Columns,

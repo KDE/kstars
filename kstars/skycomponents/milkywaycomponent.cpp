@@ -20,7 +20,7 @@
 #include <QList>
 #include <QPoint>
 #include <QPainter>
-#include <QPointArray>
+#include <Q3PointArray>
 #include <QFile>
 
 #include "skycomposite.h"
@@ -55,7 +55,7 @@ MilkyWayComponent::~MilkyWayComponent()
 	*/
 void MilkyWayComponent::init(KStarsData *data)
 {
-	pts = new QPointArray(2000)
+	pts = new Q3PointArray(2000)
 
 	QFile file;
 
@@ -117,7 +117,7 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 	int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
-	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) );
+	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
 	psky.setBrush( QBrush( QColor( map->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
 	bool offscreen, lastoffscreen=false;
 
@@ -137,7 +137,7 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			}
 
 			if ( ptsCount && partVisible ) {
-				psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
+				psky.drawPolygon( (  const Q3PointArray ) *pts, false, 0, ptsCount );
 			}
 		} else {
 			QPoint o = map->getXY( MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );

@@ -20,6 +20,8 @@
 #include <QList>
 #include <QPoint>
 #include <QPainter>
+//Added by qt3to4:
+#include <Q3PointArray>
 
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -48,7 +50,7 @@ HorizonComponent::~HorizonComponent()
 //	-3 components which share a algorithm class
 void HorizonComponent::init(KStarsData *data)
 {
-	pts = new QPointArray(2000)
+	pts = new Q3PointArray(2000)
 	
 	//Define Horizon
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
@@ -253,7 +255,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 					}
 						
 					//Draw the Horizon polygon
-					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
+					psky.drawPolygon( ( const Q3PointArray ) *pts, false, 0, ptsCount );
 
 					//remove all items in points list
 					//FIXME: JH: Do we really want this done here?

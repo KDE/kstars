@@ -23,6 +23,8 @@
 #include "skycomponent.h"
 
 #include <QList>
+//Added by qt3to4:
+#include <Q3PointArray>
 
 /**@class MilkyWayComponent
 *Represents the milky way.
@@ -52,7 +54,7 @@ class MilkyWayComponent : public SkyComponent
 		QList<SkyPoint> MilkyWay[NMWFILES];
 		
 		// optimization: don't realloc every draw the array
-		QPointArray *pts;
+		Q3PointArray *pts;
 };
 
 #endif

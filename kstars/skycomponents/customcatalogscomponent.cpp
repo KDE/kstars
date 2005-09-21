@@ -1,3 +1,7 @@
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
+#include <Q3PtrList>
 /***************************************************************************
                           deepskycomponent.cpp  -  K Desktop Planetarium
                              -------------------
@@ -58,7 +62,7 @@ void CustomCatalogComponent::draw(SkyMap *map, QPainter& psky, double scale)
 							double pa = 90. + findPA( dso, o.x(), o.y(), scale );
 							dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 
-							psky.setBrush( NoBrush );
+							psky.setBrush( Qt::NoBrush );
 							psky.setPen( QColor( data->CustomCatalogs.at(i)->color() ) );
 
 							dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
@@ -108,7 +112,7 @@ bool CustomCatalogComponent::removeCatalog( int i )
 {
 	if ( ! CustomCatalogs.at(i) ) return false;
 
-	QPtrList<SkyObject> cat = CustomCatalogs.at(i)->objList();
+	Q3PtrList<SkyObject> cat = CustomCatalogs.at(i)->objList();
 
 	for ( SkyObject *o=cat.first(); o; o=cat.next() ) {
 		ObjNames.remove( o->name() );
@@ -124,7 +128,7 @@ bool CustomCatalogComponent::removeCatalog( int i )
 CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bool showerrs )
 {
 	QDir::setCurrent( QDir::homeDirPath() );  //for files with relative path
-	QPtrList<SkyObject> objList;
+	Q3PtrList<SkyObject> objList;
 	QString CatalogName, CatalogPrefix, CatalogColor;
 	float CatalogEpoch;
 
@@ -134,7 +138,7 @@ CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bo
 		filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
 	QFile ccFile( filename );
 
-	if ( ccFile.open( IO_ReadOnly ) ) {
+	if ( ccFile.open( QIODevice::ReadOnly ) ) {
 		int iStart(0); //the line number of the first non-header line
 		QStringList errs; //list of error messages 
 		QStringList Columns; //list of data column descriptors in the header
@@ -218,7 +222,7 @@ CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bo
 		return 0;
 }
 
-bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStringList Columns, QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs )
+bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStringList Columns, QString Prefix, Q3PtrList<SkyObject> &objList, bool showerrs, QStringList &errs )
 {
 
 	//object data
